@@ -1,0 +1,12 @@
+# Secrets
+.env
+
+# Fetch cache (re-derivable from sources)
+raw/*
+!raw/.gitkeep
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+tools/.venv/

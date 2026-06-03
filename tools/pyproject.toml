@@ -1,0 +1,11 @@
+[project]
+name = "wowkb"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "html2text>=2025.4.15",
+    "python-dotenv>=1.2.2",
+    "requests>=2.34.2",
+    "youtube-transcript-api>=1.2.4",
+    "yt-dlp>=2026.3.17",
+]
