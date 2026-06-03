@@ -46,6 +46,16 @@ not in the S1 M+ rotation.)
 
 See `../great-vault.md` for the ilvl table. Vault cap at **+10** (272).
 
+12.0.5 notes (SignsOfKelani, 2026-04-26):
+
+- **+6 and up**: hero-track end-of-run drops.
+- **+9 and up**: Myth Dawncrests every run (fastest myth-crest income).
+- **+10 and up**: vault gives myth-track; **Nebulous Void Core bonus
+  rolls give myth-track here** (`../../systems/void-forge.md`) — 2 cores
+  + 1 vault slot = up to 3 myth pieces/week without ever timing higher.
+- ~2 runs/hour with RNG loot vs ritual sites' ~1 guaranteed hero piece
+  per ~5 runs — armor-stacked premades trade loot, pugs often don't.
+
 ## TODO
 
 - [ ] One file per dungeon (route, notable trash, boss notes) — source:

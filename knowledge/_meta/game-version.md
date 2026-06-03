@@ -16,7 +16,7 @@ confidence: high
 |-------|-------|
 | Expansion | **Midnight** (WoW's 11th expansion, 10th in numbering: 12.x) |
 | Live patch | **12.0.5** |
-| PTR patch | **12.0.7** |
+| PTR patch | **12.0.7** — releases **2026-06-16** (confirmed); see `next-patch.md` |
 | Level cap | **90** |
 | Current season | **Midnight Season 1** |
 | Season 1 start | Week of 2026-03-17 (raid/season open); M+ unlocked 2026-03-24 |

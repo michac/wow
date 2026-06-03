@@ -24,10 +24,17 @@ Open it after reset, before doing anything else.
 
 → **+10 is the vault cap**; run 8× +10 for max M+ row choices.
 
+## World row (partial, 12.0.5)
+
+- **Ritual sites T4–5 > delve T8**: T5 ritual sites raise the world-row
+  vault to **ilvl 269** (hero track) — SignsOfKelani 2026-04-26
+  (`../systems/ritual-sites.md`). Myth-track vault still requires the
+  M+/raid rows.
+
 ## TODO
 
 - [ ] Raid row: boss-count thresholds and per-difficulty vault ilvls
       (source: Icy Veins Great Vault guide)
-- [ ] World row: delve tier → vault ilvl mapping; which activities count
+- [ ] World row: full delve-tier + ritual-site-tier → vault ilvl mapping
 - [ ] Confirm slot unlock counts (1/4/8 dungeons, 2/4/6 bosses, etc.) for
       Midnight — assumed unchanged from prior expansions, **unverified**

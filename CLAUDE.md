@@ -37,6 +37,8 @@ game.** Defenses, in order:
 - `knowledge/_meta/` — game version (source of truth), source trust registry
 - `knowledge/endgame/` — `weekly-checklist.md` (the anchor doc), `raids/`,
   `mythic-plus/`, `delves/`, `prey.md`, `great-vault.md`, `world-events.md`
+- `knowledge/characters/` — per-character snapshots from the Blizzard
+  profile API (volatile — re-fetch live before answering; files are context)
 - `knowledge/factions/` — one file per renown faction (5)
 - `knowledge/classes/<class>/<spec>/` — rotation.md, builds.md, sims.md
 - `knowledge/systems/` — housing, ritual sites, void incursions, professions
