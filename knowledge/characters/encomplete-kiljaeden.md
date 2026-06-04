@@ -141,9 +141,20 @@ Revised 2026-06-03 after digesting SignsOfKelani 12.0.5 gearing video —
 
 API-tracked progress 2026-06-03: Ritual Sites renown 1, Valeera lvl 20.
 
+## Talent audit (2026-06-03)
+
+Active Affliction loadout simmed **−12.7% ST / −3.9% @4T** vs the simc
+MID1 reference string on identical gear — 5 spec points in ≤3/50-usage
+nodes (Withering Bolt ×2, Xavius' Gambit ×2, Improved Shadow Bolt) at
+the cost of Improved Haunt / Patient Zero / Sow the Seeds / Drain Soul /
+Cunning Cruelty, plus fringe defensive class picks over Demonic Circle /
+Empowered Healthstone / Improved Mortal Coil. Details:
+`../classes/warlock/affliction/builds.md` + `sims.md`.
+
 ## TODO
 
 - [ ] Re-snapshot after gearing sessions (or just fetch live per doctrine)
+- [ ] Re-audit talents after they respec (and re-sim with enchants on)
 - [ ] Add WCL character parses subcommand to `wowkb.wcl` for this character
 - [x] Verified 2026-06-03: crafted gear CANNOT be catalyzed in 12.0
 - [x] Crest names confirmed: **Dawncrests** (Adventurer/Veteran/Champion/

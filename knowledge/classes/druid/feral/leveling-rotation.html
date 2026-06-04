@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feral Leveling — Hallick (12.0.5)</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        feral: '#fbbf24',
+        claw: '#fb923c',
+        grove: '#4ade80',
+      },
+      fontFamily: { display: ['Georgia', 'serif'] },
+      boxShadow: {
+        clawglow: '0 0 24px rgba(251,146,60,.18)',
+        groveglow: '0 0 24px rgba(74,222,128,.12)',
+      }
+    }
+  }
+}
+</script>
+<style>
+  body { background: radial-gradient(1200px 600px at 70% -10%, rgba(251,146,60,.14), transparent 60%), radial-gradient(900px 500px at 10% 110%, rgba(74,222,128,.06), transparent 60%), #0c0a08; }
+  .icon-ring { box-shadow: 0 0 0 2px rgba(251,146,60,.4), 0 0 14px rgba(251,146,60,.22); }
+  .icon-ring-grove { box-shadow: 0 0 0 2px rgba(74,222,128,.35), 0 0 12px rgba(74,222,128,.2); }
+  .tab-active { background: linear-gradient(180deg, rgba(251,146,60,.22), rgba(251,146,60,.08)); border-color: rgba(251,146,60,.6) !important; color: #fed7aa; }
+  ::selection { background: rgba(251,146,60,.4); }
+</style>
+</head>
+<body class="min-h-screen text-stone-300 antialiased">
+
+<div class="max-w-5xl mx-auto px-4 py-10">
+
+  <!-- Header -->
+  <header class="mb-8">
+    <div class="flex flex-wrap items-center gap-3 mb-3">
+      <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-orange-500/15 text-claw border border-orange-500/30">Patch 12.0.5 · Midnight</span>
+      <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-500/15 text-feral border border-amber-500/30">Leveling 80 → 90</span>
+      <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-green-500/10 text-grove border border-green-500/30">Hallick · Kil'jaeden</span>
+    </div>
+    <h1 class="font-display text-4xl md:text-5xl font-bold text-stone-100 tracking-tight">Feral <span class="text-claw">Leveling</span></h1>
+    <p class="mt-3 text-stone-400 max-w-2xl">Built from your <span class="text-stone-200 font-medium">actual talent loadout</span> (Blizzard API, 2026-06-03). Welcome back — it's been 15 years, so the utility refresher is at the bottom.</p>
+  </header>
+
+  <!-- Hero tree warning -->
+  <section class="mb-8 rounded-2xl border border-red-500/40 bg-red-950/30 p-5">
+    <h2 class="text-sm uppercase tracking-widest text-red-300 font-semibold mb-1">⚠ Do this first</h2>
+    <p class="text-stone-200"><span class="font-bold text-red-200">You have no Hero Talent tree selected.</span> They unlock at 71 — you're 80, so this is free damage sitting unspent. Open the talent pane (<span class="font-mono text-sm bg-stone-900 px-1.5 py-0.5 rounded border border-stone-700">N</span>) and pick <span class="text-claw font-semibold">Druid of the Claw</span>: its <span class="text-stone-100 font-medium">Ravage</span> hits in a huge frontal arc and melts leveling packs.</p>
+  </section>
+
+  <!-- The Engine -->
+  <section class="mb-10 rounded-2xl border border-amber-500/25 bg-amber-500/[.04] p-5 shadow-clawglow">
+    <h2 class="text-sm uppercase tracking-widest text-feral font-semibold mb-2">⚙ The Engine (same cat, new tricks)</h2>
+    <p class="text-stone-300">Energy + combo points, like always: <span class="text-stone-100 font-semibold">builders</span> (Shred/Swipe/Rake) make CP, <span class="text-stone-100 font-semibold">finishers</span> spend them at 5. <span class="text-feral font-semibold">Tiger's Fury on cooldown</span> — +50 energy, <span class="text-stone-100">+27% damage</span>, and bleeds applied during it <em>keep the bonus for their entire duration</em>. Clearcasting procs (Omen of Clarity, 2 charges) = free, harder-hitting Shreds/Swipes.</p>
+    <div class="mt-4 flex flex-wrap items-center gap-2 text-sm">
+      <span class="px-3 py-1.5 rounded-lg bg-amber-900/40 border border-amber-500/40 text-amber-200 font-medium">Tiger's Fury</span>
+      <span class="text-claw">→</span>
+      <span class="px-3 py-1.5 rounded-lg bg-stone-900 border border-stone-700 text-stone-300">Bleeds up (Rake/Rip)</span>
+      <span class="text-claw">→</span>
+      <span class="px-3 py-1.5 rounded-lg bg-stone-900 border border-stone-700 text-stone-300">Build to 5 CP</span>
+      <span class="text-claw">→</span>
+      <span class="px-3 py-1.5 rounded-lg bg-orange-900/40 border border-orange-500/40 text-orange-200 font-medium">Finisher</span>
+    </div>
+  </section>
+
+  <!-- Tabs -->
+  <div class="flex gap-2 mb-6" role="tablist">
+    <button onclick="showTab('st')" id="tab-st" class="tab-active px-5 py-2.5 rounded-xl border border-stone-700 bg-stone-900/60 font-semibold text-stone-300 transition hover:border-orange-400/50">🐯 Single Target</button>
+    <button onclick="showTab('aoe')" id="tab-aoe" class="px-5 py-2.5 rounded-xl border border-stone-700 bg-stone-900/60 font-semibold text-stone-300 transition hover:border-orange-400/50">🌪 Packs (3+)</button>
+  </div>
+
+  <!-- ST panel -->
+  <section id="panel-st">
+    <div class="mb-4 rounded-xl border border-stone-800 bg-stone-900/40 px-4 py-3 text-sm text-stone-400">
+      <span class="text-stone-200 font-semibold">Opener:</span> <span class="text-claw">Prowl</span> → <span class="text-claw">Rake</span>. Your Pouncing Strikes makes stealth-Rake <span class="text-stone-200">stun for 4s and hit 60% harder</span> — most leveling mobs are half dead before they act.
+    </div>
+    <ol class="space-y-3">
+
+      <li class="flex items-center gap-4 rounded-2xl border border-amber-500/30 bg-amber-950/20 p-4 hover:shadow-clawglow transition">
+        <span class="text-2xl font-display font-bold text-feral w-8 text-center">1</span>
+        <img src="https://wow.zamimg.com/images/wow/icons/large/ability_mount_jungletiger.jpg" class="w-12 h-12 rounded-lg icon-ring" alt="Tiger's Fury">
+        <div class="flex-1">
+          <div class="font-semibold text-amber-200">Tiger's Fury</div>
+          <div class="text-sm text-stone-400">+50 energy, +27% damage for 25s (your Predator). Don't save it — it's back in 30s.</div>
+        </div>
+        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-amber-500/15 text-feral border border-amber-500/30">ON CD</span>
+      </li>
+
+      <li class="flex items-center gap-4 rounded-2xl border border-stone-800 bg-stone-900/50 p-4 hover:border-orange-500/40 hover:shadow-clawglow transition">
+        <span class="text-2xl font-display font-bold text-claw w-8 text-center">2</span>
+        <img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_disembowel.jpg" class="w-12 h-12 rounded-lg icon-ring" alt="Rake">
+        <div class="flex-1">
+          <div class="font-semibold text-stone-100">Rake</div>
+          <div class="text-sm text-stone-400">Keep the bleed ticking. From stealth: 4s stun + 60% harder (Pouncing Strikes).</div>
+        </div>
+        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-rose-500/15 text-rose-300 border border-rose-500/30">BLEED UP</span>
+      </li>
+
+      <li class="flex items-center gap-4 rounded-2xl border border-stone-800 bg-stone-900/50 p-4 hover:border-orange-500/40 hover:shadow-clawglow transition">
+        <span class="text-2xl font-display font-bold text-claw w-8 text-center">3</span>
+        <img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_rake.jpg" class="w-12 h-12 rounded-lg icon-ring" alt="Feral Frenzy">
+        <div class="flex-1">
+          <div class="font-semibold text-stone-100">Feral Frenzy</div>
+          <div class="text-sm text-stone-400">5 claws + big bleed, and instantly awards 5 combo points. 45s CD — use it into a finisher.</div>
+        </div>
+        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-amber-500/15 text-feral border border-amber-500/30">ON CD → 5 CP</span>
+      </li>
+
+      <li class="flex items-center gap-4 rounded-2xl border border-orange-500/30 bg-orange-950/20 p-4 hover:shadow-clawglow transition">
+        <span class="text-2xl font-display font-bold text-claw w-8 text-center">4</span>
+        <img src="https://wow.zamimg.com/images/wow/icons/large/ability_ghoulfrenzy.jpg" class="w-12 h-12 rounded-lg icon-ring" alt="Rip">
+        <div class="flex-1">
+          <div class="font-semibold text-orange-200">Rip <span class="text-stone-500 font-normal">@ 5 CP</span></div>
+          <div class="text-sm text-stone-400">If it's not running and the target will live ~10s+ (elites, bosses). Your Rip and Tear adds a bonus Tear bleed on application.</div>
+        </div>
+        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-orange-500/15 text-claw border border-orange-500/30">FINISHER · TOUGH MOBS</span>
+      </li>
+
+      <li class="flex items-center gap-4 rounded-2xl border border-orange-500/30 bg-orange-950/20 p-4 hover:shadow-clawglow transition">
+        <span class="text-2xl font-display font-bold text-claw w-8 text-center">5</span>
+        <img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_ferociousbite.jpg" class="w-12 h-12 rounded-lg icon-ring" alt="Ferocious Bite">
+        <div class="flex-1">
+          <div class="font-semibold text-orange-200">Ferocious Bite <span class="text-stone-500 font-normal">@ 5 CP</span></div>
+          <div class="text-sm text-stone-400">Everything else — normal mobs die to Bite, don't bother Ripping them. Sabertooth: each Bite amps your bleeds on the target. <span class="text-claw">Once you've picked Druid of the Claw: auto-attacks randomly turn this button into Ravage (bigger + frontal cleave) — same keybind, just press it.</span></div>
+        </div>
+        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-orange-500/15 text-claw border border-orange-500/30">FINISHER · DEFAULT</span>
+      </li>
+
+      <li class="flex items-center gap-4 rounded-2xl border border-stone-800 bg-stone-900/50 p-4 hover:border-orange-500/40 hover:shadow-clawglow transition">
+        <span class="text-2xl font-display font-bold text-claw w-8 text-center">6</span>
+        <img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_vampiricaura.jpg" class="w-12 h-12 rounded-lg icon-ring" alt="Shred">
+        <div class="flex-1">
+          <div class="font-semibold text-stone-100">Shred</div>
+          <div class="text-sm text-stone-400">Your builder. Clearcasting procs make it free and +30% (Moment of Clarity) — spend them, don't sit on 2 charges.</div>
+        </div>
+        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-stone-700/40 text-stone-300 border border-stone-600">BUILDER</span>
+      </li>
+
+      <li class="flex items-center gap-4 rounded-2xl border border-stone-800 bg-stone-900/50 p-4 hover:border-orange-500/40 hover:shadow-clawglow transition">
+        <span class="text-2xl font-display font-bold text-claw w-8 text-center">7</span>
+        <img src="https://wow.zamimg.com/images/wow/icons/large/spell_druid_incarnation.jpg" class="w-12 h-12 rounded-lg icon-ring" alt="Incarnation">
+        <div class="flex-1">
+          <div class="font-semibold text-stone-100">Incarnation: Avatar of Ashamane</div>
+          <div class="text-sm text-stone-400">3-min "delete this elite" button: all Berserk effects 20s, −25% energy costs, and a free in-combat Prowl (= another stun-Rake).</div>
+        </div>
+        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-purple-500/15 text-purple-300 border border-purple-500/30">ELITES / RARES</span>
+      </li>
+    </ol>
+  </section>
+
+  <!-- AoE panel -->
+  <section id="panel-aoe" class="hidden">
+    <div class="mb-4 rounded-xl border border-stone-800 bg-stone-900/40 px-4 py-3 text-sm text-stone-400">
+      <span class="text-stone-200 font-semibold">The leveling money-maker:</span> pull 3–6 mobs, Swipe to 5, <span class="text-claw">Primal Wrath</span> — everything bleeds at once. <span class="text-stone-500">2–3 targets: Rake each, then this same loop.</span>
+    </div>
+    <ol class="space-y-3">
+
+      <li class="flex items-center gap-4 rounded-2xl border border-amber-500/30 bg-amber-950/20 p-4 hover:shadow-clawglow transition">
+        <span class="text-2xl font-display font-bold text-feral w-8 text-center">1</span>
+        <img src="https://wow.zamimg.com/images/wow/icons/large/ability_mount_jungletiger.jpg" class="w-12 h-12 rounded-lg icon-ring" alt="Tiger's Fury">
+        <div class="flex-1">
+          <div class="font-semibold text-amber-200">Tiger's Fury</div>
+          <div class="text-sm text-stone-400">Before the bleeds go out — they snapshot the +27% for their full duration.</div>
+        </div>
+        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-amber-500/15 text-feral border border-amber-500/30">ON CD</span>
+      </li>
+
+      <li class="flex items-center gap-4 rounded-2xl border border-stone-800 bg-stone-900/50 p-4 hover:border-orange-500/40 hover:shadow-clawglow transition">
+        <span class="text-2xl font-display font-bold text-claw w-8 text-center">2</span>
+        <img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_monsterclaw_03.jpg" class="w-12 h-12 rounded-lg icon-ring" alt="Swipe">
+        <div class="flex-1">
+          <div class="font-semibold text-stone-100">Swipe to 5 CP</div>
+          <div class="text-sm text-stone-400">+40% from Wild Slashes. Clearcasting makes it free too.</div>
+        </div>
+        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-stone-700/40 text-stone-300 border border-stone-600">BUILDER</span>
+      </li>
+
+      <li class="flex items-center gap-4 rounded-2xl border border-orange-500/30 bg-orange-950/20 p-4 hover:shadow-clawglow transition">
+        <span class="text-2xl font-display font-bold text-claw w-8 text-center">3</span>
+        <img src="https://wow.zamimg.com/images/wow/icons/large/artifactability_feraldruid_ashamanesfrenzy.jpg" class="w-12 h-12 rounded-lg icon-ring" alt="Primal Wrath">
+        <div class="flex-1">
+          <div class="font-semibold text-orange-200">Primal Wrath <span class="text-stone-500 font-normal">@ 5 CP</span></div>
+          <div class="text-sm text-stone-400">Instant hit + applies <span class="text-orange-300">Rip to everything within 10 yds</span>. This is your AoE finisher, every time.</div>
+        </div>
+        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-orange-500/15 text-claw border border-orange-500/30">FINISHER</span>
+      </li>
+
+      <li class="flex items-center gap-4 rounded-2xl border border-orange-500/30 bg-orange-950/20 p-4 hover:shadow-clawglow transition">
+        <span class="text-2xl font-display font-bold text-claw w-8 text-center">4</span>
+        <img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_ravage.jpg" class="w-12 h-12 rounded-lg icon-ring" alt="Ravage">
+        <div class="flex-1">
+          <div class="font-semibold text-orange-200">Ravage proc? <span class="text-stone-500 font-normal">(after picking Druid of the Claw)</span></div>
+          <div class="text-sm text-stone-400">When your Bite button lights up as Ravage and the pack is already Ripped: <span class="text-stone-200">face the pack and spend</span> — it cleaves everything in front for huge damage.</div>
+        </div>
+        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-orange-500/15 text-claw border border-orange-500/30">PROC FINISHER</span>
+      </li>
+
+      <li class="flex items-center gap-4 rounded-2xl border border-stone-800 bg-stone-900/50 p-4 hover:border-orange-500/40 hover:shadow-clawglow transition">
+        <span class="text-2xl font-display font-bold text-claw w-8 text-center">5</span>
+        <img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_disembowel.jpg" class="w-12 h-12 rounded-lg icon-ring" alt="Rake">
+        <div class="flex-1">
+          <div class="font-semibold text-stone-100">Rake the survivors</div>
+          <div class="text-sm text-stone-400">Anything tough still standing after the first Wrath gets a Rake while you rebuild.</div>
+        </div>
+        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-rose-500/15 text-rose-300 border border-rose-500/30">BLEED UP</span>
+      </li>
+
+      <li class="flex items-center gap-4 rounded-2xl border border-stone-800 bg-stone-900/50 p-4 hover:border-orange-500/40 hover:shadow-clawglow transition">
+        <span class="text-2xl font-display font-bold text-claw w-8 text-center">6</span>
+        <img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_berserk.jpg" class="w-12 h-12 rounded-lg icon-ring" alt="Berserk">
+        <div class="flex-1">
+          <div class="font-semibold text-stone-100">Berserk / Incarnation</div>
+          <div class="text-sm text-stone-400">For big pulls: faster CP, +15% damage — chain Swipe → Primal Wrath inside it.</div>
+        </div>
+        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-purple-500/15 text-purple-300 border border-purple-500/30">BIG PULLS</span>
+      </li>
+    </ol>
+  </section>
+
+  <!-- Utility refresher -->
+  <section class="mt-12">
+    <h2 class="font-display text-2xl font-bold text-stone-100 mb-1">The 15-Year Refresher</h2>
+    <p class="text-stone-500 text-sm mb-6">Everything on your bars you forgot you had. Tooltips from your live loadout (Blizzard API, 12.0.5).</p>
+
+    <h3 class="text-xs uppercase tracking-widest text-grove font-semibold mb-3">🛡 Staying alive</h3>
+    <div class="grid sm:grid-cols-2 gap-3 mb-8">
+      <div class="flex gap-3 rounded-xl border border-stone-800 bg-stone-900/50 p-3.5 hover:border-green-500/40 hover:shadow-groveglow transition">
+        <img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_tigersroar.jpg" class="w-10 h-10 rounded icon-ring-grove shrink-0" alt="">
+        <div><div class="font-semibold text-stone-100 text-sm">Survival Instincts <span class="text-stone-500 font-normal">· 6s</span></div><div class="text-xs text-stone-400">−60% damage taken. Your "oh no" button — works in cat.</div></div>
+      </div>
+      <div class="flex gap-3 rounded-xl border border-stone-800 bg-stone-900/50 p-3.5 hover:border-green-500/40 hover:shadow-groveglow transition">
+        <img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_stoneclawtotem.jpg" class="w-10 h-10 rounded icon-ring-grove shrink-0" alt="">
+        <div><div class="font-semibold text-stone-100 text-sm">Barkskin</div><div class="text-xs text-stone-400">Smaller wall, no form needed, doesn't break anything. You talented Improved Barkskin + Oakskin — it's beefy now.</div></div>
+      </div>
+      <div class="flex gap-3 rounded-xl border border-stone-800 bg-stone-900/50 p-3.5 hover:border-green-500/40 hover:shadow-groveglow transition">
+        <img src="https://wow.zamimg.com/images/wow/icons/large/ability_bullrush.jpg" class="w-10 h-10 rounded icon-ring-grove shrink-0" alt="">
+        <div><div class="font-semibold text-stone-100 text-sm">Frenzied Regeneration</div><div class="text-xs text-stone-400">Heals 32% over 3s (Bear Form). Your Well-Honed Instincts <span class="text-grove">auto-casts it free</span> when you drop below 40% (90s ICD).</div></div>
+      </div>
+      <div class="flex gap-3 rounded-xl border border-stone-800 bg-stone-900/50 p-3.5 hover:border-green-500/40 hover:shadow-groveglow transition">
+        <img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_resistnature.jpg" class="w-10 h-10 rounded icon-ring-grove shrink-0" alt="">
+        <div><div class="font-semibold text-stone-100 text-sm">Regrowth + passives</div><div class="text-xs text-stone-400">Drop form to heal between pulls. Aessina's Renewal also auto-heals 10% when something hits you for >12% (30s ICD).</div></div>
+      </div>
+      <div class="flex gap-3 rounded-xl border border-stone-800 bg-stone-900/50 p-3.5 hover:border-green-500/40 hover:shadow-groveglow transition">
+        <img src="https://wow.zamimg.com/images/wow/icons/large/ability_racial_bearform.jpg" class="w-10 h-10 rounded icon-ring-grove shrink-0" alt="">
+        <div><div class="font-semibold text-stone-100 text-sm">Bear Form</div><div class="text-xs text-stone-400">Still your panic tank-suit: way more health + armor. Bear up, Frenzied Regen, walk away with dignity.</div></div>
+      </div>
+      <div class="flex gap-3 rounded-xl border border-stone-800 bg-stone-900/50 p-3.5 hover:border-green-500/40 hover:shadow-groveglow transition">
+        <img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_reincarnation.jpg" class="w-10 h-10 rounded icon-ring-grove shrink-0" alt="">
+        <div><div class="font-semibold text-stone-100 text-sm">Rebirth</div><div class="text-xs text-stone-400">The battle res. Usable in combat — in any group content, this is why people love you.</div></div>
+      </div>
+    </div>
+
+    <h3 class="text-xs uppercase tracking-widest text-claw font-semibold mb-3">✋ Control & interrupts</h3>
+    <div class="grid sm:grid-cols-2 gap-3 mb-8">
+      <div class="flex gap-3 rounded-xl border border-stone-800 bg-stone-900/50 p-3.5 hover:border-orange-500/40 hover:shadow-clawglow transition">
+        <img src="https://wow.zamimg.com/images/wow/icons/large/inv_bone_skull_04.jpg" class="w-10 h-10 rounded icon-ring shrink-0" alt="">
+        <div><div class="font-semibold text-stone-100 text-sm">Skull Bash <span class="text-stone-500 font-normal">· 15s</span></div><div class="text-xs text-stone-400">Your interrupt — it's also a short charge. Kick the caster, lock the school 5s. Bind this well.</div></div>
+      </div>
+      <div class="flex gap-3 rounded-xl border border-stone-800 bg-stone-900/50 p-3.5 hover:border-orange-500/40 hover:shadow-clawglow transition">
+        <img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_mangle2.jpg" class="w-10 h-10 rounded icon-ring shrink-0" alt="">
+        <div><div class="font-semibold text-stone-100 text-sm">Maim <span class="text-stone-500 font-normal">· 30s</span></div><div class="text-xs text-stone-400">Finisher stun — up to 5s at 5 CP. Spend points on this instead of Bite when a mob needs to stop existing politely.</div></div>
+      </div>
+      <div class="flex gap-3 rounded-xl border border-stone-800 bg-stone-900/50 p-3.5 hover:border-orange-500/40 hover:shadow-clawglow transition">
+        <img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_demoralizingroar.jpg" class="w-10 h-10 rounded icon-ring shrink-0" alt="">
+        <div><div class="font-semibold text-stone-100 text-sm">Incapacitating Roar <span class="text-stone-500 font-normal">· 30s</span></div><div class="text-xs text-stone-400">AoE 3s incap (breaks on damage) — your "everyone calm down" button when a pull goes wrong.</div></div>
+      </div>
+      <div class="flex gap-3 rounded-xl border border-stone-800 bg-stone-900/50 p-3.5 hover:border-orange-500/40 hover:shadow-clawglow transition">
+        <img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_typhoon.jpg" class="w-10 h-10 rounded icon-ring shrink-0" alt="">
+        <div><div class="font-semibold text-stone-100 text-sm">Typhoon <span class="text-stone-500 font-normal">· 30s</span></div><div class="text-xs text-stone-400">Frontal knockback + 50% slow. Works in every form. Cliffs exist; you do the math.</div></div>
+      </div>
+      <div class="flex gap-3 rounded-xl border border-stone-800 bg-stone-900/50 p-3.5 hover:border-orange-500/40 hover:shadow-clawglow transition">
+        <img src="https://wow.zamimg.com/images/wow/icons/large/spell_druid_ursolsvortex.jpg" class="w-10 h-10 rounded icon-ring shrink-0" alt="">
+        <div><div class="font-semibold text-stone-100 text-sm">Ursol's Vortex</div><div class="text-xs text-stone-400">Drops a vortex that slows and sucks fleeing enemies back in. Pairs hilariously with Typhoon.</div></div>
+      </div>
+      <div class="flex gap-3 rounded-xl border border-stone-800 bg-stone-900/50 p-3.5 hover:border-orange-500/40 hover:shadow-clawglow transition">
+        <img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_stranglevines.jpg" class="w-10 h-10 rounded icon-ring shrink-0" alt="">
+        <div><div class="font-semibold text-stone-100 text-sm">Entangling Roots</div><div class="text-xs text-stone-400">Still here, still roots. Caster form (or macro it) — great on the second mob of a bad pull.</div></div>
+      </div>
+    </div>
+
+    <h3 class="text-xs uppercase tracking-widest text-feral font-semibold mb-3">🏃 Movement & misc</h3>
+    <div class="grid sm:grid-cols-2 gap-3">
+      <div class="flex gap-3 rounded-xl border border-stone-800 bg-stone-900/50 p-3.5 hover:border-amber-500/40 hover:shadow-clawglow transition">
+        <img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_dash.jpg" class="w-10 h-10 rounded icon-ring shrink-0" alt="">
+        <div><div class="font-semibold text-stone-100 text-sm">Tiger Dash <span class="text-stone-500 font-normal">· 45s</span></div><div class="text-xs text-stone-400">+200% speed decaying over 5s — your Dash got an upgrade. Also: Feline Swiftness has you 15% faster all the time.</div></div>
+      </div>
+      <div class="flex gap-3 rounded-xl border border-stone-800 bg-stone-900/50 p-3.5 hover:border-amber-500/40 hover:shadow-clawglow transition">
+        <img src="https://wow.zamimg.com/images/wow/icons/large/spell_druid_stampedingroar_cat.jpg" class="w-10 h-10 rounded icon-ring shrink-0" alt="">
+        <div><div class="font-semibold text-stone-100 text-sm">Stampeding Roar <span class="text-stone-500 font-normal">· 2m</span></div><div class="text-xs text-stone-400">+60% speed for everyone within 15 yds for 8s. Group utility — people remember the druid who roars.</div></div>
+      </div>
+      <div class="flex gap-3 rounded-xl border border-stone-800 bg-stone-900/50 p-3.5 hover:border-amber-500/40 hover:shadow-clawglow transition">
+        <img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_travelform.jpg" class="w-10 h-10 rounded icon-ring shrink-0" alt="">
+        <div><div class="font-semibold text-stone-100 text-sm">Shapeshifting tech</div><div class="text-xs text-stone-400"><span class="text-feral">Shifting forms still breaks roots & snares.</span> Travel Form is instant outdoors and flies where flight is unlocked.</div></div>
+      </div>
+      <div class="flex gap-3 rounded-xl border border-stone-800 bg-stone-900/50 p-3.5 hover:border-amber-500/40 hover:shadow-clawglow transition">
+        <img src="https://wow.zamimg.com/images/wow/icons/large/ability_ambush.jpg" class="w-10 h-10 rounded icon-ring shrink-0" alt="">
+        <div><div class="font-semibold text-stone-100 text-sm">Prowl</div><div class="text-xs text-stone-400">Stealth between pulls; every pull should start with a stun-Rake out of it. Incarnation gives you one free mid-combat Prowl.</div></div>
+      </div>
+      <div class="flex gap-3 rounded-xl border border-stone-800 bg-stone-900/50 p-3.5 hover:border-amber-500/40 hover:shadow-clawglow transition">
+        <img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_removecurse.jpg" class="w-10 h-10 rounded icon-ring shrink-0" alt="">
+        <div><div class="font-semibold text-stone-100 text-sm">Remove Corruption <span class="text-stone-500 font-normal">· 8s</span></div><div class="text-xs text-stone-400">Dispels Curses and Poisons off friendlies (including you). Soothe (10s) strips enemy enrages.</div></div>
+      </div>
+      <div class="flex gap-3 rounded-xl border border-stone-800 bg-stone-900/50 p-3.5 hover:border-amber-500/40 hover:shadow-clawglow transition">
+        <img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_regeneration.jpg" class="w-10 h-10 rounded icon-ring shrink-0" alt="">
+        <div><div class="font-semibold text-stone-100 text-sm">Mark of the Wild</div><div class="text-xs text-stone-400">Buff it, keep it up. Your Gift of the Wild makes it twice as effective on yourself.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="mt-10 pt-6 border-t border-stone-800/80 text-xs text-stone-600 flex flex-wrap gap-x-6 gap-y-1">
+    <span>Talents & tooltips: Blizzard Profile API (live loadout, fetched 2026-06-03)</span>
+    <span>Hero tree rec: Icy Veins / Maxroll leveling guides (12.0.5)</span>
+    <span>Patch 12.0.5 · Hallick – Kil'jaeden (US)</span>
+  </footer>
+</div>
+
+<script>
+function showTab(which) {
+  for (const t of ['st', 'aoe']) {
+    document.getElementById('panel-' + t).classList.toggle('hidden', t !== which);
+    document.getElementById('tab-' + t).classList.toggle('tab-active', t === which);
+  }
+}
+</script>
+</body>
+</html>

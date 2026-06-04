@@ -1,16 +1,74 @@
 ---
-title: Affliction Warlock — gearing, enchants, embellishments (Midnight S1)
+title: Affliction Warlock — talents, gearing, enchants, embellishments (Midnight S1)
 patch: 12.0.5
 fetched: 2026-06-03
 sources:
   - https://www.icy-veins.com/wow/affliction-warlock-pve-dps-gems-enchants-consumables  # upd. 2026-05-19
   - https://www.icy-veins.com/wow/affliction-warlock-pve-dps-stat-priority
+  - https://www.icy-veins.com/wow/affliction-warlock-pve-dps-spec-builds-talents
+  - https://murlok.io/warlock/affliction/soul-harvester/m+  # top-50 M+, tier-2-equiv (Blizzard API aggregation), fetched 2026-06-03 → raw/pages/
   - https://www.method.gg/guides/affliction-warlock/gearing
   - https://www.wowhead.com/news/best-early-season-crafted-gear-and-embellishments-for-all-classes-midnight-380801
+  - simc midnight branch profiles/MID1/MID1_Warlock_Affliction.simc  # tier 1
 confidence: medium
 ---
 
-# Affliction — gearing (Midnight Season 1)
+# Affliction — talents & gearing (Midnight Season 1)
+
+## Talents (S1, 12.0.5)
+
+**Hero tree: Soul Harvester for everything** — ST, cleave, and pure AoE
+(Icy Veins; murlok top-50 M+: 50/50 Soul Harvester, 0/50 Hellcaller).
+Hellcaller is a niche heavy-AoE alternative with worse ST. The build
+revolves around aggressive shard spending to recycle **Dark Harvest**
+and high **Cascading Calamity** uptime; all 4 apex points (**Shadow of
+Nathreza**, Haunt-amp) are worth taking.
+
+Reference talent string (simc MID1 Soul Harvester, raid/ST):
+`CkQAAAAAAAAAAAAAAAAAAAAAAwMzMzoZhhZmZmlBAAYmZZ2MzsMzAAjllBGwEMDbBG2GAAAmBAAwMDzMjxwwMmZmxgZmZGAwMwA`
+
+Near-universal spec picks among top-50 M+ (murlok, 2026-06-03):
+Agony, Unstable Affliction, Seed of Corruption, Nightfall, Haunt,
+Shared Agony, **Improved Haunt** (50/50), Drain Soul (49/50),
+Cunning Cruelty (48/50), Creeping Death, Dark Harvest, Practiced
+Pestilence, Summon Darkglare, Summoner's Embrace, Cull the Weak,
+Sudden Onset, Nether Plating, Contagion, Potent Soul Shards, Nocturnal
+Yield, Ravenous Afflictions, Seeds of Destruction, Death's Embrace,
+**Patient Zero** (48/50), **Sow the Seeds** (48/50), Shadow of
+Nathreza 4/4. Eye Contract (24/50) is the AoE-lean choice-node pick.
+
+Trap picks (≤3/50 usage): **Withering Bolt, Xavius' Gambit, Malefic
+Grasp, Sacrolash's Dark Strike, Fatal Echoes, Malediction**.
+
+Filler disagreement: Icy Veins recommends Improved Shadow Bolt for
+mobility in dungeons; murlok top-50 runs Drain Soul + Cunning Cruelty
+(49–48/50). Tier 2 > tier 3 — default to Drain Soul, treat Shadow Bolt
+as a personal-comfort swap.
+
+Class tree universals (murlok): Fel Domination, Soul Leech, Burning
+Rush, Demon Skin, Fel Armor, Demonic Embrace, Demonic Fortitude, Curse
+of Tongues, Mortal Coil, Pact of the Annihilan, **Demonic Circle**
+(50/50), Pact of the Satyr, Improved Mortal Coil (46/50), Dark Pact,
+Foul Mouth, **Empowered Healthstone** (50/50), Fortified Soul, Frequent
+Donor (45/50), Pact of the Eredar, Pact of the Nathrezim, Strength of
+Will (42/50), Demonic Gateway, Shadowfury, Swift Artifice, Soul Link,
+Oppressive Darkness, Pact of Gluttony, Soulburn, Blight of Tongues
+(38/50). Fringe (<15/50): Infernal Beneficiary, Demonic Resilience,
+Empowered Drain Life, Fel Synergy, Horrify, Abyss Walker.
+
+**Pet** (with Summoner's Embrace, keep one out): DPS difference between
+Felhunter / Imp / Sayaad / Voidwalker simmed **within noise** (<0.25%,
+inside the 0.27% error bar — Encomplete's gear, 2026-06-03). Pick on
+utility: **Felhunter** for group content (Spell Lock interrupt + purge),
+**Voidwalker** for solo delves (taunt/tank), Imp for the self-dispel.
+
+Hero choice nodes (offense vs defense, zero point cost): tops take
+Friends in Dark Places (48/50) and Feast of Souls (44/50); Eternal
+Servitude vs Gorefiend's Resolve is genuinely split (33/17). Tanking
+these three is the cheap way to build a "solo delve" variant.
+
+See `sims.md` for a measured cost of off-meta picks (Encomplete audit:
+−12.7% ST / −3.9% 4T vs the reference string on identical gear).
 
 ## Stat priority
 
@@ -61,7 +119,10 @@ quality 1–2 is much cheaper for most of the effect (budget-friendly).
 
 ## TODO
 
-- [ ] Hero talent tree choice (Hellcaller vs ...?) + builds — murlok/
-      Archon/kalamazi
+- [x] Hero talent tree choice — **Soul Harvester everywhere** (resolved
+      2026-06-03; Icy Veins + murlok top-50 agree, Hellcaller 0/50)
 - [ ] Midnight missive item names + which stat combo to order
-- [ ] sims.md baseline once gear stabilizes
+- [x] sims.md created 2026-06-03 (Encomplete talent audit baseline);
+      re-sim once gear stabilizes
+- [ ] Pull an exact M+ import string (Eye Contract + Sow the Seeds
+      variant) from kalamazi or Archon and store it here

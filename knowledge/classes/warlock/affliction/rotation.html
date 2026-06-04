@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Affliction Rotation — Soul Harvester (12.0.5)</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        fel: '#91fa49',
+        voidp: '#a78bfa',
+        soulshard: '#d946ef',
+      },
+      fontFamily: {
+        display: ['Georgia', 'serif'],
+      },
+      boxShadow: {
+        glow: '0 0 24px rgba(145,250,73,.15)',
+        voidglow: '0 0 24px rgba(167,139,250,.18)',
+      }
+    }
+  }
+}
+</script>
+<style>
+  body { background: radial-gradient(1200px 600px at 70% -10%, rgba(124,58,237,.18), transparent 60%), radial-gradient(900px 500px at 10% 110%, rgba(145,250,73,.07), transparent 60%), #0a0a0f; }
+  .icon-ring { box-shadow: 0 0 0 2px rgba(167,139,250,.35), 0 0 14px rgba(167,139,250,.25); }
+  .icon-ring-fel { box-shadow: 0 0 0 2px rgba(145,250,73,.4), 0 0 14px rgba(145,250,73,.25); }
+  .tab-active { background: linear-gradient(180deg, rgba(167,139,250,.22), rgba(167,139,250,.08)); border-color: rgba(167,139,250,.6) !important; color: #e9d5ff; }
+  ::selection { background: rgba(217,70,239,.4); }
+</style>
+</head>
+<body class="min-h-screen text-zinc-300 antialiased">
+
+<div class="max-w-5xl mx-auto px-4 py-10">
+
+  <!-- Header -->
+  <header class="mb-10">
+    <div class="flex flex-wrap items-center gap-3 mb-3">
+      <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-violet-500/15 text-voidp border border-violet-500/30">Patch 12.0.5 · Midnight S1</span>
+      <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-fuchsia-500/15 text-soulshard border border-fuchsia-500/30">Hero Tree: Soul Harvester</span>
+      <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-lime-500/10 text-fel border border-lime-500/30">Encomplete · Kil'jaeden</span>
+    </div>
+    <h1 class="font-display text-4xl md:text-5xl font-bold text-zinc-100 tracking-tight">Affliction <span class="text-voidp">Rotation</span></h1>
+    <p class="mt-3 text-zinc-400 max-w-2xl">Distilled from the SimulationCraft <span class="text-zinc-200 font-medium">12.0.5</span> default APL (tier-1 source). Assumes the <span class="text-fel font-medium">recommended respec</span> — Drain Soul, Improved Haunt, Patient Zero, Sow the Seeds.</p>
+  </header>
+
+  <!-- The Engine -->
+  <section class="mb-10 rounded-2xl border border-fuchsia-500/25 bg-fuchsia-500/[.04] p-5 shadow-voidglow">
+    <h2 class="text-sm uppercase tracking-widest text-soulshard font-semibold mb-2">⚙ The Engine</h2>
+    <p class="text-zinc-300"><span class="text-fuchsia-300 font-semibold">Spend shards aggressively.</span> Deplete to &lt;3 shards, then channel <span class="text-zinc-100 font-semibold">Dark Harvest</span> (refunds 3). Pair it with <span class="text-zinc-100 font-semibold">Darkglare</span> — that's your burst window, and where potions &amp; trinkets go. Spent shards turn <em>succulent</em> and release Demonic Souls.</p>
+    <div class="mt-4 flex flex-wrap items-center gap-2 text-sm">
+      <span class="px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-700 text-zinc-300">Shards &lt; 3</span>
+      <span class="text-voidp">→</span>
+      <span class="px-3 py-1.5 rounded-lg bg-fuchsia-900/40 border border-fuchsia-500/40 text-fuchsia-200 font-medium">Dark Harvest</span>
+      <span class="text-voidp">→</span>
+      <span class="px-3 py-1.5 rounded-lg bg-violet-900/40 border border-violet-500/40 text-violet-200 font-medium">Summon Darkglare</span>
+      <span class="text-voidp">→</span>
+      <span class="px-3 py-1.5 rounded-lg bg-lime-900/30 border border-lime-500/40 text-fel font-medium">Potion + Trinkets</span>
+    </div>
+  </section>
+
+  <!-- Tabs -->
+  <div class="flex gap-2 mb-6" role="tablist">
+    <button onclick="showTab('st')" id="tab-st" class="tab-active px-5 py-2.5 rounded-xl border border-zinc-700 bg-zinc-900/60 font-semibold text-zinc-300 transition hover:border-violet-400/50">☠ Single Target</button>
+    <button onclick="showTab('aoe')" id="tab-aoe" class="px-5 py-2.5 rounded-xl border border-zinc-700 bg-zinc-900/60 font-semibold text-zinc-300 transition hover:border-violet-400/50">🌑 AoE (3+)</button>
+  </div>
+
+  <!-- ST panel -->
+  <section id="panel-st">
+    <div class="mb-4 rounded-xl border border-zinc-800 bg-zinc-900/40 px-4 py-3 text-sm text-zinc-400">
+      <span class="text-zinc-200 font-semibold">Opener:</span> pre-cast <span class="text-voidp">Haunt</span> before the pull, pet out.
+    </div>
+    <ol class="space-y-3">
+
+      <li class="group flex items-center gap-4 rounded-2xl border border-zinc-800 bg-zinc-900/50 p-4 hover:border-violet-500/40 hover:shadow-voidglow transition">
+        <span class="text-2xl font-display font-bold text-voidp w-8 text-center">1</span>
+        <img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_soulleech_3.jpg" class="w-12 h-12 rounded-lg icon-ring" alt="Haunt">
+        <div class="flex-1">
+          <div class="font-semibold text-zinc-100">Haunt</div>
+          <div class="text-sm text-zinc-400">A damage button with Improved Haunt + apex — not just a debuff.</div>
+        </div>
+        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-violet-500/15 text-voidp border border-violet-500/30">ON CD</span>
+      </li>
+
+      <li class="group flex items-center gap-4 rounded-2xl border border-zinc-800 bg-zinc-900/50 p-4 hover:border-violet-500/40 hover:shadow-voidglow transition">
+        <span class="text-2xl font-display font-bold text-voidp w-8 text-center">2</span>
+        <img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_curseofsargeras.jpg" class="w-12 h-12 rounded-lg icon-ring" alt="Agony">
+        <div class="flex-1">
+          <div class="font-semibold text-zinc-100">Agony</div>
+          <div class="text-sm text-zinc-400">Never let it drop — it ramps.</div>
+        </div>
+        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30">&lt; 3s LEFT</span>
+      </li>
+
+      <li class="group flex items-center gap-4 rounded-2xl border border-zinc-800 bg-zinc-900/50 p-4 hover:border-violet-500/40 hover:shadow-voidglow transition">
+        <span class="text-2xl font-display font-bold text-voidp w-8 text-center">3</span>
+        <img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_abominationexplosion.jpg" class="w-12 h-12 rounded-lg icon-ring" alt="Corruption">
+        <div class="flex-1">
+          <div class="font-semibold text-zinc-100">Corruption</div>
+          <div class="text-sm text-zinc-400">Same rule as Agony.</div>
+        </div>
+        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30">&lt; 3s LEFT</span>
+      </li>
+
+      <li class="group flex items-center gap-4 rounded-2xl border border-fuchsia-500/30 bg-fuchsia-950/20 p-4 hover:shadow-voidglow transition">
+        <span class="text-2xl font-display font-bold text-soulshard w-8 text-center">4</span>
+        <img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadesofdarkness.jpg" class="w-12 h-12 rounded-lg icon-ring" alt="Dark Harvest">
+        <div class="flex-1">
+          <div class="font-semibold text-fuchsia-200">Dark Harvest</div>
+          <div class="text-sm text-zinc-400">Only below 3 shards, and only if the channel fits inside both Agony &amp; Corruption remaining. Refunds 3 shards.</div>
+        </div>
+        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-fuchsia-500/15 text-soulshard border border-fuchsia-500/30">&lt; 3 SHARDS</span>
+      </li>
+
+      <li class="group flex items-center gap-4 rounded-2xl border border-violet-500/30 bg-violet-950/20 p-4 hover:shadow-voidglow transition">
+        <span class="text-2xl font-display font-bold text-voidp w-8 text-center">5</span>
+        <img src="https://wow.zamimg.com/images/wow/icons/large/inv_beholderwarlock.jpg" class="w-12 h-12 rounded-lg icon-ring" alt="Summon Darkglare">
+        <div class="flex-1">
+          <div class="font-semibold text-violet-200">Summon Darkglare</div>
+          <div class="text-sm text-zinc-400">Cast right after Dark Harvest goes on CD — this is the burst window.</div>
+        </div>
+        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-lime-500/10 text-fel border border-lime-500/30">+ POT / TRINKETS</span>
+      </li>
+
+      <li class="group flex items-center gap-4 rounded-2xl border border-zinc-800 bg-zinc-900/50 p-4 hover:border-violet-500/40 hover:shadow-voidglow transition">
+        <span class="text-2xl font-display font-bold text-voidp w-8 text-center">6</span>
+        <img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_haunting.jpg" class="w-12 h-12 rounded-lg icon-ring" alt="Drain Soul">
+        <div class="flex-1">
+          <div class="font-semibold text-zinc-100">Drain Soul <span class="text-zinc-500 font-normal">(or Malefic Grasp during Darkglare)</span></div>
+          <div class="text-sm text-zinc-400">At 2+ Nightfall stacks — don't overcap procs.</div>
+        </div>
+        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-sky-500/15 text-sky-300 border border-sky-500/30">2+ NIGHTFALL</span>
+      </li>
+
+      <li class="group flex items-center gap-4 rounded-2xl border border-zinc-800 bg-zinc-900/50 p-4 hover:border-violet-500/40 hover:shadow-voidglow transition">
+        <span class="text-2xl font-display font-bold text-voidp w-8 text-center">7</span>
+        <img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_unstableaffliction_3.jpg" class="w-12 h-12 rounded-lg icon-ring" alt="Unstable Affliction">
+        <div class="flex-1">
+          <div class="font-semibold text-zinc-100">Unstable Affliction</div>
+          <div class="text-sm text-zinc-400">Primary spender — any shard, or a Shard Instability proc. Feeds succulent shards → Demonic Souls.</div>
+        </div>
+        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-fuchsia-500/15 text-soulshard border border-fuchsia-500/30">SPENDER</span>
+      </li>
+    </ol>
+  </section>
+
+  <!-- AoE panel -->
+  <section id="panel-aoe" class="hidden">
+    <div class="mb-4 rounded-xl border border-zinc-800 bg-zinc-900/40 px-4 py-3 text-sm text-zinc-400">
+      <span class="text-zinc-200 font-semibold">Opener:</span> pre-cast <span class="text-voidp">Seed of Corruption</span> into the pull.
+      <span class="ml-2 text-zinc-500">Exactly 2 targets? Run ST but UA both targets right before Dark Harvest comes off CD.</span>
+    </div>
+    <ol class="space-y-3">
+
+      <li class="group flex items-center gap-4 rounded-2xl border border-zinc-800 bg-zinc-900/50 p-4 hover:border-violet-500/40 hover:shadow-voidglow transition">
+        <span class="text-2xl font-display font-bold text-voidp w-8 text-center">1</span>
+        <img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_soulleech_3.jpg" class="w-12 h-12 rounded-lg icon-ring" alt="Haunt">
+        <div class="flex-1">
+          <div class="font-semibold text-zinc-100">Haunt</div>
+          <div class="text-sm text-zinc-400">Still on cooldown, even in AoE.</div>
+        </div>
+        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-violet-500/15 text-voidp border border-violet-500/30">ON CD</span>
+      </li>
+
+      <li class="group flex items-center gap-4 rounded-2xl border border-zinc-800 bg-zinc-900/50 p-4 hover:border-violet-500/40 hover:shadow-voidglow transition">
+        <span class="text-2xl font-display font-bold text-voidp w-8 text-center">2</span>
+        <img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_seedofdestruction.jpg" class="w-12 h-12 rounded-lg icon-ring" alt="Seed of Corruption">
+        <div class="flex-1">
+          <div class="font-semibold text-zinc-100">Seed of Corruption <span class="text-zinc-500 font-normal">(apply Corruption)</span></div>
+          <div class="text-sm text-zinc-400">When Corruption is missing/refreshable. <span class="text-rose-300">Never double-sow</span> — wait for the seed in flight.</div>
+        </div>
+        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30">DOT UPKEEP</span>
+      </li>
+
+      <li class="group flex items-center gap-4 rounded-2xl border border-fuchsia-500/30 bg-fuchsia-950/20 p-4 hover:shadow-voidglow transition">
+        <span class="text-2xl font-display font-bold text-soulshard w-8 text-center">3</span>
+        <img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadesofdarkness.jpg" class="w-12 h-12 rounded-lg icon-ring" alt="Dark Harvest">
+        <div class="flex-1">
+          <div class="font-semibold text-fuchsia-200">Dark Harvest</div>
+          <div class="text-sm text-zinc-400">On cooldown in AoE — shards flow freely here.</div>
+        </div>
+        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-fuchsia-500/15 text-soulshard border border-fuchsia-500/30">ON CD</span>
+      </li>
+
+      <li class="group flex items-center gap-4 rounded-2xl border border-zinc-800 bg-zinc-900/50 p-4 hover:border-violet-500/40 hover:shadow-voidglow transition">
+        <span class="text-2xl font-display font-bold text-voidp w-8 text-center">4</span>
+        <img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_curseofsargeras.jpg" class="w-12 h-12 rounded-lg icon-ring" alt="Agony">
+        <div class="flex-1">
+          <div class="font-semibold text-zinc-100">Agony × 5</div>
+          <div class="text-sm text-zinc-400">Spread to up to 5 targets, lowest remaining first; refresh under 5s, keep all above 50%.</div>
+        </div>
+        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30">5 TARGETS</span>
+      </li>
+
+      <li class="group flex items-center gap-4 rounded-2xl border border-violet-500/30 bg-violet-950/20 p-4 hover:shadow-voidglow transition">
+        <span class="text-2xl font-display font-bold text-voidp w-8 text-center">5</span>
+        <img src="https://wow.zamimg.com/images/wow/icons/large/inv_beholderwarlock.jpg" class="w-12 h-12 rounded-lg icon-ring" alt="Summon Darkglare">
+        <div class="flex-1">
+          <div class="font-semibold text-violet-200">Summon Darkglare</div>
+          <div class="text-sm text-zinc-400">Extends every DoT you just spread.</div>
+        </div>
+        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-lime-500/10 text-fel border border-lime-500/30">+ POT / TRINKETS</span>
+      </li>
+
+      <li class="group flex items-center gap-4 rounded-2xl border border-zinc-800 bg-zinc-900/50 p-4 hover:border-violet-500/40 hover:shadow-voidglow transition">
+        <span class="text-2xl font-display font-bold text-voidp w-8 text-center">6</span>
+        <img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_seedofdestruction.jpg" class="w-12 h-12 rounded-lg icon-ring-fel" alt="Seed of Corruption">
+        <div class="flex-1">
+          <div class="font-semibold text-zinc-100">Seed of Corruption <span class="text-fel font-normal">(Sow the Seeds)</span></div>
+          <div class="text-sm text-zinc-400">Your shard spender in AoE. <span class="text-zinc-500">Without Sow the Seeds you'd UA instead — that's the talent you were missing.</span></div>
+        </div>
+        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-fuchsia-500/15 text-soulshard border border-fuchsia-500/30">SPENDER</span>
+      </li>
+
+      <li class="group flex items-center gap-4 rounded-2xl border border-zinc-800 bg-zinc-900/50 p-4 hover:border-violet-500/40 hover:shadow-voidglow transition">
+        <span class="text-2xl font-display font-bold text-voidp w-8 text-center">7</span>
+        <img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_seedofdestruction.jpg" class="w-12 h-12 rounded-lg icon-ring" alt="Nightfall Seed">
+        <div class="flex-1">
+          <div class="font-semibold text-zinc-100">Nightfall dump <span class="text-zinc-500 font-normal">(Nocturnal Yield)</span></div>
+          <div class="text-sm text-zinc-400">Seed immediately when Nightfall stacks cap or are about to overflow.</div>
+        </div>
+        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-sky-500/15 text-sky-300 border border-sky-500/30">PROC CAP</span>
+      </li>
+    </ol>
+  </section>
+
+  <!-- Filler cascade -->
+  <section class="mt-10 rounded-2xl border border-zinc-800 bg-zinc-900/40 p-5">
+    <h2 class="text-sm uppercase tracking-widest text-zinc-500 font-semibold mb-4">Nothing above available? Filler cascade</h2>
+    <div class="flex flex-wrap items-center gap-3">
+      <div class="flex items-center gap-2 px-3 py-2 rounded-xl bg-violet-950/30 border border-violet-500/30">
+        <img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_requiem.jpg" class="w-8 h-8 rounded" alt="">
+        <div><div class="text-sm font-semibold text-violet-200">Malefic Grasp</div><div class="text-xs text-zinc-500">Shadow Bolt becomes this while Darkglare is up (if talented)</div></div>
+      </div>
+      <span class="text-voidp text-xl">→</span>
+      <div class="flex items-center gap-2 px-3 py-2 rounded-xl bg-zinc-900 border border-zinc-700">
+        <img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_haunting.jpg" class="w-8 h-8 rounded" alt="">
+        <div><div class="text-sm font-semibold text-zinc-200">Drain Soul</div><div class="text-xs text-zinc-500">if Nightfall procs mid-channel, restart to consume it</div></div>
+      </div>
+      <span class="text-voidp text-xl">→</span>
+      <div class="flex items-center gap-2 px-3 py-2 rounded-xl bg-zinc-900 border border-zinc-700">
+        <img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowbolt.jpg" class="w-8 h-8 rounded" alt="">
+        <div><div class="text-sm font-semibold text-zinc-200">Shadow Bolt</div><div class="text-xs text-zinc-500">last resort / heavy movement</div></div>
+      </div>
+    </div>
+    <p class="mt-4 text-sm text-zinc-500"><span class="text-zinc-300 font-medium">End of fight (&lt;8s):</span> dump every shard into UA (or Seed with Patient Zero + Sow the Seeds) and drain remaining Nightfall procs — die with zero shards.</p>
+  </section>
+
+  <!-- Footer -->
+  <footer class="mt-10 pt-6 border-t border-zinc-800/80 text-xs text-zinc-600 flex flex-wrap gap-x-6 gap-y-1">
+    <span>Source: SimulationCraft <span class="text-zinc-500">midnight</span> branch MID1 APL (tier 1, commit 204b88d · 2026-06-02)</span>
+    <span>Patch 12.0.5 · generated 2026-06-03</span>
+    <span>Companion: rotation.md · builds.md · sims.md</span>
+  </footer>
+</div>
+
+<script>
+function showTab(which) {
+  for (const t of ['st', 'aoe']) {
+    document.getElementById('panel-' + t).classList.toggle('hidden', t !== which);
+    document.getElementById('tab-' + t).classList.toggle('tab-active', t === which);
+  }
+}
+</script>
+</body>
+</html>
