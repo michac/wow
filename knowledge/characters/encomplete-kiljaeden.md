@@ -61,14 +61,30 @@ weakest slots are **waist/legs (214)** and **shoulders (224)**.
 | The Singularity | 5 |
 | Slayer's Rise | — (no standing; likely not unlocked) |
 
-### Currencies (user-reported 2026-06-03 — NOT API-verifiable, re-ask)
+### Currencies (verified from in-game currency tab screenshot, 2026-06-03)
 
-- **10 Sparks of Radiance** banked
-- **6 Catalyst charges**
-- **100+ each**: Adventurer, Veteran, Champion crests (no Hero/Myth
-  mentioned — assume ~0)
+- **10 Sparks of Radiance** banked (user-reported) · **6 Catalyst charges**
+- Dawncrests: **Adventurer 111 · Veteran 165 · Champion 84** (no
+  Hero/Myth visible — ~0; note Champion is 84, not the "100+" earlier
+  assumed)
+- **Field Accolade 220** (banking to 750 for 12.0.7 slot-targeted caches
+  → 530 to go)
+- Coffer Key Shards **75** + Restored Coffer Keys **5**
+- Undercoin 5,045 · Voidlight Marl 6,646 · Remnant of Anguish 1,520 ·
+  Brimming Arcana 590 · Radiant Spark Dust 13 · Dawnlight Manaflux 6
 
-Delve tier / Brann level / prey progression: not exposed by API.
+### Season journeys (in-game Journeys UI, 2026-06-03)
+
+- **Prey: Season 1 — rank 3, progress 0/4000 to rank 4.** Rank 4 rewards:
+  **Prey: Nightmare Mode** + "A Plinth Above the Rest I" — confirms the
+  plan's Preyseeker-rank-4 → Nightmare unlock. 4,000 pts = exactly this
+  week's 4× 1,000-pt hunts → **rank 4 is reachable this week**.
+- **Delves: Season 1 — rank 3 ("Treasure Hunter"), 1160/4200 to rank 4
+  ("Gilded Jackpot"** — the Myth-crest gilded stashes). Rank 5 = "An
+  Ethereal and a Golem walk into a Delve" (Valeera shown on the pane),
+  rank 6 = "Keys and Coffers".
+
+Delve tier / Brann level: not exposed by API.
 User-reported 2026-06-03: **clears T9 delves solo at ~236, but some
 pulls are rough** — calibration point for content recommendations.
 

@@ -30,11 +30,24 @@ Open it after reset, before doing anything else.
   vault to **ilvl 269** (hero track) — SignsOfKelani 2026-04-26
   (`../systems/ritual-sites.md`). Myth-track vault still requires the
   M+/raid rows.
+- **Observed in-game 2026-06-03 (Encomplete)**: world row at T9-delve-ish
+  activity offered **ilvl 250 Champion 2/6** (slots 1–2) and **246
+  Champion 1/6** (slot 3). Slot unlocks confirmed **2 / 4 / 8 world
+  activities**. The vault **can offer actual class tier-set pieces**
+  from the world row (Abyssal Immolator's Fury, warlock shoulders) — no
+  Catalyst charge needed for those.
+- Skipping gear pays a flat **6× currency** instead (observed 2026-06-03;
+  currency identity unverified — likely the seasonal vault token).
+
+## Slot unlock counts (verified in-game 2026-06-03, vault UI)
+
+- **Raids**: defeat 2 / 4 / 6 Midnight Season 1 bosses
+- **Dungeons**: complete 1 / 4 / 8 Heroic, Mythic, or Timewalking dungeons
+- **World**: complete 2 / 4 / 8 world activities
 
 ## TODO
 
-- [ ] Raid row: boss-count thresholds and per-difficulty vault ilvls
-      (source: Icy Veins Great Vault guide)
+- [ ] Raid row: per-difficulty vault ilvls (source: Icy Veins Great
+      Vault guide)
 - [ ] World row: full delve-tier + ritual-site-tier → vault ilvl mapping
-- [ ] Confirm slot unlock counts (1/4/8 dungeons, 2/4/6 bosses, etc.) for
-      Midnight — assumed unchanged from prior expansions, **unverified**
+      (one data point above: T9-ish activity → 250/250/246 champion)

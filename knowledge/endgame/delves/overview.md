@@ -37,8 +37,13 @@ the *bountiful* version AND spend a Restored Coffer Key on the coffer.
 - Kelani's "rank 9 for hero gear" claim refers to the **vendor** (276
   hero pieces for Untainted Mana Crystals) — coffer hero gear at T8+
   needs no journey rank, per Icy Veins.
-- **Weekly bounty map** → ~1 reliable hero piece/week (prey weekly's
-  beacon forces the map drop — see `../prey.md`).
+- **Delver's Bounty** (map, lootable 1×/week; verified name 2026-06-03,
+  Wowhead/Icy Veins Midnight guides) → consumed in-run, spawns a
+  **Hidden Trove** at delve's end, loot scales with tier — **use at
+  T8+ for a hero piece** (~1 reliable hero piece/week). Drop sources:
+  prey weekly's beacon forces it (`../prey.md`); best organic chance
+  from **Nullaeus** (S1 delve nemesis) — at 50% HP he drops a gold
+  pile that can contain it.
 - **Only solo Myth Dawncrest source**: T11 bountiful **gilded stashes —
   21 Myth crests/week max** (no key needed; **Delver's Journey rank 4**,
   confirmed by Icy Veins 2026-05-19; supersedes Kelani's "20/week".

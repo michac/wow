@@ -73,6 +73,10 @@ uv run python -m wowkb.fetch <url>                   # → raw/pages/
 
 Blizzard + WCL commands require credentials in `.env` (user-registered).
 
+⚠ git-bash mangles leading-slash args (`/data/...` →
+`C:/Program Files/Git/data/...`). Prefix `wowkb.blizzard get` calls with
+`MSYS_NO_PATHCONV=1`.
+
 ## Workflow: the KB grows through use
 
 1. **Answer from `knowledge/`** when fresh (`patch` == live, decent confidence).

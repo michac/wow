@@ -33,14 +33,48 @@ was wrong.)
   −50%** — deaths cut rewards, not completion.
 - Challenge stacking: ~+75% spoils possible at T5 (Embers + Malevolent
   Boons + two 15% modifiers).
-- **Challenges** (optional modifiers) multiply the final score. Unlocked
-  via quests from NPCs in Silvermoon near the gear vendors + treasures/
-  items inside the sites.
-- Scoring favors **mini-bosses and bosses; trash gives little** — skip
-  trash. Challenges that fight this strategy (avoid for fast runs):
-  **Reinforced** (more mobs to skip), **Embers** (must kill mobs to strip
-  boss buffs), **Malevolent Boons** (detour to destroy obelisks).
+- Scoring favors **objectives, mini-bosses and bosses; unmarked trash
+  gives ~nothing** — skip trash.
 - Benchmark: ~ilvl 256 character clears tier 5 in **10–15 min**.
+
+## Run structure (Overgear/Wowhead, 2026-06-03)
+
+Enter via the **Curious Obelisk** (also where tier + challenges are
+chosen). Staged: **objectives → mini-boss → boss → Ritual Chest**
+(chest value = Spoils × challenge modifiers − death penalty). Stage-1
+objective types vary by site: Corrupted Wildlife, Void Reinforcements,
+Rituals in the Depths, Face Off (Warlord Gurrtack), Research Trove.
+Only **marked** enemies count toward kill stages.
+
+## Challenges (all 8 — Overgear 2026-06-03, tier 4; corroborate in-game)
+
+Toggled at the obelisk; available T3+, **T5 requires ≥4 active**.
+
+| Challenge | Effect | Spoils | Unlock |
+|---|---|---|---|
+| Tendrils | dodge green swirls | +10% | found in Ritual Spoils chest |
+| Manifestations | spirits spawn | +15% | complete Tier 3 |
+| Magical Alarm Bells | kills spawn adds | +10% | Tier 4 + Lady Darkglen (Bazaar) |
+| Malevolent Boons | destroy buff obelisks | +15% | Tier 2 + Lady Darkglen |
+| Tainted Corpses | kills leave void zones | +10% | **Tainted Bone Pile** (in-site, off-path) |
+| Reinforced | more enemies | +25% | Tier 2 + Ranger Captain Lilatha |
+| Patrols | elite patrols | +10% | T3+ in-site treasures |
+| Embers | empowered enemies | +15% | **Embers of Power** (in-site, T4+) |
+
+**Fast-skip 4-stack: Tendrils + Manifestations + Tainted Corpses +
+Patrols (+45%)** — none force trash kills. Avoid for speed:
+**Reinforced** (more mobs to skip), **Embers** (kill mobs to strip
+buffs), **Malevolent Boons** (obelisk detours) — bigger % but slower
+runs.
+
+## Items found inside sites
+
+Challenge keys: Tainted Bone Pile, Embers of Power, T3+ treasures
+(Patrols), Tendrils via spoils chest. Collectible triggers:
+**Misplaced Ritual Candle** → bring to ritual circle → Void-Corrupted
+Hex Eagle mount; **Practically Pork ×5** → warbear mount; **Washed Up
+Kelp / Void-Bathed Snapdragon** → snapdragon spawn / pet. Don't vendor
+oddball loot.
 
 ## Rewards (tier 5)
 
@@ -85,7 +119,8 @@ Separate renown track; unlocks persist for alts:
 
 - [ ] Exact tier → accolade/crest table (corroborate vs Icy Veins 12.0.5
       guide, tier 3)
-- [ ] Full challenge list + multipliers
+- [x] Full challenge list + multipliers (2026-06-03, Overgear — tier 4;
+      verify %s in-game at the obelisk)
 - [ ] Vendor inventory (which slots purchasable; weapon/trinket available?)
 - [x] Dark particles → accolades at vendor, 100:10 (tier 4, 2026-06-03 —
       still corroborate the ratio in-game)

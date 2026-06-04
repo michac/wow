@@ -42,10 +42,10 @@ gating reagent for max-level crafted epics.
 
 ### Crafting orders
 
-- Order via **Mar'nah** in Silvermoon (corroborated by Wowhead news +
-  mythic-store; "the Bazaar" location from tier-4 only). Customer supplies
-  sparks + optional reagents; commission paid to crafter (historically
-  ~500–20k gold).
+- Order via **Mar'nah \<Crafting Orders\>** in Silvermoon, **The Bazaar**
+  district (same district as the AH; corroborated 2026-06-03 by Wowhead
+  NPC db 243279 + user in-game). Customer supplies sparks + optional
+  reagents; commission paid to crafter (historically ~500–20k gold).
 
 ### Optional reagent slots (the "special slots" in the crafting UI)
 
@@ -58,8 +58,39 @@ the ilvl bracket it lands:
 | **80 Hero Dawncrests** | raises bracket to 259–272 |
 | **80 Myth Dawncrests** | raises bracket to 272–285 (2H: 160) |
 | **Missive** (Inscription-made) | choose the 2 secondary stats; tiered |
+
+Missive quality: tier changes **recipe difficulty only** (+15 low /
+**+5 high — verified in-game tooltip 2026-06-03**: "Guarantee
+[stat] and [stat]" is identical across tiers), never the finished
+item's stats. Two quality tiers observed on the AH (Midnight
+simplified from TWW's three). Defense: place a **Personal Order with
+minimum quality rank 5** — guaranteed result regardless of missive
+tier; the crafter either hits it or can't fulfill. High-tier missives
+are usually cheap enough to be the default buy.
 | **Embellishment reagent** | adds an embellishment effect (see below) |
 | **Lucky Keychain** | recraft-only: strips an old embellishment (→ +1 Sparkle) |
+
+### Order types & quality risk (verified in-game UI 2026-06-03)
+
+- **Public**: no minimum-quality option; customer supplies ALL reagents
+  (required + optional). 0g commission attracts skill-levelers who fill
+  at low rank — quality ranks ≈ 246/250/253/256/259 in the base
+  bracket, so a bad fill on a 4-spark weapon ≈ sidegrade. Commission
+  doesn't repel levelers (their profit is the skillup) — it adds maxed
+  order-snipers to the race; 300–1,000g + q3 reagents makes a rank-5
+  fill *likely*, not guaranteed.
+- **Guild / Personal**: can set **minimum quality** (rank 5) — the
+  guaranteed path. Personal orders need a character name only — trade
+  chat "r5 guaranteed" advertisers exist for this; no whisper needed
+  (**shift-click their chat name into the recipient field** to handle
+  special-character names). Vet a candidate via Blizzard API character
+  professions endpoint (known recipes + skill — `wowkb.blizzard get
+  /profile/wow/character/<realm>/<name>/professions`); quality stats
+  aren't exposed, but maxed-skill + knows-recipe filters levelers.
+- Rule of thumb: gamble tolerance ∝ 1/sparks — public OK for 2-spark
+  armor, guild/personal only for 4-spark weapons.
+- The S1 staff (Aln'hara Cane) is an **Inscription** recipe; the cloth
+  pieces are Tailoring — may need two different crafters.
 
 ### Recrafting
 
@@ -90,8 +121,9 @@ the ilvl bracket it lands:
 
 ## TODO
 
-- [ ] Corroborate "the Bazaar" as Mar'nah's exact location (tier 1–3)
+- [x] Mar'nah location corroborated 2026-06-03: The Bazaar, Silvermoon
+      (Wowhead NPC db + in-game)
 - [ ] Knowledge-point weekly sources (Icy Veins system guide + Signs of
       Kelani explainer)
-- [ ] Midnight Tailoring leveling cost / spark-recipe access for
-      self-crafting
+- [x] Midnight Tailoring leveling → dedicated file
+      `tailoring-leveling.md` (2026-06-03)

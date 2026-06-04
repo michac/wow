@@ -15,10 +15,13 @@ confidence: medium
 
 # Encomplete — priority plan
 
-Baseline 2026-06-03: ilvl 236 · 10 Sparks · 6 Catalyst charges ·
-100+ Adv/Vet/Champ Dawncrests (0 Hero/Myth assumed) · clears delve T9
-(rough) · Ritual Sites renown 1 · Valeera 20 · pre-rank-4 Preyseeker ·
-pre-rank-5 Delver's Journey · no enchants · solo-leaning.
+Baseline 2026-06-03 (currency tab verified): ilvl 236 · 10 Sparks ·
+6 Catalyst charges · Dawncrests 111 Adv / 165 Vet / **84 Champ** (0
+Hero/Myth) · 220 Field Accolades (banking to 750) · 5 coffer keys +
+75 shards · clears delve T9 (rough) · Ritual Sites renown 1 · Valeera
+20 · **Prey journey rank 3, 0/4000 → rank 4 = this week's 4 hunts** ·
+**Delve journey rank 3, 1160/4200 → rank 4 (Gilded Jackpot = Myth
+crests)** · no enchants · solo-leaning.
 
 ## Phase 0 — one-time setup (this week, biggest wins first)
 
@@ -26,8 +29,9 @@ pre-rank-5 Delver's Journey · no enchants · solo-leaning.
       max-quality, **no crests** (recraft straight to Myth later).
       AH shopping list per order (you provide; see
       `../classes/warlock/affliction/builds.md`):
-      Spark of Radiance ×2 (×4 staff) · **missive** for chosen stats ·
-      embellishment reagent if that piece carries one:
+      Spark of Radiance ×2 (×4 staff) · **Thalassian Missive of the
+      Peerless** (Crit/Mastery — ×4, one per craft) · embellishment
+      reagent if that piece carries one:
   - [ ] **Aln'hara Cane** (2H staff) 246→259 — 4 sparks +
         **Darkmoon Sigil: Hunt** (embellishment #1)
   - [ ] **Martyr's Bindings** (wrist) 233→259 — 2 sparks +
@@ -36,11 +40,24 @@ pre-rank-5 Delver's Journey · no enchants · solo-leaning.
   - [ ] Boots 227→259 — 2 sparks (no embellishment)
   - Stats are flat for Affliction — ilvl first; missive Mastery/Crit
     or Crit/Haste, sim if unsure
-- [ ] **Enchant every slot — all AH-buyable, quality 1–2 is fine**:
-      helm Empowered Blessing of Speed · shoulders Akil'zon's
-      Swiftness · chest Mark of the Worldsoul · legs Sunfire Silk
-      Spellthread · feet Farstrider's Hunt · rings ×2 Eyes of the
-      Eagle · weapon Acuity of the Ren'dorei + Thalassian Phoenix Oil
+- [ ] **Enchants — staged by piece lifetime** (AH prices checked
+      2026-06-03: speed enchants cheap, chest ~5k even at q1; q1–2
+      quality is fine everywhere):
+  - [ ] **Now**: helm Empowered Blessing of Speed · shoulders
+        Akil'zon's Swiftness (incl. new tier shoulders) · feet
+        Farstrider's Hunt — cheap, re-buy freely on upgrades
+  - [ ] **When the keeper exists**: weapon Acuity of the Ren'dorei +
+        Thalassian Phoenix Oil → onto the 259 Aln'hara Cane only
+        (NOT the outgoing 246 staff) · chest Mark of the Worldsoul →
+        first month+ keeper chest (tier) · legs Sunfire Silk
+        Spellthread → the catalyzed legs, not transitional pieces
+  - [ ] Rings Eyes of the Eagle ×2 — only if cheap; rings churn
+  - **Never** on adventurer/veteran-track; champion-track only for
+    designated keepers. Hold expensive enchants until after 12.0.7
+    (June 16) hero-cache churn settles.
+  - [x] Verified 2026-06-03 (Wowhead recrafting guide + forums):
+        enchants and gems **persist through recrafts** — safe to
+        enchant the 259 staff; it survives the 285 recraft
 - [ ] **Gems (3 sockets: neck + 2 rings)**: 1× Indecipherable Eversong
       Diamond (epic, unique) + Deadly Peridot/Lapis (rare crit gems;
       4-color rule if more sockets appear)
@@ -52,8 +69,15 @@ pre-rank-5 Delver's Journey · no enchants · solo-leaning.
       Hungering Oblivium → weapon/trinket overcap (285 craft → 295)
 - [ ] **Ritual sites**: do Silvermoon challenge-unlock quests; climb
       T1→T4 (T5 rec. ilvl 264 — wait for ~250+ or bring a guildie)
-- [ ] Pick up **Midnight Tailoring + Skinning tiers**; level passively
-      (commission crafts until self-sufficient)
+- [x] **Midnight Tailoring learned 2026-06-03** (in-game confirmed);
+      [ ] Skinning tier still pending. Leveling plan →
+      `../systems/tailoring-leveling.md`; day-1 actions: AH-buy
+      66 Bright Linen + 14 Eversinging Dust (~6–8k), level 1→50 in one
+      session (incl. first-craft sweep at 40–45), put first 5 KP in
+      Nimble Needlework, start the **daily bolt CD** (+2 skill/day to
+      80), then Fiber Arts root → 30. Fill **Patron Orders** (NPC, no
+      humans) for weekly KP. Commission crafts in the meantime —
+      self-recrafts viable at ~skill 80 + slot sub-spec.
 
 ## Weekly rotation (priority order)
 
