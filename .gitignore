@@ -10,3 +10,10 @@ __pycache__/
 *.pyc
 .venv/
 tools/.venv/
+
+# Dart / Flutter (trainer/)
+build/
+.dart_tool/
+*.dart_tool/
+.packages
+trainer/sim/pubspec.lock
