@@ -19,6 +19,12 @@
       "Templar"
     ]
   },
+  "level_cap": 90,
+  "budgets": {
+    "class": 34,
+    "spec": 34,
+    "hero": 13
+  },
   "trees": {
     "class": [
       {
@@ -37,7 +43,9 @@
             "talent": "Lay on Hands",
             "spell_id": 633,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_layonhands.jpg",
+            "desc": "Heals a friendly target for an amount equal to 100% your maximum health.\r\n\r\nCannot be used on a target with Forbearance. Causes Forbearance for 30 sec."
           }
         ]
       },
@@ -57,7 +65,9 @@
             "talent": "Auras of the Resolute",
             "spell_id": 385633,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_devotionaura.jpg",
+            "desc": "Learn Concentration Aura, Devotion Aura, and Crusader Aura:\r\n\r\nConcentration Aura:\r\nInterrupt and Silence effects on party and raid members within 40 yds are 30% shorter. \r\n\r\n Devotion Aura:\r\nParty and raid members within 40 yds are bolstered by their devotion, reducing damage taken by 3%.\r\n\r\n Crusader Aura:\r\nIncreases mounted speed by 20% for all party and raid members within 40 yds."
           }
         ]
       },
@@ -77,7 +87,9 @@
             "talent": "Hammer of Wrath",
             "spell_id": 1241288,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_ability_paladin_hammerofwrath.jpg",
+            "desc": "During Avenging Wrath, Judgment is empowered into Hammer of Wrath.\r\n\r\n Hammer of Wrath\r\nHurls a divine hammer that strikes an enemy for 43 Holy damage.\r\n\r\nGenerates 1 Holy Power."
           }
         ]
       },
@@ -99,7 +111,9 @@
             "talent": "Cleanse Toxins",
             "spell_id": 213644,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_renew.jpg",
+            "desc": "Cleanses a friendly target, removing all Poison and Disease effects."
           }
         ]
       },
@@ -121,7 +135,9 @@
             "talent": "Empyreal Ward",
             "spell_id": 387791,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_layonhands.jpg",
+            "desc": "Lay on Hands grants the target 30% increased armor for 8 sec and now ignores healing reduction effects."
           }
         ]
       },
@@ -144,7 +160,9 @@
             "talent": "Fist of Justice",
             "spell_id": 234299,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_fistofjustice.jpg",
+            "desc": "Hammer of Justice's cooldown is reduced by 15 sec."
           }
         ]
       },
@@ -167,7 +185,9 @@
             "talent": "Blinding Light",
             "spell_id": 115750,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_blindinglight.jpg",
+            "desc": "Emits dazzling light in all directions, blinding enemies within 10 yds, causing them to wander disoriented for 6 sec. Damage may cancel the effect."
           }
         ]
       },
@@ -189,7 +209,9 @@
             "talent": "Turn Evil",
             "spell_id": 10326,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_turnevil.jpg",
+            "desc": "The power of the Light compels an Undead, Aberration, or Demon target to flee for up to 40 sec. Damage may break the effect. Lesser creatures have a chance to be destroyed. Only one target can be turned at a time."
           }
         ]
       },
@@ -211,7 +233,9 @@
             "talent": "A Just Reward",
             "spell_id": 469411,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_blindingheal.jpg",
+            "desc": "After Cleanse successfully removes an effect from an ally, they are healed for 2,052."
           }
         ]
       },
@@ -235,14 +259,18 @@
             "talent": "Afterimage",
             "spell_id": 385414,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_aspiration.jpg",
+            "desc": "After you spend 20 Holy Power, your next Word of Glory echoes onto a nearby ally at 30% effectiveness."
           },
           {
             "entry_id": "115481",
             "talent": "Healing Hands",
             "spell_id": 326734,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_infusionoflight.jpg",
+            "desc": "The cooldown of Lay on Hands is reduced up to 60%, based on the target's missing health.\r\n\r\nWord of Glory's healing is increased by up to 100% on yourself, based on your missing health."
           }
         ]
       },
@@ -264,7 +292,9 @@
             "talent": "Guided Prayer",
             "spell_id": 404357,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_crown_of_the_heavens_icon.jpg",
+            "desc": "When your health is brought below 25%, you instantly cast a free Word of Glory at 60% effectiveness on yourself.\r\n\r\nCannot occur more than once every 60 sec."
           }
         ]
       },
@@ -288,7 +318,9 @@
             "talent": "Divine Steed",
             "spell_id": 190784,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_divinesteed.jpg",
+            "desc": "Leap atop your Charger for 3 sec, increasing movement speed by 100%. Usable while indoors or in combat."
           }
         ]
       },
@@ -310,7 +342,9 @@
             "talent": "Light's Countenance",
             "spell_id": 469325,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_shoulder_raidpaladindragon_d_01.jpg",
+            "desc": "The cooldown of Blinding Light is reduced by 15 sec."
           }
         ]
       },
@@ -333,7 +367,9 @@
             "talent": "Greater Judgment",
             "spell_id": 231663,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_righteousfury.jpg",
+            "desc": "Judgment causes the target to take 20% increased damage from your next Holy Power ability.\r\n\r\nMultiple applications may overlap."
           }
         ]
       },
@@ -355,14 +391,18 @@
             "talent": "Wrench Evil",
             "spell_id": 460720,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_turnevil.jpg",
+            "desc": "Turn Evil's cast time is reduced by 100%."
           },
           {
             "entry_id": "128249",
             "talent": "Stand Against Evil",
             "spell_id": 469317,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_excorcism.jpg",
+            "desc": "Turn Evil now affects 5 additional enemies."
           }
         ]
       },
@@ -385,7 +425,9 @@
             "talent": "Holy Reprieve",
             "spell_id": 469445,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_sealofsalvation.jpg",
+            "desc": "Your Forbearance's duration is reduced by 10 sec."
           }
         ]
       },
@@ -408,7 +450,9 @@
             "talent": "Shield of Vengeance",
             "spell_id": 1261562,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_shieldofthetemplar.jpg",
+            "desc": "Divine Protection reduces damage taken by an additional 10% and casts Shield of Vengeance.\r\n\r\nShield of Vengeance\r\nCreates a barrier of holy light that absorbs 9,165 damage for 10 sec.\r\n\r\nWhen the shield expires, it bursts to inflict Holy damage equal to the total amount absorbed, divided among all nearby enemies."
           }
         ]
       },
@@ -430,7 +474,9 @@
             "talent": "Cavalier",
             "spell_id": 230332,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_divinesteed.jpg",
+            "desc": "Divine Steed now has 2 charges."
           }
         ]
       },
@@ -452,7 +498,9 @@
             "talent": "Divine Spurs",
             "spell_id": 469409,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mount_charger.jpg",
+            "desc": "Divine Steed's cooldown is reduced by 20%, but its duration is reduced by 40%."
           }
         ]
       },
@@ -474,14 +522,18 @@
             "talent": "Steed of Liberty",
             "spell_id": 469304,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_crusaderaura.jpg",
+            "desc": "Divine Steed also grants Blessing of Freedom for 3.0 sec.\r\n\r\n Blessing of Freedom:\r\nBlesses a party or raid member, granting immunity to movement impairing effects for 8 sec."
           },
           {
             "entry_id": "128251",
             "talent": "Blessing of Freedom",
             "spell_id": 1044,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_sealofvalor.jpg",
+            "desc": "Blesses a party or raid member, granting immunity to movement impairing effects for 8 sec."
           }
         ]
       },
@@ -504,7 +556,9 @@
             "talent": "Rebuke",
             "spell_id": 96231,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_rebuke.jpg",
+            "desc": "Interrupts spellcasting and prevents any spell in that school from being cast for 5 sec."
           }
         ]
       },
@@ -528,7 +582,9 @@
             "talent": "Obduracy",
             "spell_id": 385427,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_speedoflight.jpg",
+            "desc": "Speed increased by 2% and damage taken from area of effect attacks reduced by 2%."
           }
         ]
       },
@@ -551,7 +607,9 @@
             "talent": "Divine Toll",
             "spell_id": 375576,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_paladin_divinetoll.jpg",
+            "desc": "Instantly cast Holy Shock, Avenger's Shield, or Judgment on up to 5 targets within 30 yds."
           }
         ]
       },
@@ -573,7 +631,9 @@
             "talent": "Unbound Freedom",
             "spell_id": 305394,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_sealofvalor.jpg",
+            "desc": "Blessing of Freedom increases movement speed by 30%, and you gain Blessing of Freedom when cast on a friendly target."
           }
         ]
       },
@@ -597,7 +657,9 @@
             "talent": "Sanctified Plates",
             "spell_id": 402964,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_chest_plate_raidpaladin_s_01.jpg",
+            "desc": "Armor increased by 10%, Stamina increased by 5% and damage taken from area of effect attacks reduced by 3%."
           }
         ]
       },
@@ -619,7 +681,9 @@
             "talent": "Punishment",
             "spell_id": 403530,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_rebuke.jpg",
+            "desc": "Successfully interrupting an enemy with Rebuke casts an extra Crusader Strike."
           }
         ]
       },
@@ -642,7 +706,9 @@
             "talent": "Divine Reach",
             "spell_id": 469476,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_mindvision.jpg",
+            "desc": "The radius of your auras is increased by 20 yds."
           }
         ]
       },
@@ -664,7 +730,9 @@
             "talent": "Brought to Light",
             "spell_id": 1265549,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/paladin_holy.jpg",
+            "desc": "Killing an enemy that yields experience or honor causes you to explode with holy energy, healing up to 5 nearby allies and yourself for 175, split evenly among them."
           }
         ]
       },
@@ -688,7 +756,9 @@
             "talent": "Blessing of Sacrifice",
             "spell_id": 6940,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_sealofsacrifice.jpg",
+            "desc": "Blesses a party or raid member, reducing their damage taken by 30%, but you suffer 100% of damage prevented.\r\n\r\nLast 12 sec, or until transferred damage would cause you to fall below 20% health."
           }
         ]
       },
@@ -710,14 +780,18 @@
             "talent": "Divine Resonance",
             "spell_id": 384027,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mount_goatmountwhite.jpg",
+            "desc": "After casting Divine Toll, you instantly cast Holy Shock every 5 sec for 15 sec."
           },
           {
             "entry_id": "115467",
             "talent": "Quickened Invocation",
             "spell_id": 379391,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_pureofheart.jpg",
+            "desc": "Divine Toll's, Holy Armament's, and Holy Prism's cooldown is reduced by 15 sec."
           }
         ]
       },
@@ -741,7 +815,9 @@
             "talent": "Blessing of Protection",
             "spell_id": 1022,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_sealofprotection.jpg",
+            "desc": "Blesses a party or raid member, granting immunity to Physical damage and harmful effects for 10 sec.\r\n\r\nCannot be used on a target with Forbearance. Causes Forbearance for 30 sec."
           }
         ]
       },
@@ -763,7 +839,9 @@
             "talent": "Fear No Evil",
             "spell_id": 1265541,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_bracer_plate_raidpaladin_r_01mythic.jpg",
+            "desc": "Fear duration on you reduced by 20%. This effect is increased to 60% during Avenging Wrath."
           }
         ]
       },
@@ -786,7 +864,9 @@
             "talent": "Consecrated Ground",
             "spell_id": 204054,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_righteousvengeance.jpg",
+            "desc": "Your Consecration is 15% larger, and enemies within it have 50% reduced movement speed."
           }
         ]
       },
@@ -810,7 +890,9 @@
             "talent": "Holy Aegis",
             "spell_id": 385515,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_touchedbylight.jpg",
+            "desc": "Armor and critical strike chance increased by 4%."
           }
         ]
       },
@@ -832,14 +914,18 @@
             "talent": "Sacrifice of the Just",
             "spell_id": 384820,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_sealofsacrifice.jpg",
+            "desc": "Reduces the cooldown of Blessing of Sacrifice by 60 sec."
           },
           {
             "entry_id": "102594",
             "talent": "Recompense",
             "spell_id": 384914,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_racial_foregedinflames.jpg",
+            "desc": "After your Blessing of Sacrifice ends, 50% of the total damage it diverted is added to your next Judgment as bonus damage, or your next Word of Glory as bonus healing.\r\n\r\nThis effect's bonus damage cannot exceed 30% of your maximum health and its bonus healing cannot exceed 100% of your maximum health."
           }
         ]
       },
@@ -862,14 +948,18 @@
             "talent": "Sacred Strength",
             "spell_id": 469337,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_righteousnessaura.jpg",
+            "desc": "Holy Power spending abilities have 2% increased damage and healing."
           },
           {
             "entry_id": "128243",
             "talent": "Divine Purpose",
             "spell_id": 408459,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_divinepurpose.jpg",
+            "desc": "Holy Power spending abilities have a 10% chance to make your next Holy Power spending ability free and deal 10% increased damage and healing."
           }
         ]
       },
@@ -891,7 +981,9 @@
             "talent": "Improved Blessing of Protection",
             "spell_id": 384909,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_sealofprotection.jpg",
+            "desc": "Reduces the cooldown of Blessing of Protection by 60 sec."
           }
         ]
       },
@@ -915,7 +1007,9 @@
             "talent": "Unbreakable Spirit",
             "spell_id": 114154,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_holyguidance.jpg",
+            "desc": "Reduces the cooldown of your Divine Shield, Divine Protection, and Lay on Hands by 30%."
           }
         ]
       },
@@ -938,7 +1032,9 @@
             "talent": "Lightforged Blessing",
             "spell_id": 403479,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_circleofrenewal.jpg",
+            "desc": "Divine Storm heals you and up to 2 nearby allies for 35."
           }
         ]
       },
@@ -961,7 +1057,9 @@
             "talent": "Lead the Charge",
             "spell_id": 469780,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_helm_plate_raidpaladin_r_01mythic.jpg",
+            "desc": "Divine Steed reduces the cooldown of 4 nearby ally's major movement ability by 3.0 sec.\r\n\r\nYour movement speed is increased by 3%."
           }
         ]
       },
@@ -983,14 +1081,18 @@
             "talent": "Worthy Sacrifice",
             "spell_id": 469279,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_handoflight.jpg",
+            "desc": "You automatically cast Blessing of Sacrifice onto an ally within 40 yds when they are below 35% health and you are not in a loss of control effect.\r\n\r\nThis effect activates 100% of Blessing of Sacrifice's cooldown."
           },
           {
             "entry_id": "128248",
             "talent": "Righteous Protection",
             "spell_id": 469321,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_blessingofprotection.jpg",
+            "desc": "Blessing of Sacrifice now removes and prevents all Poison and Disease effects."
           }
         ]
       },
@@ -1013,7 +1115,9 @@
             "talent": "Holy Ritual",
             "spell_id": 199422,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_relics_libramoftruth.jpg",
+            "desc": "Allies are healed for 7,419 when you cast Blessing of Protection or Blessing of Sacrifice on them."
           }
         ]
       },
@@ -1036,7 +1140,9 @@
             "talent": "Blessed Calling",
             "spell_id": 469770,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_judgementofthepure.jpg",
+            "desc": "Allies affected by your Blessings have 15% increased movement speed."
           }
         ]
       },
@@ -1059,7 +1165,9 @@
             "talent": "Inspired Guard",
             "spell_id": 469439,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_divineprotection.jpg",
+            "desc": "Divine Protection increases healing taken by 15% for its duration."
           }
         ]
       },
@@ -1082,7 +1190,9 @@
             "talent": "Light's Revocation",
             "spell_id": 146956,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_divineshield.jpg",
+            "desc": "Removing harmful effects with Divine Shield heals you for 10% for each effect removed.  This heal cannot exceed 30% of your maximum health.\r\n\r\nDivine Shield may now be cast while Forbearance is active."
           }
         ]
       },
@@ -1105,7 +1215,9 @@
             "talent": "Faith's Armor",
             "spell_id": 406101,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_shield_1h_newplayer_a_01.jpg",
+            "desc": "Word of Glory grants 20% bonus armor for 4.5 sec."
           }
         ]
       },
@@ -1127,7 +1239,9 @@
             "talent": "Stoicism",
             "spell_id": 469316,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_magic_magearmor.jpg",
+            "desc": "The duration of stun effects on you is reduced by 20%."
           }
         ]
       },
@@ -1151,7 +1265,9 @@
             "talent": "Seal of Might",
             "spell_id": 385450,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_sealofwrath.jpg",
+            "desc": "Mastery increased by 2% and Intellect increased by 2%."
           }
         ]
       },
@@ -1175,7 +1291,9 @@
             "talent": "Vengeful Wrath",
             "spell_id": 1241958,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_paladin_hammerofwrath.jpg",
+            "desc": "Hammer of Wrath deals up to 50% additional damage based on its target's health. Lower health targets receive more damage."
           }
         ]
       },
@@ -1197,7 +1315,9 @@
             "talent": "Eye for an Eye",
             "spell_id": 469309,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_eyeforaneye.jpg",
+            "desc": "Melee and ranged attackers receive 133 Holy damage each time they strike you during Divine Protection and Divine Shield."
           }
         ]
       },
@@ -1220,14 +1340,18 @@
             "talent": "Golden Path",
             "spell_id": 377128,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_cascade.jpg",
+            "desc": "Consecration heals you and 5 allies within it for 2 every 0.9 sec."
           },
           {
             "entry_id": "128309",
             "talent": "Selfless Healer",
             "spell_id": 469434,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_gaurdedbythelight.jpg",
+            "desc": "Flash of Light and Holy Light are 30% more effective on your allies and 40% of the healing done also heals you."
           }
         ]
       },
@@ -1251,7 +1375,9 @@
             "talent": "Blessing of Dawn",
             "spell_id": 183416,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_zone_valeofeternalblossoms.jpg",
+            "desc": "While you are above 85% health, 5% of all damage taken by allies within 20 yds is redirected to you, up to a maximum of 1,527 every 5 sec."
           }
         ]
       },
@@ -1274,7 +1400,9 @@
             "talent": "Lightbearer",
             "spell_id": 469416,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_paladin_clarityofpurpose.jpg",
+            "desc": "10% of all healing done to you from other sources heals up to 4 nearby allies, divided evenly among them."
           }
         ]
       },
@@ -1298,7 +1426,9 @@
             "talent": "Blessing of Dusk",
             "spell_id": 1241945,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_zone_newshadowmoonvalley.jpg",
+            "desc": "Damage taken reduced by up to 10%, increasing as your health decreases."
           }
         ]
       }
@@ -1320,7 +1450,9 @@
             "talent": "Blade of Justice",
             "spell_id": 184575,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_bladeofjustice.jpg",
+            "desc": "Pierce an enemy with a blade of light, dealing 48 Holy damage.\r\n\r\nGenerates 1 Holy Power."
           }
         ]
       },
@@ -1342,7 +1474,9 @@
             "talent": "Divine Storm",
             "spell_id": 53385,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_divinestorm.jpg",
+            "desc": "Unleashes a whirl of divine energy, dealing 66 Holy damage to all nearby enemies. \r\n\r\nDeals reduced damage beyond 5 targets."
           }
         ]
       },
@@ -1364,7 +1498,9 @@
             "talent": "Expurgation",
             "spell_id": 383344,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_bladeofjusticeblue.jpg",
+            "desc": "Your Blade of Justice causes the target to burn for 27 Radiant damage over 9 sec. When reapplied, any remaining damage is added to the new effect."
           }
         ]
       },
@@ -1386,14 +1522,18 @@
             "talent": "Swift Justice",
             "spell_id": 383228,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_judgementofthepure.jpg",
+            "desc": "Reduces the cooldown of Judgment by 2 sec and Crusader Strike by 2 sec."
           },
           {
             "entry_id": "114828",
             "talent": "Light of Justice",
             "spell_id": 404436,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_offhand_1h_ulduarraid_d_01.jpg",
+            "desc": "Reduces the cooldown of Blade of Justice by 2 sec."
           }
         ]
       },
@@ -1416,7 +1556,9 @@
             "talent": "Judgment of Justice",
             "spell_id": 403495,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_judgementblue.jpg",
+            "desc": "Judgment deals 10% increased damage and increases your movement speed by 10% for 5 sec.\r\n\r\nIf you have Greater Judgment, Judgment slows enemies by 30% for 8 sec."
           }
         ]
       },
@@ -1438,7 +1580,9 @@
             "talent": "Avenging Wrath",
             "spell_id": 31884,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_avenginewrath.jpg",
+            "desc": "Call upon the Light to become an avatar of retribution, increasing your damage, healing, and critical strike chance by 20% for 20 sec."
           }
         ]
       },
@@ -1460,7 +1604,9 @@
             "talent": "Final Verdict",
             "spell_id": 383328,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_paladin_templarsverdict.jpg",
+            "desc": "Unleashes a powerful weapon strike that deals 142 Holy damage to an enemy target,\r\n\r\nFinal Verdict has a 15% chance to reset the cooldown of Judgment."
           }
         ]
       },
@@ -1484,14 +1630,18 @@
             "talent": "Improved Blade of Justice",
             "spell_id": 403745,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_bladeofjustice.jpg",
+            "desc": "Blade of Justice now has 2 charges."
           },
           {
             "entry_id": "115022",
             "talent": "Holy Blade",
             "spell_id": 383342,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_lightoftheprotector.jpg",
+            "desc": "Blade of Justice generates 1 additional Holy Power."
           }
         ]
       },
@@ -1513,14 +1663,18 @@
             "talent": "Righteous Cause",
             "spell_id": 402912,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_sword_133.jpg",
+            "desc": "Each Holy Power spent has a 6% chance to reset the cooldown of Blade of Justice."
           },
           {
             "entry_id": "102493",
             "talent": "Art of War",
             "spell_id": 406064,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_artofwar.jpg",
+            "desc": "Your auto attacks have a 15% chance to reset the cooldown of Blade of Justice.\r\n\r\nCritical strikes increase the chance by an additional 10%."
           }
         ]
       },
@@ -1542,7 +1696,9 @@
             "talent": "Jurisdiction",
             "spell_id": 402971,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_longarmofthelaw.jpg",
+            "desc": "Templar's Verdict and Blade of Justice deal 10% increased damage.\r\n\r\nThe range of Blade of Justice is increased to 20 yds."
           }
         ]
       },
@@ -1565,7 +1721,9 @@
             "talent": "Tempest of the Lightbringer",
             "spell_id": 383396,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_malkorok_blightofyshaarj_yellow.jpg",
+            "desc": "Divine Storm projects an additional wave of light, striking all enemies up to 20 yds in front of you for 20% of Divine Storm's damage."
           }
         ]
       },
@@ -1587,7 +1745,9 @@
             "talent": "Rush of Light",
             "spell_id": 407067,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_borrowedtime.jpg",
+            "desc": "The critical strikes of your Holy Power generating abilities grant you 5% Haste for 10 sec."
           }
         ]
       },
@@ -1610,7 +1770,9 @@
             "talent": "Sanctify",
             "spell_id": 382536,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_zone_firelands.jpg",
+            "desc": "Enemies hit by Divine Storm take 20% more damage from Consecration and Divine Hammers for 12 sec."
           }
         ]
       },
@@ -1632,7 +1794,9 @@
             "talent": "Holy Flames",
             "spell_id": 406545,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warlock_inferno.jpg",
+            "desc": "You deal 5% increased Holy damage to targets burning from your Expurgation."
           }
         ]
       },
@@ -1656,14 +1820,18 @@
             "talent": "Improved Judgment",
             "spell_id": 405461,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_righteousfury.jpg",
+            "desc": "Judgment now has 2 charges."
           },
           {
             "entry_id": "115021",
             "talent": "Boundless Judgment",
             "spell_id": 405278,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_judgementofthewise.jpg",
+            "desc": "Judgment has a 50% increased chance to trigger Mastery: Highlord's Judgment."
           }
         ]
       },
@@ -1686,7 +1854,9 @@
             "talent": "Zealot's Fervor",
             "spell_id": 403509,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_weaponmastery.jpg",
+            "desc": "Auto-attack speed increased by 20%."
           }
         ]
       },
@@ -1709,7 +1879,9 @@
             "talent": "Heart of the Crusader",
             "spell_id": 406154,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_brokenheart.jpg",
+            "desc": "Crusader Strike and auto-attacks deal 10% increased damage and deal 10% increased critical strike damage."
           }
         ]
       },
@@ -1733,7 +1905,9 @@
             "talent": "Blade of Vengeance",
             "spell_id": 403826,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_bladeofjustice.jpg",
+            "desc": "Blade of Justice now hits nearby enemies for 20 Holy damage. \r\n\r\nDeals reduced damage beyond 5 targets."
           }
         ]
       },
@@ -1756,7 +1930,9 @@
             "talent": "Empyrean Power",
             "spell_id": 326732,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_sheathoflight.jpg",
+            "desc": "Crusader Strike has a 15% chance to make your next Divine Storm free and deal 15% additional damage."
           }
         ]
       },
@@ -1779,7 +1955,9 @@
             "talent": "Highlord's Wrath",
             "spell_id": 404512,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_judgementred.jpg",
+            "desc": "Mastery: Highlord's Judgment is 50% more effective on Judgment and Hammer of Wrath. Judgment applies an additional stack of Greater Judgment if it is known."
           }
         ]
       },
@@ -1802,14 +1980,18 @@
             "talent": "Templar Strikes",
             "spell_id": 406646,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_sword_2h_artifactashbringer_d_01.jpg",
+            "desc": "Crusader Strike loses a charge but is now a combo ability.\r\n\r\nTemplar Strike slashes an enemy for 43 Radiant damage and gets followed up by Templar Slash that deals 50 Radiant damage. Templar Slash always critically strikes."
           },
           {
             "entry_id": "136809",
             "talent": "Crusading Strikes",
             "spell_id": 404542,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_sword_08.jpg",
+            "desc": "Crusader Strike replaces your auto-attacks and deals 80 Physical damage, but you auto-attack 20% slower."
           }
         ]
       },
@@ -1832,7 +2014,9 @@
             "talent": "Blessed Champion",
             "spell_id": 403010,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_bg_trueavshutout.jpg",
+            "desc": "Crusader Strike and Judgment hit an additional 4 targets but deal 25% reduced damage to secondary targets."
           }
         ]
       },
@@ -1855,7 +2039,9 @@
             "talent": "Burning Crusade",
             "spell_id": 403026,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_sealoffire.jpg",
+            "desc": "Your damage over time effects deal 10% more damage."
           }
         ]
       },
@@ -1878,7 +2064,9 @@
             "talent": "Blades of Light",
             "spell_id": 403664,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_arena_3v3_7.jpg",
+            "desc": "Crusader Strike, Judgment and Blade of Justice deal 10% increased damage."
           }
         ]
       },
@@ -1902,7 +2090,9 @@
             "talent": "Wake of Ashes",
             "spell_id": 255937,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_sword_2h_artifactashbringerfire_d_03.jpg",
+            "desc": "Lash out at your enemies, dealing 112 Radiant damage to all enemies within 14 yds in front of you, and applying Truth's Wake, burning the targets for an additional 67 damage over 9 sec.\r\n\r\nDemon and Undead enemies are also stunned for 5 sec.\r\n\r\nGenerates 3 Holy Power."
           }
         ]
       },
@@ -1925,7 +2115,9 @@
             "talent": "Divine Wrath",
             "spell_id": 406872,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_greaterblessingofkings.jpg",
+            "desc": "Increases the duration of Avenging Wrath or Crusade by 4 sec."
           }
         ]
       },
@@ -1947,7 +2139,9 @@
             "talent": "Execution Sentence",
             "spell_id": 343527,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_paladin_executionsentence.jpg",
+            "desc": "Unleash a heavenly blast around the target, dealing 176 Holy damage to all enemies nearby, and call down a hammer that slowly falls from the sky upon the target. \r\n\r\nAfter 10 sec, they suffer 20% of the Holy damage you dealt to all targets affected by the initial blast during that time."
           }
         ]
       },
@@ -1969,7 +2163,9 @@
             "talent": "Seething Flames",
             "spell_id": 405355,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_flamecannon.jpg",
+            "desc": "Wake of Ashes deals significantly reduced damage to secondary targets, but now causes you to lash out 2 extra times for 79 Radiant damage."
           }
         ]
       },
@@ -1991,7 +2187,9 @@
             "talent": "Empyrean Legacy",
             "spell_id": 387170,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/item_holyspark.jpg",
+            "desc": "Avenging Wrath empowers your next Word of Glory to automatically activate Light of Dawn with 25% increased effectiveness."
           }
         ]
       },
@@ -2013,7 +2211,9 @@
             "talent": "Judge, Jury and Executioner",
             "spell_id": 406157,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_sealofblood.jpg",
+            "desc": "Holy Power spending abilities deal 5% increased damage.\r\n\r\nAfter casting Execution Sentence, your next 1 Holy Power ability will refund its Holy Power cost."
           }
         ]
       },
@@ -2035,7 +2235,9 @@
             "talent": "Radiant Glory",
             "spell_id": 458359,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_dungeon_gloryoftheraider.jpg",
+            "desc": "Avenging Wrath is replaced with Radiant Glory.\r\n\r\nRadiant Glory\r\nWake of Ashes activates Avenging Wrath for 8 sec."
           }
         ]
       },
@@ -2057,7 +2259,9 @@
             "talent": "Burn to Ash",
             "spell_id": 446663,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_burningsoul.jpg",
+            "desc": "When Truth's Wake critically strikes, its duration is extended by 2 sec.\r\n\r\nYour other damage over time effects deal 30% increased damage to targets affected by Truth's Wake."
           }
         ]
       },
@@ -2079,7 +2283,9 @@
             "talent": "Crusade",
             "spell_id": 1253598,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_sanctifiedwrath.jpg",
+            "desc": "Avenging Wrath now grants you 2% Haste.\r\n\r\nEach Holy Power spent during Avenging Wrath increases Haste by an additional 2%, up to 20%."
           }
         ]
       },
@@ -2099,7 +2305,9 @@
             "talent": "Light Within",
             "spell_id": 1261113,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_apextalent_paladin_lightwithin.jpg",
+            "desc": "Art of War increases the damage of your next Blade of Justice by 150%."
           }
         ]
       }
@@ -2124,7 +2332,9 @@
               "talent": "Wrathful Descent",
               "spell_id": 431551,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_intercession.jpg",
+              "desc": "When Empyrean Hammer critically strikes, 50% of its damage is dealt to nearby enemies.\r\n\r\nEnemies hit by this effect deal 5% reduced damage to you for 8 sec."
             }
           ]
         },
@@ -2146,7 +2356,9 @@
               "talent": "Higher Calling",
               "spell_id": 431687,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_toweroflight.jpg",
+              "desc": "Crusader Strike, Hammer of Wrath and Blade of Justice extend the duration of Shake the Heavens by 1 sec."
             }
           ]
         },
@@ -2168,7 +2380,9 @@
               "talent": "Sacrosanct Crusade",
               "spell_id": 431730,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_plate_raidpaladinprimalist_d_01_cape.jpg",
+              "desc": "Wake of Ashes surrounds you with a Holy barrier for 10% of your maximum health.\r\n\r\nHammer of Light heals you for 5% of your maximum health, increased by 1% for each additional target hit. Any overhealing done with this effect gets converted into a Holy barrier instead."
             }
           ]
         },
@@ -2188,7 +2402,9 @@
               "talent": "Light's Guidance",
               "spell_id": 427445,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_longarmofthelaw.jpg",
+              "desc": "Wake of Ashes is replaced with Hammer of Light for 20 sec after it is cast.\r\n\r\n Hammer of Light:\r\nHammer down your enemy with the power of the Light, dealing 242 Holy damage and 121 Holy damage up to 7 nearby enemies. \r\n\r\nAdditionally, calls down Empyrean Hammers from the sky to strike 3 nearby enemies for 16 Holy damage each.\r\n\r\nCosts 5 Holy Power."
             }
           ]
         },
@@ -2210,14 +2426,18 @@
               "talent": "Bonds of Fellowship",
               "spell_id": 432992,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_crusade.jpg",
+              "desc": "You receive 20% less damage from Blessing of Sacrifice and each time its target takes damage, you gain 4% movement speed up to a maximum of 40%."
             },
             {
               "entry_id": "117858",
               "talent": "Unrelenting Charger",
               "spell_id": 432990,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mount_mawhorsespikes_yellow.jpg",
+              "desc": "Divine Steed lasts 2 sec longer and increases your movement speed by an additional 30% for the first 3 sec."
             }
           ]
         },
@@ -2242,7 +2462,9 @@
               "talent": "Light's Deliverance",
               "spell_id": 425518,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_glove_plate_raidpaladinmythic_q_01.jpg",
+              "desc": "You gain a stack of Light's Deliverance when you call down an Empyrean Hammer.\r\n\r\nWhile Wake of Ashes and Hammer of Light are unavailable, you consume 60 stacks of Light's Deliverance, empowering yourself to cast Hammer of Light an additional time for free."
             }
           ]
         },
@@ -2264,7 +2486,9 @@
               "talent": "Zealous Vindication",
               "spell_id": 431463,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_surgeoflight.jpg",
+              "desc": "Hammer of Light instantly calls down 2 Empyrean Hammers on your target when it is cast."
             }
           ]
         },
@@ -2286,7 +2510,9 @@
               "talent": "Hammerfall",
               "spell_id": 432463,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_enlightenedjudgements.jpg",
+              "desc": "Templar's Verdict calls down an Empyrean Hammer on a nearby enemy.\r\n\r\nWhile Shake the Heavens is active, this effect calls down an additional Empyrean Hammer."
             }
           ]
         },
@@ -2308,14 +2534,18 @@
               "talent": "Endless Wrath",
               "spell_id": 432615,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_divinepurpose.jpg",
+              "desc": "Empyrean Hammer has a 10% increased chance to critically strike."
             },
             {
               "entry_id": "117819",
               "talent": "Sanctification",
               "spell_id": 432977,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_blessedhands.jpg",
+              "desc": "Casting Judgment increases the damage of Empyrean Hammer by 5% for 10 sec.\r\n\r\nMultiple applications may overlap."
             }
           ]
         },
@@ -2337,7 +2567,9 @@
               "talent": "Undisputed Ruling",
               "spell_id": 432626,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_righteousfury.jpg",
+              "desc": "Hammer of Light applies Judgment to its targets, and increases your Haste by 12% for 6 sec."
             }
           ]
         },
@@ -2359,7 +2591,9 @@
               "talent": "Shake the Heavens",
               "spell_id": 431533,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_holybolts01.jpg",
+              "desc": "After casting Hammer of Light, you call down an Empyrean Hammer on a nearby target every 2 sec, for 8 sec."
             }
           ]
         },
@@ -2381,14 +2615,18 @@
               "talent": "Divine Exaction",
               "spell_id": 1260429,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_paladin_divinetoll.jpg",
+              "desc": "Divine Toll casts 2 additional times on your target at 150% effectiveness."
             },
             {
               "entry_id": "136184",
               "talent": "Seal of the Templar",
               "spell_id": 1263252,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_paladin_templarsverdict.jpg",
+              "desc": "Templar's Verdict damage increased by 25%."
             }
           ]
         },
@@ -2410,7 +2648,9 @@
               "talent": "Light's Judicator",
               "spell_id": 1261525,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_judgementofthepure.jpg",
+              "desc": "Empyrean Hammer deals 20% increased critical strike damage and its critical strikes have 50% chance to grant an additional stack of Light's Deliverance."
             }
           ]
         },
@@ -2432,7 +2672,9 @@
               "talent": "Divine Hammer",
               "spell_id": 432929,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/classicon_paladin.jpg",
+              "desc": "Divine Toll summons Divine Hammers that spin around you for 8 sec.\r\n\r\nDivine Hammer\r\nStrikes all enemies nearby for 50 Holy damage every 2 sec. Deals reduced damage beyond 8 targets."
             }
           ]
         }
@@ -2456,7 +2698,9 @@
               "talent": "Aurora",
               "spell_id": 439760,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_rune.jpg",
+              "desc": "After you cast Holy Prism or Divine Toll, gain Divine Purpose.\r\n\r\n Divine Purpose\r\nYour next Holy Power spending ability is free and deals 15% increased damage and healing."
             }
           ]
         },
@@ -2478,14 +2722,18 @@
               "talent": "Blessing of An'she",
               "spell_id": 445200,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_holyfire_orb.jpg",
+              "desc": "The healing and damage of Holy Shock is increased by 15%."
             },
             {
               "entry_id": "117779",
               "talent": "Lingering Radiance",
               "spell_id": 431407,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_mindvision.jpg",
+              "desc": "Dawnlight leaves an Eternal Flame for 6 sec on allies or a Greater Judgment on enemies when it expires or is extended."
             }
           ]
         },
@@ -2507,7 +2755,9 @@
               "talent": "Sun Sear",
               "spell_id": 431413,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_priest_burningwill.jpg",
+              "desc": "Holy Shock and Light of Dawn critical strikes cause the target to be healed for an additional 281 over 4 sec."
             }
           ]
         },
@@ -2529,14 +2779,18 @@
               "talent": "Morning Star",
               "spell_id": 431482,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_persecution.jpg",
+              "desc": "Every 5.0 sec, your next Dawnlight's damage or healing is increased by 5%, stacking up to 10 times.\r\n\r\nMorning Star stacks twice as fast while out of combat."
             },
             {
               "entry_id": "117778",
               "talent": "Gleaming Rays",
               "spell_id": 431480,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_priest_powerword.jpg",
+              "desc": "Your Holy Power spenders deal 3% additional damage and healing."
             }
           ]
         },
@@ -2558,7 +2812,9 @@
               "talent": "Luminosity",
               "spell_id": 431402,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_qirajidol_sun.jpg",
+              "desc": "Critical Strike chance of Holy Shock and Light of Dawn increased by 5%."
             }
           ]
         },
@@ -2580,7 +2836,9 @@
               "talent": "Second Sunrise",
               "spell_id": 431474,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_halo.jpg",
+              "desc": "Light of Dawn and Holy Shock have a 15% chance to cast again at 30% effectiveness."
             }
           ]
         },
@@ -2602,7 +2860,9 @@
               "talent": "Walk Into Light",
               "spell_id": 1263782,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_sheathoflight.jpg",
+              "desc": "Infusion of Light occurs 100% more often during Avenging Wrath."
             }
           ]
         },
@@ -2624,7 +2884,9 @@
               "talent": "Eternal Flame",
               "spell_id": 156322,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_torch_thrown.jpg",
+              "desc": "Heals an ally for 1,436 and an additional 465 over 16 sec.\r\n\r\nHealing increased by 25% when cast on self."
             }
           ]
         },
@@ -2646,14 +2908,18 @@
               "talent": "Illumine",
               "spell_id": 431423,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_divineillumination.jpg",
+              "desc": "Dawnlight reduces the movement speed of enemies by 50% and increases the movement speed of allies by 20%."
             },
             {
               "entry_id": "117777",
               "talent": "Will of the Dawn",
               "spell_id": 431406,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_divineprovidence.jpg",
+              "desc": "Movement speed increased by 5% while above 80% health.\r\n\r\nWhen your health is brought below 35%, your movement speed is increased by 40% for 5 sec. Cannot occur more than once every 1 min."
             }
           ]
         },
@@ -2673,7 +2939,9 @@
               "talent": "Dawnlight",
               "spell_id": 431377,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_heraldofthesunpaladin_dawnlight.jpg",
+              "desc": "Casting Holy Prism or Divine Toll causes your next 2 Holy Power spending abilities to apply Dawnlight on your target, dealing 1,327 Radiant damage or 2,802 healing over 8 sec.\r\n\r\n8% of Dawnlight's damage and healing radiates to nearby allies or enemies, reduced beyond 5 targets.\r\n\r\nDawnlight's healing does not transfer to Beacon of Light."
             }
           ]
         },
@@ -2698,7 +2966,9 @@
               "talent": "Sun's Avatar",
               "spell_id": 431425,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_holyavenger.jpg",
+              "desc": "You link to your Dawnlights within 30 yds, causing 82 Radiant damage to enemies or 141 healing to allies that pass through the beams, reduced beyond 5 targets."
             }
           ]
         },
@@ -2720,7 +2990,9 @@
               "talent": "Endless Gleam",
               "spell_id": 1263787,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_paladin_inquisition.jpg",
+              "desc": "Dawnlight's duration is increased by 0.5 sec when it heals an ally with full health."
             }
           ]
         },
@@ -2742,7 +3014,9 @@
               "talent": "Born in Sunlight",
               "spell_id": 1263920,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_paladin_lightofdawn.jpg",
+              "desc": "Dawnlight's critical strike chance is increased by 15% during Avenging Wrath."
             }
           ]
         },
@@ -2764,7 +3038,9 @@
               "talent": "Solar Grace",
               "spell_id": 431404,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_malkorok_blightofyshaarj_yellow.jpg",
+              "desc": "Haste is increased by 5%."
             }
           ]
         }

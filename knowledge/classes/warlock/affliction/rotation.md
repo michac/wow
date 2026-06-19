@@ -1,9 +1,11 @@
 ---
 title: Affliction Warlock — Rotation (Midnight Season 1)
-patch: 12.0.5
-fetched: 2026-06-03
+patch: 12.0.7
+fetched: 2026-06-19
 sources:
   - simc midnight branch profiles/MID1/MID1_Warlock_Affliction.simc  # tier 1 APL, commit 204b88d 2026-06-02, WoW 12.0.5.67823
+  - https://www.wowhead.com/news/affliction-warlock-restoration-druid-and-frost-mage-issues-resolved-midnight-381441  # tier 4, 12.0.7 hotfix mechanic fixes
+  - https://www.icy-veins.com/wow/affliction-warlock-pve-dps-rotation-cooldowns-abilities  # tier 3, 12.0.7 rotation corroboration
 confidence: high
 ---
 
@@ -12,6 +14,25 @@ confidence: high
 Distilled from the SimulationCraft default APL (tier 1). The APL branches
 by hero tree (Soul Harvester / Hellcaller) and enemy count (1 / 2 / 3+).
 Soul Harvester lists below — it's the only S1 build (see `builds.md`).
+
+> **12.0.7 "Revelations" (live 2026-06-16) — mechanic hotfixes, no number
+> retuning for the core spec.** Three resource bugs were corrected, all of
+> which were leaking value out of the shard economy below:
+> - **Shard Instability** is no longer fully consumed by a single Unstable
+>   Affliction cast — only one stack per UA, as intended. Before the fix a
+>   UA could eat *all* stacks, so banking Shard Instability for free UAs
+>   now actually pays off (see the UA spender rule below).
+> - **Fatal Echoes**-applied Unstable Affliction no longer wrongly consumes
+>   a Soul Shard or a Shard Instability stack. The free echoed UAs are now
+>   genuinely free — treat them as a damage bonus, not a shard drain.
+> - **Soul Swap** no longer carries Unstable Affliction stacks across an
+>   instance entry/exit (zoning into a delve/dungeon/raid). No rotational
+>   action needed; just don't expect pre-pulled UA stacks to survive a load
+>   screen anymore.
+>
+> The priority ordering itself is unchanged from 12.0.5 (corroborated vs the
+> 12.0.7 Icy Veins rotation guide). Re-sim against an updated 12.0.7 APL when
+> the simc midnight branch publishes one (see TODO).
 
 ## Pre-combat
 
@@ -36,7 +57,9 @@ Soul Harvester lists below — it's the only S1 build (see `builds.md`).
 5. **Summon Darkglare** (once Dark Harvest is on CD)
 6. At **2+ Nightfall stacks**: Malefic Grasp > Drain Soul > Shadow Bolt
 7. **Unstable Affliction** with any shard or Shard Instability proc
-   (primary spender; feeds succulent shards / Demonic Soul)
+   (primary spender; feeds succulent shards / Demonic Soul). As of 12.0.7
+   each UA consumes only **one** Shard Instability stack, so you can chain
+   UAs through a multi-stack Shard Instability window without wasting it.
 8. Filler: Malefic Grasp during Darkglare (if talented — Shadow Bolt
    *becomes* Malefic Grasp while Darkglare is active) → **Drain Soul**
    (if a Nightfall proc appears mid-channel, restart the channel so the
@@ -86,4 +109,8 @@ in top M+ (see `builds.md`); not distilled here.
 - [x] Cooldown usage rules — Dark Harvest→Darkglare pairing, trinket sync
 - [ ] Sanity-check the opener against a top WCL log (`wowkb.wcl rankings`
       → `casts`) per the original sourcing plan
-- [ ] Re-distill on 12.0.7 (PTR APL may change)
+- [~] Re-distill on 12.0.7 — 12.0.7 went live 2026-06-16; the three hotfix
+      mechanic fixes (Shard Instability / Fatal Echoes / Soul Swap) are
+      captured above and priority ordering is unchanged (corroborated vs Icy
+      Veins 12.0.7). Still pending: a refreshed simc midnight 12.0.7 APL for
+      a full numeric re-distill (none published as of 2026-06-19).

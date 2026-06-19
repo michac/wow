@@ -8,8 +8,10 @@ export interface Entry {
   spell: number;
   ranks: number;
   choice: number;
-  // Stage A (python, later) will add:
-  icon?: string;
+  // Stage A enrichment (build-data passthrough): icon is a full Blizzard media
+  // URL, or null on a miss (choice/aura spells with no media). desc is the
+  // spell's tooltip text ("" on a miss). Optional so pre-enrichment data loads.
+  icon?: string | null;
   desc?: string;
 }
 

@@ -1,11 +1,13 @@
 ---
 title: Professions & Spark Crafting (Midnight)
-patch: 12.0.5
-fetched: 2026-06-03
+patch: 12.0.7
+fetched: 2026-06-19
 sources:
   - https://www.icy-veins.com/wow/spark-crafting-guide
   - https://www.method.gg/guides/how-to-gear-fast-and-reach-item-level-289-for-midnight-season-1
   - https://www.wowhead.com/news/sparks-of-radiance-for-crafting-now-available-in-midnight-easiest-spark-quest-380617
+  - https://worldofwarcraft.blizzard.com/en-us/news/24244888/revelations-content-update-notes
+  - https://www.wowhead.com/news/save-gold-on-repairs-with-weapon-durability-changes-in-patch-12-0-7-381744
 confidence: medium
 ---
 
@@ -118,6 +120,32 @@ are usually cheap enough to be the default buy.
   refuse to drop.
 - **Crafted gear cannot be catalyzed** — never spark-craft tier slots
   (head/shoulders/chest/hands/legs). See `../endgame/catalyst.md`.
+
+## Durability & repair economy (12.0.7 "Revelations")
+
+As of patch **12.0.7** (live 2026-06-16), **weapons and armor no longer take
+durability damage from combat events** (attacking, blocking, etc.). Blizzard's
+stated rationale: combat durability loss hit specs asymmetrically, so the
+removal flattens it — **all** players see less wear, but **shield users and
+fast-weapon specs** (which racked up the most hits) see the largest drop.
+Practical effect: **tanks and melee**, historically the heaviest repair bills
+in a tier, get the biggest relief.
+
+What this does **not** change:
+
+- **Death still costs durability** — dying (releasing/wiping) remains the
+  primary remaining durability sink. The patch notes only removed the
+  per-hit combat wear, not the on-death penalty. So repairs aren't gone,
+  just much cheaper for active play between deaths.
+- No change to repair vendor mechanics, repair-mount access, or guild-bank
+  repair funds; repair *cost per point* is unchanged — players simply lose
+  far fewer points.
+
+Profession-relevant takeaway: there is **no durability/repair crafting
+profession** in Midnight (repairs are vendor/mount-based, not crafted), so
+this is an indirect economy effect — lower routine gold drain on geared
+characters, modestly more disposable gold for crafted-gear commissions and
+reagents. It does not touch Blacksmithing/Engineering recipes.
 
 ## TODO
 

@@ -3,6 +3,7 @@
   import { NODE } from "../lib/layout";
   import type { BuildController } from "../lib/build.svelte";
   import type { NodeStatus } from "../lib/validate";
+  import { tooltip } from "../lib/tooltip.svelte";
 
   let {
     placed,
@@ -31,18 +32,27 @@
   const chosen = $derived(controller.build.get(node.id)?.choice ?? null);
 
   const label = $derived(node.entries.map((e) => e.name).join(" / "));
-  const title = $derived(buildTitle());
-  function buildTitle(): string {
-    const base = node.entries
-      .map((e) => `${e.name}${e.ranks > 1 ? ` (${e.ranks} ranks)` : ""}`)
-      .join("\n— or —\n");
-    if (nodeStatus?.reason === "gate") {
-      return `${base}\n\n🔒 Requires ${node.req} points spent in this tree`;
-    }
-    if (nodeStatus?.reason === "prereq") {
-      return `${base}\n\n🔒 Requires its prerequisite talent`;
-    }
-    return base + (node.req ? `\n\nRequires ${node.req} points spent` : "");
+
+  // Per-entry icon-load failures → fall back to the gradient swatch (onerror).
+  let iconFailed = $state<Record<number, boolean>>({});
+  function onIconError(entryId: number) {
+    iconFailed = { ...iconFailed, [entryId]: true };
+  }
+  function showIcon(e: { id: number; icon?: string | null }): boolean {
+    return !!e.icon && !iconFailed[e.id];
+  }
+
+  // --- Tooltip routing (shared app-level Tooltip, driven by hover/focus) ---
+  function openTip(e: MouseEvent | FocusEvent) {
+    const x = "clientX" in e ? e.clientX : placed.cx;
+    const y = "clientY" in e ? e.clientY : placed.cy;
+    tooltip.show(node, nodeStatus, x, y);
+  }
+  function moveTip(e: MouseEvent) {
+    tooltip.move(e.clientX, e.clientY);
+  }
+  function closeTip() {
+    tooltip.hide();
   }
 
   // --- Click routing (shared by single nodes and choice halves) ---
@@ -88,21 +98,46 @@
   class:locked
   style="left: {placed.cx - NODE / 2}px; top: {placed.cy - NODE / 2}px;
          width: {NODE}px; height: {NODE}px;"
-  {title}
   role="button"
   tabindex="-1"
   oncontextmenu={onRight}
   onclick={(e) => !isChoice && onLeft(e)}
   onkeydown={onKey}
+  onmouseenter={openTip}
+  onmousemove={moveTip}
+  onmouseleave={closeTip}
+  onfocusin={openTip}
+  onfocusout={closeTip}
 >
-  <!-- Icon slug lands in Stage A; placeholder swatch for now. -->
-  <div class="icon"></div>
+  <!-- Real icons (Blizzard media URLs) with a gradient-swatch fallback. CHOICE
+       nodes show each half's icon side by side. -->
+  <div class="icon">
+    {#if isChoice}
+      {#each node.entries as e (e.id)}
+        <div class="icon-half">
+          {#if showIcon(e)}
+            <img src={e.icon} alt={e.name} loading="lazy" onerror={() => onIconError(e.id)} />
+          {:else}
+            <div class="swatch choice"></div>
+          {/if}
+        </div>
+      {/each}
+    {:else if showIcon(node.entries[0])}
+      <img
+        src={node.entries[0].icon}
+        alt={label}
+        loading="lazy"
+        onerror={() => onIconError(node.entries[0].id)}
+      />
+    {:else}
+      <div class="swatch"></div>
+    {/if}
+  </div>
   {#if isChoice}
     <!-- Two halves; clicking one picks that choiceIndex (swaps, never stacks). -->
     <button
       class="half left"
       class:picked={selected && chosen === 0}
-      title={node.entries[0]?.name}
       onclick={(e) => onLeft(e, 0)}
       oncontextmenu={onRight}
       aria-label={node.entries[0]?.name}
@@ -110,7 +145,6 @@
     <button
       class="half right"
       class:picked={selected && chosen === 1}
-      title={node.entries[1]?.name}
       onclick={(e) => onLeft(e, 1)}
       oncontextmenu={onRight}
       aria-label={node.entries[1]?.name}
@@ -142,14 +176,33 @@
     border-radius: 6px;
   }
   /* Fill clips to the node's shape, so circles read as circles and choice
-     nodes read as split. Placeholder gradient until Stage A supplies icons. */
+     nodes read as split. Real icons (img) with a gradient-swatch fallback. */
   .icon {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     border-radius: inherit;
+    overflow: hidden;
+    display: flex;
+  }
+  .icon :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .icon-half {
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+  }
+  .swatch {
+    width: 100%;
+    height: 100%;
     background: radial-gradient(circle at 50% 38%, #3a3f4b, #181a20);
   }
-  .node.choice .icon {
+  .swatch.choice {
     background: linear-gradient(135deg, #3a3f4b 0 48%, #5a4a2a 52% 100%);
   }
 

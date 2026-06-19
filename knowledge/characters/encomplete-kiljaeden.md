@@ -1,7 +1,7 @@
 ---
 title: Encomplete – Kil'jaeden (US) — main character snapshot
-patch: 12.0.5
-fetched: 2026-06-03
+patch: 12.0.7
+fetched: 2026-06-19          # gear section; sections below still from 2026-06-03
 sources:
   - https://us.api.blizzard.com/profile/wow/character/kiljaeden/encomplete?namespace=profile-us
 confidence: high
@@ -22,28 +22,39 @@ confidence: high
 - Level **90** (cap), Alliance, guild **The Soggy Bottom Boys** (Kil'jaeden)
 - Title: Champion of the Frozen Wastes · 7,125 achievement points
 
-## Gear (equipped ilvl 236, bags 237)
+## Gear (equipped avg ilvl 260.3, 2026-06-19)
 
-| Slot | ilvl | Item |
-|---|---|---|
-| Head | 246 | Silvermoon Sunspire |
-| Neck | 233 | Preyseeker's Choker (socketed) |
-| Shoulders | 224 | Sprawling Fibershells |
-| Chest | 253 | Wretched Scholar's Gilded Robe |
-| Waist | 214 | Voidbreaker's Clasp |
-| Legs | 214 | Courtly Pants |
-| Feet | 227 | Sprawling Rootpads |
-| Wrist | 233 | Sprawling Wristroots |
-| Hands | 233 | Preyseeker's Refined Gloves |
-| Ring 1 | 237 | Forest Hunter's Hoop (socketed) |
-| Ring 2 | 233 | Radiant Phoenix Band (socketed) |
-| Trinket 1 | 246 | Glorious Crusader's Keepsake |
-| Trinket 2 | 250 | Sylvan Wakrapuku |
-| Back | 246 | Voidbreaker's Cape |
-| Main Hand | 246 | Elderoot Spire |
+| Slot | ilvl | id | Item |
+|---|---|---|---|
+| Head | 272 | 250042 | Abyssal Immolator's Smoldering Flames *(tier)* |
+| Neck | 256 | 249626 | Nocturnal Thorncharm |
+| Shoulders | 263 | 250040 | Abyssal Immolator's Fury *(tier; Champion-maxed)* |
+| Chest | 272 | 250045 | Abyssal Immolator's Dreadrobe *(tier)* |
+| Waist | 259 | 239649 | Martyr's Waistwrap *(crafted)* |
+| Legs | 272 | 250041 | Abyssal Immolator's Pillars *(tier)* |
+| Feet | 259 | 263783 | Voidwind Boots *(Hero 1/6 — accolade buy 2026-06-19)* |
+| Wrist | 250 | 249636 | Sprawling Wristroots |
+| Hands | 259 | 263813 | Handguards of Voidcendence *(Hero 1/6 — accolade buy 2026-06-19)* |
+| Ring 1 | 259 | 259912 | Preyseeker's Signet *(vault pick 2026-06-18)* |
+| Ring 2 | 253 | 249620 | Vibrant Wilderloop (gem `26stragiint`) |
+| Trinket 1 | 250 | 251785 | Void-Reaper's Libram |
+| Trinket 2 | 259 | 251784 | Sylvan Wakrapuku |
+| Back | 250 | 249619 | Sprawling Mycoshroud |
+| Main Hand | 272 | 245770 | Aln'hara Cane *(crafted)* |
 
-Notable gaps at fetch time: **no permanent enchants detected on any slot**;
-weakest slots are **waist/legs (214)** and **shoulders (224)**.
+**4-piece Abyssal Immolator tier** = head/shoulders/chest/legs (shoulders the
+only tier slot still Champion-capped at 263 — needs a Hero piece + Catalyst).
+
+**Lowest / next upgrade targets:** Wrist 250, Back 250, Trinket 1 250,
+Ring 2 253, Neck 256. Hero-track pieces to crest toward 276:
+Hands/Feet/Signet (259, Hero 1/6).
+
+> Gear-decision rationale and sims: `../classes/warlock/affliction/sims.md`
+> (vault pick + Field-Accolade slot priority, 2026-06-18/19).
+
+> ⚠ **Sections below this line are from the 2026-06-03 fetch** (only the gear
+> table above was refreshed 2026-06-19). Re-fetch renown/currencies/progress
+> live before relying on them.
 
 ## Season 1 progress
 

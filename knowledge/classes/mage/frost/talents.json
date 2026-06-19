@@ -20,6 +20,12 @@
       "Spellslinger"
     ]
   },
+  "level_cap": 90,
+  "budgets": {
+    "class": 34,
+    "spec": 34,
+    "hero": 13
+  },
   "trees": {
     "class": [
       {
@@ -38,7 +44,9 @@
             "talent": "Ice Barrier",
             "spell_id": 11426,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_ice_lament.jpg",
+            "desc": "Shields you with ice, absorbing 9,165 damage for 1 min.\r\n\r\nMelee attacks against you reduce the attacker's movement speed by 50%."
           }
         ]
       },
@@ -60,7 +68,9 @@
             "talent": "Alter Time",
             "spell_id": 342245,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_mage_altertime.jpg",
+            "desc": "Alters the fabric of time, returning you to your current location and health when cast a second time, or after 10 sec. Effect negated by long distance or death."
           }
         ]
       },
@@ -82,7 +92,9 @@
             "talent": "Ice Block",
             "spell_id": 45438,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_frost.jpg",
+            "desc": "Encases you in a block of ice, protecting you from all attacks and damage for 10 sec, but during that time you cannot attack, move, or cast spells.\r\n\r\nCauses Hypothermia, preventing you from recasting Ice Block for 30 sec."
           }
         ]
       },
@@ -104,14 +116,18 @@
             "talent": "Time Walk",
             "spell_id": 1244087,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/warrior_doubletime.jpg",
+            "desc": "Alter Time resets the cooldown of Blink and Shimmer when you return to your original location."
           },
           {
             "entry_id": "134182",
             "talent": "Temporal Realignment",
             "spell_id": 1244090,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_timedilation.jpg",
+            "desc": "Upon dropping below 25% health, your past self corrects your timeline, casting Alter Time and instantly returning 50% of your maximum health."
           }
         ]
       },
@@ -133,7 +149,9 @@
             "talent": "Master of Time",
             "spell_id": 342249,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_belt_armor_waistoftime_d_01.jpg",
+            "desc": "Reduces the cooldown of Alter Time by 5 sec."
           }
         ]
       },
@@ -155,7 +173,9 @@
             "talent": "Winter's Protection",
             "spell_id": 382424,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_ice_rune.jpg",
+            "desc": "The cooldown of Ice Block is reduced by 30 sec."
           }
         ]
       },
@@ -177,7 +197,9 @@
             "talent": "Frost Conditioning",
             "spell_id": 1250315,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_icefloes.jpg",
+            "desc": "Hypothermia's duration is reduced by 10 sec."
           }
         ]
       },
@@ -200,7 +222,9 @@
             "talent": "Arcane Warding",
             "spell_id": 383092,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_arcaneresilience.jpg",
+            "desc": "Reduces magic damage taken by 4%."
           }
         ]
       },
@@ -223,7 +247,9 @@
             "talent": "Inspired Intellect",
             "spell_id": 458437,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_arcaneintellect.jpg",
+            "desc": "Arcane Intellect grants you an additional 2% Intellect."
           }
         ]
       },
@@ -246,7 +272,9 @@
             "talent": "Mirror Image",
             "spell_id": 55342,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_magic_lesserinvisibilty.jpg",
+            "desc": "Creates 3 copies of you nearby for 15 sec, which cast spells and attack your enemies. While active, you generate significantly reduced threat.\r\n\r\nTaking direct damage will cause one of your images to dissipate"
           }
         ]
       },
@@ -268,7 +296,9 @@
             "talent": "Spellsteal",
             "spell_id": 30449,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_arcane02.jpg",
+            "desc": "Steals a beneficial magic effect from the target. This effect lasts a maximum of 2 min."
           }
         ]
       },
@@ -291,7 +321,9 @@
             "talent": "Quick Witted",
             "spell_id": 382297,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_surgeofdarkness.jpg",
+            "desc": "Counterspell's cooldown is reduced by 5 sec."
           }
         ]
       },
@@ -313,14 +345,18 @@
             "talent": "Dragon's Breath",
             "spell_id": 31661,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_head_dragon_01.jpg",
+            "desc": "Enemies in a 12 yd cone in front of you take 264 Fire damage and are disoriented for 4 sec. Damage will cancel the effect."
           },
           {
             "entry_id": "125818",
             "talent": "Supernova",
             "spell_id": 157980,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_mage_supernova.jpg",
+            "desc": "Pulses arcane energy around the target enemy or ally, dealing 169 Arcane damage to all enemies within 8 yds, and knocking them upward. A primary enemy target will take 100% increased damage."
           }
         ]
       },
@@ -343,7 +379,9 @@
             "talent": "Remove Curse",
             "spell_id": 475,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_removecurse.jpg",
+            "desc": "Removes all Curses from a friendly target."
           }
         ]
       },
@@ -365,7 +403,9 @@
             "talent": "Improved Conjuration",
             "spell_id": 1244025,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_focusedpower.jpg",
+            "desc": "Mirror Image's cooldown is reduced by 30 sec."
           }
         ]
       },
@@ -387,7 +427,9 @@
             "talent": "Improved Spellsteal",
             "spell_id": 1270827,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_arcane02.jpg",
+            "desc": "Spellsteal repeats its effect after 4 sec, but it now has a cooldown of 4.0 sec."
           }
         ]
       },
@@ -410,14 +452,18 @@
             "talent": "Shimmer",
             "spell_id": 212653,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_massdispel.jpg",
+            "desc": "Teleports you 20 yds forward, unless something is in the way. Unaffected by the global cooldown and castable while casting."
           },
           {
             "entry_id": "134197",
             "talent": "Improved Blink",
             "spell_id": 1244340,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_blink.jpg",
+            "desc": "Blink's cooldown is reduced by 2 sec."
           }
         ]
       },
@@ -439,7 +485,9 @@
             "talent": "Improved Counterspell",
             "spell_id": 1270865,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_1115_mage_counterspell.jpg",
+            "desc": "Counterspell prevents casting for an additional 1.0 sec."
           }
         ]
       },
@@ -463,7 +511,9 @@
             "talent": "Overflowing Energy",
             "spell_id": 390218,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_manatap.jpg",
+            "desc": "Each time your Arcane Barrage fails to critically strike, it gains 10% increased critical strike chance.\r\n\r\nCritical strike bonus is removed when the affected spell critically strikes."
           }
         ]
       },
@@ -485,7 +535,9 @@
             "talent": "Improved Remove Curse",
             "spell_id": 1270847,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_removecurse.jpg",
+            "desc": "Casting Remove Curse on a friendly target also casts it on yourself, but its cooldown is increased by 20 sec."
           }
         ]
       },
@@ -508,7 +560,9 @@
             "talent": "Greater Invisibility",
             "spell_id": 110959,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_greaterinvisibility.jpg",
+            "desc": "Makes you invisible and untargetable for 20 sec, removing all threat. Any action taken cancels this effect."
           }
         ]
       },
@@ -531,14 +585,18 @@
             "talent": "Improved Frost Nova",
             "spell_id": 343183,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_frostnova.jpg",
+            "desc": "Frost Nova duration is increased by 2 sec."
           },
           {
             "entry_id": "136466",
             "talent": "Ice Ward",
             "spell_id": 205036,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_frostward.jpg",
+            "desc": "Frost Nova now has 2 charges."
           }
         ]
       },
@@ -560,7 +618,9 @@
             "talent": "Captured Thoughts",
             "spell_id": 1270872,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_elementalabsorption.jpg",
+            "desc": "The duration of Clearcasting is increased by 10 sec."
           }
         ]
       },
@@ -584,7 +644,9 @@
             "talent": "Tome of Rhonin",
             "spell_id": 382493,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_book_04.jpg",
+            "desc": "Increases critical strike chance by 2%."
           }
         ]
       },
@@ -608,7 +670,9 @@
             "talent": "Tome of Antonidas",
             "spell_id": 382490,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_book_18.jpg",
+            "desc": "Increases Haste by 2%."
           }
         ]
       },
@@ -630,7 +694,9 @@
             "talent": "Incantation of Swiftness",
             "spell_id": 382293,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/rogue_burstofspeed.jpg",
+            "desc": "Invisibility increases your movement speed by 20% for 6 sec."
           }
         ]
       },
@@ -652,7 +718,9 @@
             "talent": "Master of Escape",
             "spell_id": 210476,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_invisibility.jpg",
+            "desc": "Reduces the cooldown of Invisibility by 60 sec."
           }
         ]
       },
@@ -676,7 +744,9 @@
             "talent": "Charm of Aegwynn",
             "spell_id": 1244105,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_nerubian_necklace_02_color5.jpg",
+            "desc": "The critical strike damage of your spells is increased by 5%."
           }
         ]
       },
@@ -698,7 +768,9 @@
             "talent": "Brainstorm",
             "spell_id": 461261,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_kaztik_dominatemind.jpg",
+            "desc": "Gaining Clearcasting increases your Intellect by 1% for 8 sec. Multiple instances may overlap."
           }
         ]
       },
@@ -721,7 +793,9 @@
             "talent": "Flow of Time",
             "spell_id": 382268,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_blink.jpg",
+            "desc": "The cooldowns of Blink and Shimmer are reduced by 3 sec."
           }
         ]
       },
@@ -743,7 +817,9 @@
             "talent": "Mana Confluence",
             "spell_id": 1270845,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_blessingoftheeternals.jpg",
+            "desc": "Your mana costs are reduced by 5%."
           }
         ]
       },
@@ -767,7 +843,9 @@
             "talent": "Charm of Medivh",
             "spell_id": 1244107,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_nerubian_necklace_02_color1.jpg",
+            "desc": "Your Mastery is increased by 3%."
           }
         ]
       },
@@ -789,7 +867,9 @@
             "talent": "Permafrost Bauble",
             "spell_id": 1265517,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_dungeonjewelry_primalist_necklace_2_frost.jpg",
+            "desc": "The cooldown of Ice Block and Ice Cold are reduced by 30 sec."
           }
         ]
       },
@@ -811,14 +891,18 @@
             "talent": "Freezing Cold",
             "spell_id": 386763,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_glacier.jpg",
+            "desc": "Enemies hit by Cone of Cold are frozen in place for 5 sec instead of snared.\r\n\r\nWhen your roots expire or are dispelled, your target is snared by 80%, decaying over 3 sec."
           },
           {
             "entry_id": "134199",
             "talent": "Ice Nova",
             "spell_id": 157997,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_mage_icenova.jpg",
+            "desc": "Causes a whirl of icy wind around the enemy, dealing 547 Frost damage to the target and all other enemies within 8 yds, freezing them in place for 2 sec. Damage reduced beyond 8 targets."
           }
         ]
       },
@@ -842,7 +926,9 @@
             "talent": "Time Manipulation",
             "spell_id": 387807,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_timestop.jpg",
+            "desc": "The cooldown of your loss of control spells are reduced by 5 sec."
           }
         ]
       },
@@ -864,14 +950,18 @@
             "talent": "Ring of Frost",
             "spell_id": 113724,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_ringoffrost.jpg",
+            "desc": "Summons a Ring of Frost for 10 sec at the target location. Enemies entering the ring are incapacitated for 10 sec. Limit 10 targets.\r\n\r\nWhen the incapacitate expires, enemies are slowed by 65% for 4 sec."
           },
           {
             "entry_id": "134198",
             "talent": "Mass Polymorph",
             "spell_id": 383121,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_doublepolymorph1.jpg",
+            "desc": "Transforms all enemies within 10 yards into sheep, wandering around incapacitated for 15 sec. While affected, the victims cannot take actions but will regenerate health very quickly. Damage will cancel the effect.\r\n\r\nOnly works on Beasts, Humanoids and Critters."
           }
         ]
       },
@@ -895,7 +985,9 @@
             "talent": "Energized Barriers",
             "spell_id": 386828,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_mage_temporalshield.jpg",
+            "desc": "Casting your barrier removes all snare effects."
           }
         ]
       },
@@ -917,7 +1009,9 @@
             "talent": "Mass Invisibility",
             "spell_id": 414664,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_massinvisibility.jpg",
+            "desc": "You and your allies within 40 yards instantly become invisible for 12 sec. Taking any action will cancel the effect.\r\n\r\nDoes not affect allies in combat."
           }
         ]
       },
@@ -939,7 +1033,9 @@
             "talent": "Barrier Diffusion",
             "spell_id": 455428,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_mage_evanesce.jpg",
+            "desc": "When your Barrier is removed, reduce its cooldown by 5 sec."
           }
         ]
       },
@@ -963,7 +1059,9 @@
             "talent": "Ice Cold",
             "spell_id": 414659,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_bluefire.jpg",
+            "desc": "Ice Block now reduces all damage taken by 70% for 6 sec but no longer grants Immunity, prevents movement, attacks, or casting spells. Does not incur the Global Cooldown."
           }
         ]
       },
@@ -987,14 +1085,18 @@
             "talent": "Spatial Manipulation",
             "spell_id": 1244031,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_mage_overpowered.jpg",
+            "desc": "Blink gains an additional charge."
           },
           {
             "entry_id": "136580",
             "talent": "Reflection",
             "spell_id": 1270829,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_displacement.jpg",
+            "desc": "After casting Blink, it is replaced with Reflection for 8 sec.\r\n\r\n Reflection\r\nTeleports you back to where you last Blinked. Castable while casting and unaffected by the global cooldown."
           }
         ]
       },
@@ -1018,7 +1120,9 @@
             "talent": "Improved Ice Barrier",
             "spell_id": 1244069,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_ice_lament.jpg",
+            "desc": "Ice Barrier reduces your physical damage taken by 10% and absorbs an additional 5% of your maximum health."
           }
         ]
       }
@@ -1040,7 +1144,9 @@
             "talent": "Ice Lance",
             "spell_id": 30455,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_frostblast.jpg",
+            "desc": "Quickly fling a shard of ice at the target, dealing 739 Frost damage.\r\n\r\nShatters 4 stacks of Freezing."
           }
         ]
       },
@@ -1062,14 +1168,18 @@
             "talent": "Blizzard",
             "spell_id": 190356,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_icestorm.jpg",
+            "desc": "Ice shards pelt the target area, dealing 1,382 Frost damage over 10.7 sec and reducing movement speed by 50% for 3 sec.\r\n\r\nThis spell is cast at a selected location"
           },
           {
             "entry_id": "134538",
             "talent": "Blizzard",
             "spell_id": 1248829,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_icestorm.jpg",
+            "desc": "Ice shards pelt the target area, dealing 1,410 Frost damage over 10.7 sec and reducing movement speed by 50% for 3 sec.\r\n\r\nThis spell is cast at your target."
           }
         ]
       },
@@ -1091,7 +1201,9 @@
             "talent": "Fingers of Frost",
             "spell_id": 112965,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_wintersgrasp.jpg",
+            "desc": "Frostbolt has a 15% chance to grant a charge of Fingers of Frost.\r\n\r\nFingers of Frost causes your next Ice Lance to deal Shatter damage equal to 4 stacks of Freezing and does not consume Freezing stacks.\r\n\r\nMaximum 2 charges."
           }
         ]
       },
@@ -1113,7 +1225,9 @@
             "talent": "Frostbite",
             "spell_id": 1248825,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_frostarmor.jpg",
+            "desc": "When Frostbolt critically strikes, it applies 1 additional stack of Freezing.\r\n\r\nEach stack of Freezing that you Shatter deals 89 damage to nearby enemies. Damage reduced beyond 5 targets."
           }
         ]
       },
@@ -1135,7 +1249,9 @@
             "talent": "Icicles",
             "spell_id": 1246832,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_glacialspike.jpg",
+            "desc": "While in combat, Frost crystallizes around you, generating an Icicle every 5.4 sec. Upon generating 5 Icicles, Frostbolt upgrades to Glacial Spike for its next cast.\r\n\r\n Glacial Spike\r\nConjures a massive spike of ice that impales your target, dealing 5,181 damage and slowing the target's movement speed by 50% for 8 sec.\r\n\r\nApplies 3 stacks of Freezing."
           }
         ]
       },
@@ -1157,7 +1273,9 @@
             "talent": "Flurry",
             "spell_id": 44614,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_deathknight_chillstreak.jpg",
+            "desc": "Unleash a flurry of ice, striking the target 3 times for a total of 1,535 Frost damage.\r\n\r\nApplies 3 stacks of Freezing."
           }
         ]
       },
@@ -1180,14 +1298,18 @@
             "talent": "Cold Snap",
             "spell_id": 235219,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_wizardmark.jpg",
+            "desc": "Resets the cooldown of your Ice Barrier, Frost Nova, Cone of Cold, Ice Cold, and Ice Block."
           },
           {
             "entry_id": "134180",
             "talent": "Glacial Bulwark",
             "spell_id": 1244110,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_chillingarmor.jpg",
+            "desc": "Ice Block and Ice Barrier now have an additional charge."
           }
         ]
       },
@@ -1209,7 +1331,9 @@
             "talent": "Frozen Orb",
             "spell_id": 84714,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_frozenorb.jpg",
+            "desc": "Launches an orb of swirling ice in front of you, dealing up to 5,485 Frost damage to all enemies it passes through over 15 sec. After a short delay, Frozen Orb will pursue its target. Deals reduced damage beyond 8 targets.\r\n\r\nEnemies damaged by the Frozen Orb are slowed by 50% for 8 sec."
           }
         ]
       },
@@ -1231,7 +1355,9 @@
             "talent": "Brain Freeze",
             "spell_id": 190447,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_brainfreeze.jpg",
+            "desc": "Frostbolt has a 25% chance to reset the remaining cooldown on Flurry and cause your next Flurry to deal 50% increased damage."
           }
         ]
       },
@@ -1253,7 +1379,9 @@
             "talent": "Piercing Cold",
             "spell_id": 378919,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_frostbolt.jpg",
+            "desc": "Frostbolt and Flurry critical strike damage increased by 20%."
           }
         ]
       },
@@ -1275,7 +1403,9 @@
             "talent": "Ray of Frost",
             "spell_id": 205021,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_rayoffrost.jpg",
+            "desc": "Channel an icy beam at the enemy for 3.6 sec, dealing 1,795 Frost damage every 0.45 sec.\r\n\r\nApplies 8 stacks of Freezing over its duration."
           }
         ]
       },
@@ -1297,7 +1427,9 @@
             "talent": "Everlasting Frost",
             "spell_id": 385167,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_chillingbolt.jpg",
+            "desc": "Casting Frozen Orb grants 1 stack of Fingers of Frost.\r\n\r\nDamaging one or more enemies with Frozen Orb has a 3% chance to grant Fingers of Frost."
           }
         ]
       },
@@ -1319,7 +1451,9 @@
             "talent": "Permafrost Lances",
             "spell_id": 460590,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_bluerainoffire.jpg",
+            "desc": "Frozen Orb increases Shatter's damage by 10% for its duration."
           }
         ]
       },
@@ -1341,7 +1475,9 @@
             "talent": "Frozen Touch",
             "spell_id": 205030,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_burstofcold.jpg",
+            "desc": "Frostbolt grants you Fingers of Frost 25% more often and Brain Freeze 20% more often."
           }
         ]
       },
@@ -1364,7 +1500,9 @@
             "talent": "Splitting Ice",
             "spell_id": 56377,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_iceshards.jpg",
+            "desc": "Your Flurry and Frostbolt spells strike 1 additional target at 80% effectiveness."
           }
         ]
       },
@@ -1387,7 +1525,9 @@
             "talent": "Flash Freeze",
             "spell_id": 379993,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_hunter_icetrap.jpg",
+            "desc": "Casting Glacial Spike has a 100% chance to grant you Fingers of Frost."
           }
         ]
       },
@@ -1409,14 +1549,18 @@
             "talent": "Splintering Ray",
             "spell_id": 418733,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_blueflamestrike.jpg",
+            "desc": "Ray of Frost deals 30% of its damage to 5 nearby enemies."
           },
           {
             "entry_id": "134418",
             "talent": "Frigid Focus",
             "spell_id": 1247055,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_deathknight_shroudofwinter.jpg",
+            "desc": "Ray of Frost damage increased by 30%."
           }
         ]
       },
@@ -1439,7 +1583,9 @@
             "talent": "Winter's Blessing",
             "spell_id": 417489,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_wisp.jpg",
+            "desc": "Your Haste is increased by 3%.\r\n\r\nYou gain 5% more Haste from all sources of Haste."
           }
         ]
       },
@@ -1462,7 +1608,9 @@
             "talent": "Freezing Rain",
             "spell_id": 270233,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_frozenorb.jpg",
+            "desc": "Frozen Orb makes Blizzard instant cast.\r\n\r\nBlizzard damage increased by 20%."
           }
         ]
       },
@@ -1484,7 +1632,9 @@
             "talent": "Cone of Frost",
             "spell_id": 1247090,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_chilledtothebone.jpg",
+            "desc": "Cone of Cold now applies 3 stacks of Freezing to up to 5 enemies."
           }
         ]
       },
@@ -1508,7 +1658,9 @@
             "talent": "Fractured Frost",
             "spell_id": 378448,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_frostresistancetotem.jpg",
+            "desc": "Ice Lance strikes 1 additional target at 100% effectiveness, preferring enemies with more stacks of Freezing."
           }
         ]
       },
@@ -1531,7 +1683,9 @@
             "talent": "Improved Shatter",
             "spell_id": 1246811,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_frostshock.jpg",
+            "desc": "Shatter damage has a 50% increased chance to critically strike."
           }
         ]
       },
@@ -1554,7 +1708,9 @@
             "talent": "Deep Shatter",
             "spell_id": 1247025,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_frostemblem_01.jpg",
+            "desc": "Shatter's critical strike damage is increased by 50% of your critical strike chance."
           }
         ]
       },
@@ -1578,14 +1734,18 @@
             "talent": "Wintertide",
             "spell_id": 378406,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_deathknight_frozencenter.jpg",
+            "desc": "Frozen Orb has a 100% chance to grant Brain Freeze."
           },
           {
             "entry_id": "136880",
             "talent": "White Out",
             "spell_id": 1281638,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_frostblast.jpg",
+            "desc": "Ice Lance reduces the cooldown of Frozen Orb by 0.5 sec, increased by 0.1 sec for each stack of Freezing Shattered."
           }
         ]
       },
@@ -1608,7 +1768,9 @@
             "talent": "Glacial Attunement",
             "spell_id": 1247759,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_glacialtrap.jpg",
+            "desc": "Flurry and Blizzard damage increased by 10%."
           }
         ]
       },
@@ -1631,7 +1793,9 @@
             "talent": "Heart of Ice",
             "spell_id": 1247799,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_dungeonjewelry_primalist_necklace_1_frost.jpg",
+            "desc": "Ice Lance Shatters 1 additional stack of Freezing."
           }
         ]
       },
@@ -1654,7 +1818,9 @@
             "talent": "Rimecaster",
             "spell_id": 1247743,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_manarecharge.jpg",
+            "desc": "Frostbolt and Glacial Spike damage increased by 10%."
           }
         ]
       },
@@ -1676,7 +1842,9 @@
             "talent": "Freezing Winds",
             "spell_id": 1216953,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_blueflamering.jpg",
+            "desc": "Shattering enemies inside your Blizzard increases Shatter's area damage by 15%."
           }
         ]
       },
@@ -1698,7 +1866,9 @@
             "talent": "Improved Flurry",
             "spell_id": 1247769,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warlock_burningembersblue.jpg",
+            "desc": "Flurry fires 1 additional missile."
           }
         ]
       },
@@ -1721,7 +1891,9 @@
             "talent": "Glacial Assault",
             "spell_id": 378947,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_staff_15.jpg",
+            "desc": "Flurry has a 12% chance each hit to call down an icy comet, crashing into your target and nearby enemies for 598 Frost damage.\r\n\r\nApplies 1 stack of Freezing."
           }
         ]
       },
@@ -1743,7 +1915,9 @@
             "talent": "Crystalline Refraction",
             "spell_id": 1247544,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_enchanting_crystal_color3.jpg",
+            "desc": "Ray of Frost generates 2 stacks of Fingers of Frost over its duration."
           }
         ]
       },
@@ -1766,14 +1940,18 @@
             "talent": "Summon Water Elemental",
             "spell_id": 31687,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_summonwaterelemental_2.jpg",
+            "desc": "Summons a Water Elemental to follow and fight for you."
           },
           {
             "entry_id": "136839",
             "talent": "Lonely Winter",
             "spell_id": 205024,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_dungeon_frozenthrone.jpg",
+            "desc": "Spell damage increased by 3%."
           }
         ]
       },
@@ -1795,14 +1973,18 @@
             "talent": "Glacial Chill",
             "spell_id": 1280779,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_iceshard.jpg",
+            "desc": "Glacial Spike deals 5% increased damage and applies 2 additional stacks of Freezing."
           },
           {
             "entry_id": "136838",
             "talent": "Glacial Shatter",
             "spell_id": 1280780,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/artifactability_frostmage_ebonbolt.jpg",
+            "desc": "Glacial Spike no longer applies Freezing, and instead Shatters 5 stacks of Freezing."
           }
         ]
       },
@@ -1824,7 +2006,9 @@
             "talent": "Hailstones",
             "spell_id": 1247742,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/artifactability_frostmage_blackicicles.jpg",
+            "desc": "The time it takes to generate an Icicle is reduced by 1.0 sec."
           }
         ]
       },
@@ -1847,7 +2031,9 @@
             "talent": "Thermal Void",
             "spell_id": 1247729,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_mage_thermalvoid.jpg",
+            "desc": "Consuming Brain Freeze has a 100% chance to cause your next Ice Lance to Shatter 4 additional stacks of Freezing."
           }
         ]
       },
@@ -1871,7 +2057,9 @@
             "talent": "Glaciate",
             "spell_id": 1247798,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_frozencore.jpg",
+            "desc": "When Ice Lance Shatters a stack of Freezing, the cooldown of Ray of Frost is reduced by 0.10 sec."
           }
         ]
       },
@@ -1894,7 +2082,9 @@
             "talent": "Comet Storm",
             "spell_id": 1247777,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_mage_cometstorm2.jpg",
+            "desc": "Casting Ray of Frost replaces your Ray of Frost with Comet Storm, calling down a series of 7 icy comets on and around the target, that deals up to 2,429 Frost damage to all enemies within 8 yds of its impacts.\r\n\r\nEach Comet Shatters 1 stack of Freezing."
           }
         ]
       },
@@ -1914,7 +2104,9 @@
             "talent": "Hand of Frost",
             "spell_id": 1262935,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_apextalent_mage_handoffrost.jpg",
+            "desc": "Shattering an enemy has a 10% chance to summon a Hand of Frost to pursue your target, dealing 2,304 Frost damage and applying 1 stack of Freezing on contact."
           }
         ]
       }
@@ -1942,7 +2134,9 @@
               "talent": "Splinterstorm",
               "spell_id": 443783,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_burstofcold.jpg",
+              "desc": "Casting Arcane Surge generates 8 Arcane Splinters.\r\n\r\nDuring Arcane Surge, your chance to conjure an additional Arcane Splinter is increased to 100%."
             }
           ]
         },
@@ -1964,7 +2158,9 @@
               "talent": "Spellfrost Teachings",
               "spell_id": 444986,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/70_inscription_vantus_rune_azure.jpg",
+              "desc": "Direct damage from Arcane Splinters reduces the cooldown of Arcane Orb by 0.25 sec."
             }
           ]
         },
@@ -1986,7 +2182,9 @@
               "talent": "Controlled Instincts",
               "spell_id": 444483,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_iceshards.jpg",
+              "desc": "40% of the direct damage dealt by an Arcane Splinter is also dealt to nearby enemies. Damage reduced beyond 5 targets."
             }
           ]
         },
@@ -2008,7 +2206,9 @@
               "talent": "Signature Spell",
               "spell_id": 470021,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_enchanting_815_drustwand.jpg",
+              "desc": "Arcane Blast and Arcane Pulse damage increased by 15%.\r\n\r\nCasting Touch of the Magi conjures 4 Arcane Splinters."
             }
           ]
         },
@@ -2030,7 +2230,9 @@
               "talent": "Archmage's Wrath",
               "spell_id": 444968,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_arcane03.jpg",
+              "desc": "Arcane Surge damage increased by 30%.\r\n\r\nYour chance to gain Clearcasting is increased by 3%."
             }
           ]
         },
@@ -2052,14 +2254,18 @@
               "talent": "Slippery Slinging",
               "spell_id": 444752,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_icyfeet.jpg",
+              "desc": "You have 40% increased movement speed during Alter Time."
             },
             {
               "entry_id": "123418",
               "talent": "Look Again",
               "spell_id": 444756,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_bg_tophealer_av.jpg",
+              "desc": "While in combat, Blink summons a Mirror Image at your previous location."
             }
           ]
         },
@@ -2081,14 +2287,18 @@
               "talent": "Reactive Barrier",
               "spell_id": 444827,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_racial_forceshield.jpg",
+              "desc": "Your Prismatic Barrier can absorb up to 25% more damage based on your missing Health.\r\n\r\nMax effectiveness when under 25% health."
             },
             {
               "entry_id": "123417",
               "talent": "Phantasmal Image",
               "spell_id": 444784,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_prismaticcloak.jpg",
+              "desc": "Your Mirror Image summons 1 extra clone."
             }
           ]
         },
@@ -2110,7 +2320,9 @@
               "talent": "Splintering Orbs",
               "spell_id": 444256,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/item_azereansphere.jpg",
+              "desc": "Enemies damaged by your Arcane Orb conjure 2 Arcane Splinters, up to 4.\r\n\r\nArcane Orb damage is increased by 10%."
             }
           ]
         },
@@ -2132,7 +2344,9 @@
               "talent": "Augury Abounds",
               "spell_id": 1280165,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_arcanepotency.jpg",
+              "desc": "Conjuring one or more Arcane Splinters has a 10% chance to conjure a burst of 8 Arcane Splinters."
             }
           ]
         },
@@ -2154,7 +2368,9 @@
               "talent": "Force of Will",
               "spell_id": 444719,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_mage_overpowered.jpg",
+              "desc": "Casting Arcane Barrage conjures an Arcane Splinter for every 5 Arcane Salvo stacks consumed."
             }
           ]
         },
@@ -2174,7 +2390,9 @@
               "talent": "Splintering Sorcery",
               "spell_id": 443739,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_dungeon_arcanevaults.jpg",
+              "desc": "Casting Arcane Blast or Arcane Pulse conjures an Arcane Splinter.\r\n\r\nArcane Splinter:\r\nConjure raw Arcane magic into a sharp projectile that deals 213 Arcane damage."
             }
           ]
         },
@@ -2196,7 +2414,9 @@
               "talent": "Polished Focus",
               "spell_id": 1261082,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_orb_blue.jpg",
+              "desc": "Casting Arcane Barrage while at 20 or more Arcane Salvo stacks refunds 5 Arcane Salvo stacks.\r\n\r\nArcane Barrage damage increased by 15%."
             }
           ]
         },
@@ -2218,7 +2438,9 @@
               "talent": "Infused Splinters",
               "spell_id": 1261080,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_mage_focusingcrystal.jpg",
+              "desc": "Direct damage from Arcane Splinters have a 25% chance to grant 1 stack Arcane Salvo.\r\n\r\n Arcane Salvo\r\nIncreases the damage of your next Arcane Barrage by 3%."
             }
           ]
         },
@@ -2240,14 +2462,18 @@
               "talent": "Attuned Familiar",
               "spell_id": 1261106,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_summonwaterelemental_2.jpg",
+              "desc": "Your Arcane Familiar has a 50% chance to conjure a Splinter alongside its Arcane Assault."
             },
             {
               "entry_id": "135946",
               "talent": "Shifting Shards",
               "spell_id": 444675,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_freeze.jpg",
+              "desc": "Gaining Clearcasting conjures 2 Arcane Splinters."
             }
           ]
         }
@@ -2271,7 +2497,9 @@
               "talent": "Flash Freezeburn",
               "spell_id": 431178,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_elementaldevastation.jpg",
+              "desc": "Meteor's damage is increased by 25%.\r\n\r\nMeteor now grants Frostfire Empowerment."
             }
           ]
         },
@@ -2294,14 +2522,18 @@
               "talent": "Elemental Affinity",
               "spell_id": 431067,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_dungeonjewelry_dragon_trinket_5_red.jpg",
+              "desc": ""
             },
             {
               "entry_id": "117775",
               "talent": "Flame and Frost",
               "spell_id": 431112,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_firefrostorb.jpg",
+              "desc": "Ice Block and Ice Cold reset the cooldowns of your Fire spells.\r\n\r\nCauterize resets the cooldown of your Frost spells with a base cooldown shorter than 4 minutes when it activates."
             }
           ]
         },
@@ -2323,7 +2555,9 @@
               "talent": "Dualcasting Adept",
               "spell_id": 1248014,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_dualwieldspecialization.jpg",
+              "desc": "Your Frost and Fire spells deal 20% increased critical strike damage.\r\n\r\nIce Lance and Pyroblast  have their damage increased by 40%."
             }
           ]
         },
@@ -2348,7 +2582,9 @@
               "talent": "Isothermic Core",
               "spell_id": 431095,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_ability_mage_isothermiccore.jpg",
+              "desc": "Meteor now also calls down a Comet Storm, dealing 2,557 Frost damage to nearby enemies.\r\n\r\nComet Storm now also calls down a Meteor, dealing 3,571 Fire damage to nearby enemies."
             }
           ]
         },
@@ -2368,7 +2604,9 @@
               "talent": "Frostfire Bolt",
               "spell_id": 431044,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_frostfiremage_frostfirebolt.jpg",
+              "desc": "Launches a bolt of frostfire at the enemy, causing 1,037 Frostfire damage, slowing movement speed by 50%, and causing an additional 96 Frostfire damage over 8 sec."
             }
           ]
         },
@@ -2390,7 +2628,9 @@
               "talent": "Blast Radius",
               "spell_id": 1248016,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frostresistancetotem_01.jpg",
+              "desc": "The damage of Meteor and Comet Storm is increased."
             }
           ]
         },
@@ -2412,7 +2652,9 @@
               "talent": "Heat Sink",
               "spell_id": 1248002,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_masterofelements.jpg",
+              "desc": "Flurry and Fire Blast now deal Frostfire damage and their damage is increased by 15%."
             }
           ]
         },
@@ -2434,7 +2676,9 @@
               "talent": "Frostfire Infusion",
               "spell_id": 431166,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_blacksmithing_craftedbar_frostfirealloy.jpg",
+              "desc": "Frostfire Bolt has and additional 5% chance to grant Brain Freeze and its critical strike chance is increased by 15%.\r\n\r\nThe damage of your Frost spells and Fire spells are increased by 4%."
             }
           ]
         },
@@ -2456,14 +2700,18 @@
               "talent": "Thermal Conditioning",
               "spell_id": 431117,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fireresistancetotem_01.jpg",
+              "desc": "Frostfire Bolt's cast time is reduced by 10%."
             },
             {
               "entry_id": "134441",
               "talent": "Severe Temperatures",
               "spell_id": 431189,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_magemount_fire.jpg",
+              "desc": "Frostfire Empowerment stacks 1 additional time and it causes Frostfire Bolt to explode for an additional 20% of its damage."
             }
           ]
         },
@@ -2486,7 +2734,9 @@
               "talent": "Frostfire Empowerment",
               "spell_id": 431176,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frostfireorb.jpg",
+              "desc": "Casting Frostfire spells has a 10% chance to activate Frostfire Empowerment, causing your next Frostfire Bolt to be instant cast, deal 60% increased damage, explode for 60% of its damage to nearby enemies. Damage reduced beyond 5 targets.\r\n\r\nDamage from Frostfire Empowerment applies 1 stack of Freezing."
             }
           ]
         },
@@ -2509,14 +2759,18 @@
               "talent": "Imbued Warding",
               "spell_id": 431066,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_jewelcrafting_gem3primal_fire_cut_blue.jpg",
+              "desc": ""
             },
             {
               "entry_id": "117776",
               "talent": "Meltdown",
               "spell_id": 431131,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_arcticwinds.jpg",
+              "desc": "You melt slightly out of your Ice Block and Ice Cold, allowing you to move slowly during Ice Block and increasing your movement speed over time.\r\n\r\nIce Block and Ice Cold trigger a Blazing Barrier when they end."
             }
           ]
         },
@@ -2538,7 +2792,9 @@
               "talent": "Elemental Conduit",
               "spell_id": 1262845,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_shaman_primordialwave.jpg",
+              "desc": "Meteor and Pyroblast now apply Ignite.\r\n\r\nYour Haste is increased by 2%."
             }
           ]
         },
@@ -2560,7 +2816,9 @@
               "talent": "Molten Chill",
               "spell_id": 1262844,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_incinerate.jpg",
+              "desc": "Your Frostfire spells apply Ignite at 10% increased effectiveness."
             }
           ]
         },
@@ -2583,7 +2841,9 @@
               "talent": "Duality",
               "spell_id": 1262843,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_frostfirebolt.jpg",
+              "desc": "Casting Glacial Spike also casts a Pyroblast, dealing 3,495 Fire damage."
             }
           ]
         },
@@ -2603,7 +2863,9 @@
               "talent": "Frostfire Bolt",
               "spell_id": 431044,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_frostfiremage_frostfirebolt.jpg",
+              "desc": "Launches a bolt of frostfire at the enemy, causing 1,037 Frostfire damage, slowing movement speed by 50%, and causing an additional 96 Frostfire damage over 8 sec."
             }
           ]
         }

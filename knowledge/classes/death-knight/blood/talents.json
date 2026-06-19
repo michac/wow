@@ -19,6 +19,12 @@
       "San'layn"
     ]
   },
+  "level_cap": 90,
+  "budgets": {
+    "class": 34,
+    "spec": 34,
+    "hero": 13
+  },
   "trees": {
     "class": [
       {
@@ -37,7 +43,9 @@
             "talent": "Icebound Fortitude",
             "spell_id": 48792,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_deathknight_iceboundfortitude.jpg",
+            "desc": "Your blood freezes, granting immunity to Stun effects and reducing all damage you take by 30% for 8 sec."
           }
         ]
       },
@@ -57,7 +65,9 @@
             "talent": "Death Strike",
             "spell_id": 49998,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_deathknight_butcher2.jpg",
+            "desc": "Focuses dark power into a strike that deals 53 Physical damage and heals you for 20.00% of all damage taken in the last 5 sec, minimum 7.0% of maximum health."
           }
         ]
       },
@@ -77,7 +87,9 @@
             "talent": "Raise Dead",
             "spell_id": 46585,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_pet_ghoul.jpg",
+            "desc": "Raises a ghoul to fight by your side.  You can have a maximum of one ghoul at a time. Lasts 1 min."
           }
         ]
       },
@@ -99,7 +111,9 @@
             "talent": "Runic Attenuation",
             "spell_id": 207104,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/boss_odunrunes_blue.jpg",
+            "desc": "Auto attacks have a chance to generate 3 Runic Power."
           }
         ]
       },
@@ -121,7 +135,9 @@
             "talent": "Improved Death Strike",
             "spell_id": 374277,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_deathknight_butcher2.jpg",
+            "desc": "Death Strike's cost is reduced by 10, and its healing is increased by 60%."
           }
         ]
       },
@@ -143,7 +159,9 @@
             "talent": "Cleaving Strikes",
             "spell_id": 316916,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_1115_warrior_fastermeleeattacks.jpg",
+            "desc": ""
           }
         ]
       },
@@ -165,7 +183,9 @@
             "talent": "Mind Freeze",
             "spell_id": 47528,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_deathknight_mindfreeze.jpg",
+            "desc": "Smash the target's mind with cold, interrupting spellcasting and preventing any spell in that school from being cast for 5 sec."
           }
         ]
       },
@@ -187,7 +207,9 @@
             "talent": "Blinding Sleet",
             "spell_id": 207167,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_chillingblast.jpg",
+            "desc": "Targets in a cone in front of you are blinded, causing them to wander disoriented for 5 sec. Damage may cancel the effect.\r\n\r\nWhen Blinding Sleet ends, enemies are slowed by 50% for 6 sec."
           }
         ]
       },
@@ -210,7 +232,9 @@
             "talent": "Gloom Ward",
             "spell_id": 391571,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_envelopingshadows.jpg",
+            "desc": "Absorbs are 15% more effective on you."
           }
         ]
       },
@@ -232,14 +256,18 @@
             "talent": "March of Darkness",
             "spell_id": 391546,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_argus_deathfog.jpg",
+            "desc": "Death's Advance grants an additional 25% movement speed over the first 3 sec."
           },
           {
             "entry_id": "133518",
             "talent": "Wraith Walk",
             "spell_id": 212552,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_helm_plate_raiddeathknight_p_01.jpg",
+            "desc": "Embrace the power of the Shadowlands, removing all root effects and increasing your movement speed by 70% for 4 sec. Taking any action cancels the effect.\r\n\r\nWhile active, your movement speed cannot be reduced below 170%."
           }
         ]
       },
@@ -262,7 +290,9 @@
             "talent": "Unholy Momentum",
             "spell_id": 374265,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_necro_deathrift.jpg",
+            "desc": "Increases Haste by 2%."
           }
         ]
       },
@@ -284,7 +314,9 @@
             "talent": "Control Undead",
             "spell_id": 111673,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_bone_skull_01.jpg",
+            "desc": "Dominates the target undead creature up to level 71, forcing it to do your bidding for 5 min."
           }
         ]
       },
@@ -306,7 +338,9 @@
             "talent": "Enfeeble",
             "spell_id": 392566,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_creature_poison_01.jpg",
+            "desc": "Your ghoul's attacks have a chance to apply Enfeeble, reducing the enemies movement speed by 30% and the damage they deal to you by 12% for 6 sec."
           }
         ]
       },
@@ -328,7 +362,9 @@
             "talent": "Coldthirst",
             "spell_id": 378848,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_deathknight_mindfreeze.jpg",
+            "desc": "Successfully interrupting an enemy with Mind Freeze grants 10 Runic Power and reduces its cooldown by 3 sec."
           }
         ]
       },
@@ -352,7 +388,9 @@
             "talent": "Proliferating Chill",
             "spell_id": 373930,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_chainsofice.jpg",
+            "desc": "Chains of Ice affects 1 additional nearby enemy."
           }
         ]
       },
@@ -374,7 +412,9 @@
             "talent": "Permafrost",
             "spell_id": 207200,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_zone_frostfire.jpg",
+            "desc": "Your auto attack damage grants you an absorb shield equal to 40% of the damage dealt."
           }
         ]
       },
@@ -398,7 +438,9 @@
             "talent": "Veteran of the Third War",
             "spell_id": 48263,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_misc_warsongfocus.jpg",
+            "desc": "Stamina increased by 20%."
           }
         ]
       },
@@ -420,7 +462,9 @@
             "talent": "Death Pact",
             "spell_id": 48743,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_deathpact.jpg",
+            "desc": "Create a death pact that heals you for 50% of your maximum health, but absorbs incoming healing equal to 30% of your max health for 15 sec."
           }
         ]
       },
@@ -444,7 +488,9 @@
             "talent": "Brittle",
             "spell_id": 374504,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_bosskilrogg_deaththroes.jpg",
+            "desc": "Your diseases have a chance to weaken your enemy causing your attacks against them to deal 6% increased damage for 5 sec."
           }
         ]
       },
@@ -466,7 +512,9 @@
             "talent": "Blood Bond",
             "spell_id": 1267028,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_deathknight_roilingblood.jpg",
+            "desc": "While you are below 50% health, your Ghoul sacrifices 4% of its maximum health to heal you for 1% of your maximum health every sec."
           }
         ]
       },
@@ -490,7 +538,9 @@
             "talent": "Icy Talons",
             "spell_id": 194878,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_deathknight_icytalons.jpg",
+            "desc": "Your Runic Power spending abilities increase your melee attack speed by 6% for 10 sec, stacking up to 3 times."
           }
         ]
       },
@@ -512,7 +562,9 @@
             "talent": "Death Notes",
             "spell_id": 1266819,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_book_01.jpg",
+            "desc": "Raise Ally costs 30 less Runic Power."
           }
         ]
       },
@@ -536,7 +588,9 @@
             "talent": "Anti-Magic Zone",
             "spell_id": 51052,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_deathknight_antimagiczone.jpg",
+            "desc": "Places an Anti-Magic Zone for 6 sec, reducing the magic damage taken by party or raid members by 15%."
           }
         ]
       },
@@ -558,7 +612,9 @@
             "talent": "Death Defiance",
             "spell_id": 1266818,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_shamanrage.jpg",
+            "desc": "The cooldown of Death Pact is reduced by 30 sec, and you receive 50% increased healing while its healing absorb is active."
           }
         ]
       },
@@ -582,7 +638,9 @@
             "talent": "Unholy Bond",
             "spell_id": 374261,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_sword_1h_felfireraid_d_01.jpg",
+            "desc": "Increases the effectiveness of your Runeforge effects by 20%."
           }
         ]
       },
@@ -604,7 +662,9 @@
             "talent": "Ice Prison",
             "spell_id": 454786,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_deepfreeze.jpg",
+            "desc": "Chains of Ice now also roots enemies for 4 sec but its cooldown is increased to 12 sec."
           }
         ]
       },
@@ -628,14 +688,18 @@
             "talent": "Asphyxiate",
             "spell_id": 221562,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_deathknight_asphixiate.jpg",
+            "desc": "Lifts the enemy target off the ground, crushing their throat with dark energy and stunning them for 5 sec."
           },
           {
             "entry_id": "136526",
             "talent": "Death's Reach",
             "spell_id": 276079,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_deathknight_strangulate.jpg",
+            "desc": "Increases the range of Death Grip by 10 yds.\r\n\r\nKilling an enemy that yields experience or honor resets the cooldown of Death Grip."
           }
         ]
       },
@@ -657,7 +721,9 @@
             "talent": "Assimilation",
             "spell_id": 374383,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_deathknight_antimagiczone.jpg",
+            "desc": "The cooldown of Anti-Magic Zone is reduced by 60 sec and its duration is increased by 2 sec."
           }
         ]
       },
@@ -681,7 +747,9 @@
             "talent": "Anti-Magic Barrier",
             "spell_id": 205727,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_antimagicshell.jpg",
+            "desc": "Reduces the cooldown of Anti-Magic Shell by 20 sec and increases its duration and amount absorbed by 40%."
           }
         ]
       },
@@ -703,7 +771,9 @@
             "talent": "Grip of the Dead",
             "spell_id": 273952,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_creature_disease_05.jpg",
+            "desc": "Death and Decay reduces the movement speed of enemies within its area by 90%, decaying by 10% every sec."
           }
         ]
       },
@@ -726,7 +796,9 @@
             "talent": "Suppression",
             "spell_id": 374049,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_racial_forceshield.jpg",
+            "desc": "Damage taken from area of effect attacks reduced by 3%. When suffering a loss of control effect, this bonus is increased by an additional 6% for 6 sec."
           }
         ]
       },
@@ -750,7 +822,9 @@
             "talent": "Blood Scent",
             "spell_id": 374030,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_ironmaidens_bloodritual.jpg",
+            "desc": "Increases Leech by 3%."
           }
         ]
       },
@@ -773,7 +847,9 @@
             "talent": "Unholy Endurance",
             "spell_id": 389682,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_deathknight_subversion.jpg",
+            "desc": "Increases Lichborne duration by 2 sec and reduces the cooldown by 30 sec."
           }
         ]
       },
@@ -795,7 +871,9 @@
             "talent": "Osmosis",
             "spell_id": 454835,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_rune.jpg",
+            "desc": "Anti-Magic Shell increases healing received by 15%."
           }
         ]
       },
@@ -818,7 +896,9 @@
             "talent": "Insidious Chill",
             "spell_id": 391566,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_racial_wardoftheloafrost.jpg",
+            "desc": "Your auto-attacks reduce the target's auto-attack speed by 5% for 30 sec, stacking up to 4 times."
           }
         ]
       },
@@ -841,7 +921,9 @@
             "talent": "Runic Protection",
             "spell_id": 454788,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_shattershield.jpg",
+            "desc": "Your chance to be critically struck is reduced by 3% and your Armor is increased by 6%."
           }
         ]
       },
@@ -863,7 +945,9 @@
             "talent": "Blood Draw",
             "spell_id": 374598,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_artifact_bloodoftheassassinated.jpg",
+            "desc": "When you fall below 30% health you drain 42 health from nearby enemies, the damage you take is reduced by 10% and your Death Strike cost is reduced by 10 for 8 sec.\r\n\r\nCan only occur every 2 min."
           }
         ]
       },
@@ -886,7 +970,9 @@
             "talent": "Rune Mastery",
             "spell_id": 374574,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_deathknight_hungeringruneblade.jpg",
+            "desc": "Consuming a Rune has a chance to increase your Strength by 3% for 8 sec."
           }
         ]
       },
@@ -909,7 +995,9 @@
             "talent": "Subduing Grasp",
             "spell_id": 454822,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_elementalshields.jpg",
+            "desc": "When you would pull an enemy, the damage they deal to you is reduced by 6% for 6 sec."
           }
         ]
       },
@@ -932,7 +1020,9 @@
             "talent": "Will of the Necropolis",
             "spell_id": 206967,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_boss_kelthuzad_01.jpg",
+            "desc": "Damage taken below 30% Health is reduced by 20%."
           }
         ]
       },
@@ -954,7 +1044,9 @@
             "talent": "Null Magic",
             "spell_id": 454842,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_detectinvisibility.jpg",
+            "desc": "Magic damage taken is reduced by 8% and the duration of harmful Magic effects against you are reduced by 35%."
           }
         ]
       },
@@ -977,7 +1069,9 @@
             "talent": "Unyielding Will",
             "spell_id": 457574,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_nethercloak.jpg",
+            "desc": "Anti-Magic Shell now removes all harmful magical effects when activated, but its cooldown is increased by 20 sec."
           }
         ]
       },
@@ -1000,7 +1094,9 @@
             "talent": "Death's Echo",
             "spell_id": 356367,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_fabric_ebonweave.jpg",
+            "desc": "Death's Advance, Death and Decay, and Death Grip have 1 additional charge."
           }
         ]
       },
@@ -1022,7 +1118,9 @@
             "talent": "Vestigial Shell",
             "spell_id": 454851,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_domination_rune12.jpg",
+            "desc": "Casting Anti-Magic Shell grants 2 nearby allies a Lesser Anti-Magic Shell that Absorbs up to 148 magic damage and reduces the duration of harmful Magic effects against them by 50%."
           }
         ]
       }
@@ -1044,7 +1142,9 @@
             "talent": "Heart Strike",
             "spell_id": 206930,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_weapon_shortblade_40.jpg",
+            "desc": "Instantly strike the target and 1 other nearby enemy, causing 55 Physical damage, and reducing enemies' movement speed by 20% for 8 sec."
           }
         ]
       },
@@ -1066,7 +1166,9 @@
             "talent": "Marrowrend",
             "spell_id": 195182,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_deathknight_marrowrend.jpg",
+            "desc": "Smash the target, dealing 51 Physical damage and generating 3 charges of Bone Shield.\r\n\r\n Bone Shield\r\nSurrounds you with a barrier of whirling bones, increasing Armor by 110. Each melee attack against you consumes a charge. Lasts 30 sec or until all charges are consumed."
           }
         ]
       },
@@ -1088,7 +1190,9 @@
             "talent": "Blood Boil",
             "spell_id": 50842,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_deathknight_bloodboil.jpg",
+            "desc": "Deals 57 Shadow damage and infects all enemies within 10 yds with Blood Plague.\r\n\r\n Blood Plague\r\nA shadowy disease that drains 93 health from the target over 24 sec."
           }
         ]
       },
@@ -1110,7 +1214,9 @@
             "talent": "Vampiric Blood",
             "spell_id": 55233,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_lifedrain.jpg",
+            "desc": "Embrace your undeath, increasing your maximum health by 30% and increasing all healing and absorbs received by 30% for 10 sec."
           }
         ]
       },
@@ -1132,7 +1238,9 @@
             "talent": "Bone Collector",
             "spell_id": 458572,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_deathknight_boneshield.jpg",
+            "desc": "When you would pull an enemy generate 1 charge of Bone Shield.\r\n\r\n Bone Shield\r\nSurrounds you with a barrier of whirling bones, increasing Armor by 110. Each melee attack against you consumes a charge. Lasts 30 sec or until all charges are consumed."
           }
         ]
       },
@@ -1154,7 +1262,9 @@
             "talent": "Ossuary",
             "spell_id": 219786,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_deathknight_brittlebones.jpg",
+            "desc": "While you have at least 5 Bone Shield charges, the cost of Death Strike is reduced by 5 Runic Power.\r\n\r\nAdditionally, your maximum Runic Power is increased by 10."
           }
         ]
       },
@@ -1176,7 +1286,9 @@
             "talent": "Improved Vampiric Blood",
             "spell_id": 317133,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_lifedrain.jpg",
+            "desc": "Vampiric Blood's healing and absorb amount is increased by 5% and duration by 2 sec."
           }
         ]
       },
@@ -1198,7 +1310,9 @@
             "talent": "Improved Heart Strike",
             "spell_id": 374717,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_weapon_shortblade_40.jpg",
+            "desc": "Heart Strike damage increased by 15%."
           }
         ]
       },
@@ -1220,7 +1334,9 @@
             "talent": "Relish in Blood",
             "spell_id": 317610,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_deathknight_roilingblood.jpg",
+            "desc": "While Crimson Scourge is active, your next Death and Decay heals you for 10 health per Bone Shield charge and you immediately gain 10 Runic Power."
           }
         ]
       },
@@ -1242,7 +1358,9 @@
             "talent": "Leeching Strike",
             "spell_id": 377629,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_deathwing_bloodcorruption_death.jpg",
+            "desc": "Heart Strike heals you for 0.25% health for each enemy hit while affected by Blood Plague."
           }
         ]
       },
@@ -1264,7 +1382,9 @@
             "talent": "Heartbreaker",
             "spell_id": 221536,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_deathknight_deathstrike.jpg",
+            "desc": "Your Heart Strike generates 2 additional Runic Power per target hit."
           }
         ]
       },
@@ -1287,7 +1407,9 @@
             "talent": "Foul Bulwark",
             "spell_id": 206974,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_armor_shield_naxxramas_d_02.jpg",
+            "desc": "Each charge of Bone Shield increases your maximum health by 1%."
           }
         ]
       },
@@ -1310,7 +1432,9 @@
             "talent": "Dancing Rune Weapon",
             "spell_id": 49028,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_sword_07.jpg",
+            "desc": "Summons a rune weapon for 8 sec that mirrors your melee attacks and bolsters your defenses.\r\n\r\nWhile active, you gain 25% parry chance."
           }
         ]
       },
@@ -1333,7 +1457,9 @@
             "talent": "Hemostasis",
             "spell_id": 273946,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_deathwing_bloodcorruption_earth.jpg",
+            "desc": "Each enemy hit by Blood Boil increases the damage and healing done by your next Death Strike by 8%, stacking up to 5 times."
           }
         ]
       },
@@ -1355,7 +1481,9 @@
             "talent": "Perseverance of the Ebon Blade",
             "spell_id": 374747,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_deathknight_sanguinfortitude.jpg",
+            "desc": "When Crimson Scourge is consumed, you gain 6% Versatility for 6 sec."
           }
         ]
       },
@@ -1377,7 +1505,9 @@
             "talent": "Bloodworms",
             "spell_id": 195679,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_soulleech.jpg",
+            "desc": "Your auto attacks have a chance to summon a Bloodworm.\r\n\r\nBloodworms deal minor damage to your target for 15 sec and then burst, healing you for 15% of your missing health.\r\n\r\nIf you drop below 50% health, your Bloodworms will immediately burst and heal you."
           }
         ]
       },
@@ -1401,14 +1531,18 @@
             "talent": "Gorefiend's Grasp",
             "spell_id": 108199,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_deathknight_aoedeathgrip.jpg",
+            "desc": "Shadowy tendrils coil around all enemies within 15 yards of a hostile or friendly target, pulling them to the target's location and Silencing them for 3 sec."
           },
           {
             "entry_id": "136213",
             "talent": "Abomination Limb",
             "spell_id": 1263569,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_maldraxxus_deathknight.jpg",
+            "desc": "Sprout an additional limb, pulling enemies further than 8 yds from you every 1 sec.  \r\n\r\nThe same enemy can only be pulled once every 4 sec."
           }
         ]
       },
@@ -1431,7 +1565,9 @@
             "talent": "Improved Bone Shield",
             "spell_id": 374715,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_deathknight_marrowrend.jpg",
+            "desc": "Bone Shield increases your Haste by 10% and it can stack 2 additional times."
           }
         ]
       },
@@ -1453,7 +1589,9 @@
             "talent": "Insatiable Blade",
             "spell_id": 377637,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/70_inscription_vantus_rune_nightmare.jpg",
+            "desc": "Dancing Rune Weapon's cooldown is reduced by 30 sec and now generates 5 Bone Shield charges."
           }
         ]
       },
@@ -1476,7 +1614,9 @@
             "talent": "Deadly Reach",
             "spell_id": 1264235,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_ability_deathknight_cleavingdeathstrikes.jpg",
+            "desc": "Death Strike hits an additional 2 enemies at 75% effectiveness."
           }
         ]
       },
@@ -1500,7 +1640,9 @@
             "talent": "Rapid Decomposition",
             "spell_id": 194662,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_deathknight_deathsiphon2.jpg",
+            "desc": "Your Blood Plague and Death and Decay deal damage 15% more often.\r\n\r\nAdditionally, your Blood Plague leeches 50% more Health."
           }
         ]
       },
@@ -1523,7 +1665,9 @@
             "talent": "Boiling Point",
             "spell_id": 1265790,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/warlock_pvp_endlessaffliction.jpg",
+            "desc": "Heart Strike has a chance to make your next Blood Boil empowered, dealing 50% increased damage and echoing after 3 sec."
           }
         ]
       },
@@ -1547,7 +1691,9 @@
             "talent": "Lifeblood",
             "spell_id": 1264296,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_elementalcombinedfoozles_blood.jpg",
+            "desc": "Death Strike heals for an additional 20% of its healing over 5 sec."
           }
         ]
       },
@@ -1569,7 +1715,9 @@
             "talent": "Everlasting Bond",
             "spell_id": 377668,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_sword_07.jpg",
+            "desc": "Summons 1 additional copy of Dancing Rune Weapon and increases its duration by 4 sec."
           }
         ]
       },
@@ -1593,7 +1741,9 @@
             "talent": "Voracious",
             "spell_id": 273953,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_ironmaidens_whirlofblood.jpg",
+            "desc": "Death Strike's healing is increased by 5% and grants you 12% Leech for 8 sec."
           }
         ]
       },
@@ -1616,7 +1766,9 @@
             "talent": "Blood Feast",
             "spell_id": 391386,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_deathknight_vendetta.jpg",
+            "desc": "Anti-Magic Shell heals you for 100% of the damage it absorbs."
           }
         ]
       },
@@ -1639,7 +1791,9 @@
             "talent": "Plague Infusion",
             "spell_id": 1265869,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_yorsahj_bloodboil_blue.jpg",
+            "desc": "Your Blood Plague critical hits have a chance to reduce the cooldown of your Blood Boil by 0.25 sec."
           }
         ]
       },
@@ -1661,7 +1815,9 @@
             "talent": "Bloody Reflection",
             "spell_id": 1279633,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_bloodbath.jpg",
+            "desc": "While Blood Shield is active, taking direct damage reflects 38 Shadow damage back to the attacker. Blood Shield can now absorb up to 65% of your maximum health."
           }
         ]
       },
@@ -1685,7 +1841,9 @@
             "talent": "Iron Heart",
             "spell_id": 391395,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ragnaros_heart.jpg",
+            "desc": "Blood Shield's duration is increased by 2 sec and it absorbs 20% more damage."
           }
         ]
       },
@@ -1707,7 +1865,9 @@
             "talent": "Bloodied Blade",
             "spell_id": 458753,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_sword_2h_ebonblade_b_01_red.jpg",
+            "desc": "Parrying an attack grants you a charge of Bloodied Blade, increasing your Strength by 0.5%, up to 4.0% for 15 sec.\r\n\r\nAt 8 stacks, your next parry consumes all charges to unleash a Heart Strike at 300% effectiveness, and increases your Strength by 10% for 6 sec."
           }
         ]
       },
@@ -1730,7 +1890,9 @@
             "talent": "Coagulopathy",
             "spell_id": 391477,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_skeer_bloodletting.jpg",
+            "desc": "Enemies affected by Blood Plague take 5% increased damage from you and Death Strike increases the damage of your Blood Plague by 10% for 15 sec, stacking up to 4 times."
           }
         ]
       },
@@ -1752,7 +1914,9 @@
             "talent": "Blood Mist",
             "spell_id": 1263743,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_revendreth_deathknight.jpg",
+            "desc": "When you cast Dancing Rune Weapon, you become enveloped in a blood mist that surrounds you for 8 sec, increasing your Parry by 5%. \r\n\r\nDeals 22 Shadow damage every 1 sec to enemies within 10 yds. Every time it deals damage you gain 2 Runic Power, up to a maximum of 10 Runic Power. Deals reduced damage beyond 8 targets."
           }
         ]
       },
@@ -1775,7 +1939,9 @@
             "talent": "Sanguine Ground",
             "spell_id": 391458,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_artifact_corruptedbloodofzakajz.jpg",
+            "desc": "You deal 6% more damage and receive 5% more healing while standing in your Death and Decay."
           }
         ]
       },
@@ -1797,7 +1963,9 @@
             "talent": "Bloodshot",
             "spell_id": 391398,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warlock_baneofhavoc.jpg",
+            "desc": "While Blood Shield is active, you deal 8% increased damage."
           }
         ]
       },
@@ -1820,7 +1988,9 @@
             "talent": "Consumption",
             "spell_id": 1263824,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_axe_2h_artifactmaw_d_01.jpg",
+            "desc": "Empower the runes in your weapon, reducing the damage you take over the duration and unleashing a devastating attack that deals 218 Shadow damage and consumes up to 75% of your Blood Plague instantly from enemies in front of you.\r\n\r\nI: Consumes up to 25% of your Blood Plague. While empowering, your damage taken is reduced by 5% and an additional 8 sec after empowering.\r\n\r\nII: Consumes up to 50% of your Blood Plague. While empowering, your damage taken is reduced by 10% and an additional 4 sec after empowering.\r\n\r\nIII: Consumes up to 75% of your Blood Plague. While empowering, your damage taken is reduced by 15% and an additional 2 sec after empowering."
           }
         ]
       },
@@ -1842,7 +2012,9 @@
             "talent": "Red Thirst",
             "spell_id": 205723,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_deathknight_bloodpresence.jpg",
+            "desc": "Reduces the cooldown on Vampiric Blood by 2.0 sec per 10 Runic Power spent."
           }
         ]
       },
@@ -1864,7 +2036,9 @@
             "talent": "Sanguinary Burst",
             "spell_id": 1263781,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_animarevendreth_groundstate.jpg",
+            "desc": "When Blood Mist ends it deals 94 Shadow damage to 8 nearby enemies, healing you for 15% of the damage dealt. The damage is increased by 2% for every 1 Runic Power spent while Blood Mist was active."
           }
         ]
       },
@@ -1886,7 +2060,9 @@
             "talent": "Purgatory",
             "spell_id": 114556,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_shadowegg.jpg",
+            "desc": "An unholy pact that prevents fatal damage, instead absorbing incoming healing equal to the damage prevented, lasting 3 sec.\r\n\r\nIf any healing absorption remains when this effect expires, you will die. This effect may only occur every 4 min."
           }
         ]
       },
@@ -1908,7 +2084,9 @@
             "talent": "Carnage",
             "spell_id": 458752,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/sha_ability_warrior_bloodnova_nightmare.jpg",
+            "desc": "Consumption now contributes to your Mastery: Blood Shield.\r\n\r\nEach time an enemy strikes your Blood Shield, the cooldown of Consumption has chance to be reset."
           }
         ]
       },
@@ -1930,7 +2108,9 @@
             "talent": "Umbilicus Eternus",
             "spell_id": 391517,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/artifactability_blooddeathknight_umbilicuseternus.jpg",
+            "desc": "After Vampiric Blood expires, you absorb damage equal to 5 times the damage your Blood Plague dealt during Vampiric Blood."
           }
         ]
       },
@@ -1950,7 +2130,9 @@
             "talent": "Dance of Midnight",
             "spell_id": 1264506,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_apextalent_deathknight_danceofmidnight.jpg",
+            "desc": "While Dancing Rune Weapon is active, Parrying an attack has a chance to make your next Heart Strike cost no Runes and deal 150% increased damage."
           }
         ]
       }
@@ -1975,7 +2157,9 @@
               "talent": "Infliction of Sorrow",
               "spell_id": 434143,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_bloodbath.jpg",
+              "desc": "When Vampiric Strike damages an enemy affected by your plagues, it extends the duration of the plagues by 3.0 sec, and deals 10% of the remaining damage to the enemy."
             }
           ]
         },
@@ -1997,7 +2181,9 @@
               "talent": "Incite Terror",
               "spell_id": 434151,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warlock_improveddemonictactics.jpg",
+              "desc": "Vampiric Strike and Scourge Strike cause your targets to take 1% increased Shadow damage, up to 5% for 15 sec.\r\n\r\nVampiric Strike benefits from Incite Terror at 400% effectiveness."
             }
           ]
         },
@@ -2019,7 +2205,9 @@
               "talent": "Inevitable",
               "spell_id": 1280658,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_warlock_demonsoul.jpg",
+              "desc": "Your plagues deal up to 30% increased damage based on the target's missing health."
             }
           ]
         },
@@ -2041,7 +2229,9 @@
               "talent": "The Blood is Life",
               "spell_id": 434260,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_nazmir_boss_bloodofghuun.jpg",
+              "desc": "Dark Transformation summons a Blood Beast to attack your enemy for 10 sec.\r\n\r\nEach time the Blood Beast attacks, it stores a portion of the damage dealt. When the Blood Beast dies, it explodes, dealing 25% of the damage accumulated to nearby enemies and healing the Death Knight for the same amount. Deals reduced damage beyond 8 targets."
             }
           ]
         },
@@ -2063,14 +2253,18 @@
               "talent": "Blood-Soaked Ground",
               "spell_id": 434033,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_ironmaidens_corruptedblood.jpg",
+              "desc": "While you are within your Death and Decay, your physical damage taken is reduced by 5% and your chance to gain Vampiric Strike is increased by 5%."
             },
             {
               "entry_id": "136836",
               "talent": "Desecrate",
               "spell_id": 1234559,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/sha_ability_rogue_bloodyeye_nightmare.jpg",
+              "desc": "Death and Decay deals its damage 100% faster."
             }
           ]
         },
@@ -2090,7 +2284,9 @@
               "talent": "Vampiric Strike",
               "spell_id": 433901,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_sanlayndeathknight_vampiricstrike.jpg",
+              "desc": "Your Death Coil and Death Strike have a 25% chance to make your next Scourge Strike become Vampiric Strike.\r\n\r\nVampiric Strike heals you for 2% of your maximum health and grants you Essence of the Blood Queen, increasing your Haste by 1.0%, up to 5.0% for 20 sec."
             }
           ]
         },
@@ -2115,7 +2311,9 @@
               "talent": "Gift of the San'layn",
               "spell_id": 434152,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_deathknight_bloodtap.jpg",
+              "desc": "While Dark Transformation is active you gain Gift of the San'layn.\r\n\r\nGift of the San'layn increases the effectiveness of your Essence of the Blood Queen by 200%, and Vampiric Strike replaces your Scourge Strike for the duration."
             }
           ]
         },
@@ -2137,14 +2335,18 @@
               "talent": "Pact of the San'layn",
               "spell_id": 434261,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_bloodnova.jpg",
+              "desc": "You store 10% of all Shadow damage dealt into your Blood Beast to explode for additional damage when it expires."
             },
             {
               "entry_id": "117893",
               "talent": "Sanguine Scent",
               "spell_id": 434263,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_deathknight_roilingblood.jpg",
+              "desc": "Your Death Coil and Death Strike have a 15% increased chance to trigger Vampiric Strike when damaging enemies below 35% health."
             }
           ]
         },
@@ -2166,14 +2368,18 @@
               "talent": "Vampiric Aura",
               "spell_id": 434100,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_vendetta.jpg",
+              "desc": "Your Leech is increased by 2%.\r\n\r\nWhile Lichborne is active, the Leech bonus of this effect is increased by 100%, and it affects 4 allies within 12 yds."
             },
             {
               "entry_id": "117891",
               "talent": "Bloody Fortitude",
               "spell_id": 434136,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_intensifyrage.jpg",
+              "desc": "Icebound Fortitude reduces all damage you take by up to an additional 20% based on your missing health.\r\n\r\nKilling an enemy that yields experience or honor reduces the cooldown of Icebound Fortitude by 3 sec."
             }
           ]
         },
@@ -2195,14 +2401,18 @@
               "talent": "Newly Turned",
               "spell_id": 433934,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_deathknight_hemorrhagicfever.jpg",
+              "desc": "Raise Ally revives players at full health and grants you and your ally an absorb shield equal to 20% of your maximum health."
             },
             {
               "entry_id": "117892",
               "talent": "Vampiric Speed",
               "spell_id": 434028,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_boots_cloth_34v2.jpg",
+              "desc": "Death's Advance and Wraith Walk movement speed bonuses are increased by 10%.\r\n\r\nActivating Death's Advance or Wraith Walk increases 4 nearby allies movement speed by 20% for 5 sec."
             }
           ]
         },
@@ -2224,7 +2434,9 @@
               "talent": "Frenzied Bloodthirst",
               "spell_id": 434075,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_sulfurelemental_blood.jpg",
+              "desc": "Essence of the Blood Queen stacks 2 additional times and increases the damage of your Death Coil and Death Strike by 5%, and Epidemic by 5% per stack."
             }
           ]
         },
@@ -2246,7 +2458,9 @@
               "talent": "Transfusion",
               "spell_id": 1265574,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_artifact_bloodoftheassassinated.jpg",
+              "desc": "Vampiric Strike increases the damage of your Dancing Rune Weapons by 20% for 8 sec. \r\n\r\nMultiple applications may overlap."
             }
           ]
         },
@@ -2268,7 +2482,9 @@
               "talent": "Thrill of Blood",
               "spell_id": 1265547,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nzinsanity_bloodthirst.jpg",
+              "desc": "Essence of the Blood Queen additionally increases your Mastery by 1.0% per stack.\r\n\r\nBlood Plague deals 5% increased damage."
             }
           ]
         },
@@ -2290,7 +2506,9 @@
               "talent": "Visceral Strength",
               "spell_id": 434157,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ragnaros_heart.jpg",
+              "desc": "When Sudden Doom is consumed, you gain 4% Strength for 5 sec."
             }
           ]
         }
@@ -2314,7 +2532,9 @@
               "talent": "Swift and Painful",
               "spell_id": 443560,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_domination_rune02.jpg",
+              "desc": "If no enemies are struck by Soul Rupture, you gain 10% Strength for 8 sec.\r\n\r\nWave of Souls is 100% more effective on the main target of your Reaper's Mark."
             }
           ]
         },
@@ -2336,7 +2556,9 @@
               "talent": "Grim Reaper",
               "spell_id": 434905,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_misc_zandalari_council_soulswap.jpg",
+              "desc": "Reaper's Mark initial strike grants Killing Machine.\r\n\r\nReaper's Mark explosion deals up to 30% increased damage based on your target's missing health."
             }
           ]
         },
@@ -2358,14 +2580,18 @@
               "talent": "Pact of the Deathbringer",
               "spell_id": 440476,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_revendreth_deathknight.jpg",
+              "desc": "When you suffer a damaging effect equal to 25% of your maximum health, you instantly cast Death Pact at 50% effectiveness. May only occur every 2 min.\r\n\r\nWhen a Reaper's Mark explodes, the cooldowns of this effect and Death Pact are reduced by 5 sec."
             },
             {
               "entry_id": "123420",
               "talent": "Rune Carved Plates",
               "spell_id": 440282,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_deathknight_runetap.jpg",
+              "desc": "Each Rune spent reduces the magic damage you take by 1.5% and each Rune generated reduces the physical damage you take by 1.5% for 5 sec, up to 5 times."
             }
           ]
         },
@@ -2387,7 +2613,9 @@
               "talent": "Wave of Souls",
               "spell_id": 439851,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_animamaw_wave.jpg",
+              "desc": "Reaper's Mark sends forth bursts of Shadowfrost energy and back, dealing 34 Shadowfrost damage both ways to all enemies caught in its path.\r\n\r\nWave of Souls critical strikes cause enemies to take 5% increased Shadowfrost damage for 15 sec, stacking up to 2 times, and it is always a critical strike on its way back."
             }
           ]
         },
@@ -2409,7 +2637,9 @@
               "talent": "Bind in Darkness",
               "spell_id": 440031,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_argus_soulbombdebuffsmall.jpg",
+              "desc": "Rime empowered Howling Blast deals 60% increased damage to its main target, and is now Shadowfrost.\r\n\r\nShadowfrost damage applies 2 stacks to Reaper's Mark and 4 stacks when it is a critical strike."
             }
           ]
         },
@@ -2431,14 +2661,18 @@
               "talent": "Death's Messenger",
               "spell_id": 437122,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_argus_deathfog.jpg",
+              "desc": "Reduces the cooldowns of Lichborne and Raise Dead by 30 sec."
             },
             {
               "entry_id": "128234",
               "talent": "Expelling Shield",
               "spell_id": 439948,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_antimagicshell.jpg",
+              "desc": "When an enemy deals direct damage to your Anti-Magic Shell, their cast speed is reduced by 10% for 6 sec."
             }
           ]
         },
@@ -2460,14 +2694,18 @@
               "talent": "Dark Talons",
               "spell_id": 436687,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_shoulder_93.jpg",
+              "desc": "Consuming Killing Machine or Rime has a 25% chance to grant 3 stacks of Icy Talons and increase its maximum stacks by the same amount for 6 sec.\r\n\r\nRunic Power spending abilities count as Shadowfrost while Icy Talons is active."
             },
             {
               "entry_id": "128266",
               "talent": "Reaper's Onslaught",
               "spell_id": 469870,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_soulcleave2.jpg",
+              "desc": "Reduces the cooldown of Reaper's Mark by 15 sec, but the amount of Obliterates and Frostscythes empowered by Exterminate is reduced by 1."
             }
           ]
         },
@@ -2489,7 +2727,9 @@
               "talent": "Wither Away",
               "spell_id": 441894,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/sha_spell_warlock_demonsoul.jpg",
+              "desc": "Frost Fever deals its damage 100% faster, and the second scythe of Exterminate applies Frost Fever."
             }
           ]
         },
@@ -2511,7 +2751,9 @@
               "talent": "Soul Rupture",
               "spell_id": 437161,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/warlock_siphonlife.jpg",
+              "desc": "When Reaper's Mark explodes, it deals 20% of the damage dealt to nearby enemies."
             }
           ]
         },
@@ -2531,7 +2773,9 @@
               "talent": "Reaper's Mark",
               "spell_id": 439843,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_deathbringerdeathknight_reapersmark.jpg",
+              "desc": "Viciously slice into the soul of your enemy, dealing 109 Shadowfrost damage and applying Reaper's Mark.\r\n\r\nEach time you deal Shadow or Frost damage, add a stack of Reaper's Mark. After 12 sec or reaching 40 stacks, the mark explodes, dealing 14 damage per stack.\r\n\r\nReaper's Mark travels to an unmarked enemy nearby if the target dies."
             }
           ]
         },
@@ -2556,7 +2800,9 @@
               "talent": "Exterminate",
               "spell_id": 441378,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_polearm_2h_titanargus_d_01.jpg",
+              "desc": "After Reaper's Mark explodes, your next 2 Obliterates or Frostscythes cost 1 Rune and summon 2 scythes to strike your enemies.\r\n\r\nThe first scythe strikes your target for 188 Shadowfrost damage and the second scythe strikes all enemies around your target for 74 Shadowfrost damage. Deals reduced damage beyond 8 targets."
             }
           ]
         },
@@ -2578,7 +2824,9 @@
               "talent": "Echoing Fury",
               "spell_id": 1265855,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_blueflamebreath.jpg",
+              "desc": "Reaper's Mark deals 5% increased damage.\r\n\r\nCasting Dancing Rune Weapon grants 1 stack of Exterminate with 100% first scythe and 100% second scythe effectiveness."
             }
           ]
         },
@@ -2600,7 +2848,9 @@
               "talent": "Deathly Blows",
               "spell_id": 1265932,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_sword_1h_mawraid_d_02.jpg",
+              "desc": "Death Strike damage increased by 12%."
             }
           ]
         },
@@ -2622,7 +2872,9 @@
               "talent": "Frigid Resolve",
               "spell_id": 1265859,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_deathknight_icetouch.jpg",
+              "desc": "The effectiveness of Permafrost is increased by 100% and Exterminate grants Permafrost equal to 10% of the damage dealt.\r\n\r\nPermafrost\r\nYour auto attack damage grants you an absorb shield equal to 40% of the damage dealt."
             }
           ]
         }

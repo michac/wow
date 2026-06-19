@@ -20,6 +20,12 @@
       "Hellcaller"
     ]
   },
+  "level_cap": 90,
+  "budgets": {
+    "class": 34,
+    "spec": 34,
+    "hero": 13
+  },
   "trees": {
     "class": [
       {
@@ -38,7 +44,9 @@
             "talent": "Fel Domination",
             "spell_id": 333889,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_felmending.jpg",
+            "desc": "Your next Imp, Voidwalker, Incubus, Succubus, Felhunter, or Felguard Summon spell is free and has its casting time reduced by 90%."
           }
         ]
       },
@@ -58,7 +66,9 @@
             "talent": "Soul Leech",
             "spell_id": 108370,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/warlock_siphonlife.jpg",
+            "desc": "All single-target damage done by you and your minions grants you and your pet shadowy shields that absorb 3% of the damage dealt for 15 sec, up to 5% of maximum health."
           }
         ]
       },
@@ -78,7 +88,9 @@
             "talent": "Burning Rush",
             "spell_id": 111400,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_deathwing_sealarmorbreachtga.jpg",
+            "desc": "Increases your movement speed by 50%, but also damages you for 4% of your maximum health every 1 sec. Movement impairing effects may not reduce you below 100% of normal movement speed. Lasts until canceled."
           }
         ]
       },
@@ -100,7 +112,9 @@
             "talent": "Fel Pact",
             "spell_id": 386113,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_impphaseshift.jpg",
+            "desc": "Reduces the cooldown of Fel Domination by 60 sec."
           }
         ]
       },
@@ -123,7 +137,9 @@
             "talent": "Demon Skin",
             "spell_id": 219272,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_ragingscream.jpg",
+            "desc": "Your Soul Leech absorption now passively recharges at a rate of 0.2% of maximum health every 1 sec, and may now absorb an additional 5% of maximum health.\r\n\r\nIncreases your armor by 45%."
           }
         ]
       },
@@ -146,7 +162,9 @@
             "talent": "Fel Armor",
             "spell_id": 386124,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_felarmour.jpg",
+            "desc": "When Soul Leech absorbs damage, 5% of damage taken is absorbed and spread out over 5 sec.\r\n\r\nReduces damage taken by 1.5%."
           }
         ]
       },
@@ -168,7 +186,9 @@
             "talent": "Fiendish Stride",
             "spell_id": 386110,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_moosehoof_fel.jpg",
+            "desc": "Reduces the damage dealt by Burning Rush by 10%. Burning Rush increases your movement speed by an additional 20%."
           }
         ]
       },
@@ -191,7 +211,9 @@
             "talent": "Demonic Embrace",
             "spell_id": 288843,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_metamorphosis.jpg",
+            "desc": "Stamina increased by 10%."
           }
         ]
       },
@@ -214,14 +236,18 @@
             "talent": "Nightmare",
             "spell_id": 386648,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_possession.jpg",
+            "desc": "Increases the amount of damage required to break your fear effects by 60%."
           },
           {
             "entry_id": "115459",
             "talent": "Horrify",
             "spell_id": 56244,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nzinsanity_bloodthirst.jpg",
+            "desc": "Your Fear causes the target to tremble in place instead of fleeing in fear."
           }
         ]
       },
@@ -244,7 +270,9 @@
             "talent": "Demonic Fortitude",
             "spell_id": 386617,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_warlock_summonimpoutland.jpg",
+            "desc": "Increases you and your pets' maximum health by 5%."
           }
         ]
       },
@@ -266,7 +294,9 @@
             "talent": "Banish",
             "spell_id": 710,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_cripple.jpg",
+            "desc": "Banishes an enemy Demon, Aberration, or Elemental, preventing any action for 30 sec. Limit 1. Casting Banish again on the target will cancel the effect."
           }
         ]
       },
@@ -289,7 +319,9 @@
             "talent": "Curse of Exhaustion",
             "spell_id": 334275,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_grimward.jpg",
+            "desc": "Reduces the target's movement speed by 50% for 12 sec.\r\n\r\nCurses: A warlock can only have one Curse active per target."
           }
         ]
       },
@@ -312,7 +344,9 @@
             "talent": "Curse of Tongues",
             "spell_id": 1714,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_curseoftounges.jpg",
+            "desc": "Forces the target to speak in Demonic, increasing the casting time of all spells by 30% for 1 min.\r\n\r\nCurses: A warlock can only have one Curse active per target."
           }
         ]
       },
@@ -334,7 +368,9 @@
             "talent": "Infernal Beneficiary",
             "spell_id": 1265810,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_general_raidrepresentation.jpg",
+            "desc": "Healing done by Drain Life also heals your primary demon at 400% effectiveness."
           }
         ]
       },
@@ -356,7 +392,9 @@
             "talent": "Mortal Coil",
             "spell_id": 6789,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warlock_mortalcoil.jpg",
+            "desc": "Horrifies an enemy target into fleeing, incapacitating for 3 sec and healing you for 20% of maximum health."
           }
         ]
       },
@@ -379,7 +417,9 @@
             "talent": "Pact of the Annihilan",
             "spell_id": 1270693,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_magtheridonshead.jpg",
+            "desc": "Increases your critical strike chance by 2%."
           }
         ]
       },
@@ -402,7 +442,9 @@
             "talent": "Demonic Circle",
             "spell_id": 268358,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_demoniccirclesummon.jpg",
+            "desc": "Summons a Demonic Circle for 15 min. Cast Demonic Circle: Teleport to teleport to its location and remove all movement slowing effects.\r\n\r\nYou also learn:\r\n\r\n Demonic Circle: Teleport\r\nTeleports you to your Demonic Circle and removes all movement slowing effects."
           }
         ]
       },
@@ -426,7 +468,9 @@
             "talent": "Pact of the Satyr",
             "spell_id": 1270691,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_mindshear.jpg",
+            "desc": "Increases your haste by 2%."
           }
         ]
       },
@@ -448,7 +492,9 @@
             "talent": "Improved Mortal Coil",
             "spell_id": 1265816,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_warlock_harvestoflife.jpg",
+            "desc": "Increases the range of Mortal Coil by 10 yds and Mortal Coil now heals for an additional 5% of maximum health."
           }
         ]
       },
@@ -470,7 +516,9 @@
             "talent": "Dark Pact",
             "spell_id": 108416,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_deathpact.jpg",
+            "desc": "Sacrifices 20% of your current health to shield you for 200% of the sacrificed health plus an additional 950 for 20 sec. Usable while suffering from control impairing effects."
           }
         ]
       },
@@ -492,7 +540,9 @@
             "talent": "Foul Mouth",
             "spell_id": 1265813,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_creature_cursed_02.jpg",
+            "desc": "Casting Curse of Exhaustion, Curse of Tongues, or Curse of Weakness now curses all enemies within 10 yds of the target."
           }
         ]
       },
@@ -515,7 +565,9 @@
             "talent": "Empowered Healthstone",
             "spell_id": 1271699,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_raid_creepingcoagulum_blue.jpg",
+            "desc": "Healthstones heal you for an additional 5% additional health."
           }
         ]
       },
@@ -537,7 +589,9 @@
             "talent": "Abyss Walker",
             "spell_id": 389609,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_explore_argus.jpg",
+            "desc": "Using Demonic Circle: Teleport or your Demonic Gateway reduces all damage you take by 4% for 10 sec."
           }
         ]
       },
@@ -560,7 +614,9 @@
             "talent": "Fortified Soul",
             "spell_id": 1271694,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_warlock_demonsoul.jpg",
+            "desc": "Soul Leech may now absorb an additional 5% of your maximum health."
           }
         ]
       },
@@ -582,7 +638,9 @@
             "talent": "Teachings of the Black Harvest",
             "spell_id": 385881,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_codexofxerrath_nochains.jpg",
+            "desc": "Your primary pets gain a bonus effect.\r\n\r\nImp: Successful Singe Magic casts grant the target 4% damage reduction for 5 sec.\r\n\r\nVoidwalker: Reduces the cooldown of Shadow Bulwark by 30 sec.\r\n\r\nFelhunter: Reduces the cooldown of Devour Magic by 5 sec.\r\n\r\nSayaad: Reduces the cooldown of Seduction by 10 sec and causes the target to walk faster towards the demon."
           }
         ]
       },
@@ -605,7 +663,9 @@
             "talent": "Gorefiend's Avarice",
             "spell_id": 1270701,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_helmet_90.jpg",
+            "desc": "Drain Life now channels 100% faster and restores health 100% faster."
           }
         ]
       },
@@ -627,14 +687,18 @@
             "talent": "Ichor of Devils",
             "spell_id": 386664,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_yorsahj_bloodboil_greenoil.jpg",
+            "desc": "Dark Pact sacrifices only 5% of your current health for the same shield value."
           },
           {
             "entry_id": "91445",
             "talent": "Frequent Donor",
             "spell_id": 386686,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_ironmaidens_bloodritual.jpg",
+            "desc": "Reduces the cooldown of Dark Pact by 15 sec."
           }
         ]
       },
@@ -658,7 +722,9 @@
             "talent": "Pact of the Eredar",
             "spell_id": 1270695,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_boss_argus_femaleeredar.jpg",
+            "desc": "Increases your Intellect by 3%."
           }
         ]
       },
@@ -681,7 +747,9 @@
             "talent": "Pact of the Nathrezim",
             "spell_id": 1270690,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_physical_taunt_purple.jpg",
+            "desc": "Increases your Leech by 2%."
           }
         ]
       },
@@ -705,7 +773,9 @@
             "talent": "Demonic Resilience",
             "spell_id": 389590,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warlock_avoidance.jpg",
+            "desc": "Reduces the chance you will be critically struck by 2%. All damage your primary demon takes is reduced by 8%."
           }
         ]
       },
@@ -727,7 +797,9 @@
             "talent": "Empowered Drain Life",
             "spell_id": 1271689,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_lifedrain02_purple.jpg",
+            "desc": "Drain Life heals for an additional 200% of damage dealt and grants Soul Leech equal to 10% of damage dealt."
           }
         ]
       },
@@ -750,14 +822,18 @@
             "talent": "Strength of Will",
             "spell_id": 317138,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_demonictactics.jpg",
+            "desc": "Unending Resolve reduces damage taken by an additional 15%."
           },
           {
             "entry_id": "91467",
             "talent": "Dark Accord",
             "spell_id": 386659,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warlock_improveddemonictactics.jpg",
+            "desc": "Reduces the cooldown of Unending Resolve by 45 sec."
           }
         ]
       },
@@ -780,7 +856,9 @@
             "talent": "Demonic Gateway",
             "spell_id": 111771,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_warlock_demonicportal_green.jpg",
+            "desc": "Creates a demonic gateway between two locations. Activating the gateway transports the user to the other gateway. Each player can use a Demonic Gateway only once per 90 sec."
           }
         ]
       },
@@ -804,14 +882,18 @@
             "talent": "Howl of Terror",
             "spell_id": 5484,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warlock_howlofterror.jpg",
+            "desc": "Let loose a terrifying howl, causing 5 enemies within 10 yds to flee in fear, disorienting them for 20 sec. Damage may cancel the effect."
           },
           {
             "entry_id": "91457",
             "talent": "Shadowfury",
             "spell_id": 30283,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warlock_shadowfurytga.jpg",
+            "desc": "Stuns all enemies within 8 yds for 3 sec."
           }
         ]
       },
@@ -833,7 +915,9 @@
             "talent": "Swift Artifice",
             "spell_id": 452902,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_destructivesoul.jpg",
+            "desc": "Reduces the cast time of Soulstone and Create Healthstone by 50%."
           }
         ]
       },
@@ -856,7 +940,9 @@
             "talent": "Soul Link",
             "spell_id": 108415,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warlock_soullink.jpg",
+            "desc": "5% of all damage you take is taken by your demon pet instead. \r\n\r\nWhile Grimoire of Sacrifice is active, your Stamina is increased by 3%."
           }
         ]
       },
@@ -878,7 +964,9 @@
             "talent": "Frequent Traveler",
             "spell_id": 1265801,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_dungeon_outland_dungeonmaster.jpg",
+            "desc": "Reduces the cast time of Demonic Gateway by 0.5 sec and you can now use Demonic Gateways twice before triggering a cooldown."
           }
         ]
       },
@@ -901,7 +989,9 @@
             "talent": "Fel Synergy",
             "spell_id": 389367,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_sword_1h_felfireraid_d_01.jpg",
+            "desc": "Soul Leech also heals you for 8% and your pet for 25% of the absorption it grants."
           }
         ]
       },
@@ -923,7 +1013,9 @@
             "talent": "Oppressive Darkness",
             "spell_id": 1270255,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_shadowfury.jpg",
+            "desc": "Reduces the cooldown of Shadowfury by 15 sec and increases its radius by 2 yds.\r\n\r\nReduces the cooldown of Howl of Terror by 5 sec and it now fears 5 additional enemies."
           }
         ]
       },
@@ -946,7 +1038,9 @@
             "talent": "Pact of Gluttony",
             "spell_id": 386689,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/warlock_bloodstone.jpg",
+            "desc": "Healthstones you conjure for yourself are now Demonic Healthstones and can be used multiple times in combat. Demonic Healthstones cannot be traded.\r\n\r\n Demonic Healthstone\r\nInstantly restores 25% health. 60 sec cooldown."
           }
         ]
       },
@@ -970,7 +1064,9 @@
             "talent": "Soulburn",
             "spell_id": 385899,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_warlock_soulburn.jpg",
+            "desc": "Consumes a Soul Shard, unlocking the hidden power of your spells.\r\n\r\nDemonic Circle: Teleport: Increases your movement speed by 50% and makes you immune to snares and roots for 6 sec.\r\n\r\nDemonic Gateway: Can be cast instantly.\r\n\r\nDrain Life: Gain an absorb shield equal to the amount of healing done for 30 sec. This shield cannot exceed 30% of your maximum health.\r\n\r\nHealthstone: Increases the healing of your Healthstone by 30% and increases your maximum health by 20% for 12 sec."
           }
         ]
       },
@@ -993,14 +1089,18 @@
             "talent": "Blight of Weakness",
             "spell_id": 1271748,
             "max_ranks": 1,
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/warlock_curse_weakness_amplified.jpg",
+            "desc": "Call forth a cloud of cloying shadow mist that envelopes the target and all enemies within 10 yds, increasing the time between their attacks by 100% and reducing their critical strike chance by 10% for 12 sec.\r\n\r\nCurses: A warlock can only have one Curse or Blight active per target."
           },
           {
             "entry_id": "136738",
             "talent": "Blight of Tongues",
             "spell_id": 1271802,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_curseoftongues_amplified.jpg",
+            "desc": "Call forth a cloud of cloying shadow mist that envelopes the target and all enemies within 10 yds, increasing their casting time of all spells by 100% for 12 sec.\r\n\r\nCurses: A warlock can only have one Curse or Blight active per target."
           }
         ]
       }
@@ -1022,7 +1122,9 @@
             "talent": "Chaos Bolt",
             "spell_id": 116858,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warlock_chaosbolt.jpg",
+            "desc": "Unleashes a devastating blast of chaos, dealing a critical strike for 3,113 Chaos damage. Damage is further increased by your critical strike chance."
           }
         ]
       },
@@ -1044,7 +1146,9 @@
             "talent": "Conflagrate",
             "spell_id": 17962,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_fireball.jpg",
+            "desc": "Triggers an explosion on the target, dealing 1,346 Fire damage.\r\n\r\nGenerates 5 Soul Shard Fragments."
           }
         ]
       },
@@ -1066,14 +1170,18 @@
             "talent": "Rain of Fire",
             "spell_id": 5740,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_rainoffire.jpg",
+            "desc": "Calls down a rain of hellfire the target location, dealing 1,395 Fire damage over 7.1 sec to enemies in the area.\r\n\r\nThis spell is cast at a selected location."
           },
           {
             "entry_id": "128601",
             "talent": "Rain of Fire",
             "spell_id": 1214467,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_rainoffire.jpg",
+            "desc": "Calls down a rain of hellfire upon your target, dealing 1,395 Fire damage over 7.1 sec to enemies in the area.\r\n\r\nThis spell is cast at your target."
           }
         ]
       },
@@ -1095,7 +1203,9 @@
             "talent": "Improved Conflagrate",
             "spell_id": 231793,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_fireball.jpg",
+            "desc": "Conflagrate gains an additional charge."
           }
         ]
       },
@@ -1117,7 +1227,9 @@
             "talent": "Backdraft",
             "spell_id": 196406,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warlock_backdraft.jpg",
+            "desc": "Conflagrate reduces the cast time of your next Incinerate, Chaos Bolt, or Soul Fire by 30%. Maximum 2 charges."
           }
         ]
       },
@@ -1139,7 +1251,9 @@
             "talent": "Practiced Chaos",
             "spell_id": 1244284,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_chaoticimprint_fire.jpg",
+            "desc": "Increases Mastery by 2%."
           }
         ]
       },
@@ -1161,7 +1275,9 @@
             "talent": "Roaring Blaze",
             "spell_id": 1244310,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warlock_inferno.jpg",
+            "desc": "Increases Conflagrate damage by 10%. \r\n\r\nConflagrate now erupts the target's Immolate, spreading it up to 3 nearby enemies."
           }
         ]
       },
@@ -1184,7 +1300,9 @@
             "talent": "Explosive Potential",
             "spell_id": 388827,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_felflamering_red.jpg",
+            "desc": "Reduces the cooldown of Conflagrate by 2 sec."
           }
         ]
       },
@@ -1207,14 +1325,18 @@
             "talent": "Mayhem",
             "spell_id": 387506,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_warlock_demonbolt.jpg",
+            "desc": "Your single target spells have a 35% chance to apply Havoc to a nearby enemy for 5.0 sec.\r\n\r\n Havoc\r\nMarks a target with Havoc for 5.0 sec, causing your single target spells to also strike the Havoc victim for 60% of the damage dealt."
           },
           {
             "entry_id": "91493",
             "talent": "Havoc",
             "spell_id": 80240,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warlock_baneofhavoc.jpg",
+            "desc": "Marks a target with Havoc for 15 sec, causing your single target spells to also strike the Havoc victim for 60% of the damage dealt."
           }
         ]
       },
@@ -1237,7 +1359,9 @@
             "talent": "Scalding Flames",
             "spell_id": 388832,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_burningsoul.jpg",
+            "desc": "Increases the damage of Immolate by 25% and its duration by 3 sec."
           }
         ]
       },
@@ -1259,7 +1383,9 @@
             "talent": "Shadowburn",
             "spell_id": 17877,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_scourgebuild.jpg",
+            "desc": "Blasts a target for 1,856 Shadowflame damage. Only usable on enemies that have less than 20% health.\r\n\r\nRestores 1 Soul Shard and refunds a charge if the target dies within 5 sec."
           }
         ]
       },
@@ -1282,7 +1408,9 @@
             "talent": "Backlash",
             "spell_id": 387384,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_playingwithfire.jpg",
+            "desc": "Increases your critical strike chance by 2%.\r\n\r\nPhysical attacks against you have a 20% chance to make your next Incinerate instant cast. This effect can only occur once every 6 sec."
           }
         ]
       },
@@ -1304,7 +1432,9 @@
             "talent": "Improved Havoc",
             "spell_id": 1244460,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warlock_baneofhavoc.jpg",
+            "desc": "Increases the duration of Havoc by 5 sec and increases the damage Havoc victims are dealt by an additional 10%."
           }
         ]
       },
@@ -1327,7 +1457,9 @@
             "talent": "Ashen Remains",
             "spell_id": 387252,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_enchanting_dust.jpg",
+            "desc": "Chaos Bolt, Shadowburn, and Incinerate deal 3% increased damage to targets afflicted by Immolate."
           }
         ]
       },
@@ -1349,7 +1481,9 @@
             "talent": "Cataclysm",
             "spell_id": 152108,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_zone_cataclysm.jpg",
+            "desc": "Calls forth a cataclysm at the target location, dealing 1,362 Shadowflame damage to all enemies within 8 yards and afflicting them with Immolate."
           }
         ]
       },
@@ -1371,7 +1505,9 @@
             "talent": "Fiendish Cruelty",
             "spell_id": 1245633,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_soulburn.jpg",
+            "desc": "Critical strikes dealt by Chaos Bolt, Conflagrate, or Incinerate have a 10% chance to make your next cast of Shadowburn within 30 sec cost no Soul Shards and usable on any target regardless of health."
           }
         ]
       },
@@ -1394,7 +1530,9 @@
             "talent": "Chaotic Inferno",
             "spell_id": 1244788,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_burnout.jpg",
+            "desc": "Increases Chaos Bolt damage by 5% and Chaos Bolt now has a 25% chance to make your next Incinerate instant."
           }
         ]
       },
@@ -1416,7 +1554,9 @@
             "talent": "Flashpoint",
             "spell_id": 387259,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_moltenblood.jpg",
+            "desc": "When your Immolate deals periodic damage to a target above 80% health, gain 2% Haste for 10 sec.\r\n\r\nStacks up to 3 times."
           }
         ]
       },
@@ -1440,7 +1580,9 @@
             "talent": "Summon Infernal",
             "spell_id": 1122,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_summoninfernal.jpg",
+            "desc": "Summons an Infernal from the Twisting Nether, impacting for 229 Fire damage and stunning all enemies in the area for 2 sec.\r\n\r\nThe Infernal will serve you for 30 sec, dealing 210 damage to all nearby enemies every 1.8 sec and generating 1 Soul Shard Fragment every 1 sec."
           }
         ]
       },
@@ -1462,7 +1604,9 @@
             "talent": "Emberstorm",
             "spell_id": 454744,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_selfdestruct.jpg",
+            "desc": "Increases the damage done by your Fire spells by 2% and reduces the cast time of your Incinerate spell by 20%."
           }
         ]
       },
@@ -1485,7 +1629,9 @@
             "talent": "Fire and Brimstone",
             "spell_id": 196408,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warlock_fireandbrimstone.jpg",
+            "desc": "Incinerate now also hits all enemies near your target for 25% damage."
           }
         ]
       },
@@ -1507,7 +1653,9 @@
             "talent": "Lake of Fire",
             "spell_id": 1244877,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_ragnaros_molteninferno.jpg",
+            "desc": "Cataclysm now leaves behind a lake of fire that deals 2,281 Fire damage to enemies within it over 8.9 sec.\r\n\r\nImmolate deals 20% increased damage to enemies within the lake of fire."
           }
         ]
       },
@@ -1531,14 +1679,18 @@
             "talent": "Reverse Entropy",
             "spell_id": 205148,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_playingwithfiregreen.jpg",
+            "desc": "Your spells have a chance to grant you 15% Haste for 8 sec."
           },
           {
             "entry_id": "91495",
             "talent": "Internal Combustion",
             "spell_id": 266134,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_livingbomb.jpg",
+            "desc": "Chaos Bolt consumes up to 5 sec of Immolate's damage over time effect on your target, instantly dealing that much damage."
           }
         ]
       },
@@ -1560,14 +1712,18 @@
             "talent": "Crashing Chaos",
             "spell_id": 417234,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_infernalmount.jpg",
+            "desc": "Summon Infernal increases the damage of your next 8 casts of Chaos Bolt by 25% or your next 8 casts of Rain of Fire by 35%."
           },
           {
             "entry_id": "126494",
             "talent": "Rain of Chaos",
             "spell_id": 266086,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_felrainoffire.jpg",
+            "desc": "While your initial Infernal is active, every Soul Shard you spend has a 15% chance to summon an additional Infernal that lasts 8 sec."
           }
         ]
       },
@@ -1591,14 +1747,18 @@
             "talent": "Summoner's Embrace",
             "spell_id": 453105,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_unsummonbuilding.jpg",
+            "desc": "Increases the damage dealt by your spells and your demon by 3%."
           },
           {
             "entry_id": "125618",
             "talent": "Grimoire of Sacrifice",
             "spell_id": 108503,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/warlock_grimoireofsacrifice.jpg",
+            "desc": "Sacrifices your demon pet for power, gaining its command demon ability, and causing your spells to sometimes also deal 142 additional Shadow damage.\r\n\r\nLasts until canceled or until you summon a demon pet."
           }
         ]
       },
@@ -1620,7 +1780,9 @@
             "talent": "Ruin",
             "spell_id": 387103,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_shadowwordpain.jpg",
+            "desc": "Increases the critical strike damage of your Destruction spells by 15%."
           }
         ]
       },
@@ -1643,7 +1805,9 @@
             "talent": "Improved Chaos Bolt",
             "spell_id": 456951,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warlock_chaosbolt.jpg",
+            "desc": "Increases the damage of Chaos Bolt by 10% and reduces its cast time by 0.5 sec."
           }
         ]
       },
@@ -1666,7 +1830,9 @@
             "talent": "Destructive Rapidity",
             "spell_id": 1244928,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_rainoffire.jpg",
+            "desc": "Increases how quickly Rain of Fire deals damage by 25% and how quickly your Infernal's Immolation deals damage by 10%."
           }
         ]
       },
@@ -1688,7 +1854,9 @@
             "talent": "Devastation",
             "spell_id": 454735,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_flameshock.jpg",
+            "desc": "Increases the critical strike chance of your Destruction spells by 3%."
           }
         ]
       },
@@ -1710,14 +1878,18 @@
             "talent": "Dimensional Rift",
             "spell_id": 1280868,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_artifact_dimensionalrift.jpg",
+            "desc": "Chaos Bolt and Shadowburn have a 10% chance to rip open a hole in space and time, opening a random portal that damages your target:\r\n\r\nShadowy Tear\r\nDeals 3,143 Shadow damage over 14 sec.\r\n\r\nUnstable Tear\r\nDeals 2,696 Chaos damage over 6 sec.\r\n\r\nChaos Tear\r\nFires a Chaos Bolt, dealing 1,240 Chaos damage. This Chaos Bolt always critically strikes and your critical strike chance increases its damage.\r\n\r\nGenerates 10 Soul Shard Fragments."
           },
           {
             "entry_id": "134221",
             "talent": "Soul Fire",
             "spell_id": 6353,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_firebolt.jpg",
+            "desc": "Burns the enemy's soul, dealing 10,205 Fire damage and applying Immolate.\r\n\r\nGenerates 1 Soul Shard."
           }
         ]
       },
@@ -1740,7 +1912,9 @@
             "talent": "Chaos Incarnate",
             "spell_id": 387275,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_felflamering.jpg",
+            "desc": "Chaos Bolt, Rain of Fire, and Shadowburn always gain at least 70% of the maximum benefit from your Mastery: Chaotic Energies."
           }
         ]
       },
@@ -1763,7 +1937,9 @@
             "talent": "Conflagration of Chaos",
             "spell_id": 387108,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_shadowflame_buff.jpg",
+            "desc": "Conflagrate and Shadowburn have a 100% chance to guarantee your next cast of either ability to critically strike, and increase its damage by your critical strike chance."
           }
         ]
       },
@@ -1786,7 +1962,9 @@
             "talent": "Diabolic Embers",
             "spell_id": 387173,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_shoulder_robe_raidmage_j_01.jpg",
+            "desc": "Incinerate now generates 100% additional Soul Shard Fragments."
           }
         ]
       },
@@ -1808,14 +1986,18 @@
             "talent": "Demonfire Infusion",
             "spell_id": 1214442,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_shadowandflame.jpg",
+            "desc": "Periodic damage from Immolate has a 4% chance to fire a Demonfire bolt at 100% increased effectiveness.\r\n\r\nIncinerate has a 25% chance to fire a Demonfire bolt at 100% increased effectiveness."
           },
           {
             "entry_id": "128599",
             "talent": "Channel Demonfire",
             "spell_id": 196447,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_ragnaros_lavaboltgreen.jpg",
+            "desc": "Launches 15 bolts of felfire over 2.7 sec at random targets afflicted by your Immolate within 40 yds. Each bolt deals 150 Fire damage to the target and 73 Fire damage to nearby enemies."
           }
         ]
       },
@@ -1837,7 +2019,9 @@
             "talent": "Avatar of Destruction",
             "spell_id": 1245089,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_ability_warlock_overfiend.jpg",
+            "desc": "Casting Soul Fire summons an Overfiend.\r\n\r\nOpening a Dimensional Rift has a chance to summon an Overfiend instead.\r\n\r\n Summon Overfiend\r\nGenerates 1 Soul Shard Fragment every 1 sec and casts Chaos Bolt at 80% effectiveness at its summoner's target. Lasts 8 sec."
           }
         ]
       },
@@ -1859,7 +2043,9 @@
             "talent": "Inferno",
             "spell_id": 1280483,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/warlock_pvp_burninglegion.jpg",
+            "desc": "Reduces the cooldown of Summon Infernal by 30.0 sec and increases your Mastery by 3%."
           }
         ]
       },
@@ -1881,7 +2067,9 @@
             "talent": "Alythess's Ire",
             "spell_id": 1244941,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_ironmaidens_rapidfire.jpg",
+            "desc": "Rain of Fire has a 20% chance to reduce the cost of your next Rain of Fire within 8 sec by 100%."
           }
         ]
       },
@@ -1903,7 +2091,9 @@
             "talent": "Raging Demonfire",
             "spell_id": 387166,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_ragnaros_lavaboltgreen.jpg",
+            "desc": "Channel Demonfire fires an additional 2 bolts. Each bolt increases the remaining duration of Immolate on all targets hit by 0.5 sec."
           }
         ]
       },
@@ -1923,7 +2113,9 @@
             "talent": "Embers of Nihilam",
             "spell_id": 1265770,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_apextalent_warlock_embersofnihilam.jpg",
+            "desc": "Casting Incinerate has a chance to evoke an echo of the Dark Titan's power.\r\n\r\n Echo of Sargeras\r\nHurl an ember torn from Nihilam at the target, dealing 712 Shadowflame damage and an additional 617 Shadowflame damage to all enemies within 10 yds.\r\n\r\nDamage reduced beyond 8 targets."
           }
         ]
       }
@@ -1948,14 +2140,18 @@
               "talent": "Curse of the Satyr",
               "spell_id": 440057,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_fabric_felrag.jpg",
+              "desc": "Curse of Weakness is empowered and transforms into Curse of the Satyr.\r\n\r\n Curse of the Satyr\r\nIncreases the time between an enemy's attacks by 20% and the casting time of all spells by 30% for 2 min.\r\n\r\nCurses: A warlock can only have one Curse active per target."
             },
             {
               "entry_id": "123309",
               "talent": "Aura of Enfeeblement",
               "spell_id": 440059,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/warlock_curse_weakness_aura.jpg",
+              "desc": "While Unending Resolve is active, enemies within 30 yds are affected by Curse of Tongues and Curse of Weakness at 100% effectiveness."
             }
           ]
         },
@@ -1977,7 +2173,9 @@
               "talent": "Seeds of Their Demise",
               "spell_id": 440055,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warlock_moltencoregreen.jpg",
+              "desc": "After Wither reaches 8 stacks or when its host reaches 20% health, Wither deals 378 Shadowflame damage to its host every 1 sec until 1 stack remains.\r\n\r\nWhen Blackened Soul deals damage, you have a chance to gain Shard Instability."
             }
           ]
         },
@@ -1999,7 +2197,9 @@
               "talent": "Mark of Xavius",
               "spell_id": 440046,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/warlock_curse_shadow_aura.jpg",
+              "desc": "Wither damage increased by 25%.\r\n\r\nBlackened Soul deals 2% increased damage per stack of Wither."
             }
           ]
         },
@@ -2021,14 +2221,18 @@
               "talent": "Zevrim's Resilience",
               "spell_id": 440065,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_intensifyrage.jpg",
+              "desc": "Dark Pact heals you for 625 every 1 sec while active."
             },
             {
               "entry_id": "123308",
               "talent": "Illhoof's Design",
               "spell_id": 440070,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/sha_spell_fire_felfireward_nightmare.jpg",
+              "desc": "Sacrifice 10% of your maximum health. Soul Leech now absorbs an additional 15% of your maximum health."
             }
           ]
         },
@@ -2050,7 +2254,9 @@
               "talent": "Blackened Soul",
               "spell_id": 440043,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nzinsanity_chasedbyshadows.jpg",
+              "desc": "Spending Soul Shards on damaging spells will further corrupt enemies affected by your Wither, increasing its stack count by 1.\r\n\r\nEach time Wither gains a stack it has a chance to collapse, consuming a stack every 1 sec to deal 378 Shadowflame damage to its host until 1 stack remains."
             }
           ]
         },
@@ -2070,7 +2276,9 @@
               "talent": "Wither",
               "spell_id": 445468,
               "max_ranks": 1,
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_hellcallerwarlock_wither.jpg",
+              "desc": "Bestows a vile malediction upon the target, burning the sinew and muscle of its host, dealing 76 Shadowflame damage immediately and an additional 1,285 Shadowflame damage over 18 sec.\r\n\r\nReplaces Corruption."
             }
           ]
         },
@@ -2095,7 +2303,9 @@
               "talent": "Malevolence",
               "spell_id": 442726,
               "max_ranks": 1,
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_hellcallerwarlock_malevolence.jpg",
+              "desc": "Dark magic erupts from you and corrupts your soul for 20 sec, causing enemies suffering from your Wither to take 4,808 Shadowflame damage and increase its stack count by 6.\r\n\r\nWhile corrupted your Haste is increased by 8% and spending Soul Shards on damaging spells grants 1 additional stack of Wither."
             }
           ]
         },
@@ -2117,7 +2327,9 @@
               "talent": "Mark of Peroth'arn",
               "spell_id": 440045,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/70_inscription_vantus_rune_tomb.jpg",
+              "desc": "Critical strike damage dealt by Wither is increased by 10%. \r\n\r\nWither has a chance to gain a stack when it critically strikes. Stacks gained this way do not activate Blackened Soul."
             }
           ]
         },
@@ -2139,7 +2351,9 @@
               "talent": "Xalan's Cruelty",
               "spell_id": 440040,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_demonicempathy.jpg",
+              "desc": "Shadow damage dealt by your spells and abilities is increased by 6% and your Shadow spells gain 10% more critical strike chance from all sources."
             }
           ]
         },
@@ -2161,7 +2375,9 @@
               "talent": "Xalan's Ferocity",
               "spell_id": 440044,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_felfire.jpg",
+              "desc": "Fire damage dealt by your spells and abilities is increased by 6% and your Fire spells gain 10% more critical strike chance from all sources."
             }
           ]
         },
@@ -2183,14 +2399,18 @@
               "talent": "Hatefury Rituals",
               "spell_id": 440048,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/70_inscription_glyph_demonhunter_minor.jpg",
+              "desc": "Wither deals 30% increased periodic damage but its duration is 15% shorter."
             },
             {
               "entry_id": "123310",
               "talent": "Bleakheart Tactics",
               "spell_id": 440051,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_mindshear.jpg",
+              "desc": "Wither damage increased 20%. When Wither gains a stack from Blackened Soul, it has a chance to gain an additional stack."
             }
           ]
         },
@@ -2212,7 +2432,9 @@
               "talent": "Alzzin's Iniquity",
               "spell_id": 1266803,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_improvedvampiricembrace.jpg",
+              "desc": "Malevolence grants an additional 4% Haste and when cast increases the stack count of active Withers by an additional 2 stacks."
             }
           ]
         },
@@ -2234,7 +2456,9 @@
               "talent": "Devil Fruit",
               "spell_id": 1266805,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_112_raidtrinkets_blobofswirlingvoid_terra.jpg",
+              "desc": "Periodic damage dealt by Wither has a chance to grant Malevolence for 8 sec."
             }
           ]
         },
@@ -2256,7 +2480,9 @@
               "talent": "Through the Felvine",
               "spell_id": 1266799,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_thorns_nightmare.jpg",
+              "desc": "Increases the damage of Chaos Bolt by 35% and Rain of Fire by 6%.\r\n\r\nThis effect is doubled while Malevolence is active."
             }
           ]
         }
@@ -2280,7 +2506,9 @@
               "talent": "Secrets of the Coven",
               "spell_id": 428518,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_boss_argus_shivan.jpg",
+              "desc": "Mother of Chaos empowers your next Incinerate to become Infernal Bolt.\r\n\r\n Infernal Bolt\r\nHurl a bolt enveloped in the infernal flames of the abyss, dealing 5,119 Fire damage to your enemy target and generating 3 Soul Shards."
             }
           ]
         },
@@ -2305,7 +2533,9 @@
               "talent": "Ruination",
               "spell_id": 428522,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_bossmannoroth_empoweredmannorothsgaze.jpg",
+              "desc": "Summoning a Pit Lord causes your next Chaos Bolt to become Ruination.\r\n\r\n Ruination\r\nCall down a demon-infested meteor from the depths of the Twisting Nether, dealing 9,644 Chaos damage on impact to all enemies within 8 yds of the target and summoning 3 Wild Imps.\r\n\r\nDamage is reduced beyond 8 targets."
             }
           ]
         },
@@ -2327,7 +2557,9 @@
               "talent": "Abyssal Dominion",
               "spell_id": 429581,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/70_inscription_vantus_rune_tomb.jpg",
+              "desc": "Summon Infernal becomes empowered, dealing 40% increased damage. When your Summon Infernal ends, it fragments into two smaller Infernals at 50% effectiveness that lasts 10 sec."
             }
           ]
         },
@@ -2349,7 +2581,9 @@
               "talent": "Flames of Xoroth",
               "spell_id": 429657,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warlock_burningembers.jpg",
+              "desc": "Fire damage increased by 4% and damage dealt by your demons is increased by 4%."
             }
           ]
         },
@@ -2371,14 +2605,18 @@
               "talent": "Soul-Etched Circles",
               "spell_id": 428911,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_demoniccircleteleport.jpg",
+              "desc": "You always gain the benefit of Soulburn when casting Demonic Circle: Teleport, increasing your movement speed by 50% and making you immune to snares and roots for 6 sec."
             },
             {
               "entry_id": "118837",
               "talent": "Annihilan's Bellow",
               "spell_id": 429072,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_physical_taunt.jpg",
+              "desc": "Howl of Terror cooldown is reduced by 10 sec and range is increased by 5 yds."
             }
           ]
         },
@@ -2400,7 +2638,9 @@
               "talent": "Gloom of Nathreza",
               "spell_id": 429899,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_envelopingshadows.jpg",
+              "desc": "Enemies marked by your Havoc take 7% increased damage from your single target spells."
             }
           ]
         },
@@ -2422,14 +2662,18 @@
               "talent": "Cruelty of Kerxan",
               "spell_id": 429902,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/creatureportrait_fomorhand.jpg",
+              "desc": "Summon Infernal grants Diabolic Ritual and reduces its duration by 3 sec."
             },
             {
               "entry_id": "118838",
               "talent": "Infernal Machine",
               "spell_id": 429917,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_supersoulash.jpg",
+              "desc": "Spending Soul Shards on damaging spells while your Infernal is active decreases the duration of Diabolic Ritual by 1 additional sec."
             }
           ]
         },
@@ -2451,7 +2695,9 @@
               "talent": "Cloven Souls",
               "spell_id": 428517,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_creature_felfrenzy.jpg",
+              "desc": "Enemies damaged by your Overlord have their souls cloven, increasing damage taken by you and your pets by 5% for 15 sec."
             }
           ]
         },
@@ -2473,14 +2719,18 @@
               "talent": "Infernal Vitality",
               "spell_id": 429115,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_fabric_felcloth_ebon.jpg",
+              "desc": "Unending Resolve heals you for 30% of your maximum health over 10 sec."
             },
             {
               "entry_id": "118839",
               "talent": "Infernal Bulwark",
               "spell_id": 429130,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_felfireward.jpg",
+              "desc": "Unending Resolve grants Soul Leech equal to 10% of your maximum health and increases the maximum amount Soul Leech can absorb by 10% for 8 sec."
             }
           ]
         },
@@ -2500,7 +2750,9 @@
               "talent": "Diabolic Ritual",
               "spell_id": 428514,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_bossfelorcs_necromancer_purple.jpg",
+              "desc": "Casting Chaos Bolt, Rain of Fire, or Shadowburn grants Diabolic Ritual for 20 sec. If Diabolic Ritual is already active, its duration is reduced by 1 sec instead.\r\n\r\nWhen Diabolic Ritual expires you gain Demonic Art, causing your next Chaos Bolt, Rain of Fire, or Shadowburn to summon an Overlord, Mother of Chaos, or Pit Lord that unleashes a devastating attack against your enemies."
             }
           ]
         },
@@ -2522,7 +2774,9 @@
               "talent": "Touch of Rancora",
               "spell_id": 429893,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_bossfellord_felspike.jpg",
+              "desc": "Demonic Art increases the damage of your next Chaos Bolt, Rain of Fire, or Shadowburn by 20% and reduces its cast time by 50%.\r\n\r\nCasting Chaos Bolt reduces the duration of Diabolic Ritual by 1 additional sec."
             }
           ]
         },
@@ -2544,7 +2798,9 @@
               "talent": "Mind's Eyes",
               "spell_id": 1268716,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_healingfocus.jpg",
+              "desc": "Your Diabolic Oculi observe the battlefield and collect information that is imparted to you upon being exploded, each Diabolic Oculi increasing your Intellect by 2% for 10 sec."
             }
           ]
         },
@@ -2566,7 +2822,9 @@
               "talent": "Looks That Kill",
               "spell_id": 1268713,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_bosskilrogg_deadeye.jpg",
+              "desc": "Your Diabolic Oculi now cast Diabolic Gaze at your primary demon's target every 1 sec while active.\r\n\r\n Diabolic Gaze\r\nFire a beam of destructive chaos magic at the target, dealing 304 Chaos damage.\r\n\r\nDamage is increased by 100% per Demonic Oculus active."
             }
           ]
         },
@@ -2588,7 +2846,9 @@
               "talent": "Diabolic Oculi",
               "spell_id": 1268709,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_pet_inquisitoreye.jpg",
+              "desc": "You summon a Diabolic Oculus, up to 3, each time the duration of Diabolic Ritual is reduced by one of your spells.\r\n\r\nDiabolic Oculi explode when consuming Demonic Art, dealing 891 Fire damage to all enemies within 10 yds of the target. Damage reduced beyond 8 targets."
             }
           ]
         }

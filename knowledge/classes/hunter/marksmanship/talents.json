@@ -20,6 +20,12 @@
       "Sentinel"
     ]
   },
+  "level_cap": 90,
+  "budgets": {
+    "class": 34,
+    "spec": 34,
+    "hero": 13
+  },
   "trees": {
     "class": [
       {
@@ -38,7 +44,9 @@
             "talent": "Rejuvenating Wind",
             "spell_id": 385539,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_galewinds.jpg",
+            "desc": "Exhilaration now also heals you for an additional 12.0% of your maximum health over 8 sec."
           }
         ]
       },
@@ -58,7 +66,9 @@
             "talent": "Survival of the Fittest",
             "spell_id": 264735,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_spiritarmor.jpg",
+            "desc": "Reduces all damage you and your pet take by 30% for 6 sec."
           }
         ]
       },
@@ -78,7 +88,9 @@
             "talent": "Posthaste",
             "spell_id": 109215,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_posthaste.jpg",
+            "desc": "Disengage also frees you from all movement impairing effects and increases your movement speed by 50% for 4 sec."
           }
         ]
       },
@@ -100,7 +112,9 @@
             "talent": "Natural Mending",
             "spell_id": 270581,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_onewithnature.jpg",
+            "desc": "Exhilaration's cooldown is reduced by 30 sec."
           }
         ]
       },
@@ -122,7 +136,9 @@
             "talent": "Padded Armor",
             "spell_id": 459450,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_plunderarmor.jpg",
+            "desc": "Survival of the Fittest gains an additional charge."
           }
         ]
       },
@@ -144,7 +160,9 @@
             "talent": "Hunter's Avoidance",
             "spell_id": 384799,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/rogue_burstofspeed.jpg",
+            "desc": "Damage taken from area of effect attacks reduced by 5%."
           }
         ]
       },
@@ -166,7 +184,9 @@
             "talent": "Wilderness Medicine",
             "spell_id": 343242,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_mendpet.jpg",
+            "desc": "Mend Pet heals for an additional 25% of your pet's health over its duration, and has a 25% chance to dispel a magic effect each time it heals your pet."
           }
         ]
       },
@@ -189,7 +209,9 @@
             "talent": "Combat Experience",
             "spell_id": 1268871,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_combatexperience.jpg",
+            "desc": "Your Agility is increased by 3%."
           }
         ]
       },
@@ -212,7 +234,9 @@
             "talent": "Improved Aspect of the Cheetah",
             "spell_id": 1258407,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mount_jungletiger.jpg",
+            "desc": "The cooldown of Aspect of the Cheetah is reduced by 30 sec."
           }
         ]
       },
@@ -234,7 +258,9 @@
             "talent": "Concussive Shot",
             "spell_id": 5116,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_stun.jpg",
+            "desc": "Dazes the target, slowing movement speed by 50% for 6 sec."
           }
         ]
       },
@@ -257,7 +283,9 @@
             "talent": "Precision Strikes",
             "spell_id": 1267003,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_ability_hunter_rupturingblow.jpg",
+            "desc": "Your auto shot damage is increased by 25%."
           }
         ]
       },
@@ -280,7 +308,9 @@
             "talent": "Counter Shot",
             "spell_id": 147362,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ammo_arrow_03.jpg",
+            "desc": "Interrupts spellcasting, preventing any spell in that school from being cast for 5 sec."
           }
         ]
       },
@@ -303,7 +333,9 @@
             "talent": "Serrated Tips",
             "spell_id": 459502,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_spear_01.jpg",
+            "desc": "You gain 2% more critical strike from critical strike sources."
           }
         ]
       },
@@ -325,7 +357,9 @@
             "talent": "Tranquilizing Shot",
             "spell_id": 19801,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_drowsy.jpg",
+            "desc": "Removes 1 Enrage and 1 Magic effect from an enemy target."
           }
         ]
       },
@@ -348,7 +382,9 @@
             "talent": "Pathfinding",
             "spell_id": 378002,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_displacement.jpg",
+            "desc": "Movement speed increased by 4%."
           }
         ]
       },
@@ -370,7 +406,9 @@
             "talent": "Disruptive Rounds",
             "spell_id": 343244,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/hunter_pvp_vipersting.jpg",
+            "desc": "When Counter Shot interrupts a cast, gain 30 Focus."
           }
         ]
       },
@@ -393,7 +431,9 @@
             "talent": "Improved Feign Death",
             "spell_id": 1258486,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_feigndeath.jpg",
+            "desc": "The cooldown of Feign Death is reduced by 5 sec."
           }
         ]
       },
@@ -415,7 +455,9 @@
             "talent": "Misdirection",
             "spell_id": 34477,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_misdirection.jpg",
+            "desc": "Misdirects all threat you cause to the targeted party or raid member, beginning with your next attack within 30 sec and lasting for 8 sec."
           }
         ]
       },
@@ -437,14 +479,18 @@
             "talent": "Kodo Tranquilizer",
             "spell_id": 459983,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mount_kodo_03.jpg",
+            "desc": "Tranquilizing Shot removes 1 additional Magic effect from up to 2 nearby targets."
           },
           {
             "entry_id": "126479",
             "talent": "Devilsaur Tranquilizer",
             "spell_id": 459991,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_pet_devilsaur.jpg",
+            "desc": "If Tranquilizing Shot removes only an Enrage effect, its cooldown is reduced by 5 sec."
           }
         ]
       },
@@ -467,7 +513,9 @@
             "talent": "Kindling Flare",
             "spell_id": 459506,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/achievment_raid_houroftwilight.jpg",
+            "desc": "Flare's radius is increased by 50%."
           }
         ]
       },
@@ -490,7 +538,9 @@
             "talent": "Trigger Finger",
             "spell_id": 459534,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_engineering2_pvpflaregun_color1.jpg",
+            "desc": "Haste increased by 2%."
           }
         ]
       },
@@ -512,14 +562,18 @@
             "talent": "Tar Trap",
             "spell_id": 187698,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_yorsahj_bloodboil_black.jpg",
+            "desc": "Hurls a tar trap to the target location that creates a 8 yd radius pool of tar around itself for 30 sec when the first enemy approaches. All enemies have 50% reduced movement speed while in the area of effect. Limit 1. Trap will exist for 1 min."
           },
           {
             "entry_id": "135707",
             "talent": "Scare Beast",
             "spell_id": 1513,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_cower.jpg",
+            "desc": "Scares a beast, causing it to run in fear for up to 20 sec.  Damage caused may interrupt the effect.  Only one beast can be feared at a time."
           }
         ]
       },
@@ -542,7 +596,9 @@
             "talent": "Touch of Grass",
             "spell_id": 1258402,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_ability_druid_lifetreading.jpg",
+            "desc": "Your maximum health is increased by 5%."
           }
         ]
       },
@@ -565,7 +621,9 @@
             "talent": "Camouflage",
             "spell_id": 199483,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_camouflage.jpg",
+            "desc": "You and your pet blend into the surroundings and gain stealth for 1 min. While camouflaged, you will heal for 2% of maximum health every 1 sec."
           }
         ]
       },
@@ -587,7 +645,9 @@
             "talent": "No Hard Feelings",
             "spell_id": 459546,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_seal.jpg",
+            "desc": "When Misdirection targets your pet, it reduces the damage they take by 50% for 5 sec.\r\n\r\nThe cooldown of Misdirection is reduced by 5 sec."
           }
         ]
       },
@@ -611,7 +671,9 @@
             "talent": "Improved Aspect of the Turtle",
             "spell_id": 1258485,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_pet_turtle.jpg",
+            "desc": "The cooldown of Aspect of the Turtle is reduced by 30 sec."
           }
         ]
       },
@@ -635,7 +697,9 @@
             "talent": "Specialized Arsenal",
             "spell_id": 459542,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_quiver_03.jpg",
+            "desc": "Kill Command deals 10% increased damage."
           }
         ]
       },
@@ -659,7 +723,9 @@
             "talent": "Scout's Instincts",
             "spell_id": 459455,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_sprint.jpg",
+            "desc": "You cannot be slowed below 80% of your normal movement speed while Aspect of the Cheetah is active."
           }
         ]
       },
@@ -681,7 +747,9 @@
             "talent": "Shell Wall",
             "spell_id": 1267218,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_cape_special_turtleshell_c_01.jpg",
+            "desc": "Damage taken during Aspect of the Turtle is reduced by an additional 20%."
           }
         ]
       },
@@ -703,7 +771,9 @@
             "talent": "Intimidation",
             "spell_id": 474421,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/artifactability_survivalhunter_eaglesbite.jpg",
+            "desc": "Your Spotting Eagle descends from the skies, stunning your target for 5 sec.\r\n\r\nThis ability does not require line of sight when used against players."
           }
         ]
       },
@@ -726,7 +796,9 @@
             "talent": "Improved Snaring",
             "spell_id": 1268868,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_fishing_nethooks01.jpg",
+            "desc": "Wing Clip slows an additional 25%.\r\n\r\nConcussive Shot slows an additional 10%."
           }
         ]
       },
@@ -748,7 +820,9 @@
             "talent": "Lone Survivor",
             "spell_id": 388039,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_huntervswild.jpg",
+            "desc": "The duration of Survival of the Fittest is increased by 2.0 sec."
           }
         ]
       },
@@ -771,7 +845,9 @@
             "talent": "Catlike Reflexes",
             "spell_id": 1258404,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_catlikereflexes.jpg",
+            "desc": "Aspect of the Cheetah's initial burst of speed is increased by 2.0 sec."
           }
         ]
       },
@@ -793,7 +869,9 @@
             "talent": "Binding Shot",
             "spell_id": 109248,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_bindelemental.jpg",
+            "desc": "Fires a magical projectile, tethering the enemy and any other enemies within 5 yds for 10 sec, stunning them for 3 sec if they move more than 5 yds from the arrow."
           }
         ]
       },
@@ -815,14 +893,18 @@
             "talent": "Trailblazer",
             "spell_id": 199921,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_aspectmastery.jpg",
+            "desc": "Your movement speed is increased by 30% anytime you have not attacked for 3 sec."
           },
           {
             "entry_id": "136674",
             "talent": "Moment of Opportunity",
             "spell_id": 459488,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_karoz_leap.jpg",
+            "desc": "When a trap triggers, gain 30% increased movement speed for 3 sec."
           }
         ]
       },
@@ -845,7 +927,9 @@
             "talent": "Cold Feet",
             "spell_id": 1268671,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_icyfeet.jpg",
+            "desc": "When your Freezing Trap breaks, the victim's movement speed is reduced by 70% for 4 sec."
           }
         ]
       },
@@ -867,14 +951,18 @@
             "talent": "Territorial Instincts",
             "spell_id": 459507,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_shamanrage.jpg",
+            "desc": "The cooldown of Intimidation is reduced by 20 sec."
           },
           {
             "entry_id": "135704",
             "talent": "Guttural Roar",
             "spell_id": 1258509,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_challangingroar.jpg",
+            "desc": "Intimidation now also stuns nearby enemies for 1.0 sec."
           }
         ]
       },
@@ -898,7 +986,9 @@
             "talent": "Born To Be Wild",
             "spell_id": 266921,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_aspectoftheviper.jpg",
+            "desc": "The cooldown of Aspect of the Cheetah, and Aspect of the Turtle are reduced by 15 sec."
           }
         ]
       },
@@ -922,7 +1012,9 @@
             "talent": "Keen Eyesight",
             "spell_id": 378004,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_silenthunter.jpg",
+            "desc": "Critical strike chance increased by 2%."
           }
         ]
       },
@@ -944,14 +1036,18 @@
             "talent": "Tar-Coated Bindings",
             "spell_id": 459460,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_food_legion_goooil_pool.jpg",
+            "desc": "Binding Shot's stun duration is increased by 1 sec."
           },
           {
             "entry_id": "136670",
             "talent": "Horsehair Tether",
             "spell_id": 472729,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_rope_01.jpg",
+            "desc": "When an enemy is stunned by Binding Shot, it is dragged to Binding Shot's center."
           }
         ]
       },
@@ -974,7 +1070,9 @@
             "talent": "Improved Traps",
             "spell_id": 343247,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_traplauncher.jpg",
+            "desc": "The cooldown of Tar Trap and Freezing Trap is reduced by 5.0 sec."
           }
         ]
       },
@@ -997,7 +1095,9 @@
             "talent": "Emergency Salve",
             "spell_id": 459517,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_potion_29.jpg",
+            "desc": "Feign Death and Aspect of the Turtle removes poison and disease effects from you."
           }
         ]
       },
@@ -1020,14 +1120,18 @@
             "talent": "Roar of Sacrifice",
             "spell_id": 53480,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_fervor.jpg",
+            "desc": "Instructs your pet to protect a friendly target, reducing their damage taken by 15%, but 50% of all damage taken by that target is transferred to your pet. \r\n\r\nLasts 10 sec or until your pet's health drops below 25%."
           },
           {
             "entry_id": "136685",
             "talent": "Guardian's Hide",
             "spell_id": 1272094,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_bristlingfur.jpg",
+            "desc": "Your pet protects you at all times, reducing the damage you take by 3%. Your pet receives 100% of the damage it mitigates."
           }
         ]
       },
@@ -1050,7 +1154,9 @@
             "talent": "Unnatural Causes",
             "spell_id": 459527,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_potentvenom.jpg",
+            "desc": "Your damage over time effects deal 10% increased damage.\r\n\r\nThis effect is increased by 50% on targets below 20% health."
           }
         ]
       }
@@ -1072,7 +1178,9 @@
             "talent": "Aimed Shot",
             "spell_id": 19434,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_spear_07.jpg",
+            "desc": "A powerful aimed shot that deals 284 Physical damage."
           }
         ]
       },
@@ -1094,7 +1202,9 @@
             "talent": "Rapid Fire",
             "spell_id": 257044,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_efficiency.jpg",
+            "desc": "Shoot a stream of 7 shots at your target over 1.8 sec, dealing a total of 178 Physical damage. Usable while moving.\r\n\r\nEach shot generates 3 Focus."
           }
         ]
       },
@@ -1116,7 +1226,9 @@
             "talent": "Precise Shots",
             "spell_id": 260240,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_snipertraining.jpg",
+            "desc": "Aimed Shot causes your next Arcane Shot or Multi-Shot to deal 50% more damage and cost 60% less Focus.\r\n\r\nPrecise Shots benefits Kill Shot's damage at 100% effectiveness."
           }
         ]
       },
@@ -1138,7 +1250,9 @@
             "talent": "Quick Draw",
             "spell_id": 459794,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_pistolshot.jpg",
+            "desc": "Rapid Fire shoots 3 additional shots.\r\n\r\nAimed Shot grants 50% increased movement speed for 2 sec, decaying rapidly over its duration."
           }
         ]
       },
@@ -1160,7 +1274,9 @@
             "talent": "Lock and Load",
             "spell_id": 194595,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_lockandload.jpg",
+            "desc": "Your ranged auto attacks have a 10% chance to trigger Lock and Load, causing your next Aimed Shot to cost no Focus and be instant."
           }
         ]
       },
@@ -1182,7 +1298,9 @@
             "talent": "Surging Shots",
             "spell_id": 391559,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_resistanceisfutile.jpg",
+            "desc": "Rapid Fire deals 35% additional damage, and Aimed Shot has a 15% chance to reset the cooldown of Rapid Fire."
           }
         ]
       },
@@ -1205,14 +1323,18 @@
             "talent": "Avian Specialization",
             "spell_id": 466867,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_111_hunter_ability_eyesinthesky.jpg",
+            "desc": "The damage bonus of Spotter's Mark is increased by 20%.\r\n\r\nAdditionally, your Eagle learns how to Fetch.\r\n\r\n Spotter's Mark\r\nDamaging an enemy with abilities empowered by Precise Shots has a 30% chance to apply Spotter's Mark to the primary target, causing your next Aimed Shot to deal 20% increased damage to the target."
           },
           {
             "entry_id": "129619",
             "talent": "Unbreakable Bond",
             "spell_id": 1223323,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_separationanxiety.jpg",
+            "desc": "Regain access to Call Pet.\r\n\r\nWhile outdoors, your pet deals 15% increased damage and takes 15% reduced damage."
           }
         ]
       },
@@ -1234,14 +1356,18 @@
             "talent": "Trick Shots",
             "spell_id": 257621,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_trickshot.jpg",
+            "desc": "When Multi-Shot hits 3 or more targets, your next Aimed Shot or Rapid Fire will ricochet and hit up to 5 additional targets for 60% of normal damage."
           },
           {
             "entry_id": "128377",
             "talent": "Aspect of the Hydra",
             "spell_id": 470945,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_111_hunter_ability_doubleknock.jpg",
+            "desc": "Aimed Shot, Rapid Fire, and Arcane Shot now hit 1 additional target for 35% of their damage."
           }
         ]
       },
@@ -1263,14 +1389,18 @@
             "talent": "Obsidian Arrowhead",
             "spell_id": 471350,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_theblackarrow.jpg",
+            "desc": "The damage of your auto shot is increased by 25% and its critical strike chance is increased by 15%."
           },
           {
             "entry_id": "128714",
             "talent": "On Target",
             "spell_id": 471348,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_blindingshot.jpg",
+            "desc": "Your Haste is increased by 2%."
           }
         ]
       },
@@ -1293,7 +1423,9 @@
             "talent": "Penetrating Shots",
             "spell_id": 459783,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_guildperk_reinforce_rank2.jpg",
+            "desc": "Gain critical strike damage equal to 25% of your critical strike chance."
           }
         ]
       },
@@ -1315,14 +1447,18 @@
             "talent": "Tenacious",
             "spell_id": 474456,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_demoralizingroar.jpg",
+            "desc": "Your Spotting Eagle gains the Tenacity specialization, granting you Endurance Training and Air Superiority.\r\n\r\n Endurance Training\r\nYou gain 5% increased maximum health.\r\n\r\n Air Superiority\r\nYour Spotting Eagle alerts you to oncoming danger, reducing all damage you take by 3%"
           },
           {
             "entry_id": "128411",
             "talent": "Cunning",
             "spell_id": 474440,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_eyeoftheowl.jpg",
+            "desc": "Your Spotting Eagle gains the Cunning specialization, granting you Master's Call and Pathfinding.\r\n\r\n Master's Call\r\nYour pet removes all root and movement impairing effects from itself and a friendly target, and grants immunity to all such effects for 4 sec.\r\n\r\n Pathfinding\r\nYour movement speed is increased by 8%."
           }
         ]
       },
@@ -1345,7 +1481,9 @@
             "talent": "Master Marksman",
             "spell_id": 260309,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_mastermarksman.jpg",
+            "desc": "Your ranged ability critical strikes cause the target to bleed for an additional 10% of the damage dealt over 6 sec."
           }
         ]
       },
@@ -1367,7 +1505,9 @@
             "talent": "Light Ammo",
             "spell_id": 378913,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ships_ability_armorpiercingammo.jpg",
+            "desc": "Trick Shots now causes Aimed Shot and Rapid Fire to ricochet to 2 additional targets.\r\n\r\nAspect of the Hydra's damage bonus is increased by 15%."
           }
         ]
       },
@@ -1390,7 +1530,9 @@
             "talent": "Kill Shot",
             "spell_id": 53351,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_assassinate2.jpg",
+            "desc": "You attempt to finish off a wounded target, dealing 250 Physical damage. Only usable on enemies with less than 20% health."
           }
         ]
       },
@@ -1413,7 +1555,9 @@
             "talent": "No Scope",
             "spell_id": 473385,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_eng_crowsnestscope.jpg",
+            "desc": "Rapid Fire grants Precise Shots."
           }
         ]
       },
@@ -1435,7 +1579,9 @@
             "talent": "Trueshot",
             "spell_id": 288613,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_trueshot.jpg",
+            "desc": "Increases your critical strike chance by 10% and critical strike damage by 20% for 15 sec.\r\n\r\n Aimed Shot\r\nCooldown recovers 40% faster.\r\n\r\n Rapid Fire\r\nCooldown recovers 60% faster."
           }
         ]
       },
@@ -1458,7 +1604,9 @@
             "talent": "Critical Precision",
             "spell_id": 1277572,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_impalingbolt.jpg",
+            "desc": "Precise Shots now increases the critical strike chance of Arcane Shot and Multi-Shot by 10%"
           }
         ]
       },
@@ -1481,7 +1629,9 @@
             "talent": "Explosive Shot",
             "spell_id": 212431,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_explosiveshot.jpg",
+            "desc": "Fires an explosive shot at your target. After 3 sec, the shot will explode, dealing 203 Fire damage to all enemies within 8 yds. Deals reduced damage beyond 5 targets."
           }
         ]
       },
@@ -1503,7 +1653,9 @@
             "talent": "Deathblow",
             "spell_id": 343248,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_runningshot.jpg",
+            "desc": "Kill Command has a 0% chance to grant Deathblow.\r\n\r\n Deathblow\r\nThe cooldown of Kill Shot is reset. Your next Kill Shot can be used on any target, regardless of their current health."
           }
         ]
       },
@@ -1525,14 +1677,18 @@
             "talent": "Headshot",
             "spell_id": 471363,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_marksmanship.jpg",
+            "desc": "Damage from Kill Shot increases the damage your target receives from Kill Shot by 3%, stacking up to 10 times."
           },
           {
             "entry_id": "128715",
             "talent": "Deadeye",
             "spell_id": 321460,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_hunter_focusingshot.jpg",
+            "desc": "Kill Shot now has 2 charges and has its cooldown reduced by 2.0 sec."
           }
         ]
       },
@@ -1556,7 +1712,9 @@
             "talent": "Bullseye",
             "spell_id": 204089,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_focusedaim.jpg",
+            "desc": "When your abilities damage a target below 20% health, you gain 1% increased critical strike chance for 6 sec, stacking up to 30 times."
           }
         ]
       },
@@ -1578,7 +1736,9 @@
             "talent": "Feathered Frenzy",
             "spell_id": 470943,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_111_hunter_ability_featheredfrenzy.jpg",
+            "desc": "Trueshot sends your Spotting Eagle into a frenzy, instantly applying Spotter's Mark to your target. \r\n\r\nDuring Trueshot, your chance to apply Spotter's Mark is increased by 100%."
           }
         ]
       },
@@ -1602,7 +1762,9 @@
             "talent": "Small Game Hunter",
             "spell_id": 459802,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_rabbit2_darkmoon.jpg",
+            "desc": "Explosive Shot deals 15% increased damage and Volley deals 25% increased damage."
           }
         ]
       },
@@ -1624,7 +1786,9 @@
             "talent": "Precision Detonation",
             "spell_id": 471369,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_explosiveshot.jpg",
+            "desc": "When Aimed Shot damages a target affected by your Explosive Shot, Explosive Shot instantly explodes, dealing 20% increased damage."
           }
         ]
       },
@@ -1646,7 +1810,9 @@
             "talent": "Shrapnel Shot",
             "spell_id": 473520,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_sandexplosion.jpg",
+            "desc": "Casting Explosive Shot has a 100% chance to grant Lock and Load."
           }
         ]
       },
@@ -1670,7 +1836,9 @@
             "talent": "Unmatched Precision",
             "spell_id": 1232955,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/hunter_pvp_snipershot.jpg",
+            "desc": "The damage bonus of Precise Shots is increased by an additional 10%."
           }
         ]
       },
@@ -1692,14 +1860,18 @@
             "talent": "Calling the Shots",
             "spell_id": 260404,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_assassinate.jpg",
+            "desc": "Trueshot's cooldown is reduced by 30 sec."
           },
           {
             "entry_id": "132194",
             "talent": "Unerring Vision",
             "spell_id": 474738,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_hunter_exoticmunitions_frozen.jpg",
+            "desc": "Trueshot now increases your critical strike chance by an additional 10% and increases your critical strike damage by an additional 20%."
           }
         ]
       },
@@ -1723,7 +1895,9 @@
             "talent": "Eagle's Accuracy",
             "spell_id": 473369,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_silenthunter.jpg",
+            "desc": "Aimed Shot deals 5% increased damage.\r\n\r\nRapid Fire deals 10% increased damage."
           }
         ]
       },
@@ -1745,7 +1919,9 @@
             "talent": "Focused Aim",
             "spell_id": 378767,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_engineering_snipingscope.jpg",
+            "desc": "Consuming Precise Shots reduces the cooldown of Aimed Shot by 2.00 sec."
           }
         ]
       },
@@ -1768,7 +1944,9 @@
             "talent": "Bulletstorm",
             "spell_id": 389019,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_markedshot.jpg",
+            "desc": "Damage from Rapid Fire increases the damage of Aimed Shot by 1% for 15 sec, stacking up to 15 times.\r\n\r\nNew stacks do not refresh duration and are removed upon casting Rapid Fire."
           }
         ]
       },
@@ -1790,7 +1968,9 @@
             "talent": "Tensile Bowstring",
             "spell_id": 471366,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_archaeology_70_tauren_stonewoodbow.jpg",
+            "desc": "Trueshot now also reduces the cast time of Aimed Shot by 40% and reduces the Focus cost of Aimed Shot by 60%."
           }
         ]
       },
@@ -1813,7 +1993,9 @@
             "talent": "Volley",
             "spell_id": 260243,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_rapidkilling.jpg",
+            "desc": "Rain a volley of arrows down over 6 sec, dealing up to 587 Physical damage to any enemy in the area, and gain the effects of Trick Shots for as long as Volley is active."
           }
         ]
       },
@@ -1835,7 +2017,9 @@
             "talent": "Focus Fire",
             "spell_id": 1277546,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_focusfire.jpg",
+            "desc": "When Surging Shots resets the cooldown of Rapid Fire, the damage of your next Rapid Fire is increased by 20%."
           }
         ]
       },
@@ -1857,7 +2041,9 @@
             "talent": "Windrunner Quiver",
             "spell_id": 473523,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_quiver_1h_hunter_c_01_green.jpg",
+            "desc": "Consuming Precise Shots has a 30% to grant Precise Shots.\r\n\r\nThe damage bonus of Precise Shots is increased by an additional 15%."
           }
         ]
       },
@@ -1879,7 +2065,9 @@
             "talent": "Incendiary Ammunition",
             "spell_id": 471428,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_ability_hunter_fierymunitions.jpg",
+            "desc": "Bulletstorm now increases your critical strike damage by 2%. Additionally, Bulletstorm now stacks 5 more times."
           }
         ]
       },
@@ -1903,7 +2091,9 @@
             "talent": "Double Tap",
             "spell_id": 473370,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_crossfire.jpg",
+            "desc": "Casting Trueshot or Volley grants Double Tap, causing your next Aimed Shot to fire again at 80% power, or your next Rapid Fire to fire 80% additional shots during its channel."
           }
         ]
       },
@@ -1925,7 +2115,9 @@
             "talent": "Salvo",
             "spell_id": 400456,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_hunter_exoticmunitions_incendiary.jpg",
+            "desc": "Volley now also applies Explosive Shot to up to 2 targets hit.\r\n\r\n Explosive Shot\r\nFires an explosive shot at your target. After 3 sec, the shot will explode, dealing 204 Fire damage to all enemies within 8 yds. Deals reduced damage beyond 5 targets."
           }
         ]
       },
@@ -1947,7 +2139,9 @@
             "talent": "Unload",
             "spell_id": 1277548,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_efficiency_brown.jpg",
+            "desc": "When Rapid Fire begins and finishes channeling, it releases an Arcane Shot at 100% effectiveness.\r\n\r\nIf your target is below 20% health, Rapid Fire instead releases Kill Shots."
           }
         ]
       },
@@ -1967,7 +2161,9 @@
             "talent": "Take Aim",
             "spell_id": 1273132,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_apextalent_hunter_deadlyinsight.jpg",
+            "desc": "Rapid Fire damage increased by 25%.\r\n\r\nEach shot fired from Rapid Fire reduces the cooldown of Aimed Shot by 0.50 sec."
           }
         ]
       }
@@ -1992,14 +2188,18 @@
               "talent": "Stargazer",
               "spell_id": 1253751,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/icon_7fx_nightborn_astromancer_blue.jpg",
+              "desc": "Consuming Tip of the Spear grants 2% increased critical strike damage for 10 sec. Multiple applications may overlap."
             },
             {
               "entry_id": "135589",
               "talent": "Open Fire",
               "spell_id": 1253807,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_flare.jpg",
+              "desc": "Flamefang Pitch damage increased by 15%."
             }
           ]
         },
@@ -2021,7 +2221,9 @@
               "talent": "Lunar Calling",
               "spell_id": 1253852,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_sentinelowl.jpg",
+              "desc": "Takedown summons your Sentinel Owl and your chance to summon your Sentinel Owl is increased by an additional 10% during Takedown."
             }
           ]
         },
@@ -2043,7 +2245,9 @@
               "talent": "Arcane Talons",
               "spell_id": 1253846,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_specialreagentfoozles_tuskclawice.jpg",
+              "desc": "Sentinel's Mark further increases the damage of Wildfire Bomb by 50%"
             }
           ]
         },
@@ -2065,7 +2269,9 @@
               "talent": "Invigorating Pulse",
               "spell_id": 450379,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_netherwindpresence.jpg",
+              "desc": "Kill Command grants an additional 5 Focus and its damage is increased by 20%. \r\n\r\nMaximum Focus increased by 25."
             }
           ]
         },
@@ -2087,7 +2293,9 @@
               "talent": "Moon's Blessing",
               "spell_id": 1253825,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_lunarinspiration.jpg",
+              "desc": "Consuming Tip of the Spear has a 10% increased chance to summon your Sentinel Owl.\r\n\r\nWhen your Sentinel Owl applies Sentinel's Mark, reduce the cooldown of Wildfire Bomb by 4.0 sec."
             }
           ]
         },
@@ -2107,7 +2315,9 @@
               "talent": "Sentinel",
               "spell_id": 1253599,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_sentinelhunter_lunarstorm.jpg",
+              "desc": "Your Eagle is replaced with a Sentinel Owl that applies an enhanced Sentinel's Mark.\r\n\r\nSentinel's Mark\r\nYour next Wildfire Bomb deals 40% increased direct damage to the marked target."
             }
           ]
         },
@@ -2132,7 +2342,9 @@
               "talent": "Lunar Storm",
               "spell_id": 1253732,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/artifactability_balancedruid_moonandstars.jpg",
+              "desc": "When Sentinel's Mark is consumed, it summons a barrage of 4 lunar missiles, each dealing 70 Arcane damage to enemies within 10 yds."
             }
           ]
         },
@@ -2154,14 +2366,18 @@
               "talent": "Conditioning",
               "spell_id": 1253887,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_racial_runningwild.jpg",
+              "desc": "Your movement speed is increased by 8%.\r\n\r\nAspect of the Cheetah's cooldown is reduced by 30 sec."
             },
             {
               "entry_id": "123870",
               "talent": "Scout's Vigil",
               "spell_id": 1253892,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/sha_ability_rogue_bloodyeye.jpg",
+              "desc": "Enemy detection radius reduced by 10 yds.\r\n\r\nWhile in Camouflage, your stealth detection radius is increased by 25 yds."
             }
           ]
         },
@@ -2183,7 +2399,9 @@
               "talent": "Sanctified Armaments",
               "spell_id": 1253831,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_polearm_2h_arakkoa_c_01.jpg",
+              "desc": "An additional 15% of Raptor Strike's damage is dealt as Arcane damage over 6 sec."
             }
           ]
         },
@@ -2205,7 +2423,9 @@
               "talent": "Don't Look Back",
               "spell_id": 450373,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_racial_forceshield.jpg",
+              "desc": "Consuming Sentinel's Mark grants you an absorb shield equal to 10.0% of your maximum health."
             }
           ]
         },
@@ -2227,7 +2447,9 @@
               "talent": "Can't Miss, Won't Miss",
               "spell_id": 1253830,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_aimedshot.jpg",
+              "desc": "Tip of the Spear damage bonus increased by 4%.\r\n\r\nTakedown duration increased by 2 sec."
             }
           ]
         },
@@ -2249,7 +2471,9 @@
               "talent": "Radiant Edge",
               "spell_id": 1264903,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_nightelfglaive.jpg",
+              "desc": "Your Moonlight Chakram deals 25% increased damage each time it bounces."
             }
           ]
         },
@@ -2271,7 +2495,9 @@
               "talent": "Moonlight Chakram",
               "spell_id": 1264902,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_hunter_deathchakram.jpg",
+              "desc": "For 15 sec after casting Takedown, Takedown is replaced with Moonlight Chakram.\r\n\r\n Moonlight Chakram\r\nThrow a chakram blessed with moonlight at your current target that will rapidly deal 101 Physical damage 7 times, bouncing to other targets if they are nearby."
             }
           ]
         },
@@ -2293,14 +2519,18 @@
               "talent": "Twilight Requiem",
               "spell_id": 1264904,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_moonglow.jpg",
+              "desc": "When your Moonlight Chakram expires, it summons an explosion of moonlight, dealing 71 Arcane damage to nearby enemies. Damage reduced beyond 8 targets."
             },
             {
               "entry_id": "136521",
               "talent": "Stalk and Strike",
               "spell_id": 1266069,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_ambush.jpg",
+              "desc": "Throwing your Moonlight Chakram reduces the cooldown of Wildfire Bomb by 10 sec."
             }
           ]
         }
@@ -2324,14 +2554,18 @@
               "talent": "Banshee's Mark",
               "spell_id": 467902,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_leader_sylvanas.jpg",
+              "desc": "Black Arrow and Bleak Powder critical strike damage increased by 10%."
             },
             {
               "entry_id": "136231",
               "talent": "The Bell Tolls",
               "spell_id": 467644,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_animatedead.jpg",
+              "desc": "All pet damage increased by 6%.\r\n\r\nDire Beast damage increased by 10%."
             }
           ]
         },
@@ -2353,7 +2587,9 @@
               "talent": "Smoke Screen",
               "spell_id": 430709,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_warlock_demonsoul.jpg",
+              "desc": "Exhilaration grants you 3 sec of Survival of the Fittest.\r\n\r\nSurvival of the Fittest activates Exhilaration at 50% effectiveness."
             }
           ]
         },
@@ -2375,14 +2611,18 @@
               "talent": "Dark Chains",
               "spell_id": 430712,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_belt_44c.jpg",
+              "desc": "While in combat, Disengage will chain the closest target to the ground, causing them to move 40% slower until they move 8 yards away."
             },
             {
               "entry_id": "128219",
               "talent": "Shadow Dagger",
               "spell_id": 467741,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_throw.jpg",
+              "desc": "While in combat, Disengage releases a fan of shadow daggers, dealing 0 Shadow damage per second and reducing affected target's movement speed by 30% for 6 sec."
             }
           ]
         },
@@ -2405,7 +2645,9 @@
               "talent": "Bleak Arrows",
               "spell_id": 467749,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_quiver_1h_mawraid_d_01.jpg",
+              "desc": "Your auto shot now deals Shadow damage, allowing it to bypass armor.\r\n\r\nAuto shot damage increased by 100%."
             }
           ]
         },
@@ -2428,7 +2670,9 @@
               "talent": "Soul Drinker",
               "spell_id": 469638,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warlock_soulsiphon.jpg",
+              "desc": "Kill Command has a 20% chance and Barbed Shot has a 50% chance to grant Deathblow.\r\n\r\n Deathblow\r\nThe cooldown of Kill Shot is reset. Your next Kill Shot can be used on any target, regardless of their current health."
             }
           ]
         },
@@ -2451,7 +2695,9 @@
               "talent": "Bleak Powder",
               "spell_id": 467911,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_powder_tin.jpg",
+              "desc": "Black Arrow now explodes in a cloud of shadow and sulfur on impact, dealing 87 Shadow damage to all enemies within an 8 yd cone behind the target. Damage reduced beyond 8 targets."
             }
           ]
         },
@@ -2473,7 +2719,9 @@
               "talent": "Umbral Reach",
               "spell_id": 1235397,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_deathknight_strangulate.jpg",
+              "desc": "Bleak Powder now applies Black Arrow's periodic effect to all enemies it damages.\r\n\r\nIf Bleak Powder damages 2 or more enemies, gain Beast Cleave if talented."
             }
           ]
         },
@@ -2495,7 +2743,9 @@
               "talent": "Blighted Quiver",
               "spell_id": 1264291,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_quiver_1h_sylvanas_d_01.jpg",
+              "desc": "You fire 2 additional Black Arrows during Withering Fire's barrage.\r\n\r\nBeast Cleave and Kill Cleave damage increased by 5%."
             }
           ]
         },
@@ -2517,14 +2767,18 @@
               "talent": "Ebon Bowstring",
               "spell_id": 467897,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_tailoring_craftingoptionalreagent_enhancedspellthread_color4.jpg",
+              "desc": "Casting Black Arrow has a 15% chance to grant Deathblow.\r\n\r\n Deathblow\r\nThe cooldown of Kill Shot is reset. Your next Kill Shot can be used on any target, regardless of their current health."
             },
             {
               "entry_id": "136742",
               "talent": "Through the Eyes",
               "spell_id": 1277565,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_cheapshot.jpg",
+              "desc": "Black Arrow deals 20% increased damage to enemies affected by Black Arrow's periodic damage."
             }
           ]
         },
@@ -2544,7 +2798,9 @@
               "talent": "Black Arrow",
               "spell_id": 466932,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_darkrangerhunter_blackarrow.jpg",
+              "desc": "Your Kill Shot is replaced with Black Arrow.\r\n\r\n Black Arrow\r\nYou attempt to finish off a wounded target, dealing 121 Shadow damage and 140 Shadow damage over 8 sec. Only usable on enemies above 80% health or below 20% health."
             }
           ]
         },
@@ -2569,7 +2825,9 @@
               "talent": "Withering Fire",
               "spell_id": 466990,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_painspike.jpg",
+              "desc": "Bestial Wrath causes you to surrender to darkness, granting you Withering Fire for 10 sec and Deathblow.\r\n\r\n Withering Fire\r\nCasting Black Arrow fires a barrage of 2 additional Black Arrows at nearby targets at 50% effectiveness, prioritizing enemies that aren't affected by Black Arrow's damage over time effect."
             }
           ]
         },
@@ -2591,7 +2849,9 @@
               "talent": "Pact of the Hollow",
               "spell_id": 1264690,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_creature_cursed_03.jpg",
+              "desc": "Kill Command causes your Dark Hound to Shadow Thrash, dealing 73 Shadow damage to up to 8 nearby enemies."
             }
           ]
         },
@@ -2613,7 +2873,9 @@
               "talent": "Wailing Dead",
               "spell_id": 1264290,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_deathknight_summongargoyle.jpg",
+              "desc": "Bestial Wrath summons a Dark Hound.\r\n\r\nFor 15 sec after casting Bestial Wrath, Bestial Wrath is replaced with Wailing Arrow.\r\n\r\n Wailing Arrow\r\nFire an enchanted arrow, dealing 494 Shadow damage to your target and an additional 245 Shadow damage to all enemies within 8 yds of your target. Non-Player targets struck by a Wailing Arrow have their spellcasting interrupted and are silenced for 1 sec.\r\n\r\nGrants Deathblow."
             }
           ]
         },
@@ -2636,7 +2898,9 @@
               "talent": "Corpsecaller",
               "spell_id": 1264289,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_fiegndead.jpg",
+              "desc": "When summoning a Dire Beast, you have a 10% chance to instead summon a Dark Hound that deals significantly increased damage."
             }
           ]
         },
@@ -2656,7 +2920,9 @@
               "talent": "Black Arrow",
               "spell_id": 466930,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_darkrangerhunter_blackarrow.jpg",
+              "desc": "You attempt to finish off a wounded target, dealing 121 Shadow damage and 140 Shadow damage over 8 sec. Only usable on enemies above 80% health or below 20% health."
             }
           ]
         }

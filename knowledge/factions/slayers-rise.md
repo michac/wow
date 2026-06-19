@@ -1,10 +1,11 @@
 ---
 title: Slayer's Rise / Slayer's Duellum (Midnight)
-patch: 12.0.5
-fetched: 2026-06-03
+patch: 12.0.7
+fetched: 2026-06-19
 sources:
   - https://www.icy-veins.com/wow/slayers-rise-guide
   - https://conquestcapped.com/guides/wow/slayers-duellum-reputation-rewards/
+  - https://worldofwarcraft.blizzard.com/en-us/news/24244888/revelations-content-update-notes
 confidence: high
 ---
 
@@ -33,8 +34,10 @@ staging battle exercises against Xal'atath.
 - Quartermaster **Thraxadar**, north end of Master's Perch; currency
   **Voidlight Marl**.
 - Décor (banners, barricades, orbs), companion pet.
-- Exalted: **Prowling Shredclaw** / **Frenzied Shredclaw** mounts.
-- Paragon cache chance: **Duskbrute Harrower** mount, **Nova** pet.
+- Exalted: **Prowling Shredclaw** / **Frenzied Shredclaw** mounts —
+  **6,000 Voidlight Marl** each.
+- Paragon cache (**Slayer's Duellum Trove**, per 10,000 rep past Exalted):
+  chance at **Duskbrute Harrower** mount, **Nova** pet.
 
 ## Implications
 
@@ -42,3 +45,13 @@ staging battle exercises against Xal'atath.
   Lady Liadrin spark weekly only insofar as zone WQs count toward it.
 - The Sparks of War War-Mode spark weekly rotates through Voidstorm; the
   zone pairs naturally with that week.
+
+## 12.0.7 note — unaffected by the PvP gearing changes
+
+12.0.7 "Revelations" reworked **rated** PvP gearing: the Galactic
+Gladiator/Aspirant/Warmonger and crafted PvP sets gained **+9 PvP ilvl**, and
+the **Galactic Voidsliver** / **Galactic Void Matrix** upgrade currencies were
+removed (existing copies refunded as gold). **None of that touches Slayer's
+Rise.** This zone still uses **Voidlight Marl** for **cosmetic-only** rewards
+(no combat gear, no rated ilvl); its rep, currency, and rewards are unchanged in
+12.0.7.

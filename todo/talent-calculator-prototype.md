@@ -323,8 +323,14 @@ Lean **commit it** — it's small, patch-versioned, and matches the repo's
 4. ✅ **Codec** — encode/decode; round-trip acceptance test
    (`encode(decode(ORACLE))===ORACLE`, byte-identical) passing, plus 6-class
    structural round-trips. Pure `codec.ts`; 25-test `bun test` suite.
-5. **Icons + tooltips + URL share** — Stage A enrichment, CDN icons, hash state.
-   ← **next**
+5. ✅ **Icons + tooltips + URL share** — Stage A enrichment resolves icon URL +
+   desc per spell (`talents enrich`: 3158 spells, 0 icon / 6 desc misses);
+   Stage A′ budgets from `TraitCurrencySource` at level 90 (class 34 / spec 34 /
+   hero 13, replacing the TWW 31/30/11 hardcode that rejected maxed builds).
+   Real Blizzard-media-URL icons (HTTP-200 verified) with a swatch fallback; a
+   single app-level `Tooltip.svelte` (name/ranks/desc + gate reason); `ShareBox`
+   copy/paste + `#<class>/<spec>/<code>` hash routing via `applyBuild`. 40-test
+   `bun test` (incl. `replayLoadout` round-trip), `check` + `build` clean.
 6. **All 40 specs + spec picker + patch badge** — full `index.json`, deploy.
 
 ## Resolved (was open)
@@ -342,11 +348,19 @@ Lean **commit it** — it's small, patch-versioned, and matches the repo's
 
 ## Still open
 
-- **Icon CDN:** Blizzard media URLs vs zamimg-by-slug — pick the more stable;
-  placeholder fallback either way.
+- **Icon CDN:** ✅ resolved — using full Blizzard media URLs (Tier-1, in-doctrine).
+  Coverage was complete (0/3158 icon misses) and a sampled URL returns HTTP 200.
+  Residual risk: region-scoped (`/us/`); the slug is recoverable from the URL, so
+  rendering can switch CDNs later without touching the Tier-1 data. Swatch
+  fallback on null/`onerror` either way.
 - **PvP talents** — out of v1 (not in the current data model); note for later.
+- **Per-level budget selector** — out of M5 scope; only level-90 totals are
+  emitted. The full `TraitCurrencySource` level→points curve is available to wire
+  a selector later (Db2Index.currency_points takes a level).
 - **Commit generated `static/data/` vs CI-generate** — leaning commit
   (small, patch-versioned, diffable, matches the repo's greppable ethos).
-- **Spell-API rate/coverage** — ~hundreds of distinct `spell_id`s to enrich;
-  confirm the media+spell endpoints cover talent spells and pick a polite rate.
+- **Spell-API rate/coverage** — ✅ confirmed: 3158 distinct talent spells, all
+  covered by the media endpoint (0 icon misses), 6 empty descriptions
+  (choice/aura spells). Polite rate: 0.03s sleep + 5xx/connection retry, raw
+  responses cached under `raw/` so re-runs only fetch new spells.
 ```

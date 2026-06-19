@@ -16,6 +16,7 @@ Outputs (regenerated each patch day):
 Usage:
     uv run python -m wowkb.talents fetch                 # live: API + wago @ API build
     uv run python -m wowkb.talents fetch --build 12.0.7.68999   # PTR: DB2-only
+    uv run python -m wowkb.talents enrich                # icon URL + desc per spell
     uv run python -m wowkb.talents build
     uv run python -m wowkb.talents verify
 """
@@ -25,7 +26,10 @@ import csv
 import json
 import os
 import sys
+import time
 from collections import defaultdict
+
+import requests
 
 from . import blizzard, wago
 from ._common import RAW, ROOT, save_raw
@@ -35,14 +39,22 @@ CLASSES_DIR = ROOT / "knowledge" / "classes"
 TALENTS_DIR = CLASSES_DIR / "_talents"
 BLIZZ_RAW = RAW / "blizzard"
 MANIFEST = RAW / "talents-manifest.json"
+# Stage A enrichment lookup: {spell_id(str): {"icon": url|null, "desc": str}}.
+# Produced by `enrich`, consumed by `build` to inline icon+desc onto each entry.
+ENRICH_CACHE = RAW / "spell-enrichment.json"
 
 # DB2 tables we need at the pinned build.
 WAGO_TABLES = [
     "TraitTree", "TraitNode", "TraitNodeXTraitNodeEntry", "TraitNodeEntry",
     "TraitDefinition", "TraitSubTree", "TraitNodeGroup", "TraitNodeGroupXTraitNode",
     "TraitCond", "TraitNodeXTraitCond", "TraitTreeLoadout", "TraitTreeLoadoutEntry",
-    "TraitTreeXTraitCurrency", "ChrSpecialization", "ChrClasses", "SpellName",
+    "TraitTreeXTraitCurrency", "TraitCurrencySource", "ChrSpecialization",
+    "ChrClasses", "SpellName",
 ]
+
+# Midnight Season 1 level cap. Budgets (TraitCurrencySource) are resolved at this
+# level; bump on the expansion's level-cap patch alongside game-version.md.
+LEVEL_CAP = 90
 
 TSV_COLUMNS = [
     "class", "class_id", "spec", "spec_id", "tree", "hero_tree", "node_id",
@@ -204,6 +216,54 @@ class Db2Index:
             if (c["CondType"] == "2" and int(c.get("GrantedRanks") or 0) >= 1
                     and c.get("SpecSetID") == "0"):
                 self.granted_cond.add(int(r["TraitNodeID"]))
+
+        # ── point budgets (Stage A′) ────────────────────────────────────────
+        # tree_id -> [currency_id ...] ordered by _Index. The class talent tree
+        # carries one currency per tree-kind: index 1 = class, 2 = spec, 3+ =
+        # the (global, equal) hero currencies. The currencies are shared across
+        # all classes — every tree maps to the same set.
+        tree_cur: dict[str, list[tuple[int, str]]] = defaultdict(list)
+        for r in load_wago("TraitTreeXTraitCurrency", build):
+            tree_cur[r["TraitTreeID"]].append((int(r["_Index"]), r["TraitCurrencyID"]))
+        self.tree_currencies: dict[str, list[str]] = {
+            t: [c for _, c in sorted(v)] for t, v in tree_cur.items()
+        }
+        # currency_id -> [(minLevel, amount) ...]; budget at a level = sum of the
+        # amounts granted at or below it. (Quest/achievement rows carry amount 0.)
+        self.currency_grants: dict[str, list[tuple[int, int]]] = defaultdict(list)
+        for r in load_wago("TraitCurrencySource", build):
+            self.currency_grants[r["TraitCurrencyID"]].append(
+                (int(r["PlayerLevel"] or 0), int(r["Amount"] or 0))
+            )
+
+        # starter-loadout point totals per tree, for the budget cross-check.
+        loadout_tree = {r["ID"]: r["TraitTreeID"] for r in load_wago("TraitTreeLoadout", build)}
+        loadout_pts: dict[str, int] = defaultdict(int)
+        for r in load_wago("TraitTreeLoadoutEntry", build):
+            loadout_pts[r["TraitTreeLoadoutID"]] += int(r["NumPoints"] or 0)
+        self.loadout_max: dict[str, int] = defaultdict(int)
+        for lid, pts in loadout_pts.items():
+            t = loadout_tree.get(lid)
+            if t:
+                self.loadout_max[t] = max(self.loadout_max[t], pts)
+
+    def currency_points(self, currency_id: str, level: int) -> int:
+        """Points a currency grants by `level` = sum of its at-or-below grants."""
+        return sum(a for lvl, a in self.currency_grants.get(currency_id, []) if lvl <= level)
+
+    def budgets(self, tree_id: int, level: int = LEVEL_CAP) -> dict:
+        """Per-tree-kind point budget at `level` from TraitCurrencySource.
+
+        Returns {class, spec, hero}. Hero currencies are equal across the spec's
+        usable hero trees, so the first is representative.
+        """
+        curs = self.tree_currencies.get(str(tree_id), [])
+        pts = [self.currency_points(c, level) for c in curs]
+        return {
+            "class": pts[0] if len(pts) > 0 else 0,
+            "spec": pts[1] if len(pts) > 1 else 0,
+            "hero": pts[2] if len(pts) > 2 else 0,
+        }
 
     def serial_order(self, tree_id: int, node_id: int):
         return self.serial.get(str(tree_id), {}).get(node_id, "")
@@ -487,14 +547,20 @@ def _codec_meta(s: dict, db2: Db2Index) -> dict:
     }
 
 
-def write_json(s: dict, manifest: dict, db2: Db2Index) -> None:
+def write_json(s: dict, manifest: dict, db2: Db2Index, enrich_map: dict) -> None:
+    def entry_json(e):
+        # Stage A enrichment is inlined per entry so the per-spec file stays
+        # self-contained (icon is a full Blizzard media URL; desc is rich text).
+        meta = enrich_map.get(str(e["spell_id"]), {})
+        return {**e, "icon": meta.get("icon"), "desc": meta.get("desc", "")}
+
     def node_json(n):
         return {
             "node_id": n["node_id"], "type": n["node_type"],
             "row": n["row"], "col": n["col"], "x": n["x"], "y": n["y"],
             "serial_order": n["serial_order"], "req_points": n["req_points"],
             "prereq_node_ids": n["prereq_node_ids"],
-            "entries": n["entries"],
+            "entries": [entry_json(e) for e in n["entries"]],
         }
     codec = _codec_meta(s, db2)
     doc = {
@@ -506,6 +572,10 @@ def write_json(s: dict, manifest: dict, db2: Db2Index) -> None:
         "serial_count": codec["serial_count"],
         "granted_serials": codec["granted_serials"],
         "hero_selector": codec["hero_selector"],
+        # Stage A′: per-tree-kind point budget at the level cap (Tier-1, from
+        # TraitCurrencySource). Identical across specs (global currencies).
+        "level_cap": LEVEL_CAP,
+        "budgets": db2.budgets(s["tree_id"]),
         "trees": {
             "class": [node_json(n) for n in s["sections"]["class"]],
             "spec": [node_json(n) for n in s["sections"]["spec"]],
@@ -539,6 +609,105 @@ def cross_check(specs: list[dict], db2: Db2Index) -> dict[int, list[str]]:
     return warnings
 
 
+# ── enrich (Stage A: icon URL + description per spell) ──────────────────────────
+def _media_icon_url(media: dict) -> str | None:
+    """Full Blizzard media URL for a spell's icon asset. Per the M5 decision we
+    keep the whole Tier-1 URL (no third-party CDN, no slug rewrite)."""
+    assets = media.get("assets", [])
+    for a in assets:
+        if a.get("key") == "icon":
+            return a.get("value")
+    return assets[0].get("value") if assets else None
+
+
+def _get_json_soft(path: str, retries: int = 3):
+    """blizzard.get, tolerating absent/flaky records: None on 404 (choice/aura
+    spells with no record) and on a persistent 5xx or connection error after a
+    short retry, so one bad spell can't abort a 3000-spell run. Auth/4xx errors
+    still raise — those are configuration problems worth stopping for."""
+    for attempt in range(retries):
+        try:
+            return blizzard.get(path)
+        except requests.HTTPError as e:
+            status = e.response.status_code if e.response is not None else None
+            if status == 404:
+                return None
+            if status is not None and 500 <= status < 600:
+                if attempt < retries - 1:
+                    time.sleep(0.5 * (attempt + 1))
+                    continue
+                return None  # persistently failing record → treat as a miss
+            raise
+        except requests.RequestException:
+            if attempt < retries - 1:
+                time.sleep(0.5 * (attempt + 1))
+                continue
+            return None
+    return None
+
+
+def enrich(sleep_s: float = 0.05) -> None:
+    """Resolve icon URL + description for every distinct talent spell.
+
+    Caches each raw API response under raw/blizzard/ and the distilled lookup in
+    raw/spell-enrichment.json, so re-runs only fetch newly-seen spells (cheap and
+    polite). Misses fall back to icon=null / desc="" and are counted in the
+    report. `build` reads the lookup and inlines icon+desc onto each entry.
+    """
+    if not MANIFEST.exists():
+        sys.exit("error: no manifest — run `talents fetch` first")
+    manifest = json.loads(MANIFEST.read_text())
+    if manifest["mode"] != "api":
+        sys.exit("error: enrich needs the live API (media + descriptions) — re-fetch without --build")
+
+    db2 = Db2Index(manifest["wago_build"])
+    specs = parse_api(manifest, db2)
+    spell_ids = sorted({
+        e["spell_id"]
+        for s in specs
+        for kind in ("class", "spec")
+        for n in s["sections"][kind]
+        for e in n["entries"]
+    } | {
+        e["spell_id"]
+        for s in specs
+        for _, nodes in s["sections"]["hero"]
+        for n in nodes
+        for e in n["entries"]
+    })
+
+    cache: dict[str, dict] = {}
+    if ENRICH_CACHE.exists():
+        cache = json.loads(ENRICH_CACHE.read_text())
+
+    todo = [sid for sid in spell_ids if str(sid) not in cache]
+    print(f"enrich: {len(spell_ids)} distinct spells, {len(todo)} to fetch "
+          f"({len(spell_ids) - len(todo)} cached)")
+    fetched = 0
+    for sid in todo:
+        media = _get_json_soft(f"/data/wow/media/spell/{sid}")
+        if media is not None:
+            save_raw("blizzard", f"media-spell-{sid}.json", json.dumps(media, indent=2))
+        spell = _get_json_soft(f"/data/wow/spell/{sid}")
+        if spell is not None:
+            save_raw("blizzard", f"spell-{sid}.json", json.dumps(spell, indent=2))
+        icon = _media_icon_url(media) if media else None
+        desc = (spell.get("description") or "").strip() if spell else ""
+        cache[str(sid)] = {"icon": icon, "desc": desc}
+        fetched += 1
+        if fetched % 50 == 0:
+            print(f"  {fetched}/{len(todo)} fetched")
+            _atomic_write(ENRICH_CACHE, json.dumps(cache, indent=2) + "\n")  # checkpoint
+        time.sleep(sleep_s)
+
+    _atomic_write(ENRICH_CACHE, json.dumps(cache, indent=2) + "\n")
+    icon_miss = sum(1 for sid in spell_ids if not cache.get(str(sid), {}).get("icon"))
+    desc_miss = sum(1 for sid in spell_ids if not cache.get(str(sid), {}).get("desc"))
+    print(f"wrote {ENRICH_CACHE.name} ({len(cache)} spells)")
+    print(f"  misses: icon {icon_miss}/{len(spell_ids)}  desc {desc_miss}/{len(spell_ids)}")
+    print("  re-run `talents build` to inline icon+desc into talents.json")
+
+
 # ── build ──────────────────────────────────────────────────────────────────────
 def build(fetched: str) -> None:
     if not MANIFEST.exists():
@@ -552,6 +721,13 @@ def build(fetched: str) -> None:
     else:
         sys.exit("error: DB2-only (PTR) build path not yet wired — re-fetch without --build")
 
+    enrich_map = {}
+    if ENRICH_CACHE.exists():
+        enrich_map = json.loads(ENRICH_CACHE.read_text())
+        print(f"enrichment: {len(enrich_map)} spell(s) with icon/desc from {ENRICH_CACHE.name}")
+    else:
+        print(f"⚠ no {ENRICH_CACHE.name} — run `talents enrich`; emitting icon=null/desc=\"\"")
+
     warnings = cross_check(specs, db2)
     write_tsv(specs)
     write_trees_tsv(specs)
@@ -564,10 +740,21 @@ def build(fetched: str) -> None:
         elif manifest["mode"] == "db2":
             note = "PTR/DB2-derived — names via SpellName join; not cross-checked against the live API."
         write_markdown(s, manifest, confidence, note)
-        write_json(s, manifest, db2)
+        write_json(s, manifest, db2, enrich_map)
     print(f"wrote {len(specs)} per-spec talents.md + talents.json")
     if warnings:
         print(f"⚠ {len(warnings)} spec(s) flagged confidence:low (see notes)")
+
+    # Budget cross-check: derived level-cap totals vs the starter loadouts.
+    print(f"budgets @ level {LEVEL_CAP} (TraitCurrencySource):")
+    for tid in sorted({s["tree_id"] for s in specs}):
+        cls = next(s["class"] for s in specs if s["tree_id"] == tid)
+        b = db2.budgets(tid)
+        total = b["class"] + b["spec"] + b["hero"]
+        loadout = db2.loadout_max.get(str(tid), 0)
+        flag = "" if loadout <= total else f"  ⚠ starter loadout {loadout} > budget {total}"
+        print(f"  {cls:13} class {b['class']} spec {b['spec']} hero {b['hero']} "
+              f"= {total}  (starter loadout max {loadout}){flag}")
 
 
 # ── verify ──────────────────────────────────────────────────────────────────────
@@ -624,6 +811,8 @@ def main() -> None:
     f = sub.add_parser("fetch", help="acquire API + wago raw inputs")
     f.add_argument("--build", default=None, help="exact wago build => DB2-only (PTR/historical)")
     f.add_argument("--patch", default=None, help="patch label for front matter (default: from build)")
+    e = sub.add_parser("enrich", help="resolve per-spell icon URL + description (Stage A)")
+    e.add_argument("--sleep", type=float, default=0.05, help="seconds between API fetches")
     b = sub.add_parser("build", help="parse raw -> TSV + markdown + json")
     b.add_argument("--fetched", default="", help="ISO date to stamp in front matter (e.g. 2026-06-18)")
     sub.add_parser("verify", help="read-only sanity report")
@@ -631,6 +820,8 @@ def main() -> None:
 
     if args.cmd == "fetch":
         fetch(args.build, args.patch)
+    elif args.cmd == "enrich":
+        enrich(args.sleep)
     elif args.cmd == "build":
         build(args.fetched)
     elif args.cmd == "verify":

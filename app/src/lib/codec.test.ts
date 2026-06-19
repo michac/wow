@@ -8,8 +8,11 @@ import {
   peekHeader,
 } from "./codec";
 import type { Build } from "./validate";
-import { maxRank, pointsSpent } from "./validate";
+import { maxRank, pointsSpent, replayLoadout } from "./validate";
 import type { SpecData } from "./types";
+
+// The generated index carries the Stage A′ point budgets (build-data.ts).
+import index from "../../static/data/index.json";
 
 // Compact spec data the codec consumes (Stage B output). Imported straight from
 // the committed runtime assets so the tests exercise real serial walks.
@@ -148,6 +151,51 @@ describe("structural round-trips (one per class, choice + multi-rank)", () => {
       expect(spec.serialCount).toBeGreaterThan(0);
     });
   }
+});
+
+describe("applyBuild bridge (replayLoadout) round-trip", () => {
+  // The decode→controller bridge must preserve a build losslessly: replaying a
+  // decoded loadout into a pruned build and re-encoding reproduces the string.
+  const trees = (spec: SpecData, heroName: string | null) => [
+    spec.trees.class.nodes,
+    spec.trees.spec.nodes,
+    ...(heroName ? [spec.trees.hero[heroName].nodes] : []),
+  ];
+
+  test("encode(replayLoadout(decode(ORACLE))) === ORACLE", () => {
+    const d = decodeLoadout(ORACLE, aff);
+    const replayed = replayLoadout(d.build, trees(aff, d.heroName), aff.grantedSerials);
+    expect(encodeLoadout(aff, replayed, { heroName: d.heroName })).toBe(ORACLE);
+  });
+
+  test("replay preserves every node id and {rank, choice}", () => {
+    const d = decodeLoadout(ORACLE, aff);
+    const replayed = replayLoadout(d.build, trees(aff, d.heroName), aff.grantedSerials);
+    expect([...replayed.keys()].sort((a, b) => a - b)).toEqual(
+      [...d.build.keys()].sort((a, b) => a - b),
+    );
+    for (const [id, st] of d.build) expect(replayed.get(id)).toEqual(st);
+  });
+});
+
+describe("level-90 point budgets (Stage A′)", () => {
+  const b = index.pointBudget;
+
+  test("budgets are the Midnight level-90 currency totals", () => {
+    expect(b).toEqual({ class: 34, spec: 34, hero: 13 });
+    expect(b.class + b.spec + b.hero).toBeGreaterThanOrEqual(76);
+  });
+
+  test("the maxed warlock ORACLE validates as in-budget (the M5 regression)", () => {
+    // The old hardcode (spec 30) rejected the ORACLE's 31 spec points; 34 fixes it.
+    const d = decodeLoadout(ORACLE, aff);
+    const cls = pointsSpent(aff.trees.class.nodes, d.build);
+    const spc = pointsSpent(aff.trees.spec.nodes, d.build);
+    const hero = pointsSpent(aff.trees.hero[d.heroName!].nodes, d.build);
+    expect(cls).toBeLessThanOrEqual(b.class);
+    expect(spc).toBeLessThanOrEqual(b.spec);
+    expect(hero).toBeLessThanOrEqual(b.hero);
+  });
 });
 
 describe("malformed / mismatched input", () => {

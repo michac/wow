@@ -19,6 +19,12 @@
       "Wildstalker"
     ]
   },
+  "level_cap": 90,
+  "budgets": {
+    "class": 34,
+    "spec": 34,
+    "hero": 13
+  },
   "trees": {
     "class": [
       {
@@ -37,7 +43,9 @@
             "talent": "Rake",
             "spell_id": 1822,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_ability_druid_disembowel_empowered.jpg",
+            "desc": "Rake the target for 10 Bleed damage and an additional 57 Bleed damage over 15 sec.\r\n\r\nAwards 1 combo point."
           }
         ]
       },
@@ -57,7 +65,9 @@
             "talent": "Frenzied Regeneration",
             "spell_id": 22842,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_bullrush.jpg",
+            "desc": "Heals you for 32% health over 3 sec."
           }
         ]
       },
@@ -77,7 +87,9 @@
             "talent": "Rejuvenation",
             "spell_id": 774,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_spell_nature_rejuvenation_empowered.jpg",
+            "desc": "Heals the target for 1,672 over 12 sec."
           }
         ]
       },
@@ -97,7 +109,9 @@
             "talent": "Starfire",
             "spell_id": 197628,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_starfire.jpg",
+            "desc": "Call down a burst of energy, causing 352 Arcane damage to the target, and 121 Arcane damage to all other enemies within 5 yards. Deals reduced damage beyond 8 targets."
           }
         ]
       },
@@ -117,7 +131,9 @@
             "talent": "Starfire",
             "spell_id": 197628,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_starfire.jpg",
+            "desc": "Call down a burst of energy, causing 352 Arcane damage to the target, and 121 Arcane damage to all other enemies within 5 yards. Deals reduced damage beyond 8 targets."
           }
         ]
       },
@@ -139,7 +155,9 @@
             "talent": "Grievous Wounds",
             "spell_id": 474526,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_xavius_tormentingswipe.jpg",
+            "desc": "Rake, Rip, and Thrash damage increased by 10%."
           }
         ]
       },
@@ -162,7 +180,9 @@
             "talent": "Swipe",
             "spell_id": 213764,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_monsterclaw_03.jpg",
+            "desc": "Swipe nearby enemies, inflicting Physical damage. Damage varies by shapeshift form."
           }
         ]
       },
@@ -185,7 +205,9 @@
             "talent": "Ursoc's Spirit",
             "spell_id": 449182,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_spiritarmor.jpg",
+            "desc": "Stamina increased by 4%.\r\n\r\nStamina in Bear Form is increased by an additional 5%."
           }
         ]
       },
@@ -207,7 +229,9 @@
             "talent": "Wild Growth",
             "spell_id": 48438,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_flourish.jpg",
+            "desc": "Heals up to 5 injured allies within 30 yards of the target for 1,085 over 7 sec. Healing starts high and declines over the duration."
           }
         ]
       },
@@ -229,7 +253,9 @@
             "talent": "Starsurge",
             "spell_id": 197626,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_arcane03.jpg",
+            "desc": "Launch a surge of stellar energies at the target, dealing 785 Astral damage."
           }
         ]
       },
@@ -251,7 +277,9 @@
             "talent": "Rip",
             "spell_id": 1079,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_ability_ghoulfrenzy_empowered.jpg",
+            "desc": "Finishing move that causes Bleed damage over time. Lasts longer per combo point.\r\n\r\n   1 point  : 8 over 1 sec\r\n   2 points: 12 over 2 sec\r\n   3 points: 16 over 3 sec\r\n   4 points: 20 over 3 sec\r\n   5 points: 24 over 4 sec"
           }
         ]
       },
@@ -275,7 +303,9 @@
             "talent": "Verdant Heart",
             "spell_id": 301768,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_bullrush.jpg",
+            "desc": "Frenzied Regeneration and Barkskin increase all healing received by 20%."
           }
         ]
       },
@@ -298,7 +328,9 @@
             "talent": "Remove Corruption",
             "spell_id": 2782,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_removecurse.jpg",
+            "desc": "Nullifies corrupting effects on the friendly target, removing all Curse and Poison effects."
           }
         ]
       },
@@ -320,7 +352,9 @@
             "talent": "Moonkin Form",
             "spell_id": 24858,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_forceofnature.jpg",
+            "desc": "Shapeshift into Moonkin Form, increasing the damage of your spells by 10% and your armor by 125%, and granting protection from Polymorph effects.\r\n\r\nThe act of shapeshifting frees you from movement impairing effects."
           }
         ]
       },
@@ -340,7 +374,9 @@
             "talent": "Moonkin Form",
             "spell_id": 197625,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_forceofnature.jpg",
+            "desc": "Shapeshift into Moonkin Form, increasing the damage of your spells by 10% and your armor by 125%, and granting protection from Polymorph effects.\r\n\r\nThe act of shapeshifting frees you from movement impairing effects."
           }
         ]
       },
@@ -362,7 +398,9 @@
             "talent": "Maim",
             "spell_id": 22570,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_mangle.jpg",
+            "desc": "Finishing move that causes Physical damage and stuns the target. Damage and duration increased per combo point:\r\n\r\n   1 point  : 5 damage, 1 sec\r\n   2 points: 10 damage, 2 sec\r\n   3 points: 15 damage, 3 sec\r\n   4 points: 20 damage, 4 sec\r\n   5 points: 25 damage, 5 sec"
           }
         ]
       },
@@ -386,7 +424,9 @@
             "talent": "Killer Instinct",
             "spell_id": 108299,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_predatoryinstincts.jpg",
+            "desc": "Physical damage and Armor increased by 6%."
           }
         ]
       },
@@ -408,7 +448,9 @@
             "talent": "Ironfur",
             "spell_id": 192081,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_ironfur.jpg",
+            "desc": "Increases armor by 124 for 7 sec."
           }
         ]
       },
@@ -432,7 +474,9 @@
             "talent": "Improved Barkskin",
             "spell_id": 327993,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_stoneclawtotem.jpg",
+            "desc": "Barkskin's duration is increased by 4 sec."
           }
         ]
       },
@@ -454,7 +498,9 @@
             "talent": "Hibernate",
             "spell_id": 2637,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_sleep.jpg",
+            "desc": "Forces the enemy target to sleep for up to 40 sec. Any damage will awaken the target. Only one target can be forced to hibernate at a time. Only works on Beasts and Dragonkin."
           }
         ]
       },
@@ -479,7 +525,9 @@
             "talent": "Nurturing Instinct",
             "spell_id": 33873,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_healinginstincts.jpg",
+            "desc": "Magical damage and healing increased by 6%."
           }
         ]
       },
@@ -501,7 +549,9 @@
             "talent": "Sunfire",
             "spell_id": 93402,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_firestarter.jpg",
+            "desc": "A quick beam of solar light burns the enemy for 81 Nature damage and then an additional 705 Nature damage over 18 sec."
           }
         ]
       },
@@ -523,7 +573,9 @@
             "talent": "Primal Fury",
             "spell_id": 159286,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_racial_cannibalize.jpg",
+            "desc": "While in Cat Form, when you critically strike with an attack that generates a combo point, you gain an additional combo point. Damage over time cannot trigger this effect.\r\n\r\nMangle critical strike damage increased by 20%."
           }
         ]
       },
@@ -546,7 +598,9 @@
             "talent": "Thick Hide",
             "spell_id": 16931,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_pelt_bear_03.jpg",
+            "desc": "Reduces all damage taken by 4%."
           }
         ]
       },
@@ -568,7 +622,9 @@
             "talent": "Skull Bash",
             "spell_id": 106839,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_bone_skull_04.jpg",
+            "desc": "You charge and bash the target's skull, interrupting spellcasting and preventing any spell in that school from being cast for 5 sec."
           }
         ]
       },
@@ -592,7 +648,9 @@
             "talent": "Natural Recovery",
             "spell_id": 377796,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_naturalperfection.jpg",
+            "desc": "Healing you receive is increased by 4%."
           }
         ]
       },
@@ -614,7 +672,9 @@
             "talent": "Astral Influence",
             "spell_id": 197524,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_skyreach_lens_flare.jpg",
+            "desc": "Increases the range of all of your spells by 5 yards."
           }
         ]
       },
@@ -637,14 +697,18 @@
             "talent": "Wild Charge",
             "spell_id": 102401,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_wildcharge.jpg",
+            "desc": "Fly to a nearby ally's position."
           },
           {
             "entry_id": "103275",
             "talent": "Tiger Dash",
             "spell_id": 252216,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_dash_orange.jpg",
+            "desc": "Shift into Cat Form and increase your movement speed by 200%, reducing gradually over 5 sec."
           }
         ]
       },
@@ -667,14 +731,18 @@
             "talent": "Soothe",
             "spell_id": 2908,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_beastsoothe.jpg",
+            "desc": "Soothes the target, dispelling all enrage effects."
           },
           {
             "entry_id": "128587",
             "talent": "Cyclone",
             "spell_id": 33786,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_earthbind.jpg",
+            "desc": "Tosses the enemy target into the air, disorienting them but making them invulnerable for up to 5 sec. Only one target can be affected by your Cyclone at a time."
           }
         ]
       },
@@ -697,7 +765,9 @@
             "talent": "Aessina's Renewal",
             "spell_id": 474678,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_healingtouch.jpg",
+            "desc": "When a hit deals more than 12% of your maximum health, instantly heal for 10% of your health.\r\n\r\nThis effect cannot occur more than once every 30 seconds."
           }
         ]
       },
@@ -720,7 +790,9 @@
             "talent": "Starlight Conduit",
             "spell_id": 451211,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_arcane01.jpg",
+            "desc": "Wrath, Starsurge, and Starfire damage increased by 5%. \r\n\r\nStarsurge's cooldown is reduced by 4 sec and its mana cost is reduced by 50%."
           }
         ]
       },
@@ -742,7 +814,9 @@
             "talent": "Feline Swiftness",
             "spell_id": 131768,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_dash.jpg",
+            "desc": "Increases your movement speed by 15%."
           }
         ]
       },
@@ -764,7 +838,9 @@
             "talent": "Well-Honed Instincts",
             "spell_id": 377847,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_tigersroar.jpg",
+            "desc": "When you fall below 40% health, you cast Frenzied Regeneration, up to once every 120 sec."
           }
         ]
       },
@@ -787,7 +863,9 @@
             "talent": "Matted Fur",
             "spell_id": 385786,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_pelt_15.jpg",
+            "desc": "When you use Barkskin or Survival Instincts, absorb 525 damage for 15 sec."
           }
         ]
       },
@@ -809,7 +887,9 @@
             "talent": "Stampeding Roar",
             "spell_id": 106898,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_stampedingroar_cat.jpg",
+            "desc": "Shift into Bear Form and let loose a wild roar, increasing the movement speed of all friendly players within 15 yards by 60% for 8 sec."
           }
         ]
       },
@@ -832,7 +912,9 @@
             "talent": "Lingering Healing",
             "spell_id": 231040,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_rejuvenation.jpg",
+            "desc": "Rejuvenation's duration is increased by 3 sec.\r\n\r\nRegrowth's duration is increased by 3 sec when cast on yourself."
           }
         ]
       },
@@ -854,7 +936,9 @@
             "talent": "Typhoon",
             "spell_id": 132469,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_typhoon.jpg",
+            "desc": "Blasts targets within 15 yards in front of you with a violent Typhoon, knocking them back and reducing their movement speed by 50% for 6 sec. Usable in all shapeshift forms."
           }
         ]
       },
@@ -876,14 +960,18 @@
             "talent": "Mass Entanglement",
             "spell_id": 102359,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_massentanglement.jpg",
+            "desc": "Roots the target and all enemies within 12 yards in place for 10 sec. Damage may interrupt the effect. Usable in all shapeshift forms."
           },
           {
             "entry_id": "128589",
             "talent": "Ursol's Vortex",
             "spell_id": 102793,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_ursolsvortex.jpg",
+            "desc": "Conjures a vortex of wind for 10 sec at the destination, reducing the movement speed of all enemies within 8 yards by 50%. The first time an enemy attempts to leave the vortex, winds will pull that enemy back to its center. Usable in all shapeshift forms."
           }
         ]
       },
@@ -906,7 +994,9 @@
             "talent": "Oakskin",
             "spell_id": 449191,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_stoneclawtotem.jpg",
+            "desc": "Survival Instincts and Barkskin reduce damage taken by an additional 10%."
           }
         ]
       },
@@ -928,7 +1018,9 @@
             "talent": "Perfectly-Honed Instincts",
             "spell_id": 1213597,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_tigersroar.jpg",
+            "desc": "Well-Honed Instincts can trigger up to once every 90 sec."
           }
         ]
       },
@@ -950,7 +1042,9 @@
             "talent": "Instincts of the Claw",
             "spell_id": 449184,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_vampiricaura.jpg",
+            "desc": "Ferocious Bite and Maul damage increased by 8%."
           }
         ]
       },
@@ -972,7 +1066,9 @@
             "talent": "Lycara's Teachings",
             "spell_id": 378988,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_trinket_ardenweald_02_green.jpg",
+            "desc": "You gain 3% of a stat while in each form:\r\n\r\nNo Form: Haste\r\nCat Form: Critical Strike\r\nBear Form: Versatility\r\nMoonkin Form: Mastery"
           }
         ]
       },
@@ -994,7 +1090,9 @@
             "talent": "Lore of the Grove",
             "spell_id": 449185,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_starfall.jpg",
+            "desc": "Moonfire and Sunfire damage increased by 10%."
           }
         ]
       },
@@ -1016,14 +1114,18 @@
             "talent": "Gale Winds",
             "spell_id": 400142,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_galewinds.jpg",
+            "desc": "Increases Typhoon's radius by 20% and its range by 5 yds."
           },
           {
             "entry_id": "128582",
             "talent": "Incessant Tempest",
             "spell_id": 400140,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_skyreach_wind.jpg",
+            "desc": "Reduces the cooldown of Typhoon by 5 sec."
           }
         ]
       },
@@ -1046,7 +1148,9 @@
             "talent": "Gift of the Wild",
             "spell_id": 1262034,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_giftofthewild.jpg",
+            "desc": "Mark of the Wild is 100% more effective on yourself."
           }
         ]
       },
@@ -1068,14 +1172,18 @@
             "talent": "Incapacitating Roar",
             "spell_id": 99,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_demoralizingroar.jpg",
+            "desc": "Shift into Bear Form and invoke the spirit of Ursol to let loose a deafening roar, incapacitating all enemies within 10 yards for 3 sec. Damage may cancel the effect."
           },
           {
             "entry_id": "103315",
             "talent": "Mighty Bash",
             "spell_id": 5211,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_bash.jpg",
+            "desc": "Invokes the spirit of Ursoc to stun the target for 4 sec. Usable in all shapeshift forms."
           }
         ]
       },
@@ -1097,7 +1205,9 @@
             "talent": "Ursine Vigor",
             "spell_id": 377842,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_markofursol.jpg",
+            "desc": "For 4 sec after shifting into Bear Form, your health and armor are increased by 15%."
           }
         ]
       },
@@ -1119,7 +1229,9 @@
             "talent": "Improved Stampeding Roar",
             "spell_id": 288826,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_stamedingroar.jpg",
+            "desc": "Cooldown reduced by 60 sec."
           }
         ]
       },
@@ -1141,14 +1253,18 @@
             "talent": "Circle of the Wild",
             "spell_id": 474530,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_disembowel.jpg",
+            "desc": "Physical damage dealt by your abilities increased by 5%."
           },
           {
             "entry_id": "128579",
             "talent": "Circle of the Heavens",
             "spell_id": 474541,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_equinox.jpg",
+            "desc": "Magical damage dealt by your spells increased by 5%."
           }
         ]
       },
@@ -1170,7 +1286,9 @@
             "talent": "Lycara's Inspiration",
             "spell_id": 1232897,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_trinket_ardenweald_02_yellow.jpg",
+            "desc": "You gain a bonus while in each form inspired by the breadth of your Druidic knowledge:\r\n\r\nNo Form: 4% Magic Damage\r\nCat Form: 4% Stamina\r\nBear Form: 5% Movement Speed\r\nMoonkin Form: 3% Area damage taken reduction"
           }
         ]
       },
@@ -1192,7 +1310,9 @@
             "talent": "Symbiotic Relationship",
             "spell_id": 474750,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_focusedgrowth.jpg",
+            "desc": "Form a bond with an ally. Your self-healing also heals your bonded ally for 10% of the amount healed. Your healing to your bonded ally also heals you for 8% of the amount healed."
           }
         ]
       },
@@ -1214,7 +1334,9 @@
             "talent": "Forestwalk",
             "spell_id": 400129,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_lifegivingspeed.jpg",
+            "desc": "Casting Regrowth increases your movement speed and healing received by 8% for 6 sec."
           }
         ]
       },
@@ -1236,7 +1358,9 @@
             "talent": "Fluid Form",
             "spell_id": 449193,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_mastershapeshifter.jpg",
+            "desc": "Shred, Rake, and Skull Bash can be used in any form and shift you into Cat Form, if necessary. \r\n\r\nMangle can be used in any form and shifts you into Bear Form. \r\n\r\nWrath and Starfire shift you into Moonkin Form, if known."
           }
         ]
       },
@@ -1260,7 +1384,9 @@
             "talent": "Heart of the Wild",
             "spell_id": 1261867,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_blessingofagility.jpg",
+            "desc": "Perform a powerful off-role ability depending on your currently active shapeshift form.\r\n\r\nNon-shapeshifted:\r\nEmpowered Wild Growth that heals up to 5 injured allies within 30 yards of the target for 6,514 over 7 sec.\r\n\r\nBear Form:\r\nIncrease your maximum health by 30% for 20 sec."
           }
         ]
       },
@@ -1282,7 +1408,9 @@
             "talent": "Innervate",
             "spell_id": 29166,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_lightning.jpg",
+            "desc": "Infuse a friendly healer with energy, allowing them to cast spells without spending mana for 8 sec."
           }
         ]
       }
@@ -1304,7 +1432,9 @@
             "talent": "Tiger's Fury",
             "spell_id": 5217,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mount_jungletiger.jpg",
+            "desc": "Instantly restores 50 Energy, and increases the damage of all your attacks by 15% for their full duration. Lasts 10 sec."
           }
         ]
       },
@@ -1326,7 +1456,9 @@
             "talent": "Omen of Clarity",
             "spell_id": 16864,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_crystalball.jpg",
+            "desc": "Your auto attacks have a chance to cause a Clearcasting state, making your next Shred or Swipe cost no Energy."
           }
         ]
       },
@@ -1348,7 +1480,9 @@
             "talent": "Coiled to Spring",
             "spell_id": 449537,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_supriseattack.jpg",
+            "desc": "If you generate a combo point in excess of what you can store, your next Ferocious Bite or Primal Wrath deals 10% increased direct damage."
           }
         ]
       },
@@ -1370,7 +1504,9 @@
             "talent": "Primal Wrath",
             "spell_id": 285381,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/artifactability_feraldruid_ashamanesbite.jpg",
+            "desc": "Finishing move that deals instant damage and applies Rip to all enemies within 10 yards. Lasts longer per combo point.\r\n\r\n   1 point  : 11 plus Rip for 4 sec\r\n   2 points: 16 plus Rip for 6 sec\r\n   3 points: 22 plus Rip for 8 sec\r\n   4 points: 27 plus Rip for 10 sec\r\n   5 points: 33 plus Rip for 12 sec"
           }
         ]
       },
@@ -1392,7 +1528,9 @@
             "talent": "Merciless Claws",
             "spell_id": 231063,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_monsterclaw_03.jpg",
+            "desc": "Shred deals 20% increased damage and Swipe deals 20% increased damage against bleeding targets."
           }
         ]
       },
@@ -1415,7 +1553,9 @@
             "talent": "Predator",
             "spell_id": 202021,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_catlikereflexes.jpg",
+            "desc": "Tiger's Fury lasts 5 additional seconds.\r\n\r\nYour combo point-generating abilities' direct damage is increased by 40% of your Haste."
           }
         ]
       },
@@ -1437,7 +1577,9 @@
             "talent": "Double-Clawed Rake",
             "spell_id": 391700,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_disembowel.jpg",
+            "desc": "Rake also applies Rake to 1 additional nearby target."
           }
         ]
       },
@@ -1461,7 +1603,9 @@
             "talent": "Sabertooth",
             "spell_id": 202031,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_monsterfang_01.jpg",
+            "desc": "Ferocious Bite deals 15% increased damage.\r\n\r\nFor each Combo Point spent, Ferocious Bite's primary target takes 6% increased damage from your Cat Form bleed and other periodic abilities for 4 sec."
           }
         ]
       },
@@ -1483,7 +1627,9 @@
             "talent": "Tireless Energy",
             "spell_id": 383352,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_chargepositive.jpg",
+            "desc": "Maximum Energy increased by 20 and Energy regeneration increased by 5%."
           }
         ]
       },
@@ -1507,7 +1653,9 @@
             "talent": "Pouncing Strikes",
             "spell_id": 390772,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_prowl.jpg",
+            "desc": "While stealthed, Rake will also stun the target for 4 sec, and deal 60% increased damage for its full duration.\r\n\r\nWhile stealthed, Shred deals 60% increased damage, has double the chance to critically strike, and generates 1 additional combo point."
           }
         ]
       },
@@ -1529,7 +1677,9 @@
             "talent": "Taste for Blood",
             "spell_id": 384665,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_ferociousbite.jpg",
+            "desc": "Ferocious Bite deals 12% increased damage and an additional 12% during Tiger's Fury."
           }
         ]
       },
@@ -1552,7 +1702,9 @@
             "talent": "Survival Instincts",
             "spell_id": 61336,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_tigersroar.jpg",
+            "desc": "Reduces all damage you take by 50% for 6 sec."
           }
         ]
       },
@@ -1574,7 +1726,9 @@
             "talent": "Dreadful Bleeding",
             "spell_id": 391045,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_ghoulfrenzy.jpg",
+            "desc": "Rip damage increased by 20%."
           }
         ]
       },
@@ -1596,7 +1750,9 @@
             "talent": "Sudden Ambush",
             "spell_id": 384667,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_catlikereflexes.jpg",
+            "desc": "Finishing moves have a 6% chance per combo point spent to increase the direct damage of your next Rake, Shred, or Swipe by 50% and make it critically strike."
           }
         ]
       },
@@ -1618,7 +1774,9 @@
             "talent": "Moment of Clarity",
             "spell_id": 236068,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_momentofclarity.jpg",
+            "desc": "Omen of Clarity now triggers 30% more often, can accumulate up to 2 charges, and increases the damage of your next Shred or Swipe by 15%."
           }
         ]
       },
@@ -1640,7 +1798,9 @@
             "talent": "Savage Fury",
             "spell_id": 449645,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_kingofthejungle.jpg",
+            "desc": "Tiger's Fury increases your Haste by 10% and Energy recovery rate by 25% for 8 sec."
           }
         ]
       },
@@ -1662,7 +1822,9 @@
             "talent": "Berserk",
             "spell_id": 106951,
             "max_ranks": 1,
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_berserk.jpg",
+            "desc": "Go Berserk for 15 sec. While Berserk:\r\n\r\nGenerate 1 combo point every 1.5 sec. Combo point generating abilities generate 1 additional combo point. Finishing moves restore up to 3 combo points generated over the cap.\r\n\r\nAll attack and ability damage is increased by 15%."
           }
         ]
       },
@@ -1684,7 +1846,9 @@
             "talent": "Panther's Guile",
             "spell_id": 1280316,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mount_blackpanther.jpg",
+            "desc": "When Shred or Moonfire generate combo points, they have a 25% chance to generate full combo points."
           }
         ]
       },
@@ -1706,7 +1870,9 @@
             "talent": "Rampant Ferocity",
             "spell_id": 391709,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_primaltenacity.jpg",
+            "desc": "Ferocious Bite also deals 12 damage per combo point spent to all nearby enemies. Spending extra Energy on Ferocious Bite increases damage dealt by up to 100%. Damage reduced beyond 5 targets."
           }
         ]
       },
@@ -1728,7 +1894,9 @@
             "talent": "Infected Wounds",
             "spell_id": 48484,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_infectedwound.jpg",
+            "desc": "Rake damage increased by 30%, and Rake causes an Infected Wound in the target, reducing the target's movement speed by 20% for 12 sec."
           }
         ]
       },
@@ -1751,14 +1919,18 @@
             "talent": "Raging Fury",
             "spell_id": 391078,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_predatoryinstincts.jpg",
+            "desc": "Tiger's Fury lasts 5 additional seconds."
           },
           {
             "entry_id": "103168",
             "talent": "Tiger's Tenacity",
             "spell_id": 391872,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_healinginstincts.jpg",
+            "desc": "Tiger's Fury causes your next 3 finishing moves to restore 1 combo point.\r\n\r\nTiger's Fury also increases the periodic damage of your bleeds by an additional 10% for their full duration."
           }
         ]
       },
@@ -1782,7 +1954,9 @@
             "talent": "Wild Slashes",
             "spell_id": 390864,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_xavius_tormentingswipe.jpg",
+            "desc": "Swipe damage is increased by 40%."
           }
         ]
       },
@@ -1804,7 +1978,9 @@
             "talent": "Berserk: Heart of the Lion",
             "spell_id": 391174,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_primalprecision.jpg",
+            "desc": "Reduces the cooldown of Berserk by 60 sec."
           }
         ]
       },
@@ -1828,7 +2004,9 @@
             "talent": "Blood Spattered",
             "spell_id": 1244532,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_ferociousbite.jpg",
+            "desc": "Ferocious Bite's damage to its primary target increased by 2% for each enemy affected by your Rip, up to 10."
           }
         ]
       },
@@ -1851,7 +2029,9 @@
             "talent": "Soul of the Forest",
             "spell_id": 158476,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_manatree.jpg",
+            "desc": "Your finishing moves grant 2 Energy per combo point spent and deal 5% increased damage."
           }
         ]
       },
@@ -1875,7 +2055,9 @@
             "talent": "Carnivorous Instinct",
             "spell_id": 390902,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mount_jungletiger.jpg",
+            "desc": "Tiger's Fury's damage bonus is increased by 6%."
           }
         ]
       },
@@ -1897,7 +2079,9 @@
             "talent": "Frantic Momentum",
             "spell_id": 391875,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_savagery.jpg",
+            "desc": "Finishing moves have a 3% chance per combo point spent to grant 10% Haste for 6 sec."
           }
         ]
       },
@@ -1921,7 +2105,9 @@
             "talent": "Saber Jaws",
             "spell_id": 421432,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_monsterfang_02.jpg",
+            "desc": "When you spend extra Energy on Ferocious Bite, the extra damage is increased by 50%."
           }
         ]
       },
@@ -1945,7 +2131,9 @@
             "talent": "Apex Predator's Craving",
             "spell_id": 391881,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_primaltenacity.jpg",
+            "desc": "Rip damage has a 5.0% chance to make your next Ferocious Bite free and deal the maximum damage."
           }
         ]
       },
@@ -1968,7 +2156,9 @@
             "talent": "Feral Frenzy",
             "spell_id": 274837,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_rake.jpg",
+            "desc": "Unleash a furious frenzy, clawing your target 5 times for 29 Physical damage and an additional 192 Bleed damage over 6 sec.\r\n\r\nAwards 5 combo points."
           }
         ]
       },
@@ -1990,14 +2180,18 @@
             "talent": "Incarnation: Avatar of Ashamane",
             "spell_id": 102543,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_incarnation.jpg",
+            "desc": "An improved Cat Form that grants all of your known Berserk effects and lasts 20 sec. You may shapeshift in and out of this improved Cat Form for its duration. During Incarnation:\r\n\r\nEnergy cost of all Cat Form abilities is reduced by 25%, and Prowl can be used once while in combat."
           },
           {
             "entry_id": "103177",
             "talent": "Convoke the Spirits",
             "spell_id": 391528,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_druid_convokethespirits.jpg",
+            "desc": "Call upon the spirits for an eruption of energy, channeling a rapid flurry of 16 Druid spells and abilities over 4 sec.\r\n\r\nYou will cast Wild Growth, Swiftmend, Moonfire, Wrath, Regrowth, Rejuvenation, Rake, and Thrash on appropriate nearby targets, favoring your current shapeshift form."
           }
         ]
       },
@@ -2020,7 +2214,9 @@
             "talent": "Lacerating Claws",
             "spell_id": 1244632,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_bloodythrash.jpg",
+            "desc": "Damage of your bleeds increased by 10%."
           }
         ]
       },
@@ -2043,14 +2239,18 @@
             "talent": "Veinripper",
             "spell_id": 391978,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_artifact_bloodoftheassassinated.jpg",
+            "desc": "Rip and Rake last 25% longer."
           },
           {
             "entry_id": "103153",
             "talent": "Rip and Tear",
             "spell_id": 391347,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_ghoulfrenzy.jpg",
+            "desc": "Applying Rip to a target also applies a Tear that deals 15% of the new Rip's damage over 8 sec."
           }
         ]
       },
@@ -2074,14 +2274,18 @@
             "talent": "Lunar Inspiration",
             "spell_id": 155580,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_lunarinspiration.jpg",
+            "desc": "Moonfire is usable in Cat Form, costs 30 energy, and generates 1 combo point."
           },
           {
             "entry_id": "134212",
             "talent": "Chomp",
             "spell_id": 1244258,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_1115_druid_jaguar.jpg",
+            "desc": "Chomp your target, causing 313 Physical damage. Chomp critical strikes deal 3 times normal damage.\r\n\r\nChomp can only be used when you fall below 30% Energy or for 2 seconds afterward."
           }
         ]
       },
@@ -2103,14 +2307,18 @@
             "talent": "Focused Frenzy",
             "spell_id": 1244544,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_ravage.jpg",
+            "desc": "Feral Frenzy's cooldown reduced by 15 sec and its damage is increased by 20%."
           },
           {
             "entry_id": "134211",
             "talent": "Frantic Frenzy",
             "spell_id": 1243807,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_xavius_nightmareblades.jpg",
+            "desc": "Unleash a furious frenzy, flickering to nearby targets in front of you 5 times and clawing all enemies around them for 5 Physical damage and an additional 37 Bleed damage over 6 sec.\r\n\r\nAwards 5 combo points."
           }
         ]
       },
@@ -2132,7 +2340,9 @@
             "talent": "Ashamane's Guidance",
             "spell_id": 391548,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_incarnation.jpg",
+            "desc": "Incarnation: Avatar of Ashamane\r\nIncarnation: Avatar of Ashamane's cooldown is reduced by 30 sec.\r\n\r\n Convoke the Spirits\r\nConvoke the Spirits' cooldown is reduced by 50% and its duration and number of spells cast is reduced by 25%. Convoke the Spirits has an increased chance to use an exceptional spell or ability."
           }
         ]
       },
@@ -2154,7 +2364,9 @@
             "talent": "Hunger for Battle",
             "spell_id": 1244547,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_predatoryinstincts.jpg",
+            "desc": "When an enemy afflicted by your Rip dies, gain 10 Energy and your damage dealt is increased by 5% for 8 sec, stacking up to 5 times."
           }
         ]
       },
@@ -2178,7 +2390,9 @@
             "talent": "Circle of Life and Death",
             "spell_id": 400320,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_cyclone.jpg",
+            "desc": "Your damage over time effects deal their damage in 20% less time, and your healing over time effects in 15% less time."
           }
         ]
       },
@@ -2198,7 +2412,9 @@
             "talent": "Unseen Predator",
             "spell_id": 1263657,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_apextalent_druid_unseenpredator.jpg",
+            "desc": "When you Ferocious Bite, you have a 15% chance per combo point spent to flicker to an enemy within 30 yds and deliver an Unseen Attack. Unseen Attack damage is reduced if less than 5 combo points and 50 Energy are spent on Ferocious Bite.\r\n\r\n Unseen Slash\r\nSlash the target, dealing 23 Physical damage and an additional 48 Bleed damage over 6 sec. If this effect is reapplied, any remaining damage is added to the new Bleed.\r\n\r\n Unseen Swipe\r\nSwipe nearby targets, dealing 66 Physical damage. Damage reduced beyond 5 targets."
           }
         ]
       }
@@ -2221,7 +2437,9 @@
               "talent": "Ravage",
               "spell_id": 441583,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_druidoftheclawdruid_ravage.jpg",
+              "desc": "Your auto-attacks have a chance to make your next Ferocious Bite become Ravage.\r\n\r\nRavage\r\nFinishing move that slashes through your target in a wide arc, dealing Physical damage per combo point to your target and consuming up to 25 additional Energy to increase that damage by up to 100%. Hits all other enemies in front of you for reduced damage per combo point spent. \r\n\r\n1 point: 13 damage, 6 in an arc\r\n2 points: 26 damage, 12 in an arc\r\n3 points: 38 damage, 18 in an arc\r\n4 points: 51 damage, 24 in an arc\r\n5 points: 65 damage, 29 in an arc"
             }
           ]
         },
@@ -2243,7 +2461,9 @@
               "talent": "Wildshape Mastery",
               "spell_id": 441678,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_mastershapeshifter.jpg",
+              "desc": "Ironfur and Frenzied Regeneration persist in Cat Form.\r\n\r\nWhen transforming from Bear to Cat Form, you retain 80% of your Bear Form armor and health for 6 sec.\r\n\r\nFor 6 sec after entering Bear Form, you heal for 10% of damage taken over 8 sec."
             }
           ]
         },
@@ -2265,7 +2485,9 @@
               "talent": "Bestial Strength",
               "spell_id": 441841,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_spiritarmor.jpg",
+              "desc": "Maul and Raze damage increased by 10%."
             }
           ]
         },
@@ -2287,14 +2509,18 @@
               "talent": "Empowered Shapeshifting",
               "spell_id": 441689,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_primaltenacity.jpg",
+              "desc": "Frenzied Regeneration can be cast in Cat Form for 40 Energy.\r\n\r\nBear Form reduces magic damage you take by 6%.\r\n\r\nShred and Swipe damage increased by 10%. Mangle damage increased by 25%."
             },
             {
               "entry_id": "117209",
               "talent": "Wildpower Surge",
               "spell_id": 441691,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_ravage.jpg",
+              "desc": "Mangle grants Feline Potential. When you have 6 stacks, the next time you transform into Cat Form, gain 5 combo points and your next Ferocious Bite or Rip deals 50% increased damage for its full duration."
             }
           ]
         },
@@ -2319,7 +2545,9 @@
               "talent": "Claw Rampage",
               "spell_id": 441835,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_xavius_tormentingswipe.jpg",
+              "desc": "During Berserk, Shred, and Swipe have a 20% chance to make your next Ferocious Bite become Ravage."
             }
           ]
         },
@@ -2341,14 +2569,18 @@
               "talent": "Strike for the Heart",
               "spell_id": 441845,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_primalagression.jpg",
+              "desc": "Mangle damage increased by 10% and its critical strike chance is increased by 10%."
             },
             {
               "entry_id": "117213",
               "talent": "Tear Down the Mighty",
               "spell_id": 441846,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_1115_druid_jaguar.jpg",
+              "desc": "The cooldown of Sundering Roar is reduced by 15 sec."
             }
           ]
         },
@@ -2370,7 +2602,9 @@
               "talent": "Pack's Endurance",
               "spell_id": 441844,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_stampedingroar_cat.jpg",
+              "desc": "Stampeding Roar's duration is increased by 25%."
             }
           ]
         },
@@ -2392,7 +2626,9 @@
               "talent": "Aggravate Wounds",
               "spell_id": 441829,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/artifactability_guardiandruid_goryfur.jpg",
+              "desc": "Every attack with an Energy cost that you cast extends the duration of your Dreadful Wounds by 0.6 sec, up to 8 additional sec."
             }
           ]
         },
@@ -2414,7 +2650,9 @@
               "talent": "Fount of Strength",
               "spell_id": 441675,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_unyeildingstamina.jpg",
+              "desc": "Your maximum Energy and Rage are increased by 20.\r\n\r\nFrenzied Regeneration also increases your maximum health by 10%."
             }
           ]
         },
@@ -2436,7 +2674,9 @@
               "talent": "Exacerbating Wounds",
               "spell_id": 1271839,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_artifact_bloodoftheassassinated.jpg",
+              "desc": "Your Dreadful Wounds increase the damage afflicted enemies take from your Bleed damage over time effects by 15%."
             }
           ]
         },
@@ -2458,7 +2698,9 @@
               "talent": "Dreadful Wound",
               "spell_id": 441809,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/artifactability_feraldruid_openwounds.jpg",
+              "desc": "Ravage also inflicts a Bleed that causes 35 damage over 6 sec and saps its victims' strength, reducing damage they deal to you by 15%.\r\n\r\nDreadful Wound is not affected by Circle of Life and Death."
             }
           ]
         },
@@ -2480,7 +2722,9 @@
               "talent": "Twin Claw",
               "spell_id": 1271635,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_swipe.jpg",
+              "desc": "You have a 18% chance to follow up any single target melee ability with a Twin Claw, dealing 120 Physical damage and generating 5 Rage."
             }
           ]
         },
@@ -2502,7 +2746,9 @@
               "talent": "Limb from Limb",
               "spell_id": 1271540,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/artifactability_feraldruid_ashamanesbite.jpg",
+              "desc": "Your auto-attacks are 30% more likely to make your next Maul become Ravage."
             }
           ]
         },
@@ -2524,14 +2770,18 @@
               "talent": "Ruthless Aggression",
               "spell_id": 441814,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_rake.jpg",
+              "desc": "Ravage increases your auto-attack speed by 35% for 6 sec."
             },
             {
               "entry_id": "136624",
               "talent": "Killing Strikes",
               "spell_id": 441824,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_kingofthejungle.jpg",
+              "desc": "Ravage increases your Agility by 8% and the armor granted by Ironfur by 20% for 8 sec.\r\n\r\nYour first Mangle after entering combat makes your next Maul become Ravage."
             }
           ]
         }
@@ -2555,7 +2805,9 @@
               "talent": "Wildstalker's Power",
               "spell_id": 439926,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_skinteeth.jpg",
+              "desc": "Rip and Ferocious Bite damage increased by 5%.\r\n\r\nRejuvenation healing increased by 10%."
             }
           ]
         },
@@ -2577,14 +2829,18 @@
               "talent": "Entangling Vortex",
               "spell_id": 439895,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_ursolsvortex.jpg",
+              "desc": "Enemies pulled into Ursol's Vortex are rooted in place for 3 sec. Damage may cancel the effect."
             },
             {
               "entry_id": "119855",
               "talent": "Flower Walk",
               "spell_id": 439901,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_trailofflowers.jpg",
+              "desc": "During Barkskin your movement speed is increased by 10% and every second flowers grow beneath your feet that heal up to 3 nearby injured allies for 76."
             }
           ]
         },
@@ -2606,7 +2862,9 @@
               "talent": "Strategic Infusion",
               "spell_id": 439890,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_supriseattack.jpg",
+              "desc": "Attacking from Prowl increases the chance for Shred, Rake, and Swipe to critically strike by 8% for 6 sec.\r\n\r\nYour periodic heals have a 4% increased chance to critically heal."
             }
           ]
         },
@@ -2628,7 +2886,9 @@
               "talent": "Lethal Preservation",
               "spell_id": 455461,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_healingtouch.jpg",
+              "desc": "When you remove an effect with Soothe or Remove Corruption, gain a combo point and heal for 4% of your maximum health. If you are at full health an injured party or raid member will be healed instead."
             }
           ]
         },
@@ -2650,14 +2910,18 @@
               "talent": "Bond with Nature",
               "spell_id": 439929,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_marrigolds_01.jpg",
+              "desc": "Healing you receive is increased by 4%."
             },
             {
               "entry_id": "119854",
               "talent": "Harmonious Constitution",
               "spell_id": 440116,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/talentspec_druid_restoration.jpg",
+              "desc": "Your Regrowth's healing to yourself is increased by 35%."
             }
           ]
         },
@@ -2677,7 +2941,9 @@
               "talent": "Thriving Growth",
               "spell_id": 439528,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_wildstalkerdruid_thrivinggrowth.jpg",
+              "desc": "Rip and Rake damage has a chance to cause Bloodseeker Vines to grow on the victim, dealing 34 Bleed damage over 6 sec.\r\n\r\nWild Growth, Regrowth, and Efflorescence healing has a chance to cause Symbiotic Blooms to grow on the target, healing for 834 over 6 sec.\r\n\r\nMultiple instances of these can overlap."
             }
           ]
         },
@@ -2702,7 +2968,9 @@
               "talent": "Vigorous Creepers",
               "spell_id": 440119,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_massentanglement.jpg",
+              "desc": "Bloodseeker Vines increase the damage your abilities deal to affected enemies by 4%.\r\n\r\nSymbiotic Blooms increase the healing your spells do to affected targets by 20%."
             }
           ]
         },
@@ -2724,14 +2992,18 @@
               "talent": "Twin Sprouts",
               "spell_id": 440117,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_herb_evergreenmoss.jpg",
+              "desc": "When Bloodseeker Vines or Symbiotic Blooms grow, they have a 30% chance to cause another growth of the same type to immediately grow on a valid nearby target."
             },
             {
               "entry_id": "117229",
               "talent": "Implant",
               "spell_id": 440118,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_creature_poison_03.jpg",
+              "desc": "Casting Swiftmend or Wild Growth causes a Symbiotic Bloom to grow on a target for 6 sec."
             }
           ]
         },
@@ -2753,7 +3025,9 @@
               "talent": "Hunt Beneath the Open Skies",
               "spell_id": 439868,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_lunarinspiration.jpg",
+              "desc": "Damage and healing while in Cat Form increased by 3%.\r\n\r\nMoonfire and Sunfire damage increased by 10%."
             }
           ]
         },
@@ -2775,7 +3049,9 @@
               "talent": "Patient Custodian",
               "spell_id": 1270592,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_helm_misc_rose_a_01_red.jpg",
+              "desc": "Your heal over time effects are 6% more effective."
             }
           ]
         },
@@ -2797,14 +3073,18 @@
               "talent": "Resilient Flourishing",
               "spell_id": 439880,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_herb_16.jpg",
+              "desc": "Bloodseeker Vines and Symbiotic Blooms last 2 additional sec.\r\n\r\nWhen a target afflicted by Bloodseeker Vines dies, the vines jump to a valid nearby target for their remaining duration."
             },
             {
               "entry_id": "117233",
               "talent": "Root Network",
               "spell_id": 439882,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_creature_poison_04.jpg",
+              "desc": "Each active Bloodseeker Vine increases the damage your abilities deal by 2%.\r\n\r\nEach active Symbiotic Bloom increases the healing of your spells by 2%."
             }
           ]
         },
@@ -2826,7 +3106,9 @@
               "talent": "Rampancy",
               "spell_id": 1270586,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_thornnecklace.jpg",
+              "desc": "Symbiotic Blooms have a 20% chance to trigger Bursting Growth every 2 sec at 100% effectiveness."
             }
           ]
         },
@@ -2848,7 +3130,9 @@
               "talent": "Bursting Growth",
               "spell_id": 440120,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_collections_armor_flowerbracelet_b_01.jpg",
+              "desc": "When Bloodseeker Vines expire or you use Ferocious Bite on their target they explode in thorns, dealing 30 physical damage to nearby enemies. Damage reduced above 5 targets.\r\n\r\nWhen Symbiotic Blooms expire or you cast Rejuvenation on their target flowers grow around their target, healing them and up to 3 nearby allies for 163."
             }
           ]
         },
@@ -2870,7 +3154,9 @@
               "talent": "Green Thumb",
               "spell_id": 1270565,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_lifegivingseed.jpg",
+              "desc": "The rate at which Symbiotic Blooms grow is increased by 20%."
             }
           ]
         }

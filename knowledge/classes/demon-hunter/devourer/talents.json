@@ -19,6 +19,12 @@
       "Void-Scarred"
     ]
   },
+  "level_cap": 90,
+  "budgets": {
+    "class": 34,
+    "spec": 34,
+    "hero": 13
+  },
   "trees": {
     "class": [
       {
@@ -37,7 +43,9 @@
             "talent": "Vengeful Retreat",
             "spell_id": 198793,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_12_voiddh_ability_vengefulretreat.jpg",
+            "desc": "Remove all snares and vault away. Nearby enemies take 5 Physical damage."
           }
         ]
       },
@@ -57,7 +65,9 @@
             "talent": "Voidblade",
             "spell_id": 1245412,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_12_voiddh_ability_voidblade.jpg",
+            "desc": "Unleash your glaives and charge to your target, dealing 853 Cosmic damage."
           }
         ]
       },
@@ -77,7 +87,9 @@
             "talent": "Sigil of Misery",
             "spell_id": 207684,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_sigilofmisery.jpg",
+            "desc": "Place a Sigil of Misery at the target location that activates after 2 sec.\r\n\r\nCauses all enemies affected by the sigil to cower in fear, disorienting them for 15 sec."
           }
         ]
       },
@@ -99,7 +111,9 @@
             "talent": "Vengeful Bonds",
             "spell_id": 320635,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_vengefulretreat2.jpg",
+            "desc": "Vengeful Retreat reduces the movement speed of all nearby enemies by 70% for 3 sec."
           }
         ]
       },
@@ -122,7 +136,9 @@
             "talent": "Unrestrained Fury",
             "spell_id": 320770,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_improveddisciplines.jpg",
+            "desc": "Increases maximum Fury by 20."
           }
         ]
       },
@@ -145,7 +161,9 @@
             "talent": "Shattered Restoration",
             "spell_id": 389824,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warlock_soulsiphon.jpg",
+            "desc": "The healing of Shattered Souls is increased by 10%."
           }
         ]
       },
@@ -167,7 +185,9 @@
             "talent": "Improved Sigil of Misery",
             "spell_id": 320418,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_sigilofmisery.jpg",
+            "desc": "Reduces the cooldown of Sigil of Misery by 30 sec."
           }
         ]
       },
@@ -190,7 +210,9 @@
             "talent": "Bouncing Glaives",
             "spell_id": 320386,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_throwglaive.jpg",
+            "desc": "Throw Glaive ricochets to 1 additional target."
           }
         ]
       },
@@ -213,7 +235,9 @@
             "talent": "Imprison",
             "spell_id": 217832,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_imprison.jpg",
+            "desc": "Imprisons a demon, beast, or humanoid, incapacitating them for 1 min. Damage may cancel the effect. Limit 1."
           }
         ]
       },
@@ -236,7 +260,9 @@
             "talent": "Charred Warblades",
             "spell_id": 213010,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_incinerate.jpg",
+            "desc": "You heal for 3% of all Fire damage you deal."
           }
         ]
       },
@@ -258,7 +284,9 @@
             "talent": "Void Nova",
             "spell_id": 1234195,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_12_voiddh_ability_voidnova.jpg",
+            "desc": "Unleash an eruption of void energy, dealing 104 Cosmic damage and stunning your target and all nearby enemies for 2 sec."
           }
         ]
       },
@@ -281,7 +309,9 @@
             "talent": "Improved Disrupt",
             "spell_id": 320361,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_consumemagic.jpg",
+            "desc": "Increases the range of Disrupt to 10 yds."
           }
         ]
       },
@@ -304,7 +334,9 @@
             "talent": "Consume Magic",
             "spell_id": 278326,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_misc_zandalari_council_soulswap.jpg",
+            "desc": "Consume 1 beneficial Magic effect removing it from the target."
           }
         ]
       },
@@ -326,7 +358,9 @@
             "talent": "Aldrachi Design",
             "spell_id": 391409,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_glaive_1h_artifactaldrochi_d_01dual.jpg",
+            "desc": "Increases your chance to parry by 3%."
           }
         ]
       },
@@ -348,7 +382,9 @@
             "talent": "Focused Ire",
             "spell_id": 1266296,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_bossfellord_felspike.jpg",
+            "desc": "The primary target of Chaos Nova is stunned for an additional 2 sec."
           }
         ]
       },
@@ -371,14 +407,18 @@
             "talent": "Master of the Glaive",
             "spell_id": 389763,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_glaive_1h_demonhunter_a_01.jpg",
+            "desc": "Throw Glaive has 2 charges and snares all enemies hit by 50% for 6 sec."
           },
           {
             "entry_id": "117768",
             "talent": "Champion of the Glaive",
             "spell_id": 429211,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_glaive_1h_battledungeon_c_01.jpg",
+            "desc": "Throw Glaive has 2 charges and 10 yard increased range."
           }
         ]
       },
@@ -400,7 +440,9 @@
             "talent": "Disrupting Fury",
             "spell_id": 183782,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_consumemagic.jpg",
+            "desc": "Disrupt generates 30 Fury on a successful interrupt."
           }
         ]
       },
@@ -423,7 +465,9 @@
             "talent": "Blazing Path",
             "spell_id": 320416,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_felrush.jpg",
+            "desc": "Shift gains an additional charge."
           }
         ]
       },
@@ -445,7 +489,9 @@
             "talent": "Swallowed Anger",
             "spell_id": 320313,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_misc_zandalari_council_soulswap.jpg",
+            "desc": "Consume Magic generates 20 Fury when a beneficial Magic effect is successfully removed from the target."
           }
         ]
       },
@@ -468,7 +514,9 @@
             "talent": "Aura of Pain",
             "spell_id": 207347,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_felimmolation.jpg",
+            "desc": "Increases the critical strike chance of Immolation Aura by 6%."
           }
         ]
       },
@@ -490,7 +538,9 @@
             "talent": "Live by the Glaive",
             "spell_id": 428607,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_sword_108.jpg",
+            "desc": "When you parry an attack or have one of your attacks parried, restore 2% of max health and 10 Fury. \r\n\r\nThis effect may only occur once every 5 sec."
           }
         ]
       },
@@ -513,7 +563,9 @@
             "talent": "Pursuit",
             "spell_id": 320654,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_infernalstrike2.jpg",
+            "desc": "Mastery increases your movement speed."
           }
         ]
       },
@@ -537,7 +589,9 @@
             "talent": "Soul Rending",
             "spell_id": 204909,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_soulcleave2.jpg",
+            "desc": "Leech increased by 6%.\r\n\r\nGain an additional 6% leech while Metamorphosis is active."
           }
         ]
       },
@@ -559,7 +613,9 @@
             "talent": "Felfire Haste",
             "spell_id": 389846,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_boots_cloth_35v4.jpg",
+            "desc": "Fel Rush increases your movement speed by 10% for 8 sec."
           }
         ]
       },
@@ -582,7 +638,9 @@
             "talent": "Infernal Armor",
             "spell_id": 320331,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_immolation.jpg",
+            "desc": "Immolation Aura increases your armor by 20% and causes melee attackers to suffer 4 Fire damage."
           }
         ]
       },
@@ -604,14 +662,18 @@
             "talent": "Burn It Out",
             "spell_id": 1266316,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fel_elementaldevastation.jpg",
+            "desc": "Immolation Aura removes 1 Disease effect."
           },
           {
             "entry_id": "136502",
             "talent": "Soul Cleanse",
             "spell_id": 1266496,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_removecurse.jpg",
+            "desc": "Immolation Aura removes 1 Curse effect."
           }
         ]
       },
@@ -634,7 +696,9 @@
             "talent": "Lost in Darkness",
             "spell_id": 389849,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_pet_inquisitoreye.jpg",
+            "desc": "Spectral Sight has 5 sec reduced cooldown and no longer reduces movement speed."
           }
         ]
       },
@@ -657,7 +721,9 @@
             "talent": "Illidari Knowledge",
             "spell_id": 389696,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_mage_overpowered.jpg",
+            "desc": "Reduces magic damage taken by 3%."
           }
         ]
       },
@@ -681,7 +747,9 @@
             "talent": "Guile",
             "spell_id": 1223171,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_demonform.jpg",
+            "desc": "The cast range of Voidblade, Consume Magic, and Disrupt are increased by 20 yds."
           }
         ]
       },
@@ -705,7 +773,9 @@
             "talent": "Will of the Illidari",
             "spell_id": 389695,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_spectank.jpg",
+            "desc": "Increases maximum health by 3%."
           }
         ]
       },
@@ -727,7 +797,9 @@
             "talent": "Internal Struggle",
             "spell_id": 393822,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warlock_demonicpower.jpg",
+            "desc": "Increases your mastery by 2.6%."
           }
         ]
       },
@@ -750,7 +822,9 @@
             "talent": "Furious",
             "spell_id": 1266326,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warlock_shadowfurytga.jpg",
+            "desc": "Attacks and abilities that generate Fury deal 3% increased damage."
           }
         ]
       },
@@ -773,7 +847,9 @@
             "talent": "Remorseless",
             "spell_id": 1266328,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_glaive_1h_npc_d_02.jpg",
+            "desc": "Attacks and abilities that spend Fury deal 3% increased damage."
           }
         ]
       },
@@ -795,7 +871,9 @@
             "talent": "First In, Last Out",
             "spell_id": 1266497,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_demonictrample.jpg",
+            "desc": "Shift grants you a rapidly decaying shield equal to 6% of your maximum health."
           }
         ]
       },
@@ -818,7 +896,9 @@
             "talent": "Erratic Felheart",
             "spell_id": 391397,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_archaeology_70_crystallineeyeofundravius.jpg",
+            "desc": "The cooldown of Fel Rush is reduced by 1.0 sec."
           }
         ]
       },
@@ -840,7 +920,9 @@
             "talent": "Final Breath",
             "spell_id": 1266500,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_twilightflamebreath.jpg",
+            "desc": "Fully channeling Void Ray increases the damage of its final tick by 300%."
           }
         ]
       },
@@ -863,7 +945,9 @@
             "talent": "Darkness",
             "spell_id": 196718,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_darkness.jpg",
+            "desc": "Summons darkness around you in an 8 yd radius, granting friendly targets a 15% chance to avoid all damage from an attack. Lasts 8 sec.\r\n\r\nChance to avoid damage increased by 100% when not in a raid."
           }
         ]
       },
@@ -885,7 +969,9 @@
             "talent": "Demon Muzzle",
             "spell_id": 1266329,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_warlock_demonicservitude.jpg",
+            "desc": "Interrupting a spell with Disrupt decreases your magic damage taken by 15% for 12 sec."
           }
         ]
       },
@@ -907,7 +993,9 @@
             "talent": "Soul Splitter",
             "spell_id": 1266330,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warlock_soulswap.jpg",
+            "desc": "Any time you would generate one or more Soul Fragments, you have a 2% chance to generate an additional Soul Fragment."
           }
         ]
       },
@@ -929,7 +1017,9 @@
             "talent": "Wings of Wrath",
             "spell_id": 1266493,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_glide.jpg",
+            "desc": "Glide speed increased by 10%."
           }
         ]
       },
@@ -951,14 +1041,18 @@
             "talent": "Long Night",
             "spell_id": 389781,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_twilightimmolation.jpg",
+            "desc": "Increases the duration of Darkness by 3 sec."
           },
           {
             "entry_id": "112919",
             "talent": "Pitch Black",
             "spell_id": 389783,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/sha_spell_warlock_demonsoul.jpg",
+            "desc": "Reduces the cooldown of Darkness by 120 sec."
           }
         ]
       },
@@ -980,7 +1074,9 @@
             "talent": "Demonic Resilience",
             "spell_id": 1266307,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_summondemonictyrant.jpg",
+            "desc": "Blur gains 1 additional charge."
           }
         ]
       }
@@ -1002,7 +1098,9 @@
             "talent": "Void Ray",
             "spell_id": 473728,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_12_dh_void_ability_voidray.jpg",
+            "desc": "Requires 100 Fury\r\nUnleash a beam of concentrated void energy, dealing 75 Cosmic damage and consuming 5 Fury every 0.1 sec.\r\n\r\nEffect ends after 2.7 sec or upon reaching 0 Fury."
           }
         ]
       },
@@ -1024,7 +1122,9 @@
             "talent": "Soul Immolation",
             "spell_id": 1241937,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_12_dh_void_ability_voidpurge.jpg",
+            "desc": "Light your soul aflame, healing yourself for 24% of your maximum health, generating 30 Fury and shattering 3 Soul Fragments over 5 sec."
           }
         ]
       },
@@ -1046,7 +1146,9 @@
             "talent": "Predator's Thirst",
             "spell_id": 1215617,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_12_dh_void_ability_consume.jpg",
+            "desc": "Consume damage increased by 15%.\r\n\r\nConsume generates a Soul Fragment."
           }
         ]
       },
@@ -1068,14 +1170,18 @@
             "talent": "Tempered Soul",
             "spell_id": 1246555,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_12_dh_void_ability_voidpurge.jpg",
+            "desc": "The cooldown of Soul Immolation is reduced by 30 sec and it gains 1 additional charge."
           },
           {
             "entry_id": "135730",
             "talent": "Spontaneous Immolation",
             "spell_id": 1246556,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_twilightimmolation.jpg",
+            "desc": "Soul Immolation heals for an additional 4% of your health over its duration and its cooldown is reset upon killing an enemy that yields experience or honor."
           }
         ]
       },
@@ -1098,7 +1204,9 @@
             "talent": "Void Metamorphosis",
             "spell_id": 471306,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_112_ability_demonhunter_metamorphasisvoid.jpg",
+            "desc": "Collecting 50 Soul Fragments grants access to Void Metamorphosis.\r\n\r\n Void Metamorphosis\r\nRequires 50 Soul Fragments\r\n\r\nYou ascend to a higher state of being, substantially empowering your abilities.\r\n\r\nWhile in Void Metamorphosis, your Consume and Reap are enhanced and your Fury will slowly drain. Additionally, Void Ray reduces your Fury drain, deals increased damage, and no longer consumes Fury."
           }
         ]
       },
@@ -1120,7 +1228,9 @@
             "talent": "Feast of Souls",
             "spell_id": 1237270,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_12_dh_void_ability_firstofsouls.jpg",
+            "desc": "Soul Fragments grant 1% increased damage for 6 sec. Multiple applications may overlap."
           }
         ]
       },
@@ -1142,14 +1252,18 @@
             "talent": "Scythe's Embrace",
             "spell_id": 1246558,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_12_dh_void_ability_voidreaper.jpg",
+            "desc": "Reap now generates 10 Fury."
           },
           {
             "entry_id": "134275",
             "talent": "Duty Eternal",
             "spell_id": 1246562,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_12_voiddh_ability_voidblade.jpg",
+            "desc": "Voidblade damage increased by 100% and Voidblade now generates 20 Fury."
           }
         ]
       },
@@ -1171,7 +1285,9 @@
             "talent": "Collapsing Star",
             "spell_id": 1221167,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_12_dh_void_ability_collapsingstar.jpg",
+            "desc": "While in Void Metamorphosis, every 30 Soul Fragments harvested grants access to Collapsing Star.\r\n\r\n Collapsing Star\r\nChannel an immense amount of void energy into a single, cataclysmic blast, dealing 2,139 Cosmic damage to your target and 1,604 Cosmic damage to all nearby enemies. Damage reduced beyond 8 targets.\r\n\r\nWhile casting Collapsing Star, your Fury drain is significantly reduced."
           }
         ]
       },
@@ -1193,7 +1309,9 @@
             "talent": "Moment of Craving",
             "spell_id": 1238488,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_12_dh_void_ability_momentofcraving.jpg",
+            "desc": "After fully channeling Void Ray, the cooldown of Reap is reset and your next Reap will collect up to 6 additional Soul Fragments."
           }
         ]
       },
@@ -1215,7 +1333,9 @@
             "talent": "Gift of the Void",
             "spell_id": 1272847,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_reversemagic.jpg",
+            "desc": "Your critical strike chance is increased by 2%."
           }
         ]
       },
@@ -1238,7 +1358,9 @@
             "talent": "Entropy",
             "spell_id": 1261684,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_112_raidtrinkets_voidprism.jpg",
+            "desc": "While in combat, generate 1 Soul Fragment every 12 sec.\r\n\r\nWhile out of combat, you will slowly build towards your Void Metamorphosis, up to 25 Soul Fragments."
           }
         ]
       },
@@ -1261,7 +1383,9 @@
             "talent": "Waste Not",
             "spell_id": 1223918,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_12_dh_void_ability_wastenot.jpg",
+            "desc": "Damage from Void Ray has a 200% increased chance to generate a Soul Fragment."
           }
         ]
       },
@@ -1283,7 +1407,9 @@
             "talent": "Soulshaper",
             "spell_id": 1238739,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_12_dh_void_ability_sunder.jpg",
+            "desc": "Each Soul Fragment gathered by Reap increases its damage by 8%."
           }
         ]
       },
@@ -1305,7 +1431,9 @@
             "talent": "Singed Spirit",
             "spell_id": 1272832,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_11_0_misc_candlekobold_color3.jpg",
+            "desc": "Soul Immolation generates an additional 12 Fury over its duration."
           }
         ]
       },
@@ -1328,7 +1456,9 @@
             "talent": "Sweet Suffering",
             "spell_id": 1244295,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_shatteredsouls.jpg",
+            "desc": "The duration of Feast of Souls is increased by 1 sec.\r\n\r\n Feast of Souls\r\nSoul Fragments grant 1% increased damage for 6 sec. Multiple applications may overlap."
           }
         ]
       },
@@ -1350,7 +1480,9 @@
             "talent": "Second Helping",
             "spell_id": 1239537,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_polearm_2h_voidscythe_d_01.jpg",
+            "desc": "Reap gains an additional charge."
           }
         ]
       },
@@ -1373,7 +1505,9 @@
             "talent": "Umbral Blade",
             "spell_id": 1272842,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_12_dh_void_ability_reap.jpg",
+            "desc": "Reap's cooldown is reduced by your Haste."
           }
         ]
       },
@@ -1395,7 +1529,9 @@
             "talent": "Improved Consume",
             "spell_id": 1272817,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_12_dh_void_ability_feast.jpg",
+            "desc": "Consume deals 10% increased damage and its cast time is reduced by 0.25 sec."
           }
         ]
       },
@@ -1418,7 +1554,9 @@
             "talent": "Sweet Release",
             "spell_id": 1242768,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_misc_zandalari_council_soulswap.jpg",
+            "desc": "Your chance to shatter a Soul Fragment from enemies you damage is increased by 2%."
           }
         ]
       },
@@ -1440,7 +1578,9 @@
             "talent": "Voidpurge",
             "spell_id": 1244220,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_12_dh_void_ability_voidray.jpg",
+            "desc": "Void Ray's cooldown during Void Metamorphosis is reduced by 2.0 sec."
           }
         ]
       },
@@ -1464,7 +1604,9 @@
             "talent": "Hungering Slash",
             "spell_id": 1239519,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_12_dh_void_ability_reapersslice.jpg",
+            "desc": "After dealing damage with The Hunt or Voidblade, Voidblade is replaced with Hungering Slash for 6 sec.\r\n\r\n Hungering Slash\r\nViolently slash your scythe around you, dealing 940 Cosmic damage to nearby enemies and generating 10 Fury. Shatters up to 2 Soul Fragments from nearby enemies. Damage reduced beyond 8 targets.\r\n\r\nHungering Slash grants a temporary charge of Vengeful Retreat and causes your next Vengeful Retreat within 6 sec to deal an additional 570 Cosmic damage."
           }
         ]
       },
@@ -1488,7 +1630,9 @@
             "talent": "Voidrage",
             "spell_id": 1242956,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_12_dh_void_ability_soulimmolation.jpg",
+            "desc": "Your Mastery is increased by 2%."
           }
         ]
       },
@@ -1512,7 +1656,9 @@
             "talent": "Focused Ray",
             "spell_id": 1240203,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_cosmicvoid_beam.jpg",
+            "desc": "Void Ray deals 80% more damage when damaging 3 targets."
           }
         ]
       },
@@ -1534,7 +1680,9 @@
             "talent": "Soulforged Blades",
             "spell_id": 1272432,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_ability_deathknight_frostscythe.jpg",
+            "desc": "Hungering Slash and Voidblade's critical strike chance is increased by 15%."
           }
         ]
       },
@@ -1556,7 +1704,9 @@
             "talent": "Singular Strikes",
             "spell_id": 1272770,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_12_dh_void_ability_scythethrow.jpg",
+            "desc": "Voidblade damage increased by 25%.\r\n\r\nHungering Slash deals 50% increased damage to its primary target."
           }
         ]
       },
@@ -1579,7 +1729,9 @@
             "talent": "Demonic Instinct",
             "spell_id": 1247538,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_12_dh_void_ability_predatorsthirst.jpg",
+            "desc": "Void Ray and Hungering Slash damage increased by 10%."
           }
         ]
       },
@@ -1602,7 +1754,9 @@
             "talent": "Devourer's Edge",
             "spell_id": 1244222,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_12_dh_void_ability_empoweredreap.jpg",
+            "desc": "Reap and Consume damage increased by 10%."
           }
         ]
       },
@@ -1624,7 +1778,9 @@
             "talent": "Voidglare Boon",
             "spell_id": 1240202,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_nulllotus_cosmicvoid.jpg",
+            "desc": "After fully channeling Void Ray, gain 10 Fury."
           }
         ]
       },
@@ -1646,7 +1802,9 @@
             "talent": "Rolling Torment",
             "spell_id": 1244237,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_cosmicvoid_debuff.jpg",
+            "desc": "When Void Metamorphosis expires, for each unused Soul you harvested, gain 5 Fury and increase your damage by 0.50% for 12 sec."
           }
         ]
       },
@@ -1669,7 +1827,9 @@
             "talent": "Voidrush",
             "spell_id": 1272422,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_12_dh_void_ability_voidstep.jpg",
+            "desc": "Collapsing Star reduces the cooldown of Voidblade by 10 sec.\r\n\r\nVoidblade and The Hunt briefly reduce your Fury drain while in Void Metamorphosis."
           }
         ]
       },
@@ -1691,7 +1851,9 @@
             "talent": "Devourer's Bite",
             "spell_id": 1240201,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_12_dh_void_ability_devourerbite.jpg",
+            "desc": "Damage from Voidblade and the Hunt increases the damage your target takes from you by 12% for 10 sec. Multiple applications may overlap."
           }
         ]
       },
@@ -1714,7 +1876,9 @@
             "talent": "Impending Apocalypse",
             "spell_id": 1227707,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_12_dh_void_ability_impendingapocalypse.jpg",
+            "desc": "Each Collapsing Star you cast increases the damage of your next Collapsing Star by 30%."
           }
         ]
       },
@@ -1736,7 +1900,9 @@
             "talent": "Calamitous",
             "spell_id": 1242495,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_argus_soulbombdebuffsmall.jpg",
+            "desc": "Your damaging critical strikes deal 240% damage instead of the usual 200%."
           }
         ]
       },
@@ -1759,7 +1925,9 @@
             "talent": "Star Fragments",
             "spell_id": 1240204,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_12_dh_void_ability_starfragments.jpg",
+            "desc": "Collapsing Star now generates 3 Soul Fragments."
           }
         ]
       },
@@ -1781,7 +1949,9 @@
             "talent": "The Hunt",
             "spell_id": 1246167,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_12_voiddh_ability_thehunt.jpg",
+            "desc": "Charge to your target, striking them for 2,285 Cosmic damage, rooting them in place for 1.5 sec and inflicting 1,628 Cosmic damage over 6 sec to up to 5 enemies in your path."
           }
         ]
       },
@@ -1803,14 +1973,18 @@
             "talent": "Emptiness",
             "spell_id": 1242492,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_cosmicvoid_buff.jpg",
+            "desc": "Every soul consumed in Void Metamorphosis grants 0.25% haste, up to 25%."
           },
           {
             "entry_id": "134331",
             "talent": "Soul Glutton",
             "spell_id": 1247534,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_bossgorefiend_gorefiendscorruption.jpg",
+            "desc": "Void Metamorphosis requires 15 less souls.\r\n\r\nYour Fury drains 25% faster while in Void Metamorphosis."
           }
         ]
       },
@@ -1832,7 +2006,9 @@
             "talent": "Eradicate",
             "spell_id": 1226033,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_12_dh_void_ability_eradicate.jpg",
+            "desc": "Fully channeling Void Ray upgrades your Reap to Eradicate.\r\n\r\n Eradicate\r\nSlam your Scythe to the ground, dealing 2,558 Cosmic damage to your primary target and 2,558 to all other enemies within a 25 yd cone in front of you. Damage reduced beyond 5 targets.\r\n\r\nEradicate gathers up to 4 nearby souls."
           }
         ]
       },
@@ -1852,7 +2028,9 @@
             "talent": "Midnight",
             "spell_id": 1242486,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_apextalent_demonhunter_midnight.jpg",
+            "desc": "Collapsing Star always critically strikes."
           }
         ]
       }
@@ -1880,7 +2058,9 @@
               "talent": "World Killer",
               "spell_id": 1256353,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_112_raiddimensius_brokenworld.jpg",
+              "desc": "The third Voidfall meteor strike called down in sequence is larger, has 50% increased area, deals 50% increased damage, and generates 1 Soul Fragment."
             }
           ]
         },
@@ -1902,7 +2082,9 @@
               "talent": "Otherworldly Focus",
               "spell_id": 1253817,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_babyvoidwalker_blue.jpg",
+              "desc": "Collapsing Star and Voidfall meteors deal 35% increased damage when striking a single target.\r\n\r\nEach additional target reduces this bonus by 5%."
             }
           ]
         },
@@ -1924,7 +2106,9 @@
               "talent": "Dark Matter",
               "spell_id": 1256307,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_cosmicvoid_nova.jpg",
+              "desc": "Your first Collapsing Star after casting Void Metamorphosis causes a Cosmic meteor shower to assault the area, dealing 2,307 Cosmic damage over 6 sec."
             }
           ]
         },
@@ -1946,7 +2130,9 @@
               "talent": "Final Hour",
               "spell_id": 1253805,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_worlddroplevelingoptionalreagent_relics_hourglass_color1.jpg",
+              "desc": "Passive bonuses granted by each stack of Voidfall persist for 8 sec after being consumed."
             }
           ]
         },
@@ -1968,7 +2154,9 @@
               "talent": "Meteoric Fall",
               "spell_id": 1253391,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_socererking_arcanereplication.jpg",
+              "desc": "While at 3 stacks of Voidfall, Reap consumes all 3 to rapidly call down that many meteor strikes."
             }
           ]
         },
@@ -1990,7 +2178,9 @@
               "talent": "Mass Acceleration",
               "spell_id": 1256295,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_nullstone_cosmicvoid.jpg",
+              "desc": "Gain 3 stacks of Voidfall and reset the cooldown of Reap upon activating Void Metamorphosis."
             }
           ]
         },
@@ -2012,14 +2202,18 @@
               "talent": "Path to Oblivion",
               "spell_id": 1253399,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_socererking_arcaneacceleration.jpg",
+              "desc": "Each stack of Voidfall grants 3% increased movement speed."
             },
             {
               "entry_id": "135659",
               "talent": "State of Matter",
               "spell_id": 1253402,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_112_arcane_buff.jpg",
+              "desc": "Shift has 1 additional charge."
             }
           ]
         },
@@ -2039,7 +2233,9 @@
               "talent": "Voidfall",
               "spell_id": 1253304,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_12_dh_void_ability_voidfall.jpg",
+              "desc": "Consume has a 35% chance to grant 1 stack of Voidfall.\r\n\r\nUpon reaching 3 stacks of Voidfall, Reap consumes a stack to reach into the Void and call down a meteor strike at your target's location, dealing 674 Cosmic damage to all enemies within 8 yards. Damage reduced beyond 8 targets."
             }
           ]
         },
@@ -2061,14 +2257,18 @@
               "talent": "Doomsayer",
               "spell_id": 1253676,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_shadowflame_buff.jpg",
+              "desc": "Activating Void Ray out of combat or within 5 sec of entering combat calls down 3 Voidfall Meteors over its duration."
             },
             {
               "entry_id": "136810",
               "talent": "Harness the Cosmos",
               "spell_id": 1279247,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_cosmicvoid_orb.jpg",
+              "desc": "Voidfall Meteor damage increased by 15%."
             }
           ]
         },
@@ -2090,7 +2290,9 @@
               "talent": "Celestial Echoes",
               "spell_id": 1253415,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_polearm_2h_voidscythe_d_01.jpg",
+              "desc": "Consume generates 2 additional Fury and deals 15% increased damage."
             }
           ]
         },
@@ -2112,7 +2314,9 @@
               "talent": "Phase Shift",
               "spell_id": 1256245,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_blur.jpg",
+              "desc": "Each stack of Voidfall grants 2% reduced damage taken."
             }
           ]
         },
@@ -2134,7 +2338,9 @@
               "talent": "Catastrophe",
               "spell_id": 1253769,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_netherportal.jpg",
+              "desc": "Enemies struck by a Voidfall Meteor take an additional 25% damage over 8 sec."
             }
           ]
         },
@@ -2156,7 +2362,9 @@
               "talent": "Swift Erasure",
               "spell_id": 1253668,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_darkarchangel.jpg",
+              "desc": "Each stack of Voidfall grants 2% Haste."
             }
           ]
         },
@@ -2178,7 +2386,9 @@
               "talent": "Meteoric Rise",
               "spell_id": 1253377,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_socererking_arcanefortification.jpg",
+              "desc": "Void Ray damage increased by 15%.\r\n\r\nFully channeling Void Ray generates 1 stack of Voidfall."
             }
           ]
         }
@@ -2202,7 +2412,9 @@
               "talent": "Monster Rising",
               "spell_id": 452414,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warlock_demonicpower.jpg",
+              "desc": "Intellect increased by 15% while not in demon form."
             }
           ]
         },
@@ -2224,7 +2436,9 @@
               "talent": "Blind Focus",
               "spell_id": 1272364,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_belt_leather_raiddemonhunter_r_01.jpg",
+              "desc": "Cosmic damage increased by 2%.\r\n\r\nEffect is doubled while in demon form."
             }
           ]
         },
@@ -2246,7 +2460,9 @@
               "talent": "Enduring Torment",
               "spell_id": 452410,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_felimmolation.jpg",
+              "desc": "The effects of your demon form persist outside of it in a weakened state, increasing Mastery: Monster Within's effectiveness by 20%."
             }
           ]
         },
@@ -2268,14 +2484,18 @@
               "talent": "Student of Suffering",
               "spell_id": 452412,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_dungeon_theatreofpain_kultharok.jpg",
+              "desc": "Void Ray applies Student of Suffering to you, increasing Mastery by 10.6% and granting 5 Fury every 2 sec, for 6 sec."
             },
             {
               "entry_id": "136614",
               "talent": "Flamebound",
               "spell_id": 452413,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_felflamering.jpg",
+              "desc": "Hungering Slash has 2 yd increased radius and 50% increased critical strike damage bonus."
             }
           ]
         },
@@ -2297,7 +2517,9 @@
               "talent": "Undying Embers",
               "spell_id": 1272405,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warlock_burningembersgreen.jpg",
+              "desc": "Soul Immolation has a 25% chance to reignite after it expires, reapplying its effect."
             }
           ]
         },
@@ -2319,7 +2541,9 @@
               "talent": "Untethered Fury",
               "spell_id": 452411,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv__felbarrage.jpg",
+              "desc": "Maximum Fury increased by 20."
             }
           ]
         },
@@ -2341,7 +2565,9 @@
               "talent": "Volatile Instinct",
               "spell_id": 1272453,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_nature_nova.jpg",
+              "desc": "Entering demon form causes your next Voidsurge to repeat after a short delay."
             }
           ]
         },
@@ -2363,7 +2589,9 @@
               "talent": "Burning Blades",
               "spell_id": 452408,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_glaive_1h_artifactazgalor_d_02dual.jpg",
+              "desc": "Your blades burn with Cosmic energy, causing your Voidblade, Hungering Slash, and Throw Glaive to deal an additional 35% damage as Cosmic damage.\r\n\r\nReap damage increased by 20%."
             }
           ]
         },
@@ -2383,7 +2611,9 @@
               "talent": "Demonsurge",
               "spell_id": 452402,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_12_voiddh_ability_demonsurge.jpg",
+              "desc": "Void Metamorphosis now also greatly empowers Voidblade and Hungering Slash.\r\n\r\nWhile demon form is active, the first cast of each empowered ability induces a Voidsurge, causing you to explode with Void energy, dealing 2,359 Cosmic damage to nearby enemies. Deals reduced damage beyond 8 targets."
             }
           ]
         },
@@ -2405,7 +2635,9 @@
               "talent": "Focused Hatred",
               "spell_id": 452405,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_illidansgrasp.jpg",
+              "desc": "Voidsurge deals 50% increased damage when it strikes a single target.\r\n\r\nEach additional target reduces this bonus by 10%."
             }
           ]
         },
@@ -2427,14 +2659,18 @@
               "talent": "Wave of Debilitation",
               "spell_id": 452403,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_felfirenova.jpg",
+              "desc": "Chaos Nova slows enemies by 60% and reduces attack and cast speed by 15% for 5 sec after its stun fades."
             },
             {
               "entry_id": "136619",
               "talent": "Pursuit of Angriness",
               "spell_id": 452404,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_felarakkoa_focusedblast.jpg",
+              "desc": "Movement speed increased by 1% per 10 Fury."
             }
           ]
         },
@@ -2456,7 +2692,9 @@
               "talent": "Violent Transformation",
               "spell_id": 452409,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_demoniccirclesummon.jpg",
+              "desc": "Entering Void Metamorphosis resets the cooldown of Voidblade and The Hunt.\r\n\r\nThe Hunt deals 25% increased damage and resets the cooldown of Soul Immolation."
             }
           ]
         },
@@ -2481,7 +2719,9 @@
               "talent": "Demonic Intensity",
               "spell_id": 452415,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_warlock_demonicempowerment.jpg",
+              "desc": "Activating Void Metamorphosis greatly empowers The Hunt.\r\n\r\nVoidsurge damage is increased by 10% for each time it previously triggered while your demon form is active."
             }
           ]
         },
@@ -2503,14 +2743,18 @@
               "talent": "Set Fire to the Pain",
               "spell_id": 452406,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_empowerwards.jpg",
+              "desc": "5% of all non-Fire damage taken is instead taken as Fire damage over 6 sec.\r\n\r\nFire damage taken reduced by 10%."
             },
             {
               "entry_id": "136618",
               "talent": "Improved Soul Rending",
               "spell_id": 452407,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_soulcleave2.jpg",
+              "desc": "Leech granted by Soul Rending increased by 2% and an additional 2% while Void Metamorphosis is active."
             }
           ]
         }

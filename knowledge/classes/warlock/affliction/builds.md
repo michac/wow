@@ -1,12 +1,14 @@
 ---
 title: Affliction Warlock — talents, gearing, enchants, embellishments (Midnight S1)
-patch: 12.0.5
-fetched: 2026-06-03
+patch: 12.0.7
+fetched: 2026-06-19
 sources:
+  - https://www.icy-veins.com/wow/affliction-warlock-pve-dps-spec-builds-talents  # 12.0.7
+  - https://www.method.gg/guides/affliction-warlock/talents  # 12.0.7, upd. 2026-06-16
+  - https://maxroll.gg/wow/class-guides/affliction-warlock-mythic-plus-guide  # 12.0.7
   - https://www.icy-veins.com/wow/affliction-warlock-pve-dps-gems-enchants-consumables  # upd. 2026-05-19
   - https://www.icy-veins.com/wow/affliction-warlock-pve-dps-stat-priority
-  - https://www.icy-veins.com/wow/affliction-warlock-pve-dps-spec-builds-talents
-  - https://murlok.io/warlock/affliction/soul-harvester/m+  # top-50 M+, tier-2-equiv (Blizzard API aggregation), fetched 2026-06-03 → raw/pages/
+  - https://murlok.io/warlock/affliction/soul-harvester/m+  # M+ usage aggregation (Blizzard API), fetched 2026-06-03 → raw/pages/
   - https://www.method.gg/guides/affliction-warlock/gearing
   - https://www.wowhead.com/news/best-early-season-crafted-gear-and-embellishments-for-all-classes-midnight-380801
   - https://www.method.gg/guides/midnight-missives-for-crafted-gear-profession-equipment  # 2026-03-04, missive names
@@ -16,35 +18,51 @@ confidence: medium
 
 # Affliction — talents & gearing (Midnight Season 1)
 
-## Talents (S1, 12.0.5)
+## Talents (S1, 12.0.7)
 
-**Hero tree: Soul Harvester for everything** — ST, cleave, and pure AoE
-(Icy Veins; murlok top-50 M+: 50/50 Soul Harvester, 0/50 Hellcaller).
-Hellcaller is a niche heavy-AoE alternative with worse ST. The build
-revolves around aggressive shard spending to recycle **Dark Harvest**
-and high **Cascading Calamity** uptime; all 4 apex points (**Shadow of
-Nathreza**, Haunt-amp) are worth taking.
+**Hero tree: Soul Harvester for everything** — ST, cleave, and pure AoE.
+12.0.7 had no talent/tree rework for Affliction, but the late-S1 hotfixes
+(4/23, 4/24, 5/19) buffed the spec hard, mostly in single target, and
+pushed Soul Harvester to **~99% usage** (icy-veins; maxroll: "outperforms
+Hellcaller in every scenario — single target, cleave or pure AoE").
+Hellcaller is now a near-dead pick, only a niche long-sustained-AoE
+alternative with worse ST. The build still revolves around aggressive
+shard spending to recycle **Dark Harvest** (~40s burst CD when lined up
+with Cull the Weak) and high **Cascading Calamity** uptime; all 4 apex
+points (**Shadow of Nathreza**, Haunt-amp — top point adds a meteor
+proc) are worth taking. Cast Haunt on cooldown, not just to maintain it.
 
-Reference talent string (simc MID1 Soul Harvester, raid/ST):
-`CkQAAAAAAAAAAAAAAAAAAAAAAwMzMzoZhhZmZmlBAAYmZZ2MzsMzAAjllBGwEMDbBG2GAAAmBAAwMDzMjxwwMmZmxgZmZGAwMwA`
+Reference talent strings (12.0.7, icy-veins):
+- Raid/ST (Soul Harvester):
+  `CkQAAAAAAAAAAAAAAAAAAAAAAwMzMzoZhhZmZmlBAAYmZxxMzsMzAAjllBGwEMDbBG2GAAAmBAAwMDzMjBGmZmZGzgZmZGAwMwA`
+- M+/AoE (Soul Harvester):
+  `CkQAAAAAAAAAAAAAAAAAAAAAAwMjZGNLmxiZGzyAAAmZmlZzMzyYAALwAziRjZAZ2ALDAAAzAAAzMYMzMmtxYGmZmZYYmZmBAMDMA`
+- Delves (Soul Harvester):
+  `CkQAAAAAAAAAAAAAAAAAAAAAAgZmZGNLmxmZGzyAAAmZmlZZmZWGDAMLbLjhxsYmGzMDbZ2YYbAAAYGAAAzMjZGzsNGzYMzMDDzMjBAMgB`
 
-Near-universal spec picks among top-50 M+ (murlok, 2026-06-03):
+Core spec picks (icy-veins/method/maxroll, 12.0.7):
 Agony, Unstable Affliction, Seed of Corruption, Nightfall, Haunt,
-Shared Agony, **Improved Haunt** (50/50), Drain Soul (49/50),
-Cunning Cruelty (48/50), Creeping Death, Dark Harvest, Practiced
-Pestilence, Summon Darkglare, Summoner's Embrace, Cull the Weak,
-Sudden Onset, Nether Plating, Contagion, Potent Soul Shards, Nocturnal
-Yield, Ravenous Afflictions, Seeds of Destruction, Death's Embrace,
-**Patient Zero** (48/50), **Sow the Seeds** (48/50), Shadow of
-Nathreza 4/4. Eye Contract (24/50) is the AoE-lean choice-node pick.
+Shared Agony, Improved Haunt, Drain Soul, Cunning Cruelty, Creeping
+Death, Dark Harvest, Practiced Pestilence, Summon Darkglare, Summoner's
+Embrace, Cull the Weak, Sudden Onset, Nether Plating, Contagion, Potent
+Soul Shards, Nocturnal Yield, Ravenous Afflictions, Death's Embrace,
+Shadow of Nathreza 4/4.
 
-Trap picks (≤3/50 usage): **Withering Bolt, Xavius' Gambit, Malefic
-Grasp, Sacrolash's Dark Strike, Fatal Echoes, Malediction**.
+**Build split (12.0.7):**
+- **ST/raid** leans the UA-amp cluster — **Cascading Calamity +
+  Xavius' Gambit + Fatal Echoes** (method's single-target build). These
+  three were "trap picks" in the 12.0.5 murlok snapshot; the S1 hotfixes
+  flipped them into the recommended ST package.
+- **M+/AoE** runs the Seed cluster — **Seeds of Destruction, Patient
+  Zero, Sow the Seeds** to weaponize Seed of Corruption; Eye Contract is
+  the AoE-lean choice-node pick.
 
-Filler disagreement: Icy Veins recommends Improved Shadow Bolt for
-mobility in dungeons; murlok top-50 runs Drain Soul + Cunning Cruelty
-(49–48/50). Tier 2 > tier 3 — default to Drain Soul, treat Shadow Bolt
-as a personal-comfort swap.
+Filler: Icy Veins recommends Improved Shadow Bolt for mobility in
+dungeons; the aggregated M+ data runs Drain Soul + Cunning Cruelty.
+Default to Drain Soul, treat Shadow Bolt as a personal-comfort swap.
+
+Still trap-tier (avoid): **Withering Bolt, Malefic Grasp, Sacrolash's
+Dark Strike, Malediction**.
 
 Class tree universals (murlok): Fel Domination, Soul Leech, Burning
 Rush, Demon Skin, Fel Armor, Demonic Embrace, Demonic Fortitude, Curse
@@ -63,13 +81,14 @@ inside the 0.27% error bar — Encomplete's gear, 2026-06-03). Pick on
 utility: **Felhunter** for group content (Spell Lock interrupt + purge),
 **Voidwalker** for solo delves (taunt/tank), Imp for the self-dispel.
 
-Hero choice nodes (offense vs defense, zero point cost): tops take
-Friends in Dark Places (48/50) and Feast of Souls (44/50); Eternal
-Servitude vs Gorefiend's Resolve is genuinely split (33/17). Tanking
-these three is the cheap way to build a "solo delve" variant.
+Hero choice nodes (offense vs defense, zero point cost): default to
+**Friends in Dark Places**, **Shared Fate**, and **Eternal Servitude**
+(method 12.0.7 default); Eternal Servitude vs Gorefiend's Resolve is the
+genuine split — tank the defensive halves for a "solo delve" variant.
 
-See `sims.md` for a measured cost of off-meta picks (Encomplete audit:
-−12.7% ST / −3.9% 4T vs the reference string on identical gear).
+See `sims.md` for a measured cost of off-meta picks (Encomplete audit
+was vs the 12.0.5 string: −12.7% ST / −3.9% 4T on identical gear; the
+ST tuning shifted in S1 hotfixes — re-sim against the 12.0.7 build).
 
 ## Stat priority
 
@@ -150,6 +169,8 @@ quality 1–2 is much cheaper for most of the effect (budget-friendly).
 - [x] Midnight missive names resolved 2026-06-03 (Method): **Thalassian
       Missive of the Peerless** (Crit/Mastery) for Affliction
 - [x] sims.md created 2026-06-03 (Encomplete talent audit baseline);
-      re-sim once gear stabilizes
-- [ ] Pull an exact M+ import string (Eye Contract + Sow the Seeds
-      variant) from kalamazi or Archon and store it here
+      re-sim once gear stabilizes — **audit predates 12.0.7 hotfixes
+      (Xavius'/Fatal Echoes ST shift); re-sim against the 12.0.7 build**
+- [x] M+ import string captured 2026-06-19 (icy-veins 12.0.7 M+/AoE
+      Soul Harvester string above, Seeds-of-Destruction/Sow-the-Seeds
+      variant)

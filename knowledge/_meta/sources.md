@@ -1,7 +1,7 @@
 ---
 title: Source Trust Registry
-patch: 12.0.5
-fetched: 2026-06-03
+patch: 12.0.7
+fetched: 2026-06-19
 sources: []
 confidence: high
 ---
@@ -17,6 +17,7 @@ when the answer matters.
 | Source | What for |
 |--------|----------|
 | Blizzard Game Data / Profile APIs | Items, spells, journal encounters, token price, realm status, character data |
+| Blizzard talent-tree API + wago.tools `Trait*` tables | **Talent trees** — node/spec/hero grouping + names (API), export-string ordering (DB2); built into `knowledge/classes/_talents/` |
 | wago.tools (DB2 client data) | Raw game tables — what's literally in the client build |
 | Official patch notes / Blizzard news | What changed, when |
 | SimulationCraft APLs (GitHub) | Canonical rotation priority lists per spec |

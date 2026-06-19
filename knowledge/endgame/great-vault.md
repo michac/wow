@@ -1,9 +1,10 @@
 ---
 title: Great Vault — Midnight Season 1
-patch: 12.0.5
-fetched: 2026-06-03
+patch: 12.0.7
+fetched: 2026-06-19
 sources:
   - https://www.icy-veins.com/wow/midnight-mythic-season-1-guide
+  - https://worldofwarcraft.blizzard.com/en-us/news/24244888/revelations-content-update-notes
 confidence: medium
 ---
 
@@ -24,7 +25,7 @@ Open it after reset, before doing anything else.
 
 → **+10 is the vault cap**; run 8× +10 for max M+ row choices.
 
-## World row (partial, 12.0.5)
+## World row (partial)
 
 - **Ritual sites T4–5 > delve T8**: T5 ritual sites raise the world-row
   vault to **ilvl 269** (hero track) — SignsOfKelani 2026-04-26

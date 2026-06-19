@@ -19,6 +19,12 @@
       "Annihilator"
     ]
   },
+  "level_cap": 90,
+  "budgets": {
+    "class": 34,
+    "spec": 34,
+    "hero": 13
+  },
   "trees": {
     "class": [
       {
@@ -37,7 +43,9 @@
             "talent": "Vengeful Retreat",
             "spell_id": 198793,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_12_voiddh_ability_vengefulretreat.jpg",
+            "desc": "Remove all snares and vault away. Nearby enemies take 5 Physical damage."
           }
         ]
       },
@@ -57,7 +65,9 @@
             "talent": "Felblade",
             "spell_id": 232893,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_felblade.jpg",
+            "desc": "Charge to your target and deal 43 Fire damage.\r\n\r\nGenerates 15 Fury."
           }
         ]
       },
@@ -77,7 +87,9 @@
             "talent": "Sigil of Misery",
             "spell_id": 207684,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_sigilofmisery.jpg",
+            "desc": "Place a Sigil of Misery at the target location that activates after 2 sec.\r\n\r\nCauses all enemies affected by the sigil to cower in fear, disorienting them for 15 sec."
           }
         ]
       },
@@ -99,7 +111,9 @@
             "talent": "Vengeful Bonds",
             "spell_id": 320635,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_vengefulretreat2.jpg",
+            "desc": "Vengeful Retreat reduces the movement speed of all nearby enemies by 70% for 3 sec."
           }
         ]
       },
@@ -122,7 +136,9 @@
             "talent": "Unrestrained Fury",
             "spell_id": 320770,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_improveddisciplines.jpg",
+            "desc": "Increases maximum Fury by 20."
           }
         ]
       },
@@ -145,7 +161,9 @@
             "talent": "Shattered Restoration",
             "spell_id": 389824,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warlock_soulsiphon.jpg",
+            "desc": "The healing of Shattered Souls is increased by 10%."
           }
         ]
       },
@@ -167,7 +185,9 @@
             "talent": "Improved Sigil of Misery",
             "spell_id": 320418,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_sigilofmisery.jpg",
+            "desc": "Reduces the cooldown of Sigil of Misery by 30 sec."
           }
         ]
       },
@@ -190,7 +210,9 @@
             "talent": "Bouncing Glaives",
             "spell_id": 320386,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_throwglaive.jpg",
+            "desc": "Throw Glaive ricochets to 1 additional target."
           }
         ]
       },
@@ -213,7 +235,9 @@
             "talent": "Imprison",
             "spell_id": 217832,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_imprison.jpg",
+            "desc": "Imprisons a demon, beast, or humanoid, incapacitating them for 1 min. Damage may cancel the effect. Limit 1."
           }
         ]
       },
@@ -236,7 +260,9 @@
             "talent": "Charred Warblades",
             "spell_id": 213010,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_incinerate.jpg",
+            "desc": "You heal for 3% of all Fire damage you deal."
           }
         ]
       },
@@ -258,7 +284,9 @@
             "talent": "Chaos Nova",
             "spell_id": 179057,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_felfirenova.jpg",
+            "desc": "Unleash an eruption of fel energy, dealing 9 Chaos damage and stunning all nearby enemies for 3 sec."
           }
         ]
       },
@@ -281,7 +309,9 @@
             "talent": "Improved Disrupt",
             "spell_id": 320361,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_consumemagic.jpg",
+            "desc": "Increases the range of Disrupt to 10 yds."
           }
         ]
       },
@@ -304,7 +334,9 @@
             "talent": "Consume Magic",
             "spell_id": 278326,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_misc_zandalari_council_soulswap.jpg",
+            "desc": "Consume 1 beneficial Magic effect removing it from the target."
           }
         ]
       },
@@ -326,7 +358,9 @@
             "talent": "Aldrachi Design",
             "spell_id": 391409,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_glaive_1h_artifactaldrochi_d_01dual.jpg",
+            "desc": "Increases your chance to parry by 3%."
           }
         ]
       },
@@ -349,7 +383,9 @@
             "talent": "Focused Ire",
             "spell_id": 1266296,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_bossfellord_felspike.jpg",
+            "desc": "The primary target of Chaos Nova is stunned for an additional 2 sec."
           }
         ]
       },
@@ -371,14 +407,18 @@
             "talent": "Master of the Glaive",
             "spell_id": 389763,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_glaive_1h_demonhunter_a_01.jpg",
+            "desc": "Throw Glaive has 2 charges and snares all enemies hit by 50% for 6 sec."
           },
           {
             "entry_id": "117768",
             "talent": "Champion of the Glaive",
             "spell_id": 429211,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_glaive_1h_battledungeon_c_01.jpg",
+            "desc": "Throw Glaive has 2 charges and 10 yard increased range."
           }
         ]
       },
@@ -400,7 +440,9 @@
             "talent": "Disrupting Fury",
             "spell_id": 183782,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_consumemagic.jpg",
+            "desc": "Disrupt generates 30 Fury on a successful interrupt."
           }
         ]
       },
@@ -423,7 +465,9 @@
             "talent": "Blazing Path",
             "spell_id": 320416,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_felrush.jpg",
+            "desc": "Shift gains an additional charge."
           }
         ]
       },
@@ -445,7 +489,9 @@
             "talent": "Swallowed Anger",
             "spell_id": 320313,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_misc_zandalari_council_soulswap.jpg",
+            "desc": "Consume Magic generates 20 Fury when a beneficial Magic effect is successfully removed from the target."
           }
         ]
       },
@@ -468,7 +514,9 @@
             "talent": "Aura of Pain",
             "spell_id": 207347,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_felimmolation.jpg",
+            "desc": "Increases the critical strike chance of Immolation Aura by 6%."
           }
         ]
       },
@@ -490,7 +538,9 @@
             "talent": "Live by the Glaive",
             "spell_id": 428607,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_sword_108.jpg",
+            "desc": "When you parry an attack or have one of your attacks parried, restore 2% of max health and 10 Fury. \r\n\r\nThis effect may only occur once every 5 sec."
           }
         ]
       },
@@ -513,7 +563,9 @@
             "talent": "Pursuit",
             "spell_id": 320654,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_infernalstrike2.jpg",
+            "desc": "Mastery increases your movement speed."
           }
         ]
       },
@@ -537,7 +589,9 @@
             "talent": "Soul Rending",
             "spell_id": 204909,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_soulcleave2.jpg",
+            "desc": "Leech increased by 6%.\r\n\r\nGain an additional 6% leech while Metamorphosis is active."
           }
         ]
       },
@@ -559,7 +613,9 @@
             "talent": "Felfire Haste",
             "spell_id": 389846,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_boots_cloth_35v4.jpg",
+            "desc": "Fel Rush increases your movement speed by 10% for 8 sec."
           }
         ]
       },
@@ -582,7 +638,9 @@
             "talent": "Infernal Armor",
             "spell_id": 320331,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_immolation.jpg",
+            "desc": "Immolation Aura increases your armor by 20% and causes melee attackers to suffer 4 Fire damage."
           }
         ]
       },
@@ -604,14 +662,18 @@
             "talent": "Burn It Out",
             "spell_id": 1266316,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fel_elementaldevastation.jpg",
+            "desc": "Immolation Aura removes 1 Disease effect."
           },
           {
             "entry_id": "136502",
             "talent": "Soul Cleanse",
             "spell_id": 1266496,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_removecurse.jpg",
+            "desc": "Immolation Aura removes 1 Curse effect."
           }
         ]
       },
@@ -634,7 +696,9 @@
             "talent": "Lost in Darkness",
             "spell_id": 389849,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_pet_inquisitoreye.jpg",
+            "desc": "Spectral Sight has 5 sec reduced cooldown and no longer reduces movement speed."
           }
         ]
       },
@@ -657,7 +721,9 @@
             "talent": "Illidari Knowledge",
             "spell_id": 389696,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_mage_overpowered.jpg",
+            "desc": "Reduces magic damage taken by 3%."
           }
         ]
       },
@@ -681,7 +747,9 @@
             "talent": "Felbound",
             "spell_id": 1266762,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_doublejump.jpg",
+            "desc": "Your movement speed is increased by 3%."
           }
         ]
       },
@@ -705,7 +773,9 @@
             "talent": "Will of the Illidari",
             "spell_id": 389695,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_spectank.jpg",
+            "desc": "Increases maximum health by 3%."
           }
         ]
       },
@@ -727,7 +797,9 @@
             "talent": "Internal Struggle",
             "spell_id": 393822,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warlock_demonicpower.jpg",
+            "desc": "Increases your mastery by 2.6%."
           }
         ]
       },
@@ -750,7 +822,9 @@
             "talent": "Furious",
             "spell_id": 1266326,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warlock_shadowfurytga.jpg",
+            "desc": "Attacks and abilities that generate Fury deal 3% increased damage."
           }
         ]
       },
@@ -773,7 +847,9 @@
             "talent": "Remorseless",
             "spell_id": 1266328,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_glaive_1h_npc_d_02.jpg",
+            "desc": "Attacks and abilities that spend Fury deal 3% increased damage."
           }
         ]
       },
@@ -795,7 +871,9 @@
             "talent": "First In, Last Out",
             "spell_id": 1266497,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_demonictrample.jpg",
+            "desc": "Shift grants you a rapidly decaying shield equal to 6% of your maximum health."
           }
         ]
       },
@@ -818,7 +896,9 @@
             "talent": "Erratic Felheart",
             "spell_id": 391397,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_archaeology_70_crystallineeyeofundravius.jpg",
+            "desc": "The cooldown of Fel Rush is reduced by 1.0 sec."
           }
         ]
       },
@@ -840,7 +920,9 @@
             "talent": "Final Breath",
             "spell_id": 1266500,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_twilightflamebreath.jpg",
+            "desc": "Fully channeling Void Ray increases the damage of its final tick by 300%."
           }
         ]
       },
@@ -863,7 +945,9 @@
             "talent": "Darkness",
             "spell_id": 196718,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_darkness.jpg",
+            "desc": "Summons darkness around you in an 8 yd radius, granting friendly targets a 15% chance to avoid all damage from an attack. Lasts 8 sec.\r\n\r\nChance to avoid damage increased by 100% when not in a raid."
           }
         ]
       },
@@ -885,7 +969,9 @@
             "talent": "Demon Muzzle",
             "spell_id": 1266329,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_warlock_demonicservitude.jpg",
+            "desc": "Interrupting a spell with Disrupt decreases your magic damage taken by 15% for 12 sec."
           }
         ]
       },
@@ -907,7 +993,9 @@
             "talent": "Soul Splitter",
             "spell_id": 1266330,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warlock_soulswap.jpg",
+            "desc": "Any time you would generate one or more Soul Fragments, you have a 2% chance to generate an additional Soul Fragment."
           }
         ]
       },
@@ -929,7 +1017,9 @@
             "talent": "Wings of Wrath",
             "spell_id": 1266493,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_glide.jpg",
+            "desc": "Glide speed increased by 10%."
           }
         ]
       },
@@ -951,14 +1041,18 @@
             "talent": "Long Night",
             "spell_id": 389781,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_twilightimmolation.jpg",
+            "desc": "Increases the duration of Darkness by 3 sec."
           },
           {
             "entry_id": "112919",
             "talent": "Pitch Black",
             "spell_id": 389783,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/sha_spell_warlock_demonsoul.jpg",
+            "desc": "Reduces the cooldown of Darkness by 120 sec."
           }
         ]
       },
@@ -980,7 +1074,9 @@
             "talent": "Demonic Resilience",
             "spell_id": 1266307,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_summondemonictyrant.jpg",
+            "desc": "Blur gains 1 additional charge."
           }
         ]
       }
@@ -1002,7 +1098,9 @@
             "talent": "Fel Devastation",
             "spell_id": 212084,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_feldevastation.jpg",
+            "desc": "Unleash the fel within you, damaging enemies directly in front of you for 159 Fire damage over 2 sec."
           }
         ]
       },
@@ -1024,7 +1122,9 @@
             "talent": "Spirit Bomb",
             "spell_id": 247454,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_icon_shadowcouncilorb_purple.jpg",
+            "desc": "Consume up to 5 Soul Fragments then explode, dealing 71 Fire damage to nearby enemies, increased by 20% per fragment consumed. Deals reduced damage beyond 8 targets."
           }
         ]
       },
@@ -1046,7 +1146,9 @@
             "talent": "Fiery Brand",
             "spell_id": 204021,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_fierybrand.jpg",
+            "desc": "Brand yourself and an enemy target with demonic symbols, reducing the damage you take by 40% and instantly dealing 146 Fire damage to the enemy."
           }
         ]
       },
@@ -1068,7 +1170,9 @@
             "talent": "Perfectly Balanced Glaive",
             "spell_id": 320387,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_throwglaive.jpg",
+            "desc": "Reduces the cooldown of Fracture by 1 sec and Throw Glaive by 6 sec."
           }
         ]
       },
@@ -1091,7 +1195,9 @@
             "talent": "Quickened Sigils",
             "spell_id": 209281,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_concentratedsigils.jpg",
+            "desc": "Your Sigils activate 1 second faster."
           }
         ]
       },
@@ -1113,7 +1219,9 @@
             "talent": "Ascending Flame",
             "spell_id": 428603,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_helm_suncrown_d_01.jpg",
+            "desc": "Sigil of Flame damage increased by 50%."
           }
         ]
       },
@@ -1135,7 +1243,9 @@
             "talent": "Tempered Steel",
             "spell_id": 1265800,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_manabreak.jpg",
+            "desc": "Physical damage increased by 12%."
           }
         ]
       },
@@ -1157,7 +1267,9 @@
             "talent": "Calcified Spikes",
             "spell_id": 389720,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_demonspikes.jpg",
+            "desc": "Demon Spikes reduces damage taken by 5% while active."
           }
         ]
       },
@@ -1179,14 +1291,18 @@
             "talent": "Roaring Fire",
             "spell_id": 391178,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_felflamering.jpg",
+            "desc": "Fel Devastation heals you for up to 50% more, based on your missing health."
           },
           {
             "entry_id": "112904",
             "talent": "Sigil of Silence",
             "spell_id": 202137,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_sigilofsilence.jpg",
+            "desc": "Place a Sigil of Silence at the target location that activates after 2 sec.\r\n\r\nSilences all enemies affected by the sigil for 2 sec."
           }
         ]
       },
@@ -1208,7 +1324,9 @@
             "talent": "Retaliation",
             "spell_id": 389729,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_demonspikes2.jpg",
+            "desc": "While Demon Spikes is active, melee attacks against you cause the attacker to take 10 Physical damage. Generates high threat."
           }
         ]
       },
@@ -1230,7 +1348,9 @@
             "talent": "Felfire Fist",
             "spell_id": 389724,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_ability_demonhunter_felfirefists.jpg",
+            "desc": "Activating Infernal Strike out of combat or within 5 sec of entering combat places a Sigil of Flame at the target location."
           }
         ]
       },
@@ -1252,7 +1372,9 @@
             "talent": "Sigil of Spite",
             "spell_id": 390163,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_demonhunter_elysiandecree.jpg",
+            "desc": "Place a demonic sigil at the target location that activates after 2 sec.\r\n\r\nDetonates to deal 241 Chaos damage and shatter up to 3 Soul Fragments from enemies affected by the sigil. Deals reduced damage beyond 5 targets."
           }
         ]
       },
@@ -1276,7 +1398,9 @@
             "talent": "Agonizing Flames",
             "spell_id": 207548,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/achievment_raid_houroftwilight.jpg",
+            "desc": "Immolation Aura increases your movement speed by 10% and its duration is increased by 50%."
           }
         ]
       },
@@ -1298,7 +1422,9 @@
             "talent": "Feed the Demon",
             "spell_id": 218612,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_warlock_demonicempowerment.jpg",
+            "desc": "Every 20 Fury spent reduces the remaining cooldown of Demon Spikes by 1.00 sec."
           }
         ]
       },
@@ -1322,7 +1448,9 @@
             "talent": "Burning Blood",
             "spell_id": 390213,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_immolation.jpg",
+            "desc": "Fire damage increased by 8%."
           }
         ]
       },
@@ -1344,7 +1472,9 @@
             "talent": "Revel in Pain",
             "spell_id": 343014,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_bossfelmagnaron_handempowered.jpg",
+            "desc": "5.0% of your Fire damage shields you, up to a maximum of 3,055.\r\n\r\nShield and maximum values are doubled while Fiery Brand is active."
           }
         ]
       },
@@ -1367,7 +1497,9 @@
             "talent": "Frailty",
             "spell_id": 389958,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_icon_shadowcouncilorb_purple.jpg",
+            "desc": "Enemies struck by Sigil of Flame, Soul Cleave, and Spirit Bomb are afflicted with Frailty for 8 sec.\r\n\r\nYou heal for 8% of all damage you deal to targets with Frailty."
           }
         ]
       },
@@ -1389,7 +1521,9 @@
             "talent": "Feast of Souls",
             "spell_id": 207697,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_soulleech.jpg",
+            "desc": "Soul Cleave heals for an additional 63."
           }
         ]
       },
@@ -1412,7 +1546,9 @@
             "talent": "Fallout",
             "spell_id": 227174,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_volatilefiregreen.jpg",
+            "desc": "Immolation Aura's initial burst has a chance to shatter Soul Fragments from enemies."
           }
         ]
       },
@@ -1434,7 +1570,9 @@
             "talent": "Ruinous Bulwark",
             "spell_id": 326853,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_feldevastation.jpg",
+            "desc": "Fel Devastation heals for an additional 10%, and 50% of its healing is converted into an absorb shield for 10 sec."
           }
         ]
       },
@@ -1457,7 +1595,9 @@
             "talent": "Volatile Flameblood",
             "spell_id": 390808,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_immolation.jpg",
+            "desc": "Immolation Aura has 10% increased critical strike chance and generates 1-5 Fury when it deals critical damage.\r\n\r\nThis effect may only occur once per 1 sec."
           }
         ]
       },
@@ -1479,14 +1619,18 @@
             "talent": "Soul Barrier",
             "spell_id": 1265924,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_soulbarrier.jpg",
+            "desc": "Spirit Bomb shields you for 10 sec, absorbing 2,444 damage plus 611 for each Soul Fragment consumed."
           },
           {
             "entry_id": "112869",
             "talent": "Soul Sigils",
             "spell_id": 395446,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_sigilofinquisition.jpg",
+            "desc": "Afflicting an enemy with a Sigil generates 1 Soul Fragment."
           }
         ]
       },
@@ -1509,7 +1653,9 @@
             "talent": "Fel Flame Fortification",
             "spell_id": 389705,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_felfire.jpg",
+            "desc": "You take 10% reduced magic damage while Immolation Aura is active."
           }
         ]
       },
@@ -1531,7 +1677,9 @@
             "talent": "Void Reaver",
             "spell_id": 268175,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_demonicempathy.jpg",
+            "desc": "Frailty now also reduces all damage you take from afflicted targets by 5%."
           }
         ]
       },
@@ -1555,7 +1703,9 @@
             "talent": "Painbringer",
             "spell_id": 207387,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/artifactability_vengeancedemonhunter_painbringer.jpg",
+            "desc": "Consuming a Soul Fragment reduces all damage you take by 3% for 8 sec."
           }
         ]
       },
@@ -1579,7 +1729,9 @@
             "talent": "Sigil of Chains",
             "spell_id": 202138,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_sigilofchains.jpg",
+            "desc": "Place a Sigil of Chains at the target location that activates after 2 sec.\r\n\r\nAll enemies affected by the sigil are pulled to its center and are snared, reducing movement speed by 70% for 6 sec."
           }
         ]
       },
@@ -1603,7 +1755,9 @@
             "talent": "Fiery Demise",
             "spell_id": 389220,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_fierybrand.jpg",
+            "desc": "Fiery Brand also increases Fire damage you deal to the target by 15%."
           }
         ]
       },
@@ -1625,7 +1779,9 @@
             "talent": "Chains of Anger",
             "spell_id": 389715,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_sigilofchains.jpg",
+            "desc": "Increases the duration of your Sigils by 2 sec and radius by 2 yds."
           }
         ]
       },
@@ -1648,7 +1804,9 @@
             "talent": "Focused Cleave",
             "spell_id": 343207,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_soulcleave.jpg",
+            "desc": "Soul Cleave deals 60% increased damage to your primary target."
           }
         ]
       },
@@ -1670,7 +1828,9 @@
             "talent": "Soulmonger",
             "spell_id": 389711,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_shatteredsouls.jpg",
+            "desc": "When consuming a Soul Fragment would heal you above full health it shields you instead, up to a maximum of 3,055."
           }
         ]
       },
@@ -1694,7 +1854,9 @@
             "talent": "Stoke the Flames",
             "spell_id": 393827,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_feldevastation.jpg",
+            "desc": "Fel Devastation damage increased by 30%."
           }
         ]
       },
@@ -1716,7 +1878,9 @@
             "talent": "Burning Alive",
             "spell_id": 207739,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_elementaldevastation.jpg",
+            "desc": "Every 1 sec, Fiery Brand spreads to one nearby enemy."
           }
         ]
       },
@@ -1739,7 +1903,9 @@
             "talent": "Cycle of Binding",
             "spell_id": 389718,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_sigilofinquisition.jpg",
+            "desc": "Your Sigils have 15% reduced cooldowns."
           }
         ]
       },
@@ -1762,7 +1928,9 @@
             "talent": "Vulnerability",
             "spell_id": 389976,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_icon_shadowcouncilorb_purple.jpg",
+            "desc": "Frailty now also increases all damage you deal to afflicted targets by 3%."
           }
         ]
       },
@@ -1786,7 +1954,9 @@
             "talent": "Vengeful Beast",
             "spell_id": 1265818,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_ability_demonhunter_vengeanceismine.jpg",
+            "desc": "Metamorphosis has 5 sec increased duration and increases the damage of Fracture, Soul Cleave, and Spirit Bomb by 20%."
           }
         ]
       },
@@ -1809,7 +1979,9 @@
             "talent": "Charred Flesh",
             "spell_id": 336639,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warlock_backdraft.jpg",
+            "desc": "Immolation Aura damage increases the duration of your Fiery Brand and Sigil of Flame by 0.25 sec."
           }
         ]
       },
@@ -1831,7 +2003,9 @@
             "talent": "Soulcrush",
             "spell_id": 389985,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_icon_shadowcouncilorb_purple.jpg",
+            "desc": "The effects of Frailty are doubled."
           }
         ]
       },
@@ -1854,7 +2028,9 @@
             "talent": "Soul Carver",
             "spell_id": 207407,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_glaive_1h_artifactaldrochi_d_01.jpg",
+            "desc": "Carve into the soul of your target, dealing 171 Fire damage and an additional 104 Fire damage over 3 sec.  Immediately shatters 3 Soul Fragments from the target and 1 additional Soul Fragment every 1 sec."
           }
         ]
       },
@@ -1876,7 +2052,9 @@
             "talent": "Last Resort",
             "spell_id": 209258,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_glaive_1h_artifactaldorchi_d_06.jpg",
+            "desc": "Sustaining fatal damage instead transforms you to Metamorphosis form.\r\n\r\nThis may occur once every 8 min."
           }
         ]
       },
@@ -1899,7 +2077,9 @@
             "talent": "Darkglare Boon",
             "spell_id": 389708,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_jewelry_necklace_53.jpg",
+            "desc": "When Fel Devastation finishes fully channeling, it refreshes 15-30% of its cooldown and refunds 15-30 Fury."
           }
         ]
       },
@@ -1921,7 +2101,9 @@
             "talent": "Down in Flames",
             "spell_id": 389732,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_fierybrand.jpg",
+            "desc": "Fiery Brand has 12 sec reduced cooldown and 1 additional charge."
           }
         ]
       },
@@ -1941,7 +2123,9 @@
             "talent": "Untethered Rage",
             "spell_id": 1270444,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_apextalent_demonhunter_untetheredrage.jpg",
+            "desc": "Soul Cleave and Spirit Bomb have a chance per soul fragment consumed to grant Untethered Rage, allowing Metamorphosis to be cast without incurring its cooldown and lasting 10 sec."
           }
         ]
       }
@@ -1966,7 +2150,9 @@
               "talent": "Incisive Blade",
               "spell_id": 442492,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_dualwieldspecialization.jpg",
+              "desc": "Soul Cleave deals 10% increased damage."
             }
           ]
         },
@@ -1988,14 +2174,18 @@
               "talent": "Army Unto Oneself",
               "spell_id": 442714,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warlock_avoidance.jpg",
+              "desc": "Felblade surrounds you with a Blade Ward, reducing damage taken by 10% for 5 sec."
             },
             {
               "entry_id": "123046",
               "talent": "Incorruptible Spirit",
               "spell_id": 442736,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nzinsanity_chasedbyshadows.jpg",
+              "desc": "Each Soul Fragment you consume shields you for an additional 15% of the amount healed."
             }
           ]
         },
@@ -2017,7 +2207,9 @@
               "talent": "Wounded Quarry",
               "spell_id": 442806,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_venomouswounds.jpg",
+              "desc": "Expose weaknesses in the target of your Reaver's Mark, causing your Physical damage to any enemy to also deal 30% of the damage dealt to your marked target as Chaos, and sometimes shatter a Soul Fragment."
             }
           ]
         },
@@ -2039,7 +2231,9 @@
               "talent": "Fury of the Aldrachi",
               "spell_id": 442718,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_felflamestrike.jpg",
+              "desc": "When enhanced by Reaver's Glaive, Soul Cleave casts 3 additional glaive slashes to nearby targets. Deals reduced damage beyond 8 targets.\r\n\r\nIf cast after Shear, cast 6 slashes instead."
             }
           ]
         },
@@ -2061,7 +2255,9 @@
               "talent": "Reaver's Mark",
               "spell_id": 442679,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_harass.jpg",
+              "desc": "When enhanced by Reaver's Glaive, Shear applies Reaver's Mark, which causes the target to take 7% increased damage for 20 sec. Max 2 stacks.\r\n\r\nApplies 1 additional stack of Reaver's Mark If cast after Soul Cleave."
             }
           ]
         },
@@ -2083,7 +2279,9 @@
               "talent": "Bladecraft",
               "spell_id": 1272153,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_soulcleave3.jpg",
+              "desc": "Fury of the Aldrachi further empowers Blade Dance when cast after Chaos Strike, increasing slashes to 12.\r\n\r\nReaver's Mark now stacks up to 2 times and further empowers Chaos Strike when cast after Blade Dance, applying an additional stack."
             }
           ]
         },
@@ -2105,14 +2303,18 @@
               "talent": "Keen Engagement",
               "spell_id": 442497,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warlock_shadowfurytga.jpg",
+              "desc": "Reaver's Glaive generates 20 Fury."
             },
             {
               "entry_id": "122422",
               "talent": "Preemptive Strike",
               "spell_id": 444997,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_focusedattacks.jpg",
+              "desc": "Throw Glaive deals 7 Physical damage to enemies near its initial target."
             }
           ]
         },
@@ -2134,14 +2336,18 @@
               "talent": "Evasive Action",
               "spell_id": 444926,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_vengefulretreat.jpg",
+              "desc": "Vengeful Retreat can be cast a second time within 3 sec."
             },
             {
               "entry_id": "123047",
               "talent": "Unhindered Assault",
               "spell_id": 444931,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_ironmaidens_bladerush.jpg",
+              "desc": "Vengeful Retreat resets the cooldown of Felblade."
             }
           ]
         },
@@ -2163,7 +2369,9 @@
               "talent": "Aldrachi Tactics",
               "spell_id": 442683,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_soulcleave2.jpg",
+              "desc": "The second enhanced ability in a pattern shatters an additional Soul Fragment."
             }
           ]
         },
@@ -2183,7 +2391,9 @@
               "talent": "Art of the Glaive",
               "spell_id": 442290,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_aldrachireaverdemonhunter_reaversglaive.jpg",
+              "desc": "Consuming 20 Soul Fragments or casting Sigil of Spite converts your next Throw Glaive into Reaver's Glaive.\r\n\r\n Reaver's Glaive: \r\nThrow a glaive enhanced with the essence of consumed souls at your target, dealing 134 Physical damage and ricocheting to 2 additional enemies.\r\n \r\nBegins a well-practiced pattern of glaivework, enhancing your next Shear and Soul Cleave.\r\n\r\nThe enhanced ability you cast first deals 10% increased damage, and the second deals 20% increased damage."
             }
           ]
         },
@@ -2208,7 +2418,9 @@
               "talent": "Thrill of the Fight",
               "spell_id": 442686,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_arcanetactics.jpg",
+              "desc": "After consuming both enhancements, gain Thrill of the Fight, increasing the damage of your next Reaver's Glaive by 30% and increasing Haste by 8% for 30 sec."
             }
           ]
         },
@@ -2230,7 +2442,9 @@
               "talent": "Warblade's Hunger",
               "spell_id": 442502,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warlock_soulsiphon.jpg",
+              "desc": "Consuming a Soul Fragment causes your next Shear to deal 21 additional Physical damage."
             }
           ]
         },
@@ -2252,7 +2466,9 @@
               "talent": "Keen Edge",
               "spell_id": 1272138,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_glaive_1h_tyrande_d_01.jpg",
+              "desc": "Reaver's Glaive damage is increased by 20% and other Physical-only damage is increased by 10%."
             }
           ]
         },
@@ -2274,7 +2490,9 @@
               "talent": "Broken Spirit",
               "spell_id": 1272143,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_argus_soulbombdebufflarge.jpg",
+              "desc": "The Hunt shatters 1 Soul Fragment. Blade Dance and Chaos Strike have a 15% chance to shatter a Soul Fragment."
             }
           ]
         }
@@ -2301,7 +2519,9 @@
               "talent": "World Killer",
               "spell_id": 1256353,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_112_raiddimensius_brokenworld.jpg",
+              "desc": "The third Voidfall meteor strike called down in sequence is larger, has 50% increased area, deals 50% increased damage, and generates 1 Soul Fragment."
             }
           ]
         },
@@ -2323,7 +2543,9 @@
               "talent": "Otherworldly Focus",
               "spell_id": 1253817,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_babyvoidwalker_blue.jpg",
+              "desc": "Collapsing Star and Voidfall meteors deal 35% increased damage when striking a single target.\r\n\r\nEach additional target reduces this bonus by 5%."
             }
           ]
         },
@@ -2345,7 +2567,9 @@
               "talent": "Dark Matter",
               "spell_id": 1256307,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_cosmicvoid_nova.jpg",
+              "desc": "Your first Collapsing Star after casting Void Metamorphosis causes a Cosmic meteor shower to assault the area, dealing 2,307 Cosmic damage over 6 sec."
             }
           ]
         },
@@ -2367,7 +2591,9 @@
               "talent": "Final Hour",
               "spell_id": 1253805,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_worlddroplevelingoptionalreagent_relics_hourglass_color1.jpg",
+              "desc": "Passive bonuses granted by each stack of Voidfall persist for 8 sec after being consumed."
             }
           ]
         },
@@ -2389,7 +2615,9 @@
               "talent": "Meteoric Fall",
               "spell_id": 1253391,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_socererking_arcanereplication.jpg",
+              "desc": "While at 3 stacks of Voidfall, Reap consumes all 3 to rapidly call down that many meteor strikes."
             }
           ]
         },
@@ -2411,7 +2639,9 @@
               "talent": "Mass Acceleration",
               "spell_id": 1256295,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_nullstone_cosmicvoid.jpg",
+              "desc": "Gain 3 stacks of Voidfall and reset the cooldown of Reap upon activating Void Metamorphosis."
             }
           ]
         },
@@ -2433,14 +2663,18 @@
               "talent": "Path to Oblivion",
               "spell_id": 1253399,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_socererking_arcaneacceleration.jpg",
+              "desc": "Each stack of Voidfall grants 3% increased movement speed."
             },
             {
               "entry_id": "135659",
               "talent": "State of Matter",
               "spell_id": 1253402,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_112_arcane_buff.jpg",
+              "desc": "Shift has 1 additional charge."
             }
           ]
         },
@@ -2460,7 +2694,9 @@
               "talent": "Voidfall",
               "spell_id": 1253304,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_12_dh_void_ability_voidfall.jpg",
+              "desc": "Consume has a 35% chance to grant 1 stack of Voidfall.\r\n\r\nUpon reaching 3 stacks of Voidfall, Reap consumes a stack to reach into the Void and call down a meteor strike at your target's location, dealing 674 Cosmic damage to all enemies within 8 yards. Damage reduced beyond 8 targets."
             }
           ]
         },
@@ -2482,14 +2718,18 @@
               "talent": "Doomsayer",
               "spell_id": 1253676,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_shadowflame_buff.jpg",
+              "desc": "Activating Void Ray out of combat or within 5 sec of entering combat calls down 3 Voidfall Meteors over its duration."
             },
             {
               "entry_id": "136810",
               "talent": "Harness the Cosmos",
               "spell_id": 1279247,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_cosmicvoid_orb.jpg",
+              "desc": "Voidfall Meteor damage increased by 15%."
             }
           ]
         },
@@ -2511,7 +2751,9 @@
               "talent": "Celestial Echoes",
               "spell_id": 1253415,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_polearm_2h_voidscythe_d_01.jpg",
+              "desc": "Consume generates 2 additional Fury and deals 15% increased damage."
             }
           ]
         },
@@ -2533,7 +2775,9 @@
               "talent": "Phase Shift",
               "spell_id": 1256245,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_blur.jpg",
+              "desc": "Each stack of Voidfall grants 2% reduced damage taken."
             }
           ]
         },
@@ -2555,7 +2799,9 @@
               "talent": "Catastrophe",
               "spell_id": 1253769,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_netherportal.jpg",
+              "desc": "Enemies struck by a Voidfall Meteor take an additional 25% damage over 8 sec."
             }
           ]
         },
@@ -2577,7 +2823,9 @@
               "talent": "Swift Erasure",
               "spell_id": 1253668,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_darkarchangel.jpg",
+              "desc": "Each stack of Voidfall grants 2% Haste."
             }
           ]
         },
@@ -2599,7 +2847,9 @@
               "talent": "Meteoric Rise",
               "spell_id": 1253377,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_socererking_arcanefortification.jpg",
+              "desc": "Void Ray damage increased by 15%.\r\n\r\nFully channeling Void Ray generates 1 stack of Voidfall."
             }
           ]
         }

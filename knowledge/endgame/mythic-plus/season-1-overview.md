@@ -1,7 +1,7 @@
 ---
 title: Midnight Season 1 Mythic+ Overview
-patch: 12.0.5
-fetched: 2026-06-03
+patch: 12.0.7
+fetched: 2026-06-19
 sources:
   - https://www.icy-veins.com/wow/midnight-mythic-season-1-guide
   - Warcraft Logs zone 47 "Mythic+ Season 1" (tier 2)

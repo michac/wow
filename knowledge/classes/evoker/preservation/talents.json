@@ -19,6 +19,12 @@
       "Flameshaper"
     ]
   },
+  "level_cap": 90,
+  "budgets": {
+    "class": 34,
+    "spec": 34,
+    "hero": 13
+  },
   "trees": {
     "class": [
       {
@@ -37,7 +43,9 @@
             "talent": "Landslide",
             "spell_id": 358385,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_earthen_pillar.jpg",
+            "desc": "Conjure a path of shifting stone towards the target location, rooting enemies for 15 sec. Damage may cancel the effect."
           }
         ]
       },
@@ -57,7 +65,9 @@
             "talent": "Obsidian Scales",
             "spell_id": 363916,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_artifact_dragonscales.jpg",
+            "desc": "Reinforce your scales, reducing damage taken by 30% . Lasts 12 sec."
           }
         ]
       },
@@ -77,7 +87,9 @@
             "talent": "Expunge",
             "spell_id": 365585,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_fontofmagic_green.jpg",
+            "desc": "Expunge toxins affecting an ally, removing all Poison effects."
           }
         ]
       },
@@ -99,7 +111,9 @@
             "talent": "Natural Convergence",
             "spell_id": 369913,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_frostblast.jpg",
+            "desc": "Disintegrate channels 20% faster."
           }
         ]
       },
@@ -121,7 +135,9 @@
             "talent": "Heavy Wingbeats",
             "spell_id": 368838,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_racial_wingbuffet.jpg",
+            "desc": "Wing Buffet's cooldown is reduced by 2 min."
           }
         ]
       },
@@ -143,7 +159,9 @@
             "talent": "Verdant Embrace",
             "spell_id": 360995,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_rescue.jpg",
+            "desc": "Fly to an ally and heal them for 4,020, or heal yourself for the same amount."
           }
         ]
       },
@@ -165,7 +183,9 @@
             "talent": "Forger of Mountains",
             "spell_id": 375528,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_earthen_pillar.jpg",
+            "desc": "Landslide's cooldown is reduced by 30 sec, and it can withstand 200% more damage before breaking."
           }
         ]
       },
@@ -188,7 +208,9 @@
             "talent": "Innate Magic",
             "spell_id": 375520,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_innatemagic4.jpg",
+            "desc": "Essence regenerates 5% faster."
           }
         ]
       },
@@ -210,7 +232,9 @@
             "talent": "Obsidian Bulwark",
             "spell_id": 375406,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_shield_1h_revenantfire_d_01.jpg",
+            "desc": "Obsidian Scales has an additional charge."
           }
         ]
       },
@@ -233,7 +257,9 @@
             "talent": "Enkindled",
             "spell_id": 375554,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_livingflame.jpg",
+            "desc": "Living Flame deals 3% more damage and healing."
           }
         ]
       },
@@ -255,7 +281,9 @@
             "talent": "Scarlet Adaptation",
             "spell_id": 372469,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_bijou_red.jpg",
+            "desc": "Store 20% of your effective healing, up to 857. Your next damaging Living Flame consumes all stored healing to increase its damage dealt."
           }
         ]
       },
@@ -278,7 +306,9 @@
             "talent": "Inner Radiance",
             "spell_id": 386405,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_spellwarding.jpg",
+            "desc": "Your Living Flame and Emerald Blossom are 30% more effective on yourself."
           }
         ]
       },
@@ -300,7 +330,9 @@
             "talent": "Recall",
             "spell_id": 371806,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_recall.jpg",
+            "desc": "You may reactivate Deep Breath within 3 sec after landing to travel back in time to your takeoff location."
           }
         ]
       },
@@ -323,7 +355,9 @@
             "talent": "Clobbering Sweep",
             "spell_id": 375443,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_racial_tailswipe.jpg",
+            "desc": "Tail Swipe's cooldown is reduced by 2 min."
           }
         ]
       },
@@ -345,7 +379,9 @@
             "talent": "Tailwind",
             "spell_id": 375556,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_skyreach_wind.jpg",
+            "desc": "Hover increases your movement speed by 70% for the first 4 sec."
           }
         ]
       },
@@ -368,7 +404,9 @@
             "talent": "Cauterizing Flame",
             "spell_id": 374251,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_fontofmagic_red.jpg",
+            "desc": "Cauterize an ally's wounds, removing all Bleed, Poison, Curse, and Disease effects. Heals for 1,330 upon removing any effect."
           }
         ]
       },
@@ -390,7 +428,9 @@
             "talent": "Ancient Flame",
             "spell_id": 369990,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_elemental_mote_fire01.jpg",
+            "desc": "Casting Emerald Blossom or Verdant Embrace reduces the cast time of your next Living Flame by 40%."
           }
         ]
       },
@@ -412,7 +452,9 @@
             "talent": "Instinctive Arcana",
             "spell_id": 376164,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_studentofmagic.jpg",
+            "desc": "Your Magic damage done is increased by 2%."
           }
         ]
       },
@@ -432,7 +474,9 @@
             "talent": "Tip the Scales",
             "spell_id": 370553,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_tipthescales.jpg",
+            "desc": "Compress time to make your next empowered spell cast instantly at its maximum empower level."
           }
         ]
       },
@@ -454,7 +498,9 @@
             "talent": "Attuned to the Dream",
             "spell_id": 376930,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_imrovedrecuperate.jpg",
+            "desc": "Your healing done and healing received are increased by 2%."
           }
         ]
       },
@@ -476,7 +522,9 @@
             "talent": "Sleep Walk",
             "spell_id": 360806,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_xavius_dreamsimulacrum.jpg",
+            "desc": "Disorient an enemy for 20 sec, causing them to sleep walk towards you. Damage has a chance to awaken them."
           }
         ]
       },
@@ -498,7 +546,9 @@
             "talent": "Protracted Talons",
             "spell_id": 369909,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_azurestrike.jpg",
+            "desc": "Azure Strike damages 1 additional enemy."
           }
         ]
       },
@@ -521,7 +571,9 @@
             "talent": "Inherent Resistance",
             "spell_id": 375544,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_rubysanctum1.jpg",
+            "desc": "Magic damage taken reduced by 2%."
           }
         ]
       },
@@ -543,7 +595,9 @@
             "talent": "Draconic Legacy",
             "spell_id": 376166,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_helm_mail_dracthyrquest_b_02.jpg",
+            "desc": "Your Stamina is increased by 6%."
           }
         ]
       },
@@ -566,7 +620,9 @@
             "talent": "Extended Flight",
             "spell_id": 375517,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_hover.jpg",
+            "desc": "Hover lasts 4 sec longer."
           }
         ]
       },
@@ -588,7 +644,9 @@
             "talent": "Bountiful Bloom",
             "spell_id": 370886,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_emeraldblossom.jpg",
+            "desc": "Emerald Blossom heals 2 additional allies."
           }
         ]
       },
@@ -610,7 +668,9 @@
             "talent": "Regenerative Magic",
             "spell_id": 387787,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_manarecharge.jpg",
+            "desc": "Your Leech is increased by 2%."
           }
         ]
       },
@@ -633,7 +693,9 @@
             "talent": "Blast Furnace",
             "spell_id": 375510,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_firebreath.jpg",
+            "desc": "Fire Breath's damage over time lasts 4 sec longer."
           }
         ]
       },
@@ -655,7 +717,9 @@
             "talent": "Exuberance",
             "spell_id": 375542,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_hover2.jpg",
+            "desc": "While above 75% health, your movement speed is increased by 10%."
           }
         ]
       },
@@ -677,7 +741,9 @@
             "talent": "Renewing Blaze",
             "spell_id": 374348,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_masterylifebinder_red.jpg",
+            "desc": "Obsidian Scales surrounds you with a Renewing Blaze, causing 100% of the damage it prevented to be healed back over 8 sec."
           }
         ]
       },
@@ -699,7 +765,9 @@
             "talent": "Walloping Blow",
             "spell_id": 387341,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_monsterscales_06.jpg",
+            "desc": "Wing Buffet and Tail Swipe knock enemies further and daze them, reducing movement speed by 70% for 4 sec."
           }
         ]
       },
@@ -722,7 +790,9 @@
             "talent": "Panacea",
             "spell_id": 387761,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_protectionofthegrove.jpg",
+            "desc": "Emerald Blossom and Verdant Embrace instantly heal you for 760 when cast."
           }
         ]
       },
@@ -744,7 +814,9 @@
             "talent": "Stretch Time",
             "spell_id": 410352,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_timedilation.jpg",
+            "desc": "While flying during Deep Breath, 100% of damage you would take is instead dealt over 10 sec."
           }
         ]
       },
@@ -766,7 +838,9 @@
             "talent": "Unravel",
             "spell_id": 1264378,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_unravel.jpg",
+            "desc": "Direct damage from Fire Breath consumes absorb shields from enemies, dealing 4,535 additional Spellfrost damage to them."
           }
         ]
       },
@@ -790,7 +864,9 @@
             "talent": "Oppressing Roar",
             "spell_id": 372048,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_oppressingroar.jpg",
+            "desc": "Let out a bone-shaking roar at enemies in a cone in front of you, increasing the duration of crowd controls that affect them by 50% in the next 10 sec."
           }
         ]
       },
@@ -812,7 +888,9 @@
             "talent": "Foci of Life",
             "spell_id": 375574,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_incinerate.jpg",
+            "desc": "Renewing Blaze restores you more quickly, causing damage you take to be healed back over 4 sec."
           }
         ]
       },
@@ -836,7 +914,9 @@
             "talent": "Rescue",
             "spell_id": 370665,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_flywithme.jpg",
+            "desc": "Swoop to an ally and fly with them to the target location. Clears movement impairing effects from you and your ally."
           }
         ]
       },
@@ -858,7 +938,9 @@
             "talent": "Lush Growth",
             "spell_id": 375561,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_staff_2h_bloodelf_c_01.jpg",
+            "desc": "Green spells restore 5% more health."
           }
         ]
       },
@@ -880,7 +962,9 @@
             "talent": "Source of Magic",
             "spell_id": 369459,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_blue_01.jpg",
+            "desc": "Redirect your excess magic to a friendly healer for 1 hour. When you cast an empowered spell, you restore 0.25% of their maximum mana per empower level. Limit 1."
           }
         ]
       },
@@ -902,7 +986,9 @@
             "talent": "Strike from Above",
             "spell_id": 1267206,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_racial_glide.jpg",
+            "desc": "Glide speed and height increased by 10%."
           }
         ]
       },
@@ -926,7 +1012,9 @@
             "talent": "Leaping Flames",
             "spell_id": 369939,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_pupilofalexstraza.jpg",
+            "desc": "Fire Breath causes your next Living Flame to strike 1 additional target per empower level."
           }
         ]
       },
@@ -948,7 +1036,9 @@
             "talent": "Overawe",
             "spell_id": 374346,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_oppressingroar2.jpg",
+            "desc": "Oppressing Roar removes 1 Enrage effect from each enemy, and its cooldown is reduced by 30 sec."
           }
         ]
       },
@@ -972,7 +1062,9 @@
             "talent": "Aerial Mastery",
             "spell_id": 365933,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_aerialmastery.jpg",
+            "desc": "Hover gains 1 additional charge."
           }
         ]
       },
@@ -994,7 +1086,9 @@
             "talent": "Twin Guardian",
             "spell_id": 370888,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_volatileair.jpg",
+            "desc": "Rescue increases movement speed by 100% and allows spells to be cast while moving for 3 sec."
           }
         ]
       },
@@ -1016,7 +1110,9 @@
             "talent": "Potent Mana",
             "spell_id": 418101,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_magic_managain.jpg",
+            "desc": "Source of Magic increases the target's healing and damage done by 3%."
           }
         ]
       },
@@ -1039,7 +1135,9 @@
             "talent": "Terror of the Skies",
             "spell_id": 371032,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_terroroftheskies.jpg",
+            "desc": "Deep Breath stuns enemies for 3 sec."
           }
         ]
       },
@@ -1061,14 +1159,18 @@
             "talent": "Time Spiral",
             "spell_id": 374968,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_timespiral.jpg",
+            "desc": "Bend time, allowing you and your allies within 40 yds to cast their major movement ability once in the next 10 sec, even if it is on cooldown."
           },
           {
             "entry_id": "125610",
             "talent": "Spatial Paradox",
             "spell_id": 406732,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_stretchtime.jpg",
+            "desc": "Evoke a paradox for you and a friendly healer, allowing casting while moving and increasing the range of most spells by 100% for 10 sec.\r\n\r\nAffects the nearest healer within 60 yds, if you do not have a healer targeted."
           }
         ]
       },
@@ -1092,7 +1194,9 @@
             "talent": "Zephyr",
             "spell_id": 374227,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_hoverblack.jpg",
+            "desc": "Conjure an updraft to lift you and your 4 nearest allies within 20 yds into the air, reducing damage taken from area-of-effect attacks by 20% and increasing movement speed by 30% for 8 sec."
           }
         ]
       }
@@ -1114,7 +1218,9 @@
             "talent": "Echo",
             "spell_id": 364343,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_echo.jpg",
+            "desc": "Wrap an ally with temporal energy, healing them for 912 and causing your next healing spell to cast an additional time on that ally at 70% of normal healing. Essence spells cannot be Echoed."
           }
         ]
       },
@@ -1136,7 +1242,9 @@
             "talent": "Dream Breath",
             "spell_id": 355936,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_dreambreath.jpg",
+            "desc": "Inhale, gathering the power of the Dream. Release to exhale, healing yourself and 5 injured allies in a 40 yd cone in front of you for 1,634.\r\n\r\nI:   Heals 700 instantly and 934 over 16 sec.\r\n\r\nII:  Heals 934 instantly and 700 over 12 sec.\r\n\r\nIII: Heals 1,167 instantly and 467 over 8 sec."
           }
         ]
       },
@@ -1158,7 +1266,9 @@
             "talent": "Reversion",
             "spell_id": 366155,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_reversion.jpg",
+            "desc": "Reverse an ally's injuries, healing them for 1,092 over 12 sec.\r\n\r\nWhen Reversion critically heals, its duration is extended by 2 sec, up to a maximum of 12 sec."
           }
         ]
       },
@@ -1180,7 +1290,9 @@
             "talent": "Temporal Compression",
             "spell_id": 362874,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_rewind2.jpg",
+            "desc": "Each cast of a Bronze spell causes your next empower spell to reach maximum level in 10% less time, stacking up to 4 times."
           }
         ]
       },
@@ -1203,7 +1315,9 @@
             "talent": "Essence Burst",
             "spell_id": 369297,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_essenceburst.jpg",
+            "desc": "Living Flame has a 20% chance, and Reversion has a 15% chance to make your next Essence ability free."
           }
         ]
       },
@@ -1225,7 +1339,9 @@
             "talent": "Rewind",
             "spell_id": 363534,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_rewind.jpg",
+            "desc": "Rewind 30% of damage taken in the last 5 seconds by all allies within 40 yds. Always heals for at least 760.\r\n\r\nHealing increased by 200% when not in a raid."
           }
         ]
       },
@@ -1247,7 +1363,9 @@
             "talent": "Lifebind",
             "spell_id": 373270,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_hoverred.jpg",
+            "desc": "Verdant Embrace temporarily bonds your life with an ally, causing your healing on either partner to heal the other for 60% of the amount. Lasts 8 sec."
           }
         ]
       },
@@ -1269,7 +1387,9 @@
             "talent": "Essence Attunement",
             "spell_id": 375722,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_essenceburststacks.jpg",
+            "desc": "Essence Burst stacks 2 times."
           }
         ]
       },
@@ -1291,7 +1411,9 @@
             "talent": "Time Dilation",
             "spell_id": 357170,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_timedilation.jpg",
+            "desc": "Stretch time around an ally for the next 8 sec, causing 50% of damage they would take to instead be dealt over 8 sec."
           }
         ]
       },
@@ -1313,7 +1435,9 @@
             "talent": "Unshakable",
             "spell_id": 1239581,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_masterygiantkiller.jpg",
+            "desc": "Your empower spells are 10% more effective. While charging a healing empower spell, you cannot be knocked back."
           }
         ]
       },
@@ -1336,7 +1460,9 @@
             "talent": "Fluttering Seedlings",
             "spell_id": 359793,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_herbalism_70_yserallineseed.jpg",
+            "desc": "Emerald Blossom sends out 1 flying seedling when it bursts, plus up to 2 additional seedlings if Emerald Blossom heals fewer than 3 allies.\r\n\r\nSeedlings each heal an ally up to 40 yds away for 988."
           }
         ]
       },
@@ -1358,7 +1484,9 @@
             "talent": "Font of Magic",
             "spell_id": 375783,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_fontofmagic.jpg",
+            "desc": "Your empower spells' maximum level is increased by 1."
           }
         ]
       },
@@ -1381,7 +1509,9 @@
             "talent": "Golden Hour",
             "spell_id": 378196,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_belt_armor_waistoftime_d_01.jpg",
+            "desc": "Reversion instantly heals the target for 15% of damage taken in the last 5 sec."
           }
         ]
       },
@@ -1403,14 +1533,18 @@
             "talent": "Delay Harm",
             "spell_id": 376207,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_racial_magicalresistance.jpg",
+            "desc": "15% of delayed damage from Time Dilation is absorbed."
           },
           {
             "entry_id": "115648",
             "talent": "Just in Time",
             "spell_id": 376204,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_offhand_1h_artifactsilverhand_d_01.jpg",
+            "desc": "Time Dilation gains an additional charge, and its cooldown is reduced by 10 sec."
           }
         ]
       },
@@ -1432,7 +1566,9 @@
             "talent": "Temporal Anomaly",
             "spell_id": 373861,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_temporalanomaly.jpg",
+            "desc": "Send forward a vortex of temporal energy, absorbing 2,280 damage on you and any allies in its path. Absorption is reduced beyond 5 targets.\r\n\r\nApplies Echo at 30% effectiveness on the first 5 allies it passes through."
           }
         ]
       },
@@ -1454,14 +1590,18 @@
             "talent": "Empath",
             "spell_id": 376138,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_powernexus2.jpg",
+            "desc": "Empower spells increase your Essence regeneration rate by 100% for 8 sec."
           },
           {
             "entry_id": "115544",
             "talent": "Spiritual Clarity",
             "spell_id": 376150,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_spiritbloom.jpg",
+            "desc": "Dream Breath's cooldown is reduced by 10 sec."
           }
         ]
       },
@@ -1484,7 +1624,9 @@
             "talent": "Exhilarating Burst",
             "spell_id": 377100,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_essenceburst3.jpg",
+            "desc": "Each time you gain Essence Burst, your critical heals are 230% effective instead of the usual 200% for 10 sec."
           }
         ]
       },
@@ -1506,7 +1648,9 @@
             "talent": "Field of Dreams",
             "spell_id": 370062,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_herb_chamlotus.jpg",
+            "desc": "Every other Emerald Blossom has a 100% chance for one of your Fluttering Seedlings to grow into a new Emerald Blossom."
           }
         ]
       },
@@ -1528,7 +1672,9 @@
             "talent": "Power Nexus",
             "spell_id": 369908,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_powernexus.jpg",
+            "desc": "Increases your maximum Essence to 6."
           }
         ]
       },
@@ -1550,7 +1696,9 @@
             "talent": "Time Lord",
             "spell_id": 372527,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_innatemagic4.jpg",
+            "desc": "Echo replicates 50% more healing."
           }
         ]
       },
@@ -1573,7 +1721,9 @@
             "talent": "Flow State",
             "spell_id": 385696,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_timespiral.jpg",
+            "desc": "Empower spells cause time to flow 10% faster for you, increasing movement speed, cooldown recharge rate, and cast speed. Lasts 10 sec."
           }
         ]
       },
@@ -1595,14 +1745,18 @@
             "talent": "Temporal Barrier",
             "spell_id": 1291636,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_bronze_01.jpg",
+            "desc": "Send out a ripple of temporal energy, absorbing 3,420 damage and applying Echo at 30% effectiveness on your target and up to 4 allies within 40 yds."
           },
           {
             "entry_id": "115562",
             "talent": "Nozdormu's Teachings",
             "spell_id": 376237,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_head_dragon_bronze.jpg",
+            "desc": "Temporal Anomaly reduces the cooldowns of your empower spells by 5 sec."
           }
         ]
       },
@@ -1625,7 +1779,9 @@
             "talent": "Call of Ysera",
             "spell_id": 373834,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_drakemountemerald.jpg",
+            "desc": "Dream Breath healing increased by 20%, and Living Flame healing increased by 30%."
           }
         ]
       },
@@ -1649,14 +1805,18 @@
             "talent": "Dream Flight",
             "spell_id": 359816,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_dreamflight.jpg",
+            "desc": "Take in a deep breath and fly to the targeted location, healing all allies in your path for 1,900 immediately, and 4,306 over 15 sec, reduced beyond 5 targets.\r\n\r\nRemoves all root effects. You are immune to movement impairing and loss of control effects.\r\n\r\nDamage taken while you are flying is absorbed, up to 100% of your maximum health."
           },
           {
             "entry_id": "133527",
             "talent": "Stasis",
             "spell_id": 370537,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_stasis.jpg",
+            "desc": "Causes your next 3 helpful spells to be duplicated and stored in a time lock. You may reactivate Stasis any time within 30 sec to quickly unleash their magic."
           }
         ]
       },
@@ -1679,7 +1839,9 @@
             "talent": "Grace Period",
             "spell_id": 376239,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_reversion_green.jpg",
+            "desc": "Your healing is increased by 10% on targets with your Reversion."
           }
         ]
       },
@@ -1701,7 +1863,9 @@
             "talent": "Spark of Insight",
             "spell_id": 377099,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_essenceburst5.jpg",
+            "desc": "Consuming a full Temporal Compression grants you Essence Burst."
           }
         ]
       },
@@ -1723,7 +1887,9 @@
             "talent": "Ouroboros",
             "spell_id": 381921,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_ouroboros.jpg",
+            "desc": "Casting Echo grants one stack of Ouroboros, increasing the healing of your next Emerald Blossom by 30%, stacking up to 5 times."
           }
         ]
       },
@@ -1746,7 +1912,9 @@
             "talent": "Life-Giver's Flame",
             "spell_id": 371426,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/item_sparkofragnoros.jpg",
+            "desc": "Fire Breath and Deep Breath heal 5 nearby injured allies for 80% of damage done to up to 5 targets, split evenly among them."
           }
         ]
       },
@@ -1768,7 +1936,9 @@
             "talent": "Inner Flame",
             "spell_id": 1242745,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_infernosblessing.jpg",
+            "desc": "Casting Dream Flight or Stasis increases your healing over time by 60% and causes Living Flame and Reversion to have a 100% increased chance to grant Essence Burst. Lasts 15 sec."
           }
         ]
       },
@@ -1791,7 +1961,9 @@
             "talent": "Temporal Artificer",
             "spell_id": 381922,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_rewind.jpg",
+            "desc": "Rewind's cooldown is reduced by 60 sec."
           }
         ]
       },
@@ -1813,7 +1985,9 @@
             "talent": "Energy Loop",
             "spell_id": 372233,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_elemental_mote_mana.jpg",
+            "desc": "Disintegrate deals 35% more damage and generates 1,080 mana over its duration."
           }
         ]
       },
@@ -1835,7 +2009,9 @@
             "talent": "Time of Need",
             "spell_id": 368412,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_masterylifebinder_bronze.jpg",
+            "desc": "When you or an ally fall below 30% health, a version of yourself enters your timeline and heals them for 12,061. Your alternate self continues healing for 8 sec before returning to their timeline.\r\n\r\nMay only occur once every 60 sec."
           }
         ]
       },
@@ -1859,7 +2035,9 @@
             "talent": "Renewing Breath",
             "spell_id": 371257,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_dreambreath.jpg",
+            "desc": "Dream Breath healing is increased by 15%."
           }
         ]
       },
@@ -1883,7 +2061,9 @@
             "talent": "Lifeforce Mender",
             "spell_id": 376179,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_dragonrage2.jpg",
+            "desc": "Red spells deal 20% additional damage and healing."
           }
         ]
       },
@@ -1907,7 +2087,9 @@
             "talent": "Timeless Magic",
             "spell_id": 376240,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_artifact_xp05.jpg",
+            "desc": "Reversion, Time Dilation, Echo, and Temporal Anomaly last 15% longer and cost 15% less mana."
           }
         ]
       },
@@ -1929,14 +2111,18 @@
             "talent": "Dream Simulacrum",
             "spell_id": 1241669,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_dragonrage2_green.jpg",
+            "desc": "Verdant Embrace healing is increased by 30%. In addition, it no longer causes you to leap to your target, instead sending forth a Dream Simulacrum."
           },
           {
             "entry_id": "133503",
             "talent": "Wings of Liberty",
             "spell_id": 1241704,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_masterylifebinder.jpg",
+            "desc": "Verdant Embrace gains an additional charge."
           }
         ]
       },
@@ -1958,7 +2144,9 @@
             "talent": "Titan's Gift",
             "spell_id": 443264,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fireresistancetotem_01.jpg",
+            "desc": "Essence Burst increases the effectiveness of your next Essence ability by 35%."
           }
         ]
       },
@@ -1980,7 +2168,9 @@
             "talent": "Lifespark",
             "spell_id": 443177,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_masterylifebinder_red.jpg",
+            "desc": "Reversion healing has a chance to cause your next Living Flame to cast instantly and deal 50% increased healing or damage. Stacks up to 2 charges."
           }
         ]
       },
@@ -2002,7 +2192,9 @@
             "talent": "Twin Echoes",
             "spell_id": 1242031,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_evoker_greaterecho.jpg",
+            "desc": "Casting Emerald Blossom causes your next Echo to cast on an additional ally within 25 yards at 100% effectiveness. Stacks up to 2 charges."
           }
         ]
       },
@@ -2024,7 +2216,9 @@
             "talent": "Tempo Charged",
             "spell_id": 1237978,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/classicon_evoker_preservation.jpg",
+            "desc": "Bronze healing and absorption increased by 15%."
           }
         ]
       },
@@ -2044,7 +2238,9 @@
             "talent": "Merithra's Blessing",
             "spell_id": 1256577,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_apextalent_evoker_merithrasblessing.jpg",
+            "desc": "Essence abilities have a chance to infuse your next Reversion with the power of the Green Dragonflight, upgrading it to Merithra's Blessing:\r\n\r\n Merithra's Blessing\r\nSpring a bloom of life from your target, healing them and up to 4 other allies within 30 yards for 950. Blooms may heal your primary target multiple times if no nearby injured allies are present."
           }
         ]
       }
@@ -2069,7 +2265,9 @@
               "talent": "Titanic Precision",
               "spell_id": 445625,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_misc_titansspark_shadowflame.jpg",
+              "desc": "Living Flame and Azure Strike have 1 extra chance to trigger Essence Burst when they critically strike."
             }
           ]
         },
@@ -2094,7 +2292,9 @@
               "talent": "Consume Flame",
               "spell_id": 444088,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_shadowflames_wave.jpg",
+              "desc": "Disintegrate damage consumes 1.0 sec of Fire Breath from enemies it damages, detonating it for 150% of the amount consumed.\r\n\r\nPyre damage consumes 4 sec of Fire Breath from enemies it damages, detonating it for 115% of the amount consumed."
             }
           ]
         },
@@ -2116,7 +2316,9 @@
               "talent": "Fulminous Roar",
               "spell_id": 1218447,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_oppressingroar2.jpg",
+              "desc": "Fire Breath deals its damage 20% more often."
             }
           ]
         },
@@ -2138,14 +2340,18 @@
               "talent": "Lifecinders",
               "spell_id": 444322,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_herb_cinderbloom_petal.jpg",
+              "desc": "Obsidian Scales also applies to your target or 1 nearby injured ally at 50% value."
             },
             {
               "entry_id": "123405",
               "talent": "Draconic Instincts",
               "spell_id": 445958,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_scales_basilliskorange.jpg",
+              "desc": "Your wounds have a small chance to cauterize, healing you for 30% of damage taken. Occurs more often from attacks that deal high damage."
             }
           ]
         },
@@ -2167,14 +2373,18 @@
               "talent": "Trailblazer",
               "spell_id": 444849,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_deathwing_fierygrip.jpg",
+              "desc": "Hover and Deep Breath travel 40% faster, and Hover travels 40% further."
             },
             {
               "entry_id": "123404",
               "talent": "Shape of Flame",
               "spell_id": 445074,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_flamecannon.jpg",
+              "desc": "Tail Swipe and Wing Buffet scorch enemies and blind them with ash, causing their next attack within 4 sec to miss."
             }
           ]
         },
@@ -2196,7 +2406,9 @@
               "talent": "Deep Exhalation",
               "spell_id": 1264321,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_firebreath.jpg",
+              "desc": "Fire Breath's damage over time lasts 4 sec longer."
             }
           ]
         },
@@ -2218,7 +2430,9 @@
               "talent": "Burning Adrenaline",
               "spell_id": 444020,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_gauntlets_03.jpg",
+              "desc": "Fire Breath reaches its maximum empower level 20% faster."
             }
           ]
         },
@@ -2240,7 +2454,9 @@
               "talent": "Conduit of Flame",
               "spell_id": 444843,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_innatemagic5.jpg",
+              "desc": "Critical strike chance against targets above 50% health increased by 15%."
             }
           ]
         },
@@ -2260,7 +2476,9 @@
               "talent": "Legacy of the Lifebinder",
               "spell_id": 1264269,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_dragonrage2.jpg",
+              "desc": "Fire Breath gains an additional charge."
             }
           ]
         },
@@ -2282,14 +2500,18 @@
               "talent": "Enkindle",
               "spell_id": 444016,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_elementalcombinedfoozles_purifiedshadowflame.jpg",
+              "desc": "Essence abilities are enhanced with Flame, dealing 20% of healing or damage done as Fire over 8 sec."
             },
             {
               "entry_id": "128713",
               "talent": "Expanded Lungs",
               "spell_id": 444845,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_fyrakk_dragonbreath.jpg",
+              "desc": "Fire Breath's damage over time is increased by 30%. Dream Breath's heal over time is increased by 30%."
             }
           ]
         },
@@ -2311,7 +2533,9 @@
               "talent": "Ashes in Motion",
               "spell_id": 1264365,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_flameshaperevoker_engulf.jpg",
+              "desc": "Fire Breath's cooldown is reduced by 5 sec."
             }
           ]
         },
@@ -2333,7 +2557,9 @@
               "talent": "Fire Torrent",
               "spell_id": 1265992,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_stormearthfire.jpg",
+              "desc": "Twin Flame bounces to up to 2 additional targets."
             }
           ]
         },
@@ -2355,7 +2581,9 @@
               "talent": "Essence Well",
               "spell_id": 1265993,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_essenceburst4.jpg",
+              "desc": "Fire Breath has a 50% chance to generate Essence Burst."
             }
           ]
         },
@@ -2377,7 +2605,9 @@
               "talent": "Twin Flame",
               "spell_id": 1265979,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_infernosblessing.jpg",
+              "desc": "Consuming Essence Burst fires a twin flame, striking your target for 684 Fire damage."
             }
           ]
         }
@@ -2401,7 +2631,9 @@
               "talent": "Reverberations",
               "spell_id": 431615,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_giftoftheaspects.jpg",
+              "desc": "Upheaval deals 50% additional damage over 8 sec."
             }
           ]
         },
@@ -2426,7 +2658,9 @@
               "talent": "Afterimage",
               "spell_id": 431875,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_livingflame.jpg",
+              "desc": "Empower spells send up to 3 Chrono Flames to your targets."
             }
           ]
         },
@@ -2448,7 +2682,9 @@
               "talent": "Instability Matrix",
               "spell_id": 431484,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_dragonriding_bronzerewind01.jpg",
+              "desc": "Each time you cast an empower spell, unstable time magic reduces its cooldown by up to 6 sec."
             }
           ]
         },
@@ -2470,14 +2706,18 @@
               "talent": "Double-time",
               "spell_id": 431874,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_borrowedtime.jpg",
+              "desc": "Ebon Might and Prescience gain a chance equal to your critical strike chance to grant 50% additional stats."
             },
             {
               "entry_id": "117786",
               "talent": "Time Convergence",
               "spell_id": 431984,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_plotthefuture.jpg",
+              "desc": "Non-defensive abilities with a 45 second or longer cooldown grant 5% Intellect for 15 sec.\r\n\r\nEssence spells extend the duration by 1 sec."
             }
           ]
         },
@@ -2499,14 +2739,18 @@
               "talent": "Temporality",
               "spell_id": 431873,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_return.jpg",
+              "desc": "Warp reduces damage taken by 20%, starting high and reducing over 3 sec."
             },
             {
               "entry_id": "117784",
               "talent": "Motes of Acceleration",
               "spell_id": 432008,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/item_timemote_icon.jpg",
+              "desc": "Warp leaves a trail of Motes of Acceleration. Allies who come in contact with a mote gain 20% increased movement speed for 30 sec."
             }
           ]
         },
@@ -2528,7 +2772,9 @@
               "talent": "Golden Opportunity",
               "spell_id": 432004,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_faction_goldenlotus.jpg",
+              "desc": "Prescience lasts 15% longer."
             }
           ]
         },
@@ -2550,7 +2796,9 @@
               "talent": "Nozdormu Adept",
               "spell_id": 431715,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_aspectsfavorbronze.jpg",
+              "desc": "Prescience cooldown reduced by 2 sec and it grants 1% additional critical strike chance."
             }
           ]
         },
@@ -2572,7 +2820,9 @@
               "talent": "Warp",
               "spell_id": 429483,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_spatialparadox.jpg",
+              "desc": "Hover now causes you to briefly warp out of existence and appear at your destination. Hover's cooldown is also reduced by 5 sec.\r\n\r\nHover continues to allow Evoker spells to be cast while moving."
             }
           ]
         },
@@ -2594,7 +2844,9 @@
               "talent": "Primacy",
               "spell_id": 431657,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_pocketwatch_01.jpg",
+              "desc": "For each damage over time effect from Upheaval, gain 3% haste, up to 9%."
             }
           ]
         },
@@ -2614,7 +2866,9 @@
               "talent": "Chrono Flame",
               "spell_id": 431442,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_chronowardenevoker_chronoflame.jpg",
+              "desc": "Living Flame is enhanced with Bronze magic, repeating 25% of the damage or healing you dealt to the target in the last 5 sec as Arcane, up to 950."
             }
           ]
         },
@@ -2636,7 +2890,9 @@
               "talent": "Temporal Burst",
               "spell_id": 431695,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_essenceburst5.jpg",
+              "desc": "Tip the Scales overloads you with temporal energy, increasing your haste, movement speed, and cooldown recovery rate by 30%, decreasing over 30 sec."
             }
           ]
         },
@@ -2658,7 +2914,9 @@
               "talent": "Overclock",
               "spell_id": 1260647,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_borrowedtime.jpg",
+              "desc": "Chrono Flames' maximum damage or healing is increased by 40%, up to 1,330 Arcane."
             }
           ]
         },
@@ -2680,7 +2938,9 @@
               "talent": "Chronal Dynamo",
               "spell_id": 1291522,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_dungeonjewelry_dragon_trinket_1arcanemagical_red.jpg",
+              "desc": "Living Flame's cast time is reduced by 0.2 sec, and it deals 50% increased damage or healing when it is a non-instant cast."
             }
           ]
         },
@@ -2702,7 +2962,9 @@
               "talent": "Chronoboon",
               "spell_id": 1260484,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_tipthescales.jpg",
+              "desc": "Tip the Scales' cooldown is reduced by 30 sec."
             }
           ]
         }

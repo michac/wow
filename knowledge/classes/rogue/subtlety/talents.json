@@ -19,6 +19,12 @@
       "Trickster"
     ]
   },
+  "level_cap": 90,
+  "budgets": {
+    "class": 34,
+    "spec": 34,
+    "hero": 13
+  },
   "trees": {
     "class": [
       {
@@ -37,7 +43,9 @@
             "talent": "Shiv",
             "spell_id": 5938,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_throwingknife_04.jpg",
+            "desc": "Attack with your off-hand, dealing 2 Physical damage, dispelling all enrage effects and applying a concentrated form of your active Non-Lethal poison.\r\n\r\nAwards 1 combo point."
           }
         ]
       },
@@ -57,7 +65,9 @@
             "talent": "Blind",
             "spell_id": 2094,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_mindsteal.jpg",
+            "desc": "Blinds the target, causing it to wander disoriented for 1 min. Damage may interrupt the effect. Limit 1."
           }
         ]
       },
@@ -77,7 +87,9 @@
             "talent": "Cloak of Shadows",
             "spell_id": 31224,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_nethercloak.jpg",
+            "desc": "Provides a moment of magic immunity, instantly removing all harmful spell effects. The cloak lingers, causing you to resist harmful spells for 5 sec."
           }
         ]
       },
@@ -99,7 +111,9 @@
             "talent": "Toxic Stiletto",
             "spell_id": 1267182,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_poisonedknife.jpg",
+            "desc": "Shiv's Energy cost is reduced by 20, its cooldown is reduced by 15 sec, and its range is increased by 3 yds."
           }
         ]
       },
@@ -122,7 +136,9 @@
             "talent": "Fleet Footed",
             "spell_id": 378813,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_quickrecovery.jpg",
+            "desc": "Movement speed increased by 15%."
           }
         ]
       },
@@ -144,14 +160,18 @@
             "talent": "Gouge",
             "spell_id": 1776,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_gouge.jpg",
+            "desc": "Gouges the eyes of an enemy target, incapacitating for 4 sec. Damage may interrupt the effect.\r\n\r\nMust be in front of your target.\r\n\r\nAwards 1 combo point."
           },
           {
             "entry_id": "117740",
             "talent": "Airborne Irritant",
             "spell_id": 200733,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_bloodyeye.jpg",
+            "desc": "Blind has 50% reduced cooldown, 70% reduced duration, and applies to all nearby enemies."
           }
         ]
       },
@@ -174,7 +194,9 @@
             "talent": "Thrill Seeking",
             "spell_id": 394931,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ragnaros_heart_shadowflame.jpg",
+            "desc": "Shadowstep has 1 additional charge."
           }
         ]
       },
@@ -196,7 +218,9 @@
             "talent": "Shadowrunner",
             "spell_id": 378807,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_stealth.jpg",
+            "desc": "While Stealth or Shadow Dance is active, you move 20% faster."
           }
         ]
       },
@@ -219,7 +243,9 @@
             "talent": "Master Poisoner",
             "spell_id": 378436,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_creature_poison_06.jpg",
+            "desc": "Increases the non-damaging effects of your weapon poisons by 20%."
           }
         ]
       },
@@ -243,14 +269,18 @@
             "talent": "Elusiveness",
             "spell_id": 79008,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_turnthetables.jpg",
+            "desc": "Evasion also reduces damage taken by 20%, and Feint also reduces non-area-of-effect damage taken by 20%."
           },
           {
             "entry_id": "114737",
             "talent": "Cheat Death",
             "spell_id": 31230,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_cheatdeath.jpg",
+            "desc": "Fatal attacks instead reduce you to 7% of your maximum health. For 3 sec afterward, you take 85% reduced damage. Cannot trigger more often than once per 6 min."
           }
         ]
       },
@@ -273,14 +303,18 @@
             "talent": "Tricks of the Trade",
             "spell_id": 57934,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_tricksofthetrade.jpg",
+            "desc": "Redirects all threat you cause to the targeted party or raid member, beginning with your next damaging attack within the next 30 sec and lasting 6 sec."
           },
           {
             "entry_id": "117143",
             "talent": "Blackjack",
             "spell_id": 379005,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_blackjack.jpg",
+            "desc": "Enemies have 30% reduced damage and healing for 6 sec after Blind or Sap's effect on them ends."
           }
         ]
       },
@@ -302,7 +336,9 @@
             "talent": "Improved Wound Poison",
             "spell_id": 319066,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_herb_16.jpg",
+            "desc": "Wound Poison can now stack 2 additional times."
           }
         ]
       },
@@ -324,7 +360,9 @@
             "talent": "Nimble Fingers",
             "spell_id": 378427,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_crimsonvial.jpg",
+            "desc": "Energy cost of Feint and Crimson Vial reduced by 10."
           }
         ]
       },
@@ -346,7 +384,9 @@
             "talent": "Deadened Nerves",
             "spell_id": 231719,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_nervesofsteel.jpg",
+            "desc": "Physical damage taken reduced by 5%."
           }
         ]
       },
@@ -368,7 +408,9 @@
             "talent": "Quick Fingers",
             "spell_id": 1267210,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_improvedrecuperate.jpg",
+            "desc": "Increases your Agility by 3%."
           }
         ]
       },
@@ -390,7 +432,9 @@
             "talent": "Improved Sprint",
             "spell_id": 231691,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_sprint.jpg",
+            "desc": "Reduces the cooldown of Sprint by 60 sec."
           }
         ]
       },
@@ -412,7 +456,9 @@
             "talent": "Superior Mixture",
             "spell_id": 423701,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_potionsete.jpg",
+            "desc": "Crippling Poison reduces movement speed by an additional 10%."
           }
         ]
       },
@@ -435,7 +481,9 @@
             "talent": "Evasion",
             "spell_id": 5277,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_shadowward.jpg",
+            "desc": "Increases your dodge chance by 100% for 10 sec."
           }
         ]
       },
@@ -457,7 +505,9 @@
             "talent": "Iron Stomach",
             "spell_id": 193546,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_organ_11.jpg",
+            "desc": "Increases the healing you receive from Crimson Vial, healing potions, and healthstones by 25%."
           }
         ]
       },
@@ -481,7 +531,9 @@
             "talent": "Virulent Poisons",
             "spell_id": 381543,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_creature_poison_06.jpg",
+            "desc": "Increases the damage of your weapon poisons by 10%."
           }
         ]
       },
@@ -503,7 +555,9 @@
             "talent": "Stillshroud",
             "spell_id": 423662,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_shroudofconcealment.jpg",
+            "desc": "Shroud of Concealment has 50% reduced cooldown."
           }
         ]
       },
@@ -526,7 +580,9 @@
             "talent": "Graceful Guile",
             "spell_id": 423647,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_ghostpirate.jpg",
+            "desc": "Feint has 1 additional charge."
           }
         ]
       },
@@ -548,7 +604,9 @@
             "talent": "Featherfoot",
             "spell_id": 423683,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_magic_featherfall.jpg",
+            "desc": "Sprint increases movement speed by an additional 30% and has 4 sec increased duration."
           }
         ]
       },
@@ -571,14 +629,18 @@
             "talent": "Numbing Poison",
             "spell_id": 5761,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_nullifydisease.jpg",
+            "desc": "Coats your weapons with a Non-Lethal Poison that lasts for 1 hour. Each strike has a 30% chance of poisoning the enemy, clouding their mind and slowing their attack and casting speed by 15% for 10 sec."
           },
           {
             "entry_id": "112655",
             "talent": "Atrophic Poison",
             "spell_id": 381637,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_nervesofsteel.jpg",
+            "desc": "Coats your weapons with a Non-Lethal Poison that lasts for 1 hour. Each strike has a 30% chance of poisoning the enemy, reducing their damage by 3.0% for 10 sec."
           }
         ]
       },
@@ -602,7 +664,9 @@
             "talent": "Deadly Precision",
             "spell_id": 381542,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_deadenednerves.jpg",
+            "desc": "Increases the critical strike chance of your attacks that generate combo points by 5%."
           }
         ]
       },
@@ -624,7 +688,9 @@
             "talent": "Sanguine Vial",
             "spell_id": 1293135,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_potiona5.jpg",
+            "desc": "When you deal the killing blow to a target that yields experience or honor, the cooldown of Crimson Vial is reduced by 15 sec and your next use heals 5% of your health instantly."
           }
         ]
       },
@@ -648,7 +714,9 @@
             "talent": "Deep Cuts",
             "spell_id": 1267216,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_1115_firstkilloftheday_firstkilloftheday.jpg",
+            "desc": "Your finishing moves deal 6% increased damage."
           }
         ]
       },
@@ -671,7 +739,9 @@
             "talent": "Unbreakable Stride",
             "spell_id": 400804,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_trip.jpg",
+            "desc": "Reduces the duration of movement slowing effects 30%."
           }
         ]
       },
@@ -694,7 +764,9 @@
             "talent": "Danger Sense",
             "spell_id": 1267220,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_wrongfullyaccused.jpg",
+            "desc": "You have a 20% chance to partially evade any damage dealt to you, reducing the damage it deals by 20%."
           }
         ]
       },
@@ -718,7 +790,9 @@
             "talent": "Swift Slasher",
             "spell_id": 381988,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_slicedice.jpg",
+            "desc": "Slice and Dice grants additional attack speed equal to 100% of your Haste."
           }
         ]
       },
@@ -741,14 +815,18 @@
             "talent": "Improved Ambush",
             "spell_id": 381620,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_ambush.jpg",
+            "desc": "Ambush generates 1 additional combo point."
           },
           {
             "entry_id": "117152",
             "talent": "Tight Spender",
             "spell_id": 381621,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_coin_03.jpg",
+            "desc": "Energy cost of finishing moves reduced by 6%."
           }
         ]
       },
@@ -770,7 +848,9 @@
             "talent": "Leeching Poison",
             "spell_id": 280716,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/rogue_leeching_poison.jpg",
+            "desc": "Adds a Leeching effect to your Lethal poisons, granting you 3.0% Leech."
           }
         ]
       },
@@ -793,7 +873,9 @@
             "talent": "Lethality",
             "spell_id": 382238,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_criticalstrike.jpg",
+            "desc": "Critical strike chance increased by 1%. Critical strike damage bonus of your attacks that generate combo points increased by 10%."
           }
         ]
       },
@@ -815,7 +897,9 @@
             "talent": "Recuperator",
             "spell_id": 378996,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_gizmo_runichealthinjector.jpg",
+            "desc": "Slice and Dice heals you for up to 1% of your maximum health per 3 sec."
           }
         ]
       },
@@ -838,7 +922,9 @@
             "talent": "Alacrity",
             "spell_id": 193539,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_speedoflight.jpg",
+            "desc": "Haste increased by 1.5%."
           }
         ]
       },
@@ -860,7 +946,9 @@
             "talent": "Soothing Darkness",
             "spell_id": 393970,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_twilight.jpg",
+            "desc": "You are healed for 30% of your maximum health over 6 sec after activating Vanish."
           }
         ]
       },
@@ -882,7 +970,9 @@
             "talent": "Vigor",
             "spell_id": 14983,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_vigor.jpg",
+            "desc": "Increases your maximum Energy by 50 and Energy regeneration by 5%."
           }
         ]
       },
@@ -904,7 +994,9 @@
             "talent": "Supercharger",
             "spell_id": 470347,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_engineering_90_electrifiedether.jpg",
+            "desc": "Kingsbane supercharges 1 combo point.\r\n\r\nDamaging finishing moves consume a supercharged combo point to function as if they spent 2 additional combo points."
           }
         ]
       },
@@ -926,7 +1018,9 @@
             "talent": "Subterfuge",
             "spell_id": 108208,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/rogue_subterfuge.jpg",
+            "desc": "Abilities requiring Stealth can be used for 3 sec after Stealth breaks.\r\n\r\nCombat benefits requiring Stealth persist for an additional 3 sec after Stealth breaks."
           }
         ]
       },
@@ -948,7 +1042,9 @@
             "talent": "Thistle Tea",
             "spell_id": 381623,
             "max_ranks": 1,
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_drink_milk_05.jpg",
+            "desc": "Restore 100 Energy.\r\n\r\nWhen your Energy is reduced below 30, drink a Thistle Tea."
           }
         ]
       },
@@ -970,7 +1066,9 @@
             "talent": "Cold Blooded Killer",
             "spell_id": 382245,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_ice_lament.jpg",
+            "desc": "Critically striking with an attack that generates combo points increases the critical strike chance of your next finishing move by 10%."
           }
         ]
       },
@@ -992,14 +1090,18 @@
             "talent": "Echoing Reprimand",
             "spell_id": 470669,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_rogue_echoingreprimand.jpg",
+            "desc": "After consuming a supercharged combo point, your next Mutilate also strikes the target with an Echoing Reprimand dealing 40 Physical damage."
           },
           {
             "entry_id": "112523",
             "talent": "Forced Induction",
             "spell_id": 470668,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_enggizmos_06.jpg",
+            "desc": "Increase the bonus granted when a damaging finishing move consumes a supercharged combo point by 1."
           }
         ]
       },
@@ -1021,7 +1123,9 @@
             "talent": "Deeper Stratagem",
             "spell_id": 193531,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/archaeology_5_0_changkiboard.jpg",
+            "desc": "Gain 1 additional max combo point.\r\n\r\nYour finishing moves that consume more than 5 combo points have increased effects, and your finishing moves deal 5% increased damage."
           }
         ]
       },
@@ -1043,7 +1147,9 @@
             "talent": "Without a Trace",
             "spell_id": 382513,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_vanish.jpg",
+            "desc": "Vanish has 1 additional charge."
           }
         ]
       }
@@ -1065,7 +1171,9 @@
             "talent": "Find Weakness",
             "spell_id": 91023,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_findweakness.jpg",
+            "desc": "Your Stealth abilities allow you to see the flaws in enemies' defenses, causing your attacks to ignore 30% armor for 10 sec."
           }
         ]
       },
@@ -1087,7 +1195,9 @@
             "talent": "Improved Backstab",
             "spell_id": 319949,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_backstab.jpg",
+            "desc": "Backstab has 15% increased critical strike chance.\r\n\r\nWhile behind your target, Backstab critical strikes grant Find Weakness for 10 sec."
           }
         ]
       },
@@ -1109,7 +1219,9 @@
             "talent": "Shadow Blades",
             "spell_id": 121471,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_knife_1h_grimbatolraid_d_03.jpg",
+            "desc": "Draws upon surrounding shadows to empower your weapons, causing your attacks to deal 20% additional damage as Shadow and causing your combo point generating abilities to generate double combo points for 16 sec."
           }
         ]
       },
@@ -1131,7 +1243,9 @@
             "talent": "Improved Shuriken Storm",
             "spell_id": 319951,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_shurikenstorm.jpg",
+            "desc": "Shuriken Storm has 15% increased critical strike chance.\r\n\r\nShuriken Storm critical strikes grant Find Weakness for 10 sec."
           }
         ]
       },
@@ -1153,7 +1267,9 @@
             "talent": "Premeditation",
             "spell_id": 343160,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_possession.jpg",
+            "desc": "After entering Stealth, your next combo point generating ability generates full combo points."
           }
         ]
       },
@@ -1175,14 +1291,18 @@
             "talent": "Quick Decisions",
             "spell_id": 382503,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_hook_01.jpg",
+            "desc": "Shadowstep's cooldown is reduced by 20%, and its maximum range is increased by 20%."
           },
           {
             "entry_id": "136808",
             "talent": "Ephemeral Bond",
             "spell_id": 426563,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warlock_soullink.jpg",
+            "desc": "Increases healing received by 8%."
           }
         ]
       },
@@ -1204,7 +1324,9 @@
             "talent": "Silent Storm",
             "spell_id": 385722,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_shurikenstorm.jpg",
+            "desc": "Gaining Stealth, Vanish, or Shadow Dance causes your next Shuriken Storm to have 100% increased chance to critically strike."
           }
         ]
       },
@@ -1226,7 +1348,9 @@
             "talent": "Shrouded in Darkness",
             "spell_id": 382507,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_envelopingshadows.jpg",
+            "desc": "Shroud of Concealment increases the movement speed of allies by 100% and leaving its area no longer cancels the effect."
           }
         ]
       },
@@ -1249,14 +1373,18 @@
             "talent": "Shot in the Dark",
             "spell_id": 257505,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_cheapshot.jpg",
+            "desc": "After using Vanish or Shadow Dance, your next Cheap Shot is free and ignores its cooldown."
           },
           {
             "entry_id": "136807",
             "talent": "Exhilarating Execution",
             "spell_id": 428486,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_weapon_hand_04.jpg",
+            "desc": "Your finishing moves heal you for 5% of damage done. At full health gain shielding instead, absorbing up to 10% of your maximum health."
           }
         ]
       },
@@ -1279,14 +1407,18 @@
             "talent": "Cloaked in Shadows",
             "spell_id": 382515,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_helm_cloth_shadowmoonclan_b_01.jpg",
+            "desc": "Vanish grants you a shield for 6 sec, absorbing damage equal to 18% of your maximum health."
           },
           {
             "entry_id": "112621",
             "talent": "Fade to Nothing",
             "spell_id": 382514,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warlock_everlastingaffliction.jpg",
+            "desc": "Movement speed increased by 20% and damage taken reduced by 10% for 8 sec after gaining Stealth, Vanish, or Shadow Dance."
           }
         ]
       },
@@ -1308,14 +1440,18 @@
             "talent": "Night Terrors",
             "spell_id": 277953,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_shadesofdarkness.jpg",
+            "desc": "Shuriken Storm reduces enemies' movement speed by 50% for 8 sec."
           },
           {
             "entry_id": "136488",
             "talent": "Terrifying Pace",
             "spell_id": 428387,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_typhoon.jpg",
+            "desc": "Shuriken Storm increases your movement speed by 30% for 3 sec when striking 3 or more enemies."
           }
         ]
       },
@@ -1338,7 +1474,9 @@
             "talent": "Master of Shadows",
             "spell_id": 196976,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_charm.jpg",
+            "desc": "Gain 30 Energy over 3 sec when you enter Stealth or activate Shadow Dance."
           }
         ]
       },
@@ -1360,7 +1498,9 @@
             "talent": "Gloomblade",
             "spell_id": 200758,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_ironmaidens_convulsiveshadows.jpg",
+            "desc": "Punctures your target with your shadow-infused blade for 42 Shadow damage, bypassing armor.\r\n\r\nAwards 1 combo point."
           }
         ]
       },
@@ -1383,7 +1523,9 @@
             "talent": "Shadow Focus",
             "spell_id": 108209,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/rogue_shadowfocus.jpg",
+            "desc": "Abilities deal 10% more damage while Stealth or Shadow Dance is active."
           }
         ]
       },
@@ -1405,7 +1547,9 @@
             "talent": "Improved Secret Technique",
             "spell_id": 1279444,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_sinistercalling.jpg",
+            "desc": "Secret Technique damage increased by 15%."
           }
         ]
       },
@@ -1428,7 +1572,9 @@
             "talent": "Relentless Strikes",
             "spell_id": 58423,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_decisivestrike.jpg",
+            "desc": "Your finishing moves generate 5 Energy per combo point spent."
           }
         ]
       },
@@ -1450,7 +1596,9 @@
             "talent": "Weaponmaster",
             "spell_id": 193537,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_ironmaidens_bladerush.jpg",
+            "desc": "Backstab and Shadowstrike have a 15% chance to create a Shadow Clone that repeats the attack for 50% of normal damage as Shadow."
           }
         ]
       },
@@ -1472,14 +1620,18 @@
             "talent": "Planned Execution",
             "spell_id": 382508,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_creature_cursed_02.jpg",
+            "desc": "Shadow Dance increases the critical strike damage bonus of your abilities by 10%."
           },
           {
             "entry_id": "117172",
             "talent": "Warning Signs",
             "spell_id": 426555,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_bg_kill_flag_carrier.jpg",
+            "desc": "Shadow Dance increases attack speed by 25%."
           }
         ]
       },
@@ -1503,7 +1655,9 @@
             "talent": "Double Dance",
             "spell_id": 394930,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/warrior_doubletime.jpg",
+            "desc": "Shadow Dance has 1 additional charge."
           }
         ]
       },
@@ -1527,7 +1681,9 @@
             "talent": "Shadowed Finishers",
             "spell_id": 382511,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_eviscerate.jpg",
+            "desc": "Eviscerate and Black Powder deal an additional 30% damage as Shadow while Find Weakness is active."
           }
         ]
       },
@@ -1549,7 +1705,9 @@
             "talent": "Secret Stratagem",
             "spell_id": 394320,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/archaeology_5_0_changkiboard.jpg",
+            "desc": "Gain 1 additional max combo point.\r\n\r\nYour finishing moves that consume more than 5 combo points have increased effects, and your finishing moves deal 5% increased damage."
           }
         ]
       },
@@ -1571,7 +1729,9 @@
             "talent": "Shuriken Tornado",
             "spell_id": 1264764,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_throwingspecialization.jpg",
+            "desc": "Shuriken Storm has a 15% chance to create a Shadow Clone that repeats the attack for 50% of normal damage as Shadow."
           }
         ]
       },
@@ -1594,7 +1754,9 @@
             "talent": "Umbral Edge",
             "spell_id": 1281468,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_nightblade.jpg",
+            "desc": "Shadow Clones deal 15% increased damage.\r\n\r\nCheap Shot creates a Shadow Clone to Shadowstrike the target for 50% of normal damage as Shadow.\r\n\r\nKidney Shot creates a Shadow Clone to Eviscerate the target for 50% of normal damage as Shadow."
           }
         ]
       },
@@ -1617,7 +1779,9 @@
             "talent": "The First Dance",
             "spell_id": 382505,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_shadowdance.jpg",
+            "desc": "Remaining out of combat for 6 sec increases the duration of your next Shadow Dance by 3 sec."
           }
         ]
       },
@@ -1640,7 +1804,9 @@
             "talent": "Deepening Shadows",
             "spell_id": 185314,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_twilight.jpg",
+            "desc": "Shadow Dance duration is increased by 150% of your Haste stat.\r\n\r\nCurrent bonus duration: 0.00 sec"
           }
         ]
       },
@@ -1663,7 +1829,9 @@
             "talent": "Veiltouched",
             "spell_id": 382017,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_prismaticcloak.jpg",
+            "desc": "Your abilities deal 5% increased magic damage."
           }
         ]
       },
@@ -1686,7 +1854,9 @@
             "talent": "Replicating Shadows",
             "spell_id": 382506,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_deathknight_strangulate.jpg",
+            "desc": "Shadow Clones deal 15% increased damage and your effects that have a chance to create them have 5% additional chance to occur."
           }
         ]
       },
@@ -1709,7 +1879,9 @@
             "talent": "Improved Find Weakness",
             "spell_id": 382512,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_findweakness.jpg",
+            "desc": "Find Weakness causes your attacks to ignore an additional 20% armor."
           }
         ]
       },
@@ -1732,7 +1904,9 @@
             "talent": "Perforated Veins",
             "spell_id": 382518,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_bloodfrenzy.jpg",
+            "desc": "Backstab, Shuriken Storm, and Shadowstrike have 10% increased damage while Find Weakness is active."
           }
         ]
       },
@@ -1754,7 +1928,9 @@
             "talent": "Lingering Shadow",
             "spell_id": 382524,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_twilightnova.jpg",
+            "desc": "After Shadow Dance ends, Backstab deals an additional 50% damage as Shadow, fading by 2.8% per sec."
           }
         ]
       },
@@ -1777,7 +1953,9 @@
             "talent": "Deeper Daggers",
             "spell_id": 382517,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_weapon_shortblade_15.jpg",
+            "desc": "Shadow damage increased by 8%."
           }
         ]
       },
@@ -1800,7 +1978,9 @@
             "talent": "Potent Powder",
             "spell_id": 1265952,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_priest_divinestar_shadow.jpg",
+            "desc": "Black Powder deals increased damage equal to 20% of your Mastery when it spends 5 or more combo points."
           }
         ]
       },
@@ -1823,7 +2003,9 @@
             "talent": "Death Perception",
             "spell_id": 469642,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nzinsanity_shortsighted.jpg",
+            "desc": "Find Weakness increases the damage of finishing moves by 5%.\r\n\r\nShadow Dance increases the damage of finishing moves by 5%.\r\n\r\nShadow Blades increases the damage of finishing moves by 5%."
           }
         ]
       },
@@ -1847,7 +2029,9 @@
             "talent": "Dark Shadow",
             "spell_id": 245687,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_warlock_demonsoul.jpg",
+            "desc": "Shadow Dance increases all ability damage by 5%, and Shadowstrike and Shuriken Storm damage by an additional 5%."
           }
         ]
       },
@@ -1870,7 +2054,9 @@
             "talent": "Finality",
             "spell_id": 382525,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_eviscerate.jpg",
+            "desc": "Eviscerate and Black Powder have 15% increased critical strike damage bonus."
           }
         ]
       },
@@ -1892,7 +2078,9 @@
             "talent": "The Rotten",
             "spell_id": 382015,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_nightofthedead.jpg",
+            "desc": "After activating Shadow Dance, your next 2 attacks that generate combo points deal 35% increased damage."
           }
         ]
       },
@@ -1915,7 +2103,9 @@
             "talent": "Shadowcraft",
             "spell_id": 426594,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_sealofkings.jpg",
+            "desc": "While Shadow Dance is active, your Shadow Techniques triggers 40% more frequently, stores 1 additional combo point, and generates 2 additional Energy."
           }
         ]
       },
@@ -1937,7 +2127,9 @@
             "talent": "Danse Macabre",
             "spell_id": 382528,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_deathwing_bloodcorruption_death.jpg",
+            "desc": "While Shadow Dance is active, each different attack that generates or spends combo points lashes out at the target, dealing 145 Shadow damage."
           }
         ]
       },
@@ -1960,7 +2152,9 @@
             "talent": "Goremaw's Bite",
             "spell_id": 426591,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_knife_1h_artifactfangs_d_01.jpg",
+            "desc": "Lashes out at the target, inflicting 114 Shadow damage and causing your next 3 finishing moves to cost no Energy.\r\n\r\nAwards 3 combo points."
           }
         ]
       },
@@ -1982,7 +2176,9 @@
             "talent": "Dark Brew",
             "spell_id": 382504,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_slowpoison.jpg",
+            "desc": "Your weapon poisons have 10% increased application chance and now deal damage as Shadow instead of Nature.\r\n\r\nShadow damage increased by 10%."
           }
         ]
       },
@@ -2002,7 +2198,9 @@
             "talent": "Ancient Arts",
             "spell_id": 1268932,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_apextalent_rogue_ancientarts.jpg",
+            "desc": "Damaging attacks that expend Shadow Techniques to generate combo points have a 15% chance per stack expended to create a Shadow Clone that repeats the attack for 50% of normal damage as Shadow."
           }
         ]
       }
@@ -2027,7 +2225,9 @@
               "talent": "Flawless Form",
               "spell_id": 441321,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_qiraj_jewelblessed.jpg",
+              "desc": "Unseen Blade and Secret Technique increase the damage of your finishing moves by 4% for 12 sec. Max 5 stacks."
             }
           ]
         },
@@ -2052,7 +2252,9 @@
               "talent": "Coup de Grace",
               "spell_id": 441423,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_tricksterrogue_coupdegrace.jpg",
+              "desc": "After 4 strikes with Unseen Blade, your next Eviscerate will be performed as a Coup de Grace, functioning as if it had consumed 5 additional combo points, and granting you 5 stacks of Flawless Form."
             }
           ]
         },
@@ -2074,14 +2276,18 @@
               "talent": "Cloud Cover",
               "spell_id": 441429,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_smoke.jpg",
+              "desc": "Activating Shadow Blades creates a cloud of smoke for 6 sec, allowing attacks from within the cloud to apply Fazed, stacking up to 2 additional times.\r\n\r\nEffect persists for 6 sec after leaving the cloud."
             },
             {
               "entry_id": "120132",
               "talent": "No Scruples",
               "spell_id": 441398,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_surpriseattack.jpg",
+              "desc": "Finishing moves have 12% increased chance to critically strike Fazed targets."
             }
           ]
         },
@@ -2103,7 +2309,9 @@
               "talent": "Disorienting Strikes",
               "spell_id": 441274,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/petbattle_speed.jpg",
+              "desc": "Secret Technique has 10% reduced cooldown and allows your next 2 strikes of Unseen Blade to ignore its cooldown."
             }
           ]
         },
@@ -2125,7 +2333,9 @@
               "talent": "Surprising Strikes",
               "spell_id": 441273,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_surpriseattack2.jpg",
+              "desc": "Attacks that generate combo points deal 50% increased critical strike damage to Fazed targets."
             }
           ]
         },
@@ -2147,7 +2357,9 @@
               "talent": "Nimble Flurry",
               "spell_id": 441367,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_bladetwisting.jpg",
+              "desc": "Your auto-attacks, Unseen Blade, and Coup de Grace also strike up to 7 nearby enemies for 50% of normal damage while Flawless Form is active."
             }
           ]
         },
@@ -2169,7 +2381,9 @@
               "talent": "Devious Distractions",
               "spell_id": 441263,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_ghostpirate.jpg",
+              "desc": "Secret Technique applies Fazed to any targets struck."
             }
           ]
         },
@@ -2191,14 +2405,18 @@
               "talent": "So Tricky",
               "spell_id": 441403,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_tricksofthetrade.jpg",
+              "desc": "Tricks of the Trade's threat redirect duration is increased to 1 hour."
             },
             {
               "entry_id": "120133",
               "talent": "Don't Be Suspicious",
               "spell_id": 441415,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_disguise.jpg",
+              "desc": "Blind and Shroud of Concealment have 10% reduced cooldown.\r\n\r\nPick Pocket and Sap have 10 yd increased range."
             }
           ]
         },
@@ -2220,14 +2438,18 @@
               "talent": "Thousand Cuts",
               "spell_id": 441346,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_specialization_blacksmithing_blades_color1.jpg",
+              "desc": "Slice and Dice grants 10% additional attack speed and gives your auto-attacks a chance to refresh your opportunity to strike with Unseen Blade."
             },
             {
               "entry_id": "120131",
               "talent": "Flickerstrike",
               "spell_id": 441359,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_invisibilty.jpg",
+              "desc": "Taking damage from an area-of-effect attack while Feint is active or dodging while Evasion is active refreshes your opportunity to strike with Unseen Blade.\r\n\r\nThis effect may only occur once every 5 sec."
             }
           ]
         },
@@ -2247,7 +2469,9 @@
               "talent": "Unseen Blade",
               "spell_id": 441146,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_weapon_shortblade_55.jpg",
+              "desc": "Backstab and Shadowstrike now also strike with an Unseen Blade dealing 99 damage. Targets struck are Fazed for 10 sec.\r\n\r\nFazed enemies take 5% more damage from you and cannot parry your attacks.\r\n\r\nThis effect may occur once every 20 sec."
             }
           ]
         },
@@ -2269,14 +2493,18 @@
               "talent": "Smoke",
               "spell_id": 441247,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/rogue_dirtytricks.jpg",
+              "desc": "You take 5% reduced damage from Fazed targets."
             },
             {
               "entry_id": "120130",
               "talent": "Mirrors",
               "spell_id": 441250,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/trade_archaeology_highbornesoulmirror.jpg",
+              "desc": "Feint reduces damage taken from area-of-effect attacks by an additional 10%"
             }
           ]
         },
@@ -2298,7 +2526,9 @@
               "talent": "Clever Combatant",
               "spell_id": 1276679,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_versatility.jpg",
+              "desc": "Shuriken Storm has 10% increased critical strike chance and now triggers Unseen Blade when available."
             }
           ]
         },
@@ -2320,7 +2550,9 @@
               "talent": "Flashing Steel",
               "spell_id": 1276630,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_1115_warrior_fastermeleeattacks.jpg",
+              "desc": "Unseen Blade may now occur once every 15 sec and has 25% chance to strike twice."
             }
           ]
         },
@@ -2342,7 +2574,9 @@
               "talent": "Hoodwink",
               "spell_id": 1276626,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_dizzy.jpg",
+              "desc": "Fazed increases damage taken by an additional 3%."
             }
           ]
         }
@@ -2366,14 +2600,18 @@
               "talent": "Ethereal Cloak",
               "spell_id": 457022,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_prismaticcloak.jpg",
+              "desc": "Cloak of Shadows duration increased by 2 sec."
             },
             {
               "entry_id": "126029",
               "talent": "Bait and Switch",
               "spell_id": 457034,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_earthandsky.jpg",
+              "desc": "Evasion reduces magical damage taken by 15%. \r\n\r\nCloak of Shadows reduces physical damage taken by 20%."
             }
           ]
         },
@@ -2395,7 +2633,9 @@
               "talent": "Corrupt the Blood",
               "spell_id": 1248785,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_ironmaidens_bloodritual.jpg",
+              "desc": "Rupture damage increased by 20%."
             }
           ]
         },
@@ -2417,14 +2657,18 @@
               "talent": "Lingering Darkness",
               "spell_id": 457056,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_envelopingshadows.jpg",
+              "desc": "After Deathmark expires, gain 30% increased Nature damage for 30 sec."
             },
             {
               "entry_id": "126030",
               "talent": "Symbolic Victory",
               "spell_id": 457062,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_surgeofdarkness.jpg",
+              "desc": "Shadow Dance additionally increases the damage of your next Eviscerate or Black Powder by 15%."
             }
           ]
         },
@@ -2446,7 +2690,9 @@
               "talent": "Clear the Witnesses",
               "spell_id": 1248793,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_fanofknives.jpg",
+              "desc": "Fan of Knives damage increased by 60%."
             }
           ]
         },
@@ -2468,7 +2714,9 @@
               "talent": "Singular Focus",
               "spell_id": 457055,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_hunter_focusingshot.jpg",
+              "desc": "Damage dealt to targets other than your Marked target deals 5% Plague damage to your Marked target."
             }
           ]
         },
@@ -2490,14 +2738,18 @@
               "talent": "Shadewalker",
               "spell_id": 457057,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/rogue_shadow_reflection.jpg",
+              "desc": "Each time you consume a stack of Deathstalker's Mark, reduce the cooldown of Shadowstep by 3 sec."
             },
             {
               "entry_id": "126027",
               "talent": "Shroud of Night",
               "spell_id": 457063,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_elunesgrace.jpg",
+              "desc": "Shroud of Concealment duration increased by 5 sec."
             }
           ]
         },
@@ -2519,14 +2771,18 @@
               "talent": "Momentum of Despair",
               "spell_id": 457067,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_shadesofdarkness.jpg",
+              "desc": "If you have critically struck with Fan of Knives, increase the critical strike chance of Fan of Knives and Crimson Tempest by 10% and critical strike damage by 20% for 8 sec."
             },
             {
               "entry_id": "126028",
               "talent": "Follow the Blood",
               "spell_id": 457068,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/sha_ability_rogue_bloodyeye_nightmare.jpg",
+              "desc": "Fan of Knives and Crimson Tempest deal 30% additional damage while 2 or more enemies are afflicted with Rupture."
             }
           ]
         },
@@ -2548,7 +2804,9 @@
               "talent": "Hunt Them Down",
               "spell_id": 457054,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_creepingvenom.jpg",
+              "desc": "Auto-attacks against Marked targets deal an additional 3 Plague damage."
             }
           ]
         },
@@ -2570,7 +2828,9 @@
               "talent": "Unshakeable Drive",
               "spell_id": 1248774,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_deepcuts.jpg",
+              "desc": "When you consume an application of Deathstalker's Mark, the damage of your next Ambush or Mutilate is increased by 50%."
             }
           ]
         },
@@ -2590,7 +2850,9 @@
               "talent": "Deathstalker's Mark",
               "spell_id": 457052,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_deathstalkerrogue_deathstalkersmark.jpg",
+              "desc": "Garrote applies 3 stacks of Deathstalker's Mark to your target, unless Deathstalker's Mark is already active. You learn Mark for Death.\r\n\r\nWhen you spend 5 or more combo points on attacks against a Marked target you consume an application of Deathstalker's Mark, dealing 54 Plague damage.\r\n\r\n\r\nMark for Death\r\nMove your active Deathstalker's Mark to your target."
             }
           ]
         },
@@ -2615,7 +2877,9 @@
               "talent": "Darkest Night",
               "spell_id": 457058,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_twilight.jpg",
+              "desc": "When you consume the final Deathstalker's Mark from a target or your target dies, gain 30 Energy and Darkest Night, causing your next Envenom cast with 5 or more combo points to critically strike, deal 35% additional damage, and apply 3 stacks of Deathstalker's Mark to the target if no other Deathstalker's Mark is active.\r\n\r\nEnvenom cast with Darkest Night does not consume a stack of active Deathstalker's Marks."
             }
           ]
         },
@@ -2637,7 +2901,9 @@
               "talent": "Mass Casualty",
               "spell_id": 1273035,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_rapidkilling.jpg",
+              "desc": "Deathstalker's Mark deals 40% of its normal damage to all other enemies within 8 yds that are afflicted by Rupture."
             }
           ]
         },
@@ -2659,7 +2925,9 @@
               "talent": "Quietus Celeris",
               "spell_id": 1273017,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_argus_deathfog.jpg",
+              "desc": "Deathstalker's Mark has a 30% chance to immediately consume a stack when applied."
             }
           ]
         },
@@ -2681,7 +2949,9 @@
               "talent": "Precise Killer",
               "spell_id": 1272989,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_tradeskillitem_sorcererswind.jpg",
+              "desc": "Critical strike damage bonus increased by 20%."
             }
           ]
         }

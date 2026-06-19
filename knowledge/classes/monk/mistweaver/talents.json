@@ -20,6 +20,12 @@
       "Master of Harmony"
     ]
   },
+  "level_cap": 90,
+  "budgets": {
+    "class": 34,
+    "spec": 34,
+    "hero": 13
+  },
   "trees": {
     "class": [
       {
@@ -38,7 +44,9 @@
             "talent": "Soothing Mist",
             "spell_id": 115175,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_soothingmists.jpg",
+            "desc": "Heals the target for 6,386 over 7.1 sec. While channeling, Enveloping Mist and Vivify may be cast instantly on the target."
           }
         ]
       },
@@ -58,7 +66,9 @@
             "talent": "Paralysis",
             "spell_id": 115078,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_paralysis.jpg",
+            "desc": "Incapacitates the target for 1 min. Limit 1. Damage may cancel the effect."
           }
         ]
       },
@@ -78,7 +88,9 @@
             "talent": "Rising Sun Kick",
             "spell_id": 107428,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_risingsunkick.jpg",
+            "desc": "Kick upwards, dealing 50 Physical damage."
           }
         ]
       },
@@ -100,7 +112,9 @@
             "talent": "Elusive Mists",
             "spell_id": 388681,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_soothingmists.jpg",
+            "desc": "Reduces all damage taken by you and your target while channeling Soothing Mists by 6%."
           }
         ]
       },
@@ -123,7 +137,9 @@
             "talent": "Tiger's Lust",
             "spell_id": 116841,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_tigerslust.jpg",
+            "desc": "Increases a friendly target's movement speed by 70% for 6 sec and removes all roots and snares."
           }
         ]
       },
@@ -146,14 +162,18 @@
             "talent": "Crashing Momentum",
             "spell_id": 450335,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_blackoutkick.jpg",
+            "desc": "Targets you Roll through are snared by 40% for 5 sec."
           },
           {
             "entry_id": "124939",
             "talent": "Disable",
             "spell_id": 116095,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_shockwave.jpg",
+            "desc": "Reduces the target's movement speed by 50% for 15 sec, duration refreshed by your melee attacks."
           }
         ]
       },
@@ -175,7 +195,9 @@
             "talent": "Fast Feet",
             "spell_id": 388809,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_risingsunkick.jpg",
+            "desc": "Rising Sun Kick deals 70% increased damage. Spinning Crane Kick deals 10% additional damage."
           }
         ]
       },
@@ -198,7 +220,9 @@
             "talent": "Grace of the Crane",
             "spell_id": 388811,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/monk_ability_cherrymanatea.jpg",
+            "desc": "Increases all healing taken by 6%."
           }
         ]
       },
@@ -220,7 +244,9 @@
             "talent": "Bounding Agility",
             "spell_id": 450520,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_roll.jpg",
+            "desc": "Roll and Chi Torpedo travel a small distance further."
           }
         ]
       },
@@ -243,7 +269,9 @@
             "talent": "Calming Presence",
             "spell_id": 388664,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_orb_01.jpg",
+            "desc": "Reduces all damage taken by 3%."
           }
         ]
       },
@@ -265,7 +293,9 @@
             "talent": "Wind's Reach",
             "spell_id": 450514,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_zenflight.jpg",
+            "desc": "The range of Disable is increased by 5 yds.\r\n \r\nThe duration of Crashing Momentum is increased by 3 sec and its snare now reduces movement speed by an additional 20%."
           }
         ]
       },
@@ -288,7 +318,9 @@
             "talent": "Improved Detox",
             "spell_id": 388874,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_imrovedrecuperate.jpg",
+            "desc": "Detox additionally removes all Poison and Disease effects."
           }
         ]
       },
@@ -311,14 +343,18 @@
             "talent": "Vivacious Vivification",
             "spell_id": 388812,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_vivify.jpg",
+            "desc": "After casting Rising Sun Kick, your next Vivify becomes instant cast.\r\n\r\nThis effect also reduces the energy cost of Vivify by 75%."
           },
           {
             "entry_id": "136516",
             "talent": "Serene Surge",
             "spell_id": 1266734,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_surgingmist.jpg",
+            "desc": "After casting Enveloping Mist, your next Vivify becomes instant cast."
           }
         ]
       },
@@ -340,7 +376,9 @@
             "talent": "Silent Sanctuary",
             "spell_id": 1266719,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_monk_zenpilgrimage.jpg",
+            "desc": "While no enemies are within 15 yds, you heal for 1,140 every 3 sec."
           }
         ]
       },
@@ -364,7 +402,9 @@
             "talent": "Jade Walk",
             "spell_id": 450553,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_lifegivingspeed.jpg",
+            "desc": "While out of combat, your movement speed is increased by 15%."
           }
         ]
       },
@@ -386,7 +426,9 @@
             "talent": "Pressure Points",
             "spell_id": 450432,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_deadlyreach.jpg",
+            "desc": "Paralysis now removes all Enrage effects from its target."
           }
         ]
       },
@@ -410,7 +452,9 @@
             "talent": "Chi Warding",
             "spell_id": 1277444,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_belt__inv_leather_raidmonkmythic_s_01.jpg",
+            "desc": "You heal for 3% of all magical damage taken."
           }
         ]
       },
@@ -432,7 +476,9 @@
             "talent": "Reinvigoration",
             "spell_id": 1266740,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_quipunch.jpg",
+            "desc": "After Detox successfully removes an effect from an ally, their movement speed is increased by 30% for 5 sec."
           }
         ]
       },
@@ -455,7 +501,9 @@
             "talent": "Ancient Arts",
             "spell_id": 344359,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_dpsstance.jpg",
+            "desc": "Reduces the cooldown of Paralysis by 15 sec and the cooldown of Leg Sweep by 10 sec."
           }
         ]
       },
@@ -479,7 +527,9 @@
             "talent": "Chi Wave",
             "spell_id": 450391,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_chiwave.jpg",
+            "desc": "Every 15 sec, your next Rising Sun Kick or Vivify releases a wave of Chi energy that flows through friends and foes, dealing 7 Nature damage or 21 healing. Bounces up to 7 times to targets within 25 yards."
           }
         ]
       },
@@ -503,7 +553,9 @@
             "talent": "Transcendence",
             "spell_id": 101643,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/monk_ability_transcendence.jpg",
+            "desc": "Split your body and spirit, leaving your spirit behind for 15 min. Use Transcendence: Transfer to swap locations with your spirit."
           }
         ]
       },
@@ -527,14 +579,18 @@
             "talent": "Celerity",
             "spell_id": 115173,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_quipunch.jpg",
+            "desc": "Reduces the cooldown of Roll by 5 sec and increases its maximum number of charges by 1."
           },
           {
             "entry_id": "124981",
             "talent": "Chi Torpedo",
             "spell_id": 115008,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_quitornado.jpg",
+            "desc": "Torpedoes you forward a long distance and increases your movement speed by 30% for 10 sec, stacking up to 2 times."
           }
         ]
       },
@@ -556,7 +612,9 @@
             "talent": "Stillstep Coil",
             "spell_id": 1266733,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_helm_leather_raidmonkprogenitormythic_d_01.jpg",
+            "desc": "Leg Sweep applies Disable for 5.0 sec when it ends."
           }
         ]
       },
@@ -579,14 +637,18 @@
             "talent": "Quick Footed",
             "spell_id": 450503,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_hurricanestrike.jpg",
+            "desc": "The duration of snare effects on you is reduced by 20%."
           },
           {
             "entry_id": "124950",
             "talent": "Hasty Provocation",
             "spell_id": 328670,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_provoke.jpg",
+            "desc": "Provoked targets move towards you at 50% increased speed."
           }
         ]
       },
@@ -608,7 +670,9 @@
             "talent": "Ferocity of Xuen",
             "spell_id": 388674,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mount_pinktiger.jpg",
+            "desc": "Increases all damage dealt by 2%."
           }
         ]
       },
@@ -630,14 +694,18 @@
             "talent": "Ring of Peace",
             "spell_id": 116844,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_monk_ringofpeace.jpg",
+            "desc": "Form a Ring of Peace at the target location for 5 sec. Enemies that enter will be ejected from the Ring."
           },
           {
             "entry_id": "124925",
             "talent": "Song of Chi-Ji",
             "spell_id": 198898,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_chaos_orb.jpg",
+            "desc": "Conjures a cloud of hypnotic mist that slowly travels forward. Enemies touched by the mist fall asleep, Disoriented for 20 sec."
           }
         ]
       },
@@ -659,7 +727,9 @@
             "talent": "Spirit's Essence",
             "spell_id": 450595,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_spectraltransformation.jpg",
+            "desc": "Transcendence: Transfer snares targets within 10 yds by 70% for 4 sec when cast."
           }
         ]
       },
@@ -681,7 +751,9 @@
             "talent": "Tiger Tail Sweep",
             "spell_id": 264348,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_legsweep.jpg",
+            "desc": "Increases the range of Leg Sweep by 4 yds."
           }
         ]
       },
@@ -704,7 +776,9 @@
             "talent": "Improved Touch of Death",
             "spell_id": 322113,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_touchofdeath.jpg",
+            "desc": "Touch of Death can now be used on targets with less than 15% health remaining, dealing 35% of your maximum health in damage."
           }
         ]
       },
@@ -728,7 +802,9 @@
             "talent": "Mist Caller",
             "spell_id": 1266811,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_serenity.jpg",
+            "desc": "Vivify and Sheilun's Gift trigger a Gust of Mist on yourself."
           }
         ]
       },
@@ -751,7 +827,9 @@
             "talent": "Yu'lon's Grace",
             "spell_id": 414131,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_dragonkick.jpg",
+            "desc": "Find resilience in the flow of chi in battle, gaining a magic absorb shield for 1.0% of your max health every 3 sec in combat, stacking up to 10%."
           }
         ]
       },
@@ -773,7 +851,9 @@
             "talent": "Peace and Prosperity",
             "spell_id": 450448,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_inscription_deck_redcrane.jpg",
+            "desc": "Reduces the cooldown of Ring of Peace by 5 sec and Song of Chi-Ji's cast time is reduced by 0.5 sec."
           }
         ]
       },
@@ -796,7 +876,9 @@
             "talent": "Fortifying Brew",
             "spell_id": 115203,
             "max_ranks": 1,
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_fortifyingale_new.jpg",
+            "desc": "Turns your skin to stone for 15 sec."
           }
         ]
       },
@@ -820,7 +902,9 @@
             "talent": "Dance of the Wind",
             "spell_id": 432181,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_dematerialize.jpg",
+            "desc": "Your physical damage taken is reduced by 10% and an additional 10% every 4 sec until you receive a physical attack."
           }
         ]
       },
@@ -843,7 +927,9 @@
             "talent": "Save Them All",
             "spell_id": 389579,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_weapon_hand_22.jpg",
+            "desc": "Your healing is increased by up to 10%, based on the current health of your target. Lower health targets are healed for more."
           }
         ]
       },
@@ -866,7 +952,9 @@
             "talent": "Swift Art",
             "spell_id": 450622,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_standingkick.jpg",
+            "desc": "Roll removes a snare effect once every 30 sec."
           }
         ]
       },
@@ -888,7 +976,9 @@
             "talent": "Vital Clarity",
             "spell_id": 1266748,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_souldance.jpg",
+            "desc": "Vivify and Sheilun's Gift critical strike chances are increased by 15% on yourself."
           }
         ]
       },
@@ -912,14 +1002,18 @@
             "talent": "Jade Infusion",
             "spell_id": 1242910,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_summonserpentstatue.jpg",
+            "desc": "Thunder Focus Tea summons a Jade Serpent Statue at your location. When you channel Soothing Mist, the statue will also begin to channel Soothing Mist on your target, healing for 2,128 over 7.1 sec."
           },
           {
             "entry_id": "133997",
             "talent": "Summon Jade Serpent Statue",
             "spell_id": 115313,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_summonserpentstatue.jpg",
+            "desc": "Summons a Jade Serpent Statue at the target location. When you channel Soothing Mist, the statue will also begin to channel Soothing Mist on your target, healing for 2,128 over 7.1 sec."
           }
         ]
       },
@@ -941,14 +1035,18 @@
             "talent": "Ironshell Brew",
             "spell_id": 388814,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_fortifyingale_new.jpg",
+            "desc": "Increases your maximum health by an additional 10% and your damage taken is reduced by an additional 10% while Fortifying Brew is active."
           },
           {
             "entry_id": "124969",
             "talent": "Expeditious Fortification",
             "spell_id": 388813,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_fortifyingale_new.jpg",
+            "desc": "Fortifying Brew cooldown reduced by 30 sec."
           }
         ]
       },
@@ -970,7 +1068,9 @@
             "talent": "Diffuse Magic",
             "spell_id": 1243287,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_monk_diffusemagic.jpg",
+            "desc": "Activating Fortifying Brew transfers all currently active harmful magical effects on you back to their original caster if possible."
           }
         ]
       },
@@ -993,7 +1093,9 @@
             "talent": "Celestial Determination",
             "spell_id": 450638,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_essencefont.jpg",
+            "desc": "While your Celestial is active, you cannot be slowed below 90% normal movement speed."
           }
         ]
       },
@@ -1017,7 +1119,9 @@
             "talent": "Chi Proficiency",
             "spell_id": 450426,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_chiswirl.jpg",
+            "desc": "Magical damage done increased by 5% and healing done increased by 5%."
           }
         ]
       },
@@ -1039,7 +1143,9 @@
             "talent": "Healing Winds",
             "spell_id": 450560,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_pathofmists.jpg",
+            "desc": "Transcendence: Transfer immediately heals you for 10% of your maximum health."
           }
         ]
       },
@@ -1063,7 +1169,9 @@
             "talent": "Windwalking",
             "spell_id": 157411,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/monk_stance_whitetiger.jpg",
+            "desc": "You and your allies within 10 yards have 10% increased movement speed. Stacks with other similar effects."
           }
         ]
       },
@@ -1085,7 +1193,9 @@
             "talent": "Chi Transfer",
             "spell_id": 1272452,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_zenmeditation.jpg",
+            "desc": "Touch of Death now heals you for 50% of its damage done."
           }
         ]
       },
@@ -1108,7 +1218,9 @@
             "talent": "Martial Instincts",
             "spell_id": 450427,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_palmstrike.jpg",
+            "desc": "Increases your Physical damage done by 5% and Avoidance increased by 2%."
           }
         ]
       },
@@ -1130,7 +1242,9 @@
             "talent": "Lighter Than Air",
             "spell_id": 449582,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_ridethewind.jpg",
+            "desc": "Roll causes you to become lighter than air, allowing you to double jump to dash forward a short distance once within 5 sec, but the cooldown of Roll is increased by 2 sec."
           }
         ]
       },
@@ -1153,7 +1267,9 @@
             "talent": "Flow of Chi",
             "spell_id": 450569,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_healthsphere.jpg",
+            "desc": "You gain a bonus effect based on your current health.\r\n\r\nAbove 90% health: Movement speed increased by 5%. This bonus stacks with similar effects.\r\n\r\nBetween 90% and 35% health: Damage taken reduced by 5%.\r\n\r\nBelow 35% health: Healing received increased by 10%."
           }
         ]
       },
@@ -1177,14 +1293,18 @@
             "talent": "Escape from Reality",
             "spell_id": 394110,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/monk_ability_transcendence.jpg",
+            "desc": "After you use Transcendence: Transfer, you can use Transcendence: Transfer again within 10 sec, ignoring its cooldown."
           },
           {
             "entry_id": "124972",
             "talent": "Transcendence: Linked Spirits",
             "spell_id": 434774,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/monk_ability_transcendence.jpg",
+            "desc": "Transcendence now tethers your spirit onto an ally for 1 hour. Use Transcendence: Transfer to teleport to your ally's location."
           }
         ]
       },
@@ -1207,7 +1327,9 @@
             "talent": "Fatal Touch",
             "spell_id": 394123,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_touchofdeath.jpg",
+            "desc": "Touch of Death's cooldown is reduced by 90 sec."
           }
         ]
       },
@@ -1229,7 +1351,9 @@
             "talent": "Rushing Reflexes",
             "spell_id": 450154,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_yulonsgift.jpg",
+            "desc": "Your heightened reflexes allow you to react swiftly to the presence of enemies, causing you to quickly lunge to the nearest enemy in front of you within 10 yards after you Roll."
           }
         ]
       }
@@ -1251,7 +1375,9 @@
             "talent": "Enveloping Mist",
             "spell_id": 124682,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_monk_envelopingmist.jpg",
+            "desc": "Wraps the target in healing mists, healing for 3,189 over 6 sec, and increasing healing received from your other spells by 10%."
           }
         ]
       },
@@ -1273,7 +1399,9 @@
             "talent": "Thunder Focus Tea",
             "spell_id": 116680,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_thunderfocustea.jpg",
+            "desc": "Receive a jolt of energy, empowering your next spell cast:\r\n\r\nEnveloping Mist: Immediately heals for 2,891 and is instant cast.\r\nRenewing Mist: Duration increased by 10 sec.\r\nRising Sun Kick: Cooldown reduced by 9 sec."
           }
         ]
       },
@@ -1295,7 +1423,9 @@
             "talent": "Misty Coalescence",
             "spell_id": 1268817,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_monk_renewingmists_active.jpg",
+            "desc": "Renewing Mist healing is increased by up to 300% in proportion to its coverage on yourself and your allies."
           }
         ]
       },
@@ -1317,7 +1447,9 @@
             "talent": "Life Cocoon",
             "spell_id": 116849,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_chicocoon.jpg",
+            "desc": "Encases the target in a cocoon of Chi energy for 12 sec, absorbing 14,664 damage and increasing all healing over time received by 50%."
           }
         ]
       },
@@ -1340,7 +1472,9 @@
             "talent": "Mana Tea",
             "spell_id": 115869,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/monk_ability_cherrymanatea.jpg",
+            "desc": "For every 3,000 Mana you spend, you gain 1 stack of Mana Tea, with a chance equal to your critical strike chance to generate 1 extra stack.\r\n\r\nMana Tea:\r\nConsumes 1 stack of Mana Tea per 0.4 sec to restore 648 Mana.\r\n\r\nCan be cast while moving, but movement speed is reduced by 40% while channeling."
           }
         ]
       },
@@ -1362,7 +1496,9 @@
             "talent": "Invigorating Mists",
             "spell_id": 274586,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_vivify.jpg",
+            "desc": "Vivify heals all allies with your Renewing Mist active for 1,200.\r\n\r\nSheilun's Gift's healing is increased by 500% on its primary target."
           }
         ]
       },
@@ -1384,7 +1520,9 @@
             "talent": "Crane Style",
             "spell_id": 446260,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_mightyoxkick.jpg",
+            "desc": "Rising Sun Kick now kicks up a Gust of Mist to heal 2 allies within 40 yds for 0. \r\n\r\nSpinning Crane Kick and Blackout Kick have a chance to kick up a Gust of Mist to heal 1 ally within 40 yds for 0."
           }
         ]
       },
@@ -1406,14 +1544,18 @@
             "talent": "Revival",
             "spell_id": 115310,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_monk_revival.jpg",
+            "desc": "Heals all party and raid members within 40 yds for 23,170 and clears them of 3 harmful Magic, all Poison, and all Disease effects.\r\n\r\nHealing reduced beyond 5 targets."
           },
           {
             "entry_id": "124918",
             "talent": "Restoral",
             "spell_id": 388615,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_tigerstyle.jpg",
+            "desc": "Heals all party and raid members within 40 yds for 22,817 and clears them of all harmful Poison and Disease effects. \r\n\r\nCastable while stunned.\r\n\r\nHealing reduced beyond 5 targets."
           }
         ]
       },
@@ -1435,7 +1577,9 @@
             "talent": "Healing Elixir",
             "spell_id": 122280,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_jasmineforcetea.jpg",
+            "desc": "You consume a healing elixir when you drop below 40% health or generate excess healing elixirs, instantly healing you for 15% of your maximum health.\r\n\r\nYou generate 1 healing elixir every 30 sec, stacking up to 2 times."
           }
         ]
       },
@@ -1457,14 +1601,18 @@
             "talent": "Calming Coalescence",
             "spell_id": 388218,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_healthsphere.jpg",
+            "desc": "The absorb amount of Life Cocoon is increased by 80%."
           },
           {
             "entry_id": "124873",
             "talent": "Refreshment",
             "spell_id": 467270,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_gem_pearl_06.jpg",
+            "desc": "Life Cocoon grants up to 5 stacks of Mana Tea and applies 2 stacks of Healing Elixir to its target."
           }
         ]
       },
@@ -1486,7 +1634,9 @@
             "talent": "Uplifted Spirits",
             "spell_id": 388551,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_helm_leather_raidmonkgoblin_d_01.jpg",
+            "desc": "The cooldown of Revival is reduced by 30 sec and Revival healing increased by 15%."
           }
         ]
       },
@@ -1508,14 +1658,18 @@
             "talent": "Way of the Serpent",
             "spell_id": 1243155,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/monk_stance_wiseserpent.jpg",
+            "desc": "Vivify healing increased by 15% and Renewing Mist's healing is increased by 30%."
           },
           {
             "entry_id": "134001",
             "talent": "Way of the Crane",
             "spell_id": 388779,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/monk_stance_redcrane.jpg",
+            "desc": "Tiger Palms strike twice, Blackout Kicks strike an additional 2 targets at 20% effectiveness, and Spinning Crane Kick heals 1 nearby allies for 340% of the damage done."
           }
         ]
       },
@@ -1537,14 +1691,18 @@
             "talent": "Energizing Brew",
             "spell_id": 422031,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ui_profession_herbalism.jpg",
+            "desc": "Mana Tea now channels 50% faster and generates 20% more Mana."
           },
           {
             "entry_id": "124916",
             "talent": "Lifecycles",
             "spell_id": 197915,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_souldance.jpg",
+            "desc": "Vivify has a 20% chance to cause your next Rising Sun Kick or Enveloping Mist to generate 1 stack of Mana Tea.\r\n\r\nEnveloping Mist and Rising Sun Kick have a 20% chance to cause your next Vivify to generate 1 stack of Mana Tea."
           }
         ]
       },
@@ -1566,7 +1724,9 @@
             "talent": "Zen Pulse",
             "spell_id": 446326,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_forcesphere.jpg",
+            "desc": "Renewing Mist's heal over time has a chance to cause your next Vivify to also trigger a Zen Pulse on its target and all allies with Renewing Mist, healing them for 601 increased by 6% per Renewing Mist active, up to 30%."
           }
         ]
       },
@@ -1589,7 +1749,9 @@
             "talent": "Mists of Life",
             "spell_id": 388548,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_shoulder__inv_leather_raidmonkmythic_s_01.jpg",
+            "desc": "Life Cocoon applies Renewing Mist and Enveloping Mist to the target."
           }
         ]
       },
@@ -1612,7 +1774,9 @@
             "talent": "Overflowing Mists",
             "spell_id": 388511,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_legion_faction_dreamweavers.jpg",
+            "desc": "Your Enveloping Mists heal the target for 2,280 each time they take direct damage."
           }
         ]
       },
@@ -1634,14 +1798,18 @@
             "talent": "Invoke Yu'lon, the Jade Serpent",
             "spell_id": 322118,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_dragonkick.jpg",
+            "desc": "Summons an effigy of Yu'lon, the Jade Serpent for 25 sec. Yu'lon will heal injured allies with Soothing Breath, healing the target and up to 2 allies for 797 over 4.0 sec. \r\n\r\nEnveloping Mist costs 50% less mana while Yu'lon is active."
           },
           {
             "entry_id": "124914",
             "talent": "Invoke Chi-Ji, the Red Crane",
             "spell_id": 325197,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_pet_cranegod.jpg",
+            "desc": "Summon an effigy of Chi-Ji for 25 sec that kicks up 3 Gust of Mists when you Blackout Kick, Rising Sun Kick, or Spinning Crane Kick, healing up to 2 allies for 0.\r\n\r\nChi-Ji's presence makes you immune to movement impairing effects, makes Enveloping Mist instant cast, and reduces the mana cost of Enveloping Mist by 20%."
           }
         ]
       },
@@ -1663,7 +1831,9 @@
             "talent": "Deep Clarity",
             "spell_id": 446345,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_zenmeditation.jpg",
+            "desc": "After you fully consume Thunder Focus Tea, your next Vivify triggers Zen Pulse."
           }
         ]
       },
@@ -1686,7 +1856,9 @@
             "talent": "Rapid Diffusion",
             "spell_id": 388847,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_chiswirl.jpg",
+            "desc": "Rising Sun Kick and Enveloping Mist apply Renewing Mist for 6 seconds to an ally within 40 yds."
           }
         ]
       },
@@ -1708,14 +1880,18 @@
             "talent": "Chrysalis",
             "spell_id": 202424,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_domeofmist.jpg",
+            "desc": "Reduces the cooldown of Life Cocoon by 45 sec."
           },
           {
             "entry_id": "124877",
             "talent": "Burst of Life",
             "spell_id": 399226,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_imrovedrecuperate.jpg",
+            "desc": "When Life Cocoon expires, it releases a burst of mist that restores 3,062 health to 3 nearby allies."
           }
         ]
       },
@@ -1739,7 +1915,9 @@
             "talent": "Yu'lon's Whisper",
             "spell_id": 388038,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_chiexplosion.jpg",
+            "desc": "While channeling Mana Tea you exhale the breath of Yu'lon, healing up to 5 allies within 15 yards for 344 every 0.4 sec."
           }
         ]
       },
@@ -1762,7 +1940,9 @@
             "talent": "Mist Wrap",
             "spell_id": 197900,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_pathofmists.jpg",
+            "desc": "Increases Enveloping Mist's duration by 1 sec and its healing bonus by 10%."
           }
         ]
       },
@@ -1784,7 +1964,9 @@
             "talent": "Celestial Harmony",
             "spell_id": 343655,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_jadeserpentbreath.jpg",
+            "desc": "When activated, Yu'lon and Chi-Ji apply Chi Cocoons to 5 targets within 40 yds, absorbing 7,332 damage for 10 sec.\r\n\r\nChi-Ji grants 4 stacks of Teachings of the Monastery when invoked.\r\n\r\nYu'lon reduces the cast speed of Enveloping Mist by 30%."
           }
         ]
       },
@@ -1807,7 +1989,9 @@
             "talent": "Dancing Mists",
             "spell_id": 388701,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_serenity.jpg",
+            "desc": "Renewing Mist has a 8% chance to immediately spread to an additional target when initially cast or when traveling to a new target."
           }
         ]
       },
@@ -1830,7 +2014,9 @@
             "talent": "Lotus Infusion",
             "spell_id": 458431,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_herb_chamlotus.jpg",
+            "desc": "Allies with Renewing Mist receive 6% more healing from you and Renewing Mist's duration is increased by 2 sec."
           }
         ]
       },
@@ -1853,7 +2039,9 @@
             "talent": "Amplified Rush",
             "spell_id": 1271431,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_rushingjadewind.jpg",
+            "desc": "The healing of Gusts of Mist caused by Renewing Mist is increased by 100%."
           }
         ]
       },
@@ -1877,7 +2065,9 @@
             "talent": "Pool of Mists",
             "spell_id": 173841,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_zone_sholazar_10.jpg",
+            "desc": "Renewing Mist now has 3 charges and reduces the remaining cooldown of Rising Sun Kick by 1.0 sec.\r\n\r\nRising Sun Kick now reduces the remaining cooldown of Renewing Mist by 1.0 sec."
           }
         ]
       },
@@ -1899,14 +2089,18 @@
             "talent": "Jade Bond",
             "spell_id": 388031,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_inscription_deck_jadeserpent.jpg",
+            "desc": "Chi Cocoons now apply Enveloping Mist for 4 sec when they expire or are consumed, and Chi-Ji's Gusts of Mists healing is increased by 20% and Yu'lon's Soothing Breath healing is increased by 500%."
           },
           {
             "entry_id": "124894",
             "talent": "Gift of the Celestials",
             "spell_id": 388212,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_pet_jadeserpentpet.jpg",
+            "desc": "Reduces the cooldown of Invoke Yul'on, the Jade Serpent by 1 min, but decreases its duration to 12 sec."
           }
         ]
       },
@@ -1929,14 +2123,18 @@
             "talent": "Jade Empowerment",
             "spell_id": 467316,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_cracklingjadelightning.jpg",
+            "desc": "Crackling Jade Lightning's damage is increased by 300% and now chains to 4 additional enemies at 25% effectiveness."
           },
           {
             "entry_id": "124909",
             "talent": "Morning Breeze",
             "spell_id": 1277302,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/expansionicon_mistsofpandaria.jpg",
+            "desc": "Rising Sun Kick's damage is increased by your Mastery rating and Thunder Focus Tea resets its cooldown."
           }
         ]
       },
@@ -1959,7 +2157,9 @@
             "talent": "Focused Thunder",
             "spell_id": 197895,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_monk_nimblebrew.jpg",
+            "desc": "Thunder Focus Tea now empowers your next 2 spells."
           }
         ]
       },
@@ -1982,7 +2182,9 @@
             "talent": "Sheilun's Gift",
             "spell_id": 399491,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_ability_monk_sheilunsgift.jpg",
+            "desc": "Draws in all nearby clouds of mist, healing the friendly target and up to 2 nearby allies for 1,584 and an additional 79 per cloud absorbed.\r\n\r\nA cloud of mist is generated every 8 sec while in combat."
           }
         ]
       },
@@ -2005,14 +2207,18 @@
             "talent": "Jadefire Teachings",
             "spell_id": 467293,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_book_07.jpg",
+            "desc": "Ancient Teachings transfers an additional 270% damage to healing.\r\n\r\nYour Stamina is increased by 8%."
           },
           {
             "entry_id": "128221",
             "talent": "Rushing Wind Kick",
             "spell_id": 467307,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_ability_monk_rushingwindkick.jpg",
+            "desc": "Kick up a powerful gust of wind, dealing 62 Nature damage in a 25 yd cone to enemies in front of you, split evenly among them. Damage is increased by 6% for each target hit, up to 30%."
           }
         ]
       },
@@ -2035,7 +2241,9 @@
             "talent": "Resplendent Mist",
             "spell_id": 388020,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_abolishmagic.jpg",
+            "desc": "Gust of Mists has a 30% chance to do 100% more healing."
           }
         ]
       },
@@ -2057,7 +2265,9 @@
             "talent": "Secret Infusion",
             "spell_id": 388491,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_chibrew.jpg",
+            "desc": "After using Thunder Focus Tea, your next spell gives 4% of a stat. Only one stat increase may be active at once:\r\nEnveloping Mist: Critical strike\r\nRenewing Mist: Haste\r\nRising Sun Kick: Versatility"
           }
         ]
       },
@@ -2080,7 +2290,9 @@
             "talent": "Misty Peaks",
             "spell_id": 388682,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_zone_stormpeaks_10.jpg",
+            "desc": "Renewing Mist's heal over time effect has a 5.0% chance to apply Enveloping Mist for 2 sec."
           }
         ]
       },
@@ -2104,7 +2316,9 @@
             "talent": "Peaceful Mending",
             "spell_id": 388593,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/pandarenracial_innerpeace.jpg",
+            "desc": "Allies targeted by Soothing Mist receive 40% more healing from your Enveloping Mist and Renewing Mist effects."
           }
         ]
       },
@@ -2126,14 +2340,18 @@
             "talent": "Veil of Pride",
             "spell_id": 400053,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_vivify.jpg",
+            "desc": "Increases Sheilun's Gift cloud of mist generation to every 4 sec."
           },
           {
             "entry_id": "124902",
             "talent": "Tranquil Tea",
             "spell_id": 1270621,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_pearlmilktea.jpg",
+            "desc": "Consuming Mana Tea generates 1 cloud of mist."
           }
         ]
       },
@@ -2156,7 +2374,9 @@
             "talent": "Emperor's Elixir",
             "spell_id": 1268807,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_drink_25_honeytea.jpg",
+            "desc": "Thunder Focus Tea now empowers Enveloping Mist and Rising Sun Kick further.\r\n\r\n Enveloping Mist:\r\nBegins a channel of Soothing Mist onto your target.\r\n\r\n Rising Sun Kick:\r\nReleases a Jadefire Stomp infront of you that transfers damage into Ancient Teachings at 20% effectiveness.\r\n\r\n Jadefire Stomp:\r\nYou release a Jadefire Stomp, dealing 35 damage to 5 enemies in front of you."
           }
         ]
       },
@@ -2179,7 +2399,9 @@
             "talent": "Dance of Chi-Ji",
             "spell_id": 438439,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_cranekick_new.jpg",
+            "desc": "Your spells and abilities have a chance to make your next Spinning Crane Kick deal an additional 400% damage."
           }
         ]
       },
@@ -2202,7 +2424,9 @@
             "talent": "Mistline",
             "spell_id": 1280297,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_surgingmist.jpg",
+            "desc": "Renewing Mist's healing is increased by 500% on your lowest health ally with its effect."
           }
         ]
       },
@@ -2226,14 +2450,18 @@
             "talent": "Tear of Morning",
             "spell_id": 387991,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_uplift.jpg",
+            "desc": "Your Invigorating Mist healing is increased by 20% and your Enveloping Mist also heals allies with Renewing Mist for 8% of its healing.\r\n\r\nThe duration of Enveloping Mist is increased by 4 sec while you have a celestial summoned."
           },
           {
             "entry_id": "124899",
             "talent": "Rising Mist",
             "spell_id": 274909,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_effuse.jpg",
+            "desc": "Rising Sun Kick extends your Renewing Mist and Enveloping Mist effects by 4 sec, up to 100% of their original duration."
           }
         ]
       },
@@ -2255,14 +2483,18 @@
             "talent": "Legacy of Wisdom",
             "spell_id": 404408,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/misc_legionfall_monk.jpg",
+            "desc": "Sheilun's Gift heals 2 additional allies and its cast time is reduced by 0.5 sec."
           },
           {
             "entry_id": "128344",
             "talent": "Emperor's Favor",
             "spell_id": 471761,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_leather_raidmonkt2_d_01_helm.jpg",
+            "desc": "Sheilun's Gift's healing is increased by 20% and its cast time is reduced by 100%, but it now only heals a single ally."
           }
         ]
       },
@@ -2282,7 +2514,9 @@
             "talent": "Spiritfont",
             "spell_id": 1260511,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_apextalent_monk_spiritfont.jpg",
+            "desc": "Rising Sun Kick and Vivify have a chance to activate Spiritfont, causing your next Enveloping Mist's cast time to be reduced by 50% and channel Soothing Mist from you onto up to 5 allies at 20% effectiveness for 8 sec.\r\n\r\nIf Spiritfont's Soothing Mists heal a full health target, they will jump to another injured ally or split its healing into your remaining Soothing Mists."
           }
         ]
       }
@@ -2307,14 +2541,18 @@
               "talent": "Restore Balance",
               "spell_id": 442719,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_chiexplosion.jpg",
+              "desc": ""
             },
             {
               "entry_id": "125048",
               "talent": "Yu'lon's Knowledge",
               "spell_id": 443625,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_jewelcrafting_jadeserpent.jpg",
+              "desc": "Rising Sun Kick damage increased by 15%."
             }
           ]
         },
@@ -2337,7 +2575,9 @@
               "talent": "Path of the Falling Star",
               "spell_id": 1273154,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_chiswirl.jpg",
+              "desc": "Celestial Conduit's healing and damage is increased by 100% when striking a single target.\r\n\r\nEach addtional target reduces this bonus by 20%."
             }
           ]
         },
@@ -2360,7 +2600,9 @@
               "talent": "Inner Compass",
               "spell_id": 443571,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_dungeonjewelry_explorer_trinket_1compass_color2.jpg",
+              "desc": "You switch between alignments every 8 sec, increasing a corresponding secondary stat by 2%.\r\n\r\nCrane Stance:\r\nHaste\r\n\r\nTiger Stance:\r\nCritical Strike\r\n\r\nOx Stance:\r\nVersatility\r\n\r\nSerpent Stance: \r\nMastery"
             }
           ]
         },
@@ -2384,14 +2626,18 @@
               "talent": "Temple Training",
               "spell_id": 442743,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_provoke.jpg",
+              "desc": ""
             },
             {
               "entry_id": "125053",
               "talent": "Xuen's Guidance",
               "spell_id": 442687,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_dpsstance.jpg",
+              "desc": "Teachings of the Monastery has a 15% chance to refund a charge when consumed. \r\n\r\nThe damage of Tiger Palm is increased by 10%."
             }
           ]
         },
@@ -2415,7 +2661,9 @@
               "talent": "Chi-Ji's Swiftness",
               "spell_id": 443566,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_shoulder_leather_raidmonkemerald_d_01.jpg",
+              "desc": "Your movement speed is increased by 75% during Celestial Conduit and by 15% for 3 sec after being assisted by any Celestial."
             }
           ]
         },
@@ -2438,14 +2686,18 @@
               "talent": "Niuzao's Protection",
               "spell_id": 442747,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_chargingoxwave.jpg",
+              "desc": "Fortifying Brew grants you an absorb shield for 25% of your maximum health."
             },
             {
               "entry_id": "125056",
               "talent": "Jade Sanctuary",
               "spell_id": 443059,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_jadeserpentbreath.jpg",
+              "desc": "You heal for 10% of your maximum health instantly when you activate Celestial Conduit and receive 15% less damage for its duration. \r\n\r\nThis effect lingers for an additional 8 sec after Celestial Conduit ends."
             }
           ]
         },
@@ -2475,7 +2727,9 @@
               "talent": "Unity Within",
               "spell_id": 443589,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_prideofthetiger.jpg",
+              "desc": "Celestial Conduit can be recast once during its duration to call upon all of the August Celestials to assist you at 200% effectiveness.\r\n\r\nUnity Within is automatically cast when Celestial Conduit ends if not used before expiration."
             }
           ]
         },
@@ -2497,7 +2751,9 @@
               "talent": "Stampede of the Ancients",
               "spell_id": 1262756,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/monk_ability_summonoxstatue.jpg",
+              "desc": "Strength of the Black Ox's effect is 400% more effective on your primary target."
             }
           ]
         },
@@ -2521,7 +2777,9 @@
               "talent": "Courage of the White Tiger",
               "spell_id": 443087,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_summontigerstatue.jpg",
+              "desc": "Xuen claws your target for 118 Physical damage, healing a nearby ally for 100% of the damage done.\r\n\r\nInvoking a celestial guarantees your next cast activates this effect."
             }
           ]
         },
@@ -2541,7 +2799,9 @@
               "talent": "Invoke Xuen, the White Tiger",
               "spell_id": 123904,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_summontigerstatue.jpg",
+              "desc": "Summons an effigy of Xuen, the White Tiger for 20 sec. Xuen attacks your primary target, and strikes 3 enemies within 10 yards every 0.9 sec with Tiger Lightning for 9 Nature damage."
             }
           ]
         },
@@ -2564,7 +2824,9 @@
               "talent": "Flowing Wisdom",
               "spell_id": 1262672,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_flyingdragonkick.jpg",
+              "desc": "Heart of the Jade Serpent increases your haste by 10% while active."
             }
           ]
         },
@@ -2587,7 +2849,9 @@
               "talent": "Heart of the Jade Serpent",
               "spell_id": 443294,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_dragonkick.jpg",
+              "desc": "upon Yu'lon to increase the cooldown recovery rate of  by 75% for ."
             }
           ]
         },
@@ -2607,7 +2871,9 @@
               "talent": "Celestial Conduit",
               "spell_id": 443028,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_conduitofthecelestialsmonk_celestialconduit.jpg",
+              "desc": "The August Celestials empower you, causing you to radiate 384 Nature damage onto enemies and 20,692 healing onto up to 5 injured allies within 15 yds over 3.6 sec, reduced beyond 5 targets.\r\n\r\nYou may move while channeling, but casting other healing or damaging spells cancels this effect."
             }
           ]
         },
@@ -2631,7 +2897,9 @@
               "talent": "Strength of the Black Ox",
               "spell_id": 443110,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_chargingoxwave.jpg",
+              "desc": ""
             }
           ]
         },
@@ -2654,7 +2922,9 @@
               "talent": "Yu'lon's Avatar",
               "spell_id": 1262667,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_celestialserpentmount_jade.jpg",
+              "desc": "Vivify and Sheilun's Gift have a chance to trigger Heart of the Jade Serpent for 4 sec at 100% effectiveness."
             }
           ]
         },
@@ -2676,7 +2946,9 @@
               "talent": "Celestial Conduit",
               "spell_id": 1248989,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_conduitofthecelestialsmonk_celestialconduit.jpg",
+              "desc": "After Invoking Xuen, the White Tiger you may cast Celestial Conduit within 1 min.\r\n\r\n Celestial Conduit:\r\nThe August Celestials empower you, causing you to radiate 380 Nature damage onto enemies and 20,386 healing onto up to 5 injured allies within 15 yds over 3.6 sec, reduced beyond 5 targets.\r\n\r\nYou may move while channeling, but casting other healing or damaging spells cancels this effect."
             }
           ]
         },
@@ -2698,14 +2970,18 @@
               "talent": "Restore Balance",
               "spell_id": 442719,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_chiexplosion.jpg",
+              "desc": ""
             },
             {
               "entry_id": "136744",
               "talent": "Xuen's Bond",
               "spell_id": 392986,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_netherbond.jpg",
+              "desc": "Invoke Xuen, the White Tiger's damage is increased by 30% and its cooldown is reduced by 30 sec."
             }
           ]
         }
@@ -2729,7 +3005,9 @@
               "talent": "Overwhelming Force",
               "spell_id": 451024,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_titankeeper_piercingcorruption.jpg",
+              "desc": "Rising Sun Kick, Blackout Kick and Tiger Palm deal 15% additional damage to enemies in a line in front of you. Damage reduced above 5 targets."
             }
           ]
         },
@@ -2751,14 +3029,18 @@
               "talent": "Tiger's Vigor",
               "spell_id": 451041,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/monk_stance_whitetiger.jpg",
+              "desc": "Casting Tiger's Lust reduces the remaining cooldown on Roll by 5 sec."
             },
             {
               "entry_id": "125030",
               "talent": "Roar from the Heavens",
               "spell_id": 451043,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_celestialserpentmount.jpg",
+              "desc": "Tiger's Lust grants 20% movement speed to up to 2 allies near its target."
             }
           ]
         },
@@ -2780,7 +3062,9 @@
               "talent": "Manifestation",
               "spell_id": 450875,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_shoulder_inv_leather_raidmonk_s_01.jpg",
+              "desc": "Chi Burst and Chi Wave deal 50% increased damage and healing."
             }
           ]
         },
@@ -2800,7 +3084,9 @@
               "talent": "Aspect of Harmony",
               "spell_id": 450508,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_masterofharmonymonk_aspectofharmony.jpg",
+              "desc": "Store vitality from 10% of your damage dealt and 30% of your healing.\r\n\r\nFor 10 sec after casting Thunder Focus Tea your spells and abilities draw upon the stored vitality to deal 40% additional healing over 8 sec."
             }
           ]
         },
@@ -2822,14 +3108,18 @@
               "talent": "Purified Spirit",
               "spell_id": 450867,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_explodingjadeblossom.jpg",
+              "desc": "When Aspect of Harmony ends, any remaining vitality is expelled as healing over 8 sec, split among nearby targets."
             },
             {
               "entry_id": "125034",
               "talent": "Harmonic Gambit",
               "spell_id": 450870,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/passive_monk_teachingsofmonastery.jpg",
+              "desc": "During Aspect of Harmony, Rising Sun Kick, Blackout Kick, and Tiger Palm also withdraw vitality to damage enemies for an additional 20% over 8 sec."
             }
           ]
         },
@@ -2851,7 +3141,9 @@
               "talent": "Endless Draught",
               "spell_id": 450892,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_drink_25_honeytea.jpg",
+              "desc": "Thunder Focus Tea has 1 additional charge."
             }
           ]
         },
@@ -2873,14 +3165,18 @@
               "talent": "Path of Resurgence",
               "spell_id": 450912,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_pathofmists.jpg",
+              "desc": "Chi Burst increases vitality stored by 25% for 10 sec."
             },
             {
               "entry_id": "125037",
               "talent": "Way of a Thousand Strikes",
               "spell_id": 450965,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_mightyoxkick.jpg",
+              "desc": "Rising Sun Kick, Blackout Kick and Tiger Palm contribute 30% additional vitality."
             }
           ]
         },
@@ -2905,7 +3201,9 @@
               "talent": "Coalescence",
               "spell_id": 450529,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_effuse.jpg",
+              "desc": "When Aspect of Harmony heals, it has a chance to spread to a nearby ally. When you directly heal an affected target, it has a chance to intensify, withdrawing additional vitality to increase its effect by up to 20%.\r\n\r\nVivify no longer contributes vitality. While Aspect of Harmony is not active, Vivify instead draws on available vitality to deal an additional 100% healing over 8 sec.\r\n\r\nVitality stored by other abilities is increased by 50%."
             }
           ]
         },
@@ -2927,7 +3225,9 @@
               "talent": "Clarity of Purpose",
               "spell_id": 451017,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_titankeeper_cleanse.jpg",
+              "desc": "Casting Enveloping Mist stores 1,140 additional vitality."
             }
           ]
         },
@@ -2949,14 +3249,18 @@
               "talent": "Mantra of Purity",
               "spell_id": 451036,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_domeofmist.jpg",
+              "desc": "When cast on yourself, your single-target healing spells heal for 10% more and restore an additional 570 health over 6 sec."
             },
             {
               "entry_id": "125041",
               "talent": "Mantra of Tenacity",
               "spell_id": 451029,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_monk_brewmastertraining.jpg",
+              "desc": "Fortifying Brew grants 20% Stagger."
             }
           ]
         },
@@ -2978,7 +3282,9 @@
               "talent": "Balanced Stratagem",
               "spell_id": 450889,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_sphereharmonydiscord.jpg",
+              "desc": "Casting a Physical spell or ability increases the damage and healing of your next Fire or Nature spell or ability by 3%, and vice versa. Stacks up to 5."
             }
           ]
         },
@@ -3000,7 +3306,9 @@
               "talent": "Harmonic Surge",
               "spell_id": 1270958,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_socererking_forcenova.jpg",
+              "desc": "Casting Thunder Focus Tea grants 2 charges of Potential Energy. Your next cast of Tiger Palm or Vivify consumes all charges of Potential Energy to cause a Harmonic Surge.\r\n\r\nHarmonic Surge:\r\nFor each charge of Potential Energy, deal 836 Nature damage to your target and 836 Nature damage to other nearby enemies, and heal up to 5 allies for 190. Damage reduced above 5 targets."
             }
           ]
         },
@@ -3022,7 +3330,9 @@
               "talent": "Potential Energy",
               "spell_id": 1271048,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_magic_managain.jpg",
+              "desc": "Casting Keg Smash grants a charge of Potential Energy."
             }
           ]
         },
@@ -3044,7 +3354,9 @@
               "talent": "Meditative Focus",
               "spell_id": 1271105,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_herb_mountainsilversage.jpg",
+              "desc": "Blackout Combo:\r\nIncreases Tiger Palm damage by an additional 50% and Keg Smash reduces the cooldown on your Brews by an additional 1.0 sec.\r\n\r\n  Press the Advantage:\r\nNature damage dealt by your main hand auto-attacks is increased by 100% and they now reduce the cooldown on your Brews by an additional 0.25 sec."
             }
           ]
         }

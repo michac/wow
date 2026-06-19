@@ -2,7 +2,7 @@
 title: Priest Shadow — talent tree (12.0.7)
 patch: 12.0.7
 build: 12.0.7.67808
-fetched: 2026-06-18
+fetched: 2026-06-19
 sources:
   - https://us.api.blizzard.com/data/wow/talent-tree (Blizzard Game Data API, Tier 1)
   - https://wago.tools/db2 Trait* @ 12.0.7.67808 (Tier 1)

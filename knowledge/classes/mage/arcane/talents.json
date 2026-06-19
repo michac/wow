@@ -19,6 +19,12 @@
       "Sunfury"
     ]
   },
+  "level_cap": 90,
+  "budgets": {
+    "class": 34,
+    "spec": 34,
+    "hero": 13
+  },
   "trees": {
     "class": [
       {
@@ -37,7 +43,9 @@
             "talent": "Prismatic Barrier",
             "spell_id": 235450,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_magearmor.jpg",
+            "desc": "Shields you with an arcane force, absorbing 9,165 damage and reducing magic damage taken by 15% for 1 min.\r\n\r\nThe duration of harmful Magic effects against you is reduced by 25%."
           }
         ]
       },
@@ -59,7 +67,9 @@
             "talent": "Alter Time",
             "spell_id": 342245,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_mage_altertime.jpg",
+            "desc": "Alters the fabric of time, returning you to your current location and health when cast a second time, or after 10 sec. Effect negated by long distance or death."
           }
         ]
       },
@@ -81,7 +91,9 @@
             "talent": "Ice Block",
             "spell_id": 45438,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_frost.jpg",
+            "desc": "Encases you in a block of ice, protecting you from all attacks and damage for 10 sec, but during that time you cannot attack, move, or cast spells.\r\n\r\nCauses Hypothermia, preventing you from recasting Ice Block for 30 sec."
           }
         ]
       },
@@ -103,14 +115,18 @@
             "talent": "Time Walk",
             "spell_id": 1244087,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/warrior_doubletime.jpg",
+            "desc": "Alter Time resets the cooldown of Blink and Shimmer when you return to your original location."
           },
           {
             "entry_id": "134182",
             "talent": "Temporal Realignment",
             "spell_id": 1244090,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_timedilation.jpg",
+            "desc": "Upon dropping below 25% health, your past self corrects your timeline, casting Alter Time and instantly returning 50% of your maximum health."
           }
         ]
       },
@@ -132,7 +148,9 @@
             "talent": "Master of Time",
             "spell_id": 342249,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_belt_armor_waistoftime_d_01.jpg",
+            "desc": "Reduces the cooldown of Alter Time by 5 sec."
           }
         ]
       },
@@ -154,7 +172,9 @@
             "talent": "Winter's Protection",
             "spell_id": 382424,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_ice_rune.jpg",
+            "desc": "The cooldown of Ice Block is reduced by 30 sec."
           }
         ]
       },
@@ -176,7 +196,9 @@
             "talent": "Frost Conditioning",
             "spell_id": 1250315,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_icefloes.jpg",
+            "desc": "Hypothermia's duration is reduced by 10 sec."
           }
         ]
       },
@@ -199,7 +221,9 @@
             "talent": "Arcane Warding",
             "spell_id": 383092,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_arcaneresilience.jpg",
+            "desc": "Reduces magic damage taken by 4%."
           }
         ]
       },
@@ -222,7 +246,9 @@
             "talent": "Inspired Intellect",
             "spell_id": 458437,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_arcaneintellect.jpg",
+            "desc": "Arcane Intellect grants you an additional 2% Intellect."
           }
         ]
       },
@@ -245,7 +271,9 @@
             "talent": "Mirror Image",
             "spell_id": 55342,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_magic_lesserinvisibilty.jpg",
+            "desc": "Creates 3 copies of you nearby for 15 sec, which cast spells and attack your enemies. While active, you generate significantly reduced threat.\r\n\r\nTaking direct damage will cause one of your images to dissipate"
           }
         ]
       },
@@ -267,7 +295,9 @@
             "talent": "Spellsteal",
             "spell_id": 30449,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_arcane02.jpg",
+            "desc": "Steals a beneficial magic effect from the target. This effect lasts a maximum of 2 min."
           }
         ]
       },
@@ -290,7 +320,9 @@
             "talent": "Quick Witted",
             "spell_id": 382297,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_surgeofdarkness.jpg",
+            "desc": "Counterspell's cooldown is reduced by 5 sec."
           }
         ]
       },
@@ -312,14 +344,18 @@
             "talent": "Dragon's Breath",
             "spell_id": 31661,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_head_dragon_01.jpg",
+            "desc": "Enemies in a 12 yd cone in front of you take 264 Fire damage and are disoriented for 4 sec. Damage will cancel the effect."
           },
           {
             "entry_id": "125818",
             "talent": "Supernova",
             "spell_id": 157980,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_mage_supernova.jpg",
+            "desc": "Pulses arcane energy around the target enemy or ally, dealing 169 Arcane damage to all enemies within 8 yds, and knocking them upward. A primary enemy target will take 100% increased damage."
           }
         ]
       },
@@ -342,7 +378,9 @@
             "talent": "Remove Curse",
             "spell_id": 475,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_removecurse.jpg",
+            "desc": "Removes all Curses from a friendly target."
           }
         ]
       },
@@ -364,7 +402,9 @@
             "talent": "Improved Conjuration",
             "spell_id": 1244025,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_focusedpower.jpg",
+            "desc": "Mirror Image's cooldown is reduced by 30 sec."
           }
         ]
       },
@@ -386,7 +426,9 @@
             "talent": "Improved Spellsteal",
             "spell_id": 1270827,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_arcane02.jpg",
+            "desc": "Spellsteal repeats its effect after 4 sec, but it now has a cooldown of 4.0 sec."
           }
         ]
       },
@@ -409,14 +451,18 @@
             "talent": "Shimmer",
             "spell_id": 212653,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_massdispel.jpg",
+            "desc": "Teleports you 20 yds forward, unless something is in the way. Unaffected by the global cooldown and castable while casting."
           },
           {
             "entry_id": "134197",
             "talent": "Improved Blink",
             "spell_id": 1244340,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_blink.jpg",
+            "desc": "Blink's cooldown is reduced by 2 sec."
           }
         ]
       },
@@ -438,7 +484,9 @@
             "talent": "Improved Counterspell",
             "spell_id": 1270865,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_1115_mage_counterspell.jpg",
+            "desc": "Counterspell prevents casting for an additional 1.0 sec."
           }
         ]
       },
@@ -462,7 +510,9 @@
             "talent": "Overflowing Energy",
             "spell_id": 390218,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_manatap.jpg",
+            "desc": "Each time your Arcane Barrage fails to critically strike, it gains 10% increased critical strike chance.\r\n\r\nCritical strike bonus is removed when the affected spell critically strikes."
           }
         ]
       },
@@ -484,7 +534,9 @@
             "talent": "Improved Remove Curse",
             "spell_id": 1270847,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_removecurse.jpg",
+            "desc": "Casting Remove Curse on a friendly target also casts it on yourself, but its cooldown is increased by 20 sec."
           }
         ]
       },
@@ -507,7 +559,9 @@
             "talent": "Greater Invisibility",
             "spell_id": 110959,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_greaterinvisibility.jpg",
+            "desc": "Makes you invisible and untargetable for 20 sec, removing all threat. Any action taken cancels this effect."
           }
         ]
       },
@@ -530,14 +584,18 @@
             "talent": "Improved Frost Nova",
             "spell_id": 343183,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_frostnova.jpg",
+            "desc": "Frost Nova duration is increased by 2 sec."
           },
           {
             "entry_id": "136466",
             "talent": "Ice Ward",
             "spell_id": 205036,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_frostward.jpg",
+            "desc": "Frost Nova now has 2 charges."
           }
         ]
       },
@@ -559,7 +617,9 @@
             "talent": "Captured Thoughts",
             "spell_id": 1270872,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_elementalabsorption.jpg",
+            "desc": "The duration of Clearcasting is increased by 10 sec."
           }
         ]
       },
@@ -583,7 +643,9 @@
             "talent": "Tome of Rhonin",
             "spell_id": 382493,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_book_04.jpg",
+            "desc": "Increases critical strike chance by 2%."
           }
         ]
       },
@@ -607,7 +669,9 @@
             "talent": "Tome of Antonidas",
             "spell_id": 382490,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_book_18.jpg",
+            "desc": "Increases Haste by 2%."
           }
         ]
       },
@@ -629,7 +693,9 @@
             "talent": "Incantation of Swiftness",
             "spell_id": 382293,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/rogue_burstofspeed.jpg",
+            "desc": "Invisibility increases your movement speed by 20% for 6 sec."
           }
         ]
       },
@@ -651,7 +717,9 @@
             "talent": "Master of Escape",
             "spell_id": 210476,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_invisibility.jpg",
+            "desc": "Reduces the cooldown of Invisibility by 60 sec."
           }
         ]
       },
@@ -675,7 +743,9 @@
             "talent": "Charm of Aegwynn",
             "spell_id": 1244105,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_nerubian_necklace_02_color5.jpg",
+            "desc": "The critical strike damage of your spells is increased by 5%."
           }
         ]
       },
@@ -697,7 +767,9 @@
             "talent": "Brainstorm",
             "spell_id": 461261,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_kaztik_dominatemind.jpg",
+            "desc": "Gaining Clearcasting increases your Intellect by 1% for 8 sec. Multiple instances may overlap."
           }
         ]
       },
@@ -720,7 +792,9 @@
             "talent": "Flow of Time",
             "spell_id": 382268,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_blink.jpg",
+            "desc": "The cooldowns of Blink and Shimmer are reduced by 3 sec."
           }
         ]
       },
@@ -742,7 +816,9 @@
             "talent": "Mana Confluence",
             "spell_id": 1270845,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_blessingoftheeternals.jpg",
+            "desc": "Your mana costs are reduced by 5%."
           }
         ]
       },
@@ -766,7 +842,9 @@
             "talent": "Charm of Medivh",
             "spell_id": 1244107,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_nerubian_necklace_02_color1.jpg",
+            "desc": "Your Mastery is increased by 3%."
           }
         ]
       },
@@ -788,7 +866,9 @@
             "talent": "Permafrost Bauble",
             "spell_id": 1265517,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_dungeonjewelry_primalist_necklace_2_frost.jpg",
+            "desc": "The cooldown of Ice Block and Ice Cold are reduced by 30 sec."
           }
         ]
       },
@@ -810,14 +890,18 @@
             "talent": "Freezing Cold",
             "spell_id": 386763,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_glacier.jpg",
+            "desc": "Enemies hit by Cone of Cold are frozen in place for 5 sec instead of snared.\r\n\r\nWhen your roots expire or are dispelled, your target is snared by 80%, decaying over 3 sec."
           },
           {
             "entry_id": "134199",
             "talent": "Ice Nova",
             "spell_id": 157997,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_mage_icenova.jpg",
+            "desc": "Causes a whirl of icy wind around the enemy, dealing 547 Frost damage to the target and all other enemies within 8 yds, freezing them in place for 2 sec. Damage reduced beyond 8 targets."
           }
         ]
       },
@@ -841,7 +925,9 @@
             "talent": "Time Manipulation",
             "spell_id": 387807,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_timestop.jpg",
+            "desc": "The cooldown of your loss of control spells are reduced by 5 sec."
           }
         ]
       },
@@ -863,14 +949,18 @@
             "talent": "Ring of Frost",
             "spell_id": 113724,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_ringoffrost.jpg",
+            "desc": "Summons a Ring of Frost for 10 sec at the target location. Enemies entering the ring are incapacitated for 10 sec. Limit 10 targets.\r\n\r\nWhen the incapacitate expires, enemies are slowed by 65% for 4 sec."
           },
           {
             "entry_id": "134198",
             "talent": "Mass Polymorph",
             "spell_id": 383121,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_doublepolymorph1.jpg",
+            "desc": "Transforms all enemies within 10 yards into sheep, wandering around incapacitated for 15 sec. While affected, the victims cannot take actions but will regenerate health very quickly. Damage will cancel the effect.\r\n\r\nOnly works on Beasts, Humanoids and Critters."
           }
         ]
       },
@@ -894,7 +984,9 @@
             "talent": "Energized Barriers",
             "spell_id": 386828,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_mage_temporalshield.jpg",
+            "desc": "Casting your barrier removes all snare effects."
           }
         ]
       },
@@ -916,7 +1008,9 @@
             "talent": "Mass Invisibility",
             "spell_id": 414664,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_massinvisibility.jpg",
+            "desc": "You and your allies within 40 yards instantly become invisible for 12 sec. Taking any action will cancel the effect.\r\n\r\nDoes not affect allies in combat."
           }
         ]
       },
@@ -938,7 +1032,9 @@
             "talent": "Barrier Diffusion",
             "spell_id": 455428,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_mage_evanesce.jpg",
+            "desc": "When your Barrier is removed, reduce its cooldown by 5 sec."
           }
         ]
       },
@@ -962,7 +1058,9 @@
             "talent": "Ice Cold",
             "spell_id": 414659,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_bluefire.jpg",
+            "desc": "Ice Block now reduces all damage taken by 70% for 6 sec but no longer grants Immunity, prevents movement, attacks, or casting spells. Does not incur the Global Cooldown."
           }
         ]
       },
@@ -986,14 +1084,18 @@
             "talent": "Spatial Manipulation",
             "spell_id": 1244031,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_mage_overpowered.jpg",
+            "desc": "Blink gains an additional charge."
           },
           {
             "entry_id": "136580",
             "talent": "Reflection",
             "spell_id": 1270829,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_displacement.jpg",
+            "desc": "After casting Blink, it is replaced with Reflection for 8 sec.\r\n\r\n Reflection\r\nTeleports you back to where you last Blinked. Castable while casting and unaffected by the global cooldown."
           }
         ]
       },
@@ -1017,7 +1119,9 @@
             "talent": "Improved Prismatic Barrier",
             "spell_id": 321745,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_magearmor.jpg",
+            "desc": "Prismatic Barrier further reduces magical damage taken by an additional 10% and duration of harmful Magic effects by 15%."
           }
         ]
       }
@@ -1039,7 +1143,9 @@
             "talent": "Arcane Missiles",
             "spell_id": 5143,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_starfall.jpg",
+            "desc": "Requires Clearcasting\r\nLaunches 5 waves of Arcane Missiles at the enemy over 2.2 sec, causing a total of 2,113 Arcane damage."
           }
         ]
       },
@@ -1061,7 +1167,9 @@
             "talent": "Concentrated Power",
             "spell_id": 414379,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_mage_overpowered.jpg",
+            "desc": "Arcane Missiles channels 20% faster."
           }
         ]
       },
@@ -1083,7 +1191,9 @@
             "talent": "Arcane Salvo",
             "spell_id": 384452,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_ability_mage_arcanesalvo.jpg",
+            "desc": "Each wave of Arcane Missiles increases the damage of Arcane Barrage by 3%, up to 60%."
           }
         ]
       },
@@ -1105,7 +1215,9 @@
             "talent": "Amplification",
             "spell_id": 236628,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_invocation.jpg",
+            "desc": "Arcane Missiles fires 2 additional missiles."
           }
         ]
       },
@@ -1128,7 +1240,9 @@
             "talent": "Improved Clearcasting",
             "spell_id": 321420,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_manaburn.jpg",
+            "desc": "Clearcasting can stack up to 2 additional times."
           }
         ]
       },
@@ -1150,7 +1264,9 @@
             "talent": "Arcing Cleave",
             "spell_id": 231564,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_arcanebarrage.jpg",
+            "desc": "For each Arcane Charge, Arcane Barrage hits 1 additional nearby target for 40% damage."
           }
         ]
       },
@@ -1172,7 +1288,9 @@
             "talent": "Arcane Pulse",
             "spell_id": 1241462,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_arcanetorrent.jpg",
+            "desc": "A pulse of Arcane magic erupts from underneath your target, dealing 364 Arcane damage to all enemies within 2 yds. Damage reduced beyond 5 targets.\r\n\r\nEach Arcane Charge increases damage by 84%, radius by 2 yds, and mana cost by 100%.\r\n\r\nGenerates 1 Arcane Charge."
           }
         ]
       },
@@ -1194,7 +1312,9 @@
             "talent": "Arcane Surge",
             "spell_id": 365350,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_arcanesurge.jpg",
+            "desc": "Expend all of your current mana to annihilate your enemy target and nearby enemies for up to 3,636 Arcane damage based on Mana spent. Deals reduced damage beyond 8 targets.\r\n\r\nFor the next 15 sec, your Mana regeneration is increased by 425% and spell damage is increased by 35%.\r\n\r\nGenerates Clearcasting."
           }
         ]
       },
@@ -1216,7 +1336,9 @@
             "talent": "Arcane Orb",
             "spell_id": 153626,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_mage_arcaneorb.jpg",
+            "desc": "Launches an Arcane Orb forward from your position, traveling up to 40 yds, dealing 1,184 Arcane damage to enemies it passes through.\r\n\r\nGrants 1 Arcane Charge when cast and every time it deals damage."
           }
         ]
       },
@@ -1238,7 +1360,9 @@
             "talent": "Reverberate",
             "spell_id": 281482,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_arcane04.jpg",
+            "desc": "Arcane Pulse has a 50% chance to repeat its explosion at 30% effectiveness."
           }
         ]
       },
@@ -1261,14 +1385,18 @@
             "talent": "Presence of Mind",
             "spell_id": 205025,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_enchantarmor.jpg",
+            "desc": "Causes your next 2 Arcane Blasts to be instant cast."
           },
           {
             "entry_id": "134025",
             "talent": "Slipstream",
             "spell_id": 236457,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_mindsooth.jpg",
+            "desc": "Arcane Missiles and Evocation can now be channeled while moving."
           }
         ]
       },
@@ -1290,7 +1418,9 @@
             "talent": "Mana Bomb",
             "spell_id": 457521,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_surgeoflight_shadow.jpg",
+            "desc": "Arcane Surge's damage is increased by an additional 50% based on your mana spent."
           }
         ]
       },
@@ -1313,7 +1443,9 @@
             "talent": "Arcane Familiar",
             "spell_id": 205022,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_socererking_arcanemines.jpg",
+            "desc": "Casting Arcane Intellect summons a Familiar that attacks your enemies and increases your maximum mana by 10% for 1 hour."
           }
         ]
       },
@@ -1335,7 +1467,9 @@
             "talent": "Charged Orb",
             "spell_id": 384651,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_mage_arcaneorb.jpg",
+            "desc": "Arcane Orb gains 1 additional charge. Arcane Orb damage increased by 15%."
           }
         ]
       },
@@ -1358,7 +1492,9 @@
             "talent": "Intuition",
             "spell_id": 1223798,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_brainwash.jpg",
+            "desc": "Upon reaching maximum stacks of Arcane Salvo, your next Arcane Barrage deals 25% increased damage."
           }
         ]
       },
@@ -1381,7 +1517,9 @@
             "talent": "Touch of the Magi",
             "spell_id": 321507,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_mage_radiantspark.jpg",
+            "desc": "Applies Touch of the Magi to your current target, accumulating 20% of the damage you deal to the target for 12 sec, and then exploding for that amount of Arcane damage to the target and reduced damage to all nearby enemies.\r\n\r\nGenerates 4 Arcane Charges."
           }
         ]
       },
@@ -1403,7 +1541,9 @@
             "talent": "Energized Familiar",
             "spell_id": 452997,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_lightning_lightningbolt01.jpg",
+            "desc": "During Arcane Surge, your Familiar fires 4 bolts instead of 1.\r\n\r\nDamage from your Arcane Familiar has a 6% chance to grant you up to 2% of your maximum mana."
           }
         ]
       },
@@ -1426,7 +1566,9 @@
             "talent": "Expanded Mind",
             "spell_id": 1243557,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_helmet_101.jpg",
+            "desc": "Casting Arcane Blast or Arcane Pulse grants 2 stacks of Arcane Salvo.\r\n\r\nCasting Arcane Orb grants 2 stacks of Arcane Salvo."
           }
         ]
       },
@@ -1448,7 +1590,9 @@
             "talent": "Consortium's Bauble",
             "spell_id": 461260,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_6_2raid_trinket_1b.jpg",
+            "desc": "Reduces Arcane Blast's mana cost by 5% and increases its damage by 8%."
           }
         ]
       },
@@ -1470,7 +1614,9 @@
             "talent": "Arcane Tempo",
             "spell_id": 383980,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_socererking_arcaneacceleration.jpg",
+            "desc": "Your Haste is increased by 2%."
           }
         ]
       },
@@ -1493,7 +1639,9 @@
             "talent": "Aether Attunement",
             "spell_id": 1243307,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_enchant_essencearcanelarge.jpg",
+            "desc": "Arcane Missiles now damages 2 additional targets at 50% effectiveness."
           }
         ]
       },
@@ -1515,14 +1663,18 @@
             "talent": "Aegwynn's Technique",
             "spell_id": 1243507,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_scrollrolled03d.jpg",
+            "desc": "Casting Touch of the Magi grants Clearcasting."
           },
           {
             "entry_id": "135699",
             "talent": "Arcane Echo",
             "spell_id": 342231,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_socererking_arcanewrath.jpg",
+            "desc": "Direct damage you deal to enemies affected by Touch of the Magi, causes an explosion that deals 40 Arcane damage to all nearby enemies. Deals reduced damage beyond 8 targets."
           }
         ]
       },
@@ -1546,7 +1698,9 @@
             "talent": "Resonance",
             "spell_id": 205028,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_arcane01.jpg",
+            "desc": "Arcane Barrage deals 8% increased damage per target it hits beyond the first."
           }
         ]
       },
@@ -1568,7 +1722,9 @@
             "talent": "Impetus",
             "spell_id": 383676,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_arcanetorrent.jpg",
+            "desc": "Arcane Blast and Arcane Pulse generate an additional Arcane Charge."
           }
         ]
       },
@@ -1592,14 +1748,18 @@
             "talent": "Evocation",
             "spell_id": 12051,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_purge.jpg",
+            "desc": "Increases your mana regeneration by 1,500% for 2.7 sec."
           },
           {
             "entry_id": "136465",
             "talent": "Mana Adept",
             "spell_id": 321526,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_arcanepotency.jpg",
+            "desc": "Arcane Barrage grants you 2.0% of your maximum mana per Arcane Charge spent."
           }
         ]
       },
@@ -1622,7 +1782,9 @@
             "talent": "Enlightened",
             "spell_id": 321387,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_socererking_arcanefortification.jpg",
+            "desc": "Arcane damage dealt is increased based on your current mana, up to 6% at full mana.\r\n\r\nMana Regen is increased based on your current mana, up to 20% when out of mana."
           }
         ]
       },
@@ -1645,7 +1807,9 @@
             "talent": "Focusing Crystal",
             "spell_id": 461257,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_racial_arcaneaffinity.jpg",
+            "desc": "Each wave of Arcane Missiles has a 50% chance to grant 1 additional stack of Arcane Salvo."
           }
         ]
       },
@@ -1668,7 +1832,9 @@
             "talent": "Illuminated Thoughts",
             "spell_id": 384060,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_focusedpower.jpg",
+            "desc": "Clearcasting has a 3% increased chance to proc."
           }
         ]
       },
@@ -1691,7 +1857,9 @@
             "talent": "Prodigious Savant",
             "spell_id": 384612,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_studentofthemind.jpg",
+            "desc": "Arcane Charges increase the damage of Arcane Blast, Arcane Pulse, and Arcane Barrage by an additional 10%."
           }
         ]
       },
@@ -1714,7 +1882,9 @@
             "talent": "Eureka",
             "spell_id": 452198,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_mage_presenceofmind.jpg",
+            "desc": "When a spell consumes Clearcasting, its damage is increased by 20%."
           }
         ]
       },
@@ -1737,7 +1907,9 @@
             "talent": "Arcane Singularity",
             "spell_id": 1244001,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_wispheal.jpg",
+            "desc": "Arcane Salvo damage bonus increased by 2%.\r\n\r\n Arcane Salvo:\r\nIncreases the damage of your next Arcane Barrage by 3%."
           }
         ]
       },
@@ -1759,14 +1931,18 @@
             "talent": "High Voltage",
             "spell_id": 461248,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_maelstromweapon.jpg",
+            "desc": "Each wave of Arcane Missiles has a 50% chance to grant you 1 Arcane Charge.\r\n\r\nArcane Missiles damage increased by 20%."
           },
           {
             "entry_id": "134022",
             "talent": "Charged Missiles",
             "spell_id": 461251,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_missilebarrage.jpg",
+            "desc": "Each wave of Arcane Missiles will consume an Arcane Charge to increase its damage by 40%."
           }
         ]
       },
@@ -1788,7 +1964,9 @@
             "talent": "Overflowing Insight",
             "spell_id": 1243542,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_offhand_pvealliance_d_01.jpg",
+            "desc": "The damage of Arcane Blast and Arcane Pulse are increased by 15%, but their mana costs are increased by 25%."
           }
         ]
       },
@@ -1810,7 +1988,9 @@
             "talent": "Overpowered Missiles",
             "spell_id": 1244329,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_socererking_arcanereplication.jpg",
+            "desc": "Gaining Clearcasting has a 25% chance to cause your next Arcane Missiles to be Overpowered, causing it to deal 100% increased damage, generate maximum stacks of Arcane Salvo, and strike 3 additional targets at 50% effectiveness."
           }
         ]
       },
@@ -1832,7 +2012,9 @@
             "talent": "Orb Mastery",
             "spell_id": 1243435,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_powerswell.jpg",
+            "desc": "Casting Arcane Orb while you have Clearcasting causes you to fire 2 additional Arcane Orbs at 100% effectiveness.\r\n\r\nCasting Arcane Orb now consumes Clearcasting."
           }
         ]
       },
@@ -1854,7 +2036,9 @@
             "talent": "Orb Barrage",
             "spell_id": 384858,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_mage_arcaneorb_nightborne.jpg",
+            "desc": "Arcane Barrage has a 4% chance per stack of Arcane Salvo to launch an Arcane Orb in front of you at 100% effectiveness."
           }
         ]
       },
@@ -1874,7 +2058,9 @@
             "talent": "Touch of the Archmage",
             "spell_id": 1257942,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_apextalent_mage_touchofthearchmage.jpg",
+            "desc": "Touch of the Magi increases the damage your target receives from you by 15%."
           }
         ]
       }
@@ -1899,7 +2085,9 @@
               "talent": "Ashes of Inspiration",
               "spell_id": 1260272,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_powder_copper.jpg",
+              "desc": "When your Arcane Phoenix expires, it grants you Lesser Time Warp for 6 sec.\r\n\r\n Lesser Time Warp\r\nWarp the flow of time, increasing your haste by 15%."
             }
           ]
         },
@@ -1921,7 +2109,9 @@
               "talent": "Burden of Power",
               "spell_id": 451035,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ragnaros_heart.jpg",
+              "desc": "Arcane Blast damage increased by 30%.\r\n\r\nArcane Pulse damage increased by 20%."
             }
           ]
         },
@@ -1943,7 +2133,9 @@
               "talent": "Codex of the Sunstriders",
               "spell_id": 449382,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_inscription2_book3_color1.jpg",
+              "desc": "When your Arcane Phoenix is summoned, it consumes all your Spellfire Spheres.\r\n\r\nEach Sphere consumed increases your spell damage during Arcane Surge by 1% and causes your Arcane Phoenix to cast an exceptional Arcane or Fire spell over its duration."
             }
           ]
         },
@@ -1968,7 +2160,9 @@
               "talent": "Memory of Al'ar",
               "spell_id": 449619,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_sunfurymage_spellfirespheres.jpg",
+              "desc": "During Arcane Surge, you gain twice as many stacks of Mana Cascade.\r\n\r\nWhen your Arcane Phoenix expires, it empowers you, granting Arcane Soul for 4.0 sec.\r\n\r\nArcane Soul:\r\nArcane Barrage grants Clearcasting and generates 4 Arcane Charges.\r\n\r\nEach cast of Arcane Barrage grants 5 stacks of Arcane Salvo and casting Arcane Barrage does not consume Arcane Salvo."
             }
           ]
         },
@@ -1988,7 +2182,9 @@
               "talent": "Spellfire Spheres",
               "spell_id": 448601,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_1115_mage_spellfirespheresgeneration.jpg",
+              "desc": "Casting a damaging spell has a 12% chance to conjure a Spellfire Sphere.\r\n\r\nWhile you're out of combat, you will slowly conjure Spellfire Spheres over time.\r\n\r\n Spellfire Sphere\r\nIncreases your spell damage by 1.0%. Stacks up to 3 times."
             }
           ]
         },
@@ -2010,7 +2206,9 @@
               "talent": "Rondurmancy",
               "spell_id": 449596,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_focusedpower.jpg",
+              "desc": "Spellfire Spheres can now stack up to 5 times."
             }
           ]
         },
@@ -2032,14 +2230,18 @@
               "talent": "Merely a Setback",
               "spell_id": 449330,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_helm_robe_raidmage_i_01.jpg",
+              "desc": "The bonuses provided by your Barrier spells persist an additional 8 sec after your Barrier is removed."
             },
             {
               "entry_id": "135598",
               "talent": "Time Twist",
               "spell_id": 1255166,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_borrowedtime.jpg",
+              "desc": "The cooldown of Alter Time is reduced by 10 sec."
             }
           ]
         },
@@ -2061,14 +2263,18 @@
               "talent": "Savor the Moment",
               "spell_id": 449412,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_masterofelements.jpg",
+              "desc": "When you cast Arcane Surge, its duration is extended by 0.4 sec for each Spellfire Sphere you have, up to 2.0 sec."
             },
             {
               "entry_id": "123867",
               "talent": "Sunfury Execution",
               "spell_id": 449349,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_shadowandflame.jpg",
+              "desc": "Arcane Barrage deals 5% increased damage to enemies affected by your Touch of the Magi."
             }
           ]
         },
@@ -2090,14 +2296,18 @@
               "talent": "Lessons in Debilitation",
               "spell_id": 449627,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_handoflight.jpg",
+              "desc": "Your Arcane Phoenix has picked up a few tricks, and will Spellsteal when it is summoned and when it expires."
             },
             {
               "entry_id": "134249",
               "talent": "Explosive Potential",
               "spell_id": 1246030,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/6bf_explosive_shard.jpg",
+              "desc": "After casting Arcane Surge, your next Blink will cause a Blast Wave at your previous location, dealing 215 Fire damage, knocking enemies back 8 yds, and slowing them by 70% for 6 sec."
             }
           ]
         },
@@ -2119,7 +2329,9 @@
               "talent": "Invocation: Arcane Phoenix",
               "spell_id": 448658,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_phoenixegg.jpg",
+              "desc": "When you cast Arcane Surge, summon an Arcane Phoenix to aid you in battle.\r\n\r\n  Arcane Phoenix\r\nYour Arcane Phoenix aids you for the duration of your Arcane Surge, casting random Arcane and Fire spells."
             }
           ]
         },
@@ -2141,7 +2353,9 @@
               "talent": "Mana Cascade",
               "spell_id": 449293,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_manarecharge.jpg",
+              "desc": "Casting Arcane Blast or Arcane Barrage grants you 0.5% Haste for 10 sec. Stacks up to 10 times. Multiple instances may overlap."
             }
           ]
         },
@@ -2163,7 +2377,9 @@
               "talent": "Spellfire Salvo",
               "spell_id": 1260616,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/shaman_talent_elementalblast.jpg",
+              "desc": "Arcane Salvo can stack 5 additional times.\r\n\r\nMeteorite damage increased by 15%."
             }
           ]
         },
@@ -2185,7 +2401,9 @@
               "talent": "Pyrocosm",
               "spell_id": 1260673,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_meteorstorm.jpg",
+              "desc": "Each wave of Arcane Missiles has a 10% chance to summon a Meteorite.\r\n\r\nWhen a Meteorite lands, you have a 5% chance to gain Clearcasting."
             }
           ]
         },
@@ -2207,7 +2425,9 @@
               "talent": "Glorious Incandescence",
               "spell_id": 449394,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_burningsoul.jpg",
+              "desc": "Arcane Barrage summons 1 Meteorite for every 6 Arcane Salvo stacks consumed.\r\n\r\n Meteorite\r\nCalls down a meteorite which lands at the target location after 3 sec, dealing 403 Fire damage to all enemies hit, reduced beyond 8 targets."
             }
           ]
         }
@@ -2234,7 +2454,9 @@
               "talent": "Splinterstorm",
               "spell_id": 443783,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_burstofcold.jpg",
+              "desc": "Casting Arcane Surge generates 8 Arcane Splinters.\r\n\r\nDuring Arcane Surge, your chance to conjure an additional Arcane Splinter is increased to 100%."
             }
           ]
         },
@@ -2256,7 +2478,9 @@
               "talent": "Spellfrost Teachings",
               "spell_id": 444986,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/70_inscription_vantus_rune_azure.jpg",
+              "desc": "Direct damage from Arcane Splinters reduces the cooldown of Arcane Orb by 0.25 sec."
             }
           ]
         },
@@ -2278,7 +2502,9 @@
               "talent": "Controlled Instincts",
               "spell_id": 444483,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_iceshards.jpg",
+              "desc": "40% of the direct damage dealt by an Arcane Splinter is also dealt to nearby enemies. Damage reduced beyond 5 targets."
             }
           ]
         },
@@ -2300,7 +2526,9 @@
               "talent": "Signature Spell",
               "spell_id": 470021,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_enchanting_815_drustwand.jpg",
+              "desc": "Arcane Blast and Arcane Pulse damage increased by 15%.\r\n\r\nCasting Touch of the Magi conjures 4 Arcane Splinters."
             }
           ]
         },
@@ -2322,7 +2550,9 @@
               "talent": "Archmage's Wrath",
               "spell_id": 444968,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_arcane03.jpg",
+              "desc": "Arcane Surge damage increased by 30%.\r\n\r\nYour chance to gain Clearcasting is increased by 3%."
             }
           ]
         },
@@ -2344,14 +2574,18 @@
               "talent": "Slippery Slinging",
               "spell_id": 444752,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_icyfeet.jpg",
+              "desc": "You have 40% increased movement speed during Alter Time."
             },
             {
               "entry_id": "123418",
               "talent": "Look Again",
               "spell_id": 444756,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_bg_tophealer_av.jpg",
+              "desc": "While in combat, Blink summons a Mirror Image at your previous location."
             }
           ]
         },
@@ -2373,14 +2607,18 @@
               "talent": "Reactive Barrier",
               "spell_id": 444827,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_racial_forceshield.jpg",
+              "desc": "Your Prismatic Barrier can absorb up to 25% more damage based on your missing Health.\r\n\r\nMax effectiveness when under 25% health."
             },
             {
               "entry_id": "123417",
               "talent": "Phantasmal Image",
               "spell_id": 444784,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_prismaticcloak.jpg",
+              "desc": "Your Mirror Image summons 1 extra clone."
             }
           ]
         },
@@ -2402,7 +2640,9 @@
               "talent": "Splintering Orbs",
               "spell_id": 444256,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/item_azereansphere.jpg",
+              "desc": "Enemies damaged by your Arcane Orb conjure 2 Arcane Splinters, up to 4.\r\n\r\nArcane Orb damage is increased by 10%."
             }
           ]
         },
@@ -2424,7 +2664,9 @@
               "talent": "Augury Abounds",
               "spell_id": 1280165,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_arcanepotency.jpg",
+              "desc": "Conjuring one or more Arcane Splinters has a 10% chance to conjure a burst of 8 Arcane Splinters."
             }
           ]
         },
@@ -2446,7 +2688,9 @@
               "talent": "Force of Will",
               "spell_id": 444719,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_mage_overpowered.jpg",
+              "desc": "Casting Arcane Barrage conjures an Arcane Splinter for every 5 Arcane Salvo stacks consumed."
             }
           ]
         },
@@ -2466,7 +2710,9 @@
               "talent": "Splintering Sorcery",
               "spell_id": 443739,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_dungeon_arcanevaults.jpg",
+              "desc": "Casting Arcane Blast or Arcane Pulse conjures an Arcane Splinter.\r\n\r\nArcane Splinter:\r\nConjure raw Arcane magic into a sharp projectile that deals 213 Arcane damage."
             }
           ]
         },
@@ -2488,7 +2734,9 @@
               "talent": "Polished Focus",
               "spell_id": 1261082,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_orb_blue.jpg",
+              "desc": "Casting Arcane Barrage while at 20 or more Arcane Salvo stacks refunds 5 Arcane Salvo stacks.\r\n\r\nArcane Barrage damage increased by 15%."
             }
           ]
         },
@@ -2510,7 +2758,9 @@
               "talent": "Infused Splinters",
               "spell_id": 1261080,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_mage_focusingcrystal.jpg",
+              "desc": "Direct damage from Arcane Splinters have a 25% chance to grant 1 stack Arcane Salvo.\r\n\r\n Arcane Salvo\r\nIncreases the damage of your next Arcane Barrage by 3%."
             }
           ]
         },
@@ -2532,14 +2782,18 @@
               "talent": "Attuned Familiar",
               "spell_id": 1261106,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_summonwaterelemental_2.jpg",
+              "desc": "Your Arcane Familiar has a 50% chance to conjure a Splinter alongside its Arcane Assault."
             },
             {
               "entry_id": "135946",
               "talent": "Shifting Shards",
               "spell_id": 444675,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_freeze.jpg",
+              "desc": "Gaining Clearcasting conjures 2 Arcane Splinters."
             }
           ]
         }

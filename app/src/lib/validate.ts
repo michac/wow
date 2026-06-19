@@ -116,6 +116,40 @@ export function computeTreeStatus(
   return { spent, budget, perNode };
 }
 
+// Replay a decoded loadout (node-id → state) into a validated build: copy every
+// selection, then prune each tree so any gate/prereq violation is refunded. This
+// is the pure core of the codec→controller bridge — BuildController.applyBuild
+// and its round-trip test both go through it, so they can't drift apart. A
+// game-legal loadout round-trips unchanged; a mangled one self-heals.
+//
+// `grantedSerials` are the auto-granted free nodes (hero keystones, free class
+// talents) the codec keeps OUT of the user build — but they're active in-game
+// and satisfy downstream prereqs (e.g. every Soul Harvester node roots at its
+// granted keystone). So seed them fully-ranked before pruning, then drop them:
+// they're free (no point cost) and the codec re-emits them on encode, so a
+// byte-identical round-trip needs them absent from the build it returns.
+export function replayLoadout(
+  decoded: Build,
+  trees: TalentNode[][],
+  grantedSerials: number[] = [],
+): Build {
+  const out: Build = new Map();
+  for (const [id, st] of decoded) out.set(id, { rank: st.rank, choice: st.choice });
+
+  const granted = new Set(grantedSerials);
+  const isGranted = (n: TalentNode) => n.serial != null && granted.has(n.serial);
+  for (const nodes of trees) {
+    for (const n of nodes) {
+      if (isGranted(n) && !out.has(n.id)) out.set(n.id, { rank: maxRank(n), choice: 0 });
+    }
+  }
+  for (const nodes of trees) prune(nodes, indexNodes(nodes), out);
+  for (const nodes of trees) {
+    for (const n of nodes) if (isGranted(n)) out.delete(n.id);
+  }
+  return out;
+}
+
 // Fixpoint prune: after any removal, repeatedly unselect every selected node
 // that now fails its gate or prereq until nothing changes — refunding the whole
 // transitively-orphaned downstream chain. Mutates `build` in place. Trees are

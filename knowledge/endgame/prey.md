@@ -1,11 +1,14 @@
 ---
 title: Prey System (Midnight)
-patch: 12.0.5
-fetched: 2026-06-03
+patch: 12.0.7
+fetched: 2026-06-19
 sources:
+  - https://worldofwarcraft.blizzard.com/en-us/news/24244888/revelations-content-update-notes
+  - https://www.icy-veins.com/wow/news/patch-12-0-7-revelations-full-content-update-notes/
+  - https://warcraft.wiki.gg/wiki/Prey
   - https://www.icy-veins.com/wow/weekly-to-do-list
   - https://www.youtube.com/watch?v=e6GLeeqwV4U  # SignsOfKelani, 2026-04-26
-confidence: medium
+confidence: high
 ---
 
 # Prey (Midnight hunt system)
@@ -31,12 +34,32 @@ New repeatable hunt system introduced with Midnight.
   Voidshards** (conquestcapped's list predates 12.0.5; Method/Wowhead
   include shards).
 
-## 12.0.5 status: largely superseded
+### Rank 10 — Custom Hunts (12.0.7 change)
 
-- Trap spawn count **significantly reduced** in 12.0.5 → hunts slower.
-- Per-hour, ritual sites beat prey for gearing (accolades + hero crests +
-  coffer key shards + renown all at once) — see
-  `../systems/ritual-sites.md`.
+- **Rank 10** unlocks **Custom Hunts** via the *Preferential Killing* quest
+  (generates a hunt with player-chosen parameters).
+- **12.0.7 "Revelations":** the once-per-week cap on Custom Hunts is
+  **removed**. After reaching rank 10 you may run Custom Hunts **as often as
+  desired**; the first per week pays full rewards and **subsequent Custom
+  Hunts in the same week give reduced rewards** (the old 20× falloff still
+  governs farming past the weekly allowance).
+- 12.0.7 also **increased hunt progression** generally and relaxed mode
+  restrictions, so chaining hunts has less downtime than the 12.0.5 grind.
+
+## 12.0.7 status: viable again
+
+- **12.0.7 buff:** experience earned from completing **Prey** quests is
+  **significantly increased** (same pass that boosted first-time delves /
+  Delver's Call, Midnight dungeon quests, and weekly Renown). Prey is now a
+  strong **leveling/Renown** activity, not just a gearing one.
+- **New Feat of Strength:** *Big Prey Hunter (Season 1)* — awarded for
+  completing the Prey (Preyseeker's) Journey in Season 1.
+- Trap spawn count was **significantly reduced** back in 12.0.5; 12.0.7's
+  progression/Custom-Hunt changes partially offset the slowdown.
+- Per-hour, ritual sites still edge out prey for raw *gearing* (accolades +
+  hero crests + coffer key shards + renown at once) — see
+  `../systems/ritual-sites.md` — but prey's XP buff and uncapped Custom
+  Hunts make it worth more time in 12.0.7.
 - Still worth keeping:
   - **Weekly quest beacon** — forces a bounty-map drop in delves → a
     guaranteed extra hero piece that week.
@@ -51,4 +74,3 @@ New repeatable hunt system introduced with Midnight.
 - [ ] Full reward table; which vault row Prey feeds
 - [ ] The 4 Midnight zone names — verify and list (Eversong/Zul'Aman are two
       candidates from Void Assault rotation; confirm remaining)
-- [ ] Source: Icy Veins Prey guide + Signs of Kelani explainer transcript

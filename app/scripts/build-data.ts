@@ -9,8 +9,10 @@
  *   static/data/<class>/<spec>.json compact per-spec graph
  *
  * Pure local transform: numeric fields are normalized from strings to ints and
- * node coordinates are offset to a 0-based per-tree box. No icons/desc yet —
- * those land once Stage A (python) enriches talents.json.
+ * node coordinates are offset to a 0-based per-tree box. Icons (full Blizzard
+ * media URLs) and descriptions ride inline on each entry once Stage A (python
+ * `talents enrich`) has populated talents.json; point budgets come from Stage A′
+ * (TraitCurrencySource, resolved at the level cap).
  *
  * Run:  bun run build-data   (wired as `prebuild` in package.json)
  */
@@ -23,9 +25,12 @@ const REPO_ROOT = join(APP_DIR, "..");
 const KB_CLASSES = join(REPO_ROOT, "knowledge", "classes");
 const OUT_DIR = join(APP_DIR, "static", "data");
 
-// Provisional until Stage A′ derives per-level budgets from TraitCurrencySource.
-// Cross-checked against the ~76-point starter loadouts (class ~31 + spec ~30 + hero ~10–11).
-const POINT_BUDGET = { class: 31, spec: 30, hero: 11 };
+// Fallback only when talents.json predates Stage A′ (no `budgets`), so the app
+// still builds pre-enrichment. Live data carries real level-cap budgets from
+// TraitCurrencySource (Midnight level 90: class 34 + spec 34 + hero 13).
+const FALLBACK_BUDGET = { class: 34, spec: 34, hero: 13 };
+
+type Budgets = { class: number; spec: number; hero: number };
 
 type RawEntry = {
   entry_id: string;
@@ -33,6 +38,9 @@ type RawEntry = {
   spell_id: number;
   max_ranks: string | number;
   choice_index: number;
+  // Stage A enrichment (inline, optional pre-enrichment).
+  icon?: string | null;
+  desc?: string;
 };
 type RawNode = {
   node_id: number;
@@ -59,6 +67,8 @@ type RawSpec = {
   serial_count: number;
   granted_serials: number[];
   hero_selector: HeroSelector | null;
+  level_cap?: number;
+  budgets?: Budgets;
   trees: {
     class: RawNode[];
     spec: RawNode[];
@@ -80,6 +90,8 @@ type Node = {
     spell: number;
     ranks: number;
     choice: number;
+    icon: string | null;
+    desc: string;
   }[];
 };
 
@@ -109,6 +121,8 @@ function compactNodes(nodes: RawNode[]): Node[] {
       spell: e.spell_id,
       ranks: Number(e.max_ranks) || 1,
       choice: Number(e.choice_index) || 0,
+      icon: e.icon ?? null,
+      desc: e.desc ?? "",
     })),
   }));
 }
@@ -132,6 +146,15 @@ async function main() {
 
   // meta: patch/build are shared across specs; fetched from the fetch manifest if present.
   const { patch, build } = specs[0];
+
+  // Point budgets are global (shared currencies) and identical across specs, so
+  // the first spec's Stage A′ block is authoritative. Fall back if absent.
+  const pointBudget: Budgets = specs[0].budgets ?? FALLBACK_BUDGET;
+  if (!specs[0].budgets) {
+    console.warn(
+      `no budgets in talents.json — using fallback ${JSON.stringify(FALLBACK_BUDGET)}; run \`talents build\` after Stage A′`,
+    );
+  }
   let fetched = "";
   const manifestPath = join(REPO_ROOT, "raw", "talents-manifest.json");
   if (existsSync(manifestPath)) {
@@ -160,7 +183,7 @@ async function main() {
     patch,
     build,
     fetched,
-    pointBudget: POINT_BUDGET,
+    pointBudget,
     classes,
   };
   await writeFile(

@@ -19,6 +19,12 @@
       "Fatebound"
     ]
   },
+  "level_cap": 90,
+  "budgets": {
+    "class": 34,
+    "spec": 34,
+    "hero": 13
+  },
   "trees": {
     "class": [
       {
@@ -37,7 +43,9 @@
             "talent": "Shiv",
             "spell_id": 5938,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_throwingknife_04.jpg",
+            "desc": "Attack with your off-hand, dealing 2 Physical damage, dispelling all enrage effects and applying a concentrated form of your active Non-Lethal poison.\r\n\r\nAwards 1 combo point."
           }
         ]
       },
@@ -57,7 +65,9 @@
             "talent": "Blind",
             "spell_id": 2094,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_mindsteal.jpg",
+            "desc": "Blinds the target, causing it to wander disoriented for 1 min. Damage may interrupt the effect. Limit 1."
           }
         ]
       },
@@ -77,7 +87,9 @@
             "talent": "Cloak of Shadows",
             "spell_id": 31224,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_nethercloak.jpg",
+            "desc": "Provides a moment of magic immunity, instantly removing all harmful spell effects. The cloak lingers, causing you to resist harmful spells for 5 sec."
           }
         ]
       },
@@ -99,7 +111,9 @@
             "talent": "Toxic Stiletto",
             "spell_id": 1267182,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_poisonedknife.jpg",
+            "desc": "Shiv's Energy cost is reduced by 20, its cooldown is reduced by 15 sec, and its range is increased by 3 yds."
           }
         ]
       },
@@ -122,7 +136,9 @@
             "talent": "Fleet Footed",
             "spell_id": 378813,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_quickrecovery.jpg",
+            "desc": "Movement speed increased by 15%."
           }
         ]
       },
@@ -144,14 +160,18 @@
             "talent": "Gouge",
             "spell_id": 1776,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_gouge.jpg",
+            "desc": "Gouges the eyes of an enemy target, incapacitating for 4 sec. Damage may interrupt the effect.\r\n\r\nMust be in front of your target.\r\n\r\nAwards 1 combo point."
           },
           {
             "entry_id": "117740",
             "talent": "Airborne Irritant",
             "spell_id": 200733,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_bloodyeye.jpg",
+            "desc": "Blind has 50% reduced cooldown, 70% reduced duration, and applies to all nearby enemies."
           }
         ]
       },
@@ -174,7 +194,9 @@
             "talent": "Thrill Seeking",
             "spell_id": 394931,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ragnaros_heart_shadowflame.jpg",
+            "desc": "Shadowstep has 1 additional charge."
           }
         ]
       },
@@ -196,7 +218,9 @@
             "talent": "Shadowrunner",
             "spell_id": 378807,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_stealth.jpg",
+            "desc": "While Stealth or Shadow Dance is active, you move 20% faster."
           }
         ]
       },
@@ -219,7 +243,9 @@
             "talent": "Master Poisoner",
             "spell_id": 378436,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_creature_poison_06.jpg",
+            "desc": "Increases the non-damaging effects of your weapon poisons by 20%."
           }
         ]
       },
@@ -243,14 +269,18 @@
             "talent": "Elusiveness",
             "spell_id": 79008,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_turnthetables.jpg",
+            "desc": "Evasion also reduces damage taken by 20%, and Feint also reduces non-area-of-effect damage taken by 20%."
           },
           {
             "entry_id": "114737",
             "talent": "Cheat Death",
             "spell_id": 31230,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_cheatdeath.jpg",
+            "desc": "Fatal attacks instead reduce you to 7% of your maximum health. For 3 sec afterward, you take 85% reduced damage. Cannot trigger more often than once per 6 min."
           }
         ]
       },
@@ -273,14 +303,18 @@
             "talent": "Tricks of the Trade",
             "spell_id": 57934,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_tricksofthetrade.jpg",
+            "desc": "Redirects all threat you cause to the targeted party or raid member, beginning with your next damaging attack within the next 30 sec and lasting 6 sec."
           },
           {
             "entry_id": "117143",
             "talent": "Blackjack",
             "spell_id": 379005,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_blackjack.jpg",
+            "desc": "Enemies have 30% reduced damage and healing for 6 sec after Blind or Sap's effect on them ends."
           }
         ]
       },
@@ -302,7 +336,9 @@
             "talent": "Improved Wound Poison",
             "spell_id": 319066,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_herb_16.jpg",
+            "desc": "Wound Poison can now stack 2 additional times."
           }
         ]
       },
@@ -324,7 +360,9 @@
             "talent": "Nimble Fingers",
             "spell_id": 378427,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_crimsonvial.jpg",
+            "desc": "Energy cost of Feint and Crimson Vial reduced by 10."
           }
         ]
       },
@@ -346,7 +384,9 @@
             "talent": "Deadened Nerves",
             "spell_id": 231719,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_nervesofsteel.jpg",
+            "desc": "Physical damage taken reduced by 5%."
           }
         ]
       },
@@ -368,7 +408,9 @@
             "talent": "Quick Fingers",
             "spell_id": 1267210,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_improvedrecuperate.jpg",
+            "desc": "Increases your Agility by 3%."
           }
         ]
       },
@@ -390,7 +432,9 @@
             "talent": "Improved Sprint",
             "spell_id": 231691,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_sprint.jpg",
+            "desc": "Reduces the cooldown of Sprint by 60 sec."
           }
         ]
       },
@@ -412,7 +456,9 @@
             "talent": "Superior Mixture",
             "spell_id": 423701,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_potionsete.jpg",
+            "desc": "Crippling Poison reduces movement speed by an additional 10%."
           }
         ]
       },
@@ -435,7 +481,9 @@
             "talent": "Evasion",
             "spell_id": 5277,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_shadowward.jpg",
+            "desc": "Increases your dodge chance by 100% for 10 sec."
           }
         ]
       },
@@ -457,7 +505,9 @@
             "talent": "Iron Stomach",
             "spell_id": 193546,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_organ_11.jpg",
+            "desc": "Increases the healing you receive from Crimson Vial, healing potions, and healthstones by 25%."
           }
         ]
       },
@@ -481,7 +531,9 @@
             "talent": "Virulent Poisons",
             "spell_id": 381543,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_creature_poison_06.jpg",
+            "desc": "Increases the damage of your weapon poisons by 10%."
           }
         ]
       },
@@ -503,7 +555,9 @@
             "talent": "Stillshroud",
             "spell_id": 423662,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_shroudofconcealment.jpg",
+            "desc": "Shroud of Concealment has 50% reduced cooldown."
           }
         ]
       },
@@ -526,7 +580,9 @@
             "talent": "Graceful Guile",
             "spell_id": 423647,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_ghostpirate.jpg",
+            "desc": "Feint has 1 additional charge."
           }
         ]
       },
@@ -548,7 +604,9 @@
             "talent": "Featherfoot",
             "spell_id": 423683,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_magic_featherfall.jpg",
+            "desc": "Sprint increases movement speed by an additional 30% and has 4 sec increased duration."
           }
         ]
       },
@@ -571,14 +629,18 @@
             "talent": "Numbing Poison",
             "spell_id": 5761,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_nullifydisease.jpg",
+            "desc": "Coats your weapons with a Non-Lethal Poison that lasts for 1 hour. Each strike has a 30% chance of poisoning the enemy, clouding their mind and slowing their attack and casting speed by 15% for 10 sec."
           },
           {
             "entry_id": "112655",
             "talent": "Atrophic Poison",
             "spell_id": 381637,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_nervesofsteel.jpg",
+            "desc": "Coats your weapons with a Non-Lethal Poison that lasts for 1 hour. Each strike has a 30% chance of poisoning the enemy, reducing their damage by 3.0% for 10 sec."
           }
         ]
       },
@@ -602,7 +664,9 @@
             "talent": "Deadly Precision",
             "spell_id": 381542,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_deadenednerves.jpg",
+            "desc": "Increases the critical strike chance of your attacks that generate combo points by 5%."
           }
         ]
       },
@@ -624,7 +688,9 @@
             "talent": "Sanguine Vial",
             "spell_id": 1293135,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_potiona5.jpg",
+            "desc": "When you deal the killing blow to a target that yields experience or honor, the cooldown of Crimson Vial is reduced by 15 sec and your next use heals 5% of your health instantly."
           }
         ]
       },
@@ -648,7 +714,9 @@
             "talent": "Deep Cuts",
             "spell_id": 1267216,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_1115_firstkilloftheday_firstkilloftheday.jpg",
+            "desc": "Your finishing moves deal 6% increased damage."
           }
         ]
       },
@@ -671,7 +739,9 @@
             "talent": "Unbreakable Stride",
             "spell_id": 400804,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_trip.jpg",
+            "desc": "Reduces the duration of movement slowing effects 30%."
           }
         ]
       },
@@ -694,7 +764,9 @@
             "talent": "Danger Sense",
             "spell_id": 1267220,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_wrongfullyaccused.jpg",
+            "desc": "You have a 20% chance to partially evade any damage dealt to you, reducing the damage it deals by 20%."
           }
         ]
       },
@@ -718,7 +790,9 @@
             "talent": "Swift Slasher",
             "spell_id": 381988,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_slicedice.jpg",
+            "desc": "Slice and Dice grants additional attack speed equal to 100% of your Haste."
           }
         ]
       },
@@ -741,14 +815,18 @@
             "talent": "Improved Ambush",
             "spell_id": 381620,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_ambush.jpg",
+            "desc": "Ambush generates 1 additional combo point."
           },
           {
             "entry_id": "117152",
             "talent": "Tight Spender",
             "spell_id": 381621,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_coin_03.jpg",
+            "desc": "Energy cost of finishing moves reduced by 6%."
           }
         ]
       },
@@ -770,7 +848,9 @@
             "talent": "Leeching Poison",
             "spell_id": 280716,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/rogue_leeching_poison.jpg",
+            "desc": "Adds a Leeching effect to your Lethal poisons, granting you 3.0% Leech."
           }
         ]
       },
@@ -793,7 +873,9 @@
             "talent": "Lethality",
             "spell_id": 382238,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_criticalstrike.jpg",
+            "desc": "Critical strike chance increased by 1%. Critical strike damage bonus of your attacks that generate combo points increased by 10%."
           }
         ]
       },
@@ -815,7 +897,9 @@
             "talent": "Recuperator",
             "spell_id": 378996,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_gizmo_runichealthinjector.jpg",
+            "desc": "Slice and Dice heals you for up to 1% of your maximum health per 3 sec."
           }
         ]
       },
@@ -838,7 +922,9 @@
             "talent": "Alacrity",
             "spell_id": 193539,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_speedoflight.jpg",
+            "desc": "Haste increased by 1.5%."
           }
         ]
       },
@@ -860,7 +946,9 @@
             "talent": "Soothing Darkness",
             "spell_id": 393970,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_twilight.jpg",
+            "desc": "You are healed for 30% of your maximum health over 6 sec after activating Vanish."
           }
         ]
       },
@@ -882,7 +970,9 @@
             "talent": "Vigor",
             "spell_id": 14983,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_vigor.jpg",
+            "desc": "Increases your maximum Energy by 50 and Energy regeneration by 5%."
           }
         ]
       },
@@ -904,7 +994,9 @@
             "talent": "Supercharger",
             "spell_id": 470347,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_engineering_90_electrifiedether.jpg",
+            "desc": "Kingsbane supercharges 1 combo point.\r\n\r\nDamaging finishing moves consume a supercharged combo point to function as if they spent 2 additional combo points."
           }
         ]
       },
@@ -926,7 +1018,9 @@
             "talent": "Subterfuge",
             "spell_id": 108208,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/rogue_subterfuge.jpg",
+            "desc": "Abilities requiring Stealth can be used for 3 sec after Stealth breaks.\r\n\r\nCombat benefits requiring Stealth persist for an additional 3 sec after Stealth breaks."
           }
         ]
       },
@@ -948,7 +1042,9 @@
             "talent": "Thistle Tea",
             "spell_id": 381623,
             "max_ranks": 1,
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_drink_milk_05.jpg",
+            "desc": "Restore 100 Energy.\r\n\r\nWhen your Energy is reduced below 30, drink a Thistle Tea."
           }
         ]
       },
@@ -970,7 +1066,9 @@
             "talent": "Cold Blooded Killer",
             "spell_id": 382245,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_ice_lament.jpg",
+            "desc": "Critically striking with an attack that generates combo points increases the critical strike chance of your next finishing move by 10%."
           }
         ]
       },
@@ -992,14 +1090,18 @@
             "talent": "Echoing Reprimand",
             "spell_id": 470669,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_rogue_echoingreprimand.jpg",
+            "desc": "After consuming a supercharged combo point, your next Mutilate also strikes the target with an Echoing Reprimand dealing 40 Physical damage."
           },
           {
             "entry_id": "112523",
             "talent": "Forced Induction",
             "spell_id": 470668,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_enggizmos_06.jpg",
+            "desc": "Increase the bonus granted when a damaging finishing move consumes a supercharged combo point by 1."
           }
         ]
       },
@@ -1021,7 +1123,9 @@
             "talent": "Deeper Stratagem",
             "spell_id": 193531,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/archaeology_5_0_changkiboard.jpg",
+            "desc": "Gain 1 additional max combo point.\r\n\r\nYour finishing moves that consume more than 5 combo points have increased effects, and your finishing moves deal 5% increased damage."
           }
         ]
       },
@@ -1043,7 +1147,9 @@
             "talent": "Without a Trace",
             "spell_id": 382513,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_vanish.jpg",
+            "desc": "Vanish has 1 additional charge."
           }
         ]
       }
@@ -1065,7 +1171,9 @@
             "talent": "Deadly Poison",
             "spell_id": 2823,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_dualweild.jpg",
+            "desc": "Coats your weapons with a Lethal Poison that lasts for 1 hour. Each strike has a 30% chance to poison the enemy for 27 Nature damage over 12 sec. Subsequent poison applications will instantly deal 2 Nature damage."
           }
         ]
       },
@@ -1087,7 +1195,9 @@
             "talent": "Motivated Murderer",
             "spell_id": 1247993,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_deadliness.jpg",
+            "desc": "Increases your Energy regeneration by 20%."
           }
         ]
       },
@@ -1109,7 +1219,9 @@
             "talent": "Improved Poisons",
             "spell_id": 381624,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_poisons.jpg",
+            "desc": "Increases the application chance of your weapon poisons by 5%."
           }
         ]
       },
@@ -1131,7 +1243,9 @@
             "talent": "Path of Blood",
             "spell_id": 423054,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_artifact_bloodoftheassassinated.jpg",
+            "desc": "Increases maximum Energy by 50."
           }
         ]
       },
@@ -1153,7 +1267,9 @@
             "talent": "Crimson Tempest",
             "spell_id": 1247227,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_ability_rogue_crimsontempest.jpg",
+            "desc": "Slash all enemies within 10 yds dealing 38 damage. Deals reduced damage beyond 5 targets.\r\n\r\nCopy the longest Garrote and Rupture on the enemies you hit onto up to 2 other enemies. \r\n\r\nAwards 1 combo point."
           }
         ]
       },
@@ -1176,14 +1292,18 @@
             "talent": "Canny Strikes",
             "spell_id": 1250359,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_combatexpertise.jpg",
+            "desc": "Increases Critical Strike chance by 2%."
           },
           {
             "entry_id": "134840",
             "talent": "Internal Bleeding",
             "spell_id": 381627,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_bloodsplatter.jpg",
+            "desc": "Kidney Shot and Rupture also apply Internal Bleeding, dealing up to 77 Bleed damage over 6 sec, based on combo points spent."
           }
         ]
       },
@@ -1205,7 +1325,9 @@
             "talent": "Improved Garrote",
             "spell_id": 381632,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_garrote.jpg",
+            "desc": "Garrote deals 50% increased damage and has no cooldown when used from Stealth and for 6 sec after breaking Stealth."
           }
         ]
       },
@@ -1227,7 +1349,9 @@
             "talent": "Thrown Precision",
             "spell_id": 381629,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_cobrashot.jpg",
+            "desc": "Fan of Knives has 5% increased critical strike chance and its critical strikes always apply your weapon poisons."
           }
         ]
       },
@@ -1250,7 +1374,9 @@
             "talent": "Seal Fate",
             "spell_id": 14190,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_stayofexecution.jpg",
+            "desc": "Critical strikes with attacks that generate combo points grant an additional combo point per critical strike."
           }
         ]
       },
@@ -1273,7 +1399,9 @@
             "talent": "Doomblade",
             "spell_id": 381673,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_deathwing_bloodcorruption_earth.jpg",
+            "desc": "Mutilate deals an additional 25% Bleed damage over 8 sec."
           }
         ]
       },
@@ -1295,7 +1423,9 @@
             "talent": "Razor Wire",
             "spell_id": 1249802,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_razorwire.jpg",
+            "desc": "Garrote lasts 6 sec longer."
           }
         ]
       },
@@ -1319,7 +1449,9 @@
             "talent": "Bloody Mess",
             "spell_id": 381626,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_rupture.jpg",
+            "desc": "Garrote and Rupture damage increased by 15%."
           }
         ]
       },
@@ -1342,7 +1474,9 @@
             "talent": "Deathmark",
             "spell_id": 360194,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_deathmark.jpg",
+            "desc": "Carve a deathmark into an enemy, dealing 125 Bleed damage and restoring 80 Energy to you over 16 sec. Damage dealt to the target by your Garrote, Rupture, and Lethal Poisons is increased by 100%.\r\n\r\nEach time you apply a Lethal Poison to the target, apply it twice."
           }
         ]
       },
@@ -1366,7 +1500,9 @@
             "talent": "Caustic Spatter",
             "spell_id": 421975,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_creature_poison_02.jpg",
+            "desc": "Envenom or Kingsbane apply Caustic Spatter for 10 sec. Limit 1.\r\n\r\nCaustic Spatter causes 20% of your Nature damage dealt to splash onto other nearby enemies, reduced beyond 5 targets."
           }
         ]
       },
@@ -1388,7 +1524,9 @@
             "talent": "Sanguine Stratagem",
             "spell_id": 457512,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/archaeology_5_0_changkiboard.jpg",
+            "desc": "Gain 1 additional max combo point.\r\n\r\nYour finishing moves that consume more than 5 combo points have increased effects, and your finishing moves deal 5% increased damage."
           }
         ]
       },
@@ -1410,14 +1548,18 @@
             "talent": "Intent to Kill",
             "spell_id": 381630,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_bloodyeye.jpg",
+            "desc": "Shadowstep's cooldown is reduced by 33% when used on a target afflicted by your Garrote."
           },
           {
             "entry_id": "134838",
             "talent": "Iron Wire",
             "spell_id": 196861,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_jewelcrafting_delicatecopperwire.jpg",
+            "desc": "Garrote silences the target for 5 sec when used from Stealth.\r\n\r\nEnemies silenced by Garrote deal 15% reduced damage for 5 sec."
           }
         ]
       },
@@ -1440,7 +1582,9 @@
             "talent": "Fatal Concoction",
             "spell_id": 392384,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_creature_poison_06.jpg",
+            "desc": "Increases the damage of your weapon poisons by 20%."
           }
         ]
       },
@@ -1462,14 +1606,18 @@
             "talent": "Finish the Job",
             "spell_id": 1249809,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_revendreth_demonhunter.jpg",
+            "desc": "All damage you deal is increased by 10% while Deathmark is active."
           },
           {
             "entry_id": "137379",
             "talent": "Negotiable Contract",
             "spell_id": 1292996,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_revendreth_rogue.jpg",
+            "desc": "If the target of your Deathmark dies, Deathmark jumps to a nearby enemy combatant for its remaining duration."
           }
         ]
       },
@@ -1492,7 +1640,9 @@
             "talent": "Lethal Dose",
             "spell_id": 381640,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_deviouspoisons.jpg",
+            "desc": "Your weapon poisons and Nature or Bleed damage over time abilities deal 1% increased damage to targets for each of your lethal poison or damage over time effects on them."
           }
         ]
       },
@@ -1514,14 +1664,18 @@
             "talent": "Flying Daggers",
             "spell_id": 381631,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_fanofknives.jpg",
+            "desc": "Fan of Knives has its radius increased to 12 yds, deals 20% more damage, and an additional 10% when striking 5 or more targets."
           },
           {
             "entry_id": "134836",
             "talent": "Secondary Poisoning",
             "spell_id": 1250141,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_poisons.jpg",
+            "desc": "When you apply a Weapon Poison with a single-target attack, you have a 50% chance to strike a nearby enemy for 5 Physical damage and apply the same Weapon Poison to them."
           }
         ]
       },
@@ -1543,7 +1697,9 @@
             "talent": "Poison Bomb",
             "spell_id": 255544,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/rogue_paralytic_poison.jpg",
+            "desc": "Envenom has a 5% chance per combo point spent to smash a vial of poison at the target's location, creating a pool of acidic death that deals 54 Nature damage over 2 sec to all enemies within it."
           }
         ]
       },
@@ -1567,7 +1723,9 @@
             "talent": "Systemic Failure",
             "spell_id": 381652,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_skeer_bloodletting.jpg",
+            "desc": "Garrote increases the damage of Ambush and Mutilate on the target by 30%."
           }
         ]
       },
@@ -1591,7 +1749,9 @@
             "talent": "Venomous Wounds",
             "spell_id": 79134,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_venomouswounds.jpg",
+            "desc": "You regain 3 Energy each time your Garrote or Rupture deal Bleed damage to a target affected by your weapon poisons. Energy gain is reduced for bleeds beyond the first.\r\n\r\nIf an enemy dies while afflicted by your Rupture, you regain energy based on its remaining duration."
           }
         ]
       },
@@ -1615,7 +1775,9 @@
             "talent": "Amplifying Poison",
             "spell_id": 381664,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_herb_fellotus.jpg",
+            "desc": "Coats your weapons with a Lethal Poison that lasts for 1 hour. Each strike has a 30% chance to poison the enemy, dealing 2 Nature damage and applying Amplifying Poison for 12 sec. Envenom can consume 10 stacks of Amplifying Poison to deal 35% increased damage. Max 20 stacks."
           }
         ]
       },
@@ -1637,7 +1799,9 @@
             "talent": "Blindside",
             "spell_id": 328085,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_focusedattacks.jpg",
+            "desc": "Ambush and Mutilate have a 15% chance to make your next Ambush free and usable without Stealth. Chance increased to 30% if the target is under 35% health."
           }
         ]
       },
@@ -1660,7 +1824,9 @@
             "talent": "Kingsbane",
             "spell_id": 385627,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_knife_1h_artifactgarona_d_01.jpg",
+            "desc": "Release a powerful poison from your weapons and inject it into your target, dealing 60 Nature damage instantly and an additional 71 Nature damage over 14 sec. \r\n\r\nEach time you apply a Lethal Poison to a target affected by Kingsbane, Kingsbane damage increases by 20%, up to 1,000%.\r\n\r\nAwards 1 combo point."
           }
         ]
       },
@@ -1682,7 +1848,9 @@
             "talent": "Rapid Injection",
             "spell_id": 455072,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ammo_arrow_04.jpg",
+            "desc": "Envenom's effect increases the damage of Envenom by 15%."
           }
         ]
       },
@@ -1705,7 +1873,9 @@
             "talent": "Shrouded Suffocation",
             "spell_id": 385478,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_garrote.jpg",
+            "desc": "Garrote damage increased by 20%. Garrote generates 2 additional combo points when used from Stealth."
           }
         ]
       },
@@ -1727,7 +1897,9 @@
             "talent": "Avulsion",
             "spell_id": 1250358,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_artifact_corruptedbloodofzakajz.jpg",
+            "desc": "Rupture damage increased by 20%."
           }
         ]
       },
@@ -1750,7 +1922,9 @@
             "talent": "Zoldyck Recipe",
             "spell_id": 381798,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/archaeology_5_0_thunderkinginsignia.jpg",
+            "desc": "Your Bleed, weapon poison, and other Nature damage is increased by 15% against targets below 35% health."
           }
         ]
       },
@@ -1772,7 +1946,9 @@
             "talent": "Regicide's Reward",
             "spell_id": 1250325,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_knife_1h_artifactfangs_d_02.jpg",
+            "desc": "When Kingsbane ends, gain 2% haste for every 5 stacks of increased Kingsbane damage that you had, decreasing by 2% every 2 sec."
           }
         ]
       },
@@ -1794,14 +1970,18 @@
             "talent": "Inspiring Strike",
             "spell_id": 1250036,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_disembowel.jpg",
+            "desc": "Applying Envenom while Envenom is already active causes it to increase all damage you deal by 5% in addition to increasing your poison application chance."
           },
           {
             "entry_id": "134835",
             "talent": "Poisoner's Drive",
             "spell_id": 1250318,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_rogue_sepsis.jpg",
+            "desc": "Applying Envenom while Envenom is already active restores 1 combo point."
           }
         ]
       },
@@ -1824,7 +2004,9 @@
             "talent": "Deadly Momentum",
             "spell_id": 1250271,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_deadlymomentum.jpg",
+            "desc": "Finishing moves have a 3% chance per combo point spent to increase your chance to critically strike by 6% for 6 sec."
           }
         ]
       },
@@ -1847,7 +2029,9 @@
             "talent": "Scent of Blood",
             "spell_id": 381799,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_rupture.jpg",
+            "desc": "Each enemy afflicted by your Rupture increases your Agility by 2%, up to a maximum of 20%."
           }
         ]
       },
@@ -1869,7 +2053,9 @@
             "talent": "Dashing Scoundrel",
             "spell_id": 381797,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_venomouswounds.jpg",
+            "desc": "Envenom's effect also increases the critical strike chance of your weapon poisons by 5%, and their critical strikes generate 1 Energy."
           }
         ]
       },
@@ -1891,7 +2077,9 @@
             "talent": "Dragon-Tempered Blades",
             "spell_id": 381801,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_flameblades.jpg",
+            "desc": "You may apply 1 additional Lethal and Non-Lethal Poison to your weapons, but they have 30% less application chance."
           }
         ]
       },
@@ -1913,7 +2101,9 @@
             "talent": "Sudden Demise",
             "spell_id": 423136,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_deathknight_hemorrhagicfever.jpg",
+            "desc": "Bleed damage increased by 10%.\r\n\r\nTargets below 35% health instantly bleed out and take fatal damage when the remaining Bleed damage you would deal to them exceeds 150% of their remaining health."
           }
         ]
       },
@@ -1933,7 +2123,9 @@
             "talent": "Implacable",
             "spell_id": 1265385,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_apextalent_rogue_implacable.jpg",
+            "desc": "Nothing will save your target from you. Envenom damage increased by 10%. When your Envenom bonus expires, gain 20% increased Energy generation for 5 sec. \r\n\r\nGain an additional 15% increased Energy generation for each Envenom you used while Envenom's bonus was active, up to 80% total."
           }
         ]
       }
@@ -1958,7 +2150,9 @@
               "talent": "Deal Fate",
               "spell_id": 454419,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_preparation.jpg",
+              "desc": "Mutilate, Ambush, and Fan of Knives generate 1 additional combo point when they trigger Seal Fate."
             }
           ]
         },
@@ -1980,14 +2174,18 @@
               "talent": "Overflowing Purse",
               "spell_id": 1249190,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_coinbag_special.jpg",
+              "desc": "Envenom has a 15% chance to flip 3 Fatebound Coins."
             },
             {
               "entry_id": "125139",
               "talent": "Destiny Defined",
               "spell_id": 454435,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_boss_fatescribe_rune6.jpg",
+              "desc": "Sinister Strike has 5% increased chance to strike an additional time and grant Opportunity and your Fatebound Coins flipped have an additional 5% chance to match the same face as the last flip."
             }
           ]
         },
@@ -2009,7 +2207,9 @@
               "talent": "Delivered Doom",
               "spell_id": 1249194,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_bossgorefiend_touchofdoom.jpg",
+              "desc": "Envenom deals 5% more damage when it consumes 5 or more combo points."
             }
           ]
         },
@@ -2031,7 +2231,9 @@
               "talent": "Edge Case",
               "spell_id": 453457,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/item_icecrownnecklacea.jpg",
+              "desc": "Activating Deathmark flips a Fatebound Coin and causes it to land on its edge, counting as both Heads and Tails."
             }
           ]
         },
@@ -2053,7 +2255,9 @@
               "talent": "Mean Streak",
               "spell_id": 453428,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_sigil_thorim.jpg",
+              "desc": "Fatebound Coins flipped by Envenom are 33% more likely to match the same face as the last flip."
             }
           ]
         },
@@ -2073,7 +2277,9 @@
               "talent": "Hand of Fate",
               "spell_id": 452536,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_fateboundrogue_handoffateheads.jpg",
+              "desc": "Flip a Fatebound Coin each time a finishing move consumes 5 or more combo points. Heads increases the damage of your attacks by 10%, lasting 15 sec or until you flip Tails. Tails deals 59 Cosmic damage to your target.\r\n\r\nFor each time the same face is flipped in a row, Heads increases damage by an additional 2% and Tails increases its damage by 10%."
             }
           ]
         },
@@ -2098,7 +2304,9 @@
               "talent": "Lucky Coin",
               "spell_id": 1248970,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_markoftheworldtree.jpg",
+              "desc": "Every 7 coin flips, keep a lucky coin that bends you towards your fate for 12 sec. Your Agility is increased by 4%, the damage and bonuses of Fatebound Coins are increased by 50%, and coin flips are 15% more likely to match the same face as the last flip.\r\n\r\nCoin flips do not count toward finding a lucky coin while you have a lucky coin."
             }
           ]
         },
@@ -2120,7 +2328,9 @@
               "talent": "Rush to the Inevitable",
               "spell_id": 1249204,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_vigor.jpg",
+              "desc": "Gain 5 Energy every time you flip a Fatebound Coin. Gain 15 Energy for Coins that land on their edge."
             }
           ]
         },
@@ -2142,14 +2352,18 @@
               "talent": "Inexorable March",
               "spell_id": 454432,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_ridethewind.jpg",
+              "desc": "You cannot be slowed below 70% of normal movement speed while your Fatebound Coin flips have an active streak of at least 2 flips matching the same face."
             },
             {
               "entry_id": "125140",
               "talent": "Death's Arrival",
               "spell_id": 454433,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_guildperk_havegroupwilltravel.jpg",
+              "desc": "Grappling Hook may be used a second time within 3 sec with no cooldown, but its total cooldown is increased by 5 sec."
             }
           ]
         },
@@ -2171,14 +2385,18 @@
               "talent": "Chosen's Revelry",
               "spell_id": 1249201,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_heavanlyvoice.jpg",
+              "desc": "Flipping a Fatebound Coin restores 10 health."
             },
             {
               "entry_id": "125132",
               "talent": "Tempted Fate",
               "spell_id": 454286,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_sabreslash.jpg",
+              "desc": "You have a 30% chance to absorb 10% of any damage taken."
             }
           ]
         },
@@ -2200,7 +2418,9 @@
               "talent": "Fate Intertwined",
               "spell_id": 1249215,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_cosmicvoid_beam.jpg",
+              "desc": "Caustic Spatter causes an additional 5% of Nature damage dealt to be dealt to affected enemies."
             }
           ]
         },
@@ -2222,7 +2442,9 @@
               "talent": "Ravenholdt Mint",
               "spell_id": 1276809,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_coin_02.jpg",
+              "desc": "Flipping Heads increases damage by an additional 4%. Damage dealt by flipping Tails is increased by 12%."
             }
           ]
         },
@@ -2244,7 +2466,9 @@
               "talent": "Sometimes Lucky",
               "spell_id": 1277030,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_celestialmap.jpg",
+              "desc": "Critical strike chance increased by 3%."
             }
           ]
         },
@@ -2266,7 +2490,9 @@
               "talent": "Controlled Chaos",
               "spell_id": 1276816,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_112_raidtrinkets_blobofswirlingvoid_purple.jpg",
+              "desc": "After flipping a Fatebound Coin that ends a streak of 4 or more, flip another that matches the same face."
             }
           ]
         }
@@ -2290,14 +2516,18 @@
               "talent": "Ethereal Cloak",
               "spell_id": 457022,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_prismaticcloak.jpg",
+              "desc": "Cloak of Shadows duration increased by 2 sec."
             },
             {
               "entry_id": "126029",
               "talent": "Bait and Switch",
               "spell_id": 457034,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_earthandsky.jpg",
+              "desc": "Evasion reduces magical damage taken by 15%. \r\n\r\nCloak of Shadows reduces physical damage taken by 20%."
             }
           ]
         },
@@ -2319,7 +2549,9 @@
               "talent": "Corrupt the Blood",
               "spell_id": 1248785,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_ironmaidens_bloodritual.jpg",
+              "desc": "Rupture damage increased by 20%."
             }
           ]
         },
@@ -2341,14 +2573,18 @@
               "talent": "Lingering Darkness",
               "spell_id": 457056,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_envelopingshadows.jpg",
+              "desc": "After Deathmark expires, gain 30% increased Nature damage for 30 sec."
             },
             {
               "entry_id": "126030",
               "talent": "Symbolic Victory",
               "spell_id": 457062,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_surgeofdarkness.jpg",
+              "desc": "Shadow Dance additionally increases the damage of your next Eviscerate or Black Powder by 15%."
             }
           ]
         },
@@ -2370,7 +2606,9 @@
               "talent": "Clear the Witnesses",
               "spell_id": 1248793,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_fanofknives.jpg",
+              "desc": "Fan of Knives damage increased by 60%."
             }
           ]
         },
@@ -2392,7 +2630,9 @@
               "talent": "Singular Focus",
               "spell_id": 457055,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_hunter_focusingshot.jpg",
+              "desc": "Damage dealt to targets other than your Marked target deals 5% Plague damage to your Marked target."
             }
           ]
         },
@@ -2414,14 +2654,18 @@
               "talent": "Shadewalker",
               "spell_id": 457057,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/rogue_shadow_reflection.jpg",
+              "desc": "Each time you consume a stack of Deathstalker's Mark, reduce the cooldown of Shadowstep by 3 sec."
             },
             {
               "entry_id": "126027",
               "talent": "Shroud of Night",
               "spell_id": 457063,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_elunesgrace.jpg",
+              "desc": "Shroud of Concealment duration increased by 5 sec."
             }
           ]
         },
@@ -2443,14 +2687,18 @@
               "talent": "Momentum of Despair",
               "spell_id": 457067,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_shadesofdarkness.jpg",
+              "desc": "If you have critically struck with Fan of Knives, increase the critical strike chance of Fan of Knives and Crimson Tempest by 10% and critical strike damage by 20% for 8 sec."
             },
             {
               "entry_id": "126028",
               "talent": "Follow the Blood",
               "spell_id": 457068,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/sha_ability_rogue_bloodyeye_nightmare.jpg",
+              "desc": "Fan of Knives and Crimson Tempest deal 30% additional damage while 2 or more enemies are afflicted with Rupture."
             }
           ]
         },
@@ -2472,7 +2720,9 @@
               "talent": "Hunt Them Down",
               "spell_id": 457054,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_creepingvenom.jpg",
+              "desc": "Auto-attacks against Marked targets deal an additional 3 Plague damage."
             }
           ]
         },
@@ -2494,7 +2744,9 @@
               "talent": "Unshakeable Drive",
               "spell_id": 1248774,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_deepcuts.jpg",
+              "desc": "When you consume an application of Deathstalker's Mark, the damage of your next Ambush or Mutilate is increased by 50%."
             }
           ]
         },
@@ -2514,7 +2766,9 @@
               "talent": "Deathstalker's Mark",
               "spell_id": 457052,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_deathstalkerrogue_deathstalkersmark.jpg",
+              "desc": "Garrote applies 3 stacks of Deathstalker's Mark to your target, unless Deathstalker's Mark is already active. You learn Mark for Death.\r\n\r\nWhen you spend 5 or more combo points on attacks against a Marked target you consume an application of Deathstalker's Mark, dealing 54 Plague damage.\r\n\r\n\r\nMark for Death\r\nMove your active Deathstalker's Mark to your target."
             }
           ]
         },
@@ -2539,7 +2793,9 @@
               "talent": "Darkest Night",
               "spell_id": 457058,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_twilight.jpg",
+              "desc": "When you consume the final Deathstalker's Mark from a target or your target dies, gain 30 Energy and Darkest Night, causing your next Envenom cast with 5 or more combo points to critically strike, deal 35% additional damage, and apply 3 stacks of Deathstalker's Mark to the target if no other Deathstalker's Mark is active.\r\n\r\nEnvenom cast with Darkest Night does not consume a stack of active Deathstalker's Marks."
             }
           ]
         },
@@ -2561,7 +2817,9 @@
               "talent": "Mass Casualty",
               "spell_id": 1273035,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_rapidkilling.jpg",
+              "desc": "Deathstalker's Mark deals 40% of its normal damage to all other enemies within 8 yds that are afflicted by Rupture."
             }
           ]
         },
@@ -2583,7 +2841,9 @@
               "talent": "Quietus Celeris",
               "spell_id": 1273017,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_argus_deathfog.jpg",
+              "desc": "Deathstalker's Mark has a 30% chance to immediately consume a stack when applied."
             }
           ]
         },
@@ -2605,7 +2865,9 @@
               "talent": "Precise Killer",
               "spell_id": 1272989,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_tradeskillitem_sorcererswind.jpg",
+              "desc": "Critical strike damage bonus increased by 20%."
             }
           ]
         }

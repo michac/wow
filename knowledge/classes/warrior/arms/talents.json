@@ -19,6 +19,12 @@
       "Slayer"
     ]
   },
+  "level_cap": 90,
+  "budgets": {
+    "class": 34,
+    "spec": 34,
+    "hero": 13
+  },
   "trees": {
     "class": [
       {
@@ -37,7 +43,9 @@
             "talent": "Battle Stance",
             "spell_id": 386164,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_offensivestance.jpg",
+            "desc": "A balanced combat state that increases the critical strike chance of your abilities by 3% and reduces the duration of movement impairing effects by 10%. \r\n\r\nLasts until canceled."
           }
         ]
       },
@@ -57,7 +65,9 @@
             "talent": "Defensive Stance",
             "spell_id": 386208,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_defensivestance.jpg",
+            "desc": "A defensive combat state that reduces all damage you take by 15% and all damage you deal by 10%.\r\n\r\nLasts until canceled."
           }
         ]
       },
@@ -79,7 +89,9 @@
             "talent": "Fast Footwork",
             "spell_id": 382260,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_posthaste.jpg",
+            "desc": "Movement speed increased by 5%."
           }
         ]
       },
@@ -101,7 +113,9 @@
             "talent": "War Machine",
             "spell_id": 262231,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_rapidkilling.jpg",
+            "desc": "Your auto-attacks generate 10% more Rage.\r\n\r\nKilling an enemy instantly generates 5 Rage and increases your movement speed by 30% for 8 sec."
           }
         ]
       },
@@ -123,7 +137,9 @@
             "talent": "Thunder Clap",
             "spell_id": 6343,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_thunderclap.jpg",
+            "desc": "Blasts all enemies within 8 yards for 81 Physical damage and reduces their movement speed by 20% for 10 sec. Deals reduced damage beyond 5 targets.\r\n\r\nIf you know Rend, inflicts Rend on all targets."
           }
         ]
       },
@@ -145,7 +161,9 @@
             "talent": "Leeching Strikes",
             "spell_id": 382258,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_artifact_bloodoftheassassinated.jpg",
+            "desc": "Leech increased by 3%."
           }
         ]
       },
@@ -168,7 +186,9 @@
             "talent": "Impending Victory",
             "spell_id": 202168,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_impending_victory.jpg",
+            "desc": "Instantly attack the target, causing 20 damage and healing you for 30% of your maximum health.\r\n\r\nKilling an enemy that yields experience or honor resets the cooldown of Impending Victory and makes it cost no Rage."
           }
         ]
       },
@@ -191,7 +211,9 @@
             "talent": "Heroic Leap",
             "spell_id": 6544,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_heroicleap.jpg",
+            "desc": "Leap through the air toward a target location, slamming down with destructive force to deal 8 Physical damage to all enemies within 8 yards."
           }
         ]
       },
@@ -213,7 +235,9 @@
             "talent": "Crackling Thunder",
             "spell_id": 203201,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_thunderking_overcharge.jpg",
+            "desc": "Thunder Clap's radius is increased by 50% and it reduces affected target's movement speed by an additional 20%."
           }
         ]
       },
@@ -236,7 +260,9 @@
             "talent": "Storm Bolt",
             "spell_id": 107570,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/warrior_talent_icon_stormbolt.jpg",
+            "desc": "Hurls your weapon at an enemy, causing 10 Physical damage and stunning for 4 sec."
           }
         ]
       },
@@ -259,7 +285,9 @@
             "talent": "Rend",
             "spell_id": 772,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_gouge.jpg",
+            "desc": "Lash out with your weapon, striking all targets within 10 yds for 89 Physical damage instantly and wounding them for an additional 74 Bleed damage over 15 sec."
           }
         ]
       },
@@ -281,7 +309,9 @@
             "talent": "Second Wind",
             "spell_id": 29838,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_harass.jpg",
+            "desc": "Restores 6% health every 1 sec when you have not taken damage for 5 sec.\r\n\r\nRestores 2% health every 1 sec while you are below 35% health. The amount restored increases the closer you are to death."
           }
         ]
       },
@@ -305,7 +335,9 @@
             "talent": "Frothing Berserker",
             "spell_id": 392792,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/warrior_talent_icon_furyintheblood.jpg",
+            "desc": "Mortal Strike and Cleave have a 20% chance to immediately refund 10% of the Rage spent."
           }
         ]
       },
@@ -327,7 +359,9 @@
             "talent": "Bounding Stride",
             "spell_id": 202163,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_heroicleap.jpg",
+            "desc": "Reduces the cooldown of Heroic Leap by 15 sec and Heroic Leap also increases your movement speed by 70% for 3 sec."
           }
         ]
       },
@@ -350,7 +384,9 @@
             "talent": "Pain and Gain",
             "spell_id": 382549,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_painsupression.jpg",
+            "desc": "When you take any damage, heal for 2.0% of your maximum health. \r\n\r\nThis can only occur once every 10 sec."
           }
         ]
       },
@@ -373,14 +409,18 @@
             "talent": "Intervene",
             "spell_id": 3411,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_victoryrush.jpg",
+            "desc": "Run at high speed toward an ally, intercepting all melee and ranged attacks against them for 6 sec while they remain within 10 yds."
           },
           {
             "entry_id": "134216",
             "talent": "Interpose",
             "spell_id": 1244088,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_speedoflight.jpg",
+            "desc": "Run at high speed toward a target location near your allies, taking 30% of all damage dealt to allies within 3 yards for 8 sec or until you take at least 6,110 damage from this effect."
           }
         ]
       },
@@ -403,7 +443,9 @@
             "talent": "Shockwave",
             "spell_id": 46968,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_shockwave.jpg",
+            "desc": "Sends a wave of force in a frontal cone, causing 7 damage and stunning all enemies within 10 yards for 2 sec."
           }
         ]
       },
@@ -425,7 +467,9 @@
             "talent": "Overwhelming Rage",
             "spell_id": 382767,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/racial_orc_berserkerstrength.jpg",
+            "desc": "Maximum Rage increased by 30."
           }
         ]
       },
@@ -448,7 +492,9 @@
             "talent": "Rallying Cry",
             "spell_id": 97462,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_rallyingcry.jpg",
+            "desc": "Lets loose a rallying cry, granting all party or raid members within 40 yards 10% temporary and maximum health for 10 sec.\r\n\r\nHealth granted increased by 50% when not in a raid."
           }
         ]
       },
@@ -470,7 +516,9 @@
             "talent": "Field Dressing",
             "spell_id": 1271926,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_bandage_08.jpg",
+            "desc": "Healing received increased by 3% and all self-healing increased by an additional 10%."
           }
         ]
       },
@@ -493,7 +541,9 @@
             "talent": "Spell Reflection",
             "spell_id": 23920,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_shieldreflection.jpg",
+            "desc": "Raise your weapon, reflecting the first spell cast on you and reducing magic damage you take by 20% for 5 sec."
           }
         ]
       },
@@ -516,14 +566,18 @@
             "talent": "Wrecking Throw",
             "spell_id": 384110,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/warrior_talent_icon_mastercleaver.jpg",
+            "desc": "Hurl your weapon at the enemy, causing 211 Physical damage, ignoring armor. Deals up to 500% increased damage to absorb shields."
           },
           {
             "entry_id": "112214",
             "talent": "Shattering Throw",
             "spell_id": 64382,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_shatteringthrow.jpg",
+            "desc": "Hurl your weapon at the enemy,  removing any magical immunities and causing 208 Physical damage, ignoring armor. Deals up to 500% increased damage to absorb shields."
           }
         ]
       },
@@ -545,7 +599,9 @@
             "talent": "Rumbling Earth",
             "spell_id": 275339,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_earthquake.jpg",
+            "desc": "Shockwave's range increased by 6 yards and when it strikes at least 3 targets its cooldown is reduced by 15 sec."
           }
         ]
       },
@@ -568,14 +624,18 @@
             "talent": "Berserker Shout",
             "spell_id": 384100,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_ancestralguardian.jpg",
+            "desc": "Go berserk, removing and granting immunity to Fear, Sap, and Incapacitate effects for 6 sec.\r\n\r\nAlso remove fear effects from group members within 12 yds."
           },
           {
             "entry_id": "112210",
             "talent": "Fearless",
             "spell_id": 1271925,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_endlessrage.jpg",
+            "desc": "Cooldown of Berserker Rage is reduced by 50% and Berseker Rage removes all movement speed-impairing effects."
           }
         ]
       },
@@ -598,14 +658,18 @@
             "talent": "Intimidating Shout",
             "spell_id": 5246,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_golemthunderclap.jpg",
+            "desc": "Causes the targeted enemy to cower in fear while all enemies within 8 yards flee from you and their movement speed is reduced by 70% for 8 sec.\r\nDamage may cancel the effect."
           },
           {
             "entry_id": "136627",
             "talent": "Piercing Howl",
             "spell_id": 12323,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_deathscream.jpg",
+            "desc": "Snares all enemies within 12 yards, reducing their movement speed by 70% for 8 sec.\r\n\r\nSpurs all allies within 6 yards, increasing their movement speed by 30% for 4 sec."
           }
         ]
       },
@@ -628,7 +692,9 @@
             "talent": "Honed Reflexes",
             "spell_id": 391271,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_borrowedtime.jpg",
+            "desc": "Cooldown of Die By the Sword, Intervene, Interpose, Spell Reflection, Storm Bolt, and Pummel reduced by 10%.\r\n\r\nSuccessfully interrupting an enemy increases the damage you deal to them by 5% for 10 sec."
           }
         ]
       },
@@ -651,7 +717,9 @@
             "talent": "Armored to the Teeth",
             "spell_id": 384124,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_shoulder_22.jpg",
+            "desc": "Gain Strength equal to 5% of your Armor."
           }
         ]
       },
@@ -674,7 +742,9 @@
             "talent": "Double Time",
             "spell_id": 103827,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_horn_04.jpg",
+            "desc": "Charge gains 1 additional charge and its cooldown is reduced by 3 sec."
           }
         ]
       },
@@ -697,7 +767,9 @@
             "talent": "Reinforced Plates",
             "spell_id": 382939,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_chest_plate04.jpg",
+            "desc": "Stamina increased by 5% and Armor increased by 5%."
           }
         ]
       },
@@ -719,7 +791,9 @@
             "talent": "Barbaric Training",
             "spell_id": 383082,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_garrosh_whirling_corruption.jpg",
+            "desc": "Slam, Whirlwind, and Cleave deal 10% more damage and 5% increased critical strike damage."
           }
         ]
       },
@@ -742,7 +816,9 @@
             "talent": "Javelineer",
             "spell_id": 1271948,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_spear_01.jpg",
+            "desc": "Range of your thrown abilities is increased by 5 yards.\r\n\r\nDamage dealt by Champion's Spear, Shattering Throw, and Wrecking Throw increased by 20%.\r\n\r\nShattering Throw and Wrecking Throw silence non-players for 3 sec."
           }
         ]
       },
@@ -765,7 +841,9 @@
             "talent": "Resonant Voice",
             "spell_id": 1243660,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/warrior_disruptingshout.jpg",
+            "desc": "The effects of your shouts last 20% longer."
           }
         ]
       },
@@ -787,7 +865,9 @@
             "talent": "Crushing Force",
             "spell_id": 382764,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_unholystrength.jpg",
+            "desc": "Mortal Strike deals an additional 5% damage and deals 5% increased critical strike damage."
           }
         ]
       },
@@ -810,7 +890,9 @@
             "talent": "Cruel Strikes",
             "spell_id": 392777,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_criticalstrike.jpg",
+            "desc": "Critical strike chance increased by 1% and critical strike damage of Execute increased by 5%."
           }
         ]
       },
@@ -833,7 +915,9 @@
             "talent": "Two-Handed Weapon Specialization",
             "spell_id": 382896,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_axe_09.jpg",
+            "desc": "While wielding two-handed weapons your damage is increased by 3% and damage taken from area of effect attacks is reduced by 2%."
           }
         ]
       },
@@ -856,7 +940,9 @@
             "talent": "Wild Strikes",
             "spell_id": 382946,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_sprint.jpg",
+            "desc": "Haste increased by 1% and your auto-attack critical strikes increase your auto-attack speed by 10% for 10 sec."
           }
         ]
       },
@@ -878,7 +964,9 @@
             "talent": "Anger Management",
             "spell_id": 152278,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/warrior_talent_icon_angermanagement.jpg",
+            "desc": "Every 20 Rage you spend on attacks reduces the remaining cooldown on Avatar and Colossus Smash by 1 sec."
           }
         ]
       },
@@ -901,7 +989,9 @@
             "talent": "Champion's Spear",
             "spell_id": 376079,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_warrior_championsspear.jpg",
+            "desc": "Throw a spear at the target location, chaining all enemies in the area to the spear's location and dealing 83 Physical damage instantly and an additional 128 Physical damage over 6 sec. \r\n\r\nWhile the spear is active, activating this ability will cause you to leap to the spear, dealing 16 Physical damage to all targets.\r\n\r\nAll damage dealt reduced beyond 5 targets.\r\n\r\nGenerates 10 Rage."
           }
         ]
       },
@@ -924,7 +1014,9 @@
             "talent": "Stance Mastery",
             "spell_id": 1280961,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/crest_warrior.jpg",
+            "desc": "Your stances have additional effects.\r\n\r\n Battle Stance\r\nIncreases the critical strike damage of your abilities by 3%.\r\n\r\n Defensive Stance\r\nWhen an attack deals 20% or more of your maximum health in damage, that damage is reduced by 15%."
           }
         ]
       },
@@ -946,7 +1038,9 @@
             "talent": "Battlefield Commander",
             "spell_id": 424742,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_commandingshout.jpg",
+            "desc": "Your Shout abilities have additional effects.\r\n\r\n Battle Shout:\r\nGrants you an additional 3% attack power.\r\n\r\n Rallying Cry:\r\nGrants an additional 2% health and duration increased by 3 sec.\r\n\r\n Piercing Howl:\r\nRadius increased by 100%\r\n\r\n Berserker Shout:\r\nRadius increased by 100%.\r\n\r\n Intimidating Shout:\r\nCooldown reduced by 15 sec."
           }
         ]
       }
@@ -968,7 +1062,9 @@
             "talent": "Mortal Strike",
             "spell_id": 12294,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_savageblow.jpg",
+            "desc": "A vicious strike that deals 184 Physical damage and reduces the effectiveness of healing on the target by 50% for 10 sec."
           }
         ]
       },
@@ -990,7 +1086,9 @@
             "talent": "Overpower",
             "spell_id": 7384,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_meleedamage.jpg",
+            "desc": "Overpower the enemy, dealing 135 Physical damage. Cannot be blocked, dodged, or parried."
           }
         ]
       },
@@ -1012,7 +1110,9 @@
             "talent": "Sudden Death",
             "spell_id": 29725,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_improveddisciplines.jpg",
+            "desc": "Your attacks have a chance to make your next Execute cost no Rage, be usable on any target regardless of their health, and deal damage as if you spent 40 Rage."
           }
         ]
       },
@@ -1034,14 +1134,18 @@
             "talent": "Fueled by Violence",
             "spell_id": 383103,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_bloodlet.jpg",
+            "desc": "You are healed for 85% of the Bleed damage dealt by Rend and Deep Wounds."
           },
           {
             "entry_id": "136701",
             "talent": "Ignore Pain",
             "spell_id": 1277297,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_renewedvigor.jpg",
+            "desc": "Fight through the pain, ignoring 50% of damage taken for 12 sec or until 560 damage has been prevented."
           }
         ]
       },
@@ -1063,7 +1167,9 @@
             "talent": "Die by the Sword",
             "spell_id": 118038,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_challange.jpg",
+            "desc": "Increases your parry chance by 100% and reduces all damage you take by 30% for 8 sec."
           }
         ]
       },
@@ -1085,7 +1191,9 @@
             "talent": "Bloodsurge",
             "spell_id": 384361,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_bloodsurge.jpg",
+            "desc": "Damage from Rend has a chance to generate 5 Rage."
           }
         ]
       },
@@ -1107,7 +1215,9 @@
             "talent": "Improved Overpower",
             "spell_id": 385571,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_meleedamage.jpg",
+            "desc": "Overpower has 2 charges and deals 15% more damage."
           }
         ]
       },
@@ -1129,7 +1239,9 @@
             "talent": "Improved Execute",
             "spell_id": 316405,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_sword_48.jpg",
+            "desc": "Execute no longer has a cooldown and if your foe survives, 10% of the Rage spent is refunded."
           }
         ]
       },
@@ -1151,7 +1263,9 @@
             "talent": "Fervor of Battle",
             "spell_id": 202316,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_waylay.jpg",
+            "desc": "If Cleave or Whirlwind hits 3 or more targets you also Slam your primary target. This Slam deals 50% additional damage."
           }
         ]
       },
@@ -1174,7 +1288,9 @@
             "talent": "Tactician",
             "spell_id": 184783,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_unrelentingassault.jpg",
+            "desc": "You have a 30% chance to gain a charge of Overpower when you use an attack that has a Rage cost.\r\nThis effect applies even if that ability's Rage cost has been reduced to zero."
           }
         ]
       },
@@ -1197,7 +1313,9 @@
             "talent": "Colossus Smash",
             "spell_id": 167105,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_warbreaker.jpg",
+            "desc": "Smash the ground and shatter the armor of all enemies within 10 yds, dealing 105 Physical damage and increasing damage you deal to them by 30% for 10 sec. Deals reduced damage beyond 8 targets."
           }
         ]
       },
@@ -1220,7 +1338,9 @@
             "talent": "Impale",
             "spell_id": 383430,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_searingarrow.jpg",
+            "desc": "Critical strike damage of your abilities is increased by 10%."
           }
         ]
       },
@@ -1242,14 +1362,18 @@
             "talent": "Brute Force",
             "spell_id": 1261046,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_smash.jpg",
+            "desc": "Slam has a 10% increased chance to trigger Tactician."
           },
           {
             "entry_id": "135935",
             "talent": "Efficiency",
             "spell_id": 1261047,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_revenge.jpg",
+            "desc": "Slam's Rage cost is reduced by 25%."
           }
         ]
       },
@@ -1271,7 +1395,9 @@
             "talent": "Overpowering Finish",
             "spell_id": 400205,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_punishingblow.jpg",
+            "desc": "Overpower deals 15% additional damage to targets below 35% health."
           }
         ]
       },
@@ -1294,7 +1420,9 @@
             "talent": "Strength of Arms",
             "spell_id": 400803,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_gauntlets_26.jpg",
+            "desc": "Overpower and Slam damage increased by 5% and critical strike damage increased by 5%.\r\nCritical strike chance of Slam and Overpower increased by 5%."
           }
         ]
       },
@@ -1316,14 +1444,18 @@
             "talent": "Just Warming Up",
             "spell_id": 1261048,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_endlessrage.jpg",
+            "desc": "Colossus Smash generates 15 Rage."
           },
           {
             "entry_id": "135942",
             "talent": "Broad Strokes",
             "spell_id": 1261049,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_rogue_echoingreprimand.jpg",
+            "desc": "Colossus Smash grants you Sweeping Strikes."
           }
         ]
       },
@@ -1346,7 +1478,9 @@
             "talent": "Sharpened Blades",
             "spell_id": 383341,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_sword_27.jpg",
+            "desc": "Mortal Strike, Cleave, and Execute damage increased by 5% and critical strike damage increased by 5%."
           }
         ]
       },
@@ -1368,7 +1502,9 @@
             "talent": "Cleave",
             "spell_id": 845,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_cleave.jpg",
+            "desc": "Strikes all enemies in front of you for 91 Physical damage. Deals reduced damage beyond 5 targets."
           }
         ]
       },
@@ -1390,14 +1526,18 @@
             "talent": "Improved Sweeping Strikes",
             "spell_id": 383155,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_slicedice.jpg",
+            "desc": "Sweeping Strikes affects 6 additional damaging single-target abilities."
           },
           {
             "entry_id": "114739",
             "talent": "Powerful Momentum",
             "spell_id": 1261050,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_1115_warrior_crushingblow.jpg",
+            "desc": "Secondary targets take an additional 25% damage from Sweeping Strikes."
           }
         ]
       },
@@ -1420,7 +1560,9 @@
             "talent": "Martial Prowess",
             "spell_id": 1273062,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/warrior_talent_icon_igniteweapon.jpg",
+            "desc": "Overpower and Slam increase the damage of your next Mortal Strike by 5%, stacking up to 3 times."
           }
         ]
       },
@@ -1443,7 +1585,9 @@
             "talent": "Dreadnaught",
             "spell_id": 262150,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_sword_05.jpg",
+            "desc": "Overpower causes a seismic wave, dealing 24 damage to all enemies in a 10 yd line. Deals reduced damage beyond 5 targets."
           }
         ]
       },
@@ -1465,7 +1609,9 @@
             "talent": "Deep Wounds",
             "spell_id": 1261060,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_backstab.jpg",
+            "desc": "Execute inflicts Deep Wounds on the target.\r\n\r\n Deep Wounds\r\nCauses the target to suffer 50 Bleed damage over 6 sec. If this effect is reapplied, any remaining damage will be added to the new Deep Wounds."
           }
         ]
       },
@@ -1487,14 +1633,18 @@
             "talent": "Tactical Edge",
             "spell_id": 1261051,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_ability_warrior_arms.jpg",
+            "desc": "Colossus Smash causes your next 2 Mortal Strikes to have a 100% chance to trigger Tactician."
           },
           {
             "entry_id": "135938",
             "talent": "Crushing Combo",
             "spell_id": 1261056,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_cleave.jpg",
+            "desc": "Colossus Smash causes your next 2 Cleaves within 20 sec to trigger no cooldown."
           }
         ]
       },
@@ -1516,7 +1666,9 @@
             "talent": "Massacre",
             "spell_id": 281001,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_axe_2h_orcwarrior_c_01.jpg",
+            "desc": "Execute is usable on targets below 35% health."
           }
         ]
       },
@@ -1539,7 +1691,9 @@
             "talent": "Mass Execution",
             "spell_id": 1273075,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/warrior_talent_icon_mastercleaver.jpg",
+            "desc": "Cleave and Whirlwind deal 20% additional damage to targets below 35% health."
           }
         ]
       },
@@ -1562,7 +1716,9 @@
             "talent": "Collateral Damage",
             "spell_id": 334779,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_incite.jpg",
+            "desc": "When an ability used during Sweeping Strikes damages a second target, your next Cleave or Whirlwind deals 25% increased damage, stacking up to 3 times."
           }
         ]
       },
@@ -1586,7 +1742,9 @@
             "talent": "Bloodborne",
             "spell_id": 383287,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_artifact_bloodoftheassassinated.jpg",
+            "desc": "Your Bleed effects deal 5% increased damage and 5% increased critical strike damage."
           }
         ]
       },
@@ -1610,14 +1768,18 @@
             "talent": "Bladestorm",
             "spell_id": 227847,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_bladestorm.jpg",
+            "desc": "Become an unstoppable storm of destructive force, striking all nearby enemies for 673 Physical damage over 5.4 sec. Deals reduced damage beyond 8 targets.\r\n\r\nYou are immune to movement impairing and loss of control effects, but can use defensive abilities and can avoid attacks."
           },
           {
             "entry_id": "136702",
             "talent": "Ravager",
             "spell_id": 228920,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/warrior_talent_icon_ravager.jpg",
+            "desc": "Throws a whirling weapon at your target that chases nearby enemies, inflicting 245 Physical damage to all enemies over 10.7 sec. Deals reduced damage beyond 8 targets.\r\n\r\nCleave and Whirlwind deal 50% increased damage while Ravager is active"
           }
         ]
       },
@@ -1641,7 +1803,9 @@
             "talent": "Critical Thinking",
             "spell_id": 389306,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_criticalstrike.jpg",
+            "desc": "Execute critical strike chance increased by 5% and Execute immediately refunds an additional 10% of the Rage spent."
           }
         ]
       },
@@ -1663,7 +1827,9 @@
             "talent": "Battlelord",
             "spell_id": 386630,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_pvp_hardiness.jpg",
+            "desc": "Overpower has a 35% chance to reset the cooldown of Mortal Strike and reduce the cost of your next Mortal Strike by 33%."
           }
         ]
       },
@@ -1686,7 +1852,9 @@
             "talent": "Bloodletting",
             "spell_id": 383154,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_skeer_bloodletting.jpg",
+            "desc": "Rend and Deep Wounds' Bleed effects last 33% longer and have a 5% increased critical strike chance.\r\n\r\nIf you know Rend, Mortal Strike inflicts Rend on targets below 35% health."
           }
         ]
       },
@@ -1709,7 +1877,9 @@
             "talent": "Executioner's Precision",
             "spell_id": 386634,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_revendreth_warrior.jpg",
+            "desc": "Execute increases the damage of your next Mortal Strike by 35%, stacking up to 2 times."
           }
         ]
       },
@@ -1731,7 +1901,9 @@
             "talent": "Fatality",
             "spell_id": 383703,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_bg_killingblow_berserker.jpg",
+            "desc": "Mortal Strike has a 50% chance to apply a Fatal Mark to your target, stacking up to 5 times. Your next Execute on a target with a Fatal Mark causes the Fatal Mark to deal 96 additional Physical damage per stack."
           }
         ]
       },
@@ -1754,7 +1926,9 @@
             "talent": "Master Tactician",
             "spell_id": 1261057,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_revenge.jpg",
+            "desc": "Tactician has a 5% increased chance to trigger."
           }
         ]
       },
@@ -1777,7 +1951,9 @@
             "talent": "Mortal Wounds",
             "spell_id": 1261062,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_bloodbath.jpg",
+            "desc": "Mortal Strike and Slam critical strikes inflict Deep Wounds at 100% effectiveness.\r\n\r\n Deep Wounds\r\nCauses the target to suffer 50 Bleed damage over 6 sec. If this effect is reapplied, any remaining damage will be added to the new Deep Wounds."
           }
         ]
       },
@@ -1800,7 +1976,9 @@
             "talent": "Avatar",
             "spell_id": 107574,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/warrior_talent_icon_avatar.jpg",
+            "desc": "Transform into a colossus, increasing all damage you deal by 20% and reducing damage you take from area of effect attacks by 5% for 20 sec."
           }
         ]
       },
@@ -1820,7 +1998,9 @@
             "talent": "Master of Warfare",
             "spell_id": 1269314,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_apextalent_warrior_masterofwarfare.jpg",
+            "desc": "Your single target melee abilities have a chance to upgrade Slam to Heroic Strike.\r\nAll modifiers and talents that affect Slam also affect Heroic Strike."
           }
         ]
       }
@@ -1845,7 +2025,9 @@
               "talent": "Show No Mercy",
               "spell_id": 444771,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/warrior_talent_icon_lambstotheslaughter.jpg",
+              "desc": "Executioner also increases your Execute critical strike chance and critical strike damage by 3% per stack."
             }
           ]
         },
@@ -1867,14 +2049,18 @@
               "talent": "Culling Cyclone",
               "spell_id": 444778,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_bladestorm.jpg",
+              "desc": "Each strike of Bladestorm deals an additional 20% damage evenly split across all targets."
             },
             {
               "entry_id": "123409",
               "talent": "Brutal Finish",
               "spell_id": 446085,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_revendreth_warrior.jpg",
+              "desc": "Your next Mortal Strike after Bladestorm ends deals 50% additional damage."
             }
           ]
         },
@@ -1896,14 +2082,18 @@
               "talent": "Fierce Followthrough",
               "spell_id": 444773,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_deathknight_butcher2.jpg",
+              "desc": "Mortal Strike critical strikes increase the damage of your next Mortal Strike by 20%."
             },
             {
               "entry_id": "123770",
               "talent": "Opportunist",
               "spell_id": 444774,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_weaponmastery.jpg",
+              "desc": "When Overpower has its cooldown reset by Tactician, your next Overpower deals 10% additional damage and 10% additional critical damage. Stacking up to 2 times."
             }
           ]
         },
@@ -1925,7 +2115,9 @@
               "talent": "Imminent Demise",
               "spell_id": 444769,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_improveddisciplines.jpg",
+              "desc": "Every 3 Slayer's Strikes you gain Sudden Death.\r\n\r\nUsing Sudden Death accelerates your next Bladestorm, striking 1 additional time (max 3). Bladestorm's total duration is unchanged.\r\n\r\nSudden Death has a 100% chance to trigger Reap the Storm at 100% effectiveness."
             }
           ]
         },
@@ -1947,14 +2139,18 @@
               "talent": "Relentless Pursuit",
               "spell_id": 444776,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_sprint.jpg",
+              "desc": "Charge increases your movement speed by 70% for 3 sec.\r\n\r\nCharge removes all movement impairing effects, this effect cannot occur more than once every 30 sec."
             },
             {
               "entry_id": "123408",
               "talent": "Vicious Agility",
               "spell_id": 444777,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_speedoflight.jpg",
+              "desc": "Heroic Leap reduces the cooldown of Charge by 5 sec and Charge reduces the cooldown of Heroic Leap by 2 sec."
             }
           ]
         },
@@ -1976,7 +2172,9 @@
               "talent": "Slayer's Malice",
               "spell_id": 444779,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_revenge.jpg",
+              "desc": "Overpower and Execute damage increased by 15%."
             }
           ]
         },
@@ -1998,7 +2196,9 @@
               "talent": "Reap the Storm",
               "spell_id": 444775,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_arakkoa_spinning_blade.jpg",
+              "desc": "When Cleave hits 3 or more targets you have a 20% chance to unleash a flurry of steel, striking all nearby enemies for 269 Physical damage and applying Overwhelmed. Deals reduced damage beyond 8 targets."
             }
           ]
         },
@@ -2020,7 +2220,9 @@
               "talent": "Overwhelming Blades",
               "spell_id": 444772,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_specialization_blacksmithing_blades_color1.jpg",
+              "desc": "Each strike of Bladestorm applies Overwhelmed to all enemies affected, increasing damage you deal to them by 1% for 20 sec, max 5 stacks."
             }
           ]
         },
@@ -2042,7 +2244,9 @@
               "talent": "Death Drive",
               "spell_id": 444770,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_focusedrage.jpg",
+              "desc": "You heal for 15% of damage dealt by Sudden Death."
             }
           ]
         },
@@ -2062,7 +2266,9 @@
               "talent": "Slayer's Dominance",
               "spell_id": 444767,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_slayerwarrior_slayersdominance.jpg",
+              "desc": "Your attacks against your primary target have a 15% chance to overwhelm their defenses and trigger a Slayer's Strike, dealing 293 Physical damage and granting you a stack of Executioner, increasing your Execute damage by 3% for 12 sec. Multiple stacks of Executioner may overlap."
             }
           ]
         },
@@ -2087,7 +2293,9 @@
               "talent": "Unrelenting Onslaught",
               "spell_id": 444780,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_commandingshout.jpg",
+              "desc": "Using Sudden Death causes you to both reduce the cooldown of Bladestorm by 5 sec and apply 1 stack of Overwhelmed to your primary target per stack of Executioner you have.\r\n\r\nYou can use Pummel and Storm Bolt while Bladestorming.\r\n\r\nBladestorm damage increased by 20%."
             }
           ]
         },
@@ -2109,7 +2317,9 @@
               "talent": "Unhinged",
               "spell_id": 386628,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_spectralsight.jpg",
+              "desc": "Every 2 strikes of Bladestorm, you automatically cast a Mortal Strike at your target or random nearby enemy, dealing 100% of normal damage."
             }
           ]
         },
@@ -2131,7 +2341,9 @@
               "talent": "Deadly Focus",
               "spell_id": 1270718,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_hunter_focusingshot.jpg",
+              "desc": "Executioner's duration is increased by 6 sec."
             }
           ]
         },
@@ -2153,7 +2365,9 @@
               "talent": "Violent Euphoria",
               "spell_id": 1270717,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_butcher_exsanguination.jpg",
+              "desc": "Bladestorm puts you into a battle trance, granting you 15% haste for 8 sec after you stop Bladestorming."
             }
           ]
         }
@@ -2177,14 +2391,18 @@
               "talent": "Boneshaker",
               "spell_id": 429639,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_deathknight_brittlebones.jpg",
+              "desc": "Shockwave's stun duration is increased by 1 sec and reduces the movement speed of affected enemies by 40% for 3 sec after the stun ends."
             },
             {
               "entry_id": "119858",
               "talent": "Earthquaker",
               "spell_id": 440992,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_earthquake.jpg",
+              "desc": "Shockwave also knocks enemies into the air and its cooldown is reduced by 5 sec."
             }
           ]
         },
@@ -2209,7 +2427,9 @@
               "talent": "Dominance of the Colossus",
               "spell_id": 429636,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_titansgrip.jpg",
+              "desc": "Colossal Might stacks up to 10 times. If you would gain a stack of Colossal Might and are at max stacks, the cooldown of Demolish is reduced by 5 sec.\r\n\r\nEnemies affected by Demolish take up to 10% more damage from you and deal up to 10% less damage to you for 10 sec based on the number of stacks of Colossal Might consumed by Demolish."
             }
           ]
         },
@@ -2231,7 +2451,9 @@
               "talent": "Precise Might",
               "spell_id": 431548,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_hunter_focusingshot.jpg",
+              "desc": "Mortal Strike critical strikes grant an additional stack of Colossal Might."
             }
           ]
         },
@@ -2253,7 +2475,9 @@
               "talent": "Practiced Strikes",
               "spell_id": 429647,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_warrior_sharpenblade.jpg",
+              "desc": "Mortal Strike and Slam damage increased by 25%.\r\n\r\nCleave and Whirlwind damage increased by 15%."
             }
           ]
         },
@@ -2275,14 +2499,18 @@
               "talent": "One Against Many",
               "spell_id": 429637,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_incite.jpg",
+              "desc": "Shockwave, Cleave, and Whirlwind deal 5% more damage per target affected up to 5."
             },
             {
               "entry_id": "119856",
               "talent": "Arterial Bleed",
               "spell_id": 440995,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_butcher_gushingwounds.jpg",
+              "desc": "Colossal Might increases the damage of your Rend and Deep Wounds by 3% per stack."
             }
           ]
         },
@@ -2304,7 +2532,9 @@
               "talent": "Mountain of Muscle and Scars",
               "spell_id": 429642,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_intensifyrage.jpg",
+              "desc": "You deal 5% more damage and take 5% less damage.\r\n\r\nSize increased by 5%."
             }
           ]
         },
@@ -2326,7 +2556,9 @@
               "talent": "Tide of Battle",
               "spell_id": 429641,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_weaponmastery.jpg",
+              "desc": "Colossal Might increases the damage of your Overpower by 3% per stack."
             }
           ]
         },
@@ -2348,7 +2580,9 @@
               "talent": "Martial Expert",
               "spell_id": 429638,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_stalwartprotector.jpg",
+              "desc": "Critical strike damage of your abilities is increased by 10% and the amount of damage blocked by your critical blocks is increased by 20%."
             }
           ]
         },
@@ -2370,14 +2604,18 @@
               "talent": "No Stranger to Pain",
               "spell_id": 429644,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_renewedvigor.jpg",
+              "desc": "Damage prevented by each use of Ignore Pain is increased by 20%."
             },
             {
               "entry_id": "119857",
               "talent": "Veteran Vitality",
               "spell_id": 440993,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_harass.jpg",
+              "desc": "When your health is brought below 35%, you gain a Second Wind, healing you for 12% of your max health over 2 sec.\r\n\r\nThis effect cannot occur more than once every 60 sec."
             }
           ]
         },
@@ -2397,7 +2635,9 @@
               "talent": "Demolish",
               "spell_id": 436358,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_colossuswarrior_demolish.jpg",
+              "desc": "Unleash a series of precise and powerful strikes against your target, dealing 800 damage to it, and 436 damage to enemies within 10 yds of it. Deals reduced damage beyond 8 targets.\r\n\r\nWhile channeling Demolish, you take 10% less damage and are immune to stuns, knockbacks, and forced movement effects.\r\n\r\nYou can block, parry, dodge, and use certain defensive abilities while channeling Demolish."
             }
           ]
         },
@@ -2419,7 +2659,9 @@
               "talent": "Colossal Might",
               "spell_id": 429634,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_strengthofarms.jpg",
+              "desc": "Colossal Might increases damage dealt by your next Demolish by 5%, stacking up to 5 times.\r\n\r\nMortal Strike grants a stack of Colossal Might and Cleave grants a stack of Colossal Might when it strikes 3 or more targets."
             }
           ]
         },
@@ -2441,7 +2683,9 @@
               "talent": "Celeritous Conclusion",
               "spell_id": 1270710,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_1115_warrior_fasterreflexes.jpg",
+              "desc": "Demolish's final strike grants 10% Haste for 10 sec and increases the critical strike chance of your next Mortal Strike by 100%."
             }
           ]
         },
@@ -2463,7 +2707,9 @@
               "talent": "Cut to the Bone",
               "spell_id": 1270709,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_deepcuts.jpg",
+              "desc": "Mortal Strike critical strikes increase your Rend and Deep Wounds damage by 15% for 8 sec."
             }
           ]
         },
@@ -2485,7 +2731,9 @@
               "talent": "Decimator",
               "spell_id": 1270704,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_blacksmithing_craftedbar_bloodyalloy.jpg",
+              "desc": "Demolish's final strike applies Deep Wounds to all targets at 100% effectiveness."
             }
           ]
         }

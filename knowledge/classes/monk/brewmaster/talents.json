@@ -19,6 +19,12 @@
       "Shado-Pan"
     ]
   },
+  "level_cap": 90,
+  "budgets": {
+    "class": 34,
+    "spec": 34,
+    "hero": 13
+  },
   "trees": {
     "class": [
       {
@@ -37,7 +43,9 @@
             "talent": "Soothing Mist",
             "spell_id": 115175,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_soothingmists.jpg",
+            "desc": "Heals the target for 6,386 over 7.1 sec. While channeling, Enveloping Mist and Vivify may be cast instantly on the target."
           }
         ]
       },
@@ -57,7 +65,9 @@
             "talent": "Paralysis",
             "spell_id": 115078,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_paralysis.jpg",
+            "desc": "Incapacitates the target for 1 min. Limit 1. Damage may cancel the effect."
           }
         ]
       },
@@ -77,7 +87,9 @@
             "talent": "Stagger",
             "spell_id": 115069,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/monk_stance_drunkenox.jpg",
+            "desc": "You shrug off attacks, delaying a portion of Physical damage based on your Agility, instead taking it over 10 sec. Affects magical attacks at 58% effectiveness."
           }
         ]
       },
@@ -99,7 +111,9 @@
             "talent": "Elusive Mists",
             "spell_id": 388681,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_soothingmists.jpg",
+            "desc": "Reduces all damage taken by you and your target while channeling Soothing Mists by 6%."
           }
         ]
       },
@@ -122,7 +136,9 @@
             "talent": "Tiger's Lust",
             "spell_id": 116841,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_tigerslust.jpg",
+            "desc": "Increases a friendly target's movement speed by 70% for 6 sec and removes all roots and snares."
           }
         ]
       },
@@ -145,14 +161,18 @@
             "talent": "Crashing Momentum",
             "spell_id": 450335,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_blackoutkick.jpg",
+            "desc": "Targets you Roll through are snared by 40% for 5 sec."
           },
           {
             "entry_id": "124939",
             "talent": "Disable",
             "spell_id": 116095,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_shockwave.jpg",
+            "desc": "Reduces the target's movement speed by 50% for 15 sec, duration refreshed by your melee attacks."
           }
         ]
       },
@@ -174,7 +194,9 @@
             "talent": "Fast Feet",
             "spell_id": 1261543,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_mightyoxkick.jpg",
+            "desc": "Blackout Kick deals 20% increased damage. Spinning Crane Kick deals 10% additional damage."
           }
         ]
       },
@@ -197,7 +219,9 @@
             "talent": "Grace of the Crane",
             "spell_id": 388811,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/monk_ability_cherrymanatea.jpg",
+            "desc": "Increases all healing taken by 6%."
           }
         ]
       },
@@ -219,7 +243,9 @@
             "talent": "Bounding Agility",
             "spell_id": 450520,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_roll.jpg",
+            "desc": "Roll and Chi Torpedo travel a small distance further."
           }
         ]
       },
@@ -242,7 +268,9 @@
             "talent": "Calming Presence",
             "spell_id": 388664,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_orb_01.jpg",
+            "desc": "Reduces all damage taken by 3%."
           }
         ]
       },
@@ -264,7 +292,9 @@
             "talent": "Wind's Reach",
             "spell_id": 450514,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_zenflight.jpg",
+            "desc": "The range of Disable is increased by 5 yds.\r\n \r\nThe duration of Crashing Momentum is increased by 3 sec and its snare now reduces movement speed by an additional 20%."
           }
         ]
       },
@@ -287,7 +317,9 @@
             "talent": "Detox",
             "spell_id": 218164,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_imrovedrecuperate.jpg",
+            "desc": "Removes all Poison and Disease effects from the target."
           }
         ]
       },
@@ -310,7 +342,9 @@
             "talent": "Vivacious Vivification",
             "spell_id": 388812,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_vivify.jpg",
+            "desc": "After casting Rising Sun Kick, your next Vivify becomes instant cast.\r\n\r\nThis effect also reduces the energy cost of Vivify by 75%."
           }
         ]
       },
@@ -332,7 +366,9 @@
             "talent": "Silent Sanctuary",
             "spell_id": 1266719,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_monk_zenpilgrimage.jpg",
+            "desc": "While no enemies are within 15 yds, you heal for 1,140 every 3 sec."
           }
         ]
       },
@@ -356,7 +392,9 @@
             "talent": "Jade Walk",
             "spell_id": 450553,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_lifegivingspeed.jpg",
+            "desc": "While out of combat, your movement speed is increased by 15%."
           }
         ]
       },
@@ -378,7 +416,9 @@
             "talent": "Pressure Points",
             "spell_id": 450432,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_deadlyreach.jpg",
+            "desc": "Paralysis now removes all Enrage effects from its target."
           }
         ]
       },
@@ -402,7 +442,9 @@
             "talent": "Spear Hand Strike",
             "spell_id": 116705,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_spearhand.jpg",
+            "desc": "Jabs the target in the throat, interrupting spellcasting and preventing any spell from that school of magic from being cast for 5 sec."
           }
         ]
       },
@@ -424,7 +466,9 @@
             "talent": "Reinvigoration",
             "spell_id": 1266740,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_quipunch.jpg",
+            "desc": "After Detox successfully removes an effect from an ally, their movement speed is increased by 30% for 5 sec."
           }
         ]
       },
@@ -447,7 +491,9 @@
             "talent": "Ancient Arts",
             "spell_id": 344359,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_dpsstance.jpg",
+            "desc": "Reduces the cooldown of Paralysis by 15 sec and the cooldown of Leg Sweep by 10 sec."
           }
         ]
       },
@@ -471,14 +517,18 @@
             "talent": "Chi Wave",
             "spell_id": 450391,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_chiwave.jpg",
+            "desc": "Every 15 sec, your next Rising Sun Kick or Vivify releases a wave of Chi energy that flows through friends and foes, dealing 7 Nature damage or 21 healing. Bounces up to 7 times to targets within 25 yards."
           },
           {
             "entry_id": "126501",
             "talent": "Chi Burst",
             "spell_id": 123986,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_arcanetorrent.jpg",
+            "desc": "Hurls a torrent of Chi energy up to 40 yds forward, dealing 96 Nature damage to all enemies, and 78 healing to the Monk and all allies in its path. Healing and damage reduced beyond 5 targets.\r\n\r\n\r\nCasting Chi Burst does not prevent avoiding attacks."
           }
         ]
       },
@@ -502,7 +552,9 @@
             "talent": "Transcendence",
             "spell_id": 101643,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/monk_ability_transcendence.jpg",
+            "desc": "Split your body and spirit, leaving your spirit behind for 15 min. Use Transcendence: Transfer to swap locations with your spirit."
           }
         ]
       },
@@ -524,7 +576,9 @@
             "talent": "Energy Transfer",
             "spell_id": 450631,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/monk_ability_avertharm.jpg",
+            "desc": "Successfully interrupting an enemy reduces the cooldown of Paralysis and Roll by 5 sec."
           }
         ]
       },
@@ -548,14 +602,18 @@
             "talent": "Celerity",
             "spell_id": 115173,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_quipunch.jpg",
+            "desc": "Reduces the cooldown of Roll by 5 sec and increases its maximum number of charges by 1."
           },
           {
             "entry_id": "124981",
             "talent": "Chi Torpedo",
             "spell_id": 115008,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_quitornado.jpg",
+            "desc": "Torpedoes you forward a long distance and increases your movement speed by 30% for 10 sec, stacking up to 2 times."
           }
         ]
       },
@@ -577,7 +635,9 @@
             "talent": "Stillstep Coil",
             "spell_id": 1266733,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_helm_leather_raidmonkprogenitormythic_d_01.jpg",
+            "desc": "Leg Sweep applies Disable for 5.0 sec when it ends."
           }
         ]
       },
@@ -600,14 +660,18 @@
             "talent": "Quick Footed",
             "spell_id": 450503,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_hurricanestrike.jpg",
+            "desc": "The duration of snare effects on you is reduced by 20%."
           },
           {
             "entry_id": "124950",
             "talent": "Hasty Provocation",
             "spell_id": 328670,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_provoke.jpg",
+            "desc": "Provoked targets move towards you at 50% increased speed."
           }
         ]
       },
@@ -629,7 +693,9 @@
             "talent": "Ferocity of Xuen",
             "spell_id": 388674,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mount_pinktiger.jpg",
+            "desc": "Increases all damage dealt by 2%."
           }
         ]
       },
@@ -651,14 +717,18 @@
             "talent": "Ring of Peace",
             "spell_id": 116844,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_monk_ringofpeace.jpg",
+            "desc": "Form a Ring of Peace at the target location for 5 sec. Enemies that enter will be ejected from the Ring."
           },
           {
             "entry_id": "124925",
             "talent": "Song of Chi-Ji",
             "spell_id": 198898,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_chaos_orb.jpg",
+            "desc": "Conjures a cloud of hypnotic mist that slowly travels forward. Enemies touched by the mist fall asleep, Disoriented for 20 sec."
           }
         ]
       },
@@ -680,7 +750,9 @@
             "talent": "Spirit's Essence",
             "spell_id": 450595,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_spectraltransformation.jpg",
+            "desc": "Transcendence: Transfer snares targets within 10 yds by 70% for 4 sec when cast."
           }
         ]
       },
@@ -703,7 +775,9 @@
             "talent": "Tiger Tail Sweep",
             "spell_id": 264348,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_legsweep.jpg",
+            "desc": "Increases the range of Leg Sweep by 4 yds."
           }
         ]
       },
@@ -726,7 +800,9 @@
             "talent": "Improved Touch of Death",
             "spell_id": 322113,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_touchofdeath.jpg",
+            "desc": "Touch of Death can now be used on targets with less than 15% health remaining, dealing 35% of your maximum health in damage."
           }
         ]
       },
@@ -750,7 +826,9 @@
             "talent": "Vigorous Expulsion",
             "spell_id": 392900,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_expelharm.jpg",
+            "desc": "Expel Harm's healing increased by 5% and critical strike chance increased by 15%."
           }
         ]
       },
@@ -773,7 +851,9 @@
             "talent": "Yu'lon's Grace",
             "spell_id": 414131,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_dragonkick.jpg",
+            "desc": "Find resilience in the flow of chi in battle, gaining a magic absorb shield for 1.0% of your max health every 3 sec in combat, stacking up to 10%."
           }
         ]
       },
@@ -795,7 +875,9 @@
             "talent": "Peace and Prosperity",
             "spell_id": 450448,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_inscription_deck_redcrane.jpg",
+            "desc": "Reduces the cooldown of Ring of Peace by 5 sec and Song of Chi-Ji's cast time is reduced by 0.5 sec."
           }
         ]
       },
@@ -818,7 +900,9 @@
             "talent": "Fortifying Brew",
             "spell_id": 115203,
             "max_ranks": 1,
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_fortifyingale_new.jpg",
+            "desc": "Turns your skin to stone for 15 sec."
           }
         ]
       },
@@ -842,7 +926,9 @@
             "talent": "Dance of the Wind",
             "spell_id": 414132,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_dematerialize.jpg",
+            "desc": "Your dodge chance is increased by 5%."
           }
         ]
       },
@@ -865,7 +951,9 @@
             "talent": "Save Them All",
             "spell_id": 389579,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_weapon_hand_22.jpg",
+            "desc": "Your healing is increased by up to 10%, based on the current health of your target. Lower health targets are healed for more."
           }
         ]
       },
@@ -888,7 +976,9 @@
             "talent": "Swift Art",
             "spell_id": 450622,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_standingkick.jpg",
+            "desc": "Roll removes a snare effect once every 30 sec."
           }
         ]
       },
@@ -910,14 +1000,18 @@
             "talent": "Strength of Spirit",
             "spell_id": 387276,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_healthsphere.jpg",
+            "desc": "Expel Harm's healing is increased by up to 100%, based on your missing health."
           },
           {
             "entry_id": "124923",
             "talent": "Profound Rebuttal",
             "spell_id": 392910,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_expelharm.jpg",
+            "desc": "Expel Harm's critical healing is increased by 50%."
           }
         ]
       },
@@ -941,7 +1035,9 @@
             "talent": "Summon Black Ox Statue",
             "spell_id": 115315,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/monk_ability_summonoxstatue.jpg",
+            "desc": "Summons a Black Ox Statue at the target location for 15 min, pulsing threat to all enemies within 20 yards.\r\n\r\nYou may cast Provoke on the statue to taunt all enemies near the statue."
           }
         ]
       },
@@ -963,14 +1059,18 @@
             "talent": "Ironshell Brew",
             "spell_id": 388814,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_fortifyingale_new.jpg",
+            "desc": "Increases your maximum health by an additional 10% and your damage taken is reduced by an additional 10% while Fortifying Brew is active."
           },
           {
             "entry_id": "124969",
             "talent": "Expeditious Fortification",
             "spell_id": 388813,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_fortifyingale_new.jpg",
+            "desc": "Fortifying Brew cooldown reduced by 30 sec."
           }
         ]
       },
@@ -992,7 +1092,9 @@
             "talent": "Diffuse Magic",
             "spell_id": 1243287,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_monk_diffusemagic.jpg",
+            "desc": "Activating Fortifying Brew transfers all currently active harmful magical effects on you back to their original caster if possible."
           }
         ]
       },
@@ -1015,7 +1117,9 @@
             "talent": "Celestial Determination",
             "spell_id": 450638,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_essencefont.jpg",
+            "desc": "While your Celestial is active, you cannot be slowed below 90% normal movement speed."
           }
         ]
       },
@@ -1039,7 +1143,9 @@
             "talent": "Chi Proficiency",
             "spell_id": 450426,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_chiswirl.jpg",
+            "desc": "Magical damage done increased by 5% and healing done increased by 5%."
           }
         ]
       },
@@ -1061,7 +1167,9 @@
             "talent": "Healing Winds",
             "spell_id": 450560,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_pathofmists.jpg",
+            "desc": "Transcendence: Transfer immediately heals you for 10% of your maximum health."
           }
         ]
       },
@@ -1085,7 +1193,9 @@
             "talent": "Windwalking",
             "spell_id": 157411,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/monk_stance_whitetiger.jpg",
+            "desc": "You and your allies within 10 yards have 10% increased movement speed. Stacks with other similar effects."
           }
         ]
       },
@@ -1107,7 +1217,9 @@
             "talent": "Chi Transfer",
             "spell_id": 1272452,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_zenmeditation.jpg",
+            "desc": "Touch of Death now heals you for 50% of its damage done."
           }
         ]
       },
@@ -1130,7 +1242,9 @@
             "talent": "Martial Instincts",
             "spell_id": 450427,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_palmstrike.jpg",
+            "desc": "Increases your Physical damage done by 5% and Avoidance increased by 2%."
           }
         ]
       },
@@ -1152,7 +1266,9 @@
             "talent": "Lighter Than Air",
             "spell_id": 449582,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_ridethewind.jpg",
+            "desc": "Roll causes you to become lighter than air, allowing you to double jump to dash forward a short distance once within 5 sec, but the cooldown of Roll is increased by 2 sec."
           }
         ]
       },
@@ -1175,7 +1291,9 @@
             "talent": "Flow of Chi",
             "spell_id": 450569,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_healthsphere.jpg",
+            "desc": "You gain a bonus effect based on your current health.\r\n\r\nAbove 90% health: Movement speed increased by 5%. This bonus stacks with similar effects.\r\n\r\nBetween 90% and 35% health: Damage taken reduced by 5%.\r\n\r\nBelow 35% health: Healing received increased by 10%."
           }
         ]
       },
@@ -1199,14 +1317,18 @@
             "talent": "Escape from Reality",
             "spell_id": 394110,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/monk_ability_transcendence.jpg",
+            "desc": "After you use Transcendence: Transfer, you can use Transcendence: Transfer again within 10 sec, ignoring its cooldown."
           },
           {
             "entry_id": "124972",
             "talent": "Transcendence: Linked Spirits",
             "spell_id": 434774,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/monk_ability_transcendence.jpg",
+            "desc": "Transcendence now tethers your spirit onto an ally for 1 hour. Use Transcendence: Transfer to teleport to your ally's location."
           }
         ]
       },
@@ -1229,7 +1351,9 @@
             "talent": "Fatal Touch",
             "spell_id": 394123,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_touchofdeath.jpg",
+            "desc": "Touch of Death's cooldown is reduced by 90 sec."
           }
         ]
       },
@@ -1251,7 +1375,9 @@
             "talent": "Rushing Reflexes",
             "spell_id": 450154,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_yulonsgift.jpg",
+            "desc": "Your heightened reflexes allow you to react swiftly to the presence of enemies, causing you to quickly lunge to the nearest enemy in front of you within 10 yards after you Roll."
           }
         ]
       }
@@ -1273,7 +1399,9 @@
             "talent": "Keg Smash",
             "spell_id": 121253,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_brewery_2.jpg",
+            "desc": "Smash a keg of brew, dealing 98 Physical damage to your primary target and 67 Physical damage to all other enemies within 8 yds, and reducing their movement speed by 20% for 15 sec. Deals reduced damage beyond 5 targets."
           }
         ]
       },
@@ -1295,7 +1423,9 @@
             "talent": "Purifying Brew",
             "spell_id": 119582,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_beer_06.jpg",
+            "desc": "Clears 50% of your Staggered damage, or a minimum of 8% of your maximum health."
           }
         ]
       },
@@ -1317,7 +1447,9 @@
             "talent": "Shuffle",
             "spell_id": 322120,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_shuffle.jpg",
+            "desc": "Niuzao's teachings allow you to shuffle during combat, increasing the effectiveness of your Stagger by 100%.\r\n\r\nShuffle is granted by attacking enemies with your Keg Smash, Blackout Kick, and Spinning Crane Kick.\r\n\r\n Stagger: You shrug off attacks, delaying a portion of Physical damage based on your Agility, instead taking it over 10 sec. Affects magical attacks at 58% effectiveness."
           }
         ]
       },
@@ -1339,7 +1471,9 @@
             "talent": "August Blessing",
             "spell_id": 454483,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_celestialserpentmount.jpg",
+            "desc": "When you would be healed above maximum health, you instead convert an amount equal to 40% of your critical strike chance to a heal over time effect."
           }
         ]
       },
@@ -1361,14 +1495,18 @@
             "talent": "Staggering Strikes",
             "spell_id": 387625,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_blackoutstrike.jpg",
+            "desc": "When you Blackout Kick, your Stagger is reduced by 210, increased by up to 200% based on your missing health."
           },
           {
             "entry_id": "136148",
             "talent": "Quick Sip",
             "spell_id": 388505,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_faction_brewmaster.jpg",
+            "desc": "Purify 5% of your Staggered damage each time you gain 3 sec of Shuffle duration."
           }
         ]
       },
@@ -1391,7 +1529,9 @@
             "talent": "Elixir of Determination",
             "spell_id": 455139,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/monk_ability_cherrymanatea.jpg",
+            "desc": "When you fall below 40% health, you gain an absorb for 30% of your recently Purified damage, or a minimum of 8% of your maximum health. Cannot occur more than once every 15 sec."
           }
         ]
       },
@@ -1413,7 +1553,9 @@
             "talent": "Improved Blackout Kick",
             "spell_id": 383695,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_roundhousekick.jpg",
+            "desc": "Blackout Kick deals 20% increased damage."
           }
         ]
       },
@@ -1435,7 +1577,9 @@
             "talent": "Swift as a Coursing River",
             "spell_id": 1263346,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_sprint_blue.jpg",
+            "desc": "Drinking from a Brew increases your movement speed by 15% and your auto-attack speed by 10% for 15 sec."
           }
         ]
       },
@@ -1458,7 +1602,9 @@
             "talent": "Gift of the Ox",
             "spell_id": 124502,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_giftoftheearthmother.jpg",
+            "desc": "When you take damage, you have a chance to summon a Healing Sphere.\r\n\r\nHealing Sphere:\r\nSummon a Healing Sphere visible only to you. Moving through this Healing Sphere heals you for 117."
           }
         ]
       },
@@ -1482,14 +1628,18 @@
             "talent": "Special Delivery",
             "spell_id": 196730,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_brewery_2.jpg",
+            "desc": "Drinking from your Brews has a 100% chance to toss a keg high into the air that lands nearby after 3 sec, dealing 35 Physical damage to all enemies within 8 yards and reducing their movement speed by 50% for 15 sec."
           },
           {
             "entry_id": "125007",
             "talent": "Rushing Jade Wind",
             "spell_id": 116847,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_rushingjadewind.jpg",
+            "desc": "Summons a whirling tornado around you, causing 43 Physical damage over 5.4 sec to all enemies within 8 yards. Deals reduced damage beyond 5 targets."
           }
         ]
       },
@@ -1512,7 +1662,9 @@
             "talent": "Spirit of the Ox",
             "spell_id": 400629,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_titankeeper_cleansingorb.jpg",
+            "desc": "Blackout Kick has a chance to summon a Healing Sphere.\r\n\r\nHealing Sphere:\r\nSummon a Healing Sphere visible only to you. Moving through this Healing Sphere heals you for 116."
           }
         ]
       },
@@ -1534,7 +1686,9 @@
             "talent": "Jade Flash",
             "spell_id": 1262334,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/shaman_pvp_staticcling.jpg",
+            "desc": "Crackling Jade Lightning deals its damage in 75% less time, costs 75% less Energy, and strikes 4 additional targets, but has a 60 sec cooldown."
           }
         ]
       },
@@ -1556,14 +1710,18 @@
             "talent": "Celestial Brew",
             "spell_id": 322507,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_ironskinbrew.jpg",
+            "desc": "A swig of strong brew that coalesces purified chi escaping your body into a celestial guard, absorbing 793 damage."
           },
           {
             "entry_id": "136146",
             "talent": "Celestial Infusion",
             "spell_id": 1241059,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_tigereyebrandy.jpg",
+            "desc": "A strong herbal brew that coalesces purified chi escaping your body into a celestial guard, absorbing 30% of incoming damage, up to 794 total."
           }
         ]
       },
@@ -1586,7 +1744,9 @@
             "talent": "Niuzao's Resolve",
             "spell_id": 1241097,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_monk_renewingmists_active.jpg",
+            "desc": "Healing Spheres now heal over 10 sec, and their healing is increased by up to 80% based on your missing health."
           }
         ]
       },
@@ -1608,7 +1768,9 @@
             "talent": "Celestial Flames",
             "spell_id": 1263353,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_volatilefire.jpg",
+            "desc": "Drinking from Brews has a 30% chance to coat you with Celestial Flames for 6 sec. While Celestial Flames is active:\r\n\r\n Special Delivery:\r\nKegs thrown by Special Delivery are ignited and splash upon landing, dealing 34 Fire damage to up to 5 nearby enemies.\r\n\r\n Rushing Jade Wind:\r\nRushing Jade Wind becomes a firestorm, increasing its radius by 30% and causing it to deal Fire damage."
           }
         ]
       },
@@ -1631,14 +1793,18 @@
             "talent": "Shadowboxing Treads",
             "spell_id": 387638,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_roundhousekick.jpg",
+            "desc": "Blackout Kick's damage increased by 20% and it strikes an additional 2 targets."
           },
           {
             "entry_id": "124852",
             "talent": "Fluidity of Motion",
             "spell_id": 387230,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_standingkick.jpg",
+            "desc": "Blackout Kick's cooldown is reduced by 1 sec."
           }
         ]
       },
@@ -1660,7 +1826,9 @@
             "talent": "Elusive Footwork",
             "spell_id": 387046,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_shuffle.jpg",
+            "desc": "Blackout Kick deals an additional 5% damage. Blackout Kick critical hits grant an additional 1 stack of Elusive Brawler."
           }
         ]
       },
@@ -1682,7 +1850,9 @@
             "talent": "One With the Wind",
             "spell_id": 454484,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_skyreach_wind.jpg",
+            "desc": "You have a 10% chance to not reset your Elusive Brawler stacks after a successful dodge."
           }
         ]
       },
@@ -1705,7 +1875,9 @@
             "talent": "Breath of Fire",
             "spell_id": 115181,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_breathoffire.jpg",
+            "desc": "Breathe fire on targets in front of you, causing 35 Fire damage. Deals reduced damage to secondary targets.\r\n\r\nTargets affected by Keg Smash will also burn, taking 23 Fire damage and dealing 5% reduced damage to you for 12 sec."
           }
         ]
       },
@@ -1729,7 +1901,9 @@
             "talent": "Gai Plin's Imperial Brew",
             "spell_id": 383700,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_beer_05.jpg",
+            "desc": "Purifying Brew instantly heals you for 25% of the Staggered damage it clears."
           }
         ]
       },
@@ -1753,14 +1927,18 @@
             "talent": "Light Brewing",
             "spell_id": 325093,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_brew_wheat.jpg",
+            "desc": "Reduces the cooldown of Purifying Brew, Celestial Brew, and Celestial Infusion by 20%."
           },
           {
             "entry_id": "124857",
             "talent": "Training of Niuzao",
             "spell_id": 383714,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/monk_stance_drunkenox.jpg",
+            "desc": "Gain up to 15% Mastery based on your current level of Stagger."
           }
         ]
       },
@@ -1783,7 +1961,9 @@
             "talent": "Pretense of Instability",
             "spell_id": 393516,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_archaeology_vrykuldrinkinghorn.jpg",
+            "desc": "Drinking a Brew grants you 10% dodge for 5 sec."
           }
         ]
       },
@@ -1805,14 +1985,18 @@
             "talent": "Scalding Brew",
             "spell_id": 383698,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_brew_bolt_dark.jpg",
+            "desc": "Keg Smash deals an additional 20% damage to targets affected by Breath of Fire."
           },
           {
             "entry_id": "124988",
             "talent": "Sal'salabim's Strength",
             "spell_id": 383697,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_unrelentingassault.jpg",
+            "desc": "When you use Keg Smash, the remaining cooldown on Breath of Fire is reset."
           }
         ]
       },
@@ -1836,7 +2020,9 @@
             "talent": "Fortifying Brew: Determination",
             "spell_id": 322960,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_fortifyingale_new.jpg",
+            "desc": "Fortifying Brew increases Stagger effectiveness by 15% while active.\r\n\r\nCombines with other Fortifying Brew effects."
           }
         ]
       },
@@ -1858,14 +2044,18 @@
             "talent": "Bob and Weave",
             "spell_id": 280515,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_creature_cursed_04.jpg",
+            "desc": "Increases the duration of Stagger by 5.0 sec, causing Staggered damage to be dealt to you more gradually."
           },
           {
             "entry_id": "124991",
             "talent": "Black Ox Brew",
             "spell_id": 115399,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_chibrew.jpg",
+            "desc": "Chug some Black Ox Brew, which instantly refills your Energy, Purifying Brew charges, and grants one charge of Celestial Brew or Celestial Infusion."
           }
         ]
       },
@@ -1889,7 +2079,9 @@
             "talent": "Walk with the Ox",
             "spell_id": 387219,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_chargingoxwave.jpg",
+            "desc": "Your damaging abilities have a chance to invoke Niuzao, causing him to charge to your target's location and Stomp, dealing 141 Physical damage to your target and reduced damage to secondary targets."
           }
         ]
       },
@@ -1911,7 +2103,9 @@
             "talent": "Zen State",
             "spell_id": 1241136,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_monk_zenpilgrimage.jpg",
+            "desc": "The effectiveness of your Stagger is increased by up to 15%, based on your missing health."
           }
         ]
       },
@@ -1935,7 +2129,9 @@
             "talent": "Tranquil Spirit",
             "spell_id": 393357,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_chiswirl.jpg",
+            "desc": "When you consume a Healing Sphere, you clear 5% of your currently Staggered damage."
           }
         ]
       },
@@ -1957,7 +2153,9 @@
             "talent": "Face Palm",
             "spell_id": 389942,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_tigerpalm.jpg",
+            "desc": "Tiger Palm's damage is increased by 100% and reduces the remaining cooldown of your Brews by 0.5 additional sec."
           }
         ]
       },
@@ -1979,14 +2177,18 @@
             "talent": "Dragonfire Brew",
             "spell_id": 383994,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_burnout.jpg",
+            "desc": "Breath of Fire deals 100% increased damage, and after using Breath of Fire, you breathe fire 2 additional times, each dealing 7 Fire damage."
           },
           {
             "entry_id": "124986",
             "talent": "Charred Passions",
             "spell_id": 386965,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_mightyoxkick.jpg",
+            "desc": "Your Breath of Fire ignites your right leg in flame for 8 sec, causing your Blackout Kick and Spinning Crane Kick to deal 50% additional damage as Fire damage and refresh the duration of your Breath of Fire on the target."
           }
         ]
       },
@@ -2010,7 +2212,9 @@
             "talent": "High Tolerance",
             "spell_id": 196737,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/monk_ability_avertharm.jpg",
+            "desc": "Stagger is 5% more effective at delaying damage.\r\n\r\nPurifying Brew refunds 4.0 sec of its cooldown if cast at Elevated Stagger."
           }
         ]
       },
@@ -2034,14 +2238,18 @@
             "talent": "Press the Advantage",
             "spell_id": 418359,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv__fistofthewhitetiger.jpg",
+            "desc": "Your main hand auto attacks reduce the cooldown on your Brews by 0.50 sec and block your target's chi, dealing 10 additional Nature damage.\r\n\r\nAfter 10 attacks, the next casts Tiger Palm at 100% effectiveness."
           },
           {
             "entry_id": "124996",
             "talent": "Blackout Combo",
             "spell_id": 196736,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_blackoutkick.jpg",
+            "desc": "Blackout Kick also empowers your next ability:\r\n\r\n Tiger Palm: Damage increased by 100%.\r\n\r\n Keg Smash: Reduces the remaining cooldown on your Brews by 2 additional sec."
           }
         ]
       },
@@ -2065,7 +2273,9 @@
             "talent": "Anvil and Stave",
             "spell_id": 386937,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_elusiveale.jpg",
+            "desc": "Each time you dodge or an enemy misses you, the remaining cooldown on your Brews is reduced by 0.5 sec. Effect reduced by 50% for each additional recent attacker, up to 5."
           }
         ]
       },
@@ -2087,7 +2297,9 @@
             "talent": "Counterstrike",
             "spell_id": 383785,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_palmstrike.jpg",
+            "desc": "Each time you dodge or an enemy misses you, your next Tiger Palm or Spinning Crane Kick deals 100% increased damage."
           }
         ]
       },
@@ -2111,7 +2323,9 @@
             "talent": "Exploding Keg",
             "spell_id": 325153,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_ability_monk_explodingkeg.jpg",
+            "desc": "Hurls a flaming keg at the target location, dealing 133 Fire damage to nearby enemies, causing your attacks against them to deal 10 additional Fire damage, and causing their melee attacks to deal 100% reduced damage for the next 3 sec.\r\n\r\nResets the cooldown of Keg Smash."
           }
         ]
       },
@@ -2135,7 +2349,9 @@
             "talent": "Ox Stance",
             "spell_id": 455068,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_leeroftheox.jpg",
+            "desc": "Casting Purifying Brew grants a charge of Ox Stance. When you take damage that is greater than 60% of your current health, a charge is consumed to increase the amount you Stagger."
           }
         ]
       },
@@ -2159,14 +2375,18 @@
             "talent": "Awakening Spirit",
             "spell_id": 1262628,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_boss_golden_lotus_council.jpg",
+            "desc": "Purifying Brew also surrounds you with protective energies for 15 sec. \r\n\r\nWhen Staggered damage would be dealt to you, you instead absorb up to 50%, until 210 has been prevented."
           },
           {
             "entry_id": "136149",
             "talent": "Vital Flame",
             "spell_id": 1262659,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_faction_shadopan.jpg",
+            "desc": "Heal for 40% of all Fire or Nature damage dealt by your spells and abilities."
           }
         ]
       },
@@ -2190,7 +2410,9 @@
             "talent": "Invoke Niuzao, the Black Ox",
             "spell_id": 132578,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_monk_brewmaster_spec.jpg",
+            "desc": "Summons an effigy of Niuzao, the Black Ox for 25 sec that attacks your primary target and Stomps when you cast Blackout Kick, damaging all nearby enemies.\r\n\r\nWhile active, 40% of damage delayed by Stagger is instead Staggered by Niuzao, and Niuzao is healed for 100% of your purified Stagger."
           }
         ]
       },
@@ -2212,7 +2434,9 @@
             "talent": "Fuel on the Fire",
             "spell_id": 1262017,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_stormearthfire.jpg",
+            "desc": "Exploding Keg also causes your next 2 casts of Keg Smash to summon a whirl of flame which spirals outwards, dealing 70 additional Fire damage to each enemy struck."
           }
         ]
       },
@@ -2234,7 +2458,9 @@
             "talent": "Empty the Cellar",
             "spell_id": 1262329,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_vehicle_liquidpyrite.jpg",
+            "desc": "Exploding Keg can be reactivated within 20 sec to throw 5 additional kegs at nearby targets, each dealing 70 Physical damage and reducing the cooldown of your Brews by 3.0 sec."
           }
         ]
       },
@@ -2258,7 +2484,9 @@
             "talent": "Stormstout's Last Keg",
             "spell_id": 383707,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_brewery_2.jpg",
+            "desc": "Keg Smash deals 50% additional damage to its primary target, has 1 additional charge, and its range is increased by 10 yards."
           }
         ]
       },
@@ -2280,7 +2508,9 @@
             "talent": "Heart of the Ox",
             "spell_id": 1263245,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_muskox_white.jpg",
+            "desc": "Mastery increased by 5%. Double this effect while Invoke Niuzao, the Black Ox is active."
           }
         ]
       },
@@ -2302,7 +2532,9 @@
             "talent": "Mighty Stomp",
             "spell_id": 322740,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_inscription_trinket_ox.jpg",
+            "desc": "While active, Invoke Niuzao, the Black Ox can be recast to cause Niuzao to stomp mightily and knock nearby enemies into the air."
           }
         ]
       },
@@ -2322,7 +2554,9 @@
             "talent": "Bring Me Another",
             "spell_id": 1265129,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_apextalent_monk_bringmeanother.jpg",
+            "desc": "Drinking a Brew has a 20% chance to leave you with an Empty Barrel, which is tossed along with your next Keg Smash to deal 105 Physical damage to your target. Ricochets up to 4 times at 80% effectiveness."
           }
         ]
       }
@@ -2347,7 +2581,9 @@
               "talent": "Vigilant Watch",
               "spell_id": 450993,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_masterofsubtlety.jpg",
+              "desc": "Blackout Kick deals an additional 30% critical damage."
             }
           ]
         },
@@ -2369,14 +2605,18 @@
               "talent": "Whirling Steel",
               "spell_id": 450991,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_whirlwind.jpg",
+              "desc": "When your health drops below 50%, summon Whirling Steel, increasing your parry chance and avoidance by 15% for 6 sec.\r\n\r\nThis effect can not occur more than once every 180 sec."
             },
             {
               "entry_id": "125064",
               "talent": "Predictive Training",
               "spell_id": 450992,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_domeofmist.jpg",
+              "desc": "When you dodge or parry an attack, reduce all damage taken by 10% for the next 6 sec."
             }
           ]
         },
@@ -2398,7 +2638,9 @@
               "talent": "Martial Precision",
               "spell_id": 450990,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_jab.jpg",
+              "desc": "Your attacks penetrate 12% armor."
             }
           ]
         },
@@ -2420,14 +2662,18 @@
               "talent": "Pride of Pandaria",
               "spell_id": 450979,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_staff_2h_pandarenmonk_c_01.jpg",
+              "desc": "Flurry Strikes have 15% additional chance to critically strike."
             },
             {
               "entry_id": "125067",
               "talent": "High Impact",
               "spell_id": 450982,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_powerstrikes.jpg",
+              "desc": "Enemies who die within 10 sec of being damaged by a Flurry Strike explode, dealing 35 physical damage to uncontrolled enemies within 8 yds."
             }
           ]
         },
@@ -2447,7 +2693,9 @@
               "talent": "Flurry Strikes",
               "spell_id": 450615,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_shadopanmonk_flurrystrikes.jpg",
+              "desc": "Your auto attacks have a chance to generate 1-2 Flurry Charges. When you cast Keg Smash, unleash all Flurry Charges, dealing 21 Physical damage per charge."
             }
           ]
         },
@@ -2469,7 +2717,9 @@
               "talent": "Veteran's Eye",
               "spell_id": 450987,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_provoke.jpg",
+              "desc": "Haste increased by 5%."
             }
           ]
         },
@@ -2491,7 +2741,9 @@
               "talent": "One Versus Many",
               "spell_id": 450988,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_chargingoxwave.jpg",
+              "desc": "Auto attack critical strikes generate double the amount of Flurry Charges.\r\n\r\n\r\nKeg Smash damage increased by 35%."
             }
           ]
         },
@@ -2513,7 +2765,9 @@
               "talent": "Efficient Training",
               "spell_id": 450989,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_fistofthewhitetiger.jpg",
+              "desc": "Energy spenders deal an additional 20% damage.\r\nThe cooldown of Invoke Niuzao, the Black Ox is reduced by 25 sec."
             }
           ]
         },
@@ -2538,7 +2792,9 @@
               "talent": "Wisdom of the Wall",
               "spell_id": 1272821,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_legendary_sigilofwisdom.jpg",
+              "desc": "Invoke Niuzao, the Black Ox causes Breath of Fire to launch 3 Flurry Strikes."
             }
           ]
         },
@@ -2560,7 +2816,9 @@
               "talent": "Against All Odds",
               "spell_id": 450986,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_legionpvp6tier1.jpg",
+              "desc": "Your agility is increased by 4%."
             }
           ]
         },
@@ -2582,14 +2840,18 @@
               "talent": "Combat Stance",
               "spell_id": 1272844,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_roll.jpg",
+              "desc": "The cooldown of Roll is decreased by 10%."
             },
             {
               "entry_id": "125075",
               "talent": "Initiator's Edge",
               "spell_id": 1272849,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/crest_monk.jpg",
+              "desc": "Movement speed is increased by 50% for the first 8 sec of combat."
             }
           ]
         },
@@ -2611,7 +2873,9 @@
               "talent": "Shado Over the Battlefield",
               "spell_id": 1262612,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_elemental_primal_shadow.jpg",
+              "desc": "Flurry Strikes deal 18 Nature damage to all enemies within 6 yds, reduced beyond 8 targets."
             }
           ]
         },
@@ -2633,7 +2897,9 @@
               "talent": "Stand Ready",
               "spell_id": 1262603,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_sparring.jpg",
+              "desc": "Activating Invoke Niuzao, the Black Ox instantly grants 10 stacks of Flurry Strikes that trigger on your next attack at 70% effectiveness."
             }
           ]
         },
@@ -2655,7 +2921,9 @@
               "talent": "Weapons of the Wall",
               "spell_id": 1262610,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/misc_legionfall_monk.jpg",
+              "desc": "Invoke Niuzao, the Black Ox's stomp damage increased by 20%."
             }
           ]
         }
@@ -2679,7 +2947,9 @@
               "talent": "Overwhelming Force",
               "spell_id": 451024,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_titankeeper_piercingcorruption.jpg",
+              "desc": "Rising Sun Kick, Blackout Kick and Tiger Palm deal 15% additional damage to enemies in a line in front of you. Damage reduced above 5 targets."
             }
           ]
         },
@@ -2701,14 +2971,18 @@
               "talent": "Tiger's Vigor",
               "spell_id": 451041,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/monk_stance_whitetiger.jpg",
+              "desc": "Casting Tiger's Lust reduces the remaining cooldown on Roll by 5 sec."
             },
             {
               "entry_id": "125030",
               "talent": "Roar from the Heavens",
               "spell_id": 451043,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_celestialserpentmount.jpg",
+              "desc": "Tiger's Lust grants 20% movement speed to up to 2 allies near its target."
             }
           ]
         },
@@ -2730,7 +3004,9 @@
               "talent": "Manifestation",
               "spell_id": 450875,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_shoulder_inv_leather_raidmonk_s_01.jpg",
+              "desc": "Chi Burst and Chi Wave deal 50% increased damage and healing."
             }
           ]
         },
@@ -2750,7 +3026,9 @@
               "talent": "Aspect of Harmony",
               "spell_id": 450508,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_masterofharmonymonk_aspectofharmony.jpg",
+              "desc": "Store vitality from 10% of your damage dealt and 30% of your healing.\r\n\r\nFor 10 sec after casting Thunder Focus Tea your spells and abilities draw upon the stored vitality to deal 40% additional healing over 8 sec."
             }
           ]
         },
@@ -2772,14 +3050,18 @@
               "talent": "Purified Spirit",
               "spell_id": 450867,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_explodingjadeblossom.jpg",
+              "desc": "When Aspect of Harmony ends, any remaining vitality is expelled as healing over 8 sec, split among nearby targets."
             },
             {
               "entry_id": "125034",
               "talent": "Harmonic Gambit",
               "spell_id": 450870,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/passive_monk_teachingsofmonastery.jpg",
+              "desc": "During Aspect of Harmony, Rising Sun Kick, Blackout Kick, and Tiger Palm also withdraw vitality to damage enemies for an additional 20% over 8 sec."
             }
           ]
         },
@@ -2801,7 +3083,9 @@
               "talent": "Endless Draught",
               "spell_id": 450892,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_drink_25_honeytea.jpg",
+              "desc": "Thunder Focus Tea has 1 additional charge."
             }
           ]
         },
@@ -2823,14 +3107,18 @@
               "talent": "Path of Resurgence",
               "spell_id": 450912,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_pathofmists.jpg",
+              "desc": "Chi Burst increases vitality stored by 25% for 10 sec."
             },
             {
               "entry_id": "125037",
               "talent": "Way of a Thousand Strikes",
               "spell_id": 450965,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_mightyoxkick.jpg",
+              "desc": "Rising Sun Kick, Blackout Kick and Tiger Palm contribute 30% additional vitality."
             }
           ]
         },
@@ -2855,7 +3143,9 @@
               "talent": "Coalescence",
               "spell_id": 450529,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_effuse.jpg",
+              "desc": "When Aspect of Harmony heals, it has a chance to spread to a nearby ally. When you directly heal an affected target, it has a chance to intensify, withdrawing additional vitality to increase its effect by up to 20%.\r\n\r\nVivify no longer contributes vitality. While Aspect of Harmony is not active, Vivify instead draws on available vitality to deal an additional 100% healing over 8 sec.\r\n\r\nVitality stored by other abilities is increased by 50%."
             }
           ]
         },
@@ -2877,7 +3167,9 @@
               "talent": "Clarity of Purpose",
               "spell_id": 451017,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_titankeeper_cleanse.jpg",
+              "desc": "Casting Enveloping Mist stores 1,140 additional vitality."
             }
           ]
         },
@@ -2899,14 +3191,18 @@
               "talent": "Mantra of Purity",
               "spell_id": 451036,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_domeofmist.jpg",
+              "desc": "When cast on yourself, your single-target healing spells heal for 10% more and restore an additional 570 health over 6 sec."
             },
             {
               "entry_id": "125041",
               "talent": "Mantra of Tenacity",
               "spell_id": 451029,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_monk_brewmastertraining.jpg",
+              "desc": "Fortifying Brew grants 20% Stagger."
             }
           ]
         },
@@ -2928,7 +3224,9 @@
               "talent": "Balanced Stratagem",
               "spell_id": 450889,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_sphereharmonydiscord.jpg",
+              "desc": "Casting a Physical spell or ability increases the damage and healing of your next Fire or Nature spell or ability by 3%, and vice versa. Stacks up to 5."
             }
           ]
         },
@@ -2950,7 +3248,9 @@
               "talent": "Harmonic Surge",
               "spell_id": 1270958,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_socererking_forcenova.jpg",
+              "desc": "Casting Thunder Focus Tea grants 2 charges of Potential Energy. Your next cast of Tiger Palm or Vivify consumes all charges of Potential Energy to cause a Harmonic Surge.\r\n\r\nHarmonic Surge:\r\nFor each charge of Potential Energy, deal 836 Nature damage to your target and 836 Nature damage to other nearby enemies, and heal up to 5 allies for 190. Damage reduced above 5 targets."
             }
           ]
         },
@@ -2972,7 +3272,9 @@
               "talent": "Potential Energy",
               "spell_id": 1271048,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_magic_managain.jpg",
+              "desc": "Casting Keg Smash grants a charge of Potential Energy."
             }
           ]
         },
@@ -2994,7 +3296,9 @@
               "talent": "Meditative Focus",
               "spell_id": 1271105,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_herb_mountainsilversage.jpg",
+              "desc": "Blackout Combo:\r\nIncreases Tiger Palm damage by an additional 50% and Keg Smash reduces the cooldown on your Brews by an additional 1.0 sec.\r\n\r\n  Press the Advantage:\r\nNature damage dealt by your main hand auto-attacks is increased by 100% and they now reduce the cooldown on your Brews by an additional 0.25 sec."
             }
           ]
         }

@@ -14,6 +14,7 @@ import {
   maxRank,
   pointsSpent,
   prune,
+  replayLoadout,
 } from "./validate";
 
 export type Budgets = { class: number; spec: number; hero: number };
@@ -30,7 +31,7 @@ export class BuildController {
   build = new SvelteMap<number, NodeState>();
   spec = $state<SpecData | null>(null);
   heroName = $state<string | null>(null);
-  budgets = $state<Budgets>({ class: 31, spec: 30, hero: 11 });
+  budgets = $state<Budgets>({ class: 34, spec: 34, hero: 13 });
 
   // Rebuilt on each load(); not reactive (only changes when spec changes, which
   // already drives reactivity through `spec`).
@@ -59,6 +60,25 @@ export class BuildController {
     for (const [name, sub] of Object.entries(spec.trees.hero)) {
       this.heroCtx[name] = mk(sub.nodes, budgets.hero);
     }
+  }
+
+  // Apply a decoded loadout to the live build (the decode→controller bridge;
+  // `load()` only resets). Set the active hero tree first so its ctx resolves,
+  // replay the purchased ranks/choices, then prune each tree so anything that
+  // fails a gate/prereq is refunded — leaving a valid build. A game-legal string
+  // round-trips unchanged; a hand-mangled one self-heals to the nearest legal one.
+  applyBuild(build: Build, heroName: string | null): void {
+    if (!this.spec) return;
+    if (heroName && heroName in this.heroCtx) this.setHero(heroName);
+    const trees: TalentNode[][] = [];
+    if (this.classCtx) trees.push(this.classCtx.nodes);
+    if (this.specCtx) trees.push(this.specCtx.nodes);
+    const hero = this.heroName ? this.heroCtx[this.heroName] : null;
+    if (hero) trees.push(hero.nodes);
+
+    const replayed = replayLoadout(build, trees, this.spec.grantedSerials);
+    this.build.clear();
+    for (const [id, st] of replayed) this.build.set(id, st);
   }
 
   private isChoice(node: TalentNode): boolean {

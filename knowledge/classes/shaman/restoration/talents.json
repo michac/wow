@@ -19,6 +19,12 @@
       "Totemic"
     ]
   },
+  "level_cap": 90,
+  "budgets": {
+    "class": 34,
+    "spec": 34,
+    "hero": 13
+  },
   "trees": {
     "class": [
       {
@@ -37,7 +43,9 @@
             "talent": "Chain Heal",
             "spell_id": 1064,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_1115_shaman_chainheal.jpg",
+            "desc": "Heals the friendly target for 875, then jumps up to 20 yards to heal the 3 most injured nearby allies. Healing is reduced by 30% with each jump."
           }
         ]
       },
@@ -57,7 +65,9 @@
             "talent": "Lava Burst",
             "spell_id": 51505,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_lavaburst.jpg",
+            "desc": "Hurls molten lava at the target, dealing 523 Fire damage. Lava Burst will always critically strike if the target is affected by Flame Shock and its damage is increased by your critical strike chance."
           }
         ]
       },
@@ -77,7 +87,9 @@
             "talent": "Chain Lightning",
             "spell_id": 188443,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_chainlightning.jpg",
+            "desc": "Hurls a lightning bolt at the enemy, dealing 279 Nature damage and then jumping to additional nearby enemies. Affects 3 total targets"
           }
         ]
       },
@@ -99,7 +111,9 @@
             "talent": "Earth Shield",
             "spell_id": 974,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_skinofearth.jpg",
+            "desc": "Protects the target with an earthen shield, increasing your healing on them by 20% and healing them for 327 when they take damage. This heal can only occur once every 3 sec. Maximum 9 charges.\r\n\r\nEarth Shield can only be placed on one target at a time. Only one Elemental Shield can be active on the Shaman."
           }
         ]
       },
@@ -122,7 +136,9 @@
             "talent": "Ancestral Wolf Affinity",
             "spell_id": 382197,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_beastmaster_wolf.jpg",
+            "desc": "Cleanse Spirit, Wind Shear, Purge, and totem casts no longer cancel Ghost Wolf."
           }
         ]
       },
@@ -144,7 +160,9 @@
             "talent": "Fire and Ice",
             "spell_id": 382886,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_firefrostorb.jpg",
+            "desc": "Increases all Fire and Frost damage you deal by 3%."
           }
         ]
       },
@@ -167,14 +185,18 @@
             "talent": "Spirit Wolf",
             "spell_id": 260878,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_hunter_lonewolf.jpg",
+            "desc": "While transformed into a Ghost Wolf, you gain 5% increased movement speed and 5% damage reduction every 1 sec, stacking up to 4 times."
           },
           {
             "entry_id": "127853",
             "talent": "Thunderous Paws",
             "spell_id": 378075,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_longevity.jpg",
+            "desc": "Ghost Wolf removes snares and increases your movement speed by an additional 25% for the first 3 sec. May only occur once every 20 sec."
           }
         ]
       },
@@ -196,7 +218,9 @@
             "talent": "Frost Shock",
             "spell_id": 196840,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_frostshock.jpg",
+            "desc": "Chills the target with frost, causing 275 Frost damage and reducing the target's movement speed by 50% for 6 sec."
           }
         ]
       },
@@ -218,7 +242,9 @@
             "talent": "Elemental Orbit",
             "spell_id": 383010,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_shattershield.jpg",
+            "desc": "Increases the number of Elemental Shields you can have active on yourself by 1.\r\n\r\nYou can have Earth Shield on yourself and one ally at the same time."
           }
         ]
       },
@@ -241,14 +267,18 @@
             "talent": "Spirit Walk",
             "spell_id": 58875,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_tracking.jpg",
+            "desc": "Removes all movement impairing effects and increases your movement speed by 60% for 8 sec."
           },
           {
             "entry_id": "127864",
             "talent": "Gust of Wind",
             "spell_id": 192063,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_volatileair.jpg",
+            "desc": "A gust of wind hurls you forward."
           }
         ]
       },
@@ -272,7 +302,9 @@
             "talent": "Astral Shift",
             "spell_id": 108271,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_shaman_astralshift.jpg",
+            "desc": "Shift partially into the elemental planes, taking 40% less damage for 12 sec."
           }
         ]
       },
@@ -295,7 +327,9 @@
             "talent": "Nature's Guardian",
             "spell_id": 30884,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_natureguardian.jpg",
+            "desc": "When your health is brought below 35%, you instantly heal for 40% of your maximum health. Cannot occur more than once every 45 sec."
           }
         ]
       },
@@ -317,14 +351,18 @@
             "talent": "Encasing Cold",
             "spell_id": 462762,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_coldasice.jpg",
+            "desc": "Increases the cooldown of Frost Shock by 15 sec, but Frost Shock now freezes targets in place for 4 sec."
           },
           {
             "entry_id": "135717",
             "talent": "Arctic Snowstorm",
             "spell_id": 462764,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_glacier.jpg",
+            "desc": "Enemies within 10 yds of your Frost Shock are snared by 30%."
           }
         ]
       },
@@ -347,7 +385,9 @@
             "talent": "Healing Stream Totem",
             "spell_id": 5394,
             "max_ranks": 1,
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_spear_04.jpg",
+            "desc": "Summons a totem at your feet for 15 sec that heals an injured party or raid member within 40 yards for 253 every 1.8 sec.\r\n\r\nIf you already know Healing Stream Totem, instead gain 1 additional charge of Healing Stream Totem."
           }
         ]
       },
@@ -370,7 +410,9 @@
             "talent": "Winds of Al'Akir",
             "spell_id": 382215,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_galewinds.jpg",
+            "desc": "Increases your movement speed by 5% and the movement speed bonus of Ghost Wolf by an additional 5%."
           }
         ]
       },
@@ -392,14 +434,18 @@
             "talent": "Planes Traveler",
             "spell_id": 381647,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_astralshift.jpg",
+            "desc": "Reduces the cooldown of Astral Shift by 30 sec."
           },
           {
             "entry_id": "127887",
             "talent": "Astral Bulwark",
             "spell_id": 377933,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_ancestralawakening.jpg",
+            "desc": "Astral Shift reduces damage taken by an additional 20%."
           }
         ]
       },
@@ -422,7 +468,9 @@
             "talent": "Brimming with Life",
             "spell_id": 381689,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_jewelry_talisman_06.jpg",
+            "desc": "Stamina increased by 8%.\r\n\r\nWhile you are at full health, Reincarnation cools down 50% faster."
           }
         ]
       },
@@ -445,7 +493,9 @@
             "talent": "Wind Shear",
             "spell_id": 57994,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_cyclone.jpg",
+            "desc": "Disrupts the target's concentration with a burst of wind, interrupting spellcasting and preventing any spell in that school from being cast for 4 sec."
           }
         ]
       },
@@ -467,7 +517,9 @@
             "talent": "Elemental Resistance",
             "spell_id": 462368,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fireresistancetotem_01.jpg",
+            "desc": "Healing from Healing Stream Totem reduces Fire, Frost, and Nature damage taken by 6% for 3 sec."
           }
         ]
       },
@@ -490,7 +542,9 @@
             "talent": "Earthgrab Totem",
             "spell_id": 51485,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_stranglevines.jpg",
+            "desc": "Summons a totem at the target location for 20 sec. The totem pulses every 2 sec, rooting all enemies within 8 yards for 8 sec. Enemies previously rooted by the totem instead suffer 50% movement speed reduction."
           }
         ]
       },
@@ -513,7 +567,9 @@
             "talent": "Capacitor Totem",
             "spell_id": 192058,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_brilliance.jpg",
+            "desc": "Summons a totem at the target location that gathers electrical energy from the surrounding air and explodes after 2 sec, stunning all enemies within 8 yards for 3 sec."
           }
         ]
       },
@@ -536,7 +592,9 @@
             "talent": "Spiritual Awakening",
             "spell_id": 1270375,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_blessingoftheeternals.jpg",
+            "desc": "Mastery increased by 3%."
           }
         ]
       },
@@ -559,7 +617,9 @@
             "talent": "Enhanced Imbues",
             "spell_id": 462796,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_rockbiter.jpg",
+            "desc": "The effects of your weapon and shield imbues are increased by 30%."
           }
         ]
       },
@@ -581,7 +641,9 @@
             "talent": "Windveil",
             "spell_id": 355630,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_elemental_primal_air.jpg",
+            "desc": "Interrupting a spell with Wind Shear reduces all spell damage taken by 15% for 12 sec."
           }
         ]
       },
@@ -604,7 +666,9 @@
             "talent": "Refreshing Waters",
             "spell_id": 378211,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_shaman_fortifyingwaters.jpg",
+            "desc": "Your Healing Surge is 25% more effective on yourself."
           }
         ]
       },
@@ -627,7 +691,9 @@
             "talent": "Improved Purify Spirit",
             "spell_id": 383016,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_shaman_cleansespirit.jpg",
+            "desc": "Purify Spirit additionally removes all Curse effects."
           }
         ]
       },
@@ -649,7 +715,9 @@
             "talent": "Static Charge",
             "spell_id": 265046,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_brilliance.jpg",
+            "desc": "Reduces the cooldown of Capacitor Totem by 15 sec."
           }
         ]
       },
@@ -672,7 +740,9 @@
             "talent": "Wind Rush Totem",
             "spell_id": 192077,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_shaman_windwalktotem.jpg",
+            "desc": "Summons a totem at the target location for 15 sec, continually granting all allies who pass within 10 yards 40% increased movement speed for 5 sec."
           }
         ]
       },
@@ -695,7 +765,9 @@
             "talent": "Earth Elemental",
             "spell_id": 198103,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_earthelemental_totem.jpg",
+            "desc": "Calls forth a Greater Earth Elemental to protect you and your allies, generating high threat and taunting enemies periodically for 30 sec."
           }
         ]
       },
@@ -718,14 +790,18 @@
             "talent": "Purge",
             "spell_id": 370,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_purge.jpg",
+            "desc": "Purges the enemy target, removing 1 beneficial Magic effect."
           },
           {
             "entry_id": "127904",
             "talent": "Greater Purge",
             "spell_id": 378773,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_focusedstrikes.jpg",
+            "desc": "Purges the enemy target, removing 2 beneficial Magic effects."
           }
         ]
       },
@@ -749,7 +825,9 @@
             "talent": "Nature's Fury",
             "spell_id": 381655,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_spiritarmor.jpg",
+            "desc": "Increases the critical strike chance of your Nature spells and abilities by 2%."
           }
         ]
       },
@@ -771,14 +849,18 @@
             "talent": "Ascending Air",
             "spell_id": 462791,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_raidprimalist_windelemental.jpg",
+            "desc": "Wind Rush Totem's cooldown is reduced by 30 sec and its movement speed effect lasts an additional 2 sec."
           },
           {
             "entry_id": "127882",
             "talent": "Jet Stream",
             "spell_id": 462817,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_elemental_primal_air.jpg",
+            "desc": "Wind Rush Totem's movement speed bonus is increased by 10% and now removes snares."
           }
         ]
       },
@@ -800,7 +882,9 @@
             "talent": "Primordial Bond",
             "spell_id": 1279819,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_elemental_primal_earth.jpg",
+            "desc": "Your Earth Elemental no longer taunts nearby enemies or generates threat and instead increases your maximum health by 15% while active."
           }
         ]
       },
@@ -823,7 +907,9 @@
             "talent": "Hex",
             "spell_id": 51514,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_hex.jpg",
+            "desc": "Transforms the enemy into a frog for 1 min. While hexed, the victim is incapacitated, and cannot attack or cast spells. Damage may cancel the effect. Limit 1. Only works on Humanoids and Beasts."
           }
         ]
       },
@@ -846,7 +932,9 @@
             "talent": "Spiritwalker's Grace",
             "spell_id": 79206,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_spiritwalkersgrace.jpg",
+            "desc": "Calls upon the guidance of the spirits for 15 sec, permitting movement while casting Shaman spells. Castable while casting."
           }
         ]
       },
@@ -869,7 +957,9 @@
             "talent": "Totemic Projection",
             "spell_id": 108287,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_shaman_totemrelocation.jpg",
+            "desc": "Relocates your active totems to the specified location."
           }
         ]
       },
@@ -892,7 +982,9 @@
             "talent": "Elemental Warding",
             "spell_id": 381650,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_elementalcombinedfoozles_primordial.jpg",
+            "desc": "Reduces all magic damage taken by 8%."
           }
         ]
       },
@@ -916,7 +1008,9 @@
             "talent": "Totemic Focus",
             "spell_id": 382201,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_relics_totemofrebirth.jpg",
+            "desc": "Increases the radius of your totem effects by 15%.\r\n\r\nIncreases the duration of your Earthbind and Earthgrab Totems by 10 sec.\r\n\r\nIncreases the duration of your Healing Stream, Tremor, Poison Cleansing, and Wind Rush Totems by 3.0 sec."
           }
         ]
       },
@@ -938,14 +1032,18 @@
             "talent": "Graceful Spirit",
             "spell_id": 192088,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_spectraltransformation.jpg",
+            "desc": "Reduces the cooldown of Spiritwalker's Grace by 30 sec and increases your movement speed by 20% while it is active."
           },
           {
             "entry_id": "127907",
             "talent": "Spiritwalker's Aegis",
             "spell_id": 378077,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_racial_forceshield.jpg",
+            "desc": "When you cast Spiritwalker's Grace, you become immune to Silence and Interrupt effects for 5 sec."
           }
         ]
       },
@@ -968,7 +1066,9 @@
             "talent": "Mana Spring",
             "spell_id": 381930,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_manaregentotem.jpg",
+            "desc": "Your Lava Burst casts restore 22 mana to you and 4 allies nearest to you within 40 yards.\r\n\r\nAllies can only benefit from one Shaman's Mana Spring effect at a time, prioritizing healers."
           }
         ]
       },
@@ -990,14 +1090,18 @@
             "talent": "Tremor Totem",
             "spell_id": 8143,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_tremortotem.jpg",
+            "desc": "Summons a totem at your feet that shakes the ground around it for 10 sec, removing Fear, Charm and Sleep effects from party and raid members within 30 yards."
           },
           {
             "entry_id": "136567",
             "talent": "Poison Cleansing Totem",
             "spell_id": 383013,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_poisoncleansingtotem.jpg",
+            "desc": "Summons a totem at your feet that removes all Poison effects from a nearby party or raid member within 30 yards every 1.5 sec for 6 sec."
           }
         ]
       },
@@ -1020,14 +1124,18 @@
             "talent": "Therazane's Resilience",
             "spell_id": 1217622,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/shaman_pvp_rockshield.jpg",
+            "desc": "Earth Shield no longer loses charges and is 115% effective."
           },
           {
             "entry_id": "136584",
             "talent": "Reactive Warding",
             "spell_id": 462454,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_elementalcombinedfoozles_water.jpg",
+            "desc": "When refreshing Earth Shield, your target is healed for 830 for each stack of Earth Shield they are missing.\r\n\r\nAdditionally, Earth Shield can consume charges 1.0 sec faster."
           }
         ]
       },
@@ -1049,7 +1157,9 @@
             "talent": "Voodoo Mastery",
             "spell_id": 204268,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_hex.jpg",
+            "desc": "Your Hex target is slowed by 70% during Hex and for 6 sec after it ends.\r\n\r\nReduces the cooldown of Hex by 15 sec."
           }
         ]
       },
@@ -1072,7 +1182,9 @@
             "talent": "Nature's Swiftness",
             "spell_id": 378081,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_ravenform.jpg",
+            "desc": "Your next healing or damaging Nature spell is instant cast and costs no mana."
           }
         ]
       },
@@ -1096,7 +1208,9 @@
             "talent": "Totemic Surge",
             "spell_id": 381867,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_agitatingtotem.jpg",
+            "desc": "Reduces the cooldown of most totems by 5 sec."
           }
         ]
       },
@@ -1120,7 +1234,9 @@
             "talent": "Instinctive Imbuements",
             "spell_id": 1270350,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_shaman_ascendance.jpg",
+            "desc": "Lightning Shield increases your Intellect by 3%.\r\n\r\nCasting Lightning Shield now applies your weapon imbuements. Earth Shield is also applied if you have the Elemental Orbit talent."
           }
         ]
       }
@@ -1142,7 +1258,9 @@
             "talent": "Riptide",
             "spell_id": 61295,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_riptide.jpg",
+            "desc": "Restorative waters wash over a friendly target, healing them for 1,791 and an additional 1,018 over 18 sec."
           }
         ]
       },
@@ -1164,7 +1282,9 @@
             "talent": "Healing Rain",
             "spell_id": 73920,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_giftofthewaterspirit.jpg",
+            "desc": "Blanket the target area in healing rains, restoring 2,248 health to up to 5 allies over 18 sec."
           }
         ]
       },
@@ -1186,7 +1306,9 @@
             "talent": "Healing Stream Totem",
             "spell_id": 5394,
             "max_ranks": 1,
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_spear_04.jpg",
+            "desc": "Summons a totem at your feet for 15 sec that heals an injured party or raid member within 40 yards for 253 every 1.8 sec.\r\n\r\nIf you already know Healing Stream Totem, instead gain 1 additional charge of Healing Stream Totem."
           }
         ]
       },
@@ -1208,7 +1330,9 @@
             "talent": "Soothing Rain",
             "spell_id": 1252874,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_soulleech_2.jpg",
+            "desc": "Increases the healing done by Healing Rain by 10% and reduces its cast time by 0.5 sec."
           }
         ]
       },
@@ -1230,7 +1354,9 @@
             "talent": "Acid Rain",
             "spell_id": 378443,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_acid_01.jpg",
+            "desc": "Deal 257 Nature damage every 1 sec to up to 5 enemies inside of your Healing Rain."
           }
         ]
       },
@@ -1253,14 +1379,18 @@
             "talent": "Ascendance",
             "spell_id": 114052,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_elementaldevastation.jpg",
+            "desc": "Immediately heals for 4,940 split between allies within 20 yds and transforms into a Water Ascendant for 15 sec.\r\n\r\nWhile ascended, Chain Heal jumps to 3 additional allies with 10% healing reduced for all jumps, Healing Wave always critical heals and heals 1 additional ally at 50% effectiveness, and the mana cost of Chain Heal and Healing Wave is reduced by 25%."
           },
           {
             "entry_id": "135486",
             "talent": "Healing Tide Totem",
             "spell_id": 108280,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_shaman_healingtide.jpg",
+            "desc": "Summons a totem at your feet for 10 sec, which pulses every 1.8 sec, healing all party or raid members within 40 yards for 1,932.\r\n\r\nHealing reduced beyond 5 targets."
           }
         ]
       },
@@ -1282,7 +1412,9 @@
             "talent": "Water Totem Mastery",
             "spell_id": 382030,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_shaman_totemcooldownrefund.jpg",
+            "desc": "Reduces the cooldown of Healing Stream Totem by 5 sec."
           }
         ]
       },
@@ -1304,7 +1436,9 @@
             "talent": "Overflowing Shores",
             "spell_id": 383222,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_giftofthewaterspirit.jpg",
+            "desc": "Healing Rain instantly restores 287 health to 5 allies within its area, and its radius is increased by 2 yards."
           }
         ]
       },
@@ -1328,7 +1462,9 @@
             "talent": "Ancestral Vigor",
             "spell_id": 207401,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_blessingoftheeternals.jpg",
+            "desc": "Targets you heal with Healing Wave, Chain Heal, or Riptide's initial heal gain 5% increased health for 10 sec."
           }
         ]
       },
@@ -1350,14 +1486,18 @@
             "talent": "First Ascendant",
             "spell_id": 462440,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_astralshift.jpg",
+            "desc": "The cooldown of Ascendance is reduced by 60 sec."
           },
           {
             "entry_id": "135485",
             "talent": "Preeminence",
             "spell_id": 462443,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_improvedreincarnation.jpg",
+            "desc": "Your haste is increased by 25% during Ascendance and its duration is increased by 3 sec."
           }
         ]
       },
@@ -1380,7 +1520,9 @@
             "talent": "Resurgence",
             "spell_id": 16196,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_shaman_watershield.jpg",
+            "desc": "Your direct heal criticals refund a percentage of your maximum mana: 0.80% from Healing Wave, 0.48% from Riptide, and 0.20% from Chain Heal."
           }
         ]
       },
@@ -1402,7 +1544,9 @@
             "talent": "Living Stream",
             "spell_id": 382482,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_natureresistancetotem.jpg",
+            "desc": "Healing Stream Totem heals for 100% more, decaying over its duration."
           }
         ]
       },
@@ -1425,7 +1569,9 @@
             "talent": "Current Control",
             "spell_id": 1253093,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_volatilewater.jpg",
+            "desc": "Reduces the mana cost of Healing Wave by 15%."
           }
         ]
       },
@@ -1449,7 +1595,9 @@
             "talent": "White Water",
             "spell_id": 462587,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_shawaterelemental_swirl.jpg",
+            "desc": "Your critical heals have 215% effectiveness instead of the usual 200%."
           }
         ]
       },
@@ -1472,7 +1620,9 @@
             "talent": "Calm Waters",
             "spell_id": 1252841,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_elementalshardfoozles_water.jpg",
+            "desc": "Reduces the mana cost of Chain Heal by 15%."
           }
         ]
       },
@@ -1494,7 +1644,9 @@
             "talent": "Quickstream",
             "spell_id": 1253099,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_spear_04.jpg",
+            "desc": "Healing Stream Totem heals 15% more often."
           }
         ]
       },
@@ -1517,7 +1669,9 @@
             "talent": "Rip Current",
             "spell_id": 1254251,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_summonwaterelemental.jpg",
+            "desc": "Reduces the cooldown of Riptide by 1.0 sec."
           }
         ]
       },
@@ -1539,7 +1693,9 @@
             "talent": "Crashing Waves",
             "spell_id": 1253090,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_healingwavelesser.jpg",
+            "desc": "Healing Wave's critical strike chance is increased by 12%."
           }
         ]
       },
@@ -1562,7 +1718,9 @@
             "talent": "Unleash Life",
             "spell_id": 73685,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_unleashweapon_life.jpg",
+            "desc": "Unleash elemental forces of Life, healing a friendly target for 2,284.\r\n\r\nIncreases the healing of your next Riptide, Chain Heal, or Healing Wave by 25% and reduces its cast time by 30%."
           }
         ]
       },
@@ -1584,7 +1742,9 @@
             "talent": "Torrent",
             "spell_id": 200072,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_riptide.jpg",
+            "desc": "Riptide's initial heal is increased 20% and has a 10% increased critical strike chance."
           }
         ]
       },
@@ -1607,7 +1767,9 @@
             "talent": "Earthliving Weapon",
             "spell_id": 382021,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_giftearthmother.jpg",
+            "desc": "Imbue your weapon with the element of Earth for 1 hour. Your Riptide, Healing Wave, and Chain Heal healing has a 20% chance to trigger Earthliving on the target, healing for 591 over 6 sec."
           }
         ]
       },
@@ -1630,7 +1792,9 @@
             "talent": "Earthweaver",
             "spell_id": 1254210,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_skinofearth.jpg",
+            "desc": "Increases Earth Shield healing by 40%."
           }
         ]
       },
@@ -1654,7 +1818,9 @@
             "talent": "Deluge",
             "spell_id": 200076,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_shawaterelemental_reform.jpg",
+            "desc": "Healing Wave and Chain Heal heal for an additional 15% on targets affected by your Healing Rain or Riptide."
           }
         ]
       },
@@ -1676,7 +1842,9 @@
             "talent": "Earthen Accord",
             "spell_id": 1271104,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_earthensky.jpg",
+            "desc": "Unleash Life heals for 30% more and its bonus healing effect is increased by 20%."
           }
         ]
       },
@@ -1700,7 +1868,9 @@
             "talent": "Tidal Waves",
             "spell_id": 51564,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_tidalwaves.jpg",
+            "desc": "Casting Riptide grants 1 stack of Tidal Waves. Tidal Waves reduces the cast time of your next Healing Wave or Chain Heal by 20%.\r\n\r\nCan accumulate up to 2 stacks."
           }
         ]
       },
@@ -1722,7 +1892,9 @@
             "talent": "Improved Earthliving Weapon",
             "spell_id": 382315,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_giftearthmother.jpg",
+            "desc": "Earthliving receives 150% additional benefit from Mastery: Deep Healing.\r\n\r\nHealing Wave always triggers Earthliving on its target."
           }
         ]
       },
@@ -1746,14 +1918,18 @@
             "talent": "Ancestral Reach",
             "spell_id": 382732,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_1115_shaman_chainheal.jpg",
+            "desc": "Chain Heal bounces an additional time and its healing is increased by 8%."
           },
           {
             "entry_id": "101910",
             "talent": "Flow of the Tides",
             "spell_id": 382039,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_manarecharge.jpg",
+            "desc": "Chain Heal bounces an additional time and casting Chain Heal on a target affected by Riptide consumes Riptide, increasing the healing of your Chain Heal by 30%."
           }
         ]
       },
@@ -1776,7 +1952,9 @@
             "talent": "Downpour",
             "spell_id": 462486,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_waterjet.jpg",
+            "desc": "Casting Healing Rain grants a use of Downpour for 16 sec.\r\n\r\n Downpour\r\nA burst of water at your Healing Rain's location heals up to 5 injured allies within 12 yards for 1,226."
           }
         ]
       },
@@ -1800,7 +1978,9 @@
             "talent": "Echo of the Elements",
             "spell_id": 333919,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_shaman_echooftheelements.jpg",
+            "desc": "Lava Burst has an additional charge."
           }
         ]
       },
@@ -1824,7 +2004,9 @@
             "talent": "Spirit Link Totem",
             "spell_id": 98008,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_spiritlink.jpg",
+            "desc": "Summons a totem at the target location for 6 sec, which reduces damage taken by all party and raid members within 10 yards by 10%. Immediately and every 1 sec, the health of all affected players is redistributed evenly."
           }
         ]
       },
@@ -1847,7 +2029,9 @@
             "talent": "Earthen Harmony",
             "spell_id": 382020,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_improvedearthshield.jpg",
+            "desc": "Earth Shield reduces damage taken by 3% and its healing is increased by up to 150% as its target's health decreases. Maximum benefit is reached below 50% health."
           }
         ]
       },
@@ -1869,7 +2053,9 @@
             "talent": "Water Expulsion",
             "spell_id": 1253014,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_elemental_primal_water.jpg",
+            "desc": "Increases Downpour healing by 20%."
           }
         ]
       },
@@ -1892,7 +2078,9 @@
             "talent": "Ancestral Awakening",
             "spell_id": 382309,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_ancestralawakening.jpg",
+            "desc": "When you heal with your Healing Wave or Riptide you have a 30% chance to summon an Ancestral spirit to aid you, instantly healing an injured friendly party or raid target within 40 yards for 15% of the amount healed. Critical strikes increase this chance to 60%."
           }
         ]
       },
@@ -1914,7 +2102,9 @@
             "talent": "Tidewaters",
             "spell_id": 462424,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_shawaterelemental_split.jpg",
+            "desc": "When you cast Healing Rain, each ally with your Riptide on them is healed for 1,005."
           }
         ]
       },
@@ -1937,7 +2127,9 @@
             "talent": "Undercurrent",
             "spell_id": 382194,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_bluehellfire.jpg",
+            "desc": "For each Riptide active on an ally, your heals are 0.5% more effective."
           }
         ]
       },
@@ -1959,7 +2151,9 @@
             "talent": "Spouting Spirits",
             "spell_id": 462383,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_spiritlink.jpg",
+            "desc": "Spirit Link Totem reduces damage taken by an additional 5%, and it restores 4,357 health to all nearby allies 1 second after it is dropped. Healing reduced beyond 5 targets."
           }
         ]
       },
@@ -1982,7 +2176,9 @@
             "talent": "Wavespeaker's Blessing",
             "spell_id": 381946,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_alchemist_81_spiritedalchemiststone.jpg",
+            "desc": "Increases Riptide's duration by 6.0 sec and its healing over time by 15%."
           }
         ]
       },
@@ -2004,7 +2200,9 @@
             "talent": "Double Dip",
             "spell_id": 1252882,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_waterjet.jpg",
+            "desc": "Healing Rain grants an additional use of Downpour."
           }
         ]
       },
@@ -2028,7 +2226,9 @@
             "talent": "Primal Tide Core",
             "spell_id": 382045,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_shaman_repulsiontotem.jpg",
+            "desc": "Every 4 casts of Riptide also applies Riptide to another friendly target near your Riptide target."
           }
         ]
       },
@@ -2052,7 +2252,9 @@
             "talent": "Coalescing Water",
             "spell_id": 470076,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_helm_mail_raidshamanmythic_s_01.jpg",
+            "desc": "Healing Wave and Chain Heal increase the initial healing of your next Riptide by 30%, stacking up to 2 times."
           }
         ]
       },
@@ -2075,7 +2277,9 @@
             "talent": "Deeply Rooted Elements",
             "spell_id": 378270,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_herb_liferoot_stem.jpg",
+            "desc": "Each stack of Maelstrom Weapon consumed has a 0.6% chance to activate Ascendance for 6.0 sec.\r\n\r\n Ascendance\r\nTransform into an Air Ascendant for 15 sec and unleash Doom Winds, reducing the cooldown and cost of Stormstrike by 60%, and transforming your auto attack and Stormstrike into Wind attacks which bypass armor and have a 30 yd range."
           }
         ]
       },
@@ -2095,7 +2299,9 @@
             "talent": "Stormstream Totem",
             "spell_id": 1267016,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_apextalent_shaman_stormstreamtotem.jpg",
+            "desc": "Riptide has a 6% chance to upgrade your next Healing Stream Totem to Stormstream Totem which heals for 10% more, heals 1 additional ally at 100% effectiveness, and heals 2 injured allies for 4,903 healing when used."
           }
         ]
       }
@@ -2120,14 +2326,18 @@
               "talent": "Oversized Totems",
               "spell_id": 445026,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_shaman_totemrelocation.jpg",
+              "desc": "Increases the size and radius of your totems by 15%, and the health of your totems by 30%."
             },
             {
               "entry_id": "125825",
               "talent": "Swift Recall",
               "spell_id": 445027,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_brilliance.jpg",
+              "desc": "Successfully removing a harmful effect with Tremor Totem or Poison Cleansing Totem, or controlling an enemy with Capacitor Totem or Earthgrab Totem reduces the cooldown of the totem used by 5 sec.\r\n\r\nCannot occur more than once every 20 sec per totem."
             }
           ]
         },
@@ -2149,14 +2359,18 @@
               "talent": "Pulse Capacitor",
               "spell_id": 445032,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_elementalprecision_1.jpg",
+              "desc": "Increases the healing done by Surging Totem by 25%."
             },
             {
               "entry_id": "125824",
               "talent": "Supportive Imbuements",
               "spell_id": 445033,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_shaman_fortifyingwaters.jpg",
+              "desc": "Learn a new weapon imbue, Tidecaller's Guard.\r\n\r\n Tidecaller's Guard\r\nImbue your shield with the element of Water for 1 hour. Your healing done is increased by 2.0% and the duration of your Healing Stream Totem is increased by 3.0 sec."
             }
           ]
         },
@@ -2178,7 +2392,9 @@
               "talent": "Imbuement Mastery",
               "spell_id": 445028,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_unleashweapon_wind.jpg",
+              "desc": "Increases the duration of your Earthliving effect by 3 sec."
             }
           ]
         },
@@ -2200,7 +2416,9 @@
               "talent": "Splitstream",
               "spell_id": 445035,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_spear_04.jpg",
+              "desc": "Your Healing Stream Totems heals an additional ally at 30% effectiveness.\r\n\r\nHealing Tide Totem healing increased by 25%."
             }
           ]
         },
@@ -2222,14 +2440,18 @@
               "talent": "Amplification Core",
               "spell_id": 445029,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_evoker_essenceburststacks.jpg",
+              "desc": "While Surging Totem is active, your damage and healing done is increased by 3%."
             },
             {
               "entry_id": "125823",
               "talent": "Oversurge",
               "spell_id": 445030,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_elementaldevastation.jpg",
+              "desc": "Surging Totem deals 50% more damage while Ascendance or Healing Tide Totem is active."
             }
           ]
         },
@@ -2249,7 +2471,9 @@
               "talent": "Surging Totem",
               "spell_id": 444995,
               "max_ranks": 1,
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_totemicshaman_surgingtotem.jpg",
+              "desc": "Summons a totem at the target location that creates a Tremor immediately and every 5.4 sec for 42 Flamestrike damage. Damage reduced beyond 5 targets. Lasts 25 sec."
             }
           ]
         },
@@ -2274,7 +2498,9 @@
               "talent": "Whirling Elements",
               "spell_id": 445024,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_enchanting2_elementalswirl_color1.jpg",
+              "desc": "Elemental motes orbit around your Surging Totem. Your abilities consume the motes for enhanced effects. \r\n\r\nWater: Your next Healing Wave also heals an ally inside of your Healing Rain at 50% effectiveness.\r\n\r\nAir: The cast time of your next healing spell is reduced by 40%.\r\n\r\nEarth: Your next Chain Heal applies Earthliving at 150% effectiveness to all targets hit."
             }
           ]
         },
@@ -2296,14 +2522,18 @@
               "talent": "Totemic Coordination",
               "spell_id": 445036,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_shaman_echooftheelements.jpg",
+              "desc": "Chain Heals from Lively Totem and Totemic Rebound are 25% more effective."
             },
             {
               "entry_id": "125822",
               "talent": "Earthsurge",
               "spell_id": 455590,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_elementalearth2.jpg",
+              "desc": "Allies affected by your Earthliving effect receive 15% increased healing from you."
             }
           ]
         },
@@ -2325,7 +2555,9 @@
               "talent": "Lively Totems",
               "spell_id": 445034,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_1115_shaman_chainheal.jpg",
+              "desc": "When you summon a Healing Tide Totem, Healing Stream Totem, or Spirit Link Totem you cast a free instant Chain Heal at 100% effectiveness."
             }
           ]
         },
@@ -2347,7 +2579,9 @@
               "talent": "Totemic Rebound",
               "spell_id": 445025,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_vehicle_electrocharge.jpg",
+              "desc": "Chain Heal now jumps to a nearby totem within 20 yards once it reaches its last target, causing the totem to cast Chain Heal on an injured ally within 30 yards for 849. Jumps to 2 nearby targets within 20 yards."
             }
           ]
         },
@@ -2369,7 +2603,9 @@
               "talent": "Wind Barrier",
               "spell_id": 445031,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_eyeofthestorm.jpg",
+              "desc": "If you have a totem active, your totem grants you a shield absorbing 1,833 damage for 30 sec every 30 sec."
             }
           ]
         },
@@ -2391,7 +2627,9 @@
               "talent": "Primal Catalyst",
               "spell_id": 1260874,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_giftearthmother.jpg",
+              "desc": "Healing Stream Totem and Healing Tide Totem healing has a 8% chance to apply Earthliving to allies it heals."
             }
           ]
         },
@@ -2413,7 +2651,9 @@
               "talent": "Elemental Attunement",
               "spell_id": 1263288,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_elementalcombinedfoozles_primordial.jpg",
+              "desc": "Mastery increased by 2%."
             }
           ]
         },
@@ -2435,7 +2675,9 @@
               "talent": "Totemic Momentum",
               "spell_id": 1260644,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_shaman_manatidetotem.jpg",
+              "desc": "Reduces the cooldown of Healing Stream Totem by 3 sec."
             }
           ]
         }
@@ -2459,14 +2701,18 @@
               "talent": "Natural Harmony",
               "spell_id": 443442,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_natureguardian.jpg",
+              "desc": "Reduces the cooldown of Nature's Guardian by 15 sec and causes it to heal for an additional 10% of your maximum health."
             },
             {
               "entry_id": "123631",
               "talent": "Earthen Communion",
               "spell_id": 443441,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_skinofearth.jpg",
+              "desc": "Earth Shield has an additional 3 charges and heals you for 25% more."
             }
           ]
         },
@@ -2488,7 +2734,9 @@
               "talent": "Primordial Capacity",
               "spell_id": 443448,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_chiswirl.jpg",
+              "desc": "Increases your maximum mana by 10%.\r\n\r\nTidal Waves can now stack up to 3 times."
             }
           ]
         },
@@ -2510,7 +2758,9 @@
               "talent": "Spiritwalker's Momentum",
               "spell_id": 443425,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_spiritwalkersgrace.jpg",
+              "desc": "Using spells with a cast time increases the duration of Spiritwalker's Grace and Spiritwalker's Aegis by 1 sec, up to a maximum of 4 sec."
             }
           ]
         },
@@ -2532,14 +2782,18 @@
               "talent": "Latent Wisdom",
               "spell_id": 443449,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_spiritualguidence.jpg",
+              "desc": "Your Ancestors' spells are 25% more powerful."
             },
             {
               "entry_id": "123632",
               "talent": "Ancient Fellowship",
               "spell_id": 443423,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_astralshift.jpg",
+              "desc": "Ancestors have a 20% chance to call another Ancestor for 8 sec when they depart."
             }
           ]
         },
@@ -2561,7 +2815,9 @@
               "talent": "Elemental Reverb",
               "spell_id": 443418,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_shaman_echooftheelements.jpg",
+              "desc": "Lava Burst gains an additional charge and deals 10% increased damage."
             }
           ]
         },
@@ -2583,7 +2839,9 @@
               "talent": "Final Calling",
               "spell_id": 443446,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_ancestralawakening.jpg",
+              "desc": "When an Ancestor departs, they cast Hydrobubble on a nearby injured ally.\r\n\r\n Hydrobubble\r\nSurrounds your target in a protective water bubble for 15 sec.\r\n\r\nThe shield absorbs the next 1,795 incoming damage, but the absorb amount decays fully over its duration."
             }
           ]
         },
@@ -2605,7 +2863,9 @@
               "talent": "Maelstrom Supremacy",
               "spell_id": 443447,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_soulleech_2.jpg",
+              "desc": "Increases the healing done by Healing Wave, Downpour, and Chain Heal by 25%."
             }
           ]
         },
@@ -2627,14 +2887,18 @@
               "talent": "Heed My Call",
               "spell_id": 443444,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_unused2.jpg",
+              "desc": "Ancestors last an additional 4 sec."
             },
             {
               "entry_id": "123630",
               "talent": "Routine Communication",
               "spell_id": 443445,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_undyingstrength.jpg",
+              "desc": "Riptide has a 15% chance to call an Ancestor to your side for 8 sec."
             }
           ]
         },
@@ -2656,7 +2920,9 @@
               "talent": "Offering from Beyond",
               "spell_id": 443451,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_blessingoftheeternals.jpg",
+              "desc": "When an Ancestor is called, they reduce the cooldown of Riptide by 2 sec."
             }
           ]
         },
@@ -2676,7 +2942,9 @@
               "talent": "Call of the Ancestors",
               "spell_id": 443450,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_racial_ancestralcall.jpg",
+              "desc": "Unleash Life calls an Ancestor to your side for 12 sec.\r\n\r\nWhenever you cast a healing or damaging spell, the Ancestor will cast a similar spell."
             }
           ]
         },
@@ -2701,7 +2969,9 @@
               "talent": "Ancestral Swiftness",
               "spell_id": 443454,
               "max_ranks": 1,
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_farseershaman_ancestralswiftness.jpg",
+              "desc": "Your next healing or damaging spell is instant, costs no mana, and deals 10% increased damage and healing.\r\n\r\nIf you know Nature's Swiftness, it is replaced by Ancestral Swiftness and causes Ancestral Swiftness to call an Ancestor to your side for 8 sec."
             }
           ]
         },
@@ -2723,7 +2993,9 @@
               "talent": "Mystic Knowledge",
               "spell_id": 1270450,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_raidprimalist_council.jpg",
+              "desc": "Increases the chance for Lava Surge to occur by 20%."
             }
           ]
         },
@@ -2745,7 +3017,9 @@
               "talent": "Windspeaker",
               "spell_id": 1270447,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_raidprimalist_windelemental.jpg",
+              "desc": "The cast times of Healing Surge, Chain Heal and Lava Burst are reduced by 10%."
             }
           ]
         },
@@ -2767,7 +3041,9 @@
               "talent": "Ancestral Influence",
               "spell_id": 1270446,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/shaman_pvp_leaderclan.jpg",
+              "desc": "Your Intellect is increased by 1.0% for each Ancestor active."
             }
           ]
         }

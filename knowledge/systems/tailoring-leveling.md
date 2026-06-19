@@ -1,7 +1,7 @@
 ---
 title: Midnight Tailoring — leveling 1–100, knowledge points, specs
-patch: 12.0.5
-fetched: 2026-06-03
+patch: 12.0.7
+fetched: 2026-06-19
 sources:
   - https://www.wow-professions.com/guides/wow-tailoring-leveling-guide
   - https://www.wow-professions.com/midnight/tailoring-specialization-guide-and-builds

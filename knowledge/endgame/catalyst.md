@@ -1,7 +1,7 @@
 ---
 title: The Catalyst (Midnight Season 1)
-patch: 12.0.5
-fetched: 2026-06-03
+patch: 12.0.7
+fetched: 2026-06-19
 sources:
   - https://www.icy-veins.com/wow/catalyst-guide
   - https://www.wowhead.com/guide/midnight/matrix-catalyst-crafting-tier-set

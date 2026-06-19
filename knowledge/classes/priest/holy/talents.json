@@ -20,6 +20,12 @@
       "Archon"
     ]
   },
+  "level_cap": 90,
+  "budgets": {
+    "class": 34,
+    "spec": 34,
+    "hero": 13
+  },
   "trees": {
     "class": [
       {
@@ -38,7 +44,9 @@
             "talent": "Improved Flash Heal",
             "spell_id": 393870,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_heal.jpg",
+            "desc": "Increases healing done by Flash Heal by 15%."
           }
         ]
       },
@@ -58,7 +66,9 @@
             "talent": "Angelic Feather",
             "spell_id": 121536,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_angelicfeather.jpg",
+            "desc": "Places a feather at the target location, granting the first ally to walk through it 40% increased movement speed for 5 sec. Only 3 feathers can be placed at one time."
           }
         ]
       },
@@ -78,7 +88,9 @@
             "talent": "Holy Fire",
             "spell_id": 14914,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_searinglight.jpg",
+            "desc": "Consumes the enemy in Holy flames that cause 1,166 Holy damage and an additional 421 Holy damage over 7 sec."
           }
         ]
       },
@@ -100,7 +112,9 @@
             "talent": "Holy Nova",
             "spell_id": 132157,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_holynova.jpg",
+            "desc": "An explosion of holy light around you deals up to 152 Holy damage to enemies and up to 122 healing to allies within 12 yds, reduced if there are more than 5 targets."
           }
         ]
       },
@@ -123,7 +137,9 @@
             "talent": "Dispel Magic",
             "spell_id": 528,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_nullifydisease.jpg",
+            "desc": "Dispels Magic on the enemy target, removing 1 beneficial Magic effect."
           }
         ]
       },
@@ -146,7 +162,9 @@
             "talent": "Spiritual Guidance",
             "spell_id": 1250818,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_spiritualguidence.jpg",
+            "desc": "Increases your Intellect by 3%."
           }
         ]
       },
@@ -168,7 +186,9 @@
             "talent": "Psychic Scream",
             "spell_id": 8122,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_psychicscream.jpg",
+            "desc": "Lets out a psychic scream, causing all enemies within 8 yards to flee, disorienting them for 8 sec. Damage may interrupt the effect."
           }
         ]
       },
@@ -190,7 +210,9 @@
             "talent": "Lightburst",
             "spell_id": 1246549,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_holyfire_nova.jpg",
+            "desc": "Increases the damage of Holy Nova by 400%, its healing by 500%, and its cooldown by 30 sec."
           }
         ]
       },
@@ -213,7 +235,9 @@
             "talent": "Leap of Faith",
             "spell_id": 73325,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/priest_spell_leapoffaith_a.jpg",
+            "desc": "Pulls the spirit of a party or raid member, instantly moving them directly in front of you."
           }
         ]
       },
@@ -235,7 +259,9 @@
             "talent": "Improved Purify",
             "spell_id": 390632,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_nullifydisease.jpg",
+            "desc": "Purify additionally removes all Disease effects."
           }
         ]
       },
@@ -258,7 +284,9 @@
             "talent": "Power Infusion",
             "spell_id": 10060,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_powerinfusion.jpg",
+            "desc": "Infuses the target with power for 15 sec, increasing haste by 20%.\r\n\r\nCan only be cast on players."
           }
         ]
       },
@@ -281,7 +309,9 @@
             "talent": "Painful Invocation",
             "spell_id": 1251030,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_mindsooth.jpg",
+            "desc": "Increases the damage of Shadow Word: Pain by 10%."
           }
         ]
       },
@@ -303,14 +333,18 @@
             "talent": "Sheer Terror",
             "spell_id": 390919,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nzinsanity_fearofdeath.jpg",
+            "desc": "Increases the amount of damage required to break your Psychic Scream by 25%."
           },
           {
             "entry_id": "114588",
             "talent": "Petrifying Scream",
             "spell_id": 55676,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_psychichorrors.jpg",
+            "desc": "Psychic Scream causes enemies to tremble in place instead of fleeing in fear."
           }
         ]
       },
@@ -333,7 +367,9 @@
             "talent": "Surge of Light",
             "spell_id": 109186,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_surgeoflight.jpg",
+            "desc": "Your healing spells and Smite have a 8% chance to make your next Flash Heal instant and cost 50% less mana. Stacks to 2."
           }
         ]
       },
@@ -355,7 +391,9 @@
             "talent": "Body and Soul",
             "spell_id": 64129,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_symbolofhope.jpg",
+            "desc": "Power Word: Shield and Leap of Faith increase your target's movement speed by 40% for 3 sec."
           }
         ]
       },
@@ -379,7 +417,9 @@
             "talent": "Mass Dispel",
             "spell_id": 32375,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_massdispel.jpg",
+            "desc": "Dispels magic in a 15 yard radius, removing all harmful Magic from 5 friendly targets and 1 beneficial Magic effect from 5 enemy targets. Potent enough to remove Magic that is normally undispellable."
           }
         ]
       },
@@ -401,7 +441,9 @@
             "talent": "Twins of the Sun Priestess",
             "spell_id": 373466,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_felflamering_red.jpg",
+            "desc": "Power Infusion also grants you its effect at 100% value when used on an ally. \r\n\r\nIf no ally is targeted, it will grant its effect at 100% value to a nearby ally, preferring damage dealers."
           }
         ]
       },
@@ -424,7 +466,9 @@
             "talent": "Strength of Resolve",
             "spell_id": 1250820,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_ashestoashes.jpg",
+            "desc": "Increases your Stamina by 6%."
           }
         ]
       },
@@ -447,14 +491,18 @@
             "talent": "Mind Control",
             "spell_id": 605,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_shadowworddominate.jpg",
+            "desc": "Controls a mind up to 1 level above yours for 30 sec. Does not work versus Demonic, Undead, or Mechanical beings. Shares diminishing returns with other disorienting effects."
           },
           {
             "entry_id": "103678",
             "talent": "Dominate Mind",
             "spell_id": 205364,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_priest_voidflay.jpg",
+            "desc": "Controls a mind up to 1 level above yours for 30 sec while still controlling your own mind. Does not work versus Demonic, Mechanical, or Undead beings or players. This spell shares diminishing returns with other disorienting effects."
           }
         ]
       },
@@ -476,14 +524,18 @@
             "talent": "Psychic Voice",
             "spell_id": 196704,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_commandingshout.jpg",
+            "desc": "Reduces the cooldown of Psychic Scream by 10 sec."
           },
           {
             "entry_id": "103859",
             "talent": "Void Tendrils",
             "spell_id": 1250691,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_priest_voidtendrils.jpg",
+            "desc": "Call shadowy tendrils to constrict enemies when Psychic Scream ends, rooting them in place for 4 sec."
           }
         ]
       },
@@ -505,7 +557,9 @@
             "talent": "Everlasting Light",
             "spell_id": 1249233,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_greaterheal.jpg",
+            "desc": "Surge of Light occurs up to 50% more often based on your missing mana."
           }
         ]
       },
@@ -527,7 +581,9 @@
             "talent": "Move with Grace",
             "spell_id": 390620,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_savinggrace.jpg",
+            "desc": "Reduces the cooldown of Leap of Faith by 30 sec."
           }
         ]
       },
@@ -549,7 +605,9 @@
             "talent": "Mental Agility",
             "spell_id": 341167,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_dispelmagic.jpg",
+            "desc": "Reduces the mana cost of Purify and Mass Dispel by 50% and Dispel Magic by 10%."
           }
         ]
       },
@@ -573,7 +631,9 @@
             "talent": "Twin Disciplines",
             "spell_id": 1251077,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_innerlightandshadow.jpg",
+            "desc": "Increases the damage and healing of your Holy and Shadow spells by 2%."
           }
         ]
       },
@@ -596,7 +656,9 @@
             "talent": "Dark Enlightenment",
             "spell_id": 1250835,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_darkness.jpg",
+            "desc": "Increases your haste by 3%."
           }
         ]
       },
@@ -618,7 +680,9 @@
             "talent": "False Autonomy",
             "spell_id": 1250806,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_mindmastery.jpg",
+            "desc": "Increases the duration of Mind Control and Dominate Mind against enemy creatures by 15 sec."
           }
         ]
       },
@@ -641,7 +705,9 @@
             "talent": "Shackle Horror",
             "spell_id": 9484,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_slow.jpg",
+            "desc": "Shackles an aberration or undead enemy for 50 sec, preventing all actions and movement. Damage will cancel the effect. Limit 1."
           }
         ]
       },
@@ -664,7 +730,9 @@
             "talent": "Inspiration",
             "spell_id": 390676,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_layonhands.jpg",
+            "desc": "Reduces your target's physical damage taken by 5% for 15 sec after a critical heal with Flash Heal or Penance."
           }
         ]
       },
@@ -688,7 +756,9 @@
             "talent": "Binding Heals",
             "spell_id": 368275,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_blindingheal.jpg",
+            "desc": "20% of Flash Heal healing on other targets also heals you."
           }
         ]
       },
@@ -711,7 +781,9 @@
             "talent": "Shadow Word: Death",
             "spell_id": 32379,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_demonicfortitude.jpg",
+            "desc": "A word of dark binding that inflicts 320 Shadow damage to your target. If your target is not killed by Shadow Word: Death, you take backlash damage equal to 5% of your maximum health.\r\n\r\nDamage increased by 150% to targets below 20% health."
           }
         ]
       },
@@ -735,7 +807,9 @@
             "talent": "Sanguine Teachings",
             "spell_id": 373218,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_archaeology_80_zandalari_sanguinetotem.jpg",
+            "desc": "Increases your Leech by 2%."
           }
         ]
       },
@@ -758,7 +832,9 @@
             "talent": "Desperate Prayer",
             "spell_id": 19236,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_testoffaith.jpg",
+            "desc": "Increases maximum health by 25% for 10 sec, and instantly heals you for that amount."
           }
         ]
       },
@@ -781,7 +857,9 @@
             "talent": "Twist of Fate",
             "spell_id": 390972,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_mindtwisting.jpg",
+            "desc": "After damaging or healing a target below 35% health, gain 5% increased damage and healing for 8 sec."
           }
         ]
       },
@@ -803,7 +881,9 @@
             "talent": "Tithe Evasion",
             "spell_id": 373223,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nzinsanity_bloodthirst.jpg",
+            "desc": "Shadow Word: Death deals 50% less damage to you."
           }
         ]
       },
@@ -826,7 +906,9 @@
             "talent": "Fade",
             "spell_id": 586,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_magic_lesserinvisibilty.jpg",
+            "desc": "Fade out, removing all your threat and reducing enemies' detection range against you for 10 sec."
           }
         ]
       },
@@ -848,7 +930,9 @@
             "talent": "Angel's Mercy",
             "spell_id": 238100,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_testoffaith.jpg",
+            "desc": "Reduces the cooldown of Desperate Prayer by 20 sec."
           }
         ]
       },
@@ -871,7 +955,9 @@
             "talent": "Protective Light",
             "spell_id": 193063,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_holyprotection.jpg",
+            "desc": "Casting Flash Heal on yourself reduces all damage you take by 10% for 10 sec."
           }
         ]
       },
@@ -895,7 +981,9 @@
             "talent": "Mindpierce",
             "spell_id": 1251029,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_mindshear.jpg",
+            "desc": "Increases the damage of Smite by 15%."
           }
         ]
       },
@@ -917,7 +1005,9 @@
             "talent": "Spectral Illusion",
             "spell_id": 1250378,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_priest_spectralguise.jpg",
+            "desc": "Fade creates an illusion of you for 4 sec, tricking enemies to attack it instead."
           }
         ]
       },
@@ -939,7 +1029,9 @@
             "talent": "Improved Fade",
             "spell_id": 390670,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_magic_lesserinvisibilty.jpg",
+            "desc": "Reduces the cooldown of Fade by 5 sec."
           }
         ]
       },
@@ -961,7 +1053,9 @@
             "talent": "Light's Inspiration",
             "spell_id": 373450,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_restoration.jpg",
+            "desc": "Increases the maximum health gained from Desperate Prayer by 10%."
           }
         ]
       },
@@ -984,7 +1078,9 @@
             "talent": "Unwavering Will",
             "spell_id": 373456,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_unrelentingassault.jpg",
+            "desc": "While above 75% health, the cast time of your Flash Heal, Prayer of Healing, and Smite are reduced by 5%."
           }
         ]
       },
@@ -1007,7 +1103,9 @@
             "talent": "Spell Warding",
             "spell_id": 390667,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_spellwarding.jpg",
+            "desc": "Reduces all magic damage taken by 3%."
           }
         ]
       },
@@ -1030,7 +1128,9 @@
             "talent": "Phantasm",
             "spell_id": 108942,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_phantasm.jpg",
+            "desc": "Activating Fade removes all snare effects."
           }
         ]
       },
@@ -1053,7 +1153,9 @@
             "talent": "Angelic Bulwark",
             "spell_id": 108945,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_angelicbulwark.jpg",
+            "desc": "When an attack brings you below 30% health, you gain an absorption shield equal to 25% of your maximum health for 20 sec. Cannot occur more than once every 90 sec."
           }
         ]
       },
@@ -1076,14 +1178,18 @@
             "talent": "Benevolence",
             "spell_id": 415416,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_spiritoftheredeemer.jpg",
+            "desc": "Increases the healing of your spells by 3%."
           },
           {
             "entry_id": "135091",
             "talent": "Focused Power",
             "spell_id": 1249230,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_focusedwill.jpg",
+            "desc": "Increases the damage of your spells by 3%."
           }
         ]
       },
@@ -1106,7 +1212,9 @@
             "talent": "Phantom Reach",
             "spell_id": 459559,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_chilltouch.jpg",
+            "desc": "Increases the range of most spells by 15%."
           }
         ]
       },
@@ -1129,7 +1237,9 @@
             "talent": "Translucent Image",
             "spell_id": 373446,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_twistedfaith.jpg",
+            "desc": "Fade reduces damage you take by 10%."
           }
         ]
       }
@@ -1151,7 +1261,9 @@
             "talent": "Holy Word: Serenity",
             "spell_id": 2050,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_persuitofjustice.jpg",
+            "desc": "Perform a miracle, healing an ally for 6,948.\r\n\r\nCooldown reduced by 6 sec when you cast Flash Heal."
           }
         ]
       },
@@ -1173,7 +1285,9 @@
             "talent": "Holy Word: Sanctify",
             "spell_id": 34861,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_divineprovidence.jpg",
+            "desc": "Releases miraculous light at a target location, healing up to 5 allies within 10 yds for 1,878.\r\n\r\nCooldown reduced by 6 sec when you cast Prayer of Healing."
           }
         ]
       },
@@ -1195,7 +1309,9 @@
             "talent": "Guardian Spirit",
             "spell_id": 47788,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_guardianspirit.jpg",
+            "desc": "Calls upon a guardian spirit to watch over the friendly target for 10 sec, increasing healing received by 60%. If the target would die, the Spirit sacrifices itself and restores the target to 40% health.\r\n\r\nCastable while stunned. Cannot save the target from massive damage."
           }
         ]
       },
@@ -1217,7 +1333,9 @@
             "talent": "Holy Word: Chastise",
             "spell_id": 88625,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_chastise.jpg",
+            "desc": "Chastises the target for 1,449 Holy damage and incapacitates them for 4 sec."
           }
         ]
       },
@@ -1239,7 +1357,9 @@
             "talent": "Prayer of Healing",
             "spell_id": 596,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_prayerofhealing02.jpg",
+            "desc": "A powerful prayer that heals your target and 4 injured allies within 40 yards for 2,203."
           }
         ]
       },
@@ -1261,14 +1381,18 @@
             "talent": "Restitution",
             "spell_id": 391124,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_staff_2h_artifactheartofkure_d_03.jpg",
+            "desc": "After Spirit of Redemption expires, you will revive at up to 100% health, based on your healing done during Spirit of Redemption. After reviving, you cannot benefit from Spirit of Redemption for 10 min."
           },
           {
             "entry_id": "128315",
             "talent": "Guardian Angel",
             "spell_id": 200209,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_pathofthedevout.jpg",
+            "desc": "When Guardian Spirit saves the target from death, it does not expire.\r\n\r\nWhen Guardian Spirit expires without saving the target from death, reduce its remaining cooldown to 60 seconds."
           }
         ]
       },
@@ -1290,7 +1414,9 @@
             "talent": "Censure",
             "spell_id": 200199,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_eyeforaneye.jpg",
+            "desc": "Holy Word: Chastise stuns the target for 4 sec and is not broken by damage."
           }
         ]
       },
@@ -1312,7 +1438,9 @@
             "talent": "Empyreal Blaze",
             "spell_id": 372616,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_empyrealblaze.jpg",
+            "desc": "Holy Word: Chastise causes your next 2 casts of Holy Fire to be instant, cost no mana, and incur no cooldown.\r\n\r\nRefreshing Holy Fire on a target now extends its duration by 7 sec."
           }
         ]
       },
@@ -1334,7 +1462,9 @@
             "talent": "Prayerful Litany",
             "spell_id": 391209,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_prayerofhealing02.jpg",
+            "desc": "The primary target of Prayer of Healing is healed for 125% more."
           }
         ]
       },
@@ -1357,7 +1487,9 @@
             "talent": "Cosmic Ripple",
             "spell_id": 238136,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_holyfire_nova.jpg",
+            "desc": "When Holy Word: Serenity or Holy Word: Sanctify finish their cooldown, you emit a burst of light that heals up to 5 injured targets within 40 yards for 466."
           }
         ]
       },
@@ -1379,7 +1511,9 @@
             "talent": "Afterlife",
             "spell_id": 196707,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_enchant_essencemagiclarge.jpg",
+            "desc": "Increases the duration of Spirit of Redemption by 50% and the range of its spells by 50%."
           }
         ]
       },
@@ -1403,7 +1537,9 @@
             "talent": "Voice of Harmony",
             "spell_id": 390994,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_heavanlyvoice.jpg",
+            "desc": "Prayer of Mending reduces the cooldown of Holy Word: Serenity by 4 sec.\r\n\r\nHoly Fire reduces the cooldown of Holy Word: Chastise by 4 sec."
           }
         ]
       },
@@ -1425,7 +1561,9 @@
             "talent": "Burning Vehemence",
             "spell_id": 372307,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_sacredcleansing.jpg",
+            "desc": "Increases the damage of Holy Fire by 30%.\r\n\r\nHoly Fire deals 75% of its initial damage to all nearby enemies within 12 yards of your target. Damage reduced beyond 5 targets."
           }
         ]
       },
@@ -1448,7 +1586,9 @@
             "talent": "Uplifting Words",
             "spell_id": 1250562,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_persecution.jpg",
+            "desc": "Increases the critical strike chance of your Holy Word: Serenity and Holy Word: Sanctify by 10%."
           }
         ]
       },
@@ -1470,7 +1610,9 @@
             "talent": "Cosmic Wave",
             "spell_id": 1248418,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_holyfire_wave.jpg",
+            "desc": "Increases Cosmic Ripple healing by 15%."
           }
         ]
       },
@@ -1494,7 +1636,9 @@
             "talent": "Divine Hymn",
             "spell_id": 64843,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_divinehymn.jpg",
+            "desc": "Heals all party or raid members within 40 yards for 10,790 over 4.5 sec. Each heal increases all targets' healing taken by 4% for 15 sec, stacking.\r\n\r\nHealing reduced beyond 5 targets."
           }
         ]
       },
@@ -1516,7 +1660,9 @@
             "talent": "Enlightenment",
             "spell_id": 193155,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_mindmastery.jpg",
+            "desc": "You regenerate mana 10% faster."
           }
         ]
       },
@@ -1539,7 +1685,9 @@
             "talent": "Light's Resurgence",
             "spell_id": 193157,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_monk_diffusemagic.jpg",
+            "desc": "Your Prayer of Mending has a 12% chance to leave a Renew on each target it heals.\r\n\r\n Renew\r\nFill the target with faith in the light, healing for 1,528 over 15 sec."
           }
         ]
       },
@@ -1561,7 +1709,9 @@
             "talent": "Efficient Prayers",
             "spell_id": 1247131,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_priest_finalprayer.jpg",
+            "desc": "Reduces the mana cost of Prayer of Healing by 15%."
           }
         ]
       },
@@ -1585,7 +1735,9 @@
             "talent": "Healing Focus",
             "spell_id": 1247166,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_healingfocus.jpg",
+            "desc": "Reduces the mana cost of Flash Heal by 15%."
           }
         ]
       },
@@ -1607,14 +1759,18 @@
             "talent": "Seraphic Crescendo",
             "spell_id": 419110,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_divinehymn.jpg",
+            "desc": "Reduces the cooldown of Divine Hymn by 60 sec."
           },
           {
             "entry_id": "128316",
             "talent": "Gales of Song",
             "spell_id": 372370,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_volatileair.jpg",
+            "desc": "While channeling Divine Hymn, place 2 stacks of Prayer of Mending on up to 3 allies within its range every 0.9 sec."
           }
         ]
       },
@@ -1638,7 +1794,9 @@
             "talent": "Divine Service",
             "spell_id": 391233,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_prayerofspirit.jpg",
+            "desc": "Prayer of Mending heals 4% more for each bounce remaining."
           }
         ]
       },
@@ -1660,7 +1818,9 @@
             "talent": "Renewed Faith",
             "spell_id": 341997,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_pvp_innerrenewal.jpg",
+            "desc": "Your healing on allies with your Renew is increased by 10%."
           }
         ]
       },
@@ -1684,7 +1844,9 @@
             "talent": "Angelic Touch",
             "spell_id": 1250565,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_hopeandgrace.jpg",
+            "desc": "Your healing spells critically strike for 220% of healing done instead of the usual 200%."
           }
         ]
       },
@@ -1708,7 +1870,9 @@
             "talent": "Apotheosis",
             "spell_id": 200183,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_ascension.jpg",
+            "desc": "Reset the cooldown of your Holy Words, and enter a pure Holy form for 20 sec, increasing the cooldown reductions to your Holy Words by 200% and reducing their cost by 50%."
           }
         ]
       },
@@ -1731,7 +1895,9 @@
             "talent": "Prayers of the Virtuous",
             "spell_id": 390977,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_prayerofmendingtga.jpg",
+            "desc": "Prayer of Mending jumps 2 additional times."
           }
         ]
       },
@@ -1754,14 +1920,18 @@
             "talent": "Dispersing Light",
             "spell_id": 1215265,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_spiritoftheredeemer.jpg",
+            "desc": "5% of healing done with Flash Heal is replicated to 4 injured allies within 40 yards."
           },
           {
             "entry_id": "128613",
             "talent": "Trail of Light",
             "spell_id": 200128,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_wordsofmeaning.jpg",
+            "desc": "25% of healing done by Flash Heal is replicated to the previous target you healed with those spells."
           }
         ]
       },
@@ -1784,7 +1954,9 @@
             "talent": "Miracle Worker",
             "spell_id": 235587,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_persuitofjustice.jpg",
+            "desc": "Holy Word: Serenity and Holy Word: Sanctify gain an additional charge."
           }
         ]
       },
@@ -1806,14 +1978,18 @@
             "talent": "Eternal Sanctity",
             "spell_id": 1215245,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_archangel.jpg",
+            "desc": "Increases the duration of Apotheosis by 12 sec."
           },
           {
             "entry_id": "128611",
             "talent": "Divinity",
             "spell_id": 1215241,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_rayofhope.jpg",
+            "desc": "Your healing is increased by 10% while Apotheosis is active.\r\n\r\nCasting Apotheosis causes your next 3 Prayer of Healing casts to be instant and heal for 25% more."
           }
         ]
       },
@@ -1836,7 +2012,9 @@
             "talent": "Holy Celerity",
             "spell_id": 1215275,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_priest_pathofdevout.jpg",
+            "desc": "Reduces the cooldown of your Holy Words by 15 sec."
           }
         ]
       },
@@ -1859,7 +2037,9 @@
             "talent": "Say Your Prayers",
             "spell_id": 391186,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_bindingprayers.jpg",
+            "desc": "Prayer of Mending has a 15% chance to not consume a charge when it jumps to a new target."
           }
         ]
       },
@@ -1881,7 +2061,9 @@
             "talent": "Crisis Management",
             "spell_id": 390954,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_flashheal.jpg",
+            "desc": "Increases the critical strike chance of Flash Heal and Prayer of Healing by 15%."
           }
         ]
       },
@@ -1904,7 +2086,9 @@
             "talent": "Light of the Naaru",
             "spell_id": 196985,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_pet_naaru.jpg",
+            "desc": "The cooldowns of your Holy Words are reduced by an additional 10% when you cast the relevant spells."
           }
         ]
       },
@@ -1926,7 +2110,9 @@
             "talent": "Light in the Darkness",
             "spell_id": 471668,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_divineprovidence.jpg",
+            "desc": "Increases the healing done by Holy Word: Serenity and Holy Word: Sanctify by 30%.\r\n\r\nIncreases the radius of Holy Word: Sanctify by 30%."
           }
         ]
       },
@@ -1950,7 +2136,9 @@
             "talent": "Prismatic Echoes",
             "spell_id": 390967,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_aspiration.jpg",
+            "desc": "Increases the healing done by your Mastery: Echo of Light by 5% and your Renew by 13%."
           }
         ]
       },
@@ -1973,7 +2161,9 @@
             "talent": "Desperate Times",
             "spell_id": 391381,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_pvp_defenderoftheweak.jpg",
+            "desc": "Increases healing by 10% on friendly targets at or below 50% health."
           }
         ]
       },
@@ -1995,7 +2185,9 @@
             "talent": "Radiant Plea",
             "spell_id": 1250684,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_priest_pontifex.jpg",
+            "desc": "Increases Prayer of Mending healing by 15%."
           }
         ]
       },
@@ -2018,7 +2210,9 @@
             "talent": "Lightweaver",
             "spell_id": 390992,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_greaterheal.jpg",
+            "desc": "Flash Heal reduces the cast time of your next Prayer of Healing within 20 sec by 30% and increases its healing done by 18%.\r\n\r\nCan accumulate up to 4 charges."
           }
         ]
       },
@@ -2041,7 +2235,9 @@
             "talent": "Ultimate Serenity",
             "spell_id": 1246517,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_holywordlife.jpg",
+            "desc": "Increases the healing done by Holy Word: Serenity by 10% and causes it to heal 4 nearby injured allies within 40 yards for 15% of its healing done.\r\n\r\nTalents that affect Holy Word: Sanctify instead affect Holy Word: Serenity."
           }
         ]
       },
@@ -2064,7 +2260,9 @@
             "talent": "Divine Image",
             "spell_id": 392988,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_staff_2h_artifactheartofkure_d_04.jpg",
+            "desc": "Your Holy Words summon an image of a Naaru at your side. For 9 sec, whenever you cast a healing or damaging spell, the Naaru will cast a similar spell.\r\n\r\nIf an image has already been summoned, that image is empowered instead."
           }
         ]
       },
@@ -2087,7 +2285,9 @@
             "talent": "Lasting Words",
             "spell_id": 471504,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_renew.jpg",
+            "desc": "Holy Word: Serenity applies 12 sec of Renew to its target.\r\n\r\nHoly Word: Sanctify applies 6 sec of Renew to allies it heals.\r\n\r\n Renew\r\nFill the target with faith in the light, healing for 1,223 over 12 sec."
           }
         ]
       },
@@ -2110,7 +2310,9 @@
             "talent": "Epiphany",
             "spell_id": 414553,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_studentofthemind.jpg",
+            "desc": "Your Holy Words have a 25% chance to cause your next cast of Prayer of Mending to ignore its cooldown."
           }
         ]
       },
@@ -2130,7 +2332,9 @@
             "talent": "Benediction",
             "spell_id": 1262755,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_apextalent_priest_benediction.jpg",
+            "desc": "Prayer of Mending healing has a chance to upgrade your next Flash Heal to Benediction, healing the target for 30% more and causing a Cosmic Ripple."
           }
         ]
       }
@@ -2155,7 +2359,9 @@
               "talent": "Resonant Energy",
               "spell_id": 453845,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_halo_shadow.jpg",
+              "desc": "Allies healed by your Halo receive 2% increased healing from you for 8 sec, stacking up to 5 times."
             }
           ]
         },
@@ -2178,7 +2384,9 @@
               "talent": "Perfected Form",
               "spell_id": 453917,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_priest_voidblast.jpg",
+              "desc": "Your damage dealt is increased by 5% while Voidform is active."
             }
           ]
         },
@@ -2200,14 +2408,18 @@
               "talent": "Energy Compression",
               "spell_id": 449874,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_circleofrenewal_shadow.jpg",
+              "desc": "Halo damage and healing is increased by 30%."
             },
             {
               "entry_id": "125085",
               "talent": "Sustained Potency",
               "spell_id": 454001,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_priest_ascendance_shadow.jpg",
+              "desc": "Creating a Halo extends the duration of Voidform by 1 sec. If Voidform is not active, up to 6 seconds is stored.\r\n\r\nWhile out of combat or affected by a loss of control effect, the duration of Voidform is paused for up to 20 sec."
             }
           ]
         },
@@ -2229,7 +2441,9 @@
               "talent": "Energy Conservation",
               "spell_id": 1272308,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nzinsanity_chasedbyshadows.jpg",
+              "desc": "Power Surge lasts an additional 5 sec."
             }
           ]
         },
@@ -2252,7 +2466,9 @@
               "talent": "Power Surge",
               "spell_id": 453109,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_112_raidtrinkets_blobofswirlingvoid_gold.jpg",
+              "desc": "Casting Halo also causes you to create a Halo around you at 100% effectiveness every 5 sec for 10 sec."
             }
           ]
         },
@@ -2274,7 +2490,9 @@
               "talent": "Energy Cycle",
               "spell_id": 453828,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_priest_burningwill_shadow.jpg",
+              "desc": "Casting Mind Flay: Insanity has a 100% chance to conjure Shadowy Apparitions."
             }
           ]
         },
@@ -2296,14 +2514,18 @@
               "talent": "Shock Pulse",
               "spell_id": 453852,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_priest_divinestar_shadow.jpg",
+              "desc": "Halo damage reduces enemy movement speed by 5% for 5 sec, stacking up to 5 times."
             },
             {
               "entry_id": "125083",
               "talent": "Incessant Screams",
               "spell_id": 453918,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_psychicscream.jpg",
+              "desc": "Psychic Scream creates an image of you at your location. After 4 sec, the image will let out a Psychic Scream."
             }
           ]
         },
@@ -2325,7 +2547,9 @@
               "talent": "Empowered Surges",
               "spell_id": 453799,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_twilightflamebreath.jpg",
+              "desc": "Your spells affected by Surge of Light heal for 5% more while Surge of Light is active."
             }
           ]
         },
@@ -2345,7 +2569,9 @@
               "talent": "Halo",
               "spell_id": 120644,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_halo_shadow.jpg",
+              "desc": "Creates a ring of Shadow energy around you that quickly expands to a 40 yd radius, healing allies for 600 and dealing 546 Shadow damage to enemies. Healing reduced beyond 6 targets."
             }
           ]
         },
@@ -2368,7 +2594,9 @@
               "talent": "Manifested Power",
               "spell_id": 453783,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_surgeoflight_shadow.jpg",
+              "desc": "Creating a Halo grants Surge of Light.\r\n\r\n Surge of Light\r\nYour healing spells and Smite have a 8% chance to make your next Flash Heal instant and cost 50% less mana. Stacks to 2."
             }
           ]
         },
@@ -2393,7 +2621,9 @@
               "talent": "Divine Halo",
               "spell_id": 449806,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_bastion_priest_shadow.jpg",
+              "desc": "Halo now centers around you and returns to you after it reaches its maximum distance, healing allies and damaging enemies each time it passes through them."
             }
           ]
         },
@@ -2413,7 +2643,9 @@
               "talent": "Halo",
               "spell_id": 120517,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_halo.jpg",
+              "desc": "Creates a ring of Holy energy around you that quickly expands to a 40 yd radius, healing allies for 598 and dealing 558 Holy damage to enemies.\r\n\r\nHealing reduced beyond 6 targets."
             }
           ]
         },
@@ -2435,14 +2667,18 @@
               "talent": "Realized Potential",
               "spell_id": 1272326,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_demonicfortitude.jpg",
+              "desc": "Shadow Word: Death damage increased by 25% and its cooldown is reduced by 3 sec."
             },
             {
               "entry_id": "136688",
               "talent": "Spiritwell",
               "spell_id": 1247178,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_shadowyapparition.jpg",
+              "desc": "Increases Shadowy Apparition damage by 10%."
             }
           ]
         },
@@ -2464,14 +2700,18 @@
               "talent": "Word of Supremacy",
               "spell_id": 453726,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_wordfortitude.jpg",
+              "desc": "Power Word: Fortitude grants you an additional 5% stamina."
             },
             {
               "entry_id": "136687",
               "talent": "Heightened Alteration",
               "spell_id": 453729,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_dispersion.jpg",
+              "desc": "Increases the duration of Dispersion by 2 sec."
             }
           ]
         },
@@ -2494,7 +2734,9 @@
               "talent": "Focused Outburst",
               "spell_id": 1272320,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_ability_priest_voidvolley.jpg",
+              "desc": "Void Volley damage increased by 15% and its cooldown is reduced by 4 sec."
             }
           ]
         }
@@ -2518,7 +2760,9 @@
               "talent": "Prompt Prognosis",
               "spell_id": 1246799,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_blessedlife.jpg",
+              "desc": "Casting Prayer of Mending heals your target for 3,572."
             }
           ]
         },
@@ -2540,7 +2784,9 @@
               "talent": "Preemptive Care",
               "spell_id": 440671,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_atonement.jpg",
+              "desc": "Increases the duration of your Renew by 40%."
             }
           ]
         },
@@ -2562,14 +2808,18 @@
               "talent": "Divine Feathers",
               "spell_id": 440670,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_angelicfeather.jpg",
+              "desc": "Your Angelic Feathers increase movement speed by an additional 10%.\r\n\r\nWhen an ally walks through your Angelic Feather, you are also granted 100% of its effect."
             },
             {
               "entry_id": "119331",
               "talent": "Save the Day",
               "spell_id": 440669,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/priest_spell_leapoffaith_a.jpg",
+              "desc": "For 6 sec after casting Leap of Faith you may cast it a second time for free, ignoring its cooldown."
             }
           ]
         },
@@ -2591,7 +2841,9 @@
               "talent": "Waste No Time",
               "spell_id": 440681,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_timestop.jpg",
+              "desc": "Reduces the cooldown of Prayer of Mending by 1.5 sec."
             }
           ]
         },
@@ -2611,7 +2863,9 @@
               "talent": "Guiding Light",
               "spell_id": 1248423,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_holywordlife.jpg",
+              "desc": "Prayer of Mending gains an additional charge."
             }
           ]
         },
@@ -2636,7 +2890,9 @@
               "talent": "Twinsight",
               "spell_id": 440742,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_oraclepriest_clairvoyance.jpg",
+              "desc": "3 additional Penance bolts are fired at an enemy within 40 yards when healing an ally with Penance, or fired at an ally within 40 yards when damaging an enemy with Penance."
             }
           ]
         },
@@ -2658,7 +2914,9 @@
               "talent": "Foreseen Circumstances",
               "spell_id": 440738,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_guardianspirit.jpg",
+              "desc": "Guardian Spirit lasts an additional 2 sec."
             }
           ]
         },
@@ -2680,14 +2938,18 @@
               "talent": "Prophet's Will",
               "spell_id": 433905,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_clarityofpurpose.jpg",
+              "desc": "Your Flash Heal and Holy Word: Serenity are 30% more effective when cast on yourself."
             },
             {
               "entry_id": "126068",
               "talent": "Desperate Measures",
               "spell_id": 458718,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_testoffaith.jpg",
+              "desc": "Desperate Prayer lasts an additional 10 sec.\r\n\r\nAngelic Bulwark's absorption effect is increased by 15% of your maximum health."
             }
           ]
         },
@@ -2709,7 +2971,9 @@
               "talent": "Assured Safety",
               "spell_id": 440766,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_powerwordshield.jpg",
+              "desc": "Casting Prayer of Mending applies Power Word: Shield to your target.\r\n\r\n Power Word: Shield\r\nShields an ally for 15 sec, absorbing 1,780 damage."
             }
           ]
         },
@@ -2731,7 +2995,9 @@
               "talent": "Preventive Measures",
               "spell_id": 440662,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_prayerofmendingtga.jpg",
+              "desc": "Increases the healing done by Prayer of Mending by 15%.\r\n\r\nAll damage dealt by Smite, Holy Fire and Holy Nova increased by 40%."
             }
           ]
         },
@@ -2753,7 +3019,9 @@
               "talent": "Piety",
               "spell_id": 1246802,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_oraclepriest_premonitionpiety.jpg",
+              "desc": "20% of overhealing done is redistributed to up to 4 nearby injured allies."
             }
           ]
         },
@@ -2775,7 +3043,9 @@
               "talent": "Unfolding Vision",
               "spell_id": 1272363,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_mindvision.jpg",
+              "desc": "When Power Word: Shield or Void Shield expires with absorption remaining, it jumps to a nearby injured ally and loses 40% of its maximum absorb instead."
             }
           ]
         },
@@ -2797,7 +3067,9 @@
               "talent": "Words of the Wise",
               "spell_id": 1272352,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_persuitofjustice.jpg",
+              "desc": "Flash Heal, Plea, and Power Word: Radiance healing increased by 15%."
             }
           ]
         },
@@ -2819,7 +3091,9 @@
               "talent": "Prophet's Insight",
               "spell_id": 1272359,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_priest_pontifex.jpg",
+              "desc": "Atonement healing from Holy spells is increased by 15%."
             }
           ]
         }

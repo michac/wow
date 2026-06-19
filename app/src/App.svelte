@@ -2,7 +2,10 @@
   import { onMount, setContext } from "svelte";
   import type { IndexData, SpecData, TreeKind } from "./lib/types";
   import { BuildController } from "./lib/build.svelte";
+  import { decodeLoadout, encodeLoadout, peekHeader } from "./lib/codec";
   import Tree from "./components/Tree.svelte";
+  import ShareBox from "./components/ShareBox.svelte";
+  import Tooltip from "./components/Tooltip.svelte";
 
   const BASE = import.meta.env.BASE_URL;
 
@@ -37,12 +40,85 @@
       if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
       spec = await res.json();
       heroName = Object.keys(spec!.trees.hero)[0] ?? null;
-      const budgets = index?.pointBudget ?? { class: 31, spec: 30, hero: 11 };
+      const budgets = index?.pointBudget ?? { class: 34, spec: 34, hero: 13 };
       controller.load(spec!, budgets, heroName);
     } catch (e) {
       error = `Failed to load ${cls}/${spc}: ${e}`;
     }
   }
+
+  // --- URL hash share: #<class>/<spec>/<loadout-code> ---
+
+  function parseHash(): { cls?: string; spc?: string; code?: string } {
+    const [cls, spc, code] = location.hash.replace(/^#/, "").split("/");
+    return { cls, spc, code };
+  }
+
+  // Find a class/spec slug pair for a loadout's specId (for pasted strings).
+  function routeForSpecId(specId: number): { cls: string; spc: string } | null {
+    for (const c of index?.classes ?? []) {
+      const s = c.specs.find((sp) => sp.id === specId);
+      if (s) return { cls: c.slug, spc: s.slug };
+    }
+    return null;
+  }
+
+  function codecError(e: unknown): string {
+    return e instanceof Error ? e.message : String(e);
+  }
+
+  // Decode a code against the currently-loaded spec and apply it to the build.
+  function applyCode(code: string): string | null {
+    if (!spec) return "No spec loaded.";
+    try {
+      const decoded = decodeLoadout(code, spec);
+      controller.applyBuild(decoded.build, decoded.heroName);
+      heroName = controller.heroName;
+      return null;
+    } catch (e) {
+      return codecError(e);
+    }
+  }
+
+  // Route a pasted/linked code to the right spec, then apply it (ShareBox + hash).
+  async function importCode(raw: string): Promise<string | null> {
+    const code = raw.trim();
+    if (!code) return "Paste a loadout string first.";
+    let specId: number;
+    try {
+      specId = peekHeader(code).specId;
+    } catch (e) {
+      return codecError(e);
+    }
+    const route = routeForSpecId(specId);
+    if (!route) return `No known spec matches this string (spec ${specId}).`;
+    if (route.cls !== classSlug || route.spc !== specSlug) {
+      classSlug = route.cls;
+      specSlug = route.spc;
+      await loadSpec(route.cls, route.spc);
+    }
+    return applyCode(code);
+  }
+
+  // Current build as a loadout code, recomputed reactively (encode reads the
+  // SvelteMap + heroName). Null while no spec is loaded.
+  const currentCode = $derived(
+    spec ? encodeLoadout(spec, controller.build, { heroName: controller.heroName }) : null,
+  );
+
+  // Debounce-write the hash on build changes. replaceState (no history spam);
+  // the equality guard makes the load→apply→encode→write cycle a no-op, so there
+  // is no feedback loop (we only read the hash on mount, never on hashchange).
+  let hashTimer: ReturnType<typeof setTimeout> | undefined;
+  $effect(() => {
+    const code = currentCode;
+    if (!code) return;
+    clearTimeout(hashTimer);
+    const next = `#${classSlug}/${specSlug}/${code}`;
+    hashTimer = setTimeout(() => {
+      if (location.hash !== next) history.replaceState(null, "", next);
+    }, 250);
+  });
 
   onMount(async () => {
     try {
@@ -52,7 +128,21 @@
       error = `Failed to load index: ${e}`;
       return;
     }
+
+    // Route by the hash if it names a known class/spec; then decode the code.
+    const { cls, spc, code } = parseHash();
+    const known = index?.classes
+      .find((c) => c.slug === cls)
+      ?.specs.find((s) => s.slug === spc);
+    if (cls && spc && known) {
+      classSlug = cls;
+      specSlug = spc;
+    }
     await loadSpec(classSlug, specSlug);
+    if (code) {
+      const err = applyCode(code);
+      if (err) error = `Could not load build from URL: ${err}`;
+    }
   });
 
   // When the class changes, snap the spec to that class's first spec.
@@ -116,6 +206,10 @@
 {/if}
 
 {#if spec}
+  <ShareBox {controller} {spec} onImport={importCode} />
+{/if}
+
+{#if spec}
   <nav class="tabs">
     {#each ["class", "spec", "hero"] as const as kind}
       <button class:active={activeTab === kind} onclick={() => (activeTab = kind)}>
@@ -153,3 +247,5 @@
 {:else if !error}
   <p class="loading">Loading…</p>
 {/if}
+
+<Tooltip />

@@ -19,6 +19,12 @@
       "Rider of the Apocalypse"
     ]
   },
+  "level_cap": 90,
+  "budgets": {
+    "class": 34,
+    "spec": 34,
+    "hero": 13
+  },
   "trees": {
     "class": [
       {
@@ -37,7 +43,9 @@
             "talent": "Icebound Fortitude",
             "spell_id": 48792,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_deathknight_iceboundfortitude.jpg",
+            "desc": "Your blood freezes, granting immunity to Stun effects and reducing all damage you take by 30% for 8 sec."
           }
         ]
       },
@@ -57,7 +65,9 @@
             "talent": "Death Strike",
             "spell_id": 49998,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_deathknight_butcher2.jpg",
+            "desc": "Focuses dark power into a strike that deals 53 Physical damage and heals you for 20.00% of all damage taken in the last 5 sec, minimum 7.0% of maximum health."
           }
         ]
       },
@@ -77,7 +87,9 @@
             "talent": "Raise Dead",
             "spell_id": 46585,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_pet_ghoul.jpg",
+            "desc": "Raises a ghoul to fight by your side.  You can have a maximum of one ghoul at a time. Lasts 1 min."
           }
         ]
       },
@@ -99,7 +111,9 @@
             "talent": "Runic Attenuation",
             "spell_id": 207104,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/boss_odunrunes_blue.jpg",
+            "desc": "Auto attacks have a chance to generate 3 Runic Power."
           }
         ]
       },
@@ -121,7 +135,9 @@
             "talent": "Improved Death Strike",
             "spell_id": 374277,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_deathknight_butcher2.jpg",
+            "desc": "Death Strike's cost is reduced by 10, and its healing is increased by 60%."
           }
         ]
       },
@@ -143,7 +159,9 @@
             "talent": "Cleaving Strikes",
             "spell_id": 316916,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_1115_warrior_fastermeleeattacks.jpg",
+            "desc": ""
           }
         ]
       },
@@ -165,7 +183,9 @@
             "talent": "Mind Freeze",
             "spell_id": 47528,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_deathknight_mindfreeze.jpg",
+            "desc": "Smash the target's mind with cold, interrupting spellcasting and preventing any spell in that school from being cast for 5 sec."
           }
         ]
       },
@@ -187,7 +207,9 @@
             "talent": "Blinding Sleet",
             "spell_id": 207167,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_chillingblast.jpg",
+            "desc": "Targets in a cone in front of you are blinded, causing them to wander disoriented for 5 sec. Damage may cancel the effect.\r\n\r\nWhen Blinding Sleet ends, enemies are slowed by 50% for 6 sec."
           }
         ]
       },
@@ -210,7 +232,9 @@
             "talent": "Gloom Ward",
             "spell_id": 391571,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_envelopingshadows.jpg",
+            "desc": "Absorbs are 15% more effective on you."
           }
         ]
       },
@@ -232,14 +256,18 @@
             "talent": "March of Darkness",
             "spell_id": 391546,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_argus_deathfog.jpg",
+            "desc": "Death's Advance grants an additional 25% movement speed over the first 3 sec."
           },
           {
             "entry_id": "133518",
             "talent": "Wraith Walk",
             "spell_id": 212552,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_helm_plate_raiddeathknight_p_01.jpg",
+            "desc": "Embrace the power of the Shadowlands, removing all root effects and increasing your movement speed by 70% for 4 sec. Taking any action cancels the effect.\r\n\r\nWhile active, your movement speed cannot be reduced below 170%."
           }
         ]
       },
@@ -262,7 +290,9 @@
             "talent": "Unholy Momentum",
             "spell_id": 374265,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_necro_deathrift.jpg",
+            "desc": "Increases Haste by 2%."
           }
         ]
       },
@@ -284,7 +314,9 @@
             "talent": "Control Undead",
             "spell_id": 111673,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_bone_skull_01.jpg",
+            "desc": "Dominates the target undead creature up to level 71, forcing it to do your bidding for 5 min."
           }
         ]
       },
@@ -306,7 +338,9 @@
             "talent": "Enfeeble",
             "spell_id": 392566,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_creature_poison_01.jpg",
+            "desc": "Your ghoul's attacks have a chance to apply Enfeeble, reducing the enemies movement speed by 30% and the damage they deal to you by 12% for 6 sec."
           }
         ]
       },
@@ -328,7 +362,9 @@
             "talent": "Coldthirst",
             "spell_id": 378848,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_deathknight_mindfreeze.jpg",
+            "desc": "Successfully interrupting an enemy with Mind Freeze grants 10 Runic Power and reduces its cooldown by 3 sec."
           }
         ]
       },
@@ -352,7 +388,9 @@
             "talent": "Proliferating Chill",
             "spell_id": 373930,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_chainsofice.jpg",
+            "desc": "Chains of Ice affects 1 additional nearby enemy."
           }
         ]
       },
@@ -374,7 +412,9 @@
             "talent": "Permafrost",
             "spell_id": 207200,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_zone_frostfire.jpg",
+            "desc": "Your auto attack damage grants you an absorb shield equal to 40% of the damage dealt."
           }
         ]
       },
@@ -398,7 +438,9 @@
             "talent": "Veteran of the Third War",
             "spell_id": 48263,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_misc_warsongfocus.jpg",
+            "desc": "Stamina increased by 20%."
           }
         ]
       },
@@ -420,7 +462,9 @@
             "talent": "Death Pact",
             "spell_id": 48743,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_deathpact.jpg",
+            "desc": "Create a death pact that heals you for 50% of your maximum health, but absorbs incoming healing equal to 30% of your max health for 15 sec."
           }
         ]
       },
@@ -444,7 +488,9 @@
             "talent": "Brittle",
             "spell_id": 374504,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_bosskilrogg_deaththroes.jpg",
+            "desc": "Your diseases have a chance to weaken your enemy causing your attacks against them to deal 6% increased damage for 5 sec."
           }
         ]
       },
@@ -466,7 +512,9 @@
             "talent": "Blood Bond",
             "spell_id": 1267028,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_deathknight_roilingblood.jpg",
+            "desc": "While you are below 50% health, your Ghoul sacrifices 4% of its maximum health to heal you for 1% of your maximum health every sec."
           }
         ]
       },
@@ -490,7 +538,9 @@
             "talent": "Icy Talons",
             "spell_id": 194878,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_deathknight_icytalons.jpg",
+            "desc": "Your Runic Power spending abilities increase your melee attack speed by 6% for 10 sec, stacking up to 3 times."
           }
         ]
       },
@@ -512,7 +562,9 @@
             "talent": "Death Notes",
             "spell_id": 1266819,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_book_01.jpg",
+            "desc": "Raise Ally costs 30 less Runic Power."
           }
         ]
       },
@@ -536,7 +588,9 @@
             "talent": "Anti-Magic Zone",
             "spell_id": 51052,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_deathknight_antimagiczone.jpg",
+            "desc": "Places an Anti-Magic Zone for 6 sec, reducing the magic damage taken by party or raid members by 15%."
           }
         ]
       },
@@ -558,7 +612,9 @@
             "talent": "Death Defiance",
             "spell_id": 1266818,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_shamanrage.jpg",
+            "desc": "The cooldown of Death Pact is reduced by 30 sec, and you receive 50% increased healing while its healing absorb is active."
           }
         ]
       },
@@ -582,7 +638,9 @@
             "talent": "Unholy Bond",
             "spell_id": 374261,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_sword_1h_felfireraid_d_01.jpg",
+            "desc": "Increases the effectiveness of your Runeforge effects by 20%."
           }
         ]
       },
@@ -604,7 +662,9 @@
             "talent": "Ice Prison",
             "spell_id": 454786,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_deepfreeze.jpg",
+            "desc": "Chains of Ice now also roots enemies for 4 sec but its cooldown is increased to 12 sec."
           }
         ]
       },
@@ -628,14 +688,18 @@
             "talent": "Asphyxiate",
             "spell_id": 221562,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_deathknight_asphixiate.jpg",
+            "desc": "Lifts the enemy target off the ground, crushing their throat with dark energy and stunning them for 5 sec."
           },
           {
             "entry_id": "136526",
             "talent": "Death's Reach",
             "spell_id": 276079,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_deathknight_strangulate.jpg",
+            "desc": "Increases the range of Death Grip by 10 yds.\r\n\r\nKilling an enemy that yields experience or honor resets the cooldown of Death Grip."
           }
         ]
       },
@@ -657,7 +721,9 @@
             "talent": "Assimilation",
             "spell_id": 374383,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_deathknight_antimagiczone.jpg",
+            "desc": "The cooldown of Anti-Magic Zone is reduced by 60 sec and its duration is increased by 2 sec."
           }
         ]
       },
@@ -681,7 +747,9 @@
             "talent": "Anti-Magic Barrier",
             "spell_id": 205727,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_antimagicshell.jpg",
+            "desc": "Reduces the cooldown of Anti-Magic Shell by 20 sec and increases its duration and amount absorbed by 40%."
           }
         ]
       },
@@ -703,7 +771,9 @@
             "talent": "Grip of the Dead",
             "spell_id": 273952,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_creature_disease_05.jpg",
+            "desc": "Death and Decay reduces the movement speed of enemies within its area by 90%, decaying by 10% every sec."
           }
         ]
       },
@@ -726,7 +796,9 @@
             "talent": "Suppression",
             "spell_id": 374049,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_racial_forceshield.jpg",
+            "desc": "Damage taken from area of effect attacks reduced by 3%. When suffering a loss of control effect, this bonus is increased by an additional 6% for 6 sec."
           }
         ]
       },
@@ -750,7 +822,9 @@
             "talent": "Blood Scent",
             "spell_id": 374030,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_ironmaidens_bloodritual.jpg",
+            "desc": "Increases Leech by 3%."
           }
         ]
       },
@@ -773,7 +847,9 @@
             "talent": "Unholy Endurance",
             "spell_id": 389682,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_deathknight_subversion.jpg",
+            "desc": "Increases Lichborne duration by 2 sec and reduces the cooldown by 30 sec."
           }
         ]
       },
@@ -795,7 +871,9 @@
             "talent": "Osmosis",
             "spell_id": 454835,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_rune.jpg",
+            "desc": "Anti-Magic Shell increases healing received by 15%."
           }
         ]
       },
@@ -818,7 +896,9 @@
             "talent": "Insidious Chill",
             "spell_id": 391566,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_racial_wardoftheloafrost.jpg",
+            "desc": "Your auto-attacks reduce the target's auto-attack speed by 5% for 30 sec, stacking up to 4 times."
           }
         ]
       },
@@ -841,7 +921,9 @@
             "talent": "Runic Protection",
             "spell_id": 454788,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_shattershield.jpg",
+            "desc": "Your chance to be critically struck is reduced by 3% and your Armor is increased by 6%."
           }
         ]
       },
@@ -863,7 +945,9 @@
             "talent": "Blood Draw",
             "spell_id": 374598,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_artifact_bloodoftheassassinated.jpg",
+            "desc": "When you fall below 30% health you drain 42 health from nearby enemies, the damage you take is reduced by 10% and your Death Strike cost is reduced by 10 for 8 sec.\r\n\r\nCan only occur every 2 min."
           }
         ]
       },
@@ -886,7 +970,9 @@
             "talent": "Rune Mastery",
             "spell_id": 374574,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_deathknight_hungeringruneblade.jpg",
+            "desc": "Consuming a Rune has a chance to increase your Strength by 3% for 8 sec."
           }
         ]
       },
@@ -909,7 +995,9 @@
             "talent": "Subduing Grasp",
             "spell_id": 454822,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_elementalshields.jpg",
+            "desc": "When you would pull an enemy, the damage they deal to you is reduced by 6% for 6 sec."
           }
         ]
       },
@@ -932,7 +1020,9 @@
             "talent": "Will of the Necropolis",
             "spell_id": 206967,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_boss_kelthuzad_01.jpg",
+            "desc": "Damage taken below 30% Health is reduced by 20%."
           }
         ]
       },
@@ -954,7 +1044,9 @@
             "talent": "Null Magic",
             "spell_id": 454842,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_detectinvisibility.jpg",
+            "desc": "Magic damage taken is reduced by 8% and the duration of harmful Magic effects against you are reduced by 35%."
           }
         ]
       },
@@ -977,7 +1069,9 @@
             "talent": "Unyielding Will",
             "spell_id": 457574,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_nethercloak.jpg",
+            "desc": "Anti-Magic Shell now removes all harmful magical effects when activated, but its cooldown is increased by 20 sec."
           }
         ]
       },
@@ -1000,7 +1094,9 @@
             "talent": "Death's Echo",
             "spell_id": 356367,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_fabric_ebonweave.jpg",
+            "desc": "Death's Advance, Death and Decay, and Death Grip have 1 additional charge."
           }
         ]
       },
@@ -1022,7 +1118,9 @@
             "talent": "Vestigial Shell",
             "spell_id": 454851,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_domination_rune12.jpg",
+            "desc": "Casting Anti-Magic Shell grants 2 nearby allies a Lesser Anti-Magic Shell that Absorbs up to 148 magic damage and reduces the duration of harmful Magic effects against them by 50%."
           }
         ]
       }
@@ -1044,7 +1142,9 @@
             "talent": "Frost Strike",
             "spell_id": 49143,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_deathknight_empowerruneblade2.jpg",
+            "desc": "Chill your weapon with icy power and quickly strike the enemy, dealing 46 Frost damage."
           }
         ]
       },
@@ -1066,7 +1166,9 @@
             "talent": "Obliterate",
             "spell_id": 49020,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_deathknight_classicon.jpg",
+            "desc": "A brutal attack that deals 42 Physical and 41 Frost damage."
           }
         ]
       },
@@ -1088,7 +1190,9 @@
             "talent": "Howling Blast",
             "spell_id": 49184,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_arcticwinds.jpg",
+            "desc": "Blast the target with a frigid wind, dealing 8 Frost damage to that foe, and reduced damage to all other enemies within 10 yards, infecting all targets with Frost Fever.\r\n\r\n Frost Fever\r\nA disease that deals 59 Frost damage over 24 sec and has a chance to grant the Death Knight 4 Runic Power each time it deals damage."
           }
         ]
       },
@@ -1110,7 +1214,9 @@
             "talent": "Killing Machine",
             "spell_id": 51128,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_sword_122.jpg",
+            "desc": "Your auto attack critical strikes have a chance to make your next Obliterate deal Frost damage and critically strike, or make your next Frostscythe critically strike for 4 times the normal damage."
           }
         ]
       },
@@ -1133,7 +1239,9 @@
             "talent": "Empower Rune Weapon",
             "spell_id": 47568,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_sword_62.jpg",
+            "desc": "Drain the will of your enemy to empower your rune weapon, dealing 70 Shadowfrost damage and reduced damage to enemies nearby, gaining 40 Runic Power, and grants you Killing Machine."
           }
         ]
       },
@@ -1155,7 +1263,9 @@
             "talent": "Frostscythe",
             "spell_id": 207230,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_ability_deathknight_frostscythe.jpg",
+            "desc": "A sweeping attack that strikes all enemies in front of you for 14 Frost damage. Deals reduced damage beyond 5 targets. \r\n\r\nConsumes Killing Machine to have its critical strikes deal 4 times the normal damage."
           }
         ]
       },
@@ -1177,7 +1287,9 @@
             "talent": "Arctic Assault",
             "spell_id": 456230,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/artifactability_frostmage_blackicicles.jpg",
+            "desc": "Consuming Killing Machine fires a Glacial Advance through your target at 60% effectiveness."
           }
         ]
       },
@@ -1200,7 +1312,9 @@
             "talent": "Runic Overflow",
             "spell_id": 316803,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_domination_rune01.jpg",
+            "desc": "Increases Frost Strike and Glacial Advance damage by 10%."
           }
         ]
       },
@@ -1222,7 +1336,9 @@
             "talent": "Frostbound Will",
             "spell_id": 1238680,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_frostjaw.jpg",
+            "desc": "Consuming Rime reduces the cooldown of Empower Rune Weapon by 6 sec."
           }
         ]
       },
@@ -1245,7 +1361,9 @@
             "talent": "Runic Command",
             "spell_id": 376251,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_domination_rune07.jpg",
+            "desc": "Increases your maximum Runic Power by 5.\r\n\r\nIncreases Rune regeneration rate by 10%."
           }
         ]
       },
@@ -1267,7 +1385,9 @@
             "talent": "Biting Cold",
             "spell_id": 377056,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_deathknight_remorselesswinters2.jpg",
+            "desc": "Remorseless Winter damage is increased by 35%. The first time Remorseless Winter deals damage to 3 different enemies, you gain Rime."
           }
         ]
       },
@@ -1289,7 +1409,9 @@
             "talent": "Inexorable Assault",
             "spell_id": 253593,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_dungeon_icecrown_frostmourne.jpg",
+            "desc": "Gain Inexorable Assault every 4 sec, stacking up to 5 times.\r\n\r\nObliterate consumes up to 3 stacks, dealing an additional 9 Frost damage for each stack consumed."
           }
         ]
       },
@@ -1313,7 +1435,9 @@
             "talent": "Frostreaper",
             "spell_id": 1230301,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_axe_1h_pvpdraenors2_d_02.jpg",
+            "desc": "Obliterate deals 10% increased damage and has a chance to tether the souls of its target and a nearby enemy to yours.\r\n\r\nFrost Strike severs the tethers, dealing 72 Shadowfrost damage to both foes."
           }
         ]
       },
@@ -1335,7 +1459,9 @@
             "talent": "Pillar of Frost",
             "spell_id": 51271,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_deathknight_pillaroffrost.jpg",
+            "desc": "The power of frost increases your Strength by 30% for 12 sec."
           }
         ]
       },
@@ -1359,7 +1485,9 @@
             "talent": "Icy Onslaught",
             "spell_id": 1230272,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_deathknight_chillstreak.jpg",
+            "desc": "Frost Strike and Glacial Advance now cause your next Frost Strike and Glacial Advance to deal 15% increased damage and cost 5 more Runic Power. \r\n\r\nThis effect stacks until the next Runic Empowerment."
           }
         ]
       },
@@ -1381,7 +1509,9 @@
             "talent": "Gathering Storm",
             "spell_id": 194912,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_iceshards.jpg",
+            "desc": "Each Rune spent during Remorseless Winter increases its damage by 10%, and extends its duration by 0.5 sec."
           }
         ]
       },
@@ -1405,7 +1535,9 @@
             "talent": "Murderous Efficiency",
             "spell_id": 207061,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_frostarmor.jpg",
+            "desc": "Consuming the Killing Machine effect has a 20% chance to grant you 1 Rune."
           }
         ]
       },
@@ -1427,7 +1559,9 @@
             "talent": "Rage of the Frozen Champion",
             "spell_id": 377076,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_mage_frostbomb.jpg",
+            "desc": "Frost Strike and Glacial Advance have a 15% increased chance to trigger Rime and Howling Blast generates 8 Runic Power while Rime is active."
           }
         ]
       },
@@ -1449,7 +1583,9 @@
             "talent": "Enduring Strength",
             "spell_id": 377190,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_soulleech_2.jpg",
+            "desc": "When Pillar of Frost expires, your Strength is increased by 8% for 6 sec. This effect lasts 2 sec longer, up to 20 sec, for each Obliterate and Frostscythe critical strike during Pillar of Frost."
           }
         ]
       },
@@ -1471,7 +1607,9 @@
             "talent": "Frozen Dominion",
             "spell_id": 377226,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_bluehellfire.jpg",
+            "desc": "Pillar of Frost now summons a Remorseless Winter that lasts 4 sec longer.\r\n\r\nEach enemy Remorseless Winter damages grants you 5% Mastery, up to 26% for 15 sec."
           }
         ]
       },
@@ -1495,7 +1633,9 @@
             "talent": "Frigid Executioner",
             "spell_id": 377073,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_focusedpower.jpg",
+            "desc": "Runic Empowerment has a 25% chance to refund 1 additional Rune."
           }
         ]
       },
@@ -1518,7 +1658,9 @@
             "talent": "Howling Blades",
             "spell_id": 1230223,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_specialization_blacksmithing_blades_color2.jpg",
+            "desc": "Rime empowered Howling Blast unleashes 2 icy blades at its target that deal 8 Frost damage and have 15% chance to grant Killing Machine."
           }
         ]
       },
@@ -1541,7 +1683,9 @@
             "talent": "Cryogenic Chamber",
             "spell_id": 456237,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_bluecano.jpg",
+            "desc": "When Howling Blast consumes Rime, 15% of the damage it deals is gathered into the next cast of Remorseless Winter, up to 20 times."
           }
         ]
       },
@@ -1565,7 +1709,9 @@
             "talent": "Frostwyrm's Fury",
             "spell_id": 279302,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_boss_sindragosa.jpg",
+            "desc": "Summons a frostwyrm who breathes on all enemies within 40 yd in front of you, dealing 130 Frost damage, stunning enemies for 3 sec, and slowing movement speed by 50% for 10 sec."
           }
         ]
       },
@@ -1588,7 +1734,9 @@
             "talent": "Everfrost",
             "spell_id": 376938,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_deepfreeze.jpg",
+            "desc": "Rime empowered Howling Blast deals 50% increased damage to secondary targets.\r\n\r\nRemorseless Winter deals 6% increased damage to enemies it hits, stacking up to 10 times."
           }
         ]
       },
@@ -1611,7 +1759,9 @@
             "talent": "Northwinds",
             "spell_id": 1230284,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_freeze.jpg",
+            "desc": "Howling Blast now hits an additional target with maximum effectiveness. \r\n\r\nRime increases Howling Blast damage done by an additional 75%."
           }
         ]
       },
@@ -1634,7 +1784,9 @@
             "talent": "Bonegrinder",
             "spell_id": 377098,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_deathknight_bonegrinder.jpg",
+            "desc": "Consuming Killing Machine grants 1% critical strike chance for 10 sec, stacking up to 5 times. At 5 stacks your next Killing Machine consumes the stacks and grants you 10% increased Frost damage for 10 sec."
           }
         ]
       },
@@ -1658,7 +1810,9 @@
             "talent": "Smothering Offense",
             "spell_id": 435005,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_specialreagentfoozles_tuskclawice.jpg",
+            "desc": "Your auto attack damage is increased by 10%. \r\n\r\nThis amount is increased for each stack of Icy Talons you have and it can stack up to 2 additional times."
           }
         ]
       },
@@ -1682,7 +1836,9 @@
             "talent": "Avalanche",
             "spell_id": 207142,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_icestorm.jpg",
+            "desc": "Casting Howling Blast with Rime active causes jagged icicles to fall on enemies nearby your target, applying Razorice and dealing 7 Frost damage."
           }
         ]
       },
@@ -1705,7 +1861,9 @@
             "talent": "Icebreaker",
             "spell_id": 392950,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_icewall.jpg",
+            "desc": "When empowered by Rime, Howling Blast deals 30% increased damage to your primary target."
           }
         ]
       },
@@ -1727,7 +1885,9 @@
             "talent": "Obliteration",
             "spell_id": 281238,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_axe_114.jpg",
+            "desc": "During Pillar of Frost, Frost Strike and Howling Blast always grant Killing Machine and have a 20% chance to generate a Rune.\r\n\r\nAdditionally during Pillar of Frost, Empower Rune Weapon causes your next Obliterate or Frostscythe to cost no Runes."
           }
         ]
       },
@@ -1750,7 +1910,9 @@
             "talent": "Icy Death Torrent",
             "spell_id": 435010,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_argus_soulburst.jpg",
+            "desc": "Your auto attack critical strikes have a chance to send out a torrent of ice dealing 37 Frost damage to enemies in front of you."
           }
         ]
       },
@@ -1773,7 +1935,9 @@
             "talent": "Shattering Blade",
             "spell_id": 207057,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_7af_deathknight_frostmournefragment.jpg",
+            "desc": "When Frost Strike damages an enemy with 5 stacks of Razorice it will consume them to deal an additional 115% damage.\r\n\r\nFrostbane consumes the Razorice on your main target to deal an additional 300% damage."
           }
         ]
       },
@@ -1795,7 +1959,9 @@
             "talent": "Hyperpyrexia",
             "spell_id": 456238,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_bluefire.jpg",
+            "desc": "Your Runic Power spending abilities have a chance to additionally deal 30% of the damage dealt over 4 sec."
           }
         ]
       },
@@ -1817,7 +1983,9 @@
             "talent": "Killing Streak",
             "spell_id": 1230153,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_creature_cursed_05.jpg",
+            "desc": "Obliterate and Frostscythe consume all Killing Machines to deal 25% increased critical strike damage and grant 1.5% Haste for 8 sec for each stack consumed.\r\n\r\nMultiple applications may overlap."
           }
         ]
       },
@@ -1839,7 +2007,9 @@
             "talent": "The Long Winter",
             "spell_id": 456240,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_dungeonjewelry_primalist_necklace_1_frost.jpg",
+            "desc": "While Pillar of Frost is active your auto-attack critical strikes increase its duration by 1 sec, up to a maximum of 4 sec."
           }
         ]
       },
@@ -1861,7 +2031,9 @@
             "talent": "Frostbane",
             "spell_id": 455993,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_sword_1h_artifactruneblade_d_02.jpg",
+            "desc": "Each foe struck with Glacial Advance has a chance to transform your next Frost Strike into Frostbane. The chance increases with the number of Razorice stacks on the target.\r\n\r\nFrostbane\r\nStart a frozen onslaught that strikes twice, unleashing the chilling essence of winter, dealing 30 Frost damage to all enemies caught in its wake with each strike.\r\n\r\nEach enemy struck reduces the damage dealt to the next foe by 5%, down to 40%."
           }
         ]
       },
@@ -1883,7 +2055,9 @@
             "talent": "Breath of Sindragosa",
             "spell_id": 1249658,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_deathknight_breathofsindragosa.jpg",
+            "desc": "Call upon Sindragosa's aid in battle for 8 sec, continuously dealing 47 Frost damage every 1 sec to enemies in a cone in front of you. Consuming Killing Machine or Rime increases the duration by 0.8 sec. Deals reduced damage to secondary targets.\r\n\r\nGrants a charge of Empower Rune Weapon at the start and 2 Runes at the end."
           }
         ]
       },
@@ -1903,7 +2077,9 @@
             "talent": "Chosen of Frostbrood",
             "spell_id": 1265632,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_apextalent_deathknight_chosenofthefrostbrood.jpg",
+            "desc": "Frostwyrm's Fury deals 100% increased damage to the first enemy it hits and grants you 15% Haste for 12 sec."
           }
         ]
       }
@@ -1928,14 +2104,18 @@
               "talent": "Horsemen's Aid",
               "spell_id": 444074,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_dungeon_nexusraid_10man.jpg",
+              "desc": "While at your aid, the Horsemen will occasionally cast Anti-Magic Shell on you and themselves at 80% effectiveness.\r\n\r\nYou may only benefit from this effect every 45 sec."
             },
             {
               "entry_id": "123410",
               "talent": "Pact of the Apocalypse",
               "spell_id": 444083,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_dungeon_nexus80_25man.jpg",
+              "desc": "When you take damage, 5% of the damage is redirected to each active horsemen."
             }
           ]
         },
@@ -1960,7 +2140,9 @@
               "talent": "Apocalypse Now",
               "spell_id": 444040,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_rideroftheapocalypsedeathknight_apocalypsenow.jpg",
+              "desc": "Army of the Dead and Frostwyrm's Fury call upon all 4 Horsemen to aid you for 20 sec."
             }
           ]
         },
@@ -1982,14 +2164,18 @@
               "talent": "Fury of the Horsemen",
               "spell_id": 444069,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_plate_raiddeathknightmythic_o_01helm.jpg",
+              "desc": "Every 50 Runic Power you spend extends the duration of the Horsemen's aid in combat by 1 sec, up to 5 sec."
             },
             {
               "entry_id": "123411",
               "talent": "A Feast of Souls",
               "spell_id": 444072,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_supersoulash.jpg",
+              "desc": "While you have 2 or more Horsemen aiding you, your  increased damage."
             }
           ]
         },
@@ -2011,7 +2197,9 @@
               "talent": "Hungering Thirst",
               "spell_id": 444037,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_fumble.jpg",
+              "desc": "The damage of your diseases and Death Coil are increased by 5%."
             }
           ]
         },
@@ -2033,7 +2221,9 @@
               "talent": "Whitemane's Famine",
               "spell_id": 444033,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_deathknight_necroticplague.jpg",
+              "desc": "When Scourge Strike damages an enemy affected by Undeath it gains 1 stack and infects another nearby enemy."
             }
           ]
         },
@@ -2055,7 +2245,9 @@
               "talent": "Mawsworn Menace",
               "spell_id": 444099,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_mawguardpet_black.jpg",
+              "desc": "Scourge Strike deals 15% increased damage and the cooldown of your Death and Decay is reduced by 5 sec."
             }
           ]
         },
@@ -2077,7 +2269,9 @@
               "talent": "Nazgrim's Conquest",
               "spell_id": 444052,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_maldraxxus_warriorplantbanner.jpg",
+              "desc": "If an enemy dies while Nazgrim is active, the strength of Apocalyptic Conquest is increased by 3%.\r\n\r\nAdditionally, each Rune you spend increase its value by 1%."
             }
           ]
         },
@@ -2099,14 +2293,18 @@
               "talent": "On a Paler Horse",
               "spell_id": 444008,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_skeletalwarhorse_01_purple.jpg",
+              "desc": "While outdoors you are able to mount your Acherus Deathcharger in combat."
             },
             {
               "entry_id": "123412",
               "talent": "Death Charge",
               "spell_id": 444010,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mount_steelwarhorse.jpg",
+              "desc": "Call upon your Death Charger to break free of movement impairment effects.\r\n\r\nFor 10 sec, while upon your Death Charger your movement speed is increased by 100%, you cannot be slowed below 100% of normal speed, and you are immune to forced movement effects and knockbacks."
             }
           ]
         },
@@ -2128,7 +2326,9 @@
               "talent": "Trollbane's Icy Fury",
               "spell_id": 444097,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_shatteringthrow.jpg",
+              "desc": "Scourge Strike shatters Trollbane's Chains of Ice when hit, dealing 36 Shadowfrost damage to nearby enemies, and slowing them by 40% for 4 sec. Deals reduced damage beyond 8 targets."
             }
           ]
         },
@@ -2148,7 +2348,9 @@
               "talent": "Rider's Champion",
               "spell_id": 444005,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_zone_icecrown_01.jpg",
+              "desc": "Spending Runes has a chance to call forth the aid of a Horsemen for 10 sec.\r\n\r\nMograine\r\nCasts Death and Decay at his location that follows his position and extends the duration of your diseases by 1.0 sec whenever it deals damage.\r\n\r\nWhitemane\r\nCasts Undeath on your target dealing 2 Shadowfrost damage per stack every 3 sec, for 24 sec. Each time Undeath deals damage it gains a stack. Cannot be refreshed.\r\n\r\nTrollbane\r\nCasts Chains of Ice on your target slowing their movement speed by 40% and increasing the damage they take from you by 5% for 8 sec.\r\n\r\nNazgrim\r\nWhile Nazgrim is active you gain Apocalyptic Conquest, increasing your Strength by 5%."
             }
           ]
         },
@@ -2170,7 +2372,9 @@
               "talent": "Mograine's Might",
               "spell_id": 444047,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warlock_improvedsoulleech.jpg",
+              "desc": "Your damage is increased by 5% and you gain  while inside Mograine's Death and Decay."
             }
           ]
         },
@@ -2192,7 +2396,9 @@
               "talent": "Unholy Armaments",
               "spell_id": 1265971,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_deathknight_necroticstrike.jpg",
+              "desc": "The abilities that Horsemen cast deal 5% increased damage.."
             }
           ]
         },
@@ -2214,7 +2420,9 @@
               "talent": "Let Terror Reign",
               "spell_id": 1265949,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_deathknight_plaguestrike.jpg",
+              "desc": "Casting Death Coil or Epidemic orders Whitemane to cast her Death Coil or Epidemic alongside you at 125% effectiveness."
             }
           ]
         },
@@ -2236,7 +2444,9 @@
               "talent": "Ride or Die!",
               "spell_id": 1265959,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_boss_fourhorsemen.jpg",
+              "desc": "Dark Transformation summons forth Whitemane for 6 sec."
             }
           ]
         }
@@ -2260,7 +2470,9 @@
               "talent": "Swift and Painful",
               "spell_id": 443560,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_domination_rune02.jpg",
+              "desc": "If no enemies are struck by Soul Rupture, you gain 10% Strength for 8 sec.\r\n\r\nWave of Souls is 100% more effective on the main target of your Reaper's Mark."
             }
           ]
         },
@@ -2282,7 +2494,9 @@
               "talent": "Grim Reaper",
               "spell_id": 434905,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_misc_zandalari_council_soulswap.jpg",
+              "desc": "Reaper's Mark initial strike grants Killing Machine.\r\n\r\nReaper's Mark explosion deals up to 30% increased damage based on your target's missing health."
             }
           ]
         },
@@ -2304,14 +2518,18 @@
               "talent": "Pact of the Deathbringer",
               "spell_id": 440476,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_revendreth_deathknight.jpg",
+              "desc": "When you suffer a damaging effect equal to 25% of your maximum health, you instantly cast Death Pact at 50% effectiveness. May only occur every 2 min.\r\n\r\nWhen a Reaper's Mark explodes, the cooldowns of this effect and Death Pact are reduced by 5 sec."
             },
             {
               "entry_id": "123420",
               "talent": "Rune Carved Plates",
               "spell_id": 440282,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_deathknight_runetap.jpg",
+              "desc": "Each Rune spent reduces the magic damage you take by 1.5% and each Rune generated reduces the physical damage you take by 1.5% for 5 sec, up to 5 times."
             }
           ]
         },
@@ -2333,7 +2551,9 @@
               "talent": "Wave of Souls",
               "spell_id": 439851,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_animamaw_wave.jpg",
+              "desc": "Reaper's Mark sends forth bursts of Shadowfrost energy and back, dealing 34 Shadowfrost damage both ways to all enemies caught in its path.\r\n\r\nWave of Souls critical strikes cause enemies to take 5% increased Shadowfrost damage for 15 sec, stacking up to 2 times, and it is always a critical strike on its way back."
             }
           ]
         },
@@ -2355,7 +2575,9 @@
               "talent": "Bind in Darkness",
               "spell_id": 440031,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_argus_soulbombdebuffsmall.jpg",
+              "desc": "Rime empowered Howling Blast deals 60% increased damage to its main target, and is now Shadowfrost.\r\n\r\nShadowfrost damage applies 2 stacks to Reaper's Mark and 4 stacks when it is a critical strike."
             }
           ]
         },
@@ -2377,14 +2599,18 @@
               "talent": "Death's Messenger",
               "spell_id": 437122,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_argus_deathfog.jpg",
+              "desc": "Reduces the cooldowns of Lichborne and Raise Dead by 30 sec."
             },
             {
               "entry_id": "128234",
               "talent": "Expelling Shield",
               "spell_id": 439948,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_antimagicshell.jpg",
+              "desc": "When an enemy deals direct damage to your Anti-Magic Shell, their cast speed is reduced by 10% for 6 sec."
             }
           ]
         },
@@ -2406,14 +2632,18 @@
               "talent": "Dark Talons",
               "spell_id": 436687,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_shoulder_93.jpg",
+              "desc": "Consuming Killing Machine or Rime has a 25% chance to grant 3 stacks of Icy Talons and increase its maximum stacks by the same amount for 6 sec.\r\n\r\nRunic Power spending abilities count as Shadowfrost while Icy Talons is active."
             },
             {
               "entry_id": "128266",
               "talent": "Reaper's Onslaught",
               "spell_id": 469870,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_soulcleave2.jpg",
+              "desc": "Reduces the cooldown of Reaper's Mark by 15 sec, but the amount of Obliterates and Frostscythes empowered by Exterminate is reduced by 1."
             }
           ]
         },
@@ -2435,7 +2665,9 @@
               "talent": "Wither Away",
               "spell_id": 441894,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/sha_spell_warlock_demonsoul.jpg",
+              "desc": "Frost Fever deals its damage 100% faster, and the second scythe of Exterminate applies Frost Fever."
             }
           ]
         },
@@ -2457,7 +2689,9 @@
               "talent": "Soul Rupture",
               "spell_id": 437161,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/warlock_siphonlife.jpg",
+              "desc": "When Reaper's Mark explodes, it deals 20% of the damage dealt to nearby enemies."
             }
           ]
         },
@@ -2477,7 +2711,9 @@
               "talent": "Reaper's Mark",
               "spell_id": 439843,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_deathbringerdeathknight_reapersmark.jpg",
+              "desc": "Viciously slice into the soul of your enemy, dealing 109 Shadowfrost damage and applying Reaper's Mark.\r\n\r\nEach time you deal Shadow or Frost damage, add a stack of Reaper's Mark. After 12 sec or reaching 40 stacks, the mark explodes, dealing 14 damage per stack.\r\n\r\nReaper's Mark travels to an unmarked enemy nearby if the target dies."
             }
           ]
         },
@@ -2502,7 +2738,9 @@
               "talent": "Exterminate",
               "spell_id": 441378,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_polearm_2h_titanargus_d_01.jpg",
+              "desc": "After Reaper's Mark explodes, your next 2 Obliterates or Frostscythes cost 1 Rune and summon 2 scythes to strike your enemies.\r\n\r\nThe first scythe strikes your target for 188 Shadowfrost damage and the second scythe strikes all enemies around your target for 74 Shadowfrost damage. Deals reduced damage beyond 8 targets."
             }
           ]
         },
@@ -2524,7 +2762,9 @@
               "talent": "Echoing Fury",
               "spell_id": 1265855,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_blueflamebreath.jpg",
+              "desc": "Reaper's Mark deals 5% increased damage.\r\n\r\nCasting Dancing Rune Weapon grants 1 stack of Exterminate with 100% first scythe and 100% second scythe effectiveness."
             }
           ]
         },
@@ -2546,7 +2786,9 @@
               "talent": "Deathly Blows",
               "spell_id": 1265932,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_sword_1h_mawraid_d_02.jpg",
+              "desc": "Death Strike damage increased by 12%."
             }
           ]
         },
@@ -2568,7 +2810,9 @@
               "talent": "Frigid Resolve",
               "spell_id": 1265859,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_deathknight_icetouch.jpg",
+              "desc": "The effectiveness of Permafrost is increased by 100% and Exterminate grants Permafrost equal to 10% of the damage dealt.\r\n\r\nPermafrost\r\nYour auto attack damage grants you an absorb shield equal to 40% of the damage dealt."
             }
           ]
         }

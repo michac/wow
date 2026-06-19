@@ -20,6 +20,12 @@
       "Pack Leader"
     ]
   },
+  "level_cap": 90,
+  "budgets": {
+    "class": 34,
+    "spec": 34,
+    "hero": 13
+  },
   "trees": {
     "class": [
       {
@@ -38,7 +44,9 @@
             "talent": "Rejuvenating Wind",
             "spell_id": 385539,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_galewinds.jpg",
+            "desc": "Exhilaration now also heals you for an additional 12.0% of your maximum health over 8 sec."
           }
         ]
       },
@@ -58,7 +66,9 @@
             "talent": "Survival of the Fittest",
             "spell_id": 264735,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_spiritarmor.jpg",
+            "desc": "Reduces all damage you and your pet take by 30% for 6 sec."
           }
         ]
       },
@@ -78,7 +88,9 @@
             "talent": "Posthaste",
             "spell_id": 109215,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_posthaste.jpg",
+            "desc": "Disengage also frees you from all movement impairing effects and increases your movement speed by 50% for 4 sec."
           }
         ]
       },
@@ -100,7 +112,9 @@
             "talent": "Natural Mending",
             "spell_id": 270581,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_onewithnature.jpg",
+            "desc": "Exhilaration's cooldown is reduced by 30 sec."
           }
         ]
       },
@@ -122,7 +136,9 @@
             "talent": "Padded Armor",
             "spell_id": 459450,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_plunderarmor.jpg",
+            "desc": "Survival of the Fittest gains an additional charge."
           }
         ]
       },
@@ -144,7 +160,9 @@
             "talent": "Hunter's Avoidance",
             "spell_id": 384799,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/rogue_burstofspeed.jpg",
+            "desc": "Damage taken from area of effect attacks reduced by 5%."
           }
         ]
       },
@@ -166,7 +184,9 @@
             "talent": "Wilderness Medicine",
             "spell_id": 343242,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_mendpet.jpg",
+            "desc": "Mend Pet heals for an additional 25% of your pet's health over its duration, and has a 25% chance to dispel a magic effect each time it heals your pet."
           }
         ]
       },
@@ -189,7 +209,9 @@
             "talent": "Combat Experience",
             "spell_id": 1268871,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_combatexperience.jpg",
+            "desc": "Your Agility is increased by 3%."
           }
         ]
       },
@@ -212,7 +234,9 @@
             "talent": "Improved Aspect of the Cheetah",
             "spell_id": 1258407,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mount_jungletiger.jpg",
+            "desc": "The cooldown of Aspect of the Cheetah is reduced by 30 sec."
           }
         ]
       },
@@ -234,7 +258,9 @@
             "talent": "Concussive Shot",
             "spell_id": 5116,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_stun.jpg",
+            "desc": "Dazes the target, slowing movement speed by 50% for 6 sec."
           }
         ]
       },
@@ -257,7 +283,9 @@
             "talent": "Precision Strikes",
             "spell_id": 1267003,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_ability_hunter_rupturingblow.jpg",
+            "desc": "Your auto shot damage is increased by 25%."
           }
         ]
       },
@@ -280,7 +308,9 @@
             "talent": "Counter Shot",
             "spell_id": 147362,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ammo_arrow_03.jpg",
+            "desc": "Interrupts spellcasting, preventing any spell in that school from being cast for 5 sec."
           }
         ]
       },
@@ -303,7 +333,9 @@
             "talent": "Serrated Tips",
             "spell_id": 459502,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_spear_01.jpg",
+            "desc": "You gain 2% more critical strike from critical strike sources."
           }
         ]
       },
@@ -325,7 +357,9 @@
             "talent": "Tranquilizing Shot",
             "spell_id": 19801,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_drowsy.jpg",
+            "desc": "Removes 1 Enrage and 1 Magic effect from an enemy target."
           }
         ]
       },
@@ -348,7 +382,9 @@
             "talent": "Pathfinding",
             "spell_id": 378002,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_displacement.jpg",
+            "desc": "Movement speed increased by 4%."
           }
         ]
       },
@@ -370,7 +406,9 @@
             "talent": "Disruptive Rounds",
             "spell_id": 343244,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/hunter_pvp_vipersting.jpg",
+            "desc": "When Counter Shot interrupts a cast, gain 30 Focus."
           }
         ]
       },
@@ -393,7 +431,9 @@
             "talent": "Improved Feign Death",
             "spell_id": 1258486,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_feigndeath.jpg",
+            "desc": "The cooldown of Feign Death is reduced by 5 sec."
           }
         ]
       },
@@ -415,7 +455,9 @@
             "talent": "Misdirection",
             "spell_id": 34477,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_misdirection.jpg",
+            "desc": "Misdirects all threat you cause to the targeted party or raid member, beginning with your next attack within 30 sec and lasting for 8 sec."
           }
         ]
       },
@@ -437,14 +479,18 @@
             "talent": "Kodo Tranquilizer",
             "spell_id": 459983,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mount_kodo_03.jpg",
+            "desc": "Tranquilizing Shot removes 1 additional Magic effect from up to 2 nearby targets."
           },
           {
             "entry_id": "126479",
             "talent": "Devilsaur Tranquilizer",
             "spell_id": 459991,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_pet_devilsaur.jpg",
+            "desc": "If Tranquilizing Shot removes only an Enrage effect, its cooldown is reduced by 5 sec."
           }
         ]
       },
@@ -467,7 +513,9 @@
             "talent": "Kindling Flare",
             "spell_id": 459506,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/achievment_raid_houroftwilight.jpg",
+            "desc": "Flare's radius is increased by 50%."
           }
         ]
       },
@@ -490,7 +538,9 @@
             "talent": "Trigger Finger",
             "spell_id": 459534,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_engineering2_pvpflaregun_color1.jpg",
+            "desc": "Haste increased by 2%."
           }
         ]
       },
@@ -512,14 +562,18 @@
             "talent": "Tar Trap",
             "spell_id": 187698,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_yorsahj_bloodboil_black.jpg",
+            "desc": "Hurls a tar trap to the target location that creates a 8 yd radius pool of tar around itself for 30 sec when the first enemy approaches. All enemies have 50% reduced movement speed while in the area of effect. Limit 1. Trap will exist for 1 min."
           },
           {
             "entry_id": "135707",
             "talent": "Scare Beast",
             "spell_id": 1513,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_cower.jpg",
+            "desc": "Scares a beast, causing it to run in fear for up to 20 sec.  Damage caused may interrupt the effect.  Only one beast can be feared at a time."
           }
         ]
       },
@@ -542,7 +596,9 @@
             "talent": "Touch of Grass",
             "spell_id": 1258402,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_ability_druid_lifetreading.jpg",
+            "desc": "Your maximum health is increased by 5%."
           }
         ]
       },
@@ -565,7 +621,9 @@
             "talent": "Camouflage",
             "spell_id": 199483,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_camouflage.jpg",
+            "desc": "You and your pet blend into the surroundings and gain stealth for 1 min. While camouflaged, you will heal for 2% of maximum health every 1 sec."
           }
         ]
       },
@@ -587,7 +645,9 @@
             "talent": "No Hard Feelings",
             "spell_id": 459546,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_seal.jpg",
+            "desc": "When Misdirection targets your pet, it reduces the damage they take by 50% for 5 sec.\r\n\r\nThe cooldown of Misdirection is reduced by 5 sec."
           }
         ]
       },
@@ -611,7 +671,9 @@
             "talent": "Improved Aspect of the Turtle",
             "spell_id": 1258485,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_pet_turtle.jpg",
+            "desc": "The cooldown of Aspect of the Turtle is reduced by 30 sec."
           }
         ]
       },
@@ -635,7 +697,9 @@
             "talent": "Specialized Arsenal",
             "spell_id": 459542,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_quiver_03.jpg",
+            "desc": "Kill Command deals 10% increased damage."
           }
         ]
       },
@@ -659,7 +723,9 @@
             "talent": "Scout's Instincts",
             "spell_id": 459455,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_sprint.jpg",
+            "desc": "You cannot be slowed below 80% of your normal movement speed while Aspect of the Cheetah is active."
           }
         ]
       },
@@ -681,7 +747,9 @@
             "talent": "Shell Wall",
             "spell_id": 1267218,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_cape_special_turtleshell_c_01.jpg",
+            "desc": "Damage taken during Aspect of the Turtle is reduced by an additional 20%."
           }
         ]
       },
@@ -703,7 +771,9 @@
             "talent": "Intimidation",
             "spell_id": 19577,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_devour.jpg",
+            "desc": "Commands your pet to intimidate the target stunning your target for 5 sec."
           }
         ]
       },
@@ -726,7 +796,9 @@
             "talent": "Improved Snaring",
             "spell_id": 1268868,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_fishing_nethooks01.jpg",
+            "desc": "Wing Clip slows an additional 25%.\r\n\r\nConcussive Shot slows an additional 10%."
           }
         ]
       },
@@ -748,7 +820,9 @@
             "talent": "Lone Survivor",
             "spell_id": 388039,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_huntervswild.jpg",
+            "desc": "The duration of Survival of the Fittest is increased by 2.0 sec."
           }
         ]
       },
@@ -771,7 +845,9 @@
             "talent": "Catlike Reflexes",
             "spell_id": 1258404,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_catlikereflexes.jpg",
+            "desc": "Aspect of the Cheetah's initial burst of speed is increased by 2.0 sec."
           }
         ]
       },
@@ -793,7 +869,9 @@
             "talent": "Binding Shot",
             "spell_id": 109248,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_bindelemental.jpg",
+            "desc": "Fires a magical projectile, tethering the enemy and any other enemies within 5 yds for 10 sec, stunning them for 3 sec if they move more than 5 yds from the arrow."
           }
         ]
       },
@@ -815,14 +893,18 @@
             "talent": "Trailblazer",
             "spell_id": 199921,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_aspectmastery.jpg",
+            "desc": "Your movement speed is increased by 30% anytime you have not attacked for 3 sec."
           },
           {
             "entry_id": "136674",
             "talent": "Moment of Opportunity",
             "spell_id": 459488,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_karoz_leap.jpg",
+            "desc": "When a trap triggers, gain 30% increased movement speed for 3 sec."
           }
         ]
       },
@@ -845,7 +927,9 @@
             "talent": "Cold Feet",
             "spell_id": 1268671,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_icyfeet.jpg",
+            "desc": "When your Freezing Trap breaks, the victim's movement speed is reduced by 70% for 4 sec."
           }
         ]
       },
@@ -867,14 +951,18 @@
             "talent": "Territorial Instincts",
             "spell_id": 459507,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_shamanrage.jpg",
+            "desc": "The cooldown of Intimidation is reduced by 20 sec."
           },
           {
             "entry_id": "135704",
             "talent": "Guttural Roar",
             "spell_id": 1258509,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_challangingroar.jpg",
+            "desc": "Intimidation now also stuns nearby enemies for 1.0 sec."
           }
         ]
       },
@@ -898,7 +986,9 @@
             "talent": "Born To Be Wild",
             "spell_id": 266921,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_aspectoftheviper.jpg",
+            "desc": "The cooldown of Aspect of the Cheetah, and Aspect of the Turtle are reduced by 15 sec."
           }
         ]
       },
@@ -922,7 +1012,9 @@
             "talent": "Keen Eyesight",
             "spell_id": 378004,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_silenthunter.jpg",
+            "desc": "Critical strike chance increased by 2%."
           }
         ]
       },
@@ -944,14 +1036,18 @@
             "talent": "Tar-Coated Bindings",
             "spell_id": 459460,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_food_legion_goooil_pool.jpg",
+            "desc": "Binding Shot's stun duration is increased by 1 sec."
           },
           {
             "entry_id": "136670",
             "talent": "Horsehair Tether",
             "spell_id": 472729,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_rope_01.jpg",
+            "desc": "When an enemy is stunned by Binding Shot, it is dragged to Binding Shot's center."
           }
         ]
       },
@@ -974,7 +1070,9 @@
             "talent": "Improved Traps",
             "spell_id": 343247,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_traplauncher.jpg",
+            "desc": "The cooldown of Tar Trap and Freezing Trap is reduced by 5.0 sec."
           }
         ]
       },
@@ -997,7 +1095,9 @@
             "talent": "Emergency Salve",
             "spell_id": 459517,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_potion_29.jpg",
+            "desc": "Feign Death and Aspect of the Turtle removes poison and disease effects from you."
           }
         ]
       },
@@ -1020,14 +1120,18 @@
             "talent": "Roar of Sacrifice",
             "spell_id": 53480,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_fervor.jpg",
+            "desc": "Instructs your pet to protect a friendly target, reducing their damage taken by 15%, but 50% of all damage taken by that target is transferred to your pet. \r\n\r\nLasts 10 sec or until your pet's health drops below 25%."
           },
           {
             "entry_id": "136685",
             "talent": "Guardian's Hide",
             "spell_id": 1272094,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_bristlingfur.jpg",
+            "desc": "Your pet protects you at all times, reducing the damage you take by 3%. Your pet receives 100% of the damage it mitigates."
           }
         ]
       },
@@ -1050,7 +1154,9 @@
             "talent": "Unnatural Causes",
             "spell_id": 459527,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_potentvenom.jpg",
+            "desc": "Your damage over time effects deal 10% increased damage.\r\n\r\nThis effect is increased by 50% on targets below 20% health."
           }
         ]
       }
@@ -1072,7 +1178,9 @@
             "talent": "Kill Command",
             "spell_id": 34026,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_killcommand.jpg",
+            "desc": "Give the command to kill, causing your pet to charge your target and savagely deal 72 Physical damage to the enemy."
           }
         ]
       },
@@ -1094,14 +1202,18 @@
             "talent": "Animal Companion",
             "spell_id": 267116,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_bestialdiscipline.jpg",
+            "desc": "Your Call Pet additionally summons the pet from the bonus slot in your stable. This pet will obey your Kill Command, but cannot use pet family abilities."
           },
           {
             "entry_id": "136678",
             "talent": "Solitary Companion",
             "spell_id": 474746,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_separationanxiety.jpg",
+            "desc": "Your pet damage is increased by 35% and your pet is 10% larger."
           }
         ]
       },
@@ -1123,7 +1235,9 @@
             "talent": "Barbed Shot",
             "spell_id": 217200,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_barbedshot.jpg",
+            "desc": "Fire a shot that tears through your enemy, causing them to bleed for 136 damage over 12 sec. If Barbed Shot is reapplied, any remaining damage will be added to the new Barbed Shot.\r\n\r\nGenerates 20 Focus over 8 sec."
           }
         ]
       },
@@ -1145,7 +1259,9 @@
             "talent": "Alpha Predator",
             "spell_id": 269737,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_savagery.jpg",
+            "desc": "Kill Command now has 2 charges, and deals 15% increased damage."
           }
         ]
       },
@@ -1167,7 +1283,9 @@
             "talent": "Dire Beast",
             "spell_id": 120679,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_longevity.jpg",
+            "desc": "Damage from your bleed effects has a 4% chance of attracting a powerful wild beast that attacks your target for 8 sec."
           }
         ]
       },
@@ -1189,7 +1307,9 @@
             "talent": "Stomp",
             "spell_id": 199530,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/warrior_talent_icon_thunderstruck.jpg",
+            "desc": "When you cast Barbed Shot, your pet stomps the ground, dealing 50 Physical damage to all nearby enemies."
           }
         ]
       },
@@ -1211,7 +1331,9 @@
             "talent": "War Orders",
             "spell_id": 393933,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_barbedshot.jpg",
+            "desc": "Barbed Shot deals 10% increased damage, and applying Barbed Shot reduces the cooldown of Kill Command by 3.0 sec."
           }
         ]
       },
@@ -1234,7 +1356,9 @@
             "talent": "Wild Thrash",
             "spell_id": 1264359,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_sickem.jpg",
+            "desc": "Command your pet to thrash all enemies within 10 yds, dealing 66 Physical damage to them. Damage is increased by 200% if Wild Thrash hits 2 or more enemies.\r\n\r\nDeals reduced damage beyond 8 targets."
           }
         ]
       },
@@ -1257,7 +1381,9 @@
             "talent": "Bestial Wrath",
             "spell_id": 19574,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_ferociousbite.jpg",
+            "desc": "Sends you and your pet into a rage, instantly dealing 280 Physical damage to its target, and increasing all damage you both deal by 20% for 15 sec. Removes all crowd control effects from your pet."
           }
         ]
       },
@@ -1280,7 +1406,9 @@
             "talent": "Cobra Shot",
             "spell_id": 193455,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_cobrashot.jpg",
+            "desc": "A quick shot causing 109 Physical damage.\r\n\r\nReduces the cooldown of Kill Command by 1 sec."
           }
         ]
       },
@@ -1302,7 +1430,9 @@
             "talent": "Beast Cleave",
             "spell_id": 115939,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_sickem.jpg",
+            "desc": "After you Wild Thrash, your pet's melee attacks also strike all nearby enemies for 40% of the damage for the next 8.0 sec. Deals reduced damage beyond 8 targets."
           }
         ]
       },
@@ -1324,7 +1454,9 @@
             "talent": "Scent of Blood",
             "spell_id": 193532,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_lifedrain.jpg",
+            "desc": "Activating Bestial Wrath grants 1 charge of Barbed Shot."
           }
         ]
       },
@@ -1346,7 +1478,9 @@
             "talent": "Thundering Hooves",
             "spell_id": 459693,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv__blacksmithing_hoofplate.jpg",
+            "desc": "Bestial Wrath causes all active pets to Stomp at 200% effectiveness.\r\n\r\nStomp damage increased by 30%."
           }
         ]
       },
@@ -1368,7 +1502,9 @@
             "talent": "Go for the Throat",
             "spell_id": 459550,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_goforthethroat.jpg",
+            "desc": "Kill Command deals increased critical strike damage equal to 100% of your critical strike chance."
           }
         ]
       },
@@ -1390,7 +1526,9 @@
             "talent": "Laceration",
             "spell_id": 459552,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_disembowel.jpg",
+            "desc": "When your pet attacks critically strike, they cause their target to bleed for 8% of the damage dealt over 6 sec."
           }
         ]
       },
@@ -1412,7 +1550,9 @@
             "talent": "Kill Cleave",
             "spell_id": 378207,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_bloodythrash.jpg",
+            "desc": "While Beast Cleave is active, Kill Command now also strikes nearby enemies for 40% of damage dealt. Deals reduced damage beyond 8 targets."
           }
         ]
       },
@@ -1435,7 +1575,9 @@
             "talent": "Training Expert",
             "spell_id": 378209,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_hunter_adaptation.jpg",
+            "desc": "All pet damage dealt increased by 3%."
           }
         ]
       },
@@ -1458,7 +1600,9 @@
             "talent": "The Beast Within",
             "spell_id": 231548,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_ferociousbite.jpg",
+            "desc": "Reduce the cooldown of Bestial Wrath by 60 sec."
           }
         ]
       },
@@ -1481,7 +1625,9 @@
             "talent": "Thrill of the Hunt",
             "spell_id": 1265051,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_thrillofthehunt.jpg",
+            "desc": "Barbed Shot critical strike chance increased by 5%.\r\n\r\nCobra Shot critical strike chance increased by 15%."
           }
         ]
       },
@@ -1503,7 +1649,9 @@
             "talent": "Pack Tactics",
             "spell_id": 321014,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_invigeration.jpg",
+            "desc": "Barbed Shot now instantly grants 25 Focus.\r\n\r\nPassive Focus generation increased by 75%."
           }
         ]
       },
@@ -1525,7 +1673,9 @@
             "talent": "Barbed Scales",
             "spell_id": 469880,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_scales_stonygreen.jpg",
+            "desc": "Casting Cobra Shot reduces the cooldown of Barbed Shot by 2 sec."
           }
         ]
       },
@@ -1547,7 +1697,9 @@
             "talent": "Aspect of the Beast",
             "spell_id": 191384,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_deathwing_assualtaspects.jpg",
+            "desc": "Increases the damage of Bite, Claw, Smack and the effectiveness of your pet's unique abilities by 30%.\r\n\r\nIncreases the effectiveness of your pet's Predator's Thirst, Endurance Training, and Pathfinding passives by 50%."
           }
         ]
       },
@@ -1571,7 +1723,9 @@
             "talent": "Dire Cleave",
             "spell_id": 1217524,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_physical_taunt.jpg",
+            "desc": "When summoned, Dire Beasts gain Beast Cleave at 100% effectiveness for 8.0 sec."
           }
         ]
       },
@@ -1594,7 +1748,9 @@
             "talent": "Dire Command",
             "spell_id": 378743,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_ferociousinspiration.jpg",
+            "desc": "Kill Command has a 20% chance to also summon a Dire Beast to attack your target for 8 sec."
           }
         ]
       },
@@ -1617,7 +1773,9 @@
             "talent": "Jagged Wounds",
             "spell_id": 1265044,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_skeer_bloodletting.jpg",
+            "desc": "All bleed damage dealt by you and your pets  increased by 10%."
           }
         ]
       },
@@ -1641,7 +1799,9 @@
             "talent": "Serpentine Strikes",
             "spell_id": 468701,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_poisoncleansingtotem.jpg",
+            "desc": "Cobra Shot critical damage dealt increased by 50%.\r\n\r\nWhen Cobra Shot critically strikes, it refunds 10 Focus."
           }
         ]
       },
@@ -1663,14 +1823,18 @@
             "talent": "Snakeskin Quiver",
             "spell_id": 468695,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_quiver_1h_hunter_c_01_green.jpg",
+            "desc": "Your auto shot has a 15% chance to also fire a Cobra Shot at your target."
           },
           {
             "entry_id": "128265",
             "talent": "Cobra Senses",
             "spell_id": 378244,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_cobrastrikes.jpg",
+            "desc": "Cobra Shot Focus cost reduced by 5. Cobra Shot damage increased by 35%."
           }
         ]
       },
@@ -1694,7 +1858,9 @@
             "talent": "Dire Frenzy",
             "spell_id": 385810,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_huntervswild.jpg",
+            "desc": "Dire Beast lasts an additional 1 sec and deals 10% increased damage."
           }
         ]
       },
@@ -1717,7 +1883,9 @@
             "talent": "Frenzy",
             "spell_id": 1264934,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_kingofthejungle.jpg",
+            "desc": "Increases the attack speed of your active pets by 20%."
           }
         ]
       },
@@ -1741,7 +1909,9 @@
             "talent": "Killer Instinct",
             "spell_id": 273887,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_killcommand.jpg",
+            "desc": "Kill Command deals 10% increased damage."
           }
         ]
       },
@@ -1763,7 +1933,9 @@
             "talent": "Brutal Companion",
             "spell_id": 386870,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_rake.jpg",
+            "desc": "Barbed Shot has a 25% chance to cause your pet to use its special attack and deal 50% bonus damage."
           }
         ]
       },
@@ -1785,7 +1957,9 @@
             "talent": "Huntmaster's Call",
             "spell_id": 459730,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_hunter_lonewolf.jpg",
+            "desc": "Summoning a Dire Beast 8 times sounds the Horn of Valor, summoning either Hati or Fenryr to battle.\r\n\r\nHati\r\nIncreases the damage of all your pets by 4%.\r\n\r\nFenryr\r\nPounces your primary target, inflicting a heavy bleed that deals 280 damage over 8 sec and grants you 4% Haste."
           }
         ]
       },
@@ -1808,7 +1982,9 @@
             "talent": "Heart of the Pack",
             "spell_id": 1265052,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_berserk.jpg",
+            "desc": "Summoning a Dire Beast grants 0.50% haste for 8 sec."
           }
         ]
       },
@@ -1830,7 +2006,9 @@
             "talent": "Bloodshed",
             "spell_id": 1272099,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_primaltenacity.jpg",
+            "desc": "Bestial Wrath provokes your pets to tear into your target, causing your target to bleed for 504 damage over 12 sec."
           }
         ]
       },
@@ -1853,7 +2031,9 @@
             "talent": "Savagery",
             "spell_id": 424557,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_protectionformnature.jpg",
+            "desc": "Kill Command damage is increased by 10%. Barbed Shot lasts 2.0 sec longer."
           }
         ]
       },
@@ -1875,7 +2055,9 @@
             "talent": "Killer Cobra",
             "spell_id": 199532,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_snaketrap.jpg",
+            "desc": "While Bestial Wrath is active, Cobra Shot resets the cooldown on Kill Command."
           }
         ]
       },
@@ -1897,7 +2079,9 @@
             "talent": "Master Handler",
             "spell_id": 424558,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_leatherworking_70_petleash.jpg",
+            "desc": "Each time Barbed Shot deals damage, the cooldown of Kill Command is reduced by 0.50 sec."
           }
         ]
       },
@@ -1920,7 +2104,9 @@
             "talent": "Wildspeaker",
             "spell_id": 1232739,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_huntingparty.jpg",
+            "desc": "Dire Beasts will now obey your Kill Command, dealing its damage at 30% effectiveness.\r\n\r\nBestial Wrath now sends your Dire Beasts into a rage, increasing their damage dealt by 10% for 15 sec. Dire Beasts summoned during a Bestial Wrath will benefit at a reduced duration."
           }
         ]
       },
@@ -1942,14 +2128,18 @@
             "talent": "Wild Instincts",
             "spell_id": 378442,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_beastwithin.jpg",
+            "desc": "When your primary pet uses Stomp, apply Barbed Shot to a target hit by that Stomp. This Barbed Shot will not cause an extra Stomp."
           },
           {
             "entry_id": "126400",
             "talent": "Bloody Frenzy",
             "spell_id": 407412,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_racial_cannibalize.jpg",
+            "desc": "Bestial Wrath causes your Barbed Shot to deal damage 100% faster for 10 sec."
           }
         ]
       },
@@ -1972,7 +2162,9 @@
             "talent": "Piercing Fangs",
             "spell_id": 392053,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_monsterfang_02.jpg",
+            "desc": "While Bestial Wrath is active, your pet's critical damage dealt is increased by 35%."
           }
         ]
       },
@@ -1992,7 +2184,9 @@
             "talent": "Nature's Ally",
             "spell_id": 1273043,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_apextalent_hunter_killfrenzy.jpg",
+            "desc": "Bestial Wrath summons an Animal Companion from your Stable to fight alongside you for 15 sec. The summoned Animal Companion obeys your Kill Command, Wild Thrash, and Stomps alongside your other pets."
           }
         ]
       }
@@ -2017,7 +2211,9 @@
               "talent": "Better Together",
               "spell_id": 472357,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_pathfinding2.jpg",
+              "desc": "Damage dealt by your pets is increased by 2%.\r\n\r\nBarbed Shot damage increased by 10%."
             }
           ]
         },
@@ -2042,7 +2238,9 @@
               "talent": "Stampede!",
               "spell_id": 472741,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_bestialdiscipline.jpg",
+              "desc": "Casting Bestial Wrath grants Howl of the Pack Leader and causes your next Kill Command to rouse the nearby wildlife into a Stampede, charging your target and dealing 471 Physical damage over 7 sec."
             }
           ]
         },
@@ -2064,7 +2262,9 @@
               "talent": "Shell Cover",
               "spell_id": 472707,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_babyturtle2.jpg",
+              "desc": "Survival of the Fittest now summons a Turtle to aid you, further increasing its damage reduction effect by 10%."
             }
           ]
         },
@@ -2086,7 +2286,9 @@
               "talent": "No Mercy",
               "spell_id": 472660,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_goforthethroat.jpg",
+              "desc": "Your Bleed effects deal 10% increased damage."
             }
           ]
         },
@@ -2108,14 +2310,18 @@
               "talent": "Ursine Fury",
               "spell_id": 472476,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_bearhug.jpg",
+              "desc": "When your Bear is summoned, it is joined by 2 Dire Beasts."
             },
             {
               "entry_id": "128358",
               "talent": "Sharpened Claws",
               "spell_id": 472524,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_swipe.jpg",
+              "desc": "The damage of your Bear's Rend Flesh is increased by 15%."
             }
           ]
         },
@@ -2137,14 +2343,18 @@
               "talent": "Slicked Shoes",
               "spell_id": 472719,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_heroicleap.jpg",
+              "desc": "When Disengage removes a movement impairing effect, its cooldown is reduced by 4 sec."
             },
             {
               "entry_id": "123781",
               "talent": "Masterful Call",
               "spell_id": 1268705,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_masterscall.jpg",
+              "desc": "The duration of Master's Call is increased by 2 sec and it increases the movement speed of its target by 20%."
             }
           ]
         },
@@ -2166,7 +2376,9 @@
               "talent": "Fury of the Wyvern",
               "spell_id": 472550,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_feralchargecat.jpg",
+              "desc": "Your pet's attacks increase your Wyvern's damage bonus by 1%, up to 10%.\r\n\r\nCasting Kill Command extends the duration of your Wyvern by 0.5 sec, up to 5 additional sec."
             }
           ]
         },
@@ -2188,7 +2400,9 @@
               "talent": "Pack Mentality",
               "spell_id": 472358,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_hunter_lonewolf.jpg",
+              "desc": "Howl of the Pack Leader increases the damage of your Kill Command by 50%.\r\n\r\nSummoning a Beast reduces the cooldown of Barbed Shot by 4.0 sec."
             }
           ]
         },
@@ -2210,7 +2424,9 @@
               "talent": "Hogstrider",
               "spell_id": 472639,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_boarshead.jpg",
+              "desc": "When your Boar deals damage, the damage of your next Cobra Shot is increased by 200%.\r\n\r\nEach additional enemy damaged by your Boar causes Cobra Shot to strike 1 additional target, up to 4."
             }
           ]
         },
@@ -2230,7 +2446,9 @@
               "talent": "Howl of the Pack Leader",
               "spell_id": 471876,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_packleaderhunter_vicioushunt.jpg",
+              "desc": "While in combat, every 30 sec your next Kill Command summons the aid of a Beast.\r\n\r\n Wyvern\r\nA Wyvern descends from the skies, letting out a battle cry that increases the damage of you and your pets by 10% for 12 sec.\r\n\r\n Boar\r\nA Boar charges through your target 1 time, dealing 504 damage to nearby enemies and an additional 420 physical damage to its primary target. Damage reduced beyond 5 targets.\r\n\r\n Bear\r\nA Bear leaps into the fray, rending the flesh of your enemies, dealing 156 damage over 10 sec to up to 8 nearby enemies."
             }
           ]
         },
@@ -2252,7 +2470,9 @@
               "talent": "Dire Summons",
               "spell_id": 472352,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_horn_01.jpg",
+              "desc": "Kill Command reduces the cooldown of Howl of the Pack Leader by 1.0 sec.\r\n\r\nCobra Shot reduces the cooldown of Howl of the Pack Leader by 1.0 sec."
             }
           ]
         },
@@ -2274,7 +2494,9 @@
               "talent": "Sharpened Fangs",
               "spell_id": 1264775,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_monsterfang_02.jpg",
+              "desc": "Your mastery is increased by 3%."
             }
           ]
         },
@@ -2296,7 +2518,9 @@
               "talent": "Lethal Barbs",
               "spell_id": 1264781,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_criticalshot.jpg",
+              "desc": "Your auto shot grants 1 Focus to you and your pet.\r\n\r\nAuto shot damage increased by 25%."
             }
           ]
         },
@@ -2318,14 +2542,18 @@
               "talent": "Hoof and Blade",
               "spell_id": 1264797,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_beastwithin.jpg",
+              "desc": "Hogstrider further increases the damage of Cobra Shot by 50% and it now strikes up to 3 additional targets."
             },
             {
               "entry_id": "136236",
               "talent": "Wyvern's Gaze",
               "spell_id": 1264792,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_deathwing_assualtaspects.jpg",
+              "desc": "The damage bonus from your Wyvern now lasts an additional 2.0 sec."
             }
           ]
         }
@@ -2349,14 +2577,18 @@
               "talent": "Banshee's Mark",
               "spell_id": 467902,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_leader_sylvanas.jpg",
+              "desc": "Black Arrow and Bleak Powder critical strike damage increased by 10%."
             },
             {
               "entry_id": "136231",
               "talent": "The Bell Tolls",
               "spell_id": 467644,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_animatedead.jpg",
+              "desc": "All pet damage increased by 6%.\r\n\r\nDire Beast damage increased by 10%."
             }
           ]
         },
@@ -2378,7 +2610,9 @@
               "talent": "Smoke Screen",
               "spell_id": 430709,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_warlock_demonsoul.jpg",
+              "desc": "Exhilaration grants you 3 sec of Survival of the Fittest.\r\n\r\nSurvival of the Fittest activates Exhilaration at 50% effectiveness."
             }
           ]
         },
@@ -2400,14 +2634,18 @@
               "talent": "Dark Chains",
               "spell_id": 430712,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_belt_44c.jpg",
+              "desc": "While in combat, Disengage will chain the closest target to the ground, causing them to move 40% slower until they move 8 yards away."
             },
             {
               "entry_id": "128219",
               "talent": "Shadow Dagger",
               "spell_id": 467741,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_throw.jpg",
+              "desc": "While in combat, Disengage releases a fan of shadow daggers, dealing 0 Shadow damage per second and reducing affected target's movement speed by 30% for 6 sec."
             }
           ]
         },
@@ -2430,7 +2668,9 @@
               "talent": "Bleak Arrows",
               "spell_id": 467749,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_quiver_1h_mawraid_d_01.jpg",
+              "desc": "Your auto shot now deals Shadow damage, allowing it to bypass armor.\r\n\r\nAuto shot damage increased by 100%."
             }
           ]
         },
@@ -2453,7 +2693,9 @@
               "talent": "Soul Drinker",
               "spell_id": 469638,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warlock_soulsiphon.jpg",
+              "desc": "Kill Command has a 20% chance and Barbed Shot has a 50% chance to grant Deathblow.\r\n\r\n Deathblow\r\nThe cooldown of Kill Shot is reset. Your next Kill Shot can be used on any target, regardless of their current health."
             }
           ]
         },
@@ -2476,7 +2718,9 @@
               "talent": "Bleak Powder",
               "spell_id": 467911,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_powder_tin.jpg",
+              "desc": "Black Arrow now explodes in a cloud of shadow and sulfur on impact, dealing 87 Shadow damage to all enemies within an 8 yd cone behind the target. Damage reduced beyond 8 targets."
             }
           ]
         },
@@ -2498,7 +2742,9 @@
               "talent": "Umbral Reach",
               "spell_id": 1235397,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_deathknight_strangulate.jpg",
+              "desc": "Bleak Powder now applies Black Arrow's periodic effect to all enemies it damages.\r\n\r\nIf Bleak Powder damages 2 or more enemies, gain Beast Cleave if talented."
             }
           ]
         },
@@ -2520,7 +2766,9 @@
               "talent": "Blighted Quiver",
               "spell_id": 1264291,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_quiver_1h_sylvanas_d_01.jpg",
+              "desc": "You fire 2 additional Black Arrows during Withering Fire's barrage.\r\n\r\nBeast Cleave and Kill Cleave damage increased by 5%."
             }
           ]
         },
@@ -2542,14 +2790,18 @@
               "talent": "Ebon Bowstring",
               "spell_id": 467897,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_tailoring_craftingoptionalreagent_enhancedspellthread_color4.jpg",
+              "desc": "Casting Black Arrow has a 15% chance to grant Deathblow.\r\n\r\n Deathblow\r\nThe cooldown of Kill Shot is reset. Your next Kill Shot can be used on any target, regardless of their current health."
             },
             {
               "entry_id": "136742",
               "talent": "Through the Eyes",
               "spell_id": 1277565,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_cheapshot.jpg",
+              "desc": "Black Arrow deals 20% increased damage to enemies affected by Black Arrow's periodic damage."
             }
           ]
         },
@@ -2569,7 +2821,9 @@
               "talent": "Black Arrow",
               "spell_id": 466932,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_darkrangerhunter_blackarrow.jpg",
+              "desc": "Your Kill Shot is replaced with Black Arrow.\r\n\r\n Black Arrow\r\nYou attempt to finish off a wounded target, dealing 121 Shadow damage and 140 Shadow damage over 8 sec. Only usable on enemies above 80% health or below 20% health."
             }
           ]
         },
@@ -2594,7 +2848,9 @@
               "talent": "Withering Fire",
               "spell_id": 466990,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_painspike.jpg",
+              "desc": "Bestial Wrath causes you to surrender to darkness, granting you Withering Fire for 10 sec and Deathblow.\r\n\r\n Withering Fire\r\nCasting Black Arrow fires a barrage of 2 additional Black Arrows at nearby targets at 50% effectiveness, prioritizing enemies that aren't affected by Black Arrow's damage over time effect."
             }
           ]
         },
@@ -2616,7 +2872,9 @@
               "talent": "Pact of the Hollow",
               "spell_id": 1264690,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_creature_cursed_03.jpg",
+              "desc": "Kill Command causes your Dark Hound to Shadow Thrash, dealing 73 Shadow damage to up to 8 nearby enemies."
             }
           ]
         },
@@ -2638,7 +2896,9 @@
               "talent": "Wailing Dead",
               "spell_id": 1264290,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_deathknight_summongargoyle.jpg",
+              "desc": "Bestial Wrath summons a Dark Hound.\r\n\r\nFor 15 sec after casting Bestial Wrath, Bestial Wrath is replaced with Wailing Arrow.\r\n\r\n Wailing Arrow\r\nFire an enchanted arrow, dealing 494 Shadow damage to your target and an additional 245 Shadow damage to all enemies within 8 yds of your target. Non-Player targets struck by a Wailing Arrow have their spellcasting interrupted and are silenced for 1 sec.\r\n\r\nGrants Deathblow."
             }
           ]
         },
@@ -2661,7 +2921,9 @@
               "talent": "Corpsecaller",
               "spell_id": 1264289,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_fiegndead.jpg",
+              "desc": "When summoning a Dire Beast, you have a 10% chance to instead summon a Dark Hound that deals significantly increased damage."
             }
           ]
         },
@@ -2681,7 +2943,9 @@
               "talent": "Black Arrow",
               "spell_id": 466930,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_darkrangerhunter_blackarrow.jpg",
+              "desc": "You attempt to finish off a wounded target, dealing 121 Shadow damage and 140 Shadow damage over 8 sec. Only usable on enemies above 80% health or below 20% health."
             }
           ]
         }

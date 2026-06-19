@@ -1,15 +1,36 @@
 ---
 title: Delves — Midnight Season 1
-patch: 12.0.5
-fetched: 2026-06-03
+patch: 12.0.7
+fetched: 2026-06-19
 sources:
   - https://www.icy-veins.com/wow/weekly-to-do-list
+  - https://worldofwarcraft.blizzard.com/en-us/news/24244888/revelations-content-update-notes
+  - https://worldofwarcraft.blizzard.com/en-us/news/24276957/hotfixes-june-18-2026
 confidence: medium
 ---
 
 # Delves (Midnight Season 1)
 
 Solo/small-group scaling endgame pillar. Tiers 1–11.
+
+## 12.0.7 "Revelations" changes (live 2026-06-16)
+
+- **Delver's Call XP buffed:** XP from **first-time delve completions
+  (Delver's Call)** is *significantly* increased — Blizzard's notes say up
+  to **~8× the 12.0.5 value** for some Midnight quest XP; community reports
+  put Delver's Call at roughly **80k–140k+ XP** per first-clear now (≈ a
+  doubling+ of prior values). Same buff hits Midnight dungeon quests, Prey,
+  and weekly Renown activities. This is a **leveling/alt** buff — it does
+  **not** change delve *loot*, tiers, or the gearing math below.
+- **No structural delve changes** in 12.0.7: loot table, tiers (1–11),
+  Bountiful coffers, Restored Coffer Keys (6/wk), gilded stashes, and the
+  Delver's Journey track are all unchanged from 12.0.5.
+- **Delve bug-fix hotfixes** (cosmetic/AI, no reward impact): Valeera now
+  attacks Vile Cursed Toads / Poison Dart Frog / Giant Cursed Bullfrog;
+  Light spores in Sunkiller Sanctum no longer interrupt channels; Nemesis
+  Squads no longer spawn under the world in Parhelion Plaza; Corrupted
+  Leyline (The Darkway) stops casting "Detected!" out of range;
+  out-of-range Sanctified Banner placement fixed in Atal'Aman.
 
 ## Weekly
 
@@ -102,6 +123,9 @@ Companion: **Valeera Sanguinar** (verified via Blizzard API reputations
 — levels like TWW's Brann; user's is level 20 as of 2026-06-03).
 
 ## TODO
+
+> 12.0.7 "Revelations" did not touch delve loot/tiers/journey, so the
+> open items below still stand (verify in-game).
 
 - [ ] Per-delve location + gimmick notes
 - [ ] Valeera upgrade path / curio equivalents

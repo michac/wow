@@ -1,8 +1,9 @@
 ---
 title: Encomplete — gearing priority plan (Midnight S1)
-patch: 12.0.5
-fetched: 2026-06-03
+patch: 12.0.7
+fetched: 2026-06-19
 sources:
+  - https://worldofwarcraft.blizzard.com/en-us/news/24244888/revelations-content-update-notes  # 12.0.7 live content the plan targets
   - knowledge/characters/encomplete-kiljaeden.md (snapshot + user-reported)
   - knowledge/systems/ritual-sites.md
   - knowledge/systems/void-forge.md
@@ -14,6 +15,16 @@ confidence: medium
 ---
 
 # Encomplete — priority plan
+
+> **VOLATILE — re-fetch live before answering.** This is a character plan
+> built on a 2026-06-03 currency/ilvl snapshot. Both the live profile
+> (`encomplete-kiljaeden.md`) and this plan's "baseline" numbers are stale
+> and MUST be re-pulled from the Blizzard profile API before giving gearing
+> advice. **12.0.7 "Revelations" went live 2026-06-16**, so the snapshot
+> predates the patch: hero-cache churn, the 750-accolade slot-targeted Hero
+> caches, Tier 6 ritual sites, and Void Assault XP/drop changes are now all
+> live and the "hold until 12.0.7" gates below have *opened*. Re-verify
+> currency balances and ilvl in-game.
 
 Baseline 2026-06-03 (currency tab verified): ilvl 236 · 10 Sparks ·
 6 Catalyst charges · Dawncrests 111 Adv / 165 Vet / **84 Champ** (0
@@ -53,8 +64,9 @@ crests)** · no enchants · solo-leaning.
         Spellthread → the catalyzed legs, not transitional pieces
   - [ ] Rings Eyes of the Eagle ×2 — only if cheap; rings churn
   - **Never** on adventurer/veteran-track; champion-track only for
-    designated keepers. Hold expensive enchants until after 12.0.7
-    (June 16) hero-cache churn settles.
+    designated keepers. 12.0.7 is now live (June 16) — hold expensive
+    enchants only until the post-patch hero-cache churn settles, then
+    commit to keepers.
   - [x] Verified 2026-06-03 (Wowhead recrafting guide + forums):
         enchants and gems **persist through recrafts** — safe to
         enchant the 259 staff; it survives the 285 recraft
@@ -111,9 +123,11 @@ crests)** · no enchants · solo-leaning.
 - **Champion Dawncrests** (100+ banked): only into catalyst-bound
   pieces or long-keepers; hero sources supersede soon.
 - **Field Accolades**: ~~hero pieces (500) while most slots are sub-hero~~
-  **REVERSED 2026-06-03 — BANK accolades until 12.0.7 (June 16)**: the
-  patch adds slot-targeted Hero caches at 750 accolades, which beats the
-  random 500 piece with only 2 resets to wait (see `../_meta/next-patch.md`).
+  **REVERSED 2026-06-03 — BANK accolades for 12.0.7's 750 slot-targeted
+  Hero caches.** 12.0.7 went live 2026-06-16, so those caches are now
+  available: spend banked accolades on the 750 slot-targeted Hero cache
+  (beats the random 500 piece) for your worst sub-hero slots. Confirm the
+  exact cache cost/slot-targeting in-game on the live build.
 
 ## Milestones
 

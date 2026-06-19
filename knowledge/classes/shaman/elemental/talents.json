@@ -19,6 +19,12 @@
       "Stormbringer"
     ]
   },
+  "level_cap": 90,
+  "budgets": {
+    "class": 34,
+    "spec": 34,
+    "hero": 13
+  },
   "trees": {
     "class": [
       {
@@ -37,7 +43,9 @@
             "talent": "Chain Heal",
             "spell_id": 1064,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_1115_shaman_chainheal.jpg",
+            "desc": "Heals the friendly target for 875, then jumps up to 20 yards to heal the 3 most injured nearby allies. Healing is reduced by 30% with each jump."
           }
         ]
       },
@@ -57,7 +65,9 @@
             "talent": "Lava Burst",
             "spell_id": 51505,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_lavaburst.jpg",
+            "desc": "Hurls molten lava at the target, dealing 523 Fire damage. Lava Burst will always critically strike if the target is affected by Flame Shock and its damage is increased by your critical strike chance."
           }
         ]
       },
@@ -77,7 +87,9 @@
             "talent": "Chain Lightning",
             "spell_id": 188443,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_chainlightning.jpg",
+            "desc": "Hurls a lightning bolt at the enemy, dealing 279 Nature damage and then jumping to additional nearby enemies. Affects 3 total targets"
           }
         ]
       },
@@ -99,7 +111,9 @@
             "talent": "Earth Shield",
             "spell_id": 974,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_skinofearth.jpg",
+            "desc": "Protects the target with an earthen shield, increasing your healing on them by 20% and healing them for 327 when they take damage. This heal can only occur once every 3 sec. Maximum 9 charges.\r\n\r\nEarth Shield can only be placed on one target at a time. Only one Elemental Shield can be active on the Shaman."
           }
         ]
       },
@@ -122,7 +136,9 @@
             "talent": "Ancestral Wolf Affinity",
             "spell_id": 382197,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_beastmaster_wolf.jpg",
+            "desc": "Cleanse Spirit, Wind Shear, Purge, and totem casts no longer cancel Ghost Wolf."
           }
         ]
       },
@@ -144,7 +160,9 @@
             "talent": "Fire and Ice",
             "spell_id": 382886,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_firefrostorb.jpg",
+            "desc": "Increases all Fire and Frost damage you deal by 3%."
           }
         ]
       },
@@ -167,14 +185,18 @@
             "talent": "Spirit Wolf",
             "spell_id": 260878,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_hunter_lonewolf.jpg",
+            "desc": "While transformed into a Ghost Wolf, you gain 5% increased movement speed and 5% damage reduction every 1 sec, stacking up to 4 times."
           },
           {
             "entry_id": "127853",
             "talent": "Thunderous Paws",
             "spell_id": 378075,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_longevity.jpg",
+            "desc": "Ghost Wolf removes snares and increases your movement speed by an additional 25% for the first 3 sec. May only occur once every 20 sec."
           }
         ]
       },
@@ -196,7 +218,9 @@
             "talent": "Frost Shock",
             "spell_id": 196840,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_frostshock.jpg",
+            "desc": "Chills the target with frost, causing 275 Frost damage and reducing the target's movement speed by 50% for 6 sec."
           }
         ]
       },
@@ -218,7 +242,9 @@
             "talent": "Elemental Orbit",
             "spell_id": 383010,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_shattershield.jpg",
+            "desc": "Increases the number of Elemental Shields you can have active on yourself by 1.\r\n\r\nYou can have Earth Shield on yourself and one ally at the same time."
           }
         ]
       },
@@ -241,14 +267,18 @@
             "talent": "Spirit Walk",
             "spell_id": 58875,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_tracking.jpg",
+            "desc": "Removes all movement impairing effects and increases your movement speed by 60% for 8 sec."
           },
           {
             "entry_id": "127864",
             "talent": "Gust of Wind",
             "spell_id": 192063,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_volatileair.jpg",
+            "desc": "A gust of wind hurls you forward."
           }
         ]
       },
@@ -272,7 +302,9 @@
             "talent": "Astral Shift",
             "spell_id": 108271,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_shaman_astralshift.jpg",
+            "desc": "Shift partially into the elemental planes, taking 40% less damage for 12 sec."
           }
         ]
       },
@@ -295,7 +327,9 @@
             "talent": "Nature's Guardian",
             "spell_id": 30884,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_natureguardian.jpg",
+            "desc": "When your health is brought below 35%, you instantly heal for 40% of your maximum health. Cannot occur more than once every 45 sec."
           }
         ]
       },
@@ -317,14 +351,18 @@
             "talent": "Encasing Cold",
             "spell_id": 462762,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_coldasice.jpg",
+            "desc": "Increases the cooldown of Frost Shock by 15 sec, but Frost Shock now freezes targets in place for 4 sec."
           },
           {
             "entry_id": "135717",
             "talent": "Arctic Snowstorm",
             "spell_id": 462764,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_frost_glacier.jpg",
+            "desc": "Enemies within 10 yds of your Frost Shock are snared by 30%."
           }
         ]
       },
@@ -347,7 +385,9 @@
             "talent": "Healing Stream Totem",
             "spell_id": 5394,
             "max_ranks": 1,
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_spear_04.jpg",
+            "desc": "Summons a totem at your feet for 15 sec that heals an injured party or raid member within 40 yards for 253 every 1.8 sec.\r\n\r\nIf you already know Healing Stream Totem, instead gain 1 additional charge of Healing Stream Totem."
           }
         ]
       },
@@ -370,7 +410,9 @@
             "talent": "Winds of Al'Akir",
             "spell_id": 382215,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_galewinds.jpg",
+            "desc": "Increases your movement speed by 5% and the movement speed bonus of Ghost Wolf by an additional 5%."
           }
         ]
       },
@@ -392,14 +434,18 @@
             "talent": "Planes Traveler",
             "spell_id": 381647,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_astralshift.jpg",
+            "desc": "Reduces the cooldown of Astral Shift by 30 sec."
           },
           {
             "entry_id": "127887",
             "talent": "Astral Bulwark",
             "spell_id": 377933,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_ancestralawakening.jpg",
+            "desc": "Astral Shift reduces damage taken by an additional 20%."
           }
         ]
       },
@@ -422,7 +468,9 @@
             "talent": "Brimming with Life",
             "spell_id": 381689,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_jewelry_talisman_06.jpg",
+            "desc": "Stamina increased by 8%.\r\n\r\nWhile you are at full health, Reincarnation cools down 50% faster."
           }
         ]
       },
@@ -445,7 +493,9 @@
             "talent": "Wind Shear",
             "spell_id": 57994,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_cyclone.jpg",
+            "desc": "Disrupts the target's concentration with a burst of wind, interrupting spellcasting and preventing any spell in that school from being cast for 4 sec."
           }
         ]
       },
@@ -467,7 +517,9 @@
             "talent": "Elemental Resistance",
             "spell_id": 462368,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fireresistancetotem_01.jpg",
+            "desc": "Healing from Healing Stream Totem reduces Fire, Frost, and Nature damage taken by 6% for 3 sec."
           }
         ]
       },
@@ -490,7 +542,9 @@
             "talent": "Earthgrab Totem",
             "spell_id": 51485,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_stranglevines.jpg",
+            "desc": "Summons a totem at the target location for 20 sec. The totem pulses every 2 sec, rooting all enemies within 8 yards for 8 sec. Enemies previously rooted by the totem instead suffer 50% movement speed reduction."
           }
         ]
       },
@@ -513,7 +567,9 @@
             "talent": "Capacitor Totem",
             "spell_id": 192058,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_brilliance.jpg",
+            "desc": "Summons a totem at the target location that gathers electrical energy from the surrounding air and explodes after 2 sec, stunning all enemies within 8 yards for 3 sec."
           }
         ]
       },
@@ -536,7 +592,9 @@
             "talent": "Spiritual Awakening",
             "spell_id": 1270375,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_blessingoftheeternals.jpg",
+            "desc": "Mastery increased by 3%."
           }
         ]
       },
@@ -559,7 +617,9 @@
             "talent": "Enhanced Imbues",
             "spell_id": 462796,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_rockbiter.jpg",
+            "desc": "The effects of your weapon and shield imbues are increased by 30%."
           }
         ]
       },
@@ -581,7 +641,9 @@
             "talent": "Windveil",
             "spell_id": 355630,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_elemental_primal_air.jpg",
+            "desc": "Interrupting a spell with Wind Shear reduces all spell damage taken by 15% for 12 sec."
           }
         ]
       },
@@ -604,7 +666,9 @@
             "talent": "Refreshing Waters",
             "spell_id": 378211,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_shaman_fortifyingwaters.jpg",
+            "desc": "Your Healing Surge is 25% more effective on yourself."
           }
         ]
       },
@@ -627,7 +691,9 @@
             "talent": "Cleanse Spirit",
             "spell_id": 51886,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_shaman_cleansespirit.jpg",
+            "desc": "Removes all Curse effects from a friendly target."
           }
         ]
       },
@@ -649,7 +715,9 @@
             "talent": "Static Charge",
             "spell_id": 265046,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_brilliance.jpg",
+            "desc": "Reduces the cooldown of Capacitor Totem by 15 sec."
           }
         ]
       },
@@ -672,7 +740,9 @@
             "talent": "Wind Rush Totem",
             "spell_id": 192077,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_shaman_windwalktotem.jpg",
+            "desc": "Summons a totem at the target location for 15 sec, continually granting all allies who pass within 10 yards 40% increased movement speed for 5 sec."
           }
         ]
       },
@@ -695,7 +765,9 @@
             "talent": "Earth Elemental",
             "spell_id": 198103,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_earthelemental_totem.jpg",
+            "desc": "Calls forth a Greater Earth Elemental to protect you and your allies, generating high threat and taunting enemies periodically for 30 sec."
           }
         ]
       },
@@ -718,14 +790,18 @@
             "talent": "Purge",
             "spell_id": 370,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_purge.jpg",
+            "desc": "Purges the enemy target, removing 1 beneficial Magic effect."
           },
           {
             "entry_id": "127904",
             "talent": "Greater Purge",
             "spell_id": 378773,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_focusedstrikes.jpg",
+            "desc": "Purges the enemy target, removing 2 beneficial Magic effects."
           }
         ]
       },
@@ -749,7 +825,9 @@
             "talent": "Nature's Fury",
             "spell_id": 381655,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_spiritarmor.jpg",
+            "desc": "Increases the critical strike chance of your Nature spells and abilities by 2%."
           }
         ]
       },
@@ -771,14 +849,18 @@
             "talent": "Ascending Air",
             "spell_id": 462791,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_raidprimalist_windelemental.jpg",
+            "desc": "Wind Rush Totem's cooldown is reduced by 30 sec and its movement speed effect lasts an additional 2 sec."
           },
           {
             "entry_id": "127882",
             "talent": "Jet Stream",
             "spell_id": 462817,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_elemental_primal_air.jpg",
+            "desc": "Wind Rush Totem's movement speed bonus is increased by 10% and now removes snares."
           }
         ]
       },
@@ -800,7 +882,9 @@
             "talent": "Primordial Bond",
             "spell_id": 1279819,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_elemental_primal_earth.jpg",
+            "desc": "Your Earth Elemental no longer taunts nearby enemies or generates threat and instead increases your maximum health by 15% while active."
           }
         ]
       },
@@ -823,7 +907,9 @@
             "talent": "Hex",
             "spell_id": 51514,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_hex.jpg",
+            "desc": "Transforms the enemy into a frog for 1 min. While hexed, the victim is incapacitated, and cannot attack or cast spells. Damage may cancel the effect. Limit 1. Only works on Humanoids and Beasts."
           }
         ]
       },
@@ -846,7 +932,9 @@
             "talent": "Spiritwalker's Grace",
             "spell_id": 79206,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_spiritwalkersgrace.jpg",
+            "desc": "Calls upon the guidance of the spirits for 15 sec, permitting movement while casting Shaman spells. Castable while casting."
           }
         ]
       },
@@ -869,7 +957,9 @@
             "talent": "Totemic Projection",
             "spell_id": 108287,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_shaman_totemrelocation.jpg",
+            "desc": "Relocates your active totems to the specified location."
           }
         ]
       },
@@ -892,7 +982,9 @@
             "talent": "Elemental Warding",
             "spell_id": 381650,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_elementalcombinedfoozles_primordial.jpg",
+            "desc": "Reduces all magic damage taken by 8%."
           }
         ]
       },
@@ -916,7 +1008,9 @@
             "talent": "Totemic Focus",
             "spell_id": 382201,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_relics_totemofrebirth.jpg",
+            "desc": "Increases the radius of your totem effects by 15%.\r\n\r\nIncreases the duration of your Earthbind and Earthgrab Totems by 10 sec.\r\n\r\nIncreases the duration of your Healing Stream, Tremor, Poison Cleansing, and Wind Rush Totems by 3.0 sec."
           }
         ]
       },
@@ -938,14 +1032,18 @@
             "talent": "Graceful Spirit",
             "spell_id": 192088,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_spectraltransformation.jpg",
+            "desc": "Reduces the cooldown of Spiritwalker's Grace by 30 sec and increases your movement speed by 20% while it is active."
           },
           {
             "entry_id": "127907",
             "talent": "Spiritwalker's Aegis",
             "spell_id": 378077,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_racial_forceshield.jpg",
+            "desc": "When you cast Spiritwalker's Grace, you become immune to Silence and Interrupt effects for 5 sec."
           }
         ]
       },
@@ -968,7 +1066,9 @@
             "talent": "Mana Spring",
             "spell_id": 381930,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_manaregentotem.jpg",
+            "desc": "Your Lava Burst casts restore 22 mana to you and 4 allies nearest to you within 40 yards.\r\n\r\nAllies can only benefit from one Shaman's Mana Spring effect at a time, prioritizing healers."
           }
         ]
       },
@@ -990,14 +1090,18 @@
             "talent": "Tremor Totem",
             "spell_id": 8143,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_tremortotem.jpg",
+            "desc": "Summons a totem at your feet that shakes the ground around it for 10 sec, removing Fear, Charm and Sleep effects from party and raid members within 30 yards."
           },
           {
             "entry_id": "136567",
             "talent": "Poison Cleansing Totem",
             "spell_id": 383013,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_poisoncleansingtotem.jpg",
+            "desc": "Summons a totem at your feet that removes all Poison effects from a nearby party or raid member within 30 yards every 1.5 sec for 6 sec."
           }
         ]
       },
@@ -1020,14 +1124,18 @@
             "talent": "Therazane's Resilience",
             "spell_id": 1217622,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/shaman_pvp_rockshield.jpg",
+            "desc": "Earth Shield no longer loses charges and is 115% effective."
           },
           {
             "entry_id": "136584",
             "talent": "Reactive Warding",
             "spell_id": 462454,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_elementalcombinedfoozles_water.jpg",
+            "desc": "When refreshing Earth Shield, your target is healed for 830 for each stack of Earth Shield they are missing.\r\n\r\nAdditionally, Earth Shield can consume charges 1.0 sec faster."
           }
         ]
       },
@@ -1049,7 +1157,9 @@
             "talent": "Voodoo Mastery",
             "spell_id": 204268,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_hex.jpg",
+            "desc": "Your Hex target is slowed by 70% during Hex and for 6 sec after it ends.\r\n\r\nReduces the cooldown of Hex by 15 sec."
           }
         ]
       },
@@ -1072,7 +1182,9 @@
             "talent": "Nature's Swiftness",
             "spell_id": 378081,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_ravenform.jpg",
+            "desc": "Your next healing or damaging Nature spell is instant cast and costs no mana."
           }
         ]
       },
@@ -1096,7 +1208,9 @@
             "talent": "Totemic Surge",
             "spell_id": 381867,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_agitatingtotem.jpg",
+            "desc": "Reduces the cooldown of most totems by 5 sec."
           }
         ]
       },
@@ -1120,7 +1234,9 @@
             "talent": "Instinctive Imbuements",
             "spell_id": 1270350,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_shaman_ascendance.jpg",
+            "desc": "Lightning Shield increases your Intellect by 3%.\r\n\r\nCasting Lightning Shield now applies your weapon imbuements. Earth Shield is also applied if you have the Elemental Orbit talent."
           }
         ]
       }
@@ -1142,14 +1258,18 @@
             "talent": "Earth Shock",
             "spell_id": 8042,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_earthshock.jpg",
+            "desc": "Instantly shocks the target with concussive force, causing 2,978 Nature damage."
           },
           {
             "entry_id": "127924",
             "talent": "Elemental Blast",
             "spell_id": 117014,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/shaman_talent_elementalblast.jpg",
+            "desc": "Harnesses the raw power of the elements, dealing 762 Elemental damage and increasing your Critical Strike or Haste by 3% or Mastery by 6% for 10 sec."
           }
         ]
       },
@@ -1171,14 +1291,18 @@
             "talent": "Earthquake",
             "spell_id": 462620,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_earthquake.jpg",
+            "desc": "Causes the earth within 8 yards of your target to tremble and break, dealing 1,428 Nature damage over 6 sec and has a 5% chance to knock the enemy down. Multiple uses of Earthquake may overlap.\r\n\r\nThis spell is cast at your target."
           },
           {
             "entry_id": "127925",
             "talent": "Earthquake",
             "spell_id": 61882,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_earthquake.jpg",
+            "desc": "Causes the earth within 8 yards of the target location to tremble and break, dealing 1,418 Nature damage over 6 sec and has a 5% chance to knock the enemy down. Multiple uses of Earthquake may overlap.\r\n\r\nThis spell is cast at a selected location."
           }
         ]
       },
@@ -1200,7 +1324,9 @@
             "talent": "Elemental Fury",
             "spell_id": 60188,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_volcano.jpg",
+            "desc": "Your damaging critical strikes deal 250% damage instead of the usual 200%."
           }
         ]
       },
@@ -1222,7 +1348,9 @@
             "talent": "Echo of the Elements",
             "spell_id": 333919,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_shaman_echooftheelements.jpg",
+            "desc": "Lava Burst has an additional charge."
           }
         ]
       },
@@ -1244,7 +1372,9 @@
             "talent": "Flash of Lightning",
             "spell_id": 381936,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_lightning_lightningbolt01.jpg",
+            "desc": "Increases the critical strike chance of Lightning Bolt and Chain Lightning by 10%."
           }
         ]
       },
@@ -1266,14 +1396,18 @@
             "talent": "Tectonic Collapse",
             "spell_id": 1258899,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/item_earthenmight.jpg",
+            "desc": "Earth Shock, Elemental Blast, and Earthquake deal 20% increased damage."
           },
           {
             "entry_id": "101873",
             "talent": "Aftershock",
             "spell_id": 273221,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_stormreach.jpg",
+            "desc": "Earth Shock, Elemental Blast, and Earthquake have a 25% chance to refund all Maelstrom spent."
           }
         ]
       },
@@ -1295,14 +1429,18 @@
             "talent": "Molten Wrath",
             "spell_id": 1258843,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_lavaburst.jpg",
+            "desc": "Lava Burst deals 15% additional damage."
           },
           {
             "entry_id": "136714",
             "talent": "Master of the Elements",
             "spell_id": 16166,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_elementalabsorption.jpg",
+            "desc": "Casting Lava Burst increases the damage or healing of your next Nature, Physical, or Frost spell by 15%."
           }
         ]
       },
@@ -1324,7 +1462,9 @@
             "talent": "Lightning Capacitor",
             "spell_id": 462862,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_lightningshield.jpg",
+            "desc": "While Lightning Shield is active, your Nature damage dealt is increased by 8%."
           }
         ]
       },
@@ -1346,7 +1486,9 @@
             "talent": "Stormkeeper",
             "spell_id": 191634,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_thunderking_lightningwhip.jpg",
+            "desc": "Charge yourself with lightning, causing your next 2 Lightning Bolts to deal 150% more damage, and also causes your next 2 Lightning Bolts or Chain Lightings to be instant cast and trigger an Elemental Overload on every target."
           }
         ]
       },
@@ -1368,7 +1510,9 @@
             "talent": "Flametongue Weapon",
             "spell_id": 318038,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_flametounge.jpg",
+            "desc": "Imbue your weapon with the element of Fire for 1 hour, increasing the damage of your Fire spells by 5.0%."
           }
         ]
       },
@@ -1390,7 +1534,9 @@
             "talent": "Storm Frenzy",
             "spell_id": 462695,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_callstorm.jpg",
+            "desc": "Reduces the cast time of Lightning Bolt and Chain Lightning by 15%."
           }
         ]
       },
@@ -1412,7 +1558,9 @@
             "talent": "Swelling Maelstrom",
             "spell_id": 381707,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_maelstromweapon.jpg",
+            "desc": "Increases your maximum Maelstrom by 50.\r\n\r\nIncreases Earth Shock, Elemental Blast, and Earthquake damage by 5%."
           }
         ]
       },
@@ -1434,7 +1582,9 @@
             "talent": "Primordial Fury",
             "spell_id": 378193,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_elementalshardfoozles_primordial.jpg",
+            "desc": "Elemental Fury increases critical strike damage by an additional 25%."
           }
         ]
       },
@@ -1456,14 +1606,18 @@
             "talent": "Fury of the Storms",
             "spell_id": 191717,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_stormelemental.jpg",
+            "desc": "Casting Stormkeeper summons a Greater Storm Elemental to hurl gusts of wind at your enemies for 10 sec."
           },
           {
             "entry_id": "128223",
             "talent": "Herald of the Storms",
             "spell_id": 468571,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_raidprimalist_windelemental.jpg",
+            "desc": "Reduces the cooldown of Stormkeeper by 15 sec."
           }
         ]
       },
@@ -1485,7 +1639,9 @@
             "talent": "Flames of the Cauldron",
             "spell_id": 378266,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_cauldron_fire.jpg",
+            "desc": "Reduces the cooldown of Flame Shock and Voltaic Blaze by 1.5 sec.\r\n\r\nFlame Shock deals damage 15% faster."
           }
         ]
       },
@@ -1508,7 +1664,9 @@
             "talent": "Amped Up",
             "spell_id": 1269360,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_elementalcombinedfoozles_lightning.jpg",
+            "desc": "Increases your haste by 3%."
           }
         ]
       },
@@ -1532,14 +1690,18 @@
             "talent": "Elemental Resonance",
             "spell_id": 1258895,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_elementalcombinedfoozles_primordial.jpg",
+            "desc": "All Elemental damage increased by 3%."
           },
           {
             "entry_id": "135716",
             "talent": "Thunderstrike Ward",
             "spell_id": 462757,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_armorkit_lightning_imbued.jpg",
+            "desc": "Imbue your shield with the element of Lightning for 1 hour, giving Lightning Bolt and Chain Lightning a chance to call down 2 Thunderstrikes on your target for 271 Nature damage."
           }
         ]
       },
@@ -1561,7 +1723,9 @@
             "talent": "Path of the Seer",
             "spell_id": 1269364,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_elementaloath.jpg",
+            "desc": "Increases your Intellect by 3%."
           }
         ]
       },
@@ -1583,7 +1747,9 @@
             "talent": "Elemental Unity",
             "spell_id": 462866,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_elementalspiritfoozles_air.jpg",
+            "desc": "While a Fire Elemental is active, your Fire damage dealt is increased by 6%.\r\n\r\nWhile a Storm Elemental is active, your Nature damage dealt is increased by 6%."
           }
         ]
       },
@@ -1606,7 +1772,9 @@
             "talent": "Searing Flames",
             "spell_id": 381782,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_offhand_1h_artifactdoomhammer_d_01.jpg",
+            "desc": "Flame Shock damage has a chance to generate 2 Maelstrom."
           }
         ]
       },
@@ -1628,7 +1796,9 @@
             "talent": "Power of the Maelstrom",
             "spell_id": 191861,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_masterofelements.jpg",
+            "desc": "Casting Lava Burst has a 15% chance to cause your next Lightning Bolt or Chain Lightning cast to trigger Elemental Overload an additional time, stacking up to 2 times."
           }
         ]
       },
@@ -1652,7 +1822,9 @@
             "talent": "Earthshatter",
             "spell_id": 468626,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_earthquake.jpg",
+            "desc": "Increases Earth Shock and Earthquake damage by 8% and the stat bonuses granted by Elemental Blast by 25%."
           }
         ]
       },
@@ -1674,7 +1846,9 @@
             "talent": "Storm Infusion",
             "spell_id": 1258889,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_stormlordsfavor.jpg",
+            "desc": "Elemental Resonance\r\nAll elemental damage is increased by an additional 2%.\r\n\r\n Thunderstrike Ward\r\nIncreases the chance for Thunderstrikes to occur by 30% and increases Thunderstrike damage by 75%."
           }
         ]
       },
@@ -1698,7 +1872,9 @@
             "talent": "Echo Chamber",
             "spell_id": 382032,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_lightningoverload.jpg",
+            "desc": "Increases the damage dealt by your Elemental Overloads by 25%."
           }
         ]
       },
@@ -1720,7 +1896,9 @@
             "talent": "Everlasting Elements",
             "spell_id": 462867,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_earthelemental_totem.jpg",
+            "desc": "Increases the duration of your Elementals by 20%."
           }
         ]
       },
@@ -1743,7 +1921,9 @@
             "talent": "Earthen Rage",
             "spell_id": 170374,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_earthen_pillar.jpg",
+            "desc": "Your damaging spells incite the earth around you to come to your aid for 6 sec, repeatedly dealing 160 Nature damage to your most recently attacked target."
           }
         ]
       },
@@ -1766,7 +1946,9 @@
             "talent": "Lava Flows",
             "spell_id": 1273485,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_lavaflow.jpg",
+            "desc": "Lava Burst damage increased by 5%.\r\n\r\nLava Burst and Lava Burst Overload generate 1 additional Maelstrom."
           }
         ]
       },
@@ -1788,7 +1970,9 @@
             "talent": "Fusion of Elements",
             "spell_id": 462840,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_raidprimalist_council.jpg",
+            "desc": "Consuming Power of the Maelstrom additionally fires an Elemental Blast at your target at 40% effectiveness."
           }
         ]
       },
@@ -1812,7 +1996,9 @@
             "talent": "Eye of the Storm",
             "spell_id": 381708,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_soulleech_2.jpg",
+            "desc": "Reduces the Maelstrom cost of Earth Shock and Earthquake by 5.\r\n\r\nReduces the Maelstrom cost of Elemental Blast by 10."
           }
         ]
       },
@@ -1834,7 +2020,9 @@
             "talent": "Ascendance",
             "spell_id": 114050,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_elementaldevastation.jpg",
+            "desc": "Transform into a Flame Ascendant for 15 sec, instantly casting a Flame Shock and a 100% effectiveness Lava Burst at up to 6 nearby enemies.\r\n\r\nWhile ascended, Elemental Overload damage is increased by 75% and spells affected by your Mastery: Elemental Overload cause 1 additional Elemental Overload."
           }
         ]
       },
@@ -1858,7 +2046,9 @@
             "talent": "Inferno Arc",
             "spell_id": 1259047,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_shockinglava.jpg",
+            "desc": "Lightning Bolt, Chain Lightning, Earth Shock, Elemental Blast, and Earthquake deal 10% increased damage to targets affected by Flame Shock."
           }
         ]
       },
@@ -1881,7 +2071,9 @@
             "talent": "Flames of the Firelord",
             "spell_id": 381784,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_firelandsraid_ragnaros.jpg",
+            "desc": "Flame Shock damage increased by 100%."
           }
         ]
       },
@@ -1904,7 +2096,9 @@
             "talent": "Lightning Rod",
             "spell_id": 210689,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_rod_enchantedcobalt.jpg",
+            "desc": "Lightning Bolt and Chain Lightning make your target a Lightning Rod for 8 sec.\r\n \r\nLightning Rods take 10% of all damage you deal with Lightning Bolt and Chain Lightning."
           }
         ]
       },
@@ -1927,7 +2121,9 @@
             "talent": "Mountains Will Fall",
             "spell_id": 381726,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_elementalearth2.jpg",
+            "desc": "Earth Shock, Elemental Blast, and Earthquake can trigger your Mastery: Elemental Overload at 50% effectiveness.\r\n\r\nOverloaded Earthquakes do not knock enemies down."
           }
         ]
       },
@@ -1949,7 +2145,9 @@
             "talent": "Call of Fire",
             "spell_id": 378255,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_elemental_totem.jpg",
+            "desc": "Ascendance summons a Greater Fire Elemental to rain destruction on your enemies for 20 sec. \r\n\r\nWhile the Fire Elemental is active, Flame Shock deals damage 33% faster, and newly applied Flame Shocks last 100% longer."
           }
         ]
       },
@@ -1972,7 +2170,9 @@
             "talent": "Voltaic Blaze",
             "spell_id": 470057,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_dungeonjewelry_primalist_trinket_1ragingelement_fire.jpg",
+            "desc": "Instantly shocks the target and 5 enemies within 10 yds with blazing thunder, applying Flame Shock and dealing 1,520 Nature damage. Always critically strikes.\r\n\r\nGenerates 1 stack of Maelstrom Weapon."
           }
         ]
       },
@@ -1994,7 +2194,9 @@
             "talent": "Charged Conduit",
             "spell_id": 468625,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_thunderking_thunderstruck.jpg",
+            "desc": "Increases the duration of Lightning Rod by 4 sec and its damage bonus by 25%."
           }
         ]
       },
@@ -2016,14 +2218,18 @@
             "talent": "First Ascendant",
             "spell_id": 462440,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_astralshift.jpg",
+            "desc": "The cooldown of Ascendance is reduced by 60 sec."
           },
           {
             "entry_id": "128224",
             "talent": "Preeminence",
             "spell_id": 462443,
             "max_ranks": "1",
-            "choice_index": 1
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_improvedreincarnation.jpg",
+            "desc": "Your haste is increased by 25% during Ascendance and its duration is increased by 3 sec."
           }
         ]
       },
@@ -2045,7 +2251,9 @@
             "talent": "Primal Elementalist",
             "spell_id": 117013,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/shaman_talent_primalelementalist.jpg",
+            "desc": "Your Earth, Fire, and Storm Elementals are drawn from primal elementals 80% more powerful than regular elementals, with additional abilities, and you gain direct control over your Primal Fire Elemental."
           }
         ]
       },
@@ -2067,7 +2275,9 @@
             "talent": "Crackling Fury",
             "spell_id": 1269215,
             "max_ranks": "2",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_dungeonjewelry_primalist_trinket_1ragingelement_air.jpg",
+            "desc": "Voltaic Blaze's cooldown is reduced by 3 sec and its instant damage is increased by 50%."
           }
         ]
       },
@@ -2089,7 +2299,9 @@
             "talent": "Purging Flames",
             "spell_id": 1259471,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_ability_shaman_purgingflames.jpg",
+            "desc": "Voltaic Blaze unleashes volcanic rage, causing your next Lava Burst to also fire at 5 additional targets with your Flame Shock at 80% effectiveness with reduced Maelstrom generation.\r\n\r\nLava Burst damage increased by 10%."
           }
         ]
       },
@@ -2109,7 +2321,9 @@
             "talent": "Feedback Loop",
             "spell_id": 1270061,
             "max_ranks": "1",
-            "choice_index": 0
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_apextalent_shaman_feedbackloop.jpg",
+            "desc": "Elemental Overload damage increased by 35%."
           }
         ]
       }
@@ -2134,14 +2348,18 @@
               "talent": "Lightning Conduit",
               "spell_id": 467778,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_staticshock.jpg",
+              "desc": "You have a chance to get struck by lightning, increasing your movement speed by 50% for 5 sec. The effectiveness is increased to 100% in outdoor areas.\r\n\r\nYou call down a Thunderstorm when you Reincarnate."
             },
             {
               "entry_id": "128226",
               "talent": "Electroshock",
               "spell_id": 454022,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_thunderking_overcharge.jpg",
+              "desc": "Tempest increases your movement speed by 20% for 5 sec."
             }
           ]
         },
@@ -2166,7 +2384,9 @@
               "talent": "Awakening Storms",
               "spell_id": 455129,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_stormreach.jpg",
+              "desc": "Stormstrike has a small chance to upgrade your next Lightning Bolt to Tempest."
             }
           ]
         },
@@ -2188,7 +2408,9 @@
               "talent": "Conductive Energy",
               "spell_id": 455123,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_rod_enchantedcobalt.jpg",
+              "desc": "Gain the effects of the Lightning Rod talent:\r\n\r\n Lightning Rod\r\nLightning Bolt and Chain Lightning make your target a Lightning Rod for 8 sec.\r\n \r\nLightning Rods take 10% of all damage you deal with Lightning Bolt and Chain Lightning."
             }
           ]
         },
@@ -2210,7 +2432,9 @@
               "talent": "Voltaic Surge",
               "spell_id": 454919,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_callstorm.jpg",
+              "desc": "Crash Lightning and Chain Lightning damage increased by 15%."
             }
           ]
         },
@@ -2232,14 +2456,18 @@
               "talent": "Storm Swell",
               "spell_id": 455088,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_unrelentingstorm.jpg",
+              "desc": "Tempest grants 7% Mastery for 6 sec."
             },
             {
               "entry_id": "128225",
               "talent": "Supercharge",
               "spell_id": 455110,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_stormlordsfavor.jpg",
+              "desc": "Lightning Bolt, Tempest, and Chain Lightning have a 35% chance to refund 2 Maelstrom Weapon stacks."
             }
           ]
         },
@@ -2261,14 +2489,18 @@
               "talent": "Nature's Protection",
               "spell_id": 454027,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_lightningshield.jpg",
+              "desc": "Lightning Shield reduces the damage you take by 3%."
             },
             {
               "entry_id": "125617",
               "talent": "Surging Currents",
               "spell_id": 454372,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_thunderking_thunderstruck.jpg",
+              "desc": "Casting Tempest grants Surging Currents, increasing the effectiveness of your next Chain Heal or Healing Surge by 16%, up to 80%."
             }
           ]
         },
@@ -2290,7 +2522,9 @@
               "talent": "Arc Discharge",
               "spell_id": 455096,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_thunderking_balllightning.jpg",
+              "desc": "Tempest causes your next Chain Lightning to be instant cast, deal 40% increased damage, and cast an additional time.\r\n\r\nCan accumulate up to 2 charges."
             }
           ]
         },
@@ -2312,7 +2546,9 @@
               "talent": "Unlimited Power",
               "spell_id": 454391,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_purge.jpg",
+              "desc": "Spending Maelstrom Weapon stacks grants you 1% haste for 15 sec.\r\n\r\nMultiple applications may overlap."
             }
           ]
         },
@@ -2334,7 +2570,9 @@
               "talent": "Rolling Thunder",
               "spell_id": 454026,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_lightning_lightningbolt01.jpg",
+              "desc": "Doom Winds summons a Nature Feral Spirit for 12 sec.\r\n\r\nFeral Spirit\r\nAn Elemental Spirit infused with Nature magic, granting the summoner with 5% increased Nature damage and 5% Physical damage for 12 sec."
             }
           ]
         },
@@ -2354,7 +2592,9 @@
               "talent": "Tempest",
               "spell_id": 454009,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_stormcallershaman_tempest.jpg",
+              "desc": "Each Maelstrom Weapon spent has a 2.00% chance to upgrade your next Lightning Bolt to Tempest."
             }
           ]
         },
@@ -2376,7 +2616,9 @@
               "talent": "Stormcaller",
               "spell_id": 454021,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_vehicle_electrocharge.jpg",
+              "desc": "Increases the critical strike chance of your Nature damage spells by 5% and the critical strike damage of your Nature spells by 5%."
             }
           ]
         },
@@ -2398,7 +2640,9 @@
               "talent": "Descending Skies",
               "spell_id": 1264688,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_wispheal.jpg",
+              "desc": "Casting Ascendance upgrades your next Lightning Bolt to Tempest."
             }
           ]
         },
@@ -2420,7 +2664,9 @@
               "talent": "Natural Gift",
               "spell_id": 1264691,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_maelstromweapon.jpg",
+              "desc": "Nature damage is increased by 2%"
             }
           ]
         },
@@ -2442,7 +2688,9 @@
               "talent": "Stormwell",
               "spell_id": 1264762,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_112_raidtrinkets_etherealenergystoragesphere_purple.jpg",
+              "desc": "Storm Elemental lasts 2 sec longer, and Stormkeeper generates 10 Maelstrom."
             }
           ]
         }
@@ -2466,14 +2714,18 @@
               "talent": "Natural Harmony",
               "spell_id": 443442,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_natureguardian.jpg",
+              "desc": "Reduces the cooldown of Nature's Guardian by 15 sec and causes it to heal for an additional 10% of your maximum health."
             },
             {
               "entry_id": "123631",
               "talent": "Earthen Communion",
               "spell_id": 443441,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_skinofearth.jpg",
+              "desc": "Earth Shield has an additional 3 charges and heals you for 25% more."
             }
           ]
         },
@@ -2495,7 +2747,9 @@
               "talent": "Primordial Capacity",
               "spell_id": 443448,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_monk_chiswirl.jpg",
+              "desc": "Increases your maximum mana by 10%.\r\n\r\nTidal Waves can now stack up to 3 times."
             }
           ]
         },
@@ -2517,7 +2771,9 @@
               "talent": "Spiritwalker's Momentum",
               "spell_id": 443425,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_spiritwalkersgrace.jpg",
+              "desc": "Using spells with a cast time increases the duration of Spiritwalker's Grace and Spiritwalker's Aegis by 1 sec, up to a maximum of 4 sec."
             }
           ]
         },
@@ -2539,14 +2795,18 @@
               "talent": "Latent Wisdom",
               "spell_id": 443449,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_spiritualguidence.jpg",
+              "desc": "Your Ancestors' spells are 25% more powerful."
             },
             {
               "entry_id": "123632",
               "talent": "Ancient Fellowship",
               "spell_id": 443423,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_astralshift.jpg",
+              "desc": "Ancestors have a 20% chance to call another Ancestor for 8 sec when they depart."
             }
           ]
         },
@@ -2568,7 +2828,9 @@
               "talent": "Elemental Reverb",
               "spell_id": 443418,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_shaman_echooftheelements.jpg",
+              "desc": "Lava Burst gains an additional charge and deals 10% increased damage."
             }
           ]
         },
@@ -2590,7 +2852,9 @@
               "talent": "Final Calling",
               "spell_id": 443446,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_ancestralawakening.jpg",
+              "desc": "When an Ancestor departs, they cast Hydrobubble on a nearby injured ally.\r\n\r\n Hydrobubble\r\nSurrounds your target in a protective water bubble for 15 sec.\r\n\r\nThe shield absorbs the next 1,795 incoming damage, but the absorb amount decays fully over its duration."
             }
           ]
         },
@@ -2612,7 +2876,9 @@
               "talent": "Maelstrom Supremacy",
               "spell_id": 443447,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_soulleech_2.jpg",
+              "desc": "Increases the healing done by Healing Wave, Downpour, and Chain Heal by 25%."
             }
           ]
         },
@@ -2634,14 +2900,18 @@
               "talent": "Heed My Call",
               "spell_id": 443444,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_unused2.jpg",
+              "desc": "Ancestors last an additional 4 sec."
             },
             {
               "entry_id": "123630",
               "talent": "Routine Communication",
               "spell_id": 443445,
               "max_ranks": "1",
-              "choice_index": 1
+              "choice_index": 1,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_undyingstrength.jpg",
+              "desc": "Riptide has a 15% chance to call an Ancestor to your side for 8 sec."
             }
           ]
         },
@@ -2663,7 +2933,9 @@
               "talent": "Offering from Beyond",
               "spell_id": 443451,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_blessingoftheeternals.jpg",
+              "desc": "When an Ancestor is called, they reduce the cooldown of Riptide by 2 sec."
             }
           ]
         },
@@ -2683,7 +2955,9 @@
               "talent": "Call of the Ancestors",
               "spell_id": 443450,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_racial_ancestralcall.jpg",
+              "desc": "Unleash Life calls an Ancestor to your side for 12 sec.\r\n\r\nWhenever you cast a healing or damaging spell, the Ancestor will cast a similar spell."
             }
           ]
         },
@@ -2708,7 +2982,9 @@
               "talent": "Ancestral Swiftness",
               "spell_id": 443454,
               "max_ranks": 1,
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_ability_farseershaman_ancestralswiftness.jpg",
+              "desc": "Your next healing or damaging spell is instant, costs no mana, and deals 10% increased damage and healing.\r\n\r\nIf you know Nature's Swiftness, it is replaced by Ancestral Swiftness and causes Ancestral Swiftness to call an Ancestor to your side for 8 sec."
             }
           ]
         },
@@ -2730,7 +3006,9 @@
               "talent": "Mystic Knowledge",
               "spell_id": 1270450,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_raidprimalist_council.jpg",
+              "desc": "Increases the chance for Lava Surge to occur by 20%."
             }
           ]
         },
@@ -2752,7 +3030,9 @@
               "talent": "Windspeaker",
               "spell_id": 1270447,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_raidprimalist_windelemental.jpg",
+              "desc": "The cast times of Healing Surge, Chain Heal and Lava Burst are reduced by 10%."
             }
           ]
         },
@@ -2774,7 +3054,9 @@
               "talent": "Ancestral Influence",
               "spell_id": 1270446,
               "max_ranks": "1",
-              "choice_index": 0
+              "choice_index": 0,
+              "icon": "https://render.worldofwarcraft.com/us/icons/56/shaman_pvp_leaderclan.jpg",
+              "desc": "Your Intellect is increased by 1.0% for each Ancestor active."
             }
           ]
         }

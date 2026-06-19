@@ -1,7 +1,7 @@
 ---
 title: Hallick – Kil'jaeden (US) — druid alt snapshot
-patch: 12.0.5
-fetched: 2026-06-03
+patch: 12.0.7
+fetched: 2026-06-19
 sources:
   - https://us.api.blizzard.com/profile/wow/character/kiljaeden/hallick?namespace=profile-us
 confidence: high
@@ -9,8 +9,11 @@ confidence: high
 
 # Hallick – Kil'jaeden (US)
 
-> **Snapshot** — character data is volatile (updates on logout). Re-fetch
-> before answering gear/progress questions.
+> **Snapshot** — character data is volatile (updates on logout). The body
+> below reflects the **2026-06-03** profile fetch; front matter was
+> re-stamped to 12.0.7 (2026-06-19) WITHOUT a live profile re-fetch.
+> **Always re-fetch the live profile before answering any gear/level/progress
+> question** — level, ilvl, spec, and Midnight progression may all have moved.
 
 **Alt of the user's main (Encomplete)** — same guild (The Soggy Bottom
 Boys), achievement points match account-wide (7,100 vs 7,125).
