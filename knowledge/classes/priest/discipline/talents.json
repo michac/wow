@@ -1,0 +1,2771 @@
+{
+  "class": "priest",
+  "class_id": 5,
+  "spec": "discipline",
+  "spec_id": 256,
+  "tree_id": 795,
+  "patch": "12.0.7",
+  "build": "12.0.7.67808",
+  "source": "api",
+  "serial_count": 226,
+  "granted_serials": [
+    157,
+    158,
+    220
+  ],
+  "hero_selector": {
+    "serial": 178,
+    "choices": [
+      "Oracle",
+      "Voidweaver"
+    ]
+  },
+  "trees": {
+    "class": [
+      {
+        "node_id": 82717,
+        "type": "PASSIVE",
+        "row": 2,
+        "col": 3,
+        "x": 3300,
+        "y": 1500,
+        "serial_order": 138,
+        "req_points": 0,
+        "prereq_node_ids": [],
+        "entries": [
+          {
+            "entry_id": "103869",
+            "talent": "Improved Flash Heal",
+            "spell_id": 393870,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82703,
+        "type": "ACTIVE",
+        "row": 2,
+        "col": 5,
+        "x": 4500,
+        "y": 1500,
+        "serial_order": 128,
+        "req_points": 0,
+        "prereq_node_ids": [],
+        "entries": [
+          {
+            "entry_id": "103853",
+            "talent": "Angelic Feather",
+            "spell_id": 121536,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82713,
+        "type": "ACTIVE",
+        "row": 2,
+        "col": 7,
+        "x": 5700,
+        "y": 1500,
+        "serial_order": 135,
+        "req_points": 0,
+        "prereq_node_ids": [],
+        "entries": [
+          {
+            "entry_id": "103865",
+            "talent": "Mind Blast",
+            "spell_id": 8092,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82718,
+        "type": "ACTIVE",
+        "row": 3,
+        "col": 2,
+        "x": 2700,
+        "y": 2100,
+        "serial_order": 139,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82717
+        ],
+        "entries": [
+          {
+            "entry_id": "103870",
+            "talent": "Holy Nova",
+            "spell_id": 132157,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 109009,
+        "type": "ACTIVE",
+        "row": 3,
+        "col": 4,
+        "x": 3900,
+        "y": 2100,
+        "serial_order": 198,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82717,
+          82703
+        ],
+        "entries": [
+          {
+            "entry_id": "103677",
+            "talent": "Dispel Magic",
+            "spell_id": 528,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82672,
+        "type": "PASSIVE",
+        "row": 3,
+        "col": 6,
+        "x": 5100,
+        "y": 2100,
+        "serial_order": 106,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82703,
+          82713
+        ],
+        "entries": [
+          {
+            "entry_id": "103818",
+            "talent": "Spiritual Guidance",
+            "spell_id": 1250818,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82701,
+        "type": "ACTIVE",
+        "row": 3,
+        "col": 8,
+        "x": 6300,
+        "y": 2100,
+        "serial_order": 126,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82713
+        ],
+        "entries": [
+          {
+            "entry_id": "103851",
+            "talent": "Psychic Scream",
+            "spell_id": 8122,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82719,
+        "type": "PASSIVE",
+        "row": 4,
+        "col": 1,
+        "x": 2100,
+        "y": 2700,
+        "serial_order": 140,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82718
+        ],
+        "entries": [
+          {
+            "entry_id": "103871",
+            "talent": "Lightburst",
+            "spell_id": 1246549,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82715,
+        "type": "ACTIVE",
+        "row": 4,
+        "col": 3,
+        "x": 3300,
+        "y": 2700,
+        "serial_order": 136,
+        "req_points": 0,
+        "prereq_node_ids": [
+          109009,
+          82718
+        ],
+        "entries": [
+          {
+            "entry_id": "103867",
+            "talent": "Leap of Faith",
+            "spell_id": 73325,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82705,
+        "type": "PASSIVE",
+        "row": 4,
+        "col": 4,
+        "x": 3900,
+        "y": 2700,
+        "serial_order": 130,
+        "req_points": 0,
+        "prereq_node_ids": [
+          109009
+        ],
+        "entries": [
+          {
+            "entry_id": "103855",
+            "talent": "Improved Purify",
+            "spell_id": 390632,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82556,
+        "type": "ACTIVE",
+        "row": 4,
+        "col": 5,
+        "x": 4500,
+        "y": 2700,
+        "serial_order": 4,
+        "req_points": 0,
+        "prereq_node_ids": [
+          109009,
+          82672
+        ],
+        "entries": [
+          {
+            "entry_id": "103834",
+            "talent": "Power Infusion",
+            "spell_id": 10060,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 109006,
+        "type": "PASSIVE",
+        "row": 4,
+        "col": 7,
+        "x": 5700,
+        "y": 2700,
+        "serial_order": 197,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82672,
+          82701
+        ],
+        "entries": [
+          {
+            "entry_id": "103841",
+            "talent": "Painful Invocation",
+            "spell_id": 1251030,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82695,
+        "type": "CHOICE",
+        "row": 4,
+        "col": 9,
+        "x": 6900,
+        "y": 2700,
+        "serial_order": 122,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82701
+        ],
+        "entries": [
+          {
+            "entry_id": "103845",
+            "talent": "Sheer Terror",
+            "spell_id": 390919,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "114588",
+            "talent": "Petrifying Scream",
+            "spell_id": 55676,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 82716,
+        "type": "PASSIVE",
+        "row": 5,
+        "col": 2,
+        "x": 2700,
+        "y": 3300,
+        "serial_order": 137,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82715,
+          82718
+        ],
+        "entries": [
+          {
+            "entry_id": "103868",
+            "talent": "Surge of Light",
+            "spell_id": 109186,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 109917,
+        "type": "PASSIVE",
+        "row": 5,
+        "col": 3,
+        "x": 3300,
+        "y": 3300,
+        "serial_order": 219,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82715
+        ],
+        "entries": [
+          {
+            "entry_id": "136185",
+            "talent": "Body and Soul",
+            "spell_id": 64129,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 109890,
+        "type": "ACTIVE",
+        "row": 5,
+        "col": 4,
+        "x": 3900,
+        "y": 3300,
+        "serial_order": 218,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82556,
+          82715,
+          82705
+        ],
+        "entries": [
+          {
+            "entry_id": "136157",
+            "talent": "Mass Dispel",
+            "spell_id": 32375,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 108731,
+        "type": "PASSIVE",
+        "row": 5,
+        "col": 5,
+        "x": 4500,
+        "y": 3300,
+        "serial_order": 195,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82556
+        ],
+        "entries": [
+          {
+            "entry_id": "134284",
+            "talent": "Twins of the Sun Priestess",
+            "spell_id": 373466,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82687,
+        "type": "PASSIVE",
+        "row": 5,
+        "col": 6,
+        "x": 5100,
+        "y": 3300,
+        "serial_order": 119,
+        "req_points": 0,
+        "prereq_node_ids": [
+          109006,
+          82556
+        ],
+        "entries": [
+          {
+            "entry_id": "103837",
+            "talent": "Strength of Resolve",
+            "spell_id": 1250820,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82710,
+        "type": "CHOICE",
+        "row": 5,
+        "col": 8,
+        "x": 6300,
+        "y": 3300,
+        "serial_order": 132,
+        "req_points": 0,
+        "prereq_node_ids": [
+          109006,
+          82701
+        ],
+        "entries": [
+          {
+            "entry_id": "103862",
+            "talent": "Mind Control",
+            "spell_id": 605,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "103678",
+            "talent": "Dominate Mind",
+            "spell_id": 205364,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 82708,
+        "type": "CHOICE",
+        "row": 5,
+        "col": 9,
+        "x": 6900,
+        "y": 3300,
+        "serial_order": 131,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82695
+        ],
+        "entries": [
+          {
+            "entry_id": "103860",
+            "talent": "Psychic Voice",
+            "spell_id": 196704,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "103859",
+            "talent": "Void Tendrils",
+            "spell_id": 1250691,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 82702,
+        "type": "PASSIVE",
+        "row": 6,
+        "col": 2,
+        "x": 2700,
+        "y": 3900,
+        "serial_order": 127,
+        "req_points": 8,
+        "prereq_node_ids": [
+          82716
+        ],
+        "entries": [
+          {
+            "entry_id": "103852",
+            "talent": "Everlasting Light",
+            "spell_id": 1249233,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82699,
+        "type": "PASSIVE",
+        "row": 6,
+        "col": 3,
+        "x": 3300,
+        "y": 3900,
+        "serial_order": 125,
+        "req_points": 8,
+        "prereq_node_ids": [
+          109917
+        ],
+        "entries": [
+          {
+            "entry_id": "103849",
+            "talent": "Move with Grace",
+            "spell_id": 390620,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 109019,
+        "type": "PASSIVE",
+        "row": 6,
+        "col": 4,
+        "x": 3900,
+        "y": 3900,
+        "serial_order": 206,
+        "req_points": 8,
+        "prereq_node_ids": [
+          109890
+        ],
+        "entries": [
+          {
+            "entry_id": "134852",
+            "talent": "Mental Agility",
+            "spell_id": 341167,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82690,
+        "type": "PASSIVE",
+        "row": 6,
+        "col": 5,
+        "x": 4500,
+        "y": 3900,
+        "serial_order": 120,
+        "req_points": 8,
+        "prereq_node_ids": [
+          82687,
+          108731,
+          109890
+        ],
+        "entries": [
+          {
+            "entry_id": "103840",
+            "talent": "Twin Disciplines",
+            "spell_id": 1251077,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 109020,
+        "type": "PASSIVE",
+        "row": 6,
+        "col": 7,
+        "x": 5700,
+        "y": 3900,
+        "serial_order": 207,
+        "req_points": 8,
+        "prereq_node_ids": [
+          82687,
+          82710
+        ],
+        "entries": [
+          {
+            "entry_id": "134859",
+            "talent": "Dark Enlightenment",
+            "spell_id": 1250835,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 109005,
+        "type": "PASSIVE",
+        "row": 6,
+        "col": 8,
+        "x": 6300,
+        "y": 3900,
+        "serial_order": 196,
+        "req_points": 8,
+        "prereq_node_ids": [
+          82710
+        ],
+        "entries": [
+          {
+            "entry_id": "134841",
+            "talent": "False Autonomy",
+            "spell_id": 1250806,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82693,
+        "type": "ACTIVE",
+        "row": 6,
+        "col": 9,
+        "x": 6900,
+        "y": 3900,
+        "serial_order": 121,
+        "req_points": 8,
+        "prereq_node_ids": [
+          82708,
+          82710
+        ],
+        "entries": [
+          {
+            "entry_id": "103843",
+            "talent": "Shackle Horror",
+            "spell_id": 9484,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82696,
+        "type": "PASSIVE",
+        "row": 7,
+        "col": 2,
+        "x": 2700,
+        "y": 4500,
+        "serial_order": 123,
+        "req_points": 8,
+        "prereq_node_ids": [
+          82699,
+          82702
+        ],
+        "entries": [
+          {
+            "entry_id": "103846",
+            "talent": "Inspiration",
+            "spell_id": 390676,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82678,
+        "type": "PASSIVE",
+        "row": 7,
+        "col": 4,
+        "x": 3900,
+        "y": 4500,
+        "serial_order": 112,
+        "req_points": 8,
+        "prereq_node_ids": [
+          109019,
+          82690,
+          82699
+        ],
+        "entries": [
+          {
+            "entry_id": "103825",
+            "talent": "Binding Heals",
+            "spell_id": 368275,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82712,
+        "type": "ACTIVE",
+        "row": 7,
+        "col": 6,
+        "x": 5100,
+        "y": 4500,
+        "serial_order": 134,
+        "req_points": 8,
+        "prereq_node_ids": [
+          82690,
+          109020
+        ],
+        "entries": [
+          {
+            "entry_id": "103864",
+            "talent": "Shadow Word: Death",
+            "spell_id": 32379,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 109021,
+        "type": "PASSIVE",
+        "row": 7,
+        "col": 8,
+        "x": 6300,
+        "y": 4500,
+        "serial_order": 208,
+        "req_points": 8,
+        "prereq_node_ids": [
+          109020,
+          109005,
+          82693
+        ],
+        "entries": [
+          {
+            "entry_id": "134860",
+            "talent": "Sanguine Teachings",
+            "spell_id": 373218,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 109012,
+        "type": "ACTIVE",
+        "row": 8,
+        "col": 3,
+        "x": 3300,
+        "y": 5100,
+        "serial_order": 201,
+        "req_points": 8,
+        "prereq_node_ids": [
+          82696,
+          82678
+        ],
+        "entries": [
+          {
+            "entry_id": "134846",
+            "talent": "Desperate Prayer",
+            "spell_id": 19236,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82684,
+        "type": "PASSIVE",
+        "row": 8,
+        "col": 5,
+        "x": 4500,
+        "y": 5100,
+        "serial_order": 116,
+        "req_points": 8,
+        "prereq_node_ids": [
+          82712,
+          82678
+        ],
+        "entries": [
+          {
+            "entry_id": "103833",
+            "talent": "Twist of Fate",
+            "spell_id": 390972,
+            "max_ranks": "2",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82711,
+        "type": "PASSIVE",
+        "row": 8,
+        "col": 6,
+        "x": 5100,
+        "y": 5100,
+        "serial_order": 133,
+        "req_points": 8,
+        "prereq_node_ids": [
+          82712
+        ],
+        "entries": [
+          {
+            "entry_id": "103863",
+            "talent": "Tithe Evasion",
+            "spell_id": 373223,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 109015,
+        "type": "ACTIVE",
+        "row": 8,
+        "col": 7,
+        "x": 5700,
+        "y": 5100,
+        "serial_order": 203,
+        "req_points": 8,
+        "prereq_node_ids": [
+          82712,
+          109021
+        ],
+        "entries": [
+          {
+            "entry_id": "134849",
+            "talent": "Fade",
+            "spell_id": 586,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82682,
+        "type": "PASSIVE",
+        "row": 9,
+        "col": 2,
+        "x": 2700,
+        "y": 5700,
+        "serial_order": 115,
+        "req_points": 23,
+        "prereq_node_ids": [
+          109012
+        ],
+        "entries": [
+          {
+            "entry_id": "103831",
+            "talent": "Angel's Mercy",
+            "spell_id": 238100,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82677,
+        "type": "PASSIVE",
+        "row": 9,
+        "col": 4,
+        "x": 3900,
+        "y": 5700,
+        "serial_order": 111,
+        "req_points": 23,
+        "prereq_node_ids": [
+          82684,
+          109012
+        ],
+        "entries": [
+          {
+            "entry_id": "103823",
+            "talent": "Protective Light",
+            "spell_id": 193063,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 109011,
+        "type": "PASSIVE",
+        "row": 9,
+        "col": 6,
+        "x": 5100,
+        "y": 5700,
+        "serial_order": 200,
+        "req_points": 23,
+        "prereq_node_ids": [
+          82711,
+          82684,
+          109015
+        ],
+        "entries": [
+          {
+            "entry_id": "134845",
+            "talent": "Mindpierce",
+            "spell_id": 1251029,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 109014,
+        "type": "PASSIVE",
+        "row": 9,
+        "col": 7,
+        "x": 5700,
+        "y": 5700,
+        "serial_order": 202,
+        "req_points": 23,
+        "prereq_node_ids": [
+          109015
+        ],
+        "entries": [
+          {
+            "entry_id": "134848",
+            "talent": "Spectral Illusion",
+            "spell_id": 1250378,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82686,
+        "type": "PASSIVE",
+        "row": 9,
+        "col": 8,
+        "x": 6300,
+        "y": 5700,
+        "serial_order": 118,
+        "req_points": 23,
+        "prereq_node_ids": [
+          109015
+        ],
+        "entries": [
+          {
+            "entry_id": "103836",
+            "talent": "Improved Fade",
+            "spell_id": 390670,
+            "max_ranks": "2",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82679,
+        "type": "PASSIVE",
+        "row": 10,
+        "col": 2,
+        "x": 2700,
+        "y": 6300,
+        "serial_order": 113,
+        "req_points": 23,
+        "prereq_node_ids": [
+          82682
+        ],
+        "entries": [
+          {
+            "entry_id": "103826",
+            "talent": "Light's Inspiration",
+            "spell_id": 373450,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82697,
+        "type": "PASSIVE",
+        "row": 10,
+        "col": 3,
+        "x": 3300,
+        "y": 6300,
+        "serial_order": 124,
+        "req_points": 23,
+        "prereq_node_ids": [
+          82682,
+          82677
+        ],
+        "entries": [
+          {
+            "entry_id": "103847",
+            "talent": "Unwavering Will",
+            "spell_id": 373456,
+            "max_ranks": "2",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 109010,
+        "type": "PASSIVE",
+        "row": 10,
+        "col": 5,
+        "x": 4500,
+        "y": 6300,
+        "serial_order": 199,
+        "req_points": 23,
+        "prereq_node_ids": [
+          82677,
+          109011
+        ],
+        "entries": [
+          {
+            "entry_id": "134844",
+            "talent": "Spell Warding",
+            "spell_id": 390667,
+            "max_ranks": "2",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82674,
+        "type": "PASSIVE",
+        "row": 10,
+        "col": 7,
+        "x": 5700,
+        "y": 6300,
+        "serial_order": 108,
+        "req_points": 23,
+        "prereq_node_ids": [
+          82686,
+          109014
+        ],
+        "entries": [
+          {
+            "entry_id": "115883",
+            "talent": "Phantasm",
+            "spell_id": 108942,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82675,
+        "type": "PASSIVE",
+        "row": 11,
+        "col": 2,
+        "x": 2700,
+        "y": 6900,
+        "serial_order": 109,
+        "req_points": 23,
+        "prereq_node_ids": [
+          82679,
+          82697
+        ],
+        "entries": [
+          {
+            "entry_id": "103821",
+            "talent": "Angelic Bulwark",
+            "spell_id": 108945,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82676,
+        "type": "CHOICE",
+        "row": 11,
+        "col": 4,
+        "x": 3900,
+        "y": 6900,
+        "serial_order": 110,
+        "req_points": 23,
+        "prereq_node_ids": [
+          109010,
+          82697
+        ],
+        "entries": [
+          {
+            "entry_id": "115884",
+            "talent": "Benevolence",
+            "spell_id": 415416,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "135091",
+            "talent": "Focused Power",
+            "spell_id": 1249230,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 82673,
+        "type": "PASSIVE",
+        "row": 11,
+        "col": 6,
+        "x": 5100,
+        "y": 6900,
+        "serial_order": 107,
+        "req_points": 23,
+        "prereq_node_ids": [
+          109010,
+          82674
+        ],
+        "entries": [
+          {
+            "entry_id": "103819",
+            "talent": "Phantom Reach",
+            "spell_id": 459559,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82685,
+        "type": "PASSIVE",
+        "row": 11,
+        "col": 8,
+        "x": 6300,
+        "y": 6900,
+        "serial_order": 117,
+        "req_points": 23,
+        "prereq_node_ids": [
+          82674,
+          82686
+        ],
+        "entries": [
+          {
+            "entry_id": "103835",
+            "talent": "Translucent Image",
+            "spell_id": 373446,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      }
+    ],
+    "spec": [
+      {
+        "node_id": 82594,
+        "type": "PASSIVE",
+        "row": 2,
+        "col": 19,
+        "x": 12900,
+        "y": 1500,
+        "serial_order": 36,
+        "req_points": 0,
+        "prereq_node_ids": [],
+        "entries": [
+          {
+            "entry_id": "103723",
+            "talent": "Atonement",
+            "spell_id": 81749,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82593,
+        "type": "ACTIVE",
+        "row": 3,
+        "col": 18,
+        "x": 12300,
+        "y": 2100,
+        "serial_order": 35,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82594
+        ],
+        "entries": [
+          {
+            "entry_id": "103722",
+            "talent": "Power Word: Radiance",
+            "spell_id": 194509,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82587,
+        "type": "ACTIVE",
+        "row": 3,
+        "col": 19,
+        "x": 12900,
+        "y": 2100,
+        "serial_order": 29,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82594
+        ],
+        "entries": [
+          {
+            "entry_id": "103713",
+            "talent": "Pain Suppression",
+            "spell_id": 33206,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82595,
+        "type": "PASSIVE",
+        "row": 3,
+        "col": 20,
+        "x": 13500,
+        "y": 2100,
+        "serial_order": 37,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82594
+        ],
+        "entries": [
+          {
+            "entry_id": "103724",
+            "talent": "Power of the Dark Side",
+            "spell_id": 198068,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82592,
+        "type": "PASSIVE",
+        "row": 4,
+        "col": 17,
+        "x": 11700,
+        "y": 2700,
+        "serial_order": 34,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82593
+        ],
+        "entries": [
+          {
+            "entry_id": "103721",
+            "talent": "Light's Promise",
+            "spell_id": 322115,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 92225,
+        "type": "PASSIVE",
+        "row": 4,
+        "col": 18,
+        "x": 12300,
+        "y": 2700,
+        "serial_order": 142,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82587,
+          82593
+        ],
+        "entries": [
+          {
+            "entry_id": "108225",
+            "talent": "Sanctuary",
+            "spell_id": 231682,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82588,
+        "type": "CHOICE",
+        "row": 4,
+        "col": 19,
+        "x": 12900,
+        "y": 2700,
+        "serial_order": 30,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82587
+        ],
+        "entries": [
+          {
+            "entry_id": "103715",
+            "talent": "Pain Transformation",
+            "spell_id": 372991,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "103714",
+            "talent": "Protector of the Frail",
+            "spell_id": 373035,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 82596,
+        "type": "PASSIVE",
+        "row": 4,
+        "col": 20,
+        "x": 13500,
+        "y": 2700,
+        "serial_order": 38,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82595
+        ],
+        "entries": [
+          {
+            "entry_id": "103725",
+            "talent": "Dark Indulgence",
+            "spell_id": 372972,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82579,
+        "type": "PASSIVE",
+        "row": 4,
+        "col": 21,
+        "x": 14100,
+        "y": 2700,
+        "serial_order": 22,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82595
+        ],
+        "entries": [
+          {
+            "entry_id": "103704",
+            "talent": "Encroaching Shadows",
+            "spell_id": 472568,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82591,
+        "type": "CHOICE",
+        "row": 5,
+        "col": 16,
+        "x": 11100,
+        "y": 3300,
+        "serial_order": 33,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82592
+        ],
+        "entries": [
+          {
+            "entry_id": "103720",
+            "talent": "Bright Pupil",
+            "spell_id": 390684,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "103719",
+            "talent": "Enduring Luminescence",
+            "spell_id": 390685,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 82589,
+        "type": "PASSIVE",
+        "row": 5,
+        "col": 18,
+        "x": 12300,
+        "y": 3300,
+        "serial_order": 31,
+        "req_points": 0,
+        "prereq_node_ids": [
+          92225,
+          82592
+        ],
+        "entries": [
+          {
+            "entry_id": "103717",
+            "talent": "Shield Discipline",
+            "spell_id": 197045,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82564,
+        "type": "CHOICE",
+        "row": 5,
+        "col": 19,
+        "x": 12900,
+        "y": 3300,
+        "serial_order": 9,
+        "req_points": 0,
+        "prereq_node_ids": [
+          92225,
+          82588,
+          82596
+        ],
+        "entries": [
+          {
+            "entry_id": "116182",
+            "talent": "Ultimate Penitence",
+            "spell_id": 421453,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "103687",
+            "talent": "Power Word: Barrier",
+            "spell_id": 62618,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 82597,
+        "type": "PASSIVE",
+        "row": 5,
+        "col": 20,
+        "x": 13500,
+        "y": 3300,
+        "serial_order": 39,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82579,
+          82596
+        ],
+        "entries": [
+          {
+            "entry_id": "103726",
+            "talent": "Painful Punishment",
+            "spell_id": 390686,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82580,
+        "type": "PASSIVE",
+        "row": 5,
+        "col": 22,
+        "x": 14700,
+        "y": 3300,
+        "serial_order": 23,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82579
+        ],
+        "entries": [
+          {
+            "entry_id": "103705",
+            "talent": "Revel in Darkness",
+            "spell_id": 373003,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82590,
+        "type": "PASSIVE",
+        "row": 6,
+        "col": 17,
+        "x": 11700,
+        "y": 3900,
+        "serial_order": 32,
+        "req_points": 8,
+        "prereq_node_ids": [
+          82589,
+          82591
+        ],
+        "entries": [
+          {
+            "entry_id": "103718",
+            "talent": "Holy Ray",
+            "spell_id": 372969,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82598,
+        "type": "PASSIVE",
+        "row": 6,
+        "col": 19,
+        "x": 12900,
+        "y": 3900,
+        "serial_order": 40,
+        "req_points": 8,
+        "prereq_node_ids": [
+          82589,
+          82564,
+          82597
+        ],
+        "entries": [
+          {
+            "entry_id": "103727",
+            "talent": "Lenience",
+            "spell_id": 238063,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82581,
+        "type": "PASSIVE",
+        "row": 6,
+        "col": 21,
+        "x": 14100,
+        "y": 3900,
+        "serial_order": 24,
+        "req_points": 8,
+        "prereq_node_ids": [
+          82597,
+          82579,
+          82580
+        ],
+        "entries": [
+          {
+            "entry_id": "103706",
+            "talent": "Shadow Tap",
+            "spell_id": 1235211,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82566,
+        "type": "PASSIVE",
+        "row": 7,
+        "col": 16,
+        "x": 11100,
+        "y": 4500,
+        "serial_order": 10,
+        "req_points": 8,
+        "prereq_node_ids": [
+          82590
+        ],
+        "entries": [
+          {
+            "entry_id": "103690",
+            "talent": "Purge the Wicked",
+            "spell_id": 1250218,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82575,
+        "type": "PASSIVE",
+        "row": 7,
+        "col": 18,
+        "x": 12300,
+        "y": 4500,
+        "serial_order": 18,
+        "req_points": 8,
+        "prereq_node_ids": [
+          82598,
+          82590
+        ],
+        "entries": [
+          {
+            "entry_id": "103700",
+            "talent": "Castigation",
+            "spell_id": 193134,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82576,
+        "type": "PASSIVE",
+        "row": 7,
+        "col": 19,
+        "x": 12900,
+        "y": 4500,
+        "serial_order": 19,
+        "req_points": 8,
+        "prereq_node_ids": [
+          82598
+        ],
+        "entries": [
+          {
+            "entry_id": "108226",
+            "talent": "Indemnity",
+            "spell_id": 373049,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82578,
+        "type": "PASSIVE",
+        "row": 7,
+        "col": 20,
+        "x": 13500,
+        "y": 4500,
+        "serial_order": 21,
+        "req_points": 8,
+        "prereq_node_ids": [
+          82598,
+          82581
+        ],
+        "entries": [
+          {
+            "entry_id": "103703",
+            "talent": "Pain and Suffering",
+            "spell_id": 390689,
+            "max_ranks": "2",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82582,
+        "type": "PASSIVE",
+        "row": 7,
+        "col": 22,
+        "x": 14700,
+        "y": 4500,
+        "serial_order": 25,
+        "req_points": 8,
+        "prereq_node_ids": [
+          82581
+        ],
+        "entries": [
+          {
+            "entry_id": "103708",
+            "talent": "Occultist",
+            "spell_id": 1250293,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82600,
+        "type": "PASSIVE",
+        "row": 8,
+        "col": 17,
+        "x": 11700,
+        "y": 5100,
+        "serial_order": 42,
+        "req_points": 8,
+        "prereq_node_ids": [
+          82575,
+          82566
+        ],
+        "entries": [
+          {
+            "entry_id": "103729",
+            "talent": "Harsh Discipline",
+            "spell_id": 373180,
+            "max_ranks": "2",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82577,
+        "type": "ACTIVE",
+        "row": 8,
+        "col": 19,
+        "x": 12900,
+        "y": 5100,
+        "serial_order": 20,
+        "req_points": 8,
+        "prereq_node_ids": [
+          82575,
+          82576,
+          82578
+        ],
+        "entries": [
+          {
+            "entry_id": "103702",
+            "talent": "Evangelism",
+            "spell_id": 472433,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82583,
+        "type": "PASSIVE",
+        "row": 8,
+        "col": 21,
+        "x": 14100,
+        "y": 5100,
+        "serial_order": 26,
+        "req_points": 8,
+        "prereq_node_ids": [
+          82578,
+          82582
+        ],
+        "entries": [
+          {
+            "entry_id": "103709",
+            "talent": "Abyssal Reverie",
+            "spell_id": 373054,
+            "max_ranks": "2",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82599,
+        "type": "PASSIVE",
+        "row": 9,
+        "col": 16,
+        "x": 11100,
+        "y": 5700,
+        "serial_order": 41,
+        "req_points": 20,
+        "prereq_node_ids": [
+          82600
+        ],
+        "entries": [
+          {
+            "entry_id": "103728",
+            "talent": "Divine Procession",
+            "spell_id": 472361,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82601,
+        "type": "PASSIVE",
+        "row": 9,
+        "col": 18,
+        "x": 12300,
+        "y": 5700,
+        "serial_order": 43,
+        "req_points": 20,
+        "prereq_node_ids": [
+          82577,
+          82600
+        ],
+        "entries": [
+          {
+            "entry_id": "103731",
+            "talent": "Inner Focus",
+            "spell_id": 390693,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82571,
+        "type": "CHOICE",
+        "row": 9,
+        "col": 19,
+        "x": 12900,
+        "y": 5700,
+        "serial_order": 15,
+        "req_points": 20,
+        "prereq_node_ids": [
+          82577
+        ],
+        "entries": [
+          {
+            "entry_id": "103696",
+            "talent": "Archangel",
+            "spell_id": 197862,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "136829",
+            "talent": "Mindbender",
+            "spell_id": 1280137,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 82567,
+        "type": "PASSIVE",
+        "row": 9,
+        "col": 20,
+        "x": 13500,
+        "y": 5700,
+        "serial_order": 11,
+        "req_points": 20,
+        "prereq_node_ids": [
+          82583,
+          82577
+        ],
+        "entries": [
+          {
+            "entry_id": "103692",
+            "talent": "Shadow Mend",
+            "spell_id": 1252215,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82570,
+        "type": "PASSIVE",
+        "row": 9,
+        "col": 22,
+        "x": 14700,
+        "y": 5700,
+        "serial_order": 14,
+        "req_points": 20,
+        "prereq_node_ids": [
+          82583
+        ],
+        "entries": [
+          {
+            "entry_id": "103695",
+            "talent": "Shadowfiend",
+            "spell_id": 34433,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82569,
+        "type": "PASSIVE",
+        "row": 10,
+        "col": 16,
+        "x": 11100,
+        "y": 6300,
+        "serial_order": 13,
+        "req_points": 20,
+        "prereq_node_ids": [
+          82599
+        ],
+        "entries": [
+          {
+            "entry_id": "103694",
+            "talent": "Greater Smite",
+            "spell_id": 1253724,
+            "max_ranks": "2",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82602,
+        "type": "PASSIVE",
+        "row": 10,
+        "col": 17,
+        "x": 11700,
+        "y": 6300,
+        "serial_order": 44,
+        "req_points": 20,
+        "prereq_node_ids": [
+          82599,
+          82601
+        ],
+        "entries": [
+          {
+            "entry_id": "103732",
+            "talent": "Divine Aegis",
+            "spell_id": 47515,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82572,
+        "type": "PASSIVE",
+        "row": 10,
+        "col": 18,
+        "x": 12300,
+        "y": 6300,
+        "serial_order": 16,
+        "req_points": 20,
+        "prereq_node_ids": [
+          82571,
+          82601
+        ],
+        "entries": [
+          {
+            "entry_id": "103697",
+            "talent": "Borrowed Time",
+            "spell_id": 390691,
+            "max_ranks": "2",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82568,
+        "type": "PASSIVE",
+        "row": 10,
+        "col": 20,
+        "x": 13500,
+        "y": 6300,
+        "serial_order": 12,
+        "req_points": 20,
+        "prereq_node_ids": [
+          82571,
+          82567
+        ],
+        "entries": [
+          {
+            "entry_id": "103693",
+            "talent": "Blaze of Light",
+            "spell_id": 215768,
+            "max_ranks": "2",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 110277,
+        "type": "PASSIVE",
+        "row": 10,
+        "col": 21,
+        "x": 14100,
+        "y": 6300,
+        "serial_order": 221,
+        "req_points": 20,
+        "prereq_node_ids": [
+          82570,
+          82567
+        ],
+        "entries": [
+          {
+            "entry_id": "136828",
+            "talent": "Death's Torment",
+            "spell_id": 1240364,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 110278,
+        "type": "PASSIVE",
+        "row": 10,
+        "col": 22,
+        "x": 14700,
+        "y": 6300,
+        "serial_order": 222,
+        "req_points": 20,
+        "prereq_node_ids": [
+          82570
+        ],
+        "entries": [
+          {
+            "entry_id": "136830",
+            "talent": "Inescapable Torment",
+            "spell_id": 373427,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 86730,
+        "type": "PASSIVE",
+        "row": 11,
+        "col": 17,
+        "x": 11700,
+        "y": 6900,
+        "serial_order": 141,
+        "req_points": 20,
+        "prereq_node_ids": [
+          82602
+        ],
+        "entries": [
+          {
+            "entry_id": "103688",
+            "talent": "Eternal Barrier",
+            "spell_id": 238135,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82573,
+        "type": "PASSIVE",
+        "row": 11,
+        "col": 18,
+        "x": 12300,
+        "y": 6900,
+        "serial_order": 17,
+        "req_points": 20,
+        "prereq_node_ids": [
+          82572
+        ],
+        "entries": [
+          {
+            "entry_id": "103698",
+            "talent": "Weal and Woe",
+            "spell_id": 390786,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82586,
+        "type": "PASSIVE",
+        "row": 11,
+        "col": 20,
+        "x": 13500,
+        "y": 6900,
+        "serial_order": 28,
+        "req_points": 20,
+        "prereq_node_ids": [
+          82568
+        ],
+        "entries": [
+          {
+            "entry_id": "103712",
+            "talent": "Searing Light",
+            "spell_id": 1280131,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82585,
+        "type": "PASSIVE",
+        "row": 11,
+        "col": 21,
+        "x": 14100,
+        "y": 6900,
+        "serial_order": 27,
+        "req_points": 20,
+        "prereq_node_ids": [
+          110277
+        ],
+        "entries": [
+          {
+            "entry_id": "103711",
+            "talent": "Expiation",
+            "spell_id": 390832,
+            "max_ranks": "2",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 110410,
+        "type": "ACTIVE",
+        "row": 12,
+        "col": 19,
+        "x": 12900,
+        "y": 7650,
+        "serial_order": 225,
+        "req_points": 20,
+        "prereq_node_ids": [],
+        "entries": [
+          {
+            "entry_id": "136998",
+            "talent": "Master the Darkness",
+            "spell_id": 1253590,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      }
+    ],
+    "hero": {
+      "Voidweaver": [
+        {
+          "node_id": 94668,
+          "type": "PASSIVE",
+          "row": 9,
+          "col": 10,
+          "x": 7800,
+          "y": 5700,
+          "serial_order": 145,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94693
+          ],
+          "entries": [
+            {
+              "entry_id": "117271",
+              "talent": "Devour Matter",
+              "spell_id": 451840,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94669,
+          "type": "PASSIVE",
+          "row": 10,
+          "col": 11,
+          "x": 8400,
+          "y": 6300,
+          "serial_order": 146,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94695
+          ],
+          "entries": [
+            {
+              "entry_id": "117272",
+              "talent": "Void Infusion",
+              "spell_id": 450612,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94670,
+          "type": "PASSIVE",
+          "row": 8,
+          "col": 12,
+          "x": 9000,
+          "y": 5100,
+          "serial_order": 147,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94684,
+            110008
+          ],
+          "entries": [
+            {
+              "entry_id": "117273",
+              "talent": "Inner Quietus",
+              "spell_id": 448278,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94684,
+          "type": "ACTIVE",
+          "row": 7,
+          "col": 12,
+          "x": 8700,
+          "y": 4500,
+          "serial_order": 158,
+          "req_points": 0,
+          "prereq_node_ids": [],
+          "entries": [
+            {
+              "entry_id": "117287",
+              "talent": "Void Torrent",
+              "spell_id": 263165,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94692,
+          "type": "PASSIVE",
+          "row": 10,
+          "col": 10,
+          "x": 7800,
+          "y": 6300,
+          "serial_order": 166,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94668
+          ],
+          "entries": [
+            {
+              "entry_id": "117295",
+              "talent": "Quickened Pulse",
+              "spell_id": 1266845,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94693,
+          "type": "CHOICE",
+          "row": 8,
+          "col": 10,
+          "x": 7800,
+          "y": 5100,
+          "serial_order": 167,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94684,
+            110008
+          ],
+          "entries": [
+            {
+              "entry_id": "117296",
+              "talent": "No Escape",
+              "spell_id": 451204,
+              "max_ranks": "1",
+              "choice_index": 0
+            },
+            {
+              "entry_id": "123845",
+              "talent": "Dark Energy",
+              "spell_id": 451018,
+              "max_ranks": "1",
+              "choice_index": 1
+            }
+          ]
+        },
+        {
+          "node_id": 94694,
+          "type": "PASSIVE",
+          "row": 11,
+          "col": 12,
+          "x": 8700,
+          "y": 6900,
+          "serial_order": 168,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94669,
+            94692,
+            94696,
+            109778
+          ],
+          "entries": [
+            {
+              "entry_id": "117297",
+              "talent": "Collapsing Void",
+              "spell_id": 448403,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94695,
+          "type": "CHOICE",
+          "row": 9,
+          "col": 11,
+          "x": 8400,
+          "y": 5700,
+          "serial_order": 169,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94703
+          ],
+          "entries": [
+            {
+              "entry_id": "125821",
+              "talent": "Void Empowerment",
+              "spell_id": 450138,
+              "max_ranks": "1",
+              "choice_index": 0
+            },
+            {
+              "entry_id": "125982",
+              "talent": "Darkening Horizon",
+              "spell_id": 449912,
+              "max_ranks": "1",
+              "choice_index": 1
+            }
+          ]
+        },
+        {
+          "node_id": 94696,
+          "type": "CHOICE",
+          "row": 10,
+          "col": 12,
+          "x": 9000,
+          "y": 6300,
+          "serial_order": 170,
+          "req_points": 0,
+          "prereq_node_ids": [
+            100212
+          ],
+          "entries": [
+            {
+              "entry_id": "117299",
+              "talent": "Void Leech",
+              "spell_id": 451311,
+              "max_ranks": "1",
+              "choice_index": 0
+            },
+            {
+              "entry_id": "123844",
+              "talent": "Embrace the Shadow",
+              "spell_id": 451569,
+              "max_ranks": "1",
+              "choice_index": 1
+            }
+          ]
+        },
+        {
+          "node_id": 94703,
+          "type": "ACTIVE",
+          "row": 8,
+          "col": 11,
+          "x": 8400,
+          "y": 5100,
+          "serial_order": 176,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94684,
+            110008
+          ],
+          "entries": [
+            {
+              "entry_id": "117306",
+              "talent": "Void Blast",
+              "spell_id": 450405,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 100212,
+          "type": "PASSIVE",
+          "row": 9,
+          "col": 12,
+          "x": 9000,
+          "y": 5700,
+          "serial_order": 180,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94670
+          ],
+          "entries": [
+            {
+              "entry_id": "123841",
+              "talent": "Voidwraith",
+              "spell_id": 451234,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 109778,
+          "type": "PASSIVE",
+          "row": 10,
+          "col": 13,
+          "x": 9600,
+          "y": 6300,
+          "serial_order": 212,
+          "req_points": 0,
+          "prereq_node_ids": [
+            109779
+          ],
+          "entries": [
+            {
+              "entry_id": "136036",
+              "talent": "Overwhelming Shadows",
+              "spell_id": 1266883,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 109779,
+          "type": "PASSIVE",
+          "row": 9,
+          "col": 13,
+          "x": 9600,
+          "y": 5700,
+          "serial_order": 213,
+          "req_points": 0,
+          "prereq_node_ids": [
+            109780
+          ],
+          "entries": [
+            {
+              "entry_id": "136037",
+              "talent": "Touch of the Void",
+              "spell_id": 1266856,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 109780,
+          "type": "PASSIVE",
+          "row": 8,
+          "col": 13,
+          "x": 9600,
+          "y": 5100,
+          "serial_order": 214,
+          "req_points": 0,
+          "prereq_node_ids": [
+            110008,
+            94684
+          ],
+          "entries": [
+            {
+              "entry_id": "136038",
+              "talent": "Voidheart",
+              "spell_id": 449880,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 110008,
+          "type": "PASSIVE",
+          "row": 7,
+          "col": 12,
+          "x": 8700,
+          "y": 4500,
+          "serial_order": 220,
+          "req_points": 0,
+          "prereq_node_ids": [],
+          "entries": [
+            {
+              "entry_id": "136498",
+              "talent": "Entropic Rift",
+              "spell_id": 447444,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        }
+      ],
+      "Oracle": [
+        {
+          "node_id": 94673,
+          "type": "PASSIVE",
+          "row": 5,
+          "col": 11,
+          "x": 8400,
+          "y": 3300,
+          "serial_order": 148,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94675
+          ],
+          "entries": [
+            {
+              "entry_id": "117276",
+              "talent": "Prompt Prognosis",
+              "spell_id": 1246799,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94674,
+          "type": "PASSIVE",
+          "row": 3,
+          "col": 11,
+          "x": 8400,
+          "y": 2100,
+          "serial_order": 149,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94683
+          ],
+          "entries": [
+            {
+              "entry_id": "117277",
+              "talent": "Preemptive Care",
+              "spell_id": 440671,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94675,
+          "type": "CHOICE",
+          "row": 4,
+          "col": 11,
+          "x": 8400,
+          "y": 2700,
+          "serial_order": 150,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94674
+          ],
+          "entries": [
+            {
+              "entry_id": "117278",
+              "talent": "Divine Feathers",
+              "spell_id": 440670,
+              "max_ranks": "1",
+              "choice_index": 0
+            },
+            {
+              "entry_id": "119331",
+              "talent": "Save the Day",
+              "spell_id": 440669,
+              "max_ranks": "1",
+              "choice_index": 1
+            }
+          ]
+        },
+        {
+          "node_id": 94679,
+          "type": "PASSIVE",
+          "row": 3,
+          "col": 12,
+          "x": 9000,
+          "y": 2100,
+          "serial_order": 154,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94683
+          ],
+          "entries": [
+            {
+              "entry_id": "117282",
+              "talent": "Waste No Time",
+              "spell_id": 440681,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94683,
+          "type": "PASSIVE",
+          "row": 2,
+          "col": 12,
+          "x": 8700,
+          "y": 1500,
+          "serial_order": 157,
+          "req_points": 0,
+          "prereq_node_ids": [],
+          "entries": [
+            {
+              "entry_id": "117286",
+              "talent": "Guiding Light",
+              "spell_id": 1248423,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94687,
+          "type": "PASSIVE",
+          "row": 6,
+          "col": 12,
+          "x": 8700,
+          "y": 3900,
+          "serial_order": 161,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94700,
+            94673,
+            94690,
+            109781
+          ],
+          "entries": [
+            {
+              "entry_id": "117290",
+              "talent": "Twinsight",
+              "spell_id": 440742,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94689,
+          "type": "PASSIVE",
+          "row": 4,
+          "col": 12,
+          "x": 9000,
+          "y": 2700,
+          "serial_order": 163,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94679
+          ],
+          "entries": [
+            {
+              "entry_id": "117292",
+              "talent": "Foreseen Circumstances",
+              "spell_id": 440738,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94690,
+          "type": "CHOICE",
+          "row": 5,
+          "col": 10,
+          "x": 7800,
+          "y": 3300,
+          "serial_order": 164,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94691
+          ],
+          "entries": [
+            {
+              "entry_id": "117293",
+              "talent": "Prophet's Will",
+              "spell_id": 433905,
+              "max_ranks": "1",
+              "choice_index": 0
+            },
+            {
+              "entry_id": "126068",
+              "talent": "Desperate Measures",
+              "spell_id": 458718,
+              "max_ranks": "1",
+              "choice_index": 1
+            }
+          ]
+        },
+        {
+          "node_id": 94691,
+          "type": "PASSIVE",
+          "row": 4,
+          "col": 10,
+          "x": 7800,
+          "y": 2700,
+          "serial_order": 165,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94698
+          ],
+          "entries": [
+            {
+              "entry_id": "117294",
+              "talent": "Assured Safety",
+              "spell_id": 440766,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94698,
+          "type": "PASSIVE",
+          "row": 3,
+          "col": 10,
+          "x": 7800,
+          "y": 2100,
+          "serial_order": 172,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94683
+          ],
+          "entries": [
+            {
+              "entry_id": "117301",
+              "talent": "Preventive Measures",
+              "spell_id": 440662,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94700,
+          "type": "PASSIVE",
+          "row": 5,
+          "col": 12,
+          "x": 9000,
+          "y": 3300,
+          "serial_order": 174,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94689
+          ],
+          "entries": [
+            {
+              "entry_id": "117303",
+              "talent": "Piety",
+              "spell_id": 1246802,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 109781,
+          "type": "PASSIVE",
+          "row": 5,
+          "col": 13,
+          "x": 9600,
+          "y": 3300,
+          "serial_order": 215,
+          "req_points": 0,
+          "prereq_node_ids": [
+            109783
+          ],
+          "entries": [
+            {
+              "entry_id": "136039",
+              "talent": "Unfolding Vision",
+              "spell_id": 1272363,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 109782,
+          "type": "PASSIVE",
+          "row": 3,
+          "col": 13,
+          "x": 9600,
+          "y": 2100,
+          "serial_order": 216,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94683
+          ],
+          "entries": [
+            {
+              "entry_id": "136040",
+              "talent": "Words of the Wise",
+              "spell_id": 1272352,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 109783,
+          "type": "PASSIVE",
+          "row": 4,
+          "col": 13,
+          "x": 9600,
+          "y": 2700,
+          "serial_order": 217,
+          "req_points": 0,
+          "prereq_node_ids": [
+            109782
+          ],
+          "entries": [
+            {
+              "entry_id": "136041",
+              "talent": "Prophet's Insight",
+              "spell_id": 1272359,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

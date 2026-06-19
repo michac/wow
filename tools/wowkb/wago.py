@@ -11,13 +11,23 @@ import requests
 
 from ._common import save_raw
 
+_UA = {"User-Agent": "wowkb/0.1 (personal knowledge base)"}
+
+
+def latest_build(product: str = "wow") -> str:
+    """Newest build string for a product (e.g. '12.0.7.68256') from wago.tools."""
+    resp = requests.get("https://wago.tools/api/builds", headers=_UA, timeout=30)
+    resp.raise_for_status()
+    builds = resp.json()[product]
+    return builds[0]["version"]
+
 
 def download(table: str, build: str | None) -> None:
     params = {"build": build} if build else {}
     resp = requests.get(
         f"https://wago.tools/db2/{table}/csv",
         params=params,
-        headers={"User-Agent": "wowkb/0.1 (personal knowledge base)"},
+        headers=_UA,
         timeout=120,
     )
     resp.raise_for_status()

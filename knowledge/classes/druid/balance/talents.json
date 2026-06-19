@@ -1,0 +1,2838 @@
+{
+  "class": "druid",
+  "class_id": 11,
+  "spec": "balance",
+  "spec_id": 102,
+  "tree_id": 793,
+  "patch": "12.0.7",
+  "build": "12.0.7.67808",
+  "source": "api",
+  "serial_count": 281,
+  "granted_serials": [
+    201,
+    208
+  ],
+  "hero_selector": {
+    "serial": 234,
+    "choices": [
+      "Elune's Chosen",
+      "Keeper of the Grove"
+    ]
+  },
+  "trees": {
+    "class": [
+      {
+        "node_id": 82199,
+        "type": "ACTIVE",
+        "row": 2,
+        "col": 3,
+        "x": 2100,
+        "y": 1500,
+        "serial_order": 102,
+        "req_points": 0,
+        "prereq_node_ids": [],
+        "entries": [
+          {
+            "entry_id": "103277",
+            "talent": "Rake",
+            "spell_id": 1822,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82220,
+        "type": "ACTIVE",
+        "row": 2,
+        "col": 5,
+        "x": 3300,
+        "y": 1500,
+        "serial_order": 117,
+        "req_points": 0,
+        "prereq_node_ids": [],
+        "entries": [
+          {
+            "entry_id": "103298",
+            "talent": "Frenzied Regeneration",
+            "spell_id": 22842,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82217,
+        "type": "ACTIVE",
+        "row": 2,
+        "col": 7,
+        "x": 4500,
+        "y": 1500,
+        "serial_order": 114,
+        "req_points": 0,
+        "prereq_node_ids": [],
+        "entries": [
+          {
+            "entry_id": "103295",
+            "talent": "Rejuvenation",
+            "spell_id": 774,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82201,
+        "type": "ACTIVE",
+        "row": 2,
+        "col": 9,
+        "x": 5700,
+        "y": 1500,
+        "serial_order": 104,
+        "req_points": 0,
+        "prereq_node_ids": [],
+        "entries": [
+          {
+            "entry_id": "103279",
+            "talent": "Starfire",
+            "spell_id": 194153,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82239,
+        "type": "PASSIVE",
+        "row": 3,
+        "col": 2,
+        "x": 1500,
+        "y": 2100,
+        "serial_order": 134,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82199
+        ],
+        "entries": [
+          {
+            "entry_id": "103318",
+            "talent": "Grievous Wounds",
+            "spell_id": 474526,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82223,
+        "type": "ACTIVE",
+        "row": 3,
+        "col": 4,
+        "x": 2700,
+        "y": 2100,
+        "serial_order": 120,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82220,
+          82199
+        ],
+        "entries": [
+          {
+            "entry_id": "103301",
+            "talent": "Swipe",
+            "spell_id": 213764,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82219,
+        "type": "PASSIVE",
+        "row": 3,
+        "col": 6,
+        "x": 3900,
+        "y": 2100,
+        "serial_order": 116,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82217,
+          82220
+        ],
+        "entries": [
+          {
+            "entry_id": "103297",
+            "talent": "Ursoc's Spirit",
+            "spell_id": 449182,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82205,
+        "type": "ACTIVE",
+        "row": 3,
+        "col": 8,
+        "x": 5100,
+        "y": 2100,
+        "serial_order": 106,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82217
+        ],
+        "entries": [
+          {
+            "entry_id": "103283",
+            "talent": "Wild Growth",
+            "spell_id": 48438,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82202,
+        "type": "ACTIVE",
+        "row": 3,
+        "col": 10,
+        "x": 6300,
+        "y": 2100,
+        "serial_order": 105,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82201
+        ],
+        "entries": [
+          {
+            "entry_id": "103280",
+            "talent": "Starsurge",
+            "spell_id": 78674,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82222,
+        "type": "ACTIVE",
+        "row": 4,
+        "col": 3,
+        "x": 2100,
+        "y": 2700,
+        "serial_order": 119,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82199
+        ],
+        "entries": [
+          {
+            "entry_id": "103300",
+            "talent": "Rip",
+            "spell_id": 1079,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82218,
+        "type": "PASSIVE",
+        "row": 4,
+        "col": 5,
+        "x": 3300,
+        "y": 2700,
+        "serial_order": 115,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82219,
+          82223,
+          82220
+        ],
+        "entries": [
+          {
+            "entry_id": "103296",
+            "talent": "Verdant Heart",
+            "spell_id": 301768,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82241,
+        "type": "ACTIVE",
+        "row": 4,
+        "col": 7,
+        "x": 4500,
+        "y": 2700,
+        "serial_order": 136,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82217,
+          82219
+        ],
+        "entries": [
+          {
+            "entry_id": "103320",
+            "talent": "Remove Corruption",
+            "spell_id": 2782,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82208,
+        "type": "ACTIVE",
+        "row": 4,
+        "col": 9,
+        "x": 5700,
+        "y": 2700,
+        "serial_order": 109,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82201
+        ],
+        "entries": [
+          {
+            "entry_id": "103286",
+            "talent": "Moonkin Form",
+            "spell_id": 24858,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82221,
+        "type": "ACTIVE",
+        "row": 5,
+        "col": 2,
+        "x": 1500,
+        "y": 3300,
+        "serial_order": 118,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82222
+        ],
+        "entries": [
+          {
+            "entry_id": "103299",
+            "talent": "Maim",
+            "spell_id": 22570,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82225,
+        "type": "PASSIVE",
+        "row": 5,
+        "col": 4,
+        "x": 2700,
+        "y": 3297,
+        "serial_order": 122,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82222,
+          82223,
+          82218
+        ],
+        "entries": [
+          {
+            "entry_id": "103303",
+            "talent": "Killer Instinct",
+            "spell_id": 108299,
+            "max_ranks": "2",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82227,
+        "type": "ACTIVE",
+        "row": 5,
+        "col": 5,
+        "x": 3300,
+        "y": 3300,
+        "serial_order": 123,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82218
+        ],
+        "entries": [
+          {
+            "entry_id": "103305",
+            "talent": "Ironfur",
+            "spell_id": 192081,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 104085,
+        "type": "PASSIVE",
+        "row": 5,
+        "col": 6,
+        "x": 3900,
+        "y": 3300,
+        "serial_order": 253,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82219,
+          82218,
+          82241
+        ],
+        "entries": [
+          {
+            "entry_id": "128591",
+            "talent": "Improved Barkskin",
+            "spell_id": 327993,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82211,
+        "type": "ACTIVE",
+        "row": 5,
+        "col": 7,
+        "x": 4500,
+        "y": 3300,
+        "serial_order": 112,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82241
+        ],
+        "entries": [
+          {
+            "entry_id": "103289",
+            "talent": "Hibernate",
+            "spell_id": 2637,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82214,
+        "type": "PASSIVE",
+        "row": 5,
+        "col": 8,
+        "x": 5100,
+        "y": 3300,
+        "serial_order": 113,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82205,
+          82208,
+          82241
+        ],
+        "entries": [
+          {
+            "entry_id": "103292",
+            "talent": "Nurturing Instinct",
+            "spell_id": 33873,
+            "max_ranks": "2",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 93714,
+        "type": "ACTIVE",
+        "row": 5,
+        "col": 10,
+        "x": 6300,
+        "y": 3300,
+        "serial_order": 185,
+        "req_points": 0,
+        "prereq_node_ids": [
+          82208
+        ],
+        "entries": [
+          {
+            "entry_id": "116102",
+            "talent": "Sunfire",
+            "spell_id": 93402,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82224,
+        "type": "PASSIVE",
+        "row": 6,
+        "col": 3,
+        "x": 2100,
+        "y": 3900,
+        "serial_order": 121,
+        "req_points": 8,
+        "prereq_node_ids": [
+          82225
+        ],
+        "entries": [
+          {
+            "entry_id": "103302",
+            "talent": "Primal Fury",
+            "spell_id": 159286,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82228,
+        "type": "PASSIVE",
+        "row": 6,
+        "col": 5,
+        "x": 3300,
+        "y": 3900,
+        "serial_order": 124,
+        "req_points": 8,
+        "prereq_node_ids": [
+          82225,
+          104085
+        ],
+        "entries": [
+          {
+            "entry_id": "103306",
+            "talent": "Thick Hide",
+            "spell_id": 16931,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 104083,
+        "type": "PASSIVE",
+        "row": 6,
+        "col": 6,
+        "x": 3900,
+        "y": 3900,
+        "serial_order": 251,
+        "req_points": 8,
+        "prereq_node_ids": [
+          104085
+        ],
+        "entries": [
+          {
+            "entry_id": "128588",
+            "talent": "Light of the Sun",
+            "spell_id": 202918,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82206,
+        "type": "PASSIVE",
+        "row": 6,
+        "col": 7,
+        "x": 4500,
+        "y": 3900,
+        "serial_order": 107,
+        "req_points": 8,
+        "prereq_node_ids": [
+          82214,
+          104085,
+          82211
+        ],
+        "entries": [
+          {
+            "entry_id": "103284",
+            "talent": "Natural Recovery",
+            "spell_id": 377796,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82210,
+        "type": "PASSIVE",
+        "row": 6,
+        "col": 9,
+        "x": 5700,
+        "y": 3900,
+        "serial_order": 111,
+        "req_points": 8,
+        "prereq_node_ids": [
+          82214
+        ],
+        "entries": [
+          {
+            "entry_id": "103288",
+            "talent": "Astral Influence",
+            "spell_id": 197524,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82198,
+        "type": "CHOICE",
+        "row": 7,
+        "col": 4,
+        "x": 2700,
+        "y": 4499,
+        "serial_order": 101,
+        "req_points": 8,
+        "prereq_node_ids": [
+          82225,
+          82228
+        ],
+        "entries": [
+          {
+            "entry_id": "103276",
+            "talent": "Wild Charge",
+            "spell_id": 102401,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "103275",
+            "talent": "Tiger Dash",
+            "spell_id": 252216,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 82229,
+        "type": "CHOICE",
+        "row": 7,
+        "col": 6,
+        "x": 3900,
+        "y": 4500,
+        "serial_order": 125,
+        "req_points": 8,
+        "prereq_node_ids": [
+          82206,
+          82228
+        ],
+        "entries": [
+          {
+            "entry_id": "103307",
+            "talent": "Soothe",
+            "spell_id": 2908,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "128587",
+            "talent": "Cyclone",
+            "spell_id": 33786,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 82232,
+        "type": "PASSIVE",
+        "row": 7,
+        "col": 8,
+        "x": 5099,
+        "y": 4499,
+        "serial_order": 128,
+        "req_points": 8,
+        "prereq_node_ids": [
+          82214,
+          82206
+        ],
+        "entries": [
+          {
+            "entry_id": "128581",
+            "talent": "Aessina's Renewal",
+            "spell_id": 474678,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 100223,
+        "type": "PASSIVE",
+        "row": 7,
+        "col": 10,
+        "x": 6300,
+        "y": 4500,
+        "serial_order": 240,
+        "req_points": 8,
+        "prereq_node_ids": [
+          82210,
+          93714
+        ],
+        "entries": [
+          {
+            "entry_id": "123868",
+            "talent": "Starlight Conduit",
+            "spell_id": 451211,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82236,
+        "type": "PASSIVE",
+        "row": 8,
+        "col": 3,
+        "x": 2100,
+        "y": 5099,
+        "serial_order": 132,
+        "req_points": 8,
+        "prereq_node_ids": [
+          82198
+        ],
+        "entries": [
+          {
+            "entry_id": "103314",
+            "talent": "Feline Swiftness",
+            "spell_id": 131768,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82235,
+        "type": "PASSIVE",
+        "row": 8,
+        "col": 4,
+        "x": 2700,
+        "y": 5099,
+        "serial_order": 131,
+        "req_points": 8,
+        "prereq_node_ids": [
+          82198
+        ],
+        "entries": [
+          {
+            "entry_id": "103313",
+            "talent": "Well-Honed Instincts",
+            "spell_id": 377847,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 100177,
+        "type": "PASSIVE",
+        "row": 8,
+        "col": 5,
+        "x": 3300,
+        "y": 5099,
+        "serial_order": 239,
+        "req_points": 8,
+        "prereq_node_ids": [
+          82228,
+          82198
+        ],
+        "entries": [
+          {
+            "entry_id": "123796",
+            "talent": "Matted Fur",
+            "spell_id": 385786,
+            "max_ranks": "2",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82234,
+        "type": "ACTIVE",
+        "row": 8,
+        "col": 6,
+        "x": 3900,
+        "y": 5100,
+        "serial_order": 130,
+        "req_points": 8,
+        "prereq_node_ids": [
+          82229
+        ],
+        "entries": [
+          {
+            "entry_id": "103312",
+            "talent": "Stampeding Roar",
+            "spell_id": 106898,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82240,
+        "type": "PASSIVE",
+        "row": 8,
+        "col": 7,
+        "x": 4500,
+        "y": 5100,
+        "serial_order": 135,
+        "req_points": 8,
+        "prereq_node_ids": [
+          82206,
+          82232
+        ],
+        "entries": [
+          {
+            "entry_id": "103319",
+            "talent": "Lingering Healing",
+            "spell_id": 231040,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82209,
+        "type": "ACTIVE",
+        "row": 8,
+        "col": 8,
+        "x": 5100,
+        "y": 5100,
+        "serial_order": 110,
+        "req_points": 8,
+        "prereq_node_ids": [
+          82232
+        ],
+        "entries": [
+          {
+            "entry_id": "103287",
+            "talent": "Typhoon",
+            "spell_id": 132469,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82207,
+        "type": "CHOICE",
+        "row": 8,
+        "col": 9,
+        "x": 5700,
+        "y": 5100,
+        "serial_order": 108,
+        "req_points": 8,
+        "prereq_node_ids": [
+          82232
+        ],
+        "entries": [
+          {
+            "entry_id": "103285",
+            "talent": "Mass Entanglement",
+            "spell_id": 102359,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "128589",
+            "talent": "Ursol's Vortex",
+            "spell_id": 102793,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 100176,
+        "type": "PASSIVE",
+        "row": 9,
+        "col": 3,
+        "x": 2100,
+        "y": 5700,
+        "serial_order": 238,
+        "req_points": 23,
+        "prereq_node_ids": [
+          82235,
+          82236
+        ],
+        "entries": [
+          {
+            "entry_id": "123795",
+            "talent": "Oakskin",
+            "spell_id": 449191,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 104082,
+        "type": "PASSIVE",
+        "row": 9,
+        "col": 4,
+        "x": 2700,
+        "y": 5700,
+        "serial_order": 250,
+        "req_points": 23,
+        "prereq_node_ids": [
+          82235
+        ],
+        "entries": [
+          {
+            "entry_id": "128586",
+            "talent": "Perfectly-Honed Instincts",
+            "spell_id": 1213597,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 104081,
+        "type": "PASSIVE",
+        "row": 9,
+        "col": 5,
+        "x": 3300,
+        "y": 5700,
+        "serial_order": 249,
+        "req_points": 23,
+        "prereq_node_ids": [
+          82234
+        ],
+        "entries": [
+          {
+            "entry_id": "128585",
+            "talent": "Instincts of the Claw",
+            "spell_id": 449184,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82233,
+        "type": "PASSIVE",
+        "row": 9,
+        "col": 6,
+        "x": 3900,
+        "y": 5700,
+        "serial_order": 129,
+        "req_points": 23,
+        "prereq_node_ids": [
+          82234
+        ],
+        "entries": [
+          {
+            "entry_id": "103311",
+            "talent": "Lycara's Teachings",
+            "spell_id": 378988,
+            "max_ranks": "2",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 104080,
+        "type": "PASSIVE",
+        "row": 9,
+        "col": 7,
+        "x": 4500,
+        "y": 5700,
+        "serial_order": 248,
+        "req_points": 23,
+        "prereq_node_ids": [
+          82234
+        ],
+        "entries": [
+          {
+            "entry_id": "128584",
+            "talent": "Lore of the Grove",
+            "spell_id": 449185,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 104079,
+        "type": "CHOICE",
+        "row": 9,
+        "col": 8,
+        "x": 5100,
+        "y": 5700,
+        "serial_order": 247,
+        "req_points": 23,
+        "prereq_node_ids": [
+          82209
+        ],
+        "entries": [
+          {
+            "entry_id": "128583",
+            "talent": "Gale Winds",
+            "spell_id": 400142,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "128582",
+            "talent": "Incessant Tempest",
+            "spell_id": 400140,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 100175,
+        "type": "PASSIVE",
+        "row": 9,
+        "col": 9,
+        "x": 5700,
+        "y": 5700,
+        "serial_order": 237,
+        "req_points": 23,
+        "prereq_node_ids": [
+          82207,
+          82209
+        ],
+        "entries": [
+          {
+            "entry_id": "123794",
+            "talent": "Gift of the Wild",
+            "spell_id": 1262034,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82237,
+        "type": "CHOICE",
+        "row": 10,
+        "col": 2,
+        "x": 1500,
+        "y": 6300,
+        "serial_order": 133,
+        "req_points": 23,
+        "prereq_node_ids": [
+          100176
+        ],
+        "entries": [
+          {
+            "entry_id": "103316",
+            "talent": "Incapacitating Roar",
+            "spell_id": 99,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "103315",
+            "talent": "Mighty Bash",
+            "spell_id": 5211,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 100174,
+        "type": "PASSIVE",
+        "row": 10,
+        "col": 4,
+        "x": 2700,
+        "y": 6300,
+        "serial_order": 236,
+        "req_points": 23,
+        "prereq_node_ids": [
+          100176
+        ],
+        "entries": [
+          {
+            "entry_id": "123793",
+            "talent": "Ursine Vigor",
+            "spell_id": 377842,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82230,
+        "type": "PASSIVE",
+        "row": 10,
+        "col": 5,
+        "x": 3300,
+        "y": 6300,
+        "serial_order": 126,
+        "req_points": 23,
+        "prereq_node_ids": [
+          82233
+        ],
+        "entries": [
+          {
+            "entry_id": "103308",
+            "talent": "Improved Stampeding Roar",
+            "spell_id": 288826,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 104078,
+        "type": "CHOICE",
+        "row": 10,
+        "col": 6,
+        "x": 3900,
+        "y": 6300,
+        "serial_order": 246,
+        "req_points": 23,
+        "prereq_node_ids": [
+          82233
+        ],
+        "entries": [
+          {
+            "entry_id": "128580",
+            "talent": "Circle of the Wild",
+            "spell_id": 474530,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "128579",
+            "talent": "Circle of the Heavens",
+            "spell_id": 474541,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 92229,
+        "type": "PASSIVE",
+        "row": 10,
+        "col": 7,
+        "x": 4500,
+        "y": 6300,
+        "serial_order": 178,
+        "req_points": 23,
+        "prereq_node_ids": [
+          82233
+        ],
+        "entries": [
+          {
+            "entry_id": "114300",
+            "talent": "Lycara's Inspiration",
+            "spell_id": 1232897,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 100173,
+        "type": "ACTIVE",
+        "row": 10,
+        "col": 8,
+        "x": 5099,
+        "y": 6300,
+        "serial_order": 235,
+        "req_points": 23,
+        "prereq_node_ids": [
+          100175
+        ],
+        "entries": [
+          {
+            "entry_id": "123792",
+            "talent": "Symbiotic Relationship",
+            "spell_id": 474750,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82243,
+        "type": "PASSIVE",
+        "row": 10,
+        "col": 10,
+        "x": 6300,
+        "y": 6300,
+        "serial_order": 138,
+        "req_points": 23,
+        "prereq_node_ids": [
+          100175
+        ],
+        "entries": [
+          {
+            "entry_id": "103323",
+            "talent": "Forestwalk",
+            "spell_id": 400129,
+            "max_ranks": "2",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82246,
+        "type": "PASSIVE",
+        "row": 11,
+        "col": 3,
+        "x": 2100,
+        "y": 6900,
+        "serial_order": 140,
+        "req_points": 23,
+        "prereq_node_ids": [
+          100176
+        ],
+        "entries": [
+          {
+            "entry_id": "103326",
+            "talent": "Fluid Form",
+            "spell_id": 449193,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82231,
+        "type": "ACTIVE",
+        "row": 11,
+        "col": 6,
+        "x": 3900,
+        "y": 6900,
+        "serial_order": 127,
+        "req_points": 23,
+        "prereq_node_ids": [
+          82230,
+          92229,
+          104078
+        ],
+        "entries": [
+          {
+            "entry_id": "103309",
+            "talent": "Heart of the Wild",
+            "spell_id": 1261867,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 82244,
+        "type": "ACTIVE",
+        "row": 11,
+        "col": 9,
+        "x": 5700,
+        "y": 6900,
+        "serial_order": 139,
+        "req_points": 23,
+        "prereq_node_ids": [
+          100175
+        ],
+        "entries": [
+          {
+            "entry_id": "103324",
+            "talent": "Innervate",
+            "spell_id": 29166,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      }
+    ],
+    "spec": [
+      {
+        "node_id": 88223,
+        "type": "PASSIVE",
+        "row": 2,
+        "col": 20,
+        "x": 12299,
+        "y": 1501,
+        "serial_order": 161,
+        "req_points": 0,
+        "prereq_node_ids": [],
+        "entries": [
+          {
+            "entry_id": "109858",
+            "talent": "Eclipse",
+            "spell_id": 1239669,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 88225,
+        "type": "PASSIVE",
+        "row": 3,
+        "col": 19,
+        "x": 11699,
+        "y": 2101,
+        "serial_order": 163,
+        "req_points": 0,
+        "prereq_node_ids": [
+          88223
+        ],
+        "entries": [
+          {
+            "entry_id": "109861",
+            "talent": "Shooting Stars",
+            "spell_id": 202342,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 88231,
+        "type": "ACTIVE",
+        "row": 3,
+        "col": 21,
+        "x": 12897,
+        "y": 2101,
+        "serial_order": 167,
+        "req_points": 0,
+        "prereq_node_ids": [
+          88223
+        ],
+        "entries": [
+          {
+            "entry_id": "109867",
+            "talent": "Solar Beam",
+            "spell_id": 78675,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 88203,
+        "type": "PASSIVE",
+        "row": 4,
+        "col": 18,
+        "x": 11100,
+        "y": 2700,
+        "serial_order": 144,
+        "req_points": 0,
+        "prereq_node_ids": [
+          88225
+        ],
+        "entries": [
+          {
+            "entry_id": "109835",
+            "talent": "Solstice",
+            "spell_id": 343647,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 88210,
+        "type": "ACTIVE",
+        "row": 4,
+        "col": 20,
+        "x": 12299,
+        "y": 2701,
+        "serial_order": 150,
+        "req_points": 0,
+        "prereq_node_ids": [
+          88225,
+          88231
+        ],
+        "entries": [
+          {
+            "entry_id": "109844",
+            "talent": "Force of Nature",
+            "spell_id": 205636,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 88201,
+        "type": "PASSIVE",
+        "row": 4,
+        "col": 22,
+        "x": 13499,
+        "y": 2701,
+        "serial_order": 142,
+        "req_points": 0,
+        "prereq_node_ids": [
+          88231
+        ],
+        "entries": [
+          {
+            "entry_id": "109833",
+            "talent": "Twin Moons",
+            "spell_id": 279620,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 91048,
+        "type": "PASSIVE",
+        "row": 5,
+        "col": 17,
+        "x": 10500,
+        "y": 3300,
+        "serial_order": 175,
+        "req_points": 0,
+        "prereq_node_ids": [
+          88203
+        ],
+        "entries": [
+          {
+            "entry_id": "115458",
+            "talent": "Improved Eclipse",
+            "spell_id": 1240906,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 88226,
+        "type": "PASSIVE",
+        "row": 5,
+        "col": 19,
+        "x": 11699,
+        "y": 3300,
+        "serial_order": 164,
+        "req_points": 0,
+        "prereq_node_ids": [
+          88203,
+          88210
+        ],
+        "entries": [
+          {
+            "entry_id": "109862",
+            "talent": "Nature's Balance",
+            "spell_id": 202430,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 88208,
+        "type": "PASSIVE",
+        "row": 5,
+        "col": 21,
+        "x": 12897,
+        "y": 3300,
+        "serial_order": 148,
+        "req_points": 0,
+        "prereq_node_ids": [
+          88201,
+          88210
+        ],
+        "entries": [
+          {
+            "entry_id": "109842",
+            "talent": "Umbral Intensity",
+            "spell_id": 383195,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 88209,
+        "type": "CHOICE",
+        "row": 5,
+        "col": 23,
+        "x": 14100,
+        "y": 3300,
+        "serial_order": 149,
+        "req_points": 0,
+        "prereq_node_ids": [
+          88201
+        ],
+        "entries": [
+          {
+            "entry_id": "109843",
+            "talent": "Aetherial Kindling",
+            "spell_id": 327541,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "133406",
+            "talent": "Meteor Storm",
+            "spell_id": 1240262,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 88204,
+        "type": "PASSIVE",
+        "row": 6,
+        "col": 18,
+        "x": 11100,
+        "y": 3900,
+        "serial_order": 145,
+        "req_points": 8,
+        "prereq_node_ids": [
+          91048,
+          88226
+        ],
+        "entries": [
+          {
+            "entry_id": "109836",
+            "talent": "Wild Surges",
+            "spell_id": 406890,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 88215,
+        "type": "ACTIVE",
+        "row": 6,
+        "col": 20,
+        "x": 12299,
+        "y": 3900,
+        "serial_order": 154,
+        "req_points": 8,
+        "prereq_node_ids": [
+          88208,
+          88226,
+          88210
+        ],
+        "entries": [
+          {
+            "entry_id": "",
+            "talent": "Celestial Alignment",
+            "spell_id": 194223,
+            "max_ranks": 1,
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 88219,
+        "type": "PASSIVE",
+        "row": 6,
+        "col": 22,
+        "x": 13499,
+        "y": 3900,
+        "serial_order": 157,
+        "req_points": 8,
+        "prereq_node_ids": [
+          88209,
+          88208
+        ],
+        "entries": [
+          {
+            "entry_id": "109853",
+            "talent": "Soul of the Forest",
+            "spell_id": 114107,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 88202,
+        "type": "CHOICE",
+        "row": 7,
+        "col": 17,
+        "x": 10500,
+        "y": 4500,
+        "serial_order": 143,
+        "req_points": 8,
+        "prereq_node_ids": [
+          91048,
+          88204
+        ],
+        "entries": [
+          {
+            "entry_id": "109834",
+            "talent": "Sunseeker Mushroom",
+            "spell_id": 468936,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "128232",
+            "talent": "Wild Mushroom",
+            "spell_id": 88747,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 110279,
+        "type": "CHOICE",
+        "row": 7,
+        "col": 18,
+        "x": 11100,
+        "y": 4500,
+        "serial_order": 276,
+        "req_points": 8,
+        "prereq_node_ids": [
+          88204
+        ],
+        "entries": [
+          {
+            "entry_id": "136832",
+            "talent": "Nature's Grace",
+            "spell_id": 450347,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "136831",
+            "talent": "Elune's Challenge",
+            "spell_id": 1240283,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 88212,
+        "type": "PASSIVE",
+        "row": 7,
+        "col": 19,
+        "x": 11699,
+        "y": 4497,
+        "serial_order": 151,
+        "req_points": 8,
+        "prereq_node_ids": [
+          88215,
+          88204
+        ],
+        "entries": [
+          {
+            "entry_id": "109846",
+            "talent": "Stellar Amplification",
+            "spell_id": 450212,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 88221,
+        "type": "CHOICE",
+        "row": 7,
+        "col": 20,
+        "x": 12299,
+        "y": 4497,
+        "serial_order": 159,
+        "req_points": 8,
+        "prereq_node_ids": [
+          88215
+        ],
+        "entries": [
+          {
+            "entry_id": "109856",
+            "talent": "Whirling Stars",
+            "spell_id": 468743,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "109855",
+            "talent": "Orbital Strike",
+            "spell_id": 390378,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 88222,
+        "type": "PASSIVE",
+        "row": 7,
+        "col": 21,
+        "x": 12897,
+        "y": 4497,
+        "serial_order": 160,
+        "req_points": 8,
+        "prereq_node_ids": [
+          88215,
+          88219
+        ],
+        "entries": [
+          {
+            "entry_id": "109857",
+            "talent": "Touch the Cosmos",
+            "spell_id": 450356,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 88232,
+        "type": "PASSIVE",
+        "row": 7,
+        "col": 23,
+        "x": 14100,
+        "y": 4500,
+        "serial_order": 168,
+        "req_points": 8,
+        "prereq_node_ids": [
+          88209,
+          88219
+        ],
+        "entries": [
+          {
+            "entry_id": "109868",
+            "talent": "Meteorites",
+            "spell_id": 1240907,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 88227,
+        "type": "PASSIVE",
+        "row": 8,
+        "col": 18,
+        "x": 11100,
+        "y": 5100,
+        "serial_order": 165,
+        "req_points": 8,
+        "prereq_node_ids": [
+          88212,
+          88202,
+          110279
+        ],
+        "entries": [
+          {
+            "entry_id": "109863",
+            "talent": "Cosmic Rapidity",
+            "spell_id": 400059,
+            "max_ranks": "2",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 103847,
+        "type": "PASSIVE",
+        "row": 8,
+        "col": 19,
+        "x": 11700,
+        "y": 5100,
+        "serial_order": 242,
+        "req_points": 8,
+        "prereq_node_ids": [
+          88221
+        ],
+        "entries": [
+          {
+            "entry_id": "128231",
+            "talent": "Celestial Fire",
+            "spell_id": 1240185,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 88216,
+        "type": "PASSIVE",
+        "row": 8,
+        "col": 20,
+        "x": 12299,
+        "y": 5100,
+        "serial_order": 155,
+        "req_points": 8,
+        "prereq_node_ids": [
+          88221
+        ],
+        "entries": [
+          {
+            "entry_id": "109850",
+            "talent": "Astral Communion",
+            "spell_id": 450598,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 103846,
+        "type": "PASSIVE",
+        "row": 8,
+        "col": 21,
+        "x": 12900,
+        "y": 5100,
+        "serial_order": 241,
+        "req_points": 8,
+        "prereq_node_ids": [
+          88222
+        ],
+        "entries": [
+          {
+            "entry_id": "128230",
+            "talent": "Hail of Stars",
+            "spell_id": 469004,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 88207,
+        "type": "PASSIVE",
+        "row": 8,
+        "col": 22,
+        "x": 13499,
+        "y": 5100,
+        "serial_order": 147,
+        "req_points": 8,
+        "prereq_node_ids": [
+          88232,
+          88222,
+          88219
+        ],
+        "entries": [
+          {
+            "entry_id": "109840",
+            "talent": "Starlord",
+            "spell_id": 202345,
+            "max_ranks": "2",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 88220,
+        "type": "PASSIVE",
+        "row": 9,
+        "col": 17,
+        "x": 10500,
+        "y": 5700,
+        "serial_order": 158,
+        "req_points": 20,
+        "prereq_node_ids": [
+          88202,
+          88227
+        ],
+        "entries": [
+          {
+            "entry_id": "117100",
+            "talent": "Sculpt the Stars",
+            "spell_id": 1240188,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 88214,
+        "type": "PASSIVE",
+        "row": 9,
+        "col": 19,
+        "x": 11699,
+        "y": 5700,
+        "serial_order": 153,
+        "req_points": 20,
+        "prereq_node_ids": [
+          88227,
+          88216
+        ],
+        "entries": [
+          {
+            "entry_id": "109848",
+            "talent": "Balance of All Things",
+            "spell_id": 394048,
+            "max_ranks": "2",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 88200,
+        "type": "PASSIVE",
+        "row": 9,
+        "col": 21,
+        "x": 12897,
+        "y": 5700,
+        "serial_order": 141,
+        "req_points": 20,
+        "prereq_node_ids": [
+          88207,
+          88216
+        ],
+        "entries": [
+          {
+            "entry_id": "109832",
+            "talent": "Total Eclipse",
+            "spell_id": 1240206,
+            "max_ranks": "2",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 88236,
+        "type": "CHOICE",
+        "row": 9,
+        "col": 22,
+        "x": 13499,
+        "y": 5700,
+        "serial_order": 171,
+        "req_points": 20,
+        "prereq_node_ids": [
+          88207
+        ],
+        "entries": [
+          {
+            "entry_id": "109873",
+            "talent": "Starweaver",
+            "spell_id": 393940,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "109872",
+            "talent": "Rattle the Stars",
+            "spell_id": 393954,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 88235,
+        "type": "PASSIVE",
+        "row": 9,
+        "col": 23,
+        "x": 14100,
+        "y": 5700,
+        "serial_order": 170,
+        "req_points": 20,
+        "prereq_node_ids": [
+          88232,
+          88207
+        ],
+        "entries": [
+          {
+            "entry_id": "109871",
+            "talent": "Power of Goldrinn",
+            "spell_id": 394046,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 88218,
+        "type": "CHOICE",
+        "row": 10,
+        "col": 18,
+        "x": 11100,
+        "y": 6300,
+        "serial_order": 156,
+        "req_points": 20,
+        "prereq_node_ids": [
+          88220,
+          88214
+        ],
+        "entries": [
+          {
+            "entry_id": "109852",
+            "talent": "Sundered Firmament",
+            "spell_id": 394094,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "133403",
+            "talent": "Orbit Breaker",
+            "spell_id": 383197,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 88206,
+        "type": "CHOICE",
+        "row": 10,
+        "col": 20,
+        "x": 12299,
+        "y": 6299,
+        "serial_order": 146,
+        "req_points": 20,
+        "prereq_node_ids": [
+          88214,
+          88200
+        ],
+        "entries": [
+          {
+            "entry_id": "",
+            "talent": "Incarnation: Chosen of Elune",
+            "spell_id": 102560,
+            "max_ranks": 1,
+            "choice_index": 0
+          },
+          {
+            "entry_id": "109838",
+            "talent": "Convoke the Spirits",
+            "spell_id": 391528,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 88224,
+        "type": "CHOICE",
+        "row": 10,
+        "col": 22,
+        "x": 13499,
+        "y": 6299,
+        "serial_order": 162,
+        "req_points": 20,
+        "prereq_node_ids": [
+          88236,
+          88235,
+          88200
+        ],
+        "entries": [
+          {
+            "entry_id": "109859",
+            "talent": "Fury of Elune",
+            "spell_id": 202770,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "109860",
+            "talent": "New Moon",
+            "spell_id": 274281,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 88234,
+        "type": "PASSIVE",
+        "row": 11,
+        "col": 18,
+        "x": 11100,
+        "y": 6900,
+        "serial_order": 169,
+        "req_points": 20,
+        "prereq_node_ids": [
+          88218
+        ],
+        "entries": [
+          {
+            "entry_id": "109870",
+            "talent": "Umbral Embrace",
+            "spell_id": 393760,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 108032,
+        "type": "PASSIVE",
+        "row": 11,
+        "col": 19,
+        "x": 11700,
+        "y": 6900,
+        "serial_order": 255,
+        "req_points": 20,
+        "prereq_node_ids": [
+          88206,
+          88218
+        ],
+        "entries": [
+          {
+            "entry_id": "133404",
+            "talent": "Harmony of the Heavens",
+            "spell_id": 450558,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 88228,
+        "type": "PASSIVE",
+        "row": 11,
+        "col": 20,
+        "x": 12299,
+        "y": 6902,
+        "serial_order": 166,
+        "req_points": 20,
+        "prereq_node_ids": [
+          88206
+        ],
+        "entries": [
+          {
+            "entry_id": "109864",
+            "talent": "Elune's Guidance",
+            "spell_id": 393991,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 108033,
+        "type": "PASSIVE",
+        "row": 11,
+        "col": 21,
+        "x": 12900,
+        "y": 6900,
+        "serial_order": 256,
+        "req_points": 20,
+        "prereq_node_ids": [
+          88224,
+          88206
+        ],
+        "entries": [
+          {
+            "entry_id": "133405",
+            "talent": "Denizen of the Dream",
+            "spell_id": 394065,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 88213,
+        "type": "PASSIVE",
+        "row": 11,
+        "col": 22,
+        "x": 13499,
+        "y": 6900,
+        "serial_order": 152,
+        "req_points": 20,
+        "prereq_node_ids": [
+          88224
+        ],
+        "entries": [
+          {
+            "entry_id": "109847",
+            "talent": "Radiant Moonlight",
+            "spell_id": 394121,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 110421,
+        "type": "ACTIVE",
+        "row": 12,
+        "col": 20,
+        "x": 12300,
+        "y": 7650,
+        "serial_order": 277,
+        "req_points": 20,
+        "prereq_node_ids": [],
+        "entries": [
+          {
+            "entry_id": "137031",
+            "talent": "Ascendant Eclipses",
+            "spell_id": 1261564,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      }
+    ],
+    "hero": {
+      "Keeper of the Grove": [
+        {
+          "node_id": 94591,
+          "type": "CHOICE",
+          "row": 10,
+          "col": 12,
+          "x": 7199,
+          "y": 6302,
+          "serial_order": 192,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94605
+          ],
+          "entries": [
+            {
+              "entry_id": "117184",
+              "talent": "Bounteous Bloom",
+              "spell_id": 429215,
+              "max_ranks": "1",
+              "choice_index": 0
+            },
+            {
+              "entry_id": "117895",
+              "talent": "Early Spring",
+              "spell_id": 428937,
+              "max_ranks": "1",
+              "choice_index": 1
+            }
+          ]
+        },
+        {
+          "node_id": 94592,
+          "type": "CHOICE",
+          "row": 10,
+          "col": 13,
+          "x": 7797,
+          "y": 6302,
+          "serial_order": 193,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94604
+          ],
+          "entries": [
+            {
+              "entry_id": "117185",
+              "talent": "Power of the Dream",
+              "spell_id": 434220,
+              "max_ranks": "1",
+              "choice_index": 0
+            },
+            {
+              "entry_id": "117894",
+              "talent": "Control of the Dream",
+              "spell_id": 434249,
+              "max_ranks": "1",
+              "choice_index": 1
+            }
+          ]
+        },
+        {
+          "node_id": 94593,
+          "type": "PASSIVE",
+          "row": 8,
+          "col": 14,
+          "x": 8396,
+          "y": 5102,
+          "serial_order": 194,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94600
+          ],
+          "entries": [
+            {
+              "entry_id": "117186",
+              "talent": "Protective Growth",
+              "spell_id": 433748,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94595,
+          "type": "CHOICE",
+          "row": 9,
+          "col": 14,
+          "x": 8395,
+          "y": 5702,
+          "serial_order": 196,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94593
+          ],
+          "entries": [
+            {
+              "entry_id": "117189",
+              "talent": "Grove's Inspiration",
+              "spell_id": 429402,
+              "max_ranks": "1",
+              "choice_index": 0
+            },
+            {
+              "entry_id": "117188",
+              "talent": "Potent Enchantments",
+              "spell_id": 429420,
+              "max_ranks": "1",
+              "choice_index": 1
+            }
+          ]
+        },
+        {
+          "node_id": 94599,
+          "type": "PASSIVE",
+          "row": 8,
+          "col": 12,
+          "x": 7195,
+          "y": 5097,
+          "serial_order": 200,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94600
+          ],
+          "entries": [
+            {
+              "entry_id": "117194",
+              "talent": "Treants of the Moon",
+              "spell_id": 428544,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94600,
+          "type": "PASSIVE",
+          "row": 7,
+          "col": 13,
+          "x": 8100,
+          "y": 4500,
+          "serial_order": 201,
+          "req_points": 0,
+          "prereq_node_ids": [],
+          "entries": [
+            {
+              "entry_id": "117195",
+              "talent": "Dream Surge",
+              "spell_id": 433831,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94601,
+          "type": "PASSIVE",
+          "row": 10,
+          "col": 14,
+          "x": 8396,
+          "y": 6302,
+          "serial_order": 202,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94595
+          ],
+          "entries": [
+            {
+              "entry_id": "117196",
+              "talent": "Blooming Infusion",
+              "spell_id": 429433,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94602,
+          "type": "PASSIVE",
+          "row": 8,
+          "col": 13,
+          "x": 7800,
+          "y": 5100,
+          "serial_order": 203,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94600
+          ],
+          "entries": [
+            {
+              "entry_id": "117197",
+              "talent": "Expansiveness",
+              "spell_id": 429399,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94604,
+          "type": "PASSIVE",
+          "row": 9,
+          "col": 13,
+          "x": 7800,
+          "y": 5702,
+          "serial_order": 204,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94602
+          ],
+          "entries": [
+            {
+              "entry_id": "117199",
+              "talent": "Cenarius' Might",
+              "spell_id": 455797,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94605,
+          "type": "CHOICE",
+          "row": 9,
+          "col": 12,
+          "x": 7200,
+          "y": 5702,
+          "serial_order": 205,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94599
+          ],
+          "entries": [
+            {
+              "entry_id": "117201",
+              "talent": "Power of Nature",
+              "spell_id": 428859,
+              "max_ranks": "1",
+              "choice_index": 0
+            },
+            {
+              "entry_id": "117200",
+              "talent": "Durability of Nature",
+              "spell_id": 429227,
+              "max_ranks": "1",
+              "choice_index": 1
+            }
+          ]
+        },
+        {
+          "node_id": 94606,
+          "type": "PASSIVE",
+          "row": 11,
+          "col": 13,
+          "x": 8100,
+          "y": 6900,
+          "serial_order": 206,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94601,
+            94592,
+            94591,
+            109712
+          ],
+          "entries": [
+            {
+              "entry_id": "117203",
+              "talent": "Harmony of the Grove",
+              "spell_id": 428731,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 109712,
+          "type": "PASSIVE",
+          "row": 10,
+          "col": 15,
+          "x": 9000,
+          "y": 6300,
+          "serial_order": 264,
+          "req_points": 0,
+          "prereq_node_ids": [
+            109713
+          ],
+          "entries": [
+            {
+              "entry_id": "135970",
+              "talent": "Spirit of the Thicket",
+              "spell_id": 1264899,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 109713,
+          "type": "PASSIVE",
+          "row": 9,
+          "col": 15,
+          "x": 9000,
+          "y": 5700,
+          "serial_order": 265,
+          "req_points": 0,
+          "prereq_node_ids": [
+            109714
+          ],
+          "entries": [
+            {
+              "entry_id": "135971",
+              "talent": "Dryad's Dance",
+              "spell_id": 1264776,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 109714,
+          "type": "PASSIVE",
+          "row": 8,
+          "col": 15,
+          "x": 9000,
+          "y": 5100,
+          "serial_order": 266,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94600
+          ],
+          "entries": [
+            {
+              "entry_id": "135972",
+              "talent": "Sylvan Beckoning",
+              "spell_id": 1264614,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        }
+      ],
+      "Elune's Chosen": [
+        {
+          "node_id": 94585,
+          "type": "CHOICE",
+          "row": 5,
+          "col": 13,
+          "x": 7800,
+          "y": 3300,
+          "serial_order": 187,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94607
+          ],
+          "entries": [
+            {
+              "entry_id": "117176",
+              "talent": "The Light of Elune",
+              "spell_id": 428655,
+              "max_ranks": "1",
+              "choice_index": 0
+            },
+            {
+              "entry_id": "117772",
+              "talent": "Astral Insight",
+              "spell_id": 429536,
+              "max_ranks": "1",
+              "choice_index": 1
+            }
+          ]
+        },
+        {
+          "node_id": 94586,
+          "type": "CHOICE",
+          "row": 5,
+          "col": 14,
+          "x": 8400,
+          "y": 3300,
+          "serial_order": 188,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94597
+          ],
+          "entries": [
+            {
+              "entry_id": "117178",
+              "talent": "Arcane Affinity",
+              "spell_id": 429540,
+              "max_ranks": "1",
+              "choice_index": 0
+            },
+            {
+              "entry_id": "117177",
+              "talent": "Lunation",
+              "spell_id": 429539,
+              "max_ranks": "1",
+              "choice_index": 1
+            }
+          ]
+        },
+        {
+          "node_id": 94587,
+          "type": "PASSIVE",
+          "row": 6,
+          "col": 13,
+          "x": 8100,
+          "y": 3900,
+          "serial_order": 189,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94590,
+            94585,
+            94586,
+            109718
+          ],
+          "entries": [
+            {
+              "entry_id": "117179",
+              "talent": "The Eternal Moon",
+              "spell_id": 424113,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94588,
+          "type": "PASSIVE",
+          "row": 3,
+          "col": 13,
+          "x": 7800,
+          "y": 2100,
+          "serial_order": 190,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94608
+          ],
+          "entries": [
+            {
+              "entry_id": "117181",
+              "talent": "Lunar Insight",
+              "spell_id": 429530,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94590,
+          "type": "PASSIVE",
+          "row": 5,
+          "col": 12,
+          "x": 7200,
+          "y": 3300,
+          "serial_order": 191,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94596
+          ],
+          "entries": [
+            {
+              "entry_id": "117183",
+              "talent": "Lunar Calling",
+              "spell_id": 429523,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94594,
+          "type": "PASSIVE",
+          "row": 3,
+          "col": 14,
+          "x": 8400,
+          "y": 2100,
+          "serial_order": 195,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94608
+          ],
+          "entries": [
+            {
+              "entry_id": "117769",
+              "talent": "Glistening Fur",
+              "spell_id": 429533,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94596,
+          "type": "PASSIVE",
+          "row": 4,
+          "col": 12,
+          "x": 7200,
+          "y": 2700,
+          "serial_order": 197,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94598
+          ],
+          "entries": [
+            {
+              "entry_id": "117190",
+              "talent": "Stellar Command",
+              "spell_id": 429668,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94597,
+          "type": "CHOICE",
+          "row": 4,
+          "col": 14,
+          "x": 8400,
+          "y": 2700,
+          "serial_order": 198,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94594
+          ],
+          "entries": [
+            {
+              "entry_id": "117192",
+              "talent": "Moondust",
+              "spell_id": 429538,
+              "max_ranks": "1",
+              "choice_index": 0
+            },
+            {
+              "entry_id": "123304",
+              "talent": "Elune's Grace",
+              "spell_id": 443046,
+              "max_ranks": "1",
+              "choice_index": 1
+            }
+          ]
+        },
+        {
+          "node_id": 94598,
+          "type": "PASSIVE",
+          "row": 3,
+          "col": 12,
+          "x": 7200,
+          "y": 2100,
+          "serial_order": 199,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94608
+          ],
+          "entries": [
+            {
+              "entry_id": "117193",
+              "talent": "Moon Guardian",
+              "spell_id": 429520,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94607,
+          "type": "PASSIVE",
+          "row": 4,
+          "col": 13,
+          "x": 7800,
+          "y": 2700,
+          "serial_order": 207,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94588
+          ],
+          "entries": [
+            {
+              "entry_id": "117204",
+              "talent": "Atmospheric Exposure",
+              "spell_id": 429532,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94608,
+          "type": "PASSIVE",
+          "row": 2,
+          "col": 13,
+          "x": 8100,
+          "y": 1500,
+          "serial_order": 208,
+          "req_points": 0,
+          "prereq_node_ids": [],
+          "entries": [
+            {
+              "entry_id": "117205",
+              "talent": "Boundless Moonlight",
+              "spell_id": 424058,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 109718,
+          "type": "PASSIVE",
+          "row": 5,
+          "col": 15,
+          "x": 9000,
+          "y": 3300,
+          "serial_order": 270,
+          "req_points": 0,
+          "prereq_node_ids": [
+            109719
+          ],
+          "entries": [
+            {
+              "entry_id": "135976",
+              "talent": "Bask in Moonlight",
+              "spell_id": 1271305,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 109719,
+          "type": "PASSIVE",
+          "row": 4,
+          "col": 15,
+          "x": 9000,
+          "y": 2700,
+          "serial_order": 271,
+          "req_points": 0,
+          "prereq_node_ids": [
+            109720
+          ],
+          "entries": [
+            {
+              "entry_id": "135977",
+              "talent": "Penumbral Swell",
+              "spell_id": 1271261,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 109720,
+          "type": "PASSIVE",
+          "row": 3,
+          "col": 15,
+          "x": 9000,
+          "y": 2100,
+          "serial_order": 272,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94608
+          ],
+          "entries": [
+            {
+              "entry_id": "135978",
+              "talent": "Star Cascade",
+              "spell_id": 1271206,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

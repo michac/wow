@@ -1,0 +1,2543 @@
+{
+  "class": "warrior",
+  "class_id": 1,
+  "spec": "protection",
+  "spec_id": 73,
+  "tree_id": 850,
+  "patch": "12.0.7",
+  "build": "12.0.7.67808",
+  "source": "api",
+  "serial_count": 208,
+  "granted_serials": [
+    137,
+    151
+  ],
+  "hero_selector": {
+    "serial": 156,
+    "choices": [
+      "Colossus",
+      "Mountain Thane"
+    ]
+  },
+  "trees": {
+    "class": [
+      {
+        "node_id": 90261,
+        "type": "ACTIVE",
+        "row": 2,
+        "col": 2,
+        "x": 2400,
+        "y": 900,
+        "serial_order": 0,
+        "req_points": 0,
+        "prereq_node_ids": [],
+        "entries": [
+          {
+            "entry_id": "112112",
+            "talent": "Battle Stance",
+            "spell_id": 386164,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90330,
+        "type": "ACTIVE",
+        "row": 2,
+        "col": 6,
+        "x": 4800,
+        "y": 900,
+        "serial_order": 50,
+        "req_points": 0,
+        "prereq_node_ids": [],
+        "entries": [
+          {
+            "entry_id": "112187",
+            "talent": "Defensive Stance",
+            "spell_id": 386208,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90344,
+        "type": "PASSIVE",
+        "row": 3,
+        "col": 1,
+        "x": 1800,
+        "y": 1500,
+        "serial_order": 55,
+        "req_points": 0,
+        "prereq_node_ids": [
+          90261
+        ],
+        "entries": [
+          {
+            "entry_id": "112206",
+            "talent": "Fast Footwork",
+            "spell_id": 382260,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90328,
+        "type": "PASSIVE",
+        "row": 3,
+        "col": 3,
+        "x": 3000,
+        "y": 1500,
+        "serial_order": 48,
+        "req_points": 0,
+        "prereq_node_ids": [
+          90261
+        ],
+        "entries": [
+          {
+            "entry_id": "112185",
+            "talent": "War Machine",
+            "spell_id": 262231,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90343,
+        "type": "ACTIVE",
+        "row": 3,
+        "col": 5,
+        "x": 4200,
+        "y": 1500,
+        "serial_order": 54,
+        "req_points": 0,
+        "prereq_node_ids": [
+          90330
+        ],
+        "entries": [
+          {
+            "entry_id": "112205",
+            "talent": "Thunder Clap",
+            "spell_id": 6343,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90371,
+        "type": "PASSIVE",
+        "row": 3,
+        "col": 7,
+        "x": 5400,
+        "y": 1500,
+        "serial_order": 66,
+        "req_points": 0,
+        "prereq_node_ids": [
+          90330
+        ],
+        "entries": [
+          {
+            "entry_id": "112238",
+            "talent": "Leeching Strikes",
+            "spell_id": 382258,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90326,
+        "type": "ACTIVE",
+        "row": 4,
+        "col": 2,
+        "x": 2400,
+        "y": 2100,
+        "serial_order": 46,
+        "req_points": 0,
+        "prereq_node_ids": [
+          90344,
+          90328
+        ],
+        "entries": [
+          {
+            "entry_id": "112183",
+            "talent": "Impending Victory",
+            "spell_id": 202168,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90346,
+        "type": "ACTIVE",
+        "row": 4,
+        "col": 4,
+        "x": 3600,
+        "y": 2100,
+        "serial_order": 56,
+        "req_points": 0,
+        "prereq_node_ids": [
+          90328,
+          90343
+        ],
+        "entries": [
+          {
+            "entry_id": "112208",
+            "talent": "Heroic Leap",
+            "spell_id": 6544,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 95959,
+        "type": "PASSIVE",
+        "row": 4,
+        "col": 5,
+        "x": 4200,
+        "y": 2100,
+        "serial_order": 155,
+        "req_points": 0,
+        "prereq_node_ids": [
+          90343
+        ],
+        "entries": [
+          {
+            "entry_id": "118853",
+            "talent": "Crackling Thunder",
+            "spell_id": 203201,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90337,
+        "type": "ACTIVE",
+        "row": 4,
+        "col": 6,
+        "x": 4800,
+        "y": 2100,
+        "serial_order": 53,
+        "req_points": 0,
+        "prereq_node_ids": [
+          90371,
+          90343
+        ],
+        "entries": [
+          {
+            "entry_id": "112198",
+            "talent": "Storm Bolt",
+            "spell_id": 107570,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 109391,
+        "type": "ACTIVE",
+        "row": 5,
+        "col": 1,
+        "x": 1800,
+        "y": 2700,
+        "serial_order": 172,
+        "req_points": 0,
+        "prereq_node_ids": [
+          90344,
+          90326
+        ],
+        "entries": [
+          {
+            "entry_id": "135597",
+            "talent": "Rend",
+            "spell_id": 772,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90332,
+        "type": "PASSIVE",
+        "row": 5,
+        "col": 2,
+        "x": 2400,
+        "y": 2700,
+        "serial_order": 52,
+        "req_points": 0,
+        "prereq_node_ids": [
+          90326
+        ],
+        "entries": [
+          {
+            "entry_id": "112190",
+            "talent": "Second Wind",
+            "spell_id": 29838,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90352,
+        "type": "PASSIVE",
+        "row": 5,
+        "col": 3,
+        "x": 3000,
+        "y": 2700,
+        "serial_order": 60,
+        "req_points": 0,
+        "prereq_node_ids": [
+          90328,
+          90326,
+          90346
+        ],
+        "entries": [
+          {
+            "entry_id": "112216",
+            "talent": "Frothing Berserker",
+            "spell_id": 392792,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90355,
+        "type": "PASSIVE",
+        "row": 5,
+        "col": 4,
+        "x": 3600,
+        "y": 2700,
+        "serial_order": 62,
+        "req_points": 0,
+        "prereq_node_ids": [
+          90346
+        ],
+        "entries": [
+          {
+            "entry_id": "112219",
+            "talent": "Bounding Stride",
+            "spell_id": 202163,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90353,
+        "type": "PASSIVE",
+        "row": 5,
+        "col": 5,
+        "x": 4200,
+        "y": 2700,
+        "serial_order": 61,
+        "req_points": 0,
+        "prereq_node_ids": [
+          90346,
+          90337
+        ],
+        "entries": [
+          {
+            "entry_id": "112217",
+            "talent": "Pain and Gain",
+            "spell_id": 382549,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90329,
+        "type": "ACTIVE",
+        "row": 5,
+        "col": 7,
+        "x": 5400,
+        "y": 2700,
+        "serial_order": 49,
+        "req_points": 0,
+        "prereq_node_ids": [
+          90337,
+          90371
+        ],
+        "entries": [
+          {
+            "entry_id": "112186",
+            "talent": "Intervene",
+            "spell_id": 3411,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90375,
+        "type": "ACTIVE",
+        "row": 6,
+        "col": 2,
+        "x": 2400,
+        "y": 3300,
+        "serial_order": 69,
+        "req_points": 8,
+        "prereq_node_ids": [
+          109391,
+          90352
+        ],
+        "entries": [
+          {
+            "entry_id": "112242",
+            "talent": "Shockwave",
+            "spell_id": 46968,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90378,
+        "type": "PASSIVE",
+        "row": 6,
+        "col": 3,
+        "x": 3000,
+        "y": 3300,
+        "serial_order": 70,
+        "req_points": 8,
+        "prereq_node_ids": [
+          90352
+        ],
+        "entries": [
+          {
+            "entry_id": "112245",
+            "talent": "Overwhelming Rage",
+            "spell_id": 382767,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90331,
+        "type": "ACTIVE",
+        "row": 6,
+        "col": 4,
+        "x": 3600,
+        "y": 3300,
+        "serial_order": 51,
+        "req_points": 8,
+        "prereq_node_ids": [
+          90353,
+          90352
+        ],
+        "entries": [
+          {
+            "entry_id": "112188",
+            "talent": "Rallying Cry",
+            "spell_id": 97462,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 110119,
+        "type": "PASSIVE",
+        "row": 6,
+        "col": 5,
+        "x": 4200,
+        "y": 3300,
+        "serial_order": 200,
+        "req_points": 8,
+        "prereq_node_ids": [
+          90353
+        ],
+        "entries": [
+          {
+            "entry_id": "136626",
+            "talent": "Field Dressing",
+            "spell_id": 1271926,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90385,
+        "type": "ACTIVE",
+        "row": 6,
+        "col": 6,
+        "x": 4800,
+        "y": 3300,
+        "serial_order": 74,
+        "req_points": 8,
+        "prereq_node_ids": [
+          90329,
+          90353
+        ],
+        "entries": [
+          {
+            "entry_id": "112253",
+            "talent": "Spell Reflection",
+            "spell_id": 23920,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90351,
+        "type": "CHOICE",
+        "row": 7,
+        "col": 1,
+        "x": 1800,
+        "y": 3900,
+        "serial_order": 59,
+        "req_points": 8,
+        "prereq_node_ids": [
+          90375,
+          109391
+        ],
+        "entries": [
+          {
+            "entry_id": "112215",
+            "talent": "Wrecking Throw",
+            "spell_id": 384110,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "112214",
+            "talent": "Shattering Throw",
+            "spell_id": 64382,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 90374,
+        "type": "PASSIVE",
+        "row": 7,
+        "col": 2,
+        "x": 2400,
+        "y": 3900,
+        "serial_order": 68,
+        "req_points": 8,
+        "prereq_node_ids": [
+          90375
+        ],
+        "entries": [
+          {
+            "entry_id": "112241",
+            "talent": "Rumbling Earth",
+            "spell_id": 275339,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90348,
+        "type": "CHOICE",
+        "row": 7,
+        "col": 3,
+        "x": 3000,
+        "y": 3900,
+        "serial_order": 58,
+        "req_points": 8,
+        "prereq_node_ids": [
+          90331,
+          90375
+        ],
+        "entries": [
+          {
+            "entry_id": "112211",
+            "talent": "Berserker Shout",
+            "spell_id": 384100,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "112210",
+            "talent": "Fearless",
+            "spell_id": 1271925,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 108705,
+        "type": "CHOICE",
+        "row": 7,
+        "col": 5,
+        "x": 4200,
+        "y": 3900,
+        "serial_order": 171,
+        "req_points": 8,
+        "prereq_node_ids": [
+          90331,
+          90385
+        ],
+        "entries": [
+          {
+            "entry_id": "134254",
+            "talent": "Intimidating Shout",
+            "spell_id": 5246,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "136627",
+            "talent": "Piercing Howl",
+            "spell_id": 12323,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 95956,
+        "type": "PASSIVE",
+        "row": 7,
+        "col": 7,
+        "x": 5400,
+        "y": 3900,
+        "serial_order": 154,
+        "req_points": 8,
+        "prereq_node_ids": [
+          90329,
+          90385
+        ],
+        "entries": [
+          {
+            "entry_id": "118850",
+            "talent": "Honed Reflexes",
+            "spell_id": 391271,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90366,
+        "type": "PASSIVE",
+        "row": 8,
+        "col": 2,
+        "x": 2400,
+        "y": 4500,
+        "serial_order": 64,
+        "req_points": 8,
+        "prereq_node_ids": [
+          90351,
+          90348
+        ],
+        "entries": [
+          {
+            "entry_id": "112233",
+            "talent": "Armored to the Teeth",
+            "spell_id": 384124,
+            "max_ranks": "2",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90382,
+        "type": "PASSIVE",
+        "row": 8,
+        "col": 4,
+        "x": 3602,
+        "y": 4501,
+        "serial_order": 73,
+        "req_points": 8,
+        "prereq_node_ids": [
+          108705,
+          90348
+        ],
+        "entries": [
+          {
+            "entry_id": "112249",
+            "talent": "Double Time",
+            "spell_id": 103827,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90368,
+        "type": "PASSIVE",
+        "row": 8,
+        "col": 6,
+        "x": 4800,
+        "y": 4500,
+        "serial_order": 65,
+        "req_points": 8,
+        "prereq_node_ids": [
+          95956,
+          108705
+        ],
+        "entries": [
+          {
+            "entry_id": "112235",
+            "talent": "Reinforced Plates",
+            "spell_id": 382939,
+            "max_ranks": "2",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90347,
+        "type": "PASSIVE",
+        "row": 9,
+        "col": 1,
+        "x": 1800,
+        "y": 5100,
+        "serial_order": 57,
+        "req_points": 23,
+        "prereq_node_ids": [
+          90366
+        ],
+        "entries": [
+          {
+            "entry_id": "112209",
+            "talent": "Barbaric Training",
+            "spell_id": 383082,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 110118,
+        "type": "PASSIVE",
+        "row": 9,
+        "col": 3,
+        "x": 3000,
+        "y": 5100,
+        "serial_order": 199,
+        "req_points": 23,
+        "prereq_node_ids": [
+          90366,
+          90382
+        ],
+        "entries": [
+          {
+            "entry_id": "136625",
+            "talent": "Javelineer",
+            "spell_id": 1271948,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 108685,
+        "type": "PASSIVE",
+        "row": 9,
+        "col": 5,
+        "x": 4200,
+        "y": 5100,
+        "serial_order": 169,
+        "req_points": 23,
+        "prereq_node_ids": [
+          90382,
+          90368
+        ],
+        "entries": [
+          {
+            "entry_id": "134225",
+            "talent": "Resonant Voice",
+            "spell_id": 1243660,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 108686,
+        "type": "PASSIVE",
+        "row": 9,
+        "col": 7,
+        "x": 5400,
+        "y": 5100,
+        "serial_order": 170,
+        "req_points": 23,
+        "prereq_node_ids": [
+          90368
+        ],
+        "entries": [
+          {
+            "entry_id": "134226",
+            "talent": "Crushing Force",
+            "spell_id": 382764,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90381,
+        "type": "PASSIVE",
+        "row": 10,
+        "col": 2,
+        "x": 2400,
+        "y": 5700,
+        "serial_order": 72,
+        "req_points": 23,
+        "prereq_node_ids": [
+          110118,
+          90347
+        ],
+        "entries": [
+          {
+            "entry_id": "112248",
+            "talent": "Cruel Strikes",
+            "spell_id": 392777,
+            "max_ranks": "2",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90324,
+        "type": "PASSIVE",
+        "row": 10,
+        "col": 4,
+        "x": 3600,
+        "y": 5700,
+        "serial_order": 44,
+        "req_points": 23,
+        "prereq_node_ids": [
+          108685,
+          110118
+        ],
+        "entries": [
+          {
+            "entry_id": "112181",
+            "talent": "One-Handed Weapon Specialization",
+            "spell_id": 382895,
+            "max_ranks": "2",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90360,
+        "type": "PASSIVE",
+        "row": 10,
+        "col": 6,
+        "x": 4800,
+        "y": 5700,
+        "serial_order": 63,
+        "req_points": 23,
+        "prereq_node_ids": [
+          108685,
+          108686
+        ],
+        "entries": [
+          {
+            "entry_id": "112224",
+            "talent": "Wild Strikes",
+            "spell_id": 382946,
+            "max_ranks": "2",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 108543,
+        "type": "PASSIVE",
+        "row": 11,
+        "col": 1,
+        "x": 1800,
+        "y": 6300,
+        "serial_order": 165,
+        "req_points": 23,
+        "prereq_node_ids": [
+          90381
+        ],
+        "entries": [
+          {
+            "entry_id": "134032",
+            "talent": "Anger Management",
+            "spell_id": 152278,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90380,
+        "type": "ACTIVE",
+        "row": 11,
+        "col": 3,
+        "x": 3000,
+        "y": 6300,
+        "serial_order": 71,
+        "req_points": 23,
+        "prereq_node_ids": [
+          90381,
+          90324
+        ],
+        "entries": [
+          {
+            "entry_id": "112247",
+            "talent": "Champion's Spear",
+            "spell_id": 376079,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 108542,
+        "type": "PASSIVE",
+        "row": 11,
+        "col": 5,
+        "x": 4200,
+        "y": 6300,
+        "serial_order": 164,
+        "req_points": 23,
+        "prereq_node_ids": [
+          90360,
+          90324
+        ],
+        "entries": [
+          {
+            "entry_id": "134031",
+            "talent": "Stance Mastery",
+            "spell_id": 1280961,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 108544,
+        "type": "PASSIVE",
+        "row": 11,
+        "col": 7,
+        "x": 5400,
+        "y": 6300,
+        "serial_order": 166,
+        "req_points": 23,
+        "prereq_node_ids": [
+          90360
+        ],
+        "entries": [
+          {
+            "entry_id": "134033",
+            "talent": "Battlefield Commander",
+            "spell_id": 424742,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      }
+    ],
+    "spec": [
+      {
+        "node_id": 90295,
+        "type": "ACTIVE",
+        "row": 2,
+        "col": 18,
+        "x": 12002,
+        "y": 899,
+        "serial_order": 19,
+        "req_points": 0,
+        "prereq_node_ids": [],
+        "entries": [
+          {
+            "entry_id": "112149",
+            "talent": "Ignore Pain",
+            "spell_id": 190456,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90305,
+        "type": "ACTIVE",
+        "row": 3,
+        "col": 17,
+        "x": 11400,
+        "y": 1500,
+        "serial_order": 29,
+        "req_points": 0,
+        "prereq_node_ids": [
+          90295
+        ],
+        "entries": [
+          {
+            "entry_id": "112159",
+            "talent": "Demoralizing Shout",
+            "spell_id": 1160,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90298,
+        "type": "ACTIVE",
+        "row": 3,
+        "col": 19,
+        "x": 12600,
+        "y": 1500,
+        "serial_order": 22,
+        "req_points": 0,
+        "prereq_node_ids": [
+          90295
+        ],
+        "entries": [
+          {
+            "entry_id": "112152",
+            "talent": "Revenge",
+            "spell_id": 6572,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90304,
+        "type": "PASSIVE",
+        "row": 4,
+        "col": 16,
+        "x": 10800,
+        "y": 2100,
+        "serial_order": 28,
+        "req_points": 0,
+        "prereq_node_ids": [
+          90305
+        ],
+        "entries": [
+          {
+            "entry_id": "112158",
+            "talent": "Brace For Impact",
+            "spell_id": 386030,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90306,
+        "type": "PASSIVE",
+        "row": 4,
+        "col": 17,
+        "x": 11700,
+        "y": 2100,
+        "serial_order": 30,
+        "req_points": 0,
+        "prereq_node_ids": [
+          90305
+        ],
+        "entries": [
+          {
+            "entry_id": "112160",
+            "talent": "Armor Specialization",
+            "spell_id": 1234769,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90299,
+        "type": "PASSIVE",
+        "row": 4,
+        "col": 18,
+        "x": 12300,
+        "y": 2100,
+        "serial_order": 23,
+        "req_points": 0,
+        "prereq_node_ids": [
+          90298
+        ],
+        "entries": [
+          {
+            "entry_id": "112153",
+            "talent": "Fight Through the Flames",
+            "spell_id": 452494,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90297,
+        "type": "PASSIVE",
+        "row": 4,
+        "col": 20,
+        "x": 13200,
+        "y": 2100,
+        "serial_order": 21,
+        "req_points": 0,
+        "prereq_node_ids": [
+          90298
+        ],
+        "entries": [
+          {
+            "entry_id": "112151",
+            "talent": "Devastator",
+            "spell_id": 236279,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 107579,
+        "type": "ACTIVE",
+        "row": 5,
+        "col": 17,
+        "x": 11400,
+        "y": 2700,
+        "serial_order": 163,
+        "req_points": 0,
+        "prereq_node_ids": [
+          90304
+        ],
+        "entries": [
+          {
+            "entry_id": "132886",
+            "talent": "Disrupting Shout",
+            "spell_id": 386071,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90303,
+        "type": "PASSIVE",
+        "row": 5,
+        "col": 18,
+        "x": 12002,
+        "y": 2697,
+        "serial_order": 27,
+        "req_points": 0,
+        "prereq_node_ids": [
+          90299,
+          90306
+        ],
+        "entries": [
+          {
+            "entry_id": "112157",
+            "talent": "Strategist",
+            "spell_id": 384041,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90296,
+        "type": "PASSIVE",
+        "row": 5,
+        "col": 19,
+        "x": 12600,
+        "y": 2700,
+        "serial_order": 20,
+        "req_points": 0,
+        "prereq_node_ids": [
+          90297
+        ],
+        "entries": [
+          {
+            "entry_id": "112150",
+            "talent": "Devastating Focus",
+            "spell_id": 1264330,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90451,
+        "type": "PASSIVE",
+        "row": 6,
+        "col": 16,
+        "x": 10800,
+        "y": 3300,
+        "serial_order": 115,
+        "req_points": 8,
+        "prereq_node_ids": [
+          90304
+        ],
+        "entries": [
+          {
+            "entry_id": "112325",
+            "talent": "Brutal Vitality",
+            "spell_id": 384036,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90301,
+        "type": "PASSIVE",
+        "row": 6,
+        "col": 17,
+        "x": 11402,
+        "y": 3297,
+        "serial_order": 25,
+        "req_points": 8,
+        "prereq_node_ids": [
+          90303
+        ],
+        "entries": [
+          {
+            "entry_id": "112155",
+            "talent": "Instigate",
+            "spell_id": 394311,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90302,
+        "type": "ACTIVE",
+        "row": 6,
+        "col": 18,
+        "x": 12002,
+        "y": 3301,
+        "serial_order": 26,
+        "req_points": 8,
+        "prereq_node_ids": [
+          90303
+        ],
+        "entries": [
+          {
+            "entry_id": "112156",
+            "talent": "Shield Wall",
+            "spell_id": 871,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90300,
+        "type": "PASSIVE",
+        "row": 6,
+        "col": 19,
+        "x": 12603,
+        "y": 3301,
+        "serial_order": 24,
+        "req_points": 8,
+        "prereq_node_ids": [
+          90303
+        ],
+        "entries": [
+          {
+            "entry_id": "112154",
+            "talent": "Bloodsurge",
+            "spell_id": 384361,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90309,
+        "type": "PASSIVE",
+        "row": 6,
+        "col": 20,
+        "x": 13200,
+        "y": 3300,
+        "serial_order": 32,
+        "req_points": 8,
+        "prereq_node_ids": [
+          90297
+        ],
+        "entries": [
+          {
+            "entry_id": "112163",
+            "talent": "Best Served Cold",
+            "spell_id": 202560,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90450,
+        "type": "CHOICE",
+        "row": 7,
+        "col": 15,
+        "x": 10200,
+        "y": 3900,
+        "serial_order": 114,
+        "req_points": 8,
+        "prereq_node_ids": [
+          90451
+        ],
+        "entries": [
+          {
+            "entry_id": "112324",
+            "talent": "Spellbreaker",
+            "spell_id": 1235023,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "112110",
+            "talent": "Hunker Down",
+            "spell_id": 1235022,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 90308,
+        "type": "PASSIVE",
+        "row": 7,
+        "col": 16,
+        "x": 10802,
+        "y": 3897,
+        "serial_order": 31,
+        "req_points": 8,
+        "prereq_node_ids": [
+          90451
+        ],
+        "entries": [
+          {
+            "entry_id": "112162",
+            "talent": "Thunderlord",
+            "spell_id": 385840,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90318,
+        "type": "CHOICE",
+        "row": 7,
+        "col": 17,
+        "x": 11400,
+        "y": 3900,
+        "serial_order": 40,
+        "req_points": 8,
+        "prereq_node_ids": [
+          90302
+        ],
+        "entries": [
+          {
+            "entry_id": "112174",
+            "talent": "Defender's Aegis",
+            "spell_id": 397103,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "132881",
+            "talent": "Impenetrable Wall",
+            "spell_id": 384072,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 107576,
+        "type": "PASSIVE",
+        "row": 7,
+        "col": 18,
+        "x": 12000,
+        "y": 3900,
+        "serial_order": 160,
+        "req_points": 8,
+        "prereq_node_ids": [
+          90302
+        ],
+        "entries": [
+          {
+            "entry_id": "132879",
+            "talent": "Last Stand",
+            "spell_id": 1243659,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90264,
+        "type": "CHOICE",
+        "row": 7,
+        "col": 19,
+        "x": 12600,
+        "y": 3900,
+        "serial_order": 1,
+        "req_points": 8,
+        "prereq_node_ids": [
+          90302
+        ],
+        "entries": [
+          {
+            "entry_id": "112115",
+            "talent": "Bloodborne",
+            "spell_id": 385704,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "132884",
+            "talent": "Sudden Death",
+            "spell_id": 29725,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 90448,
+        "type": "PASSIVE",
+        "row": 7,
+        "col": 20,
+        "x": 13200,
+        "y": 3900,
+        "serial_order": 112,
+        "req_points": 8,
+        "prereq_node_ids": [
+          90309
+        ],
+        "entries": [
+          {
+            "entry_id": "112321",
+            "talent": "Punish",
+            "spell_id": 275334,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90320,
+        "type": "PASSIVE",
+        "row": 8,
+        "col": 15,
+        "x": 10200,
+        "y": 4500,
+        "serial_order": 42,
+        "req_points": 8,
+        "prereq_node_ids": [
+          90308
+        ],
+        "entries": [
+          {
+            "entry_id": "112177",
+            "talent": "Tough as Nails",
+            "spell_id": 385888,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90319,
+        "type": "PASSIVE",
+        "row": 8,
+        "col": 16,
+        "x": 10800,
+        "y": 4500,
+        "serial_order": 41,
+        "req_points": 8,
+        "prereq_node_ids": [
+          90308,
+          90318
+        ],
+        "entries": [
+          {
+            "entry_id": "112176",
+            "talent": "Fueled by Violence",
+            "spell_id": 383103,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90311,
+        "type": "PASSIVE",
+        "row": 8,
+        "col": 18,
+        "x": 12002,
+        "y": 4497,
+        "serial_order": 34,
+        "req_points": 8,
+        "prereq_node_ids": [
+          90264,
+          90318
+        ],
+        "entries": [
+          {
+            "entry_id": "112166",
+            "talent": "Enduring Defenses",
+            "spell_id": 386027,
+            "max_ranks": "2",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90449,
+        "type": "PASSIVE",
+        "row": 8,
+        "col": 20,
+        "x": 13200,
+        "y": 4500,
+        "serial_order": 113,
+        "req_points": 8,
+        "prereq_node_ids": [
+          90448,
+          90264
+        ],
+        "entries": [
+          {
+            "entry_id": "112323",
+            "talent": "Unyielding Stance",
+            "spell_id": 1235047,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90310,
+        "type": "PASSIVE",
+        "row": 8,
+        "col": 21,
+        "x": 13800,
+        "y": 4500,
+        "serial_order": 33,
+        "req_points": 8,
+        "prereq_node_ids": [
+          90448
+        ],
+        "entries": [
+          {
+            "entry_id": "112165",
+            "talent": "Deep Wounds",
+            "spell_id": 1261060,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90312,
+        "type": "CHOICE",
+        "row": 9,
+        "col": 16,
+        "x": 10800,
+        "y": 5100,
+        "serial_order": 35,
+        "req_points": 20,
+        "prereq_node_ids": [
+          90319
+        ],
+        "entries": [
+          {
+            "entry_id": "112167",
+            "talent": "Heavy Repercussions",
+            "spell_id": 203177,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "132885",
+            "talent": "Into the Fray",
+            "spell_id": 202603,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 107578,
+        "type": "PASSIVE",
+        "row": 9,
+        "col": 17,
+        "x": 11400,
+        "y": 5100,
+        "serial_order": 162,
+        "req_points": 20,
+        "prereq_node_ids": [
+          90311
+        ],
+        "entries": [
+          {
+            "entry_id": "132883",
+            "talent": "Focused Vigor",
+            "spell_id": 384067,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90315,
+        "type": "PASSIVE",
+        "row": 9,
+        "col": 18,
+        "x": 12002,
+        "y": 5097,
+        "serial_order": 38,
+        "req_points": 20,
+        "prereq_node_ids": [
+          90311
+        ],
+        "entries": [
+          {
+            "entry_id": "112171",
+            "talent": "Shield Specialization",
+            "spell_id": 386011,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 107577,
+        "type": "PASSIVE",
+        "row": 9,
+        "col": 19,
+        "x": 12600,
+        "y": 5100,
+        "serial_order": 161,
+        "req_points": 20,
+        "prereq_node_ids": [
+          90311
+        ],
+        "entries": [
+          {
+            "entry_id": "132882",
+            "talent": "Enduring Alacrity",
+            "spell_id": 384063,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90433,
+        "type": "ACTIVE",
+        "row": 9,
+        "col": 20,
+        "x": 13200,
+        "y": 5100,
+        "serial_order": 103,
+        "req_points": 20,
+        "prereq_node_ids": [
+          90449
+        ],
+        "entries": [
+          {
+            "entry_id": "112305",
+            "talent": "Avatar",
+            "spell_id": 107574,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 107575,
+        "type": "PASSIVE",
+        "row": 10,
+        "col": 15,
+        "x": 10200,
+        "y": 5700,
+        "serial_order": 159,
+        "req_points": 20,
+        "prereq_node_ids": [
+          90312
+        ],
+        "entries": [
+          {
+            "entry_id": "132878",
+            "talent": "Massacre",
+            "spell_id": 281001,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90314,
+        "type": "PASSIVE",
+        "row": 10,
+        "col": 17,
+        "x": 11402,
+        "y": 5697,
+        "serial_order": 37,
+        "req_points": 20,
+        "prereq_node_ids": [
+          90315,
+          90315,
+          90312
+        ],
+        "entries": [
+          {
+            "entry_id": "112170",
+            "talent": "Booming Voice",
+            "spell_id": 202743,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90434,
+        "type": "PASSIVE",
+        "row": 10,
+        "col": 18,
+        "x": 12002,
+        "y": 5697,
+        "serial_order": 104,
+        "req_points": 20,
+        "prereq_node_ids": [
+          90315
+        ],
+        "entries": [
+          {
+            "entry_id": "112306",
+            "talent": "Indomitable",
+            "spell_id": 202095,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90265,
+        "type": "PASSIVE",
+        "row": 10,
+        "col": 19,
+        "x": 12602,
+        "y": 5697,
+        "serial_order": 2,
+        "req_points": 20,
+        "prereq_node_ids": [
+          90315,
+          90433
+        ],
+        "entries": [
+          {
+            "entry_id": "112116",
+            "talent": "Violent Outburst",
+            "spell_id": 386477,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90313,
+        "type": "PASSIVE",
+        "row": 10,
+        "col": 21,
+        "x": 13800,
+        "y": 5700,
+        "serial_order": 36,
+        "req_points": 20,
+        "prereq_node_ids": [
+          90433
+        ],
+        "entries": [
+          {
+            "entry_id": "112169",
+            "talent": "Heavy Handed",
+            "spell_id": 1235088,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90317,
+        "type": "ACTIVE",
+        "row": 11,
+        "col": 16,
+        "x": 10800,
+        "y": 6300,
+        "serial_order": 39,
+        "req_points": 20,
+        "prereq_node_ids": [
+          90312
+        ],
+        "entries": [
+          {
+            "entry_id": "112173",
+            "talent": "Shield Charge",
+            "spell_id": 385952,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90435,
+        "type": "PASSIVE",
+        "row": 11,
+        "col": 18,
+        "x": 12002,
+        "y": 6297,
+        "serial_order": 105,
+        "req_points": 20,
+        "prereq_node_ids": [
+          90265,
+          90434,
+          90314
+        ],
+        "entries": [
+          {
+            "entry_id": "112307",
+            "talent": "Battle-Scarred Veteran",
+            "spell_id": 386394,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 90432,
+        "type": "CHOICE",
+        "row": 11,
+        "col": 20,
+        "x": 13200,
+        "y": 6300,
+        "serial_order": 102,
+        "req_points": 20,
+        "prereq_node_ids": [
+          90433
+        ],
+        "entries": [
+          {
+            "entry_id": "112304",
+            "talent": "Whirling Blade",
+            "spell_id": 1235113,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "132880",
+            "talent": "Ravager",
+            "spell_id": 228920,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 110411,
+        "type": "ACTIVE",
+        "row": 12,
+        "col": 18,
+        "x": 12000,
+        "y": 7050,
+        "serial_order": 206,
+        "req_points": 20,
+        "prereq_node_ids": [],
+        "entries": [
+          {
+            "entry_id": "137001",
+            "talent": "Phalanx",
+            "spell_id": 1269311,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      }
+    ],
+    "hero": {
+      "Mountain Thane": [
+        {
+          "node_id": 94785,
+          "type": "PASSIVE",
+          "row": 3,
+          "col": 21,
+          "x": 14102,
+          "y": 1500,
+          "serial_order": 122,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94816
+          ],
+          "entries": [
+            {
+              "entry_id": "117382",
+              "talent": "Thunder Blast",
+              "spell_id": 435607,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94792,
+          "type": "CHOICE",
+          "row": 4,
+          "col": 22,
+          "x": 14697,
+          "y": 2097,
+          "serial_order": 127,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94817
+          ],
+          "entries": [
+            {
+              "entry_id": "117389",
+              "talent": "Gathering Clouds",
+              "spell_id": 436201,
+              "max_ranks": "1",
+              "choice_index": 0
+            },
+            {
+              "entry_id": "118834",
+              "talent": "Thorim's Might",
+              "spell_id": 436152,
+              "max_ranks": "1",
+              "choice_index": 1
+            }
+          ]
+        },
+        {
+          "node_id": 94797,
+          "type": "CHOICE",
+          "row": 4,
+          "col": 21,
+          "x": 14102,
+          "y": 2099,
+          "serial_order": 132,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94785
+          ],
+          "entries": [
+            {
+              "entry_id": "117394",
+              "talent": "Flashing Skies",
+              "spell_id": 437079,
+              "max_ranks": "1",
+              "choice_index": 0
+            },
+            {
+              "entry_id": "118833",
+              "talent": "Snap Induction",
+              "spell_id": 456270,
+              "max_ranks": "1",
+              "choice_index": 1
+            }
+          ]
+        },
+        {
+          "node_id": 94798,
+          "type": "CHOICE",
+          "row": 3,
+          "col": 23,
+          "x": 15311,
+          "y": 1503,
+          "serial_order": 133,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94808
+          ],
+          "entries": [
+            {
+              "entry_id": "117395",
+              "talent": "Keep Your Feet on the Ground",
+              "spell_id": 438590,
+              "max_ranks": "1",
+              "choice_index": 0
+            },
+            {
+              "entry_id": "118836",
+              "talent": "Steadfast as the Peaks",
+              "spell_id": 434970,
+              "max_ranks": "1",
+              "choice_index": 1
+            }
+          ]
+        },
+        {
+          "node_id": 94800,
+          "type": "PASSIVE",
+          "row": 2,
+          "col": 22,
+          "x": 14697,
+          "y": 895,
+          "serial_order": 135,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94803
+          ],
+          "entries": [
+            {
+              "entry_id": "117397",
+              "talent": "Ground Current",
+              "spell_id": 436148,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94803,
+          "type": "PASSIVE",
+          "row": 1,
+          "col": 23,
+          "x": 15003,
+          "y": 298,
+          "serial_order": 137,
+          "req_points": 0,
+          "prereq_node_ids": [],
+          "entries": [
+            {
+              "entry_id": "117400",
+              "talent": "Lightning Strikes",
+              "spell_id": 434969,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94805,
+          "type": "PASSIVE",
+          "row": 5,
+          "col": 23,
+          "x": 15008,
+          "y": 2705,
+          "serial_order": 138,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94797,
+            94792,
+            94807,
+            109809
+          ],
+          "entries": [
+            {
+              "entry_id": "117402",
+              "talent": "Avatar of the Storm",
+              "spell_id": 437134,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94807,
+          "type": "PASSIVE",
+          "row": 4,
+          "col": 23,
+          "x": 15300,
+          "y": 2100,
+          "serial_order": 140,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94798
+          ],
+          "entries": [
+            {
+              "entry_id": "117404",
+              "talent": "Burst of Power",
+              "spell_id": 437118,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94808,
+          "type": "PASSIVE",
+          "row": 2,
+          "col": 23,
+          "x": 15311,
+          "y": 896,
+          "serial_order": 141,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94803
+          ],
+          "entries": [
+            {
+              "entry_id": "117405",
+              "talent": "Strength of the Mountain",
+              "spell_id": 437068,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94816,
+          "type": "PASSIVE",
+          "row": 2,
+          "col": 21,
+          "x": 14081,
+          "y": 894,
+          "serial_order": 149,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94803
+          ],
+          "entries": [
+            {
+              "entry_id": "117413",
+              "talent": "Crashing Thunder",
+              "spell_id": 436707,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94817,
+          "type": "CHOICE",
+          "row": 3,
+          "col": 22,
+          "x": 14700,
+          "y": 1500,
+          "serial_order": 150,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94800
+          ],
+          "entries": [
+            {
+              "entry_id": "117414",
+              "talent": "Storm Bolts",
+              "spell_id": 436162,
+              "max_ranks": "1",
+              "choice_index": 0
+            },
+            {
+              "entry_id": "118835",
+              "talent": "Storm Shield",
+              "spell_id": 438597,
+              "max_ranks": "1",
+              "choice_index": 1
+            }
+          ]
+        },
+        {
+          "node_id": 109809,
+          "type": "PASSIVE",
+          "row": 4,
+          "col": 24,
+          "x": 15900,
+          "y": 2100,
+          "serial_order": 182,
+          "req_points": 0,
+          "prereq_node_ids": [
+            109810
+          ],
+          "entries": [
+            {
+              "entry_id": "136068",
+              "talent": "Capacitance",
+              "spell_id": 1270724,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 109810,
+          "type": "PASSIVE",
+          "row": 3,
+          "col": 24,
+          "x": 15900,
+          "y": 1500,
+          "serial_order": 183,
+          "req_points": 0,
+          "prereq_node_ids": [
+            109811
+          ],
+          "entries": [
+            {
+              "entry_id": "136069",
+              "talent": "Conductivity",
+              "spell_id": 1270723,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 109811,
+          "type": "PASSIVE",
+          "row": 2,
+          "col": 24,
+          "x": 15900,
+          "y": 900,
+          "serial_order": 184,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94803
+          ],
+          "entries": [
+            {
+              "entry_id": "136070",
+              "talent": "Storm Surge",
+              "spell_id": 275336,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        }
+      ],
+      "Colossus": [
+        {
+          "node_id": 94789,
+          "type": "CHOICE",
+          "row": 8,
+          "col": 11,
+          "x": 8100,
+          "y": 4799,
+          "serial_order": 126,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94818
+          ],
+          "entries": [
+            {
+              "entry_id": "117386",
+              "talent": "Boneshaker",
+              "spell_id": 429639,
+              "max_ranks": "1",
+              "choice_index": 0
+            },
+            {
+              "entry_id": "119858",
+              "talent": "Earthquaker",
+              "spell_id": 440992,
+              "max_ranks": "1",
+              "choice_index": 1
+            }
+          ]
+        },
+        {
+          "node_id": 94793,
+          "type": "PASSIVE",
+          "row": 11,
+          "col": 11,
+          "x": 7850,
+          "y": 6649,
+          "serial_order": 128,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94806,
+            94794,
+            94796,
+            109812
+          ],
+          "entries": [
+            {
+              "entry_id": "117390",
+              "talent": "Dominance of the Colossus",
+              "spell_id": 429636,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94794,
+          "type": "PASSIVE",
+          "row": 10,
+          "col": 10,
+          "x": 7500,
+          "y": 6000,
+          "serial_order": 129,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94811
+          ],
+          "entries": [
+            {
+              "entry_id": "117391",
+              "talent": "Precise Might",
+              "spell_id": 431548,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94796,
+          "type": "PASSIVE",
+          "row": 10,
+          "col": 9,
+          "x": 6900,
+          "y": 6000,
+          "serial_order": 131,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94799
+          ],
+          "entries": [
+            {
+              "entry_id": "117393",
+              "talent": "Practiced Strikes",
+              "spell_id": 429647,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94799,
+          "type": "CHOICE",
+          "row": 9,
+          "col": 9,
+          "x": 6900,
+          "y": 5400,
+          "serial_order": 134,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94812
+          ],
+          "entries": [
+            {
+              "entry_id": "117396",
+              "talent": "One Against Many",
+              "spell_id": 429637,
+              "max_ranks": "1",
+              "choice_index": 0
+            },
+            {
+              "entry_id": "119856",
+              "talent": "Arterial Bleed",
+              "spell_id": 440995,
+              "max_ranks": "1",
+              "choice_index": 1
+            }
+          ]
+        },
+        {
+          "node_id": 94806,
+          "type": "PASSIVE",
+          "row": 10,
+          "col": 11,
+          "x": 8100,
+          "y": 6000,
+          "serial_order": 139,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94815
+          ],
+          "entries": [
+            {
+              "entry_id": "117403",
+              "talent": "Mountain of Muscle and Scars",
+              "spell_id": 429642,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94811,
+          "type": "PASSIVE",
+          "row": 9,
+          "col": 10,
+          "x": 7500,
+          "y": 5400,
+          "serial_order": 144,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94819
+          ],
+          "entries": [
+            {
+              "entry_id": "117408",
+              "talent": "Tide of Battle",
+              "spell_id": 429641,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94812,
+          "type": "PASSIVE",
+          "row": 8,
+          "col": 9,
+          "x": 6900,
+          "y": 4799,
+          "serial_order": 145,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94818
+          ],
+          "entries": [
+            {
+              "entry_id": "117409",
+              "talent": "Martial Expert",
+              "spell_id": 429638,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94815,
+          "type": "CHOICE",
+          "row": 9,
+          "col": 11,
+          "x": 8100,
+          "y": 5400,
+          "serial_order": 148,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94789
+          ],
+          "entries": [
+            {
+              "entry_id": "117412",
+              "talent": "No Stranger to Pain",
+              "spell_id": 429644,
+              "max_ranks": "1",
+              "choice_index": 0
+            },
+            {
+              "entry_id": "119857",
+              "talent": "Veteran Vitality",
+              "spell_id": 440993,
+              "max_ranks": "1",
+              "choice_index": 1
+            }
+          ]
+        },
+        {
+          "node_id": 94818,
+          "type": "ACTIVE",
+          "row": 7,
+          "col": 11,
+          "x": 7849,
+          "y": 4250,
+          "serial_order": 151,
+          "req_points": 0,
+          "prereq_node_ids": [],
+          "entries": [
+            {
+              "entry_id": "117415",
+              "talent": "Demolish",
+              "spell_id": 436358,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94819,
+          "type": "PASSIVE",
+          "row": 8,
+          "col": 10,
+          "x": 7500,
+          "y": 4799,
+          "serial_order": 152,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94818
+          ],
+          "entries": [
+            {
+              "entry_id": "117416",
+              "talent": "Colossal Might",
+              "spell_id": 429634,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 109812,
+          "type": "PASSIVE",
+          "row": 10,
+          "col": 12,
+          "x": 8700,
+          "y": 6000,
+          "serial_order": 185,
+          "req_points": 0,
+          "prereq_node_ids": [
+            109813
+          ],
+          "entries": [
+            {
+              "entry_id": "136071",
+              "talent": "Celeritous Conclusion",
+              "spell_id": 1270710,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 109813,
+          "type": "PASSIVE",
+          "row": 9,
+          "col": 12,
+          "x": 8700,
+          "y": 5400,
+          "serial_order": 186,
+          "req_points": 0,
+          "prereq_node_ids": [
+            109814
+          ],
+          "entries": [
+            {
+              "entry_id": "136072",
+              "talent": "Cut to the Bone",
+              "spell_id": 1270709,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 109814,
+          "type": "PASSIVE",
+          "row": 8,
+          "col": 12,
+          "x": 8700,
+          "y": 4800,
+          "serial_order": 187,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94818
+          ],
+          "entries": [
+            {
+              "entry_id": "136073",
+              "talent": "Decimator",
+              "spell_id": 1270704,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

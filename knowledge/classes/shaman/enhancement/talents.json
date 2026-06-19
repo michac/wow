@@ -1,0 +1,2642 @@
+{
+  "class": "shaman",
+  "class_id": 7,
+  "spec": "enhancement",
+  "spec_id": 263,
+  "tree_id": 786,
+  "patch": "12.0.7",
+  "build": "12.0.7.67808",
+  "source": "api",
+  "serial_count": 214,
+  "granted_serials": [
+    100,
+    114
+  ],
+  "hero_selector": {
+    "serial": 119,
+    "choices": [
+      "Stormbringer",
+      "Totemic"
+    ]
+  },
+  "trees": {
+    "class": [
+      {
+        "node_id": 103588,
+        "type": "ACTIVE",
+        "row": 2,
+        "col": 2,
+        "x": 3300,
+        "y": 1200,
+        "serial_order": 136,
+        "req_points": 0,
+        "prereq_node_ids": [],
+        "entries": [
+          {
+            "entry_id": "127861",
+            "talent": "Chain Heal",
+            "spell_id": 1064,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 109389,
+        "type": "ACTIVE",
+        "row": 2,
+        "col": 4,
+        "x": 4500,
+        "y": 1200,
+        "serial_order": 193,
+        "req_points": 0,
+        "prereq_node_ids": [],
+        "entries": [
+          {
+            "entry_id": "135593",
+            "talent": "Lava Lash",
+            "spell_id": 60103,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 103583,
+        "type": "ACTIVE",
+        "row": 2,
+        "col": 6,
+        "x": 5700,
+        "y": 1200,
+        "serial_order": 131,
+        "req_points": 0,
+        "prereq_node_ids": [],
+        "entries": [
+          {
+            "entry_id": "127856",
+            "talent": "Chain Lightning",
+            "spell_id": 188443,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 103596,
+        "type": "ACTIVE",
+        "row": 3,
+        "col": 1,
+        "x": 2700,
+        "y": 1800,
+        "serial_order": 141,
+        "req_points": 0,
+        "prereq_node_ids": [
+          103588
+        ],
+        "entries": [
+          {
+            "entry_id": "127871",
+            "talent": "Earth Shield",
+            "spell_id": 974,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 103610,
+        "type": "PASSIVE",
+        "row": 3,
+        "col": 3,
+        "x": 3900,
+        "y": 1800,
+        "serial_order": 151,
+        "req_points": 0,
+        "prereq_node_ids": [
+          103588,
+          109389
+        ],
+        "entries": [
+          {
+            "entry_id": "127886",
+            "talent": "Ancestral Wolf Affinity",
+            "spell_id": 382197,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 103605,
+        "type": "PASSIVE",
+        "row": 3,
+        "col": 4,
+        "x": 4500,
+        "y": 1800,
+        "serial_order": 147,
+        "req_points": 0,
+        "prereq_node_ids": [
+          109389
+        ],
+        "entries": [
+          {
+            "entry_id": "127880",
+            "talent": "Fire and Ice",
+            "spell_id": 382886,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 103581,
+        "type": "CHOICE",
+        "row": 3,
+        "col": 5,
+        "x": 5100,
+        "y": 1800,
+        "serial_order": 129,
+        "req_points": 0,
+        "prereq_node_ids": [
+          103583,
+          109389
+        ],
+        "entries": [
+          {
+            "entry_id": "127854",
+            "talent": "Spirit Wolf",
+            "spell_id": 260878,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "127853",
+            "talent": "Thunderous Paws",
+            "spell_id": 378075,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 109492,
+        "type": "ACTIVE",
+        "row": 3,
+        "col": 7,
+        "x": 6300,
+        "y": 1800,
+        "serial_order": 194,
+        "req_points": 0,
+        "prereq_node_ids": [
+          103583
+        ],
+        "entries": [
+          {
+            "entry_id": "135718",
+            "talent": "Frost Shock",
+            "spell_id": 196840,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 103602,
+        "type": "PASSIVE",
+        "row": 4,
+        "col": 1,
+        "x": 2700,
+        "y": 2400,
+        "serial_order": 146,
+        "req_points": 0,
+        "prereq_node_ids": [
+          103596
+        ],
+        "entries": [
+          {
+            "entry_id": "127877",
+            "talent": "Elemental Orbit",
+            "spell_id": 383010,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 103591,
+        "type": "CHOICE",
+        "row": 4,
+        "col": 2,
+        "x": 3300,
+        "y": 2400,
+        "serial_order": 138,
+        "req_points": 0,
+        "prereq_node_ids": [
+          103596,
+          103610
+        ],
+        "entries": [
+          {
+            "entry_id": "127865",
+            "talent": "Spirit Walk",
+            "spell_id": 58875,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "127864",
+            "talent": "Gust of Wind",
+            "spell_id": 192063,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 103616,
+        "type": "ACTIVE",
+        "row": 4,
+        "col": 4,
+        "x": 4500,
+        "y": 2400,
+        "serial_order": 157,
+        "req_points": 0,
+        "prereq_node_ids": [
+          103581,
+          103610,
+          103605
+        ],
+        "entries": [
+          {
+            "entry_id": "127893",
+            "talent": "Astral Shift",
+            "spell_id": 108271,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 103613,
+        "type": "PASSIVE",
+        "row": 4,
+        "col": 6,
+        "x": 5700,
+        "y": 2400,
+        "serial_order": 154,
+        "req_points": 0,
+        "prereq_node_ids": [
+          103581,
+          109492
+        ],
+        "entries": [
+          {
+            "entry_id": "127890",
+            "talent": "Nature's Guardian",
+            "spell_id": 30884,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 109493,
+        "type": "CHOICE",
+        "row": 4,
+        "col": 7,
+        "x": 6300,
+        "y": 2400,
+        "serial_order": 195,
+        "req_points": 0,
+        "prereq_node_ids": [
+          109492
+        ],
+        "entries": [
+          {
+            "entry_id": "135719",
+            "talent": "Encasing Cold",
+            "spell_id": 462762,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "135717",
+            "talent": "Arctic Snowstorm",
+            "spell_id": 462764,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 103590,
+        "type": "ACTIVE",
+        "row": 5,
+        "col": 1,
+        "x": 2700,
+        "y": 3000,
+        "serial_order": 137,
+        "req_points": 0,
+        "prereq_node_ids": [
+          103591,
+          103602
+        ],
+        "entries": [
+          {
+            "entry_id": "",
+            "talent": "Healing Stream Totem",
+            "spell_id": 5394,
+            "max_ranks": 1,
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 103614,
+        "type": "PASSIVE",
+        "row": 5,
+        "col": 3,
+        "x": 3900,
+        "y": 3000,
+        "serial_order": 155,
+        "req_points": 0,
+        "prereq_node_ids": [
+          103591,
+          103616
+        ],
+        "entries": [
+          {
+            "entry_id": "127891",
+            "talent": "Winds of Al'Akir",
+            "spell_id": 382215,
+            "max_ranks": "2",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 103611,
+        "type": "CHOICE",
+        "row": 5,
+        "col": 4,
+        "x": 4500,
+        "y": 3000,
+        "serial_order": 152,
+        "req_points": 0,
+        "prereq_node_ids": [
+          103616
+        ],
+        "entries": [
+          {
+            "entry_id": "127888",
+            "talent": "Planes Traveler",
+            "spell_id": 381647,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "127887",
+            "talent": "Astral Bulwark",
+            "spell_id": 377933,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 103582,
+        "type": "PASSIVE",
+        "row": 5,
+        "col": 5,
+        "x": 5100,
+        "y": 3000,
+        "serial_order": 130,
+        "req_points": 0,
+        "prereq_node_ids": [
+          103613,
+          103616
+        ],
+        "entries": [
+          {
+            "entry_id": "127855",
+            "talent": "Brimming with Life",
+            "spell_id": 381689,
+            "max_ranks": "2",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 103615,
+        "type": "ACTIVE",
+        "row": 5,
+        "col": 7,
+        "x": 6300,
+        "y": 3000,
+        "serial_order": 156,
+        "req_points": 0,
+        "prereq_node_ids": [
+          103613,
+          109493
+        ],
+        "entries": [
+          {
+            "entry_id": "127892",
+            "talent": "Wind Shear",
+            "spell_id": 57994,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 103601,
+        "type": "PASSIVE",
+        "row": 6,
+        "col": 1,
+        "x": 2700,
+        "y": 3600,
+        "serial_order": 145,
+        "req_points": 8,
+        "prereq_node_ids": [
+          103590
+        ],
+        "entries": [
+          {
+            "entry_id": "127876",
+            "talent": "Elemental Resistance",
+            "spell_id": 462368,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 103622,
+        "type": "ACTIVE",
+        "row": 6,
+        "col": 2,
+        "x": 3300,
+        "y": 3600,
+        "serial_order": 161,
+        "req_points": 8,
+        "prereq_node_ids": [
+          103614,
+          103590
+        ],
+        "entries": [
+          {
+            "entry_id": "127902",
+            "talent": "Earthgrab Totem",
+            "spell_id": 51485,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 103579,
+        "type": "ACTIVE",
+        "row": 6,
+        "col": 4,
+        "x": 4500,
+        "y": 3600,
+        "serial_order": 128,
+        "req_points": 8,
+        "prereq_node_ids": [
+          103614,
+          103611
+        ],
+        "entries": [
+          {
+            "entry_id": "127851",
+            "talent": "Capacitor Totem",
+            "spell_id": 192058,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 110085,
+        "type": "PASSIVE",
+        "row": 6,
+        "col": 5,
+        "x": 5100,
+        "y": 3600,
+        "serial_order": 209,
+        "req_points": 8,
+        "prereq_node_ids": [
+          103582,
+          103611
+        ],
+        "entries": [
+          {
+            "entry_id": "136585",
+            "talent": "Spiritual Awakening",
+            "spell_id": 1270375,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 103606,
+        "type": "PASSIVE",
+        "row": 6,
+        "col": 6,
+        "x": 5700,
+        "y": 3600,
+        "serial_order": 148,
+        "req_points": 8,
+        "prereq_node_ids": [
+          103615,
+          103582
+        ],
+        "entries": [
+          {
+            "entry_id": "127881",
+            "talent": "Enhanced Imbues",
+            "spell_id": 462796,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 103628,
+        "type": "PASSIVE",
+        "row": 6,
+        "col": 7,
+        "x": 6300,
+        "y": 3600,
+        "serial_order": 167,
+        "req_points": 8,
+        "prereq_node_ids": [
+          103615
+        ],
+        "entries": [
+          {
+            "entry_id": "127910",
+            "talent": "Windveil",
+            "spell_id": 355630,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 103594,
+        "type": "PASSIVE",
+        "row": 7,
+        "col": 1,
+        "x": 2700,
+        "y": 4200,
+        "serial_order": 140,
+        "req_points": 8,
+        "prereq_node_ids": [
+          103601,
+          103622
+        ],
+        "entries": [
+          {
+            "entry_id": "127869",
+            "talent": "Refreshing Waters",
+            "spell_id": 378211,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 103608,
+        "type": "ACTIVE",
+        "row": 7,
+        "col": 3,
+        "x": 3900,
+        "y": 4200,
+        "serial_order": 150,
+        "req_points": 8,
+        "prereq_node_ids": [
+          103622,
+          103579
+        ],
+        "entries": [
+          {
+            "entry_id": "127884",
+            "talent": "Cleanse Spirit",
+            "spell_id": 51886,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 103618,
+        "type": "PASSIVE",
+        "row": 7,
+        "col": 4,
+        "x": 4500,
+        "y": 4200,
+        "serial_order": 159,
+        "req_points": 8,
+        "prereq_node_ids": [
+          103579
+        ],
+        "entries": [
+          {
+            "entry_id": "127896",
+            "talent": "Static Charge",
+            "spell_id": 265046,
+            "max_ranks": "2",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 103627,
+        "type": "ACTIVE",
+        "row": 7,
+        "col": 5,
+        "x": 5100,
+        "y": 4200,
+        "serial_order": 166,
+        "req_points": 8,
+        "prereq_node_ids": [
+          110085,
+          103579
+        ],
+        "entries": [
+          {
+            "entry_id": "127909",
+            "talent": "Wind Rush Totem",
+            "spell_id": 192077,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 103585,
+        "type": "ACTIVE",
+        "row": 7,
+        "col": 6,
+        "x": 5700,
+        "y": 4200,
+        "serial_order": 133,
+        "req_points": 8,
+        "prereq_node_ids": [
+          103606,
+          110085
+        ],
+        "entries": [
+          {
+            "entry_id": "127858",
+            "talent": "Earth Elemental",
+            "spell_id": 198103,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 103624,
+        "type": "CHOICE",
+        "row": 8,
+        "col": 2,
+        "x": 3300,
+        "y": 4800,
+        "serial_order": 163,
+        "req_points": 8,
+        "prereq_node_ids": [
+          103608,
+          103594
+        ],
+        "entries": [
+          {
+            "entry_id": "127905",
+            "talent": "Purge",
+            "spell_id": 370,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "127904",
+            "talent": "Greater Purge",
+            "spell_id": 378773,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 103617,
+        "type": "PASSIVE",
+        "row": 8,
+        "col": 4,
+        "x": 4500,
+        "y": 4800,
+        "serial_order": 158,
+        "req_points": 8,
+        "prereq_node_ids": [
+          103627,
+          103618,
+          103608
+        ],
+        "entries": [
+          {
+            "entry_id": "127894",
+            "talent": "Nature's Fury",
+            "spell_id": 381655,
+            "max_ranks": "2",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 103607,
+        "type": "CHOICE",
+        "row": 8,
+        "col": 5,
+        "x": 5100,
+        "y": 4800,
+        "serial_order": 149,
+        "req_points": 8,
+        "prereq_node_ids": [
+          103627
+        ],
+        "entries": [
+          {
+            "entry_id": "127883",
+            "talent": "Ascending Air",
+            "spell_id": 462791,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "127882",
+            "talent": "Jet Stream",
+            "spell_id": 462817,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 103612,
+        "type": "PASSIVE",
+        "row": 8,
+        "col": 6,
+        "x": 5700,
+        "y": 4800,
+        "serial_order": 153,
+        "req_points": 8,
+        "prereq_node_ids": [
+          103585
+        ],
+        "entries": [
+          {
+            "entry_id": "127889",
+            "talent": "Primordial Bond",
+            "spell_id": 1279819,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 103623,
+        "type": "ACTIVE",
+        "row": 8,
+        "col": 7,
+        "x": 6300,
+        "y": 4800,
+        "serial_order": 162,
+        "req_points": 8,
+        "prereq_node_ids": [
+          103585,
+          103628
+        ],
+        "entries": [
+          {
+            "entry_id": "127903",
+            "talent": "Hex",
+            "spell_id": 51514,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 103584,
+        "type": "ACTIVE",
+        "row": 9,
+        "col": 1,
+        "x": 2700,
+        "y": 5400,
+        "serial_order": 132,
+        "req_points": 23,
+        "prereq_node_ids": [
+          103594,
+          103624
+        ],
+        "entries": [
+          {
+            "entry_id": "127857",
+            "talent": "Spiritwalker's Grace",
+            "spell_id": 79206,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 109386,
+        "type": "ACTIVE",
+        "row": 9,
+        "col": 3,
+        "x": 3900,
+        "y": 5400,
+        "serial_order": 190,
+        "req_points": 23,
+        "prereq_node_ids": [
+          103617,
+          103624
+        ],
+        "entries": [
+          {
+            "entry_id": "135590",
+            "talent": "Totemic Projection",
+            "spell_id": 108287,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 103586,
+        "type": "PASSIVE",
+        "row": 9,
+        "col": 4,
+        "x": 4500,
+        "y": 5400,
+        "serial_order": 134,
+        "req_points": 23,
+        "prereq_node_ids": [
+          103617,
+          103607
+        ],
+        "entries": [
+          {
+            "entry_id": "127859",
+            "talent": "Elemental Warding",
+            "spell_id": 381650,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 103625,
+        "type": "PASSIVE",
+        "row": 9,
+        "col": 6,
+        "x": 5700,
+        "y": 5400,
+        "serial_order": 164,
+        "req_points": 23,
+        "prereq_node_ids": [
+          103607,
+          103612,
+          103623
+        ],
+        "entries": [
+          {
+            "entry_id": "127906",
+            "talent": "Totemic Focus",
+            "spell_id": 382201,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 103626,
+        "type": "CHOICE",
+        "row": 10,
+        "col": 1,
+        "x": 2700,
+        "y": 6000,
+        "serial_order": 165,
+        "req_points": 23,
+        "prereq_node_ids": [
+          103584
+        ],
+        "entries": [
+          {
+            "entry_id": "127908",
+            "talent": "Graceful Spirit",
+            "spell_id": 192088,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "127907",
+            "talent": "Spiritwalker's Aegis",
+            "spell_id": 378077,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 103587,
+        "type": "PASSIVE",
+        "row": 10,
+        "col": 3,
+        "x": 3900,
+        "y": 6000,
+        "serial_order": 135,
+        "req_points": 23,
+        "prereq_node_ids": [
+          103586,
+          109386
+        ],
+        "entries": [
+          {
+            "entry_id": "127860",
+            "talent": "Mana Spring",
+            "spell_id": 381930,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 103599,
+        "type": "CHOICE",
+        "row": 10,
+        "col": 4,
+        "x": 4500,
+        "y": 6000,
+        "serial_order": 143,
+        "req_points": 23,
+        "prereq_node_ids": [
+          103586
+        ],
+        "entries": [
+          {
+            "entry_id": "127874",
+            "talent": "Tremor Totem",
+            "spell_id": 8143,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "136567",
+            "talent": "Poison Cleansing Totem",
+            "spell_id": 383013,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 103593,
+        "type": "CHOICE",
+        "row": 10,
+        "col": 5,
+        "x": 5100,
+        "y": 6000,
+        "serial_order": 139,
+        "req_points": 23,
+        "prereq_node_ids": [
+          103586,
+          103625
+        ],
+        "entries": [
+          {
+            "entry_id": "127868",
+            "talent": "Therazane's Resilience",
+            "spell_id": 1217622,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "136584",
+            "talent": "Reactive Warding",
+            "spell_id": 462454,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 103600,
+        "type": "PASSIVE",
+        "row": 10,
+        "col": 7,
+        "x": 6300,
+        "y": 6000,
+        "serial_order": 144,
+        "req_points": 23,
+        "prereq_node_ids": [
+          103623
+        ],
+        "entries": [
+          {
+            "entry_id": "127875",
+            "talent": "Voodoo Mastery",
+            "spell_id": 204268,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 103620,
+        "type": "ACTIVE",
+        "row": 11,
+        "col": 2,
+        "x": 3300,
+        "y": 6600,
+        "serial_order": 160,
+        "req_points": 23,
+        "prereq_node_ids": [
+          103587,
+          103626
+        ],
+        "entries": [
+          {
+            "entry_id": "127899",
+            "talent": "Nature's Swiftness",
+            "spell_id": 378081,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 109388,
+        "type": "PASSIVE",
+        "row": 11,
+        "col": 4,
+        "x": 4500,
+        "y": 6600,
+        "serial_order": 192,
+        "req_points": 23,
+        "prereq_node_ids": [
+          103599,
+          103587,
+          103593
+        ],
+        "entries": [
+          {
+            "entry_id": "135592",
+            "talent": "Totemic Surge",
+            "spell_id": 381867,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 109387,
+        "type": "PASSIVE",
+        "row": 11,
+        "col": 6,
+        "x": 5700,
+        "y": 6600,
+        "serial_order": 191,
+        "req_points": 23,
+        "prereq_node_ids": [
+          103593,
+          103625,
+          103600
+        ],
+        "entries": [
+          {
+            "entry_id": "135591",
+            "talent": "Instinctive Imbuements",
+            "spell_id": 1270350,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      }
+    ],
+    "spec": [
+      {
+        "node_id": 80941,
+        "type": "PASSIVE",
+        "row": 2,
+        "col": 17,
+        "x": 12600,
+        "y": 1200,
+        "serial_order": 2,
+        "req_points": 0,
+        "prereq_node_ids": [],
+        "entries": [
+          {
+            "entry_id": "101804",
+            "talent": "Maelstrom Weapon",
+            "spell_id": 187880,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 80958,
+        "type": "ACTIVE",
+        "row": 3,
+        "col": 16,
+        "x": 12000,
+        "y": 1800,
+        "serial_order": 14,
+        "req_points": 0,
+        "prereq_node_ids": [
+          80941
+        ],
+        "entries": [
+          {
+            "entry_id": "101823",
+            "talent": "Windfury Weapon",
+            "spell_id": 33757,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 80942,
+        "type": "ACTIVE",
+        "row": 3,
+        "col": 18,
+        "x": 13200,
+        "y": 1800,
+        "serial_order": 3,
+        "req_points": 0,
+        "prereq_node_ids": [
+          80941
+        ],
+        "entries": [
+          {
+            "entry_id": "101805",
+            "talent": "Flametongue Weapon",
+            "spell_id": 318038,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 80969,
+        "type": "PASSIVE",
+        "row": 4,
+        "col": 15,
+        "x": 11400,
+        "y": 2400,
+        "serial_order": 23,
+        "req_points": 0,
+        "prereq_node_ids": [
+          80958
+        ],
+        "entries": [
+          {
+            "entry_id": "101834",
+            "talent": "Forceful Winds",
+            "spell_id": 262647,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 80974,
+        "type": "ACTIVE",
+        "row": 4,
+        "col": 17,
+        "x": 12600,
+        "y": 2400,
+        "serial_order": 25,
+        "req_points": 0,
+        "prereq_node_ids": [
+          80942,
+          80958
+        ],
+        "entries": [
+          {
+            "entry_id": "101840",
+            "talent": "Crash Lightning",
+            "spell_id": 187874,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 80943,
+        "type": "PASSIVE",
+        "row": 4,
+        "col": 19,
+        "x": 13800,
+        "y": 2400,
+        "serial_order": 4,
+        "req_points": 0,
+        "prereq_node_ids": [
+          80942
+        ],
+        "entries": [
+          {
+            "entry_id": "101806",
+            "talent": "Molten Assault",
+            "spell_id": 334033,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 80968,
+        "type": "PASSIVE",
+        "row": 5,
+        "col": 15,
+        "x": 11400,
+        "y": 3000,
+        "serial_order": 22,
+        "req_points": 0,
+        "prereq_node_ids": [
+          80969
+        ],
+        "entries": [
+          {
+            "entry_id": "101833",
+            "talent": "Unruly Winds",
+            "spell_id": 390288,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 80939,
+        "type": "PASSIVE",
+        "row": 5,
+        "col": 17,
+        "x": 12600,
+        "y": 3000,
+        "serial_order": 1,
+        "req_points": 0,
+        "prereq_node_ids": [
+          80974
+        ],
+        "entries": [
+          {
+            "entry_id": "101802",
+            "talent": "Overflowing Maelstrom",
+            "spell_id": 384143,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 80947,
+        "type": "PASSIVE",
+        "row": 5,
+        "col": 19,
+        "x": 13800,
+        "y": 3000,
+        "serial_order": 7,
+        "req_points": 0,
+        "prereq_node_ids": [
+          80943
+        ],
+        "entries": [
+          {
+            "entry_id": "101811",
+            "talent": "Ashen Catalyst",
+            "spell_id": 390370,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 80960,
+        "type": "PASSIVE",
+        "row": 6,
+        "col": 14,
+        "x": 10800,
+        "y": 3600,
+        "serial_order": 16,
+        "req_points": 8,
+        "prereq_node_ids": [
+          80968
+        ],
+        "entries": [
+          {
+            "entry_id": "101825",
+            "talent": "Stormblast",
+            "spell_id": 319930,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 80944,
+        "type": "PASSIVE",
+        "row": 6,
+        "col": 16,
+        "x": 12000,
+        "y": 3600,
+        "serial_order": 5,
+        "req_points": 8,
+        "prereq_node_ids": [
+          80939,
+          80968
+        ],
+        "entries": [
+          {
+            "entry_id": "101808",
+            "talent": "Overcharge",
+            "spell_id": 1251026,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 80938,
+        "type": "PASSIVE",
+        "row": 6,
+        "col": 17,
+        "x": 12600,
+        "y": 3600,
+        "serial_order": 0,
+        "req_points": 8,
+        "prereq_node_ids": [
+          80939
+        ],
+        "entries": [
+          {
+            "entry_id": "101801",
+            "talent": "Raging Maelstrom",
+            "spell_id": 384149,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 103642,
+        "type": "PASSIVE",
+        "row": 6,
+        "col": 18,
+        "x": 13200,
+        "y": 3600,
+        "serial_order": 180,
+        "req_points": 8,
+        "prereq_node_ids": [
+          80947,
+          80939
+        ],
+        "entries": [
+          {
+            "entry_id": "101799",
+            "talent": "Flurry",
+            "spell_id": 382888,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 80945,
+        "type": "PASSIVE",
+        "row": 6,
+        "col": 20,
+        "x": 14400,
+        "y": 3600,
+        "serial_order": 6,
+        "req_points": 8,
+        "prereq_node_ids": [
+          80947
+        ],
+        "entries": [
+          {
+            "entry_id": "101809",
+            "talent": "Hot Hand",
+            "spell_id": 201900,
+            "max_ranks": "2",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 80967,
+        "type": "PASSIVE",
+        "row": 7,
+        "col": 15,
+        "x": 11400,
+        "y": 4200,
+        "serial_order": 21,
+        "req_points": 8,
+        "prereq_node_ids": [
+          80968,
+          80960,
+          80944
+        ],
+        "entries": [
+          {
+            "entry_id": "101832",
+            "talent": "Storm's Wrath",
+            "spell_id": 392352,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 80961,
+        "type": "PASSIVE",
+        "row": 7,
+        "col": 17,
+        "x": 12600,
+        "y": 4200,
+        "serial_order": 17,
+        "req_points": 8,
+        "prereq_node_ids": [
+          80944,
+          80938,
+          103642
+        ],
+        "entries": [
+          {
+            "entry_id": "101826",
+            "talent": "Elemental Tempo",
+            "spell_id": 1250364,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 80954,
+        "type": "ACTIVE",
+        "row": 7,
+        "col": 19,
+        "x": 13800,
+        "y": 4200,
+        "serial_order": 13,
+        "req_points": 8,
+        "prereq_node_ids": [
+          80947,
+          80945,
+          103642
+        ],
+        "entries": [
+          {
+            "entry_id": "101819",
+            "talent": "Voltaic Blaze",
+            "spell_id": 470057,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 109192,
+        "type": "PASSIVE",
+        "row": 8,
+        "col": 14,
+        "x": 10800,
+        "y": 4800,
+        "serial_order": 186,
+        "req_points": 8,
+        "prereq_node_ids": [
+          80967,
+          80960
+        ],
+        "entries": [
+          {
+            "entry_id": "135254",
+            "talent": "Chaining Storms",
+            "spell_id": 334308,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 80973,
+        "type": "PASSIVE",
+        "row": 8,
+        "col": 15,
+        "x": 11400,
+        "y": 4800,
+        "serial_order": 24,
+        "req_points": 8,
+        "prereq_node_ids": [
+          80967
+        ],
+        "entries": [
+          {
+            "entry_id": "101839",
+            "talent": "Converging Storms",
+            "spell_id": 384363,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 103871,
+        "type": "PASSIVE",
+        "row": 8,
+        "col": 16,
+        "x": 12000,
+        "y": 4800,
+        "serial_order": 181,
+        "req_points": 8,
+        "prereq_node_ids": [
+          80961,
+          80967
+        ],
+        "entries": [
+          {
+            "entry_id": "128270",
+            "talent": "Stormflurry",
+            "spell_id": 344357,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 109191,
+        "type": "PASSIVE",
+        "row": 8,
+        "col": 17,
+        "x": 12600,
+        "y": 4800,
+        "serial_order": 185,
+        "req_points": 8,
+        "prereq_node_ids": [
+          80961
+        ],
+        "entries": [
+          {
+            "entry_id": "135253",
+            "talent": "Stormbind",
+            "spell_id": 1251069,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 80953,
+        "type": "PASSIVE",
+        "row": 8,
+        "col": 18,
+        "x": 13200,
+        "y": 4800,
+        "serial_order": 12,
+        "req_points": 8,
+        "prereq_node_ids": [
+          80954,
+          80961
+        ],
+        "entries": [
+          {
+            "entry_id": "101818",
+            "talent": "Elemental Weapons",
+            "spell_id": 384355,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 109909,
+        "type": "PASSIVE",
+        "row": 8,
+        "col": 19,
+        "x": 13800,
+        "y": 4800,
+        "serial_order": 205,
+        "req_points": 8,
+        "prereq_node_ids": [
+          80954
+        ],
+        "entries": [
+          {
+            "entry_id": "136176",
+            "talent": "Fire Nova",
+            "spell_id": 1260666,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 80948,
+        "type": "PASSIVE",
+        "row": 8,
+        "col": 20,
+        "x": 14400,
+        "y": 4800,
+        "serial_order": 8,
+        "req_points": 8,
+        "prereq_node_ids": [
+          80954,
+          80945
+        ],
+        "entries": [
+          {
+            "entry_id": "101812",
+            "talent": "Lashing Flames",
+            "spell_id": 334046,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 80962,
+        "type": "PASSIVE",
+        "row": 9,
+        "col": 15,
+        "x": 11400,
+        "y": 5400,
+        "serial_order": 18,
+        "req_points": 20,
+        "prereq_node_ids": [
+          109192,
+          103871,
+          80973
+        ],
+        "entries": [
+          {
+            "entry_id": "101827",
+            "talent": "Ride the Lightning",
+            "spell_id": 289874,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 80959,
+        "type": "ACTIVE",
+        "row": 9,
+        "col": 17,
+        "x": 12600,
+        "y": 5400,
+        "serial_order": 15,
+        "req_points": 20,
+        "prereq_node_ids": [
+          103871,
+          80953,
+          109191
+        ],
+        "entries": [
+          {
+            "entry_id": "101824",
+            "talent": "Doom Winds",
+            "spell_id": 384352,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 80975,
+        "type": "ACTIVE",
+        "row": 9,
+        "col": 19,
+        "x": 13800,
+        "y": 5400,
+        "serial_order": 26,
+        "req_points": 20,
+        "prereq_node_ids": [
+          80948,
+          80953,
+          109909
+        ],
+        "entries": [
+          {
+            "entry_id": "101841",
+            "talent": "Sundering",
+            "spell_id": 197214,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 109193,
+        "type": "PASSIVE",
+        "row": 10,
+        "col": 14,
+        "x": 10800,
+        "y": 6000,
+        "serial_order": 187,
+        "req_points": 20,
+        "prereq_node_ids": [
+          80962
+        ],
+        "entries": [
+          {
+            "entry_id": "135255",
+            "talent": "Lightning Strikes",
+            "spell_id": 384450,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 80951,
+        "type": "PASSIVE",
+        "row": 10,
+        "col": 16,
+        "x": 12000,
+        "y": 6000,
+        "serial_order": 11,
+        "req_points": 20,
+        "prereq_node_ids": [
+          80959,
+          80962
+        ],
+        "entries": [
+          {
+            "entry_id": "101815",
+            "talent": "Elemental Assault",
+            "spell_id": 210853,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 80950,
+        "type": "PASSIVE",
+        "row": 10,
+        "col": 17,
+        "x": 12600,
+        "y": 6000,
+        "serial_order": 10,
+        "req_points": 20,
+        "prereq_node_ids": [
+          80959
+        ],
+        "entries": [
+          {
+            "entry_id": "101814",
+            "talent": "Static Accumulation",
+            "spell_id": 384411,
+            "max_ranks": "2",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 109194,
+        "type": "PASSIVE",
+        "row": 10,
+        "col": 18,
+        "x": 13200,
+        "y": 6000,
+        "serial_order": 188,
+        "req_points": 20,
+        "prereq_node_ids": [
+          80975,
+          80959
+        ],
+        "entries": [
+          {
+            "entry_id": "128236",
+            "talent": "Feral Spirit",
+            "spell_id": 469314,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 80964,
+        "type": "PASSIVE",
+        "row": 10,
+        "col": 20,
+        "x": 14400,
+        "y": 6000,
+        "serial_order": 20,
+        "req_points": 20,
+        "prereq_node_ids": [
+          80975
+        ],
+        "entries": [
+          {
+            "entry_id": "101829",
+            "talent": "Surging Elements",
+            "spell_id": 382042,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 109190,
+        "type": "PASSIVE",
+        "row": 11,
+        "col": 14,
+        "x": 10800,
+        "y": 6600,
+        "serial_order": 184,
+        "req_points": 20,
+        "prereq_node_ids": [
+          109193
+        ],
+        "entries": [
+          {
+            "entry_id": "135252",
+            "talent": "Thunder Capacitor",
+            "spell_id": 1262635,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 92219,
+        "type": "CHOICE",
+        "row": 11,
+        "col": 16,
+        "x": 12000,
+        "y": 6600,
+        "serial_order": 81,
+        "req_points": 20,
+        "prereq_node_ids": [
+          80950
+        ],
+        "entries": [
+          {
+            "entry_id": "101816",
+            "talent": "Deeply Rooted Elements",
+            "spell_id": 378270,
+            "max_ranks": "1",
+            "choice_index": 0
+          },
+          {
+            "entry_id": "114291",
+            "talent": "Ascendance",
+            "spell_id": 114051,
+            "max_ranks": "1",
+            "choice_index": 1
+          }
+        ]
+      },
+      {
+        "node_id": 80949,
+        "type": "PASSIVE",
+        "row": 11,
+        "col": 18,
+        "x": 13200,
+        "y": 6600,
+        "serial_order": 9,
+        "req_points": 20,
+        "prereq_node_ids": [
+          80950
+        ],
+        "entries": [
+          {
+            "entry_id": "101813",
+            "talent": "Thorim's Invocation",
+            "spell_id": 384444,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 80963,
+        "type": "PASSIVE",
+        "row": 11,
+        "col": 20,
+        "x": 14400,
+        "y": 6600,
+        "serial_order": 19,
+        "req_points": 20,
+        "prereq_node_ids": [
+          80964
+        ],
+        "entries": [
+          {
+            "entry_id": "101828",
+            "talent": "Primordial Storm",
+            "spell_id": 1218047,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      },
+      {
+        "node_id": 110401,
+        "type": "ACTIVE",
+        "row": 12,
+        "col": 17,
+        "x": 12600,
+        "y": 7350,
+        "serial_order": 211,
+        "req_points": 20,
+        "prereq_node_ids": [],
+        "entries": [
+          {
+            "entry_id": "136971",
+            "talent": "Storm Unleashed",
+            "spell_id": 1262713,
+            "max_ranks": "1",
+            "choice_index": 0
+          }
+        ]
+      }
+    ],
+    "hero": {
+      "Totemic": [
+        {
+          "node_id": 94859,
+          "type": "CHOICE",
+          "row": 4,
+          "col": 21,
+          "x": 15000,
+          "y": 2400,
+          "serial_order": 85,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94890
+          ],
+          "entries": [
+            {
+              "entry_id": "117456",
+              "talent": "Oversized Totems",
+              "spell_id": 445026,
+              "max_ranks": "1",
+              "choice_index": 0
+            },
+            {
+              "entry_id": "125825",
+              "talent": "Swift Recall",
+              "spell_id": 445027,
+              "max_ranks": "1",
+              "choice_index": 1
+            }
+          ]
+        },
+        {
+          "node_id": 94866,
+          "type": "CHOICE",
+          "row": 5,
+          "col": 22,
+          "x": 15600,
+          "y": 3000,
+          "serial_order": 90,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94891
+          ],
+          "entries": [
+            {
+              "entry_id": "117463",
+              "talent": "Pulse Capacitor",
+              "spell_id": 445032,
+              "max_ranks": "1",
+              "choice_index": 0
+            },
+            {
+              "entry_id": "125824",
+              "talent": "Supportive Imbuements",
+              "spell_id": 445033,
+              "max_ranks": "1",
+              "choice_index": 1
+            }
+          ]
+        },
+        {
+          "node_id": 94871,
+          "type": "PASSIVE",
+          "row": 5,
+          "col": 21,
+          "x": 15000,
+          "y": 3000,
+          "serial_order": 95,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94859
+          ],
+          "entries": [
+            {
+              "entry_id": "117468",
+              "talent": "Imbuement Mastery",
+              "spell_id": 445028,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94872,
+          "type": "PASSIVE",
+          "row": 4,
+          "col": 23,
+          "x": 16200,
+          "y": 2400,
+          "serial_order": 96,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94882
+          ],
+          "entries": [
+            {
+              "entry_id": "117469",
+              "talent": "Splitstream",
+              "spell_id": 445035,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94874,
+          "type": "CHOICE",
+          "row": 3,
+          "col": 22,
+          "x": 15600,
+          "y": 1800,
+          "serial_order": 98,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94877
+          ],
+          "entries": [
+            {
+              "entry_id": "117471",
+              "talent": "Amplification Core",
+              "spell_id": 445029,
+              "max_ranks": "1",
+              "choice_index": 0
+            },
+            {
+              "entry_id": "125823",
+              "talent": "Oversurge",
+              "spell_id": 445030,
+              "max_ranks": "1",
+              "choice_index": 1
+            }
+          ]
+        },
+        {
+          "node_id": 94877,
+          "type": "ACTIVE",
+          "row": 2,
+          "col": 23,
+          "x": 15900,
+          "y": 1200,
+          "serial_order": 100,
+          "req_points": 0,
+          "prereq_node_ids": [],
+          "entries": [
+            {
+              "entry_id": "",
+              "talent": "Surging Totem",
+              "spell_id": 444995,
+              "max_ranks": 1,
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94879,
+          "type": "PASSIVE",
+          "row": 6,
+          "col": 23,
+          "x": 15900,
+          "y": 3600,
+          "serial_order": 101,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94881,
+            94866,
+            94871,
+            109724
+          ],
+          "entries": [
+            {
+              "entry_id": "117476",
+              "talent": "Whirling Elements",
+              "spell_id": 445024,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94881,
+          "type": "CHOICE",
+          "row": 5,
+          "col": 23,
+          "x": 16200,
+          "y": 3000,
+          "serial_order": 103,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94872
+          ],
+          "entries": [
+            {
+              "entry_id": "117478",
+              "talent": "Totemic Coordination",
+              "spell_id": 445036,
+              "max_ranks": "1",
+              "choice_index": 0
+            },
+            {
+              "entry_id": "125822",
+              "talent": "Earthsurge",
+              "spell_id": 455590,
+              "max_ranks": "1",
+              "choice_index": 1
+            }
+          ]
+        },
+        {
+          "node_id": 94882,
+          "type": "PASSIVE",
+          "row": 3,
+          "col": 23,
+          "x": 16200,
+          "y": 1800,
+          "serial_order": 104,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94877
+          ],
+          "entries": [
+            {
+              "entry_id": "117479",
+              "talent": "Lively Totems",
+              "spell_id": 445034,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94890,
+          "type": "PASSIVE",
+          "row": 3,
+          "col": 21,
+          "x": 15000,
+          "y": 1800,
+          "serial_order": 112,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94877
+          ],
+          "entries": [
+            {
+              "entry_id": "117487",
+              "talent": "Totemic Rebound",
+              "spell_id": 445025,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94891,
+          "type": "PASSIVE",
+          "row": 4,
+          "col": 22,
+          "x": 15600,
+          "y": 2400,
+          "serial_order": 113,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94874
+          ],
+          "entries": [
+            {
+              "entry_id": "117488",
+              "talent": "Wind Barrier",
+              "spell_id": 445031,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 109724,
+          "type": "PASSIVE",
+          "row": 5,
+          "col": 24,
+          "x": 16800,
+          "y": 3000,
+          "serial_order": 196,
+          "req_points": 0,
+          "prereq_node_ids": [
+            109725
+          ],
+          "entries": [
+            {
+              "entry_id": "135982",
+              "talent": "Primal Catalyst",
+              "spell_id": 1260874,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 109725,
+          "type": "PASSIVE",
+          "row": 4,
+          "col": 24,
+          "x": 16800,
+          "y": 2400,
+          "serial_order": 197,
+          "req_points": 0,
+          "prereq_node_ids": [
+            109726
+          ],
+          "entries": [
+            {
+              "entry_id": "135983",
+              "talent": "Elemental Attunement",
+              "spell_id": 1263288,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 109726,
+          "type": "PASSIVE",
+          "row": 3,
+          "col": 24,
+          "x": 16800,
+          "y": 1800,
+          "serial_order": 198,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94877
+          ],
+          "entries": [
+            {
+              "entry_id": "135984",
+              "talent": "Totemic Momentum",
+              "spell_id": 1260644,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        }
+      ],
+      "Stormbringer": [
+        {
+          "node_id": 94863,
+          "type": "CHOICE",
+          "row": 8,
+          "col": 11,
+          "x": 8700,
+          "y": 4797,
+          "serial_order": 89,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94892
+          ],
+          "entries": [
+            {
+              "entry_id": "117460",
+              "talent": "Lightning Conduit",
+              "spell_id": 467778,
+              "max_ranks": "1",
+              "choice_index": 0
+            },
+            {
+              "entry_id": "128226",
+              "talent": "Electroshock",
+              "spell_id": 454022,
+              "max_ranks": "1",
+              "choice_index": 1
+            }
+          ]
+        },
+        {
+          "node_id": 94867,
+          "type": "PASSIVE",
+          "row": 11,
+          "col": 10,
+          "x": 8400,
+          "y": 6600,
+          "serial_order": 91,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94880,
+            94868,
+            94870,
+            109727
+          ],
+          "entries": [
+            {
+              "entry_id": "117464",
+              "talent": "Awakening Storms",
+              "spell_id": 455129,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94868,
+          "type": "PASSIVE",
+          "row": 10,
+          "col": 10,
+          "x": 8100,
+          "y": 6000,
+          "serial_order": 92,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94885
+          ],
+          "entries": [
+            {
+              "entry_id": "117465",
+              "talent": "Conductive Energy",
+              "spell_id": 455123,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94870,
+          "type": "PASSIVE",
+          "row": 10,
+          "col": 9,
+          "x": 7500,
+          "y": 6000,
+          "serial_order": 94,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94873
+          ],
+          "entries": [
+            {
+              "entry_id": "117467",
+              "talent": "Voltaic Surge",
+              "spell_id": 454919,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94873,
+          "type": "CHOICE",
+          "row": 9,
+          "col": 9,
+          "x": 7500,
+          "y": 5400,
+          "serial_order": 97,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94886
+          ],
+          "entries": [
+            {
+              "entry_id": "117470",
+              "talent": "Storm Swell",
+              "spell_id": 455088,
+              "max_ranks": "1",
+              "choice_index": 0
+            },
+            {
+              "entry_id": "128225",
+              "talent": "Supercharge",
+              "spell_id": 455110,
+              "max_ranks": "1",
+              "choice_index": 1
+            }
+          ]
+        },
+        {
+          "node_id": 94880,
+          "type": "CHOICE",
+          "row": 10,
+          "col": 11,
+          "x": 8700,
+          "y": 6000,
+          "serial_order": 102,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94889
+          ],
+          "entries": [
+            {
+              "entry_id": "117477",
+              "talent": "Nature's Protection",
+              "spell_id": 454027,
+              "max_ranks": "1",
+              "choice_index": 0
+            },
+            {
+              "entry_id": "125617",
+              "talent": "Surging Currents",
+              "spell_id": 454372,
+              "max_ranks": "1",
+              "choice_index": 1
+            }
+          ]
+        },
+        {
+          "node_id": 94885,
+          "type": "PASSIVE",
+          "row": 9,
+          "col": 10,
+          "x": 8100,
+          "y": 5400,
+          "serial_order": 107,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94893
+          ],
+          "entries": [
+            {
+              "entry_id": "117482",
+              "talent": "Arc Discharge",
+              "spell_id": 455096,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94886,
+          "type": "PASSIVE",
+          "row": 8,
+          "col": 9,
+          "x": 7500,
+          "y": 4797,
+          "serial_order": 108,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94892
+          ],
+          "entries": [
+            {
+              "entry_id": "117483",
+              "talent": "Unlimited Power",
+              "spell_id": 454391,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94889,
+          "type": "PASSIVE",
+          "row": 9,
+          "col": 11,
+          "x": 8700,
+          "y": 5400,
+          "serial_order": 111,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94863
+          ],
+          "entries": [
+            {
+              "entry_id": "117486",
+              "talent": "Rolling Thunder",
+              "spell_id": 454026,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94892,
+          "type": "PASSIVE",
+          "row": 7,
+          "col": 10,
+          "x": 8400,
+          "y": 4200,
+          "serial_order": 114,
+          "req_points": 0,
+          "prereq_node_ids": [],
+          "entries": [
+            {
+              "entry_id": "117489",
+              "talent": "Tempest",
+              "spell_id": 454009,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 94893,
+          "type": "PASSIVE",
+          "row": 8,
+          "col": 10,
+          "x": 8100,
+          "y": 4797,
+          "serial_order": 115,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94892
+          ],
+          "entries": [
+            {
+              "entry_id": "117490",
+              "talent": "Stormcaller",
+              "spell_id": 454021,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 109727,
+          "type": "PASSIVE",
+          "row": 10,
+          "col": 12,
+          "x": 9300,
+          "y": 6000,
+          "serial_order": 199,
+          "req_points": 0,
+          "prereq_node_ids": [
+            109728
+          ],
+          "entries": [
+            {
+              "entry_id": "135985",
+              "talent": "Descending Skies",
+              "spell_id": 1264688,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 109728,
+          "type": "PASSIVE",
+          "row": 9,
+          "col": 12,
+          "x": 9300,
+          "y": 5400,
+          "serial_order": 200,
+          "req_points": 0,
+          "prereq_node_ids": [
+            109729
+          ],
+          "entries": [
+            {
+              "entry_id": "135986",
+              "talent": "Natural Gift",
+              "spell_id": 1264691,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        },
+        {
+          "node_id": 109729,
+          "type": "PASSIVE",
+          "row": 8,
+          "col": 12,
+          "x": 9300,
+          "y": 4800,
+          "serial_order": 201,
+          "req_points": 0,
+          "prereq_node_ids": [
+            94892
+          ],
+          "entries": [
+            {
+              "entry_id": "135987",
+              "talent": "Stormwell",
+              "spell_id": 1264762,
+              "max_ranks": "1",
+              "choice_index": 0
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

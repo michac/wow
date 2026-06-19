@@ -1,0 +1,500 @@
+{
+  "patch": "12.0.7",
+  "build": "12.0.7.67808",
+  "fetched": "",
+  "pointBudget": {
+    "class": 31,
+    "spec": 30,
+    "hero": 11
+  },
+  "classes": [
+    {
+      "slug": "death-knight",
+      "name": "Death Knight",
+      "id": 6,
+      "specs": [
+        {
+          "slug": "blood",
+          "name": "Blood",
+          "id": 250,
+          "treeId": 750,
+          "heroTrees": [
+            "San'layn",
+            "Deathbringer"
+          ]
+        },
+        {
+          "slug": "frost",
+          "name": "Frost",
+          "id": 251,
+          "treeId": 750,
+          "heroTrees": [
+            "Rider of the Apocalypse",
+            "Deathbringer"
+          ]
+        },
+        {
+          "slug": "unholy",
+          "name": "Unholy",
+          "id": 252,
+          "treeId": 750,
+          "heroTrees": [
+            "San'layn",
+            "Rider of the Apocalypse"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "demon-hunter",
+      "name": "Demon Hunter",
+      "id": 12,
+      "specs": [
+        {
+          "slug": "devourer",
+          "name": "Devourer",
+          "id": 1480,
+          "treeId": 854,
+          "heroTrees": [
+            "Annihilator",
+            "Void-Scarred"
+          ]
+        },
+        {
+          "slug": "havoc",
+          "name": "Havoc",
+          "id": 577,
+          "treeId": 854,
+          "heroTrees": [
+            "Fel-Scarred",
+            "Aldrachi Reaver"
+          ]
+        },
+        {
+          "slug": "vengeance",
+          "name": "Vengeance",
+          "id": 581,
+          "treeId": 854,
+          "heroTrees": [
+            "Aldrachi Reaver",
+            "Annihilator"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "druid",
+      "name": "Druid",
+      "id": 11,
+      "specs": [
+        {
+          "slug": "balance",
+          "name": "Balance",
+          "id": 102,
+          "treeId": 793,
+          "heroTrees": [
+            "Keeper of the Grove",
+            "Elune's Chosen"
+          ]
+        },
+        {
+          "slug": "feral",
+          "name": "Feral",
+          "id": 103,
+          "treeId": 793,
+          "heroTrees": [
+            "Druid of the Claw",
+            "Wildstalker"
+          ]
+        },
+        {
+          "slug": "guardian",
+          "name": "Guardian",
+          "id": 104,
+          "treeId": 793,
+          "heroTrees": [
+            "Druid of the Claw",
+            "Elune's Chosen"
+          ]
+        },
+        {
+          "slug": "restoration",
+          "name": "Restoration",
+          "id": 105,
+          "treeId": 793,
+          "heroTrees": [
+            "Wildstalker",
+            "Keeper of the Grove"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "evoker",
+      "name": "Evoker",
+      "id": 13,
+      "specs": [
+        {
+          "slug": "augmentation",
+          "name": "Augmentation",
+          "id": 1473,
+          "treeId": 872,
+          "heroTrees": []
+        },
+        {
+          "slug": "devastation",
+          "name": "Devastation",
+          "id": 1467,
+          "treeId": 872,
+          "heroTrees": [
+            "Scalecommander",
+            "Flameshaper"
+          ]
+        },
+        {
+          "slug": "preservation",
+          "name": "Preservation",
+          "id": 1468,
+          "treeId": 872,
+          "heroTrees": [
+            "Flameshaper",
+            "Chronowarden"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "hunter",
+      "name": "Hunter",
+      "id": 3,
+      "specs": [
+        {
+          "slug": "beast-mastery",
+          "name": "Beast Mastery",
+          "id": 253,
+          "treeId": 774,
+          "heroTrees": [
+            "Pack Leader",
+            "Dark Ranger"
+          ]
+        },
+        {
+          "slug": "marksmanship",
+          "name": "Marksmanship",
+          "id": 254,
+          "treeId": 774,
+          "heroTrees": [
+            "Sentinel",
+            "Dark Ranger"
+          ]
+        },
+        {
+          "slug": "survival",
+          "name": "Survival",
+          "id": 255,
+          "treeId": 774,
+          "heroTrees": [
+            "Sentinel",
+            "Pack Leader"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "mage",
+      "name": "Mage",
+      "id": 8,
+      "specs": [
+        {
+          "slug": "arcane",
+          "name": "Arcane",
+          "id": 62,
+          "treeId": 658,
+          "heroTrees": [
+            "Sunfury",
+            "Spellslinger"
+          ]
+        },
+        {
+          "slug": "fire",
+          "name": "Fire",
+          "id": 63,
+          "treeId": 658,
+          "heroTrees": [
+            "Sunfury",
+            "Frostfire"
+          ]
+        },
+        {
+          "slug": "frost",
+          "name": "Frost",
+          "id": 64,
+          "treeId": 658,
+          "heroTrees": [
+            "Spellslinger",
+            "Frostfire"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "monk",
+      "name": "Monk",
+      "id": 10,
+      "specs": [
+        {
+          "slug": "brewmaster",
+          "name": "Brewmaster",
+          "id": 268,
+          "treeId": 1000,
+          "heroTrees": [
+            "Shado-Pan",
+            "Master of Harmony"
+          ]
+        },
+        {
+          "slug": "mistweaver",
+          "name": "Mistweaver",
+          "id": 270,
+          "treeId": 1000,
+          "heroTrees": [
+            "Conduit of the Celestials",
+            "Master of Harmony"
+          ]
+        },
+        {
+          "slug": "windwalker",
+          "name": "Windwalker",
+          "id": 269,
+          "treeId": 1000,
+          "heroTrees": [
+            "Conduit of the Celestials",
+            "Shado-Pan"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "paladin",
+      "name": "Paladin",
+      "id": 2,
+      "specs": [
+        {
+          "slug": "holy",
+          "name": "Holy",
+          "id": 65,
+          "treeId": 790,
+          "heroTrees": [
+            "Lightsmith",
+            "Herald of the Sun"
+          ]
+        },
+        {
+          "slug": "protection",
+          "name": "Protection",
+          "id": 66,
+          "treeId": 790,
+          "heroTrees": [
+            "Templar",
+            "Lightsmith"
+          ]
+        },
+        {
+          "slug": "retribution",
+          "name": "Retribution",
+          "id": 70,
+          "treeId": 790,
+          "heroTrees": [
+            "Templar",
+            "Herald of the Sun"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "priest",
+      "name": "Priest",
+      "id": 5,
+      "specs": [
+        {
+          "slug": "discipline",
+          "name": "Discipline",
+          "id": 256,
+          "treeId": 795,
+          "heroTrees": [
+            "Voidweaver",
+            "Oracle"
+          ]
+        },
+        {
+          "slug": "holy",
+          "name": "Holy",
+          "id": 257,
+          "treeId": 795,
+          "heroTrees": [
+            "Archon",
+            "Oracle"
+          ]
+        },
+        {
+          "slug": "shadow",
+          "name": "Shadow",
+          "id": 258,
+          "treeId": 795,
+          "heroTrees": [
+            "Voidweaver",
+            "Archon"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "rogue",
+      "name": "Rogue",
+      "id": 4,
+      "specs": [
+        {
+          "slug": "assassination",
+          "name": "Assassination",
+          "id": 259,
+          "treeId": 852,
+          "heroTrees": [
+            "Fatebound",
+            "Deathstalker"
+          ]
+        },
+        {
+          "slug": "outlaw",
+          "name": "Outlaw",
+          "id": 260,
+          "treeId": 852,
+          "heroTrees": [
+            "Trickster",
+            "Fatebound"
+          ]
+        },
+        {
+          "slug": "subtlety",
+          "name": "Subtlety",
+          "id": 261,
+          "treeId": 852,
+          "heroTrees": [
+            "Trickster",
+            "Deathstalker"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "shaman",
+      "name": "Shaman",
+      "id": 7,
+      "specs": [
+        {
+          "slug": "elemental",
+          "name": "Elemental",
+          "id": 262,
+          "treeId": 786,
+          "heroTrees": [
+            "Stormbringer",
+            "Farseer"
+          ]
+        },
+        {
+          "slug": "enhancement",
+          "name": "Enhancement",
+          "id": 263,
+          "treeId": 786,
+          "heroTrees": [
+            "Totemic",
+            "Stormbringer"
+          ]
+        },
+        {
+          "slug": "restoration",
+          "name": "Restoration",
+          "id": 264,
+          "treeId": 786,
+          "heroTrees": [
+            "Totemic",
+            "Farseer"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "warlock",
+      "name": "Warlock",
+      "id": 9,
+      "specs": [
+        {
+          "slug": "affliction",
+          "name": "Affliction",
+          "id": 265,
+          "treeId": 720,
+          "heroTrees": [
+            "Soul Harvester",
+            "Hellcaller"
+          ]
+        },
+        {
+          "slug": "demonology",
+          "name": "Demonology",
+          "id": 266,
+          "treeId": 720,
+          "heroTrees": [
+            "Soul Harvester",
+            "Diabolist"
+          ]
+        },
+        {
+          "slug": "destruction",
+          "name": "Destruction",
+          "id": 267,
+          "treeId": 720,
+          "heroTrees": [
+            "Hellcaller",
+            "Diabolist"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "warrior",
+      "name": "Warrior",
+      "id": 1,
+      "specs": [
+        {
+          "slug": "arms",
+          "name": "Arms",
+          "id": 71,
+          "treeId": 850,
+          "heroTrees": [
+            "Slayer",
+            "Colossus"
+          ]
+        },
+        {
+          "slug": "fury",
+          "name": "Fury",
+          "id": 72,
+          "treeId": 850,
+          "heroTrees": [
+            "Slayer",
+            "Mountain Thane"
+          ]
+        },
+        {
+          "slug": "protection",
+          "name": "Protection",
+          "id": 73,
+          "treeId": 850,
+          "heroTrees": [
+            "Mountain Thane",
+            "Colossus"
+          ]
+        }
+      ]
+    }
+  ]
+}

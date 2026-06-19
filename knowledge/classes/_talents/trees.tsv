@@ -1,0 +1,95 @@
+tree_kind	class	tree_id	name	specs	node_count
+class	death-knight	750	death-knight	blood,frost,unholy	44
+spec	death-knight	750	blood	blood	41
+spec	death-knight	750	frost	frost	39
+spec	death-knight	750	unholy	unholy	37
+hero	death-knight	750	Deathbringer	blood,frost	14
+hero	death-knight	750	Rider of the Apocalypse	frost,unholy	14
+hero	death-knight	750	San'layn	blood,unholy	14
+class	demon-hunter	854	demon-hunter	devourer,havoc,vengeance	42
+spec	demon-hunter	854	devourer	devourer	38
+spec	demon-hunter	854	havoc	havoc	39
+spec	demon-hunter	854	vengeance	vengeance	42
+hero	demon-hunter	854	Aldrachi Reaver	havoc,vengeance	14
+hero	demon-hunter	854	Annihilator	devourer,vengeance	14
+hero	demon-hunter	854	Fel-Scarred	havoc	14
+hero	demon-hunter	854	Void-Scarred	devourer	14
+class	druid	793	druid	balance,feral,guardian,restoration	53
+spec	druid	793	balance	balance	38
+spec	druid	793	feral	feral	39
+spec	druid	793	guardian	guardian	40
+spec	druid	793	restoration	restoration	45
+hero	druid	793	Druid of the Claw	feral,guardian	14
+hero	druid	793	Elune's Chosen	balance,guardian	14
+hero	druid	793	Keeper of the Grove	balance,restoration	14
+hero	druid	793	Wildstalker	feral,restoration	14
+class	evoker	872	evoker	augmentation,devastation,preservation	48
+spec	evoker	872	augmentation	augmentation	44
+spec	evoker	872	devastation	devastation	39
+spec	evoker	872	preservation	preservation	41
+hero	evoker	872	Chronowarden	preservation	14
+hero	evoker	872	Flameshaper	devastation,preservation	14
+hero	evoker	872	Scalecommander	devastation	15
+class	hunter	774	hunter	beast-mastery,marksmanship,survival	44
+spec	hunter	774	beast-mastery	beast-mastery	41
+spec	hunter	774	marksmanship	marksmanship	39
+spec	hunter	774	survival	survival	37
+hero	hunter	774	Dark Ranger	beast-mastery,marksmanship	15
+hero	hunter	774	Pack Leader	beast-mastery,survival	14
+hero	hunter	774	Sentinel	marksmanship,survival	14
+class	mage	658	mage	arcane,fire,frost	42
+spec	mage	658	arcane	arcane	37
+spec	mage	658	fire	fire	39
+spec	mage	658	frost	frost	38
+hero	mage	658	Frostfire	fire,frost	15
+hero	mage	658	Spellslinger	arcane,frost	14
+hero	mage	658	Sunfury	arcane,fire	14
+class	monk	1000	monk	brewmaster,mistweaver,windwalker	52
+spec	monk	1000	brewmaster	brewmaster	44
+spec	monk	1000	mistweaver	mistweaver	43
+spec	monk	1000	windwalker	windwalker	47
+hero	monk	1000	Conduit of the Celestials	mistweaver,windwalker	17
+hero	monk	1000	Master of Harmony	brewmaster,mistweaver	14
+hero	monk	1000	Shado-Pan	brewmaster,windwalker	14
+class	paladin	790	paladin	holy,protection,retribution	53
+spec	paladin	790	holy	holy	45
+spec	paladin	790	protection	protection	40
+spec	paladin	790	retribution	retribution	34
+hero	paladin	790	Herald of the Sun	holy,retribution	14
+hero	paladin	790	Lightsmith	holy,protection	15
+hero	paladin	790	Templar	protection,retribution	14
+class	priest	795	priest	discipline,holy,shadow	48
+spec	priest	795	discipline	discipline	41
+spec	priest	795	holy	holy	43
+spec	priest	795	shadow	shadow	44
+hero	priest	795	Archon	holy,shadow	15
+hero	priest	795	Oracle	discipline,holy	14
+hero	priest	795	Voidweaver	discipline,shadow	15
+class	rogue	852	rogue	assassination,outlaw,subtlety	44
+spec	rogue	852	assassination	assassination	38
+spec	rogue	852	outlaw	outlaw	38
+spec	rogue	852	subtlety	subtlety	41
+hero	rogue	852	Deathstalker	assassination,subtlety	14
+hero	rogue	852	Fatebound	assassination,outlaw	14
+hero	rogue	852	Trickster	outlaw,subtlety	14
+class	shaman	786	shaman	elemental,enhancement,restoration	46
+spec	shaman	786	elemental	elemental	42
+spec	shaman	786	enhancement	enhancement	37
+spec	shaman	786	restoration	restoration	42
+hero	shaman	786	Farseer	elemental,restoration	14
+hero	shaman	786	Stormbringer	elemental,enhancement	14
+hero	shaman	786	Totemic	enhancement,restoration	14
+class	warlock	720	warlock	affliction,demonology,destruction	42
+spec	warlock	720	affliction	affliction	37
+spec	warlock	720	demonology	demonology	39
+spec	warlock	720	destruction	destruction	39
+hero	warlock	720	Diabolist	demonology,destruction	14
+hero	warlock	720	Hellcaller	affliction,destruction	14
+hero	warlock	720	Soul Harvester	affliction,demonology	14
+class	warrior	850	warrior	arms,fury,protection	40
+spec	warrior	850	arms	arms	37
+spec	warrior	850	fury	fury	38
+spec	warrior	850	protection	protection	40
+hero	warrior	850	Colossus	arms,protection	14
+hero	warrior	850	Mountain Thane	fury,protection	14
+hero	warrior	850	Slayer	arms,fury	14
