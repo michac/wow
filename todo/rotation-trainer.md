@@ -16,7 +16,48 @@ and this repo already carries Affliction KB + spell data to draw on.
 
 ## Progress log
 
-- *(none yet — this is the initial spec)*
+- **2026-06-19 — Milestone 1 complete (headless sim engine).** Installed the
+  Flutter toolchain on WSL2 (git-clone + PATH; bundled Dart 3.12.2). Built
+  `trainer/sim/`, a pure-Dart package with **no `package:flutter` import**:
+  `tick()`/`advanceBy()`/`cast()`/`canCast()`/`advise()` engine for the
+  simplified Affliction model. Fixed-timestep accumulator (`kFixedDt = 1/60`),
+  7-step tick order, determinism via an injected `SimRng`
+  (Seeded/Always/Never/Scripted), immutable `GameState` snapshots +
+  `List<SimEvent>` per tick, enum-keyed identity (`ids.dart`), pandemic
+  refresh, shard gen + overcap tracking, GCD/cast/Nightfall-instant/clip,
+  and a shared `_validate` behind `cast`/`canCast`. **37 tests green
+  (`dart test`), `dart analyze` clean.** Commit `9c37fe6`.
+  - Decisions locked during M1: keep real proc probabilities in the model and
+    push determinism into the RNG (no fake "every Nth tick"); DoT ticks resolve
+    *before* fall-off so a tick landing exactly at expiry still lands;
+    `alreadyCasting`/`channeling` are off-GCD/channel-only paths (the M1 roster
+    is all on-GCD, so a hard cast in the post-GCD window *clips* rather than
+    rejecting — keeping `cast`/`canCast` consistent).
+- **2026-06-19 — Milestone 2 complete (minimum playable Flutter shell).** Built
+  `trainer/app/` (`rotation_trainer_app`), a Flutter app that `path:`-depends on
+  the M1 `rotation_sim` engine and renders it — **no sim logic in widgets**. A
+  `GameController` (`ChangeNotifier`) owns the `Engine` + a vsync `Ticker`,
+  converts the Ticker's cumulative elapsed into a per-frame delta, and drives
+  `engine.tick(dt)`; a single `ListenableBuilder` repaints the tree each frame.
+  UI: portrait `TargetPanel` (health placeholder + WoW-style **icon tiles with a
+  numeric countdown + radial cooldown sweep** for Agony/Corruption/Haunt),
+  `CastBar` (L→R fill, hidden at rest), `ResourceBar` (5 shard pips + Nightfall
+  chip), and a thumb-grid `ActionBar` of `AbilityButton`s that dispatch `cast`
+  and dim + show a reason badge (GCD/CD/◇) via `canCast`. **6 widget tests green
+  (`flutter test`), `flutter analyze` clean, `flutter build web` succeeds.**
+  - Decisions locked during M2: **run target = Flutter web** — `flutter run -d
+    web-server --web-port 8080` + open `localhost` in the Windows browser
+    (`winbrowser`), mirroring the repo's Vite workflow (verified serving HTTP
+    200). Plain `path:` dep over a pub workspace. Timers render as WoW-style
+    icon tiles (placeholder letter faces; real Blizzard icon art is a one-line
+    `Image.network` swap in M5). Code kept target-agnostic (no `dart:io`/`html`,
+    no plugins) so a later Pixel 6 build is a `-d` flag + Android setup.
+  - **Rendering-backend caveat:** web renders with **Skia/CanvasKit**; a modern
+    Pixel 6 build uses **Impeller** (no Skia) — verified against the local
+    `~/flutter` repo. Visually equivalent for M2's primitives, but reserve final
+    judgment on smoothness/feel (and haptics/touch ergonomics) for a device build.
+- *Next: Milestone 3 — JSON template loader (drive the roster from
+  `warlock-affliction-simple.json`, validate on load).*
 
 ## Decisions (locked)
 

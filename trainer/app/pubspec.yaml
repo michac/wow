@@ -1,0 +1,22 @@
+name: rotation_trainer_app
+description: "Flutter shell for the WoW Rotation Trainer (minimum playable)."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.12.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+  # The headless, Flutter-free sim engine (Milestone 1).
+  rotation_sim:
+    path: ../sim
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
