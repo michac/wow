@@ -97,6 +97,23 @@ are usually cheap enough to be the default buy.
 - Crafted items can be **recrafted later** for fewer mats than a fresh
   craft: raise quality, add/swap optional reagents — this is how a 259
   crestless craft becomes 285 with Myth crests later.
+- **Quality-only recrafts confirmed** (Icy Veins recrafting guide,
+  fetched 2026-06-06): a recraft with no other changes raises quality
+  if the recrafter's skill beats the original. Cost = **the item + "a
+  small fraction of the original tradeable reagents"** + commission if
+  ordered. Sparks are not tradeable reagents → **not re-consumed**
+  (inference from the guide's wording + the plan's recraft-to-285
+  assumption; sanity-check the recraft UI's reagent list once).
+- ⚠ **Original reagent quality stays weighted into every future
+  recraft** (Icy Veins) — cheap q1 mats in the original craft
+  permanently drag the item's recraft math. **Always supply gold (q3)
+  mats on the original order — especially public orders** (where the
+  customer supplies everything anyway): then a bad fill is purely a
+  skill problem, fully fixable by one recraft.
+- Recraft orders go through the same order system (public/personal/
+  guild) or self-recraft. Unverified: whether a recraft can come back
+  *lower* quality — use min-quality (personal/guild) or self-recraft
+  with concentration for the fix-up pass.
 - **Replaced/removed optional reagents are destroyed, not refunded.**
   Spending 80 Hero crests on a piece you'll Myth-recraft wastes them —
   craft at 259 crestless, go straight to Myth on the recraft (wowcarry).

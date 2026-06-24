@@ -53,5 +53,5 @@ def get_oauth_token(name: str, token_url: str, client_id: str, client_secret: st
 def save_raw(subdir: str, filename: str, content: str) -> Path:
     out = RAW / subdir / filename
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(content)
+    out.write_text(content, encoding="utf-8")
     return out

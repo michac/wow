@@ -1,9 +1,10 @@
 ---
 title: Encomplete – Kil'jaeden (US) — main character snapshot
 patch: 12.0.5
-fetched: 2026-06-03
+fetched: 2026-06-10
 sources:
   - https://us.api.blizzard.com/profile/wow/character/kiljaeden/encomplete?namespace=profile-us
+  - https://us.api.blizzard.com/profile/wow/character/kiljaeden/encomplete/equipment?namespace=profile-us
 confidence: high
 ---
 
@@ -22,28 +23,46 @@ confidence: high
 - Level **90** (cap), Alliance, guild **The Soggy Bottom Boys** (Kil'jaeden)
 - Title: Champion of the Frozen Wastes · 7,125 achievement points
 
-## Gear (equipped ilvl 236, bags 237)
+## Gear (slot-average ilvl 251.2 — re-fetched live 2026-06-11)
 
 | Slot | ilvl | Item |
 |---|---|---|
-| Head | 246 | Silvermoon Sunspire |
-| Neck | 233 | Preyseeker's Choker (socketed) |
-| Shoulders | 224 | Sprawling Fibershells |
-| Chest | 253 | Wretched Scholar's Gilded Robe |
-| Waist | 214 | Voidbreaker's Clasp |
-| Legs | 214 | Courtly Pants |
-| Feet | 227 | Sprawling Rootpads |
+| Head | **259** | **Abyssal Immolator's Smoldering Flames** (tier set piece — NEW; was 246 Silvermoon Sunspire) |
+| Neck | 237 | Preyseeker's Choker (socket **1/1 filled** — was empty) |
+| Shoulders | **263** | **Abyssal Immolator's Fury** (tier set piece) |
+| Chest | **263** | **Abyssal Immolator's Dreadrobe** (tier set piece — NEW; was 253 Wretched Scholar's Gilded Robe) |
+| Waist | 259 | Martyr's Waistwrap (spark craft) |
+| Legs | **259** | **Abyssal Immolator's Pillars** (tier set piece — NEW; was Sprawling Rootstockings) |
+| Feet | 250 | Sprawling Rootpads |
 | Wrist | 233 | Sprawling Wristroots |
-| Hands | 233 | Preyseeker's Refined Gloves |
-| Ring 1 | 237 | Forest Hunter's Hoop (socketed) |
-| Ring 2 | 233 | Radiant Phoenix Band (socketed) |
-| Trinket 1 | 246 | Glorious Crusader's Keepsake |
+| Hands | 250 | Sprawling Tendrils (NEW 2026-06-11; was 233 Preyseeker's Refined Gloves) |
+| Ring 1 | 246 | Preyseeker's Circle (socket **0/1 EMPTY**; NEW 2026-06-11, was 237 Forest Hunter's Hoop) |
+| Ring 2 | 250 | Vibrant Wilderloop (socket 1/1) |
+| Trinket 1 | 250 | Void-Reaper's Libram (NEW; was 246 Glorious Crusader's Keepsake) |
 | Trinket 2 | 250 | Sylvan Wakrapuku |
-| Back | 246 | Voidbreaker's Cape |
-| Main Hand | 246 | Elderoot Spire |
+| Back | 250 | Sprawling Mycoshroud (NEW; was 246 Voidbreaker's Cape) |
+| Main Hand | 250 | Barbed Rootwand (NEW; was 246 2H Elderoot Spire) |
+| Off Hand | 250 | Elderbloom Lantern (NEW — switched from a 2H staff to 1H wand + off-hand) |
 
-Notable gaps at fetch time: **no permanent enchants detected on any slot**;
-weakest slots are **waist/legs (214)** and **shoulders (224)**.
+**Major change since 06-07: 4-piece tier set is now active** —
+Abyssal Immolator's head (259) / shoulders (263) / chest (263) /
+legs (259) are all equipped, so the 4pc set bonus is live (was 1–2pc).
+Neck socket is now filled; trinket/back/weapon all bumped to 250; moved
+from a 2H staff to 1H wand + off-hand.
+
+Notable gaps at 2026-06-11 fetch: **still ZERO enchants on every single
+slot** (unchanged — biggest free upgrade outstanding). **One empty
+socket**: the **new Ring 1 (Preyseeker's Circle) reads 0/1 — gem it**
+(neck and Ring 2 sockets are both filled). Sub-250
+slots are now **wrist 233** (the clear laggard), **neck 237**, and
+**Ring 1 246**. Hands jumped 233→250 (Sprawling Tendrils).
+Raw: `raw/blizzard/encomplete-equipment-2026-06-11.json`.
+
+→ Tier set is complete, so the old "Catalyst the Hero legs into a 2pc
+partner" plan is **DONE/obsolete**. Catalyst charges are now free to use
+on non-tier upgrades elsewhere. Next gear priorities: **enchant
+everything** + **gem the new Ring 1 socket**, then replace the lone
+**233 wrist** (delve/ritual/spark) — it's the only sub-237 slot left.
 
 ## Season 1 progress
 
@@ -51,17 +70,28 @@ weakest slots are **waist/legs (214)** and **shoulders (224)**.
 - **Raids**: no Midnight raid kills recorded. (Most recent recorded raid
   kills are Wrath-era — returning player.)
 
-### Renown (API, 2026-06-03)
+### Renown (API, re-fetched 2026-06-11)
 
-| Faction | Renown |
-|---|---|
-| Silvermoon Court | 10 |
-| Amani Tribe | 6 |
-| Hara'ti | 5 |
-| The Singularity | 5 |
-| Slayer's Rise | — (no standing; likely not unlocked) |
+| Faction | Renown | Progress to next |
+|---|---|---|
+| Silvermoon Court | **11** | 1235/2500 |
+| The Singularity | **7** | 415/2500 |
+| Amani Tribe | **7** | 1225/2500 |
+| Hara'ti | **6** | 730/2500 |
+| Ritual Sites | **2** | 632/2500 |
+| Slayer's Duellum | Neutral | 300/3000 (now unlocked; API name is **Slayer's Duellum**, not "Slayer's Rise") |
 
-### Currencies (verified from in-game currency tab screenshot, 2026-06-03)
+→ All factions moved up since the 2026-06-03 fetch (Silvermoon 10→11,
+Amani 6→7, Hara'ti 5→6, Singularity 5→7, Ritual Sites 1→2). Slayer's is
+now showing on the API at Neutral standing.
+
+Raw: `raw/blizzard/encomplete-reputations-2026-06-11.json`.
+
+### Currencies (in-game screenshot, 2026-06-03 — ⚠ NOT API-exposed, likely stale)
+
+> The profile API does **not** return character currencies or Delver's/
+> Prey Journey ranks — these can only come from an in-game screenshot.
+> Values below are from 2026-06-03 and were not refreshable on 2026-06-11.
 
 - **10 Sparks of Radiance** banked (user-reported) · **6 Catalyst charges**
 - Dawncrests: **Adventurer 111 · Veteran 165 · Champion 84** (no

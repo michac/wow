@@ -1,9 +1,11 @@
 ---
 title: Delves — Midnight Season 1
 patch: 12.0.5
-fetched: 2026-06-03
+fetched: 2026-06-05
 sources:
   - https://www.icy-veins.com/wow/weekly-to-do-list
+  - https://www.icy-veins.com/wow/midnight-delve-rewards-guide
+  - https://conquestcapped.com/guides/wow/midnight-delves-rewards/
 confidence: medium
 ---
 
@@ -16,27 +18,40 @@ Solo/small-group scaling endgame pillar. Tiers 1–11.
 - **≥1 Tier 11 delve** (weekly objective)
 - **4 Bountiful delves** → weekly cache, **ilvl 235–245**
 
-## Loot table (Icy Veins, updated 2026-05-19, tier 3)
+## Loot table (CORRECTED 2026-06-05 — Icy Veins delve-rewards guide +
+ConquestCapped, cross-checked)
 
 **Bountiful delves only — regular delves cap at T3-level loot.**
 
-| Tier | End-of-run | Keyed Bountiful Coffer | Vault world row |
-|---|---|---|---|
-| 1–3 | Adventurer 220–227 | — | Veteran 233–240 |
-| 4–5 | Adv 230 / Vet 233 | Veteran 237–243 | Vet/Champ 243–246 |
-| 6 | Veteran 237 | Champion 250 | Champ/Hero 253+ |
-| 7 | Champion 246 | Champion 256 | ↓ |
-| **8–11** | **Champion 250** | **Hero 259 (1/6)** | Champ/Hero 253–259 |
+**Trovehunter's/Delver's Bounty map: gear caps at T8** (confirmed
+2026-06-07, Icy Veins delve-rewards + ConquestCapped). The Hidden Trove
+scales T4→T8, then plateaus — **T9–11 give the SAME Hero 259 1/6 piece,
+only extra crests.** So the map's best tier is the **lowest tier that
+still yields max reward = T8** (least death risk on a 1-shot resource).
+The in-game "reward varies by difficulty" prompt is the sub-T8 band.
 
-→ **Hero gear from delves = the keyed Bountiful Coffer at T8+.** That's
-the whole trick: end-of-run loot never exceeds champion; you must run
-the *bountiful* version AND spend a Restored Coffer Key on the coffer.
+| Tier | Keyed Bountiful Coffer | Trovehunter's Bounty trove | Vault world row |
+|---|---|---|---|
+| 7 | Champion 246 (1/6) | Hero 259 | Champ ~253 |
+| **8–11** | **Champion 250 (2/6)** | **Hero 259 (1/6)** | **Hero 259 (1/6)** |
+
+→ ⚠ **The 2026-06-03 version of this table was WRONG**: it claimed the
+keyed coffer gives Hero 259 at T8+. Two sources confirm **coffers cap
+at Champion 250 2/6 even at T8–11**. Hero 259 from delves comes ONLY
+from (a) the **Trovehunter's/Delver's Bounty** map trove and (b) the
+**Great Vault** (T8+ delve activity → world row Hero 259 1/6, per Icy
+Veins). This resolves the 2026-06-03 user observation — a champion
+trinket from a T9 bountiful coffer was working as intended.
+
+→ Coffers are still worth all 6 keys at T8: Champion 250 2/6 beats
+most sub-245 slots and is **Catalyst fodder** for tier slots.
 
 ## Gearing role in 12.0.5 (SignsOfKelani, 2026-04-26)
 
 - Kelani's "rank 9 for hero gear" claim refers to the **vendor** (276
-  hero pieces for Untainted Mana Crystals) — coffer hero gear at T8+
-  needs no journey rank, per Icy Veins.
+  hero pieces for Untainted Mana Crystals). ~~Coffer hero gear at T8+~~
+  — corrected 2026-06-05: coffers are champion-track; in-run hero gear
+  is Trovehunter's Bounty only.
 - **Delver's Bounty** (map, lootable 1×/week; verified name 2026-06-03,
   Wowhead/Icy Veins Midnight guides) → consumed in-run, spawns a
   **Hidden Trove** at delve's end, loot scales with tier — **use at
@@ -71,8 +86,8 @@ the *bountiful* version AND spend a Restored Coffer Key on the coffer.
 5. Parhelion Plaza
 6. The Darkway
 7. Twilight Crypts
-8. The Gulf of Memory
-9. Sunkiller Sanctum
+8. The Gulf of Memory — boss notes: `gulf-of-memory.md` (Mul'tha'ul)
+9. Sunkiller Sanctum — boss notes: `sunkiller-sanctum.md` (Esuritus)
 10. The Shadow Enclave
 
 ## Delver's Journey (seasonal renown — koroboost 2026-03-30, tier 4)
@@ -107,10 +122,16 @@ Companion: **Valeera Sanguinar** (verified via Blizzard API reputations
 - [ ] Valeera upgrade path / curio equivalents
 - [ ] Resolve myth-stash conflict (20/wk vs 3×7=21) and which rank
       (2 vs 4) gilded stashes actually start — sources disagree
-- [ ] **User observation 2026-06-03**: bountiful T9 yielded only a
-      champion trinket. Likely the end-of-run drop (champion 250 is
-      correct there) with the keyed coffer unopened/keyless — but
-      confirm in-game: did a Bountiful Coffer chest appear, did opening
-      it consume a Restored Coffer Key, and what track was its loot?
+- [x] **RESOLVED 2026-06-05**: the 2026-06-03 "bountiful T9 yielded only
+      a champion trinket" observation was correct behavior — coffers are
+      Champion-track, period (see corrected loot table above).
+- [ ] **User observation 2026-06-05**: died repeatedly in a T10 bountiful
+      and **lost the coffer at the end** — implies a death penalty that
+      can void/lock the Bountiful Coffer (mechanic unverified: revive
+      budget? coffer despawn after N deaths?). Until clarified, treat
+      deaths as loot-threatening and run the lowest tier with identical
+      coffer loot (T8 — same Champion 250 2/6 as T9–11 per the
+      corrected table above). User clears T9 (rough) but not T10 at
+      ~236 — T11 (gilded stashes) needs meaningfully more ilvl first.
 - [ ] Confirm vendor currency in-game name ("Nightcoin"?)
 - [ ] Tier → loot ilvl table; journey rep for sub-T11 bountifuls

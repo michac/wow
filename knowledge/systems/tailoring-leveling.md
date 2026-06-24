@@ -1,9 +1,10 @@
 ---
 title: Midnight Tailoring — leveling 1–100, knowledge points, specs
 patch: 12.0.5
-fetched: 2026-06-03
+fetched: 2026-06-05
 sources:
   - https://www.wow-professions.com/guides/wow-tailoring-leveling-guide
+  - https://www.wow-professions.com/midnight/tailoring-guide
   - https://www.wow-professions.com/midnight/tailoring-specialization-guide-and-builds
   - https://www.wowhead.com/guide/midnight/professions/tailoring-leveling-1-100
   - https://www.method.gg/guides/midnight-tailoring-profession-guide
@@ -33,17 +34,26 @@ medium confidence).
 
 ## Recipe acquisition — what to buy vs skip
 
-- **1–50: all trainer-taught** (Galana) — no AH recipes needed.
-  Trainer recipes cost **~160g each** (user-verified in-game
-  2026-06-04). **Buy the whole Courtly line as it unlocks** (~9 recipes
-  ≈ 1,450g): API-verified 2026-06-04 (Blizzard recipe endpoint, tier 1)
-  — Courtly mats are vendor Silverleaf Thread/Embroidery Floss + ~2
-  Bright Linen Bolts each, so each first-craft KP costs ~200g vs
-  1–1.5k/KP from books. ⚠ API recipe `reagents` omits quality-tiered
-  reagents (bolts live in modified-crafting slots) — cross-check guides.
-  Full Midnight tier catalog (72 recipes, incl. Martyr's/Arcanoweave/
-  Sunfire endgame garments): `raw/blizzard/midnight-tailoring-2918.json`
-  (profession 197, skill tier 2918).
+**Full per-recipe inventory with sources and buy/skip verdicts:
+`tailoring-recipes.md`** (API + DB2 audit, 2026-06-05). Headlines:
+
+- **Trainer (Galana): 29 recipes** (2 auto + 27 at ~160g each,
+  user-verified in-game 2026-06-04). **Buy the 21 cheap ones (~3.4k
+  total)** — first-craft KP at ~200g/KP vs 1–1.5k/KP from books —
+  **except**: don't *first-craft* the Arcanoweave Reagent Rucksack /
+  Sunfire Silk Backpack (skill 50) until your own daily bolt CD has
+  spares, and **skip the 6 Wardrobe capes entirely for leveling** —
+  each needs 10 rare cloth + **32 daily-CD bolts** (~5k+ gold of mats
+  per cape; wago-verified 2026-06-05). They're warband transmog sinks,
+  not KP sources. ⚠ API recipe `reagents` omits quality-tiered reagents
+  (bolts live in modified-crafting slots) — cross-check guides.
+  Full Midnight tier catalog (88 entries / 78 real recipes):
+  `raw/blizzard/midnight-tailoring-2918.json` + `-recipes.json`
+  (profession 197, skill tier 2918; re-fetch:
+  `tools/fetch_tailoring_recipes.py`).
+- **Deynna's 150-Moxie recipes (Elegant/Thalassian prof gear): skip
+  for KP** — the renown book (75 Moxie = 10 KP, Silvermoon Court R6)
+  is the best Moxie sink. Buy only Elegant pieces you'll actually use.
 - **Daily bolt CD + endgame slot recipes: from KP spec nodes** (Nimble
   Needlework 5; each slot sub-spec's 10-pt node = that slot's recipe).
 - **Lining recipes (80–90)**: AH world-drops — only needed if pushing
@@ -53,15 +63,36 @@ medium confidence).
   ≈ **1–1.5k gold per KP**; buy a recipe only if price < ~1.5k per KP
   it grants (first crafts give 1–3 KP). Otherwise skip.
 
-## Knowledge points
+## Knowledge points (~19 KP/week possible)
 
 - **First crafts**: 1–3 KP per new recipe (the 40–45 sweep)
-- **Crafting orders**: bonus KP for first fills of the week — **Patron
-  Orders (NPC-generated, zero social contact)** also pay augment runes
-  and skill-boost reagents
-- **8 profession treasures** in Midnight zones — 3 KP each (24 total)
-- **Weekly trainer quest** — 3 KP
-- **Vendor books** — 10 KP, ~10–15k gold each (optional catch-up)
+- **Patron Orders**: ~12 KP/week (Glimmer of Midnight Tailoring
+  Knowledge from some, not all, fills; NPC-generated, zero social
+  contact) — also pay augment runes and skill-boost reagents. Catch-up:
+  Flickers drop from orders if you fall behind — missed weeks aren't lost
+- **Weekly trainer quest** — **2 KP** (Thalassian Tailor's Notebook;
+  complete 3 crafting orders; requires the "Crafters Needed" questline
+  from Captain Flaresworn first) *(corrected 2026-06-05, was 3 KP)*
+- **Weekly treasure drops** — 4 KP (1× Embroidered Memento + 1× Finely
+  Woven Lynx Collar lootable per week from zone treasures)
+- **Inscription treatise** — 1 KP/week (Thalassian Treatise on
+  Tailoring; BoP → get via public crafting order, or Warbound from an
+  Inscription alt)
+- **Darkmoon Faire** — 3 KP + 2 skill, monthly profession quest
+- **8 one-time profession treasures** — 3 KP each (24 total); TomTom:
+  ```
+  /way #2393 35.9, 61.3 A Really Nice Curtain (Silvermoon)
+  /way #2393 31.8, 68.2 Particularly Enchanting Tablecloth (Silvermoon)
+  /way #2395 46.3, 34.8 Sin'dorei Outfitter's Ruler (Eversong)
+  /way #2437 40.5, 49.4 Artisan's Cover Comb (Zul'Aman, in cave)
+  /way #2413 69.8, 51.0 Wooden Weaving Sword (Harandar)
+  /way #2413 70.5, 50.9 A Child's Stuffy (Harandar)
+  /way #2444 62.0, 83.6 Book of Sin'dorei Stitches (Voidstorm)
+  /way #2444 61.6, 85.0 Satin Throw Pillow (Voidstorm)
+  ```
+- **Renown book** — Skill Issue: Tailoring, 10 KP for **75 Artisan
+  Tailor's Moxie** (Caeris Fairdawn, Eversong; Silvermoon Court renown
+  6) *(corrected 2026-06-05: costs Moxie, not 10–15k gold)*
 
 ## Specialization order (gear-crafting build)
 
@@ -79,6 +110,29 @@ medium confidence).
    mass-producing bolts/consumables). Tool missives exist (Thalassian
    Missive of Ingenuity etc. — see `professions.md`)
 
+## Quality math — what a rank-5 (gold) craft actually requires
+
+Quality = **effective skill vs the recipe's difficulty** (5 bands;
+rank 5 ≈ effective skill at ~100% of difficulty). Effective skill
+stacks from:
+
+1. **Base skill** (1–100) — the 50→80 bolt-CD wall is the slow part
+2. **Fiber Arts root 30** — flat skill on ALL recipes
+3. **Spec node skill** — incl. Midnight tailoring's quirk: small
+   *hidden* skill bonuses scattered across random nodes (the reason
+   no-concentration gold costs ~double the KP of other professions —
+   wow-professions spec guide)
+4. **Profession gear** (epic Thalassian / Elegant Artisan pieces)
+5. **Reagent quality** — q3 (gold) mats raise effective skill; buy
+   gold bolts/cloth for crafts that matter
+
+If that lands you in the rank-4 band, **Concentration** (regenerating
+resource) forces rank 5 anyway. The stats: **Ingenuity** = cheaper
+concentration / refund chance · **Resourcefulness** = mat refunds ·
+**Multicraft** = extra output (bolts only — irrelevant for gear).
+Ground truth per recipe: open it in the profession UI once learned —
+it shows the difficulty number and your current effective skill.
+
 ## Expectations
 
 Guaranteed gold (rank 5 without concentration) takes skill 100 + deep
@@ -89,8 +143,10 @@ self-recraft cloth pieces at rank 5 *using concentration* once skill
 
 ## TODO
 
-- [ ] Treasure locations (8 × 3 KP) — coords per zone
-- [ ] Verify Midnight has/lacks DF-style weekly treatise for KP
-- [ ] Which slot sub-spec covers wrist (Martyr's Bindings) vs
-      belt/boots — node names
+- [x] Treasure locations — resolved 2026-06-05 (TomTom block above)
+- [x] Weekly treatise — exists: Thalassian Treatise on Tailoring, 1 KP
+- [ ] Sin'dorei Finery covers all 9 slots (wrist = Martyr's Bindings)
+      via three 3-slot sub-specs — exact node names / slot grouping
+      still unverified
 - [ ] Artisan Tailor's Moxie earn rate
+- [ ] Mirvedon (PvP) + Deynna house-decor recipe prices — check in-game

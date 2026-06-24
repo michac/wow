@@ -5,6 +5,10 @@ fetched: 2026-06-03
 sources:
   - https://www.youtube.com/watch?v=e6GLeeqwV4U  # SignsOfKelani, 2026-04-26
   - https://www.icy-veins.com/wow/midnight-1205-guide
+  - https://www.method.gg/guides/field-accolades-vendor-location-and-rewards
+  - https://skycoach.gg/blog/wow/articles/ritual-sites-guide
+  - https://conquestcapped.com/guides/wow/midnight-delves-rewards/  # accolade:spoils ratio
+  - https://seramate.com/news/2026/05/22/maren-silverwing-gear-caches-patch-1207-1f155eb2
 confidence: medium
 ---
 
@@ -85,9 +89,38 @@ oddball loot.
 - **Great Vault**: tier 4–5 ritual sites beat delve T8 for the world row —
   up to **ilvl 269 vault** (hero track; myth vault still requires M+10/raid)
 
-## Field Accolades & gear vendors (Silvermoon)
+## Accolades per run (added 2026-06-05)
 
-- **Champion piece: 75 accolades · Hero piece: 500 accolades**
+- **Accolades ≈ Spoils ÷ 10, rounded down** (ConquestCapped: 330 spoils
+  → 32, 507 → 50). Spoils scale with tier, challenges (+10–25% each),
+  and performance; deaths past 2 cut up to −50%.
+- Anchors: **T5 ≈ 100+/run** (Kelani) · **T6 (12.0.7) ≈ another
+  100+** · mid-tier examples above suggest **T3 ≈ 30–50/run** clean
+  (estimate — no direct T3 source; verify in-game from the chest).
+- Challenge picks for weaker characters (skycoach + Overgear agree):
+  **take Tendrils (+10%) and Tainted Corpses (+10%)** — both are
+  just movement checks; add Manifestations/Patrols if comfortable.
+  **Avoid Embers (+25%) and Magical Alarm Bells** (skycoach: worst
+  solo offenders; Embers spawns empowerments enemies claim), and skip
+  Reinforced/Malevolent Boons for run speed.
+- ⚠ Source conflict: this file (Overgear) says only **T5 requires ≥4
+  challenges**; ConquestCapped says T3/T4/T5 all *require* adding
+  challenges. Check the obelisk UI at T3.
+
+## Field Accolades & gear vendors (Silvermoon — Maren Silverwing)
+
+- **12.0.5 live: Cache of Void-Touched Armaments — Champion 75
+  accolades · Hero 500 accolades** (Method.gg 2026-06-05: both are
+  **random** spec-appropriate items incl. rings/necks; duplicates
+  possible).
+- **12.0.7 (June 16, PTR-sourced — seramate/overgear/masterofwarcraft
+  2026-05-22):**
+  - slot-specific **Hero cache: 750**
+  - random **Hero cache cut 500 → 100** (!)
+  - slot-specific **Champion cache: 100, warbound** (single tier-4
+    source — corroborate at patch)
+  - i.e. every ~100 banked accolades ≈ one hero roll after June 16;
+    banking now is even better than the 750-cache math alone.
 - ⚠ **The purchased piece is a RANDOM slot** (like prey/delve loot), not
   a targeted buy — per video comments (tier 4; verify in-game/Icy Veins).
   Expected value is high while you own little-to-no hero gear (almost any
