@@ -3,11 +3,12 @@
    * A WoW-style cast bar: the fill sweeps left→right behind the spell name over
    * `duration` ms while `running`. Fires `ontimeout` once the cast completes
    * (the player ran out of time to classify). Remount per card via {#key}.
-   * @type {{ spell: string, duration?: number, running?: boolean, ontimeout?: () => void }}
+   * `progress` (0..1) is bindable so the parent can read elapsed time straight from
+   * what the player saw — the grader and the visible timer share one clock.
+   * @type {{ spell: string, duration?: number, running?: boolean, ontimeout?: () => void, progress?: number }}
    */
-  let { spell, duration = 7000, running = true, ontimeout } = $props();
+  let { spell, duration = 7000, running = true, ontimeout, progress = $bindable(0) } = $props();
 
-  let progress = $state(0); // 0..1
   let remaining = $derived(Math.max(0, (duration * (1 - progress)) / 1000));
 
   $effect(() => {

@@ -121,10 +121,29 @@ A one-file build remains a one-plugin toggle if ever needed.
       Defensible (everyone should know boss mechanics) but currently *implicit*.
       Decide: keep-all-bosses by design (document it), or infer a boss role from
       the ability's archetype / DPS-notes section.
-- [ ] **Cast-bar timeout UX (minor polish):** when the timer expires the card
+- [x] **Cast-bar timeout UX (minor polish):** when the timer expires the card
       auto-reveals and scores as wrong, but there's no "ran out of time" signal
       beyond the red badge — looks identical to a wrong pick. Add a distinct
-      timed-out state.
+      timed-out state. *(Done as part of the auto-grade item below — `NextButton`
+      shows distinct "⏱ Ran out of time" copy; a timeout maps to `again`.)*
+- [x] **Drop the reveal Hard/Easy buttons → auto-grade on hesitation (UX +
+      engine):** the cast bar is already a solve-timer — the longer you take to
+      classify, the harder the card was for you. So stop asking the player to
+      self-grade Again/Hard/Good/Easy on the reveal and instead **infer the SM-2
+      grade from time-to-answer** (and correctness), then show a single big
+      **NEXT** button. Mapping: wrong pick or timeout → `again`; correct maps on
+      elapsed fraction of the cast-bar `duration` (7s) — snap-fast → `easy`,
+      comfortable → `good`, slow/last-second → `hard`.
+      - Shipped (2026-06-24). `gradeFromLatency(wasCorrect, elapsedMs, durationMs)`
+        in `srs.js` (unit-checked at the 0.33/0.66 boundaries); fed into the
+        unchanged `recordReview()` / `review()` path — **no SRS engine change**.
+        `CastBar.progress` is now `$bindable`; `Drill` reads elapsed straight off
+        the visible clock via a shared `DURATION` const. `GradeBar` deleted,
+        `NextButton` added.
+      - **Resolved decisions:** thresholds locked at **33% / 66%** of duration
+        (tunable later by feel). **No fast-wrong differentiation** — any wrong
+        answer maps to `again`. **No manual override** — the whole point is one
+        tap; revisit only if retention data argues otherwise.
 - [ ] **Test-harness deps (open decision):** `bun run test` (build + headless
       mount/flow smoke via `scripts/smoke.mjs`) pulled in `happy-dom` +
       `@testing-library/svelte` as devDeps (no browser binary). Keep the smoke

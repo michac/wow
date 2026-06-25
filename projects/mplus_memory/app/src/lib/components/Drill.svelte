@@ -1,6 +1,7 @@
 <script>
   import { untrack } from "svelte";
   import { store, recordReview } from "../store.svelte.js";
+  import { gradeFromLatency } from "../srs.js";
   import { archetype } from "../content.js";
   import { buildQueue } from "../session.js";
   import { tierClass } from "../ui.js";
@@ -9,9 +10,13 @@
   import CastBar from "./CastBar.svelte";
   import OptionGrid from "./OptionGrid.svelte";
   import RevealPanel from "./RevealPanel.svelte";
-  import GradeBar from "./GradeBar.svelte";
+  import NextButton from "./NextButton.svelte";
   import ModeNav from "./ModeNav.svelte";
   import FilterSheet from "./FilterSheet.svelte";
+
+  // Shared cast-bar duration: the timer the player sees and the latency grader read
+  // the same number so they can't drift.
+  const DURATION = 7000;
 
   let queue = $state([]);
   let idx = $state(0);
@@ -20,6 +25,9 @@
   let phase = $state("cue"); // "cue" | "reveal"
   let selected = $state(null);
   let wasCorrect = $state(false);
+  let timedOut = $state(false);
+  let castProgress = $state(0); // 0..1, bound from the cast bar's RAF clock
+  let elapsedMs = $state(0); // stamped on pick/timeout so next() reads a stable value
   let showFilters = $state(false);
 
   let current = $derived(queue[idx] ?? null);
@@ -51,10 +59,14 @@
     phase = "cue";
     selected = null;
     wasCorrect = false;
+    timedOut = false;
+    castProgress = 0;
+    elapsedMs = 0;
   }
 
   function pick(slug) {
     if (phase !== "cue") return;
+    elapsedMs = castProgress * DURATION;
     selected = slug;
     wasCorrect = slug === current.answer;
     phase = "reveal";
@@ -62,12 +74,17 @@
 
   function onTimeout() {
     if (phase !== "cue") return;
+    elapsedMs = DURATION; // ran out the clock; wrong anyway → grade is "again"
     selected = ""; // ran out of time — counts as a miss
     wasCorrect = false;
+    timedOut = true;
     phase = "reveal";
   }
 
-  function grade(g) {
+  // The cast bar is a solve timer: correctness + time-to-answer imply the grade,
+  // so the reveal collapses to a single Next tap.
+  function next() {
+    const g = gradeFromLatency(wasCorrect, elapsedMs, DURATION);
     recordReview(current.id, g, wasCorrect);
     reviewed += 1;
     // "Again" → re-show this card later in the same session.
@@ -131,15 +148,21 @@
         {#if phase === "cue"}
           <!-- retrieval: cue + timed multiple choice -->
           <div class="scroll flex-1 px-5 pt-5">
-            <CastBar spell={current.cue.spell} running={phase === "cue"} ontimeout={onTimeout} />
+            <CastBar
+              spell={current.cue.spell}
+              duration={DURATION}
+              running={phase === "cue"}
+              ontimeout={onTimeout}
+              bind:progress={castProgress}
+            />
             <p class="mt-6 text-sm text-ink-soft">Which mechanic is this?</p>
             <OptionGrid options={current.options} answer={current.answer} {selected} onpick={pick} />
           </div>
         {:else}
-          <!-- rich reveal + self-grade -->
+          <!-- rich reveal + one-tap advance (grade inferred from latency) -->
           <div class="scroll {wasCorrect ? 'fx-correct' : 'fx-wrong'} flex-1 px-5 pt-4">
             <RevealPanel card={current} archetype={archetype(current.answer)} />
-            <GradeBar ongrade={grade} />
+            <NextButton onnext={next} {wasCorrect} {timedOut} />
           </div>
         {/if}
       {/key}

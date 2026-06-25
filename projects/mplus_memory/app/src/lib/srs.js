@@ -69,6 +69,25 @@ export function review(state, grade, now = Date.now()) {
   return { ease, interval, reps, lapses, due: now + interval * DAY, last: now };
 }
 
+/**
+ * Infer an SM-2 grade from correctness + how long the player took, replacing the
+ * manual Again/Hard/Good/Easy self-grade. The cast bar is already a solve timer:
+ * a fast correct answer means the card was easy, a last-second one means it was hard.
+ * Any wrong answer (or timeout) is a lapse → "again". Thresholds are fractions of
+ * the cast-bar `duration` and tunable by feel.
+ * @param {boolean} wasCorrect did the player pick the right archetype (and in time)?
+ * @param {number} elapsedMs   ms taken to answer
+ * @param {number} durationMs  full cast-bar duration
+ * @returns {Grade}
+ */
+export function gradeFromLatency(wasCorrect, elapsedMs, durationMs) {
+  if (!wasCorrect) return "again"; // wrong pick or timeout
+  const frac = durationMs > 0 ? elapsedMs / durationMs : 1;
+  if (frac < 0.33) return "easy"; // snap-fast
+  if (frac < 0.66) return "good"; // comfortable
+  return "hard"; // slow / last-second
+}
+
 /** Is this card due for review at `now`? Unseen cards (no state) are due. */
 export function isDue(state, now = Date.now()) {
   return !state || state.due <= now;

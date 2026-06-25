@@ -1,7 +1,7 @@
 /**
  * smoke.mjs — headless mount test. Boots the production bundle in happy-dom,
  * confirms the Drill renders, simulates picking the correct option → reveal →
- * grade, and checks the schedule persisted to localStorage. Dev-only (not shipped).
+ * Next, and checks the schedule persisted to localStorage. Dev-only (not shipped).
  */
 import { Window } from "happy-dom";
 import { readdirSync } from "node:fs";
@@ -49,18 +49,17 @@ const options = [...win.document.querySelectorAll("button")].filter((b) =>
 );
 assert(options.length === 4, `4 archetype options rendered (got ${options.length})`);
 
-// pick the first option → must transition to the reveal (Do / grade bar)
+// pick the first option → must transition to the reveal (Do action + Next button)
 options[0].click();
 await new Promise((r) => setTimeout(r, 30));
 assert(/\bDo\b/.test(text()), "reveal shows the Do action");
-assert(/how well did you know it\?/.test(text()), "self-grade bar rendered");
-
-// grade it → schedule should persist
-const gradeBtns = [...win.document.querySelectorAll("button")].filter((b) =>
-  ["Again", "Hard", "Good", "Easy"].includes(b.textContent.trim()),
+const nextBtn = [...win.document.querySelectorAll("button")].find(
+  (b) => b.textContent.trim() === "Next",
 );
-assert(gradeBtns.length === 4, "four grade buttons");
-gradeBtns.find((b) => b.textContent.trim() === "Good").click();
+assert(nextBtn, "single Next button rendered (no self-grade row)");
+
+// tap Next → schedule should persist (grade inferred from latency)
+nextBtn.click();
 await new Promise((r) => setTimeout(r, 30));
 
 const saved = JSON.parse(win.localStorage.getItem("mplus.trainer.v1"));
