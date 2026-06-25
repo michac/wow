@@ -42,38 +42,109 @@ tagged with a coverage assertion (every ability → exactly one slug).
       segment; tighten when the trainer's Route mode needs it.)*
 - [x] Distilled to `knowledge/endgame/mythic-plus/<dungeon>.md` w/ front matter;
       `season-1-overview.md` `## TODO` for per-dungeon files resolved.
-- [ ] Lock the card-data shape: `{ cue, promptType, answer, archetypeRef,
-      tags }` — defer to Phase 3 (engine); validate against this real content.
+- [x] Lock the card-data shape — **done in Phase 3** and validated against all
+      8 real dungeon files (380 cards). Final shape (evolved from the spec's
+      `{cue, promptType, answer, archetypeRef, tags}`):
+      `{ id, cue:{dungeon,dungeonHue,segment,caster,casterKind,spell},
+      promptType:'classify', answer:archetypeSlug,
+      reveal:{whatItDoes,response,tier,role,lowConfidence}, options }`.
+      The build **fails** if any `answer` falls outside the 21 canonical slugs.
 
-## Phase 3 — Engine (React shell, wired to Phase 1+2)
+## Phase 3 — Engine (Svelte 5 app, wired to Phase 1+2)
 
-Single self-contained file. Build the rep loop end-to-end on real data.
+**Done 2026-06-24.** Lives in `projects/mplus_memory/app/`. Rep loop runs
+end-to-end on the real 380-card corpus.
 
-- [ ] Scaffold single-file React app (`projects/mplus_memory/trainer.html` or
-      equivalent).
-- [ ] **Content layer:** load archetypes + dungeons + cards as plain data,
-      separate from logic.
-- [ ] **Engine layer:** SM-2 SRS scheduler.
-- [ ] **Engine layer:** session builder — draws due cards through active
-      filters; **interleaves dungeons** (don't block one at a time).
-- [ ] **Engine layer:** grader (reveal → self-grade).
-- [ ] **Persistence layer:** batch all scheduling state + settings into one
-      `localStorage` object.
-- [ ] **Drill mode:** stark cue→response screen; options at retrieval; motion
-      only on correct/incorrect feedback.
-- [ ] **Archetype mode:** learn the alphabet, made visual.
-- [ ] **UI system:** dark default; consequence-tier semantic colors
-      (🔴 wipe / 🟠 your death / 🔵 your job / ⚪ flavor); display vs body type.
-- [ ] **Role filter:** wired in from the start (DPS now; healer/tank = filter
-      flip later).
-- [ ] Run through frontend-design guidelines so it doesn't read as a template.
+**Stack decision (supersedes the spec's "single self-contained React file"):**
+the single-file/React+CDN constraint was an artifact-era assumption. Target is
+**GitHub Pages** (static host, multi-file fine), so: **Bun + Vite + Svelte 5
+(runes) + Tailwind v4** (`@theme` tokens), `localStorage` persistence, a Bun
+prebuild script (`scripts/build-content.mjs`) that compiles the KB → `content.json`.
+A one-file build remains a one-plugin toggle if ever needed.
+
+- [x] Scaffold the app (Vite + Svelte 5 + Tailwind v4 under `app/`; builds to
+      static `dist/` for Pages with `base:'/wow/'`).
+- [x] **Content layer:** `scripts/build-content.mjs` parses KB md →
+      `src/content.json` (archetypes + dungeons + cards) with a **coverage
+      assertion**; `src/lib/content.js` exposes selectors.
+- [x] **Engine layer:** SM-2 SRS scheduler (`src/lib/srs.js`).
+- [x] **Engine layer:** session builder (`src/lib/session.js`) — due cards
+      through active filters; **interleaves dungeons** (round-robin, never blocks
+      one at a time).
+- [x] **Engine layer:** grader (reveal → Again/Hard/Good/Easy self-grade).
+- [x] **Persistence layer:** one versioned `localStorage` key
+      (`mplus.trainer.v1`: schedule + settings + stats) auto-persisted via a runes
+      store (`src/lib/store.svelte.js`).
+- [x] **Drill mode:** cue → cast-bar-timed classify-the-archetype MC → rich
+      reveal (Do / What's happening / the mechanic) → self-grade; motion only on
+      correct/incorrect.
+- [x] **Archetype ("Alphabet") mode:** all 21 archetypes, made visual
+      (letter chips, expand for tell/do/stakes/role).
+- [x] **UI system:** dark default; consequence-tier semantic colors driven by a
+      single `--tier` knob; per-dungeon `--dgn` hue rings the device; display vs
+      body type. Ported from the approved `prototypes/cards-phone.html`.
+- [x] **Role filter:** wired in from the start (defaults to DPS; All/Healer/Tank
+      = filter flip) plus per-dungeon toggles, in a Settings sheet.
+- [x] Ran through frontend-design guidelines (token-driven, not utility-soup;
+      stark drill screen) so it doesn't read as a template.
+
+### Follow-ups from the Phase-3 build (2026-06-24)
+
+- [ ] **Boss art:** cards use a dungeon-tinted monogram placeholder. Add
+      `scripts/fetch-boss-art.mjs` to pull encounter/creature renders (Blizzard
+      media API / zamimg) → `src/assets/bosses/<slug>.webp`, glyph fallback.
+- [x] **GH Pages wiring (2026-06-24):** copied `app/deploy.yml.example` →
+      `.github/workflows/mplus-trainer-pages.yml`, enabled Pages (Actions
+      source). **Live at https://michac.github.io/wow/.** (See the GitHub Pages
+      deployment item below.)
+- [ ] **Card budget balance:** all 380 rows currently become cards; consider
+      down-weighting ⚪-flavor / low-confidence trash so the pool isn't bloated.
+- [ ] **Boss strategy prose is dropped (content fidelity):** each boss `###`
+      section has an intro paragraph (e.g. Overgrown Ancient "stay stacked, move
+      together during Germinate…"). `build-content.mjs` only harvests the ability
+      *table*, so that prose never reaches `content.json`, the reveal, or a future
+      Browse mode. Parse it into `boss.note` and surface it.
+- [ ] **Boss cards aren't role-filtered (filter semantics):** only trash rows
+      carry a Role column; boss abilities parse to `role: null`, which
+      `cardsForFilters` treats as universal — so with role=DPS every boss card
+      stays in the pool (that's why DPS is 313, not lower) and only trash filters.
+      Defensible (everyone should know boss mechanics) but currently *implicit*.
+      Decide: keep-all-bosses by design (document it), or infer a boss role from
+      the ability's archetype / DPS-notes section.
+- [ ] **Cast-bar timeout UX (minor polish):** when the timer expires the card
+      auto-reveals and scores as wrong, but there's no "ran out of time" signal
+      beyond the red badge — looks identical to a wrong pick. Add a distinct
+      timed-out state.
+- [ ] **Test-harness deps (open decision):** `bun run test` (build + headless
+      mount/flow smoke via `scripts/smoke.mjs`) pulled in `happy-dom` +
+      `@testing-library/svelte` as devDeps (no browser binary). Keep the smoke
+      test as a regression guard, or drop it to keep the dep list minimal.
+
+### GitHub Pages deployment (2026-06-24)
+
+- [x] **Shipped the trainer to GitHub Pages.** Committed the previously-untracked
+      `projects/mplus_memory/app/` + `prototypes/`, added the deploy workflow at
+      `.github/workflows/mplus-trainer-pages.yml` (copied from
+      `app/deploy.yml.example`; `bun install --frozen-lockfile` → `bun run build`
+      → `upload-pages-artifact` → `deploy-pages@v4`), and enabled Pages with the
+      **GitHub Actions** source. Pushed to `main`; the path filter auto-triggers
+      the deploy. **Live: https://michac.github.io/wow/.**
 
 ## Phase 4 — Remaining modes
 
-- [ ] **Route walk** mode — spatial; step through or drag pulls into order.
-- [ ] **Dashboard** — mastery heatmap, solid vs shaky per dungeon (Leitner-style
-      visual SRS).
-- [ ] **Browse** — demoted plain reference.
+Stubbed in the nav (disabled) by Phase 3; routes are already parsed into
+`content.json` ready for Route Walk. Split into discrete, separately-shippable
+items below (simplest first).
+
+- [ ] **Identify the dungeons & their bosses** — a lightweight roster/reference:
+      the 8 dungeons and each boss enumerated (names, order). Listed first as the
+      simplest; seeds the Browse mode.
+- [ ] **Dashboard + Browse** — one item: mastery heatmap (solid-vs-shaky per
+      dungeon, Leitner-style visual SRS, driven off `store.schedule`) plus the
+      demoted plain Browse reference.
+- [ ] **Route walk** — second item: step-through memory-palace walk **plus** an
+      order drill (shuffle the route steps, player taps them back into sequence)
+      for the generation effect.
 
 ## Phase 5 — Fill out the other 7 dungeons
 
