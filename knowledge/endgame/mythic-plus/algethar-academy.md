@@ -47,14 +47,14 @@ flagged `confidence: low` (single-sourced).
 |---|---|---|---|---|---|
 | Vile Lasher | **Detonation Seeds** | Drops a swirly under each player → step out (disorients if hit). CC-immune. | ground-void-zone | 🟠 | all |
 | Vile Lasher | **Vile Bite** | Stacking tank hit → tank uses defensives / bleed cleanse on stacks. _(Method-only)_ | tank-buster | 🔵 | tank |
-| Aggravated Skitterfly | **Darting Sting / Agitation** | Most dangerous trash here. Darting Sting instant-charges a random player; stacking Agitation enrage buffs its damage → Soothe/enrage-dispel, blow cooldowns, stay near pack to cleave. | purge-soothe | 🟠 | all |
+| Aggravated Skitterfly | **Darting Sting / Agitation** | Most dangerous trash here. Darting Sting instant-charges a random player; stacking Agitation enrage buffs its damage → Soothe/enrage-dispel, blow cooldowns, stay near pack to cleave. | purge-soothe; charge | 🟠 | all |
 
 ### The Pitch (before Crawth)
 | Mob | Ability | See → Do | Archetype | Tier | Role |
 |---|---|---|---|---|---|
 | Guardian Sentry (mini-boss) | **Storm Slash** | Hits the tank hard → active mitigation. CC-immune. | tank-buster | 🔵 | tank |
 | Guardian Sentry | **Deadly Winds** | Drops a tornado that roams for several sec → avoid it after the initial hit. | ground-void-zone | 🟠 | all |
-| Guardian Sentry | **Expel Intruders** | Knockback + heavy AoE → run out, or LoS behind a wall (works even inside the circle). | knockback | 🟠 | all |
+| Guardian Sentry | **Expel Intruders** | Knockback + heavy AoE → run out, or LoS behind a wall (works even inside the circle). | knockback; positional-gimmick | 🟠 | all |
 | Territorial Eagle | **Peck** | On the tank, stacking bleed → CC to stop casts, kite, or bleed-cleanse the stacks. | tank-buster | 🔵 | tank |
 | Alpha Eagle | **Gust** | Frontal at a random target → sidestep out. CC-immune. | frontal-cone | 🔵 | all |
 | Alpha Eagle | **Raging Screech / Call of the Flock** | AoE hit + self-enrage (Method) / Call of the Flock buff to interrupt (Icy Veins) → interrupt the buff; tank pre-mitigates if high Peck stacks. | interruptible-cast | 🟠 | all |
@@ -64,12 +64,11 @@ flagged `confidence: low` (single-sourced).
 |---|---|---|---|---|---|
 | Corrupted Manafiend | **Surge** | Cast on a random player → interrupt it. | interruptible-cast | 🔵 | all |
 | Corrupted Manafiend | **Mana Void** | On a random player → defensive; avoid cleaving allies. | spread-out | 🔵 | all |
-| Arcane Ravager | **Vicious Ambush** | Leaps to the furthest player → stay close to pack (defensive if hit). | fixate-chase | 🔵 | all |
-| Arcane Ravager | **Rift Breath / Riftbreath** | Channeled frontal at the tank right after the charge → sidestep out. | frontal-cone | 🟠 | all |
-| Arcane Forager | **Vicious Lunge** | Small hit on a random target → watch burst when multiple Foragers are up. | spread-out | ⚪ | all |
+| Arcane Ravager | **Vicious Ambush** | Leaps to the furthest player → stay close to pack (defensive if hit); immediately after landing it channels a frontal cone at the tank — sidestep out. | proximity-bait | 🔵 | all |
+| Arcane Forager | **Vicious Lunge** | Small hit on a random target → watch burst when multiple Foragers are up. | flavor | ⚪ | all |
 | Spellbound Battleaxe | **Spellbound Weapon / Severing Slash** | Passive bonus arcane (Spellbound Weapon, Method) / Severing Slash initial hit + bleed (Icy Veins) → tank mitigation. _(detail differs by source)_ | tank-buster | 🔵 | tank |
 | Spellbound Scepter | **Mystic Blast** | Crowd-control to stop it. _(Icy Veins only)_ | interruptible-cast | 🔵 | all |
-| Unruly Textbook | **Monotonous Lecture** | Channels on a random player → interrupt; once channeling, a CC or Magic dispel also ends it. | interruptible-cast | 🔵 | all |
+| Unruly Textbook | **Monotonous Lecture** | Channels on a random player → interrupt; once channeling, a CC or Magic dispel also ends it. | interruptible-cast; dispel | 🔵 | all |
 
 ### The Headteacher's Enclave (before Echo of Doragosa)
 | Mob | Ability | See → Do | Archetype | Tier | Role |
@@ -96,7 +95,7 @@ awakens all surviving dormant Lashers — pre-heal and pre-mitigate.
 | Barkbreaker | Tank smash that also leaves a big Physical-damage-taken amp. | Active mitigation; very dangerous if any Lashers are alive. | tank-buster | 🔵 | tank |
 | Branch Out → Ancient Branch | Spawns an Ancient Branch add that casts **Healing Touch**. | Swap to it, interrupt Healing Touch; tank taunts on spawn. | kill-priority-add | 🔵 | all |
 | Healing Touch | Ancient Branch heals the boss / Lashers. | Interrupt at all costs. | interruptible-cast | 🔴 | all |
-| Splinterbark / Abundance | Branch applies Splinterbark bleed party-wide; on death drops **Abundance** circle. | Stand in the Abundance circle (8 yd) to cleanse Splinterbark; time the Branch death when Lashers are near dead so they don't get healed. | dispel | 🔵 | all |
+| Splinterbark / Abundance | Branch applies Splinterbark bleed party-wide; on death drops **Abundance** circle. | Stand in the Abundance circle (8 yd) to cleanse Splinterbark; time the Branch death when Lashers are near dead so they don't get healed. | soak | 🔵 | all |
 
 ### Crawth <!-- enc:2495 -->
 
@@ -109,10 +108,10 @@ goal. Each goal adds a permanent field hazard for the rest of the fight.
 |---|---|---|---|---|
 | Savage Peck | Heavy tank hit + DoT (NOT a bleed in Midnight). | Active mitigation every cast. | tank-buster | 🔵 | tank |
 | Overpowering Gust | Frontal at a random target that knocks players away. | Sidestep out of the cone. | frontal-cone | 🟠 | all |
-| Deafening Screech | Interrupts/silences casters + party-wide DoT; splash if stacked. | Stay loosely spread; group defensive / healing CD. | spread-out | 🟠 | all |
-| Play Ball! (Ruinous Winds gate) | At 75%/45% Crawth channels Ruinous Winds; only interruptible by scoring 3 balls in a goal. | Grab 3 balls, throw into a goal to cancel the cast. | soak | 🔴 | all |
+| Deafening Screech | Interrupts/silences casters + party-wide DoT; splash if stacked. | Stay loosely spread; group defensive / healing CD. | spread-out; raid-damage | 🟠 | all |
+| Play Ball! (Ruinous Winds gate) | At 75%/45% Crawth channels Ruinous Winds; only interruptible by scoring 3 balls in a goal. | Grab 3 balls, throw into a goal to cancel the cast. | positional-gimmick | 🔴 | all |
 | Goal of the Rushing Winds → Gale Force | Scoring the air goal spawns roaming Roving Cyclones + pushback winds for the rest of the fight (grants Haste). | Recommended first goal (75%); dodge the patrolling cyclones. | ground-void-zone | 🟠 | all |
-| Goal of the Searing Blaze → Firestorm | Scoring the fire goal gives Crawth +75% damage taken for 12s, then permanent **Blistering Fire** pulsing AoE + fire circles. | Recommended at 45%; pop Bloodlust/CDs into the damage amp; avoid fire pools. | ground-void-zone | 🟠 | all |
+| Goal of the Searing Blaze → Firestorm | Scoring the fire goal gives Crawth +75% damage taken for 12s, then permanent **Blistering Fire** pulsing AoE + fire circles. | Recommended at 45%; pop Bloodlust/CDs into the damage amp; avoid fire pools. | burn-window; ground-void-zone | 🟠 | all |
 
 _Cross-source note: the 2026-03-24 launch video (Dalaran Gaming) calls Savage Peck
 a **bleed**; the 12.0.7 guides (15 Jun) call it a DoT, **not** a bleed. Treating
@@ -129,7 +128,7 @@ energy if absorbed. Spread to soak orbs. At 100 energy it casts **Arcane Fissure
 | Arcane Orbs (Oversurge) | 5 orbs spawn at the room edge and drift to the boss; absorbed orbs grant +20 energy. Soaking applies non-dispellable **Oversurge**. | Spread out and soak orbs before they reach Vexamus; hard to take >1 without an immunity. | soak | 🔴 | all |
 | Arcane Expulsion | Heavy frontal cone on the tank. | Tank points it away from the group; defensive. | frontal-cone | 🔵 | tank |
 | Mana Bombs | Hits 3 random players; leaves a **Corrupted Mana** pool that damages + slows. | Defensive; drop pools toward the room edge out of the way. | spread-out | 🟠 | all |
-| Arcane Fissure | At 100 energy — pushback + initial hit, then 3 ground circles drop under you. | Healing CD for the hit; brace the knockback; sidestep your circles. | knockback | 🟠 | all |
+| Arcane Fissure | At 100 energy — pushback + initial hit, then 3 ground circles drop under you. | Healing CD for the hit; brace the knockback; sidestep your circles. | knockback; ground-void-zone | 🟠 | all |
 
 _Cross-source note: the launch video says **Mana Bombs** targets **2** players; the
 12.0.7 guides say **3**. Unverified — assume 3 (the more recent source) and spread accordingly._
@@ -145,10 +144,9 @@ pull her to a corner so rifts don't clutter the floor.
 | Ability | What it does | Do | Archetype | Tier |
 |---|---|---|---|---|
 | Unleash Energy | On pull / 100 energy, spawns 2 Arcane Rifts. | Be topped before pull; tank her in a corner toward the entrance. | raid-damage | 🔴 | all |
-| Overwhelming Power → Arcane Rift | Every hit stacks the buff; at 3 stacks it drops an Arcane Rift under you and resets. | Keep a couple stacks for Haste, but don't greed to 3 in a bad spot; place rifts well. | ground-void-zone | 🟠 | all |
-| Arcane Rift (Uncontrolled Energy) | Rifts periodically fire **Uncontrolled Energy** orbs across the floor. | Dodge the orbs; keep rifts in tidy positions. | ground-void-zone | 🟠 | all |
+| Overwhelming Power → Arcane Rift | Every hit stacks the buff; at 3 stacks it drops an Arcane Rift under you and resets; the rift then fires **Uncontrolled Energy** orbs across the floor. | Keep a couple stacks for Haste but don't greed to 3 in a bad spot; place the rift well — then dodge the orbs the dropped Arcane Rift fires across the floor. | positional-gimmick; ground-void-zone | 🟠 | all |
 | Energy Bomb | Lands on a random player. | Personal defensive; loosely spread to avoid splashing allies. | spread-out | 🟠 | all |
-| Arcane Missiles | Random-target nuke; can combo with Energy Bomb. | Defensive if it overlaps Energy Bomb; healer spot-heals. | spread-out | 🟠 | all |
+| Arcane Missiles | Random-target nuke; can combo with Energy Bomb. | Defensive if it overlaps Energy Bomb; healer spot-heals. | raid-damage | 🟠 | all |
 | Power Vacuum | Pulls all players to the boss + AoE. | Run out / use movement; tank positions her so the pull doesn't land players on a rift. | knockback | 🟠 | all |
 | Astral Blast | Heavy arcane tank hit; applies an Overwhelming Power stack. | Active mitigation; if already at 2 stacks, stand somewhere safe to drop the resulting rift. | tank-buster | 🔵 | tank |
 

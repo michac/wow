@@ -55,39 +55,39 @@ Single-sourced (Method only) unless noted; those are flagged `low`.
 | Arcane Sentry (CC-immune) | **Ethereal Shackles** | Roots the tank → root-break or Magic dispel it off _(Method-only)_ | dispel | 🔵 | tank/healer |
 | Arcane Sentry | **Arcane Beam** | Channels into a random player → avoid the puddles it leaves _(Method-only)_ | ground-void-zone | 🟠 | all |
 | Arcane Sentry | **Crowd Dispersal** | AoE hit + knockback → watch health and positioning _(Method-only)_ | knockback | 🟠 | all |
-| Arcane Magister | **Polymorph** | Casts on a random player → interrupt on priority; Magic dispel if it lands _(Method-only)_ | interruptible-cast | 🔵 | all |
+| Arcane Magister | **Polymorph** | Casts on a random player → interrupt on priority; Magic dispel if it lands _(Method-only)_ | interruptible-cast; dispel | 🔵 | all |
 | Arcane Magister | **Arcane Bolt** | Random-target cast → use spare interrupts _(Method-only)_ | interruptible-cast | ⚪ | all |
-| Sunblade Enforcer | **Arcane Blade** | Magic buff empowering strikes → purge it, else tank defensive _(Method-only)_ | purge-soothe | 🔵 | tank |
+| Sunblade Enforcer | **Arcane Blade** | Magic buff empowering strikes → purge it, else tank defensive _(Method-only)_ | purge-soothe; tank-buster | 🔵 | tank |
 | Sunblade Enforcer | **Charge** | Gap-closes when kited → kiting these is hard _(Method-only)_ | charge | ⚪ | tank |
 | Lightward Healer | **Holy Fire** | Casts on a random player → Magic dispel it _(Method-only)_ | dispel | 🔵 | all |
 | Lightward Healer | **Power Word: Shield** | Shields a random ally → purge it if possible _(Method-only)_ | purge-soothe | 🔵 | all |
-| Animated Codex | **Arcane Volley** | Constant pulsing AoE → limit how many you pull; pre-heal/defensives _(Method-only)_ | stack-up | 🟠 | all |
+| Animated Codex | **Arcane Volley** | Constant pulsing AoE → limit how many you pull; pre-heal/defensives _(Method-only)_ | pulsing-aura | 🟠 | all |
 | Blazing Pyromancer (CC-immune) | **Pyroblast** | Hard cast → interrupt every one _(Method-only)_ | interruptible-cast | 🟠 | all |
 | Blazing Pyromancer | **Ignition** | Active damage window → defensives/healing cooldowns _(Method-only)_ | raid-damage | 🟠 | all |
 | Blazing Pyromancer | **Flamestrike** | AoE hit + puddle → avoid the impact and the zone _(Method-only)_ | ground-void-zone | 🟠 | all |
 | Spellwoven Familiar | **Blink** | AoE group hit → mind it when stacked on other AoE _(Method-only)_ | raid-damage | 🟠 | all |
-| Brightscale Wyrm | **Energy Release** | Death cast → stagger kills, but stay close for the stacking buff _(Method-only)_ | kill-priority-add | 🟠 | all |
+| Brightscale Wyrm | **Energy Release** | Death cast → stagger kills, but stay close for the stacking buff _(Method-only)_ | balance-kill | 🟠 | all |
 
 ### Seranel wing
 
 | Mob | Ability | See → Do | Archetype | Tier | Role |
 |---|---|---|---|---|---|
-| Runed Spellbreaker (CC-immune) | **Runic Glaive** | Hits 2 random players → watch health, defensive/potion if targeted _(Method-only)_ | spread-out | 🟠 | all |
+| Runed Spellbreaker (CC-immune) | **Runic Glaive** | Hits 2 random players → watch health, defensive/potion if targeted _(Method-only)_ | raid-damage | 🟠 | all |
 | Runed Spellbreaker | **Shield Slam** | Line toward the tank → point it away from group and step out yourself _(Method-only)_ | frontal-cone | 🟠 | tank |
 
 ### Gemellus / Void wing
 
 | Mob | Ability | See → Do | Archetype | Tier | Role |
 |---|---|---|---|---|---|
-| Voidling | **Void Gash (passive)** | Bonus shadow damage on melee → tank awareness _(Method-only)_ | tank-buster | ⚪ | tank |
-| Hollowsoul Shredder | **Dimensional Shred** | Random-target hit → play near the pack to cleave them down _(Method-only)_ | spread-out | ⚪ | all |
+| Voidling | **Void Gash (passive)** | Bonus shadow damage on melee → tank awareness _(Method-only)_ | flavor | ⚪ | tank |
+| Hollowsoul Shredder | **Dimensional Shred** | Random-target hit → play near the pack to cleave them down _(Method-only)_ | raid-damage | ⚪ | all |
 | Dreaded Voidwalker | **Shadow Bolt** | Random-target cast → spare interrupts _(Method-only)_ | interruptible-cast | ⚪ | all |
 | Shadowrift Voidcaller (CC-immune) | **Call of the Void** | Spawns adds → tank picks them up _(Method-only)_ | kill-priority-add | 🔵 | tank |
-| Shadowrift Voidcaller | **Consuming Shadows** | Heavy group damage → healing/defensives, or LoS to avoid entirely _(Method-only)_ | raid-damage | 🟠 | all |
-| Unstable Voidling | **Void Eruption** | Death cast → stagger kills to avoid overwhelming the group _(Method-only)_ | kill-priority-add | 🟠 | all |
+| Shadowrift Voidcaller | **Consuming Shadows** | Heavy group damage → healing/defensives, or LoS to avoid entirely _(Method-only)_ | positional-gimmick; raid-damage | 🟠 | all |
+| Unstable Voidling | **Void Eruption** | Death cast → stagger kills to avoid overwhelming the group _(Method-only)_ | balance-kill | 🟠 | all |
 | Void Infuser | **Terror Wave** | Hard cast → interrupt every one _(Method-only)_ | interruptible-cast | 🟠 | all |
 | Void Infuser | **Consuming Void** | Debuffs a random player → dispel, or defensive/CDs if too many _(Method-only)_ | dispel | 🔵 | healer |
-| Devouring Tyrant (CC-immune) | **Devouring Strike** | Tank-target healing absorb → defensive + self-heal to chew the absorb _(Method-only)_ | heal-absorb | 🟠 | tank |
+| Devouring Tyrant (CC-immune) | **Devouring Strike** | Tank-target healing absorb → defensive + self-heal to chew the absorb _(Method-only)_ | heal-absorb; tank-buster | 🟠 | tank |
 | Devouring Tyrant | **Void Bomb** | Random-target healing absorb → avoid cleaving allies, self-heal it off _(Method-only)_ | heal-absorb | 🟠 | all |
 
 ## Bosses
@@ -98,13 +98,12 @@ Single-sourced (Method only) unless noted; those are flagged `low`.
 
 | Ability | What it does | Do | Archetype | Tier |
 |---|---|---|---|---|
-| Arcane Expulsion | AoE hit + knocks all players back, drops a puddle (Arcane Residue) under the boss for 2 min | Pre-heal; drop these along the room edge or overlapping existing puddles to save space | knockback | 🟠 |
-| Arcane Residue | Heavy-damage pool left by Expulsion / Refueling | Don't stand in it; tank moves boss off it for melee uptime | ground-void-zone | 🟠 |
+| Arcane Expulsion | AoE hit + knocks all players back; leaves a heavy-damage puddle (Arcane Residue) under the boss that persists ~2 min | Pre-heal; back to a wall/edge before it fires. Don't stand in the residue; tank steers boss to drop casts along the edge or over existing puddles to save floor | knockback | 🟠 |
 | Ethereal Shackles | Roots 2 random players + periodic damage | Magic dispel / freedom it; immunity or self-dispel (e.g. Stoneform) works; defensive if it overlaps Expulsion | dispel | 🟠 |
-| Repulsing Slam | Heavy arcane hit + knockback on the tank | Tank defensive; use terrain to stop the knockback | knockback | 🟠 |
-| Refueling Protocol | At 0 energy boss draws in Energy Orbs to refuel; boss takes 20% more damage this window | Burn cooldowns; loosely spread to soak Energy Orbs | soak | 🔴 |
+| Repulsing Slam | Heavy arcane hit + knockback on the tank | Tank defensive; use terrain to stop the knockback | tank-buster; knockback | 🟠 |
+| Refueling Protocol | At 0 energy boss draws in Energy Orbs to refuel; boss takes 20% more damage this window | Burn cooldowns; loosely spread to soak Energy Orbs | soak; burn-window | 🔴 |
 | Energy Orb / Arcane Empowerment | An Orb that reaches the boss grants Arcane Empowerment → group-wide AoE | Soak every Orb so none reach the boss | soak | 🔴 |
-| Unstable Energy | Stacking DoT from soaking Orbs | Watch stacks; defensive if you soak several | stack-up | 🟠 |
+| Unstable Energy | Stacking DoT from soaking Orbs | Watch stacks; defensive if you soak several | raid-damage | 🟠 |
 
 ### Seranel Sunlash <!-- enc:2661 -->
 
@@ -112,12 +111,10 @@ Single-sourced (Method only) unless noted; those are flagged `low`.
 
 | Ability | What it does | Do | Archetype | Tier |
 |---|---|---|---|---|
-| Suppression Zone | Boss drops a zone under itself; standing in it triggers Feedback (clears Runic Mark) but silences/pacifies | Place near arena center; use it to clear Runic Mark and to survive Wave of Silence | positional-gimmick | 🔵 |
-| Runic Mark | Debuff inflicting moderate damage to nearby players | Step into the Suppression Zone to clear it; 2 marked players leave a gap so Null Reaction hits don't combo the group | spread-out | 🟠 |
-| Null Reaction | Stacking debuff applied when clearing Runic Mark; makes dodging harder | The 2nd player to clear may need a defensive; keep gaps to avoid combos | stack-up | 🟠 |
-| Feedback | Effect inside Suppression Zone that clears Runic Mark but silences/pacifies | Use deliberately to clear marks / survive Wave of Silence | positional-gimmick | 🔵 |
+| Suppression Zone | Boss drops a zone under itself; standing in it clears Runic Mark and survives Wave of Silence, but silences/pacifies you for the duration | Step in to clear Runic Mark / survive Wave of Silence; time entry so you don't need to cast while inside | positional-gimmick | 🔵 |
+| Runic Mark | Debuff inflicting moderate damage to nearby players | Spread so marks don't overlap, then step into the Suppression Zone to clear it; 2nd to clear takes a Null Reaction stack — use a personal and keep spacing to avoid combo chains | spread-out | 🟠 |
 | Wave of Silence | At 100 energy: heavy damage + 8s silence/pacify to players outside a Suppression Zone | Step into the Suppression Zone just before the cast finishes | positional-gimmick | 🔴 |
-| Hastening Ward | Buff: increases Seranel's attack speed + adds Arcane to melee | Purge it; otherwise tank uses a major defensive | purge-soothe | 🟠 |
+| Hastening Ward | Buff: increases Seranel's attack speed + adds Arcane to melee | Purge it; otherwise tank uses a major defensive | purge-soothe; tank-buster | 🟠 |
 
 ### Gemellus <!-- enc:2660 -->
 
@@ -126,11 +123,9 @@ Single-sourced (Method only) unless noted; those are flagged `low`.
 | Ability | What it does | Do | Archetype | Tier |
 |---|---|---|---|---|
 | Triplicate | At fight start and 50% HP, creates clones that drift around; all share health via Synaptic Nexus | Cleave the clones — shared HP. Below 50% every player incl. tank is targeted by a clone | kill-priority-add | 🔵 |
-| Cosmic Sting | Heavy damage, leaves a Void Secretions puddle under the target | Drop the puddle out of the way; reposition off Void Secretions | ground-void-zone | 🟠 |
-| Void Secretions | The pool spawned by Cosmic Sting | Don't stand in it; move out promptly | ground-void-zone | 🟠 |
+| Cosmic Sting | Heavy damage; leaves a persistent Void Secretions puddle under the target | Move the target out to drop the puddle at the edge; don't stand in it — it kills if you linger | ground-void-zone | 🟠 |
 | Neural Link | Debuff linking you to a specific clone (arrow under your feet) | Run to and touch the linked clone to clear the debuff and strip the boss's shield | positional-gimmick | 🔵 |
-| Astral Grasp | Pulls players toward their Gemellus; pull-in circles appear around all clones | Run away from the pull-in; avoid the Cosmic Radiation aura in the boss's hit range | knockback | 🟠 |
-| Cosmic Radiation | Aura within hit range of the boss during Astral Grasp | Use movement speed to escape; healer spot-heals those caught | pulsing-aura | 🟠 |
+| Astral Grasp | Pulls players toward their Gemellus; pull-in circles appear around all clones. The boss's hit range carries a heavy-damage Cosmic Radiation aura while active | Run from the pull-in circles; use movement speed to escape before entering hit range and the Cosmic Radiation aura | knockback | 🟠 |
 
 ### Degentrius <!-- enc:2662 -->
 
@@ -141,11 +136,9 @@ Stationary boss — does not melee; hits via Entropy Blast wherever you are.
 | Ability | What it does | Do | Archetype | Tier |
 |---|---|---|---|---|
 | Void Torrent | Beam(s) that carve the arena into "pizza-slice" zones; contact = moderate damage + stun | Never touch the beams; keep group split across both sides | ground-void-zone | 🟠 |
-| Unstable Void Essence | Bouncing ball that must be soaked; if no one is under it on impact, raid-wide damage | Spread to cover each slice so someone always catches it | soak | 🔴 |
-| Void Destruction | Stackable raid debuff applied when an Unstable Void Essence is missed | Don't miss soaks — >1 stack usually wipes the group | stack-up | 🔴 |
-| Hulking Fragment | Tank-targeted hit that can one-shot nearby players, applies Umbral Splinters Magic DoT | Tank avoids clipping the party; back away, get dispelled; drops Stygian Ichor out of melee | tank-buster | 🔴 |
-| Umbral Splinters / Stygian Ichor | Magic DoT on the tank that leaves a hard-to-walk ichor pool | Healer dispels; tank drops the ichor away from where DPS stand | ground-void-zone | 🟠 |
-| Devouring Entropy | Debuffs random players with varying durations; creates Entropy Orbs on removal | Defensive if your timer is long; aim orbs where others can see them; healer major CDs | spread-out | 🟠 |
+| Unstable Void Essence | Bouncing ball that must be soaked; a missed catch stacks Void Destruction (raid-wide damage), and >1 stack usually wipes | Spread to cover each arena slice so someone is always under the ball on impact; every ball must be caught | soak | 🔴 |
+| Hulking Fragment | Tank-targeted hit that can one-shot nearby players; applies Umbral Splinters Magic DoT and drops a Stygian Ichor pool | Tank mitigates and faces away from party to avoid cleaving. Healer dispels the DoT right after the hit; tank drops the Stygian Ichor away from where DPS stand — don't walk through it | tank-buster | 🔴 |
+| Devouring Entropy | Debuffs random players with varying durations; creates Entropy Orbs on removal | Defensive if your timer is long; aim orbs where others can see them; healer major CDs | raid-damage | 🟠 |
 | Entropy Blast | Boss's ranged attack used regardless of your position (it never melees) | Keep healing through it; no melee to dodge | raid-damage | 🔵 |
 | Null Bomb | Tank mechanic: massive raid damage if not triggered by a player | Trigger it (tank) so it doesn't go off untouched | soak | 🔴 |
 

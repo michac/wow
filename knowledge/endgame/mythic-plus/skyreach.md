@@ -54,7 +54,7 @@ Method and Icy Veins are high-confidence; single-sourced claims are flagged
 | **Dread Raven** | **Dire Screech** | Heavy group damage → pre-top group; use group defensives | raid-damage | 🔵 | healer/all |
 | **Raging Squall** | **Wrathful Wind** | Enrage → soothe it off if you can; use a defensive | purge-soothe | 🔵 | all (soothe) |
 | **Raging Squall** | **Wind Blast** | AoE dropped on death → move out of the lingering AoE | ground-void-zone | 🟠 | all |
-| **Adorned Bladetalon** | **Blade Rush** | Dashes to 2 random players + tank (bleed), immune to CC → bleed-cleanse if able, else defensive + healing CDs | charge | 🟠 | all |
+| **Adorned Bladetalon** | **Blade Rush** | Dashes to 2 random players + tank (bleed), immune to CC → bleed-cleanse if able, else defensive + healing CDs | charge; dispel | 🟠 | all |
 | **Adorned Bladetalon** | **Shear** | Stacking tank debuff (Icy Veins: hardest-hitting tank mob in dungeon) → tank uses CDs, watch overlap with Blade Rush | tank-buster | 🟠 | tank |
 | **Soaring Chakram Master** | **Ricocheting Chakram** | Bounces between nearby players → spread slightly to limit bounce damage _(Method-only)_ | spread-out | 🔵 | all |
 | **Outcast Warrior** | **Rushing Winds** | Self-buff → purge it off if possible _(Method-only)_ | purge-soothe | ⚪ | all (purge) |
@@ -67,7 +67,7 @@ Method and Icy Veins are high-confidence; single-sourced claims are flagged
 | **Initiate of the Rising Sun** | **Solar Bolt** | Cast at a random player → use spare interrupts on it | interruptible-cast | 🔵 | all (kick) |
 | **Solar Elemental** | **Solar Orb** | Spawns a Solar Orb add, immune to CC → swap and kill the orb ASAP | kill-priority-add | 🟠 | all |
 | **Solar Elemental** | **Solar Fire** | Circles on the ground → avoid the circles | ground-void-zone | 🟠 | all |
-| **Solar Construct** | **Solar Flame** | Targets you, immune to CC → defensive or combat-drop (Vanish/Feign) if targeted | spread-out | 🟠 | all |
+| **Solar Construct** | **Solar Flame** | Targets you, immune to CC → defensive or combat-drop (Vanish/Feign) if targeted | fixate-chase | 🟠 | all |
 | **Solar Construct** | **Solar Nova** | AoE underneath the mob → get out from under it | ground-void-zone | 🟠 | all |
 | **Adept of the Dawn** | **Fiery Talon** | Melee stacks the debuff → defensive or kite to drop stacks | tank-buster | 🟠 | all |
 | **Blinding Sun Priestess** | **Solar Barrier** | Buffs a random ally → purge it / focus the mob to stop the damage _(Method-only)_ | purge-soothe | 🔵 | all (purge) |
@@ -92,9 +92,8 @@ into orbs or off the edge).
 
 | Ability | What it does | Do | Archetype | Tier |
 |---|---|---|---|---|
-| **Gale Surge** | Targets a player, moderate damage + knockback; spawns a **Coalesced Wind** orb where you land | Pre-position before each cast; drop the orb out of the group's path, don't get knocked off-edge or into existing orbs | knockback | 🟠 |
-| **Coalesced Wind** | Persistent wind orb left by Gale Surge | Treat as a no-go zone; place new ones cleanly | ground-void-zone | 🟠 |
-| **Fan of Blades** | Group-wide bleed, moderate damage to all | Healing CDs / bleed-cleanse on cast | raid-damage | 🔵 |
+| **Gale Surge** | Targets a player, moderate damage + knockback; spawns a persistent **Coalesced Wind** orb where you land | Pre-position before each cast so the knockback sends you somewhere safe; drop the wind orb (Coalesced Wind) at the edge or out of the group's path, and never walk through existing orbs left behind | knockback | 🟠 |
+| **Fan of Blades** | Group-wide bleed, moderate damage to all | Healing CDs / bleed-cleanse on cast | raid-damage; dispel | 🔵 |
 | **Wind Chakram** | Fires a projectile at a random player that **returns** to the boss (Method/Icy Veins: can one-shot) | Avoid the projectile both ways; tank moves boss so the return doesn't clip melee | frontal-cone | 🔴 |
 | **Chakram Vortex** | Spawns tornadoes that move/rotate across the arena | Dodge the tornadoes — often overlaps Wind Chakram/Gale Surge | ground-void-zone | 🟠 |
 
@@ -112,7 +111,7 @@ boss so it doesn't reach full energy and blow up the group.
 | **Supernova** | Full-energy nuke to all players; **hits harder if any Energize beams reached the boss** | Pre-top + group defensives, especially if beams leaked | raid-damage | 🔴 |
 | **Fiery Smash** | Tank frontal, left or right arm | Tank points it away from beam-soakers and steps out of it | frontal-cone | 🟠 |
 | **Defensive Protocol** | 5yd AoE created underneath the boss | All players avoid the puddle under the boss | ground-void-zone | 🟠 |
-| **Blast Wave** | Cast if the tank is **not in melee range** | Tank stays in melee at all times to suppress it | tank-buster | 🔵 |
+| **Blast Wave** | Cast if the tank is **not in melee range** | Tank stays in melee at all times to suppress it | positional-gimmick | 🔵 |
 
 ### Rukhran <!-- enc:967 -->
 
@@ -124,11 +123,11 @@ Stationary phoenix. Adds (**Sunwing**) fixate and pulse group damage; bodies bec
 | Ability | What it does | Do | Archetype | Tier |
 |---|---|---|---|---|
 | **Sunbreak** | Spawns a **Sunwing** add | Stack near the boss so it spawns where you can cleave it; kill it fast | kill-priority-add | 🟠 |
-| **Burning Pursuit** | Sunwing fixates a random player and pulses heavy group damage while alive | CC/kite the fixate; healer spot-heals the target; kill the add | fixate-chase | 🟠 |
-| **Smoldering Egg** | Dead Sunwings leave an egg; a new Sunwing dying on top **re-hatches** it | Don't kill Sunwings on top of eggs | kill-priority-add | 🔴 |
+| **Burning Pursuit** | Sunwing fixates a random player and pulses heavy group damage while alive | CC/kite the fixate; healer spot-heals the target; kill the add | fixate-chase; raid-damage | 🟠 |
+| **Smoldering Egg** | Dead Sunwings leave an egg; a new Sunwing dying on top **re-hatches** it | Don't kill Sunwings on top of eggs | positional-gimmick | 🔴 |
 | **Searing Quills** | Heavy fire damage to everyone in **line of sight** across the platform | Break LoS behind the central pillar; tank returns to boss right after | positional-gimmick | 🔴 |
 | **Burning Claws** | Heavy fire tank hit | Active mitigation / defensive every cast | tank-buster | 🟠 |
-| **Screech** | Cast if **no one is in melee range** for too long | Tank stays in melee except during Searing Quills LoS | tank-buster | 🔵 |
+| **Screech** | Cast if **no one is in melee range** for too long | Tank stays in melee except during Searing Quills LoS | positional-gimmick | 🔵 |
 
 ### High Sage Viryx <!-- enc:968 -->
 
@@ -140,10 +139,9 @@ add will throw a player off Skyreach if not stopped.
 | Ability | What it does | Do | Archetype | Tier |
 |---|---|---|---|---|
 | **Cast Down** | Summons a **Solar Zealot** that grabs a random player and drags them **off the edge** | Targeted player runs toward the entrance (don't hug the wall) to buy distance; everyone swaps + stuns the add; tank cleaves it by the boss | kill-priority-add | 🔴 |
-| **Lens Flare** | Focuses a player and burns anything in the beam's path, leaving **Blazing Ground** | Run to the sides with movement CDs; trail the fire away from the group | ground-void-zone | 🟠 |
-| **Blazing Ground** | Fire trail left by Lens Flare | Place it cleanly, then avoid it | ground-void-zone | 🟠 |
-| **Scorching Ray** | DoT on 3 players at a time | Defensive if hit repeatedly; healer watches the 3 targets | spread-out | 🔵 |
-| **Solar Blast** (a.k.a. Solar Burst) | Significant Fire tank hit, interruptible | Keep an **interrupt rotation** on it to cut tank damage | interruptible-cast | 🔵 |
+| **Lens Flare** | Focuses a player and burns anything in the beam's path, leaving a lingering **Blazing Ground** fire trail | Run to the sides with movement CDs when targeted; trail the fire away from the group and place it at the arena edge — then avoid the Blazing Ground fire trail you laid down | ground-void-zone | 🟠 |
+| **Scorching Ray** | DoT on 3 players at a time | Defensive if hit repeatedly; healer watches the 3 targets | raid-damage | 🔵 |
+| **Solar Blast** (a.k.a. Solar Burst) | Significant Fire tank hit, interruptible | Keep an **interrupt rotation** on it to cut tank damage | interruptible-cast; tank-buster | 🔵 |
 
 ## DPS notes (you are DPS)
 

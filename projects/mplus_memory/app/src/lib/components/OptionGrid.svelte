@@ -2,15 +2,18 @@
   import { humanizeSlug } from "../ui.js";
   /**
    * The classify-the-archetype multiple choice. Before an answer every option is
-   * neutral; after, the chosen one and the correct one are colored.
-   * @type {{ options: string[], answer: string, selected: string|null, onpick: (slug:string)=>void }}
+   * neutral; after, every accepted slug (primary + also-valid) is colored correct
+   * and a wrong pick is colored wrong. A multi-tag card has more than one right
+   * answer, so several options can light green.
+   * @type {{ options: string[], answer: string, alsoAccept?: string[], selected: string|null, onpick: (slug:string)=>void }}
    */
-  let { options, answer, selected, onpick } = $props();
+  let { options, answer, alsoAccept = [], selected, onpick } = $props();
   let answered = $derived(selected !== null);
+  let accepted = $derived(new Set([answer, ...(alsoAccept ?? [])]));
 
   function classFor(slug) {
     if (!answered) return "border-line bg-surface-2 text-ink-soft active:scale-[0.98]";
-    if (slug === answer) return "border-correct/50 bg-correct/12 text-correct";
+    if (accepted.has(slug)) return "border-correct/50 bg-correct/12 text-correct";
     if (slug === selected) return "border-wrong/50 bg-wrong/12 text-wrong";
     return "border-line bg-surface-2 text-ink-faint opacity-60";
   }

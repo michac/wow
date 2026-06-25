@@ -265,6 +265,33 @@ files exist, tagged and journal-corroborated.
       before drilling it hard.
 - [ ] **Algeth'ar boss tables:** 5-col header but 6-col rows (an extra Role cell) —
       renders fine but technically malformed. Tidy if boss tables should be strict.
+- [x] **Archetype re-classification — bosses (2026-06-25):** ran a per-boss
+      second-opinion pass (`projects/mplus_memory/reclassify-workflow.js`): blind
+      Sonnet re-tag with the Archetype column stripped + cast/effect merge
+      detection, then an Opus tie-break, **multi-tag aware**. Fixed two systematic
+      defects from the original pooled tagging: (1) cast + lingering zone/DoT
+      *duplicate cards* — 15 merges folded into the cast card (e.g. Arcane Residue
+      → Arcane Expulsion); (2) lexical misclassification, esp. `stack-up` absorbing
+      personal stacking DoTs / soak-failure markers (collapsed 6 → 3 cards; the
+      survivors are genuine converge-to-split). Hardened `mechanic-archetypes.md`
+      with the cast+effect de-dup rule, the `stack-up` guard, and **Tagging rule 3**
+      (a card may carry a primary + also-valid archetypes). `build-content.mjs`
+      now parses `primary; secondary` cells and the quiz **grades any accepted slug
+      correct**. 366 cards (was 380), 39 multi-tag.
+- [x] **Archetype re-classification — trash (2026-06-25):** ran the proven boss
+      workflow against the trash tables via a dedicated
+      `reclassify-trash-workflow.js` (Extract → blind Sonnet Classify → Opus
+      Adjudicate, multi-tag aware, now with a per-decision `confidence`). Scope:
+      **204 trash rows across 8 dungeons**. Outcome: **41 primary re-tags · 21
+      rows gained an also-valid secondary · 1 cast+effect merge** (Algeth'ar
+      *Vicious Ambush* folded *Rift Breath*); 162 unchanged. Fixed the known
+      defect (Magisters' *Arcane Volley* `stack-up` → `pulsing-aura`) and many
+      more lexical misses (`spread-out` random-target hits → `raid-damage`/`flavor`,
+      passive chip → `flavor`, etc.). All changes **applied directly**; the **19
+      lowest-confidence** (1 merge + 1 low + 17 medium; 23 high omitted) are surfaced in
+      `reclassify-trash-report.md` for spot-check (rest reviewable via git diff).
+      Card count 366 → **365** (the merge); multi-tag 39 → **60**. Build coverage
+      assertion passes (all 365 cards canonical).
 
 ---
 
@@ -294,3 +321,35 @@ files exist, tagged and journal-corroborated.
 - [ ] Role expansion: enable healer + tank card sets behind the existing filter.
 - [ ] Verify Xal'atath's Bargain affix rotation (open TODO in overview).
 - [ ] Patch-watch: re-verify content if game state moves past 12.0.5.
+- [ ] **Boss / trash scope filter for Drill + Test (2026-06-25):** let the learner
+      restrict the quiz **and** Test to (a) bosses + boss abilities only, (b) trash
+      only, or (c) both (default). Cards already carry `cue.casterKind`
+      (`"boss"` | `"trash"`), so this is a session-builder predicate
+      (`src/lib/session.js`) plus a control in `FilterSheet.svelte`, sitting
+      alongside the existing role filter. Rationale: prepping a key, a player may
+      want just boss kits (fewer, higher-stakes tells) or to grind trash separately.
+- [ ] **Boss portraits crop in the frame (2026-06-25):** boss art is often cut off
+      (heads/feet) for lack of vertical room. **Cause:** the source renders are
+      **square** — raw `raw/bosses/*.jpg` are a uniform **600×600**, built to
+      **480×480** webp (all 29) — but `DungeonFrame.svelte` shows them in a short,
+      full-width **landscape band** (`height` 210px cue / 150px reveal) with
+      `object-cover`, so a 1:1 image scaled to cover the width has its top+bottom
+      cropped. We're in **portrait**, so there's vertical headroom to spend. Options,
+      cheapest first: (1) tune `object-position` (e.g. keep ~25% from top) so the
+      crop preserves the face — one-line CSS; (2) give the cue band a **taller
+      portrait-ish height** (~300–340px) since portrait has the room; (3) the real
+      fix — **regenerate the art at a portrait aspect** (≈2:3 / 3:4, framed on the
+      boss's upper body) via `tools/wowkb/bossart.py` so `object-cover` crops far
+      less; (4) `object-contain` on the hued field (letterbox — no crop, smaller
+      boss). Recommend (1)+(2) as a quick win now and (3) as the durable fix. Dim
+      review already done: uniform 600×600 square, so any non-square framing needs
+      a re-crop/re-render, not just CSS.
+- [ ] **Flag an entry as inaccurate (2026-06-25):** let the user mark a card as
+      wrong/suspect from the drill reveal. **No API endpoints yet** → persist flags
+      to `localStorage` (a versioned key alongside the SRS state) capturing card id,
+      spell, dungeon/boss, timestamp, and an optional note. Add an **"Error report"
+      screen** (a new entry in `ModeNav`) that lists flagged items read from
+      localStorage for review/export back into the KB; clearing a flag removes it.
+      Forward-compatible: when an endpoint exists, the same store slice can sync
+      upstream. Surface: a small flag affordance on `RevealPanel` (Drill + Test), a
+      store slice, and the report screen.

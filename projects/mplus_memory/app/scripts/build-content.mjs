@@ -62,6 +62,19 @@ function slugify(s) {
     .replace(/^-+|-+$/g, "");
 }
 
+/**
+ * Parse an Archetype cell into a primary slug + also-valid slugs. Multi-tag
+ * cells are written `primary; secondary` (primary first, semicolon-separated)
+ * per the taxonomy's Tagging rule 3. Single-tag cells yield an empty alsoAccept.
+ */
+function parseArchetypeCell(cell) {
+  const parts = (cell || "")
+    .split(";")
+    .map((s) => slugify(s))
+    .filter(Boolean);
+  return { primary: parts[0] || "", alsoAccept: parts.slice(1) };
+}
+
 /** First tier emoji found in a cell → canonical tier slug. */
 function tierFromCell(cell) {
   for (const [emoji, tier] of Object.entries(TIER_BY_EMOJI)) {
@@ -269,11 +282,13 @@ function parseDungeon(slug, md) {
           const tierCell = col(cells, "tier");
           // Algeth'ar boss rows carry a stray 6th cell = role (header has 5 cols).
           const roleCell = cells.length > header.length ? cells[header.length] : "";
+          const arche = parseArchetypeCell(col(cells, "archetype"));
           boss.abilities.push({
             spell,
             whatItDoes: stripMd(col(cells, "what it does")),
             response: stripMd(col(cells, "do")),
-            archetype: slugify(col(cells, "archetype")),
+            archetype: arche.primary,
+            alsoAccept: arche.alsoAccept,
             tier: tierFromCell(tierCell),
             role: roleCell ? stripMd(roleCell) : null,
             lowConfidence: lowFile,
@@ -287,13 +302,15 @@ function parseDungeon(slug, md) {
           if (!mob || !spell) continue;
           const seeDoRaw = col(cells, seeDoKey);
           const [see, doIt] = splitSeeDo(seeDoRaw);
+          const arche = parseArchetypeCell(col(cells, "archetype"));
           dungeon.trash.push({
             wing: heading || "Trash",
             mob,
             spell,
             whatItDoes: see,
             response: doIt,
-            archetype: slugify(col(cells, "archetype")),
+            archetype: arche.primary,
+            alsoAccept: arche.alsoAccept,
             tier: tierFromCell(col(cells, "tier")),
             role: stripMd(col(cells, "role")) || null,
             lowConfidence: lowFile || isSingleSourced(seeDoRaw),
@@ -354,12 +371,19 @@ function shuffle(arr, rnd) {
   return a;
 }
 
-/** answer + 3 deterministic distractors, shuffled deterministically per id. */
-function buildOptions(id, answer, allSlugs) {
+/**
+ * Up to 4 options, shuffled deterministically per id. Every accepted slug (the
+ * primary AND any also-valid secondaries) is shown as a pickable option — a
+ * multi-tag card legitimately has more than one right answer — and the rest of
+ * the four slots are filled with distractors drawn from the non-accepted pool.
+ */
+function buildOptions(id, answer, alsoAccept, allSlugs) {
   const rnd = mulberry32(seedFrom(id));
-  const pool = allSlugs.filter((s) => s !== answer);
-  const distractors = shuffle(pool, rnd).slice(0, 3);
-  return shuffle([answer, ...distractors], rnd);
+  const correct = [answer, ...alsoAccept];
+  const exclude = new Set(correct);
+  const pool = allSlugs.filter((s) => !exclude.has(s));
+  const distractors = shuffle(pool, rnd).slice(0, Math.max(0, 4 - correct.length));
+  return shuffle([...correct, ...distractors], rnd);
 }
 
 // ── card assembly ───────────────────────────────────────────────────────────
@@ -391,6 +415,9 @@ function buildCards(dungeons, allSlugs) {
       },
       promptType: "classify",
       answer: ab.archetype,
+      // Also-valid archetypes (multi-tag, Tagging rule 3). Any of these counts
+      // as a correct classification; the primary `answer` drives the reveal.
+      alsoAccept: ab.alsoAccept || [],
       reveal: {
         whatItDoes: ab.whatItDoes,
         response: ab.response,
@@ -398,7 +425,7 @@ function buildCards(dungeons, allSlugs) {
         role: ab.role,
         lowConfidence: ab.lowConfidence,
       },
-      options: buildOptions(id, ab.archetype, allSlugs),
+      options: buildOptions(id, ab.archetype, ab.alsoAccept || [], allSlugs),
     });
   };
 
@@ -429,9 +456,14 @@ function main() {
   const cards = buildCards(dungeons, allSlugs);
 
   // ── coverage assertion (the Phase-2 guarantee) ──
+  // Every accepted slug — primary AND any also-valid secondary — must be one of
+  // the canonical archetypes, or the build fails.
   const misses = [];
   for (const c of cards) {
     if (!slugSet.has(c.answer)) misses.push({ id: c.id, answer: c.answer });
+    for (const s of c.alsoAccept || []) {
+      if (!slugSet.has(s)) misses.push({ id: c.id, answer: s });
+    }
   }
 
   // ── report ──
@@ -442,12 +474,14 @@ function main() {
   const bossCount = dungeons.reduce((n, d) => n + d.bosses.length, 0);
   const bossCards = cards.filter((c) => c.cue.casterKind === "boss").length;
   const trashCards = cards.filter((c) => c.cue.casterKind === "trash").length;
+  const multiTagCards = cards.filter((c) => (c.alsoAccept || []).length > 0).length;
 
   console.log("\n  M+ Trainer — content build\n  " + "─".repeat(40));
   console.log(`  archetypes : ${archetypes.length}`);
   console.log(`  dungeons   : ${dungeons.length}`);
   console.log(`  bosses     : ${bossCount}`);
   console.log(`  cards      : ${cards.length}  (boss ${bossCards} · trash ${trashCards})`);
+  console.log(`  multi-tag  : ${multiTagCards} cards carry an also-valid archetype`);
   console.log("\n  per-dungeon:");
   for (const d of dungeons) {
     const dc = cards.filter((c) => c.cue.dungeonSlug === d.slug).length;

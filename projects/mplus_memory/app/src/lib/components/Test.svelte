@@ -63,7 +63,7 @@
     if (phase !== "cue") return;
     elapsedMs = castProgress * DURATION;
     selected = slug;
-    wasCorrect = slug === current.answer;
+    wasCorrect = slug === current.answer || (current.alsoAccept ?? []).includes(slug);
     phase = "reveal";
   }
 
@@ -155,7 +155,7 @@
               bind:progress={castProgress}
             />
             <p class="mt-6 text-sm text-ink-soft">Which mechanic is this?</p>
-            <OptionGrid options={current.options} answer={current.answer} {selected} onpick={pick} />
+            <OptionGrid options={current.options} answer={current.answer} alsoAccept={current.alsoAccept} {selected} onpick={pick} />
           </div>
         {:else}
           <div class="scroll {wasCorrect ? 'fx-correct' : 'fx-wrong'} flex-1 px-5 pt-4">

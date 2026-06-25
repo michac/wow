@@ -69,7 +69,7 @@ list it**; single-sourced claims are flagged `confidence: low`.
 | Ritual Hexxer | **Hex** | Polymorph-style cast → interrupt every cast, or Magic dispel if it lands | interruptible-cast | 🔵 | all |
 | Ritual Hexxer | **Shadow Bolt** | Random-target nuke → use spare interrupts | interruptible-cast | 🔵 | all |
 | Hex Guardian | **Magma Surge** | Shoots a line at a random player → don't cleave allies into the line | spread-out | 🔵 | all |
-| Hex Guardian | **Ritual Firebrand** | Magic debuff on 2 players, drops circles → avoid circles, Magic dispel as needed | ground-void-zone | 🟠 | all (healer) |
+| Hex Guardian | **Ritual Firebrand** | Magic debuff on 2 players, drops circles → avoid circles, Magic dispel as needed | ground-void-zone; dispel | 🟠 | all (healer) |
 | Frenzied Berserker | **Regeneratin'** | Passive heal + Blood Frenzy buff → use healing reduction / soothe Blood Frenzy _(Method-only)_ | purge-soothe | 🔵 | all |
 | Warding Mask | **Sear** | Random-target group damage _(Method-only)_ | raid-damage | 🔵 | all |
 | Umbral Shadowbinder | **Shrink** | Interruptible channel → interrupt it _(Method-only)_ | interruptible-cast | 🔵 | all |
@@ -88,7 +88,7 @@ list it**; single-sourced claims are flagged `confidence: low`.
 | Bound Defender | **Soulstorms** | Storms rotating around the mob → avoid them | ground-void-zone | 🟠 | all |
 | Bound Defender | **Vigilant Defense** | Reflects attacks from the front → attack from behind / tank points it away | positional-gimmick | 🔵 | tank |
 | Rokh'zal (mini) | **Ritual Sacrifice** | Roots a random player on the altar → break the shackles or use a freedom to free them | dispel | 🟠 | all |
-| Rokh'zal (mini) | **Invoke Shadow** | Pull-in + AoE → fight the pull and move out of the AoE | knockback | 🟠 | all |
+| Rokh'zal (mini) | **Invoke Shadow** | Pull-in + AoE → fight the pull and move out of the AoE | knockback; ground-void-zone | 🟠 | all |
 | Hollow Soulrender | **Shadowfrost Blast** | Tank-targeted cast → use spare interrupts | interruptible-cast | 🔵 | tank |
 | Hollow Soulrender | **Rend Souls** | Channel that detonates nearby Lost Souls → move away from Lost Souls during it | proximity-bait | 🟠 | all |
 | Hollow Soulrender | **Frost Nova** | Roots you in place → move away from allies; Magic dispel the root or freedom to immune | spread-out | 🔵 | all |
@@ -98,7 +98,7 @@ list it**; single-sourced claims are flagged `confidence: low`.
 
 | Mob | Ability | See → Do | Archetype | Tier | Role |
 |---|---|---|---|---|---|
-| Zil'jan (mini) | **Ritual Drums** | Channels heavy pulsing sonic damage within 70yd + sends shadow orbs bouncing down the bridge → kill him fast; dodge the orbs while crossing | knockback | 🟠 | all |
+| Zil'jan (mini) | **Ritual Drums** | Channels heavy pulsing sonic damage within 70yd + sends shadow orbs bouncing down the bridge → kill him fast; dodge the orbs while crossing | raid-damage; ground-void-zone | 🟠 | all |
 
 ## Bosses
 
@@ -112,14 +112,14 @@ Wrath** stacks if Muro'jin dies first.
 
 | Ability | What it does | Do | Archetype | Tier |
 |---|---|---|---|---|
-| Carrion Swoop | Nekraxx barrels along a path, hitting + knocking up everyone in it | If you have **Carrion Swoop**, run into a Freezing Trap (ice block stuns her); everyone else clears the path | knockback | 🔴 |
-| Freezing Trap | Muro'jin scatters ice traps; contact encases you in ice | Avoid them — **unless** you're the Carrion Swoop target (then use one to stun Nekraxx); don't get knocked into one | positional-gimmick | 🟠 |
+| Carrion Swoop | Nekraxx barrels along a path, hitting + knocking up everyone in it | If you have **Carrion Swoop**, run into a Freezing Trap (ice block stuns her); everyone else clears the path | fixate-chase; knockback | 🔴 |
+| Freezing Trap | Muro'jin scatters ice traps; contact encases you in ice | Avoid them — **unless** you're the Carrion Swoop target (then use one to stun Nekraxx); don't get knocked into one | ground-void-zone | 🟠 |
 | Barrage | Muro'jin frontal cone that follows the target, stacking Magic slow | If targeted, **stand still** so others dodge the cone | frontal-cone | 🟠 |
 | Fetid Quillstorm | Nekraxx feather salvo dropping ground circles | Dodge the circles | ground-void-zone | 🟠 |
-| Infected Pinions | Disease debuff, significant group-wide damage | Healer majors; players use a defensive (esp. if also Barrage target); dispel to cut group damage | raid-damage | 🟠 |
+| Infected Pinions | Disease debuff, significant group-wide damage | Healer majors; players use a defensive (esp. if also Barrage target); dispel to cut group damage | dispel; raid-damage | 🟠 |
 | Flanking Spear | Repositions Muro'jin behind the tank + applies Open Wound bleed | Tank active mitigation / bleed cleanse | tank-buster | 🔵 |
-| Revive Pet | Muro'jin revives Nekraxx if she dies first | Kill both together to skip it | kill-priority-add | 🔵 |
-| Bestial Wrath | Nekraxx ramps damage if Muro'jin dies first | Kill both together to skip it | purge-soothe | 🔵 |
+| Revive Pet | Muro'jin revives Nekraxx if she dies first | Kill both together to skip it | balance-kill | 🔵 |
+| Bestial Wrath | Nekraxx ramps damage if Muro'jin dies first | Kill both together to skip it | balance-kill | 🔵 |
 
 ### Vordaza <!-- enc:2811 -->
 
@@ -130,9 +130,8 @@ phase**.
 
 | Ability | What it does | Do | Archetype | Tier |
 |---|---|---|---|---|
-| Wrest Phantoms / Final Pursuit | Summons Unstable Phantoms that chase players | **Collide phantoms into each other** to destroy them (they take 99% reduced damage so don't DPS); CC to control; stagger collisions | fixate-chase | 🔴 |
-| Lingering Dread | Each phantom destroyed stacks group-wide DoT + drops Veiled Presence pools | **Never exceed ~2 stacks** — stagger collisions so the healer recovers | raid-damage | 🟠 |
-| Necrotic Convergence / Deathshroud | Channel grants Vordaza a shield (Deathshroud); she's un-interruptible while it holds, and group damage ramps the longer it's up | **Save burst** to break the shield fast, then interrupt the cast; dodge Coalesced Death orbs during it | interruptible-cast | 🔴 |
+| Wrest Phantoms / Final Pursuit | Summons Unstable Phantoms that chase players; each destroyed phantom stacks a group-wide Lingering Dread DoT and drops a Veiled Presence pool where it dies | Collide phantoms into each other to destroy them (99% damage reduction — don't DPS them); CC to control spacing; stagger collisions so the group never exceeds ~2 Lingering Dread stacks, and step out of the Veiled Presence pools dropped where each phantom dies | fixate-chase | 🔴 |
+| Necrotic Convergence / Deathshroud | Channel grants Vordaza a shield (Deathshroud); she's un-interruptible while it holds, and group damage ramps the longer it's up | **Save burst** to break the shield fast, then interrupt the cast; dodge Coalesced Death orbs during it | burn-window; interruptible-cast | 🔴 |
 | Drain Soul | Heavy channel on the tank that absorbs healing received | Tank major defensive | tank-buster | 🔵 |
 | Unmake | Frontal sweep | Dodge out of the frontal | frontal-cone | 🟠 |
 
@@ -145,11 +144,11 @@ bridge below.
 
 | Ability | What it does | Do | Archetype | Tier |
 |---|---|---|---|---|
-| Crush Souls | Targets 3 players; drops a Soulbind Totem at each with a small AoE hit | Group the 3 targets so totems land close (no allies cleaved), then focus the totems | kill-priority-add | 🟠 |
-| Soulbind (totem) | Totems channel Soulbind, pulling random players in | Kill totems fast before they pull | knockback | 🔵 |
-| Spiritbreaker | Tank combo: launches the tank up, drops a large puddle (Spectral Decay) under them | Tank major defensive + move away from group; use braziers / mobility for the knockback | tank-buster | 🔵 |
-| Deathgorged Vessel | Passive group damage + drops Volatile Essence circles | Healer majors; everyone dodges the circles | ground-void-zone | 🟠 |
-| Soulrending Roar / Withering Soul | Sends players to the bridge with a ramping Withering Soul debuff; run a gauntlet back | Get back **fast** (debuff ramps); avoid Lost Souls (Cries of the Fallen root); interrupt/CC the 6 Malignant Souls (Eternal Suffering) to gain stacking **Spectral Residue** buff | interruptible-cast | 🔴 |
+| Crush Souls | Targets 3 players; drops a Soulbind Totem at each with a small AoE hit | Group the 3 targets so totems land close (no allies cleaved), then focus the totems | positional-gimmick; kill-priority-add | 🟠 |
+| Soulbind (totem) | Totems channel Soulbind, pulling random players in | Kill totems fast before they pull | kill-priority-add | 🔵 |
+| Spiritbreaker | Tank combo: launches the tank up, drops a large puddle (Spectral Decay) under them | Tank major defensive + move away from group; use braziers / mobility for the knockback | tank-buster; knockback | 🔵 |
+| Deathgorged Vessel | Passive group damage + drops Volatile Essence circles | Healer majors; everyone dodges the circles | ground-void-zone; raid-damage | 🟠 |
+| Soulrending Roar / Withering Soul | Sends players to the bridge with a ramping Withering Soul debuff; run a gauntlet back | Get back **fast** (debuff ramps); avoid Lost Souls (Cries of the Fallen root); interrupt/CC the 6 Malignant Souls (Eternal Suffering) to gain stacking **Spectral Residue** buff | positional-gimmick; interruptible-cast | 🔴 |
 | Cries of the Fallen | Lost Souls on the gauntlet explode + root on contact | Avoid the Lost Souls | proximity-bait | 🟠 |
 
 ## DPS notes (player is DPS)

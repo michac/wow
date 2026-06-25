@@ -46,7 +46,7 @@ confidence high; single-sourced claims are flagged `(single-source)`.
 | Mob | Ability | See → Do | Archetype | Tier | Role |
 |---|---|---|---|---|---|
 | Shadowguard Defender | **Null Sunder** | Tank's stacks climbing → tank uses self-heals / health pots / defensives to clear absorb if stacks get high | heal-absorb | 🔵 | tank |
-| Lingering Image | **Searing Rend** | Cast on tank, leaves puddles → tank defensive + move out of the puddles (immune to CC) | tank-buster | 🟠 | tank |
+| Lingering Image | **Searing Rend** | Cast on tank, leaves puddles → tank defensive + move out of the puddles (immune to CC) | tank-buster; ground-void-zone | 🟠 | tank |
 | Lingering Image | **Luciferin Flare** | Frontal cone → face the mob away from group, step out of the frontal _(single-source: Method)_ | frontal-cone | 🔵 | all |
 | Lingering Image | **Blistering Smite** | Random-target damage → extra healing / defensive on the target _(single-source: Method)_ | raid-damage | 🔵 | healer |
 | Corewright Arcanist | **Arcane Explosion** | Interruptible channel → interrupt or CC it _(single-source: Method)_ | interruptible-cast | 🔴 | all |
@@ -76,7 +76,7 @@ confidence high; single-sourced claims are flagged `(single-source)`.
 | Grand Nullifier | **Dusk Frights** | Ground fear zones → avoid the fear puddles (Icy Veins also notes "Void Ritual" ground puddles to sidestep). On death also drops a Smudge (see Reformed Voidling) | ground-void-zone | 🟠 | all |
 | Dreadflail | **Void Lash** | Frontal that cleaves; can kill in the wrong melee spot → tank faces it away from group + defensive (immune to CC) | frontal-cone | 🟠 | tank |
 | Dreadflail | **Flailstorm** | Fixate + AoE → if fixated, kite / out-range it | fixate-chase | 🟠 | all |
-| Null Sentinel | **Dreadbellow** | Knockback + AoE DoT → watch positioning for the knockback; healers handle the DoT _(single-source: Method)_ | knockback | 🔵 | all |
+| Null Sentinel | **Dreadbellow** | Knockback + AoE DoT → watch positioning for the knockback; healers handle the DoT _(single-source: Method)_ | knockback; raid-damage | 🔵 | all |
 | Null Sentinel | **Nullwark Blast** | Tank-targeted hit + DoT → tank defensive _(single-source: Method)_ | tank-buster | 🔵 | tank |
 
 ### Light wing (before Lothraxion)
@@ -96,10 +96,10 @@ confidence high; single-sourced claims are flagged `(single-source)`.
 
 | Ability | What it does | Do | Archetype | Tier |
 |---|---|---|---|---|
-| **Leyline Array** | Beams link between conduits across the room; lethal to cross | Don't cross active beams; **if you have Reflux Charge**, stand in intersections to break as many beams as possible | `positional-gimmick` | 🔴 |
+| **Leyline Array** | Beams link between conduits across the room; lethal to cross | Don't cross active beams; **if you have Reflux Charge**, stand in intersections to break as many beams as possible | `ground-void-zone` | 🔴 |
 | **Reflux Charge** | Debuff that ticks damage; used to disable Leyline Array beams | When debuffed, walk through beam intersections to disable them | `positional-gimmick` | 🔵 |
-| **Corespark Detonation** | At 100 energy boss overcharges a corespark; impact does damage + knockback + healing absorb (Sparkburn) | Outrange the impact; bait toward room edges; healers pre-plan CDs for the party-wide Sparkburn absorb; mind the knockback | `proximity-bait` | 🟠 |
-| **Flux Collapse** | Continuous arcane flow toward a player, leaving puddles (Arcane Spill) | Bait puddles to edges; sidestep them | `ground-void-zone` | 🔵 |
+| **Corespark Detonation** | At 100 energy boss overcharges a corespark; impact does damage + knockback + healing absorb (Sparkburn) | Outrange the impact; bait toward room edges; healers pre-plan CDs for the party-wide Sparkburn absorb; mind the knockback | `proximity-bait; knockback; heal-absorb` | 🟠 |
+| **Flux Collapse** | Continuous arcane flow tracking a player; the Arcane Spill puddles it leaves persist | Bait the flow toward room edges and sidestep the tracking beam; don't step into the lingering Arcane Spill puddles afterward | `ground-void-zone` | 🔵 |
 | **Arcane Zap** | Boss has no melee; instead instant-cast arcane hit on tank (Icy Veins lists an interruptible Arcane Zap) | Tank expects arcane melee damage; interrupt where applicable | `tank-buster` | 🔵 |
 
 ### Corewarden Nysarra <!-- enc:2814 -->
@@ -109,9 +109,9 @@ confidence high; single-sourced claims are flagged `(single-source)`.
 | Ability | What it does | Do | Archetype | Tier |
 |---|---|---|---|---|
 | **Eclipsing Step** | Boss carves into 2 targeted players plus nearby; applies a DoT | Spread so you don't cleave allies; defensive for the hit + DoT | `spread-out` | 🟠 |
-| **Null Vanguard** | Spawns a Dreadflail + 2 Grand Nullifiers | Interrupt every Nullify; tank points Dreadflail away when it gains Void Lash; **kill all adds before the Lightscar phase** | `kill-priority-add` | 🔴 |
+| **Null Vanguard** | Spawns a Dreadflail + 2 Grand Nullifiers | Interrupt every Nullify; tank points Dreadflail away when it gains Void Lash; **kill all adds before the Lightscar phase** | `kill-priority-add; interruptible-cast` | 🔴 |
 | **Umbral Lash** | Tank channel that cleaves nearby + applies Void Gash | Tank major defensive, especially if adds are up | `tank-buster` | 🟠 |
-| **Lightscar Flare** | A Lothraxion image aims a flare at the boss; creates a Holy frontal that ticks heavy damage but amps boss damage +300% | Dodge the initial flare, then stand in the frontal to burst (300% amp); healers heal the ticking; ensure adds are dead first | `soak` | 🔵 |
+| **Lightscar Flare** | A Lothraxion image aims a flare at the boss; creates a Holy frontal that ticks heavy damage but amps boss damage +300% | Dodge the initial flare, then stand in the frontal to burst (300% amp); healers heal the ticking; ensure adds are dead first | `burn-window` | 🔵 |
 | **Devour the Unworthy** | If adds live to the end of the Lightscar channel, boss consumes them (empower) | Make sure all adds are dead before the channel ends | `kill-priority-add` | 🔴 |
 
 ### Lothraxion <!-- enc:2815 -->
@@ -121,11 +121,9 @@ confidence high; single-sourced claims are flagged `(single-source)`.
 | Ability | What it does | Do | Archetype | Tier |
 |---|---|---|---|---|
 | **Searing Rend** | Tank buster, heavy Physical, leaves Radiant Scar puddles that persist all fight | Tank defensive; drop puddles out of the way | `tank-buster` | 🟠 |
-| **Brilliant Dispersion** | Targets 3 players; damages all nearby at the destination + a hard-hitting DoT; spawns 2 Fractured Images each | Spread to avoid cleaving; defensive for the DoT; healers use CDs each cast | `spread-out` | 🟠 |
-| **Mirrored Rend** | Fractured Images strike anyone within ~5 yds | Stay >5 yds from images | `ground-void-zone` | 🔵 |
+| **Brilliant Dispersion** | Targets 3 players; damages all nearby at the destination + a hard-hitting DoT; spawns 2 Fractured Images each. After spawn, Fractured Images strike anyone within ~5 yds (Mirrored Rend) | Spread to your own space before detonation to avoid cleaving; defensive for the DoT; healers cooldown each cast. Once images spawn, stay >5 yds from all Fractured Images | `spread-out; raid-damage` | 🟠 |
 | **Flicker** | Image dashes/repositions, hitting anyone in its path | Avoid the dash path | `charge` | 🔵 |
-| **Divine Guile** | At full energy boss hides among images; find the copy **without** horns of light and interrupt it | Interrupt the hornless copy to resume; **never** interrupt an image | `interruptible-cast` | 🔴 |
-| **Core Exposure** | Triggered by failing Divine Guile (interrupting wrong copy / not interrupting) | Avoid by interrupting the correct copy | `ground-void-zone` | 🔴 |
+| **Divine Guile** | At full energy boss hides among images; find the copy **without** horns of light and interrupt it. Failing the kick — or kicking the wrong copy — triggers Core Exposure (wipe-level) | Interrupt the hornless copy to resume; **never** kick an image. Use a consistent clockwise scan to ID the target fast | `interruptible-cast` | 🔴 |
 
 ## DPS notes
 

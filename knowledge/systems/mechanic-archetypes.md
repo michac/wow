@@ -19,9 +19,44 @@ covers bosses and trash alike. Nothing was invented that the dungeons don't
 use; nothing they use was dropped.
 
 These 21 slugs are **canonical** for the tagging stage. The trainer's
-Archetype mode reads them.
+Archetype mode reads them. Each ability maps to a **primary** slug, plus
+zero-or-more **also-valid** slugs when one tell genuinely demands two responses
+(see Tagging rule 3).
 
 Consequence legend: 🔴 wipe · 🟠 your death · 🔵 your job · ⚪ flavor.
+
+## Tagging rules (read before assigning a slug)
+
+**One in-game tell → one card.** The learner drills *reactions to tells*, not
+journal rows. Two corollaries the classifier must enforce:
+
+1. **Cast + lingering-effect de-duplication.** When a *cast* creates a lingering
+   zone/DoT/pool that the source guide or journal lists as a **separate**
+   ability (e.g. a cast and the puddle it drops), treat the two as **one
+   mechanic, one card**. Default: keep the **cast** card and fold the zone's
+   "don't stand in it" response into the cast card's reveal — do **not** mint a
+   second card for the puddle. Exception: if the lingering zone (not the cast)
+   is the thing the player actually reacts to, make the **zone** the card and
+   treat the cast as its tell. Never two cards for one tell.
+
+2. **Classify by response, not by surface words.** Tag what the player *does*,
+   not what the ability text *says*. A "stack"ing DoT is not `stack-up`; a
+   "void" puddle owner is not automatically `ground-void-zone`. Read the
+   per-slug **Not this if** guards below before pattern-matching a keyword.
+
+3. **A card may carry more than one valid archetype.** One tell → one card still
+   holds — do **not** split an ability into two cards — but that single card can
+   have a **primary** archetype (the response a player reacts to *first / most*,
+   which drives the reveal + diagram) plus one or more **also-valid** archetypes
+   when the same tell legitimately demands two distinct responses (e.g. a
+   tank-buster that *also* knocks the tank back, or a knockback that is *also*
+   unavoidable raid damage). The trainer accepts any of a card's valid
+   archetypes as correct and never offers another valid one as a distractor.
+   Discipline: a secondary archetype must be a response a competent player would
+   **actually give** — not a loosely-related slug. Most abilities are
+   single-archetype; reach for a secondary only when forcing one answer would
+   mark a real response wrong. In the dungeon tables, write multi-tag cells as
+   `primary; secondary` (primary first, semicolon-separated).
 
 ---
 
@@ -38,6 +73,7 @@ Consequence legend: 🔴 wipe · 🟠 your death · 🔵 your job · ⚪ flavor.
 **Ground Void Zone** — a damaging puddle/patch you stand out of (and that often grows or shrinks the room).
 - **Tell:** a colored circle, swirl, or spreading goo appears under or near you.
 - **Response:** move out / don't stand in it. Drop boss-placed zones at the edge so you don't eat the arena.
+- **Not this if:** the zone is a lingering pool *left by a cast that already has its own card* — per the cast+effect de-dup rule, fold "don't stand in it" into the cast's card instead of minting a second `ground-void-zone` card. Only tag the zone itself when the pool (not the cast) is the primary tell.
 - **Consequence:** 🟠 standing in it kills you fast → 🔴 when zones stack and eat the floor (Leyline Array, Core Exposure).
 - **Role:** all.
 - **Examples:** *Flamestrike* — Blazing Pyromancer trash (Magisters' Terrace); *Coalesced Wind* — Ranjit (Skyreach).
@@ -116,12 +152,13 @@ Consequence legend: 🔴 wipe · 🟠 your death · 🔵 your job · ⚪ flavor.
 - **Diagram idea:** the whole party ringed by an expanding shockwave with healer cooldown sparkles overhead.
 
 ## `stack-up`
-**Stack Up** — damage/debuff that wants the group **together** to split or share it.
-- **Tell:** a marker that splits damage by player count, a shared-soak debuff, or a melee-stack cue.
-- **Response:** collapse to the stack point on time (the inverse of spread-out).
-- **Consequence:** 🟠 (solo-eaten) → 🔴 when the whole group must share (Void Destruction, Arcane Volley).
+**Stack Up** — damage/debuff that wants the group **physically together** to split or share it.
+- **Tell:** a marker that splits damage by player count, a shared-soak debuff, a melee-stack cue, or a "fear if alone" / "hit if isolated" cast.
+- **Response:** collapse to the stack point (or to an ally) on time — the inverse of spread-out. The defining feature is **players converging**.
+- **Not this if:** there is **no converge-to-split / group-up response**. A *personal* stacking DoT or applied debuff you just heal/defensive through is `raid-damage` (or the parent mechanic). A "you missed a soak" / "you stood in it" stacking marker is the **consequence of another mechanic** — tag it as that parent (the `soak`, the `ground-void-zone`), not here. The word "stack" in the ability text is **not** the signal; players grouping up is.
+- **Consequence:** 🟠 (solo-eaten / feared) → 🔴 when the whole group must share a single hit.
 - **Role:** all.
-- **Examples:** *Arcane Volley* — Animated Codex trash (Magisters' Terrace); *Void Destruction* — Degentrius (Magisters' Terrace).
+- **Examples:** *Intimidating Shout* (fears players standing alone → stack near an ally) — The Restless Heart (Windrunner Spire); *Throw Spear* (stack inside its minimum range) — Keen Headhunter trash (Maisara Caverns).
 - **Diagram idea:** scattered dots converging onto one bracketed stack marker.
 
 ## `fixate-chase`

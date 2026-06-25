@@ -61,38 +61,38 @@ sourced.
 ### Shadowguard Champion
 | Mob | Ability | See → Do | Archetype | Tier | Role |
 |---|---|---|---|---|---|
-| Shadowguard Champion | **Relentless Pursuit** | Used if tank leaves melee range; stacks get dangerous → tanks stay in melee _(Method-only)_ | fixate-chase | 🔵 | tank |
-| Shadowguard Champion | **Battle Rage** | Enrage → soothe it or tank uses a defensive _(Method-only)_ | purge-soothe | 🔵 | tank |
+| Shadowguard Champion | **Relentless Pursuit** | Used if tank leaves melee range; stacks get dangerous → tanks stay in melee _(Method-only)_ | positional-gimmick | 🔵 | tank |
+| Shadowguard Champion | **Battle Rage** | Enrage → soothe it or tank uses a defensive _(Method-only)_ | purge-soothe; tank-buster | 🔵 | tank |
 
 ### Dark Conjuror
 | Mob | Ability | See → Do | Archetype | Tier | Role |
 |---|---|---|---|---|---|
-| Dark Conjuror | **Summon Voidcaller** | Interruptible cast spawning a Voidcaller → interrupt *every* cast | interruptible-cast | 🟠 | all |
+| Dark Conjuror | **Summon Voidcaller** | Interruptible cast spawning a Voidcaller → interrupt *every* cast | interruptible-cast; kill-priority-add | 🟠 | all |
 | Dark Conjuror | **Umbral Bolt** | Random-target nuke → use spare interrupts _(Method-only)_ | interruptible-cast | 🔵 | all |
 
 ### Bound Voidcaller
 | Mob | Ability | See → Do | Archetype | Tier | Role |
 |---|---|---|---|---|---|
-| Bound Voidcaller | **Pulsing Void** | Constant moderate group-wide pulse → DPS swap to these ASAP; healers prepped | kill-priority-add | 🔵 | all |
+| Bound Voidcaller | **Pulsing Void** | Constant moderate group-wide pulse → DPS swap to these ASAP; healers prepped | pulsing-aura | 🔵 | all |
 
 ### Rift Warden (Saprish gate — immune to CC)
 | Mob | Ability | See → Do | Archetype | Tier | Role |
 |---|---|---|---|---|---|
 | Rift Warden | **Stabilize** | Anchors a nearby rift → fight within 30yds or it explodes for lethal group damage | soak | 🔴 | all |
-| Rift Warden | **Void Expulsion / Rift Tear** | Heavy group hit, spawns circles → avoid the circles | ground-void-zone | 🔵 | all |
+| Rift Warden | **Void Expulsion / Rift Tear** | Heavy group hit, spawns circles → avoid the circles | ground-void-zone; raid-damage | 🔵 | all |
 | Rift Warden | **Rift Essence** | Debuff on random players → Magic dispel / dwarf racial, else defensive _(Method-only)_ | dispel | 🔵 | all |
 
 ### Ruthless Riftstalker
 | Mob | Ability | See → Do | Archetype | Tier | Role |
 |---|---|---|---|---|---|
-| Ruthless Riftstalker | **Backstab** | Teleports behind a random player and strikes → use a defensive if other damage overlaps _(Method-only)_ | spread-out | 🔵 | all |
+| Ruthless Riftstalker | **Backstab** | Teleports behind a random player and strikes → use a defensive if other damage overlaps _(Method-only)_ | charge | 🔵 | all |
 | Ruthless Riftstalker | **Shadowmend** | Interruptible/CC-able self-heal → stop it _(Method-only)_ | interruptible-cast | 🔵 | all |
 
 ### Umbral War-Adept (immune to CC)
 | Mob | Ability | See → Do | Archetype | Tier | Role |
 |---|---|---|---|---|---|
 | Umbral War-Adept | **Void Burst** | Aims a line of circles at a random player → dodge _(Method-only)_ | ground-void-zone | 🟠 | all |
-| Umbral War-Adept | **Void Bash** | Tank hit → defensive, watch for knock out of Champion range _(Method-only)_ | tank-buster | 🔵 | tank |
+| Umbral War-Adept | **Void Bash** | Tank hit → defensive, watch for knock out of Champion range _(Method-only)_ | tank-buster; knockback | 🔵 | tank |
 
 ### Ravenous Umbralfin
 | Mob | Ability | See → Do | Archetype | Tier | Role |
@@ -102,7 +102,7 @@ sourced.
 ### Dire Voidbender
 | Mob | Ability | See → Do | Archetype | Tier | Role |
 |---|---|---|---|---|---|
-| Dire Voidbender | **Abyssal Enhancement** | Interruptible buff → kick every cast or purge it off | interruptible-cast | 🔵 | all |
+| Dire Voidbender | **Abyssal Enhancement** | Interruptible buff → kick every cast or purge it off | interruptible-cast; purge-soothe | 🔵 | all |
 
 ### Void-Infused Destroyer (immune to CC)
 | Mob | Ability | See → Do | Archetype | Tier | Role |
@@ -114,7 +114,7 @@ sourced.
 | Mob | Ability | See → Do | Archetype | Tier | Role |
 |---|---|---|---|---|---|
 | Grand Shadow-Weaver | **Gates of the Abyss** | Spawns a gate that shoots **Umbral Waves** → dodge the waves | ground-void-zone | 🟠 | all |
-| Grand Shadow-Weaver | **Void Infusion** | Debuff on a target → defensive or combat-drop _(Method-only)_ | dispel | 🔵 | all |
+| Grand Shadow-Weaver | **Void Infusion** | Debuff on a target → defensive or combat-drop _(Method-only)_ | raid-damage | 🔵 | all |
 
 ## Bosses
 
@@ -130,8 +130,8 @@ wipe at relevant keys.
 | **Null Palm** | Frontal cone aimed at a random player | Dodge it | frontal-cone | 🟠 |
 | **Decimate** | Leaps at a random player, leaves **Void Sludge** pool on impact | Drop near edge / overlap existing pools to save space; don't stray too far from boss | ground-void-zone | 🟠 |
 | **Void Slash** | Heavy Physical+Shadow tank combo | Tank pops a major defensive | tank-buster | 🔵 |
-| **Oozing Slam** | Group DoT; spawns 2 **Coalesced Void** oozes that explode (Dark Expulsion) on reaching boss; oozes leave a pool on death | Healers CD the DoT; slow/stun/knockback or long-CC (Trap/Paralysis) the oozes and burn one at a time | kill-priority-add | 🔴 |
-| **Crashing Void** | Speeds up oozes, pulls players in, then explodes for big group hit + knockback | Top the group; oozes must be dead/CC'd first; don't get knocked into a Void Sludge pool | knockback | 🔴 |
+| **Oozing Slam** | Group DoT; spawns 2 **Coalesced Void** oozes that explode (Dark Expulsion) on reaching boss; oozes leave a pool on death | Healers CD the DoT; slow/stun/knockback or long-CC (Trap/Paralysis) the oozes and burn one at a time | kill-priority-add; raid-damage | 🔴 |
+| **Crashing Void** | Speeds up oozes, pulls players in, then explodes for big group hit + knockback | Top the group; oozes must be dead/CC'd first; don't get knocked into a Void Sludge pool | raid-damage; knockback | 🔴 |
 
 ### Saprish <!-- enc:1980 -->
 
@@ -143,11 +143,11 @@ all three for cleave. The board fills with **Void Bombs**; Saprish's **Overload*
 | Ability | What it does | Do | Archetype | Tier |
 |---|---|---|---|---|
 | **Void Bomb** | Bombs spawn across the floor | Don't touch them; clear them via Phase Dash circle | ground-void-zone | 🟠 |
-| **Phase Dash** | Saprish dashes a line, creating **Umbral Nova** through any bomb it crosses | Use the dash to detonate/clear bombs safely | frontal-cone | 🔵 |
-| **Overload** | At full energy: all remaining Void Bombs explode, applying **Seeping Void** DoT to all; heavy group hit | Clear all bombs first; leftover bombs get tank/immunity-soaked before cast; healers top group | soak | 🔴 |
+| **Phase Dash** | Saprish dashes a line, creating **Umbral Nova** through any bomb it crosses | Use the dash to detonate/clear bombs safely | positional-gimmick | 🔵 |
+| **Overload** | At full energy: all remaining Void Bombs explode, applying **Seeping Void** DoT to all; heavy group hit | Clear all bombs first; leftover bombs get tank/immunity-soaked before cast; healers top group | soak; raid-damage | 🔴 |
 | **Rending Void** | Shadow damage on all of Saprish's melee strikes (tank) | Tank uses active mitigation | tank-buster | 🔵 |
 | **Dread Screech** (Shadewing) | Interruptible pet cast; can overlap Phase Dash | Assign 2+ interrupts, ideally a ranged kick on every even cast | interruptible-cast | 🔵 |
-| **Shadow Pounce** (Darkfang) | Random-target bleed/damage | Spot-heal / bleed-cleanse / defensive the target | spread-out | 🔵 |
+| **Shadow Pounce** (Darkfang) | Random-target bleed/damage | Spot-heal / bleed-cleanse / defensive the target | dispel | 🔵 |
 
 ### Viceroy Nezhar <!-- enc:1981 -->
 
@@ -158,11 +158,11 @@ and at full energy knocks everyone back to cast **Collapsing Void** (a
 
 | Ability | What it does | Do | Archetype | Tier |
 |---|---|---|---|---|
-| **Mind Blast** | Heavy hit on the tank (current target) | Keep an interrupt rotation on it to cut the damage | interruptible-cast | 🔵 |
+| **Mind Blast** | Heavy hit on the tank (current target) | Keep an interrupt rotation on it to cut the damage | interruptible-cast; tank-buster | 🔵 |
 | **Gates of the Abyss** | Spawns 3 gates shooting **Umbral Waves** | Dodge the waves; defensive if hit | ground-void-zone | 🟠 |
-| **Mass Void Infusion** | Targets 3 players, leaves void energy; group-wide damage | Targeted players defensive; healers CD the group hit | spread-out | 🔵 |
+| **Mass Void Infusion** | Targets 3 players, leaves void energy; group-wide damage | Targeted players defensive; healers CD the group hit | spread-out; raid-damage | 🔵 |
 | **Umbral Tentacles** | Spawn in sets of 5, each channels **Mind Flay** into a different player | Cleave them down fast (tank positions boss near them); defensive | kill-priority-add | 🟠 |
-| **Repulse → Collapsing Void** | At full energy: TPs to center, knocks all back, then channels a **Void Storm** ring | Move *under* the boss (safe spot); tentacles must be dead first; group defensives + healing CDs | knockback | 🔴 |
+| **Repulse → Collapsing Void** | At full energy: TPs to center, knocks all back, then channels a **Void Storm** ring | Move *under* the boss (safe spot); tentacles must be dead first; group defensives + healing CDs | positional-gimmick; knockback | 🔴 |
 
 ### L'ura <!-- enc:1982 -->
 
@@ -176,8 +176,8 @@ intermission (boss takes massively increased damage — Alleria Windrunner's
 |---|---|---|---|---|
 | **Dirge of Despair** | Group hit; spawns 6 **Notes of Despair** that constantly pulse group damage | Healers spread CDs across the sustained damage | raid-damage | 🔴 |
 | **Discordant Beam** | Heavy Shadow on targeted players; the beam **silences any Note it hits** | Stay topped; aim/face it through active Notes to silence all 6 → triggers intermission | positional-gimmick | 🔵 |
-| **Grim Chorus** | Repositions Notes; rings around active Notes + applies stacking **Anguish** to all every 2s | Avoid the Note circles; rush to silence all Notes before Anguish snowballs unhealable | ground-void-zone | 🔴 |
-| **Disintegrate** | Rotating beams sweep around the boss | Move with the rotation to avoid | frontal-cone | 🟠 |
+| **Grim Chorus** | Repositions Notes; rings around active Notes + applies stacking **Anguish** to all every 2s | Avoid the Note circles; rush to silence all Notes before Anguish snowballs unhealable | ground-void-zone; raid-damage | 🔴 |
+| **Disintegrate** | Rotating beams sweep around the boss | Move with the rotation to avoid | positional-gimmick | 🟠 |
 | **Abyssal Lance** | Stacking Shadow hit on the tank; at 3 stacks a big delayed shadow hit lands | Tank watches stacks, defensive at 3 | tank-buster | 🔵 |
 | **Siphon Void** (intermission) | After all 6 Notes silenced: boss takes massively increased damage | Save/pool DPS cooldowns for this window | burn-window | 🔵 |
 

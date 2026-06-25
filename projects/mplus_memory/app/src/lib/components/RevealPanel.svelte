@@ -8,6 +8,7 @@
    */
   let { card, archetype } = $props();
   let r = $derived(card.reveal);
+  let alsoAccept = $derived(card.alsoAccept ?? []);
 </script>
 
 <!-- spell + classification -->
@@ -16,6 +17,11 @@
   <span class="rounded-md bg-[var(--tier)]/15 px-2.5 py-1 text-sm font-semibold text-[var(--tier)]">
     {humanizeSlug(card.answer)}
   </span>
+  {#each alsoAccept as slug (slug)}
+    <span class="rounded-md border border-correct/40 bg-correct/10 px-2 py-1 text-xs font-medium text-correct">
+      also {humanizeSlug(slug)}
+    </span>
+  {/each}
   <TierBadge tier={r.tier} />
   {#if r.role && r.role !== "all"}
     <span class="rounded-full border border-line px-2 py-0.5 text-[11px] text-ink-faint">{r.role}</span>
