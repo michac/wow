@@ -206,6 +206,16 @@ files exist, tagged and journal-corroborated.
       surface it on the drill reveal and in Browse, never as the *cue* (the cue must
       match the in-game tell). Could be a fun "name this mechanic" generation
       exercise where the player coins their own — self-generated names stick best.
+- [ ] **Per-boss one-line hint** (idea, 2026-06-24): add a short `hint` to each
+      boss in the dungeon tables — a super-short sentence that captures the boss's
+      *main* mechanic, the one thing to remember it by. Can read like a nickname
+      ("dome of silence guy", "the orb-soak robot") or just be a plain sentence;
+      the goal is a single recognizable peg per boss, **not** a full strategy.
+      Distinct from [[Mnemonic nicknames]] above: this is one factual hook per
+      boss (mechanic-first), not a cutesy alias per ability. Start by drafting the
+      hints in the `knowledge/` boss sections, then surface on the drill reveal /
+      Browse (never the cue). Open: where the field lives (front-matter vs. a line
+      under the `###` heading) and how `build-content.mjs` picks it up.
 - [ ] Role expansion: enable healer + tank card sets behind the existing filter.
 - [ ] Verify Xal'atath's Bargain affix rotation (open TODO in overview).
 - [ ] Patch-watch: re-verify content if game state moves past 12.0.5.
