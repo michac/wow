@@ -94,6 +94,8 @@ Single-sourced (Method only) unless noted; those are flagged `low`.
 
 ### Arcanotron Custos <!-- enc:2659 -->
 
+**Hint:** soak the refuel orbs
+
 | Ability | What it does | Do | Archetype | Tier |
 |---|---|---|---|---|
 | Arcane Expulsion | AoE hit + knocks all players back, drops a puddle (Arcane Residue) under the boss for 2 min | Pre-heal; drop these along the room edge or overlapping existing puddles to save space | knockback | 🟠 |
@@ -106,6 +108,8 @@ Single-sourced (Method only) unless noted; those are flagged `low`.
 
 ### Seranel Sunlash <!-- enc:2661 -->
 
+**Hint:** step into the silence zone
+
 | Ability | What it does | Do | Archetype | Tier |
 |---|---|---|---|---|
 | Suppression Zone | Boss drops a zone under itself; standing in it triggers Feedback (clears Runic Mark) but silences/pacifies | Place near arena center; use it to clear Runic Mark and to survive Wave of Silence | positional-gimmick | 🔵 |
@@ -117,6 +121,8 @@ Single-sourced (Method only) unless noted; those are flagged `low`.
 
 ### Gemellus <!-- enc:2660 -->
 
+**Hint:** cleave the clones
+
 | Ability | What it does | Do | Archetype | Tier |
 |---|---|---|---|---|
 | Triplicate | At fight start and 50% HP, creates clones that drift around; all share health via Synaptic Nexus | Cleave the clones — shared HP. Below 50% every player incl. tank is targeted by a clone | kill-priority-add | 🔵 |
@@ -127,6 +133,8 @@ Single-sourced (Method only) unless noted; those are flagged `low`.
 | Cosmic Radiation | Aura within hit range of the boss during Astral Grasp | Use movement speed to escape; healer spot-heals those caught | pulsing-aura | 🟠 |
 
 ### Degentrius <!-- enc:2662 -->
+
+**Hint:** cover the pizza slices
 
 Stationary boss — does not melee; hits via Entropy Blast wherever you are.
 

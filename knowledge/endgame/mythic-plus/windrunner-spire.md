@@ -109,6 +109,8 @@ and Icy Veins unless flagged `confidence: low` (single-sourced).
 
 ### Emberdawn <!-- enc:2655 -->
 
+**Hint:** dodge the fire twisters
+
 | Ability | What it does | Do | Archetype | Tier |
 |---|---|---|---|---|
 | **Flaming Updraft** | Debuffs 2 players; heavy damage; leaves **Ignited Embers** puddle on expiry | Move to the outside/corner of the arena and drop the puddle out of the way; healer spot-heals | ground-void-zone | 🟠 |
@@ -118,6 +120,8 @@ and Icy Veins unless flagged `confidence: low` (single-sourced).
 | **Searing Beak** | Tank hit: heavy Physical then a significant Fire DoT | Tank uses a defensive that covers the hit **and** the DoT | tank-buster | 🔵 |
 
 ### Derelict Duo <!-- enc:2656 -->
+
+**Hint:** kill both bosses even
 
 Two bosses, **Latch** and **Kalis** — they must die together or the
 survivor stacks **Broken Bond** (a runaway enrage). Cleave evenly.
@@ -134,6 +138,8 @@ survivor stacks **Broken Bond** (a runaway enrage). Cleave evenly.
 
 ### Commander Kroluk <!-- enc:2657 -->
 
+**Hint:** kill the warparty adds
+
 Has **Shield Wall** (heavy DR) at his **66% and 33%** warparty phases
 and only resumes when the adds die.
 
@@ -147,6 +153,8 @@ and only resumes when the adds die.
 | **Shield Wall** | Heavy DR aura active during the warparty phases | Kill the adds to drop it; don't tunnel the boss | flavor | ⚪ |
 
 ### The Restless Heart <!-- enc:2658 -->
+
+**Hint:** ride the wind arrows
 
 The whole fight runs on the **Turbulent Arrows** spawned by **Arrow
 Rain** — touching one knocks you up, drops a puddle, and clears your

@@ -119,6 +119,8 @@ sourced.
 ## Bosses
 
 ### Zuraal the Ascended <!-- enc:1979 -->
+
+**Hint:** stop the void oozes
 Add-control brawler: his casts spawn **Coalesced Void** oozes that **explode
 (Dark Expulsion)** if they reach him — letting them touch him is effectively a
 wipe at relevant keys.
@@ -132,6 +134,8 @@ wipe at relevant keys.
 | **Crashing Void** | Speeds up oozes, pulls players in, then explodes for big group hit + knockback | Top the group; oozes must be dead/CC'd first; don't get knocked into a Void Sludge pool | knockback | 🔴 |
 
 ### Saprish <!-- enc:1980 -->
+
+**Hint:** clear the void bombs
 Boss + two pets (**Darkfang**, **Shadewing**) **share health** — tank stacks
 all three for cleave. The board fills with **Void Bombs**; Saprish's **Overload**
 (at 100 energy) ignites every remaining bomb.
@@ -146,6 +150,8 @@ all three for cleave. The board fills with **Void Bombs**; Saprish's **Overload*
 | **Shadow Pounce** (Darkfang) | Random-target bleed/damage | Spot-heal / bleed-cleanse / defensive the target | spread-out | 🔵 |
 
 ### Viceroy Nezhar <!-- enc:1981 -->
+
+**Hint:** hide under the boss
 Caster boss who spawns **Gates of the Abyss**, blasts **Mass Void Infusion**,
 and at full energy knocks everyone back to cast **Collapsing Void** (a
 **Void Storm** ring you hide under the boss to avoid).
@@ -159,6 +165,8 @@ and at full energy knocks everyone back to cast **Collapsing Void** (a
 | **Repulse → Collapsing Void** | At full energy: TPs to center, knocks all back, then channels a **Void Storm** ring | Move *under* the boss (safe spot); tentacles must be dead first; group defensives + healing CDs | knockback | 🔴 |
 
 ### L'ura <!-- enc:1982 -->
+
+**Hint:** silence the despair notes
 Big HPS check. **Notes of Despair** pulse group damage via **Dirge of Despair**;
 you silence them with **Discordant Beam** to trigger the **Siphon Void**
 intermission (boss takes massively increased damage — Alleria Windrunner's

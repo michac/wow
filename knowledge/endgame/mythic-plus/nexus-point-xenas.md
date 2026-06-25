@@ -92,6 +92,8 @@ confidence high; single-sourced claims are flagged `(single-source)`.
 
 ### Chief Corewright Kasreth <!-- enc:2813 -->
 
+**Hint:** break the leyline beams
+
 | Ability | What it does | Do | Archetype | Tier |
 |---|---|---|---|---|
 | **Leyline Array** | Beams link between conduits across the room; lethal to cross | Don't cross active beams; **if you have Reflux Charge**, stand in intersections to break as many beams as possible | `positional-gimmick` | 🔴 |
@@ -102,6 +104,8 @@ confidence high; single-sourced claims are flagged `(single-source)`.
 
 ### Corewarden Nysarra <!-- enc:2814 -->
 
+**Hint:** kill adds before lightscar
+
 | Ability | What it does | Do | Archetype | Tier |
 |---|---|---|---|---|
 | **Eclipsing Step** | Boss carves into 2 targeted players plus nearby; applies a DoT | Spread so you don't cleave allies; defensive for the hit + DoT | `spread-out` | 🟠 |
@@ -111,6 +115,8 @@ confidence high; single-sourced claims are flagged `(single-source)`.
 | **Devour the Unworthy** | If adds live to the end of the Lightscar channel, boss consumes them (empower) | Make sure all adds are dead before the channel ends | `kill-priority-add` | 🔴 |
 
 ### Lothraxion <!-- enc:2815 -->
+
+**Hint:** interrupt the hornless copy
 
 | Ability | What it does | Do | Archetype | Tier |
 |---|---|---|---|---|

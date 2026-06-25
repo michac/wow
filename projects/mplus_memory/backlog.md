@@ -90,9 +90,19 @@ A one-file build remains a one-plugin toggle if ever needed.
 
 ### Follow-ups from the Phase-3 build (2026-06-24)
 
-- [ ] **Boss art:** cards use a dungeon-tinted monogram placeholder. Add
-      `scripts/fetch-boss-art.mjs` to pull encounter/creature renders (Blizzard
-      media API / zamimg) → `src/assets/bosses/<slug>.webp`, glyph fallback.
+- [x] **Boss art (2026-06-24):** boss cards now show official journal portrait
+      renders; trash + any un-fetched boss keep the dungeon-tinted monogram. The
+      fetcher lives in **Python** (`tools/wowkb/bossart.py`, run
+      `uv run python -m wowkb.bossart`), **not** the originally-guessed
+      `scripts/fetch-boss-art.mjs` — Blizzard OAuth + the `get()` helper already
+      exist in `wowkb.blizzard`, so re-implementing creds in Bun would duplicate
+      them. Pipeline: `journal-encounter/{enc}` → `creatures[].creature_display.id`
+      → `media/creature-display/{id}` `zoom` asset → download → Pillow resize 480px
+      + webp q80 → `app/src/assets/bosses/<dungeonSlug>__<bossSlug>.webp` (29 files,
+      committed). `build-content.mjs` emits a deterministic `cue.artKey` on boss
+      cards; `DungeonFrame.svelte` resolves it via a Vite glob with a monogram
+      fallback. The `<bossSlug>` slug rule is shared between `bossart.py` and
+      `build-content.mjs` `slugify()`.
 - [x] **GH Pages wiring (2026-06-24):** copied `app/deploy.yml.example` →
       `.github/workflows/mplus-trainer-pages.yml`, enabled Pages (Actions
       source). **Live at https://michac.github.io/wow/.** (See the GitHub Pages
@@ -206,16 +216,19 @@ files exist, tagged and journal-corroborated.
       surface it on the drill reveal and in Browse, never as the *cue* (the cue must
       match the in-game tell). Could be a fun "name this mechanic" generation
       exercise where the player coins their own — self-generated names stick best.
-- [ ] **Per-boss one-line hint** (idea, 2026-06-24): add a short `hint` to each
-      boss in the dungeon tables — a super-short sentence that captures the boss's
-      *main* mechanic, the one thing to remember it by. Can read like a nickname
-      ("dome of silence guy", "the orb-soak robot") or just be a plain sentence;
-      the goal is a single recognizable peg per boss, **not** a full strategy.
-      Distinct from [[Mnemonic nicknames]] above: this is one factual hook per
-      boss (mechanic-first), not a cutesy alias per ability. Start by drafting the
-      hints in the `knowledge/` boss sections, then surface on the drill reveal /
-      Browse (never the cue). Open: where the field lives (front-matter vs. a line
-      under the `###` heading) and how `build-content.mjs` picks it up.
+- [x] **Per-boss one-line hint (2026-06-24):** every boss carries one short
+      factual peg — its signature mechanic as a minimalistic fragment
+      (`soak the refuel orbs`, `step into the silence zone`, `cover the pizza
+      slices`). Resolved the open question: the field lives as an explicit
+      `**Hint:** <peg>` line directly under each `### Boss <!-- enc:NNN -->`
+      heading (structured markup, same principle as the enc marker — not scraped
+      from intro prose). `build-content.mjs` `parseDungeon()` captures it into
+      `boss.hint` and emits `cue.hint` on boss cards (trash → none).
+      `DungeonFrame.svelte` shows it as a small muted/italic line under the caster
+      name **only on reveal** (gated on `status`) so it can't leak the cue-phase
+      classify answer. All 29 hints authored. Distinct from [[Mnemonic nicknames]]
+      above: one factual mechanic-first hook per boss, not a cutesy alias per
+      ability.
 - [ ] Role expansion: enable healer + tank card sets behind the existing filter.
 - [ ] Verify Xal'atath's Bargain affix rotation (open TODO in overview).
 - [ ] Patch-watch: re-verify content if game state moves past 12.0.5.

@@ -85,6 +85,8 @@ Consequence tiers: 🔴 wipe / 🟠 your death / 🔵 your job / ⚪ flavor.
 
 ### Ranjit <!-- enc:965 -->
 
+**Hint:** dodge the returning chakram
+
 Wind / chakram fight on an exposed platform — most deaths are positional (knocked
 into orbs or off the edge).
 
@@ -97,6 +99,8 @@ into orbs or off the edge).
 | **Chakram Vortex** | Spawns tornadoes that move/rotate across the arena | Dodge the tornadoes — often overlaps Wind Chakram/Gale Surge | ground-void-zone | 🟠 |
 
 ### Araknath <!-- enc:966 -->
+
+**Hint:** soak the energize beams
 
 Stationary solar construct. Core loop: intercept the **Energize** beams feeding the
 boss so it doesn't reach full energy and blow up the group.
@@ -112,6 +116,8 @@ boss so it doesn't reach full energy and blow up the group.
 
 ### Rukhran <!-- enc:967 -->
 
+**Hint:** break los on quills
+
 Stationary phoenix. Adds (**Sunwing**) fixate and pulse group damage; bodies become
 **Smoldering Eggs** that re-hatch if another add dies on top of them.
 
@@ -125,6 +131,8 @@ Stationary phoenix. Adds (**Sunwing**) fixate and pulse group damage; bodies bec
 | **Screech** | Cast if **no one is in melee range** for too long | Tank stays in melee except during Searing Quills LoS | tank-buster | 🔵 |
 
 ### High Sage Viryx <!-- enc:968 -->
+
+**Hint:** stun the off-edge add
 
 Final boss, focusing-lens fight on the top platform with an edge. The **Cast Down**
 add will throw a player off Skyreach if not stopped.

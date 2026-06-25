@@ -302,6 +302,7 @@
         {
           "name": "Arcanotron Custos",
           "slug": "arcanotron-custos",
+          "hint": "soak the refuel orbs",
           "abilities": [
             {
               "spell": "Arcane Expulsion",
@@ -371,6 +372,7 @@
         {
           "name": "Seranel Sunlash",
           "slug": "seranel-sunlash",
+          "hint": "step into the silence zone",
           "abilities": [
             {
               "spell": "Suppression Zone",
@@ -431,6 +433,7 @@
         {
           "name": "Gemellus",
           "slug": "gemellus",
+          "hint": "cleave the clones",
           "abilities": [
             {
               "spell": "Triplicate",
@@ -491,6 +494,7 @@
         {
           "name": "Degentrius",
           "slug": "degentrius",
+          "hint": "cover the pizza slices",
           "abilities": [
             {
               "spell": "Void Torrent",
@@ -919,6 +923,7 @@
         {
           "name": "Muro'jin and Nekraxx",
           "slug": "muro-jin-and-nekraxx",
+          "hint": "trap the swoop charge",
           "abilities": [
             {
               "spell": "Carrion Swoop",
@@ -997,6 +1002,7 @@
         {
           "name": "Vordaza",
           "slug": "vordaza",
+          "hint": "collide the phantoms",
           "abilities": [
             {
               "spell": "Wrest Phantoms / Final Pursuit",
@@ -1048,6 +1054,7 @@
         {
           "name": "Rak'tul, Vessel of Souls",
           "slug": "rak-tul-vessel-of-souls",
+          "hint": "run the soul gauntlet",
           "abilities": [
             {
               "spell": "Crush Souls",
@@ -1492,6 +1499,7 @@
         {
           "name": "Chief Corewright Kasreth",
           "slug": "chief-corewright-kasreth",
+          "hint": "break the leyline beams",
           "abilities": [
             {
               "spell": "Leyline Array",
@@ -1543,6 +1551,7 @@
         {
           "name": "Corewarden Nysarra",
           "slug": "corewarden-nysarra",
+          "hint": "kill adds before lightscar",
           "abilities": [
             {
               "spell": "Eclipsing Step",
@@ -1594,6 +1603,7 @@
         {
           "name": "Lothraxion",
           "slug": "lothraxion",
+          "hint": "interrupt the hornless copy",
           "abilities": [
             {
               "spell": "Searing Rend",
@@ -1989,6 +1999,7 @@
         {
           "name": "Emberdawn",
           "slug": "emberdawn",
+          "hint": "dodge the fire twisters",
           "abilities": [
             {
               "spell": "Flaming Updraft",
@@ -2040,6 +2051,7 @@
         {
           "name": "Derelict Duo",
           "slug": "derelict-duo",
+          "hint": "kill both bosses even",
           "abilities": [
             {
               "spell": "Broken Bond",
@@ -2109,6 +2121,7 @@
         {
           "name": "Commander Kroluk",
           "slug": "commander-kroluk",
+          "hint": "kill the warparty adds",
           "abilities": [
             {
               "spell": "Reckless Leap",
@@ -2169,6 +2182,7 @@
         {
           "name": "The Restless Heart",
           "slug": "the-restless-heart",
+          "hint": "ride the wind arrows",
           "abilities": [
             {
               "spell": "Arrow Rain",
@@ -2666,6 +2680,7 @@
         {
           "name": "Overgrown Ancient",
           "slug": "overgrown-ancient",
+          "hint": "cleave the lashers",
           "abilities": [
             {
               "spell": "Germinate",
@@ -2735,6 +2750,7 @@
         {
           "name": "Crawth",
           "slug": "crawth",
+          "hint": "score the ball goals",
           "abilities": [
             {
               "spell": "Savage Peck",
@@ -2795,6 +2811,7 @@
         {
           "name": "Vexamus",
           "slug": "vexamus",
+          "hint": "soak the arcane orbs",
           "abilities": [
             {
               "spell": "Arcane Orbs (Oversurge)",
@@ -2837,6 +2854,7 @@
         {
           "name": "Echo of Doragosa",
           "slug": "echo-of-doragosa",
+          "hint": "don't greed power stacks",
           "abilities": [
             {
               "spell": "Unleash Energy",
@@ -3185,6 +3203,7 @@
         {
           "name": "Zuraal the Ascended",
           "slug": "zuraal-the-ascended",
+          "hint": "stop the void oozes",
           "abilities": [
             {
               "spell": "Null Palm",
@@ -3236,6 +3255,7 @@
         {
           "name": "Saprish",
           "slug": "saprish",
+          "hint": "clear the void bombs",
           "abilities": [
             {
               "spell": "Void Bomb",
@@ -3296,6 +3316,7 @@
         {
           "name": "Viceroy Nezhar",
           "slug": "viceroy-nezhar",
+          "hint": "hide under the boss",
           "abilities": [
             {
               "spell": "Mind Blast",
@@ -3347,6 +3368,7 @@
         {
           "name": "L'ura",
           "slug": "l-ura",
+          "hint": "silence the despair notes",
           "abilities": [
             {
               "spell": "Dirge of Despair",
@@ -3691,6 +3713,7 @@
         {
           "name": "Ranjit",
           "slug": "ranjit",
+          "hint": "dodge the returning chakram",
           "abilities": [
             {
               "spell": "Gale Surge",
@@ -3742,6 +3765,7 @@
         {
           "name": "Araknath",
           "slug": "araknath",
+          "hint": "soak the energize beams",
           "abilities": [
             {
               "spell": "Energize",
@@ -3802,6 +3826,7 @@
         {
           "name": "Rukhran",
           "slug": "rukhran",
+          "hint": "break los on quills",
           "abilities": [
             {
               "spell": "Sunbreak",
@@ -3862,6 +3887,7 @@
         {
           "name": "High Sage Viryx",
           "slug": "high-sage-viryx",
+          "hint": "stun the off-edge add",
           "abilities": [
             {
               "spell": "Cast Down",
@@ -4165,6 +4191,7 @@
         {
           "name": "Forgemaster Garfrost",
           "slug": "forgemaster-garfrost",
+          "hint": "hide behind the ore",
           "abilities": [
             {
               "spell": "Throw Saronite",
@@ -4216,6 +4243,7 @@
         {
           "name": "Ick and Krick",
           "slug": "ick-and-krick",
+          "hint": "kite ick when fixated",
           "abilities": [
             {
               "spell": "Necrolink",
@@ -4294,6 +4322,7 @@
         {
           "name": "Scourgelord Tyrannus",
           "slug": "scourgelord-tyrannus",
+          "hint": "pre-freeze the bone piles",
           "abilities": [
             {
               "spell": "Rime Blast",
@@ -4637,7 +4666,9 @@
         "segment": "Arcanotron Custos",
         "caster": "Arcanotron Custos",
         "casterKind": "boss",
-        "spell": "Arcane Expulsion"
+        "spell": "Arcane Expulsion",
+        "artKey": "magisters-terrace__arcanotron-custos",
+        "hint": "soak the refuel orbs"
       },
       "promptType": "classify",
       "answer": "knockback",
@@ -4664,7 +4695,9 @@
         "segment": "Arcanotron Custos",
         "caster": "Arcanotron Custos",
         "casterKind": "boss",
-        "spell": "Arcane Residue"
+        "spell": "Arcane Residue",
+        "artKey": "magisters-terrace__arcanotron-custos",
+        "hint": "soak the refuel orbs"
       },
       "promptType": "classify",
       "answer": "ground-void-zone",
@@ -4691,7 +4724,9 @@
         "segment": "Arcanotron Custos",
         "caster": "Arcanotron Custos",
         "casterKind": "boss",
-        "spell": "Ethereal Shackles"
+        "spell": "Ethereal Shackles",
+        "artKey": "magisters-terrace__arcanotron-custos",
+        "hint": "soak the refuel orbs"
       },
       "promptType": "classify",
       "answer": "dispel",
@@ -4718,7 +4753,9 @@
         "segment": "Arcanotron Custos",
         "caster": "Arcanotron Custos",
         "casterKind": "boss",
-        "spell": "Repulsing Slam"
+        "spell": "Repulsing Slam",
+        "artKey": "magisters-terrace__arcanotron-custos",
+        "hint": "soak the refuel orbs"
       },
       "promptType": "classify",
       "answer": "knockback",
@@ -4745,7 +4782,9 @@
         "segment": "Arcanotron Custos",
         "caster": "Arcanotron Custos",
         "casterKind": "boss",
-        "spell": "Refueling Protocol"
+        "spell": "Refueling Protocol",
+        "artKey": "magisters-terrace__arcanotron-custos",
+        "hint": "soak the refuel orbs"
       },
       "promptType": "classify",
       "answer": "soak",
@@ -4772,7 +4811,9 @@
         "segment": "Arcanotron Custos",
         "caster": "Arcanotron Custos",
         "casterKind": "boss",
-        "spell": "Energy Orb / Arcane Empowerment"
+        "spell": "Energy Orb / Arcane Empowerment",
+        "artKey": "magisters-terrace__arcanotron-custos",
+        "hint": "soak the refuel orbs"
       },
       "promptType": "classify",
       "answer": "soak",
@@ -4799,7 +4840,9 @@
         "segment": "Arcanotron Custos",
         "caster": "Arcanotron Custos",
         "casterKind": "boss",
-        "spell": "Unstable Energy"
+        "spell": "Unstable Energy",
+        "artKey": "magisters-terrace__arcanotron-custos",
+        "hint": "soak the refuel orbs"
       },
       "promptType": "classify",
       "answer": "stack-up",
@@ -4826,7 +4869,9 @@
         "segment": "Seranel Sunlash",
         "caster": "Seranel Sunlash",
         "casterKind": "boss",
-        "spell": "Suppression Zone"
+        "spell": "Suppression Zone",
+        "artKey": "magisters-terrace__seranel-sunlash",
+        "hint": "step into the silence zone"
       },
       "promptType": "classify",
       "answer": "positional-gimmick",
@@ -4853,7 +4898,9 @@
         "segment": "Seranel Sunlash",
         "caster": "Seranel Sunlash",
         "casterKind": "boss",
-        "spell": "Runic Mark"
+        "spell": "Runic Mark",
+        "artKey": "magisters-terrace__seranel-sunlash",
+        "hint": "step into the silence zone"
       },
       "promptType": "classify",
       "answer": "spread-out",
@@ -4880,7 +4927,9 @@
         "segment": "Seranel Sunlash",
         "caster": "Seranel Sunlash",
         "casterKind": "boss",
-        "spell": "Null Reaction"
+        "spell": "Null Reaction",
+        "artKey": "magisters-terrace__seranel-sunlash",
+        "hint": "step into the silence zone"
       },
       "promptType": "classify",
       "answer": "stack-up",
@@ -4907,7 +4956,9 @@
         "segment": "Seranel Sunlash",
         "caster": "Seranel Sunlash",
         "casterKind": "boss",
-        "spell": "Feedback"
+        "spell": "Feedback",
+        "artKey": "magisters-terrace__seranel-sunlash",
+        "hint": "step into the silence zone"
       },
       "promptType": "classify",
       "answer": "positional-gimmick",
@@ -4934,7 +4985,9 @@
         "segment": "Seranel Sunlash",
         "caster": "Seranel Sunlash",
         "casterKind": "boss",
-        "spell": "Wave of Silence"
+        "spell": "Wave of Silence",
+        "artKey": "magisters-terrace__seranel-sunlash",
+        "hint": "step into the silence zone"
       },
       "promptType": "classify",
       "answer": "positional-gimmick",
@@ -4961,7 +5014,9 @@
         "segment": "Seranel Sunlash",
         "caster": "Seranel Sunlash",
         "casterKind": "boss",
-        "spell": "Hastening Ward"
+        "spell": "Hastening Ward",
+        "artKey": "magisters-terrace__seranel-sunlash",
+        "hint": "step into the silence zone"
       },
       "promptType": "classify",
       "answer": "purge-soothe",
@@ -4988,7 +5043,9 @@
         "segment": "Gemellus",
         "caster": "Gemellus",
         "casterKind": "boss",
-        "spell": "Triplicate"
+        "spell": "Triplicate",
+        "artKey": "magisters-terrace__gemellus",
+        "hint": "cleave the clones"
       },
       "promptType": "classify",
       "answer": "kill-priority-add",
@@ -5015,7 +5072,9 @@
         "segment": "Gemellus",
         "caster": "Gemellus",
         "casterKind": "boss",
-        "spell": "Cosmic Sting"
+        "spell": "Cosmic Sting",
+        "artKey": "magisters-terrace__gemellus",
+        "hint": "cleave the clones"
       },
       "promptType": "classify",
       "answer": "ground-void-zone",
@@ -5042,7 +5101,9 @@
         "segment": "Gemellus",
         "caster": "Gemellus",
         "casterKind": "boss",
-        "spell": "Void Secretions"
+        "spell": "Void Secretions",
+        "artKey": "magisters-terrace__gemellus",
+        "hint": "cleave the clones"
       },
       "promptType": "classify",
       "answer": "ground-void-zone",
@@ -5069,7 +5130,9 @@
         "segment": "Gemellus",
         "caster": "Gemellus",
         "casterKind": "boss",
-        "spell": "Neural Link"
+        "spell": "Neural Link",
+        "artKey": "magisters-terrace__gemellus",
+        "hint": "cleave the clones"
       },
       "promptType": "classify",
       "answer": "positional-gimmick",
@@ -5096,7 +5159,9 @@
         "segment": "Gemellus",
         "caster": "Gemellus",
         "casterKind": "boss",
-        "spell": "Astral Grasp"
+        "spell": "Astral Grasp",
+        "artKey": "magisters-terrace__gemellus",
+        "hint": "cleave the clones"
       },
       "promptType": "classify",
       "answer": "knockback",
@@ -5123,7 +5188,9 @@
         "segment": "Gemellus",
         "caster": "Gemellus",
         "casterKind": "boss",
-        "spell": "Cosmic Radiation"
+        "spell": "Cosmic Radiation",
+        "artKey": "magisters-terrace__gemellus",
+        "hint": "cleave the clones"
       },
       "promptType": "classify",
       "answer": "pulsing-aura",
@@ -5150,7 +5217,9 @@
         "segment": "Degentrius",
         "caster": "Degentrius",
         "casterKind": "boss",
-        "spell": "Void Torrent"
+        "spell": "Void Torrent",
+        "artKey": "magisters-terrace__degentrius",
+        "hint": "cover the pizza slices"
       },
       "promptType": "classify",
       "answer": "ground-void-zone",
@@ -5177,7 +5246,9 @@
         "segment": "Degentrius",
         "caster": "Degentrius",
         "casterKind": "boss",
-        "spell": "Unstable Void Essence"
+        "spell": "Unstable Void Essence",
+        "artKey": "magisters-terrace__degentrius",
+        "hint": "cover the pizza slices"
       },
       "promptType": "classify",
       "answer": "soak",
@@ -5204,7 +5275,9 @@
         "segment": "Degentrius",
         "caster": "Degentrius",
         "casterKind": "boss",
-        "spell": "Void Destruction"
+        "spell": "Void Destruction",
+        "artKey": "magisters-terrace__degentrius",
+        "hint": "cover the pizza slices"
       },
       "promptType": "classify",
       "answer": "stack-up",
@@ -5231,7 +5304,9 @@
         "segment": "Degentrius",
         "caster": "Degentrius",
         "casterKind": "boss",
-        "spell": "Hulking Fragment"
+        "spell": "Hulking Fragment",
+        "artKey": "magisters-terrace__degentrius",
+        "hint": "cover the pizza slices"
       },
       "promptType": "classify",
       "answer": "tank-buster",
@@ -5258,7 +5333,9 @@
         "segment": "Degentrius",
         "caster": "Degentrius",
         "casterKind": "boss",
-        "spell": "Umbral Splinters / Stygian Ichor"
+        "spell": "Umbral Splinters / Stygian Ichor",
+        "artKey": "magisters-terrace__degentrius",
+        "hint": "cover the pizza slices"
       },
       "promptType": "classify",
       "answer": "ground-void-zone",
@@ -5285,7 +5362,9 @@
         "segment": "Degentrius",
         "caster": "Degentrius",
         "casterKind": "boss",
-        "spell": "Devouring Entropy"
+        "spell": "Devouring Entropy",
+        "artKey": "magisters-terrace__degentrius",
+        "hint": "cover the pizza slices"
       },
       "promptType": "classify",
       "answer": "spread-out",
@@ -5312,7 +5391,9 @@
         "segment": "Degentrius",
         "caster": "Degentrius",
         "casterKind": "boss",
-        "spell": "Entropy Blast"
+        "spell": "Entropy Blast",
+        "artKey": "magisters-terrace__degentrius",
+        "hint": "cover the pizza slices"
       },
       "promptType": "classify",
       "answer": "raid-damage",
@@ -5339,7 +5420,9 @@
         "segment": "Degentrius",
         "caster": "Degentrius",
         "casterKind": "boss",
-        "spell": "Null Bomb"
+        "spell": "Null Bomb",
+        "artKey": "magisters-terrace__degentrius",
+        "hint": "cover the pizza slices"
       },
       "promptType": "classify",
       "answer": "soak",
@@ -6095,7 +6178,9 @@
         "segment": "Muro'jin and Nekraxx",
         "caster": "Muro'jin and Nekraxx",
         "casterKind": "boss",
-        "spell": "Carrion Swoop"
+        "spell": "Carrion Swoop",
+        "artKey": "maisara-caverns__muro-jin-and-nekraxx",
+        "hint": "trap the swoop charge"
       },
       "promptType": "classify",
       "answer": "knockback",
@@ -6122,7 +6207,9 @@
         "segment": "Muro'jin and Nekraxx",
         "caster": "Muro'jin and Nekraxx",
         "casterKind": "boss",
-        "spell": "Freezing Trap"
+        "spell": "Freezing Trap",
+        "artKey": "maisara-caverns__muro-jin-and-nekraxx",
+        "hint": "trap the swoop charge"
       },
       "promptType": "classify",
       "answer": "positional-gimmick",
@@ -6149,7 +6236,9 @@
         "segment": "Muro'jin and Nekraxx",
         "caster": "Muro'jin and Nekraxx",
         "casterKind": "boss",
-        "spell": "Barrage"
+        "spell": "Barrage",
+        "artKey": "maisara-caverns__muro-jin-and-nekraxx",
+        "hint": "trap the swoop charge"
       },
       "promptType": "classify",
       "answer": "frontal-cone",
@@ -6176,7 +6265,9 @@
         "segment": "Muro'jin and Nekraxx",
         "caster": "Muro'jin and Nekraxx",
         "casterKind": "boss",
-        "spell": "Fetid Quillstorm"
+        "spell": "Fetid Quillstorm",
+        "artKey": "maisara-caverns__muro-jin-and-nekraxx",
+        "hint": "trap the swoop charge"
       },
       "promptType": "classify",
       "answer": "ground-void-zone",
@@ -6203,7 +6294,9 @@
         "segment": "Muro'jin and Nekraxx",
         "caster": "Muro'jin and Nekraxx",
         "casterKind": "boss",
-        "spell": "Infected Pinions"
+        "spell": "Infected Pinions",
+        "artKey": "maisara-caverns__muro-jin-and-nekraxx",
+        "hint": "trap the swoop charge"
       },
       "promptType": "classify",
       "answer": "raid-damage",
@@ -6230,7 +6323,9 @@
         "segment": "Muro'jin and Nekraxx",
         "caster": "Muro'jin and Nekraxx",
         "casterKind": "boss",
-        "spell": "Flanking Spear"
+        "spell": "Flanking Spear",
+        "artKey": "maisara-caverns__muro-jin-and-nekraxx",
+        "hint": "trap the swoop charge"
       },
       "promptType": "classify",
       "answer": "tank-buster",
@@ -6257,7 +6352,9 @@
         "segment": "Muro'jin and Nekraxx",
         "caster": "Muro'jin and Nekraxx",
         "casterKind": "boss",
-        "spell": "Revive Pet"
+        "spell": "Revive Pet",
+        "artKey": "maisara-caverns__muro-jin-and-nekraxx",
+        "hint": "trap the swoop charge"
       },
       "promptType": "classify",
       "answer": "kill-priority-add",
@@ -6284,7 +6381,9 @@
         "segment": "Muro'jin and Nekraxx",
         "caster": "Muro'jin and Nekraxx",
         "casterKind": "boss",
-        "spell": "Bestial Wrath"
+        "spell": "Bestial Wrath",
+        "artKey": "maisara-caverns__muro-jin-and-nekraxx",
+        "hint": "trap the swoop charge"
       },
       "promptType": "classify",
       "answer": "purge-soothe",
@@ -6311,7 +6410,9 @@
         "segment": "Vordaza",
         "caster": "Vordaza",
         "casterKind": "boss",
-        "spell": "Wrest Phantoms / Final Pursuit"
+        "spell": "Wrest Phantoms / Final Pursuit",
+        "artKey": "maisara-caverns__vordaza",
+        "hint": "collide the phantoms"
       },
       "promptType": "classify",
       "answer": "fixate-chase",
@@ -6338,7 +6439,9 @@
         "segment": "Vordaza",
         "caster": "Vordaza",
         "casterKind": "boss",
-        "spell": "Lingering Dread"
+        "spell": "Lingering Dread",
+        "artKey": "maisara-caverns__vordaza",
+        "hint": "collide the phantoms"
       },
       "promptType": "classify",
       "answer": "raid-damage",
@@ -6365,7 +6468,9 @@
         "segment": "Vordaza",
         "caster": "Vordaza",
         "casterKind": "boss",
-        "spell": "Necrotic Convergence / Deathshroud"
+        "spell": "Necrotic Convergence / Deathshroud",
+        "artKey": "maisara-caverns__vordaza",
+        "hint": "collide the phantoms"
       },
       "promptType": "classify",
       "answer": "interruptible-cast",
@@ -6392,7 +6497,9 @@
         "segment": "Vordaza",
         "caster": "Vordaza",
         "casterKind": "boss",
-        "spell": "Drain Soul"
+        "spell": "Drain Soul",
+        "artKey": "maisara-caverns__vordaza",
+        "hint": "collide the phantoms"
       },
       "promptType": "classify",
       "answer": "tank-buster",
@@ -6419,7 +6526,9 @@
         "segment": "Vordaza",
         "caster": "Vordaza",
         "casterKind": "boss",
-        "spell": "Unmake"
+        "spell": "Unmake",
+        "artKey": "maisara-caverns__vordaza",
+        "hint": "collide the phantoms"
       },
       "promptType": "classify",
       "answer": "frontal-cone",
@@ -6446,7 +6555,9 @@
         "segment": "Rak'tul, Vessel of Souls",
         "caster": "Rak'tul, Vessel of Souls",
         "casterKind": "boss",
-        "spell": "Crush Souls"
+        "spell": "Crush Souls",
+        "artKey": "maisara-caverns__rak-tul-vessel-of-souls",
+        "hint": "run the soul gauntlet"
       },
       "promptType": "classify",
       "answer": "kill-priority-add",
@@ -6473,7 +6584,9 @@
         "segment": "Rak'tul, Vessel of Souls",
         "caster": "Rak'tul, Vessel of Souls",
         "casterKind": "boss",
-        "spell": "Soulbind (totem)"
+        "spell": "Soulbind (totem)",
+        "artKey": "maisara-caverns__rak-tul-vessel-of-souls",
+        "hint": "run the soul gauntlet"
       },
       "promptType": "classify",
       "answer": "knockback",
@@ -6500,7 +6613,9 @@
         "segment": "Rak'tul, Vessel of Souls",
         "caster": "Rak'tul, Vessel of Souls",
         "casterKind": "boss",
-        "spell": "Spiritbreaker"
+        "spell": "Spiritbreaker",
+        "artKey": "maisara-caverns__rak-tul-vessel-of-souls",
+        "hint": "run the soul gauntlet"
       },
       "promptType": "classify",
       "answer": "tank-buster",
@@ -6527,7 +6642,9 @@
         "segment": "Rak'tul, Vessel of Souls",
         "caster": "Rak'tul, Vessel of Souls",
         "casterKind": "boss",
-        "spell": "Deathgorged Vessel"
+        "spell": "Deathgorged Vessel",
+        "artKey": "maisara-caverns__rak-tul-vessel-of-souls",
+        "hint": "run the soul gauntlet"
       },
       "promptType": "classify",
       "answer": "ground-void-zone",
@@ -6554,7 +6671,9 @@
         "segment": "Rak'tul, Vessel of Souls",
         "caster": "Rak'tul, Vessel of Souls",
         "casterKind": "boss",
-        "spell": "Soulrending Roar / Withering Soul"
+        "spell": "Soulrending Roar / Withering Soul",
+        "artKey": "maisara-caverns__rak-tul-vessel-of-souls",
+        "hint": "run the soul gauntlet"
       },
       "promptType": "classify",
       "answer": "interruptible-cast",
@@ -6581,7 +6700,9 @@
         "segment": "Rak'tul, Vessel of Souls",
         "caster": "Rak'tul, Vessel of Souls",
         "casterKind": "boss",
-        "spell": "Cries of the Fallen"
+        "spell": "Cries of the Fallen",
+        "artKey": "maisara-caverns__rak-tul-vessel-of-souls",
+        "hint": "run the soul gauntlet"
       },
       "promptType": "classify",
       "answer": "proximity-bait",
@@ -7445,7 +7566,9 @@
         "segment": "Chief Corewright Kasreth",
         "caster": "Chief Corewright Kasreth",
         "casterKind": "boss",
-        "spell": "Leyline Array"
+        "spell": "Leyline Array",
+        "artKey": "nexus-point-xenas__chief-corewright-kasreth",
+        "hint": "break the leyline beams"
       },
       "promptType": "classify",
       "answer": "positional-gimmick",
@@ -7472,7 +7595,9 @@
         "segment": "Chief Corewright Kasreth",
         "caster": "Chief Corewright Kasreth",
         "casterKind": "boss",
-        "spell": "Reflux Charge"
+        "spell": "Reflux Charge",
+        "artKey": "nexus-point-xenas__chief-corewright-kasreth",
+        "hint": "break the leyline beams"
       },
       "promptType": "classify",
       "answer": "positional-gimmick",
@@ -7499,7 +7624,9 @@
         "segment": "Chief Corewright Kasreth",
         "caster": "Chief Corewright Kasreth",
         "casterKind": "boss",
-        "spell": "Corespark Detonation"
+        "spell": "Corespark Detonation",
+        "artKey": "nexus-point-xenas__chief-corewright-kasreth",
+        "hint": "break the leyline beams"
       },
       "promptType": "classify",
       "answer": "proximity-bait",
@@ -7526,7 +7653,9 @@
         "segment": "Chief Corewright Kasreth",
         "caster": "Chief Corewright Kasreth",
         "casterKind": "boss",
-        "spell": "Flux Collapse"
+        "spell": "Flux Collapse",
+        "artKey": "nexus-point-xenas__chief-corewright-kasreth",
+        "hint": "break the leyline beams"
       },
       "promptType": "classify",
       "answer": "ground-void-zone",
@@ -7553,7 +7682,9 @@
         "segment": "Chief Corewright Kasreth",
         "caster": "Chief Corewright Kasreth",
         "casterKind": "boss",
-        "spell": "Arcane Zap"
+        "spell": "Arcane Zap",
+        "artKey": "nexus-point-xenas__chief-corewright-kasreth",
+        "hint": "break the leyline beams"
       },
       "promptType": "classify",
       "answer": "tank-buster",
@@ -7580,7 +7711,9 @@
         "segment": "Corewarden Nysarra",
         "caster": "Corewarden Nysarra",
         "casterKind": "boss",
-        "spell": "Eclipsing Step"
+        "spell": "Eclipsing Step",
+        "artKey": "nexus-point-xenas__corewarden-nysarra",
+        "hint": "kill adds before lightscar"
       },
       "promptType": "classify",
       "answer": "spread-out",
@@ -7607,7 +7740,9 @@
         "segment": "Corewarden Nysarra",
         "caster": "Corewarden Nysarra",
         "casterKind": "boss",
-        "spell": "Null Vanguard"
+        "spell": "Null Vanguard",
+        "artKey": "nexus-point-xenas__corewarden-nysarra",
+        "hint": "kill adds before lightscar"
       },
       "promptType": "classify",
       "answer": "kill-priority-add",
@@ -7634,7 +7769,9 @@
         "segment": "Corewarden Nysarra",
         "caster": "Corewarden Nysarra",
         "casterKind": "boss",
-        "spell": "Umbral Lash"
+        "spell": "Umbral Lash",
+        "artKey": "nexus-point-xenas__corewarden-nysarra",
+        "hint": "kill adds before lightscar"
       },
       "promptType": "classify",
       "answer": "tank-buster",
@@ -7661,7 +7798,9 @@
         "segment": "Corewarden Nysarra",
         "caster": "Corewarden Nysarra",
         "casterKind": "boss",
-        "spell": "Lightscar Flare"
+        "spell": "Lightscar Flare",
+        "artKey": "nexus-point-xenas__corewarden-nysarra",
+        "hint": "kill adds before lightscar"
       },
       "promptType": "classify",
       "answer": "soak",
@@ -7688,7 +7827,9 @@
         "segment": "Corewarden Nysarra",
         "caster": "Corewarden Nysarra",
         "casterKind": "boss",
-        "spell": "Devour the Unworthy"
+        "spell": "Devour the Unworthy",
+        "artKey": "nexus-point-xenas__corewarden-nysarra",
+        "hint": "kill adds before lightscar"
       },
       "promptType": "classify",
       "answer": "kill-priority-add",
@@ -7715,7 +7856,9 @@
         "segment": "Lothraxion",
         "caster": "Lothraxion",
         "casterKind": "boss",
-        "spell": "Searing Rend"
+        "spell": "Searing Rend",
+        "artKey": "nexus-point-xenas__lothraxion",
+        "hint": "interrupt the hornless copy"
       },
       "promptType": "classify",
       "answer": "tank-buster",
@@ -7742,7 +7885,9 @@
         "segment": "Lothraxion",
         "caster": "Lothraxion",
         "casterKind": "boss",
-        "spell": "Brilliant Dispersion"
+        "spell": "Brilliant Dispersion",
+        "artKey": "nexus-point-xenas__lothraxion",
+        "hint": "interrupt the hornless copy"
       },
       "promptType": "classify",
       "answer": "spread-out",
@@ -7769,7 +7914,9 @@
         "segment": "Lothraxion",
         "caster": "Lothraxion",
         "casterKind": "boss",
-        "spell": "Mirrored Rend"
+        "spell": "Mirrored Rend",
+        "artKey": "nexus-point-xenas__lothraxion",
+        "hint": "interrupt the hornless copy"
       },
       "promptType": "classify",
       "answer": "ground-void-zone",
@@ -7796,7 +7943,9 @@
         "segment": "Lothraxion",
         "caster": "Lothraxion",
         "casterKind": "boss",
-        "spell": "Flicker"
+        "spell": "Flicker",
+        "artKey": "nexus-point-xenas__lothraxion",
+        "hint": "interrupt the hornless copy"
       },
       "promptType": "classify",
       "answer": "charge",
@@ -7823,7 +7972,9 @@
         "segment": "Lothraxion",
         "caster": "Lothraxion",
         "casterKind": "boss",
-        "spell": "Divine Guile"
+        "spell": "Divine Guile",
+        "artKey": "nexus-point-xenas__lothraxion",
+        "hint": "interrupt the hornless copy"
       },
       "promptType": "classify",
       "answer": "interruptible-cast",
@@ -7850,7 +8001,9 @@
         "segment": "Lothraxion",
         "caster": "Lothraxion",
         "casterKind": "boss",
-        "spell": "Core Exposure"
+        "spell": "Core Exposure",
+        "artKey": "nexus-point-xenas__lothraxion",
+        "hint": "interrupt the hornless copy"
       },
       "promptType": "classify",
       "answer": "ground-void-zone",
@@ -8606,7 +8759,9 @@
         "segment": "Emberdawn",
         "caster": "Emberdawn",
         "casterKind": "boss",
-        "spell": "Flaming Updraft"
+        "spell": "Flaming Updraft",
+        "artKey": "windrunner-spire__emberdawn",
+        "hint": "dodge the fire twisters"
       },
       "promptType": "classify",
       "answer": "ground-void-zone",
@@ -8633,7 +8788,9 @@
         "segment": "Emberdawn",
         "caster": "Emberdawn",
         "casterKind": "boss",
-        "spell": "Burning Gale"
+        "spell": "Burning Gale",
+        "artKey": "windrunner-spire__emberdawn",
+        "hint": "dodge the fire twisters"
       },
       "promptType": "classify",
       "answer": "knockback",
@@ -8660,7 +8817,9 @@
         "segment": "Emberdawn",
         "caster": "Emberdawn",
         "casterKind": "boss",
-        "spell": "Flaming Twisters"
+        "spell": "Flaming Twisters",
+        "artKey": "windrunner-spire__emberdawn",
+        "hint": "dodge the fire twisters"
       },
       "promptType": "classify",
       "answer": "ground-void-zone",
@@ -8687,7 +8846,9 @@
         "segment": "Emberdawn",
         "caster": "Emberdawn",
         "casterKind": "boss",
-        "spell": "Fire Breath"
+        "spell": "Fire Breath",
+        "artKey": "windrunner-spire__emberdawn",
+        "hint": "dodge the fire twisters"
       },
       "promptType": "classify",
       "answer": "frontal-cone",
@@ -8714,7 +8875,9 @@
         "segment": "Emberdawn",
         "caster": "Emberdawn",
         "casterKind": "boss",
-        "spell": "Searing Beak"
+        "spell": "Searing Beak",
+        "artKey": "windrunner-spire__emberdawn",
+        "hint": "dodge the fire twisters"
       },
       "promptType": "classify",
       "answer": "tank-buster",
@@ -8741,7 +8904,9 @@
         "segment": "Derelict Duo",
         "caster": "Derelict Duo",
         "casterKind": "boss",
-        "spell": "Broken Bond"
+        "spell": "Broken Bond",
+        "artKey": "windrunner-spire__derelict-duo",
+        "hint": "kill both bosses even"
       },
       "promptType": "classify",
       "answer": "balance-kill",
@@ -8768,7 +8933,9 @@
         "segment": "Derelict Duo",
         "caster": "Derelict Duo",
         "casterKind": "boss",
-        "spell": "Shadow Bolt (Kalis)"
+        "spell": "Shadow Bolt (Kalis)",
+        "artKey": "windrunner-spire__derelict-duo",
+        "hint": "kill both bosses even"
       },
       "promptType": "classify",
       "answer": "interruptible-cast",
@@ -8795,7 +8962,9 @@
         "segment": "Derelict Duo",
         "caster": "Derelict Duo",
         "casterKind": "boss",
-        "spell": "Debilitating Shriek (Kalis)"
+        "spell": "Debilitating Shriek (Kalis)",
+        "artKey": "windrunner-spire__derelict-duo",
+        "hint": "kill both bosses even"
       },
       "promptType": "classify",
       "answer": "interruptible-cast",
@@ -8822,7 +8991,9 @@
         "segment": "Derelict Duo",
         "caster": "Derelict Duo",
         "casterKind": "boss",
-        "spell": "Curse of Darkness (Kalis)"
+        "spell": "Curse of Darkness (Kalis)",
+        "artKey": "windrunner-spire__derelict-duo",
+        "hint": "kill both bosses even"
       },
       "promptType": "classify",
       "answer": "dispel",
@@ -8849,7 +9020,9 @@
         "segment": "Derelict Duo",
         "caster": "Derelict Duo",
         "casterKind": "boss",
-        "spell": "Heaving Yank (Latch)"
+        "spell": "Heaving Yank (Latch)",
+        "artKey": "windrunner-spire__derelict-duo",
+        "hint": "kill both bosses even"
       },
       "promptType": "classify",
       "answer": "knockback",
@@ -8876,7 +9049,9 @@
         "segment": "Derelict Duo",
         "caster": "Derelict Duo",
         "casterKind": "boss",
-        "spell": "Splattering Spew (Latch)"
+        "spell": "Splattering Spew (Latch)",
+        "artKey": "windrunner-spire__derelict-duo",
+        "hint": "kill both bosses even"
       },
       "promptType": "classify",
       "answer": "spread-out",
@@ -8903,7 +9078,9 @@
         "segment": "Derelict Duo",
         "caster": "Derelict Duo",
         "casterKind": "boss",
-        "spell": "Bone Hack (Latch)"
+        "spell": "Bone Hack (Latch)",
+        "artKey": "windrunner-spire__derelict-duo",
+        "hint": "kill both bosses even"
       },
       "promptType": "classify",
       "answer": "tank-buster",
@@ -8930,7 +9107,9 @@
         "segment": "Commander Kroluk",
         "caster": "Commander Kroluk",
         "casterKind": "boss",
-        "spell": "Reckless Leap"
+        "spell": "Reckless Leap",
+        "artKey": "windrunner-spire__commander-kroluk",
+        "hint": "kill the warparty adds"
       },
       "promptType": "classify",
       "answer": "ground-void-zone",
@@ -8957,7 +9136,9 @@
         "segment": "Commander Kroluk",
         "caster": "Commander Kroluk",
         "casterKind": "boss",
-        "spell": "Rampage"
+        "spell": "Rampage",
+        "artKey": "windrunner-spire__commander-kroluk",
+        "hint": "kill the warparty adds"
       },
       "promptType": "classify",
       "answer": "tank-buster",
@@ -8984,7 +9165,9 @@
         "segment": "Commander Kroluk",
         "caster": "Commander Kroluk",
         "casterKind": "boss",
-        "spell": "Intimidating Shout"
+        "spell": "Intimidating Shout",
+        "artKey": "windrunner-spire__commander-kroluk",
+        "hint": "kill the warparty adds"
       },
       "promptType": "classify",
       "answer": "stack-up",
@@ -9011,7 +9194,9 @@
         "segment": "Commander Kroluk",
         "caster": "Commander Kroluk",
         "casterKind": "boss",
-        "spell": "Rallying Bellow"
+        "spell": "Rallying Bellow",
+        "artKey": "windrunner-spire__commander-kroluk",
+        "hint": "kill the warparty adds"
       },
       "promptType": "classify",
       "answer": "kill-priority-add",
@@ -9038,7 +9223,9 @@
         "segment": "Commander Kroluk",
         "caster": "Commander Kroluk",
         "casterKind": "boss",
-        "spell": "Bladestorm"
+        "spell": "Bladestorm",
+        "artKey": "windrunner-spire__commander-kroluk",
+        "hint": "kill the warparty adds"
       },
       "promptType": "classify",
       "answer": "fixate-chase",
@@ -9065,7 +9252,9 @@
         "segment": "Commander Kroluk",
         "caster": "Commander Kroluk",
         "casterKind": "boss",
-        "spell": "Shield Wall"
+        "spell": "Shield Wall",
+        "artKey": "windrunner-spire__commander-kroluk",
+        "hint": "kill the warparty adds"
       },
       "promptType": "classify",
       "answer": "flavor",
@@ -9092,7 +9281,9 @@
         "segment": "The Restless Heart",
         "caster": "The Restless Heart",
         "casterKind": "boss",
-        "spell": "Arrow Rain"
+        "spell": "Arrow Rain",
+        "artKey": "windrunner-spire__the-restless-heart",
+        "hint": "ride the wind arrows"
       },
       "promptType": "classify",
       "answer": "ground-void-zone",
@@ -9119,7 +9310,9 @@
         "segment": "The Restless Heart",
         "caster": "The Restless Heart",
         "casterKind": "boss",
-        "spell": "Squall Leap"
+        "spell": "Squall Leap",
+        "artKey": "windrunner-spire__the-restless-heart",
+        "hint": "ride the wind arrows"
       },
       "promptType": "classify",
       "answer": "dispel",
@@ -9146,7 +9339,9 @@
         "segment": "The Restless Heart",
         "caster": "The Restless Heart",
         "casterKind": "boss",
-        "spell": "Turbulent Arrows"
+        "spell": "Turbulent Arrows",
+        "artKey": "windrunner-spire__the-restless-heart",
+        "hint": "ride the wind arrows"
       },
       "promptType": "classify",
       "answer": "knockback",
@@ -9173,7 +9368,9 @@
         "segment": "The Restless Heart",
         "caster": "The Restless Heart",
         "casterKind": "boss",
-        "spell": "Bullseye Windblast"
+        "spell": "Bullseye Windblast",
+        "artKey": "windrunner-spire__the-restless-heart",
+        "hint": "ride the wind arrows"
       },
       "promptType": "classify",
       "answer": "knockback",
@@ -9200,7 +9397,9 @@
         "segment": "The Restless Heart",
         "caster": "The Restless Heart",
         "casterKind": "boss",
-        "spell": "Bolt Gale"
+        "spell": "Bolt Gale",
+        "artKey": "windrunner-spire__the-restless-heart",
+        "hint": "ride the wind arrows"
       },
       "promptType": "classify",
       "answer": "frontal-cone",
@@ -9227,7 +9426,9 @@
         "segment": "The Restless Heart",
         "caster": "The Restless Heart",
         "casterKind": "boss",
-        "spell": "Tempest Slash"
+        "spell": "Tempest Slash",
+        "artKey": "windrunner-spire__the-restless-heart",
+        "hint": "ride the wind arrows"
       },
       "promptType": "classify",
       "answer": "tank-buster",
@@ -9254,7 +9455,9 @@
         "segment": "The Restless Heart",
         "caster": "The Restless Heart",
         "casterKind": "boss",
-        "spell": "Gust Shot"
+        "spell": "Gust Shot",
+        "artKey": "windrunner-spire__the-restless-heart",
+        "hint": "ride the wind arrows"
       },
       "promptType": "classify",
       "answer": "spread-out",
@@ -10226,7 +10429,9 @@
         "segment": "Overgrown Ancient",
         "caster": "Overgrown Ancient",
         "casterKind": "boss",
-        "spell": "Germinate"
+        "spell": "Germinate",
+        "artKey": "algethar-academy__overgrown-ancient",
+        "hint": "cleave the lashers"
       },
       "promptType": "classify",
       "answer": "kill-priority-add",
@@ -10253,7 +10458,9 @@
         "segment": "Overgrown Ancient",
         "caster": "Overgrown Ancient",
         "casterKind": "boss",
-        "spell": "Burst Forth"
+        "spell": "Burst Forth",
+        "artKey": "algethar-academy__overgrown-ancient",
+        "hint": "cleave the lashers"
       },
       "promptType": "classify",
       "answer": "raid-damage",
@@ -10280,7 +10487,9 @@
         "segment": "Overgrown Ancient",
         "caster": "Overgrown Ancient",
         "casterKind": "boss",
-        "spell": "Hungry Lasher (Lasher Toxin)"
+        "spell": "Hungry Lasher (Lasher Toxin)",
+        "artKey": "algethar-academy__overgrown-ancient",
+        "hint": "cleave the lashers"
       },
       "promptType": "classify",
       "answer": "dispel",
@@ -10307,7 +10516,9 @@
         "segment": "Overgrown Ancient",
         "caster": "Overgrown Ancient",
         "casterKind": "boss",
-        "spell": "Barkbreaker"
+        "spell": "Barkbreaker",
+        "artKey": "algethar-academy__overgrown-ancient",
+        "hint": "cleave the lashers"
       },
       "promptType": "classify",
       "answer": "tank-buster",
@@ -10334,7 +10545,9 @@
         "segment": "Overgrown Ancient",
         "caster": "Overgrown Ancient",
         "casterKind": "boss",
-        "spell": "Branch Out → Ancient Branch"
+        "spell": "Branch Out → Ancient Branch",
+        "artKey": "algethar-academy__overgrown-ancient",
+        "hint": "cleave the lashers"
       },
       "promptType": "classify",
       "answer": "kill-priority-add",
@@ -10361,7 +10574,9 @@
         "segment": "Overgrown Ancient",
         "caster": "Overgrown Ancient",
         "casterKind": "boss",
-        "spell": "Healing Touch"
+        "spell": "Healing Touch",
+        "artKey": "algethar-academy__overgrown-ancient",
+        "hint": "cleave the lashers"
       },
       "promptType": "classify",
       "answer": "interruptible-cast",
@@ -10388,7 +10603,9 @@
         "segment": "Overgrown Ancient",
         "caster": "Overgrown Ancient",
         "casterKind": "boss",
-        "spell": "Splinterbark / Abundance"
+        "spell": "Splinterbark / Abundance",
+        "artKey": "algethar-academy__overgrown-ancient",
+        "hint": "cleave the lashers"
       },
       "promptType": "classify",
       "answer": "dispel",
@@ -10415,7 +10632,9 @@
         "segment": "Crawth",
         "caster": "Crawth",
         "casterKind": "boss",
-        "spell": "Savage Peck"
+        "spell": "Savage Peck",
+        "artKey": "algethar-academy__crawth",
+        "hint": "score the ball goals"
       },
       "promptType": "classify",
       "answer": "tank-buster",
@@ -10442,7 +10661,9 @@
         "segment": "Crawth",
         "caster": "Crawth",
         "casterKind": "boss",
-        "spell": "Overpowering Gust"
+        "spell": "Overpowering Gust",
+        "artKey": "algethar-academy__crawth",
+        "hint": "score the ball goals"
       },
       "promptType": "classify",
       "answer": "frontal-cone",
@@ -10469,7 +10690,9 @@
         "segment": "Crawth",
         "caster": "Crawth",
         "casterKind": "boss",
-        "spell": "Deafening Screech"
+        "spell": "Deafening Screech",
+        "artKey": "algethar-academy__crawth",
+        "hint": "score the ball goals"
       },
       "promptType": "classify",
       "answer": "spread-out",
@@ -10496,7 +10719,9 @@
         "segment": "Crawth",
         "caster": "Crawth",
         "casterKind": "boss",
-        "spell": "Play Ball! (Ruinous Winds gate)"
+        "spell": "Play Ball! (Ruinous Winds gate)",
+        "artKey": "algethar-academy__crawth",
+        "hint": "score the ball goals"
       },
       "promptType": "classify",
       "answer": "soak",
@@ -10523,7 +10748,9 @@
         "segment": "Crawth",
         "caster": "Crawth",
         "casterKind": "boss",
-        "spell": "Goal of the Rushing Winds → Gale Force"
+        "spell": "Goal of the Rushing Winds → Gale Force",
+        "artKey": "algethar-academy__crawth",
+        "hint": "score the ball goals"
       },
       "promptType": "classify",
       "answer": "ground-void-zone",
@@ -10550,7 +10777,9 @@
         "segment": "Crawth",
         "caster": "Crawth",
         "casterKind": "boss",
-        "spell": "Goal of the Searing Blaze → Firestorm"
+        "spell": "Goal of the Searing Blaze → Firestorm",
+        "artKey": "algethar-academy__crawth",
+        "hint": "score the ball goals"
       },
       "promptType": "classify",
       "answer": "ground-void-zone",
@@ -10577,7 +10806,9 @@
         "segment": "Vexamus",
         "caster": "Vexamus",
         "casterKind": "boss",
-        "spell": "Arcane Orbs (Oversurge)"
+        "spell": "Arcane Orbs (Oversurge)",
+        "artKey": "algethar-academy__vexamus",
+        "hint": "soak the arcane orbs"
       },
       "promptType": "classify",
       "answer": "soak",
@@ -10604,7 +10835,9 @@
         "segment": "Vexamus",
         "caster": "Vexamus",
         "casterKind": "boss",
-        "spell": "Arcane Expulsion"
+        "spell": "Arcane Expulsion",
+        "artKey": "algethar-academy__vexamus",
+        "hint": "soak the arcane orbs"
       },
       "promptType": "classify",
       "answer": "frontal-cone",
@@ -10631,7 +10864,9 @@
         "segment": "Vexamus",
         "caster": "Vexamus",
         "casterKind": "boss",
-        "spell": "Mana Bombs"
+        "spell": "Mana Bombs",
+        "artKey": "algethar-academy__vexamus",
+        "hint": "soak the arcane orbs"
       },
       "promptType": "classify",
       "answer": "spread-out",
@@ -10658,7 +10893,9 @@
         "segment": "Vexamus",
         "caster": "Vexamus",
         "casterKind": "boss",
-        "spell": "Arcane Fissure"
+        "spell": "Arcane Fissure",
+        "artKey": "algethar-academy__vexamus",
+        "hint": "soak the arcane orbs"
       },
       "promptType": "classify",
       "answer": "knockback",
@@ -10685,7 +10922,9 @@
         "segment": "Echo of Doragosa",
         "caster": "Echo of Doragosa",
         "casterKind": "boss",
-        "spell": "Unleash Energy"
+        "spell": "Unleash Energy",
+        "artKey": "algethar-academy__echo-of-doragosa",
+        "hint": "don't greed power stacks"
       },
       "promptType": "classify",
       "answer": "raid-damage",
@@ -10712,7 +10951,9 @@
         "segment": "Echo of Doragosa",
         "caster": "Echo of Doragosa",
         "casterKind": "boss",
-        "spell": "Overwhelming Power → Arcane Rift"
+        "spell": "Overwhelming Power → Arcane Rift",
+        "artKey": "algethar-academy__echo-of-doragosa",
+        "hint": "don't greed power stacks"
       },
       "promptType": "classify",
       "answer": "ground-void-zone",
@@ -10739,7 +10980,9 @@
         "segment": "Echo of Doragosa",
         "caster": "Echo of Doragosa",
         "casterKind": "boss",
-        "spell": "Arcane Rift (Uncontrolled Energy)"
+        "spell": "Arcane Rift (Uncontrolled Energy)",
+        "artKey": "algethar-academy__echo-of-doragosa",
+        "hint": "don't greed power stacks"
       },
       "promptType": "classify",
       "answer": "ground-void-zone",
@@ -10766,7 +11009,9 @@
         "segment": "Echo of Doragosa",
         "caster": "Echo of Doragosa",
         "casterKind": "boss",
-        "spell": "Energy Bomb"
+        "spell": "Energy Bomb",
+        "artKey": "algethar-academy__echo-of-doragosa",
+        "hint": "don't greed power stacks"
       },
       "promptType": "classify",
       "answer": "spread-out",
@@ -10793,7 +11038,9 @@
         "segment": "Echo of Doragosa",
         "caster": "Echo of Doragosa",
         "casterKind": "boss",
-        "spell": "Arcane Missiles"
+        "spell": "Arcane Missiles",
+        "artKey": "algethar-academy__echo-of-doragosa",
+        "hint": "don't greed power stacks"
       },
       "promptType": "classify",
       "answer": "spread-out",
@@ -10820,7 +11067,9 @@
         "segment": "Echo of Doragosa",
         "caster": "Echo of Doragosa",
         "casterKind": "boss",
-        "spell": "Power Vacuum"
+        "spell": "Power Vacuum",
+        "artKey": "algethar-academy__echo-of-doragosa",
+        "hint": "don't greed power stacks"
       },
       "promptType": "classify",
       "answer": "knockback",
@@ -10847,7 +11096,9 @@
         "segment": "Echo of Doragosa",
         "caster": "Echo of Doragosa",
         "casterKind": "boss",
-        "spell": "Astral Blast"
+        "spell": "Astral Blast",
+        "artKey": "algethar-academy__echo-of-doragosa",
+        "hint": "don't greed power stacks"
       },
       "promptType": "classify",
       "answer": "tank-buster",
@@ -11441,7 +11692,9 @@
         "segment": "Zuraal the Ascended",
         "caster": "Zuraal the Ascended",
         "casterKind": "boss",
-        "spell": "Null Palm"
+        "spell": "Null Palm",
+        "artKey": "seat-of-the-triumvirate__zuraal-the-ascended",
+        "hint": "stop the void oozes"
       },
       "promptType": "classify",
       "answer": "frontal-cone",
@@ -11468,7 +11721,9 @@
         "segment": "Zuraal the Ascended",
         "caster": "Zuraal the Ascended",
         "casterKind": "boss",
-        "spell": "Decimate"
+        "spell": "Decimate",
+        "artKey": "seat-of-the-triumvirate__zuraal-the-ascended",
+        "hint": "stop the void oozes"
       },
       "promptType": "classify",
       "answer": "ground-void-zone",
@@ -11495,7 +11750,9 @@
         "segment": "Zuraal the Ascended",
         "caster": "Zuraal the Ascended",
         "casterKind": "boss",
-        "spell": "Void Slash"
+        "spell": "Void Slash",
+        "artKey": "seat-of-the-triumvirate__zuraal-the-ascended",
+        "hint": "stop the void oozes"
       },
       "promptType": "classify",
       "answer": "tank-buster",
@@ -11522,7 +11779,9 @@
         "segment": "Zuraal the Ascended",
         "caster": "Zuraal the Ascended",
         "casterKind": "boss",
-        "spell": "Oozing Slam"
+        "spell": "Oozing Slam",
+        "artKey": "seat-of-the-triumvirate__zuraal-the-ascended",
+        "hint": "stop the void oozes"
       },
       "promptType": "classify",
       "answer": "kill-priority-add",
@@ -11549,7 +11808,9 @@
         "segment": "Zuraal the Ascended",
         "caster": "Zuraal the Ascended",
         "casterKind": "boss",
-        "spell": "Crashing Void"
+        "spell": "Crashing Void",
+        "artKey": "seat-of-the-triumvirate__zuraal-the-ascended",
+        "hint": "stop the void oozes"
       },
       "promptType": "classify",
       "answer": "knockback",
@@ -11576,7 +11837,9 @@
         "segment": "Saprish",
         "caster": "Saprish",
         "casterKind": "boss",
-        "spell": "Void Bomb"
+        "spell": "Void Bomb",
+        "artKey": "seat-of-the-triumvirate__saprish",
+        "hint": "clear the void bombs"
       },
       "promptType": "classify",
       "answer": "ground-void-zone",
@@ -11603,7 +11866,9 @@
         "segment": "Saprish",
         "caster": "Saprish",
         "casterKind": "boss",
-        "spell": "Phase Dash"
+        "spell": "Phase Dash",
+        "artKey": "seat-of-the-triumvirate__saprish",
+        "hint": "clear the void bombs"
       },
       "promptType": "classify",
       "answer": "frontal-cone",
@@ -11630,7 +11895,9 @@
         "segment": "Saprish",
         "caster": "Saprish",
         "casterKind": "boss",
-        "spell": "Overload"
+        "spell": "Overload",
+        "artKey": "seat-of-the-triumvirate__saprish",
+        "hint": "clear the void bombs"
       },
       "promptType": "classify",
       "answer": "soak",
@@ -11657,7 +11924,9 @@
         "segment": "Saprish",
         "caster": "Saprish",
         "casterKind": "boss",
-        "spell": "Rending Void"
+        "spell": "Rending Void",
+        "artKey": "seat-of-the-triumvirate__saprish",
+        "hint": "clear the void bombs"
       },
       "promptType": "classify",
       "answer": "tank-buster",
@@ -11684,7 +11953,9 @@
         "segment": "Saprish",
         "caster": "Saprish",
         "casterKind": "boss",
-        "spell": "Dread Screech (Shadewing)"
+        "spell": "Dread Screech (Shadewing)",
+        "artKey": "seat-of-the-triumvirate__saprish",
+        "hint": "clear the void bombs"
       },
       "promptType": "classify",
       "answer": "interruptible-cast",
@@ -11711,7 +11982,9 @@
         "segment": "Saprish",
         "caster": "Saprish",
         "casterKind": "boss",
-        "spell": "Shadow Pounce (Darkfang)"
+        "spell": "Shadow Pounce (Darkfang)",
+        "artKey": "seat-of-the-triumvirate__saprish",
+        "hint": "clear the void bombs"
       },
       "promptType": "classify",
       "answer": "spread-out",
@@ -11738,7 +12011,9 @@
         "segment": "Viceroy Nezhar",
         "caster": "Viceroy Nezhar",
         "casterKind": "boss",
-        "spell": "Mind Blast"
+        "spell": "Mind Blast",
+        "artKey": "seat-of-the-triumvirate__viceroy-nezhar",
+        "hint": "hide under the boss"
       },
       "promptType": "classify",
       "answer": "interruptible-cast",
@@ -11765,7 +12040,9 @@
         "segment": "Viceroy Nezhar",
         "caster": "Viceroy Nezhar",
         "casterKind": "boss",
-        "spell": "Gates of the Abyss"
+        "spell": "Gates of the Abyss",
+        "artKey": "seat-of-the-triumvirate__viceroy-nezhar",
+        "hint": "hide under the boss"
       },
       "promptType": "classify",
       "answer": "ground-void-zone",
@@ -11792,7 +12069,9 @@
         "segment": "Viceroy Nezhar",
         "caster": "Viceroy Nezhar",
         "casterKind": "boss",
-        "spell": "Mass Void Infusion"
+        "spell": "Mass Void Infusion",
+        "artKey": "seat-of-the-triumvirate__viceroy-nezhar",
+        "hint": "hide under the boss"
       },
       "promptType": "classify",
       "answer": "spread-out",
@@ -11819,7 +12098,9 @@
         "segment": "Viceroy Nezhar",
         "caster": "Viceroy Nezhar",
         "casterKind": "boss",
-        "spell": "Umbral Tentacles"
+        "spell": "Umbral Tentacles",
+        "artKey": "seat-of-the-triumvirate__viceroy-nezhar",
+        "hint": "hide under the boss"
       },
       "promptType": "classify",
       "answer": "kill-priority-add",
@@ -11846,7 +12127,9 @@
         "segment": "Viceroy Nezhar",
         "caster": "Viceroy Nezhar",
         "casterKind": "boss",
-        "spell": "Repulse → Collapsing Void"
+        "spell": "Repulse → Collapsing Void",
+        "artKey": "seat-of-the-triumvirate__viceroy-nezhar",
+        "hint": "hide under the boss"
       },
       "promptType": "classify",
       "answer": "knockback",
@@ -11873,7 +12156,9 @@
         "segment": "L'ura",
         "caster": "L'ura",
         "casterKind": "boss",
-        "spell": "Dirge of Despair"
+        "spell": "Dirge of Despair",
+        "artKey": "seat-of-the-triumvirate__l-ura",
+        "hint": "silence the despair notes"
       },
       "promptType": "classify",
       "answer": "raid-damage",
@@ -11900,7 +12185,9 @@
         "segment": "L'ura",
         "caster": "L'ura",
         "casterKind": "boss",
-        "spell": "Discordant Beam"
+        "spell": "Discordant Beam",
+        "artKey": "seat-of-the-triumvirate__l-ura",
+        "hint": "silence the despair notes"
       },
       "promptType": "classify",
       "answer": "positional-gimmick",
@@ -11927,7 +12214,9 @@
         "segment": "L'ura",
         "caster": "L'ura",
         "casterKind": "boss",
-        "spell": "Grim Chorus"
+        "spell": "Grim Chorus",
+        "artKey": "seat-of-the-triumvirate__l-ura",
+        "hint": "silence the despair notes"
       },
       "promptType": "classify",
       "answer": "ground-void-zone",
@@ -11954,7 +12243,9 @@
         "segment": "L'ura",
         "caster": "L'ura",
         "casterKind": "boss",
-        "spell": "Disintegrate"
+        "spell": "Disintegrate",
+        "artKey": "seat-of-the-triumvirate__l-ura",
+        "hint": "silence the despair notes"
       },
       "promptType": "classify",
       "answer": "frontal-cone",
@@ -11981,7 +12272,9 @@
         "segment": "L'ura",
         "caster": "L'ura",
         "casterKind": "boss",
-        "spell": "Abyssal Lance"
+        "spell": "Abyssal Lance",
+        "artKey": "seat-of-the-triumvirate__l-ura",
+        "hint": "silence the despair notes"
       },
       "promptType": "classify",
       "answer": "tank-buster",
@@ -12008,7 +12301,9 @@
         "segment": "L'ura",
         "caster": "L'ura",
         "casterKind": "boss",
-        "spell": "Siphon Void (intermission)"
+        "spell": "Siphon Void (intermission)",
+        "artKey": "seat-of-the-triumvirate__l-ura",
+        "hint": "silence the despair notes"
       },
       "promptType": "classify",
       "answer": "burn-window",
@@ -12602,7 +12897,9 @@
         "segment": "Ranjit",
         "caster": "Ranjit",
         "casterKind": "boss",
-        "spell": "Gale Surge"
+        "spell": "Gale Surge",
+        "artKey": "skyreach__ranjit",
+        "hint": "dodge the returning chakram"
       },
       "promptType": "classify",
       "answer": "knockback",
@@ -12629,7 +12926,9 @@
         "segment": "Ranjit",
         "caster": "Ranjit",
         "casterKind": "boss",
-        "spell": "Coalesced Wind"
+        "spell": "Coalesced Wind",
+        "artKey": "skyreach__ranjit",
+        "hint": "dodge the returning chakram"
       },
       "promptType": "classify",
       "answer": "ground-void-zone",
@@ -12656,7 +12955,9 @@
         "segment": "Ranjit",
         "caster": "Ranjit",
         "casterKind": "boss",
-        "spell": "Fan of Blades"
+        "spell": "Fan of Blades",
+        "artKey": "skyreach__ranjit",
+        "hint": "dodge the returning chakram"
       },
       "promptType": "classify",
       "answer": "raid-damage",
@@ -12683,7 +12984,9 @@
         "segment": "Ranjit",
         "caster": "Ranjit",
         "casterKind": "boss",
-        "spell": "Wind Chakram"
+        "spell": "Wind Chakram",
+        "artKey": "skyreach__ranjit",
+        "hint": "dodge the returning chakram"
       },
       "promptType": "classify",
       "answer": "frontal-cone",
@@ -12710,7 +13013,9 @@
         "segment": "Ranjit",
         "caster": "Ranjit",
         "casterKind": "boss",
-        "spell": "Chakram Vortex"
+        "spell": "Chakram Vortex",
+        "artKey": "skyreach__ranjit",
+        "hint": "dodge the returning chakram"
       },
       "promptType": "classify",
       "answer": "ground-void-zone",
@@ -12737,7 +13042,9 @@
         "segment": "Araknath",
         "caster": "Araknath",
         "casterKind": "boss",
-        "spell": "Energize"
+        "spell": "Energize",
+        "artKey": "skyreach__araknath",
+        "hint": "soak the energize beams"
       },
       "promptType": "classify",
       "answer": "soak",
@@ -12764,7 +13071,9 @@
         "segment": "Araknath",
         "caster": "Araknath",
         "casterKind": "boss",
-        "spell": "Heat Exhaustion"
+        "spell": "Heat Exhaustion",
+        "artKey": "skyreach__araknath",
+        "hint": "soak the energize beams"
       },
       "promptType": "classify",
       "answer": "frontal-cone",
@@ -12791,7 +13100,9 @@
         "segment": "Araknath",
         "caster": "Araknath",
         "casterKind": "boss",
-        "spell": "Supernova"
+        "spell": "Supernova",
+        "artKey": "skyreach__araknath",
+        "hint": "soak the energize beams"
       },
       "promptType": "classify",
       "answer": "raid-damage",
@@ -12818,7 +13129,9 @@
         "segment": "Araknath",
         "caster": "Araknath",
         "casterKind": "boss",
-        "spell": "Fiery Smash"
+        "spell": "Fiery Smash",
+        "artKey": "skyreach__araknath",
+        "hint": "soak the energize beams"
       },
       "promptType": "classify",
       "answer": "frontal-cone",
@@ -12845,7 +13158,9 @@
         "segment": "Araknath",
         "caster": "Araknath",
         "casterKind": "boss",
-        "spell": "Defensive Protocol"
+        "spell": "Defensive Protocol",
+        "artKey": "skyreach__araknath",
+        "hint": "soak the energize beams"
       },
       "promptType": "classify",
       "answer": "ground-void-zone",
@@ -12872,7 +13187,9 @@
         "segment": "Araknath",
         "caster": "Araknath",
         "casterKind": "boss",
-        "spell": "Blast Wave"
+        "spell": "Blast Wave",
+        "artKey": "skyreach__araknath",
+        "hint": "soak the energize beams"
       },
       "promptType": "classify",
       "answer": "tank-buster",
@@ -12899,7 +13216,9 @@
         "segment": "Rukhran",
         "caster": "Rukhran",
         "casterKind": "boss",
-        "spell": "Sunbreak"
+        "spell": "Sunbreak",
+        "artKey": "skyreach__rukhran",
+        "hint": "break los on quills"
       },
       "promptType": "classify",
       "answer": "kill-priority-add",
@@ -12926,7 +13245,9 @@
         "segment": "Rukhran",
         "caster": "Rukhran",
         "casterKind": "boss",
-        "spell": "Burning Pursuit"
+        "spell": "Burning Pursuit",
+        "artKey": "skyreach__rukhran",
+        "hint": "break los on quills"
       },
       "promptType": "classify",
       "answer": "fixate-chase",
@@ -12953,7 +13274,9 @@
         "segment": "Rukhran",
         "caster": "Rukhran",
         "casterKind": "boss",
-        "spell": "Smoldering Egg"
+        "spell": "Smoldering Egg",
+        "artKey": "skyreach__rukhran",
+        "hint": "break los on quills"
       },
       "promptType": "classify",
       "answer": "kill-priority-add",
@@ -12980,7 +13303,9 @@
         "segment": "Rukhran",
         "caster": "Rukhran",
         "casterKind": "boss",
-        "spell": "Searing Quills"
+        "spell": "Searing Quills",
+        "artKey": "skyreach__rukhran",
+        "hint": "break los on quills"
       },
       "promptType": "classify",
       "answer": "positional-gimmick",
@@ -13007,7 +13332,9 @@
         "segment": "Rukhran",
         "caster": "Rukhran",
         "casterKind": "boss",
-        "spell": "Burning Claws"
+        "spell": "Burning Claws",
+        "artKey": "skyreach__rukhran",
+        "hint": "break los on quills"
       },
       "promptType": "classify",
       "answer": "tank-buster",
@@ -13034,7 +13361,9 @@
         "segment": "Rukhran",
         "caster": "Rukhran",
         "casterKind": "boss",
-        "spell": "Screech"
+        "spell": "Screech",
+        "artKey": "skyreach__rukhran",
+        "hint": "break los on quills"
       },
       "promptType": "classify",
       "answer": "tank-buster",
@@ -13061,7 +13390,9 @@
         "segment": "High Sage Viryx",
         "caster": "High Sage Viryx",
         "casterKind": "boss",
-        "spell": "Cast Down"
+        "spell": "Cast Down",
+        "artKey": "skyreach__high-sage-viryx",
+        "hint": "stun the off-edge add"
       },
       "promptType": "classify",
       "answer": "kill-priority-add",
@@ -13088,7 +13419,9 @@
         "segment": "High Sage Viryx",
         "caster": "High Sage Viryx",
         "casterKind": "boss",
-        "spell": "Lens Flare"
+        "spell": "Lens Flare",
+        "artKey": "skyreach__high-sage-viryx",
+        "hint": "stun the off-edge add"
       },
       "promptType": "classify",
       "answer": "ground-void-zone",
@@ -13115,7 +13448,9 @@
         "segment": "High Sage Viryx",
         "caster": "High Sage Viryx",
         "casterKind": "boss",
-        "spell": "Blazing Ground"
+        "spell": "Blazing Ground",
+        "artKey": "skyreach__high-sage-viryx",
+        "hint": "stun the off-edge add"
       },
       "promptType": "classify",
       "answer": "ground-void-zone",
@@ -13142,7 +13477,9 @@
         "segment": "High Sage Viryx",
         "caster": "High Sage Viryx",
         "casterKind": "boss",
-        "spell": "Scorching Ray"
+        "spell": "Scorching Ray",
+        "artKey": "skyreach__high-sage-viryx",
+        "hint": "stun the off-edge add"
       },
       "promptType": "classify",
       "answer": "spread-out",
@@ -13169,7 +13506,9 @@
         "segment": "High Sage Viryx",
         "caster": "High Sage Viryx",
         "casterKind": "boss",
-        "spell": "Solar Blast (a.k.a. Solar Burst)"
+        "spell": "Solar Blast (a.k.a. Solar Burst)",
+        "artKey": "skyreach__high-sage-viryx",
+        "hint": "stun the off-edge add"
       },
       "promptType": "classify",
       "answer": "interruptible-cast",
@@ -13709,7 +14048,9 @@
         "segment": "Forgemaster Garfrost",
         "caster": "Forgemaster Garfrost",
         "casterKind": "boss",
-        "spell": "Throw Saronite"
+        "spell": "Throw Saronite",
+        "artKey": "pit-of-saron__forgemaster-garfrost",
+        "hint": "hide behind the ore"
       },
       "promptType": "classify",
       "answer": "ground-void-zone",
@@ -13736,7 +14077,9 @@
         "segment": "Forgemaster Garfrost",
         "caster": "Forgemaster Garfrost",
         "casterKind": "boss",
-        "spell": "Orebreaker"
+        "spell": "Orebreaker",
+        "artKey": "pit-of-saron__forgemaster-garfrost",
+        "hint": "hide behind the ore"
       },
       "promptType": "classify",
       "answer": "tank-buster",
@@ -13763,7 +14106,9 @@
         "segment": "Forgemaster Garfrost",
         "caster": "Forgemaster Garfrost",
         "casterKind": "boss",
-        "spell": "Glacial Overload"
+        "spell": "Glacial Overload",
+        "artKey": "pit-of-saron__forgemaster-garfrost",
+        "hint": "hide behind the ore"
       },
       "promptType": "classify",
       "answer": "positional-gimmick",
@@ -13790,7 +14135,9 @@
         "segment": "Forgemaster Garfrost",
         "caster": "Forgemaster Garfrost",
         "casterKind": "boss",
-        "spell": "Cryostomp"
+        "spell": "Cryostomp",
+        "artKey": "pit-of-saron__forgemaster-garfrost",
+        "hint": "hide behind the ore"
       },
       "promptType": "classify",
       "answer": "dispel",
@@ -13817,7 +14164,9 @@
         "segment": "Forgemaster Garfrost",
         "caster": "Forgemaster Garfrost",
         "casterKind": "boss",
-        "spell": "Siphoning Chill"
+        "spell": "Siphoning Chill",
+        "artKey": "pit-of-saron__forgemaster-garfrost",
+        "hint": "hide behind the ore"
       },
       "promptType": "classify",
       "answer": "pulsing-aura",
@@ -13844,7 +14193,9 @@
         "segment": "Ick and Krick",
         "caster": "Ick and Krick",
         "casterKind": "boss",
-        "spell": "Necrolink"
+        "spell": "Necrolink",
+        "artKey": "pit-of-saron__ick-and-krick",
+        "hint": "kite ick when fixated"
       },
       "promptType": "classify",
       "answer": "positional-gimmick",
@@ -13871,7 +14222,9 @@
         "segment": "Ick and Krick",
         "caster": "Ick and Krick",
         "casterKind": "boss",
-        "spell": "Death Bolt"
+        "spell": "Death Bolt",
+        "artKey": "pit-of-saron__ick-and-krick",
+        "hint": "kite ick when fixated"
       },
       "promptType": "classify",
       "answer": "interruptible-cast",
@@ -13898,7 +14251,9 @@
         "segment": "Ick and Krick",
         "caster": "Ick and Krick",
         "casterKind": "boss",
-        "spell": "Shade Shift"
+        "spell": "Shade Shift",
+        "artKey": "pit-of-saron__ick-and-krick",
+        "hint": "kite ick when fixated"
       },
       "promptType": "classify",
       "answer": "kill-priority-add",
@@ -13925,7 +14280,9 @@
         "segment": "Ick and Krick",
         "caster": "Ick and Krick",
         "casterKind": "boss",
-        "spell": "Shadowbind"
+        "spell": "Shadowbind",
+        "artKey": "pit-of-saron__ick-and-krick",
+        "hint": "kite ick when fixated"
       },
       "promptType": "classify",
       "answer": "interruptible-cast",
@@ -13952,7 +14309,9 @@
         "segment": "Ick and Krick",
         "caster": "Ick and Krick",
         "casterKind": "boss",
-        "spell": "Blight Smash"
+        "spell": "Blight Smash",
+        "artKey": "pit-of-saron__ick-and-krick",
+        "hint": "kite ick when fixated"
       },
       "promptType": "classify",
       "answer": "tank-buster",
@@ -13979,7 +14338,9 @@
         "segment": "Ick and Krick",
         "caster": "Ick and Krick",
         "casterKind": "boss",
-        "spell": "Plague Expulsion / Plague Globs"
+        "spell": "Plague Expulsion / Plague Globs",
+        "artKey": "pit-of-saron__ick-and-krick",
+        "hint": "kite ick when fixated"
       },
       "promptType": "classify",
       "answer": "spread-out",
@@ -14006,7 +14367,9 @@
         "segment": "Ick and Krick",
         "caster": "Ick and Krick",
         "casterKind": "boss",
-        "spell": "Get 'Em, Ick! (Lumbering Fixation)"
+        "spell": "Get 'Em, Ick! (Lumbering Fixation)",
+        "artKey": "pit-of-saron__ick-and-krick",
+        "hint": "kite ick when fixated"
       },
       "promptType": "classify",
       "answer": "fixate-chase",
@@ -14033,7 +14396,9 @@
         "segment": "Ick and Krick",
         "caster": "Ick and Krick",
         "casterKind": "boss",
-        "spell": "Shadow Lance"
+        "spell": "Shadow Lance",
+        "artKey": "pit-of-saron__ick-and-krick",
+        "hint": "kite ick when fixated"
       },
       "promptType": "classify",
       "answer": "raid-damage",
@@ -14060,7 +14425,9 @@
         "segment": "Scourgelord Tyrannus",
         "caster": "Scourgelord Tyrannus",
         "casterKind": "boss",
-        "spell": "Rime Blast"
+        "spell": "Rime Blast",
+        "artKey": "pit-of-saron__scourgelord-tyrannus",
+        "hint": "pre-freeze the bone piles"
       },
       "promptType": "classify",
       "answer": "spread-out",
@@ -14087,7 +14454,9 @@
         "segment": "Scourgelord Tyrannus",
         "caster": "Scourgelord Tyrannus",
         "casterKind": "boss",
-        "spell": "Bone Infusion"
+        "spell": "Bone Infusion",
+        "artKey": "pit-of-saron__scourgelord-tyrannus",
+        "hint": "pre-freeze the bone piles"
       },
       "promptType": "classify",
       "answer": "raid-damage",
@@ -14114,7 +14483,9 @@
         "segment": "Scourgelord Tyrannus",
         "caster": "Scourgelord Tyrannus",
         "casterKind": "boss",
-        "spell": "Army of the Dead"
+        "spell": "Army of the Dead",
+        "artKey": "pit-of-saron__scourgelord-tyrannus",
+        "hint": "pre-freeze the bone piles"
       },
       "promptType": "classify",
       "answer": "kill-priority-add",
@@ -14141,7 +14512,9 @@
         "segment": "Scourgelord Tyrannus",
         "caster": "Scourgelord Tyrannus",
         "casterKind": "boss",
-        "spell": "Plague Bolt (Plaguespreader)"
+        "spell": "Plague Bolt (Plaguespreader)",
+        "artKey": "pit-of-saron__scourgelord-tyrannus",
+        "hint": "pre-freeze the bone piles"
       },
       "promptType": "classify",
       "answer": "interruptible-cast",
@@ -14168,7 +14541,9 @@
         "segment": "Scourgelord Tyrannus",
         "caster": "Scourgelord Tyrannus",
         "casterKind": "boss",
-        "spell": "Scourgelord's Brand"
+        "spell": "Scourgelord's Brand",
+        "artKey": "pit-of-saron__scourgelord-tyrannus",
+        "hint": "pre-freeze the bone piles"
       },
       "promptType": "classify",
       "answer": "knockback",
@@ -14195,7 +14570,9 @@
         "segment": "Scourgelord Tyrannus",
         "caster": "Scourgelord Tyrannus",
         "casterKind": "boss",
-        "spell": "Death's Grasp"
+        "spell": "Death's Grasp",
+        "artKey": "pit-of-saron__scourgelord-tyrannus",
+        "hint": "pre-freeze the bone piles"
       },
       "promptType": "classify",
       "answer": "ground-void-zone",
@@ -14222,7 +14599,9 @@
         "segment": "Scourgelord Tyrannus",
         "caster": "Scourgelord Tyrannus",
         "casterKind": "boss",
-        "spell": "Ice Barrage"
+        "spell": "Ice Barrage",
+        "artKey": "pit-of-saron__scourgelord-tyrannus",
+        "hint": "pre-freeze the bone piles"
       },
       "promptType": "classify",
       "answer": "ground-void-zone",
@@ -14249,7 +14628,9 @@
         "segment": "Scourgelord Tyrannus",
         "caster": "Scourgelord Tyrannus",
         "casterKind": "boss",
-        "spell": "Frost Spit"
+        "spell": "Frost Spit",
+        "artKey": "pit-of-saron__scourgelord-tyrannus",
+        "hint": "pre-freeze the bone piles"
       },
       "promptType": "classify",
       "answer": "raid-damage",

@@ -104,6 +104,8 @@ list it**; single-sourced claims are flagged `confidence: low`.
 
 ### Muro'jin and Nekraxx <!-- enc:2810 -->
 
+**Hint:** trap the swoop charge
+
 Two-target fight — **split damage and kill them together**. Muro'jin
 casts **Revive Pet** if Nekraxx dies first; Nekraxx gains **Bestial
 Wrath** stacks if Muro'jin dies first.
@@ -121,6 +123,8 @@ Wrath** stacks if Muro'jin dies first.
 
 ### Vordaza <!-- enc:2811 -->
 
+**Hint:** collide the phantoms
+
 Heavy sustained Rot damage; **add-collision + a shield-break burst
 phase**.
 
@@ -133,6 +137,8 @@ phase**.
 | Unmake | Frontal sweep | Dodge out of the frontal | frontal-cone | 🟠 |
 
 ### Rak'tul, Vessel of Souls <!-- enc:2812 -->
+
+**Hint:** run the soul gauntlet
 
 Soul totems + a knockback tank combo + a **soul-gauntlet phase** on the
 bridge below.

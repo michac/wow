@@ -1,12 +1,31 @@
 <script>
   import { cueSubtitle } from "../ui.js";
   /**
-   * The hero block: a dungeon-tinted boss "portrait" (placeholder art — real
-   * journal renders are a follow-up) with the dungeon banner, caster name, and
-   * an optional correct/wrong status pill once the card is answered.
+   * The hero block: a boss portrait (real journal render when we have one,
+   * dungeon-tinted monogram otherwise) with the dungeon banner, caster name,
+   * an optional one-line hint, and an optional correct/wrong status pill once
+   * the card is answered.
    * @type {{ cue: any, height?: number, status?: null|"correct"|"wrong" }}
    */
   let { cue, height = 210, status = null } = $props();
+
+  // Slug → bundled webp URL, keyed by filename stem (Vite hashes the asset, so
+  // there's no path coupling). Stems use the `<dungeonSlug>__<bossSlug>` rule
+  // that build-content.mjs writes into `cue.artKey` (and that bossart.py
+  // generates the files with). Trash cards have no artKey → no art.
+  const artUrls = import.meta.glob("../../assets/bosses/*.webp", {
+    eager: true,
+    query: "?url",
+    import: "default",
+  });
+  const artByKey = Object.fromEntries(
+    Object.entries(artUrls).map(([path, url]) => [
+      path.split("/").pop().replace(/\.webp$/, ""),
+      url,
+    ]),
+  );
+
+  let art = $derived(cue.artKey ? artByKey[cue.artKey] || null : null);
 
   let monogram = $derived(
     cue.caster
@@ -19,19 +38,28 @@
 </script>
 
 <div class="relative shrink-0 overflow-hidden" style="height: {height}px">
-  <!-- placeholder "portrait": dungeon-hued field + faded monogram -->
-  <div
-    class="absolute inset-0"
-    style="background:
-      radial-gradient(120% 90% at 70% 20%, color-mix(in oklch, var(--dgn) 55%, var(--color-bg)) 0%, var(--color-bg) 70%);"
-  >
-    <span
-      class="display absolute right-4 top-1 select-none font-bold leading-none text-ink/10"
-      style="font-size: {height * 0.9}px"
+  {#if art}
+    <!-- real boss portrait (journal render) -->
+    <img
+      src={art}
+      alt={cue.caster}
+      class="absolute inset-0 size-full object-cover"
+    />
+  {:else}
+    <!-- placeholder "portrait": dungeon-hued field + faded monogram -->
+    <div
+      class="absolute inset-0"
+      style="background:
+        radial-gradient(120% 90% at 70% 20%, color-mix(in oklch, var(--dgn) 55%, var(--color-bg)) 0%, var(--color-bg) 70%);"
     >
-      {monogram}
-    </span>
-  </div>
+      <span
+        class="display absolute right-4 top-1 select-none font-bold leading-none text-ink/10"
+        style="font-size: {height * 0.9}px"
+      >
+        {monogram}
+      </span>
+    </div>
+  {/if}
   <div class="hero-scrim absolute inset-0"></div>
 
   <div class="absolute inset-x-0 bottom-0 flex items-end justify-between p-5">
@@ -45,6 +73,11 @@
         {cue.caster}
       </p>
       <p class="mt-1 text-[11px] text-ink-soft">{cueSubtitle(cue)}</p>
+      <!-- one-line peg: reveal only (gated on `status`) so it can never give
+           away the cue-phase classify answer -->
+      {#if status && cue.hint}
+        <p class="mt-1 text-[11px] italic text-ink-soft/80 drop-shadow">{cue.hint}</p>
+      {/if}
     </div>
 
     {#if status}

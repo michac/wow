@@ -81,6 +81,8 @@ Both guides agree on the quarry pool. Single-sourced claims flagged
 
 ### Forgemaster Garfrost <!-- enc:608 -->
 
+**Hint:** hide behind the ore
+
 Single tank-and-position fight. Garfrost throws saronite ore that becomes
 cover; at 100 energy he channels **Glacial Overload** from his closest
 forge — you hide behind ore to survive it.
@@ -94,6 +96,8 @@ forge — you hide behind ore to survive it.
 | Siphoning Chill | Passive chill aura running the whole fight; Cryostomp increases its danger | Sustained healing throughline — bring strong healing talents | pulsing-aura | 🔵 |
 
 ### Ick and Krick <!-- enc:609 -->
+
+**Hint:** kite ick when fixated
 
 Two bodies that **share health via Necrolink** — cleave both. Krick rides
 Ick; Ick is the bruiser, Krick the caster, plus Shade adds.
@@ -110,6 +114,8 @@ Ick; Ick is the bruiser, Krick the caster, plus Shade adds.
 | Shadow Lance | Krick cast, spike damage | Spot-heal target | raid-damage | 🔵 |
 
 ### Scourgelord Tyrannus <!-- enc:610 -->
+
+**Hint:** pre-freeze the bone piles
 
 Death knight + frost wyrm **Rimefang** (airborne). Build-up phase with
 brands and ground zones, then **Army of the Dead** at 100 energy raises

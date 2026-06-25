@@ -197,6 +197,7 @@ function parseDungeon(slug, md) {
   let heading = null; // current ### heading text
   let routeLines = [];
   let bossesByName = new Map();
+  let bossHints = new Map(); // cleaned boss name → one-line `**Hint:**` peg
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
@@ -220,6 +221,18 @@ function parseDungeon(slug, md) {
       continue;
     }
 
+    // Per-boss hint: an explicit `**Hint:** <peg>` line under a boss `###`
+    // heading (a structured field, same principle as the `<!-- enc:NNN -->`
+    // marker — not scraped from the intro prose). Keyed by cleaned boss name so
+    // it attaches when the ability table builds the boss object below.
+    if (section === "Bosses") {
+      const hintM = line.match(/^\s*\*\*Hint:\*\*\s*(.+?)\s*$/);
+      if (hintM) {
+        bossHints.set(cleanBossName(heading || name), stripMd(hintM[1]));
+        continue;
+      }
+    }
+
     // Table detection: a header row whose first non-empty cells we recognise.
     if (isTableRow(line) && i + 1 < lines.length && isSeparatorRow(lines[i + 1])) {
       const header = splitRow(line).map((c) => c.toLowerCase());
@@ -240,7 +253,12 @@ function parseDungeon(slug, md) {
       if (section === "Bosses" && header.includes("ability") && header.includes("do")) {
         const bossName = cleanBossName(heading || name);
         if (!bossesByName.has(bossName)) {
-          const b = { name: bossName, slug: slugify(bossName), abilities: [] };
+          const b = {
+            name: bossName,
+            slug: slugify(bossName),
+            hint: bossHints.get(bossName) || null,
+            abilities: [],
+          };
           bossesByName.set(bossName, b);
           dungeon.bosses.push(b);
         }
@@ -350,7 +368,7 @@ function buildCards(dungeons, allSlugs) {
   const cards = [];
   const seen = new Set();
 
-  const push = (dungeon, casterKind, caster, segment, ab) => {
+  const push = (dungeon, casterKind, caster, segment, ab, boss = null) => {
     let id = `${dungeon.slug}::${slugify(caster)}::${slugify(ab.spell)}`;
     if (seen.has(id)) id = `${id}::${cards.length}`;
     seen.add(id);
@@ -364,6 +382,12 @@ function buildCards(dungeons, allSlugs) {
         caster,
         casterKind,
         spell: ab.spell,
+        // Boss cards only: a stable art lookup key (slug rule MUST match
+        // tools/wowkb/bossart.py — `<dungeonSlug>__<bossSlug>`) and the
+        // one-line hint. Trash cards carry neither.
+        ...(casterKind === "boss"
+          ? { artKey: `${dungeon.slug}__${slugify(caster)}`, hint: boss?.hint || null }
+          : {}),
       },
       promptType: "classify",
       answer: ab.archetype,
@@ -380,7 +404,7 @@ function buildCards(dungeons, allSlugs) {
 
   for (const d of dungeons) {
     for (const boss of d.bosses) {
-      for (const ab of boss.abilities) push(d, "boss", boss.name, boss.name, ab);
+      for (const ab of boss.abilities) push(d, "boss", boss.name, boss.name, ab, boss);
     }
     for (const t of d.trash) {
       push(d, "trash", t.mob, t.wing, t);
