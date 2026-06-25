@@ -118,7 +118,7 @@ sourced.
 
 ## Bosses
 
-### Zuraal the Ascended (enc 1979)
+### Zuraal the Ascended <!-- enc:1979 -->
 Add-control brawler: his casts spawn **Coalesced Void** oozes that **explode
 (Dark Expulsion)** if they reach him — letting them touch him is effectively a
 wipe at relevant keys.
@@ -131,7 +131,7 @@ wipe at relevant keys.
 | **Oozing Slam** | Group DoT; spawns 2 **Coalesced Void** oozes that explode (Dark Expulsion) on reaching boss; oozes leave a pool on death | Healers CD the DoT; slow/stun/knockback or long-CC (Trap/Paralysis) the oozes and burn one at a time | kill-priority-add | 🔴 |
 | **Crashing Void** | Speeds up oozes, pulls players in, then explodes for big group hit + knockback | Top the group; oozes must be dead/CC'd first; don't get knocked into a Void Sludge pool | knockback | 🔴 |
 
-### Saprish (enc 1980)
+### Saprish <!-- enc:1980 -->
 Boss + two pets (**Darkfang**, **Shadewing**) **share health** — tank stacks
 all three for cleave. The board fills with **Void Bombs**; Saprish's **Overload**
 (at 100 energy) ignites every remaining bomb.
@@ -145,7 +145,7 @@ all three for cleave. The board fills with **Void Bombs**; Saprish's **Overload*
 | **Dread Screech** (Shadewing) | Interruptible pet cast; can overlap Phase Dash | Assign 2+ interrupts, ideally a ranged kick on every even cast | interruptible-cast | 🔵 |
 | **Shadow Pounce** (Darkfang) | Random-target bleed/damage | Spot-heal / bleed-cleanse / defensive the target | spread-out | 🔵 |
 
-### Viceroy Nezhar (enc 1981)
+### Viceroy Nezhar <!-- enc:1981 -->
 Caster boss who spawns **Gates of the Abyss**, blasts **Mass Void Infusion**,
 and at full energy knocks everyone back to cast **Collapsing Void** (a
 **Void Storm** ring you hide under the boss to avoid).
@@ -158,7 +158,7 @@ and at full energy knocks everyone back to cast **Collapsing Void** (a
 | **Umbral Tentacles** | Spawn in sets of 5, each channels **Mind Flay** into a different player | Cleave them down fast (tank positions boss near them); defensive | kill-priority-add | 🟠 |
 | **Repulse → Collapsing Void** | At full energy: TPs to center, knocks all back, then channels a **Void Storm** ring | Move *under* the boss (safe spot); tentacles must be dead first; group defensives + healing CDs | knockback | 🔴 |
 
-### L'ura (enc 1982)
+### L'ura <!-- enc:1982 -->
 Big HPS check. **Notes of Despair** pulse group damage via **Dirge of Despair**;
 you silence them with **Discordant Beam** to trigger the **Siphon Void**
 intermission (boss takes massively increased damage — Alleria Windrunner's

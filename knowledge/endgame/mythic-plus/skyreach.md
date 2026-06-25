@@ -83,7 +83,7 @@ Method and Icy Veins are high-confidence; single-sourced claims are flagged
 
 Consequence tiers: 🔴 wipe / 🟠 your death / 🔵 your job / ⚪ flavor.
 
-### Ranjit (journal-encounter 965)
+### Ranjit <!-- enc:965 -->
 
 Wind / chakram fight on an exposed platform — most deaths are positional (knocked
 into orbs or off the edge).
@@ -96,7 +96,7 @@ into orbs or off the edge).
 | **Wind Chakram** | Fires a projectile at a random player that **returns** to the boss (Method/Icy Veins: can one-shot) | Avoid the projectile both ways; tank moves boss so the return doesn't clip melee | frontal-cone | 🔴 |
 | **Chakram Vortex** | Spawns tornadoes that move/rotate across the arena | Dodge the tornadoes — often overlaps Wind Chakram/Gale Surge | ground-void-zone | 🟠 |
 
-### Araknath (journal-encounter 966)
+### Araknath <!-- enc:966 -->
 
 Stationary solar construct. Core loop: intercept the **Energize** beams feeding the
 boss so it doesn't reach full energy and blow up the group.
@@ -110,7 +110,7 @@ boss so it doesn't reach full energy and blow up the group.
 | **Defensive Protocol** | 5yd AoE created underneath the boss | All players avoid the puddle under the boss | ground-void-zone | 🟠 |
 | **Blast Wave** | Cast if the tank is **not in melee range** | Tank stays in melee at all times to suppress it | tank-buster | 🔵 |
 
-### Rukhran (journal-encounter 967)
+### Rukhran <!-- enc:967 -->
 
 Stationary phoenix. Adds (**Sunwing**) fixate and pulse group damage; bodies become
 **Smoldering Eggs** that re-hatch if another add dies on top of them.
@@ -124,7 +124,7 @@ Stationary phoenix. Adds (**Sunwing**) fixate and pulse group damage; bodies bec
 | **Burning Claws** | Heavy fire tank hit | Active mitigation / defensive every cast | tank-buster | 🟠 |
 | **Screech** | Cast if **no one is in melee range** for too long | Tank stays in melee except during Searing Quills LoS | tank-buster | 🔵 |
 
-### High Sage Viryx (journal-encounter 968)
+### High Sage Viryx <!-- enc:968 -->
 
 Final boss, focusing-lens fight on the top platform with an edge. The **Cast Down**
 add will throw a player off Skyreach if not stopped.

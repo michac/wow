@@ -107,7 +107,7 @@ and Icy Veins unless flagged `confidence: low` (single-sourced).
 
 ## Bosses
 
-### Emberdawn (2655)
+### Emberdawn <!-- enc:2655 -->
 
 | Ability | What it does | Do | Archetype | Tier |
 |---|---|---|---|---|
@@ -117,7 +117,7 @@ and Icy Veins unless flagged `confidence: low` (single-sourced).
 | **Fire Breath** | During Burning Gale, 4 frontal cones; always start on the tank then rotate counter-clockwise | Dodge each frontal | frontal-cone | 🟠 |
 | **Searing Beak** | Tank hit: heavy Physical then a significant Fire DoT | Tank uses a defensive that covers the hit **and** the DoT | tank-buster | 🔵 |
 
-### Derelict Duo (2656)
+### Derelict Duo <!-- enc:2656 -->
 
 Two bosses, **Latch** and **Kalis** — they must die together or the
 survivor stacks **Broken Bond** (a runaway enrage). Cleave evenly.
@@ -132,7 +132,7 @@ survivor stacks **Broken Bond** (a runaway enrage). Cleave evenly.
 | **Splattering Spew** (Latch) | Targets players, group-wide damage, leaves **Gunk Splatter** puddle | Loosely spread on the arena edge, place puddles tidily, overlap if healthy + defensive up; healer cooldowns | spread-out | 🟠 |
 | **Bone Hack** (Latch) | Tank channel, significant Physical damage | Tank active mitigation each cast | tank-buster | 🔵 |
 
-### Commander Kroluk (2657)
+### Commander Kroluk <!-- enc:2657 -->
 
 Has **Shield Wall** (heavy DR) at his **66% and 33%** warparty phases
 and only resumes when the adds die.
@@ -146,7 +146,7 @@ and only resumes when the adds die.
 | **Bladestorm** | During the warparty phase, fixates a player and spins for damage along his path | Fixated player kites away from the boss | fixate-chase | 🟠 |
 | **Shield Wall** | Heavy DR aura active during the warparty phases | Kill the adds to drop it; don't tunnel the boss | flavor | ⚪ |
 
-### The Restless Heart (2658)
+### The Restless Heart <!-- enc:2658 -->
 
 The whole fight runs on the **Turbulent Arrows** spawned by **Arrow
 Rain** — touching one knocks you up, drops a puddle, and clears your

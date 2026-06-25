@@ -81,7 +81,7 @@ flagged `confidence: low` (single-sourced).
 
 ## Bosses
 
-### Overgrown Ancient (journal 2512)
+### Overgrown Ancient <!-- enc:2512 -->
 Stay stacked; move together as a group during the **Germinate** channel so the
 summoned Hungry Lashers spawn in cleave range. At 100 energy **Burst Forth**
 awakens all surviving dormant Lashers — pre-heal and pre-mitigate.
@@ -96,7 +96,7 @@ awakens all surviving dormant Lashers — pre-heal and pre-mitigate.
 | Healing Touch | Ancient Branch heals the boss / Lashers. | Interrupt at all costs. | interruptible-cast | 🔴 | all |
 | Splinterbark / Abundance | Branch applies Splinterbark bleed party-wide; on death drops **Abundance** circle. | Stand in the Abundance circle (8 yd) to cleanse Splinterbark; time the Branch death when Lashers are near dead so they don't get healed. | dispel | 🔵 | all |
 
-### Crawth (journal 2495)
+### Crawth <!-- enc:2495 -->
 Stay loosely spread for **Deafening Screech**. At 75% and 45% HP, Crawth casts
 **Ruinous Winds** which can only be stopped by grabbing 3 balls and scoring a
 goal. Each goal adds a permanent field hazard for the rest of the fight.
@@ -114,7 +114,7 @@ _Cross-source note: the 2026-03-24 launch video (Dalaran Gaming) calls Savage Pe
 a **bleed**; the 12.0.7 guides (15 Jun) call it a DoT, **not** a bleed. Treating
 the newer guides as current — but a bleed-cleanse still helps if it turns out to be one._
 
-### Vexamus (journal 2509)
+### Vexamus <!-- enc:2509 -->
 Professor Maxdormu spawns **Arcane Orbs** that drift toward Vexamus and feed it
 energy if absorbed. Spread to soak orbs. At 100 energy it casts **Arcane Fissure**.
 
@@ -128,7 +128,7 @@ energy if absorbed. Spread to soak orbs. At 100 energy it casts **Arcane Fissure
 _Cross-source note: the launch video says **Mana Bombs** targets **2** players; the
 12.0.7 guides say **3**. Unverified — assume 3 (the more recent source) and spread accordingly._
 
-### Echo of Doragosa (journal 2514)
+### Echo of Doragosa <!-- enc:2514 -->
 Unlocks after the other 3 die. Getting hit by **anything** stacks **Overwhelming
 Power** (+5% Haste/stack); at 3 stacks it auto-spawns an **Arcane Rift** under you
 and resets. On pull / at 100 energy she casts **Unleash Energy** spawning 2 rifts —

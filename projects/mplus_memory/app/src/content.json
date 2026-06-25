@@ -1490,8 +1490,8 @@
       ],
       "bosses": [
         {
-          "name": "Chief Corewright Kasreth (journal-encounter 2813)",
-          "slug": "chief-corewright-kasreth-journal-encounter-2813",
+          "name": "Chief Corewright Kasreth",
+          "slug": "chief-corewright-kasreth",
           "abilities": [
             {
               "spell": "Leyline Array",
@@ -1541,8 +1541,8 @@
           ]
         },
         {
-          "name": "Corewarden Nysarra (journal-encounter 2814)",
-          "slug": "corewarden-nysarra-journal-encounter-2814",
+          "name": "Corewarden Nysarra",
+          "slug": "corewarden-nysarra",
           "abilities": [
             {
               "spell": "Eclipsing Step",
@@ -1592,8 +1592,8 @@
           ]
         },
         {
-          "name": "Lothraxion (journal-encounter 2815)",
-          "slug": "lothraxion-journal-encounter-2815",
+          "name": "Lothraxion",
+          "slug": "lothraxion",
           "abilities": [
             {
               "spell": "Searing Rend",
@@ -3183,8 +3183,8 @@
       ],
       "bosses": [
         {
-          "name": "Zuraal the Ascended (enc 1979)",
-          "slug": "zuraal-the-ascended-enc-1979",
+          "name": "Zuraal the Ascended",
+          "slug": "zuraal-the-ascended",
           "abilities": [
             {
               "spell": "Null Palm",
@@ -3234,8 +3234,8 @@
           ]
         },
         {
-          "name": "Saprish (enc 1980)",
-          "slug": "saprish-enc-1980",
+          "name": "Saprish",
+          "slug": "saprish",
           "abilities": [
             {
               "spell": "Void Bomb",
@@ -3294,8 +3294,8 @@
           ]
         },
         {
-          "name": "Viceroy Nezhar (enc 1981)",
-          "slug": "viceroy-nezhar-enc-1981",
+          "name": "Viceroy Nezhar",
+          "slug": "viceroy-nezhar",
           "abilities": [
             {
               "spell": "Mind Blast",
@@ -3345,8 +3345,8 @@
           ]
         },
         {
-          "name": "L'ura (enc 1982)",
-          "slug": "l-ura-enc-1982",
+          "name": "L'ura",
+          "slug": "l-ura",
           "abilities": [
             {
               "spell": "Dirge of Despair",
@@ -3689,8 +3689,8 @@
       ],
       "bosses": [
         {
-          "name": "Ranjit (journal-encounter 965)",
-          "slug": "ranjit-journal-encounter-965",
+          "name": "Ranjit",
+          "slug": "ranjit",
           "abilities": [
             {
               "spell": "Gale Surge",
@@ -3740,8 +3740,8 @@
           ]
         },
         {
-          "name": "Araknath (journal-encounter 966)",
-          "slug": "araknath-journal-encounter-966",
+          "name": "Araknath",
+          "slug": "araknath",
           "abilities": [
             {
               "spell": "Energize",
@@ -3800,8 +3800,8 @@
           ]
         },
         {
-          "name": "Rukhran (journal-encounter 967)",
-          "slug": "rukhran-journal-encounter-967",
+          "name": "Rukhran",
+          "slug": "rukhran",
           "abilities": [
             {
               "spell": "Sunbreak",
@@ -3860,8 +3860,8 @@
           ]
         },
         {
-          "name": "High Sage Viryx (journal-encounter 968)",
-          "slug": "high-sage-viryx-journal-encounter-968",
+          "name": "High Sage Viryx",
+          "slug": "high-sage-viryx",
           "abilities": [
             {
               "spell": "Cast Down",
@@ -4163,8 +4163,8 @@
       ],
       "bosses": [
         {
-          "name": "Forgemaster Garfrost (journal-encounter 608)",
-          "slug": "forgemaster-garfrost-journal-encounter-608",
+          "name": "Forgemaster Garfrost",
+          "slug": "forgemaster-garfrost",
           "abilities": [
             {
               "spell": "Throw Saronite",
@@ -4214,8 +4214,8 @@
           ]
         },
         {
-          "name": "Ick and Krick (journal-encounter 609)",
-          "slug": "ick-and-krick-journal-encounter-609",
+          "name": "Ick and Krick",
+          "slug": "ick-and-krick",
           "abilities": [
             {
               "spell": "Necrolink",
@@ -4292,8 +4292,8 @@
           ]
         },
         {
-          "name": "Scourgelord Tyrannus (journal-encounter 610)",
-          "slug": "scourgelord-tyrannus-journal-encounter-610",
+          "name": "Scourgelord Tyrannus",
+          "slug": "scourgelord-tyrannus",
           "abilities": [
             {
               "spell": "Rime Blast",
@@ -7437,13 +7437,13 @@
       ]
     },
     {
-      "id": "nexus-point-xenas::chief-corewright-kasreth-journal-encounter-2813::leyline-array",
+      "id": "nexus-point-xenas::chief-corewright-kasreth::leyline-array",
       "cue": {
         "dungeon": "Nexus-Point Xenas",
         "dungeonSlug": "nexus-point-xenas",
         "dungeonHue": "oklch(0.70 0.15 275)",
-        "segment": "Chief Corewright Kasreth (journal-encounter 2813)",
-        "caster": "Chief Corewright Kasreth (journal-encounter 2813)",
+        "segment": "Chief Corewright Kasreth",
+        "caster": "Chief Corewright Kasreth",
         "casterKind": "boss",
         "spell": "Leyline Array"
       },
@@ -7457,20 +7457,20 @@
         "lowConfidence": false
       },
       "options": [
-        "proximity-bait",
         "frontal-cone",
-        "burn-window",
+        "dispel",
+        "spread-out",
         "positional-gimmick"
       ]
     },
     {
-      "id": "nexus-point-xenas::chief-corewright-kasreth-journal-encounter-2813::reflux-charge",
+      "id": "nexus-point-xenas::chief-corewright-kasreth::reflux-charge",
       "cue": {
         "dungeon": "Nexus-Point Xenas",
         "dungeonSlug": "nexus-point-xenas",
         "dungeonHue": "oklch(0.70 0.15 275)",
-        "segment": "Chief Corewright Kasreth (journal-encounter 2813)",
-        "caster": "Chief Corewright Kasreth (journal-encounter 2813)",
+        "segment": "Chief Corewright Kasreth",
+        "caster": "Chief Corewright Kasreth",
         "casterKind": "boss",
         "spell": "Reflux Charge"
       },
@@ -7485,19 +7485,19 @@
       },
       "options": [
         "positional-gimmick",
-        "burn-window",
-        "soak",
-        "flavor"
+        "charge",
+        "dispel",
+        "kill-priority-add"
       ]
     },
     {
-      "id": "nexus-point-xenas::chief-corewright-kasreth-journal-encounter-2813::corespark-detonation",
+      "id": "nexus-point-xenas::chief-corewright-kasreth::corespark-detonation",
       "cue": {
         "dungeon": "Nexus-Point Xenas",
         "dungeonSlug": "nexus-point-xenas",
         "dungeonHue": "oklch(0.70 0.15 275)",
-        "segment": "Chief Corewright Kasreth (journal-encounter 2813)",
-        "caster": "Chief Corewright Kasreth (journal-encounter 2813)",
+        "segment": "Chief Corewright Kasreth",
+        "caster": "Chief Corewright Kasreth",
         "casterKind": "boss",
         "spell": "Corespark Detonation"
       },
@@ -7511,20 +7511,20 @@
         "lowConfidence": false
       },
       "options": [
-        "flavor",
-        "frontal-cone",
-        "kill-priority-add",
+        "purge-soothe",
+        "pulsing-aura",
+        "soak",
         "proximity-bait"
       ]
     },
     {
-      "id": "nexus-point-xenas::chief-corewright-kasreth-journal-encounter-2813::flux-collapse",
+      "id": "nexus-point-xenas::chief-corewright-kasreth::flux-collapse",
       "cue": {
         "dungeon": "Nexus-Point Xenas",
         "dungeonSlug": "nexus-point-xenas",
         "dungeonHue": "oklch(0.70 0.15 275)",
-        "segment": "Chief Corewright Kasreth (journal-encounter 2813)",
-        "caster": "Chief Corewright Kasreth (journal-encounter 2813)",
+        "segment": "Chief Corewright Kasreth",
+        "caster": "Chief Corewright Kasreth",
         "casterKind": "boss",
         "spell": "Flux Collapse"
       },
@@ -7538,20 +7538,20 @@
         "lowConfidence": false
       },
       "options": [
-        "stack-up",
-        "dispel",
+        "charge",
         "spread-out",
-        "ground-void-zone"
+        "ground-void-zone",
+        "soak"
       ]
     },
     {
-      "id": "nexus-point-xenas::chief-corewright-kasreth-journal-encounter-2813::arcane-zap",
+      "id": "nexus-point-xenas::chief-corewright-kasreth::arcane-zap",
       "cue": {
         "dungeon": "Nexus-Point Xenas",
         "dungeonSlug": "nexus-point-xenas",
         "dungeonHue": "oklch(0.70 0.15 275)",
-        "segment": "Chief Corewright Kasreth (journal-encounter 2813)",
-        "caster": "Chief Corewright Kasreth (journal-encounter 2813)",
+        "segment": "Chief Corewright Kasreth",
+        "caster": "Chief Corewright Kasreth",
         "casterKind": "boss",
         "spell": "Arcane Zap"
       },
@@ -7566,19 +7566,19 @@
       },
       "options": [
         "tank-buster",
-        "interruptible-cast",
-        "soak",
-        "dispel"
+        "raid-damage",
+        "ground-void-zone",
+        "positional-gimmick"
       ]
     },
     {
-      "id": "nexus-point-xenas::corewarden-nysarra-journal-encounter-2814::eclipsing-step",
+      "id": "nexus-point-xenas::corewarden-nysarra::eclipsing-step",
       "cue": {
         "dungeon": "Nexus-Point Xenas",
         "dungeonSlug": "nexus-point-xenas",
         "dungeonHue": "oklch(0.70 0.15 275)",
-        "segment": "Corewarden Nysarra (journal-encounter 2814)",
-        "caster": "Corewarden Nysarra (journal-encounter 2814)",
+        "segment": "Corewarden Nysarra",
+        "caster": "Corewarden Nysarra",
         "casterKind": "boss",
         "spell": "Eclipsing Step"
       },
@@ -7592,20 +7592,20 @@
         "lowConfidence": false
       },
       "options": [
-        "flavor",
-        "proximity-bait",
-        "purge-soothe",
-        "spread-out"
+        "spread-out",
+        "charge",
+        "burn-window",
+        "proximity-bait"
       ]
     },
     {
-      "id": "nexus-point-xenas::corewarden-nysarra-journal-encounter-2814::null-vanguard",
+      "id": "nexus-point-xenas::corewarden-nysarra::null-vanguard",
       "cue": {
         "dungeon": "Nexus-Point Xenas",
         "dungeonSlug": "nexus-point-xenas",
         "dungeonHue": "oklch(0.70 0.15 275)",
-        "segment": "Corewarden Nysarra (journal-encounter 2814)",
-        "caster": "Corewarden Nysarra (journal-encounter 2814)",
+        "segment": "Corewarden Nysarra",
+        "caster": "Corewarden Nysarra",
         "casterKind": "boss",
         "spell": "Null Vanguard"
       },
@@ -7619,20 +7619,20 @@
         "lowConfidence": false
       },
       "options": [
-        "positional-gimmick",
+        "raid-damage",
+        "ground-void-zone",
         "kill-priority-add",
-        "flavor",
-        "burn-window"
+        "soak"
       ]
     },
     {
-      "id": "nexus-point-xenas::corewarden-nysarra-journal-encounter-2814::umbral-lash",
+      "id": "nexus-point-xenas::corewarden-nysarra::umbral-lash",
       "cue": {
         "dungeon": "Nexus-Point Xenas",
         "dungeonSlug": "nexus-point-xenas",
         "dungeonHue": "oklch(0.70 0.15 275)",
-        "segment": "Corewarden Nysarra (journal-encounter 2814)",
-        "caster": "Corewarden Nysarra (journal-encounter 2814)",
+        "segment": "Corewarden Nysarra",
+        "caster": "Corewarden Nysarra",
         "casterKind": "boss",
         "spell": "Umbral Lash"
       },
@@ -7646,20 +7646,20 @@
         "lowConfidence": false
       },
       "options": [
-        "soak",
-        "raid-damage",
-        "stack-up",
-        "tank-buster"
+        "tank-buster",
+        "interruptible-cast",
+        "positional-gimmick",
+        "charge"
       ]
     },
     {
-      "id": "nexus-point-xenas::corewarden-nysarra-journal-encounter-2814::lightscar-flare",
+      "id": "nexus-point-xenas::corewarden-nysarra::lightscar-flare",
       "cue": {
         "dungeon": "Nexus-Point Xenas",
         "dungeonSlug": "nexus-point-xenas",
         "dungeonHue": "oklch(0.70 0.15 275)",
-        "segment": "Corewarden Nysarra (journal-encounter 2814)",
-        "caster": "Corewarden Nysarra (journal-encounter 2814)",
+        "segment": "Corewarden Nysarra",
+        "caster": "Corewarden Nysarra",
         "casterKind": "boss",
         "spell": "Lightscar Flare"
       },
@@ -7673,20 +7673,20 @@
         "lowConfidence": false
       },
       "options": [
-        "ground-void-zone",
-        "soak",
-        "pulsing-aura",
-        "flavor"
+        "knockback",
+        "purge-soothe",
+        "charge",
+        "soak"
       ]
     },
     {
-      "id": "nexus-point-xenas::corewarden-nysarra-journal-encounter-2814::devour-the-unworthy",
+      "id": "nexus-point-xenas::corewarden-nysarra::devour-the-unworthy",
       "cue": {
         "dungeon": "Nexus-Point Xenas",
         "dungeonSlug": "nexus-point-xenas",
         "dungeonHue": "oklch(0.70 0.15 275)",
-        "segment": "Corewarden Nysarra (journal-encounter 2814)",
-        "caster": "Corewarden Nysarra (journal-encounter 2814)",
+        "segment": "Corewarden Nysarra",
+        "caster": "Corewarden Nysarra",
         "casterKind": "boss",
         "spell": "Devour the Unworthy"
       },
@@ -7700,20 +7700,20 @@
         "lowConfidence": false
       },
       "options": [
-        "fixate-chase",
-        "interruptible-cast",
+        "heal-absorb",
         "kill-priority-add",
-        "raid-damage"
+        "flavor",
+        "purge-soothe"
       ]
     },
     {
-      "id": "nexus-point-xenas::lothraxion-journal-encounter-2815::searing-rend",
+      "id": "nexus-point-xenas::lothraxion::searing-rend",
       "cue": {
         "dungeon": "Nexus-Point Xenas",
         "dungeonSlug": "nexus-point-xenas",
         "dungeonHue": "oklch(0.70 0.15 275)",
-        "segment": "Lothraxion (journal-encounter 2815)",
-        "caster": "Lothraxion (journal-encounter 2815)",
+        "segment": "Lothraxion",
+        "caster": "Lothraxion",
         "casterKind": "boss",
         "spell": "Searing Rend"
       },
@@ -7727,20 +7727,20 @@
         "lowConfidence": false
       },
       "options": [
-        "soak",
-        "flavor",
-        "interruptible-cast",
-        "tank-buster"
+        "tank-buster",
+        "proximity-bait",
+        "purge-soothe",
+        "ground-void-zone"
       ]
     },
     {
-      "id": "nexus-point-xenas::lothraxion-journal-encounter-2815::brilliant-dispersion",
+      "id": "nexus-point-xenas::lothraxion::brilliant-dispersion",
       "cue": {
         "dungeon": "Nexus-Point Xenas",
         "dungeonSlug": "nexus-point-xenas",
         "dungeonHue": "oklch(0.70 0.15 275)",
-        "segment": "Lothraxion (journal-encounter 2815)",
-        "caster": "Lothraxion (journal-encounter 2815)",
+        "segment": "Lothraxion",
+        "caster": "Lothraxion",
         "casterKind": "boss",
         "spell": "Brilliant Dispersion"
       },
@@ -7754,20 +7754,20 @@
         "lowConfidence": false
       },
       "options": [
-        "knockback",
         "heal-absorb",
+        "tank-buster",
         "spread-out",
-        "interruptible-cast"
+        "soak"
       ]
     },
     {
-      "id": "nexus-point-xenas::lothraxion-journal-encounter-2815::mirrored-rend",
+      "id": "nexus-point-xenas::lothraxion::mirrored-rend",
       "cue": {
         "dungeon": "Nexus-Point Xenas",
         "dungeonSlug": "nexus-point-xenas",
         "dungeonHue": "oklch(0.70 0.15 275)",
-        "segment": "Lothraxion (journal-encounter 2815)",
-        "caster": "Lothraxion (journal-encounter 2815)",
+        "segment": "Lothraxion",
+        "caster": "Lothraxion",
         "casterKind": "boss",
         "spell": "Mirrored Rend"
       },
@@ -7781,20 +7781,20 @@
         "lowConfidence": false
       },
       "options": [
-        "positional-gimmick",
-        "heal-absorb",
-        "interruptible-cast",
-        "ground-void-zone"
+        "soak",
+        "fixate-chase",
+        "ground-void-zone",
+        "interruptible-cast"
       ]
     },
     {
-      "id": "nexus-point-xenas::lothraxion-journal-encounter-2815::flicker",
+      "id": "nexus-point-xenas::lothraxion::flicker",
       "cue": {
         "dungeon": "Nexus-Point Xenas",
         "dungeonSlug": "nexus-point-xenas",
         "dungeonHue": "oklch(0.70 0.15 275)",
-        "segment": "Lothraxion (journal-encounter 2815)",
-        "caster": "Lothraxion (journal-encounter 2815)",
+        "segment": "Lothraxion",
+        "caster": "Lothraxion",
         "casterKind": "boss",
         "spell": "Flicker"
       },
@@ -7808,20 +7808,20 @@
         "lowConfidence": false
       },
       "options": [
-        "dispel",
-        "purge-soothe",
+        "proximity-bait",
         "charge",
-        "proximity-bait"
+        "flavor",
+        "dispel"
       ]
     },
     {
-      "id": "nexus-point-xenas::lothraxion-journal-encounter-2815::divine-guile",
+      "id": "nexus-point-xenas::lothraxion::divine-guile",
       "cue": {
         "dungeon": "Nexus-Point Xenas",
         "dungeonSlug": "nexus-point-xenas",
         "dungeonHue": "oklch(0.70 0.15 275)",
-        "segment": "Lothraxion (journal-encounter 2815)",
-        "caster": "Lothraxion (journal-encounter 2815)",
+        "segment": "Lothraxion",
+        "caster": "Lothraxion",
         "casterKind": "boss",
         "spell": "Divine Guile"
       },
@@ -7835,20 +7835,20 @@
         "lowConfidence": false
       },
       "options": [
-        "proximity-bait",
-        "purge-soothe",
+        "charge",
         "interruptible-cast",
-        "flavor"
+        "flavor",
+        "soak"
       ]
     },
     {
-      "id": "nexus-point-xenas::lothraxion-journal-encounter-2815::core-exposure",
+      "id": "nexus-point-xenas::lothraxion::core-exposure",
       "cue": {
         "dungeon": "Nexus-Point Xenas",
         "dungeonSlug": "nexus-point-xenas",
         "dungeonHue": "oklch(0.70 0.15 275)",
-        "segment": "Lothraxion (journal-encounter 2815)",
-        "caster": "Lothraxion (journal-encounter 2815)",
+        "segment": "Lothraxion",
+        "caster": "Lothraxion",
         "casterKind": "boss",
         "spell": "Core Exposure"
       },
@@ -7862,10 +7862,10 @@
         "lowConfidence": false
       },
       "options": [
-        "stack-up",
         "ground-void-zone",
-        "balance-kill",
-        "pulsing-aura"
+        "charge",
+        "tank-buster",
+        "knockback"
       ]
     },
     {
@@ -11433,13 +11433,13 @@
       ]
     },
     {
-      "id": "seat-of-the-triumvirate::zuraal-the-ascended-enc-1979::null-palm",
+      "id": "seat-of-the-triumvirate::zuraal-the-ascended::null-palm",
       "cue": {
         "dungeon": "Seat of the Triumvirate",
         "dungeonSlug": "seat-of-the-triumvirate",
         "dungeonHue": "oklch(0.64 0.17 300)",
-        "segment": "Zuraal the Ascended (enc 1979)",
-        "caster": "Zuraal the Ascended (enc 1979)",
+        "segment": "Zuraal the Ascended",
+        "caster": "Zuraal the Ascended",
         "casterKind": "boss",
         "spell": "Null Palm"
       },
@@ -11453,20 +11453,20 @@
         "lowConfidence": false
       },
       "options": [
-        "frontal-cone",
-        "purge-soothe",
-        "proximity-bait",
-        "charge"
+        "fixate-chase",
+        "interruptible-cast",
+        "knockback",
+        "frontal-cone"
       ]
     },
     {
-      "id": "seat-of-the-triumvirate::zuraal-the-ascended-enc-1979::decimate",
+      "id": "seat-of-the-triumvirate::zuraal-the-ascended::decimate",
       "cue": {
         "dungeon": "Seat of the Triumvirate",
         "dungeonSlug": "seat-of-the-triumvirate",
         "dungeonHue": "oklch(0.64 0.17 300)",
-        "segment": "Zuraal the Ascended (enc 1979)",
-        "caster": "Zuraal the Ascended (enc 1979)",
+        "segment": "Zuraal the Ascended",
+        "caster": "Zuraal the Ascended",
         "casterKind": "boss",
         "spell": "Decimate"
       },
@@ -11480,20 +11480,20 @@
         "lowConfidence": false
       },
       "options": [
+        "soak",
         "ground-void-zone",
-        "purge-soothe",
-        "stack-up",
-        "kill-priority-add"
+        "positional-gimmick",
+        "raid-damage"
       ]
     },
     {
-      "id": "seat-of-the-triumvirate::zuraal-the-ascended-enc-1979::void-slash",
+      "id": "seat-of-the-triumvirate::zuraal-the-ascended::void-slash",
       "cue": {
         "dungeon": "Seat of the Triumvirate",
         "dungeonSlug": "seat-of-the-triumvirate",
         "dungeonHue": "oklch(0.64 0.17 300)",
-        "segment": "Zuraal the Ascended (enc 1979)",
-        "caster": "Zuraal the Ascended (enc 1979)",
+        "segment": "Zuraal the Ascended",
+        "caster": "Zuraal the Ascended",
         "casterKind": "boss",
         "spell": "Void Slash"
       },
@@ -11507,20 +11507,20 @@
         "lowConfidence": false
       },
       "options": [
-        "ground-void-zone",
-        "tank-buster",
-        "knockback",
-        "soak"
+        "interruptible-cast",
+        "burn-window",
+        "proximity-bait",
+        "tank-buster"
       ]
     },
     {
-      "id": "seat-of-the-triumvirate::zuraal-the-ascended-enc-1979::oozing-slam",
+      "id": "seat-of-the-triumvirate::zuraal-the-ascended::oozing-slam",
       "cue": {
         "dungeon": "Seat of the Triumvirate",
         "dungeonSlug": "seat-of-the-triumvirate",
         "dungeonHue": "oklch(0.64 0.17 300)",
-        "segment": "Zuraal the Ascended (enc 1979)",
-        "caster": "Zuraal the Ascended (enc 1979)",
+        "segment": "Zuraal the Ascended",
+        "caster": "Zuraal the Ascended",
         "casterKind": "boss",
         "spell": "Oozing Slam"
       },
@@ -11534,20 +11534,20 @@
         "lowConfidence": false
       },
       "options": [
+        "kill-priority-add",
+        "raid-damage",
         "frontal-cone",
-        "knockback",
-        "proximity-bait",
-        "kill-priority-add"
+        "charge"
       ]
     },
     {
-      "id": "seat-of-the-triumvirate::zuraal-the-ascended-enc-1979::crashing-void",
+      "id": "seat-of-the-triumvirate::zuraal-the-ascended::crashing-void",
       "cue": {
         "dungeon": "Seat of the Triumvirate",
         "dungeonSlug": "seat-of-the-triumvirate",
         "dungeonHue": "oklch(0.64 0.17 300)",
-        "segment": "Zuraal the Ascended (enc 1979)",
-        "caster": "Zuraal the Ascended (enc 1979)",
+        "segment": "Zuraal the Ascended",
+        "caster": "Zuraal the Ascended",
         "casterKind": "boss",
         "spell": "Crashing Void"
       },
@@ -11562,19 +11562,19 @@
       },
       "options": [
         "knockback",
-        "proximity-bait",
-        "purge-soothe",
-        "heal-absorb"
+        "kill-priority-add",
+        "balance-kill",
+        "charge"
       ]
     },
     {
-      "id": "seat-of-the-triumvirate::saprish-enc-1980::void-bomb",
+      "id": "seat-of-the-triumvirate::saprish::void-bomb",
       "cue": {
         "dungeon": "Seat of the Triumvirate",
         "dungeonSlug": "seat-of-the-triumvirate",
         "dungeonHue": "oklch(0.64 0.17 300)",
-        "segment": "Saprish (enc 1980)",
-        "caster": "Saprish (enc 1980)",
+        "segment": "Saprish",
+        "caster": "Saprish",
         "casterKind": "boss",
         "spell": "Void Bomb"
       },
@@ -11588,20 +11588,20 @@
         "lowConfidence": false
       },
       "options": [
-        "interruptible-cast",
-        "charge",
+        "proximity-bait",
         "ground-void-zone",
-        "dispel"
+        "interruptible-cast",
+        "charge"
       ]
     },
     {
-      "id": "seat-of-the-triumvirate::saprish-enc-1980::phase-dash",
+      "id": "seat-of-the-triumvirate::saprish::phase-dash",
       "cue": {
         "dungeon": "Seat of the Triumvirate",
         "dungeonSlug": "seat-of-the-triumvirate",
         "dungeonHue": "oklch(0.64 0.17 300)",
-        "segment": "Saprish (enc 1980)",
-        "caster": "Saprish (enc 1980)",
+        "segment": "Saprish",
+        "caster": "Saprish",
         "casterKind": "boss",
         "spell": "Phase Dash"
       },
@@ -11615,20 +11615,20 @@
         "lowConfidence": false
       },
       "options": [
-        "frontal-cone",
-        "knockback",
-        "charge",
-        "raid-damage"
+        "soak",
+        "ground-void-zone",
+        "spread-out",
+        "frontal-cone"
       ]
     },
     {
-      "id": "seat-of-the-triumvirate::saprish-enc-1980::overload",
+      "id": "seat-of-the-triumvirate::saprish::overload",
       "cue": {
         "dungeon": "Seat of the Triumvirate",
         "dungeonSlug": "seat-of-the-triumvirate",
         "dungeonHue": "oklch(0.64 0.17 300)",
-        "segment": "Saprish (enc 1980)",
-        "caster": "Saprish (enc 1980)",
+        "segment": "Saprish",
+        "caster": "Saprish",
         "casterKind": "boss",
         "spell": "Overload"
       },
@@ -11642,20 +11642,20 @@
         "lowConfidence": false
       },
       "options": [
-        "flavor",
-        "frontal-cone",
-        "soak",
-        "positional-gimmick"
+        "fixate-chase",
+        "interruptible-cast",
+        "burn-window",
+        "soak"
       ]
     },
     {
-      "id": "seat-of-the-triumvirate::saprish-enc-1980::rending-void",
+      "id": "seat-of-the-triumvirate::saprish::rending-void",
       "cue": {
         "dungeon": "Seat of the Triumvirate",
         "dungeonSlug": "seat-of-the-triumvirate",
         "dungeonHue": "oklch(0.64 0.17 300)",
-        "segment": "Saprish (enc 1980)",
-        "caster": "Saprish (enc 1980)",
+        "segment": "Saprish",
+        "caster": "Saprish",
         "casterKind": "boss",
         "spell": "Rending Void"
       },
@@ -11669,20 +11669,20 @@
         "lowConfidence": false
       },
       "options": [
-        "interruptible-cast",
+        "spread-out",
+        "pulsing-aura",
         "tank-buster",
-        "dispel",
-        "balance-kill"
+        "ground-void-zone"
       ]
     },
     {
-      "id": "seat-of-the-triumvirate::saprish-enc-1980::dread-screech-shadewing",
+      "id": "seat-of-the-triumvirate::saprish::dread-screech-shadewing",
       "cue": {
         "dungeon": "Seat of the Triumvirate",
         "dungeonSlug": "seat-of-the-triumvirate",
         "dungeonHue": "oklch(0.64 0.17 300)",
-        "segment": "Saprish (enc 1980)",
-        "caster": "Saprish (enc 1980)",
+        "segment": "Saprish",
+        "caster": "Saprish",
         "casterKind": "boss",
         "spell": "Dread Screech (Shadewing)"
       },
@@ -11696,20 +11696,20 @@
         "lowConfidence": false
       },
       "options": [
+        "tank-buster",
+        "raid-damage",
         "interruptible-cast",
-        "heal-absorb",
-        "pulsing-aura",
-        "charge"
+        "heal-absorb"
       ]
     },
     {
-      "id": "seat-of-the-triumvirate::saprish-enc-1980::shadow-pounce-darkfang",
+      "id": "seat-of-the-triumvirate::saprish::shadow-pounce-darkfang",
       "cue": {
         "dungeon": "Seat of the Triumvirate",
         "dungeonSlug": "seat-of-the-triumvirate",
         "dungeonHue": "oklch(0.64 0.17 300)",
-        "segment": "Saprish (enc 1980)",
-        "caster": "Saprish (enc 1980)",
+        "segment": "Saprish",
+        "caster": "Saprish",
         "casterKind": "boss",
         "spell": "Shadow Pounce (Darkfang)"
       },
@@ -11724,19 +11724,19 @@
       },
       "options": [
         "spread-out",
-        "dispel",
-        "purge-soothe",
-        "kill-priority-add"
+        "raid-damage",
+        "heal-absorb",
+        "balance-kill"
       ]
     },
     {
-      "id": "seat-of-the-triumvirate::viceroy-nezhar-enc-1981::mind-blast",
+      "id": "seat-of-the-triumvirate::viceroy-nezhar::mind-blast",
       "cue": {
         "dungeon": "Seat of the Triumvirate",
         "dungeonSlug": "seat-of-the-triumvirate",
         "dungeonHue": "oklch(0.64 0.17 300)",
-        "segment": "Viceroy Nezhar (enc 1981)",
-        "caster": "Viceroy Nezhar (enc 1981)",
+        "segment": "Viceroy Nezhar",
+        "caster": "Viceroy Nezhar",
         "casterKind": "boss",
         "spell": "Mind Blast"
       },
@@ -11750,20 +11750,20 @@
         "lowConfidence": false
       },
       "options": [
+        "raid-damage",
+        "tank-buster",
         "ground-void-zone",
-        "interruptible-cast",
-        "burn-window",
-        "stack-up"
+        "interruptible-cast"
       ]
     },
     {
-      "id": "seat-of-the-triumvirate::viceroy-nezhar-enc-1981::gates-of-the-abyss",
+      "id": "seat-of-the-triumvirate::viceroy-nezhar::gates-of-the-abyss",
       "cue": {
         "dungeon": "Seat of the Triumvirate",
         "dungeonSlug": "seat-of-the-triumvirate",
         "dungeonHue": "oklch(0.64 0.17 300)",
-        "segment": "Viceroy Nezhar (enc 1981)",
-        "caster": "Viceroy Nezhar (enc 1981)",
+        "segment": "Viceroy Nezhar",
+        "caster": "Viceroy Nezhar",
         "casterKind": "boss",
         "spell": "Gates of the Abyss"
       },
@@ -11777,20 +11777,20 @@
         "lowConfidence": false
       },
       "options": [
-        "ground-void-zone",
-        "positional-gimmick",
-        "purge-soothe",
-        "heal-absorb"
+        "knockback",
+        "fixate-chase",
+        "heal-absorb",
+        "ground-void-zone"
       ]
     },
     {
-      "id": "seat-of-the-triumvirate::viceroy-nezhar-enc-1981::mass-void-infusion",
+      "id": "seat-of-the-triumvirate::viceroy-nezhar::mass-void-infusion",
       "cue": {
         "dungeon": "Seat of the Triumvirate",
         "dungeonSlug": "seat-of-the-triumvirate",
         "dungeonHue": "oklch(0.64 0.17 300)",
-        "segment": "Viceroy Nezhar (enc 1981)",
-        "caster": "Viceroy Nezhar (enc 1981)",
+        "segment": "Viceroy Nezhar",
+        "caster": "Viceroy Nezhar",
         "casterKind": "boss",
         "spell": "Mass Void Infusion"
       },
@@ -11804,20 +11804,20 @@
         "lowConfidence": false
       },
       "options": [
-        "spread-out",
+        "burn-window",
         "interruptible-cast",
-        "raid-damage",
-        "tank-buster"
+        "spread-out",
+        "heal-absorb"
       ]
     },
     {
-      "id": "seat-of-the-triumvirate::viceroy-nezhar-enc-1981::umbral-tentacles",
+      "id": "seat-of-the-triumvirate::viceroy-nezhar::umbral-tentacles",
       "cue": {
         "dungeon": "Seat of the Triumvirate",
         "dungeonSlug": "seat-of-the-triumvirate",
         "dungeonHue": "oklch(0.64 0.17 300)",
-        "segment": "Viceroy Nezhar (enc 1981)",
-        "caster": "Viceroy Nezhar (enc 1981)",
+        "segment": "Viceroy Nezhar",
+        "caster": "Viceroy Nezhar",
         "casterKind": "boss",
         "spell": "Umbral Tentacles"
       },
@@ -11831,20 +11831,20 @@
         "lowConfidence": false
       },
       "options": [
-        "ground-void-zone",
-        "raid-damage",
-        "kill-priority-add",
-        "balance-kill"
+        "burn-window",
+        "interruptible-cast",
+        "soak",
+        "kill-priority-add"
       ]
     },
     {
-      "id": "seat-of-the-triumvirate::viceroy-nezhar-enc-1981::repulse-collapsing-void",
+      "id": "seat-of-the-triumvirate::viceroy-nezhar::repulse-collapsing-void",
       "cue": {
         "dungeon": "Seat of the Triumvirate",
         "dungeonSlug": "seat-of-the-triumvirate",
         "dungeonHue": "oklch(0.64 0.17 300)",
-        "segment": "Viceroy Nezhar (enc 1981)",
-        "caster": "Viceroy Nezhar (enc 1981)",
+        "segment": "Viceroy Nezhar",
+        "caster": "Viceroy Nezhar",
         "casterKind": "boss",
         "spell": "Repulse → Collapsing Void"
       },
@@ -11858,20 +11858,20 @@
         "lowConfidence": false
       },
       "options": [
-        "frontal-cone",
-        "balance-kill",
-        "proximity-bait",
-        "knockback"
+        "knockback",
+        "positional-gimmick",
+        "charge",
+        "purge-soothe"
       ]
     },
     {
-      "id": "seat-of-the-triumvirate::l-ura-enc-1982::dirge-of-despair",
+      "id": "seat-of-the-triumvirate::l-ura::dirge-of-despair",
       "cue": {
         "dungeon": "Seat of the Triumvirate",
         "dungeonSlug": "seat-of-the-triumvirate",
         "dungeonHue": "oklch(0.64 0.17 300)",
-        "segment": "L'ura (enc 1982)",
-        "caster": "L'ura (enc 1982)",
+        "segment": "L'ura",
+        "caster": "L'ura",
         "casterKind": "boss",
         "spell": "Dirge of Despair"
       },
@@ -11885,20 +11885,20 @@
         "lowConfidence": false
       },
       "options": [
-        "soak",
+        "charge",
         "raid-damage",
-        "proximity-bait",
-        "ground-void-zone"
+        "ground-void-zone",
+        "dispel"
       ]
     },
     {
-      "id": "seat-of-the-triumvirate::l-ura-enc-1982::discordant-beam",
+      "id": "seat-of-the-triumvirate::l-ura::discordant-beam",
       "cue": {
         "dungeon": "Seat of the Triumvirate",
         "dungeonSlug": "seat-of-the-triumvirate",
         "dungeonHue": "oklch(0.64 0.17 300)",
-        "segment": "L'ura (enc 1982)",
-        "caster": "L'ura (enc 1982)",
+        "segment": "L'ura",
+        "caster": "L'ura",
         "casterKind": "boss",
         "spell": "Discordant Beam"
       },
@@ -11912,20 +11912,20 @@
         "lowConfidence": false
       },
       "options": [
-        "pulsing-aura",
-        "ground-void-zone",
-        "knockback",
-        "positional-gimmick"
+        "positional-gimmick",
+        "balance-kill",
+        "raid-damage",
+        "frontal-cone"
       ]
     },
     {
-      "id": "seat-of-the-triumvirate::l-ura-enc-1982::grim-chorus",
+      "id": "seat-of-the-triumvirate::l-ura::grim-chorus",
       "cue": {
         "dungeon": "Seat of the Triumvirate",
         "dungeonSlug": "seat-of-the-triumvirate",
         "dungeonHue": "oklch(0.64 0.17 300)",
-        "segment": "L'ura (enc 1982)",
-        "caster": "L'ura (enc 1982)",
+        "segment": "L'ura",
+        "caster": "L'ura",
         "casterKind": "boss",
         "spell": "Grim Chorus"
       },
@@ -11940,19 +11940,19 @@
       },
       "options": [
         "ground-void-zone",
-        "dispel",
-        "spread-out",
-        "knockback"
+        "proximity-bait",
+        "tank-buster",
+        "flavor"
       ]
     },
     {
-      "id": "seat-of-the-triumvirate::l-ura-enc-1982::disintegrate",
+      "id": "seat-of-the-triumvirate::l-ura::disintegrate",
       "cue": {
         "dungeon": "Seat of the Triumvirate",
         "dungeonSlug": "seat-of-the-triumvirate",
         "dungeonHue": "oklch(0.64 0.17 300)",
-        "segment": "L'ura (enc 1982)",
-        "caster": "L'ura (enc 1982)",
+        "segment": "L'ura",
+        "caster": "L'ura",
         "casterKind": "boss",
         "spell": "Disintegrate"
       },
@@ -11966,20 +11966,20 @@
         "lowConfidence": false
       },
       "options": [
-        "proximity-bait",
-        "flavor",
-        "kill-priority-add",
-        "frontal-cone"
+        "tank-buster",
+        "charge",
+        "frontal-cone",
+        "soak"
       ]
     },
     {
-      "id": "seat-of-the-triumvirate::l-ura-enc-1982::abyssal-lance",
+      "id": "seat-of-the-triumvirate::l-ura::abyssal-lance",
       "cue": {
         "dungeon": "Seat of the Triumvirate",
         "dungeonSlug": "seat-of-the-triumvirate",
         "dungeonHue": "oklch(0.64 0.17 300)",
-        "segment": "L'ura (enc 1982)",
-        "caster": "L'ura (enc 1982)",
+        "segment": "L'ura",
+        "caster": "L'ura",
         "casterKind": "boss",
         "spell": "Abyssal Lance"
       },
@@ -11993,20 +11993,20 @@
         "lowConfidence": false
       },
       "options": [
+        "stack-up",
         "tank-buster",
-        "burn-window",
-        "frontal-cone",
-        "purge-soothe"
+        "dispel",
+        "flavor"
       ]
     },
     {
-      "id": "seat-of-the-triumvirate::l-ura-enc-1982::siphon-void-intermission",
+      "id": "seat-of-the-triumvirate::l-ura::siphon-void-intermission",
       "cue": {
         "dungeon": "Seat of the Triumvirate",
         "dungeonSlug": "seat-of-the-triumvirate",
         "dungeonHue": "oklch(0.64 0.17 300)",
-        "segment": "L'ura (enc 1982)",
-        "caster": "L'ura (enc 1982)",
+        "segment": "L'ura",
+        "caster": "L'ura",
         "casterKind": "boss",
         "spell": "Siphon Void (intermission)"
       },
@@ -12021,9 +12021,9 @@
       },
       "options": [
         "burn-window",
-        "charge",
-        "frontal-cone",
-        "purge-soothe"
+        "soak",
+        "knockback",
+        "stack-up"
       ]
     },
     {
@@ -12594,13 +12594,13 @@
       ]
     },
     {
-      "id": "skyreach::ranjit-journal-encounter-965::gale-surge",
+      "id": "skyreach::ranjit::gale-surge",
       "cue": {
         "dungeon": "Skyreach",
         "dungeonSlug": "skyreach",
         "dungeonHue": "oklch(0.80 0.11 215)",
-        "segment": "Ranjit (journal-encounter 965)",
-        "caster": "Ranjit (journal-encounter 965)",
+        "segment": "Ranjit",
+        "caster": "Ranjit",
         "casterKind": "boss",
         "spell": "Gale Surge"
       },
@@ -12614,20 +12614,20 @@
         "lowConfidence": false
       },
       "options": [
-        "proximity-bait",
-        "purge-soothe",
-        "knockback",
-        "flavor"
+        "raid-damage",
+        "pulsing-aura",
+        "soak",
+        "knockback"
       ]
     },
     {
-      "id": "skyreach::ranjit-journal-encounter-965::coalesced-wind",
+      "id": "skyreach::ranjit::coalesced-wind",
       "cue": {
         "dungeon": "Skyreach",
         "dungeonSlug": "skyreach",
         "dungeonHue": "oklch(0.80 0.11 215)",
-        "segment": "Ranjit (journal-encounter 965)",
-        "caster": "Ranjit (journal-encounter 965)",
+        "segment": "Ranjit",
+        "caster": "Ranjit",
         "casterKind": "boss",
         "spell": "Coalesced Wind"
       },
@@ -12641,20 +12641,20 @@
         "lowConfidence": false
       },
       "options": [
+        "knockback",
+        "tank-buster",
         "ground-void-zone",
-        "burn-window",
-        "positional-gimmick",
-        "kill-priority-add"
+        "burn-window"
       ]
     },
     {
-      "id": "skyreach::ranjit-journal-encounter-965::fan-of-blades",
+      "id": "skyreach::ranjit::fan-of-blades",
       "cue": {
         "dungeon": "Skyreach",
         "dungeonSlug": "skyreach",
         "dungeonHue": "oklch(0.80 0.11 215)",
-        "segment": "Ranjit (journal-encounter 965)",
-        "caster": "Ranjit (journal-encounter 965)",
+        "segment": "Ranjit",
+        "caster": "Ranjit",
         "casterKind": "boss",
         "spell": "Fan of Blades"
       },
@@ -12668,20 +12668,20 @@
         "lowConfidence": false
       },
       "options": [
-        "kill-priority-add",
         "raid-damage",
-        "fixate-chase",
+        "frontal-cone",
+        "stack-up",
         "tank-buster"
       ]
     },
     {
-      "id": "skyreach::ranjit-journal-encounter-965::wind-chakram",
+      "id": "skyreach::ranjit::wind-chakram",
       "cue": {
         "dungeon": "Skyreach",
         "dungeonSlug": "skyreach",
         "dungeonHue": "oklch(0.80 0.11 215)",
-        "segment": "Ranjit (journal-encounter 965)",
-        "caster": "Ranjit (journal-encounter 965)",
+        "segment": "Ranjit",
+        "caster": "Ranjit",
         "casterKind": "boss",
         "spell": "Wind Chakram"
       },
@@ -12695,20 +12695,20 @@
         "lowConfidence": false
       },
       "options": [
-        "heal-absorb",
         "burn-window",
+        "knockback",
         "frontal-cone",
-        "proximity-bait"
+        "interruptible-cast"
       ]
     },
     {
-      "id": "skyreach::ranjit-journal-encounter-965::chakram-vortex",
+      "id": "skyreach::ranjit::chakram-vortex",
       "cue": {
         "dungeon": "Skyreach",
         "dungeonSlug": "skyreach",
         "dungeonHue": "oklch(0.80 0.11 215)",
-        "segment": "Ranjit (journal-encounter 965)",
-        "caster": "Ranjit (journal-encounter 965)",
+        "segment": "Ranjit",
+        "caster": "Ranjit",
         "casterKind": "boss",
         "spell": "Chakram Vortex"
       },
@@ -12722,20 +12722,20 @@
         "lowConfidence": false
       },
       "options": [
-        "fixate-chase",
-        "soak",
+        "tank-buster",
         "ground-void-zone",
-        "raid-damage"
+        "burn-window",
+        "pulsing-aura"
       ]
     },
     {
-      "id": "skyreach::araknath-journal-encounter-966::energize",
+      "id": "skyreach::araknath::energize",
       "cue": {
         "dungeon": "Skyreach",
         "dungeonSlug": "skyreach",
         "dungeonHue": "oklch(0.80 0.11 215)",
-        "segment": "Araknath (journal-encounter 966)",
-        "caster": "Araknath (journal-encounter 966)",
+        "segment": "Araknath",
+        "caster": "Araknath",
         "casterKind": "boss",
         "spell": "Energize"
       },
@@ -12749,20 +12749,20 @@
         "lowConfidence": false
       },
       "options": [
-        "heal-absorb",
-        "frontal-cone",
+        "balance-kill",
+        "fixate-chase",
         "purge-soothe",
         "soak"
       ]
     },
     {
-      "id": "skyreach::araknath-journal-encounter-966::heat-exhaustion",
+      "id": "skyreach::araknath::heat-exhaustion",
       "cue": {
         "dungeon": "Skyreach",
         "dungeonSlug": "skyreach",
         "dungeonHue": "oklch(0.80 0.11 215)",
-        "segment": "Araknath (journal-encounter 966)",
-        "caster": "Araknath (journal-encounter 966)",
+        "segment": "Araknath",
+        "caster": "Araknath",
         "casterKind": "boss",
         "spell": "Heat Exhaustion"
       },
@@ -12776,20 +12776,20 @@
         "lowConfidence": false
       },
       "options": [
-        "pulsing-aura",
-        "frontal-cone",
         "tank-buster",
-        "positional-gimmick"
+        "frontal-cone",
+        "heal-absorb",
+        "proximity-bait"
       ]
     },
     {
-      "id": "skyreach::araknath-journal-encounter-966::supernova",
+      "id": "skyreach::araknath::supernova",
       "cue": {
         "dungeon": "Skyreach",
         "dungeonSlug": "skyreach",
         "dungeonHue": "oklch(0.80 0.11 215)",
-        "segment": "Araknath (journal-encounter 966)",
-        "caster": "Araknath (journal-encounter 966)",
+        "segment": "Araknath",
+        "caster": "Araknath",
         "casterKind": "boss",
         "spell": "Supernova"
       },
@@ -12803,20 +12803,20 @@
         "lowConfidence": false
       },
       "options": [
+        "dispel",
         "raid-damage",
-        "purge-soothe",
-        "burn-window",
-        "interruptible-cast"
+        "tank-buster",
+        "soak"
       ]
     },
     {
-      "id": "skyreach::araknath-journal-encounter-966::fiery-smash",
+      "id": "skyreach::araknath::fiery-smash",
       "cue": {
         "dungeon": "Skyreach",
         "dungeonSlug": "skyreach",
         "dungeonHue": "oklch(0.80 0.11 215)",
-        "segment": "Araknath (journal-encounter 966)",
-        "caster": "Araknath (journal-encounter 966)",
+        "segment": "Araknath",
+        "caster": "Araknath",
         "casterKind": "boss",
         "spell": "Fiery Smash"
       },
@@ -12831,19 +12831,19 @@
       },
       "options": [
         "frontal-cone",
-        "raid-damage",
-        "balance-kill",
-        "interruptible-cast"
+        "heal-absorb",
+        "burn-window",
+        "pulsing-aura"
       ]
     },
     {
-      "id": "skyreach::araknath-journal-encounter-966::defensive-protocol",
+      "id": "skyreach::araknath::defensive-protocol",
       "cue": {
         "dungeon": "Skyreach",
         "dungeonSlug": "skyreach",
         "dungeonHue": "oklch(0.80 0.11 215)",
-        "segment": "Araknath (journal-encounter 966)",
-        "caster": "Araknath (journal-encounter 966)",
+        "segment": "Araknath",
+        "caster": "Araknath",
         "casterKind": "boss",
         "spell": "Defensive Protocol"
       },
@@ -12857,20 +12857,20 @@
         "lowConfidence": false
       },
       "options": [
-        "dispel",
-        "spread-out",
-        "ground-void-zone",
-        "interruptible-cast"
+        "knockback",
+        "fixate-chase",
+        "tank-buster",
+        "ground-void-zone"
       ]
     },
     {
-      "id": "skyreach::araknath-journal-encounter-966::blast-wave",
+      "id": "skyreach::araknath::blast-wave",
       "cue": {
         "dungeon": "Skyreach",
         "dungeonSlug": "skyreach",
         "dungeonHue": "oklch(0.80 0.11 215)",
-        "segment": "Araknath (journal-encounter 966)",
-        "caster": "Araknath (journal-encounter 966)",
+        "segment": "Araknath",
+        "caster": "Araknath",
         "casterKind": "boss",
         "spell": "Blast Wave"
       },
@@ -12885,19 +12885,19 @@
       },
       "options": [
         "positional-gimmick",
+        "purge-soothe",
         "tank-buster",
-        "knockback",
-        "stack-up"
+        "kill-priority-add"
       ]
     },
     {
-      "id": "skyreach::rukhran-journal-encounter-967::sunbreak",
+      "id": "skyreach::rukhran::sunbreak",
       "cue": {
         "dungeon": "Skyreach",
         "dungeonSlug": "skyreach",
         "dungeonHue": "oklch(0.80 0.11 215)",
-        "segment": "Rukhran (journal-encounter 967)",
-        "caster": "Rukhran (journal-encounter 967)",
+        "segment": "Rukhran",
+        "caster": "Rukhran",
         "casterKind": "boss",
         "spell": "Sunbreak"
       },
@@ -12911,20 +12911,20 @@
         "lowConfidence": false
       },
       "options": [
-        "kill-priority-add",
         "burn-window",
+        "stack-up",
         "proximity-bait",
-        "heal-absorb"
+        "kill-priority-add"
       ]
     },
     {
-      "id": "skyreach::rukhran-journal-encounter-967::burning-pursuit",
+      "id": "skyreach::rukhran::burning-pursuit",
       "cue": {
         "dungeon": "Skyreach",
         "dungeonSlug": "skyreach",
         "dungeonHue": "oklch(0.80 0.11 215)",
-        "segment": "Rukhran (journal-encounter 967)",
-        "caster": "Rukhran (journal-encounter 967)",
+        "segment": "Rukhran",
+        "caster": "Rukhran",
         "casterKind": "boss",
         "spell": "Burning Pursuit"
       },
@@ -12938,20 +12938,20 @@
         "lowConfidence": false
       },
       "options": [
-        "burn-window",
-        "soak",
-        "spread-out",
-        "fixate-chase"
+        "ground-void-zone",
+        "fixate-chase",
+        "flavor",
+        "dispel"
       ]
     },
     {
-      "id": "skyreach::rukhran-journal-encounter-967::smoldering-egg",
+      "id": "skyreach::rukhran::smoldering-egg",
       "cue": {
         "dungeon": "Skyreach",
         "dungeonSlug": "skyreach",
         "dungeonHue": "oklch(0.80 0.11 215)",
-        "segment": "Rukhran (journal-encounter 967)",
-        "caster": "Rukhran (journal-encounter 967)",
+        "segment": "Rukhran",
+        "caster": "Rukhran",
         "casterKind": "boss",
         "spell": "Smoldering Egg"
       },
@@ -12965,20 +12965,20 @@
         "lowConfidence": false
       },
       "options": [
-        "ground-void-zone",
-        "charge",
-        "frontal-cone",
-        "kill-priority-add"
+        "flavor",
+        "dispel",
+        "kill-priority-add",
+        "pulsing-aura"
       ]
     },
     {
-      "id": "skyreach::rukhran-journal-encounter-967::searing-quills",
+      "id": "skyreach::rukhran::searing-quills",
       "cue": {
         "dungeon": "Skyreach",
         "dungeonSlug": "skyreach",
         "dungeonHue": "oklch(0.80 0.11 215)",
-        "segment": "Rukhran (journal-encounter 967)",
-        "caster": "Rukhran (journal-encounter 967)",
+        "segment": "Rukhran",
+        "caster": "Rukhran",
         "casterKind": "boss",
         "spell": "Searing Quills"
       },
@@ -12992,20 +12992,20 @@
         "lowConfidence": false
       },
       "options": [
-        "tank-buster",
-        "knockback",
-        "proximity-bait",
-        "positional-gimmick"
+        "heal-absorb",
+        "raid-damage",
+        "positional-gimmick",
+        "balance-kill"
       ]
     },
     {
-      "id": "skyreach::rukhran-journal-encounter-967::burning-claws",
+      "id": "skyreach::rukhran::burning-claws",
       "cue": {
         "dungeon": "Skyreach",
         "dungeonSlug": "skyreach",
         "dungeonHue": "oklch(0.80 0.11 215)",
-        "segment": "Rukhran (journal-encounter 967)",
-        "caster": "Rukhran (journal-encounter 967)",
+        "segment": "Rukhran",
+        "caster": "Rukhran",
         "casterKind": "boss",
         "spell": "Burning Claws"
       },
@@ -13019,20 +13019,20 @@
         "lowConfidence": false
       },
       "options": [
+        "knockback",
+        "flavor",
         "tank-buster",
-        "positional-gimmick",
-        "fixate-chase",
-        "spread-out"
+        "ground-void-zone"
       ]
     },
     {
-      "id": "skyreach::rukhran-journal-encounter-967::screech",
+      "id": "skyreach::rukhran::screech",
       "cue": {
         "dungeon": "Skyreach",
         "dungeonSlug": "skyreach",
         "dungeonHue": "oklch(0.80 0.11 215)",
-        "segment": "Rukhran (journal-encounter 967)",
-        "caster": "Rukhran (journal-encounter 967)",
+        "segment": "Rukhran",
+        "caster": "Rukhran",
         "casterKind": "boss",
         "spell": "Screech"
       },
@@ -13046,20 +13046,20 @@
         "lowConfidence": false
       },
       "options": [
-        "positional-gimmick",
-        "knockback",
+        "stack-up",
         "flavor",
+        "proximity-bait",
         "tank-buster"
       ]
     },
     {
-      "id": "skyreach::high-sage-viryx-journal-encounter-968::cast-down",
+      "id": "skyreach::high-sage-viryx::cast-down",
       "cue": {
         "dungeon": "Skyreach",
         "dungeonSlug": "skyreach",
         "dungeonHue": "oklch(0.80 0.11 215)",
-        "segment": "High Sage Viryx (journal-encounter 968)",
-        "caster": "High Sage Viryx (journal-encounter 968)",
+        "segment": "High Sage Viryx",
+        "caster": "High Sage Viryx",
         "casterKind": "boss",
         "spell": "Cast Down"
       },
@@ -13073,20 +13073,20 @@
         "lowConfidence": false
       },
       "options": [
-        "interruptible-cast",
-        "spread-out",
         "kill-priority-add",
-        "knockback"
+        "positional-gimmick",
+        "purge-soothe",
+        "interruptible-cast"
       ]
     },
     {
-      "id": "skyreach::high-sage-viryx-journal-encounter-968::lens-flare",
+      "id": "skyreach::high-sage-viryx::lens-flare",
       "cue": {
         "dungeon": "Skyreach",
         "dungeonSlug": "skyreach",
         "dungeonHue": "oklch(0.80 0.11 215)",
-        "segment": "High Sage Viryx (journal-encounter 968)",
-        "caster": "High Sage Viryx (journal-encounter 968)",
+        "segment": "High Sage Viryx",
+        "caster": "High Sage Viryx",
         "casterKind": "boss",
         "spell": "Lens Flare"
       },
@@ -13100,20 +13100,20 @@
         "lowConfidence": false
       },
       "options": [
-        "ground-void-zone",
-        "proximity-bait",
-        "dispel",
-        "charge"
+        "balance-kill",
+        "burn-window",
+        "stack-up",
+        "ground-void-zone"
       ]
     },
     {
-      "id": "skyreach::high-sage-viryx-journal-encounter-968::blazing-ground",
+      "id": "skyreach::high-sage-viryx::blazing-ground",
       "cue": {
         "dungeon": "Skyreach",
         "dungeonSlug": "skyreach",
         "dungeonHue": "oklch(0.80 0.11 215)",
-        "segment": "High Sage Viryx (journal-encounter 968)",
-        "caster": "High Sage Viryx (journal-encounter 968)",
+        "segment": "High Sage Viryx",
+        "caster": "High Sage Viryx",
         "casterKind": "boss",
         "spell": "Blazing Ground"
       },
@@ -13127,20 +13127,20 @@
         "lowConfidence": false
       },
       "options": [
+        "interruptible-cast",
         "ground-void-zone",
-        "spread-out",
-        "fixate-chase",
-        "burn-window"
+        "positional-gimmick",
+        "proximity-bait"
       ]
     },
     {
-      "id": "skyreach::high-sage-viryx-journal-encounter-968::scorching-ray",
+      "id": "skyreach::high-sage-viryx::scorching-ray",
       "cue": {
         "dungeon": "Skyreach",
         "dungeonSlug": "skyreach",
         "dungeonHue": "oklch(0.80 0.11 215)",
-        "segment": "High Sage Viryx (journal-encounter 968)",
-        "caster": "High Sage Viryx (journal-encounter 968)",
+        "segment": "High Sage Viryx",
+        "caster": "High Sage Viryx",
         "casterKind": "boss",
         "spell": "Scorching Ray"
       },
@@ -13154,20 +13154,20 @@
         "lowConfidence": false
       },
       "options": [
+        "tank-buster",
         "spread-out",
-        "balance-kill",
-        "fixate-chase",
-        "pulsing-aura"
+        "stack-up",
+        "fixate-chase"
       ]
     },
     {
-      "id": "skyreach::high-sage-viryx-journal-encounter-968::solar-blast-a-k-a-solar-burst",
+      "id": "skyreach::high-sage-viryx::solar-blast-a-k-a-solar-burst",
       "cue": {
         "dungeon": "Skyreach",
         "dungeonSlug": "skyreach",
         "dungeonHue": "oklch(0.80 0.11 215)",
-        "segment": "High Sage Viryx (journal-encounter 968)",
-        "caster": "High Sage Viryx (journal-encounter 968)",
+        "segment": "High Sage Viryx",
+        "caster": "High Sage Viryx",
         "casterKind": "boss",
         "spell": "Solar Blast (a.k.a. Solar Burst)"
       },
@@ -13181,10 +13181,10 @@
         "lowConfidence": false
       },
       "options": [
-        "ground-void-zone",
+        "stack-up",
         "interruptible-cast",
         "soak",
-        "fixate-chase"
+        "burn-window"
       ]
     },
     {
@@ -13701,13 +13701,13 @@
       ]
     },
     {
-      "id": "pit-of-saron::forgemaster-garfrost-journal-encounter-608::throw-saronite",
+      "id": "pit-of-saron::forgemaster-garfrost::throw-saronite",
       "cue": {
         "dungeon": "Pit of Saron",
         "dungeonSlug": "pit-of-saron",
         "dungeonHue": "oklch(0.83 0.06 250)",
-        "segment": "Forgemaster Garfrost (journal-encounter 608)",
-        "caster": "Forgemaster Garfrost (journal-encounter 608)",
+        "segment": "Forgemaster Garfrost",
+        "caster": "Forgemaster Garfrost",
         "casterKind": "boss",
         "spell": "Throw Saronite"
       },
@@ -13721,20 +13721,20 @@
         "lowConfidence": false
       },
       "options": [
-        "frontal-cone",
-        "positional-gimmick",
-        "charge",
-        "ground-void-zone"
+        "soak",
+        "ground-void-zone",
+        "proximity-bait",
+        "kill-priority-add"
       ]
     },
     {
-      "id": "pit-of-saron::forgemaster-garfrost-journal-encounter-608::orebreaker",
+      "id": "pit-of-saron::forgemaster-garfrost::orebreaker",
       "cue": {
         "dungeon": "Pit of Saron",
         "dungeonSlug": "pit-of-saron",
         "dungeonHue": "oklch(0.83 0.06 250)",
-        "segment": "Forgemaster Garfrost (journal-encounter 608)",
-        "caster": "Forgemaster Garfrost (journal-encounter 608)",
+        "segment": "Forgemaster Garfrost",
+        "caster": "Forgemaster Garfrost",
         "casterKind": "boss",
         "spell": "Orebreaker"
       },
@@ -13748,20 +13748,20 @@
         "lowConfidence": false
       },
       "options": [
+        "purge-soothe",
         "tank-buster",
-        "burn-window",
-        "balance-kill",
-        "positional-gimmick"
+        "stack-up",
+        "balance-kill"
       ]
     },
     {
-      "id": "pit-of-saron::forgemaster-garfrost-journal-encounter-608::glacial-overload",
+      "id": "pit-of-saron::forgemaster-garfrost::glacial-overload",
       "cue": {
         "dungeon": "Pit of Saron",
         "dungeonSlug": "pit-of-saron",
         "dungeonHue": "oklch(0.83 0.06 250)",
-        "segment": "Forgemaster Garfrost (journal-encounter 608)",
-        "caster": "Forgemaster Garfrost (journal-encounter 608)",
+        "segment": "Forgemaster Garfrost",
+        "caster": "Forgemaster Garfrost",
         "casterKind": "boss",
         "spell": "Glacial Overload"
       },
@@ -13775,20 +13775,20 @@
         "lowConfidence": false
       },
       "options": [
-        "proximity-bait",
-        "flavor",
-        "raid-damage",
-        "positional-gimmick"
+        "ground-void-zone",
+        "positional-gimmick",
+        "charge",
+        "proximity-bait"
       ]
     },
     {
-      "id": "pit-of-saron::forgemaster-garfrost-journal-encounter-608::cryostomp",
+      "id": "pit-of-saron::forgemaster-garfrost::cryostomp",
       "cue": {
         "dungeon": "Pit of Saron",
         "dungeonSlug": "pit-of-saron",
         "dungeonHue": "oklch(0.83 0.06 250)",
-        "segment": "Forgemaster Garfrost (journal-encounter 608)",
-        "caster": "Forgemaster Garfrost (journal-encounter 608)",
+        "segment": "Forgemaster Garfrost",
+        "caster": "Forgemaster Garfrost",
         "casterKind": "boss",
         "spell": "Cryostomp"
       },
@@ -13802,20 +13802,20 @@
         "lowConfidence": false
       },
       "options": [
-        "fixate-chase",
-        "purge-soothe",
-        "positional-gimmick",
-        "dispel"
+        "dispel",
+        "charge",
+        "kill-priority-add",
+        "raid-damage"
       ]
     },
     {
-      "id": "pit-of-saron::forgemaster-garfrost-journal-encounter-608::siphoning-chill",
+      "id": "pit-of-saron::forgemaster-garfrost::siphoning-chill",
       "cue": {
         "dungeon": "Pit of Saron",
         "dungeonSlug": "pit-of-saron",
         "dungeonHue": "oklch(0.83 0.06 250)",
-        "segment": "Forgemaster Garfrost (journal-encounter 608)",
-        "caster": "Forgemaster Garfrost (journal-encounter 608)",
+        "segment": "Forgemaster Garfrost",
+        "caster": "Forgemaster Garfrost",
         "casterKind": "boss",
         "spell": "Siphoning Chill"
       },
@@ -13829,20 +13829,20 @@
         "lowConfidence": false
       },
       "options": [
-        "charge",
+        "fixate-chase",
+        "burn-window",
         "ground-void-zone",
-        "tank-buster",
         "pulsing-aura"
       ]
     },
     {
-      "id": "pit-of-saron::ick-and-krick-journal-encounter-609::necrolink",
+      "id": "pit-of-saron::ick-and-krick::necrolink",
       "cue": {
         "dungeon": "Pit of Saron",
         "dungeonSlug": "pit-of-saron",
         "dungeonHue": "oklch(0.83 0.06 250)",
-        "segment": "Ick and Krick (journal-encounter 609)",
-        "caster": "Ick and Krick (journal-encounter 609)",
+        "segment": "Ick and Krick",
+        "caster": "Ick and Krick",
         "casterKind": "boss",
         "spell": "Necrolink"
       },
@@ -13856,20 +13856,20 @@
         "lowConfidence": false
       },
       "options": [
-        "proximity-bait",
         "positional-gimmick",
-        "burn-window",
-        "interruptible-cast"
+        "kill-priority-add",
+        "charge",
+        "balance-kill"
       ]
     },
     {
-      "id": "pit-of-saron::ick-and-krick-journal-encounter-609::death-bolt",
+      "id": "pit-of-saron::ick-and-krick::death-bolt",
       "cue": {
         "dungeon": "Pit of Saron",
         "dungeonSlug": "pit-of-saron",
         "dungeonHue": "oklch(0.83 0.06 250)",
-        "segment": "Ick and Krick (journal-encounter 609)",
-        "caster": "Ick and Krick (journal-encounter 609)",
+        "segment": "Ick and Krick",
+        "caster": "Ick and Krick",
         "casterKind": "boss",
         "spell": "Death Bolt"
       },
@@ -13883,20 +13883,20 @@
         "lowConfidence": false
       },
       "options": [
-        "purge-soothe",
         "interruptible-cast",
-        "ground-void-zone",
+        "heal-absorb",
+        "balance-kill",
         "burn-window"
       ]
     },
     {
-      "id": "pit-of-saron::ick-and-krick-journal-encounter-609::shade-shift",
+      "id": "pit-of-saron::ick-and-krick::shade-shift",
       "cue": {
         "dungeon": "Pit of Saron",
         "dungeonSlug": "pit-of-saron",
         "dungeonHue": "oklch(0.83 0.06 250)",
-        "segment": "Ick and Krick (journal-encounter 609)",
-        "caster": "Ick and Krick (journal-encounter 609)",
+        "segment": "Ick and Krick",
+        "caster": "Ick and Krick",
         "casterKind": "boss",
         "spell": "Shade Shift"
       },
@@ -13910,20 +13910,20 @@
         "lowConfidence": false
       },
       "options": [
+        "purge-soothe",
+        "flavor",
         "kill-priority-add",
-        "fixate-chase",
-        "frontal-cone",
-        "dispel"
+        "ground-void-zone"
       ]
     },
     {
-      "id": "pit-of-saron::ick-and-krick-journal-encounter-609::shadowbind",
+      "id": "pit-of-saron::ick-and-krick::shadowbind",
       "cue": {
         "dungeon": "Pit of Saron",
         "dungeonSlug": "pit-of-saron",
         "dungeonHue": "oklch(0.83 0.06 250)",
-        "segment": "Ick and Krick (journal-encounter 609)",
-        "caster": "Ick and Krick (journal-encounter 609)",
+        "segment": "Ick and Krick",
+        "caster": "Ick and Krick",
         "casterKind": "boss",
         "spell": "Shadowbind"
       },
@@ -13937,20 +13937,20 @@
         "lowConfidence": false
       },
       "options": [
-        "tank-buster",
-        "burn-window",
         "interruptible-cast",
-        "soak"
+        "raid-damage",
+        "fixate-chase",
+        "tank-buster"
       ]
     },
     {
-      "id": "pit-of-saron::ick-and-krick-journal-encounter-609::blight-smash",
+      "id": "pit-of-saron::ick-and-krick::blight-smash",
       "cue": {
         "dungeon": "Pit of Saron",
         "dungeonSlug": "pit-of-saron",
         "dungeonHue": "oklch(0.83 0.06 250)",
-        "segment": "Ick and Krick (journal-encounter 609)",
-        "caster": "Ick and Krick (journal-encounter 609)",
+        "segment": "Ick and Krick",
+        "caster": "Ick and Krick",
         "casterKind": "boss",
         "spell": "Blight Smash"
       },
@@ -13965,19 +13965,19 @@
       },
       "options": [
         "tank-buster",
-        "heal-absorb",
-        "burn-window",
-        "fixate-chase"
+        "balance-kill",
+        "fixate-chase",
+        "frontal-cone"
       ]
     },
     {
-      "id": "pit-of-saron::ick-and-krick-journal-encounter-609::plague-expulsion-plague-globs",
+      "id": "pit-of-saron::ick-and-krick::plague-expulsion-plague-globs",
       "cue": {
         "dungeon": "Pit of Saron",
         "dungeonSlug": "pit-of-saron",
         "dungeonHue": "oklch(0.83 0.06 250)",
-        "segment": "Ick and Krick (journal-encounter 609)",
-        "caster": "Ick and Krick (journal-encounter 609)",
+        "segment": "Ick and Krick",
+        "caster": "Ick and Krick",
         "casterKind": "boss",
         "spell": "Plague Expulsion / Plague Globs"
       },
@@ -13991,20 +13991,20 @@
         "lowConfidence": false
       },
       "options": [
-        "proximity-bait",
+        "dispel",
+        "charge",
         "spread-out",
-        "burn-window",
-        "balance-kill"
+        "positional-gimmick"
       ]
     },
     {
-      "id": "pit-of-saron::ick-and-krick-journal-encounter-609::get-em-ick-lumbering-fixation",
+      "id": "pit-of-saron::ick-and-krick::get-em-ick-lumbering-fixation",
       "cue": {
         "dungeon": "Pit of Saron",
         "dungeonSlug": "pit-of-saron",
         "dungeonHue": "oklch(0.83 0.06 250)",
-        "segment": "Ick and Krick (journal-encounter 609)",
-        "caster": "Ick and Krick (journal-encounter 609)",
+        "segment": "Ick and Krick",
+        "caster": "Ick and Krick",
         "casterKind": "boss",
         "spell": "Get 'Em, Ick! (Lumbering Fixation)"
       },
@@ -14018,20 +14018,20 @@
         "lowConfidence": false
       },
       "options": [
-        "burn-window",
+        "soak",
+        "kill-priority-add",
         "fixate-chase",
-        "spread-out",
-        "tank-buster"
+        "proximity-bait"
       ]
     },
     {
-      "id": "pit-of-saron::ick-and-krick-journal-encounter-609::shadow-lance",
+      "id": "pit-of-saron::ick-and-krick::shadow-lance",
       "cue": {
         "dungeon": "Pit of Saron",
         "dungeonSlug": "pit-of-saron",
         "dungeonHue": "oklch(0.83 0.06 250)",
-        "segment": "Ick and Krick (journal-encounter 609)",
-        "caster": "Ick and Krick (journal-encounter 609)",
+        "segment": "Ick and Krick",
+        "caster": "Ick and Krick",
         "casterKind": "boss",
         "spell": "Shadow Lance"
       },
@@ -14045,20 +14045,20 @@
         "lowConfidence": false
       },
       "options": [
-        "frontal-cone",
+        "tank-buster",
         "raid-damage",
-        "dispel",
-        "tank-buster"
+        "soak",
+        "burn-window"
       ]
     },
     {
-      "id": "pit-of-saron::scourgelord-tyrannus-journal-encounter-610::rime-blast",
+      "id": "pit-of-saron::scourgelord-tyrannus::rime-blast",
       "cue": {
         "dungeon": "Pit of Saron",
         "dungeonSlug": "pit-of-saron",
         "dungeonHue": "oklch(0.83 0.06 250)",
-        "segment": "Scourgelord Tyrannus (journal-encounter 610)",
-        "caster": "Scourgelord Tyrannus (journal-encounter 610)",
+        "segment": "Scourgelord Tyrannus",
+        "caster": "Scourgelord Tyrannus",
         "casterKind": "boss",
         "spell": "Rime Blast"
       },
@@ -14072,20 +14072,20 @@
         "lowConfidence": false
       },
       "options": [
-        "spread-out",
-        "proximity-bait",
-        "fixate-chase",
-        "burn-window"
+        "kill-priority-add",
+        "tank-buster",
+        "knockback",
+        "spread-out"
       ]
     },
     {
-      "id": "pit-of-saron::scourgelord-tyrannus-journal-encounter-610::bone-infusion",
+      "id": "pit-of-saron::scourgelord-tyrannus::bone-infusion",
       "cue": {
         "dungeon": "Pit of Saron",
         "dungeonSlug": "pit-of-saron",
         "dungeonHue": "oklch(0.83 0.06 250)",
-        "segment": "Scourgelord Tyrannus (journal-encounter 610)",
-        "caster": "Scourgelord Tyrannus (journal-encounter 610)",
+        "segment": "Scourgelord Tyrannus",
+        "caster": "Scourgelord Tyrannus",
         "casterKind": "boss",
         "spell": "Bone Infusion"
       },
@@ -14099,20 +14099,20 @@
         "lowConfidence": false
       },
       "options": [
-        "dispel",
+        "knockback",
+        "burn-window",
         "raid-damage",
-        "kill-priority-add",
-        "spread-out"
+        "charge"
       ]
     },
     {
-      "id": "pit-of-saron::scourgelord-tyrannus-journal-encounter-610::army-of-the-dead",
+      "id": "pit-of-saron::scourgelord-tyrannus::army-of-the-dead",
       "cue": {
         "dungeon": "Pit of Saron",
         "dungeonSlug": "pit-of-saron",
         "dungeonHue": "oklch(0.83 0.06 250)",
-        "segment": "Scourgelord Tyrannus (journal-encounter 610)",
-        "caster": "Scourgelord Tyrannus (journal-encounter 610)",
+        "segment": "Scourgelord Tyrannus",
+        "caster": "Scourgelord Tyrannus",
         "casterKind": "boss",
         "spell": "Army of the Dead"
       },
@@ -14126,20 +14126,20 @@
         "lowConfidence": false
       },
       "options": [
-        "kill-priority-add",
-        "knockback",
-        "charge",
-        "pulsing-aura"
+        "positional-gimmick",
+        "pulsing-aura",
+        "heal-absorb",
+        "kill-priority-add"
       ]
     },
     {
-      "id": "pit-of-saron::scourgelord-tyrannus-journal-encounter-610::plague-bolt-plaguespreader",
+      "id": "pit-of-saron::scourgelord-tyrannus::plague-bolt-plaguespreader",
       "cue": {
         "dungeon": "Pit of Saron",
         "dungeonSlug": "pit-of-saron",
         "dungeonHue": "oklch(0.83 0.06 250)",
-        "segment": "Scourgelord Tyrannus (journal-encounter 610)",
-        "caster": "Scourgelord Tyrannus (journal-encounter 610)",
+        "segment": "Scourgelord Tyrannus",
+        "caster": "Scourgelord Tyrannus",
         "casterKind": "boss",
         "spell": "Plague Bolt (Plaguespreader)"
       },
@@ -14153,20 +14153,20 @@
         "lowConfidence": false
       },
       "options": [
+        "spread-out",
         "interruptible-cast",
-        "balance-kill",
-        "positional-gimmick",
-        "kill-priority-add"
+        "stack-up",
+        "burn-window"
       ]
     },
     {
-      "id": "pit-of-saron::scourgelord-tyrannus-journal-encounter-610::scourgelord-s-brand",
+      "id": "pit-of-saron::scourgelord-tyrannus::scourgelord-s-brand",
       "cue": {
         "dungeon": "Pit of Saron",
         "dungeonSlug": "pit-of-saron",
         "dungeonHue": "oklch(0.83 0.06 250)",
-        "segment": "Scourgelord Tyrannus (journal-encounter 610)",
-        "caster": "Scourgelord Tyrannus (journal-encounter 610)",
+        "segment": "Scourgelord Tyrannus",
+        "caster": "Scourgelord Tyrannus",
         "casterKind": "boss",
         "spell": "Scourgelord's Brand"
       },
@@ -14181,19 +14181,19 @@
       },
       "options": [
         "knockback",
-        "stack-up",
-        "proximity-bait",
+        "spread-out",
+        "burn-window",
         "tank-buster"
       ]
     },
     {
-      "id": "pit-of-saron::scourgelord-tyrannus-journal-encounter-610::death-s-grasp",
+      "id": "pit-of-saron::scourgelord-tyrannus::death-s-grasp",
       "cue": {
         "dungeon": "Pit of Saron",
         "dungeonSlug": "pit-of-saron",
         "dungeonHue": "oklch(0.83 0.06 250)",
-        "segment": "Scourgelord Tyrannus (journal-encounter 610)",
-        "caster": "Scourgelord Tyrannus (journal-encounter 610)",
+        "segment": "Scourgelord Tyrannus",
+        "caster": "Scourgelord Tyrannus",
         "casterKind": "boss",
         "spell": "Death's Grasp"
       },
@@ -14207,20 +14207,20 @@
         "lowConfidence": false
       },
       "options": [
-        "dispel",
-        "ground-void-zone",
-        "spread-out",
-        "positional-gimmick"
+        "purge-soothe",
+        "burn-window",
+        "tank-buster",
+        "ground-void-zone"
       ]
     },
     {
-      "id": "pit-of-saron::scourgelord-tyrannus-journal-encounter-610::ice-barrage",
+      "id": "pit-of-saron::scourgelord-tyrannus::ice-barrage",
       "cue": {
         "dungeon": "Pit of Saron",
         "dungeonSlug": "pit-of-saron",
         "dungeonHue": "oklch(0.83 0.06 250)",
-        "segment": "Scourgelord Tyrannus (journal-encounter 610)",
-        "caster": "Scourgelord Tyrannus (journal-encounter 610)",
+        "segment": "Scourgelord Tyrannus",
+        "caster": "Scourgelord Tyrannus",
         "casterKind": "boss",
         "spell": "Ice Barrage"
       },
@@ -14234,20 +14234,20 @@
         "lowConfidence": false
       },
       "options": [
-        "kill-priority-add",
-        "ground-void-zone",
-        "soak",
-        "heal-absorb"
+        "fixate-chase",
+        "proximity-bait",
+        "flavor",
+        "ground-void-zone"
       ]
     },
     {
-      "id": "pit-of-saron::scourgelord-tyrannus-journal-encounter-610::frost-spit",
+      "id": "pit-of-saron::scourgelord-tyrannus::frost-spit",
       "cue": {
         "dungeon": "Pit of Saron",
         "dungeonSlug": "pit-of-saron",
         "dungeonHue": "oklch(0.83 0.06 250)",
-        "segment": "Scourgelord Tyrannus (journal-encounter 610)",
-        "caster": "Scourgelord Tyrannus (journal-encounter 610)",
+        "segment": "Scourgelord Tyrannus",
+        "caster": "Scourgelord Tyrannus",
         "casterKind": "boss",
         "spell": "Frost Spit"
       },
@@ -14261,10 +14261,10 @@
         "lowConfidence": false
       },
       "options": [
+        "raid-damage",
+        "purge-soothe",
         "pulsing-aura",
-        "heal-absorb",
-        "dispel",
-        "raid-damage"
+        "burn-window"
       ]
     },
     {

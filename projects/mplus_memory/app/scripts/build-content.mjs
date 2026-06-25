@@ -141,9 +141,19 @@ function parseArchetypes(md) {
 
 // ── dungeon parsing ─────────────────────────────────────────────────────────
 
-/** Pull boss display name out of "Degentrius (2662)" / "Crawth (journal 2495)". */
+/**
+ * Boss display name only. Encounter ids live in a `<!-- enc:NNN -->` marker
+ * (stripped at the h3 capture). Defensively also drops a legacy trailing id
+ * paren — "Degentrius (2662)", "Crawth (journal 2495)", "L'ura (enc 1982)" —
+ * so a stray provenance id can never reach a card again.
+ */
 function cleanBossName(heading) {
-  return stripMd(heading.replace(/\((journal\s*)?\d+\)\s*$/i, "").trim());
+  return stripMd(
+    heading
+      .replace(/<!--.*?-->/g, "")
+      .replace(/\s*\((?:[a-z][\w-]*\s+)?\d+\)\s*$/i, "")
+      .trim(),
+  );
 }
 
 function parseRoute(lines) {
@@ -199,7 +209,9 @@ function parseDungeon(slug, md) {
     }
     const h3 = line.match(/^###\s+(.+?)\s*$/);
     if (h3) {
-      heading = h3[1].trim();
+      // Drop the `<!-- enc:NNN -->` provenance marker so it never reaches a
+      // boss name or trash wing label.
+      heading = h3[1].replace(/<!--.*?-->/g, "").trim();
       continue;
     }
 

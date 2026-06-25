@@ -92,7 +92,7 @@ Single-sourced (Method only) unless noted; those are flagged `low`.
 
 ## Bosses
 
-### Arcanotron Custos (2659)
+### Arcanotron Custos <!-- enc:2659 -->
 
 | Ability | What it does | Do | Archetype | Tier |
 |---|---|---|---|---|
@@ -104,7 +104,7 @@ Single-sourced (Method only) unless noted; those are flagged `low`.
 | Energy Orb / Arcane Empowerment | An Orb that reaches the boss grants Arcane Empowerment → group-wide AoE | Soak every Orb so none reach the boss | soak | 🔴 |
 | Unstable Energy | Stacking DoT from soaking Orbs | Watch stacks; defensive if you soak several | stack-up | 🟠 |
 
-### Seranel Sunlash (2661)
+### Seranel Sunlash <!-- enc:2661 -->
 
 | Ability | What it does | Do | Archetype | Tier |
 |---|---|---|---|---|
@@ -115,7 +115,7 @@ Single-sourced (Method only) unless noted; those are flagged `low`.
 | Wave of Silence | At 100 energy: heavy damage + 8s silence/pacify to players outside a Suppression Zone | Step into the Suppression Zone just before the cast finishes | positional-gimmick | 🔴 |
 | Hastening Ward | Buff: increases Seranel's attack speed + adds Arcane to melee | Purge it; otherwise tank uses a major defensive | purge-soothe | 🟠 |
 
-### Gemellus (2660)
+### Gemellus <!-- enc:2660 -->
 
 | Ability | What it does | Do | Archetype | Tier |
 |---|---|---|---|---|
@@ -126,7 +126,7 @@ Single-sourced (Method only) unless noted; those are flagged `low`.
 | Astral Grasp | Pulls players toward their Gemellus; pull-in circles appear around all clones | Run away from the pull-in; avoid the Cosmic Radiation aura in the boss's hit range | knockback | 🟠 |
 | Cosmic Radiation | Aura within hit range of the boss during Astral Grasp | Use movement speed to escape; healer spot-heals those caught | pulsing-aura | 🟠 |
 
-### Degentrius (2662)
+### Degentrius <!-- enc:2662 -->
 
 Stationary boss — does not melee; hits via Entropy Blast wherever you are.
 

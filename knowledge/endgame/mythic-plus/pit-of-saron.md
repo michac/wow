@@ -79,7 +79,7 @@ Both guides agree on the quarry pool. Single-sourced claims flagged
 
 ## Bosses
 
-### Forgemaster Garfrost (journal-encounter 608)
+### Forgemaster Garfrost <!-- enc:608 -->
 
 Single tank-and-position fight. Garfrost throws saronite ore that becomes
 cover; at 100 energy he channels **Glacial Overload** from his closest
@@ -93,7 +93,7 @@ forge — you hide behind ore to survive it.
 | Cryostomp | Follows Glacial Overload; destroys remaining chunk, group-wide damage, applies **Cryoshards** magic debuff to 2 players | Group defensives; **dispel Cryoshards ASAP** (freedom helps) | dispel | 🟠 |
 | Siphoning Chill | Passive chill aura running the whole fight; Cryostomp increases its danger | Sustained healing throughline — bring strong healing talents | pulsing-aura | 🔵 |
 
-### Ick and Krick (journal-encounter 609)
+### Ick and Krick <!-- enc:609 -->
 
 Two bodies that **share health via Necrolink** — cleave both. Krick rides
 Ick; Ick is the bruiser, Krick the caster, plus Shade adds.
@@ -109,7 +109,7 @@ Ick; Ick is the bruiser, Krick the caster, plus Shade adds.
 | Get 'Em, Ick! (Lumbering Fixation) | At 100 energy Krick mounts Ick, who **fixates** a random player ~7s at a time over ~28s | **Kite** Ick if fixated; others save burst for cleave; stay away from boss to avoid melee | fixate-chase | 🟠 |
 | Shadow Lance | Krick cast, spike damage | Spot-heal target | raid-damage | 🔵 |
 
-### Scourgelord Tyrannus (journal-encounter 610)
+### Scourgelord Tyrannus <!-- enc:610 -->
 
 Death knight + frost wyrm **Rimefang** (airborne). Build-up phase with
 brands and ground zones, then **Army of the Dead** at 100 energy raises

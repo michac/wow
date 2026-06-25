@@ -90,7 +90,7 @@ confidence high; single-sourced claims are flagged `(single-source)`.
 
 ## Bosses
 
-### Chief Corewright Kasreth (journal-encounter 2813)
+### Chief Corewright Kasreth <!-- enc:2813 -->
 
 | Ability | What it does | Do | Archetype | Tier |
 |---|---|---|---|---|
@@ -100,7 +100,7 @@ confidence high; single-sourced claims are flagged `(single-source)`.
 | **Flux Collapse** | Continuous arcane flow toward a player, leaving puddles (Arcane Spill) | Bait puddles to edges; sidestep them | `ground-void-zone` | 🔵 |
 | **Arcane Zap** | Boss has no melee; instead instant-cast arcane hit on tank (Icy Veins lists an interruptible Arcane Zap) | Tank expects arcane melee damage; interrupt where applicable | `tank-buster` | 🔵 |
 
-### Corewarden Nysarra (journal-encounter 2814)
+### Corewarden Nysarra <!-- enc:2814 -->
 
 | Ability | What it does | Do | Archetype | Tier |
 |---|---|---|---|---|
@@ -110,7 +110,7 @@ confidence high; single-sourced claims are flagged `(single-source)`.
 | **Lightscar Flare** | A Lothraxion image aims a flare at the boss; creates a Holy frontal that ticks heavy damage but amps boss damage +300% | Dodge the initial flare, then stand in the frontal to burst (300% amp); healers heal the ticking; ensure adds are dead first | `soak` | 🔵 |
 | **Devour the Unworthy** | If adds live to the end of the Lightscar channel, boss consumes them (empower) | Make sure all adds are dead before the channel ends | `kill-priority-add` | 🔴 |
 
-### Lothraxion (journal-encounter 2815)
+### Lothraxion <!-- enc:2815 -->
 
 | Ability | What it does | Do | Archetype | Tier |
 |---|---|---|---|---|

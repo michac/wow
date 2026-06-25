@@ -102,7 +102,7 @@ list it**; single-sourced claims are flagged `confidence: low`.
 
 ## Bosses
 
-### Muro'jin and Nekraxx (journal 2810)
+### Muro'jin and Nekraxx <!-- enc:2810 -->
 
 Two-target fight — **split damage and kill them together**. Muro'jin
 casts **Revive Pet** if Nekraxx dies first; Nekraxx gains **Bestial
@@ -119,7 +119,7 @@ Wrath** stacks if Muro'jin dies first.
 | Revive Pet | Muro'jin revives Nekraxx if she dies first | Kill both together to skip it | kill-priority-add | 🔵 |
 | Bestial Wrath | Nekraxx ramps damage if Muro'jin dies first | Kill both together to skip it | purge-soothe | 🔵 |
 
-### Vordaza (journal 2811)
+### Vordaza <!-- enc:2811 -->
 
 Heavy sustained Rot damage; **add-collision + a shield-break burst
 phase**.
@@ -132,7 +132,7 @@ phase**.
 | Drain Soul | Heavy channel on the tank that absorbs healing received | Tank major defensive | tank-buster | 🔵 |
 | Unmake | Frontal sweep | Dodge out of the frontal | frontal-cone | 🟠 |
 
-### Rak'tul, Vessel of Souls (journal 2812)
+### Rak'tul, Vessel of Souls <!-- enc:2812 -->
 
 Soul totems + a knockback tank combo + a **soul-gauntlet phase** on the
 bridge below.

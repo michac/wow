@@ -175,6 +175,17 @@ files exist, tagged and journal-corroborated.
       schema — `| Mob | Ability | See → Do | Archetype | Tier | Role |` (emoji-only
       tier, bare canonical slug, single-source rows flagged inline). Boss + trash
       now share a column contract, so the Phase 3 card builder can parse both.
+- [x] **Boss-name field markup (2026-06-24):** the encounter id was riding *in*
+      the boss `###` heading (display string) in four inconsistent spellings
+      (`(journal-encounter 610)`, `(journal 2495)`, `(enc 1982)`, bare `(2662)`),
+      so the card builder regex-scraped it — and `journal-encounter`/`enc` slipped
+      through, leaking e.g. "Scourgelord Tyrannus (journal-encounter 610)" onto a
+      live card. Fixed at the **format** level: moved the id to a `<!-- enc:NNN -->`
+      HTML comment on all 29 boss headings (invisible when rendered, unambiguous to
+      parse), and the builder now strips the marker at the h3 capture +
+      defensively. Principle: structured fields get explicit markup; nothing is
+      scraped out of a display string. Descriptive parens (`(immune to CC)`) are
+      untouched.
 - [ ] **Trash confidence (still open):** several dungeons' trash is **Method-only**
       (Icy Veins detailed bosses but few trash mobs) and flagged `confidence: low`
       in-file — Magisters' Terrace especially. The launch video is **boss-only**, so
