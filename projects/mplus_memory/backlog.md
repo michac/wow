@@ -174,6 +174,49 @@ items below (simplest first).
 - [ ] **Route walk** — second item: step-through memory-palace walk **plus** an
       order drill (shuffle the route steps, player taps them back into sequence)
       for the generation effect.
+- [x] **Test mode (doubles as intro mode):** a single, ordered pass through **one
+      dungeon's** casts — boss-by-boss in **route/pull order**, one shot at each
+      card (no re-queue on a miss, no second look). Ends on a score/report card
+      ("11 / 14 — shaky on Skyreach's frontals"). Two jobs in one mode:
+      - **Intro / first-contact:** this is the *blocked* acquisition pass the
+        interleaving research says novices need before the interleaved Drill pays
+        off — pure random interleaving is confusing with no mental model yet; a
+        short in-order pass through a single dungeon builds the gist, then the
+        player graduates to the mixed Drill. (Grounds the "hybrid onboarding"
+        recommendation from the interleaving-vs-blocking discussion.)
+      - **Test / assessment:** an honest one-shot check — no SRS safety net, no
+        hesitation auto-grade leniency — that surfaces *where* you're weak before
+        a key.
+      - **Shape (mostly reuses Drill):** same classify cue + cast bar + reveal;
+        the differences are the *queue source* and *termination*. Queue = one
+        dungeon, filtered and **sorted by boss/route order** (not SRS-due-
+        interleaved); within a boss, the several casts can go in **definition
+        order or shuffled** (pick one — definition order is simplest and
+        deterministic for a "test"). One pass, no `again`-requeue.
+      - **SRS interaction (decide on impl):** still call `recordReview()` so a
+        first-contact pass *seeds* the schedule (intro framing) — but because
+        it's one-shot, a miss just schedules normally; no in-session relearn loop.
+        Alternatively make it schedule-neutral (pure assessment) and gate behind a
+        toggle. Lean: seed the schedule — an intro that teaches nothing to the SRS
+        wastes the pass.
+      - **Plumbing already present:** the filter sheet already narrows to one
+        dungeon, and `content.json` carries `route[]` + per-boss ability order, so
+        ordering the queue is a sort, not new data. New surface area is mainly a
+        ModeNav entry, the one-shot queue/termination logic, and the score screen.
+      - **Shipped 2026-06-24** — `Test.svelte` (setup → run → report), a
+        `buildTestQueue()` in `session.js`, an enabled ModeNav `test` entry, and
+        an `App.svelte` branch. Resolved decisions: queue = `content.json`
+        **definition/emission order** for the chosen dungeon (no SRS-due filter,
+        no shuffle, no interleave — the blocked acquisition pass by intent);
+        dungeon picked on Test's own setup screen via component-local `$state`
+        (independent of Drill's `enabledDungeons`, role inherited from
+        `store.settings.role`); **seeds the SRS** via `recordReview` +
+        `gradeFromLatency` (intro framing); **score = raw correctness**
+        (right-first-try / wrong / timed-out, no auto-grade leniency); cast bar +
+        7s timeout-as-miss kept; weakest-spot peg = most-missed archetype.
+        Route-interleave (trash-before-its-boss) **deferred** — trash segment
+        names don't cleanly map to route step titles. Cast-bar `DURATION` lifted
+        to `timing.js` so Drill and Test can't drift.
 
 ## Phase 5 — Fill out the other 7 dungeons
 

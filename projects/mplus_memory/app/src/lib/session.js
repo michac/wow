@@ -69,3 +69,20 @@ export function buildQueue({ schedule, filters, now = Date.now(), limit = 0 }) {
 export function dueCount({ schedule, filters, now = Date.now() }) {
   return cardsForFilters(filters).filter((c) => isDue(schedule[c.id], now)).length;
 }
+
+/**
+ * Build a one-shot Test/intro queue for a single dungeon.
+ *
+ * Order is deliberately *definition order* — `content.json` emits a dungeon's
+ * cards bosses-in-encounter-order, each boss's casts in table order, then trash
+ * by wing, and `cardsForFilters` preserves that array order. No `isDue` filter,
+ * no shuffle, no dungeon-interleave (Test is a blocked, in-order pass, the
+ * opposite of Drill's interleaving by intent).
+ * @param {Object} opts
+ * @param {string} opts.dungeonSlug the single dungeon to walk
+ * @param {{ role?: string }} [opts.filters] role filter (enabledDungeons is forced)
+ * @returns {Array} card objects in definition order
+ */
+export function buildTestQueue({ dungeonSlug, filters = {} }) {
+  return cardsForFilters({ ...filters, enabledDungeons: [dungeonSlug] });
+}

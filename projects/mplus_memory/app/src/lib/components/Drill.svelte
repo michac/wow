@@ -5,6 +5,7 @@
   import { archetype } from "../content.js";
   import { buildQueue } from "../session.js";
   import { tierClass } from "../ui.js";
+  import { DURATION } from "../timing.js";
 
   import DungeonFrame from "./DungeonFrame.svelte";
   import CastBar from "./CastBar.svelte";
@@ -13,10 +14,6 @@
   import NextButton from "./NextButton.svelte";
   import ModeNav from "./ModeNav.svelte";
   import FilterSheet from "./FilterSheet.svelte";
-
-  // Shared cast-bar duration: the timer the player sees and the latency grader read
-  // the same number so they can't drift.
-  const DURATION = 7000;
 
   let queue = $state([]);
   let idx = $state(0);

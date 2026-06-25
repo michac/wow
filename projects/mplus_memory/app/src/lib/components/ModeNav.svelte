@@ -6,6 +6,7 @@
   // Phase-3 modes are live; Phase-4 modes show in the nav but are disabled.
   const items = [
     { id: "drill", icon: "◎", label: "Drill", on: true },
+    { id: "test", icon: "✓", label: "Test", on: true },
     { id: "archetypes", icon: "⬡", label: "Alphabet", on: true },
     { id: "route", icon: "⌁", label: "Route", on: false },
     { id: "dashboard", icon: "▦", label: "Stats", on: false },
