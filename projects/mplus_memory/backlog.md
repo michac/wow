@@ -114,13 +114,17 @@ A one-file build remains a one-plugin toggle if ever needed.
       together during Germinate…"). `build-content.mjs` only harvests the ability
       *table*, so that prose never reaches `content.json`, the reveal, or a future
       Browse mode. Parse it into `boss.note` and surface it.
-- [ ] **Boss cards aren't role-filtered (filter semantics):** only trash rows
-      carry a Role column; boss abilities parse to `role: null`, which
-      `cardsForFilters` treats as universal — so with role=DPS every boss card
-      stays in the pool (that's why DPS is 313, not lower) and only trash filters.
-      Defensible (everyone should know boss mechanics) but currently *implicit*.
-      Decide: keep-all-bosses by design (document it), or infer a boss role from
-      the ability's archetype / DPS-notes section.
+- [x] **Boss cards aren't role-filtered (filter semantics):** boss tables now
+      carry a `Role` column too, so every boss ability resolves to a real role
+      instead of `null`. Done by a **per-ability role-classification pass**
+      (`role-assign-workflow.js`): blind Sonnet assigned each of the 162 boss
+      abilities a role from the captured "Do" text + the cached Icy Veins/Method
+      guides, an Opus adjudicator settled it against the archetype `RoleTag`
+      prior with a confidence + source quote, and high-confidence results were
+      written back to the KB. Low-confidence / changed-from-prior rows are in
+      `role-assign-report.md` for spot-check. Final split (365 cards): 262 all ·
+      65 tank · 29 healer · 9 dps. The build now *asserts* every card's role ∈
+      `{all,tank,healer,dps}`, so a stray free-text value can never ship again.
 - [x] **Cast-bar timeout UX (minor polish):** when the timer expires the card
       auto-reveals and scores as wrong, but there's no "ran out of time" signal
       beyond the red badge — looks identical to a wrong pick. Add a distinct
@@ -263,8 +267,11 @@ files exist, tagged and journal-corroborated.
       in-file — Magisters' Terrace especially. The launch video is **boss-only**, so
       it did **not** close this gap. Re-corroborate trash from a real second source
       before drilling it hard.
-- [ ] **Algeth'ar boss tables:** 5-col header but 6-col rows (an extra Role cell) —
-      renders fine but technically malformed. Tidy if boss tables should be strict.
+- [x] **Algeth'ar boss tables (2026-06-25):** were a 5-col header with 6-col rows
+      (a stray Role cell read by a `cells[header.length]` hack). Fixed by the role
+      pass: all boss tables are now strict 6-col `| Ability | What it does | Do |
+      Archetype | Tier | Role |`, the header matches the rows, and the stray-cell
+      special-case in `build-content.mjs` is gone.
 - [x] **Archetype re-classification — bosses (2026-06-25):** ran a per-boss
       second-opinion pass (`projects/mplus_memory/reclassify-workflow.js`): blind
       Sonnet re-tag with the Archetype column stripped + cast/effect merge
@@ -321,13 +328,36 @@ files exist, tagged and journal-corroborated.
 - [ ] Role expansion: enable healer + tank card sets behind the existing filter.
 - [ ] Verify Xal'atath's Bargain affix rotation (open TODO in overview).
 - [ ] Patch-watch: re-verify content if game state moves past 12.0.5.
-- [ ] **Boss / trash scope filter for Drill + Test (2026-06-25):** let the learner
+- [x] **Boss / trash scope filter for Drill + Test (2026-06-25):** let the learner
       restrict the quiz **and** Test to (a) bosses + boss abilities only, (b) trash
       only, or (c) both (default). Cards already carry `cue.casterKind`
       (`"boss"` | `"trash"`), so this is a session-builder predicate
       (`src/lib/session.js`) plus a control in `FilterSheet.svelte`, sitting
       alongside the existing role filter. Rationale: prepping a key, a player may
       want just boss kits (fewer, higher-stakes tells) or to grind trash separately.
+      - **Shipped 2026-06-25** alongside the priority filter below. Implemented one
+        layer down from the planned spot: the predicate lives in `cardsForFilters()`
+        (`content.js`, the single choke point both `buildQueue` and `buildTestQueue`
+        already route through) rather than `session.js`, so Drill + Test inherit it
+        for free. Global `settings.scope` (`both`|`boss`|`trash`), a `setScope` store
+        action, and a 3-way Scope control in `FilterSheet`. Counts: boss 162 / trash
+        203 / both 365.
+- [x] **Priority (severity) filter for Drill + Test (2026-06-25):** a "priority
+      floor" that keeps only higher-stakes mechanics — All / Job+ / Death+ / Wipe.
+      **Picked severity over a role-based priority filter on the data:** every one
+      of the 365 cards carries exactly one ordered consequence tier (wipe 45 ·
+      death 147 · job 157 · flavor 16) and tier is already the app's color spine,
+      whereas `reveal.role` was at the time `null` on **all 162 boss cards**,
+      mostly `"all"` elsewhere, free-text (`all (kick)`, `tank/healer`, …), and a
+      role filter *already exists*. So severity is the better, orthogonal priority
+      lever. *(The role data has since been cleaned up — see the source-driven
+      per-ability role pass above — but severity remains the priority lever.)*
+      Shape: a **stakes floor** (keep the chosen tier + everything above it),
+      `TIER_RANK` in `content.js`, global `settings.tierFloor`, `setTierFloor`, a
+      4-way Priority control in `FilterSheet`. Floor math verified: job+ 349 ·
+      death+ 192 · wipe 45. Empty combos (e.g. trash + wipe on a single dungeon)
+      are guarded in Test (setup note) and handled by Drill's existing "nothing
+      due" screen. (Role expansion remains a separate, already-filed item above.)
 - [ ] **Boss portraits crop in the frame (2026-06-25):** boss art is often cut off
       (heads/feet) for lack of vertical room. **Cause:** the source renders are
       **square** — raw `raw/bosses/*.jpg` are a uniform **600×600**, built to

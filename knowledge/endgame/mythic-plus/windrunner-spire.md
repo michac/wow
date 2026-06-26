@@ -1,7 +1,7 @@
 ---
 title: Windrunner Spire — Midnight S1 M+ dungeon guide
 patch: 12.0.5
-fetched: 2026-06-24
+fetched: 2026-06-25
 sources:
   - https://www.method.gg/guides/dungeons/windrunner-spire        # upd. 2026-03-23
   - https://www.icy-veins.com/wow/windrunner-spire-dungeon-guide   # upd. 2026-06-15 (12.0.7)
@@ -111,12 +111,12 @@ and Icy Veins unless flagged `confidence: low` (single-sourced).
 
 **Hint:** dodge the fire twisters
 
-| Ability | What it does | Do | Archetype | Tier |
-|---|---|---|---|---|
-| **Flaming Updraft** | Debuffs 2 players; heavy damage; leaves **Ignited Embers** puddle on expiry | Move to the outside/corner of the arena and drop the puddle out of the way; healer spot-heals | spread-out | 🟠 |
-| **Burning Gale** | Intermission channel; pushes players and ignites the **Ignited Embers** into sweeping **Flaming Twisters** that sweep the arena; heavy party damage | Put your back to safety before the push and use anti-knockback if available; dodge the twisters (Ignited Embers puddles ignited by this channel — stay mobile and track their pathing); healer pops major cooldowns for the heavy party damage through the channel | knockback; raid-damage | 🔴 |
-| **Fire Breath** | During Burning Gale, 4 frontal cones; always start on the tank then rotate counter-clockwise | Dodge each frontal | frontal-cone | 🟠 |
-| **Searing Beak** | Tank hit: heavy Physical then a significant Fire DoT | Tank uses a defensive that covers the hit **and** the DoT | tank-buster | 🔵 |
+| Ability | What it does | Do | Archetype | Tier | Role |
+|---|---|---|---|---|---|
+| **Flaming Updraft** | Debuffs 2 players; heavy damage; leaves **Ignited Embers** puddle on expiry | Move to the outside/corner of the arena and drop the puddle out of the way; healer spot-heals | spread-out | 🟠 | all |
+| **Burning Gale** | Intermission channel; pushes players and ignites the **Ignited Embers** into sweeping **Flaming Twisters** that sweep the arena; heavy party damage | Put your back to safety before the push and use anti-knockback if available; dodge the twisters (Ignited Embers puddles ignited by this channel — stay mobile and track their pathing); healer pops major cooldowns for the heavy party damage through the channel | knockback; raid-damage | 🔴 | all |
+| **Fire Breath** | During Burning Gale, 4 frontal cones; always start on the tank then rotate counter-clockwise | Dodge each frontal | frontal-cone | 🟠 | all |
+| **Searing Beak** | Tank hit: heavy Physical then a significant Fire DoT | Tank uses a defensive that covers the hit **and** the DoT | tank-buster | 🔵 | tank |
 
 ### Derelict Duo <!-- enc:2656 -->
 
@@ -125,15 +125,15 @@ and Icy Veins unless flagged `confidence: low` (single-sourced).
 Two bosses, **Latch** and **Kalis** — they must die together or the
 survivor stacks **Broken Bond** (a runaway enrage). Cleave evenly.
 
-| Ability | What it does | Do | Archetype | Tier |
-|---|---|---|---|---|
-| **Broken Bond** | Stacking enrage on whichever boss outlives the other | Keep both bosses at even HP and kill simultaneously | balance-kill | 🔴 |
-| **Shadow Bolt** (Kalis) | Interruptible random-target cast | Interrupt-rotation it | interruptible-cast | 🔵 |
-| **Debilitating Shriek** (Kalis) | Cast that ramps Shadow damage until stopped | Stop it by having the **Heaving Yank** target run behind Kalis | positional-gimmick | 🔴 |
-| **Curse of Darkness** (Kalis) | Curse on targets; spawns a fixating **Dark Entity** (12s) doing heavy melee | Curse-dispel both; if you can't, outrange/CC the Dark Entity | dispel; fixate-chase | 🟠 |
-| **Heaving Yank** (Latch) | Interrupts and pulls in the first target hit | Use it deliberately to "hook" and cancel Debilitating Shriek | positional-gimmick | 🔵 |
-| **Splattering Spew** (Latch) | Targets players, group-wide damage, leaves **Gunk Splatter** puddle | Loosely spread on the arena edge, place puddles tidily, overlap if healthy + defensive up; healer cooldowns | spread-out; raid-damage | 🟠 |
-| **Bone Hack** (Latch) | Tank channel, significant Physical damage | Tank active mitigation each cast | tank-buster | 🔵 |
+| Ability | What it does | Do | Archetype | Tier | Role |
+|---|---|---|---|---|---|
+| **Broken Bond** | Stacking enrage on whichever boss outlives the other | Keep both bosses at even HP and kill simultaneously | balance-kill | 🔴 | all |
+| **Shadow Bolt** (Kalis) | Interruptible random-target cast | Interrupt-rotation it | interruptible-cast | 🔵 | all |
+| **Debilitating Shriek** (Kalis) | Cast that ramps Shadow damage until stopped | Stop it by having the **Heaving Yank** target run behind Kalis | positional-gimmick | 🔴 | all |
+| **Curse of Darkness** (Kalis) | Curse on targets; spawns a fixating **Dark Entity** (12s) doing heavy melee | Curse-dispel both; if you can't, outrange/CC the Dark Entity | dispel; fixate-chase | 🟠 | all |
+| **Heaving Yank** (Latch) | Interrupts and pulls in the first target hit | Use it deliberately to "hook" and cancel Debilitating Shriek | positional-gimmick | 🔵 | all |
+| **Splattering Spew** (Latch) | Targets players, group-wide damage, leaves **Gunk Splatter** puddle | Loosely spread on the arena edge, place puddles tidily, overlap if healthy + defensive up; healer cooldowns | spread-out; raid-damage | 🟠 | all |
+| **Bone Hack** (Latch) | Tank channel, significant Physical damage | Tank active mitigation each cast | tank-buster | 🔵 | tank |
 
 ### Commander Kroluk <!-- enc:2657 -->
 
@@ -142,14 +142,14 @@ survivor stacks **Broken Bond** (a runaway enrage). Cleave evenly.
 Has **Shield Wall** (heavy DR) at his **66% and 33%** warparty phases
 and only resumes when the adds die.
 
-| Ability | What it does | Do | Archetype | Tier |
-|---|---|---|---|---|
-| **Reckless Leap** | Cast back-to-back, targets the furthest player; impact damage + **Falling Rubble** puddles | Bait it as the furthest player with a defensive (1st by a DPS, 2nd by tank); everyone dodges the rubble | proximity-bait | 🟠 |
-| **Rampage** | Sustained channel on the current tank target | Tank major defensive | tank-buster | 🔵 |
-| **Intimidating Shout** | Fears players who are standing alone | Stand near an ally (ranged group + melee group is fine) | stack-up | 🟠 |
-| **Rallying Bellow** | At 66%/33%: massive group damage; summons Spectral Axethrower, Phantasmal Mystic, 4 Haunting Grunts; boss gains **Shield Wall** | Healer tops group first; tank collects adds; interrupt the adds' Chain Lightning; kill adds to end phase | kill-priority-add; interruptible-cast | 🔴 |
-| **Bladestorm** | During the warparty phase, fixates a player and spins for damage along his path | Fixated player kites away from the boss | fixate-chase | 🟠 |
-| **Shield Wall** | Heavy DR aura active during the warparty phases | Kill the adds to drop it; don't tunnel the boss | flavor | ⚪ |
+| Ability | What it does | Do | Archetype | Tier | Role |
+|---|---|---|---|---|---|
+| **Reckless Leap** | Cast back-to-back, targets the furthest player; impact damage + **Falling Rubble** puddles | Bait it as the furthest player with a defensive (1st by a DPS, 2nd by tank); everyone dodges the rubble | proximity-bait | 🟠 | all |
+| **Rampage** | Sustained channel on the current tank target | Tank major defensive | tank-buster | 🔵 | tank |
+| **Intimidating Shout** | Fears players who are standing alone | Stand near an ally (ranged group + melee group is fine) | stack-up | 🟠 | all |
+| **Rallying Bellow** | At 66%/33%: massive group damage; summons Spectral Axethrower, Phantasmal Mystic, 4 Haunting Grunts; boss gains **Shield Wall** | Healer tops group first; tank collects adds; interrupt the adds' Chain Lightning; kill adds to end phase | kill-priority-add; interruptible-cast | 🔴 | all |
+| **Bladestorm** | During the warparty phase, fixates a player and spins for damage along his path | Fixated player kites away from the boss | fixate-chase | 🟠 | all |
+| **Shield Wall** | Heavy DR aura active during the warparty phases | Kill the adds to drop it; don't tunnel the boss | flavor | ⚪ | all |
 
 ### The Restless Heart <!-- enc:2658 -->
 
@@ -159,15 +159,15 @@ The whole fight runs on the **Turbulent Arrows** spawned by **Arrow
 Rain** — touching one knocks you up, drops a puddle, and clears your
 **Squall Leap** stacks. You use them to cleanse and to dodge.
 
-| Ability | What it does | Do | Archetype | Tier |
-|---|---|---|---|---|
-| **Arrow Rain** | AoE circles; spawns **Turbulent Arrows** on the ground | Dodge the circles; the arrows are your tool for the rest of the fight | ground-void-zone | 🟠 |
-| **Squall Leap** | Stacking debuff applied to the group on reposition | Clear stacks by touching a Turbulent Arrow (knocks you up); healer tracks stack count | positional-gimmick | 🔵 |
-| **Turbulent Arrows** | Ground arrows; knock you airborne when touched, remove Squall Leap | Use them to cleanse and to body-block knockbacks | soak; positional-gimmick; knockback | 🔵 |
-| **Bullseye Windblast** | Cast creating an expanding ring of **Billowing Wind** | Pre-position on an arrow and use it to avoid the wave; ping which arrow you'll take so nobody doubles up | positional-gimmick | 🟠 |
-| **Bolt Gale** | Continuous frontal volley channeled at a random player; heavy damage | If targeted, stand still + use a defensive (or combat-drop) to break the channel; healer spot-heals | raid-damage | 🟠 |
-| **Tempest Slash** | Tank hit with a large knockback; briefly raises your Physical damage taken | Tank active mitigation; put your back to an arrow to cancel the knockback (also clears Squall Leap) | tank-buster; knockback | 🔵 |
-| **Gust Shot** | Targets a player; cleaves allies; destroys any **Storming Soulfont** it strikes | Spread out; overlap existing puddles to clear them from the arena | spread-out; positional-gimmick | 🔵 |
+| Ability | What it does | Do | Archetype | Tier | Role |
+|---|---|---|---|---|---|
+| **Arrow Rain** | AoE circles; spawns **Turbulent Arrows** on the ground | Dodge the circles; the arrows are your tool for the rest of the fight | ground-void-zone | 🟠 | all |
+| **Squall Leap** | Stacking debuff applied to the group on reposition | Clear stacks by touching a Turbulent Arrow (knocks you up); healer tracks stack count | positional-gimmick | 🔵 | all |
+| **Turbulent Arrows** | Ground arrows; knock you airborne when touched, remove Squall Leap | Use them to cleanse and to body-block knockbacks | soak; positional-gimmick; knockback | 🔵 | all |
+| **Bullseye Windblast** | Cast creating an expanding ring of **Billowing Wind** | Pre-position on an arrow and use it to avoid the wave; ping which arrow you'll take so nobody doubles up | positional-gimmick | 🟠 | all |
+| **Bolt Gale** | Continuous frontal volley channeled at a random player; heavy damage | If targeted, stand still + use a defensive (or combat-drop) to break the channel; healer spot-heals | raid-damage | 🟠 | all |
+| **Tempest Slash** | Tank hit with a large knockback; briefly raises your Physical damage taken | Tank active mitigation; put your back to an arrow to cancel the knockback (also clears Squall Leap) | tank-buster; knockback | 🔵 | tank |
+| **Gust Shot** | Targets a player; cleaves allies; destroys any **Storming Soulfont** it strikes | Spread out; overlap existing puddles to clear them from the arena | spread-out; positional-gimmick | 🔵 | all |
 
 ## DPS notes (you are DPS)
 

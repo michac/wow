@@ -1,7 +1,7 @@
 ---
 title: Seat of the Triumvirate — Midnight S1 M+ dungeon guide
 patch: 12.0.5
-fetched: 2026-06-24
+fetched: 2026-06-25
 sources:
   - https://www.method.gg/guides/dungeons/seat-of-the-triumvirate  # upd. 2026-03-23
   - https://www.icy-veins.com/wow/seat-of-the-triumvirate-dungeon-guide  # upd. 2026-06-15 (12.0.7)
@@ -125,13 +125,13 @@ Add-control brawler: his casts spawn **Coalesced Void** oozes that **explode
 (Dark Expulsion)** if they reach him — letting them touch him is effectively a
 wipe at relevant keys.
 
-| Ability | What it does | Do | Archetype | Tier |
-|---|---|---|---|---|
-| **Null Palm** | Frontal cone aimed at a random player | Dodge it | frontal-cone | 🟠 |
-| **Decimate** | Leaps at a random player, leaves **Void Sludge** pool on impact | Drop near edge / overlap existing pools to save space; don't stray too far from boss | ground-void-zone | 🟠 |
-| **Void Slash** | Heavy Physical+Shadow tank combo | Tank pops a major defensive | tank-buster | 🔵 |
-| **Oozing Slam** | Group DoT; spawns 2 **Coalesced Void** oozes that explode (Dark Expulsion) on reaching boss; oozes leave a pool on death | Healers CD the DoT; slow/stun/knockback or long-CC (Trap/Paralysis) the oozes and burn one at a time | kill-priority-add; raid-damage | 🔴 |
-| **Crashing Void** | Speeds up oozes, pulls players in, then explodes for big group hit + knockback | Top the group; oozes must be dead/CC'd first; don't get knocked into a Void Sludge pool | raid-damage; knockback | 🔴 |
+| Ability | What it does | Do | Archetype | Tier | Role |
+|---|---|---|---|---|---|
+| **Null Palm** | Frontal cone aimed at a random player | Dodge it | frontal-cone | 🟠 | all |
+| **Decimate** | Leaps at a random player, leaves **Void Sludge** pool on impact | Drop near edge / overlap existing pools to save space; don't stray too far from boss | ground-void-zone | 🟠 | all |
+| **Void Slash** | Heavy Physical+Shadow tank combo | Tank pops a major defensive | tank-buster | 🔵 | tank |
+| **Oozing Slam** | Group DoT; spawns 2 **Coalesced Void** oozes that explode (Dark Expulsion) on reaching boss; oozes leave a pool on death | Healers CD the DoT; slow/stun/knockback or long-CC (Trap/Paralysis) the oozes and burn one at a time | kill-priority-add; raid-damage | 🔴 | healer; dps |
+| **Crashing Void** | Speeds up oozes, pulls players in, then explodes for big group hit + knockback | Top the group; oozes must be dead/CC'd first; don't get knocked into a Void Sludge pool | raid-damage; knockback | 🔴 | all |
 
 ### Saprish <!-- enc:1980 -->
 
@@ -140,14 +140,14 @@ Boss + two pets (**Darkfang**, **Shadewing**) **share health** — tank stacks
 all three for cleave. The board fills with **Void Bombs**; Saprish's **Overload**
 (at 100 energy) ignites every remaining bomb.
 
-| Ability | What it does | Do | Archetype | Tier |
-|---|---|---|---|---|
-| **Void Bomb** | Bombs spawn across the floor | Don't touch them; clear them via Phase Dash circle | ground-void-zone | 🟠 |
-| **Phase Dash** | Saprish dashes a line, creating **Umbral Nova** through any bomb it crosses | Use the dash to detonate/clear bombs safely | positional-gimmick | 🔵 |
-| **Overload** | At full energy: all remaining Void Bombs explode, applying **Seeping Void** DoT to all; heavy group hit | Clear all bombs first; leftover bombs get tank/immunity-soaked before cast; healers top group | soak; raid-damage | 🔴 |
-| **Rending Void** | Shadow damage on all of Saprish's melee strikes (tank) | Tank uses active mitigation | tank-buster | 🔵 |
-| **Dread Screech** (Shadewing) | Interruptible pet cast; can overlap Phase Dash | Assign 2+ interrupts, ideally a ranged kick on every even cast | interruptible-cast | 🔵 |
-| **Shadow Pounce** (Darkfang) | Random-target bleed/damage | Spot-heal / bleed-cleanse / defensive the target | dispel | 🔵 |
+| Ability | What it does | Do | Archetype | Tier | Role |
+|---|---|---|---|---|---|
+| **Void Bomb** | Bombs spawn across the floor | Don't touch them; clear them via Phase Dash circle | ground-void-zone | 🟠 | all |
+| **Phase Dash** | Saprish dashes a line, creating **Umbral Nova** through any bomb it crosses | Use the dash to detonate/clear bombs safely | positional-gimmick | 🔵 | all |
+| **Overload** | At full energy: all remaining Void Bombs explode, applying **Seeping Void** DoT to all; heavy group hit | Clear all bombs first; leftover bombs get tank/immunity-soaked before cast; healers top group | soak; raid-damage | 🔴 | all |
+| **Rending Void** | Shadow damage on all of Saprish's melee strikes (tank) | Tank uses active mitigation | tank-buster | 🔵 | tank |
+| **Dread Screech** (Shadewing) | Interruptible pet cast; can overlap Phase Dash | Assign 2+ interrupts, ideally a ranged kick on every even cast | interruptible-cast | 🔵 | all |
+| **Shadow Pounce** (Darkfang) | Random-target bleed/damage | Spot-heal / bleed-cleanse / defensive the target | dispel | 🔵 | healer |
 
 ### Viceroy Nezhar <!-- enc:1981 -->
 
@@ -156,13 +156,13 @@ Caster boss who spawns **Gates of the Abyss**, blasts **Mass Void Infusion**,
 and at full energy knocks everyone back to cast **Collapsing Void** (a
 **Void Storm** ring you hide under the boss to avoid).
 
-| Ability | What it does | Do | Archetype | Tier |
-|---|---|---|---|---|
-| **Mind Blast** | Heavy hit on the tank (current target) | Keep an interrupt rotation on it to cut the damage | interruptible-cast; tank-buster | 🔵 |
-| **Gates of the Abyss** | Spawns 3 gates shooting **Umbral Waves** | Dodge the waves; defensive if hit | ground-void-zone | 🟠 |
-| **Mass Void Infusion** | Targets 3 players, leaves void energy; group-wide damage | Targeted players defensive; healers CD the group hit | spread-out; raid-damage | 🔵 |
-| **Umbral Tentacles** | Spawn in sets of 5, each channels **Mind Flay** into a different player | Cleave them down fast (tank positions boss near them); defensive | kill-priority-add | 🟠 |
-| **Repulse → Collapsing Void** | At full energy: TPs to center, knocks all back, then channels a **Void Storm** ring | Move *under* the boss (safe spot); tentacles must be dead first; group defensives + healing CDs | positional-gimmick; knockback | 🔴 |
+| Ability | What it does | Do | Archetype | Tier | Role |
+|---|---|---|---|---|---|
+| **Mind Blast** | Heavy hit on the tank (current target) | Keep an interrupt rotation on it to cut the damage | interruptible-cast; tank-buster | 🔵 | all |
+| **Gates of the Abyss** | Spawns 3 gates shooting **Umbral Waves** | Dodge the waves; defensive if hit | ground-void-zone | 🟠 | all |
+| **Mass Void Infusion** | Targets 3 players, leaves void energy; group-wide damage | Targeted players defensive; healers CD the group hit | spread-out; raid-damage | 🔵 | all |
+| **Umbral Tentacles** | Spawn in sets of 5, each channels **Mind Flay** into a different player | Cleave them down fast (tank positions boss near them); defensive | kill-priority-add | 🟠 | all |
+| **Repulse → Collapsing Void** | At full energy: TPs to center, knocks all back, then channels a **Void Storm** ring | Move *under* the boss (safe spot); tentacles must be dead first; group defensives + healing CDs | positional-gimmick; knockback | 🔴 | all |
 
 ### L'ura <!-- enc:1982 -->
 
@@ -172,14 +172,14 @@ you silence them with **Discordant Beam** to trigger the **Siphon Void**
 intermission (boss takes massively increased damage — Alleria Windrunner's
 **Shattering Shot/Siphon Void**).
 
-| Ability | What it does | Do | Archetype | Tier |
-|---|---|---|---|---|
-| **Dirge of Despair** | Group hit; spawns 6 **Notes of Despair** that constantly pulse group damage | Healers spread CDs across the sustained damage | raid-damage | 🔴 |
-| **Discordant Beam** | Heavy Shadow on targeted players; the beam **silences any Note it hits** | Stay topped; aim/face it through active Notes to silence all 6 → triggers intermission | positional-gimmick | 🔵 |
-| **Grim Chorus** | Repositions Notes; rings around active Notes + applies stacking **Anguish** to all every 2s | Avoid the Note circles; rush to silence all Notes before Anguish snowballs unhealable | ground-void-zone; raid-damage | 🔴 |
-| **Disintegrate** | Rotating beams sweep around the boss | Move with the rotation to avoid | positional-gimmick | 🟠 |
-| **Abyssal Lance** | Stacking Shadow hit on the tank; at 3 stacks a big delayed shadow hit lands | Tank watches stacks, defensive at 3 | tank-buster | 🔵 |
-| **Siphon Void** (intermission) | After all 6 Notes silenced: boss takes massively increased damage | Save/pool DPS cooldowns for this window | burn-window | 🔵 |
+| Ability | What it does | Do | Archetype | Tier | Role |
+|---|---|---|---|---|---|
+| **Dirge of Despair** | Group hit; spawns 6 **Notes of Despair** that constantly pulse group damage | Healers spread CDs across the sustained damage | raid-damage | 🔴 | healer |
+| **Discordant Beam** | Heavy Shadow on targeted players; the beam **silences any Note it hits** | Stay topped; aim/face it through active Notes to silence all 6 → triggers intermission | positional-gimmick | 🔵 | all |
+| **Grim Chorus** | Repositions Notes; rings around active Notes + applies stacking **Anguish** to all every 2s | Avoid the Note circles; rush to silence all Notes before Anguish snowballs unhealable | ground-void-zone; raid-damage | 🔴 | all |
+| **Disintegrate** | Rotating beams sweep around the boss | Move with the rotation to avoid | positional-gimmick | 🟠 | all |
+| **Abyssal Lance** | Stacking Shadow hit on the tank; at 3 stacks a big delayed shadow hit lands | Tank watches stacks, defensive at 3 | tank-buster | 🔵 | tank |
+| **Siphon Void** (intermission) | After all 6 Notes silenced: boss takes massively increased damage | Save/pool DPS cooldowns for this window | burn-window | 🔵 | dps |
 
 ## DPS notes (player is DPS)
 

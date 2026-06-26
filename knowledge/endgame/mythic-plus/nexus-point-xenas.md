@@ -1,7 +1,7 @@
 ---
 title: Nexus-Point Xenas — Midnight S1 M+ dungeon guide
 patch: 12.0.5
-fetched: 2026-06-24
+fetched: 2026-06-25
 sources:
   - https://www.method.gg/guides/dungeons/nexus-point-xenas  # upd. 2026-03-23
   - https://www.icy-veins.com/wow/nexus-point-xenas-dungeon-guide  # upd. 2026-06-15, Patch 12.0.7
@@ -94,36 +94,36 @@ confidence high; single-sourced claims are flagged `(single-source)`.
 
 **Hint:** break the leyline beams
 
-| Ability | What it does | Do | Archetype | Tier |
-|---|---|---|---|---|
-| **Leyline Array** | Beams link between conduits across the room; lethal to cross | Don't cross active beams; **if you have Reflux Charge**, stand in intersections to break as many beams as possible | `ground-void-zone` | 🔴 |
-| **Reflux Charge** | Debuff that ticks damage; used to disable Leyline Array beams | When debuffed, walk through beam intersections to disable them | `positional-gimmick` | 🔵 |
-| **Corespark Detonation** | At 100 energy boss overcharges a corespark; impact does damage + knockback + healing absorb (Sparkburn) | Outrange the impact; bait toward room edges; healers pre-plan CDs for the party-wide Sparkburn absorb; mind the knockback | `proximity-bait; knockback; heal-absorb` | 🟠 |
-| **Flux Collapse** | Continuous arcane flow tracking a player; the Arcane Spill puddles it leaves persist | Bait the flow toward room edges and sidestep the tracking beam; don't step into the lingering Arcane Spill puddles afterward | `ground-void-zone` | 🔵 |
-| **Arcane Zap** | Boss has no melee; instead instant-cast arcane hit on tank (Icy Veins lists an interruptible Arcane Zap) | Tank expects arcane melee damage; interrupt where applicable | `tank-buster` | 🔵 |
+| Ability | What it does | Do | Archetype | Tier | Role |
+|---|---|---|---|---|---|
+| **Leyline Array** | Beams link between conduits across the room; lethal to cross | Don't cross active beams; **if you have Reflux Charge**, stand in intersections to break as many beams as possible | ground-void-zone | 🔴 | all |
+| **Reflux Charge** | Debuff that ticks damage; used to disable Leyline Array beams | When debuffed, walk through beam intersections to disable them | positional-gimmick | 🔵 | all |
+| **Corespark Detonation** | At 100 energy boss overcharges a corespark; impact does damage + knockback + healing absorb (Sparkburn) | Outrange the impact; bait toward room edges; healers pre-plan CDs for the party-wide Sparkburn absorb; mind the knockback | proximity-bait; knockback; heal-absorb | 🟠 | all |
+| **Flux Collapse** | Continuous arcane flow tracking a player; the Arcane Spill puddles it leaves persist | Bait the flow toward room edges and sidestep the tracking beam; don't step into the lingering Arcane Spill puddles afterward | ground-void-zone | 🔵 | all |
+| **Arcane Zap** | Boss has no melee; instead instant-cast arcane hit on tank (Icy Veins lists an interruptible Arcane Zap) | Tank expects arcane melee damage; interrupt where applicable | tank-buster | 🔵 | tank |
 
 ### Corewarden Nysarra <!-- enc:2814 -->
 
 **Hint:** kill adds before lightscar
 
-| Ability | What it does | Do | Archetype | Tier |
-|---|---|---|---|---|
-| **Eclipsing Step** | Boss carves into 2 targeted players plus nearby; applies a DoT | Spread so you don't cleave allies; defensive for the hit + DoT | `spread-out` | 🟠 |
-| **Null Vanguard** | Spawns a Dreadflail + 2 Grand Nullifiers | Interrupt every Nullify; tank points Dreadflail away when it gains Void Lash; **kill all adds before the Lightscar phase** | `kill-priority-add; interruptible-cast` | 🔴 |
-| **Umbral Lash** | Tank channel that cleaves nearby + applies Void Gash | Tank major defensive, especially if adds are up | `tank-buster` | 🟠 |
-| **Lightscar Flare** | A Lothraxion image aims a flare at the boss; creates a Holy frontal that ticks heavy damage but amps boss damage +300% | Dodge the initial flare, then stand in the frontal to burst (300% amp); healers heal the ticking; ensure adds are dead first | `burn-window` | 🔵 |
-| **Devour the Unworthy** | If adds live to the end of the Lightscar channel, boss consumes them (empower) | Make sure all adds are dead before the channel ends | `kill-priority-add` | 🔴 |
+| Ability | What it does | Do | Archetype | Tier | Role |
+|---|---|---|---|---|---|
+| **Eclipsing Step** | Boss carves into 2 targeted players plus nearby; applies a DoT | Spread so you don't cleave allies; defensive for the hit + DoT | spread-out | 🟠 | all |
+| **Null Vanguard** | Spawns a Dreadflail + 2 Grand Nullifiers | Interrupt every Nullify; tank points Dreadflail away when it gains Void Lash; **kill all adds before the Lightscar phase** | kill-priority-add; interruptible-cast | 🔴 | all |
+| **Umbral Lash** | Tank channel that cleaves nearby + applies Void Gash | Tank major defensive, especially if adds are up | tank-buster | 🟠 | tank |
+| **Lightscar Flare** | A Lothraxion image aims a flare at the boss; creates a Holy frontal that ticks heavy damage but amps boss damage +300% | Dodge the initial flare, then stand in the frontal to burst (300% amp); healers heal the ticking; ensure adds are dead first | burn-window | 🔵 | dps; healer |
+| **Devour the Unworthy** | If adds live to the end of the Lightscar channel, boss consumes them (empower) | Make sure all adds are dead before the channel ends | kill-priority-add | 🔴 | all |
 
 ### Lothraxion <!-- enc:2815 -->
 
 **Hint:** interrupt the hornless copy
 
-| Ability | What it does | Do | Archetype | Tier |
-|---|---|---|---|---|
-| **Searing Rend** | Tank buster, heavy Physical, leaves Radiant Scar puddles that persist all fight | Tank defensive; drop puddles out of the way | `tank-buster` | 🟠 |
-| **Brilliant Dispersion** | Targets 3 players; damages all nearby at the destination + a hard-hitting DoT; spawns 2 Fractured Images each. After spawn, Fractured Images strike anyone within ~5 yds (Mirrored Rend) | Spread to your own space before detonation to avoid cleaving; defensive for the DoT; healers cooldown each cast. Once images spawn, stay >5 yds from all Fractured Images | `spread-out; raid-damage` | 🟠 |
-| **Flicker** | Image dashes/repositions, hitting anyone in its path | Avoid the dash path | `charge` | 🔵 |
-| **Divine Guile** | At full energy boss hides among images; find the copy **without** horns of light and interrupt it. Failing the kick — or kicking the wrong copy — triggers Core Exposure (wipe-level) | Interrupt the hornless copy to resume; **never** kick an image. Use a consistent clockwise scan to ID the target fast | `interruptible-cast` | 🔴 |
+| Ability | What it does | Do | Archetype | Tier | Role |
+|---|---|---|---|---|---|
+| **Searing Rend** | Tank buster, heavy Physical, leaves Radiant Scar puddles that persist all fight | Tank defensive; drop puddles out of the way | tank-buster | 🟠 | tank |
+| **Brilliant Dispersion** | Targets 3 players; damages all nearby at the destination + a hard-hitting DoT; spawns 2 Fractured Images each. After spawn, Fractured Images strike anyone within ~5 yds (Mirrored Rend) | Spread to your own space before detonation to avoid cleaving; defensive for the DoT; healers cooldown each cast. Once images spawn, stay >5 yds from all Fractured Images | spread-out; raid-damage | 🟠 | all |
+| **Flicker** | Image dashes/repositions, hitting anyone in its path | Avoid the dash path | charge | 🔵 | all |
+| **Divine Guile** | At full energy boss hides among images; find the copy **without** horns of light and interrupt it. Failing the kick — or kicking the wrong copy — triggers Core Exposure (wipe-level) | Interrupt the hornless copy to resume; **never** kick an image. Use a consistent clockwise scan to ID the target fast | interruptible-cast | 🔴 | all |
 
 ## DPS notes
 

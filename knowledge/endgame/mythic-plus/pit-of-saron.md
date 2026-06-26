@@ -1,7 +1,7 @@
 ---
 title: Pit of Saron — Midnight S1 M+ dungeon guide
 patch: 12.0.5
-fetched: 2026-06-24
+fetched: 2026-06-25
 sources:
   - https://www.method.gg/guides/dungeons/pit-of-saron        # upd. 2026-03-23
   - https://www.icy-veins.com/wow/pit-of-saron-dungeon-guide    # upd. 2026-06-15 (12.0.7)
@@ -49,25 +49,25 @@ Both guides agree on the quarry pool. Single-sourced claims flagged
 | Mob | Ability | See → Do | Archetype | Tier | Role |
 |---|---|---|---|---|---|
 | Quarry Tormentor | **Curse of Torment** | Random target gains a shadow curse/absorb → **decurse it**, or heal off the absorb to remove it. Its melee also deals bonus shadow damage to the tank while the tank is above 65% HP | dispel | 🔵 | healer |
-| Gloombound Shadebringer | **Shadow Bolt** | Cast on a random player → **interrupt** the cast (spare interrupts) | interruptible-cast | 🔵 | DPS |
-| Dreadpulse Lich | **Icy Blast** | Tank-targeted, hits extremely hard → **interrupt every cast** (IMPORTANT MOB, immune to CC) | interruptible-cast | 🟠 | all (kick) |
+| Gloombound Shadebringer | **Shadow Bolt** | Cast on a random player → **interrupt** the cast (spare interrupts) | interruptible-cast | 🔵 | dps |
+| Dreadpulse Lich | **Icy Blast** | Tank-targeted, hits extremely hard → **interrupt every cast** (IMPORTANT MOB, immune to CC) | interruptible-cast | 🟠 | all |
 | Dreadpulse Lich | **Torrent of Misery** | Random-target channel, heavy → pre-defensive + focus-heal the target; you can drop combat (Feign Death / Vanish) to cancel it | raid-damage | 🟠 | healer |
 | Dreadpulse Lich | **Dread Pulse** | At **50% HP** begins pulsing every ~2s until it dies → group defensives / healing CDs | pulsing-aura | 🟠 | all |
 | Ymirjar Graveblade | **Frostbane Slash** | Tank-targeted heavy hit → tank defensive (immune to CC) | tank-buster | 🔵 | tank |
 | Ymirjar Graveblade | **Dark Rupture** | Ground circles → **avoid the puddles** | ground-void-zone | 🟠 | all |
 | Iceborn Proto-Drake | **Frost Breath** | Random-target frontal cone → **move out of the cone** (immune to CC) | frontal-cone | 🟠 | all |
 | Iceborn Proto-Drake | **Icy Strikes** | Melees deal bonus frost to the tank (passive) _(Method-only)_ | flavor | ⚪ | tank |
-| Plungetalon (Gargoyle) | **Plungegrip** | Abduction grab → break its **Stoneskin** shield to enable the interrupt, then interrupt Plungegrip (or drop combat with Vanish / Feign Death). (Method lists it as "Plungetalon", Icy Veins "Plungetalon Gargoyle") | interruptible-cast | 🟠 | all (kick) |
+| Plungetalon (Gargoyle) | **Plungegrip** | Abduction grab → break its **Stoneskin** shield to enable the interrupt, then interrupt Plungegrip (or drop combat with Vanish / Feign Death). (Method lists it as "Plungetalon", Icy Veins "Plungetalon Gargoyle") | interruptible-cast | 🟠 | all |
 | Wrathbone Enforcer | **Sunderstrike** | Melee may apply Sunderstrike stacks → tank watches stacks, uses defensives _(Method-only)_ | tank-buster | 🔵 | tank |
 | Rotting Ghoul | **Rotting Strikes** | Melee applies disease stacks → tank dispels disease or kites if no dispel _(Method-only)_ | dispel | 🔵 | tank |
 | Leaping Geist | **Leaping Maul** | Cleave attack → loosely spread so it doesn't cleave allies _(Method-only)_ | spread-out | 🔵 | all |
-| Deathwhisper Necrolyte | **Deathless Bond** | Makes its minions immune until it dies → **kill-priority** the Necrolyte first _(Method-only)_ | kill-priority-add | 🟠 | DPS |
-| Deathwhisper Necrolyte | **Necromantic Infusion** | Buffs a random minion → purge if able _(Method-only)_ | purge-soothe | 🟠 | DPS |
+| Deathwhisper Necrolyte | **Deathless Bond** | Makes its minions immune until it dies → **kill-priority** the Necrolyte first _(Method-only)_ | kill-priority-add | 🟠 | dps |
+| Deathwhisper Necrolyte | **Necromantic Infusion** | Buffs a random minion → purge if able _(Method-only)_ | purge-soothe | 🟠 | dps |
 | Risen Soldier | **Charging Slash** | Random-target charge + physical hit → be ready for it _(Method-only)_ | charge | ⚪ | all |
-| Arcanist Cadaver | **Netherburst** | Large AoE hit → **interrupt every cast** _(Method-only)_ | interruptible-cast | 🔴 | all (kick) |
+| Arcanist Cadaver | **Netherburst** | Large AoE hit → **interrupt every cast** _(Method-only)_ | interruptible-cast | 🔴 | all |
 | Lumbering Plaguehorror | **Blight Splatter** | Drops puddles → avoid them _(Method-only)_ | ground-void-zone | 🟠 | all |
-| Lumbering Plaguehorror | **Plague Frenzy** | Enrage → **soothe** it off if possible _(Method-only)_ | purge-soothe | 🟠 | DPS |
-| Rimebone Coldwraith | **Icebolt** | Random-target → spare interrupts _(Method-only)_ | interruptible-cast | 🔵 | all (kick) |
+| Lumbering Plaguehorror | **Plague Frenzy** | Enrage → **soothe** it off if possible _(Method-only)_ | purge-soothe | 🟠 | dps |
+| Rimebone Coldwraith | **Icebolt** | Random-target → spare interrupts _(Method-only)_ | interruptible-cast | 🔵 | all |
 | Rimebone Coldwraith | **Permeating Cold** | Debuffs 2 random players → **magic dispel** / freedom to remove _(Method-only)_ | dispel | 🔵 | healer |
 
 ### Tyrannus approach (ice cave)
@@ -75,7 +75,7 @@ Both guides agree on the quarry pool. Single-sourced claims flagged
 | Mob | Ability | See → Do | Archetype | Tier | Role |
 |---|---|---|---|---|---|
 | Glacieth (mini-boss) | **Cryoburst** | Hits all players, drops icy ground (**Cryopatch**) → loosely spread to avoid cleaving each other, then move the group out of the puddles (immune to CC) | spread-out; ground-void-zone | 🟠 | all |
-| Glacieth (mini-boss) | **Focused Guard** | Channel aimed at a random player; attacking the shielded front = **99% reduced damage** → **attack from behind** the mob (guaranteed crits while behind it during the channel) | positional-gimmick | 🔵 | DPS |
+| Glacieth (mini-boss) | **Focused Guard** | Channel aimed at a random player; attacking the shielded front = **99% reduced damage** → **attack from behind** the mob (guaranteed crits while behind it during the channel) | positional-gimmick | 🔵 | dps |
 
 ## Bosses
 
@@ -87,13 +87,13 @@ Single tank-and-position fight. Garfrost throws saronite ore that becomes
 cover; at 100 energy he channels **Glacial Overload** from his closest
 forge — you hide behind ore to survive it.
 
-| Ability | What it does | Do | Archetype | Tier |
-|---|---|---|---|---|
-| Throw Saronite | Targets 2 players; the **Ore Chunks** that drop leave a puddle (Saronite Sludge) when destroyed, and become cover vs Glacial Overload | Don't cleave allies; don't overlap your circles; place chunks deliberately as cover | spread-out | 🔵 |
-| Orebreaker | Tank-targeted hit; **stuns** unless it strikes an Ore Chunk | Tank overlaps an Ore Chunk so the hit breaks the chunk instead of stunning you; pre-defensive | tank-buster; positional-gimmick | 🔵 |
-| Glacial Overload | At 100 energy, channels frost from the closest forge into the room | **Hide behind a remaining Ore Chunk**; >3 stacks of the chill will likely kill you | positional-gimmick | 🔴 |
-| Cryostomp | Follows Glacial Overload; destroys remaining chunk, group-wide damage, applies **Cryoshards** magic debuff to 2 players | Group defensives; **dispel Cryoshards ASAP** (freedom helps) | raid-damage; dispel | 🟠 |
-| Siphoning Chill | Passive chill aura running the whole fight; Cryostomp increases its danger | Sustained healing throughline — bring strong healing talents | pulsing-aura | 🔵 |
+| Ability | What it does | Do | Archetype | Tier | Role |
+|---|---|---|---|---|---|
+| Throw Saronite | Targets 2 players; the **Ore Chunks** that drop leave a puddle (Saronite Sludge) when destroyed, and become cover vs Glacial Overload | Don't cleave allies; don't overlap your circles; place chunks deliberately as cover | spread-out | 🔵 | all |
+| Orebreaker | Tank-targeted hit; **stuns** unless it strikes an Ore Chunk | Tank overlaps an Ore Chunk so the hit breaks the chunk instead of stunning you; pre-defensive | tank-buster; positional-gimmick | 🔵 | tank |
+| Glacial Overload | At 100 energy, channels frost from the closest forge into the room | **Hide behind a remaining Ore Chunk**; >3 stacks of the chill will likely kill you | positional-gimmick | 🔴 | all |
+| Cryostomp | Follows Glacial Overload; destroys remaining chunk, group-wide damage, applies **Cryoshards** magic debuff to 2 players | Group defensives; **dispel Cryoshards ASAP** (freedom helps) | raid-damage; dispel | 🟠 | all |
+| Siphoning Chill | Passive chill aura running the whole fight; Cryostomp increases its danger | Sustained healing throughline — bring strong healing talents | pulsing-aura | 🔵 | healer |
 
 ### Ick and Krick <!-- enc:609 -->
 
@@ -102,16 +102,16 @@ forge — you hide behind ore to survive it.
 Two bodies that **share health via Necrolink** — cleave both. Krick rides
 Ick; Ick is the bruiser, Krick the caster, plus Shade adds.
 
-| Ability | What it does | Do | Archetype | Tier |
-|---|---|---|---|---|
-| Necrolink | Ick and Krick **share a health pool** | Position both together and **cleave** constantly | positional-gimmick | 🔵 |
-| Death Bolt | Krick casts on random players | **Interrupt** — this is the priority interrupt | interruptible-cast | 🟠 |
-| Shade Shift | Spawns 2 **Shades of Krick** nearby | **Kill-priority** the shades (they explode if left up); cleave them | kill-priority-add | 🟠 |
-| Shadowbind | Shades channel on a random player (a **Curse**) | Interrupt, or **decurse** / freedom / drop-combat to break it | interruptible-cast; dispel | 🔵 |
-| Blight Smash | Ick's heavy tank hit; drops a **Blight** ground ichor | Tank major defensive; **drop the puddle out of the way** | tank-buster | 🟠 |
-| Plague Expulsion / Plague Globs | Puddles spawn under ~4 random players | Pre-spread, sidestep the globs, stay off the **Blight** ground | spread-out | 🟠 |
-| Get 'Em, Ick! (Lumbering Fixation) | At 100 energy Krick mounts Ick, who **fixates** a random player ~7s at a time over ~28s | **Kite** Ick if fixated; others save burst for cleave; stay away from boss to avoid melee | fixate-chase | 🟠 |
-| Shadow Lance | Krick cast, spike damage | Spot-heal target | raid-damage | 🔵 |
+| Ability | What it does | Do | Archetype | Tier | Role |
+|---|---|---|---|---|---|
+| Necrolink | Ick and Krick **share a health pool** | Position both together and **cleave** constantly | positional-gimmick | 🔵 | all |
+| Death Bolt | Krick casts on random players | **Interrupt** — this is the priority interrupt | interruptible-cast | 🟠 | all |
+| Shade Shift | Spawns 2 **Shades of Krick** nearby | **Kill-priority** the shades (they explode if left up); cleave them | kill-priority-add | 🟠 | all |
+| Shadowbind | Shades channel on a random player (a **Curse**) | Interrupt, or **decurse** / freedom / drop-combat to break it | interruptible-cast; dispel | 🔵 | all |
+| Blight Smash | Ick's heavy tank hit; drops a **Blight** ground ichor | Tank major defensive; **drop the puddle out of the way** | tank-buster | 🟠 | tank |
+| Plague Expulsion / Plague Globs | Puddles spawn under ~4 random players | Pre-spread, sidestep the globs, stay off the **Blight** ground | spread-out | 🟠 | all |
+| Get 'Em, Ick! (Lumbering Fixation) | At 100 energy Krick mounts Ick, who **fixates** a random player ~7s at a time over ~28s | **Kite** Ick if fixated; others save burst for cleave; stay away from boss to avoid melee | fixate-chase | 🟠 | all |
+| Shadow Lance | Krick cast, spike damage | Spot-heal target | raid-damage | 🔵 | healer |
 
 ### Scourgelord Tyrannus <!-- enc:610 -->
 
@@ -121,16 +121,16 @@ Death knight + frost wyrm **Rimefang** (airborne). Build-up phase with
 brands and ground zones, then **Army of the Dead** at 100 energy raises
 the **Bone Piles** into adds. Pre-freeze the piles to trivialize it.
 
-| Ability | What it does | Do | Archetype | Tier |
-|---|---|---|---|---|
-| Rime Blast | Rimefang debuffs targeted players; freezes any **Bone Piles** it impacts | Drop the debuff **on top of the Bone Piles / Infused Bone Piles** to pre-freeze them for the Army phase | positional-gimmick | 🔵 |
-| Bone Infusion | Empowers some Bone Piles into **Infused** ones; group damage on cast | Healer CDs / personal defensives on the cast | raid-damage | 🟠 |
-| Army of the Dead | At 100 energy the 5 Bone Piles animate: normal → **Rotlings**, infused → **Scourge Plaguespreaders** | Cleave adds down; Rotlings stack **Rotting Strikes** disease on tank (dispel) — **Plaguespreaders are kill-priority** | kill-priority-add; dispel | 🔴 |
-| Plague Bolt (Plaguespreader) | Scourge Plaguespreader random-target cast; **Festering Pulse** is a heavy group-damage passive | **Swap to Plaguespreaders ASAP** and keep an **interrupt rotation** on Plague Bolt | interruptible-cast | 🟠 |
-| Scourgelord's Brand | Tank-targeted **knockback**, then a leap attack (**Scourgelord's Reckoning**) at the tank's new spot | Tank major defensive + move to dodge the second hit | tank-buster; knockback | 🟠 |
-| Death's Grasp | Ground circles | **Sidestep** the puddles | ground-void-zone | 🔵 |
-| Ice Barrage | Rimefang channel during the Army phase, ground damage zones | **Avoid** being hit | ground-void-zone | 🔵 |
-| Frost Spit | Rimefang spit, damage to players | Healer awareness | raid-damage | 🔵 |
+| Ability | What it does | Do | Archetype | Tier | Role |
+|---|---|---|---|---|---|
+| Rime Blast | Rimefang debuffs targeted players; freezes any **Bone Piles** it impacts | Drop the debuff **on top of the Bone Piles / Infused Bone Piles** to pre-freeze them for the Army phase | positional-gimmick | 🔵 | all |
+| Bone Infusion | Empowers some Bone Piles into **Infused** ones; group damage on cast | Healer CDs / personal defensives on the cast | raid-damage | 🟠 | healer |
+| Army of the Dead | At 100 energy the 5 Bone Piles animate: normal → **Rotlings**, infused → **Scourge Plaguespreaders** | Cleave adds down; Rotlings stack **Rotting Strikes** disease on tank (dispel) — **Plaguespreaders are kill-priority** | kill-priority-add; dispel | 🔴 | all |
+| Plague Bolt (Plaguespreader) | Scourge Plaguespreader random-target cast; **Festering Pulse** is a heavy group-damage passive | **Swap to Plaguespreaders ASAP** and keep an **interrupt rotation** on Plague Bolt | interruptible-cast | 🟠 | all |
+| Scourgelord's Brand | Tank-targeted **knockback**, then a leap attack (**Scourgelord's Reckoning**) at the tank's new spot | Tank major defensive + move to dodge the second hit | tank-buster; knockback | 🟠 | tank |
+| Death's Grasp | Ground circles | **Sidestep** the puddles | ground-void-zone | 🔵 | all |
+| Ice Barrage | Rimefang channel during the Army phase, ground damage zones | **Avoid** being hit | ground-void-zone | 🔵 | all |
+| Frost Spit | Rimefang spit, damage to players | Healer awareness | raid-damage | 🔵 | healer |
 
 ## DPS notes (you are DPS)
 

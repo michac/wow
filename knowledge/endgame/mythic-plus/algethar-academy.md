@@ -1,7 +1,7 @@
 ---
 title: Algeth'ar Academy — Midnight S1 M+ dungeon guide
 patch: 12.0.5
-fetched: 2026-06-24
+fetched: 2026-06-25
 sources:
   - https://www.method.gg/guides/dungeons/algethar-academy
   - https://www.icy-veins.com/wow/algethar-academy-dungeon-guide
@@ -87,10 +87,10 @@ Stay stacked; move together as a group during the **Germinate** channel so the
 summoned Hungry Lashers spawn in cleave range. At 100 energy **Burst Forth**
 awakens all surviving dormant Lashers — pre-heal and pre-mitigate.
 
-| Ability | What it does | Do | Archetype | Tier |
-|---|---|---|---|---|
-| Germinate | Channels to grow waves of dormant Hungry Lashers. | Move the group together so spawns cluster for cleave; kill Lashers before Burst Forth. | kill-priority-add | 🔵 | DPS |
-| Burst Forth | At 100 energy, awakens all dormant Lashers + heavy party-wide damage. | Healer pre-tops, everyone pre-mitigates; tank picks up the awakened Lashers. | raid-damage | 🔴 | all |
+| Ability | What it does | Do | Archetype | Tier | Role |
+|---|---|---|---|---|---|
+| Germinate | Channels to grow waves of dormant Hungry Lashers. | Move the group together so spawns cluster for cleave; kill Lashers before Burst Forth. | kill-priority-add | 🔵 | all |
+| Burst Forth | At 100 energy, awakens all dormant Lashers + heavy party-wide damage. | Healer pre-tops, everyone pre-mitigates; tank picks up the awakened Lashers. | raid-damage | 🔴 | healer; tank |
 | Hungry Lasher (Lasher Toxin) | Awakened Lashers stack a poison (Lasher Toxin) fast and hit hard if loose. | Tank grabs threat; rotate poison dispels; stun/slow/knockback to kite. | dispel | 🟠 | all |
 | Barkbreaker | Tank smash that also leaves a big Physical-damage-taken amp. | Active mitigation; very dangerous if any Lashers are alive. | tank-buster | 🔵 | tank |
 | Branch Out → Ancient Branch | Spawns an Ancient Branch add that casts **Healing Touch**. | Swap to it, interrupt Healing Touch; tank taunts on spawn. | kill-priority-add | 🔵 | all |
@@ -104,14 +104,14 @@ Stay loosely spread for **Deafening Screech**. At 75% and 45% HP, Crawth casts
 **Ruinous Winds** which can only be stopped by grabbing 3 balls and scoring a
 goal. Each goal adds a permanent field hazard for the rest of the fight.
 
-| Ability | What it does | Do | Archetype | Tier |
-|---|---|---|---|---|
+| Ability | What it does | Do | Archetype | Tier | Role |
+|---|---|---|---|---|---|
 | Savage Peck | Heavy tank hit + DoT (NOT a bleed in Midnight). | Active mitigation every cast. | tank-buster | 🔵 | tank |
 | Overpowering Gust | Frontal at a random target that knocks players away. | Sidestep out of the cone. | frontal-cone | 🟠 | all |
-| Deafening Screech | Interrupts/silences casters + party-wide DoT; splash if stacked. | Stay loosely spread; group defensive / healing CD. | spread-out; raid-damage | 🟠 | all |
+| Deafening Screech | Interrupts/silences casters + party-wide DoT; splash if stacked. | Stay loosely spread; group defensive / healing CD. | spread-out; raid-damage | 🟠 | healer |
 | Play Ball! (Ruinous Winds gate) | At 75%/45% Crawth channels Ruinous Winds; only interruptible by scoring 3 balls in a goal. | Grab 3 balls, throw into a goal to cancel the cast. | positional-gimmick | 🔴 | all |
 | Goal of the Rushing Winds → Gale Force | Scoring the air goal spawns roaming Roving Cyclones + pushback winds for the rest of the fight (grants Haste). | Recommended first goal (75%); dodge the patrolling cyclones. | ground-void-zone | 🟠 | all |
-| Goal of the Searing Blaze → Firestorm | Scoring the fire goal gives Crawth +75% damage taken for 12s, then permanent **Blistering Fire** pulsing AoE + fire circles. | Recommended at 45%; pop Bloodlust/CDs into the damage amp; avoid fire pools. | burn-window; ground-void-zone | 🟠 | all |
+| Goal of the Searing Blaze → Firestorm | Scoring the fire goal gives Crawth +75% damage taken for 12s, then permanent **Blistering Fire** pulsing AoE + fire circles. | Recommended at 45%; pop Bloodlust/CDs into the damage amp; avoid fire pools. | burn-window; ground-void-zone | 🟠 | dps |
 
 _Cross-source note: the 2026-03-24 launch video (Dalaran Gaming) calls Savage Peck
 a **bleed**; the 12.0.7 guides (15 Jun) call it a DoT, **not** a bleed. Treating
@@ -123,12 +123,12 @@ the newer guides as current — but a bleed-cleanse still helps if it turns out 
 Professor Maxdormu spawns **Arcane Orbs** that drift toward Vexamus and feed it
 energy if absorbed. Spread to soak orbs. At 100 energy it casts **Arcane Fissure**.
 
-| Ability | What it does | Do | Archetype | Tier |
-|---|---|---|---|---|
+| Ability | What it does | Do | Archetype | Tier | Role |
+|---|---|---|---|---|---|
 | Arcane Orbs (Oversurge) | 5 orbs spawn at the room edge and drift to the boss; absorbed orbs grant +20 energy. Soaking applies non-dispellable **Oversurge**. | Spread out and soak orbs before they reach Vexamus; hard to take >1 without an immunity. | soak | 🔴 | all |
 | Arcane Expulsion | Heavy frontal cone on the tank. | Tank points it away from the group; defensive. | frontal-cone | 🔵 | tank |
 | Mana Bombs | Hits 3 random players; leaves a **Corrupted Mana** pool that damages + slows. | Defensive; drop pools toward the room edge out of the way. | spread-out | 🟠 | all |
-| Arcane Fissure | At 100 energy — pushback + initial hit, then 3 ground circles drop under you. | Healing CD for the hit; brace the knockback; sidestep your circles. | knockback; ground-void-zone | 🟠 | all |
+| Arcane Fissure | At 100 energy — pushback + initial hit, then 3 ground circles drop under you. | Healing CD for the hit; brace the knockback; sidestep your circles. | knockback; ground-void-zone | 🟠 | healer |
 
 _Cross-source note: the launch video says **Mana Bombs** targets **2** players; the
 12.0.7 guides say **3**. Unverified — assume 3 (the more recent source) and spread accordingly._
@@ -141,12 +141,12 @@ Power** (+5% Haste/stack); at 3 stacks it auto-spawns an **Arcane Rift** under y
 and resets. On pull / at 100 energy she casts **Unleash Energy** spawning 2 rifts —
 pull her to a corner so rifts don't clutter the floor.
 
-| Ability | What it does | Do | Archetype | Tier |
-|---|---|---|---|---|
+| Ability | What it does | Do | Archetype | Tier | Role |
+|---|---|---|---|---|---|
 | Unleash Energy | On pull / 100 energy, spawns 2 Arcane Rifts. | Be topped before pull; tank her in a corner toward the entrance. | raid-damage | 🔴 | all |
 | Overwhelming Power → Arcane Rift | Every hit stacks the buff; at 3 stacks it drops an Arcane Rift under you and resets; the rift then fires **Uncontrolled Energy** orbs across the floor. | Keep a couple stacks for Haste but don't greed to 3 in a bad spot; place the rift well — then dodge the orbs the dropped Arcane Rift fires across the floor. | positional-gimmick; ground-void-zone | 🟠 | all |
 | Energy Bomb | Lands on a random player. | Personal defensive; loosely spread to avoid splashing allies. | spread-out | 🟠 | all |
-| Arcane Missiles | Random-target nuke; can combo with Energy Bomb. | Defensive if it overlaps Energy Bomb; healer spot-heals. | raid-damage | 🟠 | all |
+| Arcane Missiles | Random-target nuke; can combo with Energy Bomb. | Defensive if it overlaps Energy Bomb; healer spot-heals. | raid-damage | 🟠 | healer |
 | Power Vacuum | Pulls all players to the boss + AoE. | Run out / use movement; tank positions her so the pull doesn't land players on a rift. | knockback | 🟠 | all |
 | Astral Blast | Heavy arcane tank hit; applies an Overwhelming Power stack. | Active mitigation; if already at 2 stacks, stand somewhere safe to drop the resulting rift. | tank-buster | 🔵 | tank |
 

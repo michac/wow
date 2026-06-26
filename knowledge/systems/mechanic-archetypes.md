@@ -1,7 +1,7 @@
 ---
 title: M+ Mechanic Archetypes (Midnight S1)
 patch: 12.0.5
-fetched: 2026-06-24
+fetched: 2026-06-25
 sources:
   - Derived from the 8 Midnight S1 M+ dungeon files in knowledge/endgame/mythic-plus/ (boss + trash corpus)
 confidence: high
@@ -66,6 +66,7 @@ journal rows. Two corollaries the classifier must enforce:
 - **Response:** interrupt it. Rotate kicks/stuns across the group; the worst casts (heals, summons, raidwide channels) come first.
 - **Consequence:** 🔵 usually (one cast leaks) → 🔴 if it's a heal/summon/empower (e.g. Reanimation, Healing Touch, Arcing Mana).
 - **Role:** all — every DPS/tank/healer with a kick. The non-negotiable group job.
+- **RoleTag:** all
 - **Examples:** *Healing Touch* — Overgrown Ancient (Algeth'ar Academy); *Reanimation* — Reanimated Warrior trash (Maisara Caverns).
 - **Diagram idea:** mob silhouette with a cast bar mid-fill and a red "X" kick icon snapping it shut.
 
@@ -76,6 +77,7 @@ journal rows. Two corollaries the classifier must enforce:
 - **Not this if:** the zone is a lingering pool *left by a cast that already has its own card* — per the cast+effect de-dup rule, fold "don't stand in it" into the cast's card instead of minting a second `ground-void-zone` card. Only tag the zone itself when the pool (not the cast) is the primary tell.
 - **Consequence:** 🟠 standing in it kills you fast → 🔴 when zones stack and eat the floor (Leyline Array, Core Exposure).
 - **Role:** all.
+- **RoleTag:** all
 - **Examples:** *Flamestrike* — Blazing Pyromancer trash (Magisters' Terrace); *Coalesced Wind* — Ranjit (Skyreach).
 - **Diagram idea:** top-down floor with a glowing puddle and a footstep arrow stepping clear of the edge.
 
@@ -85,6 +87,7 @@ journal rows. Two corollaries the classifier must enforce:
 - **Response:** tank presses an active mitigation cooldown; healer tops the tank; trade taunts if stacks get scary.
 - **Consequence:** 🔵 mostly (mitigate it) → 🟠/🔴 unmitigated or with stacked shred/absorb (Hulking Fragment, Blight Smash).
 - **Role:** tank (with healer support).
+- **RoleTag:** tank
 - **Examples:** *Orebreaker* — Forgemaster Garfrost (Pit of Saron); *Crunch Armor* (stacking shred) — Bramblemaw Bear trash (Maisara Caverns).
 - **Diagram idea:** side view of a shield icon flashing "MIT" as a big fist lands on the tank.
 
@@ -94,6 +97,7 @@ journal rows. Two corollaries the classifier must enforce:
 - **Response:** spread to your assigned spacing before it lands; don't share your splash with melee.
 - **Consequence:** 🔵→🟠 (you eat your own) → 🔴 if overlap chains the group (Runic Mark, Plague Expulsion).
 - **Role:** all (healers/ranged especially watch spacing).
+- **RoleTag:** all
 - **Examples:** *Runic Mark* — Seranel Sunlash (Magisters' Terrace); *Mana Bombs* — Vexamus (Algeth'ar Academy).
 - **Diagram idea:** five dots fanning outward from a clumped cluster, arrows pushing apart.
 
@@ -103,6 +107,7 @@ journal rows. Two corollaries the classifier must enforce:
 - **Response:** dispel the flagged target (or free the shackled ally). Know which school your class can remove.
 - **Consequence:** 🔵 usually → 🟠/🔴 when the debuff is lethal or feeds the boss (Burning Radiance, Curse of Darkness).
 - **Role:** all dispellers — frequently the **healer's** signature job, sometimes any class with a tradeable cleanse.
+- **RoleTag:** all
 - **Examples:** *Ethereal Shackles* — Arcane Sentry trash (Magisters' Terrace); *Lasher Toxin* — Overgrown Ancient (Algeth'ar Academy).
 - **Diagram idea:** a debuff icon over a player head with a green sparkle wiping it away.
 
@@ -112,6 +117,7 @@ journal rows. Two corollaries the classifier must enforce:
 - **Response:** swap and burn it (or stun/interrupt) on the timer. Treat the add, not the boss, as the threat.
 - **Consequence:** 🔵→🟠 (a single add leaks) → 🔴 when ignored adds empower or overwhelm (Mana Battery, Army of the Dead).
 - **Role:** all — DPS swaps, tank grabs, everyone helps cleave.
+- **RoleTag:** all
 - **Examples:** *Army of the Dead* — Scourgelord Tyrannus (Pit of Saron); *Mana Battery (Corespark Overload)* — Flux Engineer trash (Nexus-Point Xenas).
 - **Diagram idea:** a small add glowing with a skull/priority marker while the boss is greyed out.
 
@@ -121,6 +127,7 @@ journal rows. Two corollaries the classifier must enforce:
 - **Response:** get out of the front; tank points it away from the group; melee sidestep behind.
 - **Consequence:** 🟠 mostly → 🔵 when small/cleave → 🔴 on the big ones (Wind Chakram).
 - **Role:** all (tank controls facing).
+- **RoleTag:** all
 - **Examples:** *Fire Breath* — Emberdawn (Windrunner Spire); *Shield Slam* (frontal) — Runed Spellbreaker trash (Magisters' Terrace).
 - **Diagram idea:** a wedge fanning from the mob's face with a player dodging to the flank.
 
@@ -130,6 +137,7 @@ journal rows. Two corollaries the classifier must enforce:
 - **Response:** position with your back safe before it fires; use anti-knockback if you have it; pre-stack against pulls.
 - **Consequence:** 🟠 (knocked into the void/hazard) → 🔵 when harmless reposition → 🔴 on arena-ledge fights (Collapsing Void, Burning Gale).
 - **Role:** all.
+- **RoleTag:** all
 - **Examples:** *Burning Gale* — Emberdawn (Windrunner Spire); *Crowd Dispersal* — Arcane Sentry trash (Magisters' Terrace).
 - **Diagram idea:** a player figure blown along a motion-arc toward a void edge, with a "brace" anchor icon.
 
@@ -139,6 +147,7 @@ journal rows. Two corollaries the classifier must enforce:
 - **Response:** assign soakers and get in. The failure here is **under**-soaking, the opposite of a void zone.
 - **Consequence:** 🔴 mostly — missed soaks wipe (Refueling Protocol, Wave of Silence, Overload, Energize).
 - **Role:** all (often pre-assigned).
+- **RoleTag:** all
 - **Examples:** *Refueling Protocol* / *Energy Orb* — Arcanotron Custos (Magisters' Terrace); *Stabilize* — Rift Warden trash (Seat of the Triumvirate).
 - **Diagram idea:** glowing orb with two player figures stepping **into** it (green check), one staying out (red X).
 
@@ -148,6 +157,7 @@ journal rows. Two corollaries the classifier must enforce:
 - **Response:** pre-heal and use raid cooldowns on the channel; healer triages the spikes. Often paired with an interrupt window.
 - **Consequence:** 🔵 (healable) → 🟠/🔴 when stacked or untended (Bone Infusion, Supernova, Burst Forth).
 - **Role:** healer-led, all survive-through.
+- **RoleTag:** healer
 - **Examples:** *Supernova* — Araknath (Skyreach); *Spore Dispersal* — Bloated Lasher trash (Windrunner Spire).
 - **Diagram idea:** the whole party ringed by an expanding shockwave with healer cooldown sparkles overhead.
 
@@ -158,6 +168,7 @@ journal rows. Two corollaries the classifier must enforce:
 - **Not this if:** there is **no converge-to-split / group-up response**. A *personal* stacking DoT or applied debuff you just heal/defensive through is `raid-damage` (or the parent mechanic). A "you missed a soak" / "you stood in it" stacking marker is the **consequence of another mechanic** — tag it as that parent (the `soak`, the `ground-void-zone`), not here. The word "stack" in the ability text is **not** the signal; players grouping up is.
 - **Consequence:** 🟠 (solo-eaten / feared) → 🔴 when the whole group must share a single hit.
 - **Role:** all.
+- **RoleTag:** all
 - **Examples:** *Intimidating Shout* (fears players standing alone → stack near an ally) — The Restless Heart (Windrunner Spire); *Throw Spear* (stack inside its minimum range) — Keen Headhunter trash (Maisara Caverns).
 - **Diagram idea:** scattered dots converging onto one bracketed stack marker.
 
@@ -167,6 +178,7 @@ journal rows. Two corollaries the classifier must enforce:
 - **Response:** the fixated player kites with speed/CC until it drops; don't drag it through the group.
 - **Consequence:** 🟠 mostly (caught = dead) → 🔵 on slow chases → 🔴 if it bodies the group (Bladestorm, Flailstorm).
 - **Role:** all (whoever's tagged kites; tank can't taunt it off).
+- **RoleTag:** all
 - **Examples:** *Burning Pursuit* — Rukhran (Skyreach); *Fixate* — Radiant Swarm trash (Nexus-Point Xenas).
 - **Diagram idea:** a mob with an eye icon trailing a fleeing player along a kite path.
 
@@ -176,6 +188,7 @@ journal rows. Two corollaries the classifier must enforce:
 - **Response:** purge/soothe the buff off the enemy (or kill the buff source) before it snowballs.
 - **Consequence:** 🔵 mostly → 🟠/🔴 on enrages and pet-cleave windows (Bestial Wrath, Plague Frenzy). *(The Derelict Duo's Broken Bond reads like an enrage but is **not** soothable — see `balance-kill`.)*
 - **Role:** all with an enemy-dispel/soothe (hunters/druids/mages especially).
+- **RoleTag:** all
 - **Examples:** *Bolstering Flames* — Territorial Dragonhawk trash (Windrunner Spire); *Plague Frenzy* (soothe) — Lumbering Plaguehorror trash (Pit of Saron).
 - **Diagram idea:** an angry red buff icon over a mob being stripped to grey.
 
@@ -185,6 +198,7 @@ journal rows. Two corollaries the classifier must enforce:
 - **Response:** break line of sight, attack from the correct facing, or drag the mob to the marked spot.
 - **Consequence:** 🔵→🔴 depending (Searing Quills / Glacial Overload are LoS-or-wipe).
 - **Role:** all (tank often owns the repositioning).
+- **RoleTag:** all
 - **Examples:** *Searing Quills* (line-of-sight) — Rukhran (Skyreach); *Vigilant Defense* (reflect, hit from behind) — Bound Defender trash (Maisara Caverns).
 - **Diagram idea:** a pillar between player and boss-beam, with a dotted "blocked" sightline.
 
@@ -194,6 +208,7 @@ journal rows. Two corollaries the classifier must enforce:
 - **Response:** burn the absorb down (overheal or DPS the shield); don't waste cooldowns trying to out-heal a full absorb.
 - **Consequence:** 🔵→🟠 (the player can't be healed until cleared, then dies to follow-up).
 - **Role:** healer-critical (DPS may need to attack the shield).
+- **RoleTag:** healer
 - **Examples:** *Null Sunder* — Shadowguard Defender trash (Nexus-Point Xenas); *Entropic Leech* — Duskfright Herald trash (Nexus-Point Xenas).
 - **Diagram idea:** a health bar with a black overlay shield, healing arrows bouncing off it.
 
@@ -203,6 +218,7 @@ journal rows. Two corollaries the classifier must enforce:
 - **Response:** sidestep the line; tank picks it back up; don't let it land on the backline.
 - **Consequence:** ⚪→🟠 (most are minor, the breakers hurt — Break Ranks).
 - **Role:** all (tank re-grabs).
+- **RoleTag:** all
 - **Examples:** *Break Ranks* — Phalanx Breaker trash (Windrunner Spire); *Intercepting Charge* — Haunting Grunt trash (Windrunner Spire).
 - **Diagram idea:** a dashed charge line from mob to player with a sidestep arrow off it.
 
@@ -212,6 +228,7 @@ journal rows. Two corollaries the classifier must enforce:
 - **Response:** the designated baiter steps to the safe drop spot; everyone else stays clear of the trigger radius.
 - **Consequence:** 🟠 (caught in the placement) — usually a death, not a wipe.
 - **Role:** all (often one assigned baiter).
+- **RoleTag:** all
 - **Examples:** *Rend Souls* (proximity bait) — Hollow Soulrender trash (Maisara Caverns); *Cries of the Fallen* (proximity bait root) — Rak'tul, Vessel of Souls (Maisara Caverns).
 - **Diagram idea:** a player stepping to a marked drop-spot with a radius ring pulling the cast toward them.
 
@@ -221,6 +238,7 @@ journal rows. Two corollaries the classifier must enforce:
 - **Response:** burn the source fast; healer rides the ramp; spread if the aura also debuffs proximity.
 - **Consequence:** 🔵→🟠 (it ramps — kill the caster before it overwhelms).
 - **Role:** healer-watched, DPS race.
+- **RoleTag:** all
 - **Examples:** *Siphoning Chill* — Forgemaster Garfrost (Pit of Saron); *Dread Pulse* — Dreadpulse Lich trash (Pit of Saron).
 - **Diagram idea:** a mob radiating concentric faint rings with a rising debuff-stack counter.
 
@@ -230,6 +248,7 @@ journal rows. Two corollaries the classifier must enforce:
 - **Response:** pool and pop DPS cooldowns / Bloodlust for the window; maximize burst while it's open. Failing it doesn't kill *you* — it overruns the *timer* and snowballs the next cycle.
 - **Consequence:** 🔵 (your job to capitalize) → 🔴 indirectly when a missed window means the fight never ends and a later mechanic wipes you.
 - **Role:** DPS-led (everyone shifts to damage).
+- **RoleTag:** dps
 - **Examples:** *Siphon Void* (after all 6 Notes silenced) — L'ura (Seat of the Triumvirate).
 - **Diagram idea:** a boss health bar flashing "+DMG" with cooldown icons lighting up beneath it.
 
@@ -239,6 +258,7 @@ journal rows. Two corollaries the classifier must enforce:
 - **Response:** keep both at even HP and cleave them down to die simultaneously; don't tunnel one. Not interruptible, dispellable, or soothable — it's a damage-routing problem.
 - **Consequence:** 🔴 — a lopsided kill enrages the survivor and wipes the group.
 - **Role:** all (DPS balance their target damage; tank keeps both together).
+- **RoleTag:** all
 - **Examples:** *Broken Bond* — Derelict Duo / Latch & Kalis (Windrunner Spire).
 - **Diagram idea:** two health bars side by side with a balance-scale icon and a warning when they diverge.
 
@@ -248,5 +268,6 @@ journal rows. Two corollaries the classifier must enforce:
 - **Response:** nothing special — keep doing your job. Listed so the trainer can mark "safe to ignore."
 - **Consequence:** ⚪ flavor.
 - **Role:** all (no action required).
+- **RoleTag:** all
 - **Examples:** *Shield Wall* — Commander Kroluk (Windrunner Spire); *Shoot* — Swiftshot Archer trash (Windrunner Spire).
 - **Diagram idea:** a greyed-out ability icon with a small "ignore" tag.

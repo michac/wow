@@ -75,6 +75,31 @@ function parseArchetypeCell(cell) {
   return { primary: parts[0] || "", alsoAccept: parts.slice(1) };
 }
 
+/**
+ * Parse a Role cell into canonical enum parts. Combined cells are written
+ * `primary; secondary` (semicolon, like archetypes) — a slash is also tolerated.
+ * Returns [] for a blank cell so the caller can fall back to the archetype prior.
+ */
+function parseRoleCell(cell) {
+  return (cell || "")
+    .split(/[;/]/)
+    .map((s) => s.trim().toLowerCase())
+    .filter(Boolean);
+}
+
+/**
+ * Resolve a card's role(s). The explicit Role cell wins; a blank cell falls back
+ * to the answer archetype's documented RoleTag prior, then to "all" — so role is
+ * always resolved, never null. `role` is the primary (single word, for the
+ * reveal pill); `roles` is the set used to filter (primary + any secondary role).
+ */
+function resolveRole(ab, roleTagBySlug) {
+  const parts = parseRoleCell(ab.roleCell);
+  const primary = parts[0] || roleTagBySlug.get(ab.archetype) || "all";
+  const roles = [...new Set(parts.length ? parts : [primary])];
+  return { role: primary, roles };
+}
+
 /** First tier emoji found in a cell → canonical tier slug. */
 function tierFromCell(cell) {
   for (const [emoji, tier] of Object.entries(TIER_BY_EMOJI)) {
@@ -145,6 +170,9 @@ function parseArchetypes(md) {
       response: field("Response"),
       consequence: field("Consequence"),
       role: field("Role"),
+      // Machine-readable role prior (the `- **RoleTag:**` bullet) — the
+      // fallback role for a card whose Role cell is ever blank.
+      roleTag: field("RoleTag").toLowerCase(),
       examples: field("Examples"),
       diagramIdea: field("Diagram idea"),
     });
@@ -279,9 +307,6 @@ function parseDungeon(slug, md) {
         for (const cells of rows) {
           const spell = stripMd(col(cells, "ability"));
           if (!spell) continue;
-          const tierCell = col(cells, "tier");
-          // Algeth'ar boss rows carry a stray 6th cell = role (header has 5 cols).
-          const roleCell = cells.length > header.length ? cells[header.length] : "";
           const arche = parseArchetypeCell(col(cells, "archetype"));
           boss.abilities.push({
             spell,
@@ -289,8 +314,10 @@ function parseDungeon(slug, md) {
             response: stripMd(col(cells, "do")),
             archetype: arche.primary,
             alsoAccept: arche.alsoAccept,
-            tier: tierFromCell(tierCell),
-            role: roleCell ? stripMd(roleCell) : null,
+            tier: tierFromCell(col(cells, "tier")),
+            // Boss tables now carry a Role column (6 cols), like trash. Resolved
+            // to a canonical role at card assembly via resolveRole().
+            roleCell: stripMd(col(cells, "role")),
             lowConfidence: lowFile,
           });
         }
@@ -312,7 +339,7 @@ function parseDungeon(slug, md) {
             archetype: arche.primary,
             alsoAccept: arche.alsoAccept,
             tier: tierFromCell(col(cells, "tier")),
-            role: stripMd(col(cells, "role")) || null,
+            roleCell: stripMd(col(cells, "role")),
             lowConfidence: lowFile || isSingleSourced(seeDoRaw),
           });
         }
@@ -388,7 +415,7 @@ function buildOptions(id, answer, alsoAccept, allSlugs) {
 
 // ── card assembly ───────────────────────────────────────────────────────────
 
-function buildCards(dungeons, allSlugs) {
+function buildCards(dungeons, allSlugs, roleTagBySlug) {
   const cards = [];
   const seen = new Set();
 
@@ -396,6 +423,7 @@ function buildCards(dungeons, allSlugs) {
     let id = `${dungeon.slug}::${slugify(caster)}::${slugify(ab.spell)}`;
     if (seen.has(id)) id = `${id}::${cards.length}`;
     seen.add(id);
+    const { role, roles } = resolveRole(ab, roleTagBySlug);
     cards.push({
       id,
       cue: {
@@ -422,7 +450,11 @@ function buildCards(dungeons, allSlugs) {
         whatItDoes: ab.whatItDoes,
         response: ab.response,
         tier: ab.tier,
-        role: ab.role,
+        // `role`: the primary, single-word enum for the reveal pill. `roles`:
+        // the full set (primary + any secondary) the role filter matches on.
+        // Always resolved (cell → archetype RoleTag prior → "all"), never null.
+        role,
+        roles,
         lowConfidence: ab.lowConfidence,
       },
       options: buildOptions(id, ab.archetype, ab.alsoAccept || [], allSlugs),
@@ -448,12 +480,14 @@ function main() {
   );
   const slugSet = new Set(archetypes.map((a) => a.slug));
   const allSlugs = archetypes.map((a) => a.slug);
+  // slug → documented RoleTag prior (blank-cell fallback for role resolution).
+  const roleTagBySlug = new Map(archetypes.map((a) => [a.slug, a.roleTag || "all"]));
 
   const dungeons = DUNGEON_SLUGS.map((slug) =>
     parseDungeon(slug, readFileSync(resolve(KB, `endgame/mythic-plus/${slug}.md`), "utf8")),
   );
 
-  const cards = buildCards(dungeons, allSlugs);
+  const cards = buildCards(dungeons, allSlugs, roleTagBySlug);
 
   // ── coverage assertion (the Phase-2 guarantee) ──
   // Every accepted slug — primary AND any also-valid secondary — must be one of
@@ -463,6 +497,18 @@ function main() {
     if (!slugSet.has(c.answer)) misses.push({ id: c.id, answer: c.answer });
     for (const s of c.alsoAccept || []) {
       if (!slugSet.has(s)) misses.push({ id: c.id, answer: s });
+    }
+  }
+
+  // ── role coverage assertion ──
+  // Every resolved role — primary AND any secondary — must be a canonical enum
+  // value, or the build fails. This makes the cleanup permanent: a stray
+  // `all (kick)` / `DPS` / `tank/healer` cell can never silently ship again.
+  const ROLE_ENUM = new Set(["all", "tank", "healer", "dps"]);
+  const roleMisses = [];
+  for (const c of cards) {
+    for (const r of c.reveal.roles || []) {
+      if (!ROLE_ENUM.has(r)) roleMisses.push({ id: c.id, role: r });
     }
   }
 
@@ -494,10 +540,24 @@ function main() {
     console.log(`    ${s.padEnd(20)} ${perArchetype[s]}`);
   }
 
+  const perRole = {};
+  for (const c of cards) perRole[c.reveal.role] = (perRole[c.reveal.role] || 0) + 1;
+  console.log("\n  per-role card counts (primary):");
+  for (const r of ["all", "tank", "healer", "dps"]) {
+    console.log(`    ${r.padEnd(20)} ${perRole[r] || 0}`);
+  }
+
   if (misses.length) {
-    console.error(`\n  ✗ COVERAGE FAILURE — ${misses.length} card(s) reference an unknown archetype:`);
+    console.error(`\n  ✗ ARCHETYPE COVERAGE FAILURE — ${misses.length} card(s) reference an unknown archetype:`);
     for (const m of misses) console.error(`      ${m.id}  →  "${m.answer}"`);
     console.error(`\n  Canonical slugs (${allSlugs.length}): ${allSlugs.join(", ")}\n`);
+    process.exit(1);
+  }
+
+  if (roleMisses.length) {
+    console.error(`\n  ✗ ROLE COVERAGE FAILURE — ${roleMisses.length} card(s) carry a non-canonical role:`);
+    for (const m of roleMisses) console.error(`      ${m.id}  →  "${m.role}"`);
+    console.error(`\n  Canonical roles: all, tank, healer, dps\n`);
     process.exit(1);
   }
 
@@ -515,7 +575,7 @@ function main() {
   };
   mkdirSync(dirname(OUT), { recursive: true });
   writeFileSync(OUT, JSON.stringify(out, null, 2) + "\n");
-  console.log(`\n  ✓ all ${cards.length} cards resolve to canonical archetypes`);
+  console.log(`\n  ✓ all ${cards.length} cards resolve to canonical archetypes + roles`);
   console.log(`  ✓ wrote ${OUT.replace(REPO + "/", "")}\n`);
 }
 
