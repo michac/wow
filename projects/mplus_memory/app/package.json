@@ -1,0 +1,25 @@
+{
+  "name": "mplus-memory-trainer",
+  "private": true,
+  "version": "0.3.0",
+  "type": "module",
+  "description": "Spaced-repetition trainer for Midnight S1 Mythic+ dungeon mechanics",
+  "scripts": {
+    "content": "bun run scripts/build-content.mjs",
+    "predev": "bun run scripts/build-content.mjs",
+    "dev": "vite",
+    "prebuild": "bun run scripts/build-content.mjs",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "bun run build && bun run scripts/smoke.mjs && bun run scripts/smoke-guide.mjs"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^5.0.3",
+    "@tailwindcss/vite": "^4.0.0",
+    "@testing-library/svelte": "^5.4.2",
+    "happy-dom": "^20.10.6",
+    "svelte": "^5.19.0",
+    "tailwindcss": "^4.0.0",
+    "vite": "^6.0.7"
+  }
+}

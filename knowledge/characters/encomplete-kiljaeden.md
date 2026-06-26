@@ -1,7 +1,7 @@
 ---
 title: Encomplete – Kil'jaeden (US) — main character snapshot
 patch: 12.0.7
-fetched: 2026-06-20          # identity/gear/renown/professions refreshed; currencies + season journeys still from 2026-06-03
+fetched: 2026-06-23
 sources:
   - https://us.api.blizzard.com/profile/wow/character/kiljaeden/encomplete?namespace=profile-us
 confidence: high
@@ -11,77 +11,65 @@ confidence: high
 
 > **Snapshot** — character data is volatile (updates on logout). Re-fetch
 > before answering gear/progress questions; this file is for context, not
-> live state. Raw JSON: `raw/blizzard/encomplete-*.json` (refreshed 2026-06-20;
-> last in-game logout 2026-06-21 UTC).
+> live state. Raw JSON: `raw/blizzard/encomplete-*.json`.
+>
+> ⚠ For **sims**, item IDs below are not enough — SimC needs the full
+> `bonus_id` strings. Use the in-game **SimulationCraft addon** (`/simc`,
+> or `/simc [item link]` for a single piece) and paste the export.
 
 **The user's current main.**
 
 ## Identity
 
-- Gnome (male) **Warlock**, active spec **Demonology** as of 2026-06-20
-  (Affliction + Destruction loadouts also saved) — **spec change since the
-  2026-06-03 audit; talent audit below is Affliction-only and now stale.**
-- Level **90** (cap), Alliance, guild **Dungeon Dojo** (Proudmoore — joined a
-  cross-realm guild; was "The Soggy Bottom Boys" on Kil'jaeden)
-- Title: Champion of the Frozen Wastes · 7,435 achievement points
+- Gnome **Warlock**, active spec **Demonology** (switched from Affliction;
+  Destruction + Affliction loadouts presumably still saved)
+- Level **90** (cap), Alliance, guild **Dungeon Dojo** (was The Soggy
+  Bottom Boys)
+- Title: Champion of the Frozen Wastes · 7,630 achievement points
 
-## Gear (equipped avg ilvl 261, overall avg 262, 2026-06-20)
+## Gear (equipped ilvl 266, API 2026-06-23)
+
+4pc tier equipped: **Abyssal Immolator's** (head/shoulders/chest/legs, 276).
 
 | Slot | ilvl | id | Item |
 |---|---|---|---|
 | Head | 276 | 250042 | Abyssal Immolator's Smoldering Flames *(tier)* |
-| Neck | 256 | 249626 | Nocturnal Thorncharm |
-| Shoulders | 263 | 250040 | Abyssal Immolator's Fury *(tier; Champion-maxed)* |
-| Chest | 276 | 250045 | Abyssal Immolator's Dreadrobe *(tier)* |
-| Waist | 259 | 239649 | Martyr's Waistwrap *(crafted)* |
-| Legs | 276 | 250041 | Abyssal Immolator's Pillars *(tier)* |
-| Feet | 259 | 263783 | Voidwind Boots *(Hero 1/6 — accolade buy 2026-06-19)* |
-| Wrist | 250 | 249636 | Sprawling Wristroots |
-| Hands | 259 | 263813 | Handguards of Voidcendence *(Hero 1/6 — accolade buy 2026-06-19)* |
-| Ring 1 | 259 | 259912 | Preyseeker's Signet *(vault pick 2026-06-18)* |
-| Ring 2 | 253 | 249620 | Vibrant Wilderloop (gem `26stragiint`) |
-| Trinket 1 | 250 | 251785 | Void-Reaper's Libram |
+| Neck | 263 | 249626 | Nocturnal Thorncharm (gem: Quick Garnet) |
+| Shoulders | 276 | 250040 | Abyssal Immolator's Fury *(tier)* |
+| Chest | 276 | 250045 | Abyssal Immolator's Dreadrobe *(tier)* — ench: Mark of the Worldsoul |
+| Waist | 259 | 239649 | Martyr's Waistwrap |
+| Legs | 276 | 250041 | Abyssal Immolator's Pillars *(tier)* — ench: +41 Int |
+| Feet | 266 | 263783 | Voidwind Boots |
+| Wrist | 259 | 263849 | Void Nemesis' Bracers |
+| Hands | 266 | 263813 | Handguards of Voidcendence |
+| Ring 1 | 259 | 259912 | Preyseeker's Signet — ench: Eyes of the Eagle (gem: Quick Garnet) |
+| Ring 2 | 259 | 249620 | Vibrant Wilderloop (gem: Eversong Diamond) |
+| Trinket 1 | 253 | 251785 | Void-Reaper's Libram |
 | Trinket 2 | 259 | 251784 | Sylvan Wakrapuku |
 | Back | 250 | 249619 | Sprawling Mycoshroud |
-| Main Hand | 272 | 245770 | Aln'hara Cane *(crafted)* |
+| Main Hand | 285 | 245770 | Aln'hara Cane — ench: Acuity of the Ren'dorei |
 
-**4-piece Abyssal Immolator tier** = head/shoulders/chest/legs (head/chest/legs
-now crested to 276; shoulders the only tier slot still Champion-capped at 263 —
-needs a Hero piece + Catalyst).
-
-**Lowest / next upgrade targets:** Wrist 250, Back 250, Trinket 1 250,
-Ring 2 253, Neck 256. Hero-track pieces to crest toward 276:
-Hands/Feet/Signet (259, Hero 1/6). Shoulders (263) still the worst tier slot.
-
-> Gear-decision rationale and sims: `../classes/warlock/affliction/sims.md`
-> (vault pick + Field-Accolade slot priority, 2026-06-18/19).
-
-> ⚠ **API-derived sections (identity, gear, renown, professions, M+/raid
-> progress) were refreshed 2026-06-20.** The **Currencies** and **Season
-> journeys** blocks below are still from the 2026-06-03 in-game screenshots
-> (not exposed by the profile API) — re-verify those live before relying on them.
+Enchanted slots: chest, legs, ring1, weapon. **Missing enchants:** neck,
+wrist, feet, ring2, back (and cloak could take an embellishment-tier ench).
+Weakest slots vs the 276 tier: **back (250)** and **trinket 1 (253)**.
 
 ## Season 1 progress
 
 - **Mythic+**: no rated runs this season (keystone profile has no rating).
 - **Raids**: no Midnight raid kills recorded. (Most recent recorded raid
   kills are Wrath-era — returning player.)
-- **Companions** (API, 2026-06-20): Brann Bronzebeard **Level 45**,
-  Valeera Sanguinar **Level 37** (was 20 on 2026-06-03).
 
-### Renown (API, 2026-06-20)
+### Renown (API, 2026-06-03)
 
-| Faction | Renown | Δ since 2026-06-03 |
-|---|---|---|
-| Council of Dornogal | 25 | (TWW carryover, maxed) |
-| Silvermoon Court | 11 | +1 |
-| Amani Tribe | 8 | +2 |
-| The Singularity | 7 | +2 |
-| Hara'ti | 6 | +1 |
-| Ritual Sites | 2 | +1 |
-| Slayer's Duellum | tier 3 (Neutral) | now showing (the Slayer's Rise PvP rep) |
+| Faction | Renown |
+|---|---|
+| Silvermoon Court | 10 |
+| Amani Tribe | 6 |
+| Hara'ti | 5 |
+| The Singularity | 5 |
+| Slayer's Rise | — (no standing; likely not unlocked) |
 
-### Currencies (verified from in-game currency tab screenshot, 2026-06-03 — STALE)
+### Currencies (verified from in-game currency tab screenshot, 2026-06-03)
 
 - **10 Sparks of Radiance** banked (user-reported) · **6 Catalyst charges**
 - Dawncrests: **Adventurer 111 · Veteran 165 · Champion 84** (no
@@ -93,7 +81,7 @@ Hands/Feet/Signet (259, Hero 1/6). Shoulders (263) still the worst tier slot.
 - Undercoin 5,045 · Voidlight Marl 6,646 · Remnant of Anguish 1,520 ·
   Brimming Arcana 590 · Radiant Spark Dust 13 · Dawnlight Manaflux 6
 
-### Season journeys (in-game Journeys UI, 2026-06-03 — STALE)
+### Season journeys (in-game Journeys UI, 2026-06-03)
 
 - **Prey: Season 1 — rank 3, progress 0/4000 to rank 4.** Rank 4 rewards:
   **Prey: Nightmare Mode** + "A Plinth Above the Rest I" — confirms the
@@ -108,25 +96,23 @@ Delve tier / Brann level: not exposed by API.
 User-reported 2026-06-03: **clears T9 delves solo at ~236, but some
 pulls are rough** — calibration point for content recommendations.
 
-## Professions (API, 2026-06-20)
+## Professions
 
-- **Skinning** — Midnight 2/100, Dragon Isles 12/100, Classic/Outland/
-  Northrend tiers maxed.
-- **Tailoring** — **Midnight Tailoring 97/100** (was 0 on 2026-06-03 — they
-  leveled it nearly to cap; can now largely self-craft Midnight spark gear).
-  Outland/Classic maxed; Northrend 37/75.
-- Cooking 214/300 (Classic) + Draenor 1/100, Fishing 135/300 (Classic).
+- **Skinning** (Midnight tier 2/100, Classic-era tiers maxed)
+- **Tailoring** (Outland/Classic tiers maxed; no Midnight tailoring tier yet)
+- Cooking 214/300, Fishing 135/300 (Classic tiers)
 
 ## Implications for advice
 
 - Gearing phase: world content / heroics → delves, M+, spark crafts.
   ilvl 236 is well below the 246–259 base spark-craft bracket — **spark
   crafting (2 sparks + crests) is a big upgrade in the 214/224 slots**.
-- **Midnight Tailoring is now 97/100** — they can self-craft spark gear
-  (and the cloth spark pieces / embellishments) rather than commissioning
-  crafting orders. Finish the last 3 points.
+- Tailoring is leveled in old tiers only; picking up Midnight Tailoring
+  would let them self-craft spark gear.
 - Enchants/sockets are low-hanging fruit.
-- Spec context for KB lookups: `knowledge/classes/warlock/affliction/`.
+- Spec context for KB lookups: `knowledge/classes/warlock/demonology/`
+  (active spec as of 2026-06-23; Affliction loadout still saved, see
+  `knowledge/classes/warlock/affliction/`).
 
 > **Active plan moved to `encomplete-plan.md`** (priority checklist,
 > weekly rotation, spend rules, milestones). Section below kept as the
@@ -167,7 +153,10 @@ Revised 2026-06-03 after digesting SignsOfKelani 12.0.5 gearing video —
    (vendor gear ≠ crafted; verify once in-game).
 5. Champion crests (100+): upgrade champion-track drops; don't
    over-invest — hero pieces from accolades/delve renown 9 supersede.
-6. Enchants on everything (zero detected at snapshot).
+6. Enchants on everything (zero detected at the 2026-06-03 snapshot;
+   **partially done by the 2026-06-23 fetch** — chest/legs/ring1/weapon
+   now enchanted, see the Gear table; neck/wrist/feet/ring2/back still
+   open).
 7. Tailoring: commission first crafts via crafting orders now; level
    Midnight Tailoring in background for self-crafting later.
 8. Prey: **exactly 4 hunts/week** until Preyseeker rank 4 (first 4 =
@@ -181,11 +170,7 @@ Revised 2026-06-03 after digesting SignsOfKelani 12.0.5 gearing video —
 
 API-tracked progress 2026-06-03: Ritual Sites renown 1, Valeera lvl 20.
 
-## Talent audit (2026-06-03 — ⚠ active spec is now Demonology; re-audit)
-
-> As of 2026-06-20 the active spec is **Demonology**, not Affliction. The
-> audit below describes the *Affliction* loadout and no longer reflects what
-> they're playing — re-sim against the Demonology reference before advising.
+## Talent audit (2026-06-03)
 
 Active Affliction loadout simmed **−12.7% ST / −3.9% @4T** vs the simc
 MID1 reference string on identical gear — 5 spec points in ≤3/50-usage
@@ -197,12 +182,10 @@ Empowered Healthstone / Improved Mortal Coil. Details:
 
 ## TODO
 
-- [x] Re-snapshot 2026-06-20 (identity/gear/renown/professions via API)
-- [ ] **Re-audit talents — they respecced to Demonology.** Re-sim the active
-      Demonology loadout (with enchants on) vs the simc reference.
-- [ ] Re-verify Currencies + Season journeys live (still 2026-06-03 screenshots)
+- [ ] Re-snapshot after gearing sessions (or just fetch live per doctrine)
+- [ ] Re-audit talents after they respec (and re-sim with enchants on)
 - [ ] Add WCL character parses subcommand to `wowkb.wcl` for this character
 - [x] Verified 2026-06-03: crafted gear CANNOT be catalyzed in 12.0
 - [x] Crest names confirmed: **Dawncrests** (Adventurer/Veteran/Champion/
       Hero/Myth tiers)
-- [x] Midnight Tailoring now 97/100 (2026-06-20) — self-crafting unlocked
+- [ ] Midnight Tailoring leveling cost (knowledge points, recipe access)

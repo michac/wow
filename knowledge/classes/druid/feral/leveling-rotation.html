@@ -43,13 +43,23 @@ tailwind.config = {
       <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-green-500/10 text-grove border border-green-500/30">Hallick · Kil'jaeden</span>
     </div>
     <h1 class="font-display text-4xl md:text-5xl font-bold text-stone-100 tracking-tight">Feral <span class="text-claw">Leveling</span></h1>
-    <p class="mt-3 text-stone-400 max-w-2xl">Built from your <span class="text-stone-200 font-medium">actual talent loadout</span> (Blizzard API, 2026-06-03). Welcome back — it's been 15 years, so the utility refresher is at the bottom.</p>
+    <p class="mt-3 text-stone-400 max-w-2xl">Built from your <span class="text-stone-200 font-medium">actual talent loadout</span> (Blizzard API, 2026-06-08). Welcome back — it's been 15 years, so the utility refresher is at the bottom.</p>
   </header>
 
-  <!-- Hero tree warning -->
-  <section class="mb-8 rounded-2xl border border-red-500/40 bg-red-950/30 p-5">
-    <h2 class="text-sm uppercase tracking-widest text-red-300 font-semibold mb-1">⚠ Do this first</h2>
-    <p class="text-stone-200"><span class="font-bold text-red-200">You have no Hero Talent tree selected.</span> They unlock at 71 — you're 80, so this is free damage sitting unspent. Open the talent pane (<span class="font-mono text-sm bg-stone-900 px-1.5 py-0.5 rounded border border-stone-700">N</span>) and pick <span class="text-claw font-semibold">Druid of the Claw</span>: its <span class="text-stone-100 font-medium">Ravage</span> hits in a huge frontal arc and melts leveling packs.</p>
+  <!-- Hero tree status -->
+  <section class="mb-8 rounded-2xl border border-green-500/40 bg-green-950/20 p-5">
+    <h2 class="text-sm uppercase tracking-widest text-grove font-semibold mb-1">✓ Hero tree locked in</h2>
+    <p class="text-stone-200">Your live talents (Blizzard API, 2026-06-08) confirm <span class="text-claw font-semibold">Druid of the Claw</span> is selected — <span class="text-stone-100 font-medium">Ravage</span> is active, so the Bite-turns-into-Ravage procs below are real, not "someday." Nothing to fix here; go maul something.</p>
+
+    <details class="mt-4 rounded-xl border border-stone-800 bg-stone-950/60 p-4">
+      <summary class="cursor-pointer text-xs uppercase tracking-widest text-claw font-semibold">📋 Optional — reset to the cookie-cutter Icy Veins leveling build</summary>
+      <div class="flex items-center justify-between gap-3 mt-3 mb-2">
+        <span class="text-xs text-stone-400">If you'd rather run the published build than your hand-tuned one.</span>
+        <button onclick="copyTalents()" id="copy-btn" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-orange-500/15 text-claw border border-orange-500/40 hover:bg-orange-500/25 transition shrink-0">Copy string</button>
+      </div>
+      <code id="talent-string" class="block w-full text-[11px] leading-relaxed text-stone-300 font-mono break-all bg-black/40 rounded-lg p-3 border border-stone-800 select-all">CcGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMYmxMzMzstN2mZbmZm5BmZAAAAYLYYYMzomxsMmZmxYGAAAAAAYgBAAAQGz2YmBAsAmZAWYwAAAYmNA</code>
+      <p class="mt-2 text-[11px] text-stone-500">Source: Icy Veins Feral leveling guide (12.0.5) — "Level 80 Starting Talents." Importing this <em>replaces</em> your current loadout (it differs from yours).</p>
+    </details>
   </section>
 
   <!-- The Engine -->
@@ -100,38 +110,28 @@ tailwind.config = {
         <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-rose-500/15 text-rose-300 border border-rose-500/30">BLEED UP</span>
       </li>
 
-      <li class="flex items-center gap-4 rounded-2xl border border-stone-800 bg-stone-900/50 p-4 hover:border-orange-500/40 hover:shadow-clawglow transition">
-        <span class="text-2xl font-display font-bold text-claw w-8 text-center">3</span>
-        <img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_rake.jpg" class="w-12 h-12 rounded-lg icon-ring" alt="Feral Frenzy">
-        <div class="flex-1">
-          <div class="font-semibold text-stone-100">Feral Frenzy</div>
-          <div class="text-sm text-stone-400">5 claws + big bleed, and instantly awards 5 combo points. 45s CD — use it into a finisher.</div>
-        </div>
-        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-amber-500/15 text-feral border border-amber-500/30">ON CD → 5 CP</span>
-      </li>
-
       <li class="flex items-center gap-4 rounded-2xl border border-orange-500/30 bg-orange-950/20 p-4 hover:shadow-clawglow transition">
-        <span class="text-2xl font-display font-bold text-claw w-8 text-center">4</span>
+        <span class="text-2xl font-display font-bold text-claw w-8 text-center">3</span>
         <img src="https://wow.zamimg.com/images/wow/icons/large/ability_ghoulfrenzy.jpg" class="w-12 h-12 rounded-lg icon-ring" alt="Rip">
         <div class="flex-1">
           <div class="font-semibold text-orange-200">Rip <span class="text-stone-500 font-normal">@ 5 CP</span></div>
-          <div class="text-sm text-stone-400">If it's not running and the target will live ~10s+ (elites, bosses). Your Rip and Tear adds a bonus Tear bleed on application.</div>
+          <div class="text-sm text-stone-400">If it's not running and the target will live ~10s+ (elites, bosses). Your Dreadful Bleeding makes it hit harder; on normal trash, skip it and just Bite.</div>
         </div>
         <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-orange-500/15 text-claw border border-orange-500/30">FINISHER · TOUGH MOBS</span>
       </li>
 
       <li class="flex items-center gap-4 rounded-2xl border border-orange-500/30 bg-orange-950/20 p-4 hover:shadow-clawglow transition">
-        <span class="text-2xl font-display font-bold text-claw w-8 text-center">5</span>
+        <span class="text-2xl font-display font-bold text-claw w-8 text-center">4</span>
         <img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_ferociousbite.jpg" class="w-12 h-12 rounded-lg icon-ring" alt="Ferocious Bite">
         <div class="flex-1">
           <div class="font-semibold text-orange-200">Ferocious Bite <span class="text-stone-500 font-normal">@ 5 CP</span></div>
-          <div class="text-sm text-stone-400">Everything else — normal mobs die to Bite, don't bother Ripping them. Sabertooth: each Bite amps your bleeds on the target. <span class="text-claw">Once you've picked Druid of the Claw: auto-attacks randomly turn this button into Ravage (bigger + frontal cleave) — same keybind, just press it.</span></div>
+          <div class="text-sm text-stone-400">Everything else — normal mobs die to Bite, don't bother Ripping them. Sabertooth: each Bite amps your bleeds on the target. Apex Predator's Craving also hands you free, instant Bites at random. <span class="text-claw">Druid of the Claw: auto-attacks randomly turn this button into Ravage (bigger + frontal cleave) — same keybind, just press it when it lights up.</span></div>
         </div>
         <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-orange-500/15 text-claw border border-orange-500/30">FINISHER · DEFAULT</span>
       </li>
 
       <li class="flex items-center gap-4 rounded-2xl border border-stone-800 bg-stone-900/50 p-4 hover:border-orange-500/40 hover:shadow-clawglow transition">
-        <span class="text-2xl font-display font-bold text-claw w-8 text-center">6</span>
+        <span class="text-2xl font-display font-bold text-claw w-8 text-center">5</span>
         <img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_vampiricaura.jpg" class="w-12 h-12 rounded-lg icon-ring" alt="Shred">
         <div class="flex-1">
           <div class="font-semibold text-stone-100">Shred</div>
@@ -141,11 +141,11 @@ tailwind.config = {
       </li>
 
       <li class="flex items-center gap-4 rounded-2xl border border-stone-800 bg-stone-900/50 p-4 hover:border-orange-500/40 hover:shadow-clawglow transition">
-        <span class="text-2xl font-display font-bold text-claw w-8 text-center">7</span>
-        <img src="https://wow.zamimg.com/images/wow/icons/large/spell_druid_incarnation.jpg" class="w-12 h-12 rounded-lg icon-ring" alt="Incarnation">
+        <span class="text-2xl font-display font-bold text-claw w-8 text-center">6</span>
+        <img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_berserk.jpg" class="w-12 h-12 rounded-lg icon-ring" alt="Berserk">
         <div class="flex-1">
-          <div class="font-semibold text-stone-100">Incarnation: Avatar of Ashamane</div>
-          <div class="text-sm text-stone-400">3-min "delete this elite" button: all Berserk effects 20s, −25% energy costs, and a free in-combat Prowl (= another stun-Rake).</div>
+          <div class="font-semibold text-stone-100">Berserk <span class="text-stone-500 font-normal">+ Convoke the Spirits</span></div>
+          <div class="text-sm text-stone-400">Your "delete this elite" combo. <span class="text-stone-200">Berserk</span> (3-min CD, Heart of the Lion shortens it): reduced costs and combo-point generation for 15s. Pop <span class="text-stone-200">Convoke the Spirits</span> inside it — it fires off a burst of free abilities. No Incarnation in your build, so Berserk is the button.</div>
         </div>
         <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-purple-500/15 text-purple-300 border border-purple-500/30">ELITES / RARES</span>
       </li>
@@ -193,7 +193,7 @@ tailwind.config = {
         <span class="text-2xl font-display font-bold text-claw w-8 text-center">4</span>
         <img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_ravage.jpg" class="w-12 h-12 rounded-lg icon-ring" alt="Ravage">
         <div class="flex-1">
-          <div class="font-semibold text-orange-200">Ravage proc? <span class="text-stone-500 font-normal">(after picking Druid of the Claw)</span></div>
+          <div class="font-semibold text-orange-200">Ravage proc?</div>
           <div class="text-sm text-stone-400">When your Bite button lights up as Ravage and the pack is already Ripped: <span class="text-stone-200">face the pack and spend</span> — it cleaves everything in front for huge damage.</div>
         </div>
         <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-orange-500/15 text-claw border border-orange-500/30">PROC FINISHER</span>
@@ -213,8 +213,8 @@ tailwind.config = {
         <span class="text-2xl font-display font-bold text-claw w-8 text-center">6</span>
         <img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_berserk.jpg" class="w-12 h-12 rounded-lg icon-ring" alt="Berserk">
         <div class="flex-1">
-          <div class="font-semibold text-stone-100">Berserk / Incarnation</div>
-          <div class="text-sm text-stone-400">For big pulls: faster CP, +15% damage — chain Swipe → Primal Wrath inside it.</div>
+          <div class="font-semibold text-stone-100">Berserk + Convoke</div>
+          <div class="text-sm text-stone-400">For big pulls: faster CP and cheaper abilities — chain Swipe → Primal Wrath inside it, and drop Convoke the Spirits for a free burst.</div>
         </div>
         <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-purple-500/15 text-purple-300 border border-purple-500/30">BIG PULLS</span>
       </li>
@@ -298,7 +298,7 @@ tailwind.config = {
       </div>
       <div class="flex gap-3 rounded-xl border border-stone-800 bg-stone-900/50 p-3.5 hover:border-amber-500/40 hover:shadow-clawglow transition">
         <img src="https://wow.zamimg.com/images/wow/icons/large/ability_ambush.jpg" class="w-10 h-10 rounded icon-ring shrink-0" alt="">
-        <div><div class="font-semibold text-stone-100 text-sm">Prowl</div><div class="text-xs text-stone-400">Stealth between pulls; every pull should start with a stun-Rake out of it. Incarnation gives you one free mid-combat Prowl.</div></div>
+        <div><div class="font-semibold text-stone-100 text-sm">Prowl</div><div class="text-xs text-stone-400">Stealth between pulls; every pull should start with a stun-Rake out of it. Sudden Ambush also procs free, empowered stealth-attacks mid-fight.</div></div>
       </div>
       <div class="flex gap-3 rounded-xl border border-stone-800 bg-stone-900/50 p-3.5 hover:border-amber-500/40 hover:shadow-clawglow transition">
         <img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_removecurse.jpg" class="w-10 h-10 rounded icon-ring shrink-0" alt="">
@@ -313,7 +313,7 @@ tailwind.config = {
 
   <!-- Footer -->
   <footer class="mt-10 pt-6 border-t border-stone-800/80 text-xs text-stone-600 flex flex-wrap gap-x-6 gap-y-1">
-    <span>Talents & tooltips: Blizzard Profile API (live loadout, fetched 2026-06-03)</span>
+    <span>Talents & tooltips: Blizzard Profile API (live loadout, fetched 2026-06-08)</span>
     <span>Hero tree rec: Icy Veins / Maxroll leveling guides (12.0.5)</span>
     <span>Patch 12.0.5 · Hallick – Kil'jaeden (US)</span>
   </footer>
@@ -325,6 +325,14 @@ function showTab(which) {
     document.getElementById('panel-' + t).classList.toggle('hidden', t !== which);
     document.getElementById('tab-' + t).classList.toggle('tab-active', t === which);
   }
+}
+function copyTalents() {
+  const str = document.getElementById('talent-string').textContent.trim();
+  const btn = document.getElementById('copy-btn');
+  navigator.clipboard.writeText(str).then(() => {
+    btn.textContent = '✓ Copied';
+    setTimeout(() => { btn.textContent = 'Copy string'; }, 1800);
+  }).catch(() => { btn.textContent = 'Select & ⌘/Ctrl-C'; });
 }
 </script>
 </body>

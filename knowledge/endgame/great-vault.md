@@ -31,9 +31,33 @@ Open it after reset, before doing anything else.
   vault to **ilvl 269** (hero track) — SignsOfKelani 2026-04-26
   (`../systems/ritual-sites.md`). Myth-track vault still requires the
   M+/raid rows.
-- **Observed in-game 2026-06-03 (Encomplete)**: world row at T9-delve-ish
-  activity offered **ilvl 250 Champion 2/6** (slots 1–2) and **246
-  Champion 1/6** (slot 3). Slot unlocks confirmed **2 / 4 / 8 world
+- **RESOLVED 2026-06-05 (vault UI screenshot, Encomplete)**: world-row
+  slot tooltip shows **"Current Reward: Item Level 259 - (Tier 9) ·
+  Top 2 Runs This Week: Tier 10 (1), Tier 9 (1) · Reward at Highest
+  Item Level"** — i.e. each slot's reward = the **Nth-highest world
+  activity** of the week (slot 1 = 2nd-highest, slot 2 = 4th, slot 3 =
+  8th), and T9 activity → **259**, matching Icy Veins' "T8+ → vault
+  259 Hero 1/6". The 2026-06-03 250-champion offer was from a
+  lower-tier prior week, not a contradiction.
+- The vault UI shows **ilvl only, not track** — 259 is ambiguous
+  between Hero 1/6 and high-champion in the tooltip. Both Icy Veins
+  and ConquestCapped label the T8+ delve vault reward **Hero 1/6**;
+  confirm by hovering the actual item at reset ("Upgrade Level: Hero
+  1/6" line).
+- Note: the T10 run **counted for the vault even though the Bountiful
+  Coffer was lost to deaths** — vault credit is per completion,
+  independent of coffer loot.
+- Slot tiers observed 2026-06-05 mid-week: slot 1 T9 (259), slot 2 T7,
+  slot 3 T5 — two more T8 delves would lift slot 2 to T8 (259);
+  slot 3 needs all 8 activities at T8+.
+- **Unkeyed delve completions count as world activities** (vault
+  credit is completion-based — the dead T10 with a lost coffer still
+  counted). So 6 keyed + 2 unkeyed T8s = **all three world slots at
+  259** (~9 items to choose 1 from, three of them hero-track).
+- **Low-tier ritual sites (T3) fill slot counts but drag the slot's
+  reward down** — slot reward = Nth-highest activity. Ritual→vault
+  tier mapping known only at T5 (→269); T3's vault value is low and
+  unmapped. Use rituals for accolades/crests, delves for vault slots. Slot unlocks confirmed **2 / 4 / 8 world
   activities**. The vault **can offer actual class tier-set pieces**
   from the world row (Abyssal Immolator's Fury, warlock shoulders) — no
   Catalyst charge needed for those.

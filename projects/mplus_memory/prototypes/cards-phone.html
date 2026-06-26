@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>M+ Trainer — phone card prototype</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;450;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+
+<style type="text/tailwindcss">
+  @theme {
+    --color-bg:        oklch(0.165 0.018 285);
+    --color-surface:   oklch(0.205 0.022 285);
+    --color-surface-2: oklch(0.245 0.026 285);
+    --color-line:      oklch(0.32 0.03 285);
+    --color-ink:       oklch(0.96 0.01 285);
+    --color-ink-soft:  oklch(0.74 0.02 285);
+    --color-ink-faint: oklch(0.58 0.02 285);
+
+    --color-tier-wipe:   oklch(0.64 0.20 25);
+    --color-tier-death:  oklch(0.76 0.15 70);
+    --color-tier-job:    oklch(0.70 0.13 235);
+    --color-tier-flavor: oklch(0.62 0.015 285);
+
+    --color-correct: oklch(0.74 0.16 150);
+    --color-wrong:   oklch(0.64 0.20 25);
+
+    --color-dgn-mt:  oklch(0.70 0.16 320);  /* Magisters' Terrace — arcane magenta */
+    --color-dgn-ws:  oklch(0.74 0.14 150);  /* Windrunner Spire — emerald */
+
+    --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+    --font-sans:    "Inter", ui-sans-serif, system-ui, sans-serif;
+    --font-mono:    "JetBrains Mono", ui-monospace, monospace;
+  }
+  @layer base {
+    body { background: oklch(0.12 0.015 285); color: var(--color-ink); font-family: var(--font-sans); }
+    h1,h2,h3,.display { font-family: var(--font-display); letter-spacing: -0.01em; }
+  }
+
+  .tier-wipe   { --tier: var(--color-tier-wipe);   }
+  .tier-death  { --tier: var(--color-tier-death);  }
+  .tier-job    { --tier: var(--color-tier-job);    }
+  .tier-flavor { --tier: var(--color-tier-flavor); }
+  .dgn-mt { --dgn: var(--color-dgn-mt); }
+  .dgn-ws { --dgn: var(--color-dgn-ws); }
+
+  /* Pixel-6 portrait shell; dungeon hue rings the whole device */
+  .phone {
+    width: 412px; height: 915px; border-radius: 2.4rem;
+    background: var(--color-bg); overflow: hidden; position: relative;
+    box-shadow: 0 0 0 3px var(--dgn), 0 0 0 11px oklch(0.10 0.01 285),
+                0 0 34px -2px color-mix(in oklch, var(--dgn) 45%, transparent),
+                0 30px 80px -20px black;
+  }
+  .screen { position:absolute; inset:0; display:flex; flex-direction:column; }
+  .scroll { overflow-y:auto; scrollbar-width:none; }
+  .scroll::-webkit-scrollbar{ display:none; }
+
+  /* hero boss image with dungeon-tinted scrim */
+  .hero-scrim { background: linear-gradient(to top,
+      var(--color-bg) 4%, color-mix(in oklch, var(--dgn) 22%, transparent) 60%, transparent 100%); }
+
+  /* cast bar fills behind the spell name like a WoW cast */
+  @keyframes cast-fill { from { width: 8%; } to { width: 100%; } }
+  .castbar-fill {
+    position:absolute; inset:0 auto 0 0; width:62%;
+    background: linear-gradient(90deg, color-mix(in oklch, var(--tier) 40%, transparent), color-mix(in oklch, var(--tier) 16%, transparent));
+    border-right: 2px solid var(--tier);
+    box-shadow: 0 0 18px 1px color-mix(in oklch, var(--tier) 55%, transparent);
+    animation: cast-fill 6s linear infinite;
+  }
+  @keyframes shimmer { 0%{transform:translateX(-120%)} 100%{transform:translateX(120%)} }
+  .castbar-shimmer { position:absolute; inset:0; background:linear-gradient(90deg,transparent,oklch(1 0 0/0.10),transparent); animation:shimmer 1.6s linear infinite; }
+
+  @keyframes pop-correct { 0%{transform:scale(1)} 40%{transform:scale(1.015)} 100%{transform:scale(1)} }
+  .fx-correct { animation: pop-correct .4s ease-out; }
+
+  /* app + bottom bars */
+  .appbar { display:flex; align-items:center; justify-content:space-between; padding:.9rem 1.25rem .4rem; }
+  .navbar { display:flex; justify-content:space-around; border-top:1px solid var(--color-line);
+            background:color-mix(in oklch, var(--color-surface) 80%, transparent); padding:.7rem 1.5rem;
+            font-size:11px; backdrop-filter:blur(8px); }
+</style>
+</head>
+
+<body class="min-h-screen p-10">
+  <p class="mb-2 text-center font-mono text-xs uppercase tracking-[0.2em] text-ink-faint">Pixel-6 portrait · Drill · minimalist</p>
+  <h1 class="mb-8 text-center text-2xl font-bold text-ink">M+ Trainer — phone prototype v2</h1>
+
+  <div class="flex flex-wrap items-start justify-center gap-12">
+
+    <!-- ════════ PHONE 1 — retrieval ════════ -->
+    <div class="phone dgn-mt tier-wipe">
+      <div class="screen">
+        <div class="appbar">
+          <span class="font-mono text-xs uppercase tracking-[0.2em] text-ink-faint">Drill</span>
+          <div class="flex items-center gap-3 text-xs text-ink-faint"><span>🔥 6-day</span><span class="font-mono">7 / 24</span></div>
+        </div>
+        <div class="mx-5 mb-1 h-1 rounded-full bg-surface-2"><div class="h-1 rounded-full bg-ink-faint" style="width:29%"></div></div>
+
+        <!-- HERO boss image -->
+        <div class="relative h-[210px] shrink-0">
+          <img src="https://placehold.co/824x420/241830/c98bff?text=Degentrius" alt="boss" class="size-full object-cover" />
+          <div class="hero-scrim absolute inset-0"></div>
+          <div class="absolute inset-x-0 bottom-0 p-5">
+            <span class="inline-block rounded-md bg-[var(--dgn)] px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-bg">Magisters' Terrace</span>
+            <p class="display mt-1.5 text-3xl font-bold leading-none text-ink drop-shadow-lg">Degentrius</p>
+            <p class="mt-1 text-[11px] text-ink-soft">final boss · the throne</p>
+          </div>
+        </div>
+
+        <div class="scroll flex-1 px-5 pt-5">
+          <p class="text-xs uppercase tracking-wider text-ink-faint">casting</p>
+          <div class="relative mt-1 h-14 overflow-hidden rounded-lg border border-[var(--tier)]/40 bg-surface">
+            <div class="castbar-fill"><div class="castbar-shimmer"></div></div>
+            <div class="relative flex h-full items-center justify-between px-4">
+              <span class="display text-xl font-bold text-ink drop-shadow">Unstable Void Essence</span>
+              <span class="font-mono text-xs text-ink-soft">2.4s</span>
+            </div>
+          </div>
+
+          <p class="mt-6 text-sm text-ink-soft">Which mechanic is this?</p>
+          <div class="mt-3 grid grid-cols-2 gap-2.5 pb-4">
+            <button class="rounded-xl border border-line bg-surface-2 px-3 py-3.5 text-sm text-ink-soft active:scale-[0.98]">ground void zone</button>
+            <button class="rounded-xl border border-line bg-surface-2 px-3 py-3.5 text-sm text-ink-soft active:scale-[0.98]">soak</button>
+            <button class="rounded-xl border border-line bg-surface-2 px-3 py-3.5 text-sm text-ink-soft active:scale-[0.98]">stack up</button>
+            <button class="rounded-xl border border-line bg-surface-2 px-3 py-3.5 text-sm text-ink-soft active:scale-[0.98]">knockback</button>
+          </div>
+        </div>
+
+        <div class="navbar"><span class="text-ink">◎ Drill</span><span class="text-ink-faint">⬡ Archetypes</span><span class="text-ink-faint">⬚ Browse</span></div>
+      </div>
+    </div>
+
+    <!-- ════════ PHONE 2 — reveal (rich) ════════ -->
+    <div class="phone dgn-mt tier-wipe">
+      <div class="screen">
+        <div class="appbar">
+          <span class="font-mono text-xs uppercase tracking-[0.2em] text-ink-faint">Drill</span>
+          <div class="flex items-center gap-3 text-xs text-ink-faint"><span>🔥 6-day</span><span class="font-mono">7 / 24</span></div>
+        </div>
+        <div class="mx-5 mb-1 h-1 rounded-full bg-surface-2"><div class="h-1 rounded-full bg-ink-faint" style="width:29%"></div></div>
+
+        <div class="relative h-[150px] shrink-0">
+          <img src="https://placehold.co/824x300/241830/c98bff?text=Degentrius" alt="boss" class="size-full object-cover" />
+          <div class="hero-scrim absolute inset-0"></div>
+          <div class="absolute inset-x-0 bottom-0 flex items-end justify-between p-5">
+            <div>
+              <span class="inline-block rounded-md bg-[var(--dgn)] px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-bg">Magisters' Terrace</span>
+              <p class="display mt-1.5 text-2xl font-bold leading-none text-ink drop-shadow-lg">Degentrius</p>
+            </div>
+            <span class="mb-1 inline-flex items-center gap-1.5 rounded-full bg-bg/60 px-2.5 py-1 text-[11px] font-medium text-correct backdrop-blur"><span class="size-1.5 rounded-full bg-correct"></span>correct</span>
+          </div>
+        </div>
+
+        <div class="scroll fx-correct flex-1 px-5 pt-4">
+          <!-- spell + classification -->
+          <p class="display text-xl font-bold text-ink">Unstable Void Essence</p>
+          <div class="mt-2 flex flex-wrap items-center gap-2">
+            <span class="rounded-md bg-[var(--tier)]/15 px-2.5 py-1 text-sm font-semibold text-[var(--tier)]">soak</span>
+            <span class="rounded-full border border-[var(--tier)]/40 px-2 py-0.5 text-[11px] text-[var(--tier)]">🔴 group wipe</span>
+          </div>
+
+          <!-- DO: the primary action -->
+          <div class="mt-4 rounded-xl border border-[var(--tier)]/30 bg-[var(--tier)]/8 p-3.5">
+            <p class="text-[11px] font-semibold uppercase tracking-wider text-[var(--tier)]">Do</p>
+            <p class="mt-1 text-[15px] leading-relaxed text-ink">Spread out so every <em>slice</em> of the arena has someone in it — each bounce of the orb must land on a player.</p>
+          </div>
+
+          <!-- WHAT'S HAPPENING: mechanic detail -->
+          <div class="mt-3">
+            <p class="text-[11px] font-semibold uppercase tracking-wider text-ink-faint">What's happening</p>
+            <p class="mt-1 text-sm leading-relaxed text-ink-soft">A bouncing void orb travels the room. If no one is standing under it on impact, it detonates for raid-wide damage and applies a stack of <span class="text-ink">Void Destruction</span> — &gt;1 stack usually wipes the group.</p>
+          </div>
+
+          <!-- TERMS: clarify the jargon -->
+          <div class="mt-3 rounded-lg border border-line bg-surface/60 p-3">
+            <p class="text-[11px] font-semibold uppercase tracking-wider text-ink-faint">Terms</p>
+            <p class="mt-1 text-sm leading-relaxed text-ink-soft"><span class="font-medium text-ink">slice</span> — Degentrius's <span class="text-ink">Void Torrent</span> beams carve the arena into pizza-slice wedges. "Own your slice" = stay spread one-per-wedge so the bounce is always covered.</p>
+          </div>
+
+          <p class="mt-5 text-center text-xs text-ink-faint">how well did you know it?</p>
+          <div class="mt-2 grid grid-cols-4 gap-2 pb-4">
+            <button class="rounded-xl border border-wrong/40 bg-wrong/10 py-2.5 text-xs font-medium text-wrong/90">Again</button>
+            <button class="rounded-xl border border-line bg-surface-2 py-2.5 text-xs font-medium text-ink-soft">Hard</button>
+            <button class="rounded-xl border border-line bg-surface-2 py-2.5 text-xs font-medium text-ink-soft">Good</button>
+            <button class="rounded-xl border border-correct/40 bg-correct/10 py-2.5 text-xs font-medium text-correct">Easy</button>
+          </div>
+        </div>
+
+        <div class="navbar"><span class="text-ink">◎ Drill</span><span class="text-ink-faint">⬡ Archetypes</span><span class="text-ink-faint">⬚ Browse</span></div>
+      </div>
+    </div>
+
+    <!-- ════════ PHONE 3 — different dungeon (emerald), trash, death tier ════════ -->
+    <div class="phone dgn-ws tier-death">
+      <div class="screen">
+        <div class="appbar">
+          <span class="font-mono text-xs uppercase tracking-[0.2em] text-ink-faint">Drill</span>
+          <div class="flex items-center gap-3 text-xs text-ink-faint"><span>🔥 6-day</span><span class="font-mono">8 / 24</span></div>
+        </div>
+        <div class="mx-5 mb-1 h-1 rounded-full bg-surface-2"><div class="h-1 rounded-full bg-ink-faint" style="width:33%"></div></div>
+
+        <div class="relative h-[210px] shrink-0">
+          <img src="https://placehold.co/824x420/16241c/7fdca6?text=Territorial+Dragonhawk" alt="boss" class="size-full object-cover" />
+          <div class="hero-scrim absolute inset-0"></div>
+          <div class="absolute inset-x-0 bottom-0 p-5">
+            <span class="inline-block rounded-md bg-[var(--dgn)] px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-bg">Windrunner Spire</span>
+            <p class="display mt-1.5 text-3xl font-bold leading-none text-ink drop-shadow-lg">Territorial Dragonhawk</p>
+            <p class="mt-1 text-[11px] text-ink-soft">trash · courtyard pull</p>
+          </div>
+        </div>
+
+        <div class="scroll flex-1 px-5 pt-5">
+          <p class="text-xs uppercase tracking-wider text-ink-faint">casting</p>
+          <div class="relative mt-1 h-14 overflow-hidden rounded-lg border border-[var(--tier)]/40 bg-surface">
+            <div class="castbar-fill" style="animation-duration:5s"><div class="castbar-shimmer"></div></div>
+            <div class="relative flex h-full items-center justify-between px-4">
+              <span class="display text-xl font-bold text-ink drop-shadow">Bolstering Flames</span>
+              <span class="font-mono text-xs text-ink-soft">1.8s</span>
+            </div>
+          </div>
+
+          <p class="mt-6 text-sm text-ink-soft">Which mechanic is this?</p>
+          <div class="mt-3 grid grid-cols-2 gap-2.5 pb-4">
+            <button class="rounded-xl border border-line bg-surface-2 px-3 py-3.5 text-sm text-ink-soft">dispel</button>
+            <button class="rounded-xl border border-line bg-surface-2 px-3 py-3.5 text-sm text-ink-soft">purge / soothe</button>
+            <button class="rounded-xl border border-line bg-surface-2 px-3 py-3.5 text-sm text-ink-soft">interruptible</button>
+            <button class="rounded-xl border border-line bg-surface-2 px-3 py-3.5 text-sm text-ink-soft">raid damage</button>
+          </div>
+        </div>
+
+        <div class="navbar"><span class="text-ink">◎ Drill</span><span class="text-ink-faint">⬡ Archetypes</span><span class="text-ink-faint">⬚ Browse</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="mt-10 text-center font-mono text-[11px] text-ink-faint">boss image = placeholder (real journal art swaps in) · dungeon hue rings the device + banners the header · tier hue drives the action · reveal scrolls</p>
+</body>
+</html>
