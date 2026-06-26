@@ -1,0 +1,1193 @@
+{
+  "instance": {
+    "_links": {
+      "self": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-instance/1300?namespace=static-12.0.7_67808-us"
+      }
+    },
+    "id": 1300,
+    "name": "Magisters' Terrace",
+    "map": {
+      "name": "Magisters' Terrace",
+      "id": 2811
+    },
+    "description": "Magisters' Terrace is the heart of arcane study for the sin'dorei, including Magister Umbric, long ago. Within its halls lies the Cynosure of Twilight, the key to unlocking the way into the Voidstorm.",
+    "encounters": [
+      {
+        "key": {
+          "href": "https://us.api.blizzard.com/data/wow/journal-encounter/2659?namespace=static-12.0.7_67808-us"
+        },
+        "name": "Arcanotron Custos",
+        "id": 2659
+      },
+      {
+        "key": {
+          "href": "https://us.api.blizzard.com/data/wow/journal-encounter/2661?namespace=static-12.0.7_67808-us"
+        },
+        "name": "Seranel Sunlash",
+        "id": 2661
+      },
+      {
+        "key": {
+          "href": "https://us.api.blizzard.com/data/wow/journal-encounter/2660?namespace=static-12.0.7_67808-us"
+        },
+        "name": "Gemellus",
+        "id": 2660
+      },
+      {
+        "key": {
+          "href": "https://us.api.blizzard.com/data/wow/journal-encounter/2662?namespace=static-12.0.7_67808-us"
+        },
+        "name": "Degentrius",
+        "id": 2662
+      }
+    ],
+    "expansion": {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-expansion/516?namespace=static-12.0.7_67808-us"
+      },
+      "name": "Midnight",
+      "id": 516
+    },
+    "location": {
+      "name": "Isle of Quel'Danas",
+      "id": 16215
+    },
+    "modes": [
+      {
+        "mode": {
+          "type": "NORMAL",
+          "name": "Normal"
+        },
+        "players": 5,
+        "is_tracked": true
+      },
+      {
+        "mode": {
+          "type": "HEROIC",
+          "name": "Heroic"
+        },
+        "players": 5,
+        "is_tracked": true
+      },
+      {
+        "mode": {
+          "type": "MYTHIC",
+          "name": "Mythic"
+        },
+        "players": 5,
+        "is_tracked": true
+      },
+      {
+        "mode": {
+          "type": "MYTHIC_KEYSTONE",
+          "name": "Mythic+ Dungeons"
+        },
+        "players": 5,
+        "is_tracked": false
+      }
+    ],
+    "media": {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/media/journal-instance/1300?namespace=static-12.0.7_67808-us"
+      },
+      "id": 1300
+    },
+    "minimum_level": 1,
+    "category": {
+      "type": "DUNGEON"
+    },
+    "order_index": 1
+  },
+  "encounters": [
+    {
+      "_links": {
+        "self": {
+          "href": "https://us.api.blizzard.com/data/wow/journal-encounter/2659?namespace=static-12.0.7_67808-us"
+        }
+      },
+      "id": 2659,
+      "name": "Arcanotron Custos",
+      "description": "This highly advanced arcane construct has been charged with keeping the peace and ensuring that all Magisters adhere to rules and restrictions. Veering from said rules will not be tolerated.",
+      "creatures": [
+        {
+          "id": 6086,
+          "name": "Arcanoton Custos",
+          "creature_display": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/media/creature-display/131334?namespace=static-12.0.7_67808-us"
+            },
+            "id": 131334
+          }
+        }
+      ],
+      "items": [
+        {
+          "id": 45974,
+          "item": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/item/250246?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Refueling Orb",
+            "id": 250246
+          }
+        },
+        {
+          "id": 45975,
+          "item": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/item/251102?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Clasp of Compliance",
+            "id": 251102
+          }
+        },
+        {
+          "id": 45976,
+          "item": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/item/251103?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Custodial Cuffs",
+            "id": 251103
+          }
+        },
+        {
+          "id": 45977,
+          "item": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/item/251104?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Leggings of Orderly Conduct",
+            "id": 251104
+          }
+        },
+        {
+          "id": 45978,
+          "item": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/item/251101?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Arcane Guardian's Shell",
+            "id": 251101
+          }
+        },
+        {
+          "id": 45979,
+          "item": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/item/251100?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Malfeasance Mallet",
+            "id": 251100
+          }
+        }
+      ],
+      "sections": [
+        {
+          "id": 30536,
+          "title": "Overview",
+          "body_text": "Arcanotron Custos controls players with its [Ethereal Shackles] and by creating pools of [Arcane Residue]. Upon running out of energy, Arcanotron Custos begins its [Refueling Protocol], drawing in [Energy Orbs] to refuel itself.",
+          "sections": [
+            {
+              "id": 30537,
+              "title": "Damage Dealers",
+              "body_text": "$bullet;[Arcane Expulsion] inflicts a heavy amount of damage and knocks back all players.\r\n$bullet;[Arcane Residue] inflicts heavy damage to players standing in the area.\r\n$bullet; Arcanotron Custos gains [Arcane Empowerment] if an Energy Orb reaches it."
+            },
+            {
+              "id": 30538,
+              "title": "Healers",
+              "body_text": "$bullet;[Ethereal Shackles] roots players and inflicts periodic damage.\r\n$bullet;[Arcane Residue] inflicts heavy damage to players standing in the area.\r\n$bullet; Arcanotron Custos gains [Arcane Empowerment] if an Energy Orb reaches it."
+            },
+            {
+              "id": 30539,
+              "title": "Tanks",
+              "body_text": "$bullet;[Repulsing Slam] inflicts a heavy amount of damage and knocks back its target.\r\n$bullet;[Arcane Residue] inflicts heavy damage to players standing in the area.\r\n$bullet; Arcanotron Custos gains [Arcane Empowerment] if an Energy Orb reaches it."
+            }
+          ]
+        },
+        {
+          "id": 31142,
+          "title": "Refueling Protocol",
+          "sections": [
+            {
+              "id": 31143,
+              "title": "Energy Orb",
+              "sections": [
+                {
+                  "id": 34511,
+                  "title": "Arcane Residue",
+                  "spell": {
+                    "key": {
+                      "href": "https://us.api.blizzard.com/data/wow/spell/1214089?namespace=static-12.0.7_67808-us"
+                    },
+                    "name": "Arcane Residue",
+                    "id": 1214089
+                  }
+                },
+                {
+                  "id": 33179,
+                  "title": "Unstable Energy",
+                  "spell": {
+                    "key": {
+                      "href": "https://us.api.blizzard.com/data/wow/spell/1243905?namespace=static-12.0.7_67808-us"
+                    },
+                    "name": "Unstable Energy",
+                    "id": 1243905
+                  }
+                },
+                {
+                  "id": 33235,
+                  "title": "Arcane Empowerment",
+                  "spell": {
+                    "key": {
+                      "href": "https://us.api.blizzard.com/data/wow/spell/474407?namespace=static-12.0.7_67808-us"
+                    },
+                    "name": "Arcane Empowerment",
+                    "id": 474407
+                  }
+                }
+              ],
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/474308?namespace=static-12.0.7_67808-us"
+                },
+                "name": "Energy Orb",
+                "id": 474308
+              }
+            }
+          ],
+          "spell": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/spell/474345?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Refueling Protocol",
+            "id": 474345
+          }
+        },
+        {
+          "id": 33180,
+          "title": "Arcane Expulsion",
+          "sections": [
+            {
+              "id": 34510,
+              "title": "Arcane Residue",
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/1214089?namespace=static-12.0.7_67808-us"
+                },
+                "name": "Arcane Residue",
+                "id": 1214089
+              }
+            }
+          ],
+          "spell": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/spell/1214081?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Arcane Expulsion",
+            "id": 1214081
+          }
+        },
+        {
+          "id": 31148,
+          "title": "Ethereal Shackles",
+          "spell": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/spell/1214038?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Ethereal Shackles",
+            "id": 1214038
+          }
+        },
+        {
+          "id": 31146,
+          "title": "Repulsing Slam",
+          "spell": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/spell/474496?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Repulsing Slam",
+            "id": 474496
+          }
+        }
+      ],
+      "instance": {
+        "key": {
+          "href": "https://us.api.blizzard.com/data/wow/journal-instance/1300?namespace=static-12.0.7_67808-us"
+        },
+        "name": "Magisters' Terrace",
+        "id": 1300
+      },
+      "category": {
+        "type": "DUNGEON"
+      },
+      "modes": [
+        {
+          "type": "NORMAL",
+          "name": "Normal"
+        },
+        {
+          "type": "HEROIC",
+          "name": "Heroic"
+        },
+        {
+          "type": "MYTHIC",
+          "name": "Mythic"
+        },
+        {
+          "type": "MYTHIC_KEYSTONE",
+          "name": "Mythic+ Dungeons"
+        }
+      ]
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://us.api.blizzard.com/data/wow/journal-encounter/2661?namespace=static-12.0.7_67808-us"
+        }
+      },
+      "id": 2661,
+      "name": "Seranel Sunlash",
+      "description": "An accomplished Spellbreaker, Serenel Sunlash has earned the full trust of the Magisters. Charged with the protection of the Cynosure of Twilight, Seranel will fulfill those duties with his very life if necessary.",
+      "creatures": [
+        {
+          "id": 5914,
+          "name": "Seranel Sunlash",
+          "creature_display": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/media/creature-display/127739?namespace=static-12.0.7_67808-us"
+            },
+            "id": 127739
+          }
+        }
+      ],
+      "items": [
+        {
+          "id": 45962,
+          "item": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/item/251108?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Wraps of Watchful Wrath",
+            "id": 251108
+          }
+        },
+        {
+          "id": 45963,
+          "item": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/item/251109?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Spellsnap Shadowmask",
+            "id": 251109
+          }
+        },
+        {
+          "id": 45964,
+          "item": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/item/251110?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Sunlash's Sunsash",
+            "id": 251110
+          }
+        },
+        {
+          "id": 45965,
+          "item": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/item/251107?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Oathsworn Stompers",
+            "id": 251107
+          }
+        },
+        {
+          "id": 45966,
+          "item": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/item/251105?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Ward of the Spellbreaker",
+            "id": 251105
+          }
+        },
+        {
+          "id": 45967,
+          "item": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/item/251106?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Resolute Runeglaive",
+            "id": 251106
+          }
+        },
+        {
+          "id": 46754,
+          "item": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/item/260312?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Defiant Defender's Drape",
+            "id": 260312
+          }
+        }
+      ],
+      "sections": [
+        {
+          "id": 30544,
+          "title": "Overview",
+          "body_text": "Seranel assaults players with [Suppression Zones] that cause [Feedback] to players affected by [Runic Mark].\r\n\r\nUpon reaching 100 energy, Seranel causes an [Wave of Silence] silencing and pacifying players outside of [Suppression Zones].",
+          "sections": [
+            {
+              "id": 30545,
+              "title": "Damage Dealers",
+              "body_text": "$bullet;[Wave of Silence] inflicts heavy damage and silences players outside of [Suppression Zones].\r\n$bullet;[Runic Mark] inflicts moderate damage to nearby players.\r\n$bullet;[Suppression Zone] and [Feedback] silences and pacifies players."
+            },
+            {
+              "id": 30546,
+              "title": "Healers",
+              "body_text": "$bullet;[Wave of Silence] inflicts heavy damage and silences players outside of [Suppression Zones].\r\n$bullet;[Runic Mark] inflicts moderate damage to nearby players.\r\n$bullet;[Suppression Zone] and [Feedback] silences and pacifies players."
+            },
+            {
+              "id": 30547,
+              "title": "Tanks",
+              "body_text": "$bullet;[Hastening Ward] increases Seranel's attack speed and causes his melee attacks to inflict additional Arcane damage.\r\n$bullet;[Wave of Silence] inflicts heavy damage and silences players outside of [Suppression Zones].\r\n$bullet;[Runic Mark] inflicts moderate damage to nearby players."
+            }
+          ]
+        },
+        {
+          "id": 33323,
+          "title": "Suppression Zone",
+          "sections": [
+            {
+              "id": 33324,
+              "title": "Feedback",
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/1225135?namespace=static-12.0.7_67808-us"
+                },
+                "name": "Feedback",
+                "id": 1225135
+              }
+            }
+          ],
+          "spell": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/spell/1224903?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Suppression Zone",
+            "id": 1224903
+          }
+        },
+        {
+          "id": 32027,
+          "title": "Suppression Zone",
+          "sections": [
+            {
+              "id": 32029,
+              "title": "Feedback",
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/1225135?namespace=static-12.0.7_67808-us"
+                },
+                "name": "Feedback",
+                "id": 1225135
+              }
+            },
+            {
+              "id": 33325,
+              "title": "Null Reaction",
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/1246446?namespace=static-12.0.7_67808-us"
+                },
+                "name": "Null Reaction",
+                "id": 1246446
+              }
+            }
+          ],
+          "spell": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/spell/1224903?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Suppression Zone",
+            "id": 1224903
+          }
+        },
+        {
+          "id": 32030,
+          "title": "Wave of Silence",
+          "spell": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/spell/1225193?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Wave of Silence",
+            "id": 1225193
+          }
+        },
+        {
+          "id": 32031,
+          "title": "Runic Mark",
+          "spell": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/spell/1225792?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Runic Mark",
+            "id": 1225792
+          }
+        },
+        {
+          "id": 33515,
+          "title": "Hastening Ward",
+          "spell": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/spell/1248689?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Hastening Ward",
+            "id": 1248689
+          }
+        }
+      ],
+      "instance": {
+        "key": {
+          "href": "https://us.api.blizzard.com/data/wow/journal-instance/1300?namespace=static-12.0.7_67808-us"
+        },
+        "name": "Magisters' Terrace",
+        "id": 1300
+      },
+      "category": {
+        "type": "DUNGEON"
+      },
+      "modes": [
+        {
+          "type": "NORMAL",
+          "name": "Normal"
+        },
+        {
+          "type": "HEROIC",
+          "name": "Heroic"
+        },
+        {
+          "type": "MYTHIC",
+          "name": "Mythic"
+        },
+        {
+          "type": "MYTHIC_KEYSTONE",
+          "name": "Mythic+ Dungeons"
+        }
+      ]
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://us.api.blizzard.com/data/wow/journal-encounter/2660?namespace=static-12.0.7_67808-us"
+        }
+      },
+      "id": 2660,
+      "name": "Gemellus",
+      "description": "An otherworldly spawn of Void origins, Gemellus seems to utilize the Void not only for its own protection, but to propigate and foster the development of its species as well.",
+      "creatures": [
+        {
+          "id": 5982,
+          "name": "Gemellus",
+          "creature_display": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/media/creature-display/131317?namespace=static-12.0.7_67808-us"
+            },
+            "id": 131317
+          }
+        }
+      ],
+      "items": [
+        {
+          "id": 45968,
+          "item": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/item/250242?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Jelly Replicator",
+            "id": 250242
+          }
+        },
+        {
+          "id": 45969,
+          "item": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/item/251115?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Bifurcation Band",
+            "id": 251115
+          }
+        },
+        {
+          "id": 45970,
+          "item": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/item/251113?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Gloves of Viscous Goo",
+            "id": 251113
+          }
+        },
+        {
+          "id": 45971,
+          "item": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/item/251114?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Voidwarped Oozemail",
+            "id": 251114
+          }
+        },
+        {
+          "id": 45972,
+          "item": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/item/251112?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Shadowsplit Girdle",
+            "id": 251112
+          }
+        },
+        {
+          "id": 45973,
+          "item": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/item/251111?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Splitshroud Stinger",
+            "id": 251111
+          }
+        }
+      ],
+      "sections": [
+        {
+          "id": 30540,
+          "title": "Overview",
+          "body_text": "At the start of the encounter and 50% remaining health, Gemellus uses [Triplicate] to create clones that drift around the arena. Gemellus and its clones are bound by a [Synaptic Nexus] and act as one.",
+          "sections": [
+            {
+              "id": 35354,
+              "title": "Damage Dealers",
+              "body_text": "\r\n$bullet;[Astral Grasp] pulls players towards their respective Gemellus.\r\n$bullet;[Cosmic Sting] inflicts heavy damage and creates [Void Secretions]."
+            },
+            {
+              "id": 35243,
+              "title": "Damage Dealers",
+              "body_text": "\r\n$bullet;[Astral Grasp] pulls players towards their respective Gemellus.\r\n$bullet;[Cosmic Sting] inflicts heavy damage and creates [Void Secretions]."
+            },
+            {
+              "id": 30541,
+              "title": "Damage Dealers",
+              "body_text": "\r\n$bullet;[Astral Grasp] pulls players towards their respective Gemellus.\r\n$bullet;[Cosmic Sting] inflicts moderate damage and creates [Void Secretions] upon expiration."
+            },
+            {
+              "id": 35355,
+              "title": "Healers",
+              "body_text": "\r\n$bullet;[Cosmic Sting] inflicts heavy damage and creates [Void Secretions].\r\n$bullet;[Astral Grasp] pulls players towards their respective Gemellus."
+            },
+            {
+              "id": 35244,
+              "title": "Healers",
+              "body_text": "\r\n$bullet;[Cosmic Sting] inflicts heavy damage and creates [Void Secretions].\r\n$bullet;[Astral Grasp] pulls players towards their respective Gemellus."
+            },
+            {
+              "id": 30542,
+              "title": "Healers",
+              "body_text": "\r\n$bullet;[Cosmic Sting] inflicts moderate damage and creates [Void Secretions] upon expiration.\r\n$bullet;[Astral Grasp] pulls players towards their respective Gemellus."
+            },
+            {
+              "id": 35356,
+              "title": "Tanks",
+              "body_text": "\r\n$bullet;[Astral Grasp] pulls players towards their respective Gemellus.\r\n$bullet;[Cosmic Sting] inflicts heavy damage and creates [Void Secretions]."
+            },
+            {
+              "id": 35242,
+              "title": "Tanks",
+              "body_text": "\r\n$bullet;[Astral Grasp] pulls players towards their respective Gemellus.\r\n$bullet;[Cosmic Sting] inflicts heavy damage and creates [Void Secretions]."
+            },
+            {
+              "id": 30543,
+              "title": "Tanks",
+              "body_text": "\r\n$bullet;[Astral Grasp] pulls players towards their respective Gemellus.\r\n$bullet;[Cosmic Sting] inflicts moderate damage and creates [Void Secretions] upon expiration."
+            }
+          ]
+        },
+        {
+          "id": 33338,
+          "title": "Triplicate",
+          "sections": [
+            {
+              "id": 33339,
+              "title": "Synaptic Nexus",
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/1223936?namespace=static-12.0.7_67808-us"
+                },
+                "name": "Synaptic Nexus",
+                "id": 1223936
+              }
+            }
+          ],
+          "spell": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/spell/1223847?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Triplicate",
+            "id": 1223847
+          }
+        },
+        {
+          "id": 33970,
+          "title": "Neural Link",
+          "spell": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/spell/1253707?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Neural Link",
+            "id": 1253707
+          }
+        },
+        {
+          "id": 31991,
+          "title": "Triplicate",
+          "sections": [
+            {
+              "id": 31992,
+              "title": "Synaptic Nexus",
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/1223936?namespace=static-12.0.7_67808-us"
+                },
+                "name": "Synaptic Nexus",
+                "id": 1223936
+              }
+            }
+          ],
+          "spell": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/spell/1223847?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Triplicate",
+            "id": 1223847
+          }
+        },
+        {
+          "id": 31993,
+          "title": "Astral Grasp",
+          "sections": [
+            {
+              "id": 31994,
+              "title": "Cosmic Radiation",
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/1224401?namespace=static-12.0.7_67808-us"
+                },
+                "name": "Cosmic Radiation",
+                "id": 1224401
+              }
+            }
+          ],
+          "spell": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/spell/1224299?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Astral Grasp",
+            "id": 1224299
+          }
+        },
+        {
+          "id": 31996,
+          "title": "Cosmic Sting",
+          "sections": [
+            {
+              "id": 31995,
+              "title": "Void Secretions",
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/1224100?namespace=static-12.0.7_67808-us"
+                },
+                "name": "Void Secretions",
+                "id": 1224100
+              }
+            }
+          ],
+          "spell": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/spell/1284958?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Cosmic Sting",
+            "id": 1284958
+          }
+        }
+      ],
+      "instance": {
+        "key": {
+          "href": "https://us.api.blizzard.com/data/wow/journal-instance/1300?namespace=static-12.0.7_67808-us"
+        },
+        "name": "Magisters' Terrace",
+        "id": 1300
+      },
+      "category": {
+        "type": "DUNGEON"
+      },
+      "modes": [
+        {
+          "type": "NORMAL",
+          "name": "Normal"
+        },
+        {
+          "type": "HEROIC",
+          "name": "Heroic"
+        },
+        {
+          "type": "MYTHIC",
+          "name": "Mythic"
+        },
+        {
+          "type": "MYTHIC_KEYSTONE",
+          "name": "Mythic+ Dungeons"
+        }
+      ]
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://us.api.blizzard.com/data/wow/journal-encounter/2662?namespace=static-12.0.7_67808-us"
+        }
+      },
+      "id": 2662,
+      "name": "Degentrius",
+      "description": "A powerful creature of the Void, Degentrius has taken advantage of the opportunity inadvertently provided by Magister Umbric and launched an assault on the Terrace.",
+      "creatures": [
+        {
+          "id": 6087,
+          "name": "Degentrius",
+          "creature_display": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/media/creature-display/132031?namespace=static-12.0.7_67808-us"
+            },
+            "id": 132031
+          }
+        }
+      ],
+      "items": [
+        {
+          "id": 45955,
+          "item": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/item/250257?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Eye of the Drowning Void",
+            "id": 250257
+          }
+        },
+        {
+          "id": 45956,
+          "item": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/item/251120?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Wraps of Umbral Descent",
+            "id": 251120
+          }
+        },
+        {
+          "id": 45957,
+          "item": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/item/251121?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Domanaar's Dire Treads",
+            "id": 251121
+          }
+        },
+        {
+          "id": 45958,
+          "item": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/item/251119?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Vortex Visage",
+            "id": 251119
+          }
+        },
+        {
+          "id": 45959,
+          "item": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/item/251118?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Legplates of Lingering Dusk",
+            "id": 251118
+          }
+        },
+        {
+          "id": 45960,
+          "item": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/item/251117?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Whirling Voidcleaver",
+            "id": 251117
+          }
+        },
+        {
+          "id": 45961,
+          "item": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/item/251122?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Shadowslash Slicer",
+            "id": 251122
+          }
+        },
+        {
+          "id": 46313,
+          "item": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/item/256755?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Formula: Enchant Chest - Mark of the Magister",
+            "id": 256755
+          }
+        },
+        {
+          "id": 46314,
+          "item": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/item/256759?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Formula: Enchant Weapon - Flames of the Sin'dorei",
+            "id": 256759
+          }
+        },
+        {
+          "id": 46315,
+          "item": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/item/258033?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Pattern: Arcanoweave Lining",
+            "id": 258033
+          }
+        },
+        {
+          "id": 46803,
+          "item": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/item/263230?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Magister's Bookshelf",
+            "id": 263230
+          }
+        },
+        {
+          "id": 47051,
+          "item": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/item/260231?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Lucent Hawkstrider",
+            "id": 260231
+          }
+        }
+      ],
+      "sections": [
+        {
+          "id": 30548,
+          "title": "Overview",
+          "body_text": "Degentrius leads the assault from atop Magisters' Terrace, commanding the platform with overwhelming Void magic. [Void Torrent] streams carve across the arena as they flow into Degentrius, while [Unstable Void Essence]s ricochet around the platform.",
+          "sections": [
+            {
+              "id": 30549,
+              "title": "Damage Dealers",
+              "body_text": "$bullet; If there are no players standing under [Unstable Void Essence]  when it impacts, damage will be inflicted to all players.\r\n$bullet; [Void Torrent]  inflicts moderate damage and stuns any players that come into contact with it."
+            },
+            {
+              "id": 30550,
+              "title": "Healers",
+              "body_text": "$bullet; [Devouring Entropy] creates Entropy Orbs upon removal.\r\n$bullet; If there are no players standing under [Unstable Void Essence]  when it impacts, damage will be inflicted to all players.\r\n$bullet; [Void Torrent]  inflicts moderate damage and stuns any players that come into contact with it."
+            },
+            {
+              "id": 30551,
+              "title": "Tanks",
+              "body_text": "$bullet; [Null Bomb] will inflict massive damage to all players if it is not triggered by a player.\r\n$bullet; If there are no players standing under [Unstable Void Essence]  when it impacts, damage will be inflicted to all players.\r\n$bullet; [Void Torrent]  inflicts moderate damage and stuns any players that come into contact with it."
+            }
+          ]
+        },
+        {
+          "id": 31276,
+          "title": "Void Torrent",
+          "spell": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/spell/1214714?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Void Torrent",
+            "id": 1214714
+          }
+        },
+        {
+          "id": 31274,
+          "title": "Unstable Void Essence",
+          "sections": [
+            {
+              "id": 31275,
+              "title": "Void Destruction",
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/1215161?namespace=static-12.0.7_67808-us"
+                },
+                "name": "Void Destruction",
+                "id": 1215161
+              }
+            }
+          ],
+          "spell": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/spell/1215087?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Unstable Void Essence",
+            "id": 1215087
+          }
+        },
+        {
+          "id": 31292,
+          "title": "Devouring Entropy",
+          "sections": [
+            {
+              "id": 34557,
+              "title": "Entropy Orb",
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/1269631?namespace=static-12.0.7_67808-us"
+                },
+                "name": "Entropy Orb",
+                "id": 1269631
+              }
+            }
+          ],
+          "spell": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/spell/1215897?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Devouring Entropy",
+            "id": 1215897
+          }
+        },
+        {
+          "id": 31278,
+          "title": "Hulking Fragment",
+          "sections": [
+            {
+              "id": 35306,
+              "title": "Umbral Splinters",
+              "sections": [
+                {
+                  "id": 35307,
+                  "title": "Stygian Ichor",
+                  "spell": {
+                    "key": {
+                      "href": "https://us.api.blizzard.com/data/wow/spell/1284628?namespace=static-12.0.7_67808-us"
+                    },
+                    "name": "Stygian Ichor",
+                    "id": 1284628
+                  }
+                }
+              ],
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/1284627?namespace=static-12.0.7_67808-us"
+                },
+                "name": "Umbral Splinters",
+                "id": 1284627
+              }
+            }
+          ],
+          "spell": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/spell/1280113?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Hulking Fragment",
+            "id": 1280113
+          }
+        },
+        {
+          "id": 34556,
+          "title": "Entropy Blast",
+          "spell": {
+            "key": {
+              "href": "https://us.api.blizzard.com/data/wow/spell/1271066?namespace=static-12.0.7_67808-us"
+            },
+            "name": "Entropy Blast",
+            "id": 1271066
+          }
+        }
+      ],
+      "instance": {
+        "key": {
+          "href": "https://us.api.blizzard.com/data/wow/journal-instance/1300?namespace=static-12.0.7_67808-us"
+        },
+        "name": "Magisters' Terrace",
+        "id": 1300
+      },
+      "category": {
+        "type": "DUNGEON"
+      },
+      "modes": [
+        {
+          "type": "NORMAL",
+          "name": "Normal"
+        },
+        {
+          "type": "HEROIC",
+          "name": "Heroic"
+        },
+        {
+          "type": "MYTHIC",
+          "name": "Mythic"
+        },
+        {
+          "type": "MYTHIC_KEYSTONE",
+          "name": "Mythic+ Dungeons"
+        }
+      ]
+    }
+  ],
+  "spells": {},
+  "spell_errors": {
+    "474308": "404 Client Error: Not Found",
+    "474345": "404 Client Error: Not Found",
+    "474407": "404 Client Error: Not Found",
+    "474496": "404 Client Error: Not Found",
+    "1214038": "404 Client Error: Not Found",
+    "1214081": "404 Client Error: Not Found",
+    "1214089": "404 Client Error: Not Found",
+    "1214714": "404 Client Error: Not Found",
+    "1215087": "404 Client Error: Not Found",
+    "1215161": "404 Client Error: Not Found",
+    "1215897": "404 Client Error: Not Found",
+    "1223847": "404 Client Error: Not Found",
+    "1223936": "404 Client Error: Not Found",
+    "1224100": "404 Client Error: Not Found",
+    "1224299": "404 Client Error: Not Found",
+    "1224401": "404 Client Error: Not Found",
+    "1224903": "404 Client Error: Not Found",
+    "1225135": "404 Client Error: Not Found",
+    "1225193": "404 Client Error: Not Found",
+    "1225792": "404 Client Error: Not Found",
+    "1243905": "404 Client Error: Not Found",
+    "1246446": "404 Client Error: Not Found",
+    "1248689": "404 Client Error: Not Found",
+    "1253707": "404 Client Error: Not Found",
+    "1269631": "404 Client Error: Not Found",
+    "1271066": "404 Client Error: Not Found",
+    "1280113": "404 Client Error: Not Found",
+    "1284627": "404 Client Error: Not Found",
+    "1284628": "404 Client Error: Not Found",
+    "1284958": "404 Client Error: Not Found"
+  },
+  "media": {}
+}

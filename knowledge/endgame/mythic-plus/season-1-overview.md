@@ -80,8 +80,23 @@ See `../great-vault.md` for the ilvl table. Vault cap at **+10** (272).
 - ~2 runs/hour with RNG loot vs ritual sites' ~1 guaranteed hero piece
   per ~5 runs — armor-stacked premades trade loot, pugs often don't.
 
+## Per-dungeon detail
+
+One file each — route, **notable trash** (first-class), and boss tables with
+archetype + consequence tags. Sourced from Method + Icy Veins (Midnight S1
+guides) with boss names corroborated against the Blizzard journal API, and
+distilled 2026-06-24. Every ability is tagged against the
+[mechanic-archetype taxonomy](../../systems/mechanic-archetypes.md).
+
+- [Magisters' Terrace](magisters-terrace.md)
+- [Maisara Caverns](maisara-caverns.md)
+- [Nexus-Point Xenas](nexus-point-xenas.md)
+- [Windrunner Spire](windrunner-spire.md)
+- [Algeth'ar Academy](algethar-academy.md)
+- [Seat of the Triumvirate](seat-of-the-triumvirate.md)
+- [Skyreach](skyreach.md)
+- [Pit of Saron](pit-of-saron.md)
+
 ## TODO
 
-- [ ] One file per dungeon (route, notable trash, boss notes) — source:
-      Icy Veins dungeon guides + in-game journal via `wowkb.blizzard`
 - [ ] Verify Xal'atath's Bargain rotation schedule

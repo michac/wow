@@ -29,6 +29,31 @@ Nathreza**, Haunt-amp) are worth taking.
 Reference talent string (simc MID1 Soul Harvester, raid/ST):
 `CkQAAAAAAAAAAAAAAAAAAAAAAwMzMzoZhhZmZmlBAAYmZZ2MzsMzAAjllBGwEMDbBG2GAAAmBAAwMDzMjxwwMmZmxgZmZGAwMwA`
 
+### In-game import strings (Icy Veins, page updated 2026-05-19; fetched 2026-06-06)
+
+- **Single-Target — Soul Harvester** (near-identical to the MID1
+  reference; differs by a couple of nodes — likely the documented
+  Drain Soul vs Improved Shadow Bolt filler disagreement):
+  `CkQAAAAAAAAAAAAAAAAAAAAAAwMzMzoZhhZmZmlBAAYmZxyMzsMzAAjllBGwEMDbBG2GAAAmBAAwMDzMjBGmZmZGzgZmZGAwMwA`
+- **Delves — Soul Harvester** (solo-survivability lean; the pick for
+  delves/ritual sites/world):
+  `CkQAAAAAAAAAAAAAAAAAAAAAAgZmZGNLmxmZGzyAAAmZmlZZmZWGDAMLbLjhxsYmGzMDbZ2YYbAAAYGAAAzMjZGzsNGzYMzMDDzMjBAMgB`
+
+  **Intent is survivability, not DPS** (Icy Veins' own framing: "better
+  defensives, plays more fluidly... short burst loops" via Haunt-triggered
+  Sataiel's Volition / Quietus / Wicked Reaping — no throughput claim).
+  Verified in-game 2026-06-06: drops **Drain Soul** (Shadow Bolt mobility
+  filler) and **Cascading Calamity** (poor uptime when mobs die fast /
+  constant target swaps), spends those points defensively. If comfortably
+  surviving (overgeared, Voidwalker tanking), run the ST/M+ string with
+  Drain Soul instead — faster kills are their own defense solo.
+- **AoE — Hellcaller** (niche heavy-AoE; murlok top-50 M+ runs 0/50
+  Hellcaller — keep for funnel/AoE curiosities only):
+  `CkQAAAAAAAAAAAAAAAAAAAAAAwMjZGNLmxiZGzyAAAmZmlZzMzyYAALwAziRjZAZ2ALDAAAzAAAzMYMzMmtxYGmZmZYYmZmBAMDMA`
+
+⚠ Import strings are tree-version-sensitive — re-verify after 12.0.7
+(2026-06-16) in case the talent trees changed.
+
 Near-universal spec picks among top-50 M+ (murlok, 2026-06-03):
 Agony, Unstable Affliction, Seed of Corruption, Nightfall, Haunt,
 Shared Agony, **Improved Haunt** (50/50), Drain Soul (49/50),
@@ -217,8 +242,10 @@ quality 1–2 is much cheaper for most of the effect (budget-friendly).
 - [x] sims.md created 2026-06-03 (Encomplete talent audit baseline);
       re-sim once gear stabilizes
 - [x] Import strings stored 2026-06-16: survivability/delve + ST Soul
-      Harvester (from Icy Veins; verify hero tree on import). M+ Eye
-      Contract/Sow the Seeds variant string still TODO from kalamazi/Archon.
+      Harvester (from Icy Veins; verify hero tree on import).
 - [x] Survivability heals/absorbs table added 2026-06-16 from Blizzard
       API (static-12.0.7 tooltips); patch bumped 12.0.5 → 12.0.7 (no
       warlock spec changes in 12.0.7, confirmed via Icy Veins notes).
+- [ ] M+ Eye Contract/Sow the Seeds variant import string still TODO
+      from kalamazi/Archon (murlok's copy-build button is JS-only, not
+      fetchable; Icy Veins ST/Delves/AoE strings already stored above).

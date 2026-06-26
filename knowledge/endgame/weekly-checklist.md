@@ -1,10 +1,11 @@
 ---
 title: Midnight Weekly To-Do Checklist (Level 90 Endgame)
 patch: 12.0.5
-fetched: 2026-06-03
+fetched: 2026-06-05
 sources:
   - https://www.icy-veins.com/wow/weekly-to-do-list
   - https://www.icy-veins.com/wow/midnight-mythic-season-1-guide
+  - https://www.wow-professions.com/midnight/tailoring-guide  # KP weekly section
 confidence: high
 ---
 
@@ -40,6 +41,31 @@ this week?" questions.
 10. **Renown**: work the 5 factions — Silvermoon Court, Amani Tribe,
     The Hara'ti, The Singularity, Slayer's Rise (see `../factions/`).
 11. **Trading Post**: check the month's offerings / complete traveler's log.
+12. **Tailoring knowledge (~19 KP/week)** — see below.
+
+## Tailoring KP weekly (~19 KP — treat as a cooldown)
+
+Details + corrections history in `../systems/tailoring-leveling.md`;
+recipe-by-recipe data in `../systems/tailoring-recipes.md`.
+
+- [ ] **Patron Crafting Orders** (~12 KP) — clear the patron board; some
+      completions drop *Glimmer of Midnight Tailoring Knowledge*. Use
+      concentration to hit quality targets; missed target = missed KP.
+      Catch-up Flickers drop if behind — missed weeks aren't lost.
+- [ ] **Trainer weekly** (2 KP) — Galana: fill 3 crafting orders →
+      *Thalassian Tailor's Notebook*. One-time unlock first: "Crafters
+      Needed" questline (Captain Flaresworn).
+- [ ] **Treasure drops** (4 KP) — loot 1× *Embroidered Memento* + 1×
+      *Finely Woven Lynx Collar* from Midnight-zone treasures.
+- [ ] **Treatise** (1 KP) — *Thalassian Treatise on Tailoring*: public
+      crafting order (it's BoP), or warbound from an Inscription alt.
+- [ ] **Daily bolt CDs** (skill/gold, not KP) — Arcanoweave / Sunfire
+      Silk Bolt every ~17h (8.5h with sub-spec CD node).
+- [ ] *Monthly:* **Darkmoon Faire** profession quest (3 KP + 2 skill) —
+      starts the Sunday before the first Monday.
+- [ ] *One-time, if not done:* 8 zone treasures (24 KP — TomTom block in
+      `tailoring-leveling.md`), renown book *Skill Issue: Tailoring*
+      (10 KP, 75 Moxie, Silvermoon Court renown 6).
 
 ## Rotating world events (check which is up)
 

@@ -13,9 +13,28 @@ confidence: medium
 
 Two-part system from **Decimus**, added in 12.0.5.
 
+## Part 0 — Building the Voidforge (the unlock grind)
+
+Corrected 2026-06-07 (Wowhead quest 94623 + ConquestCapped; supersedes
+the vague "6-quest questline"): you **construct** the Voidforge by
+fusing shards, not by a linear quest chain.
+
+- Collect **Elementary Voidcore Shards** → turn in **3 shards** to craft
+  **1 Elemental Voidcore** (repeatable quest *"An Elementary Voidcore"*).
+- Need **6 Elemental Voidcores = 18 shards total** to finish building.
+- **Shard sources**: S1 raid bosses, **Bountiful Delve coffers**, M+
+  final chest. ⚠ For delves the shard appears tied to **opening the
+  Bountiful Coffer** (ConquestCapped — so **key-gated**, ≤6/wk from
+  delves); one source implies it drops from the activity regardless of
+  key (unverified — confirm in-game). M+/raid shards are NOT key-gated.
+- **Warband-wide, with catch-up** — multi-week by design; no weekly
+  cap documented. Being a few shards short is normal, not a blocker.
+- ⚠ **Gate**: Part 2 (Nilhammer) does not unlock until the Voidforge
+  is fully built — see below.
+
 ## Part 1 — Nebulous Void Cores (bonus rolls)
 
-- **Unlock**: complete Decimus's 6-quest Voidforge questline.
+- **Unlock**: finish building the Voidforge (Part 0 above).
 - Then weekly: exchange **gold, Voidlight Marl, or Veteran Dawncrests**
   for **2 Nebulous Void Cores**.
 - A core = bonus roll on eligible content:
@@ -43,6 +62,10 @@ Two-part system from **Decimus**, added in 12.0.5.
 
 ## TODO
 
+- [ ] **Confirm in-game**: do Voidcore Shards drop from running a
+      bountiful delve, or only from the keyed Bountiful Coffer? (decides
+      whether the build grind is key-gated for solo players — sources
+      split 2026-06-07)
 - [ ] Nebulous core weekly cost amounts; raid bonus-roll track rules
 - [ ] Ascendant: hero-track result ilvl; shards-per-week rates per activity
 - [ ] Confirm crafted 295 vs Kelani's "≈+9" (Method says 295 for crafted,

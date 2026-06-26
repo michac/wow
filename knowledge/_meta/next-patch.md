@@ -9,6 +9,7 @@ sources:
   - https://www.icy-veins.com/wow/news/increased-heroic-world-tier-rewards-midnight-12-0-7-ptr-development-notes-may-19th/
   - https://www.youtube.com/watch?v=9bwN3anUE-E (MrGM, 2026-05-20, full patch overview)
   - https://www.youtube.com/watch?v=UL2pVoG48DI (MrGM, 2026-05-26, Omnium Folio deep dive)
+  - https://warcraft.wiki.gg/wiki/Turbulent_Timeways (TT5 dates/rotation, XP buff mechanics)
 confidence: medium       # PTR data — numbers/details can change before live
 ---
 
@@ -76,6 +77,12 @@ confidence: medium       # PTR data — numbers/details can change before live
 - **Slot-specific Hero-track caches for 750 Field Accolades** — replaces
   praying to the 500-accolade random-slot piece. Accolades remain
   NOT warbound (confirmed late PTR).
+- **Vendor details (added 2026-06-05, seramate/overgear/masterofwarcraft,
+  PTR)**: random **Hero cache price cut 500 → 100 accolades**; new
+  slot-specific **Champion cache at 100 accolades, warbound** (single
+  tier-4 source — corroborate at patch). Net: post-patch, ~every 100
+  banked accolades ≈ one hero roll, 750 ≈ one chosen hero slot —
+  banking now is even stronger than previously noted.
   **Banking is safe**: Field Accolade (currency 3405) has MaxQty=0,
   MaxEarnablePerWeek=0, no cap world state in CurrencyTypes DB2 (tier 1)
   — no holding cap and no weekly earn cap.
@@ -91,6 +98,13 @@ confidence: medium       # PTR data — numbers/details can change before live
   community guess for 12.1). Weekly TW quest gives a **Heroic Quel'Thalas
   raid piece (285)** each week. "Master of the Turbulent Timeways 5"
   (4 TW dungeons in a row, 5 separate weeks) → **Spawn of Vyranoth** mount.
+  - Weekly rotation (warcraft.wiki.gg): DF → BfA → SL → Classic → TBC → DF.
+  - **XP buff mechanics**: each TW dungeon completion grants a stack of
+    *Knowledge of the Timeways* (+5% XP, 2 hr). At 4 stacks it converts to
+    *Mastery of the Timeways* (**+30% XP, 3 hr**). The buff is hours-long,
+    not week-long — chain dungeons to keep it up while leveling alts.
+    Earning Mastery the first time each week is what ticks the achievement
+    (so 4 dungeons/week × 5 separate weeks for the mount).
 
 ### Story / smaller features
 - One chapter of "Curse of Ul'atek" — the 12.1 campaign opener (troll/elf
