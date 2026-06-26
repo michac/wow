@@ -16,26 +16,22 @@ build the gist. Ability detail is a deeper layer added later (see §Later).
 
 Guide sits **alongside** Drill/Test (the on-ramp), not replacing them.
 
-## Data — done, journal-only
+## Data + generator — done, journal-only
 
-`projects/mplus_memory/adventure-guide.json` is generated and validated: **8
-dungeons, 29 bosses.** Per dungeon: `slug, name, lore, location, bosses[]`. Per
-boss: `name, slug, artKey, encounterId, lore, roleTips{DD/Healer/Tank}[],
+**`tools/wowkb/advguide.py`** (done) generates **`app/src/adventure-guide.json`**:
+**8 dungeons, 29 bosses.** Per dungeon: `slug, name, lore, location, bosses[]`.
+Per boss: `name, slug, artKey, encounterId, lore, roleTips{DD/Healer/Tank}[],
 abilities[] (nested tree), loot[]`. All 29 `artKey`s match the existing
-`app/src/assets/bosses/*.webp` portraits.
+`app/src/assets/bosses/*.webp` portraits. Run: `uv run python -m wowkb.advguide`
+(add `--refresh-db2` on patch days).
 
 Pipeline (see `journal-text-investigation.md` for the full how/why):
 `journal-instance` + `journal-encounter` (web API) → lore, role tips, ability
 tree, loot; `Spell*` DB2 via wago.tools → resolved ability descriptions. **No
-content.json, no Method/Icy Veins** — this guide is pure Blizzard source.
-
-### Build step to land it
-Promote the proof-of-concept generator (`scratchpad/gen_ag_all.py`) to a real
-tool — `tools/wowkb/advguide.py` (mirrors `bossart.py`: reuses
-`wowkb.blizzard.get` + the cached wago DB2 tables) — that writes
-**`app/src/adventure-guide.json`** so the app can import it directly. Document
-its DB2 dependency (`wowkb.wago Spell SpellName SpellEffect SpellMisc
-SpellDuration`).
+content.json, no Method/Icy Veins** — this guide is pure Blizzard source. The
+tool mirrors `bossart.py`: roster read from the committed KB `### <Boss>
+<!-- enc:NNN -->` headings (not the gitignored `raw/`), DB2 tables auto-pulled
+into `raw/wago/` if missing, output byte-stable run-to-run.
 
 ## Phase 1 — the presentation (v1, the fast-scan path)
 
@@ -99,10 +95,9 @@ The fast path stays shallow; depth is one tap away, recommended order:
 
 | File | Change |
 |------|--------|
-| `projects/mplus_memory/adventure-guide.json` | done (data) |
+| `tools/wowkb/advguide.py` | **done** — generator → `app/src/adventure-guide.json` |
+| `app/src/adventure-guide.json` | **done** — bundled data (8 dungeons / 29 bosses) |
 | `projects/mplus_memory/journal-text-investigation.md` | done (method) |
-| `tools/wowkb/advguide.py` | new — generator → `app/src/adventure-guide.json` |
-| `app/src/adventure-guide.json` | new — bundled data |
 | `app/src/lib/guide.js` | new — selectors |
 | `app/src/lib/bossArt.js` | new — extracted portrait resolver |
 | `app/src/lib/components/Guide.svelte` | new — dungeon picker |
