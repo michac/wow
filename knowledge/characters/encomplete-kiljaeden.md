@@ -1,7 +1,7 @@
 ---
 title: Encomplete – Kil'jaeden (US) — main character snapshot
-patch: 12.0.5
-fetched: 2026-06-03
+patch: 12.0.7
+fetched: 2026-06-23
 sources:
   - https://us.api.blizzard.com/profile/wow/character/kiljaeden/encomplete?namespace=profile-us
 confidence: high
@@ -12,38 +12,46 @@ confidence: high
 > **Snapshot** — character data is volatile (updates on logout). Re-fetch
 > before answering gear/progress questions; this file is for context, not
 > live state. Raw JSON: `raw/blizzard/encomplete-*.json`.
+>
+> ⚠ For **sims**, item IDs below are not enough — SimC needs the full
+> `bonus_id` strings. Use the in-game **SimulationCraft addon** (`/simc`,
+> or `/simc [item link]` for a single piece) and paste the export.
 
 **The user's current main.**
 
 ## Identity
 
-- Gnome **Warlock**, active spec **Affliction** (Destruction + Demonology
-  loadouts also saved)
-- Level **90** (cap), Alliance, guild **The Soggy Bottom Boys** (Kil'jaeden)
-- Title: Champion of the Frozen Wastes · 7,125 achievement points
+- Gnome **Warlock**, active spec **Demonology** (switched from Affliction;
+  Destruction + Affliction loadouts presumably still saved)
+- Level **90** (cap), Alliance, guild **Dungeon Dojo** (was The Soggy
+  Bottom Boys)
+- Title: Champion of the Frozen Wastes · 7,630 achievement points
 
-## Gear (equipped ilvl 236, bags 237)
+## Gear (equipped ilvl 266, API 2026-06-23)
 
-| Slot | ilvl | Item |
-|---|---|---|
-| Head | 246 | Silvermoon Sunspire |
-| Neck | 233 | Preyseeker's Choker (socketed) |
-| Shoulders | 224 | Sprawling Fibershells |
-| Chest | 253 | Wretched Scholar's Gilded Robe |
-| Waist | 214 | Voidbreaker's Clasp |
-| Legs | 214 | Courtly Pants |
-| Feet | 227 | Sprawling Rootpads |
-| Wrist | 233 | Sprawling Wristroots |
-| Hands | 233 | Preyseeker's Refined Gloves |
-| Ring 1 | 237 | Forest Hunter's Hoop (socketed) |
-| Ring 2 | 233 | Radiant Phoenix Band (socketed) |
-| Trinket 1 | 246 | Glorious Crusader's Keepsake |
-| Trinket 2 | 250 | Sylvan Wakrapuku |
-| Back | 246 | Voidbreaker's Cape |
-| Main Hand | 246 | Elderoot Spire |
+4pc tier equipped: **Abyssal Immolator's** (head/shoulders/chest/legs, 276).
 
-Notable gaps at fetch time: **no permanent enchants detected on any slot**;
-weakest slots are **waist/legs (214)** and **shoulders (224)**.
+| Slot | ilvl | id | Item |
+|---|---|---|---|
+| Head | 276 | 250042 | Abyssal Immolator's Smoldering Flames *(tier)* |
+| Neck | 263 | 249626 | Nocturnal Thorncharm (gem: Quick Garnet) |
+| Shoulders | 276 | 250040 | Abyssal Immolator's Fury *(tier)* |
+| Chest | 276 | 250045 | Abyssal Immolator's Dreadrobe *(tier)* — ench: Mark of the Worldsoul |
+| Waist | 259 | 239649 | Martyr's Waistwrap |
+| Legs | 276 | 250041 | Abyssal Immolator's Pillars *(tier)* — ench: +41 Int |
+| Feet | 266 | 263783 | Voidwind Boots |
+| Wrist | 259 | 263849 | Void Nemesis' Bracers |
+| Hands | 266 | 263813 | Handguards of Voidcendence |
+| Ring 1 | 259 | 259912 | Preyseeker's Signet — ench: Eyes of the Eagle (gem: Quick Garnet) |
+| Ring 2 | 259 | 249620 | Vibrant Wilderloop (gem: Eversong Diamond) |
+| Trinket 1 | 253 | 251785 | Void-Reaper's Libram |
+| Trinket 2 | 259 | 251784 | Sylvan Wakrapuku |
+| Back | 250 | 249619 | Sprawling Mycoshroud |
+| Main Hand | 285 | 245770 | Aln'hara Cane — ench: Acuity of the Ren'dorei |
+
+Enchanted slots: chest, legs, ring1, weapon. **Missing enchants:** neck,
+wrist, feet, ring2, back (and cloak could take an embellishment-tier ench).
+Weakest slots vs the 276 tier: **back (250)** and **trinket 1 (253)**.
 
 ## Season 1 progress
 

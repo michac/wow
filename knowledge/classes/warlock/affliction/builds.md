@@ -1,8 +1,9 @@
 ---
 title: Affliction Warlock — talents, gearing, enchants, embellishments (Midnight S1)
-patch: 12.0.5
-fetched: 2026-06-03
+patch: 12.0.7
+fetched: 2026-06-16
 sources:
+  - https://us.api.blizzard.com/data/wow/talent-tree/720/playable-specialization/265  # Blizzard Game Data API, static-12.0.7_67808 namespace — survivability tooltips (tier 1)
   - https://www.icy-veins.com/wow/affliction-warlock-pve-dps-gems-enchants-consumables  # upd. 2026-05-19
   - https://www.icy-veins.com/wow/affliction-warlock-pve-dps-stat-priority
   - https://www.icy-veins.com/wow/affliction-warlock-pve-dps-spec-builds-talents
@@ -70,6 +71,70 @@ these three is the cheap way to build a "solo delve" variant.
 
 See `sims.md` for a measured cost of off-meta picks (Encomplete audit:
 −12.7% ST / −3.9% 4T vs the reference string on identical gear).
+
+## Survivability toolkit — heals & absorbs (12.0.7)
+
+> Tooltips pulled live from the **Blizzard Game Data API**
+> (`talent-tree/720/playable-specialization/265`, `static-12.0.7_67808`
+> namespace) — tier-1, exact base values for the live patch. These are
+> *base* numbers; the API does not compose talents, so improvements are
+> listed under the ability they modify. Covers the **shared class tree**,
+> the **Affliction spec tree**, and the **Soul Harvester** hero tree.
+
+### Heals
+
+| Ability | Effect | Source |
+|---|---|---|
+| **Drain Life** | 1,140 Shadow over 4.5s, heals **500% of damage done** (channel) | baseline |
+| **Mortal Coil** | Horror (3s) + heal **20% max health**, 45s CD | class talent |
+| ↳ *Improved Mortal Coil* | +10yd range, **+5% max health** (→25%) | class talent |
+| **Healthstone** | Instant **25% health** restore | baseline item |
+| ↳ *Empowered Healthstone* | **+5%** (→30%) | class talent |
+| ↳ *Pact of Gluttony* | Healthstones become **Demonic Healthstones — reusable in combat**, 25% heal, 60s CD | class talent |
+| ↳ *Gorebound Fortitude* | Consuming a Healthstone always gets Soulburn bonus: **+30% healing, +20% max HP for 12s** | **Soul Harvester** |
+| **Soul Leech → heal** (*Fel Synergy*) | Soul Leech also **heals you 15% / pet 50%** of the absorb it grants | class talent |
+| **Drain Life buffs** | *Gorefiend's Avarice* (channel + heal 100% faster), *Empowered Drain Life* (+200% heal & feeds Soul Leech), *Infernal Beneficiary* (also heals pet 400%) | class/spec |
+| **Zevrim's Resilience** | Dark Pact also **heals 625/sec** while the shield is up | **Soul Harvester** |
+
+### Absorbs / shields
+
+| Ability | Effect | Source |
+|---|---|---|
+| **Soul Leech** | Damage grants a shield = **3% of damage dealt**, 15s, cap **5% max HP** — the core passive absorb | baseline |
+| ↳ *Demon Skin* | Passively recharges Soul Leech (**0.2%/sec**), raises cap **+10% max HP**, +90% armor | class talent |
+| ↳ *Fortified Soul* | Soul Leech cap **+5% max HP** | class talent |
+| ↳ *Illhoof's Design* | Sacrifice 10% max HP → Soul Leech cap **+15% max HP** | **Soul Harvester** |
+| ↳ *Fel Armor* | When Soul Leech absorbs, **10% of damage taken** is absorbed & spread over 5s; −3% damage taken | class talent |
+| **Dark Pact** | Sacrifice 20% *current* HP → shield **200% of sacrificed HP + 950**, 20s; **usable while CC'd** | class talent |
+| ↳ *Friends In Dark Places* | Dark Pact shields an **additional 50%** of sacrificed HP | **Soul Harvester** |
+| ↳ *Ichor of Devils* | Dark Pact sacrifices only **5%** current HP for the **same** shield | class talent |
+| ↳ *Frequent Donor* | Dark Pact **−15s CD** | class talent |
+| **Soulburn → Drain Life** | Drain Life grants an absorb = healing done, 30s, cap **30% max HP** | class talent |
+
+### Related damage reduction (not heal/absorb, but stacks the EHP)
+
+- **Unending Resolve** — −25% damage, 8s (baseline); **Strength of Will** → −40%.
+- **Soul Link** — redirect **10%** of damage taken to your pet.
+- **Demonic Embrace** +10% Stamina · **Demonic Fortitude** +5% max HP.
+
+**The big combo (per Icy Veins):** `Soulburn → Healthstone → Dark Pact` —
+Soulburn/Gorebound inflate the Healthstone (and your max HP), then Dark Pact
+shields off the now-higher *current* health, with Friends In Dark Places
+adding +50% on top. Pact of Gluttony makes the Healthstone reusable so this
+is repeatable, not a one-shot.
+
+## Survivability / delve import string (Soul Harvester, 12.0.7)
+
+```
+CkQAAAAAAAAAAAAAAAAAAAAAAgZmZGNLmxmZGzyAAAmZmlZZmZWGDAMLbLjhxsYmGzMDbZ2YYbAAAYGAAAzMjZGzsNGzYMzMDDzMjBAMgB
+```
+
+Bakes in **Gorebound Fortitude + Friends In Dark Places + Gorefiend's
+Resolve** (self-rez Soulstone). Pure ST/raid string for comparison:
+`CkQAAAAAAAAAAAAAAAAAAAAAAwMzMzoZhhZmZmlBAAYmZxxMzsMzAAjllBGwEMDbBG2GAAAmBAAwMDzMjBGmZmZGzgZmZGAwMwA`.
+
+> Strings parsed from the Icy Veins builds page — **confirm they load as
+> Soul Harvester in-game** before trusting (one bad char breaks an import).
 
 ## Stat priority
 
@@ -151,5 +216,9 @@ quality 1–2 is much cheaper for most of the effect (budget-friendly).
       Missive of the Peerless** (Crit/Mastery) for Affliction
 - [x] sims.md created 2026-06-03 (Encomplete talent audit baseline);
       re-sim once gear stabilizes
-- [ ] Pull an exact M+ import string (Eye Contract + Sow the Seeds
-      variant) from kalamazi or Archon and store it here
+- [x] Import strings stored 2026-06-16: survivability/delve + ST Soul
+      Harvester (from Icy Veins; verify hero tree on import). M+ Eye
+      Contract/Sow the Seeds variant string still TODO from kalamazi/Archon.
+- [x] Survivability heals/absorbs table added 2026-06-16 from Blizzard
+      API (static-12.0.7 tooltips); patch bumped 12.0.5 → 12.0.7 (no
+      warlock spec changes in 12.0.7, confirmed via Icy Veins notes).

@@ -32,6 +32,30 @@ Midnight *expansion* ships more dungeons — Den of Nalorakk, Murder Row,
 The Blinding Vale, Voidscar Arena per journal-expansion/516 — but they are
 not in the S1 M+ rotation.)
 
+## Practicing as Follower Dungeons
+
+Follower Dungeons (Normal difficulty, AI companions; no affixes/timer) only
+cover **Dragonflight / War Within / Midnight** dungeons. Of the S1 M+ pool,
+the **4 Midnight-native** dungeons have a Follower version:
+
+| S1 M+ Dungeon | Follower Dungeon? |
+|---|---|
+| Magisters' Terrace | ✅ (Midnight follower pool) |
+| Maisara Caverns | ✅ |
+| Nexus-Point Xenas | ✅ |
+| Windrunner Spire | ✅ |
+| Algeth'ar Academy | ⚠️ DF follower pool only (DF tuning/level, not Midnight) |
+| Seat of the Triumvirate (Legion) | ❌ no follower version |
+| Skyreach (WoD) | ❌ |
+| Pit of Saron (WotLK) | ❌ |
+
+Full Midnight follower pool (8): Windrunner Spire, Murder Row, Den of
+Nalorakk, Maisara Caverns, The Blinding Vale, Magister's Terrace,
+Nexus-Point Xenas, Voidscar Arena. Useful for learning layout/routes/boss
+mechanics blind — **not** for M+ affix/tuning practice. Soft cap ~10/day
+per account early-expansion. (Icy Veins follower-dungeon guide, upd.
+2026-02-21; verified 2026-06-13.)
+
 ## Affixes
 
 | Key level | Affixes |

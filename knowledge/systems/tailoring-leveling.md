@@ -59,21 +59,53 @@ medium confidence).
 - **Crafting orders**: bonus KP for first fills of the week — **Patron
   Orders (NPC-generated, zero social contact)** also pay augment runes
   and skill-boost reagents
-- **8 profession treasures** in Midnight zones — 3 KP each (24 total)
+- **8 profession treasures** in Midnight zones — 3 KP each (24 total).
+  TomTom waypoints (verified wow-professions / wowhead, 2026-06-14):
+  ```
+  /way #2393 35.9 61.3 A Really Nice Curtain (Tailoring)            # Silvermoon City
+  /way #2393 31.8 68.2 Particularly Enchanting Tablecloth (Tailoring)# Silvermoon City
+  /way #2395 46.3 34.8 Sin'dorei Outfitter's Ruler (Tailoring)      # Eversong Woods
+  /way #2437 40.5 49.4 Artisan's Cover Comb (Tailoring)             # Zul'Aman
+  /way #2413 69.8 51.0 Wooden Weaving Sword (Tailoring)             # Harandar
+  /way #2413 70.5 50.9 A Child's Stuffy (Tailoring)                 # Harandar
+  /way #2444 62.0 83.6 Book of Sin'dorei Stitches (Tailoring)       # Voidstorm
+  /way #2444 61.6 85.0 Satin Throw Pillow (Tailoring)               # Voidstorm
+  ```
+  Map IDs: #2393 Silvermoon · #2395 Eversong · #2437 Zul'Aman ·
+  #2413 Harandar · #2444 Voidstorm. (Harandar pair and Voidstorm pair
+  each ~0.5 yd apart = single stops.)
 - **Weekly trainer quest** — 3 KP
 - **Vendor books** — 10 KP, ~10–15k gold each (optional catch-up)
+- **Renown book "Skill Issue: Tailoring"** — 10 KP, sold by **Caeris
+  Fairdawn, Eversong Woods** (`/way #2395 43.4 47.4`, Saltheril's Haven
+  near Fairbreeze Village) for **75 Artisan Tailor's Moxie**, gated at
+  **Renown 6 with Silvermoon Court**. Grab once at Renown 6.
+  (Web tier-3, 2026-06-14: method.gg / misti.services / wowhead.)
+- **~19 KP/week** from the four weekly sources: Patron Orders, weekly
+  trainer quest, treatise, treasure/world-drops. ~40–50 KP reachable on
+  day 1 (first crafts + 8 treasures + renown book if Renown 6).
 
-## Specialization order (gear-crafting build)
+## Specialization trees (four trees, not slot sub-specs)
 
-1. **Nimble Needlework 5–10 first** — unlocks the daily bolt CD (5) and
-   the Arcanoweave Bolt recipe path (10)
-2. **Fiber Arts root → 30** — flat skill on all recipes + passive
-   stats; prerequisite for no-concentration gold quality (needs this +
-   skill 100). In its sub-nodes take **Resourcefulness side first**
-3. **Slot sub-specializations**: 5 KP root unlock → pick the
-   sub-spec for the slot you want → 10 KP unlocks that slot's recipe.
-   With profession gear + decent skill you can then craft that slot at
-   rank 5 **with concentration** long before guaranteed gold
+Verified web tier-3, 2026-06-14 (wow-professions / method.gg / overgear):
+
+- **Nimble Needlework** — daily bolt CD, embellished cloth (cloaks/
+  bracers/treads), and **enables Sunfire Silk + Arcanoweave to drop from
+  humanoid mobs** (the real value; guides say ~20 KP at skill 25 to turn
+  drops on — supersedes the older "5 KP for bolt CD" claim; trust node
+  tooltips in-game).
+- **Sin'dorei Finery** — epic cloth armor recipes (the gear).
+- **Fiber Arts** — flat skill on all recipes + crafting stats; the
+  quality tree; prerequisite (with skill 100) for no-concentration gold.
+- **Fabric Specialist** — boosts cloth drop rate while farming.
+
+### Build order (gear-crafting)
+
+1. **Nimble Needlework** — bolt CD + turn on mob cloth drops
+2. **Sin'dorei Finery** — your epic recipe source
+3. **Fiber Arts → ~30** — skill/quality; take **Resourcefulness side
+   first** in sub-nodes. (Pick **Fabric Specialist** here instead only
+   if farming/selling raw cloth rather than crafting your own gear.)
 4. Profession gear: epic BiS; stat lean **Ingenuity + Resourcefulness**
    for endgame gear crafting (Multicraft + Ingenuity only for
    mass-producing bolts/consumables). Tool missives exist (Thalassian
@@ -89,8 +121,9 @@ self-recraft cloth pieces at rank 5 *using concentration* once skill
 
 ## TODO
 
-- [ ] Treasure locations (8 × 3 KP) — coords per zone
-- [ ] Verify Midnight has/lacks DF-style weekly treatise for KP
-- [ ] Which slot sub-spec covers wrist (Martyr's Bindings) vs
-      belt/boots — node names
+- [x] Treasure locations (8 × 3 KP) — TomTom coords added 2026-06-14
+- [x] Weekly treatise confirmed (one of four weekly KP sources) — 2026-06-14
+- [x] Renown KP book "Skill Issue: Tailoring" (Renown 6 Silvermoon
+      Court, 75 Moxie, Caeris Fairdawn) — 2026-06-14
+- [ ] Which Finery node covers wrist (Martyr's Bindings) vs belt/boots
 - [ ] Artisan Tailor's Moxie earn rate
