@@ -18,6 +18,8 @@ function defaults() {
     settings: {
       role: "dps", // player is DPS; "all" widens the pool (healer/tank = filter flip)
       enabledDungeons: [...allDungeonSlugs],
+      scope: "both", // "both" | "boss" | "trash" — boss kits vs trash, or all
+      tierFloor: "all", // "all" | tier slug — priority floor (keep that tier + above)
       mode: "drill",
     },
     stats: { reviews: 0, correct: 0, lastReviewDay: null, streakDays: 0 },
@@ -83,6 +85,16 @@ export function recordReview(cardId, grade, wasCorrect, now = Date.now()) {
 
 export function setRole(role) {
   store.settings.role = role;
+}
+
+/** Boss/trash scope: "both" | "boss" | "trash". */
+export function setScope(scope) {
+  store.settings.scope = scope;
+}
+
+/** Priority floor: "all" | tier slug ("job" | "death" | "wipe"). */
+export function setTierFloor(tier) {
+  store.settings.tierFloor = tier;
 }
 
 export function toggleDungeon(slug) {

@@ -21,6 +21,7 @@
   // "setup" → pick a dungeon · "run" → the one-shot pass · "report" → score card.
   let stage = $state("setup");
   let dungeonSlug = $state(null);
+  let setupNote = $state(null); // shown when a dungeon yields no cards under filters
 
   // run state (mirrors Drill, minus the requeue)
   let queue = $state([]);
@@ -39,11 +40,21 @@
   let dungeon = $derived(dungeons.find((d) => d.slug === dungeonSlug) ?? null);
 
   function start(slug) {
-    dungeonSlug = slug;
-    queue = buildTestQueue({
+    const q = buildTestQueue({
       dungeonSlug: slug,
-      filters: { role: store.settings.role },
+      filters: {
+        role: store.settings.role,
+        scope: store.settings.scope,
+        tierFloor: store.settings.tierFloor,
+      },
     });
+    if (q.length === 0) {
+      setupNote = `${dungeons.find((d) => d.slug === slug)?.name ?? "That dungeon"} has no cards under your current boss/trash + priority filters.`;
+      return;
+    }
+    setupNote = null;
+    dungeonSlug = slug;
+    queue = q;
     idx = 0;
     results = [];
     resetCard();
@@ -120,7 +131,19 @@
   function retake() {
     stage = "setup";
     dungeonSlug = null;
+    setupNote = null;
   }
+
+  // Non-default global filters, summarised for the setup screen (so a thin
+  // dungeon result reads as "filtered", not "broken"). Empty when wide open.
+  const scopeLabel = { boss: "bosses only", trash: "trash only" };
+  const floorLabel = { job: "job+", death: "death+", wipe: "wipe only" };
+  let activeFilters = $derived(
+    [
+      scopeLabel[store.settings.scope],
+      floorLabel[store.settings.tierFloor] && `priority ${floorLabel[store.settings.tierFloor]}`,
+    ].filter(Boolean),
+  );
 </script>
 
 {#if stage === "run" && current}
@@ -240,6 +263,14 @@
             A single in-order pass through one dungeon — boss by boss, one shot each.
             <span class="text-ink">Build the gist, then graduate to Drill.</span>
           </p>
+          {#if activeFilters.length}
+            <p class="mt-2 text-[11px] text-ink-faint">
+              Filtered: {activeFilters.join(" · ")} <span class="opacity-60">(set in Drill ⚙)</span>
+            </p>
+          {/if}
+          {#if setupNote}
+            <p class="mt-2 text-[11px] text-wrong/90">{setupNote}</p>
+          {/if}
         </div>
         <div class="scroll flex-1 px-4 pb-4">
           <div class="grid grid-cols-2 gap-2.5">

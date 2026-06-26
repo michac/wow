@@ -35,6 +35,8 @@
   $effect(() => {
     store.settings.role;
     store.settings.enabledDungeons;
+    store.settings.scope;
+    store.settings.tierFloor;
     untrack(rebuild);
   });
 
@@ -44,6 +46,8 @@
       filters: {
         role: store.settings.role,
         enabledDungeons: store.settings.enabledDungeons,
+        scope: store.settings.scope,
+        tierFloor: store.settings.tierFloor,
       },
     });
     idx = 0;
@@ -122,7 +126,8 @@
         </p>
         <p class="mt-2 text-sm leading-relaxed text-ink-soft">
           {#if total === 0}
-            Nothing is due under your current filters. Widen the role or enable more dungeons.
+            Nothing is due under your current filters. Widen the role/scope, lower the priority
+            floor, or enable more dungeons.
           {:else}
             You reviewed {reviewed} card{reviewed === 1 ? "" : "s"} this round.
           {/if}
