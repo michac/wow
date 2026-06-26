@@ -1,5 +1,6 @@
 <script>
   import { cueSubtitle } from "../ui.js";
+  import { bossArt } from "../bossArt.js";
   /**
    * The hero block: a boss portrait (real journal render when we have one,
    * dungeon-tinted monogram otherwise) with the dungeon banner, caster name,
@@ -9,23 +10,8 @@
    */
   let { cue, height = 210, status = null } = $props();
 
-  // Slug → bundled webp URL, keyed by filename stem (Vite hashes the asset, so
-  // there's no path coupling). Stems use the `<dungeonSlug>__<bossSlug>` rule
-  // that build-content.mjs writes into `cue.artKey` (and that bossart.py
-  // generates the files with). Trash cards have no artKey → no art.
-  const artUrls = import.meta.glob("../../assets/bosses/*.webp", {
-    eager: true,
-    query: "?url",
-    import: "default",
-  });
-  const artByKey = Object.fromEntries(
-    Object.entries(artUrls).map(([path, url]) => [
-      path.split("/").pop().replace(/\.webp$/, ""),
-      url,
-    ]),
-  );
-
-  let art = $derived(cue.artKey ? artByKey[cue.artKey] || null : null);
+  // Trash cards have no artKey → no art (falls back to the monogram below).
+  let art = $derived(bossArt(cue.artKey));
 
   let monogram = $derived(
     cue.caster

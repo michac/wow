@@ -11,7 +11,7 @@
     "prebuild": "bun run scripts/build-content.mjs",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "bun run build && bun run scripts/smoke.mjs"
+    "test": "bun run build && bun run scripts/smoke.mjs && bun run scripts/smoke-guide.mjs"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^5.0.3",

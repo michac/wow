@@ -1,0 +1,295 @@
+{
+  "dungeon": "Magisters' Terrace",
+  "lore": "Magisters' Terrace is the heart of arcane study for the sin'dorei, including Magister Umbric, long ago. Within its halls lies the Cynosure of Twilight, the key to unlocking the way into the Voidstorm.",
+  "bosses": [
+    {
+      "name": "Arcanotron Custos",
+      "lore": "This highly advanced arcane construct has been charged with keeping the peace and ensuring that all Magisters adhere to rules and restrictions. Veering from said rules will not be tolerated.",
+      "roleTips": {
+        "Damage Dealers": [
+          "[Arcane Expulsion] inflicts a heavy amount of damage and knocks back all players.",
+          "[Arcane Residue] inflicts heavy damage to players standing in the area.",
+          "Arcanotron Custos gains [Arcane Empowerment] if an Energy Orb reaches it."
+        ],
+        "Healers": [
+          "[Ethereal Shackles] roots players and inflicts periodic damage.",
+          "[Arcane Residue] inflicts heavy damage to players standing in the area.",
+          "Arcanotron Custos gains [Arcane Empowerment] if an Energy Orb reaches it."
+        ],
+        "Tanks": [
+          "[Repulsing Slam] inflicts a heavy amount of damage and knocks back its target.",
+          "[Arcane Residue] inflicts heavy damage to players standing in the area.",
+          "Arcanotron Custos gains [Arcane Empowerment] if an Energy Orb reaches it."
+        ]
+      },
+      "abilities": [
+        {
+          "name": "Refueling Protocol",
+          "spellId": 474345,
+          "text": "Upon running out of energy Arcanotron Custos begins recharging, drawing Energy Orbs toward itself and increasing damage taken by 20% for 20 sec.",
+          "children": [
+            {
+              "name": "Energy Orb",
+              "spellId": 474308,
+              "text": "Arcanotron Custos attracts unstable Energy Orbs to itself, granting it Arcane Empowerment upon contact. If a player comes into contact with an Energy Orb it will be destroyed, covering the player with Unstable Energy .Arcanotron Custos attracts unstable Energy Orbs to itself, granting it Arcane Empowerment upon contact. If a player comes into contact with an Energy Orb it will be destroyed, covering the player with Unstable EnergyArcanotron Custos attracts unstable Energy Orbs to itself, granting it Arcane Empowerment upon contact. If a player comes into contact with an Energy Orb it will be destroyed, creating a pool of Arcane Residue and covering the player with Unstable Energy.",
+              "children": [
+                {
+                  "name": "Arcane Residue",
+                  "spellId": 1214089,
+                  "text": "Creates a pool of Arcane Residue inflicting 10 Arcane damage every 1 sec and reducing the movement speed of players in the area by -50%."
+                },
+                {
+                  "name": "Unstable Energy",
+                  "spellId": 1243905,
+                  "text": "Inflicts 5 Arcane damage every $t second for 3 sec. This effect stacks."
+                },
+                {
+                  "name": "Arcane Empowerment",
+                  "spellId": 474407,
+                  "text": "An Energy Orb refueling Arcanotron Custos creates an arcane explosion inflicting 10 Arcane damage to all players and increasing the damage inflicted by Arcanotron Custos by 10%."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Arcane Expulsion",
+          "spellId": 1214081,
+          "text": "Arcanotron Custos expels Arcane energy creating a pool of Arcane Residue at its feet, inflicting 15 damage to all players and knocking them back.",
+          "children": [
+            {
+              "name": "Arcane Residue",
+              "spellId": 1214089,
+              "text": "Creates a pool of Arcane Residue inflicting 10 Arcane damage every 1 sec and reducing the movement speed of players in the area by -50%."
+            }
+          ]
+        },
+        {
+          "name": "Ethereal Shackles",
+          "spellId": 1214038,
+          "text": "Arcanotron Custos suppresses the movement of several players, inflicting 9 Arcane damage every 3 sec and rooting them for 15 sec."
+        },
+        {
+          "name": "Repulsing Slam",
+          "spellId": 474496,
+          "text": "Arcanotron Custos strikes it's current target with destructive force inflicting 30 Arcane damage and knocking them back."
+        }
+      ]
+    },
+    {
+      "name": "Seranel Sunlash",
+      "lore": "An accomplished Spellbreaker, Serenel Sunlash has earned the full trust of the Magisters. Charged with the protection of the Cynosure of Twilight, Seranel will fulfill those duties with his very life if necessary.",
+      "roleTips": {
+        "Damage Dealers": [
+          "[Wave of Silence] inflicts heavy damage and silences players outside of [Suppression Zones].",
+          "[Runic Mark] inflicts moderate damage to nearby players.",
+          "[Suppression Zone] and [Feedback] silences and pacifies players."
+        ],
+        "Healers": [
+          "[Wave of Silence] inflicts heavy damage and silences players outside of [Suppression Zones].",
+          "[Runic Mark] inflicts moderate damage to nearby players.",
+          "[Suppression Zone] and [Feedback] silences and pacifies players."
+        ],
+        "Tanks": [
+          "[Hastening Ward] increases Seranel's attack speed and causes his melee attacks to inflict additional Arcane damage.",
+          "[Wave of Silence] inflicts heavy damage and silences players outside of [Suppression Zones].",
+          "[Runic Mark] inflicts moderate damage to nearby players."
+        ]
+      },
+      "abilities": [
+        {
+          "name": "Suppression Zone",
+          "spellId": 1224903,
+          "text": "Seranel slams his shield into the ground, inflicting 40 Arcane damage to players within $1224903A2 yards and conjuring a Suppression Zone at the impact area. The Suppression Zone silences and pacifies players standing within and purges magical effects.",
+          "children": [
+            {
+              "name": "Feedback",
+              "spellId": 1225135,
+              "text": "The Suppression Zone consumes Runic Mark from the target, causing them to emit a barrage of arcane missiles. Each missile inflicts 30 Arcane damage to players within $A2 yards of the impact area, silencing and pacifying them for 3 sec."
+            }
+          ]
+        },
+        {
+          "name": "Suppression Zone",
+          "spellId": 1224903,
+          "text": "Seranel slams his shield into the ground, inflicting 40 Arcane damage to players within $1224903A2 yards and conjuring a Suppression Zone at the impact area. The Suppression Zone silences and pacifies players standing within and purges magical effects.",
+          "children": [
+            {
+              "name": "Feedback",
+              "spellId": 1225135,
+              "text": "The Suppression Zone consumes Runic Mark from the target, causing them to emit a barrage of arcane missiles. Each missile inflicts 30 Arcane damage to players within $A2 yards of the impact area, silencing and pacifying them for 3 sec."
+            },
+            {
+              "name": "Null Reaction",
+              "spellId": 1246446,
+              "text": "The Runic Mark violently reacts to the removal, inflicting 10 Arcane damage to all players and reducing their movement speed by 25% for 3 sec. This effect stacks."
+            }
+          ]
+        },
+        {
+          "name": "Wave of Silence",
+          "spellId": 1225193,
+          "text": "Seranel readies a Wave of Silence, inflicting 15 Arcane damage to all players and pacifying any player outside of the Suppression Zone for 8 sec."
+        },
+        {
+          "name": "Runic Mark",
+          "spellId": 1225792,
+          "text": "Seranel hurls an Arcane infused glaive at a target inflicting ${1+5} Arcane damage and an additional 5 Arcane damage every 1 sec to players within $1225796A2 yards. The glaive bounces to 1 nearby players."
+        },
+        {
+          "name": "Hastening Ward",
+          "spellId": 1248689,
+          "text": "Seranel surrounds himself in a hastening ward, increasing his attack speed by 100% and his auto attacks to inflict an additional 5 Arcane damage for 15 sec."
+        }
+      ]
+    },
+    {
+      "name": "Gemellus",
+      "lore": "An otherworldly spawn of Void origins, Gemellus seems to utilize the Void not only for its own protection, but to propigate and foster the development of its species as well.",
+      "roleTips": {
+        "Damage Dealers": [
+          "[Astral Grasp] pulls players towards their respective Gemellus.",
+          "[Cosmic Sting] inflicts moderate damage and creates [Void Secretions] upon expiration."
+        ],
+        "Healers": [
+          "[Cosmic Sting] inflicts moderate damage and creates [Void Secretions] upon expiration.",
+          "[Astral Grasp] pulls players towards their respective Gemellus."
+        ],
+        "Tanks": [
+          "[Astral Grasp] pulls players towards their respective Gemellus.",
+          "[Cosmic Sting] inflicts moderate damage and creates [Void Secretions] upon expiration."
+        ]
+      },
+      "abilities": [
+        {
+          "name": "Triplicate",
+          "spellId": 1223847,
+          "text": "At the start of the encounter and upon reaching 50% remaining health Gemullus self replicates, creating 2 clones of itself.",
+          "children": [
+            {
+              "name": "Synaptic Nexus",
+              "spellId": 1223936,
+              "text": "All Gemellus function as a collective, sharing health."
+            }
+          ]
+        },
+        {
+          "name": "Neural Link",
+          "spellId": 1253707,
+          "text": "Gemellus forms a neural link with a player, absorbing damage equal to 20% of its maximum health. The player they are linked to receives 20% more damage for 12 sec. Players who touch the Gemellus who linked with them before Neural Link expires disrupts the connection, removing Gemellus' damage absorb."
+        },
+        {
+          "name": "Triplicate",
+          "spellId": 1223847,
+          "text": "At the start of the encounter and upon reaching 50% remaining health Gemullus self replicates, creating 2 clones of itself.",
+          "children": [
+            {
+              "name": "Synaptic Nexus",
+              "spellId": 1223936,
+              "text": "All Gemellus function as a collective, sharing health."
+            }
+          ]
+        },
+        {
+          "name": "Astral Grasp",
+          "spellId": 1224299,
+          "text": "Gemellus channels a shadowy tendril at a player, inflicting 4 Shadow damage every 1 sec and pulling the player towards them for $D.",
+          "children": [
+            {
+              "name": "Cosmic Radiation",
+              "spellId": 1224401,
+              "text": "Gemellus radiates players pulled within its grasp, inflicting 18 Shadow damage every 1 sec."
+            }
+          ]
+        },
+        {
+          "name": "Cosmic Sting",
+          "spellId": 1284958,
+          "text": "Gemellus stings a player with Cosmic Void, inflicting 12 Shadow damage and creating a pool of Void Secretions at their location. Inflicts an additional 5 Shadow damage every 1 sec for 6 sec.",
+          "children": [
+            {
+              "name": "Void Secretions",
+              "spellId": 1224100,
+              "text": "Cosmic Sting forms a pool of secretions, inflicting 15 Shadow damage every 1 sec to players standing within."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Degentrius",
+      "lore": "A powerful creature of the Void, Degentrius has taken advantage of the opportunity inadvertently provided by Magister Umbric and launched an assault on the Terrace.",
+      "roleTips": {
+        "Damage Dealers": [
+          "If there are no players standing under [Unstable Void Essence]  when it impacts, damage will be inflicted to all players.",
+          "[Void Torrent]  inflicts moderate damage and stuns any players that come into contact with it."
+        ],
+        "Healers": [
+          "[Devouring Entropy] creates Entropy Orbs upon removal.",
+          "If there are no players standing under [Unstable Void Essence]  when it impacts, damage will be inflicted to all players.",
+          "[Void Torrent]  inflicts moderate damage and stuns any players that come into contact with it."
+        ],
+        "Tanks": [
+          "[Null Bomb] will inflict massive damage to all players if it is not triggered by a player.",
+          "If there are no players standing under [Unstable Void Essence]  when it impacts, damage will be inflicted to all players.",
+          "[Void Torrent]  inflicts moderate damage and stuns any players that come into contact with it."
+        ]
+      },
+      "abilities": [
+        {
+          "name": "Void Torrent",
+          "spellId": 1214714,
+          "text": "The Celestial Orrery's focusing lenses channel Void energy into Degentrius. Contact with a Void Torrent inflicts 30 Shadow damage and stuns the player for 5 sec."
+        },
+        {
+          "name": "Unstable Void Essence",
+          "spellId": 1215087,
+          "text": "Degentrius launches unstable void energy that bounces to 4 locations, inflicting 10 Shadow damage to any player at the point of impact. If no player is in the area the unstable void essence erupts in Void Destruction.",
+          "children": [
+            {
+              "name": "Void Destruction",
+              "spellId": 1215161,
+              "text": "Void energy erupts upon impact with the ground inflicting 12 Shadow damage to all players plus an additional 1 Shadow damage every 0.5 sec for 40 sec. This effect stacks."
+            }
+          ]
+        },
+        {
+          "name": "Devouring Entropy",
+          "spellId": 1215897,
+          "text": "Degentrius corrupts several players with Void energy, inflicting 3 Shadow damage every 1 sec. Each afflicted player receives a different duration. Upon expiration, Entropy Orbs launch from the player's location.",
+          "children": [
+            {
+              "name": "Entropy Orb",
+              "spellId": 1269631,
+              "text": "Volatile masses inflict 15 Shadow damage to players struck and additionaly reduce their movement speed by 70% for 5 sec."
+            }
+          ]
+        },
+        {
+          "name": "Hulking Fragment",
+          "spellId": 1280113,
+          "text": "Degentrius smashes a massive fragment into their current target, inflicting 35 Shadow damage to players within $1280119a1 yards. The force of the impact knocks away other players within $1280119a1 yards of their target.",
+          "children": [
+            {
+              "name": "Umbral Splinters",
+              "spellId": 1284627,
+              "text": "Embedded splinters from Hulking Fragment inflict 4 Shadow damage every 1 sec for 30 sec. This effect stacks. Upon removal, the splinters dissolve, leaving behind Stygian Ichor.",
+              "children": [
+                {
+                  "name": "Stygian Ichor",
+                  "spellId": 1284628,
+                  "text": "The dissolved splinters form a pool on the ground for 40 sec, inflicting 2 Shadow damage every 0.5 sec to players within."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Entropy Blast",
+          "spellId": 1271066,
+          "text": "Degentrius unleashes an Entropy Blast at its primary target inflicting Physical damage."
+        }
+      ]
+    }
+  ]
+}

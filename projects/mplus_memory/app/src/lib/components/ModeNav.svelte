@@ -8,7 +8,7 @@
     { id: "drill", icon: "◎", label: "Drill", on: true },
     { id: "test", icon: "✓", label: "Test", on: true },
     { id: "archetypes", icon: "⬡", label: "Alphabet", on: true },
-    { id: "route", icon: "⌁", label: "Route", on: false },
+    { id: "guide", icon: "🗺", label: "Guide", on: true },
     { id: "dashboard", icon: "▦", label: "Stats", on: false },
     { id: "browse", icon: "⬚", label: "Browse", on: false },
   ];
