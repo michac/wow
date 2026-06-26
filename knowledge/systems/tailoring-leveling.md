@@ -55,7 +55,8 @@ medium confidence).
   for KP** — the renown book (75 Moxie = 10 KP, Silvermoon Court R6)
   is the best Moxie sink. Buy only Elegant pieces you'll actually use.
 - **Daily bolt CD + endgame slot recipes: from KP spec nodes** (Nimble
-  Needlework 5; each slot sub-spec's 10-pt node = that slot's recipe).
+  Needlework 5; each Sin'dorei Finery slot node's 10-pt unlock = that
+  slot's recipe).
 - **Lining recipes (80–90)**: AH world-drops — only needed if pushing
   past 80; defer until bolt dailies cap.
 - **Elegant Artisan (90–100)**: Artisan Tailor's Moxie currency, not gold.
@@ -160,7 +161,7 @@ it shows the difficulty number and your current effective skill.
 Guaranteed gold (rank 5 without concentration) takes skill 100 + deep
 spec investment — **weeks, not days**. Realistic interim goal:
 self-recraft cloth pieces at rank 5 *using concentration* once skill
-~80+, Fiber Arts 30, and the relevant slot sub-spec are in. Weapon
+~80+, Fiber Arts 30, and the relevant Sin'dorei Finery slot node are in. Weapon
 (Aln'hara Cane) is Inscription — always commissioned.
 
 ## TODO

@@ -110,7 +110,9 @@ pulls are rough** — calibration point for content recommendations.
 - Tailoring is leveled in old tiers only; picking up Midnight Tailoring
   would let them self-craft spark gear.
 - Enchants/sockets are low-hanging fruit.
-- Spec context for KB lookups: `knowledge/classes/warlock/affliction/`.
+- Spec context for KB lookups: `knowledge/classes/warlock/demonology/`
+  (active spec as of 2026-06-23; Affliction loadout still saved, see
+  `knowledge/classes/warlock/affliction/`).
 
 > **Active plan moved to `encomplete-plan.md`** (priority checklist,
 > weekly rotation, spend rules, milestones). Section below kept as the
@@ -151,7 +153,10 @@ Revised 2026-06-03 after digesting SignsOfKelani 12.0.5 gearing video —
    (vendor gear ≠ crafted; verify once in-game).
 5. Champion crests (100+): upgrade champion-track drops; don't
    over-invest — hero pieces from accolades/delve renown 9 supersede.
-6. Enchants on everything (zero detected at snapshot).
+6. Enchants on everything (zero detected at the 2026-06-03 snapshot;
+   **partially done by the 2026-06-23 fetch** — chest/legs/ring1/weapon
+   now enchanted, see the Gear table; neck/wrist/feet/ring2/back still
+   open).
 7. Tailoring: commission first crafts via crafting orders now; level
    Midnight Tailoring in background for self-crafting later.
 8. Prey: **exactly 4 hunts/week** until Preyseeker rank 4 (first 4 =

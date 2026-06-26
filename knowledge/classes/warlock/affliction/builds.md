@@ -17,7 +17,7 @@ confidence: medium
 
 # Affliction — talents & gearing (Midnight Season 1)
 
-## Talents (S1, 12.0.5)
+## Talents (S1, 12.0.7)
 
 **Hero tree: Soul Harvester for everything** — ST, cleave, and pure AoE
 (Icy Veins; murlok top-50 M+: 50/50 Soul Harvester, 0/50 Hellcaller).
@@ -51,8 +51,9 @@ Reference talent string (simc MID1 Soul Harvester, raid/ST):
   Hellcaller — keep for funnel/AoE curiosities only):
   `CkQAAAAAAAAAAAAAAAAAAAAAAwMjZGNLmxiZGzyAAAmZmlZzMzyYAALwAziRjZAZ2ALDAAAzAAAzMYMzMmtxYGmZmZYYmZmBAMDMA`
 
-⚠ Import strings are tree-version-sensitive — re-verify after 12.0.7
-(2026-06-16) in case the talent trees changed.
+⚠ Import strings are tree-version-sensitive. Re-verified against Icy
+Veins on 2026-06-26 (post-12.0.7) — all three strings below still match
+the source; re-check again if the talent trees change in a later patch.
 
 Near-universal spec picks among top-50 M+ (murlok, 2026-06-03):
 Agony, Unstable Affliction, Seed of Corruption, Nightfall, Haunt,
@@ -155,8 +156,9 @@ CkQAAAAAAAAAAAAAAAAAAAAAAgZmZGNLmxmZGzyAAAmZmlZZmZWGDAMLbLjhxsYmGzMDbZ2YYbAAAYGA
 ```
 
 Bakes in **Gorebound Fortitude + Friends In Dark Places + Gorefiend's
-Resolve** (self-rez Soulstone). Pure ST/raid string for comparison:
-`CkQAAAAAAAAAAAAAAAAAAAAAAwMzMzoZhhZmZmlBAAYmZxxMzsMzAAjllBGwEMDbBG2GAAAmBAAwMDzMjBGmZmZGzgZmZGAwMwA`.
+Resolve** (self-rez Soulstone). Pure ST/raid string for comparison
+(identical to the ST — Soul Harvester string in the Talents section):
+`CkQAAAAAAAAAAAAAAAAAAAAAAwMzMzoZhhZmZmlBAAYmZxyMzsMzAAjllBGwEMDbBG2GAAAmBAAwMDzMjBGmZmZGzgZmZGAwMwA`.
 
 > Strings parsed from the Icy Veins builds page — **confirm they load as
 > Soul Harvester in-game** before trusting (one bad char breaks an import).
