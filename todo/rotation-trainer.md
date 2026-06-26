@@ -56,8 +56,40 @@ and this repo already carries Affliction KB + spell data to draw on.
     Pixel 6 build uses **Impeller** (no Skia) — verified against the local
     `~/flutter` repo. Visually equivalent for M2's primitives, but reserve final
     judgment on smoothness/feel (and haptics/touch ergonomics) for a device build.
-- *Next: Milestone 3 — JSON template loader (drive the roster from
-  `warlock-affliction-simple.json`, validate on load).*
+- **2026-06-19 — Milestone 3 complete (JSON template loader).** The roster is
+  now **data, not code**. Added `trainer/sim/lib/src/template_loader.dart`, a
+  **pure-Dart** `loadTemplate(String) → SimConfig` (imports only `dart:convert` +
+  the engine's data layer — no `package:flutter`/`dart:io`, so it tests under
+  `dart test`). It is the **single seam** `ids.dart` anticipated: the wire-format
+  spellings (`"ua"`, `"shadowbolt"`) live in private string→enum maps here, never
+  in the engine core. Two-phase parse — (1) build the four collections with typed
+  path-tagging accessors, (2) cross-check every id reference against the parsed
+  collections (catches e.g. "consumes nightfall but no nightfall aura defined").
+  Fail-fast `TemplateException` (path-tagged), lenient on unknown extra keys
+  (`icon`/`display`/`spec`/…), strict on required+typed values, all id refs, and
+  ranges (`min<=max`, `startAt∈[min,max]`, probabilities∈[0,1], non-negative
+  durations, `maxStacks>=1`, no dup ids, priority⊆abilities). `num`-tolerant
+  doubles (JSON `2` and `2.0`). Canonical template bundled at
+  `trainer/app/assets/templates/affliction_simple.json`; `main()` is now async —
+  `rootBundle.loadString` → `loadTemplate` → `RotationTrainerApp(config:)`, wrapped
+  **debug-loud / release-fallback** (rethrow in `kDebugMode`, else fall back to
+  `afflictionSimplified()`). The JSON reproduces `afflictionSimplified()`
+  **field-for-field** (verified by a no-value-equality field-by-field helper) and
+  editing it changes the rotation with no code change. **Loader: 21 tests green
+  (`dart test`, total 58 in `trainer/sim`); app: 8 tests green (`flutter test`,
+  the 6 M2 widget tests untouched + asset-fidelity + boot smoke); both analyze
+  clean.**
+  - Decisions locked during M3: string→enum tables live in the loader (the
+    "single seam"), not `ids.dart`; one canonical JSON under `app/assets/`
+    (Flutter's bundler rejects `../sim/...` — no copies, no drift); no
+    value-equality on the engine structs (a field-by-field test helper instead);
+    no `TemplateMeta` yet (`icon`/`display`/`spec`/`class`/`patch` ignored — icons
+    are M5); `tickDamage` + the `onTick` tagged union added to the draft schema so
+    the doc stays honest. **Gotcha:** `rootBundle.loadString` inside `testWidgets`
+    hangs (fake-async zone never resolves real I/O) — load it via
+    `tester.runAsync(...)`; a plain `test` is fine.
+- *Next: Milestone 4 — practice feedback (`advise()` next-ability glow +
+  end-of-pull summary: uptime, wasted GCDs, overcap, clips, score).*
 
 ## Decisions (locked)
 
@@ -225,22 +257,27 @@ mechanics layer in once the engine holds.
     { "id": "agony", "name": "Agony", "icon": "spell_shadow_curseofsargeras",
       "castTime": 0, "onGcd": true,
       "applies": { "debuff": "agony" } },
+    { "id": "corruption", "name": "Corruption", "icon": "spell_shadow_abominationexplosion",
+      "castTime": 0, "onGcd": true,
+      "applies": { "debuff": "corruption" } },
     { "id": "shadowbolt", "name": "Shadow Bolt", "icon": "spell_shadow_shadowbolt",
       "castTime": 2.0, "onGcd": true,
       "instantIfAura": "nightfall", "consumesAura": "nightfall",
-      "effect": { "damage": 100, "generates": { "soulShard": 0 } } },
+      "effect": { "damage": 100 } },
     { "id": "ua", "name": "Unstable Affliction", "icon": "spell_shadow_unstableaffliction_3",
       "castTime": 0, "onGcd": true,
       "cost": { "soulShard": 1 }, "effect": { "damage": 220 } },
     { "id": "haunt", "name": "Haunt", "icon": "ability_warlock_haunt",
       "castTime": 1.5, "onGcd": true, "cooldown": 15,
-      "applies": { "debuff": "haunt" } }
+      "applies": { "debuff": "haunt" }, "effect": { "damage": 80 } }
   ],
   "debuffs": [
     { "id": "agony",  "name": "Agony", "duration": 18, "tickInterval": 2,
-      "pandemic": 0.3, "onTick": { "chance": 0.5, "generates": { "soulShard": 1 } } },
+      "pandemic": 0.3, "tickDamage": 10,
+      "onTick": { "chance": 0.5, "generates": { "soulShard": 1 } } },
     { "id": "corruption", "name": "Corruption", "duration": 14, "tickInterval": 2,
-      "pandemic": 0.3, "onTick": { "chance": 0.15, "grantsAura": "nightfall" } },
+      "pandemic": 0.3, "tickDamage": 8,
+      "onTick": { "chance": 0.15, "grantsAura": "nightfall" } },
     { "id": "haunt", "name": "Haunt", "duration": 8, "damageAmp": 0.10 }
   ],
   "auras": [
@@ -249,6 +286,12 @@ mechanics layer in once the engine holds.
   "priority": ["agony", "corruption", "haunt", "ua", "shadowbolt"]
 }
 ```
+`onTick` is a **tagged union**: exactly one of `generates: { <resource>: N }`
+(per-tick resource gen) or `grantsAura: "<aura>"` (per-tick proc), gated by
+`chance` in `[0,1]`. `tickDamage` is the per-tick damage of a DoT (M3 addition to
+the draft). The M3 loader (`trainer/sim/lib/src/template_loader.dart`) parses this
+shape into `SimConfig` byte-for-byte against `afflictionSimplified()`; the canonical
+file is bundled at `trainer/app/assets/templates/affliction_simple.json`.
 Numbers are placeholders. Icon slugs reuse this repo's Stage-A enrichment
 (`app/static/data/.../<spec>.json` carries icon slugs/URLs) so the trainer and
 the talent calculator share one icon source. Bundle templates as Flutter assets

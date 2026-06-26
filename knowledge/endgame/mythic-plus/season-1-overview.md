@@ -15,16 +15,26 @@ M+ unlocked the week of **2026-03-24** (season opened 2026-03-17).
 
 ## Dungeon pool (8)
 
-| Dungeon | Origin | WCL enc. ID |
-|---------|--------|-------------|
-| Magisters' Terrace | TBC (Midnight-new to M+) | 12811 |
-| Maisara Caverns | Midnight (new) | 12874 |
-| Nexus-Point Xenas | Midnight (new) | 12915 |
-| Windrunner Spire | Midnight (new) | 12805 |
-| Algeth'ar Academy | Dragonflight (returning) | 112526 |
-| Seat of the Triumvirate | Legion (returning) | 361753 |
-| Skyreach | WoD (returning) | 61209 |
-| Pit of Saron | WotLK (returning) | 10658 |
+Each links to a one-page **cheat sheet** (`dungeons/`) — route, the boss
+mechanics that actually wipe groups, must-interrupt trash, role notes.
+
+| Dungeon | Origin | WCL enc. ID | Cheat sheet |
+|---------|--------|-------------|-------------|
+| Magisters' Terrace | TBC (Midnight-new to M+) | 12811 | [`dungeons/magisters-terrace.md`](dungeons/magisters-terrace.md) |
+| Maisara Caverns | Midnight (new) | 12874 | [`dungeons/maisara-caverns.md`](dungeons/maisara-caverns.md) |
+| Nexus-Point Xenas | Midnight (new) | 12915 | [`dungeons/nexus-point-xenas.md`](dungeons/nexus-point-xenas.md) |
+| Windrunner Spire | Midnight (new) | 12805 | [`dungeons/windrunner-spire.md`](dungeons/windrunner-spire.md) |
+| Algeth'ar Academy | Dragonflight (returning) | 112526 | [`dungeons/algethar-academy.md`](dungeons/algethar-academy.md) |
+| Seat of the Triumvirate | Legion (returning) | 361753 | [`dungeons/seat-of-the-triumvirate.md`](dungeons/seat-of-the-triumvirate.md) |
+| Skyreach | WoD (returning) | 61209 | [`dungeons/skyreach.md`](dungeons/skyreach.md) |
+| Pit of Saron | WotLK (returning) | 10658 | [`dungeons/pit-of-saron.md`](dungeons/pit-of-saron.md) |
+
+> Cheat-sheet boss mechanics are corroborated across **tier-3 Midnight
+> guides** (Method/Icy Veins/Wowhead-Midnight/Conquest Capped), not tier-1 —
+> most carry `confidence: medium`. Boss *rosters* and kill orders are
+> web-verified current; exact numeric tuning (timers, % buffs) is the soft
+> spot. Returning dungeons (5 of 8) had their old-expansion rosters confirmed
+> **replaced/retuned**, not copied.
 
 (One secondary source listed 9 dungeons; both the Icy Veins S1 guide and
 WCL zone 47 "Mythic+ Season 1" confirm **8** — verified 2026-06-03. The
@@ -42,9 +52,17 @@ not in the S1 M+ rotation.)
 | +10 and up | Fortified **and** Tyrannical both active |
 | +12 and up | **Xal'atath's Guile** replaces all Bargains; deaths more punishing |
 
+See `affixes.md` for **what each affix does and how to play around it**
+(Lindormi's Guidance, the four Xal'atath's Bargains, Guile).
+
 ## Rewards
 
-See `../great-vault.md` for the ilvl table. Vault cap at **+10** (272).
+See `keystones.md` for **how keys work** (first key, upgrade/downgrade,
+resilient floor). See `loot.md` for **how M+ loot actually works** (end-of-run
+drop vs vault vs currency, why most runs give no gear, the +6 Hero breakpoint).
+See `rating-and-rewards.md` for **M+ rating + what you're chasing** (score
+mechanics, +10 teleport portals, KSM/KSH titles, the Calamitous Carrion mount).
+See `../great-vault.md` for the full ilvl table. Vault cap at **+10** (272).
 
 12.0.5 notes (SignsOfKelani, 2026-04-26):
 
@@ -58,6 +76,10 @@ See `../great-vault.md` for the ilvl table. Vault cap at **+10** (272).
 
 ## TODO
 
-- [ ] One file per dungeon (route, notable trash, boss notes) — source:
-      Icy Veins dungeon guides + in-game journal via `wowkb.blizzard`
-- [ ] Verify Xal'atath's Bargain rotation schedule
+- [x] **One file per dungeon** (route, trash, boss notes) → `dungeons/*.md`
+      (8 cheat sheets, 2026-06-21). Boss detail is tier-3-sourced; the
+      open follow-up is **tier-1 numeric tuning** (timers, %s, spell IDs via
+      `wowkb.wago` / journal-encounter) and confirming the stale-tagged affix
+      lines in each sheet against live 12.0.
+- [ ] Verify Xal'atath's Bargain **weekly rotation schedule** (which Bargain
+      is up which week — mechanics now in `affixes.md`, the *schedule* is not).

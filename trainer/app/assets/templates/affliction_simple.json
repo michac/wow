@@ -1,0 +1,42 @@
+{
+  "id": "warlock-affliction-simple",
+  "name": "Affliction Warlock (simplified)",
+  "spec": "affliction",
+  "class": "warlock",
+  "patch": "12.0.7",
+  "gcd": 1.5,
+  "resources": [
+    { "id": "soulShard", "min": 0, "max": 5, "startAt": 3, "display": "pips" }
+  ],
+  "abilities": [
+    { "id": "agony", "name": "Agony", "icon": "spell_shadow_curseofsargeras",
+      "castTime": 0, "onGcd": true,
+      "applies": { "debuff": "agony" } },
+    { "id": "corruption", "name": "Corruption", "icon": "spell_shadow_abominationexplosion",
+      "castTime": 0, "onGcd": true,
+      "applies": { "debuff": "corruption" } },
+    { "id": "shadowbolt", "name": "Shadow Bolt", "icon": "spell_shadow_shadowbolt",
+      "castTime": 2.0, "onGcd": true,
+      "instantIfAura": "nightfall", "consumesAura": "nightfall",
+      "effect": { "damage": 100 } },
+    { "id": "ua", "name": "Unstable Affliction", "icon": "spell_shadow_unstableaffliction_3",
+      "castTime": 0, "onGcd": true,
+      "cost": { "soulShard": 1 }, "effect": { "damage": 220 } },
+    { "id": "haunt", "name": "Haunt", "icon": "ability_warlock_haunt",
+      "castTime": 1.5, "onGcd": true, "cooldown": 15,
+      "applies": { "debuff": "haunt" }, "effect": { "damage": 80 } }
+  ],
+  "debuffs": [
+    { "id": "agony", "name": "Agony", "duration": 18, "tickInterval": 2,
+      "pandemic": 0.3, "tickDamage": 10,
+      "onTick": { "chance": 0.5, "generates": { "soulShard": 1 } } },
+    { "id": "corruption", "name": "Corruption", "duration": 14, "tickInterval": 2,
+      "pandemic": 0.3, "tickDamage": 8,
+      "onTick": { "chance": 0.15, "grantsAura": "nightfall" } },
+    { "id": "haunt", "name": "Haunt", "duration": 8, "damageAmp": 0.10 }
+  ],
+  "auras": [
+    { "id": "nightfall", "name": "Nightfall", "duration": 12, "maxStacks": 2 }
+  ],
+  "priority": ["agony", "corruption", "haunt", "ua", "shadowbolt"]
+}

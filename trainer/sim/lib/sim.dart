@@ -18,3 +18,4 @@ export 'src/game_state.dart';
 export 'src/ids.dart';
 export 'src/resources.dart';
 export 'src/rng.dart';
+export 'src/template_loader.dart';
