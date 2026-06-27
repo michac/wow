@@ -33,7 +33,7 @@
             {
               "name": "Germinate",
               "spellId": 388796,
-              "text": "The Overgrown Ancient forces dormant lasher seeds beneath all players' feet to sprout every 1 sec for 4 sec. Each emerging seed inflicts 25 Physical damage to players within $a1 yds and knocks them back, then leaves behind a dormant Hungry Lasher.",
+              "text": "The Overgrown Ancient forces dormant lasher seeds beneath all players' feet to sprout every 1 sec for 4 sec. Each emerging seed inflicts Physical damage to players within 4 yds and knocks them back, then leaves behind a dormant Hungry Lasher.",
               "children": [
                 {
                   "name": "Hungry Lasher",
@@ -43,7 +43,7 @@
                     {
                       "name": "Lasher Toxin",
                       "spellId": 389033,
-                      "text": "The Hungry Lasher's attacks have a chance to poison the target, inflicting 1 Nature damage every 3 sec for 9 sec. This effect stacks."
+                      "text": "The Hungry Lasher's attacks have a chance to poison the target, inflicting Nature damage every 3 sec for 9 sec. This effect stacks."
                     }
                   ]
                 }
@@ -52,12 +52,12 @@
             {
               "name": "Burst Forth",
               "spellId": 388923,
-              "text": "Upon reaching 100 energy, the Overgrown Ancient releases its abundant life magic to awaken all dormant Lashers, inflicting 16 Nature damage to all players as they burst free from the ground."
+              "text": "Upon reaching 100 energy, the Overgrown Ancient releases its abundant life magic to awaken all dormant Lashers, inflicting Nature damage to all players as they burst free from the ground."
             },
             {
               "name": "Branch Out",
               "spellId": 388623,
-              "text": "The Overgrown Ancient throws one of its own branches at a location, inflicting 30 Physical damage to players within $a1 yds and knocking them back. The Ancient Branch then animates and attacks players.",
+              "text": "The Overgrown Ancient throws one of its own branches at a location, inflicting Physical damage to players within 8 yds and knocking them back. The Ancient Branch then animates and attacks players.",
               "children": [
                 {
                   "name": "Splinterbark",
@@ -77,7 +77,7 @@
                     {
                       "name": "Abundance",
                       "spellId": 396721,
-                      "text": "Upon death, release a spark of life energy that bursts after 3.5 sec, healing allies and players within $a1 yds for 250, and removing all applications of Splinterbark."
+                      "text": "Upon death, release a spark of life energy that bursts after 3.5 sec, healing allies and players within 8 yds for 250, and removing all applications of Splinterbark."
                     }
                   ]
                 }
@@ -86,7 +86,7 @@
             {
               "name": "Barkbreaker",
               "spellId": 388544,
-              "text": "The Overgrown Ancient stomps its target with crushing force, inflicting 48 Physical damage and increasing Physical damage taken by 30% for 9 sec."
+              "text": "The Overgrown Ancient stomps its target with crushing force, inflicting Physical damage and increasing Physical damage taken by 30% for 9 sec."
             }
           ],
           "loot": [
@@ -153,12 +153,12 @@
                     {
                       "name": "Firestorm",
                       "spellId": 376448,
-                      "text": "The goal erupts in flames, launching several motes of fire at the arena. Each mote inflicts 25 Fire damage and stuns players for $376449D within $376449A1 yards of where it lands. The Firestorm also stuns Crawth and makes her take 75% increased damage for $376781D and afflicts her with Blistering Fire."
+                      "text": "The goal erupts in flames, launching several motes of fire at the arena. Each mote inflicts Fire damage and stuns players for 3 sec within 5 yards of where it lands. The Firestorm also stuns Crawth and makes her take 75% increased damage for 12 sec and afflicts her with Blistering Fire."
                     },
                     {
                       "name": "Blistering Fire",
                       "spellId": 1285508,
-                      "text": "Fire emits searing heat that inflicts 4 Fire damage every 2 sec to all players."
+                      "text": "Fire emits searing heat that inflicts Fire damage every 2 sec to all players."
                     }
                   ]
                 },
@@ -175,7 +175,7 @@
                         {
                           "name": "Roving Cyclone",
                           "spellId": 393211,
-                          "text": "Creates cyclones that move around, inflicting 25 Nature damage and knocking back any player it contacts."
+                          "text": "Creates cyclones that move around, inflicting Nature damage and knocking back any player it contacts."
                         }
                       ]
                     }
@@ -186,27 +186,22 @@
             {
               "name": "Ruinous Winds",
               "spellId": 1276752,
-              "text": "At 75% and 45% health, Crawth unleashes a devasting gust of winds every 3 sec, inflicting 20 Nature damage to all players and knocking them back."
+              "text": "At 75% and 45% health, Crawth unleashes a devasting gust of winds every 3 sec, inflicting Nature damage to all players and knocking them back."
             },
             {
               "name": "Overpowering Gust",
               "spellId": 377034,
-              "text": "Crawth faces a random player and flaps her wings, inflicting 50 Nature damage and knocking back all players in front of her."
+              "text": "Crawth faces a random player and flaps her wings, inflicting Nature damage and knocking back all players in front of her."
             },
             {
               "name": "Deafening Screech",
               "spellId": 454341,
-              "text": "Crawth releases a loud screech, causing a sonic eruption at all players, inflicting 12 Nature damage. This effect interrupts spell casts and also silences any player interrupted in this manner for 6 sec."
-            },
-            {
-              "name": "Deafening Screech",
-              "spellId": 377004,
-              "text": "Crawth releases a loud screech, causing a sonic eruption at all player locations, inflicting 12 Nature damage and additional 4 Nature damage every 1 sec for 8 sec to all players within $377009A1 yards of each location. This effect interrupts spell casts and also silences any player interrupted in this manner for 6 sec."
+              "text": "Crawth releases a loud screech, causing a sonic eruption at all players, inflicting Nature damage. This effect interrupts spell casts and also silences any player interrupted in this manner for 6 sec."
             },
             {
               "name": "Savage Peck",
               "spellId": 376997,
-              "text": "Crawth viciously pecks at her target, inflicting 45 Physical damage instantly with an additional 7 Physical damage every 1 sec for 10 sec."
+              "text": "Crawth viciously pecks at her target, inflicting Physical damage instantly with an additional Physical damage every 1 sec for 10 sec."
             }
           ],
           "loot": [
@@ -269,7 +264,7 @@
                 {
                   "name": "Arcane Orbs",
                   "spellId": 387691,
-                  "text": "The Professor conjures enchanted orbs from the magic book that inflict 30 Arcane damage within 3 yards of impact and begin to gravitate towards Vexamus. If an orb is absorbed by Vexamus, the elemental inflict 12 Arcane damage to all players. If an orb is absorbed by a player, it will inflict 10 Arcane damage to them.",
+                  "text": "The Professor conjures enchanted orbs from the magic book that inflict Arcane damage within 3 yards of impact and begin to gravitate towards Vexamus. If an orb is absorbed by Vexamus, the elemental inflict Arcane damage to all players. If an orb is absorbed by a player, it will inflict Arcane damage to them.",
                   "children": [
                     {
                       "name": "Oversurge",
@@ -287,30 +282,25 @@
               "children": [
                 {
                   "name": "Arcane Fissure",
-                  "spellId": 388537,
-                  "text": "Upon reaching 100 energy, Vexamus explodes with overwhelming power inflicting 16 Arcane damage to all players and pushing them back. Fissures erupt multiple times at player locations, each inflicting 30 Arcane damage within $388546A1 yards."
-                },
-                {
-                  "name": "Arcane Fissure",
                   "spellId": 454314,
-                  "text": "Upon reaching 100 energy, Vexamus explodes with overwhelming power inflicting 16 Arcane damage to all players and pushing them back."
+                  "text": "Upon reaching 100 energy, Vexamus explodes with overwhelming power inflicting Arcane damage to all players and pushing them back."
                 },
                 {
                   "name": "Mana Bombs",
                   "spellId": 386173,
-                  "text": "Vexamus infuses up to 3 players with explosive mana, inflicting 5 Arcane damage every 1 sec for 4 sec. Upon expiration, the mana will detonate inflicting 10 Arcane damage within $386202A1 yards and leaving a pool of Corrupted Mana for 60 sec.",
+                  "text": "Vexamus infuses up to 3 players with explosive mana, inflicting Arcane damage every 1 sec for 4 sec. Upon expiration, the mana will detonate inflicting Arcane damage within 4 yards and leaving a pool of Corrupted Mana for 60 sec.",
                   "children": [
                     {
                       "name": "Corrupted Mana",
                       "spellId": 386201,
-                      "text": "Corrupted Mana inflicts 18 Arcane damage every 1 sec to players inside and reduces their movement speed by -30%."
+                      "text": "Corrupted Mana inflicts Arcane damage every 1 sec to players inside and reduces their movement speed by -30%."
                     }
                   ]
                 },
                 {
                   "name": "Arcane Expulsion",
                   "spellId": 385958,
-                  "text": "Vexamus ejects a mass of arcane energy inflicting 40 Arcane damage to players in front of it."
+                  "text": "Vexamus ejects a mass of arcane energy inflicting Arcane damage to players in front of it."
                 }
               ]
             }
@@ -360,17 +350,17 @@
             {
               "name": "Overwhelming Power",
               "spellId": 389011,
-              "text": "The Echo of Doragosa's arcane attacks leave wild energy on players they hit, inflicting 3 Arcane damage every 1 sec and increasing their Haste 5%. This effect stacks. At 3 applications, this effect erupts into an Arcane Rift.",
+              "text": "The Echo of Doragosa's arcane attacks leave wild energy on players they hit, inflicting Arcane damage every 1 sec and increasing their Haste 5%. This effect stacks. At 3 applications, this effect erupts into an Arcane Rift.",
               "children": [
                 {
                   "name": "Arcane Rift",
                   "spellId": 388901,
-                  "text": "The excess power coalesces into a rift of arcane energy, inflicting 10 Arcane damage every 1 sec to players within. This rift occasionally releases Uncontrolled Energy.",
+                  "text": "The excess power coalesces into a rift of arcane energy, inflicting Arcane damage every 1 sec to players within. This rift occasionally releases Uncontrolled Energy.",
                   "children": [
                     {
                       "name": "Uncontrolled Energy",
                       "spellId": 388951,
-                      "text": "Wild Magic explodes on contact with a player, inflicting 25 Arcane damage to players within $A1 yds. Applies Overwhelming Power to all targets struck."
+                      "text": "Wild Magic explodes on contact with a player, inflicting Arcane damage to players within 4 yds. Applies Overwhelming Power to all targets struck."
                     }
                   ]
                 }
@@ -379,17 +369,17 @@
             {
               "name": "Unleash Energy",
               "spellId": 439488,
-              "text": "The Echo of Doragosa unleashes powerful arcane energy, inflicting 10 Arcane damage to all players and opening Arcane Rifts in nearby locations.",
+              "text": "The Echo of Doragosa unleashes powerful arcane energy, inflicting Arcane damage to all players and opening Arcane Rifts in nearby locations.",
               "children": [
                 {
                   "name": "Arcane Rift",
                   "spellId": 388901,
-                  "text": "The excess power coalesces into a rift of arcane energy, inflicting 10 Arcane damage every 1 sec to players within. This rift occasionally releases Uncontrolled Energy.",
+                  "text": "The excess power coalesces into a rift of arcane energy, inflicting Arcane damage every 1 sec to players within. This rift occasionally releases Uncontrolled Energy.",
                   "children": [
                     {
                       "name": "Uncontrolled Energy",
                       "spellId": 388951,
-                      "text": "Wild Magic explodes on contact with a player, inflicting 25 Arcane damage to players within $A1 yds. Applies Overwhelming Power to all targets struck."
+                      "text": "Wild Magic explodes on contact with a player, inflicting Arcane damage to players within 4 yds. Applies Overwhelming Power to all targets struck."
                     }
                   ]
                 }
@@ -398,37 +388,22 @@
             {
               "name": "Astral Blast",
               "spellId": 1282251,
-              "text": "The Echo of Doragosa blasts the target player with powerful arcane energy, inflicting 30 Arcane damage and applying Overwhelming Power."
-            },
-            {
-              "name": "Power Vacuum",
-              "spellId": 388822,
-              "text": "The Echo of Doragosa pulls all players to her location, then strikes with explosive energy inflicting 40 Arcane damage and knocking back all players within $a1 yards. Applies Overwhelming Power to anyone hit."
+              "text": "The Echo of Doragosa blasts the target player with powerful arcane energy, inflicting Arcane damage and applying Overwhelming Power."
             },
             {
               "name": "Power Vacuum",
               "spellId": 454362,
-              "text": "The Echo of Doragosa pulls all players to her location, then strikes with explosive energy inflicting 40 Arcane damage and knocking back all players within $388822a1 yards."
-            },
-            {
-              "name": "Arcane Missiles",
-              "spellId": 373326,
-              "text": "The Echo of Doragosa inflicts 10 Arcane damage to a player. Applies Overwhelming Power to the target."
+              "text": "The Echo of Doragosa pulls all players to her location, then strikes with explosive energy inflicting Arcane damage and knocking back all players within 20 yards."
             },
             {
               "name": "Arcane Missiles",
               "spellId": 454365,
-              "text": "The Echo of Doragosa inflicts 10 Arcane damage to a player."
-            },
-            {
-              "name": "Energy Bomb",
-              "spellId": 374352,
-              "text": "The Echo of Doragosa marks random players with arcane energy for 6 sec. When the Energy Bomb expires, it inflicts 12 Arcane damage to all players within $A1 yards. Applies Overwhelming Power to the target."
+              "text": "The Echo of Doragosa inflicts Arcane damage to a player."
             },
             {
               "name": "Energy Bomb",
               "spellId": 454366,
-              "text": "The Echo of Doragosa marks a player arcane energy for 6 sec. When the Energy Bomb expires, it inflicts 12 Arcane damage to all players within $374352A1 yards."
+              "text": "The Echo of Doragosa marks a player arcane energy for 6 sec. When the Energy Bomb expires, it inflicts Arcane damage to all players within 8 yards."
             }
           ],
           "loot": [
@@ -514,22 +489,22 @@
                 {
                   "name": "Energy Orb",
                   "spellId": 474308,
-                  "text": "Arcanotron Custos attracts unstable Energy Orbs to itself, granting it Arcane Empowerment upon contact. If a player comes into contact with an Energy Orb it will be destroyed, covering the player with Unstable Energy .Arcanotron Custos attracts unstable Energy Orbs to itself, granting it Arcane Empowerment upon contact. If a player comes into contact with an Energy Orb it will be destroyed, covering the player with Unstable EnergyArcanotron Custos attracts unstable Energy Orbs to itself, granting it Arcane Empowerment upon contact. If a player comes into contact with an Energy Orb it will be destroyed, creating a pool of Arcane Residue and covering the player with Unstable Energy.",
+                  "text": "Custos attracts unstable Energy Orbs to itself, granting it Arcane Empowerment upon contact. If a player comes into contact with an Energy Orb it will be destroyed, creating a pool of Arcane Residue and covering the player with Unstable Energy.",
                   "children": [
                     {
                       "name": "Arcane Residue",
                       "spellId": 1214089,
-                      "text": "Creates a pool of Arcane Residue inflicting 10 Arcane damage every 1 sec and reducing the movement speed of players in the area by -50%."
+                      "text": "Creates a pool of Arcane Residue inflicting Arcane damage every 1 sec and reducing the movement speed of players in the area by -50%."
                     },
                     {
                       "name": "Unstable Energy",
                       "spellId": 1243905,
-                      "text": "Inflicts 5 Arcane damage every 1 second for 3 sec. This effect stacks."
+                      "text": "Inflicts Arcane damage every 1 second for 3 sec. This effect stacks."
                     },
                     {
                       "name": "Arcane Empowerment",
                       "spellId": 474407,
-                      "text": "An Energy Orb refueling Arcanotron Custos creates an arcane explosion inflicting 10 Arcane damage to all players and increasing the damage inflicted by Arcanotron Custos by 10%."
+                      "text": "An Energy Orb refueling Arcanotron Custos creates an arcane explosion inflicting Arcane damage to all players and increasing the damage inflicted by Arcanotron Custos by 10%."
                     }
                   ]
                 }
@@ -538,24 +513,24 @@
             {
               "name": "Arcane Expulsion",
               "spellId": 1214081,
-              "text": "Arcanotron Custos expels Arcane energy creating a pool of Arcane Residue at its feet, inflicting 15 damage to all players and knocking them back.",
+              "text": "Arcanotron Custos expels Arcane energy creating a pool of Arcane Residue at its feet, inflicting damage to all players and knocking them back.",
               "children": [
                 {
                   "name": "Arcane Residue",
                   "spellId": 1214089,
-                  "text": "Creates a pool of Arcane Residue inflicting 10 Arcane damage every 1 sec and reducing the movement speed of players in the area by -50%."
+                  "text": "Creates a pool of Arcane Residue inflicting Arcane damage every 1 sec and reducing the movement speed of players in the area by -50%."
                 }
               ]
             },
             {
               "name": "Ethereal Shackles",
               "spellId": 1214038,
-              "text": "Arcanotron Custos suppresses the movement of several players, inflicting 9 Arcane damage every 3 sec and rooting them for 15 sec."
+              "text": "Arcanotron Custos suppresses the movement of several players, inflicting Arcane damage every 3 sec and rooting them for 15 sec."
             },
             {
               "name": "Repulsing Slam",
               "spellId": 474496,
-              "text": "Arcanotron Custos strikes it's current target with destructive force inflicting 30 Arcane damage and knocking them back."
+              "text": "Arcanotron Custos strikes it's current target with destructive force inflicting Arcane damage and knocking them back."
             }
           ],
           "loot": [
@@ -612,46 +587,29 @@
             {
               "name": "Suppression Zone",
               "spellId": 1224903,
-              "text": "Seranel slams his shield into the ground, inflicting 40 Arcane damage to players within $1224903A2 yards and conjuring a Suppression Zone at the impact area. The Suppression Zone silences and pacifies players standing within and purges magical effects.",
+              "text": "Seranel slams his shield into the ground, inflicting Arcane damage to players within 8 yards and conjuring a Suppression Zone at the impact area. The Suppression Zone silences and pacifies players standing within and purges magical effects.",
               "children": [
                 {
                   "name": "Feedback",
                   "spellId": 1225135,
-                  "text": "The Suppression Zone consumes Runic Mark from the target, causing them to emit a barrage of arcane missiles. Each missile inflicts 30 Arcane damage to players within $A2 yards of the impact area, silencing and pacifying them for 3 sec."
-                }
-              ]
-            },
-            {
-              "name": "Suppression Zone",
-              "spellId": 1224903,
-              "text": "Seranel slams his shield into the ground, inflicting 40 Arcane damage to players within $1224903A2 yards and conjuring a Suppression Zone at the impact area. The Suppression Zone silences and pacifies players standing within and purges magical effects.",
-              "children": [
-                {
-                  "name": "Feedback",
-                  "spellId": 1225135,
-                  "text": "The Suppression Zone consumes Runic Mark from the target, causing them to emit a barrage of arcane missiles. Each missile inflicts 30 Arcane damage to players within $A2 yards of the impact area, silencing and pacifying them for 3 sec."
-                },
-                {
-                  "name": "Null Reaction",
-                  "spellId": 1246446,
-                  "text": "The Runic Mark violently reacts to the removal, inflicting 10 Arcane damage to all players and reducing their movement speed by 25% for 3 sec. This effect stacks."
+                  "text": "The Suppression Zone consumes Runic Mark from the target, causing them to emit a barrage of arcane missiles. Each missile inflicts Arcane damage to players within 3 yards of the impact area, silencing and pacifying them for 3 sec."
                 }
               ]
             },
             {
               "name": "Wave of Silence",
               "spellId": 1225193,
-              "text": "Seranel readies a Wave of Silence, inflicting 15 Arcane damage to all players and pacifying any player outside of the Suppression Zone for 8 sec."
+              "text": "Seranel readies a Wave of Silence, inflicting Arcane damage to all players and pacifying any player outside of the Suppression Zone for 8 sec."
             },
             {
               "name": "Runic Mark",
               "spellId": 1225792,
-              "text": "Seranel hurls an Arcane infused glaive at a target inflicting ${1+5} Arcane damage and an additional 5 Arcane damage every 1 sec to players within $1225796A2 yards. The glaive bounces to 1 nearby players."
+              "text": "Seranel hurls an Arcane infused glaive at a target inflicting Arcane damage and an additional Arcane damage every 1 sec to players within 4 yards. The glaive bounces to 1 nearby players."
             },
             {
               "name": "Hastening Ward",
               "spellId": 1248689,
-              "text": "Seranel surrounds himself in a hastening ward, increasing his attack speed by 100% and his auto attacks to inflict an additional 5 Arcane damage for 15 sec."
+              "text": "Seranel surrounds himself in a hastening ward, increasing his attack speed by 100% and his auto attacks to inflict an additional Arcane damage for 15 sec."
             }
           ],
           "loot": [
@@ -724,38 +682,26 @@
               "text": "Gemellus forms a neural link with a player, absorbing damage equal to 20% of its maximum health. The player they are linked to receives 20% more damage for 12 sec. Players who touch the Gemellus who linked with them before Neural Link expires disrupts the connection, removing Gemellus' damage absorb."
             },
             {
-              "name": "Triplicate",
-              "spellId": 1223847,
-              "text": "At the start of the encounter and upon reaching 50% remaining health Gemullus self replicates, creating 2 clones of itself.",
-              "children": [
-                {
-                  "name": "Synaptic Nexus",
-                  "spellId": 1223936,
-                  "text": "All Gemellus function as a collective, sharing health."
-                }
-              ]
-            },
-            {
               "name": "Astral Grasp",
               "spellId": 1224299,
-              "text": "Gemellus channels a shadowy tendril at a player, inflicting 4 Shadow damage every 1 sec and pulling the player towards them for $D.",
+              "text": "Gemellus channels a shadowy tendril at a player, inflicting Shadow damage every 1 sec and pulling the player towards them for 8 sec.",
               "children": [
                 {
                   "name": "Cosmic Radiation",
                   "spellId": 1224401,
-                  "text": "Gemellus radiates players pulled within its grasp, inflicting 18 Shadow damage every 1 sec."
+                  "text": "Gemellus radiates players pulled within its grasp, inflicting Shadow damage every 1 sec."
                 }
               ]
             },
             {
               "name": "Cosmic Sting",
               "spellId": 1284958,
-              "text": "Gemellus stings a player with Cosmic Void, inflicting 12 Shadow damage and creating a pool of Void Secretions at their location. Inflicts an additional 5 Shadow damage every 1 sec for 6 sec.",
+              "text": "Gemellus stings a player with Cosmic Void, inflicting Shadow damage and creating a pool of Void Secretions at their location. Inflicts an additional Shadow damage every 1 sec for 6 sec.",
               "children": [
                 {
                   "name": "Void Secretions",
                   "spellId": 1224100,
-                  "text": "Cosmic Sting forms a pool of secretions, inflicting 15 Shadow damage every 1 sec to players standing within."
+                  "text": "Cosmic Sting forms a pool of secretions, inflicting Shadow damage every 1 sec to players standing within."
                 }
               ]
             }
@@ -813,46 +759,46 @@
             {
               "name": "Void Torrent",
               "spellId": 1214714,
-              "text": "The Celestial Orrery's focusing lenses channel Void energy into Degentrius. Contact with a Void Torrent inflicts 30 Shadow damage and stuns the player for 5 sec."
+              "text": "The Celestial Orrery's focusing lenses channel Void energy into Degentrius. Contact with a Void Torrent inflicts Shadow damage and stuns the player for 5 sec."
             },
             {
               "name": "Unstable Void Essence",
               "spellId": 1215087,
-              "text": "Degentrius launches unstable void energy that bounces to 4 locations, inflicting 10 Shadow damage to any player at the point of impact. If no player is in the area the unstable void essence erupts in Void Destruction.",
+              "text": "Degentrius launches unstable void energy that bounces to 4 locations, inflicting Shadow damage to any player at the point of impact. If no player is in the area the unstable void essence erupts in Void Destruction.",
               "children": [
                 {
                   "name": "Void Destruction",
                   "spellId": 1215161,
-                  "text": "Void energy erupts upon impact with the ground inflicting 12 Shadow damage to all players plus an additional 1 Shadow damage every 0.5 sec for 40 sec. This effect stacks."
+                  "text": "Void energy erupts upon impact with the ground inflicting Shadow damage to all players plus an additional Shadow damage every 0.5 sec for 40 sec. This effect stacks."
                 }
               ]
             },
             {
               "name": "Devouring Entropy",
               "spellId": 1215897,
-              "text": "Degentrius corrupts several players with Void energy, inflicting 3 Shadow damage every 1 sec. Each afflicted player receives a different duration. Upon expiration, Entropy Orbs launch from the player's location.",
+              "text": "Degentrius corrupts several players with Void energy, inflicting Shadow damage every 1 sec. Each afflicted player receives a different duration. Upon expiration, Entropy Orbs launch from the player's location.",
               "children": [
                 {
                   "name": "Entropy Orb",
                   "spellId": 1269631,
-                  "text": "Volatile masses inflict 15 Shadow damage to players struck and additionaly reduce their movement speed by 70% for 5 sec."
+                  "text": "Volatile masses inflict Shadow damage to players struck and additionaly reduce their movement speed by 70% for 5 sec."
                 }
               ]
             },
             {
               "name": "Hulking Fragment",
               "spellId": 1280113,
-              "text": "Degentrius smashes a massive fragment into their current target, inflicting 35 Shadow damage to players within $1280119a1 yards. The force of the impact knocks away other players within $1280119a1 yards of their target.",
+              "text": "Degentrius smashes a massive fragment into their current target, inflicting Shadow damage to players within 8 yards. The force of the impact knocks away other players within 8 yards of their target.",
               "children": [
                 {
                   "name": "Umbral Splinters",
                   "spellId": 1284627,
-                  "text": "Embedded splinters from Hulking Fragment inflict 4 Shadow damage every 1 sec for 30 sec. This effect stacks. Upon removal, the splinters dissolve, leaving behind Stygian Ichor.",
+                  "text": "Embedded splinters from Hulking Fragment inflict Shadow damage every 1 sec for 30 sec. This effect stacks. Upon removal, the splinters dissolve, leaving behind Stygian Ichor.",
                   "children": [
                     {
                       "name": "Stygian Ichor",
                       "spellId": 1284628,
-                      "text": "The dissolved splinters form a pool on the ground for 40 sec, inflicting 2 Shadow damage every 0.5 sec to players within."
+                      "text": "The dissolved splinters form a pool on the ground for 40 sec, inflicting Shadow damage every 0.5 sec to players within."
                     }
                   ]
                 }
@@ -953,21 +899,9 @@
                   "text": "Muro'jin throws traps at players which remain for 40 sec. Upon contact, these incapacitate the triggering player for 8 sec. Damage may break the effect."
                 },
                 {
-                  "name": "Freezing Trap",
-                  "spellId": 1260731,
-                  "text": "Muro'jin throws traps at players which remain for 40 sec. Upon contact, these incapacitate the triggering player for 8 sec. Damage may break the effect.",
-                  "children": [
-                    {
-                      "name": "Icy Slick",
-                      "spellId": 1243751,
-                      "text": "Triggered Freezing Traps leave behind a frozen patch that inflicts 5 Frost damage every 1 sec to players within and causes them to slide."
-                    }
-                  ]
-                },
-                {
                   "name": "Barrage",
                   "spellId": 1260643,
-                  "text": "Muro'jin fixes his aim on a player for 5 sec, firing a spray of venomous arrows in a frontal cone toward them every 0.5 sec. The volley inflicts 4 Plague damage to players struck and applies Vilebranch Sting.",
+                  "text": "Muro'jin fixes his aim on a player for 5 sec, firing a spray of venomous arrows in a frontal cone toward them every 0.5 sec. The volley inflicts Plague damage to players struck and applies Vilebranch Sting.",
                   "children": [
                     {
                       "name": "Vilebranch Sting",
@@ -979,12 +913,12 @@
                 {
                   "name": "Flanking Spear",
                   "spellId": 1266480,
-                  "text": "Muro'jin harpoons behind his current target and hurls a massive spear. The spear inflicts 60 Physical damage and knocks the target away, applying Open Wound.",
+                  "text": "Muro'jin harpoons behind his current target and hurls a massive spear. The spear inflicts Physical damage and knocks the target away, applying Open Wound.",
                   "children": [
                     {
                       "name": "Open Wound",
                       "spellId": 1266488,
-                      "text": "Muro'jin's Flanking Spear causes the target to bleed profusely, inflicting 8 Physical damage every 1 sec for 10 sec."
+                      "text": "Muro'jin's Flanking Spear causes the target to bleed profusely, inflicting Physical damage every 1 sec for 10 sec."
                     }
                   ]
                 },
@@ -1003,29 +937,17 @@
                 {
                   "name": "Carrion Swoop",
                   "spellId": 1249479,
-                  "text": "Nekraxx charges toward a marked player, inflicting 18 Shadow damage to players in her path and knocking them upwards. If Nekraxx strikes a player incapacitated by Freezing Trap, the trap shatters instead, stunning Nekraxx for 5 sec."
-                },
-                {
-                  "name": "Carrion Swoop",
-                  "spellId": 1249479,
-                  "text": "Nekraxx charges toward a marked player, inflicting 18 Shadow damage to players in her path and knocking them upwards. If Nekraxx strikes a player incapacitated by Freezing Trap, the trap shatters instead, stunning Nekraxx for 5 sec.",
-                  "children": [
-                    {
-                      "name": "Coordinated Assault",
-                      "spellId": 1249769,
-                      "text": "Muro'jin hurls an axe at players knocked up by Carrion Swoop, inflicting 35 Physical damage and knocking them further upwards."
-                    }
-                  ]
+                  "text": "Nekraxx charges toward a marked player, inflicting Shadow damage to players in her path and knocking them upwards. If Nekraxx strikes a player incapacitated by Freezing Trap, the trap shatters instead, stunning Nekraxx for 5 sec."
                 },
                 {
                   "name": "Fetid Quillstorm",
                   "spellId": 1243900,
-                  "text": "Nekraxx soars to a location and releases a surge of dark energy, inflicting 25 Shadow damage to players within $1243900a1 yards and flinging quills which inflict 25 Shadow damage to players within $1256247a1 yards."
+                  "text": "Nekraxx soars to a location and releases a surge of dark energy, inflicting Shadow damage to players within 10 yards and flinging quills which inflict Shadow damage to players within 3 yards."
                 },
                 {
                   "name": "Infected Pinions",
                   "spellId": 1246666,
-                  "text": "Nekraxx pierces all players with festering feathers, inflicting 2 Plague damage every 1 sec for 30 sec."
+                  "text": "Nekraxx pierces all players with festering feathers, inflicting Plague damage every 1 sec for 30 sec."
                 },
                 {
                   "name": "Bestial Wrath",
@@ -1084,17 +1006,17 @@
             {
               "name": "Necrotic Convergence",
               "spellId": 1250708,
-              "text": "Vordaza protects herself with Deathshroud and unleashes waves of necrotic energy which inflict 4 Shadow damage to all players every 2 sec for up to 60 sec. This effect grows in intensity over time.",
+              "text": "Vordaza protects herself with Deathshroud and unleashes waves of necrotic energy which inflict Shadow damage to all players every 2 sec for up to 60 sec. This effect grows in intensity over time.",
               "children": [
                 {
                   "name": "Deathshroud",
                   "spellId": 1251598,
-                  "text": "Vordaza wraps herself in a necrotic barrier, becoming immune to interrupt effects and absorbing the next 385 damage for 60 sec."
+                  "text": "Vordaza wraps herself in a necrotic barrier, becoming immune to interrupt effects and absorbing the next damage for 60 sec."
                 },
                 {
                   "name": "Coalesced Death",
                   "spellId": 1252611,
-                  "text": "Vordaza's ritual forms masses of soul ichor that flow across the dais, inflicting 25 Shadow damage to players struck."
+                  "text": "Vordaza's ritual forms masses of soul ichor that flow across the dais, inflicting Shadow damage to players struck."
                 }
               ]
             },
@@ -1111,7 +1033,7 @@
                     {
                       "name": "Final Pursuit",
                       "spellId": 1251775,
-                      "text": "The phantom seeks out a player until defeated. When it reaches its target or collides with another Unstable Phantom, it bursts, inflicting 50 Shadow damage to players within $1251811a1 yards.",
+                      "text": "The phantom seeks out a player until defeated. When it reaches its target or collides with another Unstable Phantom, it bursts, inflicting Shadow damage to players within 4 yards.",
                       "children": [
                         {
                           "name": "Haunting Remains",
@@ -1123,22 +1045,17 @@
                     {
                       "name": "Soulrot",
                       "spellId": 1251833,
-                      "text": "Upon defeat Unstable Phantoms leave behind a pool of necrotic residue for 20 sec, inflicting 10 Shadow damage every 1.5 sec to players within."
+                      "text": "Upon defeat Unstable Phantoms leave behind a pool of necrotic residue for 20 sec, inflicting Shadow damage every 1.5 sec to players within."
                     },
                     {
                       "name": "Lingering Dread",
                       "spellId": 1251813,
-                      "text": "The phantom screams when slain, inflicting 5 Shadow damage to all players."
+                      "text": "The phantom screams when slain, inflicting Shadow damage to all players."
                     },
                     {
                       "name": "Veiled Presence",
                       "spellId": 1264974,
-                      "text": "$?|diff23[The phantom's incorporeal form reduces their damage taken by -99%.][The phantom's incorporeal form reduces their damage taken by -99%, but causes them to lose 0% health every 1 sec.]"
-                    },
-                    {
-                      "name": "Veiled Presence",
-                      "spellId": 1264974,
-                      "text": "$?|diff23[The phantom's incorporeal form reduces their damage taken by -99%.][The phantom's incorporeal form reduces their damage taken by -99%, but causes them to lose 0% health every 1 sec.]"
+                      "text": "The phantom's incorporeal form reduces their damage taken by -99%."
                     }
                   ]
                 }
@@ -1147,17 +1064,17 @@
             {
               "name": "Unmake",
               "spellId": 1252054,
-              "text": "Vordaza unleashes a frontal surge of soulflaying force for 4.5 sec, inflicting 12 Shadow damage every 0.5 sec to players caught in the blast and pushing them away."
+              "text": "Vordaza unleashes a frontal surge of soulflaying force for 4.5 sec, inflicting Shadow damage every 0.5 sec to players caught in the blast and pushing them away."
             },
             {
               "name": "Drain Soul",
               "spellId": 1251554,
-              "text": "Vordaza siphons the life essence from her current target, inflicting 10 Shadow damage and absorbing the next 10 healing received every 1 sec for 4 sec."
+              "text": "Vordaza siphons the life essence from her current target, inflicting Shadow damage and absorbing the next healing received every 1 sec for 4 sec."
             },
             {
               "name": "Withering Miasma",
               "spellId": 1264987,
-              "text": "A withering miasma saturates the cavern, inflicting 3 Shadow damage to all players every 2 sec."
+              "text": "A withering miasma saturates the cavern, inflicting Shadow damage to all players every 2 sec."
             }
           ],
           "loot": [
@@ -1213,7 +1130,7 @@
             {
               "name": "Crush Souls",
               "spellId": 1252676,
-              "text": "Rak'tul repeatedly leaps and slams down, inflicting 20 Shadow damage to players within $1252704a1 yards. Each impact plants a Soulbind Totem.",
+              "text": "Rak'tul repeatedly leaps and slams down, inflicting Shadow damage to players within 5 yards. Each impact plants a Soulbind Totem.",
               "children": [
                 {
                   "name": "Soulbind Totem",
@@ -1223,12 +1140,12 @@
                     {
                       "name": "Soulbind",
                       "spellId": 1252777,
-                      "text": "The totem ensnares a player, inflicting 2 Shadow damage every 1 sec and pulling them toward the totem."
+                      "text": "The totem ensnares a player, inflicting Shadow damage every 1 sec and pulling them toward the totem."
                     },
                     {
                       "name": "Chill of Death",
                       "spellId": 1252816,
-                      "text": "The totem inflicts 10 Shadow damage every 0.5 sec to players within $1252813A1 yards."
+                      "text": "The totem inflicts Shadow damage every 0.5 sec to players."
                     }
                   ]
                 }
@@ -1237,24 +1154,24 @@
             {
               "name": "Spiritbreaker",
               "spellId": 1251023,
-              "text": "Rak'tul pummels his target twice, inflicting 35 Physical damage with each strike. He then delivers a final empowered blow, inflicting 28 Shadow damage and launching the target high into the air. The final blow leaves behind a patch of Spectral Decay.",
+              "text": "Rak'tul pummels his target twice, inflicting Physical damage with each strike. He then delivers a final empowered blow, inflicting Shadow damage and launching the target high into the air. The final blow leaves behind a patch of Spectral Decay.",
               "children": [
                 {
                   "name": "Spectral Decay",
                   "spellId": 1266723,
-                  "text": "The pooling essence inflicts 6 Shadow damage every 1 sec to players within and increases their damage taken by 30%."
+                  "text": "The pooling essence inflicts Shadow damage every 1 sec to players within and increases their damage taken by 30%."
                 }
               ]
             },
             {
               "name": "Deathgorged Vessel",
               "spellId": 1248863,
-              "text": "Rak'tul's engorged form releases soul energy every 6 sec, inflicting 11 Shadow damage to all players and ejecting Volatile Essences.",
+              "text": "Rak'tul's engorged form releases soul energy every 6 sec, inflicting Shadow damage to all players and ejecting Volatile Essences.",
               "children": [
                 {
                   "name": "Volatile Essence",
                   "spellId": 1248980,
-                  "text": "Released soul energy bursts upon impact, inflicting 20 Shadow damage to players within $a1 yards."
+                  "text": "Released soul energy bursts upon impact, inflicting Shadow damage to players within 2 yards."
                 }
               ]
             },
@@ -1276,7 +1193,7 @@
                         {
                           "name": "Cries of the Fallen",
                           "spellId": 1254175,
-                          "text": "The soul cries out upon contacting a player, inflicting 5 Shadow damage and rooting them for 3 sec."
+                          "text": "The soul cries out upon contacting a player, inflicting Shadow damage and rooting them for 3 sec."
                         }
                       ]
                     },
@@ -1288,7 +1205,7 @@
                         {
                           "name": "Eternal Suffering",
                           "spellId": 1254010,
-                          "text": "The soul radiates shadow magic, reducing the movement speed of players within $a1 yards by 60%. Upon interruption, the soul dissipates, empowering all players with Spectral Residue.",
+                          "text": "The soul radiates shadow magic, reducing the movement speed of players by 60%. Upon interruption, the soul dissipates, empowering all players with Spectral Residue.",
                           "children": [
                             {
                               "name": "Spectral Residue",
@@ -1304,17 +1221,17 @@
                 {
                   "name": "Withering Soul",
                   "spellId": 1253844,
-                  "text": "While in an incorporeal form, the target suffers 0 Shadow damage every 1 sec. This effect stacks every 4 sec. Returning to the realm of the living removes this effect."
+                  "text": "While in an incorporeal form, the target suffers Shadow damage every 1 sec. This effect stacks every 4 sec. Returning to the realm of the living removes this effect."
                 },
                 {
                   "name": "Soul Expulsion",
                   "spellId": 1253909,
-                  "text": "Soulrending Roar sends Rak'tul into a stupor, stunning him for 45 sec. Souls periodically erupt from his form, inflicting 28 Shadow damage to players within $1279517a1 yards of each impact."
+                  "text": "Soulrending Roar sends Rak'tul into a stupor, stunning him for 45 sec. Souls periodically erupt from his form, inflicting Shadow damage to players within 4 yards of each impact."
                 },
                 {
                   "name": "Shattered Totem",
                   "spellId": 1259810,
-                  "text": "Rak'tul's roar shatters each remaining Soulbind Totem, inflicting 25 Shadow damage to all players for each totem shattered."
+                  "text": "Rak'tul's roar shatters each remaining Soulbind Totem, inflicting Shadow damage to all players for each totem shattered."
                 }
               ]
             }
@@ -1393,53 +1310,41 @@
             {
               "name": "Leyline Array",
               "spellId": 1251579,
-              "text": "A dangerous flow of Arcane power links between conduits inflicting 30 Arcane damage when crossed and reducing their movement speed by -20% for 8 sec. This effect stacks."
+              "text": "A dangerous flow of Arcane power links between conduits inflicting Arcane damage when crossed and reducing their movement speed by -20% for 8 sec. This effect stacks."
             },
             {
               "name": "Corespark Detonation",
               "spellId": 1257509,
-              "text": "Upon reaching 100 energy, Kasreth overcharges a spark in the core engine and launches it at a random location, inflicting 25 Arcane damage to all players within $A1 yards of the impact. The detonation causes a Flux Collapse, leaving behind Arcane Spills, and Sparkburn clings to all players.",
+              "text": "Upon reaching 100 energy, Kasreth overcharges a spark in the core engine and launches it at a random location, inflicting Arcane damage to all players within 14 yards of the impact. The detonation causes a Flux Collapse, leaving behind Arcane Spills, and Sparkburn clings to all players.",
               "children": [
                 {
                   "name": "Sparkburn",
                   "spellId": 1276485,
-                  "text": "An arcane discharge clings to players absorbing the next 40 healing and inflicts 3 Arcane damage every 1 sec."
-                }
-              ]
-            },
-            {
-              "name": "Corespark Detonation",
-              "spellId": 1257509,
-              "text": "Upon reaching 100 energy, Kasreth overcharges a spark in the core engine and launches it at a random location, inflicting 25 Arcane damage to all players within $A1 yards of the impact. The detonation causes a Flux Collapse, leaving behind Arcane Spills, and Sparkburn clings to all players.",
-              "children": [
-                {
-                  "name": "Sparkburn",
-                  "spellId": 1276485,
-                  "text": "An arcane discharge clings to players absorbing the next 40 healing and inflicts 3 Arcane damage every 1 sec."
+                  "text": "An arcane discharge clings to players absorbing the next healing and inflicts Arcane damage every 1 sec."
                 }
               ]
             },
             {
               "name": "Reflux Charge",
               "spellId": 1251767,
-              "text": "Kasreth hurls a refluxing circuit on a random player inflicting 5 Arcane damage every 1 sec. Provides immunity while standing in Leyline Array as the circuit recoils and clears the effect, stunning the player for 1 sec."
+              "text": "Kasreth hurls a refluxing circuit on a random player inflicting Arcane damage every 1 sec. Provides immunity while standing in Leyline Array as the circuit recoils and clears the effect, stunning the player for 1 sec."
             },
             {
               "name": "Flux Collapse",
               "spellId": 1264040,
-              "text": "Broken pipes leak excess power, inflicting 10 Arcane damage to enemies within $a1 yards of the impact. Causes an Arcane Spill to form for 78 sec.",
+              "text": "Broken pipes leak excess power, inflicting Arcane damage to enemies within 2 yards of the impact. Causes an Arcane Spill to form for 78 sec.",
               "children": [
                 {
                   "name": "Arcane Spill",
                   "spellId": 1264042,
-                  "text": "Residual arcane energy lingers on the ground, inflicting 12 Arcane damage every 1 sec to players standing within."
+                  "text": "Residual arcane energy lingers on the ground, inflicting Arcane damage every 1 sec to players standing within."
                 }
               ]
             },
             {
               "name": "Arcane Zap",
               "spellId": 1250553,
-              "text": "Kasreth zaps the player, inflicting 10 Arcane damage."
+              "text": "Kasreth zaps the player, inflicting Arcane damage."
             }
           ],
           "loot": [
@@ -1501,19 +1406,7 @@
                 {
                   "name": "Lightscar Flare",
                   "spellId": 1247976,
-                  "text": "A fractured image of Lothraxion strikes at Nysarra, causing her wound to flare and stunning her for 18 sec. Players caught in the image's blast suffer 15 Holy damage and are disoriented for 5 sec. Standing in the wound's flare increases the target's healing done by 30% and damage dealt to Nysarra by 300% but inflicts 7 Holy damage every 1 sec until she recovers."
-                },
-                {
-                  "name": "Lightscar Flare",
-                  "spellId": 1247976,
-                  "text": "A fractured image of Lothraxion strikes at Nysarra, causing her wound to flare and stunning her for 18 sec. Players caught in the image's blast suffer 15 Holy damage and are disoriented for 5 sec. Standing in the wound's flare increases the target's healing done by 30% and damage dealt to Nysarra by 300% but inflicts 7 Holy damage every 1 sec until she recovers.",
-                  "children": [
-                    {
-                      "name": "Devour the Unworthy",
-                      "spellId": 1252883,
-                      "text": "Nyssara channels the void to consume any surviving subordinates, restoring her own strength every 0.5 sec for 5 sec and triggers a burst of void energy inflicting 15 Shadow damage to all players."
-                    }
-                  ]
+                  "text": "A fractured image of Lothraxion strikes at Nysarra, causing her wound to flare and stunning her for 18 sec. Players caught in the image's blast suffer Holy damage and are disoriented for 5 sec. Standing in the wound's flare increases the target's healing done by 30% and damage dealt to Nysarra by 300% but inflicts Holy damage every 1 sec until she recovers."
                 }
               ]
             },
@@ -1530,12 +1423,12 @@
                     {
                       "name": "Flailstorm",
                       "spellId": 1282679,
-                      "text": "The Dreadflail fixates on a random enemy and spins their flails inflicting 3 Shadow damage every 0.5 sec to enemies within $1282676A1 yards of the caster."
+                      "text": "The Dreadflail fixates on a random enemy and spins their flails inflicting Shadow damage every 0.5 sec to enemies within 7 yards of the caster."
                     },
                     {
                       "name": "Void Lash",
                       "spellId": 1282665,
-                      "text": "The Dreadflail empowers its weapons, causing melee attacks to inflict 15 Shadow damage in a cone in front of it for 8.25 sec."
+                      "text": "The Dreadflail empowers its weapons, causing melee attacks to inflict Shadow damage in a cone in front of it for 8.25 sec."
                     }
                   ]
                 },
@@ -1547,12 +1440,12 @@
                     {
                       "name": "Nullify",
                       "spellId": 1282722,
-                      "text": "The Grand Nullifier conjures a blast of void energy at the target, inflicting 40 Shadow damage."
+                      "text": "The Grand Nullifier conjures a blast of void energy at the target, inflicting Shadow damage."
                     },
                     {
                       "name": "Dusk Frights",
                       "spellId": 1282723,
-                      "text": "The Grand Nullifier calls several frights to a void zone, fearing players within $1282724A1 yards of the impact for 5 sec."
+                      "text": "The Grand Nullifier calls several frights to a void zone, fearing players within 5 yards of the impact for 5 sec."
                     }
                   ]
                 }
@@ -1561,7 +1454,7 @@
             {
               "name": "Umbral Lash",
               "spellId": 1247937,
-              "text": "Nysarra leaps to her primary target and unleashes consecutive slashes on them, inflicting 15 Shadow damage with every strike and causing Void Gash on the final one.",
+              "text": "Nysarra leaps to her primary target and unleashes consecutive slashes on them, inflicting Shadow damage with every strike and causing Void Gash on the final one.",
               "children": [
                 {
                   "name": "Void Gash",
@@ -1573,7 +1466,7 @@
             {
               "name": "Eclipsing Step",
               "spellId": 1249014,
-              "text": "Nysarra slips into the shadows and strikes at random players, inflicting 12 Shadow damage and additional 4 Shadow damage every 1 sec for 8 sec to all players within $1252875a2 yards."
+              "text": "Nysarra slips into the shadows and strikes at random players, inflicting Shadow damage and additional Shadow damage every 1 sec for 8 sec to all players within 14 yards."
             }
           ],
           "loot": [
@@ -1634,19 +1527,19 @@
             {
               "name": "Divine Guile",
               "spellId": 1257613,
-              "text": "Upon reaching 100 energy, Lothraxion disguises himself amongst his Fractured Images as they all channel light energy into the core, inflicting 7 Holy damage every 2 sec until Lothraxion is interrupted.",
+              "text": "Upon reaching 100 energy, Lothraxion disguises himself amongst his Fractured Images as they all channel light energy into the core, inflicting Holy damage every 2 sec until Lothraxion is interrupted.",
               "children": [
                 {
                   "name": "Core Exposure",
                   "spellId": 1271511,
-                  "text": "Inflicts 15 Holy damage to all players and increases Holy damage taken by 20% for 60 sec."
+                  "text": "Inflicts Holy damage to all players and increases Holy damage taken by 20% for 60 sec."
                 }
               ]
             },
             {
               "name": "Brilliant Dispersion",
               "spellId": 1253848,
-              "text": "Lothraxion unleashes radiant swarms toward several players, blasting players within $1255503A1 yards of the impact for 12 Holy damage and searing an additional 4 Holy damage every 1 sec for 6 sec. Fractured Images scatter, erupting with Mirrored Rend to enemies within $1282791A1 yards of their creation.",
+              "text": "Lothraxion unleashes radiant swarms toward several players, blasting players within 8 yards of the impact for Holy damage and searing an additional Holy damage every 1 sec for 6 sec. Fractured Images scatter, erupting with Mirrored Rend to enemies within 5 yards of their creation.",
               "children": [
                 {
                   "name": "Fractured Image",
@@ -1656,19 +1549,19 @@
                     {
                       "name": "Mirrored Rend",
                       "spellId": 1266713,
-                      "text": "Coming in contact with a Fractured Image rends the target, knocking them away and inflicting 10 Holy damage with an additional 2 Holy damage every 1 sec. This effect stacks and leaves behind Radiant Scars.",
+                      "text": "Coming in contact with a Fractured Image rends the target, knocking them away and inflicting Holy damage with an additional Holy damage every 1 sec. This effect stacks and leaves behind Radiant Scars.",
                       "children": [
                         {
                           "name": "Radiant Scar",
                           "spellId": 1255389,
-                          "text": "A jagged brand of divine energy inflicts 10 Holy damage every 1 sec to players within the area."
+                          "text": "A jagged brand of divine energy inflicts Holy damage every 1 sec to players within the area."
                         }
                       ]
                     },
                     {
                       "name": "Flicker",
                       "spellId": 1255531,
-                      "text": "Fractured Images periodically flicker to new locations, inflicting 20 Holy damage and knocking away players in its path."
+                      "text": "Fractured Images periodically flicker to new locations, inflicting Holy damage and knocking away players in its path."
                     }
                   ]
                 }
@@ -1677,12 +1570,12 @@
             {
               "name": "Searing Rend",
               "spellId": 1253950,
-              "text": "Lothraxion lashes out with a precise, double-slash aimed at his current target, with each strike inflicting 25 Physical damage and an additional 4 Holy damage every 1 sec for 6 sec. Carves Radiant Scars into the ground.",
+              "text": "Lothraxion lashes out with a precise, double-slash aimed at his current target, with each strike inflicting Physical damage and an additional Holy damage every 1 sec for 6 sec. Carves Radiant Scars into the ground.",
               "children": [
                 {
                   "name": "Radiant Scar",
                   "spellId": 1255389,
-                  "text": "A jagged brand of divine energy inflicts 10 Holy damage every 1 sec to players within the area."
+                  "text": "A jagged brand of divine energy inflicts Holy damage every 1 sec to players within the area."
                 }
               ]
             }
@@ -1755,24 +1648,24 @@
             {
               "name": "Throw Saronite",
               "spellId": 1261299,
-              "text": "Garfrost throws saronite ore at players, inflicting 15 Physical damage to players within $1261295A1 yards of impact. The ore $?diff8|diff23[becomes Saronite Sludge and ][]explodes into Ore Chunks when destroyed.",
+              "text": "Garfrost throws saronite ore at players, inflicting Physical damage to players within 10 yards of impact. The ore becomes Saronite Sludge and explodes into Ore Chunks when destroyed.",
               "children": [
                 {
                   "name": "Saronite Sludge",
                   "spellId": 1261799,
-                  "text": "The smashed saronite oozes a harmful substance, inflicting 10 Shadow damage to players within it."
+                  "text": "The smashed saronite oozes a harmful substance, inflicting Shadow damage to players within it."
                 },
                 {
                   "name": "Ore Chunks",
                   "spellId": 1272433,
-                  "text": "Chunks of saronite ore rain down, inflicting 30 Physical damage to players within $A1 yards of each impact."
+                  "text": "Chunks of saronite ore rain down, inflicting Physical damage to players within 5 yards of each impact."
                 }
               ]
             },
             {
               "name": "Cryostomp",
               "spellId": 1261847,
-              "text": "The Forgemaster's stomp causes an icy reverberation, inflicting 12 Physical damage to all players and sending out Cryoshards. This reverberation also destroys all saronite ore.",
+              "text": "The Forgemaster's stomp causes an icy reverberation, inflicting Physical damage to all players and sending out Cryoshards. This reverberation also destroys all saronite ore.",
               "children": [
                 {
                   "name": "Cryoshards",
@@ -1784,12 +1677,12 @@
             {
               "name": "Orebreaker",
               "spellId": 1261546,
-              "text": "Garfrost unleashes a devastating mace slam on players within $A1 yards of his primary target, inflicting 70 Physical damage and stunning them for 8 sec. If the slam strikes saronite ore, it no longer stuns, instead destroying the ore."
+              "text": "Garfrost unleashes a devastating mace slam on players within 5 yards of his primary target, inflicting Physical damage and stunning them for 8 sec. If the slam strikes saronite ore, it no longer stuns, instead destroying the ore."
             },
             {
               "name": "Siphoning Chill",
               "spellId": 1261806,
-              "text": "The Forgemaster's frozen core siphons heat from players, inflicting 4 Frost damage to all players every 2 sec."
+              "text": "The Forgemaster's frozen core siphons heat from players, inflicting Frost damage to all players every 2 sec."
             }
           ],
           "loot": [
@@ -1955,22 +1848,22 @@
                     {
                       "name": "Lumbering Fixation",
                       "spellId": 1264453,
-                      "text": "Ick fixates on a player for 5 sec, increasing his attack speed by 100% and ignoring other players at all costs. While fixating, he $?diff8|diff23[splatters Blight and ][]launches Plague Globs. Ick periodically changes which player he fixates upon.",
+                      "text": "Ick fixates on a player for 5 sec, increasing his attack speed by 100% and ignoring other players at all costs. While fixating, he splatters Blight and launches Plague Globs. Ick periodically changes which player he fixates upon.",
                       "children": [
                         {
                           "name": "Blight",
                           "spellId": 1264299,
-                          "text": "Ick's blight pools inflict 15 Nature damage every 1 sec."
+                          "text": "Ick's blight pools inflict Nature damage every 1 sec."
                         },
                         {
                           "name": "Plague Globs",
                           "spellId": 1264461,
-                          "text": "Globules of necrotic filth impact the ground, inflicting 25 Nature damage to players within $A1 yards and forming Blight.",
+                          "text": "Globules of necrotic filth impact the ground, inflicting Nature damage to players within 3 yards and forming Blight.",
                           "children": [
                             {
                               "name": "Blight",
                               "spellId": 1264299,
-                              "text": "Ick's blight pools inflict 15 Nature damage every 1 sec."
+                              "text": "Ick's blight pools inflict Nature damage every 1 sec."
                             }
                           ]
                         }
@@ -1981,7 +1874,7 @@
                 {
                   "name": "Shade Shift",
                   "spellId": 1264027,
-                  "text": "Krick releases a burst of dark energy and teleports to a ritual circle. This burst inflicts 8 Shadow damage to all players and an additional 2 Shadow damage every 1 sec for 12 sec. This ritual summons Shades of Krick nearby.",
+                  "text": "Krick releases a burst of dark energy and teleports to a ritual circle. This burst inflicts Shadow damage to all players and an additional Shadow damage every 1 sec for 12 sec. This ritual summons Shades of Krick nearby.",
                   "children": [
                     {
                       "name": "Shades of Krick",
@@ -1991,12 +1884,12 @@
                         {
                           "name": "Shadowbind",
                           "spellId": 1264186,
-                          "text": "Krick's shade channels dark magic into a player, inflicting 5 Shadow damage every 1 sec and slowing their movement speed by -35%."
+                          "text": "Krick's shade channels dark magic into a player, inflicting Shadow damage every 1 sec and slowing their movement speed by -35%."
                         },
                         {
                           "name": "Shade Bomb",
                           "spellId": 1271678,
-                          "text": "Krick's shade explodes after 60 sec, destroying itself. This inflicts 50 Shadow damage to all players and an additional 10 Shadow damage every 1 sec for 10 sec. This effect stacks."
+                          "text": "Krick's shade explodes after 60 sec, destroying itself. This inflicts Shadow damage to all players and an additional Shadow damage every 1 sec for 10 sec. This effect stacks."
                         }
                       ]
                     }
@@ -2005,12 +1898,12 @@
                 {
                   "name": "Death Bolt",
                   "spellId": 1278893,
-                  "text": "Krick fires a massive shadow bolt at a player that inflicts 36 Shadow damage."
+                  "text": "Krick fires a massive shadow bolt at a player that inflicts Shadow damage."
                 },
                 {
                   "name": "Shadow Lance",
                   "spellId": 1279667,
-                  "text": "While riding atop Ick, Krick throws dark energy at a player that inflicts 6 Shadow damage."
+                  "text": "While riding atop Ick, Krick throws dark energy at a player that inflicts Shadow damage."
                 }
               ]
             },
@@ -2022,17 +1915,17 @@
                 {
                   "name": "Plague Expulsion",
                   "spellId": 1264336,
-                  "text": "Ick disgorges a wave of necrotic filth, inflicting 12 Nature damage to all players and launching Plague Globs towards them.",
+                  "text": "Ick disgorges a wave of necrotic filth, inflicting Nature damage to all players and launching Plague Globs towards them.",
                   "children": [
                     {
                       "name": "Plague Globs",
                       "spellId": 1264349,
-                      "text": "Globules of necrotic filth impact the ground, inflicting 25 Nature damage to players within $A1 yards and forming Blight.",
+                      "text": "Globules of necrotic filth impact the ground, inflicting Nature damage to players within 3 yards and forming Blight.",
                       "children": [
                         {
                           "name": "Blight",
                           "spellId": 1264299,
-                          "text": "Ick's blight pools inflict 15 Nature damage every 1 sec."
+                          "text": "Ick's blight pools inflict Nature damage every 1 sec."
                         }
                       ]
                     }
@@ -2041,12 +1934,12 @@
                 {
                   "name": "Blight Smash",
                   "spellId": 1264287,
-                  "text": "Ick smashes his target, inflicting 55 Physical damage and forming Blight.",
+                  "text": "Ick smashes his target, inflicting Physical damage and forming Blight.",
                   "children": [
                     {
                       "name": "Blight",
                       "spellId": 1264299,
-                      "text": "Ick's blight pools inflict 15 Nature damage every 1 sec."
+                      "text": "Ick's blight pools inflict Nature damage every 1 sec."
                     }
                   ]
                 }
@@ -2210,12 +2103,12 @@
                 {
                   "name": "Bone Infusion",
                   "spellId": 1276648,
-                  "text": "$?diff23|diff8[Scourgelord Tyrannus stomps necrotic energy into the ground, turning some Bone Piles into Infused Bone Piles. The stomp inflicts 8 Shadow damage to all players and an additional 3 Shadow damage every 1 sec for 8 sec.][Scourgelord Tyrannus stomps necrotic energy into the ground, inflicting 8 Shadow damage to all players and an additional 3 Shadow damage every 1 sec for 8 sec.]"
+                  "text": "Scourgelord Tyrannus stomps necrotic energy into the ground, turning some Bone Piles into Infused Bone Piles. The stomp inflicts Shadow damage to all players and an additional Shadow damage every 1 sec for 8 sec."
                 },
                 {
-                  "name": "Bone Infusion",
-                  "spellId": 1276648,
-                  "text": "$?diff23|diff8[Scourgelord Tyrannus stomps necrotic energy into the ground, turning some Bone Piles into Infused Bone Piles. The stomp inflicts 8 Shadow damage to all players and an additional 3 Shadow damage every 1 sec for 8 sec.][Scourgelord Tyrannus stomps necrotic energy into the ground, inflicting 8 Shadow damage to all players and an additional 3 Shadow damage every 1 sec for 8 sec.]",
+                  "name": "Army of the Dead",
+                  "spellId": 1263406,
+                  "text": "Scourgelord Tyrannus raises Rotlings from Bone Piles and Scourge Plaguespreaders from Infused Bone Piles.",
                   "children": [
                     {
                       "name": "Bone Piles",
@@ -2230,73 +2123,18 @@
                             {
                               "name": "Rotting Strikes",
                               "spellId": 1262929,
-                              "text": "The Rotling rots its primary target with each melee strike, reducing their maximum health by $<reduction>% for 3 sec. This effect stacks."
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "name": "Infused Bone Piles",
-                      "spellId": 1276391,
-                      "text": "Unfrozen infused bone piles produce Scourge Plaguespreaders when Scourgelord Tyrannus summons an Army of the Dead.",
-                      "children": [
-                        {
-                          "name": "Scourge Plaguespreader",
-                          "spellId": null,
-                          "text": "",
-                          "children": [
-                            {
-                              "name": "Festering Pulse",
-                              "spellId": 1262997,
-                              "text": "The Scourge Plaguespreader's decaying presence inflicts 6 Nature damage to all players every 2 sec."
-                            },
-                            {
-                              "name": "Plague Bolt",
-                              "spellId": 1262941,
-                              "text": "The Scourge Plaguespreader hurls putrid magic at a player that inflicts 12 Nature damage."
+                              "text": "The Rotling rots its primary target with each melee strike, reducing their maximum health for 3 sec. This effect stacks."
                             }
                           ]
                         }
                       ]
                     }
                   ]
-                },
-                {
-                  "name": "Army of the Dead",
-                  "spellId": 1263406,
-                  "text": "Scourgelord Tyrannus raises Rotlings from Bone Piles$?diff8|diff23[ and Scourge Plaguespreaders from Infused Bone Piles.][.]",
-                  "children": [
-                    {
-                      "name": "Bone Piles",
-                      "spellId": 1276357,
-                      "text": "Unfrozen bone piles produce Rotlings when Scourgelord Tyrannus summons an Army of the Dead.",
-                      "children": [
-                        {
-                          "name": "Rotling",
-                          "spellId": null,
-                          "text": "",
-                          "children": [
-                            {
-                              "name": "Rotting Strikes",
-                              "spellId": 1262929,
-                              "text": "The Rotling rots its primary target with each melee strike, reducing their maximum health by $<reduction>% for 3 sec. This effect stacks."
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "name": "Army of the Dead",
-                  "spellId": 1263406,
-                  "text": "Scourgelord Tyrannus raises Rotlings from Bone Piles$?diff8|diff23[ and Scourge Plaguespreaders from Infused Bone Piles.][.]"
                 },
                 {
                   "name": "Death's Grasp",
                   "spellId": 1263756,
-                  "text": "Hands of the dead emerge at the location of players, inflicting 30 Shadow damage to players within $1263766A1 yards and slowing them by -40% for 3 sec."
+                  "text": "Hands of the dead emerge at the location of players, inflicting Shadow damage to players within 6 yards and slowing them by -40% for 3 sec."
                 },
                 {
                   "name": "Scourgelord's Brand",
@@ -2306,7 +2144,7 @@
                     {
                       "name": "Scourgelord's Reckoning",
                       "spellId": 1263671,
-                      "text": "Tyrannus leaps at his primary target's location, delivering a heaving necrotic strike. This maneuver impacts players within $1263701A1 yards of the landing zone, inflicting 10 Physical damage and 30 Shadow damage."
+                      "text": "Tyrannus leaps at his primary target's location, delivering a heaving necrotic strike. This maneuver impacts players within 10 yards of the landing zone, inflicting Physical damage and Shadow damage."
                     }
                   ]
                 }
@@ -2320,24 +2158,24 @@
                 {
                   "name": "Rime Blast",
                   "spellId": 1262745,
-                  "text": "Rimefang blasts a player with ice, inflicting 12 Frost damage to players within $1262750A1 yards and applying Frostbite. Any Bone Piles$?diff8|diff23[ or Infused Bone Piles][] within the radius become frozen, preventing them from producing undead minions.",
+                  "text": "Rimefang blasts a player with ice, inflicting Frost damage to players within 6 yards and applying Frostbite. Any Bone Piles or Infused Bone Piles within the radius become frozen, preventing them from producing undead minions.",
                   "children": [
                     {
                       "name": "Frostbite",
                       "spellId": 1263716,
-                      "text": "Rimefang chills his victim to the bone, inflicting 3 Frost damage every 1 sec for 8 sec."
+                      "text": "Rimefang chills his victim to the bone, inflicting Frost damage every 1 sec for 8 sec."
                     }
                   ]
                 },
                 {
                   "name": "Ice Barrage",
                   "spellId": 1276948,
-                  "text": "Rimefang spits icy chunks towards players for 4.5 sec, inflicting 30 Frost damage to players within $1276973A1 yards of each impact."
+                  "text": "Rimefang spits icy chunks towards players for 4.5 sec, inflicting Frost damage to players within 6 yards of each impact."
                 },
                 {
                   "name": "Frost Spit",
                   "spellId": 1262739,
-                  "text": "Rimefang spits frost at a player that inflicts 6 Frost damage."
+                  "text": "Rimefang spits frost at a player that inflicts Frost damage."
                 }
               ]
             }
@@ -2609,12 +2447,12 @@
             {
               "name": "Crashing Void",
               "spellId": 1263297,
-              "text": "Upon reaching 100 energy, Zuraal begins to gather void energy around himself, pulling all players and Coalesced Void in. Zuraal unleashes the gathered void energy after 5 sec, inflicting 20 Shadow damage to all players and knocking them back."
+              "text": "Upon reaching 100 energy, Zuraal begins to gather void energy around himself, pulling all players and Coalesced Void in. Zuraal unleashes the gathered void energy after 5 sec, inflicting Shadow damage to all players and knocking them back."
             },
             {
               "name": "Oozing Slam",
               "spellId": 1263399,
-              "text": "Zuraal slams the ground with void energy, inflicting 12 Shadow damage to all players and inflicting additional 4 Shadow damage every 1 sec for 6 sec. The slam also spawns Coalesced Void in nearby locations.",
+              "text": "Zuraal slams the ground with void energy, inflicting Shadow damage to all players and inflicting additional Shadow damage every 1 sec for 6 sec. The slam also spawns Coalesced Void in nearby locations.",
               "children": [
                 {
                   "name": "Coalesced Void",
@@ -2624,38 +2462,7 @@
                     {
                       "name": "Dark Expulsion",
                       "spellId": 244599,
-                      "text": "Explodes in a shower of void energy, inflicting 22 Shadow to all enemies and additional 6 Shadow damage every 1 sec for 10 sec."
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "Oozing Slam",
-              "spellId": 1263399,
-              "text": "Zuraal slams the ground with void energy, inflicting 12 Shadow damage to all players and inflicting additional 4 Shadow damage every 1 sec for 6 sec. The slam also spawns Coalesced Void in nearby locations.",
-              "children": [
-                {
-                  "name": "Coalesced Void",
-                  "spellId": null,
-                  "text": "",
-                  "children": [
-                    {
-                      "name": "Umbral Ejection",
-                      "spellId": 244731,
-                      "text": "When the Coalesced Void is killed, it leaves behind a pool of Void Sludge at its location.",
-                      "children": [
-                        {
-                          "name": "Void Sludge",
-                          "spellId": 244588,
-                          "text": "A pool of volatile void that inflicts 10 Shadow damage every 1 sec."
-                        }
-                      ]
-                    },
-                    {
-                      "name": "Dark Expulsion",
-                      "spellId": 244599,
-                      "text": "Explodes in a shower of void energy, inflicting 22 Shadow to all enemies and additional 6 Shadow damage every 1 sec for 10 sec."
+                      "text": "Explodes in a shower of void energy, inflicting 22 Shadow to all enemies and additional Shadow damage every 1 sec for 10 sec."
                     }
                   ]
                 }
@@ -2664,24 +2471,24 @@
             {
               "name": "Decimate",
               "spellId": 244579,
-              "text": "Zuraal infuses his fist with void energy and lashes out, inflicting 16 Shadow damage to their target and creating a pool of Void Sludge at their location.",
+              "text": "Zuraal infuses his fist with void energy and lashes out, inflicting Shadow damage to their target and creating a pool of Void Sludge at their location.",
               "children": [
                 {
                   "name": "Void Sludge",
                   "spellId": 244588,
-                  "text": "A pool of volatile void that inflicts 10 Shadow damage every 1 sec."
+                  "text": "A pool of volatile void that inflicts Shadow damage every 1 sec."
                 }
               ]
             },
             {
               "name": "Null Palm",
               "spellId": 1268916,
-              "text": "Zuraal releases a cresting wave of chaotic magic, inflicting 40 Shadow damage to all players in front of himself."
+              "text": "Zuraal releases a cresting wave of chaotic magic, inflicting Shadow damage to all players in front of himself."
             },
             {
               "name": "Void Slash",
               "spellId": 1263440,
-              "text": "Zuraal unleashes three powerful swipes at his target, inflicting 30 Physical damage twice with another final strike inflicting 25 Shadow damage."
+              "text": "Zuraal unleashes three powerful swipes at his target, inflicting Physical damage twice with another final strike inflicting Shadow damage."
             }
           ],
           "loot": [
@@ -2792,24 +2599,24 @@
                 {
                   "name": "Void Bomb",
                   "spellId": 246026,
-                  "text": "Saprish throws void bombs at nearby player locations. Upon contact with a player, the bomb explodes and inflicts 12 Shadow damage to players within $a1 yards and additional 3 Shadow damage every 1 sec for 15 sec."
+                  "text": "Saprish throws void bombs at nearby player locations. Upon contact with a player, the bomb explodes and inflicts Shadow damage to players within 5 yards and additional Shadow damage every 1 sec for 15 sec."
                 },
                 {
                   "name": "Phase Dash",
                   "spellId": 1280067,
-                  "text": "Saprish creates void shades that dash towards each player, inflicting 5 Shadow damage to all players within $a1 yards of impact. This effect detonates all Void Bomb hit, triggering Umbral Nova.",
+                  "text": "Saprish creates void shades that dash towards each player, inflicting Shadow damage to all players within 8 yards of impact. This effect detonates all Void Bomb hit, triggering Umbral Nova.",
                   "children": [
                     {
                       "name": "Umbral Nova",
                       "spellId": 1263508,
-                      "text": "The Void Bomb releases a wave of void energy, inflicting 1 Shadow damage to all players."
+                      "text": "The Void Bomb releases a wave of void energy, inflicting Shadow damage to all players."
                     }
                   ]
                 },
                 {
                   "name": "Overload",
                   "spellId": 1263523,
-                  "text": "Saprish releases a massive blast, inflicting 10 Shadow damage to all players and 7 Shadow damage every 2 sec for 8 sec. This blast ignites all Void Bombs, inflicting 5 Shadow damage to all players and applying Seeping Void.",
+                  "text": "Saprish releases a massive blast, inflicting Shadow damage to all players and Shadow damage every 2 sec for 8 sec. This blast ignites all Void Bombs, inflicting Shadow damage to all players and applying Seeping Void.",
                   "children": [
                     {
                       "name": "Seeping Void",
@@ -2821,7 +2628,7 @@
                 {
                   "name": "Rending Void",
                   "spellId": 1266449,
-                  "text": "Saprish's melee attacks inflict an additional 8 Shadow damage."
+                  "text": "Saprish's melee attacks inflict an additional Shadow damage."
                 }
               ]
             },
@@ -2833,7 +2640,7 @@
                 {
                   "name": "Shadow Pounce",
                   "spellId": 245742,
-                  "text": "Darkfang pounces on a player, inflicting 6 Physical damage and additional 5 Physical damage every 1 sec for 5 sec."
+                  "text": "Darkfang pounces on a player, inflicting Physical damage and additional Physical damage every 1 sec for 5 sec."
                 }
               ]
             },
@@ -2845,12 +2652,12 @@
                 {
                   "name": "Swoop",
                   "spellId": 248830,
-                  "text": "Shadewing swoops down on a random player, inflicting 12 Physical damage. After reaching their destination, Shadewing releases a Dread Screech.",
+                  "text": "Shadewing swoops down on a random player, inflicting Physical damage. After reaching their destination, Shadewing releases a Dread Screech.",
                   "children": [
                     {
                       "name": "Dread Screech",
                       "spellId": 248831,
-                      "text": "Shadewing releases a piercing screech, inflicting 20 Shadow damage and disorienting all players for 4 sec."
+                      "text": "Shadewing releases a piercing screech, inflicting Shadow damage and disorienting all players for 4 sec."
                     }
                   ]
                 }
@@ -2936,29 +2743,12 @@
             {
               "name": "Collapsing Void",
               "spellId": 1263529,
-              "text": "At 100 energy, Nezhar teleports to the center of the room, knocking all players back$?diff1|diff2[.]$?diff8[ while continuously pushing them with Repulsing Force.] Void energy begins to collapse towards Nezhar, forming a Void Storm after 9 sec.",
+              "text": "At 100 energy, Nezhar teleports to the center of the room, knocking all players back while continuously pushing them with Repulsing Force. Void energy begins to collapse towards Nezhar, forming a Void Storm after 9 sec.",
               "children": [
                 {
                   "name": "Void Storm",
                   "spellId": 1265030,
-                  "text": "Raging storm that inflicts 9 Shadow damage every 2 sec for 10 sec. Additionally, players inside the storm are suffer an additional 18 Shadow damage every 1 sec."
-                }
-              ]
-            },
-            {
-              "name": "Collapsing Void",
-              "spellId": 1263529,
-              "text": "At 100 energy, Nezhar teleports to the center of the room, knocking all players back$?diff1|diff2[.]$?diff8[ while continuously pushing them with Repulsing Force.] Void energy begins to collapse towards Nezhar, forming a Void Storm after 9 sec.",
-              "children": [
-                {
-                  "name": "Repulsing Force",
-                  "spellId": 1263533,
-                  "text": "Viceroy Nezhar pushes players back with powerful force."
-                },
-                {
-                  "name": "Void Storm",
-                  "spellId": 1265030,
-                  "text": "Raging storm that inflicts 9 Shadow damage every 2 sec for 10 sec. Additionally, players inside the storm are suffer an additional 18 Shadow damage every 1 sec."
+                  "text": "Raging storm that inflicts Shadow damage every 2 sec for 10 sec. Additionally, players inside the storm are suffer an additional Shadow damage every 1 sec."
                 }
               ]
             },
@@ -2975,12 +2765,12 @@
                     {
                       "name": "Unstable Entrance",
                       "spellId": 249082,
-                      "text": "Void tentacle tears into reality, inflicting 2 Shadow damage to all players."
+                      "text": "Void tentacle tears into reality, inflicting Shadow damage to all players."
                     },
                     {
                       "name": "Mind Flay",
                       "spellId": 1268733,
-                      "text": "The Umbral Tentacle assaults a player's mind, inflicting 7 Shadow damage every 2 sec for 10 sec."
+                      "text": "The Umbral Tentacle assaults a player's mind, inflicting Shadow damage every 2 sec for 10 sec."
                     }
                   ]
                 }
@@ -2994,19 +2784,19 @@
                 {
                   "name": "Umbral Waves",
                   "spellId": 1264257,
-                  "text": "Void waves inflict 15 Shadow damage with an additional 6 Shadow damage every 1 sec for 4 sec to players struck."
+                  "text": "Void waves inflict Shadow damage with an additional Shadow damage every 1 sec for 4 sec to players struck."
                 }
               ]
             },
             {
               "name": "Mass Void Infusion",
               "spellId": 1263542,
-              "text": "Viceroy Nezhar infuses players with void energy, inflicting 6 Shadow damage every 1 sec for 5 sec."
+              "text": "Viceroy Nezhar infuses players with void energy, inflicting Shadow damage every 1 sec for 5 sec."
             },
             {
               "name": "Mind Blast",
               "spellId": 244750,
-              "text": "Viceroy Nezhar hurls a bolt of void energy at his target, inflicting 35 Shadow damage."
+              "text": "Viceroy Nezhar hurls a bolt of void energy at his target, inflicting Shadow damage."
             }
           ],
           "loot": [
@@ -3125,46 +2915,17 @@
                 {
                   "name": "Notes of Despair",
                   "spellId": 1265419,
-                  "text": "L'ura sings her dark song, inflicting 1 Shadow damage to all players every 0.25 sec for 1.5 sec. This song creates multiple Note of Despair.",
+                  "text": "L'ura sings her dark song, inflicting Shadow damage to all players every 0.25 sec for 1.5 sec. This song creates multiple Note of Despair.",
                   "children": [
                     {
                       "name": "Dirge of Despair",
                       "spellId": 1265421,
-                      "text": "L'ura performs the Dirge of Despair, immediately inflicting 10 Shadow damage to all players. This song causes all Note of Despair to radiates 1 Shadow damage every 2 sec until they are silenced."
+                      "text": "L'ura performs the Dirge of Despair, immediately inflicting Shadow damage to all players. This song causes all Note of Despair to radiates Shadow damage every 2 sec until they are silenced."
                     },
                     {
                       "name": "Grim Chorus",
                       "spellId": 1265689,
-                      "text": "L'ura shifts the Notes of Despair and begins a Grim Chorus for 20 sec, inflicting 25 to players within $1271666a1 yards of each active Note of Despair$?diff1|diff2[.]$?diff8[. Each active Note of Despair afflicts players with Anguish every 2 sec until the Notes of Despair are destroyed.]"
-                    },
-                    {
-                      "name": "Symphony of the Eternal Night",
-                      "spellId": 1266003,
-                      "text": "L'ura channels the Eternal Night, attempting to instantly kill all players."
-                    }
-                  ]
-                },
-                {
-                  "name": "Notes of Despair",
-                  "spellId": 1265419,
-                  "text": "L'ura sings her dark song, inflicting 1 Shadow damage to all players every 0.25 sec for 1.5 sec. This song creates multiple Note of Despair.",
-                  "children": [
-                    {
-                      "name": "Dirge of Despair",
-                      "spellId": 1265421,
-                      "text": "L'ura performs the Dirge of Despair, immediately inflicting 10 Shadow damage to all players. This song causes all Note of Despair to radiates 1 Shadow damage every 2 sec until they are silenced."
-                    },
-                    {
-                      "name": "Grim Chorus",
-                      "spellId": 1265689,
-                      "text": "L'ura shifts the Notes of Despair and begins a Grim Chorus for 20 sec, inflicting 25 to players within $1271666a1 yards of each active Note of Despair$?diff1|diff2[.]$?diff8[. Each active Note of Despair afflicts players with Anguish every 2 sec until the Notes of Despair are destroyed.]",
-                      "children": [
-                        {
-                          "name": "Anguish",
-                          "spellId": 1265650,
-                          "text": "Notes of Despair cause players to become vulnerable to the effects of Dirge of Despair, increasing damage taken from it by 3%. This effect stacks."
-                        }
-                      ]
+                      "text": "L'ura shifts the Notes of Despair and begins a Grim Chorus for 20 sec, inflicting damage to players within 23 yards of each active Note of Despair. Each active Note of Despair afflicts players with Anguish every 2 sec until the Notes of Despair are destroyed."
                     },
                     {
                       "name": "Symphony of the Eternal Night",
@@ -3176,22 +2937,22 @@
                 {
                   "name": "Discordant Beam",
                   "spellId": 1265464,
-                  "text": "L'ura blasts target players with sonic energy, inflicting 12 Physical damage to all players in the line and silencing any Note of Despair hit. This damage ignores armor."
+                  "text": "L'ura blasts target players with sonic energy, inflicting Physical damage to all players in the line and silencing any Note of Despair hit. This damage ignores armor."
                 },
                 {
                   "name": "Disintegrate",
                   "spellId": 1264196,
-                  "text": "L'ura channels revolving void beams, inflicting 35 Shadow damage to players struck."
+                  "text": "L'ura channels revolving void beams, inflicting Shadow damage to players struck."
                 },
                 {
                   "name": "Abyssal Lance",
                   "spellId": 1267207,
-                  "text": "L'ura passively tears open a rift to the void every 4 sec. After 3 rifts are opened, L'ura summons an Abyssal Lance from each of them, inflicting 10 Shadow damage to her target for each lance. This effect closes the rifts."
+                  "text": "L'ura passively tears open a rift to the void every 4 sec. After 3 rifts are opened, L'ura summons an Abyssal Lance from each of them, inflicting Shadow damage to her target for each lance. This effect closes the rifts."
                 },
                 {
                   "name": "Backlash",
                   "spellId": 1266001,
-                  "text": "L'ura breaks out of Alleria's hold and unleashes a wave of void energy that inflicts 18 Shadow damage to all players, knocking them back."
+                  "text": "L'ura breaks out of Alleria's hold and unleashes a wave of void energy that inflicts Shadow damage to all players, knocking them back."
                 }
               ]
             },
@@ -3323,34 +3084,22 @@
             {
               "name": "Chakram Vortex",
               "spellId": 156793,
-              "text": "Ranjit throws a powerful wind chakram to the center of the platform, inflicting 25 Nature damage to players within $1281396a2 yards of the impact area. The chakram continues to spin, inflicting 15 Nature damage to players it hits and knocking them back. The chakram forms raging wind vortexes that trail around the platform, inflicting 15 Nature damage to any enemy hit and knocking them in the air."
+              "text": "Ranjit throws a powerful wind chakram to the center of the platform, inflicting Nature damage to players within 10 yards of the impact area. The chakram continues to spin, inflicting Nature damage to players it hits and knocking them back. The chakram forms raging wind vortexes that trail around the platform, inflicting Nature damage to any enemy hit and knocking them in the air."
             },
             {
               "name": "Gale Surge",
               "spellId": 1252691,
-              "text": "Ranjit blasts target players with a powerful gust of wind, inflicting 14 Nature damage and knocking them back$?diff1|diff2[.][ and leaves behind a Coalesced Wind.]"
-            },
-            {
-              "name": "Gale Surge",
-              "spellId": 1252691,
-              "text": "Ranjit blasts target players with a powerful gust of wind, inflicting 14 Nature damage and knocking them back$?diff1|diff2[.][ and leaves behind a Coalesced Wind.]",
-              "children": [
-                {
-                  "name": "Coalesced Wind",
-                  "spellId": 1258140,
-                  "text": "Unleashes a powerful gust of wind that inflicts 20 Nature damage to target player and knocking them back."
-                }
-              ]
+              "text": "Ranjit blasts target players with a powerful gust of wind, inflicting Nature damage and knocking them back and leaves behind a Coalesced Wind."
             },
             {
               "name": "Fan of Blades",
               "spellId": 153757,
-              "text": "Ranjit throws razor sharp blades in all directions, inflicting 10 Physical damage and causing them to bleed, inflicting 6 Physical damage every 2 sec for 6 sec."
+              "text": "Ranjit throws razor sharp blades in all directions, inflicting Physical damage and causing them to bleed, inflicting Physical damage every 2 sec for 6 sec."
             },
             {
               "name": "Wind Chakram",
               "spellId": 1258152,
-              "text": "Ranjit hurls a wind chakram in front of him, inflicting 30 Nature damage to all players caught in its path."
+              "text": "Ranjit hurls a wind chakram in front of him, inflicting Nature damage to all players caught in its path."
             }
           ],
           "loot": [
@@ -3726,56 +3475,39 @@
             {
               "name": "Energize",
               "spellId": 154139,
-              "text": "Lesser constructs surrounding the arena focus light rays at Araknath, healing it for 1% every 0.5 sec$?diff1|diff2[.][ and granting it Solar Infusion every 0.5 sec.] Players blocking light rays suffer 4 Fire damage every 1 sec.",
+              "text": "Lesser constructs surrounding the arena focus light rays at Araknath, healing it for 1% every 0.5 sec and granting it Solar Infusion every 0.5 sec. Players blocking light rays suffer Fire damage every 1 sec.",
               "children": [
                 {
                   "name": "Solar Infusion",
                   "spellId": 1252877,
-                  "text": "Light rays that connect with Araknath infuse it with solar energy, inflicting 2 Fire damage to all players and increasing Supernova's damage done by 5%. This effect stacks. Solar Infusion is consumed after empowering Supernova."
+                  "text": "Light rays that connect with Araknath infuse it with solar energy, inflicting Fire damage to all players and increasing Supernova's damage done by 5%. This effect stacks. Solar Infusion is consumed after empowering Supernova."
                 },
                 {
                   "name": "Heat Exhaustion",
                   "spellId": 1281874,
-                  "text": "The lesser constructs exhaust heat in front of them after focusing energy into Araknath, inflicting 20 Fire damage to players in the impact area."
-                }
-              ]
-            },
-            {
-              "name": "Energize",
-              "spellId": 154139,
-              "text": "Lesser constructs surrounding the arena focus light rays at Araknath, healing it for 1% every 0.5 sec$?diff1|diff2[.][ and granting it Solar Infusion every 0.5 sec.] Players blocking light rays suffer 4 Fire damage every 1 sec.",
-              "children": [
-                {
-                  "name": "Light Ray",
-                  "spellId": 154150,
-                  "text": "The solar beam inflicts 4 Fire damage every 1 sec to players blocking it."
-                },
-                {
-                  "name": "Heat Exhaustion",
-                  "spellId": 1281874,
-                  "text": "The lesser constructs exhaust heat in front of them after focusing energy into Araknath, inflicting 20 Fire damage to players in the impact area."
+                  "text": "The lesser constructs exhaust heat in front of them after focusing energy into Araknath, inflicting Fire damage to players in the impact area."
                 }
               ]
             },
             {
               "name": "Supernova",
               "spellId": 154135,
-              "text": "Araknath releases a burst of solar energy that inflicts 17 Fire damage to all players."
+              "text": "Araknath releases a burst of solar energy that inflicts Fire damage to all players."
             },
             {
               "name": "Fiery Smash",
               "spellId": 154132,
-              "text": "Araknath raises one of its arms and smashes the ground on that side, inflicting 25 Fire damage to all players in the impact area and increases their damage taken from Fiery Smash by 300% for 60 sec. This effect stacks."
+              "text": "Araknath raises one of its arms and smashes the ground on that side, inflicting Fire damage to all players in the impact area and increases their damage taken from Fiery Smash by 300% for 60 sec. This effect stacks."
             },
             {
               "name": "Defensive Protocol",
               "spellId": 1283770,
-              "text": "Araknath is in a defensive stance, rooting itself and emitting blistering heat, inflicting 25 Fire damage every 1 sec to players standing within 5 yards."
+              "text": "Araknath is in a defensive stance, rooting itself and emitting blistering heat, inflicting Fire damage every 1 sec to players standing within 5 yards."
             },
             {
               "name": "Blast Wave",
               "spellId": 1279002,
-              "text": "Araknath unleashes a wave of solar energy that inflicts 7 Fire damage to all players and additional 2 Fire damage every 1 sec for 20 sec. This effect stacks. This attack is only used by Araknath whenever he is not actively engaged in melee combat."
+              "text": "Araknath unleashes a wave of solar energy that inflicts Fire damage to all players and additional Fire damage every 1 sec for 20 sec. This effect stacks. This attack is only used by Araknath whenever he is not actively engaged in melee combat."
             }
           ],
           "loot": [
@@ -4188,7 +3920,7 @@
             {
               "name": "Sunbreak",
               "spellId": 1253510,
-              "text": "Rukhran calls down a burst of solar energy that inflicts 15 Fire damage to all players and summons a Sunwing.",
+              "text": "Rukhran calls down a burst of solar energy that inflicts Fire damage to all players and summons a Sunwing.",
               "children": [
                 {
                   "name": "Sunwing",
@@ -4198,41 +3930,12 @@
                     {
                       "name": "Blaze of Glory",
                       "spellId": 1253416,
-                      "text": "The Sunwing erupts in a blaze of glory upon defeat, inflicting 30 Fire damage to players within $a1 yards of the impact area$?diff1|diff2[.] [. Smoldering Eggs caught in the blast remerge as a Sunwing.]"
+                      "text": "The Sunwing erupts in a blaze of glory upon defeat, inflicting Fire damage to players within 8 yards of the impact area. Smoldering Eggs caught in the blast remerge as a Sunwing."
                     },
                     {
                       "name": "Burning Pursuit",
                       "spellId": 1253511,
-                      "text": "The Sunwing fixates on a random player and pulses its fiery energy at the cost of its health, burning 10% of its maximum health and inflicting 5 Fire damage to all players every 2 sec."
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "Sunbreak",
-              "spellId": 1253510,
-              "text": "Rukhran calls down a burst of solar energy that inflicts 15 Fire damage to all players and summons a Sunwing.",
-              "children": [
-                {
-                  "name": "Sunwing",
-                  "spellId": null,
-                  "text": "",
-                  "children": [
-                    {
-                      "name": "Smoldering Egg",
-                      "spellId": 1253424,
-                      "text": "Upon defeat, the Sunwing enters dormancy as a Smoldering Egg."
-                    },
-                    {
-                      "name": "Blaze of Glory",
-                      "spellId": 1253416,
-                      "text": "The Sunwing erupts in a blaze of glory upon defeat, inflicting 30 Fire damage to players within $a1 yards of the impact area$?diff1|diff2[.] [. Smoldering Eggs caught in the blast remerge as a Sunwing.]"
-                    },
-                    {
-                      "name": "Burning Pursuit",
-                      "spellId": 1253511,
-                      "text": "The Sunwing fixates on a random player and pulses its fiery energy at the cost of its health, burning 10% of its maximum health and inflicting 5 Fire damage to all players every 2 sec."
+                      "text": "The Sunwing fixates on a random player and pulses its fiery energy at the cost of its health, burning 10% of its maximum health and inflicting Fire damage to all players every 2 sec."
                     }
                   ]
                 }
@@ -4241,17 +3944,17 @@
             {
               "name": "Searing Quills",
               "spellId": 159381,
-              "text": "Rukhran unleashes waves of flaming quills, inflicting 22 Fire damage every 1 sec to players in line of sight for 3 sec."
+              "text": "Rukhran unleashes waves of flaming quills, inflicting Fire damage every 1 sec to players in line of sight for 3 sec."
             },
             {
               "name": "Burning Claws",
               "spellId": 1253519,
-              "text": "Rukhran lashes their current target with burning claws, inflicting 40 Physical damage and 15 Fire damage. Also casues the the target to burn, inflicting 6 Fire damage every 2 sec for 8 sec."
+              "text": "Rukhran lashes their current target with burning claws, inflicting Physical damage and Fire damage. Also casues the the target to burn, inflicting Fire damage every 2 sec for 8 sec."
             },
             {
               "name": "Screech",
               "spellId": 153898,
-              "text": "Rukhran unleashes a deafening screech, inflicting $s2 Sonic damage to all players. This attack is only used if Ruhkhran is not actively engaged in melee combat."
+              "text": "Rukhran unleashes a deafening screech, inflicting Sonic damage to all players. This attack is only used if Ruhkhran is not actively engaged in melee combat."
             }
           ],
           "loot": [
@@ -4654,29 +4357,17 @@
             {
               "name": "Lens Flare",
               "spellId": 154044,
-              "text": "High Sage Viryx commands the solar crystals to focus their intense energy on a player, inflicting 20 Fire damage to enemies within $a1 yards of impact$?diff1|diff2[.][ and leaving behind Blazing Ground.]"
-            },
-            {
-              "name": "Lens Flare",
-              "spellId": 154044,
-              "text": "High Sage Viryx commands the solar crystals to focus their intense energy on a player, inflicting 20 Fire damage to enemies within $a1 yards of impact$?diff1|diff2[.][ and leaving behind Blazing Ground.]",
-              "children": [
-                {
-                  "name": "Blazing Ground",
-                  "spellId": 154043,
-                  "text": "Lens Flare creates areas of intense heat that inflict 10 Fire damage every 1 sec to players standing in the area."
-                }
-              ]
+              "text": "High Sage Viryx commands the solar crystals to focus their intense energy on a player, inflicting Fire damage to enemies within 6 yards of impact and leaving behind Blazing Ground."
             },
             {
               "name": "Scorching Ray",
               "spellId": 1253543,
-              "text": "High Sage Viryx scorches several players with focused sunlight, inflicting 10 Fire damage and an additional 5 Fire damage every 1 sec for 5 sec."
+              "text": "High Sage Viryx scorches several players with focused sunlight, inflicting Fire damage and an additional Fire damage every 1 sec for 5 sec."
             },
             {
               "name": "Solar Blast",
               "spellId": 154396,
-              "text": "High Sage Viryx blasts their current target with solar energy, inflicting 45 Fire damage."
+              "text": "High Sage Viryx blasts their current target with solar energy, inflicting Fire damage."
             }
           ],
           "loot": [
@@ -5306,41 +4997,29 @@
             {
               "name": "Burning Gale",
               "spellId": 465904,
-              "text": "Emberdawn conjures a flaming windstorm that inflicts 4 Fire damage every 1 sec to all players and pushes them for 16 sec."
-            },
-            {
-              "name": "Burning Gale",
-              "spellId": 465904,
-              "text": "Emberdawn conjures a flaming windstorm that inflicts 4 Fire damage every 1 sec to all players and pushes them for 16 sec.",
-              "children": [
-                {
-                  "name": "Fire Breath",
-                  "spellId": 1217762,
-                  "text": "Emberdawn breathes a cone of fire towards a player, inflicting 40 Fire damage to players hit."
-                }
-              ]
+              "text": "Emberdawn conjures a flaming windstorm that inflicts Fire damage every 1 sec to all players and pushes them for 16 sec."
             },
             {
               "name": "Flaming Updraft",
               "spellId": 466556,
-              "text": "Emberdawn spits fire at a player, inflicting 5 Fire damage every 1 sec for 6 sec. Upon expiration, the fire forms into a flaming patch that inflicts 15 Fire damage every 1.5 sec to players within it. The patch's central updraft inflicts 25 Fire damage to players who touch it, knocking them away.",
+              "text": "Emberdawn spits fire at a player, inflicting Fire damage every 1 sec for 6 sec. Upon expiration, the fire forms into a flaming patch that inflicts Fire damage every 1.5 sec to players within it. The patch's central updraft inflicts Fire damage to players who touch it, knocking them away.",
               "children": [
                 {
                   "name": "Ignited Embers",
                   "spellId": 467120,
-                  "text": "Fiery remains inflict 15 Fire damage every 1.5 sec to players within. The patch's central updraft inflicts inflicts 25 Fire damage to players who touch it, knocking them away."
+                  "text": "Fiery remains inflict Fire damage every 1.5 sec to players within. The patch's central updraft inflicts inflicts Fire damage to players who touch it, knocking them away."
                 },
                 {
                   "name": "Flaming Twisters",
                   "spellId": 469633,
-                  "text": "Ignited Embers react to the winds from Burning Gale, ejecting fiery tornadoes that inflict 25 Fire damage to players struck and stun players hit for 2 sec before tossing them away."
+                  "text": "Ignited Embers react to the winds from Burning Gale, ejecting fiery tornadoes that inflict Fire damage to players struck and stun players hit for 2 sec before tossing them away."
                 }
               ]
             },
             {
               "name": "Searing Beak",
               "spellId": 466064,
-              "text": "Emberdawn pecks her current target, inflicting 55 Physical damage and an additional 10 Fire damage every 1 sec for 8 sec."
+              "text": "Emberdawn pecks her current target, inflicting Physical damage and an additional Fire damage every 1 sec for 8 sec."
             }
           ],
           "loot": [
@@ -5400,7 +5079,7 @@
                 {
                   "name": "Debilitating Shriek",
                   "spellId": 472736,
-                  "text": "Kalis continually releases piercing shrieks, inflicting 5 Shadow damage to all players every 2 sec and increasing their damage taken from Debilitating Shriek by 30% for 3 sec. This effect stacks. Latch's Heaving Yank interrupts this ability."
+                  "text": "Kalis continually releases piercing shrieks, inflicting Shadow damage to all players every 2 sec and increasing their damage taken from Debilitating Shriek by 30% for 3 sec. This effect stacks. Latch's Heaving Yank interrupts this ability."
                 },
                 {
                   "name": "Curse of Darkness",
@@ -5424,7 +5103,7 @@
                 {
                   "name": "Shadow Bolt",
                   "spellId": 472724,
-                  "text": "Kalis inflicts 12 Shadow damage to a player."
+                  "text": "Kalis inflicts Shadow damage to a player."
                 }
               ]
             },
@@ -5441,36 +5120,31 @@
                     {
                       "name": "Heaving Chop",
                       "spellId": 474075,
-                      "text": "Latch strikes the hooked player, inflicting 20 Physical damage and stunning them for 4 sec."
+                      "text": "Latch strikes the hooked player, inflicting Physical damage and stunning them for 4 sec."
                     }
                   ]
                 },
                 {
                   "name": "Splattering Spew",
                   "spellId": 472745,
-                  "text": "Latch spews bile onto players, inflicting 12 Nature damage to players within $472758A1 yards of each impact and applying Splattered. Gunk Splatter forms at the impact locations.",
+                  "text": "Latch spews bile onto players, inflicting Nature damage to players within 5 yards of each impact and applying Splattered. Gunk Splatter forms at the impact locations.",
                   "children": [
                     {
                       "name": "Splattered",
                       "spellId": 1282272,
-                      "text": "Latch's bile inflicts 2 Nature damage to players hit every 1 sec for 10 sec."
+                      "text": "Latch's bile inflicts Nature damage to players hit every 1 sec for 10 sec."
                     },
                     {
                       "name": "Gunk Splatter",
                       "spellId": 472777,
-                      "text": "Latch's bile coats the ground, inflicting 15 Nature damage every 1.5 sec to players within it and increasing their damage taken from Splattering Spew by 100%."
-                    },
-                    {
-                      "name": "Gunk Splatter",
-                      "spellId": 472777,
-                      "text": "Latch's bile coats the ground, inflicting 15 Nature damage every 1.5 sec to players within it and increasing their damage taken from Splattering Spew by 100%."
+                      "text": "Latch's bile coats the ground, inflicting Nature damage every 1.5 sec to players within it and increasing their damage taken from Splattering Spew by 100%."
                     }
                   ]
                 },
                 {
                   "name": "Bone Hack",
                   "spellId": 472888,
-                  "text": "Latch chops his primary target, inflicting 40 Physical damage every ${0.75}.2 sec for 3 sec."
+                  "text": "Latch chops his primary target, inflicting Physical damage for 3 sec."
                 }
               ]
             }
@@ -5518,54 +5192,13 @@
           "abilities": [
             {
               "name": "Rallying Bellow",
-              "spellId": 468070,
-              "text": "Commander Kroluk unleashes a bloodthirsty warcry, inflicting 18 Physical damage to all players and summoning a warparty to fight alongside him.",
-              "children": [
-                {
-                  "name": "Bladestorm",
-                  "spellId": 470963,
-                  "text": "Commander Kroluk enters a battle-trance, fixating on a player and inflicting 15 Physical damage every 1 sec to players within 7 yards. Commander Kroluk continues to Bladestorm until his warparty is defeated."
-                },
-                {
-                  "name": "Shield Wall",
-                  "spellId": 1250851,
-                  "text": "Commander Kroluk fortifies himself, reducing his damage taken by 99%."
-                },
-                {
-                  "name": "Spectral Axethrower",
-                  "spellId": null,
-                  "text": "",
-                  "children": [
-                    {
-                      "name": "Throw Axe",
-                      "spellId": 1217094,
-                      "text": "The Spectral Axethrower throws an axe at a player, inflicting 8 Physical damage and causing them to bleed for 3 Physical damage every 1 sec for 6 sec."
-                    }
-                  ]
-                },
-                {
-                  "name": "Haunting Grunt",
-                  "spellId": null,
-                  "text": "",
-                  "children": [
-                    {
-                      "name": "Intercepting Charge",
-                      "spellId": 467815,
-                      "text": "The Haunting Grunt charges toward their current target and inflicts 12 Physical damage."
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "Rallying Bellow",
               "spellId": 472043,
-              "text": "Commander Kroluk unleashes a bloodthirsty warcry, inflicting 18 Physical damage to all players and summoning a warparty to fight alongside him.",
+              "text": "Commander Kroluk unleashes a bloodthirsty warcry, inflicting Physical damage to all players and summoning a warparty to fight alongside him.",
               "children": [
                 {
                   "name": "Bladestorm",
                   "spellId": 470963,
-                  "text": "Commander Kroluk enters a battle-trance, fixating on a player and inflicting 15 Physical damage every 1 sec to players within 7 yards. Commander Kroluk continues to Bladestorm until his warparty is defeated."
+                  "text": "Commander Kroluk enters a battle-trance, fixating on a player and inflicting Physical damage every 1 sec to players within 7 yards. Commander Kroluk continues to Bladestorm until his warparty is defeated."
                 },
                 {
                   "name": "Shield Wall",
@@ -5580,7 +5213,7 @@
                     {
                       "name": "Intercepting Charge",
                       "spellId": 467815,
-                      "text": "The Haunting Grunt charges toward their current target and inflicts 12 Physical damage."
+                      "text": "The Haunting Grunt charges toward their current target and inflicts Physical damage."
                     }
                   ]
                 },
@@ -5592,7 +5225,7 @@
                     {
                       "name": "Throw Axe",
                       "spellId": 1217094,
-                      "text": "The Spectral Axethrower throws an axe at a player, inflicting 8 Physical damage and causing them to bleed for 3 Physical damage every 1 sec for 6 sec."
+                      "text": "The Spectral Axethrower throws an axe at a player, inflicting Physical damage and causing them to bleed for Physical damage every 1 sec for 6 sec."
                     }
                   ]
                 },
@@ -5604,12 +5237,12 @@
                     {
                       "name": "Chain Lightning",
                       "spellId": 1251981,
-                      "text": "The Phantasmal Mystic sends lightning into a player, inflicting 12 Nature damage. The lightning then jumps to the closest other player."
+                      "text": "The Phantasmal Mystic sends lightning into a player, inflicting Nature damage. The lightning then jumps to the closest other player."
                     },
                     {
                       "name": "Flame Nova",
                       "spellId": 1270620,
-                      "text": "The Phantasmal Mystic unleashes a nova of flame, inflicting 15 Fire damage to all players."
+                      "text": "The Phantasmal Mystic unleashes a nova of flame, inflicting Fire damage to all players."
                     }
                   ]
                 }
@@ -5618,24 +5251,24 @@
             {
               "name": "Rampage",
               "spellId": 467620,
-              "text": "Commander Kroluk focuses his destructive urge on his current target, repeatedly thrashing them and inflicting 20 Physical damage every 0.5 sec for 5 sec."
+              "text": "Commander Kroluk focuses his destructive urge on his current target, repeatedly thrashing them and inflicting Physical damage every 0.5 sec for 5 sec."
             },
             {
               "name": "Reckless Leap",
               "spellId": 472081,
-              "text": "Commander Kroluk recklessly leaps towards the furthest player, inflicting 15 Physical damage and an additional 4 Physical damage every 1 sec for 12 sec to players within $472054A1 yards of the impact location. The force of the impact causes Falling Rubble.",
+              "text": "Commander Kroluk recklessly leaps towards the furthest player, inflicting Physical damage and an additional Physical damage every 1 sec for 12 sec to players within 12 yards of the impact location. The force of the impact causes Falling Rubble.",
               "children": [
                 {
                   "name": "Falling Rubble",
                   "spellId": 1283357,
-                  "text": "Falling debris rains from the ceiling, inflicting 20 Nature damage to players within $A1 yards of each impact location."
+                  "text": "Falling debris rains from the ceiling, inflicting Nature damage to players within 4 yards of each impact location."
                 }
               ]
             },
             {
               "name": "Intimidating Shout",
               "spellId": 1253026,
-              "text": "Commander Kroluk bellows an intimidating shout, causing players who stand alone to run in fear and suffer 10 Shadow damage every 1 sec for 6 sec."
+              "text": "Commander Kroluk bellows an intimidating shout, causing players who stand alone to run in fear and suffer Shadow damage every 1 sec for 6 sec."
             }
           ],
           "loot": [
@@ -5682,67 +5315,48 @@
             {
               "name": "Bullseye Windblast",
               "spellId": 468429,
-              "text": "The Restless Heart fires an arrow at a location in its chamber, inflicting 40 Nature damage to players within $734277A1 yards of impact and forming Billowing Wind.",
+              "text": "The Restless Heart fires an arrow at a location in its chamber, inflicting Nature damage to players within 20 yards of impact and forming Billowing Wind.",
               "children": [
                 {
                   "name": "Billowing Wind",
                   "spellId": 468442,
-                  "text": "A ring of violent wind expands, inflicting 12 Nature damage every 1 sec to players who touch it and stunning them for 4 sec."
+                  "text": "A ring of violent wind expands, inflicting Nature damage every 1 sec to players who touch it and stunning them for 4 sec."
                 }
               ]
             },
             {
               "name": "Arrow Rain",
               "spellId": 472556,
-              "text": "The Restless Heart shoots a rain of arrows, inflicting 25 Nature damage to players within $472634A1 yards of each impact and forming Turbulent Arrows.",
+              "text": "The Restless Heart shoots a rain of arrows, inflicting Nature damage to players within 4 yards of each impact and forming Turbulent Arrows.",
               "children": [
                 {
                   "name": "Turbulent Arrows",
                   "spellId": 1253977,
-                  "text": "The windy arrow detonates upon contact with a player, inflicting 2 Nature damage and knocking them upwards. The detonation removes Squall Leap$?diff23|diff8[, forming a Storming Soulfont.][.]"
-                }
-              ]
-            },
-            {
-              "name": "Arrow Rain",
-              "spellId": 472556,
-              "text": "The Restless Heart shoots a rain of arrows, inflicting 25 Nature damage to players within $472634A1 yards of each impact and forming Turbulent Arrows.",
-              "children": [
-                {
-                  "name": "Turbulent Arrows",
-                  "spellId": 1253977,
-                  "text": "The windy arrow detonates upon contact with a player, inflicting 2 Nature damage and knocking them upwards. The detonation removes Squall Leap$?diff23|diff8[, forming a Storming Soulfont.][.]",
-                  "children": [
-                    {
-                      "name": "Storming Soulfont",
-                      "spellId": 1282932,
-                      "text": "A stormy spirit inflicts 15 Nature damage to players standing within its storm pool every 1 sec. Gust Shot quells these spirits."
-                    }
-                  ]
+                  "text": "The windy arrow detonates upon contact with a player, inflicting Nature damage and knocking them upwards. The detonation removes Squall Leap, forming a Storming Soulfont."
                 }
               ]
             },
             {
               "name": "Bolt Gale",
               "spellId": 474528,
-              "text": "The Restless Heart fires a salvo of arrows towards a player for 5 sec, inflicting 4 Nature damage every 0.5 sec to players in a frontal cone."
+              "text": "The Restless Heart fires a salvo of arrows towards a player for 5 sec, inflicting Nature damage every 0.5 sec to players in a frontal cone."
             },
             {
               "name": "Tempest Slash",
               "spellId": 472662,
-              "text": "The Restless Heart knocks away its primary target, inflicting 65 Physical damage and increasing their Physical damage taken by 40% for 10 sec. Afterward, The Restless Heart fires a Gust Shot.",
+              "text": "The Restless Heart knocks away its primary target, inflicting Physical damage and increasing their Physical damage taken by 40% for 10 sec. Afterward, The Restless Heart fires a Gust Shot.",
               "children": [
                 {
                   "name": "Gust Shot",
                   "spellId": 1253986,
-                  "text": "The Restless Heart marks players with wind-infused arrows. After 6 sec, the arrows unleash a wind gust, inflicting 9 Nature damage to players within $1253978A1 yards and an additional 3 Nature damage every 1 sec for 8 sec.$?diff8|diff23[ The wind gust destroys any Storming Soulfont hit.][]"
+                  "text": "The Restless Heart marks players with wind-infused arrows. After 6 sec, the arrows unleash a wind gust, inflicting Nature damage to players within 8 yards and an additional Nature damage every 1 sec for 8 sec. The wind gust destroys any Storming Soulfont hit."
                 }
               ]
             },
             {
               "name": "Squall Leap",
               "spellId": 1216042,
-              "text": "Stormy energy lashes outward when the Restless Heart leaps, inflicting 9 Nature damage to all players and an additional $1283371s2 Nature damage every 1 sec. Contacting Turbulent Arrows removes this affliction."
+              "text": "Stormy energy lashes outward when the Restless Heart leaps, inflicting Nature damage to all players and an additional Nature damage every 1 sec. Contacting Turbulent Arrows removes this affliction."
             }
           ],
           "loot": [
