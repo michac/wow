@@ -1,8 +1,10 @@
 # WoW Q&A Agent Workspace
 
 A local, versioned knowledge base + ingestion tooling for answering World of
-Warcraft questions reliably. Scope: **Retail, Midnight expansion** (currently
-patch 12.0.5, Season 1).
+Warcraft questions reliably. Scope: **Retail, Midnight expansion, Season 1**.
+The live/PTR patch is tracked in
+[`knowledge/_meta/game-version.md`](knowledge/_meta/game-version.md) — the
+single source of truth — not pinned here.
 
 WoW is 22 years old, so the internet is full of stale advice. The core design
 idea here is **provenance and staleness defense**: every knowledge file
@@ -20,6 +22,18 @@ live via the API clients.
 | `knowledge/_meta/sources.md` | Source trust registry |
 | `tools/` | Python (uv) ingestion utilities (`wowkb` package) |
 | `raw/` | Gitignored fetch cache (transcripts, JSON, CSV) |
+| `app/`, `trainer/`, `projects/` | Companion apps built on the KB (see below) |
+
+## Apps
+
+Three apps consume the knowledge base. Each is self-contained with its own
+build setup.
+
+| Path | App | Stack |
+|------|-----|-------|
+| `app/` | Talent calculator | Svelte + TypeScript (bun + Vite) |
+| `trainer/` | Rotation trainer — `app/` (Flutter UI) + `sim/` (pure-Dart sim engine) | Dart / Flutter |
+| `projects/mplus_memory/app/` | Mythic+ memory trainer — generates content from `knowledge/endgame/mythic-plus/<dungeon>.md`, deploys to GitHub Pages | Svelte (bun + Vite) |
 
 ## Tools
 
