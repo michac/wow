@@ -5,6 +5,10 @@
 raw/*
 !raw/.gitkeep
 
+# Nested independent repo — its own GitHub root (michac/wow-planner-state).
+# Ignored here so `git` at the wow root never sees it as an embedded repo.
+/planner-state/
+
 # Python
 __pycache__/
 *.pyc

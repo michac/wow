@@ -1,0 +1,10 @@
+{
+  "addons_dir": "/mnt/c/Program Files (x86)/World of Warcraft/_retail_/Interface/AddOns",
+  "token": "",
+  "repos": [
+    "BigWigsMods/BigWigs",
+    "WeakAuras/WeakAuras2",
+    "Nevcairiel/Bartender4",
+    "Stanzilla/AdvancedInterfaceOptions"
+  ]
+}
