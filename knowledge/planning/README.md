@@ -67,13 +67,21 @@ pattern `wowkb.character` uses for Syndicator currencies.
 - ghaddons: resolves GitHub releases, installs/updates/removes; verified against
   a real release install.
 - PlannerState addon: dumps vault/M+/lockouts/currencies/quests/items.
+- **Scoring v2a — breakpoint proximity** (`plan.py:breakpoint_R()`): boosts R→4 for
+  the M+ run that crosses a Great Vault threshold (1/4/8) and zeroes it once capped,
+  reading live progress from the dump. Verified offline via
+  `tools/tests/check_breakpoint.py` against `tools/tests/fixtures/vault-*.lua`.
 
 **Next (not done):**
-- **Configure real weekly-quest IDs** in the addon (`ns.WEEKLY_QUESTS`) so the
-  `(?)` quest gates resolve. Vault/M+/lockout gates already resolve with no config.
-- **Scoring v2**: wire slot-targeting (weakest-slot boost) + breakpoint proximity
-  (vault progress, journey rank-ups) — the model documents these; the tool
-  doesn't apply them yet. Needs per-slot equipment + live vault progress.
+- **Weekly-quest IDs** in the addon (`ns.WEEKLY_QUESTS`): **2 of 7 wired** (2026-07-02)
+  — `prey_weekly` (94446) and `void_assault` (94385/94386, rotating). The other 5
+  (delve cache/tier, dungeon-rep, liadrin-spark, housing) had no confidently-verifiable
+  Midnight ID and stay `(?)` on purpose — see `endgame/weekly-checklist.md` for the
+  leads. Needs an in-game `/ps` on the max-level main to verify (the on-disk dump is a
+  low-level alt). Vault/M+/lockout gates already resolve with no config.
+- **Scoring v2b — slot-targeting** (weakest-slot boost): still TODO — needs per-slot
+  equipment ilvls (add to the addon dump, or read `wowkb.character`). Breakpoint
+  proximity (v2a) above is done for the vault track; journey rank-ups still open.
 - **Fun radar** (goal 2): "events live now ∩ rewards you don't own" → feeds U=3
   candidates to the model.
 - **Parse-critique track** (goal 4): extend `wowkb.wcl` with a character-parse

@@ -6,6 +6,9 @@ sources:
   - https://www.icy-veins.com/wow/weekly-to-do-list
   - https://www.icy-veins.com/wow/midnight-mythic-season-1-guide
   - https://worldofwarcraft.blizzard.com/en-us/news/24244888/revelations-content-update-notes
+  - https://wago.tools/db2/QuestV2?build=12.0.7.68367   # planner quest-ID verification (2026-07-02)
+  - https://www.wowhead.com/quest=94446                 # prey_weekly title/objective
+  - https://www.wowhead.com/quest=94385                 # void_assault (Eversong)
 confidence: high
 ---
 
@@ -85,6 +88,28 @@ this week?" questions.
 | Veteran Dawncrests | Gear upgrades; can buy Voidcores |
 | Voidlight Marl | Catch-all 12.0.5 currency; can buy Voidcores |
 | Field Accolades | Ritual Site cosmetics |
+
+## Planner quest IDs (for PlannerState `ns.WEEKLY_QUESTS`)
+
+Quest IDs the session planner gates on. Verified 2026-07-02 against **QuestV2 in
+build 12.0.7.68367** (wago.tools) + Wowhead title/objective. Only confident IDs are
+wired in the addon — a wrong/stale ID false-reports "done", which is worse than a gap.
+
+| slug | quest | questID | confidence |
+|------|-------|---------|------------|
+| `prey_weekly` | "A Nightmarish Task" — obj *Nightmare Hunts completed (3)* | **94446** | high |
+| `void_assault` | "Void Assaults: Eversong Woods" / "Zul'Aman" (rotates weekly) | **94385 / 94386** | high |
+
+**Not yet resolved** (still show `(?)` in the planner — do NOT guess an ID):
+- `delve_weekly_cache` — 93909 "Midnight: Delves" is a spark-**pillar** meta, not the bountiful-cache quest.
+- `housing_weekly` — 93769 "Midnight: Housing" is the spark-pillar wrapper; the Vaeli quest-of-the-week rotates.
+- `delve_tier_objective` — no discrete quest; Tier 11 is Great Vault progression, not a quest flag.
+- `dungeon_weekly` — Halduron Brightwing's 1500-rep weekly; name/ID not exposed by any source.
+- `liadrin_spark` — several Liadrin spark weeklies (93744 / 95245 / pillars); couldn't confirm which.
+
+> Note: the spark-pillar metas each grant a *Spark of Radiance* and several stack per
+> week, so a single `IsQuestFlaggedCompleted` check wouldn't cleanly mean "did that
+> reward-specific weekly" — another reason those stay unwired.
 
 ## Verification note
 

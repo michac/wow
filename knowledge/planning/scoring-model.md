@@ -184,8 +184,13 @@ without letting it drive.
 
 - [ ] Nail down the **state-awareness source** for the Gate step: which weeklies
       the profile API exposes as done vs. what needs an addon SavedVariables dump.
-- [ ] Decide whether "breakpoint proximity" needs live Vault/journey progress
-      (it does, to be honest) — that's the planner's hardest data dependency.
+- [x] **Breakpoint proximity (vault track) — implemented (2026-07-02).**
+      `plan.py:breakpoint_R()` reads live M+ progress from the PlannerState dump and
+      overrides R→4 for the run that *crosses* the next Great Vault threshold (1/4/8),
+      R→0 once the track is capped. Verified offline against `tools/tests/fixtures/
+      vault-*.lua` (`tools/tests/check_breakpoint.py`). Still open: journey rank-ups /
+      non-vault breakpoints, and **slot-targeting** (weakest-slot boost — needs
+      per-slot equipment ilvls, which neither the dump nor the tool supplies yet).
 - [ ] Validate the E cap (1.5) and collectible R-floor (1 @ U≥1.5) against a few
       real sessions; these two numbers control the whole efficiency↔fun balance.
 - [ ] `[[fun-radar]]` doc: the "events live now ∩ rewards I don't own" feed that

@@ -189,12 +189,15 @@ def gate_status(cand: dict, state: dict | None) -> str:
         done = sum(1 for r in runs if isinstance(r, dict) and r.get("thisWeek"))
         return "todo" if done < g.get("n", 8) else "done"
     if t == "weekly_quest":
-        quests = state.get("weeklyQuests") or []
-        for q in quests:
-            if isinstance(q, dict) and q.get("label") == g.get("quest") or \
-               (isinstance(q, dict) and str(q.get("id")) == str(g.get("quest"))):
-                return "done" if q.get("complete") else "todo"
-        return "unknown"                    # quest ID not configured in the addon
+        want = str(g.get("quest"))
+        matches = [q for q in (state.get("weeklyQuests") or [])
+                   if isinstance(q, dict)
+                   and (q.get("label") == g.get("quest") or str(q.get("id")) == want)]
+        if not matches:
+            return "unknown"                # quest ID(s) not configured in the addon
+        # A slug may map to several quests (e.g. a rotating weekly present under two
+        # zone IDs); it's done if ANY of them is flagged complete.
+        return "done" if any(q.get("complete") for q in matches) else "todo"
     if t == "lockout":
         needle = (g.get("name_contains") or "").lower()
         for lk in state.get("lockouts") or []:
@@ -207,20 +210,70 @@ def gate_status(cand: dict, state: dict | None) -> str:
 # --------------------------------------------------------------------------- #
 # Scoring                                                                      #
 # --------------------------------------------------------------------------- #
-def score(cand: dict, mood: str) -> tuple[float, str]:
+DEFAULT_VAULT_THRESHOLDS = [1, 4, 8]
+
+
+def _track_progress(track: str, state: dict | None) -> int | None:
+    """Current weekly progress count for a breakpoint track, or None if unknown.
+
+    'mplus' counts this-week M+ runs (the same signal the gate uses); any other
+    track name is read as a Great Vault category type off vault.slots[].progress
+    (the dump labels them raid/dungeon/world/pvp).
+    """
+    if not state:
+        return None
+    if track == "mplus":
+        runs = state.get("mythicPlus") or []
+        return sum(1 for r in runs if isinstance(r, dict) and r.get("thisWeek"))
+    vault = state.get("vault") or {}
+    slots = [s for s in (vault.get("slots") or [])
+             if isinstance(s, dict) and s.get("type") == track]
+    if not slots:
+        return None
+    return max(int(s.get("progress") or 0) for s in slots)
+
+
+def breakpoint_R(cand: dict, state: dict | None) -> tuple[float, str] | None:
+    """Breakpoint-proximity override for R (scoring-model.md 'breakpoint proximity').
+
+    Returns (R, why-note) when a candidate carries a vault breakpoint AND live
+    progress is known: R=4 for the run that *crosses* the next threshold, R=0
+    once the track is capped, else the flat reward_base (progress is mid-track,
+    no breakpoint nearby). Returns None when there's no breakpoint or no state to
+    read — the caller then keeps reward_base and scores exactly as before.
+    """
+    bp = cand.get("breakpoint")
+    if not bp or bp.get("type") != "vault":
+        return None
+    n = _track_progress(bp.get("track"), state)
+    if n is None:
+        return None
+    thr = sorted(bp.get("thresholds") or DEFAULT_VAULT_THRESHOLDS)
+    if n >= thr[-1]:
+        return 0.0, "vault track capped"
+    if (n + 1) in thr:
+        return 4.0, f"next run unlocks vault slot {thr.index(n + 1) + 1}"
+    return float(cand.get("reward_base", 0)), ""
+
+
+def score(cand: dict, mood: str, state: dict | None = None) -> tuple[float, str, str]:
     R = float(cand.get("reward_base", 0))
     U = float(cand.get("urgency", 1))
     floor = 2 if mood == "fun" else 1          # collectible R-floor
     cap = 3.0 if mood == "fun" else E_CAP
-    if R == 0 and U >= 1.5:
+    if R == 0 and U >= 1.5:                    # rare cosmetic gets a foot in the door
         R = floor
+    note = ""
+    bp = breakpoint_R(cand, state)            # vault-slot proximity overrides R
+    if bp is not None:
+        R, note = bp
     E = min(E_TABLE.get(cand.get("enjoyment_key", "chore"), 1.0), cap)
     T = float(cand.get("time_blocks", 1)) or 0.1
     s = (R * U * E) / T
     # dominant-term reason
     terms = {"power": R, "urgency": U, "enjoyment": E}
     lead = max(terms, key=terms.get)
-    return s, lead
+    return s, lead, note
 
 
 def plan(minutes: int, state: dict | None, mood: str) -> dict:
@@ -231,8 +284,8 @@ def plan(minutes: int, state: dict | None, mood: str) -> dict:
         st = gate_status(c, state)
         if st == "done":
             continue
-        s, lead = score(c, mood)
-        rows.append({"c": c, "score": s, "lead": lead, "state": st})
+        s, lead, note = score(c, mood, state)
+        rows.append({"c": c, "score": s, "lead": lead, "state": st, "note": note})
     rows.sort(key=lambda r: r["score"], reverse=True)
 
     picks, spent = [], 0.0
@@ -248,8 +301,9 @@ def _fmt(r: dict) -> str:
     c = r["c"]
     mins = round(float(c.get("time_blocks", 1)) * BLOCK_MIN)
     flag = " (?)" if r["state"] == "unknown" else ""
+    note = f" · {r['note']}" if r.get("note") else ""
     return (f"  {r['score']:6.1f}  [{mins:>3}m] {c['name']:<42} "
-            f"— {c['why']}{flag}")
+            f"— {c['why']}{note}{flag}")
 
 
 def main(argv=None) -> int:
