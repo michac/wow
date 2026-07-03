@@ -1,7 +1,7 @@
 ---
 title: Encomplete – Kil'jaeden (US) — main character snapshot
 patch: 12.0.7
-fetched: 2026-06-23
+fetched: 2026-07-02
 sources:
   - https://us.api.blizzard.com/profile/wow/character/kiljaeden/encomplete?namespace=profile-us
 confidence: high
@@ -21,15 +21,20 @@ confidence: high
 
 ## Identity
 
-- Gnome **Warlock**, active spec **Demonology** (switched from Affliction;
-  Destruction + Affliction loadouts presumably still saved)
+- Gnome **Warlock**, active spec **Demonology** (hero tree **Diabolist**:
+  Diabolic Ritual, Infernal Machine, Abyssal Dominion, Ruination).
+  Destruction + Affliction loadouts also saved (all three now confirmed
+  present via API).
 - Level **90** (cap), Alliance, guild **Dungeon Dojo** (was The Soggy
   Bottom Boys)
-- Title: Champion of the Frozen Wastes · 7,630 achievement points
+- Title: Champion of the Frozen Wastes · 7,800 achievement points
+- Last login at fetch: 2026-07-02
 
-## Gear (equipped ilvl 266, API 2026-06-23)
+## Gear (equipped ilvl 270, API 2026-07-02)
 
 4pc tier equipped: **Abyssal Immolator's** (head/shoulders/chest/legs, 276).
+Up from 266 avg on 2026-06-23 — feet/wrist/hands/ring1 all bumped and
+trinket 1 replaced (Void-Reaper's Libram 253 → Drum of Renewed Bonds 276).
 
 | Slot | ilvl | id | Item |
 |---|---|---|---|
@@ -39,49 +44,70 @@ confidence: high
 | Chest | 276 | 250045 | Abyssal Immolator's Dreadrobe *(tier)* — ench: Mark of the Worldsoul |
 | Waist | 259 | 239649 | Martyr's Waistwrap |
 | Legs | 276 | 250041 | Abyssal Immolator's Pillars *(tier)* — ench: +41 Int |
-| Feet | 266 | 263783 | Voidwind Boots |
-| Wrist | 259 | 263849 | Void Nemesis' Bracers |
-| Hands | 266 | 263813 | Handguards of Voidcendence |
-| Ring 1 | 259 | 259912 | Preyseeker's Signet — ench: Eyes of the Eagle (gem: Quick Garnet) |
+| Feet | 276 | 263783 | Voidwind Boots |
+| Wrist | 266 | 263849 | Void Nemesis' Bracers |
+| Hands | 276 | 263813 | Handguards of Voidcendence |
+| Ring 1 | 266 | 259912 | Preyseeker's Signet — ench: Eyes of the Eagle (gem: Quick Garnet) |
 | Ring 2 | 259 | 249620 | Vibrant Wilderloop (gem: Eversong Diamond) |
-| Trinket 1 | 253 | 251785 | Void-Reaper's Libram |
+| Trinket 1 | 276 | 248583 | Drum of Renewed Bonds |
 | Trinket 2 | 259 | 251784 | Sylvan Wakrapuku |
 | Back | 250 | 249619 | Sprawling Mycoshroud |
 | Main Hand | 285 | 245770 | Aln'hara Cane — ench: Acuity of the Ren'dorei |
 
 Enchanted slots: chest, legs, ring1, weapon. **Missing enchants:** neck,
 wrist, feet, ring2, back (and cloak could take an embellishment-tier ench).
-Weakest slots vs the 276 tier: **back (250)** and **trinket 1 (253)**.
+Weakest slots vs the 276 tier: **back (250)** and **waist/ring2/trinket2
+(259)**. Back is now the standout hole. (Note: Encomplete leveled
+**Enchanting** — see Professions — so the missing enchants are now
+self-craftable.)
 
 ## Season 1 progress
 
-- **Mythic+**: no rated runs this season (keystone profile has no rating).
-- **Raids**: no Midnight raid kills recorded. (Most recent recorded raid
-  kills are Wrath-era — returning player.)
+- **Mythic+**: **now rated — 1093 IO (Season 1).** 5 timed runs on record:
+  +7 Skyreach, +5 Maisara Caverns, +5 Algeth'ar Academy, +4 Magisters'
+  Terrace, +4 Nexus-Point Xenas. No runs logged this reset period yet.
+  (Was zero rated runs on 2026-06-23 — has since started keying.)
+- **Raids**: still no Midnight raid kills recorded via API. (Most recent
+  recorded kills are Wrath-era — API may lag Midnight raid tracking.)
 
-### Renown (API, 2026-06-03)
+### Renown (API, 2026-07-02)
 
-| Faction | Renown |
-|---|---|
-| Silvermoon Court | 10 |
-| Amani Tribe | 6 |
-| Hara'ti | 5 |
-| The Singularity | 5 |
-| Slayer's Rise | — (no standing; likely not unlocked) |
+| Faction | Renown | Δ since 06-03 |
+|---|---|---|
+| Silvermoon Court | 12 | +2 |
+| The Singularity | 8 | +3 |
+| Amani Tribe | 8 | +2 |
+| Hara'ti | 7 | +2 |
+| Ritual Sites | 4 | +3 |
+| Slayer's Duellum | Neutral (300/3000) | now unlocked (was no standing) |
 
-### Currencies (verified from in-game currency tab screenshot, 2026-06-03)
+Companion/delve tracks: **Brann Bronzebeard lvl 45**, **Valeera Sanguinar
+lvl 43** (was Valeera 20 on 06-03 — heavy delve activity since).
 
-- **10 Sparks of Radiance** banked (user-reported) · **6 Catalyst charges**
-- Dawncrests: **Adventurer 111 · Veteran 165 · Champion 84** (no
-  Hero/Myth visible — ~0; note Champion is 84, not the "100+" earlier
-  assumed)
-- **Field Accolade 220** (banking to 750 for 12.0.7 slot-targeted caches
-  → 530 to go)
-- Coffer Key Shards **75** + Restored Coffer Keys **5**
-- Undercoin 5,045 · Voidlight Marl 6,646 · Remnant of Anguish 1,520 ·
-  Brimming Arcana 590 · Radiant Spark Dust 13 · Dawnlight Manaflux 6
+### Currencies (Syndicator SavedVariables, snapshot 2026-07-02)
 
-### Season journeys (in-game Journeys UI, 2026-06-03)
+> Source: the **Syndicator** addon writes a per-character `currencyID →
+> amount` table to disk; IDs resolved to names via wago.tools
+> `CurrencyTypes` DB2 (tier-1). Reflects the character's last in-game
+> `/reload` or logout. See "How to refresh currencies" at the bottom.
+
+- **Dawncrests: Adventurer 211 · Veteran 245 · Champion 116 · Hero 74 ·
+  Myth 5.** *(Correction: the 06-03 screenshot read "no Hero/Myth ~0" —
+  he now has a real Hero/Myth stock. Myth Dawncrests are the recraft-to-285
+  currency, so recrafts are unblocked.)*
+- **Field Accolade 307** (banking toward 750 for 12.0.7 slot-targeted
+  caches → 443 to go; was 220 on 06-03)
+- Coffer Key Shards **75** · Restored Coffer Key **2**
+- Undercoin **7,360** · Voidlight Marl **12,962** · Remnant of Anguish
+  **2,765** · Brimming Arcana **590** · Radiant Spark Dust **15** ·
+  Dawnlight Manaflux **5** · Luminous Dust **2** · Shard of Dundun **4**
+- Artisan Tailor's Moxie **275** (Midnight Tailoring knowledge currency)
+- Trader's Tender 4,000 · Resonance Crystals 380 · Gold ~**42,252g**
+- **Not in Syndicator's currency table:** Sparks of Radiance and Catalyst
+  charges (Sparks is an item, Catalyst charges are tracked separately) —
+  still need eyeballs in-game for those two.
+
+### Season journeys (in-game Journeys UI, 2026-06-03 — STALE; delve/prey ranks have almost certainly advanced, cf. Brann 45 / Valeera 43 above)
 
 - **Prey: Season 1 — rank 3, progress 0/4000 to rank 4.** Rank 4 rewards:
   **Prey: Nightmare Mode** + "A Plinth Above the Rest I" — confirms the
@@ -96,23 +122,32 @@ Delve tier / Brann level: not exposed by API.
 User-reported 2026-06-03: **clears T9 delves solo at ~236, but some
 pulls are rough** — calibration point for content recommendations.
 
-## Professions
+## Professions (API 2026-07-02 — changed since 06-23)
 
-- **Skinning** (Midnight tier 2/100, Classic-era tiers maxed)
-- **Tailoring** (Outland/Classic tiers maxed; no Midnight tailoring tier yet)
-- Cooking 214/300, Fishing 135/300 (Classic tiers)
+- **Tailoring — Midnight tier MAXED (100/100)** (all older tiers maxed
+  too). Big shift: on 2026-06-03 there was no Midnight tailoring tier at
+  all. Can now **self-craft Midnight spark gear** (belt/wrist/boots/cloak
+  + the 2H staff, both embellishments) instead of using crafting orders.
+- **Enchanting — Midnight 21/100** (replaces the old Skinning slot).
+  Encomplete can now **self-enchant** the missing slots (neck/wrist/feet/
+  ring2/back) as the profession levels — closes the enchant gap noted above.
+- Cooking 214/300, Fishing 135/300 (Classic tiers).
 
 ## Implications for advice
 
-- Gearing phase: world content / heroics → delves, M+, spark crafts.
-  ilvl 236 is well below the 246–259 base spark-craft bracket — **spark
-  crafting (2 sparks + crests) is a big upgrade in the 214/224 slots**.
-- Tailoring is leveled in old tiers only; picking up Midnight Tailoring
-  would let them self-craft spark gear.
-- Enchants/sockets are low-hanging fruit.
+- **Gearing phase has moved up: equipped ilvl 270** (was 236 on 06-03),
+  4pc tier + 285 weapon. Base spark crafts (259) no longer upgrade any
+  slot — upgrades now come from **Myth-track recrafts (285), M+ vault,
+  and delve/ritual-site hero+ gear**. The old "spark-craft the 214/224
+  slots" advice is done.
+- **Weakest slots to target: back (250)**, then waist/ring2/trinket2 (259).
+- **Enchants are now self-served** — Encomplete leveled Enchanting; the
+  five bare slots (neck/wrist/feet/ring2/back) are the cheapest gains left.
+- **Tailoring is maxed (Midnight 100/100)** — self-crafts spark gear and
+  both embellishments; no longer needs crafting orders.
 - Spec context for KB lookups: `knowledge/classes/warlock/demonology/`
-  (active spec as of 2026-06-23; Affliction loadout still saved, see
-  `knowledge/classes/warlock/affliction/`).
+  (active spec, Diabolist hero tree, confirmed 2026-07-02; Destruction +
+  Affliction loadouts also saved, see the other `warlock/*` dirs).
 
 > **Active plan moved to `encomplete-plan.md`** (priority checklist,
 > weekly rotation, spend rules, milestones). Section below kept as the
@@ -179,6 +214,26 @@ the cost of Improved Haunt / Patient Zero / Sow the Seeds / Drain Soul /
 Cunning Cruelty, plus fringe defensive class picks over Demonic Circle /
 Empowered Healthstone / Improved Mortal Coil. Details:
 `../classes/warlock/affliction/builds.md` + `sims.md`.
+
+## How to refresh currencies (no screenshots needed)
+
+Currencies aren't in the Blizzard profile API, but the **Syndicator** addon
+(already installed; it's the Baganator backend) logs them to disk. The WoW
+install is readable from WSL, so the loop is fully local:
+
+1. In-game on the character, type `/reload` (or just log out) — Syndicator
+   flushes current values to its SavedVariables.
+2. File: `/mnt/c/Program Files (x86)/World of Warcraft/_retail_/WTF/Account/
+   LLOYDCHRISTMAS/SavedVariables/Syndicator.lua` — per-character
+   `["currencies"] = { [id] = amount }` map (+ `money` in copper).
+3. Resolve IDs → names with wago.tools (tier-1):
+   `uv run python -m wowkb.wago CurrencyTypes` → `raw/wago/CurrencyTypes.csv`
+   (`ID`, `Name_lang`). New Midnight currencies 404 on the Blizzard Game
+   Data API, so wago is the name source.
+
+Gaps: **Sparks of Radiance** (an item, not a currency) and **Catalyst
+charges** aren't in Syndicator's currency table — read those in-game.
+A tiny purpose-built dump addon could close even those (see chat).
 
 ## TODO
 

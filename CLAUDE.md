@@ -38,7 +38,10 @@ game.** Defenses, in order:
 - `knowledge/endgame/` — `weekly-checklist.md` (the anchor doc), `raids/`,
   `mythic-plus/`, `delves/`, `prey.md`, `great-vault.md`, `world-events.md`
 - `knowledge/characters/` — per-character snapshots from the Blizzard
-  profile API (volatile — re-fetch live before answering; files are context)
+  profile API (volatile — re-fetch live before answering; files are context).
+  **To update these, use the `/sync-characters` command (or
+  `wowkb.character <name>` for a single one). Don't re-improvise the API
+  calls + Syndicator parse by hand.**
 - `knowledge/factions/` — one file per renown faction (5)
 - `knowledge/classes/<class>/<spec>/` — rotation.md, builds.md, sims.md
 - `knowledge/systems/` — housing, ritual sites, void incursions, professions
@@ -69,9 +72,21 @@ uv run python -m wowkb.wcl rankings <encounter-id> --class Warlock --spec Afflic
 uv run python -m wowkb.wcl casts <report-code> --fight <id>
 uv run python -m wowkb.wago <Db2Table> [--build 12.0.5.xxxxx]   # → raw/wago/
 uv run python -m wowkb.fetch <url>                   # → raw/pages/
+uv run python -m wowkb.character <name> [--realm kiljaeden] [--json]  # full char digest
 ```
 
 Blizzard + WCL commands require credentials in `.env` (user-registered).
+
+**`wowkb.character`** is the one-shot snapshot for `knowledge/characters/`:
+it pulls every Blizzard profile endpoint (summary/equipment/specs/professions/
+reputations/raids/keystone+season) AND currencies — the profile API does *not*
+expose currencies, so it reads them from the **Syndicator** addon's
+SavedVariables on disk (`…/_retail_/WTF/Account/*/SavedVariables/Syndicator.lua`)
+and resolves IDs via wago `CurrencyTypes`. Requires the WoW install reachable
+(default `--wow-path` is the WSL `/mnt/c` path) and the character to have been
+logged in / `/reload`ed recently. Emits **data only** — add narrative/deltas by
+hand when writing the KB file. Gaps it can't see: Sparks of Radiance (an item)
+and Catalyst charges (check in-game).
 
 ⚠ git-bash mangles leading-slash args (`/data/...` →
 `C:/Program Files/Git/data/...`). Prefix `wowkb.blizzard get` calls with
