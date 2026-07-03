@@ -46,6 +46,13 @@ game.** Defenses, in order:
 - `knowledge/classes/<class>/<spec>/` — rotation.md, builds.md, sims.md
 - `knowledge/systems/` — housing, ritual sites, void incursions, professions
 - `knowledge/economy/` — pointers to live tools only; never cached prices
+- `knowledge/planning/` — **the session-planner system** (rank "what should I
+  do this session?"). Start at `planning/README.md` (overview + roadmap +
+  cross-machine resume runbook); `scoring-model.md` is the scoring contract,
+  `candidates.json` the task list. Feeds off the **PlannerState** addon
+  (separate repo `michac/wow-planner-state`) via `wowkb.plan`.
+- `addon-manager/` — `ghaddons`, a GitHub-driven WoW addon manager (installs
+  PlannerState + any other addon from a repo list). Its own README; stdlib-only.
 - `tools/` — uv project, `wowkb` package
 - `raw/` — gitignored fetch cache; distill into `knowledge/`, don't cite raw/
 
@@ -73,6 +80,7 @@ uv run python -m wowkb.wcl casts <report-code> --fight <id>
 uv run python -m wowkb.wago <Db2Table> [--build 12.0.5.xxxxx]   # → raw/wago/
 uv run python -m wowkb.fetch <url>                   # → raw/pages/
 uv run python -m wowkb.character <name> [--realm kiljaeden] [--json]  # full char digest
+uv run python -m wowkb.plan --minutes 60 [--mood efficiency|fun]      # ranked session shortlist (reads PlannerState dump)
 ```
 
 Blizzard + WCL commands require credentials in `.env` (user-registered).
