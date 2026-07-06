@@ -219,6 +219,16 @@ def gate_status(cand: dict, state: dict | None) -> str:
         if wb is None:
             return "unknown"                # dump predates worldBosses (schema < 3)
         return "done" if wb else "todo"
+    if t == "vault_track":
+        # Delves/world activities aren't quest-flagged — their weekly motive is
+        # Great Vault progress. Done once the named column is capped (its top
+        # threshold met); the dump carries per-column progress+thresholds.
+        # NOTE: the 'world' column counts world activities broadly (delves + world
+        # bosses + …), so this is a delve *proxy*, not a pure delve counter.
+        prog, thr = _vault_track(g.get("track"), state)
+        if prog is None or not thr:
+            return "unknown"
+        return "done" if prog >= thr[-1] else "todo"
     if t == "event_active":
         # Fun radar: surface a candidate only while its calendar event is live.
         cal = state.get("calendar")
@@ -294,6 +304,26 @@ def breakpoint_R(cand: dict, state: dict | None) -> tuple[float, str] | None:
     return float(cand.get("reward_base", 0)), ""
 
 
+def quest_progress_note(cand: dict, state: dict | None) -> str:
+    """'1/3'-style partial progress for a weekly_quest candidate, else ''.
+
+    Reads have/need off the matched dumped quest (schema>=5). Only shows while the
+    quest is in-log and unfinished — a turned-in weekly is already gated 'done'.
+    """
+    g = cand.get("gate", {})
+    if g.get("type") != "weekly_quest" or not state:
+        return ""
+    want = str(g.get("quest"))
+    for q in state.get("weeklyQuests") or []:
+        if not isinstance(q, dict):
+            continue
+        if q.get("label") == g.get("quest") or str(q.get("id")) == want:
+            have, need = q.get("have"), q.get("need")
+            if isinstance(have, (int, float)) and isinstance(need, (int, float)) and need:
+                return f"{int(have)}/{int(need)}"
+    return ""
+
+
 def weakest_slots(state: dict | None, k: int = 3) -> list[tuple[str, float]]:
     """The k lowest-ilvl equipped slots from the dump (planner v2b context).
 
@@ -357,6 +387,8 @@ def plan(minutes: int, state: dict | None, mood: str,
         if st == "done":
             continue
         s, lead, note = score(c, mood, state)
+        prog = quest_progress_note(c, state)
+        note = " · ".join(x for x in (f"at {prog}" if prog else "", note) if x)
         rows.append({"c": c, "score": s, "lead": lead, "state": st, "note": note})
     rows.sort(key=lambda r: r["score"], reverse=True)
 
