@@ -7,6 +7,8 @@ Usage:
     uv run python -m wowkb.blizzard media-spell 980
     uv run python -m wowkb.blizzard journal-instances
     uv run python -m wowkb.blizzard journal-encounter 2902
+    uv run python -m wowkb.blizzard quest 92013
+    uv run python -m wowkb.blizzard quest-area 15355
     uv run python -m wowkb.blizzard realms
     uv run python -m wowkb.blizzard get /data/wow/item/19019 --namespace static
 """
@@ -49,6 +51,8 @@ COMMANDS = {
     "media-spell": lambda a: get(f"/data/wow/media/spell/{a.id}", "static"),
     "journal-instances": lambda a: get("/data/wow/journal-instance/index", "static"),
     "journal-encounter": lambda a: get(f"/data/wow/journal-encounter/{a.id}", "static"),
+    "quest": lambda a: get(f"/data/wow/quest/{a.id}", "static"),
+    "quest-area": lambda a: get(f"/data/wow/quest/area/{a.id}", "static"),
     "realms": lambda a: get("/data/wow/realm/index", "dynamic"),
     "get": lambda a: get(a.path, a.namespace),
 }
@@ -58,7 +62,7 @@ def main() -> None:
     p = argparse.ArgumentParser(prog="wowkb.blizzard", description=__doc__)
     sub = p.add_subparsers(dest="cmd", required=True)
     sub.add_parser("token-price", help="current WoW Token gold price")
-    for name in ("item", "spell", "media-spell", "journal-encounter"):
+    for name in ("item", "spell", "media-spell", "journal-encounter", "quest", "quest-area"):
         sp = sub.add_parser(name)
         sp.add_argument("id", type=int)
     sub.add_parser("journal-instances", help="index of raids/dungeons")

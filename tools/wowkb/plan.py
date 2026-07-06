@@ -204,6 +204,15 @@ def gate_status(cand: dict, state: dict | None) -> str:
             if isinstance(lk, dict) and needle in (lk.get("name") or "").lower():
                 return "done"
         return "todo"
+    if t == "world_boss_weekly":
+        # World bosses aren't returned by GetSavedInstanceInfo (the old 'lockout'
+        # gate never fired). PlannerState schema>=3 emits a worldBosses[] block from
+        # GetSavedWorldBossInfo — which lists only bosses ALREADY KILLED this reset,
+        # exactly the weekly lockout signal. Mirror event_active's missing-key rule.
+        wb = state.get("worldBosses")
+        if wb is None:
+            return "unknown"                # dump predates worldBosses (schema < 3)
+        return "done" if wb else "todo"
     if t == "event_active":
         # Fun radar: surface a candidate only while its calendar event is live.
         cal = state.get("calendar")

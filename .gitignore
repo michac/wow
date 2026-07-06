@@ -9,6 +9,9 @@ raw/*
 # Ignored here so `git` at the wow root never sees it as an embedded repo.
 /planner-state/
 
+# MCP tool scratch (Playwright browser session artifacts)
+.playwright-mcp/
+
 # Python
 __pycache__/
 *.pyc
