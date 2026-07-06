@@ -72,32 +72,33 @@ pattern `wowkb.character` uses for Syndicator currencies.
   reading live progress from the dump. Verified offline via
   `tools/tests/check_breakpoint.py` against `tools/tests/fixtures/vault-*.lua`.
 
-**Built + tested (2026-07-06, addon v0.4.0):**
-- **Per-slot equipment** in the dump (`equipment[]`, schema 4) — `plan.py` reads it
-  and prints a weakest-slots context line. Captured from a cache warmed in-world
-  (login + `PLAYER_EQUIPMENT_CHANGED`), so the logout write no longer records
-  `equippedIlvl=0`. This unblocks v2b's data need; the per-candidate slot→reward
-  mapping is the remaining piece.
+**Built + tested (2026-07-06, addon v0.4.1):**
+- **Per-slot equipment** in the dump (`equipment[]`, schema 4) — `plan.py` prints a
+  weakest-slots line. Cached in-world so the logout write no longer records
+  `equippedIlvl=0`. Verified live: `back 250, trinket2 259, waist 259`.
 - **Auto-wired weekly-quest IDs.** `wowkb.gen_addon_quests` generates the addon's
-  `PlannerState_Quests.lua` (`ns.GENERATED_QUESTS`) from the high-confidence questIDs
-  the scraper found (`repeatables.json` → 10 IDs), merged *under* the hand-verified
-  slug map. Re-run after `wowkb.repeatables`; no more hand-typing IDs one at a time.
+  `PlannerState_Quests.lua` (`ns.GENERATED_QUESTS`) from the scraper's high-confidence
+  questIDs, merged *under* the hand-verified slug map. Re-run after `wowkb.repeatables`.
 - **Repeatables in the ranker.** `plan.py --include-repeatables` folds the scraper
-  catalog into the plan (deduped against curated prey/void). Rows marked `~` carry
-  placeholder time/enjoyment — tune in the JSON.
+  catalog in (deduped against curated prey/void); rows marked `~` = placeholder T/E.
+- **`vault_track` gate + `delve-tier11` re-model.** Delve/world weekly motive resolves
+  off Great Vault column progress in the dump — killed one unverifiable slug.
+- **Objective progress** (schema 5): weeklies dump `have/need`; the plan shows `at 1/3`
+  (prey etc.) alongside done/todo.
 
-**Next (not done):**
-- **Scoring v2b — per-candidate slot targeting.** The equipment data now flows; what's
-  left is telling the planner *which slot a given reward fills* so it can boost R for
-  weak-slot upgrades. Needs the scraper's gear rewards tagged with an equip slot.
-- **Remaining hand-verified slugs** (`delve_weekly_cache`, `delve_tier_objective`,
-  `dungeon_weekly`, `liadrin_spark`, `housing_weekly`): still no confidently-verifiable
-  Midnight ID — they stay `(?)` on purpose. Leads in `endgame/weekly-checklist.md`.
-  (Fun radar / `event_active` gate: done — `dcf7e22`.)
-- **Parse-critique track** (goal 4): extend `wowkb.wcl` with a character-parse
-  fetch + a loop that diffs your actual casts vs. the KB rotation / simc APL.
-  (Note: `encomplete-plan.md` is written for Affliction; the character now plays
-  **Demonology** — reconcile before critiquing.)
+**Next — see [`roadmap.md`](roadmap.md) for the durable, detailed version.**
+The plumbing is done; what's parked (2026-07-06, awaiting user sign-off because these
+are scoring-knob calls) is **scoring quality**:
+- **A. Formula rebalance** — cheap chores currently outrank power (Trading Post 5.0 >
+  M+ 3.0); proposal `sqrt(T)` + floored-R cap flips it (M+ → 4.24).
+- **B. Slot-targeting v2b** — make the printed weak slot (`back 250`) actually boost the
+  spark/catalyst that can fill it.
+- **C. De-noise repeatables** — real per-type T/E + overlap dedup.
+
+Plus **coverage**: three weekly slugs still need in-game resolution
+(`delve_weekly_cache` key-cap check, `dungeon_weekly` / `liadrin_spark` quest IDs) —
+scoreboard in `roadmap.md`. And the untouched **parse-critique track** (goal 4;
+reconcile `encomplete-plan.md` from Affliction → **Demonology** first).
 
 ## Resume on another machine (runbook)
 
