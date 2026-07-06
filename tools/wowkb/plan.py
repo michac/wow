@@ -204,6 +204,16 @@ def gate_status(cand: dict, state: dict | None) -> str:
             if isinstance(lk, dict) and needle in (lk.get("name") or "").lower():
                 return "done"
         return "todo"
+    if t == "event_active":
+        # Fun radar: surface a candidate only while its calendar event is live.
+        cal = state.get("calendar")
+        if cal is None:
+            return "unknown"                # dump predates the calendar block (schema < 2)
+        needle = (g.get("match") or "").lower()
+        live = any(isinstance(e, dict) and e.get("active")
+                   and needle in (e.get("title") or "").lower()
+                   for e in cal)
+        return "todo" if live else "done"   # not live now → drop it from the plan
     return "unknown"
 
 
