@@ -72,18 +72,28 @@ pattern `wowkb.character` uses for Syndicator currencies.
   reading live progress from the dump. Verified offline via
   `tools/tests/check_breakpoint.py` against `tools/tests/fixtures/vault-*.lua`.
 
+**Built + tested (2026-07-06, addon v0.4.0):**
+- **Per-slot equipment** in the dump (`equipment[]`, schema 4) — `plan.py` reads it
+  and prints a weakest-slots context line. Captured from a cache warmed in-world
+  (login + `PLAYER_EQUIPMENT_CHANGED`), so the logout write no longer records
+  `equippedIlvl=0`. This unblocks v2b's data need; the per-candidate slot→reward
+  mapping is the remaining piece.
+- **Auto-wired weekly-quest IDs.** `wowkb.gen_addon_quests` generates the addon's
+  `PlannerState_Quests.lua` (`ns.GENERATED_QUESTS`) from the high-confidence questIDs
+  the scraper found (`repeatables.json` → 10 IDs), merged *under* the hand-verified
+  slug map. Re-run after `wowkb.repeatables`; no more hand-typing IDs one at a time.
+- **Repeatables in the ranker.** `plan.py --include-repeatables` folds the scraper
+  catalog into the plan (deduped against curated prey/void). Rows marked `~` carry
+  placeholder time/enjoyment — tune in the JSON.
+
 **Next (not done):**
-- **Weekly-quest IDs** in the addon (`ns.WEEKLY_QUESTS`): **2 of 7 wired** (2026-07-02)
-  — `prey_weekly` (94446) and `void_assault` (94385/94386, rotating). The other 5
-  (delve cache/tier, dungeon-rep, liadrin-spark, housing) had no confidently-verifiable
-  Midnight ID and stay `(?)` on purpose — see `endgame/weekly-checklist.md` for the
-  leads. Needs an in-game `/ps` on the max-level main to verify (the on-disk dump is a
-  low-level alt). Vault/M+/lockout gates already resolve with no config.
-- **Scoring v2b — slot-targeting** (weakest-slot boost): still TODO — needs per-slot
-  equipment ilvls (add to the addon dump, or read `wowkb.character`). Breakpoint
-  proximity (v2a) above is done for the vault track; journey rank-ups still open.
-- **Fun radar** (goal 2): "events live now ∩ rewards you don't own" → feeds U=3
-  candidates to the model.
+- **Scoring v2b — per-candidate slot targeting.** The equipment data now flows; what's
+  left is telling the planner *which slot a given reward fills* so it can boost R for
+  weak-slot upgrades. Needs the scraper's gear rewards tagged with an equip slot.
+- **Remaining hand-verified slugs** (`delve_weekly_cache`, `delve_tier_objective`,
+  `dungeon_weekly`, `liadrin_spark`, `housing_weekly`): still no confidently-verifiable
+  Midnight ID — they stay `(?)` on purpose. Leads in `endgame/weekly-checklist.md`.
+  (Fun radar / `event_active` gate: done — `dcf7e22`.)
 - **Parse-critique track** (goal 4): extend `wowkb.wcl` with a character-parse
   fetch + a loop that diffs your actual casts vs. the KB rotation / simc APL.
   (Note: `encomplete-plan.md` is written for Affliction; the character now plays

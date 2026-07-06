@@ -80,7 +80,8 @@ uv run python -m wowkb.wcl casts <report-code> --fight <id>
 uv run python -m wowkb.wago <Db2Table> [--build 12.0.5.xxxxx]   # → raw/wago/
 uv run python -m wowkb.fetch <url>                   # → raw/pages/
 uv run python -m wowkb.character <name> [--realm kiljaeden] [--json]  # full char digest
-uv run python -m wowkb.plan --minutes 60 [--mood efficiency|fun]      # ranked session shortlist (reads PlannerState dump)
+uv run python -m wowkb.plan --minutes 60 [--mood efficiency|fun] [--include-repeatables]  # ranked session shortlist (reads PlannerState dump)
+uv run python -m wowkb.gen_addon_quests              # regen addon quest-ID table from repeatables.json (then cut an addon release)
 ```
 
 Blizzard + WCL commands require credentials in `.env` (user-registered).
