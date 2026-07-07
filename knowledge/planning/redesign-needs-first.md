@@ -7,6 +7,7 @@ sources:
   - knowledge/planning/scoring-model.md
   - knowledge/planning/roadmap.md
   - tools/wowkb/plan.py
+  - tools/wowkb/rewards.py
   - knowledge/systems/void-incursions.md
   - https://worldofwarcraft.blizzard.com/en-us/news/24244888/revelations-content-update-notes
   - https://www.icy-veins.com/wow/news/showdown-reward-changes-higher-level-gear-faster-rare-spawns-and-more/
@@ -87,13 +88,19 @@ state.roster           = [ {name, level, role: main|gearing|leveling, focus} ]
 state.unlocks          = { renown[faction], omnium_rows, professions, ... }
 ```
 
-**Currency source.** The Syndicator snapshot in `knowledge/characters/*.md`
-already carries these (Encomplete: Hero 176, Myth 20, Field Accolade 1,309,
-Nebulous Voidcore 11, Coffer Shards 58). Either pipe that snapshot into planner
-state, or extend the PlannerState addon to dump currencies (the addon already
-dumps some). **Known gaps** (neither Syndicator nor the addon sees them): Sparks
-of Radiance, Catalyst charges, Ascendant Voidshards → keep these on the manual
-(`todo.md`) tier until captured.
+**Currency source (corrected — read the dump, not Syndicator).** The PlannerState
+dump is already the source: **schema 5 dumps `currencies` (via `scanCurrencies`)
+AND per-slot `equipment` directly**, so the planner needs no Syndicator round-trip
+(Syndicator is only for the `wowkb.character` KB snapshots). Encomplete's balances
+(Hero 176, Myth 20, Field Accolade 1,309, Nebulous Voidcore 11, Coffer Shards 58)
+come straight off the dump. **Two real gaps remain:** (1) `equipment` carries
+`itemID` + `ilvl` but **not the upgrade track/level** ("Hero 3/6") — needed to read a
+slot's remaining crest headroom; (2) **Sparks of Radiance, Catalyst charges,
+Ascendant Voidshards** aren't dumped yet. Per [resolved-Q5](#resolved-questions-verified-2026-07-07)
+the fix for both is to **extend the PlannerState addon** (dump the three IDs + gear
+track via `C_Item.GetItemUpgradeInfo`, bump schema 6); until then, approximate gear
+headroom from `ilvl` vs the track ceiling (Hero **276**) and keep the three
+uncaptured currencies on the manual (`todo.md`) tier.
 
 ### 2. Derive needs (the new core object)
 
@@ -198,6 +205,38 @@ riding the crude U-floor. `--mood fun` raises the collectible weight; `efficienc
 lowers it. This is the concrete version of README goal #2 ("don't let efficiency
 crowd out rare/limited events").
 
+## Infrastructure already built (build on it, don't rebuild)
+
+Distilled from the earlier `scratchpad/phase2-plan.md` (2026-07-06, superseded by
+this doc) and re-checked against the live code 2026-07-07. Two things already exist
+that the phases below plug into rather than reinvent:
+
+- **`tools/wowkb/rewards.py` — the valuation layer (built + unit-tested, NOT yet
+  wired to `plan.py`).** `value_quest(descriptor, char_state)` already carries a
+  **character-relative branch** (`_value_char_relative`): gear scores by
+  `reward_ilvl − your weakest slot`, currency scores by whether it advances an
+  *uncapped* track. Its `char_state` schema —
+  `{ilvl_by_slot, track_caps, renown, currencies}` — is essentially the needs-first
+  "scan state" object under another name. Plus `classify_currency`/`CURRENCY_RULES`,
+  `classify_cache`, and `TRACK_R`/`TRACK_ORDER` (Adventurer→Myth). So needs-first is
+  largely **"wire rewards.py's char-relative branch into `plan.py:score()`, and
+  extend it with a currency→consumer table + a recipe table"** — prefer extending
+  `rewards.py` (stdlib, offline-testable) over inlining valuation in `plan.py`. It's
+  exercised by `tools/tests/check_rewards.py` today with *synthetic* `char_state`
+  only — never yet called with a real dump.
+
+- **The PlannerState dump (schema 5) already carries the raw state** — `currencies`
+  + per-slot `equipment` + `vault`/`weeklyQuests`/`mythicPlus`/`lockouts`/`calendar`.
+  The one equipment gap is the missing upgrade **track/level** (see Scan-state's
+  "Currency source" note above): fix by extending the addon (schema 6) or approximate
+  from `ilvl` vs the Hero **276** ceiling.
+
+- **Verification discipline (carry it into every phase).** Each scoring change gets
+  an offline `.lua` fixture + a stdlib-only `tools/tests/check_*.py` mirroring the
+  existing suites; keep the whole suite green; after any `activities/*.md` edit run
+  `gen_candidates` + `--check`; and keep the contracts (`scoring-model.md`,
+  `activities/_facets.md`) in sync **in the same commit** as the code.
+
 ## Staged implementation plan
 
 Order is chosen so each stage ships value and de-risks the next.
@@ -215,15 +254,38 @@ Order is chosen so each stage ships value and de-risks the next.
   `void-incursions.md` (Heroic caches now Warbound) was already corrected in the hotfix
   sweep. `candidates.json` regenerated; the `@verify-ingame` on the Sporefall lockout
   name is on the generated checklist.
-- **Phase 1 — currency inventory into state.** Pipe Syndicator currencies into
-  planner state; add `currency_accumulate` needs. First real needs-first scoring:
-  crests over drops for an already-geared main.
+- **Phase 1 — currency inventory + pending-consumer valuation.** Read `currencies`
+  off the dump (already there — no Syndicator); add `currency_accumulate` needs. The
+  sharp rule to implement (phase2's 2.1): a currency scores by the **marginal value
+  of the best unlock it enables *right now*, → 0 when there's no pending consumer** —
+  crests → 0 once every equipped slot is track-capped; Field Accolades → the
+  `slot_target_R` of the Hero-track box they'd buy, → 0 when Hero-capped; Sparks → 0
+  with no craft queued. **Headline test: `ritual-sites`** (a crest/accolade source
+  with no direct `reward_ilvl_max`) must fall to ~0 for a Hero-capped main yet stay
+  high for a weak-slot one. First real needs-first scoring: crests over drops for a
+  geared main.
 - **Phase 2 — per-slot reward vectors + `slot_target_R` rewrite + dedup**
-  (subsumes roadmap **B**). Kills the one-weak-slot inflation.
-- **Phase 3 — deterministic-vs-RNG EV.** Sure exchanges beat lotteries.
+  (subsumes roadmap **B**). Kills the one-weak-slot inflation. **Add crafting as a
+  gear source** (phase2's 2.2): from a recipe→(slot, ilvl, reagents) table seeded off
+  `systems/tailoring-recipes.md` (88 entries) + the char's profession/skill,
+  synthesize `craft-<slot>` candidates that compete through the same per-slot logic —
+  a craftable 285 Back beats most drops for a geared main, and a *queued craft is the
+  pending consumer* that makes a Spark reward worth > 0 (closes the loop with Phase 1).
+- **Phase 3 — deterministic-vs-RNG EV + prerequisite chains.** Sure exchanges beat
+  lotteries. **Value multi-step chains by their discounted terminal** (phase2's 2.3):
+  score the terminal via `slot_target_R`, apply a per-step discount, and surface "next
+  step in chain X" — so a Myth chain ranks high *because* its terminal exceeds 276,
+  not for its cheap early steps. Chains to encode (facts already in KB):
+  **Nilhammer/Ascendant → weapon 295** (`systems/void-forge.md`), **Val/Naigtal
+  heroic → Void Commander's Emblems → Myth belt quest** ([resolved-Q3](#resolved-questions-verified-2026-07-07)),
+  **Prey → Nightmare unlock → Ascendant Voidshards** (`activities/prey-weekly.md`).
 - **Phase 4 — cross-character roster + warbound flows + `scope`.** The big payoff.
-- **Phase 5 — collectible/fun needs; `todo.md` auto-population; (long-term) the
-  PlannerState in-game checklist UI** so manual-tier items are ticked in-game.
+  Add a **`--solo` coordination-cost penalty** — down-rank M+/raid when you can't
+  field a group — so group content stops out-ranking solo plays on a solo night.
+- **Phase 5 — collectible/fun needs; an "expiring windows" output block** (Darkmoon /
+  Timeways deadlines surfaced independently of reset gating, so a closing window isn't
+  buried); `todo.md` auto-population; (long-term) the PlannerState in-game checklist UI
+  so manual-tier items are ticked in-game.
 
 Roadmap **A** (formula rebalance, `sqrt(T)`) and **C** (de-noise repeatables)
 fold in as tuning of the Phase 1–2 scoring loop.
