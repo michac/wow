@@ -1,11 +1,12 @@
 ---
 title: Void Assaults — Void Incursions & Void Strikes (12.0.7)
 patch: 12.0.7
-fetched: 2026-06-19
+fetched: 2026-07-07
 sources:
   - https://worldofwarcraft.blizzard.com/en-us/news/24244888/revelations-content-update-notes
   - https://conquestcapped.com/guides/wow/void-assaults-event/
   - https://www.icy-veins.com/wow/weekly-to-do-list
+  - https://www.icy-veins.com/wow/news/showdown-reward-changes-higher-level-gear-faster-rare-spawns-and-more/
 confidence: high
 ---
 
@@ -46,9 +47,19 @@ for whichever zone is active that week.
 - **Trima Dawnsetter** — sells cosmetic pouches matching **Bulging Satchel**
   contents (including cosmetics from Ritual Sites end chests) for **150 Dark
   Particles** each. *(New in 12.0.7.)*
-- **Maren Silverwing** — slot-specific **Heroic** caches (BoP) for **750 Field
-  Accolades**; slot-specific **Warbound Champion** caches for **100 Field
-  Accolades**.
+- **Maren Silverwing** — slot-specific **Heroic** caches for **750 Field
+  Accolades**; slot-specific **Champion** caches for **100 Field Accolades**.
+  **Both are now Warbound** — the Heroic cache flipped **BoP → Warbound** in the
+  **June 26/30 2026 hotfixes** (Showdown reward pass), so Accolades earned on a
+  geared main can gear alts. *(The currency itself stays character-bound; only
+  the purchased cache is warbound.)* Same pass made **world-boss loot guarantee a
+  Warbound Heroic item** and **rares drop Warbound-until-equipped Heroic items**.
+- **Cheaper random-slot caches also exist** (a *random* slot, not chosen):
+  **Champion 75 / Hero 500 Field Accolades** — see `ritual-sites.md:133-134`.
+  High EV while you own little hero gear, decaying as slots fill (duplicate risk).
+  ⚠ **Warbound status of these random-slot caches is unverified** — the hotfix
+  confirmation above covers only the **slot-specific** 750/100 caches; check the
+  500/75 random caches in-game before assuming they're warbound.
 
 ## 12.0.7 "Revelations" changes (live 2026-06-16)
 

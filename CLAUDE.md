@@ -6,8 +6,8 @@ Warcraft questions **reliably**. Scope: **Retail, Midnight expansion only**
 
 ## Current game state
 
-- **Live: patch 12.0.5** — Midnight expansion, level cap **90**, Season 1.
-- **PTR: 12.0.7.**
+- **Live: patch 12.0.7 "Revelations"** — Midnight expansion, level cap **90**,
+  Season 1 (went live 2026-06-16). No PTR currently.
 - `knowledge/_meta/game-version.md` is the **single source of truth** for
   game state and must be updated on patch days. If anything in this file
   disagrees with it, that file wins.

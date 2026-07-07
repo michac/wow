@@ -37,9 +37,25 @@ rotating its set of challenges.
 Each world offers **World Quests, rares, and events**, culminating in the
 world-boss showdown. Weekly quests: **"Showdown on Val"** / **"Showdown on
 Naigtal"** (whichever world is active that week), rewarding a **Riftstalker's
-Cache**. World bosses drop a Champion item (Normal) or Heroic item (Heroic
-difficulty) for the warband. Currency earned is **Field Accolades**, spent at
-**Fieldsmith Ventem** and **Zuronar** for transmog and housing decor.
+Cache** (Field Accolades, **Relic Coffer Key shards**, upgrade materials, gold).
+World bosses drop a Warbound **Champion** item (Normal WT) or **Hero** item
+(Heroic WT) for the warband.
+
+**Gearing currencies (12.0.7 — this is a premier Hero-track catch-up loop):**
+- **Field Accolades** — earned from WQs, rares, the Showdown weekly, and Ritual
+  Sites. 12.0.7 updated **Maren Silverwing** (top of the Bazaar, Silvermoon City)
+  to sell **slot-targeted Hero-track gear (~ilvl 259)** for Field Accolades — buy
+  the exact slot you're missing instead of hoping for a drop. Also still buys
+  cosmetics/decor at **Fieldsmith Ventem** / **Zuronar** and the new Val/Naigtal
+  vendors (some priced in **Voidlight Marl**). *(Correction: the old "accolades =
+  transmog/decor only" note was 12.0.5 scope.)*
+- **Relic Coffer Key shards** — assemble into keys that open **coffers** for gear.
+- **Great Vault:** like Delves and Prey, Val/Naigtal world content **contributes to
+  the World row** of the Great Vault (the same column delves fill — one shared
+  counter, not a second row).
+
+See `planning/activities/val-naigtal.md` (zone farm) and `showdown-weekly.md`
+(weekly capstone) for the planner-facing split.
 
 ## Timewalking — Turbulent Timeways (12.0.7)
 
@@ -47,9 +63,39 @@ difficulty) for the warband. Currency earned is **Field Accolades**, spent at
 - Timewalk a previous expansion each week, **Dragonflight bookended** (begins and
   ends with Dragonflight dungeons): Algeth'ar Academy, Halls of Infusion,
   Neltharus, Ruby Life Pools, The Azure Vaults, Brackenhide Hollow.
-- Weekly Timewalking quest grants a **Heroic Cache of Quel'Thalas Treasures**
-  (ilvl **259–276**).
+- Weekly Timewalking quest (**5 Timewalking dungeons**) grants a **Heroic Cache of
+  Quel'Thalas Treasures** (ilvl **259–276**) — one Heroic-track piece per week.
+- **XP buff loop:** 1st TW dungeon → *Knowledge of Timeways* (+5% XP); 4 dungeons →
+  *Mastery of Timeways* (**+30% XP** to kills and quest turn-ins, 3h, **persists through
+  death**; refresh by re-queuing). **Stacks with Darkmoon Faire** and other XP buffs, so
+  banked delve/WQ quest turn-ins under Mastery are the fastest alt XP in the patch.
+- **Mount:** *Spawn of Vyranoth* (new proto-drake, only from **Master of the Turbulent
+  Timeways V**) requires earning **Mastery of Timeways in 4 of the event weeks** (miss at
+  most one); progress can be spread across alts.
 - Note: this is a timewalking event, **not** a Mythic+ Season 1 structural change.
+- Source note: mechanics corroborated by community guides this pass (`yt:rliFXbEHghU`
+  "Yeti", `yt:kUP8oqI7Ekc` "Two Angry Frogs") — tier-3, medium confidence on the exact
+  4-of-5 wording; the ilvl/window numbers are from the Revelations notes (tier-1).
+
+## Darkmoon Faire (monthly)
+
+Runs the **first full week of every month** on **Darkmoon Island** — sets up on the
+**first Sunday** and lasts ~7 days. **Current window: ~Jul 5–12, 2026** (first Sunday =
+Jul 5; verified via Wowhead DB + community guide, 2026-07-06). Enter via the portal
+barkers outside Elwynn/Mulgore (or the monthly-recurring in-game prompt).
+
+What it offers each month:
+- **+5 profession skill** quest per profession — a small permanent skill bump.
+- **Darkmoon rep/XP buff ("WHEE!"/carousel)** — +10% rep & XP for an hour; **stacks with
+  Turbulent Timeways** XP (prime alt-leveling overlap while both are live).
+- **Pet-battle** daily.
+- **Darkmoon Prize Tickets** from carnival games + turn-in quests → **mounts, pets,
+  heirlooms, transmog** at the ticket vendors.
+
+Cadence/urgency: `time-boxed`, recurring → moderate FOMO (see
+`planning/activities/darkmoon-faire.md`). ⚠ The only prior KB mention
+(`endgame/weekly-checklist.md:117`) has **stale dates** — ignore them; this section +
+the activity file are the live source.
 
 ## Micro-holidays
 
