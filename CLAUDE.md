@@ -34,7 +34,11 @@ game.** Defenses, in order:
 
 ## Directory map
 
-- `knowledge/_meta/` — game version (source of truth), source trust registry
+- `knowledge/_meta/` — game version (source of truth), source trust registry,
+  `moving-values.md` (flattened latest-value-wins stale-data catcher — check it
+  when a source's reward tier/ilvl looks off), `patch-notes/` (verbatim archive
+  of official notes, against link rot), `changelog-<patch>.md` (per-patch diff),
+  `feed-watermark.md` (the "reviewed through" cursor that drives `/update`)
 - `knowledge/endgame/` — `weekly-checklist.md` (the anchor doc), `raids/`,
   `mythic-plus/`, `delves/`, `prey.md`, `great-vault.md`, `world-events.md`
 - `knowledge/characters/` — per-character snapshots from the Blizzard
@@ -64,12 +68,19 @@ game.** Defenses, in order:
 ---
 title: Midnight Season 1 Mythic+ Overview
 patch: 12.0.5            # game version the content describes
-fetched: 2026-06-03      # when sourced
+fetched: 2026-06-03      # when the content was last sourced / changed
+reviewed: 2026-07-07     # when the claims were last verified-still-true (a sweep stamps this even if nothing changed)
 sources:
   - https://...
 confidence: high          # high | medium | low
 ---
 ```
+
+`reviewed:` ≥ `fetched:` always. A file can be `patch: 12.0.7` (current game
+version) yet `reviewed:` weeks old — meaning it *looks* current but hasn't been
+re-checked. `grep -rL 'reviewed: <sweep-date>' knowledge --include='*.md'` after
+a sweep = every file the sweep did **not** cover (audit + resume list). This is
+how we avoid another silent "16 files left behind."
 
 ## Tools (run from `tools/`, needs `.env` at repo root — see `.env.example`)
 
@@ -112,3 +123,25 @@ and Catalyst charges (check in-game).
    matter and resolved TODOs.
 3. Stubs with `## TODO` sections name their intended sources — follow them.
 4. Keep `raw/` as scratch; the curated claim + citation goes in `knowledge/`.
+
+## Keeping the KB current: the `/update` command
+
+`/update` is the **one door** for patch/hotfix maintenance. It reads
+`_meta/feed-watermark.md`, detects what's shipped since (wago build feed +
+Blizzard blue-post tracker JSON), and offers the right amount of work:
+
+- **Quick apply** — hotfixes / tuning / small content. Archives blue posts
+  verbatim to `patch-notes/<patch>.md`, applies verified content edits to the
+  files the posts name, refreshes `moving-values.md`, advances the watermark.
+- **Full apply** — a real content patch (minor version bump / new zone-raid-
+  system). Everything quick does, plus verbatim note capture, a change ledger,
+  a **full-tree** re-verify via the `kb-patch-sweep` workflow (RESTAMPs files no
+  post mentioned — the only thing that catches silent drift), NEW files, and a
+  `game-version.md` bump. It's authorized to spawn subagents, author a Workflow,
+  and research sparse notes via web + `wowkb.youtube` transcripts.
+
+**Provenance precedence (the immune system):** authoritative Tier-1 feed data —
+blue posts, the `patch-notes/` archive, `moving-values.md` — is the **floor**.
+Lower-tier sources (Icy Veins / Wowhead editorial) may corroborate or add but
+must **never overwrite** it; on conflict, keep the Tier-1 value and flag. Resolve
+name/number conflicts via game data (wago DB2 / Wowhead DB page), not prose.
