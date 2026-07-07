@@ -146,6 +146,12 @@ siblings), fix cosmetic version labels, close citation gaps. A flagged
 `tier_downgrade` means the sweep almost regressed Tier-1 data — restore the
 Tier-1 value. Re-read after editing.
 
+**F6.5 — Regenerate generated artifacts.** If any `planning/activities/*.md`
+changed, regen the ranker input: `uv run python -m wowkb.gen_candidates` (verify
+with `--check`). If `repeatables.json` changed, `uv run python -m
+wowkb.gen_addon_quests`. These are generated *from* the `.md` — never hand-edit
+the JSON, and never leave it stale after an activity edit.
+
 **F7 — Consistency & coverage sweep.**
 `grep -rh '^patch:' knowledge --include='*.md' | sort | uniq -c` (no file left on
 the old version) and `grep -rn '<old-version>' knowledge --include='*.md'` (every
