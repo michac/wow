@@ -152,9 +152,11 @@ crests)** · no enchants · solo-leaning.
        the vault world row to 259 (confirmed in-game 2026-06-05 via
        slot tooltip; sources say Hero 1/6 — confirm track on the item
        at reset).
-5. [ ] **Ritual sites ×~5** at top comfortable tier (Hero-crest cap
-       100/wk); keep farming accolades past cap only while hero pieces
-       are still likely upgrades (500/piece, random slot)
+5. [ ] **Ritual sites ×~5** at top comfortable tier. Crest totals are
+       **uncapped** (May 19 hotfix — `../endgame/dawncrests.md`); the
+       question isn't "am I under the cap" but "do I have a pending
+       upgrade to spend crests on." Keep farming only while hero pieces
+       are still likely upgrades (accolades 500/piece, random slot)
 6. [ ] **Buy 2 Nebulous Void Cores** from Decimus; spend at delve
        completions (hero piece each)
 7. [ ] **Nilhammer weekly quest** (until chain complete)

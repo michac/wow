@@ -15,6 +15,7 @@ from __future__ import annotations
 import argparse
 import glob
 import json
+import os
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
@@ -30,7 +31,7 @@ CURATED_QUEST_IDS = {94446, 94385, 94386}
 # Enjoyment multipliers (E), capped at 1.5 per the model. Mirror of the table in
 # scoring-model.md — that doc is canonical; keep these in sync when you tune.
 E_TABLE = {
-    "delve": 1.4, "ritual": 1.2, "prey": 1.1, "mplus": 1.0,
+    "delve": 1.4, "ritual": 1.2, "prey": 1.1, "world": 1.1, "mplus": 1.0,
     "housing": 1.0, "chore": 1.0, "crafting": 0.9, "raid": 0.7, "pvp": 0.4,
 }
 E_CAP = 1.5
@@ -152,12 +153,19 @@ def parse_savedvar(text: str, var: str) -> dict | None:
     return p.parse_value()
 
 
-def load_state(state_path: str | None, wow_path: str) -> dict | None:
+def load_state(state_path: str | None, wow_path: str,
+               character: str | None = None) -> dict | None:
+    """Load a PlannerState dump. Auto-find picks the **newest** dump so it's
+    "the char you just played," not whoever sorts first alphabetically. Pass
+    `character` to restrict the glob to a single character's SavedVariables.
+    """
     if state_path:
         paths = [state_path]
     else:
-        paths = sorted(glob.glob(
-            f"{wow_path}/WTF/Account/*/*/*/SavedVariables/PlannerState.lua"))
+        who = glob.escape(character) if character else "*"
+        pattern = f"{wow_path}/WTF/Account/*/*/{who}/SavedVariables/PlannerState.lua"
+        # Newest dump first = the character you most recently /reload-ed.
+        paths = sorted(glob.glob(pattern), key=os.path.getmtime, reverse=True)
     for pth in paths:
         try:
             text = Path(pth).read_text(encoding="utf-8", errors="replace")
@@ -336,6 +344,40 @@ def weakest_slots(state: dict | None, k: int = 3) -> list[tuple[str, float]]:
     return rows[:k]
 
 
+def _slot_ilvls(state: dict | None) -> list[float]:
+    """Every equipped slot's ilvl from the dump (schema>=4), else []."""
+    eq = (state or {}).get("equipment") or []
+    return [float(s["ilvl"]) for s in eq
+            if isinstance(s, dict) and isinstance(s.get("ilvl"), (int, float))]
+
+
+def slot_target_R(cand: dict, state: dict | None) -> tuple[float, str] | None:
+    """Ilvl-relative reward: is this activity's gear an upgrade to THIS char?
+
+    Generalizes breakpoint_R for gear: an activity carries `reward_ilvl_max`, the
+    top ilvl its gear can reach (world/delve/prey/voidcore ≈ Hero 279; raid per-
+    difficulty; faction champion 246). Compared against the char's equipped slots
+    (weakest = the target):
+      - ceiling ≤ your weakest slot  → R≈0 (can't upgrade anything; sidegrade)
+      - ceiling well above it        → R toward 4–5 (weakest-slot targeting)
+    Returns None when the activity has no ceiling or the dump carries no per-slot
+    ilvls (schema<4) — the caller then keeps reward_base, scoring as before.
+    """
+    ceiling = cand.get("reward_ilvl_max")
+    if not isinstance(ceiling, (int, float)):
+        return None
+    slots = _slot_ilvls(state)
+    if not slots:
+        return None
+    weakest = min(slots)
+    delta = ceiling - weakest
+    if delta <= 0:
+        return 0.0, f"reward ≤ your weakest slot ({round(weakest)})"
+    # ~+1 R per 6 ilvl of headroom over the weakest slot, foot-in-door at 1.
+    R = min(5.0, 1.0 + delta / 6.0)
+    return R, f"+{round(delta)} ilvl over weakest slot ({round(weakest)})"
+
+
 def score(cand: dict, mood: str, state: dict | None = None) -> tuple[float, str, str]:
     R = float(cand.get("reward_base", 0))
     U = float(cand.get("urgency", 1))
@@ -344,10 +386,19 @@ def score(cand: dict, mood: str, state: dict | None = None) -> tuple[float, str,
     if R == 0 and U >= 1.5:                    # rare cosmetic gets a foot in the door
         R = floor
     note = ""
-    bp = breakpoint_R(cand, state)            # vault-slot proximity overrides R
-    if bp is not None:
-        R, note = bp
-    E = min(E_TABLE.get(cand.get("enjoyment_key", "chore"), 1.0), cap)
+    # R overrides: take the strongest of "crosses a vault threshold" (breakpoint
+    # proximity) and "upgrades my weakest slot" (ilvl-relative). When neither has
+    # data (no breakpoint/ceiling, or a pre-schema-4 dump) fall back to reward_base
+    # exactly as before. See scoring-model.md.
+    overrides = [ov for ov in (breakpoint_R(cand, state),
+                               slot_target_R(cand, state)) if ov is not None]
+    if overrides:
+        R, note = max(overrides, key=lambda ov: ov[0])
+    # Enjoyment: honor an explicit numeric `enjoyment`, else the (venue-keyed) table.
+    if isinstance(cand.get("enjoyment"), (int, float)):
+        E = min(float(cand["enjoyment"]), cap)
+    else:
+        E = min(E_TABLE.get(cand.get("enjoyment_key", "chore"), 1.0), cap)
     T = float(cand.get("time_blocks", 1)) or 0.1
     s = (R * U * E) / T
     # dominant-term reason
@@ -401,6 +452,18 @@ def plan(minutes: int, state: dict | None, mood: str,
 
 
 # --------------------------------------------------------------------------- #
+def _fmt_age(mtime: float) -> str:
+    """Human 'how old is this dump' from an mtime, e.g. '2h ago', '3d ago'."""
+    import time
+    secs = max(0, time.time() - mtime)
+    if secs < 90:
+        return "just now"
+    for unit, n in (("d", 86400), ("h", 3600), ("m", 60)):
+        if secs >= n:
+            return f"{int(secs // n)}{unit} ago"
+    return "just now"
+
+
 def _fmt(r: dict) -> str:
     c = r["c"]
     mins = round(float(c.get("time_blocks", 1)) * BLOCK_MIN)
@@ -417,17 +480,28 @@ def main(argv=None) -> int:
     p.add_argument("--minutes", type=int, default=60, help="session time budget")
     p.add_argument("--mood", choices=["efficiency", "fun"], default="efficiency")
     p.add_argument("--state", help="path to PlannerState.lua (else auto-find)")
+    p.add_argument("--character", help="restrict auto-find to this character's dump "
+                                       "(else newest dump across the roster wins)")
     p.add_argument("--wow-path", default=DEFAULT_WOW)
     p.add_argument("--include-repeatables", action="store_true",
                    help="also rank the scraper catalog (repeatables.json); "
                         "rows marked ~ have placeholder time/enjoyment")
     args = p.parse_args(argv)
 
-    state = load_state(args.state, args.wow_path)
+    state = load_state(args.state, args.wow_path, args.character)
     result = plan(args.minutes, state, args.mood, args.include_repeatables)
 
-    src = "no PlannerState dump — gates marked (?)" if state is None \
-        else f"state: {Path(state['_path']).name} (char {state.get('character','?')})"
+    if state is None:
+        src = "no PlannerState dump — gates marked (?)"
+    else:
+        # Surface the dump's mtime so a stale dump (played a different char since)
+        # is obvious — this is the "the char you just played" signal for 0.1.
+        try:
+            age = _fmt_age(os.path.getmtime(state["_path"]))
+        except OSError:
+            age = "?"
+        src = (f"state: {Path(state['_path']).name} "
+               f"(char {state.get('character','?')}, dumped {age})")
     print(f"\nSession plan · {args.minutes} min · mood={args.mood} · {src}\n")
     weak = weakest_slots(state)
     if weak:

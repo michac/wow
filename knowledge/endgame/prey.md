@@ -20,6 +20,10 @@ New repeatable hunt system introduced with Midnight.
 - **Weekly**: complete **3 Nightmare Prey hunts** for the weekly objective.
 - **Rewards**: Dawncrests, Restored Coffer Keys (delve chests), Great Vault
   slot progress.
+- **The random hero map piece is low value once you're Hero-geared** (Hero-track,
+  ~ilvl 259–279). Don't run Prey *for* the weekly gear roll — the durable draw is
+  the **Nightmare unlock → Ascendant Voidshards** (below) and the Preyseeker's
+  Journey ranks. That terminal, not the map, is why it stays on the list.
 
 ## Preyseeker's Journey (seasonal track)
 

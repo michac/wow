@@ -56,16 +56,16 @@ check(gate_status(ev("Timewalking"), None) == "unknown",
 
 # --- end-to-end: plan() surfaces a live event ----------------------------------
 live = plan(120, load_state(str(FIX / "calendar-live.lua"), None), "efficiency")
-tw = row(live, "timewalking-event")
-check(tw is not None, "timewalking-event present when its event is live")
+tw = row(live, "turbulent-timeways")
+check(tw is not None, "turbulent-timeways present when its event is live")
 check(tw and tw["state"] == "todo",
-      f"timewalking-event gated todo when live (got {tw and tw['state']!r})")
+      f"turbulent-timeways gated todo when live (got {tw and tw['state']!r})")
 
 # a pre-calendar (schema-1) dump has no calendar block -> unknown, shows (?)
 noc = plan(120, load_state(str(FIX / "weeklies-live.lua"), None), "efficiency")
-twn = row(noc, "timewalking-event")
+twn = row(noc, "turbulent-timeways")
 check(twn is not None and twn["state"] == "unknown",
-      "timewalking-event -> unknown on a pre-calendar (schema-1) dump")
+      "turbulent-timeways -> unknown on a pre-calendar (schema-1) dump")
 
 print(f"\n{_total} checks, {len(_fails)} failures")
 sys.exit(1 if _fails else 0)

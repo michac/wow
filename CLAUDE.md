@@ -49,8 +49,10 @@ game.** Defenses, in order:
 - `knowledge/planning/` — **the session-planner system** (rank "what should I
   do this session?"). Start at `planning/README.md` (overview + roadmap +
   cross-machine resume runbook); `scoring-model.md` is the scoring contract,
-  `candidates.json` the task list. Feeds off the **PlannerState** addon
-  (separate repo `michac/wow-planner-state`) via `wowkb.plan`.
+  `activities/*.md` the task catalog (`_facets.md` = its tag contract).
+  `candidates.json` is the ranker input — **generated** from `activities/*.md`
+  by `wowkb.gen_candidates`; edit the `.md`, not the JSON. Feeds off the
+  **PlannerState** addon (separate repo `michac/wow-planner-state`) via `wowkb.plan`.
 - `addon-manager/` — `ghaddons`, a GitHub-driven WoW addon manager (installs
   PlannerState + any other addon from a repo list). Its own README; stdlib-only.
 - `tools/` — uv project, `wowkb` package
@@ -82,6 +84,7 @@ uv run python -m wowkb.fetch <url>                   # → raw/pages/
 uv run python -m wowkb.character <name> [--realm kiljaeden] [--json]  # full char digest
 uv run python -m wowkb.plan --minutes 60 [--mood efficiency|fun] [--include-repeatables]  # ranked session shortlist (reads PlannerState dump)
 uv run python -m wowkb.gen_addon_quests              # regen addon quest-ID table from repeatables.json (then cut an addon release)
+uv run python -m wowkb.gen_candidates                # regen planning/candidates.json from activities/*.md (--check in CI; edit the .md, not the JSON)
 ```
 
 Blizzard + WCL commands require credentials in `.env` (user-registered).

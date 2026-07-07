@@ -54,7 +54,8 @@ pattern `wowkb.character` uses for Syndicator currencies.
 | Piece | Location | Repo |
 |---|---|---|
 | Scoring contract | `knowledge/planning/scoring-model.md` | michac/wow |
-| Candidate task list | `knowledge/planning/candidates.json` | michac/wow |
+| Activity catalog | `knowledge/planning/activities/*.md` (`_facets.md` = tag contract) | michac/wow |
+| Ranker input (generated) | `knowledge/planning/candidates.json` ← `wowkb.gen_candidates` | michac/wow |
 | Planner tool | `tools/wowkb/plan.py` (`uv run python -m wowkb.plan`) | michac/wow |
 | Addon manager (ghaddons) | `addon-manager/` (+ its README) | michac/wow |
 | **PlannerState addon** | installed into `Interface/AddOns/` | **michac/wow-planner-state** (its own git root; gitignored here) |

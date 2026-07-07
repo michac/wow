@@ -75,8 +75,10 @@ the *bountiful* version AND spend a Restored Coffer Key on the coffer.
   Shards from world events, prey, special assignments, WQs, rares — and
   ritual sites.
 - Delve *runs* are unlimited — the gates are keys (6/wk), gilded stashes
-  (3/wk), the weekly cache, and the 100/wk crest cap
-  (`../dawncrests.md`).
+  (3/wk), and the weekly cache. **Crest totals are uncapped** (the old
+  100/tier/week cap was removed in the May 19 2026 hotfix —
+  `../dawncrests.md`); only the *per-activity* Bountiful/gilded crest
+  chunks are weekly-limited.
 - Bountiful delves drop **Ascendant Voidshards** (12.0.5 weapon/trinket
   overcap — `../../systems/void-forge.md`) and accept Nebulous Void Core
   bonus rolls (hero gear).

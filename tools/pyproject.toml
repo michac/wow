@@ -6,6 +6,7 @@ dependencies = [
     "html2text>=2025.4.15",
     "pillow>=12.2.0",
     "python-dotenv>=1.2.2",
+    "pyyaml>=6.0",
     "requests>=2.34.2",
     "youtube-transcript-api>=1.2.4",
     "yt-dlp>=2026.3.17",

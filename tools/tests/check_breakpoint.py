@@ -31,12 +31,12 @@ below = plan(120, load_state(str(FIX / "vault-below.lua"), None), "efficiency")
 cross = plan(120, load_state(str(FIX / "vault-crossing.lua"), None), "efficiency")
 capped = plan(120, load_state(str(FIX / "vault-capped.lua"), None), "efficiency")
 
-b, c = row(below, "mplus-vault"), row(cross, "mplus-vault")
+b, c = row(below, "mplus"), row(cross, "mplus")
 check(b is not None and c is not None, "mplus-vault present in below + crossing")
 check(c["score"] > b["score"], f"crossing outranks below ({c['score']:.1f} > {b['score']:.1f})")
 check("unlocks vault slot 2" in c["note"], f"crossing note names slot 2: {c['note']!r}")
 check(b["note"] == "", f"below carries no breakpoint note: {b['note']!r}")
-check(row(capped, "mplus-vault") is None, "capped drops mplus-vault (gated done)")
+check(row(capped, "mplus") is None, "capped drops mplus-vault (gated done)")
 
 # --- backward-compat: a no-breakpoint candidate is unaffected by state ---------
 rit_state = row(below, "ritual-sites")["score"]

@@ -58,7 +58,13 @@ about.** Two multipliers stack inside R:
 - **Slot targeting.** An upgrade to your *weakest* slot is worth more than one
   to an already-strong slot. (Encomplete 2026-07-02: back **250** is the
   standout hole; a back upgrade is R≈4, a 5th ilvl on an already-276 slot is
-  R≈1.) A sidegrade or vendor-trash reward is R≈0.
+  R≈1.) A sidegrade or vendor-trash reward is R≈0. **Implemented
+  (2026-07-06):** an activity declares `reward_ilvl_max` — the top ilvl its gear
+  can reach (world/delve/prey/voidcore ≈ Hero **279**; faction champion **246**;
+  raid per-difficulty). `plan.py:slot_target_R()` compares that ceiling to the
+  char's equipped slots from the dump (schema≥4): ceiling ≤ your weakest slot →
+  R≈0; well above it → R scales toward 5 (~+1 R per 6 ilvl of headroom). No
+  ceiling, or a pre-schema-4 dump → no override, keep `reward_base`.
 - **Breakpoint proximity.** Progress is worth more the closer it sits to a
   discrete payoff. Examples of breakpoints, not smooth curves:
   - **Great Vault**: 1 / 4 / 8 M+ runs (or delve/raid equivalents) unlock
@@ -189,8 +195,14 @@ without letting it drive.
       overrides R→4 for the run that *crosses* the next Great Vault threshold (1/4/8),
       R→0 once the track is capped. Verified offline against `tools/tests/fixtures/
       vault-*.lua` (`tools/tests/check_breakpoint.py`). Still open: journey rank-ups /
-      non-vault breakpoints, and **slot-targeting** (weakest-slot boost — needs
-      per-slot equipment ilvls, which neither the dump nor the tool supplies yet).
+      non-vault breakpoints.
+- [x] **Slot-targeting (ilvl-relative R) — implemented (2026-07-06).**
+      `plan.py:slot_target_R()` reads the dump's per-slot `equipment` ilvls (schema≥4)
+      and an activity's `reward_ilvl_max` ceiling; R→0 when the ceiling can't beat your
+      weakest slot, scales up when it can. `score()` composes it with breakpoint
+      proximity as **R = max(breakpoint, slot-target)**, falling back to `reward_base`
+      when neither has data. Verified offline against `tools/tests/fixtures/equipment-*.lua`
+      (`tools/tests/check_slot_target.py`).
 - [ ] Validate the E cap (1.5) and collectible R-floor (1 @ U≥1.5) against a few
       real sessions; these two numbers control the whole efficiency↔fun balance.
 - [ ] `[[fun-radar]]` doc: the "events live now ∩ rewards I don't own" feed that
