@@ -2,6 +2,7 @@
 title: How Mythic+ Loot Works — Midnight Season 1
 patch: 12.0.7
 fetched: 2026-06-21
+reviewed: 2026-07-07
 sources:
   - https://conquestcapped.com/guides/wow/midnight-mythic-plus-season-1/
   - https://www.icy-veins.com/wow/midnight-mythic-season-1-guide

@@ -2,6 +2,7 @@
 title: Midnight Season 1 Raids — Overview
 patch: 12.0.7
 fetched: 2026-06-19
+reviewed: 2026-07-07
 sources:
   - Blizzard Game Data API, journal-expansion/516 + journal-instance/{1307,1314,1308,1312} (tier 1)
   - Warcraft Logs zone 46 "VS / DR / MQD" (tier 2)

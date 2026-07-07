@@ -14,6 +14,7 @@ time_blocks: 0.3
 urgency: 2
 patch: 12.0.7
 fetched: 2026-07-06
+reviewed: 2026-07-07
 sources: [knowledge/planning/candidates.json, knowledge/endgame/great-vault.md]
 confidence: high
 ---

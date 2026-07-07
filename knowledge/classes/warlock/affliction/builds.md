@@ -2,6 +2,7 @@
 title: Affliction Warlock — talents, gearing, enchants, embellishments (Midnight S1)
 patch: 12.0.7
 fetched: 2026-06-19
+reviewed: 2026-07-07
 sources:
   - https://www.icy-veins.com/wow/affliction-warlock-pve-dps-spec-builds-talents  # 12.0.7
   - https://www.method.gg/guides/affliction-warlock/talents  # 12.0.7, upd. 2026-06-16

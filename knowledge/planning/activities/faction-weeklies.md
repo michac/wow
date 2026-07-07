@@ -13,17 +13,19 @@ reward: { type: [power, currency, collectible], detail: "champion ilvl-246 slot 
 reward_ilvl_max: 246   # Champion slot pieces — a sidegrade for anyone Hero-geared
 time_blocks: 2
 patch: 12.0.7
-fetched: 2026-07-06
-sources: ["yt:cpbQXd04ehI", "yt:kUP8oqI7Ekc", "knowledge/endgame/world-events.md"]
+fetched: 2026-07-07
+reviewed: 2026-07-07
+sources: ["yt:cpbQXd04ehI", "yt:kUP8oqI7Ekc", "knowledge/endgame/world-events.md", "https://www.icy-veins.com/wow/singularity-renown-guide", "https://www.icy-veins.com/wow/harati-renown-guide"]
 confidence: medium
 ---
 The rotating **per-faction weekly events** — **Saltheril's Soiree** (Silvermoon Court),
-**Abundance** (Amani), **Legends of the Harndar** (Harathi), **Storm's Wake Assault** (The
+**Abundance** (Amani Tribe), **Legends of the Haranir** (The Hara'ti), **Stormarion Assault** (The
 Singularity), each culminating in a pinnacle/apex cache. Renown is **instrumental** here
 (`_facets.md`): the payoff is a **renown-gated champion-track ilvl-246 slot piece** from each
-quartermaster — helm (Silvermoon Court, renown 9, *Courting Success*), necklace (Amani 9),
-belt (Harathi 9), trinket (Singularity 7) — hence `goal:gearing`, plus housing-decor and
-mount collectibles.
+quartermaster — helm (Silvermoon Court, renown 9), belt/waist (Hara'ti, renown 8),
+trinket (Singularity, renown 7, *Crucible of Erratic Energies*, gated behind the Stormarion
+Assault quest), plus a champion neck from the Amani quartermaster — hence `goal:gearing`, plus
+housing-decor and mount collectibles.
 
 Completing **all** faction events also finishes the **Midnight World Tour** quest → a second
 Spark. **Overlap note (for the future ranker-wiring pass):** `liadrin-spark` picks *one* of

@@ -14,7 +14,8 @@ reward: { type: [power], detail: "per-run loot + crests + IO; fills the Vault's 
 time_blocks: 2
 patch: 12.0.7
 fetched: 2026-07-06
-sources: [knowledge/planning/candidates.json, knowledge/endgame/mythic-plus/]
+reviewed: 2026-07-07
+sources: [knowledge/planning/candidates.json, knowledge/endgame/mythic-plus/, "https://www.icy-veins.com/wow/midnight-mythic-season-1-guide"]
 confidence: high
 ---
 Run keys for per-run loot, crests, and IO score. Running them **also fills the Mythic+

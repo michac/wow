@@ -2,6 +2,7 @@
 title: Voidforge — Bonus Rolls & Ascendant Upgrades (12.0.7)
 patch: 12.0.7
 fetched: 2026-06-19
+reviewed: 2026-07-07
 sources:
   - https://www.youtube.com/watch?v=e6GLeeqwV4U  # SignsOfKelani, 2026-04-26
   - https://www.wowhead.com/guide/midnight/the-voidforge-patch-12-0-5-bonus-loot-rolls-upgrades

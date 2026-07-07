@@ -2,12 +2,15 @@
 title: Omnium Folio — Midnight Runic Power System (12.0.7)
 patch: 12.0.7
 build: 12.0.7.68256
-fetched: 2026-06-19
+fetched: 2026-07-07
+reviewed: 2026-07-07
 sources:
   - https://worldofwarcraft.blizzard.com/en-us/news/24244888/revelations-content-update-notes
   - https://www.icy-veins.com/wow/news/a-new-power-system-for-midnight-is-coming-in-wow-patch-12-0-7-the-omnium-folio/
   - https://conquestcapped.com/guides/wow/omnium-folio/
   - https://finalboss.io/how-to-unlock-the-omnium-folio-in-wow
+  - https://us.forums.blizzard.com/t/world-of-warcraft-midnight-hotfixes-june-30/2296045/364  # account-wide weekly (hotfix 2026-06-25)
+  - https://worldofwarcraft.blizzard.com/news/24277442/  # Omnium Folio deep-dive (Tier 1)
 confidence: medium
 ---
 
@@ -45,6 +48,11 @@ of the Magisters' Terrace library / Thalassian University in Silvermoon.
 - After the intro, the weekly **"Seeking Knowledge"** quest awards **1 Mote
   of Omnial Inquiry per week**, which you spend to unlock **that week's new
   row** (one row per weekly reset → fully built in **5 weeks**).
+- **Account-wide prerequisites (hotfix 2026-06-25):** starting with **Week 2**,
+  the Seeking Knowledge weekly's quest prerequisites are **account-wide** — an
+  alt no longer has to work back up through the earlier weeks' chain to reach
+  the current week's quest. Each character must **still complete the Sunstrider
+  Omnium unlock questline** to access the weekly quests on that alt.
 - **No catch-up mechanic** is noted: progression is gated by consistent
   weekly completion.
 - Completing **all 5** Seeking Knowledge quests awards the **Sunstrider
@@ -56,8 +64,9 @@ Names below are from Tier 3/4 datamining and may rename or retune before
 final. Treat as illustrative of the row structure, not as tuned values.
 
 - **Row 1 (Core):** Void-Touched Orbs · Unleashed Fire
-- **Row 2 (defensive/utility):** Self-Mending · Void-Tainted Shell ·
-  Lynxlike Reflexes
+- **Row 2 (defensive/utility):** Self-Mending · Void-Tainted Shell
+  (name **confirmed on live** — Tier-1 hotfix referenced "Rune of
+  Void-Tainted Shell", 2026-06-30 notes) · Lynxlike Reflexes
 - **Row 3 (lingering effect):** Lingering
 - **Row 4 (stat boosts):** Critical Power · Burning Haste · Masterful
   Cunning · Versatile Warrior
@@ -76,6 +85,10 @@ final. Treat as illustrative of the row structure, not as tuned values.
 
 - [ ] Confirm exact intro quest name from the live build / wago.tools.
 - [ ] Confirm final rune names + per-rune effect values once tuned on live
-      (current list is pre-release datamining).
-- [ ] Confirm whether unlocked rows are warband-wide or per-character for
-      the row progression itself (interface unlock is per-character).
+      (current list is mostly pre-release datamining; **"Rune of
+      Void-Tainted Shell" is now Tier-1 confirmed** via the 2026-06-30 hotfix
+      notes, the rest still need per-rune live verification).
+- [~] Row progression: weekly-quest prerequisites are **account-wide** from
+      Week 2 (hotfix 2026-06-25); interface unlock (the Sunstrider Omnium
+      questline) is still **per-character**. Confirm in-game whether an
+      already-slotted rune's *effect* also carries to alts.

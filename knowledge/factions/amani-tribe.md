@@ -2,6 +2,7 @@
 title: Amani Tribe (Renown Faction — Midnight)
 patch: 12.0.7
 fetched: 2026-06-19
+reviewed: 2026-07-07
 sources:
   - https://www.icy-veins.com/wow/amani-tribe-renown-guide
   - https://www.icy-veins.com/wow/midnight-1207-guide

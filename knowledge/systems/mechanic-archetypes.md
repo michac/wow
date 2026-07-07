@@ -1,9 +1,11 @@
 ---
 title: M+ Mechanic Archetypes (Midnight S1)
-patch: 12.0.5
+patch: 12.0.7
 fetched: 2026-06-25
+reviewed: 2026-07-07
 sources:
   - Derived from the 8 Midnight S1 M+ dungeon files in knowledge/endgame/mythic-plus/ (boss + trash corpus)
+  - https://worldofwarcraft.blizzard.com/en-us/game/dungeons  # Season 1 dungeon roster (unchanged in 12.0.7)
 confidence: high
 ---
 

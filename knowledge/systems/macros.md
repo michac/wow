@@ -2,6 +2,7 @@
 title: Macros (Midnight)
 patch: 12.0.7
 fetched: 2026-06-27
+reviewed: 2026-07-07
 sources:
   - https://warcraft.wiki.gg/wiki/Macro_commands
   - https://warcraft.wiki.gg/wiki/Macro_conditionals

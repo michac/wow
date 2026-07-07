@@ -14,6 +14,7 @@ reward_ilvl_max: 276   # Heroic Cache of Quel'Thalas ceiling; mount value rides 
 time_blocks: 2
 patch: 12.0.7
 fetched: 2026-07-06
+reviewed: 2026-07-07
 sources: ["yt:rliFXbEHghU", "yt:kUP8oqI7Ekc", knowledge/endgame/world-events.md]
 confidence: medium
 ---

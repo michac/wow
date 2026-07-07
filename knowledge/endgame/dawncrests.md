@@ -2,6 +2,7 @@
 title: Dawncrests — sources & farming (Midnight S1)
 patch: 12.0.7
 fetched: 2026-06-19
+reviewed: 2026-07-07
 sources:
   - https://blizzardwatch.com/2026/05/20/season-1-upgrade-crest-caps-removed-wow-midnight/
   - https://www.icy-veins.com/wow/news/blizzard-removes-upgrade-crest-caps-in-may-19-hotfix-update/

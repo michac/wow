@@ -14,6 +14,7 @@ time_blocks: 1
 urgency: 1.5
 patch: 12.0.7
 fetched: 2026-07-06
+reviewed: 2026-07-07
 sources: ["yt:rliFXbEHghU", "https://www.wowhead.com/event=479/darkmoon-faire", "https://boostmatch.gg/blog/wow/articles/wow-midnight-darkmoon-faire-complete-guide"]
 confidence: medium
 ---

@@ -2,6 +2,7 @@
 title: Great Vault — Midnight Season 1
 patch: 12.0.7
 fetched: 2026-06-19
+reviewed: 2026-07-07
 sources:
   - https://www.icy-veins.com/wow/midnight-mythic-season-1-guide
   - https://worldofwarcraft.blizzard.com/en-us/news/24244888/revelations-content-update-notes

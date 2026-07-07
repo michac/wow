@@ -1,12 +1,14 @@
 ---
 title: Prey System (Midnight)
 patch: 12.0.7
-fetched: 2026-06-19
+fetched: 2026-07-07
+reviewed: 2026-07-07
 sources:
   - https://worldofwarcraft.blizzard.com/en-us/news/24244888/revelations-content-update-notes
   - https://www.icy-veins.com/wow/news/patch-12-0-7-revelations-full-content-update-notes/
   - https://warcraft.wiki.gg/wiki/Prey
   - https://www.icy-veins.com/wow/weekly-to-do-list
+  - https://worldofwarcraft.blizzard.com/en-us/news/24223893  # Explore the Zones of Midnight (4 zones)
   - https://www.youtube.com/watch?v=e6GLeeqwV4U  # SignsOfKelani, 2026-04-26
 confidence: high
 ---
@@ -16,7 +18,8 @@ confidence: high
 New repeatable hunt system introduced with Midnight.
 
 - **Unlock**: Astalor Bloodsworn, Murder Row, Silvermoon City.
-- **Where**: hunts across the 4 Midnight zones.
+- **Where**: hunts across the 4 Midnight zones — **Eversong Woods, Zul'Aman,
+  Harandar, Voidstorm**.
 - **Weekly**: complete **3 Nightmare Prey hunts** for the weekly objective.
 - **Rewards**: Dawncrests, Restored Coffer Keys (delve chests), Great Vault
   slot progress.
@@ -76,5 +79,5 @@ New repeatable hunt system introduced with Midnight.
 
 - [ ] Hunt difficulty tiers (normal vs Nightmare) and scaling
 - [ ] Full reward table; which vault row Prey feeds
-- [ ] The 4 Midnight zone names — verify and list (Eversong/Zul'Aman are two
-      candidates from Void Assault rotation; confirm remaining)
+- [x] The 4 Midnight zone names — **Eversong Woods, Zul'Aman, Harandar,
+      Voidstorm** (Tier-1: Blizzard "Explore the Zones of Midnight").

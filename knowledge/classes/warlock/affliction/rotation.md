@@ -1,9 +1,11 @@
 ---
 title: Affliction Warlock — Rotation (Midnight Season 1)
 patch: 12.0.7
-fetched: 2026-06-19
+fetched: 2026-07-07
+reviewed: 2026-07-07
 sources:
   - simc midnight branch profiles/MID1/MID1_Warlock_Affliction.simc  # tier 1 APL, commit 204b88d 2026-06-02, WoW 12.0.5.67823
+  - https://news.blizzard.com/en-us/article/24287397/hotfixes-june-30-2026  # tier 1, 6/30 hotfix — Seed of Corruption/Nightfall detonation + PvP-only +3%
   - https://www.wowhead.com/news/affliction-warlock-restoration-druid-and-frost-mage-issues-resolved-midnight-381441  # tier 4, 12.0.7 hotfix mechanic fixes
   - https://www.icy-veins.com/wow/affliction-warlock-pve-dps-rotation-cooldowns-abilities  # tier 3, 12.0.7 rotation corroboration
 confidence: high
@@ -29,6 +31,16 @@ Soul Harvester lists below — it's the only S1 build (see `builds.md`).
 >   instance entry/exit (zoning into a delve/dungeon/raid). No rotational
 >   action needed; just don't expect pre-pulled UA stacks to survive a load
 >   screen anymore.
+>
+> **6/30 hotfix (Tier-1):** casting **Seed of Corruption on an already-seeded
+> target to consume a Nightfall proc** causes the **preexisting Seed to
+> detonate**. ⚠ **Scope unconfirmed for PvE:** this line sits under the **Player
+> versus Player** section of the 6/30 notes (next to Affliction's explicit **+3%
+> damage in PvP combat only**) and, unlike the damage line, carries no "in PvP
+> combat" suffix — so whether the detonation applies in PvE is **unresolved;
+> verify in-game** before relying on it. If it does apply, it makes the
+> Nightfall→Seed dump safe on an already-seeded target (see AoE Nocturnal Yield
+> rule). No PvE core-number retune this pass.
 >
 > The priority ordering itself is unchanged from 12.0.5 (corroborated vs the
 > 12.0.7 Icy Veins rotation guide). Re-sim against an updated 12.0.7 APL when
@@ -92,7 +104,11 @@ Patient Zero + Sow the Seeds.
 7. Keep Agonies above 50% duration; Malefic Grasp to carry Darkglare's
    last GCD
 8. Nocturnal Yield: on 2+ targets, dump Seed when Nightfall stacks
-   are capped or about to overflow
+   are capped or about to overflow, **preferring a target without a Seed**
+   so the proc isn't wasted. (A 6/30 hotfix may make a Nightfall-consuming
+   Seed **detonate** an existing Seed instead — but that line is in the PvP
+   section of the notes, so treat its PvE applicability as unconfirmed and
+   verify in-game before relying on it.)
 9. Filler as ST
 
 ## Hellcaller
@@ -110,7 +126,9 @@ in top M+ (see `builds.md`); not distilled here.
 - [ ] Sanity-check the opener against a top WCL log (`wowkb.wcl rankings`
       → `casts`) per the original sourcing plan
 - [~] Re-distill on 12.0.7 — 12.0.7 went live 2026-06-16; the three hotfix
-      mechanic fixes (Shard Instability / Fatal Echoes / Soul Swap) are
-      captured above and priority ordering is unchanged (corroborated vs Icy
-      Veins 12.0.7). Still pending: a refreshed simc midnight 12.0.7 APL for
-      a full numeric re-distill (none published as of 2026-06-19).
+      mechanic fixes (Shard Instability / Fatal Echoes / Soul Swap) plus the
+      6/30 Seed-of-Corruption/Nightfall detonation change are captured above,
+      and priority ordering is unchanged (re-verified 2026-07-07 vs the Tier-1
+      6/30 hotfix log — Affliction got no PvE number retune, only PvP-only
+      +3%). Still pending: a refreshed simc midnight 12.0.7 APL for a full
+      numeric re-distill (none published as of 2026-07-07).

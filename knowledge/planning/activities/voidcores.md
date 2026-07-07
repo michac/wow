@@ -13,8 +13,11 @@ reward: { type: [power], detail: "bonus-roll hero gear from delves/prey" }
 reward_ilvl_max: 279   # Hero bonus-roll — worthless once every slot is Hero-capped
 time_blocks: 0.5
 patch: 12.0.7
-fetched: 2026-07-06
-sources: [knowledge/planning/candidates.json]
+fetched: 2026-07-07
+reviewed: 2026-07-07
+sources:
+  - knowledge/planning/candidates.json
+  - https://www.wowhead.com/guide/midnight/the-voidforge-patch-12-0-5-bonus-loot-rolls-upgrades
 confidence: medium
 ---
 Buy 2 Nebulous Voidcores and spend them on bonus rolls for hero-track gear off delve/prey

@@ -2,6 +2,7 @@
 title: Encomplete — gearing priority plan (Midnight S1)
 patch: 12.0.7
 fetched: 2026-06-19
+reviewed: 2026-07-07
 sources:
   - https://worldofwarcraft.blizzard.com/en-us/news/24244888/revelations-content-update-notes  # 12.0.7 live content the plan targets
   - knowledge/characters/encomplete-kiljaeden.md (snapshot + user-reported)

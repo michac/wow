@@ -2,6 +2,7 @@
 title: M+ Rating & Seasonal Rewards — Midnight Season 1
 patch: 12.0.7
 fetched: 2026-06-21
+reviewed: 2026-07-07
 sources:
   - https://www.icy-veins.com/wow/midnight-mythic-season-1-guide
   - https://www.icy-veins.com/wow/news/midnight-season-1-rewards-compendium/

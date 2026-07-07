@@ -1,19 +1,21 @@
 ---
 title: Demonology Warlock — rotation & CDM setup (Midnight S1)
-patch: 12.0.5
-fetched: 2026-06-13
+patch: 12.0.7
+fetched: 2026-07-07
+reviewed: 2026-07-07
 sources:
   - https://www.icy-veins.com/wow/demonology-warlock-pve-dps-rotation-cooldowns-abilities  # upd. 2026-05-19
   - https://www.method.gg/guides/demonology-warlock/interface-and-macros  # upd. 2026-04-26
   - https://www.kalamazi.gg/guides/addons  # Demo CDM / Edit Mode / Better CDM imports
   - https://wago.io/browse/cooldown-manager/classes/warlock/demonology
   - https://wago.io/mLLnL5_Jt  # KatUI Demonology Warlock COOLDOWN-MANAGER
+  - https://worldofwarcraft.blizzard.com/en-us/news/24244888/revelations-content-update-notes  # 12.0.7 Demo changes: PvP-only
 confidence: medium
 ---
 
 # Demonology — rotation & CDM (Midnight Season 1)
 
-> Pairs with `builds.md` (talents/gear). Live patch 12.0.5; **Diabolist**
+> Pairs with `builds.md` (talents/gear). Live patch 12.0.7; **Diabolist**
 > hero tree assumed for M+.
 
 ## Core idea
@@ -25,7 +27,7 @@ extends every active demon. The single biggest DPS lever is **how many
 Hand of Gul'dan casts you fit inside the Tyrant window** — enter it with
 demon-generation ready, not starved.
 
-## Single-target priority (12.0.5)
+## Single-target priority (12.0.7)
 
 1. **Pre-set your demons** before Tyrant — Dreadstalkers + Grimoire:
    Felguard/Vilefiend out (Diabolist: keeps the demon-ritual procs rolling).
@@ -91,9 +93,16 @@ track for Demo (Method, 2026-04-26):
 - Mouseover cast variants
 - `/cast [@cursor] Shadowfury` (instant AoE stun placement)
 
+## 12.0.7 verification note
+
+Checked against the Revelations (12.0.7) content-update notes: the only
+Demonology tuning in 12.0.7 is **PvP-only** — Shadow Bolt +200% and Demonbolt
++30% *in PvP combat* (a freecasting buff so Demo can punish enemies who let it
+chain casts). **No PvE rotation, Tyrant-window, or filler-choice change**, so
+the priority above stands unchanged for M+/raid. Demonbolt vs Infernal Bolt
+remains a build/talent choice (see `builds.md`), not something 12.0.7 altered.
+
 ## TODO
 
-- [ ] Re-verify vs **12.0.7** (2026-06-16) — confirm Demonbolt vs Infernal
-      Bolt filler choice and any Tyrant-window tuning.
 - [ ] Capture an actual CDM import string into the KB if one becomes
       cacheable (currently behind copy buttons on Kalamazi/wago).

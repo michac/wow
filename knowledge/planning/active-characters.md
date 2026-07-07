@@ -2,6 +2,7 @@
 title: Active characters — the planner's roster
 patch: 12.0.7
 fetched: 2026-07-06
+reviewed: 2026-07-07
 sources:
   - knowledge/characters/encomplete-kiljaeden.md
   - knowledge/characters/hallick-kiljaeden.md

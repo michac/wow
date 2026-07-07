@@ -2,7 +2,8 @@
 title: Sporefall (Raid — Midnight Season 1, added 12.0.7)
 patch: 12.0.7
 build: 12.0.7.68256
-fetched: 2026-06-19
+fetched: 2026-07-07
+reviewed: 2026-07-07
 sources:
   - https://news.blizzard.com/en-us/article/24272110/prepare-to-face-rotmire-in-the-sporefall-raid (tier 1)
   - https://worldofwarcraft.blizzard.com/en-us/news/24244888/revelations-content-update-notes (tier 1)
@@ -74,7 +75,8 @@ Notable drops:
 Collectibles:
 
 - **Luminous Sporeglider** (mount) — earned by collecting **4 Delicious
-  Sporesnacks** from weekly Rotmire kills (one per account per difficulty).
+  Sporesnacks**, one **per week per account** from a Rotmire kill on **any
+  difficulty** (so four weeks minimum, difficulty doesn't matter).
 - **Luminous Rotshroom** (housing decor).
 - **Madcap Redcap** (toy) — 20-minute buff, 1-hour cooldown, persists through
   death.

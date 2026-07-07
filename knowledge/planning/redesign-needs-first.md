@@ -2,11 +2,14 @@
 title: Session Planner — Needs-First Redesign (design doc)
 patch: 12.0.7
 fetched: 2026-07-07
+reviewed: 2026-07-07
 sources:
   - knowledge/planning/scoring-model.md
   - knowledge/planning/roadmap.md
   - tools/wowkb/plan.py
   - knowledge/systems/void-incursions.md
+  - https://worldofwarcraft.blizzard.com/en-us/news/24244888/revelations-content-update-notes
+  - https://www.icy-veins.com/wow/news/showdown-reward-changes-higher-level-gear-faster-rare-spawns-and-more/
 confidence: high     # design/methodology doc, not a fetched game fact
 ---
 

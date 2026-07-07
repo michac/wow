@@ -13,6 +13,7 @@ reward: { type: [currency], detail: "housing decor currency; flavor" }
 time_blocks: 0.5
 patch: 12.0.7
 fetched: 2026-07-06
+reviewed: 2026-07-07
 sources: [knowledge/planning/candidates.json, knowledge/systems/housing.md]
 confidence: low
 ---

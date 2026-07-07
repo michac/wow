@@ -13,8 +13,12 @@ reward: { type: [power, collectible], detail: "weekly loot roll + mount/transmog
 reward_ilvl_max: 279   # Hero-track weekly roll
 time_blocks: 0.5
 patch: 12.0.7
-fetched: 2026-07-06
-sources: [knowledge/planning/candidates.json, knowledge/endgame/world-events.md]
+fetched: 2026-07-07
+reviewed: 2026-07-07
+sources:
+  - https://worldofwarcraft.blizzard.com/en-us/news/24244888/revelations-content-update-notes
+  - knowledge/endgame/world-events.md
+  - knowledge/planning/candidates.json
 confidence: high
 ---
 The rotating weekly world boss — one loot roll for gear, plus a chance at its

@@ -1,11 +1,13 @@
 ---
 title: Slayer's Rise / Slayer's Duellum (Midnight)
 patch: 12.0.7
-fetched: 2026-06-19
+fetched: 2026-07-07
+reviewed: 2026-07-07
 sources:
   - https://www.icy-veins.com/wow/slayers-rise-guide
   - https://conquestcapped.com/guides/wow/slayers-duellum-reputation-rewards/
   - https://worldofwarcraft.blizzard.com/en-us/news/24244888/revelations-content-update-notes
+  - https://us.forums.blizzard.com/t/world-of-warcraft-midnight-hotfixes-june-30/2296045/351
 confidence: high
 ---
 
@@ -27,6 +29,9 @@ staging battle exercises against Xal'atath.
 - Earned from: zone world quests, Master's Perch quests, winning PvP events.
 - **War Mode**: optional for world quests/exploration; **required only for
   the timed PvP events**. Toggleable by talking to either Domanaar.
+- The zone's marquee War-Mode objective is the **Sparring Grounds**, a
+  capturable point contested by faction (a 12.0.7 hotfix on 2026-06-18 fixed a
+  bug where capturing it drained the wrong faction's reinforcements).
 - Paragon: 1 cache per 10,000 rep past Exalted.
 
 ## Rewards — cosmetics only, no combat gear

@@ -2,6 +2,7 @@
 title: Player Housing (Midnight)
 patch: 12.0.7
 fetched: 2026-06-19
+reviewed: 2026-07-07
 sources:
   - https://worldofwarcraft.blizzard.com/en-us/news/24244888/revelations-content-update-notes
   - https://www.icy-veins.com/wow/news/patch-12-0-7-revelations-full-content-update-notes/

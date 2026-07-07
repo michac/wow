@@ -13,6 +13,7 @@ reward: { type: [power, story], detail: "campaign gear (~ilvl 240 catch-up); unl
 time_blocks: 4
 patch: 12.0.7
 fetched: 2026-07-06
+reviewed: 2026-07-07
 sources: ["yt:cpbQXd04ehI", "yt:6OkVWEdttZ0", "https://www.wowhead.com/news/midnight-patch-12-0-7-guide-compendium-every-guide-you-ll-need-for-launch-381872"]
 confidence: medium
 ---

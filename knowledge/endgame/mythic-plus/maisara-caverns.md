@@ -1,7 +1,8 @@
 ---
 title: Maisara Caverns — Midnight S1 M+ dungeon guide
-patch: 12.0.5
+patch: 12.0.7
 fetched: 2026-06-25
+reviewed: 2026-07-07
 sources:
   - https://www.method.gg/guides/dungeons/maisara-caverns
   - https://www.icy-veins.com/wow/maisara-caverns-dungeon-guide

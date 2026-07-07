@@ -1,7 +1,8 @@
 ---
 title: Affliction Warlock — trinkets (Midnight Season 1)
-patch: 12.0.5
+patch: 12.0.7
 fetched: 2026-06-13
+reviewed: 2026-07-07
 sources:
   - https://www.archon.gg/wow/builds/affliction/warlock/mythic-plus/trinkets/10/all-dungeons/this-week  # tier 2, +10 M+ usage
   - https://u.gg/wow/affliction/warlock/trinkets
@@ -10,7 +11,7 @@ sources:
 confidence: medium
 ---
 
-# Affliction — trinkets (Midnight Season 1, 12.0.5)
+# Affliction — trinkets (Midnight Season 1, 12.0.7)
 
 > Trinkets are the one slot where **effect > ilvl** — sim rather than
 > auto-equip the higher number. Rankings below are **+10 M+ usage**
@@ -62,8 +63,10 @@ vendor trinkets to compare. Paste the export and the agent can read it.
 
 - **Choice matters at any ilvl** — good vs bad trinket is routinely
   **10%+ throughput**, far more than the ~6–7 ilvl between trinket ranks.
-- **Gear-track ilvl ranges (12.0.5):** Adventurer 220–237 · Veteran
-  233–250 · Champion 246–263 · Hero 259–276 · Myth 272–289.
+- **Gear-track ilvl ranges (Season 1, unchanged in 12.0.7):** Adventurer
+  220–237 · Veteran 233–250 · Champion 246–263 · Hero 259–276 · Myth
+  272–289. (12.0.7's Sporefall raid drops ilvl 259–298 RF→Mythic; the
+  Mythic top end sits above the Myth *crest* track, as raids always do.)
 - **For Encomplete specifically** (~251, solo/delve/world, no rated M+):
   1. Enchants first (zero equipped — bigger guaranteed gain than any
      trinket swap).
@@ -79,4 +82,10 @@ vendor trinkets to compare. Paste the export and the agent can read it.
 - [ ] Pull Bloodmallet ilvl-scaled sim ordering at ~250 and ~270 and
       record the actual % gaps (current data is usage %, not throughput)
 - [ ] Confirm Heart of Wind drop/farm details (Windrunner Spire source)
-- [ ] Re-verify after 12.0.7 (2026-06-16)
+- [x] Re-verify after 12.0.7 (2026-06-16) — **done 2026-07-07.** No
+      trinket rebalancing in the Revelations notes or the 12.0.7 hotfix
+      log; the only Affliction changes are PvP-combat-only (+3% damage)
+      and a Nightfall/Seed-of-Corruption rotation mechanic, neither of
+      which shifts trinket rankings. Gear tracks unchanged (mid-Season-1
+      content patch). Picks above still stand; refresh Archon usage % if
+      a sim answer is needed.

@@ -15,6 +15,7 @@ enjoyment: 1.2
 urgency: 1
 patch: 12.0.7
 fetched: 2026-07-06
+reviewed: 2026-07-07
 sources: [knowledge/planning/candidates.json, knowledge/systems/ritual-sites.md]
 confidence: high
 ---

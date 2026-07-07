@@ -13,6 +13,7 @@ reward: { type: [collectible, currency], detail: "fishing rep/collectibles off t
 time_blocks: 1
 patch: 12.0.7
 fetched: 2026-07-06
+reviewed: 2026-07-07
 sources: ["knowledge/endgame/world-events.md", "knowledge/_meta/game-version.md"]
 confidence: low
 ---

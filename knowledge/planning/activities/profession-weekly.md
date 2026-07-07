@@ -13,6 +13,7 @@ reward: { type: [currency], detail: "Knowledge Points (+ Artisan's Mettle); perm
 time_blocks: 0.5
 patch: 12.0.7
 fetched: 2026-07-06
+reviewed: 2026-07-07
 sources: ["yt:cpbQXd04ehI", "https://www.icy-veins.com/wow/professions", "https://dving.net/guides/midnight-profession-changes-guide"]
 confidence: medium
 ---

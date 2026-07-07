@@ -2,6 +2,7 @@
 title: Silvermoon Court (Renown Faction — Midnight)
 patch: 12.0.7
 fetched: 2026-06-19
+reviewed: 2026-07-07
 sources:
   - https://www.icy-veins.com/wow/silvermoon-court-renown-guide
   - https://www.sportskeeda.com/mmo/wow-midnight-silvermoon-court-rep-guide-vendor-rewards-farming-tips

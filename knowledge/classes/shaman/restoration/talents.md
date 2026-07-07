@@ -7,6 +7,7 @@ sources:
   - https://us.api.blizzard.com/data/wow/talent-tree (Blizzard Game Data API, Tier 1)
   - https://wago.tools/db2 Trait* @ 12.0.7.67808 (Tier 1)
 confidence: high
+reviewed: 2026-07-07
 ---
 
 # Shaman Restoration — talents (12.0.7)

@@ -1,13 +1,15 @@
 ---
 title: Ritual Sites & Field Accolades (12.0.7)
 patch: 12.0.7
-fetched: 2026-06-19
+fetched: 2026-07-07
+reviewed: 2026-07-07
 sources:
   - https://www.youtube.com/watch?v=e6GLeeqwV4U  # SignsOfKelani, 2026-04-26
   - https://www.icy-veins.com/wow/midnight-1205-guide
   - https://www.icy-veins.com/wow/news/patch-12-0-7-revelations-full-content-update-notes/  # T6 details
   - https://www.wowhead.com/news/ritual-sites-in-patch-12-0-7-feature-more-difficulty-and-rewards-381858
   - https://news.blizzard.com/en-us/article/24244888/revelations-content-update-notes
+  - https://us.forums.blizzard.com/t/world-of-warcraft-midnight-hotfixes-june-30/2296045/359  # T6 quest pickup in Silvermoon (hotfix 2026-06-22)
 confidence: medium
 ---
 
@@ -117,6 +119,9 @@ oddball loot.
 
 - New **weekly quests** ask you to clear a Tier 6 site with specific
   challenges applied.
+- **Quest pickup (hotfix 2026-06-22):** Lady Darkglen's new Tier 6 quest can
+  be picked up at the **Silvermoon hub** in addition to outside the active
+  Ritual Site — no need to travel to the site just to grab it.
 - On **Week 3 and Week 6** of the cadence, completing the weekly grants an
   extra **Bonus Roll**.
 
@@ -130,14 +135,13 @@ oddball loot.
 
 ## Field Accolades & gear vendors (Silvermoon)
 
-- **Champion piece: 75 accolades · Hero piece: 500 accolades**
-- ⚠ **The purchased piece is a RANDOM slot** (like prey/delve loot), not
-  a targeted buy — per video comments (tier 4; verify in-game/Icy Veins).
-  Expected value is high while you own little-to-no hero gear (almost any
-  roll upgrades) and decays as hero slots fill (duplicate risk: ~1 hour
-  of farming can whiff). Plan to pivot to targeted sources (vault, M+
-  dungeon-specific drops, spark crafts) once roughly half your slots are
-  hero-track.
+- **Maren Silverwing** (top of the Bazaar) sells **slot-specific caches** for Field
+  Accolades — **Champion cache: 100 accolades · Heroic cache: 750 accolades**
+  (~ilvl 259; Tier-1 12.0.7 notes). This **supersedes** the pre-12.0.7 tier-4 video
+  figures ("75 / 500, random slot"): the 12.0.7 caches are **slot-targeted**, so buy
+  the exact slot you're missing. Their value still decays as your hero slots fill —
+  pivot to targeted sources (vault, M+ dungeon-specific drops, spark crafts) once
+  roughly half your slots are hero-track.
 - Vendors also stock cosmetics (décor, mounts, pets, transmog).
 - Other sources: Void Strikes (8 each) and Void Incursions (30 each) in
   Eversong Woods / Zul'Aman — much slower than ritual sites and Void

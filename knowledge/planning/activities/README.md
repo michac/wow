@@ -2,6 +2,7 @@
 title: Activity Catalog — outline (browse by goal / venue / cadence)
 patch: 12.0.7
 fetched: 2026-07-06
+reviewed: 2026-07-07
 sources:
   - knowledge/planning/activities/_facets.md
 confidence: high

@@ -2,6 +2,7 @@
 title: Session TODO — manual check-off (this reset)
 patch: 12.0.7
 fetched: 2026-07-06
+reviewed: 2026-07-07
 sources:
   - knowledge/planning/activities/
 confidence: high

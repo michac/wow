@@ -1,13 +1,15 @@
 ---
 title: Demonology Warlock — M+ & Delve builds (Midnight S1)
-patch: 12.0.5
+patch: 12.0.7
 fetched: 2026-06-13
+reviewed: 2026-07-07
 sources:
   - https://www.icy-veins.com/wow/demonology-warlock-pve-dps-spec-builds-talents  # upd. 2026-05-19, M+ import string
   - https://murlok.io/warlock/demonology/diabolist/m+  # top-player M+ aggregation (Blizzard API), fetched 2026-06-13
   - https://www.wowhead.com/guide/classes/warlock/demonology/talent-builds-pve-dps  # NotWarlock, upd. 2026-03-30
   - https://www.method.gg/guides/demonology-warlock/talents
   - https://www.kalamazi.gg/guides/demonology
+  - ../../../_meta/patch-notes/12.0.7.md  # 12.0.7 Demo changes are PvP-combat-only; no PvE build impact
 confidence: medium
 ---
 
@@ -95,8 +97,11 @@ Hero-tree choice is **mostly stylistic** for delves:
 
 ## TODO
 
-- [ ] Re-verify vs 12.0.7 on patch day (2026-06-16) — Demo had **no**
-      12.0.5 tuning changes, so this should be stable, but confirm.
+- [x] Re-verify vs 12.0.7 (checked 2026-07-07). Confirmed stable for PvE:
+      the only Demo tuning in 12.0.7 is **PvP-combat-only** (Shadow Bolt
+      +200%, Demonbolt +30% in PvP; freecasting buff for PvP). No PvE
+      talent/stat/hero-tree changes — M+ Diabolist build, stat priority,
+      and import string below all still current.
 - [ ] Pull a separate Soul-Harvester ST/raid import string if Encomplete
       wants a raid loadout too.
 - [x] rotation.md added 2026-06-13 (ST/AoE priority, Tyrant window,

@@ -2,6 +2,7 @@
 title: The Hara'ti (Renown Faction — Midnight)
 patch: 12.0.7
 fetched: 2026-06-19
+reviewed: 2026-07-07
 sources:
   - https://www.icy-veins.com/wow/harati-renown-guide
   - https://www.wow-professions.com/midnight/npc/naynar

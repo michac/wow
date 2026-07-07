@@ -1,7 +1,8 @@
 ---
 title: The Gulf of Memory (delve) — Mul'tha'ul boss notes
-patch: 12.0.5
+patch: 12.0.7
 fetched: 2026-06-06
+reviewed: 2026-07-07
 sources:
   - https://www.icy-veins.com/wow/gulf-of-memory-delve-guide  # upd. 2026-05-19
   - https://www.method.gg/guides/the-gulf-of-memory-delve-guide

@@ -2,6 +2,7 @@
 title: Uncomplete – Kil'jaeden (US) — demon hunter leveling alt snapshot
 patch: 12.0.7
 fetched: 2026-07-05
+reviewed: 2026-07-07
 sources:
   - https://us.api.blizzard.com/profile/wow/character/kiljaeden/uncomplete?namespace=profile-us
 confidence: high

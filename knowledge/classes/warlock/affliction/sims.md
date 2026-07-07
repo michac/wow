@@ -2,6 +2,7 @@
 title: Affliction Warlock — sim baselines & gear decisions (Encomplete)
 patch: 12.0.7
 fetched: 2026-06-19
+reviewed: 2026-07-07
 sources:
   - SimulationCraft 1205-01 (docker simulationcraftorg/simc:latest, WoW 12.0.5.67823)
   - simc midnight branch profiles/MID1/MID1_Warlock_Affliction.simc (tier 1, commit 204b88d 2026-06-02)

@@ -16,6 +16,7 @@ time_blocks: 1
 enjoyment: 1.4
 patch: 12.0.7
 fetched: 2026-07-06
+reviewed: 2026-07-07
 sources: [knowledge/planning/candidates.json, knowledge/endgame/delves/overview.md]
 confidence: high
 ---

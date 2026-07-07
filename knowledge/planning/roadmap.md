@@ -2,6 +2,7 @@
 title: Session Planner — Roadmap & Open Decisions
 patch: 12.0.7
 fetched: 2026-07-06
+reviewed: 2026-07-07
 sources:
   - knowledge/planning/scoring-model.md
   - knowledge/planning/README.md

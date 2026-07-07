@@ -1,7 +1,8 @@
 ---
 title: Windrunner Spire — Midnight S1 M+ dungeon guide
-patch: 12.0.5
+patch: 12.0.7
 fetched: 2026-06-25
+reviewed: 2026-07-07
 sources:
   - https://www.method.gg/guides/dungeons/windrunner-spire        # upd. 2026-03-23
   - https://www.icy-veins.com/wow/windrunner-spire-dungeon-guide   # upd. 2026-06-15 (12.0.7)

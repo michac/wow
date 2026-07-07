@@ -1,7 +1,8 @@
 ---
 title: Midnight Weekly To-Do Checklist (Level 90 Endgame)
 patch: 12.0.7
-fetched: 2026-06-19
+fetched: 2026-07-07
+reviewed: 2026-07-07
 sources:
   - https://www.icy-veins.com/wow/weekly-to-do-list
   - https://www.icy-veins.com/wow/midnight-mythic-season-1-guide
@@ -68,7 +69,8 @@ this week?" questions.
 
 ## Open-world extras (not strictly weekly, but currency-gated)
 
-- **Ritual Sites** → Field Accolades (housing decor, mounts, pets, transmog).
+- **Ritual Sites** → Field Accolades (12.0.7: buy **slot-targeted Hero/Champion-track
+  gear** from **Maren Silverwing**, ~ilvl 259 — plus housing decor, mounts, pets, transmog).
   **12.0.7** adds a new **Tier 6** difficulty (6 challenges, UI-recommended
   ilvl ~274) rewarding **5 Mythic + 10 Heroic Dawncrests** per run, plus
   **new ritual-site weekly quests with bonus rolls** (notably on Weeks 3 and
@@ -87,7 +89,7 @@ this week?" questions.
 | Ascendant Voidcores | Higher-tier bonus rolls / upgrades (12.0.5) |
 | Veteran Dawncrests | Gear upgrades; can buy Voidcores |
 | Voidlight Marl | Catch-all 12.0.5 currency; can buy Voidcores |
-| Field Accolades | Ritual Site cosmetics |
+| Field Accolades | Maren Silverwing slot-targeted Hero/Champion gear (12.0.7) + cosmetics |
 
 ## Planner quest IDs (for PlannerState `ns.WEEKLY_QUESTS`)
 

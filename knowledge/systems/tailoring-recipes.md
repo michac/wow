@@ -1,7 +1,8 @@
 ---
 title: Midnight Tailoring — full recipe inventory, sources, buy/skip verdicts
-patch: 12.0.5
+patch: 12.0.7
 fetched: 2026-06-05
+reviewed: 2026-07-07
 sources:
   - Blizzard API /data/wow/profession/197/skill-tier/2918 + per-recipe (tier 1, static-12.0.5_66741)
   - wago.tools SkillLineAbility + SpellName, SkillLine 2918 (tier 1)

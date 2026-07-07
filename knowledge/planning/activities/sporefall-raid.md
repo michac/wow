@@ -15,6 +15,7 @@ reward_ilvl_max: 285   # realistic pug ceiling (Heroic); Mythic 298 needs a guil
 time_blocks: 2
 patch: 12.0.7
 fetched: 2026-07-06
+reviewed: 2026-07-07
 sources: ["yt:0asUDe1lUPE", "yt:bCgLtZrd5gQ", "https://www.wowhead.com/guide/midnight/raids/sporefall-overview-location-rewards-boss", "knowledge/endgame/raids/sporefall.md"]
 confidence: medium
 ---

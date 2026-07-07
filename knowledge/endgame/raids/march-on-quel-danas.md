@@ -2,6 +2,7 @@
 title: March on Quel'Danas (Raid — Midnight Season 1)
 patch: 12.0.7
 fetched: 2026-06-19
+reviewed: 2026-07-07
 sources:
   - Blizzard Game Data API, journal-instance/1308 (tier 1)
   - Warcraft Logs zone 46 (tier 2)

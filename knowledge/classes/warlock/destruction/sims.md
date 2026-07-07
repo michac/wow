@@ -2,6 +2,7 @@
 title: Destruction Warlock — sim baselines (Encomplete, M+ builds)
 patch: 12.0.7
 fetched: 2026-06-19
+reviewed: 2026-07-07
 sources:
   - SimulationCraft 1205-01 (docker simulationcraftorg/simc:latest, WoW 12.0.5.67823)
   - https://www.method.gg/guides/destruction-warlock/talents  # M+ build string, page patch 12.0.7

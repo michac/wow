@@ -1,7 +1,8 @@
 ---
 title: Sunkiller Sanctum (delve) — T8 guide
-patch: 12.0.5
+patch: 12.0.7
 fetched: 2026-06-07
+reviewed: 2026-07-07
 sources:
   - https://www.icy-veins.com/wow/sunkiller-sanctum-delve-guide  # upd. 2026-05-19
   - https://www.method.gg/guides/sunkiller-sanctum-delve-guide

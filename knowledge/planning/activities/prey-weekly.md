@@ -15,7 +15,11 @@ time_blocks: 1.5
 enjoyment: 1.1
 patch: 12.0.7
 fetched: 2026-07-06
-sources: [knowledge/planning/candidates.json, knowledge/endgame/prey.md]
+reviewed: 2026-07-07
+sources:
+  - knowledge/planning/candidates.json
+  - knowledge/endgame/prey.md
+  - https://worldofwarcraft.blizzard.com/en-us/news/24244888/revelations-content-update-notes
 confidence: high
 ---
 Track and kill 3 Nightmare Prey for the weekly objective. Wired to quest 94446 with

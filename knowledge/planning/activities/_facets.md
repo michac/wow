@@ -2,6 +2,7 @@
 title: Activity Facets — the tag vocabulary & priority-inheritance contract
 patch: 12.0.7
 fetched: 2026-07-06
+reviewed: 2026-07-07
 sources:
   - knowledge/planning/scoring-model.md
 confidence: high     # methodology/contract doc, not a fetched game fact

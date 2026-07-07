@@ -1,7 +1,8 @@
 ---
 title: Nexus-Point Xenas — Midnight S1 M+ dungeon guide
-patch: 12.0.5
+patch: 12.0.7
 fetched: 2026-06-25
+reviewed: 2026-07-07
 sources:
   - https://www.method.gg/guides/dungeons/nexus-point-xenas  # upd. 2026-03-23
   - https://www.icy-veins.com/wow/nexus-point-xenas-dungeon-guide  # upd. 2026-06-15, Patch 12.0.7

@@ -1,11 +1,13 @@
 ---
 title: Delves — Midnight Season 1
 patch: 12.0.7
-fetched: 2026-06-19
+fetched: 2026-07-07
+reviewed: 2026-07-07
 sources:
   - https://www.icy-veins.com/wow/weekly-to-do-list
   - https://worldofwarcraft.blizzard.com/en-us/news/24244888/revelations-content-update-notes
   - https://worldofwarcraft.blizzard.com/en-us/news/24276957/hotfixes-june-18-2026
+  - https://us.forums.blizzard.com/t/world-of-warcraft-midnight-hotfixes-june-30/2296045/364  # June 25 tank-Valeera survivability hotfix
 confidence: medium
 ---
 
@@ -25,12 +27,19 @@ Solo/small-group scaling endgame pillar. Tiers 1–11.
 - **No structural delve changes** in 12.0.7: loot table, tiers (1–11),
   Bountiful coffers, Restored Coffer Keys (6/wk), gilded stashes, and the
   Delver's Journey track are all unchanged from 12.0.5.
+- **Tank-Valeera survivability buff** (hotfix **June 25 2026**): when the
+  Valeera companion is specced **tank** and paired with a **healer**, she
+  now takes **significantly less damage — 45% less at Tier 1 scaling to
+  29% less at Tier 11**. Makes tank-Valeera + healer noticeably sturdier
+  on high-tier solo runs; no reward/loot impact.
 - **Delve bug-fix hotfixes** (cosmetic/AI, no reward impact): Valeera now
   attacks Vile Cursed Toads / Poison Dart Frog / Giant Cursed Bullfrog;
   Light spores in Sunkiller Sanctum no longer interrupt channels; Nemesis
   Squads no longer spawn under the world in Parhelion Plaza; Corrupted
   Leyline (The Darkway) stops casting "Detected!" out of range;
-  out-of-range Sanctified Banner placement fixed in Atal'Aman.
+  out-of-range Sanctified Banner placement fixed in Atal'Aman; Excavation
+  Site 9 and Sidestreet Sluice delves display their correct names again
+  (hotfix June 22).
 
 ## Weekly
 

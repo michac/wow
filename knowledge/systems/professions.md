@@ -2,6 +2,7 @@
 title: Professions & Spark Crafting (Midnight)
 patch: 12.0.7
 fetched: 2026-06-19
+reviewed: 2026-07-07
 sources:
   - https://www.icy-veins.com/wow/spark-crafting-guide
   - https://www.method.gg/guides/how-to-gear-fast-and-reach-item-level-289-for-midnight-season-1

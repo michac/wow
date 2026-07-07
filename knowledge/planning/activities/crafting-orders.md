@@ -13,6 +13,7 @@ reward: { type: [currency, power], detail: "Knowledge, optional reagents, augmen
 time_blocks: 1
 patch: 12.0.7
 fetched: 2026-07-06
+reviewed: 2026-07-07
 sources: ["yt:cpbQXd04ehI", "https://www.icy-veins.com/wow/professions", "https://conquestcapped.com/guides/wow/wow-professions-overview/"]
 confidence: medium
 ---

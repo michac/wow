@@ -2,6 +2,7 @@
 title: Void Assaults — Void Incursions & Void Strikes (12.0.7)
 patch: 12.0.7
 fetched: 2026-07-07
+reviewed: 2026-07-07
 sources:
   - https://worldofwarcraft.blizzard.com/en-us/news/24244888/revelations-content-update-notes
   - https://conquestcapped.com/guides/wow/void-assaults-event/

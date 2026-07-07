@@ -2,6 +2,7 @@
 title: Hallick – Kil'jaeden (US) — druid alt snapshot
 patch: 12.0.7
 fetched: 2026-07-02
+reviewed: 2026-07-07
 sources:
   - https://us.api.blizzard.com/profile/wow/character/kiljaeden/hallick?namespace=profile-us
 confidence: high

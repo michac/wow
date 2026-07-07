@@ -2,6 +2,7 @@
 title: Encomplete – Kil'jaeden (US) — main character snapshot
 patch: 12.0.7
 fetched: 2026-07-07
+reviewed: 2026-07-07
 sources:
   - https://us.api.blizzard.com/profile/wow/character/kiljaeden/encomplete?namespace=profile-us
 confidence: high

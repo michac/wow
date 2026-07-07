@@ -1,7 +1,8 @@
 ---
 title: Algeth'ar Academy — Midnight S1 M+ dungeon guide
-patch: 12.0.5
+patch: 12.0.7
 fetched: 2026-06-25
+reviewed: 2026-07-07
 sources:
   - https://www.method.gg/guides/dungeons/algethar-academy
   - https://www.icy-veins.com/wow/algethar-academy-dungeon-guide

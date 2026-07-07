@@ -2,6 +2,7 @@
 title: Leveling Notes — Midnight Alt & Endgame Path
 patch: 12.0.7
 fetched: 2026-07-06
+reviewed: 2026-07-07
 sources:
   - https://www.icy-veins.com/wow/midnight-leveling-guide
   - https://warcraft.wiki.gg/wiki/Midnight_campaign

@@ -2,6 +2,7 @@
 title: Session Planning — Scoring Model (efficiency-first)
 patch: 12.0.7
 fetched: 2026-07-02
+reviewed: 2026-07-07
 sources:
   - knowledge/endgame/weekly-checklist.md          # the candidate-task universe
   - knowledge/characters/encomplete-plan.md         # a hand-scored instance of this model

@@ -13,6 +13,7 @@ reward: { type: [power, currency], detail: "Honor → full honor set (~10K honor
 time_blocks: 1
 patch: 12.0.7
 fetched: 2026-07-06
+reviewed: 2026-07-07
 sources: ["yt:6OkVWEdttZ0", "yt:cpbQXd04ehI", "https://www.icy-veins.com/wow/midnight-pvp-gearing-guide"]
 confidence: low
 ---

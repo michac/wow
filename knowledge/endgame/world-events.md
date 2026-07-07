@@ -1,11 +1,13 @@
 ---
 title: World Events & Open-World Weeklies (Midnight 12.0.7)
 patch: 12.0.7
-fetched: 2026-06-19
+fetched: 2026-07-07
+reviewed: 2026-07-07
 sources:
   - https://worldofwarcraft.blizzard.com/en-us/news/24244888/revelations-content-update-notes
   - https://www.icy-veins.com/wow/news/two-new-world-bosses-and-locations-12-0-7s-val-and-naigtal-rewards-quests-and-more/
   - https://www.icy-veins.com/wow/weekly-to-do-list
+  - https://us.forums.blizzard.com/t/showdown-reward-changes-june-26-and-june-30/2320707/1  # world-boss loot + rare/crest changes (hotfix 6/26–30)
 confidence: high
 ---
 
@@ -38,8 +40,10 @@ Each world offers **World Quests, rares, and events**, culminating in the
 world-boss showdown. Weekly quests: **"Showdown on Val"** / **"Showdown on
 Naigtal"** (whichever world is active that week), rewarding a **Riftstalker's
 Cache** (Field Accolades, **Relic Coffer Key shards**, upgrade materials, gold).
-World bosses drop a Warbound **Champion** item (Normal WT) or **Hero** item
-(Heroic WT) for the warband.
+World bosses (**June 30 hotfix**) now drop a **Warbound Heroic 1/6** item on
+Normal WT or a **Warbound Heroic 4/6** item on Heroic WT for the warband, **plus**
+a per-character **Soulbound** piece each kill: **Champion 4/6** on Normal,
+**Heroic 1/6** on Heroic. (Superseded the launch "Champion/Hero" drop.)
 
 **Gearing currencies (12.0.7 — this is a premier Hero-track catch-up loop):**
 - **Field Accolades** — earned from WQs, rares, the Showdown weekly, and Ritual
@@ -53,6 +57,11 @@ World bosses drop a Warbound **Champion** item (Normal WT) or **Hero** item
 - **Great Vault:** like Delves and Prey, Val/Naigtal world content **contributes to
   the World row** of the Great Vault (the same column delves fill — one shared
   counter, not a second row).
+- **Rare & crest farming (June 26–30 hotfixes):** rares now drop **2× crests**, can
+  drop **Heroic Warbound-until-equipped** items, and **spawn more frequently**;
+  **Warp Riders** and **Blasktar Legion** enemies drop **Heroic Crests** in Heroic
+  WT; **Void-Touched Heroic Caches** (from Maren Silverwing, Silvermoon City) are now
+  **Warbound**; **Dark Particles** now also drop in Val/Naigtal and **stack to 1000**.
 
 See `planning/activities/val-naigtal.md` (zone farm) and `showdown-weekly.md`
 (weekly capstone) for the planner-facing split.

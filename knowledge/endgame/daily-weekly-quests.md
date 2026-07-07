@@ -2,6 +2,7 @@
 title: Midnight Daily/Weekly Repeatable Quests (Season 1)
 patch: 12.0.7
 fetched: 2026-07-06
+reviewed: 2026-07-07
 sources:
   - https://www.wowhead.com/quests/min-level:90/max-level:90   # listview harvest
   - https://us.api.blizzard.com/data/wow/quest/area/15355       # Blizzard zone cross-check
