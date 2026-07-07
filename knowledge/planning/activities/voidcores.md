@@ -23,3 +23,8 @@ confidence: medium
 Buy 2 Nebulous Voidcores and spend them on bonus rolls for hero-track gear off delve/prey
 content. `gate: manual` — no clean weekly signal yet, so it stays surfaced (self-report
 until the addon can track the purchase). Candidate for slot-targeting (v2b).
+
+**No `yields.currencies` (needs-first Phase 1).** A voidcore bonus-roll *spends* the
+currency and yields a Hero-track **gear** piece — already valued by `reward_ilvl_max: 276`
+via `slot_target_R` (→ 0 for a Hero-capped main). There's no crest/accolade currency to
+declare here; the deterministic-vs-RNG treatment of the roll is a Phase-3 concern.

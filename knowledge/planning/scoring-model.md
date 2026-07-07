@@ -1,7 +1,7 @@
 ---
 title: Session Planning — Scoring Model (efficiency-first)
 patch: 12.0.7
-fetched: 2026-07-02
+fetched: 2026-07-07
 reviewed: 2026-07-07
 sources:
   - knowledge/endgame/weekly-checklist.md          # the candidate-task universe
@@ -61,11 +61,32 @@ about.** Two multipliers stack inside R:
   standout hole; a back upgrade is R≈4, a 5th ilvl on an already-276 slot is
   R≈1.) A sidegrade or vendor-trash reward is R≈0. **Implemented
   (2026-07-06):** an activity declares `reward_ilvl_max` — the top ilvl its gear
-  can reach (world/delve/prey/voidcore ≈ Hero **279**; faction champion **246**;
+  can reach (world/delve/prey/voidcore ≈ Hero **276**; faction champion **246**;
   raid per-difficulty). `plan.py:slot_target_R()` compares that ceiling to the
   char's equipped slots from the dump (schema≥4): ceiling ≤ your weakest slot →
   R≈0; well above it → R scales toward 5 (~+1 R per 6 ilvl of headroom). No
   ceiling, or a pre-schema-4 dump → no override, keep `reward_base`.
+- **Currency consumer (needs-first Phase 1, 2026-07-07).** A currency is worth
+  farming only while the character still has something to **spend** it on — "crests
+  over drops for a geared main," but a crest source drops to ~0 once every slot is
+  track-capped. An activity declares its per-run `yields.currencies` (canonical
+  keys, `activities/_facets.md`); `rewards.currency_yield_R()` values the **best
+  pending consumer** across them and `plan.py:currency_R()` feeds it into the same
+  `max(breakpoint, slot-target, currency)` override. The rules:
+  - **Hero crest** → consumer iff any equipped slot `< 276` (Hero cap); R scales
+    with the weakest sub-cap slot's headroom (same `1 + Δ/6` shape as slot-target).
+  - **Myth crest** → the binding constraint: high flat R (**4**) while a consumer
+    is pending, `0` once Myth-capped. Phase-1 approximation of "not Myth-capped":
+    still holding sub-276 slots (real per-slot track needs the addon dump).
+  - **Field Accolade** → values the ~259 Hero box Maren sells → `0` once the
+    weakest slot ≥ 259 (own-char only; the warbound-cache-for-alts value of a big
+    Accolade stockpile is Phase 4).
+  - **Spark / spark dust** → `0` this phase (no craft is queued until the Phase-2
+    crafting model supplies the consumer).
+  No `yields.currencies`, or no equipment in the dump → no override, keep
+  `reward_base`. **Headline:** ritual-sites (Myth+Hero crest source, no
+  `reward_ilvl_max`) stays high for a weak-slot main yet falls to ~0 for a
+  fully-276 one — the first real needs-first behavior.
 - **Breakpoint proximity.** Progress is worth more the closer it sits to a
   discrete payoff. Examples of breakpoints, not smooth curves:
   - **Great Vault**: 1 / 4 / 8 M+ runs (or delve/raid equivalents) unlock

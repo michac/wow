@@ -12,6 +12,7 @@ gate: { type: weekly_quest, quest: delve_weekly_cache }
 breakpoint: { type: vault, track: world, thresholds: [1, 4, 8] }
 reward: { type: [power], detail: "weekly cache + catalyst; also fills the Vault's world column" }
 reward_ilvl_max: 276   # Hero ceiling (259 1/6 → 276 6/6) — slot-target R drops this for a Hero-capped char
+yields: { currencies: { hero_crest: 35, myth_crest: 5 } }   # Bountiful T11 weekly chunk (dawncrests.md)
 time_blocks: 1
 enjoyment: 1.4
 patch: 12.0.7

@@ -18,6 +18,8 @@ import json
 import os
 from pathlib import Path
 
+from wowkb import rewards
+
 REPO = Path(__file__).resolve().parents[2]
 CANDIDATES = REPO / "knowledge" / "planning" / "candidates.json"
 REPEATABLES = REPO / "knowledge" / "planning" / "repeatables.json"
@@ -371,6 +373,35 @@ def weakest_slots(state: dict | None, k: int = 3) -> list[tuple[str, float]]:
     return rows[:k]
 
 
+def currency_context(state: dict | None) -> str:
+    """A one-line crest/currency balance summary (needs-first Phase 1 context).
+
+    Surfaces the gearing currencies from the dump and flags the *bottleneck* — the
+    smaller of the Hero/Myth crest balances — so "Myth is the binding constraint"
+    is visible next to the plan. schema≥4 dumps `currencies`; older dumps → ''.
+    """
+    curs = {c.get("name"): c.get("quantity") for c in (state or {}).get("currencies") or []
+            if isinstance(c, dict) and c.get("name")}
+    if not curs:
+        return ""
+    hero = curs.get("Hero Dawncrest")
+    myth = curs.get("Myth Dawncrest")
+    # bottleneck = the scarcer crest tier (Myth for Encomplete: 20 vs 176 Hero).
+    bottleneck = None
+    if isinstance(hero, (int, float)) and isinstance(myth, (int, float)):
+        bottleneck = "Myth Dawncrest" if myth <= hero else "Hero Dawncrest"
+    order = [("Hero Dawncrest", "Hero"), ("Myth Dawncrest", "Myth"),
+             ("Field Accolade", "Field Accolade"), ("Nebulous Voidcore", "Voidcore"),
+             ("Coffer Key Shards", "Coffer shards")]
+    parts = []
+    for name, label in order:
+        v = curs.get(name)
+        if isinstance(v, (int, float)):
+            tag = " (bottleneck)" if name == bottleneck else ""
+            parts.append(f"{label} {int(v):,}{tag}")
+    return " · ".join(parts)
+
+
 def _slot_ilvls(state: dict | None) -> list[float]:
     """Every equipped slot's ilvl from the dump (schema>=4), else []."""
     eq = (state or {}).get("equipment") or []
@@ -405,6 +436,38 @@ def slot_target_R(cand: dict, state: dict | None) -> tuple[float, str] | None:
     return R, f"+{round(delta)} ilvl over weakest slot ({round(weakest)})"
 
 
+def _char_state(state: dict | None) -> dict:
+    """Shape the dump into rewards.py's char_state schema (needs-first Phase 1).
+
+    schema≥4 dumps per-slot `equipment` (itemID/ilvl/slot) and `currencies`
+    (name/quantity). We map both into {ilvl_by_slot, currencies, track_caps}. The
+    dump carries no upgrade track/level, so track_caps stays empty and the crest
+    consumers approximate headroom from ilvl vs the Hero ceiling (rewards.py).
+    """
+    eq = (state or {}).get("equipment") or []
+    ilvl_by_slot = {s["slot"]: float(s["ilvl"]) for s in eq
+                    if isinstance(s, dict) and s.get("slot")
+                    and isinstance(s.get("ilvl"), (int, float))}
+    curs = {c["name"]: c.get("quantity") for c in (state or {}).get("currencies") or []
+            if isinstance(c, dict) and c.get("name")}
+    return {"ilvl_by_slot": ilvl_by_slot, "currencies": curs, "track_caps": {}}
+
+
+def currency_R(cand: dict, state: dict | None) -> tuple[float, str] | None:
+    """Currency-yield override for R: value this activity's declared crest/accolade
+    yields by whether THIS char still has a consumer for them (needs-first Phase 1).
+
+    Returns None when the candidate declares no `yields.currencies` or the dump
+    carries no equipment (caller keeps reward_base); else delegates to
+    rewards.currency_yield_R — 0 when the currency has no pending consumer (a
+    Hero-capped main), high when a crest still fills a sub-cap slot.
+    """
+    yields = (cand.get("yields") or {}).get("currencies")
+    if not yields:
+        return None
+    return rewards.currency_yield_R(yields, _char_state(state))
+
+
 def score(cand: dict, mood: str, state: dict | None = None) -> tuple[float, str, str]:
     R = float(cand.get("reward_base", 0))
     U = float(cand.get("urgency", 1))
@@ -414,11 +477,13 @@ def score(cand: dict, mood: str, state: dict | None = None) -> tuple[float, str,
         R = floor
     note = ""
     # R overrides: take the strongest of "crosses a vault threshold" (breakpoint
-    # proximity) and "upgrades my weakest slot" (ilvl-relative). When neither has
-    # data (no breakpoint/ceiling, or a pre-schema-4 dump) fall back to reward_base
-    # exactly as before. See scoring-model.md.
+    # proximity), "upgrades my weakest slot" (ilvl-relative), and "the currency it
+    # yields still has a consumer" (needs-first Phase 1). When none has data (no
+    # breakpoint/ceiling/currency-yield, or a pre-schema-4 dump) fall back to
+    # reward_base exactly as before. See scoring-model.md.
     overrides = [ov for ov in (breakpoint_R(cand, state),
-                               slot_target_R(cand, state)) if ov is not None]
+                               slot_target_R(cand, state),
+                               currency_R(cand, state)) if ov is not None]
     if overrides:
         R, note = max(overrides, key=lambda ov: ov[0])
     # Enjoyment: honor an explicit numeric `enjoyment`, else the (venue-keyed) table.
@@ -535,7 +600,12 @@ def main(argv=None) -> int:
         il = state.get("equippedIlvl")
         head = f"equipped ilvl {round(il)}" if isinstance(il, (int, float)) and il else "gear"
         slots = ", ".join(f"{s} {round(v)}" for s, v in weak)
-        print(f"weakest slots ({head}): {slots}\n")
+        print(f"weakest slots ({head}): {slots}")
+    cur = currency_context(state)
+    if cur:
+        print(f"crests: {cur}")
+    if weak or cur:
+        print()
     print(f"DO THIS ({round(result['spent']*BLOCK_MIN)} of {args.minutes} min):")
     for r in result["picks"]:
         print(_fmt(r))

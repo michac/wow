@@ -121,6 +121,10 @@ def build_candidate(fm: dict) -> dict:
         c["breakpoint"] = fm["breakpoint"]
     if isinstance(fm.get("reward_ilvl_max"), (int, float)):
         c["reward_ilvl_max"] = fm["reward_ilvl_max"]
+    # Currency yields (needs-first Phase 1): {currencies: {canonical_key: amount}}.
+    # plan.py:currency_R values these by whether the char still has a consumer.
+    if isinstance(fm.get("yields"), dict) and fm["yields"]:
+        c["yields"] = fm["yields"]
     return c
 
 

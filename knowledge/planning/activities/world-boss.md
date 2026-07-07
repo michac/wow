@@ -24,3 +24,8 @@ confidence: high
 The rotating weekly world boss — one loot roll for gear, plus a chance at its
 mount/transmog (hence `collectibles`). Fast, group-tagged only because you tag along
 with whoever's there. Gate resolves from the dump's world-boss lockout.
+
+**No `yields.currencies` (needs-first Phase 1).** The boss itself yields a Hero-track
+**gear** roll (Warbound Heroic cache on Heroic WT) — valued by `reward_ilvl_max: 276`
+via `slot_target_R`, *not* a crest currency (crests come from the surrounding rares,
+folded into `val-naigtal`). Its warbound-cache-for-alts value is a Phase-4 flow.

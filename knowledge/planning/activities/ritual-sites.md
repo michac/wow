@@ -10,6 +10,7 @@ scope: character
 status: active
 gate: { type: always }
 reward: { type: [power, currency], detail: "Hero crests + accolades (T5); T6 pays 5 Myth + 10 Heroic Dawncrests/run — the only repeatable SOLO Myth-crest farm; steady solo engine" }
+yields: { currencies: { hero_crest: 10, myth_crest: 5, field_accolade: 100 } }   # T6/run; Myth crest = the needs-first draw (dawncrests.md)
 time_blocks: 1
 enjoyment: 1.2
 urgency: 1

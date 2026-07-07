@@ -11,6 +11,7 @@ status: active
 gate: { type: weekly_quest, quest: prey_weekly }
 reward: { type: [power], detail: "weekly objective; overlaps Liadrin" }
 reward_ilvl_max: 276   # random Hero map piece (Hero ceiling 276) — low value once Hero-capped (run it for the Voidshard unlock)
+yields: { currencies: { hero_crest: 20 } }   # Nightmare Prey weekly = 20 Hero crests (dawncrests.md)
 time_blocks: 1.5
 enjoyment: 1.1
 patch: 12.0.7

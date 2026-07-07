@@ -16,9 +16,10 @@ confidence: high     # design/methodology doc, not a fetched game fact
 
 # Needs-first redesign
 
-> **Status: proposal, not yet built** — but **unblocked.** The architecture
-> (Phases 0–5) is still to be implemented; however, the modeling questions this
-> design depended on are now **resolved** (verified 2026-07-07 — see
+> **Status: building — Phases 0–1 shipped (2026-07-07).** Phase 0 (data
+> corrections) and **Phase 1 (currency inventory + pending-consumer valuation)**
+> are live in `plan.py`/`rewards.py`; Phases 2–5 remain. The modeling questions
+> this design depended on are **resolved** (verified 2026-07-07 — see
 > [Resolved questions](#resolved-questions-verified-2026-07-07)), so nothing
 > factual is left to discover before building. This supersedes the parked
 > "scoring quality A/B/C" items in [`roadmap.md`](roadmap.md) with a single
@@ -56,9 +57,9 @@ those needs → stop pulling an activity once its need is met.
 | Gap | Where | Consequence |
 |---|---|---|
 | Gear value = `min(slots)` vs scalar ceiling | `plan.py:slot_target_R()` (354-378) | one weak slot inflates every Hero-ceiling activity; no per-slot targeting |
-| No currency inventory in state | `plan.py` state = equipment ilvls only (no `state.currencies`) | can't reason "you have 176 Hero / 20 Myth crests, Myth is the bottleneck" |
-| No deterministic-vs-RNG field | candidate schema (`gen_candidates.py:build_candidate` 111-124) | a guaranteed 100-accolade cache scores identically to a 1/12 boss drop |
-| No currency-quantity yield | candidate schema | "yields 20 Hero + 5 Myth crests" can't be expressed; all gearing collapses to `reward_base=3` |
+| ~~No currency inventory in state~~ **(Phase 1 ✅)** | `plan.py:_char_state()` now maps the dump's `currencies` + `equipment`; a crest/bottleneck context line surfaces the balances | can now reason "176 Hero / 20 Myth crests, Myth is the bottleneck" |
+| No deterministic-vs-RNG field | candidate schema (`gen_candidates.py:build_candidate`) | a guaranteed 100-accolade cache scores identically to a 1/12 boss drop |
+| ~~No currency-quantity yield~~ **(Phase 1 ✅)** | `yields.currencies` on the activity front matter, carried into `candidates.json` | "yields 10 Hero + 5 Myth crests" is expressed; `currency_R` values it by pending consumer instead of a flat `reward_base=3` |
 | Single-character only | `load_state()` (156-181) reads one dump; `scope`/roster unimplemented | no "Encomplete farms Accolades → gears the alts"; no leveler synergy |
 | No dedup / diminishing returns | greedy walk in `plan()` (431-451) | filling one need doesn't lower any other activity's score |
 
@@ -89,18 +90,20 @@ state.unlocks          = { renown[faction], omnium_rows, professions, ... }
 ```
 
 **Currency source (corrected — read the dump, not Syndicator).** The PlannerState
-dump is already the source: **schema 5 dumps `currencies` (via `scanCurrencies`)
-AND per-slot `equipment` directly**, so the planner needs no Syndicator round-trip
-(Syndicator is only for the `wowkb.character` KB snapshots). Encomplete's balances
-(Hero 176, Myth 20, Field Accolade 1,309, Nebulous Voidcore 11, Coffer Shards 58)
-come straight off the dump. **Two real gaps remain:** (1) `equipment` carries
-`itemID` + `ilvl` but **not the upgrade track/level** ("Hero 3/6") — needed to read a
-slot's remaining crest headroom; (2) **Sparks of Radiance, Catalyst charges,
-Ascendant Voidshards** aren't dumped yet. Per [resolved-Q5](#resolved-questions-verified-2026-07-07)
-the fix for both is to **extend the PlannerState addon** (dump the three IDs + gear
-track via `C_Item.GetItemUpgradeInfo`, bump schema 6); until then, approximate gear
-headroom from `ilvl` vs the track ceiling (Hero **276**) and keep the three
-uncaptured currencies on the manual (`todo.md`) tier.
+dump is already the source: **schema 4 dumps `currencies` (via `scanCurrencies`)
+AND per-slot `equipment` directly** (verified on Encomplete's live dump), so the
+planner needs no Syndicator round-trip (Syndicator is only for the `wowkb.character`
+KB snapshots). Encomplete's balances (Hero 176, Myth 20, Field Accolade 1,309,
+Nebulous Voidcore 11, Coffer Shards 58) come straight off the dump. **Two real gaps
+remain:** (1) `equipment` carries `itemID` + `ilvl` but **not the upgrade track/level**
+("Hero 3/6") — needed to read a slot's remaining crest headroom; (2) **Sparks of
+Radiance, Catalyst charges, Ascendant Voidshards** aren't dumped yet (note: *Radiant
+Spark Dust* — a distinct currency — **is** in the dump, and Phase 1's spark consumer
+already keys off it). Per [resolved-Q5](#resolved-questions-verified-2026-07-07) the
+fix for both is to **extend the PlannerState addon** (dump the missing IDs + gear
+track via `C_Item.GetItemUpgradeInfo`, bump to schema 5); until then, Phase 1
+approximates gear headroom from `ilvl` vs the track ceiling (Hero **276**) and keeps
+the uncaptured currencies at R=0 / the manual (`todo.md`) tier.
 
 ### 2. Derive needs (the new core object)
 
@@ -211,25 +214,27 @@ Distilled from the earlier `scratchpad/phase2-plan.md` (2026-07-06, superseded b
 this doc) and re-checked against the live code 2026-07-07. Two things already exist
 that the phases below plug into rather than reinvent:
 
-- **`tools/wowkb/rewards.py` — the valuation layer (built + unit-tested, NOT yet
-  wired to `plan.py`).** `value_quest(descriptor, char_state)` already carries a
-  **character-relative branch** (`_value_char_relative`): gear scores by
-  `reward_ilvl − your weakest slot`, currency scores by whether it advances an
-  *uncapped* track. Its `char_state` schema —
-  `{ilvl_by_slot, track_caps, renown, currencies}` — is essentially the needs-first
-  "scan state" object under another name. Plus `classify_currency`/`CURRENCY_RULES`,
-  `classify_cache`, and `TRACK_R`/`TRACK_ORDER` (Adventurer→Myth). So needs-first is
-  largely **"wire rewards.py's char-relative branch into `plan.py:score()`, and
-  extend it with a currency→consumer table + a recipe table"** — prefer extending
-  `rewards.py` (stdlib, offline-testable) over inlining valuation in `plan.py`. It's
-  exercised by `tools/tests/check_rewards.py` today with *synthetic* `char_state`
-  only — never yet called with a real dump.
+- **`tools/wowkb/rewards.py` — the valuation layer (built + unit-tested; the
+  currency branch is now WIRED to `plan.py`, Phase 1).** `value_quest(descriptor,
+  char_state)` carries a **character-relative branch** (`_value_char_relative`): gear
+  scores by `reward_ilvl − your weakest slot`, currency by whether it advances an
+  *uncapped* track. Its `char_state` schema — `{ilvl_by_slot, track_caps, renown,
+  currencies}` — is the needs-first "scan state" object under another name. **Phase 1
+  extended it** with the currency→consumer layer (`TRACK_CEILING`/`track_of_ilvl`,
+  `CURRENCY_CONSUMERS`, `currency_yield_R`) and wired that into `plan.py:score()` via
+  `currency_R` (the `max(breakpoint, slot-target, currency)` override) — so it's now
+  **called with a real dump** (Encomplete), not just synthetic `char_state`. Still
+  unwired for Phase 2: the gear-drop (`_value_char_relative` items path) and the
+  recipe/craft table. Plus `classify_currency`/`CURRENCY_RULES`, `classify_cache`,
+  `TRACK_R`/`TRACK_ORDER`. Prefer extending `rewards.py` (stdlib, offline-testable)
+  over inlining valuation in `plan.py`. Exercised by `check_rewards.py` (synthetic)
+  **and now `check_currency.py`** (Phase 1's consumer rules).
 
-- **The PlannerState dump (schema 5) already carries the raw state** — `currencies`
+- **The PlannerState dump (schema 4) already carries the raw state** — `currencies`
   + per-slot `equipment` + `vault`/`weeklyQuests`/`mythicPlus`/`lockouts`/`calendar`.
   The one equipment gap is the missing upgrade **track/level** (see Scan-state's
-  "Currency source" note above): fix by extending the addon (schema 6) or approximate
-  from `ilvl` vs the Hero **276** ceiling.
+  "Currency source" note above): fix by extending the addon (schema 5) or approximate
+  from `ilvl` vs the Hero **276** ceiling (what Phase 1 does).
 
 - **Verification discipline (carry it into every phase).** Each scoring change gets
   an offline `.lua` fixture + a stdlib-only `tools/tests/check_*.py` mirroring the
@@ -254,16 +259,26 @@ Order is chosen so each stage ships value and de-risks the next.
   `void-incursions.md` (Heroic caches now Warbound) was already corrected in the hotfix
   sweep. `candidates.json` regenerated; the `@verify-ingame` on the Sporefall lockout
   name is on the generated checklist.
-- **Phase 1 — currency inventory + pending-consumer valuation.** Read `currencies`
-  off the dump (already there — no Syndicator); add `currency_accumulate` needs. The
-  sharp rule to implement (phase2's 2.1): a currency scores by the **marginal value
-  of the best unlock it enables *right now*, → 0 when there's no pending consumer** —
-  crests → 0 once every equipped slot is track-capped; Field Accolades → the
-  `slot_target_R` of the Hero-track box they'd buy, → 0 when Hero-capped; Sparks → 0
-  with no craft queued. **Headline test: `ritual-sites`** (a crest/accolade source
-  with no direct `reward_ilvl_max`) must fall to ~0 for a Hero-capped main yet stay
-  high for a weak-slot one. First real needs-first scoring: crests over drops for a
-  geared main.
+- **Phase 1 — currency inventory + pending-consumer valuation. ✅ DONE (2026-07-07).**
+  Read `currencies` off the dump (already there — no Syndicator). Implemented as a
+  per-candidate **scoring override** (not yet the formal `Need` object — that lands
+  in Phase 2 when dedup needs it), consistent with "each stage ships value." The
+  sharp rule (phase2's 2.1): a currency scores by the **marginal value of the best
+  unlock it enables *right now*, → 0 when there's no pending consumer** — crests → 0
+  once every equipped slot is track-capped; Field Accolades → the `slot_target`-shape
+  R of the ~259 Hero box they'd buy, → 0 when weakest ≥ 259; Sparks → 0 with no craft
+  queued. Pure valuation lives in `rewards.py` (`TRACK_CEILING`/`track_of_ilvl`,
+  `CURRENCY_CONSUMERS`, `currency_yield_R`), thin orchestration in
+  `plan.py:currency_R()` — folded into the existing
+  `max(breakpoint, slot-target, currency)` override; genuine crest/accolade sources
+  declare `yields.currencies` (canonical keys) in their activity front matter, carried
+  through `gen_candidates`. A crest/bottleneck context line now surfaces the balances
+  (Myth flagged as Encomplete's binding constraint). **Headline test met:**
+  `ritual-sites` (crest/accolade source, no direct `reward_ilvl_max`) scores 4.8 for
+  Encomplete (Myth-crest consumer) and falls to **0** for a fully-276 main — verified
+  end-to-end on the live dump + `tools/tests/check_currency.py` (18 checks). Track/level
+  on equipment is still approximated from ilvl vs the Hero **276** ceiling (addon dump
+  deferred). First real needs-first scoring: crests over drops for a geared main.
 - **Phase 2 — per-slot reward vectors + `slot_target_R` rewrite + dedup**
   (subsumes roadmap **B**). Kills the one-weak-slot inflation. **Add crafting as a
   gear source** (phase2's 2.2): from a recipe→(slot, ilvl, reagents) table seeded off
@@ -358,3 +373,11 @@ renown drops off** (already renown 8, past the trinket); **world-boss/delve rand
 drops fall** (a 259 Hero piece doesn't beat his 259s); **Voidcores** are re-valued
 as "spend at end of M+10+ → Myth," not a standalone errand. Same character, same
 night — a materially better plan, because the model started from what he *needs*.
+
+> **Realized so far (Phase 1, 2026-07-07):** the **currency half** is live —
+> Ritual Sites is lifted by its Myth-crest consumer (`reward_base 3 → currency_R 4`,
+> score 3.6 → **4.8**) and the crest/bottleneck line surfaces "Myth 20 (bottleneck)."
+> Not yet: world-boss/delve drops still ride `slot_target_R` off his 259 weakest slot
+> (they *fall* only once the **per-slot** rewrite + dedup lands in **Phase 2**), and
+> the Accolade→warbound-alt flow is **Phase 4**. So today's live ranking is
+> currency-aware but still activity-first on the gear-drop side.

@@ -162,6 +162,176 @@ def _r_from_weight(w: float) -> int:
 
 
 # --------------------------------------------------------------------------- #
+# Currency → pending-consumer valuation (needs-first Phase 1)                  #
+# --------------------------------------------------------------------------- #
+# A currency is only worth farming if the character still has something to SPEND
+# it on. "Crests over drops for a geared main" — but a crest source drops to ~0
+# once every slot is track-capped and there's nothing left to upgrade. This layer
+# values an activity's *declared currency yields* against the char's live state
+# (equipped ilvls + track caps), returning 0 when no consumer is pending.
+#
+# Track ceilings (top ilvl reachable on each upgrade track). Seeded from
+# knowledge/endgame/dawncrests.md: Hero 259 (1/6) → 276 (6/6). Others are coarse
+# approximations — Phase 1 only leans hard on the Hero ceiling (the crest gate).
+# The exact per-slot track needs the PlannerState addon to dump it (redesign doc,
+# "Currency source" note); until then we approximate a slot's band from its ilvl.
+TRACK_CEILING = {
+    "Adventurer": 210,
+    "Veteran": 229,
+    "Champion": 259,
+    "Hero": 276,
+    "Myth": 285,
+}
+HERO_CEILING = TRACK_CEILING["Hero"]        # 276 — the binding crest cap this phase
+FIELD_ACCOLADE_ILVL = 259                    # Hero box Maren sells for Field Accolades
+MYTH_CREST_R = 4.0                           # Encomplete's binding constraint — high weight
+
+
+def track_of_ilvl(ilvl: float | None) -> str | None:
+    """Approximate a slot's upgrade track from its ilvl (bands per dawncrests.md).
+
+    Boundaries are genuinely ambiguous (Hero 6/6 and Myth ~2/6 both sit ~276), so
+    we bias to the *lower* track — a 276 slot reads as Hero-capped, not Myth — to
+    avoid overstating upgrade headroom. Real track needs the addon dump.
+    """
+    if not isinstance(ilvl, (int, float)):
+        return None
+    if ilvl >= TRACK_CEILING["Myth"]:
+        return "Myth"
+    if ilvl >= TRACK_CEILING["Champion"]:     # 259 → Hero band (259–276)
+        return "Hero"
+    if ilvl >= TRACK_CEILING["Veteran"]:      # 229 → Champion band
+        return "Champion"
+    if ilvl >= TRACK_CEILING["Adventurer"]:   # 210 → Veteran band
+        return "Veteran"
+    return "Adventurer"
+
+
+def _weakest_slot_ilvl(char_state: dict) -> float | None:
+    """The char's lowest equipped-slot ilvl (the upgrade target), or None."""
+    slots = [v for v in (char_state.get("ilvl_by_slot") or {}).values()
+             if isinstance(v, (int, float))]
+    return min(slots) if slots else None
+
+
+def _r_from_headroom(delta: float) -> float:
+    """R from ilvl headroom over the weakest slot — same shape as plan.slot_target_R
+    (~+1 R per 6 ilvl, foot-in-door at 1), so the currency override reads on the
+    same scale as the gear override it competes with in score()."""
+    return min(5.0, 1.0 + delta / 6.0)
+
+
+def _consume_hero_crest(char_state: dict) -> tuple[float, str] | None:
+    """Hero crests upgrade Hero-track gear 259→276. Consumer exists iff any slot
+    is still below the Hero cap; R scales with the weakest sub-cap slot's headroom.
+    """
+    weakest = _weakest_slot_ilvl(char_state)
+    if weakest is None:
+        return None
+    if weakest >= HERO_CEILING:
+        return 0.0, f"every slot ≥ Hero cap ({HERO_CEILING}) — Hero crests have no consumer"
+    delta = HERO_CEILING - weakest
+    return (_r_from_headroom(delta),
+            f"Hero crests upgrade your weakest slot ({round(weakest)}→{HERO_CEILING})")
+
+
+def _consume_myth_crest(char_state: dict) -> tuple[float, str] | None:
+    """Myth crests are Encomplete's binding constraint — high, flat weight while a
+    consumer is pending. Phase 1 approximation of "not Myth-capped": an explicit
+    track_caps['Myth'] flag zeroes it, else a consumer is presumed while the char
+    still has sub-Hero-cap slots (Myth-track gearing is visibly ongoing). Once
+    every slot is 276+ we can't see a Myth-track item to upgrade, so R→0 until the
+    craft/drop model (Phase 2) supplies the consumer.
+    """
+    if (char_state.get("track_caps") or {}).get("Myth"):
+        return 0.0, "Myth track capped — no consumer"
+    weakest = _weakest_slot_ilvl(char_state)
+    if weakest is None:
+        return None
+    if weakest >= HERO_CEILING:
+        return (0.0,
+                f"every slot ≥ Hero cap ({HERO_CEILING}) — no pending Myth-crest consumer (Phase 1)")
+    return MYTH_CREST_R, "Myth crests — the binding upgrade constraint"
+
+
+def _consume_field_accolade(char_state: dict) -> tuple[float, str] | None:
+    """Field Accolades buy a Hero-track slot piece (~259) from Maren Silverwing.
+    Value it as a slot_target vs the weakest slot → ~0 once weakest ≥ 259 (the box
+    is a sidegrade). Own-character only; the warbound-cache-for-alts value of a big
+    Accolade stockpile is deferred to Phase 4.
+    """
+    weakest = _weakest_slot_ilvl(char_state)
+    if weakest is None:
+        return None
+    if weakest >= FIELD_ACCOLADE_ILVL:
+        return (0.0,
+                f"weakest slot ≥ {FIELD_ACCOLADE_ILVL} — Accolade Hero box is a sidegrade")
+    delta = FIELD_ACCOLADE_ILVL - weakest
+    return (_r_from_headroom(delta),
+            f"Accolade Hero box (~{FIELD_ACCOLADE_ILVL}) upgrades weakest slot ({round(weakest)})")
+
+
+def _consume_none_yet(char_state: dict) -> tuple[float, str] | None:
+    """Sparks / spark dust: R=0 this phase — no craft is queued until the crafting
+    model (Phase 2) supplies the pending consumer that makes a Spark worth > 0."""
+    return 0.0, "no craft queued (Phase 1) — Spark value lands with the craft model (Phase 2)"
+
+
+# canonical yields.currencies key -> consumer test (char_state -> (R, note) | None)
+CURRENCY_CONSUMERS = {
+    "hero_crest": _consume_hero_crest,
+    "myth_crest": _consume_myth_crest,
+    "field_accolade": _consume_field_accolade,
+    "spark": _consume_none_yet,
+    "radiant_spark_dust": _consume_none_yet,
+}
+
+# canonical key -> a representative currency name, so classify_currency can tag the
+# goal (gearing/crafting/…) off the same rules the descriptor path uses.
+CANONICAL_CURRENCY_NAME = {
+    "hero_crest": "Hero Dawncrest",
+    "myth_crest": "Myth Dawncrest",
+    "champion_crest": "Champion Dawncrest",
+    "veteran_crest": "Veteran Dawncrest",
+    "field_accolade": "Field Accolade",
+    "spark": "Spark of Radiance",
+    "radiant_spark_dust": "Radiant Spark Dust",
+    "voidcore": "Nebulous Voidcore",
+    "coffer_key_shard": "Coffer Key Shards",
+}
+
+
+def currency_yield_R(yields_currencies: dict | None,
+                     char_state: dict | None) -> tuple[float, str] | None:
+    """Best-consumer R across an activity's declared currency yields.
+
+    - None  → the activity declares no currency yield, OR there's no character
+      state to value against (caller keeps reward_base).
+    - 0.0   → a currency source with NO pending consumer (every yield is capped-out).
+    - (R, note) → the strongest pending consumer among the yields.
+
+    `yields_currencies` is `{canonical_key: amount}` (amounts unused this phase —
+    the consumer is headroom/gate-based, not quantity-scaled; they're carried for
+    the marginal-value math in later phases). Unknown keys contribute nothing.
+    """
+    if not yields_currencies:
+        return None
+    if not char_state or not (char_state.get("ilvl_by_slot")):
+        return None
+    best: tuple[float, str] | None = None
+    for key in yields_currencies:
+        consumer = CURRENCY_CONSUMERS.get(key)
+        if consumer is None:
+            continue
+        res = consumer(char_state)
+        if res is None:
+            continue
+        if best is None or res[0] > best[0]:
+            best = res
+    return best
+
+
+# --------------------------------------------------------------------------- #
 # Descriptor construction                                                      #
 # --------------------------------------------------------------------------- #
 def empty_descriptor() -> dict:

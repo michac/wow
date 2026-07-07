@@ -76,6 +76,36 @@ A per-activity file **overrides** any prior it disagrees with (set `reward`,
 - Breakpoint proximity (`breakpoint:` block) still overrides R live — unchanged
   from `scoring-model.md`.
 
+### `yields.currencies` — declared currency drops (needs-first Phase 1)
+
+An activity that hands out crests/accolades declares them so the planner can value
+the currency by whether the character still has a **consumer** for it (a geared main
+farms crests, not drops; a crest source falls to ~0 once every slot is track-capped).
+Only the `currencies` sub-key ships this phase (the redesign doc's `slots`/`vault`/
+`weekly_cap`/`warbound` sub-blocks are later phases).
+
+```yaml
+yields:
+  currencies: { hero_crest: 10, myth_crest: 5, field_accolade: 100 }   # per run
+```
+
+- **Canonical keys** (not scraped names): `hero_crest`, `myth_crest`,
+  `champion_crest`, `veteran_crest`, `field_accolade`, `spark`,
+  `radiant_spark_dust`, `voidcore`, `coffer_key_shard`. The consumer test +
+  goal-tag map live in `tools/wowkb/rewards.py` (`CURRENCY_CONSUMERS`,
+  `CANONICAL_CURRENCY_NAME`); add a key there when you add one here.
+- **Amounts** are carried into `candidates.json` but **unused in Phase 1** (the
+  consumer R is headroom/gate-based, not quantity-scaled) — they're for the
+  marginal-value math in later phases. Source them from the file's prose +
+  `endgame/dawncrests.md`; don't fabricate.
+- **Gear, not currency:** an activity whose reward is a gear *drop* (world boss,
+  voidcore bonus-roll) declares no `yields.currencies` — its value comes from
+  `reward_ilvl_max` via `slot_target_R`. Only a genuine crest/accolade currency
+  goes here.
+- `plan.py:currency_R()` feeds this into the R override as
+  `max(breakpoint, slot-target, currency)`; a source with no pending consumer
+  contributes `0`, a source with no `yields.currencies` keeps `reward_base`.
+
 ### U — from `time` + `cadence`
 | Condition | U |
 |---|---|
