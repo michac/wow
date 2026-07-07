@@ -10,7 +10,9 @@ scope: character
 status: active
 gate: { type: weekly_quest, quest: faction_events }
 reward: { type: [power, currency, collectible], detail: "champion ilvl-246 slot pieces (renown-gated) + pinnacle/apex caches + renown; housing decor" }
-reward_ilvl_max: 246   # Champion slot pieces — a sidegrade for anyone Hero-geared
+yields:
+  slots:
+    - { track: champion, ilvl: 246, chance: 1.0, slots: [all] }   # champion faction gear LANDS at 246 (renown-gated); the 246 landing alone zeroes it for any Hero-geared char; chance carried for Phase-3 EV, unused in 2a
 time_blocks: 2
 patch: 12.0.7
 fetched: 2026-07-07

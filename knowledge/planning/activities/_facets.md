@@ -100,11 +100,48 @@ yields:
   `endgame/dawncrests.md`; don't fabricate.
 - **Gear, not currency:** an activity whose reward is a gear *drop* (world boss,
   voidcore bonus-roll) declares no `yields.currencies` — its value comes from
-  `reward_ilvl_max` via `slot_target_R`. Only a genuine crest/accolade currency
-  goes here.
+  `yields.slots` via `slot_target_R` (below). Only a genuine crest/accolade
+  currency goes here. An activity may declare **both** (Bountiful delves yield
+  crests *and* a gear cache).
 - `plan.py:currency_R()` feeds this into the R override as
   `max(breakpoint, slot-target, currency)`; a source with no pending consumer
   contributes `0`, a source with no `yields.currencies` keeps `reward_base`.
+
+### `yields.slots` — declared gear drops (needs-first Phase 2a)
+
+An activity whose reward is a gear *drop* declares the drop's **landing ilvl** and
+which equipped slots it can fill, so the planner values it against **this** char's
+per-slot ilvls: a drop is only an upgrade if its landing ilvl beats a slot it can
+actually fill. This replaced the old scalar `reward_ilvl_max` on migrated
+activities (`plan.py:slot_target_R` still falls back to `reward_ilvl_max` for
+un-migrated ones — e.g. `sporefall-raid`'s per-difficulty ceiling).
+
+```yaml
+yields:
+  slots:
+    - { track: hero, ilvl: 259, chance: 1.0, slots: [all] }   # LANDING ilvl, not the ceiling
+```
+
+- **`ilvl` is the LANDING ilvl, not the crested ceiling.** A Hero drop *lands* at
+  **259** (1/6, `endgame/dawncrests.md`) — it climbs to 276 only via crests, which
+  is the *currency* path, not the drop. A faction champion piece lands at **246**.
+  This is the semantic correction at the heart of 2a: a fresh 259 drop is a
+  **sidegrade** to a 259 slot, so it scores 0 for a geared main. Never put the 276
+  ceiling here.
+- **`slots`** = which equipped slots the drop can fill. `[all]` for a random
+  open-world drop (any slot); an explicit list for a targeted source (faction
+  champion gear; later catalyst/craft). **Canonical slot names** match the dump's
+  lowercase form: `head neck shoulder chest waist legs feet wrist hands back
+  finger1 finger2 trinket1 trinket2 mainhand offhand` (matched case-insensitively).
+- **`chance`** is **carried but NOT applied in Phase 2a** — the deterministic-vs-RNG
+  expected-value math is Phase 3. Keeping the field now means Phase 3 plugs in with
+  no data migration. Set a coarse per-run estimate; it does not affect 2a scoring.
+- **`track`** is descriptive (which upgrade track the drop rides); 2a values off
+  `ilvl`/`slots` only.
+- `plan.py:slot_target_R()` reads it via `rewards.best_slot_delta` — the best
+  positive `landing_ilvl − current_slot_ilvl` across every fillable slot, `R =
+  min(5, 1 + Δ/6)`; no positive delta anywhere → `0`. No `yields.slots` and no
+  `reward_ilvl_max`, or a pre-schema-4 dump → no override, keep `reward_base`.
 
 ### U — from `time` + `cadence`
 | Condition | U |

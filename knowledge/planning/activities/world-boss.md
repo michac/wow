@@ -10,7 +10,9 @@ scope: character
 status: active
 gate: { type: world_boss_weekly }
 reward: { type: [power, collectible], detail: "weekly loot roll + mount/transmog chance" }
-reward_ilvl_max: 276   # Hero-track ceiling (259 1/6 → 276 6/6)
+yields:
+  slots:
+    - { track: hero, ilvl: 259, chance: 1.0, slots: [all] }   # Hero drop LANDS at 259 (1/6, dawncrests.md), not the 276 ceiling; chance carried for Phase-3 EV, unused in 2a
 time_blocks: 0.5
 patch: 12.0.7
 fetched: 2026-07-07

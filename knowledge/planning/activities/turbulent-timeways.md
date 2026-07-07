@@ -10,7 +10,9 @@ scope: character
 status: active
 gate: { type: event_active, match: "Timewalking" }
 reward: { type: [collectible, power], detail: "Spawn of Vyranoth mount (4-week track); weekly Heroic Cache of Quel'Thalas (ilvl 259–276); big alt XP" }
-reward_ilvl_max: 276   # Heroic Cache of Quel'Thalas ceiling; mount value rides the U-floor
+yields:
+  slots:
+    - { track: hero, ilvl: 259, chance: 1.0, slots: [all] }   # Heroic Cache LANDS at 259 (1/6, dawncrests.md), 276 is the crested ceiling; chance carried for Phase-3 EV, unused in 2a
 time_blocks: 2
 patch: 12.0.7
 fetched: 2026-07-06

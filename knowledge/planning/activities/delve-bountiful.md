@@ -11,8 +11,10 @@ status: active
 gate: { type: weekly_quest, quest: delve_weekly_cache }
 breakpoint: { type: vault, track: world, thresholds: [1, 4, 8] }
 reward: { type: [power], detail: "weekly cache + catalyst; also fills the Vault's world column" }
-reward_ilvl_max: 276   # Hero ceiling (259 1/6 → 276 6/6) — slot-target R drops this for a Hero-capped char
-yields: { currencies: { hero_crest: 35, myth_crest: 5 } }   # Bountiful T11 weekly chunk (dawncrests.md)
+yields:
+  currencies: { hero_crest: 35, myth_crest: 5 }   # Bountiful T11 weekly chunk (dawncrests.md)
+  slots:
+    - { track: hero, ilvl: 259, chance: 1.0, slots: [all] }   # weekly cache Hero piece LANDS at 259 (1/6, dawncrests.md), not the 276 ceiling; chance carried for Phase-3 EV, unused in 2a
 time_blocks: 1
 enjoyment: 1.4
 patch: 12.0.7

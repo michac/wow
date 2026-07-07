@@ -16,9 +16,11 @@ confidence: high     # design/methodology doc, not a fetched game fact
 
 # Needs-first redesign
 
-> **Status: building — Phases 0–1 shipped (2026-07-07).** Phase 0 (data
-> corrections) and **Phase 1 (currency inventory + pending-consumer valuation)**
-> are live in `plan.py`/`rewards.py`; Phases 2–5 remain. The modeling questions
+> **Status: building — Phases 0–1 + 2a shipped (2026-07-07).** Phase 0 (data
+> corrections), **Phase 1 (currency inventory + pending-consumer valuation)**, and
+> **Phase 2a (per-slot reward vectors + `slot_target_R` rewrite)** are live in
+> `plan.py`/`rewards.py`; Phase 2b (dedup) / 2c (crafting-as-gear) and Phases 3–5
+> remain. The modeling questions
 > this design depended on are **resolved** (verified 2026-07-07 — see
 > [Resolved questions](#resolved-questions-verified-2026-07-07)), so nothing
 > factual is left to discover before building. This supersedes the parked
@@ -56,7 +58,7 @@ those needs → stop pulling an activity once its need is met.
 
 | Gap | Where | Consequence |
 |---|---|---|
-| Gear value = `min(slots)` vs scalar ceiling | `plan.py:slot_target_R()` (354-378) | one weak slot inflates every Hero-ceiling activity; no per-slot targeting |
+| ~~Gear value = `min(slots)` vs scalar ceiling~~ **(Phase 2a ✅)** | `plan.py:slot_target_R()` now reads `yields.slots` (landing ilvl + fillable slots) via `rewards.best_slot_delta`; scalar `reward_ilvl_max` kept as fallback | per-slot: a 259 drop can't upgrade a 259 slot, so drops fall to R=0 for a geared main; one weak slot no longer inflates every activity |
 | ~~No currency inventory in state~~ **(Phase 1 ✅)** | `plan.py:_char_state()` now maps the dump's `currencies` + `equipment`; a crest/bottleneck context line surfaces the balances | can now reason "176 Hero / 20 Myth crests, Myth is the bottleneck" |
 | No deterministic-vs-RNG field | candidate schema (`gen_candidates.py:build_candidate`) | a guaranteed 100-accolade cache scores identically to a 1/12 boss drop |
 | ~~No currency-quantity yield~~ **(Phase 1 ✅)** | `yields.currencies` on the activity front matter, carried into `candidates.json` | "yields 10 Hero + 5 Myth crests" is expressed; `currency_R` values it by pending consumer instead of a flat `reward_base=3` |
@@ -280,7 +282,23 @@ Order is chosen so each stage ships value and de-risks the next.
   on equipment is still approximated from ilvl vs the Hero **276** ceiling (addon dump
   deferred). First real needs-first scoring: crests over drops for a geared main.
 - **Phase 2 — per-slot reward vectors + `slot_target_R` rewrite + dedup**
-  (subsumes roadmap **B**). Kills the one-weak-slot inflation. **Add crafting as a
+  (subsumes roadmap **B**). Kills the one-weak-slot inflation.
+  - **2a — per-slot reward vectors + `slot_target_R` rewrite. ✅ DONE (2026-07-07).**
+    Gear-drop activities declare `yields.slots` (`{track, ilvl, chance, slots}`,
+    where `ilvl` is the drop's **landing** ilvl — Hero 259, faction champion 246 —
+    **not** the crested ceiling); `plan.py:slot_target_R()` values the best positive
+    `landing − current_slot` delta across the slots the drop can fill (helper
+    `rewards.best_slot_delta`), scalar `reward_ilvl_max` kept as the fallback
+    (raid). Fixes both failure modes #1 (one weak slot inflating many activities)
+    and #2 (ceiling ≠ upgrade). `chance` is carried but unapplied (Phase 3 EV).
+    Headline realized: for the geared main every gear drop falls to R=0 on the slot
+    term while the Phase-1 currency winners (Ritual Sites Myth crests) stay on top;
+    a fresh 90 still sees the drops as big upgrades. Verified with
+    `tools/tests/check_slot_vector.py` + `fixtures/equipment-encomplete.lua` and
+    end-to-end on the live dump. **2b/2c below still pending.**
+  - **2b — dedup / diminishing returns** (deferred). Re-derive/decrement the
+    need-set after each greedy pick so filling one slot stops pulling every other.
+  - **2c — crafting as a gear source** (deferred). **Add crafting as a
   gear source** (phase2's 2.2): from a recipe→(slot, ilvl, reagents) table seeded off
   `systems/tailoring-recipes.md` (88 entries) + the char's profession/skill,
   synthesize `craft-<slot>` candidates that compete through the same per-slot logic —
@@ -374,10 +392,14 @@ drops fall** (a 259 Hero piece doesn't beat his 259s); **Voidcores** are re-valu
 as "spend at end of M+10+ → Myth," not a standalone errand. Same character, same
 night — a materially better plan, because the model started from what he *needs*.
 
-> **Realized so far (Phase 1, 2026-07-07):** the **currency half** is live —
-> Ritual Sites is lifted by its Myth-crest consumer (`reward_base 3 → currency_R 4`,
-> score 3.6 → **4.8**) and the crest/bottleneck line surfaces "Myth 20 (bottleneck)."
-> Not yet: world-boss/delve drops still ride `slot_target_R` off his 259 weakest slot
-> (they *fall* only once the **per-slot** rewrite + dedup lands in **Phase 2**), and
-> the Accolade→warbound-alt flow is **Phase 4**. So today's live ranking is
-> currency-aware but still activity-first on the gear-drop side.
+> **Realized so far (Phases 1 + 2a, 2026-07-07):** both halves of the worked
+> example are now live. **Currency half (Phase 1):** Ritual Sites is lifted by its
+> Myth-crest consumer (`reward_base 3 → currency_R 4`, score 3.6 → **4.8**) and the
+> crest/bottleneck line surfaces "Myth 20 (bottleneck)." **Gear-drop half (Phase
+> 2a):** world-boss / voidcores / prey / delve / showdown / timeways / faction drops
+> now fall to **R=0 on the slot term** for Encomplete (a 259 Hero drop can't beat his
+> 259 slots — "no slot upgrade — drop lands ≤ your slots"), landing at the bottom of
+> the list, while the same drops still score 20+ for the fresh alt Uncomplete — the
+> value is finally character-relative. Not yet: **dedup (2b)** so filling one slot
+> stops pulling the others; **crafting-as-gear (2c)**; and the Accolade→warbound-alt
+> flow (**Phase 4**).

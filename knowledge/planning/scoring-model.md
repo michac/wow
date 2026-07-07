@@ -57,15 +57,24 @@ Not raw item level — **marginal value to a breakpoint you actually care
 about.** Two multipliers stack inside R:
 
 - **Slot targeting.** An upgrade to your *weakest* slot is worth more than one
-  to an already-strong slot. (Encomplete 2026-07-02: back **250** is the
-  standout hole; a back upgrade is R≈4, a 5th ilvl on an already-276 slot is
-  R≈1.) A sidegrade or vendor-trash reward is R≈0. **Implemented
-  (2026-07-06):** an activity declares `reward_ilvl_max` — the top ilvl its gear
-  can reach (world/delve/prey/voidcore ≈ Hero **276**; faction champion **246**;
-  raid per-difficulty). `plan.py:slot_target_R()` compares that ceiling to the
-  char's equipped slots from the dump (schema≥4): ceiling ≤ your weakest slot →
-  R≈0; well above it → R scales toward 5 (~+1 R per 6 ilvl of headroom). No
-  ceiling, or a pre-schema-4 dump → no override, keep `reward_base`.
+  to an already-strong slot. A sidegrade or vendor-trash reward is R≈0.
+  **Per-slot vectors (needs-first Phase 2a, 2026-07-07):** a gear-drop activity
+  declares `yields.slots` — a vector of `{track, ilvl, chance, slots}` where
+  **`ilvl` is the drop's LANDING ilvl, not the crested ceiling** (a Hero drop
+  *lands* at **259** (1/6), climbing to 276 only via crests — the currency path;
+  a faction champion piece lands at **246**). `plan.py:slot_target_R()` reads the
+  dump's per-slot ilvls (schema≥4) and values the drop **per slot it can fill**
+  (`[all]` = any equipped slot): the best positive `landing_ilvl − current_slot`
+  delta, `R = min(5, 1 + Δ/6)`; no fillable slot upgraded → R=0. This **replaced**
+  the old "scalar `reward_ilvl_max` vs the single weakest slot," which let one weak
+  slot inflate every Hero-ceiling activity at once (redesign failure mode #1) and
+  mistook the 276 ceiling for a guaranteed upgrade (failure mode #2). Un-migrated
+  activities (e.g. `sporefall-raid`'s per-difficulty ceiling) still fall back to
+  the scalar `reward_ilvl_max` path. No `yields.slots`/`reward_ilvl_max`, or a
+  pre-schema-4 dump → no override, keep `reward_base`. **Headline (Encomplete,
+  geared main):** world-boss/voidcore/prey/delve/showdown/timeways/faction drops
+  all fall to R=0 on the slot term (a 259 drop can't beat his 259 slots), while a
+  fresh 90 still sees them as big upgrades — the value is now character-relative.
 - **Currency consumer (needs-first Phase 1, 2026-07-07).** A currency is worth
   farming only while the character still has something to **spend** it on — "crests
   over drops for a geared main," but a crest source drops to ~0 once every slot is
@@ -225,6 +234,19 @@ without letting it drive.
       proximity as **R = max(breakpoint, slot-target)**, falling back to `reward_base`
       when neither has data. Verified offline against `tools/tests/fixtures/equipment-*.lua`
       (`tools/tests/check_slot_target.py`).
+- [x] **Per-slot reward vectors (v2b slot-targeting) — implemented (2026-07-07,
+      needs-first Phase 2a).** Replaced the scalar-ceiling-vs-weakest-slot with a
+      per-slot vector: gear-drop activities declare `yields.slots`
+      (`{track, ilvl (LANDING, not ceiling), chance, slots}`), and
+      `plan.py:slot_target_R()` (via `rewards.best_slot_delta`) values the best
+      positive delta across the slots the drop can actually fill — killing the
+      one-weak-slot inflation and the "ceiling = upgrade" error. A Hero drop lands
+      at 259, so it's a sidegrade for a Hero-geared main (R=0) yet a big upgrade for
+      a fresh 90. `reward_ilvl_max` remains as the fallback for un-migrated
+      activities (raid). Verified offline against
+      `tools/tests/fixtures/equipment-encomplete.lua` (`tools/tests/check_slot_vector.py`)
+      and end-to-end on the live dump. **Deferred to later Phase 2 units:** dedup
+      (2b) and crafting-as-gear (2c).
 - [ ] Validate the E cap (1.5) and collectible R-floor (1 @ U≥1.5) against a few
       real sessions; these two numbers control the whole efficiency↔fun balance.
 - [ ] `[[fun-radar]]` doc: the "events live now ∩ rewards I don't own" feed that

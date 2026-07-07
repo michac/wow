@@ -412,15 +412,33 @@ def _slot_ilvls(state: dict | None) -> list[float]:
 def slot_target_R(cand: dict, state: dict | None) -> tuple[float, str] | None:
     """Ilvl-relative reward: is this activity's gear an upgrade to THIS char?
 
-    Generalizes breakpoint_R for gear: an activity carries `reward_ilvl_max`, the
-    top ilvl its gear can reach (world/delve/prey/voidcore ≈ Hero 276; raid per-
-    difficulty; faction champion 246). Compared against the char's equipped slots
-    (weakest = the target):
-      - ceiling ≤ your weakest slot  → R≈0 (can't upgrade anything; sidegrade)
-      - ceiling well above it        → R toward 4–5 (weakest-slot targeting)
-    Returns None when the activity has no ceiling or the dump carries no per-slot
-    ilvls (schema<4) — the caller then keeps reward_base, scoring as before.
+    Two paths, preferring the per-slot vector (needs-first Phase 2a):
+
+    - **`yields.slots`** (a list of `{track, ilvl, chance, slots}` vectors where
+      `ilvl` is the drop's *landing* ilvl — Hero 1/6 = 259, not the crested 276
+      ceiling): value it per-slot via `rewards.best_slot_delta` — the best positive
+      delta across every slot the drop can fill (`[all]` = any equipped slot). No
+      positive delta anywhere → R=0 (the drop lands ≤ your slots; a sidegrade).
+      This kills the old "one weak slot inflates every Hero-ceiling activity" bug.
+    - **`reward_ilvl_max`** (scalar ceiling, un-migrated activities — raid keeps its
+      per-difficulty ceiling): unchanged — the top ilvl its gear can reach compared
+      to the char's *weakest* equipped slot.
+
+    Returns None when the activity has neither field, or the dump carries no
+    per-slot ilvls (schema<4) — the caller then keeps reward_base, as before.
     """
+    yield_slots = (cand.get("yields") or {}).get("slots")
+    if yield_slots:
+        ilvl_by_slot = _char_state(state)["ilvl_by_slot"]
+        if not ilvl_by_slot:
+            return None                      # pre-schema-4 dump — keep reward_base
+        delta, slot, cur = rewards.best_slot_delta(yield_slots, ilvl_by_slot)
+        if delta <= 0:
+            return 0.0, "no slot upgrade — drop lands ≤ your slots"
+        # ~+1 R per 6 ilvl of headroom, foot-in-door at 1 (same scale as below).
+        R = min(5.0, 1.0 + delta / 6.0)
+        return R, f"+{round(delta)} ilvl over {slot} ({round(cur)})"
+
     ceiling = cand.get("reward_ilvl_max")
     if not isinstance(ceiling, (int, float)):
         return None

@@ -11,8 +11,10 @@ status: active
 gate: { type: always }
 breakpoint: { type: vault, track: world, thresholds: [1, 4, 8] }
 reward: { type: [power, currency, collectible], detail: "Field Accolades → Hero-track slot gear (Maren Silverwing, ~ilvl 259); Relic Coffer Key shards → coffers; direct WQ/rare gear; fills the World Vault row" }
-reward_ilvl_max: 276   # Hero-track ceiling (Field Accolade slot gear starts ~259); vault row keeps value via breakpoint
-yields: { currencies: { field_accolade: 150, hero_crest: 20 } }   # zone farm: Accolades + 2× rare Heroic crests on Heroic WT (approx; world-events.md)
+yields:
+  currencies: { field_accolade: 150, hero_crest: 20 }   # zone farm: Accolades + 2× rare Heroic crests on Heroic WT (approx; world-events.md)
+  slots:
+    - { track: hero, ilvl: 259, chance: 0.5, slots: [all] }   # WQ/rare + Accolade slot gear LANDS at 259 (1/6, dawncrests.md); vault row keeps value via breakpoint; chance carried for Phase-3 EV, unused in 2a
 time_blocks: 2
 patch: 12.0.7
 fetched: 2026-07-07
