@@ -72,3 +72,20 @@ For each `<name> <realm>`:
 Report per character: the headline changes (level/ilvl/spec, notable renown or
 crest movement) and anything still stale or needing in-game confirmation.
 Then ask whether to commit.
+
+## Step 5 — Surface open in-game verifications (you're logged in — knock some out)
+A sync means the user is **in-game right now**, which is the one moment the KB's
+"confirm in-game" backlog can actually be resolved. Refresh and show it:
+
+```bash
+uv run python -m wowkb.gen_verify --print   # from tools/ — the current checklist
+```
+
+From `knowledge/_meta/verify-in-game.md`, surface the handful of items **relevant
+to the characters just synced** (their `characters/<name>*.md` items) plus any
+account-wide ones — a short, opt-in "while you're on, could you check…" list, not
+a wall. For each one the user confirms, follow that file's **resolution
+protocol**: edit the source claim (apply the finding, bump `confidence:`, stamp
+the date), delete the `@verify-ingame` marker, then re-run `gen_verify` so it
+drops off. Never force it — the point is that these stop rotting, not that every
+sync clears them.

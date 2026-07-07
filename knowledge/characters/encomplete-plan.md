@@ -215,11 +215,11 @@ crests)** · no enchants · solo-leaning.
 
 ## Open verifications (check in-game, then update KB)
 
-- [ ] Bountiful T9 coffer: chest present? key consumed? loot track?
+- [ ] Bountiful T9 coffer: chest present? key consumed? loot track? @verify-ingame
       (champion-trinket observation 2026-06-03 unresolved)
-- [ ] Delve gear vendor currency real name ("Nightcoin" vs Untainted
+- [ ] Delve gear vendor currency real name ("Nightcoin" vs Untainted @verify-ingame
       Mana Crystals)
-- [ ] 500-accolade hero piece: random slot? token or cache?
-- [ ] T5 ritual site UI-recommended ilvl (264 claimed, tier-4 source)
-- [ ] Catalyst: confirm accolade-vendor gear is catalyzable (assumed
+- [ ] 500-accolade hero piece: random slot? token or cache? @verify-ingame
+- [ ] T5 ritual site UI-recommended ilvl (264 claimed, tier-4 source) @verify-ingame
+- [ ] Catalyst: confirm accolade-vendor gear is catalyzable (assumed @verify-ingame
       yes — it's not crafted)

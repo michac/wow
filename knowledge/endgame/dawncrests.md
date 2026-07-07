@@ -82,7 +82,7 @@ otherwise spend; never a reason to farm the lower tier deliberately.
 - M+ is the highest-rate farm if/when willing to pug.
 
 ## TODO
-- [ ] **Verify in-game** (Encomplete is set up for it): does a keyless T11
+- [ ] **Verify in-game** (Encomplete is set up for it): does a keyless T11 @verify-ingame
       standard chest pay crests on *every* run, or once-per-delve/daily? If
       every run → keyless T11 is an uncapped *Champion* farm (still not Hero).
 - [ ] Confirm exact Bountiful T11 Hero-crest number (35 is a single tier-3

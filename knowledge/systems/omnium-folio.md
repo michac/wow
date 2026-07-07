@@ -11,6 +11,7 @@ sources:
   - https://finalboss.io/how-to-unlock-the-omnium-folio-in-wow
   - https://us.forums.blizzard.com/t/world-of-warcraft-midnight-hotfixes-june-30/2296045/364  # account-wide weekly (hotfix 2026-06-25)
   - https://worldofwarcraft.blizzard.com/news/24277442/  # Omnium Folio deep-dive (Tier 1)
+  - https://www.icy-veins.com/wow/omnium-folio-guide  # row unlocks account-wide (Q&A), verified 2026-07-07
 confidence: medium
 ---
 
@@ -29,8 +30,14 @@ runes stay relevant for the **rest of the Midnight expansion**.
 - Once a row is unlocked, you can **swap freely between its options out of
   combat — any time, anywhere, no cost, no commitment**. (Swapping is
   blocked in combat.)
-- Unlocked rows are effectively account-progress, but each character must
-  complete the intro quest to open the interface on that character.
+- **Row progression is account-wide** (web verify 2026-07-07, Icy Veins
+  ×2 + player-confirmed on the EU forums): earning a **Mote of Omnial
+  Inquiry** on **any one** character unlocks that row for the **whole
+  warband** — alts do **not** re-accumulate rows week by week. The only
+  per-character step is the one-time **Sunstrider Omnium intro questline**
+  each alt runs to open the interface. (One Tier-3 outlier — conquestcapped
+  — calls it per-character; it conflates the intro gate with row unlocks
+  and is outweighed.)
 
 ## Lore
 
@@ -88,7 +95,12 @@ final. Treat as illustrative of the row structure, not as tuned values.
       (current list is mostly pre-release datamining; **"Rune of
       Void-Tainted Shell" is now Tier-1 confirmed** via the 2026-06-30 hotfix
       notes, the rest still need per-rune live verification).
-- [~] Row progression: weekly-quest prerequisites are **account-wide** from
-      Week 2 (hotfix 2026-06-25); interface unlock (the Sunstrider Omnium
-      questline) is still **per-character**. Confirm in-game whether an
-      already-slotted rune's *effect* also carries to alts.
+- [x] Row progression is **account-wide** — a Mote earned on one character
+      unlocks that row warband-wide (web verify 2026-07-07); only the intro
+      questline is per-character. **Planner model:** an *account* need (run
+      the ~5 weekly "Seeking Knowledge" quests once, on any character) **plus
+      a one-time per-character** unlock-questline task — not a weekly per-alt
+      repeat.
+- [ ] Rune *effect/config* scope: appears **per-character** (each char slots @verify-ingame
+      and benefits from its own rune per row) — low-med confidence, no source
+      states it explicitly; confirm in-game.

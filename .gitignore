@@ -12,6 +12,9 @@ raw/*
 # MCP tool scratch (Playwright browser session artifacts)
 .playwright-mcp/
 
+# Local dev scratch (working notes, not KB content)
+scratchpad/
+
 # Python
 __pycache__/
 *.pyc

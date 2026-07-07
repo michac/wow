@@ -195,7 +195,7 @@ Revised 2026-06-03 after digesting SignsOfKelani 12.0.5 gearing video —
 4. Catalyst (6 charges): catalyze highest-ilvl non-tier drops in tier
    slots for 2pc→4pc; legs (214) and shoulders (224) most urgent —
    accolade champion/hero vendor pieces work as catalyst fodder
-   (vendor gear ≠ crafted; verify once in-game).
+   (vendor gear ≠ crafted; verify once in-game). @verify-ingame
 5. Champion crests (100+): upgrade champion-track drops; don't
    over-invest — hero pieces from accolades/delve renown 9 supersede.
 6. Enchants on everything (zero detected at the 2026-06-03 snapshot;

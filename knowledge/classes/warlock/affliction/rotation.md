@@ -38,7 +38,7 @@ Soul Harvester lists below — it's the only S1 build (see `builds.md`).
 > versus Player** section of the 6/30 notes (next to Affliction's explicit **+3%
 > damage in PvP combat only**) and, unlike the damage line, carries no "in PvP
 > combat" suffix — so whether the detonation applies in PvE is **unresolved;
-> verify in-game** before relying on it. If it does apply, it makes the
+> verify in-game** before relying on it. If it does apply, it makes the @verify-ingame
 > Nightfall→Seed dump safe on an already-seeded target (see AoE Nocturnal Yield
 > rule). No PvE core-number retune this pass.
 >
@@ -108,7 +108,7 @@ Patient Zero + Sow the Seeds.
    so the proc isn't wasted. (A 6/30 hotfix may make a Nightfall-consuming
    Seed **detonate** an existing Seed instead — but that line is in the PvP
    section of the notes, so treat its PvE applicability as unconfirmed and
-   verify in-game before relying on it.)
+   verify in-game before relying on it.) @verify-ingame
 9. Filler as ST
 
 ## Hellcaller

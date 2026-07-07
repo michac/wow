@@ -74,7 +74,7 @@ Below that threshold there's no floor — a depleted +4 becomes a +3.
 
 ## TODO
 
-- [ ] **Verify in-game (Encomplete):** confirm only the *used* keystone
+- [ ] **Verify in-game (Encomplete):** confirm only the *used* keystone @verify-ingame
       transforms and party members keep theirs in S1 (long-standing mechanic,
       but unconfirmed against a Midnight source here).
 - [ ] Confirm **weekly-reset behavior**: does your held key persist across the

@@ -116,7 +116,7 @@ gearing.
 
 ## TODO
 
-- [ ] **Confirm in-game (Encomplete):** does an **over-time / depleted**
+- [ ] **Confirm in-game (Encomplete):** does an **over-time / depleted** @verify-ingame
       completion drop **2** items or fewer? Sources state "2 on a timed
       clear" but are silent on depletion.
 - [ ] Confirm exact **Hero/Myth Dawncrest counts per key level** at the

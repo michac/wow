@@ -78,7 +78,7 @@ No enchants or gems — as expected for a levelling character.
 - Timewarped Badge **1,135** · Trader's Tender **4,000** ·
   Dawnlight Manaflux **8**
 - ⚠ Sparks of Radiance (an item) and Catalyst charges are not in Syndicator's
-  currency table — check those in-game.
+  currency table — check those in-game. @verify-ingame
 
 ## TODO
 

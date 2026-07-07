@@ -8,6 +8,7 @@ sources:
   - https://worldofwarcraft.blizzard.com/en-us/news/24244888/revelations-content-update-notes
   - https://worldofwarcraft.blizzard.com/en-us/news/24276957/hotfixes-june-18-2026
   - https://us.forums.blizzard.com/t/world-of-warcraft-midnight-hotfixes-june-30/2296045/364  # June 25 tank-Valeera survivability hotfix
+  - https://www.wowhead.com/news/how-to-unlock-myth-dawncrests-from-delves-in-midnight-season-1-380813  # gilded stash rank 4 → 21 Myth/wk (verified 2026-07-07)
 confidence: medium
 ---
 
@@ -119,7 +120,7 @@ trove maps 300 · maxed nemesis chest 125 · repeat daily bountiful 125.
 |---|---|
 | 2 | Gilded Stash in T11 (Hero crests) |
 | 3 | Sanctified Banner (extra chest in bountifuls) |
-| 4 | **Myth crests from gilded stashes** (~20–21/wk; sources conflict 20 vs 3×7) |
+| 4 | **Myth crests from gilded stashes** (**21/wk** = 7 × 3 stashes; supersedes the rounded "20/wk") |
 | 5 | **Zoron vendor** — champion-track delve gear |
 | 6 | Buy 2 extra coffer keys/week |
 | 9 | **Hero-track 276 gear** from vendor |
@@ -140,12 +141,17 @@ Companion: **Valeera Sanguinar** (verified via Blizzard API reputations
 
 - [ ] Per-delve location + gimmick notes
 - [ ] Valeera upgrade path / curio equivalents
-- [ ] Resolve myth-stash conflict (20/wk vs 3×7=21) and which rank
-      (2 vs 4) gilded stashes actually start — sources disagree
+- [x] Myth-stash conflict resolved (web verify 2026-07-07 — Wowhead
+      #380813 + Icy Veins Delver's Journey guide): a **false conflict** —
+      the T11 Gilded Stash **unlocks at Delver's Journey rank 2 (Hero
+      crests)** and **upgrades to Myth Dawncrests at rank 4** (same track,
+      two ranks). Weekly Myth output = **21 (7 × 3 stashes)**; "20/wk" was
+      a rounded variant. (Tier-3 aggregation; no Tier-1 note quotes the exact
+      per-stash count, but two independent sources agree.)
 - [ ] **User observation 2026-06-03**: bountiful T9 yielded only a
       champion trinket. Likely the end-of-run drop (champion 250 is
       correct there) with the keyed coffer unopened/keyless — but
-      confirm in-game: did a Bountiful Coffer chest appear, did opening
+      confirm in-game: did a Bountiful Coffer chest appear, did opening @verify-ingame
       it consume a Restored Coffer Key, and what track was its loot?
-- [ ] Confirm vendor currency in-game name ("Nightcoin"?)
+- [ ] Confirm vendor currency in-game name ("Nightcoin"?) @verify-ingame
 - [ ] Tier → loot ilvl table; journey rep for sub-T11 bountifuls

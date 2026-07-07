@@ -73,7 +73,7 @@ of first-craft KP — far under the ~1.5k/KP yardstick.
 | **Deynna** | Chic Silvermoon Pillow, Plush Silvermoon Bed (house decor) | unverified | Decor uses Thalassian Lumber (8/46×) — buy if housing matters, KP value depends on lumber price |
 | **Caeris Fairdawn** (Eversong, Silvermoon Court R5/R6) | Arcanoweave Spellthread (R5); **Skill Issue: Tailoring book = 10 KP for 75 Moxie (R6)** | Moxie | **Book is the best Moxie sink in the profession — buy first.** Spellthread recipe: epic leg enchant, strong gold-maker, buy when R5 |
 | **Void Researcher Anomander** (Voidstorm, Singularity R5) | Lush Telogrus Carpet | unverified | housing-only |
-| **Mirvedon** (Silvermoon, PvP) | Thalassian Competitor's set ×9 | unverified (likely gold/honor) | 9 first-crafts; mats = 2 Thread + 4 motes + 4 Carving Canine each + bolts. Check price in-game — if ~trainer-priced, worth it for KP even if you never PvP |
+| **Mirvedon** (Silvermoon, PvP) | Thalassian Competitor's set ×9 | unverified (likely gold/honor) | 9 first-crafts; mats = 2 Thread + 4 motes + 4 Carving Canine each + bolts. Check price in-game — if ~trainer-priced, worth it for KP even if you never PvP | @verify-ingame
 
 ## Not purchasable (for completeness)
 

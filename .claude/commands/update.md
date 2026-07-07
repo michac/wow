@@ -82,7 +82,10 @@ Touches only files the feed names. This is the everyday path.
    CONFIRMED edits. **Obey provenance precedence:** reject any edit that would
    overwrite a Tier-1-sourced claim with a lower-tier source; resolve name/number
    conflicts via game data. Bump `fetched:` + add the blue-post source URL on each
-   edited file.
+   edited file. If an applied edit leaves a claim that still needs **in-game**
+   confirmation, tag that line `@verify-ingame` and re-run
+   `uv run python -m wowkb.gen_verify` (see `_meta/verify-in-game.md`) so it lands
+   on the in-game checklist instead of rotting as free text.
 4. **Refresh `moving-values.md`** for any reward/tuning value that moved (old →
    `Was`, new → `Current value`, `Set by` = the hotfix date). Add a row only if
    it's volatile *and* commonly mis-stated on the web.
@@ -150,7 +153,9 @@ Tier-1 value. Re-read after editing.
 changed, regen the ranker input: `uv run python -m wowkb.gen_candidates` (verify
 with `--check`). If `repeatables.json` changed, `uv run python -m
 wowkb.gen_addon_quests`. These are generated *from* the `.md` — never hand-edit
-the JSON, and never leave it stale after an activity edit.
+the JSON, and never leave it stale after an activity edit. If any file gained or
+resolved a `@verify-ingame` marker this sweep, refresh the in-game checklist too:
+`uv run python -m wowkb.gen_verify` (verify with `--check`).
 
 **F7 — Consistency & coverage sweep.**
 `grep -rh '^patch:' knowledge --include='*.md' | sort | uniq -c` (no file left on

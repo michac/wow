@@ -43,7 +43,7 @@ data works* (level vs required level, gating, how to fetch it reliably).
   > ⚠ **Unverified / low confidence.** This is from guides, not confirmed in
   > practice — a player on this account **could not find or start the TWW
   > campaign at all** and skipped 70→80 entirely (see next bullet). The
-  > auto-offer may not reliably fire. Verify in-game before repeating as fact.
+  > auto-offer may not reliably fire. Verify in-game before repeating as fact. @verify-ingame
 - **70→80 without TWW (what actually worked): Turbulent Timeways / timewalking.**
   During the **Turbulent Timeways** event (2026: Jun 30–Aug 11, Dragonflight
   timewalking dungeons; see `_meta/game-version.md`), timewalking dungeon spam

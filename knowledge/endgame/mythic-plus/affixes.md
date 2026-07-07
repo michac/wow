@@ -48,7 +48,7 @@ no "tricks" left — just clean execution.
 > **Breakpoint caveat:** one secondary snippet phrased it as "Bargain at +4,
 > Guidance gone by +6." The Icy Veins anchor guide and this repo's table both
 > say **Guidance +2–4, Bargain +5+** — I'm going with that consensus. The exact
-> +4-vs-+5 handoff is worth a one-time in-game confirm.
+> +4-vs-+5 handoff is worth a one-time in-game confirm. @verify-ingame
 
 ## Each affix — what it does + how to play it
 
@@ -113,7 +113,7 @@ nearby enemies ~10% of their health.**
 > Voidbound = swap-and-kill, Pulsar = soak/stack, Devour = dispel/self-clear)
 > are corroborated across Icy Veins and Conquest Capped. The exact **buff/debuff
 > percentages and durations** come mainly from Conquest Capped (single source)
-> and should be treated as approximate until confirmed against the in-game
+> and should be treated as approximate until confirmed against the in-game @verify-ingame
 > dungeon journal / wago.tools — hence this file's `confidence: medium`.
 
 ### Xal'atath's Guile (+12 and up)

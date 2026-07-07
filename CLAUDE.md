@@ -4,6 +4,13 @@ This repo is a knowledge base + ingestion toolkit for answering World of
 Warcraft questions **reliably**. Scope: **Retail, Midnight expansion only**
 (no Classic, no leveling-era content unless asked historically).
 
+## Git workflow
+
+Single dev, single line of history: **work directly on `main`, commit there, and
+push.** Do **not** create a feature branch unless explicitly told to — no PRs, no
+`git checkout -b`. If you find yourself on a stray branch, fold it back into `main`
+and continue there.
+
 ## Current game state
 
 - **Live: patch 12.0.7 "Revelations"** — Midnight expansion, level cap **90**,
@@ -38,7 +45,10 @@ game.** Defenses, in order:
   `moving-values.md` (flattened latest-value-wins stale-data catcher — check it
   when a source's reward tier/ilvl looks off), `patch-notes/` (verbatim archive
   of official notes, against link rot), `changelog-<patch>.md` (per-patch diff),
-  `feed-watermark.md` (the "reviewed through" cursor that drives `/update`)
+  `feed-watermark.md` (the "reviewed through" cursor that drives `/update`),
+  `verify-in-game.md` (**generated** "confirm while logged in" checklist —
+  collected from `@verify-ingame` markers by `wowkb.gen_verify`; `/sync-characters`
+  surfaces it. Resolve an item → edit the claim + drop the marker + regen)
 - `knowledge/endgame/` — `weekly-checklist.md` (the anchor doc), `raids/`,
   `mythic-plus/`, `delves/`, `prey.md`, `great-vault.md`, `world-events.md`
 - `knowledge/characters/` — per-character snapshots from the Blizzard
@@ -96,6 +106,7 @@ uv run python -m wowkb.character <name> [--realm kiljaeden] [--json]  # full cha
 uv run python -m wowkb.plan --minutes 60 [--mood efficiency|fun] [--include-repeatables]  # ranked session shortlist (reads PlannerState dump)
 uv run python -m wowkb.gen_addon_quests              # regen addon quest-ID table from repeatables.json (then cut an addon release)
 uv run python -m wowkb.gen_candidates                # regen planning/candidates.json from activities/*.md (--check in CI; edit the .md, not the JSON)
+uv run python -m wowkb.gen_verify                    # regen _meta/verify-in-game.md from @verify-ingame markers (--check for CI; tag the claim, not the JSON)
 ```
 
 Blizzard + WCL commands require credentials in `.env` (user-registered).

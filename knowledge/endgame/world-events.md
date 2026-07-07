@@ -8,6 +8,7 @@ sources:
   - https://www.icy-veins.com/wow/news/two-new-world-bosses-and-locations-12-0-7s-val-and-naigtal-rewards-quests-and-more/
   - https://www.icy-veins.com/wow/weekly-to-do-list
   - https://us.forums.blizzard.com/t/showdown-reward-changes-june-26-and-june-30/2320707/1  # world-boss loot + rare/crest changes (hotfix 6/26–30)
+  - https://www.method.gg/guides/wow-heroic-world-tier-overview-midnight-patch-12-0-7  # "Knocking Off the Top" 4-emblem Myth 1/6 quest (verified 2026-07-07)
 confidence: high
 ---
 
@@ -44,6 +45,18 @@ World bosses (**June 30 hotfix**) now drop a **Warbound Heroic 1/6** item on
 Normal WT or a **Warbound Heroic 4/6** item on Heroic WT for the warband, **plus**
 a per-character **Soulbound** piece each kill: **Champion 4/6** on Normal,
 **Heroic 1/6** on Heroic. (Superseded the launch "Champion/Hero" drop.)
+
+**Myth-track path — "Knocking Off the Top (Heroic)" (the only open-world
+Myth reward):** on **Heroic World Tier**, each Val/Naigtal world-boss kill can
+award a **Void Commander's Emblem** (item 277554), **one per weekly loot
+lockout**. Collect **4** (≈4 weeks) to complete the quest (97256) for **one
+Myth 1/6 item, ilvl 272 — your choice of Cloak, Belt, or Bracers** (same three
+slots for every armor type). Note this is a *quest* gear reward: the world-boss
+**loot itself never escalates past Heroic**, and no per-kill upgrade exists — a
+"kill it 4× for Myth" recollection is really this emblem quest. (web verify
+2026-07-07: Icy Veins Showdown reward changes + Method Heroic World Tier guide +
+Wowhead quest 97256 / item 277554; existence corroborated by a Blizzard
+bug-report forum thread.)
 
 **Gearing currencies (12.0.7 — this is a premier Hero-track catch-up loop):**
 - **Field Accolades** — earned from WQs, rares, the Showdown weekly, and Ritual

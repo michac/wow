@@ -75,7 +75,7 @@ Catalog: **28** repeatable quests.
 - **Turn-in ≠ activity loot.** R values the *quest reward* only. World-boss and Void-Assault quests hand out just XP on turn-in (hence R=0) — the real loot is the boss/activity drop + weekly lockout, which this model doesn't see. Treat those rows' R as a floor.
 - **Container/cache rewards are R-floored.** When a quest rewards a *cache* (e.g. the Val/Naigtal Showdowns' Riftstalker's Cache), R + goals are derived from the item's description (which lists the contents), but the gear roll *inside* the cache is opaque to the API — so the shown R is a floor a real open can only beat.
 
-## questIDs to wire (verify in-game first)
+## questIDs to wire (verify in-game first) @verify-ingame
 
 Candidate IDs for the planner's `weekly_quest` gate / PlannerState `ns.WEEKLY_QUESTS`. **Not auto-wired** — a wrong ID false-reports "done" (`weekly-checklist.md`). Confirm each in-game before adding.
 
