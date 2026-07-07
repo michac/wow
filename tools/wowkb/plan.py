@@ -36,6 +36,7 @@ E_TABLE = {
 }
 E_CAP = 1.5
 BLOCK_MIN = 15  # minutes per time block
+LEVEL_CAP = 90  # Midnight cap (knowledge/_meta/game-version.md) — campaign_incomplete proxy
 
 
 # --------------------------------------------------------------------------- #
@@ -218,6 +219,32 @@ def gate_status(cand: dict, state: dict | None) -> str:
             if isinstance(lk, dict) and needle in (lk.get("name") or "").lower():
                 return "done"
         return "todo"
+    if t == "raid_weekly":
+        # Weekly raid kill. GetSavedInstanceInfo lockouts (state.lockouts, each with
+        # name/isRaid/defeated) list the raids you're saved to this reset. Match the
+        # raid by name; "done" once it's a raid lockout with >=1 boss defeated. A
+        # single-boss raid (Sporefall) is "done" on the first difficulty cleared —
+        # higher-difficulty re-kills for vault/ilvl are valued separately by the raid
+        # vault breakpoint, so gating on any kill doesn't lose that signal.
+        needle = (g.get("name_contains") or g.get("raid") or "").lower()
+        if not needle:
+            return "unknown"                # gate carries no matchable raid name
+        for lk in state.get("lockouts") or []:
+            if (isinstance(lk, dict) and lk.get("isRaid")
+                    and needle in (lk.get("name") or "").lower()
+                    and (lk.get("defeated") or 0) >= 1):
+                return "done"
+        return "todo"
+    if t == "campaign_incomplete":
+        # The Midnight main-story campaign is one-time and unlocks the endgame loop
+        # (WQs, renown, Adventure Mode). The dump carries no campaign-complete flag,
+        # so use level as a proxy: a max-level char has cleared the leveling spine and
+        # this row should hide; a sub-cap roster member still needs it. Level absent →
+        # unknown. (A precise campaign flag is a future PlannerState field.)
+        lvl = state.get("level")
+        if not isinstance(lvl, (int, float)):
+            return "unknown"
+        return "done" if lvl >= LEVEL_CAP else "todo"
     if t == "world_boss_weekly":
         # World bosses aren't returned by GetSavedInstanceInfo (the old 'lockout'
         # gate never fired). PlannerState schema>=3 emits a worldBosses[] block from
@@ -355,7 +382,7 @@ def slot_target_R(cand: dict, state: dict | None) -> tuple[float, str] | None:
     """Ilvl-relative reward: is this activity's gear an upgrade to THIS char?
 
     Generalizes breakpoint_R for gear: an activity carries `reward_ilvl_max`, the
-    top ilvl its gear can reach (world/delve/prey/voidcore ≈ Hero 279; raid per-
+    top ilvl its gear can reach (world/delve/prey/voidcore ≈ Hero 276; raid per-
     difficulty; faction champion 246). Compared against the char's equipped slots
     (weakest = the target):
       - ceiling ≤ your weakest slot  → R≈0 (can't upgrade anything; sidegrade)

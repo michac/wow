@@ -10,7 +10,7 @@ scope: character
 status: active
 gate: { type: weekly_quest, quest: prey_weekly }
 reward: { type: [power], detail: "weekly objective; overlaps Liadrin" }
-reward_ilvl_max: 279   # random Hero map piece — low value once Hero-capped (run it for the Voidshard unlock)
+reward_ilvl_max: 276   # random Hero map piece (Hero ceiling 276) — low value once Hero-capped (run it for the Voidshard unlock)
 time_blocks: 1.5
 enjoyment: 1.1
 patch: 12.0.7
@@ -27,7 +27,7 @@ Track and kill 3 Nightmare Prey for the weekly objective. Wired to quest 94446 w
 weekly, so they often clear together.
 
 **Why run it (terminal reward, not the random hero).** The forced bounty-map hero piece
-is a Hero-track roll (`reward_ilvl_max: 279`) — **low value once you're Hero-geared**, so
+is a Hero-track roll (`reward_ilvl_max: 276`) — **low value once you're Hero-geared**, so
 the slot-target R deflates it for a geared main. The durable reason to keep running Prey
 is the **Nightmare-difficulty unlock → Ascendant Voidshards** (weapon/trinket overcap mats,
 `../../systems/void-forge.md`) plus the Preyseeker's Journey ranks and the 12.0.7 XP/Renown

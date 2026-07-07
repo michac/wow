@@ -10,7 +10,7 @@ scope: character
 status: active
 gate: { type: weekly_quest, quest: showdown }
 reward: { type: [power, currency, collectible], detail: "Riftstalker's Cache (Field Accolades, Relic Coffer Key shards, mats); heroic-WT world boss = Warbound Heroic 4/6 + per-character Soulbound Heroic 1/6 (6/30 hotfix); showdown-achievement mounts" }
-reward_ilvl_max: 279   # heroic-WT world-boss piece (Heroic 4/6; exact ilvl unverified — no Tier-1 ilvl published)
+reward_ilvl_max: 276   # heroic-WT world-boss piece: Hero track starts 4/6, ceiling 6/6 = 276
 time_blocks: 1.5
 patch: 12.0.7
 fetched: 2026-07-07

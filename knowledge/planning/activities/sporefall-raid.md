@@ -8,7 +8,7 @@ cadence: weekly
 time: standing
 scope: character
 status: active
-gate: { type: raid_weekly, boss: rotmire }
+gate: { type: raid_weekly, boss: rotmire, name_contains: Sporefall }
 breakpoint: { type: vault, track: raid, thresholds: [2, 4, 6] }
 reward: { type: [power], detail: "Rotmire loot per difficulty (ilvl 259–298); fills the Vault's raid column" }
 reward_ilvl_max: 285   # realistic pug ceiling (Heroic); Mythic 298 needs a guild
@@ -33,6 +33,12 @@ realistically **≤2 raid vault slots** are achievable via multi-difficulty. The
 phase (add-cleave → Fungal Bloom → bursting-shroom soak); see `endgame/raids/sporefall.md`
 for the mechanics distilled from the RCP/Tactyks guides. `group`-gated (E 0.7) so it sits
 below solo weeklies at equal urgency unless a vault slot is on the line.
+
+**Gate resolution (Phase 0).** `raid_weekly` now resolves from the dump's raid lockouts
+(`GetSavedInstanceInfo`) — "done" once Sporefall shows as a saved raid with ≥1 boss
+defeated, instead of falling through to `unknown`. The match keys on the instance name
+containing **"Sporefall"**; confirm the live lockout string is exactly that (localized
+name) so the gate fires. @verify-ingame
 
 **Difficulty is a within-activity axis, not a facet.** This catalog is one row per activity
 (like `mplus`, which spans key levels), so difficulty stays *inside* the row — the front

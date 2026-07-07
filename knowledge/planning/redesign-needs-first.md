@@ -15,9 +15,13 @@ confidence: high     # design/methodology doc, not a fetched game fact
 
 # Needs-first redesign
 
-> **Status: proposal, not yet built.** This supersedes the parked "scoring
-> quality A/B/C" items in [`roadmap.md`](roadmap.md) with a single architectural
-> pivot they were each groping toward. Read `roadmap.md` and
+> **Status: proposal, not yet built** — but **unblocked.** The architecture
+> (Phases 0–5) is still to be implemented; however, the modeling questions this
+> design depended on are now **resolved** (verified 2026-07-07 — see
+> [Resolved questions](#resolved-questions-verified-2026-07-07)), so nothing
+> factual is left to discover before building. This supersedes the parked
+> "scoring quality A/B/C" items in [`roadmap.md`](roadmap.md) with a single
+> architectural pivot they were each groping toward. Read `roadmap.md` and
 > `scoring-model.md` first — this doc assumes them.
 
 ## TL;DR
@@ -198,12 +202,19 @@ crowd out rare/limited events").
 
 Order is chosen so each stage ships value and de-risks the next.
 
-- **Phase 0 — data corrections (cheap, no architecture).** Fix the `279`→`276`
-  placeholder across the 7 activity files; drop the Singularity renown gate when
-  the character is already past the unlock rank; stop valuing Void Assault XP at
-  cap; promote Ritual Sites T6 (Myth-crest source) out of the backlog; handle the
-  `raid_weekly` / `campaign_incomplete` gates that currently fall through to
-  `unknown`. Also correct `void-incursions.md` (Heroic caches are now Warbound).
+- **Phase 0 — data corrections (cheap, no architecture). ✅ DONE (2026-07-07).**
+  Fixed the `279`→`276` placeholder across the activity files (world-boss, prey-weekly,
+  delve-bountiful, val-naigtal, showdown-weekly, voidcores + the `plan.py:slot_target_R`
+  docstring); dropped the Singularity renown value once past the unlock rank
+  (`renown-dungeon-weekly` pinned `reward_base: 1`; make it conditional-on-renown in
+  Phase 4); stopped valuing Void Assault XP at cap (`void-assault` reward detail flags
+  the doubled XP as leveler-only); promoted Ritual Sites T6 out of the backlog
+  (`ritual-sites` surfaces the 5 Myth + 10 Heroic Dawncrests/run — the only repeatable
+  solo Myth-crest farm); handled the `raid_weekly` (lockout match) / `campaign_incomplete`
+  (level-cap proxy) gates that fell through to `unknown` (`plan.py:gate_status`).
+  `void-incursions.md` (Heroic caches now Warbound) was already corrected in the hotfix
+  sweep. `candidates.json` regenerated; the `@verify-ingame` on the Sporefall lockout
+  name is on the generated checklist.
 - **Phase 1 — currency inventory into state.** Pipe Syndicator currencies into
   planner state; add `currency_accumulate` needs. First real needs-first scoring:
   crests over drops for an already-geared main.
@@ -217,19 +228,59 @@ Order is chosen so each stage ships value and de-risks the next.
 Roadmap **A** (formula rebalance, `sqrt(T)`) and **C** (de-noise repeatables)
 fold in as tuning of the Phase 1–2 scoring loop.
 
-## Open questions / to verify in-game or via patch notes
+## Resolved questions (verified 2026-07-07)
 
-- **Warbound Heroic cache** — confirmed via the June 26/30 2026 hotfixes
-  (Icy Veins / Wowhead); `void-incursions.md` is stale and needs updating. Confirm
-  the exact price stayed 750.
-- **Weekly caps** — the bountiful-delve crest counts and the Restored-Coffer-Key
-  vs Coffer-Shard cap location are still unresolved (`roadmap.md` coverage table).
-- **Val/Naigtal "4× world boss → Myth track"** and "Val gives Myth crests" — the
-  user recalls these; **not in the KB**. Verify before modeling.
-- **Omnium Folio** — is row progression warband-wide or per-character? Affects
-  whether it's an account or character need.
-- **Currency capture gaps** — Sparks, Catalyst charges, Ascendant Voidshards are
-  invisible to Syndicator; decide addon-dump vs manual tier.
+All five are now resolved — four via web verification against Tier-1/3 sources,
+one as a design decision. Findings were pushed to the topic files of record
+(this doc defers to them; citations live there). The handful of residual
+*in-game* spot-confirmations these surfaced (e.g. the Omnium rune-effect scope)
+are no longer loose ends: they carry `@verify-ingame` markers and appear on the
+generated checklist at `_meta/verify-in-game.md`, which `/sync-characters` shows
+while you're logged in.
+
+1. **Warbound Heroic cache — price is 750** (Champion cache 100), unchanged by
+   the June 26/30 Showdown hotfixes. Watch the conflation trap: the *slot-specific*
+   Heroic cache is 750; a separate *random-slot* Heroic cache was discounted to
+   100. `void-incursions.md` was already corrected in the hotfix sweep — no longer
+   stale. Home: `systems/void-incursions.md`, `systems/ritual-sites.md`.
+
+2. **Weekly caps — resolved.** Restored Coffer Keys hard-cap **6/wk** (600 shards;
+   100 shards auto-convert to a key on delve entry), unchanged in 12.0.7. The Myth
+   **gilded-stash** "conflict" was a false conflict: the T11 stash **unlocks at
+   Delver's Journey rank 2 (Hero crests)** and **upgrades to Myth Dawncrests at
+   rank 4**; weekly Myth output is **21 (7 × 3 stashes)**, not 20. Home:
+   `endgame/delves/overview.md` (TODO closed).
+
+3. **Val/Naigtal Myth claims — both literal claims FALSE, but they map to a real
+   mechanic the KB was missing.** World-boss loot never escalates to Myth (caps at
+   Warbound Heroic) and Val/Naigtal crests cap at Heroic (no Myth crests) — the KB
+   was already right on both. The "4× world boss → Myth" memory is really the quest
+   **"Knocking Off the Top (Heroic)"**: collect **4 Void Commander's Emblems** (one
+   per weekly lockout from the Heroic-WT world bosses) → **one Myth 1/6 item, ilvl
+   272, choice of Cloak / Belt / Bracers** — the only Myth-track reward from
+   open-world content. **Now documented in `endgame/world-events.md`.**
+   **Planner impact:** a deterministic ~4-week path to a **Myth belt** that
+   satisfies Encomplete's waist need *without* the Myth-crest recraft — model it as
+   a high-value, slow, Heroic-WT `slot_upgrade` need competing with the crest path.
+
+4. **Omnium Folio — row progression is ACCOUNT-WIDE.** Earning a Mote of Omnial
+   Inquiry on any one character unlocks that row for the whole warband; the only
+   per-character step is the one-time **Sunstrider Omnium intro questline**. So the
+   planner models it as an **account need** (run the ~5 weekly "Seeking Knowledge"
+   quests once, on any character) **+ a one-time per-character unlock-questline
+   task** — *not* a weekly per-alt repeat. Rune effect/config is per-character
+   (low-med confidence, unverified vs Tier-1). Home: `systems/omnium-folio.md`.
+
+5. **Currency capture gaps — decision: addon-dump, not manual tier.** The premise
+   ("invisible to Syndicator") holds but doesn't force a manual tier: PlannerState
+   is *our* addon and all three are reachable from the WoW API — **Catalyst charges**
+   and **Ascendant Voidshards** are currencies (`C_CurrencyInfo.GetCurrencyInfo` by
+   ID), **Sparks of Radiance** is an item (`GetItemCount` by ID). Extend
+   PlannerState to dump those three IDs explicitly (resolve IDs via the wago
+   `CurrencyTypes` DB2, as `wowkb.character` already does). Keep the manual
+   (`todo.md`) tier only as the stopgap until that dump ships — it folds into
+   **Phase 5**. Leaving them permanently manual defeats the deterministic-scan
+   premise of the whole redesign.
 
 ## Worked example — Encomplete (why the output changes)
 

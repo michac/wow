@@ -10,7 +10,7 @@ scope: character
 status: active
 gate: { type: world_boss_weekly }
 reward: { type: [power, collectible], detail: "weekly loot roll + mount/transmog chance" }
-reward_ilvl_max: 279   # Hero-track weekly roll
+reward_ilvl_max: 276   # Hero-track ceiling (259 1/6 → 276 6/6)
 time_blocks: 0.5
 patch: 12.0.7
 fetched: 2026-07-07
