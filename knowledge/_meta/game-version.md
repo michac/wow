@@ -1,8 +1,9 @@
 ---
 title: Current Game Version — Single Source of Truth
 patch: 12.0.7
-build: 12.0.7.68256
-fetched: 2026-06-18
+build: 12.0.7.68453
+fetched: 2026-07-07
+reviewed: 2026-07-07
 sources:
   - https://worldofwarcraft.blizzard.com/en-us/news (patch notes)
   - https://wago.tools/api/builds (live client build)
@@ -18,8 +19,8 @@ confidence: high
 | Field | Value |
 |-------|-------|
 | Expansion | **Midnight** (WoW's 11th expansion, 10th in numbering: 12.x) |
-| Live patch | **12.0.7** (live client build `12.0.7.68256`; Game Data API at `12.0.7.67808`) |
-| PTR patch | none currently confirmed (12.0.7 went live ~2026-06-16) |
+| Live patch | **12.0.7** (live client build `12.0.7.68453`, 2026-07-06; Game Data API static namespace = 12.0.7) |
+| PTR patch | **12.1 "Curse of Ula'tek"** on PTR (build `12.1.0.68412`) — opens Midnight Season 2; see `next-patch.md` |
 | Level cap | **90** |
 | Current season | **Midnight Season 1** |
 | Season 1 start | Week of 2026-03-17 (raid/season open); M+ unlocked 2026-03-24 |
