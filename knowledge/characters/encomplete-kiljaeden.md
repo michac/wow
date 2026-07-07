@@ -1,7 +1,7 @@
 ---
 title: Encomplete – Kil'jaeden (US) — main character snapshot
 patch: 12.0.7
-fetched: 2026-07-02
+fetched: 2026-07-07
 sources:
   - https://us.api.blizzard.com/profile/wow/character/kiljaeden/encomplete?namespace=profile-us
 confidence: high
@@ -30,11 +30,13 @@ confidence: high
 - Title: Champion of the Frozen Wastes · 7,800 achievement points
 - Last login at fetch: 2026-07-02
 
-## Gear (equipped ilvl 270, API 2026-07-02)
+## Gear (equipped ilvl 272, API 2026-07-07)
 
-4pc tier equipped: **Abyssal Immolator's** (head/shoulders/chest/legs, 276).
-Up from 266 avg on 2026-06-23 — feet/wrist/hands/ring1 all bumped and
-trinket 1 replaced (Void-Reaper's Libram 253 → Drum of Renewed Bonds 276).
+**2026-07-07 update:** crafted the **Adherent's Silken Shroud** cloak (285) —
+fills the old **back (250)** hole, which had been the standout weak slot.
+Equipped ilvl **270 → 272**. Everything else unchanged since 07-02: 4pc tier
+**Abyssal Immolator's** (head/shoulders/chest/legs, 276) + 285 weapon, now + a
+285 back.
 
 | Slot | ilvl | id | Item |
 |---|---|---|---|
@@ -51,15 +53,14 @@ trinket 1 replaced (Void-Reaper's Libram 253 → Drum of Renewed Bonds 276).
 | Ring 2 | 259 | 249620 | Vibrant Wilderloop (gem: Eversong Diamond) |
 | Trinket 1 | 276 | 248583 | Drum of Renewed Bonds |
 | Trinket 2 | 259 | 251784 | Sylvan Wakrapuku |
-| Back | 250 | 249619 | Sprawling Mycoshroud |
+| Back | 285 | 239656 | **Adherent's Silken Shroud** *(crafted 2026-07-07)* |
 | Main Hand | 285 | 245770 | Aln'hara Cane — ench: Acuity of the Ren'dorei |
 
 Enchanted slots: chest, legs, ring1, weapon. **Missing enchants:** neck,
-wrist, feet, ring2, back (and cloak could take an embellishment-tier ench).
-Weakest slots vs the 276 tier: **back (250)** and **waist/ring2/trinket2
-(259)**. Back is now the standout hole. (Note: Encomplete leveled
-**Enchanting** — see Professions — so the missing enchants are now
-self-craftable.)
+wrist, feet, ring2, back (the new 285 cloak — enchant it). Weakest slots vs
+the 276 tier are now **waist / ring2 / trinket2 (all 259)** — the back hole is
+closed. (Note: Encomplete leveled **Enchanting** — see Professions — so the
+missing enchants are now self-craftable.)
 
 ## Season 1 progress
 
@@ -84,25 +85,30 @@ self-craftable.)
 Companion/delve tracks: **Brann Bronzebeard lvl 45**, **Valeera Sanguinar
 lvl 43** (was Valeera 20 on 06-03 — heavy delve activity since).
 
-### Currencies (Syndicator SavedVariables, snapshot 2026-07-02)
+### Currencies (Syndicator SavedVariables, snapshot 2026-07-07)
 
 > Source: the **Syndicator** addon writes a per-character `currencyID →
 > amount` table to disk; IDs resolved to names via wago.tools
 > `CurrencyTypes` DB2 (tier-1). Reflects the character's last in-game
 > `/reload` or logout. See "How to refresh currencies" at the bottom.
+> Deltas below are vs the 2026-07-02 snapshot.
 
-- **Dawncrests: Adventurer 211 · Veteran 245 · Champion 116 · Hero 74 ·
-  Myth 5.** *(Correction: the 06-03 screenshot read "no Hero/Myth ~0" —
-  he now has a real Hero/Myth stock. Myth Dawncrests are the recraft-to-285
-  currency, so recrafts are unblocked.)*
-- **Field Accolade 307** (banking toward 750 for 12.0.7 slot-targeted
-  caches → 443 to go; was 220 on 06-03)
-- Coffer Key Shards **75** · Restored Coffer Key **2**
-- Undercoin **7,360** · Voidlight Marl **12,962** · Remnant of Anguish
-  **2,765** · Brimming Arcana **590** · Radiant Spark Dust **15** ·
-  Dawnlight Manaflux **5** · Luminous Dust **2** · Shard of Dundun **4**
-- Artisan Tailor's Moxie **275** (Midnight Tailoring knowledge currency)
-- Trader's Tender 4,000 · Resonance Crystals 380 · Gold ~**42,252g**
+- **Dawncrests: Adventurer 289 · Veteran 55 · Champion 96 · Hero 176 ·
+  Myth 20.** Δ: Hero **+102** (74→176), Myth **+15** (5→20), Veteran
+  **−190** (spent). Big Hero/Myth build-up — plenty on hand for slot
+  upgrades and the next recraft-to-285.
+- **Field Accolade 1,309** (was 307 — **+1,002**; well past the 750
+  slot-cache threshold, so 12.0.7 slot-targeted hero boxes are affordable
+  now — spend on the weak slots: waist / ring2 / trinket2).
+- Coffer Key Shards **58** · Nebulous Voidcore **11**
+- Undercoin **21,610** · Voidlight Marl **20,176** · Remnant of Anguish
+  **3,384** · Brimming Arcana **590** · Radiant Spark Dust **17** ·
+  Dawnlight Manaflux **5** · Untainted Mana-Crystals **160** ·
+  Shard of Dundun **8**
+- Artisan Tailor's Moxie **580** (Midnight Tailoring knowledge currency)
+- Community Coupons **182** · Trader's Tender 4,000 · Resonance Crystals 380
+- Gold **~11,829g** (was ~42,252 — **−30k**, spent on the cloak
+  craft / mats and gear this week)
 - **Not in Syndicator's currency table:** Sparks of Radiance and Catalyst
   charges (Sparks is an item, Catalyst charges are tracked separately) —
   still need eyeballs in-game for those two.
@@ -135,12 +141,15 @@ pulls are rough** — calibration point for content recommendations.
 
 ## Implications for advice
 
-- **Gearing phase has moved up: equipped ilvl 270** (was 236 on 06-03),
-  4pc tier + 285 weapon. Base spark crafts (259) no longer upgrade any
-  slot — upgrades now come from **Myth-track recrafts (285), M+ vault,
-  and delve/ritual-site hero+ gear**. The old "spark-craft the 214/224
-  slots" advice is done.
-- **Weakest slots to target: back (250)**, then waist/ring2/trinket2 (259).
+- **Gearing phase has moved up: equipped ilvl 272** (was 236 on 06-03),
+  4pc tier + 285 weapon + 285 crafted back. Base spark crafts (259) no
+  longer upgrade any slot — upgrades now come from **Myth-track recrafts
+  (285), M+ vault, and delve/ritual-site hero+ gear**. The old "spark-craft
+  the 214/224 slots" advice is done.
+- **Weakest slots to target (2026-07-07): waist / ring2 / trinket2 (all
+  259)** — the back (250) hole is closed by the crafted 285 cloak. With
+  1,309 Field Accolades banked, the cheapest targeted gains are **hero
+  slot-boxes for waist/ring2/trinket2**; enchant the new back too.
 - **Enchants are now self-served** — Encomplete leveled Enchanting; the
   five bare slots (neck/wrist/feet/ring2/back) are the cheapest gains left.
 - **Tailoring is maxed (Midnight 100/100)** — self-crafts spark gear and
