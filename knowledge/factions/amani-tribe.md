@@ -2,11 +2,13 @@
 title: Amani Tribe (Renown Faction — Midnight)
 patch: 12.0.7
 fetched: 2026-06-19
-reviewed: 2026-07-07
+reviewed: 2026-07-09
 sources:
   - https://www.icy-veins.com/wow/amani-tribe-renown-guide
   - https://www.icy-veins.com/wow/midnight-1207-guide
   - https://www.wowhead.com/news/help-hatch-janalais-new-eggs-on-the-patch-12-0-7-ptr-381699
+  - https://www.wowhead.com/guide/midnight/amani-tribe-renown-reputation-farming-rewards  # rank-9 neck quest
+  - https://www.method.gg/guides/amani-tribe-renown-reputation-guide
 confidence: high
 ---
 
@@ -37,6 +39,14 @@ the faction hub is **Amani'Zar Village**.
 ## Renown track highlights (key rewards per rank)
 
 - **Rank 8:** unlocks the **Altar of Blessings** (Loa Blessings system, below).
+- **Rank 9:** unlocks **Magovu's quest "An Abundance of Wealth"** — complete one
+  **Abundance** world event → **Champion 1/6, ilvl 246 neck** (choice of *Amani
+  Heartstring Pendant* / *Amani Totemstring*). This is **quest-granted, not a
+  straight vendor purchase**, so it shows as a quest at Magovu, not a buyable
+  item — and a known bug can keep the quest from appearing until you `/reload`
+  with an Abundance event active. (Corrects an earlier KB gap that implied Amani
+  had no gear reward.)
+  Confirm the exact neck item names + that rank 9 grants this quest. @verify-ingame
 - **Rank 12:** **Naloki** companion pet.
 - **Rank 17:** **Amani Blessed Bear** mount.
 - **Rank 19:** **Amani Windcaller** flying mount.
