@@ -9,6 +9,11 @@ sources:
   - ../../endgame/world-events.md
   - ../../systems/ritual-sites.md
   - ../../endgame/delves/overview.md
+  - ../../factions/silvermoon-court.md   # renown Champion helm (r9)
+  - ../../factions/harati.md             # renown Champion belt (r8)
+  - ../../factions/the-singularity.md    # renown Champion trinket (r7)
+  - https://www.wowhead.com/quest=94836/late-night-training  # Hero neck/ring chain (Week 1 of 3)
+  - https://www.icy-veins.com/wow/news/wow-players-think-this-new-quest-gives-hero-gear-theres-a-catch/
 confidence: high
 ---
 
@@ -41,10 +46,14 @@ only gear/caches are warbound; Uncomplete earns his own upgrade crests.
    60/Heroic rare. Wasting 100 on a Champion cache for a near-Hero slot is a
    loss.
 
-**Applied to Encomplete's ~1,309 banked:** floor 600 (6 Champion; Back via
-quest) leaves 709 → **one Hero conversion** (+650). Best target = **Neck**
-(non-tier, permanent). Spend: Neck Hero 750 + five Champion 500 = **1,250**,
-~59 spare.
+**Applied (renown + quests take 4 of the 7 slots — see the next section):**
+**renown covers head + waist** (Voidlight Marl), and **quests cover neck + back**
+free (Late Night Training → Hero neck; Decimus → Myth cloak). That leaves only
+**hands / chest / legs** — all tier slots → **Champion caches (3 × 100 = 300
+accolades)**, doubling as catalyst fodder. Encomplete's ~1,309 covers that
+trivially; the ~1,000 leftover goes to **Band-2 Hero caches** (feet/rings/
+trinket2) or banks. Accolade floor drops 600 → **300**. The neck no longer needs
+a 750 cache at all.
 
 ## Per-slot chart
 
@@ -52,12 +61,12 @@ quest) leaves 709 → **one Hero conversion** (+650). Best target = **Neck**
 
 | Slot | Now | Tier? | Action | → Target |
 |---|---|---|---|---|
-| Hands | 145 | ✅ | Champion cache (100) | ~246 |
-| Neck | 159 | — | **Hero cache (750)** — the one Hero conversion | ~259 |
+| Hands | 145 | ✅ | Champion cache (100) — stopgap + catalyst fodder | ~246 |
+| Neck | 159 | — | **Late Night Training** quest (Week 1/3 → Hero neck) — free | ~259 |
 | Chest | 159 | ✅ | Champion cache (100) | ~246 |
-| Waist | 159 | — | Champion cache (100) *or* Decimus **belt** | ~246 / 272 |
-| Head | 165 | ✅ | Champion cache (100) | ~246 |
-| Back | 198 | — | **Free: Decimus Myth quest** (cloak, ~4wk); bridge 100 if impatient | 272 |
+| Waist | 159 | — | **Hara'ti renown belt** (Voidlight Marl, r8) — free | ~246 |
+| Head | 165 | ✅ | **Silvermoon renown helm** (Voidlight Marl, r9) — free | ~246 |
+| Back | 198 | — | **Decimus "Knocking Off the Top"** (cloak, Myth 272, ~4wk) — free | 272 |
 | Legs | 220 | ✅ | Champion cache (100) | ~246 |
 
 ### Band 2 — the 246 Champions (next wave)
@@ -79,6 +88,40 @@ quest) leaves 709 → **one Hero conversion** (+650). Best target = **Neck**
 world-row tier drops (no catalyst charge) or by catalyzing best Champion/Hero
 pieces (cache pieces ARE catalyzable — vendor gear, not crafted). Shoulders
 253 = best catalyze candidate now.
+
+## Renown & quest gear — free/cheap, spend these BEFORE accolades
+
+Four Band-1 slots come without a single Field Accolade: two from **renown**
+(currency **Voidlight Marl** — he holds ~1,514) and two from **quests**.
+
+**Renown (Voidlight Marl) — he qualifies now:**
+
+| Slot | Faction · rank | Renown | Vendor · TomTom |
+|---|---|---|---|
+| Head | Silvermoon Court **r9** → Champion helm | 12 ✅ | **Caeris Fairdawn**, Saltheril's Haven, Eversong Woods — `/way #2395 43.4 47.4` |
+| Waist | Hara'ti **r8** → Champion belt (~246) | 8 ✅ | **Naynar**, upper level of **The Den**, Harandar (north, by a tent near the river) — exact coords unpublished; `/way Harandar` + find her on the map @verify-ingame |
+| ~~Trinket~~ | The Singularity **r7** → Champion trinket 246 | 8 ✅ | **Void Researcher Anomander**, E. Howling Ridge, Voidstorm — `/way #2405 52.6 72.8` — **skip: sidegrade** (trinkets already 246) |
+
+Map IDs: `#2395` = Eversong Woods, `#2405` = Voidstorm. Confirm the exact rank +
+Marl price at the vendor — the KB has ranks, not costs (Singularity items run
+~150–8,000 Marl).
+
+**Quest gear (free):**
+
+- **Neck → "Late Night Training"** (quest `94836`, he's on **Week 1 of 3**). The
+  3-week chain ends in a **Hero-track (ilvl 259) neck-or-ring** choice — **take
+  the neck** (159 → 259; his rings are already 246). ⚠ **The catch** (Icy Veins):
+  the piece drops from the *final* quest (~3 weeks out, not this week) and may
+  carry **PvP secondary stats** — still a huge neck upgrade for a fresh alt, but
+  confirm PvE-usability and whether the weekly progress is **warband-wide**
+  in-game. @verify-ingame
+- **Cloak → Decimus "Knocking Off the Top"**: 4 weekly Val/Naigtal **Heroic**
+  world-boss kills → **Myth 272**, choice of cloak/belt/bracers. Take the
+  **cloak** (back 198) — waist is covered by Hara'ti renown and bracers are
+  already 256.
+
+**Net Band-1 spend:** head/waist = Voidlight Marl (have it), neck/back = quests
+(free, 3–4 wks), and only **hands/chest/legs** = 300 Field Accolades of caches.
 
 ## Weekly loop (both characters where noted)
 
