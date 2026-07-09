@@ -1,0 +1,158 @@
+{
+  "_note": "Auto-maintained by wowkb.plan from the PlannerState /ps active-quest-log dump (schema>=6). Weekly-frequency quests not in the addon watchlist land here. Verify each against the live build, promote into KNOWN_REPEATABLES (tools/wowkb/repeatables.py), regen repeatables.json + PlannerState_Quests.lua, then cut an addon release. Safe to edit/prune by hand.",
+  "discovered": [
+    {
+      "questID": 75511,
+      "title": "Tracking Quest",
+      "frequency": 2,
+      "campaign": null,
+      "seen_on": "Uncomplete",
+      "note": "auto-discovered by wowkb.plan — verify vs the live build, then add to KNOWN_REPEATABLES in tools/wowkb/repeatables.py, regen (wowkb.repeatables + wowkb.gen_addon_quests), and cut an addon release",
+      "decision": "skip: hidden system Tracking Quest, not a player weekly"
+    },
+    {
+      "questID": 82146,
+      "title": "Special Assignment: Cinderbee Surge",
+      "frequency": 3,
+      "campaign": null,
+      "seen_on": "Uncomplete",
+      "note": "auto-discovered by wowkb.plan — verify vs the live build, then add to KNOWN_REPEATABLES in tools/wowkb/repeatables.py, regen (wowkb.repeatables + wowkb.gen_addon_quests), and cut an addon release",
+      "decision": "wired: addon ns.WEEKLY_QUESTS v0.5.1 (special_assignment)"
+    },
+    {
+      "questID": 82156,
+      "title": "Special Assignment: When the Deeps Stir",
+      "frequency": 3,
+      "campaign": null,
+      "seen_on": "Uncomplete",
+      "note": "auto-discovered by wowkb.plan — verify vs the live build, then add to KNOWN_REPEATABLES in tools/wowkb/repeatables.py, regen (wowkb.repeatables + wowkb.gen_addon_quests), and cut an addon release",
+      "decision": "wired: addon ns.WEEKLY_QUESTS v0.5.1 (special_assignment)"
+    },
+    {
+      "questID": 84370,
+      "title": "The Key to Success",
+      "frequency": 2,
+      "campaign": null,
+      "seen_on": "Uncomplete",
+      "note": "auto-discovered by wowkb.plan — verify vs the live build, then add to KNOWN_REPEATABLES in tools/wowkb/repeatables.py, regen (wowkb.repeatables + wowkb.gen_addon_quests), and cut an addon release",
+      "decision": "defer: confirm it's a recurring gearing/progression weekly (title suggests one-time)"
+    },
+    {
+      "questID": 88808,
+      "title": "A Scarred Journey Through Time",
+      "frequency": 2,
+      "campaign": null,
+      "seen_on": "Uncomplete",
+      "note": "auto-discovered by wowkb.plan — verify vs the live build, then add to KNOWN_REPEATABLES in tools/wowkb/repeatables.py, regen (wowkb.repeatables + wowkb.gen_addon_quests), and cut an addon release",
+      "decision": "skip: Turbulent Timeways event quest — calendar-gated, the event handles it"
+    },
+    {
+      "questID": 89222,
+      "title": "Remnant of Azeroth",
+      "frequency": 2,
+      "campaign": null,
+      "seen_on": "Uncomplete",
+      "note": "auto-discovered by wowkb.plan — verify vs the live build, then add to KNOWN_REPEATABLES in tools/wowkb/repeatables.py, regen (wowkb.repeatables + wowkb.gen_addon_quests), and cut an addon release",
+      "decision": "defer: unverified value; confirm before wiring"
+    },
+    {
+      "questID": 89268,
+      "title": "Lost Legends",
+      "frequency": 2,
+      "campaign": null,
+      "seen_on": "Uncomplete",
+      "note": "auto-discovered by wowkb.plan — verify vs the live build, then add to KNOWN_REPEATABLES in tools/wowkb/repeatables.py, regen (wowkb.repeatables + wowkb.gen_addon_quests), and cut an addon release",
+      "decision": "defer: unverified value; confirm before wiring"
+    },
+    {
+      "questID": 90573,
+      "title": "Fortify the Runestones: Magisters",
+      "frequency": 2,
+      "campaign": null,
+      "seen_on": "Uncomplete",
+      "note": "auto-discovered by wowkb.plan — verify vs the live build, then add to KNOWN_REPEATABLES in tools/wowkb/repeatables.py, regen (wowkb.repeatables + wowkb.gen_addon_quests), and cut an addon release",
+      "decision": "defer: likely a Silvermoon/Magisters world weekly; confirm reward value"
+    },
+    {
+      "questID": 91992,
+      "title": "Where Has the Wine Gone?",
+      "frequency": 3,
+      "campaign": null,
+      "seen_on": "Uncomplete",
+      "note": "auto-discovered by wowkb.plan — verify vs the live build, then add to KNOWN_REPEATABLES in tools/wowkb/repeatables.py, regen (wowkb.repeatables + wowkb.gen_addon_quests), and cut an addon release",
+      "decision": "defer: likely a world weekly; confirm reward value"
+    },
+    {
+      "questID": 93595,
+      "title": "A Call to Delves",
+      "frequency": 2,
+      "campaign": null,
+      "seen_on": "Uncomplete",
+      "note": "auto-discovered by wowkb.plan — verify vs the live build, then add to KNOWN_REPEATABLES in tools/wowkb/repeatables.py, regen (wowkb.repeatables + wowkb.gen_addon_quests), and cut an addon release",
+      "decision": "wired: addon ns.WEEKLY_QUESTS v0.5.1 (delve_call_weekly)"
+    },
+    {
+      "questID": 93599,
+      "title": "The Very Best",
+      "frequency": 2,
+      "campaign": null,
+      "seen_on": "Uncomplete",
+      "note": "auto-discovered by wowkb.plan — verify vs the live build, then add to KNOWN_REPEATABLES in tools/wowkb/repeatables.py, regen (wowkb.repeatables + wowkb.gen_addon_quests), and cut an addon release",
+      "decision": "defer: likely pet-battle weekly; low gearing value"
+    },
+    {
+      "questID": 93627,
+      "title": "A Scarred Path Through Time",
+      "frequency": 2,
+      "campaign": null,
+      "seen_on": "Uncomplete",
+      "note": "auto-discovered by wowkb.plan — verify vs the live build, then add to KNOWN_REPEATABLES in tools/wowkb/repeatables.py, regen (wowkb.repeatables + wowkb.gen_addon_quests), and cut an addon release",
+      "decision": "skip: Turbulent Timeways event quest — calendar-gated"
+    },
+    {
+      "questID": 93755,
+      "title": "Den of Nalorakk",
+      "frequency": 3,
+      "campaign": null,
+      "seen_on": "Uncomplete",
+      "note": "auto-discovered by wowkb.plan — verify vs the live build, then add to KNOWN_REPEATABLES in tools/wowkb/repeatables.py, regen (wowkb.repeatables + wowkb.gen_addon_quests), and cut an addon release",
+      "decision": "wired: addon ns.WEEKLY_QUESTS v0.5.1 (nalorakk_weekly)"
+    },
+    {
+      "questID": 94390,
+      "title": "Special Assignment: A Hunter's Regret",
+      "frequency": 3,
+      "campaign": null,
+      "seen_on": "Uncomplete",
+      "note": "auto-discovered by wowkb.plan — verify vs the live build, then add to KNOWN_REPEATABLES in tools/wowkb/repeatables.py, regen (wowkb.repeatables + wowkb.gen_addon_quests), and cut an addon release",
+      "decision": "wired: addon ns.WEEKLY_QUESTS v0.5.1 (special_assignment)"
+    },
+    {
+      "questID": 95413,
+      "title": "Community Engagement",
+      "frequency": 2,
+      "campaign": null,
+      "seen_on": "Uncomplete",
+      "note": "auto-discovered by wowkb.plan — verify vs the live build, then add to KNOWN_REPEATABLES in tools/wowkb/repeatables.py, regen (wowkb.repeatables + wowkb.gen_addon_quests), and cut an addon release",
+      "decision": "defer: unverified value; confirm before wiring"
+    },
+    {
+      "questID": 95435,
+      "title": "Shade and Claw",
+      "frequency": 3,
+      "campaign": null,
+      "seen_on": "Uncomplete",
+      "note": "auto-discovered by wowkb.plan — verify vs the live build, then add to KNOWN_REPEATABLES in tools/wowkb/repeatables.py, regen (wowkb.repeatables + wowkb.gen_addon_quests), and cut an addon release",
+      "decision": "defer: likely a world/faction weekly; confirm reward value"
+    },
+    {
+      "questID": 95843,
+      "title": "Midnight: Ritual Sites",
+      "frequency": 3,
+      "campaign": null,
+      "seen_on": "Uncomplete",
+      "note": "auto-discovered by wowkb.plan — verify vs the live build, then add to KNOWN_REPEATABLES in tools/wowkb/repeatables.py, regen (wowkb.repeatables + wowkb.gen_addon_quests), and cut an addon release",
+      "decision": "wired: addon ns.WEEKLY_QUESTS v0.5.1 (ritual_sites_weekly)"
+    }
+  ]
+}

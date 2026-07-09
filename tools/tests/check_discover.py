@@ -42,6 +42,9 @@ check(ids == {99001, 99004}, f"unknown weeklies at freq 2 AND 3 discovered (got 
 k = next(e for e in fresh if e["questID"] == 99001)
 check(k["title"] == "Knocking Off the Top" and k.get("campaign") == 1,
       "carried the title + campaign flag")
+check(k.get("important") is True, "carried the Blizzard 'important' (purple-!) flag")
+check(next(e for e in fresh if e["questID"] == 99004).get("important") is False,
+      "non-important weekly flagged important=False")
 
 # 96713 is weekly but watch-listed; 99002 daily; 99003 one-time -> none of these.
 check(96713 not in ids, "watch-listed weekly is not re-discovered")

@@ -589,6 +589,13 @@ def render_gear(state: dict | None) -> str:
     return "\n".join(L)
 
 
+def important_quests(state: dict | None) -> list[dict]:
+    """Active quests Blizzard tags 'Important' (the purple-! in the UI) and not yet
+    complete. Needs a schema>=7 dump (scanQuestLog's `important` flag); [] otherwise."""
+    return [q for q in (state or {}).get("activeQuests") or []
+            if isinstance(q, dict) and q.get("important") and not q.get("isComplete")]
+
+
 def _state_banner(state: dict | None) -> str:
     """One-line 'where did this state come from' header, incl. which sources loaded."""
     if not state:
@@ -646,6 +653,7 @@ def discover_weeklies(state: dict | None, write: bool = True) -> list[dict]:
         entry = {
             "questID": qid, "title": q.get("title"),
             "frequency": q.get("frequency"), "campaign": q.get("campaign"),
+            "important": bool(q.get("important")),  # Blizzard "Important" tag (purple-!) — schema>=7
             "seen_on": state.get("character"),
             "note": "auto-discovered by wowkb.plan — verify vs the live build, then "
                     "add to KNOWN_REPEATABLES in tools/wowkb/repeatables.py, regen "
@@ -712,7 +720,11 @@ def main(argv=None) -> int:
     cur = currency_context(state)
     if cur:
         print(f"crests: {cur}")
-    if weak or cur:
+    imp = important_quests(state)
+    if imp:
+        print("★ important (purple-! in-game): "
+              + ", ".join(q.get("title") or str(q.get("id")) for q in imp))
+    if weak or cur or imp:
         print()
     print(f"DO THIS ({round(result['spent']*BLOCK_MIN)} of {args.minutes} min):")
     for r in result["picks"]:
@@ -726,7 +738,8 @@ def main(argv=None) -> int:
         print("\n(+) new weeklies seen in the /ps quest log (not yet tracked by the addon):")
         for e in fresh:
             camp = " [campaign]" if e.get("campaign") else ""
-            print(f"    {e['questID']}  {e.get('title') or '?'}{camp}")
+            imp = " ★important" if e.get("important") else ""
+            print(f"    {e['questID']}  {e.get('title') or '?'}{camp}{imp}")
         print(f"    → logged to knowledge/planning/{DISCOVERED.name}; verify, add to "
               "KNOWN_REPEATABLES,\n      regen (wowkb.repeatables + gen_addon_quests), then cut an addon release.")
     if not (state or {}).get("_path"):

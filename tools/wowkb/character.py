@@ -361,6 +361,11 @@ def _reset_section(state: dict | None) -> list[str]:
     if aq:
         L.append("- Weeklies in progress (quest log): "
                  + ", ".join(q.get("title") or str(q.get("id")) for q in aq))
+    imp = [q for q in state.get("activeQuests") or []
+           if isinstance(q, dict) and q.get("important") and not q.get("isComplete")]
+    if imp:
+        L.append("- ★ Important (purple-!): "
+                 + ", ".join(q.get("title") or str(q.get("id")) for q in imp))
     slots = (state.get("vault") or {}).get("slots") or []
     if slots:
         by: dict = {}

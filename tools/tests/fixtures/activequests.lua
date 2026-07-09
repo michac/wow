@@ -14,7 +14,7 @@ PlannerStateDB = {
 },
 ["activeQuests"] = {
 { ["id"] = 96713, ["title"] = "Showdown on Val", ["frequency"] = 2 },
-{ ["id"] = 99001, ["title"] = "Knocking Off the Top", ["frequency"] = 2, ["campaign"] = 1 },
+{ ["id"] = 99001, ["title"] = "Knocking Off the Top", ["frequency"] = 2, ["campaign"] = 1, ["important"] = true },
 { ["id"] = 99004, ["title"] = "Special Assignment: Weekly", ["frequency"] = 3 },
 { ["id"] = 99002, ["title"] = "A Daily Bounty", ["frequency"] = 1 },
 { ["id"] = 99003, ["title"] = "A One-Time Quest", ["frequency"] = 0 },
