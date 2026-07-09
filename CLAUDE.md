@@ -66,7 +66,18 @@ game.** Defenses, in order:
   `activities/*.md` the task catalog (`_facets.md` = its tag contract).
   `candidates.json` is the ranker input — **generated** from `activities/*.md`
   by `wowkb.gen_candidates`; edit the `.md`, not the JSON. Feeds off the
-  **PlannerState** addon (separate repo `michac/wow-planner-state`) via `wowkb.plan`.
+  **PlannerState** addon via `wowkb.plan`. `discovered-weeklies.json` is
+  **auto-maintained** by `wowkb.plan` from the addon's active-quest-log dump —
+  weeklies the watchlist doesn't track yet land there to be verified + promoted
+  into `wowkb.repeatables`' seed (don't hand-curate it as a source of truth).
+- `planner-state/` — **local checkout of the PlannerState addon** (separate repo
+  `michac/wow-planner-state`; **gitignored** here via `/planner-state/`, so the
+  wow repo never sees it as an embedded repo). This is the addon **source of
+  truth** — edit `planner-state/PlannerState/*.lua` here, then deploy per that
+  folder's `CLAUDE.md` (bump `.toc` Version + `schema`, luaparser-check, commit,
+  **cut a GitHub release**, `ghaddons update`, in-game `/ps` + `/reload`). A plain
+  push does **not** reach the game. Don't confuse it with the *installed* copy
+  under `…/_retail_/Interface/AddOns/PlannerState/`.
 - `addon-manager/` — `ghaddons`, a GitHub-driven WoW addon manager (installs
   PlannerState + any other addon from a repo list). Its own README; stdlib-only.
 - `tools/` — uv project, `wowkb` package
@@ -102,8 +113,9 @@ uv run python -m wowkb.wcl rankings <encounter-id> --class Warlock --spec Afflic
 uv run python -m wowkb.wcl casts <report-code> --fight <id>
 uv run python -m wowkb.wago <Db2Table> [--build 12.0.5.xxxxx]   # → raw/wago/
 uv run python -m wowkb.fetch <url>                   # → raw/pages/
-uv run python -m wowkb.character <name> [--realm kiljaeden] [--json]  # full char digest
-uv run python -m wowkb.plan --minutes 60 [--mood efficiency|fun] [--include-repeatables]  # ranked session shortlist (reads PlannerState dump)
+uv run python -m wowkb.character <name> [--realm kiljaeden] [--json]  # full char digest (unions all 3 sources; carries a "This reset" section)
+uv run python -m wowkb.plan --minutes 60 [--mood efficiency|fun] [--include-repeatables]  # ranked session shortlist
+uv run python -m wowkb.plan --gear --character <name>  # per-slot gearing chart (cache/crest targets + accolade heuristic)
 uv run python -m wowkb.gen_addon_quests              # regen addon quest-ID table from repeatables.json (then cut an addon release)
 uv run python -m wowkb.gen_candidates                # regen planning/candidates.json from activities/*.md (--check in CI; edit the .md, not the JSON)
 uv run python -m wowkb.gen_verify                    # regen _meta/verify-in-game.md from @verify-ingame markers (--check for CI; tag the claim, not the JSON)
@@ -121,6 +133,25 @@ and resolves IDs via wago `CurrencyTypes`. Requires the WoW install reachable
 logged in / `/reload`ed recently. Emits **data only** — add narrative/deltas by
 hand when writing the KB file. Gaps it can't see: Sparks of Radiance (an item)
 and Catalyst charges (check in-game).
+
+**Three sources, one loader.** `wowkb.charstate.load` is the single door that
+unions all character data: the **PlannerState `/ps` dump** (reset-state the API
+can't see — weeklies done/not, vault progress, world-boss kills, active events —
+plus an equipment/currency mirror; the **offline spine**), the **Blizzard API**
+(names/specs/professions/renown/raids), and **Syndicator** (gold + currencies).
+Both `wowkb.character` and `wowkb.plan` consume it; enrichment degrades silently
+when offline (`--no-enrich` forces dump-only). So `wowkb.character` now also
+carries a **"This reset"** section, and the profile API's blind spot (it does
+**not** expose the numeric upgrade track — Champion 2/8) means the gearing chart
+infers track from ilvl bands.
+
+**Routing rule — don't reinvent the planner from the KB.** For any "how do I
+gear up / progress <char>" question, run the tools FIRST (they already union the
+three sources) rather than re-deriving a per-slot chart by hand:
+`wowkb.plan --gear --character <name>` (gearing chart + accolade heuristic),
+`wowkb.plan --character <name>` (ranked session), `wowkb.character <name>`
+(snapshot + reset-state). The **`/plan-character`** command wraps this flow.
+Add warband/cross-character moves + KB colour on top; don't recompute the slots.
 
 ⚠ git-bash mangles leading-slash args (`/data/...` →
 `C:/Program Files/Git/data/...`). Prefix `wowkb.blizzard get` calls with

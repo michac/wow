@@ -339,7 +339,52 @@ def collect_currencies(name: str, realm: str, wow_path: str) -> dict | None:
 # --------------------------------------------------------------------------- #
 # Markdown rendering                                                          #
 # --------------------------------------------------------------------------- #
-def render_md(data: dict, cur: dict | None) -> str:
+def _reset_section(state: dict | None) -> list[str]:
+    """Render the PlannerState `/ps` reset-state (the third source) — what this
+    character has/hasn't done THIS reset, which the profile API can't see. Empty
+    when there's no dump, so the snapshot degrades to the old API+Syndicator shape.
+    """
+    if not state or not state.get("_path"):
+        return []
+    L = ["## This reset (PlannerState)"]
+    wq = [q for q in state.get("weeklyQuests") or []
+          if isinstance(q, dict) and not q.get("complete")]
+    if wq:
+        def _lbl(q):
+            base = q.get("label") or q.get("id")
+            if isinstance(q.get("have"), (int, float)) and q.get("need"):
+                return f"{base} ({int(q['have'])}/{int(q['need'])})"
+            return str(base)
+        L.append("- Weeklies not done: " + ", ".join(_lbl(q) for q in wq))
+    aq = [q for q in state.get("activeQuests") or []
+          if isinstance(q, dict) and q.get("frequency") == 2 and not q.get("isComplete")]
+    if aq:
+        L.append("- Weeklies in progress (quest log): "
+                 + ", ".join(q.get("title") or str(q.get("id")) for q in aq))
+    slots = (state.get("vault") or {}).get("slots") or []
+    if slots:
+        by: dict = {}
+        for s in slots:
+            if isinstance(s, dict):
+                by.setdefault(s.get("type"), []).append(s)
+        parts = []
+        for typ, ss in by.items():
+            filled = sum(1 for s in ss
+                         if (s.get("progress") or 0) >= (s.get("threshold") or 1e9))
+            parts.append(f"{typ} {filled}/{len(ss)}")
+        L.append("- Great Vault columns filled: " + ", ".join(parts))
+    wb = state.get("worldBosses")
+    if wb is not None:
+        L.append(f"- World bosses killed this reset: {len(wb)}")
+    cal = [e for e in state.get("calendar") or []
+           if isinstance(e, dict) and e.get("active") and e.get("title")]
+    if cal:
+        L.append("- Active events: " + ", ".join(e["title"] for e in cal))
+    L.append("")
+    return L
+
+
+def render_md(data: dict, cur: dict | None, state: dict | None = None) -> str:
     i = data["identity"]
     L = []
     L.append(f"# {i['name']} – {i['realm']}  (data snapshot)")
@@ -393,6 +438,8 @@ def render_md(data: dict, cur: dict | None) -> str:
         L.append(f"- {p['profession']} / {p['tier']}: {p['skill']}/{p['max']}{sec}")
     L.append("")
 
+    L.extend(_reset_section(state))
+
     L.append("## Currencies")
     if not cur:
         L.append("- (skipped)")
@@ -418,16 +465,24 @@ def main() -> None:
     p.add_argument("--wow-path", default=DEFAULT_WOW, help="path to the _retail_ folder")
     args = p.parse_args()
 
-    prof = fetch_profile(args.realm, args.name)
-    if "_error" in prof.get("summary", {}):
-        sys.exit(f"error: could not fetch {args.name}-{args.realm}: {prof['summary']['_error']}")
-    data = normalize(prof)
-    cur = None if args.no_currencies else collect_currencies(args.name, args.realm, args.wow_path)
+    # One door for all three sources: the profile API + Syndicator (enrichment)
+    # folded onto the PlannerState /ps dump (reset-state spine), via charstate.load.
+    from wowkb import charstate  # deferred: charstate.load() reaches back into this module
+    state = charstate.load(args.name, args.realm, wow_path=args.wow_path,
+                           enrich=True, syndicator=not args.no_currencies)
+    if not state or not state.get("profile"):
+        err = (state or {}).get("_errors", {}).get("blizzard_api", "profile fetch failed")
+        sys.exit(f"error: could not fetch {args.name}-{args.realm}: {err}")
+    data = state["profile"]
+    cur = state.get("syndicator")
 
     if args.json:
-        print(json.dumps({"data": data, "currencies": cur}, indent=2))
+        reset = {k: v for k, v in state.items()
+                 if k not in ("profile", "syndicator") and not k.startswith("_")}
+        print(json.dumps({"data": data, "currencies": cur, "reset_state": reset},
+                         indent=2, default=str))
     else:
-        print(render_md(data, cur))
+        print(render_md(data, cur, state))
 
 
 if __name__ == "__main__":

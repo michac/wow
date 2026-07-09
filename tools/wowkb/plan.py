@@ -13,17 +13,22 @@ under the WoW install.
 from __future__ import annotations
 
 import argparse
-import glob
 import json
 import os
 from pathlib import Path
 
 from wowkb import rewards
+# The Lua dump parser + loaders now live in charstate (the shared 3-source door).
+# Re-imported here so `from wowkb.plan import load_state` keeps working for callers
+# and the offline test suite. `load()` unions the /ps dump with API + Syndicator.
+from wowkb.charstate import (  # noqa: F401
+    DEFAULT_REALM, DEFAULT_WOW, load, load_state, parse_savedvar,
+)
 
 REPO = Path(__file__).resolve().parents[2]
 CANDIDATES = REPO / "knowledge" / "planning" / "candidates.json"
 REPEATABLES = REPO / "knowledge" / "planning" / "repeatables.json"
-DEFAULT_WOW = "/mnt/c/Program Files (x86)/World of Warcraft/_retail_"
+DISCOVERED = REPO / "knowledge" / "planning" / "discovered-weeklies.json"
 
 # Repeatable questIDs the hand-curated candidates.json already covers (via slug
 # gates) — skip them when --include-repeatables merges the scraper catalog, so
@@ -39,149 +44,6 @@ E_TABLE = {
 E_CAP = 1.5
 BLOCK_MIN = 15  # minutes per time block
 LEVEL_CAP = 90  # Midnight cap (knowledge/_meta/game-version.md) — campaign_incomplete proxy
-
-
-# --------------------------------------------------------------------------- #
-# Minimal Lua SavedVariables parser (subset: nested tables, [k]=v, positional,  #
-# strings, numbers, booleans, nil). Enough for PlannerState's dump.            #
-# --------------------------------------------------------------------------- #
-class _LuaParser:
-    def __init__(self, s: str):
-        self.s = s
-        self.i = 0
-        self.n = len(s)
-
-    def _ws(self):
-        while self.i < self.n:
-            c = self.s[self.i]
-            if c in " \t\r\n":
-                self.i += 1
-            elif self.s.startswith("--", self.i):
-                # line comment (SavedVariables never uses block comments)
-                nl = self.s.find("\n", self.i)
-                self.i = self.n if nl < 0 else nl + 1
-            else:
-                break
-
-    def parse_value(self):
-        self._ws()
-        c = self.s[self.i]
-        if c == "{":
-            return self._table()
-        if c in "\"'":
-            return self._string(c)
-        if self.s.startswith("true", self.i):
-            self.i += 4; return True
-        if self.s.startswith("false", self.i):
-            self.i += 5; return False
-        if self.s.startswith("nil", self.i):
-            self.i += 3; return None
-        return self._number()
-
-    def _string(self, quote):
-        self.i += 1
-        out = []
-        while self.i < self.n:
-            c = self.s[self.i]
-            if c == "\\":
-                out.append(self.s[self.i + 1]); self.i += 2; continue
-            if c == quote:
-                self.i += 1; break
-            out.append(c); self.i += 1
-        return "".join(out)
-
-    def _number(self):
-        j = self.i
-        while self.i < self.n and self.s[self.i] not in ",}=\r\n \t":
-            self.i += 1
-        tok = self.s[j:self.i].strip()
-        try:
-            return int(tok)
-        except ValueError:
-            try:
-                return float(tok)
-            except ValueError:
-                return tok  # bare identifier fallback
-
-    def _key(self):
-        # [key] = ... ; returns the key (str/int) or None for positional entries
-        self._ws()
-        if self.s[self.i] != "[":
-            return None
-        self.i += 1
-        self._ws()
-        c = self.s[self.i]
-        key = self._string(c) if c in "\"'" else self._number()
-        self._ws()
-        assert self.s[self.i] == "]"; self.i += 1
-        self._ws()
-        assert self.s[self.i] == "="; self.i += 1
-        return key
-
-    def _table(self):
-        self.i += 1  # {
-        d, arr = {}, []
-        while True:
-            self._ws()
-            if self.s[self.i] == "}":
-                self.i += 1; break
-            save = self.i
-            key = self._key()
-            if key is None:
-                self.i = save
-                arr.append(self.parse_value())
-            else:
-                d[key] = self.parse_value()
-            self._ws()
-            if self.i < self.n and self.s[self.i] == ",":
-                self.i += 1
-        if arr and not d:
-            return arr
-        for idx, v in enumerate(arr, 1):
-            d.setdefault(idx, v)
-        return d
-
-
-def parse_savedvar(text: str, var: str) -> dict | None:
-    """Extract `var = { ... }` from a SavedVariables Lua file."""
-    marker = f"{var} = "
-    pos = text.find(marker)
-    if pos < 0:
-        marker = f"{var}="
-        pos = text.find(marker)
-        if pos < 0:
-            return None
-    p = _LuaParser(text)
-    p.i = pos + len(marker)
-    return p.parse_value()
-
-
-def load_state(state_path: str | None, wow_path: str,
-               character: str | None = None) -> dict | None:
-    """Load a PlannerState dump. Auto-find picks the **newest** dump so it's
-    "the char you just played," not whoever sorts first alphabetically. Pass
-    `character` to restrict the glob to a single character's SavedVariables.
-    """
-    if state_path:
-        paths = [state_path]
-    else:
-        who = glob.escape(character) if character else "*"
-        pattern = f"{wow_path}/WTF/Account/*/*/{who}/SavedVariables/PlannerState.lua"
-        # Newest dump first = the character you most recently /reload-ed.
-        paths = sorted(glob.glob(pattern), key=os.path.getmtime, reverse=True)
-    for pth in paths:
-        try:
-            text = Path(pth).read_text(encoding="utf-8", errors="replace")
-        except OSError:
-            continue
-        try:
-            db = parse_savedvar(text, "PlannerStateDB")
-        except Exception:  # noqa: BLE001 — a malformed dump shouldn't crash the plan
-            db = None
-        if isinstance(db, dict) and db:
-            db["_path"] = pth
-            return db
-    return None
 
 
 # --------------------------------------------------------------------------- #
@@ -584,6 +446,223 @@ def _fmt(r: dict) -> str:
             f"— {c['why']}{note}{flag}")
 
 
+# --------------------------------------------------------------------------- #
+# Gearing view — the per-slot cache/crest chart (routing target for            #
+# "how do I gear up X"). Track is inferred from ilvl bands, since the profile   #
+# API doesn't expose the numeric upgrade track (charstate notes this).         #
+# --------------------------------------------------------------------------- #
+TIER_SLOTS = {"head", "shoulder", "chest", "hands", "legs"}
+# Decimus "Knocking Off the Top" gives ONE free Myth 272 among these three slots.
+QUEST_SLOTS = {"back": "cloak", "waist": "belt", "wrist": "bracers"}
+CHAMPION_CACHE_ACC = 100        # slot-specific warbound Champion cache (Field Accolades)
+HERO_CACHE_ACC = 750           # slot-specific warbound Hero cache
+SLOT_ORDER = ["head", "neck", "shoulder", "chest", "waist", "legs", "feet", "wrist",
+              "hands", "finger1", "finger2", "trinket1", "trinket2", "back",
+              "mainhand", "offhand"]
+
+
+def _band(ilvl: float | None) -> str:
+    """Midnight S1 ilvl → upgrade-track band (great-vault.md / dawncrests.md).
+    Bands overlap in reality; these floors are the pragmatic classifier the KB uses.
+    """
+    if not isinstance(ilvl, (int, float)):
+        return "?"
+    if ilvl >= 277:
+        return "myth"
+    if ilvl >= 259:
+        return "hero"
+    if ilvl >= 246:
+        return "champion"
+    if ilvl >= 233:
+        return "veteran"
+    return "adventurer"
+
+
+def _slot_reco(slot: str, band: str) -> str:
+    tier = slot in TIER_SLOTS
+    if band in ("adventurer", "veteran"):                      # sub-Champion
+        if tier:
+            return f"Champion cache ({CHAMPION_CACHE_ACC} acc) — stopgap + catalyst fodder"
+        return (f"Champion cache ({CHAMPION_CACHE_ACC}) now → Hero cache "
+                f"({HERO_CACHE_ACC}) as accolades allow")
+    if band == "champion":
+        return f"Hero cache ({HERO_CACHE_ACC}) or Hero drop, then crest up"
+    if band == "hero":
+        return "crest up (Hero → 276)"
+    if band == "myth":
+        return "—"
+    return "(unknown ilvl)"
+
+
+def _norm_slot(s: str | None) -> str:
+    """Canonicalize a slot name across sources — dumps use 'finger1', fixtures
+    'FINGER_1', the API 'Finger 1' — all collapse to 'finger1'."""
+    return (s or "").lower().replace("_", "").replace(" ", "")
+
+
+def gear_rows(state: dict | None) -> list[dict]:
+    """Per-slot gearing rows from the unified state's equipment (ilvl + band + reco)."""
+    eq = {_norm_slot(s.get("slot")): s for s in (state or {}).get("equipment") or []
+          if isinstance(s, dict) and s.get("slot")}
+    rows = []
+    for slot in SLOT_ORDER:
+        s = eq.get(slot)
+        if not s:
+            continue
+        ilvl = s.get("ilvl")
+        band = _band(ilvl)
+        rows.append({
+            "slot": slot, "ilvl": ilvl, "band": band, "tier": slot in TIER_SLOTS,
+            "name": s.get("name"), "reco": _slot_reco(slot, band),
+        })
+    return rows
+
+
+def render_gear(state: dict | None) -> str:
+    """The gearing chart: per-slot targets + the accolade-allocation heuristic.
+    This is the home for "how do I gear up X" — run it instead of re-deriving from
+    the KB by hand.
+    """
+    rows = gear_rows(state)
+    if not rows:
+        return ("No equipment in the state (need a schema>=4 /ps dump or the profile "
+                "API). Run /ps + /reload on the character, or drop --no-enrich.")
+    L = []
+    name = (state or {}).get("character") or "character"
+    il = (state or {}).get("equippedIlvl")
+    head = f" (equipped ilvl {round(il)})" if isinstance(il, (int, float)) and il else ""
+    L.append(f"Gearing plan · {name}{head}")
+    L.append("")
+
+    sub = [r for r in rows if r["band"] in ("adventurer", "veteran")]
+    champ = [r for r in rows if r["band"] == "champion"]
+    higher = [r for r in rows if r["band"] in ("hero", "myth")]
+
+    def _line(r):
+        tier = " ·tier" if r["tier"] else ""
+        quest = f" ·quest-slot({QUEST_SLOTS[r['slot']]})" if r["slot"] in QUEST_SLOTS else ""
+        nm = f" {r['name']}" if r.get("name") else ""
+        return f"  {r['slot']:<9} {str(r['ilvl']):>4}{tier}{quest} — {r['reco']}{nm}"
+
+    if sub:
+        L.append(f"BAND 1 — sub-Champion, fix first ({len(sub)} slots):")
+        for r in sorted(sub, key=lambda r: r["ilvl"] or 0):
+            L.append(_line(r))
+        L.append("")
+    if champ:
+        L.append("BAND 2 — Champion (Hero caches / crest up):")
+        for r in sorted(champ, key=lambda r: r["ilvl"] or 0):
+            L.append(_line(r))
+        L.append("")
+    if higher:
+        L.append("BAND 3 — Hero+ (crest up / recraft to 285):")
+        for r in sorted(higher, key=lambda r: r["ilvl"] or 0):
+            L.append(_line(r))
+        L.append("")
+
+    # Accolade-allocation heuristic (mirrors the by-hand rule).
+    n = len(sub)
+    quest_sub = [r for r in sub if r["slot"] in QUEST_SLOTS]
+    floor_slots = max(0, n - (1 if quest_sub else 0))   # one weak quest-slot is free
+    floor = floor_slots * CHAMPION_CACHE_ACC
+    curs = {c.get("name"): c.get("quantity")
+            for c in (state or {}).get("currencies") or [] if isinstance(c, dict)}
+    acc = curs.get("Field Accolade") or curs.get("Field Accolades")
+    L.append("Accolade heuristic:")
+    L.append(f"- {n} sub-Champion slot(s). Champion-cap floor ≈ {floor} accolades"
+             + (f" (one of {{{', '.join(QUEST_SLOTS[r['slot']] for r in quest_sub)}}} "
+                "comes free from Decimus 'Knocking Off the Top' — take the weakest)"
+                if quest_sub else "") + ".")
+    L.append(f"- Each +{HERO_CACHE_ACC - CHAMPION_CACHE_ACC} accolades over the floor "
+             "upgrades one planned Champion slot to Hero. Spend Hero on NON-tier slots first.")
+    L.append("- If a Hero conversion is close but short, farm the gap (Val/Naigtal Heroic "
+             "≈ 1,700 acc / couple hrs; 60/rare) — don't settle for Champion.")
+    if isinstance(acc, (int, float)):
+        L.append(f"- This character holds {int(acc):,} Field Accolades.")
+    L.append("- Caches are warbound (buy on any char, mail over); upgrade CRESTS are not — "
+             "each character earns its own. Tier slots → 4pc via catalyst / vault tier drops.")
+    return "\n".join(L)
+
+
+def _state_banner(state: dict | None) -> str:
+    """One-line 'where did this state come from' header, incl. which sources loaded."""
+    if not state:
+        return "no PlannerState dump, no API — gates marked (?)"
+    parts = []
+    path = state.get("_path")
+    if path:
+        # Dump mtime → a stale dump (played a different char since) is obvious.
+        try:
+            age = _fmt_age(os.path.getmtime(path))
+        except OSError:
+            age = "?"
+        parts.append(f"{Path(path).name} (char {state.get('character', '?')}, dumped {age})")
+    else:
+        parts.append("no /ps dump")
+    srcs = state.get("_sources") or {}
+    live = [n for n, ok in (("API", srcs.get("blizzard_api")),
+                            ("Syndicator", srcs.get("syndicator"))) if ok]
+    if live:
+        parts.append("+ " + " + ".join(live))
+    return "state: " + " ".join(parts)
+
+
+def discover_weeklies(state: dict | None, write: bool = True) -> list[dict]:
+    """Weekly quests the /ps active-log dump reveals that the addon watchlist
+    doesn't track yet — the auto-list half of the "no manual ID hunting" design.
+
+    The watchlist (state.weeklyQuests) only reports quests it already knows; the
+    schema>=6 active-quest-log block (state.activeQuests) sees everything currently
+    accepted. Any weekly-frequency quest in the log but NOT in the watchlist is
+    persisted to knowledge/planning/discovered-weeklies.json (dedup by questID) so
+    it survives across runs, and returned so the caller can print a promote-me TODO.
+    No addon edit / release happens here (that needs verification + a GitHub
+    release); this only maintains the data list.
+    """
+    active = (state or {}).get("activeQuests") or []
+    if not active:
+        return []                               # pre-schema-6 dump: no active-log block
+    known = {q.get("id") for q in (state.get("weeklyQuests") or [])
+             if isinstance(q, dict)}
+    master: dict = {}
+    if DISCOVERED.exists():
+        try:
+            for e in json.loads(DISCOVERED.read_text()).get("discovered", []):
+                master[e.get("questID")] = e
+        except Exception:  # noqa: BLE001 — a corrupt list shouldn't break the plan
+            master = {}
+    fresh = []
+    for q in active:
+        if not isinstance(q, dict) or q.get("frequency") != 2:  # 2 = weekly
+            continue
+        qid = q.get("id")
+        if qid is None or qid in known or qid in master:
+            continue
+        entry = {
+            "questID": qid, "title": q.get("title"),
+            "frequency": q.get("frequency"), "campaign": q.get("campaign"),
+            "seen_on": state.get("character"),
+            "note": "auto-discovered by wowkb.plan — verify vs the live build, then "
+                    "add to KNOWN_REPEATABLES in tools/wowkb/repeatables.py, regen "
+                    "(wowkb.repeatables + wowkb.gen_addon_quests), and cut an addon release",
+        }
+        master[qid] = entry
+        fresh.append(entry)
+    if fresh and write:
+        DISCOVERED.parent.mkdir(parents=True, exist_ok=True)
+        payload = {
+            "_note": "Auto-maintained by wowkb.plan from the PlannerState /ps "
+                     "active-quest-log dump (schema>=6). Weekly-frequency quests not "
+                     "in the addon watchlist land here. Verify each against the live "
+                     "build, promote into KNOWN_REPEATABLES (tools/wowkb/repeatables.py), "
+                     "regen repeatables.json + PlannerState_Quests.lua, then cut an "
+                     "addon release. Safe to edit/prune by hand.",
+            "discovered": sorted(master.values(), key=lambda e: e.get("questID") or 0),
+        }
+        DISCOVERED.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n")
+    return fresh
+
+
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="wowkb.plan", description=__doc__,
                                 formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -592,27 +671,33 @@ def main(argv=None) -> int:
     p.add_argument("--state", help="path to PlannerState.lua (else auto-find)")
     p.add_argument("--character", help="restrict auto-find to this character's dump "
                                        "(else newest dump across the roster wins)")
+    p.add_argument("--realm", default=DEFAULT_REALM, help=f"realm slug (default: {DEFAULT_REALM})")
     p.add_argument("--wow-path", default=DEFAULT_WOW)
+    p.add_argument("--no-enrich", action="store_true",
+                   help="skip the Blizzard API + Syndicator enrichment (offline / faster; "
+                        "gates + weakest-slot still work from the /ps dump alone)")
+    p.add_argument("--no-discover", action="store_true",
+                   help="don't persist newly-seen weeklies to discovered-weeklies.json")
+    p.add_argument("--gear", action="store_true",
+                   help="print the per-slot gearing chart (cache/crest targets + the "
+                        "accolade heuristic) instead of the session activity plan")
     p.add_argument("--include-repeatables", action="store_true",
                    help="also rank the scraper catalog (repeatables.json); "
                         "rows marked ~ have placeholder time/enjoyment")
     args = p.parse_args(argv)
 
-    state = load_state(args.state, args.wow_path, args.character)
-    result = plan(args.minutes, state, args.mood, args.include_repeatables)
+    state = load(character=args.character, realm=args.realm, wow_path=args.wow_path,
+                 state_path=args.state, enrich=not args.no_enrich)
 
-    if state is None:
-        src = "no PlannerState dump — gates marked (?)"
-    else:
-        # Surface the dump's mtime so a stale dump (played a different char since)
-        # is obvious — this is the "the char you just played" signal for 0.1.
-        try:
-            age = _fmt_age(os.path.getmtime(state["_path"]))
-        except OSError:
-            age = "?"
-        src = (f"state: {Path(state['_path']).name} "
-               f"(char {state.get('character','?')}, dumped {age})")
-    print(f"\nSession plan · {args.minutes} min · mood={args.mood} · {src}\n")
+    if args.gear:
+        print(f"\n{_state_banner(state)}\n")
+        print(render_gear(state))
+        return 0
+
+    result = plan(args.minutes, state, args.mood, args.include_repeatables)
+    fresh = discover_weeklies(state, write=not args.no_discover)
+
+    print(f"\nSession plan · {args.minutes} min · mood={args.mood} · {_state_banner(state)}\n")
     weak = weakest_slots(state)
     if weak:
         il = state.get("equippedIlvl")
@@ -632,8 +717,15 @@ def main(argv=None) -> int:
         print("\nbacklog (didn't fit / lower value):")
         for r in rest:
             print(_fmt(r))
-    if state is None:
-        print("\n(!) No addon dump found. Install michac/wow-planner-state, /ps + /reload,")
+    if fresh:
+        print("\n(+) new weeklies seen in the /ps quest log (not yet tracked by the addon):")
+        for e in fresh:
+            camp = " [campaign]" if e.get("campaign") else ""
+            print(f"    {e['questID']}  {e.get('title') or '?'}{camp}")
+        print(f"    → logged to knowledge/planning/{DISCOVERED.name}; verify, add to "
+              "KNOWN_REPEATABLES,\n      regen (wowkb.repeatables + gen_addon_quests), then cut an addon release.")
+    if not (state or {}).get("_path"):
+        print("\n(!) No PlannerState dump found. Install michac/wow-planner-state, /ps + /reload,")
         print("    then re-run so delve/prey/vault gates resolve instead of showing (?).")
     return 0
 
