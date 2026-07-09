@@ -92,12 +92,16 @@ See `planning/activities/val-naigtal.md` (zone farm) and `showdown-weekly.md`
   death**; refresh by re-queuing). **Stacks with Darkmoon Faire** and other XP buffs, so
   banked delve/WQ quest turn-ins under Mastery are the fastest alt XP in the patch.
 - **Mount:** *Spawn of Vyranoth* (new proto-drake, only from **Master of the Turbulent
-  Timeways V**) requires earning **Mastery of Timeways in 4 of the event weeks** (miss at
-  most one); progress can be spread across alts.
+  Timeways V**, achievement **61463**) requires earning **Mastery of Timeways in 4 of the
+  event's 6 weeks** — you may **miss up to two** (the requirement was **reduced from 5 to 4**
+  near launch, Wowhead #381738). Progress is **account-wide** and can be spread across alts;
+  the achievement's week-counter criterion is what the planner/addon reads for progress.
 - Note: this is a timewalking event, **not** a Mythic+ Season 1 structural change.
-- Source note: mechanics corroborated by community guides this pass (`yt:rliFXbEHghU`
-  "Yeti", `yt:kUP8oqI7Ekc` "Two Angry Frogs") — tier-3, medium confidence on the exact
-  4-of-5 wording; the ilvl/window numbers are from the Revelations notes (tier-1).
+- Source note: the 4-of-6 requirement + IDs (achievement 61463, DF weekly quest 93497,
+  cache item 250116) are tier-3 (Wowhead, 2026-07-09); mechanics corroborated by community
+  guides (`yt:rliFXbEHghU` "Yeti", `yt:kUP8oqI7Ekc` "Two Angry Frogs"); the ilvl/window
+  numbers are from the Revelations notes (tier-1). The older "4 of 5 / miss at most one"
+  wording predates the launch reduction.
 
 ## Darkmoon Faire (monthly)
 

@@ -133,9 +133,17 @@ yields:
   champion gear; later catalyst/craft). **Canonical slot names** match the dump's
   lowercase form: `head neck shoulder chest waist legs feet wrist hands back
   finger1 finger2 trinket1 trinket2 mainhand offhand` (matched case-insensitively).
-- **`chance`** is **carried but NOT applied in Phase 2a** — the deterministic-vs-RNG
-  expected-value math is Phase 3. Keeping the field now means Phase 3 plugs in with
-  no data migration. Set a coarse per-run estimate; it does not affect 2a scoring.
+- **`chance`** — **drop probability only** (Phase 3 effect *a*): the chance the activity
+  yields a piece at all, applied as a straight EV multiplier (`effective_delta = chance ×
+  value`). Guaranteed drops — bonus rolls, vendor buys — are `1.0` (the default when
+  omitted); a chance-to-drop world-boss piece is `< 1`.
+- **`targeted`** *(optional, default `false`)* — **slot determinism** (Phase 3 effect *b*).
+  `true` = YOU choose which slot the piece fills (a vendor pick like Maren, a catalyst), so
+  it's valued at the best fillable slot even over `[all]`. `false`/omitted = the game picks
+  the slot: an `[all]` (or multi-slot) roll is valued at the **expected** upgrade across its
+  fillable slots (mean of positive per-slot deltas), NOT the max — so a guaranteed *random*
+  roll no longer inflates to your single best slot. (`plan.py:best_slot_delta`; a targeted
+  Hero-259 buy beats a random Myth-272 roll for closing one specific gap.)
 - **`track`** is descriptive (which upgrade track the drop rides); 2a values off
   `ilvl`/`slots` only.
 - `plan.py:slot_target_R()` reads it via `rewards.best_slot_delta` — the best

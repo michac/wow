@@ -10,7 +10,7 @@ scope: character
 status: active
 gate: { type: raid_weekly, boss: rotmire, name_contains: Sporefall }
 breakpoint: { type: vault, track: raid, thresholds: [2, 4, 6] }
-reward: { type: [power], detail: "Rotmire loot per difficulty (ilvl 259–298); fills the Vault's raid column" }
+reward: { type: [power], detail: "Rotmire loot per difficulty (ilvl 259–298); raid Vault column needs 2 boss kills (across difficulties) for the first slot" }
 reward_ilvl_max: 285   # realistic pug ceiling (Heroic); Mythic 298 needs a guild
 time_blocks: 2
 patch: 12.0.7

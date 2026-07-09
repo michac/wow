@@ -163,7 +163,8 @@ def _vault_track(track: str, state: dict | None) -> tuple[int | None, list[int] 
     column's thresholds (Midnight reports M+ under the dungeon vault type). Any
     other track reads vault.slots[type].progress + its own thresholds — so we no
     longer assume [1,4,8]; delve/world/raid columns each carry their real cutoffs
-    (observed live: world 2/4/6, dungeon 2/4/8, raid 1/4/8).
+    (verified in-game 2026-06-03, great-vault.md: raid 2/4/6, dungeon 1/4/8,
+    world 2/4/8).
     """
     if not state:
         return None, None
@@ -276,12 +277,13 @@ def slot_target_R(cand: dict, state: dict | None) -> tuple[float, str] | None:
 
     Two paths, preferring the per-slot vector (needs-first Phase 2a):
 
-    - **`yields.slots`** (a list of `{track, ilvl, chance, slots}` vectors where
-      `ilvl` is the drop's *landing* ilvl — Hero 1/6 = 259, not the crested 276
-      ceiling): value it per-slot via `rewards.best_slot_delta` — the best positive
-      delta across every slot the drop can fill (`[all]` = any equipped slot). No
-      positive delta anywhere → R=0 (the drop lands ≤ your slots; a sidegrade).
-      This kills the old "one weak slot inflates every Hero-ceiling activity" bug.
+    - **`yields.slots`** (a list of `{track, ilvl, chance, targeted, slots}` vectors
+      where `ilvl` is the drop's *landing* ilvl — Hero 1/6 = 259, not the crested 276
+      ceiling): value it per-slot via `rewards.best_slot_delta` — the best EFFECTIVE
+      delta across every slot the drop can fill (`[all]` = any equipped slot), with
+      the drop's `chance` and slot-randomness folded in (Phase 3 EV). No positive
+      delta anywhere → R=0 (the drop lands ≤ your slots; a sidegrade). This kills the
+      old "one weak slot inflates every Hero-ceiling activity" bug.
     - **`reward_ilvl_max`** (scalar ceiling, un-migrated activities — raid keeps its
       per-difficulty ceiling): unchanged — the top ilvl its gear can reach compared
       to the char's *weakest* equipped slot.
@@ -299,7 +301,7 @@ def slot_target_R(cand: dict, state: dict | None) -> tuple[float, str] | None:
             return 0.0, "no slot upgrade — drop lands ≤ your slots"
         # ~+1 R per 6 ilvl of headroom, foot-in-door at 1 (same scale as below).
         R = min(5.0, 1.0 + delta / 6.0)
-        return R, f"+{round(delta)} ilvl over {slot} ({round(cur)})"
+        return R, f"+{round(delta, 1)} ilvl over {slot} ({round(cur)})"
 
     ceiling = cand.get("reward_ilvl_max")
     if not isinstance(ceiling, (int, float)):

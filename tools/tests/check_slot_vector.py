@@ -82,6 +82,9 @@ check(slot_target_R(hero_drop, {"character": "X"}) is None,
 
 # --- end-to-end on the real candidate catalog + Encomplete's real spread ----
 cands = {c["id"]: c for c in json.loads(CAND.read_text())["candidates"]}
+# Hero-259/Champion-250 drops all land ≤ every fillable slot for a geared main.
+# (voidcores is scored at its Hero floor too — its Myth-272 +10-M+ upside is prose
+# guidance, not a scored vector, until content-capability gating lands in Phase 4.)
 DROP_IDS = ("world-boss", "delve-bountiful", "prey-weekly", "voidcores",
             "val-naigtal", "showdown-weekly", "turbulent-timeways")
 for cid in DROP_IDS:

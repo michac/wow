@@ -1,160 +1,163 @@
 ---
-title: Uncomplete — fresh-90 gearing plan (Midnight S1)
+title: Uncomplete — Champion→Hero gearing plan (Midnight S1)
 patch: 12.0.7
 fetched: 2026-07-09
 reviewed: 2026-07-09
 sources:
   - https://us.api.blizzard.com/profile/wow/character/kiljaeden/uncomplete?namespace=profile-us
-  - https://www.youtube.com/watch?v=PpvIQIc2lRk  # SignsOfKelani, solo 285 guide, 2026-06-18 (post-12.0.7)
-  - ../../endgame/world-events.md
-  - ../../systems/ritual-sites.md
-  - ../../endgame/delves/overview.md
-  - ../../factions/silvermoon-court.md   # renown Champion helm (r9)
-  - ../../factions/harati.md             # renown Champion belt (r8)
-  - ../../factions/the-singularity.md    # renown Champion trinket (r7)
-  - https://www.wowhead.com/quest=94836/late-night-training  # Hero neck/ring chain (Week 1 of 3)
-  - https://www.icy-veins.com/wow/news/wow-players-think-this-new-quest-gives-hero-gear-theres-a-catch/
+  - ../../endgame/delves/overview.md          # coffer = Champion 250, Hero via Vault/Bounty/rank9
+  - ../../endgame/dawncrests.md                # Champion-crest cap-first bootstrap
+  - ../../planning/activities/val-naigtal.md   # Field Accolades → Maren (targeted Hero 259)
+  - ../../planning/activities/voidcores.md     # Decimus vendor; hold for +10 M+ = Myth 272
+  - ../../endgame/world-events.md              # Timeways 4-of-6; Decimus "Knocking Off the Top"
+  - ../../factions/harati.md                   # renown Champion belt
+  - ../../factions/silvermoon-court.md         # renown Champion helm
+  - https://www.wowhead.com/quest=94836/late-night-training  # Hero neck chain (deprioritized)
 confidence: high
 ---
 
-# Uncomplete — fresh-90 gearing plan
+# Uncomplete — Champion→Hero gearing plan
 
-**Vengeance DH, just hit 90 (2026-07-09).** Snapshot + live gear:
-`uncomplete-kiljaeden.md`. Doctrine for this alt: **don't target below
-Champion** — this deep into S1, sub-Champion sources aren't worth the time
-(SignsOfKelani 12.0.7). **Encomplete** (main) farms Field Accolades and buys
-**warbound** slot-specific caches to mail over. **Crests do NOT transfer** —
-only gear/caches are warbound; Uncomplete earns his own upgrade crests.
+**Vengeance DH, equipped ilvl 251 (updated 2026-07-09).** He has **graduated out of
+the fresh-90 "stop the bleed" phase** — every slot is now **246+** (the old
+leveling-green chart is retired). Snapshot + live gear: `uncomplete-kiljaeden.md`.
+Doctrine unchanged: **don't target below Champion**, and now the whole game is
+**Champion 246 → Hero 259 → crest up**. The blocker to the *fast* Hero path is that
+he has **no Mythic+ history yet** — several of the best Hero/Myth sources gate on
+running keys.
 
-## The accolade-allocation heuristic
+## Where he stands (bands)
 
-1. **Count sub-Champion slots.** (Currently **7**: head/neck/chest/waist/
-   legs/hands/back.)
-2. **Floor budget = 100 × count** — Champion-caps every weak slot. (700.)
-3. **Subtract freebies** — weak slots a *guaranteed* incoming upgrade fills:
-   the Decimus **"Knocking Off the Top"** Myth quest (one of cloak/belt/
-   bracers, ~4 wks → Myth 272), a vault piece, a warband spare. Don't buy
-   those. (Back → quest ⇒ floor 600.)
-4. **Bank − floor = Hero-conversion budget.** Each Champion→Hero swap costs
-   **+650** (750 − the 100 already budgeted).
-5. **Hero conversions on NON-tier slots first.** Tier slots (head/shoulders/
-   chest/hands/legs) get replaced by the tier set (catalyst/vault), so
-   Champion-stopgap them. Rank Hero targets: not-quest-covered → biggest ilvl
-   jump → least likely to be replaced soon.
-6. **If a Hero conversion is close but short, farm the gap** — don't settle
-   for Champion. ~1,700 accolades in a couple hours (Val/Naigtal Heroic);
-   60/Heroic rare. Wasting 100 on a Champion cache for a near-Hero slot is a
-   loss.
-
-**Applied (renown + quests take 4 of the 7 slots — see the next section):**
-**renown covers head + waist** (Voidlight Marl), and **quests cover neck + back**
-free (Late Night Training → Hero neck; Decimus → Myth cloak). That leaves only
-**hands / chest / legs** — all tier slots → **Champion caches (3 × 100 = 300
-accolades)**, doubling as catalyst fodder. Encomplete's ~1,309 covers that
-trivially; the ~1,000 leftover goes to **Band-2 Hero caches** (feet/rings/
-trinket2) or banks. Accolade floor drops 600 → **300**. The neck no longer needs
-a 750 cache at all.
-
-## Per-slot chart
-
-### Band 1 — stop the leveling-green bleed (do first)
-
-| Slot | Now | Tier? | Action | → Target |
-|---|---|---|---|---|
-| Hands | 145 | ✅ | Champion cache (100) — stopgap + catalyst fodder | ~246 |
-| Neck | 159 | — | **Late Night Training** quest (Week 1/3 → Hero neck) — free | ~259 |
-| Chest | 159 | ✅ | Champion cache (100) | ~246 |
-| Waist | 159 | — | **Hara'ti renown belt** (Voidlight Marl, r8) — free | ~246 |
-| Head | 165 | ✅ | **Silvermoon renown helm** (Voidlight Marl, r9) — free | ~246 |
-| Back | 198 | — | **Decimus "Knocking Off the Top"** (cloak, Myth 272, ~4wk) — free | 272 |
-| Legs | 220 | ✅ | Champion cache (100) | ~246 |
-
-### Band 2 — the 246 Champions (next wave)
-
-| Slot | Now | Action |
+| Band | Slots | Move |
 |---|---|---|
-| Feet / Ring 1 / Ring 2 / Trinket 2 | 246 | Hero cache (750) as accolades allow, or Hero drop from Val/Naigtal rares & world boss; then Champion→Hero crest upgrades |
+| ~~1 — sub-Champion~~ | — | ✅ **cleared** |
+| **2 — Champion 246 → push to Hero** | head, neck, waist, legs, feet, hands, ring1, ring2, trinket2, back (+ shoulder 253, trinket1 253, wrist 256) | targeted Hero sources + crest up |
+| **3 — Hero-ish, just crest up** | chest 259, MH 266, OH 269 | Hero crests → 276 |
 
-### Band 3 — already Hero-ish, just crest up
+**Two Band-2 slots are covered by quests already in flight — don't spend on them:**
+- **Neck** → *Late Night Training* weekly chain ends in a **Hero 259** neck. **Deprioritized**
+  on purpose: it's a **passive 3-week drip** — just keep doing the weekly; don't build the
+  plan around it (a lot else gets done in 3 weeks).
+- **Back** → *Decimus "Knocking Off the Top" (Heroic)*: **4 Void Commander's Emblems**
+  (one per weekly Heroic-WT world-boss lockout) → **Myth 272**, choice of cloak/belt/bracers.
+  Take the **cloak**. **0 world bosses killed this reset** — this is live work, and the
+  first kill also starts the emblem count.
 
-| Slot | Now | Action |
-|---|---|---|
-| Shoulders (tier) | 253 | crest up; best current **catalyze-into-tier** candidate |
-| Trinket 1 | 253 | crest up |
-| Wrist | 256 | crest up |
-| Main / Off Hand | 266 / 269 | crest up; Ascendant Void Cores → 295 later |
+## Lead move — cap Champion first (the bootstrap)
 
-**Tier set (4pc):** target head/shoulders/chest/hands/legs via vault
-world-row tier drops (no catalyst charge) or by catalyzing best Champion/Hero
-pieces (cache pieces ARE catalyzable — vendor gear, not crafted). Shoulders
-253 = best catalyze candidate now.
+**Before chasing Hero drops, cap his Champion slots 246 → 263 with Champion crests.**
+(The Champion ceiling is **263**, not 259 — **259 is only 5/6**; a capped 263 piece actually
+**out-ilvls a fresh Hero drop at 259**.) That's up to **+17 on each 246 slot**, dragging
+equipped ilvl **251 → ~263** — the ~259–263 that makes **Heroic World Tier survivable and low
+Mythic+ viable**. So capping Champion isn't just power; it's what **unlocks the content that
+drops Hero**. Cheap, safe, fully solo, and it comes *before* everything below. Cost is just
+**~80–100 Champion crests + a little gold per piece — no Valorstones** (removed in Midnight).
 
-## Renown & quest gear — free/cheap, spend these BEFORE accolades
+- **Champion-crest engine:** regular (keyless, non-Bountiful) delves at the highest tier he
+  can — treasure chests pay Champion crests and progress delve tiers **without touching the
+  6/week Restored Coffer Key economy**. **M0 / low M+** and the weekly outdoor event +
+  Nightmare Prey add chunks. (⚠ **not** Heroic dungeons — those drop Adventurer ~230.) See
+  `../endgame/dawncrests.md`.
+- **Cheapest of all — warband free upgrades:** upgrading a slot to an ilvl **Encomplete has
+  already reached** on that track may cost **0 crests**, plus a **~50% warband discount** from
+  his gear achievements. Check this first — it could make most of the cap nearly free.
+  @verify-ingame
+- **Spend order:** cap the slots **least likely to get a fast Hero replacement** first
+  (rings, trinket2, waist); skip cresting a slot you're about to fill from Maren/the Vault.
+- **Caveat:** a capped Champion piece is eventually **replaced by Hero**, and his **20 Hero
+  crests are near-idle** until he owns more Hero pieces (only chest/MH/OH take them) — so
+  **Champion crests, not Hero, are the crest priority right now.**
 
-Four Band-1 slots come without a single Field Accolade: two from **renown**
-(currency **Voidlight Marl** — he holds ~1,514) and two from **quests**.
+## Hero-track sources — once he's ~259 (chase these next)
 
-**Renown (Voidlight Marl) — he qualifies now:**
+The keyed-coffer correction matters here: **delves are a Champion + crest engine, not a
+Hero source** for him (see below). His realistic Hero pipeline, best-first:
 
-| Slot | Faction · rank | Renown | Vendor · TomTom |
-|---|---|---|---|
-| Head | Silvermoon Court **r9** → Champion helm | 12 ✅ | **Caeris Fairdawn**, Saltheril's Haven, Eversong Woods — `/way #2395 43.4 47.4` |
-| Waist | Hara'ti **r8** → Champion belt (~246) | 8 ✅ | **Naynar**, upper level of **The Den**, Harandar (north, by a tent near the river) — exact coords unpublished; `/way Harandar` + find her on the map @verify-ingame |
-| ~~Trinket~~ | The Singularity **r7** → Champion trinket 246 | 8 ✅ | **Void Researcher Anomander**, E. Howling Ridge, Voidstorm — `/way #2405 52.6 72.8` — **skip: sidegrade** (trinkets already 246) |
+1. **Field Accolades → Maren Silverwing (targeted Hero 259).** The **deterministic**
+   slot-target — buy the *exact* 246 slot you want (belt, boots, a ring) instead of praying.
+   This beats every random roll for closing a specific gap. Earn Accolades in **Val/Naigtal**
+   and **ritual sites**. ⚠ **Survivability caveat:** Heroic-WT Val/Naigtal elites hit *hard*
+   and sneak up — Encomplete struggles to solo them even at 272. As a **tank** Uncomplete may
+   fare better, but at **251** expect to be careful; farm on Normal WT or in a group until
+   he's sturdier, and lean on ritual sites for the safer Accolade drip. @verify-ingame
+2. **Great Vault delve/world row (Hero 259, next reset).** Running Bountiful delves fills
+   the world column (**2/4/8** world activities); the *vault slot* is the Hero payoff — the
+   **coffer itself is Champion 250**.
+3. **Weekly Heroic-WT world boss** → a Warbound Heroic piece (account) + a per-character
+   Soulbound Heroic piece. Random slot, but guaranteed weekly. **Groupable:** the quest has
+   an **LFG icon** (free-form finder, pre-filled search) — don't solo it, pug it. The catch
+   is *reaching* the **Val** boss: it's in an **underground lair ringed by elites** — go in
+   with the group (Naigtal's is easier to reach).
+4. **Crest up what he has.** He holds **20 Hero crests** — spend them upgrading a
+   *non-tier* Band-2 piece toward 276 (tier slots get replaced via catalyst/vault anyway).
+5. **Delver's Bounty map** (once/week) → forces a Hero piece from a delve. The *only*
+   immediate Hero-from-delves route without Journey rank 9.
 
-Map IDs: `#2395` = Eversong Woods, `#2405` = Voidstorm. Confirm the exact rank +
-Marl price at the vendor — the KB has ranks, not costs (Singularity items run
-~150–8,000 Marl).
+**Voidcores — HOLD for Mythic+.** Bought from **Decimus** (Val/Naigtal camps: gold +
+Voidlight Marl + Veteran Dawncrests, 2/wk, cap ramps +2/wk). A voidcore roll is **Myth 272
+on a +10 M+ key** but only **Hero 259** on delve/prey. So **don't burn them on delve/prey
+random Hero** — bank them and **get M+-capable** (see below); each core is then worth a
+Myth piece. (The planner scores voidcores at the Hero floor for now and flags "hold for +10"
+— it can't yet tell whether a char runs +10s.)
 
-**Quest gear (free):**
+## The Mythic+ unlock is the real lever
 
-- **Neck → "Late Night Training"** (quest `94836`, he's on **Week 1 of 3**). The
-  3-week chain ends in a **Hero-track (ilvl 259) neck-or-ring** choice — **take
-  the neck** (159 → 259; his rings are already 246). ⚠ **The catch** (Icy Veins):
-  the piece drops from the *final* quest (~3 weeks out, not this week) and may
-  carry **PvP secondary stats** — still a huge neck upgrade for a fresh alt, but
-  confirm PvE-usability and whether the weekly progress is **warband-wide**
-  in-game. @verify-ingame
-- **Cloak → Decimus "Knocking Off the Top"**: 4 weekly Val/Naigtal **Heroic**
-  world-boss kills → **Myth 272**, choice of cloak/belt/bracers. Take the
-  **cloak** (back 198) — waist is covered by Hara'ti renown and bracers are
-  already 256.
+He wants to tank M+ (easier to find groups) — and it's also his **best gearing unlock**:
+- **+10 keys** open **Myth 272** in the **M+ vault row** *and* turn every banked voidcore
+  into a **Myth 272** roll.
+- Tanks queue/form fast; at **251** he can start low (M0 → +2…) to build ilvl + IO, then
+  climb to +10. This is the highest-leverage thing he can do that he *isn't* doing
+  (**no rated runs this season**).
 
-**Net Band-1 spend:** head/waist = Voidlight Marl (have it), neck/back = quests
-(free, 3–4 wks), and only **hands/chest/legs** = 300 Field Accolades of caches.
+## Weekly loop (this reset)
 
-## Weekly loop (both characters where noted)
+Live planner shortlist (`wowkb.plan --character Uncomplete`), gated by what's done:
+1. **6 keyed Bountiful delves** — crests (Hero, uncapped) + catalyst + Champion coffer +
+   world-vault column. He has **4 restored keys + 200 shards**.
+2. **Liadrin world-event weekly** — 1 Spark of Radiance (toward a crafted piece); overlaps prey.
+3. **Weekly Heroic-WT world boss** — Hero drop **and** grab *Knocking Off the Top* for the
+   Myth-cloak emblem count.
+4. **3 Nightmare Prey hunts** — weekly objective. ⚠ **Check Nightmare is unlocked on him:**
+   the Preyseeker's Journey may be **per-character** (rank 4 unlock, unconfirmed — see
+   `../endgame/prey.md`); if so he must reach rank 4 first. @verify-ingame
+5. **Val/Naigtal zone** — Field Accolades → Maren (see #1 above), Relic Coffer Key shards,
+   fills the world vault row.
+6. **Turbulent Timeways** — do **4 TW dungeons** this week for the **Spawn of Vyranoth**
+   mount (Mastery in **4 of 6** weeks — you can miss two; progress is account-wide, tracked
+   by achievement 61463). A **5th** run adds the weekly Heroic Cache. XP is irrelevant at 90.
 
-1. **Val/Naigtal Showdown 3-quest chain** (repeatable per character):
-   #1 → 175 accolades + 15 Myth + 15 Hero crests; #2 → 175 + 10 Hero;
-   #3 → 175. ~525 accolades + crests/char/week.
-2. **Rares on Heroic World Tier**: 60 accolades each + warbound Heroic-until-
-   equipped drops + 2× crests (post-June-26/30 hotfix — better than the June
-   video, which still said champion). Farm on Encomplete → funnel to Uncomplete.
-3. **World boss (Heroic)**: 1 guaranteed warbound Hero piece/account/week
-   (tradeable to alt) + warbound Champion + ~275 accolades. Pick up Decimus
-   **"Knocking Off the Top"** first (4 weekly kills → Myth 272 cloak/belt/bracers).
-4. **Bountiful T8+ delves** (Uncomplete has 4 coffer keys + 20 Hero crests
-   now): keyed coffer = Hero 259. 4× T11/wk = 20 Myth crests + spark chance.
-5. **T6 ritual sites** (once ~half Hero): 5 Myth crests/run, uncapped → the
-   285 spark-recraft engine (80 Myth crests per piece ≈ 16 runs). Kelani's
-   speed setup: disable Malevolent Boons + Embers, run the other 6, kill only
-   mini-bosses/bosses, ignore treasures/rares.
-6. **Great Vault**: tag 8 world activities/week (delves/ritual/Val-Naigtal =
-   one shared world row) → next-reset vault; world row can drop actual tier
-   pieces.
+**Vault is empty (0/3 across all three columns)** — nothing banked yet. Delves + world boss +
+a couple rares move the world column; if he raids, **2 Sporefall (Rotmire) boss kills across
+difficulties** open the *first* raid slot (one kill alone opens nothing).
 
-## Reality check on "285 in one hour" videos
+## Warband lever (Encomplete → Uncomplete)
 
-Champion/Hero set in an afternoon = real. **Full 285 = a week-plus steady
-burn** — each 285 recraft needs 80 Myth crests ≈ 2.5 hrs of T6 rituals.
-Accolades come fast (~1,700/couple hours); the Myth-crest tail is the grind.
+Three account-wide levers off Encomplete:
+- **Warbound caches.** Encomplete holds **~1,309 Field Accolades**; his own slots are already
+  Hero, so those Accolades do nothing for *him* — spend them on **Warbound Champion caches
+  (100 ea)** or **Warbound Heroic caches (750 ea)** and **mail them to Uncomplete**.
+- **Free/discounted Champion upgrades (the sleeper).** Raw crests aren't transferable, but
+  upgrading a slot to an ilvl Encomplete has **already reached** on that track may cost
+  **0 crests**, plus a **~50% warband Dawncrest discount** from his gear achievements — so
+  most of Uncomplete's cap-Champion (above) could be nearly free. **Verify in-game.**
+  @verify-ingame
+- Uncomplete still earns his **own** Hero/Myth crests. (`/plan-character` computes the
+  single-char chart; this warband routing is the hand-added layer.)
+
+## Reality check — the sequence
+
+1. **Cap Champion (~263)** via regular delves + M0/low M+ (and check the warband free
+   upgrades first) — cheap, solo, an afternoon or two. Immediate power *and* the gate-opener.
+2. **Then start Mythic+** — now survivable at ~259; it's the structural win that unlocks
+   the Myth vault row, makes his banked voidcores Myth, and is the content he wants to play.
+3. **Hero fills in** from Timeways/world boss/Maren/Vault along the way; **full 285** is a
+   long Myth-crest grind (T6 rituals / M+) for much later.
 
 ## Open items
 
-- [ ] Confirm Sparks of Radiance count + Catalyst charges in-game (not in
-      Syndicator). @verify-ingame
-- [ ] Vengeance build/rotation docs don't exist yet
-      (`../classes/demon-hunter/vengeance/`).
-- [ ] Re-check exact track/ilvl of the warband-bank pieces in-game (ilvl
-      buckets here are inferred from equipped ilvl, not the upgrade-track line).
+- [ ] Confirm **Nightmare Prey** is available on Uncomplete (is the Preyseeker's Journey
+      account-wide?). @verify-ingame
+- [ ] Confirm the **Val/Naigtal Heroic-WT survivability** as a 251 tank (can he solo the
+      elites, or Normal-WT/group only?). @verify-ingame
+- [ ] Sparks of Radiance count + Catalyst charges (not in Syndicator). @verify-ingame
+- [ ] Vengeance build/rotation docs don't exist yet (`../classes/demon-hunter/vengeance/`).

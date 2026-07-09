@@ -29,6 +29,14 @@ Track and kill 3 Nightmare Prey for the weekly objective. Wired to quest 94446 w
 `have/need` progress in the dump (shows e.g. "at 1/3"). Overlaps the Liadrin world-event
 weekly, so they often clear together.
 
+**Prerequisite the gate doesn't check yet:** this weekly needs **Nightmare** unlocked
+(Preyseeker's Journey **rank 4**). The `weekly_quest` gate only reads whether the quest is
+in progress/complete — it does **not** verify the character has Nightmare unlocked, and the
+Journey may be **per-character** (unconfirmed — see `../../endgame/prey.md`). So the planner
+can surface this for an alt that can't actually run it. Until the addon dumps a
+`nightmare_unlocked` / Journey-rank signal, treat it as a soft assumption for a fresh alt.
+@verify-ingame
+
 **Why run it (terminal reward, not the random hero).** The forced bounty-map hero piece
 is a Hero-track roll (`reward_ilvl_max: 276`) — **low value once you're Hero-geared**, so
 the slot-target R deflates it for a geared main. The durable reason to keep running Prey

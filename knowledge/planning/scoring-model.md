@@ -59,8 +59,8 @@ about.** Two multipliers stack inside R:
 - **Slot targeting.** An upgrade to your *weakest* slot is worth more than one
   to an already-strong slot. A sidegrade or vendor-trash reward is R≈0.
   **Per-slot vectors (needs-first Phase 2a, 2026-07-07):** a gear-drop activity
-  declares `yields.slots` — a vector of `{track, ilvl, chance, slots}` where
-  **`ilvl` is the drop's LANDING ilvl, not the crested ceiling** (a Hero drop
+  declares `yields.slots` — a vector of `{track, ilvl, chance, targeted, slots}`
+  where **`ilvl` is the drop's LANDING ilvl, not the crested ceiling** (a Hero drop
   *lands* at **259** (1/6), climbing to 276 only via crests — the currency path;
   a faction champion piece lands at **246**). `plan.py:slot_target_R()` reads the
   dump's per-slot ilvls (schema≥4) and values the drop **per slot it can fill**
@@ -71,10 +71,21 @@ about.** Two multipliers stack inside R:
   mistook the 276 ceiling for a guaranteed upgrade (failure mode #2). Un-migrated
   activities (e.g. `sporefall-raid`'s per-difficulty ceiling) still fall back to
   the scalar `reward_ilvl_max` path. No `yields.slots`/`reward_ilvl_max`, or a
-  pre-schema-4 dump → no override, keep `reward_base`. **Headline (Encomplete,
-  geared main):** world-boss/voidcore/prey/delve/showdown/timeways/faction drops
-  all fall to R=0 on the slot term (a 259 drop can't beat his 259 slots), while a
-  fresh 90 still sees them as big upgrades — the value is now character-relative.
+  pre-schema-4 dump → no override, keep `reward_base`.
+  **Deterministic-vs-RNG EV (needs-first Phase 3, 2026-07-09):** the delta above is
+  now an *effective* delta — `chance` (drop probability) multiplies it, and a
+  **random-slot** roll (`[all]`, no `targeted`) is valued at the **expected** upgrade
+  across its fillable slots (mean of positive deltas), not the best. A `targeted:
+  true` vector (you pick the slot — Field Accolades → Maren) keeps the exact best-slot
+  value, so a targeted Hero-259 buy out-ranks a *guaranteed but random* Voidcore roll
+  for closing one specific gap. **Headline (Encomplete, geared main):**
+  world-boss/prey/delve/showdown/timeways/faction/val-naigtal/voidcore drops all fall to
+  R=0 on the slot term (a 259 drop can't beat his 259 slots). A fresh 90 still sees every
+  drop as a big upgrade — the value is character-relative. **Known gap:** voidcores' real
+  upside is a **Myth 272** roll on a **+10 M+** key, but that's scored only at the Hero
+  floor (and kept as guidance text) until **content-capability gating** (Phase 4) can tell
+  whether a char actually runs +10s — otherwise it ranks voidcores #1 for a fresh alt who
+  can't reach Myth.
 - **Currency consumer (needs-first Phase 1, 2026-07-07).** A currency is worth
   farming only while the character still has something to **spend** it on — "crests
   over drops for a geared main," but a crest source drops to ~0 once every slot is

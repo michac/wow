@@ -2,13 +2,16 @@
 title: Delves — Midnight Season 1
 patch: 12.0.7
 fetched: 2026-07-07
-reviewed: 2026-07-07
+reviewed: 2026-07-09
 sources:
   - https://www.icy-veins.com/wow/weekly-to-do-list
   - https://worldofwarcraft.blizzard.com/en-us/news/24244888/revelations-content-update-notes
   - https://worldofwarcraft.blizzard.com/en-us/news/24276957/hotfixes-june-18-2026
   - https://us.forums.blizzard.com/t/world-of-warcraft-midnight-hotfixes-june-30/2296045/364  # June 25 tank-Valeera survivability hotfix
-  - https://www.wowhead.com/news/how-to-unlock-myth-dawncrests-from-delves-in-midnight-season-1-380813  # gilded stash rank 4 → 21 Myth/wk (verified 2026-07-07)
+  - https://www.wowhead.com/news/how-to-unlock-myth-dawncrests-from-delves-in-midnight-season-1-380813  # gilded stash rank 4 → ~20 Myth/wk
+  - https://www.icy-veins.com/wow/midnight-delve-rewards-guide  # coffer=Champion 250, Hero via Vault/Bounty/rank9 (verified 2026-07-09)
+  - https://conquestcapped.com/guides/wow/midnight-delves-rewards/  # corroborates coffer=Champion 250 T8-11
+  - https://www.wowhead.com/news/get-hero-track-gear-from-delves-from-journey-rank-9-381176
 confidence: medium
 ---
 
@@ -47,27 +50,39 @@ Solo/small-group scaling endgame pillar. Tiers 1–11.
 - **≥1 Tier 11 delve** (weekly objective)
 - **4 Bountiful delves** → weekly cache, **ilvl 235–245**
 
-## Loot table (Icy Veins, updated 2026-05-19, tier 3)
+## Loot table (Icy Veins/ConquestCapped, verified 2026-07-09, tier 3)
 
 **Bountiful delves only — regular delves cap at T3-level loot.**
 
-| Tier | End-of-run | Keyed Bountiful Coffer | Vault world row |
+| Tier | End-of-run | Keyed Bountiful Coffer | Vault delve/world row |
 |---|---|---|---|
 | 1–3 | Adventurer 220–227 | — | Veteran 233–240 |
 | 4–5 | Adv 230 / Vet 233 | Veteran 237–243 | Vet/Champ 243–246 |
 | 6 | Veteran 237 | Champion 250 | Champ/Hero 253+ |
-| 7 | Champion 246 | Champion 256 | ↓ |
-| **8–11** | **Champion 250** | **Hero 259 (1/6)** | Champ/Hero 253–259 |
+| 7 | Champion 246 | Champion 250 | ↓ |
+| **8–11** | **Champion 250 (2/6)** | **Champion 250 (2/6)** | **Hero 259 (1/6)** |
 
-→ **Hero gear from delves = the keyed Bountiful Coffer at T8+.** That's
-the whole trick: end-of-run loot never exceeds champion; you must run
-the *bountiful* version AND spend a Restored Coffer Key on the coffer.
+→ **CORRECTION (2026-07-09, overturns the prior KB):** the keyed Bountiful
+Coffer is **Champion 250 (2/6)**, *not* Hero 259 — it does **not** exceed the
+end-of-run track. **Hero gear from delves comes only from:**
+1. the **Great Vault delve/world row** (Hero 259, 1/6) — the *next-reset* payoff,
+2. a **Delver's Bounty map** consumed in-run (upgrades that run's chest to Hero), or
+3. **Delver's Journey rank 9** — T11 coffers gain a *chance* at Hero (vs. Untainted
+   Mana Crystals).
+
+So a rankless character running delves gets **Champion 250 + crests**, and the
+*only* immediate Hero source is the once-weekly Bounty map. (Five tier-3 sources
+agree, and it matches the 2026-06-03 in-game observation of a T9 Champion trinket —
+see the resolved TODO below. Kelani's "rank 9 for hero gear" was right about the
+coffer too, not just the vendor.)
 
 ## Gearing role in 12.0.5 (SignsOfKelani, 2026-04-26)
 
-- Kelani's "rank 9 for hero gear" claim refers to the **vendor** (276
-  hero pieces for Untainted Mana Crystals) — coffer hero gear at T8+
-  needs no journey rank, per Icy Veins.
+- Kelani's "rank 9 for hero gear" claim is correct for **both** the **vendor**
+  (276 hero pieces for Untainted Mana Crystals) **and** the **T11 coffer** (Rank 9
+  adds a Hero chance to it). Below Rank 9 the coffer at T8+ is **Champion 250**,
+  not Hero — the earlier KB note "coffer hero at T8+ needs no rank" was **wrong**
+  (corrected 2026-07-09; see the loot table above).
 - **Delver's Bounty** (map, lootable 1×/week; verified name 2026-06-03,
   Wowhead/Icy Veins Midnight guides) → consumed in-run, spawns a
   **Hidden Trove** at delve's end, loot scales with tier — **use at
@@ -76,10 +91,10 @@ the *bountiful* version AND spend a Restored Coffer Key on the coffer.
   from **Nullaeus** (S1 delve nemesis) — at 50% HP he drops a gold
   pile that can contain it.
 - **Only solo Myth Dawncrest source**: T11 bountiful **gilded stashes —
-  21 Myth crests/week max** (no key needed; **Delver's Journey rank 4**,
-  confirmed by Icy Veins 2026-05-19; supersedes Kelani's "20/week".
-  Koroboost's rank-2 stash = Hero crests; rank 4 upgrades it to Myth —
-  consistent).
+  ~20 Myth crests/week max** (3 stashes/wk, no key needed; **Delver's Journey
+  rank 4**). Rank 2's stash = Hero crests; rank 4 upgrades it to Myth. (The
+  published guides say **20/week**; the earlier "21 (7×3)" was an unsupported
+  internal derivation — corrected 2026-07-09.)
 - **Restored Coffer Keys: hard weekly cap of 6** (600 shards; 100 shards
   auto-convert to a key on delve entry) → max 6 Bountiful Coffers/week.
   Shards from world events, prey, special assignments, WQs, rares — and
@@ -123,7 +138,8 @@ trove maps 300 · maxed nemesis chest 125 · repeat daily bountiful 125.
 | 4 | **Myth crests from gilded stashes** (**21/wk** = 7 × 3 stashes; supersedes the rounded "20/wk") |
 | 5 | **Zoron vendor** — champion-track delve gear |
 | 6 | Buy 2 extra coffer keys/week |
-| 9 | **Hero-track 276 gear** from vendor |
+| 8 | **Champion warbound gear** from T9+ delves (farmable → mail to alts) |
+| 9 | **Hero-track 276 gear** from vendor **+** a Hero chance in T11 coffers |
 
 Vendor currency: **Untainted Mana Crystals** (wrist/gloves/belt 100,
 shoulder/chest 150, weapon/trinket 200; earn cap 250/wk, hold max
@@ -148,10 +164,10 @@ Companion: **Valeera Sanguinar** (verified via Blizzard API reputations
       two ranks). Weekly Myth output = **21 (7 × 3 stashes)**; "20/wk" was
       a rounded variant. (Tier-3 aggregation; no Tier-1 note quotes the exact
       per-stash count, but two independent sources agree.)
-- [ ] **User observation 2026-06-03**: bountiful T9 yielded only a
-      champion trinket. Likely the end-of-run drop (champion 250 is
-      correct there) with the keyed coffer unopened/keyless — but
-      confirm in-game: did a Bountiful Coffer chest appear, did opening @verify-ingame
-      it consume a Restored Coffer Key, and what track was its loot?
+- [x] **User observation 2026-06-03 (RESOLVED 2026-07-09 by web evidence):**
+      bountiful T9 yielding only a champion trinket is **working as intended** —
+      the keyed coffer AND end-of-run are both Champion 250 (2/6) below Journey
+      rank 9. The coffer is not a separate Hero source at T9; Hero comes from the
+      Vault delve slot / a Bounty map / rank 9. (Five tier-3 sources; loot table above.)
 - [ ] Confirm vendor currency in-game name ("Nightcoin"?) @verify-ingame
 - [ ] Tier → loot ilvl table; journey rep for sub-T11 bountifuls

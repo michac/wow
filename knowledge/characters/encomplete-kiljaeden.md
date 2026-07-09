@@ -1,10 +1,11 @@
 ---
 title: Encomplete – Kil'jaeden (US) — main character snapshot
 patch: 12.0.7
-fetched: 2026-07-07
-reviewed: 2026-07-07
+fetched: 2026-07-09
+reviewed: 2026-07-09
 sources:
   - https://us.api.blizzard.com/profile/wow/character/kiljaeden/encomplete?namespace=profile-us
+  - PlannerState /ps dump + Syndicator (currencies), 2026-07-09
 confidence: high
 ---
 
@@ -28,8 +29,8 @@ confidence: high
   present via API).
 - Level **90** (cap), Alliance, guild **Dungeon Dojo** (was The Soggy
   Bottom Boys)
-- Title: Champion of the Frozen Wastes · 7,800 achievement points
-- Last login at fetch: 2026-07-02
+- Title: Champion of the Frozen Wastes · 8,025 achievement points
+- Last login at fetch: 2026-07-09
 
 ## Gear (equipped ilvl 272, API 2026-07-07)
 
@@ -69,8 +70,9 @@ missing enchants are now self-craftable.)
   +7 Skyreach, +5 Maisara Caverns, +5 Algeth'ar Academy, +4 Magisters'
   Terrace, +4 Nexus-Point Xenas. No runs logged this reset period yet.
   (Was zero rated runs on 2026-06-23 — has since started keying.)
-- **Raids**: still no Midnight raid kills recorded via API. (Most recent
-  recorded kills are Wrath-era — API may lag Midnight raid tracking.)
+- **Raids**: **Sporefall [Normal] 1/1** now recorded (first Midnight raid
+  kill on the API — Rotmire down on Normal). Older Naxx/Obsidian entries are
+  Wrath-era.
 
 ### Renown (API, 2026-07-02)
 
@@ -86,21 +88,24 @@ missing enchants are now self-craftable.)
 Companion/delve tracks: **Brann Bronzebeard lvl 45**, **Valeera Sanguinar
 lvl 43** (was Valeera 20 on 06-03 — heavy delve activity since).
 
-### Currencies (Syndicator SavedVariables, snapshot 2026-07-07)
+### Currencies (Syndicator SavedVariables, snapshot 2026-07-09)
 
 > Source: the **Syndicator** addon writes a per-character `currencyID →
 > amount` table to disk; IDs resolved to names via wago.tools
 > `CurrencyTypes` DB2 (tier-1). Reflects the character's last in-game
 > `/reload` or logout. See "How to refresh currencies" at the bottom.
-> Deltas below are vs the 2026-07-02 snapshot.
+> Deltas below are vs the 2026-07-07 snapshot.
 
 - **Dawncrests: Adventurer 289 · Veteran 55 · Champion 96 · Hero 176 ·
-  Myth 20.** Δ: Hero **+102** (74→176), Myth **+15** (5→20), Veteran
-  **−190** (spent). Big Hero/Myth build-up — plenty on hand for slot
-  upgrades and the next recraft-to-285.
-- **Field Accolade 1,309** (was 307 — **+1,002**; well past the 750
-  slot-cache threshold, so 12.0.7 slot-targeted hero boxes are affordable
-  now — spend on the weak slots: waist / ring2 / trinket2).
+  Myth 20.** Unchanged since 07-07 — plenty of Hero/Myth on hand for slot
+  upgrades and the next recraft-to-285. (Champion 96 could bankroll a chunk
+  of Uncomplete's Champion cap via the *free same-slot warband upgrade*, not
+  a raw-crest transfer — see `../endgame/dawncrests.md`.)
+- **Field Accolade 219** (was **1,309** on 07-07 — **−1,090**, deliberately
+  drained: spent on **Warbound Champion/Heroic caches mailed to Uncomplete**
+  to gear the alt). Now below the 750 Heroic-cache threshold; the stockpile
+  was routed into the warband rather than his own already-Hero slots (which
+  Accolade boxes can't upgrade anyway).
 - Coffer Key Shards **58** · Nebulous Voidcore **11**
 - Undercoin **21,610** · Voidlight Marl **20,176** · Remnant of Anguish
   **3,384** · Brimming Arcana **590** · Radiant Spark Dust **17** ·
@@ -147,10 +152,12 @@ pulls are rough** — calibration point for content recommendations.
   longer upgrade any slot — upgrades now come from **Myth-track recrafts
   (285), M+ vault, and delve/ritual-site hero+ gear**. The old "spark-craft
   the 214/224 slots" advice is done.
-- **Weakest slots to target (2026-07-07): waist / ring2 / trinket2 (all
-  259)** — the back (250) hole is closed by the crafted 285 cloak. With
-  1,309 Field Accolades banked, the cheapest targeted gains are **hero
-  slot-boxes for waist/ring2/trinket2**; enchant the new back too.
+- **Weakest slots to target: waist / ring2 / trinket2 (all 259)** — the
+  back (250) hole is closed by the crafted 285 cloak. His own upgrades now
+  come from **crest-ups (Hero 176 / Myth 20) and M+/vault**, not Accolades:
+  he **spent his ~1,090-Accolade stockpile (down to 219) funding Uncomplete's
+  gear** (warbound caches), which is the right call — Accolade slot-boxes
+  land at 259 and can't beat his 259 slots anyway. Enchant the new back too.
 - **Enchants are now self-served** — Encomplete leveled Enchanting; the
   five bare slots (neck/wrist/feet/ring2/back) are the cheapest gains left.
 - **Tailoring is maxed (Midnight 100/100)** — self-crafts spark gear and

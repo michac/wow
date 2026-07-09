@@ -38,3 +38,13 @@ achievement.
 **Field Accolades are a real gearing currency in 12.0.7** (not just cosmetics): they buy
 **slot-targeted Hero-track gear (~ilvl 259)** from **Maren Silverwing** (Bazaar, Silvermoon),
 and cosmetics/decor at Fieldsmith Ventem / Zuronar — see `val-naigtal` for the full spend.
+
+**Grouping the boss — LFG hook + the Val lair-access catch** (in-game, 2026-07-09): the
+world-boss quest carries a **LFG icon** that opens the free-form group finder with a
+pre-filled search term, so getting a group for the *kill* is easy — you don't need to solo
+the Heroic-WT boss even under-geared. The real friction is **reaching the boss**: the **Val**
+boss sits in an **underground lair that's hard to enter — a lot of elites floating around the
+approach** (Naigtal's is more accessible). Practically: form/join via the LFG hook and punch
+through the lair *together*. So for an under-geared alt the boss is feasible via group; the
+**zone-farm** survivability caveat (soloing Heroic-WT rares/elites for Accolades) in
+`val-naigtal` still stands separately.

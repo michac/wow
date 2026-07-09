@@ -2,7 +2,7 @@
 title: Dawncrests — sources & farming (Midnight S1)
 patch: 12.0.7
 fetched: 2026-06-19
-reviewed: 2026-07-07
+reviewed: 2026-07-09
 sources:
   - https://blizzardwatch.com/2026/05/20/season-1-upgrade-crest-caps-removed-wow-midnight/
   - https://www.icy-veins.com/wow/news/blizzard-removes-upgrade-crest-caps-in-may-19-hotfix-update/
@@ -10,6 +10,10 @@ sources:
   - https://conquestcapped.com/guides/wow/midnight-dawncrests/
   - https://www.icy-veins.com/wow/news/30-free-hero-dawncrests-await-in-wow-midnights-first-delve-nemesis/
   - https://worldofwarcraft.blizzard.com/en-us/news/24244888/revelations-content-update-notes
+  - https://www.wowhead.com/currency=3343/champion-dawncrest         # Champion track 246→263
+  - https://www.method.gg/guides/midnight-season-1-dungeon-raid-and-great-vault-rewards  # per-rank ilvl table
+  - https://blizzardwatch.com/2026/03/02/upgrade-gear-midnight-no-valorstones-required/   # Valorstones removed
+  - https://koroboost.com/guide/upgrading-gear-midnight                # ~20 crests/rank, warband discount
 confidence: high
 ---
 
@@ -17,6 +21,8 @@ confidence: high
 
 Tiers: **Adventurer / Veteran / Champion / Hero / Myth**. Hero upgrades
 Hero-track gear 259 (1/6) → 276 (6/6); **150 crests fully upgrades one piece**.
+**Upgrades cost Dawncrests + a small gold fee ONLY — Valorstones were REMOVED
+in Midnight** (there is no stone/filler currency; a common stale-info trap).
 
 ## ⚠ Caps were REMOVED (May 19 2026 hotfix)
 
@@ -50,7 +56,7 @@ early — they were headed for 1,000). **Most of the internet still says
 - **Bountiful T11 delve** — reported ~**35 Hero (+5 Myth)** crests; weekly-
   limited (the cap that survived). Needs the Bountiful Coffer.
 - **Gilded stash** (T11 bountiful, no key) — **Hero** crests at Delver's
-  Journey **rank 2**, upgrades to **Myth** at **rank 4** (~21/wk, ~3 stashes/wk).
+  Journey **rank 2**, upgrades to **Myth** at **rank 4** (~20/wk, ~3 stashes/wk).
 - **Heroic raid bosses** — weekly lockout.
 
 ### One-time (free, grab once)
@@ -65,6 +71,49 @@ early — they were headed for 1,000). **Most of the internet still says
   above. (Per ConquestCapped / Icy Veins chest breakdown, 2026-06.)
 - **Nightmare Prey weekly** (20 Hero) — *was* cap-exempt, hotfixed to count
   (moot now that the total cap is gone, but it is not "bonus" crests).
+
+## Champion crests & the "cap Champion first" play
+
+**Champion track: 246 (1/6) → 250 → 253 → 256 → 259 (5/6) → 263 (6/6).** The ceiling is
+**263**, and **259 is only 5/6** — so a *fully* capped Champion piece (263) **out-ilvls a
+*fresh* Hero drop (259)**; Hero only pulls ahead once crested up. Capping 246 → 263 is
+**5 steps ≈ 100 Champion crests + gold (no stones)**; 246 → 259 is 4 steps ≈ 80.
+
+For a **fresh alt**, capping the Champion slots is the cheapest, safest, solo power boost —
+it lifts equipped ilvl toward the **~259–263** that makes **Heroic World Tier and low M+**
+viable (the content that then drops Hero). Sources, by farmability:
+
+### Repeatable / uncapped (the solo farm)
+- **Regular keyless (non-Bountiful) delves, ~T7–T10** — treasure-room chests pay **Champion**
+  crests (Adventurer/Veteran/Champion by tier). The soloable volume source, and it
+  **doesn't touch the 6/week Restored Coffer Key economy**. ⚠ **per-run vs once/day is
+  unconfirmed** — if per-run, this is an uncapped Champion engine (same open `@verify-ingame`
+  as the keyless-T11 item below).
+- **Base Mythic (M0) dungeons** — Champion 1/6 (246) gear + Champion crests.
+- **Low Mythic+ (~+2 to +3)** — Champion crests, scaling. ⚠ one loot table labels **+2 as
+  *Hero***; the exact +2 crest tier is disputed — verify in-game.
+
+### Weekly-gated (guaranteed chunk)
+- **Normal raid bosses**, the **weekly outdoor event**, **Trovehunter's Bounty (T6–7)**, and
+  **Nightmare Prey hunts** — each a Champion chunk on its lockout.
+
+### NOT Champion sources
+- **Heroic dungeons** — they drop **Adventurer-track ~230**, below a geared alt (do them for
+  nothing crest-wise here).
+- **Open-world rares / individual WQs** — unconfirmed as Champion sources anywhere; the only
+  named world-content Champion payout is the *weekly outdoor event*. Treat as **no** until
+  verified. @verify-ingame
+
+### Warband lever (the big discount)
+Champion crests are **per-character** (you can't mail raw crests), BUT two account-wide layers
+make an alt's upgrades cheap once a **main is geared**:
+- **"X of the Dawn" achievements** — a main hitting a track's ilvl milestones grants a **~50%
+  warband-wide Dawncrest discount** on that track.
+- **Free same-slot upgrades** — upgrading a slot to an ilvl **any** warband character has
+  already reached on that track costs **0 crests**. So if Encomplete (272 main) already holds
+  a slot at 259–263, Uncomplete can likely upgrade the **same slot** to that ilvl **for free**.
+  ⚠ medium-confidence (tier-3 aggregate) — **confirm the discount tiers + free-upgrade
+  thresholds in-game.** @verify-ingame
 
 ## Vaskarn conversion (Silvermoon) — overflow only, not a farm
 Trades **30 lower-tier → 10 next-tier** crests (needs the relevant gear-

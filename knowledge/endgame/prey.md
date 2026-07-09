@@ -34,6 +34,16 @@ New repeatable hunt system introduced with Midnight.
   additional hunts = 50 pts** (20× falloff — never grind past 4/week).
 - **Rank 4 → Nightmare difficulty**, via Astalor questline *Dark
   Mending* → *The Sheep or the Wolf*.
+- ⚠ **Journey scope is unverified — likely PER-CHARACTER, not account-wide.**
+  Web research (2026-07-09) found **no trustworthy source** calling the Preyseeker's
+  Journey account-wide; the strongest (Wowhead, tier-3) frames the intro questline +
+  Rank-4 Nightmare unlock as **per-character**. Contrast the *initial* Prey system
+  unlock (account-wide per Warcraft Wiki) and the sibling tracks (**Omnium Folio
+  account-wide confirmed**, Delver's Journey likely account-wide) — so Prey may follow
+  the trend, but don't assume it. **Consequence:** a fresh alt may have to reach Rank 4
+  itself before it can run the "3 Nightmare hunts" weekly. **Confirm in-game:** log an
+  alt below Rank 4 and check whether its Journey bar reflects the main's progress and
+  whether Nightmare hunts are already available. @verify-ingame
 - One hunt per difficulty per zone weekly gives the full gear chest;
   repeats give a gear-less sack.
 - Nightmare rewards: champion-track gear, Veteran Dawncrests, Voidlight

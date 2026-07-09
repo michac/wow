@@ -14,7 +14,8 @@ reward: { type: [power, currency, collectible], detail: "Field Accolades → Her
 yields:
   currencies: { field_accolade: 150, hero_crest: 20 }   # zone farm: Accolades + 2× rare Heroic crests on Heroic WT (approx; world-events.md)
   slots:
-    - { track: hero, ilvl: 259, chance: 0.5, slots: [all] }   # WQ/rare + Accolade slot gear LANDS at 259 (1/6, dawncrests.md); vault row keeps value via breakpoint; chance carried for Phase-3 EV, unused in 2a
+    - { track: hero, ilvl: 259, targeted: true, slots: [all] }   # Field Accolades → Maren Silverwing: YOU pick the weak slot (Hero 1/6 = 259), guaranteed — deterministic slot-target
+    - { track: hero, ilvl: 259, chance: 0.5, slots: [all] }      # random WQ / rare gear drop (Hero 1/6 = 259), lands on a random slot
 time_blocks: 2
 patch: 12.0.7
 fetched: 2026-07-07

@@ -193,12 +193,13 @@ crests)** · no enchants · solo-leaning.
   gear 259→285, weapon first.
 - **Champion Dawncrests** (100+ banked): only into catalyst-bound
   pieces or long-keepers; hero sources supersede soon.
-- **Field Accolades**: ~~hero pieces (500) while most slots are sub-hero~~
-  **REVERSED 2026-06-03 — BANK accolades for 12.0.7's 750 slot-targeted
-  Hero caches.** 12.0.7 went live 2026-06-16, so those caches are now
-  available: spend banked accolades on the 750 slot-targeted Hero cache
-  (beats the random 500 piece) for your worst sub-hero slots. Confirm the
-  exact cache cost/slot-targeting in-game on the live build.
+- **Field Accolades**: ~~hero pieces (500)~~ ~~BANK for 750 slot-targeted
+  Hero caches~~ → **REVERSED AGAIN 2026-07-09 — spend on WARBAND caches for
+  the alts, not himself.** His slots are all ≥259 now, and an Accolade box
+  lands at 259 — a sidegrade to him. So the stockpile is worth more as
+  **Warbound Champion (100 ea) / Heroic (750 ea) caches mailed to Uncomplete**.
+  **Done:** drained 1,309 → **219** on 2026-07-09 funding Uncomplete's gear
+  (`uncomplete-plan.md` warband lever). Keep only a small buffer for himself.
 
 ## Milestones
 
@@ -206,7 +207,7 @@ crests)** · no enchants · solo-leaning.
 |---|---|
 | Spark crafts done | ~236 → ~245 equipped, embellishments online |
 | Ritual T4–5 steady | vault world row 269; 100 Hero crests/wk |
-| Delver's Journey r4 | 21 Myth crests/wk (285 recrafts begin) |
+| Delver's Journey r4 | ~20 Myth crests/wk (285 recrafts begin) |
 | Delver's Journey r5 | Zoron gear vendor ("nightcoin" — verify name) |
 | Preyseeker r4 | Nightmare hunts → Ascendant Voidshards |
 | 4pc tier via Catalyst | class set bonuses |

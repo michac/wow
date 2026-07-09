@@ -306,27 +306,37 @@ CANONICAL_CURRENCY_NAME = {
 # --------------------------------------------------------------------------- #
 # A gear DROP is only an upgrade if its **landing** ilvl beats the ilvl of a slot
 # it can actually fill. The activity declares a `yields.slots` vector — each entry
-# a {track, ilvl (LANDING, not the crested ceiling), chance, slots}. This values
-# that vector against the char's live per-slot ilvls: the best POSITIVE ilvl delta
-# across every fillable slot. A Hero drop lands at 259 (1/6, dawncrests.md), so for
-# a char whose fillable slots are all ≥259 it's a sidegrade → delta 0. `chance` is
-# carried on the vector but NOT applied here (deterministic-vs-RNG EV is Phase 3).
+# a {track, ilvl (LANDING, not the crested ceiling), chance, targeted, slots}. This
+# values that vector against the char's live per-slot ilvls, folding in two distinct
+# probability effects (needs-first Phase 3): (a) `chance` = drop probability, a
+# straight EV multiplier; (b) slot randomness — a `[all]`/multi-slot roll lands on a
+# RANDOM slot, so it's valued at the EXPECTED upgrade across its fillable slots, not
+# the best one, UNLESS `targeted: true` (a vendor pick where YOU choose the slot).
+# A Hero drop lands at 259 (1/6, dawncrests.md), so for a char whose fillable slots
+# are all ≥259 it's a sidegrade → delta 0.
 
 
 def best_slot_delta(yield_slots, ilvl_by_slot: dict) -> tuple[float, str | None, float | None]:
-    """Best positive ilvl delta a gear-drop yield vector lands on THIS char.
+    """Best EFFECTIVE ilvl delta a gear-drop yield vector lands on THIS char.
 
-    `yield_slots` is a list of yield vectors, each a dict with `ilvl` (the drop's
-    LANDING ilvl) and `slots` (a list of canonical slot names, or `["all"]` for a
-    random open-world drop that can fill any equipped slot). `ilvl_by_slot` is the
+    Each vector: {ilvl (LANDING, not the crested ceiling), chance (drop
+    probability, default 1.0), targeted (slot determinism, default False),
+    slots (list of canonical slot names, or ["all"])}. `ilvl_by_slot` is the
     char's live `{slot: ilvl}` map (from the dump).
 
-    For each vector, expand `all` to every equipped slot, then for each fillable
-    slot compute `landing_ilvl - current_slot_ilvl`. Returns the best POSITIVE
-    (delta, slot_name, current_ilvl) across all vectors/slots, or `(0.0, None,
-    None)` when no fillable slot would be upgraded. Slot names match
-    case-insensitively (the dump uses lowercase `waist`/`finger2`/`mainhand`/…).
-    `chance` on the vector is ignored here — Phase 3 folds in the RNG EV.
+    Two probability effects, kept separate (needs-first Phase 3):
+      (a) `chance` — the chance the activity yields a piece at all → a straight
+          EV multiplier (a world-boss drop is < 1; a bonus roll / vendor buy is 1).
+      (b) slot randomness — a `slots:[all]` (or multi-slot) roll lands on a RANDOM
+          slot, so it's valued at the EXPECTED upgrade across its fillable slots
+          (mean of positive per-slot deltas, zeros included), NOT the best one.
+          `targeted: true` (a vendor pick like Maren, where YOU choose the slot),
+          or a single fillable slot, keeps the exact best-slot value.
+
+    effective_delta = chance * value. Returns the best (effective_delta,
+    representative_slot, current_ilvl) across all vectors, or `(0.0, None, None)`
+    when nothing is an upgrade. Slot names match case-insensitively (the dump uses
+    lowercase `waist`/`finger2`/`mainhand`/…).
     """
     equipped = {str(s).lower(): float(v) for s, v in (ilvl_by_slot or {}).items()
                 if isinstance(v, (int, float))}
@@ -339,18 +349,30 @@ def best_slot_delta(yield_slots, ilvl_by_slot: dict) -> tuple[float, str | None,
         ilvl = vec.get("ilvl")
         if not isinstance(ilvl, (int, float)):
             continue
+        chance = vec.get("chance")
+        chance = float(chance) if isinstance(chance, (int, float)) else 1.0
+        targeted = bool(vec.get("targeted"))
         raw = vec.get("slots") or []
         if isinstance(raw, str):
             raw = [raw]
-        names = (list(equipped) if any(str(s).lower() == "all" for s in raw)
-                 else [str(s).lower() for s in raw])
-        for name in names:
-            cur = equipped.get(name)
-            if cur is None:
-                continue
-            delta = float(ilvl) - cur
-            if delta > best[0]:
-                best = (delta, name, cur)
+        if any(str(s).lower() == "all" for s in raw):
+            fillable = list(equipped)
+        else:
+            fillable = [str(s).lower() for s in raw if str(s).lower() in equipped]
+        if not fillable:
+            continue
+        upgrades = [(float(ilvl) - equipped[s], s) for s in fillable
+                    if float(ilvl) - equipped[s] > 0]
+        if not upgrades:
+            continue
+        raw_delta, arg_slot = max(upgrades, key=lambda x: x[0])
+        # (b) you pick the slot (targeted / single slot) → best slot; else the
+        # game picks → expected upgrade over the fillable set (non-upgrades = 0).
+        value = (raw_delta if (targeted or len(fillable) == 1)
+                 else sum(d for d, _ in upgrades) / len(fillable))
+        eff = chance * value          # (a) drop-probability EV
+        if eff > best[0]:
+            best = (eff, arg_slot, equipped[arg_slot])
     return best
 
 
