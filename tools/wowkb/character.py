@@ -357,7 +357,7 @@ def _reset_section(state: dict | None) -> list[str]:
             return str(base)
         L.append("- Weeklies not done: " + ", ".join(_lbl(q) for q in wq))
     aq = [q for q in state.get("activeQuests") or []
-          if isinstance(q, dict) and q.get("frequency") == 2 and not q.get("isComplete")]
+          if isinstance(q, dict) and q.get("frequency") in (2, 3) and not q.get("isComplete")]
     if aq:
         L.append("- Weeklies in progress (quest log): "
                  + ", ".join(q.get("title") or str(q.get("id")) for q in aq))

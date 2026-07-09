@@ -37,9 +37,11 @@ check(any(q.get("id") == 99001 for q in state.get("activeQuests", [])),
 
 fresh = P.discover_weeklies(state)
 ids = {e["questID"] for e in fresh}
-check(ids == {99001}, f"only the unknown weekly is discovered (got {ids})")
-check(fresh and fresh[0]["title"] == "Knocking Off the Top", "carried the title")
-check(fresh and fresh[0].get("campaign") == 1, "carried the campaign flag")
+# 99001 (freq 2, Weekly) and 99004 (freq 3, ResetByScheduler) both count as weekly.
+check(ids == {99001, 99004}, f"unknown weeklies at freq 2 AND 3 discovered (got {ids})")
+k = next(e for e in fresh if e["questID"] == 99001)
+check(k["title"] == "Knocking Off the Top" and k.get("campaign") == 1,
+      "carried the title + campaign flag")
 
 # 96713 is weekly but watch-listed; 99002 daily; 99003 one-time -> none of these.
 check(96713 not in ids, "watch-listed weekly is not re-discovered")

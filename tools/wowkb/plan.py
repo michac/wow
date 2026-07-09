@@ -451,6 +451,11 @@ def _fmt(r: dict) -> str:
 # "how do I gear up X"). Track is inferred from ilvl bands, since the profile   #
 # API doesn't expose the numeric upgrade track (charstate notes this).         #
 # --------------------------------------------------------------------------- #
+# Enum.QuestFrequency weekly-ish cadences: 2 = Weekly, 3 = ResetByScheduler
+# (Midnight Special Assignments / pillar weeklies live-observed at 3). 1 = Daily,
+# 0 = Default → not weekly. Both 2 and 3 reset weekly, so both are watchlist-worthy.
+WEEKLY_FREQ = {2, 3}
+
 TIER_SLOTS = {"head", "shoulder", "chest", "hands", "legs"}
 # Decimus "Knocking Off the Top" gives ONE free Myth 272 among these three slots.
 QUEST_SLOTS = {"back": "cloak", "waist": "belt", "wrist": "bracers"}
@@ -633,7 +638,7 @@ def discover_weeklies(state: dict | None, write: bool = True) -> list[dict]:
             master = {}
     fresh = []
     for q in active:
-        if not isinstance(q, dict) or q.get("frequency") != 2:  # 2 = weekly
+        if not isinstance(q, dict) or q.get("frequency") not in WEEKLY_FREQ:
             continue
         qid = q.get("id")
         if qid is None or qid in known or qid in master:
