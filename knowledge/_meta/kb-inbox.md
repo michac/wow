@@ -76,6 +76,12 @@ The right source turned out to be one we already read, not the addon:
 
 ## Tooling / KB structure
 
+- 🧭 **Planner re-architecture — see `../planning/goal-model.md` (design proposal, 2026-07-10).**
+  Replace the activity-centric multiplier scorer (`scoring-model.md`) with a **goal-centric**
+  pipeline: per-slot upgrade-candidate graph → goals → rank(value, steps) → select-to-time →
+  TODO expansion with **shared-step dedup**. This is the agreed direction; the doc has a worked
+  Uncomplete sketch. The remaining scoring items below are folded into it.
+
 - **Schema-8 ingest — Phase A + B DONE (2026-07-10).** `charstate.load` makes the addon dump
   the **primary** per-slot track source (`{track,level,cap}`, `None` for crafted), exposes
   `track_by_slot` + `dawn_achievements`; `wowkb.character` renders a **Track column** + a
@@ -85,15 +91,15 @@ The right source turned out to be one we already read, not the addon:
   retired, and above-need crests keep a rarity-scaled future-material floor (never 0, always
   below a real need). Validated: Encomplete Champion 1.67 / Hero 3.83 / Myth 0.75(floor);
   Uncomplete Champion 3.83 / Hero 3.83 / Myth 0.75.
-  **Two genuine remainders:**
-  - **Precise craft-reagent term** (deferred, fully *unblocked* on data): value a crest by
-    whether an 80-crest craft (Hero→272 / Myth→285) beats a craftable *non-tier* slot. Spark
-    count is now in `state["item_counts"]` (Syndicator, item 232875), so the remaining work is
-    pure wiring: read the spark count in the consumer + thread per-slot **tier flags** into
-    `char_state` (equipment already carries `tier`). The floor is the stand-in until then.
-  - **Gear-DROP ilvl-band fallback** still uses the overloaded/stale `TRACK_CEILING`
-    (`Champion=259`) + `track_of_ilvl` 259→Hero-band guess. Now that real per-slot track is in
-    the dump, `best_slot_delta`/the drop path could read it instead of band-guessing — separate cleanup.
+  The two former "remainders" are resolved/redirected:
+  - ~~**Gear-DROP ilvl-band fallback**~~ — DONE. `track_of_ilvl` had no callers (dead) and
+    `TRACK_CEILING` was used only inside it; both removed. The live drop path (`best_slot_delta`)
+    already values off real per-slot ilvls, so this was pure dead-code cleanup, no scoring change.
+  - ~~**Precise craft-reagent term** as a crest multiplier~~ — DROPPED as the wrong shape.
+    A craft isn't a multiplier on a crest; it's **one candidate path for a slot** in the
+    goal model above (cost 80 crests + 2 sparks, yield 272/285, weighed by mats-in-hand).
+    Data's all there (`item_counts`, tier flags); it gets built as part of the candidate graph,
+    not bolted onto `_crest_consumer`. The `CREST_FLOOR` stays as the interim crest value.
 
 ## Research to-do
 

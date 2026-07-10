@@ -11,6 +11,10 @@ confidence: high     # this is a methodology doc, not a fetched game fact — "h
 
 # Session Planning — Scoring Model
 
+> ⏭ **Proposed successor:** `goal-model.md` (2026-07-10) reframes this activity-centric
+> multiplier scorer as a **goal-centric** pipeline (per-slot upgrade graph → goals →
+> rank → TODO steps). This doc remains the live model until that's built.
+
 > **What this is.** The explicit, tunable heuristic that turns "~100 things I
 > *could* do" into "the 3–5 things worth doing **this** session." It is the
 > scoring function behind three separate deliverables that don't exist yet:
