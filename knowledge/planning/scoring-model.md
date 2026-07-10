@@ -93,11 +93,22 @@ about.** Two multipliers stack inside R:
   keys, `activities/_facets.md`); `rewards.currency_yield_R()` values the **best
   pending consumer** across them and `plan.py:currency_R()` feeds it into the same
   `max(breakpoint, slot-target, currency)` override. The rules:
-  - **Hero crest** → consumer iff any equipped slot `< 276` (Hero cap); R scales
-    with the weakest sub-cap slot's headroom (same `1 + Δ/6` shape as slot-target).
-  - **Myth crest** → the binding constraint: high flat R (**4**) while a consumer
-    is pending, `0` once Myth-capped. Phase-1 approximation of "not Myth-capped":
-    still holding sub-276 slots (real per-slot track needs the addon dump).
+  - **Crests (Champion / Hero / Myth)** — *Phase B, 2026-07-10, track-aware.* Valued as
+    `max(current upgrade headroom, future-material floor)` per tier:
+    - **Upgrade headroom** uses the **real per-slot track/step** from the addon dump
+      (schema≥8): across equipped slots *on that track below cap*, the largest ilvl gap to
+      the crest ceiling (**Champion 263 · Hero 276 · Myth 285**), same `1 + Δ/6` shape.
+      Falls back to the weakest-slot-ilvl approximation on a pre-schema-8 dump.
+    - **Future-material floor** (`CREST_FLOOR`): a crest above current need is **never 0** —
+      it banks toward later upgrades/crafts (80 Hero → a 259–272 craft, 80 Myth → 272–285) —
+      but floors **below** the `1.0` foot-in-door of a real need, rarity-scaled
+      (**Champion 0.25 · Hero 0.5 · Myth 0.75**). So a needed Hero crest (headroom ~3.8)
+      outranks banked Myth (0.75), which still shows in value counts without pulling focus.
+    - This **retires** the old flat "Myth = binding constraint, R=4" rule and finally
+      **values Champion crests** (previously no consumer → 0, which under-served cappers).
+    - ⏳ A *precise* craft-reagent term is deferred until Spark counts are dumped; the floor
+      is its stand-in. (The overloaded `TRACK_CEILING`/`track_of_ilvl` band map still feeds
+      the ilvl-band gear-*drop* fallback and is separately stale — see `_meta/kb-inbox.md`.)
   - **Field Accolade** → values the ~259 Hero box Maren sells → `0` once the
     weakest slot ≥ 259 (own-char only; the warbound-cache-for-alts value of a big
     Accolade stockpile is Phase 4).

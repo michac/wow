@@ -26,7 +26,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from . import wago
-from ._common import RAW, save_raw
+from ._common import ROOT, RAW, save_raw
 from .blizzard import get
 
 DEFAULT_WOW = "/mnt/c/Program Files (x86)/World of Warcraft/_retail_"
@@ -291,6 +291,70 @@ def parse_currencies(block: str) -> tuple[dict, int, list]:
     return flat, money, groups
 
 
+# Items we surface by name in the digest (Syndicator has ALL of them; this is just
+# the read-out list). Everything else still lands in item_counts for the planner.
+KNOWN_ITEMS = {
+    232875: "Spark of Radiance",     # S1 crafting spark
+    268650: "Ascendant Voidshard",   # 5 → 1 Voidcore (weapon/trinket overcap mat)
+}
+
+
+def _named_top_block(text: str, key: str) -> str | None:
+    """The brace-balanced `["<key>"] = { ... }` top-level table (e.g. 'Warband')."""
+    m = re.search(r'\["' + re.escape(key) + r'"\]\s*=\s*\{', text)
+    if not m:
+        return None
+    start = m.end() - 1
+    depth = 0
+    for i in range(start, len(text)):
+        if text[i] == "{":
+            depth += 1
+        elif text[i] == "}":
+            depth -= 1
+            if depth == 0:
+                return text[start:i + 1]
+    return None
+
+
+def parse_item_counts(block: str) -> dict[int, int]:
+    """Sum item counts by itemID across every leaf slot table in a Syndicator block.
+
+    Syndicator stores each occupied slot as a flat table carrying `["itemID"]` +
+    `["itemCount"]` (bags/bank/equipped/mail/void for a char block; tabs→slots for the
+    warband block). We iterate innermost `{...}` tables (no nested braces = a leaf
+    slot) and total by ID — so it's the account's own bag addon doing the inventory
+    work, no per-item ID list to maintain.
+    """
+    counts: dict[int, int] = {}
+    for chunk in re.findall(r"\{[^{}]*\}", block, re.S):
+        idm = re.search(r'\["itemID"\]\s*=\s*(\d+)', chunk)
+        cm = re.search(r'\["itemCount"\]\s*=\s*(\d+)', chunk)
+        if idm and cm:
+            iid = int(idm.group(1))
+            counts[iid] = counts.get(iid, 0) + int(cm.group(1))
+    return counts
+
+
+def collect_items(name: str, realm: str, wow_path: str) -> dict | None:
+    """Item counts held by a character, from the Syndicator bag addon we already read
+    for currencies: the char's own containers PLUS the account **Warband** bank
+    (shared, so accessible to every char). Returns {"counts": {itemID: n}} — the full
+    inventory, for the planner to pick from — or {"_error": ...}."""
+    sv = _syndicator_file(wow_path)
+    if not sv:
+        return {"_error": f"Syndicator.lua not found under {wow_path}/WTF/Account/*/SavedVariables/"}
+    text = sv.read_text(encoding="utf-8", errors="replace")
+    block = _char_block(text, name, realm)
+    if not block:
+        return {"_error": f"{name}-{realm} not found in {sv} (log in on the character and /reload)"}
+    counts = parse_item_counts(block)
+    wb = _named_top_block(text, "Warband")           # account-wide warband bank
+    if wb:
+        for iid, n in parse_item_counts(wb).items():
+            counts[iid] = counts.get(iid, 0) + n
+    return {"source": str(sv), "counts": counts}
+
+
 def currency_names() -> dict:
     path = RAW / "wago" / "CurrencyTypes.csv"
     if not path.exists():
@@ -389,6 +453,51 @@ def _reset_section(state: dict | None) -> list[str]:
     return L
 
 
+_DAWN_ORDER = [("adventurer", "Adventurer"), ("veteran", "Veteran"),
+               ("champion", "Champion"), ("hero", "Hero"), ("myth", "Myth")]
+
+
+def _dawn_section(state: dict | None) -> list[str]:
+    """The "…of the Dawn" upgrade achievements + the 50% warband-discount status,
+    with the concrete sub-263 blockers for the Champion gate (schema>=8 dumps only).
+
+    Distinguishes crestable slots (on a track) from genuinely untracked crafted
+    gear — a crafted belt can't be crested to 263, it needs a recraft/replace, and
+    only the tooltip-sourced track (not the API) reveals that. [] when the dump
+    predates schema 8 (no track/achievement data)."""
+    state = state or {}
+    ach = state.get("dawn_achievements") or {}
+    eq = state.get("equipment") or []
+    if not ach:
+        return []
+    L = ["## Upgrade tracks & \"…of the Dawn\" discount"]
+    badges = " · ".join(f"{lbl} {'✓' if ach.get(k) else '✗'}"
+                        for k, lbl in _DAWN_ORDER if k in ach)
+    if badges:
+        L.append(f"- Dawn achievements (account-wide): {badges}")
+    # Champion gate: 263 in every slot → the 50% Champion Dawncrest discount.
+    if "champion" in ach:
+        if ach["champion"]:
+            L.append("- **Champion 50% discount: LIVE** — every slot ≥ 263.")
+        else:
+            blockers = []
+            for e in eq:
+                il, t = e.get("ilvl"), e.get("track")
+                if isinstance(il, (int, float)) and il < 263:
+                    if isinstance(t, dict):
+                        step = f"{t['track']} {t.get('level')}/{t.get('cap')}"
+                        note = f"{step} → crest up to 263"
+                    else:
+                        note = "**crafted / no track** → recraft higher or replace (not crestable)"
+                    blockers.append((e.get("slot"), int(il), note))
+            L.append(f"- **Champion 50% discount: NOT live** — {len(blockers)} slot(s) "
+                     f"below 263 gate *Champion of the Dawn* (42768):")
+            for slot, il, note in sorted(blockers, key=lambda x: x[1]):
+                L.append(f"  - {slot} {il} — {note}")
+    L.append("")
+    return L
+
+
 def render_md(data: dict, cur: dict | None, state: dict | None = None) -> str:
     i = data["identity"]
     L = []
@@ -405,14 +514,33 @@ def render_md(data: dict, cur: dict | None, state: dict | None = None) -> str:
         L.append(f"- Saved loadouts also present: {', '.join(other_loadouts)}")
     L.append("")
 
+    from wowkb.charstate import _API_SLOT  # deferred: avoid an import cycle
+    tbs = state.get("track_by_slot") or {}   # {dump_slot: {track,level,cap}} (schema>=8)
+
+    def _trk(api_slot: str) -> str:
+        t = tbs.get(_API_SLOT.get(api_slot))
+        if not t:
+            return "—"                       # crafted/untracked, or pre-schema-8 dump
+        return f"{t['track']} {t['level']}/{t['cap']}" if t.get("level") else t["track"]
+
     L.append("## Gear")
-    L.append("| Slot | ilvl | id | Item | Ench/Gem |")
-    L.append("|---|---|---|---|---|")
-    for g in data["gear"]:
-        extra = "; ".join(g["enchants"] + [f"gem: {x}" for x in g["gems"]])
-        tier = " *(tier)*" if g["tier"] else ""
-        L.append(f"| {g['slot']} | {g['ilvl']} | {g['id']} | {g['name']}{tier} | {extra} |")
+    if tbs:  # schema>=8 dump present → show the real upgrade track per slot
+        L.append("| Slot | ilvl | Track | id | Item | Ench/Gem |")
+        L.append("|---|---|---|---|---|---|")
+        for g in data["gear"]:
+            extra = "; ".join(g["enchants"] + [f"gem: {x}" for x in g["gems"]])
+            tier = " *(tier)*" if g["tier"] else ""
+            L.append(f"| {g['slot']} | {g['ilvl']} | {_trk(g['slot'])} | {g['id']} | "
+                     f"{g['name']}{tier} | {extra} |")
+    else:
+        L.append("| Slot | ilvl | id | Item | Ench/Gem |")
+        L.append("|---|---|---|---|---|")
+        for g in data["gear"]:
+            extra = "; ".join(g["enchants"] + [f"gem: {x}" for x in g["gems"]])
+            tier = " *(tier)*" if g["tier"] else ""
+            L.append(f"| {g['slot']} | {g['ilvl']} | {g['id']} | {g['name']}{tier} | {extra} |")
     L.append("")
+    L.extend(_dawn_section(state))
 
     mp = data["mplus"]
     L.append("## Mythic+")
@@ -455,10 +583,39 @@ def render_md(data: dict, cur: dict | None, state: dict | None = None) -> str:
         for grp in cur["groups"]:
             L.append(f"- **{grp['header']}**: " +
                      " · ".join(f"{c['name']} {c['amount']:,}" for c in grp["currencies"]))
-        L.append("- ⚠ Sparks of Radiance (an item) and Catalyst charges are NOT in "
-                 "Syndicator's currency table — check those in-game.")
+        # Crafting-mat ITEMS (sparks, voidshards) — read from the same Syndicator file
+        # (bags + bank + warband), the counts the profile API / currency table can't see.
+        ic = (state or {}).get("item_counts") or {}
+        mats = [f"{lbl} {ic.get(iid, 0)}" for iid, lbl in KNOWN_ITEMS.items()]
+        if mats:
+            L.append("- **Crafting mats** (Syndicator items): " + " · ".join(mats))
+        L.append("- Note: **Catalyst charges = Dawnlight Manaflux** (currency 3378, shown "
+                 "above). Sparks/Voidshards are *items* (above) — sourced from Syndicator "
+                 "(bags+bank+warband), not the currency table.")
     L.append("")
     return "\n".join(L)
+
+
+def _snapshot_is_current(name: str, realm: str, wow_path: str) -> str | None:
+    """If the KB snapshot is already ≥ the dump's capture date, return a 'skip'
+    message; else None (a re-pull is warranted). Reads only the dump (no API)."""
+    from wowkb import charstate  # deferred
+    dump = charstate.load_state(None, wow_path, name)
+    updated = (dump or {}).get("updated")
+    if not updated:
+        return None  # no dump / no timestamp → can't judge, so don't skip
+    dump_date = datetime.fromtimestamp(updated, timezone.utc).date()
+    snap = ROOT / "knowledge" / "characters" / f"{name.lower()}-{realm.lower()}.md"
+    if not snap.exists():
+        return None
+    m = re.search(r"^fetched:\s*(\d{4}-\d{2}-\d{2})", snap.read_text(encoding="utf-8"), re.M)
+    if not m:
+        return None
+    fetched = datetime.strptime(m.group(1), "%Y-%m-%d").date()
+    if fetched >= dump_date:
+        return (f"✓ {name}-{realm} current — snapshot fetched {fetched} ≥ dump captured "
+                f"{dump_date}; nothing changed, skipping the pull.")
+    return None
 
 
 def main() -> None:
@@ -467,12 +624,26 @@ def main() -> None:
     p.add_argument("--realm", default=DEFAULT_REALM, help=f"realm slug (default: {DEFAULT_REALM})")
     p.add_argument("--json", action="store_true", help="emit normalized JSON instead of markdown")
     p.add_argument("--no-currencies", action="store_true", help="skip the Syndicator currency read")
+    p.add_argument("--skip-if-current", action="store_true",
+                   help="exit early (no API/Syndicator pull) if the KB snapshot's `fetched:` "
+                        "is already ≥ the PlannerState dump's capture date — nothing changed")
     p.add_argument("--wow-path", default=DEFAULT_WOW, help="path to the _retail_ folder")
     args = p.parse_args()
 
+    from wowkb import charstate  # deferred: charstate.load() reaches back into this module
+
+    # Freshness short-circuit: the dump's `updated` is the "this character's state last
+    # changed" signal (moves on /ps + logout, when Syndicator/API refresh too). If the
+    # existing snapshot was fetched on/after that date, we already hold the latest —
+    # skip the pull entirely. Cheap: reads only the dump, not the API.
+    if args.skip_if_current:
+        verdict = _snapshot_is_current(args.name, args.realm, args.wow_path)
+        if verdict:
+            print(verdict)
+            return
+
     # One door for all three sources: the profile API + Syndicator (enrichment)
     # folded onto the PlannerState /ps dump (reset-state spine), via charstate.load.
-    from wowkb import charstate  # deferred: charstate.load() reaches back into this module
     state = charstate.load(args.name, args.realm, wow_path=args.wow_path,
                            enrich=True, syndicator=not args.no_currencies)
     if not state or not state.get("profile"):

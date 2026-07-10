@@ -182,9 +182,9 @@ TRACK_CEILING = {
     "Hero": 276,
     "Myth": 285,
 }
-HERO_CEILING = TRACK_CEILING["Hero"]        # 276 — the binding crest cap this phase
 FIELD_ACCOLADE_ILVL = 259                    # Hero box Maren sells for Field Accolades
-MYTH_CREST_R = 4.0                           # Encomplete's binding constraint — high weight
+# (HERO_CEILING / MYTH_CREST_R retired — the crest model now uses CREST_CEILING +
+#  per-slot track headroom + CREST_FLOOR below, not a flat weakest-slot approximation.)
 
 
 def track_of_ilvl(ilvl: float | None) -> str | None:
@@ -221,37 +221,69 @@ def _r_from_headroom(delta: float) -> float:
     return min(5.0, 1.0 + delta / 6.0)
 
 
-def _consume_hero_crest(char_state: dict) -> tuple[float, str] | None:
-    """Hero crests upgrade Hero-track gear 259→276. Consumer exists iff any slot
-    is still below the Hero cap; R scales with the weakest sub-cap slot's headroom.
-    """
-    weakest = _weakest_slot_ilvl(char_state)
-    if weakest is None:
-        return None
-    if weakest >= HERO_CEILING:
-        return 0.0, f"every slot ≥ Hero cap ({HERO_CEILING}) — Hero crests have no consumer"
-    delta = HERO_CEILING - weakest
-    return (_r_from_headroom(delta),
-            f"Hero crests upgrade your weakest slot ({round(weakest)}→{HERO_CEILING})")
+# Top ilvl each crest track upgrades TO — the crest-headroom ceiling (KB: Champion
+# 263, Hero 276, Myth 285). Kept separate from the overloaded band-boundary values
+# in TRACK_CEILING/track_of_ilvl (which still feed the ilvl-band gear-drop fallback).
+CREST_CEILING = {"Champion": 263, "Hero": 276, "Myth": 285}
+
+# Future-material floor: a crest above current need still banks toward later
+# upgrades/crafts (80 Hero → a 259–272 craft, 80 Myth → 272–285; professions.md), so
+# it's never worth 0 — but it scores below the 1.0 foot-in-door of a real need, and
+# is rarity-scaled (Myth = rarest / highest ceiling) so a bank of Myth crests shows
+# up in value counts without ever pulling focus onto Myth-crest content. TUNABLE.
+CREST_FLOOR = {"Champion": 0.25, "Hero": 0.5, "Myth": 0.75}
 
 
-def _consume_myth_crest(char_state: dict) -> tuple[float, str] | None:
-    """Myth crests are Encomplete's binding constraint — high, flat weight while a
-    consumer is pending. Phase 1 approximation of "not Myth-capped": an explicit
-    track_caps['Myth'] flag zeroes it, else a consumer is presumed while the char
-    still has sub-Hero-cap slots (Myth-track gearing is visibly ongoing). Once
-    every slot is 276+ we can't see a Myth-track item to upgrade, so R→0 until the
-    craft/drop model (Phase 2) supplies the consumer.
-    """
-    if (char_state.get("track_caps") or {}).get("Myth"):
-        return 0.0, "Myth track capped — no consumer"
+def _crest_upgrade_R(char_state: dict, track: str) -> float:
+    """Best CURRENT equipped-upgrade headroom for a `track` crest, from the real
+    per-slot track/step (schema>=8): across equipped slots ON that track below cap,
+    the largest ilvl gap to the crest ceiling → _r_from_headroom. Falls back to the
+    weakest-slot-ilvl approximation when the dump has no track data (pre-schema-8).
+    0.0 when there's no on-track sub-cap slot (no current upgrade consumer)."""
+    ceiling = CREST_CEILING.get(track)
+    if ceiling is None:
+        return 0.0
+    tbs = char_state.get("track_by_slot") or {}
+    ilvl_by_slot = char_state.get("ilvl_by_slot") or {}
+    if tbs:
+        best = 0.0
+        for slot, t in tbs.items():
+            if not isinstance(t, dict) or t.get("track") != track:
+                continue
+            lvl, cap = t.get("level"), t.get("cap")
+            if lvl is None or cap is None or lvl >= cap:
+                continue                      # capped slot — nothing to crest
+            il = ilvl_by_slot.get(slot)
+            if isinstance(il, (int, float)) and ceiling - il > 0:
+                best = max(best, _r_from_headroom(ceiling - il))
+        return best
+    # pre-schema-8 fallback: weakest slot ilvl vs the ceiling (old approximation).
     weakest = _weakest_slot_ilvl(char_state)
-    if weakest is None:
-        return None
-    if weakest >= HERO_CEILING:
-        return (0.0,
-                f"every slot ≥ Hero cap ({HERO_CEILING}) — no pending Myth-crest consumer (Phase 1)")
-    return MYTH_CREST_R, "Myth crests — the binding upgrade constraint"
+    if weakest is None or weakest >= ceiling:
+        return 0.0
+    return _r_from_headroom(ceiling - weakest)
+
+
+def _crest_consumer(track: str):
+    """Build a consumer that values a `track` crest as the max of (a) its current
+    equipped-upgrade headroom and (b) a tier-scaled future-material floor — so a
+    needed crest scores highest (headroom, up to 5.0) while an above-need crest still
+    carries its bankable floor (never 0, always < a real need). The precise
+    craft-reagent term is deferred until Spark counts are dumped; the floor is its
+    stand-in meanwhile. Returns None only when there's no character state at all."""
+    floor = CREST_FLOOR.get(track, 0.0)
+
+    def consume(char_state: dict) -> tuple[float, str] | None:
+        if not (char_state.get("ilvl_by_slot")):
+            return None
+        up = _crest_upgrade_R(char_state, track)
+        if up > 0:
+            return max(up, floor), f"{track} crests — upgrade on-track gear (headroom)"
+        if floor > 0:
+            return floor, f"{track} crests — future material (no current {track} upgrade)"
+        return 0.0, f"{track} crests — no consumer (geared past {track})"
+
+    return consume
 
 
 def _consume_field_accolade(char_state: dict) -> tuple[float, str] | None:
@@ -279,8 +311,9 @@ def _consume_none_yet(char_state: dict) -> tuple[float, str] | None:
 
 # canonical yields.currencies key -> consumer test (char_state -> (R, note) | None)
 CURRENCY_CONSUMERS = {
-    "hero_crest": _consume_hero_crest,
-    "myth_crest": _consume_myth_crest,
+    "champion_crest": _crest_consumer("Champion"),  # now valued (was missing → 0 for cappers)
+    "hero_crest": _crest_consumer("Hero"),
+    "myth_crest": _crest_consumer("Myth"),
     "field_accolade": _consume_field_accolade,
     "spark": _consume_none_yet,
     "radiant_spark_dust": _consume_none_yet,

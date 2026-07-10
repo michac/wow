@@ -322,9 +322,17 @@ def _char_state(state: dict | None) -> dict:
     """Shape the dump into rewards.py's char_state schema (needs-first Phase 1).
 
     schema≥4 dumps per-slot `equipment` (itemID/ilvl/slot) and `currencies`
-    (name/quantity). We map both into {ilvl_by_slot, currencies, track_caps}. The
-    dump carries no upgrade track/level, so track_caps stays empty and the crest
-    consumers approximate headroom from ilvl vs the Hero ceiling (rewards.py).
+    (name/quantity); schema≥8 adds the per-slot upgrade `track` (a {track,level,cap}
+    dict, or None for crafted/untracked gear) + the "…of the Dawn" achievements.
+    We surface the real track as `track_by_slot` (consumed by rewards.py's
+    track-aware crest model — precise per-slot headroom + the future-material floor,
+    Phase B) and the discount state as `dawn_achievements` for the gearing view.
+
+    `track_caps` (the old per-TRACK "capped → no consumer" flag) stays empty: the
+    crest model now reads `track_by_slot` directly, and the only remaining reader of
+    `track_caps` is the still-unwired `_value_char_relative`. A crest is never zeroed
+    just for lacking an equipped on-track slot — its crafting/future-material value is
+    the CREST_FLOOR (80 Hero → a 259–272 craft, 80 Myth → 272–285; professions.md).
     """
     eq = (state or {}).get("equipment") or []
     ilvl_by_slot = {s["slot"]: float(s["ilvl"]) for s in eq
@@ -332,7 +340,13 @@ def _char_state(state: dict | None) -> dict:
                     and isinstance(s.get("ilvl"), (int, float))}
     curs = {c["name"]: c.get("quantity") for c in (state or {}).get("currencies") or []
             if isinstance(c, dict) and c.get("name")}
-    return {"ilvl_by_slot": ilvl_by_slot, "currencies": curs, "track_caps": {}}
+    return {
+        "ilvl_by_slot": ilvl_by_slot,
+        "currencies": curs,
+        "track_caps": {},
+        "track_by_slot": (state or {}).get("track_by_slot") or {},
+        "dawn_achievements": (state or {}).get("dawn_achievements") or {},
+    }
 
 
 def currency_R(cand: dict, state: dict | None) -> tuple[float, str] | None:
