@@ -48,7 +48,12 @@ game.** Defenses, in order:
   `feed-watermark.md` (the "reviewed through" cursor that drives `/update`),
   `verify-in-game.md` (**generated** "confirm while logged in" checklist —
   collected from `@verify-ingame` markers by `wowkb.gen_verify`; `/sync-characters`
-  surfaces it. Resolve an item → edit the claim + drop the marker + regen)
+  surfaces it. Resolve an item → edit the claim + drop the marker + regen),
+  `kb-inbox.md` (**free-form parking lot** — drop any un-routed todo here instead of
+  half-implementing it or asserting an unvalidated claim into `knowledge/**`: tooling
+  ideas, addon features, research-to-do, structural work. Distinct from the three
+  scoped queues — in-game-verify markers, `discovered-weeklies.json`, session
+  `todo.md`; route/strike items as they land. Not harvested by any tool)
 - `knowledge/endgame/` — `weekly-checklist.md` (the anchor doc), `raids/`,
   `mythic-plus/`, `delves/`, `prey.md`, `great-vault.md`, `world-events.md`
 - `knowledge/characters/` — per-character snapshots from the Blizzard
@@ -158,8 +163,13 @@ SavedVariables on disk (`…/_retail_/WTF/Account/*/SavedVariables/Syndicator.lu
 and resolves IDs via wago `CurrencyTypes`. Requires the WoW install reachable
 (default `--wow-path` is the WSL `/mnt/c` path) and the character to have been
 logged in / `/reload`ed recently. Emits **data only** — add narrative/deltas by
-hand when writing the KB file. Gaps it can't see: Sparks of Radiance (an item)
-and Catalyst charges (check in-game).
+hand when writing the KB file. Note: **Catalyst charges = Dawnlight Manaflux**
+(currency 3378 — a normal currency). **Sparks of Radiance** (232875) and **Ascendant
+Voidshards** (268650) are *items* — read from **Syndicator**'s full bag+bank+warband
+inventory (the same file we read for currencies), surfaced as `state["item_counts"]`
+and a digest "Crafting mats" line. (So they're **not** a gap; the old "check in-game"
+note was wrong. `wowkb.character --skip-if-current` short-circuits the whole pull when
+the snapshot's `fetched:` is already ≥ the dump's capture date.)
 
 **Three sources, one loader.** `wowkb.charstate.load` is the single door that
 unions all character data: the **PlannerState `/ps` dump** (reset-state the API
@@ -168,9 +178,14 @@ plus an equipment/currency mirror; the **offline spine**), the **Blizzard API**
 (names/specs/professions/renown/raids), and **Syndicator** (gold + currencies).
 Both `wowkb.character` and `wowkb.plan` consume it; enrichment degrades silently
 when offline (`--no-enrich` forces dump-only). So `wowkb.character` now also
-carries a **"This reset"** section, and the profile API's blind spot (it does
-**not** expose the numeric upgrade track — Champion 2/8) means the gearing chart
-infers track from ilvl bands.
+carries a **"This reset"** section. The profile API doesn't reliably expose the
+numeric upgrade track (and **drops it entirely on crafted gear**), so the **addon
+dump is the primary track source** (PlannerState schema≥8 reads `track`/step off the
+item tooltip; API is fallback). `wowkb.character` shows a **Track column** + a
+**"…of the Dawn" discount** section (which sub-263 slots gate the 50% Champion
+discount, and whether each is crestable or a crafted slot needing a recraft).
+⚠ Track-aware *scoring* in `wowkb.plan` (crest-consumer costing) is still a
+follow-up — the ranker's `track_caps` remains ilvl-based for now (see `_meta/kb-inbox.md`).
 
 **Routing rule — don't reinvent the planner from the KB.** For any "how do I
 gear up / progress <char>" question, run the tools FIRST (they already union the

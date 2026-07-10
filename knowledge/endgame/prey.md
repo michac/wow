@@ -1,9 +1,11 @@
 ---
 title: Prey System (Midnight)
 patch: 12.0.7
-fetched: 2026-07-07
-reviewed: 2026-07-07
+fetched: 2026-07-10
+reviewed: 2026-07-10
 sources:
+  - IN-GAME field test 2026-07-10 (Uncomplete) — Nightmare available on fresh 90; trap-grind slow
+  - https://www.icy-veins.com/wow/news/tank-tuning-class-fixes-prey-improvements-midnight-12-0-5-hotfixes-may-12th/  # 12.0.5: buffed non-trap progress
   - https://worldofwarcraft.blizzard.com/en-us/news/24244888/revelations-content-update-notes
   - https://www.icy-veins.com/wow/news/patch-12-0-7-revelations-full-content-update-notes/
   - https://warcraft.wiki.gg/wiki/Prey
@@ -34,16 +36,13 @@ New repeatable hunt system introduced with Midnight.
   additional hunts = 50 pts** (20× falloff — never grind past 4/week).
 - **Rank 4 → Nightmare difficulty**, via Astalor questline *Dark
   Mending* → *The Sheep or the Wolf*.
-- ⚠ **Journey scope is unverified — likely PER-CHARACTER, not account-wide.**
-  Web research (2026-07-09) found **no trustworthy source** calling the Preyseeker's
-  Journey account-wide; the strongest (Wowhead, tier-3) frames the intro questline +
-  Rank-4 Nightmare unlock as **per-character**. Contrast the *initial* Prey system
-  unlock (account-wide per Warcraft Wiki) and the sibling tracks (**Omnium Folio
-  account-wide confirmed**, Delver's Journey likely account-wide) — so Prey may follow
-  the trend, but don't assume it. **Consequence:** a fresh alt may have to reach Rank 4
-  itself before it can run the "3 Nightmare hunts" weekly. **Confirm in-game:** log an
-  alt below Rank 4 and check whether its Journey bar reflects the main's progress and
-  whether Nightmare hunts are already available. @verify-ingame
+- ✅ **Nightmare hunts are available on a fresh 90 — the feared per-character Rank-4 gate
+  does NOT block alts.** RESOLVED in-game 2026-07-10: a freshly-90 alt (Uncomplete) could run
+  Nightmare Prey immediately (and jumped straight into T11 delves too). Whether that's because
+  the Journey is account-wide or simply because everything unlocks at 90, the practical answer
+  is the same: **an alt does not have to grind to Rank 4 itself before the "3 Nightmare hunts"
+  weekly is doable.** (The prior 2026-07-09 web research had flagged this as *likely
+  per-character*; the field test overturns that concern.)
 - One hunt per difficulty per zone weekly gives the full gear chest;
   repeats give a gear-less sack.
 - Nightmare rewards: champion-track gear, Veteran Dawncrests, Voidlight
@@ -71,19 +70,51 @@ New repeatable hunt system introduced with Midnight.
   strong **leveling/Renown** activity, not just a gearing one.
 - **New Feat of Strength:** *Big Prey Hunter (Season 1)* — awarded for
   completing the Prey (Preyseeker's) Journey in Season 1.
-- Trap spawn count was **significantly reduced** back in 12.0.5; 12.0.7's
-  progression/Custom-Hunt changes partially offset the slowdown.
+- **Traps are no longer the fast path (CORRECTED 2026-07-10).** The readable 12.0.5 hotfix
+  (Icy Veins, May 12 2026) did **not** reduce trap *count* — it **buffed non-trap progress**
+  (Prey WQ, Ambushes/Ripostes, Coalescing Anguish spawns) and removed *Hunter's Momentum* on
+  Hard/Nightmare. So pure trap-grinding is now *relatively slower per minute*; ~10 traps to
+  reveal the target is **normal**, not a mistake. (A separate Wowhead piece "Are Prey Traps
+  Nerfed in 12.0.5?" was unreadable — whether count also dropped is unconfirmed; the readable
+  hotfix says no. @verify-ingame). 12.0.7 further **increased hunt progression** and relaxed
+  restrictions; typical hunt now ~10–12 min.
 - Per-hour, ritual sites still edge out prey for raw *gearing* (accolades +
   hero crests + coffer key shards + renown at once) — see
   `../systems/ritual-sites.md` — but prey's XP buff and uncapped Custom
   Hunts make it worth more time in 12.0.7.
 - Still worth keeping:
-  - **Weekly quest beacon** — forces a bounty-map drop in delves → a
-    guaranteed extra hero piece that week.
+  - **Weekly quest beacon** — awards a **Delver's Bounty map**. ⚠ **NOT an *extra* hero
+    piece:** its Hidden Trove **shares the one-per-week reward lockout** with a delve-dropped
+    Bounty map (see `delves/overview.md`). Using both in one week on one char = **one** Hero
+    trove, not two. Funnel spare maps to *other* characters.
   - **Nightmare hunts drop Ascendant Voidshards** (weapon/trinket overcap
     mats — see `../systems/void-forge.md`).
   - Prey hunts accept **Nebulous Void Core bonus rolls** (hero gear).
   - Still a Liadrin spark-weekly objective option (3 hunts).
+
+## Running a hunt efficiently (2026-07-10)
+
+The fast loop the guides converge on (T3 Icy Veins/Wowhead + T4, Midnight):
+
+1. **Do the Prey World Quest first** — highest progress-per-minute source.
+2. **Route the two uncontested trap hotspots.** Each zone has **3 fixed trap-spawn hotspots**;
+   the crowded one is wherever the WQ marker points — **skip it**, hit the other two (less mobby).
+   Carry up to 5 traps. *(hotspot mechanic = single T4 source — corroborate.)*
+3. **Disarm-and-mount** between traps (spam mount key while disarming) to stay out of combat.
+4. **Throw "Disarmed Trap" items at the ambush prey elite** — knocks ~50% HP and forces a
+   flee/riposte. **The fix for slow single-target kills** (undergeared/tank).
+5. **Kill the terminal target before Torment climbs** — the final arena **locks you in, no reset**.
+
+### Torment — the stacking "Nightmare" debuff
+- **+4% damage taken per stack, 1 stack / 60s**; on **Nightmare** it's **doubled and on a pure
+  wall-clock timer** (decoupled from progress) — a 20-min hunt ≈ +80% damage taken. This is why
+  slow hunts spiral.
+- **Clear it:** **rested areas wipe all stacks** (pulling back to reset is legit); **Coalescing
+  Anguish removes stacks** too. You **can't outrun the tick**, only dump it — and not in the
+  final arena. Nightmare is **solo-only** (no group help on the 3-weekly).
+- Nightmare affixes to know: **Bloody Command** (kill *any* creature within ~20s or take a
+  heavy DoT — keep trash/critters in reach) and **Echo of Predation** (a fixating spirit — kite,
+  it can't hit you while you reposition).
 
 ## TODO
 

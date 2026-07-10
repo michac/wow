@@ -1,10 +1,11 @@
 ---
 title: Uncomplete — Champion→Hero gearing plan (Midnight S1)
 patch: 12.0.7
-fetched: 2026-07-09
-reviewed: 2026-07-09
+fetched: 2026-07-10
+reviewed: 2026-07-10
 sources:
   - https://us.api.blizzard.com/profile/wow/character/kiljaeden/uncomplete?namespace=profile-us
+  - IN-GAME field test 2026-07-10 (Uncomplete, played 2026-07-09 night) — see "Field notes" below
   - ../../endgame/delves/overview.md          # coffer = Champion 250, Hero via Vault/Bounty/rank9
   - ../../endgame/dawncrests.md                # Champion-crest cap-first bootstrap
   - ../../planning/activities/val-naigtal.md   # Field Accolades → Maren (targeted Hero 259)
@@ -25,6 +26,46 @@ Doctrine unchanged: **don't target below Champion**, and now the whole game is
 **Champion 246 → Hero 259 → crest up**. The blocker to the *fast* Hero path is that
 he has **no Mythic+ history yet** — several of the best Hero/Myth sources gate on
 running keys.
+
+## Field notes — played 2026-07-09 night (verified 2026-07-10)
+
+Direct in-game observations from the session, with web corroboration (5 research
+agents, 2026-07-10). These **overturn two planning assumptions** — read before the
+old sections below, which have been amended to match.
+
+- ❌ **Warband "free" Champion upgrades DO NOT exist in Midnight.** The upgrade UI
+  charged Champion crests even on slots Encomplete holds at 6/6 (263). The TWW
+  *0-crest same-slot* rule was **replaced by a 50% Dawncrest discount** that is
+  **gated behind the full "…of the Dawn" achievement** (263 in *every* slot →
+  *Champion of the Dawn*, 42768). So capping Champion is **half-price at best, never
+  free — and only once Encomplete finishes a whole track.** The "lead move" economics
+  are materially worse. RESOLVED (was `@verify-ingame`). Details: `../endgame/dawncrests.md`.
+- ✅ **All delve tiers + Nightmare Prey unlock at 90** — went straight into T11; Nightmare
+  hunts were available immediately. The feared "Preyseeker Rank-4 / delve-tier gate is
+  per-character and blocks fresh 90s" is **false**. RESOLVED (was `@verify-ingame`).
+- ✅ **He already has the Cracked Keystone** (dropped from the first T11 delve). It starts
+  quest 92600: **complete any Mythic +2** (completion, not timed) → **20 Hero + 20 Myth
+  crests, one-time, cap-exempt.** If he owns no key the game gives him a +2. **This IS his
+  M+ on-ramp** and the run credits his weekly M+ vault slot. → promoted to a concrete todo.
+- ✅ **Vengeance is tankier than Encomplete in Val** (confirmed) **but its solo DPS is
+  brutally slow** — grinds forever on one elite. Fix: **swap to Havoc for questing/prey**
+  (dual-spec is free), keep Vengeance in slot 2 for M+ tanking. ⚠ **Netherwalk is gone**
+  from the 12.0.7 Havoc tree — survive via Blur ×2 + Darkness + Leech (Soul Rending), and
+  **kite**, don't face-tank at 251. RESOLVED (survivability was `@verify-ingame`).
+- 🔁 **Prey felt slow (10+ traps, high Torment) because he's on the pre-12.0.5 meta.**
+  10 traps is normal, but traps are no longer the fast path: **do the Prey WQ first**,
+  route the **two uncontested trap hotspots** (skip the crowded WQ pack), **throw
+  "Disarmed Trap" items at ambush elites for ~50% HP**, and **dump Torment** (+4%/stack
+  dmg-taken, doubled on Nightmare, on a wall-clock timer) at rested areas / Coalescing
+  Anguish before the no-reset final arena. See `../endgame/prey.md`.
+- ❌ **You can't stack Delver's Bounty maps.** The Hero **Hidden Trove is one per character
+  per week**, reward-locked — and it's the **same weekly lockout the Prey-weekly map uses.**
+  A 2nd/3rd map on the same char that week opens a *locked* (empty) trove; Warbound funneling
+  doesn't beat it. So the Prey-weekly Bounty and a delve Bounty map are **one** Hero source,
+  not additive. See `../endgame/delves/overview.md`.
+- ⏳ **World boss:** couldn't find a group — hard-to-reach Val lair + the players who bother
+  already outgear it → thin LFG. Retry at peak hours; don't count on it as reliable weekly.
+- ⏳ **Turbulent Timeways: 1 of the needed runs done.** On track; they go fast.
 
 ## Where he stands (bands)
 
@@ -58,12 +99,15 @@ drops Hero**. Cheap, safe, fully solo, and it comes *before* everything below. C
   6/week Restored Coffer Key economy**. **M0 / low M+** and the weekly outdoor event +
   Nightmare Prey add chunks. (⚠ **not** Heroic dungeons — those drop Adventurer ~230.) See
   `../endgame/dawncrests.md`.
-- **Cheapest of all — warband free upgrades:** upgrading a slot to an ilvl **Encomplete has
-  already reached** costs **0 crests (gold only)** — the account-wide high-watermark. His slots
-  are 259–276, so that likely covers Uncomplete's whole Champion cap for free (it doesn't spend
-  the main's crests). Check this first. (A rumored extra ~50% "…of the Dawn" achievement
-  discount is **unconfirmed** — those achievements actually unlock Vaskarn crest-*trades*; see
-  `../endgame/dawncrests.md`.) @verify-ingame
+- **Warband discount — 50% off, NOT free, and gated** *(corrected 2026-07-10, field-tested)*:
+  Midnight **replaced** the TWW 0-crest same-slot rule with a **50% Dawncrest discount** that
+  only turns on once a warband character has earned the track's **"…of the Dawn"** achievement
+  (Champion → *Champion of the Dawn* 42768 = **263 in every slot**). Addon schema-8 track
+  data (2026-07-10) pins Encomplete's **3 blockers**: **Ring 2** Champion 5/6 + **Trinket 2**
+  Hero 1/6 (both one crest → 263), and the **crafted Waist (no track)** — which **can't be
+  crested; needs a recraft to ≥263 or a replacement.** So the discount is gated behind
+  *recrafting the belt*, not just a crest. Then Uncomplete's Champion upgrades drop to
+  **half crests** (never zero). See `../endgame/dawncrests.md`. RESOLVED.
 - **Spend order:** cap the slots **least likely to get a fast Hero replacement** first
   (rings, trinket2, waist); skip cresting a slot you're about to fill from Maren/the Vault.
 - **Caveat:** a capped Champion piece is eventually **replaced by Hero**, and his **20 Hero
@@ -78,10 +122,10 @@ Hero source** for him (see below). His realistic Hero pipeline, best-first:
 1. **Field Accolades → Maren Silverwing (targeted Hero 259).** The **deterministic**
    slot-target — buy the *exact* 246 slot you want (belt, boots, a ring) instead of praying.
    This beats every random roll for closing a specific gap. Earn Accolades in **Val/Naigtal**
-   and **ritual sites**. ⚠ **Survivability caveat:** Heroic-WT Val/Naigtal elites hit *hard*
-   and sneak up — Encomplete struggles to solo them even at 272. As a **tank** Uncomplete may
-   fare better, but at **251** expect to be careful; farm on Normal WT or in a group until
-   he's sturdier, and lean on ritual sites for the safer Accolade drip. @verify-ingame
+   and **ritual sites**. ✅ **Survivability confirmed (2026-07-10):** as Vengeance he *survives*
+   Heroic-WT Val elites fine (tankier than Encomplete at 272) — **but kills them painfully
+   slowly**. The fix is spec, not caution: **swap to Havoc** for the accolade farm (fast kills,
+   still survivable with kiting), keep ritual sites as the safe drip when a pack is too hot.
 2. **Great Vault delve/world row (Hero 259, next reset).** Running Bountiful delves fills
    the world column (**2/4/8** world activities); the *vault slot* is the Hero payoff — the
    **coffer itself is Champion 250**.
@@ -119,9 +163,9 @@ Live planner shortlist (`wowkb.plan --character Uncomplete`), gated by what's do
 2. **Liadrin world-event weekly** — 1 Spark of Radiance (toward a crafted piece); overlaps prey.
 3. **Weekly Heroic-WT world boss** — Hero drop **and** grab *Knocking Off the Top* for the
    Myth-cloak emblem count.
-4. **3 Nightmare Prey hunts** — weekly objective. ⚠ **Check Nightmare is unlocked on him:**
-   the Preyseeker's Journey may be **per-character** (rank 4 unlock, unconfirmed — see
-   `../endgame/prey.md`); if so he must reach rank 4 first. @verify-ingame
+4. **3 Nightmare Prey hunts** — weekly objective. ✅ **Nightmare is unlocked on him** (field-
+   confirmed 2026-07-10 — available on a fresh 90; the feared per-character rank-4 gate is moot).
+   Run them the efficient way (WQ first / uncontested hotspots / Disarmed-Trap the elites).
 5. **Val/Naigtal zone** — Field Accolades → Maren (see #1 above), Relic Coffer Key shards,
    fills the world vault row.
 6. **Turbulent Timeways** — do **4 TW dungeons** this week for the **Spawn of Vyranoth**
@@ -139,58 +183,71 @@ Three account-wide levers off Encomplete:
   2026-07-09** buying **Warbound Champion/Heroic caches for Uncomplete** — those *are* the
   pieces he's now equipping. ~219 left (≈2 more Champion caches); since Encomplete's own slots
   are already Hero, any future Accolades keep flowing to the alts.
-- **Free Champion upgrades (the sleeper).** Raw crests aren't transferable, but upgrading a
-  slot to an ilvl Encomplete has **already reached** costs **0 crests (gold only)** — the
-  account-wide high-watermark (doesn't spend his crests). His slots are 259–276, so most of
-  Uncomplete's cap-Champion (above) could be **free**. (The "~50% discount from gear
-  achievements" is **unconfirmed** — the "…of the Dawn" achievements unlock Vaskarn crest-
-  *trades*, not a discount; `../endgame/dawncrests.md`.) **Verify in-game.** @verify-ingame
+- **Champion upgrade 50% discount (was the "free" sleeper — DOWNGRADED 2026-07-10).** The
+  TWW 0-crest same-slot rule is **gone in Midnight**; the replacement is a **50% Dawncrest
+  discount, warband-wide, gated on the "…of the Dawn" achievement** (Champion → 42768 = 263
+  in *every* slot on one char). Field-tested: Uncomplete was charged **full** Champion crests,
+  so Encomplete hasn't earned 42768 yet. **Lever, restored at half strength:** finish a full
+  263 track on Encomplete → Uncomplete's Champion caps become half-price (still costs crests +
+  gold). `../endgame/dawncrests.md`.
 - Uncomplete still earns his **own** Hero/Myth crests. (`/plan-character` computes the
   single-char chart; this warband routing is the hand-added layer.)
 
 ## Reality check — the sequence
 
-1. **Cap Champion (~263)** via regular delves + M0/low M+ (and check the warband free
-   upgrades first) — cheap, solo, an afternoon or two. Immediate power *and* the gate-opener.
-2. **Then start Mythic+** — now survivable at ~259; it's the structural win that unlocks
-   the Myth vault row, makes his banked voidcores Myth, and is the content he wants to play.
-3. **Hero fills in** from Timeways/world boss/Maren/Vault along the way; **full 285** is a
-   long Myth-crest grind (T6 rituals / M+) for much later.
+0. **Swap to Havoc for solo play** (dual-spec, free) — fixes the kill-speed wall that made
+   Val + Prey a slog; keep Vengeance in slot 2 for M+ tanking. Do this *first*, it makes
+   everything below faster.
+1. **Redeem the Cracked Keystone (quest 92600)** — one +2 M+ completion → 20 Hero + 20 Myth
+   crests **and** it *is* the M+ on-ramp: that run starts his M+ vault column. Pug the +2.
+2. **Cap Champion (~263)** via regular delves + M0/low M+. **No longer free** — full crests
+   unless Encomplete finishes a 263 track (then 50% off). Still cheap-ish, solo, high value.
+3. **Climb Mythic+** — +2 → +10 (unlocks the Myth vault row + turns banked voidcores Myth 272).
+4. **Hero fills in** from Timeways/world boss/Maren/Vault; **full 285** is a long Myth grind later.
 
 ## Todo
 
 **Do (near-term, highest-leverage first):**
-- [ ] **Cap Champion 246 → 263** — regular (keyless) delves + M0 for Champion crests; check the
-      warband free-upgrade first (may be 0 crests). The lead move.
-- [ ] **Start Mythic+** — M0 → +2, build ilvl/IO toward +10 (unlocks the Myth vault row + turns
-      banked voidcores into Myth 272).
-- [ ] **World boss via the quest's LFG icon** — grab *Knocking Off the Top* (starts the
-      Myth-cloak emblem count); go in with the group for the Val lair.
-- [ ] **4 TW dungeons** — *Spawn of Vyranoth* mount-week (Timeways live now; a 5th run = the
-      weekly Heroic Cache).
-- [ ] The rest of the weeklies — 6 keyed Bountiful delves, Liadrin spark, 3 Nightmare Prey
-      (if unlocked).
+- [ ] **Swap to Havoc for questing/Prey/elites** — kite + Blur ×2 + Darkness + Leech; keep
+      Vengeance in spec 2 for M+. (Netherwalk is gone in 12.0.7 — don't rely on it.)
+- [ ] **Redeem the Cracked Keystone** (quest 92600) — pug any Mythic **+2** (completion, not
+      timed) → **20 Hero + 20 Myth** crests, one-time; also his first M+ vault credit.
+- [ ] **Start Mythic+** proper — off the +2 above, build ilvl/IO toward +10 (Myth vault row +
+      voidcores → Myth 272).
+- [ ] **Cap Champion 246 → 263** — regular (keyless) delves + M0 for Champion crests. Costs
+      full crests for now (warband discount not yet active — see below).
+- [ ] **Prey the new way** — WQ first → two uncontested trap hotspots → throw *Disarmed Trap*
+      at ambush elites (~50% HP) → dump Torment at rested area/Coalescing Anguish before the
+      final arena. 3 Nightmare hunts/week (Nightmare is unlocked on him ✓).
+- [ ] **World boss** — grab *Knocking Off the Top* (Myth-cloak emblem count); **retry LFG at
+      peak hours** (thin groups off-peak).
+- [ ] **4 TW dungeons** — *Spawn of Vyranoth* mount-week (**1 done**; a 5th run = Heroic Cache).
+- [ ] The rest of the weeklies — 6 keyed Bountiful delves, Liadrin spark. **Note:** the
+      Prey-weekly Bounty map and a delve Bounty map share **one** weekly Hero Hidden Trove —
+      don't expect two Hero pieces from stacking maps.
 
 **Verify in-game (resolve → edit the claim + drop the marker):**
-- [ ] **Warband free-upgrade** — on a slot Encomplete has high (e.g. waist), does Uncomplete's
-      Champion piece upgrade to that ilvl for **0 crests**? If yes, cap those slots *free* first.
-      @verify-ingame
-- [ ] **Nightmare Prey** available on Uncomplete? (Preyseeker's Journey may be per-character —
-      `../endgame/prey.md`.) @verify-ingame
-- [ ] **Val/Naigtal Heroic-WT survivability** as a 251 tank — solo the elites, or Normal-WT /
-      group only? (The *boss* is puggable via LFG; the lair *approach* is the question.)
-      @verify-ingame
 - [ ] Sparks of Radiance count + Catalyst charges (not in Syndicator). @verify-ingame
+- [ ] Cracked Keystone: does the game actually **hand you a +2** if you hold no key? (T4/TWW-era
+      claim, not Midnight-Tier-1 confirmed.) @verify-ingame
+
+*Resolved this session (2026-07-10, see Field notes):* warband upgrade is 50%-not-free & gated ·
+Nightmare Prey + all delve tiers open at 90 · Vengeance tankier-but-slow → Havoc for solo.
 
 **Missing docs:**
 - [ ] Vengeance build/rotation docs don't exist yet (`../classes/demon-hunter/vengeance/`).
+- [ ] **Havoc solo/questing loadout** now relevant (Soul Rending, Desperate Instincts, Demonic
+      Resilience 2×Blur, Darkness, The Hunt) — no `../classes/demon-hunter/havoc/` build doc yet.
 
 **Warband / Encomplete (casual — his own plan is `encomplete-plan.md`):**
 - [ ] Encomplete: ~219 Accolades left after funding Uncomplete — mail the last ~2 Warbound
       Champion caches, then keep future Accolades flowing to the alts (his slots are already Hero).
-- [ ] Encomplete: confirm the **high-watermark** actually helps Uncomplete — log in the alt and
-      eyeball a shared slot's upgrade cost. @verify-ingame
-- [ ] Addon (helps both chars): **schema-5 dump** — per-slot upgrade **track/level** + the five
-      **"…of the Dawn" achievement IDs** (61809 / 42767 / 42768 / 42769 / 42770) — resolves the
-      259 Champion-5/6-vs-Hero-1/6 ambiguity and reads the high-watermark state. See
-      `../endgame/dawncrests.md`.
+- [x] ~~Encomplete: confirm the high-watermark helps Uncomplete~~ — RESOLVED 2026-07-10: it
+      **charges full crests** today (no completed 263 track → no discount). **New action:** on
+      Encomplete, clear the 3 sub-263 slots to earn *Champion of the Dawn* (42768) → unlocks
+      the 50% Champion discount warband-wide: Ring 2 (Champion 5/6) + Trinket 2 (Hero 1/6) are
+      one crest each; the **crafted Waist has no track → recraft to ≥263 or replace** (the real gate).
+- [ ] Addon dump enhancements (per-slot track/level + "…of the Dawn" achievement IDs + catalyst
+      charges) — **STILL UNBUILT** (verified 2026-07-10: schema 7 / v0.5.1 captures only
+      `slot/slotId/ilvl/itemID`). Full backlog + APIs live in **`../_meta/kb-inbox.md`** →
+      *PlannerState addon* section. Resolving the track dump kills the 259 ambiguity for this plan.

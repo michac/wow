@@ -2,7 +2,7 @@
 title: Delves — Midnight Season 1
 patch: 12.0.7
 fetched: 2026-07-07
-reviewed: 2026-07-09
+reviewed: 2026-07-10
 sources:
   - https://www.icy-veins.com/wow/weekly-to-do-list
   - https://worldofwarcraft.blizzard.com/en-us/news/24244888/revelations-content-update-notes
@@ -12,6 +12,7 @@ sources:
   - https://www.icy-veins.com/wow/midnight-delve-rewards-guide  # coffer=Champion 250, Hero via Vault/Bounty/rank9 (verified 2026-07-09)
   - https://conquestcapped.com/guides/wow/midnight-delves-rewards/  # corroborates coffer=Champion 250 T8-11
   - https://www.wowhead.com/news/get-hero-track-gear-from-delves-from-journey-rank-9-381176
+  - IN-GAME field test 2026-07-10 (Uncomplete) — T11 open at 90; Bounty Hidden Trove 1/week reward-locked
 confidence: medium
 ---
 
@@ -83,13 +84,21 @@ coffer too, not just the vendor.)
   adds a Hero chance to it). Below Rank 9 the coffer at T8+ is **Champion 250**,
   not Hero — the earlier KB note "coffer hero at T8+ needs no rank" was **wrong**
   (corrected 2026-07-09; see the loot table above).
-- **Delver's Bounty** (map, lootable 1×/week; verified name 2026-06-03,
-  Wowhead/Icy Veins Midnight guides) → consumed in-run, spawns a
-  **Hidden Trove** at delve's end, loot scales with tier — **use at
-  T8+ for a hero piece** (~1 reliable hero piece/week). Drop sources:
-  prey weekly's beacon forces it (`../prey.md`); best organic chance
-  from **Nullaeus** (S1 delve nemesis) — at 50% HP he drops a gold
-  pile that can contain it.
+- **Delver's Bounty** (map; verified name 2026-06-03, Wowhead/Icy Veins) →
+  consumed **during** a Bountiful delve (before the final boss dies), spawns a
+  **Hidden Trove** at delve's end, loot scales with tier — **use at T8+ for a
+  guaranteed Hero piece**. Drop sources: the **Prey weekly beacon awards one**
+  (`../prey.md`); best organic chance from **Nullaeus** (S1 delve nemesis) — at
+  50% HP he drops a gold pile that can contain it.
+  - ⚠ **The Hero Hidden Trove is ONE per character per week — the lockout is on the
+    REWARD, not the map** (research + TWW-carried mechanic, 2026-07-10). Holding 2–3
+    maps and using them in successive delves the same week on the **same** character
+    yields **one** Hero trove; the rest open a **"Hidden Trove: Locked"** (empty) chest.
+  - ⚠ **Same lockout is shared with the Prey weekly's map** — the delve Bounty and the
+    Prey-weekly Bounty are **one** weekly Hero source, not additive.
+  - The Prey-awarded map is reportedly **Warbound**, but funneling maps to one character
+    **does not** beat the per-character weekly reward lock. Best use of spare maps: **other
+    characters**. (Warbound binding + any numeric lockout ID unconfirmed — @verify-ingame.)
 - **Only solo Myth Dawncrest source**: T11 bountiful **gilded stashes —
   ~20 Myth crests/week max** (3 stashes/wk, no key needed; **Delver's Journey
   rank 4**). Rank 2's stash = Hero crests; rank 4 upgrades it to Myth. (The

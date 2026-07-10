@@ -1,9 +1,11 @@
 ---
 title: Dawncrests — sources & farming (Midnight S1)
 patch: 12.0.7
-fetched: 2026-06-19
-reviewed: 2026-07-09
+fetched: 2026-07-10
+reviewed: 2026-07-10
 sources:
+  - https://www.wowhead.com/news/upgrade-achievements-cut-crest-costs-by-50-in-midnight-380457  # 50% discount, achievement-gated (Feb 2026)
+  - IN-GAME field test 2026-07-10 (Uncomplete) — full Champion crests charged; TWW 0-crest same-slot rule is GONE
   - https://blizzardwatch.com/2026/05/20/season-1-upgrade-crest-caps-removed-wow-midnight/
   - https://www.icy-veins.com/wow/news/blizzard-removes-upgrade-crest-caps-in-may-19-hotfix-update/
   - https://www.icy-veins.com/wow/news/most-wow-players-miss-these-uncapped-dawncrests-in-midnight-season-1/
@@ -62,8 +64,15 @@ early — they were headed for 1,000). **Most of the internet still says
 - **Heroic raid bosses** — weekly lockout.
 
 ### One-time (free, grab once)
-- **Cracked Keystone** — first T11 delve → quest → complete a +2 key →
-  **20 Hero + 20 Myth**, cap-exempt.
+- **Cracked Keystone** (item **253245**) — drops from the first **T11 delve** → starts quest
+  **92600** → objective **"complete any Mythic +2 or higher"** (completion, **not** timed) →
+  **20 Hero + 20 Myth**, one-time, cap-exempt. ⚠ **It is a *quest item*, NOT a usable key** —
+  it doesn't slot in the Font of Power; it only *credits* the quest when you complete a real +2.
+  **Get the real +2 first from a Mythic 0** (end-boss chest awards your first keystone at +2),
+  then run it → clears this quest **and** starts your weekly **M+ vault** row. (The earlier
+  "game hands you a +2 if you hold no key" note was **unverified — no T1–T3 source corroborates
+  it**; the Mythic-0 path is the confirmed on-ramp.) 5-player, so pug it. [T1 Wowhead item
+  253245 / quest 92600; T3 Maxroll/Icy Veins/Wowhead 2026]
 - **Nullaeus first kill** (Torment Rise delve nemesis) — **30 Hero**, one-time.
 
 ### NOT a Hero source
@@ -106,23 +115,39 @@ viable (the content that then drops Hero). Sources, by farmability:
   named world-content Champion payout is the *weekly outdoor event*. Treat as **no** until
   verified. @verify-ingame
 
-### Warband lever — the free same-slot upgrade (the real cheap-alt path)
+### Warband lever — the 50% same-track discount (CORRECTED 2026-07-10, field-tested)
 
-Champion crests are **per-character** (you can't mail raw crests), but the account-wide
-**high-watermark** system makes a geared main's alts cheap to gear:
+Champion crests are **per-character** (you can't mail raw crests). The account-wide lever is a
+**50% Dawncrest discount**, **not** a free upgrade:
 
-- **Free same-slot upgrades (the lever):** once any warband character has had a slot at ilvl
-  X, any character can upgrade a **same-slot** item **up to X for 0 crests — gold only**;
-  crests are charged only to push *past* the watermark. So if Encomplete (272 main) holds
-  waist 259 / rings 259–266, Uncomplete can likely upgrade those **same slots for free** up
-  to those ilvls (it does **not** consume the main's crests — it's just free for the alt).
-  Medium confidence (Tier-3/4 + inherited TWW mechanic; account-wide scope not Tier-1
-  confirmed). Baked into the **upgrade cost**, not an achievement. @verify-ingame
+- ❌ **The TWW "0-crest same-slot upgrade" is GONE in Midnight.** In-game (Uncomplete,
+  2026-07-10) the upgrade UI charged **full Champion crests** on slots Encomplete already holds
+  at 6/6 (263). The old TWW high-watermark rule (*"same slot up to the main's ilvl = free"*)
+  **did not carry over**. Any SEO guide still saying "same-slot upgrade is free in Midnight" is
+  **stale TWW carryover — reject it.**
 
-- **"…of the Dawn" achievements (Tier-1 datamined) — what they ACTUALLY do:** hitting a
-  **high-watermark in every slot** at a track's ilvl earns an account-wide achievement whose
-  reward is the **Vaskarn crest-TRADE unlock** for that tier (see Vaskarn below) — **not a
-  discount.** IDs + triggers (wago `Achievement`/`CriteriaTree` DB2, live 12.0.7):
+- ✅ **The lever is a 50% discount, GATED on the "…of the Dawn" achievement** (Tier-3, multiple
+  2026 sources; Wowhead News Feb 2026 "Upgrade Achievements Cut Crest Costs by 50%"). Earning a
+  track's achievement (e.g. *Champion of the Dawn* = **263 in every slot** on one character)
+  grants a **50% Dawncrest discount for that track, warband-wide** — alts still spend crests,
+  just **half**. The Midnight figure is **50%** (TWW's was 33% — don't quote 33% here).
+  - **All-or-nothing gate:** *some* slots at 263 is not enough. One lagging slot below 263 →
+    the achievement never fires → **alt pays full crests**. This is exactly the Uncomplete
+    symptom: Encomplete has an incomplete Champion track (per addon schema-8 data his blockers
+    are Ring 2 Champion 5/6, Trinket 2 Hero 1/6, and a **crafted Waist**).
+  - ⚠ **Crafted gear can be the real blocker:** a spark-crafted piece below 263 with **no
+    upgrade track** (e.g. Encomplete's belt) **can't be crested up** — it must be **recrafted at
+    a higher ilvl or replaced** to clear the gate. The Blizzard API hides this (it drops track on
+    crafted gear); only the addon's tooltip read (PlannerState schema≥8) surfaces it.
+  - **If every slot is 263 and it's still full price:** known Midnight discount-not-applying
+    bug → relog/`/reload`, may need re-earn.
+  - **Tooling:** the CurseForge addon *Outgrow Crests Tracker* shows per-slot high-watermark
+    progress and flags the slot holding the achievement back.
+
+- **"…of the Dawn" achievements (Tier-1 datamined) do TWO things** *(prior KB said only the
+  trade — corrected)*: (1) the **50% track discount** above, **and** (2) the **Vaskarn
+  crest-TRADE unlock** for that tier (see Vaskarn below). IDs + triggers (wago
+  `Achievement`/`CriteriaTree` DB2, live 12.0.7):
 
   | Achievement | ID | ilvl in every slot | Unlocks (Vaskarn trade) |
   |---|---|---|---|
@@ -134,10 +159,12 @@ Champion crests are **per-character** (you can't mail raw crests), but the accou
 
   (Champion @ 263 = the Champion-track ceiling, corroborating "maxed that track everywhere.")
 
-- ⚠ **The "~50% warband discount" is UNCONFIRMED** — a Tier-3/4 web claim only (sources
-  conflict: 50% vs one-third), **no DB2/patch-note backing**; the datamined achievement reward
-  is the crest *trade*, not a discount. Likely a guide conflating the trade-unlock with the
-  free-same-slot rule. **Don't rely on a discount %.**
+- ✅ **The 50% warband discount is CONFIRMED** *(upgraded from UNCONFIRMED, 2026-07-10)* — the
+  achievement reward **is** a 50% Dawncrest discount for the track, warband-wide (consistent
+  Tier-3 2026 sources: Wowhead News Feb 2026, wowcarry 12.0.5, firsthand Blizzard-forum reports;
+  corroborated by the in-game field test showing full price *before* the achievement fires). The
+  discount is **50%** in Midnight (33% was TWW). ⚠ Exact **per-slot vs whole-track** scope of the
+  discount is inferred, not Tier-1 verbatim — but the *gate* (whole track at ceiling ilvl) is firm.
 
 - **Addon detection:** the 5 achievements are readable + **account-wide** via
   `GetAchievementInfo(id).completed` (IDs above; wrap in `IsValidAchievement`). The *actual*
