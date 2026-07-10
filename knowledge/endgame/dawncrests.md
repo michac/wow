@@ -13,7 +13,9 @@ sources:
   - https://www.wowhead.com/currency=3343/champion-dawncrest         # Champion track 246→263
   - https://www.method.gg/guides/midnight-season-1-dungeon-raid-and-great-vault-rewards  # per-rank ilvl table
   - https://blizzardwatch.com/2026/03/02/upgrade-gear-midnight-no-valorstones-required/   # Valorstones removed
-  - https://koroboost.com/guide/upgrading-gear-midnight                # ~20 crests/rank, warband discount
+  - https://koroboost.com/guide/upgrading-gear-midnight                # ~20 crests/rank
+  - wago.tools Achievement + CriteriaTree DB2 (via wowkb.wago, 12.0.7)  # "of the Dawn" IDs + ilvl triggers
+  - https://www.wowhead.com/achievement=42768/champion-of-the-dawn      # Champion of the Dawn = 263, unlocks crest trade
 confidence: high
 ---
 
@@ -104,20 +106,50 @@ viable (the content that then drops Hero). Sources, by farmability:
   named world-content Champion payout is the *weekly outdoor event*. Treat as **no** until
   verified. @verify-ingame
 
-### Warband lever (the big discount)
-Champion crests are **per-character** (you can't mail raw crests), BUT two account-wide layers
-make an alt's upgrades cheap once a **main is geared**:
-- **"X of the Dawn" achievements** — a main hitting a track's ilvl milestones grants a **~50%
-  warband-wide Dawncrest discount** on that track.
-- **Free same-slot upgrades** — upgrading a slot to an ilvl **any** warband character has
-  already reached on that track costs **0 crests**. So if Encomplete (272 main) already holds
-  a slot at 259–263, Uncomplete can likely upgrade the **same slot** to that ilvl **for free**.
-  ⚠ medium-confidence (tier-3 aggregate) — **confirm the discount tiers + free-upgrade
-  thresholds in-game.** @verify-ingame
+### Warband lever — the free same-slot upgrade (the real cheap-alt path)
+
+Champion crests are **per-character** (you can't mail raw crests), but the account-wide
+**high-watermark** system makes a geared main's alts cheap to gear:
+
+- **Free same-slot upgrades (the lever):** once any warband character has had a slot at ilvl
+  X, any character can upgrade a **same-slot** item **up to X for 0 crests — gold only**;
+  crests are charged only to push *past* the watermark. So if Encomplete (272 main) holds
+  waist 259 / rings 259–266, Uncomplete can likely upgrade those **same slots for free** up
+  to those ilvls (it does **not** consume the main's crests — it's just free for the alt).
+  Medium confidence (Tier-3/4 + inherited TWW mechanic; account-wide scope not Tier-1
+  confirmed). Baked into the **upgrade cost**, not an achievement. @verify-ingame
+
+- **"…of the Dawn" achievements (Tier-1 datamined) — what they ACTUALLY do:** hitting a
+  **high-watermark in every slot** at a track's ilvl earns an account-wide achievement whose
+  reward is the **Vaskarn crest-TRADE unlock** for that tier (see Vaskarn below) — **not a
+  discount.** IDs + triggers (wago `Achievement`/`CriteriaTree` DB2, live 12.0.7):
+
+  | Achievement | ID | ilvl in every slot | Unlocks (Vaskarn trade) |
+  |---|---|---|---|
+  | Adventurer of the Dawn | 61809 | 237 | Adventurer → Veteran |
+  | Veteran of the Dawn | 42767 | 250 | Veteran → Champion |
+  | Champion of the Dawn | 42768 | **263** | Champion → Hero |
+  | Hero of the Dawn | 42769 | 276 | Hero → Myth |
+  | Myth of the Dawn | 42770 | 285 (avg ilvl) | — |
+
+  (Champion @ 263 = the Champion-track ceiling, corroborating "maxed that track everywhere.")
+
+- ⚠ **The "~50% warband discount" is UNCONFIRMED** — a Tier-3/4 web claim only (sources
+  conflict: 50% vs one-third), **no DB2/patch-note backing**; the datamined achievement reward
+  is the crest *trade*, not a discount. Likely a guide conflating the trade-unlock with the
+  free-same-slot rule. **Don't rely on a discount %.**
+
+- **Addon detection:** the 5 achievements are readable + **account-wide** via
+  `GetAchievementInfo(id).completed` (IDs above; wrap in `IsValidAchievement`). The *actual*
+  crest cost (which already reflects the free-same-slot 0-cost) is in
+  `C_ItemUpgrade.GetItemUpgradeItemInfo().currencyCostsToUpgrade[]`, but it's `MayReturnNothing`
+  — reliable only with the upgrade UI open, **not headless**.
 
 ## Vaskarn conversion (Silvermoon) — overflow only, not a farm
-Trades **30 lower-tier → 10 next-tier** crests (needs the relevant gear-
-milestone achievement). **3:1 is a bad rate** — ~450 Champion = 150 Hero =
+Trades **30 lower-tier → 10 next-tier** crests. The per-tier unlock is the
+matching **"…of the Dawn" achievement** (see the Warband-lever table above —
+e.g. Champion→Hero needs *Champion of the Dawn*, ilvl 263 in every slot).
+**3:1 is a bad rate** — ~450 Champion = 150 Hero =
 one piece. Only worth it to drain a Champion/Veteran surplus you'll never
 otherwise spend; never a reason to farm the lower tier deliberately.
 

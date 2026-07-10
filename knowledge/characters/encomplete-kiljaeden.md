@@ -98,9 +98,10 @@ lvl 43** (was Valeera 20 on 06-03 — heavy delve activity since).
 
 - **Dawncrests: Adventurer 289 · Veteran 55 · Champion 96 · Hero 176 ·
   Myth 20.** Unchanged since 07-07 — plenty of Hero/Myth on hand for slot
-  upgrades and the next recraft-to-285. (Champion 96 could bankroll a chunk
-  of Uncomplete's Champion cap via the *free same-slot warband upgrade*, not
-  a raw-crest transfer — see `../endgame/dawncrests.md`.)
+  upgrades and the next recraft-to-285. (These don't transfer to Uncomplete —
+  but Encomplete's *high slot ilvls* let Uncomplete free-upgrade the same slots
+  via the account high-watermark, which doesn't consume Encomplete's crests —
+  see `../endgame/dawncrests.md`.)
 - **Field Accolade 219** (was **1,309** on 07-07 — **−1,090**, deliberately
   drained: spent on **Warbound Champion/Heroic caches mailed to Uncomplete**
   to gear the alt). Now below the 750 Heroic-cache threshold; the stockpile

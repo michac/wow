@@ -59,9 +59,11 @@ drops Hero**. Cheap, safe, fully solo, and it comes *before* everything below. C
   Nightmare Prey add chunks. (⚠ **not** Heroic dungeons — those drop Adventurer ~230.) See
   `../endgame/dawncrests.md`.
 - **Cheapest of all — warband free upgrades:** upgrading a slot to an ilvl **Encomplete has
-  already reached** on that track may cost **0 crests**, plus a **~50% warband discount** from
-  his gear achievements. Check this first — it could make most of the cap nearly free.
-  @verify-ingame
+  already reached** costs **0 crests (gold only)** — the account-wide high-watermark. His slots
+  are 259–276, so that likely covers Uncomplete's whole Champion cap for free (it doesn't spend
+  the main's crests). Check this first. (A rumored extra ~50% "…of the Dawn" achievement
+  discount is **unconfirmed** — those achievements actually unlock Vaskarn crest-*trades*; see
+  `../endgame/dawncrests.md`.) @verify-ingame
 - **Spend order:** cap the slots **least likely to get a fast Hero replacement** first
   (rings, trinket2, waist); skip cresting a slot you're about to fill from Maren/the Vault.
 - **Caveat:** a capped Champion piece is eventually **replaced by Hero**, and his **20 Hero
@@ -133,14 +135,16 @@ difficulties** open the *first* raid slot (one kill alone opens nothing).
 ## Warband lever (Encomplete → Uncomplete)
 
 Three account-wide levers off Encomplete:
-- **Warbound caches.** Encomplete holds **~1,309 Field Accolades**; his own slots are already
-  Hero, so those Accolades do nothing for *him* — spend them on **Warbound Champion caches
-  (100 ea)** or **Warbound Heroic caches (750 ea)** and **mail them to Uncomplete**.
-- **Free/discounted Champion upgrades (the sleeper).** Raw crests aren't transferable, but
-  upgrading a slot to an ilvl Encomplete has **already reached** on that track may cost
-  **0 crests**, plus a **~50% warband Dawncrest discount** from his gear achievements — so
-  most of Uncomplete's cap-Champion (above) could be nearly free. **Verify in-game.**
-  @verify-ingame
+- **Warbound caches (largely done).** Encomplete **drained ~1,090 Accolades → 219 on
+  2026-07-09** buying **Warbound Champion/Heroic caches for Uncomplete** — those *are* the
+  pieces he's now equipping. ~219 left (≈2 more Champion caches); since Encomplete's own slots
+  are already Hero, any future Accolades keep flowing to the alts.
+- **Free Champion upgrades (the sleeper).** Raw crests aren't transferable, but upgrading a
+  slot to an ilvl Encomplete has **already reached** costs **0 crests (gold only)** — the
+  account-wide high-watermark (doesn't spend his crests). His slots are 259–276, so most of
+  Uncomplete's cap-Champion (above) could be **free**. (The "~50% discount from gear
+  achievements" is **unconfirmed** — the "…of the Dawn" achievements unlock Vaskarn crest-
+  *trades*, not a discount; `../endgame/dawncrests.md`.) **Verify in-game.** @verify-ingame
 - Uncomplete still earns his **own** Hero/Myth crests. (`/plan-character` computes the
   single-char chart; this warband routing is the hand-added layer.)
 
@@ -153,11 +157,40 @@ Three account-wide levers off Encomplete:
 3. **Hero fills in** from Timeways/world boss/Maren/Vault along the way; **full 285** is a
    long Myth-crest grind (T6 rituals / M+) for much later.
 
-## Open items
+## Todo
 
-- [ ] Confirm **Nightmare Prey** is available on Uncomplete (is the Preyseeker's Journey
-      account-wide?). @verify-ingame
-- [ ] Confirm the **Val/Naigtal Heroic-WT survivability** as a 251 tank (can he solo the
-      elites, or Normal-WT/group only?). @verify-ingame
+**Do (near-term, highest-leverage first):**
+- [ ] **Cap Champion 246 → 263** — regular (keyless) delves + M0 for Champion crests; check the
+      warband free-upgrade first (may be 0 crests). The lead move.
+- [ ] **Start Mythic+** — M0 → +2, build ilvl/IO toward +10 (unlocks the Myth vault row + turns
+      banked voidcores into Myth 272).
+- [ ] **World boss via the quest's LFG icon** — grab *Knocking Off the Top* (starts the
+      Myth-cloak emblem count); go in with the group for the Val lair.
+- [ ] **4 TW dungeons** — *Spawn of Vyranoth* mount-week (Timeways live now; a 5th run = the
+      weekly Heroic Cache).
+- [ ] The rest of the weeklies — 6 keyed Bountiful delves, Liadrin spark, 3 Nightmare Prey
+      (if unlocked).
+
+**Verify in-game (resolve → edit the claim + drop the marker):**
+- [ ] **Warband free-upgrade** — on a slot Encomplete has high (e.g. waist), does Uncomplete's
+      Champion piece upgrade to that ilvl for **0 crests**? If yes, cap those slots *free* first.
+      @verify-ingame
+- [ ] **Nightmare Prey** available on Uncomplete? (Preyseeker's Journey may be per-character —
+      `../endgame/prey.md`.) @verify-ingame
+- [ ] **Val/Naigtal Heroic-WT survivability** as a 251 tank — solo the elites, or Normal-WT /
+      group only? (The *boss* is puggable via LFG; the lair *approach* is the question.)
+      @verify-ingame
 - [ ] Sparks of Radiance count + Catalyst charges (not in Syndicator). @verify-ingame
+
+**Missing docs:**
 - [ ] Vengeance build/rotation docs don't exist yet (`../classes/demon-hunter/vengeance/`).
+
+**Warband / Encomplete (casual — his own plan is `encomplete-plan.md`):**
+- [ ] Encomplete: ~219 Accolades left after funding Uncomplete — mail the last ~2 Warbound
+      Champion caches, then keep future Accolades flowing to the alts (his slots are already Hero).
+- [ ] Encomplete: confirm the **high-watermark** actually helps Uncomplete — log in the alt and
+      eyeball a shared slot's upgrade cost. @verify-ingame
+- [ ] Addon (helps both chars): **schema-5 dump** — per-slot upgrade **track/level** + the five
+      **"…of the Dawn" achievement IDs** (61809 / 42767 / 42768 / 42769 / 42770) — resolves the
+      259 Champion-5/6-vs-Hero-1/6 ambiguity and reads the high-watermark state. See
+      `../endgame/dawncrests.md`.
