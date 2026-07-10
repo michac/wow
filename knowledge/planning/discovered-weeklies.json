@@ -74,6 +74,15 @@
       "decision": "defer: likely a Silvermoon/Magisters world weekly; confirm reward value"
     },
     {
+      "questID": 91700,
+      "title": "Darkness Unmade",
+      "frequency": 2,
+      "campaign": null,
+      "important": false,
+      "seen_on": "Encomplete",
+      "note": "auto-discovered by wowkb.plan — verify vs the live build, then add to KNOWN_REPEATABLES in tools/wowkb/repeatables.py, regen (wowkb.repeatables + wowkb.gen_addon_quests), and cut an addon release"
+    },
+    {
       "questID": 91992,
       "title": "Where Has the Wine Gone?",
       "frequency": 3,
@@ -153,6 +162,15 @@
       "seen_on": "Uncomplete",
       "note": "auto-discovered by wowkb.plan — verify vs the live build, then add to KNOWN_REPEATABLES in tools/wowkb/repeatables.py, regen (wowkb.repeatables + wowkb.gen_addon_quests), and cut an addon release",
       "decision": "wired: addon ns.WEEKLY_QUESTS v0.5.1 (ritual_sites_weekly)"
+    },
+    {
+      "questID": 97081,
+      "title": "More Disruptions: Val (Heroic)",
+      "frequency": 3,
+      "campaign": null,
+      "important": false,
+      "seen_on": "Uncomplete",
+      "note": "auto-discovered by wowkb.plan — verify vs the live build, then add to KNOWN_REPEATABLES in tools/wowkb/repeatables.py, regen (wowkb.repeatables + wowkb.gen_addon_quests), and cut an addon release"
     }
   ]
 }

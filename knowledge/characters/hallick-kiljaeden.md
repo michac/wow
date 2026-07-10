@@ -1,8 +1,8 @@
 ---
 title: Hallick – Kil'jaeden (US) — druid alt snapshot
 patch: 12.0.7
-fetched: 2026-07-02
-reviewed: 2026-07-07
+fetched: 2026-07-10
+reviewed: 2026-07-10
 sources:
   - https://us.api.blizzard.com/profile/wow/character/kiljaeden/hallick?namespace=profile-us
 confidence: high
@@ -11,10 +11,15 @@ confidence: high
 # Hallick – Kil'jaeden (US)
 
 > **Snapshot** — character data is volatile (updates on logout). The body
-> below reflects the **2026-07-02** live profile fetch (last login
-> 2026-06-28). **Always re-fetch the live profile before answering any
+> below reflects the **2026-07-10** live profile fetch (last login
+> 2026-07-09 16:37 UTC). **Always re-fetch the live profile before answering any
 > gear/level/progress question** — this alt is actively leveling/gearing
 > and numbers move fast. Raw JSON: `raw/blizzard/hallick-*.json`.
+>
+> **Δ since 2026-07-02:** essentially static — **gear unchanged** (worn ilvl
+> still 153), no vault progress (0/0/0). Only movement is minor renown
+> (Silvermoon Court 12 @2095, Amani Tribe 8 @2310) and he logged in 07-09.
+> Currencies captured below for the first time.
 
 **Alt of the user's main (Encomplete).** No longer same guild — Hallick is
 still in **The Soggy Bottom Boys**, Encomplete moved to Dungeon Dojo.
@@ -37,7 +42,7 @@ Achievement points 7,750 (account-wide, tracks Encomplete's 7,800).
   ritual sites). This is a from-scratch Season 1 gearing runway — same
   playbook as Encomplete's, one tier behind.
 
-## Gear (equipped ilvl 153, API 2026-07-02)
+## Gear (equipped ilvl 153, API 2026-07-10 — unchanged since 07-02)
 
 | Slot | ilvl | id | Item |
 |---|---|---|---|
@@ -58,6 +63,18 @@ Achievement points 7,750 (account-wide, tracks Encomplete's 7,800).
 | Main Hand | 152 | 250355 | Twilight Agitator's Stave |
 
 No enchants or gems detected — all low-hanging fruit as gear stabilizes.
+
+## Currencies & renown (2026-07-10)
+
+- **Gold 14,074** · **Restored Coffer Key 5** (+19 shards) · Field Accolade 20 ·
+  Voidlight Marl 2,554 · Remnant of Anguish 467 · Dawnlight Manaflux 8 ·
+  Radiant Spark Dust 7. **No Dawncrests banked** (fresh gearer — none earned yet).
+- **Renown (Midnight-relevant):** Silvermoon Court **12** (2095/2500) · Amani Tribe
+  **8** (2310/2500) · Hara'ti **8** (680) · The Singularity **8** · Ritual Sites **4**.
+- ⚠ Currencies from Syndicator (last login 07-09) — re-`/reload` on Hallick before
+  trusting for spend advice. Sparks of Radiance + Catalyst charges not tracked — check in-game.
+- This reset: all weeklies undone, **0 world bosses**, vault **0/0/0** — the fresh-gearer
+  runway is untouched this week.
 
 ## Talent audit (2026-07-02)
 

@@ -1,11 +1,11 @@
 ---
 title: Encomplete – Kil'jaeden (US) — main character snapshot
 patch: 12.0.7
-fetched: 2026-07-09
-reviewed: 2026-07-09
+fetched: 2026-07-10
+reviewed: 2026-07-10
 sources:
   - https://us.api.blizzard.com/profile/wow/character/kiljaeden/encomplete?namespace=profile-us
-  - PlannerState /ps dump + Syndicator (currencies), 2026-07-09
+  - PlannerState /ps dump + Syndicator (currencies), 2026-07-10
 confidence: high
 ---
 
@@ -18,6 +18,17 @@ confidence: high
 > ⚠ For **sims**, item IDs below are not enough — SimC needs the full
 > `bonus_id` strings. Use the in-game **SimulationCraft addon** (`/simc`,
 > or `/simc [item link]` for a single piece) and paste the export.
+>
+> **Δ since 2026-07-09 (re-sync 07-10):** static — gear, currencies (gold 11,879,
+> Champion 96 / Hero 176 / Myth 20, Field Accolade 219) and renown all unchanged.
+> **Confirmed live (addon schema-8 track data, 2026-07-10):** three sub-263 slots
+> block *Champion of the Dawn* (42768), and they're **not uniform** —
+> **Ring 2** is **Champion 5/6** (1 Champion crest → 263), **Trinket 2** is **Hero 1/6**
+> (crest → 263), but the **Waist (Martyr's Waistwrap) is CRAFTED — no upgrade track at
+> all**, so it **can't be crested to 263; it needs a recraft at higher ilvl or a
+> replacement.** The crafted belt is the real blocker on the 50% Champion warband
+> discount (the API hides this — only the addon's tooltip read caught it).
+> Currencies identical to 07-07 → may be stale; `/reload` on Encomplete before a spend.
 
 **The user's current main.**
 
@@ -99,9 +110,12 @@ lvl 43** (was Valeera 20 on 06-03 — heavy delve activity since).
 - **Dawncrests: Adventurer 289 · Veteran 55 · Champion 96 · Hero 176 ·
   Myth 20.** Unchanged since 07-07 — plenty of Hero/Myth on hand for slot
   upgrades and the next recraft-to-285. (These don't transfer to Uncomplete —
-  but Encomplete's *high slot ilvls* let Uncomplete free-upgrade the same slots
-  via the account high-watermark, which doesn't consume Encomplete's crests —
-  see `../endgame/dawncrests.md`.)
+  and the TWW *free same-slot* alt upgrade is **gone in Midnight**: the account
+  lever is now a **50% Dawncrest discount gated on the "…of the Dawn" achievement**,
+  and Encomplete has **not** completed a full **263 Champion track** yet, so Uncomplete
+  currently pays **full** Champion crests. Finishing the last sub-263 slot on Encomplete
+  earns *Champion of the Dawn* (42768) → 50% off for the alt. Corrected/field-tested
+  2026-07-10; see `../endgame/dawncrests.md`.)
 - **Field Accolade 219** (was **1,309** on 07-07 — **−1,090**, deliberately
   drained: spent on **Warbound Champion/Heroic caches mailed to Uncomplete**
   to gear the alt). Now below the 750 Heroic-cache threshold; the stockpile
