@@ -10,6 +10,7 @@ import 'ids.dart';
 import 'priority.dart';
 import 'resources.dart';
 import 'rng.dart';
+import 'stats.dart';
 
 /// Mutable internal representation of an in-progress cast.
 class _Cast {
@@ -56,11 +57,14 @@ class _Aura {
 /// [SimEvent] lists. `cast()`/`canCast()` share one `_validate`, so they can
 /// never disagree.
 class Engine {
-  Engine({required SimConfig config, SimRng? rng})
+  Engine({required SimConfig config, SimRng? rng, double pullSeconds = 60})
       : _config = config,
         _rng = rng ?? SeededRng(_defaultSeed),
-        _dt = config.fixedDt {
+        _dt = config.fixedDt,
+        _pullSeconds = pullSeconds,
+        _endsAt = pullSeconds {
     _initState();
+    _seedUptime();
     _state = _snapshot();
   }
 
@@ -79,11 +83,23 @@ class Engine {
   final SimRng _rng;
   final double _dt;
 
+  /// Fixed pull length (practice config, *not* template data). A pull auto-ends
+  /// at this many seconds; `reset()` returns `_endsAt` here.
+  final double _pullSeconds;
+
   // ---- mutable internals --------------------------------------------------
   double _now = 0;
   double _acc = 0;
   double _gcdEndsAt = 0;
   int _clipCount = 0;
+
+  // ---- M4 pull lifecycle + stat accumulators ------------------------------
+  /// Sim time the pull ends. Starts at [_pullSeconds]; `stop()` shortens it to
+  /// `_now` for an early end.
+  double _endsAt;
+  double _totalDamage = 0;
+  final Map<DebuffId, double> _uptimeSeconds = {};
+  double _idleSeconds = 0;
 
   final Map<ResourceId, int> _resourceCurrent = {};
   final Map<ResourceId, int> _resourceOvercap = {};
@@ -105,6 +121,57 @@ class Engine {
   /// The configuration this engine runs.
   SimConfig get config => _config;
 
+  /// The pull length in seconds (fixed for the pull; `secondsLeft` derives off
+  /// this in the UI).
+  double get pullSeconds => _pullSeconds;
+
+  /// Whether the pull has ended (reached [_endsAt] or been `stop()`ped).
+  bool get isEnded => _now >= _endsAt - _eps;
+
+  /// End-of-pull statistics built from the current accumulators. Cheap enough
+  /// to read every frame for the live DPS-equivalent line.
+  SessionStats get stats {
+    var overcap = 0;
+    for (final r in _state.resources.values) {
+      overcap += r.overcapWasted;
+    }
+    return SessionStats(
+      elapsed: _now,
+      totalDamage: _totalDamage,
+      uptimeSeconds: Map<DebuffId, double>.of(_uptimeSeconds),
+      idleSeconds: _idleSeconds,
+      overcap: overcap,
+      clips: _clipCount,
+      gcd: _config.gcd,
+    );
+  }
+
+  /// End the pull early (Stop button): freeze the clock here so `isEnded` holds
+  /// and the accumulators stop growing on the next tick.
+  void stop() => _endsAt = _now;
+
+  /// Restart from a genuine fresh state — clears the clock, the live
+  /// aura/debuff/cooldown maps, the in-progress cast, buffered events, and every
+  /// stat accumulator, then reseeds resources and re-snapshots.
+  void reset() {
+    _now = 0;
+    _acc = 0;
+    _gcdEndsAt = 0;
+    _clipCount = 0;
+    _totalDamage = 0;
+    _idleSeconds = 0;
+    _endsAt = _pullSeconds;
+    _uptimeSeconds.clear();
+    _debuffs.clear();
+    _auras.clear();
+    _cooldownReadyAt.clear();
+    _cast = null;
+    _pending.clear();
+    _initState();
+    _seedUptime();
+    _state = _snapshot();
+  }
+
   /// Advance by a render frame [frameDt]; accumulate into fixed sub-steps.
   /// Returns all events produced (including any buffered from instant casts).
   List<SimEvent> tick(double frameDt) {
@@ -113,8 +180,23 @@ class Engine {
       events.addAll(_pending);
       _pending.clear();
     }
+    // Once ended, freeze: flush buffered events but advance nothing.
+    if (isEnded) {
+      _state = _snapshot();
+      return events;
+    }
     _acc += frameDt;
     while (_acc >= _dt - _accEps) {
+      // Clamp the final sub-step to the pull boundary: take a partial step
+      // landing on `_endsAt`, then snap `_now` there to kill float drift so
+      // `elapsed == pullSeconds` holds under `==` and the accumulators freeze.
+      if (_now + _dt >= _endsAt - _eps) {
+        final remaining = _endsAt - _now;
+        if (remaining > 0) _step(remaining, events);
+        _now = _endsAt;
+        _acc = 0;
+        break;
+      }
       _step(_dt, events);
       _acc -= _dt;
     }
@@ -256,6 +338,21 @@ class Engine {
     // 6. GCD — pure timestamp compare, surfaced via GameState.isGcdActive.
 
     // 7. proc hook for non-tick triggers — intentionally empty in M1.
+
+    // ---- M4 stat accumulators ------------------------------------------
+    // Whole-`dt` attribution: a debuff active this sub-step earns the full dt,
+    // so uptime carries ≤ one-tick (16.7 ms) rounding — fine for practice
+    // stats. `_debuffs` is pruned by `_expire` above, so this counts only
+    // debuffs still up at end of step.
+    for (final id in _debuffs.keys) {
+      _uptimeSeconds[id] = (_uptimeSeconds[id] ?? 0) + dt;
+    }
+    // Idle = a sub-step you could have filled (GCD free, not casting) but
+    // didn't — the wasted-GCD signal. Mirrors the cast gate's GCD threshold.
+    final gcdActive = _now < _gcdEndsAt - _eps;
+    if (!gcdActive && _cast == null) {
+      _idleSeconds += dt;
+    }
   }
 
   void _tickDots(List<SimEvent> events) {
@@ -270,11 +367,9 @@ class Engine {
         final tickAt = d.nextTickAt;
 
         if (def.tickDamage > 0) {
-          events.add(DamageEvent(
-            at: tickAt,
-            amount: def.tickDamage * _damageMultiplier(),
-            debuff: id,
-          ));
+          final amount = def.tickDamage * _damageMultiplier();
+          _totalDamage += amount;
+          events.add(DamageEvent(at: tickAt, amount: amount, debuff: id));
         }
 
         // Exactly one rng.chance() per proc-eligible tick, in tick order.
@@ -325,11 +420,9 @@ class Engine {
     }
 
     if (def.damage > 0) {
-      events.add(DamageEvent(
-        at: _now,
-        amount: def.damage * _damageMultiplier(),
-        ability: def.id,
-      ));
+      final amount = def.damage * _damageMultiplier();
+      _totalDamage += amount;
+      events.add(DamageEvent(at: _now, amount: amount, ability: def.id));
     }
 
     if (def.generatesShard > 0) {
@@ -446,6 +539,15 @@ class Engine {
     for (final def in _config.resources.values) {
       _resourceCurrent[def.id] = def.startAt;
       _resourceOvercap[def.id] = 0;
+    }
+  }
+
+  /// Seed the uptime map with *every* config debuff at 0, so a never-applied
+  /// DoT is still graded (and rendered) rather than silently absent.
+  void _seedUptime() {
+    _uptimeSeconds.clear();
+    for (final id in _config.debuffs.keys) {
+      _uptimeSeconds[id] = 0;
     }
   }
 

@@ -46,6 +46,9 @@ class AbilityButton extends StatelessWidget {
         sweepFraction: sweep,
         seconds: seconds,
         dim: !enabled,
+        // Training-wheels glow: only when hints are on, this is the advised
+        // next ability, and it's actually castable (never highlight a dim tile).
+        glow: controller.showHints && controller.advised == id && enabled,
         badge: enabled ? null : rejectBadge(reason),
       ),
     );

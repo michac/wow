@@ -43,6 +43,13 @@ Color debuffColor(DebuffId id) => switch (id) {
       DebuffId.haunt => const Color(0xFF7A6A3F),
     };
 
+/// Full display name (mirrors [abilityName]) for the summary's uptime rows.
+String debuffLabel(DebuffId id) => switch (id) {
+      DebuffId.agony => 'Agony',
+      DebuffId.corruption => 'Corruption',
+      DebuffId.haunt => 'Haunt',
+    };
+
 /// Terse badge for why a button is dim (WoW-style shorthand).
 String rejectBadge(CastRejectReason reason) => switch (reason) {
       CastRejectReason.gcdActive => 'GCD',

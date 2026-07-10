@@ -11,8 +11,8 @@ import 'package:rotation_sim/sim.dart';
 /// [advance] drives the engine one fixed sub-step at a time so it can sample
 /// debuff uptime at full resolution, and accumulates every emitted event.
 class ScriptedSession {
-  ScriptedSession({required SimConfig config, SimRng? rng})
-      : engine = Engine(config: config, rng: rng);
+  ScriptedSession({required SimConfig config, SimRng? rng, double pullSeconds = 60})
+      : engine = Engine(config: config, rng: rng, pullSeconds: pullSeconds);
 
   final Engine engine;
 

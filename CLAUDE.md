@@ -83,6 +83,33 @@ game.** Defenses, in order:
 - `tools/` — uv project, `wowkb` package
 - `raw/` — gitignored fetch cache; distill into `knowledge/`, don't cite raw/
 
+### Side projects / prototypes (standalone apps — NOT the KB)
+
+These are self-contained companion apps living beside the KB. They have their
+own build stacks and don't follow the `knowledge/**.md` front-matter convention.
+Each has a design doc with a progress/milestone log — **read the doc before
+touching the code**. Status as of 2026-07-09:
+
+- `trainer/` — **rotation trainer** (Flutter/Dart). A target-dummy rotation-
+  practice game; one spec so far (simplified Affliction Warlock). Two packages:
+  `sim/` (headless pure-Dart engine — GCD, DoTs/pandemic, shards, RNG,
+  `advisePriority()`, `SessionStats` + a fixed-length pull lifecycle; 71 tests)
+  and `app/` (Flutter UI, `path:`-depends on `sim/`; hint glow + end-of-pull
+  summary). Spec + milestone log: `todo/rotation-trainer.md`. **M1–M4 done;
+  M5 (Affliction fidelity: real icons, tuned numbers/weights, Nightfall
+  proc-glow, Drain Soul + Darkglare) is next.**
+- `app/` — **talent calculator** (`wow-talent-calculator`; Svelte + Vite, `bun`).
+  Data-driven from a `build-data` script. Spec: `todo/talent-calculator-prototype.md`.
+- `projects/mplus_memory/` — **M+ Memory Trainer**: a spaced-repetition trainer
+  for Midnight S1 Mythic+ dungeon mechanics. Has its own `project-spec.md` +
+  `backlog.md` and its own inner `app/` (`mplus-memory-trainer`, Svelte/Vite/bun).
+  Note: its data pipeline writes into the KB proper
+  (`knowledge/systems/mechanic-archetypes.md` + per-dungeon files).
+- `todo/` — design docs / specs with milestone logs for the above
+  (`rotation-trainer.md`, `talent-calculator-prototype.md`). The informal
+  "what's unfinished" inventory, but not exhaustive (mplus_memory's spec lives
+  in its own folder).
+
 ### Front-matter convention (every knowledge/**.md)
 
 ```yaml

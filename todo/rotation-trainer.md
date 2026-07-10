@@ -88,8 +88,43 @@ and this repo already carries Affliction KB + spell data to draw on.
     the doc stays honest. **Gotcha:** `rootBundle.loadString` inside `testWidgets`
     hangs (fake-async zone never resolves real I/O) — load it via
     `tester.runAsync(...)`; a plain `test` is fine.
-- *Next: Milestone 4 — practice feedback (`advise()` next-ability glow +
-  end-of-pull summary: uptime, wasted GCDs, overcap, clips, score).*
+- **2026-07-09 — Milestone 4 complete (practice feedback).** The trainer now
+  *coaches*. Two features, both driven off signals the engine already emitted.
+  **(1) Next-ability hint glow** — `GameController.advised` surfaces
+  `engine.advise()`; `AbilityButton` sets the (already-implemented) amber
+  `IconCountdownTile.glow` when `showHints && advised == id && enabled` (never
+  highlights a dimmed tile). A lightbulb toggle in the new `ControlBar` flips
+  `showHints` for recall testing. **(2) End-of-pull summary** — a new
+  `SessionStats` value type (`sim/lib/src/stats.dart`) holds the raw
+  accumulators + pure derived getters (`dpsEquivalent`, `uptimeFraction`,
+  `wastedGcds`, and a **placeholder** composite `grade` 0–100 + `letter`), and
+  `SummaryPanel` overlays the frozen board with grade/DPS-equiv/per-DoT
+  uptime/wasted-GCDs/overcap/clips + a **Practice again** button. All stat math
+  **and** the pull lifecycle live in the engine (headless-testable): a fixed
+  **60s pull** (`Engine(pullSeconds:)`) with a boundary clamp that snaps
+  `_now` onto `_endsAt` so `elapsed == pullSeconds` holds under `==`, plus
+  `stop()` (early end), `reset()` (genuine fresh start — clears the live
+  aura/debuff/cooldown maps + cast + accumulators, reseeds resources), and
+  `isEnded`/`stats` reads. `game_screen.dart` gains a live countdown + DPS-equiv
+  readout and mounts the `ControlBar` + summary `Stack`. **Sim: 71 tests green
+  (`dart test`, +13 in `stats_test.dart`); app: 13 tests green (`flutter test`,
+  +5 for glow/toggle/summary/stop/reset); both analyze clean; web build
+  compiles.**
+  - Decisions locked during M4: **fixed-length pull** (default 60s, countdown,
+    auto-summary at 0, Stop to end early, Reset to restart) over an open-ended
+    dummy; headline is a **composite 0–100 grade + letter** above the
+    DPS-equiv + discrete stats. Grade **weights** (`kWDot/kWOvercap/kWClip/
+    kWGcd`) and `pullSeconds` are **intentional placeholder consts** — balance
+    is M5. The uptime map is seeded with **all** config debuffs (defaulting 0)
+    so a never-applied DoT is still graded/rendered; Haunt is a CD-gated amp
+    that can't hit 100% uptime over a long pull, so grading it against full
+    uptime is a known imperfection while `W_dot` is a placeholder. Uptime
+    accrues at whole-`dt` (≤16.7 ms) granularity. **Gotcha:** the 60s cap froze
+    the pre-existing `shard_generation` statistical smoke (it needs ~2000s of
+    ticks) — gave that one test `pullSeconds: double.infinity` via a new
+    `ScriptedSession` param.
+- *Next: Milestone 5 — Affliction fidelity + polish (real icon art, tuned
+  numbers/weights, Nightfall proc-glow, Drain Soul channel + Darkglare window).*
 
 ## Decisions (locked)
 

@@ -50,8 +50,13 @@ void main() {
 
   group('statistical smoke', () {
     test('SeededRng(42): ~1000 Agony ticks proc near the 0.5 rate', () {
-      final s = ScriptedSession(config: afflictionConfig(), rng: SeededRng(42))
-        ..press(AbilityId.agony);
+      // The statistical smoke needs ~2000s of ticks — far past the default
+      // 60s pull cap, so run it with an effectively unbounded pull length.
+      final s = ScriptedSession(
+        config: afflictionConfig(),
+        rng: SeededRng(42),
+        pullSeconds: double.infinity,
+      )..press(AbilityId.agony);
 
       var guard = 0;
       while (s.eventsOf<DamageEvent>().where((e) => e.debuff == DebuffId.agony).length <

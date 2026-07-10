@@ -3,6 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:rotation_sim/sim.dart';
 import 'package:rotation_trainer_app/game_screen.dart';
 import 'package:rotation_trainer_app/widgets/ability_button.dart';
+import 'package:rotation_trainer_app/widgets/icon_countdown_tile.dart';
+import 'package:rotation_trainer_app/widgets/summary_panel.dart';
 
 /// Pump the game screen on a portrait phone-sized surface with injected
 /// determinism. Never use `pumpAndSettle` — the game Ticker never settles.
@@ -10,16 +12,26 @@ Future<void> pumpGame(
   WidgetTester tester, {
   SimConfig? config,
   SimRng? rng,
+  double? pullSeconds,
 }) async {
   tester.view.physicalSize = const Size(1080, 2400);
   tester.view.devicePixelRatio = 3.0;
   addTearDown(tester.view.resetPhysicalSize);
   addTearDown(tester.view.resetDevicePixelRatio);
-  await tester.pumpWidget(MaterialApp(home: GameScreen(config: config, rng: rng)));
+  await tester.pumpWidget(MaterialApp(
+    home: GameScreen(config: config, rng: rng, pullSeconds: pullSeconds),
+  ));
 }
 
 Finder abilityButton(AbilityId id) =>
     find.byWidgetPredicate((w) => w is AbilityButton && w.id == id);
+
+/// The [IconCountdownTile] rendered inside a given ability's button.
+IconCountdownTile tileFor(WidgetTester tester, AbilityId id) =>
+    tester.widget<IconCountdownTile>(find.descendant(
+      of: abilityButton(id),
+      matching: find.byType(IconCountdownTile),
+    ));
 
 /// Advance the game by stepping fixed 1/60s render frames, the way the real
 /// Ticker drives it. (One giant `pump` would be capped by the controller's
@@ -96,5 +108,55 @@ void main() {
     await advance(tester, 2.4);
     expect(find.text('14'), findsNothing);
     expect(find.text('12'), findsOneWidget);
+  });
+
+  testWidgets('the advised ability glows when hints are on, others do not',
+      (tester) async {
+    await pumpGame(tester, rng: const NeverRng());
+    // Fresh pull: the priority advises Agony first (no DoTs up).
+    expect(tileFor(tester, AbilityId.agony).glow, isTrue);
+    expect(tileFor(tester, AbilityId.corruption).glow, isFalse);
+  });
+
+  testWidgets('toggling hints off clears the glow', (tester) async {
+    await pumpGame(tester, rng: const NeverRng());
+    expect(tileFor(tester, AbilityId.agony).glow, isTrue);
+
+    // The hint toggle shows the filled bulb while hints are on.
+    await tester.tap(find.byIcon(Icons.lightbulb));
+    await tester.pump(const Duration(milliseconds: 16));
+    expect(tileFor(tester, AbilityId.agony).glow, isFalse);
+  });
+
+  testWidgets('the summary appears when the pull ends', (tester) async {
+    await pumpGame(tester, rng: const NeverRng(), pullSeconds: 2.0);
+    expect(find.byType(SummaryPanel), findsNothing);
+
+    await advance(tester, 2.2); // past the 2s pull
+    expect(find.byType(SummaryPanel), findsOneWidget);
+    expect(find.text('Practice again'), findsOneWidget);
+  });
+
+  testWidgets('Stop ends the pull early and shows the summary', (tester) async {
+    await pumpGame(tester, rng: const NeverRng());
+    await advance(tester, 1.0);
+    expect(find.byType(SummaryPanel), findsNothing);
+
+    await tester.tap(find.text('Stop'));
+    await tester.pump(const Duration(milliseconds: 16));
+    expect(find.byType(SummaryPanel), findsOneWidget);
+  });
+
+  testWidgets('Practice again clears the summary and restarts the pull',
+      (tester) async {
+    await pumpGame(tester, rng: const NeverRng(), pullSeconds: 2.0);
+    await advance(tester, 2.2);
+    expect(find.byType(SummaryPanel), findsOneWidget);
+
+    await tester.tap(find.text('Practice again'));
+    await tester.pump(const Duration(milliseconds: 16));
+    expect(find.byType(SummaryPanel), findsNothing);
+    // Countdown is back to the full 2s pull.
+    expect(find.text('0:02'), findsOneWidget);
   });
 }
