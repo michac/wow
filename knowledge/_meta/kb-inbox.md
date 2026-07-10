@@ -97,6 +97,4 @@ The right source turned out to be one we already read, not the addon:
 
 ## Research to-do
 
-## Research to-do
-
 _(empty — drop "look into X" research threads here that aren't claim-verifications)_
