@@ -170,41 +170,9 @@ def _r_from_weight(w: float) -> int:
 # values an activity's *declared currency yields* against the char's live state
 # (equipped ilvls + track caps), returning 0 when no consumer is pending.
 #
-# Track ceilings (top ilvl reachable on each upgrade track). Seeded from
-# knowledge/endgame/dawncrests.md: Hero 259 (1/6) → 276 (6/6). Others are coarse
-# approximations — Phase 1 only leans hard on the Hero ceiling (the crest gate).
-# The exact per-slot track needs the PlannerState addon to dump it (redesign doc,
-# "Currency source" note); until then we approximate a slot's band from its ilvl.
-TRACK_CEILING = {
-    "Adventurer": 210,
-    "Veteran": 229,
-    "Champion": 259,
-    "Hero": 276,
-    "Myth": 285,
-}
 FIELD_ACCOLADE_ILVL = 259                    # Hero box Maren sells for Field Accolades
 # (HERO_CEILING / MYTH_CREST_R retired — the crest model now uses CREST_CEILING +
 #  per-slot track headroom + CREST_FLOOR below, not a flat weakest-slot approximation.)
-
-
-def track_of_ilvl(ilvl: float | None) -> str | None:
-    """Approximate a slot's upgrade track from its ilvl (bands per dawncrests.md).
-
-    Boundaries are genuinely ambiguous (Hero 6/6 and Myth ~2/6 both sit ~276), so
-    we bias to the *lower* track — a 276 slot reads as Hero-capped, not Myth — to
-    avoid overstating upgrade headroom. Real track needs the addon dump.
-    """
-    if not isinstance(ilvl, (int, float)):
-        return None
-    if ilvl >= TRACK_CEILING["Myth"]:
-        return "Myth"
-    if ilvl >= TRACK_CEILING["Champion"]:     # 259 → Hero band (259–276)
-        return "Hero"
-    if ilvl >= TRACK_CEILING["Veteran"]:      # 229 → Champion band
-        return "Champion"
-    if ilvl >= TRACK_CEILING["Adventurer"]:   # 210 → Veteran band
-        return "Veteran"
-    return "Adventurer"
 
 
 def _weakest_slot_ilvl(char_state: dict) -> float | None:
@@ -222,8 +190,8 @@ def _r_from_headroom(delta: float) -> float:
 
 
 # Top ilvl each crest track upgrades TO — the crest-headroom ceiling (KB: Champion
-# 263, Hero 276, Myth 285). Kept separate from the overloaded band-boundary values
-# in TRACK_CEILING/track_of_ilvl (which still feed the ilvl-band gear-drop fallback).
+# 263, Hero 276, Myth 285). The gear-drop path (best_slot_delta) values off real
+# per-slot ilvls, so the old ilvl-band guesser (track_of_ilvl) was removed as dead.
 CREST_CEILING = {"Champion": 263, "Hero": 276, "Myth": 285}
 
 # Future-material floor: a crest above current need still banks toward later
