@@ -46,13 +46,22 @@ The session ranking is **not** a separate activity-scorer — it's just ranking 
    each `{source, yields:{ilvl, track}, requires:[reagents/crests/access], attainability}`.
    Sources are multi-dimensional (crest-up / craft / catalyst / vendor / each drop
    source), so a slot has several candidates.
-2. **Goals.** Pare each slot to its best actionable candidate(s) → a **goal**. Goals
-   also include cross-cutting targets that aren't one slot — "cap Champion everywhere →
-   the 50% warband discount," "unlock Mythic+" — they enter the same list.
+2. **Goals.** Pare each slot to **one** goal (its best actionable path); the other
+   candidate paths for that slot are ranked *alternatives inside* the goal, **not**
+   separate goals — you fill a slot once. Two pare-down rules:
+   - **One slot → one goal.** "Belt via Maren 259" and "belt via craft 272" are two paths
+     of the *same* goal (upgrade the belt), sequenced/chosen, never both.
+   - **Cluster same-path slots.** When many slots share the *same generic* best path
+     (e.g. a dozen 246 slots all "crest-up via delves"), they're **one** goal ("cap
+     Champion across the board"), not a dozen. A slot earns its *own* goal only when it
+     has a **distinctive** path (a tier slot needing catalyst; a slot worth Maren-targeting
+     or crafting for a jump). This is the goal-side mirror of shared-step dedup.
+   Goals also include cross-cutting targets that aren't one slot — "cap Champion → the
+   50% warband discount," "unlock Mythic+" — in the same list.
 3. **Rank goals** coarsely by **value ÷ effort**, where effort ≈ **how many steps** to
    get there (mats-in-hand = ~0 extra steps; short-but-attainable = the farming steps;
-   far-off = many). A one-step "crest the belt, mats in bag" beats a ten-step "farm a
-   Hero belt from the vault" of similar ilvl.
+   far-off = many). A one-step "crest a slot, mats in bag" beats a ten-step "farm a Hero
+   piece from the vault" of similar ilvl. (Ranking is **derived**, not hand-ordered.)
 4. **Select** the top goals that fit the session's time budget.
 5. **Decompose to TODOs.** Multistep goals expand into their steps; that expansion *is*
    the session plan.
@@ -107,44 +116,42 @@ Equipped 251. Crests: Champion 10 · Hero 72 · Myth 20. Sparks 8 · Voidshards 
 Field Accolades 395 · Voidlight Marl 3,399. Cracked Keystone in bags; no M+ yet;
 vault dungeon 2/3, raid 1/3.
 
-**Per-slot candidates (a few representative slots):**
+**The slots cluster — most aren't distinctive.** Eleven slots are **246 · Champion 1/6**
+(head, neck, waist, legs, feet, hands, both rings, trinket2, back) — same generic best
+path (crest-up via delve/M0 crest farm), so they collapse into **one** "cap Champion"
+goal, not eleven. (The belt is just a member here — nothing special about it.) Only the
+slots with a *distinctive* path split out:
 
-- **Waist 246 · Champion 1/6 (non-tier)** — candidates:
-  - Maren Hero **259**, targeted → `have` (395 accolades) · **1 step** (buy).
-  - Craft Hero **272** → `soon` (needs 80 Hero crests; has 72 — short 8 + 2 sparks ✓).
-  - Crest-up current to Champion **263** → `soon` (needs Champion crests; has 10).
-  - → **Primary goal:** *Maren belt 259 now* (instantly actionable), with *craft 272*
-    as the better target once Hero crests clear 80. (This is the exact "have mats →
-    primary, short-but-attainable → strong" reasoning.)
-- **Chest 259 · Hero 1/6 (TIER)** — can't craft. Candidates: crest-up toward 276 (Hero
-  crests) · catalyze a non-tier Hero drop into the tier chest · vault/raid tier drop.
-  → **Primary:** crest-up as Hero crests allow; watch for a tier drop.
-- **Main Hand 266 · Hero 3/6** — crest-up to 276 (has crests) · craft (marginal: 272 <
-  current-ish) · M+/vault drop. → **Primary:** crest-up.
-- **The Champion 1/6 cluster** (head/neck/waist/legs/feet/hands/rings/trinket2/back, all
-  246) — each has a crest-up-to-263 candidate; collectively they're the **"cap Champion"**
-  cross-cutting goal.
+- **Chest 259 · Hero 1/6 (TIER)** — can't craft; path is crest-up toward 276 or a
+  catalyzed/vault tier drop. → its own goal (different track + tier handling).
+- **Main Hand 266 · Hero 3/6 / Off Hand 269 · Hero 4/6** — Hero crest-up toward 276.
+- **A targeted quick win:** Maren sells a **Hero 259** into a slot *you pick* for Field
+  Accolades (395 in hand) — so one 246 slot can jump to 259 in a single buy. Which slot?
+  the highest-value weak one — *not* inherently the belt.
+- **A craft, once affordable:** any non-tier slot → Hero 272 for 80 Hero crests + 2 sparks
+  (has 72 crests / 8 sparks → `soon`). Again slot-agnostic: craft whichever non-tier slot
+  gains most.
 
-**Pared goal list (ranked, coarse):**
+**Pared goal list (ranked coarse by value ÷ steps — illustrative, would be derived):**
 
 | # | Goal | Value | Steps (effort) |
 |---|---|---|---|
 | 1 | **Unlock M+** (Cracked Keystone → +2) | high — opens Myth vault, voidcore→Myth, crest farm | 1 (pug a +2; keystone in hand) |
-| 2 | **Belt → Maren Hero 259** | med (246→259) | 1 (buy; 395 accolades) |
-| 3 | **Cap Champion cluster → ~263** (+ *Champion of the Dawn* on the main → 50% discount) | high (survivability + warband discount) | many (farm Champion crests) |
-| 4 | **Crest-up Hero slots** (chest / MH / OH toward 276) | med | many (farm Hero crests) |
-| 5 | **Craft belt → Hero 272** | med (beats #2's 259) | soon (8 more Hero crests, then 1 craft) |
+| 2 | **Cap Champion cluster → 263** (the eleven 246 slots; also earns *Champion of the Dawn* → 50% warband discount) | high — broad ilvl + survivability + discount | many (farm Champion crests) |
+| 3 | **Crest-up the Hero slots** (chest / MH / OH → 276) | med | many (farm Hero crests) |
+| 4 | **Maren quick-win**: Hero 259 into the single weakest slot | low-med — one fast jump | 1 (buy; 395 accolades) |
+| 5 | **Craft** a non-tier slot → 272, once Hero crests ≥ 80 | med — beats crest-only for that slot | soon (8 more Hero crests, then 1 craft) |
 
 **Decompose to TODOs (note the shared steps):**
 - *Pug a Mythic +2* → satisfies **#1**, and the run also drops crests/vault credit that
-  feed **#3/#4**.
-- *Run 6 Bountiful delves* → one step feeding **#3** (Champion crests) **+ #4** (Hero
-  crests) **+ #5** (Hero crests toward the 80) **+** vault world column **+** coffer.
-- *Buy the belt from Maren* → **#2** (1 step).
-- Prey / ritual sites → more crest/accolade flow into **#3/#4/#5**.
+  feed **#2/#3**.
+- *Run 6 Bountiful delves* → one step feeding **#2** (Champion crests) **+ #3/#5** (Hero
+  crests, incl. toward the craft's 80) **+** vault world column **+** coffer.
+- *Buy a Hero 259 from Maren for your weakest slot* → **#4** (1 step).
+- Prey / ritual sites → more crest/accolade flow into **#2/#3/#5**.
 
 The session plan is those deduped steps, ordered — and "run 6 delves" ranks high because
-it's **one step under five goals**, which the goal model derives instead of guessing.
+it's **one step under four goals**, which the goal model derives instead of guessing.
 
 ## What carries over (this isn't a restart)
 
