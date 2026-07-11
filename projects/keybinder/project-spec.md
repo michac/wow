@@ -77,12 +77,14 @@ item-ID and buff reference tables.
 
 - [x] **M0 — seed + skeleton.** Extract workbook → seed.json + Data.lua; project
       home under `projects/keybinder/`; this doc.
-- [ ] **M1 — snapshot/restore.** Read current bindings (`GetBinding` /
+- [x] **M1 — snapshot/restore.** Read current bindings (`GetBinding` /
       `GetCurrentBindingSet`), every action slot (`GetActionInfo` incl.
       bonus/stance/dragonriding bars), and macro bodies → serialize to a named
       SavedVariables profile. Restore = back up current, then re-apply
       atomically, combat-guarded. **Ship this first** — it's taxonomy-independent
       and de-risks the write-bars plumbing everything else needs.
+      *Shipped v0.1.0: `Snapshot.lua` (`Capture`/`Apply`) + `/bb
+      save|restore|undo|list|delete` + combat-defer queue.*
 - [ ] **M2 — dumper.** Given class+spec, walk the 52 buckets, resolve each to
       `(bar, slot, keybind)`, place the ability/item/macro, set key→slot binds
       once. Skip "on a ring" buckets. Requires the spell-ID resolve (below).
@@ -90,6 +92,64 @@ item-ID and buff reference tables.
       slots → save as profile. This is the "then tweak" half of the promise.
 - [ ] **M4 — items/macros.** Auto-generate potion/trinket/racial/@cursor macros
       from the Items table; respect the macro caps.
+
+## M1 plan — snapshot / restore (target release v0.1.0)
+
+Capture the full keybind + action-bar + macro state to a named profile and
+restore it safely with an auto-backup. Taxonomy-independent; also builds the
+write-bars plumbing M2 needs.
+
+### Three subsystems
+
+| Layer | Read | Write | Note |
+|---|---|---|---|
+| Keybindings | `GetNumBindings()`/`GetBinding(i)` → key→command; `GetCurrentBindingSet()` (account/char) | `SetBinding` → `SaveBindings(set)` | must `SaveBindings` or lost on relog |
+| Action slots | `GetActionInfo(slot)` for **slots 1–180** → `{type,id}` | pickup (`C_Spell.PickupSpell`/item/macro) → `PlaceAction(slot)` | protected in combat; 1–180 already covers stance/skyriding bars |
+| Macros | `GetNumMacros()`, `GetMacroInfo(i)` → name/icon/body/scope | `CreateMacro`/`EditMacro` | index unstable → slots reference macros **by name** |
+
+### Restore ordering (safe, not truly atomic)
+
+1. **Combat guard** — `InCombatLockdown()` → refuse + queue to `PLAYER_REGEN_ENABLED`.
+2. **Auto-backup** current state into a single `__prerestore` slot → `/bb undo`
+   (single level; no undo stack).
+3. Apply in dependency order: **macros first** (build name→index map) →
+   **action slots** (resolve macro slots via map; skip unknown spells) →
+   **bindings** (apply map, then `SaveBindings`).
+4. **Report** counts + anything skipped; never fail silently.
+
+### Settled decisions
+
+- **Bindings = exact mirror** (clear all, apply saved). **Macros = additive**
+  (create/update saved; don't delete the user's other macros) with an opt-in
+  `exact` mode.
+- **Stance/skyriding bars**: captured by full 1–180 enumeration — no deferral,
+  no shapeshifting. (Per-form *targeting* is M2, see risks.)
+- **`/bb undo`**: single-level restore of `__prerestore`.
+
+### Files (in the michac/BucketBinds repo)
+
+- `Snapshot.lua` (new) — `Capture()→table`, `Apply(profile,opts)`; split
+  `{capture,apply}{Bindings,Actions,Macros}`; combat queue.
+- `Core.lua` — add `/bb save|restore|list|delete|undo`.
+- `BucketBinds.toc` — load `Snapshot.lua` before `Core.lua`; bump `## Version: 0.1.0`.
+
+### SavedVariables shape
+
+```lua
+profiles["<name>"] = {
+  meta     = { created, char="Name-Realm", class, specID, bindingSet=1|2 },
+  bindings = { {key="SHIFT-1", command="ACTIONBUTTON9"}, ... },
+  actions  = { [slot] = {type="spell|item|macro|mount|...", id=, name=, body=, icon=} },
+  macros   = { {name, body, icon, scope="account|char"}, ... },
+}
+-- plus BucketBindsDB.autobackup = <the __prerestore snapshot>
+```
+
+### Verification
+
+luaparser syntax gate + an in-game smoke protocol (documented in the addon's
+`CLAUDE.md`): save → rebind a key & move an action → restore → confirm revert;
+`/bb undo`; combat-lockdown deferral; Druid Cat/Bear bar round-trip.
 
 ## Open technical questions / risks
 
@@ -103,8 +163,25 @@ item-ID and buff reference tables.
 - **Macro caps.** 120 account + 18 per-char. Auto-generated @cursor/item macros
   eat into this — M2/M4 need a budget and a graceful "out of macro slots" path.
 - **Bonus-bar slot numbering.** Druid forms / Rogue stealth / Warrior stances /
-  dragonriding remap the action bar; naive slot math breaks here. This is the
-  fiddliest correctness surface — snapshot must capture it, dump must respect it.
+  skyriding page the *visible* bar to a bonus bar — but the underlying slots are
+  fixed absolute IDs, so `GetActionInfo`/`PlaceAction` reach them regardless of
+  current form (you can write the Cat bar while in Bear form). The bonus bars sit
+  at computable ranges:
+
+  ```
+  firstSlot = 1 + (NUM_ACTIONBAR_PAGES + bonusOffset − 1) × 12   -- pages=6, buttons=12
+    offset 1 → 73–84    offset 2 → 85–96    offset 3 → 97–108
+    offset 4 → 109–120  offset 5 → 121–132 (skyriding)
+  ```
+
+  Consequence: **M1 capture is complete by enumerating slots 1–180** — form bars
+  come along for free, no shapeshifting needed. What's genuinely fiddly is
+  *labeling*: which `bonusOffset` each form/stance/stealth uses is a per-class
+  table the API doesn't hand you by name, and some forms re-page the base bar
+  instead of taking a bonus bar. That table is load-bearing for **M2** (a Feral's
+  abilities must land on the Cat slots or they won't show in Cat form) — it's a
+  bounded, formula-backed chunk of the dumper, **not** an M1 concern.
+  Refs: [Wowpedia API_GetBonusBarOffset](https://wowpedia.fandom.com/wiki/API_GetBonusBarOffset).
 - **Bar addon assumptions.** The 5×8 modifier-layer layout assumes paged/modified
   bars (Blizzard Edit Mode can do 8 bars; ElvUI/Bartender do modifier paging more
   cleanly). Decide whether we target stock bars, drive an addon, or document a
