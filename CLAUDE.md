@@ -6,10 +6,11 @@ Warcraft questions **reliably**. Scope: **Retail, Midnight expansion only**
 
 ## Git workflow
 
-Single dev, single line of history: **work directly on `main`, commit there, and
-push.** Do **not** create a feature branch unless explicitly told to — no PRs, no
-`git checkout -b`. If you find yourself on a stray branch, fold it back into `main`
-and continue there.
+Single dev, single line of history: **work on, commit to, and push whatever
+branch the repo is already checked out on** — even if that's `main`. Do **not**
+create a new branch, `git checkout -b`, or switch branches unless explicitly told
+to — no PRs, no surprise branches. If you think a different branch is warranted,
+**ask first**; never silently start working off a branch you created.
 
 ## Current game state
 
