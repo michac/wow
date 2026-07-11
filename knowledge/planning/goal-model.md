@@ -103,12 +103,28 @@ per-slot track/step, crest + item counts, tier flags — all landed 2026-07-10):
 | **Drop — Mythic+ (per boss) / raid (per boss)** | **specific slots by dungeon/boss**, track by key level | content access + RNG | *the loot-table KB to build when M+ starts* |
 | **Ritual sites** | crests + accolades (feeds crest-up/craft/Maren goals) | tier access | a step, not a slot-filler |
 
-**Value** of a goal = the power gain (Δilvl, or the enabling value of a cross-cutting
-goal) — plus, for now folded in coarsely, **enabling value**: a goal that makes *other*
-goals cheaper (the 50% discount; the M+ unlock that turns banked voidcores Myth and
-opens the Myth vault) is worth more than its local ilvl. **Effort** = step count +
-attainability. Coarse `value ÷ effort` is the v1 ranking; the enabling/dependency
-structure can be made explicit later (goals that `enable` others).
+**Value** of a goal = the power gain (Δilvl) — and, crucially, its **enabling value**.
+**Effort** = step count + attainability. Coarse `value ÷ effort` is the v1 ranking.
+
+### Goal gates / dependencies (v1, not "later")
+
+Goals aren't independent — some **gate** others, and this changes sequencing, so it's
+core, not a nicety:
+
+- **Hard gate** — B is impossible until A. *Unlock M+* gates *+10 keys* (which gate the
+  Myth vault row + voidcore→Myth). You literally can't do B first.
+- **Economic gate** — B is possible but **costs more** until A. The big one:
+  **"Encomplete earns *Champion of the Dawn*" (263 in every slot → 50% warband-wide
+  Champion discount) gates the *cost* of every alt's "cap Champion" goal** — each
+  Champion upgrade on Uncomplete/Hallick costs **2× the crests** until it's live. The
+  enabler is **cheap** (Encomplete: 2 crest-ups + a belt recraft) and it **halves a big
+  recurring warband cost**, so it ranks *ahead* of the alt-capping goals it discounts.
+  Efficient play: do the enabler first; **bank** the alt's Champion crests and **hold the
+  upgrades** until the discount is live (farming isn't discounted, only spending is).
+
+These edges are **warband-level** — an enabler on one character reweights goals on
+others (the "Encomplete-gears-the-alts" synergy). v1 needs at least the economic gate on
+the Champion discount and the hard gate on M+; a fuller dependency graph can come later.
 
 ## Worked sketch — Uncomplete (live data, 2026-07-10)
 
@@ -136,17 +152,22 @@ slots with a *distinctive* path split out:
 
 | # | Goal | Value | Steps (effort) |
 |---|---|---|---|
+| **W** | **[Warband] Encomplete → *Champion of the Dawn*** (crest Ring2 + Trinket2 to 263, recraft the belt) ⇒ **50% warband Champion discount** | high — **halves every alt's Champion-cap cost** | few, on Encomplete (2 crest-ups + 1 recraft) |
 | 1 | **Unlock M+** (Cracked Keystone → +2) | high — opens Myth vault, voidcore→Myth, crest farm | 1 (pug a +2; keystone in hand) |
-| 2 | **Cap Champion cluster → 263** (the eleven 246 slots; also earns *Champion of the Dawn* → 50% warband discount) | high — broad ilvl + survivability + discount | many (farm Champion crests) |
+| 2 | **Cap Champion cluster → 263** (the eleven 246 slots) — ⚠ **economic-gated on W: farm Champion crests now, but hold the *upgrades* until the discount is live** | high — broad ilvl + survivability | many (farm now; spend after W → half the crests) |
 | 3 | **Crest-up the Hero slots** (chest / MH / OH → 276) | med | many (farm Hero crests) |
 | 4 | **Maren quick-win**: Hero 259 into the single weakest slot | low-med — one fast jump | 1 (buy; 395 accolades) |
 | 5 | **Craft** a non-tier slot → 272, once Hero crests ≥ 80 | med — beats crest-only for that slot | soon (8 more Hero crests, then 1 craft) |
 
+Note **W** outranks **#2** despite being on a *different character* — a cheap enabler that
+halves a big downstream cost. This is the warband dependency the flat scorer can't see.
+
 **Decompose to TODOs (note the shared steps):**
-- *Pug a Mythic +2* → satisfies **#1**, and the run also drops crests/vault credit that
-  feed **#2/#3**.
-- *Run 6 Bountiful delves* → one step feeding **#2** (Champion crests) **+ #3/#5** (Hero
-  crests, incl. toward the craft's 80) **+** vault world column **+** coffer.
+- *On Encomplete: crest Ring2 + Trinket2 to 263, recraft the belt* → satisfies **W** →
+  unlocks the discount that makes **#2** half price. Do this before bulk-spending on #2.
+- *Pug a Mythic +2* → satisfies **#1**; the run also drops crests/vault credit for **#2/#3**.
+- *Run 6 Bountiful delves* → one step feeding **#2** (Champion crests — bank them until W)
+  **+ #3/#5** (Hero crests, incl. toward the craft's 80) **+** vault world column **+** coffer.
 - *Buy a Hero 259 from Maren for your weakest slot* → **#4** (1 step).
 - Prey / ritual sites → more crest/accolade flow into **#2/#3/#5**.
 
@@ -169,11 +190,19 @@ it's **one step under four goals**, which the goal model derives instead of gues
 
 - **v1 build order:** (a) candidate graph from the deterministic sources we already have
   data for (crest-up, craft, catalyst, Maren, renown) → per-char goal list; (b) goal
-  ranking (value ÷ steps); (c) TODO expansion with shared-step dedup off `candidates.json`.
-  Drop-source goals (M+/raid/vault loot tables) come later — they need a **loot-table KB**
-  (per dungeon/boss → slots/track), a real build to start when M+ begins.
-- **Enabling value:** v1 folds it into `value` by hand (mark the discount / M+-unlock
-  goals high); a later pass can model `enables` edges explicitly.
+  ranking (value ÷ steps) **with the two gates wired** (economic: Champion discount; hard:
+  M+ unlock) since they change sequencing; (c) TODO expansion with shared-step dedup off
+  `candidates.json`. Drop-source goals (M+/raid/vault loot tables) come later — they need a
+  **loot-table KB** (per dungeon/boss → slots/track), a real build to start when M+ begins.
+- **Gates/enabling — v1, not later** (see "Goal gates" above): at minimum the economic
+  Champion-discount gate and the hard M+ gate, including their **cross-character** form
+  (an enabler on Encomplete reweighting Uncomplete's goals). A fuller `enables` dependency
+  graph (arbitrary edges, auto-derived) can come later, but the planner is wrong without
+  these two.
+- **Warband scope:** the graph is account-wide — goals live on characters, and some
+  characters exist to *enable* others (Encomplete → the alts). v1 needs at least the
+  cross-character discount edge; full multi-char orchestration (who farms what for whom)
+  is the bigger warband question the old `redesign-needs-first.md` flagged.
 - **Where it plugs in:** does `wowkb.plan` grow a `--goals` mode first (read-only goal
   list, no scoring change), then flip the session plan to derive from goals once trusted?
   (Mirrors how the ingest shipped scoring-neutral first.)
