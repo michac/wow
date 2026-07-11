@@ -85,9 +85,20 @@ item-ID and buff reference tables.
       and de-risks the write-bars plumbing everything else needs.
       *Shipped v0.1.0: `Snapshot.lua` (`Capture`/`Apply`) + `/bb
       save|restore|undo|list|delete` + combat-defer queue.*
-- [ ] **M2 — dumper.** Given class+spec, walk the 52 buckets, resolve each to
-      `(bar, slot, keybind)`, place the ability/item/macro, set key→slot binds
-      once. Skip "on a ring" buckets. Requires the spell-ID resolve (below).
+- [x] **M2 — dumper.** Given class+spec, walk the seed's 40 placeable spell
+      buckets, resolve each ability name→spellID at runtime, place it on the
+      fixed `(bar, slot)` action slot, mirror the main bar onto form/stance
+      bonus bars, and set the key→slot bind — one shot, combat-gated, with an
+      auto-backup so `/bb undo` reverts it. The 12 `bar=None` buckets
+      (consumable/trinket/racial macros + Stance/Free) are reported as
+      `skipped (M4)`, never silently dropped.
+      *Shipped v0.2.0: `Dump.lua` (`ResolveSpec`/`Resolve`/`Run`, runtime
+      `resolveSpellID` + spellbook fallback + alias layer, `BAR_MAP`,
+      `FORM_BONUS_BARS` + self-healing `UPDATE_SHAPESHIFT_FORM` hook) + `/bb
+      dump [<Spec>|<Class> <Spec>]` + generalized combat-defer thunk queue
+      (`ns.QueueAction`). Dev-side `tool/check_seed_spells.py` cross-checks every
+      seed ability name against a wago `SpellName` dump (caught the
+      `Efflorescence?` sheet typo → aliased).*
 - [ ] **M3 — in-addon tweak UI.** Pick spec → dump → drag abilities between
       slots → save as profile. This is the "then tweak" half of the promise.
 - [ ] **M4 — items/macros.** Auto-generate potion/trinket/racial/@cursor macros
