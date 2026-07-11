@@ -182,10 +182,22 @@ luaparser syntax gate + an in-game smoke protocol (documented in the addon's
   abilities must land on the Cat slots or they won't show in Cat form) — it's a
   bounded, formula-backed chunk of the dumper, **not** an M1 concern.
   Refs: [Wowpedia API_GetBonusBarOffset](https://wowpedia.fandom.com/wiki/API_GetBonusBarOffset).
-- **Bar addon assumptions.** The 5×8 modifier-layer layout assumes paged/modified
-  bars (Blizzard Edit Mode can do 8 bars; ElvUI/Bartender do modifier paging more
-  cleanly). Decide whether we target stock bars, drive an addon, or document a
-  required bar setup. TBD in M2.
+- **Bar addon assumptions — DECIDED (2026-07-10): direct modifier binds on
+  all-visible stock bars, no paging.** The seed stores an explicit keybind string
+  per `(bar, slot)` (`1`, `S1`=Shift+1, `C1`=Ctrl+1…), so each combo maps **1:1**
+  to one fixed absolute action slot via `SetBinding(key, <SLOT_COMMAND>)` — no
+  paging addon, nothing hidden, every bar clickable and showing its own cooldown
+  swipe. Rationale: placement (where an ability lives / whether it's visible) is
+  independent of binding (what key fires it); paging bundles them only by
+  convention. Modifier paging's *only* wins are screen-declutter and stock-bar
+  setup speed — but it costs click-ability and at-a-glance cooldowns, and the
+  seed already carries per-combo keys that direct binding consumes WYSIWYG (every
+  combo always points at the same slot — simpler to reason about than paged
+  swaps). Cooldown-tracking at the high end is done off-bar anyway (WeakAuras /
+  Cooldown Manager as "front end", bars as "back end"), so hiding bars buys
+  little. **Paging is a deferred opt-in "compact mode", not the M2 default.**
+  Refs: [wowinterface Paging](https://www.wowinterface.com/downloads/info18229-Paging.html),
+  [Blizzard: tracked bars w/o WeakAuras](https://us.forums.blizzard.com/en/wow/t/feedback-action-bars-tracked-bars-and-unit-frame-options-after-playing-without-weakauras/2203580).
 - **Naming.** Addon is provisionally `BucketBinds` — easily renamed; not final.
 
 ## Layout
