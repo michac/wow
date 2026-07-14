@@ -2,10 +2,11 @@
 title: Dawncrests — sources & farming (Midnight S1)
 patch: 12.0.7
 fetched: 2026-07-10
-reviewed: 2026-07-10
+reviewed: 2026-07-11
 sources:
   - https://www.wowhead.com/news/upgrade-achievements-cut-crest-costs-by-50-in-midnight-380457  # 50% discount, achievement-gated (Feb 2026)
   - IN-GAME field test 2026-07-10 (Uncomplete) — full Champion crests charged; TWW 0-crest same-slot rule is GONE
+  - IN-GAME 2026-07-11 (Encomplete) — all-slots-263 reached → Champion of the Dawn earned → 50% Champion discount now LIVE for the warband
   - https://blizzardwatch.com/2026/05/20/season-1-upgrade-crest-caps-removed-wow-midnight/
   - https://www.icy-veins.com/wow/news/blizzard-removes-upgrade-crest-caps-in-may-19-hotfix-update/
   - https://www.icy-veins.com/wow/news/most-wow-players-miss-these-uncapped-dawncrests-in-midnight-season-1/
@@ -132,13 +133,16 @@ Champion crests are **per-character** (you can't mail raw crests). The account-w
   grants a **50% Dawncrest discount for that track, warband-wide** — alts still spend crests,
   just **half**. The Midnight figure is **50%** (TWW's was 33% — don't quote 33% here).
   - **All-or-nothing gate:** *some* slots at 263 is not enough. One lagging slot below 263 →
-    the achievement never fires → **alt pays full crests**. This is exactly the Uncomplete
-    symptom: Encomplete has an incomplete Champion track (per addon schema-8 data his blockers
-    are Ring 2 Champion 5/6, Trinket 2 Hero 1/6, and a **crafted Waist**).
+    the achievement never fires → **alt pays full crests**. ✅ **CLEARED 2026-07-11:** Encomplete
+    now has **every slot ≥ 263** (the three former blockers — Ring 2, Trinket 2, and the crafted
+    Waist — were all resolved; see below), so **Champion of the Dawn (42768) is earned and the
+    50% Champion discount is LIVE warband-wide.** Uncomplete now pays half for Champion crests.
   - ⚠ **Crafted gear can be the real blocker:** a spark-crafted piece below 263 with **no
-    upgrade track** (e.g. Encomplete's belt) **can't be crested up** — it must be **recrafted at
-    a higher ilvl or replaced** to clear the gate. The Blizzard API hides this (it drops track on
-    crafted gear); only the addon's tooltip read (PlannerState schema≥8) surfaces it.
+    upgrade track** (e.g. Encomplete's old *Martyr's Waistwrap* belt) **can't be crested up** — it
+    must be **recrafted at a higher ilvl or replaced** to clear the gate. The Blizzard API hides
+    this (it drops track on crafted gear); only the addon's tooltip read (PlannerState schema≥8)
+    surfaces it. **How Encomplete cleared it (2026-07-11):** *replaced* the crafted belt with a
+    Champion-track *Sprawling Rhizomecord* (263), and crested Ring 2 (259→263) + Trinket 2 (259→276).
   - **If every slot is 263 and it's still full price:** known Midnight discount-not-applying
     bug → relog/`/reload`, may need re-earn.
   - **Tooling:** the CurseForge addon *Outgrow Crests Tracker* shows per-slot high-watermark

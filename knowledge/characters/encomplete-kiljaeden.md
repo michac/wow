@@ -1,11 +1,11 @@
 ---
 title: Encomplete – Kil'jaeden (US) — main character snapshot
 patch: 12.0.7
-fetched: 2026-07-10
-reviewed: 2026-07-10
+fetched: 2026-07-11
+reviewed: 2026-07-11
 sources:
   - https://us.api.blizzard.com/profile/wow/character/kiljaeden/encomplete?namespace=profile-us
-  - PlannerState /ps dump + Syndicator (currencies), 2026-07-10
+  - PlannerState /ps dump + Syndicator (currencies), 2026-07-11
 confidence: high
 ---
 
@@ -19,16 +19,19 @@ confidence: high
 > `bonus_id` strings. Use the in-game **SimulationCraft addon** (`/simc`,
 > or `/simc [item link]` for a single piece) and paste the export.
 >
-> **Δ since 2026-07-09 (re-sync 07-10):** static — gear, currencies (gold 11,879,
-> Champion 96 / Hero 176 / Myth 20, Field Accolade 219) and renown all unchanged.
-> **Confirmed live (addon schema-8 track data, 2026-07-10):** three sub-263 slots
-> block *Champion of the Dawn* (42768), and they're **not uniform** —
-> **Ring 2** is **Champion 5/6** (1 Champion crest → 263), **Trinket 2** is **Hero 1/6**
-> (crest → 263), but the **Waist (Martyr's Waistwrap) is CRAFTED — no upgrade track at
-> all**, so it **can't be crested to 263; it needs a recraft at higher ilvl or a
-> replacement.** The crafted belt is the real blocker on the 50% Champion warband
-> discount (the API hides this — only the addon's tooltip read caught it).
-> Currencies identical to 07-07 → may be stale; `/reload` on Encomplete before a spend.
+> **Δ since 2026-07-10 (re-sync 07-11):** ★ **CHAMPION OF THE DAWN CLEARED — the
+> 50% Dawncrest discount is now LIVE account-wide.** The three sub-263 blockers
+> are all resolved: **Waist** — the crafted *Martyr's Waistwrap* (no track) was
+> **replaced** by *Sprawling Rhizomecord* **263 Champion 6/6**; **Ring 2** (Vibrant
+> Wilderloop) crested **259 → 263**; **Trinket 2** (Sylvan Wakrapuku) jumped
+> **259 → 276 Hero 6/6**. Every slot is now ≥ 263 → *Champion of the Dawn* (42768)
+> earned → **Uncomplete (and any alt) now pays 50% off Champion Dawncrests.** Also
+> upgraded: **Wrist 266 → 276 Hero**, and equipped ilvl **272 → 274**. **M+ rating
+> 1093 → 1434.5** (7 runs now, incl. a **+11 Seat of the Triumvirate timed**).
+> **Crests spent hard:** Hero **176 → 26**, Champion **96 → 56** (funded the
+> upgrades above); Myth **20 → 34**. Gold **~11,829 → 10,188**. Sparks/Voidshards
+> now read from Syndicator items (**Sparks 9 · Voidshards 2**) — the old
+> "check in-game" gap is closed. Currencies fresh (last login 2026-07-11 18:55 UTC).
 
 **The user's current main.**
 
@@ -43,96 +46,94 @@ confidence: high
 - Title: Champion of the Frozen Wastes · 8,025 achievement points
 - Last login at fetch: 2026-07-09
 
-## Gear (equipped ilvl 272, API 2026-07-07)
+## Gear (equipped ilvl 274, API 2026-07-11)
 
-**2026-07-07 update:** crafted the **Adherent's Silken Shroud** cloak (285) —
-fills the old **back (250)** hole, which had been the standout weak slot.
-Equipped ilvl **270 → 272**. Everything else unchanged since 07-02: 4pc tier
-**Abyssal Immolator's** (head/shoulders/chest/legs, 276) + 285 weapon, now + a
-285 back.
+**2026-07-11 update:** the three sub-263 slots that gated *Champion of the Dawn*
+were all pushed **≥ 263** — **Waist** swapped to *Sprawling Rhizomecord* (263
+Champion 6/6, replacing the untrackable crafted belt), **Ring 2** crested to 263,
+**Trinket 2** jumped to 276 Hero. **Wrist** also went 266 → 276 Hero. Equipped
+ilvl **272 → 274**. Everything is now ≥ 263, all-slots-263 → **50% Champion
+discount live** (see the Δ note). 4pc tier **Abyssal Immolator's** + 285 weapon +
+285 crafted back unchanged.
 
-| Slot | ilvl | id | Item |
-|---|---|---|---|
-| Head | 276 | 250042 | Abyssal Immolator's Smoldering Flames *(tier)* |
-| Neck | 263 | 249626 | Nocturnal Thorncharm (gem: Quick Garnet) |
-| Shoulders | 276 | 250040 | Abyssal Immolator's Fury *(tier)* |
-| Chest | 276 | 250045 | Abyssal Immolator's Dreadrobe *(tier)* — ench: Mark of the Worldsoul |
-| Waist | 259 | 239649 | Martyr's Waistwrap |
-| Legs | 276 | 250041 | Abyssal Immolator's Pillars *(tier)* — ench: +41 Int |
-| Feet | 276 | 263783 | Voidwind Boots |
-| Wrist | 266 | 263849 | Void Nemesis' Bracers |
-| Hands | 276 | 263813 | Handguards of Voidcendence |
-| Ring 1 | 266 | 259912 | Preyseeker's Signet — ench: Eyes of the Eagle (gem: Quick Garnet) |
-| Ring 2 | 259 | 249620 | Vibrant Wilderloop (gem: Eversong Diamond) |
-| Trinket 1 | 276 | 248583 | Drum of Renewed Bonds |
-| Trinket 2 | 259 | 251784 | Sylvan Wakrapuku |
-| Back | 285 | 239656 | **Adherent's Silken Shroud** *(crafted 2026-07-07)* |
-| Main Hand | 285 | 245770 | Aln'hara Cane — ench: Acuity of the Ren'dorei |
+| Slot | ilvl | Track | id | Item |
+|---|---|---|---|---|
+| Head | 276 | Hero 6/6 | 250042 | Abyssal Immolator's Smoldering Flames *(tier)* |
+| Neck | 263 | Champion 6/6 | 249626 | Nocturnal Thorncharm (gem: Flawless Quick Garnet) |
+| Shoulders | 276 | Hero 6/6 | 250040 | Abyssal Immolator's Fury *(tier)* |
+| Chest | 276 | Hero 6/6 | 250045 | Abyssal Immolator's Dreadrobe *(tier)* — ench: Mark of the Worldsoul |
+| Waist | 263 | Champion 6/6 | 249635 | **Sprawling Rhizomecord** *(replaced crafted Martyr's Waistwrap)* |
+| Legs | 276 | Hero 6/6 | 250041 | Abyssal Immolator's Pillars *(tier)* — ench: +41 Int |
+| Feet | 276 | Hero 6/6 | 263783 | Voidwind Boots |
+| Wrist | 276 | Hero 6/6 | 263849 | Void Nemesis' Bracers *(266 → 276)* |
+| Hands | 276 | Hero 6/6 | 263813 | Handguards of Voidcendence |
+| Ring 1 | 266 | Hero 3/6 | 259912 | Preyseeker's Signet — ench: Eyes of the Eagle (gem: Flawless Quick Garnet) |
+| Ring 2 | 263 | Champion 6/6 | 249620 | Vibrant Wilderloop *(259 → 263)* (gem: Eversong Diamond) |
+| Trinket 1 | 276 | Hero 6/6 | 248583 | Drum of Renewed Bonds |
+| Trinket 2 | 276 | Hero 6/6 | 251784 | Sylvan Wakrapuku *(259 → 276)* |
+| Back | 285 | — | 239656 | Adherent's Silken Shroud *(crafted)* |
+| Main Hand | 285 | — | 245770 | Aln'hara Cane — ench: Acuity of the Ren'dorei |
 
 Enchanted slots: chest, legs, ring1, weapon. **Missing enchants:** neck,
-wrist, feet, ring2, back (the new 285 cloak — enchant it). Weakest slots vs
-the 276 tier are now **waist / ring2 / trinket2 (all 259)** — the back hole is
-closed. (Note: Encomplete leveled **Enchanting** — see Professions — so the
-missing enchants are now self-craftable.)
+wrist, feet, ring2, back (the 285 cloak — enchant it). With every slot now
+≥ 263 (Hero-track on most), the remaining gains are **Myth-track recrafts (285)
+and vault/M+**, plus closing the five bare enchants. (Encomplete leveled
+**Enchanting** — see Professions — so those enchants are self-craftable.)
 
 ## Season 1 progress
 
-- **Mythic+**: **now rated — 1093 IO (Season 1).** 5 timed runs on record:
-  +7 Skyreach, +5 Maisara Caverns, +5 Algeth'ar Academy, +4 Magisters'
-  Terrace, +4 Nexus-Point Xenas. No runs logged this reset period yet.
-  (Was zero rated runs on 2026-06-23 — has since started keying.)
+- **Mythic+**: **rating 1434.5 (was 1093 on 07-10).** 7 runs on record, now
+  pushing keys: **+11 Seat of the Triumvirate (timed)**, +7 Skyreach (timed),
+  +6 Skyreach (over time), +5 Algeth'ar Academy, +5 Maisara Caverns, +4
+  Magisters' Terrace, +4 Nexus-Point Xenas.
 - **Raids**: **Sporefall [Normal] 1/1** now recorded (first Midnight raid
   kill on the API — Rotmire down on Normal). Older Naxx/Obsidian entries are
   Wrath-era.
 
-### Renown (API, 2026-07-02)
+### Renown (API, 2026-07-11)
 
-| Faction | Renown | Δ since 06-03 |
+| Faction | Renown | Δ since 07-02 |
 |---|---|---|
-| Silvermoon Court | 12 | +2 |
-| The Singularity | 8 | +3 |
-| Amani Tribe | 8 | +2 |
-| Hara'ti | 7 | +2 |
-| Ritual Sites | 4 | +3 |
-| Slayer's Duellum | Neutral (300/3000) | now unlocked (was no standing) |
+| Silvermoon Court | 13 (1595/2500) | +1 |
+| The Singularity | 8 (1787/2500) | — |
+| Amani Tribe | 9 (795/2500) | +1 |
+| Hara'ti | 8 (680/2500) | +1 |
+| Ritual Sites | 4 (467/2500) | — |
+| Maruuk Centaur | 6 (162/2500) | (older-expansion) |
 
 Companion/delve tracks: **Brann Bronzebeard lvl 45**, **Valeera Sanguinar
-lvl 43** (was Valeera 20 on 06-03 — heavy delve activity since).
+lvl 46** (was 43 on 07-02 — continued delve activity).
 
-### Currencies (Syndicator SavedVariables, snapshot 2026-07-09)
+### Currencies (Syndicator SavedVariables, snapshot 2026-07-11)
 
 > Source: the **Syndicator** addon writes a per-character `currencyID →
 > amount` table to disk; IDs resolved to names via wago.tools
 > `CurrencyTypes` DB2 (tier-1). Reflects the character's last in-game
-> `/reload` or logout. See "How to refresh currencies" at the bottom.
-> Deltas below are vs the 2026-07-07 snapshot.
+> `/reload` or logout (fresh — last login 2026-07-11 18:55 UTC).
+> Deltas below are vs the 2026-07-10 snapshot.
 
-- **Dawncrests: Adventurer 289 · Veteran 55 · Champion 96 · Hero 176 ·
-  Myth 20.** Unchanged since 07-07 — plenty of Hero/Myth on hand for slot
-  upgrades and the next recraft-to-285. (These don't transfer to Uncomplete —
-  and the TWW *free same-slot* alt upgrade is **gone in Midnight**: the account
-  lever is now a **50% Dawncrest discount gated on the "…of the Dawn" achievement**,
-  and Encomplete has **not** completed a full **263 Champion track** yet, so Uncomplete
-  currently pays **full** Champion crests. Finishing the last sub-263 slot on Encomplete
-  earns *Champion of the Dawn* (42768) → 50% off for the alt. Corrected/field-tested
-  2026-07-10; see `../endgame/dawncrests.md`.)
-- **Field Accolade 219** (was **1,309** on 07-07 — **−1,090**, deliberately
-  drained: spent on **Warbound Champion/Heroic caches mailed to Uncomplete**
-  to gear the alt). Now below the 750 Heroic-cache threshold; the stockpile
-  was routed into the warband rather than his own already-Hero slots (which
-  Accolade boxes can't upgrade anyway).
-- Coffer Key Shards **58** · Nebulous Voidcore **11**
+- **Dawncrests: Adventurer 289 · Veteran 55 · Champion 56 · Hero 26 ·
+  Myth 34.** Big spend this week: **Hero 176 → 26** and **Champion 96 → 56**,
+  funding the slot upgrades (waist/ring2 → 263 Champion, trinket2/wrist → 276
+  Hero) that completed *Champion of the Dawn*. **Myth 20 → 34** (+14) —
+  building toward Myth-track recrafts to 285. **The 50% Champion Dawncrest
+  discount is now LIVE for the warband** (Encomplete's all-slots-263 earned
+  *Champion of the Dawn* 42768) — Uncomplete pays **half** for Champion crests
+  going forward. See `../endgame/dawncrests.md`.
+- **Field Accolade 219** (unchanged since 07-10 — the ~1,090 drained earlier
+  into Uncomplete's warbound caches has not been rebuilt).
+- Coffer Key Shards **58** · Nebulous Voidcore **10** (was 11)
 - Undercoin **21,610** · Voidlight Marl **20,176** · Remnant of Anguish
   **3,384** · Brimming Arcana **590** · Radiant Spark Dust **17** ·
-  Dawnlight Manaflux **5** · Untainted Mana-Crystals **160** ·
+  Dawnlight Manaflux **7** · Untainted Mana-Crystals **160** ·
   Shard of Dundun **8**
-- Artisan Tailor's Moxie **580** (Midnight Tailoring knowledge currency)
-- Community Coupons **182** · Trader's Tender 4,000 · Resonance Crystals 380
-- Gold **~11,829g** (was ~42,252 — **−30k**, spent on the cloak
-  craft / mats and gear this week)
-- **Not in Syndicator's currency table:** Sparks of Radiance and Catalyst
-  charges (Sparks is an item, Catalyst charges are tracked separately) —
-  still need eyeballs in-game for those two.
+- Artisan Tailor's Moxie **600** (Midnight Tailoring knowledge currency)
+- Community Coupons **182** · Trader's Tender 4,200 · Resonance Crystals 380
+- Gold **10,188g** (was ~11,829 — **−1.6k**)
+- **Crafting mats (from Syndicator items):** Sparks of Radiance **9** ·
+  Ascendant Voidshards **2**. *(These are items, now read from Syndicator's
+  bag/bank/warband inventory — the old "check in-game" gap is closed. Catalyst
+  charges = Dawnlight Manaflux, currency 3378, listed above.)*
 
 ### Season journeys (in-game Journeys UI, 2026-06-03 — STALE; delve/prey ranks have almost certainly advanced, cf. Brann 45 / Valeera 43 above)
 
@@ -263,9 +264,10 @@ install is readable from WSL, so the loop is fully local:
    (`ID`, `Name_lang`). New Midnight currencies 404 on the Blizzard Game
    Data API, so wago is the name source.
 
-Gaps: **Sparks of Radiance** (an item, not a currency) and **Catalyst
-charges** aren't in Syndicator's currency table — read those in-game.
-A tiny purpose-built dump addon could close even those (see chat).
+Note (updated 2026-07-11): **Sparks of Radiance / Ascendant Voidshards** are
+items, not currencies — `wowkb.character` now reads them from Syndicator's
+full bag/bank/warband inventory (`item_counts`), so they're no longer a gap.
+**Catalyst charges = Dawnlight Manaflux** (currency 3378), also in the table.
 
 ## TODO
 

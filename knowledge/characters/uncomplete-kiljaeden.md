@@ -1,27 +1,32 @@
 ---
 title: Uncomplete – Kil'jaeden (US) — fresh-90 demon hunter gearing snapshot
 patch: 12.0.7
-fetched: 2026-07-10
-reviewed: 2026-07-10
+fetched: 2026-07-11
+reviewed: 2026-07-11
 sources:
   - https://us.api.blizzard.com/profile/wow/character/kiljaeden/uncomplete?namespace=profile-us
+  - PlannerState /ps dump + Syndicator (currencies), 2026-07-11
 confidence: high
 ---
 
 # Uncomplete – Kil'jaeden (US)
 
 > **Snapshot** — character data is volatile (updates on logout). The body
-> below reflects the **2026-07-10** live fetch (last login 2026-07-10 18:15 UTC).
+> below reflects the **2026-07-11** live fetch (last login 2026-07-11 17:36 UTC).
 > **Always re-fetch the live profile before answering any gear/level/progress
 > question** — this alt is actively gearing and numbers move fast. Pull with
 > `uv run python -m wowkb.character Uncomplete --realm kiljaeden`.
 >
-> **Δ since 2026-07-09:** big jump — equipped **ilvl 215 → 251**, all 7 former
-> leveling greens replaced with **246+ warband-cache pieces** (this file had
-> lagged behind the plan, which already showed 251; now reconciled). **Endgame
-> loop started:** Great Vault **dungeon 2/3 + raid 1/3** (was empty), Hero
-> Dawncrests **20 → 72**, first **Champion (10) / Myth (20)** crests banked,
-> Restored Coffer Keys 4 → 5, and he now holds **his own Field Accolades (395)**.
+> **Δ since 2026-07-10:** ★ **The 50% Champion Dawncrest discount is now LIVE for
+> this alt** — Encomplete cleared *Champion of the Dawn* (all-slots-263) account-
+> wide, so Uncomplete's Champion crest upgrades are now **half price** (see the
+> Currencies note). Gear crept **251 → 252**: **Chest 259 → 272 Hero 5/6**,
+> **Shoulders 253 → 259 Hero**, **Head 246 → 250**, **Wrist → 256 Champion 4/6**,
+> **Trinket 1 → 253 Champion 3/6**; Hands swapped to *Ruby Contestant's Gloves*
+> (250). **First rated M+** logged (**+2 Algeth'ar timed → rating 166.1**).
+> Crests: **Hero 72 → 28** (spent on chest/shoulders/weapon), **Myth 20 → 55**
+> (+35), Champion 10 → 12. **Field Accolade 395 → 625** (+230). Vault unchanged
+> (dungeon 2/3, raid 1/3). Sparks/Voidshards now read as items (**8 / 2**).
 
 **Alt on the user's account (LLOYDCHRISTMAS), alongside Encomplete (main,
 Demonology warlock) and Hallick (Feral druid).** Hit the level cap (90) on
@@ -38,41 +43,45 @@ Achievement points ~8,035 (account-wide).
 - **Level 90 (cap)** — freshly dinged 2026-07-09.
 - Alliance, Kil'jaeden · guild — · title —
 
-## State — 251, Champion→Hero runway, endgame loop live
+## State — 252, Champion→Hero runway, **50% discount now unlocked**
 
-- **Equipped ilvl 251** (up from ~215 on 07-09): **every slot is now 246+** — the
-  leveling-green bleed is stopped. Weakest slots are the cluster at **246 (Champion
-  1/6)**: head, neck, waist, legs, hands, ring1/2, trinket2, back. Next job is
-  **capping Champion (→263) + targeted Hero** — see the plan.
-- **Endgame loop started this reset:** Great Vault **dungeon 2/3** (base-Mythic runs
-  — still **no rated M+**, so IO = 0) and **raid 1/3**. World column 0/3, **0 world
-  bosses** killed. 20,000+ Voidlight Marl (Decimus vendor fuel), 11 Nebulous Voidcores
-  banked (on Encomplete; hold for +10 M+ → Myth).
-- **Gearing doctrine (this alt): don't target below Champion.** He now earns his **own**
-  crests (Champion 10 / Hero 72 / Myth 20) and holds **his own Field Accolades (395)** —
-  the earlier "no accolades on this char" is obsolete. Warbound caches from Encomplete
-  still supplement; raw crests don't transfer.
+- **Equipped ilvl 252** (up 1 from 251; chest jumped 259 → 272 but many slots
+  still 246). Weakest slots are the cluster still at **246 (Champion 1/6)**: neck,
+  waist, legs, feet, ring1/2, trinket2, back. Next job is **capping Champion
+  (→263) — now at HALF crest cost** (see below) + targeted Hero.
+- ★ **The 50% Champion Dawncrest discount is LIVE.** Encomplete completed
+  *Champion of the Dawn* (42768) account-wide this week, so every Champion upgrade
+  on Uncomplete now costs half the Dawncrests. This is the moment to burn Champion
+  crests capping the 246 cluster.
+- **Endgame loop this reset:** Great Vault **dungeon 2/3** + **raid 1/3**. World
+  column 0/3, **0 world bosses** killed. First **rated M+** now on record (+2
+  Algeth'ar, rating 166.1). 3,600+ Voidlight Marl (Decimus fuel); Nebulous
+  Voidcores still 0 banked here (Encomplete holds 10; hold for +10 M+ → Myth).
+- **Gearing doctrine (this alt): don't target below Champion.** Earns his **own**
+  crests (Champion 12 / Hero 28 / Myth 55) and holds **his own Field Accolades
+  (625)**. Warbound caches from Encomplete still supplement; raw crests don't
+  transfer, but the discount now does.
 
-## Gear (equipped ilvl 251, live 2026-07-10)
+## Gear (equipped ilvl 252, live 2026-07-11)
 
-| Slot | ilvl | id | Item | Assessment |
-|---|---|---|---|---|
-| Head | 246 | 266430 | Silvermoon Sunguard | Champion 1/6 · **tier slot** |
-| Neck | 246 | 263891 | Void-Laced Pendant | Champion 1/6 |
-| Shoulders | 253 | 275225 | Toxic Voidscythe Spaulders | Champion+ · **tier slot** |
-| Chest | 259 | 263762 | Voidrage Chestguard | Hero-ish · **tier slot** |
-| Waist | 246 | 263267 | Hara'ti Defender's Cord | Champion 1/6 |
-| Legs | 246 | 263757 | Voidrage Legguards | Champion 1/6 · **tier slot** |
-| Feet | 246 | 249638 | Osseoclad Bonecrushers | Champion 1/6 |
-| Wrist | 256 | 274843 | Pincher-Proof Wristguards | Hero-ish |
-| Hands | 246 | 263755 | Voidrage Handguards | Champion 1/6 · **tier slot** |
-| Ring 1 | 246 | 251217 | Occlusion of Void | Champion (ring ≠ tier) |
-| Ring 2 | 246 | 249621 | Voodoo Band | Champion |
-| Trinket 1 | 253 | 250462 | Forgotten Farstrider's Insignia | Champion+ |
-| Trinket 2 | 246 | 252418 | Solar Core Igniter | Champion |
-| Back | 246 | 263808 | Void's Judgment Cloak | Champion 1/6 |
-| Main Hand | 266 | 275216 | Phaseblade's Edges | Hero |
-| Off Hand | 269 | 275217 | Nexus-Captain's Phaseblade | Hero |
+| Slot | ilvl | Track | id | Item | Assessment |
+|---|---|---|---|---|---|
+| Head | 250 | Champion 2/6 | 266430 | Silvermoon Sunguard | **tier slot** (was 246) |
+| Neck | 246 | Champion 1/6 | 263891 | Void-Laced Pendant | 246 cluster |
+| Shoulders | 259 | Hero 1/6 | 275225 | Toxic Voidscythe Spaulders | **tier slot** (253 → 259) |
+| Chest | 272 | Hero 5/6 | 263762 | Voidrage Chestguard | **tier slot** (259 → 272) |
+| Waist | 246 | Champion 1/6 | 263267 | Hara'ti Defender's Cord | 246 cluster |
+| Legs | 246 | Champion 1/6 | 263757 | Voidrage Legguards | **tier slot** · 246 cluster |
+| Feet | 246 | Champion 1/6 | 249638 | Osseoclad Bonecrushers | 246 cluster |
+| Wrist | 256 | Champion 4/6 | 274843 | Pincher-Proof Wristguards | Champion+ |
+| Hands | 250 | Champion 2/6 | 193721 | Ruby Contestant's Gloves | swapped in (was Voidrage 246) |
+| Ring 1 | 246 | Champion 1/6 | 251217 | Occlusion of Void *(tier)* | 246 cluster |
+| Ring 2 | 246 | Champion 1/6 | 249621 | Voodoo Band | 246 cluster |
+| Trinket 1 | 253 | Champion 3/6 | 250462 | Forgotten Farstrider's Insignia | Champion+ |
+| Trinket 2 | 246 | Champion 1/6 | 252418 | Solar Core Igniter | 246 cluster |
+| Back | 246 | Champion 1/6 | 263808 | Void's Judgment Cloak | 246 cluster |
+| Main Hand | 269 | Hero 4/6 | 275217 | Nexus-Captain's Phaseblade | Hero |
+| Off Hand | 266 | Hero 3/6 | 275216 | Phaseblade's Edges | Hero |
 
 No enchants or gems detected — add once slots stabilize on Champion+.
 
@@ -89,32 +98,36 @@ No enchants or gems detected — add once slots stabilize on Champion+.
 
 ## Currencies (Syndicator SavedVariables, 2026-07-10)
 
-- Gold: **16,631g** (LLOYDCHRISTMAS account; was 13,358 on 07-09)
-- **Dawncrests**: Adventurer 5 · Veteran 20 · **Champion 10** · **Hero 72** ·
-  **Myth 20**. (Δ: Hero 20 → 72, first Champion + Myth banked — cracked-keystone
-  20/20 + delve/prey earnings. Champion crests are the near-term priority for capping.)
-- **Season 1**: Restored Coffer Key **5** (was 4) · Undercoin 2,532 · Untainted
+- Gold: **16,637g** (LLOYDCHRISTMAS account; was 16,631 on 07-10)
+- **Dawncrests**: Adventurer 5 · Veteran 20 · **Champion 12** · **Hero 28** ·
+  **Myth 55**. (Δ: Hero 72 → 28 — spent capping chest/shoulders/weapon;
+  **Myth 20 → 55** (+35); Champion 10 → 12. **Champion crests now cost 50% via
+  the freshly-earned account discount** — near-term priority is capping the 246
+  cluster while they're half price.)
+- **Season 1**: Restored Coffer Key **5** · Undercoin 2,532 · Untainted
   Mana-Crystals 45 · Radiant Spark Dust 8 · Dawnlight Manaflux 8
-- **Midnight**: **Field Accolade 395** (now on-character — buy targeted Hero from
-  Maren) · Voidlight Marl 3,399 · Remnant of Anguish 689 · Brimming Arcana 240
+- **Midnight**: **Field Accolade 625** (was 395, +230 — buy targeted Hero from
+  Maren) · Voidlight Marl 3,659 · Remnant of Anguish 689 · Brimming Arcana 240
 - Timewarped Badge 1,555 · Trader's Tender 4,200 · Bloody Tokens 300 · Community Coupons 19
-- **Nebulous Voidcores: 0 banked (not a gate — he just hasn't bought any).** Voidcores
+- **Nebulous Voidcores: 0 banked** (not a gate — hasn't bought any). Voidcores
   are **purchased from Decimus** (Val/Naigtal) for **gold + Voidlight Marl + Veteran
   Dawncrests**, weekly cap 2/wk ramping +2/wk (catch-up). Uncomplete has the currency
-  (Voidlight Marl **3,399**, Veteran **20**, gold **16.6k**) — so start buying + banking them
-  for +10 M+ (each becomes Myth 272 there). Encomplete separately holds 11.
-- ⚠ Sparks of Radiance (an item) and Catalyst charges are NOT in Syndicator's
-  currency table — check those in-game. @verify-ingame
-- ⚠ Currencies from Syndicator; last login 07-10 18:15 UTC so fresh, but `/reload`
+  (Voidlight Marl **3,659**, Veteran **20**, gold **16.6k**) — so start buying + banking them
+  for +10 M+ (each becomes Myth 272 there). Encomplete separately holds 10.
+- **Crafting mats (from Syndicator items):** Sparks of Radiance **8** ·
+  Ascendant Voidshards **2** — now read as items (gap closed; no in-game check
+  needed). Catalyst charges = Dawnlight Manaflux (currency 3378, above).
+- ⚠ Currencies from Syndicator; last login 07-11 17:36 UTC so fresh, but `/reload`
   before trusting for a spend if he plays more.
 
-## This reset (PlannerState, 2026-07-10)
+## This reset (PlannerState, 2026-07-11)
 
-- **Great Vault: dungeon 2/3 · world 0/3 · raid 1/3.** Two base-Mythic dungeon
-  credits (no rated M+ yet) + one raid boss kill. Two more dungeons → a vault dungeon
-  slot; world column untouched (delves/rares/Val will fill it).
+- **Great Vault: dungeon 2/3 · world 0/3 · raid 1/3.** Two dungeon credits + one
+  raid boss kill. **First rated M+ now logged** (+2 Algeth'ar timed → rating
+  166.1) — the IO=0 note is obsolete. Two more dungeons → a vault dungeon slot;
+  world column untouched (delves/rares/Val will fill it).
 - **0 world bosses** killed — *Knocking Off the Top* / the weekly Hero drop still open.
-- Active events incl. **Turbulent Timeways** (Spawn of Vyranoth mount week) + Delves Bonus.
+- Active events incl. **Turbulent Timeways** + Delves/Timewalking/Pet-Battle bonus weeks.
 
 ## Gearing plan — see the per-slot chart
 
@@ -129,7 +142,7 @@ one of cloak/belt/bracers, then move to T6 ritual sites for the 285 tail.
 - [x] **Level to 90** — done 2026-07-09.
 - [ ] Vengeance max-level build/rotation docs (`../classes/demon-hunter/
       vengeance/` — none exist yet); reconcile Annihilator vs Devourer.
-- [ ] Confirm in-game: Sparks of Radiance count + Catalyst charges (not in
-      Syndicator). @verify-ingame
+- [x] Sparks of Radiance + Ascendant Voidshards now read from Syndicator items
+      (8 / 2 as of 07-11); Catalyst charges = Dawnlight Manaflux. Gap closed.
 - [ ] Decide professions (gathering/crafting gap the other two don't cover).
-- [x] Re-synced 2026-07-10 — reconciled the stale ~215 gear table to the live 251 state.
+- [x] Re-synced 2026-07-11 — chest 259→272, 50% Champion discount now live via Encomplete.

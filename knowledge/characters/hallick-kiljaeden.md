@@ -1,10 +1,11 @@
 ---
 title: Hallick – Kil'jaeden (US) — druid alt snapshot
 patch: 12.0.7
-fetched: 2026-07-10
-reviewed: 2026-07-10
+fetched: 2026-07-11
+reviewed: 2026-07-11
 sources:
   - https://us.api.blizzard.com/profile/wow/character/kiljaeden/hallick?namespace=profile-us
+  - PlannerState /ps dump + Syndicator (currencies), 2026-07-11
 confidence: high
 ---
 
@@ -16,10 +17,13 @@ confidence: high
 > gear/level/progress question** — this alt is actively leveling/gearing
 > and numbers move fast. Raw JSON: `raw/blizzard/hallick-*.json`.
 >
-> **Δ since 2026-07-02:** essentially static — **gear unchanged** (worn ilvl
-> still 153), no vault progress (0/0/0). Only movement is minor renown
-> (Silvermoon Court 12 @2095, Amani Tribe 8 @2310) and he logged in 07-09.
-> Currencies captured below for the first time.
+> **Δ since 2026-07-10:** **fully static — no login since 2026-07-09 16:37 UTC.**
+> Gear, renown, and currencies are byte-identical to the last sync (worn ilvl
+> 153, gold 14,074, vault 0/0/0). ⚠ Because he hasn't `/reload`ed since, the
+> Syndicator currency values may lag reality — re-`/reload` on Hallick before
+> trusting them for any spend. (Note: the account-wide **Champion of the Dawn**
+> discount that Encomplete just earned applies to Hallick too — but he has no
+> Champion-track gear yet to spend it on.)
 
 **Alt of the user's main (Encomplete).** No longer same guild — Hallick is
 still in **The Soggy Bottom Boys**, Encomplete moved to Dungeon Dojo.
@@ -31,7 +35,7 @@ Achievement points 7,750 (account-wide, tracks Encomplete's 7,800).
 - **Level 90 (cap)** — reached the Midnight cap since the last snapshot
   (was 80 on 2026-06-03). Now in the early endgame gearing phase.
 - Alliance, Kil'jaeden · Title: Knight-Lieutenant
-- Last login at fetch: 2026-06-28
+- Last login at fetch: 2026-07-09 16:37 UTC
 
 ## State
 
@@ -71,8 +75,10 @@ No enchants or gems detected — all low-hanging fruit as gear stabilizes.
   Radiant Spark Dust 7. **No Dawncrests banked** (fresh gearer — none earned yet).
 - **Renown (Midnight-relevant):** Silvermoon Court **12** (2095/2500) · Amani Tribe
   **8** (2310/2500) · Hara'ti **8** (680) · The Singularity **8** · Ritual Sites **4**.
+- **Crafting mats (Syndicator items):** Sparks of Radiance **7** · Ascendant
+  Voidshards **0**. Catalyst charges = Dawnlight Manaflux (8, above).
 - ⚠ Currencies from Syndicator (last login 07-09) — re-`/reload` on Hallick before
-  trusting for spend advice. Sparks of Radiance + Catalyst charges not tracked — check in-game.
+  trusting for spend advice.
 - This reset: all weeklies undone, **0 world bosses**, vault **0/0/0** — the fresh-gearer
   runway is untouched this week.
 
