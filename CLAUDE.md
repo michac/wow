@@ -131,6 +131,13 @@ re-checked. `grep -rL 'reviewed: <sweep-date>' knowledge --include='*.md'` after
 a sweep = every file the sweep did **not** cover (audit + resume list). This is
 how we avoid another silent "16 files left behind."
 
+**`verbatim: true`** marks an *unedited external capture* (e.g. a maxroll guide
+via `wowkb.maxroll --kb`) rather than a curated/distilled claim. The doctrine:
+**distill on read, not on insert** — distilling both when writing *and* when
+answering garbles the content, so these land whole (with `source:` +
+`confidence: medium` since we didn't re-verify) and get condensed only at query
+time. Grep them apart from curated files with `grep -rl 'verbatim: true'`.
+
 ## Tools (run from `tools/`, needs `.env` at repo root — see `.env.example`)
 
 ```bash
@@ -141,6 +148,7 @@ uv run python -m wowkb.wcl rankings <encounter-id> --class Warlock --spec Afflic
 uv run python -m wowkb.wcl casts <report-code> --fight <id>
 uv run python -m wowkb.wago <Db2Table> [--build 12.0.5.xxxxx]   # → raw/wago/
 uv run python -m wowkb.fetch <url>                   # → raw/pages/
+uv run python -m wowkb.maxroll <url> [--kb]          # maxroll.gg guide → markdown (--kb: verbatim into knowledge/classes/<class>/<spec>/maxroll-<type>.md; else raw/maxroll/)
 uv run python -m wowkb.character <name> [--realm kiljaeden] [--json]  # full char digest (unions all 3 sources; carries a "This reset" section)
 uv run python -m wowkb.plan --minutes 60 [--mood efficiency|fun] [--include-repeatables]  # ranked session shortlist
 uv run python -m wowkb.plan --gear --character <name>  # per-slot gearing chart (cache/crest targets + accolade heuristic)
