@@ -533,7 +533,7 @@
         "CC": "Hammer of Justice",
         "CC 2": "Blinding Light",
         "Interrupt": "Rebuke",
-        "Buff": "Rite Of Sanctification",
+        "Buff": "Rite of Sanctification",
         "Res": "Redemption",
         "Immune/Spell Immune/Movement": "Divine Shield",
         "Taunt/Quick Access": "Hand of Reckoning",
@@ -590,7 +590,8 @@
         "Free": "Free",
         "Stance 1": "Crusader Aura",
         "Stance 2": "Devotion Aura",
-        "Stance 3": "Concentration Aura"
+        "Stance 3": "Concentration Aura",
+        "Personal Defensive 2": "Shield of Vengeance"
       }
     },
     {
@@ -636,7 +637,8 @@
         "Racial Ability": "Racial Ability",
         "Free": "Free",
         "Stance 1": "Defensive Stance",
-        "Stance 2": "Battle Stance"
+        "Stance 2": "Battle Stance",
+        "Personal Defensive 2": "Berserker Rage"
       }
     },
     {
@@ -725,7 +727,8 @@
         "Racial Ability": "Racial Ability",
         "Free": "Free",
         "Stance 1": "Defensive Stance",
-        "Stance 2": "Battle Stance"
+        "Stance 2": "Battle Stance",
+        "Personal Defensive 2": "Last Stand"
       }
     },
     {
@@ -742,7 +745,6 @@
         "Combat 8": "Blistering Scales",
         "Combat 9": "Breath of Eons",
         "Combat 12": "Time Skip",
-        "Class 1 (Movement)": "Zephyr",
         "Class 2 (CC)": "Sleep Walk",
         "Class 3 (Tag)": "Landslide",
         "Class 4 (Special)": "Spatial Paradox",
@@ -752,7 +754,7 @@
         "Self-Heal 4 (Emergency/Overflow)": "Cauterizing Flame",
         "Class 5 (Purge)": "Rescue",
         "Class 6 (Dispel)": "Expunge",
-        "Class 7 (Raid Defensive)": "Source of Magic",
+        "Class 7 (Raid Defensive)": "Zephyr",
         "Class 8 (Lust/BRes)": "Fury of the Aspects",
         "Personal Defensive 1": "Obsidian Scales",
         "Movement Ability": "Hover",
@@ -816,7 +818,8 @@
         "Another Combat Item If Needed": "Another Combat Item If Needed",
         "Trinket Macro": "Trinket Macro",
         "Racial Ability": "Racial Ability",
-        "Free": "Free"
+        "Free": "Free",
+        "Personal Defensive 2": "Renewing Blaze"
       }
     },
     {
@@ -905,7 +908,8 @@
         "Another Combat Item If Needed": "Another Combat Item If Needed",
         "Trinket Macro": "Trinket Macro",
         "Racial Ability": "Racial Ability",
-        "Free": "Free"
+        "Free": "Free",
+        "Combat 7": "Nature's Ally"
       }
     },
     {
@@ -1135,7 +1139,8 @@
         "Another Combat Item If Needed": "Another Combat Item If Needed",
         "Trinket Macro": "Trinket Macro",
         "Racial Ability": "Racial Ability",
-        "Free": "Free"
+        "Free": "Free",
+        "Self-Heal 1": "Healing Surge"
       }
     },
     {
@@ -1496,7 +1501,8 @@
         "Another Combat Item If Needed": "Another Combat Item If Needed",
         "Trinket Macro": "Trinket Macro",
         "Racial Ability": "Racial Ability",
-        "Free": "Free"
+        "Free": "Free",
+        "Personal Defensive 2": "Zen Meditation"
       }
     },
     {
@@ -1544,7 +1550,9 @@
         "Another Combat Item If Needed": "Another Combat Item If Needed",
         "Trinket Macro": "Trinket Macro",
         "Racial Ability": "Racial Ability",
-        "Free": "Free"
+        "Free": "Free",
+        "Self-Heal 2": "Vivify",
+        "Self-Heal 3 (Overflow)": "Expel Harm"
       }
     },
     {
@@ -1578,7 +1586,6 @@
         "CC 2": "Paralysis",
         "Interrupt": "Spear Hand Strike",
         "Slow": "Disable",
-        "Buff": "Res",
         "Taunt/Quick Access": "Provoke",
         "PvP": "Nimble Brew",
         "PvP 2": "Double Barrel",
@@ -1634,7 +1641,8 @@
         "Trinket Macro": "Trinket Macro",
         "Racial Ability": "Racial Ability",
         "Free": "Free",
-        "Stance 1": "Stealth"
+        "Stance 1": "Stealth",
+        "Combat 8": "Ambush"
       }
     },
     {
@@ -1925,7 +1933,8 @@
         "Another Combat Item If Needed": "Another Combat Item If Needed",
         "Trinket Macro": "Trinket Macro",
         "Racial Ability": "Racial Ability",
-        "Free": "Free"
+        "Free": "Free",
+        "Combat 11": "Renew"
       }
     },
     {
@@ -1950,7 +1959,6 @@
         "Self-Heal 4 (Emergency/Overflow)": "Power Word: Shield",
         "Class 5 (Purge)": "Dispel Magic",
         "Class 6 (Dispel)": "Purify Disease",
-        "Class 7 (Raid Defensive)": "Levitate",
         "Class 8 (Lust/BRes)": "Mind Soothe",
         "Personal Defensive 1": "Fade",
         "Movement Ability": "Angelic Feather",
