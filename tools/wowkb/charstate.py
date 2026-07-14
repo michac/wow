@@ -325,6 +325,21 @@ def load(character: str | None = None, realm: str = DEFAULT_REALM,
             for a in ach if isinstance(a, dict) and a.get("label")
         }
 
+    # schema>=9: normalize the meta-achievement block (criterion progress, not just
+    # completed) → {label: {earned, needed, completed, id}}. Account-wide, offline.
+    # e.g. timeways_v = Spawn of Vyranoth mount meta (weeks of Mastery earned / 4).
+    meta = state.get("metaAchievements")
+    if isinstance(meta, list):
+        state["meta_achievements"] = {
+            a["label"]: {
+                "id": a.get("id"),
+                "earned": a.get("earned"),
+                "needed": a.get("needed"),
+                "completed": bool(a.get("completed")),
+            }
+            for a in meta if isinstance(a, dict) and a.get("label")
+        }
+
     if enrich and name:
         # Blizzard API — item names, upgrade tracks, and the full profile bundle.
         try:

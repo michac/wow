@@ -403,6 +403,10 @@ def collect_currencies(name: str, realm: str, wow_path: str) -> dict | None:
 # --------------------------------------------------------------------------- #
 # Markdown rendering                                                          #
 # --------------------------------------------------------------------------- #
+# Friendly names for meta-achievement labels dumped by the addon (schema>=9).
+_META_LABELS = {"timeways_v": "Turbulent Timeways (Spawn of Vyranoth mount)"}
+
+
 def _reset_section(state: dict | None) -> list[str]:
     """Render the PlannerState `/ps` reset-state (the third source) — what this
     character has/hasn't done THIS reset, which the profile API can't see. Empty
@@ -449,6 +453,18 @@ def _reset_section(state: dict | None) -> list[str]:
            if isinstance(e, dict) and e.get("active") and e.get("title")]
     if cal:
         L.append("- Active events: " + ", ".join(e["title"] for e in cal))
+    meta = state.get("meta_achievements") or {}
+    for label, m in meta.items():
+        if not isinstance(m, dict):
+            continue
+        name = _META_LABELS.get(label, label)
+        if m.get("completed"):
+            L.append(f"- {name}: ✓ complete")
+        elif m.get("earned") is not None and m.get("needed") is not None:
+            L.append(f"- {name}: {int(m['earned'])}/{int(m['needed'])} weeks banked")
+        else:
+            L.append(f"- {name}: progress unavailable "
+                     "(achievement criteria not cached at scan — re-/ps after login)")
     L.append("")
     return L
 
