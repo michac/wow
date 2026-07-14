@@ -710,6 +710,12 @@ def main(argv=None) -> int:
     p.add_argument("--gear", action="store_true",
                    help="print the per-slot gearing chart (cache/crest targets + the "
                         "accolade heuristic) instead of the session activity plan")
+    p.add_argument("--board", action="store_true",
+                   help="emit the deterministic goal BOARD (per-slot upgrade candidates "
+                        "+ warband gates/cross-char facts) for the gearing agent to reason "
+                        "over per knowledge/planning/goal-model.md — read-only, no scoring")
+    p.add_argument("--json", action="store_true",
+                   help="emit --board as JSON (for agent consumption)")
     p.add_argument("--include-repeatables", action="store_true",
                    help="also rank the scraper catalog (repeatables.json); "
                         "rows marked ~ have placeholder time/enjoyment")
@@ -721,6 +727,21 @@ def main(argv=None) -> int:
     if args.gear:
         print(f"\n{_state_banner(state)}\n")
         print(render_gear(state))
+        return 0
+
+    if args.board:
+        from wowkb import goalboard   # deferred: keeps the common plan path import-light
+        if not state:
+            print("No character state (need a /ps dump or the profile API). "
+                  "Run /ps + /reload on the character, or pass --character.")
+            return 1
+        board = goalboard.build_board(state, args.realm, args.wow_path,
+                                      enrich=not args.no_enrich)
+        if args.json:
+            print(goalboard.render_json(board))
+        else:
+            print(f"\n{_state_banner(state)}\n")
+            print(goalboard.render(board))
         return 0
 
     result = plan(args.minutes, state, args.mood, args.include_repeatables)

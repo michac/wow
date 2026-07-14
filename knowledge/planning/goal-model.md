@@ -1,5 +1,5 @@
 ---
-title: Session Planning — Goal Model (upgrade-graph, proposed)
+title: Session Planning — Goal Model (upgrade-graph; agent rubric over the --board tool)
 patch: 12.0.7
 fetched: 2026-07-10
 reviewed: 2026-07-10
@@ -12,11 +12,39 @@ sources:
 confidence: high     # methodology proposal we endorse — NOT a fetched game fact
 ---
 
-# Session Planning — Goal Model (proposed)
+# Session Planning — Goal Model
 
-> **STATUS: DESIGN PROPOSAL — not built.** The live planner is the activity-centric
-> scorer in `scoring-model.md` (`wowkb.plan`). This doc is the agreed *direction* to
-> replace it. Nothing here runs yet. Written 2026-07-10 from a design conversation.
+> **STATUS: v1 shipped — this doc is now the agent's RUBRIC, not a proposal.** The
+> deterministic **board** is built (`wowkb.plan --board [--json]`, `goalboard.py`);
+> this doc is what the agent reasons *with* over that board (the `/plan-character`
+> skill wires the two together). The old activity-centric scorer in
+> `scoring-model.md` (`wowkb.plan` default output) still runs and is unchanged — the
+> board is additive/read-only. Deferred: drop-source loot tables (M+/raid/vault
+> per-boss → slots), a KB build for when M+ starts. Written 2026-07-10.
+
+## Architecture: deterministic board vs. agent judgment
+
+The v1 split — and the load-bearing lesson of the session that produced it — is that
+**facts and judgment go to different places.** The agent kept getting *mechanical
+facts* wrong by hand (259 Champion-5/6-vs-Hero-1/6 ambiguity, spark counts, a crafted
+belt's missing upgrade track), so those moved into deterministic tooling; the
+*judgment* (pare, rank, "is it worth it," cross-toon plays) stayed with the agent,
+because a script can't encode fuzzy calls like "showdown out-rewards grinding" or
+invent a novel "Encomplete gears the alts" play, and it chokes on the incomplete
+crest-cost tables.
+
+| **BOARD** — deterministic tool (`wowkb.plan --board`) | **SMARTS** — the agent (this rubric) |
+|---|---|
+| Consolidated per-slot state (ilvl, track/step, tier) | **Pare** each slot to its one best actionable goal |
+| Enumerated upgrade **candidates** per slot (crest-up / craft / catalyst / Maren / renown) | **Cluster** same-path slots into one goal |
+| **Affordability** from the real mat pool (crests/sparks/accolades/charges on hand) | **Rank** goals coarsely by value ÷ steps |
+| Gate **states** (Champion discount live? M+ unlocked?) | **Sequence** around the gates (hold spends until the discount is live) |
+| Cross-char **facts** (each char's sub-263 count + mat balances, pooled) | Invent **cross-char plays** (who enables whom) |
+| The step-library pointer (`candidates.json`) | **Decompose** goals → deduped session TODOs |
+
+The board is **exact and tedious**; the agent is **judgment over the board**. The tool
+does **not** rank or sequence — everything below "how the agent reasons over the
+board" is the agent's job, run against `--board --json` as its input.
 
 ## Why replace the current scorer
 
@@ -32,21 +60,24 @@ per-slot candidate list is the real object; the scalar throws its structure away
 can't natively say "the belt's best move is a craft I'm 8 Hero crests short of," and it
 has nowhere to put "which M+ boss drops which slot."
 
-## The model: one pipeline, not two
+## How the agent reasons over the board (one pipeline, not two)
 
 ```
 per-slot upgrade CANDIDATES  ──►  GOALS  ──►  rank(value, steps)  ──►  select to time  ──►  TODO steps
-   (the upgrade graph)          (pared)      (coarse is fine)        (fit the session)     (= the plan)
+   (the BOARD emits this)        (pared)      (coarse is fine)        (fit the session)     (= the plan)
 ```
 
-The session ranking is **not** a separate activity-scorer — it's just ranking the
-**goals** that fall out of the graph. There is one system.
+**Step 1 is the board tool; steps 2–5 are the agent.** The session ranking is **not** a
+separate activity-scorer — it's just the agent ranking the **goals** that fall out of
+the board's candidate graph. There is one system.
 
-1. **Candidates (the upgrade graph).** For every slot, enumerate the upgrade *paths*:
-   each `{source, yields:{ilvl, track}, requires:[reagents/crests/access], attainability}`.
-   Sources are multi-dimensional (crest-up / craft / catalyst / vendor / each drop
-   source), so a slot has several candidates.
-2. **Goals.** Pare each slot to **one** goal (its best actionable path); the other
+1. **Candidates (the upgrade graph) — read from the board.** `wowkb.plan --board
+   --json` emits, for every slot, the enumerated upgrade *paths*: each `{source,
+   yields:{ilvl, track}, requires:[reagents/crests/access], affordability}`. Sources are
+   multi-dimensional (crest-up / craft / catalyst / vendor / each drop source), so a
+   slot has several candidates — the board hands the agent this whole graph so it
+   never re-derives the mechanical facts by hand.
+2. **Goals — the agent pares.** Pare each slot to **one** goal (its best actionable path); the other
    candidate paths for that slot are ranked *alternatives inside* the goal, **not**
    separate goals — you fill a slot once. Two pare-down rules:
    - **One slot → one goal.** "Belt via Maren 259" and "belt via craft 272" are two paths
@@ -57,13 +88,17 @@ The session ranking is **not** a separate activity-scorer — it's just ranking 
      has a **distinctive** path (a tier slot needing catalyst; a slot worth Maren-targeting
      or crafting for a jump). This is the goal-side mirror of shared-step dedup.
    Goals also include cross-cutting targets that aren't one slot — "cap Champion → the
-   50% warband discount," "unlock Mythic+" — in the same list.
-3. **Rank goals** coarsely by **value ÷ effort**, where effort ≈ **how many steps** to
-   get there (mats-in-hand = ~0 extra steps; short-but-attainable = the farming steps;
-   far-off = many). A one-step "crest a slot, mats in bag" beats a ten-step "farm a Hero
-   piece from the vault" of similar ilvl. (Ranking is **derived**, not hand-ordered.)
+   50% warband discount," "unlock Mythic+" — in the same list. The board surfaces these
+   as **gate states** and **cross-char facts**; the agent turns them into goals.
+3. **Rank goals — the agent judges** coarsely by **value ÷ effort**, where effort ≈ **how
+   many steps** to get there (the board's `affordability` = mats-in-hand → ~0 extra steps;
+   short-but-attainable = the farming steps; far-off = many). A one-step "crest a slot,
+   mats in bag" beats a ten-step "farm a Hero piece from the vault" of similar ilvl. This
+   is the agent's judgment over the board — it's exactly the fuzzy value/effort call a
+   Python ranker can't make, so it's **not** hard-coded.
 4. **Select** the top goals that fit the session's time budget.
-5. **Decompose to TODOs.** Multistep goals expand into their steps; that expansion *is*
+5. **Decompose to TODOs.** Multistep goals expand into their steps (mapped onto the
+   board's step-library pointer, `candidates.json` `yields`); that expansion, deduped, *is*
    the session plan.
 
 ### The load-bearing insight: steps are SHARED across goals
@@ -126,11 +161,18 @@ These edges are **warband-level** — an enabler on one character reweights goal
 others (the "Encomplete-gears-the-alts" synergy). v1 needs at least the economic gate on
 the Champion discount and the hard gate on M+; a fuller dependency graph can come later.
 
-## Worked sketch — Uncomplete (live data, 2026-07-10)
+## Worked sketch — Uncomplete (the AGENT's output over the board)
+
+> This is an example of what the **agent** produces after reading `wowkb.plan --board
+> --json Uncomplete` and applying the pipeline above — **not** what any function
+> returns. The board handed over the per-slot candidates, the affordability, and the
+> cross-char facts; the pare/cluster/rank/sequence below is the agent's judgment.
 
 Equipped 251. Crests: Champion 10 · Hero 72 · Myth 20. Sparks 8 · Voidshards 2 ·
 Field Accolades 395 · Voidlight Marl 3,399. Cracked Keystone in bags; no M+ yet;
-vault dungeon 2/3, raid 1/3.
+vault dungeon 2/3, raid 1/3. (Board note: live data drifts — re-run `--board` for
+current numbers; e.g. the waist is now a Hara'ti renown belt on a Champion track, not
+the earlier crafted belt.)
 
 **The slots cluster — most aren't distinctive.** Eleven slots are **246 · Champion 1/6**
 (head, neck, waist, legs, feet, hands, both rings, trinket2, back) — same generic best
@@ -186,25 +228,24 @@ it's **one step under four goals**, which the goal model derives instead of gues
 - The **needs-first** work (per-slot `best_slot_delta`, crest headroom/floor) is the
   per-slot valuation logic the graph reuses.
 
-## Open questions / v1 scope
+## v1 status (shipped) + what's deferred
 
-- **v1 build order:** (a) candidate graph from the deterministic sources we already have
-  data for (crest-up, craft, catalyst, Maren, renown) → per-char goal list; (b) goal
-  ranking (value ÷ steps) **with the two gates wired** (economic: Champion discount; hard:
-  M+ unlock) since they change sequencing; (c) TODO expansion with shared-step dedup off
-  `candidates.json`. Drop-source goals (M+/raid/vault loot tables) come later — they need a
-  **loot-table KB** (per dungeon/boss → slots/track), a real build to start when M+ begins.
-- **Gates/enabling — v1, not later** (see "Goal gates" above): at minimum the economic
-  Champion-discount gate and the hard M+ gate, including their **cross-character** form
-  (an enabler on Encomplete reweighting Uncomplete's goals). A fuller `enables` dependency
-  graph (arbitrary edges, auto-derived) can come later, but the planner is wrong without
-  these two.
-- **Warband scope:** the graph is account-wide — goals live on characters, and some
-  characters exist to *enable* others (Encomplete → the alts). v1 needs at least the
-  cross-character discount edge; full multi-char orchestration (who farms what for whom)
-  is the bigger warband question the old `redesign-needs-first.md` flagged.
-- **Where it plugs in:** does `wowkb.plan` grow a `--goals` mode first (read-only goal
-  list, no scoring change), then flip the session plan to derive from goals once trusted?
-  (Mirrors how the ingest shipped scoring-neutral first.)
-- **Supersedes:** on adoption, this replaces `scoring-model.md` as the planner's core;
-  keep that doc as the historical activity-centric design.
+- **Shipped — the board (`wowkb.plan --board [--json]`, `goalboard.py`):** the deterministic
+  candidate graph from the sources we have data for (crest-up, craft, catalyst, Maren,
+  renown), each with **affordability** from the live mat pool; the two **gate states**
+  (Champion discount live? M+ unlocked?); and the **cross-char facts** (per-char sub-263
+  count + pooled mat balances). It emits facts only — read-only, no scoring change. The
+  `/plan-character` skill runs it and the agent produces the goal list / ranking / TODOs
+  per this rubric (steps 2–5 above). The board does **not** rank or sequence.
+- **Deferred — drop-source loot tables** (M+/raid/vault per-boss → slots/track): needs a
+  **loot-table KB** (per dungeon/boss), a real build to start when M+ begins. Until then
+  the board covers the deterministic vendor/crest/craft/catalyst sources.
+- **Deferred — an auto-derived ranker.** The ranking/sequencing/cross-char judgment stays
+  with the **agent**, on purpose (see the board-vs-agent split). A fuller auto-derived
+  `enables` dependency graph could come later, but the two gates the agent needs (economic
+  Champion-discount, hard M+) are on the board as states today, and the agent sequences on
+  them. This is the inverse of "hard-code everything" — the *facts* are deterministic, the
+  *judgment* is not.
+- **Coexists with `scoring-model.md`:** the board is additive; the activity-centric scorer
+  (`wowkb.plan` default output) is unchanged and still runs. This doc no longer aims to
+  *replace* that scorer wholesale — it's the gearing-goal rubric layered beside it.
