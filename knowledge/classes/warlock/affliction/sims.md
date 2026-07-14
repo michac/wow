@@ -121,8 +121,10 @@ Lesson: never compare an un-socketed slot against a socketed one.
 
 ## 2026-06-19 — Field-Accolade Hero pieces: which two slots
 
-Buying two slot-targeted **Hero pieces** (500 Field Accolades each, Maren
-Silverwing, 12.0.7). Hero track floor = **259** (Hero 1/6), max **276**
+Buying two slot-**targeted** **Hero pieces** (**750 Field Accolades each** —
+the *targeted* Maren cache where you pick the slot; the cheaper **500-accolade**
+cache is the **RNG/random-slot** version. Prices confirmed in-game 2026-07-10.
+Maren Silverwing, 12.0.7). Hero track floor = **259** (Hero 1/6), max **276**
 (Hero 6/6). Champion track caps at **263**.
 
 **Fair test:** a Hero piece only helps in a slot whose current item is
