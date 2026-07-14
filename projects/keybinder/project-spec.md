@@ -1,6 +1,7 @@
 # BucketBinds — a one-shot keybind/bar dumper for WoW
 
-**Status: M0 (project stood up, seed extracted). 2026-07-10.**
+**Status: M2 shipped (snapshot/restore + dumper, v0.2.0). Seed baseline reviewed
+& corrected (Tier A + safe Tier B). M3 (spillover) is next. 2026-07-14.**
 
 A self-contained WoW addon that does two things the game won't:
 
@@ -91,7 +92,7 @@ item-ID and buff reference tables.
       bonus bars, and set the key→slot bind — one shot, combat-gated, with an
       auto-backup so `/bb undo` reverts it. The 12 `bar=None` buckets
       (consumable/trinket/racial macros + Stance/Free) are reported as
-      `skipped (M4)`, never silently dropped.
+      `skipped (M5)`, never silently dropped.
       *Shipped v0.2.0: `Dump.lua` (`ResolveSpec`/`Resolve`/`Run`, runtime
       `resolveSpellID` + spellbook fallback + alias layer, `BAR_MAP`,
       `FORM_BONUS_BARS` + self-healing `UPDATE_SHAPESHIFT_FORM` hook) + `/bb
@@ -99,9 +100,27 @@ item-ID and buff reference tables.
       (`ns.QueueAction`). Dev-side `tool/check_seed_spells.py` cross-checks every
       seed ability name against a wago `SpellName` dump (caught the
       `Efflorescence?` sheet typo → aliased).*
-- [ ] **M3 — in-addon tweak UI.** Pick spec → dump → drag abilities between
-      slots → save as profile. This is the "then tweak" half of the promise.
-- [ ] **M4 — items/macros.** Auto-generate potion/trinket/racial/@cursor macros
+- [ ] **M3 — spillover: surface every unmapped ability.** After a dump, enumerate
+      the character's full active spellbook (already done by `buildSpellbookMap` —
+      General + class + active-spec skill lines), subtract what the seed just placed
+      (**override-normalized** via `GetOverrideSpell`/`FindBaseSpellByID`, so a
+      placed base and its talented replacement count as one), drop passives /
+      `FutureSpell` / `Flyout` / `PetAction`, and place the remainder onto a reserved
+      free-slot region (a normally-unused MultiBar; the seed only owns ~40 of the 180
+      slots) with a `/bb spill`-style log of each `name (spellID)`. Keybinds optional
+      — the value is *visibility*. Triple payoff: (a) **live QA of the seed** — an
+      important ability landing in spillover is a seed miss (`data/unmapped-abilities.md`
+      made per-character); (b) surfaces useful-but-non-rotational utility the 52
+      buckets don't cover; (c) **subsumes hand-encoding build-specific abilities** —
+      spillover catches `Tempest`/`Reaver's Glaive`/etc. per-character, so the seed
+      stays build-agnostic (which is also why one universal seed works: base spells
+      auto-swap to their talented override, unlearned names are skip-and-reported).
+      Combat-guarded like the dump; cap the region and report overflow, never silently
+      truncate. Natural precursor to M4 (its bar is the tweak palette).
+- [ ] **M4 — in-addon tweak UI.** Pick spec → dump → drag abilities between
+      slots → save as profile. This is the "then tweak" half of the promise; the
+      M3 spillover bar is its natural palette — drag the keepers into place.
+- [ ] **M5 — items/macros.** Auto-generate potion/trinket/racial/@cursor macros
       from the Items table; respect the macro caps.
 
 ## M1 plan — snapshot / restore (target release v0.1.0)
@@ -172,7 +191,7 @@ luaparser syntax gate + an in-game smoke protocol (documented in the addon's
 - **Combat lockdown.** Can't change bindings or move actions in combat. Guard
   everything behind `InCombatLockdown()`; queue to `PLAYER_REGEN_ENABLED`.
 - **Macro caps.** 120 account + 18 per-char. Auto-generated @cursor/item macros
-  eat into this — M2/M4 need a budget and a graceful "out of macro slots" path.
+  eat into this — M2/M5 need a budget and a graceful "out of macro slots" path.
 - **Bonus-bar slot numbering.** Druid forms / Rogue stealth / Warrior stances /
   skyriding page the *visible* bar to a bonus bar — but the underlying slots are
   fixed absolute IDs, so `GetActionInfo`/`PlaceAction` reach them regardless of
