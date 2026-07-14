@@ -2,7 +2,7 @@
 title: Affliction Warlock — Rotation (Midnight Season 1)
 patch: 12.0.7
 fetched: 2026-07-07
-reviewed: 2026-07-07
+reviewed: 2026-07-14
 sources:
   - simc midnight branch profiles/MID1/MID1_Warlock_Affliction.simc  # tier 1 APL, commit 204b88d 2026-06-02, WoW 12.0.5.67823
   - https://news.blizzard.com/en-us/article/24287397/hotfixes-june-30-2026  # tier 1, 6/30 hotfix — Seed of Corruption/Nightfall detonation + PvP-only +3%
@@ -67,7 +67,11 @@ Soul Harvester lists below — it's the only S1 build (see `builds.md`).
 4. **Dark Harvest** when **<3 shards** and the channel fits inside both
    Agony and Corruption remaining (it refunds 3 shards — deplete first)
 5. **Summon Darkglare** (once Dark Harvest is on CD)
-6. At **2+ Nightfall stacks**: Malefic Grasp > Drain Soul > Shadow Bolt
+6. At **2+ Nightfall stacks**: spend the proc on your filler — **Drain Soul**
+   (default), or **Shadow Bolt** if untalented/on the move. *Malefic Grasp only
+   appears here as the Darkglare-window transform of your filler (step 8), not as
+   a standalone button — the Malefic Grasp talent node is trap-tier, see
+   `builds.md`.*
 7. **Unstable Affliction** with any shard or Shard Instability proc
    (primary spender; feeds succulent shards / Demonic Soul). As of 12.0.7
    each UA consumes only **one** Shard Instability stack, so you can chain

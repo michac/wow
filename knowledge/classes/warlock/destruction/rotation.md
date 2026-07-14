@@ -2,9 +2,10 @@
 title: Destruction Warlock — Rotation (Midnight Season 1)
 patch: 12.0.7
 fetched: 2026-07-11
-reviewed: 2026-07-11
+reviewed: 2026-07-14
 sources:
   - https://raw.githubusercontent.com/simulationcraft/simc/midnight/profiles/MID1/MID1_Warlock_Destruction.simc  # tier 1, simc midnight APL, 2026-07-11
+  - wago.tools DB2 SpellCooldowns, spell 1122 Summon Infernal  # tier 1, RecoveryTime 120000ms — corrects base CD to 120s (Inferno → 90s)
   - https://www.method.gg/guides/destruction-warlock/playstyle-and-rotation  # tier 3, upd. 2026-06-16, 2026-07-11
   - https://www.method.gg/guides/destruction-warlock  # tier 3, 2026-07-11
 confidence: high
@@ -44,9 +45,9 @@ Immolate (if 2+ & Roaring Blaze) → **Incinerate**.
 - **Summon Infernal is the burst window** — everything syncs to it. Potion,
   racials (Berserking/Blood Fury/Fireblood/Ancestral Call), and external buffs
   (Power Infusion) fire *only* while the Infernal is active (`variable.infernal_active`),
-  and trinkets are sync-scored to the 90s (or 60s w/ **Inferno**) Infernal cadence.
+  and trinkets are sync-scored to the **120s base (or 90s w/ Inferno)** Infernal cadence.
 - **Malevolence (Hellcaller, 60s)** does **not** naturally align with Infernal
-  (90s) — only line them up on the final casts of a fight; otherwise use
+  (120s base, 90s w/ Inferno) — only line them up on the final casts of a fight; otherwise use
   Malevolence on cooldown and spend maximum shards inside its window.
 - **Pool for adds:** if important adds are about to spawn, pool Soul Shards and
   delay Infernal/Malevolence to that point — a large gain over blind on-CD use.

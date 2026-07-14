@@ -115,7 +115,8 @@ choice node (Pitch Black = shorter CD, stronger defensive).
 - [x] Hero tree resolved — **Fel-Scarred default**, Aldrachi Reaver alt
   (simc default profile + method.gg, 2026-07-11)
 - [x] Talent strings captured (simc Tier-1 + method.gg ST/M+ 12.0.7)
-- [ ] Gearing / stat priority / enchants / consumables — not yet distilled
-  (add a gearing section or `gearing.md` from Icy Veins/method + Raidbots)
+- [x] Gearing / stat priority / enchants / consumables — split into
+  **`gearing.md`** (2026-07-14, backfilled from maxroll Tier-3; sim-verify
+  numbers). builds.md is now talents/loadouts/hero-tree only.
 - [ ] Verify import strings load as Fel-Scarred in-game (@verify-ingame)
 - [ ] Cross-check talent picks vs a murlok.io / Archon top-M+ usage snapshot

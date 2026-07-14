@@ -1,8 +1,8 @@
 ---
-title: Affliction Warlock — talents, gearing, enchants, embellishments (Midnight S1)
+title: Affliction Warlock — talents & loadouts (Midnight S1)
 patch: 12.0.7
 fetched: 2026-06-19
-reviewed: 2026-07-07
+reviewed: 2026-07-14
 sources:
   - https://www.icy-veins.com/wow/affliction-warlock-pve-dps-spec-builds-talents  # 12.0.7
   - https://www.method.gg/guides/affliction-warlock/talents  # 12.0.7, upd. 2026-06-16
@@ -171,77 +171,12 @@ Resolve** (self-rez Soulstone). Pure ST/raid string for comparison
 > Strings parsed from the Icy Veins builds page — **confirm they load as
 > Soul Harvester in-game** before trusting (one bad char breaks an import).
 
-## Stat priority
+## Gearing
 
-Sources differ slightly (Icy Veins: Crit > Haste > Mastery; others lean
-Mastery/Crit). Secondaries are **flat** — ilvl > stats; avoid hard
-stacking. Sim on Raidbots when it matters.
-
-### Upgrade decision rules (ilvl vs stats)
-
-- **Tier set pieces: take/upgrade regardless of secondaries** — 2pc/4pc
-  are worth several ilvls each; bad stats never outweigh them.
-- **Most armor: higher ilvl wins** (int + stam scale with ilvl and
-  dominate the budget; secondaries are flat for Affliction anyway).
-- **Vers is lowest-throughput but not worthless** — flat damage +
-  damage reduction; fine on a solo/delve-leaning character.
-- **Be stat-picky only on**: rings (no primary stat — secondaries are
-  the whole item), trinkets (effect > ilvl; sim), and near-ties
-  (≤~6 ilvl gaps). Crafted pieces get exact stats via missive.
-
-## Crafted gear & embellishments
-
-- Staff: **Aln'hara Cane** — craft early; the only raid staff is off
-  L'ura (Midnight Falls) and 1H+OH wastes crests.
-- Popular Affliction crafts: **Martyr's Bindings** (wrist, most-used),
-  **Adherent's Silken Shroud**.
-- Embellishment meta: **Arcanoweave Lining ×2** (38.5% usage; proc:
-  primary stat for you + ally) or **Darkmoon Sigil: Hunt + Arcanoweave
-  Lining** for weapon builds.
-
-### Missives (Method 2026-03-04)
-
-Midnight combat missives are **Thalassian Missives** (Inscription,
-AH-buyable; dual-stat, equal split). Customer slots them in the **work
-order request window** as an optional reagent — buy before placing the
-order. The six: Aurora (Vers/Haste), Feverflare (Mastery/Haste),
-**Fireflash (Crit/Haste)**, Harmonious (Vers/Mastery), **Peerless
-(Crit/Mastery)**, Quickblade (Vers/Crit).
-
-**Affliction order: Thalassian Missive of the Peerless** (Crit/Mastery,
-default) or **of the Fireflash** (Crit/Haste, Icy Veins lean) — stats
-are flat, either is fine; never the Vers trio.
-
-## Enchants (Icy Veins 2026-05-19)
-
-| Slot | Enchant |
-|---|---|
-| Helm | Empowered Blessing of Speed |
-| Shoulders | Akil'zon's Swiftness |
-| Chest | Mark of the Worldsoul |
-| Legs | Sunfire Silk Spellthread |
-| Feet | Farstrider's Hunt |
-| Rings | Eyes of the Eagle |
-| Weapon | Acuity of the Ren'dorei (or secondary-stat enchant — sim) |
-| Weapon oil | Thalassian Phoenix Oil |
-
-All player-crafted → **all buyable on the AH**. Quality tiers exist;
-quality 1–2 is much cheaper for most of the effect (budget-friendly).
-
-## Gems
-
-- **Epic (1 per character, unique)**: Indecipherable Eversong Diamond
-  (until myth-track gear; then Powerful Eversong Diamond).
-- **Rare sockets (need 4 different colors)**: Deadly Peridot / Deadly
-  Lapis / Deadly Amethyst / Masterful Garnet — crit-leaning.
-
-## Consumables
-
-- Flask: **Flask of the Magisters** (not the generic haste flask)
-- Potion: Draught of Rampant Abandon (best, but silencing pool) or
-  Light's Potential (~10% weaker, no drawback — saner default)
-- Food: Royal Roast / Harandar Celebration feast
-- Rune: Void-Touched Augment Rune (~1%)
+> **Moved to `gearing.md` (2026-07-14).** Stat priority + upgrade rules,
+> crafted gear & embellishments, missives, enchants, gems, and consumables now
+> live in `gearing.md`; trinket tiers in `gearing.md` / `trinkets.md`. This file
+> is talents / loadouts / hero-tree (incl. the survivability toolkit) only.
 
 ## TODO
 

@@ -82,20 +82,16 @@ in multi-target, so it's a niche ST pick rather than the default.
   Reap/Eradicate consumes them to call **3 Void Meteors**. The Annihilator damage
   identity (see `rotation.md` — "Reap/Eradicate at 3 Voidfall").
 
-## Stats (Method 12.0.7)
+## Gearing
 
-**Mastery > Haste > Crit ≈ Versatility** — "Mastery and Haste provide
-significantly more value than Critical Strike and Versatility; prioritize Mastery
-into Haste." (Void-Scarred melee shifts toward **Crit**.) Best trinket called out:
-**Gaze of the Alnseer** (passive proc, large primary-stat grants). Secondaries are
-otherwise flat — sim on Raidbots for close calls. @verify-ingame stat weights
+> **Moved to `gearing.md` (2026-07-14).** Stat priority (Mastery > Haste > Crit ≈
+> Vers per Method; Void-Scarred melee shifts toward Crit), trinkets, tier set,
+> embellishments, enchants, gems, and consumables now live in `gearing.md`. This
+> file is talents / loadouts / hero-tree only.
 
 ## TODO
 
 - [ ] Verify all import strings load as the correct hero tree in-game.
-- [ ] Capture full enchant/gem/consumable/embellishment list from Method
-      gearing + Icy Veins gems pages (only the trinket + stat lean captured so
-      far).
 - [ ] Re-check Annihilator vs Void-Scarred usage split against murlok.io / WCL
       once the spec has ladder history (new spec — no aggregation yet).
 - [ ] Confirm Soul Glutton's exact Fury-drain penalty and Meta Soul thresholds.

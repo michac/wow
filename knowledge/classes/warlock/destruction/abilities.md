@@ -48,7 +48,7 @@ confidence: high
 | Ruination | Rotational-spender (proc) | — | Instant (granted) | **Diabolist** free empowered nuke granted by cycling Diabolic Ritual → Demonic Art; press on proc. Midnight-new. @verify-ingame |
 | Embers of Nihilam | Rotational-spender / Apex | — | Active (talent) | Spec apex active (talent tree row 12). Situational burst button when talented. @verify-ingame |
 | Havoc | Utility (cleave) | — | Instant · ~30s CD | Marks a second target; single-target spells (Chaos Bolt, Shadowburn, etc.) are duplicated onto it. The 2-target cleave button. |
-| Summon Infernal | Major cooldown | — | Instant · 90s CD (60s w/ Inferno), 30s duration | Meteor + persistent infernal; the primary DPS burst window everything (potion/trinkets/racials) syncs to. |
+| Summon Infernal | Major cooldown | — | Instant · 120s CD (90s w/ Inferno), 30s duration | Meteor + persistent infernal; the primary DPS burst window everything (potion/trinkets/racials) syncs to. Base CD confirmed 120s via DB2 (SpellCooldowns spell 1122); **Inferno** talent −30s → 90s. |
 | Malevolence | Major cooldown | — | ~60s CD | **Hellcaller** burst CD — grants haste and empowers/extends active Withers. Hellcaller-exclusive. Midnight-new. @verify-ingame |
 | Curse of Exhaustion | Utility (slow) | — | Instant | Reduces target movement speed. Curse. |
 | Curse of Tongues | Utility (slow-cast) | — | Instant | Slows enemy cast speed. Curse. |

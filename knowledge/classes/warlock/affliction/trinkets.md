@@ -13,6 +13,11 @@ confidence: medium
 
 # Affliction — trinkets (Midnight Season 1, 12.0.7)
 
+> This is the deep-dive trinket file (Archon +10 usage / Bloodmallet framing).
+> `gearing.md` carries the broader gearing picture (stats, tier set, BiS,
+> enchants, gems, consumables) and a condensed trinket list — start there for
+> "what do I gear," come here for the trinket detail.
+
 > Trinkets are the one slot where **effect > ilvl** — sim rather than
 > auto-equip the higher number. Rankings below are **+10 M+ usage**
 > (tier 2 / log-based); for a patchwerk/solo answer at a specific ilvl,

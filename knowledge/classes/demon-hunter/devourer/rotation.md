@@ -2,9 +2,9 @@
 title: Demon Hunter Devourer — Rotation (Midnight S1)
 patch: 12.0.7
 fetched: 2026-07-11
-reviewed: 2026-07-11
+reviewed: 2026-07-14
 sources:
-  - simc midnight branch profiles/MID1/MID1_Demon_Hunter_Devourer.simc  # tier 1 APL, 2026-07-11 (talents=CgcBAAAAAAAAAAAAAAAAAAAAAAA2MmZmZmZmBzMAAAAAAALzYAzAAAAAAAAwMGMmZmZMzMzYmFzYsotNmZmZ2abmZGAjZAIwMzgxMA)
+  - simc midnight branch profiles/MID1/MID1_Demon_Hunter_Devourer.simc  # tier 1 APL, 2026-07-11 (talents=CgcBAAAAAAAAAAAAAAAAAAAAAAA2MmZmZmZmBzMAAAAAAALzYAzAAAAAAAAwMGMmZmZMzMzYmFzYsotNmZmZ2abmZGAjZAIwMzgxMA); collapsing_star_stacking max_stack 30 confirms Collapsing Star's 30-Soul cost
   - simc midnight branch profiles/MID1/MID1_Demon_Hunter_Devourer_Void-Scarred.simc  # tier 1 APL variant, 2026-07-11
   - https://www.method.gg/guides/devourer-demon-hunter/playstyle-and-rotation  # tier 3, Hype, upd. 2026-06-17, 2026-07-11
   - https://www.icy-veins.com/wow/devourer-demon-hunter-pve-dps-rotation-cooldowns-abilities  # tier 3, 12.0.7, 2026-07-11
@@ -68,7 +68,8 @@ noted at the end.
 2. **Void Ray** if Meta is about to expire
 3. **Cull / Eradicate** if Meta is expiring and it makes enough Souls for one more Collapsing Star
 4. **Voidblade** (if *Devourer's Bite* talented — damage amp)
-5. **Collapsing Star** at **35+ stored Souls** (don't overcap)
+5. **Collapsing Star** — costs **30 Souls** per cast; fire it at **≥30 stored
+   Souls** so you don't overcap (was mis-stated as 35)
 6. **Void Ray**
 7. **Cull / Eradicate** at 3 Voidfall stacks, <30 Souls
 8. **Collapsing Star**
@@ -121,5 +122,7 @@ so it has more consistent out-of-Meta damage.
       (`wowkb.wcl rankings` → `casts`) — none distilled yet (new spec).
 - [ ] Re-distill exact Soul/Fury/Voidfall thresholds from a fuller simc APL dump
       (the sub-list conditions were summarized, not reproduced line-for-line).
-- [ ] Confirm Void Ray in-Meta cooldown (14s vs 16s) and Collapsing Star Soul
-      cost (30) in-game.
+- [x] Collapsing Star Soul cost — **30** (resolved 2026-07-14): `abilities.md`
+      and the Tier-1 APL agree (the `collapsing_star_stacking` buff caps at 30,
+      `stack>=30` / `.max_stack`). Fixed the "35+" in the in-Meta priority above.
+- [ ] Confirm Void Ray in-Meta cooldown (14s vs 16s) in-game (still open).

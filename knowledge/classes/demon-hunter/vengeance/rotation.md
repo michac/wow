@@ -2,9 +2,11 @@
 title: Vengeance Demon Hunter — Rotation (Midnight S1)
 patch: 12.0.7
 fetched: 2026-07-11
-reviewed: 2026-07-11
+reviewed: 2026-07-14
 sources:
   - simc midnight branch profiles/MID1/MID1_Demon_Hunter_Vengeance.simc  # tier 1 APL, WoW 12.0.7.67808 — PRIMARY
+  - wago.tools DB2 SpellCooldowns/SpellCategories, spell 247454 Spirit Bomb  # tier 1, CategoryRecoveryTime 25000ms — confirms Spirit Bomb's ~25s CD
+  - ../../../_meta/patch-notes/12.0.5.md  # tier 1, Feast of Souls heals instantly on Soul Cleave
   - https://www.method.gg/guides/vengeance-demon-hunter/playstyle-and-rotation  # tier 3, Midnight 12.0.7, upd. 2026-06-16
   - https://www.icy-veins.com/wow/vengeance-demon-hunter-pve-tank-rotation-cooldowns-abilities  # tier 3, 12.0.7
   - https://wowcarry.com/blog/wow/wow-news/vengeance-demon-hunter-in-midnight-talents-annihilator-guide  # tier 4, Annihilator mechanics corroboration
@@ -57,6 +59,15 @@ it to **5** normally, **3** inside a Fiery Demise (Fiery Brand) window, and **4*
 in Metamorphosis (Annihilator); Aldrachi Reaver drives its own count off Art of
 the Glaive stacks. Practically: **spend at 5 fragments** in single target, spend
 earlier (3–4) inside Brand/Meta, and drop the threshold by 1 in AoE.
+
+> **Spirit Bomb is on a ~25-second cooldown (haste-reduced) — new in Midnight.**
+> Confirmed via DB2 (SpellCooldowns, spell 247454: CategoryRecoveryTime 25 000 ms,
+> not charge-based). This is why the APL fires it *at fragment target* without an
+> explicit cooldown check — SimC only casts it when it's off cooldown anyway. The
+> practical consequence: **Soul Cleave is your between-Spirit-Bomb Fury spender
+> and self-heal** — it has no such cooldown, so it soaks fragments/Fury while
+> Spirit Bomb recharges. (12.0.5 confirms Feast of Souls heals *instantly* on
+> Soul Cleave.)
 
 ---
 
@@ -148,4 +159,6 @@ with Soul Carver talented) → **Immolation Aura**.
       revision (current pull WoW 12.0.7.67808).
 - [ ] Sanity-check the opener against a top WCL Vengeance log
       (`wowkb.wcl rankings` → `casts`).
-- [ ] Confirm Spirit Bomb's cooldown value in-game (new in Midnight per the APL).
+- [x] Confirm Spirit Bomb's cooldown value — **~25s (haste-reduced)**, resolved
+      2026-07-14 via DB2 (SpellCooldowns spell 247454, CategoryRecoveryTime
+      25000ms, not charge-based). Documented under Fragment targeting.

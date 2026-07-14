@@ -76,7 +76,8 @@ CsQAAAAAAAAAAAAAAAAAAAAAAwMzMzoZjhZmZmlZxMzMLGjFzAAgZmxMzsYBzMjZWWGNzMsNsNbNWYAA
   passive/automatic cleave uptime, **Havoc** for on-demand duplication.
 - **Cataclysm + Channel Demonfire + Raging Demonfire** — the AoE Immolate/Wither
   maintenance trio in mass-AoE; **Flashpoint** is strong while enemies are >80%.
-- **Summon Infernal + Inferno** — Inferno cuts Infernal's CD to ~60s and is the
+- **Summon Infernal + Inferno** — Inferno cuts Infernal's CD from 120s to **~90s**
+  (−30s; base 120s confirmed via DB2 SpellCooldowns spell 1122) and is the
   burst backbone; **Crashing Chaos / Rain of Chaos** choice modifies the summon.
 - **Ruin**, **Devastation**, **Diabolic Embers**, **Fire and Brimstone**,
   **Ashen Remains**, **Scalding Flames** round out the throughput/AoE core.
@@ -120,7 +121,8 @@ Voidwalker for solo/delves.
 - [ ] Resolve the Hellcaller-vs-Diabolist default once S1 sim/log consensus
       firms (method /talents says Hellcaller for most content incl. M+; /playstyle
       + simc default lean Diabolist — currently a genuine near-tie). @verify-ingame
-- [ ] Add a gearing/stat/consumables section (mirror the Affliction `builds.md`)
-      when a tier-3 gearing page is sourced.
+- [x] Gearing/stat/consumables split into **`gearing.md`** (2026-07-14,
+      backfilled from maxroll Tier-3; sim-verify numbers). builds.md is now
+      talents/loadouts/hero-tree only.
 - [ ] Re-verify import strings against a tier-1 source and re-check on any tree
       change in a later patch.
