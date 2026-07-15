@@ -1,30 +1,37 @@
 ---
-title: Demonology Warlock — M+ & Delve builds (Midnight S1)
+title: Demonology Warlock — M+ & Delve builds (talents / loadouts)  (Midnight S1)
 patch: 12.0.7
-fetched: 2026-06-13
-reviewed: 2026-07-07
+fetched: 2026-07-14
+reviewed: 2026-07-14
 sources:
+  - simc midnight branch profiles/MID1/MID1_Warlock_Demonology.simc  # tier 1 APL, commit 48103ef 2026-05-18 — default Diabolist talent hash
   - https://www.icy-veins.com/wow/demonology-warlock-pve-dps-spec-builds-talents  # upd. 2026-05-19, M+ import string
   - https://murlok.io/warlock/demonology/diabolist/m+  # top-player M+ aggregation (Blizzard API), fetched 2026-06-13
   - https://www.wowhead.com/guide/classes/warlock/demonology/talent-builds-pve-dps  # NotWarlock, upd. 2026-03-30
   - https://www.method.gg/guides/demonology-warlock/talents
   - https://www.kalamazi.gg/guides/demonology
   - ../../../_meta/patch-notes/12.0.7.md  # 12.0.7 Demo changes are PvP-combat-only; no PvE build impact
-confidence: medium
+confidence: high
 ---
 
 # Demonology — M+ & Delve builds (Midnight Season 1)
 
+> **Talents / loadouts / hero-tree only.** Stat priority, trinkets, tier set,
+> enchants/gems/consumables now live in `gearing.md`. Rotation is in
+> `rotation.md` (Tier-1 APL-distilled).
+
 ## TL;DR
 
-- **Hero tree: Diabolist for M+** (the default for pushers — comparable
-  single-target to Soul Harvester but clearly better AoE). Soul Harvester
-  is the pure-ST/raid pick.
+- **Hero tree: Diabolist everywhere** (M+ *and* raid) — the burst tree via
+  **Ruination**; maxroll has it "slightly better in (almost) all scenarios" and
+  murlok top-player data agrees. Soul Harvester mechanically *emphasizes*
+  Implosion/AoE and has better defensives but sims slightly behind — the
+  niche/solo-defensive alternative, not the M+ default.
 - **Apex: Dominion of Argus** — big Summon Demonic Tyrant buff; the whole
   spec is built around the 1-min Tyrant window.
 - **Pet: Felguard** for group content (universal among top M+ players).
   Swap to **Voidwalker** for solo delves (tank/taunt).
-- **Stats: Mastery ≈ Crit > Haste >> Versatility.**
+- **Stats: Mastery ≈ Crit > Haste >> Versatility** — full detail in `gearing.md`.
 
 ## M+ build (Diabolist)
 
@@ -35,9 +42,10 @@ deterministic and burst-leaning, front-loading damage through the
 **Demonic Rituals → Overlord / Pit Lord** procs inside the Tyrant window.
 All 14 Diabolist nodes show ~49–50/50 adoption — no real choice points.
 
-Soul Harvester is the ST/raid alternative (passive damage via Demonic
-Soul / Wicked Reaping / Soul Anathema) and has **better defensives**
-overall — relevant for delves (see below).
+Soul Harvester is the passive/defensive alternative (damage via Demonic
+Soul / Wicked Reaping / Soul Anathema) with **better defensives** overall —
+a reasonable raid-ST or delve pick, though maxroll has Diabolist edging it
+even there ("slightly better in almost all scenarios"). See delves below.
 
 **Spec tree near-universals (murlok top players):** Hand of Gul'dan,
 Demoniac, Call Dreadstalkers, Fel Intellect, Imp-erator, Implosion,
@@ -60,23 +68,23 @@ targets — strong trash CC.
 **Pet: Felguard** (universal). The Felguard, Dreadstalkers, Tyrant, and
 Diabolist demon summons are a large chunk of both ST and cleave.
 
-### M+/AoE import string (Icy Veins, upd. 2026-05-19)
+### M+/AoE import strings
 
+**Tier-1 (simc default APL, Diabolist, commit 48103ef 2026-05-18):**
+```
+CoQAAAAAAAAAAAAAAAAAAAAAAYmxMzoZjZ2mZGzyAAAAAAAAGzYYBGYb0CNsYMGLzyMzMmBAmZMzMzMDgZGzAAAYMzMjhhlZMgB
+```
+
+**Tier-3 (Icy Veins M+/AoE, upd. 2026-05-19):**
 ```
 CoQAAAAAAAAAAAAAAAAAAAAAAwMjZGNLmxiZGzyAAAAAAAMWWGYADYG2CM2MmZsMmxMzMAwMzMGDwMzYmxMbAAgxMzMzYw2MDwA
 ```
 
 > Paste in-game: Talents UI → Import. Verify it loads as **Diabolist**
-> before keying. Pull a fresh string after any 12.0.7 talent changes.
-
-## Stat priority
-
-Mastery ≈ Crit > Haste >> Versatility. murlok top-player secondary
-distribution: **Crit ~30% / Mastery ~34% / Haste ~22% / Vers ~1%**
-(Avoidance > Leech > Speed for minors). As with Affliction, secondaries
-are fairly flat — **ilvl and tier pieces win**; sim on Raidbots for
-close calls. (See the Affliction `builds.md` for the shared
-enchant/gem/consumable/missive meta — warlock-wide, not spec-specific.)
+> before keying. The simc profile ships **only the Diabolist hash** — Soul
+> Harvester is the same spec tree on the `demonic_soul` branch, so there is no
+> separate simc Soul-Harvester string; pull one from a build guide (Icy
+> Veins/murlok) if you want the raid/ST loadout.
 
 ## Delves / solo build
 

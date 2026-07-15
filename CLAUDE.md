@@ -6,10 +6,11 @@ Warcraft questions **reliably**. Scope: **Retail, Midnight expansion only**
 
 ## Git workflow
 
-Single dev, single line of history: **work directly on `main`, commit there, and
-push.** Do **not** create a feature branch unless explicitly told to — no PRs, no
-`git checkout -b`. If you find yourself on a stray branch, fold it back into `main`
-and continue there.
+Single dev, single line of history: **work on, commit to, and push whatever
+branch the repo is already checked out on** — even if that's `main`. Do **not**
+create a new branch, `git checkout -b`, or switch branches unless explicitly told
+to — no PRs, no surprise branches. If you think a different branch is warranted,
+**ask first**; never silently start working off a branch you created.
 
 ## Current game state
 
@@ -62,7 +63,12 @@ game.** Defenses, in order:
   `wowkb.character <name>` for a single one). Don't re-improvise the API
   calls + Syndicator parse by hand.**
 - `knowledge/factions/` — one file per renown faction (5)
-- `knowledge/classes/<class>/<spec>/` — rotation.md, builds.md, sims.md
+- `knowledge/classes/<class>/<spec>/` — rotation.md, builds.md, gearing.md, sims.md
+  (also abilities.md, talents.md/.json, maxroll-*.md captures). **builds.md =
+  talents / loadouts / hero-tree only; gearing.md = stats / trinkets / tier-set /
+  embellishments / enchants / gems / consumables.** This split exists for the 6
+  DH/Warlock specs (devourer/havoc/vengeance + affliction/demonology/destruction)
+  as of 2026-07-14; rolling it out to the other 34 specs is a documented follow-up.
 - `knowledge/systems/` — housing, ritual sites, void incursions, professions
 - `knowledge/economy/` — pointers to live tools only; never cached prices
 - `knowledge/planning/` — **the session-planner system** (rank "what should I
@@ -135,6 +141,13 @@ re-checked. `grep -rL 'reviewed: <sweep-date>' knowledge --include='*.md'` after
 a sweep = every file the sweep did **not** cover (audit + resume list). This is
 how we avoid another silent "16 files left behind."
 
+**`verbatim: true`** marks an *unedited external capture* (e.g. a maxroll guide
+via `wowkb.maxroll --kb`) rather than a curated/distilled claim. The doctrine:
+**distill on read, not on insert** — distilling both when writing *and* when
+answering garbles the content, so these land whole (with `source:` +
+`confidence: medium` since we didn't re-verify) and get condensed only at query
+time. Grep them apart from curated files with `grep -rl 'verbatim: true'`.
+
 ## Tools (run from `tools/`, needs `.env` at repo root — see `.env.example`)
 
 ```bash
@@ -145,6 +158,8 @@ uv run python -m wowkb.wcl rankings <encounter-id> --class Warlock --spec Afflic
 uv run python -m wowkb.wcl casts <report-code> --fight <id>
 uv run python -m wowkb.wago <Db2Table> [--build 12.0.5.xxxxx]   # → raw/wago/
 uv run python -m wowkb.fetch <url>                   # → raw/pages/
+uv run python -m wowkb.maxroll <url> [--kb]          # maxroll.gg guide → markdown (--kb: verbatim into knowledge/classes/<class>/<spec>/maxroll-<type>.md; else raw/maxroll/)
+uv run python -m wowkb.simc <class> <spec> [--variant Name] [--list] [--no-sha]  # simc MID1 default APL (Tier 1) → raw/simc/<file>.simc + .digest.md (talents hash + grouped actions.*, pinned to a commit SHA+date). The reproducible source the rotation.md files distill.
 uv run python -m wowkb.character <name> [--realm kiljaeden] [--json]  # full char digest (unions all 3 sources; carries a "This reset" section)
 uv run python -m wowkb.plan --minutes 60 [--mood efficiency|fun] [--include-repeatables]  # ranked session shortlist
 uv run python -m wowkb.plan --gear --character <name>  # per-slot gearing chart (cache/crest targets + accolade heuristic)
