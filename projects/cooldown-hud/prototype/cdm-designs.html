@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Demonology CDM — 5 design directions</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  /* ---- Tactical-HUD identity: near-black violet-biased ground, mono data ---- */
+  :root{
+    --bg:#0b0910; --panel:#141019; --panel2:#1a1524; --line:#2a2136;
+    --ink:#ece8f4; --mut:#9a90ac; --dim:#6c6380;
+    --summon:#37c86f;   /* fel green  — demon summons / burst */
+    --core:#a065ff;     /* shadow violet — core shadow damage */
+    --aoe:#bdf33a;      /* fel lime — Implosion */
+    --proc:#2dd4ee;     /* arcane cyan — procs / resource accent */
+    --def:#4a9eff;      /* blue — defensives */
+    --cc:#8a94ab;       /* slate — control */
+    --mob:#f5c542;      /* gold — mobility */
+    --shard:#b06bff;    /* soul shard */
+  }
+  html{background:var(--bg);color:var(--ink);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;}
+  .mono{font-family:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+    font-variant-numeric:tabular-nums;}
+  .eyebrow{letter-spacing:.22em;text-transform:uppercase;}
+  h1,h2{text-wrap:balance;}
+
+  /* ---- viewport (the dark "in-game" stage each design renders into) ---- */
+  .stage{background:
+      radial-gradient(120% 90% at 30% 0%, rgba(160,101,255,.07), transparent 60%),
+      linear-gradient(180deg,#0a0810,#0e0b16);
+    border:1px solid var(--line);border-radius:14px;position:relative;overflow:hidden;}
+
+  /* ---- ability block: solid color, no icon, short label, secure-swipe overlay ---- */
+  .blk{position:relative;border-radius:7px;background:var(--c);overflow:hidden;
+    display:flex;align-items:center;justify-content:center;isolation:isolate;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.09);
+    transition:opacity .25s ease, filter .25s ease, transform .25s ease, box-shadow .2s ease;}
+  .blk-label{position:relative;z-index:2;font:600 11px/1 ui-monospace,monospace;
+    letter-spacing:.06em;color:#0c0910;mix-blend-mode:normal;text-shadow:0 1px 0 rgba(255,255,255,.25);}
+  .blk-swipe{position:absolute;inset:0;z-index:1;pointer-events:none;}
+  .blk.is-dim{opacity:.34;filter:saturate(.55) brightness(.7);}
+  .blk.is-ready{box-shadow:inset 0 0 0 1px rgba(255,255,255,.35), 0 0 10px -2px var(--c);}
+  .blk.is-glow{box-shadow:inset 0 0 0 1.5px #eafcff, 0 0 16px 1px var(--proc);}
+  .blk.is-glow .blk-label{color:#04121a;}
+  .blk.is-hot{animation:hot 1.05s ease-in-out infinite;}
+  @keyframes hot{0%,100%{box-shadow:inset 0 0 0 1px rgba(255,255,255,.4),0 0 6px -1px var(--c);}
+    50%{box-shadow:inset 0 0 0 1.5px #fff,0 0 20px 2px var(--c);}}
+
+  /* burst lane common-region tint + common-fate window pulse */
+  .lane{border-radius:10px;border:1px solid rgba(55,200,111,.28);
+    background:linear-gradient(180deg,rgba(55,200,111,.08),rgba(55,200,111,.02));
+    transition:box-shadow .3s, border-color .3s, background .3s;}
+  .lane.is-open{border-color:rgba(55,200,111,.85);
+    background:linear-gradient(180deg,rgba(55,200,111,.20),rgba(55,200,111,.05));
+    box-shadow:0 0 22px -4px var(--summon), inset 0 0 18px -8px var(--summon);
+    animation:lanePulse 1.2s ease-in-out infinite;}
+  @keyframes lanePulse{0%,100%{box-shadow:0 0 16px -6px var(--summon),inset 0 0 14px -8px var(--summon);}
+    50%{box-shadow:0 0 30px -2px var(--summon),inset 0 0 22px -6px var(--summon);}}
+
+  /* ---- soul shard rail (OURS: readable + branchable) ---- */
+  .seg{border-radius:4px;background:#241d33;box-shadow:inset 0 0 0 1px rgba(255,255,255,.05);
+    position:relative;overflow:hidden;transition:box-shadow .2s;}
+  .seg .fill{position:absolute;inset:0;transform-origin:left;background:var(--shard);
+    box-shadow:0 0 8px -1px var(--shard);}
+  .rail.spend .seg .fill{background:#ff8a3d;box-shadow:0 0 8px -1px #ff8a3d;}
+  .rail.capped .seg{background:#3a2d13;box-shadow:inset 0 0 0 1px rgba(245,197,66,.5),0 0 10px -3px var(--mob);}
+  .rail.capped .seg .fill{background:var(--mob);box-shadow:0 0 12px 0 var(--mob);}
+  .glitter{position:absolute;inset:-2px;pointer-events:none;z-index:5;}
+  .spark{position:absolute;width:3px;height:3px;border-radius:50%;background:#fff;
+    box-shadow:0 0 6px 1px var(--mob);animation:spark .8s ease-out forwards;}
+  @keyframes spark{0%{transform:scale(.4) translateY(0);opacity:0;}
+    20%{opacity:1;}100%{transform:scale(1.1) translateY(-10px);opacity:0;}}
+
+  /* ---- borrowed duration bar (Blizzard draws the secret timer) ---- */
+  .dbar{position:relative;height:14px;border-radius:4px;background:#1c1628;overflow:hidden;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);}
+  .dbar .lvl{position:absolute;inset:0;transform-origin:left;background:var(--c);opacity:.85;}
+  .dbar .txt{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;
+    padding:0 6px;font:600 10px/1 ui-monospace,monospace;color:#0c0910;z-index:2;}
+
+  .tag{font:600 9px/1 ui-monospace,monospace;letter-spacing:.08em;padding:3px 6px;border-radius:4px;
+    text-transform:uppercase;}
+  .tag-live{background:rgba(45,212,238,.14);color:#8fe9f7;box-shadow:inset 0 0 0 1px rgba(45,212,238,.3);}
+  .tag-borrow{background:rgba(154,144,172,.12);color:#c3bad4;box-shadow:inset 0 0 0 1px rgba(154,144,172,.3);}
+
+  .card{background:linear-gradient(180deg,var(--panel),#100c18);border:1px solid var(--line);border-radius:16px;}
+  .chip{border:1px solid var(--line);border-radius:999px;}
+  button.ctl{border:1px solid var(--line);border-radius:8px;background:var(--panel2);color:var(--ink);
+    transition:background .15s,border-color .15s;}
+  button.ctl:hover{background:#241c33;border-color:#3a2f4d;}
+  button.ctl:focus-visible{outline:2px solid var(--proc);outline-offset:2px;}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+</style>
+</head>
+<body class="min-h-screen">
+  <div class="max-w-6xl mx-auto px-5 py-8 md:py-12">
+
+    <!-- Header -->
+    <header class="mb-8">
+      <div class="mono eyebrow text-[11px]" style="color:var(--proc)">Cooldown HUD · design study</div>
+      <h1 class="mt-2 text-3xl md:text-4xl font-bold tracking-tight">Demonology CDM — five directions</h1>
+      <p class="mt-3 max-w-2xl text-[15px] leading-relaxed" style="color:var(--mut)">
+        Five takes on a condensed, no-icon cooldown board for a Demonology Warlock, all driven by one
+        simulated rotation. Vertical space = priority, horizontal space = grouping (Tyrant lines up with the
+        demons it empowers). Every animation here sticks to what the live 12.0 addon can actually do —
+        nothing reads a value the game keeps secret.
+      </p>
+      <div class="mt-4 flex flex-wrap items-center gap-2">
+        <span class="tag tag-live">Live</span>
+        <span class="text-[12px]" style="color:var(--mut)">we read &amp; drive it in Lua — shards, cap glitter, proc presence</span>
+        <span class="mx-1" style="color:var(--dim)">·</span>
+        <span class="tag tag-borrow">Borrowed</span>
+        <span class="text-[12px]" style="color:var(--mut)">Blizzard's secure widget draws it — cooldown swipe, DoT timers</span>
+      </div>
+      <div class="mt-5 flex flex-wrap items-center gap-2">
+        <button id="pause" class="ctl mono text-[12px] px-3 py-1.5">⏸ Pause</button>
+        <button id="tyrant" class="ctl mono text-[12px] px-3 py-1.5">⚡ Force Tyrant window</button>
+        <button id="reset" class="ctl mono text-[12px] px-3 py-1.5">↺ Reset</button>
+        <span class="mono text-[11px] ml-1 px-2 py-1 chip" style="color:var(--dim)">timescale ×3 · illustrative</span>
+      </div>
+    </header>
+
+    <!-- Design grid -->
+    <main class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+      <section class="card p-4" data-design="column">
+        <div class="flex items-baseline justify-between gap-3">
+          <h2 class="text-lg font-semibold">1 · Priority Column</h2>
+          <span class="mono text-[10px]" style="color:var(--dim)">vertical rank · grouped burst</span>
+        </div>
+        <p class="mt-1 text-[13px] leading-snug" style="color:var(--mut)">Top = press-soonest. The shard rail flips generate→spend; the burst trio (own-timer tracked) ramps up as Tyrant nears ready and the lane lights as one during the window. A big CORE [X]/4 sits above utility.</p>
+        <div class="stage mt-3 p-3" style="min-height:230px"></div>
+      </section>
+
+      <section class="card p-4" data-design="lane">
+        <div class="flex items-baseline justify-between gap-3">
+          <h2 class="text-lg font-semibold">2 · Burst Lane</h2>
+          <span class="mono text-[10px]" style="color:var(--dim)">horizontal alignment first</span>
+        </div>
+        <p class="mt-1 text-[13px] leading-snug" style="color:var(--mut)">The window is the hero: Tyrant + Dreadstalkers + Fel Ravager align on one rail; the lane pulses together while the Tyrant window is up (detected by a buff's presence) — "dump now." Their individual swipes are Blizzard's.</p>
+        <div class="stage mt-3 p-3" style="min-height:230px"></div>
+      </section>
+
+      <section class="card p-4" data-design="resource">
+        <div class="flex items-baseline justify-between gap-3">
+          <h2 class="text-lg font-semibold">3 · Resource-Centric</h2>
+          <span class="mono text-[10px]" style="color:var(--dim)">shards as the anchor</span>
+        </div>
+        <p class="mt-1 text-[13px] leading-snug" style="color:var(--mut)">Soul Shards are the one thing we truly own, so they're the focal point — big, central, glittering at cap. Abilities orbit as small pips.</p>
+        <div class="stage mt-3 p-3" style="min-height:230px"></div>
+      </section>
+
+      <section class="card p-4" data-design="dash">
+        <div class="flex items-baseline justify-between gap-3">
+          <h2 class="text-lg font-semibold">4 · Compact Dashboard</h2>
+          <span class="mono text-[10px]" style="color:var(--dim)">dense · glanceable grid</span>
+        </div>
+        <p class="mt-1 text-[13px] leading-snug" style="color:var(--mut)">Cockpit density: a shard strip, a fixed cooldown grid, and borrowed DoT bars underneath. Fixed slots build muscle memory.</p>
+        <div class="stage mt-3 p-3" style="min-height:230px"></div>
+      </section>
+
+      <section class="card p-4 lg:col-span-2" data-design="board">
+        <div class="flex items-baseline justify-between gap-3">
+          <h2 class="text-lg font-semibold">5 · Clear the Board</h2>
+          <span class="mono text-[10px]" style="color:var(--dim)">salience = actionability</span>
+        </div>
+        <p class="mt-1 text-[13px] leading-snug" style="color:var(--mut)">Only the actionable thing is bright; anything on cooldown or irrelevant fades almost to nothing. An empty board means you're playing optimally — the goal is to keep clearing it.</p>
+        <div class="stage mt-3 p-3" style="min-height:150px"></div>
+      </section>
+    </main>
+
+    <footer class="mt-8 text-[12px] leading-relaxed mono" style="color:var(--dim)">
+      Solid-color styling, no icons — identity is color group + position + a 4-letter label (legible desaturated).
+      Untracked cooldowns are a <span style="color:var(--mut)">constant color</span> with only Blizzard's <span style="color:var(--mut)">borrowed</span> swipe.
+      The burst trio (Tyrant/Dreadstalkers/Fel Ravager) also ramps up as it nears ready — we detect the <span style="color:var(--proc)">cast</span> (spellID is readable) and run our own base-cooldown timer.
+      Also <span style="color:var(--proc)">live &amp; ours</span>: the shard rail's generate→<span style="color:#ff9a4d">spend</span> recolor + cap glitter, and Demonic <span style="color:var(--proc)">CORE [X]/4</span> (X is Blizzard's stack number we enlarge; “/4” is static — we can't read X).
+    </footer>
+  </div>
+
+<script>
+(() => {
+  // ---- ability catalog: group carries the hue (stays in the safe categorical set) ----
+  const COL = {summon:'var(--summon)',core:'var(--core)',aoe:'var(--aoe)',proc:'var(--proc)',def:'var(--def)',cc:'var(--cc)',mob:'var(--mob)'};
+  const AB = {
+    TYRA:{label:'TYRA',full:'Summon Demonic Tyrant',g:'summon',dur:16,kind:'cd',track:true},
+    DREA:{label:'DREA',full:'Call Dreadstalkers',   g:'summon',dur:8, kind:'cd',track:true},
+    FELR:{label:'FELR',full:'Grimoire: Fel Ravager', g:'summon',dur:12,kind:'cd',track:true},
+    HAND:{label:'HAND',full:"Hand of Gul'dan",       g:'core',  kind:'shard'},
+    CORE:{label:'CORE',full:'Demonbolt',             g:'core',  kind:'proc'},
+    IMPL:{label:'IMPL',full:'Implosion',             g:'aoe',   kind:'imp'},
+    UNEN:{label:'UNEN',full:'Unending Resolve',      g:'def',   dur:14,kind:'cd'},
+    DARK:{label:'DARK',full:'Dark Pact',             g:'def',   dur:9, kind:'cd'},
+    SHAD:{label:'SHAD',full:'Shadowfury',            g:'cc',    dur:11,kind:'cd'},
+    AXE :{label:'AXE', full:'Axe Toss',              g:'cc',    dur:9, kind:'cd'},
+    MORT:{label:'MORT',full:'Mortal Coil',           g:'cc',    dur:15,kind:'cd'},
+    CIRC:{label:'CIRC',full:'Demonic Circle',        g:'mob',   dur:7, kind:'cd'},
+  };
+
+  // ---- shared simulated rotation state (one brain, five views) ----
+  const S = newState();
+  function newState(){
+    const cd = {}; for(const k in AB){ if(AB[k].kind==='cd') cd[k] = Math.random()*(AB[k].dur*0.6); }
+    return {t:0, shards:2.2, prevShards:2.2, cores:0, coreUntil:0, imps:0, gcd:0,
+            cd, capAt:-9, windowUntil:0, domUntil:0, paused:false};
+  }
+  function reset(){ Object.assign(S, newState()); }
+
+  function tick(dt){
+    if(S.paused) return;
+    dt = Math.min(dt, .05); const t = (S.t += dt);
+    for(const k in S.cd) S.cd[k] = Math.max(0, S.cd[k]-dt);
+    S.gcd = Math.max(0, S.gcd-dt);
+
+    const tyrantReady = S.cd.TYRA<=0;
+    const banking = tyrantReady && S.shards < 5;           // hold shards for an imminent Tyrant
+    if(!banking) S.shards = Math.min(5, S.shards + dt*0.85);
+    if(S.shards>=5 && S.prevShards<5) S.capAt = t;         // one-shot cap event → glitter/earcon
+    S.prevShards = S.shards;
+
+    // Hand of Gul'dan: spend 3 shards → Wild Imps (unless banking for Tyrant)
+    if(S.shards>=3 && !banking && S.gcd<=0 && Math.random()<0.03){
+      S.shards -= 3; S.imps = Math.min(12, S.imps+3); S.gcd = 1.0;
+    }
+    // Demonic Core proc (presence is readable via IsShown)
+    if(S.cores<2 && Math.random()<0.011){ S.cores++; S.coreUntil = t+5; }
+    if(t>S.coreUntil) S.cores = 0;
+    if(S.cores>0 && S.gcd<=0 && Math.random()<0.02){ S.cores--; S.gcd=1.0; S.shards=Math.min(5,S.shards+0.3); }
+    S.imps = Math.max(0, S.imps - dt*0.45);
+
+    // Tyrant fires at a full board → opens the burst window; summons land into it
+    if(tyrantReady && S.shards>=4.6){ S.cd.TYRA = AB.TYRA.dur; S.windowUntil = t+7;
+      S.cd.DREA = AB.DREA.dur; S.cd.FELR = AB.FELR.dur; S.shards = 4.6; }
+    if(S.cd.DREA<=0 && S.cd.TYRA<3 && Math.random()<0.05) S.cd.DREA = AB.DREA.dur;
+    if(S.imps>=6 && Math.random()<0.03) S.imps = 0;
+
+    // Dominion of Argus apex proc (borrowed bar)
+    if(t>S.domUntil && Math.random()<0.006) S.domUntil = t+6;
+
+    // generate vs spend mode (shards readable → we can drive this)
+    S.mode = (S.shards >= 4.6 || t < S.windowUntil) ? 'spend' : 'generate';
+  }
+
+  // Derive a block's visual from state. HONESTY RULE: cooldown *timing* is secret,
+  // so cd blocks get NO self-driven salience — only Blizzard's borrowed swipe moves
+  // on them. Our live glow/dim is reserved for what we can actually read in Lua:
+  // shards, proc presence, imp presence.
+  function vis(key){
+    const a = AB[key];
+    if(a.kind==='cd'){ const rem=S.cd[key]??0, ready=rem<=0;
+      const v = {frac: ready?0:rem/a.dur, ready, cd:true, track:a.track};
+      // tracked cds: we detect the cast + run our OWN base-cooldown timer, so we
+      // get an "approaching ready" ramp Blizzard's secret swipe won't give us
+      if(a.track) v.approach = ready ? 1 : (rem<5 ? (1-rem/5) : 0);
+      return v; }
+    if(a.kind==='shard') return {frac:0,ready:true,dim:S.shards<3,hot:S.shards>=5,actionable:S.shards>=3};
+    if(a.kind==='proc')  return {frac:0,ready:true,dim:S.cores<=0,glow:S.cores>0};
+    if(a.kind==='imp')   return {frac:0,ready:true,dim:S.imps<=0,actionable:S.imps>0,hot:S.imps>=6};
+    return {frac:0,ready:true};
+  }
+  const windowOpen = () => S.t < S.windowUntil;   // detectable in-game via a Tyrant-buff IsShown()
+
+  // ---- reusable block widget ----
+  function block(key, {h=34}={}){
+    const a = AB[key], el = document.createElement('div');
+    el.className='blk'; el.style.setProperty('--c',COL[a.g]); el.style.height=h+'px';
+    el.title = a.full;
+    const sw=document.createElement('div'); sw.className='blk-swipe';
+    const lb=document.createElement('span'); lb.className='blk-label'; lb.textContent=a.label;
+    el.append(sw,lb);
+    return {el, key, upd(){ const v=vis(key);
+      sw.style.background = v.ready?'transparent'
+        : `conic-gradient(from -90deg, rgba(6,4,12,.72) ${v.frac*100}%, transparent 0)`;
+      if(v.cd && !v.track){ // untracked cd → borrowed swipe only, no self-driven salience
+        el.classList.remove('is-dim','is-ready','is-glow','is-hot');
+      } else if(v.cd && v.track){ // tracked cd → our own-timer approach ramp + ready
+        el.classList.remove('is-dim','is-glow');
+        el.classList.toggle('is-ready', v.approach>=1);
+        el.classList.toggle('is-hot', v.approach>0.35 && v.approach<1);
+      } else {
+        el.classList.toggle('is-dim', !!v.dim && !v.glow && !v.hot);
+        el.classList.toggle('is-ready', !!v.ready && !v.dim);
+        el.classList.toggle('is-glow', !!v.glow);
+        el.classList.toggle('is-hot', !!v.hot);
+      }
+      return v; }};
+  }
+
+  // ---- soul shard rail ----
+  function rail({w=26,h=16,gap=4,modeLabel=false}={}){
+    const wrap=document.createElement('div'); wrap.className='rail relative flex items-center';
+    wrap.style.gap=gap+'px';
+    const segs=[], glit=document.createElement('div'); glit.className='glitter';
+    for(let i=0;i<5;i++){ const s=document.createElement('div'); s.className='seg';
+      s.style.width=w+'px'; s.style.height=h+'px';
+      const f=document.createElement('div'); f.className='fill'; f.style.transform='scaleX(0)'; s.append(f); segs.push(f); wrap.append(s); }
+    wrap.append(glit);
+    const modeEl = modeLabel ? document.createElement('span') : null;
+    if(modeEl){ modeEl.className='mono text-[10px] ml-1 eyebrow'; wrap.append(modeEl); }
+    let sparkAt=-9;
+    return {el:wrap, upd(){ const n=S.shards, capped=n>=5, spend=S.mode==='spend';
+      wrap.classList.toggle('capped',capped);
+      wrap.classList.toggle('spend', spend && !capped);   // generate vs spend (shards readable)
+      for(let i=0;i<5;i++){ const fill=Math.max(0,Math.min(1,n-i)); segs[i].style.transform=`scaleX(${fill})`; }
+      if(modeEl){ modeEl.textContent = (capped||spend)?'SPEND':'GENERATE'; modeEl.style.color = (capped||spend)?'#ff9a4d':'var(--dim)'; }
+      if(S.capAt>sparkAt+0.1 && S.t-S.capAt<0.05){ sparkAt=S.capAt; burst(glit); } }};
+  }
+  function burst(host){ for(let i=0;i<10;i++){ const s=document.createElement('div'); s.className='spark';
+    s.style.left=(8+Math.random()*84)+'%'; s.style.top=(20+Math.random()*60)+'%';
+    s.style.animationDelay=(Math.random()*.15)+'s'; host.append(s); setTimeout(()=>s.remove(),900); } }
+
+  // ---- borrowed duration bar (secret timer, Blizzard draws) ----
+  function dbar(label, g, until){
+    const el=document.createElement('div'); el.className='dbar'; el.style.setProperty('--c',COL[g]);
+    const lvl=document.createElement('div'); lvl.className='lvl';
+    const tx=document.createElement('div'); tx.className='txt'; tx.innerHTML=`<span>${label}</span><span class="stk"></span>`;
+    el.append(lvl,tx);
+    return {el, upd(){ const win=until(); const active=win>0; el.style.opacity=active?1:.18;
+      lvl.style.transform=`scaleX(${Math.max(0,Math.min(1,win/6))})`;
+      el.querySelector('.stk').textContent = active? (label==='Demonic Core'? String(Math.max(1,S.cores)) : '') : ''; }};
+  }
+
+  // Demonic Core [X]/4 — X is Blizzard's (unreadable) stack count, enlarged; "/4" is our static suffix
+  function coreReadout(){
+    const el=document.createElement('div'); el.className='flex items-baseline gap-1';
+    const tag=document.createElement('span'); tag.className='mono text-[9px] eyebrow mr-1 self-center'; tag.style.color='var(--proc)'; tag.textContent='CORE';
+    const num=document.createElement('span'); num.className='mono font-bold'; num.style.color='var(--proc)'; num.style.fontSize='22px'; num.style.lineHeight='1';
+    const den=document.createElement('span'); den.className='mono'; den.style.color='var(--mut)'; den.style.fontSize='13px'; den.textContent='/4';
+    el.append(tag,num,den);
+    return {el, upd(){ const n=Math.max(0,Math.min(4,Math.round(S.cores)));
+      num.textContent=String(n); num.style.opacity=n>0?'1':'0.3';
+      el.style.filter=n>0?'drop-shadow(0 0 7px rgba(45,212,238,.55))':'none'; }};
+  }
+
+  const row=(cls='')=>{ const d=document.createElement('div'); d.className='flex '+cls; return d; };
+  const col=(cls='')=>{ const d=document.createElement('div'); d.className='flex flex-col '+cls; return d; };
+  const cap=(t)=>{ const d=document.createElement('div'); d.className='mono text-[9px] eyebrow mb-1'; d.style.color='var(--dim)'; d.textContent=t; return d; };
+
+  // ================= five designs, each: build(stage) -> {updaters:[]} =================
+  const DESIGNS = {
+    // 1 — Priority Column
+    column(stage){ const up=[]; const c=col('gap-2 w-full max-w-[300px] mx-auto');
+      const r=rail({w:34,h:14,modeLabel:true}); up.push(r); const rr=row('gap-2 items-center'); rr.append(r.el);
+      c.append(cap('press soonest ↑'), rr);
+      const lane=document.createElement('div'); lane.className='lane p-2'; const lr=row('gap-2');
+      ['TYRA','DREA','FELR'].forEach(k=>{const b=block(k,{h:36});up.push(b);lr.append(b.el);b.el.classList.add('flex-1');});
+      lane.append(lr); c.append(lane); up.push({el:lane,upd(){lane.classList.toggle('is-open',windowOpen());}});
+      const core=row('gap-2'); ['HAND','CORE','IMPL'].forEach(k=>{const b=block(k,{h:32});up.push(b);core.append(b.el);b.el.classList.add('flex-1');}); c.append(core);
+      const cr=coreReadout(); up.push(cr); const crRow=row('gap-2 items-center justify-end'); crRow.append(cr.el); c.append(crRow);
+      const util=row('gap-1.5'); ['UNEN','DARK','SHAD','AXE','MORT','CIRC'].forEach(k=>{const b=block(k,{h:22});up.push(b);util.append(b.el);b.el.classList.add('flex-1');}); c.append(util);
+      stage.append(c); return up; },
+
+    // 2 — Burst Lane
+    lane(stage){ const up=[]; const c=col('gap-3 w-full max-w-[380px] mx-auto justify-center h-full');
+      const core=row('gap-2 justify-center'); ['HAND','CORE'].forEach(k=>{const b=block(k,{h:26});up.push(b);b.el.style.width='72px';core.append(b.el);}); c.append(core);
+      const lane=document.createElement('div'); lane.className='lane p-2.5'; const lr=row('gap-2.5 items-stretch');
+      ['TYRA','DREA','FELR'].forEach(k=>{const b=block(k,{h:52});up.push(b);b.el.classList.add('flex-1');lr.append(b.el);});
+      lane.append(cap('tyrant window — dump now'), lr); c.append(lane);
+      up.push({el:lane,upd(){lane.classList.toggle('is-open',windowOpen());}});
+      const r=rail({w:40,h:12}); up.push(r); const rr=row('gap-2 items-center justify-center'); rr.append(r.el); c.append(rr);
+      const util=row('gap-1.5 justify-center'); ['IMPL','UNEN','SHAD','CIRC'].forEach(k=>{const b=block(k,{h:22});up.push(b);b.el.style.width='58px';util.append(b.el);}); c.append(util);
+      stage.append(c); return up; },
+
+    // 3 — Resource-Centric
+    resource(stage){ const up=[]; const c=col('gap-3 items-center justify-center h-full w-full');
+      c.append(cap('soul shards'));
+      const r=rail({w:48,h:34,gap:6}); up.push(r); c.append(r.el);
+      const num=document.createElement('div'); num.className='mono text-[12px]'; num.style.color='var(--mut)';
+      c.append(num); up.push({el:num,upd(){ const spend=S.shards>=5||S.mode==='spend';
+        num.textContent = S.shards>=5 ? 'SPEND — at cap' : `${spend?'SPEND':'GENERATE'} · ${Math.floor(S.shards)}/5`;
+        num.style.color = spend?'#ff9a4d':'var(--mut)'; }});
+      const cr=coreReadout(); up.push(cr); c.append(cr.el);
+      const pips=row('gap-2 flex-wrap justify-center max-w-[340px]');
+      ['TYRA','DREA','FELR','HAND','CORE','IMPL'].forEach(k=>{const b=block(k,{h:30});up.push(b);b.el.style.width='56px';pips.append(b.el);});
+      c.append(pips); stage.append(c); return up; },
+
+    // 4 — Compact Dashboard
+    dash(stage){ const up=[]; const c=col('gap-2.5 w-full max-w-[420px] mx-auto');
+      const top=row('gap-2 items-center'); const r=rail({w:30,h:12,modeLabel:true}); up.push(r);
+      top.append(r.el);
+      const cr=coreReadout(); up.push(cr); const spacer=document.createElement('div'); spacer.className='flex-1'; top.append(spacer, cr.el);
+      c.append(top);
+      const grid=document.createElement('div'); grid.className='grid grid-cols-3 gap-1.5';
+      ['TYRA','DREA','FELR','HAND','CORE','IMPL'].forEach(k=>{const b=block(k,{h:30});up.push(b);grid.append(b.el);}); c.append(grid);
+      c.append(cap('durations — borrowed'));
+      const dc=dbar('Demonic Core','proc',()=> (S.cores>0? (S.coreUntil-S.t):0)); up.push(dc);
+      const da=dbar('Dominion of Argus','core',()=> (S.domUntil-S.t>0? (S.domUntil-S.t):0)); up.push(da);
+      const bars=col('gap-1.5'); bars.append(dc.el,da.el); c.append(bars);
+      const util=document.createElement('div'); util.className='grid grid-cols-6 gap-1';
+      ['UNEN','DARK','SHAD','AXE','MORT','CIRC'].forEach(k=>{const b=block(k,{h:18});up.push(b);util.append(b.el);}); c.append(util);
+      stage.append(c); return up; },
+
+    // 5 — Clear the Board
+    board(stage){ const up=[]; const c=col('gap-2 w-full items-center justify-center h-full');
+      const hint=document.createElement('div'); hint.className='mono text-[10px]'; hint.style.color='var(--dim)';
+      const r=rail({w:34,h:12}); up.push(r); const rr=row('gap-2 items-center'); rr.append(r.el); c.append(rr);
+      const wrap=row('gap-2 flex-wrap justify-center max-w-[560px]'); const blocks=[];
+      ['TYRA','DREA','FELR','HAND','CORE','IMPL','UNEN','DARK','SHAD','AXE','MORT','CIRC'].forEach(k=>{const b=block(k,{h:30});b.el.style.width='60px';blocks.push(b);wrap.append(b.el);});
+      c.append(wrap, hint);
+      up.push({upd(){ let live=0; const wo=windowOpen();
+        blocks.forEach(b=>{ const v=b.upd(); const summon=AB[b.key].g==='summon';
+          // actionable only from things we can READ: shard/proc/imp thresholds, or the Tyrant window
+          const actionable = v.hot || v.glow || v.actionable || (wo && summon);
+          // cd blocks rest at a constant low salience (their state is Blizzard's swipe, not ours)
+          b.el.style.opacity = actionable ? '1' : (v.cd ? '0.22' : (v.ready ? '0.30' : '0.10'));
+          b.el.style.transform = actionable? 'scale(1)' : 'scale(.9)';
+          if(actionable) live++; });
+        hint.textContent = live? `${live} thing${live>1?'s':''} to press` : 'board clear — you’re optimal'; }});
+      stage.append(c); return up; },
+  };
+
+  // ---- mount all designs ----
+  const registry=[];
+  document.querySelectorAll('[data-design]').forEach(sec=>{
+    const stage=sec.querySelector('.stage'); const kind=sec.getAttribute('data-design');
+    const up=DESIGNS[kind](stage); registry.push(up);
+  });
+
+  // ---- master loop ----
+  let last=performance.now();
+  function frame(now){ const dt=(now-last)/1000; last=now; tick(dt);
+    registry.forEach(list=>list.forEach(u=>{ try{u.upd&&u.upd();}catch(e){} }));
+    requestAnimationFrame(frame); }
+  requestAnimationFrame(frame);
+
+  // ---- controls ----
+  const pauseBtn=document.getElementById('pause');
+  pauseBtn.addEventListener('click',()=>{ S.paused=!S.paused; pauseBtn.textContent=S.paused?'▶ Play':'⏸ Pause'; });
+  document.getElementById('tyrant').addEventListener('click',()=>{ S.cd.TYRA=0; S.shards=5; });
+  document.getElementById('reset').addEventListener('click',reset);
+})();
+</script>
+</body>
+</html>
