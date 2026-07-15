@@ -1,7 +1,9 @@
 # BucketBinds — a one-shot keybind/bar dumper for WoW
 
-**Status: M2 shipped (snapshot/restore + dumper, v0.2.0). Seed baseline reviewed
-& corrected (Tier A + safe Tier B). M3 (spillover) is next. 2026-07-14.**
+**Status: M3 shipped (spillover, v0.3.0) on top of M2 (dumper) + M1
+(snapshot/restore). Seed is now JSON-authoritative (xlsx frozen to archive), bars
+re-laid-out to a modifier-grouped 12-slot scheme, and `/bb dump --nobind` +
+`/bb test` added. M4 (in-addon tweak UI) is next. 2026-07-14.**
 
 A self-contained WoW addon that does two things the game won't:
 
@@ -45,15 +47,21 @@ validated the model and handed us the whole classification as a seed.
 
 ## The layout (decoded from the seed)
 
-5 action bars × 8 slots, addressed through four modifier layers:
+**Re-layout 2026-07-14: one modifier layer per physical bar, 12 slots each.**
+Each stock MultiBar has 12 buttons; the seed now fills all 12 rather than 8, so
+the four modifier layers pack onto four bars and **bar 5 is freed**:
 
-| Layer   | Keys                     | Buckets                                   |
-|---------|--------------------------|-------------------------------------------|
-| unmod   | `1 2 3 4 Q E R F`        | Combat 1–8 (core rotation)                |
-| Shift   | `S1..S4 SQ SE SR SF`     | Combat 9–12, Class 1–4 (move/CC/util)     |
-| Ctrl    | `C1..C4 CQ CE CR CF`     | Self-heals, purge/dispel/raid-def/lust    |
-| Alt     | `A1..A4 AQ AE …`         | Items, trinket, racial, PvP               |
-| singles | `Z X C V` (+S/A variants)| defensives, movement, CC, interrupt, mount|
+| Bar (modifier) | Slots 1–8            | Slots 9–12         | Buckets                                     |
+|----------------|----------------------|--------------------|---------------------------------------------|
+| 1 unmod        | `1 2 3 4 Q E R F`    | `Z X C V`          | Combat 1–8 + Def1/Move/CC/Interrupt         |
+| 2 Shift        | `S1..S4 SQ SE SR SF` | `SZ SX SC SV`      | Combat 9–12, Class 1–4 + Def2/Move2/CC2/Slow|
+| 3 Ctrl         | `C1..C4 CQ CE CR CF` | `CZ CX CC CV`      | Self-heals, purge/dispel/raid-def/lust + buff/res/immune/taunt |
+| 4 Alt          | `A1..A4 AQ AE AR AF` | `AZ AX AC AV`      | item/trinket/racial macros (M5) + PvP 1–3, Mount |
+| 5              | —                    | —                  | **free** (available for a compact/overflow layout) |
+
+Consequences: the singles (`Z X C V` + Shift/Ctrl variants) join their modifier's
+bar instead of being scattered, and the bar-1 form-mirror now covers all 12 unmod
+slots (druids/rogues get interrupt + defensives on their form bars too).
 
 Out-of-combat sprawl (mounts/toys/teleports/buffs/specs) is **not** bound to
 keys — it goes on OPie rings. The addon marks those buckets "on a ring" and
@@ -63,16 +71,23 @@ skips them. The OPie master-ring import string is a separate, untouched asset
 ## Data pipeline
 
 ```
-Bellular .xlsx (Windows host / Google Sheets, volatile snapshot)
-  └─ tool/extract_seed.py  (uv run --with openpyxl)
-       ├─ data/bellular-keybinds.seed.json   canonical, diffable, in-repo
-       └─ addon/BucketBinds/Data.lua          generated; the addon loads this
+data/bellular-keybinds.seed.json   CANONICAL, hand-edited source of truth
+  └─ tool/gen_data_lua.py          (the one live-workflow step)
+       └─ addon/BucketBinds/Data.lua   generated; the addon loads this (never hand-edit)
 ```
 
-Refresh the sheet → re-run the extractor → diff the JSON. The JSON is the
-source of truth *for the repo*; `Data.lua` is a generated build artifact (do not
-hand-edit). Current seed: **52 buckets, 40 specs, 1554 ability mappings**, plus
-item-ID and buff reference tables.
+The **JSON is authoritative** — it carries the Tier-A/B ability corrections and
+the modifier-grouped re-layout the workbook never had. Edit the JSON, run
+`gen_data_lua.py` (which also has `--check` for CI), diff, ship. `Data.lua` is a
+generated build artifact.
+
+The Bellular **.xlsx is a frozen archive**, no longer in the workflow.
+`tool/extract_seed.py` still exists but only to *re-derive* the seed from the
+workbook for reference — it writes a **side file**
+(`data/bellular-keybinds.archive-import.json`, gitignored) and does **not** touch
+the canonical seed or `Data.lua`. Diff it by hand if Bellular ever ships a sheet
+worth comparing. Current seed: **52 buckets (48 placed + 4 stance), 40 specs,
+1538 ability mappings**, plus item-ID and buff reference tables.
 
 ## Milestones
 
@@ -100,23 +115,28 @@ item-ID and buff reference tables.
       (`ns.QueueAction`). Dev-side `tool/check_seed_spells.py` cross-checks every
       seed ability name against a wago `SpellName` dump (caught the
       `Efflorescence?` sheet typo → aliased).*
-- [ ] **M3 — spillover: surface every unmapped ability.** After a dump, enumerate
-      the character's full active spellbook (already done by `buildSpellbookMap` —
-      General + class + active-spec skill lines), subtract what the seed just placed
-      (**override-normalized** via `GetOverrideSpell`/`FindBaseSpellByID`, so a
-      placed base and its talented replacement count as one), drop passives /
-      `FutureSpell` / `Flyout` / `PetAction`, and place the remainder onto a reserved
-      free-slot region (a normally-unused MultiBar; the seed only owns ~40 of the 180
-      slots) with a `/bb spill`-style log of each `name (spellID)`. Keybinds optional
-      — the value is *visibility*. Triple payoff: (a) **live QA of the seed** — an
-      important ability landing in spillover is a seed miss (`data/unmapped-abilities.md`
-      made per-character); (b) surfaces useful-but-non-rotational utility the 52
-      buckets don't cover; (c) **subsumes hand-encoding build-specific abilities** —
-      spillover catches `Tempest`/`Reaver's Glaive`/etc. per-character, so the seed
-      stays build-agnostic (which is also why one universal seed works: base spells
-      auto-swap to their talented override, unlearned names are skip-and-reported).
-      Combat-guarded like the dump; cap the region and report overflow, never silently
-      truncate. Natural precursor to M4 (its bar is the tweak palette).
+- [x] **M3 — spillover: surface every unmapped ability.** After a dump, enumerate
+      the character's full active spellbook (General + class + active-spec skill
+      lines), subtract what's already on a bar (**override-normalized** via
+      `FindBaseSpellByID`, so a placed base and its talented replacement count as
+      one), drop passives / `FutureSpell` / `Flyout` / `PetAction`, and place the
+      remainder onto a reserved free-slot region with a log of each `name (spellID)`.
+      No keybinds — the value is *visibility*. Triple payoff: (a) **live QA of the
+      seed** — an important ability landing in spillover is a seed miss; (b) surfaces
+      useful-but-non-rotational utility the buckets don't cover; (c) **subsumes
+      hand-encoding build-specific abilities** — spillover catches
+      `Tempest`/`Reaver's Glaive`/etc. per-character, so the seed stays
+      build-agnostic. Combat-guarded; caps the region and reports overflow (listed,
+      never dropped). Natural precursor to M4 (its bar is the tweak palette).
+      *Shipped v0.3.0: `Dump.Spill` (`enumerateCastable` + `placedSpellSet` +
+      `normID` override-collapse) + `/bb spill [clear]`. Reserve region = Action
+      Bars 6–7, abs slots **145–168** (flagged `@verify-ingame` — the 133–180 range
+      shifted across expansions; placement is empty-slots-only so a wrong base can't
+      clobber real bars). Tracks the slots it filled in `BucketBindsDB.spillSlots`
+      so re-runs are idempotent and never wipe abilities the player parked there.
+      Also v0.3.0: JSON-authoritative pipeline, modifier-grouped 12-slot re-layout,
+      `/bb dump --nobind` (place without rebinding), and `/bb test` (Recuperate →
+      ALT-0 place+bind smoke test, `test clear` to revert).*
 - [ ] **M4 — in-addon tweak UI.** Pick spec → dump → drag abilities between
       slots → save as profile. This is the "then tweak" half of the promise; the
       M3 spillover bar is its natural palette — drag the keepers into place.
@@ -245,10 +265,11 @@ game).
 projects/keybinder/                    ── tracked by wwt-keyboard ──
   project-spec.md                     this doc
   data/
-    bellular-keybinds.seed.json       canonical seed (diffable)
+    bellular-keybinds.seed.json       CANONICAL seed (hand-edited, diffable)
     seed-notes.md                     provenance + notation legend
   tool/
-    extract_seed.py                   xlsx → seed.json + Data.lua (writes ↓)
+    gen_data_lua.py                   seed.json → Data.lua (the live step; writes ↓)
+    extract_seed.py                   ARCHIVAL: frozen .xlsx → side file only
 
   addon/            ── separate repo michac/BucketBinds; gitignored here ──
     CLAUDE.md                         addon-repo instructions + release flow

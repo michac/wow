@@ -12,6 +12,10 @@ raw/*
 /planner-state/
 # michac/BucketBinds (BucketBinds addon source):
 /projects/keybinder/addon/
+# archival xlsx re-import side file (diff-only; canonical seed is hand-maintained):
+/projects/keybinder/data/bellular-keybinds.archive-import.json
+# michac/CDMProbe (Cooldown Manager probe addon source):
+/projects/cooldown-hud/addon/
 
 # MCP tool scratch (Playwright browser session artifacts)
 .playwright-mcp/

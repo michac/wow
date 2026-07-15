@@ -156,130 +156,146 @@
     {
       "category": "Personal Defensive 1",
       "keybind": "Z",
-      "bar": "4",
-      "slot": "5"
+      "bar": "1",
+      "slot": "9"
     },
     {
       "category": "Personal Defensive 2",
       "keybind": "SZ",
-      "bar": "4",
-      "slot": "1"
+      "bar": "2",
+      "slot": "9"
     },
     {
       "category": "Movement Ability",
       "keybind": "X",
-      "bar": "4",
-      "slot": "6"
+      "bar": "1",
+      "slot": "10"
     },
     {
       "category": "Movement Ability 2",
       "keybind": "SX",
-      "bar": "4",
-      "slot": "2"
+      "bar": "2",
+      "slot": "10"
     },
     {
       "category": "CC",
       "keybind": "C",
-      "bar": "4",
-      "slot": "7"
+      "bar": "1",
+      "slot": "11"
     },
     {
       "category": "CC 2",
       "keybind": "SC",
-      "bar": "4",
-      "slot": "3"
+      "bar": "2",
+      "slot": "11"
     },
     {
       "category": "Interrupt",
       "keybind": "V",
-      "bar": "4",
-      "slot": "8"
+      "bar": "1",
+      "slot": "12"
     },
     {
       "category": "Slow",
       "keybind": "SV",
-      "bar": "4",
-      "slot": "4"
+      "bar": "2",
+      "slot": "12"
     },
     {
       "category": "Mount",
       "keybind": "AV",
-      "bar": "5",
-      "slot": "4"
+      "bar": "4",
+      "slot": "12"
     },
     {
       "category": "Buff",
       "keybind": "CZ",
-      "bar": "5",
-      "slot": "5"
+      "bar": "3",
+      "slot": "9"
     },
     {
       "category": "Res",
       "keybind": "CX",
-      "bar": "5",
-      "slot": "6"
+      "bar": "3",
+      "slot": "10"
     },
     {
       "category": "PvP",
       "keybind": "AZ",
-      "bar": "5",
-      "slot": "1"
+      "bar": "4",
+      "slot": "9"
     },
     {
       "category": "PvP 2",
       "keybind": "AX",
-      "bar": "5",
-      "slot": "2"
+      "bar": "4",
+      "slot": "10"
     },
     {
       "category": "PvP 3",
       "keybind": "AC",
-      "bar": "5",
-      "slot": "3"
+      "bar": "4",
+      "slot": "11"
     },
     {
       "category": "Immune/Spell Immune/Movement",
       "keybind": "CC",
-      "bar": "5",
-      "slot": "7"
+      "bar": "3",
+      "slot": "11"
     },
     {
       "category": "Taunt/Quick Access",
       "keybind": "CV",
-      "bar": "5",
-      "slot": "8"
+      "bar": "3",
+      "slot": "12"
     },
     {
       "category": "Healthstone/Potion Macro",
-      "keybind": "A1"
+      "keybind": "A1",
+      "bar": "4",
+      "slot": "1"
     },
     {
       "category": "Drinking/Mana Potion Macro",
-      "keybind": "A2"
+      "keybind": "A2",
+      "bar": "4",
+      "slot": "2"
     },
     {
       "category": "Damage Potion",
-      "keybind": "A3"
+      "keybind": "A3",
+      "bar": "4",
+      "slot": "3"
     },
     {
       "category": "Another Combat Item If Needed",
-      "keybind": "A4"
+      "keybind": "A4",
+      "bar": "4",
+      "slot": "4"
     },
     {
       "category": "Trinket Macro",
-      "keybind": "AQ"
+      "keybind": "AQ",
+      "bar": "4",
+      "slot": "5"
     },
     {
       "category": "Racial Ability",
-      "keybind": "AE"
+      "keybind": "AE",
+      "bar": "4",
+      "slot": "6"
     },
     {
       "category": "Free",
-      "keybind": "AR"
+      "keybind": "AR",
+      "bar": "4",
+      "slot": "7"
     },
     {
       "category": "Free",
-      "keybind": "AF"
+      "keybind": "AF",
+      "bar": "4",
+      "slot": "8"
     },
     {
       "category": "Stance 1",
