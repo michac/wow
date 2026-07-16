@@ -1,9 +1,15 @@
 # BucketBinds — a one-shot keybind/bar dumper for WoW
 
-**Status: M3 shipped (spillover, v0.3.0) on top of M2 (dumper) + M1
-(snapshot/restore). Seed is now JSON-authoritative (xlsx frozen to archive), bars
-re-laid-out to a modifier-grouped 12-slot scheme, and `/bb dump --nobind` +
-`/bb test` added. M4 (in-addon tweak UI) is next. 2026-07-14.**
+**Status: M3.1 shipped + verified in-game (`/bb diagnostics`, v0.4.0) on top of M3
+(spillover) + M2 (dumper) + M1 (snapshot/restore). Seed is JSON-authoritative
+(xlsx frozen to archive), bars re-laid-out to a modifier-grouped 12-slot scheme
+with the 2026-07-16 combat-key swap (`Q E R F` / number row), `/bb dump --nobind`
++ `/bb test` added, and `/bb diagnostics` gives an honest read-only resolution +
+placement report (read off disk by `wowkb.diagnostics`). The 2026-07-16 in-game
+pass confirmed the dump/placement path is solid and surfaced two follow-ups →
+**M3.2** (classifier over-reports `unresolved` because `GetSpellInfo` is
+knowledge-gated; + a seed-name triage list). M3.2 or M4 (in-addon tweak UI) next.
+2026-07-16.**
 
 A self-contained WoW addon that does two things the game won't:
 
@@ -53,11 +59,18 @@ the four modifier layers pack onto four bars and **bar 5 is freed**:
 
 | Bar (modifier) | Slots 1–8            | Slots 9–12         | Buckets                                     |
 |----------------|----------------------|--------------------|---------------------------------------------|
-| 1 unmod        | `1 2 3 4 Q E R F`    | `Z X C V`          | Combat 1–8 + Def1/Move/CC/Interrupt         |
-| 2 Shift        | `S1..S4 SQ SE SR SF` | `SZ SX SC SV`      | Combat 9–12, Class 1–4 + Def2/Move2/CC2/Slow|
-| 3 Ctrl         | `C1..C4 CQ CE CR CF` | `CZ CX CC CV`      | Self-heals, purge/dispel/raid-def/lust + buff/res/immune/taunt |
-| 4 Alt          | `A1..A4 AQ AE AR AF` | `AZ AX AC AV`      | item/trinket/racial macros (M5) + PvP 1–3, Mount |
+| 1 unmod        | `Q E R F 1 2 3 4`    | `Z X C V`          | Combat 1–8 + Def1/Move/CC/Interrupt         |
+| 2 Shift        | `SQ SE SR SF S1..S4` | `SZ SX SC SV`      | Combat 9–12, Class 1–4 + Def2/Move2/CC2/Slow|
+| 3 Ctrl         | `CQ CE CR CF C1..C4` | `CZ CX CC CV`      | Self-heals, purge/dispel/raid-def/lust + buff/res/immune/taunt |
+| 4 Alt          | `AQ AE AR AF A1..A4` | `AZ AX AC AV`      | item/trinket/racial macros (M5) + PvP 1–3, Mount |
 | 5              | —                    | —                  | **free** (available for a compact/overflow layout) |
+
+**Combat-key swap (2026-07-16):** within slots 1–8, the letter cluster `Q E R F`
+now drives **Combat 1–4** (the most-spammed abilities) and the number row `1 2 3 4`
+drives Combat 5–8 — swapped from the original `1 2 3 4 / Q E R F` because QERF are
+faster to hit under pressure. The `Z X C V` utility cluster (Def1/Move/CC/**Interrupt
+on V**) is deliberately untouched. Applied identically across all four modifier bars
+so a physical key maps to the same slot-position on every layer.
 
 Consequences: the singles (`Z X C V` + Shift/Ctrl variants) join their modifier's
 bar instead of being scattered, and the bar-1 form-mirror now covers all 12 unmod
@@ -137,6 +150,67 @@ worth comparing. Current seed: **52 buckets (48 placed + 4 stance), 40 specs,
       Also v0.3.0: JSON-authoritative pipeline, modifier-grouped 12-slot re-layout,
       `/bb dump --nobind` (place without rebinding), and `/bb test` (Recuperate →
       ALT-0 place+bind smoke test, `test clear` to revert).*
+- [x] **M3.1 — `/bb diagnostics` (honest resolution + placement report).** The
+      lead item of the "harden M1–M3" set. In-game the dump places most abilities
+      but leaves *significant gaps*, with no way to see *why*. `/bb diagnostics`
+      makes it concrete: for the **active spec** it classifies every seed bucket
+      (`unresolved` = seed name a wrong string → **seed bug**; `resolved-known` =
+      should place; `resolved-unknown` = untalented/not-learned, expected skip;
+      `placeholder` = M5 item/macro), reads the live bars back to flag which
+      `resolved-known` abilities didn't actually land (`empty`/`wrong-type`/
+      `wrong-spell`, normID-compared), and lists castable abilities **no bucket
+      covers** ("the gaps"). Crux: an id from `C_Spell.GetSpellInfo` does *not*
+      imply castable — spellbook membership (by name AND `normID`) is the primary
+      "known" signal (handles talented overrides), `IsPlayerSpell`/`IsSpellKnown`
+      corroborate. **READ-ONLY** (no `PlaceAction`/`SetBinding` → no combat guard).
+      Addons can only persist via SavedVariables, so it writes into account-level
+      `BucketBindsDB.diagnostics[<char>][<spec>]` — runs **accumulate** across
+      specs and characters (merge, never wipe); the user `/reload`s to flush and a
+      Python reader parses it off the WSL mount.
+      *Shipped v0.4.0: `Dump.Diagnostics(opts)` (reuses the file-local
+      `buildSpellbookMap`/`resolveSpellID`/`enumerateCastable`/`normID`/`BAR_MAP`/
+      `PLACEHOLDER`/`FORM_BONUS_BARS`/`normKey`/`ResolveSpec` upvalues — zero
+      refactor) + `/bb diagnostics [clear]` + `wowkb.diagnostics` reader
+      (`uv run python -m wowkb.diagnostics [--character N] [--spec N] [--json]`,
+      reuses `charstate.parse_savedvar` + `DEFAULT_WOW`). Batched the
+      combat-key-swap seed/Data.lua/spec release in the same v0.4.0 tag.*
+      **✅ Verified in-game 2026-07-16** (Encomplete Warlock: Affliction/Demonology;
+      Uncomplete DH: Devourer/Havoc/Vengeance — 5 reports across 2 characters in
+      one `BucketBinds.lua`). Confirmed: accumulate across specs+characters,
+      **merge-not-wipe** (re-running one spec refreshed only that slot, stalest-hint
+      correct), reader render + `--character`/`--spec`/`--json`, and the QERF
+      combat-key swap landed. **Placement path is solid** — Havoc 19/19 · Vengeance
+      21/21 · Devourer 18/18 with **0** placement issues *when the spec is actually
+      dumped first*. The original "significant gaps" complaint **did not reproduce**:
+      the big mismatch counts on the first pass were **un-dumped specs** (bars showing
+      their Blizzard-default layout), not a dump bug — a `/bb dump` immediately before
+      `/bb diagnostics` is required for the placement read-back to be meaningful.
+- [ ] **M3.2 — diagnostics classifier hardening + seed-name triage** (from the
+      2026-07-16 pass — the follow-ups that pass surfaced):
+      - **`unresolved` over-reports — the plan's premise was wrong.** `C_Spell.GetSpellInfo(name)`
+        is **knowledge-gated in 12.0.7**: it returns nil for names the character
+        hasn't learned/talented, so it is **not** the universal name→id lookup M3.1
+        assumed ("id == nil ⇒ seed typo"). Proof from the pass: *Vengeful Retreat*,
+        *Consume Magic*, *Curse of Exhaustion* each **resolve in one spec but read
+        `unresolved` in a sibling spec** on the same/like character. Effect:
+        untalented abilities are misfiled as `unresolved` ("seed bug") instead of
+        `resolved-unknown` ("expected skip"). **Fix:** add a client-wide name→id
+        fallback (e.g. a wago `SpellName` map shipped in Data.lua, or a broader API
+        call) so `unresolved` means *only* "no such spell name," and downgrade the
+        knowledge-gated cases to `resolved-unknown`.
+      - **Genuine seed-name fixes to triage** (real, not knowledge-gating):
+        `Soul Carver` (DH/Veng Combat 11), `Implosion/Power Siphon` (Warlock/Demo
+        Combat 5 — a two-option compound, never one spell), `Summon Doomguard`
+        (Demo Combat 7 — legacy name, gone/renamed in Midnight), `Spell Lock`
+        (Affl Interrupt — the **Felhunter pet** ability, not a player spell),
+        `Blight of Weakness` (both Warlock Class-4 slots — castable list shows
+        `Blight of Tongues` **1271802**, likely a Midnight rename — verify via wago
+        `SpellName`). Model the **DH PvP-talent** slots (`Rain from Above`,
+        `Illidan's Grasp`, `Reverse Magic`) like the M5 placeholders — they only
+        resolve with the PvP talent active. Fix real typos via `Dump.lua` `ALIASES`
+        + the seed JSON; refresh `check_seed_spells.py` findings.
+      - **Coverage gap surfaced:** `Lighthook Grapple` (**1287466**, Midnight DH) is
+        castable-and-unmapped — candidate for a seed bucket.
 - [ ] **M4 — in-addon tweak UI.** Pick spec → dump → drag abilities between
       slots → save as profile. This is the "then tweak" half of the promise; the
       M3 spillover bar is its natural palette — drag the keepers into place.

@@ -11,145 +11,145 @@
   "buckets": [
     {
       "category": "Combat 1",
-      "keybind": "1",
+      "keybind": "Q",
       "bar": "1",
       "slot": "1"
     },
     {
       "category": "Combat 2",
-      "keybind": "2",
+      "keybind": "E",
       "bar": "1",
       "slot": "2"
     },
     {
       "category": "Combat 3",
-      "keybind": "3",
+      "keybind": "R",
       "bar": "1",
       "slot": "3"
     },
     {
       "category": "Combat 4",
-      "keybind": "4",
+      "keybind": "F",
       "bar": "1",
       "slot": "4"
     },
     {
       "category": "Combat 5",
-      "keybind": "Q",
+      "keybind": "1",
       "bar": "1",
       "slot": "5"
     },
     {
       "category": "Combat 6",
-      "keybind": "E",
+      "keybind": "2",
       "bar": "1",
       "slot": "6"
     },
     {
       "category": "Combat 7",
-      "keybind": "R",
+      "keybind": "3",
       "bar": "1",
       "slot": "7"
     },
     {
       "category": "Combat 8",
-      "keybind": "F",
+      "keybind": "4",
       "bar": "1",
       "slot": "8"
     },
     {
       "category": "Combat 9",
-      "keybind": "S1",
+      "keybind": "SQ",
       "bar": "2",
       "slot": "1"
     },
     {
       "category": "Combat 10",
-      "keybind": "S2",
+      "keybind": "SE",
       "bar": "2",
       "slot": "2"
     },
     {
       "category": "Combat 11",
-      "keybind": "S3",
+      "keybind": "SR",
       "bar": "2",
       "slot": "3"
     },
     {
       "category": "Combat 12",
-      "keybind": "S4",
+      "keybind": "SF",
       "bar": "2",
       "slot": "4"
     },
     {
       "category": "Class 1 (Movement)",
-      "keybind": "SQ",
+      "keybind": "S1",
       "bar": "2",
       "slot": "5"
     },
     {
       "category": "Class 2 (CC)",
-      "keybind": "SE",
+      "keybind": "S2",
       "bar": "2",
       "slot": "6"
     },
     {
       "category": "Class 3 (Tag)",
-      "keybind": "SR",
+      "keybind": "S3",
       "bar": "2",
       "slot": "7"
     },
     {
       "category": "Class 4 (Special)",
-      "keybind": "SF",
+      "keybind": "S4",
       "bar": "2",
       "slot": "8"
     },
     {
       "category": "Self-Heal 1",
-      "keybind": "C1",
+      "keybind": "CQ",
       "bar": "3",
       "slot": "1"
     },
     {
       "category": "Self-Heal 2",
-      "keybind": "C2",
+      "keybind": "CE",
       "bar": "3",
       "slot": "2"
     },
     {
       "category": "Self-Heal 3 (Overflow)",
-      "keybind": "C3",
+      "keybind": "CR",
       "bar": "3",
       "slot": "3"
     },
     {
       "category": "Self-Heal 4 (Emergency/Overflow)",
-      "keybind": "C4",
+      "keybind": "CF",
       "bar": "3",
       "slot": "4"
     },
     {
       "category": "Class 5 (Purge)",
-      "keybind": "CQ",
+      "keybind": "C1",
       "bar": "3",
       "slot": "5"
     },
     {
       "category": "Class 6 (Dispel)",
-      "keybind": "CE",
+      "keybind": "C2",
       "bar": "3",
       "slot": "6"
     },
     {
       "category": "Class 7 (Raid Defensive)",
-      "keybind": "CR",
+      "keybind": "C3",
       "bar": "3",
       "slot": "7"
     },
     {
       "category": "Class 8 (Lust/BRes)",
-      "keybind": "CF",
+      "keybind": "C4",
       "bar": "3",
       "slot": "8"
     },
@@ -251,49 +251,49 @@
     },
     {
       "category": "Healthstone/Potion Macro",
-      "keybind": "A1",
+      "keybind": "AQ",
       "bar": "4",
       "slot": "1"
     },
     {
       "category": "Drinking/Mana Potion Macro",
-      "keybind": "A2",
+      "keybind": "AE",
       "bar": "4",
       "slot": "2"
     },
     {
       "category": "Damage Potion",
-      "keybind": "A3",
+      "keybind": "AR",
       "bar": "4",
       "slot": "3"
     },
     {
       "category": "Another Combat Item If Needed",
-      "keybind": "A4",
+      "keybind": "AF",
       "bar": "4",
       "slot": "4"
     },
     {
       "category": "Trinket Macro",
-      "keybind": "AQ",
+      "keybind": "A1",
       "bar": "4",
       "slot": "5"
     },
     {
       "category": "Racial Ability",
-      "keybind": "AE",
+      "keybind": "A2",
       "bar": "4",
       "slot": "6"
     },
     {
       "category": "Free",
-      "keybind": "AR",
+      "keybind": "A3",
       "bar": "4",
       "slot": "7"
     },
     {
       "category": "Free",
-      "keybind": "AF",
+      "keybind": "A4",
       "bar": "4",
       "slot": "8"
     },
