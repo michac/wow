@@ -71,6 +71,18 @@ Buckets keep their `(bar, slot)` — only the firing key changed — so the six
 keyboard keys above free up. The dump now clears any stale key on a managed slot
 before binding the seed key, so a relocated key genuinely vacates.
 
+### Contextual bar → `ALT+1..8` (2026-07-16)
+
+`ALT+1..8` now binds the character's **pet bar** (`BONUSACTIONBUTTON1-8`) or
+**stance/form bar** (`SHAPESHIFTBUTTON1-N`) — chosen at *dump* time by the addon
+(`GetNumShapeshiftForms() > 0` → stance; else a pet class → pet; else cleared).
+This is **dumper logic, not a seed bucket** — the pet/stance bars are their own
+binding namespaces the game auto-populates, so the seed carries no entries for
+them. Consequence in the seed: the four `A1..A4` buckets (`Trinket Macro`,
+`Racial Ability`, `Free`, `Free`) are now **keyless** (`"keybind": ""`) — they
+keep bar-4 slots 5–8 for the future M5 macro pass, but `ALT+1..4` belongs to the
+contextual bar. Trinket + Racial will need a new key when M5 generates them.
+
 ## Caveats
 
 - Ability **names only** — no spell IDs. Name→ID resolution happens in-addon at

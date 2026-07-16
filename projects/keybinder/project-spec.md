@@ -17,8 +17,11 @@ The layout). Autorun dropped from middle-mouse. **And v0.5.0: M6 OPie start** �
 `/bb ring` builds an OPie overflow ring from the `/bb spill` set via
 `SetExternalRing`, gated on `## OptionalDeps: OPie`; new `exclude_spells` seed
 table filters noise out of both spill and the ring; two seed misses fixed
-(`Implosion`, `Blight of Tongues`). All bundled into **v0.5.0 — needs an in-game
-verify + release.**
+(`Implosion`, `Blight of Tongues`). All bundled into **v0.5.0 — committed +
+released.** **Then v0.6.0 (WIP, uncommitted): contextual bar** — `ALT+1..8` now
+binds the pet bar (`BONUSACTIONBUTTON`) or stance bar (`SHAPESHIFTBUTTON`) per
+class (runtime-detected at dump); reclaims the keyless Trinket/Racial/Free
+`A1..A4` slots. **Needs in-game verify + a v0.6.0 release.**
 
 A self-contained WoW addon that does two things the game won't:
 
@@ -71,8 +74,12 @@ the four modifier layers pack onto four bars and **bar 5 is freed**:
 | 1 unmod        | `Q E R F 1 2 3 4`    | `Z X C V`          | Combat 1–8 + Def1/Move/CC/Interrupt         |
 | 2 Shift        | `SQ SE SR SF S1..S4` | `SZ SX SC SV`      | Combat 9–12, Class 1–4 + Def2/Move2/CC2/Slow|
 | 3 Ctrl         | `CQ CE CR CF C1..C4` | `CZ CX CC CV`      | Self-heals, purge/dispel/raid-def/lust + buff/res/immune/taunt |
-| 4 Alt          | `AQ AE AR AF A1..A4` | `AZ AX AC AV`      | item/trinket/racial macros (M5) + PvP 1–3, Mount |
+| 4 Alt          | `AQ AE AR AF` + `1–8`† | `AZ AX AC AV`      | item macros (M5) + **ALT+1–8 = pet/stance bar**† + PvP 1–3, Mount |
 | 5              | —                    | —                  | **free** (available for a compact/overflow layout) |
+
+† `ALT+1–8` no longer fires bar-4 slots 5–8 — it's bound to the **contextual bar**
+(pet or stance, per class, at dump time; see "Contextual bar" below). The old
+`A1..A4` Trinket/Racial/Free buckets are now keyless placeholders.
 
 **Combat-key swap (2026-07-16):** within slots 1–8, the letter cluster `Q E R F`
 now drives **Combat 1–4** (the most-spammed abilities) and the number row `1 2 3 4`
@@ -102,6 +109,17 @@ middle-mouse) was dropped — it stays on the NumLock default. The dump now clea
 any stale key on a managed slot before binding, so relocated keys truly vacate.
 `normKey` also learned `MU`/`MD` (Shift+mousewheel) tokens for future use —
 unmodified wheel stays reserved for camera zoom.
+
+**Contextual bar → `ALT+1..8` (2026-07-16):** the `ALT`+number row now binds the
+character's **pet bar** (`BONUSACTIONBUTTON1-8`) or **stance/form bar**
+(`SHAPESHIFTBUTTON1-N`) — whichever that class uses, **detected at dump time**
+(`GetNumShapeshiftForms() > 0` → stance; else a `PET_CLASS` → pet; else the row is
+cleared/free). This is *dumper* logic, not a seed bucket: these are separate
+binding namespaces the game auto-populates, so BucketBinds only binds them, never
+places. It reclaims `ALT+1..4`, which were the (M5, not-yet-built) **Trinket /
+Racial / Free** macro slots — those buckets are now **keyless** (`keybind: ""`,
+bar-4 slots 5–8 retained for when M5 lands; Trinket + Racial will need a new key
+then). `@verify-ingame`: command names + per-class button counts in 12.0.7.
 
 Out-of-combat sprawl (mounts/toys/teleports/buffs/specs) is **not** bound to
 keys — it goes on OPie rings. The addon marks those buckets "on a ring" and
@@ -231,15 +249,20 @@ emits as `ns.SEED.excludeSpells` for `/bb spill` + `/bb ring` to suppress.
         - ✅ **FIXED 2026-07-16** (seed JSON, confirmed vs live castable IDs):
           `Implosion/Power Siphon` → **`Implosion`** (Demo Combat 5 — the compound
           collapsed to the core spell); `Blight of Weakness` → **`Blight of Tongues`**
-          (**1271802**, all three Warlock Class-4 slots — Midnight rename).
+          (**1271802**, all three Warlock Class-4 slots — Midnight rename);
+          warlock `Interrupt` `Spell Lock` → **`Command Demon`** (Affl + Destro; Demo
+          already had it) — casts the active demon's interrupt (Spell Lock/Axe Toss),
+          so the interrupt slot finally resolves for all 3 warlock specs.
         - Still open: `Soul Carver` (DH/Veng Combat 11), `Summon Doomguard` (Demo
           Combat 7 — legacy name, gone/renamed; needs wago `SpellName` research).
           NOTE several first-suspected "misses" (`Soul Carver`, `Essence Break`,
           `Vengeful Retreat`, `Consume Magic`, `Curse of Exhaustion`) are actually
           the **knowledge-gating over-report above**, not seed bugs — they resolve
-          once talented. `Spell Lock` (Affl Interrupt) is the **Felhunter pet**
-          ability with **no player spell** — unfixable by alias; needs real pet-bar
-          support (BucketBinds binds neither the pet bar nor stance-swap keys today).
+          once talented. `Spell Lock` (Affl Interrupt) was the **Felhunter pet**
+          ability with **no player spell** — now resolved by switching the warlock
+          `Interrupt` seed value to **`Command Demon`** (a player spell that fires
+          the demon's interrupt); also generally reachable since the contextual-bar
+          work binds the whole pet bar to `ALT+1..8`.
           Model the **DH PvP-talent** slots (`Rain from Above`, `Illidan's Grasp`,
           `Reverse Magic`) like the M5 placeholders. Fix real typos via `Dump.lua`
           `ALIASES` + the seed JSON; refresh `check_seed_spells.py` findings.
@@ -276,6 +299,27 @@ emits as `ns.SEED.excludeSpells` for `/bb spill` + `/bb ring` to suppress.
       M3 spillover bar is its natural palette — drag the keepers into place.
 - [ ] **M5 — items/macros.** Auto-generate potion/trinket/racial/@cursor macros
       from the Items table; respect the macro caps.
+      - **Hand-picked utility-macro roster (2026-07-16 request):**
+        - **Set focus** — `/focus` (static, universal). Home: key **`5`**. ⚠ `5`
+          is currently the `ExtraActionButton` bind (`bonus_binds`) — rehome that.
+          Keys **`5`–`9`** become a new **utility / prep band** (casual + pre-pull).
+        - **Focus interrupt → REPLACES the `Interrupt` bucket.** Every spec's `V`
+          becomes a smart interrupt instead of the raw spell. Per-spec macro
+          generated from the seed's `Interrupt` value:
+          `#showtooltip <Interrupt>` / `/cast [@focus,harm,nodead][] <Interrupt>`
+          — fires on focus if it's a live enemy, else current target.
+        - **Warlock variant** (same slot): the seed's warlock `Interrupt` is now
+          **`Command Demon`** (all 3 specs; was the unresolvable `Spell Lock`) — so
+          the generated macro is `/cast [@focus,harm,nodead][] Command Demon`, which
+          casts the active demon's interrupt (Spell Lock on Felhunter, Axe Toss on
+          Felguard). ⚠ `@focus` redirect on Command Demon is `@verify-ingame`; and
+          it only interrupts when an interrupt-capable demon is out (Imp/Succubus/
+          Voidwalker → their utility instead).
+        - *(Dropped: the generic `/click PetActionButton<N>` pet-ability macros —
+          an overshoot; Command Demon covers the warlock case natively.)*
+      - Building these needs the M5 macro engine (`CreateMacro`/`EditMacro` +
+        place + cap budget). The **raw-spell** step is already done: warlock's
+        interrupt slot now resolves to Command Demon today (pre-macro).
 
 ## M1 plan — snapshot / restore (target release v0.1.0)
 

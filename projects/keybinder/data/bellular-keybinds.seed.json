@@ -277,25 +277,25 @@
     },
     {
       "category": "Trinket Macro",
-      "keybind": "A1",
+      "keybind": "",
       "bar": "4",
       "slot": "5"
     },
     {
       "category": "Racial Ability",
-      "keybind": "A2",
+      "keybind": "",
       "bar": "4",
       "slot": "6"
     },
     {
       "category": "Free",
-      "keybind": "A3",
+      "keybind": "",
       "bar": "4",
       "slot": "7"
     },
     {
       "category": "Free",
-      "keybind": "A4",
+      "keybind": "",
       "bar": "4",
       "slot": "8"
     },
@@ -2022,7 +2022,7 @@
         "Movement Ability 2": "Demonic Gateway",
         "CC": "Shadowfury",
         "CC 2": "Fear",
-        "Interrupt": "Spell Lock",
+        "Interrupt": "Command Demon",
         "Slow": "Curse of Exhaustion",
         "Immune/Spell Immune/Movement": "Demonic Circle",
         "Taunt/Quick Access": "Demonic Circle: Teleport",
@@ -2107,7 +2107,7 @@
         "Movement Ability 2": "Demonic Gateway",
         "CC": "Shadowfury",
         "CC 2": "Fear",
-        "Interrupt": "Spell Lock",
+        "Interrupt": "Command Demon",
         "Slow": "Curse of Exhaustion",
         "Immune/Spell Immune/Movement": "Demonic Circle",
         "Taunt/Quick Access": "Demonic Circle: Teleport",
