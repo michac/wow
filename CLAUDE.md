@@ -101,7 +101,7 @@ own build stacks and don't follow the `knowledge/**.md` front-matter convention.
 Each has a design doc with a progress/milestone log — **read the doc before
 touching the code**. Status as of 2026-07-09:
 
-- `trainer/` — **rotation trainer** (Flutter/Dart). A target-dummy rotation-
+- `projects/trainer/` — **rotation trainer** (Flutter/Dart). A target-dummy rotation-
   practice game; one spec so far (simplified Affliction Warlock). Two packages:
   `sim/` (headless pure-Dart engine — GCD, DoTs/pandemic, shards, RNG,
   `advisePriority()`, `SessionStats` + a fixed-length pull lifecycle; 71 tests)
@@ -109,7 +109,7 @@ touching the code**. Status as of 2026-07-09:
   summary). Spec + milestone log: `todo/rotation-trainer.md`. **M1–M4 done;
   M5 (Affliction fidelity: real icons, tuned numbers/weights, Nightfall
   proc-glow, Drain Soul + Darkglare) is next.**
-- `app/` — **talent calculator** (`wow-talent-calculator`; Svelte + Vite, `bun`).
+- `projects/talent-calculator/` — **talent calculator** (`wow-talent-calculator`; Svelte + Vite, `bun`).
   Data-driven from a `build-data` script. Spec: `todo/talent-calculator-prototype.md`.
 - `projects/mplus_memory/` — **M+ Memory Trainer**: a spaced-repetition trainer
   for Midnight S1 Mythic+ dungeon mechanics. Has its own `project-spec.md` +

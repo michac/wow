@@ -4,7 +4,7 @@ Status: **in progress** · Owner: Michael · Created: 2026-06-18
 
 ## Progress log
 
-- **2026-06-18 — Milestone 4 done (loadout codec).** Pure `app/src/lib/codec.ts`
+- **2026-06-18 — Milestone 4 done (loadout codec).** Pure `projects/talent-calculator/src/lib/codec.ts`
   encodes/decodes Blizzard v2 loadout strings; **acceptance gate passes**:
   `encode(decode(ORACLE)) === ORACLE` byte-for-byte against the real Wowhead
   Affliction/Soul-Harvester string. Format nailed down: a *bitstream* at 6 bits
@@ -38,9 +38,9 @@ Status: **in progress** · Owner: Michael · Created: 2026-06-18
   (milestone 5) — wire `decodeLoadout`/`encodeLoadout` to a paste/copy box + hash.
   Still deferred: Stage A enrichment, Stage A′ real budgets (hardcode remains).
 - **2026-06-18 — Milestone 3 done (interaction + validation).** Split into a pure
-  validator (`app/src/lib/validate.ts` — gates, OR-prereqs with the fully-ranked
+  validator (`projects/talent-calculator/src/lib/validate.ts` — gates, OR-prereqs with the fully-ranked
   rule, choice exclusivity, per-tree budget, and a fixpoint cascade prune) and a
-  reactive `BuildController` (`app/src/lib/build.svelte.ts`, `SvelteMap` state,
+  reactive `BuildController` (`projects/talent-calculator/src/lib/build.svelte.ts`, `SvelteMap` state,
   shared via context). Trees are now a working editor: left-click spends /
   shift-click maxes / right-click removes, choice nodes pick one half, visual
   states (selected/maxed/available/locked) with reason tooltips, header HUD +
@@ -56,10 +56,10 @@ Status: **in progress** · Owner: Michael · Created: 2026-06-18
   point budget remains the provisional hardcode (`{class:31, spec:30, hero:11}`),
   which is TWW-era and undercounts Midnight's level-90 totals.
 - **2026-06-18 — Milestones 1 + 2 done (data spike + static render).** Scaffolded
-  `app/` (Bun 1.3.14 + Vite 6 + Svelte 5 + TS); `bun install`, `bun run check`
-  (0 errors), `bun run build` all clean. Stage B (`app/scripts/build-data.ts`)
+  `projects/talent-calculator/` (Bun 1.3.14 + Vite 6 + Svelte 5 + TS); `bun install`, `bun run check`
+  (0 errors), `bun run build` all clean. Stage B (`projects/talent-calculator/scripts/build-data.ts`)
   compacts all **40 specs / 13 classes / 4562 nodes** from
-  `knowledge/classes/**/talents.json` → `app/static/data/{index.json,<class>/<spec>.json}`
+  `knowledge/classes/**/talents.json` → `projects/talent-calculator/static/data/{index.json,<class>/<spec>.json}`
   (per-spec ~20 KB raw / ~5–6 KB gz). App renders any spec's three trees (class /
   spec / hero) as DOM nodes + one SVG edge layer, with a class/spec picker and
   hero-tree toggle; node shape varies by type (square ACTIVE / circle PASSIVE /
@@ -121,8 +121,8 @@ knowledge/...talents.json  +  entries[].icon slug   (or icons sidecar)
         │
         │  Stage B — web compaction (node prebuild in the app, no network)
         ▼
-app/static/data/index.json            (specs list + meta + budgets)
-app/static/data/<class>/<spec>.json   (compact per-spec graph)
+projects/talent-calculator/static/data/index.json            (specs list + meta + budgets)
+projects/talent-calculator/static/data/<class>/<spec>.json   (compact per-spec graph)
         │
         │  fetch on spec-select
         ▼
@@ -244,7 +244,7 @@ Validation must match the game so exports are legal:
 
 ## Loadout import/export strings (the killer feature) — ✅ done (M4)
 
-Implemented in `app/src/lib/codec.ts` (`decodeLoadout` / `encodeLoadout` /
+Implemented in `projects/talent-calculator/src/lib/codec.ts` (`decodeLoadout` / `encodeLoadout` /
 `peekHeader` + error types). **As-built, confirmed byte-for-byte against a real
 Wowhead string** (the ORACLE in `codec.test.ts`). The earlier sketch here had
 two errors — it omitted the `isPurchased` bit and guessed N=207; both corrected
@@ -292,7 +292,7 @@ real partially-ranked string.
 ## Repo layout (proposed)
 
 ```
-app/                         # the Svelte app (new), run on Bun
+projects/talent-calculator/                         # the Svelte app (new), run on Bun
   src/
     lib/codec.ts             # loadout string encode/decode
     lib/validate.ts          # gates/prereqs/choice/budget (level-aware)
@@ -304,7 +304,7 @@ app/                         # the Svelte app (new), run on Bun
   package.json               # bun install / bun run dev|build|build-data
 tools/wowkb/talents.py       # extend: Stage A (icon+desc) + Stage A′ (budgets)
 ```
-Open: commit `app/static/data/` (simple, diffable per patch) vs generate on CI.
+Open: commit `projects/talent-calculator/static/data/` (simple, diffable per patch) vs generate on CI.
 Lean **commit it** — it's small, patch-versioned, and matches the repo's
 "everything is greppable + provenanced" ethos.
 

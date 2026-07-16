@@ -18,7 +18,7 @@ and this repo already carries Affliction KB + spell data to draw on.
 
 - **2026-06-19 — Milestone 1 complete (headless sim engine).** Installed the
   Flutter toolchain on WSL2 (git-clone + PATH; bundled Dart 3.12.2). Built
-  `trainer/sim/`, a pure-Dart package with **no `package:flutter` import**:
+  `projects/trainer/sim/`, a pure-Dart package with **no `package:flutter` import**:
   `tick()`/`advanceBy()`/`cast()`/`canCast()`/`advise()` engine for the
   simplified Affliction model. Fixed-timestep accumulator (`kFixedDt = 1/60`),
   7-step tick order, determinism via an injected `SimRng`
@@ -34,7 +34,7 @@ and this repo already carries Affliction KB + spell data to draw on.
     is all on-GCD, so a hard cast in the post-GCD window *clips* rather than
     rejecting — keeping `cast`/`canCast` consistent).
 - **2026-06-19 — Milestone 2 complete (minimum playable Flutter shell).** Built
-  `trainer/app/` (`rotation_trainer_app`), a Flutter app that `path:`-depends on
+  `projects/trainer/app/` (`rotation_trainer_app`), a Flutter app that `path:`-depends on
   the M1 `rotation_sim` engine and renders it — **no sim logic in widgets**. A
   `GameController` (`ChangeNotifier`) owns the `Engine` + a vsync `Ticker`,
   converts the Ticker's cumulative elapsed into a per-frame delta, and drives
@@ -57,7 +57,7 @@ and this repo already carries Affliction KB + spell data to draw on.
     `~/flutter` repo. Visually equivalent for M2's primitives, but reserve final
     judgment on smoothness/feel (and haptics/touch ergonomics) for a device build.
 - **2026-06-19 — Milestone 3 complete (JSON template loader).** The roster is
-  now **data, not code**. Added `trainer/sim/lib/src/template_loader.dart`, a
+  now **data, not code**. Added `projects/trainer/sim/lib/src/template_loader.dart`, a
   **pure-Dart** `loadTemplate(String) → SimConfig` (imports only `dart:convert` +
   the engine's data layer — no `package:flutter`/`dart:io`, so it tests under
   `dart test`). It is the **single seam** `ids.dart` anticipated: the wire-format
@@ -70,13 +70,13 @@ and this repo already carries Affliction KB + spell data to draw on.
   ranges (`min<=max`, `startAt∈[min,max]`, probabilities∈[0,1], non-negative
   durations, `maxStacks>=1`, no dup ids, priority⊆abilities). `num`-tolerant
   doubles (JSON `2` and `2.0`). Canonical template bundled at
-  `trainer/app/assets/templates/affliction_simple.json`; `main()` is now async —
+  `projects/trainer/app/assets/templates/affliction_simple.json`; `main()` is now async —
   `rootBundle.loadString` → `loadTemplate` → `RotationTrainerApp(config:)`, wrapped
   **debug-loud / release-fallback** (rethrow in `kDebugMode`, else fall back to
   `afflictionSimplified()`). The JSON reproduces `afflictionSimplified()`
   **field-for-field** (verified by a no-value-equality field-by-field helper) and
   editing it changes the rotation with no code change. **Loader: 21 tests green
-  (`dart test`, total 58 in `trainer/sim`); app: 8 tests green (`flutter test`,
+  (`dart test`, total 58 in `projects/trainer/sim`); app: 8 tests green (`flutter test`,
   the 6 M2 widget tests untouched + asset-fidelity + boot smoke); both analyze
   clean.**
   - Decisions locked during M3: string→enum tables live in the loader (the
@@ -324,9 +324,9 @@ mechanics layer in once the engine holds.
 `onTick` is a **tagged union**: exactly one of `generates: { <resource>: N }`
 (per-tick resource gen) or `grantsAura: "<aura>"` (per-tick proc), gated by
 `chance` in `[0,1]`. `tickDamage` is the per-tick damage of a DoT (M3 addition to
-the draft). The M3 loader (`trainer/sim/lib/src/template_loader.dart`) parses this
+the draft). The M3 loader (`projects/trainer/sim/lib/src/template_loader.dart`) parses this
 shape into `SimConfig` byte-for-byte against `afflictionSimplified()`; the canonical
-file is bundled at `trainer/app/assets/templates/affliction_simple.json`.
+file is bundled at `projects/trainer/app/assets/templates/affliction_simple.json`.
 Numbers are placeholders. Icon slugs reuse this repo's Stage-A enrichment
 (`app/static/data/.../<spec>.json` carries icon slugs/URLs) so the trainer and
 the talent calculator share one icon source. Bundle templates as Flutter assets
@@ -343,7 +343,7 @@ for the prototype.
 ## Repo layout (proposed)
 
 ```
-trainer/                         # new Flutter app
+projects/trainer/                         # new Flutter app
   lib/
     sim/                         # pure Dart — NO flutter imports
       game_state.dart
@@ -359,8 +359,9 @@ trainer/                         # new Flutter app
   test/sim/                      # engine unit tests (the priority + DoT math)
   pubspec.yaml
 ```
-Lives in its own top-level `trainer/` (parallel to `app/` and `tools/`), since
-it's a separate Flutter toolchain. Shares *data* (icons/spell ids) with `app/`,
+Lives in its own folder under `projects/trainer/` (alongside the other companion
+apps), since it's a separate Flutter toolchain. Shares *data* (icons/spell ids)
+with the talent calculator,
 not code.
 
 ## Milestones (vertical slices)

@@ -22,7 +22,7 @@ live via the API clients.
 | `knowledge/_meta/sources.md` | Source trust registry |
 | `tools/` | Python (uv) ingestion utilities (`wowkb` package) |
 | `raw/` | Gitignored fetch cache (transcripts, JSON, CSV) |
-| `app/`, `trainer/`, `projects/` | Companion apps built on the KB (see below) |
+| `projects/` | Companion apps built on the KB (see below) |
 
 ## Apps
 
@@ -31,8 +31,8 @@ build setup.
 
 | Path | App | Stack |
 |------|-----|-------|
-| `app/` | Talent calculator | Svelte + TypeScript (bun + Vite) |
-| `trainer/` | Rotation trainer — `app/` (Flutter UI) + `sim/` (pure-Dart sim engine) | Dart / Flutter |
+| `projects/talent-calculator/` | Talent calculator | Svelte + TypeScript (bun + Vite) |
+| `projects/trainer/` | Rotation trainer — `app/` (Flutter UI) + `sim/` (pure-Dart sim engine) | Dart / Flutter |
 | `projects/mplus_memory/app/` | Mythic+ memory trainer — generates content from `knowledge/endgame/mythic-plus/<dungeon>.md`, deploys to GitHub Pages | Svelte (bun + Vite) |
 
 ## Tools
