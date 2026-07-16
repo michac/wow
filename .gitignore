@@ -35,3 +35,10 @@ build/
 *.dart_tool/
 .packages
 trainer/sim/pubspec.lock
+
+# Stale pre-consolidation leftovers at the repo root (regenerable build output +
+# a duplicate Flutter checkout). Canonical copies live under projects/ — the
+# trainer app moved to projects/trainer/ in 2b412f4. Ignored, not deleted, so a
+# clean git status doesn't drag 138MB of dist/node_modules/build into history.
+/app/
+/trainer/
