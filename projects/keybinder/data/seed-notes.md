@@ -16,9 +16,16 @@ is generated from it.
   40 = 13 classes × 3 specs, +1 (Druid has 4; Demon Hunter's third spec is the
   Midnight-new **Devourer**).
 - `bonus_binds` — out-of-combat rings/buttons (OPie master ring on `T`, markers,
-  ExtraActionButton, Interact `` ` ``, Autorun on middle-mouse).
+  ExtraActionButton, Interact `` ` ``). (Autorun on middle-mouse was removed
+  2026-07-16 — the three mouse buttons are now combat binds; see below.)
 - `items` — potions/flasks/oils with Q1/Q2 item IDs (for macro generation).
 - `buffs` — raid/self buffs by spec.
+- `exclude_spells` — noise list (`{id?, name?, why}`) that both `/bb spill` and
+  `/bb ring` suppress: auto-attack, wand Shoot, Glide, Revive Battle Pets (the
+  Pet Battles minigame — NOT hunter pet control), Mobile Banking, Lighthook
+  Grapple. `gen_data_lua` emits it as `ns.SEED.excludeSpells` keyed by id/name.
+  The tuning knob for the overflow ring — add IDs to hide more; warlock-niche
+  utility + hunter pet abilities are deliberately left visible.
 
 ## Keybind notation
 
@@ -32,10 +39,37 @@ Bellular's shorthand, carried verbatim in `keybind`:
 | `C…`          | Ctrl+         | `C1`,`CV`| `CTRL-V`    |
 | `A…`          | Alt+          | `A1`,`AQ`| `ALT-1`     |
 | `F1`–`F4`     | stance/form bars | `F1`  | form bar 1  |
-| words         | literal       | `Middle Mouse` | `BUTTON3` |
+| `M3`/`M4`/`M5`| mouse buttons | `M4`     | `BUTTON4`   |
+| `MU`/`MD`     | mouse wheel up/down | `SMU` | `SHIFT-MOUSEWHEELUP` |
+
+Modifier prefixes (`S`/`C`/`A`) compose with mouse tokens: `SM4`→`SHIFT-BUTTON4`,
+`CM5`→`CTRL-BUTTON5`. `M3` = middle/scroll-click (`BUTTON3`), `M4`/`M5` = the two
+side/thumb buttons (`BUTTON4`/`BUTTON5`). Mouse **wheel** is only ever used
+*modified* (`MU`/`MD` never appear bare) because unmodified `MOUSEWHEELUP/DOWN`
+are reserved for camera zoom.
 
 The dumper (M2) is responsible for translating this shorthand into the real
-binding command strings WoW expects.
+binding command strings WoW expects (`normKey` in `Dump.lua`).
+
+### Mouse-button binds (2026-07-16 relocate)
+
+The movement + personal-defensive family moved off the awkward `Z`/`X` keyboard
+cluster onto the mouse — strictly easier to hit while strafing. Ease order
+followed: unmodified > Shift (no Ctrl/Alt needed). Autorun (formerly middle-mouse)
+was dropped; it stays on the NumLock default if wanted.
+
+| Combo | Bucket | Was (freed) |
+|-------|--------|-------------|
+| `M4`  | Movement Ability | `X` |
+| `M5`  | Personal Defensive 1 | `Z` |
+| `M3`  | Class 1 (Movement) | `S1` |
+| `SM4` | Movement Ability 2 | `SX` |
+| `SM5` | Personal Defensive 2 | `SZ` |
+| `SM3` | Immune/Spell Immune/Movement | `CC` |
+
+Buckets keep their `(bar, slot)` — only the firing key changed — so the six
+keyboard keys above free up. The dump now clears any stale key on a managed slot
+before binding the seed key, so a relocated key genuinely vacates.
 
 ## Caveats
 

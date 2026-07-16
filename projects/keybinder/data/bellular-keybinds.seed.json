@@ -6,7 +6,9 @@
     "S<key>": "Shift+key",
     "C<key>": "Ctrl+key",
     "A<key>": "Alt+key",
-    "F1-F4": "stance/form bars"
+    "F1-F4": "stance/form bars",
+    "M3/M4/M5": "mouse buttons — M3=middle/BUTTON3, M4/M5=side/thumb buttons (BUTTON4/BUTTON5)",
+    "S/C/A + M#": "modifier prefix works on mouse too — SM4=Shift+Button4, CM5=Ctrl+Button5"
   },
   "buckets": [
     {
@@ -83,7 +85,7 @@
     },
     {
       "category": "Class 1 (Movement)",
-      "keybind": "S1",
+      "keybind": "M3",
       "bar": "2",
       "slot": "5"
     },
@@ -155,25 +157,25 @@
     },
     {
       "category": "Personal Defensive 1",
-      "keybind": "Z",
+      "keybind": "M5",
       "bar": "1",
       "slot": "9"
     },
     {
       "category": "Personal Defensive 2",
-      "keybind": "SZ",
+      "keybind": "SM5",
       "bar": "2",
       "slot": "9"
     },
     {
       "category": "Movement Ability",
-      "keybind": "X",
+      "keybind": "M4",
       "bar": "1",
       "slot": "10"
     },
     {
       "category": "Movement Ability 2",
-      "keybind": "SX",
+      "keybind": "SM4",
       "bar": "2",
       "slot": "10"
     },
@@ -239,7 +241,7 @@
     },
     {
       "category": "Immune/Spell Immune/Movement",
-      "keybind": "CC",
+      "keybind": "SM3",
       "bar": "3",
       "slot": "11"
     },
@@ -338,10 +340,6 @@
     {
       "category": "OPie Quest Item Ring",
       "keybind": "Shift+`"
-    },
-    {
-      "category": "Autorun",
-      "keybind": "Middle Mouse"
     }
   ],
   "specs": [
@@ -2011,7 +2009,7 @@
         "Combat 10": "Malevolence",
         "Class 2 (CC)": "Curse of Tongues",
         "Class 3 (Tag)": "Curse of Weakness",
-        "Class 4 (Special)": "Blight of Weakness",
+        "Class 4 (Special)": "Blight of Tongues",
         "Self-Heal 1": "Drain Life",
         "Self-Heal 2": "Mortal Coil",
         "Self-Heal 3 (Overflow)": "Fel Domination",
@@ -2046,13 +2044,13 @@
         "Combat 2": "Call Dreadstalkers",
         "Combat 3": "Hand of Gul'dan",
         "Combat 4": "Demonbolt",
-        "Combat 5": "Implosion/Power Siphon",
+        "Combat 5": "Implosion",
         "Combat 6": "Summon Demonic Tyrant",
         "Combat 7": "Summon Doomguard",
         "Combat 8": "Grimoire: Fel Ravager",
         "Class 2 (CC)": "Curse of Tongues",
         "Class 3 (Tag)": "Curse of Weakness",
-        "Class 4 (Special)": "Blight of Weakness",
+        "Class 4 (Special)": "Blight of Tongues",
         "Self-Heal 1": "Drain Life",
         "Self-Heal 2": "Mortal Coil",
         "Self-Heal 3 (Overflow)": "Fel Domination",
@@ -2098,7 +2096,7 @@
         "Combat 12": "Havoc",
         "Class 2 (CC)": "Curse of Tongues",
         "Class 3 (Tag)": "Curse of Weakness",
-        "Class 4 (Special)": "Blight of Weakness",
+        "Class 4 (Special)": "Blight of Tongues",
         "Self-Heal 1": "Drain Life",
         "Self-Heal 2": "Mortal Coil",
         "Self-Heal 3 (Overflow)": "Fel Domination",
@@ -2307,5 +2305,13 @@
       "Spec": "Rogue",
       "Flasks": null
     }
+  ],
+  "exclude_spells": [
+    { "id": 6603,    "name": "Auto Attack",        "why": "melee auto-toggle, never a ring/spill entry" },
+    { "id": 5019,    "name": "Shoot",              "why": "wand auto-attack" },
+    { "id": 131347,  "name": "Glide",              "why": "DH passive air-glide" },
+    { "id": 125439,  "name": "Revive Battle Pets", "why": "Pet Battles minigame (MoP) — not hunter pet control" },
+    { "id": 83958,   "name": "Mobile Banking",     "why": "banking convenience, not combat (flip if you want it visible)" },
+    { "id": 1287466, "name": "Lighthook Grapple",  "why": "cross-class ability (Naigtal), already default-bound elsewhere" }
   ]
 }

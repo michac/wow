@@ -9,7 +9,16 @@ placement report (read off disk by `wowkb.diagnostics`). The 2026-07-16 in-game
 pass confirmed the dump/placement path is solid and surfaced two follow-ups →
 **M3.2** (classifier over-reports `unresolved` because `GetSpellInfo` is
 knowledge-gated; + a seed-name triage list). M3.2 or M4 (in-addon tweak UI) next.
-2026-07-16.**
+2026-07-16. **Also 2026-07-16: mouse relocate** — the movement + personal-defensive
+family moved off `Z`/`X` onto the three mouse buttons (`M4`/`M5`/`M3` + Shift
+variants), freeing those keys; `normKey` gained mouse + Shift-mousewheel tokens
+and the dump now vacates stale keys on relocated slots (see "Mouse relocate" under
+The layout). Autorun dropped from middle-mouse. **And v0.5.0: M6 OPie start** —
+`/bb ring` builds an OPie overflow ring from the `/bb spill` set via
+`SetExternalRing`, gated on `## OptionalDeps: OPie`; new `exclude_spells` seed
+table filters noise out of both spill and the ring; two seed misses fixed
+(`Implosion`, `Blight of Tongues`). All bundled into **v0.5.0 — needs an in-game
+verify + release.**
 
 A self-contained WoW addon that does two things the game won't:
 
@@ -76,6 +85,24 @@ Consequences: the singles (`Z X C V` + Shift/Ctrl variants) join their modifier'
 bar instead of being scattered, and the bar-1 form-mirror now covers all 12 unmod
 slots (druids/rogues get interrupt + defensives on their form bars too).
 
+**Mouse relocate (2026-07-16):** the movement + personal-defensive family moved
+off the `Z`/`X` keyboard cluster onto the **three mouse buttons** — strictly
+easier to hit while strafing. Buckets keep their `(bar, slot)`; only the firing
+key changed, so `Z X S1 SZ SX` and `Ctrl+C` free up on the keyboard.
+
+| Combo | Bucket (bar/slot unchanged) | Freed key |
+|-------|------------------------------|-----------|
+| `M4` / `SM4` | Movement Ability 1 / 2       | `X` / `SX` |
+| `M5` / `SM5` | Personal Defensive 1 / 2     | `Z` / `SZ` |
+| `M3` / `SM3` | Class 1 (Movement) / Immune  | `S1` / `Ctrl+C` |
+
+M4/M5 = thumb buttons (primaries), M3 = middle/scroll-click (tertiary). Ease
+order honored: only unmodified + Shift, no Ctrl/Alt. Autorun (formerly unmod
+middle-mouse) was dropped — it stays on the NumLock default. The dump now clears
+any stale key on a managed slot before binding, so relocated keys truly vacate.
+`normKey` also learned `MU`/`MD` (Shift+mousewheel) tokens for future use —
+unmodified wheel stays reserved for camera zoom.
+
 Out-of-combat sprawl (mounts/toys/teleports/buffs/specs) is **not** bound to
 keys — it goes on OPie rings. The addon marks those buckets "on a ring" and
 skips them. The OPie master-ring import string is a separate, untouched asset
@@ -100,7 +127,9 @@ workbook for reference — it writes a **side file**
 (`data/bellular-keybinds.archive-import.json`, gitignored) and does **not** touch
 the canonical seed or `Data.lua`. Diff it by hand if Bellular ever ships a sheet
 worth comparing. Current seed: **52 buckets (48 placed + 4 stance), 40 specs,
-1538 ability mappings**, plus item-ID and buff reference tables.
+1538 ability mappings**, plus item-ID and buff reference tables and an
+**`exclude_spells`** noise list (keyed by spellID and/or name) that `gen_data_lua`
+emits as `ns.SEED.excludeSpells` for `/bb spill` + `/bb ring` to suppress.
 
 ## Milestones
 
@@ -199,18 +228,49 @@ worth comparing. Current seed: **52 buckets (48 placed + 4 stance), 40 specs,
         call) so `unresolved` means *only* "no such spell name," and downgrade the
         knowledge-gated cases to `resolved-unknown`.
       - **Genuine seed-name fixes to triage** (real, not knowledge-gating):
-        `Soul Carver` (DH/Veng Combat 11), `Implosion/Power Siphon` (Warlock/Demo
-        Combat 5 — a two-option compound, never one spell), `Summon Doomguard`
-        (Demo Combat 7 — legacy name, gone/renamed in Midnight), `Spell Lock`
-        (Affl Interrupt — the **Felhunter pet** ability, not a player spell),
-        `Blight of Weakness` (both Warlock Class-4 slots — castable list shows
-        `Blight of Tongues` **1271802**, likely a Midnight rename — verify via wago
-        `SpellName`). Model the **DH PvP-talent** slots (`Rain from Above`,
-        `Illidan's Grasp`, `Reverse Magic`) like the M5 placeholders — they only
-        resolve with the PvP talent active. Fix real typos via `Dump.lua` `ALIASES`
-        + the seed JSON; refresh `check_seed_spells.py` findings.
+        - ✅ **FIXED 2026-07-16** (seed JSON, confirmed vs live castable IDs):
+          `Implosion/Power Siphon` → **`Implosion`** (Demo Combat 5 — the compound
+          collapsed to the core spell); `Blight of Weakness` → **`Blight of Tongues`**
+          (**1271802**, all three Warlock Class-4 slots — Midnight rename).
+        - Still open: `Soul Carver` (DH/Veng Combat 11), `Summon Doomguard` (Demo
+          Combat 7 — legacy name, gone/renamed; needs wago `SpellName` research).
+          NOTE several first-suspected "misses" (`Soul Carver`, `Essence Break`,
+          `Vengeful Retreat`, `Consume Magic`, `Curse of Exhaustion`) are actually
+          the **knowledge-gating over-report above**, not seed bugs — they resolve
+          once talented. `Spell Lock` (Affl Interrupt) is the **Felhunter pet**
+          ability with **no player spell** — unfixable by alias; needs real pet-bar
+          support (BucketBinds binds neither the pet bar nor stance-swap keys today).
+          Model the **DH PvP-talent** slots (`Rain from Above`, `Illidan's Grasp`,
+          `Reverse Magic`) like the M5 placeholders. Fix real typos via `Dump.lua`
+          `ALIASES` + the seed JSON; refresh `check_seed_spells.py` findings.
       - **Coverage gap surfaced:** `Lighthook Grapple` (**1287466**, Midnight DH) is
-        castable-and-unmapped — candidate for a seed bucket.
+        castable-and-unmapped — deferred (added to `exclude_spells` for now; it's a
+        cross-class ability already default-bound, so it's noise on spill/ring).
+- [ ] **M4 — in-addon tweak UI.** Pick spec → dump → drag abilities between
+      slots → save as profile. This is the "then tweak" half of the promise; the
+      M3 spillover bar is its natural palette — drag the keepers into place.
+- [ ] **M5 — items/macros.** Auto-generate potion/trinket/racial/@cursor macros
+      from the Items table; respect the macro caps.
+- [~] **M6 — OPie integration.** Push out-of-combat sprawl onto OPie radial rings
+      instead of keys. Design + API research in `opie-automation-research.md`
+      (companion vs built-in resolved: the only *dynamic* ring is intrinsically a
+      BucketBinds concept, so it lives in-addon behind `## OptionalDeps: OPie`).
+      - [x] **`/bb ring` (overflow ring)** — shipped v0.5.0. Reuses the `/bb spill`
+        computation (castable − on-a-bar − `excludeSpells`), then hands the set to
+        OPie via `OPie.CustomRings:SetExternalRing("BB_Overflow", desc)` (runtime,
+        addon-owned; deterministic `_u="s"..baseID` tokens → idempotent rebuild).
+        No-ops without OPie. Slices are bare `{id=<spellID>}` — flagged
+        `@verify-ingame` (confirm bare-id slices resolve; else switch to macrotext).
+        New seed table **`exclude_spells`** (keyed by id and/or name) filters BOTH
+        `/bb spill` and `/bb ring` — the "inventory of noise" (Auto Attack, Shoot,
+        Glide, Revive Battle Pets, Mobile Banking, Lighthook Grapple). Warlock-niche
+        utility (Eye of Kilrogg, Ritual of Doom/Summoning, Subjugate Demon) and
+        **all hunter pet control** deliberately kept — the ring is *for* "random
+        stuff not worth a keybind."
+      - [ ] **Static hearth/travel + marker rings** — handcraft in OPie once (mounts
+        collapse to `Summon Random Favorite Mount`; markers are OPie built-ins), or
+        seed + `AddDefaultRing` later. No dynamic collection scan needed (v2 in the
+        research note is deferred — the built-ins cover the common case).
 - [ ] **M4 — in-addon tweak UI.** Pick spec → dump → drag abilities between
       slots → save as profile. This is the "then tweak" half of the promise; the
       M3 spillover bar is its natural palette — drag the keepers into place.

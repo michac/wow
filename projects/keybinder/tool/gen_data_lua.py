@@ -50,6 +50,17 @@ def to_lua(data):
             lines.append(f"      [{q(cat)}] = {q(ab)},")
         lines.append("    },")
     lines.append("  },")
+    # excludeSpells: a set keyed by spellID (numeric) and/or name (string) that
+    # Dump.Spill and Dump.Ring suppress (auto-attack, wand, battle-pet mgmt, …).
+    # Edit the seed's `exclude_spells` list, not this generated table.
+    lines.append("  excludeSpells = {")
+    for e in data.get("exclude_spells", []):
+        if e.get("id"):
+            note = (" -- " + e["name"]) if e.get("name") else ""
+            lines.append(f"    [{int(e['id'])}] = true,{note}")
+        elif e.get("name"):
+            lines.append(f"    [{q(e['name'])}] = true,")
+    lines.append("  },")
     lines.append("}")
     return "\n".join(lines) + "\n"
 
