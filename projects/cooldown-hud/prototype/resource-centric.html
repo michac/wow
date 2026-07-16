@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Demonology CDM — Resource-Centric (with duration bars)</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  /* ---- Tactical-HUD identity: near-black violet-biased ground, mono data ---- */
+  :root{
+    --bg:#0b0910; --panel:#141019; --panel2:#1a1524; --line:#2a2136;
+    --ink:#ece8f4; --mut:#9a90ac; --dim:#6c6380;
+    --summon:#37c86f;   /* fel green  — demon summons / burst */
+    --core:#a065ff;     /* shadow violet — core shadow damage */
+    --aoe:#bdf33a;      /* fel lime — Implosion */
+    --proc:#2dd4ee;     /* arcane cyan — procs / resource accent */
+    --def:#4a9eff;      /* blue — defensives */
+    --cc:#8a94ab;       /* slate — control */
+    --mob:#f5c542;      /* gold — mobility */
+    --shard:#b06bff;    /* soul shard */
+  }
+  html{background:var(--bg);color:var(--ink);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;}
+  .mono{font-family:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+    font-variant-numeric:tabular-nums;}
+  .eyebrow{letter-spacing:.22em;text-transform:uppercase;}
+  h1,h2{text-wrap:balance;}
+
+  /* ---- viewport (the dark "in-game" stage) ---- */
+  .stage{background:
+      radial-gradient(120% 90% at 50% -10%, rgba(176,107,255,.10), transparent 62%),
+      linear-gradient(180deg,#0a0810,#0e0b16);
+    border:1px solid var(--line);border-radius:16px;position:relative;overflow:hidden;}
+
+  /* ---- ability pip: solid color, no icon, short label, secure-swipe overlay ---- */
+  .blk{position:relative;border-radius:8px;background:var(--c);overflow:hidden;
+    display:flex;align-items:center;justify-content:center;isolation:isolate;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.09);
+    transition:opacity .25s ease, filter .25s ease, transform .25s ease, box-shadow .2s ease;}
+  .blk-label{position:relative;z-index:2;font:600 11px/1 ui-monospace,monospace;
+    letter-spacing:.06em;color:#0c0910;text-shadow:0 1px 0 rgba(255,255,255,.25);}
+  .blk-swipe{position:absolute;inset:0;z-index:1;pointer-events:none;}
+  .blk.is-dim{opacity:.34;filter:saturate(.55) brightness(.7);}
+  .blk.is-ready{box-shadow:inset 0 0 0 1px rgba(255,255,255,.35), 0 0 10px -2px var(--c);}
+  .blk.is-glow{box-shadow:inset 0 0 0 1.5px #eafcff, 0 0 16px 1px var(--proc);}
+  .blk.is-glow .blk-label{color:#04121a;}
+  .blk.is-hot{animation:hot 1.05s ease-in-out infinite;}
+  @keyframes hot{0%,100%{box-shadow:inset 0 0 0 1px rgba(255,255,255,.4),0 0 6px -1px var(--c);}
+    50%{box-shadow:inset 0 0 0 1.5px #fff,0 0 20px 2px var(--c);}}
+
+  /* ---- soul shard rail (OURS: readable + branchable) — the hero ---- */
+  .seg{border-radius:6px;background:#241d33;box-shadow:inset 0 0 0 1px rgba(255,255,255,.05);
+    position:relative;overflow:hidden;transition:box-shadow .2s;}
+  .seg .fill{position:absolute;inset:0;transform-origin:left;background:var(--shard);
+    box-shadow:0 0 10px -1px var(--shard);transition:transform .12s linear;}
+  .rail.spend .seg .fill{background:#ff8a3d;box-shadow:0 0 10px -1px #ff8a3d;}
+  .rail.capped .seg{background:#3a2d13;box-shadow:inset 0 0 0 1px rgba(245,197,66,.5),0 0 12px -3px var(--mob);}
+  .rail.capped .seg .fill{background:var(--mob);box-shadow:0 0 14px 0 var(--mob);}
+  .glitter{position:absolute;inset:-4px;pointer-events:none;z-index:5;}
+  .spark{position:absolute;width:4px;height:4px;border-radius:50%;background:#fff;
+    box-shadow:0 0 7px 1px var(--mob);animation:spark .85s ease-out forwards;}
+  @keyframes spark{0%{transform:scale(.4) translateY(0);opacity:0;}
+    20%{opacity:1;}100%{transform:scale(1.1) translateY(-14px);opacity:0;}}
+
+  /* ---- borrowed duration bar (Blizzard draws the secret timer; we style pixels) ---- */
+  .dbar{position:relative;height:20px;border-radius:6px;background:#1a1426;overflow:hidden;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);transition:opacity .25s;}
+  .dbar .lvl{position:absolute;inset:0;transform-origin:left;background:var(--c);opacity:.9;
+    transition:transform .12s linear;}
+  .dbar .pip{position:absolute;top:0;bottom:0;width:2px;background:#fff;opacity:.65;
+    box-shadow:0 0 6px 1px var(--c);}
+  .dbar .txt{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;
+    padding:0 8px;font:600 10px/1 ui-monospace,monospace;letter-spacing:.04em;color:#0c0910;z-index:2;}
+  .dbar .txt .r{color:rgba(12,9,16,.85);}
+
+  .tag{font:600 9px/1 ui-monospace,monospace;letter-spacing:.08em;padding:3px 6px;border-radius:4px;text-transform:uppercase;}
+  .tag-live{background:rgba(45,212,238,.14);color:#8fe9f7;box-shadow:inset 0 0 0 1px rgba(45,212,238,.3);}
+  .tag-borrow{background:rgba(154,144,172,.12);color:#c3bad4;box-shadow:inset 0 0 0 1px rgba(154,144,172,.3);}
+
+  .card{background:linear-gradient(180deg,var(--panel),#100c18);border:1px solid var(--line);border-radius:16px;}
+  .chip{border:1px solid var(--line);border-radius:999px;}
+  button.ctl{border:1px solid var(--line);border-radius:8px;background:var(--panel2);color:var(--ink);
+    transition:background .15s,border-color .15s;}
+  button.ctl:hover{background:#241c33;border-color:#3a2f4d;}
+  button.ctl.on{background:#241c33;border-color:#4a3a63;color:#e6dcff;}
+  button.ctl:focus-visible{outline:2px solid var(--proc);outline-offset:2px;}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+</style>
+</head>
+<body class="min-h-screen">
+  <div class="max-w-3xl mx-auto px-5 py-8 md:py-12">
+
+    <header class="mb-7">
+      <div class="mono eyebrow text-[11px]" style="color:var(--proc)">Cooldown HUD · direction 3 — refined</div>
+      <h1 class="mt-2 text-3xl md:text-4xl font-bold tracking-tight">Resource-Centric, with duration bars</h1>
+      <p class="mt-3 text-[15px] leading-relaxed" style="color:var(--mut)">
+        Soul Shards are the one thing we truly own — readable, branchable, glittering at cap — so they anchor the board.
+        Everything else earns its place: the three borrowed <span style="color:#c3bad4">duration bars</span> that tell you
+        how long a window stays open, and a tight ring of the abilities that advance the rotation. Utility is
+        <em>deliberately</em> off the board by default.
+      </p>
+      <div class="mt-4 flex flex-wrap items-center gap-2">
+        <span class="tag tag-live">Live</span><span class="text-[12px]" style="color:var(--mut)">we read &amp; drive it — shards, cap glitter, proc presence</span>
+        <span class="mx-1" style="color:var(--dim)">·</span>
+        <span class="tag tag-borrow">Borrowed</span><span class="text-[12px]" style="color:var(--mut)">Blizzard's secure widget draws it — swipes, duration bars</span>
+      </div>
+      <div class="mt-5 flex flex-wrap items-center gap-2">
+        <button id="pause" class="ctl mono text-[12px] px-3 py-1.5">⏸ Pause</button>
+        <button id="tyrant" class="ctl mono text-[12px] px-3 py-1.5">⚡ Force Tyrant window</button>
+        <button id="reset" class="ctl mono text-[12px] px-3 py-1.5">↺ Reset</button>
+        <button id="util" class="ctl mono text-[12px] px-3 py-1.5">＋ Utility tray</button>
+        <span class="mono text-[11px] ml-1 px-2 py-1 chip" style="color:var(--dim)">timescale ×3 · illustrative</span>
+      </div>
+    </header>
+
+    <div class="card p-5">
+      <div class="stage p-6" style="min-height:440px"></div>
+      <p class="mt-4 text-[12px] leading-relaxed mono" style="color:var(--dim)">
+        <span style="color:var(--proc)">Ours:</span> shard rail (generate→<span style="color:#ff9a4d">spend</span> recolor, cap glitter + earcon),
+        CORE [X]/4 (X is Blizzard's stack number we enlarge; “/4” is static), and the proc-presence glow on Demonbolt / Implosion.
+        <span style="color:#c3bad4">Borrowed:</span> the three duration bars drain on Blizzard's secret timer — we only style the pixels
+        and read the <em>presence</em> edge to fade them in/out. Burst pips (Tyrant/Dreadstalkers/Fel Ravager) ramp as they near ready
+        via our own base-cooldown timer off the readable cast.
+      </p>
+    </div>
+  </div>
+
+<script>
+(() => {
+  const COL = {summon:'var(--summon)',core:'var(--core)',aoe:'var(--aoe)',proc:'var(--proc)',def:'var(--def)',cc:'var(--cc)',mob:'var(--mob)'};
+  // Opinionated tracked set (Kalamazi Demo / Diabolist). g = hue group.
+  const AB = {
+    TYRA:{label:'TYRA',full:'Summon Demonic Tyrant',g:'summon',dur:16,kind:'cd',track:true},
+    DREA:{label:'DREA',full:'Call Dreadstalkers',   g:'summon',dur:8, kind:'cd',track:true},
+    FELR:{label:'FELR',full:'Grimoire: Fel Ravager', g:'summon',dur:12,kind:'cd',track:true},
+    HAND:{label:'HAND',full:"Hand of Gul'dan",       g:'core',  kind:'shard'},
+    CORE:{label:'CORE',full:'Demonbolt',             g:'core',  kind:'proc'},
+    IMPL:{label:'IMPL',full:'Implosion',             g:'aoe',   kind:'imp'},
+    // utility — off the board by default (opinionated cut)
+    UNEN:{label:'UNEN',full:'Unending Resolve',      g:'def',   dur:14,kind:'cd'},
+    DARK:{label:'DARK',full:'Dark Pact',             g:'def',   dur:9, kind:'cd'},
+    SHAD:{label:'SHAD',full:'Shadowfury',            g:'cc',    dur:11,kind:'cd'},
+    AXE :{label:'AXE', full:'Axe Toss',              g:'cc',    dur:9, kind:'cd'},
+    MORT:{label:'MORT',full:'Mortal Coil',           g:'cc',    dur:15,kind:'cd'},
+    CIRC:{label:'CIRC',full:'Demonic Circle',        g:'mob',   dur:7, kind:'cd'},
+  };
+
+  const S = newState();
+  function newState(){
+    const cd = {}; for(const k in AB){ if(AB[k].kind==='cd') cd[k] = Math.random()*(AB[k].dur*0.6); }
+    return {t:0, shards:2.2, prevShards:2.2, cores:0, coreUntil:0, imps:0, gcd:0,
+            cd, capAt:-9, windowUntil:0, dogUntil:0, domUntil:0, paused:false, mode:'generate'};
+  }
+  function reset(){ Object.assign(S, newState()); }
+
+  function tick(dt){
+    if(S.paused) return;
+    dt = Math.min(dt, .05); const t = (S.t += dt);
+    for(const k in S.cd) S.cd[k] = Math.max(0, S.cd[k]-dt);
+    S.gcd = Math.max(0, S.gcd-dt);
+
+    const tyrantReady = S.cd.TYRA<=0;
+    const banking = tyrantReady && S.shards < 5;
+    if(!banking) S.shards = Math.min(5, S.shards + dt*0.85);
+    if(S.shards>=5 && S.prevShards<5) S.capAt = t;
+    S.prevShards = S.shards;
+
+    if(S.shards>=3 && !banking && S.gcd<=0 && Math.random()<0.03){ S.shards -= 3; S.imps = Math.min(12, S.imps+3); S.gcd = 1.0; }
+    if(S.cores<2 && Math.random()<0.011){ S.cores++; S.coreUntil = t+5; }
+    if(t>S.coreUntil) S.cores = 0;
+    if(S.cores>0 && S.gcd<=0 && Math.random()<0.02){ S.cores--; S.gcd=1.0; S.shards=Math.min(5,S.shards+0.3); }
+    S.imps = Math.max(0, S.imps - dt*0.45);
+
+    if(tyrantReady && S.shards>=4.6){ S.cd.TYRA = AB.TYRA.dur; S.windowUntil = t+7;
+      S.cd.DREA = AB.DREA.dur; S.dogUntil = t+6; S.cd.FELR = AB.FELR.dur; S.shards = 4.6; }
+    if(S.cd.DREA<=0 && S.cd.TYRA<3 && Math.random()<0.05){ S.cd.DREA = AB.DREA.dur; S.dogUntil = t+6; }
+    if(S.imps>=6 && Math.random()<0.03) S.imps = 0;
+    if(t>S.domUntil && Math.random()<0.006) S.domUntil = t+6;
+
+    S.mode = (S.shards >= 4.6 || t < S.windowUntil) ? 'spend' : 'generate';
+  }
+
+  function vis(key){
+    const a = AB[key];
+    if(a.kind==='cd'){ const rem=S.cd[key]??0, ready=rem<=0;
+      const v = {frac: ready?0:rem/a.dur, ready, cd:true, track:a.track};
+      if(a.track) v.approach = ready ? 1 : (rem<5 ? (1-rem/5) : 0);
+      return v; }
+    if(a.kind==='shard') return {frac:0,ready:true,dim:S.shards<3,hot:S.shards>=5,actionable:S.shards>=3};
+    if(a.kind==='proc')  return {frac:0,ready:true,dim:S.cores<=0,glow:S.cores>0};
+    if(a.kind==='imp')   return {frac:0,ready:true,dim:S.imps<=0,actionable:S.imps>0,hot:S.imps>=6,glow:S.imps>=6};
+    return {frac:0,ready:true};
+  }
+  const windowOpen = () => S.t < S.windowUntil;
+
+  // ---- ability pip ----
+  function block(key, {h=34,w=null}={}){
+    const a = AB[key], el = document.createElement('div');
+    el.className='blk'; el.style.setProperty('--c',COL[a.g]); el.style.height=h+'px'; if(w) el.style.width=w+'px';
+    el.title = a.full;
+    const sw=document.createElement('div'); sw.className='blk-swipe';
+    const lb=document.createElement('span'); lb.className='blk-label'; lb.textContent=a.label;
+    el.append(sw,lb);
+    return {el, key, upd(){ const v=vis(key);
+      sw.style.background = v.ready?'transparent'
+        : `conic-gradient(from -90deg, rgba(6,4,12,.72) ${v.frac*100}%, transparent 0)`;
+      if(v.cd && !v.track){ el.classList.remove('is-dim','is-ready','is-glow','is-hot'); }
+      else if(v.cd && v.track){ el.classList.remove('is-dim','is-glow');
+        el.classList.toggle('is-ready', v.approach>=1);
+        el.classList.toggle('is-hot', v.approach>0.35 && v.approach<1); }
+      else { el.classList.toggle('is-dim', !!v.dim && !v.glow && !v.hot);
+        el.classList.toggle('is-ready', !!v.ready && !v.dim);
+        el.classList.toggle('is-glow', !!v.glow);
+        el.classList.toggle('is-hot', !!v.hot && !v.glow); }
+      return v; }};
+  }
+
+  // ---- soul shard rail (hero size) ----
+  function rail({w=54,h=40,gap=7}={}){
+    const wrap=document.createElement('div'); wrap.className='rail relative flex items-center'; wrap.style.gap=gap+'px';
+    const segs=[], glit=document.createElement('div'); glit.className='glitter';
+    for(let i=0;i<5;i++){ const s=document.createElement('div'); s.className='seg'; s.style.width=w+'px'; s.style.height=h+'px';
+      const f=document.createElement('div'); f.className='fill'; f.style.transform='scaleX(0)'; s.append(f); segs.push(f); wrap.append(s); }
+    wrap.append(glit); let sparkAt=-9;
+    return {el:wrap, upd(){ const n=S.shards, capped=n>=5, spend=S.mode==='spend';
+      wrap.classList.toggle('capped',capped); wrap.classList.toggle('spend', spend && !capped);
+      for(let i=0;i<5;i++){ segs[i].style.transform=`scaleX(${Math.max(0,Math.min(1,n-i))})`; }
+      if(S.capAt>sparkAt+0.1 && S.t-S.capAt<0.05){ sparkAt=S.capAt; burst(glit); } }};
+  }
+  function burst(host){ for(let i=0;i<14;i++){ const s=document.createElement('div'); s.className='spark';
+    s.style.left=(6+Math.random()*88)+'%'; s.style.top=(20+Math.random()*60)+'%';
+    s.style.animationDelay=(Math.random()*.15)+'s'; host.append(s); setTimeout(()=>s.remove(),950); } }
+
+  // ---- borrowed duration bar (Blizzard draws the secret timer) ----
+  // stacks: optional () => number  (Blizzard's enlarged number; honest to show)
+  function dbar(label, g, until, {max=6, stacks=null}={}){
+    const el=document.createElement('div'); el.className='dbar'; el.style.setProperty('--c',COL[g]);
+    const lvl=document.createElement('div'); lvl.className='lvl';
+    const pip=document.createElement('div'); pip.className='pip';
+    const tx=document.createElement('div'); tx.className='txt'; tx.innerHTML=`<span class="l">${label}</span><span class="r"></span>`;
+    el.append(lvl,pip,tx);
+    return {el, upd(){ const rem=until(); const active=rem>0; const f=Math.max(0,Math.min(1,rem/max));
+      el.style.opacity=active?1:.16;
+      lvl.style.transform=`scaleX(${f})`; pip.style.left=`calc(${f*100}% - 1px)`; pip.style.opacity=active?.65:0;
+      el.querySelector('.r').textContent = active && stacks ? String(stacks()) : ''; }};
+  }
+
+  // ---- Demonic Core [X]/4 readout (X = Blizzard's stack, enlarged; /4 static) ----
+  function coreReadout(){
+    const el=document.createElement('div'); el.className='flex items-baseline gap-1.5 justify-center';
+    const tag=document.createElement('span'); tag.className='mono text-[10px] eyebrow mr-1 self-center'; tag.style.color='var(--proc)'; tag.textContent='CORE';
+    const num=document.createElement('span'); num.className='mono font-bold'; num.style.color='var(--proc)'; num.style.fontSize='30px'; num.style.lineHeight='1';
+    const den=document.createElement('span'); den.className='mono'; den.style.color='var(--mut)'; den.style.fontSize='16px'; den.textContent='/4';
+    el.append(tag,num,den);
+    return {el, upd(){ const n=Math.max(0,Math.min(4,Math.round(S.cores)));
+      num.textContent=String(n); num.style.opacity=n>0?'1':'0.3';
+      el.style.filter=n>0?'drop-shadow(0 0 9px rgba(45,212,238,.6))':'none'; }};
+  }
+
+  const col=(cls='')=>{ const d=document.createElement('div'); d.className='flex flex-col '+cls; return d; };
+  const row=(cls='')=>{ const d=document.createElement('div'); d.className='flex '+cls; return d; };
+  const cap=(t)=>{ const d=document.createElement('div'); d.className='mono text-[9px] eyebrow'; d.style.color='var(--dim)'; d.textContent=t; return d; };
+
+  // ================= Resource-Centric layout =================
+  function build(stage){
+    const up=[]; const c=col('gap-5 items-center justify-start h-full w-full max-w-[440px] mx-auto');
+
+    // — HERO: soul shards —
+    c.append(cap('soul shards'));
+    const r=rail(); up.push(r); c.append(r.el);
+    const modeLine=document.createElement('div'); modeLine.className='mono text-[13px]';
+    c.append(modeLine); up.push({upd(){ const capped=S.shards>=5, spend=capped||S.mode==='spend';
+      modeLine.textContent = capped ? 'SPEND — at cap' : `${spend?'SPEND':'GENERATE'} · ${Math.floor(S.shards)}/5`;
+      modeLine.style.color = spend?'#ff9a4d':'var(--mut)'; }});
+
+    // — proc count —
+    const cr=coreReadout(); up.push(cr); c.append(cr.el);
+
+    // — borrowed duration bars: how long is the window open —
+    const barsWrap=col('gap-2 w-full'); barsWrap.append(cap('active windows — borrowed'));
+    const bars=col('gap-1.5 w-full');
+    const dCore=dbar('Demonic Core','proc',()=> S.cores>0? (S.coreUntil-S.t):0, {max:5, stacks:()=>Math.max(1,S.cores)});
+    const dDog =dbar('Dreadstalkers','summon',()=> Math.max(0,S.dogUntil-S.t), {max:6});
+    const dDom =dbar('Dominion of Argus','core',()=> Math.max(0,S.domUntil-S.t), {max:6});
+    [dCore,dDog,dDom].forEach(b=>{up.push(b);bars.append(b.el);});
+    barsWrap.append(bars); c.append(barsWrap);
+
+    // — orbiting ability pips: burst group / spenders —
+    const pipsWrap=col('gap-2 w-full items-center'); pipsWrap.append(cap('burst · spenders'));
+    const p1=row('gap-2 justify-center'); ['TYRA','DREA','FELR'].forEach(k=>{const b=block(k,{h:34,w:78});up.push(b);p1.append(b.el);});
+    const p2=row('gap-2 justify-center'); ['HAND','CORE','IMPL'].forEach(k=>{const b=block(k,{h:34,w:78});up.push(b);p2.append(b.el);});
+    pipsWrap.append(p1,p2); c.append(pipsWrap);
+
+    // — utility tray (off by default; the opinionated cut) —
+    const tray=col('gap-1.5 w-full items-center'); tray.style.display='none'; tray.append(cap('utility — situational, hidden by default'));
+    const ur=row('gap-1.5 justify-center flex-wrap'); ['UNEN','DARK','SHAD','AXE','MORT','CIRC'].forEach(k=>{const b=block(k,{h:22,w:58});up.push(b);ur.append(b.el);});
+    tray.append(ur); c.append(tray);
+
+    stage.append(c);
+    return {up, tray};
+  }
+
+  const stage=document.querySelector('.stage');
+  const {up, tray}=build(stage);
+
+  let last=performance.now();
+  function frame(now){ const dt=(now-last)/1000; last=now; tick(dt);
+    up.forEach(u=>{ try{u.upd&&u.upd();}catch(e){} });
+    requestAnimationFrame(frame); }
+  requestAnimationFrame(frame);
+
+  const pauseBtn=document.getElementById('pause');
+  pauseBtn.addEventListener('click',()=>{ S.paused=!S.paused; pauseBtn.textContent=S.paused?'▶ Play':'⏸ Pause'; });
+  document.getElementById('tyrant').addEventListener('click',()=>{ S.cd.TYRA=0; S.shards=5; });
+  document.getElementById('reset').addEventListener('click',reset);
+  const utilBtn=document.getElementById('util');
+  utilBtn.addEventListener('click',()=>{ const on=tray.style.display==='none'; tray.style.display=on?'flex':'none';
+    utilBtn.classList.toggle('on',on); utilBtn.textContent=on?'－ Utility tray':'＋ Utility tray'; });
+})();
+</script>
+</body>
+</html>
