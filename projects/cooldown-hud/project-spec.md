@@ -12,7 +12,50 @@ learnable library. Decluttering is the game: an **empty board = nothing to do**.
 of truth for the design; the addon is the source of truth for the code.
 
 Status: **M0 (feasibility probe) complete** — the capability map below is
-confirmed on the live 12.0.7 client (delve, in combat). Next: M1 layout.
+confirmed on the live 12.0.7 client (delve, in combat). The config-delivery /
+positioning model (§5) is now **source-grounded** against the live Blizzard UI
+code (`Gethe/wow-ui-source` @ build 68453 = 12.0.7). Next: M1 layout.
+
+---
+
+## 0. Direction (sharpened 2026-07-17)
+
+The concept narrows from "a glanceable HUD" to a specific, opinionated product:
+**a spec-specific overlay that *enhances* Blizzard's Cooldown Manager, authored
+against an imported cooldown-settings profile.** Three pillars:
+
+1. **Opinionated, imported config is a hard dependency.** The overlay is authored
+   against an *exact* tracked set — every cooldown in every bucket (Essential /
+   Utility / Buff), in a **known order**. You import our per-spec **Cooldown
+   Layout string** (§5); the overlay's color / priority / keybind map is keyed to
+   it. **Auto-apply is confirmed viable** (§7 probe: `SetLayoutData` is
+   addon-writable out of combat), so enforcement strength (auto-apply →
+   import-and-verify → nag) is now a **UX choice, not a capability question**; the
+   *authoring* assumption — a fixed, known layout — is not negotiable either way.
+   This is the anti-WeakAuras: one blessed layout per spec, deterministic
+   downstream, instead of "configure everything."
+2. **Deploy vertically, beside the character** (left or right) — not a bar
+   under/over. Priority reads top→bottom. The overlay follows the CDM frame's
+   **runtime** position by anchoring (§5), so the user keeps control of placement;
+   we only ship orientation as a default.
+3. **The overlay enhances, doesn't replace.** On top of Blizzard's secure
+   widgets: **resource bars that recolor by condition** (soul-shard spend vs
+   generate), **keybind labels** on cooldown abilities, an **attention-grabber**
+   when a big cooldown is up (napkin-math timer, §1), and **generator-vs-consumer
+   color batching** so builders and spenders read at a glance. **Stretch:** a
+   cyberpunk skin.
+
+Everything below still holds; where the original "2D board" assumed a single grid
+*under* the character, the **horizontal grouping** (burst lane) now lives in *our*
+overlay frames beside a **vertical** CDM, not in the CDM's own layout.
+
+**Chosen v1 aesthetic (2026-07-17): CRT / green-phosphor** (§4). Crucially it's a
+*treatment of Blizzard's real icon columns*, not an independent UI: we **keep**
+the icons and desaturate + green-tint them in place (`SetDesaturated(true)` +
+`SetVertexColor`), add monospace 4-letter labels + keybinds, block-char meters,
+and a scanline/vignette overlay — so Blizzard's info (icon shape, cooldown swipe,
+charges, proc glow) survives. "No icons" from the original vision is retired in
+favour of "**icons kept, recolored**."
 
 ---
 
@@ -53,7 +96,7 @@ content. Only self-computed **timers** (cooldown/DoT countdowns) are off-limits.
 | Cooldown swipe / "time left" on a cooldown | **borrowed** — Blizzard's secure Cooldown widget draws it |
 | DoT / proc duration + stacks bars | **borrowed** — restyle the secure BuffBar/Icon viewer |
 | "Off cooldown" / "pandemic" **sounds** | **borrowed** — Blizzard's native right-click CDM alerts (secure, survive combat) |
-| Which spells tracked, as bar vs icon | a **shipped profile** (Edit Mode / import string) |
+| Which spells tracked, bucket & order, bar vs icon, alerts | a **shipped per-spec Cooldown Layout string** (paste → Import); orientation via Edit Mode. Two separate systems — see the three-layer model in §5 |
 
 **Design consequence:** architect as *dumb honest renderers over the secure
 CDM*. Own the logic where the data is ours (shards, proc presence, layout);
@@ -85,7 +128,7 @@ e.g. imp count). Buff-bar = `Bar` (StatusBar) + `.BarBG` + `.Pip` (spark) +
 
 | Capability | Verdict | Notes |
 | --- | --- | --- |
-| Hide/replace/resize/crop `Icon` texture | ✅ styleable | `SetTexture(nil)`/`SetAlpha`/`SetTexCoord`; post-hook `RefreshData` |
+| Hide/replace/resize/crop **or tint** `Icon` texture | ✅ styleable | `SetTexture(nil)`/`SetAlpha`/`SetTexCoord`; **`SetDesaturated(true)` + `SetVertexColor(r,g,b)` = keep the icon shape but recolor it** (grayscale→group hue, or uniform green for CRT — the v1 default); post-hook `RefreshData` |
 | Restyle cooldown **swipe** (color/edge/texture) | ✅ art | **radial only — no linear mode**; timing secure |
 | **Cooldown bar** (linear fill) | ⚠ build-your-own | no native cooldown bar; own StatusBar fed by `C_Spell.GetSpellCooldownDuration` object |
 | Restyle/recolor/resize **buff-bar** fill, drop its icon | ✅ styleable | `Bar` StatusBar; `SetBarContent(NameOnly)`; fill secure (`SetValue`), don't read `GetValue` |
@@ -280,7 +323,23 @@ live in the published **"Demonology CDM — 5 design directions"** artifact. The
 explore: (1) Priority Column, (2) Burst Lane, (3) Resource-Centric, (4) Compact
 Dashboard, (5) Clear-the-Board. Each animates only what's actually achievable —
 shard fills + cap glitter (ours), cooldown swipe drain (borrowed), proc glow
-(presence). Pick/mix a direction, then M1 implements it.
+(presence). *(This first artifact explored **layout**; the second, below, explored
+**visual style** and drove the v1 decision.)*
+
+**Visual-style exploration (2026-07-17) — CRT chosen.** A second artifact restyles
+the **real Blizzard icon columns** (icons kept + tinted, addon-feasible ops only,
+each direction captioned with its "WoW mapping") across five aesthetics: (A)
+Gnomeregan powered-goggles, (B) **CRT / green-phosphor ← CHOSEN**, (C) LCARS, (D)
+Bound Grimoire, (E) Neon District (cyberpunk). Saved in-repo at
+[`prototype/overlay-styles.html`](prototype/overlay-styles.html); published
+artifact: <https://claude.ai/code/artifact/939bac84-6701-4eab-ae7c-33f70d40a327>.
+**v1 = CRT:** icons desaturated + green-tinted in place (`SetDesaturated` +
+`SetVertexColor`), block-char meters, monospace 4-letter labels + keybinds, a
+scanline/vignette overlay texture (fake, not a shader). **Open tweak:** icon-tint
+brightness — bright & clearly readable (current) vs dimmed "text-first / ghostly
+icons." Everything else (LCARS elbow curves, grimoire ink-wobble) was flagged as
+needing bespoke texture art or being unbuildable; CRT was the most natively
+feasible of the five.
 
 ---
 
@@ -288,16 +347,82 @@ shard fills + cap glitter (ours), cooldown swipe drain (borrowed), proc glow
 
 - **Vehicle:** standalone addon `michac/CDMProbe` (MIT), a thin skin over the
   built-in Cooldown Manager. Deployed via ghaddons (GitHub release → install).
-- **Skin the icon viewers:** hide `item.Icon`, paint a solid color block +
-  4-letter label, leave the secure `item.Cooldown` swipe running over it.
+- **Skin the icon viewers (treat in place, don't hide):** the v1 default **keeps**
+  `item.Icon` and recolors it — `SetDesaturated(true)` + `SetVertexColor` (uniform
+  green for the chosen CRT look; group-hue for other directions) — plus our
+  4-letter label + keybind around it, leaving the secure `item.Cooldown` swipe
+  running over it. This preserves Blizzard's info (icon recognizability, charges,
+  proc glow). Full abstraction (hide `Icon` → solid color block) stays an option
+  for directions that want it (e.g. LCARS).
 - **Bar viewers:** restyle `item.Bar` on the BuffBar viewer (per-spell color).
-- **Layout:** Edit Mode orientation (vertical/horizontal) per viewer +
-  `LibEditModeOverride` for scripted positions (out of combat; `SaveChanges` in
-  combat, `ApplyChanges` out). Custom overlays (shard rail) are our own frames.
-- **Reapply on Blizzard relayout:** low-freq watchdog / hooks.
+- **Layout:** we set orientation=Vertical as a default; we **anchor** our overlay
+  to the live viewer frames rather than scripting absolute positions (see the
+  three-layer model below). Custom overlays (shard rail) are our own frames.
+- **Reapply on Blizzard relayout:** post-hook `RefreshLayout` (the single choke
+  point — see below), not a poll.
 
 Reference (read-only): EnhancedCooldownManager (GPL-3.0) — Soul Shard resource
 bar + per-spell colored bars. No code copied.
+
+### Config delivery & positioning — the three-layer model (source-grounded 2026-07-17)
+
+Verified against the live Blizzard source (`Gethe/wow-ui-source` @ build 68453 =
+12.0.7; clone at `~/code/github/wow-ui-source`):
+`Blizzard_CooldownViewer/CooldownViewer.lua`,
+`CooldownViewerSettingsDataStoreSerialization.lua`,
+`Blizzard_APIDocumentationGenerated/EditModeManagerConstantsDocumentation.lua`.
+**"Layout" names two independent systems**, each with its own import/export
+string — plus our overlay on top:
+
+| Layer | Carries | Delivery |
+| --- | --- | --- |
+| **① Cooldown Layout** — the "Cooldown Settings" panel → *Copy to Clipboard / Import*; backed by `C_CooldownViewer.GetLayoutData()` / `SetLayoutData()` | **tracked set + per-cooldown category** (Essential / Utility / Hidden, and buff **Icon** = `TrackedBuff` vs **Bar** = `TrackedBar`) + **order** + **per-cooldown alert overrides**. Spec-aware (keyed by class+spec tag). **No** orientation/size/position. | **Auto-apply (confirmed viable, OOC — §7):** addon merges our per-spec layout via `CooldownViewerSettings:GetLayoutManager():ImportLayout(str)` (the Import button's own path) and sets it active — no paste. `SetLayoutData(str)` is also writable but replaces the **whole** store (all specs) → prefer the merge. Fallback: user pastes into the panel's Import. |
+| **② Edit Mode** — `EditModeCooldownViewerSetting` | **Orientation** (Horizontal/**Vertical**), IconLimit (wrap), IconDirection, IconSize, IconPadding, Opacity, VisibleSetting, BarContent (IconAndName/IconOnly/**NameOnly**), HideWhenInactive, ShowTimer, ShowTooltips, BarWidthScale — plus frame **position**. Has its own *whole-HUD* export string. | Addon sets **only** Orientation=Vertical (+ optional first-run position) in the user's *current* layout via **LibEditModeOverride**, out of combat. Never ship the whole-HUD string — it clobbers the user's other frames. Position stays the user's. |
+| **③ Our overlay** | color, 4-letter labels, keybind text, soul-shard rail, generator/consumer batching, cyberpunk skin | Addon frames, anchored to the viewers (below). |
+
+**Exact serialized fields** (`CooldownViewerSettingsDataStoreSerialization.lua`):
+`COOLDOWN_ORDER`, `CATEGORY_OVERRIDES`, `ALERT_OVERRIDES` — CBOR → Deflate →
+Base64, prefixed `<encodingVersion>|`. **Two consequences:** (a) **alerts ride in
+the string** → a chunk of the §3 / M4 audio+visual-alert set (`Available` /
+`OnCooldown` / `PandemicTime` / **`OnAuraApplied`** …) ships *inside* the import
+string, secure and combat-safe; (b) icon-vs-bar for buffs is just a category
+(`TrackedBuff` vs `TrackedBar`), so it travels in the string too — no separate
+setting to configure.
+
+**Positioning: anchor, don't hardcode.** Build overlay frames with
+`SetPoint(..., EssentialCooldownViewer, ...)` — anchored to the **live viewer
+frame**, not screen coords. When the user drags the CDM in Edit Mode, the
+viewer's anchor moves and our overlay **rides along automatically**, no polling.
+Frame geometry (`GetRect` / `GetPoint`) is **not** a Secret Value → reading and
+following it is legal even in combat (only *changing* the secure frame is
+out-of-combat-only). Re-sync on the single choke point:
+
+```lua
+hooksecurefunc(EssentialCooldownViewer, "RefreshLayout", function(v) ns:Resync(v) end)
+```
+
+`CooldownViewerMixin:RefreshLayout()` runs on tracked-set change (via the
+`CooldownViewerSettings.OnDataChanged` callback), orientation/size change, aura
+full-update, and show. In `Resync` we re-flow our rail / blocks / keybinds and
+read `v:IsHorizontal()` so the overlay stays **orientation-agnostic** (the user
+can flip back to horizontal without breaking us). The same hook doubles as the
+"persist our skin after Blizzard repaints" watchdog. Anchor the rail to the
+viewer's *edge* (our rail `TOPRIGHT` → viewer `TOPLEFT`) so "beside the
+character" moves as one unit.
+
+**Combat caveat:** Edit Mode writes (orientation / default position) are
+out-of-combat only — apply on `PLAYER_LOGIN` / spec-change, defer if
+`InCombatLockdown()`. *Following* the frame by anchor works in combat.
+
+**Edit UI confirmed in-game (2026-07-17).** The per-viewer Edit Mode panel
+("Essential Cooldowns") exposes: **Orientation** (Vertical), **# Rows** (the
+wrap/`iconLimit` in vertical), **Icon Direction** (Up/Down — the *primary fill
+axis* in vertical; wrap columns spill rightward), **Icon Size**, **Icon
+Padding**, **Opacity**, **Visibility** (Always/InCombat/Hidden), **Show Timer**,
+**Show Tooltips** — plus buttons *Reset To Default Position*, *Advanced Cooldown
+Settings* (→ the tracked-set panel = system ①), and *Cooldown Manager Options*.
+The live vertical Essential + Utility columns flanking the character (ref
+screenshots 2026-07-17) are the baseline we skin.
 
 ---
 
@@ -307,17 +432,35 @@ bar + per-spell colored bars. No code copied.
   `shards` / `secret` / `log` / `casts`. Confirmed the capability map above;
   hardened against Secret-Values taint; reports persist to SavedVariables (read
   off disk). Deep-dive source research on item skinning (§1 Skinning specifics).
-- **M1 — Essential color-column + shard rail.** Skin Essential vertically as
-  color blocks (keep swipe); custom shard rail with cap glitter + sound. Pick a
-  design direction from §4.
+- **M1 — Essential green-tinted column + shard rail.** Skin Essential vertically
+  with the **CRT treatment** (§4): keep the icons, `SetDesaturated(true)` +
+  `SetVertexColor` green tint (swipe running over), monospace 4-letter labels +
+  keybinds; custom shard rail with cap glitter + sound. *(Design direction
+  chosen — CRT.)*
 - **M2 — horizontal burst lane.** Group Tyrant + Dreadstalkers + Grimoire; shared
   lane tint; common-fate brighten when all ready.
 - **M3 — borrowed DoT/proc bars.** Restyle the BuffBar viewer (Demonic Core,
   Dominion of Argus) to match; proc-presence highlight on Demonbolt.
 - **M4 — audio.** Wire the earcon set: shard-cap (ours) + native ready/pandemic
   alerts; sound library + toggles.
-- **M5 — profile + polish.** Ship/import the standardized tracked set; Edit-Mode
-  layout persistence; second spec after Demo proves the pattern.
+- **M5 — profile + polish.** Author + ship the per-spec **Cooldown Layout string**
+  (system ①); apply Orientation=Vertical default + anchor-follow (system ②);
+  detect-and-verify the live layout matches (or auto-apply, pending the §7
+  `SetLayoutData` probe); second spec after Demo proves the pattern.
+
+### v1 feature additions (2026-07-17 direction)
+
+The sharpened §0 direction adds four overlay features; mapping to milestones:
+
+- **Keybind labels on cooldown abilities** — read the binding for each tracked
+  spell, draw it on our block (Ellesmere does this). Overlay-only, no secret. → M1/M2.
+- **Generator-vs-consumer color batching** — extends the §3 colour language:
+  builders (shard generators) vs spenders get a shared batch tint so the
+  build→spend axis reads preattentively. → M1 (folds into the colour map).
+- **Big-CD attention-grabber** — driven by the napkin-math timer (§1: player-cast
+  → `GetSpellBaseCooldown` countdown) for fixed-CD abilities (Tyrant). Salience
+  pop when it's ~ready. → M2 (with the burst lane).
+- **Cyberpunk skin (stretch)** — art pass over the block/rail/bar styling. → post-M5.
 
 ---
 
@@ -331,15 +474,32 @@ bar + per-spell colored bars. No code copied.
 - [ ] Pandemic/ready **replacement**: confirm the `PandemicIcon` (and `Available`
       alert / `CooldownFlash`) shown-state is observable so we can hide Blizzard's
       and drive our own arbitrary indicator (offset arrow) — agent + verify-in-game.
-- [ ] Does `LibEditModeOverride` reposition the secure CDM item frames cleanly on
-      12.0.7, or do we relayout our own overlay frames? (known CDM taint pitfalls)
-- [ ] Confirm whether an addon can **inject** alert entries (sound/visual)
-      programmatically vs user-only right-click; and whether custom `.ogg` can
-      substitute a built-in alert sound.
+- [x] **`SetLayoutData` writability** — RESOLVED (2026-07-17, `/cdmp layout write`,
+      out of combat): the call is **permitted from addon code, no blocked-action
+      error** → **auto-apply is viable** (program the layout, don't just ask for a
+      paste). Two caveats for *how*: (a) `SetLayoutData(str)` replaces the **whole**
+      data store (every spec's layouts) — don't clobber; (b) the clean single-layout
+      **merge** is `CooldownViewerSettings:GetLayoutManager():ImportLayout(str, info)`
+      (what the Import button calls). Follow-up sub-probe: is `ImportLayout`
+      addon-callable too? In-combat writability still expected-blocked (untested).
+- [x] **Does the export string carry position/orientation?** RESOLVED
+      (2026-07-17, source): **NO** — the Cooldown Layout string is only
+      `COOLDOWN_ORDER` + `CATEGORY_OVERRIDES` + `ALERT_OVERRIDES`. Orientation /
+      size / position are Edit Mode (a *separate* string). Hence the three-layer
+      model + anchoring in §5; we do **not** reposition secure CDM frames — we
+      anchor our overlay to them and use `LibEditModeOverride` only to set the
+      Orientation default out of combat.
+- [x] **Alerts in the layout string?** RESOLVED (2026-07-17, source): **YES** —
+      `ALERT_OVERRIDES` serializes per-cooldown sound/visual alert config, so
+      native alerts ship *inside* the import string (secure, combat-safe). Still
+      open: whether an addon can **inject/override** alerts *outside* the string
+      programmatically, and whether a custom `.ogg` can substitute a built-in.
 - [x] Wild Imp / Demonic Core **count** — RESOLVED: `Applications` count is
       Blizzard-displayed but **secret** to us. For "[X]/4", enlarge Blizzard's X
       and append a static "/4"; we cannot reliably count procs ourselves.
 - [ ] Which profile do we standardize on (Kalamazi Demo CDM vs a curated set)?
+      Whichever it is, it's authored as the per-spec **Cooldown Layout string**
+      (system ①) — export a real one in-game as the baseline.
 
 ---
 
@@ -348,5 +508,11 @@ bar + per-spell colored bars. No code copied.
 - Research: two agent reports (12.0 addon API under Secret Values; glanceable-UI
   design) — synthesized into §1 and §3.
 - Empirical: CDMProbe M0 runs, live 12.0.7, character on Kil'jaeden delve.
+- Source (Tier 1): `Gethe/wow-ui-source` @ build **68453** (= live 12.0.7), clone
+  at `~/code/github/wow-ui-source` — `Blizzard_CooldownViewer/{CooldownViewer,
+  CooldownViewerSettingsDataStoreSerialization}.lua`,
+  `Blizzard_APIDocumentationGenerated/EditModeManagerConstantsDocumentation.lua`.
+  Grounds the §5 three-layer config model, the serialized-field list, and the
+  `RefreshLayout`/anchoring positioning approach.
 - Rotation: `knowledge/classes/warlock/demonology/rotation.md` (Diabolist,
   12.0.7; simc MID1 APL + maxroll/Method/Kalamazi).
