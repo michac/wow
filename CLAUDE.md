@@ -116,6 +116,13 @@ touching the code**. Status as of 2026-07-09:
   `backlog.md` and its own inner `app/` (`mplus-memory-trainer`, Svelte/Vite/bun).
   Note: its data pipeline writes into the KB proper
   (`knowledge/systems/mechanic-archetypes.md` + per-dungeon files).
+- `projects/cooldown-hud/` — **Cooldown HUD**: a spec-specific overlay that skins
+  Blizzard's built-in **Cooldown Manager** (Midnight 12.0), CRT/green-phosphor
+  aesthetic; v1 target **Demonology Warlock**. Docs live in `docs/` (`spec.md`
+  vision · `notes.md` technical findings · `milestones.md` roadmap+status) — see
+  its `CLAUDE.md`. The addon (`michac/CDMProbe`) is at `addon/` (own git repo,
+  gitignored, own `CLAUDE.md` for the release workflow). **M1 done** (prototype
+  skin, addon v0.5.2); next is M2 (config foundation).
 - `todo/` — design docs / specs with milestone logs for the above
   (`rotation-trainer.md`, `talent-calculator-prototype.md`). The informal
   "what's unfinished" inventory, but not exhaustive (mplus_memory's spec lives
