@@ -71,15 +71,22 @@ the four modifier layers pack onto four bars and **bar 5 is freed**:
 
 | Bar (modifier) | Slots 1–8            | Slots 9–12         | Buckets                                     |
 |----------------|----------------------|--------------------|---------------------------------------------|
-| 1 unmod        | `Q E R F 1 2 3 4`    | `Z X C V`          | Combat 1–8 + Def1/Move/CC/Interrupt         |
-| 2 Shift        | `SQ SE SR SF S1..S4` | `SZ SX SC SV`      | Combat 9–12, Class 1–4 + Def2/Move2/CC2/Slow|
-| 3 Ctrl         | `CQ CE CR CF C1..C4` | `CZ CX CC CV`      | Self-heals, purge/dispel/raid-def/lust + buff/res/immune/taunt |
-| 4 Alt          | `AQ AE AR AF` + `1–8`† | `AZ AX AC AV`      | item macros (M5) + **ALT+1–8 = pet/stance bar**† + PvP 1–3, Mount |
-| 5              | —                    | —                  | **free** (available for a compact/overflow layout) |
+| 1 unmod        | `Q E R F 1 2 3 4`    | `· · C V`          | Combat 1–8 + CC/Interrupt (slots 9–10 → bar 5) |
+| 2 Shift        | `SQ SE SR SF · S2 S3 S4` | `· · SC SV`    | Combat 9–12, Class 2–4 + CC2/Slow (slots 5,9,10 → bar 5) |
+| 3 Ctrl         | `CQ CE CR CF C1..C4` | `CZ CX · CV`       | Self-heals, purge/dispel/raid-def/lust + buff/res/taunt (slot 11 → bar 5) |
+| 4 Alt          | `AQ AE AR AF` + `1–8`† | `AZ AX AC AV`      | item macros (M5 ✓) + **ALT+1–8 = pet/stance bar**† + PvP 1–3, Mount |
+| 5 free         | `5 8 9 · M4 M5 M3 SM4 SM5` | `SM3`         | **prep band** (M5 ✓): focus→5, flask→8, buff→9 · **relocated mouse cluster** (movement/defensive/immune, buttons 4–9)‡ |
+
+‡ **Mouse cluster on bar 5 (2026-07-17):** the movement/personal-defensive/immune
+family is fired by the mouse buttons, so it lives on the free bar 5 (buttons 4–9)
+rather than polluting the `<mod>+keyboard` keyset of bars 1–3. See "Mouse relocate"
+below. This is why bars 1/2/3 show freed (`·`) slots.
 
 † `ALT+1–8` no longer fires bar-4 slots 5–8 — it's bound to the **contextual bar**
 (pet or stance, per class, at dump time; see "Contextual bar" below). The old
-`A1..A4` Trinket/Racial/Free buckets are now keyless placeholders.
+`A1..A4` Trinket/Racial/Free buckets are now keyless placeholders — **M5 Phase B
+rebinds Trinket → key `6` and Racial → key `7`** (their bar-4 slots 5–6), leaving
+Free (slots 7–8) unbound.
 
 **Combat-key swap (2026-07-16):** within slots 1–8, the letter cluster `Q E R F`
 now drives **Combat 1–4** (the most-spammed abilities) and the number row `1 2 3 4`
@@ -89,26 +96,44 @@ on V**) is deliberately untouched. Applied identically across all four modifier 
 so a physical key maps to the same slot-position on every layer.
 
 Consequences: the singles (`Z X C V` + Shift/Ctrl variants) join their modifier's
-bar instead of being scattered, and the bar-1 form-mirror now covers all 12 unmod
-slots (druids/rogues get interrupt + defensives on their form bars too).
+bar instead of being scattered, and the bar-1 form-mirror covers the unmod slots
+that remain on bar 1 (druids/rogues get interrupt + CC on their form bars too).
 
-**Mouse relocate (2026-07-16):** the movement + personal-defensive family moved
-off the `Z`/`X` keyboard cluster onto the **three mouse buttons** — strictly
-easier to hit while strafing. Buckets keep their `(bar, slot)`; only the firing
-key changed, so `Z X S1 SZ SX` and `Ctrl+C` free up on the keyboard.
+**Mouse relocate (2026-07-16, revised 2026-07-17):** the movement + personal-
+defensive + immune family is fired by the **three mouse buttons** (+ Shift) —
+strictly easier to hit while strafing.
 
-| Combo | Bucket (bar/slot unchanged) | Freed key |
-|-------|------------------------------|-----------|
-| `M4` / `SM4` | Movement Ability 1 / 2       | `X` / `SX` |
-| `M5` / `SM5` | Personal Defensive 1 / 2     | `Z` / `SZ` |
-| `M3` / `SM3` | Class 1 (Movement) / Immune  | `S1` / `Ctrl+C` |
+The **first cut (2026-07-16)** only re-keyed these buckets to the mouse buttons
+but left them on their bar-1/2/3 slots. That **broke the modifier-bar invariant**
+("slot N = `<mod>` + the *same physical key* on every bar"): slot 9 became
+`Mouse5 / Shift-Mouse5 / Ctrl-Z` across bars 1/2/3 — a keyboard/mouse mix.
+
+The **fix (2026-07-17)** *moves* the six mouse-fired buckets onto the free **bar 5**
+(buttons 4–9), keeping the mouse keybinds. Bars 1/2/3 revert to a clean
+`<mod>+{Q E R F 1 2 3 4 Z X C V}` keyset, and the vacated keyboard keys free up.
+Because bar 5 is form-static, the mouse button fires these in **every** form with
+no form-mirror needed (an improvement over hosting Movement/Def-1 on the paging
+bar 1).
+
+| Combo | Bucket → **bar 5 slot** | Vacated (bar/slot) | Freed key |
+|-------|--------------------------|--------------------|-----------|
+| `M4`  (Mouse4)      | Movement Ability   → **s4** | bar 1 / 10 | `X`  |
+| `M5`  (Mouse5)      | Personal Defensive 1 → **s5** | bar 1 / 9  | `Z`  |
+| `M3`  (MMB)         | Class 1 (Movement) → **s6** | bar 2 / 5  | `S1` |
+| `SM4` (Shift-Mouse4)| Movement Ability 2 → **s7** | bar 2 / 10 | `SX` |
+| `SM5` (Shift-Mouse5)| Personal Defensive 2 → **s8** | bar 2 / 9  | `SZ` |
+| `SM3` (Shift-MMB)   | Immune / Movement  → **s9** | bar 3 / 11 | `Ctrl+C` |
 
 M4/M5 = thumb buttons (primaries), M3 = middle/scroll-click (tertiary). Ease
 order honored: only unmodified + Shift, no Ctrl/Alt. Autorun (formerly unmod
-middle-mouse) was dropped — it stays on the NumLock default. The dump now clears
-any stale key on a managed slot before binding, so relocated keys truly vacate.
-`normKey` also learned `MU`/`MD` (Shift+mousewheel) tokens for future use —
-unmodified wheel stays reserved for camera zoom.
+middle-mouse) was dropped — it stays on the NumLock default. `normKey` also
+learned `MU`/`MD` (Shift+mousewheel) tokens for future use — unmodified wheel
+stays reserved for camera zoom. Bar 5 buttons 1–3 stay the macro prep band
+(focus/flask/buff); the mouse cluster occupies buttons 4–9, so the two never
+collide. ⚠ Relocation caveat: a *re-dump* repoints the mouse keys correctly
+(`SetBinding` is authoritative per key), but a stale ability icon may linger on
+the old bar-1/2/3 slot until `/bb undo` or a fresh restore — those slots are no
+longer managed buckets, so the dump's clear pass skips them.
 
 **Contextual bar → `ALT+1..8` (2026-07-16):** the `ALT`+number row now binds the
 character's **pet bar** (`BONUSACTIONBUTTON1-8`) or **stance/form bar**
@@ -118,8 +143,9 @@ cleared/free). This is *dumper* logic, not a seed bucket: these are separate
 binding namespaces the game auto-populates, so BucketBinds only binds them, never
 places. It reclaims `ALT+1..4`, which were the (M5, not-yet-built) **Trinket /
 Racial / Free** macro slots — those buckets are now **keyless** (`keybind: ""`,
-bar-4 slots 5–8 retained for when M5 lands; Trinket + Racial will need a new key
-then). `@verify-ingame`: command names + per-class button counts in 12.0.7.
+bar-4 slots 5–8 retained). **M5 Phase B (v0.8.0) landed them:** the macro pass
+binds Trinket → `6` and Racial → `7` on those very slots; Free (7–8) stays
+unbound. `@verify-ingame`: command names + per-class button counts in 12.0.7.
 
 Out-of-combat sprawl (mounts/toys/teleports/buffs/specs) is **not** bound to
 keys — it goes on OPie rings. The addon marks those buckets "on a ring" and
@@ -269,11 +295,17 @@ emits as `ns.SEED.excludeSpells` for `/bb spill` + `/bb ring` to suppress.
       - **Coverage gap surfaced:** `Lighthook Grapple` (**1287466**, Midnight DH) is
         castable-and-unmapped — deferred (added to `exclude_spells` for now; it's a
         cross-class ability already default-bound, so it's noise on spill/ring).
-- [ ] **M4 — in-addon tweak UI.** Pick spec → dump → drag abilities between
-      slots → save as profile. This is the "then tweak" half of the promise; the
-      M3 spillover bar is its natural palette — drag the keepers into place.
-- [ ] **M5 — items/macros.** Auto-generate potion/trinket/racial/@cursor macros
-      from the Items table; respect the macro caps.
+- [ ] **M4 — console + seed round-trip** (re-scoped 2026-07-17 from "in-addon
+      tweak UI"). WoW already does drag-drop bar editing natively, so M4 drops the
+      WYSIWYG editor and splits into **M4a — schema-driven console** (a movable
+      in-game command window with live hints/autocomplete) and **M4b — `/bb diff`
+      → seed** (push in-game ability moves back to the canonical seed). Detail below.
+- [x] **M5 — items/macros.** Auto-generate potion/trinket/racial macros from the
+      Items table; respect the macro caps. **Phase A shipped v0.7.0** (set-focus →
+      5, smart focus-interrupt → V); **Phase B shipped v0.8.0** (fall-through
+      potion/flask macros, trinket → 6, racial → 7, per-spec buff → 9). Documented
+      gaps: Oils + food catalogued but not auto-wired; "Another Combat Item" +
+      Mount (→ OPie M6) stay placeholders.
 - [~] **M6 — OPie integration.** Push out-of-combat sprawl onto OPie radial rings
       instead of keys. Design + API research in `opie-automation-research.md`
       (companion vs built-in resolved: the only *dynamic* ring is intrinsically a
@@ -294,12 +326,138 @@ emits as `ns.SEED.excludeSpells` for `/bb spill` + `/bb ring` to suppress.
         collapse to `Summon Random Favorite Mount`; markers are OPie built-ins), or
         seed + `AddDefaultRing` later. No dynamic collection scan needed (v2 in the
         research note is deferred — the built-ins cover the common case).
-- [ ] **M4 — in-addon tweak UI.** Pick spec → dump → drag abilities between
-      slots → save as profile. This is the "then tweak" half of the promise; the
-      M3 spillover bar is its natural palette — drag the keepers into place.
-- [ ] **M5 — items/macros.** Auto-generate potion/trinket/racial/@cursor macros
-      from the Items table; respect the macro caps.
-      - **Hand-picked utility-macro roster (2026-07-16 request):**
+- [ ] **M4 — console + seed round-trip** (re-scoped 2026-07-17 from "in-addon
+      tweak UI"). The "then tweak" half of the pitch — but WoW already gives you
+      native drag-drop on the real bars (+ Edit Mode), so M4 **drops the WYSIWYG
+      slot editor** (don't reinvent the game's own UI) and instead ships a console
+      for driving BB comfortably plus a loop that feeds in-game tweaks back to the
+      seed. **Two independent halves** so the cheap win isn't gated on the harder one.
+      - [x] **M4a — schema-driven console** (shipped v0.9.0, 2026-07-17). A
+        movable/resizable in-game window
+        toggled by `/bb` (no args) or `/bb console`, running the existing `/bb`
+        command surface with real scrollback + a rich input — the fix for the pain
+        of driving BB from the tiny chat frame.
+        - **Addon-driven, not chat-skinning.** Own `Frame` + a `ScrollingMessageFrame`
+          for output (the same widget class the chat frame is built from, but our
+          own instance/content) + an `EditBox` for input. Movable = the standard
+          `SetMovable`/`RegisterForDrag`/`StartMoving` boilerplate; resizable adds a
+          grip + `SetResizeBounds`.
+        - **Two enabling refactors (wanted anyway):** (1) route `say()`/`print`
+          through an **output sink** — append to the console when open, optionally
+          still echo to chat; (2) extract the slash handler into `BB.Dispatch(args)`
+          shared by `SlashCmdList` and the EditBox.
+        - **Unprotected.** Pure UI — **zero secure/protected surface** (unlike the
+          dump's `PlaceAction`/`SetBinding`); ~150–250 lines of standard Lua. A
+          command the console runs (`/bb dump`) still hits its existing combat guards
+          — no regression.
+        - **Schema-driven input — the spine.** Define commands **once** as
+          `{ name, args, flags, desc, complete = fn }`; the hint line, autocomplete
+          dropdown, tab-complete, tooltips, `/bb help`, and "did you mean?" all derive
+          from that single table, so every new `/bb` command lights up all affordances
+          for free. This schema is the thing to design first.
+        - **Affordance tiers:**
+          - *Easy (ship):* live **syntax hint line** (on `OnTextChanged`),
+            **autocomplete dropdown** (matches + one-liners), **tab-complete**,
+            **context arg completion** (spec names after `dump`, `clear` after
+            `macros`), **`GameTooltip` help** on hover, **"did you mean?"** on unknown
+            commands (prefix/fuzzy). EditBox `SetHistoryLines` gives ↑/↓ command
+            history nearly free.
+          - *Fiddly (later):* fish-style **ghost-text autosuggestion** (overlay a grey
+            FontString sized to caret x), **arrow-key dropdown nav** (disambiguate vs.
+            history when the box is empty), **fuzzy ranking**, **aligned scrollback
+            tables**.
+          - *Skip:* per-token **syntax coloring inside the editable input** — a live
+            EditBox can't render mixed colors mid-edit (would need a custom text
+            engine); colorize the **echoed** command in the scrollback instead (free).
+        - **One asset:** bundle a monospace `.ttf` (WoW ships none) for aligned
+          tables. References to crib from: BugSack, ViragDevTool / DevTool, TinyPad;
+          the game's own `` ` `` dev console.
+        - **Shipped (v0.9.0):** `Output.lua` (`ns.Emit` sink; every module's
+          `say`/`print` routes through it), `Core.lua` `ns.Commands` schema +
+          `ns.Dispatch` + `ns.SuggestCommand` (prefix→Levenshtein-≤2 "did you
+          mean?") + schema-generated `cmdHelp`, and `Console.lua` (movable/
+          resizable terminal frame, `ScrollingMessageFrame` scrollback, `EditBox`
+          with ↑/↓ history, live hint line, autocomplete dropdown + GameTooltip,
+          tab-complete with arg-cycling). Bundled font is **JetBrains Mono**
+          under **OFL-1.1** (`Media/JetBrainsMono.ttf` + `-OFL.txt`; the plan's
+          "Apache-2.0" was the pre-v2.304 license). Easy-tier only — Fiddly tier
+          (ghost text, arrow-key dropdown nav, fuzzy ranking, aligned tables) and
+          per-token in-input coloring stay deferred; the echoed command is
+          colorized in scrollback instead.
+      - [ ] **M4b — `/bb diff` → seed round-trip** (replaces "save as profile").
+        Push in-game ability moves back to the **canonical seed**, not a throwaway
+        per-character profile — the "grows through use" doctrine applied to the seed
+        (which still carries Bellular's known classification errors).
+        - **Decision — the layout is fixed.** The `buckets` table
+          (category→bar/slot/keybind) is **canonical and never edited** by the
+          round-trip. The only thing the loop writes is the **ability→category**
+          assignment: `specs[key][category]` (+ the racial/buff/item category data).
+          Fixing the layout **eliminates** the earlier "universal-layout change vs.
+          spec change?" ambiguity — it's *always* a spec-map edit.
+        - **Approach — reconstruct-and-diff (not move-tracking).** Read the live bars
+          (diagnostics already does), run each occupied slot through the **fixed**
+          slot→bucket→category map (`BAR_MAP` + `buckets`), yielding a proposed
+          `specs[currentSpec]` map straight from your bars; **diff** it against the
+          seed's. Changed categories are the edits — handles swaps, moves-to-empty,
+          and adds in one pass. Found → **rebind** (moved category); not in the seed
+          → **bind** (add) at the new category.
+        - **Scope-by-search (the "class / race / universal" question).** For each
+          changed ability, search the seed to classify how wide the edit is: appears
+          in **all specs of the class** → class ability (offer to update all N); **only
+          this spec** → spec-specific; matches a **racial** → race scope; a
+          **consumable/mount** → universal. The search *determines* the scope — no
+          human classifier needed for the common cases.
+        - **The one residual choice:** moving a **class-shared** ability = this-spec-
+          only vs. all-class-specs. Default **this-spec-only** (you were rearranging
+          one spec); the `wowkb` reader **flags class-shared moves for confirmation**
+          rather than silently fanning out. Racials/universals are unambiguous.
+        - **Rails it reuses:** `/bb diff` = diagnostics' bar read-back + the seed
+          compare; writes proposals to `BucketBindsDB` (same SavedVariables→Python
+          bridge as `/bb diagnostics`); a `wowkb` reader emits into the existing
+          `data/seed-edits-proposed.md`; review + `gen_data_lua.py`; shipping the
+          regenerated `Data.lua` closes the loop.
+        - **Wrinkles to remember:** the live bar gives a **spellID**, the seed stores
+          a **name** → the reader resolves ID→name (BB does both ways). An untalented/
+          unloaded ability isn't on the bar, so the diff only ever reflects what you
+          currently have — it **never removes** seed entries, only rebinds/adds what
+          it sees, so the seed self-corrects **incrementally** across the specs/talents
+          you actually play.
+        - A local snapshot/profile survives as a lightweight fallback — M1's
+          `/bb save` already is one.
+- [x] **M5 — items/macros.** Auto-generate potion/trinket/racial macros from the
+      Items table; respect the macro caps.
+      - **Phase A shipped v0.7.0** (`Macros.lua`: `FocusBody`/`InterruptBody`
+        body builders, cap-aware `upsert` returning the index, `placeMacro`,
+        `Apply` (called from the `Dump.Run` post-pass) + `RunStandalone`/`Clear`;
+        `Dump.FormOffsets`; `/bb macros [Spec]` + `/bb macros clear`). Delivers
+        exactly the hand-picked roster below: `BBfocus` (account) → key 5,
+        `BBintr` (per-char, per-spec) → V, idempotent, combat-guarded, reverted
+        by `/bb undo`. Hazard-1 fix: `Apply` nils `bar1IDs[12]` so `onShapeshift`
+        can't re-place the raw interrupt over the macro on form entry. Test-probe
+        slot moved 37→48 to free key 5's button.
+      - **Phase B shipped v0.8.0** — the rest of the utility/prep band:
+        - `gen_data_lua.py` emits two new generated tables into `Data.lua`:
+          `ns.SEED.items` (potions/flasks/oils grouped into `{q2,q1}` ID pairs) and
+          `ns.SEED.specBuffs` (per-spec buff spell list, pre-resolved in Python from
+          the seed `buffs` fuzzy `Spec` strings — `Poisons Macro` → `Instant Poison`).
+        - **Fall-through consumables** (`Macros.ConsumableBody`): `#showtooltip` +
+          `/use item:<id>` for **every** ID in a group (Q2 higher-rank first), so
+          whichever potion the player carries fires. `BBhp` (+`/use Healthstone`
+          prefix) → Alt+Q, `BBmana` → Alt+E, `BBdmg` → Alt+R (bar-4 slots 1–3, Alt
+          keys pre-bound by the dump), `BBflask` → key **8** (bar-5). 255-char cap
+          guarded (drop-tail + warn).
+        - **`BBtrinket`** (`/use 13`+`/use 14`) → key **6**; **`BBracial`** (per-char,
+          from a hardcoded `RACIALS` race→spell table, `@verify-ingame`) → key **7**;
+          **`BBbuff`** (per-char, from `specBuffs[seedKey]`) → key **9**. Racial/buff
+          skip gracefully (reported) on an unmapped race / a spec with no buff row.
+        - `Macros.HANDLED_CATEGORIES` drops the five handled buckets from `Dump.Run`'s
+          `skipped (M5)` report; item/prep counts fold into the dump + `/bb macros`
+          reports. `Macros.Clear` deletes the seven new `BB*` macros, clears their
+          slots, and unbinds keys `6/7/8/9` (Alt item keys left to the dump layout).
+        - **Documented gaps:** Oils (`ns.SEED.items.Oils`, catalogued) + food not
+          auto-wired; "Another Combat Item If Needed" (no seed mapping) + Mount
+          (deferred to OPie M6) stay placeholders.
+      - **Hand-picked utility-macro roster (2026-07-16 request) — Phase A, done:**
         - **Set focus** — `/focus` (static, universal). Home: key **`5`**. ⚠ `5`
           is currently the `ExtraActionButton` bind (`bonus_binds`) — rehome that.
           Keys **`5`–`9`** become a new **utility / prep band** (casual + pre-pull).
@@ -320,6 +478,51 @@ emits as `ns.SEED.excludeSpells` for `/bb spill` + `/bb ring` to suppress.
       - Building these needs the M5 macro engine (`CreateMacro`/`EditMacro` +
         place + cap budget). The **raw-spell** step is already done: warlock's
         interrupt slot now resolves to Command Demon today (pre-macro).
+- [ ] **M7 — per-dungeon interrupt-focus macros** (reuses the M5 macro engine).
+      *"About to pull → mash one key → focus jumps to the highest-priority interrupt
+      caster present in the pack,"* so you don't have to remember each dungeon's
+      priority casters. Data-driven from the M+ KB, generated like every other seed
+      table. (Requested 2026-07-17.)
+      - **The macro mechanic (load-bearing — get this exactly right):** chained
+        bare `/focus <Name>` lines. Macros **never abort** mid-body; a name **miss
+        is a silent no-op** (focus unchanged); a **hit overwrites** focus → so **the
+        last matching line wins**. Therefore emit names in **reverse priority order**
+        (least-important first, top priority last) so the highest-priority mob that's
+        actually present is applied last and wins. **No quotes** — the whole argument
+        is the name; multi-word is fine. There is **no `/focusexact`**: `/focus name`
+        is a partial/nearest match (fine for distinctive M+ mob names); the exact-but-
+        janky fallback (`/targetexact N` → `/focus` → `/targetlasttarget`) is only
+        worth it on a real partial-name collision.
+      - **Environmental requirement (`@verify-ingame`):** `/focus name` only resolves
+        a unit the client already knows (nameplate up / in range / LoS). Needs **enemy
+        nameplates always-on** and the pack loaded — fire it a few yards out. Out of
+        sight → no-op.
+      - **One key, addon-swapped body (recommended UX):** a macro can't branch on
+        dungeon (no dungeon conditional), so instead of N per-dungeon keys, keep a
+        single `BBfoc` macro whose body the addon **rewrites on zone-in**
+        (`PLAYER_ENTERING_WORLD` / `ZONE_CHANGED_NEW_AREA` → resolve the current
+        `GetInstanceInfo()` / map ID → `EditMacro` the dungeon's reverse-priority
+        list). `EditMacro` is protected, but zone-in is out of combat → safe; guard
+        with `InCombatLockdown` / `QueueAction` like the rest of the engine. Fall back
+        to a bare `/focus [@mouseover,harm]` outside known dungeons. Alternative: N
+        account macros (`BBfoc_<dungeon>`) surfaced on an OPie ring (folds into M6).
+      - **Data source:** a new **generated** table (`ns.SEED.mplusFocus` or a sibling
+        data file) keyed by dungeon → ordered interrupt-priority mob-name list,
+        sourced from `knowledge/systems/mechanic-archetypes.md` + the `mplus_memory`
+        per-dungeon files. **Do not hardcode 12.0.7 mob names in the addon**
+        (staleness doctrine) — pull from the KB and regen via the gen pipeline,
+        `--check`-gated like `Data.lua`. Names need to match the in-game unit name
+        exactly-enough for a partial match; `@verify-ingame` per dungeon.
+      - **Scope + budget:** account-wide (mob names are identical for everyone),
+        `BB`-prefixed, idempotent upsert. Single-macro design costs **1** account
+        macro; the per-dungeon fan-out costs ~8 (Midnight S1) — both trivial under
+        the 120 cap. Reuse `ConsumableBody`'s 255-char drop-tail guard (3–4 names +
+        `#showtooltip` ≈ 120 chars, safe; a long list could crowd it).
+      - **Out of scope — the impossible version:** auto-detecting *which* mob is
+        currently casting and focusing it. Target selection by live cast state is
+        secure/protected in combat — no addon can do it. Best achievable is a
+        nameplate cast-bar highlighter (Plater / OmniCD-style, "who to hover") + this
+        priority-focus button. Documented so future-me doesn't chase the wall.
 
 ## M1 plan — snapshot / restore (target release v0.1.0)
 

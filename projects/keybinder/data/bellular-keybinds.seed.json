@@ -86,8 +86,8 @@
     {
       "category": "Class 1 (Movement)",
       "keybind": "M3",
-      "bar": "2",
-      "slot": "5"
+      "bar": "5",
+      "slot": "6"
     },
     {
       "category": "Class 2 (CC)",
@@ -158,26 +158,26 @@
     {
       "category": "Personal Defensive 1",
       "keybind": "M5",
-      "bar": "1",
-      "slot": "9"
+      "bar": "5",
+      "slot": "5"
     },
     {
       "category": "Personal Defensive 2",
       "keybind": "SM5",
-      "bar": "2",
-      "slot": "9"
+      "bar": "5",
+      "slot": "8"
     },
     {
       "category": "Movement Ability",
       "keybind": "M4",
-      "bar": "1",
-      "slot": "10"
+      "bar": "5",
+      "slot": "4"
     },
     {
       "category": "Movement Ability 2",
       "keybind": "SM4",
-      "bar": "2",
-      "slot": "10"
+      "bar": "5",
+      "slot": "7"
     },
     {
       "category": "CC",
@@ -242,8 +242,8 @@
     {
       "category": "Immune/Spell Immune/Movement",
       "keybind": "SM3",
-      "bar": "3",
-      "slot": "11"
+      "bar": "5",
+      "slot": "9"
     },
     {
       "category": "Taunt/Quick Access",

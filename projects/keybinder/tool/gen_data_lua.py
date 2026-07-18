@@ -21,6 +21,68 @@ PROJECT = HERE.parent
 JSON_IN = PROJECT / "data" / "bellular-keybinds.seed.json"
 LUA_OUT = PROJECT / "addon" / "BucketBinds" / "Data.lua"
 
+# Bellular's `buffs` sheet uses fuzzy `Spec` strings — a bare class display name
+# ("Mage"), a "<Class> (Sans Resto)" exclusion, or a "<Qualifier> <Class>" prefix
+# ("Enhancement Shaman", "Resto Shaman"). We resolve these to real seed specs once
+# in Python (auditable) rather than at runtime in Lua. `Flasks` is a spreadsheet
+# artifact (mis-zipped catalog) and is ignored.
+
+
+def _buff_applies(specstr, class_name, spec_name):
+    """Does a buff row's `Spec` string apply to this class/spec? (case-insensitive)"""
+    s = specstr.strip().lower()
+    cn = class_name.strip().lower()
+    sn = spec_name.strip().lower()
+    sans = "(sans resto)"
+    if s.endswith(sans):
+        base = s[: -len(sans)].strip()
+        return base == cn and sn != "restoration"
+    if s == cn:
+        return True
+    # "<qualifier> <class>" → qualifier must be a prefix of the spec name
+    # ("Resto" ⊂ "Restoration", "Enhancement" ⊂ "Enhancement").
+    if s.endswith(" " + cn):
+        qual = s[: -len(cn)].strip()
+        return bool(qual) and sn.startswith(qual)
+    return False
+
+
+def _buff_spell(row):
+    """The castable spell for a buff row. `Poisons Macro` is a placeholder for the
+    Rogue's real lethal poison; every other row's `Buff` is already a spell."""
+    if row["Buff"].strip().lower() == "poisons macro":
+        return "Instant Poison"  # @verify-ingame (poison names in 12.0.7)
+    return row["Buff"]
+
+
+def _spec_buffs(data):
+    """Map each seed spec key ("Mage/Frost") → ordered buff spell list (buff-sheet
+    order). Only specs with ≥1 matching buff are included."""
+    out = {}
+    for s in data["specs"]:
+        names = [
+            _buff_spell(b)
+            for b in data.get("buffs", [])
+            if _buff_applies(b["Spec"], s["class"], s["spec"])
+        ]
+        if names:
+            out[s["class"] + "/" + s["spec"]] = names
+    return out
+
+
+def _item_groups(data):
+    """Partition the flat `items` list into ordered groups. A row with both IDs
+    null is a header naming the next group; each real row → (q2, q1) int pair."""
+    groups, order, current = {}, [], None
+    for row in data.get("items", []):
+        if row.get("Q2 ID") is None and row.get("Q1 ID") is None:
+            current = row["Type"]
+            groups[current] = []
+            order.append(current)
+        elif current is not None:
+            groups[current].append((int(row["Q2 ID"]), int(row["Q1 ID"])))
+    return order, groups
+
 
 def to_lua(data):
     """Render the seed as a Lua module assigned into the addon namespace."""
@@ -60,6 +122,21 @@ def to_lua(data):
             lines.append(f"    [{int(e['id'])}] = true,{note}")
         elif e.get("name"):
             lines.append(f"    [{q(e['name'])}] = true,")
+    lines.append("  },")
+    # items: grouped consumables (Health/Mana/Damage/Flasks/Oils). Each group is
+    # an ordered list of {q2, q1} ID pairs (q2 = higher rank first). Macros.lua's
+    # fall-through builders /use every ID so whichever the player carries fires.
+    order, groups = _item_groups(data)
+    lines.append("  items = {")
+    for name in order:
+        pairs = ", ".join(f"{{{q2}, {q1}}}" for q2, q1 in groups[name])
+        lines.append(f"    {name} = {{ {pairs} }},")
+    lines.append("  },")
+    # specBuffs: per-spec pre-pull buff spell list, pre-resolved from `buffs`.
+    lines.append("  specBuffs = {")
+    for key, names in _spec_buffs(data).items():
+        buffs = ", ".join(q(n) for n in names)
+        lines.append(f"    [{q(key)}] = {{ {buffs} }},")
     lines.append("  },")
     lines.append("}")
     return "\n".join(lines) + "\n"
