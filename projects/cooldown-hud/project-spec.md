@@ -1,20 +1,25 @@
 # Cooldown HUD — project spec & design doc
 
-A condensed, glanceable cooldown/resource HUD that **skins Blizzard's built-in
-Cooldown Manager** (Midnight 12.0). The idea: **vertical space encodes priority,
-horizontal space encodes grouping** (line a burst cooldown up with what it
-buffs), **no icons — color + position + short labels**, live resource counters,
-timing/decay cues, "juice" (glitter) when a resource caps, and audio cues from a
-learnable library. Decluttering is the game: an **empty board = nothing to do**.
+A spec-specific **overlay that enhances Blizzard's built-in Cooldown Manager**
+(Midnight 12.0), authored against an imported cooldown-settings profile. The
+idea: **vertical space encodes priority, horizontal space encodes grouping**
+(line a burst cooldown up with what it buffs) — realized as a **vertical CDM
+column with our overlay frames beside it**. We **keep Blizzard's icons and
+recolor them in place** (desaturate + tint), add short labels + keybinds, live
+resource counters, timing/decay cues, "juice" (glitter) when a resource caps,
+and audio cues from a learnable library. Decluttering is the game: an **empty
+board = nothing to do**. See §0 for the sharpened direction.
 
 **v1 target spec: Demonology Warlock.** Prototype/probe addon: `michac/CDMProbe`
 (checked out at `addon/`, gitignored from the workspace). This doc is the source
 of truth for the design; the addon is the source of truth for the code.
 
-Status: **M0 (feasibility probe) complete** — the capability map below is
-confirmed on the live 12.0.7 client (delve, in combat). The config-delivery /
-positioning model (§5) is now **source-grounded** against the live Blizzard UI
-code (`Gethe/wow-ui-source` @ build 68453 = 12.0.7). Next: M1 layout.
+Status: **M0 (feasibility probe) complete** — the §1 capability map is confirmed
+on the live 12.0.7 client (delve, in combat), and the §5 config-delivery /
+positioning model is **source-grounded** against the live Blizzard UI code
+(`Gethe/wow-ui-source` @ build 68453 = 12.0.7). **Next: M1 — a feasibility
+prototype skin** (dummy content) to prove the rendering/anchoring stack is
+buildable before wiring real config.
 
 ---
 
@@ -202,7 +207,8 @@ Demonic Core charges banked.
 demon-summon cooldowns you fire just before it: **Call Dreadstalkers · Grimoire:
 Fel Ravager · Summon Doomguard**. When those are up together, the window is
 ready. This is the canonical "line Tyrant up with what it buffs" the whole HUD
-concept is about.
+concept is about — realized (§0) as **our overlay frames beside the vertical CDM
+column**, not as a horizontal row inside the CDM's own layout.
 
 **What drives salience (only what we can read):**
 - Soul Shards 0–5 (readable) — the rotation gate; cap = act (spend a Hand of
@@ -231,6 +237,13 @@ concept is about.
 
    UNEND  DARK  │  SHAD  AXE  MORT  │  CIRC         ← utility: defensive │ CC │ mobility
 ```
+
+> **Reconciling with the overlay model (§0):** this sketch is the *logical*
+> layout. In the shipped product the CDM itself is a **vertical column**
+> (Essential, then Utility) and the horizontal affordances above — the burst
+> lane and the shard rail — are **our overlay frames anchored beside it** (§5),
+> not extra rows inside the CDM. Position reads top→bottom down the column;
+> grouping reads across our overlay.
 
 ### Priority tiers (role-static, NOT dynamically re-sorted)
 
@@ -294,7 +307,7 @@ luminance pop, independent of the identity hue.
 
 Frequency-inversely-proportional-to-loudness; global mute + per-event toggles.
 
-**Sound sources (M4).** Two tiers, both MIT-clean: (1) **built-in `PlaySound(SOUNDKIT.*)`**
+**Sound sources (M6 audio).** Two tiers, both MIT-clean: (1) **built-in `PlaySound(SOUNDKIT.*)`**
 — zero bytes, no license, survives combat; audition via [wowhead.com/sounds](https://www.wowhead.com/sounds)
 + [wago.tools/db2/SoundKitName](https://wago.tools/db2/SoundKitName). Candidates:
 `READY_CHECK`, `UI_BNET_TOAST`, checkbox tick, coin. (2) **Bundled `.ogg`** under
@@ -383,7 +396,7 @@ string — plus our overlay on top:
 **Exact serialized fields** (`CooldownViewerSettingsDataStoreSerialization.lua`):
 `COOLDOWN_ORDER`, `CATEGORY_OVERRIDES`, `ALERT_OVERRIDES` — CBOR → Deflate →
 Base64, prefixed `<encodingVersion>|`. **Two consequences:** (a) **alerts ride in
-the string** → a chunk of the §3 / M4 audio+visual-alert set (`Available` /
+the string** → a chunk of the §3 / M6 audio+visual-alert set (`Available` /
 `OnCooldown` / `PandemicTime` / **`OnAuraApplied`** …) ships *inside* the import
 string, secure and combat-safe; (b) icon-vs-bar for buffs is just a category
 (`TrackedBuff` vs `TrackedBar`), so it travels in the string too — no separate
@@ -428,39 +441,65 @@ screenshots 2026-07-17) are the baseline we skin.
 
 ## 6. Milestone log
 
+Ordering rationale (2026-07-17): **prove the rendering stack works before wiring
+real config.** The overlay is authored *against* an imported layout (§0 pillar
+1), so it's tempting to build config first — but the open risk is whether we can
+skin + anchor at all. So M1 is a throwaway-content prototype that answers that;
+only then do we author the real config (M2) and re-point the skin at it (M3).
+
 - **M0 — feasibility probe (done, CDMProbe v0.1–v0.2.2).** `dump` / `skin` /
-  `shards` / `secret` / `log` / `casts`. Confirmed the capability map above;
+  `shards` / `secret` / `log` / `casts`. Confirmed the §1 capability map;
   hardened against Secret-Values taint; reports persist to SavedVariables (read
-  off disk). Deep-dive source research on item skinning (§1 Skinning specifics).
-- **M1 — Essential green-tinted column + shard rail.** Skin Essential vertically
-  with the **CRT treatment** (§4): keep the icons, `SetDesaturated(true)` +
-  `SetVertexColor` green tint (swipe running over), monospace 4-letter labels +
-  keybinds; custom shard rail with cap glitter + sound. *(Design direction
-  chosen — CRT.)*
-- **M2 — horizontal burst lane.** Group Tyrant + Dreadstalkers + Grimoire; shared
-  lane tint; common-fate brighten when all ready.
-- **M3 — borrowed DoT/proc bars.** Restyle the BuffBar viewer (Demonic Core,
-  Dominion of Argus) to match; proc-presence highlight on Demonbolt.
-- **M4 — audio.** Wire the earcon set: shard-cap (ours) + native ready/pandemic
-  alerts; sound library + toggles.
-- **M5 — profile + polish.** Author + ship the per-spec **Cooldown Layout string**
-  (system ①); apply Orientation=Vertical default + anchor-follow (system ②);
-  detect-and-verify the live layout matches (or auto-apply, pending the §7
-  `SetLayoutData` probe); second spec after Demo proves the pattern.
+  off disk). Deep-dive source research on item skinning (§1 Skinning specifics)
+  and the §5 three-layer config model.
 
-### v1 feature additions (2026-07-17 direction)
+- **M1 — Prototype skin (feasibility, dummy content).** Prove the whole rendering
+  stack is buildable on the live client using **placeholder labels / keybinds /
+  values that need not line up with the real layout**. The questions M1 answers:
+  - Can we `SetDesaturated(true)` + `SetVertexColor` the real `item.Icon` in
+    place and make it **persist** across Blizzard's repaints (post-hook
+    `RefreshData` / `RefreshLayout`)?
+  - Can we draw our own regions over a secure item — monospace 4-letter label,
+    keybind text, block-char meter, scanline/vignette overlay — without taint?
+  - Can we build a **custom overlay frame** (shard rail) **anchored** to the
+    viewer (`SetPoint(..., EssentialCooldownViewer, ...)`) that **rides along**
+    when the CDM moves / relayouts?
+  Deliverable: a CRT-looking column + rail that *looks* right, wired to fake
+  content. If any of these can't be done, the design changes here — that's the
+  whole point of doing it first.
 
-The sharpened §0 direction adds four overlay features; mapping to milestones:
+- **M2 — Config foundation.** Make it real underneath. Author the per-spec
+  **Cooldown Layout string** (system ①, §5) for Demo; **auto-apply** it via
+  `CooldownViewerSettings:GetLayoutManager():ImportLayout(str)` (OOC — confirmed
+  viable, §7); set **Orientation=Vertical** default (system ②, LibEditModeOverride,
+  OOC); confirm anchor-follow against the real tracked set + order. After M2 the
+  layout is **fixed and known**, so labels / colours / keybinds / positions have
+  a deterministic thing to key to.
 
-- **Keybind labels on cooldown abilities** — read the binding for each tracked
-  spell, draw it on our block (Ellesmere does this). Overlay-only, no secret. → M1/M2.
-- **Generator-vs-consumer color batching** — extends the §3 colour language:
-  builders (shard generators) vs spenders get a shared batch tint so the
-  build→spend axis reads preattentively. → M1 (folds into the colour map).
-- **Big-CD attention-grabber** — driven by the napkin-math timer (§1: player-cast
-  → `GetSpellBaseCooldown` countdown) for fixed-CD abilities (Tyrant). Salience
-  pop when it's ~ready. → M2 (with the burst lane).
-- **Cyberpunk skin (stretch)** — art pass over the block/rail/bar styling. → post-M5.
+- **M3 — First real skin.** Re-point the M1 prototype at the M2 layout: real
+  4-letter labels + **real keybinds** (read the binding per tracked spell), the
+  §3 group **colour map**, **generator-vs-consumer** batch tint (build→spend axis
+  reads preattentively), and the **Demonic Core proc-glow on Demonbolt**
+  (`IsShown`). Real shard rail (readable + branchable) with cap glitter + sound.
+
+- **M4 — Burst-window overlay.** Our overlay frames **beside** the vertical CDM
+  group **Tyrant · Dreadstalkers · Grimoire: Fel Ravager**; shared lane tint
+  (common region) + common-fate brighten when all are up. The **napkin-math
+  timer** (§1: player-cast → `GetSpellBaseCooldown` countdown, fixed-CD only)
+  drives a salience pop as Tyrant nears ready. This is the horizontal "line
+  Tyrant up with what it buffs" grouping — realized in *our* overlay, not the
+  CDM's layout.
+
+- **M5 — Borrowed DoT/proc bars.** Restyle the secure BuffBar viewer (Demonic
+  Core, Dominion of Argus) to match the skin.
+
+- **M6 — Audio.** Wire the §3 earcon set: our shard-cap + proc-gained, native
+  ready / pandemic alerts; LibSharedMedia registration + per-event toggles +
+  global mute.
+
+- **M7 — Profile enforcement + second spec + polish.** Choose enforcement-strength
+  UX (auto-apply → import-and-verify → nag); prove the pattern on a second spec;
+  **cyberpunk-skin stretch** art pass over the block / rail / bar styling.
 
 ---
 
