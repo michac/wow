@@ -4,8 +4,9 @@
 > Sibling docs carry the rest — read them for anything technical or scheduled.
 >
 > **Doc map (§ cross-refs):** §0 Direction + §3 Design language → **this doc** ·
-> §1–§2, §4–§5, §9 (Secret-Values findings / architecture / provenance) →
-> `notes.md` · §6 Milestones + §7 Open questions → `milestones.md`.
+> §0.5 Guidance model → `guidance-model.md` · §1–§2, §4–§5, §9 (Secret-Values
+> findings / architecture / provenance) → `notes.md` · §6 Milestones + §7 Open
+> questions → `milestones.md`.
 
 ## Elevator pitch
 
@@ -63,6 +64,12 @@ the icons and desaturate + green-tint them in place (`SetDesaturated(true)` +
 and a scanline/vignette overlay — so Blizzard's info (icon shape, cooldown swipe,
 charges, proc glow) survives. "No icons" from the original vision is retired in
 favour of "**icons kept, recolored**."
+
+> **The overlay is a rotation helper, not just a skin (§0.5).** *What* to signal,
+> *when*, and *how* — the ranked salience moments, the generate/spend/burst mode
+> model, and the moment→readable-signal map that the M3–M6 widgets implement — live
+> in the **guidance model → `guidance-model.md`** (§0.5). This doc stays the vision
+> + design language; that doc is the contract the design language serves.
 
 ---
 

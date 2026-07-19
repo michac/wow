@@ -4,8 +4,8 @@
 > the config/positioning architecture, empirical build findings, and provenance.
 >
 > **Doc map (§ cross-refs):** §0 Direction + §3 Design language → `spec.md` ·
-> §1–§2, §4–§5, §9 → **this doc** · §6 Milestones + §7 Open questions →
-> `milestones.md`.
+> §0.5 Guidance model → `guidance-model.md` · §1–§2, §4–§5, §9 → **this doc** ·
+> §6 Milestones + §7 Open questions → `milestones.md`.
 
 ## 1. The hard constraint — Midnight "Secret Values"
 
@@ -280,6 +280,36 @@ Padding**, **Opacity**, **Visibility** (Always/InCombat/Hidden), **Show Timer**,
 Settings* (→ the tracked-set panel = system ①), and *Cooldown Manager Options*.
 The live vertical Essential + Utility columns flanking the character (ref
 screenshots 2026-07-17) are the baseline we skin.
+
+**We do NOT reposition the CDM frames (source-grounded 2026-07-18).** The four
+viewers inherit **`EditModeCooldownViewerSystemTemplate`** (`CooldownViewer.xml:283`)
+→ they are **Edit Mode *system* frames**: protected, position owned by the Edit
+Mode manager, not by our `SetPoint`. `EditModeSystemMixin:ApplySystemAnchor()`
+(`Blizzard_EditMode/Shared/EditModeSystemTemplates.lua:350`) does
+`ClearAllPoints()` + `SetPoint()` **from saved layout data** (`systemInfo.anchorInfo`)
+on Edit Mode enter/exit, layout apply, `/reload`, and login. **Consequences:**
+- A **runtime-only reposition that auto-reverts when the addon is off is not
+  achievable.** Direct `SetPoint` on a viewer is protected (combat-blocked +
+  taints Edit Mode), and even OOC the manager re-anchors from saved data and
+  clobbers it. There is no transient-position channel for these frames.
+- Moving the CDM at all = a **persistent** LibEditModeOverride write into saved
+  Edit Mode state; it does not self-revert. "Revert to pre-addon settings" would
+  mean **storing the prior `anchorInfo`/orientation and writing it back** through
+  the same channel — not a magic undo.
+- Forcing a position out-of-band also **desyncs Edit Mode** (editor shows the
+  saved spot, frame renders elsewhere, snaps back on Edit Mode open).
+
+**Decision (2026-07-18): the addon never moves the CDM.** The user positions the
+CDM once; **our overlay flanks whatever position it has** (anchored to the viewer
+frame, §5/§9 F4) — and being *our* frame, the overlay vanishes cleanly when the
+mod is off, with zero Edit Mode entanglement and nothing to undo. We also **assume
+a vertical layout** rather than staying orientation-agnostic: this is a personal,
+opinionated mod (text reads left→right, etc.), so designing for horizontal isn't
+worth it. A programmatic first-run "flank" setter (+ save-for-undo) via
+LibEditModeOverride is deferred as **optional polish** (M7), worth building only
+if the one-time manual Edit Mode setup proves annoying — it is the sole unproven
+feasibility piece, so keeping it out of the critical path de-risks the whole
+config story.
 
 ---
 

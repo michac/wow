@@ -119,10 +119,12 @@ touching the code**. Status as of 2026-07-09:
 - `projects/cooldown-hud/` — **Cooldown HUD**: a spec-specific overlay that skins
   Blizzard's built-in **Cooldown Manager** (Midnight 12.0), CRT/green-phosphor
   aesthetic; v1 target **Demonology Warlock**. Docs live in `docs/` (`spec.md`
-  vision · `notes.md` technical findings · `milestones.md` roadmap+status) — see
-  its `CLAUDE.md`. The addon (`michac/CDMProbe`) is at `addon/` (own git repo,
-  gitignored, own `CLAUDE.md` for the release workflow). **M1 done** (prototype
-  skin, addon v0.5.2); next is M2 (config foundation).
+  vision · `guidance-model.md` §0.5 rotation-helper contract · `notes.md` technical
+  findings · `milestones.md` roadmap+status) — see its `CLAUDE.md`. The addon
+  (`michac/CDMProbe`) is at `addon/` (own git repo, gitignored, own `CLAUDE.md` for
+  the release workflow). **M1 + M2 + M0.5 done** (M2 was a decision-only scope
+  collapse — bind to the *live* CDM layout, don't ship/move one; M0.5 shipped the
+  §0.5 guidance model, docs-only; addon v0.5.2); next is M3 (first real skin).
 - `todo/` — design docs / specs with milestone logs for the above
   (`rotation-trainer.md`, `talent-calculator-prototype.md`). The informal
   "what's unfinished" inventory, but not exhaustive (mplus_memory's spec lives

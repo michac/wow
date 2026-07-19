@@ -8,13 +8,16 @@ Blizzard's built-in **Cooldown Manager** under Midnight 12.0. v1 target spec:
 
 - **`docs/spec.md`** — guiding spec: the vision + design language (non-technical
   *what & why*, how it should look/feel).
+- **`docs/guidance-model.md`** — the rotation-helper contract (§0.5): what to
+  signal, when, and how — the builder/spender mode model, ranked salience moments,
+  attention-mechanism research, and the moment→readable-signal map M3–M6 implement.
 - **`docs/notes.md`** — technical findings: the Secret-Values capability map, the
   config/positioning architecture, the M1 build findings (§9), and provenance.
 - **`docs/milestones.md`** — roadmap, milestone log, current status, and the
   open-questions / verify-in-game queue.
 
-Section numbers (§0–§9) are shared across the three docs; each doc opens with a
-"Doc map" legend saying which § lives where.
+Section numbers (§0–§9, plus §0.5) are shared across the four docs; each doc opens
+with a "Doc map" legend saying which § lives where.
 
 ## Layout
 
