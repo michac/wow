@@ -9,7 +9,7 @@
 
 ## Status
 
-**Current: M3a shipped (2026-07-20, CDMProbe v0.6.0) — the first product code.**
+**Current: M3a shipped (2026-07-20, CDMProbe v0.6.1) — the first product code.**
 After four decision/prototype milestones, `/cdmp hud` exists: it binds per item by
 `GetCooldownID()` to the **live** CDM layout and draws terminal chrome around
 **native, untouched** Blizzard icons. Covers §0.5.8.3 row **#4** (group colour map
@@ -18,10 +18,26 @@ After four decision/prototype milestones, `/cdmp hud` exists: it binds per item 
 machinery survives **dormant and unwired in `HudTint.lua`** (`notes.md` §9). New
 modules: `SpecDemonology.lua` (the one per-spec data table — the seam M7's second
 spec plugs into), `HudCore` / `HudChrome` / `HudBinds` / `HudTint`.
-⏳ **The in-game test pass is still outstanding** (see §6 M3a) — most importantly
-whether dropping the 2 s ticker holds. `notes.md` §5 gets the binding-by-`cooldownID`
-registry write-up **once that's confirmed**, not before. Next after it: **M3b —
-readiness + procs.**
+**First in-game run (2026-07-20)** confirmed the identity layer — all 20 items bind,
+group/role assignment matches §3, keybind shortening works — and produced three
+findings, two of them fixed in **v0.6.1**:
+
+1. **Defect: the keybind cache thrashed** — 2085 full 180-slot scans in one city
+   session, because `ACTIONBAR_SLOT_CHANGED` fires per-slot and the handler
+   rescanned synchronously on each. Exactly the hot-path rescan the §6 risk list
+   forbade. **Fixed:** debounced + coalesced, and the chrome re-attach is skipped
+   unless the resolved map actually changed.
+2. **The tracked set had drifted from the docs** — Utility is **7** spells, not 13,
+   and carries **Command Demon `119898`** rather than Axe Toss `119914`. Fixed in
+   `SpecDemonology`; `notes.md` §2 corrected. This weakens the stated case for the
+   M7 curated layer-① override (§7).
+3. **`428514` is tracked twice** under two cooldownIDs — direct validation of the
+   M2 decision to key on `cooldownID` rather than `spellID` (`notes.md` §2/§5).
+
+⏳ **Still outstanding: the relayout test** — the run logged `RefreshLayout=0`, so
+the one real regression risk (dropping the 2 s ticker) is **untested**. `notes.md`
+§5's rebinding-event bullet is written but explicitly marked unconfirmed until it
+passes. Next: **M3b — readiness + procs.**
 
 **Prior: M2.5 done** (2026-07-19, docs-only — no addon code) — the **committed v1
 indicator set** is written as **`guidance-model.md` §0.5.8**: the cut principle

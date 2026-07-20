@@ -147,21 +147,37 @@ spell can live in both Essential + BuffBar categories at once.)*
 
 ## 2. The Demonology target
 
-Confirmed tracked set (from the live `dump`, Diabolist profile):
+Confirmed tracked set — **re-measured 2026-07-20** off `/cdmp hud status`
+(M3a, v0.6.0, live, Diabolist profile), which enumerates the bound items with
+their cooldownIDs directly instead of eyeballing a `dump`:
 
-- **Essential (cooldowns):** Hand of Gul'dan `105174`, Call Dreadstalkers
+- **Essential (cooldowns) — 6:** Hand of Gul'dan `105174`, Call Dreadstalkers
   `104316`, Summon Demonic Tyrant `265187`, Grimoire: Fel Ravager `1276467`,
   Implosion `196277`, Demonbolt `264178`
-- **Utility:** Unending Resolve `104773`, Dark Pact `108416` (defensives);
-  Shadowfury `30283`, Axe Toss `119914`, Mortal Coil `6789` (CC); Demonic
-  Circle: Teleport `48020` (mobility); Blight of Tongues `1271802`
-- **Buff bars:** Demonic Core `264173`, Dominion of Argus `1276166`, Unending
-  Resolve, Call Dreadstalkers
-- **Buff icons:** Wild Imp `296553`, Diabolic Ritual `428514`
+- **Utility — 7:** Unending Resolve `104773`, Dark Pact `108416` (defensives);
+  Shadowfury `30283`, **Command Demon `119898`**, Mortal Coil `6789`, Blight of
+  Tongues `1271802` (CC); Demonic Circle: Teleport `48020` (mobility)
+- **Buff bars — 4:** Demonic Core `264173`, Dominion of Argus `1276166`, Unending
+  Resolve `104773`, Call Dreadstalkers `104316`
+- **Buff icons — 3:** Wild Imp `296553`, Diabolic Ritual `428514` **×2**
 
-> Note for §0.5.8 #18: only the `428514` **container** is tracked — the per-stage
-> ritual auras the predictive tracker needs are not, which is why #18 is gated on
-> a curated layout override (M7, [archive B](./notes-archive.md#b-the-layer--curated-layout-machinery)).
+> **Correction 1 (2026-07-20) — Utility is 7 spells, not 13**, and it carries the
+> *wrapper* spell **Command Demon `119898`**, not the pet ability **Axe Toss
+> `119914`** this list previously recorded. Consequence: "the noisy 13-spell
+> Utility default", cited as the likely trigger for an M7 curated layer-①
+> override (`milestones.md` §7, [archive B](./notes-archive.md#b-the-layer--curated-layout-machinery)),
+> is a **smaller problem than assumed** — that argument has to be re-made against
+> 7 icons, not 13.
+>
+> **Correction 2 (2026-07-20) — `428514` (Diabolic Ritual) is tracked TWICE**, as
+> two distinct cooldownIDs (`9426`, `9472`) sharing one spellID. This is direct
+> **validation of the M2 decision to key the registry on `cooldownID`, not
+> `spellID`** (§5): a spellID-keyed table would have silently collapsed the two
+> and dropped a live item.
+>
+> Note for §0.5.8 #18 (unchanged in substance): both entries are the `428514`
+> **container** — the per-stage ritual auras the predictive tracker needs are
+> still not tracked, so #18 stays gated on a curated layout override (M7).
 
 **Rotation shape** (distilled from `knowledge/classes/warlock/demonology/
 rotation.md`, Diabolist, 12.0.7). Demo is a builder/spender pet-army spec: build
@@ -212,7 +228,18 @@ stretch art pass, and the prototypes remain in-repo under `../prototype/`.
 - **Bind to the live layout.** Per item by `GetCooldownID()` on the
   `RefreshLayout` hook — reorder-safe, absent spells skipped, no import string.
   Design baseline = the DB2-default filtered set (`CooldownSet`/`CooldownSetSpell`,
-  spec 266 = set 60).
+  spec 266 = set 60). **Built in M3a** (`HudCore.lua`); the registry is keyed
+  `"<viewerName>:cd<cooldownID>"`, with a frame-index fallback for any item that
+  doesn't expose one.
+  - **Keying on `cooldownID` rather than `spellID` is load-bearing, not
+    fastidiousness** — confirmed in-game 2026-07-20: Diabolic Ritual `428514` is
+    tracked as **two** cooldownIDs sharing one spellID (§2 correction 2), so a
+    spellID-keyed table drops a live item silently.
+  - Rebinding is driven by **`RefreshLayout` + `COOLDOWN_VIEWER_DATA_LOADED` +
+    `PLAYER_ENTERING_WORLD`**, with **no backstop ticker** (§9). ⏳ *Whether that
+    event set is sufficient is **not yet confirmed in-game** — the first pass
+    logged `RefreshLayout=0`, i.e. no relayout had happened. This bullet gets
+    finished, or corrected with the missing event, after that test.*
 - **Leave the icon viewers' icons alone.** v1 draws **chrome around** `item.Icon`
   — keybind corner text, group/mode accents, proc-glow overlays, ready accents —
   and never writes to the icon texture itself, so Blizzard's art, swipe, countdown,
