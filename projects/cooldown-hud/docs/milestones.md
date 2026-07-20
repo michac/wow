@@ -9,7 +9,17 @@
 
 ## Status
 
-**Current: M3a shipped (2026-07-20, CDMProbe v0.6.1) — the first product code.**
+**Current: M3b shipped (2026-07-20, CDMProbe v0.7.0) — the first STATE signals.**
+`/cdmp hud` now says not just who each icon is but what it's *doing*: a **ready
+accent** off the observed ready edge (+ a one-shot settle, the one place motion is
+allowed), the **Demonic Core proc-glow** on Demonbolt (softening at ≥4 shards), the
+**Demonic Art proc-glow** on the transformed button, and the **empty-board recede**.
+Covers §0.5.8.3 rows **#5, #2, #3**. New module `HudState.lua`; `HudChrome` refactored
+to a **composed accent** with a single writer. Details + the four source findings that
+reshaped it: §6 M3b and `notes.md` §1. **In-game pass outstanding** (this one also
+carries M3a's untested relayout check).
+
+**Prior: M3a shipped (2026-07-20, CDMProbe v0.6.1) — the first product code.**
 After four decision/prototype milestones, `/cdmp hud` exists: it binds per item by
 `GetCooldownID()` to the **live** CDM layout and draws terminal chrome around
 **native, untouched** Blizzard icons. Covers §0.5.8.3 row **#4** (group colour map
@@ -37,7 +47,8 @@ findings, two of them fixed in **v0.6.1**:
 ⏳ **Still outstanding: the relayout test** — the run logged `RefreshLayout=0`, so
 the one real regression risk (dropping the 2 s ticker) is **untested**. `notes.md`
 §5's rebinding-event bullet is written but explicitly marked unconfirmed until it
-passes. Next: **M3b — readiness + procs.**
+passes. **This check rolls forward into the M3b pass** — it is the first item on
+that checklist, ahead of any new-feature verification.
 
 **Prior: M2.5 done** (2026-07-19, docs-only — no addon code) — the **committed v1
 indicator set** is written as **`guidance-model.md` §0.5.8**: the cut principle
@@ -261,13 +272,91 @@ decision/spec milestone that de-risks the build that follows.)
     restores. **Dropping the ticker is the one real regression risk** — if items
     detach, the fix is another *event*, not the ticker back, and which event was
     missing gets recorded in `notes.md`.
-  - **M3b — readiness + procs.** Icons left native ⇒ Blizzard's on-cooldown dimming
-    is preserved for free, which **resolves the §9 "ready vs on-cooldown" decision by
-    dissolving it** (we no longer own that pixel): we *add* a ready accent (off the
-    observed ready edge — hook `OnCooldownDone` / `TriggerAvailableAlert`, no secret
-    read) + **empty-board recede**, and the **Demonic Core proc-glow on Demonbolt** +
-    **Demonic Art proc-glow on the transformed button** (`IsShown`), as styled glow
-    overlays.
+  - **M3b — readiness + procs — ✅ SHIPPED (2026-07-20, v0.7.0); in-game pass
+    outstanding.** Icons left native ⇒ Blizzard's on-cooldown dimming is preserved
+    for free, which **resolves the §9 "ready vs on-cooldown" decision by dissolving
+    it** (we no longer own that pixel): we *add* a ready accent off the observed
+    ready edge + **empty-board recede** (#5), the **Demonic Core proc-glow on
+    Demonbolt** (#2) and the **Demonic Art proc-glow on the transformed button**
+    (#3), as our own styled overlays.
+
+    **Source research changed the approach on all three rows.** Re-reading
+    `Blizzard_CooldownViewer/CooldownViewer.lua` @ 68453 before writing any code
+    produced four findings — a better mechanism than the plan assumed, and two
+    traps that would otherwise have shipped as **silent no-ops**. They are written
+    up in full in **`notes.md` §1** (`TriggerAlertEvent` choke point · the
+    `GenerateClosure`/`OnCooldownDone` trap · the override-spellID behaviour · the
+    `IsShown`/`hideWhenInactive` caveat). In short:
+
+    - **`TriggerAlertEvent` is one choke point for every edge we want** — ready
+      rising *and* falling, proc applied *and* removed — and it fires
+      **unconditionally**, because the user's alert configuration is checked inside
+      the body rather than before the call. One hook per item instance replaced the
+      planned `IsShown()` polling for #2/#3 and made #5's falling edge free.
+    - **`OnCooldownDone` is unhookable via `hooksecurefunc`** — `OnLoad` captures
+      the function reference in a `GenerateClosure`, so the hook never runs. Would
+      have been a no-op nobody noticed. (`item.Cooldown:HookScript` is the way, if
+      ever needed. It isn't.)
+    - **The Demonic Art transform is directly observable** via
+      `COOLDOWN_VIEWER_SPELL_OVERRIDE_UPDATED(base, override)` — so #3 knows
+      exactly *which* button transformed. Driving it off the override event rather
+      than Diabolic Ritual's presence also avoids a near-permanent false positive:
+      the Ritual buff is up through most of the accumulation, not just once an Art
+      is armed. Presence is still tracked and reported as **corroboration**.
+    - **That same override behaviour was a live M3a defect** — `item:GetSpellID()`
+      prefers the override, so the M3a keybind lookup missed and **the keybind
+      blanked out** for the whole transform. Fixed: identity now resolves off
+      `GetBaseSpellID()`.
+    - **`IsShown()` presence is conditional on a user setting** —
+      `ShouldBeShown()` short-circuits to true unless the viewer hides inactive
+      items, so a glow driven off it would **latch on permanently**. It's now
+      capability-checked, and `notes.md` §1's previously unqualified claim is
+      corrected.
+
+    **What the build decided (things the plan left open):**
+    - **`HudChrome` refactored to a COMPOSED accent with a single writer.** M3a
+      wrote edge colours straight out of group+role in `Attach`, and `HudBinds`
+      calls `Attach` on every keybind change — which would have stomped readiness.
+      Now `identity` × `ready` × `recede` compose through one `H.Apply`, so state
+      survives a re-attach. This is the M3a encoding split finally paying out:
+      **hue = group, saturation = role, luminance = readiness, alpha = recede** —
+      four independent channels that can never fight.
+    - **`ready = nil` is a real state, not a default.** At bind time we cannot know
+      whether a cooldown is up without a secret read, so accents sit at **base**
+      luminance until an edge is observed. Unknown ≠ ready and unknown ≠ on-cooldown;
+      `hud status` prints all three.
+    - **Layered presence, honestly reported.** Edges are primary; the `IsShown`
+      *level* read is used for initial sync and a throttled ~10 Hz backstop **only
+      where the setting makes it meaningful**. `hud status` says which layers are
+      live rather than pretending, and probes whether `item.isActive` reads
+      non-secret — if it does it's a strictly better level source and M3c upgrades.
+    - **The proc glow is ours, not `LibCustomGlow`** (no new dependency) and not
+      Blizzard's spell-activation overlay — which stays untouched *underneath*, so
+      a native glow and ours coexist instead of one hiding the other.
+    - **Recede counts out-of-combat as quiet.** "Shards low + nothing glowing" alone
+      would rarely fire while idling at 3+ shards, and out of combat there is
+      genuinely nothing to press. Sleep is debounced ~0.5 s; **wake is instant** on
+      any proc or ready edge, so it cannot strobe between GCDs.
+    - **Only the HoG half of #3 is glowable** — Shadow Bolt isn't in the tracked
+      set, so SB → Infernal Bolt has no icon. Flagged as a blind spot in
+      `guidance-model.md` §0.5.5, not faked; re-opens only with an M7 curated
+      layout override.
+
+    **Outstanding in-game pass:** **M3a's relayout check first** (Edit Mode →
+    Orientation / # Rows → `RefreshLayout` increments, nothing detaches; and the
+    keybind cache reads a handful of scans with a `coalesced` count, not thousands).
+    Then at a dummy: Demonbolt lights on a Core proc and **softens** at ≥4 shards ·
+    HoG lights when Demonic Art arms it and its **keybind stays visible** through the
+    transform · Dreadstalkers coming off CD settles **exactly once** then holds a
+    steady bright accent, and accents start at base luminance after `/reload` ·
+    the board dims after ~0.5 s idle and wakes on the first edge without strobing ·
+    `hud status`'s state block reports the right glow states and says whether level
+    reads are available · off → pixel-clean, `/reload` restores.
+
+    **Known risk:** `TriggerAlertEvent` is the whole design. If it turns out not to
+    fire, or its `event` arg reads secret, the fallback is the layered `IsShown`
+    model — which is why the level/poll path was **built rather than dropped**, and
+    why `hud status` counts a `secret=` bucket for that exact arg.
   - **M3c — resource + mode + anticipation.** The owned **shard rail** (segmented
     fill, cap flip + one-shot glitter + earcon), **GENERATE↔SPEND mode chrome tint**
     (pure shard threshold), the **anticipation layer** (ghost incoming-shard during an

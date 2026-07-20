@@ -33,7 +33,8 @@ delve, in combat — SavedVariables captured to disk):
 | **Player's own casts** (`UNIT_SPELLCAST_START` / `SUCCEEDED`, `unitTarget == "player"`) | ✅ **yes** — readable spellID; Blizzard relaxed the restriction for personal casts | ✅ |
 | **Cooldown timing** (`GetSpellCooldown().duration`) | ❌ `<secret>` | ✅ secure swipe via duration object |
 | **Aura/DoT/proc timing + stacks** | ❌ query errors / returns nothing in restricted combat | ✅ secure BuffBar / BuffIcon viewer |
-| **Buff/proc *presence*** (`item:IsShown()` on a CDM buff item) | ✅ **yes** — shown-state is Blizzard-secure but readable, and tracks the (secret) aura being active | ✅ |
+| **Buff/proc *presence*** (aura **edges** via `TriggerAlertEvent`) | ✅ **yes** — the alert choke point below delivers applied/removed edges precisely, with no setting dependency | ✅ |
+| **Buff/proc *presence*** (`item:IsShown()` **level** on a CDM buff item) | ⚠ **conditional** — readable, but only *means* anything when the viewer hides inactive items (see the `hideWhenInactive` caveat below) | ✅ |
 
 **The surprise win:** Soul Shards are readable *and branchable* in instanced
 combat, buff-item `IsShown()` gives us proc *presence* without the secret aura,
@@ -48,7 +49,7 @@ quantities (exact cooldown remaining, aura stack counts) are off-limits.
 | --- | --- |
 | Layout, colour, identity, chrome, keybinds | **ours** (pure rendering — never restricted) |
 | Soul Shard rail + cap glitter + cap sound | **ours** (shards readable & branchable) |
-| Proc highlight (e.g. Demonbolt lit when Demonic Core up) | **ours** (buff item `IsShown()`) |
+| Proc highlight (e.g. Demonbolt lit when Demonic Core up) | **ours** (buff-item aura **edges** via `TriggerAlertEvent`; `IsShown()` is only a conditional level backstop) |
 | Mode chrome (PREP/GENERATE/SPEND/BURST) | **ours** (composed from shards + presence + napkin timers) |
 | Napkin timing cues (Tyrant approach, HOLD, short-CD pings) | **ours** (own casts + `GetSpellBaseCooldown`) |
 | Icon art, cooldown swipe, countdown text, charges | **borrowed — and now untouched.** Blizzard's secure Cooldown widget draws it; v1 adds nothing over the icon |
@@ -122,15 +123,91 @@ casts`**; v0.5.3 logs START/SUCCEEDED/STOP/INTERRUPTED per-phase.
 read.** `hooksecurefunc` the Blizzard-driven show/hide methods to get the *edge*,
 then hide theirs and draw our own arbitrary shape anywhere:
 
-- **Ready edge:** hook `TriggerAvailableAlert` or the Cooldown widget's
-  `OnCooldownDone` script → drive our own "ready" accent. **This means we CAN show
-  a ready cue on cooldowns** — from the observed edge, not a secret read. This is
-  the M3b mechanism.
+- **Ready edge:** see the alert choke point below — `TriggerAlertEvent` is
+  strictly better than either `TriggerAvailableAlert` or the Cooldown widget's
+  `OnCooldownDone` script, and gives us the *falling* edge for free. **This means
+  we CAN show a ready cue on cooldowns** — from the observed edge, not a secret
+  read. This is the M3b mechanism, shipped in v0.7.0.
 - **Pandemic:** hook `CooldownViewerItemMixin:ShowPandemicStateFrame` /
   `HidePandemicStateFrame` → hide `item.PandemicIcon`, show our own (e.g. an
   offset arrow). (`IsInPandemicTime` is secret-derived — drive off the hook, not a
   poll.)
 - **Off-cd flash:** `item.CooldownFlash:IsShown()` / hook `RefreshSpellCooldownInfo`.
+
+#### `TriggerAlertEvent` — one choke point for every state edge (2026-07-20, M3b)
+
+Re-reading the source for M3b turned up a **better mechanism than the plan
+assumed, plus two traps that would have shipped as silent no-ops.** All four
+findings are re-verified against `CooldownViewer.lua` @ build 68453.
+
+**(1) `CooldownViewerItemMixin:TriggerAlertEvent(event)` (`:483`) is called as
+`self:TriggerAlertEvent(...)` — a dynamic method lookup on the item instance —
+from all six alert paths:**
+
+| Enum | Call site | Meaning for us |
+| --- | --- | --- |
+| `Available` | `:500` | ready **rising** edge (§0.5.8.3 #5) |
+| `OnCooldown` | `:1068` | ready **falling** edge (#5) |
+| `OnAuraApplied` | `:612` | proc gained (#2, #3) |
+| `OnAuraRemoved` | `:622` | proc lost (#2, #3) |
+| `ChargeGained` | `:608` | M4 |
+| `PandemicTime` | `:556` | §7 open question |
+
+Decisively, **the user's alert configuration is checked *inside* the body**
+(`self.alertsByEvent[event]`), *after* the call — so the method is invoked
+unconditionally and `hooksecurefunc(item, "TriggerAlertEvent", …)` fires **even
+for spells the user has configured no alert on**. One hook per item instance
+gives every edge, precisely, with **no polling and no secret read**. This
+replaced an `IsShown()`-polling design for #2/#3 and removed the need to pull the
+cast-tracking module forward for #5's falling edge.
+
+As with the icon-tint leaf hooks (§9), these methods are `Mixin()`-copied onto
+**each** item frame, so the hook must go on the item **instance**, guarded once
+per frame.
+
+**(2) TRAP — `OnCooldownDone` cannot be hooked the obvious way.**
+`CooldownViewerCooldownItemMixin:OnLoad` does
+`self:GetCooldownFrame():SetScript("OnCooldownDone", GenerateClosure(self.OnCooldownDone, self))`
+(`:700`, and again at `:1262` for buff icons). The closure captures the
+**function reference at OnLoad**, so a later
+`hooksecurefunc(item, "OnCooldownDone", …)` is **never reached from the script
+path** — it would have shipped as a silent no-op. If it's ever wanted it must be
+`item.Cooldown:HookScript("OnCooldownDone", …)`. Given (1), we don't need it.
+
+**(3) The Demonic Art transform is directly observable — and it was already an
+M3a bug.** `CooldownViewerItemDataMixin:GetSpellID()` (`CooldownViewerItemData.lua:174`)
+returns `overrideSpellID` **in preference to the base spell**, and the viewer
+registers **`COOLDOWN_VIEWER_SPELL_OVERRIDE_UPDATED`** carrying
+`(baseSpellID, overrideSpellID)` (`:1556`/`:1593`). That event *is* Demonic Art:
+HoG → Ruination flips the item's reported spellID. Two consequences:
+
+- **#3 gets a precise trigger** — we learn exactly *which button* transformed,
+  rather than inferring "something is armed" from Diabolic Ritual's presence.
+  (Which matters more than it sounds: the Ritual buff is present through most of
+  the *accumulation*, so presence alone would have been lit nearly always. v0.7.0
+  drives the glow off the override event only, and reports the presence edge
+  alongside it as corroboration.)
+- **It was a live M3a defect** — while transformed, `ns.ItemSpellID` returns
+  Ruination, so the M3a keybind lookup missed and **the keybind blanked out**
+  mid-rotation. Fixed in v0.7.0: anything keyed on ability *identity* (keybinds,
+  the proc registry) resolves off **`GetBaseSpellID()`** (`ns.ItemBaseSpellID`),
+  falling back to the override, never the other way round.
+
+**(4) CAVEAT — `IsShown()` presence is conditional on a user setting.**
+`CooldownViewerItemMixin:ShouldBeShown()` (`:311`) returns **true immediately**
+when `not self.allowHideWhenInactive` **or** `not self.hideWhenInactive`. So if
+the buff viewer isn't set to hide-when-inactive, `item:IsShown()` is
+**constant-true**, and a proc glow driven off it **latches on permanently** —
+worse than no glow at all. The earlier unqualified "proc presence via
+`IsShown()`" claim in this section is corrected accordingly: it must be
+**capability-checked**, never assumed. v0.7.0 therefore ships a **layered** model
+— *edges* (primary, config-independent) · *level* at bind (`IsShown`, only where
+the setting makes it meaningful) · a throttled *poll* backstop — and
+`/cdmp hud status` reports which layers are actually live rather than pretending.
+
+Also worth a probe: `item.isActive` is the very field `ShouldBeShown` consults
+(`:370`/`:378`). If it reads non-secret it's a strictly better level source than
+`IsShown`; `hud status` prints it for exactly that reason (M3c upgrade).
 
 **Buff-vs-cooldown = one sequenced widget, but splittable.** Stock CDM overwrites
 the item's cooldown with the self-buff's remaining while the buff is up (aura

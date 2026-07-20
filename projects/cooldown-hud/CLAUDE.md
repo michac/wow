@@ -11,8 +11,14 @@ Blizzard's built-in **Cooldown Manager** under Midnight 12.0. v1 target spec:
 - **`docs/guidance-model.md`** — the rotation-helper contract (§0.5): what to
   signal, when, and how — the builder/spender mode model, ranked salience moments,
   attention-mechanism research, and the moment→readable-signal map M3–M6 implement.
-- **`docs/notes.md`** — technical findings: the Secret-Values capability map, the
-  config/positioning architecture, the M1 build findings (§9), and provenance.
+- **`docs/notes.md`** — technical findings, **current framing only**: the
+  Secret-Values capability map, the positioning/anchoring architecture, the M1
+  build findings (§9), and provenance.
+- **`docs/notes-archive.md`** — superseded / parked work, split out of `notes.md`
+  2026-07-20. The green-phosphor icon-tint era, the curated-layout machinery we
+  proved and chose not to ship (M7 revival), and the assumptions we got wrong.
+  **Nothing here is current** — each entry says why it's parked and what would
+  revive it. Don't cite it as fact; do read it before re-proposing a dead end.
 - **`docs/milestones.md`** — roadmap, milestone log, current status, and the
   open-questions / verify-in-game queue.
 
