@@ -141,10 +141,12 @@ touching the code**. Status as of 2026-07-09:
   vision · `guidance-model.md` §0.5 rotation-helper contract · `notes.md` technical
   findings · `milestones.md` roadmap+status) — see its `CLAUDE.md`. The addon
   (`michac/CDMProbe`) is at `addon/` (own git repo, gitignored, own `CLAUDE.md` for
-  the release workflow). **M1 + M2 + M0.5 + M2.5 done** (M2 was a decision-only scope
-  collapse — bind to the *live* CDM layout, don't ship/move one; M0.5 shipped the
-  §0.5 guidance model; M2.5 committed the v1 indicator set as §0.5.8 — all docs-only;
-  addon v0.5.2); next is M3 (first real skin).
+  the release workflow). **M0.5 + M1 + M2 + M2.5 + M3a + M3b done** (M2 was a
+  decision-only scope collapse — bind to the *live* CDM layout, don't ship/move one;
+  M0.5 shipped the §0.5 guidance model; M2.5 committed the v1 indicator set as
+  §0.5.8 — those three docs-only. M3a shipped the identity layer, M3b readiness +
+  procs; addon **v0.7.0**, in-game pass outstanding); next is M3c (shard rail +
+  mode chrome + anticipation).
 - `todo/` — design docs / specs with milestone logs for the above
   (`rotation-trainer.md`, `talent-calculator-prototype.md`). The informal
   "what's unfinished" inventory, but not exhaustive (mplus_memory's spec lives
