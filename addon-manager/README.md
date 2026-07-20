@@ -31,7 +31,12 @@ cp config.example.json config.json      # then edit: set addons_dir + repos
 }
 ```
 
-- **`addons_dir`** — your live AddOns folder (the WSL `/mnt/c/...` path works).
+- **`addons_dir`** — your live AddOns folder. **Either flavor works**: the WSL
+  `/mnt/c/Program Files (x86)/...` path or the native Windows
+  `C:\Program Files (x86)\...` one. They name the same folder but only one of
+  them resolves on any given interpreter, so ghaddons translates whichever is in
+  the config to whichever side it's running on. You never have to remember which
+  shell wrote it.
 - **`token`** — optional GitHub PAT. Empty = anonymous API (60 requests/hour,
   fine for a modest list). Also read from `$GITHUB_TOKEN`.
 
@@ -51,6 +56,42 @@ python3 -m ghaddons.cli path  "/mnt/c/.../Interface/AddOns"   # show/set AddOns 
 
 `list` marks each repo `ok` (up to date), `UPD` (update available), `--`
 (not installed), or `ERR`.
+
+### Running it from anywhere
+
+`ghaddons` keeps `config.json` / `installed.json` next to its own package, not in
+the current directory, so it doesn't care where you invoke it from — it only has
+to be importable:
+
+```bash
+PYTHONPATH=~/code/fun/wow/addon-manager python3 -m ghaddons.cli update michac/CDMProbe
+```
+
+Use that form in per-addon deploy docs and scripts; it works first try from any
+directory, from WSL or from Windows `python`. If you're already sitting in
+`addon-manager/`, plain `python3 -m ghaddons.cli ...` is identical.
+
+## Deploying an addon you're developing
+
+For your own addons (`michac/CDMProbe`, `michac/wow-planner-state`,
+`michac/BucketBinds`), **a `git push` does not reach the game.** ghaddons installs
+from the **latest GitHub release**, so the deploy is always three steps:
+
+```bash
+# 1. bump ## Version: in the addon's .toc, commit, push
+gh release create v0.6.0 --title v0.6.0 --repo michac/CDMProbe --notes "..."
+
+# 2. pull it into Interface/AddOns
+PYTHONPATH=~/code/fun/wow/addon-manager python3 -m ghaddons.cli update michac/CDMProbe
+
+# 3. in-game
+/reload
+```
+
+The release tag must match the `.toc` `## Version:` prefixed with `v` — that
+pairing is what makes `ghaddons list` report `ok` instead of `UPD` forever. Each
+addon repo's own `CLAUDE.md` carries the rest of its release checklist (syntax
+check, schema bumps, smoke test).
 
 ## GUI (optional)
 

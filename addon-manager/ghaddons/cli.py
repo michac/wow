@@ -121,6 +121,17 @@ def cmd_path(args) -> int:
 
 
 def main(argv=None) -> int:
+    # Windows consoles default to a legacy code page, where our "→" separators
+    # raise UnicodeEncodeError *after* the install has already succeeded — the
+    # run looks like a failure when it wasn't. Ask for UTF-8 and fall back to
+    # replacement characters rather than crashing on cosmetics.
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            try:
+                stream.reconfigure(encoding="utf-8", errors="replace")
+            except (ValueError, OSError):
+                pass
+
     p = argparse.ArgumentParser(prog="ghaddons", description=__doc__,
                                 formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = p.add_subparsers(dest="cmd", required=True)

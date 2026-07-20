@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import shutil
 import tempfile
 import urllib.error
@@ -39,6 +40,30 @@ DEFAULT_ADDONS_DIR = (
 )
 
 
+def normalize_addons_dir(raw: str) -> str:
+    """Accept the AddOns path in either flavor and return the one that resolves
+    on the interpreter actually running.
+
+    The same WoW install has two names: `C:\\...` from native Windows Python and
+    `/mnt/c/...` from WSL. Whichever form is sitting in config.json, only one of
+    them exists on any given run — so a config written on one side used to make
+    the other side fail with a bare "AddOns directory not found". Translating
+    here means `python3 -m ghaddons.cli update <repo>` works first try from
+    either shell, and nobody has to remember which one wrote the config.
+    """
+    s = (raw or "").strip()
+    if not s:
+        return s
+    on_windows = os.name == "nt"
+    m = re.match(r"^([A-Za-z]):[\\/](.*)$", s)          # C:\Foo\Bar  or  C:/Foo/Bar
+    if m and not on_windows:
+        return "/mnt/{}/{}".format(m.group(1).lower(), m.group(2).replace("\\", "/"))
+    m = re.match(r"^/mnt/([A-Za-z])/(.*)$", s)          # /mnt/c/Foo/Bar
+    if m and on_windows:
+        return "{}:\\{}".format(m.group(1).upper(), m.group(2).replace("/", "\\"))
+    return s
+
+
 @dataclass
 class Config:
     addons_dir: str = DEFAULT_ADDONS_DIR
@@ -50,7 +75,7 @@ class Config:
         if path.exists():
             d = json.loads(path.read_text())
             return cls(
-                addons_dir=d.get("addons_dir", DEFAULT_ADDONS_DIR),
+                addons_dir=normalize_addons_dir(d.get("addons_dir", DEFAULT_ADDONS_DIR)),
                 repos=list(d.get("repos", [])),
                 token=d.get("token", "") or os.environ.get("GITHUB_TOKEN", ""),
             )

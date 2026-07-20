@@ -12,6 +12,16 @@ create a new branch, `git checkout -b`, or switch branches unless explicitly tol
 to — no PRs, no surprise branches. If you think a different branch is warranted,
 **ask first**; never silently start working off a branch you created.
 
+**Don't mother-hen the git state.** This is a scratch-history repo; uncommitted
+work sitting in the tree is the normal resting state, not a problem to flag.
+Commit and push **only when asked** — do not offer to commit, do not append
+"(not pushed)" / "changes are uncommitted" / "want me to commit?" to answers,
+and do not treat a dirty tree as a finding. If a `git status` detail actually
+matters to the question, state it once, plainly, and move on. (Exception: the
+gitignored sub-repos — `planner-state/`, `projects/cooldown-hud/addon/` — where
+"a push does not reach the game, you must cut a release" is a real deploy fact
+worth saying when a deploy is in play.)
+
 ## Current game state
 
 - **Live: patch 12.0.7 "Revelations"** — Midnight expansion, level cap **90**,
@@ -91,6 +101,15 @@ game.** Defenses, in order:
   under `…/_retail_/Interface/AddOns/PlannerState/`.
 - `addon-manager/` — `ghaddons`, a GitHub-driven WoW addon manager (installs
   PlannerState + any other addon from a repo list). Its own README; stdlib-only.
+  **The one deploy command**, for any of our addons, runnable from any directory:
+  ```bash
+  PYTHONPATH=~/code/fun/wow/addon-manager python3 -m ghaddons.cli update <owner/repo>
+  ```
+  It installs from the **latest GitHub release**, so it only sees a change after
+  `gh release create` — a push alone deploys nothing. `addons_dir` may be stored
+  in either the WSL (`/mnt/c/...`) or native-Windows (`C:\…`) form; ghaddons
+  translates to whichever side it's running on. Full recipe + per-addon release
+  checklists: `addon-manager/README.md` and each addon repo's `CLAUDE.md`.
 - `tools/` — uv project, `wowkb` package
 - `raw/` — gitignored fetch cache; distill into `knowledge/`, don't cite raw/
 
