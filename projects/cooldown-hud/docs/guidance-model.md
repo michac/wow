@@ -9,7 +9,7 @@
 > **Doc map (§ cross-refs):** §0 Direction + §3 Design language → `spec.md` ·
 > **§0.5 Guidance model → this doc** · §1–§2, §4–§5, §9 (Secret-Values findings /
 > architecture / provenance) → `notes.md` · §6 Milestones + §7 Open questions →
-> `milestones.md`.
+> `milestones.md` · superseded work → `notes-archive.md`.
 >
 > **Scope:** v1 = **Diabolist** Demonology Warlock (the profile default in
 > `rotation.md` and `notes.md` §2). Soul Harvester is out of scope for the moment
@@ -574,14 +574,19 @@ tracker → Defer, mode-indicator placement → the split in §0.5.8.5).
 - **Defer** — post-v1 (M7) or dropped: needs a curated layer-① layout override,
   or its readable trigger can't answer the question it exists for.
 
-**Verify contingency (the one gate).** The anticipation layer and every napkin
-countdown depend on reading the **in-flight / just-cast spellID in restricted
-combat** (`UnitCastingInfo` / `UNIT_SPELLCAST_SUCCEEDED` — the open item at the top
-of `milestones.md` §7). If that read is secret in combat, none of these are lost —
-they **degrade to a reactive/borrowed fallback** that always ships (the rail fills
-the instant `UNIT_POWER_UPDATE` lands; the native ready-alert carries "up"). So
-they're committed as **Core\*** — real v1 targets with a stated fallback, not
-blockers. `v1 = the M3→M6 arc for Demo` (M7 = second spec + polish = post-v1).
+**Verify contingency — CLOSED 2026-07-20; the `Core*` asterisks are retired.**
+The anticipation layer and every napkin countdown depend on reading the **in-flight
+/ just-cast spellID in restricted combat**. `UNIT_SPELLCAST_SUCCEEDED` was confirmed
+in a delve and `UNIT_SPELLCAST_START` at an open-world dummy (v0.5.3 logs both
+per-phase); a raid-boss confirmation was never obtained and **we are no longer
+waiting on one**. The design now **assumes both events carry a readable spellID in
+all combat contexts**, so rows #7/#8/#10/#11/#12 below are plain **Core**, not
+`Core*`. "Cast in flight" is derived from our own START → SUCCEEDED/STOP/INTERRUPTED
+bookkeeping rather than `UnitCastingInfo`, so no second untested API is in the path.
+The reactive/borrowed fallback (rail fills the instant `UNIT_POWER_UPDATE` lands;
+native ready-alert carries "up") is demoted from a planned degradation path to a
+contingency we'd build only if the assumption is falsified in play.
+`v1 = the M3→M6 arc for Demo` (M7 = second spec + polish = post-v1).
 
 ### 0.5.8.2 Three cross-cutting dimensions (new this pass)
 
@@ -655,12 +660,12 @@ drift the ~15 s / ~20 s ones; the fixed-60 s Tyrant clock is the sturdy anchor.
 | 4 | **Group colour map + generator-vs-consumer batch tint** (the skin itself) | #2,#5 | ambient | Own | M3 | **Core** |
 | 5 | **Ready/dim luminance re-encoding + empty-board recede** | #8,#9 | P1/P3 | Own+Borrow | M3 | **Core** |
 | 6 | **Mode chrome tint — GENERATE↔SPEND** (pure shard threshold) | mode spine | ambient | Own | M3 | **Core** |
-| 7 | **Anticipation: ghost shard-fill + predictive SPEND pre-flip** (in-flight builder) | new (b) | P1 | Own | M3 | **Core\*** |
-| 8 | **Pre-pull affordance** — PREP chrome, opener queue, fill-to marker | new (a) | — | Own | M3 | **Core\*** |
+| 7 | **Anticipation: ghost shard-fill + predictive SPEND pre-flip** (in-flight builder) | new (b) | P1 | Own | M3 | **Core** |
+| 8 | **Pre-pull affordance** — PREP chrome, opener queue, fill-to marker | new (a) | — | Own | M3 | **Core** |
 | 9 | **Burst lane** (Tyrant · Dreadstalkers · Grimoire) + common-fate brighten | #4 | P1 | Own+Borrow | M4 | **Core** |
-| 10 | **BURST mode activation** (folds into the lane; the spine's hot state) | mode spine | ambient | Own | M4 | **Core\*** |
-| 11 | **Tyrant HOLD/BANK telegraph + crescendo** (60 s napkin) | #3 | P1 | Own | M4 | **Core\*** |
-| 12 | **Short-CD approach pings** — Dreadstalkers ~20 s, Implosion ~15 s (napkin) | new (c) | P2 | Own | M4 | **Core\*** |
+| 10 | **BURST mode activation** (folds into the lane; the spine's hot state) | mode spine | ambient | Own | M4 | **Core** |
+| 11 | **Tyrant HOLD/BANK telegraph + crescendo** (60 s napkin) | #3 | P1 | Own | M4 | **Core** |
+| 12 | **Short-CD approach pings** — Dreadstalkers ~20 s, Implosion ~15 s (napkin) | new (c) | P2 | Own | M4 | **Core** |
 | 13 | **Borrowed Demonic Core bar** (duration restyle) | #2 | — | Borrow | M5 | **Stretch** |
 | 14 | **Borrowed Dominion of Argus bar** (empowered-HoG restyle) | #7 | P2 | Borrow | M5 | **Stretch** |
 | 15 | **Shard-cap earcon** (the one must-have sound) | #1 | P0 | Own | M6 | **Stretch** |
@@ -691,7 +696,9 @@ these is still a verify-in-game.)
 Sketch-level, not code — the trigger → state → cue for each committed signal.
 Shards read via `UnitPower` (0–5 whole; fragments 0–50 available). Proc *presence*
 via `item:IsShown()`. Napkin timers = `GetSpellBaseCooldown` counted down off our
-own `UNIT_SPELLCAST_SUCCEEDED`. "Cast in flight" via `UnitCastingInfo("player")`.
+own `UNIT_SPELLCAST_SUCCEEDED`. "Cast in flight" is tracked from our own
+`UNIT_SPELLCAST_START` → `SUCCEEDED`/`STOP`/`INTERRUPTED` bookkeeping (not
+`UnitCastingInfo` — one assumed-readable path, not two; §0.5.8.1).
 
 ```
 WARMUP_LEAD = ~15s    # awareness only (non-instructional)
@@ -699,7 +706,7 @@ HOLD_LEAD   = ~5s     # ~2 GCDs — the REAL banking window (rotation.md #9)
 
 # ---- resource + mode spine ----
 shards        := UnitPower(SOUL_SHARDS)            # 0..5, readable+branchable
-ghost_shards  := deterministic_yield(cast_in_flight)  # SB:+1, InfernalBolt:+3, DB:+2  (verify-gated)
+ghost_shards  := deterministic_yield(cast_in_flight)  # SB:+1, InfernalBolt:+3, DB:+2  (from our START/STOP tracking)
 projected     := shards + ghost_shards
 
 mode := PREP     if not InCombat                                    # pre-pull affordance
@@ -760,7 +767,7 @@ signifier ([X1]); motion is reserved for the single most-urgent instant ([V4]).
 
 - **A — Mode indicator (open-Q#4): RESOLVED as a split.** GENERATE↔SPEND is a pure
   shard threshold (no drift, no napkin) → **M3 chrome tint (Core)**. BURST needs the
-  Tyrant napkin + staged board → **folds into M4 (Core\*)**. Plus a **predictive
+  Tyrant napkin + staged board → **folds into M4 (Core)**. Plus a **predictive
   pre-flip** (uses `projected`, not `shards`) from the anticipation layer.
 - **B — Borrowed Core/Dominion bars (open-Q#3): Stretch (M5).** The Own proc-glows
   already carry the decisions; the bars are prettiness, cut-if-short.
@@ -770,10 +777,13 @@ signifier ([X1]); motion is reserved for the single most-urgent instant ([V4]).
   stays a Can't. See the #17 rationale above.
 - **D — Audio: Stretch.** Only the shard-cap earcon is near-essential; rest is
   native/nice-to-have.
-- **E — Verify contingency:** rows #7, #8, #10, #11, #12 are **Core\*** — committed
-  with a reactive/borrowed fallback if the in-combat cast-ID read proves secret
-  (`milestones.md` §7 top item). Resolving that verify is the one thing that flips
-  the asterisks to plain Core.
+- **E — Verify contingency: CLOSED (2026-07-20).** Rows #7, #8, #10, #11, #12 were
+  `Core*` pending the in-combat cast-ID read. That verify is now **closed as a
+  design assumption** — START and SUCCEEDED are taken to carry a readable spellID in
+  all combat contexts (delve + dummy confirmed; raid never tested and no longer
+  waited on). The asterisks are **retired**; all five are plain **Core**. See
+  §0.5.8.1 and `milestones.md` §7. *If it is ever falsified in play, the fallback
+  described there is the recovery — the rows do not become blockers.*
 - **F — "v1" = the M3→M6 arc for Demo.** M7 (second spec + enforcement UX +
   cyberpunk polish) is explicitly post-v1.
 

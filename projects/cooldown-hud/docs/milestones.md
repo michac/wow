@@ -4,11 +4,26 @@
 >
 > **Doc map (§ cross-refs):** §0 Direction + §3 Design language → `spec.md` ·
 > §0.5 Guidance model → `guidance-model.md` · §1–§2, §4–§5, §9 → `notes.md` ·
-> §6 Milestones + §7 Open questions → **this doc**.
+> §6 Milestones + §7 Open questions → **this doc** · superseded work →
+> `notes-archive.md`.
 
 ## Status
 
-**Current: M2.5 done** (2026-07-19, docs-only — no addon code) — the **committed v1
+**Current: M3a shipped (2026-07-20, CDMProbe v0.6.0) — the first product code.**
+After four decision/prototype milestones, `/cdmp hud` exists: it binds per item by
+`GetCooldownID()` to the **live** CDM layout and draws terminal chrome around
+**native, untouched** Blizzard icons. Covers §0.5.8.3 row **#4** (group colour map
++ generator/consumer batch tint) plus keybinds and both deferred M1 perf cleanups.
+`/cdmp crt` is **retired and `CRT.lua` deleted**; its leaf-method icon-tint
+machinery survives **dormant and unwired in `HudTint.lua`** (`notes.md` §9). New
+modules: `SpecDemonology.lua` (the one per-spec data table — the seam M7's second
+spec plugs into), `HudCore` / `HudChrome` / `HudBinds` / `HudTint`.
+⏳ **The in-game test pass is still outstanding** (see §6 M3a) — most importantly
+whether dropping the 2 s ticker holds. `notes.md` §5 gets the binding-by-`cooldownID`
+registry write-up **once that's confirmed**, not before. Next after it: **M3b —
+readiness + procs.**
+
+**Prior: M2.5 done** (2026-07-19, docs-only — no addon code) — the **committed v1
 indicator set** is written as **`guidance-model.md` §0.5.8**: the cut principle
 (Own + P0/P1 → Core), the three cross-cutting dimensions (pre-pull affordance,
 anticipation layer, escalating burst telegraph + short-CD napkin pings for Tyrant /
@@ -16,8 +31,21 @@ Dreadstalkers / Implosion), the **18-row committed indicator table** (Core / Str
 / Defer per milestone), rough per-signal logic (§0.5.8.4), and the resolved
 decisions (§0.5.8.5). Checked against a real #1 Demo parse and a Fable-model
 fidelity review that caught + fixed three blocking errors (§0.5.8.6); the AoE
-readout (#17 Wild Imp text) was promoted into v1. **M3 now builds the committed set
-1:1. Next: M3 — first real skin.**
+readout (#17 Wild Imp text) was promoted into v1.
+
+**M3 scoping history.** Since M2.5 it picked up an
+**aesthetic revision** (2026-07-19: icons left native, no tint, 4-letter labels
+dropped, green-monochrome relaxed) and was **staged into M3a/b/c** (see §6). A
+doc-consistency pass (**2026-07-20**) took `guidance-model.md` as the authority and
+re-synced `spec.md` §0/§3 + this doc against it — propagating the two §0.5.8.6
+blocking-error fixes that had never left the guidance doc (the Tyrant+Dreadstalkers
+go-gate; the ~5 s not ~15 s HOLD lead), giving M4/M5/M7 their missing §0.5.8 rows,
+and closing the cast-read verify **as an assumption** (§7) — which retires the
+`Core*` asterisks. `notes.md` was then **split** (2026-07-20): current framing
+stays, and the superseded material — the green-phosphor icon-tint era, the
+curated-layout machinery, the wrong assumptions — moved to **`notes-archive.md`**.
+All four live docs now agree. **M3a then built against that settled scope** — see
+the Status block above and §6.
 
 (Prior: M0.5 shipped the guidance model §0.5 — archetype + mode model, salience
 moments, attention research, signal map, blind spots, backlog seed; M2/M1/M0 done.)
@@ -146,43 +174,172 @@ decision/spec milestone that de-risks the build that follows.)
   decision milestone that de-risks M3 by settling scope before code.
 
 - **M3 — First real skin.** *Builds the committed M2.5 v1 indicator set.* Re-point
-  the M1 prototype at the **live layout**
-  (bind per item by `GetCooldownID()` on the `RefreshLayout` hook — reorder-safe,
-  skips absent spells; see the M2 decision + `notes.md` §5/§9): real
-  4-letter labels + **real keybinds** (read the binding per tracked spell), the
-  §3 group **colour map**, **generator-vs-consumer** batch tint (build→spend axis
-  reads preattentively), and the **Demonic Core proc-glow on Demonbolt**
-  (`IsShown`). Real shard rail (readable + branchable) with cap glitter + sound.
-  Fold in the deferred perf cleanups (event-driven re-hook, tiled scanlines) and
-  decide the "ready vs on-cooldown" re-encoding now that we own the icon color
-  (`notes.md` §9).
+  the M1 prototype at the **live layout** (bind per item by `GetCooldownID()` on
+  the `RefreshLayout` hook — reorder-safe, skips absent spells; see the M2 decision
+  + `notes.md` §5/§9).
 
-- **M4 — Burst-window overlay.** Our overlay frames **beside** the vertical CDM
-  group **Tyrant · Dreadstalkers · Grimoire: Fel Ravager**; shared lane tint
-  (common region) + common-fate brighten when all are up. The **napkin-math
-  timer** (§1: player-cast → `GetSpellBaseCooldown` countdown, fixed-CD only)
-  drives a salience pop as Tyrant nears ready. This is the horizontal "line
-  Tyrant up with what it buffs" grouping — realized in *our* overlay, not the
-  CDM's layout.
+  **Aesthetic revision (2026-07-19).** Keep the **terminal / TUI feel** (monospace,
+  scanline chrome, block-char meters) but **relax the hard green-monochrome
+  constraint** — colour may now carry meaning (group / mode / readiness), and we
+  **stop tinting the Blizzard cooldown icons for now**: desaturating + green-tinting
+  them measurably *hurt* cooldown legibility (native swipe + countdown read worse),
+  which defeats the point of keeping the icons at all. v1 therefore leaves the icons
+  **native and untouched** and builds the value-add in the **terminal chrome around
+  them**; the leaf-method tint hooks (§9) go **dormant** (kept, not deleted — they
+  gate a future optional solid-colour mode). Also **drop the per-icon 4-letter
+  ability labels** — noise that obscured the swipe / countdown and only pays off in a
+  solid-colour skin. Keybinds stay as small corner chrome. The §3 group **colour
+  map** + **generator-vs-consumer batch tint** move onto **our** icon-adjacent
+  accents (borders / ticks / burst-lane backdrop / rail + mode hues), not the icon
+  art. *(Doc sync **done 2026-07-20**: `spec.md` §0/§3 rewritten to match — pitch,
+  pillars, aesthetic block, layout sketch, colour language, encoding table, and new
+  design language for the mode spine + cross-cutting dimensions. `notes.md` §4 —
+  which lives in `notes.md`, not `spec.md` — was swept in the same pass, and the
+  superseded green-phosphor exploration moved to `notes-archive.md`.)*
 
-- **M5 — Borrowed DoT/proc bars.** Restyle the secure BuffBar viewer (Demonic
-  Core, Dominion of Argus) to match the skin.
+  Staged into three independently-deployable sub-builds:
+  Coverage against §0.5.8.3: **M3a** = #4 · **M3b** = #5, #2, #3 · **M3c** = #1,
+  #6, #7, #8. All eight M3-assigned rows land. *(Keybinds are the one M3 deliverable
+  **not** in the §0.5.8 indicator table — they're identity **chrome**, not a
+  rotation signal, and sit outside the indicator contract by design.)*
 
-- **M6 — Audio.** Wire the §3 earcon set: our shard-cap + proc-gained, native
-  ready / pandemic alerts; LibSharedMedia registration + per-event toggles +
-  global mute.
+  - **M3a — identity + chrome (no icon tint) — ✅ SHIPPED (2026-07-20, v0.6.0);
+    in-game pass outstanding.** `/cdmp hud`: real **keybinds** per tracked spell
+    (180-slot action-bar scan → binding, cached, **out-of-combat only**; unbound →
+    blank, never a placeholder), the §3 group colour map + generator/consumer batch
+    tint on **our** accents, and the `DEMO.SYS` terminal frame + scanline overlay.
+    Both deferred perf cleanups folded in (`notes.md` §9).
 
-- **M7 — Profile enforcement + second spec + polish.** Choose enforcement-strength
-  UX (auto-apply → import-and-verify → nag); prove the pattern on a second spec;
-  **cyberpunk-skin stretch** art pass over the block / rail / bar styling.
+    **What the build decided (things the plan left open):**
+    - **`CRT.lua` deleted, `/cdmp crt` retired.** Its still-valuable parts moved:
+      terminal frame + scanline/vignette → `HudChrome.lua`, the viewer-anchoring
+      idiom → `HudCore.lua`, and the **leaf-method icon-tint machinery →
+      `HudTint.lua`, dormant and unwired** (`notes.md` §9 explicitly wants it kept).
+    - **Per-spec data is one table**, `SpecDemonology.lua` — spellID → group / role
+      / ghost yield / base CD, hues reused verbatim from `Resource.lua`. The render
+      modules now hold **no spell constants at all**, which is the seam M7's second
+      spec plugs into. `baseCD` is filled in only where the docs actually assert it;
+      elsewhere it's nil on purpose (M4 reads `GetSpellBaseCooldown` at runtime —
+      this table is the sanity check, not a guess). Unknown spellIDs → neutral
+      accent; a **Secret Value is never used as a table key**, so an unreadable ID
+      is treated as unknown rather than guessed.
+    - **Encoding split, so M3b can't collide with M3a.** Hue carries **group only**;
+      the builder/spender batch tint rides on **saturation + edge thickness + alpha**
+      and deliberately leaves **luminance** alone — luminance is reserved for
+      readiness (M3b). Edge thickness doubles as the redundant non-colour signifier
+      ([X1]).
+    - **Scanline: took the named fallback, not the tiled texture.** A fixed,
+      hard-capped pool re-anchored on reflow rather than a bundled power-of-two art
+      file — same O(1)-allocation property, no binary asset whose in-game load we
+      can't verify from here (`notes.md` §9).
+    - **Settings store opened early.** `ns.db.hud = { on, opener }` exists now
+      (M3a only uses `on`); the real user choice — `opener` — lands in M3c. No
+      config UI, slash args only.
+
+    **Outstanding in-game pass** (the reason this is "shipped", not "done"):
+    native art/swipe/countdown survive · accents match §3 · keybinds match the real
+    bars and update on rebind · frame + scanlines don't clip the narrow column ·
+    Edit Mode drag rides along · Orientation/#Rows change increments the
+    `/cdmp hud status` fire count with **nothing detaching and no ticker running** ·
+    tracked-set change gives new items chrome · off → pixel-clean, `/reload`
+    restores. **Dropping the ticker is the one real regression risk** — if items
+    detach, the fix is another *event*, not the ticker back, and which event was
+    missing gets recorded in `notes.md`.
+  - **M3b — readiness + procs.** Icons left native ⇒ Blizzard's on-cooldown dimming
+    is preserved for free, which **resolves the §9 "ready vs on-cooldown" decision by
+    dissolving it** (we no longer own that pixel): we *add* a ready accent (off the
+    observed ready edge — hook `OnCooldownDone` / `TriggerAvailableAlert`, no secret
+    read) + **empty-board recede**, and the **Demonic Core proc-glow on Demonbolt** +
+    **Demonic Art proc-glow on the transformed button** (`IsShown`), as styled glow
+    overlays.
+  - **M3c — resource + mode + anticipation.** The owned **shard rail** (segmented
+    fill, cap flip + one-shot glitter + earcon), **GENERATE↔SPEND mode chrome tint**
+    (pure shard threshold), the **anticipation layer** (ghost incoming-shard during an
+    in-flight builder cast + predictive SPEND pre-flip — `UNIT_SPELLCAST_START` /
+    `SUCCEEDED` spellIDs assumed readable, see §7), and the **pre-pull opener queue** +
+    fill-to marker.
+
+- **M4 — Burst window + the napkin engine.** Builds §0.5.8.3 rows **#9, #10, #11,
+  #12**. Our overlay frames **beside** the vertical CDM group the burst lane
+  (**Tyrant · Dreadstalkers · the tracked Grimoire summon**); shared lane tint
+  (common region) — the horizontal "line Tyrant up with what it buffs" grouping,
+  realized in *our* overlay, not the CDM's layout.
+  - **#9 Burst lane + common-fate brighten.** The **go-gate is Tyrant +
+    Dreadstalkers only**; the Grimoire **brightens if up but is never a gate**
+    (~2-min CD, absent ~half the windows — 21 casts vs 48 Tyrant). *(§0.5.8.6
+    blocking error #2.)*
+  - **#10 BURST mode activation** — the spine's hot state, folded into the lane
+    rather than shipped as a separate widget (§0.5.8.5-A).
+  - **#11 Tyrant telegraph — two leads, do not conflate.** `WARMUP_LEAD ≈ 15 s` =
+    **awareness only, non-instructional** (a low-salience "approaching" glow; does
+    **not** stop the player dumping, never overrides the P0 overcap cue).
+    `HOLD_LEAD ≈ 5 s` (≤2 GCDs) = **instructional** HOLD/BANK + stage, crescendo
+    into a motion onset at ~0. The short hold is load-bearing: a 15 s freeze
+    **force-overcaps** (Cores proc ~every 3.6 s, Demonbolt refunds +2).
+    *(§0.5.8.6 blocking error #1 — the lead was 3× too long.)*
+  - **#12 Short-CD approach pings** — Dreadstalkers ~20 s, Implosion 15 s, ~1 GCD
+    out, off the same `GetSpellBaseCooldown` engine. The **Dreadstalkers ping
+    suppresses when Tyrant is imminent** and becomes a "stage for Tyrant"
+    treatment: one Dreadstalkers per cycle is held so the dogs are fresh *inside*
+    the window. Implosion's ping is gated on `in_aoe` (§7) and says "it's
+    available", never "it's worth it" — the ≥6-imp value gate stays a **Can't**.
+  - Ground truth always wins: every napkin cue rounds down / fires early and yields
+    to the native ready-alert.
+
+- **M5 — AoE readout + borrowed bars.**
+  - **#17 Wild Imp stack text + static "/6" — Core.** Enlarge Blizzard's own
+    stack-count text and append our static "/6". This is M5's **only Core row** and
+    the **sole v1 assist for Demo's central AoE decision** (≥6 imps → Implosion,
+    the 4th-most-pressed rotational button). Promoted from Defer specifically so v1
+    covers AoE, not just single-target (§0.5.8.5-C) — do not let it fall out with
+    the Stretch rows below.
+  - **#13/#14 Borrowed Demonic Core + Dominion of Argus bars — Stretch.** Restyle
+    the secure BuffBar viewer to match the skin. Pure Borrow: the Own proc-glows
+    (#2, #3) already carry the *decisions*, so these are duration prettiness —
+    **cut without shame** under time pressure.
+
+- **M6 — Audio — Stretch (§0.5.8.5-D).** Wire the §3 earcon set: our shard-cap
+  (#15, the one near-essential sound — it pairs with the P0 anchor and reads as
+  **"spend or waste"**, not a fanfare) + proc-gained ding, native ready / pandemic
+  alerts (#16); LibSharedMedia registration + per-event toggles + global mute.
+
+- **M7 — Post-v1: enforcement + predictive tracker + second spec + polish.**
+  (v1 = the M3→M6 arc for Demo; everything here is explicitly after it.)
+  - **#18 Predictive Diabolic Ritual tracker — Defer/M7.** Surface which Demonic
+    Art arms next from the active ritual stage (the wheel turns Overlord → Mother
+    of Chaos → Pit Lord in fixed order). **Gated on the curated layout override**:
+    it needs the per-stage ritual auras in the tracked set, and only the `428514`
+    container is tracked today (`notes.md` §2).
+  - **Curated layer-① Cooldown Layout string + enforcement-strength UX**
+    (auto-apply → import-and-verify → nag) — the M2-deferred profile question, and
+    the enabler #18 depends on.
+  - Prove the pattern on a **second spec**; **cyberpunk-skin stretch** art pass
+    over the block / rail / bar styling; the deferred first-run "flank" setter via
+    LibEditModeOverride.
 
 ---
 
 ## 7. Open questions / verify-in-game
 
-- [ ] **`/cdmp casts`**: is `UNIT_SPELLCAST_SUCCEEDED`'s spellID readable in
-      restricted combat? Prototype built + works in a delve; **verify a live `==`
-      in a raid** (decides the roll-your-own Tyrant timer — §1).
+- [x] **`/cdmp casts`** — player-cast spellIDs readable in restricted combat:
+      **CLOSED as a design assumption (2026-07-20).** `SUCCEEDED` confirmed in a
+      delve; **`START` confirmed at an open-world target dummy (2026-07-19)**;
+      v0.5.3 logs START/SUCCEEDED/STOP/INTERRUPTED per-phase. A raid-boss
+      confirmation was never obtained and **we are no longer waiting on one** — the
+      design now **assumes both events carry a readable spellID in all combat
+      contexts**. Consequence: the §0.5.8 `Core*` asterisks are **retired** (rows
+      #7/#8/#10/#11/#12 are plain **Core**), and the reactive/borrowed fallback is
+      demoted from a planned degradation path to a contingency we'd only build if
+      the assumption is ever falsified in play.
+      *Note — no separate `UnitCastingInfo` verify is needed:* "cast in flight" is
+      derived from our own `START` → `SUCCEEDED`/`STOP`/`INTERRUPTED` bookkeeping
+      (already logged), so the anticipation layer rides on the same assumption
+      rather than on a second, untested API.
+- [ ] **`in_aoe` predicate** — can we cheaply determine multi-target context
+      (target count / recent multi-hit) to gate the Implosion approach ping (#12)
+      and the Wild Imp "/6" readout (#17)? Flagged in §0.5.8.2(c) / §0.5.8.3; the
+      AoE cues have no honest trigger until this is answered. Nameplate-count and
+      recent-multi-hit heuristics are the candidates.
 - [ ] Buff-vs-cooldown: can we access the self-buff remaining AND the
       cooldown-to-recast as **two** durations, or only Blizzard's one sequenced
       display? (e.g. Summon Demonic Tyrant — verify a spell can live in both
@@ -223,6 +380,13 @@ decision/spec milestone that de-risks the build that follows.)
       native alerts ship *inside* the import string (secure, combat-safe). Still
       open: whether an addon can **inject/override** alerts *outside* the string
       programmatically, and whether a custom `.ogg` can substitute a built-in.
-- [x] Wild Imp / Demonic Core **count** — RESOLVED: `Applications` count is
-      Blizzard-displayed but **secret** to us. For "[X]/4", enlarge Blizzard's X
-      and append a static "/4"; we cannot reliably count procs ourselves.
+- [x] **Wild Imp count** — RESOLVED: `Applications` is Blizzard-displayed but
+      **secret** to us. The gate that matters is **≥6 imps → Implosion**, so the
+      readout is "[X]**/6**": enlarge Blizzard's X and append our static **"/6"**
+      (§0.5.8 #17). We cannot compute "≥6" ourselves.
+- [x] **Demonic Core count** — RESOLVED, same mechanism, **different constant**:
+      cap is **4**, so any borrowed readout is "[X]**/4**". We surface Core
+      *presence* only (moment #2) — the near-cap-4 overcap gate is invisible to us
+      (§0.5.5). *(Corrected 2026-07-20: these two were previously one entry using
+      "/4" for both, which would have shipped the wrong denominator on the imp
+      readout.)*
