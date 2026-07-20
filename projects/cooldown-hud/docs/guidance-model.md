@@ -542,6 +542,272 @@ substantiate — the genuine remaining gaps:
 
 ---
 
+## 0.5.8 The committed v1 indicator set (M2.5)
+
+This is the **settled v1 scope** — the list M3+ builds against 1:1, distilled from
+the §0.5.4 signal map and the §0.5.6 backlog. The *what*, not the *how*: no Lua, no
+pixel layout, no colour hex (those live in `spec.md` §3 and the M3+ code). Each
+indicator carries a **milestone**, an **own/borrow** class, and a **verdict**.
+
+A design session (2026-07-19) sharpened this past the raw §0.5.6 list in two ways:
+it added a **cut principle** (below) that sorts the list into load-bearing vs.
+droppable, and it surfaced three **cross-cutting dimensions** — a pre-pull
+affordance, an anticipation layer, and an escalating burst telegraph — that aren't
+single widgets but *behaviours several indicators inherit*. Those are §0.5.8.2;
+the flat indicator table is §0.5.8.3; the rough per-signal logic is §0.5.8.4.
+
+### 0.5.8.1 Cut principle & verdict legend
+
+> **v1's hard-committed core = every signal that is (a) *Own* — we drive it, which
+> is our whole differentiated value — *and* (b) tied to a *P0/P1* moment, plus the
+> borrowed ground-truth those Own signals lean on. Everything else is Stretch or
+> Defer.**
+
+The principle sorts almost the whole list on its own; it also auto-answers three
+of the four M2.5 open sub-questions (borrowed bars → Stretch, predictive ritual
+tracker → Defer, mode-indicator placement → the split in §0.5.8.5).
+
+- **Core** — load-bearing; M3/M4 must ship it. The Own P0/P1 signals + their
+  ground-truth borrows.
+- **Stretch** — v1 if the core lands clean; **cut without shame** under time
+  pressure. Pure-Borrow restyles and the audio layer.
+- **Defer** — post-v1 (M7) or dropped: needs a curated layer-① layout override,
+  or its readable trigger can't answer the question it exists for.
+
+**Verify contingency (the one gate).** The anticipation layer and every napkin
+countdown depend on reading the **in-flight / just-cast spellID in restricted
+combat** (`UnitCastingInfo` / `UNIT_SPELLCAST_SUCCEEDED` — the open item at the top
+of `milestones.md` §7). If that read is secret in combat, none of these are lost —
+they **degrade to a reactive/borrowed fallback** that always ships (the rail fills
+the instant `UNIT_POWER_UPDATE` lands; the native ready-alert carries "up"). So
+they're committed as **Core\*** — real v1 targets with a stated fallback, not
+blockers. `v1 = the M3→M6 arc for Demo` (M7 = second spec + polish = post-v1).
+
+### 0.5.8.2 Three cross-cutting dimensions (new this pass)
+
+**(a) The pre-pull affordance — be richest when we're allowed to be.** Out of
+combat the Secret-Values wall isn't up: cooldowns, buffs, everything reads freely.
+And the Demo opener is a **mostly-fixed script with a few branches** — the invariant
+is **Tyrant at t≈3–5 s off a pre-stacked board** (all six parses,
+`diabolist-sequences.md` SEQUENCE 1); the *first-3-GCD ordering varies*
+(`DS→TYR` / `DS·GIL·SB→TYR` / `DB·GIL·DS→TYR`), Grimoire: Imp Lord is
+conditional ("when off CD"), and the Implosion step is fight-dependent. So the
+calmest moment gets the **most** information, and it's the one place we can
+legitimately do the queued "press this next" that §0.5.3 [R3] refuses in combat:
+
+- A distinct calm **PREP** chrome tint (a fourth resting state, not GENERATE).
+- **Which opener it ghosts matters.** Textbook opener **1b** builds to 5 shards
+  pre-pull → the **fill-to marker** ("bank to N before you pull") applies. The
+  parse-observed opener **1a** instead enters combat *shard-poor* off a **pre-pull
+  demon setup** (pre-pull HoG casts don't appear in the log; the board, not the
+  shard bar, is what's "full"). The PREP widget should know which one it's showing —
+  the fill-to marker is wrong for 1a.
+- A short **opener queue** ghosts the scripted sequence; it drains as you pull.
+  Advance it by **matching the ability pressed**, not by strict slot position, so
+  the branch orderings above don't desync it (counting our own casts survives the
+  wall clamping down — no secret read needed).
+- **Opener → sustain handoff:** the queue dissolves when the **first Tyrant window
+  closes** (detected off our own Tyrant cast + its ~15 s napkin window). Clean
+  boundary, no secret read.
+
+**(b) The anticipation layer — spend cast-time telling me what's coming.** The
+model in §0.5.4 is *reactive* (current shards, current procs). This adds an
+*anticipatory* layer: while a builder cast is in flight we already know its
+**deterministic** result, so we show it early —
+
+- Shadow Bolt in flight → a **ghost segment at the head of the shard rail** ("+1
+  incoming"); **Infernal Bolt** in flight → ghost **+3**. **Demonbolt returns +2
+  whole shards** (`rotation.md` #11 gates it at `<4` precisely because +2 overcaps
+  from 4) — but Core-proc'd Demonbolt is *instant*, so it rarely has in-flight dead
+  air to ghost; its +2 still feeds `projected` on any hardcast pre-flip. The shard
+  appears *during the cast's dead air*, before it lands.
+- If that ghost fill would cross the spend threshold (≥3), the **chrome pre-warms
+  toward SPEND** — a predictive mode flip — so by the time the cast completes you're
+  already reading "now dump," not reacting a beat late.
+
+**(c) Escalating burst telegraph + short-CD approach pings — one napkin engine,
+three consumers.** The napkin-timer machinery (`GetSpellBaseCooldown` counted down
+off our own cast, fixed-base only — §0.5.5) drives three "something's coming" cues
+at three fidelities, all drift-flagged and all backstopped by the native
+ready-alert as ground truth:
+
+| Consumer | Base CD | Cue | Why |
+| --- | --- | --- | --- |
+| **Summon Demonic Tyrant** — *awareness phase* | 60 s (fixed — our *most reliable* timer) | **WARM-UP tint, ~15 s out.** Low-salience "Tyrant approaching" glow on the burst lane — *awareness only, non-instructional.* Does **not** stop the P0 overcap cue; the player keeps dumping normally. | The user wants an early "it's coming" heads-up ("err early"). Satisfied here — **without** freezing shards. |
+| **Summon Demonic Tyrant** — *hold phase* | — | **HOLD/BANK + stage, ~5 s out (≤2 GCDs).** *Now* rail shifts to "hold — save for Tyrant" and the lane brightens to a motion onset at ~0, handing into the common-fate "all up = go." | The real banking window is short: the APL holds Hand of Gul'dan only when Tyrant is **≤5 s** away (`rotation.md` #9), and the pre-Tyrant rebuild is one `SB SB SB` run (~5–7 s), not 15 s. A 15 s freeze **force-overcaps** — Cores proc ~every 3.6 s and Demonbolt refunds +2, so the rail hits cap within ~2 GCDs. HOLD ≈ SEQUENCE 2: Dreadstalkers → [Imp Lord] → Tyrant → HoG HoG. |
+| **Call Dreadstalkers** ("hounds") | ~20 s | **Approach ping ~1 GCD out — *suppressed/restyled when Tyrant is imminent*.** When Tyrant is close, the ping becomes a *"stage for Tyrant"* treatment instead of a generic "use it now." | One Dreadstalkers per Tyrant cycle must be **held** so the dogs are fresh *inside* the window (`rotation.md` #5; a DS cast at Tyrant−15 s expires before Tyrant lands). We already own `tyrant_napkin`, so the suppression is free. |
+| **Implosion** | 15 s | **AoE weave ping** — same subtle approach cue, only in AoE context. | Lets you pre-weave the cleave button instead of discovering it off cooldown. Two honest caveats: its *value* gate (≥6 imps) stays a **Can't** (§0.5.5) — the ping is "it's available," not "it's worth it"; and the `in_aoe` predicate itself needs a **capability check** (target count / recent multi-hit) — flagged verify-in-game. |
+
+Imprecision is acceptable on the *awareness* cues (the user's call): they're
+**attention nudges** ("something's coming off cooldown"), not truth. But the
+*instructional* cues — the ~5 s HOLD and the Dreadstalkers-during-hold — must be
+**correct**, because they tell the player to stop doing the right thing: they're
+tight (≤2 GCDs), Tyrant-gated, and never override the P0 overcap cue. Haste/CDR can
+drift the ~15 s / ~20 s ones; the fixed-60 s Tyrant clock is the sturdy anchor.
+
+### 0.5.8.3 The committed indicator table
+
+| # | Indicator | Moment(s) | Tier | Class | Milestone | Verdict |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | **Shard rail** — segmented fill, cap flip + one-shot glitter | #1 | P0 | Own | M3 | **Core** |
+| 2 | **Demonic Core proc-glow** on Demonbolt | #2 | P0 | Own | M3 | **Core** |
+| 3 | **Demonic Art proc-glow** on the transformed button (HoG→Ruination, SB→Infernal Bolt) | #10 | P1 | Own | M3 | **Core** |
+| 4 | **Group colour map + generator-vs-consumer batch tint** (the skin itself) | #2,#5 | ambient | Own | M3 | **Core** |
+| 5 | **Ready/dim luminance re-encoding + empty-board recede** | #8,#9 | P1/P3 | Own+Borrow | M3 | **Core** |
+| 6 | **Mode chrome tint — GENERATE↔SPEND** (pure shard threshold) | mode spine | ambient | Own | M3 | **Core** |
+| 7 | **Anticipation: ghost shard-fill + predictive SPEND pre-flip** (in-flight builder) | new (b) | P1 | Own | M3 | **Core\*** |
+| 8 | **Pre-pull affordance** — PREP chrome, opener queue, fill-to marker | new (a) | — | Own | M3 | **Core\*** |
+| 9 | **Burst lane** (Tyrant · Dreadstalkers · Grimoire) + common-fate brighten | #4 | P1 | Own+Borrow | M4 | **Core** |
+| 10 | **BURST mode activation** (folds into the lane; the spine's hot state) | mode spine | ambient | Own | M4 | **Core\*** |
+| 11 | **Tyrant HOLD/BANK telegraph + crescendo** (60 s napkin) | #3 | P1 | Own | M4 | **Core\*** |
+| 12 | **Short-CD approach pings** — Dreadstalkers ~20 s, Implosion ~15 s (napkin) | new (c) | P2 | Own | M4 | **Core\*** |
+| 13 | **Borrowed Demonic Core bar** (duration restyle) | #2 | — | Borrow | M5 | **Stretch** |
+| 14 | **Borrowed Dominion of Argus bar** (empowered-HoG restyle) | #7 | P2 | Borrow | M5 | **Stretch** |
+| 15 | **Shard-cap earcon** (the one must-have sound) | #1 | P0 | Own | M6 | **Stretch** |
+| 16 | **Proc-gained ding + native ready/pandemic alerts** | #2,#8 | P1/P2 | Own+Borrow | M6 | **Stretch** |
+| 17 | **Wild Imp stack text + "/6"** (the one AoE readout) | #6 | P2 | Borrow | M5 | **Core** |
+| 18 | **Predictive Diabolic Ritual tracker** (which Art arms next) | #10 (rich) | P1 | Own | M7 | **Defer** |
+
+**Cut rationale for the non-Core rows.** #13/#14 are pure Borrow — the Own
+proc-glows (#2, #3) already carry the *decisions*; the bars only add duration
+prettiness, so they're droppable. #15/#16 are the audio milestone, honestly
+optional for a first ship (only the shard-cap earcon pairs with our P0 anchor).
+#18 needs the per-stage ritual auras added to the tracked set = a curated
+**layer-① override** = M7 territory (`notes.md` §2 tracks only the `428514`
+container today).
+
+**Why #17 is Core despite being a Borrow (decision 2026-07-19).** Demo's whole AoE
+loop hinges on one decision — *≥6 Wild Imps → Implosion* — and Implosion is the
+**4th-most-pressed rotational button** (161 pooled casts; 25 for Inphected). We
+can't *own* it (imp count is a secret **Can't**), but enlarging Blizzard's own
+stack text + a static "/6" is a cheap Borrow that surfaces the count, and it's the
+**only** v1 assist for the single biggest AoE call — so it's promoted from Defer to
+Core rather than left out. Paired with the #12 Implosion approach ping it makes v1
+cover AoE, not just single-target. (Open: the `in_aoe` gate for *when* to surface
+these is still a verify-in-game.)
+
+### 0.5.8.4 Rough signal logic
+
+Sketch-level, not code — the trigger → state → cue for each committed signal.
+Shards read via `UnitPower` (0–5 whole; fragments 0–50 available). Proc *presence*
+via `item:IsShown()`. Napkin timers = `GetSpellBaseCooldown` counted down off our
+own `UNIT_SPELLCAST_SUCCEEDED`. "Cast in flight" via `UnitCastingInfo("player")`.
+
+```
+WARMUP_LEAD = ~15s    # awareness only (non-instructional)
+HOLD_LEAD   = ~5s     # ~2 GCDs — the REAL banking window (rotation.md #9)
+
+# ---- resource + mode spine ----
+shards        := UnitPower(SOUL_SHARDS)            # 0..5, readable+branchable
+ghost_shards  := deterministic_yield(cast_in_flight)  # SB:+1, InfernalBolt:+3, DB:+2  (verify-gated)
+projected     := shards + ghost_shards
+
+mode := PREP     if not InCombat                                    # pre-pull affordance
+      | BURST    if tyrant_napkin <= HOLD_LEAD and board_staged     # spine hot state (M4) — ~5s, not 15s
+      | SPEND    if projected >= 3                                  # predictive pre-flip uses projected, not shards
+      | GENERATE otherwise
+chrome_tint := colour_of(mode); luminance := level_of(mode)   # ambient, no motion, positions locked
+
+# ---- #1 shard rail ----
+rail.fill        = shards / 5
+rail.ghost_head  = ghost_shards                    # anticipation: incoming segment during a cast
+if shards == 5:  rail.flip_luminance(); rail.glitter_once()   # frame as "act or waste"; P0 — always wins
+if mode == BURST and shards < 5: rail.hold_treatment()        # "save for Tyrant" — ONLY at <=5s, never fights the cap cue
+
+# ---- #2 / #3 proc-glows ----
+if DemonicCore.IsShown():
+    if shards < 4: Demonbolt.block.glow()          # spend cores; count is secret
+    else:          Demonbolt.block.soften()        # DB +2 overcaps from >=4; cap-flip outranks the Core glow
+if DemonicArt.IsShown():         transformed_button.glow()     # HoG->Ruination or SB->InfernalBolt (buff 428514)
+
+# ---- #4 identity + #5 readiness ----
+block.hue        = group_colour(ability)           # identity: hue=group, never per-ability
+block.luminance  = BRIGHT if ready else DIM        # readiness pop, independent of hue
+batch_tint(builders -> cool/dim, spenders -> warm/bright)      # generate->spend axis reads preattentively
+if board_all_quiet(): everything.recede()          # empty board = nothing to do
+
+# ---- #8 pre-pull ----
+if mode == PREP:
+    opener_queue.show(SCRIPT[opener_variant])       # 1a (demons pre-stacked) vs 1b (bank-to-5)
+    if opener_variant == "1b": rail.fill_to_marker(OPENER_BANK_TARGET)   # NOT for 1a (enters shard-poor)
+    on our_cast(spell): opener_queue.advance_matching(spell)   # match ability, not slot — tolerates branches
+    on first_tyrant_window_close: opener_queue.dissolve()      # handoff to sustain
+
+# ---- #9/#11/#12 napkin engine (one engine, three consumers) ----
+on our_cast(spell): napkin[spell] = GetSpellBaseCooldown(spell)   # decremented on a ticker
+tyrant_napkin  := napkin[TYRANT]                    # 60s fixed = reliable
+tyrant_imminent := tyrant_napkin <= HOLD_LEAD + 1_GCD
+if tyrant_napkin <= WARMUP_LEAD: lane.warmup_tint()             # awareness only (does NOT stop dumping)
+if tyrant_napkin <= HOLD_LEAD:   burst_telegraph.escalate(tyrant_napkin)   # crescendo, motion only at ~0
+if napkin[DREADSTALKERS] <= 1_GCD:
+    if tyrant_imminent: Dreadstalkers.block.stage_for_tyrant()  # HOLD one DS for the window (rotation.md #5)
+    else:               Dreadstalkers.block.approach_ping()
+if in_aoe? and napkin[IMPLOSION] <= 1_GCD: Implosion.block.approach_ping()  # in_aoe = capability to verify
+# ground truth always wins:
+on native_ready_alert(spell): block.settle_ready()  # borrowed edge overrides the napkin guess
+
+# ---- #9 burst lane common-fate ----
+if (TYRANT and DREADSTALKERS) look_ready (napkin) or borrowed_swipe_ready:
+    lane.brighten_together()                        # "all up = go" — Tyrant+DS only
+    if GRIMOIRE look_ready: lane.grimoire.brighten()  # 2min CD, absent ~half the windows — brighten-if-up, never a gate
+```
+
+Guard rails baked in: every napkin cue **rounds down / fires early** and yields to
+the native ready-alert; every colour-carried state has a redundant non-colour
+signifier ([X1]); motion is reserved for the single most-urgent instant ([V4]).
+
+### 0.5.8.5 Resolved decisions & remaining contingencies
+
+- **A — Mode indicator (open-Q#4): RESOLVED as a split.** GENERATE↔SPEND is a pure
+  shard threshold (no drift, no napkin) → **M3 chrome tint (Core)**. BURST needs the
+  Tyrant napkin + staged board → **folds into M4 (Core\*)**. Plus a **predictive
+  pre-flip** (uses `projected`, not `shards`) from the anticipation layer.
+- **B — Borrowed Core/Dominion bars (open-Q#3): Stretch (M5).** The Own proc-glows
+  already carry the decisions; the bars are prettiness, cut-if-short.
+- **C — Wild Imp stack text: promoted to Core (M5).** Reversed from Defer
+  (2026-07-19): it's the only v1 assist for the ≥6-imp Implosion call — the spec's
+  central AoE decision — a cheap Borrow worth shipping even though the count itself
+  stays a Can't. See the #17 rationale above.
+- **D — Audio: Stretch.** Only the shard-cap earcon is near-essential; rest is
+  native/nice-to-have.
+- **E — Verify contingency:** rows #7, #8, #10, #11, #12 are **Core\*** — committed
+  with a reactive/borrowed fallback if the in-combat cast-ID read proves secret
+  (`milestones.md` §7 top item). Resolving that verify is the one thing that flips
+  the asterisks to plain Core.
+- **F — "v1" = the M3→M6 arc for Demo.** M7 (second spec + enforcement UX +
+  cyberpunk polish) is explicitly post-v1.
+
+### 0.5.8.6 Fidelity-review corrections (2026-07-19)
+
+This section was checked against real play before committing — a Fable-model
+expert review cross-referencing an independent #1 Demo parse (Inphected, WCL report
+`CFdapgHjGx2JDXL4`, Rotmire/Sporefall Mythic) plus `diabolist-sequences.md` and
+`rotation.md`. The reviewer confirmed the **skeleton is parse-true** (shard rail
+anchor — HoG most-cast at ~1/3.7 s; Core glow #2; Art glow #3; Tyrant-centric
+telegraph; Power Siphon correctly excluded; Doomguard correctly dropped; all CD
+numbers verified against measured cast spacing). Three **blocking errors** were
+found and fixed above:
+
+1. **HOLD/BANK lead was 3× too long** (15 s → **~5 s / ≤2 GCDs**). The APL holds
+   HoG only at Tyrant ≤5 s (`rotation.md` #9); a 15 s freeze force-overcaps (Cores
+   proc ~every 3.6 s, Demonbolt refunds +2). The ~15 s cue survives as a
+   *non-instructional awareness* warm-up only — §0.5.8.2(c).
+2. **Burst go-gate wrongly required Grimoire: Imp Lord** (2-min CD → absent ~half
+   the windows; 21 GIL vs 48 Tyrant). Gate is now **Tyrant + Dreadstalkers**, GIL
+   brighten-if-up.
+3. **Demonbolt shard yield** corrected to **+2 whole shards** (not "a fragment or
+   two"); the ghost/pre-flip math now balances the Inphected shard economy.
+
+Plus fidelity gaps: the **Dreadstalkers ping now suppresses when Tyrant is imminent**
+(one DS/cycle is held for the window), the **Core glow softens at ≥4 shards**, the
+**opener is "mostly-fixed with branches"** (queue advances by ability-match; 1a vs
+1b differ on the shard entry condition), and the **Implosion/AoE under-service** it
+flagged was resolved by **promoting #17 (Wild Imp stack text) into v1 as Core**, so
+the spec's central AoE decision has a readout. `in_aoe` is flagged as a capability
+to verify-in-game.
+
+---
+
 ## Provenance
 
 - **Rotation derivation:** `knowledge/classes/warlock/demonology/rotation.md`

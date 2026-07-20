@@ -8,15 +8,19 @@
 
 ## Status
 
-**Current: M0.5 done** (2026-07-18, docs-only — no addon code) — the overlay's job
-is a **rotation helper**, not just a skin; *what to signal, when, and how* is now a
-written contract in **`guidance-model.md` (§0.5)**: the builder/spender archetype +
-generate/spend/burst mode model (§0.5.1), the ranked salience moments (§0.5.2), the
-attention-mechanism research digest (§0.5.3), the moment→readable-signal map
-(§0.5.4), the honest blind-spot list (§0.5.5), and the M3–M6 widget backlog seed
-(§0.5.6). **M3–M6 now build against §0.5.** **Next: M2.5 — commit the v1 indicator
-set** (turn the §0.5.4/§0.5.6 candidates into the definitive prioritized v1 list —
-the *what*, not the *how*), **then M3 — first real skin.**
+**Current: M2.5 done** (2026-07-19, docs-only — no addon code) — the **committed v1
+indicator set** is written as **`guidance-model.md` §0.5.8**: the cut principle
+(Own + P0/P1 → Core), the three cross-cutting dimensions (pre-pull affordance,
+anticipation layer, escalating burst telegraph + short-CD napkin pings for Tyrant /
+Dreadstalkers / Implosion), the **18-row committed indicator table** (Core / Stretch
+/ Defer per milestone), rough per-signal logic (§0.5.8.4), and the resolved
+decisions (§0.5.8.5). Checked against a real #1 Demo parse and a Fable-model
+fidelity review that caught + fixed three blocking errors (§0.5.8.6); the AoE
+readout (#17 Wild Imp text) was promoted into v1. **M3 now builds the committed set
+1:1. Next: M3 — first real skin.**
+
+(Prior: M0.5 shipped the guidance model §0.5 — archetype + mode model, salience
+moments, attention research, signal map, blind spots, backlog seed; M2/M1/M0 done.)
 
 Platform facts: **v1 target = Demonology Warlock**; live client **12.0.7**
 (source-grounded @ build 68453). Addon repo: `michac/CDMProbe` (at `addon/`).
@@ -121,19 +125,25 @@ decision/spec milestone that de-risks the build that follows.)
   contract M3+ widgets implement, so we build salience *for the rotation*, not
   decoration.
 
-- **M2.5 — v1 indicator set (the widget spec; next — no addon code).** A short
-  planning/decision milestone: distill the §0.5.4 signal map + §0.5.6 backlog seed
-  into the **committed v1 indicator list** — exactly which indicators v1 ships, each
-  tagged **own / borrow**, in **priority order**, with an explicit **in-v1 vs
-  deferred** cut line (e.g. is the mode indicator in v1 or a candidate? does the
-  predictive Diabolic-Ritual tracker wait?). The ***what*, not the *how*** — no Lua,
-  no pixel layout, no colour hex. Output: a concise **"v1 indicator set" section**
-  (a new §0.5.8 in `guidance-model.md`, distilled from §0.5.4/§0.5.6) that M3+ builds
-  against 1:1. Like M2, this is a decision milestone that de-risks M3 by settling
-  scope before code. **Open sub-questions to resolve here:** which indicators are
-  v1-essential vs nice-to-have; whether any "own" signal is deferred for effort;
-  whether any "borrow" bar (Demonic Core / Dominion) is v1 or M5; where the mode
-  indicator lands (M3 chrome tint vs M4).
+- **M2.5 — v1 indicator set — ✅ DONE (2026-07-19, docs-only, no addon code).**
+  Distilled the §0.5.4 signal map + §0.5.6 backlog into the **committed v1 indicator
+  list** — the ***what*, not the *how*** — shipped as **`guidance-model.md` §0.5.8**:
+  an 18-row table tagged own/borrow + Core/Stretch/Defer per milestone, rough
+  per-signal logic (§0.5.8.4), and resolved decisions (§0.5.8.5). Two things
+  sharpened it past the raw §0.5.6 list: a **cut principle** (Own + P0/P1 → Core;
+  pure-Borrow / P2–P3 / needs-layer-①-override → Stretch/Defer), and three
+  **cross-cutting dimensions** the design session surfaced — a **pre-pull affordance**
+  (PREP chrome + scripted opener queue + fill-to marker), an **anticipation layer**
+  (ghost incoming-shard + predictive SPEND pre-flip during a cast), and an
+  **escalating burst telegraph + short-CD napkin pings** (one `GetSpellBaseCooldown`
+  engine → Tyrant 60 s telegraph, Dreadstalkers ~20 s, Implosion ~15 s). Validated
+  against a real #1 Demo parse (Inphected) + a **Fable-model fidelity review** that
+  caught three blocking errors — all fixed (§0.5.8.6). **Open sub-questions —
+  resolved:** mode indicator → **split** (GENERATE↔SPEND chrome in M3, BURST folds
+  into M4); borrowed Core/Dominion bars → **Stretch (M5)**; Wild Imp/AoE text →
+  **promoted to Core (M5)** so v1 covers AoE; predictive ritual tracker → **Defer
+  (M7)**; audio → **Stretch**, shard-cap earcon the one near-essential. Like M2, a
+  decision milestone that de-risks M3 by settling scope before code.
 
 - **M3 — First real skin.** *Builds the committed M2.5 v1 indicator set.* Re-point
   the M1 prototype at the **live layout**
