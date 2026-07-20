@@ -495,3 +495,138 @@ decision/spec milestone that de-risks the build that follows.)
       (§0.5.5). *(Corrected 2026-07-20: these two were previously one entry using
       "/4" for both, which would have shipped the wrong denominator on the imp
       readout.)*
+
+---
+
+## 7.1 Working backlog — the M3b → M3c carry-over (2026-07-20)
+
+> **Why this block exists.** Between shipping v0.8.2 and v0.9.1 a design
+> conversation, a Fable fidelity review, and three in-game passes produced more
+> decisions and corrections than any one of the four docs owns. Parked here so
+> nothing evaporates. **Items D1–D3 are user decisions that gate the code below
+> them** — do not "use best judgement" and proceed on them.
+
+### Decisions pending (these gate the rest)
+
+- [ ] **D1 — Adopt cadence-routed luminance?** *(Fable blocking error B1.)*
+      §0.5.8.4 commits `block.luminance = BRIGHT if ready else DIM` board-wide and
+      `spec.md` §3 promises "bright = ready/actionable". Finding #5 falsifies it:
+      HoG and Demonbolt have **no cooldown**, never fire a ready edge, and sit at
+      base luminance forever — and they are the **#1/#2 most-pressed** buttons
+      (729/541 pooled casts). So the top of the [V3] salience hierarchy is mute on
+      the buttons the rotation is actually about. Proposed fix: **cadence routes
+      which actionability source feeds luminance** — `oncd` → observed ready edge
+      (shipped), `gated` → readable resource gate (HoG bright at shards ≥ cost),
+      `reactive` → proc presence. Restores one board-wide meaning: *bright =
+      actionable now*. Also rescues §0.5.4 **moment #5**, which currently has no
+      home in the §0.5.8.3 table. **New committed behaviour → M3c.**
+- [ ] **D2 — Candidate scorer: shape and inputs.** Two sub-decisions:
+      (a) **stack-rank** the candidates (more useful, and wrong ordering erodes
+      trust faster than no ordering) or just **threshold** them into a live set?
+      (b) may the score consume **napkin timers**? They give burst awareness but
+      drift on haste/CDR, and would be the least reliable input in the mix.
+      Recommendation on file: build on the four *precise* inputs first (shards,
+      runtime cost, Core presence, observed ready edges), ship, and add
+      napkin-derived urgency only if it doesn't already narrow to 2–3.
+- [ ] **D3 — Promote the debug words into the default view?** The terminal
+      aesthetic and a text readout are complementary, and always-on identity text
+      makes the colour map self-teaching (the direct answer to "yellow and purple
+      don't mean anything in isolation"). But §0.5.8 currently **excludes** text
+      from the indicator contract (`HudDebug.lua` header says so explicitly), so
+      this is a scope change, not a tweak. Standing recommendation: **text carries
+      identity/reference, preattentive channels carry urgency** (§0.5.3 — reading
+      is serial and slow; a P0 cue must land without a saccade).
+
+### Code
+
+- [ ] **C1 — `SpecDemonology` two-axis rewrite.** Replace the single `role` enum
+      with `spends` / `generates` / `cadence` / `burstAlign` / `goGate` / `kind`,
+      per the corrected table in the Fable review. Key corrections to the original
+      proposal: `cadence ∈ {oncd, gated, reactive, filler, utility}` — **`burst`
+      is dropped** (redundant with `burstAlign`) and **`filler` is added** (Shadow
+      Bolt is the else-branch and classifies as nothing else); **Grimoire also
+      needs `burstAlign`**; **`goGate` is a separate bit** because the go-gate is
+      Tyrant + Dreadstalkers *only* and without it someone re-derives the lane from
+      `burstAlign` and re-ships §0.5.8.6 blocking error #2; **`generates` subsumes
+      the existing `ghost` field** rather than duplicating it; buff-viewer rows get
+      `kind = "aura"` instead of a magic `role = "proc"`. **Costs are NOT authored
+      here** — they are talent-dependent and read at runtime (v0.9.1).
+- [ ] **C2 — Fix the Demonbolt tint pole** *(Fable blocking error B2 — a live
+      defect in shipped code).* §0.5.1 calls Demonbolt a bucket-2 **spender**;
+      `SpecDemonology.lua:66` says `role = "builder"` and renders it at the
+      cool/dim generator pole. So `HoG ↔ Demonbolt` — the most common pattern in
+      the parse data (313 + 313 two-grams) — renders as **opposite tint poles**, as
+      if they were opposite kinds of action when both are "dump a bucket". Related
+      tell: `HudChrome.lua:53-54` gives `spender` and `burst` **identical** tint
+      values, i.e. `burst` never affected the tint at all and existed only to
+      smuggle burst-lane membership through the tint field.
+- [ ] **C3 — Candidate scorer + standalone dot.** *(Blocked on D2.)* A per-ability
+      score from readable inputs, surfaced as a **standalone pulsing dot** beside
+      the icon. Architecturally the dot is the right call: the review established
+      there is **no free visual channel** (hue = group, saturation = resource,
+      luminance = actionability, alpha = recede), and a dot is a *new object*
+      rather than a new channel on a crowded one. It can also carry its own
+      **confidence** (solid = precise inputs only; hollow/dim = leaning on a
+      drifting napkin), which a border cannot express.
+      ⚠ **One of the proposed inputs is not available:** "almost capped on Demonic
+      Core" is a **secret** (§0.5.5 — count is displayed but unreadable, "cannot
+      signal near cap 4"). Same wall as imp count: we get *presence*, never
+      *quantity*. A score that treated "has a Core" as "about to overcap" would be
+      confidently wrong, which §0.5.8.2(c) forbids. Five of the six proposed
+      buckets survive.
+
+### Docs
+
+- [ ] **P1 — Write §0.5.8.7, a dated amendment block** (in the pattern of
+      §0.5.8.6, so the committed table stays the single contract). Contents: the
+      `role` → two-axis split; **#5 re-scoped** to "ready accent on **CD-bearing
+      buttons**" (it structurally cannot cover the board); the Demonbolt tint-pole
+      flip; **cadence routes, it does not paint**; the tri-state `ready = nil` (the
+      committed pseudocode still says binary `BRIGHT if ready else DIM`, which the
+      shipped M3b contradicts); and the governing principle below.
+      **New governing principle to record — "inform, don't instruct":** the HUD
+      narrows the field rather than choosing. *"There will still be decision
+      making, but it will be focused decision making — pick between 2-3 abilities
+      instead of 5."* This resolves several open tensions at once and should be
+      checked against the instructional rows (#8 opener queue, #11 HOLD/BANK, #12
+      "stage for Tyrant"), re-framing them as information rather than dropping them.
+- [ ] **P2 — Sweep the dead-mechanism citations** *(Fable blocking error B4).*
+      `spec.md` §3's "Ready" row and `guidance-model.md` §0.5.2 #8 / §0.5.4 #8 all
+      still name **`OnCooldownDone` / `TriggerAvailableAlert`** — and
+      `hooksecurefunc` on `OnCooldownDone` is a **proven silent no-op** (`notes.md`
+      §1, the `GenerateClosure` trap). Anyone implementing from the authority docs
+      reproduces the exact trap M3b dodged. Same sweep: §0.5.2 #2/#6/#7/#10,
+      §0.5.4's rows, and §0.5.8.4's `DemonicCore.IsShown()` all cite unqualified
+      `IsShown()`, which is a **conditional, capability-checked backstop**, not the
+      primary — the primary is the aura edge.
+- [ ] **P3 — Milestone-log catch-up, v0.7.1 → v0.9.1.** The Status block and M3b
+      entry stop at v0.7.0 while citing results from passes after it. Record: the
+      **recede `Wake` dead-end** (v0.7.0 shipped it so the first ready edge or proc
+      killed the recede permanently — nothing re-armed the sleep); the **LOUD pass**
+      (explicitly *not* considered-final values, all in one TUNING block); the
+      **`/cdmp hud debug` words-first readout** and what prompted it; **#17 pulled
+      forward from M5 into M3** and why; **runtime power costs** (v0.9.1); and
+      **close the M3b "Known risk"** — `TriggerAlertEvent` is confirmed live (20
+      hooks, edges firing, `secret=0`). Also fold in finding #5 (readiness covers
+      only a minority of buttons) as a first-class scoping fact.
+
+### Verify in-game
+
+- [ ] **V1 — Open verification queue.** (a) **Costs** — read the v0.9.1 `cost`
+      column and settle Dreadstalkers / Tyrant / Grimoire; the docs, the review and
+      the player disagree, and all three are talent-dependent. Note the units
+      caveat (shards vs fragments). (b) **Imp stack emphasis** (v0.9.0) restyles a
+      Blizzard `FontString`, and Blizzard re-applies text/position from several
+      paths — the same problem that forced the leaf-method hooks now dormant in
+      `HudTint.lua`. If the number snaps back mid-combat, that's why. (c) **#3
+      Demonic Art has never once been observed** — `spell-override events: 0` in
+      every pass so far, so the whole indicator is still unproven. (d) The recede
+      actually receding, post-fix.
+
+> **Outside this project (KB bugs surfaced by the review, not HUD work):**
+> `knowledge/classes/warlock/demonology/rotation.md` still opens with Power Siphon
+> (#1) and Summon Doomguard on cooldown (#4) — `diabolist-sequences.md` explicitly
+> queued that correction and it was never applied, so the priority list a reader
+> hits first is the stale one. And `abilities.md`'s Infernal Bolt **+2** shards
+> conflicts with `maxroll-raid.md`, `diabolist-sequences.md` and the parse counts,
+> which all say **+3** — the ghost math and the SPEND pre-flip threshold ride on it.
