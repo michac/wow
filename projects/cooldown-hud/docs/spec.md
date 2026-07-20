@@ -194,12 +194,12 @@ observed ready edge, and we own the recede.)*
 | State | Encoding | Source |
 | --- | --- | --- |
 | On cooldown | Blizzard's own dimming + secure radial swipe + countdown, untouched | **borrowed** (we add nothing) |
-| Ready | our **accent lights** on the surrounding chrome + a one-shot "settle", fired off the observed ready edge (`OnCooldownDone` / `TriggerAvailableAlert`) | ours (accent) + native ready sound |
+| Ready | our **accent lights** on the surrounding chrome + a one-shot "settle", fired off the observed ready edge (**`TriggerAlertEvent`** — *not* `OnCooldownDone`, which cannot be hooked; `notes.md` §1) | ours (accent) + native ready sound |
 | Shards 0–5 | segmented rail fills; at 5 → luminance flip + one-shot glitter + earcon, read as **"spend or waste"** (see below) | **ours** |
 | Shard incoming (cast in flight) | **ghost segment** at the head of the rail (+1 SB / +3 Infernal Bolt / +2 Demonbolt) | **ours** (anticipation) |
 | Mode (PREP/GENERATE/SPEND/BURST) | ambient chrome tint + luminance + a redundant glyph; **no motion**, positions locked | **ours** |
-| Demonic Core proc up | Demonbolt proc-glow overlay; **softens at ≥4 shards** (its +2 would overcap) | **ours** (`IsShown`) |
-| Demonic Art armed | proc-glow the **transformed** button (HoG→Ruination, SB→Infernal Bolt) | **ours** (`IsShown`, buff `428514`) |
+| Demonic Core proc up | Demonbolt proc-glow overlay; **softens at ≥4 shards** (its +2 would overcap) | **ours** (aura **edge** via `TriggerAlertEvent`; `IsShown` is only a capability-checked backstop) |
+| Demonic Art armed | proc-glow the **transformed** button (HoG→Ruination; **SB→Infernal Bolt is unglowable in v1** — SB isn't tracked, §0.5.5) | **ours** (`COOLDOWN_VIEWER_SPELL_OVERRIDE_UPDATED` — the override event names *which* button transformed) |
 | Wild Imps present | borrowed stack-count text, enlarged, + our static **"/6"** | borrowed (count) + ours (denominator) |
 | Tyrant approaching | ~15 s **warm-up tint** (awareness only) → ~5 s **HOLD/BANK** treatment → motion onset at ~0 | **ours** (napkin) |
 | DoT/proc time + stacks | restyled secure bar, drains toward empty | borrowed |
@@ -271,7 +271,7 @@ the otherwise-right thing.
 | Soul Shards cap (5) | urgent rising tick — **"spend or waste"**, not a fanfare ([B1]) | **ours** (shards readable) |
 | Summon Demonic Tyrant ready | low resonant "gong" | native ready alert |
 | Call Dreadstalkers ready | mid double-tick | native ready alert |
-| Demonic Core proc gained | soft cyan "ding" | **native `OnAuraApplied` alert** (secure) — or ours via `IsShown` edge |
+| Demonic Core proc gained | soft cyan "ding" | **native `OnAuraApplied` alert** (secure) — or ours off the `TriggerAlertEvent` aura edge |
 | DoT pandemic (if tracked) | dissonant "thunk" | native pandemic alert |
 | Board cleared / all-quiet | (optional) soft settle | ours |
 

@@ -162,7 +162,7 @@ mechanism rationale is in §0.5.3.
 | 5 | **Shards `≥ 3`, Tyrant `> 5 s` away** — `UnitPower ≥ 3` and not bursting | Hand of Gul'dan now (generate imps; don't drift toward overcap). | **P2** | SPEND |
 | 6 | **Wild Imps present** — Wild Imp buff-icon `IsShown()` | On 3+ targets, Implosion becomes relevant **at ≥6 imps** (15 s CD). | **P2** | any (AoE) |
 | 7 | **Dominion of Argus (apex) up** — buff bar `IsShown()` | Hand of Gul'dan immediately — the proc makes it free/empowered and refunds shards to chain HoG in the Tyrant window. | **P2** | SPEND, BURST |
-| 8 | **A tracked cooldown becomes ready** — observed off the hooked ready-alert edge (`TriggerAvailableAlert` / `OnCooldownDone`), *not* a secret read | Use the cooldown per the fixed priority order. | **P1** | any |
+| 8 | **A tracked cooldown becomes ready** — observed off the hooked ready-alert edge (**`TriggerAlertEvent`**; `OnCooldownDone` is unhookable — `notes.md` §1), *not* a secret read | Use the cooldown per the fixed priority order. | **P1** | any |
 | 9 | **Board cleared / all-quiet** — no procs shown, shards low, nothing actionable | Nothing — recede, declutter. "Empty board = nothing to do." | **P3** | GENERATE (idle) |
 | 10 | **Demonic Art armed (Diabolic Ritual)** — the ritual/art buff-icon `IsShown()` (tracked buff `428514`, `notes.md` §2) | Take the free transform: next Hand of Gul'dan → **Ruination** (3 free imps — save for the Tyrant window), or next Shadow Bolt → **Infernal Bolt** (+3 shards — take when shard-starved). | **P1** | GENERATE, SPEND, BURST |
 
@@ -434,7 +434,7 @@ One row per §0.5.2 moment **plus the mode indicator itself**. Each row assigns 
 | **#5 Shards ≥3, Tyrant far** | `UnitPower ≥ 3` and not bursting | Hand of Gul'dan block reads **actionable** (bright vs dim luminance); **no sound** (don't nag a routine action) `[V3][A3]` | **Own** | Soul Shards read+branch |
 | **#6 Wild Imps present** | Wild Imp buff-icon `IsShown()` | Implosion block surfaces (luminance); enlarge Blizzard's **stack-count text** + static "/6" — count itself unread `[V3][V6]` | **Own** (presence) **+ Borrow** (stack text); ≥6 gate **Can't** | `IsShown` (presence); `Applications` secret |
 | **#7 Dominion of Argus up** | buff bar `IsShown()` | Hand of Gul'dan block flags **empowered** (luminance-onset); borrowed Dominion bar restyled `[V3][X1]` | **Own** (presence) **+ Borrow** (bar) | `IsShown`; secure BuffBar |
-| **#8 Cooldown ready** | hooked ready-alert **edge** (observed, not read) | Own "ready settle" **luminance-onset** glow off the edge; **native ready earcon** (distinct timbre) `[V3][A2][A3]` | **Borrow** (native alert) **+ Own** (glow off observed edge) | `TriggerAvailableAlert`/`OnCooldownDone` hook |
+| **#8 Cooldown ready** | hooked ready-alert **edge** (observed, not read) | Own "ready settle" **luminance-onset** glow off the edge; **native ready earcon** (distinct timbre) `[V3][A2][A3]` | **Borrow** (native alert) **+ Own** (glow off observed edge) | `TriggerAlertEvent` hook |
 | **#9 Board cleared / all-quiet** | no procs shown + shards low | Everything **recedes/dims** (no steady-state animation) — the declutter state `[V4][V6]` | **Own** (composed from readable absence) | shards + `IsShown` |
 | **#10 Demonic Art armed** | Diabolic Ritual/Art buff `IsShown()` | **Proc-glow the transformed button** (HoG→Ruination, SB→Infernal Bolt) — luminance-onset, single feature, redundant with the fixed slot + label `[V2][V3][X1]` | **Own** | buff `IsShown` (tracked `428514`) |
 
@@ -816,6 +816,163 @@ Plus fidelity gaps: the **Dreadstalkers ping now suppresses when Tyrant is immin
 flagged was resolved by **promoting #17 (Wild Imp stack text) into v1 as Core**, so
 the spec's central AoE decision has a readout. `in_aoe` is flagged as a capability
 to verify-in-game.
+
+---
+
+## 0.5.8.7 Amendment — the dot score, and what it displaces (2026-07-20)
+
+> **Status: this block amends §0.5.8.3–§0.5.8.5.** Where it disagrees with them,
+> this wins; the rows themselves are left in place so the change is legible rather
+> than silently rewritten (same pattern as §0.5.8.6). Driven by the M3b in-game
+> passes (CDMProbe v0.7.0–v0.9.1), a Fable fidelity review, and the design session
+> that followed.
+
+### (0) The governing principle — inform, don't instruct
+
+> *"I'm not looking to check out completely. If imps and dreadstalkers are both
+> flagged as available, then I'm ok having to decide which I will hit."*
+> *"There will still be decision making, but it will be focused decision making.
+> Pick between 2-3 abilities instead of 5."*
+
+**The HUD narrows the field; the player chooses within it.** This is now the
+top-level test every indicator must pass, and it resolves several open tensions:
+
+- It **retires the priority-arbitration problem**. §0.5.5 says Wild Imp count is
+  secret, so "≥6 imps → Implosion over Hand of Gul'dan" was never computable. It
+  no longer needs to be — surfacing both as live candidates *is* the deliverable.
+- It **promotes the borrowed readouts**. If the HUD won't rank, the borrowed
+  counts become the player's arbitration data, not decoration. §0.5.8.3 **#17
+  (Wild Imp stack + "/6") moves from M5 to M3** and is no longer "Core despite
+  being a Borrow" — it is Core *because* it is the Borrow that carries the AoE call.
+- It puts the **instructional rows on notice**: #8 (opener queue), #11 (HOLD/BANK),
+  #12 ("stage for Tyrant"). None are dropped, but each must be re-framed as
+  *information* — "Tyrant in ~5s" rather than "stop pressing things". A cue that
+  tells the player what to do is only acceptable where it is also *correct*
+  (§0.5.8.2(c)); one that merely reports a readable fact is always acceptable.
+
+### (1) The dot score — a new indicator, and the primary "what next" signal
+
+**Why a dot and not another channel.** The review established there is **no free
+visual channel**: hue = group, saturation = resource axis, luminance = readiness,
+alpha = recede — and [V2] forbids conjunction encodings. A standalone dot beside
+the icon sidesteps this entirely: it is a **new object**, not a new channel on a
+crowded one. It can also carry its own **confidence**, which a border cannot.
+
+**The level ladder** (the dot's state — an *actionability* scale):
+
+| Level | Meaning |
+| --- | --- |
+| **NEVER** | on cooldown, or the resource gate is unmet — not pressable |
+| **AVAILABLE** | pressable, but unlikely to be the top priority |
+| **ROTATION** | what the addon can see suggests this may be next |
+| **LATE** | this became actionable ≥3 s ago and still hasn't been cast |
+
+**All four levels are PRECISE — none of them require napkin math.** This is the
+load-bearing property and it was not obvious:
+
+- NEVER / AVAILABLE come from the observed ready edge (`TriggerAlertEvent`) and
+  readable resource state (`UnitPower`, aura-presence edges, runtime power cost).
+- **LATE is measured, not guessed.** For a cooldown, we hold the exact `Available`
+  edge and time from it with `GetTime()`. For a resource-gated ability, shards are
+  readable. "3 s late" is arithmetic on values we legitimately hold — it is *not*
+  the drifting napkin estimate, and it does not inherit the napkin's caveats.
+
+**Anticipation is NOT a fifth level — it is an orthogonal treatment.** "Napkin
+says this is coming up soon" is about the *future*; the ladder is about *now*.
+Ranking an unpressable ability as ROTATION would make the dot claim pressability
+for something the player physically cannot cast — the fastest possible way to
+lose trust in the whole HUD. Instead the dot **stays at NEVER and fills/brightens
+as the napkin approaches ready**, which is exactly §0.5.8.2(b)'s anticipation
+pattern and #11's "WARMUP_LEAD = awareness only, non-instructional". Consequence:
+the player never has to filter it out, because it never claimed to be pressable.
+
+**Confidence encoding.** Because the ladder is precise and anticipation is not,
+the dot can be honest about the difference: solid = derived only from precise
+inputs; hollow/dimmed = leaning on a drifting estimate. Drift becomes visible
+rather than silent.
+
+**One proposed input cannot be built.** "Almost capped on Demonic Core" is a
+**Secret Value** (§0.5.5 — displayed, unreadable, "cannot signal near cap 4"),
+the same wall as imp count: we get *presence*, never *quantity*. A score that
+treated "has a Core" as "about to overcap" would be confidently wrong, which
+§0.5.8.2(c) forbids. Five of the six proposed inputs survive; the sixth is
+covered by the borrowed stack text instead.
+
+### (2) Luminance/readiness (#5) is SHELVED, not fixed
+
+The review's blocking error **B1**: §0.5.8.4 commits `block.luminance = BRIGHT if
+ready else DIM` board-wide and `spec.md` §3 promises "bright = ready/actionable" —
+but Hand of Gul'dan and Demonbolt have **no cooldown**, never fire a ready edge,
+and sit at base luminance permanently. They are the **#1 and #2 most-pressed**
+rotational buttons (729 / 541 pooled casts). So the top of the [V3] salience
+hierarchy is mute on the buttons the rotation is actually about.
+
+The proposed fix was cadence-routed luminance (gated buttons light at
+`shards ≥ cost`). **Decision: shelved in favour of the dot**, which addresses the
+same need — "what should I press" — without loading a fifth meaning onto an
+already-contested channel.
+
+**But the promise must stop being made.** §0.5.8.3 **#5 is re-scoped in place** to
+"ready accent on **CD-bearing buttons only** (burst summons, Implosion, utility)
++ empty-board recede", and `spec.md` §3's unqualified "bright = ready/actionable"
+is now **wrong as written** and must be qualified. Shelving the fix is not
+permission to keep the overclaim. The M3b tri-state (`ready = nil` is a real
+state, never guessed) stands and supersedes §0.5.8.4's binary pseudocode.
+
+*(Reopening path: if the dot proves insufficient, cadence-routed luminance is the
+designed answer and §7.1 D1 holds the reasoning.)*
+
+### (3) Text is promoted into the default view — conservatively
+
+§0.5.8 previously **excluded** text from the indicator contract. It is now **in**,
+with limits, because always-on identity text makes the colour map self-teaching —
+the direct answer to *"yellow, purple etc. don't really have any meaning in
+isolation."* Hue-carries-group is ambient **identity**, not instruction; an
+arbitrary encoding cannot be read until it has been learned, and a permanent
+adjacent label is how it gets learned.
+
+**The split, from §0.5.3's attention research:** reading is *serial and slow*, so
+
+- **text carries identity and reference** — keybind, state words, the reason a dot
+  is lit. Absorbed peripherally, over time.
+- **preattentive channels carry urgency** — the dot, proc glows, the shard rail,
+  the cap cue. These must land without a saccade.
+
+**Conservatively** means: not the full ability name (the icon already says what the
+ability is), compact state tokens, and the row reads **dot first, then the reason
+for the dot** — so the score is auditable rather than an oracle. Layout: the two
+icon columns bracket the character, so the left column's text runs **leftward**.
+
+### (4) The spec table becomes the signal bucket (supersedes the `role` enum)
+
+`SpecDemonology`'s single `role` enum is replaced by the per-ability **signal
+bucket** the dot score consumes — `spends` / `generates` / `cadence` /
+`burstAlign` / `goGate` / `kind`. Corrections carried from the review: drop
+`burst` (redundant with `burstAlign`, and its tint value was already **identical**
+to `spender` — it never encoded anything); add `filler` (Shadow Bolt classifies as
+nothing else); Grimoire also takes `burstAlign`; **`goGate` is a separate bit**
+because the go-gate is Tyrant + Dreadstalkers *only* and without it someone
+re-derives the lane from `burstAlign` and re-ships §0.5.8.6 blocking error #2;
+`generates` subsumes the existing `ghost` field; aura rows take `kind = "aura"`.
+
+**Costs are not authored into the table.** They are talent-dependent — Demonic
+Calling makes Dreadstalkers free, and the Tyrant/Grimoire costs move with the
+build — so any hardcoded number is right for one loadout and silently wrong for
+every other. Read at runtime via `C_Spell.GetSpellPowerCost` (shipped v0.9.1).
+
+**Blocking error B2 is downgraded, not dismissed.** Demonbolt is `role="builder"`
+in code while §0.5.1 calls it a bucket-2 **spender**, so the `HoG ↔ Demonbolt`
+alternation — the most common pattern in the parse data (313 + 313 two-grams) —
+currently renders at **opposite tint poles**. In a dot-led world the tint matters
+less, but the contradiction is still live and the fix is one data edit.
+
+### (5) Deferred, recorded so it isn't lost
+
+A **scrolling terminal view** below the cooldown column — practical readout and
+period-appropriate flavour at once, and the natural home for the log-shaped
+information the per-icon rows can't hold (edges as they fire, casts, score
+changes). Not scheduled. `BucketBinds`' `Console.lua` already solves the
+scrollback, geometry persistence and monospace-font handling.
 
 ---
 

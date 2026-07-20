@@ -9,7 +9,45 @@
 
 ## Status
 
-**Current: M3b shipped (2026-07-20, CDMProbe v0.7.0) — the first STATE signals.**
+**Current: M3b shipped and iterated (2026-07-20, CDMProbe v0.7.0 → v0.9.1).**
+Five in-game passes turned M3b from "shipped" into "shipped and understood", and
+the findings reshaped the roadmap — see **§0.5.8.7**, the amendment they produced,
+and **§7.1**, the working backlog. Headlines:
+
+- ✅ **The M3b design risk is closed.** `TriggerAlertEvent` is confirmed live —
+  20 hooks, `Available`/`OnCooldown`/`OnAuraApplied`/`OnAuraRemoved` all firing,
+  `secret=0`. The layered `IsShown` fallback was never needed (but stays built).
+- ✅ **M3a's outstanding relayout check passed** in the same pass —
+  `RefreshLayout=8`, all 20 items still bound, no ticker. The one real regression
+  risk from dropping the 2 s ticker is retired.
+- ✅ **#2 confirmed** — Demonbolt lights on a Demonic Core proc.
+- ❌ **#3 has never once been observed** — `spell-override events: 0` in every
+  pass. The Demonic Art glow is still entirely unproven (§7.1 V1c).
+- 🐛 **The recede never worked as shipped.** `Wake()` cancelled the sleep timer
+  and brightened but nothing re-armed it, and `Wake` fires on every ready edge and
+  every proc — so the *first* edge killed the recede permanently. Fixed v0.7.1
+  (arm/disarm; instant wake, debounced sleep). Also, at 1–2px accents the recede
+  was invisible even when correct, so the DEMO.SYS frame and scanlines now follow
+  it as a unit.
+- 🔎 **Finding: readiness-as-cooldown covers only a MINORITY of the board.** Hand
+  of Gul'dan and Demonbolt have **no cooldown**, so they never fire a ready edge
+  and sit at "unknown" forever — and they are the two most-pressed buttons.
+  Measured: 3–4 cooldown edges vs 19+ aura edges in one session. This falsifies
+  §0.5.8.4's board-wide luminance promise (§0.5.8.7 §2) and is the single most
+  consequential thing M3b taught us.
+- 🔎 **Finding: the ambient colour encoding is not legible on its own** —
+  *"yellow, purple etc. don't really have any meaning in isolation."* Correct, and
+  a property of the design: hue carries **group**, which is identity, not
+  instruction. Prompted the **LOUD pass** (v0.7.2 — every state signal cranked
+  past legibility, explicitly *not* final values, all in one TUNING block) and
+  then the **words-first readout** (`/cdmp hud debug`, v0.8.0–v0.8.2), which is
+  now promoted into the default view (§0.5.8.7 §3).
+- 📦 **Shipped alongside:** bundled JetBrains Mono; the Utility column's text runs
+  leftward so the two columns bracket the character; **#17 (Wild Imp stack + "/6")
+  pulled forward from M5 into M3**; power costs read at runtime rather than
+  authored into the spec table.
+
+**M3b as originally scoped (v0.7.0) — the first STATE signals.**
 `/cdmp hud` now says not just who each icon is but what it's *doing*: a **ready
 accent** off the observed ready edge (+ a one-shot settle, the one place motion is
 allowed), the **Demonic Core proc-glow** on Demonbolt (softening at ≥4 shards), the
@@ -353,10 +391,10 @@ decision/spec milestone that de-risks the build that follows.)
     `hud status`'s state block reports the right glow states and says whether level
     reads are available · off → pixel-clean, `/reload` restores.
 
-    **Known risk:** `TriggerAlertEvent` is the whole design. If it turns out not to
-    fire, or its `event` arg reads secret, the fallback is the layered `IsShown`
-    model — which is why the level/poll path was **built rather than dropped**, and
-    why `hud status` counts a `secret=` bucket for that exact arg.
+    **Known risk — ✅ CLOSED (2026-07-20).** `TriggerAlertEvent` was the whole
+    design, and it holds: confirmed live at 20 hooks with all four edge types
+    firing and `secret=0`. The layered `IsShown` fallback was never needed; it
+    stays built as the documented contingency.
   - **M3c — resource + mode + anticipation.** The owned **shard rail** (segmented
     fill, cap flip + one-shot glitter + earcon), **GENERATE↔SPEND mode chrome tint**
     (pure shard threshold), the **anticipation layer** (ghost incoming-shard during an
@@ -508,7 +546,13 @@ decision/spec milestone that de-risks the build that follows.)
 
 ### Decisions pending (these gate the rest)
 
-- [ ] **D1 — Adopt cadence-routed luminance?** *(Fable blocking error B1.)*
+- [x] **D1 — RESOLVED (2026-07-20): SHELVED in favour of the dot.** The dot
+      addresses the same need without loading a fifth meaning onto a contested
+      channel. ⚠ **But the overclaim must still be fixed** — §0.5.8.3 #5 is
+      re-scoped to CD-bearing buttons and `spec.md` §3's "bright = ready/actionable"
+      is wrong as written. Shelving the fix is not permission to keep the promise.
+      Reasoning preserved below as the reopening path. *(Original item:)*
+      **Adopt cadence-routed luminance?** *(Fable blocking error B1.)*
       §0.5.8.4 commits `block.luminance = BRIGHT if ready else DIM` board-wide and
       `spec.md` §3 promises "bright = ready/actionable". Finding #5 falsifies it:
       HoG and Demonbolt have **no cooldown**, never fire a ready edge, and sit at
@@ -520,7 +564,13 @@ decision/spec milestone that de-risks the build that follows.)
       `reactive` → proc presence. Restores one board-wide meaning: *bright =
       actionable now*. Also rescues §0.5.4 **moment #5**, which currently has no
       home in the §0.5.8.3 table. **New committed behaviour → M3c.**
-- [ ] **D2 — Candidate scorer: shape and inputs.** Two sub-decisions:
+- [x] **D2 — RESOLVED (2026-07-20): a four-level threshold ladder**, NEVER /
+      AVAILABLE / ROTATION / LATE. **All four are precise** — LATE is *measured*
+      from the observed `Available` edge with `GetTime()`, not estimated, so it
+      does not inherit the napkin's drift. **Anticipation is orthogonal, not a
+      fifth level**: the dot stays at NEVER and fills as the napkin approaches, so
+      it never claims pressability and never needs filtering out. Full model in
+      §0.5.8.7 §1. *(Original item:)* **Candidate scorer: shape and inputs.**
       (a) **stack-rank** the candidates (more useful, and wrong ordering erodes
       trust faster than no ordering) or just **threshold** them into a live set?
       (b) may the score consume **napkin timers**? They give burst awareness but
@@ -528,7 +578,10 @@ decision/spec milestone that de-risks the build that follows.)
       Recommendation on file: build on the four *precise* inputs first (shards,
       runtime cost, Core presence, observed ready edges), ship, and add
       napkin-derived urgency only if it doesn't already narrow to 2–3.
-- [ ] **D3 — Promote the debug words into the default view?** The terminal
+- [x] **D3 — RESOLVED (2026-07-20): YES, conservatively.** Not the full ability
+      name; compact tokens; row reads **dot first, then the reason for the dot**.
+      Text carries identity/reference, preattentive channels carry urgency
+      (§0.5.8.7 §3). *(Original item:)* **Promote the debug words into the default view?** The terminal
       aesthetic and a text readout are complementary, and always-on identity text
       makes the colour map self-teaching (the direct answer to "yellow and purple
       don't mean anything in isolation"). But §0.5.8 currently **excludes** text
@@ -539,7 +592,8 @@ decision/spec milestone that de-risks the build that follows.)
 
 ### Code
 
-- [ ] **C1 — `SpecDemonology` two-axis rewrite.** Replace the single `role` enum
+- [ ] **C1 — APPROVED. `SpecDemonology` two-axis rewrite** — and the framing is
+      confirmed: this *is* the per-ability **signal bucket** the dot score reads. Replace the single `role` enum
       with `spends` / `generates` / `cadence` / `burstAlign` / `goGate` / `kind`,
       per the corrected table in the Fable review. Key corrections to the original
       proposal: `cadence ∈ {oncd, gated, reactive, filler, utility}` — **`burst`
@@ -551,7 +605,8 @@ decision/spec milestone that de-risks the build that follows.)
       the existing `ghost` field** rather than duplicating it; buff-viewer rows get
       `kind = "aura"` instead of a magic `role = "proc"`. **Costs are NOT authored
       here** — they are talent-dependent and read at runtime (v0.9.1).
-- [ ] **C2 — Fix the Demonbolt tint pole** *(Fable blocking error B2 — a live
+- [ ] **C2 — DOWNGRADED (dot-led world makes the tint less load-bearing), but
+      still a live contradiction and a one-line data fix. Fix the Demonbolt tint pole** *(Fable blocking error B2 — a live
       defect in shipped code).* §0.5.1 calls Demonbolt a bucket-2 **spender**;
       `SpecDemonology.lua:66` says `role = "builder"` and renders it at the
       cool/dim generator pole. So `HoG ↔ Demonbolt` — the most common pattern in
@@ -560,7 +615,8 @@ decision/spec milestone that de-risks the build that follows.)
       tell: `HudChrome.lua:53-54` gives `spender` and `burst` **identical** tint
       values, i.e. `burst` never affected the tint at all and existed only to
       smuggle burst-lane membership through the tint field.
-- [ ] **C3 — Candidate scorer + standalone dot.** *(Blocked on D2.)* A per-ability
+- [ ] **C3 — APPROVED, and now the headline M3c deliverable. Candidate scorer +
+      standalone dot.** *(D2 resolved — build to the four-level ladder.)* A per-ability
       score from readable inputs, surfaced as a **standalone pulsing dot** beside
       the icon. Architecturally the dot is the right call: the review established
       there is **no free visual channel** (hue = group, saturation = resource,
@@ -575,9 +631,24 @@ decision/spec milestone that de-risks the build that follows.)
       confidently wrong, which §0.5.8.2(c) forbids. Five of the six proposed
       buckets survive.
 
+- [x] **C4 — Monospace font + larger text — ALREADY SHIPPED (v0.8.2).** JetBrains
+      Mono bundled (OFL included) with a stock-font fallback; size 11 → 14. If it
+      still reads small, bump `SIZE` in `HudDebug.lua` — worth making a setting.
+- [ ] **C5 — The per-icon row becomes `DOT + why`.** The row states the bucket
+      facts that *determined* the dot's level, so the score is **auditable rather
+      than an oracle** — which is what keeps it on the right side of "inform,
+      don't instruct". Supersedes the current debug row format.
+- [ ] **C6 — Scrolling terminal view below the column.** Deferred, recorded so it
+      isn't lost (§0.5.8.7 §5). Practical readout *and* period flavour, and the
+      natural home for log-shaped data the per-icon rows can't hold.
+      `BucketBinds`' `Console.lua` already solves scrollback + geometry + font.
+
 ### Docs
 
-- [ ] **P1 — Write §0.5.8.7, a dated amendment block** (in the pattern of
+- [x] **P1 — DONE (2026-07-20): §0.5.8.7 written.** Covers the governing
+      principle, the dot score + level ladder, the #5 shelving, text promotion, the
+      signal-bucket rewrite, and the deferred terminal view. *(Original item:)*
+      **Write §0.5.8.7, a dated amendment block** (in the pattern of
       §0.5.8.6, so the committed table stays the single contract). Contents: the
       `role` → two-axis split; **#5 re-scoped** to "ready accent on **CD-bearing
       buttons**" (it structurally cannot cover the board); the Demonbolt tint-pole
@@ -590,7 +661,11 @@ decision/spec milestone that de-risks the build that follows.)
       instead of 5."* This resolves several open tensions at once and should be
       checked against the instructional rows (#8 opener queue, #11 HOLD/BANK, #12
       "stage for Tyrant"), re-framing them as information rather than dropping them.
-- [ ] **P2 — Sweep the dead-mechanism citations** *(Fable blocking error B4).*
+- [x] **P2 — DONE (2026-07-20)** for the load-bearing citations (`spec.md` §3
+      Ready row + proc rows; §0.5.2 #8; §0.5.4 #8). ⚠ **Residual:** the many
+      `IsShown()` mentions in §0.5.2 #2/#6/#7/#10, §0.5.4 rows and §0.5.8.4
+      pseudocode still read as the primary mechanism rather than a
+      capability-checked backstop. *(Original item:)* **Sweep the dead-mechanism citations** *(Fable blocking error B4).*
       `spec.md` §3's "Ready" row and `guidance-model.md` §0.5.2 #8 / §0.5.4 #8 all
       still name **`OnCooldownDone` / `TriggerAvailableAlert`** — and
       `hooksecurefunc` on `OnCooldownDone` is a **proven silent no-op** (`notes.md`
@@ -599,7 +674,8 @@ decision/spec milestone that de-risks the build that follows.)
       §0.5.4's rows, and §0.5.8.4's `DemonicCore.IsShown()` all cite unqualified
       `IsShown()`, which is a **conditional, capability-checked backstop**, not the
       primary — the primary is the aura edge.
-- [ ] **P3 — Milestone-log catch-up, v0.7.1 → v0.9.1.** The Status block and M3b
+- [x] **P3 — DONE (2026-07-20):** Status block rewritten with the v0.7.0→v0.9.1
+      arc and the M3b known-risk closed. *(Original item:)* **Milestone-log catch-up.** The Status block and M3b
       entry stop at v0.7.0 while citing results from passes after it. Record: the
       **recede `Wake` dead-end** (v0.7.0 shipped it so the first ready edge or proc
       killed the recede permanently — nothing re-armed the sleep); the **LOUD pass**
