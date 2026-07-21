@@ -29,9 +29,10 @@ delve, in combat — SavedVariables captured to disk):
 | --- | --- | --- |
 | **Soul Shards** (`UnitPower(SoulShards)`) | ✅ **yes** — read `2`, `20` frags; the shard bar's color-flip-at-max is a live `if n >= MAX` that worked without tainting | ✅ |
 | **GCD** (spell 61304) | ✅ yes (whitelisted) | ✅ |
-| **Tracked spell IDs** (`item:GetSpellID()`) | ✅ yes | ✅ |
-| **Player's own casts** (`UNIT_SPELLCAST_START` / `SUCCEEDED`, `unitTarget == "player"`) | ✅ **yes** — readable spellID; Blizzard relaxed the restriction for personal casts | ✅ |
-| **Cooldown timing** (`GetSpellCooldown().duration`) | ❌ `<secret>` | ✅ secure swipe via duration object |
+| **Tracked spell IDs** — **ICON** viewers (`item:GetSpellID()`) | ✅ yes, in combat too (v0.12.0 probe: `Devour Magic id=388215` read fine mid-fight) | ✅ |
+| **Tracked spell IDs** — **BUFF** viewers, aura ACTIVE | ❌ **`<secret>` in combat** (v0.12.0 probe, corrected 2026-07-21 — this row previously claimed a blanket ✅) | ✅ |
+| **Player's own casts** (`UNIT_SPELLCAST_START` / `SUCCEEDED` / `STOP` / `INTERRUPTED`, `unitTarget == "player"`) | ✅ **yes** — readable spellID in **all four phases**, 0 secret across 178 events (v0.12.0 probe); Blizzard relaxed the restriction for personal casts | ✅ |
+| **Cooldown timing** (`GetSpellCooldown().duration`) | ⚠ **combat-gated, not absent** — `<secret fields>` on all 13 tracked spells IN combat, **fully readable on all 13 OUT of combat** (v0.12.0 probe, 2026-07-21). Open-world both runs, so the gate is **combat**, not instancing | ✅ secure swipe via duration object |
 | **Aura/DoT/proc timing + stacks** | ❌ query errors / returns nothing in restricted combat | ✅ secure BuffBar / BuffIcon viewer |
 | **Buff/proc *presence*** (aura **edges** via `TriggerAlertEvent`) | ✅ **yes** — the alert choke point below delivers applied/removed edges precisely, with no setting dependency | ✅ |
 | **Buff/proc *presence*** (`item:IsShown()` **level** on a CDM buff item) | ⚠ **conditional** — readable, but only *means* anything when the viewer hides inactive items (see the `hideWhenInactive` caveat below) | ✅ |
@@ -42,6 +43,61 @@ and our own casts carry a readable spellID. So the parts of the original vision 
 expected to lose — **glitter/sound when shards cap, proc-driven highlights,
 self-driven timing cues** — are all buildable in real content. Only *secret*
 quantities (exact cooldown remaining, aura stack counts) are off-limits.
+
+### ⚠ `type()` LIES about a Secret Value — the registry-poisoning trap (2026-07-21)
+
+The v0.12.0 probe read `id=<secret>` off an **active** buff item in combat while
+the same call out of combat returned `296553`. That matters far beyond the
+readout, because of how the value behaves:
+
+**`type(secret) == "number"` is TRUE.** A Secret Value passes an ordinary type
+check, so the standard `if ok and type(id) == "number" then return id end` guard
+in `ns.ItemSpellID` / `ns.ItemBaseSpellID` **returns the secret** rather than
+rejecting it. `ns.IsSecret` is the only reliable test, and it has to be applied at
+the *source*, not at every use site.
+
+The consequence is a **poisoned registry**: a rebind that lands in combat stores a
+secret as `e.baseSpellID`, and every downstream `e.baseSpellID == spellID`
+comparison — `entriesForSpell`, and therefore the whole proc-glow routing — is
+then comparing a secret. Corroborating evidence, not yet proven: the same run
+logged **`other=47`** in the alert counters, and that bucket doubles as the
+`pcall`-failure sink in `HudState.onAlert`. (The counter should be split so
+"unhandled alert type" and "handler threw" stop being the same number.)
+
+Rule: **resolve identity out of combat and never overwrite a known-good ID with
+an unreadable one.** An unreadable ID means "keep what you had", not "update".
+
+### Spell overrides — the transform channel, confirmed (2026-07-21)
+
+`COOLDOWN_VIEWER_SPELL_OVERRIDE_UPDATED` fired **12 times** in one dummy session,
+closing §7's V1(c) (previously `spell-override events: 0` in every pass). The
+pairs also disambiguate three IDs the spec table had been guessing at:
+
+| base | override | note |
+| --- | --- | --- |
+| `105174` Hand of Gul'dan | **`434635` Ruination** | resolves the 434635/434636 ambiguity |
+| `686` Shadow Bolt | **`434506` Infernal Bolt** | resolves the 433891/434506 ambiguity |
+| `1276467` Grimoire: Fel Ravager | **`388215` Devour Magic** | the "it becomes a purge on cooldown" case |
+| `119898` Command Demon | `119914` Axe Toss | fires normally — see the correction below |
+
+Two findings ride on that table:
+
+1. **Shadow Bolt's half of the Art wheel is observable even though SB is not in
+   the tracked set.** §0.5.5 recorded "SB → Infernal Bolt has no icon to light" as
+   a permanent blind spot; it is now a blind spot only in *where to draw*, not in
+   *what we know*. That reopens it as addressable.
+2. **The event is not sufficient on its own** — though *not* for the reason first
+   recorded. ⚠ **Corrected 2026-07-21:** the initial run showed Command Demon at
+   base≠live with an override count of **zero**, and that was read as "the event
+   does not fire for this button". A later run caught it firing **4 times**. The
+   real mechanism is duller and more general: the override is set when the pet is
+   summoned, which is **before our recorder starts listening** (login, `/reload`,
+   or the HUD being enabled mid-session). So the event is fine — our *window* on
+   it is what's partial. The conclusion survives intact and matters more broadly
+   than a per-button quirk: **a missed event and an absent event are
+   indistinguishable to us**, so identity must be **polled at bind time**, with
+   the event as the fast path that keeps it current. Any design that trusts only
+   the event is correct exactly until something happens before it was watching.
 
 ### What we own vs borrow
 

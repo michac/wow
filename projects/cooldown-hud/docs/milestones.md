@@ -9,8 +9,75 @@
 
 ## Status
 
-**Current: M3c-a shipped, IN-GAME REVIEW PENDING (2026-07-20, CDMProbe v0.10.0).**
-The dot score. M3b's five in-game passes said the colour encoding doesn't read —
+**Current: M3c-b CODE SHIPPED — the in-game truth pass is outstanding and IS the
+milestone (2026-07-21, CDMProbe v0.13.0).**
+
+M3c-b's exit criterion is a **measurement, not a diff**: a dummy pass where every
+lit dot survives being argued with — `lit now` names **1–2** abilities and each
+stated reason is one you agree with. **That number is still unmeasured**, and it
+was unmeasurable before this build because one of the two lit dots was the
+phantom Grimoire. Run **§7.3** before treating anything below as confirmed, and
+in particular before starting M3c-c, which renders on top of this board.
+
+*(Prior line:)* **M3c-a shipped; feedback pass + instrumentation pass done. NEXT
+IS M3c-b, THE TRUTH PASS (2026-07-21, CDMProbe v0.12.0).**
+
+**The v0.12.0 probe run answered four open questions in one dummy session** — the
+argument for consolidating six toggled probes into one always-recording command
+paid for itself immediately (§7.2 item 16). Headlines, all written up in
+`notes.md` §1:
+
+- ✅ **M3d is GO.** Cooldown state is **13/13 readable out of combat, 0/13 in
+  combat**. Open-world both runs, so the gate is **combat**, not instancing.
+  *(One residual: every OOC read was `duration=0`. Fields readable ≠ mid-cooldown
+  value correct — confirm before coding.)*
+- ✅ **V1(c) closed.** Demonic Art **observed for the first time**, 12 override
+  events. Ruination = `434635`, Infernal Bolt = `434506`, both ambiguities
+  resolved. Shadow Bolt's half of the wheel fires an event **even though SB isn't
+  tracked** — §0.5.5's blind spot is now about *where to draw*, not what we know.
+- 🐛 **The Grimoire complaint is real and reproduced.** `1276467 → 388215 Devour
+  Magic`, and `lit now` was advertising *"Grimoire · up — use on cooldown ·
+  waiting 18s"* on a button that had become a purge.
+- 🐛 **New: `type(secret) == "number"` is TRUE**, so `ItemSpellID` returns Secret
+  Values straight into the registry (buff-viewer IDs go secret in combat). Every
+  downstream `==` then compares a secret. Suspected cause of **47 swallowed
+  handler errors** hiding in the `other` counter.
+- ✅ **Cast events readable in all four phases**, 0 secret across 178 events —
+  START included, which unblocks spend-side anticipation.
+- ❌ **The imp-count side channel is closed.** `GetStringWidth()`/`GetText()` both
+  error, so the dot-glyph font has no rescue.
+
+**M3c-b adds no new signal.** It makes the existing one true, and it is
+deliberately ahead of the shard rail / mode chrome / opener queue because all
+three render on top of the scored board.
+
+*(Prior line:)* **M3c-a shipped; FIRST FEEDBACK PASS IN (2026-07-21, v0.10.0).**
+The v0.10.0 in-game review below is no longer pending — it happened, and it
+produced eleven items now parked as **§7.2**. The headline is a **live defect that
+invalidates half the board**: `ns.PowerCost` returns the first non-zero cost of
+*any* power type, so **mana costs are being read as shard gates** (Demonbolt
+"shards 3<500" = a 5000-mana cost through the fragment heuristic; Mortal Coil,
+Shadowfury and the defensives likewise). Demonbolt therefore **can never be
+recommended**, and every costed utility ability sits at NEVER on a gate it should
+never have been asked about. This is exactly what **V1(a)** predicted — "if the
+cost column reads wrong the dots are wrong" — arriving through a cause the queue
+didn't anticipate (power *type*, not shards-vs-fragments).
+
+⚠ **Consequence for the strictness check (outstanding item 2): it is NOT yet
+measured.** The on-screen summary read `lit 2`, which is inside the 1–2 target —
+but with the gates falsely closed on a chunk of the board that number is
+meaningless. **Re-run strictness after the cost fix**, and do not read the
+pre-fix `lit` count as evidence the rules are tight.
+
+Other findings, in §7.2: a transformed button is still scored as its base spell
+(the Grimoire reads as a rotational summon while it's a pet command); the score
+has no *spend*-side anticipation, so it reasons about shards you're already
+committing; **"ready but unaffordable" collapses into NEVER**, so a ready Tyrant
+at 3 shards reads as *nothing to do* when the instruction is the opposite; a
+keybind remap wasn't picked up; and out-of-combat seeding (**M3d**) would remove
+the "no edge seen yet" cold start entirely.
+
+*(As originally shipped:)* The dot score. M3b's five in-game passes said the colour encoding doesn't read —
 *"yellow, purple etc. don't really have any meaning in isolation"* — which is
 correct and structural: hue carries **group**, which is ambient identity, not
 instruction, and §0.5.8.7 established there is **no free visual channel** left to
@@ -534,7 +601,107 @@ decision/spec milestone that de-risks the build that follows.)
     **growth area** — Implosion is the known case; others with secret gates need
     the same cap, not a guess.
 
-  - **M3c — resource + mode + anticipation.** *(Reduced by M3c-a: the anticipation
+  - **M3c-b — the truth pass. ✅ CODE SHIPPED (2026-07-21, v0.13.0) —
+    IN-GAME PASS OUTSTANDING, and the in-game pass *is* the milestone.** Every
+    item below is implemented and luaparser-clean; none of it is confirmed. The
+    exit criterion is a **measurement taken at a dummy**, not a diff, so this
+    entry does not close until §7.3's checklist is run.
+
+    **What landed, in the order it was written (B2 → B1 → B6 → B3 → B4, B7
+    alongside):** the secret guard at the identity source + last-known-good
+    identity across rebinds; live-identity scoring with an unrecognised override
+    scoring **no dot**; LATE gated on `InCombatLockdown()` with the candidate
+    clocks wiped on `PLAYER_REGEN_ENABLED`; the `other`/`errors` counter split;
+    spend-side projection off `UNIT_SPELLCAST_START` with the double-deduction
+    guard and hollow rendering; and **B7**, the expected-vs-bound warning.
+
+    **B5 was considered and DEFERRED to M4** — its "go build shards" half has no
+    icon to land on today, so it belongs with the burst lane where the go-gate
+    and telegraph already live.
+
+    *(The plan of record follows.)* *The milestone the
+    v0.12.0 probe created.* M3c-a gave the board an opinion; the first feedback
+    pass plus the probe show that in specific, enumerated ways **the opinion is
+    false** — and a false dot is worse than no dot (§0.5.8.2(c)). So this
+    milestone adds **no new signal at all**. It makes the existing one true, and
+    it is deliberately sequenced ahead of the shard rail, mode chrome and opener
+    queue: every one of those renders *on top of* the scored board, so shipping
+    them first would decorate a board that lies.
+
+    **The exit criterion is a measurement, not a feature list:** a dummy pass
+    where **every lit dot survives being argued with** — `lit now` names 1–2, and
+    each named reason is one you agree with. That number is currently
+    unmeasurable (see B1 below).
+
+    - **B1 — Score the LIVE identity, not the base spell.** `HudScore.For` reads
+      `e.baseSpellID or e.spellID` unconditionally, so a transformed button is
+      judged as the ability underneath it. **Observed live:** `lit now` advertised
+      *"Grimoire: Fel Ravager · up — use on cooldown · waiting 18s"* while that
+      button was **Devour Magic** (`1276467 → 388215`) — a LATE dot nagging for a
+      cooldown that isn't there. Resolve through the override, and give an
+      unrecognised override **no dot** rather than letting it inherit `cadence`.
+      Add the four confirmed pairs to `SpecDemonology` (`notes.md` §1).
+      ⚠ Deliberately the **opposite** convention from keybinds, which resolve off
+      the *base* precisely because the override is on no action bar (the v0.7.0
+      finding-3 fix). The two must not be "unified" later.
+      ⚠ And the event alone is **not** sufficient — the override is set when the
+      pet is summoned, i.e. **before we start listening** (login / `/reload` / HUD
+      enabled mid-session). So identity must be **polled at bind time**, with the
+      event as the fast path that keeps it current. *(This corrects the first read
+      of the evidence: a zero event count was taken as "the event never fires for
+      this button"; a later run caught it firing 4 times. The conclusion holds —
+      a missed event and an absent event are indistinguishable — but the reason is
+      general, not a per-button quirk. `notes.md` §1.)*
+    - **B2 — The secret-ID guard.** `type(secret) == "number"` is **true**, so
+      `ns.ItemSpellID` / `ns.ItemBaseSpellID` currently *return* a Secret Value
+      into the registry, and every downstream `e.baseSpellID == spellID` compares
+      one. Guard at the source with `ns.IsSecret`, and make an unreadable ID mean
+      **"keep what you had"**, never "update". Suspected cause of the `other=47`
+      swallowed handler errors. Full write-up: `notes.md` §1.
+    - **B3 — Split the `other` alert counter** into *unhandled alert type* vs
+      *handler threw*. They are the same number today, which is how 47 errors
+      hid in plain sight in a readout we've been reading for five passes.
+    - **B4 — Spend-side anticipation.** Project `−ShardCost` / `+generates` on
+      `UNIT_SPELLCAST_START` and score against the projected figure until
+      `SUCCEEDED`/`STOP` reconciles. *"As soon as I start casting HoG it should
+      assume those shards are consumed."* **Unblocked** — the probe read START at
+      52/52 readable, 0 secret.
+    - **B5 — "Ready but unaffordable" is not NEVER.** A ready Tyrant at 3 shards
+      reads as "nothing to do" when the instruction is **go build**. First
+      consumer of `goGate` / `burstAlign`, which nothing reads today.
+      **➜ DEFERRED TO M4 (2026-07-21).** Not dropped, and not deferred for cost:
+      the half that matters is *"go build shards"*, and there is **no icon for
+      that instruction** — it is a statement about the resource, not about any
+      button, so it wants the shard rail (M3c-c) or the burst lane (M4) to render
+      on. Shipping only the "don't call this NEVER" half would soften a dot
+      without ever saying what to do instead, which is the noise M3c-b exists to
+      remove.
+    - **B6 — LATE must not accrue out of combat.** The OOC probe caught Hand of
+      Gul'dan sitting at *"LATE · waiting 7s"* while standing in a city. LATE is
+      a nag; a nag with nothing to nag about is noise that trains you to ignore
+      the channel.
+    - **B7 — Warn when an expected icon isn't there to bind to.** *(Added at the
+      user's request, generalised from the Shadow Bolt case.)* M2 decided we bind
+      to whatever layout is **currently active** and ship no layout string, so the
+      tracked set is the *user's*, not ours — which makes a missing spell
+      **completely invisible**: `ns.Spec` describes an ability, no item ever
+      appears for it, and the HUD never mentions it again. Every signal keyed to
+      it goes quiet **with no error**. That is precisely how Shadow Bolt's absence
+      hid the SB → Infernal Bolt blind spot for four milestones, and it is the
+      risk knowingly accepted by adding Shadow Bolt by hand.
+      Implemented as an expected-vs-bound diff after `rebind()`, filtered by
+      `IsPlayerSpell` (without it it cries wolf on every untalented alternative —
+      Imp Lord vs Fel Ravager, Axe Toss vs Command Demon) and by a new
+      `expect = false` flag on entries that exist only as a live override (the
+      Art transforms, Devour Magic). **Warned once per resolved set** — `rebind()`
+      fires on every `RefreshLayout`, so an unconditional print would spam the
+      chat frame on every Edit Mode nudge — and listed **every time** in
+      `/cdmp hud status`, which is the persistent home and what `/cdmp probe`
+      captures to disk. The message says what is **lost**, not just what is
+      absent: *"Shadow Bolt — not tracked; SB → Infernal Bolt cannot light"*.
+
+  - **M3c-c — resource + mode + anticipation.** *(The remainder of M3c. Reduced
+    twice: the anticipation
     engine is built and shipped. What remains is the shard rail, mode chrome, and
     the pre-pull opener queue.)* The owned **shard rail** (segmented
     fill, cap flip + one-shot glitter + earcon), **GENERATE↔SPEND mode chrome tint**
@@ -542,6 +709,52 @@ decision/spec milestone that de-risks the build that follows.)
     in-flight builder cast + predictive SPEND pre-flip — `UNIT_SPELLCAST_START` /
     `SUCCEEDED` spellIDs assumed readable, see §7), and the **pre-pull opener queue** +
     fill-to marker.
+
+    *(The three scoring corrections that briefly lived here moved to **M3c-b** —
+    they are corrections, not features, and they gate this milestone rather than
+    accompanying it.)*
+
+- **M3d — out-of-combat seeding (NEW, 2026-07-21).** *The cold-start fix.* Today
+  every cooldown-bearing ability reads `NEVER · no edge seen yet` until it has
+  been cast once in the session, because readiness comes **only** from an observed
+  `Available` edge. That was accepted as "the design holding, not a bug" when
+  M3c-a shipped — and the premise it rested on is now **measured false**.
+
+  **✅ THE GATE IS OPEN (2026-07-21, v0.12.0 probe).** `notes.md` §1's
+  `GetSpellCooldown().duration` = `<secret>` row was captured **in a delve, in
+  combat**, and generalised too far. Measured: **13/13 tracked spells readable out
+  of combat, 0/13 in combat.** Open-world both runs, so the gate is **combat**,
+  not instancing. Therefore:
+  - readiness can be **seeded at bind time** instead of waiting for an edge,
+  - the napkin can be **seeded mid-cooldown** on enable / `/reload` / zone-in,
+  - and we cross into combat from truth rather than from nothing.
+
+  **This is reading, not guessing** — the M3b doctrine ("readiness comes only from
+  observed edges; we refuse to guess") is about *inferring* a secret, and stands
+  unchanged inside combat. The seam is the combat boundary: seed OOC, fall back to
+  edges the moment reads go secret, and **never let a stale seed outlive an
+  observation** — same precedence rule the napkin already obeys.
+
+  ✅ **RESIDUAL CLOSED (2026-07-21).** The worry was that `duration=0` on every
+  spell meant the OOC read was a *"not on cooldown" constant* rather than a real
+  value — a milestone that looks alive and isn't. Confirmed real:
+
+      Summon Demonic Tyrant        duration=60 startTime=126156.254
+
+  A genuine mid-cooldown read, out of combat, with `startTime` in `GetTime()`
+  units — so `startTime + duration - GetTime()` seeds both readiness **and** the
+  napkin directly. Every other spell read 0 because it was genuinely ready.
+  **M3d is fully unblocked.**
+
+  **Ordering: after M3c-b, before M3c-c.** The cold start costs trust on *every*
+  pull, and a seeded board is what makes M3c-c's pre-pull affordance mean
+  anything — an opener queue over a board of `no edge seen yet` is decoration.
+
+  ⚠ **Numbering:** slotted as **M3d** rather than taking the M5 number the request
+  floated — M5/M6/M7 are already spoken for and cross-referenced from three other
+  docs, so inserting a new M5 means renumbering all of them. It also belongs to
+  the M3 state-layer family (M3b readiness → M3c-a the dot → M3d where readiness
+  *starts*). Say the word if you'd rather pay the renumber.
 
 - **M4 — Burst window.** *(Was "Burst window + the napkin engine". **The napkin
   engine shipped early, in M3c-a (v0.10.0)** — `HudNapkin.lua`, one uniform
@@ -574,6 +787,13 @@ decision/spec milestone that de-risks the build that follows.)
     treatment: one Dreadstalkers per cycle is held so the dogs are fresh *inside*
     the window. Implosion's ping is gated on `in_aoe` (§7) and says "it's
     available", never "it's worth it" — the ≥6-imp value gate stays a **Can't**.
+  - **Burn-phase sequence queue (NEW, 2026-07-21 — §7.2 item 9).** A staged hint
+    for the Tyrant window that **drops abilities as they're pressed**. The
+    consumed-as-you-press queue is currently specced **only for the opener** (#8,
+    M3c); this is the same machinery pointed at the burst window, so it is mostly
+    reuse rather than new invention. Keep it on the right side of "inform, don't
+    instruct" — it shows the *shape* of the window, it does not become a
+    press-this-next oracle (§0.5.8.7).
   - Ground truth always wins: every napkin cue rounds down / fires early and yields
     to the native ready-alert.
 
@@ -642,6 +862,35 @@ decision/spec milestone that de-risks the build that follows.)
       and the Wild Imp "/6" readout (#17)? Flagged in §0.5.8.2(c) / §0.5.8.3; the
       AoE cues have no honest trigger until this is answered. Nameplate-count and
       recent-multi-hit heuristics are the candidates.
+- [x] **Is cooldown state readable OUT OF COMBAT?** — **ANSWERED YES
+      (2026-07-21, v0.12.0 probe): 13/13 tracked spells readable out of combat,
+      0/13 in combat (`<secret fields>`).** Open-world both runs, so the gate is
+      **combat**, not instancing. This is the M3d green light. ⚠ **Residual:**
+      every OOC read was `duration=0` because nothing was on cooldown, so we have
+      proven the fields are *readable*, not that a **mid-cooldown value is
+      correct**. Confirm with one cast → leave combat → probe before building the
+      seed. *(Original item:)* The §1
+      capability table was captured **in combat, in a delve**, so the
+      `GetSpellCooldown().duration` = `<secret>` row has never been checked in an
+      unrestricted context. `/cdmp secret` in a city vs in combat answers it. This
+      is the **entire gate on M3d** — a "yes" removes the `no edge seen yet` cold
+      start; a "no" closes the milestone for free.
+- [x] **Does the Wild Imp stack count exceed 9?** — **YES, ANSWERED
+      2026-07-21: 10 observed directly, 11–12 reported anecdotally.** Combined
+      with probe D below, this **closes the dot-glyph font for good** (§7.2 item
+      11): the count routinely reaches exactly the values that render as one or
+      two dots, at the moment the player is most past the ≥6 gate. There is no
+      variant of the idea that survives. *(Prior framing:)*
+      ⚠ **Half-answered and the OTHER half went away (2026-07-21).** Probe D
+      settled the mechanism question first: `Applications:GetStringWidth()` and
+      `GetText()` **both error**, so there is no side channel to the digit count
+      and the dot-glyph font (§7.2 item 11) has no rescue. The cap question now
+      only matters if the cap is **≤9**; the player reports not exceeding 10 but
+      it is unclear whether 10 was actually reached. *(Original item:)*
+      (2026-07-21.) Cheap to eyeball on an AoE dummy pull. Two consequences: the
+      dot-glyph font idea (§7.2 item 11) is **un-parked only if the count caps
+      below 10**, and if Blizzard hides the text at 1 then the "/6" readout
+      silently starts at 2, which we should know rather than discover.
 - [ ] Buff-vs-cooldown: can we access the self-buff remaining AND the
       cooldown-to-recast as **two** durations, or only Blizzard's one sequenced
       display? (e.g. Summon Demonic Tyrant — verify a spell can live in both
@@ -869,12 +1118,22 @@ decision/spec milestone that de-risks the build that follows.)
       read wrong, the gate logic is wrong** and every dot derived from it is wrong.
       `ns.ShardCost` normalises a clean multiple of 10 down to whole shards (the
       cap is 5, so nothing can legitimately cost ten) — this line confirms or
-      falsifies that heuristic. (b) **Imp stack emphasis** (v0.9.0) restyles a
+      falsifies that heuristic.
+      ✅ **(a) ANSWERED 2026-07-21, and the answer was a defect** — see the Status
+      block and §7.2 item 1. Costs read wrong, but **not** for the reason this
+      item was watching: `ns.PowerCost` never filtered by power *type*, so mana
+      costs were being compared against the shard count. The fragment heuristic
+      itself is still **unproven for real shard costs** — it has only ever been
+      exercised on mana figures, where it silently "worked" (5000 → 500) and
+      produced the bug's signature numbers. Re-check the raw column for
+      Dreadstalkers / Tyrant / Grimoire after the type filter lands; (b), (c) and
+      (d) remain open. (b) **Imp stack emphasis** (v0.9.0) restyles a
       Blizzard `FontString`, and Blizzard re-applies text/position from several
       paths — the same problem that forced the leaf-method hooks now dormant in
-      `HudTint.lua`. If the number snaps back mid-combat, that's why. (c) **#3
-      Demonic Art has never once been observed** — `spell-override events: 0` in
-      every pass so far, so the whole indicator is still unproven. (d) The recede
+      `HudTint.lua`. If the number snaps back mid-combat, that's why. (c) ✅ **CLOSED 2026-07-21** — #3 Demonic Art
+      **observed for the first time**: 12 override events in one dummy session,
+      the HoG glow lit at strength 1.00, and the pairs disambiguated Ruination
+      (`434635`) and Infernal Bolt (`434506`). See `notes.md` §1. (d) The recede
       actually receding, post-fix.
 
 > **Outside this project (KB bugs surfaced by the review, not HUD work):**
@@ -884,3 +1143,221 @@ decision/spec milestone that de-risks the build that follows.)
 > hits first is the stale one. And `abilities.md`'s Infernal Bolt **+2** shards
 > conflicts with `maxroll-raid.md`, `diabolist-sequences.md` and the parse counts,
 > which all say **+3** — the ghost math and the SPEND pre-flip threshold ride on it.
+
+---
+
+## 7.2 Working backlog — the v0.10.0 feedback pass (2026-07-21)
+
+> **Why this block exists.** The first real in-game review of the dot score, in
+> the user's words, at a Silvermoon dummy. Same purpose as §7.1: park everything
+> so nothing evaporates between a play session and a build. Items 6–10 are already
+> written into their milestones above (M3c / M3d / M4); they are restated here in
+> one list so the pass is legible as a pass.
+>
+> **The through-line:** every finding here is the dot **stating something false**
+> rather than something incomplete. That ordering is deliberate — a HUD that says
+> "I don't know" is within contract (§0.5.8.7); one that says `NEVER` about a
+> ready Tyrant is not.
+
+### Small — just do
+
+*(Items 1–4 shipped in **CDMProbe v0.11.0**, 2026-07-21 — not yet run in-game.
+Item 5 is deliberately still open: it is *diagnosed by* item 4, not fixed by it.)*
+
+- [x] **1 — Filter `ns.PowerCost` to Soul Shards** (`Util.lua:98`). It returns the
+      first non-zero cost of **any** power type, so mana costs land in the shard
+      gate. Root cause of *both* "Demonbolt is never recommended" and "why is
+      Mortal Coil counting shards". Hand of Gul'dan works today only by luck of
+      list ordering. Treat "no shard-cost entry" as free — and keep §0.5.8.7's
+      distinction intact: `ns.PowerCost` still reports "genuinely free" and
+      "unreadable" identically, which `HudScore`'s gated branch already guards.
+- [x] **2 — Short-circuit `cadence == "utility"` before the resource gate** in
+      `HudScore.For`. The gate is evaluated first, so a costed utility ability
+      exits at `NEVER` and never reaches "utility — your call". Ship with item 1:
+      the type filter alone would leave the ordering bug latent behind it.
+- [x] **3 — Imp-count typography.** Point **both** `Applications` and our `/6`
+      suffix at the bundled JetBrains Mono (they currently match only because both
+      read Blizzard's saved `st.font` — change one and you get a mismatched
+      `4/6`), bump `STACK_SIZE` 22 → ~30, and hoist `HudRow`'s font-load fallback
+      into `Util.lua` so both callers share it. `SetFont` returns false on a failed
+      load and the stack path has **no** guard today, i.e. a font miss renders the
+      count *invisible* — strictly worse than ugly. Monospace is the right call
+      independent of taste: a fixed-width digit stops the number jittering
+      horizontally as imps come and go.
+- [x] **4 — Add `/cdmp hud binds`** — per tracked spell: slot → binding command →
+      raw key → shortened string. Gates item 5.
+- [ ] **5 — Keybind remap not picked up.** Not diagnosable from source; the wiring
+      (`UPDATE_BINDINGS` → debounce → rescan → `RefreshKeybinds`) reads correct.
+      Three candidates: **first-bound-slot-wins** (a spell on two bars keeps bar
+      1's key regardless of what you remapped elsewhere); the **unmapped slot
+      ranges** 13–24 and 109–180, absent from `SLOT_BARS` by design and therefore
+      invisible to us; and **macro slots**, where `GetMacroSpell` returns nothing
+      for conditional/modifier macros. Diagnose with item 4 rather than guessing.
+
+### Milestone edits (already written into §6)
+
+- [ ] **6 — Score the live identity, not the base spell** → **M3c**. The Grimoire
+      reads as a rotational summon while a spell override has it transformed into
+      a pet command. Opposite convention from keybinds, on purpose.
+- [ ] **7 — Spend-side anticipation** → **M3c**. Project the cost on
+      `UNIT_SPELLCAST_START`; the shipped layer only ghosts *incoming* shards.
+- [ ] **8 — "Ready but unaffordable" ≠ NEVER** → **M3c**. First consumer of
+      `goGate` / `burstAlign`, which nothing reads today.
+- [ ] **9 — Burn-phase sequence queue** → **M4**. The opener queue's machinery
+      pointed at the Tyrant window.
+- [ ] **10 — Out-of-combat seeding** → **M3d (new)**. Probe before code; the probe
+      is the §7 open question added the same day.
+
+### Parked
+
+- [x] **11 — A dot-glyph font for the imp count — ❌ CLOSED, NOT PARKED
+      (2026-07-21).** Both escape hatches are gone: probe D found
+      `GetStringWidth()`/`GetText()` **error**, so there is no side channel to the
+      digit count; and the count **does exceed 9** (10 observed, 11–12 reported).
+      The reopening condition written below — "reopens if the cap is below 10" —
+      is therefore falsified rather than pending. Do not re-propose this; the idea
+      is sound and the game will not cooperate. *(The design, preserved because
+      the TECHNIQUE generalises to any secret count that happens to be small:)* Author a .ttf where each digit
+      renders as N dots **and** carries an advance width of N × a fixed pitch
+      (that second half is load-bearing — it is what makes dot *k* of `4` land on
+      dot *k* of `6`); draw a static 6-dot backdrop in an unlit colour and let
+      Blizzard's own `Applications` fontstring overlay it in a lit one. Full
+      coverage = gate met. **Genuinely the only way to convert a Secret Value into
+      an analog readout** — the count never enters Lua, the *glyph* carries the
+      meaning, so it is display-side and taint-free — and it generalises to any
+      secret count (Demonic Core's cap of 4 is the obvious second customer). The
+      signal is **coverage, not hue**, so it survives colour-blindness where a
+      red/green pair would not.
+      **Parked on three things:** (a) **double digits misread low** — `10` renders
+      as `1`+`0` = one dot, and WoW's font path does no OpenType shaping, so a
+      `10` → ten-dot ligature cannot save it; 7–9 degrade *gracefully* by
+      overflowing the backdrop, so the failure is specifically 10+ and it fails
+      **toward "not ready" while sitting on a huge pile** — a false negative on the
+      exact decision the readout exists for, which §0.5.8.2(c) forbids; (b) it is
+      unproven that WoW's FreeType loads a hand-built TTF at all (cheap to detect
+      — `SetFont` returns false — but the fallback must actually be wired, cf.
+      item 3); (c) it **promotes the `Applications` leaf-method hooks from optional
+      to required**, since two overlaid fontstrings only register if they share an
+      origin and Blizzard re-applies position from several paths (V1(b)).
+      **Reopens if** the Wild Imp aura turns out to cap below 10 (§7).
+
+### Instrumentation — `/cdmp probe` (v0.12.0, 2026-07-21)
+
+- [x] **16 — Six probe commands collapsed into one, and it writes to disk.**
+      `dump` / `secret` / `casts` / `log` / `layout` / `shards` each answered one
+      question and each had to be **toggled before the interesting thing
+      happened** — the wrong shape, because procs, transforms and secret reads
+      cannot be scheduled. Now everything passive records **from load** (counters
+      + short ring buffers, no printing) and `/cdmp probe` renders the lot into a
+      **captured report**, read off disk at
+      `…/WTF/Account/<ACCT>/SavedVariables/CDMProbe.lua` → `CDMProbeDB.reports`.
+      No more screenshots or paste. `Layout.lua` and `Probes.lua` deleted (the
+      layout question is long resolved; the rest moved). ⚠ **SavedVariables only
+      flush on `/reload`** — skipping it leaves the *previous* session's text on
+      disk, which is indistinguishable from a probe that did nothing.
+- [x] **17 — ✅ ANSWERED (M3d is GO). Probe A: cooldown readability per tracked spell.** The **entire M3d
+      gate**, and printed per spell rather than for a sample of three, because
+      "readable for some spells" is a real possible answer (the GCD is
+      whitelisted) and a small sample can't tell that apart from "readable for
+      all". Diff the OOC report against the in-combat one.
+- [x] **18 — ✅ ANSWERED (and it found the Grimoire). Probe B: override / transform capture.** Two *independent* reads of
+      the same question, because they can disagree and **the disagreement is the
+      finding**: the passive event count, and the live base-vs-`GetSpellID()`
+      divergence. If a button is visibly transformed while the event count is 0,
+      then the override event is **not** the mechanism for it and §7.2 item 6 must
+      poll identity rather than trust the event — which is exactly the Grimoire
+      case. Also finally distinguishes V1(c)'s "never observed" from "never
+      watched": `HudState` only listens while the HUD is **on**.
+- [x] **19 — ✅ ANSWERED (all four phases readable). Probe C: cast readability PER PHASE.** `SUCCEEDED` carries the
+      shipped napkin; `START` carries the spend-side anticipation (item 7) and has
+      **never been counted separately** — the status block only ever reported
+      SUCCEEDED. A phase reading secret while the other doesn't is the most
+      consequential thing a raid run can turn up.
+- [x] **20 — ✅ ANSWERED: CLOSED. Probe D: the imp-count side channel.** Does
+      `Applications:GetStringWidth()` read non-secret? If so it exposes the
+      **digit count** (not the number) — and "2 digits ⇒ ≥10 imps ⇒
+      unambiguously past the ≥6 gate" is precisely the fact that parked the
+      dot-glyph font (item 11). ⚠ **Probe only.** If it reads real, do **not**
+      build on it before a deliberate review: a width derived from a secret may
+      still taint on comparison, and Blizzard may treat it as a leak to close.
+      Record the fact, don't spend it.
+
+### Work items the probe ADDED (all land in M3c-b)
+
+- [ ] **21 — The secret-ID guard (B2).** `type()` does not reject a Secret Value,
+      so identity resolution poisons the registry. Guard at the source; an
+      unreadable ID means "keep what you had". `notes.md` §1.
+- [ ] **22 — Split the `other` alert counter (B3)** into *unhandled type* vs
+      *handler threw*. 47 errors hid in a readout we have been reading for five
+      passes.
+- [ ] **23 — LATE must not accrue out of combat (B6).** Caught live: Hand of
+      Gul'dan at *"LATE · waiting 7s"* in a city. A nag with nothing to nag about
+      trains you to ignore the channel.
+- [ ] **24 — Identity must be POLLED, not just evented (B1).** The override is
+      set before we start listening (login / `/reload` / mid-session enable), so a
+      missed event and an absent event are indistinguishable. Bind-time polling is
+      the floor; the event is the fast path. *(Corrected — the first reading of
+      this evidence blamed the button, not the window. `notes.md` §1.)*
+- [~] **25 — Reopen the Shadow Bolt → Infernal Bolt blind spot** (§0.5.5,
+      M5/M7 scope, **not** M3c-b). The override event fires for SB even though SB
+      is not in the tracked set, so we *know* when that Art arms — we just have no
+      icon to light. Previously recorded as a permanent Can't; it is now a
+      layout/curation question, which is exactly what M7's curated layer-①
+      override exists for.
+
+### Verify in-game
+
+- [ ] **12 —** V1(a) is answered; the **fragment heuristic is still unproven for
+      real shard costs**. See the §7.1 annotation.
+- [ ] **13 —** Does the imp count exceed 9, and does it display at 1? (§7.)
+- [ ] **14 —** Napkin readability **in a raid** — unchanged, and still the highest-
+      value open check on the board (§7).
+- [ ] **15 — Re-measure strictness after the cost fix.** The pre-fix `lit 2` is not
+      evidence: gates were falsely closed across a chunk of the board, so the
+      count was suppressed by a bug rather than by tight rules.
+
+## 7.3 Verify in-game — the M3c-b truth pass (v0.13.0, 2026-07-21)
+
+**This checklist is the milestone.** M3c-b shipped no new signal, so there is
+nothing to look at and admire; the only thing that closes it is a dummy pass
+where the board's opinion survives being argued with. Run it in order — the last
+item depends on the ones above it being true.
+
+Deploy first (a push does **not** reach the game): commit → `gh release create
+v0.13.0` → `ghaddons update michac/CDMProbe` → `/reload`. Then `/cdmp probe` +
+**`/reload`** so the report is readable off disk at
+`…/WTF/Account/LLOYDCHRISTMAS/SavedVariables/CDMProbe.lua`.
+
+- [ ] **1 — B1, the headline.** Let a Grimoire go on cooldown so the button
+      becomes **Devour Magic**. Its dot must go dark/dotless while it reads Devour
+      Magic, and `lit now` must **not** name it. This is the defect that motivated
+      the whole milestone; if it still fires, nothing else here matters.
+- [ ] **2 — B1, the other half.** Proc a Demonic Art. The transformed Hand of
+      Gul'dan must score as **Ruination** (`434635`) — a real rotational press —
+      not as Hand of Gul'dan. The row should carry a `now Ruination` reason.
+- [ ] **3 — B2/B3.** `other` and `errors` are reported separately, and **`errors`
+      is 0**. A non-zero errors count after this milestone is a **bug, not a
+      curiosity** — it was 47 hiding inside `other` before the split.
+- [ ] **4 — B6.** Stand in a city with 3+ shards. **Nothing** promotes to LATE.
+      Then pull: the clocks start fresh rather than carrying a stale timestamp
+      into the opener.
+- [ ] **5 — B4.** Start a Hand of Gul'dan cast and watch the board **mid-cast**:
+      the dots must reflect the **post-cast** shard state, the summary line should
+      show `shards N ->~M`, and anything lit *because of* the projection must
+      render **hollow** (and carry `~est` on its row). If the projection reads
+      *low* rather than high, that is the documented residual — `atStart` sampled
+      after the client already deducted; see the `HudState.ProjectedShards` header.
+- [ ] **6 — THE EXIT CRITERION.** In combat, `lit now` names **1–2** abilities and
+      **every reason holds up**. If it sits at 4+, tighten the RULES in
+      `HudScore` — **do not touch a colour.**
+- [ ] **7 — B7.** *Before* touching the CDM, `/cdmp hud` must warn that Shadow
+      Bolt is untracked and say what that costs. Then nudge the CDM in Edit Mode a
+      few times and confirm the warning does **not** re-spam. Then add Shadow Bolt
+      manually: the warning clears, and **SB → Infernal Bolt should now light with
+      no code change** (the `transform` rule resolves to wherever the override
+      lands, and `ns.Spec` already carries a Shadow Bolt entry). Worth confirming
+      rather than assuming.
+- [ ] **8 — The standing raid check, unchanged.** All probe data is still
+      open-world. **Cast readability is B4's entire foundation and has never been
+      confirmed in a raid.** `hud status` reports it honestly; that report is the
+      first thing to read if anticipation ever goes quiet in real content.
