@@ -9,8 +9,18 @@
 
 ## Status
 
-**Current: M3c-b CODE SHIPPED — the in-game truth pass is outstanding and IS the
-milestone (2026-07-21, CDMProbe v0.13.0).**
+**Current: M3c-b + M3d CODE SHIPPED — one combined in-game pass is outstanding
+and IS the milestone (2026-07-21, CDMProbe v0.14.0).**
+
+**M3d — out-of-combat seeding** rides on top of M3c-b in a single **v0.14.0**
+release (v0.13.0 was committed but never cut). The cold start is gone: readiness
+and the countdown are now **seeded from the client's own numbers** at bind time
+and on leaving combat, so a `/reload` mid-cooldown shows `~42.1s (read)` instead
+of `NEVER · no edge seen yet`. This is **reading, not guessing** — the M3b
+doctrine stands unchanged *inside* combat, where reads go secret and the board
+falls back to edges. Two milestones in one release is deliberate; the mitigation
+is per-item **seed-vs-edge provenance** in `hud status`. Run **§7.3 first, then
+§7.4** — see §7.4's preamble for why the order matters.
 
 M3c-b's exit criterion is a **measurement, not a diff**: a dummy pass where every
 lit dot survives being argued with — `lit now` names **1–2** abilities and each
@@ -714,7 +724,8 @@ decision/spec milestone that de-risks the build that follows.)
     they are corrections, not features, and they gate this milestone rather than
     accompanying it.)*
 
-- **M3d — out-of-combat seeding (NEW, 2026-07-21).** *The cold-start fix.* Today
+- **M3d — out-of-combat seeding — ✅ CODE SHIPPED (2026-07-21, v0.14.0; in-game
+  pass §7.4 outstanding).** *The cold-start fix.* Today
   every cooldown-bearing ability reads `NEVER · no edge seen yet` until it has
   been cast once in the session, because readiness comes **only** from an observed
   `Available` edge. That was accepted as "the design holding, not a bug" when
@@ -755,6 +766,69 @@ decision/spec milestone that de-risks the build that follows.)
   docs, so inserting a new M5 means renumbering all of them. It also belongs to
   the M3 state-layer family (M3b readiness → M3c-a the dot → M3d where readiness
   *starts*). Say the word if you'd rather pay the renumber.
+
+  **What shipped (v0.14.0).** Four pieces, in dependency order:
+
+  - **D1 — one read door.** `ns.ReadCooldown(spellID)` in `Util.lua` →
+    `(ready, remaining, duration, startTime)` or **`nil`** when unreadable, so no
+    caller re-derives the guards. Guards in order because each is a *different*
+    failure: `pcall` the call → `ns.IsSecretTable(info)` → `ns.IsSecret` on **each
+    field** (the probe's `<secret table>` and `<secret fields>` verdicts are
+    distinct and **both were observed**). `secretTable` was a **duplicate local**
+    in `Probe.lua`; it is now `ns.IsSecretTable` beside `ns.IsSecret`, one
+    definition.
+    - ⚠ **The GCD trap, load-bearing.** `GetSpellCooldown` reports the **global
+      cooldown** for a spell that is genuinely ready, so a naive `duration > 0`
+      reads *every* ability as on-cooldown for 1.5 s after any cast. Resolved
+      against the **live GCD** (`61304`) rather than a magic number — a matching
+      `(startTime, duration)` pair is the GCD, not this spell — with a
+      `duration <= 1.5` backstop for when the GCD read itself is unavailable.
+    - **Charges.** For a charged ability the call reports the *recharge of the
+      next charge*, so a banked charge would seed as on-cooldown. `GetSpellCharges
+      > 0` (secret-guarded) means **pressable → ready**. No tracked Demo ability
+      has charges today; this is pre-emptive, and it is exactly the one-line miss
+      that would read as "seeding just doesn't work on that button".
+  - **D2 — seed readiness *and* the countdown.** `HudState.SeedFromReads()` walks
+    the icon-viewer items, resolves the **live identity** the way B1 established
+    it (`override[base]` → `e.spellID` → `base` — not re-derived a second way),
+    and: ready → `SetReady(true)` + `Napkin.Clear`; on cooldown → `SetReady(false)`
+    + **`Napkin.Seed(startTime, duration)`**; **unreadable → touches nothing** (an
+    unreadable read is not evidence of anything — overwriting a known state with
+    it is the B2-shaped mistake). `HudNapkin` gained `N.Seed` / `N.SourceOf` and a
+    `source = "read"|"cast"` field; `N.Remaining` and the SOON treatment are
+    **unchanged** — one countdown store, two ways to fill it.
+    - **Precedence, three sources now:** (1) an **observed alert edge** always
+      wins and clears both; (2) a **seed** overwrites a cast-derived estimate — it
+      is the client's own number, not our arithmetic; (3) an **estimate** fills
+      only what neither has.
+  - **D3 — the combat boundary is the seam.** Seeded in the `rebind()` tail
+    (login / `/reload` / zone-in / layout change — *the* cold-start fix) and on
+    **`PLAYER_REGEN_ENABLED`**, which re-truths the whole board and is the free
+    fix for `"should be up, unconfirmed"`. **Never in combat**, gated at the call
+    site *and* inside `ns.ReadCooldown` because a caller added later will not
+    remember. **No ticker** — a finishing cooldown still fires its `Available`
+    edge out of combat, so the event path covers the tail.
+  - **D4 — provenance: solid readiness, hollow SOON.** A seeded ready/on-CD
+    boolean renders **SOLID** (a direct observation, same standing as an edge);
+    **SOON stays HOLLOW whatever the source**, because it is a claim about the
+    *future* and how it was sourced doesn't change that. The row names the source
+    — `~42.1s (read)` vs `~1.8s (est)` — and `hud status` reports whether OOC
+    reads work **in this context** plus per-item `ready=yes(seed)` / `ready=no(edge)`.
+    The `"no edge seen yet"` wording **stays**: still correct for a cold start
+    that began *in* combat, it will simply fire far less.
+
+  **Shipped in one release with M3c-b (v0.13.0 was committed but never cut).**
+  Accepted deliberately; the mitigation is the per-item **seed-vs-edge
+  provenance** in `hud status`, which keeps the two milestones separable in the
+  readout. §7.3 and §7.4 are run as **one combined dummy pass, §7.3 first** — so
+  M3c-b's strictness criterion is measured on a board whose cold start is
+  already gone.
+
+  ⚠ **Standing risk, same standing as the napkin's.** The OOC read has only been
+  measured **open-world**. If it also goes secret in some other out-of-combat
+  context (an instance lobby, a raid between pulls) seeding silently does less.
+  Contained by design — unreadable touches nothing, the board falls back to edges
+  — but it is **reported** in `hud status`, not inferred later from a shrug.
 
 - **M4 — Burst window.** *(Was "Burst window + the napkin engine". **The napkin
   engine shipped early, in M3c-a (v0.10.0)** — `HudNapkin.lua`, one uniform
@@ -1361,3 +1435,40 @@ v0.13.0` → `ghaddons update michac/CDMProbe` → `/reload`. Then `/cdmp probe`
       open-world. **Cast readability is B4's entire foundation and has never been
       confirmed in a raid.** `hud status` reports it honestly; that report is the
       first thing to read if anticipation ever goes quiet in real content.
+
+---
+
+## 7.4 Verify in-game — M3d out-of-combat seeding (v0.14.0, 2026-07-21)
+
+**One combined pass with §7.3, and §7.3 runs FIRST** — its exit criterion is a
+strictness measurement, and a seeded board raises the number of abilities
+eligible to be judged, so measuring it on the pre-seed board would flatter the
+rules. Deploy once for both (a push does **not** reach the game): commit →
+`gh release create v0.14.0` → `ghaddons update michac/CDMProbe` → `/reload`.
+
+- [ ] **1 — THE HEADLINE.** Cast Summon Demonic Tyrant, then `/reload` while it
+      is on cooldown. Its dot must show a **real countdown immediately** —
+      `~42.1s (read)`, **solid** — instead of `NEVER · no edge seen yet`. This is
+      the entire milestone; if it fails, nothing below it matters.
+- [ ] **2 — The GCD trap.** Press any instant, then immediately look at the
+      board. **Nothing that is genuinely ready may flip to on-cooldown** for the
+      1.5 s global. This is the one bug that would look like the feature working
+      while quietly lying about every button.
+- [ ] **3 — The combat seam.** Pull. Reads go secret; the board must **keep** its
+      seeded state rather than blanking, and `hud status` must say reads are
+      *unavailable here* rather than implying the feature is on. Then leave
+      combat: the board re-seeds, and anything sitting at
+      `"should be up, unconfirmed"` resolves to a real number.
+- [ ] **4 — Provenance is legible.** `hud status` distinguishes `(seed)` from
+      `(edge)` per item, and the seeding block reports a live/unreadable verdict
+      plus last-pass counts. This is also what keeps M3c-b and M3d separable
+      inside one release.
+- [ ] **5 — Re-run §7.3 item 6 on the now-seeded board.** `lit now` names **1–2**
+      abilities and every reason holds up. **This is the honest place to measure
+      strictness.** If it sits at 4+, tighten the rules in `HudScore` — **not a
+      colour.**
+- [ ] **6 — The context risk.** Reads are measured **open-world only**. Check the
+      `hud status` seeding verdict in an **instance lobby** and in a **raid
+      between pulls**. An `unreadable here` verdict is not a failure — it is the
+      answer the line exists to give — but it tells us where seeding silently
+      does less.
