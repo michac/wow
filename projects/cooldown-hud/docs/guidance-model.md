@@ -826,6 +826,17 @@ to verify-in-game.
 > than silently rewritten (same pattern as §0.5.8.6). Driven by the M3b in-game
 > passes (CDMProbe v0.7.0–v0.9.1), a Fable fidelity review, and the design session
 > that followed.
+>
+> **Implementation status (2026-07-20): SHIPPED in CDMProbe v0.10.0 as milestone
+> M3c-a — in-game review pending.** §1 (the dot + four-level ladder + anticipation
+> as a treatment on NEVER), §2 (#5 re-scoped to CD-bearing buttons), §3 (text
+> promoted into the default view), and the signal-bucket rewrite are all live in
+> code: `HudScore.lua`, `HudNapkin.lua`, `HudRow.lua`, and the reworked
+> `SpecDemonology.lua` / `HudChrome.lua`. §5's scrolling terminal view is **not**
+> shipped and stays deferred. What this block does **not** yet carry is what the
+> build *learned* — that lands after the pass. See `milestones.md` Status + §6 for
+> the outstanding checks, of which the load-bearing ones are **strictness** (1–2
+> lit dots, not 4–5) and **napkin readability inside a raid**.
 
 ### (0) The governing principle — inform, don't instruct
 

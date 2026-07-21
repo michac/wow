@@ -9,7 +9,79 @@
 
 ## Status
 
-**Current: M3b shipped and iterated (2026-07-20, CDMProbe v0.7.0 → v0.9.1).**
+**Current: M3c-a shipped, IN-GAME REVIEW PENDING (2026-07-20, CDMProbe v0.10.0).**
+The dot score. M3b's five in-game passes said the colour encoding doesn't read —
+*"yellow, purple etc. don't really have any meaning in isolation"* — which is
+correct and structural: hue carries **group**, which is ambient identity, not
+instruction, and §0.5.8.7 established there is **no free visual channel** left to
+re-encode into (hue = group, saturation = resource pole, luminance = readiness,
+alpha = recede). So actionability gets a **new object**: a per-ability **dot**
+carrying a level (NEVER / AVAILABLE / ROTATION / LATE), and a **row beside it
+saying why**. Implements §7.1 **C1 + C2 + C3 + C5** plus the **napkin engine
+pulled forward from M4**; C6 (terminal view) stays deferred.
+
+- **`HudScore.lua`** (new) — a pure function of readable state → `(level,
+  reasons)`. The reasons are what the row prints, so the score is **auditable,
+  not an oracle**. `judgeable = false` **caps at AVAILABLE** where the true gate
+  is a Secret Value (Implosion's ≥6 imps) — "inform, don't instruct" made
+  mechanical.
+- **`HudNapkin.lua`** (new) — anticipation, promoted from the `casts` probe.
+  Rationale, in the user's words: *"firing cooldown abilities as soon as they are
+  up is probably going to be the biggest win — I believe that requires signalling
+  me early."* Without it the dot flips NEVER → ROTATION at the *instant* the
+  cooldown lands, which mid-GCD is already too late. **The lead time is the
+  feature.**
+- **`SpecDemonology.lua`** — `role` replaced by the per-ability **signal bucket**
+  (`kind` / `spends` / `generates` / `cadence` / `burstAlign` / `goGate` /
+  `primary` / `judgeable`). `goGate` is a separate bit from `burstAlign` on
+  purpose. Demonbolt moved to the **consumer** pole (C2).
+- **`HudChrome.lua`** — the dot (**colour carries LEVEL, not group**), and the
+  accent promoted from a border **on** Blizzard's icon art to a **bracket**
+  spanning icon + dot + text — which was the original legibility complaint.
+- **`HudRow.lua`** — was `HudDebug.lua`; **default-on** and part of the HUD now.
+  `/cdmp hud debug` is a verbose flag on the same row builder, not a second
+  renderer.
+
+⚠ **This build takes on two costs the earlier scoping wrongly said it wouldn't.**
+It **inherits §7's standing assumption** that `UNIT_SPELLCAST_SUCCEEDED` carries a
+readable spellID in *all* combat contexts — confirmed in a delve and at an
+open-world dummy, **never confirmed in a raid**. And the napkin is **the only
+drifting input in the design**. Both are fenced structurally rather than hopefully:
+the napkin can only make the HUD *early*, it can never promote a dot to ROTATION
+(only an observed `Available` edge does that), it renders **hollow** so an
+estimate never looks like an observation, and `hud status` **reports whether it is
+live at all** rather than silently tracking nothing.
+
+⏳ **Outstanding — the in-game pass, and it is the real test:**
+1. **Carry the V1 queue over first** (§7.1) — **costs are now load-bearing**, not
+   curiosity: the gate rule is `shards >= cost`, so if the cost column reads wrong
+   the dots are wrong. Plus imp-stack survival and the still-unproven #3.
+2. **Strictness before visuals.** Expect **1–2 ROTATION dots, not 4–5**;
+   `hud status` prints a `levels:` count and a `lit now:` line naming each lit dot
+   with its reason, and the on-screen summary carries a live `lit N` counter that
+   turns amber above 2. **If it sits at 4+, tighten the rules — don't touch a
+   colour.**
+3. **Anticipation** — cast Dreadstalkers (~20 s) and watch the dot brighten ~3 s
+   out with a live countdown *before* it lands. If 3 s isn't enough lead to change
+   the next GCD, `SOON_LEAD` is the number to tune.
+4. **`hud status` inside a raid or M+**, not just at a dummy — that's the untested
+   context, and the one where the whole early-warning feature would silently go
+   dark.
+5. **Every lit dot's reason legible and true.** A dot whose reason you disagree
+   with is a scoring bug; a dot with no reason is a design failure.
+
+**Known-unknown to expect on the first enable:** every cooldown-bearing ability
+reads `NEVER · no edge seen yet` until it has been cast once. That is the design
+holding (readiness comes only from observed edges; we refuse to guess), not a bug
+— but whether it's *tolerable* is exactly the kind of thing only the pass can say.
+
+*(A pre-deploy adversarial review found seven defects, all fixed and re-verified.
+The two that would have cost a pass: a false `on CD` reason on every unobserved
+cooldown, and a `gated` ROTATION path that could light permanently with an
+**empty** reason list if the cost read unreadable — `ns.PowerCost` reports
+"genuinely free" and "unreadable" identically.)*
+
+**Prior: M3b shipped and iterated (2026-07-20, CDMProbe v0.7.0 → v0.9.1).**
 Five in-game passes turned M3b from "shipped" into "shipped and understood", and
 the findings reshaped the roadmap — see **§0.5.8.7**, the amendment they produced,
 and **§7.1**, the working backlog. Headlines:
@@ -48,6 +120,9 @@ and **§7.1**, the working backlog. Headlines:
   authored into the spec table.
 
 **M3b as originally scoped (v0.7.0) — the first STATE signals.**
+*(Superseded in emphasis by M3c-a: the colour/luminance/thickness encoding below
+is still shipped and still carries identity, but it is no longer what the player
+is expected to read for an instruction — the dot is.)*
 `/cdmp hud` now says not just who each icon is but what it's *doing*: a **ready
 accent** off the observed ready edge (+ a one-shot settle, the one place motion is
 allowed), the **Demonic Core proc-glow** on Demonbolt (softening at ≥4 shards), the
@@ -395,14 +470,85 @@ decision/spec milestone that de-risks the build that follows.)
     design, and it holds: confirmed live at 20 hooks with all four edge types
     firing and `secret=0`. The layered `IsShown` fallback was never needed; it
     stays built as the documented contingency.
-  - **M3c — resource + mode + anticipation.** The owned **shard rail** (segmented
+  - **M3c-a — the dot score — ✅ SHIPPED (2026-07-20, v0.10.0), in-game review
+    pending.** The milestone M3b's findings *created*. Implements §0.5.8.7 via
+    §7.1 **C1 + C2 + C3 + C5**, plus the **napkin engine pulled forward from M4**;
+    **C6 (terminal view) deferred**.
+
+    **Why it exists.** M3b encoded state as colour, luminance, thickness and glow,
+    and five passes returned one verdict: the encoding doesn't read in isolation.
+    That is not a tuning failure — hue carries **group**, ambient identity, and the
+    review established there is no free channel left. Two findings reframed the
+    work: **readiness-as-cooldown covers only a minority of the board** (HoG and
+    Demonbolt have no cooldown, never fire a ready edge, sat at "unknown" forever —
+    and they are the #1/#2 most-pressed buttons, 729/541 pooled casts; measured
+    3–4 cooldown edges vs 19+ aura edges in a session), and the governing principle
+    **"inform, don't instruct"** — *"pick between 2-3 abilities instead of 5."*
+
+    **What shipped.**
+    - **`HudScore.lua`** — level + reasons, pure function of readable state, owns
+      no frames. Four levels: **NEVER / AVAILABLE / ROTATION / LATE**. `SOON` is a
+      **treatment on NEVER, not a fifth level** (§0.5.8.7 §1) — an anticipating dot
+      never claims pressability, so it never needs filtering out.
+      **`judgeable = false` caps at AVAILABLE** where the true gate is a Secret
+      Value and says so (Implosion: *"≥6 imps — count is secret, your call"*).
+      Strictness is **strict by decision**: 1–2 lit, not 4–5.
+    - **`HudNapkin.lua`** — `SUCCEEDED` cast → `ns.BaseCooldown` countdown. Three
+      rules keep it honest: **the observed edge is ground truth and always wins**
+      (an `Available` edge clears the estimate outright); **expiry never claims
+      readiness** (it reads *"should be up, unconfirmed"*); **readability is
+      checked, not assumed** (reported in `hud status`).
+    - **`SpecDemonology.lua`** — the signal bucket. `role` conflated three
+      concepts; the tell was that `spender` and `burst` carried **identical** tint
+      values, so `burst` never encoded anything — it only smuggled burst-lane
+      membership through the tint field. `goGate` kept **separate** from
+      `burstAlign` so nobody re-derives the go-gate lane and re-ships §0.5.8.6
+      blocking error #2. Demonbolt → consumer pole (C2, a live defect in shipped
+      code: it rendered at the opposite pole from HoG, its most common partner).
+    - **`HudChrome.lua`** — the dot (masked circle, square fallback; **colour
+      carries LEVEL**; hollow = estimate-or-not-a-call, solid = asserted), and the
+      accent → **bracket** spanning icon + dot + text, width from
+      `GetStringWidth()` *after* `SetText` (the order-of-attach hazard, avoided by
+      measuring rather than predicting).
+    - **`HudRow.lua`** — was `HudDebug.lua`, now default-on. One row builder, a
+      verbose flag — deliberately not two renderers to drift.
+
+    **The cost, stated plainly.** The original scoping claimed this work had "no
+    dependency on cast-spellID readability and no drift." **Both were false.** It
+    takes on §7's standing assumption (never confirmed in a raid) and introduces
+    the design's only drifting input — now carrying the feature the user rates
+    highest. Mitigations are structural, not hopeful: early-never-wrong, no
+    promotion on an estimate, hollow rendering, and honest reporting. The failure
+    mode to watch for is the opposite of the obvious one — **an estimate that
+    reads as confident.**
+
+    **Outstanding in-game pass:** see the Status block — V1 queue first (costs are
+    now load-bearing), then **strictness before visuals**, anticipation lead time,
+    a **raid/M+ `hud status`** check for napkin readability, and reason legibility.
+
+    **Known risks.** Strictness is the whole UX and cannot be validated from here.
+    The rules encode a **rotation opinion** derived from
+    `knowledge/classes/warlock/demonology/` — a wrong ROTATION is worse than no
+    dot (§0.5.8.2(c) forbids confidently-wrong), and the `why` text is the
+    mitigation: a bad call is arguable rather than silent. `judgeable = false` is a
+    **growth area** — Implosion is the known case; others with secret gates need
+    the same cap, not a guess.
+
+  - **M3c — resource + mode + anticipation.** *(Reduced by M3c-a: the anticipation
+    engine is built and shipped. What remains is the shard rail, mode chrome, and
+    the pre-pull opener queue.)* The owned **shard rail** (segmented
     fill, cap flip + one-shot glitter + earcon), **GENERATE↔SPEND mode chrome tint**
     (pure shard threshold), the **anticipation layer** (ghost incoming-shard during an
     in-flight builder cast + predictive SPEND pre-flip — `UNIT_SPELLCAST_START` /
     `SUCCEEDED` spellIDs assumed readable, see §7), and the **pre-pull opener queue** +
     fill-to marker.
 
-- **M4 — Burst window + the napkin engine.** Builds §0.5.8.3 rows **#9, #10, #11,
+- **M4 — Burst window.** *(Was "Burst window + the napkin engine". **The napkin
+  engine shipped early, in M3c-a (v0.10.0)** — `HudNapkin.lua`, one uniform
+  `SOON_LEAD ≈ 3 s`, because anticipation turned out to be load-bearing for the
+  dot score rather than a burst-only concern. What remains here is the burst
+  **framing** and the **two-lead Tyrant telegraph** (#11), which the uniform lead
+  deliberately does not cover.)* Builds §0.5.8.3 rows **#9, #10, #11,
   #12**. Our overlay frames **beside** the vertical CDM group the burst lane
   (**Tyrant · Dreadstalkers · the tracked Grimoire summon**); shared lane tint
   (common region) — the horizontal "line Tyrant up with what it buffs" grouping,
@@ -421,7 +567,9 @@ decision/spec milestone that de-risks the build that follows.)
     **force-overcaps** (Cores proc ~every 3.6 s, Demonbolt refunds +2).
     *(§0.5.8.6 blocking error #1 — the lead was 3× too long.)*
   - **#12 Short-CD approach pings** — Dreadstalkers ~20 s, Implosion 15 s, ~1 GCD
-    out, off the same `GetSpellBaseCooldown` engine. The **Dreadstalkers ping
+    out, off the same `GetSpellBaseCooldown` engine — **which is now built**
+    (`HudNapkin.lua`, M3c-a); what's left is the per-ability lead tuning and the
+    suppression rule below, not the engine. The **Dreadstalkers ping
     suppresses when Tyrant is imminent** and becomes a "stage for Tyrant"
     treatment: one Dreadstalkers per cycle is held so the dogs are fresh *inside*
     the window. Implosion's ping is gated on `in_aoe` (§7) and says "it's
@@ -478,6 +626,17 @@ decision/spec milestone that de-risks the build that follows.)
       derived from our own `START` → `SUCCEEDED`/`STOP`/`INTERRUPTED` bookkeeping
       (already logged), so the anticipation layer rides on the same assumption
       rather than on a second, untested API.
+      ⚠ **RE-OPENED IN PRACTICE (2026-07-20, v0.10.0) — this assumption is now
+      LOAD-BEARING, not background.** `HudNapkin` rides on it, and the napkin
+      carries the feature the user rates highest ("firing cooldown abilities as
+      soon as they are up is probably going to be the biggest win"). If `SUCCEEDED`
+      spellIDs read secret in a raid, **anticipation degrades to nothing in exactly
+      the content it matters most in.** The assumption is not re-opened as a
+      *blocker* — the code degrades honestly rather than faking — but it is now
+      **instrumented**: `HudNapkin` records readability and `/cdmp hud status`
+      prints `napkin: live | unavailable | not probed`. **Check it inside a raid or
+      M+**, not just at a dummy. Closing this for real needs one raid pull, and it
+      is the cheapest high-value verification left on the board.
 - [ ] **`in_aoe` predicate** — can we cheaply determine multi-target context
       (target count / recent multi-hit) to gate the Implosion approach ping (#12)
       and the Wild Imp "/6" readout (#17)? Flagged in §0.5.8.2(c) / §0.5.8.3; the
@@ -578,6 +737,17 @@ decision/spec milestone that de-risks the build that follows.)
       Recommendation on file: build on the four *precise* inputs first (shards,
       runtime cost, Core presence, observed ready edges), ship, and add
       napkin-derived urgency only if it doesn't already narrow to 2–3.
+      ⚙ **That staging was OVERRIDDEN at build time (v0.10.0), on the user's
+      call:** *"firing cooldown abilities as soon as they are up is probably going
+      to be the biggest win from this tool. I believe that requires signaling me
+      early that they're going to be ready."* Correct — without anticipation the
+      dot flips NEVER → ROTATION at the *instant* the cooldown lands, which
+      mid-GCD is already too late to weave. So the napkin shipped **in** M3c-a
+      rather than being held for a second pass. **The four levels stay precise**:
+      the napkin drives only the anticipation *treatment*, which never claims
+      pressability, so a wrong estimate makes the HUD early — never wrong about
+      what you can press. Implemented as `HudNapkin.lua`; its three honesty rules
+      are in the §6 M3c-a entry.
 - [x] **D3 — RESOLVED (2026-07-20): YES, conservatively.** Not the full ability
       name; compact tokens; row reads **dot first, then the reason for the dot**.
       Text carries identity/reference, preattentive channels carry urgency
@@ -592,7 +762,7 @@ decision/spec milestone that de-risks the build that follows.)
 
 ### Code
 
-- [ ] **C1 — APPROVED. `SpecDemonology` two-axis rewrite** — and the framing is
+- [x] **C1 — ✅ DONE (v0.10.0). `SpecDemonology` two-axis rewrite** — and the framing is
       confirmed: this *is* the per-ability **signal bucket** the dot score reads. Replace the single `role` enum
       with `spends` / `generates` / `cadence` / `burstAlign` / `goGate` / `kind`,
       per the corrected table in the Fable review. Key corrections to the original
@@ -605,7 +775,7 @@ decision/spec milestone that de-risks the build that follows.)
       the existing `ghost` field** rather than duplicating it; buff-viewer rows get
       `kind = "aura"` instead of a magic `role = "proc"`. **Costs are NOT authored
       here** — they are talent-dependent and read at runtime (v0.9.1).
-- [ ] **C2 — DOWNGRADED (dot-led world makes the tint less load-bearing), but
+- [x] **C2 — ✅ DONE (v0.10.0). DOWNGRADED (dot-led world makes the tint less load-bearing), but
       still a live contradiction and a one-line data fix. Fix the Demonbolt tint pole** *(Fable blocking error B2 — a live
       defect in shipped code).* §0.5.1 calls Demonbolt a bucket-2 **spender**;
       `SpecDemonology.lua:66` says `role = "builder"` and renders it at the
@@ -615,7 +785,7 @@ decision/spec milestone that de-risks the build that follows.)
       tell: `HudChrome.lua:53-54` gives `spender` and `burst` **identical** tint
       values, i.e. `burst` never affected the tint at all and existed only to
       smuggle burst-lane membership through the tint field.
-- [ ] **C3 — APPROVED, and now the headline M3c deliverable. Candidate scorer +
+- [x] **C3 — ✅ DONE (v0.10.0), pending in-game review. Candidate scorer +
       standalone dot.** *(D2 resolved — build to the four-level ladder.)* A per-ability
       score from readable inputs, surfaced as a **standalone pulsing dot** beside
       the icon. Architecturally the dot is the right call: the review established
@@ -633,13 +803,14 @@ decision/spec milestone that de-risks the build that follows.)
 
 - [x] **C4 — Monospace font + larger text — ALREADY SHIPPED (v0.8.2).** JetBrains
       Mono bundled (OFL included) with a stock-font fallback; size 11 → 14. If it
-      still reads small, bump `SIZE` in `HudDebug.lua` — worth making a setting.
-- [ ] **C5 — The per-icon row becomes `DOT + why`.** The row states the bucket
+      still reads small, bump `SIZE` in `HudRow.lua` (renamed from `HudDebug.lua`
+      in v0.10.0) — worth making a setting.
+- [x] **C5 — ✅ DONE (v0.10.0). The per-icon row becomes `DOT + why`.** The row states the bucket
       facts that *determined* the dot's level, so the score is **auditable rather
       than an oracle** — which is what keeps it on the right side of "inform,
       don't instruct". Supersedes the current debug row format.
-- [ ] **C6 — Scrolling terminal view below the column.** Deferred, recorded so it
-      isn't lost (§0.5.8.7 §5). Practical readout *and* period flavour, and the
+- [ ] **C6 — Scrolling terminal view below the column.** Still deferred — explicitly
+      out of scope for M3c-a, recorded so it isn't lost (§0.5.8.7 §5). Practical readout *and* period flavour, and the
       natural home for log-shaped data the per-icon rows can't hold.
       `BucketBinds`' `Console.lua` already solves scrollback + geometry + font.
 
@@ -688,10 +859,17 @@ decision/spec milestone that de-risks the build that follows.)
 
 ### Verify in-game
 
-- [ ] **V1 — Open verification queue.** (a) **Costs** — read the v0.9.1 `cost`
-      column and settle Dreadstalkers / Tyrant / Grimoire; the docs, the review and
-      the player disagree, and all three are talent-dependent. Note the units
-      caveat (shards vs fragments). (b) **Imp stack emphasis** (v0.9.0) restyles a
+- [ ] **V1 — Open verification queue. Carry this over BEFORE anything M3c-a —
+      it is cheap and (a) now gates trust in the whole dot score.** (a) **Costs** —
+      read the `cost` column (v0.10.0 prints both the normalised shard figure and
+      the raw one, e.g. `cost 1 shard(s) [raw 10]`) and settle Dreadstalkers /
+      Tyrant / Grimoire; the docs, the review and the player disagree, and all
+      three are talent-dependent. The units caveat (shards vs fragments) stopped
+      being trivia in v0.10.0: **the gate rule is `shards >= cost`, so if costs
+      read wrong, the gate logic is wrong** and every dot derived from it is wrong.
+      `ns.ShardCost` normalises a clean multiple of 10 down to whole shards (the
+      cap is 5, so nothing can legitimately cost ten) — this line confirms or
+      falsifies that heuristic. (b) **Imp stack emphasis** (v0.9.0) restyles a
       Blizzard `FontString`, and Blizzard re-applies text/position from several
       paths — the same problem that forced the leaf-method hooks now dormant in
       `HudTint.lua`. If the number snaps back mid-combat, that's why. (c) **#3
