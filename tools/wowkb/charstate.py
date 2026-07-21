@@ -95,7 +95,9 @@ class _LuaParser:
 
     def _number(self):
         j = self.i
-        while self.i < self.n and self.s[self.i] not in ",}=\r\n \t":
+        # `]` terminates too — numeric table keys (`[11] = 30283`) are numbers
+        # in bracket position, and without it the token swallows the bracket.
+        while self.i < self.n and self.s[self.i] not in ",}=]\r\n \t":
             self.i += 1
         tok = self.s[j:self.i].strip()
         try:
