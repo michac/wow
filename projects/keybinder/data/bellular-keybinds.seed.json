@@ -12,82 +12,142 @@
   },
   "buckets": [
     {
-      "category": "Combat 1",
+      "category": "Rotational 1",
       "keybind": "Q",
       "bar": "1",
       "slot": "1"
     },
     {
-      "category": "Combat 2",
+      "category": "Rotational 2",
       "keybind": "E",
       "bar": "1",
       "slot": "2"
     },
     {
-      "category": "Combat 3",
+      "category": "Rotational 3",
       "keybind": "R",
       "bar": "1",
       "slot": "3"
     },
     {
-      "category": "Combat 4",
+      "category": "Rotational 4",
       "keybind": "F",
       "bar": "1",
       "slot": "4"
     },
     {
-      "category": "Combat 5",
+      "category": "Rotational 5",
       "keybind": "1",
       "bar": "1",
       "slot": "5"
     },
     {
-      "category": "Combat 6",
+      "category": "Rotational 6",
       "keybind": "2",
       "bar": "1",
       "slot": "6"
     },
     {
-      "category": "Combat 7",
+      "category": "Rotational 7",
       "keybind": "3",
       "bar": "1",
       "slot": "7"
     },
     {
-      "category": "Combat 8",
+      "category": "Rotational 8",
       "keybind": "4",
       "bar": "1",
       "slot": "8"
     },
     {
-      "category": "Combat 9",
+      "category": "Cooldown 1",
       "keybind": "SQ",
       "bar": "2",
       "slot": "1"
     },
     {
-      "category": "Combat 10",
+      "category": "Cooldown 2",
       "keybind": "SE",
       "bar": "2",
       "slot": "2"
     },
     {
-      "category": "Combat 11",
+      "category": "Cooldown 3",
       "keybind": "SR",
       "bar": "2",
       "slot": "3"
     },
     {
-      "category": "Combat 12",
+      "category": "Cooldown 4",
       "keybind": "SF",
       "bar": "2",
       "slot": "4"
     },
     {
-      "category": "Class 1 (Movement)",
-      "keybind": "M3",
-      "bar": "5",
+      "category": "Overflow 1",
+      "keybind": "CR",
+      "bar": "3",
+      "slot": "3"
+    },
+    {
+      "category": "Overflow 2",
+      "keybind": "CF",
+      "bar": "3",
+      "slot": "4"
+    },
+    {
+      "category": "Overflow 3",
+      "keybind": "C1",
+      "bar": "3",
+      "slot": "5"
+    },
+    {
+      "category": "Overflow 4",
+      "keybind": "C2",
+      "bar": "3",
       "slot": "6"
+    },
+    {
+      "category": "Overflow 5",
+      "keybind": "C3",
+      "bar": "3",
+      "slot": "7"
+    },
+    {
+      "category": "Overflow 6",
+      "keybind": "C4",
+      "bar": "3",
+      "slot": "8"
+    },
+    {
+      "category": "Class 7 (Raid Defensive)",
+      "keybind": "Z",
+      "bar": "1",
+      "slot": "9"
+    },
+    {
+      "category": "Self-Heal 1",
+      "keybind": "X",
+      "bar": "1",
+      "slot": "10"
+    },
+    {
+      "category": "CC",
+      "keybind": "C",
+      "bar": "1",
+      "slot": "11"
+    },
+    {
+      "category": "Interrupt",
+      "keybind": "V",
+      "bar": "1",
+      "slot": "12"
+    },
+    {
+      "category": "Self-Heal 3 (Overflow)",
+      "keybind": "S1",
+      "bar": "2",
+      "slot": "5"
     },
     {
       "category": "Class 2 (CC)",
@@ -108,82 +168,16 @@
       "slot": "8"
     },
     {
-      "category": "Self-Heal 1",
-      "keybind": "CQ",
-      "bar": "3",
-      "slot": "1"
+      "category": "Healthstone/Potion Macro",
+      "keybind": "SZ",
+      "bar": "2",
+      "slot": "9"
     },
     {
       "category": "Self-Heal 2",
-      "keybind": "CE",
-      "bar": "3",
-      "slot": "2"
-    },
-    {
-      "category": "Self-Heal 3 (Overflow)",
-      "keybind": "CR",
-      "bar": "3",
-      "slot": "3"
-    },
-    {
-      "category": "Self-Heal 4 (Emergency/Overflow)",
-      "keybind": "CF",
-      "bar": "3",
-      "slot": "4"
-    },
-    {
-      "category": "Class 5 (Purge)",
-      "keybind": "C1",
-      "bar": "3",
-      "slot": "5"
-    },
-    {
-      "category": "Class 6 (Dispel)",
-      "keybind": "C2",
-      "bar": "3",
-      "slot": "6"
-    },
-    {
-      "category": "Class 7 (Raid Defensive)",
-      "keybind": "C3",
-      "bar": "3",
-      "slot": "7"
-    },
-    {
-      "category": "Class 8 (Lust/BRes)",
-      "keybind": "C4",
-      "bar": "3",
-      "slot": "8"
-    },
-    {
-      "category": "Personal Defensive 1",
-      "keybind": "M5",
-      "bar": "5",
-      "slot": "5"
-    },
-    {
-      "category": "Personal Defensive 2",
-      "keybind": "SM5",
-      "bar": "5",
-      "slot": "8"
-    },
-    {
-      "category": "Movement Ability",
-      "keybind": "M4",
-      "bar": "5",
-      "slot": "4"
-    },
-    {
-      "category": "Movement Ability 2",
-      "keybind": "SM4",
-      "bar": "5",
-      "slot": "7"
-    },
-    {
-      "category": "CC",
-      "keybind": "C",
-      "bar": "1",
-      "slot": "11"
+      "keybind": "SX",
+      "bar": "2",
+      "slot": "10"
     },
     {
       "category": "CC 2",
@@ -192,58 +186,34 @@
       "slot": "11"
     },
     {
-      "category": "Interrupt",
-      "keybind": "V",
-      "bar": "1",
-      "slot": "12"
-    },
-    {
       "category": "Slow",
       "keybind": "SV",
       "bar": "2",
       "slot": "12"
     },
     {
-      "category": "Mount",
-      "keybind": "AV",
-      "bar": "4",
-      "slot": "12"
+      "category": "Self-Heal 4 (Emergency/Overflow)",
+      "keybind": "CE",
+      "bar": "3",
+      "slot": "2"
     },
     {
-      "category": "Buff",
+      "category": "PvP",
       "keybind": "CZ",
       "bar": "3",
       "slot": "9"
     },
     {
-      "category": "Res",
+      "category": "PvP 2",
       "keybind": "CX",
       "bar": "3",
       "slot": "10"
     },
     {
-      "category": "PvP",
-      "keybind": "AZ",
-      "bar": "4",
-      "slot": "9"
-    },
-    {
-      "category": "PvP 2",
-      "keybind": "AX",
-      "bar": "4",
-      "slot": "10"
-    },
-    {
       "category": "PvP 3",
-      "keybind": "AC",
-      "bar": "4",
+      "keybind": "CC",
+      "bar": "3",
       "slot": "11"
-    },
-    {
-      "category": "Immune/Spell Immune/Movement",
-      "keybind": "SM3",
-      "bar": "5",
-      "slot": "9"
     },
     {
       "category": "Taunt/Quick Access",
@@ -252,68 +222,142 @@
       "slot": "12"
     },
     {
-      "category": "Healthstone/Potion Macro",
-      "keybind": "AQ",
+      "category": "Class 1 (Movement)",
+      "keybind": "M3",
       "bar": "4",
       "slot": "1"
     },
     {
-      "category": "Drinking/Mana Potion Macro",
-      "keybind": "AE",
+      "category": "Movement Ability",
+      "keybind": "M4",
       "bar": "4",
       "slot": "2"
     },
     {
-      "category": "Damage Potion",
-      "keybind": "AR",
+      "category": "Personal Defensive 1",
+      "keybind": "M5",
       "bar": "4",
       "slot": "3"
     },
     {
-      "category": "Another Combat Item If Needed",
-      "keybind": "AF",
+      "category": "Buff",
+      "keybind": "5",
       "bar": "4",
       "slot": "4"
     },
     {
-      "category": "Trinket Macro",
-      "keybind": "",
+      "category": "Mount",
+      "keybind": "6",
       "bar": "4",
       "slot": "5"
     },
     {
-      "category": "Racial Ability",
-      "keybind": "",
+      "category": "Res",
+      "keybind": "7",
       "bar": "4",
       "slot": "6"
     },
     {
-      "category": "Free",
-      "keybind": "",
+      "category": "Trinket Macro",
+      "keybind": "8",
       "bar": "4",
       "slot": "7"
     },
     {
-      "category": "Free",
-      "keybind": "",
+      "category": "Racial Ability",
+      "keybind": "9",
       "bar": "4",
       "slot": "8"
     },
     {
+      "category": "Damage Potion",
+      "keybind": "0",
+      "bar": "4",
+      "slot": "9"
+    },
+    {
+      "category": "Free",
+      "keybind": "",
+      "bar": "4",
+      "slot": "10"
+    },
+    {
+      "category": "Free",
+      "keybind": "",
+      "bar": "4",
+      "slot": "11"
+    },
+    {
+      "category": "Immune/Spell Immune/Movement",
+      "keybind": "SM3",
+      "bar": "5",
+      "slot": "1"
+    },
+    {
+      "category": "Movement Ability 2",
+      "keybind": "SM4",
+      "bar": "5",
+      "slot": "2"
+    },
+    {
+      "category": "Personal Defensive 2",
+      "keybind": "SM5",
+      "bar": "5",
+      "slot": "3"
+    },
+    {
+      "category": "Drinking/Mana Potion Macro",
+      "keybind": "AR",
+      "bar": "5",
+      "slot": "6"
+    },
+    {
+      "category": "Another Combat Item If Needed",
+      "keybind": "AF",
+      "bar": "5",
+      "slot": "7"
+    },
+    {
+      "category": "Class 6 (Dispel)",
+      "keybind": "AZ",
+      "bar": "5",
+      "slot": "8"
+    },
+    {
+      "category": "Class 5 (Purge)",
+      "keybind": "AX",
+      "bar": "5",
+      "slot": "9"
+    },
+    {
+      "category": "Class 8 (Lust/BRes)",
+      "keybind": "AC",
+      "bar": "5",
+      "slot": "10"
+    },
+    {
       "category": "Stance 1",
-      "keybind": "F1"
+      "keybind": "F1",
+      "bar": null,
+      "slot": null
     },
     {
       "category": "Stance 2",
-      "keybind": "F2"
+      "keybind": "F2",
+      "bar": null,
+      "slot": null
     },
     {
       "category": "Stance 3",
-      "keybind": "F3"
+      "keybind": "F3",
+      "bar": null,
+      "slot": null
     },
     {
       "category": "Stance 4",
-      "keybind": "F4"
+      "keybind": "F4",
+      "bar": null,
+      "slot": null
     }
   ],
   "bonus_binds": [
@@ -347,17 +391,6 @@
       "class": "Death Knight",
       "spec": "Blood",
       "abilities": {
-        "Combat 1": "Heart Strike",
-        "Combat 2": "Marrowrend",
-        "Combat 3": "Blood Boil",
-        "Combat 4": "Death and Decay",
-        "Combat 5": "Death Strike",
-        "Combat 6": "Vampiric Blood",
-        "Combat 7": "Death's Caress",
-        "Combat 8": "Consumption",
-        "Combat 9": "Dancing Rune Weapon",
-        "Combat 10": "Reaper's Mark",
-        "Combat 12": "Raise Dead",
         "Class 1 (Movement)": "Death Grip",
         "Class 2 (CC)": "Gorefiend's Grasp",
         "Self-Heal 2": "Lichborne",
@@ -384,25 +417,25 @@
         "Another Combat Item If Needed": "Another Combat Item If Needed",
         "Trinket Macro": "Trinket Macro",
         "Racial Ability": "Racial Ability",
-        "Free": "Free"
+        "Free": "Free",
+        "Rotational 1": "Heart Strike",
+        "Rotational 2": "Death Strike",
+        "Rotational 3": "Blood Boil",
+        "Rotational 4": "Marrowrend",
+        "Rotational 5": "Death and Decay",
+        "Rotational 6": "Death's Caress",
+        "Cooldown 1": "Dancing Rune Weapon",
+        "Cooldown 2": "Vampiric Blood",
+        "Buff": "Raise Dead"
+      },
+      "floats": {
+        "Cooldown": ["Reaper's Mark", "Consumption", "Abomination Limb"]
       }
     },
     {
       "class": "Death Knight",
       "spec": "Frost",
       "abilities": {
-        "Combat 1": "Obliterate",
-        "Combat 2": "Frost Strike",
-        "Combat 3": "Howling Blast",
-        "Combat 4": "Frostscythe",
-        "Combat 5": "Pillar of Frost",
-        "Combat 6": "Glacial Advance",
-        "Combat 7": "Empower Rune Weapon",
-        "Combat 8": "Remorseless Winter",
-        "Combat 9": "Breath of Sindragosa",
-        "Combat 10": "Reaper's Mark",
-        "Combat 11": "Frostwyrm's Fury",
-        "Combat 12": "Raise Dead",
         "Class 1 (Movement)": "Death Grip",
         "Class 2 (CC)": "Death and Decay",
         "Self-Heal 1": "Death Strike",
@@ -429,23 +462,24 @@
         "Another Combat Item If Needed": "Another Combat Item If Needed",
         "Trinket Macro": "Trinket Macro",
         "Racial Ability": "Racial Ability",
-        "Free": "Free"
+        "Free": "Free",
+        "Rotational 1": "Obliterate",
+        "Rotational 2": "Frost Strike",
+        "Rotational 3": "Howling Blast",
+        "Rotational 4": "Remorseless Winter",
+        "Rotational 5": "Glacial Advance",
+        "Cooldown 1": "Pillar of Frost",
+        "Class 4 (Special)": "Raise Dead"
+      },
+      "floats": {
+        "Rotational": ["Empower Rune Weapon", "Frostscythe"],
+        "Cooldown": ["Frostwyrm's Fury", "Breath of Sindragosa", "Reaper's Mark"]
       }
     },
     {
       "class": "Death Knight",
       "spec": "Unholy",
       "abilities": {
-        "Combat 1": "Scourge Strike",
-        "Combat 2": "Festering Strike",
-        "Combat 3": "Death Coil",
-        "Combat 4": "Putrefy",
-        "Combat 5": "Dark Transformation",
-        "Combat 6": "Epidemic",
-        "Combat 7": "Outbreak",
-        "Combat 8": "Soul Reaper",
-        "Combat 9": "Army of the Dead",
-        "Combat 12": "Raise Dead",
         "Class 1 (Movement)": "Death Grip",
         "Class 2 (CC)": "Death and Decay",
         "Self-Heal 1": "Death Strike",
@@ -472,23 +506,36 @@
         "Another Combat Item If Needed": "Another Combat Item If Needed",
         "Trinket Macro": "Trinket Macro",
         "Racial Ability": "Racial Ability",
-        "Free": "Free"
+        "Free": "Free",
+        "Rotational 1": "Scourge Strike",
+        "Rotational 2": "Festering Strike",
+        "Rotational 3": "Death Coil",
+        "Rotational 4": "Putrefy",
+        "Rotational 5": "Epidemic",
+        "Rotational 6": "Outbreak",
+        "Rotational 7": "Death and Decay",
+        "Cooldown 1": "Dark Transformation",
+        "Class 4 (Special)": "Raise Dead"
+      },
+      "floats": {
+        "Rotational": ["Soul Reaper"],
+        "Cooldown": ["Army of the Dead", "Raise Abomination", "Summon Gargoyle"]
       }
     },
     {
       "class": "Paladin",
       "spec": "Holy",
       "abilities": {
-        "Combat 1": "Holy Shock",
-        "Combat 2": "Judgment",
-        "Combat 3": "Flash of Light",
-        "Combat 4": "Holy Light",
-        "Combat 5": "Shield of the Righteous",
-        "Combat 6": "Light of Dawn",
-        "Combat 7": "Word of Glory",
-        "Combat 8": "Holy Bulwark",
-        "Combat 9": "Avenging Wrath",
-        "Combat 10": "Aura Mastery",
+        "Rotational 1": "Holy Shock",
+        "Rotational 2": "Judgment",
+        "Rotational 3": "Flash of Light",
+        "Rotational 4": "Holy Light",
+        "Rotational 5": "Shield of the Righteous",
+        "Rotational 6": "Light of Dawn",
+        "Rotational 7": "Word of Glory",
+        "Rotational 8": "Holy Bulwark",
+        "Cooldown 1": "Avenging Wrath",
+        "Cooldown 2": "Aura Mastery",
         "Class 1 (Movement)": "Blessing of Freedom",
         "Class 2 (CC)": "Blessing of Protection",
         "Class 3 (Tag)": "Blessing of Sacrifice",
@@ -523,15 +570,6 @@
       "class": "Paladin",
       "spec": "Protection",
       "abilities": {
-        "Combat 1": "Blessed Hammer",
-        "Combat 2": "Judgment",
-        "Combat 3": "Avenger's Shield",
-        "Combat 4": "Consecration",
-        "Combat 5": "Shield of the Righteous",
-        "Combat 6": "Divine Toll",
-        "Combat 7": "Word of Glory",
-        "Combat 8": "Holy Bulwark",
-        "Combat 9": "Sentinel",
         "Class 1 (Movement)": "Blessing of Freedom",
         "Class 2 (CC)": "Blessing of Protection",
         "Class 3 (Tag)": "Blessing of Sacrifice",
@@ -561,22 +599,26 @@
         "Free": "Free",
         "Stance 1": "Crusader Aura",
         "Stance 2": "Devotion Aura",
-        "Stance 3": "Concentration Aura"
+        "Stance 3": "Concentration Aura",
+        "Rotational 1": "Shield of the Righteous",
+        "Rotational 3": "Judgment",
+        "Rotational 4": "Avenger's Shield",
+        "Rotational 6": "Consecration",
+        "Rotational 7": "Word of Glory",
+        "Cooldown 2": "Divine Toll",
+        "Cooldown 3": "Ardent Defender",
+        "Cooldown 4": "Guardian of Ancient Kings"
+      },
+      "floats": {
+        "Rotational": ["Blessed Hammer", "Hammer of the Righteous", "Hammer of Wrath", "Holy Bulwark", "Hammer of Light"],
+        "Cooldown": ["Sentinel", "Avenging Wrath"],
+        "Overflow": ["Holy Armaments"]
       }
     },
     {
       "class": "Paladin",
       "spec": "Retribution",
       "abilities": {
-        "Combat 1": "Crusader Strike",
-        "Combat 2": "Judgment",
-        "Combat 3": "Blade of Justice",
-        "Combat 4": "Final Verdict",
-        "Combat 5": "Divine Storm",
-        "Combat 6": "Divine Toll",
-        "Combat 7": "Execution Sentence",
-        "Combat 8": "Wake of Ashes",
-        "Combat 9": "Avenging Wrath",
         "Class 1 (Movement)": "Blessing of Freedom",
         "Class 2 (CC)": "Blessing of Protection",
         "Class 3 (Tag)": "Blessing of Sacrifice",
@@ -605,25 +647,21 @@
         "Stance 1": "Crusader Aura",
         "Stance 2": "Devotion Aura",
         "Stance 3": "Concentration Aura",
-        "Personal Defensive 2": "Shield of Vengeance"
+        "Personal Defensive 2": "Shield of Vengeance",
+        "Rotational 1": "Templar's Verdict",
+        "Rotational 2": "Crusader Strike",
+        "Rotational 3": "Judgment"
+      },
+      "floats": {
+        "Rotational": ["Blade of Justice", "Divine Storm", "Wake of Ashes", "Hammer of Light", "Hammer of Wrath"],
+        "Cooldown": ["Avenging Wrath", "Execution Sentence", "Divine Toll"],
+        "Overflow": ["Templar Slash"]
       }
     },
     {
       "class": "Warrior",
       "spec": "Arms",
       "abilities": {
-        "Combat 1": "Slam",
-        "Combat 2": "Mortal Strike",
-        "Combat 3": "Colossus Smash",
-        "Combat 4": "Overpower",
-        "Combat 5": "Execute",
-        "Combat 6": "Cleave",
-        "Combat 7": "Thunder Clap/Rend",
-        "Combat 8": "Sweeping Strikes",
-        "Combat 9": "Avatar",
-        "Combat 10": "Bladestorm",
-        "Combat 11": "Demolish",
-        "Combat 12": "Champion's Spear",
         "Class 1 (Movement)": "Charge",
         "Class 2 (CC)": "Piercing Howl",
         "Class 3 (Tag)": "Heroic Throw",
@@ -652,23 +690,24 @@
         "Free": "Free",
         "Stance 1": "Defensive Stance",
         "Stance 2": "Battle Stance",
-        "Personal Defensive 2": "Berserker Rage"
+        "Personal Defensive 2": "Berserker Rage",
+        "Rotational 1": "Mortal Strike",
+        "Rotational 2": "Overpower",
+        "Rotational 3": "Execute",
+        "Rotational 4": "Slam",
+        "Rotational 8": "Sweeping Strikes",
+        "Cooldown 1": "Colossus Smash"
+      },
+      "floats": {
+        "Rotational": ["Cleave", "Rend", "Demolish", "Ravager", "Heroic Strike"],
+        "Cooldown": ["Avatar", "Champion's Spear", "Bladestorm"],
+        "Overflow": ["Thunder Clap", "Whirlwind"]
       }
     },
     {
       "class": "Warrior",
       "spec": "Fury",
       "abilities": {
-        "Combat 1": "Bloodthirst",
-        "Combat 2": "Raging Blow",
-        "Combat 3": "Rampage",
-        "Combat 4": "Whirlwind",
-        "Combat 5": "Execute",
-        "Combat 6": "Odyn's Fury",
-        "Combat 7": "Thunder Clap/Rend",
-        "Combat 8": "Recklessness",
-        "Combat 9": "Avatar/Bladestorm",
-        "Combat 12": "Champion's Spear",
         "Class 1 (Movement)": "Charge",
         "Class 2 (CC)": "Piercing Howl",
         "Class 3 (Tag)": "Heroic Throw",
@@ -695,25 +734,23 @@
         "Racial Ability": "Racial Ability",
         "Free": "Free",
         "Stance 1": "Defensive Stance",
-        "Stance 2": "Berserker Stance"
+        "Stance 2": "Berserker Stance",
+        "Rotational 1": "Bloodthirst",
+        "Rotational 2": "Rampage",
+        "Rotational 3": "Raging Blow",
+        "Rotational 4": "Execute",
+        "Rotational 5": "Whirlwind",
+        "Cooldown 1": "Recklessness"
+      },
+      "floats": {
+        "Rotational": ["Thunder Clap", "Rend"],
+        "Cooldown": ["Odyn's Fury", "Avatar", "Bladestorm", "Champion's Spear"]
       }
     },
     {
       "class": "Warrior",
       "spec": "Protection",
       "abilities": {
-        "Combat 1": "Shield Slam",
-        "Combat 2": "Revenge",
-        "Combat 3": "Thunder Clap",
-        "Combat 4": "Shield Block",
-        "Combat 5": "Execute",
-        "Combat 6": "Ignore Pain",
-        "Combat 7": "Shield Charge",
-        "Combat 8": "Demoralizing Shout",
-        "Combat 9": "Avatar",
-        "Combat 10": "Ravager",
-        "Combat 11": "Demolish",
-        "Combat 12": "Champion's Spear",
         "Class 1 (Movement)": "Charge",
         "Class 2 (CC)": "Piercing Howl",
         "Class 3 (Tag)": "Heroic Throw",
@@ -742,23 +779,25 @@
         "Free": "Free",
         "Stance 1": "Defensive Stance",
         "Stance 2": "Battle Stance",
-        "Personal Defensive 2": "Last Stand"
+        "Personal Defensive 2": "Last Stand",
+        "Rotational 1": "Shield Slam",
+        "Rotational 2": "Thunder Clap",
+        "Rotational 3": "Revenge",
+        "Rotational 4": "Execute",
+        "Rotational 5": "Shield Block",
+        "Rotational 6": "Ignore Pain",
+        "Cooldown 1": "Avatar"
+      },
+      "floats": {
+        "Rotational": ["Thunder Blast", "Ravager", "Demolish"],
+        "Cooldown": ["Shield Charge", "Demoralizing Shout", "Champion's Spear"],
+        "Overflow": ["Devastate"]
       }
     },
     {
       "class": "Evoker",
       "spec": "Augmentation",
       "abilities": {
-        "Combat 1": "Living Flame",
-        "Combat 2": "Azure Strike",
-        "Combat 3": "Eruption",
-        "Combat 4": "Fire Breath",
-        "Combat 5": "Ebon Might",
-        "Combat 6": "Upheaval",
-        "Combat 7": "Prescience",
-        "Combat 8": "Blistering Scales",
-        "Combat 9": "Breath of Eons",
-        "Combat 12": "Time Skip",
         "Class 2 (CC)": "Sleep Walk",
         "Class 3 (Tag)": "Landslide",
         "Class 4 (Special)": "Spatial Paradox",
@@ -789,21 +828,26 @@
         "Racial Ability": "Racial Ability",
         "Free": "Free",
         "Stance 1": "Black Attunement",
-        "Stance 2": "Bronze Attunement"
+        "Stance 2": "Bronze Attunement",
+        "Rotational 1": "Eruption",
+        "Rotational 2": "Ebon Might",
+        "Rotational 3": "Prescience",
+        "Rotational 4": "Azure Strike",
+        "Rotational 5": "Living Flame",
+        "Rotational 6": "Fire Breath",
+        "Rotational 7": "Upheaval",
+        "Cooldown 1": "Breath of Eons",
+        "Cooldown 4": "Deep Breath"
+      },
+      "floats": {
+        "Rotational": ["Blistering Scales"],
+        "Cooldown": ["Tip the Scales", "Time Skip"]
       }
     },
     {
       "class": "Evoker",
       "spec": "Devastation",
       "abilities": {
-        "Combat 1": "Living Flame",
-        "Combat 2": "Azure Strike",
-        "Combat 3": "Disintegrate",
-        "Combat 4": "Fire Breath",
-        "Combat 5": "Dragonrage",
-        "Combat 6": "Eternity Surge",
-        "Combat 7": "Pyre",
-        "Combat 9": "Deep Breath",
         "Class 2 (CC)": "Sleep Walk",
         "Class 3 (Tag)": "Landslide",
         "Class 4 (Special)": "Spatial Paradox",
@@ -833,25 +877,36 @@
         "Trinket Macro": "Trinket Macro",
         "Racial Ability": "Racial Ability",
         "Free": "Free",
-        "Personal Defensive 2": "Renewing Blaze"
+        "Personal Defensive 2": "Renewing Blaze",
+        "Rotational 1": "Disintegrate",
+        "Rotational 2": "Living Flame",
+        "Rotational 3": "Fire Breath",
+        "Rotational 4": "Eternity Surge",
+        "Rotational 6": "Azure Strike",
+        "Cooldown 1": "Dragonrage",
+        "Cooldown 2": "Deep Breath"
+      },
+      "floats": {
+        "Rotational": ["Pyre", "Azure Sweep", "Engulf"],
+        "Cooldown": ["Tip the Scales"]
       }
     },
     {
       "class": "Evoker",
       "spec": "Preservation",
       "abilities": {
-        "Combat 1": "Living Flame",
-        "Combat 2": "Azure Strike",
-        "Combat 3": "Disintegrate",
-        "Combat 4": "Fire Breath",
-        "Combat 5": "Echo",
-        "Combat 6": "Reversion",
-        "Combat 7": "Time Dilation",
-        "Combat 8": "Temporal Anomaly",
-        "Combat 9": "Deep Breath",
-        "Combat 10": "Dream Flight",
-        "Combat 11": "Rewind",
-        "Combat 12": "Dream Breath",
+        "Rotational 1": "Living Flame",
+        "Rotational 2": "Azure Strike",
+        "Rotational 3": "Disintegrate",
+        "Rotational 4": "Fire Breath",
+        "Rotational 5": "Echo",
+        "Rotational 6": "Reversion",
+        "Rotational 7": "Time Dilation",
+        "Rotational 8": "Temporal Anomaly",
+        "Cooldown 1": "Deep Breath",
+        "Cooldown 2": "Dream Flight",
+        "Cooldown 3": "Rewind",
+        "Cooldown 4": "Dream Breath",
         "Class 2 (CC)": "Sleep Walk",
         "Class 3 (Tag)": "Landslide",
         "Class 4 (Special)": "Spatial Paradox",
@@ -886,17 +941,10 @@
       "class": "Hunter",
       "spec": "Beast Mastery",
       "abilities": {
-        "Combat 1": "Cobra Shot",
-        "Combat 2": "Barbed Shot",
-        "Combat 3": "Kill Command",
-        "Combat 4": "Wild Thrash",
-        "Combat 5": "Black Arrow",
-        "Combat 6": "Bestial Wrath",
-        "Combat 9": "Hunter's Mark",
         "Class 1 (Movement)": "Tar Trap",
         "Class 2 (CC)": "Freezing Trap",
-        "Class 3 (Tag)": "Misdirection",
-        "Class 4 (Special)": "Call Pet 1",
+        "Class 3 (Tag)": "Hunter's Mark",
+        "Class 4 (Special)": "Misdirection",
         "Self-Heal 1": "Exhilaration",
         "Self-Heal 2": "Mend Pet",
         "Self-Heal 3 (Overflow)": "Revive Pet",
@@ -923,22 +971,20 @@
         "Trinket Macro": "Trinket Macro",
         "Racial Ability": "Racial Ability",
         "Free": "Free",
-        "Combat 7": "Nature's Ally"
+        "Rotational 1": "Kill Command",
+        "Rotational 2": "Barbed Shot",
+        "Rotational 3": "Cobra Shot",
+        "Rotational 4": "Bestial Wrath",
+        "Buff": "Call Pet 1"
+      },
+      "floats": {
+        "Rotational": ["Wild Thrash", "Nature's Ally", "Black Arrow", "Wailing Arrow"]
       }
     },
     {
       "class": "Hunter",
       "spec": "Marksmanship",
       "abilities": {
-        "Combat 1": "Steady Shot",
-        "Combat 2": "Arcane Shot",
-        "Combat 3": "Aimed Shot",
-        "Combat 4": "Rapid Fire",
-        "Combat 5": "Black Arrow",
-        "Combat 6": "Multi-Shot",
-        "Combat 7": "Volley",
-        "Combat 8": "Trueshot",
-        "Combat 9": "Hunter's Mark",
         "Class 1 (Movement)": "Tar Trap",
         "Class 2 (CC)": "Freezing Trap",
         "Class 3 (Tag)": "Misdirection",
@@ -968,23 +1014,24 @@
         "Another Combat Item If Needed": "Another Combat Item If Needed",
         "Trinket Macro": "Trinket Macro",
         "Racial Ability": "Racial Ability",
-        "Free": "Free"
+        "Free": "Hunter's Mark",
+        "Rotational 1": "Aimed Shot",
+        "Rotational 2": "Arcane Shot",
+        "Rotational 3": "Rapid Fire",
+        "Rotational 4": "Steady Shot",
+        "Rotational 5": "Multi-Shot",
+        "Rotational 6": "Volley",
+        "Cooldown 1": "Trueshot"
+      },
+      "floats": {
+        "Rotational": ["Kill Shot", "Moonlight Chakram", "Black Arrow"],
+        "Overflow": ["Explosive Shot", "Wailing Arrow"]
       }
     },
     {
       "class": "Hunter",
       "spec": "Survival",
       "abilities": {
-        "Combat 1": "Raptor Strike",
-        "Combat 2": "Kill Command",
-        "Combat 3": "Wildfire Bomb",
-        "Combat 4": "Takedown",
-        "Combat 5": "Boomstick",
-        "Combat 6": "Flamefang Pitch",
-        "Combat 7": "Hatchet Toss",
-        "Combat 8": "Harpoon",
-        "Combat 9": "Hunter's Mark",
-        "Combat 10": "Aspect of the Eagle",
         "Class 1 (Movement)": "Tar Trap",
         "Class 2 (CC)": "Freezing Trap",
         "Class 3 (Tag)": "Misdirection",
@@ -1014,23 +1061,24 @@
         "Another Combat Item If Needed": "Another Combat Item If Needed",
         "Trinket Macro": "Trinket Macro",
         "Racial Ability": "Racial Ability",
-        "Free": "Free"
+        "Free": "Hunter's Mark",
+        "Rotational 1": "Kill Command",
+        "Rotational 2": "Raptor Strike",
+        "Rotational 3": "Wildfire Bomb",
+        "Rotational 4": "Flamefang Pitch",
+        "Rotational 5": "Boomstick",
+        "Cooldown 1": "Takedown",
+        "Cooldown 2": "Aspect of the Eagle",
+        "Movement Ability 2": "Harpoon"
+      },
+      "floats": {
+        "Rotational": ["Moonlight Chakram"]
       }
     },
     {
       "class": "Shaman",
       "spec": "Elemental",
       "abilities": {
-        "Combat 1": "Lightning Bolt",
-        "Combat 2": "Lava Burst",
-        "Combat 3": "Flame Shock",
-        "Combat 4": "Chain Lightning",
-        "Combat 5": "Earth Shock",
-        "Combat 6": "Earthquake",
-        "Combat 7": "Stormkeeper",
-        "Combat 8": "Nature's Swiftness",
-        "Combat 9": "Ascendance",
-        "Combat 12": "Frost Shock",
         "Class 1 (Movement)": "Wind Rush Totem",
         "Class 2 (CC)": "Tremor Totem",
         "Class 3 (Tag)": "Hex",
@@ -1060,24 +1108,24 @@
         "Another Combat Item If Needed": "Another Combat Item If Needed",
         "Trinket Macro": "Trinket Macro",
         "Racial Ability": "Racial Ability",
-        "Free": "Free"
+        "Free": "Free",
+        "Rotational 1": "Lightning Bolt",
+        "Rotational 2": "Lava Burst",
+        "Rotational 3": "Flame Shock",
+        "Rotational 4": "Chain Lightning",
+        "Cooldown 1": "Ascendance",
+        "Cooldown 2": "Stormkeeper"
+      },
+      "floats": {
+        "Rotational": ["Elemental Blast", "Earthquake", "Tempest", "Ancestral Swiftness", "Voltaic Blaze", "Earth Shock"],
+        "Cooldown": ["Storm Elemental", "Fire Elemental", "Nature's Swiftness"],
+        "Overflow": ["Frost Shock"]
       }
     },
     {
       "class": "Shaman",
       "spec": "Enhancement",
       "abilities": {
-        "Combat 1": "Stormstrike",
-        "Combat 2": "Lava Lash",
-        "Combat 3": "Flame Shock",
-        "Combat 4": "Crash Lightning",
-        "Combat 5": "Sundering",
-        "Combat 6": "Lightning Bolt",
-        "Combat 7": "Chain Lightning",
-        "Combat 8": "Surging Totem",
-        "Combat 9": "Doom Winds",
-        "Combat 11": "Nature's Swiftness",
-        "Combat 12": "Frost Shock",
         "Class 1 (Movement)": "Wind Rush Totem",
         "Class 2 (CC)": "Tremor Totem",
         "Class 3 (Tag)": "Hex",
@@ -1107,25 +1155,36 @@
         "Another Combat Item If Needed": "Another Combat Item If Needed",
         "Trinket Macro": "Trinket Macro",
         "Racial Ability": "Racial Ability",
-        "Free": "Free"
+        "Free": "Free",
+        "Rotational 1": "Stormstrike",
+        "Rotational 2": "Lava Lash",
+        "Rotational 3": "Crash Lightning",
+        "Rotational 4": "Lightning Bolt",
+        "Rotational 5": "Chain Lightning",
+        "Overflow 1": "Flame Shock"
+      },
+      "floats": {
+        "Rotational": ["Voltaic Blaze", "Primordial Storm", "Tempest", "Sundering"],
+        "Cooldown": ["Doom Winds", "Feral Spirit", "Surging Totem", "Ascendance", "Nature's Swiftness"],
+        "Overflow": ["Frost Shock"]
       }
     },
     {
       "class": "Shaman",
       "spec": "Restoration",
       "abilities": {
-        "Combat 1": "Lightning Bolt",
-        "Combat 2": "Lava Burst",
-        "Combat 3": "Flame Shock",
-        "Combat 4": "Chain Lightning",
-        "Combat 5": "Riptide",
-        "Combat 6": "Healing Wave",
-        "Combat 7": "Chain Heal",
-        "Combat 8": "Nature's Swiftness",
-        "Combat 9": "Ascendance",
-        "Combat 10": "Healing Rain",
-        "Combat 11": "Unleash Life",
-        "Combat 12": "Spirit Link Totem",
+        "Rotational 1": "Lightning Bolt",
+        "Rotational 2": "Lava Burst",
+        "Rotational 3": "Flame Shock",
+        "Rotational 4": "Chain Lightning",
+        "Rotational 5": "Riptide",
+        "Rotational 6": "Healing Wave",
+        "Rotational 7": "Chain Heal",
+        "Rotational 8": "Nature's Swiftness",
+        "Cooldown 1": "Ascendance",
+        "Cooldown 2": "Healing Rain",
+        "Cooldown 3": "Unleash Life",
+        "Cooldown 4": "Spirit Link Totem",
         "Class 1 (Movement)": "Wind Rush Totem",
         "Class 2 (CC)": "Tremor Totem",
         "Class 3 (Tag)": "Hex",
@@ -1161,14 +1220,6 @@
       "class": "Demon Hunter",
       "spec": "Devourer",
       "abilities": {
-        "Combat 1": "Consume",
-        "Combat 2": "Reap",
-        "Combat 3": "Void Ray",
-        "Combat 4": "Soul Immolation",
-        "Combat 5": "Void Metamorphosis",
-        "Combat 6": "The Hunt",
-        "Combat 7": "Voidblade",
-        "Combat 8": "Vengeful Retreat",
         "Class 3 (Tag)": "Throw Glaive",
         "Class 4 (Special)": "Spectral Sight",
         "Class 5 (Purge)": "Consume Magic",
@@ -1187,22 +1238,23 @@
         "Another Combat Item If Needed": "Another Combat Item If Needed",
         "Trinket Macro": "Trinket Macro",
         "Racial Ability": "Racial Ability",
-        "Free": "Free"
+        "Free": "Free",
+        "Rotational 1": "Consume",
+        "Rotational 2": "Void Ray",
+        "Rotational 3": "Reap",
+        "Rotational 4": "Collapsing Star",
+        "Rotational 5": "Soul Immolation",
+        "Cooldown 1": "Void Metamorphosis"
+      },
+      "floats": {
+        "Rotational": ["Voidblade", "Vengeful Retreat", "Devour", "Hungering Slash", "Pierce the Veil"],
+        "Cooldown": ["The Hunt"]
       }
     },
     {
       "class": "Demon Hunter",
       "spec": "Havoc",
       "abilities": {
-        "Combat 1": "Chaos Strike",
-        "Combat 2": "Blade Dance",
-        "Combat 3": "Eye Beam",
-        "Combat 4": "Immolation Aura",
-        "Combat 5": "Essence Break",
-        "Combat 6": "The Hunt",
-        "Combat 7": "Felblade",
-        "Combat 8": "Vengeful Retreat",
-        "Combat 9": "Metamorphosis",
         "Class 3 (Tag)": "Throw Glaive",
         "Class 4 (Special)": "Spectral Sight",
         "Class 5 (Purge)": "Consume Magic",
@@ -1224,25 +1276,23 @@
         "Another Combat Item If Needed": "Another Combat Item If Needed",
         "Trinket Macro": "Trinket Macro",
         "Racial Ability": "Racial Ability",
-        "Free": "Free"
+        "Free": "Free",
+        "Rotational 1": "Chaos Strike",
+        "Rotational 2": "Blade Dance",
+        "Rotational 3": "Eye Beam",
+        "Rotational 4": "Immolation Aura",
+        "Rotational 8": "Throw Glaive",
+        "Cooldown 1": "Metamorphosis"
+      },
+      "floats": {
+        "Rotational": ["Felblade", "Vengeful Retreat", "Essence Break"],
+        "Cooldown": ["The Hunt"]
       }
     },
     {
       "class": "Demon Hunter",
       "spec": "Vengeance",
       "abilities": {
-        "Combat 1": "Fracture",
-        "Combat 2": "Soul Cleave",
-        "Combat 3": "Spirit Bomb",
-        "Combat 4": "Immolation Aura",
-        "Combat 5": "Demon Spikes",
-        "Combat 6": "Sigil of Flame",
-        "Combat 7": "Felblade",
-        "Combat 8": "Vengeful Retreat",
-        "Combat 9": "Metamorphosis",
-        "Combat 10": "Sigil of Spite",
-        "Combat 11": "Soul Carver",
-        "Combat 12": "Fel Devastation",
         "Class 2 (CC)": "Sigil of Silence",
         "Class 3 (Tag)": "Throw Glaive",
         "Class 4 (Special)": "Spectral Sight",
@@ -1265,25 +1315,23 @@
         "Another Combat Item If Needed": "Another Combat Item If Needed",
         "Trinket Macro": "Trinket Macro",
         "Racial Ability": "Racial Ability",
-        "Free": "Free"
+        "Free": "Free",
+        "Rotational 1": "Fracture",
+        "Rotational 2": "Soul Cleave",
+        "Rotational 3": "Immolation Aura",
+        "Rotational 4": "Demon Spikes",
+        "Rotational 5": "Sigil of Flame",
+        "Cooldown 1": "Metamorphosis"
+      },
+      "floats": {
+        "Rotational": ["Spirit Bomb", "Felblade", "Vengeful Retreat"],
+        "Cooldown": ["Fel Devastation", "Soul Carver", "Sigil of Spite"]
       }
     },
     {
       "class": "Druid",
       "spec": "Balance",
       "abilities": {
-        "Combat 1": "Wrath",
-        "Combat 2": "Starfire",
-        "Combat 3": "Moonfire",
-        "Combat 4": "Sunfire",
-        "Combat 5": "Starsurge",
-        "Combat 6": "Starfall",
-        "Combat 7": "Lunar Eclipse",
-        "Combat 8": "Fury of Elune",
-        "Combat 9": "Celestial Alignment",
-        "Combat 10": "Convoke the Spirits",
-        "Combat 11": "Force of Nature",
-        "Combat 12": "Wild Mushroom",
         "Class 1 (Movement)": "Stampeding Roar",
         "Class 2 (CC)": "Mass Entanglement",
         "Class 3 (Tag)": "Entangling Roots",
@@ -1316,25 +1364,26 @@
         "Stance 1": "Bear Form",
         "Stance 2": "Cat Form",
         "Stance 3": "Travel Form",
-        "Stance 4": "Moonkin Form"
+        "Stance 4": "Moonkin Form",
+        "Rotational 1": "Wrath",
+        "Rotational 2": "Starfire",
+        "Rotational 3": "Starsurge",
+        "Rotational 4": "Eclipse",
+        "Rotational 5": "Starfall",
+        "Rotational 6": "Moonfire",
+        "Rotational 7": "Sunfire",
+        "Cooldown 1": "Celestial Alignment",
+        "Cooldown 2": "Force of Nature"
+      },
+      "floats": {
+        "Rotational": ["New Moon", "Wild Mushroom"],
+        "Cooldown": ["Convoke the Spirits", "Fury of Elune"]
       }
     },
     {
       "class": "Druid",
       "spec": "Feral",
       "abilities": {
-        "Combat 1": "Shred",
-        "Combat 2": "Rake",
-        "Combat 3": "Rip",
-        "Combat 4": "Ferocious Bite",
-        "Combat 5": "Tiger's Fury",
-        "Combat 6": "Feral Frenzy",
-        "Combat 7": "Swipe",
-        "Combat 8": "Primal Wrath",
-        "Combat 9": "Berserk",
-        "Combat 10": "Convoke the Spirits",
-        "Combat 11": "Moonfire",
-        "Combat 12": "Maim",
         "Class 1 (Movement)": "Stampeding Roar",
         "Class 2 (CC)": "Mass Entanglement",
         "Class 3 (Tag)": "Entangling Roots",
@@ -1350,7 +1399,7 @@
         "Personal Defensive 2": "Survival Instincts",
         "Movement Ability": "Dash",
         "CC": "Mighty Bash",
-        "CC 2": "Typhoon",
+        "CC 2": "Maim",
         "Interrupt": "Skull Bash",
         "Buff": "Mark of the Wild",
         "Res": "Revive",
@@ -1368,25 +1417,24 @@
         "Stance 1": "Bear Form",
         "Stance 2": "Cat Form",
         "Stance 3": "Travel Form",
-        "Stance 4": "Moonkin Form"
+        "Stance 4": "Moonkin Form",
+        "Rotational 1": "Shred",
+        "Rotational 2": "Rake",
+        "Rotational 3": "Rip",
+        "Rotational 4": "Ferocious Bite",
+        "Rotational 5": "Tiger's Fury",
+        "Rotational 6": "Swipe",
+        "Slow": "Typhoon"
+      },
+      "floats": {
+        "Rotational": ["Primal Wrath", "Moonfire"],
+        "Cooldown": ["Berserk", "Incarnation: Avatar of Ashamane", "Convoke the Spirits", "Feral Frenzy"]
       }
     },
     {
       "class": "Druid",
       "spec": "Guardian",
       "abilities": {
-        "Combat 1": "Mangle",
-        "Combat 2": "Thrash",
-        "Combat 3": "Maul",
-        "Combat 4": "Frenzied Regeneration",
-        "Combat 5": "Ironfur",
-        "Combat 6": "Moonfire",
-        "Combat 7": "Swipe",
-        "Combat 8": "Lunar Beam",
-        "Combat 9": "Berserk",
-        "Combat 10": "Convoke the Spirits",
-        "Combat 11": "Sundering Roar",
-        "Combat 12": "Bristling Fur",
         "Class 1 (Movement)": "Stampeding Roar",
         "Class 2 (CC)": "Mass Entanglement",
         "Class 3 (Tag)": "Entangling Roots",
@@ -1419,25 +1467,36 @@
         "Stance 1": "Bear Form",
         "Stance 2": "Cat Form",
         "Stance 3": "Travel Form",
-        "Stance 4": "Moonkin Form"
+        "Stance 4": "Moonkin Form",
+        "Rotational 1": "Mangle",
+        "Rotational 2": "Thrash",
+        "Rotational 3": "Maul",
+        "Rotational 4": "Ironfur",
+        "Rotational 5": "Moonfire",
+        "Rotational 6": "Frenzied Regeneration"
+      },
+      "floats": {
+        "Rotational": ["Raze", "Swipe"],
+        "Cooldown": ["Lunar Beam", "Incarnation: Guardian of Ursoc", "Convoke the Spirits", "Berserk", "Sundering Roar", "Wild Guardian"],
+        "Overflow": ["Bristling Fur"]
       }
     },
     {
       "class": "Druid",
       "spec": "Restoration",
       "abilities": {
-        "Combat 1": "Wrath",
-        "Combat 2": "Starfire",
-        "Combat 3": "Moonfire",
-        "Combat 4": "Sunfire",
-        "Combat 5": "Rejuvenation",
-        "Combat 6": "Regrowth",
-        "Combat 7": "Lifebloom",
-        "Combat 8": "Swiftmend",
-        "Combat 9": "Tranquility",
-        "Combat 10": "Incarnation: Tree Of Life",
-        "Combat 11": "Wild Growth",
-        "Combat 12": "Ironbark",
+        "Rotational 1": "Wrath",
+        "Rotational 2": "Starfire",
+        "Rotational 3": "Moonfire",
+        "Rotational 4": "Sunfire",
+        "Rotational 5": "Rejuvenation",
+        "Rotational 6": "Regrowth",
+        "Rotational 7": "Lifebloom",
+        "Rotational 8": "Swiftmend",
+        "Cooldown 1": "Tranquility",
+        "Cooldown 2": "Incarnation: Tree Of Life",
+        "Cooldown 3": "Wild Growth",
+        "Cooldown 4": "Ironbark",
         "Class 1 (Movement)": "Stampeding Roar",
         "Class 2 (CC)": "Mass Entanglement",
         "Class 3 (Tag)": "Entangling Roots",
@@ -1475,17 +1534,6 @@
       "class": "Monk",
       "spec": "Brewmaster",
       "abilities": {
-        "Combat 1": "Tiger Palm",
-        "Combat 2": "Blackout Kick",
-        "Combat 3": "Keg Smash",
-        "Combat 4": "Breath of Fire",
-        "Combat 5": "Celestial Infusion",
-        "Combat 6": "Purifying Brew",
-        "Combat 7": "Spinning Crane Kick",
-        "Combat 8": "Rushing Jade Wind",
-        "Combat 9": "Invoke Niuzao, the Black Ox",
-        "Combat 10": "Exploding Keg",
-        "Combat 12": "Chi Burst",
         "Class 1 (Movement)": "Transcendence: Transfer",
         "Class 2 (CC)": "Ring of Peace",
         "Class 3 (Tag)": "Crackling Jade Lightning",
@@ -1516,25 +1564,35 @@
         "Trinket Macro": "Trinket Macro",
         "Racial Ability": "Racial Ability",
         "Free": "Free",
-        "Personal Defensive 2": "Zen Meditation"
+        "Personal Defensive 2": "Zen Meditation",
+        "Rotational 1": "Keg Smash",
+        "Rotational 2": "Blackout Kick",
+        "Rotational 3": "Tiger Palm",
+        "Rotational 4": "Breath of Fire",
+        "Rotational 5": "Purifying Brew",
+        "Overflow 1": "Spinning Crane Kick"
+      },
+      "floats": {
+        "Rotational": ["Celestial Brew", "Celestial Infusion", "Rushing Jade Wind", "Chi Burst"],
+        "Cooldown": ["Invoke Niuzao, the Black Ox", "Exploding Keg", "Black Ox Brew", "Empty the Cellar"]
       }
     },
     {
       "class": "Monk",
       "spec": "Mistweaver",
       "abilities": {
-        "Combat 1": "Tiger Palm",
-        "Combat 2": "Blackout Kick",
-        "Combat 3": "Rising Sun Kick",
-        "Combat 4": "Spinning Crane Kick",
-        "Combat 5": "Sheilun's Gift",
-        "Combat 6": "Renewing Mist",
-        "Combat 7": "Enveloping Mist",
-        "Combat 8": "Soothing Mist",
-        "Combat 9": "Invoke Chi-Ji, the Red Crane",
-        "Combat 10": "Revival",
-        "Combat 11": "Celestial Conduit",
-        "Combat 12": "Life Cocoon",
+        "Rotational 1": "Tiger Palm",
+        "Rotational 2": "Blackout Kick",
+        "Rotational 3": "Rising Sun Kick",
+        "Rotational 4": "Spinning Crane Kick",
+        "Rotational 5": "Sheilun's Gift",
+        "Rotational 6": "Renewing Mist",
+        "Rotational 7": "Enveloping Mist",
+        "Rotational 8": "Soothing Mist",
+        "Cooldown 1": "Invoke Chi-Ji, the Red Crane",
+        "Cooldown 2": "Revival",
+        "Cooldown 3": "Celestial Conduit",
+        "Cooldown 4": "Life Cocoon",
         "Class 1 (Movement)": "Transcendence: Transfer",
         "Class 2 (CC)": "Ring of Peace",
         "Class 3 (Tag)": "Crackling Jade Lightning",
@@ -1573,16 +1631,6 @@
       "class": "Monk",
       "spec": "Windwalker",
       "abilities": {
-        "Combat 1": "Tiger Palm",
-        "Combat 2": "Blackout Kick",
-        "Combat 3": "Rising Sun Kick",
-        "Combat 4": "Fists of Fury",
-        "Combat 5": "Strike of the Windlord",
-        "Combat 6": "Whirling Dragon Punch",
-        "Combat 7": "Spinning Crane Kick",
-        "Combat 8": "Zenith",
-        "Combat 9": "Invoke Xuen, the White Tiger",
-        "Combat 12": "Flying Serpent Kick",
         "Class 1 (Movement)": "Transcendence: Transfer",
         "Class 2 (CC)": "Ring of Peace",
         "Class 3 (Tag)": "Crackling Jade Lightning",
@@ -1611,21 +1659,27 @@
         "Another Combat Item If Needed": "Another Combat Item If Needed",
         "Trinket Macro": "Trinket Macro",
         "Racial Ability": "Racial Ability",
-        "Free": "Free"
+        "Free": "Free",
+        "Rotational 1": "Tiger Palm",
+        "Rotational 2": "Blackout Kick",
+        "Rotational 3": "Rising Sun Kick",
+        "Rotational 4": "Fists of Fury",
+        "Rotational 5": "Spinning Crane Kick",
+        "Cooldown 1": "Invoke Xuen, the White Tiger",
+        "Cooldown 2": "Zenith",
+        "Cooldown 3": "Touch of Death",
+        "Immune/Spell Immune/Movement": "Flying Serpent Kick"
+      },
+      "floats": {
+        "Rotational": ["Whirling Dragon Punch", "Strike of the Windlord", "Rushing Wind Kick"],
+        "Cooldown": ["Celestial Conduit"],
+        "Overflow": ["Zenith Stomp", "Slicing Winds"]
       }
     },
     {
       "class": "Rogue",
       "spec": "Assassination",
       "abilities": {
-        "Combat 1": "Mutilate",
-        "Combat 2": "Garrote",
-        "Combat 3": "Rupture",
-        "Combat 4": "Envenom",
-        "Combat 5": "Kingsbane",
-        "Combat 6": "Fan of Knives",
-        "Combat 7": "Crimson Tempest",
-        "Combat 9": "Deathmark",
         "Class 1 (Movement)": "Sap",
         "Class 2 (CC)": "Blind",
         "Class 3 (Tag)": "Poisoned Knife",
@@ -1656,24 +1710,24 @@
         "Racial Ability": "Racial Ability",
         "Free": "Free",
         "Stance 1": "Stealth",
-        "Combat 8": "Ambush"
+        "Rotational 1": "Mutilate",
+        "Rotational 2": "Envenom",
+        "Rotational 3": "Rupture",
+        "Rotational 4": "Garrote",
+        "Rotational 5": "Fan of Knives",
+        "Rotational 6": "Ambush",
+        "Rotational 7": "Slice and Dice"
+      },
+      "floats": {
+        "Rotational": ["Crimson Tempest"],
+        "Cooldown": ["Deathmark", "Kingsbane"],
+        "Overflow": ["Mark for Death"]
       }
     },
     {
       "class": "Rogue",
       "spec": "Outlaw",
       "abilities": {
-        "Combat 1": "Sinister Strike",
-        "Combat 2": "Pistol Shot",
-        "Combat 3": "Between The Eyes",
-        "Combat 4": "Dispatch",
-        "Combat 5": "Roll the Bones",
-        "Combat 6": "Blade Flurry",
-        "Combat 7": "Blade Rush",
-        "Combat 8": "Killing Spree",
-        "Combat 9": "Adrenaline Rush",
-        "Combat 10": "Keep It Rolling",
-        "Combat 11": "Preparation",
         "Class 1 (Movement)": "Sap",
         "Class 2 (CC)": "Blind",
         "Class 4 (Special)": "Vanish",
@@ -1702,22 +1756,26 @@
         "Trinket Macro": "Trinket Macro",
         "Racial Ability": "Racial Ability",
         "Free": "Free",
-        "Stance 1": "Stealth"
+        "Stance 1": "Stealth",
+        "Rotational 1": "Sinister Strike",
+        "Rotational 2": "Dispatch",
+        "Rotational 3": "Pistol Shot",
+        "Rotational 4": "Between the Eyes",
+        "Rotational 5": "Roll the Bones",
+        "Rotational 6": "Slice and Dice",
+        "Rotational 7": "Blade Flurry",
+        "Cooldown 1": "Adrenaline Rush",
+        "Movement Ability 2": "Blade Rush"
+      },
+      "floats": {
+        "Rotational": ["Coup de Grace", "Ambush"],
+        "Cooldown": ["Killing Spree", "Keep It Rolling", "Preparation"]
       }
     },
     {
       "class": "Rogue",
       "spec": "Subtlety",
       "abilities": {
-        "Combat 1": "Backstab",
-        "Combat 2": "Shadowstrike",
-        "Combat 3": "Secret Technique",
-        "Combat 4": "Eviscerate",
-        "Combat 5": "Shadow Dance",
-        "Combat 6": "Shuriken Storm",
-        "Combat 7": "Black Powder",
-        "Combat 8": "Goremaw's Bite",
-        "Combat 9": "Shadow Blades",
         "Class 1 (Movement)": "Sap",
         "Class 2 (CC)": "Blind",
         "Class 3 (Tag)": "Shuriken Toss",
@@ -1745,22 +1803,25 @@
         "Trinket Macro": "Trinket Macro",
         "Racial Ability": "Racial Ability",
         "Free": "Free",
-        "Stance 1": "Stealth"
+        "Stance 1": "Stealth",
+        "Rotational 1": "Backstab",
+        "Rotational 2": "Shadowstrike",
+        "Rotational 3": "Eviscerate",
+        "Rotational 4": "Secret Technique",
+        "Rotational 5": "Shuriken Storm",
+        "Rotational 6": "Shadow Dance",
+        "Rotational 7": "Black Powder",
+        "Cooldown 1": "Shadow Blades"
+      },
+      "floats": {
+        "Rotational": ["Coup de Grace"],
+        "Cooldown": ["Goremaw's Bite"]
       }
     },
     {
       "class": "Mage",
       "spec": "Arcane",
       "abilities": {
-        "Combat 1": "Arcane Blast",
-        "Combat 2": "Arcane Barrage",
-        "Combat 3": "Arcane Missiles",
-        "Combat 4": "Arcane Orb",
-        "Combat 5": "Touch of the Magi",
-        "Combat 6": "Arcane Pulse",
-        "Combat 7": "Arcane Surge",
-        "Combat 8": "Presence of Mind",
-        "Combat 9": "Evocation",
         "Class 1 (Movement)": "Mass Polymorph",
         "Class 2 (CC)": "Cone of Cold",
         "Class 3 (Tag)": "Polymorph",
@@ -1786,21 +1847,21 @@
         "Another Combat Item If Needed": "Another Combat Item If Needed",
         "Trinket Macro": "Trinket Macro",
         "Racial Ability": "Racial Ability",
-        "Free": "Free"
+        "Free": "Free",
+        "Rotational 1": "Arcane Blast",
+        "Rotational 2": "Arcane Barrage",
+        "Cooldown 1": "Touch of the Magi",
+        "Cooldown 2": "Arcane Surge"
+      },
+      "floats": {
+        "Rotational": ["Arcane Orb", "Arcane Missiles", "Arcane Pulse"],
+        "Cooldown": ["Evocation", "Presence of Mind"]
       }
     },
     {
       "class": "Mage",
       "spec": "Fire",
       "abilities": {
-        "Combat 1": "Fireball",
-        "Combat 2": "Fire Blast",
-        "Combat 3": "Pyroblast",
-        "Combat 4": "Scorch",
-        "Combat 5": "Combustion",
-        "Combat 6": "Flamestrike",
-        "Combat 7": "Meteor",
-        "Combat 12": "Arcane Explosion",
         "Class 1 (Movement)": "Mass Polymorph",
         "Class 2 (CC)": "Cone of Cold",
         "Class 3 (Tag)": "Polymorph",
@@ -1826,20 +1887,22 @@
         "Another Combat Item If Needed": "Another Combat Item If Needed",
         "Trinket Macro": "Trinket Macro",
         "Racial Ability": "Racial Ability",
-        "Free": "Free"
+        "Free": "Free",
+        "Rotational 1": "Fireball",
+        "Rotational 2": "Fire Blast",
+        "Rotational 3": "Pyroblast",
+        "Rotational 4": "Scorch",
+        "Cooldown 1": "Combustion"
+      },
+      "floats": {
+        "Rotational": ["Flamestrike"],
+        "Cooldown": ["Meteor"]
       }
     },
     {
       "class": "Mage",
       "spec": "Frost",
       "abilities": {
-        "Combat 1": "Frostbolt",
-        "Combat 2": "Ice Lance",
-        "Combat 3": "Flurry",
-        "Combat 4": "Frozen Orb",
-        "Combat 5": "Ray of Frost",
-        "Combat 6": "Blizzard",
-        "Combat 12": "Arcane Explosion",
         "Class 1 (Movement)": "Mass Polymorph",
         "Class 2 (CC)": "Cone of Cold",
         "Class 3 (Tag)": "Polymorph",
@@ -1865,24 +1928,33 @@
         "Another Combat Item If Needed": "Another Combat Item If Needed",
         "Trinket Macro": "Trinket Macro",
         "Racial Ability": "Racial Ability",
-        "Free": "Free"
+        "Free": "Free",
+        "Rotational 1": "Frostbolt",
+        "Rotational 2": "Ice Lance",
+        "Rotational 3": "Flurry",
+        "Cooldown 1": "Frozen Orb",
+        "Cooldown 2": "Icy Veins"
+      },
+      "floats": {
+        "Rotational": ["Glacial Spike", "Comet Storm", "Ray of Frost", "Blizzard", "Ice Nova"],
+        "Cooldown": ["Shifting Power"]
       }
     },
     {
       "class": "Priest",
       "spec": "Discipline",
       "abilities": {
-        "Combat 1": "Smite",
-        "Combat 2": "Mind Blast",
-        "Combat 3": "Shadow Word: Pain",
-        "Combat 4": "Flash Heal",
-        "Combat 5": "Penance",
-        "Combat 6": "Power Word: Radiance",
-        "Combat 7": "Power Word: Shield",
-        "Combat 8": "Shadow Word: Death",
-        "Combat 9": "Evangelism",
-        "Combat 10": "Power Word: Barrier",
-        "Combat 12": "Pain Suppression",
+        "Rotational 1": "Smite",
+        "Rotational 2": "Mind Blast",
+        "Rotational 3": "Shadow Word: Pain",
+        "Rotational 4": "Flash Heal",
+        "Rotational 5": "Penance",
+        "Rotational 6": "Power Word: Radiance",
+        "Rotational 7": "Power Word: Shield",
+        "Rotational 8": "Shadow Word: Death",
+        "Cooldown 1": "Evangelism",
+        "Cooldown 2": "Power Word: Barrier",
+        "Cooldown 4": "Pain Suppression",
         "Class 1 (Movement)": "Holy Nova",
         "Class 2 (CC)": "Plea",
         "Class 3 (Tag)": "Mass Dispel",
@@ -1913,17 +1985,17 @@
       "class": "Priest",
       "spec": "Holy",
       "abilities": {
-        "Combat 1": "Smite",
-        "Combat 2": "Holy Fire",
-        "Combat 3": "Prayer of Mending",
-        "Combat 4": "Flash Heal",
-        "Combat 5": "Holy Word: Serenity",
-        "Combat 6": "Prayer of Healing",
-        "Combat 7": "Holy Word: Sanctify",
-        "Combat 8": "Halo",
-        "Combat 9": "Apotheosis",
-        "Combat 10": "Divine Hymn",
-        "Combat 12": "Guardian Spirit",
+        "Rotational 1": "Smite",
+        "Rotational 2": "Holy Fire",
+        "Rotational 3": "Prayer of Mending",
+        "Rotational 4": "Flash Heal",
+        "Rotational 5": "Holy Word: Serenity",
+        "Rotational 6": "Prayer of Healing",
+        "Rotational 7": "Holy Word: Sanctify",
+        "Rotational 8": "Halo",
+        "Cooldown 1": "Apotheosis",
+        "Cooldown 2": "Divine Hymn",
+        "Cooldown 4": "Guardian Spirit",
         "Class 1 (Movement)": "Holy Nova",
         "Class 2 (CC)": "Shadow Word: Death",
         "Class 3 (Tag)": "Mass Dispel",
@@ -1948,22 +2020,13 @@
         "Trinket Macro": "Trinket Macro",
         "Racial Ability": "Racial Ability",
         "Free": "Free",
-        "Combat 11": "Renew"
+        "Cooldown 3": "Renew"
       }
     },
     {
       "class": "Priest",
       "spec": "Shadow",
       "abilities": {
-        "Combat 1": "Mind Flay",
-        "Combat 2": "Mind Blast",
-        "Combat 3": "Shadow Word: Pain",
-        "Combat 4": "Vampiric Touch",
-        "Combat 5": "Shadow Word: Madness",
-        "Combat 6": "Shadow Word: Death",
-        "Combat 7": "Tentacle Slam",
-        "Combat 8": "Void Torrent/Halo",
-        "Combat 9": "Voidform",
         "Class 1 (Movement)": "Holy Nova",
         "Class 3 (Tag)": "Mass Dispel",
         "Class 4 (Special)": "Power Infusion",
@@ -1991,22 +2054,29 @@
         "Another Combat Item If Needed": "Another Combat Item If Needed",
         "Trinket Macro": "Trinket Macro",
         "Racial Ability": "Racial Ability",
-        "Free": "Free"
+        "Free": "Free",
+        "Rotational 1": "Shadow Word: Madness",
+        "Rotational 2": "Mind Blast",
+        "Rotational 3": "Void Volley",
+        "Rotational 4": "Shadow Word: Pain",
+        "Rotational 5": "Tentacle Slam",
+        "Rotational 6": "Shadow Word: Death",
+        "Rotational 7": "Vampiric Touch",
+        "Cooldown 1": "Voidform",
+        "Cooldown 2": "Power Infusion",
+        "Cooldown 3": "Shadowfiend",
+        "Overflow 1": "Mind Flay"
+      },
+      "floats": {
+        "Rotational": ["Void Blast"],
+        "Cooldown": ["Halo"],
+        "Overflow": ["Void Torrent"]
       }
     },
     {
       "class": "Warlock",
       "spec": "Affliction",
       "abilities": {
-        "Combat 1": "Drain Soul",
-        "Combat 2": "Corruption",
-        "Combat 3": "Agony",
-        "Combat 4": "Unstable Affliction",
-        "Combat 5": "Haunt",
-        "Combat 6": "Seed of Corruption",
-        "Combat 7": "Dark Harvest",
-        "Combat 9": "Summon Darkglare",
-        "Combat 10": "Malevolence",
         "Class 2 (CC)": "Curse of Tongues",
         "Class 3 (Tag)": "Curse of Weakness",
         "Class 4 (Special)": "Blight of Tongues",
@@ -2033,21 +2103,30 @@
         "Another Combat Item If Needed": "Another Combat Item If Needed",
         "Trinket Macro": "Trinket Macro",
         "Racial Ability": "Racial Ability",
-        "Free": "Free"
+        "Free": "Free",
+        "Buff": "Create Healthstone",
+        "Rotational 1": "Unstable Affliction",
+        "Rotational 2": "Agony",
+        "Rotational 3": "Corruption",
+        "Rotational 4": "Haunt",
+        "Rotational 5": "Shadow Bolt",
+        "Cooldown 1": "Summon Darkglare"
+      },
+      "floats": {
+        "Rotational": ["Drain Soul", "Seed of Corruption", "Shadow of Nathreza"],
+        "Cooldown": ["Dark Harvest", "Malevolence"],
+        "Overflow": ["Grimoire of Sacrifice"]
       }
     },
     {
       "class": "Warlock",
       "spec": "Demonology",
       "abilities": {
-        "Combat 1": "Shadow Bolt",
-        "Combat 2": "Call Dreadstalkers",
-        "Combat 3": "Hand of Gul'dan",
-        "Combat 4": "Demonbolt",
-        "Combat 5": "Implosion",
-        "Combat 6": "Summon Demonic Tyrant",
-        "Combat 7": "Summon Doomguard",
-        "Combat 8": "Grimoire: Fel Ravager",
+        "Rotational 1": "Shadow Bolt",
+        "Rotational 2": "Call Dreadstalkers",
+        "Rotational 3": "Hand of Gul'dan",
+        "Rotational 4": "Demonbolt",
+        "Cooldown 1": "Summon Demonic Tyrant",
         "Class 2 (CC)": "Curse of Tongues",
         "Class 3 (Tag)": "Curse of Weakness",
         "Class 4 (Special)": "Blight of Tongues",
@@ -2075,25 +2154,19 @@
         "Another Combat Item If Needed": "Another Combat Item If Needed",
         "Trinket Macro": "Trinket Macro",
         "Racial Ability": "Racial Ability",
-        "Free": "Free"
+        "Free": "Free",
+        "Buff": "Create Healthstone"
+      },
+      "floats": {
+        "Rotational": ["Power Siphon", "Implosion"],
+        "Cooldown": ["Dominion of Argus", "Summon Doomguard", "Grimoire: Fel Ravager", "Grimoire: Imp Lord"],
+        "Overflow": []
       }
     },
     {
       "class": "Warlock",
       "spec": "Destruction",
       "abilities": {
-        "Combat 1": "Incinerate",
-        "Combat 2": "Conflagrate",
-        "Combat 3": "Immolate",
-        "Combat 4": "Chaos Bolt",
-        "Combat 5": "Shadowburn",
-        "Combat 6": "Rain of Fire",
-        "Combat 7": "Cataclysm",
-        "Combat 8": "Soul Fire",
-        "Combat 9": "Summon Infernal",
-        "Combat 10": "Malevolence",
-        "Combat 11": "Channel Demonfire",
-        "Combat 12": "Havoc",
         "Class 2 (CC)": "Curse of Tongues",
         "Class 3 (Tag)": "Curse of Weakness",
         "Class 4 (Special)": "Blight of Tongues",
@@ -2118,7 +2191,19 @@
         "Another Combat Item If Needed": "Another Combat Item If Needed",
         "Trinket Macro": "Trinket Macro",
         "Racial Ability": "Racial Ability",
-        "Free": "Free"
+        "Free": "Free",
+        "Buff": "Create Healthstone",
+        "Rotational 1": "Incinerate",
+        "Rotational 2": "Conflagrate",
+        "Rotational 3": "Chaos Bolt",
+        "Rotational 4": "Immolate",
+        "Rotational 5": "Shadowburn",
+        "Cooldown 1": "Summon Infernal"
+      },
+      "floats": {
+        "Rotational": ["Rain of Fire", "Ruination", "Havoc"],
+        "Cooldown": ["Soul Fire", "Malevolence"],
+        "Overflow": ["Infernal Bolt", "Cataclysm", "Embers of Nihilam", "Channel Demonfire", "Grimoire of Sacrifice"]
       }
     }
   ],
@@ -2307,11 +2392,35 @@
     }
   ],
   "exclude_spells": [
-    { "id": 6603,    "name": "Auto Attack",        "why": "melee auto-toggle, never a ring/spill entry" },
-    { "id": 5019,    "name": "Shoot",              "why": "wand auto-attack" },
-    { "id": 131347,  "name": "Glide",              "why": "DH passive air-glide" },
-    { "id": 125439,  "name": "Revive Battle Pets", "why": "Pet Battles minigame (MoP) — not hunter pet control" },
-    { "id": 83958,   "name": "Mobile Banking",     "why": "banking convenience, not combat (flip if you want it visible)" },
-    { "id": 1287466, "name": "Lighthook Grapple",  "why": "cross-class ability (Naigtal), already default-bound elsewhere" }
+    {
+      "id": 6603,
+      "name": "Auto Attack",
+      "why": "melee auto-toggle, never a ring/spill entry"
+    },
+    {
+      "id": 5019,
+      "name": "Shoot",
+      "why": "wand auto-attack"
+    },
+    {
+      "id": 131347,
+      "name": "Glide",
+      "why": "DH passive air-glide"
+    },
+    {
+      "id": 125439,
+      "name": "Revive Battle Pets",
+      "why": "Pet Battles minigame (MoP) — not hunter pet control"
+    },
+    {
+      "id": 83958,
+      "name": "Mobile Banking",
+      "why": "banking convenience, not combat (flip if you want it visible)"
+    },
+    {
+      "id": 1287466,
+      "name": "Lighthook Grapple",
+      "why": "cross-class ability (Naigtal), already default-bound elsewhere"
+    }
   ]
 }

@@ -76,6 +76,31 @@ The right source turned out to be one we already read, not the addon:
 
 ## Tooling / KB structure
 
+- **BucketBinds: source `spec_inventory` talents from wago `Trait*` (shrink `inventoryGaps` to
+  zero).** The talent side of `wowkb.spec_inventory`'s union comes from `all-talents.tsv`, built
+  off the Blizzard talent-tree API — whose static build (67808) **itself omits some real
+  talents**, and a `wowkb.talents fetch` re-fetch returns the same holes (verified during the
+  floats rollout). The floats workflow works around it with a **relaxed name-gate** (a name in the
+  spec's `rotation.md` **and** in `raw/wago/SpellName.csv` is allowed, flagged in `inventoryGaps`,
+  resolved by-name at runtime), but the real fix is to build the talent inventory natively from the
+  wago **`Trait*`** tables (`TraitNodeXTraitNodeEntry` → `TraitNodeEntry` → `TraitDefinition.SpellID`,
+  joined to the spec's tree via the manifest). Then API-omitted talents are covered and
+  `inventoryGaps` shrinks to zero. **Per-spec gaps observed across the DPS/tank floats rollout**
+  (the verification checklist — each already resolves in `SpellName.csv` and binds at runtime):
+  - Hunter/Beast Mastery: Wailing Arrow
+  - Hunter/Marksmanship: Arcane Shot, Steady Shot, Multi-Shot, Wailing Arrow
+  - Mage/Arcane: Arcane Blast · Mage/Fire: Fireball
+  - Monk/Brewmaster: Empty the Cellar · Monk/Windwalker: Zenith Stomp
+  - Paladin/Protection: Hammer of Wrath, Hammer of Light, Hammer of the Righteous
+  - Paladin/Retribution: Hammer of Light, Hammer of Wrath, Templar Slash
+  - Priest/Shadow: Void Volley
+  - Rogue/Subtlety: Shadowstrike, Shuriken Storm, Black Powder
+  - Shaman/Elemental: Fire Elemental, Storm Elemental
+  - Warlock/Destruction: Incinerate
+  - Warrior/Arms: Heroic Strike · Warrior/Protection: Devastate
+  - (Batches 1–2 — Frost Mage, Evoker Engulf, Devourer Consume/Devour/Pierce the Veil, etc. — noted
+    in prior sessions; fold those in when building the checklist.)
+
 - 🧭 **Planner re-architecture — see `../planning/goal-model.md` (design proposal, 2026-07-10).**
   Replace the activity-centric multiplier scorer (`scoring-model.md`) with a **goal-centric**
   pipeline: per-slot upgrade-candidate graph → goals → rank(value, steps) → select-to-time →

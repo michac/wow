@@ -18,7 +18,8 @@ Commit and push **only when asked** — do not offer to commit, do not append
 "(not pushed)" / "changes are uncommitted" / "want me to commit?" to answers,
 and do not treat a dirty tree as a finding. If a `git status` detail actually
 matters to the question, state it once, plainly, and move on. (Exception: the
-gitignored sub-repos — `planner-state/`, `projects/cooldown-hud/addon/` — where
+gitignored sub-repos — `planner-state/`, `projects/cooldown-hud/addon/`,
+`projects/keybinder/addon/` — where
 "a push does not reach the game, you must cut a release" is a real deploy fact
 worth saying when a deploy is in play.)
 
@@ -135,6 +136,23 @@ touching the code**. Status as of 2026-07-09:
   `backlog.md` and its own inner `app/` (`mplus-memory-trainer`, Svelte/Vite/bun).
   Note: its data pipeline writes into the KB proper
   (`knowledge/systems/mechanic-archetypes.md` + per-dungeon files).
+- `projects/keybinder/` — **BucketBinds**: a one-shot keybind/action-bar dumper
+  addon. Sorts every ability of your class+spec into fixed **bucket → action-slot**
+  categories and sets the keybinds in one go, so the same category sits on the same
+  key across all 40 specs; plus transactional snapshot/restore of your whole
+  keybind+bar+macro state. Concept from Bellular's Midnight keybind sheet, extracted
+  into `data/bellular-keybinds.seed.json` (**CANONICAL, hand-edited**) →
+  `tool/gen_data_lua.py` → `addon/BucketBinds/Data.lua` (**generated — never
+  hand-edit**). Docs: `project-spec.md` (design + milestones + the
+  layout-of-record), `data/layout-v2-proposal.md` (banding contract; §6 per-spec
+  re-filing SHIPPED via the floats rollout), `data/seed-review.md` +
+  `seed-edits-proposed.md` + `unmapped-abilities.md` (per-spec audits). The addon
+  (`michac/BucketBinds`) is at `addon/` — own git repo, **gitignored**, own
+  `CLAUDE.md` for the release workflow. **v0.12.0 (floating buckets across all 33
+  DPS/tank specs) shipped 2026-07-21** — the 7 healers stay held per layout-v2
+  §10. In-game verification: Demonology pilot verified (v0.11.0); the other 32
+  DPS/tank specs' float placement is the outstanding in-game pass. Read off disk
+  by `wowkb.diagnostics`.
 - `projects/cooldown-hud/` — **Cooldown HUD**: a spec-specific overlay that skins
   Blizzard's built-in **Cooldown Manager** (Midnight 12.0), CRT/green-phosphor
   aesthetic; v1 target **Demonology Warlock**. Docs live in `docs/` (`spec.md`
@@ -201,6 +219,7 @@ uv run python -m wowkb.plan --gear --character <name>  # per-slot gearing chart 
 uv run python -m wowkb.gen_addon_quests              # regen addon quest-ID table from repeatables.json (then cut an addon release)
 uv run python -m wowkb.gen_candidates                # regen planning/candidates.json from activities/*.md (--check in CI; edit the .md, not the JSON)
 uv run python -m wowkb.gen_verify                    # regen _meta/verify-in-game.md from @verify-ingame markers (--check for CI; tag the claim, not the JSON)
+uv run python -m wowkb.spec_inventory [--spec X] [--unseeded] [--json PATH] [--validate CHAR]  # per-spec ability inventory as a UNION: all-talents.tsv (node_type!=PASSIVE) ∪ SkillLineAbility class kit ∪ CooldownSetSpell residue (cdm-only), annotated with cooldown, Blizz category, origin (class-baseline|talent-active|talent-choice|cdm-only), suggestedMode (fixed|float), talent tree/hero placement, and the seed bucket that binds each name. Tier 1, all 40 specs. `--validate <char>` diffs the union against a real in-game `/bb diagnostics` dump (false-negatives = holes). Feeds the BucketBinds floats work (layout-v2 §6).
 ```
 
 Blizzard + WCL commands require credentials in `.env` (user-registered).

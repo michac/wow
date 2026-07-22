@@ -1,0 +1,561 @@
+[
+  {
+    "class": "Hunter",
+    "spec": "Beast Mastery",
+    "fixedCore": [
+      {
+        "bucket": "Rotational 1",
+        "ability": "Kill Command"
+      },
+      {
+        "bucket": "Rotational 2",
+        "ability": "Barbed Shot"
+      },
+      {
+        "bucket": "Rotational 3",
+        "ability": "Cobra Shot"
+      },
+      {
+        "bucket": "Rotational 4",
+        "ability": "Bestial Wrath"
+      }
+    ],
+    "floats": {
+      "Rotational": [
+        "Wild Thrash",
+        "Nature's Ally",
+        "Black Arrow",
+        "Wailing Arrow"
+      ],
+      "Cooldown": [],
+      "Overflow": []
+    },
+    "outsideBandChanges": [
+      {
+        "bucket": "Class 3 (Tag)",
+        "ability": "Hunter's Mark",
+        "why": "Evicted from the floating Cooldown 1 slot (BM's Cooldown band is genuinely empty of offensive CDs >=45s). \u00a76 files Hunter's Mark to Class 3 (Tag) across all three hunter specs for a consistent cross-spec key; once-per-pull target debuff, good shift-layer utility fit."
+      },
+      {
+        "bucket": "Class 4 (Special)",
+        "ability": "Misdirection",
+        "why": "Displaced from Class 3 (Tag) by Hunter's Mark. Misdirection (spell 34477, in-inventory) is a combat-pressed threat tool, kept on a reachable shift-layer key in the catch-all Special slot rather than dropped."
+      },
+      {
+        "bucket": "Buff",
+        "ability": "Call Pet 1",
+        "why": "Displaced from Class 4 (Special) by Misdirection. Call Pet 1 (spell 883) is a once-per-session pre-combat summon, a natural fit for the Buff prep band (a free non-floating slot in BM). Keeps pet-summon bound."
+      }
+    ],
+    "inventoryGaps": [
+      "Wailing Arrow"
+    ],
+    "verdict": "clean",
+    "droppedOrFixed": 0,
+    "confidence": "medium",
+    "notes": "Cooldown band is intentionally empty (fixedCore + floats both none). Confirmed via \u00a76 + \u00a75: Midnight made Bloodshed and Dire Beast passive, so BM has no offensive cooldown >=45s. Bestial Wrath is the only \"big\" button and it's an effective-~30s press lined up on CD, so it lives in Rotational (Rot 4), per the \u00a72 band contract which names Bestial Wrath as its canonical \"30s button = Rotational\" example. NOTE the inventory lists Bestial Wrath cd=90.0, but rotation.md (\"Bestial Wrath every 30s on cooldown\") and \u00a72 both treat it as ~30s effective (Barbed Shot / Scent of Blood CDR) \u2014 Rotational is correct despite the raw 90s base. The empty Cooldown band should carry trinket/racial/potion/defensive macros on SHIFT-QERF (macro layer, not ability placement \u2014 out of scope here).\n\nfixedCore Rotational order follows \u00a76 (Kill Command, Barbed Shot, Cobra Shot, Bestial Wrath) \u2014 the four non-negotiable core buttons present in every BM build regardless of hero tree. All four are origin=talent-active but are mandatory-core, not choice nodes. Caveat: Kill Command vs Cobra Shot for Rot 1 is close \u2014 Cobra Shot is technically the leftover-GCD filler (highest raw press count in a focus-neutral loop) while Kill Command is the higher-priority on-CD payoff. \u00a76 puts Kill Command first and I kept that; the seed had Cobra Shot at Rot 1.\n\nRotational floats (Rot 5-8) are all build-conditional and correctly list both sides of the hero-tree split: Wild Thrash (a spec talent, near-universal in both trees \u2014 floated rather than fixedCore because it is a talent, not baseline, and the float mechanism drops it cleanly if untalented); Nature's Ally (general talent proc, referenced in both st and drst lists \u2014 meta Pack Leader prioritizes it); Black Arrow + Wailing Arrow (Dark Ranger hero tree ONLY \u2014 Pack Leader builds have neither). Pack Leader is the S1 default (rotation.md), so ordering is meta-first: Wild Thrash > Nature's Ally > Black Arrow > Wailing Arrow. On a Pack Leader dump, Wild Thrash + Nature's Ally resolve; on Dark Ranger, Wild Thrash + Black Arrow + Wailing Arrow resolve \u2014 total always <=8.\n\nWailing Arrow is the one inventoryGap: rotation.md relies on it as a real Dark Ranger pressed button (drst step 5, drcleave) but it is absent from the Tier-1 inventory. Verified it resolves in raw/wago/SpellName.csv (205421/205425/278019 \"Wailing Arrow\"), so the addon binds it by name at runtime and drops it when untalented.\n\nTwo minor uncertainties: (1) Nature's Ally is referenced in rotation.md as a *buff* (buff.natures_ally.react) \u2014 it may be a proc/passive rather than a directly-pressed button; the inventory nonetheless lists it as an active band=Rotational ability and the seed bound it (Rotational 7), so I kept it as a low-priority Rotational float (harmless if it doesn't bind). (2) Beast Cleave is NOT bound \u2014 it's the pet-cleave buff applied by Wild Thrash, not a pressed button (cdm-only residue).\n\nThe Hunter's Mark eviction forces a 3-step cascade through non-floating buckets (Hunter's Mark -> Class 3 Tag -> Misdirection -> Class 4 Special -> Call Pet 1 -> Buff). This is a direct consequence of \u00a76's cross-hunter convention colliding with the seed's occupancy (Misdirection was already in Class 3 Tag); the cascade keeps all three abilities bound rather than silently clobbering Misdirection/Call Pet. | Proposal verified against the inventory, \u00a72/\u00a76 of layout-v2-proposal.md, and BM rotation.md; no substantive repairs required. (1) NAMES: all fixedCore + floats + outsideBandChanges names resolve. Kill Command/Barbed Shot/Cobra Shot/Bestial Wrath/Wild Thrash/Nature's Ally/Black Arrow/Misdirection all verbatim in inventory. Wailing Arrow is the one real inventoryGap (SpellName.csv 205421/205425/278019, used in rotation.md drst step 5 + drcleave). Call Pet 1 = spell 883 (real baseline, existing seed name re-homed, not a talent-tree gap so correctly not listed in inventoryGaps). (2) FIXED: all four fixedCore are origin=talent-active mandatory-core BM buttons, none are talent-choice. Bestial Wrath sits in Rotational despite inventory band=Cooldown/cd=90 -- this is the documented \u00a72 exception (line 88-90 names Bestial Wrath verbatim as the '30s button pressed like a rotational') and \u00a76 line 383 places it at Rot F. (6) The empty Cooldown offensive band is confirmed (\u00a76 line 387: Midnight made Bloodshed/Dire Beast passive, BM has no offensive CD >=45s; SHIFT-QERF is for macros, out of scope). (3) No talent-choice pair belongs to the offensive Rotational float band -- the choice nodes in the inventory (Tar Trap/Scare Beast/Trailblazer/Moment of Opportunity/Shadow Dagger/Dark Chains) are utility/PvP seeded to non-floating buckets, so no missing sibling. (4) No duplication between fixedCore and floats. (5) Capacity fine: 4 fixed + <=4 resolvable floats = <=8 on both hero trees (Pack Leader resolves Wild Thrash+Nature's Ally; Dark Ranger resolves Wild Thrash+Black Arrow+Wailing Arrow+Nature's Ally); CD 0/4, Overflow 0/6. (7) Evictions all re-homed via the \u00a76 Hunter's Mark->Class3->Misdirection->Class4->Call Pet 1->Buff cascade; nothing silently unbound. Beast Cleave / Howl of the Pack Leader / Stampede! etc. correctly excluded as cdm-only proc/buff residue. Float order (Nature's Ally before Black Arrow) is a defensible meta-first choice given Pack Leader is the S1 default; \u00a76 lists Black Arrow first -- a nit, not a fix, left as-is."
+  },
+  {
+    "class": "Hunter",
+    "spec": "Marksmanship",
+    "fixedCore": [
+      {
+        "bucket": "Rotational 1",
+        "ability": "Aimed Shot"
+      },
+      {
+        "bucket": "Rotational 2",
+        "ability": "Arcane Shot"
+      },
+      {
+        "bucket": "Rotational 3",
+        "ability": "Rapid Fire"
+      },
+      {
+        "bucket": "Rotational 4",
+        "ability": "Steady Shot"
+      },
+      {
+        "bucket": "Rotational 5",
+        "ability": "Multi-Shot"
+      },
+      {
+        "bucket": "Rotational 6",
+        "ability": "Volley"
+      },
+      {
+        "bucket": "Cooldown 1",
+        "ability": "Trueshot"
+      }
+    ],
+    "floats": {
+      "Rotational": [
+        "Kill Shot",
+        "Moonlight Chakram",
+        "Black Arrow"
+      ],
+      "Cooldown": [],
+      "Overflow": [
+        "Explosive Shot",
+        "Wailing Arrow"
+      ]
+    },
+    "outsideBandChanges": [
+      {
+        "bucket": "Free",
+        "ability": "Hunter's Mark",
+        "why": "Evicted from the seed's Cooldown 1 (it is a pre-pull mark applied once, not a >=45s offensive cooldown). Class 3 (Tag) already holds Misdirection, a higher-frequency in-combat threat tool (30s CD) that earns the mapped key; Hunter's Mark, the lowest-press pre-pull button, takes the spare Free key. Nothing left unbound."
+      }
+    ],
+    "inventoryGaps": [
+      "Arcane Shot",
+      "Steady Shot",
+      "Multi-Shot",
+      "Wailing Arrow"
+    ],
+    "verdict": "clean",
+    "droppedOrFixed": 0,
+    "confidence": "high",
+    "notes": "Structure follows \u00a76 for the Rotational core (Aimed/Arcane/Rapid/Steady/Multi/Volley on Q E R F 1 2), with three deviations where the Tier-1 inventory + rotation.md override \u00a76:\n\n1. Explosive Shot: \u00a76 puts it in the Cooldown band (S-E). Inventory says cd=30, band=Rotational, and rotation.md presses it as a Shrapnel-Shot proc-spender in the AoE loop \u2014 a <45s frequently-pressed button, NOT a \u226545s cooldown. Reclassified out of Cooldown; it lands in Overflow because the two Rotational float slots (7,8) are consumed by the execute + Moonlight Chakram.\n\n2. Wailing Arrow: \u00a76 frames it as \"Trueshot becomes Wailing Arrow on Dark Ranger.\" That's wrong \u2014 rotation.md's Dark Ranger loop uses Trueshot AND Wailing Arrow together; Wailing Arrow is a rotational filler pressed while Black Arrow is on CD (feeds Deathblow), not a replacement for the Trueshot cooldown. Placed as an Overflow float (Dark Ranger only). Not in the printed inventory but named in rotation.md and resolves to spell 205421 \u2192 inventoryGap.\n\n3. Cooldown floating band is empty except Trueshot (fixedCore). Like BM Hunter, MM has no second \u226545s offensive cooldown \u2014 Volley (cd=45) is a maintenance button pressed on CD for Trick Shots/Double Tap and lives in the Rotational loop (fixedCore Rot 6, per \u00a76). S-E..S-F Cooldown keys are free for trinket/racial/potion macros.\n\nExecute pair (Kill Shot / Black Arrow) floats: exactly one resolves per hero tree \u2014 Kill Shot on the meta Sentinel build, Black Arrow on Dark Ranger. Moonlight Chakram (Sentinel signature, S1 default) ranks above Black Arrow because Sentinel is meta. In Sentinel, Rot 7=Kill Shot, Rot 8=Moonlight Chakram. In Dark Ranger, Rot 7=Black Arrow, and Wailing Arrow overflows.\n\nVolley kept in fixedCore (Rot 6) as a mandatory-every-build talent \u2014 it's the Double Tap enabler central to every rotation.md list for both hero trees. Mild risk if a fringe build drops it, but S1 MM universally runs it.\n\nSteady Shot / Arcane Shot / Multi-Shot are baseline MM buttons absent from the API talent-tree inventory (baseline spells, not talent nodes) \u2014 verified in SpellName.csv (56641 / 34829 / 2643) and all named in rotation.md \u2192 inventoryGaps. | Proposal validated against spec-inventory.json + rotation.md (12.0.7 simc MID1 APL) with no placement changes required.\n\nNAMES: all inventory names verbatim; four out-of-inventory names are SpellName.csv-verified rotation.md abilities -> inventoryGaps: Arcane Shot (34829), Steady Shot (56641), Multi-Shot (2643), Wailing Arrow (205421). Moonlight Chakram is IN the inventory (cdm-only, band=Rotational) and is a genuinely pressed Sentinel button (sentst #8/#10, sentaoe #7) - not a gap.\n\nFIXED CORE: Aimed Shot / Rapid Fire / Trueshot / Volley are talent-active but mandatory-every-build in S1 (Volley is the Double-Tap/Trick-Shots enabler in every ST and AoE list for both hero trees; layout-v2 \u00a76 treats it as core). Arcane/Steady/Multi are baseline spells. No talent-choice node placed in fixedCore.\n\nBANDS: Volley (cd=45, inventory band=Cooldown) -> Rotational 6 is the documented \u00a72/\u00a76 exception ('45s but pressed on CD for Trick Shots'). Explosive Shot (cd=30, band=Rotational) correctly kept out of the Cooldown band - \u00a76's S-E Cooldown placement is a band error by the 'frequency not power' rule. Because Sentinel fills Rotational to 8, Explosive Shot goes to Overflow so it stays bound on BOTH trees (used in Sentinel and Dark Ranger). Trueshot (120) -> Cooldown 1. Cooldown floats correctly empty - MM, like BM, has no second >=45s offensive cooldown.\n\nCHOICE PAIR: Kill Shot (Sentinel) and Black Arrow (Dark Ranger, replaces Kill Shot) both listed in Rotational floats; Moonlight Chakram is Sentinel-only. Exactly one execute + (Sentinel) Chakram resolves.\n\nCAPACITY: Sentinel = 6 fixed + Kill Shot + Moonlight Chakram = 8 Rot; Dark Ranger = 6 fixed + Black Arrow = 7 Rot. CD=1, Overflow<=2. No band exceeds its limit. No duplication.\n\nEVICTIONS: Hunter's Mark re-homed to Free (Misdirection retains Class 3); Wailing Arrow (Dark-Ranger-only) framed as a separate Overflow float, correctly NOT an override of Trueshot on S-Q - drst uses Trueshot (#3) and Wailing Arrow (#5) together, so \u00a76's 'Trueshot becomes Wailing Arrow' framing was wrong and the proposal's separation is right."
+  },
+  {
+    "class": "Hunter",
+    "spec": "Survival",
+    "fixedCore": [
+      {
+        "bucket": "Rotational 1",
+        "ability": "Kill Command"
+      },
+      {
+        "bucket": "Rotational 2",
+        "ability": "Raptor Strike"
+      },
+      {
+        "bucket": "Rotational 3",
+        "ability": "Wildfire Bomb"
+      },
+      {
+        "bucket": "Rotational 4",
+        "ability": "Flamefang Pitch"
+      },
+      {
+        "bucket": "Rotational 5",
+        "ability": "Boomstick"
+      },
+      {
+        "bucket": "Cooldown 1",
+        "ability": "Takedown"
+      },
+      {
+        "bucket": "Cooldown 2",
+        "ability": "Aspect of the Eagle"
+      }
+    ],
+    "floats": {
+      "Rotational": [
+        "Moonlight Chakram"
+      ],
+      "Cooldown": [],
+      "Overflow": []
+    },
+    "outsideBandChanges": [
+      {
+        "bucket": "Movement Ability 2",
+        "ability": "Harpoon",
+        "why": "Evicted from Rotational 8. SV opens with Takedown's charge-in, so Harpoon is a pure gap-closer, not a DPS press. \u00a76 sends Harpoon to Movement Ability, but that bucket already holds Aspect of the Cheetah on Survival, so it goes to the empty Movement Ability 2 to avoid a collision."
+      },
+      {
+        "bucket": "Free",
+        "ability": "Hunter's Mark",
+        "why": "Evicted from Cooldown 1 (not a ~45s DPS cooldown; Takedown takes CD 1). \u00a76 sends Hunter's Mark to Class 3 (Tag), but that bucket already holds Misdirection on Survival, so it is re-homed to the empty Free slot to stay bound without displacing Misdirection."
+      }
+    ],
+    "inventoryGaps": [],
+    "verdict": "clean",
+    "droppedOrFixed": 0,
+    "confidence": "medium",
+    "notes": "Engine: Kill Command builds Tip of the Spear (gated <2 stacks, also feeds Howl beasts on Pack Leader); Raptor Strike is the spender chained for Mongoose Fury inside windows. Both are the constant-press core, so Rot 1/2. Wildfire Bomb (Tip-gated ST / near-on-CD AoE), Flamefang Pitch (short-CD, high in the priority), and Boomstick (60s but explicitly woven in, not held for burst \u2014 \u00a76) fill Rot 3/4/5. All five are pressed in every hero-tree priority in rotation.md, so fixedCore.\\n\\nMOVE (band correction): Takedown is at Rotational 4 in the current seed but the inventory tags it band=Cooldown cd=90 and rotation.md calls it 'the ~90s burst window every cooldown lines up behind' \u2014 a window button, so Cooldown 1, not Rotational. \u00a76 agrees. Aspect of the Eagle (cd=90, the ranged/melee-downtime tool) is Cooldown 2.\\n\\nFLOAT: Moonlight Chakram is Sentinel-hero-tree only (a NEW \u00a76 addition; Pack Leader is the S1 default meta). It is the single Rotational float \u2014 it resolves and lands in Rot 6 only on a Sentinel build and drops on Pack Leader at dump time, which is exactly the float mechanic. There is no Pack-Leader counterpart button to pair it with (PL's differentiator is the Howl-fed Kill Command weave, already core), so a one-item choice-less float is correct here. No build-conditional Cooldown or Overflow candidates exist \u2014 Survival's only ~45s+ presses are Takedown (core) and Aspect of the Eagle (core); Binding Shot/Intimidation/Camouflage stay in their CC/utility buckets, not the DPS Cooldown band.\\n\\nDROPPED: Hatchet Toss (current Rotational 7) is absent from the Tier-1 spec inventory and unnamed in rotation.md \u2014 most likely not a live Midnight Survival button (the ranged-downtime role rotation.md describes is filled by Aspect of the Eagle). It also cannot be named in a structured placement under the anti-hallucination rule (not in inventory, not in rotation.md), so it is intentionally evicted from Rot 7 with no re-home.\\n\\nRaptor Swipe is the AoE apex override of Raptor Strike (both talent-active, shared button); binding the base Raptor Strike covers it, so it is not placed separately.\\n\\nConfidence medium: Survival is one of \u00a710's twelve weak specs (Tier-3-only sourcing, confidence:medium rotation.md, Midnight SV redesign is fresh, no pinned simc SHA). The band contract and the Takedown move are solid; exact Rot 3-5 ordering and whether Flamefang Pitch/Boomstick are ever dropped on off-meta builds are the softest calls. | Proposal is contract-correct on every check; no repairs made. All placed names (Kill Command, Raptor Strike, Wildfire Bomb, Flamefang Pitch, Boomstick, Takedown, Aspect of the Eagle, Moonlight Chakram, Harpoon, Hunter's Mark) are in the Tier-1 inventory verbatim, so inventoryGaps is empty.\\n\\nBAND: Boomstick's inventory band tag is Cooldown (cd=60), but \u00a72 explicitly defers to \\\"the exceptions in \u00a76,\\\" and \u00a76 documents Boomstick as \\\"60s but explicitly not held for burst\\\" and places it at Rot 5-8. So its Rotational placement is the sanctioned exception, not a mis-band. Takedown (cd=90) and Aspect of the Eagle (cd=90) correctly go to the Cooldown band; the proposal's move of Takedown out of the seed's Rotational 4 is a valid band correction. fixedCore ordering matches \u00a76 exactly (Q Kill Command, E Raptor Strike, R Wildfire Bomb, F Flamefang Pitch, 1 Boomstick).\\n\\nFIXED=ALWAYS: none of the seven fixedCore entries is origin=talent-choice; Kill Command/Raptor Strike/Wildfire Bomb/Flamefang Pitch/Boomstick/Takedown are talent-active core taken in every PL and Sentinel priority in rotation.md, Aspect of the Eagle is cdm-only baseline. All qualify as mandatory-every-build.\\n\\nFLOAT: Moonlight Chakram is the single Rotational float \u2014 Sentinel-hero-tree only (rotation.md sentst #7), drops on Pack Leader (the S1 meta). It is not a talent-choice node, so no paired counterpart is required; a one-item float is correct.\\n\\nDROP: Hatchet Toss (seed Rot 7) is correctly evicted \u2014 it is absent from the Tier-1 inventory AND unnamed in rotation.md, so the anti-hallucination rule forbids placing it even though \u00a76 lists it. Raptor Swipe is the AoE apex override of Raptor Strike (shared button) and is covered by binding the base, so it is not placed separately.\\n\\nEVICTIONS: Harpoon and Hunter's Mark are both re-homed to valid buckets, not silently unbound. Capacity fine (Rot 5 fixed + 1 float = 6/8; CD 2/4).\\n\\nConfidence medium per the source spec (Survival is a \u00a710 weak-sourcing spec, rotation.md confidence:medium, fresh Midnight redesign, no pinned simc SHA), but the band contract, the Takedown move, and the \u00a76 alignment are solid."
+  },
+  {
+    "class": "Mage",
+    "spec": "Arcane",
+    "fixedCore": [
+      {
+        "bucket": "Rotational 1",
+        "ability": "Arcane Blast"
+      },
+      {
+        "bucket": "Rotational 2",
+        "ability": "Arcane Barrage"
+      },
+      {
+        "bucket": "Cooldown 1",
+        "ability": "Touch of the Magi"
+      },
+      {
+        "bucket": "Cooldown 2",
+        "ability": "Arcane Surge"
+      }
+    ],
+    "floats": {
+      "Rotational": [
+        "Arcane Orb",
+        "Arcane Missiles",
+        "Arcane Pulse"
+      ],
+      "Cooldown": [
+        "Evocation",
+        "Presence of Mind"
+      ],
+      "Overflow": []
+    },
+    "outsideBandChanges": [],
+    "inventoryGaps": [
+      "Arcane Blast"
+    ],
+    "verdict": "clean",
+    "droppedOrFixed": 0,
+    "confidence": "medium",
+    "notes": "FIXEDCORE RATIONALE. Arcane's universal, always-pressed buttons are the Arcane Blast filler (Rot 1, most-pressed; Clearcasting fishing + charge builder) and the Arcane Barrage spender (Rot 2; spammed hardest during Arcane Soul). Both are present in every build (Barrage is base kit / cdm-only; Blast is base kit). The two mandatory-every-build burst actives are Touch of the Magi (the 45s \"Miniburn\", pressed most often of the cooldowns -> Cooldown 1) and Arcane Surge (90s \"Big Burn\" -> Cooldown 2). Both are ACTIVE nodes (not choice nodes) taken in every S1 build (Spellslinger and Sunfury), so they qualify as mandatory-every-build fixedCore even though the inventory heuristic marked them mode=float.\n\nFLOATS RATIONALE. Arcane Orb and Arcane Missiles are ACTIVE talents whose PRESS is build-conditional, so they float rather than pin: on the meta Spellslinger + Orb Mastery build (rotation.md: \"the S1 default\") Arcane Orb is the Arcane Salvo builder and Arcane Missiles is NOT used; on Sunfury the roles flip (Missiles is the Salvo engine). Ordered Orb > Missiles (meta build first). Arcane Pulse is the AoE/low-charge builder (talent-active, 15s). In Cooldown floats: Evocation (mana-refill channel, used at <~10% mana) and Presence of Mind (off-GCD instant-Blast charge rebuild).\n\nCHOICE NODES. Arcane's relevant choice nodes are single-sided for binding purposes: Evocation pairs with Mana Adept (a PASSIVE) and Presence of Mind pairs with Slipstream (a PASSIVE cast-while-moving talent). The alternate on each node is a passive that never produces a bindable button, so only the active side is listed -- listing the passive would bind nothing. (The other Arcane choice nodes -- Dragon's Breath/Supernova, Ring of Frost/Mass Polymorph, Ice Nova/Freezing Cold, Improved Blink/Shimmer, Reflection/Spatial Manipulation, hero-tree pairs -- are CC/utility/defensive, not rotational damage, so they live in the CC/Overflow/utility buckets already, untouched.)\n\nSECTION 6 CONFLICTS (inventory + rotation.md win, per the tiebreaker):\n1. Section 6 proposes Shifting Power on S-F (Cooldown 4, \"NEW\"). Arcane's rotation.md never mentions Shifting Power (it is a Frost/Fire button) and it is absent from the Tier-1 inventory. DROPPED -- not placed. This appears to be a copy-over from the Fire/Frost rows.\n2. Section 6 proposes Mirror Image (NEW) in Rotational 5-8 as a damage precast. rotation.md only cites Mirror Image as a pre-combat pre-cast; it is a 120s defensive/threat-drop, not a rotational damage button. Left in its current Self-Heal 2 bucket (a non-floating bucket, untouched) rather than promoted into a Combat band.\n3. Section 6 places Presence of Mind in Rotational; the Tier-1 inventory bands it Cooldown (cd=45). Followed the inventory -> Cooldown float. It is off-GCD and pressed on ~cooldown to smooth charges, so this is a genuine boundary case (rotation.md lists it at ST priority #3, arguing rotational-frequency); if in-game testing shows it pressed as a constant charge-rebuild it could instead sit in Rotational floats.\n\nNO EVICTIONS. Every ability currently in the seed's Rotational/Cooldown floating bands (Arcane Blast, Barrage, Missiles, Orb, Touch of the Magi, Arcane Pulse, Arcane Surge, Presence of Mind, Evocation) is re-placed within the floating bands (Touch of the Magi, Arcane Surge, Presence of Mind, Evocation shift Rotational->Cooldown; the rest stay). Nothing is pushed out to a non-floating bucket, so outsideBandChanges is empty. No Overflow needed -- Arcane's real button count fits in Rotational (5) + Cooldown (4).\n\nINVENTORY GAP. Arcane Blast (spell 10833) is the single most-pressed Arcane button yet is absent from the Tier-1 inventory (the Blizzard talent-tree endpoint omits it -- it is base-kit, not a talent node). Verified in raw/wago/SpellName.csv (10833 = \"Arcane Blast\"); the addon resolves it by name at runtime. Recommend topping up the inventory source with it. | Verified against spec-inventory.json, rotation.md (12.0.7, high confidence), and SpellName.csv. No violations found; proposal accepted as-is.\n\nNAMES: Arcane Barrage/Touch of the Magi/Arcane Surge/Arcane Orb/Arcane Missiles/Arcane Pulse/Evocation/Presence of Mind all verbatim in inventory. Arcane Blast absent from inventory (Blizzard talent-tree omits base-kit filler) but resolves to spell 10833 \"Arcane Blast\" in raw/wago/SpellName.csv and is rotation.md's most-cited filler -> correctly listed in inventoryGaps.\n\nFIXEDCORE: Arcane Blast (base kit) + Arcane Barrage (cdm-only base kit) are the always-present filler/spender. Touch of the Magi (45s Miniburn) and Arcane Surge (90s Big Burn) are origin=talent-active (NOT choice nodes) and rotation.md confirms both are mandatory Big-Burn buttons in BOTH hero trees (Spellslinger + Sunfury) -> legitimate mandatory-every-build fixedCore. Inventory mode=float on them is just the talent-active default heuristic, not a build-conditional signal.\n\nCHOICE SIDES: The only talent-choice DPS abilities landing in floating bands are Evocation and Presence of Mind; their node-partners (Mana Adept, Slipstream) are PASSIVES, absent from the inventory and non-bindable, so no second float name exists to add. All other Arcane talent-choice nodes (Ring of Frost, Supernova, Dragon's Breath, Ice Nova, Freezing Cold, Shimmer, Mass Polymorph, Reflection, Merely a Setback, Explosive Potential) are CC/utility/defensive, correctly seeded in non-floating buckets, not DPS floats.\n\nBAND: Touch of the Magi real CD is 45s (inventory cd=0.5 is a GCD-field artifact) -> Cooldown, correct. Presence of Mind cd=45 -> Cooldown, correct (proposal correctly moved it off the seed's Rotational 8). Evocation cd=- (no numeric CD; situational at <10% mana per rotation.md, not constant-press) placed in Cooldown floats, matching the existing seed's Cooldown 1 placement and practical usage; the inventory band=Rotational is a cd=- fallback and this is a defensible boundary call, left unchanged.\n\nCAPACITY: Rot 5/8, CD 4/4 (at cap), Overflow 0/6. No duplication. All nine seed floating-band abilities re-placed within floating bands; no evictions -> outsideBandChanges empty. Recommend topping up the Tier-1 inventory source with Arcane Blast (10833)."
+  },
+  {
+    "class": "Mage",
+    "spec": "Fire",
+    "fixedCore": [
+      {
+        "bucket": "Rotational 1",
+        "ability": "Fireball"
+      },
+      {
+        "bucket": "Rotational 2",
+        "ability": "Fire Blast"
+      },
+      {
+        "bucket": "Rotational 3",
+        "ability": "Pyroblast"
+      },
+      {
+        "bucket": "Rotational 4",
+        "ability": "Scorch"
+      },
+      {
+        "bucket": "Cooldown 1",
+        "ability": "Combustion"
+      }
+    ],
+    "floats": {
+      "Rotational": [
+        "Flamestrike"
+      ],
+      "Cooldown": [
+        "Meteor"
+      ],
+      "Overflow": []
+    },
+    "outsideBandChanges": [],
+    "inventoryGaps": [
+      "Fireball"
+    ],
+    "verdict": "clean",
+    "droppedOrFixed": 0,
+    "confidence": "high",
+    "notes": "Fire is the Hot Streak loop: Fireball (hardcast filler anchor) -> Fire Blast off-GCD mid-cast to convert Heating Up -> instant Pyroblast/Flamestrike spender. Placement:\n\nfixedCore Rotational 1-4 = Fireball, Fire Blast, Pyroblast, Scorch. All four are baseline/mandatory-core (Fire Blast/Pyroblast/Scorch are origin=talent-active single nodes every build takes; Fireball is baseline-kit). Fire Blast on Rot2 (E, a fastest unmod key) satisfies the rotation.md/\u00a76 requirement that it needs a spam-fast key since it's woven off-GCD every Heating Up. Order = press frequency per rotation.md (Fireball is the GCD-filling anchor at 1; Fire Blast off-GCD at 2).\n\nOVERRIDE: Frostfire Bolt (in inventory, the Frostfire hero-tree filler) is a spell-replacement that overrides Fireball on the same button, so I bind the BASE (Fireball) and do NOT give Frostfire Bolt its own slot. \u00a76 agrees (\"Fireball (Frostfire Bolt overrides)\").\n\nCombustion -> Cooldown 1 (fixedCore). Inventory band=Cooldown, cd=120 (effectively ~1min via Kindling but a held burst window), so it moves out of its current Rotational 5 seat into the Cooldown band per the >=45s window rule. It is the spec-defining CD every build takes, hence fixedCore not float.\n\nFLOATS: Flamestrike (origin=talent-choice, so it floats even though it's the near-universal AoE spender) leads Rotational floats and fills Rot5. Meteor (origin=talent-active, build-conditional \u2014 Sunfury Execution/Blast Zone shape it and some builds skip it) floats into Cooldown 2, timed to land inside Combustion.\n\nEVICTION/DROP: current seed parks Arcane Explosion on Cooldown 4. \u00a76 and the drop-table both say DROP Arcane Explosion (not in the 12.0.7 Fire priority \u2014 Fire uses Flamestrike for AoE), so it is left unbound rather than re-homed. That is the only combat-band eviction; nothing else needed re-homing (no externals/utilities were sitting in Fire's combat slots), so outsideBandChanges is empty.\n\nCONFLICT with \u00a76: \u00a76 proposes Shifting Power at Fire CD3 (S-R). I EXCLUDE it \u2014 Shifting Power is not in the Fire Tier-1 inventory AND is not named anywhere in Fire's rotation.md as a pressed button, so it fails the inventory-gap admission test (unlike Frost, whose rotation.md does rely on Shifting Power). Per the hard rule, inventory + rotation.md win over \u00a76 here.\n\ninventoryGaps: Fireball is absent from the Tier-1 spec-inventory (Blizzard talent-tree API omits it, same class of hole as Frost's Glacial Spike/Icy Veins) but resolves to spell 133 in SpellName.csv and is the central filler in rotation.md; the addon resolves it by name at runtime. Follow-up: top up the inventory source with it. | Verified all 7 checks; no repairs needed. NAMES: only non-inventory name is Fireball, correctly in inventoryGaps and verified real (spell 133 in SpellName.csv); it's the baseline filler the Blizzard talent-tree API omits. Frostfire Bolt is in-inventory and correctly treated as a base-override of Fireball (bind base, no own slot). FIXED: Fireball(baseline) + Fire Blast/Pyroblast/Scorch/Combustion are all talent-active single nodes (not talent-choice), mandatory every Fire build \u2014 legal in fixedCore. CHOICE SIDES: Flamestrike's choice node (109409) has BOTH entries named Flamestrike \u2014 no distinct partner exists, so nothing to add. Meteor is talent-active (no pair). The Dragon's Breath/Supernova/Ring of Frost choices sit in the Cooldown band but are CC utility homed in dedicated seed buckets (Supernova\u2192CC 2), correctly not forced into the Cooldown damage-float list. BANDS: Combustion cd120\u2192CD, Meteor cd45\u2192CD, Fire Blast off-GCD\u2192Rot \u2014 all correct; Combustion correctly relocated from seed Rotational 5 to Cooldown 1. CAPACITY fine (Rot 5/8, CD 2/4). EVICTION: Arcane Explosion (seed Cooldown 4) dropped \u2014 not a Fire rotation press (Fire AoEs via Flamestrike), documented not silent; acceptable, no utility home exists for it. Shifting Power correctly excluded (absent from Fire inventory and rotation.md). Ordering by press frequency is sound."
+  },
+  {
+    "class": "Monk",
+    "spec": "Brewmaster",
+    "fixedCore": [
+      {
+        "bucket": "Rotational 1",
+        "ability": "Keg Smash"
+      },
+      {
+        "bucket": "Rotational 2",
+        "ability": "Blackout Kick"
+      },
+      {
+        "bucket": "Rotational 3",
+        "ability": "Tiger Palm"
+      },
+      {
+        "bucket": "Rotational 4",
+        "ability": "Breath of Fire"
+      },
+      {
+        "bucket": "Rotational 5",
+        "ability": "Purifying Brew"
+      },
+      {
+        "bucket": "Overflow 1",
+        "ability": "Spinning Crane Kick"
+      }
+    ],
+    "floats": {
+      "Rotational": [
+        "Celestial Brew",
+        "Celestial Infusion",
+        "Rushing Jade Wind",
+        "Chi Burst"
+      ],
+      "Cooldown": [
+        "Invoke Niuzao, the Black Ox",
+        "Exploding Keg",
+        "Black Ox Brew",
+        "Empty the Cellar"
+      ],
+      "Overflow": []
+    },
+    "outsideBandChanges": [],
+    "inventoryGaps": [
+      "Empty the Cellar"
+    ],
+    "verdict": "clean",
+    "droppedOrFixed": 0,
+    "confidence": "medium",
+    "notes": "Rotational fixedCore (1-5) are the buttons no Brewmaster build drops: Keg Smash (the \"never miss\" engine + Shuffle/Brew-CDR source; talent-active but universally mandatory), Blackout Kick (baseline, 3s generator that sets Blackout Combo), Tiger Palm (baseline energy-dump filler / Blackout Combo consumer), Breath of Fire (near-universal DoT/Charred-Passions brew), Purifying Brew (signature Stagger-clear active mitigation). I ordered Rot 1-5 by honest press-frequency+priority rather than \u00a76's exact order: I promoted Blackout Kick above Tiger Palm (BoK's 3s CD is pressed more than TP, which only fills gaps). All five sit on the fast unmodified Q/E/R/F/1 keys, so intra-order barely affects key speed. Breath of Fire and Purifying Brew are origin=talent-active (not choice-node) and effectively mandatory, so fixedCore is defensible; they are the main reason confidence is medium rather than high.\n\nRotational floats fill 6-8: the Celestial Brew / Celestial Infusion choice pair (exactly one resolves \u2014 Infusion is the Master-of-Harmony-flavored pick, and the current seed bound Infusion), Rushing Jade Wind (choice vs the passive Special Delivery, per rotation.md line 49), and Chi Burst (choice node; a real rotational button under Master of Harmony, filler otherwise). Three float names beyond the pair = the Celestial slot + RJW + Chi Burst resolve into Rot 6-8, staying within the 8-slot cap.\n\nCooldown floats: the whole Shift-QERF band is build-conditional for Brewmaster (no baseline ability lives here \u2014 Touch of Death stays on its Class 4 (Special) key, Fortifying Brew on Personal Defensive 1, Leg Sweep on CC), so fixedCore CD is intentionally empty. Order meta-first: Invoke Niuzao (base name of the \"Invoke Niuzao, the Black Ox\" override), Exploding Keg, Black Ox Brew (promoted up from its buried Self-Heal 4 seed slot per \u00a76 \u2014 that just empties Self-Heal 4, no re-home needed), and Empty the Cellar. Empty the Cellar is the Bring-Me-Another barrel-throw proc-consumer \u2014 technically not a >=45s cooldown, but in the apex build it is pressed frequently, so parking it on Shift-F (CD 4) rather than a slow CTRL Overflow key is the correct key-speed call; \u00a76 reached the same placement.\n\nOverflow: Spinning Crane Kick is class-baseline (always present) so it pins as fixedCore Overflow 1 (CTRL key) \u2014 it is a situational AoE gather with no mitigation, correctly off the strict priority per \u00a76, which is why it comes out of the Rot band. Placing it in the Overflow floating band means no outside-band re-home is required (I did NOT use \u00a76's Self-Heal 4 hack, since SCK is not a heal and the Overflow band exists for exactly this \"extra rotational button\" case).\n\ninventoryGaps: Empty the Cellar (spell 1262329) is absent from the Tier-1 talent-tree inventory but is named as a pressed button in rotation.md and resolves in SpellName.csv \u2014 the addon binds it by name at runtime and drops it when Bring Me Another is untalented. No conflicts between \u00a76, the inventory, and rotation.md beyond the Rot 1-5 ordering nuance noted above; Rising Sun Kick and Weapons of Order are correctly absent (Midnight removed them from Brewmaster). | Verified against spec-inventory.json (Monk/Brewmaster) and rotation.md. No repairs needed.\n\nNAMES: All fixedCore/float names resolve verbatim in the inventory except Empty the Cellar, which is correctly in inventoryGaps, is a real spell (SpellName.csv 1262329) and a named pressed button in rotation.md (lines 88/93/116, the Bring Me Another Empty-Barrel proc-consumer). Rising Sun Kick / Weapons of Order correctly absent (removed from BrM in Midnight).\n\nFIXED-CORE: Keg Smash / Breath of Fire / Purifying Brew are origin=talent-active (NOT talent-choice) and mandatory in every BrM build; Blackout Kick / Tiger Palm / Spinning Crane Kick are class-baseline. No choice node in fixedCore. Defensible; medium confidence because BoF/Purifying are talent-active rather than pure baseline.\n\nFLOATS/CHOICE PAIRS: The only active-vs-active choice pair in a floating band is Celestial Brew / Celestial Infusion \u2014 both listed (exactly one resolves; seed bound Infusion under Master of Harmony). RJW's counterpart Special Delivery and Chi Burst's counterpart are passives (cd=\u2014), not keybinds, so no listing owed.\n\nDUP: Celestial Infusion lives only in floats. No ability fixed twice or fixed+float.\n\nCAPACITY: Rot 5 fixed + 3 resolvable floats (Celestial pair=1, RJW=1, Chi Burst=1) = 8/8. CD 0 fixed + 4 non-exclusive floats = 4/4 (Niuzao+Exploding Keg+Black Ox Brew+Empty the Cellar can co-exist; exactly at cap). Overflow 1 fixed + 0 = 1/6.\n\nBAND: All Cooldown floats are Cooldown-band except Empty the Cellar (untagged <45s proc-consumer) parked on CD 4 for key-speed since Rot is full \u2014 a defensible \u00a72-style exception. Rot floats all Rotational-band.\n\nEVICTIONS: Every current-seed band member accounted for \u2014 Black Ox Brew promoted out of Self-Heal 4 (empties that slot, no orphan), Chi Burst seed CD4 -> Rot float, Celestial Infusion seed Rot5 -> float, SCK seed Rot7 -> Overflow fixed, RJW seed Rot8 -> float. No silent unbinds; outsideBandChanges legitimately empty."
+  },
+  {
+    "class": "Monk",
+    "spec": "Windwalker",
+    "fixedCore": [
+      {
+        "bucket": "Rotational 1",
+        "ability": "Tiger Palm"
+      },
+      {
+        "bucket": "Rotational 2",
+        "ability": "Blackout Kick"
+      },
+      {
+        "bucket": "Rotational 3",
+        "ability": "Rising Sun Kick"
+      },
+      {
+        "bucket": "Rotational 4",
+        "ability": "Fists of Fury"
+      },
+      {
+        "bucket": "Rotational 5",
+        "ability": "Spinning Crane Kick"
+      },
+      {
+        "bucket": "Cooldown 1",
+        "ability": "Invoke Xuen, the White Tiger"
+      },
+      {
+        "bucket": "Cooldown 2",
+        "ability": "Zenith"
+      },
+      {
+        "bucket": "Cooldown 3",
+        "ability": "Touch of Death"
+      }
+    ],
+    "floats": {
+      "Rotational": [
+        "Whirling Dragon Punch",
+        "Strike of the Windlord",
+        "Rushing Wind Kick"
+      ],
+      "Cooldown": [
+        "Celestial Conduit"
+      ],
+      "Overflow": [
+        "Zenith Stomp",
+        "Slicing Winds"
+      ]
+    },
+    "outsideBandChanges": [
+      {
+        "bucket": "Immune/Spell Immune/Movement",
+        "ability": "Flying Serpent Kick",
+        "why": "Evicted from seed Cooldown 4 (Celestial Conduit floats into the Cooldown band). FSK is inventory band=Rotational, class-baseline mobility with no real cooldown - a gap-closer, not a rotational press (rotation.md lists it only under mobility). Movement Ability 2 already holds Tiger's Lust and there is no Movement Ability 3, so route to the free, movement-labeled Immune/Spell Immune/Movement bucket to keep it bound without evicting Tiger's Lust."
+      }
+    ],
+    "inventoryGaps": [
+      "Zenith Stomp"
+    ],
+    "verdict": "clean",
+    "droppedOrFixed": 0,
+    "confidence": "medium",
+    "notes": "Hero-tree split drives the floats. Conduit of the Celestials adds one distinct pressed cooldown button \u2014 Celestial Conduit (cd=90) \u2014 which floats into Cooldown 4; Shado-Pan (Flurry Strikes) has NO distinct cooldown button (Flurry Strikes is a passive charge system, cdm-only), so no Shado-Pan CD counterpart exists to list. That is why Cooldown has only one float.\n\nfixedCore Cooldown promotions: Zenith moves Rot8 -> Cooldown 2 (rotation.md calls it \"the flexible primary cooldown,\" fired on a ~1:00-2:00 cadence per Method \u2014 a \u226545s window button, so Cooldown by the frequency rule, not Rotational). Touch of Death moves from Class 4 (Special) -> Cooldown 3 (baseline 3-min DPS cooldown pressed on CD; \u00a76 agrees). That leaves Class 4 (Special) empty; I did not gap-fill it (no clear candidate).\n\nZenith is origin=talent-active (not a choice node) but is mandatory in every WW build \u2014 both hero branches in rotation.md are built around it \u2014 so it earns fixedCore. Same reasoning for Invoke Xuen, Rising Sun Kick, and Fists of Fury (all talent-active but mandatory-every-build core buttons, permitted in fixedCore). Spinning Crane Kick is class-baseline; it is a low-frequency AoE spender in ST but always present, so fixedCore Rot 5 (the AoE-swap slot). The build-conditional choice-node spenders (Whirling Dragon Punch, Strike of the Windlord \u2014 both origin=talent-choice) correctly float into Rot 6/7; the meta Conduit build takes both, WDP first. Rushing Wind Kick (cdm-only in inventory, \"if talented\" in rotation.md step 8) floats into Rot 8.\n\ninventoryGaps: Zenith Stomp is the per-press ability during the Zenith window (rotation.md steps 11/15). Only \"Zenith\" is in the Tier-1 inventory; \"Zenith Stomp\" is a separate spell that resolves in raw/wago/SpellName.csv (4 hits) \u2014 the addon will resolve it by name and drop it if untalented. Placed in Overflow. Rushing Wind Kick is NOT a gap \u2014 it is already in the inventory (cdm-only).\n\nChoice-node caveat: the inventory tags both Strike of the Windlord and Whirling Dragon Punch as talent-choice, but they do not appear to oppose each other in current WW (both are commonly taken together); their true opposing halves are not WW combat buttons, so I list the two combat-relevant options rather than inventing partners.\n\nEverything outside the three floating bands (Transcendence: Transfer, Ring of Peace, Crackling Jade Lightning, Vivify, Soothing Mist, Transcendence, Detox, Diffuse Magic, Fortifying Brew, Touch of Karma, Roll, Tiger's Lust, Leg Sweep, Paralysis, Spear Hand Strike, Disable, Provoke, PvP/macro slots) stays as-is per the current seed.\n\nConfidence medium: KB-grounded (rotation.md 12.0.7 + \u00a76 medium-confidence prior), not in-game verified. Two soft spots: (1) whether Rushing Wind Kick is a truly keybindable active vs a passive/proc that only shows in CDM \u2014 trusting \u00a76 + rotation.md that it is pressed; (2) the Flying Serpent Kick re-home differs from \u00a76 due to the Movement Ability 2 collision. | Verified against spec-inventory.json (Monk/Windwalker) + rotation.md (12.0.7) + SpellName.csv; nothing required repair.\\n\\nNAMES: all fixedCore/float names are inventory-verbatim except Zenith Stomp, which is a real spell (SpellName.csv: 1272694/1272696/1291484 + Combo Strikes variant) and named in rotation.md steps 11/15 - correctly the sole inventoryGaps entry (addon resolves by name, drops if untalented). Rushing Wind Kick (cdm-only) and Slicing Winds (talent-active) are IN the inventory, correctly not gaps. FSK target bucket exists in the seed.\\n\\nFIXED: no talent-choice in fixedCore. Rising Sun Kick / Fists of Fury / Invoke Xuen / Zenith are talent-active but mandatory-every-build core (both hero branches in rotation.md are built around Xuen+Zenith); Tiger Palm / Blackout Kick / Spinning Crane Kick / Touch of Death are class-baseline. All permissible.\\n\\nBAND: accepted the proposal's Zenith->Cooldown 2 promotion. Inventory tags Zenith band=Rotational/cd=16, but rotation.md explicitly and repeatedly calls it 'the flexible primary cooldown' fired on a ~1:00-2:00 cadence gated to the Xuen window, and rotation.md's own TODO flags the cd as unconfirmed. Under \u00a72's frequency rule (actual press cadence, not raw cd) Cooldown is correct. Touch of Death (cd=180) and Celestial Conduit (cd=90) match their inventory Cooldown band.\\n\\nCHOICE SIDES: the only floating-band talent-choice DPS buttons are Whirling Dragon Punch + Strike of the Windlord - both listed in Rotational floats (they are commonly co-taken, not strictly opposed; either way both appear). Song of Chi-Ji / Ring of Peace form a CC choice node bound in non-floating Class 2, out of scope.\\n\\nCAPACITY: Rotational 5 fixed + 3 float = 8/8 (WDP/SotW->Rot6/7, Rushing Wind Kick->Rot8, matching rotation.md priority step 8 > step 14 Slicing Winds which correctly overflows). Cooldown 3 fixed + 1 float = 4/4. Overflow 2/6 (Zenith Stomp, Slicing Winds - both Rotational-band spillover). No duplication; Zenith != Zenith Stomp.\\n\\nEVICTIONS: Flying Serpent Kick re-homed (see outsideBandChanges); Touch of Death promoted from Class 4 to Cooldown 3 (relocated, still bound) - vacated Class 4 left empty, which is allowed, no unbinding.\\n\\nConfidence medium: KB-grounded (rotation.md high-confidence 12.0.7 + \u00a76 medium prior), not in-game verified. Soft spot: whether Rushing Wind Kick is a keybindable active vs a CDM-only proc display (trusting cdm-only inventory tag + rotation.md 'if talented')."
+  },
+  {
+    "class": "Paladin",
+    "spec": "Protection",
+    "fixedCore": [
+      {
+        "bucket": "Rotational 1",
+        "ability": "Shield of the Righteous"
+      },
+      {
+        "bucket": "Rotational 3",
+        "ability": "Judgment"
+      },
+      {
+        "bucket": "Rotational 4",
+        "ability": "Avenger's Shield"
+      },
+      {
+        "bucket": "Rotational 6",
+        "ability": "Consecration"
+      },
+      {
+        "bucket": "Rotational 7",
+        "ability": "Word of Glory"
+      },
+      {
+        "bucket": "Cooldown 2",
+        "ability": "Divine Toll"
+      },
+      {
+        "bucket": "Cooldown 3",
+        "ability": "Ardent Defender"
+      },
+      {
+        "bucket": "Cooldown 4",
+        "ability": "Guardian of Ancient Kings"
+      }
+    ],
+    "floats": {
+      "Rotational": [
+        "Blessed Hammer",
+        "Hammer of the Righteous",
+        "Hammer of Wrath",
+        "Holy Bulwark",
+        "Hammer of Light"
+      ],
+      "Cooldown": [
+        "Sentinel",
+        "Avenging Wrath"
+      ],
+      "Overflow": [
+        "Holy Armaments"
+      ]
+    },
+    "outsideBandChanges": [],
+    "inventoryGaps": [
+      "Hammer of Wrath",
+      "Hammer of Light",
+      "Hammer of the Righteous"
+    ],
+    "verdict": "clean",
+    "droppedOrFixed": 0,
+    "confidence": "medium",
+    "notes": "Prot is a Holy-Power builder->spender tank loop; damage and mitigation are the same rotation. Frequency ordering of the Rotational band: Shield of the Righteous (single most-pressed button, hit on every 3-HP spend) at Rot 1, then the builder, Judgment, Avenger's Shield, Hammer of Wrath, Consecration upkeep, Word of Glory heal, and the hero-tree extra button last.\n\nFIXED vs FLOAT calls:\n- fixedCore Rotational = the always-present kit: Shield of the Righteous, Judgment, Consecration, Word of Glory (all class-baseline) plus Avenger's Shield (origin=talent-active but universally taken \u2014 the signature Prot builder/pull/silence; treated as a mandatory-every-build talent, not a choice node).\n- fixedCore Cooldown = Divine Toll (talent-active, universal, pressed on ~1min CD into windows) + Ardent Defender + Guardian of Ancient Kings.\n\nSlots deliberately LEFT EMPTY for floats to preserve frequency order: Rotational 2, 5, 8 and Cooldown 1. Rot 2 catches the choice-node builder (Blessed Hammer / Hammer of the Righteous \u2014 one resolves at dump time, both listed); Rot 5 catches Hammer of Wrath; Rot 8 catches the hero-tree spender (Lightsmith Holy Bulwark or Templar Hammer of Light \u2014 hero-exclusive, so only one resolves). Cooldown 1 (S-Q, prime shift key) is left for the burst window (Sentinel / Avenging Wrath choice node) that everything syncs into.\n\nKEY MOVES vs seed:\n1. Divine Toll: seed had it at Rotational 6, but cd=60 >= 45s -> demoted to Cooldown band (Cooldown 2) per the frequency/cd rule. Matches layout-v2 \u00a76.\n2. Ardent Defender (was Personal Defensive 1) and Guardian of Ancient Kings (was Personal Defensive 2) pulled INTO the Cooldown band per \u00a76 \u2014 they are personal tank walls pressed proactively on known damage, not raid externals, so they earn the Cooldown band rather than a defensive/utility bucket. Their old Personal Defensive buckets vacate (acceptable). Because they are placed INTO a floating band, they are fixedCore, not outsideBandChanges. NOTE: GoAK's inventory cd=8.0 is a bogus tooltip value (real ~5min major) \u2014 placed in Cooldown on merit, not on the bad number.\n3. Avenging Wrath was previously unplaced (no seed bucket) \u2014 now bound as the second side of the Cooldown burst-window choice node.\n\nINVENTORY GAPS (named in rotation.md, resolve in raw/wago/SpellName.csv, absent from Tier-1 inventory): Hammer of Wrath (core builder, always available in Avenging Wrath / execute range), Hammer of Light (Templar's 12s Divine Toll -> Hammer of Light burst spend, top priority while up), Hammer of the Righteous (the non-Blessed-Hammer side of the builder choice node \u2014 inventory only carries Blessed Hammer). The addon resolves each by name at runtime and drops it if untalented.\n\nFLOAT ORDERING (likelihood, meta first): Rotational builder Blessed Hammer before Hammer of the Righteous (Blessed Hammer is the more common pick); Hammer of Wrath near-universal; Holy Bulwark (Lightsmith, method's dungeon pick) listed before Hammer of Light (Templar) \u2014 hero split is roughly even so this is a soft prior. Overflow carries Holy Armaments (Lightsmith's second armament button \u2014 only overflows when Lightsmith fills both Rot 8 and this).\n\nNothing was evicted OUT of the three floating bands to a non-floating bucket, so outsideBandChanges is empty; everything outside Rot/CD/Overflow (Blessings on Class 1-4, Flash of Light, Lay on Hands, Turn Evil, Cleanse Toxins, Intercession, Divine Shield, Hammer of Justice, Blinding Light, Rebuke, Hand of Reckoning, Divine Steed, consumable/racial macros) stays as-is. | Verified against the Tier-1 Prot Paladin inventory; no changes needed.\n\nNAMES: all fixedCore names are class-baseline or talent-active in the inventory (Shield of the Righteous, Judgment, Consecration, Word of Glory = baseline; Avenger's Shield, Divine Toll, Ardent Defender, Guardian of Ancient Kings = talent-active). All floats resolve: Blessed Hammer, Holy Bulwark, Sentinel, Avenging Wrath, Holy Armaments are in the inventory verbatim; the three gaps (Hammer of Wrath 24275, Hammer of Light 160420, Hammer of the Righteous 53595) all hit SpellName.csv and are each named in knowledge/classes/paladin/protection/rotation.md \u2014 all three are declared in inventoryGaps.\n\nFIXED = ALWAYS PRESENT: no fixedCore entry is origin=talent-choice. Avenger's Shield / Divine Toll / Ardent Defender / Guardian of Ancient Kings are talent-active and treated as mandatory-every-build (signature Prot kit); acceptable per schema.\n\nFLOATS = BOTH CHOICE SIDES: builder choice node Blessed Hammer + Hammer of the Righteous both present; burst-window choice node Sentinel + Avenging Wrath both present; hero-exclusive spenders Holy Bulwark (Lightsmith) + Hammer of Light (Templar) both present.\n\nNO DUPLICATION: confirmed \u2014 no ability is both fixed and float, none double-bound.\n\nCAPACITY: Rotational = 5 fixed (slots 1,3,4,6,7) + 3 resolvable floats (one builder, Hammer of Wrath, one hero spender) into slots 2,5,8 = 8/8 exactly. Cooldown = 3 fixed (2,3,4) + 1 resolvable float (Sentinel XOR Avenging Wrath) into slot 1 = 4/4. Overflow = 1/6. All within band limits.\n\nBAND CORRECTNESS: Divine Toll (cd 60 >= 45) correctly demoted from seed Rotational 6 to Cooldown 2. Ardent Defender (cd 90) -> Cooldown. Sentinel/Avenging Wrath (cd 120) -> Cooldown. Guardian of Ancient Kings inventory cd=8.0 is a bogus tooltip value (real ~5min tank major); placed in Cooldown on merit, correct.\n\nEVICTIONS RE-HOMED: nothing left unbound. Ardent Defender (seed Personal Defensive 1) and Guardian of Ancient Kings (seed Personal Defensive 2) are pulled into the Cooldown band as fixedCore \u2014 re-homed, not dropped; their old Personal Defensive buckets vacate acceptably. Divine Toll re-homed Rotational->Cooldown. outsideBandChanges correctly empty since every band eviction stays inside a floating band.\n\nVerdict clean: droppedOrFixed = 0."
+  },
+  {
+    "class": "Paladin",
+    "spec": "Retribution",
+    "fixedCore": [
+      {
+        "bucket": "Rotational 1",
+        "ability": "Templar's Verdict"
+      },
+      {
+        "bucket": "Rotational 2",
+        "ability": "Crusader Strike"
+      },
+      {
+        "bucket": "Rotational 3",
+        "ability": "Judgment"
+      }
+    ],
+    "floats": {
+      "Rotational": [
+        "Blade of Justice",
+        "Divine Storm",
+        "Wake of Ashes",
+        "Hammer of Light",
+        "Hammer of Wrath"
+      ],
+      "Cooldown": [
+        "Avenging Wrath",
+        "Execution Sentence",
+        "Divine Toll"
+      ],
+      "Overflow": [
+        "Templar Slash"
+      ]
+    },
+    "outsideBandChanges": [],
+    "inventoryGaps": [
+      "Hammer of Light",
+      "Hammer of Wrath",
+      "Templar Slash"
+    ],
+    "verdict": "clean",
+    "droppedOrFixed": 0,
+    "confidence": "medium",
+    "notes": "FIXEDCORE: only 3 truly-every-build rotational baselines exist for Ret \u2014 Templar's Verdict (the HP spender; base of the Final Verdict talent override, so binding it covers both \u2014 this corrects the seed, which bound 'Final Verdict' by name at Rotational 4), Crusader Strike (filler builder; Templar Strikes / Crusading Strikes talents override this same button), and Judgment. Ordered spender\u2192CS\u2192Judgment following \u00a76 (Q=top spender). The Cooldown band has NO fixedCore: Ret's every offensive cooldown is a talent, and Radiant Glory builds don't keybind Avenging Wrath at all (Wake of Ashes / Execution Sentence auto-trigger the wings), so all three go to Cooldown floats.\n\nSEED FIXES: the current seed parks Divine Toll (cd60) at Rotational 6 and Execution Sentence (cd60) at Rotational 7 \u2014 both are \u226545s cooldowns and belong in the Cooldown band per the frequency rule; moved to Cooldown floats. Blade of Justice moves from the seed's Rot 3 into a Rotational float (it's a talent, not baseline) and Templar's Verdict takes Rot 1.\n\n\u00a76 CONFLICT: \u00a76 places Wake of Ashes in the CD band (S-E). The Tier-1 inventory (band=Rotational) and rotation.md (WoA is a ~30s-CD builder pressed on cooldown that re-enables Hammer of Light \u2014 a spam-cadence button, not a held window) both say Rotational. Per the hard rule, inventory + rotation.md win \u2192 Wake of Ashes is a Rotational float.\n\nINVENTORY GAPS: Hammer of Light (SpellName 427441/160420), Hammer of Wrath (24275), Templar Slash (406647) are all named as pressed buttons in rotation.md but absent from the Tier-1 talent-tree inventory (the same class of hole confirmed for Frost's Icy Veins etc.). Hammer of Light is the Templar top-spender enabled by Wake of Ashes; Hammer of Wrath the execute/wings builder; Templar Slash the second-strike follow-up added by the Templar Strikes talent.\n\nOVERFLOW: the meta Templar build has 6 rotational actives beyond fixedCore (Blade of Justice, Divine Storm, Wake of Ashes, Hammer of Light, Hammer of Wrath, Templar Slash) but only 5 empty Rotational slots (Rot 4-8). Templar Slash is the marginal one \u2014 \u00a76 itself flagged it as 'NEW, or macro onto Rot 2' \u2014 so it spills to Overflow. A Herald-of-the-Sun build resolves neither Hammer of Light nor Templar Slash (they drop), freeing those slots.\n\nEXCLUDED as non-keybindable: the inventory surfaces several origin=talent-choice entries that are PASSIVE procs/modifiers, not pressed buttons \u2014 Art of War, Divine Purpose, Righteous Cause, Divine Resonance, Blessing of An'she, Sanctification, Will of the Dawn, and Crusading Strikes (a passive Crusader-Strike toggle). None are floated. Divine Storm is kept as a Rotational float (near-universal AoE spender) even though it's only pressed in cleave.\n\noutsideBandChanges is empty: nothing currently in the Rot/CD bands leaves the three floating bands (Divine Toll / Execution Sentence merely shift Rotational\u2192Cooldown, both floating), and all non-floating buckets (heals, blessings, defensives, CC, interrupt, etc.) are untouched. | Proposal verified sound; no content corrections. Only formalized the inventoryGaps field the proposal already enumerated in prose.\\n\\nNAMES: fixedCore + all Rot/CD floats are inventory-verbatim. The three non-inventory names resolve in raw/wago/SpellName.csv (Hammer of Light 160420/427441, Hammer of Wrath 24275, Templar Slash 406647) and are all named in knowledge/classes/paladin/retribution/rotation.md (HoL x10, HoW x2, Templar Slash x2) \u2014 legit Blizzard-API talent-tree omissions, same class of hole as Frost's Icy Veins. Declared in inventoryGaps.\\n\\nFIXEDCORE: Templar's Verdict (cdm-only, mode=fixed) is the correct BASE to bind \u2014 Final Verdict (talent) overrides it, so the single bind covers both. This correctly evicts the seed's Rotational-4 'Final Verdict' float without leaving it unbound (base-override coverage, so no outsideBandChange needed). Crusader Strike + Judgment are class-baseline mode=fixed. None are talent-choice. Ordering follows \u00a76 (Rot1 = top spender).\\n\\nCHOICE NODES: the excluded talent-choice entries (Art of War, Divine Purpose, Righteous Cause, Divine Resonance, Blessing of An'she, Sanctification, Will of the Dawn, Crusading Strikes) are passive procs/modifiers, not pressed buttons \u2014 rightly not floated. The live node Templar Strikes vs Crusading Strikes resolves as: Templar Strike overrides Crusader Strike (covered by fixed Rot 2), Templar Slash is the two-hit follow-up (Overflow), Crusading Strikes is a passive auto-attack toggle. builds.md confirms.\\n\\nBANDS: Execution Sentence (cd60) + Divine Toll (cd60) correctly moved seed Rot6/7 -> Cooldown floats. Avenging Wrath (cd120) -> Cooldown float; Radiant Glory builds never press it (WoA/ES auto-trigger wings) so no CD fixedCore is right. Wake of Ashes kept Rotational per inventory band + rotation.md over \u00a76's CD placement (inventory + rotation.md win).\\n\\nCAPACITY: Rot 3 fixed + 5 floats = 8 (<=8); CD 0+3 (<=4); Overflow 1 (<=6). Meta Templar build has 6 rotational actives beyond fixedCore, so Templar Slash spills to Overflow (its band note flags it 'NEW or macro onto Rot 2', and as the same-button 2nd hit it may be redundant with the Crusader Strike bind \u2014 Overflow is the safe home for that marginal case). Herald-of-the-Sun build drops both Hammer of Light and Templar Slash, freeing the slots.\\n\\nEVICTIONS: nothing leaves the floating bands into non-floating buckets; all non-floating buckets (heals, blessings, defensives, CC, interrupt, res) untouched \u2014 outsideBandChanges legitimately empty."
+  },
+  {
+    "class": "Priest",
+    "spec": "Shadow",
+    "fixedCore": [
+      {
+        "bucket": "Rotational 1",
+        "ability": "Shadow Word: Madness"
+      },
+      {
+        "bucket": "Rotational 2",
+        "ability": "Mind Blast"
+      },
+      {
+        "bucket": "Rotational 3",
+        "ability": "Void Volley"
+      },
+      {
+        "bucket": "Rotational 4",
+        "ability": "Shadow Word: Pain"
+      },
+      {
+        "bucket": "Rotational 5",
+        "ability": "Tentacle Slam"
+      },
+      {
+        "bucket": "Rotational 6",
+        "ability": "Shadow Word: Death"
+      },
+      {
+        "bucket": "Rotational 7",
+        "ability": "Vampiric Touch"
+      },
+      {
+        "bucket": "Cooldown 1",
+        "ability": "Voidform"
+      },
+      {
+        "bucket": "Cooldown 2",
+        "ability": "Power Infusion"
+      },
+      {
+        "bucket": "Cooldown 3",
+        "ability": "Shadowfiend"
+      },
+      {
+        "bucket": "Overflow 1",
+        "ability": "Mind Flay"
+      }
+    ],
+    "floats": {
+      "Rotational": [
+        "Void Blast"
+      ],
+      "Cooldown": [
+        "Halo"
+      ],
+      "Overflow": [
+        "Void Torrent"
+      ]
+    },
+    "outsideBandChanges": [],
+    "inventoryGaps": [
+      "Void Volley"
+    ],
+    "verdict": "amended",
+    "droppedOrFixed": 1,
+    "confidence": "medium",
+    "notes": "Shadow is a DoT builder/spender whose two hero trees (Voidweaver default, Archon) share ONE skeleton and swap only a few burst buttons \u2014 so fixedCore is large and floats are small.\n\nFIXEDCORE ordering (press frequency, both builds): SW:Madness is the spender that \"must never fall off the priority target\" (Rot 1). Mind Blast + Void Volley are the charge-based generators (Rot 2-3). SW:Pain / Vampiric Touch are the DoTs (VT parked at Rot 7 because Tentacle Slam auto-refreshes it, so it is hard-cast least often of the maintenance set). Tentacle Slam (VT spread, 6-12 targets) and SW:Death (execute + filler) round out Rot 5-6. Mind Flay is the terminal filler -> Overflow (on Archon it becomes the empowered Mind Flay: Insanity and is pressed far more, but it is the same button/base spell so it stays bound at Overflow 1 either way).\n\nCOOLDOWN: Voidform + Power Infusion are the synced 120s burst pair (press together) -> CD 1-2. Shadowfiend at CD 3 is the fiend cooldown; bind the BASE (Mindbender / Voidwraith are overrides on the same button). All three are effectively every-build.\n\nFLOATS = the hero-tree burst buttons. Voidweaver adds Void Torrent (opens Entropic Rift) + Void Blast (spends the Rift); Archon adds Halo. Only Rot 8 is free after fixedCore, so on a Voidweaver dump Void Blast (pressed more \u2014 multiple times per Rift window) lands Rot 8 and Void Torrent spills to Overflow 2 (hence Void Torrent is listed in BOTH the Rotational and Overflow float lists; it should bind once, in whichever band has a free slot). Archon dumps leave those Rotational/Overflow float slots empty and take Halo at CD 4 instead.\n\nCONFLICTS with layout-v2 \u00a76 (inventory + rotation.md win): (1) \u00a76 pairs \"Void Torrent / Halo\" at one build-exclusive Cooldown slot. I split them by the frequency rule: Void Torrent is a 30s CD (<45s) pressed on cooldown -> Rotational float; Halo is 60s -> Cooldown float. (2) \u00a76 pins Void Blast to a fixed Rotational 5 slot, but Void Blast is Voidweaver-only (talent-active, build-conditional) so it MUST float, not sit in fixedCore.\n\nRE-HOME NOTE (not a band eviction, so left out of outsideBandChanges): Power Infusion is promoted out of its current Class 4 (Special) bucket into Cooldown 2. Class 4 (Special) is thereby vacated/freed \u2014 Shadow has no other obvious \"special\" to fill it, so leave it empty; the applier should drop the stale PI entry from Class 4 so it is not double-bound. No ability was evicted from a combat band into a non-floating bucket, so outsideBandChanges is empty. Shadowfiend and Void Volley are NEW (previously unbound) and are gap-filled into the bands via fixedCore.\n\nVoid Volley is the one inventoryGap: it is absent from the Tier-1 talent-tree inventory but is a real pressed button in rotation.md (ST priority #3 both builds, \"high-priority Insanity generator, don't lose charges\") and resolves in SpellName.csv (spell 273944). Every other placed name is present in the inventory. | One structural fix (droppedOrFixed=1): Void Torrent was listed in BOTH the Rotational and Overflow float lists, which overflows the Rotational band. Rotational fixedCore fills Rot 1-7 (7 slots), leaving only Rot 8 free. In a Voidweaver build Void Blast AND Void Torrent both resolve = 7+2 = 9 > Rot 8 cap. Resolution: Void Blast (pressed multiple times per Entropic Rift window, higher frequency) takes the lone free Rotational slot; Void Torrent (30s CD, fired once per Rift-open) spills to the Overflow band. So Void Torrent now appears ONLY in Overflow floats. Post-fix capacity: Rot 8/8, CD 4/4 (Voidform, Power Infusion, Shadowfiend fixed + Halo float), Overflow 2/6 (Mind Flay fixed + Void Torrent float) \u2014 all within cap. No slot collision in either build: Voidweaver resolves Void Blast (Rot 8) + Void Torrent (Ovf 2) with CD 4 empty; Archon resolves Halo (CD 4) with Rot 8 / Ovf 2 empty.\n\nEverything else validated as-is:\n- NAMES: all names are in the Tier-1 inventory verbatim except Void Volley, which is correctly an inventoryGap and is a real pressed button \u2014 ST priority #3 in both Voidweaver and Archon per rotation.md, resolves in SpellName.csv (spell 273944).\n- FIXED=ALWAYS: the talent-active/mode=float fixedCore entries (SW:Madness, Mind Blast, Tentacle Slam, SW:Death, Voidform, Power Infusion) all appear in BOTH hero-tree priorities in rotation.md, so they are mandatory-every-build core, not choice nodes \u2014 legitimate fixedCore. Shadowfiend bound at the BASE (Mindbender/Voidwraith are same-button overrides); it is a baseline pet cooldown, appropriately parked in the Cooldown band rather than its odd inventory band=Rotational tag.\n- FLOATS/CHOICE PAIRS: Void Blast, Void Torrent, Halo are all origin=talent-active hero-tree buttons, none are talent-choice, so no missing sibling side is required. Void Torrent (Voidweaver) and Halo (Archon) are mutually exclusive across hero trees and never co-resolve.\n- BAND: Void Torrent cd=30 (<45) is Rotational-native, so Overflow (the rotational-spillover band) is the correct spill target, not Cooldown; Halo cd=60 correctly sits in the Cooldown float.\n- PI re-home: promoting Power Infusion from its stale Class 4 (Special) seed into Cooldown 2 is a move INTO a combat band (correct band per inventory: Cooldown, cd=120), not a band eviction, so outsideBandChanges is correctly empty. The applier should drop the stale Class 4 (Special) PI entry so it is not double-bound; Class 4 is then simply vacated.\n- No duplication after the fix; no ability is both fixed and float."
+  }
+]

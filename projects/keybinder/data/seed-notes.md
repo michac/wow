@@ -10,7 +10,8 @@ is generated from it.
 
 ## What's in it
 
-- `buckets` (52) — `category → keybind`, plus `bar`/`slot` from the Master Sheet.
+- `buckets` (58 as of LAYOUT v2; 52 pre-v2) — `category → keybind`, plus
+  `bar`/`slot` from the Master Sheet.
   This is the stable key→slot layer.
 - `specs` (40) — `class`, `spec`, and `abilities: {category → ability name}`.
   40 = 13 classes × 3 specs, +1 (Druid has 4; Demon Hunter's third spec is the

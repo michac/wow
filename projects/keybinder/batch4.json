@@ -1,0 +1,503 @@
+[
+  {
+    "class": "Rogue",
+    "spec": "Assassination",
+    "fixedCore": [
+      {
+        "bucket": "Rotational 1",
+        "ability": "Mutilate"
+      },
+      {
+        "bucket": "Rotational 2",
+        "ability": "Envenom"
+      },
+      {
+        "bucket": "Rotational 3",
+        "ability": "Rupture"
+      },
+      {
+        "bucket": "Rotational 4",
+        "ability": "Garrote"
+      },
+      {
+        "bucket": "Rotational 5",
+        "ability": "Fan of Knives"
+      },
+      {
+        "bucket": "Rotational 6",
+        "ability": "Ambush"
+      },
+      {
+        "bucket": "Rotational 7",
+        "ability": "Slice and Dice"
+      }
+    ],
+    "floats": {
+      "Rotational": [
+        "Crimson Tempest"
+      ],
+      "Cooldown": [
+        "Deathmark",
+        "Kingsbane"
+      ],
+      "Overflow": [
+        "Mark for Death"
+      ]
+    },
+    "outsideBandChanges": [],
+    "inventoryGaps": [],
+    "verdict": "clean",
+    "droppedOrFixed": 0,
+    "confidence": "high",
+    "notes": "Core rotation is well-grounded (rotation.md + inventory agree). fixedCore Rotational is the always-present kit ordered by press frequency: Mutilate (builder, most-pressed) > Envenom (primary spender) > Rupture > Garrote (DoT upkeep, periodic) > Fan of Knives (baseline AoE builder) > Ambush (stealth/Blindside press) > Slice and Dice. Slice and Dice was a straight omission from the current seed (\u00a76 flags it too) \u2014 added baseline.\\n\\nRot 8 left open for the lone Rotational float, Crimson Tempest (origin=talent-active; the Midnight AoE bleed-spreader, only talented in AoE/M+ builds).\\n\\nCooldown band has NO baseline damage cooldown \u2014 Deathmark (120s anchor) and Kingsbane (60s, synced into Deathmark) are both origin=talent-active / suggestedMode=float, so they float (addon drops if untalented) rather than fixedCore, even though the meta always runs them. Order = Deathmark then Kingsbane (meta-first). fixedCore Cooldown is intentionally empty.\\n\\nDEVIATION from \u00a76: \u00a76 promotes Vanish to Cooldown 3 (rotational Improved-Garrote refresh into the burst window). I did NOT move it. Vanish currently lives at Class 4 (Special) (SHIFT-4), a non-floating bucket, and apply_floats.py only clears Rotational/Cooldown/Overflow N keys \u2014 it cannot vacate a non-floating bucket. Placing Vanish in fixedCore Cooldown would double-bind it (SHIFT-4 AND SHIFT-R). It is already on a comparable shift-layer key and stays bound, so I left it untouched. If the editor wants the \u00a76 promotion, it needs a manual Class 4 (Special) vacate that this schema can't express.\\n\\nOverflow: Mark for Death added as an optional talented CP tool (target-swaps / Deathmark sync) \u2014 low-frequency, binds only when talented; Assassination otherwise fits cleanly in Rot 1-8 + CD, so this is the only Overflow candidate (medium confidence on this one item).\\n\\nLeft in their existing non-floating buckets per the band contract (reactive defensives/utility, not combat cooldowns): Shiv (Class 5 Purge \u2014 \u00a76 concurs; also a Deathstalker 6-CP press but its home stays Class 5), Thistle Tea (Self-Heal 2 \u2014 \u00a76 concurs), Evasion (Personal Defensive 1), Cloak of Shadows (Self-Heal 4), Blind (Class 2 CC), Kick/Kidney Shot/Cheap Shot/Crimson Vial/Sprint/Shroud/etc. Poison choice-node buffs (Numbing/Atrophic, Deadly/Amplifying) are the pre-pull poison macro (seed Res: Poisons), not keybound rotational presses \u2014 not floated. All placed names resolve in the Tier-1 inventory; no inventory gaps. | Verified against spec-inventory.json (Rogue/Assassination) and rotation.md (patch 12.0.7, simc Deathstalker default). No changes needed.\n\nNAMES: all 11 placed names are in the Tier-1 inventory verbatim (Mutilate, Envenom, Rupture, Garrote, Fan of Knives, Ambush, Slice and Dice, Crimson Tempest, Deathmark, Kingsbane, Mark for Death). inventoryGaps=[] is correct.\n\nFIXED=ALWAYS: fixedCore holds only class-baseline (Mutilate, Ambush, Slice and Dice) or cdm-only baseline residue (Envenom, Rupture, Garrote, Fan of Knives). None are origin=talent-choice/talent-active. rotation.md confirms the maintain-bleeds\u2192Envenom core and precombat Slice and Dice, so SnD's addition (a seed omission) is warranted. Order by press frequency is reasonable (Mutilate builder > Envenom spender > Rupture/Garrote periodic > FoK AoE > Ambush Blindside-proc > SnD upkeep) \u2014 nit-level at worst.\n\nFLOATS: Crimson Tempest (talent-active AoE bleed-spreader) in Rotational; Deathmark (120s) + Kingsbane (60s) both talent-active in Cooldown band \u2014 correct band per inventory tags. No talent-choice PAIR is floated (the choice-node actives \u2014 Gouge/Slow, Tricks/Raid-Def, poison buffs \u2014 stay in non-floating utility buckets), so the both-sides rule is not triggered.\n\nNO DUP / CAPACITY: no name is fixed+float or double-fixed. Rotational = 7 fixed + Crimson Tempest float = 8 (= Rot 8 cap). Cooldown = 2 floats (< CD 4). Overflow = 1 (< 6). Mark for Death (cd=20, inventory band=Rotational) is correctly parked in Overflow rather than Rotational: Rotational is full at 8, and rotation.md frames it as a low-frequency target-swap CP tool (\"use Mark for Death to move the Mark when swapping targets before a Darkest Night proc\") \u2014 a build-optional, situational press that binds only when talented. Overflow is the right catch-all; medium confidence retained.\n\nEVICTIONS: Kingsbane (seed Rot5) re-homed into the Cooldown band float (cd=60 \u2192 Cooldown) and Crimson Tempest (seed Rot7) into the Rotational float \u2014 both bound, nothing silently unbound.\n\nVANISH (\u00a76 deviation, upheld): declining to promote Vanish to Cooldown 3 is sound. Vanish sits at Class 4 (Special), a non-floating bucket apply_floats.py cannot vacate; a fixedCore Cooldown placement would double-bind (SHIFT-4 + SHIFT-R). rotation.md does treat Vanish as a rotational Improved-Garrote refresh, but the schema can't express the manual Class-4 vacate, so leaving it on its existing shift-layer key is correct within this tooling."
+  },
+  {
+    "class": "Rogue",
+    "spec": "Outlaw",
+    "fixedCore": [
+      {
+        "bucket": "Rotational 1",
+        "ability": "Sinister Strike"
+      },
+      {
+        "bucket": "Rotational 2",
+        "ability": "Dispatch"
+      },
+      {
+        "bucket": "Rotational 3",
+        "ability": "Pistol Shot"
+      },
+      {
+        "bucket": "Rotational 4",
+        "ability": "Between the Eyes"
+      },
+      {
+        "bucket": "Rotational 5",
+        "ability": "Roll the Bones"
+      },
+      {
+        "bucket": "Rotational 6",
+        "ability": "Slice and Dice"
+      },
+      {
+        "bucket": "Rotational 7",
+        "ability": "Blade Flurry"
+      },
+      {
+        "bucket": "Cooldown 1",
+        "ability": "Adrenaline Rush"
+      }
+    ],
+    "floats": {
+      "Rotational": [
+        "Coup de Grace",
+        "Ambush"
+      ],
+      "Cooldown": [
+        "Killing Spree",
+        "Keep It Rolling",
+        "Preparation"
+      ],
+      "Overflow": []
+    },
+    "outsideBandChanges": [
+      {
+        "bucket": "Movement Ability 2",
+        "ability": "Blade Rush",
+        "why": "Evicted from the Rotational band (was Rotational 7 in the current seed). Blade Rush (talent-active, cd 60) is a charge/gap-closer as much as a damage press; the Cooldown band is already at its 4-slot cap (Adrenaline Rush + Killing Spree + Keep It Rolling + Preparation), so per layout-v2 \u00a76 it re-homes to Movement Ability 2 to stay bound."
+      }
+    ],
+    "inventoryGaps": [],
+    "verdict": "clean",
+    "droppedOrFixed": 0,
+    "confidence": "high",
+    "notes": "Anchored on layout-v2 \u00a76 (Outlaw row), reconciled against the Tier-1 inventory and rotation.md; the two agree closely so confidence is high.\n\nfixedCore rationale (7 Rotational + 1 Cooldown, all baseline kit or universal-core):\n- Sinister Strike (Rot 1) is the primary builder/default filler = most-pressed. Dispatch (Rot 2) is the default ST finisher. Pistol Shot (Rot 3) is very high frequency under Fan the Hammer. These three plus Between the Eyes lead the press count.\n- Roll the Bones (Rot 5) and Slice and Dice (Rot 6) are baseline buff-maintenance presses \u2014 Outlaw is a buff-uptime spec. Slice and Dice was a straight omission in the current seed (\u00a76 flags it NEW); it is class-baseline so it belongs in fixedCore.\n- Blade Flurry (Rot 7) is the 30s cleave toggle that makes ST and AoE the same rotation.\n\nINVENTORY-BAND CONFLICTS (frequency wins per \u00a72, resolved toward Rotational):\n- Between the Eyes: inventory band=Cooldown (cd=45) but Restless Blades refunds its cooldown per combo point spent, so it is pressed as the #1 finisher effectively far more often than 45s. rotation.md: \"on cooldown\". Placed Rotational 4 per \u00a76.\n- Roll the Bones: inventory band=Cooldown (cd=45) but is a frequent maintenance/reroll press (Restless Blades again). Placed Rotational 5 per \u00a76.\n- Adrenaline Rush: inventory band=Cooldown (cd=180) \u2014 agrees; it is the anchor DPS cooldown pressed on cooldown by every build (not a choice node, not build-optional), so it earns fixedCore Cooldown 1.\n\nFLOATS:\n- Rotational: Coup de Grace first (Trickster is the recommended/meta S1 hero tree and it enters both the builder and finisher lists \u2014 fills Rotational 8). Ambush second (baseline opener that becomes a high-frequency builder on Hidden Opportunity/Audacity builds per rotation.md builders #1/#5 \u2014 takes Rotational 8 when Coup de Grace/Trickster isn't talented). They are not a shared choice node; listing both lets the addon bind whichever build resolves.\n- Cooldown: Killing Spree (cd=180, was Rotational 8 in the current seed \u2014 moved to its correct Cooldown home), then Keep It Rolling (cd=360, ~1min effective via Restless Blades), then Preparation (cd=240). All are separate talent nodes, priority-ordered; they fill Cooldown 2-4.\n- Overflow empty: Outlaw has no surplus of banded buttons.\n\nAll placed names resolve in the Tier-1 inventory (Slice and Dice, Coup de Grace, Ambush all present), so inventoryGaps is empty. Blade Rush is the only ability evicted out of a Combat band and is re-homed to keep it bound. | All 14 placed names are in the Tier-1 inventory verbatim; inventoryGaps empty is correct. No duplication, no talent-choice node in fixedCore. Adrenaline Rush stays in fixedCore (Cooldown 1): though origin=talent-active/suggestedMode=float, it is mandatory-every-build for Outlaw (rotation.md: use on cooldown, pre-cast in opener), which qualifies it. Band exceptions verified: Between the Eyes (cd45) and Roll the Bones (cd45) placed Rotational under the documented Restless Blades constant-press exception. Capacity respected: Rotational 7 fixed + 1 float slot \u2264 8; Cooldown 1 fixed + 3 floats = exactly the 4-cap. That CD cap is why the evicted Blade Rush re-homes to Movement Ability 2 rather than Cooldown floats. Evictions all accounted for: Killing Spree \u2192 Cooldown floats, Blade Rush \u2192 Movement Ability 2, and the previously-omitted Slice and Dice added to fixedCore. Rotational floats Coup de Grace (Trickster, recommended S1 meta \u2014 enters both builder and finisher lists) then Ambush (Hidden Opportunity builds) are priority-ordered; note the pair can co-resolve in a Trickster+Hidden-Opportunity build competing for the single Rot-8 slot, which the addon resolves by float priority. No changes required."
+  },
+  {
+    "class": "Rogue",
+    "spec": "Subtlety",
+    "fixedCore": [
+      {
+        "bucket": "Rotational 1",
+        "ability": "Backstab"
+      },
+      {
+        "bucket": "Rotational 2",
+        "ability": "Shadowstrike"
+      },
+      {
+        "bucket": "Rotational 3",
+        "ability": "Eviscerate"
+      },
+      {
+        "bucket": "Rotational 4",
+        "ability": "Secret Technique"
+      },
+      {
+        "bucket": "Rotational 5",
+        "ability": "Shuriken Storm"
+      },
+      {
+        "bucket": "Rotational 6",
+        "ability": "Shadow Dance"
+      },
+      {
+        "bucket": "Rotational 7",
+        "ability": "Black Powder"
+      },
+      {
+        "bucket": "Cooldown 1",
+        "ability": "Shadow Blades"
+      }
+    ],
+    "floats": {
+      "Rotational": [
+        "Coup de Grace"
+      ],
+      "Cooldown": [
+        "Goremaw's Bite"
+      ],
+      "Overflow": []
+    },
+    "outsideBandChanges": [],
+    "inventoryGaps": [
+      "Shadowstrike",
+      "Shuriken Storm",
+      "Black Powder"
+    ],
+    "verdict": "clean",
+    "droppedOrFixed": 0,
+    "confidence": "medium",
+    "notes": "Backstab is the base builder (Gloomblade overrides it on that same key \u2014 bind base, do NOT give Gloomblade its own float slot). Rot 1-4 are the constant single-target buttons (builder, Dance builder, primary finisher, Dance-gated Secret Technique); Rot 5-7 hold the AoE builder, the Dance window-enter, and the AoE finisher.\n\nCONFLICT with \u00a76 (inventory + rotation.md win): \u00a76 moves Shadow Dance into the Cooldown band. Inventory tags it band=Rotational cd=6.0 and the current seed has it at Rotational 5; it is entered on ~every burst window with a short recharge, so by the frequency rule it is Rotational, not a \u226545s window cooldown. Kept in Rotational (Rot 6).\n\nGoremaw's Bite reclassified Rotational->Cooldown-float. It is cd=45 (the band threshold) and origin=talent-active (build-conditional), so it floats. Placing it in the Cooldown band (rather than Rotational, where the seed/\u00a76 had it) both honors the \u226545s->Cooldown rule and avoids a float collision: keeping the lone open Rotational slot (Rot 8) free for Coup de Grace means a Trickster build that also talents Goremaw's Bite still binds both (Coup de Grace -> Rot 8, Goremaw's Bite -> Cooldown 2) instead of one going unbound.\n\nShadow Blades is origin=talent-active but is taken in every Subtlety build (the central burst engine that Shadow Dance charges are stacked onto) -> treated as a mandatory-core talent and pinned to fixedCore Cooldown 1 rather than floated.\n\nCoup de Grace is the Trickster capstone finisher (meta hero tree per rotation.md/builds); it IS in the inventory (origin=cdm-only), so it is a float, not a gap. It is the only build-conditional Rotational button, hence the single-entry Rotational float list.\n\nDECLINED \u00a76 promotions (to avoid churning non-band buckets, which the task says stay as-is): \u00a76 proposes promoting Vanish (currently Class 4 (Special)) and Thistle Tea (currently Self-Heal 2) into the Cooldown band. Both stay in their current reactive buckets \u2014 Vanish on S-F and Thistle Tea already on a fast reactive key are adequate for their offensive/energy uses, and pulling them in would vacate non-floating buckets. This leaves Cooldown 3-4 empty by design; Subtlety's remaining \u226545s abilities (Cloak of Shadows, Evasion, Blind, Sprint, Dismantle, Smoke Bomb) are defensives/utility that correctly live in reactive/utility buckets per \u00a72, not the Cooldown band.\n\ninventoryGaps: Shadowstrike (185438), Shuriken Storm (197835), Black Powder (319175) are core Subtlety buttons named in rotation.md and resolve in raw/wago/SpellName.csv, but the Blizzard talent-tree endpoint dropped them from the Tier-1 inventory \u2014 same class of hole as Frost's Glacial Spike. The addon resolves them by name at runtime. Top-up follow-up for the inventory source. | Verified against all 7 rules; no repairs needed. NAMES: Backstab, Eviscerate, Secret Technique, Shadow Dance, Shadow Blades, Coup de Grace, Goremaw's Bite are in the inventory verbatim. The three gap names all resolve in raw/wago/SpellName.csv (Shadowstrike 185438, Shuriken Storm 197835, Black Powder 319175) and are named in knowledge/classes/rogue/subtlety/rotation.md; all three are correctly declared in inventoryGaps (Blizzard talent-tree endpoint dropped them, same class of hole as Frost's Glacial Spike; addon resolves by name). FIXED=ALWAYS: all fixedCore are class-baseline/cdm-only base kit except Shadow Blades (talent-active) which is the mandatory-every-build burst engine \u2014 allowed as mandatory-core; no talent-choice node sits in fixedCore. Coup de Grace is correctly floated (Trickster-only capstone, build-conditional) rather than pinned, overriding the inventory's mode=fixed hint in the more-compliant direction. Gloomblade is an override of Backstab so the base is bound and Gloomblade gets no separate float \u2014 correct. BAND: Shadow Dance kept Rotational (cd=6, entered every burst window \u2014 correctly declines \u00a76's Cooldown reclassification per the frequency rule); Goremaw's Bite floated to Cooldown (cd=45, the band threshold); Shadow Blades in Cooldown (cd=90). No split talent-choice active pair exists in the floating bands (the other talent-choice inventory entries are passives, not bindable). CAPACITY: Rot 7 fixed + 1 float = 8 (=cap), CD 1 fixed + 1 float = 2 (<=4), Overflow 0. No duplication; no band ability left unbound (Goremaw re-homed Rot->CD within floating bands, documented). verdict=clean, 0 changes."
+  },
+  {
+    "class": "Shaman",
+    "spec": "Elemental",
+    "fixedCore": [
+      {
+        "bucket": "Rotational 1",
+        "ability": "Lightning Bolt"
+      },
+      {
+        "bucket": "Rotational 2",
+        "ability": "Lava Burst"
+      },
+      {
+        "bucket": "Rotational 3",
+        "ability": "Flame Shock"
+      },
+      {
+        "bucket": "Rotational 4",
+        "ability": "Chain Lightning"
+      },
+      {
+        "bucket": "Cooldown 1",
+        "ability": "Ascendance"
+      },
+      {
+        "bucket": "Cooldown 2",
+        "ability": "Stormkeeper"
+      }
+    ],
+    "floats": {
+      "Rotational": [
+        "Elemental Blast",
+        "Earthquake",
+        "Tempest",
+        "Ancestral Swiftness",
+        "Voltaic Blaze",
+        "Earth Shock"
+      ],
+      "Cooldown": [
+        "Storm Elemental",
+        "Fire Elemental",
+        "Nature's Swiftness"
+      ],
+      "Overflow": [
+        "Frost Shock"
+      ]
+    },
+    "outsideBandChanges": [],
+    "inventoryGaps": [
+      "Fire Elemental",
+      "Storm Elemental"
+    ],
+    "verdict": "clean",
+    "droppedOrFixed": 0,
+    "confidence": "medium",
+    "notes": "Spine (rotation.md, confidence:high, Tier-1 simc APL): keep Flame Shock up -> Lava Burst on Lava Surge -> build Maelstrom with Lightning Bolt/Chain Lightning -> dump with Earth Shock/Elemental Blast (ST) or Earthquake (AoE) -> spend Tempest procs (Stormbringer) -> stack CDs.\n\nfixedCore rationale: Lightning Bolt/Flame Shock are class-baseline; Lava Burst and Chain Lightning are talent-active but mandatory-core for every Elemental build (no build skips them), so they hold the fast unmodified keys. Rotational order by press frequency: LB (baseline filler, most-pressed) > Lava Burst (every proc/MotE setup) > Flame Shock (6s DoT upkeep) > Chain Lightning (AoE builder). Ascendance (180s apex burst) and Stormkeeper (60s core setup CD, held to pair with Ascendance) are the two universal >=45s CDs -> fixedCore Cooldown, mirroring the Demonology pilot where the universally-taken apex CD (Tyrant) was fixed and hero/build CDs floated.\n\nRotational floats = the Maelstrom-spender choice + hero-tree spenders, ordered meta-first: Elemental Blast and Earth Shock are the two sides of the ST-spender choice node (both listed, exactly one resolves); Earthquake is the near-universal AoE spender; Tempest is Stormbringer's proc spender; Ancestral Swiftness is Farseer's 30s enabler; Voltaic Blaze is an optional instant-Flame-Shock talent. 6 candidates fill the 4 open Rot 5-8 slots at dump time.\n\nCooldown floats: Storm Elemental / Fire Elemental are the DPS-elemental choice node (both listed); Nature's Swiftness (60s) is the non-Farseer instant enabler.\n\nOverflow: Frost Shock is EVICTED from its old Cooldown 4 (Combat-band) slot and re-homed into the Overflow floating band -- rotation.md uses it only as a movement instant filler (Flame Shock -> Voltaic Blaze -> Frost Shock while moving), a genuine but low-priority button that overflows past the 8 rotational slots. This keeps it bound on a CTRL key with no non-floating re-home needed, so outsideBandChanges is empty. (Note: the pre-existing Slow bucket already holds Earthgrab Totem, which I left untouched; putting Frost Shock in Overflow avoids cascade-evicting Earthgrab.)\n\nCONFLICTS with layout-v2 \u00a76 (Tier-1 inventory + rotation.md win): (1) \u00a76 hard-codes Earth Shock into Rot 3, but Earth Shock/Elemental Blast are a talent-choice pair per the inventory, so both must float -- fixed core cannot hold a choice-node side. I promoted the always-present Chain Lightning to fixedCore Rot 4 instead. (2) \u00a76 places Ancestral Swiftness in CD 4; by the frequency-not-power rule it is a 30s button pressed on cooldown as single-target priority #1, so it belongs in the Rotational floats, not Cooldown.\n\nEarth Elemental stays in its current Personal Defensive 2 (non-floating) bucket, untouched. inventoryGaps: Fire Elemental (198067) and Storm Elemental (157299) are the real DPS-elemental CDs named in rotation.md but absent from the Tier-1 inventory (which only carries the defensive Earth Elemental); both resolve exactly in SpellName.csv. | Verified against spec-inventory.json for Shaman/Elemental; all seven checks pass, no repairs needed.\n\n(1) NAMES: all fixedCore + Rotational floats + Overflow float are in the inventory verbatim (Tempest, Voltaic Blaze, Ancestral Swiftness, Frost Shock all present). The two Cooldown floats not in the inventory \u2014 Storm Elemental (157299) and Fire Elemental (198067) \u2014 are declared in inventoryGaps and grep-confirmed as real spells in raw/wago/SpellName.csv (the inventory only carries the defensive Earth Elemental, so both DPS elementals are genuine Blizzard-API-omitted gaps resolved by name at runtime).\n\n(2) FIXED=ALWAYS: none of the six fixedCore entries is origin=talent-choice. Lightning Bolt/Flame Shock are class-baseline; Lava Burst, Chain Lightning, Ascendance, Stormkeeper are origin=talent-active (non-choice) and mandatory-every-build core \u2014 legal for fixedCore. Ascendance (180s) + Stormkeeper (60s) both carry inventory band=Cooldown, so CD-band placement is correct.\n\n(3) CHOICE SIDES: the only pressable rotational-damage talent-choice cluster (Earth Shock / Elemental Blast / Earthquake) has ALL sides present in Rotational floats. Both DPS-elemental choice sides (Storm/Fire) are present in Cooldown floats. Remaining talent-choice nodes are utility/passive and live in non-floating buckets, correctly untouched.\n\n(4) NO DUP: no ability appears twice; fixedCore and floats are disjoint.\n\n(5) CAPACITY: Rot = 4 fixed + 4 open slots (Rot5-8); the 6 Rotational float candidates never exceed 4 simultaneously \u2014 Tempest is Stormbringer-only and Ancestral Swiftness is Farseer-only (mutually exclusive hero trees), and Earth Shock XOR Elemental Blast resolve to one, giving a max of ES|EB + Earthquake + [Tempest|AncSwift] + Voltaic Blaze = 4. CD = 2 fixed + [Storm|Fire] + Nature's Swiftness = 4, fits CD1-4. Overflow = 1, fits.\n\n(6) BAND CORRECTNESS: Ancestral Swiftness (cd=30, inventory band=Rotational) correctly moved to Rotational floats, overriding \u00a76's CD4 placement per the frequency rule. Nature's Swiftness (cd=60, band=Cooldown) correctly in Cooldown floats. Elementals (~150-180s) \u2192 Cooldown. Frost Shock (band=Rotational, movement filler) \u2192 Overflow, a valid rotational sub-band.\n\n(7) EVICTIONS: every seed ability displaced by the re-band is re-homed within a float band \u2014 Frost Shock (seed Cooldown 4 \u2192 Overflow), Nature's Swiftness (seed Rotational 8 \u2192 Cooldown floats), Stormkeeper (seed Rotational 7 \u2192 fixedCore CD2), Earth Shock/Earthquake (seed Rot5/6 \u2192 Rotational floats). Nothing left unbound, so outsideBandChanges is legitimately empty; Earthgrab Totem (Slow) and Earth Elemental (Personal Defensive 2) stay put with no cascade."
+  },
+  {
+    "class": "Shaman",
+    "spec": "Enhancement",
+    "fixedCore": [
+      {
+        "bucket": "Rotational 1",
+        "ability": "Stormstrike"
+      },
+      {
+        "bucket": "Rotational 2",
+        "ability": "Lava Lash"
+      },
+      {
+        "bucket": "Rotational 3",
+        "ability": "Crash Lightning"
+      },
+      {
+        "bucket": "Rotational 4",
+        "ability": "Lightning Bolt"
+      },
+      {
+        "bucket": "Rotational 5",
+        "ability": "Chain Lightning"
+      },
+      {
+        "bucket": "Overflow 1",
+        "ability": "Flame Shock"
+      }
+    ],
+    "floats": {
+      "Rotational": [
+        "Voltaic Blaze",
+        "Primordial Storm",
+        "Tempest",
+        "Sundering"
+      ],
+      "Cooldown": [
+        "Doom Winds",
+        "Feral Spirit",
+        "Surging Totem",
+        "Ascendance",
+        "Nature's Swiftness"
+      ],
+      "Overflow": [
+        "Frost Shock"
+      ]
+    },
+    "outsideBandChanges": [],
+    "inventoryGaps": [],
+    "verdict": "clean",
+    "droppedOrFixed": 0,
+    "confidence": "high",
+    "notes": "Fixed vs float hinges on the Stormbringer/Totemic hero-tree fork. fixedCore = the 5 buttons every Enhancement build presses regardless of tree (Stormstrike builder; Lava Lash + Crash Lightning core builders/upkeep \u2014 talent-active but taken 100% of builds, so treated as mandatory-core like the Demonology example; Lightning Bolt baseline ST spender; Chain Lightning near-universal AoE spender). Ordered Rot1-5 by press frequency per rotation.md (Stormstrike hold-off-cap builder most-pressed; spenders after builders). Everything genuinely build/tree-conditional floats.\n\nRotational floats fill Rot 6-8 (keys 1/2/3, still fast unmod). Voltaic Blaze first (current meta filler + Flame Shock applier, heavy in rotation.md's opener and spread logic). Primordial Storm + Tempest are the mutually-exclusive 10-Maelstrom hero-tree spenders \u2014 both listed, exactly one resolves at dump time (Primordial Storm = Totemic first, raid-preferred per builds; Tempest = Stormbringer). Sundering last (30s, lower cadence than the spender). On any single tree exactly 3 floats resolve = fills Rot 6-8 with no spill.\n\nCooldown floats are the \u226545s burst window: Doom Winds (main burst, most builds), Feral Spirit (near-universal ~2min burst), then Surging Totem, Ascendance, Nature's Swiftness. Per build \u22644 resolve (Doom Winds XOR Ascendance-active mostly; Surging Totem only Totemic) so SHIFT-Q/E/R/F fills cleanly.\n\nDIVERGENCES from layout-v2 \u00a76 (Tier-1 inventory + rotation.md win): (1) \u00a76 put Surging Totem in CD 3 as fixed \u2014 inventory bands it Rotational (cd=25s, <45s) and it's Totemic-EXCLUSIVE, so I float it (Cooldown-layer float, drop-and-forget cadence suits SHIFT-R). (2) \u00a76 said 'Frost Shock -> slow' \u2014 the Slow bucket already holds Earthgrab Totem, so Frost Shock stays inside the combat bands as a low Overflow float (movement instant filler; rotation.md barely uses it). (3) \u00a76 said 'evict Nature's Swiftness -> Class bucket' \u2014 all 8 Class + all 4 Self-Heal buckets are full, and a reactive off-heal enabler is better on a reachable SHIFT key than an Alt slot, so I keep it as the lowest Cooldown float rather than force a worse eviction. Result: NO abilities leave the three combat bands, so outsideBandChanges is empty; the current Rot/CD occupants all re-home within Rot/CD/Overflow, and the additions (Voltaic Blaze, Primordial Storm, Tempest, Feral Spirit, Ascendance) were previously unplaced.\n\nFlame Shock demoted from Rotational to Overflow 1 per \u00a76 intent (Voltaic Blaze applies/spreads it; hardcast is last-resort filler). Caveat: on a rare no-Voltaic-Blaze build, Flame Shock hardcast becomes real 6s maintenance yet sits on a slower CTRL key \u2014 acceptable since meta runs Voltaic Blaze. Overrides bind the base (Stormstrike, not Windstrike in Ascendance). Note: Ancestral Swiftness (cdm-only, cd30) may be the actually-talented instant-cast in the current meta rather than Nature's Swiftness; it's a utility/heal-enabler, currently unplaced and outside these three bands, so out of scope here but worth a utility-bucket follow-up. | All 16 names verify verbatim against the Tier-1 inventory; no inventoryGaps, no invented names. Rule 2 OK: no fixedCore entry is origin=talent-choice \u2014 Stormstrike (cdm-only), Lightning Bolt/Flame Shock (class-baseline), Lava Lash/Crash Lightning/Chain Lightning (talent-active but 100%-of-builds core builders/spenders, Demonology precedent). No duplication.\\n\\nCapacity is exactly-bounded and safe. Rotational = 5 fixed + resolvable floats; Primordial Storm (Totemic capstone) XOR Tempest (Stormbringer capstone) are hero-tree mutually exclusive so exactly one resolves, giving max Voltaic Blaze + one spender + Sundering = 3 \u2192 total exactly 8. That 8-cap is precisely what forces Flame Shock out of its inventory Rotational band into Overflow 1 (correct, capacity-driven, not a band error). Overflow = Flame Shock + Frost Shock = 2/6.\\n\\nCooldown lists 5 candidates against a cap of 4; on the rare Totemic-plus-both-class-capstones build a 5th (Nature's Swiftness, ordered last) would spill, but priority-ordered float degradation handles that and meta Totemic does not run Ascendance, so \u22644 resolve in practice \u2014 acceptable, not a defect.\\n\\nBand cross-placements all defensible: Feral Spirit's Rotational tag is a cdm-only artifact (it is a charge-based burst CD \u2192 Cooldown); Surging Totem (cd25, Totemic-exclusive) forced to Cooldown because Rotational is full; Frost Shock to Overflow as situational filler. Evictions: every current combat-band occupant (Flame Shock, Sundering, Surging Totem, Doom Winds, Nature's Swiftness, Frost Shock) re-homes within Rot/CD/Overflow \u2014 nothing leaves the combat bands, so outsideBandChanges=[] is correct and nothing is silently unbound. Nature's Swiftness kept as lowest CD float rather than \u00a76's evict-to-Class since Class/Self-Heal buckets are full; the proposal's own Ancestral-Swiftness caveat is a utility-bucket follow-up, out of scope for these three bands. No repairs required \u2014 returned unchanged."
+  },
+  {
+    "class": "Warlock",
+    "spec": "Affliction",
+    "fixedCore": [
+      {
+        "bucket": "Rotational 1",
+        "ability": "Unstable Affliction"
+      },
+      {
+        "bucket": "Rotational 2",
+        "ability": "Agony"
+      },
+      {
+        "bucket": "Rotational 3",
+        "ability": "Corruption"
+      },
+      {
+        "bucket": "Rotational 4",
+        "ability": "Haunt"
+      },
+      {
+        "bucket": "Rotational 5",
+        "ability": "Shadow Bolt"
+      },
+      {
+        "bucket": "Cooldown 1",
+        "ability": "Summon Darkglare"
+      }
+    ],
+    "floats": {
+      "Rotational": [
+        "Drain Soul",
+        "Seed of Corruption",
+        "Shadow of Nathreza"
+      ],
+      "Cooldown": [
+        "Dark Harvest",
+        "Malevolence"
+      ],
+      "Overflow": [
+        "Grimoire of Sacrifice"
+      ]
+    },
+    "outsideBandChanges": [],
+    "inventoryGaps": [],
+    "verdict": "amended",
+    "droppedOrFixed": 1,
+    "confidence": "high",
+    "notes": "FIXEDCORE ordering (press frequency, meta Soul Harvester build): UA is the primary spender (every shard/Shard-Instability proc) so Rot 1 (Q); Agony + Corruption are the two maintenance DoTs tapped on a cadence (Rot 2/3); Haunt is a 15s CD pressed on cooldown, <45s so Rotational not Cooldown (Rot 4); Shadow Bolt is the class-baseline filler \u2014 on-the-move filler and the button that becomes Malefic Grasp inside Darkglare \u2014 so it must be fixedCore and sits at Rot 5. UA/Agony/Haunt are talent-active but spec-defining and never dropped in any real Affliction build, so they qualify as mandatory-core fixedCore rather than floats.\n\nDRAIN SOUL is origin=talent-choice (the filler-upgrade node), so it CANNOT be fixedCore and floats as the #1 Rotational candidate \u2014 in the meta build it lands on the first empty Rotational slot (Rot 6). \u00a76 wanted it on E (Rot 2); I diverge because (a) the choice-node rule forbids pinning it and (b) it is a held channel, so its actual key-press count is lower than the instant DoT/spender taps that earn the Q E R F keys. If playtesting shows it wants a faster key, it is a trivial promote.\n\nDARK HARVEST: the seed wrongly parked it at Rotational 7. Inventory says band=Cooldown, cd=60s, and rotation.md uses it as the burst pair cast right before Darkglare \u2014 so it moves to the Cooldown band as the top Cooldown float (Soul Harvester meta). Matches \u00a76 (CD 2). MALEVOLENCE is the Hellcaller (hero-tree) 1-min CD alternative \u2192 2nd Cooldown float. Summon Darkglare is the near-universal signature 2-min CD (class talent, both hero trees) \u2192 fixedCore CD 1.\n\nSHADOW OF NATHREZA: Soul Harvester apex active, currently bound nowhere. Inventory tags it band=Rotational, cd=0.0 (no cooldown returned by the API). \u00a76 preferred CD 3. Per the hard rule (Tier-1 inventory wins over \u00a76, and rotation.md never mentions it) I place it as a Rotational float. CAVEAT: if it is confirmed a long-CD (\u226545s) apex burst, it should move to the Cooldown band per \u00a76 and the frequency-not-power rule \u2014 flag for in-game verification.\n\nGRIMOIRE OF SACRIFICE (talent-choice, once-per-pull pet-sacrifice toggle) had no bind in the seed; parked in Overflow as its low-frequency home. WITHER is the Hellcaller Corruption override (hero tree, ~0/50 S1 usage) \u2192 last Rotational float; it and Drain Soul/Seed resolve per the talented build at dump time.\n\nMALEFIC GRASP is not an inventory gap: it is Shadow Bolt's Darkglare-window override, so binding the base Shadow Bolt (fixedCore Rot 5) covers it \u2014 the game swaps the icon. No inventoryGaps and no outsideBandChanges: nothing is evicted to a non-floating bucket (all seed Rotational/Cooldown occupants re-home within the three floating bands), and Interrupt = Command Demon is already correct for Felhunter-running Affliction. | DROPPED WITHER from the Rotational floats (the one fix). abilities.md (\"Corruption... Replaced by Wither under Hellcaller\") and rotation.md (\"Wither instead of Corruption\") confirm Wither is Hellcaller's spell-OVERRIDE of Corruption \u2014 the exact Infernal-Bolt/Shadow-Bolt case the schema names (\"bind the BASE of an override\"). Corruption is already fixedCore (Rot 3), so binding it covers Wither in-game via the icon/keybind swap; a separate Wither float would double-bind a key. The proposal itself used this reasoning to correctly exclude Malefic Grasp (Shadow Bolt's Darkglare override) but then inconsistently kept Wither. The seed never bound Wither either. Dropping it also resolves a latent capacity edge: in a Hellcaller build (Wither + Drain Soul + Seed + Shadow of Nathreza) the Rotational floats would have pushed 5 fixed + 4 = Rot 9, over the Rot 8 cap; at 3 floats it lands at Rot 8 exactly. Not an eviction needing re-home (Rule 7) \u2014 it is genuinely covered by the base Corruption binding, same as Malefic Grasp is covered by Shadow Bolt.\n\nNO OTHER CHANGES. Verified against the Tier-1 inventory and all-talents.tsv:\n- NAMES (Rule 1): every retained fixedCore/float name is in the inventory verbatim. inventoryGaps empty; Malefic Grasp is correctly NOT a gap (base Shadow Bolt covers it).\n- FIXED (Rule 2): UA, Agony, Haunt are origin=talent-active (NOT talent-choice) and mandatory in every real Affliction build (UA/Agony are the defining spender+builder, Haunt is cast on CD with apex investment); Corruption/Shadow Bolt are class-baseline; Summon Darkglare is the near-universal 2-min signature in both hero trees. None are choice nodes \u2014 all legal fixedCore.\n- CHOICE PAIRS (Rule 3): the two floating-band talent-choice actives are Drain Soul (pair = Improved Shadow Bolt, a PASSIVE) and Grimoire of Sacrifice (pair = Summoner's Embrace, a PASSIVE). Each partner is non-bindable, so listing only the active side satisfies the rule \u2014 no missing choice-side.\n- BAND (Rule 6): Shadow of Nathreza kept in Rotational per the inventory band tag (cd returns 0/none), honoring the hard rule that Tier-1 inventory beats \u00a76's CD-3 preference; flagged for in-game verify if it proves to be a long-CD apex burst. Grimoire of Sacrifice's Overflow home (a once-per-pull pet-sacrifice toggle, genuine low-frequency) is a defensible band placement over its nominal cd=30 Rotational tag.\n- Dark Harvest correctly relocated seed\u2192Rotational-7 to the Cooldown band (inventory band=Cooldown, cd=60, cast before Darkglare per rotation.md); Malevolence is the Hellcaller 1-min CD Cooldown float. Both are talent-active, not choice nodes.\n- NO DUPLICATION (Rule 4) and CAPACITY (Rule 5) both hold after the Wither drop.\n- Utility choice pairs Howl of Terror / Shadowfury and Blight of Weakness / Blight of Tongues live in the CC/Class buckets (non-floating) and are outside this DPS fixed-core+floats scope; left untouched."
+  },
+  {
+    "class": "Warlock",
+    "spec": "Destruction",
+    "fixedCore": [
+      {
+        "bucket": "Rotational 1",
+        "ability": "Incinerate"
+      },
+      {
+        "bucket": "Rotational 2",
+        "ability": "Conflagrate"
+      },
+      {
+        "bucket": "Rotational 3",
+        "ability": "Chaos Bolt"
+      },
+      {
+        "bucket": "Rotational 4",
+        "ability": "Immolate"
+      },
+      {
+        "bucket": "Rotational 5",
+        "ability": "Shadowburn"
+      },
+      {
+        "bucket": "Cooldown 1",
+        "ability": "Summon Infernal"
+      }
+    ],
+    "floats": {
+      "Rotational": [
+        "Rain of Fire",
+        "Ruination",
+        "Havoc"
+      ],
+      "Cooldown": [
+        "Soul Fire",
+        "Malevolence"
+      ],
+      "Overflow": [
+        "Infernal Bolt",
+        "Cataclysm",
+        "Embers of Nihilam",
+        "Channel Demonfire",
+        "Grimoire of Sacrifice"
+      ]
+    },
+    "outsideBandChanges": [],
+    "inventoryGaps": [
+      "Incinerate"
+    ],
+    "verdict": "clean",
+    "droppedOrFixed": 0,
+    "confidence": "medium",
+    "notes": "FIXEDCORE: 5 universal Rotational buttons + Summon Infernal. Incinerate (baseline filler, #1 press, inventory GAP \u2014 API tree omits it, verified spell 19397, rotation.md relies on it as the main filler/opener finisher). Conflagrate + Chaos Bolt + Shadowburn are origin=talent-active (not choice nodes) but taken in 100% of viable builds \u2014 treated as mandatory-every-build core, mirroring how the Demonology worked example put talent-actives Call Dreadstalkers into fixedCore. Immolate is the DoT base; WITHER (Hellcaller) is a same-button override of Immolate (\u00a72 override list, \u00a76 confirms) so it is bound via the Immolate base and deliberately NOT listed as its own float \u2014 the game swaps the icon. Summon Infernal (talent-active, 120s) is the spec's defining burst CD in every build \u2192 Cooldown 1 (parallel to Demo's Tyrant).\n\nROTATIONAL FLOATS fill Rot 6-8: Rain of Fire (near-universal spender, both trees), Ruination (cdm-only Diabolist proc \u2014 meta default is Diabolist; rotation.md step 8 'free proc, press it'), Havoc (30s cleave setup). Inventory bands Havoc=Rotational (cd=30, <45s situational) \u2014 this OVERRIDES \u00a76, which parked Havoc at Cooldown 4; the <45s frequency rule + inventory band win.\n\nCOOLDOWN FLOATS fill CD 2-4: Soul Fire (top \u2014 45s builder pressed on CD w/ Backdraft; rotation.md calls it #1 in the Diabolist ST list, but inventory bands it Cooldown at exactly cd=45 so it lands here rather than Rot; the strongest of the CD floats), Malevolence (Hellcaller 60s burst; note the rotation.md caution that it does NOT align with the 120/90s Infernal).\n\nOVERFLOW FLOATS (Destruction is \u00a76's 'most overloaded spec'): Infernal Bolt (Diabolist shard-refill, distinct APL step \u2014 a real separate button, NOT an Incinerate override, per \u00a76), Cataclysm (30s, talent/Lake-of-Fire-gated, used between packs \u2014 inventory band=Rotational but routed to Overflow as surplus rotational-class button so it is guaranteed a slot rather than being squeezed out of Rot 6-8; Overflow holds surplus rotational buttons, so this does not contradict the band field), Embers of Nihilam (apex talent-active, cd=\u2014, uncertain press cadence and unmentioned in rotation.md \u2014 placed low), Channel Demonfire (talent-choice cd=25; \u00a76 recommends DROP as absent from the 12.0.7 APL and rotation.md \u2014 kept only as a low-priority safety-net float since it is a real talentable button that binds only if taken), Grimoire of Sacrifice (talent-choice, one-time pet-sacrifice cast \u2014 low).\n\nNO outsideBandChanges: nothing is evicted to a non-floating bucket. Interrupt is already Command Demon (unlike Demo's Spell Lock fix). Every reband stays inside the three floating bands.\n\nCONFLICTS with \u00a76: (1) Havoc \u2192 Rotational (inventory band), not Cooldown 4. (2) Soul Fire \u2192 Cooldown (inventory band=Cooldown, cd=45), not Rot 6 \u2014 flagging the tension with rotation.md's high-frequency framing. (3) Channel Demonfire kept (low) rather than dropped. (4) Embers of Nihilam kept low despite \u00a76 pitching it as an apex Cooldown \u2014 inventory shows cd=\u2014 (no cooldown) so it is not a Cooldown-band ability. | All placements verified against the Tier-1 inventory; no changes to fixedCore or floats were required. The only structural correction was populating inventoryGaps with Incinerate \u2014 the proposal's prose flagged it as a gap but the field was absent.\\n\\nNAMES: 15 of 16 names are in the inventory verbatim. Incinerate is not (the Blizzard API talent tree omits the baseline Destro filler); confirmed real via `grep -F Incinerate raw/wago/SpellName.csv` \u2192 `19397,Incinerate`, and it is the spec's #1 filler in rotation.md \u2192 legitimate inventory gap, now listed.\\n\\nFIXED=ALWAYS-PRESENT: nothing in fixedCore is origin=talent-choice. Conflagrate/Chaos Bolt/Shadowburn are origin=talent-active and universal to every viable Destruction build; Summon Infernal (talent-active, 120s) is the defining burst CD; Immolate is cdm-only/fixed; Incinerate is baseline. Kept as mandatory-core per the Demo worked-example precedent (Call Dreadstalkers). Note: inventory suggestedMode=float on the three actives is a soft hint the reviewer is allowed to override for universal picks.\\n\\nCHOICE-SIDES: the talent-choice abilities placed in floats (Rain of Fire, Havoc, Soul Fire, Channel Demonfire, Grimoire of Sacrifice) have no missing floatable-active partner \u2014 their choice-node counterparts (Mayhem, Grimoire of Synergy, etc.) are passives/buffs that need no keybind. Blight of Tongues/Blight of Weakness is a genuine choice pair but sits in the non-floating Class 4 bucket, out of scope for the floats check.\\n\\nBANDS: Soul Fire\u2192Cooldown (cd=45, matches inventory band); Havoc\u2192Rotational (cd=30, <45s, matches inventory band, correctly overriding the seed's Cooldown 4); Cataclysm/Channel Demonfire/Infernal Bolt routed to Overflow as surplus rotational-class buttons (allowed). No band violations.\\n\\nCAPACITY: Rot 5 fixed + 3 float = 8 (=cap); CD 1 fixed + 2 float = 3 (\u22644); Overflow 5 (\u22646). All fit. No duplication across fixed/float. No band ability was evicted, so outsideBandChanges is correctly empty."
+  },
+  {
+    "class": "Warrior",
+    "spec": "Arms",
+    "fixedCore": [
+      {
+        "bucket": "Rotational 1",
+        "ability": "Mortal Strike"
+      },
+      {
+        "bucket": "Rotational 2",
+        "ability": "Overpower"
+      },
+      {
+        "bucket": "Rotational 3",
+        "ability": "Execute"
+      },
+      {
+        "bucket": "Rotational 4",
+        "ability": "Slam"
+      },
+      {
+        "bucket": "Rotational 8",
+        "ability": "Sweeping Strikes"
+      },
+      {
+        "bucket": "Cooldown 1",
+        "ability": "Colossus Smash"
+      }
+    ],
+    "floats": {
+      "Rotational": [
+        "Cleave",
+        "Rend",
+        "Demolish",
+        "Ravager",
+        "Heroic Strike"
+      ],
+      "Cooldown": [
+        "Avatar",
+        "Champion's Spear",
+        "Bladestorm"
+      ],
+      "Overflow": [
+        "Thunder Clap",
+        "Whirlwind"
+      ]
+    },
+    "outsideBandChanges": [],
+    "inventoryGaps": [
+      "Heroic Strike"
+    ],
+    "verdict": "clean",
+    "droppedOrFixed": 0,
+    "confidence": "high",
+    "notes": "Grounding is strong: rotation.md is confidence:high, cites the Tier-1 simc MID1 APL (12.0.7). Arms is an \"act-on\" DPS spec per layout-v2 \u00a710.\n\nfixedCore rationale \u2014 the always-present core: Execute + Slam are class-baseline. Mortal Strike, Overpower, and Colossus Smash are technically talent-active but are mandatory-every-build core talents (no Arms build skips them; \"the whole rotation orbits the Colossus Smash window\"), so they qualify for fixedCore under the \"mandatory core talent\" allowance. Rot 1-4 order follows \u00a76 (MS highest priority; Overpower 2-charge highest raw cast count; then Execute, Slam). Sweeping Strikes (cdm-only/fixed, always available) is pinned to Rot 8 \u2014 it's a 30s 2-target button, secondary/situational vs the always-on builders, so it takes the lowest secondary slot and leaves Rot 5/6/7 for the floats. Colossus Smash re-bands from its stale seed slot (Rotational 3) down to Cooldown 1 per its cd=45 window role (\u00a72 \u226545s rule; \u00a76 agrees).\n\nRotational floats fill the three open slots (5/6/7), meta-ordered: Cleave (Colossus AoE core), Rend (bleed maintenance, both trees), Demolish (Colossus hero payoff, cd=30 \u2192 Rotational by the frequency rule), Ravager, Heroic Strike. Ravager/Bladestorm are the SAME choice node \u2014 Ravager listed in Rotational (cd=8), Bladestorm in Cooldown (cd=90); exactly one resolves at dump time, which is the point.\n\nCooldown floats: Avatar and Champion's Spear are near-universal 90s majors but are build-optional talents, so they float rather than pin; Bladestorm is the Slayer half of the Ravager choice node.\n\nOverflow floats (Thunder Clap, Whirlwind): AoE-only Colossus/Fervor-of-Battle buttons that only appear on multi-target builds. Rotational's 3 float slots are contested by higher-frequency ST buttons, so these spill to Overflow rather than push a core builder out; on a Slayer ST build neither is talented and Overflow stays empty.\n\nCONFLICTS with \u00a76 (Tier-1 inventory + rotation.md win): (1) \u00a76 pairs \"Bladestorm OR Demolish\" in the Cooldown band; I keep Demolish in Rotational because the inventory bands it Rotational and cd=30 < 45 (frequency-not-power rule) \u2014 it is pressed every Colossus Smash window, not held as a burst cooldown. (2) \u00a76 lists Heroic Strike + Whirlwind as unbound gaps; I place Heroic Strike (Rotational float, inventory gap) and Whirlwind (Overflow float, already in inventory as class-baseline).\n\ninventoryGaps: Heroic Strike is absent from the Tier-1 inventory (the API talent-tree omits it \u2014 it's the Master of Warfare apex filler) but rotation.md relies on it heavily (Slayer ST list ranks it above Mortal Strike; also in the execute lists) and it resolves in SpellName.csv (25710). The addon will resolve it by name at runtime and drop it when Master of Warfare is untalented.\n\nNo outsideBandChanges: every ability currently in the three floating bands (Slam, Mortal Strike, Colossus Smash, Overpower, Execute, Cleave, Thunder Clap/Rend, Sweeping Strikes, Avatar, Bladestorm, Demolish, Champion's Spear) stays within the Rotational/Cooldown/Overflow bands \u2014 none is a non-combat ability that needs re-homing to a Class/Self-Heal/etc. bucket. | Proposal verified against spec-inventory.json and rotation.md (confidence:high, Tier-1 simc MID1 12.0.7); no repairs needed.\n\nNAMES: all fixedCore/float names present in inventory verbatim except Heroic Strike, correctly declared in inventoryGaps \u2014 confirmed a real spell (SpellName.csv id 25710) and named in rotation.md (Slayer ST #7, Colossus ST #6, both execute lists) as the Master of Warfare apex filler the API talent-tree omits.\n\nFIXED = ALWAYS PRESENT: Mortal Strike, Overpower, Colossus Smash are origin=talent-active but confirmed mandatory-every-build in rotation.md \u2014 they appear in all four sub-rotations (slayer_st/colossus_st/slayer_execute/colossus_execute) and the opener; the whole rotation funnels MS+Execute into the Colossus Smash window. Execute+Slam are class-baseline; Sweeping Strikes is cdm-only/fixed and always available. No talent-choice node is pinned. Colossus Smash correctly re-banded from stale seed Rotational 3 to Cooldown 1 (inventory band=Cooldown, cd=45, \u00a72 >=45s rule).\n\nCHOICE PAIR: Ravager (talent-choice, Rotational, cd=8) and Bladestorm (talent-choice, Cooldown, cd=90) are the same node, banded cross-band by cooldown; both listed in their natural bands, exactly one resolves.\n\nNO DUPLICATION / CAPACITY: fixedCore holds Rot 1/2/3/4/8 + CD 1; Rotational floats fill open slots 5/6/7 (5 meta-ordered candidates, choice/talent-gated so <=3 resolve); CD floats = 3 (<=4); Overflow = 2 (<=6). No overlap between fixedCore and any float.\n\nBANDS: match inventory tags. Demolish kept in Rotational (inventory band=Rotational, cd=30 < 45, pressed every CS window) rather than \u00a76's Cooldown pairing \u2014 inventory wins. Thunder Clap + Whirlwind spill to Overflow (AoE-only, only on multi-target builds) rather than push ST core builders out of the contested Rotational float slots \u2014 a defensible \u00a72-style capacity call, not a band error; on a Slayer ST build neither is talented and Overflow stays empty.\n\nEVICTIONS: every seed-band ability (Slam, MS, Colossus Smash, Overpower, Execute, Cleave, Thunder Clap/Rend, Sweeping Strikes, Avatar, Bladestorm, Demolish, Champion's Spear) stays within the Rotational/Cooldown/Overflow bands; none is a non-combat ability needing re-home. outsideBandChanges correctly empty. Whirlwind (class-baseline) + Heroic Strike (gap) newly surfaced per \u00a76 unbound-gap note."
+  },
+  {
+    "class": "Warrior",
+    "spec": "Protection",
+    "fixedCore": [
+      {
+        "bucket": "Rotational 1",
+        "ability": "Shield Slam"
+      },
+      {
+        "bucket": "Rotational 2",
+        "ability": "Thunder Clap"
+      },
+      {
+        "bucket": "Rotational 3",
+        "ability": "Revenge"
+      },
+      {
+        "bucket": "Rotational 4",
+        "ability": "Execute"
+      },
+      {
+        "bucket": "Rotational 5",
+        "ability": "Shield Block"
+      },
+      {
+        "bucket": "Rotational 6",
+        "ability": "Ignore Pain"
+      },
+      {
+        "bucket": "Cooldown 1",
+        "ability": "Avatar"
+      }
+    ],
+    "floats": {
+      "Rotational": [
+        "Thunder Blast",
+        "Ravager",
+        "Demolish"
+      ],
+      "Cooldown": [
+        "Shield Charge",
+        "Demoralizing Shout",
+        "Champion's Spear"
+      ],
+      "Overflow": [
+        "Devastate"
+      ]
+    },
+    "outsideBandChanges": [],
+    "inventoryGaps": [
+      "Devastate"
+    ],
+    "verdict": "amended",
+    "droppedOrFixed": 2,
+    "confidence": "medium",
+    "notes": "Meta build is Mountain Thane (rotation.md primary path = thane_st/thane_aoe); Colossus is the alternate. FIXEDCORE: baseline Shield Slam/Execute/Shield Block plus the three universal non-choice core talents Thunder Clap/Revenge/Ignore Pain (taken in ~100% of Prot builds) fill Rot 1-6, ordered by Thane press-frequency (Shield Slam top; Thunder Clap next since Storm Surge resets its CD constantly; Revenge the Rage>=70/80 spender; Execute for execute-phase + Sudden Death procs; then the two maintenance buttons). Avatar is the one universal 90s major -> Cooldown 1.\n\nROTATIONAL FLOATS: Thunder Blast (Mountain Thane hero button, top-priority proc consume) and Demolish (Colossus, 30s so band=Rotational per inventory, <45s = Rotational not Cooldown) are the mutually-exclusive hero-tree buttons; exactly one hero tree resolves at dump time. Rend (band=Rotational) added third to fill the second open Rot slot on whichever tree.\n\nCOOLDOWN FLOATS: Shield Charge (45s) and Demoralizing Shout (45s) are both build-common rage-generators pressed on CD. CONFLICT NOTE: layout-v2 \u00a76 deliberately parked these in Rotational ('rage generators woven into the loop, not burst windows'), but the Tier-1 inventory tags both band=Cooldown (cd=45), and the task rule (>=45s window button = Cooldown; inventory wins over \u00a76) puts them in the Cooldown band. I followed the inventory. They and Ravager (choice node, pressed on CD)/Champion's Spear fill CD 2-4; a typical Thane build resolves to Avatar + Shield Charge + Demoralizing Shout + one of Champion's Spear/Ravager = exactly 4.\n\nNo abilities were evicted from the Rot/CD/Overflow universe (every current-band member re-homes to another floating band: Shield Charge/Demo Shout Rot->CD, Demolish CD->Rot, Ravager/Champion's Spear stay CD), so outsideBandChanges is empty. Devastate is the last-resort filler named in both ST priority lists in rotation.md; it's absent from the Tier-1 inventory (Blizzard talent-tree hole) but resolves as spell 20243 in SpellName.csv, so it's placed in Overflow and listed in inventoryGaps. | Two fixes applied.\\n\\nFIX 1 (band correctness, rule 6): moved Ravager from Cooldown floats to Rotational floats. The Tier-1 inventory tags Ravager band=Rotational (cd=8), so it belongs in the Rotational band. Leaving it in Cooldown also broke capacity: the proposal's claim that only 'one of Champion's Spear/Ravager' resolves is wrong \u2014 builds.md line 64 takes Ravager over Whirling Blade and line 88 lists both Ravager AND Champion's Spear in the meta Thane build, and both appear in the opener (steps 4 and 5). So a Cooldown band of Avatar + Shield Charge + Demoralizing Shout + Ravager + Champion's Spear = 5 exceeds CD cap 4. After the move, Cooldown = Avatar(fixed) + Shield Charge + Demoralizing Shout + Champion's Spear = exactly 4.\\n\\nFIX 2 (dropped Rend): Rend is not a separately-keybound ability. abilities.md line 87 classifies it 'Passive/DoT (Colossus) \u2014 Bleed applied via Thunder Clap; the APL refreshes it when it falls off,' and rotation.md only ever mentions it as Thunder Clap/Thunder Blast upkeep ('Rend upkeep', 'refresh Rend'), never as a keypress. Keeping Rend alongside Ravager would overflow the Rotational band in the meta build (6 fixed + Thunder Blast + Ravager + Rend = 9 > Rot cap 8). Rend was NOT in the seed's bound bands (proposal added it), so dropping it needs no re-home.\\n\\nCAPACITY now clean both trees: Thane meta = 6 fixed rot + Thunder Blast + Ravager = 8; Colossus meta = 6 fixed + Demolish + Ravager = 8. Overflow = Devastate = 1.\\n\\nFIXEDCORE unchanged and valid: Shield Slam/Execute/Shield Block are class-baseline; Thunder Clap/Revenge/Ignore Pain/Avatar are talent-active (NOT choice nodes) and taken in ~100% of Prot builds = mandatory-every-build, so legal in fixedCore. Ordered by Thane press-frequency.\\n\\nROTATIONAL FLOATS: Thunder Blast (Mountain Thane hero, meta, top proc-consume) and Demolish (Colossus hero) are hero-tree-gated and mutually exclusive; both listed. Ravager resolves in both trees (meta). Not a talent-choice pair issue: Ravager's choice partner Whirling Blade is neither in the inventory nor a pressed button, so rule 3 imposes no obligation.\\n\\nOverflow: Devastate is the last-resort filler named in both ST priority lists in rotation.md; absent from the Tier-1 inventory (Blizzard talent-tree hole) but verified as spell 20243 in SpellName.csv, so kept in Overflow and listed in inventoryGaps."
+  }
+]

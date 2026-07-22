@@ -112,6 +112,24 @@ def to_lua(data):
             lines.append(f"      [{q(cat)}] = {q(ab)},")
         lines.append("    },")
     lines.append("  },")
+    # floats: per-spec, per-band priority-ordered candidate lists. `abilities`
+    # (above) is FIXED — a numbered bucket that never moves. A float is a band-level
+    # candidate that fills empty slots in that band at dump time, in list order,
+    # keeping only names that resolve (= talented). Only Rotational/Cooldown/Overflow
+    # float in v1 (see layout-v2-proposal §Design). Empty bands are omitted; specs
+    # with no floats block don't appear.
+    lines.append("  floats = {")
+    for s in data["specs"]:
+        floats = s.get("floats") or {}
+        bands = {b: names for b, names in floats.items() if names}
+        if not bands:
+            continue
+        lines.append(f"    [{q(s['class'] + '/' + s['spec'])}] = {{")
+        for band, names in bands.items():
+            cand = ", ".join(q(n) for n in names)
+            lines.append(f"      {band} = {{ {cand} }},")
+        lines.append("    },")
+    lines.append("  },")
     # excludeSpells: a set keyed by spellID (numeric) and/or name (string) that
     # Dump.Spill and Dump.Ring suppress (auto-attack, wand, battle-pet mgmt, …).
     # Edit the seed's `exclude_spells` list, not this generated table.

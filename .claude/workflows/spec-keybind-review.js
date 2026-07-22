@@ -153,6 +153,145 @@ const VERIFY_SCHEMA = {
 }
 
 // ---------------------------------------------------------------------------
+// Floats mode (args.mode === 'floats'): instead of reviewing the fixed seed,
+// PROPOSE the layout-v2 §6 restructure for each spec — a fixed core + per-band
+// float lists — then adversarially verify it. Consumed by tool/apply_floats.py.
+// ---------------------------------------------------------------------------
+
+const FLOAT_BANDS = ['Rotational', 'Cooldown', 'Overflow']
+
+const PROPOSE_SCHEMA = {
+  type: 'object',
+  required: ['class', 'spec', 'fixedCore', 'floats', 'outsideBandChanges', 'inventoryGaps', 'notes', 'confidence'],
+  properties: {
+    class: { type: 'string' },
+    spec: { type: 'string' },
+    inventoryGaps: {
+      type: 'array',
+      description: 'Ability names you placed (fixedCore or floats) that are NOT in the Tier-1 inventory but ARE named in this spec\'s rotation.md AND resolve in raw/wago/SpellName.csv. The Blizzard API talent-tree omits some real nodes (e.g. Frost\'s Icy Veins/Glacial Spike/Shifting Power); the addon resolves these by name at runtime. Empty [] if none. This is the follow-up list for topping up the inventory source.',
+      items: { type: 'string' },
+    },
+    fixedCore: {
+      type: 'array',
+      description: 'ALWAYS-present abilities pinned to numbered Rotational/Cooldown/Overflow buckets. Baseline kit or mandatory-every-build talents ONLY — never a choice node or a build-optional talent. Ordered so the bucket number reflects press frequency (Rotational 1 = most-pressed).',
+      items: {
+        type: 'object',
+        required: ['bucket', 'ability'],
+        properties: {
+          bucket: { type: 'string', description: 'e.g. "Rotational 1", "Cooldown 1"' },
+          ability: { type: 'string', description: 'exact inventory name; bind the BASE of an override (Shadow Bolt not Infernal Bolt)' },
+        },
+      },
+    },
+    floats: {
+      type: 'object',
+      description: 'per-band priority-ordered candidate lists (build-conditional talents). Order = likelihood of being talented, meta first. List BOTH sides of a choice node — exactly one resolves. Names must exist in the inventory.',
+      required: ['Rotational', 'Cooldown', 'Overflow'],
+      properties: {
+        Rotational: { type: 'array', items: { type: 'string' } },
+        Cooldown: { type: 'array', items: { type: 'string' } },
+        Overflow: { type: 'array', items: { type: 'string' } },
+      },
+    },
+    outsideBandChanges: {
+      type: 'array',
+      description: 'Re-homes for abilities EVICTED from the Rot/CD/Overflow bands (so they are not left unbound) and gap-fills into non-floating buckets. Each sets abilities[bucket]=ability. Non-floating buckets only (Class N, Self-Heal N, CC, Slow, Movement, Interrupt, ...). Empty array if none.',
+      items: {
+        type: 'object',
+        required: ['bucket', 'ability', 'why'],
+        properties: {
+          bucket: { type: 'string' },
+          ability: { type: 'string' },
+          why: { type: 'string' },
+        },
+      },
+    },
+    notes: { type: 'string' },
+    confidence: { type: 'string', enum: ['high', 'medium', 'low'] },
+  },
+}
+
+const PROPOSE_VERIFY_SCHEMA = {
+  type: 'object',
+  required: ['class', 'spec', 'fixedCore', 'floats', 'outsideBandChanges', 'inventoryGaps', 'droppedOrFixed', 'verdict', 'notes'],
+  properties: {
+    class: { type: 'string' },
+    spec: { type: 'string' },
+    fixedCore: PROPOSE_SCHEMA.properties.fixedCore,
+    floats: PROPOSE_SCHEMA.properties.floats,
+    outsideBandChanges: PROPOSE_SCHEMA.properties.outsideBandChanges,
+    inventoryGaps: PROPOSE_SCHEMA.properties.inventoryGaps,
+    droppedOrFixed: { type: 'integer', description: 'how many proposal entries you corrected or removed' },
+    verdict: { type: 'string', enum: ['clean', 'amended', 'reject'], description: 'reject only if the proposal is unusable and you could not repair it' },
+    notes: { type: 'string' },
+  },
+}
+
+const INV_JSON = 'projects/keybinder/data/spec-inventory.json'
+const SEED_JSON = 'projects/keybinder/data/bellular-keybinds.seed.json'
+
+function extractCmd(s) {
+  // one-liner the agent runs to pull JUST this spec's inventory + current abilities
+  const key = `${s.class}/${s.spec}`
+  return `python3 - <<'PY'\nimport json\nk=${JSON.stringify(key)}\ninv=json.load(open(${JSON.stringify(INV_JSON)}))[k]["abilities"]\nfor a in inv: print(f"{a['name']} [origin={a['origin']}, band={a['band']}, cd={a['cooldown'] or '—'}, mode={a['suggestedMode']}"+(f", seed={a['bucket']}" if a['bucket'] else "")+"]")\nseed=[x for x in json.load(open(${JSON.stringify(SEED_JSON)}))["specs"] if x["class"]+"/"+x["spec"]==k][0]\nprint("\\nCURRENT ABILITIES:", json.dumps(seed["abilities"]))\nPY`
+}
+
+function proposePrompt(s) {
+  const dir = dirFor(s)
+  return `You are re-filing the BucketBinds keybind layout for **${s.spec} ${s.class}** (WoW Midnight ${PATCH}) into the layout-v2 fixed-vs-floating model. Repo: ${REPO}. FINDINGS ONLY — you edit nothing; you return a structured proposal.
+
+GATHER YOUR GROUNDING (run/read these first):
+  1. Bash this to get the Tier-1 ability inventory (the ONLY names you may use — each tagged origin/band/cooldown/suggested-mode/current-seed-bucket) AND this spec's current bucket→ability map:
+\`\`\`
+${extractCmd(s)}
+\`\`\`
+  2. Read ${REPO}/${dir}/rotation.md — the press-frequency backbone (what is pressed most).
+  3. Read the "${s.spec}" row in ${REPO}/projects/keybinder/data/layout-v2-proposal.md §6 — a hand-authored proposal (MEDIUM confidence; a strong prior, not gospel). Skim §2 (band contract) too, and the Demonology floats block in ${SEED_JSON} as the worked example.
+
+Everything in the current abilities map OUTSIDE Rotational/Cooldown/Overflow stays as-is unless you re-home an eviction.
+
+${KEY_TIERS}
+
+PRODUCE the restructure for the THREE floating bands only:
+- **fixedCore**: abilities that EVERY build of this spec has — baseline kit (origin=class-baseline) or a mandatory core talent — pinned to numbered buckets (Rotational 1-8, Cooldown 1-4, Overflow 1-6). Order by press frequency (Rotational 1 = most-pressed builder/filler; put ≥45s majors in Cooldown per the band's cd rule). NEVER put a choice-node ability or a build-optional talent here — those float.
+- **floats**: per band, the build-conditional talents as a priority list ordered by likelihood-of-being-talented (meta build first). LIST BOTH SIDES of every choice node (origin=talent-choice pairs share a node — exactly one resolves at dump time, so listing both is correct and is the whole point). A band's floats fill only the slots fixedCore leaves empty; keep totals sane (Rot ≤8, CD ≤4, Overflow ≤6 including fixedCore).
+- **outsideBandChanges**: if the restructure EVICTS an ability that was in a Combat band (e.g. an external, Hunter's Mark, Raise Dead, Frost Shock), re-home it to the correct NON-floating bucket so it stays bound — per §6. Also any §6 gap-fill into a non-floating bucket. Do NOT touch buckets you are not changing.
+
+HARD RULES:
+- Ability names MUST resolve to a real spell — no invented names. PREFER names from the inventory above (the primary anti-hallucination guard). BUT the Tier-1 inventory has known holes: the Blizzard API talent-tree endpoint omits some real nodes (confirmed: Frost's Icy Veins, Glacial Spike, Shifting Power are absent from the inventory yet are core buttons). So you MAY also place an ability that is NOT in the inventory **only if** it satisfies BOTH: (a) it is named in this spec's rotation.md as a real pressed button, AND (b) it resolves in game data — verify with \`grep -F "<name>" ${REPO}/raw/wago/SpellName.csv\` (a hit = real spell; the addon resolves it by name at runtime and drops it if untalented). List every such name in \`inventoryGaps\`. Do NOT use this to add speculative abilities — only ones rotation.md clearly relies on that the inventory dropped.
+- Overrides share a key — use the BASE (Shadow Bolt, not Infernal Bolt; Stormstrike, not Windstrike).
+- Frequency, not power: a <45s button pressed constantly is Rotational even if it "feels" like a cooldown; a ≥45s window button is Cooldown.
+- If §6 and the inventory/rotation.md disagree, the Tier-1 inventory + rotation.md win; note the conflict.
+
+RETURN the structured proposal. class="${s.class}", spec="${s.spec}".`
+}
+
+function proposeVerifyPrompt(s, prop) {
+  return `Adversarially verify a fixed-core + floats keybind proposal for **${s.spec} ${s.class}** (WoW Midnight ${PATCH}). Repair it where you can; drop what you cannot substantiate. Return the CORRECTED proposal.
+
+Get the authoritative inventory (the ONLY legal names; origin/band/cd/mode/seed) + this spec's current abilities by running:
+\`\`\`
+${extractCmd(s)}
+\`\`\`
+
+THE PROPOSAL under review:
+${JSON.stringify(prop ? { fixedCore: prop.fixedCore, floats: prop.floats, outsideBandChanges: prop.outsideBandChanges, notes: prop.notes } : {}, null, 1)}
+
+CHECK and FIX each of:
+1. NAMES: every fixedCore.ability, every floats[*] name, every outsideBandChanges.ability either (a) is in the inventory verbatim, OR (b) is listed in inventoryGaps AND is a real spell — spot-check the gap names with \`grep -F "<name>" ${A.repo || ''}/raw/wago/SpellName.csv\` and reject any with no hit. Remove or correct anything that is neither in the inventory nor a SpellName-verified rotation.md ability. Ensure every name you keep that is NOT in the inventory appears in inventoryGaps.
+2. FIXED = ALWAYS PRESENT: nothing in fixedCore may be origin=talent-choice or a build-optional talent. If it is, move it into the matching band's floats. Baseline/mandatory-core only.
+3. FLOATS = CONDITIONAL + BOTH CHOICE SIDES: for every talent-choice pair in the inventory that belongs to a floating band, BOTH names appear in that band's float list. Order is meta-first but a wrong order is a nit, not a fix.
+4. NO DUPLICATION: no ability is both fixedCore and a float, or fixed in two buckets.
+5. CAPACITY: fixedCore + resolvable floats do not exceed Rot 8 / CD 4 / Overflow 6.
+6. BAND CORRECTNESS: ≥45s → Cooldown, <45s constant-press → Rotational, per the inventory's band tag and §2's documented exceptions.
+7. EVICTIONS RE-HOMED: any band ability that got dropped is either genuinely gone from the kit or re-homed via outsideBandChanges — not silently unbound.
+
+Set verdict: clean (no changes), amended (you fixed things — count them in droppedOrFixed), or reject (unusable). Prefer amend over reject.
+
+RETURN the corrected proposal. class="${s.class}", spec="${s.spec}".`
+}
+
+// ---------------------------------------------------------------------------
 // Press-frequency framework (from the seed's key layout) — shared context so
 // the reviewer can judge "constant-use ability on a slow modified key" etc.
 // ---------------------------------------------------------------------------
@@ -343,6 +482,39 @@ RETURN the structured result. spec="${s.spec}". findings = only the survivors.`
 // ---------------------------------------------------------------------------
 // Pipeline — each spec independent (distinct output dir, no barrier, no worktree)
 // ---------------------------------------------------------------------------
+
+if (A.mode === 'floats') {
+  phase('Propose')
+  const out = await pipeline(
+    A.specs,
+    (s) => agent(proposePrompt(s), { label: `propose:${slug(s.spec)}-${slug(s.class)}`, phase: 'Propose', schema: PROPOSE_SCHEMA })
+      .then((prop) => ({ s, prop })),
+    (b) => agent(proposeVerifyPrompt(b.s, b.prop), { label: `verify:${slug(b.s.spec)}-${slug(b.s.class)}`, phase: 'Verify', schema: PROPOSE_VERIFY_SCHEMA })
+      .then((ver) => ({ ...b, ver })),
+  )
+  const done = out.filter(Boolean)
+  return {
+    mode: 'floats',
+    total: A.specs.length,
+    completed: done.length,
+    patch: PATCH,
+    specs: done.map((r) => {
+      const v = r.ver || r.prop || {}
+      return {
+        class: r.s.class,
+        spec: r.s.spec,
+        fixedCore: v.fixedCore || [],
+        floats: v.floats || { Rotational: [], Cooldown: [], Overflow: [] },
+        outsideBandChanges: v.outsideBandChanges || [],
+        inventoryGaps: v.inventoryGaps || [],
+        verdict: r.ver ? r.ver.verdict : 'unverified',
+        droppedOrFixed: r.ver ? r.ver.droppedOrFixed : null,
+        confidence: r.prop ? r.prop.confidence : null,
+        notes: [r.prop && r.prop.notes, r.ver && r.ver.notes].filter(Boolean).join(' | '),
+      }
+    }),
+  }
+}
 
 phase('Author')
 const results = await pipeline(
