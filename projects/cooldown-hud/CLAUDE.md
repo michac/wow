@@ -21,6 +21,10 @@ Blizzard's built-in **Cooldown Manager** under Midnight 12.0. v1 target spec:
   revive it. Don't cite it as fact; do read it before re-proposing a dead end.
 - **`docs/milestones.md`** — roadmap, milestone log, current status, and the
   open-questions / verify-in-game queue.
+- **`docs/verify-runbook.md`** — *(disposable, dated)* the §7.3–§7.6 verify
+  checklists re-ordered into **one playable session** with exact commands and
+  expected output. Read it while logged in; the **boxes live in `milestones.md`**,
+  which stays the source of truth.
 
 Section numbers (§0–§9, plus §0.5) are shared across the four docs; each doc opens
 with a "Doc map" legend saying which § lives where.
