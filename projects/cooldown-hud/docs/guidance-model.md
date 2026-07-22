@@ -602,12 +602,11 @@ calmest moment gets the **most** information, and it's the one place we can
 legitimately do the queued "press this next" that §0.5.3 [R3] refuses in combat:
 
 - A distinct calm **PREP** chrome tint (a fourth resting state, not GENERATE).
-- **Which opener it ghosts matters.** Textbook opener **1b** builds to 5 shards
-  pre-pull → the **fill-to marker** ("bank to N before you pull") applies. The
-  parse-observed opener **1a** instead enters combat *shard-poor* off a **pre-pull
-  demon setup** (pre-pull HoG casts don't appear in the log; the board, not the
-  shard bar, is what's "full"). The PREP widget should know which one it's showing —
-  the fill-to marker is wrong for 1a.
+- **The opener enters combat shard-poor.** It ghosts the parse-observed sequence,
+  which opens off a **pre-pull demon setup** (pre-pull HoG casts don't appear in
+  the log; the board, not the shard bar, is what's "full"). So there is **no
+  fill-to marker** ("bank to N before you pull") — that was a speculative
+  build-to-5 alternative and is scrubbed.
 - A short **opener queue** ghosts the scripted sequence; it drains as you pull.
   Advance it by **matching the ability pressed**, not by strict slot position, so
   the branch orderings above don't desync it (counting our own casts survives the
@@ -736,8 +735,7 @@ if board_all_quiet(): everything.recede()          # empty board = nothing to do
 
 # ---- #8 pre-pull ----
 if mode == PREP:
-    opener_queue.show(SCRIPT[opener_variant])       # 1a (demons pre-stacked) vs 1b (bank-to-5)
-    if opener_variant == "1b": rail.fill_to_marker(OPENER_BANK_TARGET)   # NOT for 1a (enters shard-poor)
+    opener_queue.show(SCRIPT)                        # one opener (demons pre-stacked; enters shard-poor)
     on our_cast(spell): opener_queue.advance_matching(spell)   # match ability, not slot — tolerates branches
     on first_tyrant_window_close: opener_queue.dissolve()      # handoff to sustain
 
@@ -811,8 +809,8 @@ found and fixed above:
 
 Plus fidelity gaps: the **Dreadstalkers ping now suppresses when Tyrant is imminent**
 (one DS/cycle is held for the window), the **Core glow softens at ≥4 shards**, the
-**opener is "mostly-fixed with branches"** (queue advances by ability-match; 1a vs
-1b differ on the shard entry condition), and the **Implosion/AoE under-service** it
+**opener is "mostly-fixed with branches"** (queue advances by ability-match), and
+the **Implosion/AoE under-service** it
 flagged was resolved by **promoting #17 (Wild Imp stack text) into v1 as Core**, so
 the spec's central AoE decision has a readout. `in_aoe` is flagged as a capability
 to verify-in-game.
@@ -1169,25 +1167,25 @@ widget is the shared thing; the *mode* each rides is not. This is the same seam
   entry block is HoG HoG too (SEQUENCE 2). So repetition is a **widget** property,
   not per-consumer data.
 
-### (3) Scope taken at build time: 1a only, and the framing it forces
+### (3) Scope taken at build time: one opener, and the framing it forces
 
-- **Only opener 1a ships**, re-verified against the live #1 parse (Inphected, WCL
+- **One opener ships**, re-verified against the live #1 parse (Inphected, WCL
   bracket 291): `Dreadstalkers → Imp Lord → Tyrant t≈3.4s → HoG HoG → Implosion →
-  SB×3`. **1b (build-to-5) is cut** — it is a *can't-pre-stack* contingency WCL
-  structurally cannot show (logs start at the pull, hiding the pre-stack), so the
-  §7 open question stays open as a documented alternative, not code. The
-  **fill-to marker** was 1b-only (1a enters shard-poor, §0.5.8.2(a)) and is cut
-  with it; the widget keeps an unused `fillTo` field as the M4/1b seam.
-- **The pre-pull casts are shown, not tracked.** 1a's pre-pull HoG/DB happen
-  before we are listening and cannot be cast-verified — they render as dim
-  preamble, never advance-tracked. `alt` matches the first spend as DB-or-SB.
+  SB×3`. *(There is no alternate/variant machinery — the old "1a vs 1b" split, and
+  its 1b-only fill-to marker, was speculative and is scrubbed. The opener enters
+  shard-poor off the pre-pull demon setup, so no fill-to marker applies. If the
+  opener ever needs revising, we revise the one `ns.SpecOpener` table.)*
+- **The pre-pull casts are shown, not tracked.** The pre-pull HoG/DB happen
+  before we are listening and cannot be cast-verified — they render as a preamble,
+  never advance-tracked. `alt` matches the first spend as DB-or-SB.
 - **Advance resolves the LIVE identity to its base** (a transformed Ruination
   press ticks the HoG step) — the *opposite* of the keybind convention, which
   resolves off the base because the override is on no bar (the v0.7.0 finding-3
   fix; B1's split). The two must not be "unified" later.
 - **Default OFF.** The opener is the only instructional widget and §0.5.8.7 §0 put
-  it on notice, so it is opt-in (`/cdmp hud opener 1a`) and renders as a **draining
-  ghost** — it informs the *shape* of the opening, it never says "press this now".
+  it on notice, so it is opt-in (`/cdmp hud opener on`) and renders as a **draining
+  ghost** — a left-to-right strip of keybinds above the panel — it informs the
+  *shape* of the opening, it never says "press this now".
   PREP chrome (M3c-c1) is on regardless.
 
 ---

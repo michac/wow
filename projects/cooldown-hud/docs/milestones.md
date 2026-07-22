@@ -21,18 +21,19 @@ and bend it into M4, the reusable **`HudQueue`** widget ships now wired to **one
 consumer (the opener). M4's burn queue becomes its second consumer as *data + a
 trigger*, not new machinery — the same seam `SpecDemonology` is for a second spec.
 
-**Scope: opener 1a only.** `ns.SpecOpener["1a"]` was lifted from — and re-verified
+**Scope: one opener.** `ns.SpecOpener` was lifted from — and re-verified
 against — the live #1 Demo parse (Inphected, WCL bracket **291**, newer than the
 KB's data): `Dreadstalkers → Imp Lord → Tyrant @ t≈3.4s → HoG HoG → Implosion →
-SB×3`, matching `diabolist-sequences.md` SEQUENCE 1a. **1b and its fill-to marker
-are cut** — 1b is a can't-pre-stack contingency WCL structurally cannot show (logs
-start at the pull, hiding the pre-stack), so it stays a documented alternative, not
-code. The widget carries a `fillTo` field for it regardless, unused this milestone.
+SB×3`, matching `diabolist-sequences.md` SEQUENCE 1a. *(There is deliberately no
+alternate/variant machinery — the old "1a vs 1b" split, and its 1b-only fill-to
+marker, was speculative and is scrubbed. If the opener ever needs revising, we
+revise this one table.)*
 
 ⚠ **The opener is the only instructional widget in the project** and §0.5.8.7 §0
-put it on notice, so it ships **default OFF** (`/cdmp hud opener 1a` to enable) and
-renders as a **draining ghost** of the sequence — it informs the *shape* of the
-opening, it never says "press this now".
+put it on notice, so it ships **default OFF** (`/cdmp hud opener on` to enable) and
+renders as a **draining ghost** of the sequence (a **left-to-right strip of
+keybinds, above the panel**) — it informs the *shape* of the opening, it never
+says "press this now".
 
 *(Prior line:)* **M3e CODE SHIPPED — the pull recorder (2026-07-21, CDMProbe v0.16.0).
 Run §7.6 first, then §7.3 → §7.4 → §7.5 *with the recorder on*. That is the
@@ -898,13 +899,13 @@ decision/spec milestone that de-risks the build that follows.)
       renders as a **draining ghost** in the DEMO.SYS terminal idiom: whole script
       dim, current step bright, consumed steps fall off; no motion, positions
       locked ([V3][V7]).
-    - **`ns.SpecOpener["1a"]` in `SpecDemonology.lua`** — the data, **re-verified
+    - **`ns.SpecOpener` in `SpecDemonology.lua`** — the data, **re-verified
       against the live #1 parse** (Inphected, WCL bracket 291): `Dreadstalkers →
       Imp Lord → Tyrant t≈3.4s → SB/DB → HoG×2 → Implosion → SB×3`. The pre-pull
       casts are a **shown-not-tracked preamble** (WCL can't see them, we can't
       cast-verify them); `alt` matches the first spend as DB-or-SB; `optional`
-      steps (Imp Lord, Implosion) drop without stalling. **1b is cut** (§7 open
-      question), the `fillTo` field kept for it but unused.
+      steps (Imp Lord, Implosion) drop without stalling. *(One opener, no variant
+      machinery — the old "1a/1b" split is scrubbed.)*
     - **`HudOpener.lua` (new) — the consumer glue.** Owns arm/advance/dissolve:
       arms out of combat (the pre-pull affordance), advances off our own casts
       **resolved to the base identity** (a transformed Ruination press still ticks
@@ -917,7 +918,7 @@ decision/spec milestone that de-risks the build that follows.)
       re-arm on `PLAYER_REGEN_ENABLED`, the dissolve clock on the `S.Recompute`
       tail — no new ticker), arm in `HudCore`'s `rebind()` tail, hide on
       `SetHud(false)`, a **`queue`** transition kind in `HudLog` (armed / advanced
-      / dissolved, captured to disk), and `/cdmp hud opener 1a|off` + a status line.
+      / dissolved, captured to disk), and `/cdmp hud opener on|off` + a status line.
 
     **Default OFF** — it is the only instructional widget and §0.5.8.7 §0 put it on
     notice, so it must be opted into; PREP chrome (M3c-c1) is on regardless.
@@ -1292,15 +1293,13 @@ decision/spec milestone that de-risks the build that follows.)
       shipped one (see M2 decision). If the DB2 defaults prove insufficient, this
       re-opens as a curated **Cooldown Layout string** (system ①). Baseline for
       design = the DB2-default filtered set (`CooldownSet`/`CooldownSetSpell`).
-- [ ] **Should the opener ever ship 1b (build-to-5)?** *(Opened 2026-07-21, M3c-c2.)*
-      M3c-c2 shipped **1a only** (§0.5.8.10). 1b is the *can't-pre-stack*
-      contingency (M+/target-swap), and the honest blocker is **sourcing**: WCL
-      logs start at the pull, so a pre-stacked opener is invisible and top raid
-      parses are always 1a — 1b can only come from a written guide
-      (`diabolist-sequences.md` 1b, Maxroll), not from parse data. The `HudQueue`
-      widget already carries the unused `fillTo` field for it, so shipping it is
-      *data + wiring the bank-to-N rail marker*, not new machinery. Re-opens if the
-      opener proves valuable in play and the M+ context wants its own script.
+- [x] **Should the opener ever ship a second variant (build-to-5)?** — CLOSED
+      (2026-07-21, feedback pass): **scrubbed.** There is one opener. The old
+      "1a/1b" split was a speculative contingency WCL structurally can't show
+      (logs start at the pull, hiding a pre-stack), never authored, and the naming
+      leaked into the code + docs as if two openers existed. If the opener ever
+      needs revising, we revise the one `ns.SpecOpener` table — no variant
+      machinery, no fill-to marker (the opener enters shard-poor by design).
 - [x] **Icon-tint persistence / repaint choke point** — RESOLVED (M1, v0.5.2):
       hook the per-item **leaf** methods `RefreshIconColor` /
       `RefreshIconDesaturation` / `RefreshSpellTexture` and re-force our color
@@ -1935,10 +1934,10 @@ does want a **real opening** (a pre-stacked pull), which a target dummy provides
 
 Deploy first (a push does **not** reach the game): commit → `gh release create
 v0.17.0` → `ghaddons update michac/CDMProbe` → `/reload`. Then `/cdmp hud opener
-1a` (it is **default off**).
+on` (it is **default off**).
 
-- [ ] **1 — It arms.** Out of combat with the opener on, the 1a ghost shows under
-      the shard rail — a dim preamble line + the step list, `OPENER 1a` header —
+- [ ] **1 — It arms.** Out of combat with the opener on, the ghost shows as a
+      **left-to-right strip of keybinds above the panel** — an `OPENER` header —
       beside the PREP chrome from M3c-c1. `/cdmp hud status` shows `opener … armed`.
 - [ ] **2 — It rides.** Drag the CDM in Edit Mode; change Orientation / # Rows.
       The queue follows and stays at its **own full width** — not clipped to the

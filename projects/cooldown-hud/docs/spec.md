@@ -104,8 +104,9 @@ UI — but "no icons" from the original vision is now retired in favour of
   ┌ SPEND ─────────────────────────────────┐   ← mode chrome: PREP · GENERATE · SPEND · BURST
   │   shards ▮▮▮▯▯░                         │     (ambient tint + glyph; no motion)
   │                └ ░ = ghost "incoming" segment during an in-flight builder cast
-  │                ┊ = fill-to marker (opener 1b only, PREP)
   └────────────────────────────────────────┘
+   (the shard rail now stands VERTICAL to the left of the icons — see the
+    feedback pass; this sketch predates that move)
 
    ┌─ burst window ─────────────────┐
    │  [icon] [icon]  ·  [icon]      │   ← Tyrant · Dreadstalkers  =  the go-gate (brighten together)
@@ -230,10 +231,10 @@ combat the Secret-Values wall is down, so PREP is the one place we can legitimat
 show a queued "press this next" that [R3] refuses in combat: a short **opener
 queue** ghosting the scripted sequence, draining as you pull. It advances by
 **matching the ability pressed**, not by slot position, so the opener's branch
-orderings don't desync it; it dissolves when the first Tyrant window closes. The
-**fill-to marker** ("bank to N before you pull") appears **only for opener 1b** —
-opener 1a enters combat shard-poor off a pre-pull demon setup, where the board, not
-the shard bar, is what's full.
+orderings don't desync it; it dissolves when the first Tyrant window closes. It
+renders as a **left-to-right strip of keybinds above the panel**. (The opener
+enters combat shard-poor off a pre-pull demon setup, where the board, not the
+shard bar, is what's full — so no "bank to N" fill-to marker applies.)
 
 **(c) The anticipation layer — spend cast-time saying what's coming.** While a
 builder is in flight its yield is already deterministic, so we show it early: a
