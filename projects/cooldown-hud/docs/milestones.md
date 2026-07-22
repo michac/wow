@@ -1292,6 +1292,15 @@ decision/spec milestone that de-risks the build that follows.)
       shipped one (see M2 decision). If the DB2 defaults prove insufficient, this
       re-opens as a curated **Cooldown Layout string** (system ①). Baseline for
       design = the DB2-default filtered set (`CooldownSet`/`CooldownSetSpell`).
+- [ ] **Should the opener ever ship 1b (build-to-5)?** *(Opened 2026-07-21, M3c-c2.)*
+      M3c-c2 shipped **1a only** (§0.5.8.10). 1b is the *can't-pre-stack*
+      contingency (M+/target-swap), and the honest blocker is **sourcing**: WCL
+      logs start at the pull, so a pre-stacked opener is invisible and top raid
+      parses are always 1a — 1b can only come from a written guide
+      (`diabolist-sequences.md` 1b, Maxroll), not from parse data. The `HudQueue`
+      widget already carries the unused `fillTo` field for it, so shipping it is
+      *data + wiring the bank-to-N rail marker*, not new machinery. Re-opens if the
+      opener proves valuable in play and the M+ context wants its own script.
 - [x] **Icon-tint persistence / repaint choke point** — RESOLVED (M1, v0.5.2):
       hook the per-item **leaf** methods `RefreshIconColor` /
       `RefreshIconDesaturation` / `RefreshSpellTexture` and re-force our color
