@@ -9,8 +9,80 @@
 
 ## Status
 
-**Current: M3c-b + M3d CODE SHIPPED — one combined in-game pass is outstanding
-and IS the milestone (2026-07-21, CDMProbe v0.14.0).**
+**Current: M3c-c2 CODE SHIPPED — the sequence queue + the opener (2026-07-21,
+CDMProbe v0.17.0). In-game pass §7.7 outstanding; it is board-independent, so it
+can be run before the strictness session, but everything else still waits on
+§7.6 → §7.3 → §7.4 → §7.5.**
+
+The milestone the "split, share the widget" decision produced. M3c-c2's opener and
+M4's burst-window queue are the **same shape** — a mode-scoped fixed sequence,
+shown, advanced by cast-match, dissolved — so rather than build the opener bespoke
+and bend it into M4, the reusable **`HudQueue`** widget ships now wired to **one**
+consumer (the opener). M4's burn queue becomes its second consumer as *data + a
+trigger*, not new machinery — the same seam `SpecDemonology` is for a second spec.
+
+**Scope: opener 1a only.** `ns.SpecOpener["1a"]` was lifted from — and re-verified
+against — the live #1 Demo parse (Inphected, WCL bracket **291**, newer than the
+KB's data): `Dreadstalkers → Imp Lord → Tyrant @ t≈3.4s → HoG HoG → Implosion →
+SB×3`, matching `diabolist-sequences.md` SEQUENCE 1a. **1b and its fill-to marker
+are cut** — 1b is a can't-pre-stack contingency WCL structurally cannot show (logs
+start at the pull, hiding the pre-stack), so it stays a documented alternative, not
+code. The widget carries a `fillTo` field for it regardless, unused this milestone.
+
+⚠ **The opener is the only instructional widget in the project** and §0.5.8.7 §0
+put it on notice, so it ships **default OFF** (`/cdmp hud opener 1a` to enable) and
+renders as a **draining ghost** of the sequence — it informs the *shape* of the
+opening, it never says "press this now".
+
+*(Prior line:)* **M3e CODE SHIPPED — the pull recorder (2026-07-21, CDMProbe v0.16.0).
+Run §7.6 first, then §7.3 → §7.4 → §7.5 *with the recorder on*. That is the
+whole point of this build.**
+
+**Four in-game passes are queued and three of them have been queued for three
+builds.** M3e is the admission that this is a **tooling gap, not a scheduling
+accident**: §7.3 item 6 — *"`lit now` names 1–2 abilities, and if it sits at 4+
+tighten the RULES, not a colour"* — is the exit criterion §7.4 and §7.5 both
+inherit, and `lit now` was **a snapshot you had to type mid-pull**. Strictness is
+a property of the moments you were *busiest*, which are exactly the moments you
+were not typing. So the HUD now **records every pull without being asked** — a
+histogram of the lit count, the peak set with its reasons, and a timestamped
+transition log — and writes it to `CDMProbeDB.pulls`. §7.6 is *self-verifying*:
+it succeeds when it produces the evidence the other three passes have been
+waiting on.
+
+⚠ **M3e deliberately does NOT tune `HudScore`.** If the histogram comes back with
+a fat 4+ tail, tightening the rules is the **next** milestone's work, on evidence.
+Measuring and acting in one session means tuning against a number invented by the
+same session.
+
+*(Prior line:)* **M3c-c1 CODE SHIPPED — the shard rail + mode spine (2026-07-21,
+CDMProbe v0.15.0). Three in-game passes are now queued, and they run in order:
+§7.3 → §7.4 → §7.5.**
+
+**M3c-c is split.** **M3c-c1** (this build) is the *ambient resource layer*: the
+owned **shard rail**, the **GENERATE↔SPEND↔PREP mode spine**, and the mode
+chrome on the rail + the DEMO.SYS terminal. **M3c-c2** is the **pre-pull opener
+queue** and is *not* in this build. The split is deliberate: the opener is the
+only **instructional** widget in the whole project ("press this next"), it needs
+a new `ns.SpecOpener` table and a real pull to verify, and §0.5.8.7 §0 put it
+explicitly *on notice*. Bundling it with an always-on ambient widget is how one
+in-game pass ends up measuring two things and settling neither — the M3c-b + M3d
+double-up already showed that cost.
+
+⚠ **§7.3 and §7.4 are prerequisites, not suggestions.** Everything in M3c-c
+renders *on top of* the scored board, so shipping it over an unverified board
+**decorates a board that lies**. M3d's seeding is also what makes the rail
+honest at a cold start. Do not run §7.5 first.
+
+Two decisions taken this build, both against a real conflict in the docs, and
+both written up in **`guidance-model.md` §0.5.8.8**: mode lands on the **rail +
+terminal chrome only, never on an icon** (the icon channel budget is full —
+§0.5.8.7 §1), and the **cap earcon stays in M6** (three committed statements
+against one). The cap glitter also ships **throttled** — the M1 prototype's
+`fireGlitter` re-fires within a couple of GCDs at cap, which [X2] forbids.
+
+*(Prior line:)* **M3c-b + M3d CODE SHIPPED — one combined in-game pass is
+outstanding and IS the milestone (2026-07-21, CDMProbe v0.14.0).**
 
 **M3d — out-of-combat seeding** rides on top of M3c-b in a single **v0.14.0**
 release (v0.13.0 was committed but never cut). The cold start is gone: readiness
@@ -710,19 +782,153 @@ decision/spec milestone that de-risks the build that follows.)
       captures to disk. The message says what is **lost**, not just what is
       absent: *"Shadow Bolt — not tracked; SB → Infernal Bolt cannot light"*.
 
-  - **M3c-c — resource + mode + anticipation.** *(The remainder of M3c. Reduced
-    twice: the anticipation
-    engine is built and shipped. What remains is the shard rail, mode chrome, and
-    the pre-pull opener queue.)* The owned **shard rail** (segmented
-    fill, cap flip + one-shot glitter + earcon), **GENERATE↔SPEND mode chrome tint**
-    (pure shard threshold), the **anticipation layer** (ghost incoming-shard during an
-    in-flight builder cast + predictive SPEND pre-flip — `UNIT_SPELLCAST_START` /
-    `SUCCEEDED` spellIDs assumed readable, see §7), and the **pre-pull opener queue** +
-    fill-to marker.
+  - **M3c-c1 — the shard rail + the mode spine. ✅ CODE SHIPPED (2026-07-21,
+    v0.15.0; in-game pass §7.5 outstanding).** *The ambient resource layer, and
+    the first surface on the HUD for a sentence that isn't about a button.*
 
-    *(The three scoring corrections that briefly lived here moved to **M3c-b** —
-    they are corrections, not features, and they gate this milestone rather than
-    accompanying it.)*
+    **Why the rail was the right next thing.** §0.5.2 makes shard-cap the anchor:
+    *"if exactly one cue survives every accessibility/mute ceiling, it is
+    shard-cap."* It is moment **#1**, **P0** (inaction there is strictly wrong),
+    and it rides our single strongest capability — Soul Shards are readable **and
+    branchable** even in restricted combat. Until this build nothing on the HUD
+    said it. The board judges **buttons**; overcap is a statement about the
+    **resource**, which is exactly why B5 / §7.2 item 8 was deferred with the note
+    that its missing half — *"go build shards"* — **"wants the shard rail to
+    render on"**.
+
+    **What landed, in dependency order:**
+
+    - **R1 — `S.Mode()`, the mode spine.** One computation beside
+      `S.ProjectedShards()`, returning `(mode, projected, isProjected)` over
+      §0.5.8.4:713-716's ladder **minus BURST**: `nil` when shards are
+      unreadable (unknown is first-class and never guessed) → **PREP** when out
+      of combat (§0.5.8.2(a)'s fourth resting state, and explicitly *not*
+      GENERATE) → **SPEND** on `projected >= SPEND_AT`, **projected not live**,
+      because the predictive pre-flip is the point → **GENERATE** otherwise.
+      BURST is left as a **named vacancy** citing `HOLD_LEAD ≈ 5 s`
+      (§0.5.8.6 correction 1 — *not* §0.5.1's stale `~15 s`), so M4 inserts a
+      branch rather than rewriting the ladder. `LOW_SHARDS` is now **derived from
+      `SPEND_AT`** — it was the same threshold under another name, and its own
+      comment already said so, so board-quiet and the mode can no longer drift.
+    - **R2 — the rail widget.** `H.ShowRail` / `H.PaintRail` / `H.HideRail`,
+      memoised on `viewer.__hudRail`, a **viewer-anchored child** so it rides
+      Edit Mode drags and orientation changes for free and needs no saved
+      position. Four traps handled, all already documented in the file it copies:
+      the **clipping hazard** (single centre anchor + explicit width — two
+      horizontal points fix the width to the ~28 px icon column and clip), never
+      `EnableMouse`, `receders[f]` so board-quiet dims it with everything else,
+      and **recede vs. animation** — the cap flash and sparks live on a
+      **sibling** frame, because a child would inherit the receded alpha and the
+      P0 cue would be dimmest exactly when the board was quietest.
+      Geometry + animation **ported** from the M1 prototype (`Resource.lua`
+      :132-243), which is proven but UIParent-anchored and self-eventing — a
+      reference to port, never to call. `Resource.lua` is untouched. Segment
+      count reads **`ns.SHARD_CAP`**, never a literal 5.
+      - **Fill + the ghost head.** Whole shards stay the **gate**;
+        `readFragments()` (`UnitPower(..., true)`, 0..50) smooths **only** the
+        partial segment, and if fragments read unreadable the rail draws whole
+        segments and nothing else changes. *(Unrelated to the unproven fragment
+        heuristic in `ns.ShardCost` — that is about a spell's reported **cost**;
+        this reads the player's power directly.)* The **incoming** segment comes
+        from `S.ProjectedShards()` and renders **hollow** — the same
+        "hollow = estimate" convention the dots use. The projection engine
+        shipped in M3c-b B4, so this is a render, not new logic.
+    - **R3 — the cap treatment (the P0 anchor).** Alert colour + a
+      `SPEND — CAP (5/5) act or waste` label, framed per **[B1]** as a
+      **warning, not a trophy** — overcap is an opportunity-cost loss, and §3's
+      celebratory framing is explicitly nuanced by this. One-shot glitter on the
+      **false→true edge only**, `Stop()` before `Play()` so a re-fire restarts
+      rather than stacks. ⚠ **Throttled**, because the prototype has a real
+      defect here: `fireGlitter` fires on every `prevCapped` transition, so at cap
+      a HoG (−3) plus a refill re-fires within a couple of GCDs — [X2] is WCAG's
+      three-flashes-in-one-second guidance. **~2 s re-arm, and the suppressions
+      are counted in `hud status`** so the throttle can prove it is working
+      rather than looking like the edge never happened.
+      `rail.hold_treatment()` (§0.5.8.4:723) is BURST-gated → **M4**.
+    - **R4 — mode chrome on two non-icon surfaces.** The rail's fill colour
+      (GENERATE / SPEND / CAP + a distinct calm **PREP** tint) and the DEMO.SYS
+      terminal chrome (`TERM`/`TERM_MID`/`TERM_DIM` — header, sub, rules, footer;
+      never an icon), plus the **redundant glyph + label** [X1] makes mandatory.
+      Steady-state carries **no motion and locked positions** ([V3][V7]); the cap
+      glitter is the rail's only sanctioned movement. Written up as
+      **`guidance-model.md` §0.5.8.8**, which also records that PREP is a fourth
+      mode §0.5.1's three-mode table never mentions.
+    - **R5 — wiring.** Redraw rides the tail of `S.Recompute()` — the one tail
+      that sees every input the mode reads, including `beginCast`/`endCast`,
+      which is what makes the predictive flip land **during** the cast. **No new
+      ticker** (`HudCore.lua`'s header rule stands). ⚠ The power branch's
+      `if n ~= S.shards` early-out **swallowed fragment-only changes**, which
+      would have frozen the partial fill between whole steps; both values are now
+      compared, on **different paths** — a whole-shard step moves gates, a
+      fragment tick moves one texture's width and must not drag a board
+      re-evaluation behind it. Lifecycle from `rebind()` (which *is* the
+      `RefreshLayout` callback, so a relayout re-shows it) and `SetHud(false)` /
+      `S.Stop()`. `rail = true` in `HUD_DEFAULTS` — default-on, because the cue
+      §0.5.2 ranks first is not an opt-in — with `/cdmp hud rail` to toggle.
+
+    **What the in-game pass has to settle (§7.5):** that the rail is not clipped
+    to the icon column, that the partial segment actually *moves* (or that
+    `hud status` says fragments are unreadable here — **that is an answer, not a
+    failure**), that the ghost head reads as an estimate, that the SPEND flip
+    lands mid-cast, and that cap does **not strobe**.
+
+  - **M3c-c2 — the sequence queue + the opener. ✅ CODE SHIPPED (2026-07-21,
+    v0.17.0; in-game pass §7.7 outstanding).** *(Split out of M3c-c, 2026-07-21;
+    the reusable-widget re-scope taken 2026-07-21 with the user — see the Status
+    block and `guidance-model.md` §0.5.8.10.)*
+
+    **The decision that shaped it.** M3c-c2's opener and M4's burst-window queue
+    are the same shape (§0.5.8.2(a) and M4's own entry already call the burn queue
+    *"mostly reuse rather than new invention"*). Rather than build the opener
+    bespoke and bend it into M4, the milestone was re-scoped to **build the shared
+    widget and ship one consumer.** The two milestones stay split — PREP is shipped
+    while BURST is a whole sub-project, and only one of M4's five parts is
+    sequence-shaped — but the reuse is now a *designed seam*, not a hope.
+
+    **What landed, in dependency order:**
+
+    - **`HudQueue.lua` (new) — the reusable widget.** A viewer-anchored child
+      (memoised on `viewer.__hudQueue`, rides Edit Mode like the rail; one centre
+      point + explicit width, the §9 clipping rule), spec-agnostic, holding no
+      spell constants. Two rules baked in because **M4 needs them too**: **advance
+      = drop-through, never jam** (a matching press consumes that step *and* drops
+      every earlier un-pressed one, so pressing out of order tracks where you are
+      instead of freezing — the §0.5.8.7 §0 failure mode), and **`count`** (HoG×2,
+      SB×3; the Tyrant block is HoG HoG too — the field belongs to the widget). It
+      renders as a **draining ghost** in the DEMO.SYS terminal idiom: whole script
+      dim, current step bright, consumed steps fall off; no motion, positions
+      locked ([V3][V7]).
+    - **`ns.SpecOpener["1a"]` in `SpecDemonology.lua`** — the data, **re-verified
+      against the live #1 parse** (Inphected, WCL bracket 291): `Dreadstalkers →
+      Imp Lord → Tyrant t≈3.4s → SB/DB → HoG×2 → Implosion → SB×3`. The pre-pull
+      casts are a **shown-not-tracked preamble** (WCL can't see them, we can't
+      cast-verify them); `alt` matches the first spend as DB-or-SB; `optional`
+      steps (Imp Lord, Implosion) drop without stalling. **1b is cut** (§7 open
+      question), the `fillTo` field kept for it but unused.
+    - **`HudOpener.lua` (new) — the consumer glue.** Owns arm/advance/dissolve:
+      arms out of combat (the pre-pull affordance), advances off our own casts
+      **resolved to the base identity** (a transformed Ruination press still ticks
+      the HoG step — the reverse of the keybind convention, the same split B1
+      made), dissolves on the **first Tyrant window close** read off `HudNapkin`'s
+      fixed-60s clock as a plain elapsed-time compare, and re-arms next pull. No
+      secret reads, no new events. M4's burst window is the **second consumer** and
+      is a sibling of this file.
+    - **Wiring** — three one-line calls in `HudState` (advance on `SUCCEEDED`,
+      re-arm on `PLAYER_REGEN_ENABLED`, the dissolve clock on the `S.Recompute`
+      tail — no new ticker), arm in `HudCore`'s `rebind()` tail, hide on
+      `SetHud(false)`, a **`queue`** transition kind in `HudLog` (armed / advanced
+      / dissolved, captured to disk), and `/cdmp hud opener 1a|off` + a status line.
+
+    **Default OFF** — it is the only instructional widget and §0.5.8.7 §0 put it on
+    notice, so it must be opted into; PREP chrome (M3c-c1) is on regardless.
+
+    ⚠ **Gate.** Board-*independent* (it reads casts, not the dot score), so §7.7
+    can run before the strictness session. But **do not cut the release trusting
+    the board** — the rest of the roadmap still waits on §7.6 → §7.3 → §7.4 → §7.5.
+
+    *(The three scoring corrections that briefly lived here moved to **M3c-b**; the
+    **anticipation engine** shipped early, in M3c-a/M3c-b. The **fill-to marker**
+    moved out with 1b.)*
 
 - **M3d — out-of-combat seeding — ✅ CODE SHIPPED (2026-07-21, v0.14.0; in-game
   pass §7.4 outstanding).** *The cold-start fix.* Today
@@ -829,6 +1035,115 @@ decision/spec milestone that de-risks the build that follows.)
   context (an instance lobby, a raid between pulls) seeding silently does less.
   Contained by design — unreadable touches nothing, the board falls back to edges
   — but it is **reported** in `hud status`, not inferred later from a shrug.
+
+- **M3e — close the loop: the pull recorder — ✅ CODE SHIPPED (2026-07-21,
+  v0.16.0; in-game pass §7.6 outstanding, and it is *self-verifying*).**
+  *Six milestones of code are shipped and three in-game passes are stacked
+  unclosed. That is not a scheduling accident, it is a tooling gap.*
+
+  **The gate is one measurement the tooling cannot take.** M3c-b's entry says
+  outright that it *"does not close until §7.3's checklist is run"*, and §7.3
+  item 6 is the criterion §7.4 and §7.5 both inherit: *"In combat, `lit now`
+  names **1–2** abilities and every reason holds up. If it sits at 4+, tighten
+  the RULES in `HudScore` — do not touch a colour."* But `lit now` is a
+  **snapshot you have to type mid-pull**, and `/cdmp probe` recorded capability
+  facts (secrets, cast phases, overrides) with **no dot-score history at all**.
+  So the exit criterion of three milestones was being answered from memory,
+  after the fight, about a line nobody could read while it mattered.
+
+  **This is the shape §7.2 item 16 already diagnosed and fixed once.** Six probe
+  commands collapsed into one always-recording report because *"each had to be
+  toggled BEFORE the interesting thing happened — the wrong shape, because
+  procs, transforms and secret reads cannot be scheduled"* (`Probe.lua`'s
+  header). Strictness is the same class of thing: it is a property of the
+  **moments you were busiest**, which are precisely the moments you were not
+  typing. **The same fix, pointed at the score.**
+
+  **What shipped (v0.16.0):**
+
+  - **R1 — `HudLog.lua`, the recorder.** Two structures, and the split is the
+    whole design. **`events`** is a ring of ~256 **TRANSITIONS**, written only
+    when something *changes* (`{ t, kind, text }`, kind ∈ `dot` `ready` `mode`
+    `cap` `cast` `seed` `combat`). **`hist`** is a **HISTOGRAM of the lit
+    count**, bumped on every `S.Recompute` while in combat.
+    - ⚠ **A histogram, not an average, and that is the point.** §7.3 item 6 asks
+      whether the board *sits* at 4+. A mean hides a board that is quiet 90 % of
+      the time and lights five dots during every Tyrant window — the exact
+      failure mode "strictness" is about. The distribution answers it; one number
+      does not. The readout states the verdict rather than leaving it to a
+      feeling.
+    - ⚠ **Sampling and transitions do not share a path.** A transition costs a
+      `table.concat` of the reasons; a sample costs one integer increment, and
+      `Recompute` runs at 4 Hz *plus* every edge. `HudLog.Sample` returns true
+      only on a **new peak** — and only then does the caller pay to build the
+      peak set's reason strings.
+  - **R2 — the hook is inside `S.Recompute`, not a new ticker.** The per-item
+    transition compares against `S.score[key]` *before* the assignment (that
+    slot still holds the previous score), and fires on a move of the level or of
+    `soon`/`projected` — the last two change what the dot *claims* even when the
+    level doesn't. Losing a dot entirely is logged too: that is what an
+    unrecognised override looks like. Every name goes through **one** live-identity
+    resolver (`S.LiveName`, shared with `PrintStatus`) — ⚠ naming the base here
+    is what printed *"Grimoire: Fel Ravager — use on cooldown"* over a Devour
+    Magic button (B1), and **a log written to measure that bug must not
+    re-introduce it**. Six more one-liners on paths that already existed:
+    `combat` (the `PLAYER_REGEN_*` branch — pull boundaries), `mode` (in
+    `S.PaintRail`, **above** the `rail = false` early-out, because mode is state
+    and turning the widget off must not turn the measurement off — §7.5 item 4),
+    `cap` (the glitter edge, now reporting **edge vs. glitter vs. suppressed** —
+    §7.5 item 5), `cast` (`shards N ->~M` with a real timestamp — §7.3 item 5),
+    `seed` (what a `/reload` or a combat exit actually seeded — §7.4 items 1/3),
+    and `ready` (the `Available` / `OnCooldown` arms — **the GCD trap**, §7.4
+    item 2, which is a *timing* defect and needs timestamps to see at all).
+  - **R3 — auto-capture at pull end.** On `PLAYER_REGEN_ENABLED` the pull closes
+    and its summary is appended to a ring of the last **5 pulls** in
+    SavedVariables. **Nothing is typed and nothing is printed** — that *is* the
+    milestone; a recorder you have to ask for is the problem, not the fix.
+    Closed **last** in the handler, after seeding and the PREP repaint, so the
+    combat-exit seed and the flip out of SPEND land inside the pull they belong
+    to. ⚠ **Stored STRUCTURED, not through the capture buffer**: `ns.Print`
+    writes to `DEFAULT_CHAT_FRAME` unconditionally, so driving
+    `BeginCapture`/`EndCapture` at every pull end would dump the whole report
+    into chat every time you left combat. A table goes into `ns.db.pulls`, so
+    `CDMProbeDB.pulls[3].hist` reads perfectly off disk. ⚠ **The `/reload` flush
+    trap is unchanged and is restated in the readout every time** — a stale file
+    looks exactly like a recorder that silently did nothing.
+  - **R4 — the readout.** `/cdmp hud log` (`hud log all` for the ring) renders
+    duration, the histogram as a line (`lit 0:41% 1:33% 2:19% 3:6% 4:1%`, with
+    4+ buckets coloured), the **peak set with its reasons**, and the event tail.
+    Folded into `/cdmp probe` beside `PrintStatus`, so one report still has
+    everything and the OOC-then-combat workflow is unchanged.
+  - **R5 — §7.2 item 5, made diagnosable off disk.** `B.Explain()` already built
+    the full slot → command → key reverse index and `hud binds` already rendered
+    it; it was simply **never in the captured report**. Now `/cdmp probe` section
+    **E**. ⚠ **A fourth failure mode, found in source this session:**
+    `GetBindingKey(cmd)` returns **two** keys (primary *and* secondary) and both
+    `scan()` and `B.Explain()` only ever took the first — so a player who
+    remapped the **secondary** binding saw no change and there was **no row that
+    said why**. Both are recorded now. Whether the resolver should ever *prefer*
+    the second is a separate question: this makes the loser visible, it does not
+    change the winner.
+  - **R6 — docs.** `guidance-model.md` **§0.5.8.9** closes §7.1's P2 residual as
+    **one dated amendment rather than 18 edits**: `IsShown()` reads as the
+    primary mechanism at ~18 sites and it is not — the primary is the **aura
+    edge**, and `IsShown` is a capability-checked backstop that is *constant-true*
+    when the viewer isn't set to hide inactive items. Same pattern §0.5.8.6 /
+    §0.5.8.7 / §0.5.8.8 already use for this exact class of problem.
+
+  **Deliberately NOT in scope: C6's on-screen scrolling terminal** (§7.1 C6,
+  §0.5.8.7 §5). `BucketBinds`' `Console.lua` solves the hard parts and remains
+  the reference — but **you cannot read a scrolling log while playing either**,
+  so it would be a second widget needing a second in-game pass. That is the
+  M3c-c1/c2 lesson applied again. **The target is disk.**
+
+  **Also not in scope: tuning `HudScore`.** M3e produces the measurement; acting
+  on it is the next milestone's work, **on evidence**. Doing both at once would
+  mean tuning the rules against a number produced by the same session that
+  invented it.
+
+  ⚠ **Numbering:** **M3e**, continuing the M3 state-layer family (M3b readiness
+  → M3c-a the dot → M3d where readiness *starts* → **M3e whether any of it is
+  true**). M5/M6/M7 stay spoken for.
 
 - **M4 — Burst window.** *(Was "Burst window + the napkin engine". **The napkin
   engine shipped early, in M3c-a (v0.10.0)** — `HudNapkin.lua`, one uniform
@@ -1155,11 +1470,17 @@ decision/spec milestone that de-risks the build that follows.)
       instead of 5."* This resolves several open tensions at once and should be
       checked against the instructional rows (#8 opener queue, #11 HOLD/BANK, #12
       "stage for Tyrant"), re-framing them as information rather than dropping them.
-- [x] **P2 — DONE (2026-07-20)** for the load-bearing citations (`spec.md` §3
-      Ready row + proc rows; §0.5.2 #8; §0.5.4 #8). ⚠ **Residual:** the many
-      `IsShown()` mentions in §0.5.2 #2/#6/#7/#10, §0.5.4 rows and §0.5.8.4
-      pseudocode still read as the primary mechanism rather than a
-      capability-checked backstop. *(Original item:)* **Sweep the dead-mechanism citations** *(Fable blocking error B4).*
+- [x] **P2 — FULLY DONE (residual closed 2026-07-21, M3e).** The load-bearing
+      citations were fixed inline on 2026-07-20 (`spec.md` §3 Ready row + proc
+      rows; §0.5.2 #8; §0.5.4 #8). The residual — the ~18 `IsShown()` mentions in
+      §0.5.2 #2/#6/#7/#10, the §0.5.4 rows and §0.5.8.4's pseudocode, all reading
+      as though `IsShown` were the **primary** mechanism — is closed by
+      **`guidance-model.md` §0.5.8.9**, as **one dated amendment rather than 18
+      edits**: the primary is the **aura edge** (`TriggerAlertEvent`), and
+      `IsShown` is a capability-checked backstop that is *constant-true* whenever
+      the viewer isn't set to hide inactive items. Same pattern §0.5.8.6/7/8
+      already use for this class of problem, and it keeps the rows legible rather
+      than silently rewritten. *(Original item:)* **Sweep the dead-mechanism citations** *(Fable blocking error B4).*
       `spec.md` §3's "Ready" row and `guidance-model.md` §0.5.2 #8 / §0.5.4 #8 all
       still name **`OnCooldownDone` / `TriggerAvailableAlert`** — and
       `hooksecurefunc` on `OnCooldownDone` is a **proven silent no-op** (`notes.md`
@@ -1259,8 +1580,20 @@ Item 5 is deliberately still open: it is *diagnosed by* item 4, not fixed by it.
       independent of taste: a fixed-width digit stops the number jittering
       horizontally as imps come and go.
 - [x] **4 — Add `/cdmp hud binds`** — per tracked spell: slot → binding command →
-      raw key → shortened string. Gates item 5.
-- [ ] **5 — Keybind remap not picked up.** Not diagnosable from source; the wiring
+      raw key → shortened string. Gates item 5. ⚠ **Its output still had to be read
+      LIVE**, which is the same scheduling problem `/cdmp probe` exists to delete —
+      closed in v0.16.0 by putting the reverse index into the captured report.
+- [x] **5 — DIAGNOSABLE OFF DISK (2026-07-21, v0.16.0).** Not *fixed* — it can't
+      be, it depends on your actual bars — but the evidence now lands in the
+      captured report as `/cdmp probe` **section E**, so it is answerable after the
+      fact instead of having to be read live. ⚠ **A fourth candidate was found in
+      source:** `GetBindingKey(cmd)` returns **two** keys and both `scan()` and
+      `B.Explain()` only ever took the first, so remapping the **secondary**
+      binding changed nothing and no row said why. Both are recorded now (the
+      *winner* is unchanged — that needs the evidence first). Read one of four
+      answers off the report: two slots with the lower marked `<-- used`, a
+      `cmd=none` row, no rows at all, or a populated `2nd=`. *(Original item:)*
+      **Keybind remap not picked up.** Not diagnosable from source; the wiring
       (`UPDATE_BINDINGS` → debounce → rescan → `RefreshKeybinds`) reads correct.
       Three candidates: **first-bound-slot-wins** (a spell on two bars keeps bar
       1's key regardless of what you remapped elsewhere); the **unmapped slot
@@ -1415,6 +1748,17 @@ v0.13.0` → `ghaddons update michac/CDMProbe` → `/reload`. Then `/cdmp probe`
 - [ ] **4 — B6.** Stand in a city with 3+ shards. **Nothing** promotes to LATE.
       Then pull: the clocks start fresh rather than carrying a stale timestamp
       into the opener.
+      ⚠ **FOUND BROKEN by the M3e recorder, fixed in v0.16.1 (2026-07-21).** Both
+      recorded pulls opened with every "use on cooldown" button at LATE on frame 1
+      — peak set at +0.08s reading *"waiting 43s"* / *"waiting 19s"*, matching the
+      idle time before each pull. Root cause: B6 gated the LATE *promotion* on
+      `InCombatLockdown()` but not the `candidateSince` **stamp**, so the clock ran
+      out of combat and the always-on `scoreTicker` re-armed it 0.25s after B6's
+      combat-exit `wipe`. The stamp now shares the promotion's combat gate; the
+      clock starts fresh from the first in-combat frame. **Re-run this AND item 6
+      on v0.16.1** — the pre-fix strictness histograms are contaminated by the
+      phantom LATE and don't count. This is the recorder catching a shipping bug a
+      mid-pull snapshot never would (you'd have to type in the first 3s of a pull).
 - [ ] **5 — B4.** Start a Hand of Gul'dan cast and watch the board **mid-cast**:
       the dots must reflect the **post-cast** shard state, the summary line should
       show `shards N ->~M`, and anything lit *because of* the projection must
@@ -1472,3 +1816,148 @@ rules. Deploy once for both (a push does **not** reach the game): commit →
       between pulls**. An `unreadable here` verdict is not a failure — it is the
       answer the line exists to give — but it tells us where seeding silently
       does less.
+
+---
+
+## 7.5 Verify in-game — M3c-c1, the shard rail + mode spine (v0.15.0, 2026-07-21)
+
+⚠ **§7.3 and §7.4 must already have passed.** Every item here renders *on top of*
+the scored board, so running this first measures decoration on a board that may
+still lie — and M3d's seeding is what makes the rail honest at a cold start.
+
+Deploy first (a push does **not** reach the game): commit → `gh release create
+v0.15.0` → `ghaddons update michac/CDMProbe` → `/reload`.
+
+- [ ] **1 — The rail exists and rides.** It sits under the `C:\>_` footer, at its
+      own full width, **not clipped to the icon column**. Drag the CDM in Edit
+      Mode and change Orientation / # Rows: the rail follows and nothing detaches.
+      (This is the documented clipping hazard from `notes.md` §9 — one centre
+      anchor, explicit width. If it comes out ~28 px wide, that's the trap.)
+- [ ] **2 — Fill is honest.** Spend and generate: segments track shards, and the
+      partial segment moves *between* whole shards — **or** `hud status` says
+      fragments are unreadable here, which is an **answer, not a failure**. Whole
+      shards remain the gate either way.
+- [ ] **3 — The ghost head.** Start a Shadow Bolt / Infernal Bolt hardcast: an
+      incoming segment appears **hollow** during the cast's dead air and
+      solidifies on landing. Hollow must read the same here as it does on the
+      dots — if the two treatments don't match, the confidence marker is broken,
+      not the rail.
+- [ ] **4 — The predictive flip.** A cast that will cross 3 shards flips the mode
+      to **SPEND during the cast**, not a beat after it. This is `projected`, not
+      `shards`, doing its job (§0.5.8.4:715).
+- [ ] **5 — Cap is a warning, and it does not strobe.** Hit 5: the flip plus
+      **one** glitter, reading "spend or waste". Then cap → HoG → cap quickly: the
+      second glitter is **suppressed** by the ~2 s re-arm, and `hud status` counts
+      the suppression while still counting the **edge**. If suppressions stay 0
+      through that sequence, the throttle isn't wired.
+- [ ] **6 — PREP is distinct.** Out of combat the rail and the terminal wear the
+      calm resting tint — visibly **not** GENERATE. This is M3c-c2's foundation,
+      shipped a milestone early so it gets exercised before anything depends on it.
+- [ ] **7 — Mode is legible without colour.** Read the label alone, ignoring hue
+      entirely: the mode is still unambiguous ([X1] — never colour-alone).
+- [ ] **8 — Common fate.** Let the board go quiet: the rail recedes **with** it,
+      and a proc wakes both together. Then hit cap while receded — **the flash
+      must still be visible.** That is the frame-alpha trap; if the glitter is
+      dim, the fx frame has become a child of the receded rail.
+- [ ] **9 — Unreadable degrades honestly.** If shards ever read secret, the rail
+      says **UNKNOWN** rather than drawing an empty bar. An empty bar is a *claim*
+      ("you have no shards") and we would not know that.
+
+
+## 7.6 Verify in-game — M3e, the pull recorder (v0.16.0, 2026-07-21)
+
+> 📋 **`verify-runbook.md` is this checklist and §7.3–§7.5 re-ordered into the
+> sequence you'd actually play them**, with exact commands, expected output and
+> what a failure means. Read that while logged in; tick the boxes **here**.
+
+**Run this FIRST, then §7.3 → §7.4 → §7.5 with the recorder on.** Unlike the
+other three, this pass is **self-verifying**: it succeeds when it produces the
+evidence they have been waiting on. Nothing here needs you to type anything
+mid-fight — if it does, the milestone has failed at the one thing it exists to
+fix.
+
+Deploy first (a push does **not** reach the game): commit → `gh release create
+v0.16.0` → `ghaddons update michac/CDMProbe` → `/reload`.
+
+- [ ] **1 — It records without being asked.** Pull a dummy, kill it, **type
+      nothing**, then `/cdmp hud log` — the pull is there, with a duration and a
+      histogram. This is the milestone. If you had to toggle something first, it
+      is the six-commands problem again.
+- [ ] **2 — The histogram is the answer to §7.3 item 6.** Read the
+      **distribution**, not a feeling. **1–2 dominant = the rules are right; a fat
+      4+ tail = tighten `HudScore`, not a colour** — and that is the *next*
+      milestone's work, deliberately not this one's.
+- [ ] **3 — The peak set is arguable.** The worst moment names its abilities
+      **with their reasons**, under the **live identity** — a transformed Grimoire
+      must appear as Devour Magic or not at all (B1). A dot you disagree with is a
+      scoring bug you can argue with; a dot with no reason is a design failure.
+- [ ] **4 — Timestamps expose the GCD trap (§7.4 item 2).** Press an instant, then
+      read the `ready` transitions around it: **nothing genuinely ready may flip to
+      on-cooldown inside the 1.5 s global.** This is a *timing* defect — it is
+      invisible in a snapshot and obvious in two timestamps.
+- [ ] **5 — The mode + cap lines close §7.5 items 4 and 5.** The SPEND flip is
+      timestamped **inside** the cast, not a beat after it; and a fast cap → HoG →
+      cap shows **two `cap` edges and one suppression**.
+- [ ] **6 — It survives the disk round-trip.** `/reload`, then read
+      `…/WTF/Account/<ACCT>/SavedVariables/CDMProbe.lua` → `CDMProbeDB.pulls`
+      (last 5, structured — `pulls[3].hist` indexes directly). ⚠ **No reload means
+      you are reading the previous session's data, which is indistinguishable from
+      a recorder that did nothing.**
+- [ ] **7 — Cost is invisible.** Several pulls with the HUD on and no stutter. The
+      sample path does one integer increment and no string work; only transitions
+      and a *new peak* pay for `HudScore.Why`.
+- [ ] **8 — §7.2 item 5 finally has evidence.** Remap a key the HUD didn't pick
+      up, then read section **E** off disk. The spell shows one of exactly four
+      things: two slots with the lower one marked `<-- used` (first-bound-slot-
+      wins), a `cmd=none` row (unbindable 13–24 / 109–180), **no** rows at all (a
+      macro `GetMacroSpell` can't resolve), or a populated **`2nd=`** (the
+      secondary binding was the one you moved). One of those four is the answer.
+
+**Then run §7.3, §7.4 and §7.5 — in that order — with the recorder on.** That is
+the actual point of this milestone.
+
+---
+
+## 7.7 Verify in-game — M3c-c2, the sequence queue + opener (v0.17.0, 2026-07-21)
+
+**Board-independent — run it whenever.** Unlike §7.3–§7.5 this reads your own
+casts, not the dot score, so it does **not** wait on the strictness session. It
+does want a **real opening** (a pre-stacked pull), which a target dummy provides.
+
+Deploy first (a push does **not** reach the game): commit → `gh release create
+v0.17.0` → `ghaddons update michac/CDMProbe` → `/reload`. Then `/cdmp hud opener
+1a` (it is **default off**).
+
+- [ ] **1 — It arms.** Out of combat with the opener on, the 1a ghost shows under
+      the shard rail — a dim preamble line + the step list, `OPENER 1a` header —
+      beside the PREP chrome from M3c-c1. `/cdmp hud status` shows `opener … armed`.
+- [ ] **2 — It rides.** Drag the CDM in Edit Mode; change Orientation / # Rows.
+      The queue follows and stays at its **own full width** — not clipped to the
+      ~28px icon column (the `notes.md` §9 hazard; one centre anchor + explicit
+      width).
+- [ ] **3 — Advance + drop-through.** Pull and run the opener; steps cross off as
+      pressed. Deliberately press one **out of order** (e.g. HoG before Imp Lord):
+      Imp Lord drops silently and the queue does **not** jam.
+- [ ] **4 — `count`.** HoG needs **two** presses to clear; the rebuild SB needs
+      **three**. The count shows as `HoG x2` and decrements.
+- [ ] **5 — `optional`.** Skip Imp Lord (on CD): it drops without stalling. Skip
+      Implosion (single-target): same.
+- [ ] **6 — Identity.** If a Demonic Art transforms a HoG into **Ruination**
+      mid-opener, that press must still tick the **HoG** step — the consumer
+      resolves the override back to the base (the opposite of the keybind rule, on
+      purpose — B1).
+- [ ] **7 — Dissolve + re-arm.** ~15s after Tyrant the whole queue **vanishes**
+      (first window close → handoff to sustain); drop combat and it **re-arms** for
+      the next pull. Draining the whole script early also dissolves it.
+- [ ] **8 — It's in the recorder.** `/cdmp hud log` shows `queue` transitions
+      (`opener armed` / `advanced … -> …` / `opener dissolved`) in the event tail,
+      captured to disk like everything else (M3e). Nothing had to be typed
+      mid-pull.
+- [ ] **9 — Off is clean.** `/cdmp hud opener off` → the ghost disappears; `/cdmp
+      hud` off → pixel-clean. No stutter across pulls (the widget only redraws on
+      arm/advance, not per frame).
+
+**What a failure means.** A queue that jams on an out-of-order press (item 3) or
+mis-identifies a transform (item 6) is a **widget bug that M4 would inherit** —
+those two rules exist specifically because the burst queue reuses them. A queue
+that reads as a nag rather than a ghost is the §0.5.8.7 §0 line being crossed.

@@ -987,6 +987,211 @@ scrollback, geometry persistence and monospace-font handling.
 
 ---
 
+## 0.5.8.8 Amendment — the shard rail, the mode spine, and where mode may land (2026-07-21)
+
+> **Status: this block amends §0.5.1, §0.5.4 and §0.5.8.4.** Where it disagrees
+> with them, this wins; the rows themselves are left in place so the change is
+> legible rather than silently rewritten (same pattern as §0.5.8.6 and
+> §0.5.8.7).
+>
+> **Implementation status: SHIPPED in CDMProbe v0.15.0 as milestone M3c-c1 —
+> in-game pass `milestones.md` §7.5 pending.** `HudState.S.Mode` /
+> `S.RailInfo`, `HudChrome.H.ShowRail` / `H.PaintRail` /
+> `H.SetTerminalMode`. The **opener queue is split out as M3c-c2** and is not in
+> this build.
+
+### (1) Mode (#6) lands on the rail and the terminal chrome — never on an icon
+
+§0.5.8.7 §1 established that the **icon channel budget is full**: hue = group,
+saturation = pole, luminance = readiness, alpha = recede, and [V2] forbids
+conjunction encodings. The dot exists *because* that budget ran out, and the
+amendment notes tint "matters less in a dot-led world."
+
+§0.5.4's mode row is **not demoted** — it is still a first-class output — but it
+may not compete for a channel the dot already won. It therefore renders on the
+two genuinely free surfaces:
+
+- **the rail's own fill colour**, and
+- **the DEMO.SYS terminal chrome** (`TERM` / `TERM_MID` / `TERM_DIM` — header,
+  sub, rules, vrules, footer), as a *blend* toward the mode hue rather than a
+  replacement, so the terminal still reads as the terminal.
+
+Plus the **redundant glyph + label** §0.5.4:429 already asks for by name, which
+[X1] makes mandatory rather than decorative: `[+] GENERATE 2/5`,
+`[-] SPEND 3/5`, `[!] SPEND — CAP (5/5) act or waste`, `[.] PREP 4/5`,
+`[?] SHARDS UNKNOWN`.
+
+### (2) PREP is a fourth mode that §0.5.1's table never mentions
+
+§0.5.1 commits to **three** modes (GENERATE → SPEND → BURST). §0.5.8.2(a) then
+introduced a *"distinct calm **PREP** chrome tint (a fourth resting state, not
+GENERATE)"* without going back to reconcile the table, and §0.5.8.4:713's ladder
+does list `PREP` first. **The four-mode ladder wins**; §0.5.1's table is
+historical. PREP ships in M3c-c1 — a milestone ahead of the opener queue that
+depends on it — so it is exercised in isolation before anything hangs off it.
+
+### (3) §0.5.1's GENERATE row still carries the corrected-away `~15 s`
+
+§0.5.1's GENERATE entry reads *"Tyrant not imminent (napkin timer `> ~15 s`)"*.
+**§0.5.8.6 correction 1 already replaced that with `HOLD_LEAD ≈ 5 s`** — a 15 s
+shard freeze force-overcaps, because Cores proc ~every 3.6 s and Demonbolt
+refunds +2, so the rail hits cap within ~2 GCDs. The `~15 s` figure survives only
+as `WARMUP_LEAD`, which is **awareness-only and non-instructional**. `S.Mode`
+carries BURST as a **named vacancy** citing the 5 s figure, so M4 inserts a
+branch rather than rewriting the ladder.
+
+### (4) The cap earcon stays in M6
+
+The M3c-c backlog bullet says "cap flip + one-shot glitter + earcon". Three
+committed statements say otherwise — §0.5.8.3 row #15 (**Stretch**), §0.5.8.5-D,
+and §0.5.6 (*"cap earcon lands in M6"*). The **flip and the glitter ship
+silently**; audio arrives in M6 **with** its mute and per-event toggles, which is
+what [A3] actually asks for. (The M1 prototype's `PlaySound` is deliberately
+dropped in the port.)
+
+### (5) The cap glitter is throttled — [X2] applies to our own port
+
+`Resource.lua`'s `fireGlitter` fires on **every** `prevCapped` transition, so at
+cap a Hand of Gul'dan (−3) followed by a refill re-fires within a couple of GCDs.
+[X2] is WCAG's three-flashes-in-one-second guidance. A **~2 s minimum re-arm**
+ships with the port, and the suppressions are **counted in `hud status`** rather
+than being invisible — the throttle has to be able to prove it is working, not
+just look like the edge never happened.
+
+### (6) There is now a surface for a sentence that isn't about a button
+
+§7.2 item 8 / M3c-b's **B5** (*"ready but unaffordable ≠ NEVER"*) was deferred
+with the explicit note that its missing half — *"go build shards"* — **"wants the
+shard rail to render on"**. After this milestone that surface exists. Worth
+reconsidering when M4 opens; still deferred here, because M3c-c1 ships an
+**ambient** widget and B5's half is **instructional** (§0.5.8.7 §0).
+
+---
+
+## 0.5.8.9 Amendment — `IsShown` is a backstop, not the mechanism (2026-07-21)
+
+> **Status: this block amends every `IsShown()` citation in §0.5.1, §0.5.2,
+> §0.5.4, §0.5.6 and §0.5.8.4's pseudocode — document-wide, in one place.**
+> Where it disagrees with them, this wins; the rows are left standing so the
+> change is legible rather than silently rewritten (same pattern as §0.5.8.6,
+> §0.5.8.7 and §0.5.8.8).
+>
+> **Implementation status: this describes SHIPPED behaviour** (`HudState.lua`'s
+> alert hook + `levelUsable` / `S.SyncLevels` / the poll backstop, since v0.7.0).
+> No code changes with this block — it is the doc catching up to the code, which
+> is why it is one amendment rather than 18 edits.
+
+### The claim as written
+
+`grep -n IsShown docs/guidance-model.md` returns ~18 sites — §0.5.1:104,
+§0.5.2 rows #2/#6/#7/#10, the §0.5.4 rows (#6 mode, #2, #6, #7, #9, #10),
+§0.5.6's own/borrow list, and the §0.5.8.4 pseudocode at :726-729
+(`if DemonicCore.IsShown(): …`). Read together they say: **proc presence is
+`item:IsShown()`**, and every "Own" verdict in §0.5.4's capability column rests
+on it.
+
+### What is actually true
+
+**The primary mechanism is the AURA EDGE, not the widget query.**
+`CooldownViewerItemMixin:TriggerAlertEvent` (`CooldownViewer.lua:483`) is invoked
+from all six alert paths, and the user's alert *configuration* is checked
+**inside the body**, after the call — so one hook per item instance gets
+`OnAuraApplied` / `OnAuraRemoved` precisely, with no polling and no secret read.
+That is what drives `S.presence`, which is what both the glow and the dot score
+read (`S.SourcePresent`).
+
+**`IsShown()` is a capability-checked BACKSTOP, and it is often meaningless.**
+It is only a presence signal when the viewer is set to hide inactive items;
+otherwise `ShouldBeShown()` short-circuits to true (`CooldownViewer.lua:311`) and
+the read is **constant-true** — it carries no information at all. The shipped code
+therefore probes it (`levelUsable`, `HudState.lua:685-696`), **never writes a
+`false` from an unusable read**, and reports the verdict in `hud status` as
+*"level reads (item:IsShown): unavailable — hideWhenInactive is off, so IsShown
+is constant-true; running on EDGES ONLY"*.
+
+### Why this matters beyond tidiness
+
+Two consequences the docs currently mis-state:
+
+1. **The "Own" verdicts survive, but for a different reason.** Every §0.5.4 row
+   whose capability column reads `IsShown` is still **Own** — via the alert edge.
+   A reader who took the citation literally would conclude the feature is dead on
+   any configuration that doesn't hide inactive items. It isn't.
+2. **A default-configured player is running on edges only.** Hiding inactive
+   items is *not* the default, so for most players `IsShown` contributes nothing
+   and the edge hook is the entire mechanism. Anything designed against
+   `IsShown` as the primary — a poll, a cold-start seed, a presence read at bind
+   time — is designed against a signal that is constant-true in the common case.
+
+**Read every `IsShown()` in this document as "proc presence (aura edge; `IsShown`
+where the viewer configuration makes it meaningful)".** P2 of §7.1 fixed the
+load-bearing citations inline; this block covers the rest document-wide.
+
+---
+
+## 0.5.8.10 Amendment — the sequence queue is one widget, two consumers (2026-07-21)
+
+> **Status: this block amends §0.5.8.2(a) and §0.5.8.4:737-742 (the `#8 pre-pull`
+> pseudocode), and scopes M4's burn-phase queue (§0.5.8.3 #12 / `milestones.md`
+> M4).** Where it disagrees, this wins; the rows stand (same pattern as §0.5.8.6–9).
+>
+> **Implementation status: SHIPPED in CDMProbe v0.17.0 as M3c-c2** —
+> `HudQueue.lua` (the widget), `ns.SpecOpener` (data), `HudOpener.lua` (the
+> consumer). In-game pass `milestones.md` §7.7 pending.
+
+### (1) The opener and the burst queue are the same object
+
+§0.5.8.2(a) specs the opener as *"a short opener queue [that] ghosts the scripted
+sequence; it drains as you pull … advance it by matching the ability pressed"*.
+M4's burn-phase queue (`milestones.md` M4, §7.2 item 9) is described in its own
+entry as *"the same machinery pointed at the burst window … mostly reuse rather
+than new invention."* They **are the same widget**: a mode-scoped fixed sequence,
+shown → advanced by cast-match → dissolved. So it is built **once**, as
+`HudQueue` — spec-agnostic, holding no spell constants — and shipped wired to one
+consumer (the opener). M4's burn queue is a **second consumer**: author
+`ns.SpecSequence.burst`, fire it on BURST-enter. Data + a trigger, not machinery.
+
+**The milestones still split**, and deliberately: PREP is shipped while BURST is a
+whole sub-project (go-gate detection, the two-lead telegraph, force-overcap
+avoidance), and only the burn queue among M4's five parts is sequence-shaped. The
+widget is the shared thing; the *mode* each rides is not. This is the same seam
+`SpecDemonology` is for a second spec — reuse made a designed contract, not a hope.
+
+### (2) Two widget rules that are load-bearing for BOTH consumers
+
+- **Advance = drop-through, never jam.** A matching press consumes that step *and*
+  drops every earlier un-pressed one. The Demo opener's first-3-GCD ordering
+  varies (`DS→TYR` / `DS·GIL·SB→TYR` / `DB·GIL·DS→TYR`, §0.5.8.2(a)); a queue that
+  froze on an out-of-order press would sit there **lying mid-fight**, which is the
+  §0.5.8.7 §0 "inform, don't instruct" failure. The burst window has the same
+  branch tolerance. The queue tracks *where you are*; it never blocks.
+- **A step can repeat (`count`).** The opener presses HoG×2 and SB×3; the Tyrant
+  entry block is HoG HoG too (SEQUENCE 2). So repetition is a **widget** property,
+  not per-consumer data.
+
+### (3) Scope taken at build time: 1a only, and the framing it forces
+
+- **Only opener 1a ships**, re-verified against the live #1 parse (Inphected, WCL
+  bracket 291): `Dreadstalkers → Imp Lord → Tyrant t≈3.4s → HoG HoG → Implosion →
+  SB×3`. **1b (build-to-5) is cut** — it is a *can't-pre-stack* contingency WCL
+  structurally cannot show (logs start at the pull, hiding the pre-stack), so the
+  §7 open question stays open as a documented alternative, not code. The
+  **fill-to marker** was 1b-only (1a enters shard-poor, §0.5.8.2(a)) and is cut
+  with it; the widget keeps an unused `fillTo` field as the M4/1b seam.
+- **The pre-pull casts are shown, not tracked.** 1a's pre-pull HoG/DB happen
+  before we are listening and cannot be cast-verified — they render as dim
+  preamble, never advance-tracked. `alt` matches the first spend as DB-or-SB.
+- **Advance resolves the LIVE identity to its base** (a transformed Ruination
+  press ticks the HoG step) — the *opposite* of the keybind convention, which
+  resolves off the base because the override is on no bar (the v0.7.0 finding-3
+  fix; B1's split). The two must not be "unified" later.
+- **Default OFF.** The opener is the only instructional widget and §0.5.8.7 §0 put
+  it on notice, so it is opt-in (`/cdmp hud opener 1a`) and renders as a **draining
+  ghost** — it informs the *shape* of the opening, it never says "press this now".
+  PREP chrome (M3c-c1) is on regardless.
+
+---
+
 ## Provenance
 
 - **Rotation derivation:** `knowledge/classes/warlock/demonology/rotation.md`
