@@ -23,6 +23,15 @@ gitignored sub-repos — `planner-state/`, `projects/cooldown-hud/addon/`,
 "a push does not reach the game, you must cut a release" is a real deploy fact
 worth saying when a deploy is in play.)
 
+**Pushing this repo ⇒ push the addons too.** If you push **this** repo to
+GitHub, assume I also want the latest addon code on GitHub for all three sub-repos
+(they're separate repos a wow-repo push does not touch). So when you push here,
+run `wowkb.addon check` and, for any addon it flags with **unpushed** commits,
+`git -C <path> push` it as well; if it flags **uncommitted** changes, surface
+that to me first. (`check` is read-only and exits non-zero when anything is
+local-only — a clean pre-push gate.) Cutting a release is a separate, ask-first
+step — this is just "don't leave addon commits stranded on one machine."
+
 ## Current game state
 
 - **Live: patch 12.0.7 "Revelations"** — Midnight expansion, level cap **90**,
@@ -148,11 +157,11 @@ touching the code**. Status as of 2026-07-09:
   re-filing SHIPPED via the floats rollout), `data/seed-review.md` +
   `seed-edits-proposed.md` + `unmapped-abilities.md` (per-spec audits). The addon
   (`michac/BucketBinds`) is at `addon/` — own git repo, **gitignored**, own
-  `CLAUDE.md` for the release workflow. **v0.12.0 (floating buckets across all 33
-  DPS/tank specs) shipped 2026-07-21** — the 7 healers stay held per layout-v2
-  §10. In-game verification: Demonology pilot verified (v0.11.0); the other 32
+  `CLAUDE.md` for the release workflow. **Floating buckets shipped across all 33
+  DPS/tank specs (2026-07-21)** — the 7 healers stay held per layout-v2
+  §10. In-game verification: Demonology pilot verified; the other 32
   DPS/tank specs' float placement is the outstanding in-game pass. Read off disk
-  by `wowkb.diagnostics`.
+  by `wowkb.diagnostics`. (Current addon version: `wowkb.addon list`.)
 - `projects/cooldown-hud/` — **Cooldown HUD**: a spec-specific overlay that skins
   Blizzard's built-in **Cooldown Manager** (Midnight 12.0), CRT/green-phosphor
   aesthetic; v1 target **Demonology Warlock**. Docs live in `docs/` (`spec.md`
@@ -164,11 +173,12 @@ touching the code**. Status as of 2026-07-09:
   M0.5 shipped the §0.5 guidance model; M2.5 committed the v1 indicator set as
   §0.5.8 — those three docs-only. M3a shipped the identity layer, M3b readiness +
   procs, **M3c-a the dot score** — a per-ability actionability dot + a row saying
-  *why*, plus the napkin anticipation engine pulled forward from M4; addon
-  **v0.10.0**, **in-game pass outstanding** and it's the real test: strictness
+  *why*, plus the napkin anticipation engine pulled forward from M4;
+  **in-game pass outstanding** and it's the real test: strictness
   (expect 1–2 lit dots, not 4–5) and whether cast spellIDs read non-secret **in a
   raid**, which is what the anticipation feature rides on). Next is the rest of M3c
-  (shard rail + mode chrome + pre-pull opener queue).
+  (shard rail + mode chrome + pre-pull opener queue). (Current addon version:
+  `wowkb.addon list`.)
 - `todo/` — design docs / specs with milestone logs for the above
   (`rotation-trainer.md`, `talent-calculator-prototype.md`). The informal
   "what's unfinished" inventory, but not exhaustive (mplus_memory's spec lives
@@ -220,9 +230,39 @@ uv run python -m wowkb.gen_addon_quests              # regen addon quest-ID tabl
 uv run python -m wowkb.gen_candidates                # regen planning/candidates.json from activities/*.md (--check in CI; edit the .md, not the JSON)
 uv run python -m wowkb.gen_verify                    # regen _meta/verify-in-game.md from @verify-ingame markers (--check for CI; tag the claim, not the JSON)
 uv run python -m wowkb.spec_inventory [--spec X] [--unseeded] [--json PATH] [--validate CHAR]  # per-spec ability inventory as a UNION: all-talents.tsv (node_type!=PASSIVE) ∪ SkillLineAbility class kit ∪ CooldownSetSpell residue (cdm-only), annotated with cooldown, Blizz category, origin (class-baseline|talent-active|talent-choice|cdm-only), suggestedMode (fixed|float), talent tree/hero placement, and the seed bucket that binds each name. Tier 1, all 40 specs. `--validate <char>` diffs the union against a real in-game `/bb diagnostics` dump (false-negatives = holes). Feeds the BucketBinds floats work (layout-v2 §6).
+uv run python -m wowkb.addon list                       # the 3 sub-repo addons: presence + local HEAD + .toc version + latest release + drift
+uv run python -m wowkb.addon pull [--all|bb cdmp ps]     # clone-if-missing + git pull each sub-repo (the machine-B sync)
+uv run python -m wowkb.addon check                       # report addons with local-only (uncommitted/unpushed) work; exit 1 if any (pre-push gate)
+uv run python -m wowkb.addon release <bb|cdmp|ps> [--patch|--minor|--major] [--notes …]  # bump .toc → luaparser check → commit → push → gh release (tag=version) → ghaddons deploy
+uv run python -m wowkb.addon deploy <bb|cdmp|ps>         # redeploy the latest existing release via ghaddons (no new cut)
 ```
 
 Blizzard + WCL commands require credentials in `.env` (user-registered).
+
+**`wowkb.addon`** is the one door for the three gitignored **sub-repo addons**
+(`bb` = BucketBinds · `cdmp` = CDMProbe · `ps` = PlannerState — short name =
+in-game slash prefix; a checkout path also resolves). The registry inside the
+module (repo ↔ path ↔ `.toc`) is the source of truth for the addon set, and it
+owns the mechanical release recipe the per-addon `CLAUDE.md` files used to spell
+out by hand (they keep the *why*; this owns the *how*).
+- **`list` is the live version signal — never hardcode an addon's current version
+  in prose, run it.** It shows presence + local HEAD + `.toc` version + latest
+  GitHub release + drift (unreleased commits / behind-release / dirty tree).
+- **`pull` closes the machine-B gap.** These are separate repos gitignored here,
+  so a `git pull` of *this* repo never fetches them — a fresh machine gets new
+  docs describing addon code it doesn't have. **On a fresh checkout / before
+  touching an addon, run `wowkb.addon pull --all`** (clone-if-missing + `git pull`
+  each). Since this file loads every session, that's the standing reminder.
+- **`check` is the pre-push gate** (see the Git-workflow note): reports any addon
+  with local-only work (uncommitted or unpushed), exits 1 if so. Run it when you
+  push this repo — pushing here means I want the addon code on GitHub too.
+- **`release`** runs the whole publish flow one-shot: refuses a dirty tree (commit
+  your feature work first), bumps the `.toc` version (`--patch` default), warns if
+  `## Interface:` drifts from `game-version.md`, luaparser-checks the Lua, commits
+  the bump, pushes, cuts a GitHub release whose **tag = `.toc` version**, then
+  `ghaddons`-deploys into the game install and reads back `ok`. For `ps` it also
+  warns to bump the Lua `schema` field by hand if the `/ps` dump format changed
+  (it does **not** touch schema). `--dry-run` stops before the commit.
 
 **`wowkb.character`** is the one-shot snapshot for `knowledge/characters/`:
 it pulls every Blizzard profile endpoint (summary/equipment/specs/professions/
