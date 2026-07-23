@@ -16,7 +16,8 @@
 > *recommended run-order*, not a gate.
 
 **Current: M4.4 CODE-COMPLETE (v0.24.0), in-game pass outstanding; M4.5 T1+T2 DONE
-(luacheck gate + busted suite, off-game), T3 deferred — the play-test-4 feedback pass
+(luacheck gate + busted suite, off-game), T3 pivoted (`/cdmp selftest` shelved → probe
+capture + local reader, `m4.5-t3-plan.md`) — the play-test-4 feedback pass
 (2026-07-23, against CDMProbe v0.23.0).** M4.1→M4.3
 shipped through four play-tests; the board is now *correct* (strictness holds, the
 scoring rules fire), so play-4's feedback is **all legibility, juice, and one real
@@ -1474,8 +1475,16 @@ decision/spec milestone that de-risks the build that follows.)
     (`--dry-run` confirms it runs before the bump). **T2:** `CDMProbe/tests/` —
     `mock_ns.lua` harness + 4 specs, **26 green**; the tests bite (reverting the C1
     predicate fails `hudqueue_spec`). One production edit: a `B._isBurstStep` test seam.
-  - **T3 remains deferred** to an at-a-dummy session (adds `/cdmp selftest` → needs a
-    v0.25.0 release).
+  - **T3 PIVOTED 2026-07-23 — `/cdmp selftest` SHELVED.** In-game validation instead =
+    **`/cdmp probe` structured capture → local `wowkb` reader + JSON baseline**
+    (design of record: `m4.5-t3-plan.md`). `probe` already collects the live-only
+    observations selftest would have re-collected; only *interpretation* was missing,
+    and moving it local means the assertions evolve **without a release** and no test
+    scaffolding ships in the addon. The addon half — a structured `CDMProbeDB.probe`
+    table (the reader's contract) + an on-demand `/cdmp probe guide` coverage checklist
+    (Option 2: pull-based, re-run to re-check) — rides a **v0.25.0** bump; the reader +
+    baseline are release-free. **The rule:** *collect a new observation → addon release;
+    assert / interpret / re-verify → local.*
 
 - **M5 — AoE readout + borrowed bars.**
   - **#17 Wild Imp stack text + static "/6" — Core.** Enlarge Blizzard's own
