@@ -126,6 +126,33 @@ The right source turned out to be one we already read, not the addon:
     Data's all there (`item_counts`, tier flags); it gets built as part of the candidate graph,
     not bolted onto `_crest_consumer`. The `CREST_FLOOR` stays as the interim crest value.
 
+## Cooldown HUD / CDMProbe
+
+_(design context: `projects/cooldown-hud/docs/`; source-read findings folded into
+`notes.md` §1 + §6/§8 on 2026-07-22, build 68453.)_
+
+- **Affliction pandemic probe (verify-in-game).** The pandemic mechanism is
+  understood from source (`notes.md` §1 "Pandemic — two edge signals") but is
+  **untested in restricted combat** — the probe has only ever run on Demo, which
+  tracks no target-DoT. Log onto Affliction, get Agony on a target dummy in a
+  delve, and confirm: (a) `hooksecurefunc(item, "ShowPandemicStateFrame", …)` fires
+  in combat, (b) `TriggerAlertEvent(PandemicTime)` shows in the choke-point counter,
+  (c) `self` resolves to the item's base spellID for glow routing. Gates any DoT
+  assist. *(2026-07-22)*
+
+- **Second spec / generalization (M7, but seed it now).** Two source-grounded
+  levers make "40 specs" tractable rather than 40 hand-authored tables:
+  1. `C_CooldownViewer.GetCooldownViewerCooldownInfo(cooldownID)` returns a
+     **readable** per-item classifier (`hasAura`/`selfAura`/`charges`/
+     `linkedSpellIDs`/`flags`) — a candidate `wowkb.gen_spec_table <spec>` could
+     fuse it with `spec_inventory` + `simc`/`rotation.md` into a draft
+     `Spec<Name>.lua`. Richer than the current hand-authored `kind = "button"|"aura"`.
+  2. The engine's **judgment layer isn't spec-agnostic yet** — `HudScore`/`HudState`
+     hold the Demo builder/spender→Tyrant model as control flow. Adding a
+     same-archetype second spec (Ret / Feral / Rogue) is what forces the
+     resource/mode model into declared fields. Do that before any DoT spec.
+  See `milestones.md` §6 M7 second-spec bullet for the full framing. *(2026-07-22)*
+
 ## Research to-do
 
 _(empty — drop "look into X" research threads here that aren't claim-verifications)_

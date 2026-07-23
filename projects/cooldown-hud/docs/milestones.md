@@ -9,6 +9,12 @@
 
 ## Status
 
+> **The outstanding in-game passes are QA, not blockers (2026-07-22).** The M3 arc
+> is **code-complete** (v0.18.1); the confirm-in-game passes are tracked as clean-up
+> in **`qa-pending.md`** and do **not** gate the roadmap — M4 can proceed in parallel.
+> The running log below is kept for history; read its "waits on / blocker" framing as
+> *recommended run-order*, not a gate.
+
 **Current: M3c-c2 CODE SHIPPED — the sequence queue + the opener (2026-07-21,
 CDMProbe v0.17.0). In-game pass §7.7 outstanding; it is board-independent, so it
 can be run before the strictness session, but everything else still waits on
@@ -1146,46 +1152,97 @@ decision/spec milestone that de-risks the build that follows.)
   → M3c-a the dot → M3d where readiness *starts* → **M3e whether any of it is
   true**). M5/M6/M7 stay spoken for.
 
-- **M4 — Burst window.** *(Was "Burst window + the napkin engine". **The napkin
-  engine shipped early, in M3c-a (v0.10.0)** — `HudNapkin.lua`, one uniform
-  `SOON_LEAD ≈ 3 s`, because anticipation turned out to be load-bearing for the
-  dot score rather than a burst-only concern. What remains here is the burst
-  **framing** and the **two-lead Tyrant telegraph** (#11), which the uniform lead
-  deliberately does not cover.)* Builds §0.5.8.3 rows **#9, #10, #11,
-  #12**. Our overlay frames **beside** the vertical CDM group the burst lane
-  (**Tyrant · Dreadstalkers · the tracked Grimoire summon**); shared lane tint
-  (common region) — the horizontal "line Tyrant up with what it buffs" grouping,
-  realized in *our* overlay, not the CDM's layout.
-  - **#9 Burst lane + common-fate brighten.** The **go-gate is Tyrant +
-    Dreadstalkers only**; the Grimoire **brightens if up but is never a gate**
-    (~2-min CD, absent ~half the windows — 21 casts vs 48 Tyrant). *(§0.5.8.6
-    blocking error #2.)*
-  - **#10 BURST mode activation** — the spine's hot state, folded into the lane
-    rather than shipped as a separate widget (§0.5.8.5-A).
-  - **#11 Tyrant telegraph — two leads, do not conflate.** `WARMUP_LEAD ≈ 15 s` =
-    **awareness only, non-instructional** (a low-salience "approaching" glow; does
-    **not** stop the player dumping, never overrides the P0 overcap cue).
-    `HOLD_LEAD ≈ 5 s` (≤2 GCDs) = **instructional** HOLD/BANK + stage, crescendo
-    into a motion onset at ~0. The short hold is load-bearing: a 15 s freeze
-    **force-overcaps** (Cores proc ~every 3.6 s, Demonbolt refunds +2).
-    *(§0.5.8.6 blocking error #1 — the lead was 3× too long.)*
-  - **#12 Short-CD approach pings** — Dreadstalkers ~20 s, Implosion 15 s, ~1 GCD
-    out, off the same `GetSpellBaseCooldown` engine — **which is now built**
-    (`HudNapkin.lua`, M3c-a); what's left is the per-ability lead tuning and the
-    suppression rule below, not the engine. The **Dreadstalkers ping
-    suppresses when Tyrant is imminent** and becomes a "stage for Tyrant"
-    treatment: one Dreadstalkers per cycle is held so the dogs are fresh *inside*
-    the window. Implosion's ping is gated on `in_aoe` (§7) and says "it's
-    available", never "it's worth it" — the ≥6-imp value gate stays a **Can't**.
-  - **Burn-phase sequence queue (NEW, 2026-07-21 — §7.2 item 9).** A staged hint
-    for the Tyrant window that **drops abilities as they're pressed**. The
-    consumed-as-you-press queue is currently specced **only for the opener** (#8,
-    M3c); this is the same machinery pointed at the burst window, so it is mostly
-    reuse rather than new invention. Keep it on the right side of "inform, don't
-    instruct" — it shows the *shape* of the window, it does not become a
-    press-this-next oracle (§0.5.8.7).
+- **M4 — The sequence helper (opener + burst as its starter use-cases).**
+  *(Reframed 2026-07-22 — was "Burst window". M4 now **is** the sequence-helper
+  feature and **absorbs the pre-pull opener that shipped under the M3c-c2 label**:
+  one feature, two starter consumers, so the roadmap stops tracking opener and
+  burst as unrelated milestones. Full implementation plan: **`m4-plan.md`**.)*
+
+  **The feature — a `SequencePane`** (evolved from `HudQueue`): a **free-standing,
+  user-positionable frame** — *our* frame, so it can sit anywhere incl. **over the
+  character**, unlike the protected CDM viewers (`notes.md` §5) — that shows a fixed
+  ability sequence as a **prereqs row + a left-to-right keybind strip**, sits
+  **primed until the first sequence key is pressed**, then drains by cast-match
+  (drop-through), with **asymmetric minigame juice** (reward completion, shrug at
+  deviation, never scold — §0.5.8.7). Guidance-model note: §0.5.8.2.
+
+  - **Use-case 1 — the opener** *(pre-pull; shipped rough as M3c-c2 v0.17.0, now
+    reworked into the pane).* Arms out of combat when targeting an enemy; the
+    prereqs row reads real (pre-pull the Secret wall is down — §0.5.8.2a).
+    **Fixes the v0.17.0 desync:** pre-pull shard-capping casts (SB/DB) no longer
+    fast-forward the queue, because it doesn't advance until the first opener key.
+  - **Use-case 2 — the burst window** *(the Tyrant burn sequence).* The same pane,
+    armed when the Tyrant window opens (Tyrant → HoG HoG → …). Second consumer =
+    data + a trigger, not new machinery — the seam `SpecDemonology` is for a 2nd spec.
+  - **The scoring counterpart — `HudScore` mode-aware "cap without overcapping".**
+    In PREP and the ~5 s Tyrant HOLD window the shard gate **inverts**: a builder
+    (SB/Infernal Bolt) is the ROTATION call until near cap, HoG is held, the overcap
+    guard stops the builder before it overcaps. Roots the opener's pre-pull behavior
+    in the engine (those casts become engine-directed setup, not sequence steps) and
+    **must be co-designed with #11's HOLD telegraph** so the dot score and the
+    telegraph never disagree.
+
+  **Status (2026-07-22) — phases 1–5 + the burst-prep tuning CODE-COMPLETE, in-game
+  verification pending.**
+  Shipped per `m4-plan.md`: new **`HudPane.lua`** (movable UIParent pane, prereqs
+  row + hosted `HudQueue` strip, lock/unlock via `/cdmp hud pane`, asymmetric juice
+  with `onCorrect/onMiss/onComplete` M6 sound seams); `HudQueue` gained the `host`
+  arg + the **`primed`/start-on-first-key** gate (the v0.17.0 desync fix); `HudState`
+  gained the **BURST** mode branch (`HOLD_LEAD = 5`); `HudScore` gained the
+  **PREP/BURST "build to cap"** prune rule; `HudOpener` re-pointed onto the pane;
+  new **`HudBurst.lua`** (second consumer, mode-driven arm/dissolve). The in-game
+  checks live in `qa-pending.md`.
+
+  **The rest of M4 — burst-prep guidance via the dot algorithm (2026-07-22).** The
+  original "rest of M4" was four ambient burst-board cues (#9–#12 below). On review
+  they are **superseded by the dot score's SOON treatment (M3b)** — see below — so
+  there is no ambient-chrome work worth doing. What the SOON dot does *not* do is the
+  two burst-prep BEHAVIORS the player actually wants guided, both of which live in the
+  dot **algorithm**, not in chrome. Shipped as subtle parameter tuning of the existing
+  score, no new drawn objects (§0.5.8.7 "inform, don't instruct"):
+  - **Build shards to 5, not 3.** `HudScore` rule 3 now holds the primary spender
+    (HoG) **only BELOW cap** ("build to cap for Tyrant") and greenlights it **at**
+    cap (falls through to the normal gated-primary ROTATION — spend so you don't
+    overcap, or sustain to delay the burst; your call). Net: the spend threshold
+    rises from 3 to 5 inside the window. **This corrects the shipped capping rule**,
+    which held HoG *unconditionally* in PREP/BURST.
+  - **Hold Dreadstalkers.** A new `stage = true` bit on Dreadstalkers; in the BURST
+    window its dot reads AVAILABLE "stage for Tyrant" instead of ROTATION "use on
+    cooldown", so it lands fresh inside the window (`rotation.md` #5). Keyed on the
+    data bit, so it never accidentally holds Tyrant.
+  - **BURST trigger simplified to Tyrant alone.** `S.Mode()` now flips BURST on
+    Tyrant ready-or-within-`HOLD_LEAD`; `S.BoardStaged` **removed** (Dreadstalkers is
+    now an *output* — held — so gating the window on it would be circular). One lead,
+    `HOLD_LEAD ≈ 5 s` (deliberately short: at ~5 s Dreadstalkers lines up with Tyrant
+    if you're on the ball; a longer lead makes you skip a whole Dreadstalkers round to
+    sync). The one ambient cue kept is the rail/terminal **BURST amber tint** (already
+    shipped in the sequence-pane pass).
+
+  **Ambient burst-board cues (#9–#12) — SUPERSEDED BY THE SOON DOT, dropped.** These
+  were designed *before* the M3b dot existed. A CD-bearing button (Tyrant,
+  Dreadstalkers, Implosion) already gets a **SOON** dot as its napkin estimate
+  approaches ready (`HudScore.lua`, `SOON_LEAD = 3 s`). The telegraph/pings just
+  re-signal the same "it's coming," so building a lane + telegraph + pings would
+  **double-signal** the SOON dot. Recorded here as superseded rather than silently
+  cut (the §0.5.8.6/§0.5.8.7 "amend, don't rewrite" pattern), so the history stays
+  legible:
+  - **#9 Burst lane + common-fate brighten** — the SOON dot already lights the
+    go-gate buttons as their window approaches.
+  - **#10 BURST mode activation** — shipped as the rail/terminal amber tint in the
+    sequence-pane pass; the mode itself drives the dot algorithm now.
+  - **#11 Tyrant telegraph** — the SOON dot on Tyrant *is* the telegraph; its lead is
+    the napkin's, and the HOLD behavior moved into the dot algorithm (build-to-cap +
+    the Dreadstalkers stage-hold) rather than a drawn freeze/crescendo.
+  - **#12 Short-CD approach pings** — the SOON dot on Dreadstalkers/Implosion already
+    is the ping; "stage for Tyrant" is now the Dreadstalkers dot's own reason in the
+    BURST window, and Implosion stays judgeable=false ("your call") on the secret imp
+    gate.
   - Ground truth always wins: every napkin cue rounds down / fires early and yields
     to the native ready-alert.
+
+  *Optional, not taken:* bumping `SOON_LEAD` (3 s) gives earlier Tyrant anticipation
+  on the dot — a one-liner, independent of the above. Tune off `/cdmp hud log` if the
+  timing reads late in play (not the same session — the M3e doctrine).
 
 - **M5 — AoE readout + borrowed bars.**
   - **#17 Wild Imp stack text + static "/6" — Core.** Enlarge Blizzard's own
@@ -1214,9 +1271,23 @@ decision/spec milestone that de-risks the build that follows.)
   - **Curated layer-① Cooldown Layout string + enforcement-strength UX**
     (auto-apply → import-and-verify → nag) — the M2-deferred profile question, and
     the enabler #18 depends on.
-  - Prove the pattern on a **second spec**; **cyberpunk-skin stretch** art pass
-    over the block / rail / bar styling; the deferred first-run "flank" setter via
-    LibEditModeOverride.
+  - Prove the pattern on a **second spec** — the seam is `SpecDemonology.lua` (one
+    per-spec data table; render modules hold no spell constants), but the
+    **judgment layer (`HudScore`/`HudState`) is still Demo-shaped** (shard / mode /
+    Tyrant reasoning encoded as control flow, `ns.ShardCost`, `mode == SPEND`
+    prunes, the overcap guard), so a second spec forces the resource/mode model
+    **out of the engine into declared fields** — the real work, not a data copy.
+    A same-archetype twin (combo-point-into-burst: Ret / Feral / a Rogue spec)
+    stress-tests the seam without also fighting the Secret-Values wall.
+    **Seeding lever:** `C_CooldownViewer.GetCooldownViewerCooldownInfo(cooldownID)`
+    auto-classifies each item — cooldown / self-aura / target-DoT / charges /
+    linked auras — from Blizzard's own **readable** data (`notes.md` §1,
+    2026-07-22), the richest first-draft source for a generalized spec table.
+    **DoT specs (Affliction) are partially reachable**: single-target DoT presence
+    + borrowed swipe + pandemic edge via the aura-backed cooldown item; the
+    multi-target spread stays walled (secret target-aura array). **cyberpunk-skin
+    stretch** art pass over the block / rail / bar styling; the deferred first-run
+    "flank" setter via LibEditModeOverride.
 
 ---
 

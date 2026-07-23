@@ -459,7 +459,7 @@ own display or flag the gap rather than fake a signal.
 | **Wild Imp count (≥6 Implosion gate)** | `Applications` count is displayed but secret | Surface imp *presence*; enlarge Blizzard's own stack text + static "/6"; **cannot compute "≥6"** ourselves |
 | **Demonic Core count (near-cap-4 overcap gate)** | `Applications` count is displayed but secret | Surface Core *presence* only (moment #2); **cannot signal "near cap 4"** — the second overflow bucket's waste-gate is invisible to us. (Power Siphon's "≤1 stacks" trigger is doubly moot: the modern build skips it, `diabolist-sequences.md`.) |
 | **Demonic Art on the Shadow Bolt half** (SB → Infernal Bolt) | *not* secret — **Shadow Bolt simply isn't in the tracked set** (`notes.md` §2), so there is no icon to glow | Glow the **HoG → Ruination half only** (#3). The SB half is a v1 blind spot we flag rather than fake; it re-opens only with an M7 curated layout override that adds SB. *(Found in M3b, 2026-07-20 — the only blind spot here caused by the layout rather than by Secret Values.)* |
-| **In-pandemic / refresh-window boolean** | `IsInPandemicTime` is secret-derived | Observe the `PandemicIcon` shown-state **edge** via hook and redraw our own indicator; **cannot poll/branch** the boolean |
+| **In-pandemic / refresh-window boolean** | `IsInPandemicTime` is secret-derived (the window is computed from secret aura durations) | Observe the pandemic **edge** — the sustained `ShowPandemicStateFrame`/`HidePandemicStateFrame` hook **and** the one-shot `TriggerAlertEvent(PandemicTime)` (`notes.md` §1, 2026-07-22) — and redraw our own indicator; **cannot poll/branch** the boolean or read the seconds; current target only. *(Not a Demo signal — matters for the M7 second spec, e.g. Affliction.)* |
 | **True "all cooldowns up" for the burst window** | requires reading 3 cooldown-ready states | Approximate via napkin timers (own casts) + the borrowed swipes; flagged best-guess (moment #4) |
 
 ---
@@ -614,6 +614,25 @@ legitimately do the queued "press this next" that §0.5.3 [R3] refuses in combat
 - **Opener → sustain handoff:** the queue dissolves when the **first Tyrant window
   closes** (detected off our own Tyrant cast + its ~15 s napkin window). Clean
   boundary, no secret read.
+
+> **Redesign — the sequence helper (M4), 2026-07-22.** The opener and the burst
+> burn queue are unified as **one feature, M4 "the sequence helper"** (the M3c-c2
+> label is retired; `milestones.md` §6). Four changes to (a), planned in
+> `m4-plan.md`: **(1)** it lives in its **own user-positionable pane** (our frame,
+> so it can sit over the character — not a strip pinned to the CDM column);
+> **(2)** a **prereqs row** ("Tyrant · Dreadstalkers · 5 shards", each lighting as
+> satisfied — honest because pre-pull the wall is down); **(3)** it stays **primed
+> and does not advance until the first sequence key is pressed** — which fixes the
+> v0.17.0 desync where a pre-pull SB/DB (to cap shards) drop-through-matched a
+> *later* SB step and silently ate Dreadstalkers→Tyrant; **(4)** **asymmetric
+> minigame juice** — reward completion, shrug at deviation, **never scold** (a
+> "wrong" press is often a valid opener branch — §0.5.8.7). And the root fix lives
+> in the **engine, not the queue**: in **PREP** and the ~5 s Tyrant **HOLD** window
+> the shard gate **inverts** — a builder (SB/Infernal Bolt) is the ROTATION call
+> until near cap, HoG held, the overcap guard stopping the builder before it
+> overcaps — so pre-pull capping casts are *engine-directed setup*, not sequence
+> steps. This capping rule **must be co-designed with (c)'s HOLD telegraph** so the
+> dot score and the telegraph never disagree.
 
 **(b) The anticipation layer — spend cast-time telling me what's coming.** The
 model in §0.5.4 is *reactive* (current shards, current procs). This adds an

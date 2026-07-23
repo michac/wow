@@ -272,9 +272,141 @@ colour), then shows the recast cooldown — one Cooldown widget, Blizzard-sequen
 elements: render the **cooldown-to-recast** yourself via
 `C_Spell.GetSpellCooldownDuration` (duration object, secret-safe), and let
 Blizzard drive the **buff** half by tracking that buff in the `BuffBar` viewer.
-The buff's remaining time is *not* self-computable (aura `expirationTime` secret;
-no aura-duration-object analogue). *(Still open — `milestones.md` §7: verify a
-spell can live in both Essential + BuffBar categories at once.)*
+The buff's remaining time is *not* self-computable as a **number** (aura
+`expirationTime` secret); there **is** a secret-safe **object** analogue
+(`C_UnitAuras.GetAuraDuration` → `LuaDurationObject`, *not* flagged
+`SecretWhenUnitAuraRestricted`, unlike the raw-number `GetAuraBaseDuration`) — but
+it needs a valid `auraInstanceID` you can't identify as *yours* without a secret
+read, so it's unusable for a DoT in practice (see the paint-vs-feed subsection
+below). *(Still open — `milestones.md` §7: verify a spell can live in both
+Essential + BuffBar categories at once.)*
+
+### Target/unit auras — the *whole record* is secret, not just its timing (2026-07-22, source @ 68453)
+
+Earlier rows in this section said aura *timing/stacks* are secret. The
+machine-readable API annotations say more: in restricted content the **entire
+`AuraData` record** is secret, by the **same "restricted" gate as cooldowns** —
+not a looser one. From `Blizzard_APIDocumentationGenerated/UnitAuraDocumentation.lua`:
+
+- Every `C_UnitAuras.Get*` returning `AuraData` is `SecretWhenUnitAuraRestricted =
+  true` — `GetAuraDataByIndex` / `ByAuraInstanceID` / `BySlot` / `BySpellName`,
+  `GetBuffDataByIndex`, `GetDebuffDataByIndex`, `GetPlayerAuraBySpellID`,
+  `GetUnitAuraBySpellID`. `GetUnitAuras` returns its `auras` table with
+  `ConditionalSecretContents = true`. So `spellId`, `applications`, `duration`,
+  `expirationTime`, `sourceUnit`, `auraInstanceID`, … are all opaque — reading
+  *"is this debuff even up"* is as walled as reading its time-left.
+- **Not player-vs-target.** `GetPlayerAuraBySpellID` is *also*
+  secret-when-restricted — your own auras via the aura API are as sealed as the
+  target's. The reads the HUD actually uses (`UnitPower`, `UNIT_SPELLCAST_*`,
+  frame-state) are deliberately **not** the aura API. **So proc presence comes off
+  Blizzard's rendered frames (`item:IsShown()`, `TriggerAlertEvent` edges), never
+  off `C_UnitAuras`.**
+- **Readable escape hatches:** `GetUnitAuraInstanceIDs` / `GetAuraSlots` are *not*
+  flagged secret → they return **opaque handles** (you learn auras *exist*, not
+  what they are); the `UNIT_AURA` event edge; `AddBlockedAura(unit,
+  auraInstanceID)` lets you **hide an aura you can't read**;
+  `GetAuraApplicationDisplayCount` returns a display *string* with `NeverSecret`
+  min/max clamps; a `RequiresNonSecretAura` carve-out exists for auras the game
+  deems non-secret (combat DoTs won't qualify).
+
+### Aura-backed cooldown items — how the CDM tracks a DoT like Agony (2026-07-22, source @ 68453)
+
+A CDM item is **one abstraction over three backing sources**: a spell cooldown, a
+self-aura, or a **target aura** (an offensive DoT). Agony is the third case — the
+"cooldown" swipe on its icon is actually the **remaining duration of your Agony
+debuff on your target**, not a cooldown.
+
+- **Readable static classifier.** `C_CooldownViewer.GetCooldownViewerCooldownInfo(cooldownID)`
+  returns `{spellID, overrideSpellID, overrideTooltipSpellID, linkedSpellIDs[],
+  selfAura, hasAura, charges, isKnown, flags, category}`
+  (`CooldownViewerDocumentation.lua:118`). **`hasAura && not selfAura` =
+  target-DoT**; `hasAura && selfAura` = self-buff-with-duration; `hasAura=false` =
+  a real cooldown. This classification is **readable config** even though the live
+  aura state is secret — the single richest readable source for auto-classifying
+  any spec's items (finer than `SpecDemonology.lua`'s hand-authored
+  `kind = "button"|"aura"`).
+- **Runtime linkage** (`CooldownViewerItemData.lua`): `scanUnits = {player,
+  target}` in order; `FindLinkedSpellForCurrentAuras` matches a `linkedSpellIDs`
+  entry and **requires `auraData.sourceUnit == "player"`** (your DoT, not another
+  lock's); target auras filtered `"HARMFUL|PLAYER"`. On a hit the aura *becomes*
+  the item's identity — `GetSpellID` precedence is *active aura → linked →
+  overrideTooltip → override → base* (`:174`) — and its expiration/duration drive
+  the swipe.
+- **Current target only**, re-homed on target switch (`OnNewTarget`,
+  `CooldownViewer.lua:631`). Single-target; a multi-DoT spread across a pack is
+  invisible to it.
+- `CanUseAuraForCooldown` gates on `Enum.CooldownSetSpellFlags.HideAura` (=1;
+  `HideByDefault`=2) — authored in the `CooldownSetSpell` DB2 (wago-readable; same
+  table `wowkb.spec_inventory` reads).
+- **Taint ledger for a DoT item:** classification **readable**; the swipe (debuff
+  time-left) **borrow**; presence **edge** (`OnAuraApplied`/`OnAuraRemoved` via the
+  `TriggerAlertEvent` choke point) — *not* a re-scan, because Blizzard's linkage
+  scan runs in **untainted** code that reads auras freely and a tainted replica
+  hits the wall; pandemic **edge** (below), current target only. So a DoT is
+  assistable at **proc-glow fidelity** for the current target; multi-target spread
+  stays sealed. This softens the earlier "DoT specs are hopeless" read — see the
+  M7 second-spec note in `milestones.md` §6.
+
+### Pandemic — two edge signals, never a number (2026-07-22, source @ 68453)
+
+The red pandemic glow on a DoT is **two separate signals**, both hookable, neither
+carrying a value:
+
+1. **One-shot `PandemicTime` alert** (rising edge) — `TriggerPandemicAlert` →
+   `TriggerAlertEvent(PandemicTime)` (`CooldownViewer.lua:552`), fires **once per
+   aura instance** (guarded by `nextAvailableTimeToPlayPandemicAlert`), through the
+   same choke point.
+2. **Sustained state frame** — `ShowPandemicStateFrame` (`:570`) /
+   `HidePandemicStateFrame` (`:578`), item-instance hookable; shown for the whole
+   window (the glow itself).
+
+The window = `[expiration − pandemicCarryover, expiration]`, computed from
+`GetRefreshExtendedDuration − GetAuraBaseDuration` (`:511`) — **both secret**, so
+you get the edge, never the seconds, and there is no pre-window signal to
+*anticipate* off. Only arms for `GetAuraDataUnit() == "target"` (`:515`) → current
+target only. ("Refresh on window-open" is the correct DoT play anyway, so the edge
+lands where the decision is.) ⚠ **Untested in-game** — the probe has only run on
+Demo (no target-DoT tracked). Needs an Affliction pass to confirm the hook fires
+in restricted combat (parked in `_meta/kb-inbox.md`).
+
+### Two glow systems + borrowing the swipe: paint vs feed (2026-07-22, source @ 68453)
+
+**Two distinct glow layers** (this doc previously described only the first):
+
+1. **Activation / proc overlay glow** — `RefreshOverlayGlow` (`:1118`) →
+   `C_SpellActivationOverlay.IsSpellOverlayed(spellID)` →
+   `ActionButtonSpellAlertManager:ShowAlert(item)` / `HideAlert(item)`; the item
+   frame is the target. This is a **third proc-presence path** alongside
+   `TriggerAlertEvent` and `IsShown` — the `SPELL_ACTIVATION_OVERLAY_GLOW_SHOW/HIDE`
+   events carry the spellID edge. *(Open: whether `IsSpellOverlayed` reads
+   non-secret when polled in combat; the events are edges regardless.)*
+2. **`CooldownViewerVisualAlert` (MarchingAnts + Flash)** — a *separate* pooled,
+   self-recycling glow layer, 5 tint variants each (gold `FFD700` / cyan `3FBFD4` /
+   red `CA1A1A` / green `4DAF63` / blue `3F6EC7`), acquired via
+   `CooldownViewerVisualAlertsManager:AcquireAlert(payload, item)`
+   (`CooldownViewerAlert.lua:238`) from the user's right-click **Visual** alert.
+   **Candidate for the M4 burst-lane "go" cue in Blizzard's own idiom.**
+
+**Borrowing the swipe = paint vs feed.** The `Cooldown` widget API is partitioned
+(`FrameAPICooldownDocumentation.lua`): **feed-the-clock** (`SetCooldown*`,
+`GetCooldownTimes` → read = secret) vs **paint-the-dial** (`SetSwipeColor` /
+`SetSwipeTexture` / `SetEdgeTexture` / `SetDrawSwipe` / `SetDrawEdge` /
+`SetHideCountdownNumbers` / `SetCountdownFont` / `SetReverse` / `SetRotation`).
+Styling methods carry **no timing** — the C engine holds the secret duration and
+self-animates — **so you restyle without ever knowing the remaining duration.**
+Two consequences:
+
+- **Re-apply after Blizzard.** `RefreshSpellCooldownInfo` re-applies `SetSwipeColor`
+  + `SetDrawSwipe` + `CooldownFrame_Set` on **every** refresh (`:1037`); a one-shot
+  restyle is clobbered → `hooksecurefunc` the item's refresh **per instance** and
+  be the last writer (the §9 leaf-hook pattern, applied to `item.Cooldown`).
+- **Drawing your OWN timed swipe needs a duration — via a secret-safe object
+  only.** `SetCooldown(start,dur)` is `SecretArguments = "AllowedWhenUntainted"` →
+  a tainted addon can't pass a secret number, only a non-secret one (napkin) or a
+  secret-safe `LuaDurationObject` via `SetCooldownFromDurationObject`.
+  `C_Spell.GetSpellCooldownDuration(spellID)` yields one for real cooldowns; for a
+  DoT, `GetAuraDuration` yields one too but can't be aimed at your instance (above),
+  so **the DoT swipe is borrow-only in practice.**
 
 ---
 
@@ -573,11 +705,16 @@ No `OnUpdate` polling (except a single napkin-math countdown); no taint
   build (v0.5.x, in-game at The Bazaar — §9) + the v0.5.3 cast-phase probe
   (open-world dummy, 2026-07-19).
 - Source (Tier 1): `Gethe/wow-ui-source` @ build **68453** (= live 12.0.7), clone
-  at `~/code/github/wow-ui-source` — `Blizzard_CooldownViewer/{CooldownViewer,
+  at `~/code/github/wow-ui-source` (**present on this machine** — blobless `live`
+  checkout). `Blizzard_CooldownViewer/{CooldownViewer, CooldownViewerItemData,
+  CooldownViewerAlert, CooldownViewerVisualAlert*,
   CooldownViewerSettingsDataStoreSerialization}.lua`,
-  `Blizzard_APIDocumentationGenerated/EditModeManagerConstantsDocumentation.lua`.
-  Grounds the positioning/anchoring approach, the §9 leaf-method finding, and the
-  parked config model ([archive B](./notes-archive.md#b-the-layer--curated-layout-machinery)).
+  `Blizzard_APIDocumentationGenerated/{CooldownViewer, UnitAura, FrameAPICooldown,
+  CooldownViewerConstants, EditModeManagerConstants}Documentation.lua`. Grounds the
+  positioning/anchoring approach, the §9 leaf-method finding, the parked config
+  model ([archive B](./notes-archive.md#b-the-layer--curated-layout-machinery)),
+  and the **2026-07-22 source-read batch** (target-aura secrecy, aura-backed
+  cooldown items, the two glow systems, swipe paint-vs-feed, pandemic two-signal).
 - Rotation: `knowledge/classes/warlock/demonology/rotation.md` (Diabolist,
   12.0.7; simc MID1 APL + maxroll/Method/Kalamazi), enriched by
   `diabolist-sequences.md` (top-6 WCL Mythic parses).
