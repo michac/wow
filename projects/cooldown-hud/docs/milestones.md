@@ -15,7 +15,35 @@
 > The running log below is kept for history; read its "waits on / blocker" framing as
 > *recommended run-order*, not a gate.
 
-**Current: M3c-c2 CODE SHIPPED — the sequence queue + the opener (2026-07-21,
+**Current: M4.4 CODE-COMPLETE (v0.24.0), in-game pass outstanding; M4.5 T1+T2 DONE
+(luacheck gate + busted suite, off-game), T3 deferred — the play-test-4 feedback pass
+(2026-07-23, against CDMProbe v0.23.0).** M4.1→M4.3
+shipped through four play-tests; the board is now *correct* (strictness holds, the
+scoring rules fire), so play-4's feedback is **all legibility, juice, and one real
+sequence bug — no scoring/data defects**. It splits across two milestones. **M4.4's
+five workstreams A–E are implemented and luaparser-clean (bumped to v0.24.0); the
+target-dummy verify pass (§Verification in `m4.4-plan.md`) is the outstanding step —
+in particular the C1 brighten fix, the burst cue width, and the HudFloat feel.**
+
+- **M4.4 — the HUD pass** (`m4.4-plan.md`), five workstreams shipping as one release
+  (v0.24.0): **A** the **cue bar** — rename the drop-shadow bar (`bleed`→`cue`), restore
+  the **width axis** (colour + width, [X1]), and make **Tyrant the widest cue** even in
+  SOON; **B** the shard rail → **5 large dots** with three states (empty / incoming /
+  filled) centred on the Essential height; **C** the sequence tool — fix the strip
+  **not brightening the current step after step 1** (the dim-until-ready gate must only
+  bite while primed) + **cast-start** feedback; **D** a quiet **cast-start flash** on the
+  icon; **E** **burst confirmation text** floating up over the character after a
+  burst-window press (reward, not instruction).
+- **M4.5 — the tooling track** (`m4.5-plan.md`), split out because it is off-game and
+  independent: **luacheck** (WoW-globals) as the release rung above the luaparser gate,
+  **busted** unit tests over the pure-logic modules (`HudScore` / `HudQueue` /
+  `HudNapkin`), and a `/cdmp selftest` for the live Secret-Value / CDM paths busted
+  can't reach.
+
+The **M4.4** and **M4.5** entries in §6 carry the detail. Supersedes the "M3c-c2 current"
+line below.
+
+*(Prior:)* **M3c-c2 CODE SHIPPED — the sequence queue + the opener (2026-07-21,
 CDMProbe v0.17.0). In-game pass §7.7 outstanding; it is board-independent, so it
 can be run before the strictness session, but everything else still waits on
 §7.6 → §7.3 → §7.4 → §7.5.**
@@ -1243,6 +1271,211 @@ decision/spec milestone that de-risks the build that follows.)
   *Optional, not taken:* bumping `SOON_LEAD` (3 s) gives earlier Tyrant anticipation
   on the dot — a one-liner, independent of the above. Tune off `/cdmp hud log` if the
   timing reads late in play (not the same session — the M3e doctrine).
+
+- **M4.1 — the in-game feedback pass (level signal + the sequence rework).**
+  *(2026-07-22 — the first real play-test of the M4 build, v0.19.0. Full design +
+  phased plan: **`m4.1-plan.md`**.)* M4 shipped code-complete; playing it produced a
+  batch of feedback that splits into four workstreams — two polish, two real reworks.
+
+  - **A — the icon-level signal doesn't read.** The dot is too subtle, `AVAILABLE`
+    draws nothing (so a ready-but-"your call" Implosion looks dead), and the reason
+    row is carrying the glance-load the visuals should. Direction: replace the masked
+    disc with a **right-side colour-graded bleed** off the icon (level → hue, plus
+    spread/intensity so it is never colour-alone — [X1]); give the judgeable=false
+    "your call" state its **own ready colour** so Implosion reads as ready-when-up; and
+    **drop the reason text when `hud debug` is off** — the bleed stands alone, words
+    become debug-only. This **reverses M3c-a's "words-first default view"** on purpose
+    (the fix is legibility, not more words); recorded as an amendment in
+    `guidance-model.md §0.5.8.7`.
+  - **B — chrome cleanup.** Shard rail **full-height + narrower** (it is ~3 icons tall
+    and too wide today); **drop the `C:\>_` footer**; **drop the `[.] PREP 3/5` mode
+    label** under the rail. Mode still reads via the rail/terminal tint; the [X1]
+    label loss is accepted (BURST still names itself on the sequence pane).
+  - **C — scoring / data.** **Root-cause find:** the code used the Imp Lord *talent
+    entry-id* `136726` where the *cast* spellID is **`1276452`** (KB-confirmed —
+    `talents.json`, `talents.md`). That one number explains **two** separate reports:
+    Grimoire showing "always available" (its live ID was unknown to `ns.Spec` →
+    neutral → "utility · your call") **and** the sequence strip printing "Imp Lord" by
+    name (no keybind resolved for `136726`). Fix the ID; add `stage = true` to the
+    Grimoire summons (Imp Lord is a 2-min summon **paired with Tyrant** —
+    `diabolist-sequences.md`); **drop the trailing SB×3 "rebuild" step** from the opener
+    (the first proc invalidates a scripted filler tail); **bump the fonts**, standardising
+    the sequence pane on JetBrains Mono at the row size the player finds sharp.
+  - **D — the sequence tool is a mess in function.** Two structural bugs:
+    1. **The opener is clobbered by BURST at pull start.** `S.Mode()` returns `BURST`
+       whenever Tyrant is ready-or-≤`HOLD_LEAD` — which is *always true at the opener* —
+       so `HudBurst.OnMode` re-arms the shared pane "burst" over the opener on the first
+       in-combat frame. Fix: **BURST may not preempt an unfinished opener arm** (the
+       opener's first Tyrant window *is* the first burst window; burst owns subsequent ones).
+    2. **The burn pane dissolves at the Tyrant cast.** `BURST`-the-mode ends the instant
+       Tyrant goes on cooldown (correct for the rail + the build-to-cap rule), but the
+       **burn sequence** (HoG HoG → cores → Implosion) is exactly the *post-cast* window —
+       so the pane drains one step and vanishes. Fix: **decouple the burn pane's lifecycle
+       from the mode** — hold it through the Tyrant press on a post-cast clock (~18 s) +
+       drain, dissolving on combat-end, not on the mode flip.
+    Plus content/consistency: **add Imp Lord to the burst sequence** (staged pre-Tyrant
+    with Dreadstalkers, per `diabolist-sequences.md`), and **show the imp step's state
+    always** (its readiness is knowable — OOC seed / in-combat edges — so it is not a
+    conditional "if up").
+
+  Sequenced **A → B → C → D** in `m4.1-plan.md`; A + B + C are quick, D is the real work.
+  Ships as one release when the four land (in-game re-verify folds into `qa-pending.md`).
+
+  **Status (2026-07-22): CODE-COMPLETE — all four workstreams implemented, luaparser
+  clean; release + in-game pass outstanding.** A: `HudChrome` bleed primitive
+  (gradient off the icon edge, `pcall` + flat-solid fallback; retired the disc /
+  `DOT` table), `HudScore.judgeReady` (cyan Implosion), `HudRow` non-verbose = no
+  reason text; the level→bleed map lives in `H.SetDot(item,viewer,level,judgeReady)`.
+  B: rail full-height (spans `viewer:GetHeight()`) + `RAIL_SEG_W` 20→12; footer +
+  blink ticker gone; mode label + its `PaintRail` build gone. C: **Imp Lord
+  `136726`→`1276452`** (`ns.SpecIDs.IMP_LORD`, alias kept), `stage=true` on both
+  Grimoires, SB-rebuild step dropped, `HudQueue`/`HudPane` fonts on `ns.SetFont`
+  (strip 16 / header 12 / prereq 13). D: `HudBurst` opener-owns guard (D1) +
+  `burning`/`tyrantCastAt` burn-window persistence (`BURN_WINDOW` 18, `WINDUP_MAX`
+  20) so `OnMode(≠BURST)` no longer dissolves mid-burn (D2); `SpecBurst` prepends
+  the staged summons + imp + prereqs. **Deploy:** commit, then `wowkb.addon release
+  cdmp --minor` (0.19.0 → **v0.20.0**), `/reload`, run `m4.1-plan.md` §Verification.
+
+  **M4.2 — the play-test-2 polish pass (2026-07-23, on v0.20.0).** Seven bits of
+  in-game feedback on the M4.1 build:
+  1. **Bleed reads as a flat, boring swipe** → make it a GLOW: `SetBlendMode("ADD")`
+     (emitted light over the dark terminal) + a soft radial mask feathering all
+     edges. (`HudChrome` `ensureBleed`; both `pcall`-guarded → flat fallback.) The
+     "jagged/noise edge" idea is parked — a noise-textured mask is the follow-up.
+  2. **Bleed towered over the icons** → `BLEED_H_PAD` is now an INSET (`-3`) so it
+     sits inside the icon height; `BLEED_OVERLAP` laps it onto the edge so the glow
+     attaches.
+  3. **Size pulse overflowed into neighbours** → retired the scale animation
+     entirely; LATE/SOON now breathe on ALPHA only (LATE slower + brighter).
+  4. **Opener blocked BURST for the whole fight** → a still-PRIMED opener now hands
+     off after `OPENER_GRACE` (6 s) in combat (`HudOpener.Tick` + `HudPane.IsPrimed`)
+     so an ignored opener stops owning the pane; a started opener is exempt.
+  5. **Strip too long / `>` overlapped other UI** → compact `[E]-[sE]-[Q]` cells
+     (dim `-` separator), notes dropped, a repeated step draws as `[R]-[R]` not
+     `Rx2`. (`HudQueue` `cellText` / `renderHorizontal`.)
+  6. **Consumed steps vanished instantly** → the pressed key brightens and RISES off
+     the strip, then fades (`HudQueue:playPop`, a transient FontString).
+  7. **Kept the keybind hint**, now tinted to the current bleed colour
+     (`HudChrome.SetDot` recolours `o.key`; near-white when no call).
+  Luaparser clean; ships as **v0.21.0**. In-game tunables to watch: ADD-blend
+  brightness (the `BLEED` alphas), whether the radial mask reads attached vs a
+  detached blob, and `OPENER_GRACE`.
+
+  **M4.3 — play-test-3, and the aesthetic pivot (2026-07-23, on v0.21.0).** The
+  ADD-glow bleed read as an OVAL; the CRT aesthetic was judged to be getting in the
+  way of attention. Seven changes:
+  1. **Bleed → a coloured DROP SHADOW.** New mental model: light from the left, so
+     each icon casts a soft shadow to the bleed side — but colour-graded by level.
+     A texture on the item at `BACKGROUND` (behind the icon art) using Blizzard's
+     `UI-CooldownManager-VisualAlert-Glow` atlas (flat-square fallback), offset +
+     icon-scaled. Retires the gradient (flat swipe) and the radial mask (oval).
+  2. **SB+DB both lit while building** → the IB > DB > SB priority now holds in
+     PREP/BURST too (`betterBuilder` guard in `HudScore` rule 3): don't light the
+     filler when an Art/Core proc is up.
+  3. **Grimoires = `discretion`** (`HudScore` cap + spec flag): cyan "ready — save
+     for Tyrant (your call)" when up, never a green press-on-cooldown.
+  4. **Sequence panel gates on prereqs.** The strip stays fully dim until the
+     REQUIRED prereqs are met (5 shards / Tyrant / Dreadstalkers); the current step
+     brightens only then, so a bright `[E]` never says "start" while you should be
+     building. Imp Lord is an OPTIONAL prereq. (`HudQueue:SetReady`, `HudPane`.)
+  5. **Keybind hint restored horizontally** beside the icon (bigger, mono,
+     near-white + outline), off the tiny corner. Retires M4.2's bleed-tint of the
+     key (contrast on the shadow).
+  6. **CRT aesthetic retired** (`SHOW_SCAN`/`SHOW_TERMINAL` = false): scanlines,
+     the green DEMO.SYS frame + phosphor wash gone. Sequence/pane palette → neutral
+     near-white/grey. Functional chrome (shadow, keybind, rail, summary) stays.
+  7. Addon research (Midnight): **WeakAuras is display-only now** (no protected
+     combat data / smart auras), **OmniCD** is the combat-log cooldown replacement,
+     **Plater** the highlight-heavy nameplate addon — no smart-HUD competitor.
+  Luaparser clean; ships as **v0.22.0**. In-game: does the shadow render BEHIND the
+  icon (atlas present?), does it read as a drop shadow vs a blob, is the neutral
+  look better than the CRT, does the strip dim-until-ready land.
+
+  **M4.3 v2 (2026-07-23, on v0.22.0).** The BACKGROUND drop shadow read misaligned
+  and boxy. Reworked: the bleed is now a **thick vertical BAR pinned to the icon's
+  outer edge** (`BLEED_THICK`, anchored to the icon corners so it lines up by
+  construction; solid→soft gradient outward). Also: keybind hint pushed past the
+  bar; **Imp Lord keybind alias** (`ns.SpecBindAlias` 1276452↔136726, consulted by
+  `HudBinds.Get`) so the cast/talent id mismatch resolves a key; the queue now
+  **skips an optional step whose ability is on cooldown** (`stepSkipped` +
+  `HudPane.stepReady` via `readyAt`) so Imp Lord stops nagging off-cycle; the
+  sequence **header moved above the prereqs** (`HudPane.headerRow`, queue header
+  suppressed when hosted). Ships as **v0.23.0**. Outstanding: HoG/DB/Dreadstalkers
+  resolve no keybind — needs `/cdmp hud binds` to diagnose (macro? bar coverage?).
+
+  **M4.4 — the play-test-4 HUD pass (2026-07-23, on v0.23.0). Full plan:
+  `m4.4-plan.md`.** The `/cdmp hud binds` diagnostic came back clean — every
+  rotational ability resolves a key (the outstanding M4.3 v2 item is **closed**: a
+  cold-scan timing gap). The board is *correct* — strictness held, the scoring rules
+  fired — so play-4's feedback is **legibility + juice + one real sequence bug, no
+  scoring/data defects.** Five workstreams, one release (**v0.24.0**):
+  - **A — the cue bar** *(feedback 1, 2, 5)*. **Name it** (`bleed`/`BLEED*` →
+    `cue`/`CUE`, `SetDot`→`SetCue` — "cue bar" chosen over "AHB" to dodge the
+    keybind-*hint* collision). **Restore the width axis:** width becomes a per-level
+    field with the current thickness as the minimum (JUDGE/SOON 14, ROTATION 22,
+    LATE 24) so the level reads on colour AND width ([X1]). **Tyrant is the widest cue,
+    even in SOON:** a dedicated `emphasis = "burst"` spec bit on Tyrant (⚠ NOT `goGate`,
+    which is Tyrant + Dreadstalkers) drives a max-width (30) override so the burst
+    go-signal shouts over any sustain press.
+  - **B — the shard rail → 5 large dots** *(feedback 3)*. Recut the `cap` bar-segments
+    as round-ish dots with more gap and three explicit states — **empty** (placeholder
+    ring), **incoming** (a projected shard from an in-flight cast, drawn as a dim ring
+    per the hollow-estimate convention), **filled** — centred on the **Essential**
+    viewer's full height. Cap animation untouched.
+  - **C — the sequence tool** *(feedback 4, 7)*. **The real bug:** the strip stops
+    brightening the current step after step 1, because casting step 1 drops shards below
+    the prereq wall → the consumer flips `ready=false` → the whole strip dims. Fix: the
+    dim-until-ready gate must **only bite while `primed`** (before the sequence starts);
+    once un-primed, always brighten `cur` (a one-line predicate change, no new state).
+    Plus **cast-START feedback** (a distinct "casting…" shimmer on the current cell,
+    beside the existing succeeded pop).
+  - **D — cast-start flair on the icon** *(feedback 6)*. A quiet one-shot flash beside a
+    casting ability's icon on `UNIT_SPELLCAST_START` (cast-time spells only), reusing the
+    cue animation plumbing.
+  - **E — burst confirmation text** *(feedback 8)*. A new `HudFloat` module: the ability
+    name floats up over the character *after* a burst-window press — positive reward for
+    landing the burst (the loudest member of the C/D cast-feedback family, the payoff for
+    A3's "make BURST shout"). Scoped to burst steps, Tyrant loudest. Clarified
+    2026-07-23: this is **confirmation, not a callout** — it echoes what you did, so the
+    "inform, don't instruct" question dissolves. Audio stays M6.
+
+  Sequenced **A → B → C → D → E**; a tuning pass, not a rework. In-game re-verify folds
+  into `qa-pending.md`.
+
+  **CODE-COMPLETE (2026-07-23) — A–E implemented, `.toc` bumped to v0.24.0,
+  luaparser-clean.** New file `HudFloat.lua` (E); the cue-bar rename (`bleed`/`BLEED*`
+  → `cue`/`CUE`, `SetDot`/`GetDot` → `SetCue`/`GetCue`) is complete across
+  `HudChrome`/`HudState`; `emphasis = "burst"` on Tyrant flows `SpecDemonology →
+  HudScore.out.emphasis → HudState → SetCue`; the rail is 5 masked-circle dots with
+  the empty/incoming/filled states; C1 is the `lit = (i==cur) and (primed==false or
+  ready)` predicate; C2/D/E wire off the `UNIT_SPELLCAST_START`/`SUCCEEDED` branches.
+  **Outstanding: the target-dummy verify pass** (deploy → `wowkb.addon release cdmp
+  --minor` → `/reload` → the 7 checks in `m4.4-plan.md` §Verification) and the
+  measure-then-tune-next-session HudFloat/shimmer feel (M3e doctrine).
+
+  **M4.5 — the tooling track (2026-07-23). Full plan: `m4.5-plan.md`.** Play-4 feedback
+  item 9, **split out of M4.4** because it is off-game and independent — it touches no
+  rendering, needs no game session, and once landed it *gates* future releases rather
+  than shipping a player-facing change. Three rungs above the existing luaparser syntax
+  gate: **T1 luacheck** (a WoW-globals `.luacheckrc`, wired into `wowkb.addon release
+  cdmp` as the next rung) → **T2 busted** unit tests over the pure-logic modules
+  (`HudScore` strictness invariant / `HudQueue` drain+prime mechanics incl. the M4.4-C1
+  fix / `HudNapkin` honesty rules, with a shared `mock_ns.lua`) → **T3 `/cdmp selftest`**
+  for the live Secret-Value / override / cast-readability paths busted can't reach,
+  sharing fixtures with T2. LuaLS + WoW type defs explicitly **deferred**. T1/T2 need no
+  release; T3 rides a normal `.toc` bump.
+  - **T1+T2 SHIPPED 2026-07-23 (off-game, no release).** Provisioned lua5.4+luarocks;
+    luacheck+busted installed under `~/.luarocks/bin` (Lua 5.1 — matches WoW). **T1:**
+    `.luacheckrc` at the addon repo root (WoW-globals std + the `211/ADDON` idiom
+    ignore); `luacheck CDMProbe/` is **curated-clean** (real catches fixed: dead locals
+    in HudQueue/HudPane/HudChrome/HudCore, a `started` upvalue shadow in HudNapkin, a
+    dead-store in Util; API names std-listed — no inline suppressions). Wired into
+    `wowkb.addon release` as a soft, `.luacheckrc`-gated rung above luaparser
+    (`--dry-run` confirms it runs before the bump). **T2:** `CDMProbe/tests/` —
+    `mock_ns.lua` harness + 4 specs, **26 green**; the tests bite (reverting the C1
+    predicate fails `hudqueue_spec`). One production edit: a `B._isBurstStep` test seam.
+  - **T3 remains deferred** to an at-a-dummy session (adds `/cdmp selftest` → needs a
+    v0.25.0 release).
 
 - **M5 — AoE readout + borrowed bars.**
   - **#17 Wild Imp stack text + static "/6" — Core.** Enlarge Blizzard's own

@@ -29,6 +29,7 @@ import glob as globmod
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -322,7 +323,30 @@ def cmd_release(args) -> int:
         print(f"[{a.short}] ⚠ PlannerState: if the /ps dump format changed, bump the "
               f"`schema` field in the Lua too — this tool does NOT touch it.", file=sys.stderr)
 
-    # 4. Lua syntax check (the documented luaparser one-liner).
+    # 4a. luacheck static gate (M4.5 T1) — the rung above luaparser: undefined
+    #    globals, dead locals, shadowing.  SOFT + OPT-IN, two ways:
+    #      * opt-in per addon by shipping a `.luacheckrc` (only CDMProbe does today).
+    #        Without one, luacheck would drown a release in false positives on the
+    #        WoW API, so an addon that hasn't curated a config is simply skipped.
+    #      * soft on the toolchain: if `luacheck` isn't on PATH we warn and carry on,
+    #        so a machine without the Lua toolchain can still cut a release.
+    #    A non-zero exit (luacheck flags warnings as exit 1) ABORTS the cut.  Honours
+    #    --skip-lint alongside the luaparser gate below.
+    if not args.skip_lint and (a.path / ".luacheckrc").exists():
+        luadir = a.lua_glob.split("/")[0]
+        luacheck = shutil.which("luacheck")
+        if luacheck:
+            print(f"[{a.short}] luacheck {luadir}/ …")
+            cp = run([luacheck, luadir], cwd=str(a.path), check=False)
+            if cp.returncode != 0:
+                print(cp.stdout, cp.stderr, file=sys.stderr)
+                sys.exit("error: luacheck FAILED — aborting release "
+                         "(fix or curate .luacheckrc; --skip-lint to bypass)")
+        else:
+            print(f"[{a.short}] ⚠ luacheck not on PATH — skipping static gate "
+                  f"(install: luarocks install --local luacheck)", file=sys.stderr)
+
+    # 4b. Lua syntax check (the documented luaparser one-liner).
     if not args.skip_lint:
         files = sorted(globmod.glob(str(a.path / a.lua_glob)))
         if not files:
