@@ -230,7 +230,7 @@ pulled forward from M4**; C6 (terminal view) stays deferred.
 ⚠ **This build takes on two costs the earlier scoping wrongly said it wouldn't.**
 It **inherits §7's standing assumption** that `UNIT_SPELLCAST_SUCCEEDED` carries a
 readable spellID in *all* combat contexts — confirmed in a delve and at an
-open-world dummy, **never confirmed in a raid**. And the napkin is **the only
+open-world dummy, and taken as settled. And the napkin is **the only
 drifting input in the design**. Both are fenced structurally rather than hopefully:
 the napkin can only make the HUD *early*, it can never promote a dot to ROTATION
 (only an observed `Available` edge does that), it renders **hollow** so an
@@ -249,10 +249,7 @@ live at all** rather than silently tracking nothing.
 3. **Anticipation** — cast Dreadstalkers (~20 s) and watch the dot brighten ~3 s
    out with a live countdown *before* it lands. If 3 s isn't enough lead to change
    the next GCD, `SOON_LEAD` is the number to tune.
-4. **`hud status` inside a raid or M+**, not just at a dummy — that's the untested
-   context, and the one where the whole early-warning feature would silently go
-   dark.
-5. **Every lit dot's reason legible and true.** A dot whose reason you disagree
+4. **Every lit dot's reason legible and true.** A dot whose reason you disagree
    with is a scoring bug; a dot with no reason is a design failure.
 
 **Known-unknown to expect on the first enable:** every cooldown-bearing ability
@@ -700,7 +697,7 @@ decision/spec milestone that de-risks the build that follows.)
 
     **The cost, stated plainly.** The original scoping claimed this work had "no
     dependency on cast-spellID readability and no drift." **Both were false.** It
-    takes on §7's standing assumption (never confirmed in a raid) and introduces
+    takes on §7's standing assumption and introduces
     the design's only drifting input — now carrying the feature the user rates
     highest. Mitigations are structural, not hopeful: early-never-wrong, no
     promotion on an estimate, hollow rendering, and honest reporting. The failure
@@ -709,7 +706,7 @@ decision/spec milestone that de-risks the build that follows.)
 
     **Outstanding in-game pass:** see the Status block — V1 queue first (costs are
     now load-bearing), then **strictness before visuals**, anticipation lead time,
-    a **raid/M+ `hud status`** check for napkin readability, and reason legibility.
+    and reason legibility.
 
     **Known risks.** Strictness is the whole UX and cannot be validated from here.
     The rules encode a **rotation opinion** derived from
@@ -1068,7 +1065,7 @@ decision/spec milestone that de-risks the build that follows.)
 
   ⚠ **Standing risk, same standing as the napkin's.** The OOC read has only been
   measured **open-world**. If it also goes secret in some other out-of-combat
-  context (an instance lobby, a raid between pulls) seeding silently does less.
+  context (an instance lobby, between pulls) seeding silently does less.
   Contained by design — unreadable touches nothing, the board falls back to edges
   — but it is **reported** in `hud status`, not inferred later from a shrug.
 
@@ -1538,9 +1535,8 @@ decision/spec milestone that de-risks the build that follows.)
 - [x] **`/cdmp casts`** — player-cast spellIDs readable in restricted combat:
       **CLOSED as a design assumption (2026-07-20).** `SUCCEEDED` confirmed in a
       delve; **`START` confirmed at an open-world target dummy (2026-07-19)**;
-      v0.5.3 logs START/SUCCEEDED/STOP/INTERRUPTED per-phase. A raid-boss
-      confirmation was never obtained and **we are no longer waiting on one** — the
-      design now **assumes both events carry a readable spellID in all combat
+      v0.5.3 logs START/SUCCEEDED/STOP/INTERRUPTED per-phase. That is **enough** —
+      the design **assumes both events carry a readable spellID in all combat
       contexts**. Consequence: the §0.5.8 `Core*` asterisks are **retired** (rows
       #7/#8/#10/#11/#12 are plain **Core**), and the reactive/borrowed fallback is
       demoted from a planned degradation path to a contingency we'd only build if
@@ -1553,13 +1549,12 @@ decision/spec milestone that de-risks the build that follows.)
       LOAD-BEARING, not background.** `HudNapkin` rides on it, and the napkin
       carries the feature the user rates highest ("firing cooldown abilities as
       soon as they are up is probably going to be the biggest win"). If `SUCCEEDED`
-      spellIDs read secret in a raid, **anticipation degrades to nothing in exactly
-      the content it matters most in.** The assumption is not re-opened as a
-      *blocker* — the code degrades honestly rather than faking — but it is now
-      **instrumented**: `HudNapkin` records readability and `/cdmp hud status`
-      prints `napkin: live | unavailable | not probed`. **Check it inside a raid or
-      M+**, not just at a dummy. Closing this for real needs one raid pull, and it
-      is the cheapest high-value verification left on the board.
+      spellIDs ever read secret somewhere, **anticipation degrades to nothing.** The
+      assumption is not re-opened as a *blocker* — the code degrades honestly rather
+      than faking — and it is **instrumented**: `HudNapkin` records readability and
+      `/cdmp hud status` prints `napkin: live | unavailable | not probed`. That
+      readout is the answer if it ever goes quiet; we do not schedule content to
+      pre-prove it.
 - [ ] **`in_aoe` predicate** — can we cheaply determine multi-target context
       (target count / recent multi-hit) to gate the Implosion approach ping (#12)
       and the Wild Imp "/6" readout (#17)? Flagged in §0.5.8.2(c) / §0.5.8.3; the
@@ -1999,8 +1994,8 @@ Item 5 is deliberately still open: it is *diagnosed by* item 4, not fixed by it.
 - [x] **19 — ✅ ANSWERED (all four phases readable). Probe C: cast readability PER PHASE.** `SUCCEEDED` carries the
       shipped napkin; `START` carries the spend-side anticipation (item 7) and has
       **never been counted separately** — the status block only ever reported
-      SUCCEEDED. A phase reading secret while the other doesn't is the most
-      consequential thing a raid run can turn up.
+      SUCCEEDED. A phase reading secret while the other doesn't would be invisible
+      in aggregate, hence the per-phase split.
 - [x] **20 — ✅ ANSWERED: CLOSED. Probe D: the imp-count side channel.** Does
       `Applications:GetStringWidth()` read non-secret? If so it exposes the
       **digit count** (not the number) — and "2 digits ⇒ ≥10 imps ⇒
@@ -2038,9 +2033,7 @@ Item 5 is deliberately still open: it is *diagnosed by* item 4, not fixed by it.
 - [ ] **12 —** V1(a) is answered; the **fragment heuristic is still unproven for
       real shard costs**. See the §7.1 annotation.
 - [ ] **13 —** Does the imp count exceed 9, and does it display at 1? (§7.)
-- [ ] **14 —** Napkin readability **in a raid** — unchanged, and still the highest-
-      value open check on the board (§7).
-- [ ] **15 — Re-measure strictness after the cost fix.** The pre-fix `lit 2` is not
+- [ ] **14 — Re-measure strictness after the cost fix.** The pre-fix `lit 2` is not
       evidence: gates were falsely closed across a chunk of the board, so the
       count was suppressed by a bug rather than by tight rules.
 
@@ -2096,11 +2089,6 @@ v0.13.0` → `ghaddons update michac/CDMProbe` → `/reload`. Then `/cdmp probe`
       no code change** (the `transform` rule resolves to wherever the override
       lands, and `ns.Spec` already carries a Shadow Bolt entry). Worth confirming
       rather than assuming.
-- [ ] **8 — The standing raid check, unchanged.** All probe data is still
-      open-world. **Cast readability is B4's entire foundation and has never been
-      confirmed in a raid.** `hud status` reports it honestly; that report is the
-      first thing to read if anticipation ever goes quiet in real content.
-
 ---
 
 ## 7.4 Verify in-game — M3d out-of-combat seeding (v0.14.0, 2026-07-21)
@@ -2133,8 +2121,8 @@ rules. Deploy once for both (a push does **not** reach the game): commit →
       strictness.** If it sits at 4+, tighten the rules in `HudScore` — **not a
       colour.**
 - [ ] **6 — The context risk.** Reads are measured **open-world only**. Check the
-      `hud status` seeding verdict in an **instance lobby** and in a **raid
-      between pulls**. An `unreadable here` verdict is not a failure — it is the
+      `hud status` seeding verdict in an **instance lobby** and **between pulls in
+      instanced content**. An `unreadable here` verdict is not a failure — it is the
       answer the line exists to give — but it tells us where seeding silently
       does less.
 

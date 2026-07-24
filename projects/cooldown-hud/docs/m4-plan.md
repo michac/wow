@@ -115,10 +115,10 @@ Then luaparser-check and follow the CDMProbe release workflow (bump `.toc`, comm
 
 ## Open questions / risks
 
-- **BURST mode + the capping rule ride the napkin Tyrant clock** — the same
-  unverified `UNIT_SPELLCAST_SUCCEEDED`-in-raid assumption as §7.3. Keep BURST a
-  best-guess; the native ready-alert is ground truth; the capping rule only ever
-  *holds* HoG (safe direction), never invents a press.
+- **BURST mode + the capping rule ride the napkin Tyrant clock** — i.e. on
+  `UNIT_SPELLCAST_SUCCEEDED` reading non-secret, which we treat as settled. Keep
+  BURST a best-guess; the native ready-alert is ground truth; the capping rule only
+  ever *holds* HoG (safe direction), never invents a press.
 - **`board_staged` is new** — start minimal (Tyrant + Dreadstalkers ready) and tune;
   never let it force a wrong instruction (§0.5.8.7).
 - **Minigame miss feedback must stay gentle** — asymmetric juice; a deviation may be

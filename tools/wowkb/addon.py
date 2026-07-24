@@ -40,7 +40,8 @@ GHADDONS_PKG = REPO / "addon-manager"
 
 
 class Addon:
-    def __init__(self, short, repo, path, toc, lua_glob, reload_hint, schema_note=False):
+    def __init__(self, short, repo, path, toc, lua_glob, reload_hint, schema_note=False,
+                 test_dir=None):
         self.short = short              # slash-prefix short name
         self.repo = repo                # owner/repo on GitHub
         self.path = REPO / path         # local checkout root
@@ -48,6 +49,7 @@ class Addon:
         self.lua_glob = lua_glob        # glob (relative to checkout) for the syntax check
         self.reload_hint = reload_hint  # in-game confirm command
         self.schema_note = schema_note  # warn about a companion schema bump on release
+        self.test_dir = test_dir        # busted spec dir (relative to checkout), or None
 
     @property
     def rel(self) -> str:
@@ -58,7 +60,8 @@ REGISTRY = {
     "bb": Addon("bb", "michac/BucketBinds", "projects/keybinder/addon",
                 "BucketBinds/BucketBinds.toc", "BucketBinds/*.lua", "/bb status"),
     "cdmp": Addon("cdmp", "michac/CDMProbe", "projects/cooldown-hud/addon",
-                  "CDMProbe/CDMProbe.toc", "CDMProbe/*.lua", "/cdmp help"),
+                  "CDMProbe/CDMProbe.toc", "CDMProbe/*.lua", "/cdmp help",
+                  test_dir="CDMProbe/tests/spec"),
     "ps": Addon("ps", "michac/wow-planner-state", "planner-state",
                 "PlannerState/PlannerState.toc", "PlannerState/*.lua", "/ps",
                 schema_note=True),
@@ -103,6 +106,18 @@ def gh_latest_release(addon: Addon) -> str | None:
 def ghaddons(*args, check=True, capture=True):
     env = dict(os.environ, PYTHONPATH=str(GHADDONS_PKG))
     return run(["python3", "-m", "ghaddons.cli", *args], env=env, check=check, capture=capture)
+
+
+# luarocks installs --local into ~/.luarocks/bin, which is NOT on PATH by default.
+# The gate below is soft-on-missing-toolchain, so a bare which() turns a forgotten
+# profile line into a SILENTLY SKIPPED release gate — the exact failure that let
+# v0.25.0 out unlinted.  Look in the conventional install dir too, so the gate
+# only skips when the tool genuinely isn't installed.
+LUAROCKS_BIN = Path.home() / ".luarocks" / "bin"
+
+
+def which_lua_tool(name: str) -> str | None:
+    return shutil.which(name) or shutil.which(name, path=str(LUAROCKS_BIN))
 
 
 # ----------------------------------------------------------------------------- version helpers
@@ -328,13 +343,14 @@ def cmd_release(args) -> int:
     #      * opt-in per addon by shipping a `.luacheckrc` (only CDMProbe does today).
     #        Without one, luacheck would drown a release in false positives on the
     #        WoW API, so an addon that hasn't curated a config is simply skipped.
-    #      * soft on the toolchain: if `luacheck` isn't on PATH we warn and carry on,
-    #        so a machine without the Lua toolchain can still cut a release.
+    #      * soft on the toolchain: if `luacheck` isn't installed we warn and carry on,
+    #        so a machine without the Lua toolchain can still cut a release.  We look
+    #        in ~/.luarocks/bin as well as PATH — see which_lua_tool().
     #    A non-zero exit (luacheck flags warnings as exit 1) ABORTS the cut.  Honours
     #    --skip-lint alongside the luaparser gate below.
     if not args.skip_lint and (a.path / ".luacheckrc").exists():
         luadir = a.lua_glob.split("/")[0]
-        luacheck = shutil.which("luacheck")
+        luacheck = which_lua_tool("luacheck")
         if luacheck:
             print(f"[{a.short}] luacheck {luadir}/ …")
             cp = run([luacheck, luadir], cwd=str(a.path), check=False)
@@ -343,10 +359,32 @@ def cmd_release(args) -> int:
                 sys.exit("error: luacheck FAILED — aborting release "
                          "(fix or curate .luacheckrc; --skip-lint to bypass)")
         else:
-            print(f"[{a.short}] ⚠ luacheck not on PATH — skipping static gate "
-                  f"(install: luarocks install --local luacheck)", file=sys.stderr)
+            print(f"[{a.short}] ⚠ luacheck not found on PATH or in {LUAROCKS_BIN} — "
+                  f"skipping static gate (install: luarocks install --local luacheck)",
+                  file=sys.stderr)
 
-    # 4b. Lua syntax check (the documented luaparser one-liner).
+    # 4b. busted unit-test gate (M4.5 T2).  Same shape as 4a — opt-in per addon via
+    #    a registry `test_dir`, soft if the toolchain is absent, ABORTS the cut on
+    #    failure.  Rationale for gating a release on it: the specs cover the pure
+    #    decision logic (HudScore/HudQueue/HudNapkin) — the part whose regressions
+    #    are INVISIBLE in game, since a wrong dot still renders as a perfectly
+    #    plausible dot.  luaparser proves it loads and luacheck proves it is
+    #    well-formed; only busted proves it still decides correctly.
+    if not args.skip_lint and a.test_dir and (a.path / a.test_dir).is_dir():
+        busted = which_lua_tool("busted")
+        if busted:
+            print(f"[{a.short}] busted {a.test_dir} …")
+            cp = run([busted, a.test_dir], cwd=str(a.path), check=False)
+            if cp.returncode != 0:
+                print(cp.stdout, cp.stderr, file=sys.stderr)
+                sys.exit("error: busted FAILED — aborting release "
+                         "(fix the tests or the code; --skip-lint to bypass)")
+        else:
+            print(f"[{a.short}] ⚠ busted not found on PATH or in {LUAROCKS_BIN} — "
+                  f"skipping unit-test gate (install: luarocks install --local busted)",
+                  file=sys.stderr)
+
+    # 4c. Lua syntax check (the documented luaparser one-liner).
     if not args.skip_lint:
         files = sorted(globmod.glob(str(a.path / a.lua_glob)))
         if not files:

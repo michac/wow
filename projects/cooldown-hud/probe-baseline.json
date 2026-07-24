@@ -1,0 +1,137 @@
+{
+  "_readme": [
+    "THE TESTED-ASSUMPTIONS-OF-RECORD for CDMProbe \u2014 the addon's analogue of the",
+    "KB's knowledge/_meta/verify-in-game.md.  Asserted against a structured",
+    "`/cdmp probe` capture by:  uv run python -m wowkb.cdmp check",
+    "",
+    "THE RULE THIS FILE EXISTS TO SERVE (docs/m4.5-t3-plan.md): collecting a NEW",
+    "observation needs an addon change + release; ASSERTING / interpreting /",
+    "re-verifying one is a local edit.  So adding or retuning an assumption here",
+    "is a JSON edit and nothing else \u2014 never a release.",
+    "",
+    "Each entry's `id` maps to a check function in tools/wowkb/cdmp.py (CHECKS).",
+    "Adding an id here without adding the function makes the reader report it as",
+    "unknown rather than silently passing \u2014 deliberately loud.",
+    "",
+    "`severity` decides what a failure COSTS: high -> FAIL (non-zero exit),",
+    "medium/low -> WARN.  A check whose data the capture simply does not contain",
+    "is neither: it lands in the 'not covered this run' list, because absence of",
+    "evidence must never read as evidence.",
+    "",
+    "`confirmed` is a STAMP, and a stale one silently claims a check that has not",
+    "run this patch \u2014 the same failure mode the KB's `reviewed:` convention",
+    "guards.  Re-confirming on a new patch means re-stamping BOTH `confirmed` and",
+    "the top-level `patch`; the reader prints each stamp's age so drift is visible."
+  ],
+  "patch": "12.0.7",
+  "stamped": "2026-07-23",
+  "assumptions": [
+    {
+      "id": "secret-api-present",
+      "desc": "The 12.0 Secret Values API is present on this build (issecretvalue exists)",
+      "expect": {
+        "secretAPI": true
+      },
+      "severity": "high",
+      "confirmed": "2026-07-21",
+      "context": "The foundation every other assumption is phrased against. If this ever reads false, the whole capture is from an unrestricted build and the 'secret' expectations below are meaningless rather than passing."
+    },
+    {
+      "id": "cooldown-read-combat-seam",
+      "desc": "C_Spell.GetSpellCooldown reads REAL out of combat and SECRET in combat \u2014 the M3d seam out-of-combat seeding rides on",
+      "expect": {
+        "ooc": "all-readable",
+        "combat": "all-secret"
+      },
+      "severity": "high",
+      "confirmed": "2026-07-21",
+      "context": "Measured by the v0.12.0 probe: 13/13 tracked spells readable OOC, 0/13 in combat. Open-world in both runs, so the gate is COMBAT, not instancing. If the OOC half fails, M3d seeding is silently dead and the HUD is back to a cold start; if the COMBAT half fails (reads went readable), that is a Blizzard relaxation worth a deliberate review, not a free win."
+    },
+    {
+      "id": "succeeded-readable",
+      "desc": "UNIT_SPELLCAST_SUCCEEDED carries a non-secret spellID for the player's own casts",
+      "expect": {
+        "phase": "SUCCEEDED"
+      },
+      "severity": "high",
+      "confirmed": "2026-07-21",
+      "context": "Confirmed in a delve and at an open-world dummy; 0 secret across 178 events (v0.12.0). Treated as settled \u2014 Blizzard relaxed the restriction for personal casts, and we do not gate this on sampling every content type. High severity because the whole anticipation/napkin engine goes dark if it ever flips secret; this check is how we would find out, from whatever content you happened to capture in."
+    },
+    {
+      "id": "start-readable",
+      "desc": "UNIT_SPELLCAST_START carries a non-secret spellID (the spend-side anticipation path)",
+      "expect": {
+        "phase": "START"
+      },
+      "severity": "high",
+      "confirmed": "2026-07-21",
+      "context": "Counted separately from SUCCEEDED for the first time by the v0.12.0 probe \u2014 all four phases read clean. A phase reading secret while its sibling does not would be easy to miss in aggregate, which is why the phases are asserted one by one."
+    },
+    {
+      "id": "override-ids-known",
+      "desc": "Every observed transform resolves to a spellID SpecDemonology already maps",
+      "expect": {
+        "known": [
+          434506,
+          434635,
+          433891,
+          434636,
+          388215,
+          1276452,
+          119914,
+          132411
+        ]
+      },
+      "severity": "medium",
+      "confirmed": "2026-07-23",
+      "context": "Live-confirmed 2026-07-21: Ruination = 434635, Infernal Bolt = 434506 (433891/434636 are the alternate IDs seen in the maxroll captures, mapped but unconfirmed). 388215 = Devour Magic, the pet purge that overrides the Grimoire button and caused the M3c-b defect. An UNKNOWN id here is the finding: the HUD gives an unrecognised override no dot, so a new transform silently blanks a button rather than mis-scoring it. Play-test 5 (first REAL capture) surfaced two unmapped ids: 119914 Axe Toss, which SpecDemonology already mapped and only this list was missing \u2014 a stale duplicate, not a code gap; and 132411 Singe Magic, the Imp's dispel overriding the Grimoire button, which was genuinely unmapped (same defect class as 388215, different pet) and is now mapped in the addon. Names via wago DB2 SpellName @ 12.0.7.68256 \u2014 the static spell API 404s on pet spells. \u26a0 This list DUPLICATES the addon's spec table, which is why it drifted into a false WARN; deriving it from SpecDemonology.lua is the standing follow-up."
+    },
+    {
+      "id": "tracked-set-core",
+      "desc": "The CDM is tracking the core Demonology set the HUD's scoring depends on",
+      "expect": {
+        "contains": {
+          "265187": "Summon Demonic Tyrant",
+          "104316": "Call Dreadstalkers",
+          "105174": "Hand of Gul'dan",
+          "264178": "Demonbolt",
+          "196277": "Implosion"
+        }
+      },
+      "severity": "medium",
+      "confirmed": "2026-07-21",
+      "context": "Depends on the player's CDM configuration, not just the game \u2014 so a failure here usually means 'your tracked set drifted', not 'Blizzard changed something'. Kept medium for that reason. This is the capture-side half of the addon's own expected-vs-bound diff in `/cdmp hud status`."
+    },
+    {
+      "id": "imp-side-channel-closed",
+      "desc": "The Wild Imp Applications FontString is still UNREADABLE \u2014 no side channel to the imp digit count",
+      "expect": {
+        "imps": "unreadable"
+      },
+      "severity": "medium",
+      "confirmed": "2026-07-21",
+      "context": "GetStringWidth() and GetText() BOTH ERROR, so the dot-glyph font has no rescue and Implosion stays judgeable=false. This assumption is inverted on purpose: it asserts a capability we DON'T have, so the check fires if Blizzard ever opens the leak. \u26a0 If it flips to readable, do NOT build on it before a deliberate review \u2014 a width derived from a secret may still taint on comparison, and Blizzard may treat it as a leak to close."
+    },
+    {
+      "id": "cue-renders-its-level",
+      "desc": "Every cue texture renders the palette colour its level was set to (no white)",
+      "expect": {
+        "minSamples": 40,
+        "mismatches": 0
+      },
+      "severity": "high",
+      "confirmed": "2026-07-23",
+      "context": "RESOLVED 2026-07-23 by /cdmp gradtest on v0.28.1, measured not inferred. TWO facts. (1) SetColorTexture does NOT write the vertex colour: after SetColorTexture(0.30/1.00/0.48), GetVertexColor still reads 1.00/1.00/1.00. That alone invalidates the v0.27.0 watchdog, which compared the palette against a channel the paint path never touches -- hence white for every level including ones that render green. (2) SetGradient RESETS the vertex colour to white: SetVertexColor(green) reads back 0.30/1.00/0.48 correctly, then a SetGradient call turns it into 1.00/1.00/1.00. SetVertexColor itself works fine. CONSEQUENCE: pre-v0.26.0 the cue texture's base was WHITE and the hue came only from the gradient, so every frame the gradient failed to draw rendered WHITE -- the intermittent white, exactly as reported. v0.26.0 made the base the level colour, which is why the white stopped AND why the player now reports 'no gradients anywhere': the gradient is not rendering, and the flat base is now carrying the colour on its own. DESIGN CONSEQUENCE: paint via SetTexture(WHITE8X8)+SetVertexColor, which is reliable AND READABLE BACK -- that makes a cue watchdog valid for the first time. Depth should come from stacked flat textures, not from SetGradient."
+    },
+    {
+      "id": "gradient-clobbers-vertex-colour",
+      "desc": "SetGradient resets a texture's vertex colour to white (client behaviour we design around)",
+      "expect": {
+        "clobbers": true
+      },
+      "severity": "medium",
+      "confirmed": "2026-07-23",
+      "context": "Measured by /cdmp gradtest, 12.0.7. Asserted so that a Blizzard change to this behaviour surfaces as a diff rather than as a mystery. If this ever flips, the cue paint path can use gradients again -- and the reason we abandoned them stops applying."
+    }
+  ]
+}

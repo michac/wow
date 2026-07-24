@@ -1,0 +1,17 @@
+## Interface: 120007
+## Title: ClientLab
+## Notes: Scratch lab addon — answers knowledge/addon-dev questions by running one line of Lua in the client. NOT a product; never depend on it.
+## Author: Michael Christiansen
+## Version: 0.1.1
+## SavedVariables: ClientLabDB
+
+Core.lua
+Lab.lua
+Secret.lua
+Report.lua
+T_Anatomy.lua
+T_ApiEvents.lua
+T_Libraries.lua
+T_Module.lua
+T_State.lua
+T_Security.lua

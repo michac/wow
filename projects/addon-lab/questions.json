@@ -1,0 +1,532 @@
+{
+  "_meta": {
+    "what": "THE REGISTRY for knowledge/addon-dev/ — every question about the WoW client that a lab addon could answer, keyed by a stable id.",
+    "why_here": "knowledge/addon-dev/ is firewalled from the game KB (its README §0), and 64 of its 68 `@verify-ingame` markers are backticked, so `wowkb.gen_verify` reports zero addon-dev items. That is a DECISION, not a bug — see addon-dev/README.md §6 and gen_verify.py's docstring. This file is the registry instead.",
+    "id_is_the_key": "The join column between this file, the `id` on each ns.Test{} in ClientLab/T_*.lua, and the on-disk run under ClientLabDB.runs. An id survives the anchor line moving; anchor text does not.",
+    "expect_never_ships": "`expect` lives HERE and is never compared in-game. cdmp asserts a known answer against regression; the lab discovers an unknown one, so the reader renders result beside expect and a HUMAN decides. An automatic PASS/FAIL would be the instrument grading its own subject.",
+    "status": {
+      "built": "a ns.Test{} with this id exists in ClientLab/ (pass 1)",
+      "deferred": "a real, addon-answerable question; not built in pass 1",
+      "deferred-w1d": "tests the addon CONTAINER (.toc / load order), so the lab cannot test it in its own .toc without breaking itself — needs a generator that writes sibling addons per test (W1d, not yet designed)",
+      "candidate": "an addon-testable question found under a bare [gap] with no marker; harvested, not built",
+      "not-answerable": "no addon can settle this; the reason is recorded so it is not re-attempted"
+    },
+    "cross_check": "`wowkb.lab deploy` asserts every `built` id here has a ns.Test{} and every ns.Test{} id is here. An unmatched id is a loud error, never a silent skip.",
+    "counts_as_of": "2026-07-23: 29 built (15 call-and-record + 14 secret-op rows), 20 deferred, 7 deferred-w1d, 11 candidate, 4 not-answerable",
+    "anchor_form": "<file under knowledge/addon-dev/>:<line>. `also` lists further anchors that ask the same question — one test, several places in the KB to edit when it is answered."
+  },
+
+  "questions": [
+
+    {
+      "id": "addon-exists-nested-lib",
+      "anchor": "anatomy-and-runtime.md:127",
+      "also": ["anatomy-and-runtime.md:152", "anatomy-and-runtime.md:1165"],
+      "bucket": "call",
+      "status": "built",
+      "question": "Is a nested-`.toc` library (LibStub) enumerated by the client as an addon in its own right? And is a plainly-installed top-level addon (RaiderIO) reported as existing even though it is missing from AddOns.txt?",
+      "expect": "DoesAddOnExist(\"LibStub\") == false and DoesAddOnExist(\"RaiderIO\") == true. That combination confirms the §19b folder-name rule AND kills the draft's inference that absence from AddOns.txt proves never-enumerated. Either half coming back the other way rewrites §1."
+    },
+    {
+      "id": "sandbox-require-os-io",
+      "anchor": "anatomy-and-runtime.md:677",
+      "bucket": "call",
+      "status": "built",
+      "question": "Does the addon sandbox expose `require`, `os` or `io`?",
+      "expect": "All three nil. 2298 shipped .lua files contain zero uses of require/dofile/loadfile/module/os./io., which is corroboration by absence; this converts it to a measurement. A non-nil `os` would be a notable finding worth its own KB section."
+    },
+    {
+      "id": "string-rtgsub-callable",
+      "anchor": "anatomy-and-runtime.md:690",
+      "bucket": "call",
+      "status": "built",
+      "question": "Is `string.rtgsub` — wiki-tagged `framexml`, i.e. flagged Blizzard-internal rather than addon-facing — actually callable from addon code?",
+      "expect": "Unknown; that is the point. If the `framexml` tag means anything enforceable, the lookup is nil or the call errors from an insecure frame. If it is merely documentation of intent, it is a normal function and works."
+    },
+    {
+      "id": "wow-lua-zero-use-fns",
+      "anchor": "anatomy-and-runtime.md:697",
+      "bucket": "call",
+      "status": "built",
+      "question": "Do `table.freeze`, `table.isfrozen`, `table.removemulti` and `strsplittable` exist at 12.0.7? All four are wiki-listed with ZERO uses in the shipped source, so they rest on Tier 2 alone.",
+      "expect": "All four present as functions. If any is nil, the wiki list is stale and §5's WoW-additions table needs a correction — which is exactly the failure mode a zero-use, Tier-2-only claim has."
+    },
+    {
+      "id": "issecure-in-addon-frame",
+      "anchor": "anatomy-and-runtime.md:768",
+      "also": ["anatomy-and-runtime.md:1212"],
+      "bucket": "call",
+      "status": "built",
+      "question": "Does `issecure()` ever return true in an addon call frame — i.e. can an addon satisfy the `assert(issecure())` guarding `AddLuaErrorHandler`?",
+      "expect": "false, from a plain addon call frame. Rule 23 currently states the consequence ('no addon may register a Lua error handler this way') as inference from the assert; this measures the premise. Also probe whether AddLuaErrorHandler is even visible to us."
+    },
+
+    {
+      "id": "combatlog-secure-globals",
+      "anchor": "api-events-and-discovery.md:484",
+      "bucket": "call",
+      "status": "built",
+      "question": "Do the six `C_CombatLog.*` names that are documented only on `C_CombatLogSecure` (AddEventFilter, ClearEventFilters, GetCurrentEntryInfo, GetCurrentEventInfo, GetEntryCount, ShouldShowCurrentEntry) resolve to nil for an addon?",
+      "expect": "All six nil on `C_CombatLog` for us — the `Environment = \"SecureOnly\"` reading. Any that is non-nil means SecureOnly is not enforced by nil-ing the binding, and §3's account of the combat-log surface changes."
+    },
+    {
+      "id": "is-callback-event",
+      "anchor": "api-events-and-discovery.md:411",
+      "bucket": "call",
+      "status": "built",
+      "question": "Does `C_EventUtils.IsCallbackEvent` return true for exactly the 12 `CallbackEvent = true` events? Call it on a flagged event and on a non-flagged one.",
+      "expect": "true for a flagged event (e.g. MINIMAP_PING), false for an unflagged one (e.g. PLAYER_LOGIN). That would upgrade 'the 12 flagged events are exactly what RegisterEventCallback accepts' from a reasonable reading to a measurement. The function is called nowhere in the shipped Lua, so its behaviour is entirely unexercised."
+    },
+    {
+      "id": "unregister-event-callback",
+      "anchor": "api-events-and-discovery.md:389",
+      "bucket": "call",
+      "status": "built",
+      "question": "Does `Frame:UnregisterEventCallback` exist, and what is its arity? It has exactly one call site in the whole checkout (FrameUtil.lua:59), no generated doc entry, no wiki page, and is absent from the 12.0.0 added-widget list.",
+      "expect": "Present as a function on a frame (FrameUtil calls it, so it must be, unless FrameUtil path is dead). Existence is the cheap half; arity needs a call and is recorded as whatever the error says."
+    },
+    {
+      "id": "event-profiler-api",
+      "anchor": "api-events-and-discovery.md:893",
+      "bucket": "call",
+      "status": "built",
+      "question": "Do `GetCurrentEventID()` and `GetEventTime(eventProfileIndex)` exist and return anything useful when called from an addon? Neither is called anywhere in the 2298 shipped .lua files, so there is no worked example of obtaining a valid eventProfileIndex.",
+      "expect": "Both exist (they are in FrameScriptDocumentation). GetCurrentEventID called outside a handler probably returns nil or 0; GetEventTime with that value probably errors or returns nothing. Recording the error IS the answer — it is what tells a future reader the pair is unusable without a profiling CVar."
+    },
+    {
+      "id": "register-unit-event-cap",
+      "anchor": "api-events-and-discovery.md:200",
+      "bucket": "call",
+      "status": "built",
+      "question": "Is `RegisterUnitEvent`'s documented four-unit cap real? The generated docs express the unit parameter as an unbounded variadic; the four-unit limit is Tier 2 only.",
+      "expect": "Passing 5 units errors, or silently ignores units past the fourth. Distinguish the two: after registering with 5, the test records whether the call raised. If it neither errors nor is observably capped, the Tier-2 cap claim should be softened in §2.2."
+    },
+    {
+      "id": "secure-hooks-allowed-flag",
+      "anchor": "api-events-and-discovery.md:959",
+      "also": ["module-architecture.md:1089"],
+      "bucket": "call",
+      "status": "built",
+      "question": "What does the `SecureHooksAllowed = false` annotation actually do? `hooksecurefunc` a function carrying it (`CreateFromMixins`, `Mixin`) and see whether the hook is refused.",
+      "expect": "Unknown and genuinely open. The annotation appears in 24 generated doc entries and in zero Lua logic anywhere in the shipped source, and it overlaps the wiki's empirically-derived unhookable list on only ONE name — which is a reason for caution, not confidence. If the hook installs without error, the natural reading ('hooking these raises') is wrong and both §2.4 and module-architecture rule 6 need rewriting."
+    },
+
+    {
+      "id": "dropdown-menu-globals",
+      "anchor": "libraries-and-ecosystem.md:552",
+      "also": ["libraries-and-ecosystem.md:789"],
+      "bucket": "call",
+      "status": "built",
+      "question": "Do the deprecated `UIDropDownMenu_*` globals still resolve for addon code at 12.0.7? UIDropDownMenu.lua opens with `local envTable = GetCurrentEnvironment()` and resolves through `envTable[...]` rather than `_G`.",
+      "expect": "This is the question `ns.GlobalType` exists for: a name may be absent from `_G` yet present in the addon environment, or vice versa. If `_G.UIDropDownMenu_Initialize` is nil, the file is scoped away from addons and LibUIDropDownMenu's continued use by WeakAurasOptions in 2026 gets a causal explanation the KB currently declines to assert."
+    },
+
+    {
+      "id": "create-from-mixins-nil",
+      "anchor": "module-architecture.md:104",
+      "bucket": "call",
+      "status": "built",
+      "question": "Does `CreateFromMixins(nil)` error, or silently produce an empty mixin? This is what happens if a .toc lists a mixin file after its consumer.",
+      "expect": "Errors. The Lua SecureMixin implementation does `for k, v in pairs(mixin)`, which raises on nil — but Mixin/CreateFromMixins are engine functions whose failure mode has never been observed, so the Lua reading may not describe the C one. A silent empty table would be a much nastier failure mode and worth calling out in §1.2."
+    },
+
+    {
+      "id": "secret-api-surface",
+      "anchor": "security-taint-and-restricted-data.md:1328",
+      "bucket": "call",
+      "status": "built",
+      "question": "Which of the security primitives are actually visible to an addon? `issecure`, `issecurevariable`, `issecretvalue`, `issecrettable`, `canaccessvalue`, `secureexecuterange`, `forceinsecure`, `hooksecurefunc`, `C_Secrets`. All are absent from the generated docs, and `issecurevariable` appears nowhere in the shipped source either — the wiki is its only source at any tier.",
+      "expect": "All present as functions (CDMProbe already calls issecretvalue/issecrettable/canaccessvalue successfully). `issecurevariable` is the one to watch: a single Tier-2 source with zero shipped call sites is exactly the shape of a claim that turns out to be stale. This test is also the PRECONDITION for the whole §4.2 table below — if issecretvalue is missing, Secret.lua cannot gate anything."
+    },
+
+    {
+      "id": "addon-message-prefix-limit",
+      "anchor": "state-persistence-and-communication.md:935",
+      "bucket": "call",
+      "status": "built",
+      "question": "Is the 16-character addon-message prefix limit real, and how is it enforced? Register a 16-char prefix and a 17-char prefix and record both return values.",
+      "expect": "16 succeeds, 17 returns false (or errors). The generated docs type the parameter as a bare `cstring` with no limit; wiki (Tier 2) + AceComm's tested comment (Tier 3) agree on 16, which is the strongest corroboration available and still not Tier 1. Harvested from a bare [gap] with no marker — see _meta.status.candidate — and promoted to built because it is pure call-and-record."
+    },
+
+    { "id": "secret-op-store-local", "anchor": "security-taint-and-restricted-data.md:722", "bucket": "secret", "status": "built",
+      "question": "§4.2 row 1 — store a secret in a local / upvalue / table VALUE.",
+      "expect": "Allowed. If this errors, nothing else in the table is testable and the whole secret-handling chapter is wrong." },
+    { "id": "secret-op-pass-lua-fn", "anchor": "security-taint-and-restricted-data.md:723", "bucket": "secret", "status": "built",
+      "question": "§4.2 row 2 — pass a secret to a Lua function.",
+      "expect": "Allowed. This is the premise of every 'launder it through a helper' pattern." },
+    { "id": "secret-op-pass-c-fn", "anchor": "security-taint-and-restricted-data.md:724", "bucket": "secret", "status": "built",
+      "question": "§4.2 row 3 — pass a secret to an unmarked C function (e.g. `strlen`-ish builtin / a C API not marked as secret-accepting).",
+      "expect": "Errors, unless the API is explicitly marked (§4.5). Which C function is chosen matters: the test uses one with no marking so a pass would be genuinely surprising." },
+    { "id": "secret-op-concat", "anchor": "security-taint-and-restricted-data.md:725", "bucket": "secret", "status": "built",
+      "question": "§4.2 row 4 — concatenate a secret string/number with `..`.",
+      "expect": "Allowed, and the RESULT is itself secret. The table says allowed but says nothing about the result's secrecy — record `issecretvalue` on the result, which is the half the KB does not state." },
+    { "id": "secret-op-string-format", "anchor": "security-taint-and-restricted-data.md:726", "bucket": "secret", "status": "built",
+      "question": "§4.2 row 5 — `string.format` / `string.join` / `string.concat` with a secret argument.",
+      "expect": "Allowed, result secret. Same as above: the secrecy of the OUTPUT is the interesting half, since it decides whether a formatted string can be printed." },
+    { "id": "secret-op-arith", "anchor": "security-taint-and-restricted-data.md:727", "bucket": "secret", "status": "built",
+      "question": "§4.2 row 6 — arithmetic on a secret number.",
+      "expect": "Errors. This is the row CDMProbe's HUD is designed around — no cooldown math on a secret." },
+    { "id": "secret-op-compare", "anchor": "security-taint-and-restricted-data.md:728", "bucket": "secret", "status": "built",
+      "question": "§4.2 row 7 — compare a secret with `==` and with `<`.",
+      "expect": "Errors. Test BOTH operators separately: `==` on differing types is a plausible engine special case and the table does not distinguish them." },
+    { "id": "secret-op-bool-test-boolean", "anchor": "security-taint-and-restricted-data.md:729", "bucket": "secret", "status": "built",
+      "question": "§4.2 row 8 — boolean test (`if v then`) on a BOOLEAN secret.",
+      "expect": "Errors. Needs a secret whose real type is boolean, which the cooldown source may not provide — if so this records `skipped` with that reason, never a value." },
+    { "id": "secret-op-bool-test-nonboolean", "anchor": "security-taint-and-restricted-data.md:730", "bucket": "secret", "status": "built",
+      "question": "§4.2 row 9 — boolean test on a NON-boolean secret.",
+      "expect": "Allowed — type isn't secret, so nil→false and everything else→true. The asymmetry with row 8 is the single subtlest rule in the chapter and the one most likely to be misremembered." },
+    { "id": "secret-op-length", "anchor": "security-taint-and-restricted-data.md:731", "bucket": "secret", "status": "built",
+      "question": "§4.2 row 10 — length operator `#` on a secret.",
+      "expect": "Errors." },
+    { "id": "secret-op-table-key", "anchor": "security-taint-and-restricted-data.md:732", "bucket": "secret", "status": "built",
+      "question": "§4.2 row 11 — use a secret as a table KEY.",
+      "expect": "Errors. Contrast with row 1 (as a table VALUE, allowed) — the key/value asymmetry is the rule that bites caching code." },
+    { "id": "secret-op-index", "anchor": "security-taint-and-restricted-data.md:733", "bucket": "secret", "status": "built",
+      "question": "§4.2 row 12 — index and index-assign a secret (`secret.foo`, `secret[\"foo\"] = 1`).",
+      "expect": "Both error. Test read and write separately." },
+    { "id": "secret-op-call", "anchor": "security-taint-and-restricted-data.md:734", "bucket": "secret", "status": "built",
+      "question": "§4.2 row 13 — call a secret as a function.",
+      "expect": "Errors." },
+    { "id": "secret-op-type", "anchor": "security-taint-and-restricted-data.md:735", "bucket": "secret", "status": "built",
+      "question": "§4.2 row 14 — `type(secret)`.",
+      "expect": "Allowed and returns the REAL type. This is §4.3's Trap 1: type() passes, then the comparison blows up. Record the returned string — it also tells us what kind of secret the cooldown source hands out." },
+
+    {
+      "id": "serializer-secret",
+      "anchor": "libraries-and-ecosystem.md:471",
+      "also": ["libraries-and-ecosystem.md:792"],
+      "bucket": "call",
+      "status": "deferred",
+      "question": "What happens when a Secret Value reaches AceSerializer-3.0 / LibSerialize / LibDeflate? None of the three tests for secrets; AceSerializer's type dispatch ends in `error(MAJOR..\": Cannot serialize a value of type '\"..t..\"'\")`.",
+      "expect": "AceSerializer sees the real type via `type()` (row 14) and takes a normal branch, then errors inside it on a concat/format/length — so the observed failure is a confusing message from the wrong place. Deferred from pass 1 because it needs the three libraries VENDORED into the lab; the §4.2 rows measure the underlying operations first, which is most of the answer."
+    },
+    {
+      "id": "register-all-then-unregister",
+      "anchor": "api-events-and-discovery.md:194",
+      "also": ["api-events-and-discovery.md:1029"],
+      "bucket": "event",
+      "status": "deferred",
+      "question": "Can `RegisterAllEvents` be combined with `UnregisterEvent`? The wiki says no; Blizzard's own Event Trace does exactly that (`self:RegisterAllEvents()` at :107, `self:UnregisterEvent(\"ADDON_LOADED\")` at :702). One of the two is wrong.",
+      "expect": "Needs a scratch frame plus observation over time — register all, unregister one, count arrivals of that one. Bucket 2."
+    },
+    {
+      "id": "synchronous-event-semantics",
+      "anchor": "api-events-and-discovery.md:279",
+      "bucket": "event",
+      "status": "deferred",
+      "question": "What do the `SynchronousEvent` / `unique` flags mean? Neither string is documented anywhere reachable — not in the generated docs' Documentation field, not in Blizzard_APIDocumentation, not in Blizzard_EventTrace, and the wiki has no page.",
+      "expect": "The natural reading (synchronous = dispatched inline; non-synchronous = queued; unique = coalesced to at most one queued instance) is inference, not evidence. Testing it needs firing an event from a known call frame and timestamping the handler — bucket 2, and it may not be reachable from an addon at all."
+    },
+    {
+      "id": "onupdate-blocked-by-hidden",
+      "anchor": "api-events-and-discovery.md:556",
+      "bucket": "event",
+      "status": "deferred",
+      "question": "Is `OnUpdate` really blocked by hiding a frame or its parent?",
+      "expect": "Tier 2 and dated; oUF guards on `self:IsVisible()` independently, which is consistent but not proof. Scratch frame + tick counter across a Hide/Show cycle."
+    },
+    {
+      "id": "event-callback-nil-owner",
+      "anchor": "api-events-and-discovery.md:1259",
+      "bucket": "event",
+      "status": "deferred",
+      "question": "Is the leading `_nilOwner` argument to a RegisterEventCallback handler a contract, or six consistent conventions? Is it ever non-nil?",
+      "expect": "The generated docs declare `EventCallbackType` with NO fields at all, so there is no spec to read. Six shipped call sites all discard a leading arg. Needs registering a callback and inspecting arg 1."
+    },
+    {
+      "id": "reload-addons-unloading-payload",
+      "anchor": "anatomy-and-runtime.md:883",
+      "bucket": "life",
+      "status": "deferred",
+      "question": "Does `ADDONS_UNLOADING` carry `closingClient = false` on a /reload?",
+      "expect": "Tier 1 supplies only the payload shape; that a reload passes false is inference FROM THE FIELD NAME. Needs a logout/reload observation recorded into SavedVariables — pass 3's journal."
+    },
+    {
+      "id": "reload-state-preserved",
+      "anchor": "anatomy-and-runtime.md:904",
+      "bucket": "life",
+      "status": "deferred",
+      "question": "What state does a /reload preserve vs discard — is the Lua state fully destroyed or recycled?",
+      "expect": "No Tier-1 or Tier-2 statement exists. Behaviourally addon chunks re-execute (ADDON_LOADED fires again). Testable by stamping a non-saved global and looking for it after reload — pass 3's journal."
+    },
+    {
+      "id": "logout-event-order",
+      "anchor": "state-persistence-and-communication.md:275",
+      "bucket": "life",
+      "status": "deferred",
+      "question": "What is the real order of PLAYER_LEAVING_WORLD → PLAYER_LOGOUT → ADDONS_UNLOADING, and does it differ on a crash/Alt-F4?",
+      "expect": "The wiki carries its own {{fact}} tags on both bullets, i.e. it does not vouch for the ordering. Needs the pass-3 journal (record each event with an incrementing sequence number, read it back next session). The crash half is not testable politely."
+    },
+    {
+      "id": "fontstring-sublevel-arg",
+      "anchor": "frames-textures-animation.md:223",
+      "bucket": "frame",
+      "status": "deferred",
+      "question": "Does `CreateFontString` accept a fourth `subLevel` argument, or is it silently discarded? Blizzard's own pool code passes four against a documented three-arg signature.",
+      "expect": "Create two FontStrings on the same frame and draw layer with different subLevel values and see whether stacking order differs. Bucket 2."
+    },
+    {
+      "id": "frame-strata-parent",
+      "anchor": "frames-textures-animation.md:504",
+      "bucket": "frame",
+      "status": "deferred",
+      "question": "What does frameStrata `PARENT` actually do? It is the XSD default and is never written explicitly anywhere in the shipped corpus.",
+      "expect": "Tier 1 gives the value and the default and nothing more. The dropped gloss ('inherit from parent, not a z-band') was inference from the name."
+    },
+    {
+      "id": "frame-level-arithmetic",
+      "anchor": "frames-textures-animation.md:530",
+      "bucket": "frame",
+      "status": "deferred",
+      "question": "Do frame levels run 0–10000, does a child default to one level above its parent, and does moving a parent below 0 clamp to 10000?",
+      "expect": "All three are Tier 2 only. Cheap once a scratch frame exists — create parent/child, read GetFrameLevel, then SetFrameLevel(0) on the parent and re-read."
+    },
+    {
+      "id": "draw-layer-z-order",
+      "anchor": "frames-textures-animation.md:606",
+      "bucket": "frame",
+      "status": "deferred",
+      "question": "Is the XSD's listing order of the five draw layers actually the z-order, and does HIGHLIGHT have special mouse-over semantics?",
+      "expect": "Universally believed, matches the names, and stated at Tier 1 nowhere. Needs two overlapping textures and a visual read — the one pass-1 bucket that a SavedVariables record cannot capture on its own."
+    },
+    {
+      "id": "texture-source-exclusivity",
+      "anchor": "frames-textures-animation.md:644",
+      "bucket": "frame",
+      "status": "deferred",
+      "question": "Are SetTexture / SetAtlas / SetColorTexture mutually exclusive — does exactly one 'win'? `SetTexture(...)` then `SetAtlas(...)`, read GetTexture()/GetAtlas(), then the reverse order.",
+      "expect": "The near-universal mental model, consistent with GetTexture returning nil after SetAtlas, and cited at no tier."
+    },
+    {
+      "id": "vertexcolor-vs-gradient",
+      "anchor": "frames-textures-animation.md:769",
+      "bucket": "frame",
+      "status": "deferred",
+      "question": "Do SetVertexColor and SetGradient write the same storage? White 8x8 texture, SetVertexColor(1,0,0), SetGradient(HORIZONTAL, yellow, blue), GetVertexColor(); then reverse.",
+      "expect": "README §6 calls this the most consequential unresolved gap in the whole subtree, and the workspace has already observed it once — todo/addon-engineering.md records that SetGradient RESETS the vertex colour to white. That prior observation makes this a confirm-and-cite, not a discovery."
+    },
+    {
+      "id": "settextcolor-vs-getvertexcolor",
+      "anchor": "frames-textures-animation.md:811",
+      "bucket": "frame",
+      "status": "deferred",
+      "question": "Do FontString:SetTextColor and Region:GetVertexColor share storage? `fs:SetTextColor(1,0,0)` then `fs:GetVertexColor()`, and the reverse.",
+      "expect": "'Identical annotations ⇒ identical storage' is inference. The two wiki pages say nothing about the relationship, and one of them was effectively abandoned in 2021."
+    },
+    {
+      "id": "anim-restore-without-final",
+      "anchor": "frames-textures-animation.md:1111",
+      "bucket": "anim",
+      "status": "deferred",
+      "question": "What does an alpha or vertex-colour animation do to the underlying value when it stops WITHOUT `setToFinalAlpha`?",
+      "expect": "The attribute's existence implies restoration, but that is inference and is stated at no tier. Needs an AnimationGroup and a read after OnFinished."
+    },
+    {
+      "id": "xml-onload-varargs",
+      "anchor": "anatomy-and-runtime.md:603",
+      "bucket": "xml",
+      "status": "deferred",
+      "question": "Does an XML `<OnLoad>` body receive the addon-table varargs? Of 2123 shipped `<OnLoad` occurrences, 6 have `...` nearby and all six forward event/callback varargs — but that is four distinct sites, one of them dead code.",
+      "expect": "An argument from silence, not evidence; the KB explicitly declines to assume either way. Needs the lab to ship an XML file."
+    },
+    {
+      "id": "addon-declared-intrinsic",
+      "anchor": "frames-textures-animation.md:367",
+      "bucket": "xml",
+      "status": "deferred",
+      "question": "Can an addon declare an `intrinsic` in XML and then use it as a `CreateFrame` frameType? The XSD puts `intrinsic` in the shared FrameAttributes group, so an addon CAN write it.",
+      "expect": "No Tier-1/Tier-2 statement that it becomes usable, and zero of the seven surveyed addon clones do it. Needs the lab to ship an XML file."
+    },
+    {
+      "id": "scoped-modifier-for-addons",
+      "anchor": "module-architecture.md:854",
+      "also": ["module-architecture.md:1010"],
+      "bucket": "xml",
+      "status": "deferred",
+      "question": "May an addon use `<ScopedModifier>` (forbidden / scriptsUseGivenEnv / addToSecureEnv / hideFromGlobalEnv / fullLockdown), or is it silently ignored?",
+      "expect": "In UI.xsd (Tier 1), used by 20 Blizzard XML files and by 0 of the surveyed addons and 0 third-party XML files on the live install. Needs the lab to ship an XML file."
+    },
+    {
+      "id": "xml-color-element-target",
+      "anchor": "frames-textures-animation.md:856",
+      "bucket": "xml",
+      "status": "deferred",
+      "question": "Does an XML `<Color>` element compile to SetVertexColor or to SetColorTexture? Load a texture from XML with both `file` and `<Color>`, then read GetTexture() and GetVertexColor().",
+      "expect": "Not stated by UI.xsd or the wiki. The evidence rules out plain SetColorTexture replacement but does not distinguish the two remaining readings. Needs the lab to ship an XML file."
+    },
+
+    {
+      "id": "toc-optional-deps-absent",
+      "anchor": "anatomy-and-runtime.md:449",
+      "bucket": "toc",
+      "status": "deferred-w1d",
+      "question": "Does an absent `## OptionalDeps` entry block the load? The wiki says OptionalDeps names addons that 'should load first if available' but does NOT say an absent one is harmless.",
+      "expect": "Harmless — the natural reading of 'if available', with no counter-example in the shipped corpus, held as [unverified]. Needs a generated sibling addon naming a nonexistent optional dep."
+    },
+    {
+      "id": "toc-lua-error-scope",
+      "anchor": "anatomy-and-runtime.md:539",
+      "bucket": "toc",
+      "status": "deferred-w1d",
+      "question": "Does a Lua error inside one .toc-listed file abort only that file, or the whole addon's remaining files?",
+      "expect": "Not established at any tier — the generated docs give only DoesAddOnHaveLoadError with no semantics, and both wiki pages are silent. Needs a sibling addon with a deliberately broken middle file and a marker global set by the last file."
+    },
+    {
+      "id": "toc-dependency-transitivity",
+      "anchor": "anatomy-and-runtime.md:1200",
+      "bucket": "toc",
+      "status": "deferred-w1d",
+      "question": "Is the client's login-time loader transitive over dependencies? Blizzard's Lua demand-load helper walks them recursively, but that proves only the HELPER is transitive.",
+      "expect": "No Tier-1 or Tier-2 statement of engine-level transitivity found. Needs a three-addon chain A→B→C."
+    },
+    {
+      "id": "toc-load-environment-tags",
+      "anchor": "module-architecture.md:824",
+      "also": ["module-architecture.md:1006"],
+      "bucket": "toc",
+      "status": "deferred-w1d",
+      "question": "May a third-party addon use `## LoadIntoEnvironment` / `## AllowLoadEnvironment`? Both are observed in Blizzard .toc files and absent from the wiki's TOC format page, with 0 uses across the install's 147 third-party .toc files.",
+      "expect": "Treated as Blizzard-internal until proven otherwise. Needs a sibling addon setting the tag."
+    },
+    {
+      "id": "toc-secure-tag",
+      "anchor": "module-architecture.md:845",
+      "also": ["module-architecture.md:1015"],
+      "bucket": "toc",
+      "status": "deferred-w1d",
+      "question": "Is a third-party `## Secure` ignored, honoured, or rejected? 5 shipped Blizzard tocs set it, 0 of 147 third-party ones do, and the wiki does not document the tag at all — it is undocumented, NOT documented-as-restricted.",
+      "expect": "Unknown; that is the finding to make. Needs a sibling addon setting it."
+    },
+    {
+      "id": "toc-parser-case-sensitivity",
+      "anchor": "module-architecture.md:824",
+      "bucket": "toc",
+      "status": "deferred-w1d",
+      "question": "Is the .toc directive parser case-insensitive?",
+      "expect": "Not established. Needs a sibling addon with `## interface:` / `## SAVEDVARIABLES:` in odd casing."
+    },
+    {
+      "id": "toc-file-order-guarantee",
+      "anchor": "module-architecture.md:1025",
+      "bucket": "toc",
+      "status": "deferred-w1d",
+      "question": "Are .toc files loaded strictly top-to-bottom? The rule is Tier 2 only, corroborated only by Blizzard's own tocs being internally consistent with it.",
+      "expect": "True. Trivially testable with a sibling addon whose files append their own name to a table — and worth doing precisely because everything in the module-architecture chapter rests on it."
+    },
+
+    {
+      "id": "unit-token-string-vs-enum",
+      "anchor": "api-events-and-discovery.md:174",
+      "bucket": "call",
+      "status": "not-answerable",
+      "question": "WHY is a string accepted where an enum is declared — does the C layer map the token string onto the enum, or does the doc generator merely label unit-token parameters with that type name?",
+      "expect": "NOT ANSWERABLE from Lua. Both readings produce identical observable behaviour, so no call can distinguish them; only Blizzard source or a statement could. The KB's handling is already right: use the string form (that is what ships), assert no mechanism."
+    },
+    {
+      "id": "taintlog-level-5",
+      "anchor": "security-taint-and-restricted-data.md:470",
+      "also": ["security-taint-and-restricted-data.md:1328"],
+      "bucket": "call",
+      "status": "not-answerable",
+      "question": "What does `taintLog` level 5 (added 12.0.1, per the wiki) log? The BlizzardInterfaceResources CVar description stops at level 4.",
+      "expect": "NOT ANSWERABLE BY AN ADDON. Needs `/console taintLog 1`, a full client restart, and then reading `_retail_/Logs/taint.log` OFF DISK — three things outside a Lua addon's reach. Answerable by a human plus a file read, and worth doing that way; just not by ClientLab."
+    },
+    {
+      "id": "savedvars-secret-comment",
+      "anchor": "state-persistence-and-communication.md:355",
+      "bucket": "call",
+      "status": "not-answerable",
+      "question": "When a secret is written to SavedVariables, does the file really get 'a comment' alongside the nil?",
+      "expect": "The COMMENT half is not answerable by an addon — it needs reading the written file off disk, which is a wowkb job, not a Lua one. The other half — 'secrets become nil' — IS addon-testable via a two-session round trip (write a secret to the DB, /reload, read it back), and is recorded as `savedvars-secret-roundtrip` below."
+    },
+    {
+      "id": "savedvars-secret-roundtrip",
+      "anchor": "state-persistence-and-communication.md:934",
+      "bucket": "life",
+      "status": "candidate",
+      "question": "Does a Secret Value stored in SavedVariables come back as nil after a /reload?",
+      "expect": "Traceable only to a Discord blue post archived on the wiki; the KB could not produce it locally because no SavedVariable on this install held a secret. A two-session round trip settles it. PASS 3 — it is the first test that needs the journal (write in session N, assert in session N+1), so it validates that machinery."
+    },
+
+    {
+      "id": "savedvars-number-precision",
+      "anchor": "state-persistence-and-communication.md:925",
+      "bucket": "life",
+      "status": "candidate",
+      "question": "How does the SavedVariables writer format numbers — what precision, and what does it do with NaN / inf?",
+      "expect": "Unverified at every tier; the writer is C, not shipped Lua, so §1.5 is entirely inferred from output files. Write known values, /reload, read back."
+    },
+    {
+      "id": "savedvars-table-cycles",
+      "anchor": "state-persistence-and-communication.md:925",
+      "bucket": "life",
+      "status": "candidate",
+      "question": "What does the SavedVariables writer do with a table cycle, and is there a depth limit?",
+      "expect": "Unverified at every tier. Risky to test — a hang or a corrupt file is a plausible outcome — so it wants its own throwaway SavedVariable, not ClientLabDB."
+    },
+    {
+      "id": "savedvars-key-ordering",
+      "anchor": "state-persistence-and-communication.md:925",
+      "bucket": "life",
+      "status": "candidate",
+      "question": "Is SavedVariables key ordering stable across writes?",
+      "expect": "Unverified. Matters for anything diffing the file between sessions — which wowkb.cdmp and wowkb.lab both do."
+    },
+    {
+      "id": "savedvars-bak-semantics",
+      "anchor": "state-persistence-and-communication.md:929",
+      "bucket": "life",
+      "status": "candidate",
+      "question": "Is the `.bak` file a rename or a copy, and when is it written relative to the main file?",
+      "expect": "Undocumented at Tier 1 and Tier 2; WoWUIBugs #241 is Tier-2 evidence it is not a reliable recovery mechanism. Half of this is a disk observation, not an addon one."
+    },
+    {
+      "id": "addon-message-size-limit",
+      "anchor": "state-persistence-and-communication.md:935",
+      "bucket": "call",
+      "status": "candidate",
+      "question": "Is the 255-byte addon-message body limit real, and what happens on overflow — truncation, rejection, or an error?",
+      "expect": "Same Tier-2/Tier-3-only footing as the prefix limit. Deferred past the prefix test because sending actually puts traffic on a channel, which the prefix registration does not."
+    },
+    {
+      "id": "addon-message-throttle",
+      "anchor": "state-persistence-and-communication.md:938",
+      "bucket": "call",
+      "status": "candidate",
+      "question": "Are the addon-message throttle numbers (10 allowance, 1/s regen) real?",
+      "expect": "Tier 2 only, and the same source says the server may change them at any time — the KB's own instruction is DO NOT ENCODE THEM. Measuring them would produce a number with a shelf life, so this is recorded mainly so a future session does not think it was missed."
+    },
+    {
+      "id": "battlenet-senddata-limits",
+      "anchor": "state-persistence-and-communication.md:940",
+      "bucket": "call",
+      "status": "candidate",
+      "question": "Are there length or rate limits on `C_BattleNet.SendGameData`?",
+      "expect": "No limits documented at any tier. Testing needs a second Battle.net-connected client, which makes it much more expensive than it looks."
+    },
+    {
+      "id": "encoding-util-error-semantics",
+      "anchor": "state-persistence-and-communication.md:942",
+      "bucket": "call",
+      "status": "candidate",
+      "question": "Under what conditions do the six `MayReturnNothing` functions of `C_EncodingUtil` return nothing?",
+      "expect": "Nothing states the conditions. Pure call-and-record once someone enumerates plausible bad inputs — a good pass-2 addition, cheap and self-contained."
+    },
+    {
+      "id": "event-dispatch-order-between-frames",
+      "anchor": "api-events-and-discovery.md:1025",
+      "bucket": "event",
+      "status": "candidate",
+      "question": "In what order do two frames registered for the same event receive it — registration order, creation order, or unspecified?",
+      "expect": "No Tier-1 statement, and the wiki's account is explicitly disclaimed by the wiki itself. Two scratch frames plus a shared counter. Bucket 2."
+    },
+    {
+      "id": "savedvariables-first-ordering",
+      "anchor": "state-persistence-and-communication.md:147",
+      "bucket": "life",
+      "status": "deferred",
+      "question": "Under `## LoadSavedVariablesFirst`, when do ADDON_LOADED and SAVED_VARIABLES_TOO_LARGE fire relative to the .toc's last file?",
+      "expect": "The only statement is a PROPOSAL in a feature request, not a shipped-behaviour statement. Needs the lab's own .toc to set the tag, which changes the lab's own load behaviour — so it belongs with the W1d container work rather than with the in-process tests."
+    }
+  ]
+}

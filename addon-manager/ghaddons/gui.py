@@ -127,6 +127,12 @@ class App:
         self.status.set("Checking versions…")
 
         def work():
+            # Re-read the manifest from disk first, so a deploy done OUTSIDE this
+            # GUI (`ghaddons update` / `wowkb.addon release`, which write
+            # installed.json) is reflected.  Without this the GUI keeps its
+            # launch-time snapshot of "installed" and shows a stale
+            # update-available forever, even though the files are already deployed.
+            self.manifest = m.load_manifest(MANIFEST_PATH)
             for repo in list(self.cfg.repos):
                 s = m.status_for(repo, self.cfg, self.manifest)
                 self._post(lambda r=repo, s=s: self._set(

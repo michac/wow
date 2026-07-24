@@ -128,6 +128,15 @@ The right source turned out to be one we already read, not the addon:
 
 ## Cooldown HUD / CDMProbe
 
+- **⚑ DRIVING DOC: `todo/addon-engineering.md`** — the multi-session program covering
+  the lab addon, verifying the new `knowledge/addon-dev/` KB against the client, a
+  `wow-developer` skill, and the Cooldown HUD audit + three-layer refactor (game-state
+  abstraction / rotation engine / display engine), plus a UI test mode, rotation-engine
+  unit tests and several independent code reviews. **Cooldown HUD feature work is
+  FROZEN until that audit lands.** Items below that the program supersedes should be
+  struck as it absorbs them, not worked in parallel. *(2026-07-23)*
+
+
 _(design context: `projects/cooldown-hud/docs/`; source-read findings folded into
 `notes.md` §1 + §6/§8 on 2026-07-22, build 68453.)_
 

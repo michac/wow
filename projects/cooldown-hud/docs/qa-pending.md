@@ -14,8 +14,7 @@ When you do sit down for a session they build on each other, so run them in orde
       `CDMProbeDB.pulls` captured the lit-count histogram + peak set + transition tail.
       It succeeds when it produces the evidence the other passes need.
 - [ ] **§7.3 — M3c-b strictness / truth pass.** The real test: `lit now` names **1–2**
-      abilities (not 4–5), each stated reason is one you agree with, and cast spellIDs
-      read non-secret **in a raid** (the anticipation assumption). Exit criterion the
+      abilities (not 4–5) and each stated reason is one you agree with. Exit criterion the
       others inherit.
 - [ ] **§7.4 — M3d out-of-combat seeding.** A `/reload` mid-cooldown shows
       `~42.1s (read)`, not `NEVER · no edge seen yet`; seed-vs-edge provenance correct in

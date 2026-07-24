@@ -579,8 +579,8 @@ tracker → Defer, mode-indicator placement → the split in §0.5.8.5).
 The anticipation layer and every napkin countdown depend on reading the **in-flight
 / just-cast spellID in restricted combat**. `UNIT_SPELLCAST_SUCCEEDED` was confirmed
 in a delve and `UNIT_SPELLCAST_START` at an open-world dummy (v0.5.3 logs both
-per-phase); a raid-boss confirmation was never obtained and **we are no longer
-waiting on one**. The design now **assumes both events carry a readable spellID in
+per-phase), and that is **enough** — we are not gating the feature on sampling
+every content type. The design now **assumes both events carry a readable spellID in
 all combat contexts**, so rows #7/#8/#10/#11/#12 below are plain **Core**, not
 `Core*`. "Cast in flight" is derived from our own START → SUCCEEDED/STOP/INTERRUPTED
 bookkeeping rather than `UnitCastingInfo`, so no second untested API is in the path.
@@ -798,8 +798,8 @@ signifier ([X1]); motion is reserved for the single most-urgent instant ([V4]).
 - **E — Verify contingency: CLOSED (2026-07-20).** Rows #7, #8, #10, #11, #12 were
   `Core*` pending the in-combat cast-ID read. That verify is now **closed as a
   design assumption** — START and SUCCEEDED are taken to carry a readable spellID in
-  all combat contexts (delve + dummy confirmed; raid never tested and no longer
-  waited on). The asterisks are **retired**; all five are plain **Core**. See
+  all combat contexts (delve + dummy confirmed, and that is enough). The
+  asterisks are **retired**; all five are plain **Core**. See
   §0.5.8.1 and `milestones.md` §7. *If it is ever falsified in play, the fallback
   described there is the recovery — the rows do not become blockers.*
 - **F — "v1" = the M3→M6 arc for Demo.** M7 (second spec + enforcement UX +
@@ -852,8 +852,43 @@ to verify-in-game.
 > `SpecDemonology.lua` / `HudChrome.lua`. §5's scrolling terminal view is **not**
 > shipped and stays deferred. What this block does **not** yet carry is what the
 > build *learned* — that lands after the pass. See `milestones.md` Status + §6 for
-> the outstanding checks, of which the load-bearing ones are **strictness** (1–2
-> lit dots, not 4–5) and **napkin readability inside a raid**.
+> the outstanding checks, of which the load-bearing one is **strictness** (1–2
+> lit dots, not 4–5).
+
+> **M4.1 amendment (2026-07-22) — the level signal is a BLEED, and the reason row
+> is DEBUG-ONLY.** The first play-test of the M4 build found the per-icon *dot*
+> too subtle to read at a glance (and a ready-but-"your call" Implosion, which
+> `AVAILABLE` draws nothing for, looked dead). The dot is replaced by a **right-
+> side colour-graded bleed** off the icon's outer edge — a "coloured shadow",
+> preattentive, no line to read. **Colour carries LEVEL; spread + intensity carry
+> it redundantly ([X1]):** NEVER / plain AVAILABLE draw nothing; **judge-ready**
+> (a `judgeable=false` ability otherwise up — Implosion off cooldown) lights
+> **cyan** "ready, your call"; SOON = yellow (medium, gentle alpha pulse);
+> ROTATION = green (wide, steady); LATE = green (wide, slow size pulse). Because
+> the bleed is now the whole glance-signal, **the per-row reason text drops out of
+> the default (non-verbose) view** — `hud debug` restores the full reasoned rows
+> (the correctness view). This **reverses §3's "words-first default"**, on purpose:
+> the fix for illegible colour is a legible *visual*, not permanent words. The
+> `lit` summary counter (the strictness meter) stays. Shipped in CDMProbe v0.20.0.
+
+> **M4.4 amendment (2026-07-23) — the level signal is the CUE BAR; burst text is a
+> reward, not an instruction.** The M4.1 "bleed" is renamed the **cue bar** (the
+> code symbols `CUE`/`SetCue`; "bleed" is retired to dodge the keybind-*hint*
+> collision "AHB" would have caused). Two changes to how it reads: (1) the **WIDTH
+> axis is restored** — colour still carries LEVEL, and now *width* carries urgency
+> redundantly ([X1]): JUDGE/SOON at the min width, ROTATION fatter, LATE fattest;
+> and (2) **Tyrant carries an `emphasis = "burst"` bit** that makes its cue bar the
+> **widest bar on the board regardless of level** — the burst go-signal shouts even
+> when it is only a yellow SOON. The bit is a per-ability data field (never
+> `goGate`, which is Tyrant *and* Dreadstalkers), so a second spec inherits it.
+> M4.4 also adds the **cast-feedback family** — all *confirmation, never a call*: a
+> cast-START shimmer on the sequence strip's current step (C2), a quiet cast-start
+> flash beside a casting icon (D), and — the loudest member — **burst confirmation
+> text** (E): after a burst-window press lands, the ability name **floats up over
+> the character** and fades (Tyrant loudest). Because it fires *after* the press
+> and only echoes what you did, it carries no instruction and needs no ethos gate;
+> it is the payoff for landing the burst. Audio stays M6 (the no-`PlaySound` fence
+> is untouched). Shipped in CDMProbe v0.24.0.
 
 ### (0) The governing principle — inform, don't instruct
 

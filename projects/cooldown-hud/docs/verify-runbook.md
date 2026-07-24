@@ -364,20 +364,20 @@ show.
 
 → **§7.6.7**
 
-### The two things only real content can answer
+### The one thing only real content can answer
 
-Both are **standing risks reported honestly by the addon rather than assumed** —
-neither is a failure if it comes back negative, but we need to know.
+A **standing risk reported honestly by the addon rather than assumed** — not a
+failure if it comes back negative, but we want to know.
 
-1. **Napkin readability in a raid.** All probe data is open-world. Cast
-   readability is the entire foundation of the spend-side projection and **has
-   never been confirmed in a raid.** `/cdmp probe` in a raid → section C: does
-   any phase read `ALL SECRET`? This is the **highest-value open check on the
-   board**. → **§7.3.8**, §7 item 14
-2. **Seeding outside the open world.** Check the `hud status` seeding verdict in
-   an **instance lobby** and in a **raid between pulls**. An `unreadable here`
-   verdict is **the answer the line exists to give**, not a bug — but it tells us
-   where seeding silently does less. → **§7.4.6**
+- **Seeding outside the open world.** Check the `hud status` seeding verdict in an
+  **instance lobby** and inside **instanced content between pulls**. An
+  `unreadable here` verdict is **the answer the line exists to give**, not a bug —
+  but it tells us where seeding silently does less. → **§7.4.6**
+
+*(Cast-phase readability used to sit here as a second item. It is **settled** —
+the phases read clean everywhere we have measured, and `hud status` already
+prints `napkin: live | unavailable | not probed` if that ever stops being true.
+We find out by playing, not by scheduling content to prove it.)*
 
 ---
 

@@ -170,10 +170,13 @@ casts`**; v0.5.3 logs START/SUCCEEDED/STOP/INTERRUPTED per-phase.
 
 > **Assumption (2026-07-20):** both events carry a readable spellID **in all
 > combat contexts**. Confirmed in a delve (SUCCEEDED) and at an open-world dummy
-> (START); a raid confirmation was never obtained and is no longer waited on. This
-> also gives us **cast-in-flight** tracking (START → SUCCEEDED/STOP/INTERRUPTED)
-> without `UnitCastingInfo`, so the anticipation layer rides on one assumed path
-> rather than two. See `milestones.md` §7 and `guidance-model.md` §0.5.8.1.
+> (START), and treated as settled — Blizzard relaxed the restriction for personal
+> casts, and we are not holding the feature hostage to sampling every content
+> type. This also gives us **cast-in-flight** tracking (START →
+> SUCCEEDED/STOP/INTERRUPTED) without `UnitCastingInfo`, so the anticipation layer
+> rides on one assumed path rather than two. If it ever reads secret somewhere,
+> `hud status` says so (`napkin: live | unavailable | not probed`) and we fix it
+> then. See `milestones.md` §7 and `guidance-model.md` §0.5.8.1.
 
 **Ready / pandemic / flash are fully re-skinnable — via observation, no secret
 read.** `hooksecurefunc` the Blizzard-driven show/hide methods to get the *edge*,

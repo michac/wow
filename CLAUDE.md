@@ -235,6 +235,7 @@ uv run python -m wowkb.addon pull [--all|bb cdmp ps]     # clone-if-missing + gi
 uv run python -m wowkb.addon check                       # report addons with local-only (uncommitted/unpushed) work; exit 1 if any (pre-push gate)
 uv run python -m wowkb.addon release <bb|cdmp|ps> [--patch|--minor|--major] [--notes …]  # bump .toc → luaparser check → commit → push → gh release (tag=version) → ghaddons deploy
 uv run python -m wowkb.addon deploy <bb|cdmp|ps>         # redeploy the latest existing release via ghaddons (no new cut)
+uv run python -m wowkb.cdmp <check|show|diff>            # read + ASSERT a CDMProbe `/cdmp probe` capture off SavedVariables (see below)
 ```
 
 Blizzard + WCL commands require credentials in `.env` (user-registered).
@@ -263,6 +264,22 @@ out by hand (they keep the *why*; this owns the *how*).
   `ghaddons`-deploys into the game install and reads back `ok`. For `ps` it also
   warns to bump the Lua `schema` field by hand if the `/ps` dump format changed
   (it does **not** touch schema). `--dry-run` stops before the commit.
+
+**`wowkb.cdmp`** reads a **CDMProbe `/cdmp probe` capture** off SavedVariables
+(newest `WTF/Account/*/SavedVariables/CDMProbe.lua`) and **asserts** it against
+`projects/cooldown-hud/probe-baseline.json` — the tested-assumptions-of-record for
+the Cooldown HUD (the addon's analogue of the KB's `verify-in-game.md`). It reads
+the **structured** store `CDMProbeDB.probe.ooc/.combat` (+ `.pulls`), never the
+text report. `check` = PASS/WARN/FAIL per assumption + a "not covered this run"
+list, **exit 1 on any high-severity failure**; `show` pretty-prints; `diff`
+compares `ooc` vs `combat` (the M3d combat seam) or against a `show --json` export.
+
+**The governing rule** (`projects/cooldown-hud/docs/m4.5-t3-plan.md`): **collect** a
+new observation → addon change + release; **assert / interpret / re-verify** →
+local, **no release**. So adding or retuning an assumption is a JSON edit. A check
+whose evidence the capture lacks reports as *not covered*, never as a pass —
+absence of evidence is not evidence. ⚠ Captures only flush on **`/reload`**; in-game,
+**`/cdmp probe guide`** says what coverage the capture is still missing.
 
 **`wowkb.character`** is the one-shot snapshot for `knowledge/characters/`:
 it pulls every Blizzard profile endpoint (summary/equipment/specs/professions/
