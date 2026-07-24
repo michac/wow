@@ -36,7 +36,7 @@ discipline frays — not a rewrite.
 
 ## A. Architecture / the data–display seam (the W4b target)
 
-- [ ] **A1 (HIGH) — the cue decision is smeared across three modules.**
+- [x] **A1 (HIGH) — the cue decision is smeared across three modules.**
   `HudScore.For` decides level/`judgeReady`/`emphasis` (tested); `HudState.Recompute`
   re-decides (`Stabilise` `HudState.lua:674`, SOON-as-treatment `:684`, Tyrant paint-key
   rewrite + `S.tyrantShardHold` published as a side effect of the paint loop `:686–708`,
@@ -52,12 +52,27 @@ discipline frays — not a rewrite.
   (score, prev-painted, mode, spec); `SetCue` renders it verbatim. `Stabilise` already
   shows the shape. `HudRow`'s `SHARDS!` special-case (`HudRow.lua:128`) then reads a
   descriptor field instead of a flag set mid-paint.
+  **DONE 2026-07-24 (W4b), pending in-client confirm.** New pure `HudBoard.lua`
+  (`New(cfg)` factory → `Compute(ctx)`) emits a per-key descriptor
+  `{draw, colorKey, fill, pulse, shardHold}`; `HudChrome.SetCue`→`H.DrawCue` renders
+  it verbatim (level→colorKey and emphasis→fill both moved into the engine; `CUE`
+  keeps only RGB+alpha). All the smeared middle-layer decisions (filler / LATE /
+  SOON / `SpecNoCue` / Tyrant hold / churn-damp) now live in `Compute`, covered by
+  `tests/spec/hudboard_spec.lua` (19 tests). ⚠ Partial on one sub-point:
+  `S.tyrantShardHold` is **kept** (HudRow still reads the flag) but is now a clean
+  `Compute` output, not a paint-loop side effect — repointing HudRow to a per-key
+  descriptor field is a deferred nicety, not done. Frame path (`DrawCue`/`paintCue`)
+  needs a `/reload` confirm.
 
-- [ ] **A2 (HIGH) — `Recompute` computes and paints in one pass**
+- [x] **A2 (HIGH) — `Recompute` computes and paints in one pass**
   (`HudState.lua:594–760`): scores, clocks LATE, logs, paints cues + rail, ticks
   opener/burst, samples recorder — all one fn; the decision half isn't extractable for
   a client-free test. **Direction:** split `ComputeBoard(state) -> {descriptors, lit}`
   (pure) + thin `PaintBoard(descriptors)` dispatcher (keep the pcall-per-paint pattern).
+  **DONE 2026-07-24 (W4b).** `Recompute` now: score pass → `S.board:Compute(ctx)` →
+  log transitions → paint loop (`pcall(H.DrawCue, …)` per key) → persist next-state →
+  the unchanged rail/opener/burst/sample tail. The decision half is `HudBoard.Compute`,
+  a pure fn under busted. Went from ~180 lines to ~85.
 
 - [ ] **A3 (MED) — three independent event-ingest points for the same events.**
   `Probe.lua`, `HudNapkin.lua`, `HudState.lua` each own a frame registering overlapping
@@ -111,8 +126,12 @@ discipline frays — not a rewrite.
   (`HudChrome.lua:173`) half-derives from `CUE`, half hardcodes. Apply the `H.CueColor`
   (`:520`) single-source rule to the rest.
 
-- [ ] **B6 (NIT) — `SpecDemonology.lua:60` group hues cite retired `Resource.lua:12-27`
+- [x] **B6 (NIT) — `SpecDemonology.lua:60` group hues cite retired `Resource.lua:12-27`
   as source of truth.** Move the triples' authority into SpecDemonology.
+  **DONE 2026-07-24 (W4b).** Reworded so `ns.SpecGroups` IS the authority; the
+  Resource.lua tuning is now named as history (deleted, git-recoverable), not a live
+  source. (The remaining `Resource.lua` mentions in HudChrome/HudPane are "ported
+  from" breadcrumbs to git history, not authority claims — left intact.)
 
 ## C. Midnight 12.0 correctness (vs `knowledge/addon-dev/`)
 
