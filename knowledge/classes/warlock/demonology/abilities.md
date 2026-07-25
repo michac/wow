@@ -2,7 +2,7 @@
 title: Demonology Warlock — ability inventory (Midnight S1)
 patch: 12.0.7
 fetched: 2026-07-11
-reviewed: 2026-07-11
+reviewed: 2026-07-25  # Infernal Bolt shard yield corrected 2→3 (Tier-1 maxroll/diabolist-sequences)
 sources:
   - https://us.api.blizzard.com/data/wow/talent-tree/720/playable-specialization/266  # tier 1, Blizzard Game Data API talent/spell names, static-12.0.7
   - raw/wago/SpellName.csv  # tier 1, wago.tools SpellName DB2 @ 12.0.7.67808 — name canonicalization
@@ -39,7 +39,7 @@ confidence: medium
 | Ability | Function | Resource | Cast / CD | Description |
 |---|---|---|---|---|
 | **Shadow Bolt** | Rotational-builder | Generates 1 Soul Shard | ~2s cast | Baseline single-target filler / shard builder. Chance to grant a Demonic Core. **Replaced by Infernal Bolt** when *Demoniac* is talented (the S1 build). |
-| **Infernal Bolt** | Rotational-builder | Generates 2 Soul Shards | ~2.3s cast | *Demoniac* talent replacement for Shadow Bolt — builds shards twice as fast; cast when at ≤2 shards. |
+| **Infernal Bolt** | Rotational-builder | Generates 3 Soul Shards | ~2.3s cast | *Demoniac* talent replacement for Shadow Bolt — builds shards ~3× as fast; cast when at ≤2 shards. |
 | **Demonbolt** | Rotational-spender (core) | Consumes 1 Demonic Core; generates 2 Soul Shards | Instant with a Demonic Core (else ~4.5s cast) | Demonic-Core spender — hits hard and refunds 2 shards. Applies **Doom** if talented. Dump cores so they don't overcap. |
 | **Hand of Gul'dan** | Rotational-spender (imp generator) | 1–3 Soul Shards | ~1.5s cast | Spend 1–3 shards to summon that many **Wild Imps**. The single most-maximized cast inside the Tyrant window; cast at 4–5 shards, never overcap. |
 | **Call Dreadstalkers** | Rotational-summon | 2 Soul Shards (free/instant with *Demonic Calling*) | ~20s CD | Summons **two Dreadstalkers** for ~12s. Refresh just before Tyrant so they're fresh when it empowers them. |

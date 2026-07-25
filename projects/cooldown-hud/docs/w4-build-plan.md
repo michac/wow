@@ -126,9 +126,11 @@ registry / effects clock** in the Renderer. The rest is consolidation.
 ### Phase 0 — reusable seed exists (A1/A2, v0.28.1)
 
 `HudBoard.lua` — a pure `Compute(ctx)` emitting per-key cue descriptors, 19 busted
-tests. It is the **seed the Coach grows from**, not a live-integration step. ⚠ It
-emits `colorKey` (a class token), so it does **not** yet meet Guidance invariant #5
-(resolved RGBA) — Phase 2 fixes that.
+tests. It is the **seed the Coach grows from**, not a live-integration step. It emits
+`colorKey` (SOON/ROTATION/LATE/JUDGE/BURST) — already the right *kind* of value (a
+generic token, not RGBA), and the seed for the committed **`emphasis`** token. Phase 2
+promotes it to the contract (renaming BURST → **SEQUENCE**); see
+`guidance-contract.json`.
 
 ### Phase 1 — State + the capture loop (the keystone)  *(your steps 1–3)*
 
@@ -205,10 +207,13 @@ covering OOC + combat + the secret/unreadable cases.
 
 ### Phase 2 — Coach + the independent corpus  *(your steps 4–5)*
 
-4. **Write the Coach by growing `HudBoard`:** widen its pure output from `cues` to
-   `resourceBar` → `sequence` → `effects`, and resolve `colorKey` → RGBA so it emits a
-   real presentation-generic Guidance keyed to conceptual cooldownIDs (closes the
-   Phase-0 ⚠). No UI elements, no geometry — that's the Binder's job (P3).
+4. **Write the Coach by growing `HudBoard`:** widen its pure output to the **v1
+   committed contract** (`resourceBar` + `cues` + `sequence`; see
+   `guidance-contract.json`) — promote `colorKey` to the `emphasis` token, add the
+   per-cue `transient` phase edge, the `powerType`-carrying `resourceBar`, and the
+   `sequence` channel. Colour stays a **token** (no RGBA); the Renderer resolves it.
+   `chrome`, per-cue `role`, the `effects` channel, and a Theme are **cut/deferred** for
+   v1. No UI elements, no geometry — that's the Binder's job (P3).
 5. **Unit-test it heavily against the independent corpus (P2):** for each captured
    State fixture, apply a primary rotation source directly to reason out the expected
    Guidance, model-assisted *once*, frozen as golden files. Diversify by perturbing
@@ -221,8 +226,9 @@ covering OOC + combat + the secret/unreadable cases.
 > scoring approach** rather than porting it. The corpus is the arbiter that tells
 > deck-chairs from seaworthy.
 
-**Exit:** the Coach emits a spec-agnostic Guidance that passes the independent
-corpus; no class token (`colorKey`) escapes its output.
+**Exit:** the Coach emits a presentation-generic Guidance (the v1 contract) that passes
+the independent corpus; no class token and no resolved RGBA escapes its output —
+`emphasis` tokens only (`powerType` is the sanctioned colour exception).
 
 ### Phase 3 — Draw layer + UI test mode  *(your steps 6–8)*
 

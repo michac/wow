@@ -40,7 +40,7 @@ in place (the old HUD is deleted at the Phase-5 cutover, not groomed).
 | Reduced client picture | **State** | `HudState` core | spec-agnostic; secrecy first-class |
 | The spec-specific brain | **Coach** | "Engine" / `HudScore`+`HudBoard` | the only consumer of State; knows Demonology |
 | Rough cooldown anticipation | **Napkin** | `HudNapkin` | *deliberately* informal — NOT a haste/Lust-aware sim (see Decisions) |
-| The Coach's output | **Guidance** | "ViewModel" | presentation-generic: resolved RGBA, no class tokens |
+| The Coach's output | **Guidance** | "ViewModel" | presentation-generic: generic semantic tokens (no class tokens, no RGBA — one exception: `powerType`) |
 | One per-icon signal | **Cue** | (same) | the attention atom |
 | Concept → geometry merge | **Binder** | (new) | Layout in, DrawList out |
 | Pixels | **Renderer** | `HudChrome` draw paths | pure coords + style |
@@ -76,9 +76,17 @@ Four data shapes flow between five stages. Two of them — **Guidance** and
    field is therefore a value **or** a marked absence (`readable:false` + null) —
    never a raw secret. This is why the napkin (anticipation math) exists: it fills
    what we are not allowed to read live.
-5. **The Guidance is presentation-generic.** Resolved colours (RGBA), generic
-   display enums, real spellIDs — **no** class-specific tokens (no `colorKey:"TYRANT"`),
-   **no** class vocabulary except as pass-through display strings the Coach authored.
+5. **The Guidance is presentation-generic — generic semantic tokens, not pixels.** A
+   cue attribute is a class-agnostic **and** display-agnostic token (`emphasis:"LATE"`),
+   plus real spellIDs and generic display enums — **no** class-specific tokens (no
+   `colorKey:"TYRANT"`), **no** resolved RGBA (the Coach never picks pixels; the Renderer
+   resolves token → colour), **no** class vocabulary except as pass-through display
+   strings the Coach authored. **One sanctioned exception — `powerType`:** the resource
+   bar passes the game's own power token, and the Renderer colours it from the game's
+   `PowerBarColor` table. Allowed because that colour is a *built-in game signal* (mana
+   blue, shards purple), universal across every UI — not a Coach aesthetic. (The V4
+   framing conflated "class-agnostic" with "pixel-resolved"; the fix is a *generic
+   token*, which is both. Committed contract: `projects/cooldown-hud/guidance-contract.json`.)
 6. **Positioning is the Binder's job, via opaque handles.** The DrawList references
    position by handle (a cooldownID, or a root token), never a live frame. The
    Renderer's `handle → frame` registry is the *single* impure line in the draw path.
@@ -100,6 +108,7 @@ right split.
   "at": 12345.6,
   "combat": true,
   "combatStartedAt": 12338.0,   // added W4 P1 — so "elapsed in combat" is computable here
+  "mode": "st",                 // added W4 P2 — user-toggled "st"|"aoe"; State forwards, Coach reads
   "cooldowns": {
     // keyed by cooldownID — the CDM database anchor
     "42": {
@@ -218,28 +227,36 @@ a near-noop and no strings are built (the E1 hot-path concern — `w4-hud-audit.
 
 ## Stage 2 — Coach → Guidance (spec-agnostic, presentation-generic)
 
-The Coach is spec-specific (it knows Demonology). Its **output** is not: resolved
-colours, generic enums, real spellIDs, pass-through strings.
+The Coach is spec-specific (it knows Demonology). Its **output** is not: generic
+semantic tokens (not pixels), generic enums, real spellIDs, pass-through strings.
+
+> **v1 committed 2026-07-24.** The shape below is the committed first-shot contract,
+> mirrored machine-readably in `projects/cooldown-hud/guidance-contract.json`. It is
+> **three channels** (`resourceBar` · `cues` · `sequence`): `chrome`, per-cue `role`,
+> the `effects` channel, and a separate Theme layer were **cut or deferred** (recorded
+> in the contract's `cut` block). Colour is a **token** the Renderer resolves — the one
+> exception is `powerType`. The pre-trim five-channel sketch is preserved in git history.
+> A visual walkthrough is the **Guidance v1** artifact:
+> https://claude.ai/code/artifact/bc090a68-468d-41f5-aa5b-e21f20b2cf56
 
 ```jsonc
 {
-  // was a leaky "mode" — now a GENERIC resource bar the Coach fully resolved:
+  // the resource meter — carries the game POWER TOKEN, not a colour:
   "resourceBar": {
     "value": 3, "max": 5, "incoming": 1,
-    "display": "discrete",              // "discrete" | "percentage"
-    "color": [0.55, 0.35, 0.9, 1.0]      // resolved RGBA — no class token
+    "display": "discrete",          // enum:resourceDisplay ("discrete" | "percentage")
+    "powerType": "SOUL_SHARDS"      // game Enum.PowerType token → PowerBarColor in Renderer
   },
-  "chrome": { "accent": [0.55, 0.35, 0.9, 1.0] },   // any mode-driven tint, made generic
 
   "cues": {
-    // keyed by cooldownID (real); View MAY fetch an icon from spellID if we draw our own
+    // keyed by cooldownID (real); View MAY fetch an icon from spellID if we draw our own.
+    // NO color/fill/width/pulse — the Renderer derives treatment from `emphasis`.
+    // NO role — v1 colours by urgency, not ability group.
     "42": {
       "draw": true,
-      "color": [0.2, 0.8, 0.4, 1.0],     // Coach-resolved; no "TYRANT" key reaches the View
-      "fill": 0.6,                        // emphasis as a fraction
-      "pulse": false,                     // SUSTAINED animation state (see effects contrast)
-      "width": "narrow",                  // "narrow" | "wide"
-      "note": null                        // optional PASS-THROUGH display string only
+      "emphasis": "LATE",           // enum:emphasis — SOON|ROTATION|LATE|JUDGE|SEQUENCE
+      "transient": "cast_started",  // enum:transient|null — a phase EDGE; absorbs `effects`
+      "note": null                  // optional PASS-THROUGH display string only
     }
   },
 
@@ -248,53 +265,51 @@ colours, generic enums, real spellIDs, pass-through strings.
     "steps": [
       { "spellID": 193331, "label": "Dreadstalkers", "keybind": "4", "state": "done" },
       { "spellID": 265187, "label": "Tyrant", "keybind": "6", "state": "blocked",
-        "note": "Need 5 shards" }         // "shards" appears ONLY as pass-through display text
+        "note": "Need 5 shards" }   // "shards" appears ONLY as pass-through display text
     ]
-  },
-
-  // TRANSIENT / impulse channel — one-shot animations AND combat text (folded together).
-  // Modelled as a KEYED DECLARATIVE LIST: a new `id` = start; a re-seen `id` = no-op.
-  // Idempotent (re-applying the same Guidance never re-fires) and fixture-authorable.
-  "effects": [
-    { "id": "ready-71@12345.3",   // stable identity is the whole trick
-      "kind": "flash",             // generic vocab: flash | pulse | shake | sparkle | float-text
-      "target": 71,                // handle (cooldownID) | "resourceBar" | "SCREEN"
-      "text": null,                // set for kind:"float-text" (this SUBSUMES the old callouts)
-      "color": [0.2, 0.8, 0.4, 1.0],
-      "ttl": 0.4 }                 // View ages it out; or omit and let the anim decide
-  ]
+  }
 }
 ```
 
-Design rules baked in here:
+Design rules baked in here (v1):
 
-- **`mode` → `resourceBar` + `chrome.accent`.** The Coach's builder/spender/burst
-  state never reaches the View; only its *visual consequences* (a generic bar and an
-  accent colour) do.
-- **`colorKey:"TYRANT"` → `color:[rgba]`.** The Coach resolves the palette; the View
-  is class-blind. (Theming, if ever wanted, is an Coach input, not a View table.)
+- **Colour is a token, not RGBA.** A cue carries `emphasis` (`SOON | ROTATION | LATE |
+  JUDGE | SEQUENCE`); the Renderer owns `emphasis → pixels` (one table, built in for v1
+  — a Theme is a later refactor, not a rewrite). `colorKey:"TYRANT"` is gone: that case
+  is a generic emphasis (the burst/`SEQUENCE` treatment) gated on the resource, so no
+  class token reaches the View.
+- **One colour exception — `powerType`.** The resource bar passes the game's own power
+  token (`SOUL_SHARDS`), and the Renderer colours it from the game's `PowerBarColor`
+  table. Allowed because that colour is a *built-in game signal* (mana blue, shards
+  purple), universal across every UI — not a Coach aesthetic. Still a token in Guidance.
+- **`transient` absorbs the effects channel.** One-shot animation is a per-cue phase
+  edge (`cast_started | cast_ended | ready | proc`) the Renderer *edge-detects* — it
+  fires on the transition **into** the value and does not re-fire while it persists,
+  clearing to `null`. No separate keyed `effects` list; no screen-level or float-text
+  effects in v1 (the speculative part, deferred).
+- **Cut for v1** (see the contract's `cut` block): `chrome`/mode accent — the cues
+  out-signal a mode, and build/spend stays *internal* Coach reasoning; per-cue `role` —
+  v1 colours by **urgency, not ability group**, which drops today's group brackets
+  (intentional); the Theme layer — resolve in the Renderer.
 - **Real spellIDs** as keys/step ids — keeps the "draw our own icons" door open.
-- **Class vocabulary only as pass-through strings** (`label`, `note`) the Coach
+- **Class vocabulary only as pass-through strings** (`label`, `note`, `title`) the Coach
   authored for display — never as tokens the View must interpret.
-- **Effects vs `pulse` — do not blur them.** *Stateful/sustained* animation is a field
-  on the steady descriptor (`pulse:true` while the cue is in that state).
-  *Impulse/one-shot* animation is an `effects` entry. Blur them and you get flashes
-  that never stop and pulses that fire once.
-- **Effects answer "what/where" without a View leak:** the Coach (the only place that
-  knows a proc *means* "sparkle Demonbolt") sets `kind`+`color`; `target` is a handle
-  the Binder resolves to geometry, same as a cue. The View plays the animation at the
-  resolved rect and never touches the event stream.
-- **Where the code is today:** W4b's `HudBoard.Compute` is a working first slice of
-  this — a pure fn emitting per-key cue descriptors that `HudChrome.DrawCue` renders
-  verbatim. It covers `cues` only; `resourceBar`, `sequence`, and `effects` are still
-  decided inline in `HudState`/`HudChrome` and are the remaining W4b/W4c work.
+- **Where the code is today:** W4b's `HudBoard.Compute` emits per-key cue descriptors
+  with a `colorKey` token — the seed `emphasis` grows from. `resourceBar`, `sequence`,
+  and the `transient` edge are still decided inline in `HudState`/`HudChrome` and are
+  the Phase-2 growth.
 
 ---
 
 ## Stage 3 — Binder (position decoration) → DrawList
 
-The Binder merges the Coach's logical `cues`/`effects` with a **Layout** (geometry,
-keyed the same way), producing the DrawList the Renderer draws verbatim.
+The Binder merges the Coach's logical `cues` with a **Layout** (geometry, keyed the
+same way), producing the DrawList the Renderer draws verbatim.
+
+> **v1 note:** the `effects` array in the DrawList sketch below is **superseded** — v1
+> has no effects channel. A cue's `transient` phase edge rides on the cue entry and the
+> Renderer animates off it. This Stage 3/4 shape is revised when the Binder is actually
+> built (Phase 4); it is kept here as the target-state sketch.
 
 ```jsonc
 // Layout (Binder input): geometry per handle. Live: from the CDM RefreshLayout hook.
@@ -428,3 +443,13 @@ by design**: a formal name ("Forecast", "Estimator") would imply a haste/Bloodlu
 model — i.e. reconstructing the Secret Values Blizzard deliberately blocks. Napkin stays
 honestly back-of-envelope (its honesty rule already says an expired estimate is
 `unknown`, never `ready`); the name is a scope fence, not a placeholder.
+
+**⚠ Revised 2026-07-24 (Guidance v1, committed).** A follow-up pass trimmed the Stage-2
+output to a first shot — the source of truth is now
+`projects/cooldown-hud/guidance-contract.json`. Changes from the decisions above: cue
+colour is a **generic token** (`emphasis`), **not** resolved RGBA; the **effects**
+channel is **folded into a per-cue `transient` edge** (`cast_started | cast_ended |
+ready | proc`), so it is no longer a keyed declarative list; **chrome**/mode accent,
+per-cue **role**, and a separate **Theme** are **cut/deferred**; **`powerType`** is a
+sanctioned colour exception (Guidance carries the game power token, the Renderer resolves
+via `PowerBarColor`). `emphasis` renames BURST → **SEQUENCE**.

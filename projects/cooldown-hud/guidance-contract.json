@@ -1,0 +1,135 @@
+{
+  "contract": "guidance",
+  "version": 1,
+  "status": "committed",
+  "committed": "2026-07-24",
+  "describes": "The Coach's per-pulse output (Stage 2 of the W4 pipeline). Presentation-generic: generic semantic tokens the Renderer resolves to pixels. No class-specific tokens, no resolved RGBA (one exception: powerType).",
+  "supersedes": "The five-channel Stage-2 sketch in docs/architecture.md. chrome + per-cue role + the effects channel + a separate Theme layer are cut/deferred for v1.",
+  "seeAlso": ["docs/architecture.md#stage-2", "docs/w4-build-plan.md (Phase 2)", "docs/w4-phase2-goldens-plan.md"],
+  "artifact": "https://claude.ai/code/artifact/bc090a68-468d-41f5-aa5b-e21f20b2cf56",
+
+  "principle": {
+    "rule": "A cue attribute is a GENERIC SEMANTIC TOKEN -- class-agnostic AND display-agnostic. The Renderer owns token -> pixels (built into the Renderer for v1; a Theme is a later refactor).",
+    "rejected": {
+      "classToken": "colorKey:'TYRANT' -- the View would need class knowledge.",
+      "resolvedPixels": "color:[r,g,b,a] -- display-locked; the Coach shouldn't pick pixels."
+    },
+    "exception": {
+      "field": "powerType",
+      "why": "Guidance carries the game's own power token; the Renderer resolves colour via the game's PowerBarColor table. Allowed because the colour is a built-in game signal (mana blue, energy yellow, shards purple), universal across every UI -- not a Coach aesthetic. Still a token in Guidance, so the rule holds.",
+      "verify": "@verify-ingame -- confirm the SOUL_SHARDS PowerBarColor entry."
+    }
+  },
+
+  "channels": {
+    "resourceBar": {
+      "value": "number",
+      "max": "number",
+      "incoming": "number  // projected change, e.g. an in-flight shard generator",
+      "display": "enum:resourceDisplay",
+      "powerType": "enum:powerType  // game token; Renderer -> PowerBarColor"
+    },
+    "cues": {
+      "<cooldownID>": {
+        "draw": "bool",
+        "emphasis": "enum:emphasis",
+        "transient": "enum:transient | null  // a phase EDGE; Renderer edge-detects",
+        "note": "string | null  // PASS-THROUGH display text only"
+      }
+    },
+    "sequence": {
+      "show": "bool",
+      "title": "string  // PASS-THROUGH",
+      "cursor": "number  // index of the current step",
+      "steps": [
+        {
+          "spellID": "number",
+          "label": "string  // PASS-THROUGH",
+          "keybind": "string",
+          "state": "enum:stepState",
+          "note": "string | null  // PASS-THROUGH"
+        }
+      ]
+    }
+  },
+
+  "vocabularies": {
+    "emphasis": {
+      "appears": ["cues[].emphasis"],
+      "origin": "HudBoard colorKey, promoted to the public contract.",
+      "invariant_singleTopPress": "Decided 2026-07-25. At most ONE cue holds the 'press now' emphasis at a time -- ROTATION, or LATE when that press is overdue (they never co-occur) -- and it is the primary rotation source's #1 ready ability. All other ready abilities cap at AVAILABLE (internal; no cue unless JUDGE-ready). SOON (anticipation), JUDGE (your-call), SEQUENCE (look-at-the-panel) and the resourceBar may coexist -- they are not 'press now' claims. This makes the Coach a RANKED WINNER, not independent per-ability lights, and is expected to trip the build-plan decision gate (HudScore has no priority order today). See docs/w4-phase2-goldens-plan.md.",
+      "members": {
+        "SOON": "anticipating -- not yet pressable; dim + countdown treatment",
+        "ROTATION": "press this now -- the steady lit press",
+        "LATE": "overdue -- you have been sitting on it",
+        "JUDGE": "a judgment-call availability (e.g. Implosion off cooldown)",
+        "SEQUENCE": "ATTENTION-REDIRECT (not a press): tells the Renderer to point the player at the sequence PANEL -- an anti-tunnel-vision nudge for when they are locked on the CDM icons/cues. The panel carries the plan; this cue just redirects gaze to it (opener active, burst branch available). Coexists with the single ROTATION press, like SOON/JUDGE. (was BURST)"
+      },
+      "internal": {
+        "NEVER": "no cue drawn",
+        "AVAILABLE": "off cooldown but not a call -- no cue unless JUDGE-ready"
+      },
+      "open": "SEQUENCE's exact Renderer treatment (arrow/glow toward the panel, how loud) is DEFERRED -- a Renderer decision, not a contract one; not settled while there is no Renderer."
+    },
+    "transient": {
+      "appears": ["cues[].transient"],
+      "origin": "Absorbs the former effects channel.",
+      "semantics": "A phase EDGE the Renderer edge-detects: fire on the transition INTO the value, do NOT re-fire while it persists; clears to null. Idempotent under re-applied Guidance.",
+      "members": {
+        "cast_started": "a cast on this ability committed / is in flight",
+        "cast_ended": "the cast landed (succeeded)",
+        "ready": "the ability's cooldown just came up",
+        "proc": "a proc that empowers this ability just lit"
+      }
+    },
+    "stepState": {
+      "appears": ["sequence.steps[].state"],
+      "members": {
+        "done": "already cast this run of the sequence",
+        "active": "the current step (matches cursor)",
+        "pending": "upcoming, available when reached",
+        "blocked": "upcoming but gated (e.g. needs a resource) -- see the step note",
+        "skipped": "passed without casting (drop-through)"
+      }
+    },
+    "powerType": {
+      "appears": ["resourceBar.powerType"],
+      "kind": "Pass-through of the game's Enum.PowerType token (e.g. SOUL_SHARDS).",
+      "resolvedBy": "PowerBarColor (Renderer) -- the sanctioned colour exception."
+    },
+    "resourceDisplay": {
+      "appears": ["resourceBar.display"],
+      "members": {
+        "discrete": "whole segments (soul shards)",
+        "percentage": "a continuous fill"
+      },
+      "open": "Enumerate additional forms as later specs need them (keep the meter renderer closed-set)."
+    }
+  },
+
+  "passthroughStrings": {
+    "rule": "The ONLY place class/spec vocabulary may appear -- opaque display text the Coach authored and the View prints verbatim, never interprets.",
+    "fields": ["cues[].note", "sequence.title", "sequence.steps[].label", "sequence.steps[].note"]
+  },
+
+  "cut": {
+    "chrome": "mode/accent tint -- the cues out-signal a mode; build/spend stays internal Coach reasoning.",
+    "role": "per-cue ability group -- v1 cues colour by emphasis (urgency), not group. Drops today's group brackets (intentional).",
+    "effects": "the keyed effects channel -- folded into cues[].transient; no screen-level or float-text effects in v1.",
+    "theme": "the token->pixel table lives in the Renderer for v1; extract a Theme later if wanted -- a refactor, not a rewrite."
+  },
+
+  "example": {
+    "resourceBar": { "value": 3, "max": 5, "incoming": 1, "display": "discrete", "powerType": "SOUL_SHARDS" },
+    "cues": {
+      "42": { "draw": true, "emphasis": "LATE", "transient": "cast_started", "note": null }
+    },
+    "sequence": {
+      "show": true, "title": "OPENER", "cursor": 1,
+      "steps": [
+        { "spellID": 193331, "label": "Dreadstalkers", "keybind": "4", "state": "done" },
+        { "spellID": 265187, "label": "Tyrant", "keybind": "6", "state": "blocked", "note": "Need 5 shards" }
+      ]
+    }
+  }
+}
