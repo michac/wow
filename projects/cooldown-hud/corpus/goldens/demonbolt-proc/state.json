@@ -6,7 +6,7 @@
   "combatStartedAt": 962.0,
   "mode": "st",
   "power": {
-    "soulShards": { "value": 0, "max": 5, "readable": true }
+    "SoulShards": { "value": 0, "max": 5, "readable": true }
   },
   "activeAuras": [],
   "history": [

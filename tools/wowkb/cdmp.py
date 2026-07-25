@@ -55,6 +55,8 @@ from .charstate import DEFAULT_WOW, parse_savedvar
 # artifact (the assumptions-of-record), and tools/ is the reader, not the truth.
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_BASELINE = REPO_ROOT / "projects" / "cooldown-hud" / "probe-baseline.json"
+DEFAULT_GOLDENS = REPO_ROOT / "projects" / "cooldown-hud" / "corpus" / "goldens"
+DEFAULT_CONTRACT = REPO_ROOT / "projects" / "cooldown-hud" / "guidance-contract.json"
 
 PASS, FAIL, SKIP = "PASS", "FAIL", "SKIP"
 CONTEXTS = ("ooc", "combat")
@@ -1078,21 +1080,190 @@ def _diff_maps(a: dict, b: dict) -> None:
 
 
 # --------------------------------------------------------------------------- #
+# The goldens checks — the W4 Phase-2 corpus validator                         #
+# --------------------------------------------------------------------------- #
+# Validates the hand-authored State->Guidance goldens under
+# projects/cooldown-hud/corpus/goldens/ against BOTH contracts:
+#   * state.json    -> the State-contract invariants, REUSED from the statelog
+#                      block. A golden's synthetic State is one pulse, and it must
+#                      be as realizable as a real captured one (that reuse is the
+#                      whole point of the synthetic-baseline decision).
+#   * guidance.json -> guidance-contract.json (token vocab, no RGBA, single-top-
+#                      press, cue anchored in state, the secrecy gate).
+# RANKING CORRECTNESS is NOT machine-checked here — that is the rationale + the
+# adversarial verify stage. This gates FORMAT + CONTRACT + SECRECY only.
+
+# The State-contract invariants (the statelog fixture gate), reused per golden.
+# NOT the corpus-COVERAGE checks — those are about a ring having diverse moments,
+# which is meaningless for a single hand-authored pulse.
+_GOLDEN_STATE_CHECKS = {
+    "state-secrecy": _check_sl_secrecy,
+    "state-enum-domain": _check_sl_enum,
+    "state-napkin-honesty": _check_sl_napkin,
+    "state-identity-coherence": _check_sl_identity,
+    "state-spec-agnostic": _check_sl_spec_agnostic,
+}
+
+
+def _contract_vocab(contract: dict) -> dict:
+    """The bounded token sets from guidance-contract.json — so the validator tracks
+    the committed contract instead of hardcoding a second copy."""
+    v = _asdict(contract.get("vocabularies"))
+
+    def members(name):
+        return set(_asdict(_asdict(v.get(name)).get("members")).keys())
+
+    return {
+        "emphasis": members("emphasis"),
+        "transient": members("transient"),
+        "stepState": members("stepState"),
+        "display": members("resourceDisplay"),
+    }
+
+
+def _is_rgba(x) -> bool:
+    """A list of numbers = a resolved colour, which must never appear in Guidance."""
+    return isinstance(x, list) and bool(x) and all(isinstance(n, (int, float)) for n in x)
+
+
+def _check_guidance(state: dict, guidance: dict, vocab: dict) -> list:
+    """Guidance-contract violations for one golden (empty list = clean)."""
+    errs = []
+    PRESS = {"ROTATION", "LATE"}
+    cds = _asdict(state.get("cooldowns"))
+    cues = _asdict(guidance.get("cues"))
+
+    press = []
+    for k, c in cues.items():
+        c = _asdict(c)
+        if not c.get("draw"):
+            continue  # unlisted / draw:false = AVAILABLE, not a cue
+        emph = c.get("emphasis")
+        if emph not in vocab["emphasis"]:
+            errs.append(f"cue {k}: emphasis {emph!r} not in {sorted(vocab['emphasis'])}")
+        if emph in PRESS:
+            press.append(str(k))
+        if str(k) not in cds:
+            errs.append(f"cue {k}: not anchored in state.cooldowns")
+        tr = c.get("transient")
+        if tr is not None and tr not in vocab["transient"]:
+            errs.append(f"cue {k}: transient {tr!r} not in {sorted(vocab['transient'])}")
+        if c.get("note") is not None and not isinstance(c.get("note"), str):
+            errs.append(f"cue {k}: note must be a pass-through string")
+        for kk, vv in c.items():
+            if _is_rgba(vv):
+                errs.append(f"cue {k}: field {kk!r} is an RGBA list (no pixels in Guidance)")
+    if len(press) > 1:
+        errs.append(f"single-top-press violated: {press} all carry ROTATION/LATE")
+
+    rb = _asdict(guidance.get("resourceBar"))
+    if rb:
+        if "color" in rb or any(_is_rgba(x) for x in rb.values()):
+            errs.append("resourceBar carries a raw colour (emit powerType, not RGBA)")
+        if not rb.get("powerType"):
+            errs.append("resourceBar missing powerType token")
+        disp = rb.get("display")
+        if disp is not None and disp not in vocab["display"]:
+            errs.append(f"resourceBar.display {disp!r} not in {sorted(vocab['display'])}")
+
+    for i, step in enumerate(_aslist(_asdict(guidance.get("sequence")).get("steps"))):
+        stt = _asdict(step).get("state")
+        if stt is not None and stt not in vocab["stepState"]:
+            errs.append(f"sequence.steps[{i}].state {stt!r} not in {sorted(vocab['stepState'])}")
+
+    # Secrecy gate (mechanical half): in a COMBAT fixture a drawn cue must not rest
+    # on a LIVE-readable cd read — combat cds are secret, so a drawn cue anchored on
+    # one is a fixture that lets the Coach cheat. (The full justification — that the
+    # cue follows from napkin/buff/glow/shards — is the rationale + verify stage.)
+    if state.get("combat"):
+        for k, c in cues.items():
+            if not _asdict(c).get("draw"):
+                continue
+            cd = _asdict(_asdict(cds.get(str(k))).get("cd"))
+            if cd.get("readable") is True and cd.get("source") == "live":
+                errs.append(f"cue {k}: drawn off a LIVE-readable cd in combat "
+                            f"(combat cds are secret — expected napkin/none)")
+    return errs
+
+
+def cmd_goldens(goldens_dir: Path, contract_path: Path) -> int:
+    if not goldens_dir.exists():
+        print(f"Goldens dir not found: {goldens_dir}", file=sys.stderr)
+        return 1
+    if not contract_path.exists():
+        print(f"Contract not found: {contract_path}", file=sys.stderr)
+        return 1
+    contract = json.loads(contract_path.read_text(encoding="utf-8"))
+    vocab = _contract_vocab(contract)
+
+    scenarios = sorted(p for p in goldens_dir.iterdir()
+                       if p.is_dir() and (p / "state.json").exists())
+    if not scenarios:
+        print(f"No scenarios (a <dir>/state.json) under {goldens_dir}.", file=sys.stderr)
+        return 1
+
+    print(f"goldens  — {goldens_dir}")
+    print(f"contract — {contract_path.name} v{contract.get('version', '?')}\n")
+
+    fails = 0
+    for sc in scenarios:
+        name = sc.name
+        try:
+            state = json.loads((sc / "state.json").read_text(encoding="utf-8"))
+            guidance = json.loads((sc / "guidance.json").read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as e:
+            print(f"[FAIL] {name}: parse error — {e}")
+            fails += 1
+            continue
+
+        errs = []
+        for cid, fn in _GOLDEN_STATE_CHECKS.items():
+            status, detail = fn([state], {})
+            if status == FAIL:
+                errs.append(f"{cid}: {detail}")
+        errs += _check_guidance(state, guidance, vocab)
+
+        if errs:
+            fails += 1
+            print(f"[FAIL] {name}")
+            for e in errs:
+                print(f"         - {e}")
+        else:
+            cues = _asdict(guidance.get("cues"))
+            lit = ", ".join(f"{k}:{_asdict(c).get('emphasis')}"
+                            for k, c in cues.items() if _asdict(c).get("draw"))
+            print(f"[PASS] {name:18} {lit or '(no cues)'}")
+
+    print(f"\n{len(scenarios) - fails} pass · {fails} fail")
+    return 1 if fails else 0
+
+
+# --------------------------------------------------------------------------- #
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(
         description="Read and assert CDMProbe /cdmp probe captures.")
-    ap.add_argument("command", choices=["check", "show", "diff"])
+    ap.add_argument("command", choices=["check", "show", "diff", "goldens"])
+    ap.add_argument("subcommand", nargs="?", help="goldens: 'check' (default; only value accepted)")
     ap.add_argument("--wow-path", default=DEFAULT_WOW,
                     help=f"WoW _retail_ path (default: {DEFAULT_WOW})")
     ap.add_argument("--baseline", default=str(DEFAULT_BASELINE),
                     help=f"assumptions-of-record JSON (default: {DEFAULT_BASELINE})")
+    ap.add_argument("--goldens-dir", default=str(DEFAULT_GOLDENS),
+                    help=f"goldens: corpus dir (default: {DEFAULT_GOLDENS})")
+    ap.add_argument("--contract", default=str(DEFAULT_CONTRACT),
+                    help=f"goldens: guidance contract JSON (default: {DEFAULT_CONTRACT})")
     ap.add_argument("--json", action="store_true",
                     help="show: dump the raw capture as JSON (archive it to diff against later)")
     ap.add_argument("--against", help="diff: compare against a JSON capture exported by `show --json`")
     ap.add_argument("--focus", help="show: narrow the statelog dump to a spell — a spellID, a name "
                     "substring (matched against active-buff names), or 'auras' to list every active buff seen")
     args = ap.parse_args(argv)
+
+    # goldens reads the on-disk corpus, not a WoW SavedVariables capture, so it
+    # dispatches before load_capture (no game install required).
+    if args.command == "goldens":
+        return cmd_goldens(Path(args.goldens_dir), Path(args.contract))
 
     loaded = load_capture(args.wow_path)
     if loaded is None:

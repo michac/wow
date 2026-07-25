@@ -19,7 +19,9 @@ Hand of Gul'dan.
 **Contract checks this exercises:**
 - **Single-top-press holds** — exactly one cue is `ROTATION` (HoG); `JUDGE` is a non-press signal
   that legitimately **coexists** with it (like `SOON`).
-- **Secrecy gate** — no cue leans on a `readable:false` fact. Implosion's `JUDGE` rests on
-  "off-cd (napkin) + imps present (`buff.isActive`) + history uncertain," none of which reads the
-  secret imp count; HoG's `ROTATION` rests on readable shards.
+- **Secrecy gate** — no cue leans on a `readable:false` fact. In combat we can't *read* Implosion
+  ready (the cd is secret); the napkin says **probably up** (`cd.state:"unknown"`, `source:"napkin"`
+  — the honesty rule forbids a napkin `"ready"`). So Implosion's `JUDGE` rests on "napkin
+  probably-up + imps present (`buff.isActive`) + history uncertain," none of which reads the secret
+  imp count; HoG's `ROTATION` rests on readable shards.
 - **Pass-through string** — the `note` is Coach-authored display text (sanctioned).
