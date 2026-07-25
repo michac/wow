@@ -133,5 +133,113 @@
       "confirmed": "2026-07-23",
       "context": "Measured by /cdmp gradtest, 12.0.7. Asserted so that a Blizzard change to this behaviour surfaces as a diff rather than as a mystery. If this ever flips, the cue paint path can use gradients again -- and the reason we abandoned them stops applying."
     }
-  ]
+  ],
+  "statelog": {
+    "_readme": [
+      "THE W4 PHASE-1 STATELOG BASELINE (docs/w4-build-plan.md Phase 1). Asserted",
+      "against the reduced-State pulses CDMProbe writes via `/cdmp statelog` into",
+      "CDMProbeDB.statelog. Each `id` maps to a fn in STATELOG_CHECKS (cdmp.py).",
+      "",
+      "This is a FIXTURE-QUALITY gate, NOT a rotation gate. It asserts the State",
+      "CONTRACT (secrecy first-class, one identity resolver, in-domain enums, the",
+      "napkin honesty rule, the spec-agnostic denylist) and CORPUS COVERAGE (the",
+      "diverse moments the Phase-2 Coach corpus needs). It says NOTHING about which",
+      "cue lights or whether advice is right -- that is Phase 2's independent oracle,",
+      "and folding rotation judgment in here would re-couple the two layers.",
+      "",
+      "Coverage entries are medium/low and report PASS-or-not-covered: an absent",
+      "moment is SKIP (the capture lacks the evidence), never FAIL. The per-pulse",
+      "contract invariants are high: a violation is a State bug, so it FAILs the exit."
+    ],
+    "assumptions": [
+      {
+        "id": "statelog-secrecy",
+        "desc": "No raw Secret Value reaches disk; an unreadable live fact carries null (invariant #4)",
+        "expect": {},
+        "severity": "high",
+        "confirmed": "2026-07-24",
+        "context": "Secrecy is first-class in State: every live fact is a value OR readable=false with the value absent. A '<secret>' marker on disk, or a charge/aura marked readable=false that still carries a value, means a Secret Value leaked past the read boundary. CONFIRMED 2026-07-24 by a real /cdmp statelog capture (v0.29.2)."
+      },
+      {
+        "id": "statelog-enum-domain",
+        "desc": "cd.state and cd.source are in-vocabulary; every power is keyed by a real Enum.PowerType",
+        "expect": {},
+        "severity": "high",
+        "confirmed": "2026-07-24",
+        "context": "Domain validity: cd.state in {ready,cooling,anticipated,unknown}, cd.source in {live,napkin,none}, power keyed by a genuine game power-type name (SoulShards, Mana, ...). An out-of-domain value is a contract break the whole pipeline reads. CONFIRMED 2026-07-24 (v0.29.2 capture)."
+      },
+      {
+        "id": "statelog-napkin-honesty",
+        "desc": "No estimate ever claims readiness: a napkin cd is anticipated or unknown, never ready",
+        "expect": {},
+        "severity": "high",
+        "confirmed": "2026-07-24",
+        "context": "The napkin honesty rule (HudNapkin.lua), asserted on disk: an expired estimate stays 'unknown', never 'ready'; a 'ready' cd is only ever a live read (source=live). This is the one rule that keeps the anticipation input from lying. CONFIRMED 2026-07-24 (v0.29.2 capture)."
+      },
+      {
+        "id": "statelog-identity-coherence",
+        "desc": "liveSpellID never diverges from the base spellID without an override or observed transform (B1)",
+        "expect": {},
+        "severity": "medium",
+        "confirmed": "2026-07-24",
+        "context": "One identity resolver, owned by State. A liveSpellID that differs from the base must be explained by an override field or an observed transform target -- a phantom divergence is exactly the B1 bug (three copies of live-identity resolution disagreeing). Also: a live identity always implies a known base. CONFIRMED 2026-07-24 (v0.29.2 capture)."
+      },
+      {
+        "id": "statelog-spec-agnostic",
+        "desc": "No rotation/spec vocabulary leaks into a State entry (invariant #3, the hard denylist)",
+        "expect": {},
+        "severity": "high",
+        "confirmed": "2026-07-24",
+        "context": "State is spec-agnostic: it reports the client's own facts and knows nothing about Demonology. No group/role/builder/spender/cadence/emphasis/colorKey key may appear in a cooldown entry -- that meaning is Coach-only. This is the invariant the whole rewrite hinges on. CONFIRMED 2026-07-24 (v0.29.2 capture)."
+      },
+      {
+        "id": "statelog-coverage-contexts",
+        "desc": "The corpus has both an out-of-combat and an in-combat pulse",
+        "expect": {},
+        "severity": "low",
+        "confirmed": "2026-07-24",
+        "context": "Coverage, not correctness. The Phase-2 Coach corpus must exercise both sides of the combat seam (OOC reads live, combat reads secret). Not-covered until a capture spans both."
+      },
+      {
+        "id": "statelog-coverage-secret",
+        "desc": "The secret/unreadable live-cd path actually fired in the corpus",
+        "expect": {},
+        "severity": "low",
+        "confirmed": "2026-07-24",
+        "context": "Coverage. At least one cd read back readable=false -- proof the secrecy path is exercised, not just designed. Fires in combat; not-covered until a real pull is captured."
+      },
+      {
+        "id": "statelog-coverage-napkin",
+        "desc": "A napkin-sourced (anticipated) cd was captured",
+        "expect": {},
+        "severity": "low",
+        "confirmed": "2026-07-24",
+        "context": "Coverage. The anticipation path (source=napkin) needs a captured example for the Coach corpus. Requires casting a cooldown in combat so the napkin fills. Not-covered until then."
+      },
+      {
+        "id": "statelog-coverage-shards",
+        "desc": "A shard spread (2+ distinct SoulShards values) was captured",
+        "expect": {},
+        "severity": "low",
+        "confirmed": "2026-07-24",
+        "context": "Coverage. The Coach corpus wants pulses at different shard counts (5 shards / spent). Not-covered until the ring holds two or more distinct values."
+      },
+      {
+        "id": "statelog-coverage-transform",
+        "desc": "A transform (spell override) was observed in the corpus",
+        "expect": {},
+        "severity": "low",
+        "confirmed": "2026-07-24",
+        "context": "Coverage. A transform event (Demonic Art / Grimoire override) exercises the live-identity divergence the Coach must handle. Not-covered until one is captured."
+      },
+      {
+        "id": "statelog-coverage-proc",
+        "desc": "A proc/aura was observed active in the corpus",
+        "expect": {},
+        "severity": "low",
+        "confirmed": "2026-07-24",
+        "context": "Coverage. A proc'd aura (Demonic Core) is a moment the Coach's cue decisions turn on, so the corpus needs one. Not-covered until an aura is captured active."
+      }
+    ]
+  }
 }

@@ -8,6 +8,12 @@
 > when it lands. Check items off / annotate as the refactor proceeds — this file is
 > the live worklist, not a frozen report.
 
+> **Target-state design → `projects/cooldown-hud/docs/architecture.md`** (agreed
+> 2026-07-24). The A/B findings below are the *problems*; that doc is the *shape the
+> fix converges on* — the State → Engine → ViewModel → Binder → DrawList → Renderer
+> pipeline and its four data contracts. A1/A2 (`HudBoard`) are its first landed slice.
+> Read it before continuing W4b/W4c.
+
 ## Environment provisioned before the audit (this machine was a fresh checkout)
 
 - **Checkout synced** — was v0.19.0 locally (10 releases / ~2,700 lines behind
@@ -63,6 +69,13 @@ discipline frays — not a rewrite.
   `Compute` output, not a paint-loop side effect — repointing HudRow to a per-key
   descriptor field is a deferred nicety, not done. Frame path (`DrawCue`/`paintCue`)
   needs a `/reload` confirm.
+  ⚠ **Against `architecture.md` this is a *first slice*, not target-shape.** HudBoard
+  emits `colorKey` (a class token, e.g. `TYRANT`); the ViewModel invariant #5 says the
+  presentation-generic shape must carry **resolved RGBA, no class token reaching the
+  View**. So ✅ = "done as scoped here (engine decides, `SetCue` renders verbatim)",
+  **not** "meets the ViewModel contract" — the `colorKey`→RGBA resolution + the
+  `resourceBar`/`sequence`/`effects` channels are the remaining W4b/W4c work
+  (`architecture.md` §Stage 2 "Where the code is today").
 
 - [x] **A2 (HIGH) — `Recompute` computes and paints in one pass**
   (`HudState.lua:594–760`): scores, clocks LATE, logs, paints cues + rail, ticks
@@ -80,6 +93,12 @@ discipline frays — not a rewrite.
   guard; `HudState`'s SUCCEEDED branch hand-fans to opener→burst→pane→endCast. Not a bug
   today; it's what W4a's game-state layer exists to collapse: one ingest, one guard, one
   reduced state, N subscribers.
+  **PARTIAL — the target shape now exists (W4 P1, 2026-07-24).** `State.lua` has the
+  ONE ingest frame + ONE secret guard producing a reduced state with `events` as the
+  delta-since-pulse. But per the build plan's P1 (bottom-up, integrate at the end) it
+  runs **alongside** the old three as parallel observation — **deleting** the originals
+  is the **Phase-5 cutover**, not this step. So the "collapse to one" is *built and
+  proven in isolation*, not yet the live path.
 
 - [ ] **A4 (MED) — `HudState.lua` is 1,254 lines of mixed responsibility** (stores,
   readers, mode spine, glow resolution, recede policy, LATE clock, seeding, event wiring,
@@ -98,6 +117,18 @@ discipline frays — not a rewrite.
   under its own "do NOT re-derive" comment). Devour-Magic bug came from this fact being
   wrong once. **Direction:** `S.LiveID` the only resolver; HudScore takes the resolved id
   as input (also simplifies its test fixture).
+  *(Layer home per `architecture.md`: identity resolution is a **State** responsibility
+  (Stage 1 — State keys on cooldownID, carries `spellID`+`overrideSpellID`, owns
+  `overrideSpellID or spellID`); the Engine (HudScore's successor) **consumes** the
+  resolved id, doesn't re-derive it. Same fix, one layer up from "HudScore".)*
+  **PARTIAL — the single-resolver home now exists (W4 P1, 2026-07-24).** `State.lua`
+  owns ONE resolver (`liveSpellID`, following Blizzard's own effective-spell precedence
+  for the structural fields + the observed override event), carries the raw ids, and
+  emits a single `liveSpellID` the whole pipeline reads. Keybinds still resolve off the
+  BASE (finding-3), deliberately not unified. The `wowkb.cdmp` `statelog-identity-coherence`
+  invariant guards it (a divergence with no override/transform source FAILs). The old
+  three copies (`S.LiveID` / `HudScore.For` inline / `SeedFromReads`) live until the
+  Phase-5 cutover.
 
 - [ ] **B2 (MED) — keybind cache has N consumers with ad-hoc per-consumer refresh**
   (chrome, rows per tick, sequence strip at arm time, probe/status). Strip went stale
@@ -111,6 +142,14 @@ discipline frays — not a rewrite.
   `HudState.override`), `armSpec()` (`:74`/`:85`). `baseOfCast` belongs beside the
   override map (it's the inverse of `LiveID`); `armSpec`/`enabled` on a shared consumer
   base.
+  *(Layer home per `architecture.md`: `baseOfCast` — the inverse of `LiveID` — is a
+  **State** concern, beside the identity resolver of B1. `armSpec`/`enabled` sit on the
+  Engine-side consumer base, not in State.)*
+  **PARTIAL — `baseOfCast` now lives in State (W4 P1, 2026-07-24).** `State.lua` builds
+  `St.baseOfCast` (+ `St.BaseOfCast`) beside its `St.override` map, rebuilt each pulse
+  from the live set so it can't drift, exactly as this asks. The `HudOpener`/`HudBurst`
+  verbatim copies (and the `armSpec`/`enabled` Engine-base half) are untouched — they
+  belong to the Coach layer and the Phase-5 cutover.
 
 - [ ] **B4 (MED) — three ready/soon predicates with quietly different expiry semantics.**
   `S.readyOrSoon` (HudState), `HudPane.stepReady` (`HudPane.lua:109`), `evalPrereq` spell
@@ -119,6 +158,12 @@ discipline frays — not a rewrite.
   expired estimate — contradicts the napkin's "EXPIRY NEVER CLAIMS READINESS". Defensible
   for skip-an-optional-step, wrong for lighting a prereq met. **Direction:** one HudState
   predicate with explicit `treatUnconfirmedAs = "ready"|"unknown"`.
+  *(Layer home per `architecture.md`: the split is across two stages, not one predicate.
+  **State** reports readiness *facts* honestly (`cd.state` + `remaining` + `source`; an
+  expired napkin estimate stays `"unknown"`, never `"ready"` — the napkin honesty rule);
+  the **Engine** decides "how close is close" (when an estimate crosses into a cue). The
+  `treatUnconfirmedAs` policy is the Engine's call over State's honest facts, not a knob
+  buried in State.)*
 
 - [ ] **B5 (LOW) — palette constants copied into three files and diverged.**
   `TERM`/`TERM_DIM` "echoed, not a shared contract" in `HudQueue`/`HudPane` went neutral
@@ -242,6 +287,13 @@ discipline frays — not a rewrite.
   reason strings for every item every pass — violates the "no string work on the sample
   path" discipline HudLog enforces. **Direction:** reasons as `(tag, args)` rendered on
   demand, or accept + document the cost.
+  **ADDRESSED IN THE NEW PIPELINE (W4 P1, 2026-07-24).** `State.lua`'s eval poll does
+  **change-detection at the seam**: a no-change pulse computes only a cheap **numeric**
+  signature (arithmetic, zero table/string allocation) and returns — it builds a full
+  pulse (and any strings) only when something moved, an event is owed, or the periodic
+  OOC sample is due. That is the E1 discipline designed in from the start for State →
+  Coach. The *old* HudRow/`Sc.For` eager-string path is unchanged until the Phase-5
+  cutover retires it.
 
 - [ ] **E2 (NIT) — diagnostics classification is the W4 question.** Gradtest/CueWatch/
   Probe/HudLog are instruments, not product. Legit to ship (addon is a "probe/kitchen

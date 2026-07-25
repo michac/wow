@@ -19,6 +19,9 @@ is exactly why the structured store was added.
 
     CDMProbeDB.probe.ooc / .combat   <- the structured snapshots (A1)
     CDMProbeDB.pulls                 <- the pull recorder's ring (M3e, already structured)
+    CDMProbeDB.statelog              <- the W4 Phase-1 reduced-State pulse ring
+                                        (/cdmp statelog); asserted by the baseline's
+                                        `statelog` block (STATELOG_CHECKS below)
 
 ⚠ SavedVariables only flush on /reload or logout. A capture that looks stale
 almost always means the /reload was skipped, which is indistinguishable from a
@@ -93,8 +96,13 @@ def _asdict(v) -> dict:
     return v if isinstance(v, dict) else {}
 
 
-def load_capture(wow_path: str) -> tuple[dict, dict, str] | None:
-    """(probe, pulls, path) from the newest CDMProbe.lua, or None."""
+def load_capture(wow_path: str) -> tuple[dict, dict, dict, str] | None:
+    """(probe, pulls, statelog, path) from the newest CDMProbe.lua, or None.
+
+    `statelog` is the W4 Phase-1 reduced-State capture ring (CDMProbeDB.statelog),
+    written by `/cdmp statelog`. Separate from `.probe` — a stream of full State
+    pulses, not the two-snapshot capability diagnostic.
+    """
     pth = _find_savedvar(wow_path)
     if not pth:
         return None
@@ -102,7 +110,13 @@ def load_capture(wow_path: str) -> tuple[dict, dict, str] | None:
     db = parse_savedvar(text, "CDMProbeDB")
     if not isinstance(db, dict):
         return None
-    return _asdict(db.get("probe")), _asdict(db.get("pulls")), pth
+    return (_asdict(db.get("probe")), _asdict(db.get("pulls")),
+            _asdict(db.get("statelog")), pth)
+
+
+def _statelog_pulses(statelog: dict) -> list:
+    """The captured State pulses as a list (parser yields list or int-keyed dict)."""
+    return _aslist(_asdict(statelog).get("pulses"))
 
 
 def _iface_to_patch(iface) -> str | None:
@@ -357,6 +371,294 @@ def _lit_per_sample(w: dict) -> int:
 
 
 
+# --------------------------------------------------------------------------- #
+# The statelog checks — the W4 Phase-1 fixture-quality gate                    #
+# --------------------------------------------------------------------------- #
+# A FIXTURE-QUALITY gate, NOT a rotation gate (build plan Phase 1). Each fn takes
+# the captured State pulses and returns (status, detail). Two families:
+#   * per-pulse State-CONTRACT invariants -> PASS/FAIL (a broken contract is a bug)
+#   * corpus COVERAGE -> PASS/not-covered (absence of a moment is not a failure)
+# Neither says anything about which cue lights or whether advice is right — that is
+# Phase 2's independent oracle, and folding it in here would re-couple the layers.
+
+# The reduced State's own vocabulary — the enum/domain the contract pins.
+_CD_STATES = {"ready", "cooling", "anticipated", "unknown"}
+_CD_SOURCES = {"live", "napkin", "none"}
+
+# Real Enum.PowerType member names (game vocabulary). A power keyed by anything
+# else means State invented a resource, which invariant #3 forbids.
+_POWER_TYPES = {
+    "Mana", "Rage", "Focus", "Energy", "ComboPoints", "Runes", "RunicPower",
+    "SoulShards", "LunarPower", "HolyPower", "Alternate", "Maelstrom", "Chi",
+    "Insanity", "Obsolete", "Obsolete2", "ArcaneCharges", "Fury", "Pain",
+    "Essence", "RuneBlood", "RuneFrost", "RuneUnholy", "AlternateQuest",
+    "AlternateEncounter", "AlternateMount", "NumPowerTypes",
+}
+
+# Rotation/spec vocabulary that must NEVER appear in a spec-agnostic State entry
+# (invariant #3, the hard denylist SpecDemonology owns — grepped from that file).
+_SPEC_DENYLIST = {
+    "group", "role", "builder", "spender", "kind", "spends", "generates",
+    "cadence", "burstalign", "gogate", "emphasis", "primary", "judgeable",
+    "stage", "pole", "colorkey", "reasontag",
+}
+
+_SECRET_MARKER = "<secret>"
+
+
+def _cooldowns(pulse) -> list:
+    """A pulse's cooldown entries as a list of dicts."""
+    return [_asdict(v) for v in _aslist(_asdict(pulse).get("cooldowns"))]
+
+
+def _powers(pulse) -> dict:
+    return _asdict(_asdict(pulse).get("power"))
+
+
+def _events(pulse) -> list:
+    return [_asdict(e) for e in _aslist(_asdict(pulse).get("events"))]
+
+
+def _walk_scalars(obj):
+    """Every scalar leaf under obj, for the raw-secret-marker scan."""
+    if isinstance(obj, dict):
+        for v in obj.values():
+            yield from _walk_scalars(v)
+    elif isinstance(obj, list):
+        for v in obj:
+            yield from _walk_scalars(v)
+    else:
+        yield obj
+
+
+def _transform_targets(pulses: list) -> set:
+    """Every spellID an observed transform event resolved TO, across the corpus —
+    the legitimate homes a divergent liveSpellID can point at even when the entry's
+    static override fields are empty (an aura-driven override arrives by event)."""
+    out = set()
+    for p in pulses:
+        for e in _events(p):
+            to = e.get("to")
+            if isinstance(to, int):
+                out.add(to)
+    return out
+
+
+def _no_pulses(pulses):
+    return (SKIP, "no statelog pulses captured (/cdmp statelog, play, /reload)") \
+        if not pulses else None
+
+
+def _check_sl_secrecy(pulses, expect):
+    """Invariant #4: no raw secret ever reaches disk, and the unreadable-live paths
+    carry no value. A '<secret>' marker anywhere, or a charge/aura marked
+    readable=false that still carries a value, is a leak."""
+    skip = _no_pulses(pulses)
+    if skip:
+        return skip
+    bad = []
+    for i, p in enumerate(pulses):
+        for s in _walk_scalars(p):
+            if isinstance(s, str) and s == _SECRET_MARKER:
+                bad.append(f"pulse#{i}: a '<secret>' marker reached disk")
+                break
+        for c in _cooldowns(p):
+            ch = _asdict(c.get("charge"))
+            if ch.get("readable") is False and ("cur" in ch or "max" in ch):
+                bad.append(f"pulse#{i} cd{c.get('cooldownID')}: unreadable charge carries a value")
+            au = _asdict(c.get("aura"))
+            if au.get("readable") is False and "active" in au:
+                bad.append(f"pulse#{i} cd{c.get('cooldownID')}: unreadable aura carries a value")
+    if bad:
+        return FAIL, "; ".join(bad[:4]) + (f" (+{len(bad) - 4} more)" if len(bad) > 4 else "")
+    return PASS, f"{len(pulses)} pulse(s): no secret on disk, unreadable paths carry null"
+
+
+def _check_sl_enum(pulses, expect):
+    """Enum/domain validity: cd.state and cd.source in-vocabulary, power keyed by a
+    real Enum.PowerType name."""
+    skip = _no_pulses(pulses)
+    if skip:
+        return skip
+    bad = []
+    for i, p in enumerate(pulses):
+        for c in _cooldowns(p):
+            cd = _asdict(c.get("cd"))
+            st, src = cd.get("state"), cd.get("source")
+            if st not in _CD_STATES:
+                bad.append(f"pulse#{i} cd{c.get('cooldownID')}: cd.state={st!r}")
+            if src is not None and src not in _CD_SOURCES:
+                bad.append(f"pulse#{i} cd{c.get('cooldownID')}: cd.source={src!r}")
+        for name in _powers(p):
+            if str(name) not in _POWER_TYPES:
+                bad.append(f"pulse#{i}: power keyed by {name!r} (not a real power-type)")
+    if bad:
+        return FAIL, "; ".join(bad[:4]) + (f" (+{len(bad) - 4} more)" if len(bad) > 4 else "")
+    return PASS, f"{len(pulses)} pulse(s): cd.state/source + power keys all in-domain"
+
+
+def _check_sl_napkin(pulses, expect):
+    """The napkin honesty rule, on disk: an estimate never claims readiness. A cd
+    sourced 'napkin' is anticipated (remaining>0) or unknown (no remaining) — never
+    'ready'; and NO cd of any source is 'ready' unless it was a live read."""
+    skip = _no_pulses(pulses)
+    if skip:
+        return skip
+    bad = []
+    for i, p in enumerate(pulses):
+        for c in _cooldowns(p):
+            cd = _asdict(c.get("cd"))
+            st, src, rem = cd.get("state"), cd.get("source"), cd.get("remaining")
+            if src == "napkin":
+                if st == "ready":
+                    bad.append(f"pulse#{i} cd{c.get('cooldownID')}: napkin cd claims READY")
+                elif st == "anticipated" and not (isinstance(rem, (int, float)) and rem > 0):
+                    bad.append(f"pulse#{i} cd{c.get('cooldownID')}: anticipated but remaining={rem!r}")
+                elif st == "unknown" and rem is not None:
+                    bad.append(f"pulse#{i} cd{c.get('cooldownID')}: unknown estimate carries remaining")
+            if st == "ready" and src != "live":
+                bad.append(f"pulse#{i} cd{c.get('cooldownID')}: READY from source={src!r} (only a live read may)")
+    if bad:
+        return FAIL, "; ".join(bad[:4]) + (f" (+{len(bad) - 4} more)" if len(bad) > 4 else "")
+    return PASS, f"{len(pulses)} pulse(s): no estimate claims readiness"
+
+
+def _check_sl_identity(pulses, expect):
+    """Identity coherence (B1): a live identity never diverges from the base without
+    a source. liveSpellID must equal spellID unless an override field or an observed
+    transform target explains the divergence; and a liveSpellID implies a base."""
+    skip = _no_pulses(pulses)
+    if skip:
+        return skip
+    targets = _transform_targets(pulses)
+    bad = []
+    for i, p in enumerate(pulses):
+        for c in _cooldowns(p):
+            base = c.get("spellID")
+            live = c.get("liveSpellID")
+            if live is not None and base is None:
+                bad.append(f"pulse#{i} cd{c.get('cooldownID')}: liveSpellID with no base spellID")
+                continue
+            if live is None or base is None or live == base:
+                continue
+            homes = {c.get("overrideSpellID"), c.get("overrideTooltipSpellID")}
+            if live in homes or live in targets:
+                continue
+            bad.append(f"pulse#{i} cd{c.get('cooldownID')}: liveSpellID={live} diverges from "
+                       f"base={base} with no override/transform source")
+    if bad:
+        return FAIL, "; ".join(bad[:4]) + (f" (+{len(bad) - 4} more)" if len(bad) > 4 else "")
+    return PASS, f"{len(pulses)} pulse(s): live identity coherent with the raw ids"
+
+
+def _check_sl_spec_agnostic(pulses, expect):
+    """Invariant #3: no rotation/spec vocabulary leaked into a State entry."""
+    skip = _no_pulses(pulses)
+    if skip:
+        return skip
+    bad = []
+    for i, p in enumerate(pulses):
+        for c in _cooldowns(p):
+            for k in c:
+                if str(k).lower() in _SPEC_DENYLIST:
+                    bad.append(f"pulse#{i} cd{c.get('cooldownID')}: spec key {k!r} in State")
+    if bad:
+        return FAIL, "; ".join(sorted(set(bad))[:4])
+    return PASS, f"{len(pulses)} pulse(s): no spec/rotation keys — State stays spec-agnostic"
+
+
+# ── Coverage checks — PASS when the moment is in the corpus, SKIP when it is not ──
+
+def _check_sl_cov_contexts(pulses, expect):
+    skip = _no_pulses(pulses)
+    if skip:
+        return skip
+    ooc = any(not _asdict(p).get("combat") for p in pulses)
+    combat = any(_asdict(p).get("combat") for p in pulses)
+    if ooc and combat:
+        return PASS, "both OOC and in-combat pulses captured"
+    have = ", ".join(x for x, ok in (("OOC", ooc), ("combat", combat)) if ok) or "neither"
+    return SKIP, f"only {have} captured — need both (pull a dummy, and sample OOC)"
+
+
+def _check_sl_cov_secret(pulses, expect):
+    skip = _no_pulses(pulses)
+    if skip:
+        return skip
+    for p in pulses:
+        for c in _cooldowns(p):
+            if _asdict(c.get("cd")).get("readable") is False:
+                return PASS, "an unreadable/secret live cd was captured"
+    return SKIP, "no unreadable cd yet (the secret path fires in combat — pull a dummy)"
+
+
+def _check_sl_cov_napkin(pulses, expect):
+    skip = _no_pulses(pulses)
+    if skip:
+        return skip
+    for p in pulses:
+        for c in _cooldowns(p):
+            if _asdict(c.get("cd")).get("source") == "napkin":
+                return PASS, "a napkin-sourced cd was captured"
+    return SKIP, "no napkin-sourced cd (cast a cooldown in combat, then re-capture)"
+
+
+def _check_sl_cov_shards(pulses, expect):
+    skip = _no_pulses(pulses)
+    if skip:
+        return skip
+    vals = set()
+    for p in pulses:
+        ss = _asdict(_powers(p).get("SoulShards"))
+        if isinstance(ss.get("value"), int):
+            vals.add(ss["value"])
+    if len(vals) >= 2:
+        return PASS, f"a shard spread captured (values {sorted(vals)})"
+    return SKIP, f"shard values seen: {sorted(vals) or 'none'} — need a spread (spend + generate)"
+
+
+def _check_sl_cov_transform(pulses, expect):
+    skip = _no_pulses(pulses)
+    if skip:
+        return skip
+    if _transform_targets(pulses):
+        return PASS, f"transform(s) observed: {sorted(_transform_targets(pulses))}"
+    return SKIP, "no transform observed (arm a Demonic Art / let a Grimoire hit CD)"
+
+
+def _check_sl_cov_proc(pulses, expect):
+    skip = _no_pulses(pulses)
+    if skip:
+        return skip
+    for p in pulses:
+        for c in _cooldowns(p):
+            if _asdict(c.get("aura")).get("active") is True:
+                return PASS, f"a proc aura was observed active (cd{c.get('cooldownID')})"
+    # Combat auras are secret, so the combat proc signal is the GLOW, not the aura.
+    for p in pulses:
+        if p.get("combat"):
+            for c in _cooldowns(p):
+                if _asdict(c.get("glow")).get("active") is True:
+                    return PASS, f"a combat proc-glow was observed (cd{c.get('cooldownID')} glowing)"
+    return SKIP, ("no proc observed — an aura active OOC, or a proc-glow in combat "
+                  "(combat auras are secret; the glow is the readable combat signal)")
+
+
+STATELOG_CHECKS = {
+    "statelog-secrecy": _check_sl_secrecy,
+    "statelog-enum-domain": _check_sl_enum,
+    "statelog-napkin-honesty": _check_sl_napkin,
+    "statelog-identity-coherence": _check_sl_identity,
+    "statelog-spec-agnostic": _check_sl_spec_agnostic,
+    "statelog-coverage-contexts": _check_sl_cov_contexts,
+    "statelog-coverage-secret": _check_sl_cov_secret,
+    "statelog-coverage-napkin": _check_sl_cov_napkin,
+    "statelog-coverage-shards": _check_sl_cov_shards,
+    "statelog-coverage-transform": _check_sl_cov_transform,
+    "statelog-coverage-proc": _check_sl_cov_proc,
+}
+
+
 CHECKS = {
     "secret-api-present": _check_secret_api,
     "cooldown-read-combat-seam": _check_combat_seam,
@@ -398,11 +700,57 @@ def _stamp_age(stamp) -> str:
     return f"{stamp} ({days}d ago)"
 
 
-def cmd_check(probe: dict, pulls: dict, path: str, baseline: dict, bl_path: Path) -> int:
+def _run_statelog(statelog: dict, baseline: dict) -> tuple[list, int]:
+    """Run the statelog baseline block against the captured pulses.
+
+    Returns (results, hard_fails) where results is a list of (status, aid, a, detail),
+    the same shape the probe block produces, so cmd_check can render them uniformly.
+    """
+    pulses = _statelog_pulses(statelog)
+    results, hard_fails = [], 0
+    for a in _aslist(_asdict(baseline.get("statelog")).get("assumptions")):
+        aid = a.get("id")
+        fn = STATELOG_CHECKS.get(aid)
+        if fn is None:
+            results.append((FAIL, aid, a, "no statelog check function for this id (see STATELOG_CHECKS in cdmp.py)"))
+            hard_fails += 1
+            continue
+        try:
+            status, detail = fn(pulses, _asdict(a.get("expect")))
+        except Exception as e:  # noqa: BLE001 — a broken check must not look like a pass
+            status, detail = FAIL, f"check raised {type(e).__name__}: {e}"
+        if status == FAIL and (a.get("severity") or "medium").lower() == "high":
+            hard_fails += 1
+        results.append((status, aid, a, detail))
+    return results, hard_fails
+
+
+def _print_results(results: list) -> tuple[int, int, list]:
+    """Render a block of (status, aid, a, detail) rows; return (hard_fails, passed, skipped)."""
+    hard_fails = 0
+    for status, aid, a, detail in results:
+        sev = (a.get("severity") or "medium").lower()
+        if status == FAIL:
+            label = "FAIL" if sev == "high" else "WARN"
+            if label == "FAIL":
+                hard_fails += 1
+        elif status == SKIP:
+            label = "----"
+        else:
+            label = "PASS"
+        print(f"  {label}  {aid:<28} {detail}")
+    passed = sum(1 for s, _, _, _ in results if s == PASS)
+    skipped = [(aid, a) for status, aid, a, _ in results if status == SKIP]
+    return hard_fails, passed, skipped
+
+
+def cmd_check(probe: dict, pulls: dict, statelog: dict, path: str,
+              baseline: dict, bl_path: Path) -> int:
     _print_header(probe, path)
-    if not probe:
+    if not probe and not _statelog_pulses(statelog):
         print("\nNo structured probe capture (CDMProbeDB.probe is empty).", file=sys.stderr)
-        print("Needs CDMProbe v0.25.0+: run /cdmp probe, then /reload.", file=sys.stderr)
+        print("Needs CDMProbe v0.25.0+: run /cdmp probe (or /cdmp statelog), then /reload.",
+              file=sys.stderr)
         return 1
 
     print(f"\nbaseline — {bl_path}")
@@ -455,34 +803,36 @@ def cmd_check(probe: dict, pulls: dict, path: str, baseline: dict, bl_path: Path
             status, detail = FAIL, f"check raised {type(e).__name__}: {e}"
         results.append((status, aid, a, detail))
 
-    print()
-    hard_fails = 0
-    for status, aid, a, detail in results:
-        sev = (a.get("severity") or "medium").lower()
-        if status == FAIL:
-            label = "FAIL" if sev == "high" else "WARN"
-            if label == "FAIL":
-                hard_fails += 1
-        elif status == SKIP:
-            label = "----"
-        else:
-            label = "PASS"
-        print(f"  {label}  {aid:<28} {detail}")
+    # The statelog block runs on its own capture (CDMProbeDB.statelog), rendered
+    # beside the probe block but tallied together. When no statelog exists yet every
+    # entry reports 'not covered' — the same absence-is-not-evidence discipline.
+    sl_results, _ = _run_statelog(statelog, baseline)
 
-    skipped = [(aid, a) for status, aid, a, _ in results if status == SKIP]
+    print()
+    hf1, _p1, _s1 = _print_results(results)
+    if sl_results:
+        print("\n  ── statelog (W4 Phase-1 fixture gate: State contract + corpus coverage) ──")
+        hf2, _p2, _s2 = _print_results(sl_results)
+    else:
+        hf2 = 0
+
+    all_results = results + sl_results
+    hard_fails = hf1 + hf2
+
+    skipped = [(aid, a) for status, aid, a, _ in all_results if status == SKIP]
     if skipped:
         print(f"\nnot covered this run ({len(skipped)}) — the capture lacks the evidence, "
               "which is NOT a pass:")
         for aid, a in skipped:
             print(f"  · {aid} — {a.get('desc')}")
-        print("  (in-game: /cdmp probe guide says which of these you can still close)")
+        print("  (in-game: /cdmp probe guide and /cdmp statelog guide say which you can still close)")
 
     # Stamp ages: a check that passes against a year-old stamp is a check that
     # has not actually run this patch.  The `context` prose is only unfolded for
     # results that need reading — on an all-green run it is noise that buries
     # the one line you came for.
     print("\nassumption stamps:")
-    for status, aid, a, _ in results:
+    for status, aid, a, _ in all_results:
         print(f"  {aid:<28} confirmed {_stamp_age(a.get('confirmed'))}")
         ctx = a.get("context")
         if ctx and status != PASS:
@@ -490,8 +840,8 @@ def cmd_check(probe: dict, pulls: dict, path: str, baseline: dict, bl_path: Path
 
     _print_pulls(pulls, brief=True)
 
-    passed = sum(1 for s, _, _, _ in results if s == PASS)
-    warns = sum(1 for s, _, a, _ in results
+    passed = sum(1 for s, _, _, _ in all_results if s == PASS)
+    warns = sum(1 for s, _, a, _ in all_results
                 if s == FAIL and (a.get("severity") or "medium").lower() != "high")
     print(f"\n{passed} pass · {hard_fails} fail · {warns} warn · {len(skipped)} not covered")
     return 1 if hard_fails else 0
@@ -513,9 +863,97 @@ def _print_pulls(pulls: dict, brief: bool = False) -> None:
             print(f"      lit {dist}")
 
 
-def cmd_show(probe: dict, pulls: dict, path: str) -> int:
+def _show_statelog(statelog: dict) -> None:
+    pulses = _statelog_pulses(statelog)
+    if not pulses:
+        return
+    sl = _asdict(statelog)
+    print(f"\n── statelog ({len(pulses)} pulse(s) in ring, {sl.get('count', '?')} captured, "
+          f"started {sl.get('startedAt', '?')}) ──")
+    for p in pulses:
+        p = _asdict(p)
+        cds = _cooldowns(p)
+        readable = sum(1 for c in cds if _asdict(c.get("cd")).get("readable"))
+        procs = sum(1 for c in cds if _asdict(c.get("aura")).get("active"))
+        glows = sum(1 for c in cds if _asdict(c.get("glow")).get("active"))
+        ss = _asdict(_powers(p).get("SoulShards"))
+        evk = ",".join(sorted({str(e.get("kind")) for e in _events(p)})) or "-"
+        buffs = len(_active_auras(p))
+        print(f"  #{p.get('seq', '?'):<3} {p.get('reason', '?'):<9} "
+              f"{'combat' if p.get('combat') else 'ooc':<6}  "
+              f"cds={len(cds)} ({readable} live-readable, {procs} aura-proc, {glows} glow)  "
+              f"buffs={buffs}  shards={ss.get('value', '?')}/{ss.get('max', '?')}  events=[{evk}]")
+
+
+def _active_auras(pulse) -> list:
+    return [_asdict(a) for a in _aslist(_asdict(pulse).get("activeAuras"))]
+
+
+def cmd_focus(statelog: dict, focus: str) -> int:
+    """Narrow the statelog dump to one spell — by spellID, by name substring, or the
+    special `auras` to list every distinct active buff seen (the discovery dump).
+
+    This is how we chase a proc whose CDM entry's spellID does NOT match the buff's
+    real aura id: `--focus "Demonic Core"` finds the active buff by NAME across the
+    capture and prints its true spellID, which the entry never carried."""
+    pulses = _statelog_pulses(statelog)
+    if not pulses:
+        print("No statelog pulses (/cdmp statelog, play, /reload).")
+        return 1
+    focus_id = int(focus) if str(focus).isdigit() else None
+    focus_lc = str(focus).lower()
+
+    # Special: list every distinct active buff seen, with how often — the discovery dump.
+    if focus_lc == "auras":
+        seen: dict = {}
+        for p in pulses:
+            for a in _active_auras(p):
+                sid = a.get("spellID")
+                if isinstance(sid, int):
+                    e = seen.setdefault(sid, {"name": a.get("name"), "n": 0})
+                    e["n"] += 1
+        print(f"\n── distinct active buffs across {len(pulses)} pulses ──")
+        for sid, e in sorted(seen.items(), key=lambda kv: -kv[1]["n"]):
+            print(f"  {sid:<10} {str(e['name'] or '?'):<28} seen in {e['n']} pulse(s)")
+        secret = sum(int(_asdict(p).get("activeAuraSecret") or 0) for p in pulses)
+        if secret:
+            print(f"  (+ {secret} aura-reads across pulses were secret/unreadable — combat-gated)")
+        return 0
+
+    print(f"\n── statelog focus: {focus!r} ──")
+    hits = 0
+    for p in pulses:
+        p = _asdict(p)
+        cd_matches = []
+        for c in _cooldowns(p):
+            ids = {c.get("spellID"), c.get("liveSpellID"),
+                   c.get("overrideSpellID"), c.get("overrideTooltipSpellID")}
+            if focus_id and focus_id in ids:
+                cd_matches.append(c)
+        aura_matches = [a for a in _active_auras(p)
+                        if (focus_id and a.get("spellID") == focus_id)
+                        or (not focus_id and focus_lc in str(a.get("name") or "").lower())]
+        if not cd_matches and not aura_matches:
+            continue
+        hits += 1
+        print(f"  #{p.get('seq')} {p.get('reason')} {'combat' if p.get('combat') else 'ooc':<6}:")
+        for c in cd_matches:
+            print(f"     cd[{c.get('cooldownID')}] spellID={c.get('spellID')} live={c.get('liveSpellID')} "
+                  f"selfAura={c.get('selfAura')} hasAura={c.get('hasAura')}")
+            print(f"        aura={json.dumps(c.get('aura'))}  glow={json.dumps(c.get('glow'))}")
+            if c.get("buff") is not None:
+                print(f"        buff={json.dumps(c.get('buff'))}")
+        for a in aura_matches:
+            print(f"     ACTIVE BUFF: spellID={a.get('spellID')} name={a.get('name')!r}")
+    if not hits:
+        print(f"  no cooldown entry or active buff matched {focus!r}. "
+              f"Try `--focus auras` to list every active buff seen.")
+    return 0
+
+
+def cmd_show(probe: dict, pulls: dict, statelog: dict, path: str) -> int:
     _print_header(probe, path)
-    if not probe:
+    if not probe and not _statelog_pulses(statelog):
         print("\nNo structured probe capture (CDMProbeDB.probe is empty).")
         return 1
     for ctx in CONTEXTS:
@@ -562,6 +1000,7 @@ def cmd_show(probe: dict, pulls: dict, path: str) -> int:
                   f"text={imps.get('text')!r} (readable={bool(imps.get('textReadable'))}"
                   f"{', errored' if imps.get('textErrored') else ''})  shown={imps.get('shown')}")
 
+    _show_statelog(statelog)
     _print_pulls(pulls)
     return 0
 
@@ -628,6 +1067,8 @@ def main(argv=None) -> int:
     ap.add_argument("--json", action="store_true",
                     help="show: dump the raw capture as JSON (archive it to diff against later)")
     ap.add_argument("--against", help="diff: compare against a JSON capture exported by `show --json`")
+    ap.add_argument("--focus", help="show: narrow the statelog dump to a spell — a spellID, a name "
+                    "substring (matched against active-buff names), or 'auras' to list every active buff seen")
     args = ap.parse_args(argv)
 
     loaded = load_capture(args.wow_path)
@@ -636,14 +1077,17 @@ def main(argv=None) -> int:
               f"{args.wow_path}/WTF/Account/*/SavedVariables/.", file=sys.stderr)
         print("Run /cdmp probe in-game and /reload first.", file=sys.stderr)
         return 1
-    probe, pulls, path = loaded
+    probe, pulls, statelog, path = loaded
 
     if args.command == "show" and args.json:
-        print(json.dumps({"probe": probe, "pulls": pulls, "_path": path},
+        print(json.dumps({"probe": probe, "pulls": pulls, "statelog": statelog,
+                          "_path": path},
                          indent=2, ensure_ascii=False, sort_keys=True, default=str))
         return 0
+    if args.command == "show" and args.focus:
+        return cmd_focus(statelog, args.focus)
     if args.command == "show":
-        return cmd_show(probe, pulls, path)
+        return cmd_show(probe, pulls, statelog, path)
     if args.command == "diff":
         return cmd_diff(probe, path, args.against)
 
@@ -652,7 +1096,7 @@ def main(argv=None) -> int:
         print(f"Baseline not found: {bl_path}", file=sys.stderr)
         return 1
     baseline = json.loads(bl_path.read_text(encoding="utf-8"))
-    return cmd_check(probe, pulls, path, baseline, bl_path)
+    return cmd_check(probe, pulls, statelog, path, baseline, bl_path)
 
 
 if __name__ == "__main__":
