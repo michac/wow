@@ -1,0 +1,92 @@
+{
+  "_scenario": "implosion",
+  "_note": "Synthetic. Combat; Implosion off cd; Wild Imps out (buff active, COUNT SECRET); imp-napkin NOT confident (only 1 recent HoG in history); 3 shards so HoG is the readable press winner.",
+  "at": 1000.0,
+  "combat": true,
+  "combatStartedAt": 980.0,
+  "mode": "st",
+  "power": {
+    "soulShards": { "value": 3, "max": 5, "readable": true }
+  },
+  "activeAuras": [],
+  "history": [
+    { "phase": "succeeded", "spellID": 105174, "base": 105174, "at": 997.5 }
+  ],
+  "events": [],
+  "cooldowns": {
+    "2742": {
+      "cooldownID": 2742, "spellID": 265187, "overrideSpellID": 265187, "overrideTooltipSpellID": null,
+      "liveSpellID": 265187, "linkedSpellIDs": [], "category": "Essential",
+      "selfAura": true, "hasAura": false, "charges": false, "isKnown": true, "flags": 0, "keybind": "sQ",
+      "cd": { "state": "cooling", "remaining": 22.0, "readable": false, "source": "napkin", "changedAt": 982.0 },
+      "charge": { "cur": null, "max": 0, "readable": true },
+      "aura": { "readable": false },
+      "glow": { "active": false, "readable": true }
+    },
+    "671": {
+      "cooldownID": 671, "spellID": 104316, "overrideSpellID": 104316, "overrideTooltipSpellID": null,
+      "liveSpellID": 104316, "linkedSpellIDs": [], "category": "Essential",
+      "selfAura": false, "hasAura": false, "charges": false, "isKnown": true, "flags": 0, "keybind": "E",
+      "cd": { "state": "cooling", "remaining": 14.0, "readable": false, "source": "napkin", "changedAt": 994.0 },
+      "charge": { "cur": null, "max": 0, "readable": true },
+      "aura": { "readable": false },
+      "glow": { "active": false, "readable": true }
+    },
+    "34991": {
+      "cooldownID": 34991, "spellID": 105174, "overrideSpellID": 105174, "overrideTooltipSpellID": null,
+      "liveSpellID": 105174, "linkedSpellIDs": [], "category": "Essential",
+      "selfAura": false, "hasAura": false, "charges": false, "isKnown": true, "flags": 0, "keybind": "R",
+      "cd": { "state": "unknown", "readable": false, "source": "none" },
+      "charge": { "cur": null, "max": 0, "readable": true },
+      "aura": { "readable": false },
+      "glow": { "active": false, "readable": true }
+    },
+    "1979": {
+      "cooldownID": 1979, "spellID": 264178, "overrideSpellID": 264178, "overrideTooltipSpellID": null,
+      "liveSpellID": 264178, "linkedSpellIDs": [], "category": "Essential",
+      "selfAura": false, "hasAura": false, "charges": false, "isKnown": true, "flags": 0, "keybind": "F",
+      "cd": { "state": "unknown", "readable": false, "source": "none" },
+      "charge": { "cur": null, "max": 0, "readable": true },
+      "aura": { "readable": false },
+      "glow": { "active": false, "readable": true }
+    },
+    "34990": {
+      "cooldownID": 34990, "spellID": 686, "overrideSpellID": 686, "overrideTooltipSpellID": null,
+      "liveSpellID": 686, "linkedSpellIDs": [], "category": "Essential",
+      "selfAura": false, "hasAura": false, "charges": false, "isKnown": true, "flags": 0, "keybind": "Q",
+      "cd": { "state": "unknown", "readable": false, "source": "none" },
+      "charge": { "cur": null, "max": 0, "readable": true },
+      "aura": { "readable": false },
+      "glow": { "active": false, "readable": true }
+    },
+    "149122": {
+      "cooldownID": 149122, "spellID": 196277, "overrideSpellID": 196277, "overrideTooltipSpellID": null,
+      "liveSpellID": 196277, "linkedSpellIDs": [], "category": "Essential",
+      "selfAura": false, "hasAura": false, "charges": false, "isKnown": true, "flags": 0, "keybind": "1",
+      "cd": { "state": "ready", "remaining": 0, "readable": false, "source": "napkin", "changedAt": 985.0 },
+      "charge": { "cur": null, "max": 0, "readable": true },
+      "aura": { "readable": false },
+      "glow": { "active": false, "readable": true }
+    },
+    "777": {
+      "cooldownID": 777, "spellID": 264173, "overrideSpellID": 264173, "overrideTooltipSpellID": null,
+      "liveSpellID": 264173, "linkedSpellIDs": [], "category": "TrackedBuff",
+      "selfAura": true, "hasAura": false, "charges": false, "isKnown": true, "flags": 2, "keybind": null,
+      "cd": { "state": "unknown", "readable": false, "source": "none" },
+      "charge": { "cur": null, "max": 0, "readable": true },
+      "aura": { "readable": false },
+      "glow": { "active": false, "readable": true },
+      "buff": { "isActive": false, "shown": false, "hideWhenInactive": true }
+    },
+    "143038": {
+      "cooldownID": 143038, "spellID": 296553, "overrideSpellID": 296553, "overrideTooltipSpellID": null,
+      "liveSpellID": 296553, "linkedSpellIDs": [], "category": "TrackedBuff",
+      "selfAura": true, "hasAura": false, "charges": false, "isKnown": true, "flags": 2, "keybind": null,
+      "cd": { "state": "unknown", "readable": false, "source": "none" },
+      "charge": { "cur": null, "max": 0, "readable": true },
+      "aura": { "readable": false },
+      "glow": { "active": false, "readable": true },
+      "buff": { "isActive": true, "shown": true, "hideWhenInactive": true }
+    }
+  }
+}

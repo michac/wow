@@ -1,0 +1,9 @@
+{
+  "_scenario": "demonbolt-proc",
+  "_expected": "Demonbolt is the single press: Core up (readable via buff.isActive + glow). HoG excluded by 0 shards; not a proc edge, so no transient.",
+  "resourceBar": { "value": 0, "max": 5, "incoming": 0, "display": "discrete", "powerType": "SOUL_SHARDS" },
+  "cues": {
+    "1979": { "draw": true, "emphasis": "ROTATION" }
+  },
+  "sequence": { "show": false }
+}

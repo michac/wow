@@ -1,0 +1,10 @@
+{
+  "_scenario": "implosion",
+  "_expected": "HoG is the single ROTATION press (readable: 3 shards). Implosion draws JUDGE (imp count secret, napkin not confident) — coexists with the one ROTATION, never falsely greened.",
+  "resourceBar": { "value": 3, "max": 5, "incoming": 0, "display": "discrete", "powerType": "SOUL_SHARDS" },
+  "cues": {
+    "34991": { "draw": true, "emphasis": "ROTATION" },
+    "149122": { "draw": true, "emphasis": "JUDGE", "note": "imps uncertain — your call" }
+  },
+  "sequence": { "show": false }
+}
