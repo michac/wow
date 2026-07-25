@@ -25,7 +25,7 @@
     "resourceBar": {
       "value": "number",
       "max": "number",
-      "incoming": "number  // projected change, e.g. an in-flight shard generator",
+      "incoming": "number  // net shard delta of in-flight casts, forwarded from State's napkin projection; the Coach ranks on projected = value + incoming",
       "display": "enum:resourceDisplay",
       "powerType": "enum:powerType  // game token; Renderer -> PowerBarColor"
     },

@@ -41,6 +41,12 @@
   for burst — your call"). The player can keep running the rotation to intentionally hold burst.
   So the burst branch is carried by the *pane + JUDGE-holds*, not a `SEQUENCE` cue-mode — which
   largely dissolves the SEQUENCE-vs-ROTATION conflict (see Still open).
+- **`incoming` — the Coach ranks on PROJECTED shards.** State projects
+  `power.soulShards.incoming` = the net shard delta of **in-flight casts** (a napkin estimate —
+  builders use an injected mechanical yield, spenders the readable power cost; clears on
+  interrupt). The Coach respects **value + incoming**: don't start a builder that would overcap
+  the projection, and a spender whose cost the incoming will meet is **anticipated (`SOON`)**, not
+  pressed early (the shard hasn't landed). Re-homed from the old HudScore ghost-fill.
 
 **The oracle is the Demonology rotation source applied to the readable State** — never the code.
 
@@ -81,7 +87,8 @@
 | **hog-overcap-late** *(new)* | Combat; **5 shards, capped ~3s** (`changedAt` old) | `HoG: LATE` (overdue dump) · `bar 5/5`. *The readable LATE-dump. (Demonbolt-at-4-cores would be the other, but core stacks are secret → **not assertable** — a documented readability limit.)* |
 | **soon-anticipated** | Combat; Tyrant ~2s out (`state:anticipated, source:napkin`); summons not all out | `Dreadstalkers: ROTATION` (staging) · `Tyrant: SOON` + countdown. *Fixed: pre-Tyrant you stage/pool — you do **not** spend HoG (shards are banked to flood HoG inside the window).* |
 | **opener-midflight** | Combat; opener active: Dreadstalkers+Imp Lord done, cursor on Tyrant, HoG pending; **Implosion step present only if `mode:aoe`/talented** | `pane {title:"OPENER", cursor:2, steps:[done, done, active, pending, …]}` · active-step cue `Tyrant: SEQUENCE` |
-| **resource-states** | 3 sub-fixtures: 0 · 3 · 5 shards + in-flight SB (+1) | `bar {value:0/3/5, incoming:0/0/+1, powerType:SOUL_SHARDS}` |
+| **resource-states** | 3 sub-fixtures: 0 · 3 · 4 shards + in-flight SB (+1) | `bar {value:0/3/4, incoming:0/0/+1, powerType:SOUL_SHARDS}` |
+| **incoming-overcap** *(new)* | Combat; **4 shards + a Shadow Bolt in flight** (`history` `start`, no `succeeded`) → State projects `incoming:+1` (→5, cap) | `HoG: ROTATION` (spend now — a further builder would overcap on top of the incoming shard) · Shadow Bolt not re-queued · `bar {value:4, incoming:1}`. *The Coach respecting projected shards.* |
 | **transient-edges** | Series: HoG cast commits → lands; Dreadstalkers cd comes up; Core lands | (a) `HoG transient:cast_started` → (b) `cast_ended` · (c) `Dreadstalkers transient:ready` · (d) `Demonbolt transient:proc` |
 | **secrecy-combat** | Combat; cds `readable:false`; napkin fills; Core via `buff.isActive`+`glow`, `aura.readable:false` | Cues from **readable values only**: `Demonbolt: ROTATION` (buff/glow, inherits the demonbolt-proc readable-approx caveat), `Tyrant: SOON` (napkin). **No cue cites a secret cd.** Largely a State-contract test. |
 

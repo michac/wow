@@ -135,7 +135,14 @@ right split.
   },
   "power": {
     // keyed by the REAL power-type (game vocabulary); Coach decides what matters
-    "soulShards": { "value": 3, "max": 5, "readable": true }
+    "soulShards": { "value": 3, "max": 5, "incoming": 0, "readable": true }
+    // `incoming` (added W4 P2) = net shard delta of IN-FLIGHT casts — a NAPKIN
+    // projection from history's in-flight `start`: spenders use the readable power
+    // cost, builders an injected mechanical shard-yield table (a game-fact input like
+    // base cooldowns, so State's CODE stays spec-agnostic; the rotational ROLE stays
+    // Coach-only). Clears if the cast is interrupted. The Coach ranks on PROJECTED
+    // shards = value + incoming (the overcap guard + spender anticipation — re-homed
+    // from the old HudScore ghost-fill, not net-new logic).
   },
   "activeAuras": [ // added W4 P1 — every readable active player buff (Coach's proc source)
     { "spellID": 296553, "name": "Wild Imp" }

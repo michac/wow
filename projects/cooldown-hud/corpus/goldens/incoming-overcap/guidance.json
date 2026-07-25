@@ -1,0 +1,9 @@
+{
+  "_scenario": "incoming-overcap",
+  "_expected": "Projected shards = 4 + incoming 1 = 5 (cap). HoG is the press (spend before the in-flight builder's shard overcaps); no further builder is queued. incoming forwarded to the bar.",
+  "resourceBar": { "value": 4, "max": 5, "incoming": 1, "display": "discrete", "powerType": "SOUL_SHARDS" },
+  "cues": {
+    "34991": { "draw": true, "emphasis": "ROTATION" }
+  },
+  "sequence": { "show": false }
+}
