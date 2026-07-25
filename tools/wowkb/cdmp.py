@@ -492,9 +492,13 @@ def _check_sl_enum(pulses, expect):
         for name in _powers(p):
             if str(name) not in _POWER_TYPES:
                 bad.append(f"pulse#{i}: power keyed by {name!r} (not a real power-type)")
+        for h in _aslist(p.get("history")):
+            ph = _asdict(h).get("phase")
+            if ph not in ("start", "succeeded"):
+                bad.append(f"pulse#{i}: history phase={ph!r} (not start/succeeded)")
     if bad:
         return FAIL, "; ".join(bad[:4]) + (f" (+{len(bad) - 4} more)" if len(bad) > 4 else "")
-    return PASS, f"{len(pulses)} pulse(s): cd.state/source + power keys all in-domain"
+    return PASS, f"{len(pulses)} pulse(s): cd.state/source, power keys, history phases all in-domain"
 
 
 def _check_sl_napkin(pulses, expect):
@@ -644,6 +648,23 @@ def _check_sl_cov_proc(pulses, expect):
                   "(combat auras are secret; the glow is the readable combat signal)")
 
 
+def _check_sl_cov_history(pulses, expect):
+    skip = _no_pulses(pulses)
+    if skip:
+        return skip
+    phases = set()
+    for p in pulses:
+        for h in _aslist(_asdict(p).get("history")):
+            ph = _asdict(h).get("phase")
+            if ph in ("start", "succeeded"):
+                phases.add(ph)
+    if {"start", "succeeded"} <= phases:
+        return PASS, "cast history captured with both start and succeeded phases"
+    if phases:
+        return SKIP, f"history has only {sorted(phases)} — need both a START (cast-time spell) and a SUCCEEDED"
+    return SKIP, "no cast history captured (cast something while recording)"
+
+
 STATELOG_CHECKS = {
     "statelog-secrecy": _check_sl_secrecy,
     "statelog-enum-domain": _check_sl_enum,
@@ -656,6 +677,7 @@ STATELOG_CHECKS = {
     "statelog-coverage-shards": _check_sl_cov_shards,
     "statelog-coverage-transform": _check_sl_cov_transform,
     "statelog-coverage-proc": _check_sl_cov_proc,
+    "statelog-coverage-history": _check_sl_cov_history,
 }
 
 
@@ -879,10 +901,11 @@ def _show_statelog(statelog: dict) -> None:
         ss = _asdict(_powers(p).get("SoulShards"))
         evk = ",".join(sorted({str(e.get("kind")) for e in _events(p)})) or "-"
         buffs = len(_active_auras(p))
+        hist = len(_aslist(p.get("history")))
         print(f"  #{p.get('seq', '?'):<3} {p.get('reason', '?'):<9} "
               f"{'combat' if p.get('combat') else 'ooc':<6}  "
               f"cds={len(cds)} ({readable} live-readable, {procs} aura-proc, {glows} glow)  "
-              f"buffs={buffs}  shards={ss.get('value', '?')}/{ss.get('max', '?')}  events=[{evk}]")
+              f"buffs={buffs}  hist={hist}  shards={ss.get('value', '?')}/{ss.get('max', '?')}  events=[{evk}]")
 
 
 def _active_auras(pulse) -> list:

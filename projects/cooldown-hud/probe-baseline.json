@@ -239,6 +239,14 @@
         "severity": "low",
         "confirmed": "2026-07-24",
         "context": "Coverage. A proc'd aura (Demonic Core) is a moment the Coach's cue decisions turn on, so the corpus needs one. Not-covered until an aura is captured active."
+      },
+      {
+        "id": "statelog-coverage-history",
+        "desc": "The cast history was captured with both START and SUCCEEDED phases",
+        "expect": {},
+        "severity": "low",
+        "confirmed": "unverified",
+        "context": "Coverage. State carries a bounded cast history (start + succeeded) as the Coach's sequence memory, so the Coach can compute sequence position as a pure function of a pulse (Phase-2 testability). Needs a cast-time spell (fires START) and any cast (SUCCEEDED). Not-covered until both phases are seen."
       }
     ]
   }

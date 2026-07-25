@@ -99,6 +99,7 @@ right split.
 {
   "at": 12345.6,
   "combat": true,
+  "combatStartedAt": 12338.0,   // added W4 P1 — so "elapsed in combat" is computable here
   "cooldowns": {
     // keyed by cooldownID — the CDM database anchor
     "42": {
@@ -113,9 +114,12 @@ right split.
 
       // live facts — secrecy FIRST-CLASS (value OR null + readable flag):
       "cd":     { "state": "ready|cooling|anticipated|unknown",
-                  "remaining": 4.2, "readable": true, "source": "live|napkin|none" },
+                  "remaining": 4.2, "readable": true, "source": "live|napkin|none",
+                  "changedAt": 12340.1 },   // when this cd's observed state last flipped
       "charge": { "cur": null, "max": 0, "readable": true },
-      "aura":   { "active": false, "readable": true },
+      "aura":   { "active": false, "readable": true },   // C_UnitAuras — OOC only (see procs)
+      "glow":   { "active": false, "readable": true },   // IsSpellOverlayed — readable in combat
+      "buff":   { "isActive": false, "shown": false, "hideWhenInactive": true },  // buff-item frame state
 
       "keybind": "S-3"          // mostly-static, from HudBinds, OOC-resolved off the BASE id
     }
@@ -124,10 +128,16 @@ right split.
     // keyed by the REAL power-type (game vocabulary); Coach decides what matters
     "soulShards": { "value": 3, "max": 5, "readable": true }
   },
+  "activeAuras": [ // added W4 P1 — every readable active player buff (Coach's proc source)
+    { "spellID": 296553, "name": "Wild Imp" }
+  ],
+  "history": [  // added W4 P1 — bounded WINDOW of recent casts (the sequence memory)
+    { "phase": "start",     "spellID": 116858, "base": 116858, "at": 12344.0 },
+    { "phase": "succeeded", "spellID": 105174, "base": 105174, "at": 12345.5 }
+  ],
   "events": [ // DELTA SINCE LAST PULSE — observed only; see "Events" below
+    { "kind": "cast_started",   "spellID": 116858, "at": 12344.0 },
     { "kind": "cast_succeeded", "cooldownID": 42, "spellID": 105174, "at": 12345.5 },
-    { "kind": "aura_gained",    "spellID": 264173, "at": 12345.4 },
-    { "kind": "became_ready",   "cooldownID": 71, "source": "napkin", "at": 12345.3 },
     { "kind": "transform",      "cooldownID": 42, "from": 105174, "to": 196416, "at": 12345.2 }
   ]
 }
@@ -169,6 +179,30 @@ right split.
   rotation decision, not a State one.
 - **`at` earns its keep** three ways: ordering within a pulse, ttl/decay of effects,
   and the pull recorder later.
+
+### Sequence memory — `history` (State facts) vs the cursor (Coach interpretation)
+
+A single pulse is a snapshot, so knowing we're **partway through a sequence** (opener,
+burst) needs memory of recent casts. The split (locked 2026-07-24, W4 P1):
+
+- **State carries the raw `history`** — a bounded, timestamped window of recent casts,
+  both **`start`** (cast committed / in flight — lets the Coach hint the *next* step and
+  animate the current one before it lands) and **`succeeded`** (landed — advance the
+  sequence). Spec-agnostic ("the player cast these at these times"); the same casts the
+  napkin already ingests, ordered by time instead of keyed by spell.
+- **The Coach owns the cursor** — it matches `history` against its (spec-specific)
+  sequence definition, with drop-through and an "opener is over" lifecycle, and emits
+  the `sequence` Guidance channel. It recomputes the cursor from `history` **as a pure
+  function of the pulse** — which is exactly what makes the Phase-2 golden tests
+  fixturable: perturb a captured pulse's `history`, assert the resulting `sequence`. The
+  stateful-Coach alternative (an internal accumulating cursor) would force tests to
+  replay pulse streams and hide the cursor from the corpus — so history-in-State is the
+  fork that keeps the independent-oracle model (P2) intact.
+- **Cooldowns need a stamp, not a history** — `cd.changedAt` (when the observed state
+  last flipped) is all the Coach needs for "how long ready" (LATE); no per-cd event log.
+  ⚠ It counts readability transitions too (live→secret on combat entry), so the Coach
+  discounts those via `cd.source` + `combatStartedAt`; the reliable in-combat readiness
+  edge is a later alert-hook upgrade (same shape as the buff.isActive proc finding).
 
 ### Eval gating — a State-internal, swappable policy
 
