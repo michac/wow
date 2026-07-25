@@ -164,21 +164,15 @@ touching the code**. Status as of 2026-07-09:
   by `wowkb.diagnostics`. (Current addon version: `wowkb.addon list`.)
 - `projects/cooldown-hud/` — **Cooldown HUD**: a spec-specific overlay that skins
   Blizzard's built-in **Cooldown Manager** (Midnight 12.0), CRT/green-phosphor
-  aesthetic; v1 target **Demonology Warlock**. Docs live in `docs/` (`spec.md`
-  vision · `guidance-model.md` §0.5 rotation-helper contract · `notes.md` technical
-  findings · `milestones.md` roadmap+status) — see its `CLAUDE.md`. The addon
-  (`michac/CDMProbe`) is at `addon/` (own git repo, gitignored, own `CLAUDE.md` for
-  the release workflow). **M0.5 + M1 + M2 + M2.5 + M3a + M3b + M3c-a done** (M2 was
-  a decision-only scope collapse — bind to the *live* CDM layout, don't ship/move one;
-  M0.5 shipped the §0.5 guidance model; M2.5 committed the v1 indicator set as
-  §0.5.8 — those three docs-only. M3a shipped the identity layer, M3b readiness +
-  procs, **M3c-a the dot score** — a per-ability actionability dot + a row saying
-  *why*, plus the napkin anticipation engine pulled forward from M4;
-  **in-game pass outstanding** and it's the real test: strictness
-  (expect 1–2 lit dots, not 4–5) and whether cast spellIDs read non-secret **in a
-  raid**, which is what the anticipation feature rides on). Next is the rest of M3c
-  (shard rail + mode chrome + pre-pull opener queue). (Current addon version:
-  `wowkb.addon list`.)
+  aesthetic; v1 target **Demonology Warlock**. **This file tracks none of its
+  state** — status, roadmap, and design all live in the project. Start at its
+  `CLAUDE.md` (the doc map): `docs/milestones.md` is roadmap + current status,
+  `docs/architecture.md` the target-state component pipeline the W4 refactor builds
+  toward, `docs/w4-build-plan.md` the **phased Phase 0–5 sequence** (this is where
+  "Phase 1 / Phase 2 / …" live — the Coach-and-corpus work is Phase 2), and
+  `todo/w4-hud-audit.md` the live W4 worklist. The addon (`michac/CDMProbe`)
+  is at `addon/` (own git repo, gitignored, own `CLAUDE.md` for the release
+  workflow). (Current addon version: `wowkb.addon list`.)
 - `todo/` — design docs / specs with milestone logs for the above
   (`rotation-trainer.md`, `talent-calculator-prototype.md`). The informal
   "what's unfinished" inventory, but not exhaustive (mplus_memory's spec lives

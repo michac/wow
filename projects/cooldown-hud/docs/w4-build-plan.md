@@ -165,12 +165,22 @@ emits `colorKey` (a class token), so it does **not** yet meet Guidance invariant
 covering OOC + combat + the secret/unreadable cases.
 
 > **STATUS (2026-07-24): ✅ PHASE 1 COMPLETE — all three steps done, exit criterion met.**
-> A real `/cdmp statelog` capture (CDMProbe v0.29.2, Demonology) passes all 11
-> `statelog` baseline checks — the 5 State-contract invariants and all 6 coverage
-> moments (OOC + combat, secret/unreadable cd, napkin cd, a 0→5 shard spread, three
-> transforms, a live proc). `wowkb.cdmp check` is green (17 pass · 0 fail). The
-> captured pulses are on disk as the **Phase-2 Coach corpus**, and both
-> `architecture.md` open questions about the full-database read are answered below.
+> A real `/cdmp statelog` capture (CDMProbe **v0.29.6**, Demonology) passes all **12**
+> `statelog` baseline checks — the 5 State-contract invariants and 7 coverage moments
+> (OOC + combat, secret/unreadable cd, napkin cd, a 0→5 shard spread, transforms, a live
+> proc, and cast history). `wowkb.cdmp check` is green. The captured pulses are on disk
+> as the **Phase-2 Coach corpus**, and both `architecture.md` open questions about the
+> full-database read are answered below.
+>
+> **The in-game capture loop drove real design discoveries** (v0.29.3–v0.29.6), all
+> folded into `State.lua` + `architecture.md`:
+> - **Combat auras are Secret Values** — `C_UnitAuras` is dark in combat. The readable
+>   proc signals are the buff-tracking item's **`buff.isActive`** (direct) and
+>   **`glow`** via `IsSpellOverlayed` (on the empowered spell); they cross-validated on
+>   all 32 pulses. `aura` is now honest (`readable:false` in combat, not a false absent).
+> - **Sequence memory** — State carries a bounded cast **`history`** (`start` +
+>   `succeeded` phases) + per-cooldown `cd.changedAt` + `combatStartedAt`, so the Coach
+>   can compute sequence position as a *pure function of a pulse* (Phase-2 testability).
 > - **Step 1 ✅** `CDMProbe/State.lua` — the reduced Stage-1 shape: CDM-database
 >   anchor (all categories, `allowUnlearned=true`), secrecy first-class, one identity
 >   resolver (`liveSpellID`) + inverse (`BaseOfCast`), napkin + keybinds consulted
@@ -179,16 +189,16 @@ covering OOC + combat + the secret/unreadable cases.
 >   as parallel observation — P1, not a seam-swap.
 > - **Step 2 ✅** `/cdmp statelog` (+ `guide`/`clear`) writes a bounded ring of diverse
 >   moments to `CDMProbeDB.statelog`; `wowkb.cdmp` grew a **`statelog` baseline block**
->   (11 checks: 5 per-pulse contract invariants → PASS/FAIL, 6 corpus-coverage →
+>   (12 checks: 5 per-pulse contract invariants → PASS/FAIL, 7 corpus-coverage →
 >   PASS/not-covered). Validated off-game against synthetic clean+dirty fixtures; against
 >   a real (probe-only) capture it reports the statelog section **not-covered**, cleanly.
 >   luacheck + busted (52) green.
-> - **Step 3 ✅ (in-game, done on CDMProbe v0.29.2)** — real pulls captured →
->   `wowkb.cdmp check` green. Three collection bugs the first captures surfaced and
->   fixed along the way: proc auras are `selfAura` (not `hasAura`) entries; the napkin
->   and keybind inputs must be started by State (dormant with the HUD off);
->   `GetPlayerAuraBySpellID` takes **one** arg (unit implied). Ring made
->   diversity-preserving so shard-step spam can't evict the rare moments. **Verdict
+> - **Step 3 ✅ (in-game, iterated v0.29.2 → v0.29.6)** — real pulls captured →
+>   `wowkb.cdmp check` green. Early captures surfaced and fixed collection bugs (proc
+>   auras are `selfAura` not `hasAura`; the napkin/keybind inputs must be started by
+>   State; `GetPlayerAuraBySpellID` takes **one** arg; transform events fire redundantly
+>   so we dedup like Blizzard's own `SetOverrideSpell`) and the deeper findings above
+>   (combat auras secret → buff-item/glow proc channels; sequence history). **Verdict
 >   written into `architecture.md`:** the full-database `C_Spell` read returns live
 >   `cd` VALUES for undisplayed AND unlearned entries OOC, and goes secret uniformly
 >   in combat — no undisplayed-entry loophole either way.
