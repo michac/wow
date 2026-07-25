@@ -230,6 +230,14 @@ covering OOC + combat + the secret/unreadable cases.
 the independent corpus; no class token and no resolved RGBA escapes its output —
 `emphasis` tokens only (`powerType` is the sanctioned colour exception).
 
+> **DONE 2026-07-25 — 23/23.** Built as a **new isolated `ns.Coach`** (`CDMProbe/Coach.lua`),
+> NOT by growing HudBoard (step 4's letter): the ⛔ gate verdict was **redesign, not port**
+> — HudScore floors a probably-up hard-CD to NEVER (breaks `tyrant-ready`) and prunes
+> per-ability (two presses in `in-tyrant-window`). The live HUD stays untouched until the
+> Phase-5 cutover. Verdict + redesigns recorded in **`w4-phase2-coach-notes.md`**; arbiter is
+> `busted CDMProbe/tests/spec/coach_golden_spec.lua`. Wiring (State `mode`/`incoming`, Binder,
+> release, QA) is Phase 3–5.
+
 ### Phase 3 — Draw layer + UI test mode  *(your steps 6–8)*
 
 6. **Write the Draw (Renderer) component:** fed a DrawList ("draw this cue relative to
