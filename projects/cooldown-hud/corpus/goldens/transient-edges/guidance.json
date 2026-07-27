@@ -1,0 +1,11 @@
+{
+  "_scenario": "transient-edges",
+  "_expected": "Transient-channel coverage. One ROTATION press (HoG) carries cast_started (a HoG just committed). Two secret-gated JUDGE cues coexist: Demonbolt carries proc (Core just lit; stack count secret), Implosion carries ready (napkin just flipped probably-up; imp count secret). Every edge fires on THIS pulse's transition. Single-top-press holds.",
+  "resourceBar": { "value": 4, "max": 5, "incoming": 0, "display": "discrete", "powerType": "SOUL_SHARDS" },
+  "cues": {
+    "34991": { "draw": true, "emphasis": "ROTATION", "transient": "cast_started" },
+    "1979": { "draw": true, "emphasis": "JUDGE", "transient": "proc", "note": "Core proc — dump if 2+" },
+    "149122": { "draw": true, "emphasis": "JUDGE", "transient": "ready", "note": "imps uncertain — your call" }
+  },
+  "sequence": { "show": false }
+}

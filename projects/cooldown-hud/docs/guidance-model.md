@@ -618,7 +618,7 @@ legitimately do the queued "press this next" that §0.5.3 [R3] refuses in combat
 > **Redesign — the sequence helper (M4), 2026-07-22.** The opener and the burst
 > burn queue are unified as **one feature, M4 "the sequence helper"** (the M3c-c2
 > label is retired; `milestones.md` §6). Four changes to (a), planned in
-> `m4-plan.md`: **(1)** it lives in its **own user-positionable pane** (our frame,
+> `archive/m4-plan.md`: **(1)** it lives in its **own user-positionable pane** (our frame,
 > so it can sit over the character — not a strip pinned to the CDM column);
 > **(2)** a **prereqs row** ("Tyrant · Dreadstalkers · 5 shards", each lighting as
 > satisfied — honest because pre-pull the wall is down); **(3)** it stays **primed

@@ -1,0 +1,9 @@
+{
+  "_scenario": "infernal-bolt",
+  "_expected": "Infernal Bolt is the single press. Mother-of-Chaos Art armed (9426 buff.isActive) transformed the Shadow-Bolt frame (34990 glows, override=live=434506); shard-starved (1/5) so the +3-shard builder is the top call -- 'Infernal Bolt if <3 shards' AND the Art-armed top branch. Demonbolt (Core up) is a live competitor demoted to AVAILABLE; HoG not castable at 1 shard. Steady-state Art (not the arming edge) -> no transient.",
+  "resourceBar": { "value": 1, "max": 5, "incoming": 0, "display": "discrete", "powerType": "SOUL_SHARDS" },
+  "cues": {
+    "34990": { "draw": true, "emphasis": "ROTATION", "note": "Infernal Bolt" }
+  },
+  "sequence": { "show": false }
+}

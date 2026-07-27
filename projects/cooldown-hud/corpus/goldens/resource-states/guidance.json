@@ -1,0 +1,9 @@
+{
+  "_scenario": "resource-states",
+  "_expected": "Empty-but-filling meter: value 0, incoming +1 from the in-flight Shadow Bolt -> projected 1. No spender is affordable (HoG needs 3 shards; Demonbolt needs a Core, down). Shadow Bolt is the builder/filler press to rebuild shards from empty -> the single ROTATION. incoming forwarded to the bar; bar renders discrete segments.",
+  "resourceBar": { "value": 0, "max": 5, "incoming": 1, "display": "discrete", "powerType": "SOUL_SHARDS" },
+  "cues": {
+    "34990": { "draw": true, "emphasis": "ROTATION" }
+  },
+  "sequence": { "show": false }
+}

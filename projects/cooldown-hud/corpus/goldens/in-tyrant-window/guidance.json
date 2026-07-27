@@ -1,0 +1,9 @@
+{
+  "_scenario": "in-tyrant-window",
+  "_expected": "Inside the Tyrant window, HoG spam is the priority (SEQUENCE 3: 'HoG HoG opens the window'; maxroll: 'cast as many HoG as possible for 15s'). HoG (34991) is the single ROTATION press: 4 shards readable, Tyrant window active readable via 2742 buff.isActive. Demonbolt (1979) glows (Core up) but is dump-BETWEEN-HoGs, not the top press -> AVAILABLE, unlisted. bar 4/5.",
+  "resourceBar": { "value": 4, "max": 5, "incoming": 0, "display": "discrete", "powerType": "SOUL_SHARDS" },
+  "cues": {
+    "34991": { "draw": true, "emphasis": "ROTATION", "note": "flood imps — spam Hand of Gul'dan" }
+  },
+  "sequence": { "show": false }
+}

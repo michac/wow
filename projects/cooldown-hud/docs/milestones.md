@@ -23,10 +23,10 @@ shipped through four play-tests; the board is now *correct* (strictness holds, t
 scoring rules fire), so play-4's feedback is **all legibility, juice, and one real
 sequence bug — no scoring/data defects**. It splits across two milestones. **M4.4's
 five workstreams A–E are implemented and luaparser-clean (bumped to v0.24.0); the
-target-dummy verify pass (§Verification in `m4.4-plan.md`) is the outstanding step —
+target-dummy verify pass (§Verification in `archive/m4.4-plan.md`) is the outstanding step —
 in particular the C1 brighten fix, the burst cue width, and the HudFloat feel.**
 
-- **M4.4 — the HUD pass** (`m4.4-plan.md`), five workstreams shipping as one release
+- **M4.4 — the HUD pass** (`archive/m4.4-plan.md`), five workstreams shipping as one release
   (v0.24.0): **A** the **cue bar** — rename the drop-shadow bar (`bleed`→`cue`), restore
   the **width axis** (colour + width, [X1]), and make **Tyrant the widest cue** even in
   SOON; **B** the shard rail → **5 large dots** with three states (empty / incoming /
@@ -35,7 +35,7 @@ in particular the C1 brighten fix, the burst cue width, and the HudFloat feel.**
   bite while primed) + **cast-start** feedback; **D** a quiet **cast-start flash** on the
   icon; **E** **burst confirmation text** floating up over the character after a
   burst-window press (reward, not instruction).
-- **M4.5 — the tooling track** (`m4.5-plan.md`), split out because it is off-game and
+- **M4.5 — the tooling track** (`archive/m4.5-plan.md`), split out because it is off-game and
   independent: **luacheck** (WoW-globals) as the release rung above the luaparser gate,
   **busted** unit tests over the pure-logic modules (`HudScore` / `HudQueue` /
   `HudNapkin`), and a `/cdmp selftest` for the live Secret-Value / CDM paths busted
@@ -1182,7 +1182,7 @@ decision/spec milestone that de-risks the build that follows.)
   *(Reframed 2026-07-22 — was "Burst window". M4 now **is** the sequence-helper
   feature and **absorbs the pre-pull opener that shipped under the M3c-c2 label**:
   one feature, two starter consumers, so the roadmap stops tracking opener and
-  burst as unrelated milestones. Full implementation plan: **`m4-plan.md`**.)*
+  burst as unrelated milestones. Full implementation plan: **`archive/m4-plan.md`**.)*
 
   **The feature — a `SequencePane`** (evolved from `HudQueue`): a **free-standing,
   user-positionable frame** — *our* frame, so it can sit anywhere incl. **over the
@@ -1210,7 +1210,7 @@ decision/spec milestone that de-risks the build that follows.)
 
   **Status (2026-07-22) — phases 1–5 + the burst-prep tuning CODE-COMPLETE, in-game
   verification pending.**
-  Shipped per `m4-plan.md`: new **`HudPane.lua`** (movable UIParent pane, prereqs
+  Shipped per `archive/m4-plan.md`: new **`HudPane.lua`** (movable UIParent pane, prereqs
   row + hosted `HudQueue` strip, lock/unlock via `/cdmp hud pane`, asymmetric juice
   with `onCorrect/onMiss/onComplete` M6 sound seams); `HudQueue` gained the `host`
   arg + the **`primed`/start-on-first-key** gate (the v0.17.0 desync fix); `HudState`
@@ -1272,7 +1272,7 @@ decision/spec milestone that de-risks the build that follows.)
 
 - **M4.1 — the in-game feedback pass (level signal + the sequence rework).**
   *(2026-07-22 — the first real play-test of the M4 build, v0.19.0. Full design +
-  phased plan: **`m4.1-plan.md`**.)* M4 shipped code-complete; playing it produced a
+  phased plan: **`archive/m4.1-plan.md`**.)* M4 shipped code-complete; playing it produced a
   batch of feedback that splits into four workstreams — two polish, two real reworks.
 
   - **A — the icon-level signal doesn't read.** The dot is too subtle, `AVAILABLE`
@@ -1316,7 +1316,7 @@ decision/spec milestone that de-risks the build that follows.)
     always** (its readiness is knowable — OOC seed / in-combat edges — so it is not a
     conditional "if up").
 
-  Sequenced **A → B → C → D** in `m4.1-plan.md`; A + B + C are quick, D is the real work.
+  Sequenced **A → B → C → D** in `archive/m4.1-plan.md`; A + B + C are quick, D is the real work.
   Ships as one release when the four land (in-game re-verify folds into `qa-pending.md`).
 
   **Status (2026-07-22): CODE-COMPLETE — all four workstreams implemented, luaparser
@@ -1332,7 +1332,7 @@ decision/spec milestone that de-risks the build that follows.)
   `burning`/`tyrantCastAt` burn-window persistence (`BURN_WINDOW` 18, `WINDUP_MAX`
   20) so `OnMode(≠BURST)` no longer dissolves mid-burn (D2); `SpecBurst` prepends
   the staged summons + imp + prereqs. **Deploy:** commit, then `wowkb.addon release
-  cdmp --minor` (0.19.0 → **v0.20.0**), `/reload`, run `m4.1-plan.md` §Verification.
+  cdmp --minor` (0.19.0 → **v0.20.0**), `/reload`, run `archive/m4.1-plan.md` §Verification.
 
   **M4.2 — the play-test-2 polish pass (2026-07-23, on v0.20.0).** Seven bits of
   in-game feedback on the M4.1 build:
@@ -1402,7 +1402,7 @@ decision/spec milestone that de-risks the build that follows.)
   resolve no keybind — needs `/cdmp hud binds` to diagnose (macro? bar coverage?).
 
   **M4.4 — the play-test-4 HUD pass (2026-07-23, on v0.23.0). Full plan:
-  `m4.4-plan.md`.** The `/cdmp hud binds` diagnostic came back clean — every
+  `archive/m4.4-plan.md`.** The `/cdmp hud binds` diagnostic came back clean — every
   rotational ability resolves a key (the outstanding M4.3 v2 item is **closed**: a
   cold-scan timing gap). The board is *correct* — strictness held, the scoring rules
   fired — so play-4's feedback is **legibility + juice + one real sequence bug, no
@@ -1448,10 +1448,10 @@ decision/spec milestone that de-risks the build that follows.)
   the empty/incoming/filled states; C1 is the `lit = (i==cur) and (primed==false or
   ready)` predicate; C2/D/E wire off the `UNIT_SPELLCAST_START`/`SUCCEEDED` branches.
   **Outstanding: the target-dummy verify pass** (deploy → `wowkb.addon release cdmp
-  --minor` → `/reload` → the 7 checks in `m4.4-plan.md` §Verification) and the
+  --minor` → `/reload` → the 7 checks in `archive/m4.4-plan.md` §Verification) and the
   measure-then-tune-next-session HudFloat/shimmer feel (M3e doctrine).
 
-  **M4.5 — the tooling track (2026-07-23). Full plan: `m4.5-plan.md`.** Play-4 feedback
+  **M4.5 — the tooling track (2026-07-23). Full plan: `archive/m4.5-plan.md`.** Play-4 feedback
   item 9, **split out of M4.4** because it is off-game and independent — it touches no
   rendering, needs no game session, and once landed it *gates* future releases rather
   than shipping a player-facing change. Three rungs above the existing luaparser syntax

@@ -49,8 +49,9 @@ Two published artifacts drove the original decision; both are history now.
    (5) Clear-the-Board. Interactive, solid-colour, JS-animated, each animating only
    what the capability map allows (shard fills + cap glitter = ours; cooldown swipe
    drain = borrowed; proc glow = presence). In-repo:
-   [`../prototype/cdm-designs.html`](../prototype/cdm-designs.html),
-   [`../prototype/resource-centric.html`](../prototype/resource-centric.html).
+   [`../prototype/cdm-designs.html`](../prototype/cdm-designs.html).
+   *(The companion `resource-centric.html` was removed 2026-07-24 — its subject, the
+   resource-centric direction, was deleted in W4a; recover from git history.)*
 2. **Visual-style exploration** — restyled the **real Blizzard icon columns**
    (addon-feasible ops only, each direction captioned with its "WoW mapping")
    across five aesthetics: (A) Gnomeregan powered-goggles, (B) **CRT /

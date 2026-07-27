@@ -1,0 +1,9 @@
+{
+  "_scenario": "cast-ended-edge",
+  "_expected": "A Shadow Bolt just landed (cast_ended edge, history succeeded at == pulse at). Still shard-starved (2 shards, no Core, HoG not castable), so Shadow Bolt is the single ROTATION press for the next filler cast and carries transient:cast_ended. Closes the transient.cast_ended coverage hole.",
+  "resourceBar": { "value": 2, "max": 5, "incoming": 0, "display": "discrete", "powerType": "SOUL_SHARDS" },
+  "cues": {
+    "34990": { "draw": true, "emphasis": "ROTATION", "transient": "cast_ended" }
+  },
+  "sequence": { "show": false }
+}

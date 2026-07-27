@@ -1,0 +1,9 @@
+{
+  "_scenario": "dreadstalkers",
+  "_expected": "Call Dreadstalkers is the single press: a cooldown-gated summon reading probably-up (napkin), pressed on CD because Tyrant is far (~35s cooling, not imminent) so nothing to stage for. HoG (3 shards) yields -- shards 3/5 aren't capping, so the always-available spender waits behind the time-gated summon. bar 3/5, incoming 0.",
+  "resourceBar": { "value": 3, "max": 5, "incoming": 0, "display": "discrete", "powerType": "SOUL_SHARDS" },
+  "cues": {
+    "671": { "draw": true, "emphasis": "ROTATION" }
+  },
+  "sequence": { "show": false }
+}

@@ -386,6 +386,8 @@ def _lit_per_sample(w: dict) -> int:
 # The reduced State's own vocabulary — the enum/domain the contract pins.
 _CD_STATES = {"ready", "cooling", "anticipated", "unknown"}
 _CD_SOURCES = {"live", "napkin", "none"}
+# The user-toggled target mode (W4 P5b): a generic single/AoE enum State forwards.
+_MODES = {"st", "aoe"}
 
 # Real Enum.PowerType member names (game vocabulary). A power keyed by anything
 # else means State invented a resource, which invariant #3 forbids.
@@ -494,13 +496,18 @@ def _check_sl_enum(pulses, expect):
         for name in _powers(p):
             if str(name) not in _POWER_TYPES:
                 bad.append(f"pulse#{i}: power keyed by {name!r} (not a real power-type)")
+        # mode (P5b) is a generic st/aoe enum State forwards; absent is fine, but a
+        # value out of domain means State invented a mode.
+        mode = _asdict(p).get("mode")
+        if mode is not None and mode not in _MODES:
+            bad.append(f"pulse#{i}: mode={mode!r} (not st/aoe)")
         for h in _aslist(p.get("history")):
             ph = _asdict(h).get("phase")
             if ph not in ("start", "succeeded"):
                 bad.append(f"pulse#{i}: history phase={ph!r} (not start/succeeded)")
     if bad:
         return FAIL, "; ".join(bad[:4]) + (f" (+{len(bad) - 4} more)" if len(bad) > 4 else "")
-    return PASS, f"{len(pulses)} pulse(s): cd.state/source, power keys, history phases all in-domain"
+    return PASS, f"{len(pulses)} pulse(s): cd.state/source, mode, power keys, history phases all in-domain"
 
 
 def _check_sl_napkin(pulses, expect):
@@ -667,6 +674,40 @@ def _check_sl_cov_history(pulses, expect):
     return SKIP, "no cast history captured (cast something while recording)"
 
 
+def _check_sl_cov_mode(pulses, expect):
+    """P5b: State forwards the user-toggled single/AoE mode. PASS once a pulse
+    carries a mode (in-domain — the enum check guards the value); SKIP if none do."""
+    skip = _no_pulses(pulses)
+    if skip:
+        return skip
+    seen = {_asdict(p).get("mode") for p in pulses if _asdict(p).get("mode") is not None}
+    if seen:
+        return PASS, f"mode forwarded ({sorted(seen)})"
+    return SKIP, "no mode on any pulse — /cdmp single|multi sets it (needs a fresh capture build)"
+
+
+def _check_sl_cov_incoming(pulses, expect):
+    """P5b: the in-flight builder projection reached the shard bar. PASS once a
+    SoulShards power carries a numeric `incoming`; SKIP until one does (a builder must
+    be mid-cast when the pulse is taken)."""
+    skip = _no_pulses(pulses)
+    if skip:
+        return skip
+    saw_field, saw_nonzero = False, False
+    for p in pulses:
+        ss = _asdict(_powers(p).get("SoulShards"))
+        inc = ss.get("incoming")
+        if isinstance(inc, (int, float)):
+            saw_field = True
+            if inc > 0:
+                saw_nonzero = True
+    if saw_nonzero:
+        return PASS, "an in-flight shard projection (incoming>0) was captured"
+    if saw_field:
+        return SKIP, "incoming present but always 0 — capture a pulse while a builder is casting"
+    return SKIP, "no incoming field on SoulShards — needs a fresh capture build (P5b)"
+
+
 STATELOG_CHECKS = {
     "statelog-secrecy": _check_sl_secrecy,
     "statelog-enum-domain": _check_sl_enum,
@@ -680,6 +721,8 @@ STATELOG_CHECKS = {
     "statelog-coverage-transform": _check_sl_cov_transform,
     "statelog-coverage-proc": _check_sl_cov_proc,
     "statelog-coverage-history": _check_sl_cov_history,
+    "statelog-coverage-mode": _check_sl_cov_mode,
+    "statelog-coverage-incoming": _check_sl_cov_incoming,
 }
 
 

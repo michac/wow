@@ -267,12 +267,23 @@ visual language is dialed in.
 **Exit:** a real Guidance from Phase 2 flows through the Binder into a DrawList that
 Phase 3 draws correctly.
 
+> **Handoff + full Phase-4 plan: `w4-phase4-binder-plan.md`** — the fresh-context
+> starting point (overall task recap, Phases 1–3 status, the two contracts the
+> Binder sits between, the open design questions, and the verification loop). Phase 3
+> shipped in v0.30.5 (Renderer + `/cdmp rendertest`); the Binder is the next unit.
+
 ### Phase 5 — Integrate, then waffles  *(your steps 10–11)*
 
 10. **Hook everything together:** State → Coach → Binder → Draw, live, replacing the
     old HUD. A real cutover (P1) — de-risked because every layer was verified against
     its frozen contract first, so this step is wiring, not discovery.
 11. **Waffles.** 🧇
+
+> **Handoff + full Phase-5 plan: `w4-phase5-cutover-plan.md`** — the fresh-context
+> starting point (overall task recap, Phases 1–4 status, the two worlds the cutover
+> replaces, the wiring gaps between the built stages, a de-risked 5a–5f sub-sequence
+> that parallel-runs before deleting, and the open design questions). Phase 4 (the
+> Binder) landed; this is the last unit.
 
 ---
 

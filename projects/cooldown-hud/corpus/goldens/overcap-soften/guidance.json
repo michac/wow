@@ -1,0 +1,9 @@
+{
+  "_scenario": "overcap-soften",
+  "_expected": "4 shards + Core up: BOTH HoG and Demonbolt are affordable, but shard-overcap pressure ranks HoG first (dump shards before the next builder caps you). HoG is the single ROTATION; Demonbolt is genuinely available (readable proc) but demotes to AVAILABLE -> unlisted (single-top-press). The soften is: HoG greened, Demonbolt held, bar 4/5 carries the 'why'.",
+  "resourceBar": { "value": 4, "max": 5, "incoming": 0, "display": "discrete", "powerType": "SOUL_SHARDS" },
+  "cues": {
+    "34991": { "draw": true, "emphasis": "ROTATION" }
+  },
+  "sequence": { "show": false }
+}

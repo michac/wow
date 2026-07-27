@@ -1,0 +1,9 @@
+{
+  "_scenario": "overdue-late",
+  "_expected": "Dreadstalkers is the single press in its OVERDUE form: LATE. Readable overdue evidence = napkin estimate elapsed a while ago (cd unknown/source napkin, changedAt ~6s old). Tyrant is far (anticipated, remaining large) so it is NOT held for a burst window -> press now. HoG (3 shards, castable) demotes to AVAILABLE below Dreadstalkers; no proc for Demonbolt; filler outranked. Single-top-press: exactly one LATE.",
+  "resourceBar": { "value": 3, "max": 5, "incoming": 0, "display": "discrete", "powerType": "SOUL_SHARDS" },
+  "cues": {
+    "671": { "draw": true, "emphasis": "LATE" }
+  },
+  "sequence": { "show": false }
+}

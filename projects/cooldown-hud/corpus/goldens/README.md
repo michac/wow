@@ -39,7 +39,23 @@ Each `<scenario>/` holds a frozen test case:
 
 ## Status
 
-Three **proof-of-shape** scenarios, hand-authored 2026-07-25: `hand-of-guldan` (clean single
-`ROTATION`), `demonbolt-proc` (proc-driven via readable buff/glow; HoG shard-excluded),
-`implosion` (`JUDGE` coexisting with the single `ROTATION`). The rest fan out via the workflow in
-`docs/w4-phase2-goldens-plan.md`.
+**Corpus complete — 23 scenarios, all green** (`uv run python -m wowkb.cdmp goldens` → 23 pass /
+0 fail). Built 2026-07-25 in two passes:
+
+1. **Proof-of-shape (4, hand-authored):** `hand-of-guldan` (clean single `ROTATION`),
+   `demonbolt-proc` (proc via readable buff/glow), `implosion` (`JUDGE` coexisting with the one
+   `ROTATION`), `incoming-overcap` (incoming flips the ranking).
+2. **Fan-out (18, workflow):** the DERIVE → adversarial-VERIFY (2 lenses) → SYNTH pipeline in
+   `docs/w4-phase2-goldens-plan.md` — `tyrant-ready`, `dreadstalkers`, `shadow-bolt-filler`,
+   `ruination`, `infernal-bolt`, `in-tyrant-window`, `implosion-primed`, `grimoire-available`,
+   `overcap-soften`, `burst-hold`, `overdue-late`, `hog-overcap-late`, `soon-anticipated`,
+   `soon-incoming`, `opener-midflight`, `resource-states`, `transient-edges`, `secrecy-combat`.
+   All 36 verify verdicts PASS; 0 flagged. (Workflow script: `tools/w4-goldens-workflow.mjs`.)
+3. **Coverage close (1, hand-authored):** `cast-ended-edge` — closed the one real gap SYNTH
+   found (`transient.cast_ended`).
+
+Coverage report + remaining gaps: `coverage.md`. Every public `emphasis`, `transient`, and
+`stepState` member is exercised; the only uncovered vocab is `resourceDisplay.percentage`
+(expected — Demo's only meter is discrete soul shards). **Ranking correctness** is carried by
+each scenario's `rationale.md` + the fan-out's adversarial verify stage; the validator gates
+format/contract/secrecy, not the oracle's judgment.

@@ -1,0 +1,9 @@
+{
+  "_scenario": "hog-overcap-late",
+  "_expected": "Shards CAPPED at 5/5 and sat there ~3s (readable value + no spend in history) -> HoG is the OVERDUE dump: emphasis LATE (the same press as ROTATION, but you've been sitting on it). bar 5/5. No Core, so Demonbolt is not a call; a Demonbolt-at-4-cores LATE is NOT assertable (Core stack count is secret) -- this shard-cap LATE is the readable one.",
+  "resourceBar": { "value": 5, "max": 5, "incoming": 0, "display": "discrete", "powerType": "SOUL_SHARDS" },
+  "cues": {
+    "34991": { "draw": true, "emphasis": "LATE" }
+  },
+  "sequence": { "show": false }
+}

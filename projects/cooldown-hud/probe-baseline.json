@@ -247,6 +247,22 @@
         "severity": "low",
         "confirmed": "unverified",
         "context": "Coverage. State carries a bounded cast history (start + succeeded) as the Coach's sequence memory, so the Coach can compute sequence position as a pure function of a pulse (Phase-2 testability). Needs a cast-time spell (fires START) and any cast (SUCCEEDED). Not-covered until both phases are seen."
+      },
+      {
+        "id": "statelog-coverage-mode",
+        "desc": "A pulse carried the user-toggled single/AoE mode (P5b)",
+        "expect": {},
+        "severity": "low",
+        "confirmed": "unverified",
+        "context": "Coverage (W4 Phase 5b). State forwards the user-toggled target mode ('st'|'aoe', from the AoE toggle /cdmp single|multi sets) so the Coach can read it without touching the old HUD. The enum-domain check guards the VALUE; this asserts the field actually reached the corpus. Not-covered until a capture from a build that emits mode."
+      },
+      {
+        "id": "statelog-coverage-incoming",
+        "desc": "The in-flight shard projection (SoulShards.incoming) reached the corpus (P5b)",
+        "expect": {},
+        "severity": "low",
+        "confirmed": "unverified",
+        "context": "Coverage (W4 Phase 5b). State folds the net yield of in-flight BUILDER casts onto power.SoulShards.incoming (via the injected ns.SpecGhost yield table), so the Coach can rank on projected = value + incoming (overcap guard + HoG-SOON). Needs a pulse taken while a builder is mid-cast. Not-covered until incoming>0 is seen."
       }
     ]
   }

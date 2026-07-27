@@ -1,0 +1,9 @@
+{
+  "_scenario": "soon-incoming",
+  "_expected": "Projected shards = 2 + incoming 1 = 3 = Hand of Gul'dan's cost. The in-flight builder's shard PROMOTES the spender to the press: gated on projected (3 >= cost), HoG is the single ROTATION -- the readable next move that lands the instant the shard arrives. Shadow Bolt is UNCUED (the builder is already in flight; it is not re-pressed). incoming forwarded to the bar. Reverse of incoming-overcap.",
+  "resourceBar": { "value": 2, "max": 5, "incoming": 1, "display": "discrete", "powerType": "SOUL_SHARDS" },
+  "cues": {
+    "34991": { "draw": true, "emphasis": "ROTATION" }
+  },
+  "sequence": { "show": false }
+}

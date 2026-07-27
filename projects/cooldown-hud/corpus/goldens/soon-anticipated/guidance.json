@@ -1,0 +1,10 @@
+{
+  "_scenario": "soon-anticipated",
+  "_expected": "Tyrant ~2s out (napkin anticipated) -> SOON (anticipation, NOT a press). Dreadstalkers is the staging press before Tyrant (SEQUENCE 2: 'Dreadstalkers is the last thing before Tyrant') -> the single ROTATION. HoG is HELD pre-Tyrant (shards banked to flood inside the window), so despite 4 shards it does NOT draw. SOON coexists with the one ROTATION. bar 4/5.",
+  "resourceBar": { "value": 4, "max": 5, "incoming": 0, "display": "discrete", "powerType": "SOUL_SHARDS" },
+  "cues": {
+    "671": { "draw": true, "emphasis": "ROTATION" },
+    "2742": { "draw": true, "emphasis": "SOON", "note": "~2s — stage demons first" }
+  },
+  "sequence": { "show": false }
+}

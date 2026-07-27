@@ -1,0 +1,11 @@
+{
+  "_scenario": "burst-hold",
+  "_expected": "Burst branch imminent (Tyrant ~15s, napkin). HoG is the single ROTATION press (readable: 3 shards, no Core, Tyrant >5s away). Dreadstalkers + Implosion each draw JUDGE -- both are your-call 'stage for the Tyrant window or press now', and neither gate is readable (DS timing / Implosion imp-count secret). Two JUDGE + one ROTATION is contract-legal (JUDGE coexists).",
+  "resourceBar": { "value": 3, "max": 5, "incoming": 0, "display": "discrete", "powerType": "SOUL_SHARDS" },
+  "cues": {
+    "34991": { "draw": true, "emphasis": "ROTATION" },
+    "671": { "draw": true, "emphasis": "JUDGE", "note": "Tyrant soon — hold for the window or press" },
+    "149122": { "draw": true, "emphasis": "JUDGE", "note": "hold imps for burst — your call" }
+  },
+  "sequence": { "show": false }
+}

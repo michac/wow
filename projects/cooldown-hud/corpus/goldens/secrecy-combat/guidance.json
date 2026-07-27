@@ -1,0 +1,10 @@
+{
+  "_scenario": "secrecy-combat",
+  "_expected": "Every cd is readable:false. The single press (Demonbolt, ROTATION) traces ONLY to readable signals -- Core up via buff.isActive(777) + glow(1979). Tyrant draws SOON off the napkin-anticipated estimate (anticipation, not a press) and coexists with the one ROTATION. HoG excluded (2 shards < 3). No cue cites a secret cd or aura.",
+  "resourceBar": { "value": 2, "max": 5, "incoming": 0, "display": "discrete", "powerType": "SOUL_SHARDS" },
+  "cues": {
+    "1979": { "draw": true, "emphasis": "ROTATION" },
+    "2742": { "draw": true, "emphasis": "SOON" }
+  },
+  "sequence": { "show": false }
+}

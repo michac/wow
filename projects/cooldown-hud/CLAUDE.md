@@ -28,6 +28,21 @@ Blizzard's built-in **Cooldown Manager** under Midnight 12.0. v1 target spec:
   already-shipped code. **QA / clean-up, not roadmap blockers** — M4+ doesn't wait on
   them. (`verify-runbook.md` is the *how*; this is the *what + why + checkbox*;
   `milestones.md` keeps the design history.)
+- **`docs/architecture.md`** — *(target-state design, agreed 2026-07-24)* the
+  **State → Engine → ViewModel → Binder → DrawList → Renderer** pipeline the **W4**
+  refactor builds toward, with the four data-shape contracts (the two hand-authorable
+  fixture formats are the W4c test-mode payoff). **Standalone** — NOT part of the
+  §0–§9 set. Read it before touching the data/display seam; `todo/w4-hud-audit.md` is
+  the live worklist that executes it.
+- **`docs/w4-build-plan.md`** — *(build sequence, agreed 2026-07-24)* the **order of
+  operations** for the W4 refactor: the trio's third leg (`architecture.md` = target
+  shape, `w4-hud-audit.md` = problem inventory, this = the phased sequence + how each
+  stage is verified before the next leans on it). Owns three guiding principles that
+  outrank the step order — **bottom-up build, integrate at the end** (NOT strangler-fig:
+  the seams don't exist yet; willing to redesign the engine, not just port), an
+  **independent test oracle** (primary rotation source applied to captured State, never
+  the old engine), and **three-layer separation** (Engine → ViewModel keyed to concepts;
+  a separate Binder → DrawList bound to UI elements; Draw → pixels, never the API).
 
 Section numbers (§0–§9, plus §0.5) are shared across the four docs; each doc opens
 with a "Doc map" legend saying which § lives where.

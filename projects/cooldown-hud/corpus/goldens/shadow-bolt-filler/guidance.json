@@ -1,0 +1,9 @@
+{
+  "_scenario": "shadow-bolt-filler",
+  "_expected": "Every bucket is empty: no Core (Demonbolt dead), <3 shards (HoG unaffordable), no Art armed, summons cooling. Shadow Bolt is the single press -- the free builder that refills shards (rotation.md step 12). bar 1/5, incoming 0.",
+  "resourceBar": { "value": 1, "max": 5, "incoming": 0, "display": "discrete", "powerType": "SOUL_SHARDS" },
+  "cues": {
+    "34990": { "draw": true, "emphasis": "ROTATION" }
+  },
+  "sequence": { "show": false }
+}
