@@ -1,9 +1,0 @@
-{
-  "_scenario": "hand-of-guldan",
-  "_expected": "HoG is the single press: primary gated spender, 3 shards available, no proc, summons cooling.",
-  "resourceBar": { "value": 3, "max": 5, "incoming": 0, "display": "discrete", "powerType": "SOUL_SHARDS" },
-  "cues": {
-    "34991": { "draw": true, "emphasis": "ROTATION" }
-  },
-  "sequence": { "show": false }
-}

@@ -55,8 +55,6 @@ from .charstate import DEFAULT_WOW, parse_savedvar
 # artifact (the assumptions-of-record), and tools/ is the reader, not the truth.
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_BASELINE = REPO_ROOT / "projects" / "cooldown-hud" / "probe-baseline.json"
-DEFAULT_GOLDENS = REPO_ROOT / "projects" / "cooldown-hud" / "corpus" / "goldens"
-DEFAULT_CONTRACT = REPO_ROOT / "projects" / "cooldown-hud" / "guidance-contract.json"
 
 PASS, FAIL, SKIP = "PASS", "FAIL", "SKIP"
 CONTEXTS = ("ooc", "combat")
@@ -98,12 +96,16 @@ def _asdict(v) -> dict:
     return v if isinstance(v, dict) else {}
 
 
-def load_capture(wow_path: str) -> tuple[dict, dict, dict, str] | None:
-    """(probe, pulls, statelog, path) from the newest CDMProbe.lua, or None.
+def load_capture(wow_path: str) -> tuple[dict, dict, dict, dict, str] | None:
+    """(probe, pulls, statelog, hud2log, path) from the newest CDMProbe.lua, or None.
 
     `statelog` is the W4 Phase-1 reduced-State capture ring (CDMProbeDB.statelog),
     written by `/cdmp statelog`. Separate from `.probe` — a stream of full State
     pulses, not the two-snapshot capability diagnostic.
+
+    `hud2log` is the HUD2 decision log (CDMProbeDB.hud2log) — a ring of the last 3
+    sessions, each a list of one-line `S{…} G{…} B{…}` pipeline traces appended on
+    every decision change. Extracted to a flat .log by `cmd_hud2log`.
     """
     pth = _find_savedvar(wow_path)
     if not pth:
@@ -113,7 +115,7 @@ def load_capture(wow_path: str) -> tuple[dict, dict, dict, str] | None:
     if not isinstance(db, dict):
         return None
     return (_asdict(db.get("probe")), _asdict(db.get("pulls")),
-            _asdict(db.get("statelog")), pth)
+            _asdict(db.get("statelog")), db.get("hud2log"), pth)
 
 
 def _statelog_pulses(statelog: dict) -> list:
@@ -384,7 +386,9 @@ def _lit_per_sample(w: dict) -> int:
 # Phase 2's independent oracle, and folding it in here would re-couple the layers.
 
 # The reduced State's own vocabulary — the enum/domain the contract pins.
-_CD_STATES = {"ready", "cooling", "anticipated", "unknown"}
+# W4 Phase 7: three honest states (was ready|cooling|anticipated|unknown). `source`
+# is a trust annotation on `remaining`, not a second state axis.
+_CD_STATES = {"ready", "on-cooldown", "unknown"}
 _CD_SOURCES = {"live", "napkin", "none"}
 # The user-toggled target mode (W4 P5b): a generic single/AoE enum State forwards.
 _MODES = {"st", "aoe"}
@@ -511,9 +515,12 @@ def _check_sl_enum(pulses, expect):
 
 
 def _check_sl_napkin(pulses, expect):
-    """The napkin honesty rule, on disk: an estimate never claims readiness. A cd
-    sourced 'napkin' is anticipated (remaining>0) or unknown (no remaining) — never
-    'ready'; and NO cd of any source is 'ready' unless it was a live read."""
+    """The napkin honesty rule, on disk (W4 Phase 7): an estimate never claims
+    readiness. A cd sourced 'napkin' is always 'on-cooldown' with a numeric
+    remaining (>0 counting down, 0 = probably-up but unconfirmed) — never 'ready'
+    and never 'unknown'; and NO cd is 'ready' unless source is 'live' (an OOC read
+    or an observed alert edge). Symmetrically, an 'unknown' cd is genuine no-data
+    (source 'none'), carrying no remaining."""
     skip = _no_pulses(pulses)
     if skip:
         return skip
@@ -523,17 +530,17 @@ def _check_sl_napkin(pulses, expect):
             cd = _asdict(c.get("cd"))
             st, src, rem = cd.get("state"), cd.get("source"), cd.get("remaining")
             if src == "napkin":
-                if st == "ready":
-                    bad.append(f"pulse#{i} cd{c.get('cooldownID')}: napkin cd claims READY")
-                elif st == "anticipated" and not (isinstance(rem, (int, float)) and rem > 0):
-                    bad.append(f"pulse#{i} cd{c.get('cooldownID')}: anticipated but remaining={rem!r}")
-                elif st == "unknown" and rem is not None:
-                    bad.append(f"pulse#{i} cd{c.get('cooldownID')}: unknown estimate carries remaining")
+                if st != "on-cooldown":
+                    bad.append(f"pulse#{i} cd{c.get('cooldownID')}: napkin cd is {st!r}, not on-cooldown")
+                elif not isinstance(rem, (int, float)):
+                    bad.append(f"pulse#{i} cd{c.get('cooldownID')}: napkin on-cooldown but remaining={rem!r}")
             if st == "ready" and src != "live":
-                bad.append(f"pulse#{i} cd{c.get('cooldownID')}: READY from source={src!r} (only a live read may)")
+                bad.append(f"pulse#{i} cd{c.get('cooldownID')}: READY from source={src!r} (only a live read/edge may)")
+            if st == "unknown" and src not in (None, "none"):
+                bad.append(f"pulse#{i} cd{c.get('cooldownID')}: unknown from source={src!r} (unknown = no-data/none)")
     if bad:
         return FAIL, "; ".join(bad[:4]) + (f" (+{len(bad) - 4} more)" if len(bad) > 4 else "")
-    return PASS, f"{len(pulses)} pulse(s): no estimate claims readiness"
+    return PASS, f"{len(pulses)} pulse(s): no estimate claims readiness; unknown = no-data"
 
 
 def _check_sl_identity(pulses, expect):
@@ -614,6 +621,40 @@ def _check_sl_cov_napkin(pulses, expect):
             if _asdict(c.get("cd")).get("source") == "napkin":
                 return PASS, "a napkin-sourced cd was captured"
     return SKIP, "no napkin-sourced cd (cast a cooldown in combat, then re-capture)"
+
+
+def _check_sl_cov_ready_combat(pulses, expect):
+    """W4 Phase 7 coverage: a never-cast-but-OOC-readable summon reads `ready`
+    (source live) IN COMBAT, off the OOC baseline carried across combat entry —
+    NOT the pre-Phase-7 `source:none` collapse. This is THE bug-fix pin."""
+    skip = _no_pulses(pulses)
+    if skip:
+        return skip
+    for p in pulses:
+        if not _asdict(p).get("combat"):
+            continue
+        for c in _cooldowns(p):
+            cd = _asdict(c.get("cd"))
+            if cd.get("state") == "ready" and cd.get("source") == "live":
+                return PASS, f"a summon read ready/live in combat (cd{c.get('cooldownID')}) — baseline/edge, not source:none"
+    return SKIP, ("no in-combat ready/live cd yet — pull WITHOUT casting a never-cast "
+                  "summon (Tyrant/Dreadstalkers) and re-capture; it should read ready, not none")
+
+
+def _check_sl_cov_ready_edge(pulses, expect):
+    """W4 Phase 7b coverage: an observed CDM `Available`/`OnCooldown` alert edge
+    (a `ready_edge` event) fired in the corpus — readiness OBSERVED, not guessed."""
+    skip = _no_pulses(pulses)
+    if skip:
+        return skip
+    for p in pulses:
+        for e in _events(p):
+            if _asdict(e).get("kind") == "ready_edge":
+                ev = _asdict(e)
+                which = "Available" if ev.get("ready") else "OnCooldown"
+                return PASS, f"an observed alert edge fired (cd{ev.get('cooldownID')} {which})"
+    return SKIP, ("no ready_edge event yet — pull a dummy and let a cooldown finish/start "
+                  "in combat (the CDM Available/OnCooldown alert), then re-capture")
 
 
 def _check_sl_cov_shards(pulses, expect):
@@ -708,6 +749,30 @@ def _check_sl_cov_incoming(pulses, expect):
     return SKIP, "no incoming field on SoulShards — needs a fresh capture build (P5b)"
 
 
+def _check_sl_cov_incoming_negative(pulses, expect):
+    """P6 Part 2: the SIGNED projection clears an in-flight SPENDER. PASS once a
+    SoulShards power carries a NEGATIVE `incoming` (an in-flight Hand of Gul'dan
+    projecting −cost); SKIP until one does (a spender must be mid-cast when the pulse
+    is taken). This is the live half of the hog-inflight golden — the observation that
+    an in-flight HoG clears its own cue mid-cast instead of re-prompting itself."""
+    skip = _no_pulses(pulses)
+    if skip:
+        return skip
+    saw_field, saw_negative = False, False
+    for p in pulses:
+        ss = _asdict(_powers(p).get("SoulShards"))
+        inc = ss.get("incoming")
+        if isinstance(inc, (int, float)):
+            saw_field = True
+            if inc < 0:
+                saw_negative = True
+    if saw_negative:
+        return PASS, "a negative shard projection (incoming<0, an in-flight spender) was captured"
+    if saw_field:
+        return SKIP, "incoming present but never <0 — capture a pulse while Hand of Gul'dan is casting"
+    return SKIP, "no incoming field on SoulShards — needs a fresh capture build (P6 Part 2)"
+
+
 STATELOG_CHECKS = {
     "statelog-secrecy": _check_sl_secrecy,
     "statelog-enum-domain": _check_sl_enum,
@@ -717,12 +782,15 @@ STATELOG_CHECKS = {
     "statelog-coverage-contexts": _check_sl_cov_contexts,
     "statelog-coverage-secret": _check_sl_cov_secret,
     "statelog-coverage-napkin": _check_sl_cov_napkin,
+    "statelog-coverage-ready-combat": _check_sl_cov_ready_combat,
+    "statelog-coverage-ready-edge": _check_sl_cov_ready_edge,
     "statelog-coverage-shards": _check_sl_cov_shards,
     "statelog-coverage-transform": _check_sl_cov_transform,
     "statelog-coverage-proc": _check_sl_cov_proc,
     "statelog-coverage-history": _check_sl_cov_history,
     "statelog-coverage-mode": _check_sl_cov_mode,
     "statelog-coverage-incoming": _check_sl_cov_incoming,
+    "statelog-coverage-incoming-negative": _check_sl_cov_incoming_negative,
 }
 
 
@@ -1122,163 +1190,32 @@ def _diff_maps(a: dict, b: dict) -> None:
         print(f"  {changed} of {len(keys)} changed")
 
 
-# --------------------------------------------------------------------------- #
-# The goldens checks — the W4 Phase-2 corpus validator                         #
-# --------------------------------------------------------------------------- #
-# Validates the hand-authored State->Guidance goldens under
-# projects/cooldown-hud/corpus/goldens/ against BOTH contracts:
-#   * state.json    -> the State-contract invariants, REUSED from the statelog
-#                      block. A golden's synthetic State is one pulse, and it must
-#                      be as realizable as a real captured one (that reuse is the
-#                      whole point of the synthetic-baseline decision).
-#   * guidance.json -> guidance-contract.json (token vocab, no RGBA, single-top-
-#                      press, cue anchored in state, the secrecy gate).
-# RANKING CORRECTNESS is NOT machine-checked here — that is the rationale + the
-# adversarial verify stage. This gates FORMAT + CONTRACT + SECRECY only.
+def cmd_hud2log(hud2log, path: str, out: Path) -> int:
+    """Flatten the HUD2 decision log to a grep-friendly .log file.
 
-# The State-contract invariants (the statelog fixture gate), reused per golden.
-# NOT the corpus-COVERAGE checks — those are about a ring having diverse moments,
-# which is meaningless for a single hand-authored pulse.
-_GOLDEN_STATE_CHECKS = {
-    "state-secrecy": _check_sl_secrecy,
-    "state-enum-domain": _check_sl_enum,
-    "state-napkin-honesty": _check_sl_napkin,
-    "state-identity-coherence": _check_sl_identity,
-    "state-spec-agnostic": _check_sl_spec_agnostic,
-}
-
-
-def _contract_vocab(contract: dict) -> dict:
-    """The bounded token sets from guidance-contract.json — so the validator tracks
-    the committed contract instead of hardcoding a second copy."""
-    v = _asdict(contract.get("vocabularies"))
-
-    def members(name):
-        return set(_asdict(_asdict(v.get(name)).get("members")).keys())
-
-    return {
-        "emphasis": members("emphasis"),
-        "transient": members("transient"),
-        "stepState": members("stepState"),
-        "display": members("resourceDisplay"),
-    }
-
-
-def _is_rgba(x) -> bool:
-    """A list of numbers = a resolved colour, which must never appear in Guidance."""
-    return isinstance(x, list) and bool(x) and all(isinstance(n, (int, float)) for n in x)
-
-
-def _check_guidance(state: dict, guidance: dict, vocab: dict) -> list:
-    """Guidance-contract violations for one golden (empty list = clean)."""
-    errs = []
-    PRESS = {"ROTATION", "LATE"}
-    cds = _asdict(state.get("cooldowns"))
-    cues = _asdict(guidance.get("cues"))
-
-    press = []
-    for k, c in cues.items():
-        c = _asdict(c)
-        if not c.get("draw"):
-            continue  # unlisted / draw:false = AVAILABLE, not a cue
-        emph = c.get("emphasis")
-        if emph not in vocab["emphasis"]:
-            errs.append(f"cue {k}: emphasis {emph!r} not in {sorted(vocab['emphasis'])}")
-        if emph in PRESS:
-            press.append(str(k))
-        if str(k) not in cds:
-            errs.append(f"cue {k}: not anchored in state.cooldowns")
-        tr = c.get("transient")
-        if tr is not None and tr not in vocab["transient"]:
-            errs.append(f"cue {k}: transient {tr!r} not in {sorted(vocab['transient'])}")
-        if c.get("note") is not None and not isinstance(c.get("note"), str):
-            errs.append(f"cue {k}: note must be a pass-through string")
-        for kk, vv in c.items():
-            if _is_rgba(vv):
-                errs.append(f"cue {k}: field {kk!r} is an RGBA list (no pixels in Guidance)")
-    if len(press) > 1:
-        errs.append(f"single-top-press violated: {press} all carry ROTATION/LATE")
-
-    rb = _asdict(guidance.get("resourceBar"))
-    if rb:
-        if "color" in rb or any(_is_rgba(x) for x in rb.values()):
-            errs.append("resourceBar carries a raw colour (emit powerType, not RGBA)")
-        if not rb.get("powerType"):
-            errs.append("resourceBar missing powerType token")
-        disp = rb.get("display")
-        if disp is not None and disp not in vocab["display"]:
-            errs.append(f"resourceBar.display {disp!r} not in {sorted(vocab['display'])}")
-
-    for i, step in enumerate(_aslist(_asdict(guidance.get("sequence")).get("steps"))):
-        stt = _asdict(step).get("state")
-        if stt is not None and stt not in vocab["stepState"]:
-            errs.append(f"sequence.steps[{i}].state {stt!r} not in {sorted(vocab['stepState'])}")
-
-    # Secrecy gate (mechanical half): in a COMBAT fixture a drawn cue must not rest
-    # on a LIVE-readable cd read — combat cds are secret, so a drawn cue anchored on
-    # one is a fixture that lets the Coach cheat. (The full justification — that the
-    # cue follows from napkin/buff/glow/shards — is the rationale + verify stage.)
-    if state.get("combat"):
-        for k, c in cues.items():
-            if not _asdict(c).get("draw"):
-                continue
-            cd = _asdict(_asdict(cds.get(str(k))).get("cd"))
-            if cd.get("readable") is True and cd.get("source") == "live":
-                errs.append(f"cue {k}: drawn off a LIVE-readable cd in combat "
-                            f"(combat cds are secret — expected napkin/none)")
-    return errs
-
-
-def cmd_goldens(goldens_dir: Path, contract_path: Path) -> int:
-    if not goldens_dir.exists():
-        print(f"Goldens dir not found: {goldens_dir}", file=sys.stderr)
-        return 1
-    if not contract_path.exists():
-        print(f"Contract not found: {contract_path}", file=sys.stderr)
-        return 1
-    contract = json.loads(contract_path.read_text(encoding="utf-8"))
-    vocab = _contract_vocab(contract)
-
-    scenarios = sorted(p for p in goldens_dir.iterdir()
-                       if p.is_dir() and (p / "state.json").exists())
-    if not scenarios:
-        print(f"No scenarios (a <dir>/state.json) under {goldens_dir}.", file=sys.stderr)
-        return 1
-
-    print(f"goldens  — {goldens_dir}")
-    print(f"contract — {contract_path.name} v{contract.get('version', '?')}\n")
-
-    fails = 0
-    for sc in scenarios:
-        name = sc.name
-        try:
-            state = json.loads((sc / "state.json").read_text(encoding="utf-8"))
-            guidance = json.loads((sc / "guidance.json").read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError) as e:
-            print(f"[FAIL] {name}: parse error — {e}")
-            fails += 1
-            continue
-
-        errs = []
-        for cid, fn in _GOLDEN_STATE_CHECKS.items():
-            status, detail = fn([state], {})
-            if status == FAIL:
-                errs.append(f"{cid}: {detail}")
-        errs += _check_guidance(state, guidance, vocab)
-
-        if errs:
-            fails += 1
-            print(f"[FAIL] {name}")
-            for e in errs:
-                print(f"         - {e}")
-        else:
-            cues = _asdict(guidance.get("cues"))
-            lit = ", ".join(f"{k}:{_asdict(c).get('emphasis')}"
-                            for k, c in cues.items() if _asdict(c).get("draw"))
-            print(f"[PASS] {name:18} {lit or '(no cues)'}")
-
-    print(f"\n{len(scenarios) - fails} pass · {fails} fail")
-    return 1 if fails else 0
+    Each session is written newest-last, headed by a `# session … tracked:…` line and
+    then one entry per line. Real line numbers fall out for `grep -n`. The parser already
+    un-escapes the entries (each is a single quote-free line by format), so there is
+    nothing to un-escape here.
+    """
+    sessions = _aslist(hud2log)
+    out = Path(out)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    lines: list[str] = []
+    total = 0
+    for session in sessions:
+        s = _asdict(session)
+        entries = _aslist(s.get("entries"))
+        lines.append(
+            f"# session {s.get('started', '?')} v{s.get('version', '?')} "
+            f"tracked:{s.get('tracked', '?')}")
+        for e in entries:
+            lines.append(str(e))
+            total += 1
+    out.write_text("\n".join(lines) + ("\n" if lines else ""), encoding="utf-8")
+    print(f"{path}")
+    print(f"{len(sessions)} session(s) · {total} line(s) → {out}")
+    return 0
 
 
 # --------------------------------------------------------------------------- #
@@ -1286,27 +1223,19 @@ def cmd_goldens(goldens_dir: Path, contract_path: Path) -> int:
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(
         description="Read and assert CDMProbe /cdmp probe captures.")
-    ap.add_argument("command", choices=["check", "show", "diff", "goldens"])
-    ap.add_argument("subcommand", nargs="?", help="goldens: 'check' (default; only value accepted)")
+    ap.add_argument("command", choices=["check", "show", "diff", "hud2log"])
     ap.add_argument("--wow-path", default=DEFAULT_WOW,
                     help=f"WoW _retail_ path (default: {DEFAULT_WOW})")
     ap.add_argument("--baseline", default=str(DEFAULT_BASELINE),
                     help=f"assumptions-of-record JSON (default: {DEFAULT_BASELINE})")
-    ap.add_argument("--goldens-dir", default=str(DEFAULT_GOLDENS),
-                    help=f"goldens: corpus dir (default: {DEFAULT_GOLDENS})")
-    ap.add_argument("--contract", default=str(DEFAULT_CONTRACT),
-                    help=f"goldens: guidance contract JSON (default: {DEFAULT_CONTRACT})")
     ap.add_argument("--json", action="store_true",
                     help="show: dump the raw capture as JSON (archive it to diff against later)")
     ap.add_argument("--against", help="diff: compare against a JSON capture exported by `show --json`")
     ap.add_argument("--focus", help="show: narrow the statelog dump to a spell — a spellID, a name "
                     "substring (matched against active-buff names), or 'auras' to list every active buff seen")
+    ap.add_argument("--out", default=str(REPO_ROOT / "raw" / "cdmp-hud2.log"),
+                    help="hud2log: flat .log destination (default: <repo>/raw/cdmp-hud2.log, gitignored)")
     args = ap.parse_args(argv)
-
-    # goldens reads the on-disk corpus, not a WoW SavedVariables capture, so it
-    # dispatches before load_capture (no game install required).
-    if args.command == "goldens":
-        return cmd_goldens(Path(args.goldens_dir), Path(args.contract))
 
     loaded = load_capture(args.wow_path)
     if loaded is None:
@@ -1314,11 +1243,11 @@ def main(argv=None) -> int:
               f"{args.wow_path}/WTF/Account/*/SavedVariables/.", file=sys.stderr)
         print("Run /cdmp probe in-game and /reload first.", file=sys.stderr)
         return 1
-    probe, pulls, statelog, path = loaded
+    probe, pulls, statelog, hud2log, path = loaded
 
     if args.command == "show" and args.json:
         print(json.dumps({"probe": probe, "pulls": pulls, "statelog": statelog,
-                          "_path": path},
+                          "hud2log": hud2log, "_path": path},
                          indent=2, ensure_ascii=False, sort_keys=True, default=str))
         return 0
     if args.command == "show" and args.focus:
@@ -1327,6 +1256,8 @@ def main(argv=None) -> int:
         return cmd_show(probe, pulls, statelog, path)
     if args.command == "diff":
         return cmd_diff(probe, path, args.against)
+    if args.command == "hud2log":
+        return cmd_hud2log(hud2log, path, Path(args.out))
 
     bl_path = Path(args.baseline)
     if not bl_path.exists():

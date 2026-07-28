@@ -166,15 +166,15 @@
         "expect": {},
         "severity": "high",
         "confirmed": "2026-07-24",
-        "context": "Domain validity: cd.state in {ready,cooling,anticipated,unknown}, cd.source in {live,napkin,none}, power keyed by a genuine game power-type name (SoulShards, Mana, ...). An out-of-domain value is a contract break the whole pipeline reads. CONFIRMED 2026-07-24 (v0.29.2 capture)."
+        "context": "Domain validity: cd.state in {ready,on-cooldown,unknown} (W4 Phase 7 3-state model, was ready|cooling|anticipated|unknown), cd.source in {live,napkin,none} (a trust annotation on remaining, not a second state axis), power keyed by a genuine game power-type name (SoulShards, Mana, ...). An out-of-domain value is a contract break the whole pipeline reads. Enum flipped to 3 states 2026-07-27 (Phase 7); prior CONFIRMED 2026-07-24 (v0.29.2 capture)."
       },
       {
         "id": "statelog-napkin-honesty",
-        "desc": "No estimate ever claims readiness: a napkin cd is anticipated or unknown, never ready",
+        "desc": "No estimate ever claims readiness: a napkin cd is on-cooldown (with remaining), never ready; ready is only ever a live read/edge",
         "expect": {},
         "severity": "high",
-        "confirmed": "2026-07-24",
-        "context": "The napkin honesty rule (HudNapkin.lua), asserted on disk: an expired estimate stays 'unknown', never 'ready'; a 'ready' cd is only ever a live read (source=live). This is the one rule that keeps the anticipation input from lying. CONFIRMED 2026-07-24 (v0.29.2 capture)."
+        "confirmed": "2026-07-27",
+        "context": "The napkin honesty rule (HudNapkin.lua + State.readCd), asserted on disk under the W4 Phase 7 3-state model: a napkin-sourced cd is always 'on-cooldown' with a numeric remaining (>0 counting down, 0 = probably-up but unconfirmed) — never 'ready' and never 'unknown'; a 'ready' cd is only ever source=live (an OOC read OR an observed alert edge); an 'unknown' cd is genuine no-data (source=none). This is the one rule that keeps readiness observed, not guessed. Re-pointed to the 3-state model 2026-07-27; prior CONFIRMED 2026-07-24 (v0.29.2 capture)."
       },
       {
         "id": "statelog-identity-coherence",
@@ -210,11 +210,27 @@
       },
       {
         "id": "statelog-coverage-napkin",
-        "desc": "A napkin-sourced (anticipated) cd was captured",
+        "desc": "A napkin-sourced (on-cooldown estimate) cd was captured",
         "expect": {},
         "severity": "low",
         "confirmed": "2026-07-24",
-        "context": "Coverage. The anticipation path (source=napkin) needs a captured example for the Coach corpus. Requires casting a cooldown in combat so the napkin fills. Not-covered until then."
+        "context": "Coverage. The estimate path (source=napkin, state=on-cooldown) needs a captured example for the Coach corpus. Requires casting a cooldown in combat so the napkin fills. Not-covered until then."
+      },
+      {
+        "id": "statelog-coverage-ready-combat",
+        "desc": "A never-cast summon read ready/live IN COMBAT (baseline/edge, not source:none)",
+        "expect": {},
+        "severity": "low",
+        "confirmed": "2026-07-27",
+        "context": "Coverage (W4 Phase 7, THE bug-fix pin). Out of combat nothing is secret, so State reads a never-cast summon's cooldown precisely and stashes the OOC-readiness baseline; on combat entry the live read goes secret but the baseline (or an observed Available edge) carries readiness forward, so the cd reads state=ready/source=live instead of collapsing to source:none. Requires a pull where a tracked summon (Summon Tyrant / Call Dreadstalkers) is off cooldown and NOT cast, then an in-combat capture. Not-covered until then."
+      },
+      {
+        "id": "statelog-coverage-ready-edge",
+        "desc": "An observed CDM alert edge (ready_edge event) fired in the corpus",
+        "expect": {},
+        "severity": "low",
+        "confirmed": "2026-07-27",
+        "context": "Coverage (W4 Phase 7b). State subscribes to each CDM item's TriggerAlertEvent and records an Available/OnCooldown edge as a ready_edge event — in-combat readiness OBSERVED, not guessed. Requires a pull where a cooldown finishes or goes on cooldown in combat (the alert fires), then a capture. Not-covered until then."
       },
       {
         "id": "statelog-coverage-shards",
@@ -258,11 +274,19 @@
       },
       {
         "id": "statelog-coverage-incoming",
-        "desc": "The in-flight shard projection (SoulShards.incoming) reached the corpus (P5b)",
+        "desc": "A positive in-flight shard projection (SoulShards.incoming>0) reached the corpus (P5b)",
         "expect": {},
         "severity": "low",
         "confirmed": "unverified",
-        "context": "Coverage (W4 Phase 5b). State folds the net yield of in-flight BUILDER casts onto power.SoulShards.incoming (via the injected ns.SpecGhost yield table), so the Coach can rank on projected = value + incoming (overcap guard + HoG-SOON). Needs a pulse taken while a builder is mid-cast. Not-covered until incoming>0 is seen."
+        "context": "Coverage (W4 Phase 5b). State folds the net SIGNED yield of in-flight casts onto power.SoulShards.incoming (via the injected ns.SpecShardDelta reader — since P6 Part 2 it is signed: builders +, spenders −), so the Coach can rank on projected = value + incoming (overcap guard + HoG-SOON). This check covers the POSITIVE half: a pulse taken while a BUILDER is mid-cast. Not-covered until incoming>0 is seen (negative is statelog-coverage-incoming-negative)."
+      },
+      {
+        "id": "statelog-coverage-incoming-negative",
+        "desc": "A negative in-flight shard projection (SoulShards.incoming<0, an in-flight spender) reached the corpus (P6 Part 2)",
+        "expect": {},
+        "severity": "low",
+        "confirmed": "unverified",
+        "context": "Coverage (W4 Phase 6 Part 2). The SIGNED incoming (ns.SpecShardDelta) is what clears an in-flight Hand of Gul'dan: mid-cast the shards read the pre-spend value (HoG consumes on completion), so the −cost projection is the only thing that drops projected below the cost and lets the Coach cue Shadow Bolt instead of re-prompting the spell you are casting. The live half of the hog-inflight golden. A double-deduction guard (shard value snapshotted at the spender's START) keeps the −delta from spiking at the completion frame, and terminal cast events (INTERRUPTED/FAILED/STOP) clear a cancelled cast's projection. Needs a pulse taken while HoG is mid-cast. Not-covered until incoming<0 is seen."
       }
     ]
   }

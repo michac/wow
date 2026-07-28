@@ -1,9 +1,0 @@
-{
-  "_scenario": "implosion-primed",
-  "_expected": "Implosion is the single ROTATION press — napkin-confident promote (2 recent FULL HoGs, no Implosion since, AoE window ⇒ ≥6 imps estimated). HoG is NOT the winner here: 2 shards < its 3-shard cost, so it caps at AVAILABLE (unlisted). Positive twin of `implosion`, which stays JUDGE when the napkin is NOT confident.",
-  "resourceBar": { "value": 2, "max": 5, "incoming": 0, "display": "discrete", "powerType": "SOUL_SHARDS" },
-  "cues": {
-    "149122": { "draw": true, "emphasis": "ROTATION", "note": "imps banked — implode" }
-  },
-  "sequence": { "show": false }
-}

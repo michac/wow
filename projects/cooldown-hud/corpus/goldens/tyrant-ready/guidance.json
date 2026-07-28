@@ -1,9 +1,0 @@
-{
-  "_scenario": "tyrant-ready",
-  "_expected": "Summon Demonic Tyrant is the single press: 5 shards (readable) + a freshly-laid board = the burst window (source step 6). Tyrant probably-up via napkin (unknown, no remaining). HoG is affordable but demoted -- Tyrant precedes HoG in the entry block (Tyrant -> HoG HoG). No burst pane at a recurring Tyrant entry.",
-  "resourceBar": { "value": 5, "max": 5, "incoming": 0, "display": "discrete", "powerType": "SOUL_SHARDS" },
-  "cues": {
-    "2742": { "draw": true, "emphasis": "ROTATION" }
-  },
-  "sequence": { "show": false }
-}

@@ -57,17 +57,18 @@
     "emphasis": {
       "appears": ["cues[].emphasis"],
       "origin": "HudBoard colorKey, promoted to the public contract.",
-      "invariant_singleTopPress": "Decided 2026-07-25. At most ONE cue holds the 'press now' emphasis at a time -- ROTATION, or LATE when that press is overdue (they never co-occur) -- and it is the primary rotation source's #1 ready ability. All other ready abilities cap at AVAILABLE (internal; no cue unless JUDGE-ready). SOON (anticipation), JUDGE (your-call), SEQUENCE (look-at-the-panel) and the resourceBar may coexist -- they are not 'press now' claims. This makes the Coach a RANKED WINNER, not independent per-ability lights, and is expected to trip the build-plan decision gate (HudScore has no priority order today). See docs/w4-phase2-goldens-plan.md.",
+      "invariant_singleTopPress": "Decided 2026-07-25; revised W4 Phase 8 (2026-07-27). Exactly ONE cue holds the 'press now' emphasis -- ROTATION, or LATE when that press is overdue (they never co-occur) -- the flat priority list's (apl-prototype/pseudocode.md) first castable line. At most ONE cue holds ROTATION_FALLBACK: the honest second place (winner's ability removed, list re-run from the top), always offered when castable. All other ready abilities cap at AVAILABLE (internal; no cue). SOON (anticipation) and the resourceBar may coexist -- they are not 'press now' claims. This makes the Coach a RANKED WINNER, not independent per-ability lights. See docs/w4-phase2-goldens-plan.md.",
       "members": {
-        "SOON": "anticipating -- not yet pressable; dim + countdown treatment",
+        "SOON": "anticipating -- not yet pressable; dim + countdown treatment. W4 Phase 8: a DUMB per-ability 'coming off cooldown' decoration (any tracked damage cooldown anticipated within the lead), independent of the winner logic -- multiple may show at once.",
         "ROTATION": "press this now -- the steady lit press",
+        "ROTATION_FALLBACK": "the honest runner-up (W4 Phase 8): what the same priority list produces once the winner's ability is removed and it is re-run from the top. A real alternative press, not a 'press now' claim; carries the uncertainty the retired JUDGE cue used to hedge. At most one; coexists with the single ROTATION/LATE press.",
         "LATE": "overdue -- you have been sitting on it",
-        "JUDGE": "a judgment-call availability (e.g. Implosion off cooldown)",
-        "SEQUENCE": "ATTENTION-REDIRECT (not a press): tells the Renderer to point the player at the sequence PANEL -- an anti-tunnel-vision nudge for when they are locked on the CDM icons/cues. The panel carries the plan; this cue just redirects gaze to it (opener active, burst branch available). Coexists with the single ROTATION press, like SOON/JUDGE. (was BURST)"
+        "JUDGE": "RETIRED (W4 Phase 8). Was a judgment-call availability (Implosion off cooldown / Demonbolt Core dump). The uncertainty is now carried by offering the runner-up as a real press (ROTATION_FALLBACK), so the Coach no longer emits JUDGE. Token kept for history, like SEQUENCE.",
+        "SEQUENCE": "RETIRED (TCT redesign). ATTENTION-REDIRECT (not a press): pointed the player at the sequence PANEL. The one-press cue walk replaced the panel, so no cue emits it. Token kept for a possible future additive planner. (was BURST)"
       },
       "internal": {
         "NEVER": "no cue drawn",
-        "AVAILABLE": "off cooldown but not a call -- no cue unless JUDGE-ready"
+        "AVAILABLE": "off cooldown but not a call -- no cue"
       },
       "open": "SEQUENCE's exact Renderer treatment (arrow/glow toward the panel, how loud) is DEFERRED -- a Renderer decision, not a contract one; not settled while there is no Renderer."
     },

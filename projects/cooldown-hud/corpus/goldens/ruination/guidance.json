@@ -1,9 +1,0 @@
-{
-  "_scenario": "ruination",
-  "_expected": "Pit-Lord Art armed -> the HoG frame (34991) is Ruination and glows (readable). At 4 shards it is castable and is the free triple-imp spend, so it is the single ROTATION press. Others AVAILABLE. No transient (steady armed proc, not the arming edge).",
-  "resourceBar": { "value": 4, "max": 5, "incoming": 0, "display": "discrete", "powerType": "SOUL_SHARDS" },
-  "cues": {
-    "34991": { "draw": true, "emphasis": "ROTATION", "note": "Ruination — free triple-imp (Pit Lord)" }
-  },
-  "sequence": { "show": false }
-}

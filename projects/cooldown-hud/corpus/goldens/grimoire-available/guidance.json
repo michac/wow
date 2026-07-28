@@ -1,9 +1,0 @@
-{
-  "_scenario": "grimoire-available",
-  "_expected": "HoG is the single ROTATION press (readable: 3 shards). Grimoire: Imp Lord (135056) is off cd (napkin probably-up) but is UNLISTED = AVAILABLE: it is not suppressed, but its correct press is a SEQUENCE position (paired with Dreadstalkers before Tyrant, SEQUENCE 2), not a standalone light. No sequence panel active in steady state, so no SEQUENCE cue.",
-  "resourceBar": { "value": 3, "max": 5, "incoming": 0, "display": "discrete", "powerType": "SOUL_SHARDS" },
-  "cues": {
-    "34991": { "draw": true, "emphasis": "ROTATION" }
-  },
-  "sequence": { "show": false }
-}
