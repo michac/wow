@@ -81,17 +81,52 @@ class _LuaParser:
             self.i += 3; return None
         return self._number()
 
+    # Named single-char Lua string escapes → the control-byte value they denote.
+    _NAMED_ESCAPE = {
+        "n": 10, "t": 9, "r": 13, "a": 7, "b": 8, "f": 12, "v": 11,
+        "\\": 92, '"': 34, "'": 39,
+    }
+
     def _string(self, quote):
+        """Un-escape a Lua string literal CORRECTLY.
+
+        WoW writes multibyte (e.g. `×`) as RAW UTF-8 bytes (c3 97), uses `\\ddd`
+        DECIMAL byte escapes, and emits named escapes (`\\n`, `\\t`, …) for real
+        control chars inside report blobs. A naive keep-the-next-char un-escaper
+        turns `\\n` into "n" and would split a `\\ddd`-escaped multibyte char. So
+        build a `bytearray` (decimal escapes are *bytes*, not code points) and decode
+        utf-8 once at the end — a raw `×` in the already-decoded source re-encodes to
+        the same bytes, so both spellings round-trip.
+        """
         self.i += 1
-        out = []
+        buf = bytearray()
         while self.i < self.n:
             c = self.s[self.i]
             if c == "\\":
-                out.append(self.s[self.i + 1]); self.i += 2; continue
+                nxt = self.s[self.i + 1] if self.i + 1 < self.n else ""
+                if nxt.isdigit():
+                    # \ddd — 1 to 3 decimal digits → one byte value (Lua \ddd).
+                    j = self.i + 1
+                    end = min(j + 3, self.n)
+                    k = j
+                    while k < end and self.s[k].isdigit():
+                        k += 1
+                    buf.append(int(self.s[j:k]) & 0xFF)
+                    self.i = k
+                    continue
+                if nxt in self._NAMED_ESCAPE:
+                    buf.append(self._NAMED_ESCAPE[nxt])
+                else:
+                    # Lenient: unknown escape → the char verbatim (Lua would error).
+                    buf.extend(nxt.encode("utf-8"))
+                self.i += 2
+                continue
             if c == quote:
-                self.i += 1; break
-            out.append(c); self.i += 1
-        return "".join(out)
+                self.i += 1
+                break
+            buf.extend(c.encode("utf-8"))
+            self.i += 1
+        return bytes(buf).decode("utf-8", errors="replace")
 
     def _number(self):
         j = self.i
