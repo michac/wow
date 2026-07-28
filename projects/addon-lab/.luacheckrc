@@ -1,6 +1,6 @@
 -- .luacheckrc — static-analysis config for ClientLab.
 --
--- Same doctrine as CDMProbe's (m4.5-plan.md T1): CURATE THIS CONFIG, do NOT
+-- Same doctrine as CDMProbe's (projects/cooldown-hud/docs/archive/m4.5-plan.md T1): CURATE THIS CONFIG, do NOT
 -- inline-suppress.  A real catch (undefined global, dead local, shadow) gets
 -- FIXED; a WoW API name the lab legitimately CALLS goes in the read_globals std
 -- below.  Every name here is one the lab uses by IDENTIFIER, grepped from source.

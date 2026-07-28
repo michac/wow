@@ -36,44 +36,6 @@ This is deliberately the *catch-all*. Use the more specific queue when one fits:
 
 ---
 
-## PlannerState addon — backlog
-
-The addon (`planner-state/PlannerState/`) dumps reset state for the planner +
-`wowkb.character`. Deploy any of these per `planner-state/CLAUDE.md` (edit lua → bump
-`.toc` Version + `schema` → luaparser-check → **cut a GitHub release** → `ghaddons update`
-→ in-game `/ps` + `/reload`; a plain push does **not** reach the game).
-
-### ✅ Shipped in v0.6.0 / schema 8 (2026-07-10)
-- ~~**Per-slot upgrade track/level**~~ — DONE. `refreshEquip` now reads it off the item
-  **tooltip** (`C_TooltipInfo.GetInventoryItem`, matches the "<Track> cur/max" line) rather
-  than `C_ItemUpgrade.GetItemUpgradeItemInfo` (which only reads the item in the open upgrade
-  UI — useless headless). Each `equipment[]` slot carries `track/upgradeLevel/upgradeMax/upgradeText`.
-  Resolves the 259 Champion-5/6-vs-Hero-1/6 ambiguity. ✅ **Consumed:** `charstate` normalizes
-  it (dump-primary, API fallback) → `track_by_slot`; `wowkb.character` shows a Track column;
-  the crest scoring model reads it for real headroom.
-- ~~**The five "…of the Dawn" achievement IDs**~~ — DONE + consumed. New `achievements[]` block
-  (`GetAchievementInfo`, account-wide) → `charstate` exposes `dawn_achievements`; `wowkb.character`
-  renders the discount-status section (which sub-263 slots gate the 50% Champion discount).
-- ~~**Hidden-currency-by-ID mechanism**~~ — DONE. `scanCurrencies` now appends reads for
-  `ns.HIDDEN_CURRENCY_IDS` via `GetCurrencyInfo`. Table ships **empty** — see below.
-
-### ✅ The three "missing currencies" — all resolved (2026-07-10)
-The right source turned out to be one we already read, not the addon:
-- ~~**Sparks of Radiance** (232875)~~ + ~~**Ascendant Voidshards** (268650)~~ — they're
-  **items**, and **Syndicator already tracks the full bag+bank+warband inventory
-  account-wide**. So `wowkb.charstate` now reads item counts from Syndicator (the same file
-  we read for currencies) → `state["item_counts"]`, and `wowkb.character` shows a **Crafting
-  mats** line. The brief detour of curating them in the addon (`ns.ITEMS`, v0.6.1/v0.6.2) was
-  **reverted** — `ns.ITEMS` is empty again (v0.6.3); Syndicator is the item source.
-- ~~**Catalyst charges**~~ = *Dawnlight Manaflux* (currency **3378**), a normal visible
-  currency already captured — no work. `HIDDEN_CURRENCY_IDS` stays empty (neither was a real
-  hidden currency); the mechanism remains for a genuine off-list one.
-- **Also added:** `wowkb.character --skip-if-current` — skips the whole pull when the KB
-  snapshot's `fetched:` is already ≥ the dump's capture date (the "don't re-pull if you
-  already have the latest" short-circuit).
-
----
-
 ## Tooling / KB structure
 
 - **BucketBinds: source `spec_inventory` talents from wago `Trait*` (shrink `inventoryGaps` to
@@ -107,34 +69,17 @@ The right source turned out to be one we already read, not the addon:
   TODO expansion with **shared-step dedup**. This is the agreed direction; the doc has a worked
   Uncomplete sketch. The remaining scoring items below are folded into it.
 
-- **Schema-8 ingest — Phase A + B DONE (2026-07-10).** `charstate.load` makes the addon dump
-  the **primary** per-slot track source (`{track,level,cap}`, `None` for crafted), exposes
-  `track_by_slot` + `dawn_achievements`; `wowkb.character` renders a **Track column** + a
-  **"…of the Dawn" discount** section. Phase B: `rewards._crest_consumer(track)` values each
-  crest as `max(real-per-slot headroom → CREST_CEILING {263/276/285}, CREST_FLOOR {Champion
-  .25 / Hero .5 / Myth .75})` — Champion crests now have a consumer, the flat "Myth=4" rule is
-  retired, and above-need crests keep a rarity-scaled future-material floor (never 0, always
-  below a real need). Validated: Encomplete Champion 1.67 / Hero 3.83 / Myth 0.75(floor);
-  Uncomplete Champion 3.83 / Hero 3.83 / Myth 0.75.
-  The two former "remainders" are resolved/redirected:
-  - ~~**Gear-DROP ilvl-band fallback**~~ — DONE. `track_of_ilvl` had no callers (dead) and
-    `TRACK_CEILING` was used only inside it; both removed. The live drop path (`best_slot_delta`)
-    already values off real per-slot ilvls, so this was pure dead-code cleanup, no scoring change.
-  - ~~**Precise craft-reagent term** as a crest multiplier~~ — DROPPED as the wrong shape.
-    A craft isn't a multiplier on a crest; it's **one candidate path for a slot** in the
-    goal model above (cost 80 crests + 2 sparks, yield 272/285, weighed by mats-in-hand).
-    Data's all there (`item_counts`, tier flags); it gets built as part of the candidate graph,
-    not bolted onto `_crest_consumer`. The `CREST_FLOOR` stays as the interim crest value.
-
 ## Cooldown HUD / CDMProbe
 
 - **⚑ DRIVING DOC: `todo/addon-engineering.md`** — the multi-session program covering
   the lab addon, verifying the new `knowledge/addon-dev/` KB against the client, a
   `wow-developer` skill, and the Cooldown HUD audit + three-layer refactor (game-state
   abstraction / rotation engine / display engine), plus a UI test mode, rotation-engine
-  unit tests and several independent code reviews. **Cooldown HUD feature work is
-  FROZEN until that audit lands.** Items below that the program supersedes should be
-  struck as it absorbs them, not worked in parallel. *(2026-07-23)*
+  unit tests and several independent code reviews. **The audit is landing:** W4a
+  (dead-code strip) and W4b (the `HudBoard` engine + the `docs/architecture.md`
+  pipeline design) are done; **Cooldown HUD *feature* work stays frozen until the
+  rest of W4 lands.** Items below that the program supersedes should be struck as it
+  absorbs them, not worked in parallel. *(updated 2026-07-24)*
 
 
 _(design context: `projects/cooldown-hud/docs/`; source-read findings folded into
