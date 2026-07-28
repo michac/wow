@@ -133,6 +133,29 @@ right split.
       "keybind": "S-3"          // mostly-static, from HudBinds, OOC-resolved off the BASE id
     }
   },
+
+  // THE DOMAIN VIEW (added W4 — the re-layer) — the pipeline's actual input, keyed by
+  // BASE spellID, folding the N CDM rows of one ability into one. `cooldowns` above is
+  // the RAW CDM diagnostic view (retained for statelog/probe); this is what the Coach
+  // decides on. base-spellID -> cooldownID is N:1 (a summon is one Essential row +
+  // one TrackedBar/TrackedBuff row); State folds them and picks the PRESSABLE member.
+  "abilities": {
+    // keyed by BASE spellID; the folded, pressable-cooldown view
+    "105174": {
+      "ready": false, "remaining": 4.2, "charges": null, "source": "napkin",
+      "glow": { "active": false, "readable": true },
+      "aura": { "active": false, "readable": true },
+      "keybind": "S-3", "liveSpellID": 105174,
+      // the CDM row this ability displays through — the Binder's anchor. The fold picks
+      // the Essential (> Utility) member; a summon's TrackedBar row never becomes `display`.
+      "display": { "cooldownID": 42, "category": "Essential" }
+    }
+  },
+  "buffs": { "265187": true, "264173": true },  // procs/auras PRESENT, keyed by spellID
+                                                 // (secrecy-guarded: an unreadable aura is
+                                                 // ABSENCE, never a false `true`)
+  "resources": { "shards": { "value": 3, "max": 5, "incoming": 0 } },  // domain-keyed power
+
   "power": {
     // keyed by the REAL power-type (game vocabulary); Coach decides what matters
     "soulShards": { "value": 3, "max": 5, "incoming": 0, "readable": true }
@@ -159,10 +182,21 @@ right split.
 }
 ```
 
-- Keys: **both spellID and cooldownID** are present (State keys on cooldownID, the CDM
-  anchor, and carries spellID + overrideSpellID). They diverge on transforms — the
-  live identity is `overrideSpellID or spellID`. State owns that resolution (today's
-  B1 bug is three copies of it — `w4-hud-audit.md` B1).
+- Keys: State's raw `cooldowns` map keys on **cooldownID** (the CDM anchor — retained
+  for diagnostics/statelog, and carrying spellID + overrideSpellID). **The pipeline
+  consumes the base-spellID `abilities`/`buffs`/`resources` domain view instead.**
+  cooldownID is transport + the Binder's display anchor, not the Coach's vocabulary.
+  base-spellID→cooldownID is **N:1**: State folds the N CDM rows of one ability
+  (Dreadstalkers = Essential 671 + TrackedBar 760, Tyrant = Essential 2742 + TrackedBar
+  84224, Grimoire = Essential 135056 + TrackedBuff), choosing the **pressable** member
+  (Essential > Utility) as `display`; tracked-only members (Wild Imp, Demonic Core) do
+  not enter `abilities`. This is the same normalization State already does *within* a
+  cooldownID (`readCd` fuses live/napkin/edge/OOC-baseline), extended one rung up:
+  *across* the rows of one ability. The fold stays **spec-agnostic** — its key is
+  `category` (readable OOC and in combat) + base spellID (readable OOC, cached in a
+  `foldBase` map for the secret-in-combat fallback), never a spell name. Identity within
+  a row (live vs base on transforms — `overrideSpellID or spellID`) is still State's, one
+  resolver (today's B1 bug is three copies of it — `w4-hud-audit.md` B1).
 - `cd.state:"anticipated"` + `source:"napkin"` is how the napkin enters *without*
   masquerading as an observed read; an expired estimate stays `"unknown"`, never
   `"ready"` (the napkin's honesty rule).
@@ -256,10 +290,12 @@ semantic tokens (not pixels), generic enums, real spellIDs, pass-through strings
   },
 
   "cues": {
-    // keyed by cooldownID (real); View MAY fetch an icon from spellID if we draw our own.
-    // NO color/fill/width/pulse — the Renderer derives treatment from `emphasis`.
-    // NO role — v1 colours by urgency, not ability group.
-    "42": {
+    // keyed by BASE spellID (the re-layer): the Coach decides and emits in spellID terms
+    // — its domain is spells/buffs/resources (the APL is written that way), never the CDM
+    // transport cooldownID. The Binder resolves each spellID cue to a display cooldownID
+    // via the Layout (Stage 3). NO color/fill/width/pulse — the Renderer derives treatment
+    // from `emphasis`. NO role — v1 colours by urgency, not ability group.
+    "105174": {
       "draw": true,
       "emphasis": "LATE",           // enum:emphasis — SOON|ROTATION|LATE|JUDGE|SEQUENCE
       "transient": "cast_started",  // enum:transient|null — a phase EDGE; absorbs `effects`
@@ -336,6 +372,15 @@ same way), producing the DrawList the Renderer draws verbatim.
 }
 ```
 
+- **The Binder owns the spellID→cooldownID mapping (the re-layer).** Guidance's `cues`
+  are keyed by **base spellID** (the Coach decides in spellIDs); the Layout carries both
+  ids per displayed icon (`{ spellID, side }`). The Binder inverts the Layout to
+  `base-spellID → cooldownID`, looks up `cues[entry.spellID]` for each displayed icon, and
+  emits `anchorTo = cooldownID` (unchanged — the Renderer registry stays cid-keyed). A cue
+  whose spellID has **no displayed Layout entry** is dropped *with a reason* ("ability not
+  in an icon viewer"). This is where the summon-drop bug dies: an ability's `display`
+  cooldownID (the Essential row, which the Layout shows) is what draws — the TrackedBar row
+  that used to win the last-writer-wins race never reaches the Binder at all.
 - `anchorTo: 42` = "the frame registered under handle 42" — the CDM icon frame in-game
   (free ride-along on Edit-Mode drags), a placeholder square in a test. `anchorTo:
   "UIPARENT"/"SCREEN"` = our own roots.
