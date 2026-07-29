@@ -10,8 +10,8 @@ install, and adding a test costs a copy, not a release cut.
     uv run python -m wowkb.lab deploy --check     # cross-check only, don't copy
     uv run python -m wowkb.lab deploy --wow-path <dir>
 
-THE REGISTRY CROSS-CHECK (cdmp.py:360-369's "no check function for this id" rule,
-applied both directions): every `status: "built"` question in questions.json must
+THE REGISTRY CROSS-CHECK (the same "no check function for this id" rule cmd_check in
+cdmp.py applies, both directions): every `status: "built"` question in questions.json must
 have a matching ns.Test{} in ClientLab/T_*.lua, and every ns.Test{} id must be a
 built question. An unmatched id is a LOUD ERROR, never a silent skip — a test that
 runs but has no registry row would emit a value nobody is expecting, and a built
