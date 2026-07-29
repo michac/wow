@@ -22,7 +22,7 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
   (`CDMProbeDB.hud2log`, `wowkb.cdmp hud2log`). The old-engine `statelog` and `pulls`
   recorders were retired at the cutover.
 - **Gates:** `luaparser` (release) + `luacheck CDMProbe/` + `busted CDMProbe/tests/spec`
-  (126 tests) + `wowkb.cdmp check` (probe-only, 6 pass · 0 fail).
+  (125 tests) + `wowkb.cdmp check` (probe-only, 6 pass · 0 fail).
 
 ## Phase ledger (the W4 build)
 
@@ -54,13 +54,59 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
 The container for what's next. The old engine is gone, so this is where feature/quality
 work lands now — the user drives the list; a few already-surfaced items are seeded:
 
-- **Proc-glow fidelity** — motion / layered-additive / soft sprite for the proc glow
-  (from the recent Q&A on making the glow read better). Currently a flat treatment.
+- **Proc-glow obscures our chrome — subdue or replace it.** ✅ **Shipped v0.32.17 (dim,
+  not replace):** `HudProcGlow.lua` post-hooks each CDM item's `RefreshOverlayGlow` and
+  sets `item.SpellActivationAlert:SetAlpha(0.5)` while the HUD is on (gated on
+  `ns.HudOn()`; restored to full on toggle-off). Frame-level alpha multiplies the whole
+  glow without fighting the proc animation. *In-game eyeball still owed:* confirm 0.5 is
+  the right level (the `DIM` constant is a dial) — recolor+dim remains available if
+  dim-alone isn't enough.
+- **Main-choice vs backup-choice distinction is too subtle.** ✅ **Shipped v0.32.17
+  (motion, not colour):** every cue now shows a solid circle **+ a spinning glow ring**;
+  the winner (`ROTATION`) and softer cues spin+pulse, while the runner-up
+  (`ROTATION_FALLBACK`) shows a **static** ring in ROTATION's green — so primary vs backup
+  reads by *movement*, not a dim-vs-bright hue. Driven by `GLOW_SPEC` in the Renderer
+  (`guidance-contract.json` is authoritative for the `emphasis` set); this was a
+  Renderer treatment change, the Guidance already carries the two distinct tokens.
+- **Imp napkin count** — a rough running **minimum** Wild-Imp count, in the napkin
+  spirit (honest under the Secret-Values wall, where the real `Applications` stack is
+  secret). Ingredients: seed an initial count OOC (readable there), then keep a running
+  tally off `State.history` (the bounded cast window it already carries — start+succeeded,
+  `architecture.md`): **+shards-spent** per Hand of Gul'dan, **−all** on Implosion,
+  **−2** on Power Siphon, and **decay** each imp after its lifespan. ⚠ **Lifespan is a
+  research sub-task** — the KB has the mechanics (imps are **energy-limited**: they cast
+  Fel Firebolt until out of energy; Tyrant **extends every active demon ~15 s**; a
+  passive summons one every 12 s) but **no clean seconds figure**; pin it (Wowhead /
+  wago / a probe) before trusting the decay. Note `State.history` is a **bounded window**,
+  so spanning a full imp lifetime likely needs a dedicated accumulator, not just the
+  window. Explicitly a *minimum* (secret refunds/procs can only add imps we didn't count).
 - **`abilities[base].uptime`** — surface a buff/DoT uptime off the TrackedBar duration in
   the domain view, so the Coach can reason about "keep this up" abilities.
 - **Roll the domain view to other specs** — the fold + priority list are spec-agnostic;
   the spec data (`SpecDemonology.lua` + `specs/demonology/`) is the seam a 2nd spec plugs
   into. Adding a spec = a new `specs/<spec>/` doc set + a Coach spec table.
+- **Warlock Destruction spec folder** — ✅ **docs authored** (2026-07-28):
+  `specs/destruction/` carries the same four docs as `demonology/` (rotation · notes ·
+  input-contract · observability-map), v1 profile **Diabolist** with a Hellcaller delta.
+  All four are **DRAFT / desk-derived** — distilled from the Tier-1 simc APL +
+  `wowkb.spec_inventory`, with **no live capture**. What it surfaced, and what is left:
+  - **Fragments force a contract edit.** `resourceDisplay` has only `discrete` and
+    `percentage`; Destruction is segments-**with**-partial-fill. The contract already
+    invites the addition. Also: `State.lua`'s `UnitPower` call has no unmodified flag, so
+    the fragment value is not read at all today — the rotation's shard gates are rounded
+    conservatively until it is.
+  - **`dot_refreshable` is the gating item, not a polish item.** Immolate/Wither
+    maintenance is the spec's spine and it is blocked on `abilities[base].uptime`
+    (below). Until that lands, the DoT line cannot fire honestly.
+  - **Destruction closes the `charge` open item** — Conflagrate + Shadowburn are the
+    project's first charged tracked abilities. Worth capturing early.
+  - **Predicted-vs-live tracked set needs `/cdmp hud status` on a Destruction character.**
+    Two specific things to check: **Incinerate appears untracked** (the floor press, and
+    it would make the Infernal Bolt transform blind the way Shadow Bolt does for Demo),
+    and the **Diabolist proc IDs differ from Demo's** — Destruction's residue names
+    `433885`/`433891`, the pair `SpecDemonology.lua` labels "alt ID, unconfirmed".
+  - **Still to do:** a `SpecDestruction.lua` Coach spec table, a `coach_apl_spec`-style
+    branch oracle, and a live probe capture.
 - **Coach rotation logic** — any real rotation-quality tuning (the cutover was
   behaviour-preserving; the flat priority list is the place to iterate).
 - **Layer-① curated Cooldown Layout override (deferred).** v1 ships no profile and binds

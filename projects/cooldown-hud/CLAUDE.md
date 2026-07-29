@@ -7,6 +7,15 @@ Blizzard's built-in **Cooldown Manager** under Midnight 12.0. v1 target spec:
 **The W4 pipeline is LIVE** (`/cdmp hud` runs `State → Coach → Binder → Renderer`; the
 old engine was deleted at the W4 cutover).
 
+## Auto-deploy is OK for this project
+
+Standing exception to the workspace-wide "cutting a release is ask-first" rule
+(root `CLAUDE.md`), **scoped to the CDMProbe addon only**: when a change is ready
+for me to eyeball/test in-game, **just cut it and deploy** — commit the feature
+work, `wowkb.addon release cdmp --patch`, and tell me to `/reload`. No need to ask
+first for a test build; iterating on the HUD *is* the loop. (This covers routine
+test cuts; still flag anything genuinely irreversible or out-of-band.)
+
 ## Doc map
 
 The docs split **general** (spec-agnostic — the product, the pipeline) from
@@ -35,6 +44,11 @@ The docs split **general** (spec-agnostic — the product, the pipeline) from
   (Tyrant + Dreadstalkers), Demonic Core proc, shard mechanics.
 - **`specs/demonology/input-contract.md`**, **`observability-map.md`** — reference-only:
   the evaluator's inputs and what the game exposes vs. hides.
+- **`specs/destruction/`** — the same four docs for **Destruction Warlock** (v1 profile
+  Diabolist, Hellcaller as a delta section). ⚠ **DRAFT / desk-derived** — distilled from
+  the Tier-1 simc APL and game data, with **no live capture yet**: the tracked set is
+  predicted, and three inputs (DoT uptime, charges, target health) are missing rather
+  than merely secret. Read its status banners before treating anything as fact.
 
 **Machine-readable contracts (source of truth — prose defers to these):**
 
@@ -49,7 +63,8 @@ don't cite it as fact. See `docs/archive/README.md`.
 ## Layout
 
 - `docs/` — the general design docs (above).
-- `specs/<spec>/` — per-spec rotation brain + facts. `demonology/` is the only one today.
+- `specs/<spec>/` — per-spec rotation brain + facts. `demonology/` (shipped) and
+  `destruction/` (draft, docs only — no Coach spec table yet).
 - `addon/` — the **CDMProbe addon** (`michac/CDMProbe`), its **own git repo**,
   **gitignored** from this workspace. Has its own `CLAUDE.md` for the
   deploy/release workflow (a plain push does NOT reach the game — cut a release).
