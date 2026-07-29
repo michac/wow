@@ -130,7 +130,7 @@ ns.Test{
 
 **`expect` is deliberately NOT in the Lua.** It lives in `questions.json` and is
 never compared in-game. This is the collect/assert split from
-`m4.5-t3-plan.md`, and it is the one place the inherited doctrine needs restating,
+`cooldown-hud/docs/cdmp-doctrine.md`, and it is the one place the inherited doctrine needs restating,
 because the lab is not `wowkb.cdmp`: **cdmp asserts a known answer against
 regression; the lab discovers an unknown answer.** So the reader renders
 `result` beside `expect` and a **human** decides — an automatic PASS/FAIL here

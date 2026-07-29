@@ -1,23 +1,15 @@
-# Cooldown HUD — technical notes
+# Cooldown HUD — technical notes (what the game allows)
 
-> **⚠ Note (W4 cutover):** the Secret-Values / capability / anchoring findings here are
-> current and engine-independent, but some **build findings reference the retired old
-> engine** (`HudCore`/`HudState` and the old `/cdmp hud status` output) — those are
-> **provenance** (how the finding was measured), not a description of today's code. The
-> HUD is now the W4 pipeline (`architecture.md`).
+> The **Secret-Values reality and the CDM capability map**: what an addon can read,
+> branch on, and display under Midnight 12.0, plus the positioning/anchoring
+> architecture. Spec-agnostic and engine-independent — this is the ground the pipeline
+> (`architecture.md`) is shaped around. Demonology-specific data (tracked set, override
+> pairs, blind spots) lives in `specs/demonology/notes.md`; vision/design language in
+> `design.md`.
 >
-> The **how & why-it-works**: the Secret-Values constraint, the capability map, the
-> target spec's tracked set, the positioning/anchoring architecture, empirical build
-> findings, and provenance.
->
-> **Superseded work lives in [`notes-archive.md`](./notes-archive.md)** — the
-> green-phosphor icon-tint era, the curated-layout machinery we proved and parked,
-> and the assumptions we got wrong. Nothing in this file should contradict
-> `guidance-model.md`, which is the authority on *what to signal*.
->
-> **Doc map (§ cross-refs):** §0 Direction + §3 Design language → `spec.md` ·
-> §0.5 Guidance model → `guidance-model.md` · §1–§2, §4–§5, §9 → **this doc** ·
-> §6 Milestones + §7 Open questions → `milestones.md`.
+> ⚠ Some **build findings reference the retired old engine** (`HudCore`/`HudState` and
+> the old `/cdmp hud status` output) — those are **provenance** (how the finding was
+> measured), not a description of today's code. The HUD is now the W4 pipeline.
 
 ## 1. The hard constraint — Midnight "Secret Values"
 
@@ -76,7 +68,7 @@ an unreadable one.** An unreadable ID means "keep what you had", not "update".
 ### Spell overrides — the transform channel, confirmed (2026-07-21)
 
 `COOLDOWN_VIEWER_SPELL_OVERRIDE_UPDATED` fired **12 times** in one dummy session,
-closing §7's V1(c) (previously `spell-override events: 0` in every pass). The
+closing an earlier open question (previously `spell-override events: 0` in every pass). The
 pairs also disambiguate three IDs the spec table had been guessing at:
 
 | base | override | note |
@@ -89,7 +81,7 @@ pairs also disambiguate three IDs the spec table had been guessing at:
 Two findings ride on that table:
 
 1. **Shadow Bolt's half of the Art wheel is observable even though SB is not in
-   the tracked set.** §0.5.5 recorded "SB → Infernal Bolt has no icon to light" as
+   the tracked set.** The blind-spot list recorded "SB → Infernal Bolt has no icon to light" as
    a permanent blind spot; it is now a blind spot only in *where to draw*, not in
    *what we know*. That reopens it as addressable.
 2. **The event is not sufficient on its own** — though *not* for the reason first
@@ -111,20 +103,19 @@ Two findings ride on that table:
 | --- | --- |
 | Layout, colour, identity, chrome, keybinds | **ours** (pure rendering — never restricted) |
 | Soul Shard rail + cap glitter + cap sound | **ours** (shards readable & branchable) |
-| Proc highlight (e.g. Demonbolt lit when Demonic Core up) | **ours** (buff-item aura **edges** via `TriggerAlertEvent`; `IsShown()` is only a conditional level backstop) |
-| Mode chrome (PREP/GENERATE/SPEND/BURST) | **ours** (composed from shards + presence + napkin timers) |
-| Napkin timing cues (Tyrant approach, HOLD, short-CD pings) | **ours** (own casts + `GetSpellBaseCooldown`) |
+| Proc highlight (e.g. a proc lighting the empowered spell) | **ours** (buff-item aura **edges** via `TriggerAlertEvent`; `IsShown()` is only a conditional level backstop) |
+| Napkin timing cues (fixed-CD approach, short-CD pings) | **ours** (own casts + `GetSpellBaseCooldown`) |
 | Icon art, cooldown swipe, countdown text, charges | **borrowed — and now untouched.** Blizzard's secure Cooldown widget draws it; v1 adds nothing over the icon |
 | DoT / proc duration + stacks bars | **borrowed** — restyle the secure BuffBar/Icon viewer |
 | "Off cooldown" / "pandemic" **sounds** | **borrowed** — Blizzard's native right-click CDM alerts (secure, survive combat) |
-| Which spells tracked, bucket & order | **not ours** — we bind to whatever layout is active, per item by `GetCooldownID()` (§5). We ship no layout string ([archive B](./notes-archive.md#b-the-layer--curated-layout-machinery)) |
+| Which spells tracked, bucket & order | **not ours** — we bind to whatever layout is active, per item by `GetCooldownID()` (§5). We ship no layout string |
 
 **Design consequence:** architect as *dumb honest renderers over the secure CDM*.
 Own the logic where the data is ours (shards, proc presence, our own casts,
 layout); borrow the display where it isn't (cooldown/DoT timers); route
 conditional-in-combat audio through Blizzard's native alerts. Anything needing a
-secret quantity is not-in-v1 — and is flagged as such in `guidance-model.md`
-§0.5.5 rather than faked.
+secret quantity is not-in-v1 — and is flagged as such (`architecture.md` → Blind
+spots) rather than faked.
 
 ### Skinning specifics (source-grounded, 2026-07-15)
 
@@ -150,7 +141,7 @@ e.g. imp count). Buff-bar = `Bar` (StatusBar) + `.BarBG` + `.Pip` (spark) +
 
 | Capability | Verdict | Notes |
 | --- | --- | --- |
-| Hide/replace/resize/crop **or tint** `Icon` texture | ✅ styleable — **but v1 does not** | `SetTexture(nil)`/`SetAlpha`/`SetTexCoord`; `SetDesaturated(true)` + `SetVertexColor(r,g,b)` keeps the shape and recolours it. **Proven and deliberately unused** — tinting hurt swipe/countdown legibility, so v1 leaves icons native and the hooks sit dormant ([archive A](./notes-archive.md#a-the-green-phosphor-era--icon-tinting-and-the-4-letter-labels)) |
+| Hide/replace/resize/crop **or tint** `Icon` texture | ✅ styleable — **but v1 does not** | `SetTexture(nil)`/`SetAlpha`/`SetTexCoord`; `SetDesaturated(true)` + `SetVertexColor(r,g,b)` keeps the shape and recolours it. **Proven and deliberately unused** — tinting hurt swipe/countdown legibility, so v1 leaves icons native and the hooks sit dormant |
 | Restyle cooldown **swipe** (color/edge/texture) | ✅ art | **radial only — no linear mode**; timing secure |
 | **Cooldown bar** (linear fill) | ⚠ build-your-own | no native cooldown bar; own StatusBar fed by `C_Spell.GetSpellCooldownDuration` object |
 | Restyle/recolor/resize **buff-bar** fill, drop its icon | ✅ styleable | `Bar` StatusBar; `SetBarContent(NameOnly)`; fill secure (`SetValue`), don't read `GetValue` |
@@ -182,7 +173,7 @@ casts`**; v0.5.3 logs START/SUCCEEDED/STOP/INTERRUPTED per-phase.
 > SUCCEEDED/STOP/INTERRUPTED) without `UnitCastingInfo`, so the anticipation layer
 > rides on one assumed path rather than two. If it ever reads secret somewhere,
 > `hud status` says so (`napkin: live | unavailable | not probed`) and we fix it
-> then. See `milestones.md` §7 and `guidance-model.md` §0.5.8.1.
+> then.
 
 **Ready / pandemic / flash are fully re-skinnable — via observation, no secret
 read.** `hooksecurefunc` the Blizzard-driven show/hide methods to get the *edge*,
@@ -211,12 +202,12 @@ from all six alert paths:**
 
 | Enum | Call site | Meaning for us |
 | --- | --- | --- |
-| `Available` | `:500` | ready **rising** edge (§0.5.8.3 #5) |
-| `OnCooldown` | `:1068` | ready **falling** edge (#5) |
-| `OnAuraApplied` | `:612` | proc gained (#2, #3) |
-| `OnAuraRemoved` | `:622` | proc lost (#2, #3) |
-| `ChargeGained` | `:608` | M4 |
-| `PandemicTime` | `:556` | §7 open question |
+| `Available` | `:500` | ready **rising** edge |
+| `OnCooldown` | `:1068` | ready **falling** edge |
+| `OnAuraApplied` | `:612` | proc gained |
+| `OnAuraRemoved` | `:622` | proc lost |
+| `ChargeGained` | `:608` | charge recharge |
+| `PandemicTime` | `:556` | pandemic edge (see below) |
 
 Decisively, **the user's alert configuration is checked *inside* the body**
 (`self.alertsByEvent[event]`), *after* the call — so the method is invoked
@@ -287,7 +278,7 @@ The buff's remaining time is *not* self-computable as a **number** (aura
 `SecretWhenUnitAuraRestricted`, unlike the raw-number `GetAuraBaseDuration`) — but
 it needs a valid `auraInstanceID` you can't identify as *yours* without a secret
 read, so it's unusable for a DoT in practice (see the paint-vs-feed subsection
-below). *(Still open — `milestones.md` §7: verify a spell can live in both
+below). *(Still open: verify a spell can live in both
 Essential + BuffBar categories at once.)*
 
 ### Target/unit auras — the *whole record* is secret, not just its timing (2026-07-22, source @ 68453)
@@ -354,7 +345,7 @@ debuff on your target**, not a cooldown.
   hits the wall; pandemic **edge** (below), current target only. So a DoT is
   assistable at **proc-glow fidelity** for the current target; multi-target spread
   stays sealed. This softens the earlier "DoT specs are hopeless" read — see the
-  M7 second-spec note in `milestones.md` §6.
+  second-spec direction (e.g. an Affliction pass).
 
 ### Pandemic — two edge signals, never a number (2026-07-22, source @ 68453)
 
@@ -419,82 +410,6 @@ Two consequences:
 
 ---
 
-## 2. The Demonology target
-
-Confirmed tracked set — **re-measured 2026-07-20** off `/cdmp hud status`
-(M3a, v0.6.0, live, Diabolist profile), which enumerates the bound items with
-their cooldownIDs directly instead of eyeballing a `dump`:
-
-- **Essential (cooldowns) — 6:** Hand of Gul'dan `105174`, Call Dreadstalkers
-  `104316`, Summon Demonic Tyrant `265187`, Grimoire: Fel Ravager `1276467`,
-  Implosion `196277`, Demonbolt `264178`
-- **Utility — 7:** Unending Resolve `104773`, Dark Pact `108416` (defensives);
-  Shadowfury `30283`, **Command Demon `119898`**, Mortal Coil `6789`, Blight of
-  Tongues `1271802` (CC); Demonic Circle: Teleport `48020` (mobility)
-- **Buff bars — 4:** Demonic Core `264173`, Dominion of Argus `1276166`, Unending
-  Resolve `104773`, Call Dreadstalkers `104316`
-- **Buff icons — 3:** Wild Imp `296553`, Diabolic Ritual `428514` **×2**
-
-> **Correction 1 (2026-07-20) — Utility is 7 spells, not 13**, and it carries the
-> *wrapper* spell **Command Demon `119898`**, not the pet ability **Axe Toss
-> `119914`** this list previously recorded. Consequence: "the noisy 13-spell
-> Utility default", cited as the likely trigger for an M7 curated layer-①
-> override (`milestones.md` §7, [archive B](./notes-archive.md#b-the-layer--curated-layout-machinery)),
-> is a **smaller problem than assumed** — that argument has to be re-made against
-> 7 icons, not 13.
->
-> **Correction 2 (2026-07-20) — `428514` (Diabolic Ritual) is tracked TWICE**, as
-> two distinct cooldownIDs (`9426`, `9472`) sharing one spellID. This is direct
-> **validation of the M2 decision to key the registry on `cooldownID`, not
-> `spellID`** (§5): a spellID-keyed table would have silently collapsed the two
-> and dropped a live item.
->
-> Note for §0.5.8 #18 (unchanged in substance): both entries are the `428514`
-> **container** — the per-stage ritual auras the predictive tracker needs are
-> still not tracked, so #18 stays gated on a curated layout override (M7).
-
-**Rotation shape** (distilled from `knowledge/classes/warlock/demonology/
-rotation.md`, Diabolist, 12.0.7). Demo is a builder/spender pet-army spec: build
-Soul Shards → spend on **Hand of Gul'dan** (summons Wild Imps) → funnel
-everything into the **Summon Demonic Tyrant** window (60 s CD, empowers/extends
-every demon). The single biggest lever is **how many Hand of Gul'dan casts fit
-inside the Tyrant window**.
-
-**The burst window = the horizontal grouping.** Tyrant lines up with the
-demon-summon cooldowns fired just before it. The **go-gate is Tyrant + Call
-Dreadstalkers** — Dreadstalkers is the last cast before Tyrant. The tracked
-**Grimoire** summon brightens if it's up but is **never part of the gate** (~2-min
-CD, absent from roughly half the windows). **Summon Doomguard is neither tracked
-nor cast** in the modern build. This is the canonical "line Tyrant up with what it
-buffs" the whole HUD concept is about — realized (§0) as **our overlay frames
-beside the vertical CDM column**, not as a horizontal row inside the CDM's own
-layout. *(Corrected 2026-07-19 — see [archive C3](./notes-archive.md#c-superseded-claims-and-assumptions).)*
-
-**What drives salience** is no longer sketched here — it's owned by
-`guidance-model.md`: §0.5.2 ranks the ten moments, §0.5.4 maps each to a readable
-trigger with an own/borrow/can't verdict, §0.5.5 lists the blind spots, and
-§0.5.8.3 is the committed 18-row v1 set. That document is the authority; this one
-only says what's mechanically possible.
-
----
-
-## 4. Visual direction
-
-**v1 aesthetic: terminal / TUI, CRT-flavoured** — monospace, scanline/vignette
-chrome, block-char meters, the compact `DEMONOLOGY.SYS` terminal frame (built in
-M1, §9). Colour carries meaning (group / mode / readiness); **Blizzard's icons are
-left native and untouched** and all our value-add lives in the chrome around them.
-The design language — layout sketch, colour map, encoding rules, mode spine — is
-`spec.md` §3.
-
-The exploration that produced this (two artifacts, five layout directions, five
-aesthetics A–E) and the green-phosphor icon-tint direction it originally chose are
-in [archive A](./notes-archive.md#a-the-green-phosphor-era--icon-tinting-and-the-4-letter-labels).
-Two live descendants from it: the **cyberpunk** direction survives as the M7
-stretch art pass, and the prototypes remain in-repo under `../prototype/`.
-
----
-
 ## 5. Architecture
 
 - **Vehicle:** standalone addon `michac/CDMProbe` (MIT), a thin skin over the
@@ -521,7 +436,7 @@ stretch art pass, and the prototypes remain in-repo under `../prototype/`.
 - **Bar viewers:** restyle `item.Bar` on the BuffBar viewer (per-spell colour).
 - **Layout:** v1 assumes orientation=Vertical; we **anchor** our overlay to the
   live viewer frames rather than scripting absolute positions. Custom overlays
-  (shard rail, mode chrome, burst lane) are our own frames.
+  (shard rail, burst lane, keybind chrome) are our own frames.
 - **Reapply on Blizzard relayout:** post-hook `RefreshLayout` to reflow the
   rail/blocks and re-hook newly-pooled item frames.
 
@@ -593,9 +508,8 @@ vertical Essential + Utility columns flanking the character (ref screenshots
 2026-07-17) are the baseline we skin.
 
 *(The Cooldown Layout string / Edit Mode string three-layer model — what each
-carries and how a curated layout would be delivered — is parked in
-[archive B](./notes-archive.md#b-the-layer--curated-layout-machinery); it becomes
-relevant again only if M7 re-opens the curated layout.)*
+carries and how a curated layout would be delivered — is parked; it becomes
+relevant again only if a curated layout override is re-opened, see `status.md`.)*
 
 ---
 
@@ -604,11 +518,10 @@ relevant again only if M7 re-opens the curated layout.)*
 M1 built `/cdmp crt` (`CRT.lua`): keep-and-tint the Essential/Utility icons, draw
 dummy chrome (label / keybind / block-char meter), a scanline/vignette overlay, a
 viewer-anchored shard rail, and a `DEMONOLOGY.SYS` terminal frame. It validated
-five feasibility questions and corrected two earlier assumptions
-([archive C1/C2](./notes-archive.md#c-superseded-claims-and-assumptions)).
+five feasibility questions and corrected two earlier assumptions.
 
 > **Read F1/F5 in context:** the icon-tint they validate is **proven but unused** —
-> v1 leaves icons native ([archive A](./notes-archive.md#a-the-green-phosphor-era--icon-tinting-and-the-4-letter-labels)).
+> v1 leaves icons native.
 > The findings are kept because the hooks stay in the addon, dormant, gating a
 > future optional solid-colour mode. F2–F4 are load-bearing for v1 as written.
 
@@ -708,8 +621,7 @@ No `OnUpdate` polling (except a single napkin-math countdown); no taint
 ## 8. Provenance
 
 - Research: two agent reports (12.0 addon API under Secret Values; glanceable-UI
-  design) — synthesized into §1 and `spec.md` §3, and extended (not replaced) by
-  the three deep-research passes in `guidance-model.md` §0.5.3.
+  design) — synthesized into §1 and the design language (`design.md`).
 - Empirical: CDMProbe M0 probe runs (live 12.0.7, Kil'jaeden delve) + the M1
   build (v0.5.x, in-game at The Bazaar — §9) + the v0.5.3 cast-phase probe
   (open-world dummy, 2026-07-19).
@@ -721,7 +633,7 @@ No `OnUpdate` polling (except a single napkin-math countdown); no taint
   `Blizzard_APIDocumentationGenerated/{CooldownViewer, UnitAura, FrameAPICooldown,
   CooldownViewerConstants, EditModeManagerConstants}Documentation.lua`. Grounds the
   positioning/anchoring approach, the §9 leaf-method finding, the parked config
-  model ([archive B](./notes-archive.md#b-the-layer--curated-layout-machinery)),
+  model,
   and the **2026-07-22 source-read batch** (target-aura secrecy, aura-backed
   cooldown items, the two glow systems, swipe paint-vs-feed, pandemic two-signal).
 - Rotation: `knowledge/classes/warlock/demonology/rotation.md` (Diabolist,

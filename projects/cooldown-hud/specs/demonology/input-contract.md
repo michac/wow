@@ -3,13 +3,13 @@
 > **⚠ STATUS: reference-only.** The standalone `apl.lua` prototype was retired — its
 > logic lives in the shipped `Coach.lua` (which `Coach.Context` gathers these same inputs
 > for). This doc is kept as the **specification of the inputs** the priority list needs;
-> `pseudocode.md` remains the rotation spec of record. Read it to understand what the
+> `rotation.md` remains the rotation spec of record. Read it to understand what the
 > Coach's context-gather must produce, not as a description of a separate module.
 
 This is the **caller-facing** contract for the APL evaluator. It describes precisely what
 information the priority list needs, one field per real rotation fact the list
 reads. The evaluator is a pure function: it evaluates the settled
-priority list in `pseudocode.md` top-to-bottom and returns the winner + a
+priority list in `rotation.md` top-to-bottom and returns the winner + a
 second-place recompute. It does **no** observation of its own — the caller is
 responsible for producing every field below from the live game state.
 

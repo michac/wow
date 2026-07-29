@@ -1,9 +1,9 @@
 # Cooldown HUD — status & worklist
 
-**The live worklist.** Current state, what's done, and the improvement backlog. Design
-lives in `architecture.md` (the single design doc); vision in `spec.md`; the rotation
-salience contract in `guidance-model.md §0.5`. Historical milestone provenance is in
-`milestones.md` (frozen log) and `docs/archive/`.
+**The live worklist.** Current state, what's done, and the improvement backlog. Vision +
+design language live in `design.md`; the pipeline in `architecture.md`; the Secret-Values
+reality in `notes.md`; the rotation in `specs/demonology/rotation.md`. Historical
+milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archive/`.
 
 ## Current state
 
@@ -15,7 +15,7 @@ salience contract in `guidance-model.md §0.5`. Historical milestone provenance 
   HudChrome/HudBoard/HudScore engine + the opener/burst/pane widgets were **deleted at
   the W4 cutover**; the pipeline is the sole engine.
 - **Target spec:** Demonology Warlock. The domain view / fold + the flat priority list
-  (`apl-prototype/pseudocode.md`) are spec-agnostic; the spec data lives in
+  (`specs/demonology/rotation.md`) are spec-agnostic; the spec data lives in
   `SpecDemonology.lua`.
 - **Instruments:** `/cdmp probe` (Secret-Value / override / cast-readability capture,
   asserted by `wowkb.cdmp check` vs `probe-baseline.json`) + the **hud2 decision log**
@@ -28,7 +28,7 @@ salience contract in `guidance-model.md §0.5`. Historical milestone provenance 
 
 | Phase | What | Status |
 |---|---|---|
-| 0 | Audit + baseline (`w4-hud-audit.md`, dead-code strip W4a) | ✅ done |
+| 0 | Audit + baseline (dead-code strip W4a) | ✅ done |
 | 1 | State — the reduced client picture (`State.lua`) | ✅ done |
 | 2 | Coach → Guidance + the independent test corpus | ✅ done |
 | 3 | Renderer (semantic tokens → pixels) | ✅ done |
@@ -59,6 +59,14 @@ work lands now — the user drives the list; a few already-surfaced items are se
 - **`abilities[base].uptime`** — surface a buff/DoT uptime off the TrackedBar duration in
   the domain view, so the Coach can reason about "keep this up" abilities.
 - **Roll the domain view to other specs** — the fold + priority list are spec-agnostic;
-  the spec data (`SpecDemonology.lua`) is the seam a 2nd spec plugs into.
+  the spec data (`SpecDemonology.lua` + `specs/demonology/`) is the seam a 2nd spec plugs
+  into. Adding a spec = a new `specs/<spec>/` doc set + a Coach spec table.
 - **Coach rotation logic** — any real rotation-quality tuning (the cutover was
   behaviour-preserving; the flat priority list is the place to iterate).
+- **Layer-① curated Cooldown Layout override (deferred).** v1 ships no profile and binds
+  by `GetCooldownID()` to the active layout (`design.md` pillar 1). If the DB2 defaults
+  prove insufficient — the noisy Utility default, or the per-stage Diabolic Ritual auras a
+  predictive Art tracker needs (only the `428514` container is tracked today) — this
+  returns as a curated layout string, where enforcement strength (auto-apply →
+  import-and-verify → nag) becomes the UX question. Binding-by-ID gives determinism
+  without it, so it stays parked until a concrete need forces it.

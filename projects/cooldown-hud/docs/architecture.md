@@ -6,10 +6,10 @@
 > section still reads as future tense, it is describing the same shape the running code
 > now has.
 >
-> **Doc map:** this is the **standalone design doc**, NOT part of the §0–§9 set shared
-> across `spec.md`/`guidance-model.md`/`notes.md`/`milestones.md`. It owns the
-> *component architecture*; those own vision/guidance/findings/roadmap. `status.md`
-> tracks current state + the backlog.
+> **Doc map:** this is **THE technical design doc** — the component pipeline. Vision +
+> design language → `design.md`; what the game allows (Secret-Values reality) →
+> `notes.md`; the per-spec rotation brain → `specs/<spec>/`; current state + backlog →
+> `status.md`.
 
 ## Live wiring (how it runs today)
 
@@ -22,7 +22,7 @@
   observed alert edges fused for honest readiness. Ingestion is ref-counted (`Acquire`/
   `Release`); the driver holds the ref while the HUD is on.
 - **Coach** (`Coach.lua`) ranks a single-top-press winner from a flat priority list
-  (`apl-prototype/pseudocode.md`) + a runner-up (`ROTATION_FALLBACK`) + per-ability
+  (`specs/demonology/rotation.md`) + a runner-up (`ROTATION_FALLBACK`) + per-ability
   `SOON` anticipation, emitting cues keyed by base spellID.
 - **Binder** (`Binder.lua`) resolves each spellID cue to a display `cooldownID` via the
   live Layout (`HudLayout.Scan`) and emits the DrawList.
@@ -35,7 +35,7 @@
 
 The old engine smeared cue/board logic across `HudScore` → `HudState.Recompute` →
 `HudChrome.SetCue`, and every regression (Tyrant-yellow-with-no-shards, the churn gate,
-Grimoire double-voice) lived in the middle layer with no test coverage (`w4-hud-audit.md`
+Grimoire double-voice) lived in the middle layer with no test coverage (the retired W4 audit
 A1). This doc generalized that mess into a whole-pipeline contract, so the whole UI
 (cues, resource bar, animations) rides one seam and is **test-fixturable without the
 game** — which is now the shipped design (the old engine was deleted at the W4 cutover).
@@ -215,7 +215,7 @@ right split.
   `category` (readable OOC and in combat) + base spellID (readable OOC, cached in a
   `foldBase` map for the secret-in-combat fallback), never a spell name. Identity within
   a row (live vs base on transforms — `overrideSpellID or spellID`) is still State's, one
-  resolver (today's B1 bug is three copies of it — `w4-hud-audit.md` B1).
+  resolver (today's B1 bug is three copies of it — the retired W4 audit B1).
 - `cd.state:"anticipated"` + `source:"napkin"` is how the napkin enters *without*
   masquerading as an observed read; an expired estimate stays `"unknown"`, never
   `"ready"` (the napkin's honesty rule).
@@ -274,7 +274,7 @@ today (a modest poll, ~10 Hz); evolve to **event-driven + scheduled wakeups** wi
 change to Coach/View — the natural scheduler is the napkin, which already knows the
 exact time it next expects something ready ("wake me at t=X"). The format must support
 **change-detection at each seam** (diff State, diff Guidance) so a no-change pulse is
-a near-noop and no strings are built (the E1 hot-path concern — `w4-hud-audit.md` E1).
+a near-noop and no strings are built (the E1 hot-path concern — the retired W4 audit E1).
 
 ---
 
@@ -432,6 +432,21 @@ can:
 This is the same fence the pure pipeline modules (`Coach`/`Binder`/`Renderer`/`HudNapkin`)
 already sit inside (busted-tested off-game), extended around the whole UI.
 
+## Blind spots — what we cannot assist
+
+The design is honest about its wall. These quantities the Secret-Values rules
+(`notes.md`) put out of reach; we borrow Blizzard's own display or flag the gap rather
+than fake a signal. (Spec-specific blind spots — e.g. Demo's Wild Imp / Demonic Core
+counts — live in `specs/<spec>/notes.md`.)
+
+| Blind spot | Why it's secret | Best we can do |
+| --- | --- | --- |
+| **Exact cooldown time-remaining** | `GetSpellCooldown().duration` is `<secret>` | Borrow the secure radial swipe; drive urgency off a **napkin timer** for fixed-CD abilities only |
+| **Napkin-timer accuracy** | the *modified* CD (haste-scaled recharge, CDR/reset procs) is secret | Accurate for **fixed-CD** abilities; **drifts** otherwise — treat as best-guess, never as truth (the napkin's honesty rule: an expired estimate is `unknown`, never `ready`) |
+| **Aura/proc stack counts** | `Applications` is displayed but secret | Surface *presence* only; enlarge Blizzard's own stack text; **cannot compute** a threshold ("≥N") ourselves |
+| **In-pandemic / refresh-window boolean** | `IsInPandemicTime` is secret-derived (window computed from secret aura durations) | Observe the pandemic **edge** (the `ShowPandemicStateFrame` hook + the one-shot `TriggerAlertEvent(PandemicTime)`, `notes.md`) and redraw our own; **cannot poll/branch** the boolean or read the seconds; current target only |
+| **True "all cooldowns up" for a burst window** | requires reading N cooldown-ready states | Approximate via napkin timers (own casts) + the borrowed swipes; flagged best-guess |
+
 ## Open questions (ClientLab / in-game answerable — do not assume)
 
 - **Do non-displayed CDM entries return live `cd`/`charge` VALUES**, or only structural
@@ -488,7 +503,7 @@ already sit inside (busted-tested off-game), extended around the whole UI.
   `RefreshLayout` fire often enough that absolute would not lag? (Decides the cue
   geometry source above.)
 - **Combat-text nameplate anchoring** (`float-text` effects) — secret-propagation /
-  taint exposure is Tier-2 in the KB (`w4-hud-audit.md` C4); treat as
+  taint exposure is Tier-2 in the KB (the retired W4 audit C4); treat as
   `@verify-ingame`-class and never measure those FontStrings.
 
 ## Settled design decisions

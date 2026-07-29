@@ -163,16 +163,16 @@ touching the code**. Status as of 2026-07-09:
   DPS/tank specs' float placement is the outstanding in-game pass. Read off disk
   by `wowkb.diagnostics`. (Current addon version: `wowkb.addon list`.)
 - `projects/cooldown-hud/` — **Cooldown HUD**: a spec-specific overlay that skins
-  Blizzard's built-in **Cooldown Manager** (Midnight 12.0), CRT/green-phosphor
+  Blizzard's built-in **Cooldown Manager** (Midnight 12.0), terminal/CRT
   aesthetic; v1 target **Demonology Warlock**. **This file tracks none of its
   state** — status, roadmap, and design all live in the project. Start at its
-  `CLAUDE.md` (the doc map): `docs/milestones.md` is roadmap + current status,
-  `docs/architecture.md` the target-state component pipeline the W4 refactor builds
-  toward, `docs/w4-build-plan.md` the **phased Phase 0–5 sequence** (this is where
-  "Phase 1 / Phase 2 / …" live — the Coach-and-corpus work is Phase 2), and
-  `todo/w4-hud-audit.md` the live W4 worklist. The addon (`michac/CDMProbe`)
-  is at `addon/` (own git repo, gitignored, own `CLAUDE.md` for the release
-  workflow). (Current addon version: `wowkb.addon list`.)
+  `CLAUDE.md` (the doc map): the docs split **general** (`docs/design.md` vision +
+  design language · `docs/architecture.md` the State→Coach→Binder→Renderer pipeline ·
+  `docs/status.md` the live worklist + backlog · `docs/notes.md` the Secret-Values
+  reality · `docs/cdmp-doctrine.md`) from **per-spec** (`specs/demonology/` — the
+  rotation brain + facts). Build history is in `docs/archive/`. The addon
+  (`michac/CDMProbe`) is at `addon/` (own git repo, gitignored, own `CLAUDE.md` for
+  the release workflow). (Current addon version: `wowkb.addon list`.)
 - `todo/` — design docs / specs with milestone logs for the above
   (`rotation-trainer.md`, `talent-calculator-prototype.md`). The informal
   "what's unfinished" inventory, but not exhaustive (mplus_memory's spec lives
@@ -268,7 +268,7 @@ text report. `check` = PASS/WARN/FAIL per assumption + a "not covered this run"
 list, **exit 1 on any high-severity failure**; `show` pretty-prints; `diff`
 compares `ooc` vs `combat` (the M3d combat seam) or against a `show --json` export.
 
-**The governing rule** (`projects/cooldown-hud/docs/m4.5-t3-plan.md`): **collect** a
+**The governing rule** (`projects/cooldown-hud/docs/cdmp-doctrine.md`): **collect** a
 new observation → addon change + release; **assert / interpret / re-verify** →
 local, **no release**. So adding or retuning an assumption is a JSON edit. A check
 whose evidence the capture lacks reports as *not covered*, never as a pass —

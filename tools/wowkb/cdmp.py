@@ -1,7 +1,7 @@
 """Read + ASSERT CDMProbe `/cdmp probe` captures off the WoW SavedVariables file.
 
 THE DIVISION OF LABOUR THIS MODULE EXISTS TO ENFORCE
-(projects/cooldown-hud/docs/m4.5-t3-plan.md):
+(projects/cooldown-hud/docs/cdmp-doctrine.md):
 
     COLLECT a new observation  -> addon change + release.
     ASSERT / interpret / re-verify -> here, local, no release.

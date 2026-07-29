@@ -2,12 +2,12 @@
 
 > **⚠ STATUS: reference-only** (like `input-contract.md`). `apl.lua` was retired; the
 > readability facts below now describe what `State.lua` / `Coach.Context` can honestly
-> feed the shipped Coach. `pseudocode.md` is the rotation spec of record.
+> feed the shipped Coach. `rotation.md` is the rotation spec of record.
 
 This is the **readability pass**: for each of the 12 fields the priority list needs
 (`input-contract.md`), where the value comes from in the observed client picture, how
 reliably it reads **out of combat vs. in combat**, and how it degrades when the game
-hides it. The list itself (`pseudocode.md`) is unchanged — this only says
+hides it. The list itself (`rotation.md`) is unchanged — this only says
 *how honestly each input can be fed*.
 
 ## Sources of truth for this pass

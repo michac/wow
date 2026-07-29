@@ -107,7 +107,7 @@ sensor), and adoption/popularity data (CurseForge 403s).
    The KB's own `[gap]` markers get upgraded to facts, or stay gaps with better
    evidence about *why*.
 
-**Doctrine, inherited from `projects/cooldown-hud/docs/m4.5-t3-plan.md` and it holds
+**Doctrine, inherited from `projects/cooldown-hud/docs/cdmp-doctrine.md` and it holds
 here too:** *collect* a new observation → addon change; *assert / interpret /
 re-verify* → local tooling, no addon change. So the lab collects raw answers and the
 expectations live in local JSON, not in shipped Lua.
