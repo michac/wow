@@ -1,8 +1,14 @@
 # Cooldown HUD — technical notes
 
-> The **how & why-it-works**, current-framing only: the Secret-Values constraint,
-> the capability map, the target spec's tracked set, the positioning/anchoring
-> architecture, empirical build findings, and provenance.
+> **⚠ Note (W4 cutover):** the Secret-Values / capability / anchoring findings here are
+> current and engine-independent, but some **build findings reference the retired old
+> engine** (`HudCore`/`HudState` and the old `/cdmp hud status` output) — those are
+> **provenance** (how the finding was measured), not a description of today's code. The
+> HUD is now the W4 pipeline (`architecture.md`).
+>
+> The **how & why-it-works**: the Secret-Values constraint, the capability map, the
+> target spec's tracked set, the positioning/anchoring architecture, empirical build
+> findings, and provenance.
 >
 > **Superseded work lives in [`notes-archive.md`](./notes-archive.md)** — the
 > green-phosphor icon-tint era, the curated-layout machinery we proved and parked,

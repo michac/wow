@@ -1,10 +1,18 @@
 # Cooldown HUD — guidance model (what to signal, when, and how)
 
+> **⚠ IMPLEMENTATION MOVED (W4).** The §0.5 salience contract below is still valid — it
+> is *what to signal*. But the **implementation is now the Coach/pipeline** (`Coach.lua`
+> ranks a single-top-press winner from the flat priority list in
+> `apl-prototype/pseudocode.md`; `guidance-contract.json` is the Stage-2 output contract),
+> **not** the retired M3–M6 HudScore/HudChrome widgets this doc's "the contract M3–M6
+> widgets implement" line refers to. Read the moments as the requirement; read
+> `architecture.md` for how the pipeline delivers them.
+>
 > The **rotation-helper contract**: the overlay's real job isn't decoration, it's
 > guiding the Demonology rotation *within the Secret-Values wall*. This doc turns
 > the rotation into a ranked list of salience moments, researches the attention
 > mechanisms that can carry them, and maps each moment to a readable signal we can
-> actually build. It is the contract M3–M6 widgets implement.
+> actually build.
 >
 > **Doc map (§ cross-refs):** §0 Direction + §3 Design language → `spec.md` ·
 > **§0.5 Guidance model → this doc** · §1–§2, §4–§5, §9 (Secret-Values findings /

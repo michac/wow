@@ -5,7 +5,7 @@
   "committed": "2026-07-24",
   "describes": "The Coach's per-pulse output (Stage 2 of the W4 pipeline). Presentation-generic: generic semantic tokens the Renderer resolves to pixels. No class-specific tokens, no resolved RGBA (one exception: powerType).",
   "supersedes": "The five-channel Stage-2 sketch in docs/architecture.md. chrome + per-cue role + the effects channel + a separate Theme layer are cut/deferred for v1.",
-  "seeAlso": ["docs/architecture.md#stage-2", "docs/w4-build-plan.md (Phase 2)", "docs/w4-phase2-goldens-plan.md"],
+  "seeAlso": ["docs/architecture.md#stage-2", "docs/archive/w4-build-plan.md (Phase 2)", "docs/archive/w4-phase2-goldens-plan.md"],
   "artifact": "https://claude.ai/code/artifact/bc090a68-468d-41f5-aa5b-e21f20b2cf56",
 
   "principle": {
@@ -57,7 +57,7 @@
     "emphasis": {
       "appears": ["cues[].emphasis"],
       "origin": "HudBoard colorKey, promoted to the public contract.",
-      "invariant_singleTopPress": "Decided 2026-07-25; revised W4 Phase 8 (2026-07-27). Exactly ONE cue holds the 'press now' emphasis -- ROTATION, or LATE when that press is overdue (they never co-occur) -- the flat priority list's (apl-prototype/pseudocode.md) first castable line. At most ONE cue holds ROTATION_FALLBACK: the honest second place (winner's ability removed, list re-run from the top), always offered when castable. All other ready abilities cap at AVAILABLE (internal; no cue). SOON (anticipation) and the resourceBar may coexist -- they are not 'press now' claims. This makes the Coach a RANKED WINNER, not independent per-ability lights. See docs/w4-phase2-goldens-plan.md.",
+      "invariant_singleTopPress": "Decided 2026-07-25; revised W4 Phase 8 (2026-07-27). Exactly ONE cue holds the 'press now' emphasis -- ROTATION, or LATE when that press is overdue (they never co-occur) -- the flat priority list's (apl-prototype/pseudocode.md) first castable line. At most ONE cue holds ROTATION_FALLBACK: the honest second place (winner's ability removed, list re-run from the top), always offered when castable. All other ready abilities cap at AVAILABLE (internal; no cue). SOON (anticipation) and the resourceBar may coexist -- they are not 'press now' claims. This makes the Coach a RANKED WINNER, not independent per-ability lights. See docs/archive/w4-phase2-goldens-plan.md.",
       "members": {
         "SOON": "anticipating -- not yet pressable; dim + countdown treatment. W4 Phase 8: a DUMB per-ability 'coming off cooldown' decoration (any tracked damage cooldown anticipated within the lead), independent of the winner logic -- multiple may show at once.",
         "ROTATION": "press this now -- the steady lit press",

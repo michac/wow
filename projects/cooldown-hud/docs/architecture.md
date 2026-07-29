@@ -1,25 +1,44 @@
-# Cooldown HUD — target-state architecture (the data → display pipeline)
+# Cooldown HUD — architecture (the data → display pipeline)
 
-> **STATUS: DESIGN, agreed 2026-07-24.** This is the architecture **W4b/W4c build
-> toward** — not what the addon is today. It supersedes nothing that ships; it is
-> the shape the W4 refactor (`todo/addon-engineering.md` W4, worklist
-> `todo/w4-hud-audit.md`) is converging on. Where today's code differs, that is a
-> *gap to close*, noted per-section under "Where the code is today".
+> **STATUS: LIVE.** This is how the HUD works **today** — the W4 pipeline shipped and
+> `/cdmp hud` runs it (the old HudChrome/HudBoard/HudScore engine was deleted at the
+> W4 cutover). This is THE design doc; **`status.md` is the live worklist**. Where a
+> section still reads as future tense, it is describing the same shape the running code
+> now has.
 >
-> **Doc map:** this is a **standalone design doc**, NOT part of the §0–§9 set shared
+> **Doc map:** this is the **standalone design doc**, NOT part of the §0–§9 set shared
 > across `spec.md`/`guidance-model.md`/`notes.md`/`milestones.md`. It owns the
-> *component architecture*; those own vision/guidance/findings/roadmap. `milestones.md`
-> §6 (W4 entries) tracks the *build* against this design.
+> *component architecture*; those own vision/guidance/findings/roadmap. `status.md`
+> tracks current state + the backlog.
+
+## Live wiring (how it runs today)
+
+`HudDriver.lua` owns a ~10 Hz ticker; each tick runs the pipeline end to end:
+
+    State.Build(false) → Coach:Compute(pulse) → Binder:Bind(guidance, layout) → Renderer:Draw(drawList)
+
+- **State** (`State.lua`) folds the CDM rows into the base-spellID domain view (the
+  pulse) — CDM-database-anchored, secrecy first-class, one identity resolver, napkin +
+  observed alert edges fused for honest readiness. Ingestion is ref-counted (`Acquire`/
+  `Release`); the driver holds the ref while the HUD is on.
+- **Coach** (`Coach.lua`) ranks a single-top-press winner from a flat priority list
+  (`apl-prototype/pseudocode.md`) + a runner-up (`ROTATION_FALLBACK`) + per-ability
+  `SOON` anticipation, emitting cues keyed by base spellID.
+- **Binder** (`Binder.lua`) resolves each spellID cue to a display `cooldownID` via the
+  live Layout (`HudLayout.Scan`) and emits the DrawList.
+- **Renderer** (`Renderer.lua`) draws OUR OWN textures anchored to Blizzard's icons;
+  semantic tokens → pixels, no decisions. Toggling the HUD off clears every dot.
+- **Hud2Log** (`Hud2Log.lua`) appends one greppable `S{…} G{…} B{…}` line per decision
+  change to `CDMProbeDB.hud2log` — the pipeline's recorder (`wowkb.cdmp hud2log`).
 
 ## Why this doc exists
 
-The cue/board logic has been smeared across `HudScore` → `HudState.Recompute` →
-`HudChrome.SetCue`, and every recent regression (Tyrant-yellow-with-no-shards, the
-churn gate, Grimoire double-voice) lived in the middle layer with no test coverage
-(`w4-hud-audit.md` A1). W4b started the fix (`HudBoard`, a pure cue-descriptor
-engine). This doc generalizes that one slice into a whole-pipeline contract, so the
-rest of the UI (sequences, resource bar, combat text, animations) rides the same
-seam and becomes **test-fixturable without the game**.
+The old engine smeared cue/board logic across `HudScore` → `HudState.Recompute` →
+`HudChrome.SetCue`, and every regression (Tyrant-yellow-with-no-shards, the churn gate,
+Grimoire double-voice) lived in the middle layer with no test coverage (`w4-hud-audit.md`
+A1). This doc generalized that mess into a whole-pipeline contract, so the whole UI
+(cues, resource bar, animations) rides one seam and is **test-fixturable without the
+game** — which is now the shipped design (the old engine was deleted at the W4 cutover).
 
 ## Vocabulary note ("module" is loaded)
 
@@ -31,9 +50,9 @@ files. So we define our own words: **layer / stage**, and the specific names bel
 
 ### Component names (locked 2026-07-24)
 
-The five stages and the words we use. Some are renamed from the code's `Hud*` files —
-those "was" entries are **forwarding addresses to dead code**, not live modules to rename
-in place (the old HUD is deleted at the Phase-5 cutover, not groomed).
+The five stages and the words we use. The "Was" column points at the retired `Hud*`
+files — **forwarding addresses to code deleted at the W4 cutover**, recoverable only
+from git history.
 
 | Stage / concept | Name | Was | Note |
 |---|---|---|---|
@@ -136,7 +155,7 @@ right split.
 
   // THE DOMAIN VIEW (added W4 — the re-layer) — the pipeline's actual input, keyed by
   // BASE spellID, folding the N CDM rows of one ability into one. `cooldowns` above is
-  // the RAW CDM diagnostic view (retained for statelog/probe); this is what the Coach
+  // the RAW CDM diagnostic view (retained for probe/cdmp.py); this is what the Coach
   // decides on. base-spellID -> cooldownID is N:1 (a summon is one Essential row +
   // one TrackedBar/TrackedBuff row); State folds them and picks the PRESSABLE member.
   "abilities": {
@@ -183,7 +202,7 @@ right split.
 ```
 
 - Keys: State's raw `cooldowns` map keys on **cooldownID** (the CDM anchor — retained
-  for diagnostics/statelog, and carrying spellID + overrideSpellID). **The pipeline
+  for diagnostics/probe, and carrying spellID + overrideSpellID). **The pipeline
   consumes the base-spellID `abilities`/`buffs`/`resources` domain view instead.**
   cooldownID is transport + the Binder's display anchor, not the Coach's vocabulary.
   base-spellID→cooldownID is **N:1**: State folds the N CDM rows of one ability
@@ -200,24 +219,18 @@ right split.
 - `cd.state:"anticipated"` + `source:"napkin"` is how the napkin enters *without*
   masquerading as an observed read; an expired estimate stays `"unknown"`, never
   `"ready"` (the napkin's honesty rule).
-- **Where the code is today:** `HudState.lua` is the de-facto State layer but 1,254
-  lines that also score and paint (`w4-hud-audit.md` A4). Napkin (`HudNapkin`) and
-  keybind cache (`HudBinds`) are the anticipation and static inputs, consulted
-  ad-hoc rather than unified. Event ingest is split across three frames
-  (`Probe`/`HudNapkin`/`HudState` — A3) that this design collapses to one.
-- **W4 Phase 1 landed (2026-07-24):** `State.lua` is the clean-room Stage-1
-  extraction to exactly this shape — CDM-database-anchored, secrecy first-class, one
-  identity resolver (`liveSpellID`) + its inverse (`BaseOfCast`), the napkin/keybinds
-  consulted *through* it, one event-ingest frame, a ~10 Hz change-detecting poll. It
-  **coexists** with `HudState` as parallel observation (the old frames are deleted at
-  the Phase-5 cutover, not now). `/cdmp statelog` records its pulses to
-  `CDMProbeDB.statelog`, asserted by `wowkb.cdmp`'s `statelog` baseline block — the
-  independent corpus Phase 2's Coach is tested against.
+- **In the code:** `State.lua` is exactly this shape — CDM-database-anchored, secrecy
+  first-class, one identity resolver (`liveSpellID`) + its inverse (`BaseOfCast`), the
+  napkin/keybinds consulted *through* it, one ref-counted event-ingest frame. The old
+  `HudState` layer (1,254 lines that also scored and painted, A4) was deleted at the W4
+  cutover; `State.lua` is the sole State layer. Its `abilities`/`buffs`/`resources`
+  domain view (the fold) is what the pipeline consumes; the raw cooldownID `cooldowns`
+  map is retained as a diagnostic view for the probe / `cdmp.py`.
 
 ### Events — semantics
 
 - **Window:** the delta **since the last pulse**, not a rolling time window and not a
-  durable log (the pull recorder is a separate concern, `HudLog`).
+  durable log (the decision log `Hud2Log` is a separate concern).
 - **Consumed by the Coach, not the View.** Events are *causal inputs*:
   `cast_succeeded` advances a sequence, `transform` re-resolves identity,
   `aura_gained` (a proc) changes cue decisions. The View never sees them — anything
@@ -227,8 +240,7 @@ right split.
   here — State exposes the countdown (`cd.remaining` + `source:"napkin"`) and the
   **Coach** decides when "close" crosses into a cue. "How close is close" is a
   rotation decision, not a State one.
-- **`at` earns its keep** three ways: ordering within a pulse, ttl/decay of effects,
-  and the pull recorder later.
+- **`at` earns its keep** two ways: ordering within a pulse and ttl/decay of effects.
 
 ### Sequence memory — `history` (State facts) vs the cursor (Coach interpretation)
 
@@ -297,7 +309,7 @@ semantic tokens (not pixels), generic enums, real spellIDs, pass-through strings
     // from `emphasis`. NO role — v1 colours by urgency, not ability group.
     "105174": {
       "draw": true,
-      "emphasis": "LATE",           // enum:emphasis — SOON|ROTATION|LATE|JUDGE|SEQUENCE
+      "emphasis": "LATE",           // enum:emphasis — SOON|ROTATION|ROTATION_FALLBACK|LATE (guidance-contract.json is authoritative; JUDGE/SEQUENCE retired W4 P8)
       "transient": "cast_started",  // enum:transient|null — a phase EDGE; absorbs `effects`
       "note": null                  // optional PASS-THROUGH display string only
     }
@@ -316,10 +328,10 @@ semantic tokens (not pixels), generic enums, real spellIDs, pass-through strings
 
 Design rules baked in here (v1):
 
-- **Colour is a token, not RGBA.** A cue carries `emphasis` (`SOON | ROTATION | LATE |
-  JUDGE | SEQUENCE`); the Renderer owns `emphasis → pixels` (one table, built in for v1
-  — a Theme is a later refactor, not a rewrite). `colorKey:"TYRANT"` is gone: that case
-  is a generic emphasis (the burst/`SEQUENCE` treatment) gated on the resource, so no
+- **Colour is a token, not RGBA.** A cue carries `emphasis` (the live set is `SOON |
+  ROTATION | ROTATION_FALLBACK | LATE` — `guidance-contract.json` is authoritative;
+  `JUDGE`/`SEQUENCE` were retired in the W4 Phase-8 / TCT redesign); the Renderer owns
+  `emphasis → pixels` (one table, built in for v1 — a Theme is a later refactor). No
   class token reaches the View.
 - **One colour exception — `powerType`.** The resource bar passes the game's own power
   token (`SOUL_SHARDS`), and the Renderer colours it from the game's `PowerBarColor`
@@ -337,10 +349,10 @@ Design rules baked in here (v1):
 - **Real spellIDs** as keys/step ids — keeps the "draw our own icons" door open.
 - **Class vocabulary only as pass-through strings** (`label`, `note`, `title`) the Coach
   authored for display — never as tokens the View must interpret.
-- **Where the code is today:** W4b's `HudBoard.Compute` emits per-key cue descriptors
-  with a `colorKey` token — the seed `emphasis` grows from. `resourceBar`, `sequence`,
-  and the `transient` edge are still decided inline in `HudState`/`HudChrome` and are
-  the Phase-2 growth.
+- **In the code:** `Coach.Compute` (`Coach.lua`) emits the Guidance — the ranked winner
+  (`ROTATION`/`LATE`), the `ROTATION_FALLBACK` runner-up, per-ability `SOON`, and the
+  `resourceBar`. Cues are keyed by base spellID with an `emphasis` token; the Binder
+  resolves them to display icons. (Greened against `coach_apl_spec`, the Tier-1 oracle.)
 
 ---
 
@@ -389,8 +401,9 @@ same way), producing the DrawList the Renderer draws verbatim.
   frames); *absolute rects* (`{x,y,w,h}`, no registry) is the "pure draw tool" extreme,
   fine for our own widgets (panel, resource bar, callouts) that we position ourselves.
   Recommended: handle-anchor for cues, self-anchored for the rest.
-- **Where the code is today:** there is no Binder — `HudChrome` reaches into the live
-  CDM layout itself. Extracting it is the step that makes W4c's fixture test possible.
+- **In the code:** `Binder.lua` does exactly this — merges Guidance's spellID cues with
+  the live Layout (`HudLayout.Scan`) and emits the DrawList the Renderer draws. Greened
+  against `binder_spec`.
 
 ---
 
@@ -416,8 +429,8 @@ can:
 3. Drive the Binder + Renderer with them and screenshot the real pixels — no game, no
    dummy, no RNG, no CDM.
 
-This is the same fence the pure modules (`HudScore`/`HudQueue`/`HudNapkin`/`HudBoard`)
-already sit inside, extended around the whole UI.
+This is the same fence the pure pipeline modules (`Coach`/`Binder`/`Renderer`/`HudNapkin`)
+already sit inside (busted-tested off-game), extended around the whole UI.
 
 ## Open questions (ClientLab / in-game answerable — do not assume)
 
@@ -428,7 +441,7 @@ already sit inside, extended around the whole UI.
   — **✅ ANSWERED (W4 P1, 2026-07-24, measured not assumed).** `State.lua` enumerates
   the *full* category set (`allowUnlearned=true`) and does a **separate** `C_Spell` live
   read per entry (`ns.ReadCooldown` — the info struct carries no live fields). A real
-  `/cdmp statelog` capture (v0.29.2, Demonology, 64 enumerated entries) settles it:
+  a State capture (v0.29.2, Demonology, 64 enumerated entries) settles it:
   **YES — the `C_Spell.GetSpellCooldown` read returns live `cd` VALUES for undisplayed
   AND unlearned entries out of combat.** Out of combat all 64 entries read
   `cd.readable=true` (44 `isKnown=true` + **20 `isKnown=false`/unlearned**, every one
@@ -478,30 +491,22 @@ already sit inside, extended around the whole UI.
   taint exposure is Tier-2 in the KB (`w4-hud-audit.md` C4); treat as
   `@verify-ingame`-class and never measure those FontStrings.
 
-## Decisions locked this session (2026-07-24)
+## Settled design decisions
 
-Keys = **both** spellID + cooldownID (State keys on cooldownID) · State carries the
-**keybind** · State carries **no spec metadata** · resource bar is **generic**
-(value/max/display/color), not "shards" · cue colour is **resolved RGBA**, not a class
-key · **real** spellIDs (icon door open) · class words only as **pass-through** strings
-· `events` = **delta since pulse**, **Coach-only** consumer, observed-only, `at` kept ·
-**effects** channel generalizes one-shot animation **and** combat text, as a **keyed
-declarative list** · eval trigger is **State-internal and swappable**.
-
-**Component names:** the five stages are **State → Coach → Guidance → Binder →
-Renderer** (Coach = the spec brain, was "Engine"; Guidance = its presentation-generic
-output, was "ViewModel"). The rough cooldown-anticipation input keeps the name **Napkin
-by design**: a formal name ("Forecast", "Estimator") would imply a haste/Bloodlust-aware
+The five stages are **State → Coach → Guidance → Binder → Renderer** (Coach = the spec
+brain; Guidance = its presentation-generic output). The rough cooldown-anticipation input
+keeps the name **Napkin by design**: a formal name would imply a haste/Bloodlust-aware
 model — i.e. reconstructing the Secret Values Blizzard deliberately blocks. Napkin stays
-honestly back-of-envelope (its honesty rule already says an expired estimate is
-`unknown`, never `ready`); the name is a scope fence, not a placeholder.
+honestly back-of-envelope (its honesty rule: an expired estimate is `unknown`, never
+`ready`); the name is a scope fence.
 
-**⚠ Revised 2026-07-24 (Guidance v1, committed).** A follow-up pass trimmed the Stage-2
-output to a first shot — the source of truth is now
-`projects/cooldown-hud/guidance-contract.json`. Changes from the decisions above: cue
-colour is a **generic token** (`emphasis`), **not** resolved RGBA; the **effects**
-channel is **folded into a per-cue `transient` edge** (`cast_started | cast_ended |
-ready | proc`), so it is no longer a keyed declarative list; **chrome**/mode accent,
-per-cue **role**, and a separate **Theme** are **cut/deferred**; **`powerType`** is a
-sanctioned colour exception (Guidance carries the game power token, the Renderer resolves
-via `PowerBarColor`). `emphasis` renames BURST → **SEQUENCE**.
+Settled data-shape decisions (all live): State keys its raw view on cooldownID but the
+pipeline consumes the base-spellID **domain view**; State carries the **keybind** and
+**no spec metadata**; the resource bar is **generic** (value/max/display/color); cue
+colour is a **generic token** (`emphasis`), **not** resolved RGBA; **real** spellIDs
+(the icon door is open); class words only as **pass-through** strings; `events` = the
+**delta since pulse**, a Coach-only observed-only consumer; one-shot animation is a
+per-cue **`transient` edge** (`cast_started | cast_ended | ready | proc`), not a separate
+effects list; **`powerType`** is the one sanctioned colour exception (Guidance carries
+the game power token, the Renderer resolves via `PowerBarColor`). The Stage-2 output
+contract of record is `projects/cooldown-hud/guidance-contract.json`.

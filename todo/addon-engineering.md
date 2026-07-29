@@ -1,14 +1,15 @@
 # Addon engineering program — lab, KB, skill, and the Cooldown HUD refactor
 
-> **STATUS: PLANNED, not started (2026-07-23).** This is the driving document for a
-> multi-session effort. Nothing in W1–W4 has been built. Read §"Where things stand"
-> before picking anything up — a fair amount of groundwork already exists and you
-> should not redo it.
+> **⚠ STATUS UPDATE (W4 landed, 2026-07-28).** The header below ("nothing built") is
+> stale. **W4 is done:** the State → Coach → Binder → Renderer pipeline shipped, and the
+> W4 cutover deleted the old engine + statelog and reclaimed `/cdmp hud` for the pipeline.
+> The Cooldown HUD **feature freeze is lifted** — the improvement backlog now lives in
+> `projects/cooldown-hud/docs/status.md`. The W1–W3 lab/KB/skill tracks below are the
+> remaining program work; read them as still-planned, but the W4/HUD sections are history
+> (see `docs/architecture.md` + `docs/status.md`).
 >
-> **Cooldown HUD feature work is FROZEN** until W4's audit lands. Bug fixes are fine;
-> new indicators are not. The freeze is deliberate: the defects that triggered this
-> program were structural, and adding surface area before fixing structure just makes
-> the audit bigger.
+> This is the driving document for a multi-session effort. Read §"Where things stand"
+> before picking anything up — a fair amount of groundwork already exists.
 >
 > Doc map: `knowledge/addon-dev/README.md` = the addon-dev KB this program feeds and
 > consumes · `projects/cooldown-hud/docs/` = the HUD's own design docs ·

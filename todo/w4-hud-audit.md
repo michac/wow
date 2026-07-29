@@ -1,18 +1,15 @@
 # W4 — Cooldown HUD audit (working file)
 
-> **Working audit doc for W4 of `addon-engineering.md`.** Findings captured
-> 2026-07-24 from a read-only review of **CDMProbe v0.28.1** by a Fable subagent
-> driven through the `wow-developer` skill (routed to `knowledge/addon-dev/`,
-> anchors checked `file:line` against `wow-ui-source @ 4383ced`, build 12.0.7.68887).
-> This is the audit W4 is measured against; the Cooldown HUD feature freeze lifts
-> when it lands. Check items off / annotate as the refactor proceeds — this file is
-> the live worklist, not a frozen report.
-
-> **Target-state design → `projects/cooldown-hud/docs/architecture.md`** (agreed
-> 2026-07-24). The A/B findings below are the *problems*; that doc is the *shape the
-> fix converges on* — the State → Engine → ViewModel → Binder → DrawList → Renderer
-> pipeline and its four data contracts. A1/A2 (`HudBoard`) are its first landed slice.
-> Read it before continuing W4b/W4c.
+> **✅ CLOSED — the audit landed (W4 cutover, 2026-07-28).** Every A/B/C/D/E structural
+> finding below is resolved by the W4 pipeline + cutover: the State→Coach→Binder→Renderer
+> rebuild replaced the smeared HudScore/HudState/HudChrome engine (A1–A4, B1–B3), one
+> identity resolver + one event-ingest frame landed in `State.lua`, and the old engine +
+> statelog were deleted. This file is kept as the **audit of record** (the problem
+> inventory the rebuild was measured against). Live status + backlog →
+> `projects/cooldown-hud/docs/status.md`; design → `docs/architecture.md`.
+>
+> Findings captured 2026-07-24 from a read-only review of **CDMProbe v0.28.1**, anchors
+> checked `file:line` against `wow-ui-source @ 4383ced`, build 12.0.7.68887.
 
 ## Environment provisioned before the audit (this machine was a fresh checkout)
 

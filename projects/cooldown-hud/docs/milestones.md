@@ -1,6 +1,12 @@
 # Cooldown HUD — milestones & status
 
-> Roadmap, milestone log, and the "confirm while logged in" queue.
+> **⚠ HISTORICAL PROVENANCE — the live status doc is now [`status.md`](status.md).**
+> The M1–M4.x milestone log below froze at M4.4/v0.24.0 and predates the W4 pipeline
+> going live. It is kept as the design/build **history** (why each thing is shaped as it
+> is), not as current status. For what's done / pending / next, read `status.md`; for how
+> it works today, `architecture.md`.
+>
+> Roadmap, milestone log, and the "confirm while logged in" queue (historical).
 >
 > **Doc map (§ cross-refs):** §0 Direction + §3 Design language → `spec.md` ·
 > §0.5 Guidance model → `guidance-model.md` · §1–§2, §4–§5, §9 → `notes.md` ·
