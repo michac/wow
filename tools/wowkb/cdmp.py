@@ -18,10 +18,7 @@ text-parsing a report this codebase re-words freely is a maintenance trap, which
 is exactly why the structured store was added.
 
     CDMProbeDB.probe.ooc / .combat   <- the structured snapshots (A1)
-    CDMProbeDB.pulls                 <- the pull recorder's ring (M3e, already structured)
-    CDMProbeDB.statelog              <- the W4 Phase-1 reduced-State pulse ring
-                                        (/cdmp statelog); asserted by the baseline's
-                                        `statelog` block (STATELOG_CHECKS below)
+    CDMProbeDB.hud2log               <- the hud2 decision log (extracted by `hud2log`)
 
 ⚠ SavedVariables only flush on /reload or logout. A capture that looks stale
 almost always means the /reload was skipped, which is indistinguishable from a
@@ -96,14 +93,10 @@ def _asdict(v) -> dict:
     return v if isinstance(v, dict) else {}
 
 
-def load_capture(wow_path: str) -> tuple[dict, dict, dict, dict, str] | None:
-    """(probe, pulls, statelog, hud2log, path) from the newest CDMProbe.lua, or None.
+def load_capture(wow_path: str) -> tuple[dict, object, str] | None:
+    """(probe, hud2log, path) from the newest CDMProbe.lua, or None.
 
-    `statelog` is the W4 Phase-1 reduced-State capture ring (CDMProbeDB.statelog),
-    written by `/cdmp statelog`. Separate from `.probe` — a stream of full State
-    pulses, not the two-snapshot capability diagnostic.
-
-    `hud2log` is the HUD2 decision log (CDMProbeDB.hud2log) — a ring of the last 3
+    `hud2log` is the hud2 decision log (CDMProbeDB.hud2log) — a ring of the last 3
     sessions, each a list of one-line `S{…} G{…} B{…}` pipeline traces appended on
     every decision change. Extracted to a flat .log by `cmd_hud2log`.
     """
@@ -114,13 +107,7 @@ def load_capture(wow_path: str) -> tuple[dict, dict, dict, dict, str] | None:
     db = parse_savedvar(text, "CDMProbeDB")
     if not isinstance(db, dict):
         return None
-    return (_asdict(db.get("probe")), _asdict(db.get("pulls")),
-            _asdict(db.get("statelog")), db.get("hud2log"), pth)
-
-
-def _statelog_pulses(statelog: dict) -> list:
-    """The captured State pulses as a list (parser yields list or int-keyed dict)."""
-    return _aslist(_asdict(statelog).get("pulses"))
+    return (_asdict(db.get("probe")), db.get("hud2log"), pth)
 
 
 def _iface_to_patch(iface) -> str | None:
@@ -337,461 +324,10 @@ def _check_imps_closed(probe, expect):
     return FAIL, f"baseline asks for unknown rule {want!r}"
 
 
-def _check_cue_render(probe: dict, expect: dict):
-    """M4.6 — did every cue RENDER the colour its level was set to?
-
-    ⚠ THE INSTRUMENT IS INVALID AS BUILT (v0.27.0). It compares the palette colour
-    against `Texture:GetVertexColor()`, and the first real capture returned
-    got=1/1/1 on EVERY record for EVERY level -- including ROTATION, which the
-    player confirms renders green on screen. So the read cannot see the rendered
-    colour: with a gradient in play the vertex colour stays white regardless of
-    what the bar actually draws. Every "divergence" it reported is the instrument,
-    not the HUD, and the "the breathe hypothesis is dead" verdict it printed was
-    never supported -- a blind instrument cannot falsify anything.
-
-    This is the SECOND wrong confident answer about the white cue in one session
-    (the first read a mechanism off a single screenshot). Hence: report the
-    measurement as UNUSABLE rather than quietly reinterpreting it. A check that
-    cannot observe its subject must say so, not produce a number.
-    """
-    for ctx in CONTEXTS:
-        w = _asdict(_asdict(probe.get(ctx)).get("cueWatch"))
-        if not w:
-            continue
-        samples, bad = w.get("samples") or 0, w.get("mismatch") or 0
-        if samples and bad == samples * _lit_per_sample(w):
-            pass  # every lit cue diverged every pass -- the signature of a blind read
-        return SKIP, (f"INSTRUMENT INVALID — GetVertexColor reads white for every "
-                      f"level whether or not the bar renders correctly, so the "
-                      f"{bad} divergences over {samples} passes measure nothing. "
-                      f"Needs a different probe; see m4.5-playtest5-feedback.md §4.5.c")
-    return SKIP, "no cueWatch section in either snapshot (needs CDMProbe v0.27.0+)"
-
-
-def _lit_per_sample(w: dict) -> int:
-    by = _asdict(w.get("byLevel"))
-    samples = w.get("samples") or 0
-    return int(round(sum(by.values()) / samples)) if samples else 0
-
-
-
-# --------------------------------------------------------------------------- #
-# The statelog checks — the W4 Phase-1 fixture-quality gate                    #
-# --------------------------------------------------------------------------- #
-# A FIXTURE-QUALITY gate, NOT a rotation gate (build plan Phase 1). Each fn takes
-# the captured State pulses and returns (status, detail). Two families:
-#   * per-pulse State-CONTRACT invariants -> PASS/FAIL (a broken contract is a bug)
-#   * corpus COVERAGE -> PASS/not-covered (absence of a moment is not a failure)
-# Neither says anything about which cue lights or whether advice is right — that is
-# Phase 2's independent oracle, and folding it in here would re-couple the layers.
-
-# The reduced State's own vocabulary — the enum/domain the contract pins.
-# W4 Phase 7: three honest states (was ready|cooling|anticipated|unknown). `source`
-# is a trust annotation on `remaining`, not a second state axis.
-_CD_STATES = {"ready", "on-cooldown", "unknown"}
-_CD_SOURCES = {"live", "napkin", "none"}
-# The user-toggled target mode (W4 P5b): a generic single/AoE enum State forwards.
-_MODES = {"st", "aoe"}
-
-# Real Enum.PowerType member names (game vocabulary). A power keyed by anything
-# else means State invented a resource, which invariant #3 forbids.
-_POWER_TYPES = {
-    "Mana", "Rage", "Focus", "Energy", "ComboPoints", "Runes", "RunicPower",
-    "SoulShards", "LunarPower", "HolyPower", "Alternate", "Maelstrom", "Chi",
-    "Insanity", "Obsolete", "Obsolete2", "ArcaneCharges", "Fury", "Pain",
-    "Essence", "RuneBlood", "RuneFrost", "RuneUnholy", "AlternateQuest",
-    "AlternateEncounter", "AlternateMount", "NumPowerTypes",
-}
-
-# Rotation/spec vocabulary that must NEVER appear in a spec-agnostic State entry
-# (invariant #3, the hard denylist SpecDemonology owns — grepped from that file).
-_SPEC_DENYLIST = {
-    "group", "role", "builder", "spender", "kind", "spends", "generates",
-    "cadence", "burstalign", "gogate", "emphasis", "primary", "judgeable",
-    "stage", "pole", "colorkey", "reasontag",
-}
-
-_SECRET_MARKER = "<secret>"
-
-
-def _cooldowns(pulse) -> list:
-    """A pulse's cooldown entries as a list of dicts."""
-    return [_asdict(v) for v in _aslist(_asdict(pulse).get("cooldowns"))]
-
-
-def _powers(pulse) -> dict:
-    return _asdict(_asdict(pulse).get("power"))
-
-
-def _events(pulse) -> list:
-    return [_asdict(e) for e in _aslist(_asdict(pulse).get("events"))]
-
-
-def _walk_scalars(obj):
-    """Every scalar leaf under obj, for the raw-secret-marker scan."""
-    if isinstance(obj, dict):
-        for v in obj.values():
-            yield from _walk_scalars(v)
-    elif isinstance(obj, list):
-        for v in obj:
-            yield from _walk_scalars(v)
-    else:
-        yield obj
-
-
-def _transform_targets(pulses: list) -> set:
-    """Every spellID an observed transform event resolved TO, across the corpus —
-    the legitimate homes a divergent liveSpellID can point at even when the entry's
-    static override fields are empty (an aura-driven override arrives by event)."""
-    out = set()
-    for p in pulses:
-        for e in _events(p):
-            to = e.get("to")
-            if isinstance(to, int):
-                out.add(to)
-    return out
-
-
-def _no_pulses(pulses):
-    return (SKIP, "no statelog pulses captured (/cdmp statelog, play, /reload)") \
-        if not pulses else None
-
-
-def _check_sl_secrecy(pulses, expect):
-    """Invariant #4: no raw secret ever reaches disk, and the unreadable-live paths
-    carry no value. A '<secret>' marker anywhere, or a charge/aura marked
-    readable=false that still carries a value, is a leak."""
-    skip = _no_pulses(pulses)
-    if skip:
-        return skip
-    bad = []
-    for i, p in enumerate(pulses):
-        for s in _walk_scalars(p):
-            if isinstance(s, str) and s == _SECRET_MARKER:
-                bad.append(f"pulse#{i}: a '<secret>' marker reached disk")
-                break
-        for c in _cooldowns(p):
-            ch = _asdict(c.get("charge"))
-            if ch.get("readable") is False and ("cur" in ch or "max" in ch):
-                bad.append(f"pulse#{i} cd{c.get('cooldownID')}: unreadable charge carries a value")
-            au = _asdict(c.get("aura"))
-            if au.get("readable") is False and "active" in au:
-                bad.append(f"pulse#{i} cd{c.get('cooldownID')}: unreadable aura carries a value")
-    if bad:
-        return FAIL, "; ".join(bad[:4]) + (f" (+{len(bad) - 4} more)" if len(bad) > 4 else "")
-    return PASS, f"{len(pulses)} pulse(s): no secret on disk, unreadable paths carry null"
-
-
-def _check_sl_enum(pulses, expect):
-    """Enum/domain validity: cd.state and cd.source in-vocabulary, power keyed by a
-    real Enum.PowerType name."""
-    skip = _no_pulses(pulses)
-    if skip:
-        return skip
-    bad = []
-    for i, p in enumerate(pulses):
-        for c in _cooldowns(p):
-            cd = _asdict(c.get("cd"))
-            st, src = cd.get("state"), cd.get("source")
-            if st not in _CD_STATES:
-                bad.append(f"pulse#{i} cd{c.get('cooldownID')}: cd.state={st!r}")
-            if src is not None and src not in _CD_SOURCES:
-                bad.append(f"pulse#{i} cd{c.get('cooldownID')}: cd.source={src!r}")
-        for name in _powers(p):
-            if str(name) not in _POWER_TYPES:
-                bad.append(f"pulse#{i}: power keyed by {name!r} (not a real power-type)")
-        # mode (P5b) is a generic st/aoe enum State forwards; absent is fine, but a
-        # value out of domain means State invented a mode.
-        mode = _asdict(p).get("mode")
-        if mode is not None and mode not in _MODES:
-            bad.append(f"pulse#{i}: mode={mode!r} (not st/aoe)")
-        for h in _aslist(p.get("history")):
-            ph = _asdict(h).get("phase")
-            if ph not in ("start", "succeeded"):
-                bad.append(f"pulse#{i}: history phase={ph!r} (not start/succeeded)")
-    if bad:
-        return FAIL, "; ".join(bad[:4]) + (f" (+{len(bad) - 4} more)" if len(bad) > 4 else "")
-    return PASS, f"{len(pulses)} pulse(s): cd.state/source, mode, power keys, history phases all in-domain"
-
-
-def _check_sl_napkin(pulses, expect):
-    """The napkin honesty rule, on disk (W4 Phase 7): an estimate never claims
-    readiness. A cd sourced 'napkin' is always 'on-cooldown' with a numeric
-    remaining (>0 counting down, 0 = probably-up but unconfirmed) — never 'ready'
-    and never 'unknown'; and NO cd is 'ready' unless source is 'live' (an OOC read
-    or an observed alert edge). Symmetrically, an 'unknown' cd is genuine no-data
-    (source 'none'), carrying no remaining."""
-    skip = _no_pulses(pulses)
-    if skip:
-        return skip
-    bad = []
-    for i, p in enumerate(pulses):
-        for c in _cooldowns(p):
-            cd = _asdict(c.get("cd"))
-            st, src, rem = cd.get("state"), cd.get("source"), cd.get("remaining")
-            if src == "napkin":
-                if st != "on-cooldown":
-                    bad.append(f"pulse#{i} cd{c.get('cooldownID')}: napkin cd is {st!r}, not on-cooldown")
-                elif not isinstance(rem, (int, float)):
-                    bad.append(f"pulse#{i} cd{c.get('cooldownID')}: napkin on-cooldown but remaining={rem!r}")
-            if st == "ready" and src != "live":
-                bad.append(f"pulse#{i} cd{c.get('cooldownID')}: READY from source={src!r} (only a live read/edge may)")
-            if st == "unknown" and src not in (None, "none"):
-                bad.append(f"pulse#{i} cd{c.get('cooldownID')}: unknown from source={src!r} (unknown = no-data/none)")
-    if bad:
-        return FAIL, "; ".join(bad[:4]) + (f" (+{len(bad) - 4} more)" if len(bad) > 4 else "")
-    return PASS, f"{len(pulses)} pulse(s): no estimate claims readiness; unknown = no-data"
-
-
-def _check_sl_identity(pulses, expect):
-    """Identity coherence (B1): a live identity never diverges from the base without
-    a source. liveSpellID must equal spellID unless an override field or an observed
-    transform target explains the divergence; and a liveSpellID implies a base."""
-    skip = _no_pulses(pulses)
-    if skip:
-        return skip
-    targets = _transform_targets(pulses)
-    bad = []
-    for i, p in enumerate(pulses):
-        for c in _cooldowns(p):
-            base = c.get("spellID")
-            live = c.get("liveSpellID")
-            if live is not None and base is None:
-                bad.append(f"pulse#{i} cd{c.get('cooldownID')}: liveSpellID with no base spellID")
-                continue
-            if live is None or base is None or live == base:
-                continue
-            homes = {c.get("overrideSpellID"), c.get("overrideTooltipSpellID")}
-            if live in homes or live in targets:
-                continue
-            bad.append(f"pulse#{i} cd{c.get('cooldownID')}: liveSpellID={live} diverges from "
-                       f"base={base} with no override/transform source")
-    if bad:
-        return FAIL, "; ".join(bad[:4]) + (f" (+{len(bad) - 4} more)" if len(bad) > 4 else "")
-    return PASS, f"{len(pulses)} pulse(s): live identity coherent with the raw ids"
-
-
-def _check_sl_spec_agnostic(pulses, expect):
-    """Invariant #3: no rotation/spec vocabulary leaked into a State entry."""
-    skip = _no_pulses(pulses)
-    if skip:
-        return skip
-    bad = []
-    for i, p in enumerate(pulses):
-        for c in _cooldowns(p):
-            for k in c:
-                if str(k).lower() in _SPEC_DENYLIST:
-                    bad.append(f"pulse#{i} cd{c.get('cooldownID')}: spec key {k!r} in State")
-    if bad:
-        return FAIL, "; ".join(sorted(set(bad))[:4])
-    return PASS, f"{len(pulses)} pulse(s): no spec/rotation keys — State stays spec-agnostic"
-
-
-# ── Coverage checks — PASS when the moment is in the corpus, SKIP when it is not ──
-
-def _check_sl_cov_contexts(pulses, expect):
-    skip = _no_pulses(pulses)
-    if skip:
-        return skip
-    ooc = any(not _asdict(p).get("combat") for p in pulses)
-    combat = any(_asdict(p).get("combat") for p in pulses)
-    if ooc and combat:
-        return PASS, "both OOC and in-combat pulses captured"
-    have = ", ".join(x for x, ok in (("OOC", ooc), ("combat", combat)) if ok) or "neither"
-    return SKIP, f"only {have} captured — need both (pull a dummy, and sample OOC)"
-
-
-def _check_sl_cov_secret(pulses, expect):
-    skip = _no_pulses(pulses)
-    if skip:
-        return skip
-    for p in pulses:
-        for c in _cooldowns(p):
-            if _asdict(c.get("cd")).get("readable") is False:
-                return PASS, "an unreadable/secret live cd was captured"
-    return SKIP, "no unreadable cd yet (the secret path fires in combat — pull a dummy)"
-
-
-def _check_sl_cov_napkin(pulses, expect):
-    skip = _no_pulses(pulses)
-    if skip:
-        return skip
-    for p in pulses:
-        for c in _cooldowns(p):
-            if _asdict(c.get("cd")).get("source") == "napkin":
-                return PASS, "a napkin-sourced cd was captured"
-    return SKIP, "no napkin-sourced cd (cast a cooldown in combat, then re-capture)"
-
-
-def _check_sl_cov_ready_combat(pulses, expect):
-    """W4 Phase 7 coverage: a never-cast-but-OOC-readable summon reads `ready`
-    (source live) IN COMBAT, off the OOC baseline carried across combat entry —
-    NOT the pre-Phase-7 `source:none` collapse. This is THE bug-fix pin."""
-    skip = _no_pulses(pulses)
-    if skip:
-        return skip
-    for p in pulses:
-        if not _asdict(p).get("combat"):
-            continue
-        for c in _cooldowns(p):
-            cd = _asdict(c.get("cd"))
-            if cd.get("state") == "ready" and cd.get("source") == "live":
-                return PASS, f"a summon read ready/live in combat (cd{c.get('cooldownID')}) — baseline/edge, not source:none"
-    return SKIP, ("no in-combat ready/live cd yet — pull WITHOUT casting a never-cast "
-                  "summon (Tyrant/Dreadstalkers) and re-capture; it should read ready, not none")
-
-
-def _check_sl_cov_ready_edge(pulses, expect):
-    """W4 Phase 7b coverage: an observed CDM `Available`/`OnCooldown` alert edge
-    (a `ready_edge` event) fired in the corpus — readiness OBSERVED, not guessed."""
-    skip = _no_pulses(pulses)
-    if skip:
-        return skip
-    for p in pulses:
-        for e in _events(p):
-            if _asdict(e).get("kind") == "ready_edge":
-                ev = _asdict(e)
-                which = "Available" if ev.get("ready") else "OnCooldown"
-                return PASS, f"an observed alert edge fired (cd{ev.get('cooldownID')} {which})"
-    return SKIP, ("no ready_edge event yet — pull a dummy and let a cooldown finish/start "
-                  "in combat (the CDM Available/OnCooldown alert), then re-capture")
-
-
-def _check_sl_cov_shards(pulses, expect):
-    skip = _no_pulses(pulses)
-    if skip:
-        return skip
-    vals = set()
-    for p in pulses:
-        ss = _asdict(_powers(p).get("SoulShards"))
-        if isinstance(ss.get("value"), int):
-            vals.add(ss["value"])
-    if len(vals) >= 2:
-        return PASS, f"a shard spread captured (values {sorted(vals)})"
-    return SKIP, f"shard values seen: {sorted(vals) or 'none'} — need a spread (spend + generate)"
-
-
-def _check_sl_cov_transform(pulses, expect):
-    skip = _no_pulses(pulses)
-    if skip:
-        return skip
-    if _transform_targets(pulses):
-        return PASS, f"transform(s) observed: {sorted(_transform_targets(pulses))}"
-    return SKIP, "no transform observed (arm a Demonic Art / let a Grimoire hit CD)"
-
-
-def _check_sl_cov_proc(pulses, expect):
-    skip = _no_pulses(pulses)
-    if skip:
-        return skip
-    for p in pulses:
-        for c in _cooldowns(p):
-            if _asdict(c.get("aura")).get("active") is True:
-                return PASS, f"a proc aura was observed active (cd{c.get('cooldownID')})"
-    # Combat auras are secret, so the combat proc signal is the GLOW, not the aura.
-    for p in pulses:
-        if p.get("combat"):
-            for c in _cooldowns(p):
-                if _asdict(c.get("glow")).get("active") is True:
-                    return PASS, f"a combat proc-glow was observed (cd{c.get('cooldownID')} glowing)"
-    return SKIP, ("no proc observed — an aura active OOC, or a proc-glow in combat "
-                  "(combat auras are secret; the glow is the readable combat signal)")
-
-
-def _check_sl_cov_history(pulses, expect):
-    skip = _no_pulses(pulses)
-    if skip:
-        return skip
-    phases = set()
-    for p in pulses:
-        for h in _aslist(_asdict(p).get("history")):
-            ph = _asdict(h).get("phase")
-            if ph in ("start", "succeeded"):
-                phases.add(ph)
-    if {"start", "succeeded"} <= phases:
-        return PASS, "cast history captured with both start and succeeded phases"
-    if phases:
-        return SKIP, f"history has only {sorted(phases)} — need both a START (cast-time spell) and a SUCCEEDED"
-    return SKIP, "no cast history captured (cast something while recording)"
-
-
-def _check_sl_cov_mode(pulses, expect):
-    """P5b: State forwards the user-toggled single/AoE mode. PASS once a pulse
-    carries a mode (in-domain — the enum check guards the value); SKIP if none do."""
-    skip = _no_pulses(pulses)
-    if skip:
-        return skip
-    seen = {_asdict(p).get("mode") for p in pulses if _asdict(p).get("mode") is not None}
-    if seen:
-        return PASS, f"mode forwarded ({sorted(seen)})"
-    return SKIP, "no mode on any pulse — /cdmp single|multi sets it (needs a fresh capture build)"
-
-
-def _check_sl_cov_incoming(pulses, expect):
-    """P5b: the in-flight builder projection reached the shard bar. PASS once a
-    SoulShards power carries a numeric `incoming`; SKIP until one does (a builder must
-    be mid-cast when the pulse is taken)."""
-    skip = _no_pulses(pulses)
-    if skip:
-        return skip
-    saw_field, saw_nonzero = False, False
-    for p in pulses:
-        ss = _asdict(_powers(p).get("SoulShards"))
-        inc = ss.get("incoming")
-        if isinstance(inc, (int, float)):
-            saw_field = True
-            if inc > 0:
-                saw_nonzero = True
-    if saw_nonzero:
-        return PASS, "an in-flight shard projection (incoming>0) was captured"
-    if saw_field:
-        return SKIP, "incoming present but always 0 — capture a pulse while a builder is casting"
-    return SKIP, "no incoming field on SoulShards — needs a fresh capture build (P5b)"
-
-
-def _check_sl_cov_incoming_negative(pulses, expect):
-    """P6 Part 2: the SIGNED projection clears an in-flight SPENDER. PASS once a
-    SoulShards power carries a NEGATIVE `incoming` (an in-flight Hand of Gul'dan
-    projecting −cost); SKIP until one does (a spender must be mid-cast when the pulse
-    is taken). This is the live half of the hog-inflight golden — the observation that
-    an in-flight HoG clears its own cue mid-cast instead of re-prompting itself."""
-    skip = _no_pulses(pulses)
-    if skip:
-        return skip
-    saw_field, saw_negative = False, False
-    for p in pulses:
-        ss = _asdict(_powers(p).get("SoulShards"))
-        inc = ss.get("incoming")
-        if isinstance(inc, (int, float)):
-            saw_field = True
-            if inc < 0:
-                saw_negative = True
-    if saw_negative:
-        return PASS, "a negative shard projection (incoming<0, an in-flight spender) was captured"
-    if saw_field:
-        return SKIP, "incoming present but never <0 — capture a pulse while Hand of Gul'dan is casting"
-    return SKIP, "no incoming field on SoulShards — needs a fresh capture build (P6 Part 2)"
-
-
-STATELOG_CHECKS = {
-    "statelog-secrecy": _check_sl_secrecy,
-    "statelog-enum-domain": _check_sl_enum,
-    "statelog-napkin-honesty": _check_sl_napkin,
-    "statelog-identity-coherence": _check_sl_identity,
-    "statelog-spec-agnostic": _check_sl_spec_agnostic,
-    "statelog-coverage-contexts": _check_sl_cov_contexts,
-    "statelog-coverage-secret": _check_sl_cov_secret,
-    "statelog-coverage-napkin": _check_sl_cov_napkin,
-    "statelog-coverage-ready-combat": _check_sl_cov_ready_combat,
-    "statelog-coverage-ready-edge": _check_sl_cov_ready_edge,
-    "statelog-coverage-shards": _check_sl_cov_shards,
-    "statelog-coverage-transform": _check_sl_cov_transform,
-    "statelog-coverage-proc": _check_sl_cov_proc,
-    "statelog-coverage-history": _check_sl_cov_history,
-    "statelog-coverage-mode": _check_sl_cov_mode,
-    "statelog-coverage-incoming": _check_sl_cov_incoming,
-    "statelog-coverage-incoming-negative": _check_sl_cov_incoming_negative,
-}
+# (The M4.6 `cue-renders-its-level` / `gradient-clobbers-vertex-colour` cue-render
+# probes were retired with the old engine at the W4 cutover — they read the cueWatch/
+# gradTest capture sections, which watched the old HUD's cue textures. The gradient
+# finding is preserved in docs/archive/m4.5-playtest5-feedback.md §4.5.c.)
 
 
 CHECKS = {
@@ -802,7 +338,6 @@ CHECKS = {
     "override-ids-known": _check_transforms_known,
     "tracked-set-core": _check_tracked_set,
     "imp-side-channel-closed": _check_imps_closed,
-    "cue-renders-its-level": _check_cue_render,
 }
 
 
@@ -835,30 +370,6 @@ def _stamp_age(stamp) -> str:
     return f"{stamp} ({days}d ago)"
 
 
-def _run_statelog(statelog: dict, baseline: dict) -> tuple[list, int]:
-    """Run the statelog baseline block against the captured pulses.
-
-    Returns (results, hard_fails) where results is a list of (status, aid, a, detail),
-    the same shape the probe block produces, so cmd_check can render them uniformly.
-    """
-    pulses = _statelog_pulses(statelog)
-    results, hard_fails = [], 0
-    for a in _aslist(_asdict(baseline.get("statelog")).get("assumptions")):
-        aid = a.get("id")
-        fn = STATELOG_CHECKS.get(aid)
-        if fn is None:
-            results.append((FAIL, aid, a, "no statelog check function for this id (see STATELOG_CHECKS in cdmp.py)"))
-            hard_fails += 1
-            continue
-        try:
-            status, detail = fn(pulses, _asdict(a.get("expect")))
-        except Exception as e:  # noqa: BLE001 — a broken check must not look like a pass
-            status, detail = FAIL, f"check raised {type(e).__name__}: {e}"
-        if status == FAIL and (a.get("severity") or "medium").lower() == "high":
-            hard_fails += 1
-        results.append((status, aid, a, detail))
-    return results, hard_fails
-
 
 def _print_results(results: list) -> tuple[int, int, list]:
     """Render a block of (status, aid, a, detail) rows; return (hard_fails, passed, skipped)."""
@@ -879,12 +390,11 @@ def _print_results(results: list) -> tuple[int, int, list]:
     return hard_fails, passed, skipped
 
 
-def cmd_check(probe: dict, pulls: dict, statelog: dict, path: str,
-              baseline: dict, bl_path: Path) -> int:
+def cmd_check(probe: dict, path: str, baseline: dict, bl_path: Path) -> int:
     _print_header(probe, path)
-    if not probe and not _statelog_pulses(statelog):
+    if not probe:
         print("\nNo structured probe capture (CDMProbeDB.probe is empty).", file=sys.stderr)
-        print("Needs CDMProbe v0.25.0+: run /cdmp probe (or /cdmp statelog), then /reload.",
+        print("Needs CDMProbe v0.25.0+: run /cdmp probe, then /reload.",
               file=sys.stderr)
         return 1
 
@@ -938,21 +448,10 @@ def cmd_check(probe: dict, pulls: dict, statelog: dict, path: str,
             status, detail = FAIL, f"check raised {type(e).__name__}: {e}"
         results.append((status, aid, a, detail))
 
-    # The statelog block runs on its own capture (CDMProbeDB.statelog), rendered
-    # beside the probe block but tallied together. When no statelog exists yet every
-    # entry reports 'not covered' — the same absence-is-not-evidence discipline.
-    sl_results, _ = _run_statelog(statelog, baseline)
-
     print()
-    hf1, _p1, _s1 = _print_results(results)
-    if sl_results:
-        print("\n  ── statelog (W4 Phase-1 fixture gate: State contract + corpus coverage) ──")
-        hf2, _p2, _s2 = _print_results(sl_results)
-    else:
-        hf2 = 0
+    hard_fails, _passed, _skipped = _print_results(results)
 
-    all_results = results + sl_results
-    hard_fails = hf1 + hf2
+    all_results = results
 
     skipped = [(aid, a) for status, aid, a, _ in all_results if status == SKIP]
     if skipped:
@@ -960,7 +459,7 @@ def cmd_check(probe: dict, pulls: dict, statelog: dict, path: str,
               "which is NOT a pass:")
         for aid, a in skipped:
             print(f"  · {aid} — {a.get('desc')}")
-        print("  (in-game: /cdmp probe guide and /cdmp statelog guide say which you can still close)")
+        print("  (in-game: /cdmp probe guide says which you can still close)")
 
     # Stamp ages: a check that passes against a year-old stamp is a check that
     # has not actually run this patch.  The `context` prose is only unfolded for
@@ -973,8 +472,6 @@ def cmd_check(probe: dict, pulls: dict, statelog: dict, path: str,
         if ctx and status != PASS:
             print(f"  {'':<28}   ↳ {ctx}")
 
-    _print_pulls(pulls, brief=True)
-
     passed = sum(1 for s, _, _, _ in all_results if s == PASS)
     warns = sum(1 for s, _, a, _ in all_results
                 if s == FAIL and (a.get("severity") or "medium").lower() != "high")
@@ -982,114 +479,10 @@ def cmd_check(probe: dict, pulls: dict, statelog: dict, path: str,
     return 1 if hard_fails else 0
 
 
-def _print_pulls(pulls: dict, brief: bool = False) -> None:
-    items = _aslist(pulls)
-    if not items:
-        return
-    print(f"\npull log ({len(items)} recorded):")
-    for p in items[-3:] if brief else items:
-        p = _asdict(p)
-        hist = _asdict(p.get("hist"))
-        total = sum(v for v in hist.values() if isinstance(v, (int, float))) or 1
-        dist = " ".join(f"{k}:{round(100 * v / total)}%" for k, v in sorted(hist.items()))
-        print(f"  {p.get('at', '?')}  v{p.get('version', '?')}  "
-              f"{round(float(p.get('dur') or 0))}s  peak={p.get('peak', '?')}")
-        if dist:
-            print(f"      lit {dist}")
 
-
-def _show_statelog(statelog: dict) -> None:
-    pulses = _statelog_pulses(statelog)
-    if not pulses:
-        return
-    sl = _asdict(statelog)
-    print(f"\n── statelog ({len(pulses)} pulse(s) in ring, {sl.get('count', '?')} captured, "
-          f"started {sl.get('startedAt', '?')}) ──")
-    for p in pulses:
-        p = _asdict(p)
-        cds = _cooldowns(p)
-        readable = sum(1 for c in cds if _asdict(c.get("cd")).get("readable"))
-        procs = sum(1 for c in cds if _asdict(c.get("aura")).get("active"))
-        glows = sum(1 for c in cds if _asdict(c.get("glow")).get("active"))
-        ss = _asdict(_powers(p).get("SoulShards"))
-        evk = ",".join(sorted({str(e.get("kind")) for e in _events(p)})) or "-"
-        buffs = len(_active_auras(p))
-        hist = len(_aslist(p.get("history")))
-        print(f"  #{p.get('seq', '?'):<3} {p.get('reason', '?'):<9} "
-              f"{'combat' if p.get('combat') else 'ooc':<6}  "
-              f"cds={len(cds)} ({readable} live-readable, {procs} aura-proc, {glows} glow)  "
-              f"buffs={buffs}  hist={hist}  shards={ss.get('value', '?')}/{ss.get('max', '?')}  events=[{evk}]")
-
-
-def _active_auras(pulse) -> list:
-    return [_asdict(a) for a in _aslist(_asdict(pulse).get("activeAuras"))]
-
-
-def cmd_focus(statelog: dict, focus: str) -> int:
-    """Narrow the statelog dump to one spell — by spellID, by name substring, or the
-    special `auras` to list every distinct active buff seen (the discovery dump).
-
-    This is how we chase a proc whose CDM entry's spellID does NOT match the buff's
-    real aura id: `--focus "Demonic Core"` finds the active buff by NAME across the
-    capture and prints its true spellID, which the entry never carried."""
-    pulses = _statelog_pulses(statelog)
-    if not pulses:
-        print("No statelog pulses (/cdmp statelog, play, /reload).")
-        return 1
-    focus_id = int(focus) if str(focus).isdigit() else None
-    focus_lc = str(focus).lower()
-
-    # Special: list every distinct active buff seen, with how often — the discovery dump.
-    if focus_lc == "auras":
-        seen: dict = {}
-        for p in pulses:
-            for a in _active_auras(p):
-                sid = a.get("spellID")
-                if isinstance(sid, int):
-                    e = seen.setdefault(sid, {"name": a.get("name"), "n": 0})
-                    e["n"] += 1
-        print(f"\n── distinct active buffs across {len(pulses)} pulses ──")
-        for sid, e in sorted(seen.items(), key=lambda kv: -kv[1]["n"]):
-            print(f"  {sid:<10} {str(e['name'] or '?'):<28} seen in {e['n']} pulse(s)")
-        secret = sum(int(_asdict(p).get("activeAuraSecret") or 0) for p in pulses)
-        if secret:
-            print(f"  (+ {secret} aura-reads across pulses were secret/unreadable — combat-gated)")
-        return 0
-
-    print(f"\n── statelog focus: {focus!r} ──")
-    hits = 0
-    for p in pulses:
-        p = _asdict(p)
-        cd_matches = []
-        for c in _cooldowns(p):
-            ids = {c.get("spellID"), c.get("liveSpellID"),
-                   c.get("overrideSpellID"), c.get("overrideTooltipSpellID")}
-            if focus_id and focus_id in ids:
-                cd_matches.append(c)
-        aura_matches = [a for a in _active_auras(p)
-                        if (focus_id and a.get("spellID") == focus_id)
-                        or (not focus_id and focus_lc in str(a.get("name") or "").lower())]
-        if not cd_matches and not aura_matches:
-            continue
-        hits += 1
-        print(f"  #{p.get('seq')} {p.get('reason')} {'combat' if p.get('combat') else 'ooc':<6}:")
-        for c in cd_matches:
-            print(f"     cd[{c.get('cooldownID')}] spellID={c.get('spellID')} live={c.get('liveSpellID')} "
-                  f"selfAura={c.get('selfAura')} hasAura={c.get('hasAura')}")
-            print(f"        aura={json.dumps(c.get('aura'))}  glow={json.dumps(c.get('glow'))}")
-            if c.get("buff") is not None:
-                print(f"        buff={json.dumps(c.get('buff'))}")
-        for a in aura_matches:
-            print(f"     ACTIVE BUFF: spellID={a.get('spellID')} name={a.get('name')!r}")
-    if not hits:
-        print(f"  no cooldown entry or active buff matched {focus!r}. "
-              f"Try `--focus auras` to list every active buff seen.")
-    return 0
-
-
-def cmd_show(probe: dict, pulls: dict, statelog: dict, path: str) -> int:
+def cmd_show(probe: dict, path: str) -> int:
     _print_header(probe, path)
-    if not probe and not _statelog_pulses(statelog):
+    if not probe:
         print("\nNo structured probe capture (CDMProbeDB.probe is empty).")
         return 1
     for ctx in CONTEXTS:
@@ -1136,8 +529,6 @@ def cmd_show(probe: dict, pulls: dict, statelog: dict, path: str) -> int:
                   f"text={imps.get('text')!r} (readable={bool(imps.get('textReadable'))}"
                   f"{', errored' if imps.get('textErrored') else ''})  shown={imps.get('shown')}")
 
-    _show_statelog(statelog)
-    _print_pulls(pulls)
     return 0
 
 
@@ -1231,8 +622,6 @@ def main(argv=None) -> int:
     ap.add_argument("--json", action="store_true",
                     help="show: dump the raw capture as JSON (archive it to diff against later)")
     ap.add_argument("--against", help="diff: compare against a JSON capture exported by `show --json`")
-    ap.add_argument("--focus", help="show: narrow the statelog dump to a spell — a spellID, a name "
-                    "substring (matched against active-buff names), or 'auras' to list every active buff seen")
     ap.add_argument("--out", default=str(REPO_ROOT / "raw" / "cdmp-hud2.log"),
                     help="hud2log: flat .log destination (default: <repo>/raw/cdmp-hud2.log, gitignored)")
     args = ap.parse_args(argv)
@@ -1243,17 +632,14 @@ def main(argv=None) -> int:
               f"{args.wow_path}/WTF/Account/*/SavedVariables/.", file=sys.stderr)
         print("Run /cdmp probe in-game and /reload first.", file=sys.stderr)
         return 1
-    probe, pulls, statelog, hud2log, path = loaded
+    probe, hud2log, path = loaded
 
     if args.command == "show" and args.json:
-        print(json.dumps({"probe": probe, "pulls": pulls, "statelog": statelog,
-                          "hud2log": hud2log, "_path": path},
+        print(json.dumps({"probe": probe, "hud2log": hud2log, "_path": path},
                          indent=2, ensure_ascii=False, sort_keys=True, default=str))
         return 0
-    if args.command == "show" and args.focus:
-        return cmd_focus(statelog, args.focus)
     if args.command == "show":
-        return cmd_show(probe, pulls, statelog, path)
+        return cmd_show(probe, path)
     if args.command == "diff":
         return cmd_diff(probe, path, args.against)
     if args.command == "hud2log":
@@ -1264,7 +650,7 @@ def main(argv=None) -> int:
         print(f"Baseline not found: {bl_path}", file=sys.stderr)
         return 1
     baseline = json.loads(bl_path.read_text(encoding="utf-8"))
-    return cmd_check(probe, pulls, statelog, path, baseline, bl_path)
+    return cmd_check(probe, path, baseline, bl_path)
 
 
 if __name__ == "__main__":
