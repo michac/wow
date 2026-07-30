@@ -656,6 +656,47 @@ readable there, but unconfirmed and largely moot, since combat is where it matte
 The visual side is unambiguous regardless: the pandemic FX are real frames
 *[T1 src: `PandemicAlertAnimation.xml:3` (icon), `:47` (bar)]*.
 
+#### `ChargeGained` is about CHARGES, not aura stacks — and cannot fire for a buff entry
+
+A natural assumption is that a stacking proc (Demonic Core, Backdraft) would raise
+`ChargeGained` as it accumulates. It cannot, and the reason is in the mixin tree:
+
+- `CooldownViewerCooldownItemMixin` *[T1 src: `CooldownViewer.lua:678`]* — the parent of
+  `CooldownViewerEssentialItemMixin` *[`:1150`]* and `CooldownViewerUtilityItemMixin`
+  *[`:1153`]* — is the **only** owner of `CacheChargeValues` / `SetCachedChargeValues`
+  *[`:997`, `:986`]*, which is the sole path to `AddChargeGainedAlertTime`.
+- `CooldownViewerBuffItemMixin` *[`:1157`]*, parent of the BuffIcon *[`:1245`]* and BuffBar
+  *[`:1318`]* items, derives from `CooldownViewerItemMixin` **directly** and never picks up
+  that mixin. A buff/aura entry therefore has no charge-caching code at all.
+
+What the count actually reads, in precedence order *[T1 src: `CooldownViewer.lua:997-1016`]*:
+
+1. `GetSpellChargeInfo()` when `maxCharges > 1` — real spell charges.
+2. else `C_Spell.GetSpellCastCount(spellID)` — the "cast count" / "use count" a spell may
+   expose (Blizzard's own comment: *"can have different meanings based on the context of
+   the spell"*).
+3. else unchanged and hidden.
+
+The alert then fires on any **increase** of that cached value
+(`previousCooldownChargesCount < cooldownChargesCount` *[`:992-994`]*).
+
+✅ Confirmed by the 2026-07-30 capture: **Conflagrate** (2 real charges) →
+`Available, OnCooldown, ChargeGained`; **Backdraft** (a 2-stack buff on the BuffBar viewer)
+→ `OnAuraApplied, OnAuraRemoved` only.
+
+**And `OnAuraApplied` will not count stacks either.** It fires only from
+`unitAuraUpdateInfo.addedAuras`, matched on `aura.auraInstanceID ==
+self:GetAuraSpellInstanceID()` *[T1 src: `CooldownViewer.lua:615-618`, `:1682-1690`]*. A
+stack gained on an existing aura keeps the same `auraInstanceID` and arrives under
+`updatedAuraInstanceIDs`, which nothing here listens to — so the alert marks a **fresh
+application**, not an increment. (Capture: Backdraft 5 applied / 5 removed across ~10
+Conflagrate charge gains.)
+
+**The live lead this leaves open:** source 2 means an ability icon *can* raise
+`ChargeGained` off `GetSpellCastCount` without having real charges. Whether any spec's
+proc is modelled that way — e.g. Demonic Core surfacing as a cast count on Demonbolt — is
+unmeasured and would be a way to count something otherwise secret. `@verify-ingame`.
+
 #### Two structural facts from the same capture
 
 - **Eligibility is sparse, and some rotational spells have NO alert types at all.**
