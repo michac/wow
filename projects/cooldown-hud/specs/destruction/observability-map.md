@@ -91,7 +91,8 @@ cannot model recharge at all (it counts one cooldown, not a refilling pool).
   layout override in `docs/status.md`.
 
 - **Charges (#6, #11).** Not a Destruction quirk so much as a project gap that
-  Destruction is the first spec to hit. Capturing a Destruction `/cdmp probe`
+  Destruction is the first spec to hit (Conflagrate + Shadowburn are the first charged
+  tracked abilities). Confirming the `charge` read live on a Destruction character
   **closes** the `charge` open item in `docs/status.md` — worth doing early, since the
   answer changes how two rotation lines behave.
 

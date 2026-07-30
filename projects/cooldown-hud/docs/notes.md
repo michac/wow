@@ -556,14 +556,16 @@ shared mixin table wouldn't reach already-created frames — hook the **item
 INSTANCE** (guarded once per frame). The viewer-level `RefreshLayout` hook is for
 **reflowing chrome + re-hooking newly-pooled items** on relayout, never for tint.
 
-**Status: dormant, and now living in `HudTint.lua`.** v1 writes nothing to the
-icon, so these hooks are inactive. When `CRT.lua` was deleted in **M3a (v0.6.0)**
-this machinery was **rescued into `HudTint.lua`** — present, commented with the
-finding above, and **unwired**: nothing calls `ns.HudTint.Install()` and every
-callback is gated on `ns.HudTint.enabled`, which is `false`. It is kept, not
-deleted — this is the exact machinery an optional solid-colour mode would need
-(set `enabled`, point `colorFor` at a spellID→rgb function, install from
-`HudCore`'s bind pass), and rediscovering it cost a build iteration.
+**Status: deleted (the finding survives here).** v1 writes nothing to the icon, so
+these hooks were never active. When `CRT.lua` was deleted in **M3a (v0.6.0)** this
+machinery was rescued into `HudTint.lua` — kept unwired (nothing called
+`ns.HudTint.Install()`; every callback gated on `ns.HudTint.enabled = false`) as the
+scaffolding an optional solid-colour mode would need. `HudTint.lua` was then **deleted
+in W4a (2026-07-24)** alongside the other solid-colour experiments; the last-writer-on-
+every-path finding above is recoverable from git history. This is what an optional
+solid-colour mode would rebuild (set `enabled`, point `colorFor` at a spellID→rgb
+function, install from the bind pass) — recorded here so rediscovering it costs no
+build iteration.
 
 **Superseded consequence:** this section used to end with "M3 must decide how
 'ready vs on-cooldown' is re-encoded now that we own the icon's colour on every

@@ -56,6 +56,11 @@ build  : version.txt == 12.0.7.68887   ← matches live patch 12.0.7. Current.
 size   : 48 MB · 3685 files (2298 .lua, 1028 .xml, 346 .toc, 1 .xsd)
 ```
 
+**This `raw/addon-research/` copy is the canonical one — cite it.** A second, personal
+clone also exists at `~/code/github/wow-ui-source`, but it may lag (was build
+`12.0.7.68453` as of 2026-07-29, two builds behind this one) — check its `version.txt`
+before citing, and prefer the `raw/` copy above.
+
 Everything is under `Interface/AddOns/` — **317 `Blizzard_*` addons**. The old
 `Interface/FrameXML/` and `Interface/SharedXML/` top-level dirs no longer exist;
 they are now `Blizzard_FrameXML/`, `Blizzard_FrameXMLBase/`, `Blizzard_SharedXML/`,

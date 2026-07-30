@@ -22,13 +22,16 @@
   },
 
   "channels": {
-    "resourceBar": {
-      "value": "number",
-      "max": "number",
-      "incoming": "number  // net shard delta of in-flight casts, forwarded from State's napkin projection; the Coach ranks on projected = value + incoming",
-      "display": "enum:resourceDisplay",
-      "powerType": "enum:powerType  // game token; Renderer -> PowerBarColor"
-    },
+    "resourceBars": [
+      {
+        "note": "ARRAY of power meters (multi-spec Phase 3). One entry per power the active spec declares (spec.powers); a single-resource spec (Demonology = Soul Shards) emits a one-element array. The Renderer stacks them vertically.",
+        "value": "number",
+        "max": "number",
+        "incoming": "number  // net power delta of in-flight casts, forwarded from State's per-power projection; the Coach ranks on projected = value + incoming",
+        "display": "enum:resourceDisplay",
+        "powerType": "enum:powerType  // game token; Renderer -> PowerBarColor"
+      }
+    ],
     "cues": {
       "<cooldownID>": {
         "draw": "bool",
@@ -57,7 +60,7 @@
     "emphasis": {
       "appears": ["cues[].emphasis"],
       "origin": "HudBoard colorKey, promoted to the public contract.",
-      "invariant_singleTopPress": "Decided 2026-07-25; revised W4 Phase 8 (2026-07-27). Exactly ONE cue holds the 'press now' emphasis -- ROTATION, or LATE when that press is overdue (they never co-occur) -- the flat priority list's (specs/demonology/rotation.md) first castable line. At most ONE cue holds ROTATION_FALLBACK: the honest second place (winner's ability removed, list re-run from the top), always offered when castable. All other ready abilities cap at AVAILABLE (internal; no cue). SOON (anticipation) and the resourceBar may coexist -- they are not 'press now' claims. This makes the Coach a RANKED WINNER, not independent per-ability lights. See docs/archive/w4-phase2-goldens-plan.md.",
+      "invariant_singleTopPress": "Decided 2026-07-25; revised W4 Phase 8 (2026-07-27). Exactly ONE cue holds the 'press now' emphasis -- ROTATION, or LATE when that press is overdue (they never co-occur) -- the flat priority list's (specs/demonology/rotation.md) first castable line. At most ONE cue holds ROTATION_FALLBACK: the honest second place (winner's ability removed, list re-run from the top), always offered when castable. All other ready abilities cap at AVAILABLE (internal; no cue). SOON (anticipation) and the resourceBars may coexist -- they are not 'press now' claims. This makes the Coach a RANKED WINNER, not independent per-ability lights. See docs/archive/w4-phase2-goldens-plan.md.",
       "members": {
         "SOON": "anticipating -- not yet pressable; dim + countdown treatment. W4 Phase 8: a DUMB per-ability 'coming off cooldown' decoration (any tracked damage cooldown anticipated within the lead), independent of the winner logic -- multiple may show at once.",
         "ROTATION": "press this now -- the steady lit press",
@@ -94,15 +97,16 @@
       }
     },
     "powerType": {
-      "appears": ["resourceBar.powerType"],
+      "appears": ["resourceBars[].powerType"],
       "kind": "Pass-through of the game's Enum.PowerType token (e.g. SOUL_SHARDS).",
       "resolvedBy": "PowerBarColor (Renderer) -- the sanctioned colour exception."
     },
     "resourceDisplay": {
-      "appears": ["resourceBar.display"],
+      "appears": ["resourceBars[].display"],
       "members": {
-        "discrete": "whole segments (soul shards)",
-        "percentage": "a continuous fill"
+        "discrete": "whole segments (soul shards). The Destruction draft calls this 'segmented' -- treat that as a synonym for 'discrete', NOT a separate enum member (avoid enum drift).",
+        "percentage": "a continuous fill (legacy synonym of 'continuous')",
+        "continuous": "a continuous fill (e.g. an energy/mana bar). Added multi-spec Phase 3 for the full resource seam; the Renderer's pixel path is a Phase-when-needed STUB (a continuous bar currently draws nothing) -- no live consumer yet."
       },
       "open": "Enumerate additional forms as later specs need them (keep the meter renderer closed-set)."
     }
@@ -121,7 +125,7 @@
   },
 
   "example": {
-    "resourceBar": { "value": 3, "max": 5, "incoming": 1, "display": "discrete", "powerType": "SOUL_SHARDS" },
+    "resourceBars": [ { "value": 3, "max": 5, "incoming": 1, "display": "discrete", "powerType": "SOUL_SHARDS" } ],
     "cues": {
       "42": { "draw": true, "emphasis": "LATE", "transient": "cast_started", "note": null }
     },

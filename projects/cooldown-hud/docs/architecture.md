@@ -28,8 +28,9 @@
   live Layout (`HudLayout.Scan`) and emits the DrawList.
 - **Renderer** (`Renderer.lua`) draws OUR OWN textures anchored to Blizzard's icons;
   semantic tokens → pixels, no decisions. Toggling the HUD off clears every dot.
-- **Hud2Log** (`Hud2Log.lua`) appends one greppable `S{…} G{…} B{…}` line per decision
-  change to `CDMProbeDB.hud2log` — the pipeline's recorder (`wowkb.cdmp hud2log`).
+- **DecisionLog** (`DecisionLog.lua`) appends one greppable `S{…} G{…} B{…}` line per
+  decision change to `CDMProbeDB.decisionlog` — the pipeline's recorder
+  (`wowkb.cdmp decisionlog`). Its short-codes come from per-spec `abbr`/`spec.log`.
 
 ## Why this doc exists
 
@@ -50,19 +51,20 @@ files. So we define our own words: **layer / stage**, and the specific names bel
 
 ### Component names (locked 2026-07-24)
 
-The five stages and the words we use. The "Was" column points at the retired `Hud*`
-files — **forwarding addresses to code deleted at the W4 cutover**, recoverable only
-from git history.
+The five stages and the words we use. (The whole old `Hud*` engine — `HudState` /
+`HudScore` / `HudBoard` / `HudChrome` — was deleted at the W4 cutover; recover names
+from git history if ever needed.)
 
-| Stage / concept | Name | Was | Note |
-|---|---|---|---|
-| Reduced client picture | **State** | `HudState` core | spec-agnostic; secrecy first-class |
-| The spec-specific brain | **Coach** | "Engine" / `HudScore`+`HudBoard` | the only consumer of State; knows Demonology |
-| Rough cooldown anticipation | **Napkin** | `HudNapkin` | *deliberately* informal — NOT a haste/Lust-aware sim (see Decisions) |
-| The Coach's output | **Guidance** | "ViewModel" | presentation-generic: generic semantic tokens (no class tokens, no RGBA — one exception: `powerType`) |
-| One per-icon signal | **Cue** | (same) | the attention atom |
-| Concept → geometry merge | **Binder** | (new) | Layout in, DrawList out |
-| Pixels | **Renderer** | `HudChrome` draw paths | pure coords + style |
+| Stage / concept | Name | Note |
+|---|---|---|
+| Reduced client picture | **State** | `State.lua`; spec-agnostic; secrecy first-class |
+| The spec-specific brain | **Coach** | generic shell (`Coach.lua`) + a per-spec brain (`CoachDemonology.lua`); the only consumer of State; the active spec is resolved at runtime |
+| Spec registry + resolver | **SpecRegistry** | `SpecRegistry.lua`: `ns.Specs`/`RegisterSpec`/`SetActiveSpec` + `ResolveActiveSpec` (login + `PLAYER_SPECIALIZATION_CHANGED`) |
+| Rough cooldown anticipation | **Napkin** | `HudNapkin.lua` — *deliberately* informal — NOT a haste/Lust-aware sim (see Decisions) |
+| The Coach's output | **Guidance** | presentation-generic: generic semantic tokens (no class tokens, no RGBA — one exception: `powerType`) |
+| One per-icon signal | **Cue** | the attention atom |
+| Concept → geometry merge | **Binder** | `Binder.lua`; Layout in, DrawList out |
+| Pixels | **Renderer** | `Renderer.lua`; pure coords + style |
 
 Chain: **State → Coach → Guidance → Binder → DrawList → Renderer.** Read it as a
 sentence: *the Coach reads the State and gives you Guidance; Cues are what it points at.*
@@ -88,8 +90,16 @@ Four data shapes flow between five stages. Two of them — **Guidance** and
    readable/secret live values, power, keybinds). It does **not** know it is
    Demonology — no rotation groups, no "builder/spender". That meaning is Coach-only.
    *(Consequence, accepted: the Coach is largely NOT generalizable across specs, and
-   that is fine — it is the spec-specific brain. The second-spec seam is the Coach's
-   spec table, as `SpecDemonology` is today.)*
+   that is fine — it is the spec-specific brain. The realized seam: `SpecRegistry.lua`
+   holds the registry (`ns.Specs` + `ns.RegisterSpec` + `ns.SetActiveSpec`); each spec
+   self-registers (`SpecDemonology.lua` calls `ns.RegisterSpec(266, …)`) and attaches its
+   brain (`CoachDemonology.lua` hangs `Context`/`RankWinner`/`Escalate` on the active spec
+   object). `Coach.lua` is a generic shell reading `ns.ActiveSpec` live each tick.
+   `ns.ResolveActiveSpec` detects the player's spec on login and on
+   `PLAYER_SPECIALIZATION_CHANGED`, activating the registered spec — or going passive
+   (`ns.ActiveSpec = nil` → `Coach:Compute` returns `EmptyGuidance`, HUD clears) when the
+   spec has no registered profile. A second spec is a sibling `Coach<Spec>.lua` + a
+   `RegisterSpec` call; nothing else in the pipeline changes.)*
 4. **Secrecy is first-class in State.** Under Midnight 12.0, many combat reads return
    Secret Values that cannot be compared/formatted/keyed without erroring. A State
    field is therefore a value **or** a marked absence (`readable:false` + null) —
@@ -155,7 +165,7 @@ right split.
 
   // THE DOMAIN VIEW (added W4 — the re-layer) — the pipeline's actual input, keyed by
   // BASE spellID, folding the N CDM rows of one ability into one. `cooldowns` above is
-  // the RAW CDM diagnostic view (retained for probe/cdmp.py); this is what the Coach
+  // the RAW CDM diagnostic view (retained for diagnostics); this is what the Coach
   // decides on. base-spellID -> cooldownID is N:1 (a summon is one Essential row +
   // one TrackedBar/TrackedBuff row); State folds them and picks the PRESSABLE member.
   "abilities": {
@@ -202,7 +212,7 @@ right split.
 ```
 
 - Keys: State's raw `cooldowns` map keys on **cooldownID** (the CDM anchor — retained
-  for diagnostics/probe, and carrying spellID + overrideSpellID). **The pipeline
+  for diagnostics, and carrying spellID + overrideSpellID). **The pipeline
   consumes the base-spellID `abilities`/`buffs`/`resources` domain view instead.**
   cooldownID is transport + the Binder's display anchor, not the Coach's vocabulary.
   base-spellID→cooldownID is **N:1**: State folds the N CDM rows of one ability
@@ -225,12 +235,12 @@ right split.
   `HudState` layer (1,254 lines that also scored and painted, A4) was deleted at the W4
   cutover; `State.lua` is the sole State layer. Its `abilities`/`buffs`/`resources`
   domain view (the fold) is what the pipeline consumes; the raw cooldownID `cooldowns`
-  map is retained as a diagnostic view for the probe / `cdmp.py`.
+  map is retained as a diagnostic view (the domain view is what the pipeline consumes).
 
 ### Events — semantics
 
 - **Window:** the delta **since the last pulse**, not a rolling time window and not a
-  durable log (the decision log `Hud2Log` is a separate concern).
+  durable log (the decision log `DecisionLog` is a separate concern).
 - **Consumed by the Coach, not the View.** Events are *causal inputs*:
   `cast_succeeded` advances a sequence, `transform` re-resolves identity,
   `aura_gained` (a proc) changes cue decisions. The View never sees them — anything
@@ -280,12 +290,14 @@ a near-noop and no strings are built (the E1 hot-path concern — the retired W4
 
 ## Stage 2 — Coach → Guidance (spec-agnostic, presentation-generic)
 
-The Coach is spec-specific (it knows Demonology). Its **output** is not: generic
-semantic tokens (not pixels), generic enums, real spellIDs, pass-through strings.
+The Coach is a generic shell around a spec-specific *brain* — one per registered spec,
+with the active one resolved at runtime (`ns.ActiveSpec`). Its **output** is not
+spec-specific: generic semantic tokens (not pixels), generic enums, real spellIDs,
+pass-through strings.
 
 > **v1 committed 2026-07-24.** The shape below is the committed first-shot contract,
 > mirrored machine-readably in `projects/cooldown-hud/guidance-contract.json`. It is
-> **three channels** (`resourceBar` · `cues` · `sequence`): `chrome`, per-cue `role`,
+> **three channels** (`resourceBars[]` · `cues` · `sequence`): `chrome`, per-cue `role`,
 > the `effects` channel, and a separate Theme layer were **cut or deferred** (recorded
 > in the contract's `cut` block). Colour is a **token** the Renderer resolves — the one
 > exception is `powerType`. The pre-trim five-channel sketch is preserved in git history.
@@ -294,12 +306,14 @@ semantic tokens (not pixels), generic enums, real spellIDs, pass-through strings
 
 ```jsonc
 {
-  // the resource meter — carries the game POWER TOKEN, not a colour:
-  "resourceBar": {
-    "value": 3, "max": 5, "incoming": 1,
-    "display": "discrete",          // enum:resourceDisplay ("discrete" | "percentage")
-    "powerType": "SOUL_SHARDS"      // game Enum.PowerType token → PowerBarColor in Renderer
-  },
+  // the resource meters — an ARRAY, one entry per power the active spec declares
+  // (spec.powers). Each carries the game POWER TOKEN, not a colour. Demonology emits a
+  // one-element array (Soul Shards); a dual-resource spec emits N. Renderer stacks them.
+  "resourceBars": [
+    { "value": 3, "max": 5, "incoming": 1,
+      "display": "discrete",          // enum:resourceDisplay ("discrete" | "percentage" | "continuous")
+      "powerType": "SOUL_SHARDS" }    // game Enum.PowerType token → PowerBarColor in Renderer
+  ],
 
   "cues": {
     // keyed by BASE spellID (the re-layer): the Coach decides and emits in spellID terms
@@ -333,7 +347,7 @@ Design rules baked in here (v1):
   `JUDGE`/`SEQUENCE` were retired in the W4 Phase-8 / TCT redesign); the Renderer owns
   `emphasis → pixels` (one table, built in for v1 — a Theme is a later refactor). No
   class token reaches the View.
-- **One colour exception — `powerType`.** The resource bar passes the game's own power
+- **One colour exception — `powerType`.** Each resource bar passes the game's own power
   token (`SOUL_SHARDS`), and the Renderer colours it from the game's `PowerBarColor`
   table. Allowed because that colour is a *built-in game signal* (mana blue, shards
   purple), universal across every UI — not a Coach aesthetic. Still a token in Guidance.
@@ -351,7 +365,8 @@ Design rules baked in here (v1):
   authored for display — never as tokens the View must interpret.
 - **In the code:** `Coach.Compute` (`Coach.lua`) emits the Guidance — the ranked winner
   (`ROTATION`/`LATE`), the `ROTATION_FALLBACK` runner-up, per-ability `SOON`, and the
-  `resourceBar`. Cues are keyed by base spellID with an `emphasis` token; the Binder
+  `resourceBars[]` array (one meter per declared power). Cues are keyed by base spellID
+  with an `emphasis` token; the Binder
   resolves them to display icons. (Greened against `coach_apl_spec`, the Tier-1 oracle.)
 
 ---
@@ -363,8 +378,8 @@ same way), producing the DrawList the Renderer draws verbatim.
 
 > **v1 note:** the `effects` array in the DrawList sketch below is **superseded** — v1
 > has no effects channel. A cue's `transient` phase edge rides on the cue entry and the
-> Renderer animates off it. This Stage 3/4 shape is revised when the Binder is actually
-> built (Phase 4); it is kept here as the target-state sketch.
+> Renderer animates off it. The sketch is kept as a shape reference; the built `Binder.lua`
+> follows it (see "In the code" below).
 
 ```jsonc
 // Layout (Binder input): geometry per handle. Live: from the CDM RefreshLayout hook.
@@ -379,7 +394,9 @@ same way), producing the DrawList the Renderer draws verbatim.
       "color": [0.2,0.8,0.4,1.0], "fill": 0.6, "pulse": false, "width": "narrow" }
   ],
   "panel":       { "anchorTo": "UIPARENT", "point": "TOP", "dx": 0, "dy": -200, "title": "OPENER", "steps": [/*…*/] },
-  "resourceBar": { "anchorTo": "UIPARENT", "value": 3, "max": 5, "color": [0.55,0.35,0.9,1.0] },
+  "resourceBars": [  // N stacked meters, one per declared power (Demo = one)
+    { "anchorTo": "UIPARENT", "value": 3, "max": 5, "color": [0.55,0.35,0.9,1.0] }
+  ],
   "effects":     [ { "anchorTo": 42, "kind": "flash", "color": [0.2,0.8,0.4,1.0], "ttl": 0.4 } ]
 }
 ```
@@ -466,7 +483,7 @@ counts — live in `specs/<spec>/notes.md`.)
   character's Demo set has no charged tracked ability, so the `charge` half stays
   `@verify-ingame` until a charged spec is captured.)*
 - **Do those reads go secret in combat the same way tracked ones do?** The seam is
-  proven for the tracked set (`probe-baseline.json cooldown-read-combat-seam`); the
+  proven for the tracked set (the combat secret-gate — a settled game-wide rule); the
   full-database read is not.
   — **✅ ANSWERED (W4 P1, 2026-07-24).** Same v0.29.2 capture, combat pulses: **all 64
   entries read `cd.readable=false`** (known and unlearned alike). The combat secret-gate
@@ -515,9 +532,20 @@ model — i.e. reconstructing the Secret Values Blizzard deliberately blocks. Na
 honestly back-of-envelope (its honesty rule: an expired estimate is `unknown`, never
 `ready`); the name is a scope fence.
 
+**Spec resolution** (multi-spec refactor, live): each spec self-registers a spec object
+via `ns.RegisterSpec` (`SpecRegistry.lua`); the active spec is **detected at runtime** —
+`ns.ResolveActiveSpec` reads `GetSpecialization`/`GetSpecializationInfo` on login and on
+`PLAYER_SPECIALIZATION_CHANGED`, activating the registered spec or going **passive**
+(`ns.ActiveSpec = nil` → `EmptyGuidance`, overlay cleared, a `/cdmp hud status` "no
+profile" line + one-shot notice) when none is registered. The rebind is **combat-safe**
+(pure-Lua, taint-free); a swap clears the napkin (`HudNapkin.Reset`) so no stale spell
+carries across. Demonology (266) is the sole registered spec today; every other spec
+resolves passive by design.
+
 Settled data-shape decisions (all live): State keys its raw view on cooldownID but the
 pipeline consumes the base-spellID **domain view**; State carries the **keybind** and
-**no spec metadata**; the resource bar is **generic** (value/max/display/color); cue
+**no spec metadata**; the resource meters are a **generic array** `resourceBars[]`
+(each value/max/display/color, one per declared power); cue
 colour is a **generic token** (`emphasis`), **not** resolved RGBA; **real** spellIDs
 (the icon door is open); class words only as **pass-through** strings; `events` = the
 **delta since pulse**, a Coach-only observed-only consumer; one-shot animation is a

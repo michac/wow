@@ -32,9 +32,11 @@ The docs split **general** (spec-agnostic — the product, the pipeline) from
   touching the data/display seam.
 - **`docs/status.md`** — **THE live worklist.** Released version, the phase ledger, open
   items, and the **improvements/backlog** (the single place feature + quality work lands).
-- **`docs/cdmp-doctrine.md`** — the collect-vs-assert rule `wowkb.cdmp` enforces
-  (collect a new observation → addon release; assert / interpret / re-verify → local, no
-  release).
+  **Routing — "plan / do the next cooldown-HUD thing" starts HERE:** read `status.md`
+  first. If **Current state → Active work** names an item, *continue that* (it points at a
+  plan doc + the current phase — pick up the next phase); if there is **no** Active-work
+  line, pull the next item from **Improvements / backlog** and, once chosen, add an
+  Active-work line for it. Only fall back to asking the user when both are empty/ambiguous.
 
 **Per-spec — `specs/<spec>/`:**
 
@@ -53,7 +55,6 @@ The docs split **general** (spec-agnostic — the product, the pipeline) from
 **Machine-readable contracts (source of truth — prose defers to these):**
 
 - `guidance-contract.json` — the Stage-2 Guidance output contract.
-- `probe-baseline.json` — the tested-assumptions-of-record (`wowkb.cdmp check`).
 
 **History — `docs/archive/`:** done/superseded plans — the whole W4 build sequence +
 phase handoffs, the M-series plans, the frozen `milestones.md` log, and the retired

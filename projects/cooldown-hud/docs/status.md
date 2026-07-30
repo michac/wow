@@ -7,9 +7,9 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
 
 ## Current state
 
-- **Addon:** CDMProbe (`michac/CDMProbe`). Released **v0.32.8**; the **W4-cutover release
-  is pending** (`wowkb.addon release cdmp --patch` → v0.32.9). Run `wowkb.addon list` for
-  the live version — never hardcode it.
+- **Addon:** CDMProbe (`michac/CDMProbe`). The **W4-cutover release shipped** and the live
+  build is in sync (multi-spec Phase 5 released as v0.32.22). Run `wowkb.addon list` for the
+  live version — never hardcode it.
 - **The HUD is the W4 pipeline.** `/cdmp hud` runs `State → Coach → Binder → Renderer`
   (see `architecture.md` → "Live wiring"). `/cdmp hud2` is a transitional alias. The old
   HudChrome/HudBoard/HudScore engine + the opener/burst/pane widgets were **deleted at
@@ -17,12 +17,25 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
 - **Target spec:** Demonology Warlock. The domain view / fold + the flat priority list
   (`specs/demonology/rotation.md`) are spec-agnostic; the spec data lives in
   `SpecDemonology.lua`.
-- **Instruments:** `/cdmp probe` (Secret-Value / override / cast-readability capture,
-  asserted by `wowkb.cdmp check` vs `probe-baseline.json`) + the **hud2 decision log**
-  (`CDMProbeDB.hud2log`, `wowkb.cdmp hud2log`). The old-engine `statelog` and `pulls`
-  recorders were retired at the cutover.
+- **Instrument:** the **decision log** — `CDMProbeDB.decisionlog`, one `S{…} G{…} B{…}`
+  line per pipeline decision change, extracted by `wowkb.cdmp decisionlog` (`hud2log` is a
+  back-compat alias). The old-engine `statelog`/`pulls` recorders were retired at the
+  cutover; the `/cdmp probe` + `probe-baseline.json` assertion suite was retired 2026-07-29
+  (settled readability rules + DB2-sourced tracked set made per-spec re-measurement moot).
 - **Gates:** `luaparser` (release) + `luacheck CDMProbe/` + `busted CDMProbe/tests/spec`
-  (125 tests) + `wowkb.cdmp check` (probe-only, 6 pass · 0 fail).
+  (141 tests).
+- **Active work:** none committed — **the multi-spec refactor is complete**
+  (`multispec-plan.md`, all 6 phases done 2026-07-29, shipped v0.32.22). The framework is
+  one spec-agnostic pipeline + a per-spec brain that plugs in: registry + resolver
+  (`SpecRegistry.lua`), per-spec Coach brain (`CoachDemonology.lua`), array-of-powers
+  resources (`resourceBars[]` + N stacked meters), the decision-log seam (`DecisionLog`),
+  and live spec detection (login + `PLAYER_SPECIALIZATION_CHANGED`, registered-or-passive).
+  Demo stays the sole registered/live spec; every other spec resolves passive by design.
+  Phase 6 (docs) synced `architecture.md`/`notes.md`/addon `CLAUDE.md` to the code; the
+  contract needed no edit. **⏳ One follow-up owed: the in-game Demo smoke on v0.32.22**
+  (deferred — no game access at completion; the checklist is in `multispec-plan.md`'s
+  Phase-6 row / Verification, and mirrors the "In-game verification of the pipeline output"
+  open item below). Next: pull an item from **Improvements / backlog** when picking up work.
 
 ## Phase ledger (the W4 build)
 
@@ -37,13 +50,14 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
 | 6 | TCT redesign (one-press cue walk; sequence panel retired) | ✅ done |
 | 7 | 3-state CD model (`ready`/`on-cooldown`/`unknown`) | ✅ done |
 | 8 | Ranked-winner guidance (winner + `ROTATION_FALLBACK` + `SOON`) | ✅ done |
-| — | **Cutover & cleanup** — reclaim `/cdmp hud`, delete old engine + statelog, consolidate docs | ✅ code done; release pending |
+| — | **Cutover & cleanup** — reclaim `/cdmp hud`, delete old engine + statelog, consolidate docs | ✅ done (released) |
 
 ## Open items (verify / close)
 
-- **Release the W4 cutover** — `wowkb.addon release cdmp --patch`, then in-game: `/cdmp
-  hud` is the default and draws (summon cues included), `/cdmp reset` clean, toggle off ⇒
-  Blizzard UI pixel-clean, migration folds a prior `hud2` flag into `hud`.
+- **Release the W4 cutover** — ✅ **shipped.** The cutover build released and the live addon
+  is in sync (`wowkb.addon list`): `/cdmp hud` is the default and draws (summon cues
+  included), `/cdmp reset` clean, toggle off ⇒ Blizzard UI pixel-clean, migration folds a
+  prior `hud2` flag into `hud`.
 - **In-game verification of the pipeline output** — the domain-view re-layer and the
   ranked-winner guidance want an eyeball pass at a dummy + a read of the hud2 log.
 - **`charge` half of the full-database read** — stays `@verify-ingame` until a charged
@@ -77,14 +91,19 @@ work lands now — the user drives the list; a few already-surfaced items are se
   research sub-task** — the KB has the mechanics (imps are **energy-limited**: they cast
   Fel Firebolt until out of energy; Tyrant **extends every active demon ~15 s**; a
   passive summons one every 12 s) but **no clean seconds figure**; pin it (Wowhead /
-  wago / a probe) before trusting the decay. Note `State.history` is a **bounded window**,
+  wago / an in-game test) before trusting the decay. Note `State.history` is a **bounded window**,
   so spanning a full imp lifetime likely needs a dedicated accumulator, not just the
   window. Explicitly a *minimum* (secret refunds/procs can only add imps we didn't count).
 - **`abilities[base].uptime`** — surface a buff/DoT uptime off the TrackedBar duration in
   the domain view, so the Coach can reason about "keep this up" abilities.
-- **Roll the domain view to other specs** — the fold + priority list are spec-agnostic;
-  the spec data (`SpecDemonology.lua` + `specs/demonology/`) is the seam a 2nd spec plugs
-  into. Adding a spec = a new `specs/<spec>/` doc set + a Coach spec table.
+- **Roll the domain view to other specs** — ✅ **framework complete** (`multispec-plan.md`,
+  all 6 phases done 2026-07-29, shipped v0.32.22): registry + resolver + per-spec Coach
+  brain + array-of-powers resources + live spec detection, Demo the sole registered spec.
+  **What remains is a real 2nd spec** — a new `specs/<spec>/` doc set + a `Coach<Spec>.lua`
+  brain + a `RegisterSpec` call. The recipe is `adding-a-spec.md`. Destruction is the
+  candidate but wants a live in-game confirmation of its predicted tracked set (see the
+  Destruction backlog item + `specs/destruction/`). ⏳ The framework's own in-game Demo
+  smoke (v0.32.22) is still owed — see Active work above.
 - **Warlock Destruction spec folder** — ✅ **docs authored** (2026-07-28):
   `specs/destruction/` carries the same four docs as `demonology/` (rotation · notes ·
   input-contract · observability-map), v1 profile **Diabolist** with a Hellcaller delta.
@@ -106,7 +125,8 @@ work lands now — the user drives the list; a few already-surfaced items are se
     and the **Diabolist proc IDs differ from Demo's** — Destruction's residue names
     `433885`/`433891`, the pair `SpecDemonology.lua` labels "alt ID, unconfirmed".
   - **Still to do:** a `SpecDestruction.lua` Coach spec table, a `coach_apl_spec`-style
-    branch oracle, and a live probe capture.
+    branch oracle, and a live in-game confirmation of the predicted tracked set
+    (`/cdmp hud status` / `hud layout` on a Destruction character).
 - **Coach rotation logic** — any real rotation-quality tuning (the cutover was
   behaviour-preserving; the flat priority list is the place to iterate).
 - **Layer-① curated Cooldown Layout override (deferred).** v1 ships no profile and binds

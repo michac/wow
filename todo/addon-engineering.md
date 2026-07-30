@@ -88,10 +88,11 @@ nested-`.toc` libraries are all tests **on the addon container**. The lab cannot
 them in its own `.toc` — malforming it would break the lab. These need small generated
 sibling addons written into `AddOns/` per test.
 
-**Stays in CDMProbe, does NOT move to the lab:** anything that observes the HUD itself
-(cue watchdog, pull recorder, `hud status`/`log`/`binds`) and the Cooldown-Manager /
-secret-value seam. That last one is a working regression harness — `probe` +
-`probe-baseline.json` + `wowkb.cdmp` — and breaking it up would lose a safety net.
+**Stays in CDMProbe, does NOT move to the lab:** anything that observes the HUD itself —
+now just the **decision log** (`CDMProbeDB.decisionlog`, `wowkb.cdmp decisionlog`), the
+pipeline trace. *(The `/cdmp probe` + `probe-baseline.json` + `wowkb.cdmp check` regression
+harness was retired 2026-07-29 — the secret-value / readability rules it discovered are
+settled game-wide, so per-spec re-measurement bought nothing.)*
 
 **Not answerable by any addon, so don't try:** the visual `SetVertexColor` /
 `SetGradient` composition question (no pixel readback exists — the player is the only
@@ -107,8 +108,8 @@ sensor), and adoption/popularity data (CurseForge 403s).
    The KB's own `[gap]` markers get upgraded to facts, or stay gaps with better
    evidence about *why*.
 
-**Doctrine, inherited from `projects/cooldown-hud/docs/cdmp-doctrine.md` and it holds
-here too:** *collect* a new observation → addon change; *assert / interpret /
+**Doctrine (the collect-vs-assert split, which held for the retired CDMProbe probe and
+holds here too):** *collect* a new observation → addon change; *assert / interpret /
 re-verify* → local tooling, no addon change. So the lab collects raw answers and the
 expectations live in local JSON, not in shipped Lua.
 
@@ -183,11 +184,10 @@ verification — the pattern that produced the KB.
 - **Two tools were built and are untracked**: `tools/wowkb/uiapi.py`, `tools/wowkb/wiki.py`.
 - **Reference clones** in gitignored `raw/addon-research/`: `wow-ui-source` (12.0.7.68887),
   WeakAuras2, BigWigs, Plater, Details, Ace3, Bagnon.
-- **`/cdmp gradtest` facts, measured on 12.0.7 and recorded in
-  `projects/cooldown-hud/probe-baseline.json`:** `SetColorTexture` does **not** write
-  the vertex colour; `SetGradient` **resets** it to white; `SetVertexColor` works and
-  is readable back. A `gradient-clobbers-vertex-colour` assumption is seeded so a
-  Blizzard change surfaces as a diff.
+- **Texture-colour facts, measured on 12.0.7** (via the retired `/cdmp gradtest`; the
+  storage baseline is gone): `SetColorTexture` does **not** write the vertex colour;
+  `SetGradient` **resets** it to white; `SetVertexColor` works and is readable back.
+  Preserved here as findings — re-measure in-game if a Blizzard change is suspected.
 - **CDMProbe is at v0.28.1.**
 - **A discarded first attempt at the KB** is parked on branch
   `archive/addon-dev-research-v1` (commit `a177464`). It was scoped too narrowly around

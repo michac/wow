@@ -238,9 +238,9 @@ callers, not a documented claim.]
 
 **Operational consequence:** a table your addon fills during play is not on disk
 until one of those four events. A tool that reads SavedVariables off disk mid-session
-is reading the *previous* flush. This repo's own capture protocol encodes exactly
-that rule — `projects/cooldown-hud/docs/cdmp-doctrine.md` "Everything flushes to
-disk only on `/reload`." [Tier 3: local practice, one addon]
+is reading the *previous* flush. This repo's own CDMProbe decision log encodes exactly
+that rule — its `wowkb.cdmp decisionlog` reader and every doc that describes it warn
+that captures flush only on `/reload`. [Tier 3: local practice, one addon]
 
 ### 2.2 The logout event sequence
 
