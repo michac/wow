@@ -7,10 +7,31 @@
 > a test. **You do not touch the pipeline** (State / Coach shell / Binder / Renderer /
 > DecisionLog).
 >
-> **Status: reference pattern, not yet a skill.** Derived from how Demonology (266) is
-> wired (`SpecDemonology.lua` + `CoachDemonology.lua`) and verified against the live code
-> 2026-07-29. May be converted into a skill later — keep it faithful to the code so the
-> conversion is mechanical.
+> **Status: reference pattern, not yet a skill — now EXERCISED once.** Derived from how
+> Demonology (266) is wired (`SpecDemonology.lua` + `CoachDemonology.lua`) and verified
+> against the live code 2026-07-29. **Destruction (267) was then added by following it
+> end to end** the same day, with no pipeline edit, no Renderer edit and no contract edit —
+> so the recipe is confirmed, not just asserted. What that run learned:
+>
+> - **Step 5 held.** Destruction rides the same `SOUL_SHARDS` token rendered `discrete`, so
+>   neither Renderer generalization point was touched. The draft docs *predicted* a
+>   `resourceDisplay` contract edit for its fragment bar; the right answer was the opposite —
+>   State cannot read the fraction, so adding an enum member would advertise precision we do
+>   not have. **Check what State can actually READ before concluding the contract must grow.**
+> - **Step 2's "don't guess IDs" extends to don't guess NUMBERS.** Demonology tells its two
+>   Demonic Art transforms apart by `generates == 3`. Destruction's Infernal Bolt refills in
+>   fragments with no clean figure in the KB, so the brain keys on `abbr` (identity) instead
+>   and the spec table carries no `generates` at all. Identity beats a fabricated quantity.
+> - **The Tier-3 omission is real, and safe.** All nine dormant tables were left out and
+>   nothing broke — `ns.SetActiveSpec` nils them and no live module reads them.
+> - **Expect one genuinely NEW open question per spec, and park it as a one-line switch.**
+>   Destruction's was "what does *Art armed* actually read off?" — the spec docs proposed a
+>   source that turned out to be a ritual *container*, not the proc. It became
+>   `spec.ART_FROM_RITUAL = false`, defaulted to the safe reading, for the in-game pass to
+>   settle. Better than either guessing or blocking the whole spec on it.
+>
+> May be converted into a skill later — keep it faithful to the code so the conversion is
+> mechanical.
 >
 > **Doc map:** the technical contract is `architecture.md` (invariant #3 + "Settled
 > decisions → Spec resolution"); the design + phasing that built the seam is
@@ -216,10 +237,13 @@ ability), **not** in `spec.log`.
   branch of your flat list, authored from your `rotation.md`. This is the independent
   oracle — write it from the APL, not from your own `RankWinner`.
 - **Harness:** `tests/mock_ns.lua` loads `Util → SpecRegistry → SpecDemonology →
-  CoachDemonology` and activates via the real resolver. Add `Spec<Name>.lua` +
-  `Coach<Name>.lua` to that load list, and register the specID in `H.specByIndex`
-  (Affliction 265 / Destruction 267 are already stubbed there for the passive/swap paths).
-  Drive your spec by setting `H.setSpecIndex(<idx>)` before `ns.ResolveActiveSpec()`.
+  CoachDemonology → SpecDestruction → CoachDestruction` and activates via the real
+  resolver. Add `Spec<Name>.lua` + `Coach<Name>.lua` to that load list, and register the
+  specID in `H.specByIndex` (index 1 = Demonology 266, 3 = Destruction 267; **index 2 =
+  Affliction 265 is deliberately UNregistered** — `spec_detect_spec` needs it as the
+  passive/unsupported fixture, so don't register that one). Drive your spec by calling
+  `H.setSpecIndex(<idx>)` then `ns.ResolveActiveSpec()` after `H.fresh()` — see
+  `coach_destruction_apl_spec.lua`'s `before_each` for the pattern.
 - The existing specs must **stay green** — the Demo brain and pipeline are untouched, so
   any red is a wiring bug in your new files.
 

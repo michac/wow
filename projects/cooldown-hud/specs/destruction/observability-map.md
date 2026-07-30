@@ -7,6 +7,13 @@
 > Unlike the Demonology map, **none of this has been confirmed against a live
 > Destruction capture**; the Secret-Value facts carry over from Demonology's probe, the
 > Destruction-specific ones are marked **verify**.
+>
+> **⚠ One row is now known to be wrong as written: #4 `art_armed`.** It offers the
+> Diabolic Ritual aura `428514` "and/or the CB override edge" as interchangeable
+> sources. They are not — `428514` is the ritual **container**, not the Demonic Art, and
+> the KB's simc line gates on a separate `demonic_art` buff. `CoachDestruction.lua`
+> therefore reads the **override only** by default (`spec.ART_FROM_RITUAL = false`); the
+> live pass decides whether the container is usable. Everything else here stands.
 
 ## Sources of truth for this pass
 

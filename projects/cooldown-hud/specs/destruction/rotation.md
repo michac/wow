@@ -5,12 +5,20 @@ This is the **spec of record** for the Destruction rotation as a flat, ordered
 action is castable is the press**. Every line carries an implicit gate: *"the
 ability is usable"* — off cooldown, procced, charged, and affordable.
 
-> **⚠ STATUS: DRAFT — derived, not play-settled.** Unlike
+> **⚠ STATUS: IMPLEMENTED, but derived and not play-settled.** Unlike
 > `specs/demonology/rotation.md` (authored by the player, then annotated with
 > settled clarifications), this list is **distilled from the Tier-1 simc midnight
 > APL** via `knowledge/classes/warlock/destruction/rotation.md`. Every place I
 > departed from the simc order is called out under **Deviations** — those are the
-> lines to adjudicate before this becomes settled. Nothing here has been flown.
+> lines to adjudicate before this becomes settled. **Nothing here has been flown.**
+>
+> **This list SHIPS** as of 2026-07-29: `CoachDestruction.lua` implements L1–L13
+> line-for-line (the line numbers below are its comment labels, so the two diff by
+> eye), and `tests/spec/coach_destruction_apl_spec.lua` is the independent oracle
+> that pins the code to *this document*. So a change here is a change to the addon
+> — edit the list, then the brain, then the oracle. What the implementation had to
+> decide that this document left open is recorded in **Implementation notes** at the
+> bottom.
 
 > **v1 profile: Diabolist.** Both hero trees are live-viable (the KB calls
 > Diabolist the default / best single target). Diabolist is taken as the profile
@@ -153,6 +161,45 @@ rest of the list stands:
 
 Ruination / Infernal Bolt / Demonic Art (L1, L3, L12) **do not exist on Hellcaller**;
 those lines simply never fire.
+
+## Implementation notes (what `CoachDestruction.lua` had to decide)
+
+These are the places the list above was under-specified for code, and the call that
+was made. They are the first things to revisit after a live pass.
+
+1. **L1 vs L3 — what does "Art is armed" actually read off?** The two lines look
+   distinct but collapse under observation: the only unambiguous "the Art is armed"
+   signal is the **transform** (a Chaos Bolt frame overridden to Ruination), and that
+   is already L1's read. `observability-map.md` #4 suggests the Diabolic Ritual aura
+   `428514` as a second source — but that is the ritual **container**, and the KB's
+   simc line gates on a separate `demonic_art` buff. If the container is up for most
+   of the cycle, using it would pin Chaos Bolt above Conflagrate and Summon Infernal
+   permanently. **Decision:** L3 is transform-only by default
+   (`spec.ART_FROM_RITUAL = false`); flip that one boolean if the live pass shows the
+   container is honest. So today L3 is reached only in the second-place recompute.
+
+2. **L5b — Malevolence needed a line of its own.** The Hellcaller delta says
+   "Malevolence slots beside L5", which is now an explicit line **below** Summon
+   Infernal. Both are plain on-cooldown presses and neither waits for the other, per
+   `notes.md`. Hero tree is detected **structurally** — a tracked Wither means
+   Hellcaller — so there is no talent-API branch anywhere.
+
+3. **L8 is half-live, not dead.** The draft assumed the DoT line could not fire at
+   all. It fires on **positive evidence of absence** (the tracked Immolate/Wither aura
+   reads inactive *and the read succeeded*); the pandemic-refresh half is still blocked
+   on `abilities[base].uptime`. The three-way `up` / `missing` / `unknown` distinction
+   is load-bearing — an *unreadable* DoT must stay silent, because treating "no read"
+   as "not up" would spam the refresh press every GCD.
+
+4. **L10's Hellcaller delta needed no branch.** "Rain of Fire moves above the anti-cap
+   Chaos Bolt" is already true of the base list (L10 sits above L11), and the part that
+   differs between trees is a *target count* we cannot read either way. The mode toggle
+   covers both trees; only the shard floor is expressed.
+
+5. **Charges are now read, out of combat only.** L4/L7 treat "a charge is banked" as
+   usable even while the recharge timer runs — but `C_Spell.GetSpellCharges` is secret
+   in combat, so in a pull they fall back to binary off-cooldown and the list
+   under-presses, exactly as clarification 4 predicted.
 
 ## Winner and second place (for the module)
 

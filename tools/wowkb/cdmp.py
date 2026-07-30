@@ -16,11 +16,23 @@ WHAT WE READ:
 ⚠ SavedVariables only flush on /reload or logout. A capture that looks stale almost
 always means the /reload was skipped.
 
+    CDMProbeDB.alerttape     <- ⚠ TEMPORARY. The CDM alert-channel discovery tape
+                                (addon AlertTape.lua): per session an `elig` eligibility
+                                baseline, an `events` tape of every TriggerAlertEvent, and
+                                a `fields` three-way readability probe of the pandemic
+                                fields. Delete this half of the module with AlertTape.lua
+                                once the rules land in knowledge/addon-dev/
+                                api-events-and-discovery.md §2.8.
+
+⚠ SavedVariables only flush on /reload or logout. A capture that looks stale almost
+always means the /reload was skipped.
+
 Usage:
     uv run python -m wowkb.cdmp decisionlog                 # → raw/cdmp-decision.log
     uv run python -m wowkb.cdmp decisionlog --out my.log
     uv run python -m wowkb.cdmp decisionlog --wow-path <dir>
     # `hud2log` is a back-compat alias of `decisionlog`.
+    uv run python -m wowkb.cdmp alerttape                   # → raw/cdmp-alerttape.log
 """
 
 from __future__ import annotations
@@ -113,16 +125,120 @@ def cmd_decisionlog(decisionlog, path: str, out: Path) -> int:
 
 # --------------------------------------------------------------------------- #
 
+# --------------------------------------------------------------------------- #
+# alerttape — the TEMPORARY CDM alert-channel discovery instrument               #
+# --------------------------------------------------------------------------- #
+# ⚠ Delete this section with the addon's AlertTape.lua once the alert-channel rules are
+# settled in knowledge/addon-dev/api-events-and-discovery.md §2.8. It is a one-question
+# instrument, not a permanent recorder.
+
+def load_alerttape(wow_path: str) -> tuple[object, str] | None:
+    """(alerttape, path) from the newest CDMProbe.lua, or None."""
+    pth = _find_savedvar(wow_path)
+    if not pth:
+        return None
+    db = parse_savedvar(Path(pth).read_text(encoding="utf-8", errors="replace"), "CDMProbeDB")
+    if not isinstance(db, dict):
+        return None
+    return (db.get("alerttape"), pth)
+
+
+def _rows(store) -> list[dict]:
+    """The addon keys both channels by a dedup string, so SavedVariables yields a dict of
+    row-dicts (not a positional array). Normalize either shape to a list of dicts."""
+    if isinstance(store, dict):
+        return [v for v in store.values() if isinstance(v, dict)]
+    if isinstance(store, list):
+        return [v for v in store if isinstance(v, dict)]
+    return []
+
+
+def cmd_alerttape(alerttape, path: str, out: Path) -> int:
+    """Flatten the alert tape, newest session last.
+
+    Two channels per session, and they answer different questions:
+      EV  — did this alert type fire at all, in or out of combat, and how often
+      FLD — the three-way READABILITY class of the pandemic fields (num/bool/SECRET/nil/
+            threw). `SECRET` and `nil` mean very different things and are never merged.
+
+    Read the EV rows for Available/OnCooldown FIRST: those are the control group. If they
+    are present and PandemicTime is not, the instrument is live and the absence is a real
+    finding; if nothing is present, the capture proves nothing (tape off, HUD off, or no
+    /reload).
+    """
+    sessions = _aslist(alerttape)
+    out = Path(out)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    lines: list[str] = []
+    ev_total = fld_total = elg_total = 0
+    for session in sessions:
+        s = _asdict(session)
+        lines.append(f"# session {s.get('started', '?')} v{s.get('version', '?')}")
+
+        # ELG — the eligibility baseline, captured automatically when the session opened.
+        # Read this FIRST: without it, "PandemicTime never appeared" is unreadable, because
+        # you cannot tell "it fired and we missed it" from "this spell was never eligible".
+        if s.get("eligError"):
+            lines.append(f"ELG <unavailable: {s['eligError']}>")
+        elgs = _rows(s.get("elig"))
+        elgs.sort(key=lambda r: (str(r.get("viewer")), r.get("cid") or 0))
+        for r in elgs:
+            lines.append(
+                f"ELG cid={r.get('cid')} spell={r.get('spellID')} [{r.get('viewer')}] "
+                f"{r.get('name')} :: {r.get('types')}")
+            elg_total += 1
+
+        evs = _rows(s.get("events"))
+        evs.sort(key=lambda r: (str(r.get("event")), str(r.get("combat")), r.get("cid") or 0))
+        for r in evs:
+            lines.append(
+                f"EV  cid={r.get('cid')} event={r.get('event')} {r.get('combat')} "
+                f"n={r.get('n')} first={r.get('first')} last={r.get('last')}")
+            ev_total += 1
+
+        flds = _rows(s.get("fields"))
+        flds.sort(key=lambda r: (r.get("cid") or 0, str(r.get("combat"))))
+        for r in flds:
+            lines.append(
+                f"FLD cid={r.get('cid')} {r.get('combat')} on={r.get('event')} "
+                f"n={r.get('n')} class[{r.get('class')}] sample[{r.get('sample')}]")
+            fld_total += 1
+
+    out.write_text("\n".join(lines) + ("\n" if lines else ""), encoding="utf-8")
+    print(f"{path}")
+    print(f"{len(sessions)} session(s) · {elg_total} eligibility row(s) · "
+          f"{ev_total} event row(s) · {fld_total} field row(s) → {out}")
+    if ev_total == 0:
+        print("\n⚠ No event rows. The capture proves NOTHING about the alert channel — "
+              "check: /cdmp alerts on, /cdmp hud on, then a pull, then /reload.",
+              file=sys.stderr)
+    return 0
+
+
+# --------------------------------------------------------------------------- #
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(
-        description="Extract the CDMProbe pipeline decision log.")
-    ap.add_argument("command", choices=["decisionlog", "hud2log"],
-                    help="flatten CDMProbeDB.decisionlog to a .log (hud2log is a back-compat alias)")
+        description="Extract CDMProbe recorders off SavedVariables.")
+    ap.add_argument("command", choices=["decisionlog", "hud2log", "alerttape"],
+                    help="decisionlog: flatten the pipeline decision log (hud2log is a "
+                         "back-compat alias) · alerttape: flatten the temporary CDM "
+                         "alert-channel discovery tape")
     ap.add_argument("--wow-path", default=DEFAULT_WOW,
                     help=f"WoW _retail_ path (default: {DEFAULT_WOW})")
-    ap.add_argument("--out", default=str(REPO_ROOT / "raw" / "cdmp-decision.log"),
-                    help="flat .log destination (default: <repo>/raw/cdmp-decision.log, gitignored)")
+    ap.add_argument("--out", default=None,
+                    help="flat .log destination (default: <repo>/raw/cdmp-<command>.log, gitignored)")
     args = ap.parse_args(argv)
+
+    if args.command == "alerttape":
+        loaded = load_alerttape(args.wow_path)
+        if loaded is None:
+            print(f"No readable CDMProbe.lua under "
+                  f"{args.wow_path}/WTF/Account/*/SavedVariables/.", file=sys.stderr)
+            return 1
+        alerttape, path = loaded
+        out = args.out or str(REPO_ROOT / "raw" / "cdmp-alerttape.log")
+        return cmd_alerttape(alerttape, path, Path(out))
 
     loaded = load_decisionlog(args.wow_path)
     if loaded is None:
@@ -131,7 +247,8 @@ def main(argv=None) -> int:
         print("Enable the HUD (/cdmp hud), play, and /reload first.", file=sys.stderr)
         return 1
     decisionlog, path = loaded
-    return cmd_decisionlog(decisionlog, path, Path(args.out))
+    out = args.out or str(REPO_ROOT / "raw" / "cdmp-decision.log")
+    return cmd_decisionlog(decisionlog, path, Path(out))
 
 
 if __name__ == "__main__":

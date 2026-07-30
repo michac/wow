@@ -8,6 +8,15 @@
 
 > **⚠ Everything below is DESK-DERIVED, not observed.** Demonology's tracked set was
 > confirmed off a live `/cdmp hud status`; no Destruction character has been captured.
+> **The IDs here are now shipping** in `SpecDestruction.lua` (2026-07-29) — which makes
+> `/cdmp hud layout` on a Destruction character the way to check them, rather than a
+> prerequisite for writing them. See `docs/status.md` → *Open items* for that checklist.
+>
+> **Two predictions below were superseded by the implementation.** The resource section's
+> "`resourceDisplay` needs a third member" did **not** happen — State cannot read the
+> fraction anyway, so the spec renders `discrete` and projects spenders only. And the
+> "`ns.SpecShardDelta` stops being an integer table" worry resolved the other way: the
+> table carries **no** `generates` field at all. Details in `docs/status.md`.
 > The set below is the **candidate pool** from game data (`wowkb.spec_inventory
 > --spec Destruction`, which unions the talent tree ∪ class kit ∪ CooldownSetSpell
 > residue) — the *live* set is talent-filtered and will be a strict subset. **Confirm

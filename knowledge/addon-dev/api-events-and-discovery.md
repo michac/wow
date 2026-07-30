@@ -1,10 +1,11 @@
 ---
 title: API surface, events and discovery
 patch: 12.0.7
-fetched: 2026-07-23
-reviewed: 2026-07-23
+fetched: 2026-07-30
+reviewed: 2026-07-30
 sources:
   - https://github.com/Gethe/wow-ui-source (live, version.txt 12.0.7.68887, commit 4383ced30106d51b27e3e86d1987f1552f0d259d)
+  - in-client capture, CDMProbe AlertTape v0.32.27 (/cdmp alerts), Destruction Warlock, 2026-07-30  # §2.8 alert-channel confirmations
   - https://warcraft.wiki.gg/wiki/API_Frame_RegisterEvent (revid 6654488, 2026-02-19)
   - https://warcraft.wiki.gg/wiki/API_Frame_RegisterUnitEvent (revid 6735133, 2026-06-04)
   - https://warcraft.wiki.gg/wiki/API_Frame_RegisterAllEvents (revid 6654327, 2026-02-19)
@@ -537,6 +538,137 @@ Ace3's equivalent, for comparison: `AceEvent-3.0` funnels **every** consumer
 through a **single shared frame** named `AceEvent30Frame`, registering the
 underlying game event lazily on `OnUsed` and unregistering on `OnUnused`
 *[T3: Ace3 @ `4475787f06f7`, `AceEvent-3.0/AceEvent-3.0.lua:23, :32-37`]*.
+
+### 2.8 A third dispatch shape: a mixin method used as an alert channel
+
+`EventRegistry` (§2.7) is not the only in-process bus Blizzard ships. The Cooldown
+Manager exposes its per-item alerts through **a plain mixin method that exists to be
+called at a choke point** — `CooldownViewerItemMixin:TriggerAlertEvent(event)`
+*[T1 src: `Blizzard_CooldownViewer/CooldownViewer.lua:483-493`]*. It is not a game
+event, not an `EventRegistry` callback, and not registered anywhere; it is simply the
+one function every alert flows through. Its body only walks `self.alertsByEvent[event]`
+to play the configured sound/visual, so it *does nothing* when the player has no alert
+configured — but it is still **called**, which is what makes it hookable.
+
+That is the point worth generalising: **a choke-point method is a dispatch shape, and
+`hooksecurefunc` on it is a supported way to observe a subsystem** (§5.4 treats
+`hooksecurefunc` as a discovery instrument; this is the same tool used as a runtime
+signal). A post-hook fires regardless of what the original did, so an addon sees every
+alert even when Blizzard's own handler early-outs.
+
+The event argument is `Enum.CooldownViewerAlertEventType`, six members
+*[T1 docs: `CooldownViewerConstantsDocumentation.lua:43-55`]*:
+
+| Value | Member | Raised at |
+|---|---|---|
+| 1 | `Available` | `CooldownViewer.lua:500` — cooldown finished |
+| 2 | `PandemicTime` | `:556` — a tracked **target** DoT entered its refresh window |
+| 3 | `OnCooldown` | `:1068` — went on cooldown |
+| 4 | `ChargeGained` | `:608` |
+| 5 | `OnAuraApplied` | `:612` |
+| 6 | `OnAuraRemoved` | `:622` |
+
+**Why this channel matters disproportionately under Secret Values.** These alerts are
+raised by Blizzard's *trusted* code from data it can see, and the argument is a plain
+enum. So the channel carries information in restricted combat that the corresponding
+direct API reads refuse — the same asymmetry that makes `item:IsActive()` readable while
+`C_UnitAuras` goes dark (see `security-taint-and-restricted-data.md`). An addon that
+wants combat-truthful cooldown state is better served observing this choke point than
+polling.
+
+✅ **CONFIRMED IN THE CLIENT, 2026-07-30.** A capture on a live Destruction Warlock
+(CDMProbe `AlertTape`, `/cdmp alerts`, 12.0.7) observed **five of the six firing in
+combat**: `Available`, `OnCooldown`, `PandemicTime`, `ChargeGained`, `OnAuraApplied`,
+`OnAuraRemoved` — every one except a case where no eligible spell existed. Counts from one
+~80 s pull: `ChargeGained` ×10 (Conflagrate), `PandemicTime` ×5, `OnAuraApplied` ×15,
+`OnAuraRemoved` ×13. **The alert channel is the most reliable combat signal the Cooldown
+Manager exposes**, and `ChargeGained` is notable on its own: `C_Spell.GetSpellCharges` is
+secret in combat, so a gain *edge* may be the only in-combat charge information available.
+
+#### `PandemicTime` — Blizzard computes the real refresh window for you
+
+Worth calling out because it replaces a rule of thumb with an exact value.
+`CheckSetPandemicAlertTriggerTime` *[T1 src: `CooldownViewer.lua:511-531`]* does:
+
+```lua
+local extendedDuration = C_UnitAuras.GetRefreshExtendedDuration("target", auraData.auraInstanceID, self:GetSpellID());
+local baseDuration     = C_UnitAuras.GetAuraBaseDuration("target", auraData.auraInstanceID, self:GetSpellID());
+local carriedOverToNewCast = (extendedDuration and baseDuration) and (extendedDuration - baseDuration) or 0;
+```
+
+`pandemicStartTime = auraData.expirationTime - carriedOverToNewCast` *[`:523`]* — i.e.
+the window is derived from **how much duration a recast would actually carry over**, per
+spell and per current state, not from the community's "30% of base duration" heuristic.
+Addons reasoning about DoT refresh should prefer this to their own arithmetic.
+
+Three conditions gate it, all easy to miss:
+
+1. **Target auras only** — `if self:GetAuraDataUnit() == "target" and isActive` *[`:515`]*.
+   A self-buff never gets pandemic state, however long it lasts.
+2. **Eligibility is DATA-driven, not a user setting** — `CanTriggerAlertType` resolves
+   through `C_CooldownViewer.GetValidAlertTypes(cooldownID)`
+   *[T1 src: `CooldownViewerItemData.lua:541, 550-553`]*, a public documented API
+   returning the alert types valid for that cooldownID
+   *[T1 docs: `CooldownViewerDocumentation.lua:52-65`]*. An addon can query the same
+   thing directly to know, ahead of time, whether a tracked spell will ever produce a
+   pandemic signal.
+3. **`carriedOverToNewCast > 0`** *[`:520`]* — no carry-over, no window.
+
+Besides the edge, the item carries **live state** an addon can read without waiting for
+the alert:
+
+- `item:IsInPandemicTime(timeNow)` → `pandemicStartTime and timeNow >= pandemicStartTime
+  and timeNow <= pandemicEndTime` *[T1 src: `CooldownViewer.lua:587-589`]*.
+- `item.pandemicStartTime` / `item.pandemicEndTime` — plain numeric fields set at
+  *[`:534-542`]*. `pandemicEndTime` **is the aura's expiration time**, which makes this
+  one of the few routes to a tracked DoT's remaining duration.
+
+Freshness: `OnUpdate` re-evaluates every frame *[`:89-98`]*, and
+`CheckSetPandemicAlertTriggerTime` re-runs on aura updates *[`:208`, `:859`, `:1205`]*.
+
+❌ **MEASURED 2026-07-30: the STATE is secret in combat, but the EDGE is not.** The
+question above was "are those fields readable?" and the answer is no — decisively:
+
+| Read | In combat |
+|---|---|
+| `item.pandemicStartTime` | **`SECRET`** |
+| `item.pandemicEndTime` | **`SECRET`** |
+| `item.pandemicAlertTriggerTime` | `SECRET` while armed; `nil` after it fires (cleared at `:554`) |
+| `item:IsInPandemicTime(t)` | **throws** — it compares `t >= self.pandemicStartTime`, and comparing a Secret Value errors |
+| the `PandemicTime` **alert** | ✅ **fires normally** |
+
+So the earlier hypothesis (b) is what happens, plus a consequence not anticipated:
+`IsInPandemicTime` does not return a secret boolean, it **raises**. Any call must be
+`pcall`-wrapped, not merely `issecretvalue`-guarded.
+
+**The design consequence is the whole point:** an addon can learn *that a DoT entered its
+refresh window* (the edge) but cannot ask *whether it is in the window now*, nor *how long
+is left*. The usable pattern is therefore an **edge-driven latch** — set on `PandemicTime`,
+clear on `OnAuraRemoved`/`OnAuraApplied` for the same cooldownID — not a state poll.
+
+⚠ **Do not read "not populated" from a `nil` here.** The same capture shows `nil` on
+non-eligible items and `SECRET` on eligible ones, which is exactly the discrimination that
+makes the result meaningful: the fields *are* populated, we are simply not allowed to read
+them. An instrument that collapsed `SECRET` into `nil` would have concluded the opposite.
+(Not yet measured **out of combat** — every alert in the capture fired in combat. Likely
+readable there, but unconfirmed and largely moot, since combat is where it matters.)
+
+The visual side is unambiguous regardless: the pandemic FX are real frames
+*[T1 src: `PandemicAlertAnimation.xml:3` (icon), `:47` (bar)]*.
+
+#### Two structural facts from the same capture
+
+- **Eligibility is sparse, and some rotational spells have NO alert types at all.**
+  Observed on Destruction: Conflagrate → `Available, OnCooldown, ChargeGained`; Summon
+  Infernal / Cataclysm / Malevolence → `Available, OnCooldown`; but **Chaos Bolt,
+  Shadowburn and Command Demon → `(none)`**. An addon must not assume a tracked spell
+  raises anything — query `GetValidAlertTypes(cooldownID)` first, or an absent edge reads
+  as a bug when it is the design.
+- **One ability can occupy TWO cooldownIDs carrying DIFFERENT spellIDs.** Immolate appeared
+  as `cid 133441 → spellID 157736` (the DoT **aura** id, on the Buff-bar viewer) *and*
+  `cid 164597 → spellID 348` (the **cast** id, on Essential). **Both raised `PandemicTime`.**
+  So keying an ability by a single "the" spellID is unsafe; the pressable row and the
+  aura row can disagree, and which one an addon sees depends on which viewer it walked.
 
 ---
 

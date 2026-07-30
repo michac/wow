@@ -1,8 +1,12 @@
 # Input contract — Destruction APL evaluator
 
 > **⚠ STATUS: reference / specification.** There is no standalone evaluator module —
-> the shipped logic lives in `Coach.lua` (`RankWinner`), and `Coach.Context` is what
-> gathers these inputs from the State pulse. Read this as the **specification of the
+> the shipped logic lives in **`CoachDestruction.lua`** (`spec:RankWinner`), and
+> **`spec:Context`** is what gathers these inputs from the State pulse. Every field
+> below now has a real `ctx.*` counterpart there; where the field is absent from the
+> pulse (`target_execute`, the refresh half of `dot_refreshable`) the brain reads the
+> shape it *would* take, so it stays nil-safe today and correct the day State grows the
+> channel. `Coach.lua` is the generic shell and holds no Destruction logic. Read this as the **specification of the
 > inputs** the Destruction priority list needs, exactly as
 > `specs/demonology/input-contract.md` does for Demonology. `rotation.md` remains the
 > rotation spec of record.

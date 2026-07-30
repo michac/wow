@@ -1,8 +1,9 @@
 # Cooldown HUD — project root
 
 A standalone companion app (NOT the KB): a spec-specific overlay that skins
-Blizzard's built-in **Cooldown Manager** under Midnight 12.0. v1 target spec:
-**Demonology Warlock**.
+Blizzard's built-in **Cooldown Manager** under Midnight 12.0. Registered specs:
+**Demonology** (266, play-settled) and **Destruction** (267, shipped 2026-07-29,
+awaiting its first live pass). Every other spec resolves passive by design.
 
 **The W4 pipeline is LIVE** (`/cdmp hud` runs `State → Coach → Binder → Renderer`; the
 old engine was deleted at the W4 cutover).
@@ -47,10 +48,12 @@ The docs split **general** (spec-agnostic — the product, the pipeline) from
 - **`specs/demonology/input-contract.md`**, **`observability-map.md`** — reference-only:
   the evaluator's inputs and what the game exposes vs. hides.
 - **`specs/destruction/`** — the same four docs for **Destruction Warlock** (v1 profile
-  Diabolist, Hellcaller as a delta section). ⚠ **DRAFT / desk-derived** — distilled from
-  the Tier-1 simc APL and game data, with **no live capture yet**: the tracked set is
-  predicted, and three inputs (DoT uptime, charges, target health) are missing rather
-  than merely secret. Read its status banners before treating anything as fact.
+  Diabolist, Hellcaller as a delta section). **Shipped 2026-07-29** —
+  `SpecDestruction.lua` + `CoachDestruction.lua` implement `rotation.md` L1–L13, with a
+  57-test branch oracle. ⚠ Still **desk-derived**: the tracked set is DB2-predicted with
+  **no live capture yet**, and three inputs (DoT refresh uptime, in-combat charges, target
+  health) are missing rather than merely secret. `rotation.md` → *Implementation notes* and
+  `docs/status.md` → *Open items* carry what the live pass has to settle.
 
 **Machine-readable contracts (source of truth — prose defers to these):**
 
@@ -64,8 +67,8 @@ don't cite it as fact. See `docs/archive/README.md`.
 ## Layout
 
 - `docs/` — the general design docs (above).
-- `specs/<spec>/` — per-spec rotation brain + facts. `demonology/` (shipped) and
-  `destruction/` (draft, docs only — no Coach spec table yet).
+- `specs/<spec>/` — per-spec rotation brain + facts. `demonology/` (shipped, play-settled)
+  and `destruction/` (shipped, not yet flown). Adding a third is `docs/adding-a-spec.md`.
 - `addon/` — the **CDMProbe addon** (`michac/CDMProbe`), its **own git repo**,
   **gitignored** from this workspace. Has its own `CLAUDE.md` for the
   deploy/release workflow (a plain push does NOT reach the game — cut a release).
