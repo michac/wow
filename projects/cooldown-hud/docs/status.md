@@ -27,7 +27,14 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
   (**209 tests** — 141 pipeline/Demonology + 57 Destruction branch oracle + 11 `viewers_spec`).
   ⚠ All three are **source** gates: none of them runs the game, and the v0.32.25 outage
   below is what that blind spot looks like in practice.
-- **Active work: Destruction Warlock — code shipped, in-game confirmation owed.**
+- **Active work: `field-fixes-plan.md` — Phase A (not started).** Four phases (A/B/C/C2)
+  fixing what the **first live session** found once the HUD actually rendered: phantom
+  unlearned/undisplayable abilities winning the rotation (216 dropped Soul Fire cues), the
+  DoT keyed on the wrong Immolate id, hero detection inferring the wrong tree, and the
+  pandemic + charge signals now known to be **edge-readable but state-secret**. Gates:
+  luacheck + the 209 busted tests stay green; one release at the end of C2. The `hero × mode`
+  rotation split is deliberately **out of scope** — see Improvements below.
+- **Destruction Warlock — code shipped, in-game confirmation owed.**
   `SpecDestruction.lua` + `CoachDestruction.lua` implement `specs/destruction/rotation.md`
   L1–L13 through the `adding-a-spec.md` recipe (no pipeline edits, no Renderer edits, no
   contract edit). Gates green. **What is owed is the live pass** — the tracked set is still

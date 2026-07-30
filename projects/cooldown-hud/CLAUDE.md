@@ -31,6 +31,9 @@ The docs split **general** (spec-agnostic — the product, the pipeline) from
   `State → Coach → Guidance → Binder → Renderer` pipeline, the data-shape contracts, the
   invariants, and the Secret-Values reality the pipeline is shaped around. Read it before
   touching the data/display seam.
+- **`docs/field-fixes-plan.md`** — the **current active plan** (Phases A/B/C/C2): the
+  correctness + capability fixes the first live session surfaced. `status.md`'s Active-work
+  line points here.
 - **`docs/status.md`** — **THE live worklist.** Released version, the phase ledger, open
   items, and the **improvements/backlog** (the single place feature + quality work lands).
   **Routing — "plan / do the next cooldown-HUD thing" starts HERE:** read `status.md`
