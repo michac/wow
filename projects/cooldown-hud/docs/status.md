@@ -194,6 +194,63 @@ work lands now — the user drives the list; a few already-surfaced items are se
     Conflagrate and Summon Infernal permanently. So L3 defaults to **transform-only**
     (`spec.ART_FROM_RITUAL = false`) and the in-game pass decides. One boolean, one place.
   - **Still to do:** the live pass (Open items above). Nothing else is blocking.
+- **Four rotations, not one: branch the Coach on `hero × mode`.** The current Destruction
+  brain is ONE flat list with two patches (a `mode == "aoe"` gate on Rain of Fire, and
+  Malevolence/Wither bolted on for Hellcaller). That under-builds what the KB actually
+  documents: `knowledge/classes/warlock/destruction/rotation.md` carries **four distinct
+  lists** — {Diabolist, Hellcaller} × {ST, AoE} — and the ST↔AoE difference is a **re-order,
+  not a tweak**: Summon Infernal goes #4 → **#1**, Soul Fire #1 → #11, Rain of Fire appears,
+  and Conflagrate changes job from "build" to "spread the DoT". No amount of `if aoe` on one
+  list expresses that.
+  - **The two axes are not alike and should be resolved differently.** Hero tree is
+    **stable** (respec-only) — resolve once and cache. Mode is **per-pulse** (the manual
+    toggle) — read every tick.
+  - ⚠ **Detect hero properly.** Today it is inferred structurally ("a tracked Wither means
+    Hellcaller"), and that has already been observed WRONG in the field — a live Hellcaller
+    build tracked Malevolence but Immolate, so the inference picked Diabolist. Look for a
+    real hero-talent API (`C_ClassTalents` / `TraitSubTree`) before inferring from the
+    tracked set again.
+  - **Shape:** `RankWinner` dispatches to four small flat cascades with shared line-helpers,
+    each diffing by eye against its KB list — rather than one cascade accumulating
+    conditionals. Docs drive code here, so `specs/destruction/rotation.md` grows to four
+    lists FIRST; then the brain; then 4× branch-oracle coverage.
+  - **Do this AFTER the correctness fixes** — four lists are worthless while phantom
+    abilities win the rotation and the DoT line cannot fire.
+- **Artificial CDM icons — a HUD-owned panel for abilities Blizzard does not track.**
+  Destruction's floor press (Incinerate) has **no CDM icon** (confirmed live 2026-07-30), so
+  every cue for it is dropped and the most-pressed button in the spec is invisible.
+  Demonology has the same hole at Shadow Bolt. Rather than fighting the tracked set, the HUD
+  draws **its own icon** for such abilities on a small repositionable panel it owns, and
+  registers it into the Layout as a synthetic entry so the Binder and Renderer treat it like
+  any other target.
+  - **Why this may beat the curated-layout override** (the other parked option): no
+    enforcement UX at all. The curated layout has an unresolved "auto-apply → import-and-
+    verify → nag" question and breaks if the player customises their layout; a panel we own
+    is unconditional and survives any layout the player chooses.
+  - **Design tension to settle first:** `design.md` pillar 1 is *enhance, don't replace* —
+    Blizzard's icons stay native and untouched. An artificial icon is **ours**. The
+    defensible line is that it is **additive only** — it exists solely for abilities
+    Blizzard displays nowhere, so nothing is being replaced or re-skinned.
+  - **Pieces:** icon texture off the spellID, a saved position, keybind via the existing
+    `HudBinds` base-spellID lookup, and synthetic Layout/registry handles that do not
+    collide with real cooldownIDs.
+- **"Branch fallback" — say WHY we cannot decide, instead of always offering a runner-up.**
+  Today the Coach always computes a second place and shows it whenever castable. That is
+  naive: it presents a confident-looking alternative even when the real situation is *"we
+  genuinely cannot tell what to press from what we can read."* Three concrete cases:
+  waiting on a stack count that is secret (Backdraft 1-vs-2, Wild Imps for Implosion);
+  holding a cooldown for encounter timing the HUD cannot know (pool shards and delay
+  Infernal for incoming adds); and two lines that are genuinely tied under our information.
+  - **This partially reverses a settled decision.** `guidance-contract.json` RETIRED the
+    `JUDGE` emphasis in W4 Phase 8 on the reasoning that "the runner-up now carries the
+    uncertainty the hedge used to." Field use says the runner-up carries the *choice* but
+    not the *reason*. Reviving an explicit "your call, because X" token is a **contract
+    change**, so it wants a contract edit, not just a Coach edit.
+  - **Half the machinery already exists and is dormant:** the spec bucket carries
+    `judgeable = false` + `secretGate` (Havoc and Implosion both declare one) and **nothing
+    reads them today**. This feature is what those fields were designed for.
+  - This is "inform, don't instruct" made mechanical — the same doctrine that caps an
+    unreadable gate at AVAILABLE rather than faking a call.
 - **Consolidate the report commands into one sectioned dump.** `/cdmp hud status`,
   `/cdmp hud layout`, `/cdmp alerts probe|dump` are four chat-only, point-in-time reports.
   Chat has no copy/paste, so every one of them is hard to get off the client — the flaw
