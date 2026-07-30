@@ -147,14 +147,24 @@ right split.
       "liveSpellID": 105174,            // added W4 P1 — the resolved display identity (B1)
       "linkedSpellIDs": [], "category": "Essential",
       "selfAura": false,                // added W4 P1 — the aura is a self-buff
-      "hasAura": false, "charges": false, "isKnown": true,
+      "hasAura": false, "charges": false,
+      "isKnown": true,                  // THREE-VALUED: true | false | null (unreadable).
+                                        // `false` is a filter signal (see the domain view);
+                                        // null is "we don't know" and never filters.
+      "displayable": true,              // added field-fix A — an item frame exists for this
+                                        // cooldownID, i.e. the Binder could anchor to it
       "flags": 0,                       // added W4 P1 — Enum.CooldownSetSpellFlags bitfield
 
       // live facts — secrecy FIRST-CLASS (value OR null + readable flag):
       "cd":     { "state": "ready|cooling|anticipated|unknown",
                   "remaining": 4.2, "readable": true, "source": "live|napkin|none",
                   "changedAt": 12340.1 },   // when this cd's observed state last flipped
-      "charge": { "cur": null, "max": 0, "readable": true },
+      "charge": { "cur": null, "max": 0, "readable": true, "source": "live|napkin" },
+                                        // `source` added field-fix C2: "live" = the exact
+                                        // OOC read, "napkin" = the edge-latched estimate
+                                        // (seed OOC, −1 on cast, +1 on ChargeGained,
+                                        // clamped, biased to UNDERCOUNT). `readable` still
+                                        // mirrors source == "live".
       "aura":   { "active": false, "readable": true },   // C_UnitAuras — OOC only (see procs)
       "glow":   { "active": false, "readable": true },   // IsSpellOverlayed — readable in combat
       "buff":   { "isActive": false, "shown": false, "hideWhenInactive": true },  // buff-item frame state
@@ -168,18 +178,34 @@ right split.
   // the RAW CDM diagnostic view (retained for diagnostics); this is what the Coach
   // decides on. base-spellID -> cooldownID is N:1 (a summon is one Essential row +
   // one TrackedBar/TrackedBuff row); State folds them and picks the PRESSABLE member.
+  //
+  // ⚠ FILTERED (field-fix A). "Pressable" is now enforced, not merely intended: a row that
+  // is UNLEARNED (`isKnown == false`) or UNDRAWABLE (`displayable == false`) never enters
+  // `abilities`, because both read `ready` forever and therefore WIN the priority list.
+  // Raw `cooldowns` keeps everything — it is the diagnostic view.
   "abilities": {
     // keyed by BASE spellID; the folded, pressable-cooldown view
     "105174": {
       "ready": false, "remaining": 4.2, "charges": null, "source": "napkin",
       "glow": { "active": false, "readable": true },
       "aura": { "active": false, "readable": true },
+      "dot": { "state": "pandemic|fresh|absent", "at": 12344.0 },  // field-fix C, if latched
       "keybind": "S-3", "liveSpellID": 105174,
       // the CDM row this ability displays through — the Binder's anchor. The fold picks
       // the Essential (> Utility) member; a summon's TrackedBar row never becomes `display`.
       "display": { "cooldownID": 42, "category": "Essential" }
     }
   },
+  "dropped": { "6353": "unlearned", "29722": "no-icon" },  // added field-fix A — what the
+                                // filter REMOVED and why, keyed by base spellID. Rendered by
+                                // the decision log (`DR:`) so a filter that drops a REAL
+                                // button is visible in the trace instead of silently absent.
+  "dotEdges": {                 // added field-fix C — the CDM aura-lifecycle latch, re-keyed
+    "348": { "state": "pandemic", "at": 12344.0 }   // cooldownID -> BASE spellID. Carried
+  },                            // separately as well as on the row, because an ability's
+                                // latch can live on a row that is NOT pressable (Immolate's
+                                // DoT aura sits on the Buff-bar viewer and never enters
+                                // `abilities`, yet raises PandemicTime like the cast row).
   "buffs": { "265187": true, "264173": true },  // procs/auras PRESENT, keyed by spellID
                                                  // (secrecy-guarded: an unreadable aura is
                                                  // ABSENCE, never a false `true`)
@@ -461,7 +487,8 @@ counts — live in `specs/<spec>/notes.md`.)
 | **Exact cooldown time-remaining** | `GetSpellCooldown().duration` is `<secret>` | Borrow the secure radial swipe; drive urgency off a **napkin timer** for fixed-CD abilities only |
 | **Napkin-timer accuracy** | the *modified* CD (haste-scaled recharge, CDR/reset procs) is secret | Accurate for **fixed-CD** abilities; **drifts** otherwise — treat as best-guess, never as truth (the napkin's honesty rule: an expired estimate is `unknown`, never `ready`) |
 | **Aura/proc stack counts** | `Applications` is displayed but secret | Surface *presence* only; enlarge Blizzard's own stack text; **cannot compute** a threshold ("≥N") ourselves |
-| **In-pandemic / refresh-window boolean** | `IsInPandemicTime` is secret-derived (window computed from secret aura durations) | Observe the pandemic **edge** (the `ShowPandemicStateFrame` hook + the one-shot `TriggerAlertEvent(PandemicTime)`, `notes.md`) and redraw our own; **cannot poll/branch** the boolean or read the seconds; current target only |
+| **In-pandemic / refresh-window boolean** | ⚠ Worse than "secret": `pandemicStartTime`/`EndTime` read `SECRET` in combat and `IsInPandemicTime` **THROWS** — it compares against a Secret Value, so it must be `pcall`ed, not `issecretvalue`-guarded (measured 2026-07-30) | ✅ **SOLVED as an edge, not a state (field-fix C).** `TriggerAlertEvent(PandemicTime)` fires normally in combat, so State latches it per cooldownID and clears on `OnAuraApplied`/`OnAuraRemoved`; the Coach reads `ctx.dotRefreshable`. Better than a heuristic, too: Blizzard derives the window from the duration a recast would really carry over, not the community's "30% of base" rule. Still **cannot poll** the boolean or read the seconds; current target only |
+| **In-combat charge count** | `C_Spell.GetSpellCharges` is secret in restricted combat | ✅ **Estimated honestly (field-fix C2).** `ChargeGained` fires in combat on any upward move of Blizzard's cached count (so cooldown-reset procs are captured too), so the napkin is: exact OOC seed → −1 on `SUCCEEDED` → +1 on `ChargeGained` → clamp `[0, max]`, exact re-read wins on combat exit. Biased to **undercount** — it can hold a charge you have, never claim one you do not — and tagged `source:"napkin"` so a consumer can tell estimate from measurement |
 | **True "all cooldowns up" for a burst window** | requires reading N cooldown-ready states | Approximate via napkin timers (own casts) + the borrowed swipes; flagged best-guess |
 
 ## Open questions (ClientLab / in-game answerable — do not assume)
@@ -482,6 +509,13 @@ counts — live in `specs/<spec>/notes.md`.)
   CDM display or on the spell being learned. *(Charge values were not exercised — this
   character's Demo set has no charged tracked ability, so the `charge` half stays
   `@verify-ingame` until a charged spec is captured.)*
+  — ⚠ **AND THAT ANSWER IS EXACTLY THE PROBLEM (field-fix A, 2026-07-30).** "The live read
+  works for unlearned entries too" sounded like a capability; in the field it is a defect.
+  An unlearned spell has no cooldown running, so it reads **`ready` forever** — and a
+  permanently-ready row WINS a priority list. One live session logged **216 dropped Soul
+  Fire cues** from an untalented Soul Fire taking L2 every GCD. The domain view now filters
+  on `isKnown == false` and on `displayable == false`; the raw `cooldowns` map keeps the
+  whole database, since that is what makes it a diagnostic view.
 - **Do those reads go secret in combat the same way tracked ones do?** The seam is
   proven for the tracked set (the combat secret-gate — a settled game-wide rule); the
   full-database read is not.

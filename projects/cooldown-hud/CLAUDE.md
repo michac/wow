@@ -31,9 +31,13 @@ The docs split **general** (spec-agnostic — the product, the pipeline) from
   `State → Coach → Guidance → Binder → Renderer` pipeline, the data-shape contracts, the
   invariants, and the Secret-Values reality the pipeline is shaped around. Read it before
   touching the data/display seam.
-- **`docs/field-fixes-plan.md`** — the **current active plan** (Phases A/B/C/C2): the
-  correctness + capability fixes the first live session surfaced. `status.md`'s Active-work
-  line points here.
+- **`docs/virtual-cdm-plan.md`** — the **current active plan**: the virtual CDM panel — the
+  HUD draws its own icons for abilities Blizzard's Cooldown Manager does not track, so a
+  spec's floor press stops being invisible (Destruction was blank for 31 % of a pull).
+  `status.md`'s Active-work line points here.
+- **`docs/field-fixes-plan.md`** — ✅ **done, history** (Phases A/B/C/C2, v0.32.28–31): the
+  correctness + capability fixes the first live session surfaced, and the record of the live
+  pass that confirmed them. Read it for the field evidence, not for outstanding work.
 - **`docs/status.md`** — **THE live worklist.** Released version, the phase ledger, open
   items, and the **improvements/backlog** (the single place feature + quality work lands).
   **Routing — "plan / do the next cooldown-HUD thing" starts HERE:** read `status.md`

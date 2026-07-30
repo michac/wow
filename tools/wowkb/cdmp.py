@@ -10,8 +10,7 @@ WHAT WE READ:
 
     CDMProbeDB.decisionlog   <- a ring of the last 3 sessions, each a list of one-line
                                 `S{…} G{…} B{…}` pipeline traces appended on every
-                                DECISION CHANGE (addon DecisionLog.lua). A pre-rename
-                                capture stored it under `hud2log`, still read as a fallback.
+                                DECISION CHANGE (addon DecisionLog.lua).
 
 ⚠ SavedVariables only flush on /reload or logout. A capture that looks stale almost
 always means the /reload was skipped.
@@ -31,7 +30,6 @@ Usage:
     uv run python -m wowkb.cdmp decisionlog                 # → raw/cdmp-decision.log
     uv run python -m wowkb.cdmp decisionlog --out my.log
     uv run python -m wowkb.cdmp decisionlog --wow-path <dir>
-    # `hud2log` is a back-compat alias of `decisionlog`.
     uv run python -m wowkb.cdmp alerttape                   # → raw/cdmp-alerttape.log
 """
 
@@ -75,11 +73,7 @@ def _asdict(v) -> dict:
 
 
 def load_decisionlog(wow_path: str) -> tuple[object, str] | None:
-    """(decisionlog, path) from the newest CDMProbe.lua, or None.
-
-    A pre-rename capture stored the log under `hud2log`, so we fall back to that key
-    when the new one is absent (an un-migrated on-disk capture still extracts).
-    """
+    """(decisionlog, path) from the newest CDMProbe.lua, or None."""
     pth = _find_savedvar(wow_path)
     if not pth:
         return None
@@ -87,10 +81,7 @@ def load_decisionlog(wow_path: str) -> tuple[object, str] | None:
     db = parse_savedvar(text, "CDMProbeDB")
     if not isinstance(db, dict):
         return None
-    decisionlog = db.get("decisionlog")
-    if decisionlog is None:
-        decisionlog = db.get("hud2log")   # back-compat: pre-Phase-4 capture
-    return (decisionlog, pth)
+    return (db.get("decisionlog"), pth)
 
 
 # --------------------------------------------------------------------------- #
@@ -220,10 +211,9 @@ def cmd_alerttape(alerttape, path: str, out: Path) -> int:
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(
         description="Extract CDMProbe recorders off SavedVariables.")
-    ap.add_argument("command", choices=["decisionlog", "hud2log", "alerttape"],
-                    help="decisionlog: flatten the pipeline decision log (hud2log is a "
-                         "back-compat alias) · alerttape: flatten the temporary CDM "
-                         "alert-channel discovery tape")
+    ap.add_argument("command", choices=["decisionlog", "alerttape"],
+                    help="decisionlog: flatten the pipeline decision log · alerttape: "
+                         "flatten the temporary CDM alert-channel discovery tape")
     ap.add_argument("--wow-path", default=DEFAULT_WOW,
                     help=f"WoW _retail_ path (default: {DEFAULT_WOW})")
     ap.add_argument("--out", default=None,

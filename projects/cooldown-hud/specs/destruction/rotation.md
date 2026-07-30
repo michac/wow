@@ -124,11 +124,17 @@ L13  cast Inc
    currently in the State pulse. See the observability map; this is a *missing
    input*, not a blind spot.
 
-3. **Immolate maintenance is the spec's spine and the spec's biggest open question.**
-   Destruction lives or dies on a fire DoT being up (it also *pays* shard fragments
-   on tick). L8 needs a "is it up / is it in the pandemic window" read, which the
-   pipeline does not have today — `abilities[base].uptime` is an open backlog item
-   in `docs/status.md`. Until it exists, L8 cannot fire honestly.
+3. **Immolate maintenance is the spec's spine — ✅ SOLVED 2026-07-30 (field-fix C), and
+   not the way this note expected.** Destruction lives or dies on a fire DoT being up (it
+   also *pays* shard fragments on tick). The plan was an `abilities[base].uptime` read off
+   the tracked bar's duration; that number **cannot exist** — `pandemicStartTime`/`EndTime`
+   read `SECRET` in combat and `IsInPandemicTime` *throws*. What works is the **edge**:
+   `TriggerAlertEvent(PandemicTime)` fires normally, so State latches it and L8 reads
+   `ctx.dotRefreshable`. Better than the plan, because Blizzard derives the window from the
+   duration a recast would really carry over, per spell — not a tuned lead.
+   ⚠ And L8 was keyed on the **wrong id**: `157736` is the DoT *aura* (Buff-bar viewer,
+   never pressable, never in `abilities`), while the pressable row is the *cast* id `348`.
+   `ctx.dotID` now resolves through Wither → `157736` → `348`, whichever the pulse carries.
 
 4. **Charges are new here.** Conflagrate and Shadowburn are both 2-charge abilities.
    Demonology has **no charged tracked ability**, which is why the `charge` half of
@@ -181,15 +187,20 @@ was made. They are the first things to revisit after a live pass.
 2. **L5b — Malevolence needed a line of its own.** The Hellcaller delta says
    "Malevolence slots beside L5", which is now an explicit line **below** Summon
    Infernal. Both are plain on-cooldown presses and neither waits for the other, per
-   `notes.md`. Hero tree is detected **structurally** — a tracked Wither means
-   Hellcaller — so there is no talent-API branch anywhere.
+   `notes.md`. ⚠ **The "hero tree is detected structurally" claim in this note was WRONG
+   and is retracted** (field-fix B, 2026-07-30): a live Hellcaller build tracked Malevolence
+   but **Immolate**, so "a tracked Wither means Hellcaller" answered Diabolist. Hero tree is
+   now read from `C_ClassTalents.GetActiveHeroTalentSpec()` → SubTreeID (TraitSubTree @
+   12.0.7: Hellcaller 58, Diabolist 59), with a multi-signal inference behind it. L5b itself
+   is unchanged — Malevolence is gated on being tracked and usable, not on the tree.
 
-3. **L8 is half-live, not dead.** The draft assumed the DoT line could not fire at
-   all. It fires on **positive evidence of absence** (the tracked Immolate/Wither aura
-   reads inactive *and the read succeeded*); the pandemic-refresh half is still blocked
-   on `abilities[base].uptime`. The three-way `up` / `missing` / `unknown` distinction
-   is load-bearing — an *unreadable* DoT must stay silent, because treating "no read"
-   as "not up" would spam the refresh press every GCD.
+3. **L8 is FULLY live as of field-fix C** (it was "half-live" — presence only). Two
+   channels, in trust order: the **alert latch** (`pandemic` / `fresh` / `absent`, the only
+   one that works in combat, and the only route to "refresh it early" at all), then the
+   aura/buff-item presence read (still correct out of combat, and the fallback until
+   something latches). The three-way `up` / `missing` / `unknown` distinction remains
+   load-bearing — an *unreadable* DoT must stay silent, because treating "no read" as "not
+   up" would spam the refresh press every GCD.
 
 4. **L10's Hellcaller delta needed no branch.** "Rain of Fire moves above the anti-cap
    Chaos Bolt" is already true of the base list (L10 sits above L11), and the part that

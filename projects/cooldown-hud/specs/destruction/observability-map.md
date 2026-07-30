@@ -51,15 +51,15 @@ cannot model recharge at all (it counts one cooldown, not a refilling pool).
 | 3 | `soulfire_usable` | `cd` on Soul Fire (readiness model) | exact | edge/baseline observed, else napkin | **Med–High** | unknown → false |
 | 4 | `art_armed` | Diabolic Ritual `428514` `buff.isActive`, and/or the CB override edge | exact | **readable (presence)** | **Med–High** | neither → false. Expect `428514` tracked **twice** (Demo finding) — key on cooldownID |
 | 5 | `cb_usable` | `shards >= cost` (cost live via `ns.ShardCost`) + off GCD | exact | **readable** | **High** | cost unreadable → assume 2 |
-| 6 | `conflagrate_usable` | `cd` + **charges** on Conflagrate | exact | edge/baseline/napkin, **no charge count** | **Med — charge gap** | binary off-cd; under-presses rather than dumping a banked charge |
+| 6 | `conflagrate_usable` | `cd` + **charges** on Conflagrate | exact | edge/baseline/napkin + the **charge napkin** (field-fix C2) | **Low** | the in-combat count is an estimate (`source:"napkin"`), fenced to undercount — it may hold a charge you have, never claim one you do not |
 | 7 | `backdraft_present` | Backdraft `117828` `buff.isActive` | exact | **readable (presence)** | **High (presence)** | not readable → false. **Count is secret — never inferred** |
 | 8 | `infernal_castable` | `cd` on Summon Infernal (readiness model) | exact | edge/baseline observed, else napkin | **Med–High** | unknown → false. Base CD is **120 s (90 s w/ Inferno)** — talent-dependent, so read live, don't hardcode the napkin |
 | 9 | `chaotic_inferno` | Chaotic Inferno `1244860` `buff.isActive` / glow on Incinerate | exact | **readable (presence)** | **Med — verify** | ⚠ if Incinerate is untracked there is no frame to glow; the aura read is the only route |
 | 10 | `incinerate_usable` | no cd / no cost | true | true | **High** | only false if locked out |
-| 11 | `shadowburn_usable` | `cd` + **charges** + `shards >= 1` | exact | edge/baseline/napkin, **no charge count** | **Med — charge gap** | as #6 |
+| 11 | `shadowburn_usable` | `cd` + `shards >= 1` | exact | edge/baseline/napkin | **Low** | ⚠ Shadowburn has **no charges** at all (DB2 `ChargeCategory = 0` @ 12.0.7) — the "2 charges" claim elsewhere in these docs is wrong; there is no charge gap to close here |
 | 12 | `fiendish_cruelty` | Fiendish Cruelty `1245664` `buff.isActive` | exact | **readable (presence)** | **Med — verify tracked** | not tracked → false, and L7 loses half its gate |
 | 13 | `target_execute` | **not in the pulse** — no target channel exists | — | — | **Absent (not secret)** | false → the execute half of L7 never fires |
-| 14 | `dot_refreshable` | **not in the pulse** — needs `abilities[base].uptime` off the tracked bar's duration | — | — | **Absent (blocked)** | false → **L8 never fires**; the DoT goes unmanaged |
+| 14 | `dot_refreshable` | ~~needs `abilities[base].uptime`~~ → the **`PandemicTime` alert edge** (field-fix C) | Blizzard's own per-spell carry-over window | the edge, latched; cleared by `OnAuraApplied`/`OnAuraRemoved` | ✅ **Solved** | none in combat — this is the better signal. The *seconds remaining* stay unavailable (`pandemicEndTime` is SECRET, `IsInPandemicTime` throws) |
 | 15 | `cataclysm_usable` | `cd` on Cataclysm (readiness model) | exact | edge/baseline/napkin | **Med–High** | unknown → false |
 | 16 | `aoe_mode` | `mode` (the manual `single`/`multi`/`aoe` toggle) | exact | exact | **High (as a toggle)** | it is a *player declaration*, not an observation — it is never wrong, only stale |
 | 17 | `rof_usable` | `shards >= 3` + off GCD | exact | **readable** | **High** | cost unreadable → assume 3 |

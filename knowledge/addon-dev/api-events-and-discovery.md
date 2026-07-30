@@ -6,6 +6,8 @@ reviewed: 2026-07-30
 sources:
   - https://github.com/Gethe/wow-ui-source (live, version.txt 12.0.7.68887, commit 4383ced30106d51b27e3e86d1987f1552f0d259d)
   - in-client capture, CDMProbe AlertTape v0.32.27 (/cdmp alerts), Destruction Warlock, 2026-07-30  # §2.8 alert-channel confirmations
+  - in-client capture, CDMProbe AlertTape v0.32.29, Destruction/Hellcaller Warlock, 2026-07-30  # §2.8 same-frame refresh tie; simultaneous PandemicTime on both Immolate cooldownIDs
+  - in-client capture, CDMProbe v0.32.32 decision log, Destruction Warlock (Hellcaller AND Diabolist), 2026-07-30  # §2.8 cid 66181's base/display spellID split + hero-talent-dependent isKnown; override event firing for an untracked display id
   - https://warcraft.wiki.gg/wiki/API_Frame_RegisterEvent (revid 6654488, 2026-02-19)
   - https://warcraft.wiki.gg/wiki/API_Frame_RegisterUnitEvent (revid 6735133, 2026-06-04)
   - https://warcraft.wiki.gg/wiki/API_Frame_RegisterAllEvents (revid 6654327, 2026-02-19)
@@ -684,6 +686,20 @@ The alert then fires on any **increase** of that cached value
 `Available, OnCooldown, ChargeGained`; **Backdraft** (a 2-stack buff on the BuffBar viewer)
 → `OnAuraApplied, OnAuraRemoved` only.
 
+✅ **A REFRESH FIRES BOTH CLEARS IN ONE FRAME, WITH THE SAME TIMESTAMP** (measured
+2026-07-30, second capture). Refreshing a DoT raises `OnAuraRemoved` **and**
+`OnAuraApplied` for the same cooldownID at an identical `GetTime()` — the capture shows
+both on `cid 133441` *and* `cid 164597` at `131184.611`. So an edge latch that simply takes
+the last write lets **Blizzard's dispatch order** decide whether the addon believes the aura
+is up or gone, and a timestamp comparison cannot break the tie because the timestamps are
+equal. The rule that resolves it is semantic, not temporal: **a re-application supersedes
+the removal it replaces.** Anything latching `OnAura*` needs that precedence explicitly.
+
+The same capture also confirms the two-cooldownID warning below in its sharpest form: both
+Immolate rows raised `PandemicTime` at the *identical* timestamp (`131182.959`), so an
+addon keying per cooldownID gets two edges for one game event and must fold them to one
+answer.
+
 **And `OnAuraApplied` will not count stacks either.** It fires only from
 `unitAuraUpdateInfo.addedAuras`, matched on `aura.auraInstanceID ==
 self:GetAuraSpellInstanceID()` *[T1 src: `CooldownViewer.lua:615-618`, `:1682-1690`]*. A
@@ -691,6 +707,25 @@ stack gained on an existing aura keeps the same `auraInstanceID` and arrives und
 `updatedAuraInstanceIDs`, which nothing here listens to — so the alert marks a **fresh
 application**, not an increment. (Capture: Backdraft 5 applied / 5 removed across ~10
 Conflagrate charge gains.)
+
+❗ **A CHARGED ABILITY NEVER RAISES `OnCooldown`** (measured 2026-07-30). Conflagrate
+(`cid 18860`) advertises `Available, OnCooldown, ChargeGained` in `GetValidAlertTypes`, and
+across a ~190 s pull it raised **`Available` ×7 and `OnCooldown` ×0** — while four
+non-charged entries in the same capture (`18800`, `18812`, `18814`, `33527`) raised
+`OnCooldown` normally. `Available` fires **once per charge restored**, not once per
+"the ability became usable".
+
+The consequence for anyone building readiness on these edges: an `Available`/`OnCooldown`
+pair is **not a complete state machine for a charged ability** — the "on" edge never
+arrives, so a latch built from them reads *ready* forever after the first charge comes
+back, including at zero charges. Readiness for a charged spell has to come from the charge
+count (`ChargeGained` + a seeded baseline, since `C_Spell.GetSpellCharges` is secret in
+combat), not from the cooldown edges.
+
+⚠ And the obvious fallback does not work either: a charged spell's cooldown often lives on
+its **charge category**, not the spell. Conflagrate `17962` has `RecoveryTime = 0` with
+`ChargeCategory = 672` `[T1 DB2: SpellCooldowns, SpellCategories @ 12.0.7]`, so
+`GetSpellBaseCooldown` yields nothing to count down from.
 
 **The live lead this leaves open:** source 2 means an ability icon *can* raise
 `ChargeGained` off `GetSpellCastCount` without having real charges. Whether any spec's
@@ -731,6 +766,29 @@ unmeasured and would be a way to count something otherwise secret. `@verify-inga
   `cid 164597 → spellID 348` (the **cast** id, on Essential). **Both raised `PandemicTime`.**
   So keying an ability by a single "the" spellID is unsafe; the pressable row and the
   aura row can disagree, and which one an addon sees depends on which viewer it walked.
+- **A CDM entry's base `spellID` can be a DIFFERENT SPELL from the one it displays**, and
+  its `isKnown` can be **hero-talent dependent**. Destruction Warlock's set carries
+  `cid 66181 → spellID 686` (**Shadow Bolt**, which Destruction does not have) with its
+  display overridden to **Incinerate `29722`** — an id that appears in `CooldownSetSpell`
+  for *no* set at all `[T1 DB2: CooldownSetSpell @ 12.0.7]`. The same character, in one
+  session, read that entry `isKnown = false` on **Hellcaller** (Blizzard drew nothing) and
+  `isKnown = true` on **Diabolist** (Blizzard drew an Incinerate icon)
+  `[in-client capture, CDMProbe v0.32.32 decision log, 2026-07-30]`.
+  Three consequences for anyone walking the CDM database:
+  1. **"Is ability X on screen?" is not answerable from base spellIDs.** It has to union
+     each row's `spellID` with its `overrideSpellID` / `overrideTooltipSpellID` /
+     resolved live id. Keying only by base reports Incinerate as absent while Blizzard is
+     visibly drawing it.
+  2. **Use the STATIC override fields, not just the live one, for that test.** While a
+     transform is armed the live id becomes the transform's (here Infernal Bolt `433891`),
+     so a live-id-only check flickers false exactly when the ability is most active.
+  3. **`isKnown = false` is not stable across a spec's hero trees**, so a set read once at
+     login can be wrong after a talent swap. `SPELLS_CHANGED` is the invalidation signal.
+- **`COOLDOWN_VIEWER_SPELL_OVERRIDE_UPDATED` fires for such an entry**, including when the
+  overridden display is a spell with no `CooldownSetSpell` row of its own — observed as the
+  Diabolist Demonic-Art transform arming on `cid 66181` (114 of 137 logged decision changes
+  carried an armed Art) `[in-client capture, CDMProbe v0.32.32, 2026-07-30]`. So the
+  override channel is usable for abilities the Cooldown Manager does not otherwise track.
 
 ---
 

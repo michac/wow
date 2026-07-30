@@ -263,8 +263,7 @@ out by hand (they keep the *why*; this owns the *how*).
 off SavedVariables (newest `WTF/Account/*/SavedVariables/CDMProbe.lua`,
 `CDMProbeDB.decisionlog`) and flattens it to a grep-friendly `.log` — a ring of the
 last 3 sessions, one `S{…} G{…} B{…}` line per pipeline decision change, the
-instrument for "why does `/cdmp hud` show nothing here?" (`hud2log` is a back-compat
-alias). ⚠ SavedVariables only flush on **`/reload`**. *(The old `/cdmp probe` +
+instrument for "why does `/cdmp hud` show nothing here?". ⚠ SavedVariables only flush on **`/reload`**. *(The old `/cdmp probe` +
 `probe-baseline.json` assertion suite was retired 2026-07-29 — the readability rules it
 discovered are settled game-wide, and a spec's tracked set comes from wago DB2 via
 `wowkb.spec_inventory`, so per-spec re-measurement bought nothing.)*
