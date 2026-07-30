@@ -40,7 +40,7 @@ confidence: high
 | Wither | Rotational-builder (DoT) | — | 1.5s cast · DoT | **Hellcaller** replacement for Immolate — stacking fire/shadow DoT that Malevolence detonates/empowers. Midnight-new hero DoT. @verify-ingame |
 | Chaos Bolt | Rotational-spender | 2 Soul Shards | ~2.5s cast | Primary spender and the bulk of single-target damage; benefits from crit scaling (Chaos Incarnate / Ruin). |
 | Rain of Fire | Rotational-spender (AoE) | 3 Soul Shards | Channeled AoE | Ground-target AoE spender; the shard dump at high target counts (Hellcaller sooner, Diabolist only at ~8+). |
-| Shadowburn | Rotational-spender / Execute | 1 Soul Shard | Instant · 2 charges, ~12s recharge | Instant spender, extra value sub-20% (execute) and with Fiendish Cruelty; refunds resources / shard on a kill. |
+| Shadowburn | Rotational-spender / Execute | 1 Soul Shard | Instant · ⚠ **charges disputed — see below** | Instant spender, extra value sub-20% (execute) and with Fiendish Cruelty; refunds resources / shard on a kill. |
 | Soul Fire | Rotational-builder | — | ~4s cast · ~45s CD (charge-like) | Hard-cast that applies/refreshes Immolate and generates multiple shard fragments; best consumed with Backdraft. |
 | Cataclysm | Rotational-builder (AoE) | — | Instant · ~30s CD | Ground AoE that applies Immolate to all targets hit and deals burst damage; strong opener + AoE setup. |
 | Channel Demonfire | Rotational-spender | — | Channeled · ~25s CD | Launches bolts at all targets with Immolate/Wither; choice-node vs Demonfire Infusion. Talent. |
@@ -77,6 +77,19 @@ confidence: high
 | Demonic Gateway | Movement (utility) | — | Cast · ~10s | Places a linked portal pair; players click to travel between them. Talent. |
 | Grimoire of Sacrifice | Utility (passive buff) | — | Instant (talent) | Sacrifices your pet for a personal damage buff + a proc (choice with Summoner's Embrace). |
 | Command Demon / pet-specific | Utility | — | Instant | Contextual pet command (Spell Lock, Seduction, Shadow Bulwark, etc. depending on active pet). |
+
+> ⚠ **Shadowburn's "2 charges, ~12s recharge" is contradicted by Tier-1 data (2026-07-30).**
+> The old row asserted 2 charges. Two independent Tier-1 sources disagree: wago DB2 has
+> Shadowburn `17877` with `SpellCategories.ChargeCategory = 0` and
+> `SpellCooldowns.RecoveryTime = 0` (against Conflagrate `17962`, which carries
+> `ChargeCategory = 672`), and a live in-client capture found Shadowburn raising **no**
+> `Available`/`OnCooldown`/`ChargeGained` Cooldown-Manager alerts, i.e. it has no recovery
+> event at all — while Conflagrate raised all three. The likely origin of the old claim is
+> a pre-Midnight tooltip. **Not yet corrected outright**, because a talent could add charges
+> via an aura effect that base DB2 rows would not show. `@verify-ingame` — check
+> Shadowburn's tooltip on a live Destruction character and, if it shows 1 charge and no
+> recharge, delete this note and fix the row.
+
 
 > **Interrupt note:** Destruction has **no baseline personal interrupt**. Kicks
 > come from the **Felhunter's Spell Lock** (or CC via Sayaad's Seduction /

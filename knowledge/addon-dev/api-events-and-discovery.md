@@ -699,12 +699,33 @@ unmeasured and would be a way to count something otherwise secret. `@verify-inga
 
 #### Two structural facts from the same capture
 
-- **Eligibility is sparse, and some rotational spells have NO alert types at all.**
-  Observed on Destruction: Conflagrate → `Available, OnCooldown, ChargeGained`; Summon
-  Infernal / Cataclysm / Malevolence → `Available, OnCooldown`; but **Chaos Bolt,
-  Shadowburn and Command Demon → `(none)`**. An addon must not assume a tracked spell
-  raises anything — query `GetValidAlertTypes(cooldownID)` first, or an absent edge reads
-  as a bug when it is the design.
+- **`GetValidAlertTypes` does NOT gate the channel — it gates only `PandemicTime`.**
+  ⚠ **Correction, same day.** An earlier draft of this section read the eligibility list as
+  "what this cooldown can raise", and warned that a tracked spell with `(none)` raises
+  nothing. **That is wrong.** `CanTriggerAlertType` is called in exactly ONE place in the
+  entire addon — the pandemic arming path *[T1 src: `CooldownViewer.lua:520`]*. Nothing on
+  the `Available` / `OnCooldown` / `ChargeGained` / `OnAuraApplied` / `OnAuraRemoved` paths
+  consults it; `CheckTriggerAuraAppliedAlert` *[`:615-618`]*, for instance, checks only that
+  the `auraInstanceID` matches.
+  The 2026-07-30 capture demonstrates the divergence directly: **Shadowburn's eligibility
+  is `(none)`, yet it raised `OnAuraApplied` ×3 and `OnAuraRemoved` ×3 in combat.**
+  So the correct reading is:
+  - `GetValidAlertTypes(cooldownID)` = **what the settings UI offers the player to
+    configure** (the sound/visual alerts), and a hard gate on `PandemicTime` *only*.
+  - An addon hooking `TriggerAlertEvent` therefore sees **more** than the eligibility list
+    predicts. Use it as a predictor for `PandemicTime`; do **not** use it to conclude that
+    any other alert will not fire.
+  - The list is still static per cooldownID — `validAlertTypes` is invalidated only when
+    the frame's cooldownID is set or cleared *[T1 src: `CooldownViewerItemData.lua:48, :65`]*,
+    never on cast, cooldown, aura or combat entry — so it is a *data* property, unaffected
+    by what the player has pressed.
+  - Observed values, for calibration: Conflagrate → `Available, OnCooldown, ChargeGained`;
+    Summon Infernal / Cataclysm / Malevolence → `Available, OnCooldown`; Chaos Bolt,
+    Shadowburn, Command Demon → `(none)`. The `(none)` cases correlate with having neither
+    a recovery time nor a charge category in DB2 (Shadowburn `17877` and Chaos Bolt
+    `116858` both carry `ChargeCategory = 0` and `RecoveryTime = 0`, against Conflagrate
+    `17962`'s `ChargeCategory = 672`) `[T1 DB2: SpellCategories, SpellCooldowns @ 12.0.7]`
+    — i.e. there is simply no recovery event to configure.
 - **One ability can occupy TWO cooldownIDs carrying DIFFERENT spellIDs.** Immolate appeared
   as `cid 133441 → spellID 157736` (the DoT **aura** id, on the Buff-bar viewer) *and*
   `cid 164597 → spellID 348` (the **cast** id, on Essential). **Both raised `PandemicTime`.**
