@@ -406,11 +406,18 @@ secret-guarded API read.
 > pair at one timestamp was a genuine re-application after a lapse, not a refresh of a live
 > aura; both readings are correct and they describe different events.)
 >
-> **Consequence:** a consumer cannot latch on these edges to answer "is the window still
-> open" — the clear never arrives. And there is no fallback on the same row:
-> `pandemicStartTime`/`pandemicEndTime` are SECRET and `IsInPandemicTime` **throws**
-> (4 of 4 in-combat readings, 2026-07-31, re-confirming 2026-07-30). Take the edge as a
-> *one-shot notification with a time-to-live*, never as a state.
+> **Why it is one-shot, from the source.** `TriggerPandemicAlert` (`:552-555`) clears
+> `pandemicAlertTriggerTime` and sets `nextAvailableTimeToPlayPandemicAlert =
+> pandemicEndTime`, commented *"Prevent the alert from playing again for this instance"*;
+> `ShouldTriggerPandemicAlert` (`:549`) then gates on `timeNow` passing that. Re-arming runs
+> through `CheckSetPandemicAlertTriggerTime` (`:511`), which additionally requires
+> `GetAuraDataUnit() == "target"`, a live aura, and a positive `carriedOverToNewCast`.
+> **`[client]` both halves observed** on 2026-07-31: `trigger=SECRET / nextAvailable=nil`
+> while armed, then `trigger=nil / nextAvailable=SECRET` the instant it fired.
+>
+> **Consequence: take the edge as a one-shot notification, never as a state.** But there IS
+> a state, and it is readable — **`item.PandemicIcon`** (§7 Tier 2). It is recomputed every
+> frame and *clears on a refresh*, which is precisely what the edge cannot do.
 
 Pandemic arms **only** when `GetAuraDataUnit() == "target"`, and its window derives from
 two secret numbers — you get the edge, never the seconds
@@ -487,10 +494,12 @@ file; the refuted claim is retained there with its reasoning.)* Classify on **fa
 |---|---|---|---|
 | `item.cooldownID` | both | readable; **can read secret in restricted combat** | The binding key. Resolve out of combat; never overwrite a known-good id with an unreadable one. |
 | `item:IsActive()` | **tab 2 only, meaningfully** | **`[client]`** readable | On tab 1 it is `cooldownID ~= nil` → **constant true**. Same method, two meanings (§1.1). |
-| `item.auraDataUnit` | both | **`[client]` READABLE IN COMBAT — and the best in-combat aura-presence signal found so far** | A plain `"player"`/`"target"` string — the only thing that says **which side the bound aura is on**. Nothing in the struct carries this. **Measured 2026-07-31** (Destruction, both hero trees): `nil` on every row out of combat, and in combat exactly the rows with a live bound aura answer — Immolate cid 133441 and 164597 → `"target"`; Backdraft, Malevolence, Conflagration of Chaos → `"player"`. **Why this matters more than it looks:** with the alert channel silent for a maintained aura (§5.1) and `C_UnitAuras` fully secret, a non-nil `auraDataUnit` is a *readable, in-combat* statement that this row has a live bound aura — which is the "is the DoT up" read nothing else can currently answer. ⚠ The missing control is a capture **in combat with the aura DOWN**, to confirm it returns to `nil` rather than latching. Measure that before consuming. `@verify-ingame` |
+| `item.auraDataUnit` | both | **`[client]` READABLE IN COMBAT — and the best in-combat aura-presence signal found so far** | A plain `"player"`/`"target"` string — the only thing that says **which side the bound aura is on**. Nothing in the struct carries this. **Measured 2026-07-31** (Destruction, both hero trees): `nil` on every row out of combat, and in combat exactly the rows with a live bound aura answer — Immolate cid 133441 and 164597 → `"target"`; Backdraft, Malevolence, Conflagration of Chaos → `"player"`. **Why this matters more than it looks:** with the alert channel silent for a maintained aura (§5.1) and `C_UnitAuras` fully secret, a non-nil `auraDataUnit` is a *readable, in-combat* statement that this row has a live bound aura — which is the "is the DoT up" read nothing else can currently answer. **`[client]` CONTROL MEASURED 2026-07-31**: in combat *before* the DoT was applied it read `nil`, and `target` once applied — so it discriminates, it does not latch. Together with `PandemicIcon` this gives a tab-1 row two readable in-combat aura facts: *is it up* and *is it in pandemic*. |
 | `item.wasSetFromCharges` / `wasSetFromCooldown` / `wasSetFromAura` | tab 1 | **`[client]` READABLE IN COMBAT** | Plain booleans set by bare assignment `[:648-669]`, recording **which source won this refresh** — i.e. what the dial currently *means*. **Measured 2026-07-31**: 66–69 readable booleans vs 9 `nil` per capture, unchanged in and out of combat. This is the one axis that separates "the swipe is a cooldown" from "the swipe is an aura remaining", and it survives restriction. |
 | `item.cooldownStartTime` / `cooldownDuration` | tab 1 | secret in combat | Copied straight from `C_Spell.GetSpellCooldown`, so they inherit its secrecy. Values, not verdicts. |
-| `item.pandemicStartTime` / `pandemicEndTime` | both | **`[client]`** secret in combat; `IsInPandemicTime` **throws** | 2026-07-30 capture. The `PandemicTime` alert fires normally — take the edge, never the number. |
+| `item.pandemicStartTime` / `pandemicEndTime` | both | **`[client]`** secret in combat; `IsInPandemicTime` **throws** | 2026-07-30, re-confirmed 2026-07-31. ⚠ `IsInPandemicTime` is **not blocked** — its body (`:587`) compares these two fields against `timeNow`, and they are secret, so the *comparison* is what fails. Untainted code does that arithmetic fine; we cannot. |
+| **`item.PandemicIcon`** | both | **`[client]` READABLE — presence is the live pandemic state** | **The replacement for the un-readable number, and for the one-shot alert.** `CheckPandemicTimeDisplay` (`:562`) runs **every frame** from the item's `OnUpdate` (`:98`) and calls `Show`/`HidePandemicStateFrame`, which **set and nil this field** (`:570-585`). So `PandemicIcon ~= nil` mirrors `IsInPandemicTime` exactly — and it is a *frame reference*, not a secret number, so reading it costs nothing. **Measured over a full DoT cycle 2026-07-31** (cid 164597 Immolate): `nil` before application → `nil` while up but pre-pandemic → **`table` in pandemic** → **`nil` again immediately after a refresh**. Never SECRET, never threw. |
+| `item.pandemicAlertTriggerTime` / `nextAvailableTimeToPlayPandemicAlert` | both | **`[client]`** SECRET in combat | The alert's arm + throttle. Measured transitioning exactly as `:548-555` describes — `trigger` set / `nextAvailable` nil while armed, then `trigger` cleared / `nextAvailable` set the instant it fires. Useful only as a *class* (armed vs fired); the numbers never read. |
 | `item:GetSpellID()` | both | **`[client]` SECRET in combat** | **Measured 2026-07-31**: secret on 8 of 51 frame rows in combat — exactly the rows carrying a live bound aura (rung 1) — and readable on all of them out of combat. `item:GetBaseSpellID()` stays readable throughout. So the *display* identity is restricted in combat while the *base* is not, which is the opposite of what a consumer keying on `GetSpellID()` would want. |
 | `item:GetAuraSpellID()` | both | **`[client]` SECRET in combat** | Rung 1 is present, not absent — it simply cannot be read while restricted. `nil` out of combat when no aura is bound. |
 | `item:GetLinkedSpell()` | both | **`[client]` `nil` on every row measured** | See §2.5. The elected rung-2 link was never populated on a Destruction character in either hero tree, on the frame *or* in a fresh struct read. |

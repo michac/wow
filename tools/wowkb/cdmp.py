@@ -279,7 +279,9 @@ def _cell(entry) -> str:
     if not e:
         return "-"
     cls, val = e.get("c"), e.get("v")
-    if cls in ("nil", "absent", "threw", "SECRET", "SECRET-TABLE"):
+    # "table" joins these: for PandemicIcon the CLASS *is* the signal (a frame reference is
+    # present or it is not), and there is no scalar to render.
+    if cls in ("nil", "absent", "threw", "SECRET", "SECRET-TABLE", "table"):
         return str(cls)
     if val is None:
         return f"{cls}:?"
@@ -293,7 +295,12 @@ _STRUCT_COLS = ["spellID", "overrideSpellID", "overrideTooltipSpellID", "linkedS
 _FRAME_COLS = ["GetSpellID", "GetBaseSpellID", "GetAuraSpellID", "GetLinkedSpell",
                "IsActive", "IsShown"]
 _FRAME_FIELDS = ["wasSetFromCharges", "wasSetFromCooldown", "wasSetFromAura",
-                 "auraDataUnit", "hideWhenInactive"]
+                 "auraDataUnit", "hideWhenInactive",
+                 # The pandemic trio.  PandemicIcon's PRESENCE is the live, self-clearing
+                 # pandemic state (Blizzard sets/nils it every frame from the item OnUpdate);
+                 # the other two are the throttle that makes the PandemicTime alert one-shot.
+                 "PandemicIcon", "pandemicAlertTriggerTime",
+                 "nextAvailableTimeToPlayPandemicAlert"]
 
 
 def _tally(counts: dict[str, int]) -> str:
