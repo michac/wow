@@ -24,8 +24,7 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
   cutover; the `/cdmp probe` + `probe-baseline.json` assertion suite was retired 2026-07-29
   (settled readability rules + DB2-sourced tracked set made per-spec re-measurement moot).
 - **Gates:** `luaparser` (release) + `luacheck CDMProbe/` + `busted CDMProbe/tests/spec`
-  (**364 tests** — 143 pipeline/Demonology + 94 Destruction branch oracle + 14 `viewers_spec`
-  + 74 `state_domainview_spec` + 39 `hudvirtual_spec`).
+  (**377 tests**, luacheck 0 warnings).
   ⚠ All three are **source** gates: none of them runs the game, and the v0.32.25 outage
   below is what that blind spot looks like in practice.
 - **✅ DONE — `field-fixes-plan.md` (v0.32.28–31), shipped and flown.** The four correctness
@@ -238,6 +237,91 @@ Nothing below is verified in the field yet. `/reload` first, then:
   the key of `abilities` entries, the pipeline's most delicate seam.
 - Watch for an **L12 Infernal Bolt** cue if the Art arms while Conflagrate is at 0 charges.
 
+## The 2026-07-30 comment-trim + layering pass (v0.32.38 — cut + deployed)
+
+Not a bug fix — readability and layer hygiene, following two code reviews whose
+defect-class findings already shipped in v0.32.37. Six commits, gates green at each.
+
+**Layering**
+
+- **Hero resolution moved into State and rides the pulse** (the one substantive change).
+  `CoachDestruction` was calling `C_ClassTalents.GetActiveHeroTalentSpec()` and `ns.Printf`
+  from inside `spec:Context`, which `Coach:Compute` runs at 10 Hz — breaking
+  `architecture.md` Stage 1 and `Coach.lua`'s own purity claim. State now owns the read on
+  the same discipline as `knownCache` (pcall + IsSecret guarded, cached, wiped on
+  `SPELLS_CHANGED`), and the pulse carries `hero` + the raw `heroSubTreeID`. **A captured
+  pulse can now reproduce a hero-gated decision** — the stated payoff of the seam. The
+  brain keeps `heroFromSignals` as the fallback for a refused API read; the announcement
+  moved to `HudDriver`'s one-shot notice, latch semantics preserved.
+  Mutation-checked four ways (swapped SubTreeID map / hero dropped from the pulse /
+  invalidation removed / brain ignores `state.hero`) — all four fail the suite, the last
+  through the branch oracle rather than only the new tests.
+  - 📌 **Recorded while doing it:** `ctx.hellcaller` has **no consumer** in `RankWinner`
+    today. L5b Malevolence fires because Malevolence is in `facts` at all, and L8's DoT id
+    resolves from whichever candidate the pulse carries — both are *tracked-set* facts.
+    That is the independence the field-fix bought, and it means this move could not change
+    which lines fire. Commented at the assignment so it is not re-derived.
+- **Verified-dead code deleted:** `ns.DumpViewers`, `ns.ItemSpellID`, `B.GetForItem`,
+  `B.Explain`, `B.Stop`, `Renderer:Root`, `N.Stop`/`N.PrintStatus`/`N.StatusText` — all
+  orphans of the retired `/cdmp probe` and the old HUD engine.
+- **`JUDGE` and `SEQUENCE` retired end to end.** `guidance-contract.json` has called both
+  RETIRED since W4 Phase 8 / the TCT redesign and no production code emits either; what
+  kept them alive was a closed loop — two render fixtures existed to display the tokens,
+  and the tokens were kept because the fixtures displayed them. Theme entries, the
+  `inventory` and `burst-hold` fixtures, and their tests are gone. Tests that used JUDGE
+  merely as "a token with no `GLOW_SPEC` entry" now use a deliberately unknown token, so
+  they assert the contract rule (**no entry ⇒ no circle, no ring**) rather than one retired
+  token's continued existence. The fallback-violet rationale is re-anchored to the shard
+  pips, which are the real constraint.
+- **`ns.DisplayIdentity` moved `Util.lua` → `Viewers.lua`.** It reads `ns.SpecInfo`, so the
+  bottom-of-stack utility file (loaded 3rd) was depending on the spec registry loaded six
+  files later. Pure move; `mock_ns` now loads the real `Viewers.lua` and `viewers_spec`'s
+  shipped-symbol gate covers it.
+- **The `/cdmp rt` rig split out into `RenderTest.lua`.** `Renderer.lua` was 822 lines:
+  519 of pure Stage-4 renderer and 300 of impure rig (placeholder frames, a `C_Timer`
+  ticker, direct `ActionButtonSpellAlertManager` calls). Now 512. Pure file move.
+- **Stale prose that had gone wrong:** the passive-spec notice and `SpecRegistry` both said
+  "only Demonology is supported", two specs after that stopped being true — the notice now
+  counts `ns.Specs` instead of restating it. `Mode.lua` no longer names one spec's spell
+  from a spec-agnostic module, and no longer claims the Coach never branches on mode
+  (`CoachDestruction`'s L10 Rain of Fire does).
+
+**The comment trim** — 7,532 → 7,218 lines, 3,254 → 3,090 comment lines (43% → 41%).
+
+Volume was never the defect; narrating history was. The largest single win was
+`SpecDemonology`'s five per-table essays explaining the behaviour of modules deleted at the
+W4 cutover, replaced by one DORMANT banner that names the tables, states they have no live
+reader, and says *why they are kept* (revival surface + the `ns.SpecFields` rebind
+contract). Also: `Coach.lua`'s header (30 of 47 lines argued with the old engine), the
+`role`-enum post-mortem about a table that never existed in that file, `HudNapkin`'s 54-line
+preamble, and `Renderer`'s `HudChrome.lua:1051`-style colour provenance (values kept,
+addresses dropped).
+
+⚠ **Three comments actively misdirected a debugger** — `HudNapkin` said `HudState` calls
+`Clear`; the caller is `State.lua`. Corrected, not deleted.
+
+Duplicated rationale now lives **where it can be violated**, with a pointer elsewhere: the
+static-overrides-never-`liveSpellID` fence in full at State's `displayedIdentities`, the
+keybind-off-the-base rule at `HudBinds`' header, the AlertTape "delete me" end date in
+`AlertTape.lua` only. Incident transcripts reduced to the rule they taught (both Renderer
+dot API facts kept; the capture numbers dropped — they live here). Bare section refs into
+`docs/archive/` (`§0.5.x`, `§7.2`, `M3c`, `M4.5`) stripped, prose claim kept.
+
+**Deliberately NOT done:** separator/banner normalisation (~74 rules → ~148 lines). It is a
+line-count trick that does not touch prose volume and would add mechanical noise to
+`git blame` across nearly every file. Separators aid navigation in the large files and stay.
+
+**Also not done:** the two D1 "pointer" sites (`HudLayout.Build`, `State.enumerate`). Both
+are already single six-word parentheticals *at the call site where the rule can be
+violated*, so replacing them with a cross-reference would degrade them for zero lines.
+
+⏳ **In-game verification owed** — this pass rides on top of v0.32.37's own owed re-fly, so
+fly that first. Then: a **Hellcaller dummy pull** (Malevolence/Wither lines fire, `w:-` ~0 %,
+Incinerate still draws on our virtual panel) and a **Diabolist pull** across a respec in and
+out (the hero tree announces once and only once — the `heroSaid`-style latch is the thing
+most likely to have regressed). Plus `/cdmp rt states` — the card must still draw all five
+states over real icon art after the file split.
+
 ## Phase ledger (the W4 build)
 
 | Phase | What | Status |
@@ -337,6 +421,52 @@ Nothing below is verified in the field yet. `/reload` first, then:
 
 The container for what's next. The old engine is gone, so this is where feature/quality
 work lands now — the user drives the list; a few already-surfaced items are seeded:
+
+- **Measure the CDM's frame-cached state in combat — `wasSetFrom*` and `auraDataUnit`.**
+  A live measurement, not a feature. Two fields Blizzard's **untainted** code derives and
+  parks on the item frame, both currently `@verify-ingame` in
+  `knowledge/addon-dev/cooldown-manager.md` §7:
+  - **`item.wasSetFromCharges` / `wasSetFromCooldown` / `wasSetFromAura`** (tab-1 rows
+    only) — plain booleans recording **which of the four value sources won this refresh**,
+    i.e. what the swipe currently *means*. This is the prize. `CacheCooldownValues` runs
+    all four in order and lets later ones **overwrite** earlier ones, so the same dial
+    silently switches between *cooldown-remaining*, *charge-recharge* and
+    *aura-remaining* mid-fight. Today `State.lua`'s `cd.source` (`live | napkin | none`)
+    is a **trust** axis only — how much to believe the number. These flags would give us
+    the orthogonal **meaning** axis, observed rather than inferred. A trustworthy number
+    whose meaning we guessed wrong is still a wrong cue.
+  - **`item.auraDataUnit`** — a plain `"player"` / `"target"` string, the only thing that
+    says **which side a bound aura is on**. Nothing in the readable struct carries it, and
+    it is exactly the question a DoT row raises. Would also let the pandemic latch key on
+    the same fact Blizzard gates its own alert on (`GetAuraDataUnit() == "target"`).
+
+  **Why they might survive combat:** neither is a copied secret. `wasSetFrom*` is set by
+  bare assignment (`AddVisualDataSource_*`), and `auraDataUnit` is a literal from
+  `scanUnits` — same shape as `item:IsActive()`, which we have **already measured
+  readable**. Contrast `cooldownStartTime`/`cooldownDuration`, which are copied straight
+  out of `C_Spell.GetSpellCooldown` and therefore inherit its secrecy. So the hypothesis
+  is well-founded — but it *is* a hypothesis, and the standing rule applies: **measure
+  first, then consume.** An unverified channel must not silently start driving cues.
+
+  **Method:** a targeted read, not a resurrected probe (per the addon `CLAUDE.md` note on
+  the retired `/cdmp probe` — add a narrow command, don't rebuild the kitchen sink). Read
+  the three flags + `auraDataUnit` per item frame each pulse, `ns.IsSecret`-guarded,
+  record OOC and in-combat samples to SavedVariables, `/reload` to flush, then diff the
+  two. The existing decision-log extractor is the obvious place to surface it. Worth
+  pairing with the **v0.32.36 re-fly** already owed above rather than as its own trip.
+
+- **The napkin's ready-edge precedence — let a genuine cooldown-reset proc through.**
+  `State.lua`'s readiness fold returns the napkin's `on-cooldown` verdict **before**
+  consulting `readyEdge`. That ordering is deliberate and it wins the just-cast race: right
+  after you press something, the observed `Available` edge from the *previous* cycle is
+  still latched, and honouring it would flash the ability ready again for a frame.
+  But it also means a **genuine mid-cooldown reset proc** is held back for as long as the
+  base-cooldown estimate says — the napkin, our only drifting input, outranking a real
+  observation. The honest fix is to compare `edge.at` against the napkin record's `start`
+  so a **fresh** edge wins and only a **stale** one loses.
+  ⚠ **Deliberately deferred from the 2026-07-30 layering pass** (docs-only there — the
+  comment at `HudNapkin.lua`'s fence #1 now states the caveat instead of claiming the edge
+  always wins). A readiness change would muddy v0.32.37's owed re-fly; land it after.
 
 - **The cue dot should be a CIRCLE.** ✅ **SOLVED — two cuts, and the answer is now a KB
   fact.** The hypothesis list below was right to suspect the mask; the resolution was
@@ -586,6 +716,11 @@ work lands now — the user drives the list; a few already-surfaced items are se
     reads them today**. This feature is what those fields were designed for.
   - This is "inform, don't instruct" made mechanical — the same doctrine that caps an
     unreadable gate at AVAILABLE rather than faking a call.
+  - ⚠ **The dead JUDGE render path was removed on 2026-07-30** (theme entry, both fixtures,
+    their tests). That is not an obstacle: a revival arrives through `guidance-contract.json`
+    as a contract change with a **fresh treatment decision** anyway, and git history holds
+    the old RGBA. Keeping a dead render path alive on the chance of a revival is exactly the
+    archaeology that pass existed to remove.
 - **Consolidate the report commands into one sectioned dump.** `/cdmp hud status`,
   `/cdmp hud layout`, `/cdmp alerts probe|dump` are four chat-only, point-in-time reports.
   Chat has no copy/paste, so every one of them is hard to get off the client — the flaw
