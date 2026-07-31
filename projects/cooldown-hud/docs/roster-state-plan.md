@@ -10,6 +10,14 @@
 > scheduled. Every line number cited in this doc still lands at v0.32.41 except `Util.lua:229`,
 > which is `:230`.
 >
+> **✅ THE GATING CAPTURE IS DONE (2026-07-31).** `/cdmp census` + the alert tape, Destruction
+> both hero trees, 72 cooldownIDs, in and out of combat. It answered **all three** §9
+> questions, promoted **§3.1 to live** (17 tab-1 rows carry an aura flag, Immolate among
+> them), demoted **§3.9 to trigger-absent**, **removed rung 2 from Phase 3's ladder**, forced a
+> rewording of **Phase 4** (`GetValidAlertTypes` under-reports), and turned up **§3.10** — the
+> pandemic latch can never clear itself, which is the one the player feels. **Phase 2's
+> internal order is now evidence-led (§10), not the §3.x numbering.**
+>
 > **✅ Phase 1 SHIPPED 2026-07-31** (commits C1–C7, test-only, **no release cut** — see §10).
 > `tests/fixtures/cdm-cases.lua` + `tests/spec/cdm_cases_spec.lua` carry **87 cases in 7 axes:
 > 72 green · 11 `pinned-defect` · 4 `unreachable`**, plus `tests/spec/harness_spec.lua` (22)
@@ -298,10 +306,21 @@ That feeds `buffs` directly (`State.lua:1491-1495`), which both brains read:
 TrackedBar row sharing a base spellID — so if the Essential row carries `selfAura`, the burst
 window reads **permanently open**.
 
-> ⚠ **Honest gate:** whether any tab-1 row actually sets `hasAura`/`selfAura` is **unmeasured**
-> — the flags are C-side, absent from `CooldownSetSpell.csv`, and have zero consumers in
-> Blizzard's Lua (`cooldown-manager.md` §7). So this is *wrong by construction* with an
-> unconfirmed trigger. The fix is unconditionally correct either way and costs one condition.
+> ✅ **GATE ANSWERED — THIS IS LIVE, AND IT IS THE WORST OF THE SIX.** `[client]` 2026-07-31
+> (`/cdmp census`, Destruction, both hero trees). **17 tab-1 rows carry `hasAura`/`selfAura`**,
+> including **cid 164597 Immolate — the spec's spine**. Every tab-1 row with a frame read
+> `IsActive = true`, out of combat, standing still, with no target; the sharpest single
+> reading is that same Immolate row simultaneously reporting `IsActive=true`,
+> `wasSetFromAura=false` and `auraDataUnit=nil` — the frame calls itself active while its own
+> source flags say no aura drove it.
+>
+> **The traced consequence is bigger than "a burst window can read open".** It jams
+> `CoachDestruction`'s DoT read to `"up"` on *both* hero trees — Diabolist via
+> `buffs[348]` (the fold reads `buff.isActive`), Hellcaller via `dotRow.buff.isActive`
+> directly — so `dotState` can only ever reach `"missing"` through an `OnAuraRemoved` edge.
+> **Evidence:** across the whole capture, all **169** DoT cues carry the note
+> `pandemic_refresh` and **zero** carry `not_up`. The HUD can tell you to *refresh* the DoT
+> and structurally cannot tell you to *apply* it.
 
 **Fix:** read the buff item only when `category` is `TrackedBuff`/`TrackedBar`.
 (`cooldown-manager.md` §8 rule 4.) **Fixture:** `family/tab1-IsActive-is-constant-true-and-must-not-reach-buffs` (**pinned**), with its green sibling `family/tab2-IsActive-is-a-real-signal` beside it. Note `readBuffItem`'s own header at `State.lua:496-503`
@@ -375,9 +394,13 @@ the id the row is keyed under and read under, that is wrong against the client.
 
 > ⚠ **Do not fix this casually.** `DisplayIdentity` decides which key an `abilities` entry is
 > filed under; that is the seam the v0.32.36 Diabolist bug lived in, and the fix note there
-> lists three fences to hold in mind first. No row in the current Warlock rosters is known to
-> carry both fields, so this is *wrong by construction with an unconfirmed trigger* — the same
-> honest gate §3.1 carries. **Fixtures:** `identity/rung3-outranks-rung4-in-the-live-ladder`
+> lists three fences to hold in mind first.
+>
+> ✅ **GATE ANSWERED — the trigger EXISTS but is currently harmless.** `[client]` 2026-07-31:
+> exactly two rows carry both fields — cid `133729` Blight of Weakness (`ov=1271798`,
+> `ovt=1271748`) and cid `133730` Blight of Tongues (`ov=1272122`, `ovt=1271802`). Both are
+> `cadence = "utility"`, so neither is ever cued or scored. **Real, reachable, zero blast
+> radius today** — which makes this the one to fix *calmly*, not first. **Fixtures:** `identity/rung3-outranks-rung4-in-the-live-ladder`
 > (green — the correct order) and `identity/rung3-vs-rung4-the-display-ladder-is-inverted`
 > (**pinned**), which sit side by side over the same row and make the disagreement legible.
 
@@ -447,6 +470,11 @@ superstition. **Both cannot be true.**
 > loop, with no `dropped` entry and no decision-log line, which is the worst diagnostic shape
 > this project has.
 >
+> ✅ **AND THE TRIGGER IS NOT PRESENT.** `[client]` 2026-07-31: **zero** struct fields raised
+> on index, across 72 cooldownIDs × 2 hero trees × in/out of combat. So the crash path is
+> real and currently unreachable — which puts this LAST of the six, not first. Keep both
+> pinned cases: they cost nothing and they are the alarm if a future patch changes it.
+>
 > ⚠ **What this does NOT settle** is whether the client ever hands us such a table. `Util.lua`'s
 > comment adds a context-specific reason (it runs from a `hooksecurefunc` callback inside
 > Blizzard's layout path) that Build does not share, so the honest framing stays *a contradiction
@@ -457,6 +485,46 @@ superstition. **Both cannot be true.**
 accessor, so a raising field yields `nil` rather than taking the pulse down.
 **Fixtures:** `read/isKnown-is-bare-indexed-on-a-struct-that-can-raise` and
 `read/hasAura-is-bare-indexed-on-a-struct-that-can-raise` (both **pinned**).
+
+### 3.10 The pandemic latch can never clear itself *(found + measured 2026-07-31)*
+
+**This is the one the player actually feels**, and it is not a coding slip — it is a wrong
+model of the channel.
+
+`PandemicTime` is a **one-shot notification, not a state.** `TriggerPandemicAlert`
+(`CooldownViewer.lua:552-555`) clears `pandemicAlertTriggerTime` and sets
+`nextAvailableTimeToPlayPandemicAlert = pandemicEndTime`, commented *"Prevent the alert from
+playing again for this instance"*. And **a re-application of a live aura raises nothing at
+all** — not `OnAuraApplied`, not `OnAuraRemoved`. `[client]` 2026-07-31: **41 Immolate casts
+produced 1 `OnAuraApplied`, 1 `PandemicTime`, and 0 `OnAuraRemoved`**; the latch age simply
+climbed (`Imm=fresh@2.2 → @43.8`) and never reset.
+
+So the aura-lifecycle latch sees an aura's *first application and first pandemic entry, then
+silence* for as long as it is maintained. `DOT_PANDEMIC_TTL = 6.0` (added 2026-07-30) is the
+right instinct, and the capture shows it doing exactly its job — and shows the cost:
+**`w:Imm` fired t92.5 → t98.3, precisely one 5.8 s window, then went silent for the rest of
+the pull** with the DoT still latched `pandemic@10.1`.
+
+Combined with §3.1 the DoT line has **no working channel at all** after that window.
+
+**The fix is now available, and it is a capability rather than a repair.** Two frame fields
+measured readable in combat over a full DoT cycle (`security-taint-and-restricted-data.md`
+§4.11 owns the mechanism and its four preconditions):
+
+| Field | Answers | Measured cycle |
+|---|---|---|
+| `item.auraDataUnit` | **is the aura up**, and on which side | `nil` in combat pre-application → `"target"` once applied |
+| `item.PandemicIcon` | **is it in the refresh window** | `nil` → `table` on entry → **`nil` again on refresh** |
+
+Both are recomputed by Blizzard every frame, so both *self-clear* — which is precisely what
+the edge cannot do. ⚠ Both are widget internals, so per §4.11 rule 18 they need a bind-time
+capability check and a fallback to the existing edge latch; a silently-absent field must not
+read as "no DoT".
+
+**Contract:** the DoT read consults `auraDataUnit` for presence and `PandemicIcon` for the
+window, with the alert edges demoted to what they are — a fast-path notification.
+**Fixtures:** none yet. These are new *inputs*, so they need cases **written** rather than
+flipped — axis D, the frame-field group.
 
 ---
 
@@ -503,13 +571,22 @@ first-hit-wins is self-correcting.
 The motivating case is Hellcaller: the row's base is Immolate 348, but **Wither 445474** is
 what is on the bar and what Blizzard displays. Base-only resolution misses it.
 
-> ⚠ **Implementation note — rung 2 is not in the struct.**
-> `GetCooldownViewerCooldownInfo` returns `linkedSpellIDs` (the static *pool*), **not** the
-> elected singular `linkedSpellID` (`cooldown-manager.md` §7 Tier 1). The election lives on
-> the provider's shared cached record, which Blizzard mutates in place (§2.5) — so it must be
-> read off the **item frame** (`item:GetLinkedSpell()`), not from a fresh API read. Whether a
-> fresh read reflects it at all is an open `[gap]` in §2.5. **Measure this before building on
-> it** (`@verify-ingame`).
+> ✅ **MEASURED 2026-07-31 — AND RUNG 2 COMES OUT OF THE LADDER ENTIRELY.** The blocking
+> question is answered, in the direction that makes this phase *smaller*:
+>
+> - **The elected `linkedSpellID` does not exist to be read.** 0 of 72 rows carried it in a
+>   fresh struct read, and `item:GetLinkedSpell()` returned `nil` on **every frame** too — so
+>   this was never a struct-vs-frame divergence. Nothing ran the election at all (§2.2 path B
+>   needs a `SPELL_UPDATE_COOLDOWN` naming a pool candidate; none came).
+> - **The motivating case is served by rung 4 instead.** Hellcaller's Wither arrives as
+>   `overrideSpellID = 445468` on cid 164597 (vs `348` on Diabolist), straight out of a plain
+>   struct read — and `ns.DisplayIdentity` already resolves it correctly. Confirmed
+>   end-to-end in the decision log: `w:Wth` on Hellcaller, `w:Imm` on Diabolist.
+>
+> **So the ladder is `rung 3 → rung 4 → rung 5`**, all three of which are plain struct fields,
+> and the frame read is not needed. (Wither is also **two** ids — 445468 cast, 445474
+> pool-aura — mirroring Immolate's 348/157736, which refutes the one-id reading in
+> `cooldown-manager.md` §2.7.)
 
 ---
 
@@ -543,8 +620,16 @@ Two things this buys that nothing currently expresses:
 
 1. **"This aura will be blind in combat"** becomes a design-time answer the spec author sees,
    not a silent runtime degradation.
-2. State can finally distinguish **"no ready edge yet"** from **"this row can never fire one"** —
-   today both look identical and both fall to the napkin forever.
+2. State can finally distinguish **"no ready edge yet"** from **"this row is not reported
+   eligible for one"** — today both look identical and both fall to the napkin forever.
+
+> ⚠ **REWORDED 2026-07-31, because the probe UNDER-REPORTS.** `[client]`: `GetValidAlertTypes`
+> returned **`PandemicTime` only** for cid `164597`, and the alert tape recorded an
+> **`OnAuraApplied`** on that same cooldownID in the same session. So it is a **lower bound on
+> what a row can raise, not the set** — the original phrasing above ("can never fire one") is
+> exactly the claim it cannot support, and building a coverage report on it as an authority
+> would have produced confident false negatives. The report must say *"not reported
+> eligible"*. A `TriggerAlertEvent` hook remains the only complete observation.
 
 > ⚠ `GetValidAlertTypes` currently lives **only** in `AlertTape.lua:204-220` — the file
 > scheduled for deletion. **Promote it before the tape goes.**
@@ -687,16 +772,29 @@ way, which is the point.
 
 ---
 
-## 9 · Open questions (`@verify-ingame`)
+## 9 · Open questions — ✅ ALL THREE ANSWERED 2026-07-31
 
-- **Does a fresh `GetCooldownViewerCooldownInfo` carry the elected `linkedSpellID`?**
-  `cooldown-manager.md` §2.5 `[gap]`. Blocks Phase 3.1's ladder — decides whether rung 2 needs
-  a frame read.
-- **Do any tab-1 rows set `hasAura`/`selfAura`?** Decides whether §3.1 is a live bug or a
-  latent one. One OOC capture settles it.
-- **Do `wasSetFrom*` and `auraDataUnit` survive restricted combat?** §7 `[gap]`, already on
-  `status.md`'s backlog. `auraDataUnit` would tell us which side a bound aura is on — the one
-  thing the struct never carries.
+The `/cdmp census` + alert-tape capture (Destruction, both hero trees, 72 cooldownIDs, in and
+out of combat) closed every question this plan was gated on. Kept, struck through, because
+the answers reshaped three phases and the reasoning should not be re-derived.
+
+- ~~Does a fresh read carry the elected `linkedSpellID`?~~ → **No, and neither does the
+  frame.** It is never elected. Rung 2 leaves the Phase-3 ladder; rung 4 carries Wither. (§4.1)
+- ~~Do any tab-1 rows set `hasAura`/`selfAura`?~~ → **Yes, 17 of them, including Immolate.**
+  §3.1 is live, and it is the worst of the six. (§3.1)
+- ~~Do `wasSetFrom*` and `auraDataUnit` survive restricted combat?~~ → **Both do.** That plus
+  `PandemicIcon` is what makes §3.10's fix possible at all.
+
+**Newly open, from the same capture:**
+
+- **Does the rung-2 election ever fire on any spec?** It did not on Destruction in either hero
+  tree. If it never does, rung 2 is dead weight in every consumer's ladder, not just ours.
+- **How far does `GetValidAlertTypes` under-report?** One row was measured raising an edge it
+  did not list (§5). Phase 4 is built on this API; the size of the error matters.
+- **Do `auraDataUnit` / `PandemicIcon` behave the same on a PLAYER-side aura?** The cycle was
+  measured on a target DoT. Pandemic only ever arms for `GetAuraDataUnit() == "target"`
+  (`CooldownViewer.lua:515`), so the self-buff case is unmeasured and Demonology's whole
+  roster is self-buffs.
 
 ---
 
@@ -711,9 +809,20 @@ Phase 6  cast-results → Coach                      ← independent deletion, c
 Phase 5  roster anchor inversion                   ← last; the largest blast radius
 ```
 
-Phases 2.3 (GCD hoist) and 6 are independently shippable today and touch nothing else.
-§3.4–§3.9 are unscheduled — they ride into Phase 2 individually, each already carrying its
-pinned fixture. **The Phase-2 workflow is now mechanical:** make the fix, watch the named case
+**⚠ PHASE 2's INTERNAL ORDER IS NOW EVIDENCE-LED, not the §3.1→§3.9 numbering.** The
+2026-07-31 capture measured every trigger, and the numbering predates it:
+
+| Order | Item | Why here |
+|---|---|---|
+| 1 | **§3.1** (family gate) + **§3.10** (consume `auraDataUnit`/`PandemicIcon`) | Do them TOGETHER. §3.1 alone removes the false "up" and leaves the DoT read with nothing; §3.10 supplies the replacement. Apart, the first is a regression. |
+| 2 | **§3.3** GCD hoist | Unchanged: pure win, no behaviour change, one number in one fixture. |
+| 3 | **§3.4** `isKnown` | Two-sided, both directions silent, no trigger needed — it is always wrong. |
+| 4 | **§3.6 / §3.7 / §3.8** | Real, bounded, no measured blast radius. |
+| 5 | **§3.2** charges ladder | Correct but currently inert: no charged row carries a rung-3 override. |
+| 6 | **§3.5** display ladder | Trigger exists on two *utility* rows only. Fix calmly; it touches the v0.32.36 seam. |
+| 7 | **§3.9** bare struct index | Crash path real, trigger **absent**. Cheapest to leave pinned. |
+
+Phases 2.3 (GCD hoist) and 6 are independently shippable today and touch nothing else. **The Phase-2 workflow is now mechanical:** make the fix, watch the named case
 go RED (a `pinned-defect` errors when it starts passing), flip its `status` to `"green"` in the
 same diff, and the message the runner prints tells you which one and why.
 

@@ -87,9 +87,24 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
     | Q4 does a struct field's **index** ever throw? | §3.9's trigger |
     | Q5 any cid in **two** category sets? | the 4th pending |
     | Q6 do `wasSetFrom*`/`auraDataUnit` survive combat? | `cooldown-manager.md` §7 `[gap]` |
-  - **Next: Phase 2**, the correctness fixes — §3.1–§3.3 first, each already carrying its
-    red case. Ordering after the capture: whatever Q1/Q2 promote from latent to live goes
-    first, and §2.3's GCD hoist is shippable regardless.
+  - **✅ THE CAPTURE IS DONE (2026-07-31, v0.32.44/45).** All six questions answered, plus a
+    seventh nobody asked. Headlines: **§3.1 is LIVE** — 17 tab-1 rows carry an aura flag
+    including Immolate, and it jams the DoT read to "up" on both hero trees (all **169** DoT
+    cues in the trace say `pandemic_refresh`, **zero** say `not_up`). **§3.9's trigger is
+    absent** (0 fields raised across 72 cids × 2 trees × in/out of combat) so it drops to
+    last. **Phase 3 loses rung 2** — the elected `linkedSpellID` is never set, on the frame
+    or in a fresh read, and Hellcaller's Wither arrives via `overrideSpellID` instead.
+    **Phase 4 needs rewording** — `GetValidAlertTypes` under-reports.
+  - **NEW §3.10, and it is the one you feel:** `PandemicTime` is a one-shot notification,
+    and a re-application of a live aura raises **nothing** — 41 Immolate casts produced 1
+    `OnAuraApplied`, 1 `PandemicTime`, 0 `OnAuraRemoved`. The DoT cue fired for exactly one
+    5.8 s window (`t92.5→t98.3`) and was silent for the rest of the pull. The fix is a new
+    capability, not a repair: `item.auraDataUnit` (is it up) and `item.PandemicIcon` (is it
+    in the window), both measured readable in combat and both self-clearing. Mechanism +
+    preconditions: `knowledge/addon-dev/security-taint-and-restricted-data.md` **§4.11**.
+  - **Next: Phase 2, in the evidence-led order** at `roster-state-plan.md` §10 — **§3.1 and
+    §3.10 together first** (§3.1 alone removes the false "up" and leaves the DoT read with
+    nothing, so apart it is a regression), then the GCD hoist.
 - **⏳ Awaiting a live pass (needs you in-game, no code owed): `virtual-cdm-plan.md` — the
   virtual CDM panel. ✅ Phases 1, 1b and 2 all SHIPPED + FLOWN.** The HUD draws its own icons
   for the abilities Blizzard's Cooldown Manager will not display, so a spec's floor press stops
