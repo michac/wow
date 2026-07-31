@@ -110,6 +110,11 @@ def cmd_decisionlog(decisionlog, path: str, out: Path) -> int:
     out.parent.mkdir(parents=True, exist_ok=True)
     lines: list[str] = []
     total = 0
+    # The addon stamps `# config <spec> hero:<hero> tracked:<codes>` into the entry stream
+    # whenever the configuration CHANGES, so a mid-session spec or hero-tree swap is marked
+    # in place.  Collected here as well, because a swap 400 lines into a trace is invisible
+    # unless you already suspect it — and the whole point of asking is that you might not.
+    configs: list[str] = []
     for session in sessions:
         s = _asdict(session)
         entries = _aslist(s.get("entries"))
@@ -117,11 +122,22 @@ def cmd_decisionlog(decisionlog, path: str, out: Path) -> int:
             f"# session {s.get('started', '?')} v{s.get('version', '?')} "
             f"tracked:{s.get('tracked', '?')}")
         for e in entries:
-            lines.append(str(e))
+            text = str(e)
+            lines.append(text)
+            if "# config " in text:
+                configs.append(f"{s.get('started', '?')}  {text}")
             total += 1
+    if configs:
+        lines.append("")
+        lines.append("# ── CONFIG SEGMENTS (each is a spec / hero-tree / talent change) ────")
+        lines += ["# " + c for c in configs]
     out.write_text("\n".join(lines) + ("\n" if lines else ""), encoding="utf-8")
     print(f"{path}")
     print(f"{len(sessions)} session(s) · {total} line(s) → {out}")
+    if configs:
+        print(f"{len(configs)} config segment(s) — the trace spans more than one build:")
+        for c in configs:
+            print("  " + c)
     return 0
 
 
@@ -172,44 +188,62 @@ def cmd_alerttape(alerttape, path: str, out: Path) -> int:
     out = Path(out)
     out.parent.mkdir(parents=True, exist_ok=True)
     lines: list[str] = []
+    builds: set[str] = set()
     ev_total = fld_total = elg_total = 0
     for session in sessions:
         s = _asdict(session)
-        lines.append(f"# session {s.get('started', '?')} v{s.get('version', '?')}")
+        lines.append(f"# session {s.get('started', '?')} v{s.get('version', '?')} "
+                     f"build-at-open={s.get('build', '?')}")
 
         # ELG — the eligibility baseline, captured automatically when the session opened.
         # Read this FIRST: without it, "PandemicTime never appeared" is unreadable, because
         # you cannot tell "it fired and we missed it" from "this spell was never eligible".
         if s.get("eligError"):
             lines.append(f"ELG <unavailable: {s['eligError']}>")
+        # ⚠ SORTED BY BUILD FIRST, always.  The tape keeps recording across a spec or
+        # hero-tree swap when there is no /reload, so one session can hold two builds — and
+        # a cooldownID shared between them is a DIFFERENT row per build.  Reading them
+        # interleaved is how you conclude the client is nondeterministic when you simply
+        # respecced.
         elgs = _rows(s.get("elig"))
-        elgs.sort(key=lambda r: (str(r.get("viewer")), r.get("cid") or 0))
+        elgs.sort(key=lambda r: (str(r.get("build")), str(r.get("viewer")), r.get("cid") or 0))
         for r in elgs:
             lines.append(
-                f"ELG cid={r.get('cid')} spell={r.get('spellID')} [{r.get('viewer')}] "
-                f"{r.get('name')} :: {r.get('types')}")
+                f"ELG [{r.get('build')}] cid={r.get('cid')} spell={r.get('spellID')} "
+                f"[{r.get('viewer')}] {r.get('name')} :: {r.get('types')}")
             elg_total += 1
+            builds.add(str(r.get("build")))
 
         evs = _rows(s.get("events"))
-        evs.sort(key=lambda r: (str(r.get("event")), str(r.get("combat")), r.get("cid") or 0))
+        evs.sort(key=lambda r: (str(r.get("build")), str(r.get("event")),
+                                str(r.get("combat")), r.get("cid") or 0))
         for r in evs:
             lines.append(
-                f"EV  cid={r.get('cid')} event={r.get('event')} {r.get('combat')} "
-                f"n={r.get('n')} first={r.get('first')} last={r.get('last')}")
+                f"EV  [{r.get('build')}] cid={r.get('cid')} event={r.get('event')} "
+                f"{r.get('combat')} n={r.get('n')} first={r.get('first')} last={r.get('last')}")
             ev_total += 1
+            builds.add(str(r.get("build")))
 
         flds = _rows(s.get("fields"))
-        flds.sort(key=lambda r: (r.get("cid") or 0, str(r.get("combat"))))
+        flds.sort(key=lambda r: (str(r.get("build")), r.get("cid") or 0, str(r.get("combat"))))
         for r in flds:
             lines.append(
-                f"FLD cid={r.get('cid')} {r.get('combat')} on={r.get('event')} "
-                f"n={r.get('n')} class[{r.get('class')}] sample[{r.get('sample')}]")
+                f"FLD [{r.get('build')}] cid={r.get('cid')} {r.get('combat')} "
+                f"on={r.get('event')} n={r.get('n')} class[{r.get('class')}] "
+                f"sample[{r.get('sample')}]")
             fld_total += 1
 
     out.write_text("\n".join(lines) + ("\n" if lines else ""), encoding="utf-8")
     print(f"{path}")
     print(f"{len(sessions)} session(s) · {elg_total} eligibility row(s) · "
           f"{ev_total} event row(s) · {fld_total} field row(s) → {out}")
+    known = sorted(b for b in builds if b not in ("None", "?"))
+    if known:
+        print("builds: " + ", ".join(known))
+    if builds - set(known):
+        # Rows written before the build tag existed (pre-v0.32.44) cannot be attributed.
+        print("⚠ some rows carry NO build tag — captured by an older addon build; they "
+              "cannot be attributed to a spec and may merge two.", file=sys.stderr)
     if ev_total == 0:
         print("\n⚠ No event rows. The capture proves NOTHING about the alert channel — "
               "check: /cdmp alerts on, /cdmp hud on, then a pull, then /reload.",
