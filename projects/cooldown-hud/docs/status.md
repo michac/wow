@@ -62,7 +62,28 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
     client fakes** — `GetSpellCooldown`/`GetSpellCharges`/`ForEachAura`/`GetPlayerAuraBySpellID`/
     `IsSpellOverlayed`, default-inert — so `Util.lua`'s guard ladder, the combat short-circuit
     and the GCD trap are all inside the code under test.
-  - **Next: Phase 2**, the correctness fixes. §3.1–§3.3 first; each already has its red case.
+  - **⏳ BLOCKED ON ONE CAPTURE, and the instrument is now deployed (v0.32.42).** Three of
+    the six findings are *wrong by construction with an unconfirmed trigger* — we know the
+    code is wrong, not whether the client produces the input. `/cdmp census` (Census.lua,
+    **TEMPORARY**, AlertTape model) walks every cooldownID in every category set and dumps
+    the raw struct + the frame reads, each field through its own pcall, classified five ways
+    (`num`/`bool`/`SECRET`/`SECRET-TABLE`/`nil`/`threw` — collapsing the last three is how
+    you conclude "Blizzard doesn't populate this" when the truth is "we may not read it").
+    **The protocol is two captures**, because half the questions are *only* about the
+    combat difference: `/cdmp census` standing still, then `/cdmp census arm` + pull, then
+    `/reload`, then `uv run python -m wowkb.cdmp census`. The extractor prints the verdict
+    per question and warns if only one of OOC/CMB is present.
+    | Q | Decides |
+    |---|---|
+    | Q1 any **tab-1** row with `hasAura`/`selfAura`? | §3.1 live or latent |
+    | Q2 any row with **both** override fields? | §3.5 reachable or not |
+    | Q3 does a **fresh** read carry the elected `linkedSpellID`? | **blocks Phase 3** |
+    | Q4 does a struct field's **index** ever throw? | §3.9's trigger |
+    | Q5 any cid in **two** category sets? | the 4th pending |
+    | Q6 do `wasSetFrom*`/`auraDataUnit` survive combat? | `cooldown-manager.md` §7 `[gap]` |
+  - **Next: Phase 2**, the correctness fixes — §3.1–§3.3 first, each already carrying its
+    red case. Ordering after the capture: whatever Q1/Q2 promote from latent to live goes
+    first, and §2.3's GCD hoist is shippable regardless.
 - **⏳ Awaiting a live pass (needs you in-game, no code owed): `virtual-cdm-plan.md` — the
   virtual CDM panel. ✅ Phases 1, 1b and 2 all SHIPPED + FLOWN.** The HUD draws its own icons
   for the abilities Blizzard's Cooldown Manager will not display, so a spec's floor press stops
