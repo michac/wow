@@ -1,6 +1,11 @@
 # Cooldown HUD — the roster-anchored State
 
-> **STATUS: PHASE 1 DONE (2026-07-31). Phases 2–6 planned, not started.** Written out of two
+> **STATUS: ▶ PHASE 2 IS CURRENT (2026-07-31). Phase 1 done; Phases 3–6 planned.**
+> Phase 1 (the fixture inventory) shipped and the gating capture is done, so the correctness
+> fixes are unblocked and ordered by measured impact — **§10 carries that order, and it is not
+> the §3.x numbering.** First up: **§3.1 + §3.10 together**, because §3.1 alone removes the
+> false "up" and leaves the DoT read with nothing.
+> Written out of two
 > inputs: the `wow-developer` client-correctness review of `State.lua` (2026-07-31, findings
 > reproduced in *Phase 2*), and the design conversation that followed it.
 >
@@ -608,9 +613,20 @@ Checked the current rosters against `CooldownSetSpell @ 12.0.7`:
 
 10 of 11 are CDM-tracked in the auras family — alert channel *and* a meaningful `IsActive()` in
 combat. **One is not tracked at all**, and for it there is no combat-readable channel
-whatsoever (`C_UnitAuras` is fully secret in combat, `GetPlayerAuraBySpellID` included). It is
-declared but not currently consumed by `RankWinner`, so it is a latent hole rather than a live
-bug — and precisely the failure this phase must surface rather than swallow.
+whatsoever (`C_UnitAuras` is fully secret in combat, `GetPlayerAuraBySpellID` included).
+
+> ✅ **…and on inspection it should not be in the roster at all** (2026-07-31). Crashing Chaos
+> has exactly **one** reference in the addon — its own declaration at `SpecDestruction.lua:341`
+> — and nothing reads it. More to the point, what it *would* tell us is a **shard-cost
+> change**, and the brain already reads cost live via `costOf` → `ns.ShardCost` →
+> `C_Spell.GetSpellPowerCost` (`CoachDestruction.lua:205-214`). The effect is observable
+> through a channel we already trust, so the aura is redundant rather than blind.
+>
+> **Consequence for the gap analysis:** "a declared aura with no CDM row" is still a real
+> *class* of blind spot — no `IsActive()`, no `auraDataUnit`, no edges, and the combat log is
+> gone (`security-taint-and-restricted-data.md` §4.9: `COMBAT_LOG_EVENT_UNFILTERED` errors on
+> registration) — but it currently has **no live instance**. Delete the roster entry; keep
+> the coverage probe, whose job is exactly to make the next one loud instead of silent.
 
 **Build:** at roster load (OOC), for each declared id resolve its cooldownID and call
 `C_CooldownViewer.GetValidAlertTypes(cooldownID)`. Emit a **coverage report** per id —

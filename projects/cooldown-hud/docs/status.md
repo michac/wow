@@ -37,7 +37,16 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
   charge restored and *never* raises `OnCooldown`, so the ready-edge latched true forever and
   Conflagrate was cued at zero charges. That doc holds the evidence and the two things the
   pass left unproven. **Nothing in it is outstanding.**
-- **Active work: `roster-state-plan.md` — ✅ Phase 1 SHIPPED (2026-07-31), Phase 2 is next.**
+- **Active work: `roster-state-plan.md` — ▶ PHASE 2 (the correctness fixes). Phase 1 shipped
+  and the gating capture is done (2026-07-31), so Phase 2 is unblocked.**
+  ⚠ **Its internal order is evidence-led, not the §3.x numbering** — see the plan's §10.
+  **First: §3.1 + §3.10 TOGETHER** (§3.1 alone removes the false "up" and leaves the DoT read
+  with nothing, i.e. apart it is a regression), then §3.3's GCD hoist.
+  Each fix flips its named `pinned-defect` case from failing to green in the same diff;
+  §3.10 is the exception and needs cases *written*, since `auraDataUnit`/`PandemicIcon` are
+  new inputs. **Cut a release with the first fix** — Phase 1 deliberately did not.
+  <details><summary>Phase 1 + the capture, for the record</summary>
+  
   The **CDM edge inventory**: `tests/fixtures/cdm-cases.lua` + `tests/spec/cdm_cases_spec.lua`,
   **87 declarative cases across 7 axes** authored from `knowledge/addon-dev/cooldown-manager.md`
   (the client study, whose §8 carries nine numbered audit rules), driven by one parametrised
@@ -102,9 +111,22 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
     capability, not a repair: `item.auraDataUnit` (is it up) and `item.PandemicIcon` (is it
     in the window), both measured readable in combat and both self-clearing. Mechanism +
     preconditions: `knowledge/addon-dev/security-taint-and-restricted-data.md` **§4.11**.
-  - **Next: Phase 2, in the evidence-led order** at `roster-state-plan.md` §10 — **§3.1 and
-    §3.10 together first** (§3.1 alone removes the false "up" and leaves the DoT read with
-    nothing, so apart it is a regression), then the GCD hoist.
+  - **The "what we cannot know" ledger** (2026-07-31, pressure-tested): after Phase 2 the
+    remaining blind spots are **not** just aura stack counts. (a) A declared aura with **no
+    CDM row** has no channel at all — no `IsActive()`, no `auraDataUnit`, no edges, and
+    `COMBAT_LOG_EVENT_UNFILTERED` **errors on registration** in 12.0 — though the one
+    suspected instance, Crashing Chaos, turns out to be redundant and should leave the
+    roster. (b) **Pandemic never arms for a player-side aura** (`CooldownViewer.lua:515`),
+    which is Blizzard's own scoping and matters only for HoTs, i.e. not until healers.
+    (c) **Target-side facts** (health, TTD, count) stay absent — but execute windows are
+    reachable *without* health, via the ability becoming usable (`SPELL_UPDATE_USABLE` is a
+    tab-1 event driving icon desaturation — a §4.11-shaped proxy worth probing).
+    On stacks: the **count** is a stored copy of a secret and stays intractable, but
+    Blizzard already computes `applications > 1` and renders it as empty-vs-non-empty text
+    (`CooldownViewer.lua:1235-1242`), so the *is-it-stacked* boolean may be observable via
+    the `Applications` FontString's width. One probe; decisive for 2-stack procs like
+    Backdraft, useless for Wither's 8-stack.
+  </details>
 - **⏳ Awaiting a live pass (needs you in-game, no code owed): `virtual-cdm-plan.md` — the
   virtual CDM panel. ✅ Phases 1, 1b and 2 all SHIPPED + FLOWN.** The HUD draws its own icons
   for the abilities Blizzard's Cooldown Manager will not display, so a spec's floor press stops
