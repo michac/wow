@@ -2,7 +2,7 @@
 title: The Cooldown Manager — how a CDM row resolves
 patch: 12.0.7
 fetched: 2026-07-31
-reviewed: 2026-07-31
+reviewed: 2026-07-31   # + a client capture 2026-07-31 (CDMProbe /cdmp census, Destruction both hero trees)
 sources:
   - raw/addon-research/wow-ui-source @ 12.0.7.68887 — Interface/AddOns/Blizzard_CooldownViewer/*
   - raw/addon-research/wow-ui-source @ 12.0.7.68887 — Blizzard_APIDocumentationGenerated/CooldownViewer{,Constants}Documentation.lua
@@ -196,12 +196,21 @@ cached record per cooldownID**, handed to whichever frame binds that id
 So `SetOverrideSpell` and `SetLinkedSpell` **mutate shared, durable state**. An
 aura-instance binding is neither shared nor durable.
 
-> **@verify-ingame** — because Blizzard mutates the provider's cached struct in place,
-> a frame's `cooldownInfo.overrideSpellID` and a *fresh*
-> `C_CooldownViewer.GetCooldownViewerCooldownInfo(id)` are different objects and may
-> disagree. Whether the C side also carries the override into a fresh read is untested.
-> Until settled, track overrides from `COOLDOWN_VIEWER_SPELL_OVERRIDE_UPDATED` rather
-> than assuming a fresh struct read reflects them.
+> **`[client]` MEASURED 2026-07-31** (CDMProbe `/cdmp census`, Destruction, both hero
+> trees, 72 cooldownIDs × in/out of combat). Two separate answers:
+>
+> - **Rung 4 (`overrideSpellID`) DOES carry into a fresh read.** cid 164597 Immolate reads
+>   `overrideSpellID = 445468` (Wither) on Hellcaller and `348` on Diabolist, from a plain
+>   `GetCooldownViewerCooldownInfo` — and `item:GetSpellID()` agrees. So the hero-talent
+>   variant is delivered by rung 4, not by the linked-spell election.
+> - **Rung 2 (`linkedSpellID`, singular) is NOT in a fresh read — and was never elected at
+>   all.** 0 of 72 rows carried it; 19 carried a non-empty `linkedSpellIDs` pool. And
+>   `item:GetLinkedSpell()` returned `nil` on every frame too, so this is not a
+>   struct-vs-frame divergence: on this character nothing ever ran the election (§2.2
+>   path B needs a `SPELL_UPDATE_COOLDOWN` naming a pool candidate).
+>
+> The practical rule is unchanged in spirit but narrower in scope: **read the override from
+> the struct, and do not build on the elected link** — it may simply never be set.
 
 ### 2.6 The aura scan
 
@@ -242,9 +251,11 @@ Two things this makes concrete:
    spellIDs*. A spell→aura mapping has to exist regardless; Wither is one extra entry
    in a list that was already required.
 2. `445474` Wither appears as a candidate in both a cast-based row and an aura-based
-   row, consistent with Wither using **one spellID for both the cast and its aura** —
-   unlike Immolate, which splits them. @verify-ingame (DB2 shape is consistent with it;
-   not independently confirmed).
+   row, which looked consistent with Wither using **one spellID for both the cast and its
+   aura**. **`[client]` REFUTED 2026-07-31.** Wither splits them exactly as Immolate does:
+   the live `overrideSpellID` on cid 164597 for a Hellcaller build is **`445468`** (the
+   cast), while `445474` is the pool/aura id. Two ids, mirroring Immolate's 348 / 157736 —
+   so the earlier reading was wrong and the DB2 shape was simply ambiguous.
 
 **`[client]`** Those two cooldownIDs are the exact pair in CDMProbe's captured
 same-frame pandemic tie — `OnAuraRemoved` + `OnAuraApplied` on cid `133441` and
@@ -383,6 +394,24 @@ pinned, in the 2026-07-30 CDMProbe capture (see
 side of the split, because it is an observation of a choke point rather than a
 secret-guarded API read.
 
+> ⚠ **A RE-APPLICATION OF A LIVE AURA RAISES NOTHING.** `[client]` 2026-07-31, and this is
+> the sharpest limit on the whole channel. Over one Destruction pull: **41 Immolate casts**
+> onto a target whose Immolate was already up produced **exactly one `OnAuraApplied`** (the
+> first application) and **zero `OnAuraRemoved`**. `PandemicTime` likewise fired **once**
+> and never re-armed, though the DoT re-entered its window repeatedly.
+>
+> So the aura edges describe an aura's **first application and first pandemic entry, then
+> silence** for as long as it is maintained. A refresh is not "Removed + Applied" — it is
+> *nothing at all*. (The 2026-07-30 capture's same-frame `OnAuraRemoved` + `OnAuraApplied`
+> pair at one timestamp was a genuine re-application after a lapse, not a refresh of a live
+> aura; both readings are correct and they describe different events.)
+>
+> **Consequence:** a consumer cannot latch on these edges to answer "is the window still
+> open" — the clear never arrives. And there is no fallback on the same row:
+> `pandemicStartTime`/`pandemicEndTime` are SECRET and `IsInPandemicTime` **throws**
+> (4 of 4 in-combat readings, 2026-07-31, re-confirming 2026-07-30). Take the edge as a
+> *one-shot notification with a time-to-live*, never as a state.
+
 Pandemic arms **only** when `GetAuraDataUnit() == "target"`, and its window derives from
 two secret numbers — you get the edge, never the seconds
 `[T1 src: CooldownViewer.lua:511-532]`.
@@ -431,8 +460,16 @@ Three tiers. Status reflects what has been established, not what the docs promis
 selfAura, hasAura, charges, isKnown, flags, category}`
 `[T1 src: Blizzard_APIDocumentationGenerated/CooldownViewerDocumentation.lua]`.
 Readable config even when live state is not. Also `GetCooldownViewerCategorySet`
-(with `allowUnlearned`), `GetValidAlertTypes(cooldownID)` — a readable *capability*
-probe, currently under-used — and `IsCooldownViewerAvailable`.
+(with `allowUnlearned`), `GetValidAlertTypes(cooldownID)` and `IsCooldownViewerAvailable`.
+
+> ⚠ **`GetValidAlertTypes` UNDER-REPORTS — do not treat it as authoritative.**
+> **`[client]` 2026-07-31.** For cid `164597` (Immolate, Essential) it returned
+> **`PandemicTime` only** — yet the alert tape recorded an **`OnAuraApplied`** on that same
+> cooldownID in the same session. Only the BuffBar twin (cid `133441`) was reported as
+> eligible for all three aura edges. So the probe is a *lower bound* on what a row can
+> raise, not the set. Anything built on it (a coverage report, a "this row can never fire
+> an edge" claim) must say **"not reported eligible"**, never "cannot fire" — and a hook on
+> `TriggerAlertEvent` remains the only complete observation.
 
 ⚠ **`hasAura` / `selfAura` / `charges` have zero consumers in Blizzard's Lua.** A grep
 across all of `Interface/` finds them only in the generated documentation table. They
@@ -450,10 +487,13 @@ file; the refuted claim is retained there with its reasoning.)* Classify on **fa
 |---|---|---|---|
 | `item.cooldownID` | both | readable; **can read secret in restricted combat** | The binding key. Resolve out of combat; never overwrite a known-good id with an unreadable one. |
 | `item:IsActive()` | **tab 2 only, meaningfully** | **`[client]`** readable | On tab 1 it is `cooldownID ~= nil` → **constant true**. Same method, two meanings (§1.1). |
-| `item.auraDataUnit` | both | **@verify-ingame** | A plain `"player"`/`"target"` string — the only thing that says **which side the bound aura is on**. Nothing in the struct carries this. High value if it reads clean. |
-| `item.wasSetFromCharges` / `wasSetFromCooldown` / `wasSetFromAura` | tab 1 | **@verify-ingame** | Plain booleans set by bare assignment `[:648-669]`, recording **which source won this refresh** — i.e. what the dial currently *means*. Set by untainted code, same shape as `isActive`, so plausibly clean. **Measure before consuming.** |
+| `item.auraDataUnit` | both | **`[client]` READABLE IN COMBAT — and the best in-combat aura-presence signal found so far** | A plain `"player"`/`"target"` string — the only thing that says **which side the bound aura is on**. Nothing in the struct carries this. **Measured 2026-07-31** (Destruction, both hero trees): `nil` on every row out of combat, and in combat exactly the rows with a live bound aura answer — Immolate cid 133441 and 164597 → `"target"`; Backdraft, Malevolence, Conflagration of Chaos → `"player"`. **Why this matters more than it looks:** with the alert channel silent for a maintained aura (§5.1) and `C_UnitAuras` fully secret, a non-nil `auraDataUnit` is a *readable, in-combat* statement that this row has a live bound aura — which is the "is the DoT up" read nothing else can currently answer. ⚠ The missing control is a capture **in combat with the aura DOWN**, to confirm it returns to `nil` rather than latching. Measure that before consuming. `@verify-ingame` |
+| `item.wasSetFromCharges` / `wasSetFromCooldown` / `wasSetFromAura` | tab 1 | **`[client]` READABLE IN COMBAT** | Plain booleans set by bare assignment `[:648-669]`, recording **which source won this refresh** — i.e. what the dial currently *means*. **Measured 2026-07-31**: 66–69 readable booleans vs 9 `nil` per capture, unchanged in and out of combat. This is the one axis that separates "the swipe is a cooldown" from "the swipe is an aura remaining", and it survives restriction. |
 | `item.cooldownStartTime` / `cooldownDuration` | tab 1 | secret in combat | Copied straight from `C_Spell.GetSpellCooldown`, so they inherit its secrecy. Values, not verdicts. |
 | `item.pandemicStartTime` / `pandemicEndTime` | both | **`[client]`** secret in combat; `IsInPandemicTime` **throws** | 2026-07-30 capture. The `PandemicTime` alert fires normally — take the edge, never the number. |
+| `item:GetSpellID()` | both | **`[client]` SECRET in combat** | **Measured 2026-07-31**: secret on 8 of 51 frame rows in combat — exactly the rows carrying a live bound aura (rung 1) — and readable on all of them out of combat. `item:GetBaseSpellID()` stays readable throughout. So the *display* identity is restricted in combat while the *base* is not, which is the opposite of what a consumer keying on `GetSpellID()` would want. |
+| `item:GetAuraSpellID()` | both | **`[client]` SECRET in combat** | Rung 1 is present, not absent — it simply cannot be read while restricted. `nil` out of combat when no aura is bound. |
+| `item:GetLinkedSpell()` | both | **`[client]` `nil` on every row measured** | See §2.5. The elected rung-2 link was never populated on a Destruction character in either hero tree, on the frame *or* in a fresh struct read. |
 | `item:IsShown()` | both | conditional | `ShouldBeShown` returns true immediately when `not allowHideWhenInactive` **or** `not hideWhenInactive` `[:311-335]`. If the viewer is not set to hide-when-inactive, this is **constant true** and anything driven off it latches on permanently. Capability-check, never assume. |
 
 ### Tier 3 — the live game API
@@ -494,18 +534,34 @@ source flags; tab 2 carries little but computes on demand, and is the only side 
 9. **Expect `COOLDOWN_VIEWER_SPELL_OVERRIDE_UPDATED` to fire redundantly**, and to have
    *already fired* before your addon loaded. A missed event and an absent event are
    indistinguishable — poll identity at bind time, use the event as the fast path (§5).
+10. **Never read `item:IsActive()` as a *value* on tab 1 — it is a constant, and it is
+    ACTIVELY MISLEADING, not merely useless.** `[client]` 2026-07-31: every tab-1 row with
+    a live frame read `IsActive() == true` out of combat, standing still, with no target —
+    including pure utilities (Soulstone, Create Soulwell, Demonic Circle). The sharpest
+    demonstration is cid `164597` Immolate, where the *same frame* simultaneously reported
+    `IsActive = true`, `wasSetFromAura = false` and `auraDataUnit = nil`: the frame calls
+    itself active while its own source flags say no aura drove it. This is the concrete
+    form of rule 4, and a consumer that folds it into an "is this buff up" signal gets a
+    permanent true. Gate on **family** (§1.1).
 
 ---
 
 ## 9. Gaps and pending work
 
-- **`[gap]`** Whether `wasSetFrom*` and `auraDataUnit` survive restricted combat is the
-  highest-value open measurement here (§7). Both are cheap to test with a
-  `/reload`-flushed capture.
-- **`[gap]`** Whether a fresh `GetCooldownViewerCooldownInfo` reflects overrides that
-  Blizzard wrote into the provider's cached struct (§2.5).
-- **`[gap]`** Whether Wither uses one spellID for cast and aura (§2.7). DB2 shape is
-  consistent with it; not confirmed.
+- ~~**`[gap]`** Whether `wasSetFrom*` and `auraDataUnit` survive restricted combat~~ —
+  **CLOSED POSITIVE 2026-07-31** (§7 Tier 2). Both read clean in combat. `wasSetFrom*` is
+  the "what does this dial mean" axis; `auraDataUnit` names the side the aura is on.
+- ~~**`[gap]`** Whether a fresh `GetCooldownViewerCooldownInfo` reflects overrides~~ —
+  **CLOSED 2026-07-31** (§2.5): rung 4 does carry; rung 2's election is absent from both
+  the fresh read and the frame, because nothing elected it.
+- ~~**`[gap]`** Whether Wither uses one spellID for cast and aura~~ — **CLOSED / REFUTED
+  2026-07-31** (§2.7): two ids, 445468 cast + 445474 pool-aura.
+- **`[gap]` NEW** — whether the rung-2 election ever fires *at all* in practice, on any
+  spec. It did not on Destruction in either hero tree; §2.2 path B needs a
+  `SPELL_UPDATE_COOLDOWN` naming a pool candidate, and nothing sent one. If it never fires,
+  rung 2 is dead weight in every consumer's ladder.
+- **`[gap]` NEW** — how far `GetValidAlertTypes` under-reports (§7 Tier 1). One row was
+  measured raising an edge the probe did not list.
 - **Applied 2026-07-31 —** `projects/cooldown-hud/docs/notes.md` ("Aura-backed cooldown
   items") asserted `hasAura=false ⇒ a real cooldown` and described a CDM item as an
   abstraction over *three* backing sources. Both corrected in place (four sources; the
