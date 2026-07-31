@@ -73,6 +73,12 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
     combat difference: `/cdmp census` standing still, then `/cdmp census arm` + pull, then
     `/reload`, then `uv run python -m wowkb.cdmp census`. The extractor prints the verdict
     per question and warns if only one of OOC/CMB is present.
+    **Every capture is labelled PER BUILD** — wall clock, `specID`, the hero tree read
+    **fresh** (not through State's cache), and the talent config id — and the extractor
+    groups verdicts by build rather than pooling them, because the CDM's tracked set changes
+    wholesale on a spec swap and the OOC/CMB pairing is only meaningful *within* one build.
+    ⚠ **A `heroStale` capture is a live bug report, not a census artefact** — it means the
+    pipeline was deciding on the wrong hero tree at capture time.
     | Q | Decides |
     |---|---|
     | Q1 any **tab-1** row with `hasAura`/`selfAura`? | §3.1 live or latent |
@@ -516,6 +522,22 @@ work lands now — the user drives the list; a few already-surfaced items are se
     release gate (`tools/wowkb/addon.py:373-385`), which is why the dual-category hazard is
     encoded `pending` rather than green — green would be flaky, and one flaky case blocks
     every future cut.
+
+- **✅ FIXED 2026-07-31 (v0.32.43) — build caches were tied to the HUD's lifecycle.**
+  `knownCache` and `heroCache` were invalidated only from State's **Acquire-gated** event
+  frame, so with the HUD **off** a respec left the hero tree holding the previous answer —
+  and turning the HUD back on did not clear it, because re-registering an event cannot
+  replay the one that was missed. The Coach then gated Destruction's rotation lines on the
+  wrong tree, and the decision log's `# config … hero:…` re-stamp reads the same cache, so
+  **the trace agreed with the bug instead of exposing it**. `SpecRegistry.lua:55` already
+  claimed this was handled; it was not. Worse, `TRAIT_CONFIG_UPDATED` is the only event a
+  *hero-tree* swap is guaranteed to fire, and State did not listen for it at all.
+  Fix: `St.InvalidateBuildCaches()` + an always-on `cacheFrame`.
+  - ⚠ **The harness could not express the bug**, so the first version of the new test passed
+    against the unfixed code: `RegisterEvent` was a chainable no-op in `mock_ns`, making
+    "State never listens for this event" indistinguishable from "State handles it".
+    Registration is now modelled and `Fire` honours it. Mutation-checked. *(Same lesson as
+    `issecrettable` hardcoded `false` — see Doctrine.)*
 
 - **Measure the CDM's frame-cached state in combat — `wasSetFrom*` and `auraDataUnit`.**
   A live measurement, not a feature. Two fields Blizzard's **untainted** code derives and

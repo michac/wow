@@ -283,16 +283,29 @@ def cmd_census(census, path: str, out: Path) -> int:
     out.parent.mkdir(parents=True, exist_ok=True)
     lines: list[str] = []
     verdict: list[str] = []
-    seen_combat: set[str] = set()
+    # ⚠ GROUPED BY BUILD, never pooled.  The CDM's tracked set changes wholesale on a spec
+    # swap and substantially on a hero-tree or loadout swap, so captures from two builds are
+    # not comparable row by row — and the OOC/CMB pairing every combat question depends on
+    # is only meaningful WITHIN one build.  Pooling them would let a Demonology OOC capture
+    # silently answer a question about Destruction in combat.
+    by_build: dict[str, set[str]] = {}
+    stale: list[str] = []
 
     for cap in captures:
         c = _asdict(cap)
         combat = str(c.get("combat", "?"))
-        seen_combat.add(combat)
+        build = (f"{c.get('spec')}/hero:{c.get('heroID')}"
+                 f"/cfg:{c.get('config')}")
+        by_build.setdefault(build, set()).add(combat)
+        if c.get("heroStale"):
+            stale.append(f"{c.get('when')} {build}: live={c.get('heroID')} "
+                         f"pipeline={c.get('hero')}")
         lines.append(
-            f"# capture {combat} at={c.get('at')} v{c.get('version', '?')} "
-            f"spec={c.get('spec')} hero={c.get('hero')} "
-            f"cids={c.get('cids')} frames={c.get('frames')}"
+            f"# capture {combat} {c.get('when', '?')} at={c.get('at')} "
+            f"v{c.get('version', '?')} build={build} "
+            f"specID={c.get('specID')} heroName={c.get('hero')} "
+            f"active={c.get('active')} cids={c.get('cids')} frames={c.get('frames')}"
+            + (" ⚠ HERO-STALE" if c.get("heroStale") else "")
             + (f" ⚠ {c['catError']}" if c.get("catError") else ""))
 
         dual, q1, q2, elected, pool_only, threw = [], [], [], 0, 0, []
@@ -352,22 +365,25 @@ def cmd_census(census, path: str, out: Path) -> int:
                 lines.append(f"{head}   FRAME {mcols} {fcols}")
 
         verdict += [
-            f"[{combat}] Q1 tab-1 rows with an aura flag  : "
+            f"[{build} {combat}] Q1 tab-1 rows with an aura flag  : "
             + (", ".join(q1) if q1 else "NONE → §3.1 is LATENT"),
-            f"[{combat}] Q2 rows with BOTH override fields: "
+            f"[{build} {combat}] Q2 rows with BOTH override fields: "
             + (", ".join(q2) if q2 else "NONE → §3.5 is LATENT"),
-            f"[{combat}] Q3 elected linkedSpellID on a FRESH read: {elected} row(s); "
+            f"[{build} {combat}] Q3 elected linkedSpellID on a FRESH read: {elected} row(s); "
             f"pool-only: {pool_only}"
             + ("  → Phase 3 CAN use a fresh read" if elected
                else "  → Phase 3 must read item:GetLinkedSpell() off the FRAME"),
-            f"[{combat}] Q4 struct fields whose INDEX raised: "
+            f"[{build} {combat}] Q4 struct fields whose INDEX raised: "
             + (", ".join(threw) if threw else "NONE → §3.9 has no observed trigger yet"),
-            f"[{combat}] Q5 cids in >1 category set       : "
+            f"[{build} {combat}] Q5 cids in >1 category set       : "
             + (", ".join(dual) if dual else "NONE"),
-            f"[{combat}] Q6 wasSetFrom* {_tally(was_set)} | auraDataUnit {_tally(aura_unit)}",
+            f"[{build} {combat}] Q6 wasSetFrom* {_tally(was_set)} | auraDataUnit {_tally(aura_unit)}",
         ]
 
     lines.append("")
+    lines.append("# ── BUILDS CAPTURED ─────────────────────────────────────────────────")
+    for b, seen in sorted(by_build.items()):
+        lines.append(f"# {b}: {'+'.join(sorted(seen))}")
     lines.append("# ── VERDICT ─────────────────────────────────────────────────────────")
     lines += ["# " + v for v in verdict]
     out.write_text("\n".join(lines) + ("\n" if lines else ""), encoding="utf-8")
@@ -379,11 +395,23 @@ def cmd_census(census, path: str, out: Path) -> int:
     if not captures:
         print("\n⚠ No captures. Run /cdmp census in game, then /reload.", file=sys.stderr)
         return 1
-    missing = {"OOC", "CMB"} - seen_combat
-    if missing:
-        print(f"\n⚠ Only {'/'.join(sorted(seen_combat))} captured — {'/'.join(sorted(missing))} "
-              f"is missing, and half these questions are ONLY about the combat difference. "
-              f"Run `/cdmp census` standing still AND `/cdmp census arm` then pull.",
+    if stale:
+        # Not a census artefact — the pipeline was DECIDING on the wrong hero tree.
+        print("\n⚠ PIPELINE HERO WAS STALE in " + str(len(stale)) + " capture(s):",
+              file=sys.stderr)
+        for row in stale:
+            print("    " + row, file=sys.stderr)
+
+    # Per BUILD, because the OOC/CMB pairing is only meaningful inside one.
+    incomplete = {b: {"OOC", "CMB"} - seen for b, seen in by_build.items()
+                  if {"OOC", "CMB"} - seen}
+    if incomplete:
+        print("\n⚠ Incomplete build(s) — half these questions are ONLY about the combat "
+              "difference, so a build with just one side answers none of them:",
+              file=sys.stderr)
+        for b, missing in sorted(incomplete.items()):
+            print(f"    {b}: missing {'/'.join(sorted(missing))}", file=sys.stderr)
+        print("    Fix: `/cdmp census` standing still, then `/cdmp census arm` and pull.",
               file=sys.stderr)
     return 0
 
