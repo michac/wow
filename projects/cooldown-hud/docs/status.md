@@ -24,7 +24,7 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
   cutover; the `/cdmp probe` + `probe-baseline.json` assertion suite was retired 2026-07-29
   (settled readability rules + DB2-sourced tracked set made per-spec re-measurement moot).
 - **Gates:** `luaparser` (release) + `luacheck CDMProbe/` + `busted CDMProbe/tests/spec`
-  (**377 tests**, luacheck 0 warnings).
+  (**498 tests / 4 pending**, luacheck 0 warnings).
   ⚠ All three are **source** gates: none of them runs the game, and the v0.32.25 outage
   below is what that blind spot looks like in practice.
 - **✅ DONE — `field-fixes-plan.md` (v0.32.28–31), shipped and flown.** The four correctness
@@ -37,13 +37,39 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
   charge restored and *never* raises `OnCooldown`, so the ready-edge latched true forever and
   Conflagrate was cued at zero charges. That doc holds the evidence and the two things the
   pass left unproven. **Nothing in it is outstanding.**
-- **Active work: `virtual-cdm-plan.md` — the virtual CDM panel. ✅ Phases 1, 1b and 2 all
-  SHIPPED + FLOWN.** The HUD draws its own icons for the abilities Blizzard's Cooldown
-  Manager will not display, so a spec's floor press stops being invisible.
-  **The two-hero-tree pass flew 2026-07-30** (v0.32.35): Hellcaller is confirmed
-  (`w:-` 31 % → **0.0 %**), Diabolist exposed a separate display-identity bug now fixed in
-  **v0.32.36**. ⏳ **The only thing left on this plan is the v0.32.36 re-fly** — see *The
-  2026-07-30 two-hero-tree pass* below for the checklist.
+- **Active work: `roster-state-plan.md` — ✅ Phase 1 SHIPPED (2026-07-31), Phase 2 is next.**
+  The **CDM edge inventory**: `tests/fixtures/cdm-cases.lua` + `tests/spec/cdm_cases_spec.lua`,
+  **87 declarative cases across 7 axes** authored from `knowledge/addon-dev/cooldown-manager.md`
+  (the client study, whose §8 carries nine numbered audit rules), driven by one parametrised
+  spec. Suite **384 → 498**, luacheck clean. **Test-only, deliberately no release cut** — cut
+  with Phase 2's first fix.
+  - **11 cases are `pinned-defect`: they assert the CONTRACT answer, run INVERTED, and FAIL
+    TODAY.** That is the point of the phase — a suite 100 % green against the current code is
+    by construction a snapshot. When a Phase-2 fix lands, its named case goes red and the fix
+    commit flips `status = "green"` in its own diff. 4 more are `unreachable` pendings
+    (identity rungs 1–2, and the dual-category cid — encoded pending rather than green
+    *because green would be flaky*, and `busted` is a hard release gate).
+  - **A sixth defect, §3.9, was found AND settled while writing it.** `St.Build` bare-indexes
+    the CDM struct outside any pcall while `rawCooldown` pcalls the equivalent access on a
+    table that passed the same two guards — so either the guard is superstition or Build has a
+    crash path. `H.poison` makes **`St.Build` throw**, at both fields tested: the crash path is
+    real. Whether the client ever hands us such a table is still `@verify-ingame`.
+  - **The harness grew four knobs** (`tests/mock_ns.lua` + a new `harness_spec.lua`, 22 tests):
+    table-driven `issecrettable` (it was hardcoded `false`, making six real refusal branches
+    unreachable while every suite stayed green — the v0.32.25 shape), `H.throws`/`H.guard`,
+    `H.poison`, and `H.installGlobals()` called from `H.fresh()` (the `_G` fakes were installed
+    at *file* scope, so a mutation during one test outlived the file that made it). Plus **real
+    client fakes** — `GetSpellCooldown`/`GetSpellCharges`/`ForEachAura`/`GetPlayerAuraBySpellID`/
+    `IsSpellOverlayed`, default-inert — so `Util.lua`'s guard ladder, the combat short-circuit
+    and the GCD trap are all inside the code under test.
+  - **Next: Phase 2**, the correctness fixes. §3.1–§3.3 first; each already has its red case.
+- **⏳ Awaiting a live pass (needs you in-game, no code owed): `virtual-cdm-plan.md` — the
+  virtual CDM panel. ✅ Phases 1, 1b and 2 all SHIPPED + FLOWN.** The HUD draws its own icons
+  for the abilities Blizzard's Cooldown Manager will not display, so a spec's floor press stops
+  being invisible. **The two-hero-tree pass flew 2026-07-30** (v0.32.35): Hellcaller is
+  confirmed (`w:-` 31 % → **0.0 %**), Diabolist exposed a separate display-identity bug now
+  fixed in **v0.32.36**. ⏳ **The only thing left on this plan is the v0.32.36 re-fly** — see
+  *The 2026-07-30 two-hero-tree pass* below for the checklist.
   - ✅ **Phase 1b — the display-identity fence** (`St.DisplayedIdentities`). The `absent`
     test now asks the identities the CDM is *displaying* (base ∪ `liveSpellID` ∪
     `overrideSpellID` ∪ `overrideTooltipSpellID`), not the `abilities` keys. Unioning the two
@@ -421,6 +447,54 @@ states over real icon art after the file split.
 
 The container for what's next. The old engine is gone, so this is where feature/quality
 work lands now — the user drives the list; a few already-surfaced items are seeded:
+
+- **📋 `roster-state-plan.md` — anchor State on the spec roster, not the CDM database.**
+  A written plan (2026-07-31), six phases. **Phase 1 is DONE (see *Active work* above);
+  Phases 2–6 are not started.** Grew out of the `wow-developer`
+  client-correctness review of `State.lua` (same date), which found three source-verified
+  defects in the CDM→State mapping: `item:IsActive()` read uniformly across families (it is
+  **constant `true`** on Essential/Utility rows — `CooldownViewer.lua:362-364` — and feeds
+  `buffs`, so a burst window can read permanently open), charges read off the display
+  identity instead of `overrideSpellID or spellID` (`CooldownViewerItemData.lua:283-288`),
+  and the identity ladder skipping rung 2 (`linkedSpellID`). **Phase 1 was the net, and it is
+  built**: a *fixture inventory* of the edges the CDM can hand us, because the ~90
+  `state_domainview_spec` tests are **regression-shaped** — every `describe` is named after a
+  past bug, so coverage tracked what has bitten us rather than the input space. Still to do: separating the keybind
+  back out of the cue channel (`Binder.lua:87`'s empty-cue trick), a roster **coverage
+  probe** via `GetValidAlertTypes` (Crashing Chaos 417234 is declared but has **zero** CDM
+  rows — no combat-readable channel at all), and moving cast-*results* out of State into
+  the Coach (deletes ~270 lines and both `SoulShards` hardwires). Phase 2.3 (hoist the
+  per-entry GCD read, ~128 redundant calls/tick) and Phase 6 are shippable today.
+  - **Revised 2026-07-31 by a Phase-1 design pass**, which did the thing the phase exists for
+    and found **five more defects** before a line of it was written — all verified in v0.32.41,
+    all filed as `§3.4–§3.8`, **none scheduled**: a **SECRET `isKnown` reads as `true`**
+    (`State.lua:1363` — a refusal laundered into an assertion, failing in the over-show
+    direction field-fix A closed); **`DisplayIdentity` inverts Blizzard's rungs 3 and 4**
+    (`Viewers.lua:153-154`, while `liveSpellID` gets the same order right — so the two ladders
+    disagree, in the very seam the v0.32.36 bug lived in); one throwing aura read **aborts the
+    remaining ids** and condemns the whole row (`State.lua:468`); `readCharge` reports
+    `readable = true` on a read it never made (`:394` — the common case *in combat*, where
+    `ns.ReadCharges` short-circuits); and `readCd` runs for tab-2 rows, which
+    `cooldown-manager.md` §3.2 says structurally cannot carry a cooldown. (§3.4 turned out to
+    be **two-sided** once it had a case: a secret `isKnown` reads `true` — over-show — and a
+    struct that *answers but omits the field* reads `false`, which is a **drop** — under-show.
+    So "we don't know" is only reachable when the whole struct is missing.) The pass also
+    **corrected two of the plan's own premises**: `IsInPandemicTime` is not in State's path at
+    all (only `AlertTape.lua`), and `isKnown` is an all-or-nothing *struct* axis rather than
+    the per-field three-valued one §6.1 was designed around.
+    A **sixth** defect, **§3.9**, landed while the cases were being *written*, and is the only
+    one already settled empirically: `St.Build` bare-indexes the CDM struct outside any pcall
+    while `rawCooldown` pcalls the equivalent access on a table that cleared the same two
+    guards — a contradiction, and `H.poison` resolves it in favour of the guard by making
+    **`St.Build` throw**. A live crash path, not a stylistic inconsistency; the trigger (does
+    the client ever hand us such a table?) stays `@verify-ingame`.
+  - **✅ Phase 1 shipped test-only, with no release cut** (nothing in `tests/` is in the
+    `.toc`, so there is nothing to `/reload` and nothing to eyeball — the standing auto-deploy
+    exception does not apply, and a cut would tag a no-op into the version history the
+    field-fix notes cross-reference). Cut with Phase 2's first fix. ⚠ `busted` **is** a hard
+    release gate (`tools/wowkb/addon.py:373-385`), which is why the dual-category hazard is
+    encoded `pending` rather than green — green would be flaky, and one flaky case blocks
+    every future cut.
 
 - **Measure the CDM's frame-cached state in combat — `wasSetFrom*` and `auraDataUnit`.**
   A live measurement, not a feature. Two fields Blizzard's **untainted** code derives and

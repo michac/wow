@@ -31,10 +31,19 @@ The docs split **general** (spec-agnostic — the product, the pipeline) from
   `State → Coach → Guidance → Binder → Renderer` pipeline, the data-shape contracts, the
   invariants, and the Secret-Values reality the pipeline is shaped around. Read it before
   touching the data/display seam.
-- **`docs/virtual-cdm-plan.md`** — the **current active plan**: the virtual CDM panel — the
+- **`docs/virtual-cdm-plan.md`** — ✅ **built and flown**: the virtual CDM panel — the
   HUD draws its own icons for abilities Blizzard's Cooldown Manager does not track, so a
   spec's floor press stops being invisible (Destruction was blank for 31 % of a pull).
-  `status.md`'s Active-work line points here.
+  Only the v0.32.36 **re-fly** is outstanding, and that needs a live session, not code.
+- **`docs/roster-state-plan.md`** — **Phase 1 DONE (2026-07-31), Phases 2–6 planned**: anchor
+  State on the spec's declared **roster** (abilities + auras) rather than on the CDM database,
+  plus the correctness fixes and the **fixture inventory** of CDM edges that had to come first.
+  Written out of a client-correctness review of `State.lua` against
+  `knowledge/addon-dev/cooldown-manager.md`. **Phase 1 shipped the inventory** —
+  `addon/CDMProbe/tests/fixtures/cdm-cases.lua`, 87 declarative cases, of which **11 are
+  `pinned-defect`: they assert the contract answer and FAIL TODAY on purpose**, so a Phase-2 fix
+  turns its own case red and flips the status in the same diff. Read Phase 1 before touching the
+  CDM→State mapping, and §3.1–§3.9 before "fixing" anything a case pins.
 - **`docs/field-fixes-plan.md`** — ✅ **done, history** (Phases A/B/C/C2, v0.32.28–31): the
   correctness + capability fixes the first live session surfaced, and the record of the live
   pass that confirmed them. Read it for the field evidence, not for outstanding work.
