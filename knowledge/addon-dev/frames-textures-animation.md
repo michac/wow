@@ -1,8 +1,8 @@
 ---
 title: Frames, widgets and rendering
 patch: 12.0.7
-fetched: 2026-07-23
-reviewed: 2026-07-23
+fetched: 2026-07-30
+reviewed: 2026-07-30
 sources:
   - https://github.com/Gethe/wow-ui-source (live, version.txt 12.0.7.68887, commit 4383ced30106d51b27e3e86d1987f1552f0d259d)
   - Interface/AddOns/Blizzard_SharedXML/UI.xsd (1628 lines, the Tier-1 XML schema)
@@ -638,6 +638,9 @@ Three writers set the image:
 >   orthogonal to `SetTexture`/`SetAtlas`/`SetColorTexture`; it belongs with §5.7.
 >   It is listed in `[T2 wiki: XML/Texture, revid 6776374]` as the Lua equivalent
 >   of the `mask` **attribute**, alongside `file` and `atlas`, not instead of them.
+>   ⚠ **"Orthogonal" is not the same as "works with all three."** Measured
+>   2026-07-30: `SetMask(path)` + `SetColorTexture` **does not clip** — see §5.7,
+>   which carries the observation and the mask-object form that does.
 > - **"Exactly one is in force" is uncited.** It is the near-universal mental
 >   model and is consistent with `GetTexture` returning nil after `SetAtlas`, but
 >   I could find no Tier-1 or Tier-2 statement of mutual exclusion.
@@ -882,6 +885,56 @@ declares **zero** methods `[T1 docs: SimpleMaskTextureAPIDocumentation.lua:3]`
 methods. In XML the binding is the other way round: `<MaskTexture>` carries a
 `<MaskedTextures><MaskedTexture childKey= target=/></MaskedTextures>` block
 `[T1 xsd:611-636]`.
+
+#### `SetMask(path)` does NOT clip a `SetColorTexture` fill — measured
+
+`[T3 field: CDMProbe v0.32.34→36, observed in client 12.0.7, 2026-07-30]`
+
+The §5.2 correction above flags "exactly one image writer is in force" as
+**uncited at every tier** and asks whether `SetMask` survives alongside the base
+writers. One half of that is now answered in the client, by accident:
+
+- **Observed:** a `Texture` created, given
+  `SetMask("Interface\CharacterFrame\TempPortraitAlphaMask")` **once at
+  creation**, then filled per redraw with `SetColorTexture(r,g,b,a)`, renders as
+  a **hard-edged square**. The mask has no visible effect at all. This ran at
+  ~10 Hz for a full raid-dummy pull, so it is not a one-frame race.
+- **The working form** is a mask **object**, not the path shortcut:
+
+  ```lua
+  local mask = parent:CreateMaskTexture()
+  mask:SetTexture("Interface\\CharacterFrame\\TempPortraitAlphaMask",
+                  "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
+  tex:AddMaskTexture(mask)
+  tex:SetColorTexture(0, 1, 0, 1)   -- clips correctly; the disc is borderless
+  -- the mask must track the texture's rect, so re-point/re-size it when the
+  -- texture moves or resizes -- it does NOT inherit them.
+  ```
+
+  This is what `RingedFrameTemplate` itself uses `[T1 src:
+  Blizzard_SharedXML/RingedFrameTemplate.lua:103-117]`; the `SetMask(path)`
+  shortcut appears nowhere alongside `SetColorTexture` in the 12.0.7 source,
+  which in hindsight was the tell.
+
+**What this does and does not settle.** It is one measured combination, not a
+general law: `SetMask(path)` + `SetColorTexture` does not clip. It says nothing
+about `SetMask(path)` + `SetTexture`/`SetAtlas`, which may well work — the
+wiki's framing of `mask` as an attribute peer of `file`/`atlas` `[T2 wiki:
+XML/Texture, revid 6776374]` hints the path form is wired to the **file** channel
+specifically, which would explain a colour fill bypassing it entirely. That
+remains `@verify-ingame`.
+
+**Practical rule:** if the fill comes from `SetColorTexture`, use a MaskTexture
+object. Do not reach for `SetMask(path)` and assume it took — it fails
+*silently*, drawing an unmasked rectangle rather than erroring.
+
+> Adjacent gotcha from the same work, for whoever is chasing a "why is my dot
+> square" bug: the obvious escape hatch — a ready-made round atlas — has its own
+> trap. `WhiteCircle-RaidBlips` is genuinely circular but carries a **baked dark
+> outline**, and `SetVertexColor` *multiplies* `[T2 wiki: API Region
+> SetVertexColor, revid 6654858]`, so the border cannot be tinted away. A masked
+> solid fill is the only way to get a truly borderless disc in an arbitrary
+> colour.
 
 ---
 

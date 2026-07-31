@@ -24,8 +24,8 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
   cutover; the `/cdmp probe` + `probe-baseline.json` assertion suite was retired 2026-07-29
   (settled readability rules + DB2-sourced tracked set made per-spec re-measurement moot).
 - **Gates:** `luaparser` (release) + `luacheck CDMProbe/` + `busted CDMProbe/tests/spec`
-  (**353 tests** — 141 pipeline/Demonology + 89 Destruction branch oracle + 11 `viewers_spec`
-  + 73 `state_domainview_spec` + 39 `hudvirtual_spec`).
+  (**364 tests** — 143 pipeline/Demonology + 94 Destruction branch oracle + 14 `viewers_spec`
+  + 74 `state_domainview_spec` + 39 `hudvirtual_spec`).
   ⚠ All three are **source** gates: none of them runs the game, and the v0.32.25 outage
   below is what that blind spot looks like in practice.
 - **✅ DONE — `field-fixes-plan.md` (v0.32.28–31), shipped and flown.** The four correctness
@@ -38,10 +38,13 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
   charge restored and *never* raises `OnCooldown`, so the ready-edge latched true forever and
   Conflagrate was cued at zero charges. That doc holds the evidence and the two things the
   pass left unproven. **Nothing in it is outstanding.**
-- **Active work: `virtual-cdm-plan.md` — the virtual CDM panel. ✅ Phase 1 SHIPPED + FLOWN
-  (v0.32.32). ✅ Phase 1b + Phase 2 BUILT (v0.32.33) — awaiting the two-hero-tree in-game
-  pass.** The HUD draws its own icons for the abilities Blizzard's Cooldown Manager will
-  not display, so a spec's floor press stops being invisible.
+- **Active work: `virtual-cdm-plan.md` — the virtual CDM panel. ✅ Phases 1, 1b and 2 all
+  SHIPPED + FLOWN.** The HUD draws its own icons for the abilities Blizzard's Cooldown
+  Manager will not display, so a spec's floor press stops being invisible.
+  **The two-hero-tree pass flew 2026-07-30** (v0.32.35): Hellcaller is confirmed
+  (`w:-` 31 % → **0.0 %**), Diabolist exposed a separate display-identity bug now fixed in
+  **v0.32.36**. ⏳ **The only thing left on this plan is the v0.32.36 re-fly** — see *The
+  2026-07-30 two-hero-tree pass* below for the checklist.
   - ✅ **Phase 1b — the display-identity fence** (`St.DisplayedIdentities`). The `absent`
     test now asks the identities the CDM is *displaying* (base ∪ `liveSpellID` ∪
     `overrideSpellID` ∪ `overrideTooltipSpellID`), not the `abilities` keys. Unioning the two
@@ -54,10 +57,12 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
     restore), and `/cdmp panel unlock | lock | reset` (bare toggles). Mouse is enabled only
     while unlocked, so the panel never eats a click in play; the unlock affordance is a
     terminal-green edge + `CDMProbe` caption with the icons held lit.
-  - ⏳ **The in-game pass this needs:** a dummy pull on **both** hero trees — Diabolist
-    (exactly one Incinerate icon, Blizzard's; `686` present in `abilities`, no virtual row)
-    and Hellcaller (exactly one, ours; `w:-` still 0 %, no `×`) — plus drag → `/reload` →
-    the panel comes back where you left it. L12 Infernal Bolt is still unexercised.
+  - ✅ **The two-hero-tree pass is FLOWN (2026-07-30) — see *The 2026-07-30 two-hero-tree
+    pass* below.** Hellcaller is confirmed good (`w:-` **0.0 %** over 265 decisions, zero
+    `×`, Incinerate drawn 50×). **Diabolist was NOT** — it exposed a real bug (the HUD was
+    blind to Incinerate there), fixed in **v0.32.36** and awaiting its re-fly. L12 Infernal
+    Bolt is still unexercised, and could not have fired: it needs an Incinerate the brain
+    can pick, which is exactly what was broken.
   - ✅ **It worked: `w:-` went 59/191 (31 %) → 0/258 (0 %)**, zero Binder drops, `Inc` cued
     and drawn 89 times. Nothing regressed.
   - ✅ **The override channel fires for an untracked display id** — the plan's one
@@ -76,10 +81,18 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
   - **It reverses half of field-fix A, deliberately.** A's `unlearned` fence was
     *correctness* and survives; its `no-icon` fence was a *display* limit enforced at the
     *decision* layer, correct only while the product was strictly a CDM overlay.
-  - ⚠ **Follow-up: `design.md` still describes the product as a CDM overlay.** It is now
-    "a rotation helper that displays on the CDM when it can, and on its own icons when it
-    cannot". Worth a pass before Phase 2 dials in the visual line.
-- ⚠ **The finding that set the agenda: 31 % of decisions have no winner.** 59 of 191 decision
+  - ✅ **Follow-up DONE: `design.md` no longer describes the product as strictly a CDM
+    overlay.** The elevator pitch now reads "a rotation helper that displays on the CDM when
+    it can, and on its own icons when it cannot", with an amendment note recording why the
+    virtual panel does not violate pillar 3 — it is **additive only**, existing solely for
+    abilities Blizzard displays *nowhere*, so nothing native is replaced, re-skinned or
+    moved. "Enhance, don't replace" was never a promise to stay silent where Blizzard says
+    nothing.
+- ✅ **The finding that set the agenda — 31 % of decisions had no winner — is FIXED.** The
+  virtual panel took Hellcaller to **0.0 %** (265 decisions, 2026-07-30) and v0.32.36 closes
+  the Diabolist half. The diagnosis that follows is kept because it explains *why* the fix
+  had to read the spec's ability table rather than infer from what is missing.
+  59 of 191 decision
   changes are `w:-`, every one at **0–2 shards** — below Chaos Bolt's cost there is no floor
   press, because Incinerate has no CDM icon. The HUD is blank for roughly a third of a pull.
   Correct behaviour, bad experience. Incinerate `29722` is **not in `CooldownSetSpell` at
@@ -97,9 +110,12 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
   `adding-a-spec.md` recipe (no pipeline edits, no Renderer edits, no contract edit). The
   first live pass settled the big DB2-predicted unknowns — Incinerate is genuinely untracked,
   Immolate rides its **cast** id `348` on Essential, and both of its cooldownIDs raise
-  `PandemicTime` — and cost four code fixes. **Still open on this spec:** `ART_FROM_RITUAL`
-  (never observed, because no Ruination transform appeared in the capture) and which Art
-  override ids actually surface; both are in *Open items* below.
+  `PandemicTime` — and cost four code fixes. **A second pass on 2026-07-30 flew all three
+  configurations** (Hellcaller / Diabolist / Demonology) and settled `ART_FROM_RITUAL`
+  (**stays `false`** — the ritual container is up 88 % of the time), confirmed the charge
+  napkin, and found the Diabolist display-identity bug — see *The 2026-07-30 two-hero-tree
+  pass* below. **Still open on this spec:** which Art override id actually surfaces
+  (`433891` vs `434506` — the log could not tell them apart, fixed for the next capture).
 - The **multi-spec refactor is complete**
   (`multispec-plan.md`, all 6 phases done 2026-07-29, shipped v0.32.22). The framework is
   one spec-agnostic pipeline + a per-spec brain that plugs in: registry + resolver
@@ -109,10 +125,118 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
   Phase 6 (docs) synced `architecture.md`/`notes.md`/addon `CLAUDE.md` to the code; the
   contract needed no edit. **Destruction is the proof the seam works** — it was added as a
   pure sibling (two Lua files, a `.toc` line pair, a test) with zero pipeline edits, which
-  is what the refactor was for. **⏳ One follow-up owed: the in-game Demo smoke on v0.32.22**
-  (deferred — no game access at completion; the checklist is in `multispec-plan.md`'s
-  Phase-6 row / Verification, and mirrors the "In-game verification of the pipeline output"
-  open item below).
+  is what the refactor was for. ✅ **The owed in-game Demo smoke is DONE (2026-07-30):**
+  225 clean Demonology decisions, zero `w:-`, zero `×`, and the respec in/out showed no
+  stale cue — closing the item deferred since v0.32.22.
+
+## The 2026-07-30 two-hero-tree pass (v0.32.35)
+
+The verification session the virtual-CDM plan was waiting on: one character, flown across
+**three configurations** in a single afternoon. It confirmed the panel works, found **one
+real bug**, and closed four of the open questions below. Fixes shipped in **v0.32.36**.
+
+Extract the evidence with `cd tools && uv run python -m wowkb.cdmp decisionlog` →
+`raw/cdmp-decision.log`.
+
+| Configuration | lines | `w:-` | `×` | Inc won | Inc drawn | `PR:art` |
+|---|---|---|---|---|---|---|
+| Destro / Hellcaller | 265 | **0.0 %** | 0 | 10 | 50 | 0 % |
+| Destro / Diabolist | 225 | **6.2 %** | 0 | **0** | **0** | **88 %** |
+| Demonology | 225 | 0.0 % | 0 | — | — | 0 % |
+
+> ⚠ **Two traps in reading that log — both cost time, both are now fixed in code.**
+> 1. **Do NOT trust a session's `tracked:` header for hero tree.** It is stamped at the
+>    session's *first* record, and the respec happened ~15 s *after* login — so every
+>    session is labelled with the configuration the player was **leaving** (a Hellcaller
+>    run filed as `tracked:Imm`). **Segment by content instead:** `Mal=` in `CD:` ⇒
+>    Hellcaller, `HoG=` ⇒ Demonology, else Diabolist. v0.32.36 makes this self-describing —
+>    `DecisionLog` now emits a `t… # config <spec> tracked:<codes>` marker whenever the
+>    tracked set **changes**, so a mid-session respec announces itself.
+> 2. **Scope to the build under test.** The ring holds 6 sessions (raised 3 → 6 in
+>    v0.32.35) and the two oldest here are **v0.32.32**. Counting all 1110 lines instead of
+>    the 715 from v0.32.35 roughly doubles the Hellcaller sample and changes every rate.
+
+### 🐛 The bug: Diabolist was blind to Incinerate — FIXED v0.32.36
+
+**Incinerate won 0 of 225 Diabolist decisions and was drawn 0 times**, while the same
+character on Hellcaller drew it 50×. The virtual panel was *not* at fault — the opposite:
+Hellcaller works precisely *because* Incinerate goes down the virtual path, and Diabolist
+does not, so it took the real-CDM path and fell in a hole nobody had walked.
+
+**Root cause — one cause, two symptoms.** On Diabolist, Blizzard's Incinerate row is keyed
+**Shadow Bolt `686`** with its display overridden to `29722` (`686` reads `isKnown` only on
+Diabolist — the hero-tree split Phase 1b already documented). Every producer keyed the
+**raw base**, so:
+
+- `State` keyed `abilities[686]`, and `CoachDestruction.lua` gates on `ctx.facts[base]` and
+  asks `facts[29722]` — so the Incinerate line **could never win**;
+- `HudLayout` published `spellID = 686`, so the Binder's cue join (`cues[entry.spellID]`)
+  **missed**, *and* the keybind was looked up for Shadow Bolt — which is not on the bars.
+
+That is exactly the "no overlay, no keybind" the player saw on a button they press
+constantly. The `6.2 %` `w:-` is the visible residue; the other 93.8 % is worse-hidden —
+the HUD confidently showed a *different* press because the floor press was unreachable.
+
+**The fix (v0.32.36): one rule, one place — `ns.DisplayIdentity(base, ov, ovTooltip)`.**
+Both producers call it, so State's keys and the Layout's `spellID` cannot drift apart.
+It adopts an override only when the **active spec declares it** as `kind == "button"` with
+`expect ~= false` — so a *transform* never becomes the identity of the frame it merely
+rides. Three fences worth keeping in mind before touching it:
+
+- ⚠ **It reads the STATIC override fields, never `liveSpellID`.** `liveSpellID` moves to
+  Infernal Bolt `433891` while the Art is armed, so keying on it would make Incinerate's
+  identity **vanish mid-combat** — precisely when the ability is most active. (Same
+  reasoning as Phase 1b's `DisplayedIdentities` fence, which unions both static fields.)
+- ⚠ **State re-keys only rows that SURVIVED the filter.** Re-keying a *dropped* row would
+  make `virtualCandidates`' "not dropped-unlearned" fence refuse to synthesise our
+  Hellcaller Incinerate icon — killing the path that already works. A drop keeps its raw
+  base.
+- ⚠ **The re-key is a deterministic second pass** (a `claimed` list sorted by base), so
+  `pairs` order can never decide a contested identity.
+
+### What the pass settled
+
+1. ✅ **The Hellcaller virtual panel works.** `w:-` **31 % → 0.0 %**, zero Binder drops.
+   Phases 1 / 1b / 2 confirmed in the field. This is the headline result.
+2. ✅ **Destruction open item 3 — ANSWERED: NO.** Diabolic Ritual `428514` is up on **88 %**
+   of Diabolist decisions, so it can **never** mean "Art armed" — treating it as such would
+   jam Chaos Bolt above Conflagrate and Summon Infernal for most of a pull, exactly as the
+   design note feared. **`ART_FROM_RITUAL = false` stays, now on evidence rather than
+   caution.** It is 0 % outside Diabolist, i.e. genuinely Diabolist-exclusive.
+3. ⏳ **Destruction open item 4 — HALF answered, and the log could not answer the rest.**
+   The Art transform fires (`IB` on 9 Diabolist lines), but `SpecDestruction`'s log table
+   mapped **both** `433891` and `434506` to the single code `IB`, so *which numeric id
+   surfaced is unknowable from the capture*. `RU` never appeared on Destruction at all.
+   **Fixed for the next capture (v0.32.36):** the ids now carry distinct display codes
+   (`IB`/`IB2`, `RU`/`RU2`/`RU3`). ⚠ That required splitting a field that was doing double
+   duty — the brain branched on `abbr`, so a per-id code would have broken Art detection.
+   Semantics moved to a dedicated **`art = "infernal" | "ruination"`** field; `abbr` is now
+   display-only. **Never branch rotation logic on `abbr` again.**
+4. ✅ **The charge napkin never over-counted.** It stayed inside `[0, 2]` all pass, and both
+   exact-vs-napkin checkpoints agreed (`=1/2` → `~1/2` at t39; `~2/2` → `=2/2` at t120).
+   This closes the confirmation owed by field-fix C2.
+5. ✅ **Demonology smoke + respec-with-no-stale-cue.** 225 clean Demonology decisions, zero
+   `w:-`, zero `×` — closing the v0.32.22 multi-spec item owed since 2026-07-29, and
+   Destruction open item 5 with it.
+6. ⏳ **L12 Infernal Bolt is still unexercised** — and *could not* have fired, since it
+   needs an Incinerate the brain can pick. It should come free with the v0.32.36 fix.
+
+### ⏳ Owed: the v0.32.36 re-fly
+
+Nothing below is verified in the field yet. `/reload` first, then:
+
+- **`/cdmp rt states`** — three visual questions in one card: (a) is the dot a clean
+  borderless circle that blends into its glow? (b) does LATE read as an *escalated*
+  rotation cue rather than a different instruction? (c) does the violet FALLBACK still
+  separate from the shard pips?
+- **Diabolist dummy pull — the decisive one.** Does Blizzard's Incinerate icon now carry
+  **a keybind and a cue**? Then `/reload` + re-extract: expect `w:-` ≈ 0 % (was 6.2 %),
+  `Inc` winning and drawing, `# config` marker lines, and an `IB` vs `IB2` answer.
+- **Regression check — one Hellcaller pull.** Incinerate must **still** draw on *our* panel
+  with `w:-` at 0 %. Fix 1 deliberately does not touch dropped rows; this is the assertion
+  that proves it in the field. ⚠ **This is the one that matters most** — the fix changes
+  the key of `abilities` entries, the pipeline's most delicate seam.
+- Watch for an **L12 Infernal Bolt** cue if the Art arms while Conflagrate is at 0 charges.
 
 ## Phase ledger (the W4 build)
 
@@ -168,11 +292,15 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
   because readiness was broken in a way that masked it: a charged ability raises `Available`
   per charge restored and **never raises `OnCooldown`**, so the ready-edge latched true and
   `Conf=R` on 190 of 194 lines. That is fixed (the count is now authoritative, v0.32.31) and
-  the decision log gained a **`CH:`** field, so the next pull should show `CH:Conf~n/2` lines
-  tracking the real count — **read them and confirm the napkin never over-counts.**
+  the decision log gained a **`CH:`** field.
+  ✅ **CLOSED 2026-07-30 — the napkin never over-counted.** Every `CH:` value across the
+  pass sat inside `[0, 2]` (not one `~3/2`), and both exact-vs-napkin checkpoints agreed: an
+  exact `=1/2` at t39.0 handed off to `~1/2` at t39.1, and the napkin's `~2/2` was vindicated
+  by the exact combat-exit read `=2/2` at t120.2 (and again at t126.3). The undercount bias
+  held. **Nothing is outstanding on this item.**
   ⚠ Shadowburn has **no** charges (DB2 `ChargeCategory = 0`), so it is not a consumer.
-- **Destruction in-game confirmation** (the `adding-a-spec.md` Step-8/10 pass) — **mostly
-  ANSWERED by the 2026-07-30 pass; items 3 and 4 remain.**
+- **Destruction in-game confirmation** (the `adding-a-spec.md` Step-8/10 pass) — **all six
+  ANSWERED after the second 2026-07-30 pass; only half of item 4 survives.**
   1. ~~`/cdmp hud status` → `spec: Destruction (profile active)`.~~ ✅ the pipeline ran and
      the Destruction brain drove it for a full pull.
   2. ~~`/cdmp hud layout` → **does Incinerate appear?**~~ ✅ **ANSWERED 2026-07-30: NO.** The
@@ -181,14 +309,24 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
      blind. Field-fix A stops that corrupting the *decision* (an undrawable row no longer
      wins the list); it does **not** make Incinerate visible — that is the *artificial CDM
      icons* item below, which this answer promotes from speculative to concrete.
-  3. ⏳ **Is the Diabolic Ritual container (`428514`) a usable "Art armed" signal?** **Still
-     open, and this pass could not answer it** — the character is Hellcaller, so no Demonic
-     Art exists to observe. Needs a Diabolist pull. `spec.ART_FROM_RITUAL` stays `false`.
-  4. ⏳ **Do the Art override IDs resolve to `433885` / `433891`?** Same: unanswerable on a
-     Hellcaller build. Both pairs stay mapped. *(The set-884 dump does list both `433885` and
-     `433891` at cids `171413`/`171412`, so the Destruction-side pair is at least the one the
-     data carries.)*
-  5. Respec in and out: the HUD toggles between active and passive with no stale cue.
+  3. ~~**Is the Diabolic Ritual container (`428514`) a usable "Art armed" signal?**~~
+     ✅ **ANSWERED 2026-07-30 on the Diabolist pull: NO.** It is up on **88 %** of Diabolist
+     decisions (198 of 225) — a container that is almost always present cannot mean "the Art
+     is armed". Reading it that way would have jammed Chaos Bolt above Conflagrate and
+     Summon Infernal for most of a pull, which is exactly what the design note feared.
+     **`spec.ART_FROM_RITUAL` stays `false`, now on evidence rather than caution.** It reads
+     0 % outside Diabolist, confirming it is genuinely hero-tree-exclusive.
+  4. ⏳ **Do the Art override IDs resolve to `433885` / `433891`?** **HALF answered.** The
+     transform demonstrably fires (`IB` on 9 Diabolist lines; `RU` never appeared on
+     Destruction) — but `SpecDestruction`'s log table mapped **both** `433891` *and* `434506`
+     to the one code `IB`, so the capture cannot say which id surfaced. **The instrument was
+     the limitation, and it is fixed (v0.32.36):** the ids now carry distinct display codes
+     (`IB`/`IB2`, `RU`/`RU2`/`RU3`), so the next capture answers this outright. All pairs
+     stay mapped meanwhile. *(The set-884 dump lists both `433885` and `433891` at cids
+     `171413`/`171412`, so the Destruction-side pair is at least the one the data carries.)*
+  5. ~~Respec in and out: the HUD toggles between active and passive with no stale cue.~~
+     ✅ **DONE 2026-07-30** — three configurations flown in one session (Hellcaller →
+     Diabolist → Demonology), no stale cue at any handover.
   6. ~~Dummy pull → `wowkb.cdmp decisionlog`, grep `w:-` / `×`.~~ ✅ **DONE.** `×` is **zero**
      on the fixed build (the only two in the capture are in the pre-fix session, both
      `SF:ROT×`); `DR:` is stable and every dropped row checks out by name; `w:-` at 0–2
@@ -200,28 +338,34 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
 The container for what's next. The old engine is gone, so this is where feature/quality
 work lands now — the user drives the list; a few already-surfaced items are seeded:
 
-- **The cue dot should be a CIRCLE — find out why it isn't reading as one.** Observed in
-  play (2026-07-30): the cue reads as a square next to its own glow, which is round. ⚠ The
-  code already *intends* a disc — `Renderer.lua:216-224` creates the dot as a `WHITE8X8`
-  fill and calls `SetMask("Interface\CharacterFrame\TempPortraitAlphaMask")` once at
-  creation, Blizzard's own solid-fill→circle idiom (`RingedFrameTemplate.lua:103-117`). So
-  this is **not "add a mask"; it is "the mask is not taking effect"**, and the fix depends
-  on which of these it is:
-  1. **The mask is lost by `SetColorTexture`.** It is applied once at creation, but
-     `:226` calls `SetColorTexture` on *every* redraw. `addon-dev/frames-textures-animation.md`
-     §5.7 says `SetMask` is orthogonal to the base-image writers and should survive —
-     but that same file flags "exactly one is in force" as **uncited at every tier**, so
-     the interaction is not actually pinned. Cheapest probe: move the `SetMask` call to
-     after the `SetColorTexture`, i.e. re-apply per draw, and see if the corners go.
-  2. **The mask never applied at all** — wrong path for 12.0.x, or the mask needs a
-     `SetSize` before it (the dot is sized at `:227`, *after* creation).
-  3. **It is a circle and 12 px is just too small to read as one.** Then the answer is
-     size/AA, not masking.
-  Settle it with `/cdmp rt` (the `states` card draws all five at once, over real icon art)
-  before changing anything — and whatever it turns out to be, write the answer back into
-  `addon-dev/frames-textures-animation.md`, since §5.7's mask/base-writer interaction is
-  exactly the open question this would close.
-- **Fallback cue → PURPLE.** `ROTATION_FALLBACK` currently borrows ROTATION's green
+- **The cue dot should be a CIRCLE.** ✅ **SOLVED — two cuts, and the answer is now a KB
+  fact.** The hypothesis list below was right to suspect the mask; the resolution was
+  hypothesis 1 in its strongest form.
+  - **v0.32.35 (partial):** swapped the masked fill for the `WhiteCircle-RaidBlips` atlas.
+    Genuinely round, but it ships a **baked dark outline** (blips must read against a map)
+    and `SetVertexColor` *multiplies*, so black stays black — the dot gained a hard edge
+    against its own glow instead of blending into it. Round, still wrong.
+  - **v0.32.36 (the fix):** a solid `SetColorTexture` fill clipped by a real **MaskTexture
+    object** (`CreateMaskTexture` + `AddMaskTexture`) — the idiom
+    `RingedFrameTemplate.lua:103-117` actually uses. Borderless by construction: the shape
+    comes from the mask's alpha, the colour from our own fill. The mask tracks the fill's
+    rect each draw (it does **not** inherit size/position).
+  - ✅ **The KB finding this was supposed to produce is written:** `SetMask(path)` +
+    `SetColorTexture` **does not clip** — the mask has no effect at all, silently, drawing
+    an unmasked rectangle rather than erroring. That settles the interaction
+    `addon-dev/frames-textures-animation.md` §5.7 flagged as *uncited at every tier*; the
+    measurement and the working idiom are now recorded there. ⚠ It settles **one**
+    combination — `SetMask(path)` with `SetTexture`/`SetAtlas` may well work and remains
+    `@verify-ingame`.
+  - ⏳ **Eyeball still owed:** `/cdmp rt states` on v0.32.36 — is the dot now a clean
+    borderless circle that blends into its glow?
+- **Fallback cue → PURPLE.** ✅ **SHIPPED v0.32.35** — `ROTATION_FALLBACK` no longer borrows
+  ROTATION's green; it resolves its own violet theme entry, pushed off the `SOUL_SHARDS`
+  pip hue so it does not read as "resource" at a glance. It stays **static** (no spin), so
+  motion remains the primary primary-vs-backup tell and the hue is a second, weaker channel
+  rather than a replacement. ⏳ **Eyeball owed on the same `/cdmp rt states` card:** does the
+  violet still separate cleanly from the shard pips? The original reasoning follows.
+  `ROTATION_FALLBACK` used to borrow ROTATION's green
   (`GLOW_SPEC.ROTATION_FALLBACK.color = "ROTATION"`, `Renderer.lua:77`) and distinguishes
   itself by its ring being **static** rather than spinning — the v0.32.17 "motion, not
   colour" decision. This adds hue back *on top of* motion rather than replacing it: drop the
@@ -232,6 +376,21 @@ work lands now — the user drives the list; a few already-surfaced items are se
   exact hue would read as "resource" at a glance, so it wants to be pushed somewhere the
   pips are not (bluer, or darker/more saturated). `/cdmp rt` shows FALLBACK and the bar in
   the same frame, which is the comparison that matters.
+- **LATE should read as URGENCY, not as a different instruction.** ✅ **SHIPPED v0.32.36,
+  eyeball owed.** LATE is not a different *kind* of press — it is the same press, overdue —
+  so it is now the rotation cue **escalated**: ROTATION's green, with a bigger ring spinning
+  ~2.5× faster (`ringScale = 5.0`, `spinSecs = 1.6` against defaults 3.6 / 4.0). `GLOW_SPEC`
+  grew the two knobs; `setDotGlow` re-times the rotation **only when the value changes**,
+  because `SetDuration` on a playing group restarts it and would stutter the ring at 10 Hz.
+  - ⚠ **This partly reverses the 2026-07-26 dial-in, deliberately** — the one that pulled
+    LATE *off* green onto hot amber because green **shades** were indistinguishable. That
+    finding stands and is not being contradicted: this is not a second shade of green, it is
+    the *same* green **moving differently**. In play the amber read as a distinct
+    *instruction* rather than an urgent one, and it collided with SOON's yellow. The code
+    comment carries this reasoning so it is not re-reverted blind. **Do not restore the amber
+    without re-testing the motion channel first.**
+  - ⏳ **Eyeball owed** (same `/cdmp rt states` card): does LATE now read as an *escalated*
+    rotation cue rather than a different instruction?
 - **Show the AoE / single-target state on the panel.** `/cdmp single|multi|aoe` sets a mode
   the Coach reads, but the only feedback is a chat line — so mid-pull you cannot tell which
   mode you are in without pressing something. The virtual panel is now the natural home:
@@ -245,6 +404,30 @@ work lands now — the user drives the list; a few already-surfaced items are se
   pixels) or always visible so its absence is never ambiguous. ⚠ It must survive a spec with
   **zero** virtual rows — the panel exists there (min-width floor) but has no icons, so the
   tag has to anchor to the root, not to a button.
+- **Partial shards (fragments) for Destruction — read power UNMODIFIED.** Today
+  `State.lua` reads `UnitPower` in **whole shards**, so the pipeline cannot see a fragment.
+  ⚠ **Promoted out of a ✅ item, where it was hiding.** This gap existed only as one
+  sentence inside the *shipped* "Warlock Destruction" entry below ("Restoring simc's
+  `<= 4.2` / `<= 4.6` still wants the unmodified-power read") — a real hole filed under a
+  done heading, which is how it stayed invisible for a month. It is now its own item.
+  - **What is correct today and must stay that way:** `SpecPowerDelta` projects **spenders
+    only** (CB −2 / RoF −3 / Shadowburn −1) and carries **no `generates` field at all**.
+    That was deliberate: Destruction builds in **fragments** (10 per shard) into a bar we
+    read in whole shards, so authoring integer yields for fragment builders would make the
+    in-flight projection lie by up to a shard per filler cast. Do not "fix" that by adding
+    fake `generates` — the fix is to read the real number.
+  - **The path is known and is NOT a Secret-Values wall:** `UnitPower(unit, powerType,
+    true)` returns the unmodified value in fragments. @verify-ingame — confirm the third
+    arg's behaviour for `SoulShards` under 12.0.7, and whether it reads secret in combat
+    the way the modified read does *not*.
+  - **Why it matters:** the KB's simc distillation gates Destruction lines on **fractional**
+    shard thresholds (`<= 4.2`, `<= 4.6`); we currently round them away, so those lines
+    fire at the wrong moment. This is rotation *quality*, not correctness — the HUD is not
+    wrong today, it is imprecise.
+  - **Scope warning:** this touches the Coach's shard gates and `resourceDisplay`. The
+    Renderer stays `discrete` (whole pips) unless we decide to render fragments, which is a
+    separate design question — a partial-fill pip advertises precision the *display* may not
+    want even once the *decision* has it. Do the decision half first.
 - **Proc-glow obscures our chrome — subdue or replace it.** ✅ **Shipped v0.32.17 (dim,
   not replace):** `HudProcGlow.lua` post-hooks each CDM item's `RefreshOverlayGlow` and
   sets `item.SpellActivationAlert:SetAlpha(0.5)` while the HUD is on (gated on
@@ -363,11 +546,11 @@ work lands now — the user drives the list; a few already-surfaced items are se
   draws **its own icon** for such abilities on a small repositionable panel it owns, and
   registers it into the Layout as a synthetic entry so the Binder and Renderer treat it like
   any other target.
-  - ⚠ **The 2026-07-30 live pass quantified the cost: `w:-` on 31 % of decision changes**
-    (59 of 191), every one at 0–2 shards. Field-fix A stopped an undrawable Incinerate
-    corrupting the decision; the consequence is that below Chaos Bolt's 2-shard cost the list
-    has no floor at all and the HUD shows nothing. **This is now the highest-value open item
-    for Destruction.**
+  - ✅ **DELIVERED.** The first 2026-07-30 pass quantified the cost — `w:-` on **31 %** of
+    decision changes (59 of 191), every one at 0–2 shards — and the second pass, after the
+    panel shipped, measured **0.0 %** across 265 Hellcaller decisions with Incinerate drawn
+    50 times and zero Binder drops. The Diabolist half took a further fix (v0.32.36, the
+    display-identity bug) and is awaiting its re-fly.
   - **Why this may beat the curated-layout override** (the other parked option): no
     enforcement UX at all. The curated layout has an unresolved "auto-apply → import-and-
     verify → nag" question and breaks if the player customises their layout; a panel we own
