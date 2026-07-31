@@ -28,6 +28,7 @@ specific to the CDM:
 | Ask about | Owned by |
 |---|---|
 | Mixin composition, the data/display split, the dirty flag as a pattern | [`module-architecture`](./module-architecture.md) §2.1, §4.1, §4.3 — already covers `CooldownViewerItemMixin` in detail |
+| **Reading widget internals as a substitute for a sealed value** — the mechanism, its four preconditions, and why the naive form is wrong | [`security-taint-and-restricted-data`](./security-taint-and-restricted-data.md) **§4.11** + rule 18. This file supplies the *instances* (`PandemicIcon`, `wasSetFrom*`, `auraDataUnit`, and tab-1 `IsActive()` as the counter-example); that one owns the rule |
 | What secret values are, `SecretArguments`, how to display what you cannot read | [`security-taint-and-restricted-data`](./security-taint-and-restricted-data.md) |
 | Event registration mechanics, `hooksecurefunc` as an instrument, `OnUpdate` vs ticker | [`api-events-and-discovery`](./api-events-and-discovery.md) |
 | Texture channels, pooling, anchoring to Blizzard frames | [`frames-textures-animation`](./frames-textures-animation.md) |

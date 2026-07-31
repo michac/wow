@@ -1197,6 +1197,66 @@ taint but are gated on `MouseFocusValidForLimitedInput`;
 addons; chat events for currency/honour/loot/money/reputation/XP gains are no
 longer secret.
 
+### 4.11 Reading the *verdict* instead of the value — the display channel
+
+§4.8 is one direction: hand a secret to a sink that can render it without you seeing it.
+This is the **other** direction, and it is not documented anywhere in Blizzard's API surface
+because it is not an API at all.
+
+**The mechanism.** Blizzard's own untainted code reads a secret, decides something from it,
+and writes that decision into ordinary widget state — a shown flag, a frame reference, a
+plain boolean, a colour. **The decision is readable even when its inputs are not.** So when
+a value is sealed, the question to ask is not "is there another accessor" but *"where does
+the client render this, and what ordinary Lua does it write on the way there?"*
+
+**`[client]` The worked example** (2026-07-31, `Blizzard_CooldownViewer` @ 12.0.7.68887).
+`CooldownViewerItemMixin:IsInPandemicTime(timeNow)` is
+
+```lua
+return self.pandemicStartTime and timeNow >= self.pandemicStartTime and timeNow <= self.pandemicEndTime;
+```
+
+`[T1 src: CooldownViewer.lua:587]`. Calling it from an addon **throws** — but the method is
+not restricted. Its *body* compares `pandemicStartTime`/`pandemicEndTime`, and those read
+secret, so the comparison is what fails. That distinction is the whole point: *"the method
+is restricted"* and *"the numbers are restricted"* imply different workarounds, and only the
+second one has one.
+
+The workaround is that Blizzard evaluates it anyway, every frame:
+`CheckPandemicTimeDisplay` runs from the item's `OnUpdate` `[:98, :562]` and calls
+`ShowPandemicStateFrame` / `HidePandemicStateFrame`, which **set and nil `self.PandemicIcon`**
+`[:570-585]`. So `item.PandemicIcon ~= nil` is a live mirror of a predicate you cannot
+evaluate — measured over a full DoT cycle as `nil` → `table` on entering the window → `nil`
+again on refresh, never secret, never throwing.
+
+**⚠ THE NAIVE FORM OF THIS RULE IS WRONG, and the same file refutes it.** "Look at the UI
+tree for data" would also have you read `item:IsActive()`, which on a tab-1 row is
+`return self.cooldownID ~= nil` `[:362-364]` — **a constant `true`** with no error and no nil
+to distinguish it from a real signal. Frame state is not evidence merely because it is
+readable. Four preconditions, each of which is a **measurement, not an assumption**:
+
+| | Ask | Why it bites |
+|---|---|---|
+| 1 | **Recomputed, or set once?** | Per-frame (`OnUpdate`) is safe. Event-set state has the staleness problem you were escaping — you would be trading one one-shot for another. |
+| 2 | **A derived verdict, or a stored copy?** | A frame holding `self.remaining = <secret>` gets you nothing. Presence/absence and enums declassify; numbers usually do not. |
+| 3 | **Does it discriminate?** | Capture it in **both** states before believing it. This is exactly where `IsActive()` fails, and the failure is silent. |
+| 4 | **Does it fail loudly?** | Almost never. It is an implementation detail at a pinned build, not an API — no deprecation, no warning. If it disappears it reads `nil` forever, which is indistinguishable from a legitimate negative. |
+
+**The cost, stated plainly.** Anything consuming one of these needs a **bind-time capability
+check** and a documented fallback, and it needs re-verifying on patch day like a moving
+value — it carries none of the stability an API name does. Precondition 4 is the one that
+turns this from a technique into a liability if skipped: a silently-absent field degrades
+into a confident wrong answer, which is worse than the sealed value you started with.
+
+**Other instances of the same mechanism** (all `[client]`, all in
+`projects/cooldown-hud/docs` / `cooldown-manager.md` §7): `item.wasSetFromCharges` /
+`wasSetFromCooldown` / `wasSetFromAura` — plain booleans recording which of four secret
+sources won this refresh, i.e. *what the dial currently means*; `item.auraDataUnit` — a
+plain `"player"`/`"target"` string naming which side a bound aura is on, where the whole
+`AuraData` record is sealed; and `item:IsActive()` on **tab 2 only**, where it genuinely
+tracks aura liveness. The last one is the pair that makes precondition 3 concrete: the same
+method name, on two mixins, is a real signal on one and a constant on the other.
+
 ---
 
 ## 5. What real addons do (Tier 3 — practice, not rules)
@@ -1468,6 +1528,19 @@ brackets is the evidence the rule rests on.
     not that the setter is on the `AllowedWhenTainted` list.
     [Tier 1: `SpellDocumentation.lua:249, 267`;
     `FrameAPICooldownDocumentation.lua:280-283, 305-313`]
+18. A read of Blizzard **widget internals** used as a substitute for a sealed
+    value (§4.11) is guarded at bind time and has a documented fallback. It is an
+    implementation detail at a pinned build, not an API: it carries no
+    deprecation and no error, so its disappearance reads as a legitimate
+    negative. The read must also be shown to **discriminate** — captured in both
+    states — because the failure mode is a constant, not an exception.
+    ⚠ `CooldownViewerItemMixin:IsActive()` is the standing counter-example: on
+    tab 2 it tracks aura liveness, on tab 1 it is `self.cooldownID ~= nil`, i.e.
+    constant `true`. Same method, two mixins, opposite trustworthiness.
+    [Tier 1: `Blizzard_CooldownViewer/CooldownViewer.lua:362-364` (the constant),
+    `:570-585` + `:98` (the per-frame `PandemicIcon` write).
+    `[client]` 2026-07-31 for both the constant-true measurement and the
+    `PandemicIcon` cycle]
 18. Percentage/colour derivation from a secret unit stat goes through a curve
     (`C_CurveUtil.CreateCurve` / `CreateColorCurve`, passed to e.g.
     `UnitHealthPercent(unit, usePredicted, curve)`) rather than through Lua
