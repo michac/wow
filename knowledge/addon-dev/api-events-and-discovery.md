@@ -1,14 +1,15 @@
 ---
 title: API surface, events and discovery
 patch: 12.0.7
-fetched: 2026-07-31
-reviewed: 2026-07-31
+fetched: 2026-08-01
+reviewed: 2026-08-01
 sources:
   - https://github.com/Gethe/wow-ui-source (live, version.txt 12.0.7.68887, commit 4383ced30106d51b27e3e86d1987f1552f0d259d)
   - in-client capture, CDMProbe AlertTape v0.32.27 (/cdmp alerts), Destruction Warlock, 2026-07-30  # §2.8 alert-channel confirmations
   - in-client capture, CDMProbe AlertTape v0.32.29, Destruction/Hellcaller Warlock, 2026-07-30  # §2.8 same-frame refresh tie; simultaneous PandemicTime on both Immolate cooldownIDs
   - in-client capture, CDMProbe v0.32.32 decision log, Destruction Warlock (Hellcaller AND Diabolist), 2026-07-30  # §2.8 cid 66181's base/display spellID split + hero-talent-dependent isKnown; override event firing for an untracked display id
   - in-client capture, CDMProbe v0.32.46 decision log, Destruction Warlock (both hero trees), 2026-07-31  # §2.8 ChargeGained is a prediction-queue drain, not a charge: duplicate credits measured 0.2s apart
+  - in-client capture, CDMProbe v0.32.53 flight recorder, Destruction + Demonology Warlock, 2026-08-01  # §2.9 C_AssistedCombat readable through combat
   - https://warcraft.wiki.gg/wiki/API_Frame_RegisterEvent (revid 6654488, 2026-02-19)
   - https://warcraft.wiki.gg/wiki/API_Frame_RegisterUnitEvent (revid 6735133, 2026-06-04)
   - https://warcraft.wiki.gg/wiki/API_Frame_RegisterAllEvents (revid 6654327, 2026-02-19)
@@ -821,6 +822,46 @@ unmeasured and would be a way to count something otherwise secret. `@verify-inga
   Diabolist Demonic-Art transform arming on `cid 66181` (114 of 137 logged decision changes
   carried an armed Art) `[in-client capture, CDMProbe v0.32.32, 2026-07-30]`. So the
   override channel is usable for abilities the Cooldown Manager does not otherwise track.
+
+---
+
+### 2.9 `C_AssistedCombat.GetNextCastSpell()` is READABLE IN COMBAT — a rotation oracle that survives Secret Values
+
+**MEASURED 2026-08-01** `[in-client capture, CDMProbe v0.32.53 flight recorder,
+Destruction + Demonology Warlock]`. `C_AssistedCombat.GetNextCastSpell(checkForVisibleButton)`
+returns a **plain number** — `issecretvalue()` false, safe to compare, format and use as a
+table key — **both out of combat and inside a dummy pull**, on both `false` and `true`
+arguments. `IsAvailable()` returned a plain `bool` and `GetRotationSpells()` a plain
+(non-secret) table in the same samples.
+
+This matters because it is a **rotation answer that does not go secret**. Every cooldown
+channel this KB documents (§4 of `security-taint-and-restricted-data.md`) refuses in
+restricted combat; this one does not.
+
+**Why it survives, and how you could have predicted it** — the reasoning generalises to any
+`C_*` call you are unsure about:
+
+1. The generated docs declare **no Predicate** for it
+   *[T1 src: `Blizzard_APIDocumentationGenerated/AssistedCombatDocumentation.lua`]*.
+   Predicates are how the docs declare *when* a return goes secret (§4.7 there); the
+   cooldown APIs carry them and this does not. **An absent Predicate is positive evidence.**
+2. Its `SecretArguments = "AllowedWhenUntainted"` governs whether a **secret ARGUMENT** may
+   be passed — **not** the return. `C_SpellBook.IsSpellKnown` carries the same annotation and
+   is likewise readable. Do not read this annotation as a secrecy warning about the result.
+3. Blizzard's own `AssistedCombatManager.lua:323-336` calls it on an `OnUpdate` ticker and
+   then does `if spellID ~= self.lastNextCastSpellID` — a plain `~=` on the return, which a
+   secret cannot survive — in a file that registers `PLAYER_REGEN_DISABLED`.
+
+⚠ **Blizzard code being untainted makes point 3 suggestive, not conclusive, for an addon
+caller** — which is why it was flown rather than asserted. It is now measured from addon
+code.
+
+⚠ **READABILITY IS PROVEN; USEFULNESS IS NOT.** The capture recorded a **constant `691`
+(Summon Felhunter)** at every sample, out of combat and in, on both arguments. The recorder
+dedups by readability *class*, so it only sampled at transitions and cannot show whether the
+value tracked the rotation. Before treating this as an oracle to diff a rotation addon
+against, take a **value-sampling** pass. Also note what it is by design: a generic
+single-target rotation with **no AoE/mode awareness and no burst planning**.
 
 ---
 

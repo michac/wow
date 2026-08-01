@@ -267,23 +267,34 @@ def load_db(wow_path: str) -> tuple[dict, str] | None:
 
 # The Phase-4 acceptance criteria, per spec. `verdict` is what Coverage.Build must have
 # concluded for that spellID; `absent` means the id must not be in the roster at all.
+# ⚠ `29722 reads virtual` / `686 reads virtual` WERE CRITERIA HERE AND WERE WRONG (fixed
+# 2026-08-01, off the first flight). They came from plan prose calling Incinerate and Shadow
+# Bolt "the ids the CDM tracks nowhere", and that prose conflates two different facts:
+#   * IN THE CDM DATABASE — `GetCooldownViewerCategorySet(…, allowUnlearned=true)` carries
+#     the id. This is what `coverage` joins on, and Incinerate IS in it (1 row).
+#   * DISPLAYED — a live viewer frame exists to anchor a cue to. Incinerate is NOT, which
+#     is exactly why `HudVirtual` synthesises an icon for it.
+# Coverage answers the first; the criteria were written as if it answered the second. The
+# drawability question now lives in its own MEASURED section below, where it belongs — it
+# depends on the viewers being up, so it is not something to fail a build over.
 COVERAGE_EXPECT = {
     267: {  # Destruction
         "name": "Destruction",
         "absent": {417234: "Crashing Chaos (deleted in Phase 4 — redundant, not blind)"},
         "verdict": {
-            29722: ("virtual", "Incinerate — untracked, but we draw our own icon"),
             434635: ("expected", "Ruination alt id — override-only by design"),
             434636: ("expected", "Ruination alt id — override-only by design"),
             132411: ("expected", "Singe Magic — the pet dispel override"),
             388215: ("expected", "Devour Magic — the pet dispel override"),
         },
+        "not_blind": {29722: "Incinerate — the floor press must be covered somehow"},
         "tracked_rows": {428514: (4, "Diabolic Ritual — tracked across 4 cooldownIDs")},
     },
     266: {  # Demonology
         "name": "Demonology",
         "absent": {},
-        "verdict": {686: ("virtual", "Shadow Bolt — the untracked floor press")},
+        "verdict": {},
+        "not_blind": {686: "Shadow Bolt — the floor press must be covered somehow"},
         "tracked_rows": {},
     },
 }
@@ -319,10 +330,32 @@ class Report:
 
 
 def _verdict_map(sample: dict) -> dict[int, dict]:
+    """Per-id verdicts, with the pre-v0.32.54 rings NORMALISED.
+
+    ⚠ COMPATIBILITY SHIM. `blind` originally ignored knownness, so a ring recorded before
+    v0.32.54 marks an ability the character does not even HAVE as blind — which the first
+    flight showed was 3 of 3 blind rows. The addon now emits `unlearned` itself; this
+    re-derives it for rings already on disk, so an old capture is judged by the corrected
+    rule rather than needing a re-fly. Delete once no pre-v0.32.54 ring matters.
+    """
     out = {}
     for v in _aslist(_asdict(sample.get("cov")).get("verdicts")):
         if isinstance(v, dict) and v.get("id") is not None:
+            v = dict(v)
+            if v.get("v") == "blind" and v.get("known") is False:
+                v["v"], v["relabelled"] = "unlearned", True
+            elif v.get("v") == "blind" and v.get("known") is None:
+                v["v"], v["relabelled"] = "unknown", True
             out[int(v["id"])] = v
+    return out
+
+
+def _recount(vm: dict[int, dict]) -> dict[str, int]:
+    """Counts derived from the (possibly re-judged) verdict map, not from the recorded
+    summary — otherwise the shim above would fix the detail and leave the totals lying."""
+    out: dict[str, int] = {}
+    for v in vm.values():
+        out[v.get("v", "?")] = out.get(v.get("v", "?"), 0) + 1
     return out
 
 
@@ -346,25 +379,30 @@ def _check_coverage(rep: Report, samples: list[dict]) -> None:
             continue
         cov = _asdict(sample.get("cov"))
         vm = _verdict_map(sample)
-        blind = cov.get("blind") or 0
+        n = _recount(vm)
+        blind = n.get("blind", 0)
         rep.check(blind == 0, "0 BLIND",
-                  f"({cov.get('okN')} tracked · {cov.get('virtualN')} our own icons · "
-                  f"{cov.get('expectedN')} override-only · {blind} blind · "
-                  f"{cov.get('unknownN')} unknown, over {cov.get('scanned')} CDM rows)")
-        if blind:
-            for spell, v in sorted(vm.items()):
-                if v.get("v") == "blind":
-                    known = v.get("known")
-                    rep.note(f"BLIND {spell} — knownness "
-                             + ("true" if known is True else
-                                "FALSE (untalented — a weaker finding)" if known is False
-                                else "unreadable (a weaker finding)"))
+                  f"({n.get('ok', 0)} tracked · {n.get('virtual', 0)} our own icons · "
+                  f"{n.get('expected', 0)} override-only · {n.get('unlearned', 0)} unlearned · "
+                  f"{blind} blind · {n.get('unknown', 0)} unknown, "
+                  f"over {cov.get('scanned')} CDM rows)")
+        relabelled = sorted(s for s, v in vm.items() if v.get("relabelled"))
+        if relabelled:
+            rep.note(f"{len(relabelled)} row(s) re-judged from a pre-v0.32.54 ring "
+                     f"(blind -> unlearned/unknown on knownness): {relabelled}")
+        for spell, v in sorted(vm.items()):
+            if v.get("v") == "blind":
+                rep.note(f"BLIND {spell} — the character HAS it and no CDM row carries it")
         for spell, why in expect["absent"].items():
             rep.check(spell not in vm, f"{spell} absent from the roster", why)
         for spell, (want, why) in expect["verdict"].items():
             got = vm.get(spell, {}).get("v")
             rep.check(got == want, f"{spell} reads {want}",
                       f"got {got or '<not in roster>'} — {why}")
+        for spell, why in expect.get("not_blind", {}).items():
+            got = vm.get(spell, {}).get("v")
+            rep.check(got is not None and got != "blind", f"{spell} is not blind",
+                      f"reads {got or '<not in roster>'} — {why}")
         for spell, (n, why) in expect["tracked_rows"].items():
             got = vm.get(spell, {})
             rows = got.get("n") or 0
@@ -422,6 +460,50 @@ def _check_invalidation(rep: Report, samples: list[dict]) -> None:
         rep.check(True, "two hero trees seen", f"{sorted(heroes)}")
 
 
+def _check_drawability(rep: Report, samples: list[dict]) -> None:
+    """Which roster BUTTONS the CDM database carries but no viewer DISPLAYS.
+
+    MEASURED, never scored, and the distinction is the finding the first flight produced:
+    `coverage` joins on the CDM DATABASE, while whether an ability has an icon to anchor a
+    cue to is a question about the live VIEWERS. Incinerate is in the database (so it reads
+    `tracked`) and has no icon (so `HudVirtual` synthesises one) — both true, and the
+    summary line's "0 our own icons" hides it, because the untracked branch that computes
+    virtual eligibility never runs for an id the database join already matched.
+
+    ⚠ AURAS ARE EXCLUDED, and without that this list is unreadable: they live in the BUFF
+    viewers, which `HudLayout.Scan` does not walk at all, so every tracked aura would show
+    up here as "no icon". Rings from before v0.32.54 carry no `kind`, so the exclusion
+    cannot be made and the list is reported raw with a warning.
+    """
+    rep.head("Roster DRAWABILITY (MEASURED) — in the CDM database, but no icon on screen")
+    seen: set[int] = set()
+    for s in samples:
+        spec = s.get("specID")
+        cov = _asdict(s.get("cov"))
+        if s.get("combat") or not cov.get("ok") or not s.get("layout") or spec in seen:
+            continue
+        seen.add(int(spec))
+        shown = {int(x["spellID"]) for x in _aslist(s.get("layout"))
+                 if x.get("spellID") is not None}
+        vm = _verdict_map(s)
+        have_kind = any(v.get("kind") for v in vm.values())
+        undrawn = sorted(i for i, v in vm.items()
+                         if v.get("v") == "ok" and i not in shown
+                         and (v.get("kind") == "button" if have_kind else True))
+        rep.measured(f"spec {spec}", f"{len(shown)} icon(s) displayed · "
+                                     f"{len(undrawn)} tracked button(s) with no icon")
+        if undrawn:
+            rep.note(f"{undrawn}")
+        if not have_kind:
+            rep.note("⚠ pre-v0.32.54 ring: no `kind` recorded, so AURAS could not be "
+                     "excluded — most of that list is buff-viewer rows, not a finding")
+        else:
+            rep.note("each of these must be covered by HudVirtual's own icon, or it is "
+                     "genuinely undrawable — the next thing worth checking")
+    if not seen:
+        rep.skip("drawability", "no out-of-combat sample carried a layout")
+
+
 def _check_assist(rep: Report, samples: list[dict]) -> None:
     """MEASURED, never scored. The rider's whole question is open; a 'no' closes it just
     as usefully as a 'yes', and a PASS/FAIL frame would invite someone to 'fix' it."""
@@ -447,9 +529,21 @@ def _check_assist(rep: Report, samples: list[dict]) -> None:
     if hot is not None:
         cls = _asdict(hot.get("assist")).get("next0")
         rep.note("THE ANSWER: in combat GetNextCastSpell reads " + str(cls)
-                 + (" — a readable oracle; publish it under api-events-and-discovery.md §2"
+                 + (" — READABLE through combat; publish it under "
+                    "api-events-and-discovery.md §2"
                     if cls == "num" else
                     " — NOT readable in combat; that closes the channel question, publish it"))
+        # ⚠ READABILITY IS NOT USEFULNESS, and the recorder cannot tell them apart by
+        # construction: it dedups by CLASS, so a value that never changes class is sampled
+        # only at transitions. Identical values out of and in combat prove the call did not
+        # go secret; they do not prove it was tracking the rotation.
+        vals = {str(_asdict(s.get("assist")).get("next0Value")) for s in samples
+                if _asdict(s.get("assist")).get("next0Value") is not None}
+        if cls == "num" and len(vals) <= 1:
+            rep.note("⚠ but the value never varied across the flight " + str(sorted(vals))
+                     + " — readability is proven, USEFULNESS is not. The ring dedups by "
+                       "class, so it samples only at transitions; a value-sampling pass is "
+                       "needed before treating this as an oracle to diff the Coach against.")
 
 
 def _check_capability(rep: Report, samples: list[dict]) -> None:
@@ -498,6 +592,14 @@ def _check_decisionlog(rep: Report, decisionlog) -> None:
     nowin = sum(1 for e in entries if "w:-" in e)
     rep.measured("nil-winner rate", f"{nowin}/{len(entries)} lines "
                                     f"({100.0 * nowin / len(entries):.1f}%)")
+    # ⚠ NOT COMPARABLE TO THE 6.2% BASELINE, and saying so is the point. That figure was
+    # measured across a PULL; this log spans the whole session, and out of combat "no
+    # winner" is the correct answer (there is no rotation to advise), so idling inflates it
+    # without anything being wrong. The decision-log line carries no combat flag, so the
+    # split cannot be made here — treat the number as a trend on like-for-like captures
+    # only, never against the pull-only baseline.
+    rep.note("^ spans OOC + combat; the 6.2% pull baseline is NOT comparable (no combat "
+             "flag on a decision-log line to split by)")
 
 
 def cmd_flight(db: dict, path: str) -> int:
@@ -519,6 +621,7 @@ def cmd_flight(db: dict, path: str) -> int:
     _check_combat_guard(rep, samples)
     _check_invalidation(rep, samples)
     _check_capability(rep, samples)
+    _check_drawability(rep, samples)
     _check_decisionlog(rep, db.get("decisionlog"))
     _check_assist(rep, samples)
     print("\n".join(rep.lines))
