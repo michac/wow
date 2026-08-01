@@ -51,7 +51,24 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
   **five** things — Phase 4's acceptance (below), the rider's measurement (below), Phase 3's
   Diabolist half, Phase 2's live pass, and v0.32.47's `ChargeGained` re-fly. Checklist under
   *Owed: the v0.32.36 re-fly*.
-- **✅ DONE — `roster-state-plan.md` Phase 4: the roster coverage probe. NOT YET FLOWN.**
+- **✅ DONE + FLOWN — `roster-state-plan.md` Phase 4: the roster coverage probe.**
+  **Flown 2026-08-01** on the first `/cdmp flight` pass; `wowkb.cdmp flight` now reads
+  **ALL CRITERIA PASS**, including all nine in-combat wholesale-guard checks (the one that
+  mattered most: coverage served the cache stale and invented no blind rows, on three
+  separate pulls across two specs). The flight also **paid for itself twice over**:
+  - **The `blind` verdict was crying wolf, and the field proved it immediately.** All three
+    blind rows were ids the character *does not have* — Axe Toss (no Felguard) and Wither
+    (untalented on Diabolist). §5.1 had pre-registered this exact nuance; the fix (v0.32.54)
+    adds two quiet rungs, `unlearned` and `unknown`, so **`blind` now means "you HAVE this
+    ability and the CDM tracks it nowhere"** — the only version of the claim worth shouting.
+  - **Two acceptance criteria were wrong, not the code.** "Incinerate reads `virtual`" came
+    from plan prose conflating *in the CDM database* (what coverage joins on — Incinerate
+    IS in it) with *displayed* (no viewer frame — which is why HudVirtual draws it).
+    Corrected to "must not be blind", with drawability moved to its own **MEASURED** section.
+    ⚠ That section exposed a real limit: **"0 our own icons" is an artefact of branch
+    ordering** — the virtual fence never runs for an id the database join already matched,
+    so the count under-reports what the HUD is actually synthesising. **Open, see backlog.**
+- **(superseded) Phase 4 as shipped, pre-flight:**
   Each spec hand-writes a roster; nothing checked that Blizzard's Cooldown Manager actually
   *tracks* each of those ids, and when it doesn't the HUD is silently blind to that spell —
   no error, no log line. `Coverage.lua` asks that question out of combat, where it is cheap,
@@ -79,7 +96,21 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
   428514 reads tracked across its 4 rows. Then **pull a dummy** and check `/cdmp hud status`
   in combat reads stale/not-scanned — *that* is the most important check: it must never
   report the roster as blind mid-pull.
-- **⏳ RIDER, awaiting its measurement — `/cdmp assist`.** A **temporary** discovery
+- **✅ ANSWERED — the rider: `C_AssistedCombat.GetNextCastSpell()` IS READABLE IN COMBAT.**
+  Measured 2026-08-01: a **plain number** (`issecretvalue` false, safe to compare/format),
+  out of combat and inside a pull, on both arguments; `IsAvailable()` a plain bool and
+  `GetRotationSpells()` a plain table alongside. So Blizzard hands us a rotation answer
+  through a channel that **does not go secret** — unlike every cooldown channel in
+  `notes.md`. Published as `knowledge/addon-dev/api-events-and-discovery.md` **§2.9**
+  (with the desk reasoning that predicted it, so the method generalises to the next
+  uncertain `C_*` call), and `notes.md`'s Assisted-Highlight row is corrected from
+  "Blizzard-only".
+  ⚠ **Readability is proven; USEFULNESS is not.** The sampled value never varied (a constant
+  `691`, Summon Felhunter) — the ring dedups by readability *class*, so it only samples at
+  transitions. **A value-sampling pass is owed before treating this as an oracle to diff the
+  Coach against**, and it is a generic single-target rotation with no AoE/mode awareness or
+  burst planning regardless. See backlog.
+- **(superseded) the rider as originally framed — `/cdmp assist`.** A **temporary** discovery
   instrument (`Assist.lua`, AlertTape's mould, marked for deletion) answering one question:
   does **`C_AssistedCombat.GetNextCastSpell()` return a readable spellID in combat?** If it
   does, Blizzard hands us a ground-truth "what to press next" through a channel that
