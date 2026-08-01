@@ -51,7 +51,14 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
   discharges **three** things — Phase 3's own acceptance (Hellcaller's key hint), Phase 2's
   live pass, and v0.32.47's `ChargeGained` re-fly. Checklist under *Owed: the v0.32.36
   re-fly* below.
-- **✅ DONE — `roster-state-plan.md` Phase 3 (v0.32.48): the keybind left the cue channel.**
+- **✅ DONE + FLOWN — `roster-state-plan.md` Phase 3 (v0.32.48): the keybind left the cue
+  channel.** Live-confirmed 2026-07-31, and the acceptance signal is one line of
+  `/cdmp hud layout` on **Hellcaller**:
+  `cd=164597  spellID=445468 (Wither)  key=F  drew=F`. That row's base is Immolate 348; it
+  resolved nothing before this work and the icon showed no key. The same dump shows **16 key
+  hints against 2 cues** across 17 icons — the channel separation doing exactly what it
+  says — and `Command Demon key=none / drew=—`, correct because it is genuinely unbound and
+  we never invent a placeholder.
   The DrawList gained a **`keybinds[]` channel**, so `cues[]` means *decisions* again. The
   layering had been inverted: `HudBinds.lua`'s header says a keybind is "identity chrome,
   deliberately OUTSIDE the cue contract", and the Binder was emitting an **empty cue** (a
@@ -426,25 +433,28 @@ rides. Three fences worth keeping in mind before touching it:
 ### ⏳ Owed: the v0.32.36 re-fly
 
 **One flight discharges four owed things** — this re-fly, Phase 2's live pass, Phase 3's
-acceptance, and v0.32.47's `ChargeGained` re-fly. Nothing below is verified in the field
-yet. `/reload` first, then:
+acceptance, and v0.32.47's `ChargeGained` re-fly. **Phase 3's half is ✅ done (2026-07-31)**;
+the rest is still owed. `/reload` first, then:
 
 - **`/cdmp rt states`** — three visual questions in one card: (a) is the dot a clean
   borderless circle that blends into its glow? (b) does LATE read as an *escalated*
   rotation cue rather than a different instruction? (c) does the violet FALLBACK still
   separate from the shard pips? Plus the Phase-3 one: does the **IDLE** square still read
   "key hint, no dot"? It is the only square now emitted on the keybinds channel alone.
-- **Phase 3 — `/cdmp hud layout` on Hellcaller.** Every displayed row shows a key, and the
-  Immolate/Wither row now shows **Wither's** key where it previously showed none. Switch to
-  Diabolist and confirm it still shows Immolate's. Screen otherwise unchanged: key hints on
-  every displayed icon, dots only where cued, `/cdmp hud` off leaves Blizzard's UI
-  pixel-clean. ⚠ **The cue count WILL drop** on `/cdmp hud status` and in the decision log's
-  `B{}` field — it counts decisions now, not decisions + chrome. Confirm that is the only
-  thing that moved.
+- **✅ Phase 3 — DONE 2026-07-31.** `/cdmp hud layout` on Hellcaller gave
+  `cd=164597 … (Wither) key=F drew=F`, 16 key hints against 2 cues, and the keys on screen.
+  ⏳ **The one part left is the Diabolist side**: switch hero tree and confirm the same row
+  shows **Immolate's** key instead — that proves the ladder *falls through* rather than
+  having simply learned Wither. Fold it into the *Diabolist dummy pull* below; it does not
+  deserve its own trip.
 - **Phase 2 — the DoT read.** The acceptance signal is the **`not_up` cue appearing at all**
   in `wowkb.cdmp decisionlog` (baseline: 169 `pandemic_refresh` / 0 `not_up` across a whole
-  pull), the DoT cue firing across the *whole* pull rather than one 5.8 s window, `Imm=off/…`
-  in the `DOT:` field, and `aura-frame read: N/N` non-zero on `/cdmp hud status`.
+  pull), the DoT cue firing across the *whole* pull rather than one 5.8 s window, and
+  `Imm=off/…` in the `DOT:` field.
+  - ✅ **The capability half is already confirmed** (2026-07-31): `/cdmp hud status` read
+    **`aura-frame read: 25/25 auraDataUnit, 25/25 pandemic writers`**. Both halves non-zero
+    means the §3.10 per-frame channel is live on every row and the rule-17b fallback to the
+    edge latch never fired — so what remains is purely whether the *cue* behaviour follows.
 - **v0.32.47 — the `ChargeGained` gain floor.** Pull a dummy as **Destruction**, then
   `/reload` + `wowkb.cdmp decisionlog`: Conflagrate's share of decisions should fall well
   below its **702-of-1272** baseline, and it must not be cued at zero charges.

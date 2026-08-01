@@ -14,8 +14,11 @@
 > `census_spec`), luacheck 0 warnings, 96 → 99 cases. Two housekeeping items rode along:
 > `GetValidAlertTypes` was promoted into `Util.lua` (Phase 4's prerequisite, rescued from the
 > doomed `AlertTape.lua`) and **`Census.lua` was deleted**. **§4.2 records what actually
-> changed.** ⏳ **Its live pass is owed** — and covers Phase 2's and v0.32.47's owed re-flies
-> in the same flight.
+> changed.** ✅ **FLOWN the same day** — `cd=164597 … key=F drew=F` on Hellcaller is the
+> acceptance signal, with 16 key hints against 2 cues proving the channel separation. The
+> flight cost three extra builds to a **pre-existing** keybind-cache bug (the scan refused to
+> run in combat, and a dummy session is continuous combat) — **no Phase 3 code was involved**;
+> see §4.2. Phase 2's and v0.32.47's re-flies are still owed.
 >
 > **✅ Phase 2 SHIPPED 2026-07-31** (commits C1–C10, released as **v0.32.46**). **All ten
 > correctness fixes landed** — §3.1 through §3.10, in the evidence-led order §10 sets out, not
@@ -761,11 +764,34 @@ it back**.
 and in the workspace `tools/wowkb/cdmp.py` + both `CLAUDE.md`s. Suite **567 → 562** (the
 new work nets out against `census_spec`'s deletion), luacheck 0 warnings, 96 → 99 cases.
 
-**Still owed: the live pass**, which covers three things at once — Hellcaller's key hint
-(the phase's own acceptance signal), Phase 2's owed re-fly, and v0.32.47's owed
-`ChargeGained` re-fly. ⚠ **Expect the cue count to drop** on `/cdmp hud status` and in the
-decision log's `B{}` field: it now counts decisions, not decisions + chrome. That is the
-phase working, not a regression — confirm it is the *only* thing that moved.
+### ✅ Flown 2026-07-31 — the acceptance signal, verbatim
+
+```
+cd=164597  spellID=445468 (Wither)  key=F  drew=F  frame=bound
+```
+
+That is the whole phase in one line. On **Hellcaller** the row's base is Immolate 348, it
+resolved *nothing* before this work, and the icon showed no key at all; the ladder now finds
+Wither at **rung 4** and the `keybinds[]` channel carries it to the screen. The same dump
+shows the channel separation working — **16 key hints, 2 cues** across 17 displayed icons
+(`cue=ROTATION` on Conflagrate, `cue=ROTATION_FALLBACK` on Summon Infernal) — and
+`Command Demon key=none / drew=—`, which is correct: genuinely unbound, and **never a
+placeholder**.
+
+⚠ **The flight cost three extra builds, and none of them were Phase 3's fault.** The first
+pass ran entirely keyless because `HudBinds` refused to scan the action bars in combat and a
+target-dummy session is *continuous combat* — so the 180-slot scan had never run once. Every
+symptom in that session, including the earlier and more confusing "only *some* icons have
+keys", comes from that one gate. Not a line of Phase 3 code changed in the fix; the
+`key=none` reading covered rows like Dark Pact that never needed the ladder at all. Full
+account in `status.md`. **The lesson is the instrument:** `B.stats` had tracked
+`slots`/`bound`/`scans`/`deferred` since v0.6.1 and nothing displayed it, so a cache that had
+silently given up was indistinguishable from a rendering bug.
+
+**Still owed on this flight** — *not* Phase 3's, but it rides the same trip: the
+**Diabolist** half of the ladder (the same row should show Immolate's key), Phase 2's DoT
+acceptance (`not_up` appearing at all), and v0.32.47's `ChargeGained` re-fly. Checklist in
+`status.md` → *Owed: the v0.32.36 re-fly*.
 
 ---
 

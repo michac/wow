@@ -49,8 +49,9 @@ The docs split **general** (spec-agnostic — the product, the pipeline) from
   produced 169 "refresh the DoT" cues and **zero** "apply it".
   **Phase 3 (v0.32.48) separated the keybind from the cue channel** — the DrawList gained a
   `keybinds[]` channel so `cues[]` means *decisions*, and the keybind now resolves down the
-  **rung ladder** (3 → 4 → 5), which is what gives **Hellcaller its key hint**. Corpus **0
-  `pinned-defect` / 21 `fixed`**. ⏳ **One live pass is owed and covers both phases.**
+  **rung ladder** (3 → 4 → 5), which is what gives **Hellcaller its key hint** — ✅ **flown
+  the same day**: `cd=164597 … (Wither) key=F drew=F`, 16 key hints against 2 cues. Corpus
+  **0 `pinned-defect` / 21 `fixed`**. ⏳ **Phase 2's live pass is still owed.**
   **§3.11 and §4.2 are the records of what actually changed**, including the deliberate
   deviations — read them before "fixing" any of those back, and read §3.1–§3.10 / §4.1
   before "fixing" anything a case pins.
