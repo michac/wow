@@ -913,6 +913,68 @@ knownness forced true (still reuse, not re-derivation) rather than to invent a s
 **Not built, and deliberately:** no `fixtures/cdm-cases.lua` additions — that corpus is
 about State's fold, not this join, and its `#pinned + #fixed` floor is untouched.
 
+### 5.2 ✅ FLOWN 2026-08-01 — and the flight changed two things
+
+The pass ran on the **first `/cdmp flight`** (the acceptance recorder built the same day,
+because collecting this by hand was ten slash commands, several typed mid-pull).
+`wowkb.cdmp flight` reported **4 FAILURES** on the first read and now reports **ALL
+CRITERIA PASS**. What held, and what did not:
+
+**Held, unmodified.** All **nine** in-combat wholesale-guard checks — three pulls across
+two specs — showing coverage served the cached report `stale` and invented no blind rows,
+plus the cold-start rows refusing honestly with `reason = "in-combat"`. That was the
+phase's most important claim and it needed no change. Spec + hero invalidation both fired.
+Diabolic Ritual read tracked across its 4 rows; the four override-only ids read `expected`;
+Crashing Chaos was absent.
+
+**Changed #1 — `blind` was crying wolf, and every single instance proved it.** All three
+blind rows were ids the character **does not have**: Axe Toss `119914` on both specs (no
+Felguard) and Wither `445468` on Diabolist (untalented on that tree). Zero real findings,
+three loud rows — the precise failure mode this report was built to avoid.
+§5.1 pre-registered this as "the one nuance the live pass should watch"; the field hit it on
+the first pass. **v0.32.54 adds two quiet rungs** to the untracked branch — `unlearned`
+(knownness `false`) and `unknown` (knownness unreadable) — so **`blind` now means "the
+character HAS this ability and the CDM tracks it nowhere"**, the only version of the claim
+worth shouting. §5.1's pre-registered fix (re-ask the fence list with knownness forced true)
+was **not** what was needed and is withdrawn: for `known == false` the answer is not "would
+we synthesise it", it is "there is nothing to be blind to."
+
+**Changed #2 — two acceptance criteria were wrong, not the code.** "Incinerate 29722 reads
+`virtual`" and "Shadow Bolt 686 reads `virtual`" came from this document's own prose calling
+them the ids "the CDM tracks nowhere". That conflates two different facts:
+
+| | |
+|---|---|
+| **in the CDM database** | `GetCooldownViewerCategorySet(…, allowUnlearned=true)` carries the id. **This is what `coverage` joins on**, and Incinerate IS in it (1 row). |
+| **displayed** | a live viewer frame exists to anchor a cue to. Incinerate is **not** — which is exactly why `HudVirtual` synthesises an icon for it. |
+
+Both true simultaneously. The criteria became "must not be blind", and drawability moved to
+its own **MEASURED** section of the report (it depends on the viewers being up, so it is not
+something to fail a build over).
+
+> ⚠ **THE OPEN CONSEQUENCE, and it is a real limit of this phase.** `counts.virtual` is
+> computed in the **untracked branch only**, so it never runs for an id the database join
+> already matched — and the live HUD *is* synthesising Incinerate while the report says
+> **"0 our own icons"**. The count is an artefact of branch ordering, not a fact about the
+> HUD. Coverage as shipped answers *"is this id in the CDM database"*; the question the HUD
+> actually cares about is *"does this id have an icon — Blizzard's or ours"*. **Not fixed
+> here** (drawability needs the viewers up, so it wants the same wholesale guard the
+> database join has, and that is a design step, not a patch). Backlog: *status.md →
+> Improvements*.
+
+**Also discharged by the same ring** (no extra flying): Phase 3's owed Diabolist half —
+`cd=164597` reads `spellID=348 (Immolate) key=F` on Diabolist against
+`spellID=445468 (Wither) key=F` on Hellcaller, so the keybind ladder **falls through** to
+whichever spell the row actually displays rather than having simply learned Wither. Phase 2's
+DoT acceptance (**15 `not_up`** against a pre-Phase-2 baseline of **0**) and v0.32.47's
+`ChargeGained` re-fly (Conflagrate 27.3 % of decisions, baseline 55.2 %) both passed.
+
+> 📌 **Observed in passing, not chased:** the first Diabolist sample reads
+> `cd=164597 key=None drew=F` and the next reads `key=F` — the `HudBinds` invalidate →
+> rescan window after a talent swap, visible for about a second. Harmless (the DrawList kept
+> the previous resolution meanwhile) but it is the first time that window has been observed
+> at all.
+
 ---
 
 ## 6 · Phase 5 — anchor on the roster

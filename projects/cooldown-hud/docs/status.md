@@ -24,7 +24,7 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
   cutover; the `/cdmp probe` + `probe-baseline.json` assertion suite was retired 2026-07-29
   (settled readability rules + DB2-sourced tracked set made per-spec re-measurement moot).
 - **Gates:** `luaparser` (release) + `luacheck CDMProbe/` + `busted CDMProbe/tests/spec`
-  (**621 tests / 4 pending**, luacheck 0 warnings). All three are **hard** release gates —
+  (**624 tests / 4 pending**, luacheck 0 warnings). All three are **hard** release gates —
   `wowkb.addon release` aborts the cut on any non-zero exit.
   ⚠ All three are **source** gates: none of them runs the game, and the v0.32.25 outage
   below is what that blind spot looks like in practice.
@@ -558,12 +558,11 @@ The per-item detail below is what the report checks, kept for when a line comes 
   rotation cue rather than a different instruction? (c) does the violet FALLBACK still
   separate from the shard pips? Plus the Phase-3 one: does the **IDLE** square still read
   "key hint, no dot"? It is the only square now emitted on the keybinds channel alone.
-- **✅ Phase 3 — DONE 2026-07-31.** `/cdmp hud layout` on Hellcaller gave
-  `cd=164597 … (Wither) key=F drew=F`, 16 key hints against 2 cues, and the keys on screen.
-  ⏳ **The one part left is the Diabolist side**: switch hero tree and confirm the same row
-  shows **Immolate's** key instead — that proves the ladder *falls through* rather than
-  having simply learned Wither. Fold it into the *Diabolist dummy pull* below; it does not
-  deserve its own trip.
+- **✅ Phase 3 — FULLY DONE + FLOWN.** Hellcaller 2026-07-31
+  (`cd=164597 … (Wither) key=F drew=F`, 16 key hints against 2 cues); **the Diabolist half
+  landed 2026-08-01 off the flight ring** — the same `cd=164597` reads
+  `spellID=348 (Immolate) key=F`, so the ladder **falls through** to whichever spell the row
+  displays rather than having simply learned Wither. Nothing outstanding.
 - **Phase 2 — the DoT read.** The acceptance signal is the **`not_up` cue appearing at all**
   in `wowkb.cdmp decisionlog` (baseline: 169 `pandemic_refresh` / 0 `not_up` across a whole
   pull), the DoT cue firing across the *whole* pull rather than one 5.8 s window, and
@@ -768,6 +767,28 @@ states over real icon art after the file split.
 
 The container for what's next. The old engine is gone, so this is where feature/quality
 work lands now — the user drives the list; a few already-surfaced items are seeded:
+
+- **📋 Coverage answers "in the CDM database", not "has an icon" — and the summary line
+  hides the difference.** *(Opened 2026-08-01 by the first flight; `roster-state-plan.md`
+  §5.2.)* `counts.virtual` is computed in Coverage's **untracked branch only**, so it never
+  runs for an id the database join already matched. The live HUD **is** synthesising an icon
+  for Incinerate 29722 while `/cdmp hud status` reports **"0 our own icons"** — an artefact
+  of branch ordering, not a fact about the HUD. The question the HUD actually cares about is
+  *"does this id have an icon, Blizzard's or ours"*, which needs a **drawability** join
+  against the live viewers — and therefore the same wholesale guard the database join has,
+  since an empty layout means "the viewers are not up", never "nothing is drawable". A
+  design step, not a patch. `wowkb.cdmp flight` reports drawability as **MEASURED** in the
+  meantime, so the gap is visible rather than silent.
+- **📋 The `C_AssistedCombat` oracle: readability is proven, USEFULNESS is not.**
+  *(Opened 2026-08-01; `knowledge/addon-dev/api-events-and-discovery.md` §2.9.)*
+  `GetNextCastSpell()` returns a plain readable number through combat — measured — but the
+  sampled value **never varied** (a constant `691`, Summon Felhunter), because the flight
+  ring dedups by readability *class* and so only samples at transitions. **A value-sampling
+  pass is owed** before this can be used as an independent oracle to diff the Coach against
+  (or as a floor when everything else goes secret). Cheap: a variant of the assist watch
+  that records on VALUE change during one pull. Note it is a generic single-target rotation
+  with no AoE/mode awareness and no burst planning regardless, so it is a cross-check, never
+  a replacement.
 
 - **📋 `roster-state-plan.md` — anchor State on the spec roster, not the CDM database.**
   A written plan (2026-07-31), six phases. **Phases 1 and 2 are DONE; Phase 3 is now the
