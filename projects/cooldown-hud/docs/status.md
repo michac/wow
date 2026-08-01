@@ -24,7 +24,7 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
   cutover; the `/cdmp probe` + `probe-baseline.json` assertion suite was retired 2026-07-29
   (settled readability rules + DB2-sourced tracked set made per-spec re-measurement moot).
 - **Gates:** `luaparser` (release) + `luacheck CDMProbe/` + `busted CDMProbe/tests/spec`
-  (**569 tests / 4 pending**, luacheck 0 warnings). All three are **hard** release gates —
+  (**610 tests / 4 pending**, luacheck 0 warnings). All three are **hard** release gates —
   `wowkb.addon release` aborts the cut on any non-zero exit.
   ⚠ All three are **source** gates: none of them runs the game, and the v0.32.25 outage
   below is what that blind spot looks like in practice.
@@ -38,19 +38,59 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
   charge restored and *never* raises `OnCooldown`, so the ready-edge latched true forever and
   Conflagrate was cued at zero charges. That doc holds the evidence and the two things the
   pass left unproven. **Nothing in it is outstanding.**
-- **Active work: `roster-state-plan.md` — ▶ PHASE 4 (the roster coverage probe). Phases 1,
-  2 and 3 are all DONE (2026-07-31).**
-  Phase 4 asks the cheap out-of-combat question the in-combat maintenance layer cannot: *does
-  the CDM cover every id the spec's roster declares?* Its one API prerequisite already landed
-  — `ns.ReadValidAlertTypes` was promoted into `Util.lua` in Phase 3, out of the doomed
-  `AlertTape.lua`. ⚠ **That API under-reports**, so the report must say "not reported
-  eligible", never "cannot fire". Read the plan's §5 before starting. (§10 also permits
-  **Phase 6** — cast-results → Coach — to jump the queue; it is independently shippable and
-  touches nothing else.)
-  ⏳ **One flight is owed first, and it needs you in-game, not code**: a single live pass
-  discharges **three** things — Phase 3's own acceptance (Hellcaller's key hint), Phase 2's
-  live pass, and v0.32.47's `ChargeGained` re-fly. Checklist under *Owed: the v0.32.36
-  re-fly* below.
+- **Active work: `roster-state-plan.md` — ▶ PHASE 6 (cast-*results* → the Coach). Phases 1,
+  2, 3 and 4 are all DONE (2026-07-31).**
+  Phase 6 is permitted to jump the queue (§10) and is pure deletion from State: the
+  `inflightIncoming` / `projectIncoming` / shard-projection block (~270 lines), the
+  `ns.SpecPowerDelta` injection, and **both `Enum.PowerType.SoulShards` hardwires** — the
+  only class-specific literals in State's code. The Coach re-derives projected power as a
+  pure function of the pulse, in the layer that is already fixture-tested. Read the plan's
+  §7. (Phase 5 — anchor State on the roster — is the bigger one and comes after; §6.1 is its
+  load-bearing design decision and must be read first.)
+  ⏳ **A flight is owed and it needs you in-game, not code**: one live pass now discharges
+  **five** things — Phase 4's acceptance (below), the rider's measurement (below), Phase 3's
+  Diabolist half, Phase 2's live pass, and v0.32.47's `ChargeGained` re-fly. Checklist under
+  *Owed: the v0.32.36 re-fly*.
+- **✅ DONE — `roster-state-plan.md` Phase 4: the roster coverage probe. NOT YET FLOWN.**
+  Each spec hand-writes a roster; nothing checked that Blizzard's Cooldown Manager actually
+  *tracks* each of those ids, and when it doesn't the HUD is silently blind to that spell —
+  no error, no log line. `Coverage.lua` asks that question out of combat, where it is cheap,
+  and prints it: one line on `/cdmp hud status`, the full per-id table on **`/cdmp hud
+  coverage`**. It is also the **required replacement** for `pulse.dropped`, which Phase 5
+  removes (§8: without it a loud failure is traded for a quiet one).
+  Per declared id a coverage fact (`tracked` / `untracked` / `unreadable`) and a verdict —
+  `ok` · `virtual` (we draw our own icon) · `expected` (`expect = false`, override-only) ·
+  **`blind`** (the loud one) · `unknown`. Plan **§5.1 is the record**; the three decisions in
+  short:
+  - **Diagnostic only.** §5's second payoff — State branching readiness on
+    `GetValidAlertTypes` — was deliberately **not** built: that API was measured
+    *under-reporting*, so it is a lower bound, and the readout says **"reported eligible"**,
+    never "cannot fire".
+  - **The wholesale guard**, twice over: an empty scan reports `cdm-empty` and calls **no**
+    entry untracked, and in combat the cached report comes back marked stale rather than
+    rescanning. Mutation-checked. Without it the probe cries wolf every login and gets
+    ignored — worse than not existing.
+  - **Crashing Chaos 417234 is deleted from the Destruction roster** (redundant, not blind —
+    the shard-cost change it would signal is already read live via `ns.ShardCost`).
+    ⚠ **So the `blind` verdict now has no live instance and is fixture-proven only.**
+  🎯 **Acceptance, on the owed flight:** `/cdmp hud coverage` on Destruction reads **0
+  BLIND**, Crashing Chaos is gone from the list entirely, Incinerate 29722 reads `virtual`,
+  the Ruination alts / Singe Magic / Devour Magic read override-only, and Diabolic Ritual
+  428514 reads tracked across its 4 rows. Then **pull a dummy** and check `/cdmp hud status`
+  in combat reads stale/not-scanned — *that* is the most important check: it must never
+  report the roster as blind mid-pull.
+- **⏳ RIDER, awaiting its measurement — `/cdmp assist`.** A **temporary** discovery
+  instrument (`Assist.lua`, AlertTape's mould, marked for deletion) answering one question:
+  does **`C_AssistedCombat.GetNextCastSpell()` return a readable spellID in combat?** If it
+  does, Blizzard hands us a ground-truth "what to press next" through a channel that
+  survives Secret Values — an independent oracle to diff the Coach against. The desk read
+  says yes (no Predicate entry in the generated docs; `SecretArguments` governs the
+  *argument*; `AssistedCombatManager` does a plain `~=` on the return inside combat) —
+  which is exactly why it needs flying, since a confident desk answer nobody measured is how
+  the keybind-cache bug survived. `GetRotationSpells()` comes free and is a second opinion on
+  roster completeness. **A negative result is worth as much as a positive one**; either way
+  it goes into `knowledge/addon-dev/api-events-and-discovery.md` §2 and corrects
+  `notes.md`'s Assisted-Highlight row from "Blizzard-only".
 - **✅ DONE + FLOWN — `roster-state-plan.md` Phase 3 (v0.32.48): the keybind left the cue
   channel.** Live-confirmed 2026-07-31, and the acceptance signal is one line of
   `/cdmp hud layout` on **Hellcaller**:
@@ -432,9 +472,29 @@ rides. Three fences worth keeping in mind before touching it:
 
 ### ⏳ Owed: the v0.32.36 re-fly
 
-**One flight discharges four owed things** — this re-fly, Phase 2's live pass, Phase 3's
-acceptance, and v0.32.47's `ChargeGained` re-fly. **Phase 3's half is ✅ done (2026-07-31)**;
-the rest is still owed. `/reload` first, then:
+**One flight discharges six owed things** — this re-fly, Phase 2's live pass, Phase 3's
+acceptance, v0.32.47's `ChargeGained` re-fly, **Phase 4's coverage acceptance** and **the
+`/cdmp assist` rider's measurement**. **Phase 3's half is ✅ done (2026-07-31)**; the rest is
+still owed. `/reload` first, then:
+
+- **Phase 4 — roster coverage.** `/cdmp hud status` shows the coverage line with **0 BLIND**.
+  Then `/cdmp hud coverage` on **Destruction**: Crashing Chaos is **gone from the list
+  entirely**, Incinerate 29722 reads `virtual`, the Ruination alts (434635/434636) + Singe
+  Magic 132411 + Devour Magic 388215 read `override-only`, and Diabolic Ritual 428514 reads
+  `tracked` across its 4 rows with `reported eligible: …` lines and the lower-bound footer.
+  Switch to **Demonology** and the report rebuilds for the new roster (Shadow Bolt 686 reads
+  `virtual`) — that proves the `PLAYER_SPECIALIZATION_CHANGED` invalidation.
+  - ⚠ **The single most important check is in combat.** On any dummy pull, `/cdmp hud status`
+    must read **stale / not-scanned** and must **never** report the roster as blind. That is
+    the wholesale guard on the live path.
+  - **Not verifiable this flight:** the `blind` verdict itself — its only live instance
+    (Crashing Chaos) was deleted. Fixture-only, by design.
+- **The rider — `/cdmp assist`.** Run it out of combat, then again mid-pull (macro it, or
+  leave `/cdmp assist watch` on for the pull and read the ring after `/reload` with
+  `/cdmp assist dump`). **The answer is the readability CLASS of `GetNextCastSpell`'s return
+  in combat**, and it is publishable either way: it becomes a new subsection under
+  `knowledge/addon-dev/api-events-and-discovery.md` §2, and `notes.md`'s Assisted-Highlight
+  row gets corrected from "Blizzard-only" to whatever we measure.
 
 - **`/cdmp rt states`** — three visual questions in one card: (a) is the dot a clean
   borderless circle that blends into its glow? (b) does LATE read as an *escalated*
@@ -663,12 +723,12 @@ work lands now — the user drives the list; a few already-surfaced items are se
   and the identity ladder skipping rung 2 (`linkedSpellID`). **Phase 1 was the net, and it is
   built**: a *fixture inventory* of the edges the CDM can hand us, because the ~90
   `state_domainview_spec` tests are **regression-shaped** — every `describe` is named after a
-  past bug, so coverage tracked what has bitten us rather than the input space. Still to do: separating the keybind
-  back out of the cue channel (`Binder.lua:87`'s empty-cue trick), a roster **coverage
-  probe** via `GetValidAlertTypes` (Crashing Chaos 417234 is declared but has **zero** CDM
-  rows — no combat-readable channel at all), and moving cast-*results* out of State into
-  the Coach (deletes ~270 lines and both `SoulShards` hardwires). Phase 2.3 (hoist the
-  per-entry GCD read, ~128 redundant calls/tick) and Phase 6 are shippable today.
+  past bug, so coverage tracked what has bitten us rather than the input space. ✅ Two of the
+  three follow-ons named here have since shipped: the keybind left the cue channel
+  (Phase 3, v0.32.48) and the roster **coverage probe** landed (Phase 4 — and Crashing Chaos
+  417234, the declared-but-zero-rows instance that motivated it, was deleted rather than
+  covered). Still to do: moving cast-*results* out of State into the Coach (deletes ~270
+  lines and both `SoulShards` hardwires) — Phase 6, shippable today.
   - **Revised 2026-07-31 by a Phase-1 design pass**, which did the thing the phase exists for
     and found **five more defects** before a line of it was written — all verified in v0.32.41,
     all filed as `§3.4–§3.8` — **all now fixed in Phase 2 (v0.32.46); this is the diagnosis, the
@@ -1100,3 +1160,53 @@ work lands now — the user drives the list; a few already-surfaced items are se
   returns as a curated layout string, where enforcement strength (auto-apply →
   import-and-verify → nag) becomes the UX question. Binding-by-ID gives determinism
   without it, so it stays parked until a concrete need forces it.
+- **Use the simc source as a resource: (a) audit existing coaches, (b) write new coaches,
+  (c) check our metadata.** Added 2026-07-31 after cloning
+  `raw/addon-research/simc` (branch `midnight`, shallow, gitignored; refresh with
+  `git -C raw/addon-research/simc pull`). simc models a rotation the same way we do — a
+  flat ordered list, first-usable-wins (`player_t::select_action`, `player.cpp:14111`),
+  with `ready()` / `if_expr` splitting *can I cast it* from *should I*
+  (`action.cpp:2568`) exactly as `Classify` splits from the cascade. The difference is
+  that its conditions are **data** (parsed expression strings) where ours are Lua, and
+  that it has no notion of an unreadable input. Three uses:
+  - **(a) Audit.** `ActionPriorityLists/default/warlock_{demonology,destruction}.simc`
+    is the Tier-1 list our `specs/*/rotation.md` claims to derive from — diff line by
+    line. A scripted readability pass over those two (2026-07-31) found **26 of 35**
+    Demonology and **26 of 46** Destruction press lines need only inputs we can read;
+    the blockers are a short named set — `buff.*.stack` (Demonic Core, Wild Imps ≥ 6,
+    Backdraft ≥ 2), numeric `cooldown.*.remains`, `target.health.pct`, `fight_remains`,
+    and the target-iteration family (`target_if`, `active_dot`,
+    `dot_refreshable_count`). That is a per-line ledger of what each observability gap
+    would actually buy, arrived at independently of `observability-map.md`.
+  - **(b) New coaches.** `ActionPriorityLists/assisted_combat/` carries a **second** APL
+    per spec, generated from Blizzard's own `AssistedCombat` / `AssistedCombatStep` /
+    `AssistedCombatRule` DB2 tables (`ActionPriorityLists/README.md`; parser at
+    `player.cpp:3608`/`:3696`, condition enum `data_enums.hh:2051-2124`, 71 types). It is
+    ~10–25 lines and written almost entirely in vocabulary we can read. **We can skip
+    simc for this** — `wowkb.wago AssistedCombatStep` / `AssistedCombatRule` already
+    work (693 steps / 3116 rules at 12.0.7), and give the list keyed by **spellID with
+    typed conditions**, which beats the `.simc` text for us since we never leave
+    spellIDs. simc's value is the enum decode plus its **self-annotating override
+    ledger**: every class-module deviation from Blizzard's data prints
+    `(Overridden from '…')` into the file (`player.cpp:3730`), e.g. the Warlock module
+    neutering a rule that still references the removed Ritual of Ruin buff
+    (`sc_warlock_init.cpp:1603`).
+  - **(c) Metadata check.** `SpellDataDump/warlock.txt` is pinned to **12.0.7.68887
+    (hotfix 2026-07-24)** — our live build — and carries per-spell cast time, GCD,
+    cooldown, charges, resource cost, duration, `Replaces` and trigger chains in
+    greppable text. That is the napkin's static input table and an offline cross-check
+    for exactly the claims these docs flag as shaky (Shadowburn `ChargeCategory = 0`,
+    the Destruction Ruination override id, HoG's talent-dependent cost). Worth a small
+    `wowkb` extractor.
+  - **Bridge:** `util::tokenize` (`engine/util/util.cpp`) is only lowercase +
+    spaces→underscores + strip punctuation, so an APL action token *is* the tokenized
+    spell name (`hand_of_guldan` ← "Hand of Gul'dan"). With `wowkb.spec_inventory`
+    already holding per-spec names and ids for all 40 specs, APL line → spellID is
+    mechanical, not hand-curation.
+  - ⚠ **Do not port the expression engine.** The grammar is small (~25 tokens,
+    recursive descent, `sim/expressions.cpp`) and a data-driven APL table would make the
+    rotation.md ↔ brain ↔ simc diff mechanical — but the wall is the *inputs*, not the
+    evaluation, and the degradations (three-way `dotState`, presence-instead-of-stacks,
+    mode-instead-of-target-count) are the actual content of the brains. The smaller
+    change worth considering is making the priority **list** data
+    (`{ ability, gate = function(ctx) end, note }` in order) while the gates stay Lua.

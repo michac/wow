@@ -35,8 +35,8 @@ The docs split **general** (spec-agnostic — the product, the pipeline) from
   HUD draws its own icons for abilities Blizzard's Cooldown Manager does not track, so a
   spec's floor press stops being invisible (Destruction was blank for 31 % of a pull).
   Only the v0.32.36 **re-fly** is outstanding, and that needs a live session, not code.
-- **`docs/roster-state-plan.md`** — **Phases 1 + 2 + 3 DONE (2026-07-31); ▶ Phase 4 is
-  CURRENT; Phases 5–6 planned**: anchor State on the spec's declared **roster** (abilities + auras)
+- **`docs/roster-state-plan.md`** — **Phases 1 + 2 + 3 + 4 DONE (2026-07-31); ▶ Phase 6 is
+  CURRENT; Phase 5 after it**: anchor State on the spec's declared **roster** (abilities + auras)
   rather than on the CDM database, plus the correctness fixes and the **fixture inventory** of
   CDM edges that had to come first. Written out of a client-correctness review of `State.lua`
   against `knowledge/addon-dev/cooldown-manager.md`.
@@ -51,8 +51,16 @@ The docs split **general** (spec-agnostic — the product, the pipeline) from
   `keybinds[]` channel so `cues[]` means *decisions*, and the keybind now resolves down the
   **rung ladder** (3 → 4 → 5), which is what gives **Hellcaller its key hint** — ✅ **flown
   the same day**: `cd=164597 … (Wither) key=F drew=F`, 16 key hints against 2 cues. Corpus
-  **0 `pinned-defect` / 21 `fixed`**. ⏳ **Phase 2's live pass is still owed.**
-  **§3.11 and §4.2 are the records of what actually changed**, including the deliberate
+  **0 `pinned-defect` / 21 `fixed`**.
+  **Phase 4 shipped the roster coverage probe** — `Coverage.lua` + `/cdmp hud coverage`:
+  does the CDM actually *track* every id the spec declares, or is the HUD silently blind to
+  one? It is also the required replacement for `pulse.dropped`, which Phase 5 deletes. Its
+  wholesale guard (an empty scan reports "the read refused", never "your roster is blind")
+  is the load-bearing part; Crashing Chaos 417234, its one live instance, was **deleted**
+  rather than covered — so the `blind` verdict is fixture-proven only.
+  ⏳ **Phase 2's live pass and Phase 4's acceptance are both owed** — one flight discharges
+  six things; the checklist is in `status.md` → *Owed: the v0.32.36 re-fly*.
+  **§3.11, §4.2 and §5.1 are the records of what actually changed**, including the deliberate
   deviations — read them before "fixing" any of those back, and read §3.1–§3.10 / §4.1
   before "fixing" anything a case pins.
 - **`docs/field-fixes-plan.md`** — ✅ **done, history** (Phases A/B/C/C2, v0.32.28–31): the

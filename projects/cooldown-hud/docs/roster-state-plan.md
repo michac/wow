@@ -848,7 +848,70 @@ Two things this buys that nothing currently expresses:
 > eligible"*. A `TriggerAlertEvent` hook remains the only complete observation.
 
 > ⚠ `GetValidAlertTypes` currently lives **only** in `AlertTape.lua:204-220` — the file
-> scheduled for deletion. **Promote it before the tape goes.**
+> scheduled for deletion. **Promote it before the tape goes.** ✅ Done in Phase 3.
+
+### 5.1 What actually shipped *(the record — 2026-07-31)*
+
+**`Coverage.lua`** — a new file, in the `.toc` immediately after `State.lua`. Plus
+`St.CoverageRows` in State, `ns.AlertEventName` promoted into `Util.lua`, two `/cdmp hud`
+surfaces, and the deletion of Crashing Chaos. 31 new tests (`coverage_spec.lua` 27 +
+`state_domainview_spec`'s shipped-symbol block 4).
+
+**The vocabulary is the deliverable**, not the readout. Per declared roster id a
+**coverage** fact (`tracked` / `untracked` / `unreadable`) and a **verdict**:
+
+| verdict | when | loud? |
+|---|---|---|
+| `ok` | tracked — some CDM row carries the id as base, `overrideSpellID`, `overrideTooltipSpellID` or a `linkedSpellIDs` member | no |
+| `virtual` | untracked, but the **real** `St.VirtualCandidates` fences say we draw our own icon | no |
+| `expected` | untracked and `expect == false` — the override-only ids and cast aliases | no |
+| `blind` | untracked, `expect ~= false`, not virtual-covered | **yes** |
+| `unknown` | a row refused its fields, so the negative is unprovable | mild |
+
+**Three decisions, and they are the whole design:**
+
+1. **Diagnostic only — payoff #2 was deliberately NOT built.** §5 above lists a second
+   payoff: State distinguishing "no ready edge yet" from "this row is not reported eligible
+   for one". `GetValidAlertTypes` was **measured under-reporting**, so it is a **lower
+   bound**, and branching readiness on a lower bound produces confident false negatives in
+   the one place a wrong answer reaches the screen. Every alert list renders as
+   **"reported eligible: …"**, with the cid-164597 measurement quoted in the dump's footer.
+   Revisit only if a `TriggerAlertEvent` hook ever gives a complete observation.
+2. **The wholesale guard, twice.** An empty scan is `ok = false, reason = "cdm-empty"` and
+   reports **no** entry as untracked — an empty database means the read refused, not that
+   your roster is blind. The deliberate twin of `domainView`'s `next(items) ~= nil` refusal
+   and of §6.1's knownness guard. In combat `Get()` hands back the cached report marked
+   stale rather than rescanning (the struct reads go secret in a pull). The zero-row case is
+   **mutation-checked**: delete the guard and it goes red. There is a per-row twin too — a
+   row that refused its fields could be carrying any id, so every untracked answer degrades
+   to `unknown` rather than joining the alarm.
+3. **Crashing Chaos 417234 is deleted** (`SpecDestruction.lua`), per the adjudication above.
+   ⚠ **Consequence: the `blind` verdict now has no live instance and is proven by fixture
+   only.** Stated here so a clean report is not mistaken for a tested path.
+
+**Reuse, not re-derivation.** Virtual eligibility calls the real fence list —
+`St.VirtualCandidates(specTable, {}, nil, known, baseCooldown)` — with an **empty**
+`abilities` map, i.e. "if nothing were on screen, which of these would we synthesise?",
+which is exactly the question the untracked branch asks. The fences are **not** copied into
+`Coverage.lua`; that is how the two would drift and the report would start calling a drawn
+ability blind.
+
+**Why `St.CoverageRows` lives in State.** `enumerate` / `readInfo` / `readable` / `flagOf`
+are the addon's only guarded CDM-database readers, and a copy of that walk in `Coverage.lua`
+would be a **second guard ladder** over the same restricted API — the mistake §3.9 exists
+about. `St.AuraFrameCapability` is the standing precedent for a diagnostic exported from
+State. No new client reads: coverage is a question about the **database** (which ids exist
+at all), not the domain view (which rows are pressable now), and the fold throws away
+exactly the id fields the join needs.
+
+**One nuance the live pass should watch.** The `virtual` fence requires
+`known(spellID) == true`, so an untracked button whose knownness read **refuses** falls
+through to `blind`. The per-row knownness annotation and a footer line say so, but if the
+field shows this as a real false alarm, the fix is to ask the fence list a second time with
+knownness forced true (still reuse, not re-derivation) rather than to invent a sixth verdict.
+
+**Not built, and deliberately:** no `fixtures/cdm-cases.lua` additions — that corpus is
+about State's fold, not this join, and its `#pinned + #fixed` floor is untouched.
 
 ---
 

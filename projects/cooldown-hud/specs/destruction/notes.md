@@ -40,7 +40,14 @@ Command Demon `119898` (CC); Demonic Circle: Teleport `48020` (mobility)
 **Buffs — the proc/aura inputs:**
 Diabolic Ritual `428514`, Backdraft `117828`, Chaotic Inferno `1244860`,
 Fiendish Cruelty `1245664`, Alythess's Ire `1244947`, Lake of Fire `1244918`,
-Crashing Chaos `417234`, Backlash `387384`, Flashpoint `387263`
+Backlash `387384`, Flashpoint `387263`
+
+> **Crashing Chaos `417234` is deliberately NOT in the addon's roster** (removed
+> 2026-07-31, roster-state-plan Phase 4). The CDM tracks it in **zero** rows, so there is
+> no `IsActive()`, no aura frame and no alert edge — and in combat no fallback channel
+> exists either (`C_UnitAuras` is fully secret; `COMBAT_LOG_EVENT_UNFILTERED` errors on
+> registration). What it would tell us is a **shard-cost change**, which the brain already
+> reads live through `ns.ShardCost`. Redundant rather than blind.
 
 Three facts this already settles:
 
