@@ -1,10 +1,21 @@
 # Cooldown HUD — the roster-anchored State
 
-> **STATUS: ▶ PHASE 2 IS CURRENT (2026-07-31). Phase 1 done; Phases 3–6 planned.**
-> Phase 1 (the fixture inventory) shipped and the gating capture is done, so the correctness
-> fixes are unblocked and ordered by measured impact — **§10 carries that order, and it is not
-> the §3.x numbering.** First up: **§3.1 + §3.10 together**, because §3.1 alone removes the
-> false "up" and leaves the DoT read with nothing.
+> **STATUS: ▶ PHASE 3 IS CURRENT. Phases 1 + 2 done (2026-07-31); Phases 3–6 planned.**
+>
+> **✅ Phase 2 SHIPPED 2026-07-31** (commits C1–C10, released as **v0.32.46**). **All ten
+> correctness fixes landed** — §3.1 through §3.10, in the evidence-led order §10 sets out, not
+> the §3.x numbering. The corpus went **0 `pinned-defect` / 19 `fixed`**: every pin Phase 1
+> planted was cleared, and the `fixed` tag is the permanent record that each case once failed.
+> **§3.11 records what each fix actually changed**, including the several that resolved
+> differently from the plan — read it before "fixing" any of them back. Suite **498 → 567
+> successes / 0 failures / 4 pending**, luacheck 0 warnings, 87 → 96 cases.
+>
+> The headline: the DoT read now has a channel that **self-clears**. Before this work a whole
+> Destruction pull produced **169 `pandemic_refresh` cues and 0 `not_up`** — the HUD could tell
+> you to refresh the DoT and structurally could not tell you to apply it. That ratio moving is
+> the acceptance signal, and it is **the one thing still owed: the live pass** (which doubles as
+> the outstanding v0.32.36 re-fly).
+>
 > Written out of two
 > inputs: the `wow-developer` client-correctness review of `State.lua` (2026-07-31, findings
 > reproduced in *Phase 2*), and the design conversation that followed it.
@@ -250,22 +261,33 @@ helper while `Build` still passed the wrong argument — which is defect §3.2's
 
 The ten-group sketch collapsed to **seven axes** during authoring (the charge ladder is one
 case inside *struct flags*, drawability absorbed the buff item, and "documented hazards"
-turned out to be one `unreachable` case, not a group). Real counts, `busted` @ 2026-07-31:
+turned out to be one `unreachable` case, not a group). Real counts, `busted` **@ end of Phase 2
+(2026-07-31)** — the corpus grew 87 → 96 as §3.10's new *inputs* needed cases written rather
+than flipped, and every `pinned` became `fixed`:
 
-| Axis | Cases | green | pinned | pending | Spans |
+| Axis | Cases | green | `fixed` | unreachable | Spans |
 |---|---|---|---|---|---|
-| **A · Family** | 8 | 5 | 2 | 1 | tab-1 press vs tab-2 run; `pressableRep` order; the `buffs` fold; the dual-category cid |
-| **B · Identity rungs** | 13 | 9 | 1 | 3 | rungs 5/4/3 + their refusals, the observed override, the static pool, rungs 1–2 as pending |
-| **C · Combat + `Util.lua`'s cascade** | 12 | 11 | 1 | 0 | OOC read, the in-combat short-circuit, 7a baseline projection both ways, the GCD trap + both its edges, banked charges, edge-vs-napkin precedence |
-| **D · Per-field readability** | 24 | 20 | 4 | 0 | value · `SECRET` · absent · **throws** · **poisoned index**, at every guarded site |
+| **A · Family** | 9 | 8 | 2 | 1 | tab-1 press vs tab-2 run; `pressableRep` order; the `buffs` fold; the dual-category cid; the tab-2 row that has no cooldown rung to read |
+| **B · Identity rungs** | 13 | 10 | 1 | 3 | rungs 5/4/3 + their refusals, the observed override, the static pool, rungs 1–2 as unreachable |
+| **C · Combat + `Util.lua`'s cascade** | 12 | 12 | 1 | 0 | OOC read, the in-combat short-circuit, 7a baseline projection both ways, the GCD trap + both its edges, banked charges, edge-vs-napkin precedence |
+| **D · Per-field readability** | 30 | 30 | 11 | 0 | value · `SECRET` · absent · **throws** · **poisoned index**, at every guarded site — plus the **per-frame aura verdict** group (§3.10) |
 | **E · The six alert edges** | 13 | 13 | 0 | 0 | all six types through `Build`, the same-frame tie both ways, and the three drop paths |
-| **F · Struct flags** | 9 | 8 | 1 | 0 | `charges` measured-vs-flag, the `max <= 1` case, `hasAura`/`selfAura`, the charge ladder |
-| **G · Drawability + the buff item** | 8 | 7 | 1 | 0 | frame present/absent, the wholesale guard, the `GetCooldownID()` fallback, `IsActive`/`IsShown`/`hideWhenInactive` refusals |
-| **Total** | **87** | **72** | **11** | **4** | |
+| **F · Struct flags** | 9 | 9 | 1 | 0 | `charges` measured-vs-flag, the `max <= 1` case, `hasAura`/`selfAura`, the charge ladder |
+| **G · Drawability + the buff item** | 10 | 10 | 3 | 0 | frame present/absent, the wholesale guard, the `GetCooldownID()` fallback, `IsActive`/`IsShown`/`hideWhenInactive` refusals |
+| **Total** | **96** | **92** | **19** | **4** | |
 
-Nine meta-tests ride on top (unique names · non-empty `pins` + `ref` · **no `ref` may point at
-`State.lua`** · a `fixes` on every `pinned-defect` · cid uniqueness within a case · a `spec` on
-any case carrying an override field · a **per-axis coverage floor** · ≥ 5 cases failing today).
+`fixed` is a **subset of green**, not a fourth state: it marks a case that was `pinned-defect`
+and now passes, and it is the corpus's defect history. Six cases additionally carry
+`characterisation:` in `pins` — the self-referential ones, which is how a case that *must*
+describe `State.lua` says so without smuggling a `ref` past the meta-test.
+
+**Ten meta-tests** ride on top (unique names · non-empty `pins` + `ref` · **no `ref` may point
+at `State.lua`** · a `fixes` on every `pinned-defect` · a known `status` · cid uniqueness within
+a case · a `spec` on any case carrying an override field · a **per-axis coverage floor** ·
+`fixed` and `pinned-defect` mutually exclusive · **a floor on `#pinned + #fixed`**). That last
+one replaced Phase 1's "≥ 5 failing today": once Phase 2 cleared every pin, a live-failure floor
+would have had to be deleted, taking the history with it. Flooring the *sum* survives the
+transition — **never lower it, and never lower a per-axis floor.**
 
 Assert against `St.Build`'s pulse, partially and deeply — full-table equality on a 20-field row
 makes the suite a change-detector, so equality is opt-in per view (`exact = { raw = true }`).
@@ -279,6 +301,11 @@ inferred from a downstream number; **§3.2, §3.3 and §3.8 are each pinned on `
 ---
 
 ## 3 · Phase 2 — the correctness fixes
+
+> **✅ ALL TEN SHIPPED 2026-07-31 (v0.32.46).** §3.1–§3.10 below are kept as written — they are
+> the *diagnosis*, and the reasoning in each is still the reason the fix looks the way it does.
+> **What actually changed is §3.11**, which also records the half-dozen places the
+> implementation resolved differently from the plan. Where the two disagree, §3.11 wins.
 
 **§3.1–§3.3 are the original three**, source-verified against `wow-ui-source @ 12.0.7.68887`.
 Each is small and independently shippable, and each should land with its Phase-1 fixture
@@ -453,6 +480,11 @@ until then rather than fixing it twice. **Fixture:**
 `family/a-tab2-row-has-no-cooldown-rung-to-read` (**pinned**), asserted on `asked` — the read is
 not wrong, it simply must never happen.
 
+> ⚠ **"Least urgent" undersold it.** Skipping the call meant the `foldBase` write that used to
+> ride inside `readCd` had to be hoisted into `St.Build`'s loop — and hoisting it made it fire
+> **whenever `base` is readable**, which is strictly wider than the old placement. So the
+> smallest-looking of the five had the largest knock-on of the four cheap ones. See §3.11.
+
 ### 3.9 `St.Build` reads the CDM struct with bare indexes, and it CAN throw *(found + confirmed 2026-07-31)*
 
 `cooldownInfo` (`State.lua:99-106`) pcalls the *call* and checks `IsSecretTable`, then stops.
@@ -522,14 +554,84 @@ measured readable in combat over a full DoT cycle (`security-taint-and-restricte
 | `item.PandemicIcon` | **is it in the refresh window** | `nil` → `table` on entry → **`nil` again on refresh** |
 
 Both are recomputed by Blizzard every frame, so both *self-clear* — which is precisely what
-the edge cannot do. ⚠ Both are widget internals, so per §4.11 rule 18 they need a bind-time
+the edge cannot do. ⚠ Both are widget internals, so per §4.11 **rule 17b** they need a bind-time
 capability check and a fallback to the existing edge latch; a silently-absent field must not
-read as "no DoT".
+read as "no DoT". *(Cited as "rule 18" before 2026-07-31 — that file had two rules numbered 18,
+and the widget-internals one was renumbered `17b` to sit beside rule 17, its nearest neighbour.)*
 
 **Contract:** the DoT read consults `auraDataUnit` for presence and `PandemicIcon` for the
 window, with the alert edges demoted to what they are — a fast-path notification.
 **Fixtures:** none yet. These are new *inputs*, so they need cases **written** rather than
 flipped — axis D, the frame-field group.
+
+### 3.11 What actually shipped *(the record — 2026-07-31, v0.32.46)*
+
+Ten commits, `C1`…`C10`, each with its fixture red-then-green. **All ten diagnoses above held.**
+What follows is only where the *implementation* diverged from what §3.x proposed — a fresh
+reader should treat every one of these as deliberate and **not "fix" it back**.
+
+| | Commit | What landed |
+|---|---|---|
+| C1 | `c1b1d86` | the frame-field harness knob + the defect-history floor that survives Phase 2 |
+| C2 | `f21e41e` | §3.10's cases pinned — the per-frame aura verdict the DoT line had no channel for |
+| C3 | `3b7761e` | **§3.1 + §3.10** — the family gate, and the self-clearing DoT channel |
+| C4 | `54b1433` | §3.3 the GCD hoist — read it once per pulse, not once per enumerated entry |
+| C5 | `40be5ad` | §3.4 + §3.9 — extract the struct once, guarded; stop laundering a refused `isKnown` |
+| C6 | `fe33e34` | §3.6 one throwing aura read must not condemn the whole row |
+| C7 | `56a244e` | §3.7 an inferred charge shape is not a measurement |
+| C8 | `f587c83` | §3.8 don't read a cooldown rung tab 2 cannot have |
+| C9 | `b16c96e` | §3.2 charges read off `overrideSpellID or spellID` |
+| C10 | `a55a6a7` | §3.5 the display ladder |
+
+**Ten deviations worth knowing:**
+
+1. **`mint` / `buildItem` moved out of `cdm_cases_spec.lua`** into `tests/case_builders.lua`, a
+   factory `(H, SECRET) -> {mint, buildItem}`, so `harness_spec.lua` can prove them. Frame knobs
+   are `fields` (minted verbatim), `methods` (no-op stubs, so `ns.HasMethod` answers true —
+   **absent by default**, which is what keeps the capability check falsifiable) and `raises`.
+2. **The meta-test floor is `#pinned + #fixed >= 11`.** Actual is **19**, not the 18 the plan
+   estimated — §3.10 shipped 8 cases, not 7.
+3. **`state_domainview_spec.lua` needed no changes at all.** The plan's warning about collateral
+   reds there did not materialise: it never exercised the buff-item channel.
+4. **`coach_destruction_apl_spec.lua:509-512` needed no re-sourcing either** — it is fed by the
+   alert edge, which survives as channel 2. Instead a new *"the DoT's three channels, in trust
+   order (§3.10)"* block adds 8 tests, **including the `not_up` press that was structurally
+   unreachable before**, and the rule-17b fallback-to-the-latch case.
+5. **§3.4/§3.9 (C5):** `readInfo` does a **batch pcall with a per-field salvage fallback**, not a
+   single pcall — one pcall around the whole copy would lose every field *after* the one that
+   threw. New helpers `readableBool` (asks `issecretvalue` **before** `type`) and `flagOf`.
+   ⚠ `hasAura`/`selfAura`/`charges` stay **truthy on a secret** deliberately, pinned by
+   `flags/a-SECRET-hasAura-is-truthy-and-arms-the-read`; only `isKnown`, which *removes* a row,
+   refuses to launder a refusal.
+6. **§3.3 (C4):** new `ns.ReadGCD()`; `gcd` is **always a table** (empty when the read refused)
+   so "asked and got nothing" cannot be mistaken for "nobody asked".
+   `combat/a-banked-charge-short-circuits-the-recharge-timer` moved `gcdCount` 0 → 1 — a
+   contract change, documented in its `pins`.
+7. **§3.7 (C7):** both charge shapes now carry a `source` — `"live"` (measured) vs `"flag"`
+   (inferred) vs `"static"` (`virtualRow`, stating the spell's nature).
+8. **§3.8 (C8):** a tab-2 row still carries a `cd`, shaped
+   `{ state = "unknown", readable = false, source = "none" }` — a uniform shape beats a `nil`
+   every consumer and `stampCd` would have to guard. And the `foldBase` hoist (see the §3.8 note)
+   made that write **strictly wider** than before.
+9. **DecisionLog's `DOT:` field is two-sided**, `<code>=<frame>/<edge>` — e.g.
+   `Imm=tgt+p/pandemic@43.8`. Frame tokens: `tgt`/`plr` (bound), `off` (**the MISSING answer**),
+   `?` (refused), `X` (writers gone), `+p` (in the pandemic window). Six new `decisionlog_spec`
+   tests cover it.
+10. **`/cdmp hud status`** grew an `aura-frame read: N/N auraDataUnit, N/N pandemic writers`
+    line, backed by a new `St.AuraFrameCapability()` in `State.lua`. If either half reads **0**
+    in game, the frame internals moved and the HUD is on the edge-latch fallback — that is
+    rule 17b working as designed, and it is **the finding, not a bug**.
+
+**Files touched:** `State.lua` (every fix except §3.5) · `Util.lua` (§3.3) · `Viewers.lua`
+(§3.5) · `CoachDestruction.lua` (trust order) · `DecisionLog.lua` · `HudDriver.lua` ·
+`tests/case_builders.lua` **(new)** · `tests/fixtures/cdm-cases.lua` ·
+`tests/spec/{cdm_cases,harness,coach_destruction_apl,decisionlog}_spec.lua`.
+
+**Still owed:** the live pass. Its acceptance signal is the **`not_up` DoT cue appearing at
+all** in `wowkb.cdmp decisionlog` (baseline: 169 `pandemic_refresh` / 0 `not_up` across a whole
+pull), the DoT cue firing across the *whole* pull rather than one 5.8 s window, `Imm=off/…` in
+the `DOT:` field, and a Demonology sanity pass that Tyrant's burst window still opens and closes
+(it rides a tab-2 TrackedBar row, which survives the family gate).
 
 ---
 
@@ -818,15 +920,16 @@ the answers reshaped three phases and the reasoning should not be re-derived.
 
 ```
 Phase 1  fixture harness + CDM edge inventory      ← ✅ DONE 2026-07-31 (the net)
-Phase 2  the correctness fixes (§3.1–3.3 first)    ← each with its fixture, red→green
-Phase 3  keybind channel separation                ← needs the §9 linkedSpellID answer
+Phase 2  the correctness fixes (all ten)           ← ✅ DONE 2026-07-31, v0.32.46 (see §3.11)
+Phase 3  keybind channel separation                ← ▶ CURRENT. Needs the §9 linkedSpellID answer
 Phase 4  roster coverage probe                     ← promote GetValidAlertTypes before AlertTape dies
 Phase 6  cast-results → Coach                      ← independent deletion, can jump the queue
 Phase 5  roster anchor inversion                   ← last; the largest blast radius
 ```
 
-**⚠ PHASE 2's INTERNAL ORDER IS NOW EVIDENCE-LED, not the §3.1→§3.9 numbering.** The
-2026-07-31 capture measured every trigger, and the numbering predates it:
+**⚠ PHASE 2's INTERNAL ORDER WAS EVIDENCE-LED, not the §3.1→§3.9 numbering.** The 2026-07-31
+capture measured every trigger, and the numbering predates it. **This is the order it shipped
+in**, kept because it is the reasoning a future phase should copy:
 
 | Order | Item | Why here |
 |---|---|---|
@@ -838,14 +941,20 @@ Phase 5  roster anchor inversion                   ← last; the largest blast r
 | 6 | **§3.5** display ladder | Trigger exists on two *utility* rows only. Fix calmly; it touches the v0.32.36 seam. |
 | 7 | **§3.9** bare struct index | Crash path real, trigger **absent**. Cheapest to leave pinned. |
 
-Phases 2.3 (GCD hoist) and 6 are independently shippable today and touch nothing else. **The Phase-2 workflow is now mechanical:** make the fix, watch the named case
-go RED (a `pinned-defect` errors when it starts passing), flip its `status` to `"green"` in the
-same diff, and the message the runner prints tells you which one and why.
+⚠ In the event **§3.9 was fixed too**, folded into C5 alongside §3.4 — both touch the same
+struct read, and guarding it once was cheaper than guarding it twice. Nothing was left pinned.
+
+Phase 6 remains independently shippable today and touches nothing else. **The Phase-2 workflow
+was mechanical, and it worked exactly as designed:** make the fix, watch the named case go RED
+(a `pinned-defect` errors when it starts passing), flip its `status` to `"green"` + `fixed` in
+the same diff, and the message the runner prints tells you which one and why.
 
 **Phase 1 did not warrant a release cut, and did not get one** — say so out loud, because the
-next reader will otherwise assume it was forgotten. Cut with Phase 2's *first* fix. It touches `tests/` only, which is deliberately
+next reader will otherwise assume it was forgotten. It touches `tests/` only, which is deliberately
 absent from `CDMProbe.toc` and never loaded in-game — nothing to `/reload`, nothing to eyeball.
-The project's standing auto-deploy exception does not apply. ⚠ But note `busted` **is** a hard
+The project's standing auto-deploy exception did not apply. **Phase 2 cut once, at the end
+(v0.32.46)**, rather than per fix: the ten commits are individually green but only the whole set
+is meaningfully flyable, since §3.1 without §3.10 is a regression. ⚠ Note `busted` **is** a hard
 release gate (`tools/wowkb/addon.py:373-385` aborts the cut on a non-zero exit), so from the
 first fixture commit onward a flaky case blocks *every* future release: fixed clock, no
 `pairs`-order dependence, one case per `it`.

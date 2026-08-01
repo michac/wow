@@ -1,13 +1,14 @@
 ---
 title: API surface, events and discovery
 patch: 12.0.7
-fetched: 2026-07-30
-reviewed: 2026-07-30
+fetched: 2026-07-31
+reviewed: 2026-07-31
 sources:
   - https://github.com/Gethe/wow-ui-source (live, version.txt 12.0.7.68887, commit 4383ced30106d51b27e3e86d1987f1552f0d259d)
   - in-client capture, CDMProbe AlertTape v0.32.27 (/cdmp alerts), Destruction Warlock, 2026-07-30  # §2.8 alert-channel confirmations
   - in-client capture, CDMProbe AlertTape v0.32.29, Destruction/Hellcaller Warlock, 2026-07-30  # §2.8 same-frame refresh tie; simultaneous PandemicTime on both Immolate cooldownIDs
   - in-client capture, CDMProbe v0.32.32 decision log, Destruction Warlock (Hellcaller AND Diabolist), 2026-07-30  # §2.8 cid 66181's base/display spellID split + hero-talent-dependent isKnown; override event firing for an untracked display id
+  - in-client capture, CDMProbe v0.32.46 decision log, Destruction Warlock (both hero trees), 2026-07-31  # §2.8 ChargeGained is a prediction-queue drain, not a charge: duplicate credits measured 0.2s apart
   - https://warcraft.wiki.gg/wiki/API_Frame_RegisterEvent (revid 6654488, 2026-02-19)
   - https://warcraft.wiki.gg/wiki/API_Frame_RegisterUnitEvent (revid 6735133, 2026-06-04)
   - https://warcraft.wiki.gg/wiki/API_Frame_RegisterAllEvents (revid 6654327, 2026-02-19)
@@ -681,6 +682,37 @@ What the count actually reads, in precedence order *[T1 src: `CooldownViewer.lua
 
 The alert then fires on any **increase** of that cached value
 (`previousCooldownChargesCount < cooldownChargesCount` *[`:992-994`]*).
+
+❗ **BUT `ChargeGained` IS NOT "ONE CHARGE WAS GAINED".** It is *"one entry in a prediction
+queue came due"*, and the difference is load-bearing for anyone counting charges off it.
+`[client]` + T1 src, 2026-07-31:
+
+- `AddChargeGainedAlertTime(predictedChargeCount, predictedChargeGainTime)` *[`:591-594`]*
+  writes into `chargeGainedAlertTimes`, a table **keyed by predicted charge count**.
+- **Two independent producers write it.** A *predictor* —
+  `CheckCacheCooldownValuesFromCharges` *[`:886`]* registers `currentCharges + 1` at a
+  **future** timestamp on every refresh while a recharge is running — and an *observer*,
+  the `SetCachedChargeValues` path above, which registers the new count at `GetTime()`.
+- `ShouldTriggerChargeGainedAlert` *[`:596-605`]* drains **at most one due entry per call**
+  (it `return`s on the first hit) and is polled once per frame from `OnUpdate` *[`:100-101`]*.
+
+So a backlog of two due entries fires as **two alerts on consecutive frames**, and one real
+charge restore can raise the alert twice. Measured on Conflagrate: a `0 → 1 → 2` climb in
+**200 ms**, plus credits 1.9 s and 4.0 s apart on an ability whose recharge is several
+seconds. **An addon that credits `+1` per alert overcounts** — it will claim a charge the
+player does not have and cue a press that fails.
+
+It errs the other way too: `OnCooldownIDCleared` *[`:722`]* nils
+`previousCooldownChargesCount`, so `considerAddingAlert` is false on the next set and the
+first rise after **any** re-resolve is swallowed.
+
+**The workable rule:** treat the alert as *"the count may have risen"*, and bound credits by
+a **gain floor** — a charge cannot return faster than its recharge. `C_Spell.GetSpellCharges`
+exposes `cooldownDuration` **out of combat**, and that is the only source for the number (a
+charged spell's cooldown lives on its charge category, so `GetSpellBaseCooldown` yields
+nothing — see the ⚠ below). Seed the floor OOC, refuse a second credit inside it, and the
+cases you get wrong (a genuine cooldown-reset proc) bias toward **under**counting, which is
+the safe direction. *(CDMProbe implements exactly this in `State.lua`'s `chargeGain`.)*
 
 ✅ Confirmed by the 2026-07-30 capture: **Conflagrate** (2 real charges) →
 `Available, OnCooldown, ChargeGained`; **Backdraft** (a 2-stack buff on the BuffBar viewer)

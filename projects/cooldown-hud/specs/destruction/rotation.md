@@ -130,8 +130,16 @@ L13  cast Inc
    the tracked bar's duration; that number **cannot exist** — `pandemicStartTime`/`EndTime`
    read `SECRET` in combat and `IsInPandemicTime` *throws*. What works is the **edge**:
    `TriggerAlertEvent(PandemicTime)` fires normally, so State latches it and L8 reads
-   `ctx.dotRefreshable`. Better than the plan, because Blizzard derives the window from the
-   duration a recast would really carry over, per spell — not a tuned lead.
+   `ctx.dotRefreshable`. Blizzard derives that window from the duration a recast would really
+   carry over, per spell — not a tuned lead.
+   > ⚠ **AMENDED 2026-07-31 (roster-state-plan §3.10, v0.32.46).** This note called the edge
+   > "better than the plan". It is better in *derivation* and worse in *kind*: a one-shot
+   > notification cannot report a state, so it goes silent for as long as the DoT is
+   > maintained and **L8 had no working channel at all** after the first pandemic entry — one
+   > 5.8 s window in a whole pull. The real fix is `item.auraDataUnit` + `item.PandemicIcon`,
+   > recomputed every frame and therefore **self-clearing**; the edge is now channel 2 of
+   > three. See implementation note 3 below for the full trust order.
+
    ⚠ And L8 was keyed on the **wrong id**: `157736` is the DoT *aura* (Buff-bar viewer,
    never pressable, never in `abilities`), while the pressable row is the *cast* id `348`.
    `ctx.dotID` now resolves through Wither → `157736` → `348`, whichever the pulse carries.
@@ -194,13 +202,29 @@ was made. They are the first things to revisit after a live pass.
    12.0.7: Hellcaller 58, Diabolist 59), with a multi-signal inference behind it. L5b itself
    is unchanged — Malevolence is gated on being tracked and usable, not on the tree.
 
-3. **L8 is FULLY live as of field-fix C** (it was "half-live" — presence only). Two
-   channels, in trust order: the **alert latch** (`pandemic` / `fresh` / `absent`, the only
-   one that works in combat, and the only route to "refresh it early" at all), then the
-   aura/buff-item presence read (still correct out of combat, and the fallback until
-   something latches). The three-way `up` / `missing` / `unknown` distinction remains
-   load-bearing — an *unreadable* DoT must stay silent, because treating "no read" as "not
-   up" would spam the refresh press every GCD.
+3. **L8 runs on THREE channels, in trust order** (roster-state-plan §3.10, v0.32.46 — this
+   note previously claimed L8 was "fully live" on the alert latch alone, which the 2026-07-31
+   capture refuted):
+   1. **The per-frame aura verdict** — `item.auraDataUnit` (is the aura up, and on which
+      side) and `item.PandemicIcon` (is it in the refresh window). Blizzard recomputes both
+      **every frame** off secrets we cannot read, so unlike an edge they **self-clear**, and
+      `unit == nil` on a capable, readable row is positive evidence the DoT is **down** — the
+      "apply it" answer nothing else can reach. Consulted only when the row is `capable`:
+      these are widget internals with no deprecation path, so a silently-absent field must
+      not read as "no DoT" (`security-taint-and-restricted-data.md` §4.11 rule 17b).
+   2. **The alert latch** (`pandemic` / `fresh` / `absent`) — **demoted to a fast path.** It
+      is a one-shot *notification*, not a state: `PandemicTime` cannot fire twice for one
+      aura instance, and re-applying a live aura raises nothing at all (measured: 41 Immolate
+      casts → 1 `OnAuraApplied`, 1 `PandemicTime`, 0 `OnAuraRemoved`). Still the quickest
+      signal when it does fire, and still the **whole** answer on an incapable row.
+   3. **The aura/buff-item presence read** — OOC fallback only. ⚠ For a DoT on a **tab-1**
+      row this no longer exists: `IsActive()` there is `self.cooldownID ~= nil`, a constant
+      `true`, which is what jammed the read to "up" on both hero trees (§3.1).
+
+   The three-way `up` / `missing` / `unknown` distinction remains load-bearing — an
+   *unreadable* DoT must stay silent, because treating "no read" as "not up" would spam the
+   refresh press every GCD. What changed is that `missing` is now **reachable**: before this,
+   a whole pull produced 169 `pandemic_refresh` cues and **zero** `not_up`.
 
 4. **L10's Hellcaller delta needed no branch.** "Rain of Fire moves above the anti-cap
    Chaos Bolt" is already true of the base list (L10 sits above L11), and the part that

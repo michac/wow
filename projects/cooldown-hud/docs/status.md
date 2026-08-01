@@ -24,7 +24,8 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
   cutover; the `/cdmp probe` + `probe-baseline.json` assertion suite was retired 2026-07-29
   (settled readability rules + DB2-sourced tracked set made per-spec re-measurement moot).
 - **Gates:** `luaparser` (release) + `luacheck CDMProbe/` + `busted CDMProbe/tests/spec`
-  (**498 tests / 4 pending**, luacheck 0 warnings).
+  (**567 tests / 4 pending**, luacheck 0 warnings). All three are **hard** release gates —
+  `wowkb.addon release` aborts the cut on any non-zero exit.
   ⚠ All three are **source** gates: none of them runs the game, and the v0.32.25 outage
   below is what that blind spot looks like in practice.
 - **✅ DONE — `field-fixes-plan.md` (v0.32.28–31), shipped and flown.** The four correctness
@@ -37,26 +38,79 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
   charge restored and *never* raises `OnCooldown`, so the ready-edge latched true forever and
   Conflagrate was cued at zero charges. That doc holds the evidence and the two things the
   pass left unproven. **Nothing in it is outstanding.**
-- **Active work: `roster-state-plan.md` — ▶ PHASE 2 (the correctness fixes). Phase 1 shipped
-  and the gating capture is done (2026-07-31), so Phase 2 is unblocked.**
-  ⚠ **Its internal order is evidence-led, not the §3.x numbering** — see the plan's §10.
-  **First: §3.1 + §3.10 TOGETHER** (§3.1 alone removes the false "up" and leaves the DoT read
-  with nothing, i.e. apart it is a regression), then §3.3's GCD hoist.
-  Each fix flips its named `pinned-defect` case from failing to green in the same diff;
-  §3.10 is the exception and needs cases *written*, since `auraDataUnit`/`PandemicIcon` are
-  new inputs. **Cut a release with the first fix** — Phase 1 deliberately did not.
-  <details><summary>Phase 1 + the capture, for the record</summary>
+- **Active work: `roster-state-plan.md` — ▶ PHASE 3 (separate the keybind from the cue
+  channel). Phases 1 and 2 are both DONE (2026-07-31).**
+  Phase 3 restores the original design `HudBinds.lua`'s own header still states: a keybind is
+  resolved down the rung ladder independently of the id a cue is *scored* under, so a row whose
+  display identity moves does not silently lose its bind. ⚠ **The 2026-07-31 capture removed
+  rung 2 from that ladder** — the elected `linkedSpellID` is never set, on the frame or in a
+  fresh read, and Hellcaller's Wither arrives via `overrideSpellID` instead. Read the plan's
+  §4 before starting.
+  ⏳ **One thing is owed on Phase 2 first, and it needs you in-game, not code: the live pass**
+  (checklist under *Owed: the v0.32.36 re-fly* below, which it doubles as).
+- **✅ DONE — `roster-state-plan.md` Phase 2 (v0.32.46): all ten correctness fixes.** The DoT
+  read finally has a channel that **self-clears**. Before this, a whole Destruction pull
+  produced **169 `pandemic_refresh` cues and 0 `not_up`**: the HUD could tell you to refresh the
+  DoT and structurally could not tell you to apply it. §3.1 (`IsActive()` is a constant `true`
+  on tab 1, so the buff-item read jammed to "up") and §3.10 (`PandemicTime` is a one-shot
+  notification that never re-arms) had to land together — §3.1 alone would have removed the
+  false "up" and left the read with nothing. The other eight are the smaller correctness debts
+  the Phase-1 inventory pinned. **The plan's §3.11 is the record**, including ten places the
+  implementation deliberately diverged from what was planned.
+  <details><summary>Phase 1, the capture, and Phase 2, for the record</summary>
+
+  **Phase 2 (2026-07-31, commits C1–C10, released v0.32.46).** Corpus **0 `pinned-defect` /
+  19 `fixed`** — every pin Phase 1 planted was cleared, and `fixed` is the permanent record that
+  the case once failed (a meta-test floors `#pinned + #fixed`, so the history cannot be quietly
+  deleted; it replaced Phase 1's "≥ 5 failing today", which would have had to be *removed* the
+  moment the phase succeeded). Suite **498 → 567 / 0 failures / 4 pending**, 87 → 96 cases,
+  luacheck 0 warnings.
+  - **The new channel:** `item.auraDataUnit` (is the aura up, and on which side) +
+    `item.PandemicIcon` (is it in the refresh window). Blizzard recomputes both every frame off
+    secrets we cannot read, so unlike an edge they **self-clear** — which is the only way the
+    HUD can ever say "apply it". Both are widget internals, so they carry a bind-time capability
+    check and fall back to the edge latch
+    (`security-taint-and-restricted-data.md` §4.11 **rule 17b**).
+  - **The DoT read is now three channels in trust order:** the per-frame aura verdict → the
+    alert latch (demoted to a fast path — still the whole answer on an incapable row) → the
+    buff-item presence read (OOC fallback, and gone entirely for a tab-1 row).
+  - **New observability:** `/cdmp hud status` grew an `aura-frame read: N/N auraDataUnit, N/N
+    pandemic writers` line, and the decision log's `DOT:` field is now two-sided
+    (`Imm=tgt+p/pandemic@43.8` — frame verdict / edge latch). `off` is the MISSING answer that
+    was previously unreachable.
+  - ⚠ **Three deviations a future reader will otherwise "fix" back:** `hasAura`/`selfAura`/
+    `charges` stay **truthy on a secret** on purpose (only `isKnown`, which *removes* a row,
+    refuses to launder a refusal); `readInfo` uses a batch pcall with a **per-field salvage**
+    fallback, because one pcall around the whole copy would lose every field after the one that
+    threw; and a tab-2 row still carries a `cd`, shaped
+    `{ state = "unknown", readable = false, source = "none" }`, because a uniform shape beats a
+    `nil` every consumer would have to guard.
+  - **§3.8 was billed "least urgent" and wasn't.** Skipping `readCd` on tab-2 rows meant
+    hoisting the `foldBase` write into `St.Build`'s loop, where it now fires whenever `base` is
+    readable — strictly wider than before. The smallest-looking fix had the largest knock-on.
+  - ✅ **THE LIVE PASS IS FLOWN (2026-07-31, v0.32.46), and it passed.** `not_up` DoT cues
+    went **0 → 319** on Diabolist (against 27 `pandemic_refresh`), and Hellcaller fired 15
+    `Wth:not_up`, so the `overrideSpellID = 445468` fold is good on both trees.
+    `/cdmp hud status` reported **`aura-frame read: 26/26 auraDataUnit, 26/26 pandemic
+    writers`** — no row fell back to the edge latch, so channel 1 is live everywhere and the
+    rule-17b fence never fired. This pass also discharges the owed **v0.32.36 re-fly**.
+  - 🐛 **And it surfaced a separate live bug, now fixed in v0.32.47 — see the ChargeGained
+    item below.** Conflagrate won **702 of 1272 decisions** and was cued while genuinely on
+    cooldown. Unrelated to Phase 2; the charge napkin has been wrong since field-fix C2.
+
+  **Phase 1 + the capture:**
   
   The **CDM edge inventory**: `tests/fixtures/cdm-cases.lua` + `tests/spec/cdm_cases_spec.lua`,
   **87 declarative cases across 7 axes** authored from `knowledge/addon-dev/cooldown-manager.md`
   (the client study, whose §8 carries nine numbered audit rules), driven by one parametrised
-  spec. Suite **384 → 498**, luacheck clean. **Test-only, deliberately no release cut** — cut
-  with Phase 2's first fix.
-  - **11 cases are `pinned-defect`: they assert the CONTRACT answer, run INVERTED, and FAIL
-    TODAY.** That is the point of the phase — a suite 100 % green against the current code is
-    by construction a snapshot. When a Phase-2 fix lands, its named case goes red and the fix
-    commit flips `status = "green"` in its own diff. 4 more are `unreachable` pendings
-    (identity rungs 1–2, and the dual-category cid — encoded pending rather than green
+  spec. Suite **384 → 498**, luacheck clean. **Test-only, deliberately no release cut** —
+  Phase 2 cut once at the end instead (§3.1 without §3.10 is a regression, so no intermediate
+  build was meaningfully flyable).
+  - **11 cases were `pinned-defect`: they assert the CONTRACT answer, run INVERTED, and FAILED
+    ON PURPOSE.** That is the point of the phase — a suite 100 % green against the current code
+    is by construction a snapshot. Phase 2 cleared all 11; each fix's named case went red and
+    the fix commit flipped it to `green` + `fixed` in its own diff. 4 more are `unreachable`
+    pendings and remain so (identity rungs 1–2, and the dual-category cid — encoded pending rather than green
     *because green would be flaky*, and `busted` is a hard release gate).
   - **A sixth defect, §3.9, was found AND settled while writing it.** `St.Build` bare-indexes
     the CDM struct outside any pcall while `rawCooldown` pcalls the equivalent access on a
@@ -513,8 +567,8 @@ The container for what's next. The old engine is gone, so this is where feature/
 work lands now — the user drives the list; a few already-surfaced items are seeded:
 
 - **📋 `roster-state-plan.md` — anchor State on the spec roster, not the CDM database.**
-  A written plan (2026-07-31), six phases. **Phase 1 is DONE (see *Active work* above);
-  Phases 2–6 are not started.** Grew out of the `wow-developer`
+  A written plan (2026-07-31), six phases. **Phases 1 and 2 are DONE; Phase 3 is now the
+  Active work (see above). Phases 4–6 are not started.** Grew out of the `wow-developer`
   client-correctness review of `State.lua` (same date), which found three source-verified
   defects in the CDM→State mapping: `item:IsActive()` read uniformly across families (it is
   **constant `true`** on Essential/Utility rows — `CooldownViewer.lua:362-364` — and feeds
@@ -531,7 +585,8 @@ work lands now — the user drives the list; a few already-surfaced items are se
   per-entry GCD read, ~128 redundant calls/tick) and Phase 6 are shippable today.
   - **Revised 2026-07-31 by a Phase-1 design pass**, which did the thing the phase exists for
     and found **five more defects** before a line of it was written — all verified in v0.32.41,
-    all filed as `§3.4–§3.8`, **none scheduled**: a **SECRET `isKnown` reads as `true`**
+    all filed as `§3.4–§3.8` — **all now fixed in Phase 2 (v0.32.46); this is the diagnosis, the
+    plan's §3.11 is the record**: a **SECRET `isKnown` reads as `true`**
     (`State.lua:1363` — a refusal laundered into an assertion, failing in the over-show
     direction field-fix A closed); **`DisplayIdentity` inverts Blizzard's rungs 3 and 4**
     (`Viewers.lua:153-154`, while `liveSpellID` gets the same order right — so the two ladders
@@ -551,11 +606,15 @@ work lands now — the user drives the list; a few already-surfaced items are se
     while `rawCooldown` pcalls the equivalent access on a table that cleared the same two
     guards — a contradiction, and `H.poison` resolves it in favour of the guard by making
     **`St.Build` throw**. A live crash path, not a stylistic inconsistency; the trigger (does
-    the client ever hand us such a table?) stays `@verify-ingame`.
+    the client ever hand us such a table?) stays `@verify-ingame` — the census measured **zero**
+    raising fields across 72 cids × 2 trees × in/out of combat, so it is real but unreached.
+    Fixed anyway, folded into the same commit as §3.4 since both touch the one struct read.
   - **✅ Phase 1 shipped test-only, with no release cut** (nothing in `tests/` is in the
     `.toc`, so there is nothing to `/reload` and nothing to eyeball — the standing auto-deploy
     exception does not apply, and a cut would tag a no-op into the version history the
-    field-fix notes cross-reference). Cut with Phase 2's first fix. ⚠ `busted` **is** a hard
+    field-fix notes cross-reference). **Phase 2 cut once at the end instead**, as v0.32.46 —
+    §3.1 without §3.10 is a regression, so no intermediate build was worth flying. ⚠ `busted`
+    **is** a hard
     release gate (`tools/wowkb/addon.py:373-385`), which is why the dual-category hazard is
     encoded `pending` rather than green — green would be flaky, and one flaky case blocks
     every future cut.
@@ -576,10 +635,51 @@ work lands now — the user drives the list; a few already-surfaced items are se
     Registration is now modelled and `Fire` honours it. Mutation-checked. *(Same lesson as
     `issecrettable` hardcoded `false` — see Doctrine.)*
 
-- **Measure the CDM's frame-cached state in combat — `wasSetFrom*` and `auraDataUnit`.**
-  A live measurement, not a feature. Two fields Blizzard's **untainted** code derives and
-  parks on the item frame, both currently `@verify-ingame` in
-  `knowledge/addon-dev/cooldown-manager.md` §7:
+- **✅ FIXED v0.32.47 — `ChargeGained` is a queue drain, not a charge.** Found by the
+  v0.32.46 live pass: Conflagrate won **702 of 1272 decisions** and was cued while genuinely
+  on cooldown. The napkin's `+1 per ChargeGained` was unsound at the root, and the root is in
+  Blizzard's source, not ours. `AddChargeGainedAlertTime(count, time)`
+  (`CooldownViewer.lua:591-594`) writes a table **keyed by predicted charge count**; **two**
+  producers write it — a *predictor* (`:886`, registering `currentCharges + 1` at a future
+  timestamp on every refresh while a recharge runs) and an *observer* (`:992-993`, registering
+  the new count at `GetTime()` when the cached count rose) — and
+  `ShouldTriggerChargeGainedAlert` (`:596-605`) drains **at most one due entry per call**,
+  polled once per frame. A backlog of two therefore fires as two alerts on consecutive frames,
+  so **one real restore raises the alert twice**. Measured: a `0 → 1 → 2` climb in **200 ms**,
+  plus credits 1.9 s and 4.0 s apart on an ability whose recharge is several seconds.
+  Crediting +1 per alert **overcounts**, which is the one direction the napkin's own honesty
+  rule forbids — it cues a press that will fail, which is exactly what was felt in play.
+  - **The fix is a gain floor**, not a smarter counter. `ns.ReadCharges` now returns
+    `cooldownDuration` (the per-charge recharge) as a third value, and a credit inside **half**
+    that duration is refused. Half rather than all, because haste and CDR make genuine restores
+    land early; the cases it still gets wrong (a true cooldown-reset proc) bias **down**, which
+    is allowed. The OOC read is the *only* source for that number — a charged spell's cooldown
+    sits on its charge category, so Conflagrate `17962` is `RecoveryTime = 0` /
+    `ChargeCategory = 672` and `GetSpellBaseCooldown` yields nothing to count down from.
+  - Two non-obvious details: a refusal deliberately does **not** advance `lastGain`, so a burst
+    of drains cannot ratchet the window forward and starve a real later gain (trading an
+    overcount for an unbounded undercount); and a seed carrying no duration **keeps** the last
+    positive one, because `cooldownDuration` reads 0 at full charges — exactly where the OOC
+    re-seed usually happens.
+  - ⚠ **A test was asserting the bug.** `state_domainview_spec`'s "full loop" fired both gains
+    with no clock advance between them — the duplicate shape itself. It now advances a recharge.
+    Five new domain-view tests + two fixture cases, mutation-checked by disabling the floor.
+  - ⏳ **Needs a live re-fly** to confirm Conflagrate's share of decisions drops and the cue
+    stops appearing at zero charges. Nothing else is owed.
+- **~~Measure the CDM's frame-cached state in combat — `wasSetFrom*` and `auraDataUnit`.~~
+  ✅ DONE 2026-07-31 — measured by the census, and `auraDataUnit` is now CONSUMED.** The
+  `/cdmp census` capture answered this as its Q6: both survive combat, exactly as the
+  hypothesis below predicted. `auraDataUnit` (plus `item.PandemicIcon`, which the capture
+  turned up alongside it) became the **primary channel of the DoT read** in roster-state-plan
+  §3.10 / v0.32.46 — the self-clearing channel the pandemic latch could never be. `wasSetFrom*`
+  was measured readable but is **not consumed**: the "which source won this refresh" meaning
+  axis described below is still an open, and still worth having. The rest of this item is kept
+  because that half of it is live, and because the reasoning about *why* these fields are
+  readable is the reusable part. The `@verify-ingame` markers in
+  `cooldown-manager.md` §7 are discharged.
+
+  <sub>Original text follows.</sub> Two fields Blizzard's **untainted** code derives and
+  parks on the item frame:
   - **`item.wasSetFromCharges` / `wasSetFromCooldown` / `wasSetFromAura`** (tab-1 rows
     only) — plain booleans recording **which of the four value sources won this refresh**,
     i.e. what the swipe currently *means*. This is the prize. `CacheCooldownValues` runs
@@ -750,6 +850,18 @@ work lands now — the user drives the list; a few already-surfaced items are se
   the speculative `row.uptime` read are deleted. *(A generic buff/DoT **duration** readout —
   seconds on screen — remains unavailable and unbacklogged; the edge covers the decision, not
   the display.)*
+  > ⚠ **AMENDED 2026-07-31 — "strictly better than the plan" was wrong, and the capture is
+  > what refuted it.** The edge *is* derived from Blizzard's own per-spell pandemic window, so
+  > that half stands. But it is a **one-shot notification, not a state**: `TriggerPandemicAlert`
+  > sets `nextAvailableTimeToPlayPandemicAlert` so it cannot fire twice for one aura instance,
+  > and re-applying a *live* aura raises nothing at all. Measured: **41 Immolate casts → 1
+  > `OnAuraApplied`, 1 `PandemicTime`, 0 `OnAuraRemoved`**, and the DoT cue fired for exactly
+  > one 5.8 s window in a whole pull. A channel that cannot clear itself is not strictly better
+  > than one that reports state; it is a different, weaker thing. **roster-state-plan §3.10
+  > fixed it (v0.32.46):** `item.auraDataUnit` + `item.PandemicIcon` are recomputed every frame
+  > and therefore self-clear, so they are now channel 1 and the edge is demoted to a fast path.
+  > The original item's *conclusion* — that a readable `row.uptime` can never arrive — is still
+  > correct; what was wrong was calling the replacement an upgrade.
 - **Roll the domain view to other specs** — ✅ **framework complete** (`multispec-plan.md`,
   all 6 phases done 2026-07-29, shipped v0.32.22): registry + resolver + per-spec Coach
   brain + array-of-powers resources + live spec detection, Demo the sole registered spec.

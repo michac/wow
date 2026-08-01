@@ -1528,7 +1528,7 @@ brackets is the evidence the rule rests on.
     not that the setter is on the `AllowedWhenTainted` list.
     [Tier 1: `SpellDocumentation.lua:249, 267`;
     `FrameAPICooldownDocumentation.lua:280-283, 305-313`]
-18. A read of Blizzard **widget internals** used as a substitute for a sealed
+17b. A read of Blizzard **widget internals** used as a substitute for a sealed
     value (§4.11) is guarded at bind time and has a documented fallback. It is an
     implementation detail at a pinned build, not an API: it carries no
     deprecation and no error, so its disappearance reads as a legitimate
