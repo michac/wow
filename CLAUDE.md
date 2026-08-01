@@ -230,7 +230,6 @@ uv run python -m wowkb.addon check                       # report addons with lo
 uv run python -m wowkb.addon release <bb|cdmp|ps> [--patch|--minor|--major] [--notes …]  # bump .toc → luaparser check → commit → push → gh release (tag=version) → ghaddons deploy
 uv run python -m wowkb.addon deploy <bb|cdmp|ps>         # redeploy the latest existing release via ghaddons (no new cut)
 uv run python -m wowkb.cdmp decisionlog                 # extract the CDMProbe pipeline DECISION LOG off SavedVariables → flat .log (see below)
-uv run python -m wowkb.cdmp census                     # ⚠ TEMPORARY: the CDM STRUCT CENSUS (`/cdmp census` in game) → raw/cdmp-census.log + a per-question verdict. Delete with the addon's Census.lua.
 ```
 
 Blizzard + WCL commands require credentials in `.env` (user-registered).

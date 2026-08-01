@@ -1,6 +1,21 @@
 # Cooldown HUD — the roster-anchored State
 
-> **STATUS: ▶ PHASE 3 IS CURRENT. Phases 1 + 2 done (2026-07-31); Phases 3–6 planned.**
+> **STATUS: ▶ PHASE 4 IS CURRENT. Phases 1 + 2 + 3 done (2026-07-31); Phases 4–6 planned.**
+> (§10 also permits **Phase 6** to jump the queue — it is independently shippable today and
+> touches nothing else.)
+>
+> **✅ Phase 3 SHIPPED 2026-07-31** (commits C1–C4, released as **v0.32.48**). The DrawList
+> gained a **`keybinds[]` channel**, so `cues[]` means *decisions* again and the empty-cue
+> special case is gone from three files; the keybind now resolves down the **rung ladder**
+> (3 → 4 → 5), which is what gives **Hellcaller its key hint** — its row's base is Immolate
+> 348 while the bar holds Wither, so base-only resolution had left that icon blank. Two
+> pinned cases went red on the fix and flipped in its own diff; corpus **0 `pinned-defect` /
+> 21 `fixed`**. Suite **567 → 562** (the new tests net out against the deleted
+> `census_spec`), luacheck 0 warnings, 96 → 99 cases. Two housekeeping items rode along:
+> `GetValidAlertTypes` was promoted into `Util.lua` (Phase 4's prerequisite, rescued from the
+> doomed `AlertTape.lua`) and **`Census.lua` was deleted**. **§4.2 records what actually
+> changed.** ⏳ **Its live pass is owed** — and covers Phase 2's and v0.32.47's owed re-flies
+> in the same flight.
 >
 > **✅ Phase 2 SHIPPED 2026-07-31** (commits C1–C10, released as **v0.32.46**). **All ten
 > correctness fixes landed** — §3.1 through §3.10, in the evidence-led order §10 sets out, not
@@ -695,6 +710,63 @@ what is on the bar and what Blizzard displays. Base-only resolution misses it.
 > pool-aura — mirroring Immolate's 348/157736, which refutes the one-id reading in
 > `cooldown-manager.md` §2.7.)
 
+### 4.2 What actually shipped *(the record — 2026-07-31, v0.32.48)*
+
+Four commits, `C1`…`C4`. **Both diagnoses held**, and the phase came out the size §4.1's
+measurement predicted. What follows is only where the *implementation* diverged from what
+§4 proposed — a fresh reader should treat every one of these as deliberate and **not "fix"
+it back**.
+
+| | Commit | What landed |
+|---|---|---|
+| C1 | `a0809c5` | the two keybind cases **pinned**, + the harness swap to the real `HudBinds.lua` |
+| C2 | `eae9d53` | §4.1 the rung ladder — `B.Resolve`, State's call site, `hudbinds_spec` (flips both pins) |
+| C3 | `1551937` | §4 the `keybinds[]` channel — HudGeometry / Binder / Renderer / RenderTest / HudVirtual |
+| C4 | `de2ab1f` | the two housekeeping items: `ns.ReadValidAlertTypes`, `Census.lua` deleted |
+
+**Six deviations worth knowing:**
+
+1. **The harness now loads the REAL `HudBinds.lua`** instead of stubbing it, with `B.map`
+   pointed at `fx.keybind`. The fixture supplies the action-bar *cache*; everything above it
+   (the secret guard, the `SpecBindAlias` fallback, the ladder) is shipping code. A stub
+   would have had to duplicate the ladder and could then get it right while the shipping
+   code got it wrong. `Start` stays stubbed — the real one scans 180 slots through
+   `GetActionInfo`, and `St.Acquire` calls it unguarded.
+2. **Three cases shipped, not one, and two were pinned.** The plan named the Hellcaller case
+   as the `pinned-defect`; the rung-*order* case fails base-only too, so it was pinned as
+   well. The Diabolist case is the no-regression half and was green throughout — a ladder
+   that reached past a bound base would have broken what already worked. Corpus **0
+   `pinned-defect` / 21 `fixed`**.
+3. **The Binder normalises a blank layout keybind** rather than passing `entry.keybind`
+   through with `or`: `""` now falls through to the cfg seam instead of reaching the
+   DrawList. The old cue path let a blank ride and the Renderer filtered it; with its own
+   channel the blank entry would simply have been noise.
+4. **`R:drawKeybinds` reuses `cueHolders` and the `cueKeys` pool**, so both channels ride the
+   same per-icon strata/level fix. That is what forces the union cull, and the plan called
+   it correctly as the one real trap. Three `renderer_spec` tests pin it: dot drops / key
+   survives, key drops / dot survives, and both drop / holder hides.
+5. **`R:drawCues` keeps its unknown-token `else` branch.** The plan said to delete "the
+   branch's *reason for existing*", which it did — but "an emphasis the theme has no entry
+   for draws nothing, and hides any prior dot" is a contract of its own, independent of
+   empty cues, and `renderer_spec` already asserted it against a deliberately unknown token.
+6. **The golden close-the-loop scenarios now compare the cue channel EXACTLY.** They used to
+   filter the Binder's empty-cue padding out before comparing, because the `/cdmp rt`
+   fixtures never carried it. Nothing to filter now.
+
+**Files touched:** `HudBinds.lua` · `State.lua` · `HudGeometry.lua` · `Binder.lua` ·
+`Renderer.lua` · `RenderTest.lua` · `HudVirtual.lua` · `Util.lua` · `AlertTape.lua` ·
+`Core.lua` · `CDMProbe.toc` · `Census.lua` **(deleted)** · `tests/mock_ns.lua` ·
+`tests/fixtures/cdm-cases.lua` · `tests/spec/{binder,renderer,hudvirtual}_spec.lua` ·
+`tests/spec/hudbinds_spec.lua` **(new)** · `tests/spec/census_spec.lua` **(deleted)** ·
+and in the workspace `tools/wowkb/cdmp.py` + both `CLAUDE.md`s. Suite **567 → 562** (the
+new work nets out against `census_spec`'s deletion), luacheck 0 warnings, 96 → 99 cases.
+
+**Still owed: the live pass**, which covers three things at once — Hellcaller's key hint
+(the phase's own acceptance signal), Phase 2's owed re-fly, and v0.32.47's owed
+`ChargeGained` re-fly. ⚠ **Expect the cue count to drop** on `/cdmp hud status` and in the
+decision log's `B{}` field: it now counts decisions, not decisions + chrome. That is the
+phase working, not a regression — confirm it is the *only* thing that moved.
+
 ---
 
 ## 5 · Phase 4 — the roster coverage probe
@@ -921,8 +993,8 @@ the answers reshaped three phases and the reasoning should not be re-derived.
 ```
 Phase 1  fixture harness + CDM edge inventory      ← ✅ DONE 2026-07-31 (the net)
 Phase 2  the correctness fixes (all ten)           ← ✅ DONE 2026-07-31, v0.32.46 (see §3.11)
-Phase 3  keybind channel separation                ← ▶ CURRENT. Needs the §9 linkedSpellID answer
-Phase 4  roster coverage probe                     ← promote GetValidAlertTypes before AlertTape dies
+Phase 3  keybind channel separation                ← ✅ DONE 2026-07-31, v0.32.48 (see §4.2)
+Phase 4  roster coverage probe                     ← ▶ CURRENT. Its API prerequisite landed in Phase 3
 Phase 6  cast-results → Coach                      ← independent deletion, can jump the queue
 Phase 5  roster anchor inversion                   ← last; the largest blast radius
 ```

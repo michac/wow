@@ -24,7 +24,7 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
   cutover; the `/cdmp probe` + `probe-baseline.json` assertion suite was retired 2026-07-29
   (settled readability rules + DB2-sourced tracked set made per-spec re-measurement moot).
 - **Gates:** `luaparser` (release) + `luacheck CDMProbe/` + `busted CDMProbe/tests/spec`
-  (**567 tests / 4 pending**, luacheck 0 warnings). All three are **hard** release gates —
+  (**562 tests / 4 pending**, luacheck 0 warnings). All three are **hard** release gates —
   `wowkb.addon release` aborts the cut on any non-zero exit.
   ⚠ All three are **source** gates: none of them runs the game, and the v0.32.25 outage
   below is what that blind spot looks like in practice.
@@ -38,16 +38,45 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
   charge restored and *never* raises `OnCooldown`, so the ready-edge latched true forever and
   Conflagrate was cued at zero charges. That doc holds the evidence and the two things the
   pass left unproven. **Nothing in it is outstanding.**
-- **Active work: `roster-state-plan.md` — ▶ PHASE 3 (separate the keybind from the cue
-  channel). Phases 1 and 2 are both DONE (2026-07-31).**
-  Phase 3 restores the original design `HudBinds.lua`'s own header still states: a keybind is
-  resolved down the rung ladder independently of the id a cue is *scored* under, so a row whose
-  display identity moves does not silently lose its bind. ⚠ **The 2026-07-31 capture removed
-  rung 2 from that ladder** — the elected `linkedSpellID` is never set, on the frame or in a
-  fresh read, and Hellcaller's Wither arrives via `overrideSpellID` instead. Read the plan's
-  §4 before starting.
-  ⏳ **One thing is owed on Phase 2 first, and it needs you in-game, not code: the live pass**
-  (checklist under *Owed: the v0.32.36 re-fly* below, which it doubles as).
+- **Active work: `roster-state-plan.md` — ▶ PHASE 4 (the roster coverage probe). Phases 1,
+  2 and 3 are all DONE (2026-07-31).**
+  Phase 4 asks the cheap out-of-combat question the in-combat maintenance layer cannot: *does
+  the CDM cover every id the spec's roster declares?* Its one API prerequisite already landed
+  — `ns.ReadValidAlertTypes` was promoted into `Util.lua` in Phase 3, out of the doomed
+  `AlertTape.lua`. ⚠ **That API under-reports**, so the report must say "not reported
+  eligible", never "cannot fire". Read the plan's §5 before starting. (§10 also permits
+  **Phase 6** — cast-results → Coach — to jump the queue; it is independently shippable and
+  touches nothing else.)
+  ⏳ **One flight is owed first, and it needs you in-game, not code**: a single live pass
+  discharges **three** things — Phase 3's own acceptance (Hellcaller's key hint), Phase 2's
+  live pass, and v0.32.47's `ChargeGained` re-fly. Checklist under *Owed: the v0.32.36
+  re-fly* below.
+- **✅ DONE — `roster-state-plan.md` Phase 3 (v0.32.48): the keybind left the cue channel.**
+  The DrawList gained a **`keybinds[]` channel**, so `cues[]` means *decisions* again. The
+  layering had been inverted: `HudBinds.lua`'s header says a keybind is "identity chrome,
+  deliberately OUTSIDE the cue contract", and the Binder was emitting an **empty cue** (a
+  keybind with no emphasis) for every displayed icon so the hint could ride every button —
+  a display concern travelling the decision channel, a cue count that included chrome, and a
+  "cue with no dot" special case in two more files. All three are gone.
+  - **And a real user-visible bug rode along.** The keybind resolved off the **base** id
+    only. On Hellcaller the row's base is Immolate 348 while the bar holds Wither, so that
+    icon got **no key hint at all**. `ns.HudBinds.Resolve` now walks the rung ladder —
+    `overrideTooltipSpellID → overrideSpellID → base`, first id with a real binding wins.
+    ⚠ **Rung 2 came *out* of the ladder**, not into it: the 2026-07-31 capture found the
+    elected `linkedSpellID` on 0 of 72 rows and `GetLinkedSpell()` nil on every frame.
+  - ⚠ **The ladder deliberately carries NO spec fences**, unlike `ns.DisplayIdentity`. It
+    asks the action bar, so a wrong candidate simply has no binding and falls through. Don't
+    "align" the three ladders — the plan's §4.1 and the file header say why at length.
+  - **The one real trap was the holder cull**, and the plan called it: both channels ride one
+    holder frame per icon, so `R:Draw` culls holders on the **union** of the two active sets.
+    Three `renderer_spec` tests pin it in both directions.
+  - **Two housekeeping items rode the same cut:** `GetValidAlertTypes` promoted into
+    `Util.lua` (Phase 4's prerequisite, rescued from `AlertTape.lua` before that file dies),
+    and **`Census.lua` deleted** — all six of its questions answered and consumed.
+  - **The plan's §4.2 is the record**, including six places the implementation deliberately
+    diverged. ⚠ **Expect the live cue count to DROP** on `/cdmp hud status` and in the
+    decision log's `B{}` field: it counts decisions now, not decisions + chrome. That is the
+    phase working — confirm it is the *only* thing that moved.
 - **✅ DONE — `roster-state-plan.md` Phase 2 (v0.32.46): all ten correctness fixes.** The DoT
   read finally has a channel that **self-clears**. Before this, a whole Destruction pull
   produced **169 `pandemic_refresh` cues and 0 `not_up`**: the HUD could tell you to refresh the
@@ -366,12 +395,29 @@ rides. Three fences worth keeping in mind before touching it:
 
 ### ⏳ Owed: the v0.32.36 re-fly
 
-Nothing below is verified in the field yet. `/reload` first, then:
+**One flight discharges four owed things** — this re-fly, Phase 2's live pass, Phase 3's
+acceptance, and v0.32.47's `ChargeGained` re-fly. Nothing below is verified in the field
+yet. `/reload` first, then:
 
 - **`/cdmp rt states`** — three visual questions in one card: (a) is the dot a clean
   borderless circle that blends into its glow? (b) does LATE read as an *escalated*
   rotation cue rather than a different instruction? (c) does the violet FALLBACK still
-  separate from the shard pips?
+  separate from the shard pips? Plus the Phase-3 one: does the **IDLE** square still read
+  "key hint, no dot"? It is the only square now emitted on the keybinds channel alone.
+- **Phase 3 — `/cdmp hud layout` on Hellcaller.** Every displayed row shows a key, and the
+  Immolate/Wither row now shows **Wither's** key where it previously showed none. Switch to
+  Diabolist and confirm it still shows Immolate's. Screen otherwise unchanged: key hints on
+  every displayed icon, dots only where cued, `/cdmp hud` off leaves Blizzard's UI
+  pixel-clean. ⚠ **The cue count WILL drop** on `/cdmp hud status` and in the decision log's
+  `B{}` field — it counts decisions now, not decisions + chrome. Confirm that is the only
+  thing that moved.
+- **Phase 2 — the DoT read.** The acceptance signal is the **`not_up` cue appearing at all**
+  in `wowkb.cdmp decisionlog` (baseline: 169 `pandemic_refresh` / 0 `not_up` across a whole
+  pull), the DoT cue firing across the *whole* pull rather than one 5.8 s window, `Imm=off/…`
+  in the `DOT:` field, and `aura-frame read: N/N` non-zero on `/cdmp hud status`.
+- **v0.32.47 — the `ChargeGained` gain floor.** Pull a dummy as **Destruction**, then
+  `/reload` + `wowkb.cdmp decisionlog`: Conflagrate's share of decisions should fall well
+  below its **702-of-1272** baseline, and it must not be cued at zero charges.
 - **Diabolist dummy pull — the decisive one.** Does Blizzard's Incinerate icon now carry
   **a keybind and a cue**? Then `/reload` + re-extract: expect `w:-` ≈ 0 % (was 6.2 %),
   `Inc` winning and drawing, `# config` marker lines, and an `IB` vs `IB2` answer.
@@ -665,7 +711,8 @@ work lands now — the user drives the list; a few already-surfaced items are se
     with no clock advance between them — the duplicate shape itself. It now advances a recharge.
     Five new domain-view tests + two fixture cases, mutation-checked by disabling the floor.
   - ⏳ **Needs a live re-fly** to confirm Conflagrate's share of decisions drops and the cue
-    stops appearing at zero charges. Nothing else is owed.
+    stops appearing at zero charges. Nothing else is owed. **Folded into the one owed flight**
+    (*Owed: the v0.32.36 re-fly* above) rather than costing its own trip.
 - **~~Measure the CDM's frame-cached state in combat — `wasSetFrom*` and `auraDataUnit`.~~
   ✅ DONE 2026-07-31 — measured by the census, and `auraDataUnit` is now CONSUMED.** The
   `/cdmp census` capture answered this as its Q6: both survive combat, exactly as the

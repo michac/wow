@@ -169,7 +169,10 @@ right split.
       "glow":   { "active": false, "readable": true },   // IsSpellOverlayed — readable in combat
       "buff":   { "isActive": false, "shown": false, "hideWhenInactive": true },  // buff-item frame state
 
-      "keybind": "S-3"          // mostly-static, from HudBinds, OOC-resolved off the BASE id
+      "keybind": "S-3"          // mostly-static, from HudBinds, OOC-resolved down the RUNG
+                                // LADDER: overrideTooltipSpellID -> overrideSpellID -> base,
+                                // first id with a real binding wins (Phase 3 §4.1).  Base-only
+                                // left Hellcaller's Immolate/Wither row with no key at all.
     }
   },
 
@@ -415,9 +418,16 @@ same way), producing the DrawList the Renderer draws verbatim.
 ```jsonc
 // DrawList (Binder output): "anchorTo" is an opaque HANDLE or a root token.
 {
+  // ONE ENTRY PER DECISION.  A cue carries an emphasis TOKEN and no keybind (Phase 3).
   "cues": [
     { "anchorTo": 42, "point": "CENTER", "relPoint": "CENTER", "dx": 0, "dy": 0, "w": 48, "h": 48,
       "color": [0.2,0.8,0.4,1.0], "fill": 0.6, "pulse": false, "width": "narrow" }
+  ],
+  // The SECOND per-icon channel: identity chrome, one entry per displayed icon that has a
+  // key, built straight off the Layout with no Guidance involvement.  It is separate because
+  // a keybind is not a rotation signal — see Stage 4's "two channels" note.
+  "keybinds": [
+    { "anchorTo": 42, "point": "TOPLEFT", "relPoint": "TOPLEFT", "dx": 2, "dy": -2, "keybind": "S-3" }
   ],
   "panel":       { "anchorTo": "UIPARENT", "point": "TOP", "dx": 0, "dy": -200, "title": "OPENER", "steps": [/*…*/] },
   "resourceBars": [  // N stacked meters, one per declared power (Demo = one)
@@ -444,6 +454,13 @@ same way), producing the DrawList the Renderer draws verbatim.
   frames); *absolute rects* (`{x,y,w,h}`, no registry) is the "pure draw tool" extreme,
   fine for our own widgets (panel, resource bar, callouts) that we position ourselves.
   Recommended: handle-anchor for cues, self-anchored for the rest.
+- **Two per-icon channels, not one (Phase 3).** `cues[]` is emitted only where the Coach
+  signalled an emphasis, so `#cues` means *decisions this tick*; `keybinds[]` is emitted for
+  every displayed icon that resolves a key, with **no Guidance argument at all**. Until
+  Phase 3 both rode one entry: an emphasis-less "empty cue" was how a key hint reached an
+  uncued icon, which pushed a display concern through the decision channel and made the cue
+  count meaningless. The geometry for both lives in `ns.HudGeometry` (`G.cue` / `G.keybind`),
+  so the Binder and the `/cdmp rt` fixtures agree by construction.
 - **In the code:** `Binder.lua` does exactly this — merges Guidance's spellID cues with
   the live Layout (`HudLayout.Scan`) and emits the DrawList the Renderer draws. Greened
   against `binder_spec`.
@@ -459,6 +476,15 @@ does `frame:SetPoint(d.point, registry[d.anchorTo], d.relPoint, d.dx, d.dy)` and
 applies colour/fill/animation. **No decisions.** Diffs by key so only changed frames
 are touched; starts an effect animation when a new effect `id` appears, owns its clock
 thereafter.
+
+**THE DOT AND THE KEY HINT ARE TWO CHANNELS (Phase 3).** They draw from `cues[]` and
+`keybinds[]` respectively and are independent by construction: an icon can carry a dot, a
+key hint, both, or neither, and none of those is a special case. Before Phase 3 they shared
+one cue entry, so "a keybind with no emphasis" was a shape the Renderer had to recognise.
+⚠ Both channels ride the **same per-icon holder frame** (that is what gives them Blizzard's
+own action-button strata), so `drawCues` and `drawKeybinds` each *return* their active
+handle set and **`R:Draw` culls holders on the union**. A per-channel cull would hide the
+other channel's decoration every frame.
 
 ---
 

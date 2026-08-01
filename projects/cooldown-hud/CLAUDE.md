@@ -35,21 +35,25 @@ The docs split **general** (spec-agnostic — the product, the pipeline) from
   HUD draws its own icons for abilities Blizzard's Cooldown Manager does not track, so a
   spec's floor press stops being invisible (Destruction was blank for 31 % of a pull).
   Only the v0.32.36 **re-fly** is outstanding, and that needs a live session, not code.
-- **`docs/roster-state-plan.md`** — **Phases 1 + 2 DONE (2026-07-31); ▶ Phase 3 is CURRENT;
-  Phases 4–6 planned**: anchor State on the spec's declared **roster** (abilities + auras)
+- **`docs/roster-state-plan.md`** — **Phases 1 + 2 + 3 DONE (2026-07-31); ▶ Phase 4 is
+  CURRENT; Phases 5–6 planned**: anchor State on the spec's declared **roster** (abilities + auras)
   rather than on the CDM database, plus the correctness fixes and the **fixture inventory** of
   CDM edges that had to come first. Written out of a client-correctness review of `State.lua`
   against `knowledge/addon-dev/cooldown-manager.md`.
-  **Phase 1 shipped the inventory** — `addon/CDMProbe/tests/fixtures/cdm-cases.lua`, now 96
+  **Phase 1 shipped the inventory** — `addon/CDMProbe/tests/fixtures/cdm-cases.lua`, now 99
   declarative cases — where a `pinned-defect` case asserts the contract answer and FAILS ON
   PURPOSE, so the fix turns its own case red and flips the status in the same diff.
-  **Phase 2 (v0.32.46) landed all ten correctness fixes** and cleared every pin (**0
-  `pinned-defect` / 19 `fixed`**). The headline: the DoT read now has a channel that
+  **Phase 2 (v0.32.46) landed all ten correctness fixes** and cleared every pin. The
+  headline: the DoT read now has a channel that
   **self-clears** (`item.auraDataUnit` + `item.PandemicIcon`), where before a whole pull
-  produced 169 "refresh the DoT" cues and **zero** "apply it". ⏳ **Its live pass is owed.**
-  **§3.11 is the record of what actually changed**, including ten deliberate deviations from
-  the plan — read it before "fixing" any of them back, and read §3.1–§3.10 before "fixing"
-  anything a case pins.
+  produced 169 "refresh the DoT" cues and **zero** "apply it".
+  **Phase 3 (v0.32.48) separated the keybind from the cue channel** — the DrawList gained a
+  `keybinds[]` channel so `cues[]` means *decisions*, and the keybind now resolves down the
+  **rung ladder** (3 → 4 → 5), which is what gives **Hellcaller its key hint**. Corpus **0
+  `pinned-defect` / 21 `fixed`**. ⏳ **One live pass is owed and covers both phases.**
+  **§3.11 and §4.2 are the records of what actually changed**, including the deliberate
+  deviations — read them before "fixing" any of those back, and read §3.1–§3.10 / §4.1
+  before "fixing" anything a case pins.
 - **`docs/field-fixes-plan.md`** — ✅ **done, history** (Phases A/B/C/C2, v0.32.28–31): the
   correctness + capability fixes the first live session surfaced, and the record of the live
   pass that confirmed them. Read it for the field evidence, not for outstanding work.
