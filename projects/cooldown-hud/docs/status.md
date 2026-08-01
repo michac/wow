@@ -24,7 +24,7 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
   cutover; the `/cdmp probe` + `probe-baseline.json` assertion suite was retired 2026-07-29
   (settled readability rules + DB2-sourced tracked set made per-spec re-measurement moot).
 - **Gates:** `luaparser` (release) + `luacheck CDMProbe/` + `busted CDMProbe/tests/spec`
-  (**562 tests / 4 pending**, luacheck 0 warnings). All three are **hard** release gates —
+  (**569 tests / 4 pending**, luacheck 0 warnings). All three are **hard** release gates —
   `wowkb.addon release` aborts the cut on any non-zero exit.
   ⚠ All three are **source** gates: none of them runs the game, and the v0.32.25 outage
   below is what that blind spot looks like in practice.
@@ -77,6 +77,36 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
     diverged. ⚠ **Expect the live cue count to DROP** on `/cdmp hud status` and in the
     decision log's `B{}` field: it counts decisions now, not decisions + chrome. That is the
     phase working — confirm it is the *only* thing that moved.
+- **🐛 FIXED v0.32.51 — the keybind cache could never refresh in combat, so a dummy session
+  ran keyless.** Surfaced by Phase 3's first live pass and *not* caused by it. `HudBinds`
+  refused to scan the action bars in combat; a target-dummy session is **continuous
+  combat**, so the 180-slot scan had never run once and the combat exit it was deferring to
+  was never coming. `/cdmp hud status` read `0 bound / 0 slot(s), 0 scan(s), deferred 3x`.
+  - **The combat refusal is a COST rule, not a safety one.** `GetActionInfo` /
+    `GetBindingKey` are unprotected reads that taint nothing; the rule exists because
+    v0.6.0 burned ~2000 full scans in one city session. That reasoning does not survive an
+    **empty** cache — there is no churn to prevent and the fence costs every key hint on
+    screen. So a **cold** cache now scans in combat; a **warm** one still defers and serves
+    its stale value, which is where the cost rule earns its keep.
+  - **One cause covers every symptom of that session**, including the earlier and more
+    confusing "only *some* icons have keys": a bar or hero-tree swap in combat leaves the
+    cache stale for exactly the spells whose bar id moved, and it cannot refresh until the
+    fight ends. "Moving the CDM in Edit Mode fixed it" is the same story — Edit Mode cannot
+    be opened in combat, so that was simply the first out-of-combat rescan.
+  - ⚠ **v0.32.50's empty-scan retry fence is REASONED, not field-proven.** It was written
+    for the same report before the status line pinned the cause down, and has never been
+    observed firing. Kept — caching an empty scan as authoritative is a real hole on its
+    own, and the cold-cache exemption relies on it to keep retrying — but its comments were
+    corrected in v0.32.51 so a future reader does not credit it with a symptom it did not
+    cause.
+  - **The lesson is the instrument, not the fix.** `B.stats` has tracked
+    `slots`/`bound`/`scans`/`deferred` since v0.6.1 and **nothing ever displayed it**, so a
+    cache that had silently given up was indistinguishable from a rendering bug — it cost
+    two wrong diagnoses and two builds. `/cdmp hud status` now prints the cache (and shouts
+    on `bound=0`), and `/cdmp hud layout` gained a **`drew=`** column: what the last tick's
+    DrawList actually carried, beside `key=`, which is only what State resolved. That dump
+    claims to be "the row to read when a key is missing" and, showing State alone, could
+    not be.
 - **✅ DONE — `roster-state-plan.md` Phase 2 (v0.32.46): all ten correctness fixes.** The DoT
   read finally has a channel that **self-clears**. Before this, a whole Destruction pull
   produced **169 `pandemic_refresh` cues and 0 `not_up`**: the HUD could tell you to refresh the
