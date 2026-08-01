@@ -503,10 +503,27 @@ rides. Three fences worth keeping in mind before touching it:
 
 ### ⏳ Owed: the v0.32.36 re-fly
 
-**One flight discharges six owed things** — this re-fly, Phase 2's live pass, Phase 3's
-acceptance, v0.32.47's `ChargeGained` re-fly, **Phase 4's coverage acceptance** and **the
-`/cdmp assist` rider's measurement**. **Phase 3's half is ✅ done (2026-07-31)**; the rest is
-still owed.
+**✅ FLOWN 2026-08-01 — five of seven discharged in one pass.** `/cdmp flight` +
+`wowkb.cdmp flight` closed: **Phase 2's** DoT live pass (15 `not_up` vs a baseline of 0),
+**Phase 3's** Diabolist half (`cd=164597` reads Immolate `key=F` where Hellcaller reads
+Wither `key=F` — the ladder falls through), **Phase 4's** coverage acceptance (all criteria
+pass, including nine in-combat wholesale-guard checks), **v0.32.47's** `ChargeGained` re-fly
+(Conflagrate 27.3 % of decisions vs a 55.2 % baseline), and **the rider's** measurement
+(`GetNextCastSpell` readable through combat).
+
+**⏳ TWO REMAIN, and neither is a re-pull of the same ground:**
+
+1. **The v0.32.36 re-fly itself is NOT discharged — it is BLOCKED, not skipped.** Its
+   acceptance is `w:-` ≈ 0 % **in a pull** (was 6.2 %), plus `Inc` winning and drawing and
+   an `IB` vs `IB2` answer. The flight measured **53.6 % across 21,048 lines** — and that
+   number is *unreadable* for this purpose, because a decision-log line carries **no combat
+   flag** and its clock is `GetTime() - DL.t0` (session-relative, so it cannot be correlated
+   with the flight ring's `GetTime()` stamps either). Out of combat "no winner" is the
+   correct answer, so idle time inflates it without anything being wrong.
+   **→ Fix first, then re-read the log you already have:** `DecisionLog` already stamps
+   `# config` lines on change; have it stamp `# combat start` / `# combat end` the same way
+   and the split falls out, with no new flying. Backlogged below.
+2. **`/cdmp rt states`** — the visual card. Genuinely needs eyes, and needs no pull.
 
 ### 🎯 The whole pass is TWO commands (v0.32.53 — `/cdmp flight`)
 
@@ -779,6 +796,18 @@ work lands now — the user drives the list; a few already-surfaced items are se
   since an empty layout means "the viewers are not up", never "nothing is drawable". A
   design step, not a patch. `wowkb.cdmp flight` reports drawability as **MEASURED** in the
   meantime, so the gap is visible rather than silent.
+- **📋 The decision log cannot be split by combat, and that blocks the v0.32.36 re-fly.**
+  *(Opened 2026-08-01 by the first flight.)* A decision-log line carries no combat flag, and
+  its timestamp is `GetTime() - DL.t0` — session-relative, so it cannot be correlated against
+  the flight ring's `GetTime()` stamps either. So the `w:-` (nil-winner) rate mixes idle
+  out-of-combat ticks, where "no winner" is the CORRECT answer, with the pull the 6.2 %
+  baseline was measured on: the flight's 53.6 % is not a regression signal, it is an
+  unreadable number. **Cheap fix, and it unblocks a re-read of the log already on disk
+  rather than another flight:** `DecisionLog.Record` already stamps `# config <spec> hero:…`
+  into the entry stream on change (`DecisionLog.lua:414`); stamp `# combat start` /
+  `# combat end` the same way, then have `wowkb.cdmp flight` report the nil-winner rate
+  **per pull**. Do this before the next acceptance pass — it is the difference between a
+  measurement and a number.
 - **📋 The `C_AssistedCombat` oracle: readability is proven, USEFULNESS is not.**
   *(Opened 2026-08-01; `knowledge/addon-dev/api-events-and-discovery.md` §2.9.)*
   `GetNextCastSpell()` returns a plain readable number through combat — measured — but the

@@ -57,10 +57,16 @@ The docs split **general** (spec-agnostic — the product, the pipeline) from
   one? It is also the required replacement for `pulse.dropped`, which Phase 5 deletes. Its
   wholesale guard (an empty scan reports "the read refused", never "your roster is blind")
   is the load-bearing part; Crashing Chaos 417234, its one live instance, was **deleted**
-  rather than covered — so the `blind` verdict is fixture-proven only.
-  ⏳ **Phase 2's live pass and Phase 4's acceptance are both owed** — one flight discharges
-  six things; the checklist is in `status.md` → *Owed: the v0.32.36 re-fly*.
-  **§3.11, §4.2 and §5.1 are the records of what actually changed**, including the deliberate
+  rather than covered — so the `blind` verdict is fixture-proven only. ⚠ The first flight
+  then found `blind` was **crying wolf** (every instance was an ability the character does
+  not have), so v0.32.54 fenced it on knownness — see §5.2.
+  ✅ **Flown 2026-08-01** — one `/cdmp flight` pass discharged Phases 2, 3 and 4, the
+  `ChargeGained` re-fly and the `C_AssistedCombat` rider. **§5.2 is the flight record.**
+  ⏳ Two things remain and neither is a re-pull: the **v0.32.36 re-fly is BLOCKED** (the
+  decision log carries no combat flag, so its `w:-` acceptance cannot be read — fix the log,
+  then re-read the capture already on disk), and the `/cdmp rt states` visual card.
+  `status.md` → *Owed: the v0.32.36 re-fly* has both.
+  **§3.11, §4.2, §5.1 and §5.2 are the records of what actually changed**, including the deliberate
   deviations — read them before "fixing" any of those back, and read §3.1–§3.10 / §4.1
   before "fixing" anything a case pins.
 - **`docs/field-fixes-plan.md`** — ✅ **done, history** (Phases A/B/C/C2, v0.32.28–31): the
