@@ -24,7 +24,7 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
   cutover; the `/cdmp probe` + `probe-baseline.json` assertion suite was retired 2026-07-29
   (settled readability rules + DB2-sourced tracked set made per-spec re-measurement moot).
 - **Gates:** `luaparser` (release) + `luacheck CDMProbe/` + `busted CDMProbe/tests/spec`
-  (**610 tests / 4 pending**, luacheck 0 warnings). All three are **hard** release gates —
+  (**621 tests / 4 pending**, luacheck 0 warnings). All three are **hard** release gates —
   `wowkb.addon release` aborts the cut on any non-zero exit.
   ⚠ All three are **source** gates: none of them runs the game, and the v0.32.25 outage
   below is what that blind spot looks like in practice.
@@ -475,7 +475,34 @@ rides. Three fences worth keeping in mind before touching it:
 **One flight discharges six owed things** — this re-fly, Phase 2's live pass, Phase 3's
 acceptance, v0.32.47's `ChargeGained` re-fly, **Phase 4's coverage acceptance** and **the
 `/cdmp assist` rider's measurement**. **Phase 3's half is ✅ done (2026-07-31)**; the rest is
-still owed. `/reload` first, then:
+still owed.
+
+### 🎯 The whole pass is TWO commands (v0.32.53 — `/cdmp flight`)
+
+This used to be a checklist of ten slash commands, several of them typed **during a GCD**,
+whose answers a human then eyeballed in a chat dump. That was the wrong shape twice over.
+The recorder samples every answer structurally — through combat entry, spec swaps and hero
+swaps, with no further typing — and the desktop extractor **judges** it against criteria
+that live in code:
+
+```
+/cdmp flight                                 arm it (turns the HUD on, samples immediately)
+   …pull a dummy as Destruction…
+   …swap hero tree, pull again…             ← Phase 3's Diabolist half, recorded automatically
+   …swap to Demonology, pull again…         ← Phase 4's invalidation check, likewise
+/reload                                      flush SavedVariables
+uv run python -m wowkb.cdmp flight           the PASS / FAIL / MEASURED report
+```
+
+Exit code 0 = all criteria pass · 1 = a real failure · **2 = no failures but something was
+never exercised** (a criterion nobody flew must never read as a pass, so SKIP is loud and
+scores separately). The rider is reported **MEASURED, never scored** — its whole point is
+that the answer is unknown, and a FAIL frame would invite someone to "fix" a measurement.
+
+**The only thing left for your eyes** is the visual card below (`/cdmp rt states`) — "is the
+dot a clean borderless circle" is not machine-checkable, and it needs no pull.
+
+The per-item detail below is what the report checks, kept for when a line comes back FAIL:
 
 - **Phase 4 — roster coverage.** `/cdmp hud status` shows the coverage line with **0 BLIND**.
   Then `/cdmp hud coverage` on **Destruction**: Crashing Chaos is **gone from the list
@@ -489,10 +516,9 @@ still owed. `/reload` first, then:
     the wholesale guard on the live path.
   - **Not verifiable this flight:** the `blind` verdict itself — its only live instance
     (Crashing Chaos) was deleted. Fixture-only, by design.
-- **The rider — `/cdmp assist`.** Run it out of combat, then again mid-pull (macro it, or
-  leave `/cdmp assist watch` on for the pull and read the ring after `/reload` with
-  `/cdmp assist dump`). **The answer is the readability CLASS of `GetNextCastSpell`'s return
-  in combat**, and it is publishable either way: it becomes a new subsection under
+- **The rider — reported MEASURED by the flight report** (`/cdmp assist` remains for a
+  one-shot look). **The answer is the readability CLASS of `GetNextCastSpell`'s return in
+  combat**, and it is publishable either way: it becomes a new subsection under
   `knowledge/addon-dev/api-events-and-discovery.md` §2, and `notes.md`'s Assisted-Highlight
   row gets corrected from "Blizzard-only" to whatever we measure.
 

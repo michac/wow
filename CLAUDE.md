@@ -229,6 +229,7 @@ uv run python -m wowkb.addon pull [--all|bb cdmp ps]     # clone-if-missing + gi
 uv run python -m wowkb.addon check                       # report addons with local-only (uncommitted/unpushed) work; exit 1 if any (pre-push gate)
 uv run python -m wowkb.addon release <bb|cdmp|ps> [--patch|--minor|--major] [--notes …]  # bump .toc → luaparser check → commit → push → gh release (tag=version) → ghaddons deploy
 uv run python -m wowkb.addon deploy <bb|cdmp|ps>         # redeploy the latest existing release via ghaddons (no new cut)
+uv run python -m wowkb.cdmp flight                      # the PASS/FAIL ACCEPTANCE REPORT for an in-game pass recorded by `/cdmp flight` (run this after a test build)
 uv run python -m wowkb.cdmp decisionlog                 # extract the CDMProbe pipeline DECISION LOG off SavedVariables → flat .log (see below)
 ```
 
@@ -258,6 +259,15 @@ out by hand (they keep the *why*; this owns the *how*).
   `ghaddons`-deploys into the game install and reads back `ok`. For `ps` it also
   warns to bump the Lua `schema` field by hand if the `/ps` dump format changed
   (it does **not** touch schema). `--dry-run` stops before the commit.
+
+**`wowkb.cdmp flight`** is the door for **verifying a Cooldown-HUD test build in game**, and
+it exists because that used to be a checklist of ~10 slash commands, several of them typed
+mid-pull, whose answers a human eyeballed. Now: `/cdmp flight` in game arms a recorder (it
+samples coverage / assist / capability / layout on every *change of answer*, through combat
+entry and spec + hero swaps, with **no further typing**), you play, you `/reload`, and this
+prints a **PASS / FAIL / MEASURED** report judged against criteria that live in code. Exit
+**2** = no failures but part of it was never flown — a criterion nobody exercised must never
+read as a pass. ⚠ SavedVariables only flush on **`/reload`**.
 
 **`wowkb.cdmp decisionlog`** extracts the Cooldown HUD's **pipeline decision log**
 off SavedVariables (newest `WTF/Account/*/SavedVariables/CDMProbe.lua`,
