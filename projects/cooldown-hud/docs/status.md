@@ -619,9 +619,20 @@ pass, including nine in-combat wholesale-guard checks), **v0.32.47's** `ChargeGa
    flag** and its clock is `GetTime() - DL.t0` (session-relative, so it cannot be correlated
    with the flight ring's `GetTime()` stamps either). Out of combat "no winner" is the
    correct answer, so idle time inflates it without anything being wrong.
-   **→ Fix first, then re-read the log you already have:** `DecisionLog` already stamps
-   `# config` lines on change; have it stamp `# combat start` / `# combat end` the same way
-   and the split falls out, with no new flying. Backlogged below.
+   **✅ THE INSTRUMENT IS FIXED (v0.32.75) — but "no new flying" was WRONG.** This line used
+   to say "fix it, then re-read the log you already have, with no new flying". That cannot
+   work, and the reason is worth keeping: `DL.Record` appends **pre-rendered strings** —
+   the string IS the record, there is no structured entry behind it — so no extractor change
+   can put combat back into a capture taken before the marker shipped. **Every capture on
+   disk is spent for this purpose.** `DecisionLog` now stamps `# combat start` / `# combat
+   end` on the edge (and ⚠ **above its own change-only dedup**, because pulling from an idle
+   bar is exactly the case where the decision does *not* move at the moment combat begins —
+   the marker would be swallowed otherwise; decisionlog_spec mutation-checks that placement).
+   `wowkb.cdmp decisionlog` prints the split, and reports a pre-marker capture as
+   **UNREADABLE rather than 0 %** — silently scoring one would hand back a confident wrong
+   answer, which is the failure this whole change exists to end.
+   **→ So this needs ONE new pull**, which is cheap because it discharges the two items
+   below it and Phase 6.2's acceptance at the same time.
 2. **`/cdmp rt states`** — the visual card. Genuinely needs eyes, and needs no pull.
 
 ### 🎯 The whole pass is TWO commands (v0.32.53 — `/cdmp flight`)

@@ -269,6 +269,13 @@ prints a **PASS / FAIL / MEASURED** report judged against criteria that live in 
 **2** = no failures but part of it was never flown — a criterion nobody exercised must never
 read as a pass. ⚠ SavedVariables only flush on **`/reload`**.
 
+**`wowkb.cdmp decisionlog`** also prints a **COMBAT SPLIT** (v0.32.75+): `w:-` (the Coach
+found no winner) is only meaningful **in a pull** — out of combat "no winner" is the correct
+answer, so idle time inflates the raw ratio. The addon stamps `# combat start`/`# combat end`
+on the edge and this reports the in-combat ratio off it. ⚠ A capture recorded **before** that
+marker shipped is reported **UNREADABLE, never 0 %**: entries are stored pre-rendered, so
+combat cannot be recovered retroactively — you have to re-fly.
+
 **`wowkb.cdmp decisionlog`** extracts the Cooldown HUD's **pipeline decision log**
 off SavedVariables (newest `WTF/Account/*/SavedVariables/CDMProbe.lua`,
 `CDMProbeDB.decisionlog`) and flattens it to a grep-friendly `.log` — a ring of the

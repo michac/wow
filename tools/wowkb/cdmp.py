@@ -104,18 +104,51 @@ def cmd_decisionlog(decisionlog, path: str, out: Path) -> int:
     # in place.  Collected here as well, because a swap 400 lines into a trace is invisible
     # unless you already suspect it — and the whole point of asking is that you might not.
     configs: list[str] = []
+    # THE COMBAT SPLIT (addon v0.32.75+).  `w:-` — the Coach found no winner — is the
+    # acceptance signal for the v0.32.36 re-fly, and it is only meaningful IN A PULL: out of
+    # combat "no winner" is the CORRECT answer, so idle time inflates the raw ratio without
+    # anything being wrong.  The 2026-08-01 capture measured 53.6 % across 21,048 lines and
+    # that number was unreadable for exactly this reason.  The addon now stamps
+    # `# combat start` / `# combat end` on the edge, above its own change-only dedup, and
+    # this is the consumer.
+    #
+    # ⚠ A CAPTURE WITH NO MARKERS IS REPORTED UNREADABLE, NEVER AS 0 %.  Entries are stored
+    # PRE-RENDERED, so combat cannot be recovered from an older capture — and silently
+    # scoring one would hand back a confident wrong answer, which is the whole failure this
+    # change exists to end.
+    split: list[dict] = []
     for session in sessions:
         s = _asdict(session)
         entries = _aslist(s.get("entries"))
         lines.append(
             f"# session {s.get('started', '?')} v{s.get('version', '?')} "
             f"tracked:{s.get('tracked', '?')}")
+        # None until the session's first `# combat` marker: lines before it are of unknown
+        # combat state and are counted separately rather than guessed into a bucket.
+        in_combat: bool | None = None
+        tally = {"started": s.get("started", "?"), "version": s.get("version", "?"),
+                 "marked": False,
+                 "in": 0, "in_nowin": 0, "out": 0, "out_nowin": 0, "unknown": 0}
         for e in entries:
             text = str(e)
             lines.append(text)
             if "# config " in text:
                 configs.append(f"{s.get('started', '?')}  {text}")
+            if "# combat " in text:
+                tally["marked"] = True
+                in_combat = text.rstrip().endswith("start")
+            elif "S{" in text:
+                nowin = "G{w:-" in text
+                if in_combat is None:
+                    tally["unknown"] += 1
+                elif in_combat:
+                    tally["in"] += 1
+                    tally["in_nowin"] += nowin
+                else:
+                    tally["out"] += 1
+                    tally["out_nowin"] += nowin
             total += 1
+        split.append(tally)
     if configs:
         lines.append("")
         lines.append("# ── CONFIG SEGMENTS (each is a spec / hero-tree / talent change) ────")
@@ -127,6 +160,22 @@ def cmd_decisionlog(decisionlog, path: str, out: Path) -> int:
         print(f"{len(configs)} config segment(s) — the trace spans more than one build:")
         for c in configs:
             print("  " + c)
+
+    print()
+    print("# ── COMBAT SPLIT · `w:-` (no winner) is only meaningful IN COMBAT ──")
+    for t in split:
+        head = f"  {t['started']} v{t['version']}"
+        if not t["marked"]:
+            print(f"{head}  UNREADABLE — no `# combat` markers "
+                  f"({t['unknown']} decision line(s)). Capture predates addon v0.32.75; "
+                  f"entries are stored pre-rendered, so this cannot be recovered — re-fly.")
+            continue
+        pct = (100.0 * t["in_nowin"] / t["in"]) if t["in"] else None
+        inc = (f"{t['in_nowin']}/{t['in']} = {pct:.1f}%" if pct is not None
+               else "no in-combat lines — nothing was pulled")
+        print(f"{head}  IN COMBAT w:- {inc}"
+              f"   ·   out of combat {t['out_nowin']}/{t['out']}"
+              + (f"   ·   {t['unknown']} pre-marker" if t["unknown"] else ""))
     return 0
 
 
@@ -686,79 +735,24 @@ def _rtfx_cues(sample: dict) -> dict[str, dict]:
     return out
 
 
-def cmd_rtfx(db: dict, path: str, out: Path) -> int:
-    ring = _aslist(db.get("rtfx"))
-    if not ring:
-        print(f"{path}: CDMProbeDB.rtfx is empty.", file=sys.stderr)
-        print("Run `/cdmp rt fx layers 0` (…and walk the rungs), then **/reload** — "
-              "SavedVariables only flush on reload.", file=sys.stderr)
-        return 1
-
-    lines: list[str] = []
-    w = lines.append
-    w(f"# rt fx capture — {len(ring)} sample(s) from {path}")
-    w("# One sample per view change. Only CHANGED fields are shown against the previous")
-    w("# sample; '=' means every measured field was identical. A rung that LOOKS different")
-    w("# while reporting '=' is itself the finding: the fault is not in widget state.")
-    w("")
-
-    t0 = None
-    prev_knobs: dict = {}
-    prev_cues: dict[str, dict] = {}
-    for i, raw in enumerate(ring, 1):
-        s = _asdict(raw)
-        t = s.get("t")
-        if isinstance(t, (int, float)):
-            t0 = t if t0 is None else t0
-            stamp = f"{t - t0:8.2f}s"
-        else:
-            stamp = "       ?"
-        knobs = {k: s.get(k) for k in _RTFX_KNOBS}
-        kdiff = [f"{k}={_fmt(v)}" for k, v in knobs.items() if v != prev_knobs.get(k)]
-        lay = knobs.get("layers")
-        # SETTLED marks the sample taken after every one-shot has finished. Pairing it
-        # with the immediate one is how "the pop left the frame scaled" becomes visible;
-        # an immediate sample alone only ever shows the PRE-animation state.
-        tag = "settled  " if s.get("settled") in (1, True) else "immediate"
-        w(f"[{i:02d}] {stamp}  {tag}  layers={_fmt(lay) if lay is not None else 'all'}"
-          + (f"   knobs: {' '.join(kdiff)}" if kdiff and i > 1 else ""))
-        if i == 1:
-            w(f"     knobs: {' '.join(f'{k}={_fmt(v)}' for k, v in knobs.items())}")
-
-        cues = _rtfx_cues(s)
-        any_change = False
-        for key in sorted(cues):
-            c, p = cues[key], prev_cues.get(key, {})
-            diff = [f"{f}={_fmt(c.get(f))}" for f in _RTFX_CUE
-                    if f in c and c.get(f) != p.get(f)]
-            if diff:
-                any_change = True
-                w(f"     {c.get('emphasis','?'):<18} {key:<8} " + "  ".join(diff))
-        gone = sorted(set(prev_cues) - set(cues))
-        if gone:
-            any_change = True
-            w(f"     (dropped: {', '.join(gone)})")
-        if not any_change and i > 1:
-            w("     = no measured field changed")
-        prev_knobs, prev_cues = knobs, cues
-        w("")
-
-    out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    print(f"{len(ring)} sample(s) -> {out}")
-    return 0
-
+# ⚠ `cmd_rtfx` and `cmd_rtlab` WERE HERE AND ARE DELETED (2026-08-02).  They extracted
+# `CDMProbeDB.rtfx` (the `/cdmp rt fx` dialling capture) and `CDMProbeDB.rtlab` (the
+# `/cdmp rt lab` rotation-phase capture); BOTH IN-GAME PRODUCERS ARE ARCHIVED, so neither
+# saved-var is ever written again and both commands could only ever re-print a stale
+# capture.  The rtlab analysis — unwrap `Animation:GetProgress()` into a cumulative phase,
+# subtract a uniform spin, and read the residual in degrees — is worth rebuilding if a
+# rotation is ever suspect again; recover it from git history at v0.32.73 rather than
+# re-deriving it, and note the sign-change counter needs hysteresis or float noise reads
+# as a 0.1s oscillation.
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(
         description="Extract CDMProbe recorders off SavedVariables.")
-    ap.add_argument("command", choices=["decisionlog", "alerttape", "flight", "rtfx"],
+    ap.add_argument("command", choices=["decisionlog", "alerttape", "flight"],
                     help="flight: the PASS/FAIL ACCEPTANCE REPORT for an in-game pass "
                          "recorded by `/cdmp flight` (this is the one you want after a "
                          "test build) · decisionlog: flatten the pipeline decision log · "
-                         "alerttape: flatten the temporary CDM alert-channel discovery tape · "
-                         "rtfx: the `/cdmp rt fx` capture — what was ACTUALLY on each cue "
-                         "per view change, printed as a DIFF between samples")
+                         "alerttape: flatten the temporary CDM alert-channel discovery tape")
     ap.add_argument("--wow-path", default=DEFAULT_WOW,
                     help=f"WoW _retail_ path (default: {DEFAULT_WOW})")
     ap.add_argument("--out", default=None,
@@ -773,16 +767,6 @@ def main(argv=None) -> int:
             return 1
         db, path = loaded
         return cmd_flight(db, path)
-
-    if args.command == "rtfx":
-        loaded = load_db(args.wow_path)
-        if loaded is None:
-            print(f"No readable CDMProbe.lua under "
-                  f"{args.wow_path}/WTF/Account/*/SavedVariables/.", file=sys.stderr)
-            return 1
-        db, path = loaded
-        out = args.out or str(REPO_ROOT / "raw" / "cdmp-rtfx.log")
-        return cmd_rtfx(db, path, Path(out))
 
     if args.command == "alerttape":
         loaded = load_alerttape(args.wow_path)
