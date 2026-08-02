@@ -2,12 +2,13 @@
 title: Destruction Warlock — Rotation (Midnight Season 1)
 patch: 12.0.7
 fetched: 2026-07-11
-reviewed: 2026-07-14
+reviewed: 2026-08-01
 sources:
   - https://raw.githubusercontent.com/simulationcraft/simc/midnight/profiles/MID1/MID1_Warlock_Destruction.simc  # tier 1, simc midnight APL, 2026-07-11
   - wago.tools DB2 SpellCooldowns, spell 1122 Summon Infernal  # tier 1, RecoveryTime 120000ms — corrects base CD to 120s (Inferno → 90s)
   - https://www.method.gg/guides/destruction-warlock/playstyle-and-rotation  # tier 3, upd. 2026-06-16, 2026-07-11
   - https://www.method.gg/guides/destruction-warlock  # tier 3, 2026-07-11
+  - raw/addon-research/simc @ ab7b0b8  # tier 1, local simc checkout (branch midnight, DBC 12.0.7.68887) — the Rain of Fire gate note, 2026-08-01
 confidence: high
 ---
 
@@ -102,7 +103,8 @@ charges) → Incinerate.**
 1. **Summon Infernal**
 2. **Chaos Bolt** for Demonic Art / short ritual at `active_enemies<=4` (Diabolist
    keeps pressing Chaos Bolt into moderate AoE)
-3. **Rain of Fire** at **4+ targets** when `soul_shard>=~3.5` or Alythess's Ire up
+3. **Rain of Fire** at **4+ targets** when `soul_shard >= (3.5 - 0.1 × active_dot.immolate)`
+   or Alythess's Ire up — see the ⚠ note under *AoE* below before using the 3.5
 4. **Conflagrate** to refresh Immolate across targets (`target_if` most Immolate
    remaining)
 5. **Shadowburn** on low-HP targets (Fiendish Cruelty / Conflagration of Chaos)
@@ -114,6 +116,26 @@ charges) → Incinerate.**
 11. **Soul Fire** (Avatar of Destruction extends the target cap to 10)
 12. **Immolate** to spread (refreshable, ≤5 Immolates, no Cataclysm)
 13. **Conflagrate** (Backdraft <2) → **Incinerate**
+
+> ⚠ **THE `3.5` IS NOT RAIN OF FIRE'S COST, and reading it as one is the mistake this
+> note exists to stop.** Rain of Fire costs **3 whole shards (30 fragments)** on both
+> spell IDs; the in-game tooltip is right. `3.5` is a **hand-tuned APL constant on one
+> Diabolist AoE line**, gated `active_enemies>=4`, and it has two siblings this file
+> never mentioned:
+>
+> ```
+> :48  rain_of_fire,if=((soul_shard>=(3.5-0.1*(active_dot.immolate)))|buff.alythesss_ire.up)&active_enemies>=4
+> :63  rain_of_fire,if=(soul_shard>=(4.0-0.1*(active_dot.wither)))&active_enemies>=(5-talent.destructive_rapidity)   ← Hellcaller, 4.0
+> :68  rain_of_fire,if=active_enemies>=(5-talent.destructive_rapidity)                                                ← NO shard condition at all
+> ```
+>
+> The `-0.1 × active_dot` term is exactly one Immolate tick's yield per active DoT, so it
+> reads as income anticipation — but the buffer **shrinks as income rises**, which is
+> backwards for a pooling reserve, and at 8 Immolates it falls *below* the real 3-shard
+> cost. Nothing in the APL, its generator or simc's C++ explains it, so no rationale is
+> asserted here. **Treat the cost as 3 and the 3.5 as a Diabolist-AoE pooling heuristic.**
+> *(Read from the local simc checkout `raw/addon-research/simc` @ `ab7b0b8`, branch
+> midnight, DBC build 12.0.7.68887, 2026-08-01.)*
 
 > Diabolist AoE note (method): **don't cast Rain of Fire until ~8+ targets** —
 > Chaos Bolt stays more efficient for priority damage because it feeds Diabolic

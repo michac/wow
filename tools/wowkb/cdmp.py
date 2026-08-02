@@ -641,14 +641,124 @@ def cmd_flight(db: dict, path: str) -> int:
 
 # --------------------------------------------------------------------------- #
 
+
+# ---------------------------------------------------------------------------
+# rtfx — the `/cdmp rt fx` capture: what was ACTUALLY on each cue, per view change.
+# ---------------------------------------------------------------------------
+# WHY THIS EXISTS.  Dialling the cue treatment meant reading a screenful of chat per
+# ladder rung and pasting it back, across eight rungs and two paths — the transcription
+# cost swamped the judgement, which is the same complaint that turned the acceptance pass
+# into `/cdmp flight`.  The addon now snapshots every redraw into `CDMProbeDB.rtfx`; this
+# flattens it.
+#
+# THE OUTPUT IS A DIFF, NOT A LISTING.  Every sample carries the same ~20 fields per cue,
+# and reading them side by side is exactly what the eye is bad at — so consecutive samples
+# are compared and only CHANGED fields are printed.  A rung that reports nothing changed
+# but LOOKS different is itself the finding: it means the fault is not in widget state.
+_RTFX_KNOBS = ("layers", "noPop", "scale", "spinMul", "rays", "stack", "bg", "art",
+               "pulseMul", "pulseFloor", "pulseOff", "echoOff", "echoMul",
+               "echoLight", "echoScale")
+# Per-cue fields, in the order they are worth reading: the frame first (the pop animates
+# its scale, and a rotation inside a scaled frame is the shape of a "surging spin"), then
+# the ring, then the echo.
+_RTFX_CUE = ("dotW", "layW", "layH", "layScale", "layEff", "popPlaying",
+             "ringW", "ringH", "ringShown", "ringAlpha", "regionAlpha",
+             "spinSecs", "spinDeg", "spinPlay", "pulseSecs", "pulsePlay",
+             "echoW", "echoShown", "echoAlpha", "echoSecs", "echoDeg", "echoPlay")
+
+
+def _fmt(v) -> str:
+    if v is None:
+        return "-"
+    if isinstance(v, float):
+        return f"{v:.3f}".rstrip("0").rstrip(".") or "0"
+    if isinstance(v, bool):
+        return "1" if v else "0"
+    return str(v)
+
+
+def _rtfx_cues(sample: dict) -> dict[str, dict]:
+    out = {}
+    for c in _aslist(sample.get("cues")):
+        c = _asdict(c)
+        k = str(c.get("key", "?"))
+        out[k] = c
+    return out
+
+
+def cmd_rtfx(db: dict, path: str, out: Path) -> int:
+    ring = _aslist(db.get("rtfx"))
+    if not ring:
+        print(f"{path}: CDMProbeDB.rtfx is empty.", file=sys.stderr)
+        print("Run `/cdmp rt fx layers 0` (…and walk the rungs), then **/reload** — "
+              "SavedVariables only flush on reload.", file=sys.stderr)
+        return 1
+
+    lines: list[str] = []
+    w = lines.append
+    w(f"# rt fx capture — {len(ring)} sample(s) from {path}")
+    w("# One sample per view change. Only CHANGED fields are shown against the previous")
+    w("# sample; '=' means every measured field was identical. A rung that LOOKS different")
+    w("# while reporting '=' is itself the finding: the fault is not in widget state.")
+    w("")
+
+    t0 = None
+    prev_knobs: dict = {}
+    prev_cues: dict[str, dict] = {}
+    for i, raw in enumerate(ring, 1):
+        s = _asdict(raw)
+        t = s.get("t")
+        if isinstance(t, (int, float)):
+            t0 = t if t0 is None else t0
+            stamp = f"{t - t0:8.2f}s"
+        else:
+            stamp = "       ?"
+        knobs = {k: s.get(k) for k in _RTFX_KNOBS}
+        kdiff = [f"{k}={_fmt(v)}" for k, v in knobs.items() if v != prev_knobs.get(k)]
+        lay = knobs.get("layers")
+        # SETTLED marks the sample taken after every one-shot has finished. Pairing it
+        # with the immediate one is how "the pop left the frame scaled" becomes visible;
+        # an immediate sample alone only ever shows the PRE-animation state.
+        tag = "settled  " if s.get("settled") in (1, True) else "immediate"
+        w(f"[{i:02d}] {stamp}  {tag}  layers={_fmt(lay) if lay is not None else 'all'}"
+          + (f"   knobs: {' '.join(kdiff)}" if kdiff and i > 1 else ""))
+        if i == 1:
+            w(f"     knobs: {' '.join(f'{k}={_fmt(v)}' for k, v in knobs.items())}")
+
+        cues = _rtfx_cues(s)
+        any_change = False
+        for key in sorted(cues):
+            c, p = cues[key], prev_cues.get(key, {})
+            diff = [f"{f}={_fmt(c.get(f))}" for f in _RTFX_CUE
+                    if f in c and c.get(f) != p.get(f)]
+            if diff:
+                any_change = True
+                w(f"     {c.get('emphasis','?'):<18} {key:<8} " + "  ".join(diff))
+        gone = sorted(set(prev_cues) - set(cues))
+        if gone:
+            any_change = True
+            w(f"     (dropped: {', '.join(gone)})")
+        if not any_change and i > 1:
+            w("     = no measured field changed")
+        prev_knobs, prev_cues = knobs, cues
+        w("")
+
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    print(f"{len(ring)} sample(s) -> {out}")
+    return 0
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(
         description="Extract CDMProbe recorders off SavedVariables.")
-    ap.add_argument("command", choices=["decisionlog", "alerttape", "flight"],
+    ap.add_argument("command", choices=["decisionlog", "alerttape", "flight", "rtfx"],
                     help="flight: the PASS/FAIL ACCEPTANCE REPORT for an in-game pass "
                          "recorded by `/cdmp flight` (this is the one you want after a "
                          "test build) · decisionlog: flatten the pipeline decision log · "
-                         "alerttape: flatten the temporary CDM alert-channel discovery tape")
+                         "alerttape: flatten the temporary CDM alert-channel discovery tape · "
+                         "rtfx: the `/cdmp rt fx` capture — what was ACTUALLY on each cue "
+                         "per view change, printed as a DIFF between samples")
     ap.add_argument("--wow-path", default=DEFAULT_WOW,
                     help=f"WoW _retail_ path (default: {DEFAULT_WOW})")
     ap.add_argument("--out", default=None,
@@ -663,6 +773,16 @@ def main(argv=None) -> int:
             return 1
         db, path = loaded
         return cmd_flight(db, path)
+
+    if args.command == "rtfx":
+        loaded = load_db(args.wow_path)
+        if loaded is None:
+            print(f"No readable CDMProbe.lua under "
+                  f"{args.wow_path}/WTF/Account/*/SavedVariables/.", file=sys.stderr)
+            return 1
+        db, path = loaded
+        out = args.out or str(REPO_ROOT / "raw" / "cdmp-rtfx.log")
+        return cmd_rtfx(db, path, Path(out))
 
     if args.command == "alerttape":
         loaded = load_alerttape(args.wow_path)

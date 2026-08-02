@@ -2,7 +2,7 @@
 title: Demonology Warlock — ability inventory (Midnight S1)
 patch: 12.0.7
 fetched: 2026-07-11
-reviewed: 2026-07-25  # Infernal Bolt shard yield corrected 2→3 (Tier-1 maxroll/diabolist-sequences)
+reviewed: 2026-08-01  # Summon Demonic Tyrant costs 0 shards, not 1 (Tier-1 C_Spell.GetSpellPowerCost + DB2); Infernal Bolt yield 2→3 was corrected 2026-07-25
 sources:
   - https://us.api.blizzard.com/data/wow/talent-tree/720/playable-specialization/266  # tier 1, Blizzard Game Data API talent/spell names, static-12.0.7
   - raw/wago/SpellName.csv  # tier 1, wago.tools SpellName DB2 @ 12.0.7.67808 — name canonicalization
@@ -43,7 +43,7 @@ confidence: medium
 | **Demonbolt** | Rotational-spender (core) | Consumes 1 Demonic Core; generates 2 Soul Shards | Instant with a Demonic Core (else ~4.5s cast) | Demonic-Core spender — hits hard and refunds 2 shards. Applies **Doom** if talented. Dump cores so they don't overcap. |
 | **Hand of Gul'dan** | Rotational-spender (imp generator) | 1–3 Soul Shards | ~1.5s cast | Spend 1–3 shards to summon that many **Wild Imps**. The single most-maximized cast inside the Tyrant window; cast at 4–5 shards, never overcap. |
 | **Call Dreadstalkers** | Rotational-summon | 2 Soul Shards (free/instant with *Demonic Calling*) | ~20s CD | Summons **two Dreadstalkers** for ~12s. Refresh just before Tyrant so they're fresh when it empowers them. |
-| **Summon Demonic Tyrant** | Major cooldown | 1 Soul Shard | ~1s cast · 1-min CD | The spec's centerpiece. Empowers and **extends the duration of every active demon** for ~15s and pumps damage. Enter with a full board (Wild Imps + fresh Dreadstalkers + Grimoire demon). |
+| **Summon Demonic Tyrant** | Major cooldown | **none** | ~1s cast · 1-min CD | The spec's centerpiece. Empowers and **extends the duration of every active demon** for ~15s and pumps damage. Enter with a full board (Wild Imps + fresh Dreadstalkers + Grimoire demon). |
 | **Dominion of Argus** | Major cooldown (apex) | — | active, aligns w/ Tyrant | Apex talent; a large Summon Demonic Tyrant enhancement — the S1 build is built around it (see `builds.md`). @verify-ingame |
 | **Implosion** | Rotational-spender (AoE) | — (consumes Wild Imps) | Instant | Sacrifices **all Wild Imps**, each flying to the target and exploding for AoE. Press at ~6 imps for cleave; on pure ST only Implode if talented into *To Hell and Back*. Choice-node vs Power Siphon. |
 | **Power Siphon** | Utility (core generator) | — (consumes up to 2 Wild Imps) | ~30s CD | Choice-node vs Implosion. Sacrifices up to 2 Wild Imps to grant **2 Demonic Cores** — fuels the next Demonbolt / Hand of Gul'dan chain. |
