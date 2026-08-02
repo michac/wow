@@ -212,25 +212,60 @@ right split.
   "buffs": { "265187": true, "264173": true },  // procs/auras PRESENT, keyed by spellID
                                                  // (secrecy-guarded: an unreadable aura is
                                                  // ABSENCE, never a false `true`)
-  "resources": { "shards": { "value": 3, "max": 5, "incoming": 0 } },  // domain-keyed power
+  // (the domain-keyed `resources.shards` ALIAS was retired in multi-spec Phase 3 —
+  //  every consumer reads `power` directly)
 
   "power": {
     // keyed by the REAL power-type (game vocabulary); Coach decides what matters
-    "soulShards": { "value": 3, "max": 5, "incoming": 0, "readable": true }
-    // `incoming` (added W4 P2) = net shard delta of IN-FLIGHT casts — a NAPKIN
-    // projection from history's in-flight `start`: spenders use the readable power
-    // cost, builders an injected mechanical shard-yield table (a game-fact input like
-    // base cooldowns, so State's CODE stays spec-agnostic; the rotational ROLE stays
-    // Coach-only). Clears if the cast is interrupted. The Coach ranks on PROJECTED
-    // shards = value + incoming (the overcap guard + spender anticipation — re-homed
-    // from the old HudScore ghost-fill, not net-new logic).
+    "soulShards": { "value": 3, "max": 5, "readable": true,
+                    // ── THE EXACT RAIL (Phase 6.2), purely additive ──────────────────
+                    // `UnitPower(unit, type, unmodified)` returns the game's INTERNAL
+                    // units rather than the display ones. Soul Shards are stored as 0–50
+                    // FRAGMENTS and displayed as 0–5 whole shards (measured in game
+                    // 2026-08-01: max 50 vs 5, and the flagged read WORKS IN COMBAT —
+                    // `ShouldUnitPowerBeSecret` takes (unit, powerType), so the flag is
+                    // not a parameter of the secrecy verdict). Every other power has a
+                    // modifier of 1, so mana/energy are untouched.
+                    //
+                    // Before this, a true 1.9 shards arrived as `1`, `shards >= 2` was
+                    // false, and the HUD said "build" one Incinerate from a Chaos Bolt —
+                    // a MISSING CAPABILITY, not a rounding preference.
+                    //
+                    // ⚠ ABSENT, NEVER ZERO, when the client refuses: `unmodified` and
+                    // `unmodifiedMax` simply do not appear. Zero would read as "you have
+                    // none", which is a different and actionable sentence. `modifier` is
+                    // DERIVED from the two maxes (unmodifiedMax / max, floored at 1), not
+                    // assumed, so a power that gains or loses a divisor needs no edit.
+                    // State keeps NO opinion about which power matters (invariant #3),
+                    // which is why these carry Blizzard's own vocabulary — `unmodified`,
+                    // not "fragments", a Soul-Shard word.
+                    "unmodified": 30, "unmodifiedMax": 50, "modifier": 10 }
+    // ⚠ Otherwise RAW — value/max/readable and the exact pair. There is NO `incoming` here.
+    // The in-flight projection lived on this bar from W4 P2 until roster-state-plan
+    // PHASE 6, which moved it up to Stage 2: `ns.Coach.InflightPower` derives it as a
+    // PURE FUNCTION of this pulse (history's in-flight `start`s × the spec's signed
+    // `ns.SpecPowerDelta`) and the brains fold it onto `guidance.resourceBars[].incoming`
+    // (see Stage 2 below). That took State's only class-specific literals — both
+    // `Enum.PowerType.SoulShards` hardwires — out of the ingestion layer.
   },
   "activeAuras": [ // added W4 P1 — every readable active player buff (Coach's proc source)
     { "spellID": 296553, "name": "Wild Imp" }
   ],
   "history": [  // added W4 P1 — bounded WINDOW of recent casts (the sequence memory)
     { "phase": "start",     "spellID": 116858, "base": 116858, "at": 12344.0 },
-    { "phase": "succeeded", "spellID": 105174, "base": 105174, "at": 12345.5 }
+    { "phase": "succeeded", "spellID": 105174, "base": 105174, "at": 12345.5 },
+    { "phase": "stopped",   "spellID": 116858, "base": 116858, "at": 12344.8 }
+    // THREE phases, not two:
+    //   "start"     UNIT_SPELLCAST_START     — committed / in flight (cast-time spells
+    //                                          only; instants fire SUCCEEDED alone)
+    //   "succeeded" UNIT_SPELLCAST_SUCCEEDED — it LANDED; advance the sequence
+    //   "stopped"   INTERRUPTED / FAILED / FAILED_QUIET / STOP — it ENDED WITHOUT
+    //               landing (or the STOP that trails a normal cast). Undocumented here
+    //               since W4 P6 Part 2 and LOAD-BEARING since roster-state-plan Phase 6:
+    //               it is what lets a latest-phase-per-base walk supersede a 'start', so a
+    //               CANCELLED spender stops projecting instead of holding its −shards for
+    //               the whole flight window. `ns.Coach.InflightPower` is that walk, and
+    //               State's four terminal cast-event registrations exist only to feed it.
   ],
   "events": [ // DELTA SINCE LAST PULSE — observed only; see "Events" below
     { "kind": "cast_started",   "spellID": 116858, "at": 12344.0 },
@@ -340,8 +375,25 @@ pass-through strings.
   // one-element array (Soul Shards); a dual-resource spec emits N. Renderer stacks them.
   "resourceBars": [
     { "value": 3, "max": 5, "incoming": 1,
+      // `incoming` = net power delta of the casts currently IN FLIGHT, and it is DERIVED
+      // HERE, at Stage 2 — `ns.Coach.InflightPower` walks the pulse's `history` for a
+      // 'start' with no later 'succeeded'/'stopped' on the same base inside a 3 s flight
+      // window, and sums the spec's SIGNED `ns.SpecPowerDelta` per power. Signed is the
+      // point: a builder credits, an in-flight spender subtracts, so the brain ranking on
+      // projected = value + incoming clears the spell it is mid-cast on. It rode the
+      // STAGE-1 pulse from W4 P2 until roster-state-plan Phase 6 moved it up; State's
+      // `power` is raw now. This array is also where DecisionLog's `PW:` field reads it.
       "display": "discrete",          // enum:resourceDisplay ("discrete" | "percentage" | "continuous")
-      "powerType": "SOUL_SHARDS" }    // game Enum.PowerType token → PowerBarColor in Renderer
+      "powerType": "SOUL_SHARDS",     // game Enum.PowerType token → PowerBarColor in Renderer
+      // ── THE EXACT RAIL RIDES ALONGSIDE (Phase 6.2) ───────────────────────────────
+      // `value`/`max`/`incoming` stay in DISPLAY units because the Renderer draws ONE PIP
+      // PER UNIT OF `max` — a max of 50 would try to draw fifty pips. The exact fields are
+      // INTEGERS in the game's internal units; dividing is the consumer's job, at the
+      // edge, so no boundary comparison upstream is ever decided by a float. The brain
+      // itself decides on ctx.frags*, not on this bar.
+      "valueExact": 18, "maxExact": 50, "incomingExact": 2, "modifier": 10 }
+      // ⚠ `valueExact`/`maxExact` are MEASUREMENTS and are ABSENT (never 0) when the
+      // client refused; `incomingExact` is our own arithmetic and is always present.
   ],
 
   "cues": {

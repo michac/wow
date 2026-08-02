@@ -87,25 +87,59 @@ Destruction "the first real exercise of the general↔spec split."
   but **generates in fragments (tenths)**: Incinerate, Conflagrate, Soul Fire and
   *Immolate ticks* each pay a fraction. The bar is conventionally drawn as 5 segments
   with partial fill. This is why the simc APL gates read `soul_shard<=4.2` /
-  `>=3.5` instead of integers.
+  `<=4.6` instead of integers.
 
-Two consequences the pipeline has to absorb:
+**✅ THE RAIL IS READ EXACTLY (Phase 6.2, 2026-08-01).** The game stores Soul Shards as
+**0–50 fragments** and displays 0–5 whole shards; `UnitPower(unit, powerType, true)`
+returns the internal units and **works in combat** (measured: max 50 vs 5, modifier 10 —
+`ShouldUnitPowerBeSecret` takes `(unit, powerType)`, so the flag is not part of the
+verdict). The decision layer runs on integer fragments end to end.
 
-1. **`ns.SpecShardDelta` stops being an integer table.** A Destruction spec table
-   either carries fractional `generates` values or declines to project builders at
-   all. Note the *spender* side is still clean whole numbers, so the negative half of
-   the in-flight projection (the double-deduction guard in `State.lua`) transfers
-   unchanged.
-2. **`resourceDisplay` needs a third member.** `guidance-contract.json` enumerates
-   `discrete` (whole segments) and `percentage` (continuous fill), and explicitly
-   leaves the door open: *"Enumerate additional forms as later specs need them."*
-   Destruction is that need — segments **with** partial fill is neither existing
-   member. This is a contract edit, and it is the one place adding this spec touches
-   a **general** artifact rather than staying additive.
+**The yields, Tier 1** (DB2 energize effects + the 12.0.7 tooltips), in fragments:
 
-Whether the fragment value is even *readable* is a separate question — see
-`observability-map.md` → *the fragment read*. Today `State.lua` calls
-`UnitPower("player", pt)` with no unmodified flag, which returns whole shards only.
+| Ability | Base | Crit | Modifiers |
+|---|---|---|---|
+| **Incinerate** | **2** | +1, deterministic | Diabolic Embers ×2 → **4 base** |
+| **Conflagrate** | **5** | none | MID1 4-set +2 → 7 |
+| **Immolate / Wither** tick | **1** | +1 at 50 % on a crit tick | haste-scaled 3 s period |
+| **Soul Fire** | **10** | none | Havoc copy doubles (PER_HIT) |
+| **Infernal Bolt** | **20** *(Destro)* / 30 *(Demo)* | none | ⚠ 20 vs 30 unsettled — see below |
+| Shadowburn kill refund | 10 | — | — |
+| Infernal pet / Overfiend | 1 / sec | — | — |
+
+⚠ **Only BASE values are projected.** A crit bonus is deterministic *given* a crit and
+the crit is not, so Incinerate's +1 and the Immolate crit tick are left out; the same
+goes for the 4-set (there is no tier-set channel on the pulse). Under-crediting delays a
+cue by one press, over-crediting promises a cast you cannot make. **Diabolic Embers
+(387173) is the one conditional we DO read** — it doubles the spec's commonest press, so
+ignoring it would blunt the whole projection; a refused known-spell read assumes
+untalented.
+
+⚠ **Immolate/Wither carry no projected yield at all**, and that is not an oversight: their
+income is 1 fragment *per tick* over 18 s, while the in-flight projection answers "what
+will the bar read when THIS CAST resolves" — and for a DoT application the answer is
+"nothing yet".
+
+⚠ **Infernal Bolt is 20 or 30 on Destruction and we took 20.** One reading has the spec
+aura `137046` (effect #13) applying −10 to Demonology's 30; the other read the unmodified
+30. 20 is the lower figure and the floor is the contract. Diabolist-only, so it gates
+nothing — settle it by casting one and watching the bar move 2 shards or 3.
+
+The two consequences this file used to predict, and how they actually landed:
+
+1. ~~**`ns.SpecShardDelta` stops being an integer table.**~~ It stayed integer — just in a
+   *finer unit*. `SpecPowerDelta` returns **fragment** deltas, which are exact integers the
+   client hands us directly; dividing by 10 to get "fractional shards" would manufacture an
+   imprecision the source does not have, and these are boundary comparisons, the exact case
+   where binary floating point bites. It **does** project builders now (the old "declines to
+   project builders at all" fence existed only because the bar could not be read finely).
+2. ~~**`resourceDisplay` needs a third member.**~~ **Not yet, and no longer for this
+   reason.** The enum stays closed because `Renderer.lua:drawResourceRow` pools **one pip
+   texture per unit of `max`** and has no fractional path — a *rendering* blocker, not a
+   reading one. `resourceBars[]` gained additive `valueExact`/`maxExact`/`modifier`, which
+   is exactly what a partial-fill renderer would consume. Filed in `docs/status.md` →
+   *Partial-shard pip rendering*. So adding this spec still touched **no** general artifact
+   beyond an additive contract field.
 
 ## The burst window = Summon Infernal
 

@@ -24,10 +24,78 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
   cutover; the `/cdmp probe` + `probe-baseline.json` assertion suite was retired 2026-07-29
   (settled readability rules + DB2-sourced tracked set made per-spec re-measurement moot).
 - **Gates:** `luaparser` (release) + `luacheck CDMProbe/` + `busted CDMProbe/tests/spec`
-  (**624 tests / 4 pending**, luacheck 0 warnings). All three are **hard** release gates —
+  (**643 tests / 4 pending**, luacheck 0 warnings). All three are **hard** release gates —
   `wowkb.addon release` aborts the cut on any non-zero exit.
   ⚠ All three are **source** gates: none of them runs the game, and the v0.32.25 outage
   below is what that blind spot looks like in practice.
+- **✅ DONE — the cue treatment is DIALLED IN AND SHIPPED (2026-08-01).** `/cdmp rt fx` was
+  built to answer *"why do the cues read more subdued in play than in the render test"*. It
+  answered, and the winners are now in `Renderer.lua` proper — so **`/cdmp rt states`, which
+  draws the shipped renderer and nothing else, already looks like the dialled version**. The
+  numbers, recorded here because they are eyeball constants nothing can re-derive:
+  | knob | shipped as | note |
+  |---|---|---|
+  | ring art | `Media/fx/glow/star_07.tga` via `SetTexture` | was Blizzard's `services-ring-large-glowspin` atlas. `SetVertexColor` **multiplies**, so a gold atlas subtracts most of our violet `ROTATION_FALLBACK` (G 0.16) — a white/grey sprite with the shape in **alpha** tints at full strength in every hue. That is a property no amount of dialling the atlas could buy. |
+  | `GLOW_SCALE` | **2.3 → 3.34** (×1.45) | ⚠ **ART-SPECIFIC.** 2.3 closed the dot-rim/ring-edge gap for *Blizzard's* ring; 3.34 belongs to star_07 and transfers to nothing. Swapping art and re-dialling this are **one job**. |
+  | `GLOW_SPEC.LATE.ringScale` | **3.2 → 4.64** | moved with it, so LATE's escalation stays the **1.39× ratio** rather than a number. Pinned by a test. |
+  | `SPIN_SECS` | **4.0 → 12.0 s**, and `GLOW_SPEC.LATE.spinSecs` 1.6 → **4.8** | ⚠ **ALSO ART-SPECIFIC, and this one was found in play, not at the desk** — see the retune note below. |
+  | outer echo | 1.5× diameter, **55 %** of the light, counter-rotating at **2.5×** the base period | reach without brightness: a ring cannot be stretched radially, so it is drawn again larger and the light is **split**, not added. The period is a *ratio* of the base, so LATE's 4.8 s gets 12.0 s for free. |
+  | backing disc | black, alpha 0.75, diameter = echo × 0.35 (≈21 px behind a 12 px dot) | additive light over busy icon art needs something to read against. |
+  | pop / ghost | one-shot ×2.0 over 0.28 s, 35 % out / 65 % settle | on cue arrival / removal. |
+  - **⚠ THE SPIN RETUNE (first look in play): perceived rate is angular velocity × the
+    sprite's SYMMETRY ORDER.** The first build shipped the new art at the old 4.0 s period
+    and it read **~3× too fast** — a strobe, not a turn. `GLOW_SCALE` was correctly flagged
+    as art-specific; `SPIN_SECS` was not, and it is, for a reason worth keeping: what the
+    eye clocks is not how fast the ring turns but **how often a spoke passes a fixed
+    point**. Measured off the shipped TGAs (angular-energy profile → dominant Fourier
+    order): **star_07 is 8-fold** (k=8 at 0.92, harmonics k=4/k=16), where Blizzard's
+    `services-ring-large-glowspin` is a swept gradient with almost no angular structure —
+    the `twirl_*` sprites beside it measure **k=1**. So 8 spokes per revolution at 4.0 s is
+    a feature every **0.5 s** against the old art's ~1.3 s: the ~3× is arithmetic, not
+    taste. 12.0 s puts a spoke back at ~1.5 s, and LATE's 1.6 → **4.8** keeps its 2.5×.
+    **The rule: art + `GLOW_SCALE` + `SPIN_SECS` are ONE dial with three parts** — change
+    the sprite and both numbers are invalid, with the period scaling by symmetry order.
+    Both escalation ratios (size **and** speed) are now pinned by tests rather than by the
+    absolutes. The rig missed it because `spinMul` sat at 1.00 the whole session and
+    nothing prompts you to question a knob you never touched.
+  - **The structural half: a per-icon CUE LAYER** (`cueLayers`). `setDotGlow` re-asserts
+    `SetSize` on the dot/ring/echo/disc at ~10 Hz, which would fight a `Scale` animation on
+    those same textures — the rig never hit this because its Draw runs once per *command*,
+    not per tick. So the pop scales a **frame** that owns them. Its rect is the **dot's**
+    rect, not the icon's, so the scale origin is the cue's own centre. ⚠ The **keybind
+    fontstring deliberately stays on the holder** — identity chrome must not grow every
+    time the rotation moves — and the holder cull gained a **third term** (`ghosting`), or
+    a removed handle's holder would hide in the very draw that starts its ghost.
+  - **The sound, and the measurement that shaped it.** I had claimed the cue set "churns
+    several times a second". **That was wrong.** Measured off `raw/cdmp-decision.log` (5
+    sessions, 504 s of real play, diffing the `B{}` DrawList block per tick): **120 set
+    changes**, one every ~4 s, **median gap 1.5–2.2 s** (≈ a GCD); **60 % are SWAPs**
+    (remove + add, same tick — the cue *moved*); 23 pure adds, 25 pure removes; only 5 of
+    120 gaps under 0.3 s; **the board never once went empty**. So there are **two different
+    edges**: pop/ghost are **per handle** (simultaneous ones are fine — different icons),
+    and the sound is **per set change** — `Renderer.onCueSetChanged(kind)`, one call,
+    `"new"` if anything arrived else `"gone"`. Firing per handle would double every swap.
+    ⚠ **`"gone"` is therefore rare by construction** — mostly an end-of-pull sound. That is
+    correct behaviour; do not "fix" it by firing it on swaps. Channel **Master** (a cue must
+    not vanish because effects were turned down), files shipped and normalised because
+    **there is no volume parameter anywhere in WoW's sound API**. `/cdmp hud sound off`
+    (default **on**) is one command, not a rebuild.
+  - **The rig stays, and its job is done for this round.** Every knob re-baselined to
+    neutral, so a bare `/cdmp rt fx` is once again pixel-identical to `rt states` — but the
+    knobs now dial **relative to the shipped look**, and `bg`/`rays`/`pop`/`ghost` *double*
+    what the Renderer already draws rather than adding it. Read a result as "twice", not
+    "at all".
+  - **Gates:** luacheck 0, busted **630 → 643** (+13: the disc/echo/light-split, the echo's
+    counter-rotation and ratio-timed period, LATE's ratio surviving the retune, the six
+    edge-semantics cases, the keybind-not-in-the-popped-subtree parentage, and a ghosting
+    holder surviving the cull). The harness gained recorded animation state — a chainable
+    no-op cannot tell "the echo turns the other way at 10 s" from "it was never timed".
+  - ⏳ **Not yet flown.** The in-game pass is `rt states` (the card should already look
+    dialled), `rt rotate` (**exactly one sound per hop** — a hop is a swap — plus a pop on
+    the arriving icon and a ghost on the leaving one), then ~2 min at a dummy expecting a
+    sound every 2–4 s. Then `/reload` + `wowkb.cdmp decisionlog` and re-run the `B{}` edge
+    count: **the measured set-change rate should match the number of sounds heard.** Same
+    instrument that settled the design, reused as the check.
 - **✅ DONE — `field-fixes-plan.md` (v0.32.28–31), shipped and flown.** The four correctness
   fixes the first rendering session demanded, all confirmed against a live Hellcaller dummy
   pull: phantom unlearned/undrawable abilities no longer win the rotation (**216 → 0** dropped
@@ -38,19 +106,50 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
   charge restored and *never* raises `OnCooldown`, so the ready-edge latched true forever and
   Conflagrate was cued at zero charges. That doc holds the evidence and the two things the
   pass left unproven. **Nothing in it is outstanding.**
-- **Active work: `roster-state-plan.md` — ▶ PHASE 6 (cast-*results* → the Coach). Phases 1,
-  2, 3 and 4 are all DONE (2026-07-31).**
-  Phase 6 is permitted to jump the queue (§10) and is pure deletion from State: the
-  `inflightIncoming` / `projectIncoming` / shard-projection block (~270 lines), the
-  `ns.SpecPowerDelta` injection, and **both `Enum.PowerType.SoulShards` hardwires** — the
-  only class-specific literals in State's code. The Coach re-derives projected power as a
-  pure function of the pulse, in the layer that is already fixture-tested. Read the plan's
-  §7. (Phase 5 — anchor State on the roster — is the bigger one and comes after; §6.1 is its
-  load-bearing design decision and must be read first.)
+- **Active work: `roster-state-plan.md` — ▶ PHASE 5 (anchor State on the roster). Phases 1,
+  2, 3, 4 (2026-07-31), 6 and 6.2 (2026-08-01) are all DONE.**
+  This is the last phase and the largest blast radius: State stops anchoring on the CDM
+  database and anchors on the spec's declared roster instead. **Read §6.1 first** — knownness:
+  MARK, don't filter, plus the wholesale guard — it is the phase's load-bearing design
+  decision, and §6.2 answers the sizing worry. Phase 4's `Coverage.lua` is the required
+  replacement for `pulse.dropped`, which this phase deletes.
+- **✅ DONE — `roster-state-plan.md` Phase 6: cast-*results* → the Coach.** *(2026-08-01;
+  jumped the queue ahead of Phase 5 as §10 permits.)* The in-flight power projection left the
+  **ingestion** layer for the **decision** layer: `ns.Coach.InflightPower` derives it as a pure
+  function of the pulse's cast history, and `State.lua` lost `inflightIncoming` /
+  `projectIncoming` / `spendStartShards` / `currentShardValue`, the `ns.SpecPowerDelta`
+  injection, **both `Enum.PowerType.SoulShards` hardwires** (the leak the client-correctness
+  review flagged) and — a bonus — its only read of `ns.ActiveSpec`. State **−126 lines net**,
+  Coach **+58**. Suite **624 → 630**, luacheck 0.
+  ⚠ **The double-deduction guard was DROPPED, not ported** — a knowing behaviour change on a
+  path no test covered, costing a stale −N for at most one ~10 Hz tick and deleting two latent
+  defects with it. **§7.1 is the record; read it before "fixing" that back.** `DecisionLog`'s
+  `PW:` field now reads `guidance.resourceBars`, so the trace keeps the projection.
   ⏳ **A flight is owed and it needs you in-game, not code**: one live pass now discharges
   **five** things — Phase 4's acceptance (below), the rider's measurement (below), Phase 3's
   Diabolist half, Phase 2's live pass, and v0.32.47's `ChargeGained` re-fly. Checklist under
   *Owed: the v0.32.36 re-fly*.
+- **✅ DONE — `roster-state-plan.md` Phase 6.2: Soul Shard FRAGMENTS, the exact resource
+  rail.** *(2026-08-01.)* Flying Phase 6 surfaced that the limitation was never *where* the
+  projection lived but **what it could represent**: `State.lua` read `UnitPower` without the
+  `unmodified` flag, so a true 1.9 shards arrived as `1`, `shards >= 2` was false, and the HUD
+  said "build" one Incinerate tick before a Chaos Bolt was affordable. **Measured in game:**
+  `UnitPowerMax(…, true)` = **50** against a displayed 5, modifier **10**, and *it works in
+  combat* — `ShouldUnitPowerBeSecret` takes `(unit, powerType)`, so the flag is not part of
+  the verdict. That closed the Secret-Values question that had gated this for a month.
+  Every gate in both brains is denominated in **integer fragments** now (floats only at the
+  edges — a boundary comparison decided by binary floating point is the failure this avoids),
+  simc's `<= 4.2` and `<= 4.6` are restored verbatim with citations, and Destruction projects
+  **builders** as well as spenders. Suite **645 → 689**, luacheck 0. **§7.2 is the record.**
+  ⚠ **The unit migration was the risk and the rename is its mitigation**: costs arrive in
+  whole shards (`C_Spell.GetSpellPowerCost` pre-applies the divisor — Chaos Bolt's DB2 20
+  comes back as 2) while the bar arrives in fragments, so every field was renamed rather than
+  re-united, `ctx.shards` was **deleted**, and there is exactly one conversion site per brain.
+  ⏳ **Its in-game pass rides along with the flight above**: sit at a partial bar as
+  Destruction and confirm Chaos Bolt is called the moment the *projected* total crosses 20
+  fragments, then `/reload` and check `grep -o 'PW:[^ ]*' raw/cdmp-decision.log` shows
+  **fractional** values. All-integers means the exact read is not wired. Cast an Infernal Bolt
+  while you are there — it settles the one number the two simc researchers disagreed on.
 - **✅ DONE + FLOWN — `roster-state-plan.md` Phase 4: the roster coverage probe.**
   **Flown 2026-08-01** on the first `/cdmp flight` pass; `wowkb.cdmp flight` now reads
   **ALL CRITERIA PASS**, including all nine in-combat wholesale-guard checks (the one that
@@ -785,6 +884,51 @@ states over real icon art after the file split.
 The container for what's next. The old engine is gone, so this is where feature/quality
 work lands now — the user drives the list; a few already-surfaced items are seeded:
 
+- **📋 The two brains' `Context` opens with the same byte-identical block.**
+  *(Noted 2026-08-01 during `roster-state-plan.md` Phase 6, deliberately left out of scope so
+  that diff stayed narrow. ⚠ The argument got STRONGER on 2026-08-01: Phase 6.2 made the same
+  edit twice in it AGAIN, and the block grew from five lines to ~15 — the exact-rail read, the
+  modifier fallback ladder, `truncToward`, and the whole `ctx.powers` loop are now duplicated
+  verbatim. Twice in one day is the signal.)* `CoachDemonology.lua` and `CoachDestruction.lua`
+  both begin their Context with an identical `sums` / `ss` / `mod` / `frags` / `fragsIncoming`
+  / `fragsMax` / `fragsProjected` block plus the `ctx.powers` fold — which is the standing
+  argument for hoisting it into shell kit (the `C.CommittedWithin` / `C.InflightPower`
+  precedent). Small and safe; the only judgement call is how much of `ctx` a shared helper
+  should own before it starts dictating brain shape. A third spec is when this stops being
+  cosmetic.
+
+- **📋 Partial-shard pip rendering.** *(Filed 2026-08-01 by `roster-state-plan.md` §7.2, which
+  shipped the read and deliberately did not ship this.)* The decision layer now knows the bar
+  sits at **1.8** while the HUD still draws **two lit pips out of five**. The blocker is
+  `Renderer.lua:drawResourceRow`: it pools **one pip texture per unit of `max`** and fills the
+  first `value` of them, with no fractional path at all — and `bar.display == "continuous"`
+  currently draws *nothing*. Doing it means either a partial-fill pip (a texture-coord or mask
+  on the boundary pip) or a new `resourceDisplay` member for *segments-with-partial-fill*,
+  which is a **contract-touching** change — the enum is deliberately closed
+  (`guidance-contract.json` → *"Enumerate additional forms as later specs need them"*). The
+  additive `valueExact` / `maxExact` / `modifier` fields Phase 6.2 shipped on every
+  `resourceBar` are exactly what such a renderer would consume, so **the data is already
+  waiting**.
+  ⚠ **The standing caution in `adding-a-spec.md` is now SPENT.** It said not to grow the enum
+  because *"State cannot read the fraction"*. State can. The remaining blocker is the pip
+  loop, not the read — do not cite the old reason.
+
+- **📋 A cast in flight should put its own ability on cooldown.** *(Filed 2026-08-01 by
+  §7.2 — the exact mirror of what Phase 6 built, and the obvious next thing once you have
+  seen the resource half work.)* The Coach knows a cast is in flight (`ns.Coach.InflightPower`
+  walks for it, `castingFresh` and `CommittedWithin` both read it) and now projects that
+  cast's **resource** effect — but not its **cooldown** effect. While you are mid-cast on an
+  ability with a cooldown, that ability is still classified off its *current* readiness, so it
+  can be re-cued as the next press even though it is about to be unavailable for its whole
+  cooldown.
+  The fix is structurally identical to Phase 6: a pure walk of `history` for an in-flight
+  `start` with no terminal phase, folded into `Classify` so the row reads *"about to be on
+  cooldown"* rather than *"ready"*. `roster-state-plan.md` §7 already anticipated the shape —
+  *"a `start` with no later `succeeded` is in flight, and charges-since-seed is a count of
+  `succeeded` entries. No special case either way, which is the point."*
+  ⚠ **It is vacuous for Conflagrate today** — the project's only charged tracked ability, and
+  it is instant — so the trigger is **cast-time** cooldowns: Soul Fire, Cataclysm, Summon
+  Infernal. Which is also why it has not bitten yet.
 - **📋 Coverage answers "in the CDM database", not "has an icon" — and the summary line
   hides the difference.** *(Opened 2026-08-01 by the first flight; `roster-state-plan.md`
   §5.2.)* `counts.virtual` is computed in Coverage's **untracked branch only**, so it never
@@ -1042,30 +1186,25 @@ work lands now — the user drives the list; a few already-surfaced items are se
   pixels) or always visible so its absence is never ambiguous. ⚠ It must survive a spec with
   **zero** virtual rows — the panel exists there (min-width floor) but has no icons, so the
   tag has to anchor to the root, not to a button.
-- **Partial shards (fragments) for Destruction — read power UNMODIFIED.** Today
-  `State.lua` reads `UnitPower` in **whole shards**, so the pipeline cannot see a fragment.
-  ⚠ **Promoted out of a ✅ item, where it was hiding.** This gap existed only as one
-  sentence inside the *shipped* "Warlock Destruction" entry below ("Restoring simc's
-  `<= 4.2` / `<= 4.6` still wants the unmodified-power read") — a real hole filed under a
-  done heading, which is how it stayed invisible for a month. It is now its own item.
-  - **What is correct today and must stay that way:** `SpecPowerDelta` projects **spenders
-    only** (CB −2 / RoF −3 / Shadowburn −1) and carries **no `generates` field at all**.
-    That was deliberate: Destruction builds in **fragments** (10 per shard) into a bar we
-    read in whole shards, so authoring integer yields for fragment builders would make the
-    in-flight projection lie by up to a shard per filler cast. Do not "fix" that by adding
-    fake `generates` — the fix is to read the real number.
-  - **The path is known and is NOT a Secret-Values wall:** `UnitPower(unit, powerType,
-    true)` returns the unmodified value in fragments. @verify-ingame — confirm the third
-    arg's behaviour for `SoulShards` under 12.0.7, and whether it reads secret in combat
-    the way the modified read does *not*.
-  - **Why it matters:** the KB's simc distillation gates Destruction lines on **fractional**
-    shard thresholds (`<= 4.2`, `<= 4.6`); we currently round them away, so those lines
-    fire at the wrong moment. This is rotation *quality*, not correctness — the HUD is not
-    wrong today, it is imprecise.
-  - **Scope warning:** this touches the Coach's shard gates and `resourceDisplay`. The
-    Renderer stays `discrete` (whole pips) unless we decide to render fragments, which is a
-    separate design question — a partial-fill pip advertises precision the *display* may not
-    want even once the *decision* has it. Do the decision half first.
+- **✅ SHIPPED v0.32.73 — Partial shards (fragments) for Destruction: read power UNMODIFIED.**
+  *(roster-state-plan §7.2; the item is kept rather than deleted because two things it said
+  were WRONG and the next reader should see the correction, not the erasure.)*
+  - ⚠ **"This is rotation *quality*, not correctness — the HUD is not wrong today, it is
+    imprecise" WAS WRONG.** It is a **missing capability**. The pipeline could not represent
+    "you have 1.8 shards, the cast in flight gives 0.2, so you will have 2 and that is enough
+    for Chaos Bolt" *at all* — and while it could not, the HUD told you to keep building when
+    the spender was one tick away. Under-calling a press is not imprecision, and filing it as
+    quality is how it sat for a month.
+  - ⚠ **"Do not fix that by adding fake `generates`" was right about the FAKE and wrong about
+    the fence.** `SpecPowerDelta` now projects builders too, in real integer fragments — the
+    premise ("a bar we read in whole shards") is what went away.
+  - **What was true:** the path was `UnitPower(unit, powerType, true)`, and it is **not** a
+    Secret-Values wall. Measured 2026-08-01: max 50 vs 5, modifier 10, and it works in
+    combat.
+  - **The scope warning stands, with its reason replaced.** The Renderer is still `discrete`
+    and `resourceDisplay` is untouched — but no longer because the decision layer lacks the
+    precision. It has it. The blocker is now purely `Renderer.lua:drawResourceRow`, which
+    pools one pip texture per unit of `max`. See the new backlog item below.
 - **Proc-glow obscures our chrome — subdue or replace it.** ✅ **Shipped v0.32.17 (dim,
   not replace):** `HudProcGlow.lua` post-hooks each CDM item's `RefreshOverlayGlow` and
   sets `item.SpellActivationAlert:SetAlpha(0.5)` while the HUD is on (gated on
@@ -1130,15 +1269,17 @@ work lands now — the user drives the list; a few already-surfaced items are se
   them. v1 profile **Diabolist**, with the Hellcaller delta handled inline (Wither/
   Malevolence are read *structurally* — a tracked Wither is the hero-tree tell, so there is
   no talent-API branch). How the draft's four open questions actually resolved:
-  - **Fragments did NOT force a contract edit.** The draft expected `resourceDisplay` to
-    need a segments-with-partial-fill member. It does not: `State.lua`'s `UnitPower` read
-    returns whole shards, so a partial-fill enum member would advertise precision we do not
-    have. Destruction renders `discrete` on the same `SOUL_SHARDS` token as Demonology —
-    which also means it hits **neither** Renderer generalization point. What we did instead:
-    `SpecPowerDelta` projects **spenders only** (clean whole numbers: CB −2 / RoF −3 /
-    Shadowburn −1) and carries no `generates` field at all, rather than authoring fake
-    integer yields for fragment builders. The rounded shard gates in `rotation.md` stand.
-    Restoring simc's `<= 4.2` / `<= 4.6` still wants the unmodified-power read.
+  - **Fragments did NOT force a contract edit** — and the *reason* has since changed, so do
+    not re-read the original. The draft expected `resourceDisplay` to need a
+    segments-with-partial-fill member; it still does not, and Destruction still renders
+    `discrete` on the same `SOUL_SHARDS` token as Demonology, hitting **neither** Renderer
+    generalization point. But the original justification — *"`State.lua`'s `UnitPower` read
+    returns whole shards, so a partial-fill member would advertise precision we do not
+    have"* — **expired with Phase 6.2 (2026-08-01)**: State reads the exact 0–50 rail now,
+    the brain decides in fragments, and `SpecPowerDelta` projects **builders as well as
+    spenders** with real integer yields. `rotation.md`'s rounded gates are gone; simc's
+    `<= 4.2` / `<= 4.6` are back verbatim. What keeps the enum closed today is purely the
+    Renderer's per-pip loop — see the backlog item *Partial-shard pip rendering*.
   - **`dot_refreshable` is half-live, not dead.** The draft assumed L8 could not fire at
     all. It can fire on the *presence* read — the DoT positively reading absent via the
     tracked-aura/buff-item channel — which covers "it fell off". The **pandemic-refresh**

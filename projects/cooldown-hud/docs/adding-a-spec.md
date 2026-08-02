@@ -13,15 +13,25 @@
 > end to end** the same day, with no pipeline edit, no Renderer edit and no contract edit —
 > so the recipe is confirmed, not just asserted. What that run learned:
 >
-> - **Step 5 held.** Destruction rides the same `SOUL_SHARDS` token rendered `discrete`, so
->   neither Renderer generalization point was touched. The draft docs *predicted* a
->   `resourceDisplay` contract edit for its fragment bar; the right answer was the opposite —
->   State cannot read the fraction, so adding an enum member would advertise precision we do
->   not have. **Check what State can actually READ before concluding the contract must grow.**
-> - **Step 2's "don't guess IDs" extends to don't guess NUMBERS.** Demonology tells its two
->   Demonic Art transforms apart by `generates == 3`. Destruction's Infernal Bolt refills in
->   fragments with no clean figure in the KB, so the brain keys on `abbr` (identity) instead
->   and the spec table carries no `generates` at all. Identity beats a fabricated quantity.
+> - **Step 5 held**, and the *conclusion* outlived its *reason* — read both. Destruction
+>   rides the same `SOUL_SHARDS` token rendered `discrete`, so neither Renderer
+>   generalization point was touched. The draft docs predicted a `resourceDisplay` contract
+>   edit for its fragment bar and that prediction is still wrong; but the ORIGINAL reason —
+>   *"State cannot read the fraction, so an enum member would advertise precision we do not
+>   have"* — **is SPENT as of Phase 6.2 (2026-08-01)**. State reads the exact 0–50 rail now
+>   and the brain decides in fragments. What keeps the enum closed is that `Renderer.lua`
+>   pools **one pip texture per unit of `max`** and has no fractional path. The lesson
+>   survives with a sharper edge: **check what State can actually READ before concluding the
+>   contract must grow — and when the read lands, re-check whether the RENDERER can use it,
+>   because those are two separate gates.** The contract change Phase 6.2 did make was purely
+>   **additive** (`valueExact`/`maxExact`/`incomingExact`/`modifier` on each resource bar),
+>   which is the shape to copy: grow the payload, not the enum.
+> - **Step 2's "don't guess IDs" extends to don't guess NUMBERS.** Demonology told its two
+>   Demonic Art transforms apart by `generates == 3` — a rotation decision coupled to a
+>   tuning constant — and both specs now branch on the semantic `art` field instead.
+>   Destruction's Infernal Bolt *does* carry a yield today (`generatesFrags = 20`, Phase
+>   6.2), which is precisely why identity had to stop being inferred from arithmetic:
+>   **identity beats a quantity even when the quantity is real.**
 > - **The Tier-3 omission is real, and safe.** All nine dormant tables were left out and
 >   nothing broke — `ns.SetActiveSpec` nils them and no live module reads them.
 > - **Expect one genuinely NEW open question per spec, and park it as a one-line switch.**

@@ -27,9 +27,15 @@
         "note": "ARRAY of power meters (multi-spec Phase 3). One entry per power the active spec declares (spec.powers); a single-resource spec (Demonology = Soul Shards) emits a one-element array. The Renderer stacks them vertically.",
         "value": "number",
         "max": "number",
-        "incoming": "number  // net power delta of in-flight casts, forwarded from State's per-power projection; the Coach ranks on projected = value + incoming",
+        "incoming": "number  // net power delta of in-flight casts, DERIVED BY THE COACH from the pulse's cast history (ns.Coach.InflightPower: a 'start' with no later 'succeeded'/'stopped' for the same base, inside a 3s flight window, x the spec's signed ns.SpecPowerDelta). Stage-1 State does NOT carry this -- roster-state-plan Phase 6 moved it out of the ingestion layer. The Coach ranks on projected = value + incoming, and DecisionLog's PW field reads it from HERE.",
         "display": "enum:resourceDisplay",
-        "powerType": "enum:powerType  // game token; Renderer -> PowerBarColor"
+        "powerType": "enum:powerType  // game token; Renderer -> PowerBarColor",
+        "unitsNote": "TWO UNITS, DELIBERATELY (Phase 6.2). value/max/incoming are in DISPLAY units (Soul Shards: 0-5) BECAUSE THE RENDERER DRAWS ONE PIP PER UNIT OF `max` (Renderer.lua drawResourceRow pools one texture per unit and fills the first `value`) -- a max of 50 would try to draw fifty pips. The fields below carry the EXACT rail alongside, additively.",
+        "valueExact": "number | ABSENT  // the power in the game's INTERNAL units (Soul Shards: 0-50 fragments), from State's UnitPower(unit, type, unmodified) read. An INTEGER, never a pre-divided float: dividing is the consumer's job, at the edge, so no boundary comparison upstream can be decided by a float. ABSENT -- never 0 -- when the client refused the exact read; 0 would read as 'you have none', a different and actionable sentence.",
+        "maxExact": "number | ABSENT  // the exact-unit cap (Soul Shards: 50). Same absent-not-zero rule.",
+        "incomingExact": "number | ABSENT  // the in-flight projection in the same exact units. Unlike valueExact this is OUR arithmetic, not a measurement, so it is present whenever the bar declares a projection.",
+        "modifier": "number | ABSENT  // exact units per display unit (Soul Shards: 10; mana/energy: 1). The divisor relating the two rails, resolved live off state.power[name].modifier with the spec's declared spec.powers[].modifier as the fallback.",
+        "consumers": "DecisionLog's PW field prefers the exact rail so it can render `PW:1.8/+0.2`; an all-integer PW column in a capture means the exact read is not wired. The other intended consumer is a partial-fill pip renderer, which does not exist yet -- see docs/status.md backlog 'Partial-shard pip rendering'. resourceDisplay is NOT touched by this: the enum stays closed."
       }
     ],
     "cues": {
@@ -108,7 +114,8 @@
         "percentage": "a continuous fill (legacy synonym of 'continuous')",
         "continuous": "a continuous fill (e.g. an energy/mana bar). Added multi-spec Phase 3 for the full resource seam; the Renderer's pixel path is a Phase-when-needed STUB (a continuous bar currently draws nothing) -- no live consumer yet."
       },
-      "open": "Enumerate additional forms as later specs need them (keep the meter renderer closed-set)."
+      "open": "Enumerate additional forms as later specs need them (keep the meter renderer closed-set).",
+      "notAddedInPhase62": "Destruction's real bar is 5 segments with PARTIAL FILL (Soul Shards are 0-50 fragments), which is neither 'discrete' nor 'continuous'. Phase 6.2 shipped the exact READ and deliberately did NOT grow this enum. The old reason -- 'State cannot read the fraction' -- is spent; the remaining blocker is purely the Renderer's per-pip loop, which has no fractional path. valueExact/maxExact/modifier above are exactly what such a member would consume, so the data is already waiting. See docs/status.md backlog 'Partial-shard pip rendering'."
     }
   },
 

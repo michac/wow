@@ -1,8 +1,11 @@
 # Cooldown HUD — the roster-anchored State
 
-> **STATUS: ▶ PHASE 4 IS CURRENT. Phases 1 + 2 + 3 done (2026-07-31); Phases 4–6 planned.**
-> (§10 also permits **Phase 6** to jump the queue — it is independently shippable today and
-> touches nothing else.)
+> **STATUS: ▶ PHASE 5 IS CURRENT (the last one). Phases 1 + 2 + 3 + 4 done 2026-07-31;
+> Phase 6 done 2026-08-01, having jumped the queue as §10 permitted.**
+> (⚠ This header read "▶ PHASE 4 IS CURRENT" until 2026-08-01, weeks after Phase 4 shipped
+> and was flown — §10's `▶ CURRENT` marker was stale the same way. Move BOTH when a phase
+> lands.) **Read §6.1 before starting Phase 5** — it is that phase's load-bearing design
+> decision (knownness: MARK, don't filter).
 >
 > **✅ Phase 3 SHIPPED 2026-07-31** (commits C1–C4, released as **v0.32.48**). The DrawList
 > gained a **`keybinds[]` channel**, so `cues[]` means *decisions* again and the empty-cue
@@ -1063,13 +1066,20 @@ magnitude cheaper. (Phase 2.3's GCD hoist alone removes ~128 calls/tick before a
 
 ## 7 · Phase 6 — move cast-*results* to the Coach
 
+> **✅ SHIPPED 2026-08-01.** Jumped the queue ahead of Phase 5, exactly as §10 permits.
+> **§7.1 is the record of what actually changed**, including the one deliberate behaviour
+> change — the double-deduction guard was **dropped, not ported**. Read it before "fixing"
+> that back.
+
 Independent of Phase 5; can land any time after Phase 1. **Pure deletion from State:**
 
 - `inflightIncoming` + `projectIncoming` + `spendStartShards` + `currentShardValue` —
-  ~270 lines, `State.lua:753-1025`
+  ~270 lines. *(⚠ The line numbers this plan originally cited, `State.lua:753-1025` and
+  `:756` / `:1439`, were v0.32.41 coordinates and were already stale when Phase 6 ran.
+  Symbol names only from here on.)*
 - the `ns.SpecPowerDelta` injection — one of the four spec readers State consults
-- **both `Enum.PowerType.SoulShards` hardwires** (`State.lua:756`, `:1439`) — the only
-  class-specific literals in State's *code*, and the leak the review flagged
+- **both `Enum.PowerType.SoulShards` hardwires** — the only class-specific literals in
+  State's *code*, and the leak the review flagged
 
 State returns raw `power` (keyed by `Enum.PowerType` name), `history`, and the current cast.
 The Coach derives projected power as a **pure function of the pulse** — the same property the
@@ -1081,6 +1091,250 @@ is instant, so "an ability mid-cast has already consumed a charge" is vacuous to
 it from `history` handles it for free regardless: a `start` with no later `succeeded` is
 in flight, and charges-since-seed is a count of `succeeded` entries. No special case either
 way, which is the point.
+
+### 7.1 What actually shipped *(the record — 2026-08-01)*
+
+**The move.** `ns.Coach.InflightPower(state, deltaFn, window)` is the whole replacement:
+one pure walk of `state.history` for the latest phase per base inside a 3 s flight window,
+summing the spec's signed `ns.SpecPowerDelta` per named power. It sits in Coach.lua's
+*Small readers over the pulse* section beside `castingFresh`, which already performs a
+structurally identical walk, and it is **public shell kit** (the `C.CommittedWithin`
+precedent) because both brains read it from their `Context`. `deltaFn` is **passed in**
+rather than reached for, so the helper is testable and the spec global is not a hidden
+dependency. Net: **State.lua −147/+21 (−126 lines), Coach.lua +58.** *(The plan's "~270
+lines" was measured against the pre-Phase-3 single-power version; the per-power rewrite had
+already shrunk it.)*
+
+`ns.SpecPowerDelta` stays a live-client read (it calls `ns.ShardCost`), which introduces
+**no new class of impurity** at this layer — the brains' `costOf` already does live cost
+reads through `env.shardCostFn`. Re-plumbing it through `env` was deliberately NOT done here.
+
+**The leak is gone.** `State.lua` now contains **zero** `Enum.PowerType.SoulShards` and zero
+`ns.SpecPowerDelta`; the only surviving `Enum.PowerType` reference in its code is
+`buildPowerNames`' generic enum walk, which is what keys `power` by name in the first place.
+A bonus fell out: `ns.ActiveSpec` was read in exactly one place in State (the deleted
+`projectIncoming` call), so **State no longer touches the spec registry at all**.
+
+**⚠ THE DOUBLE-DEDUCTION GUARD WAS DROPPED, NOT PORTED — a knowing behaviour change.**
+`spendStartShards` snapshotted live `UnitPower` *at the `UNIT_SPELLCAST_START` event* and
+suppressed a spender's −delta once the live value fell below it. A pure function of the pulse
+has no `before` value to diff against; preserving it would have meant stamping the snapshot
+onto the history entry, i.e. keeping the mechanism and merely relocating its state. The
+minimal deletion was chosen instead, with eyes open:
+
+- **The accepted cost** is a stale −N for **at most one ~10 Hz tick** at completion.
+  `SUCCEEDED` supersedes the `start` on the very next pulse, and often lands before a Build
+  even runs — making the window zero in practice.
+- **It removed two latent defects outright** rather than carrying them forward. The snapshot
+  **leaked**: the terminal-event branch cleared it only when the spellID read *readable*, so a
+  secret terminal event left the map entry alive into the *next* cast of that spender, which
+  then silently under-projected for a full flight window. And the comparison was **already
+  wrong for a multi-power spec** by its own in-code admission — it compared a `SoulShards`
+  live value against any spender's snapshot, correct only because Demo has one spender-power.
+- **No test covered the guard**, in State or anywhere else. That is precisely why this is
+  written down: the next reader must not "restore" it on the assumption it was load-bearing.
+
+**`"stopped"` became load-bearing, and is finally documented.** The third cast phase has
+existed since W4 P6 Part 2 but appeared in no contract. It is the only thing that lets a
+latest-phase-per-base walk cancel a mid-flight spender, so the four terminal
+`RegisterUnitEvent` lines at the bottom of `State.lua` — `INTERRUPTED` / `FAILED` /
+`FAILED_QUIET` / `STOP` — now look orphaned *from inside State* while the Coach depends on
+them. Both files carry a ⚠ saying so, and `architecture.md`'s Stage-1 `history` block
+documents all three phases.
+
+**The trace kept the information.** `DecisionLog`'s `PW:` field read
+`pulse.power[…].incoming` directly, which stops being written, so it was re-pointed at
+`guidance.resourceBars[1]` — which already carries **both** `value` and `incoming`, so the
+whole string now comes from one place. Two consequences accepted deliberately: a passive spec
+(`EmptyGuidance` → `resourceBars = {}`) renders `PW:?/?` rather than reading through to the
+pulse (honest — there is no bar), and the secret-degradation now happens at the *Coach*
+boundary (`ResourceBars` floors a non-numeric value to 0) rather than at the log's. The log
+keeps its own `?` guard anyway, since it is a formatter over a channel it does not own.
+
+**Tests: 624 → 630, 0 failures, luacheck 0 warnings.**
+- `resource_multipower_spec` — the dual-power seam proof **moved to the Coach**, re-pointed
+  from `ns.State.InflightIncoming`/`ProjectIncoming` at `ns.Coach.InflightPower`. It is the
+  proof the **per-power map survived** the move. Its synthetic 2-power brain's `Context` now
+  mirrors the real brains (derive `sums`, fold onto declared powers), so the whole path is
+  under test rather than the two ex-State cores in isolation.
+- **The latest-phase-supersedes rule is now tested for the first time** — it was untested in
+  State and was the behaviour most likely to break silently here. Five new cases: a
+  `succeeded` cancels the projection, a `stopped` cancels it while leaving a sibling power
+  untouched, a **re-cast after a terminal phase projects again** (latest phase wins, not
+  "ever terminal"), an aged-out `start` drops, and a nil `deltaFn` yields an empty map.
+- `coach_apl_spec` / `coach_destruction_apl_spec` — the fixture builders' `f.incoming` no
+  longer sets a pulse field the Coach ignores; it synthesises a **real in-flight spender**
+  (HoG / Chaos Bolt) plus the live `ns.ShardCost` its `SpecPowerDelta` reads, so the fixtures
+  now drive the actual derivation. Placed at `NOW - 2`: inside the 3 s flight window but
+  outside `CAST_FRESH` (1.0), so it does not also raise a `cast_started` edge. Every existing
+  call site (`winner{ shards = 5, incoming = -4 }`, …) works unchanged.
+
+**Two things noted, not done** (they would have widened the diff): the five byte-identical
+`Context` lines shared by both brains are still duplicated, and `architecture.md`'s Stage-1
+block still carried a `resources.shards` alias retired back in Phase 3 — that one line was
+corrected in passing since it named `incoming`.
+
+---
+
+### 7.2 Phase 6.2 — Soul Shard *fragments*, the exact resource rail *(2026-08-01)*
+
+**Why there is a 6.2 at all.** Flying Phase 6 surfaced a limitation that is not about *where*
+the projection lives but about **what it can represent**:
+
+> *"I can't accurately tell you to do X as you're casting Y if I can't know that you have 1.8
+> shards and Y gives you .2 so you'll have 2 and that's enough for X."*
+
+`State.lua`'s `readOnePower` called `UnitPower("player", pt)` with no `unmodified` flag, so
+the whole pipeline saw **whole shards only**. A true 1.9 arrived as `1`, `shards >= 2` was
+false, and the HUD said "build" when you were one Incinerate tick from a Chaos Bolt. That is
+a **missing capability, not imprecision** — and `status.md` had it filed as *"rotation
+quality, not correctness"*, which was wrong and is corrected in this diff.
+
+**Measured in game 2026-08-01, so nothing here is speculative:**
+
+```
+UnitPowerMax("player", SoulShards)        = 5     UnitPower(…) = 3
+UnitPowerMax("player", SoulShards, true)  = 50    UnitPower(…, true) = 30
+```
+
+Fragments confirmed, **modifier 10**, and the call **works in combat** — closing the
+Secret-Values question that gated this for a month. `ShouldUnitPowerBeSecret` takes
+`(unit, powerType)` (`knowledge/addon-dev/security-taint-and-restricted-data.md`), so the
+`unmodified` flag is not a parameter of the verdict, which is exactly why it behaves
+identically.
+
+#### The unit model, and why it is INTEGERS
+
+WoW stores fragments 0–50; simc divides by 10 at the DBC layer and works in whole shards as a
+`double`, so `soul_shard<=4.2` means **42 fragments**. The client hands us an exact integer,
+and **we keep it that way**. Dividing by 10 manufactures an imprecision the source does not
+have, and this is a **boundary comparison** problem — the exact case where binary floating
+point bites. A projected total that should be `2.0` can come out `1.9999999999999998`, `>= 2`
+fails, and a cast that is available is withheld: the same wrong answer as rounding, but rarer
+and unreproducible. `InflightPower` **sums** deltas, and summing integers is exact. simc uses
+doubles, but simc is not making 10 Hz boundary decisions. **Floats live at the edges** —
+`DecisionLog`'s `PW:1.8`, log prose — never inside a gate.
+
+#### The five design decisions
+
+1. **Integer fragments internally, never floats** (above).
+2. **Rename, don't re-unit.** If `ctx.shards` had kept its name and changed meaning, a missed
+   `shards >= 2` would compile fine and be silently wrong by 10×. Every gate field is renamed
+   — `frags` / `fragsIncoming` / `fragsProjected` / `fragsMax`, `*CostFrags`, `*_FRAGS`
+   tunables — so a stale call site gets nil and fails loudly. `ctx.shards` is **deleted**, not
+   repurposed. `spec.SHARD_CAP` became `spec.FRAG_CAP` (50) for the same reason, and
+   `Coach.lua`'s file-local fallback became `BAR_MAX_FALLBACK` because it is a **display**
+   number. This is the mitigation for the phase's headline risk; an incomplete rename is what
+   `grep -rn "ctx\.shards\|SHARD_CAP\|Cost\b" Coach*.lua` exists to catch.
+3. **State stays spec-agnostic.** Phase 6 removed State's last class-specific literal and this
+   phase does not reintroduce one: the new fields use Blizzard's own vocabulary —
+   `unmodified` / `unmodifiedMax` / `modifier` — not "fragments", which is a Soul-Shard word.
+   `modifier` is **derived** from the two maxes, not assumed.
+4. **Guidance keeps whole shards; the exact values ride alongside.** ⚠ `Renderer.lua`'s
+   `drawResourceRow` pools **one pip texture per unit of `max`**, so a `max` of 50 would try
+   to draw fifty pips. `resourceBars[].value`/`max`/`incoming` therefore stay in display units
+   and **the Renderer is untouched**; the bar gained additive
+   `valueExact`/`maxExact`/`incomingExact`/`modifier`.
+5. **Builder projection is fenced to the conservative floor.** Incinerate's crit bonus is
+   deterministic *given a crit* and the crit is not; Immolate's is 50 % on a crit tick. Only
+   base yields are projected. Under-crediting delays a cue by one press; over-crediting
+   promises a cast you cannot make. Same doctrine as the charge napkin's undercount.
+
+#### ⚠ THE COST DENOMINATION WENT THE OTHER WAY
+
+```
+/run for _,id in ipairs({116858,105174}) do for _,c in ipairs(C_Spell.GetSpellPowerCost(id) or {}) do print(id,c.type,c.name,c.cost) end end
+→ 116858  7  SOUL_SHARDS  2      → 105174  7  SOUL_SHARDS  3
+```
+
+**The client API pre-applies the divisor.** DB2 stores Chaos Bolt's cost as `20` fragments and
+`C_Spell.GetSpellPowerCost` hands back **2**. Two consequences:
+
+- **`ns.ShardCost`'s fragment heuristic was DELETED, not generalised.**
+  `if raw >= 10 and raw % 10 == 0 then return raw / 10` can only fire on a shard cost of ≥ 10,
+  impossible against a five-shard cap. It never fired, and its `@verify-ingame` marker pointed
+  at the decision log — which could not have answered the question anyway, since a raw 3 and a
+  raw 30 both render `3`. The **type filter stays**; that part is load-bearing.
+- **Costs arrive in shards while the bar arrives in fragments**, so every cost is multiplied
+  **UP at exactly one site per brain** (`Context`) and renamed `*CostFrags` from there down.
+  The fallbacks (`CB_COST_FALLBACK = 2`, …) stay in shards and cross the same boundary, so
+  each brain has exactly one crossing.
+
+#### What shipped
+
+- **State** — `readOnePower` gained a guarded `pcall(UnitPower, "player", value, true)` +
+  `UnitPowerMax(…, true)`, emitting `unmodified` / `unmodifiedMax` / `modifier`. Same secrecy
+  ladder; **absent, never zero**, on a refusal. `value`/`max`/`readable` are byte-identical.
+- **Coach** — both brains derive `ctx.frags*` from `unmodified`, falling back to
+  `value × modifier`. Every gate moved, **including both LATE-at-full-bar rules**, which now
+  read `frags >= fragsMax` (50, not 5) — the two comparisons that most look like whole-shard
+  ones and are not.
+- **Simc's fractions are restored.** `<= 4.2` (Conflagrate, `warlock_destruction.simc:33`) and
+  `<= 4.6` (Chaotic-Inferno Incinerate, `:36`) are back as 42 and 46, hardcoded **with a
+  citation** rather than derived: `4.6 + 0.4` is exactly 5.0, which makes them *look* like
+  overcap guards computed off the yields, but `4.2 + 0.5` is 4.7 — suggestive, not exact.
+- **Yields** — `SpecDestruction` grew fragment `generatesFrags` (Incinerate 2, Conflagrate 5,
+  Soul Fire 10, Infernal Bolt 20), base values only. Immolate/Wither carry **none**: their
+  income is per-tick, and the in-flight projection answers "what will the bar read when this
+  cast resolves". **Diabolic Embers (387173)** doubles Incinerate and is read via
+  `C_SpellBook.IsSpellKnown`, cached through the registry's `Invalidate` seam — **the first
+  spec to use it**, which was left wired for exactly this. A refused read assumes untalented
+  and does **not** cache, so it self-heals. The MID1 4-set's +2 on Conflagrate is
+  knowingly skipped (no tier-set channel on the pulse; the failure direction is safe).
+  Demonology's yields converted 1/2/3 → 10/20/30, and `generates` was renamed
+  `generatesFrags` on both specs by the same loud-failure argument as decision 2.
+- **The trace** — `DecisionLog`'s `PW:` prefers `valueExact`/`incomingExact` and divides at
+  the edge, so it prints `PW:1.8/+0.2`. **An all-integer `PW:` column in a capture means the
+  exact read is not wired**, which is the in-flight acceptance signal for this phase.
+
+#### ⚠ THE `>= 3.5` PUZZLE — the KB was misleading, and is corrected
+
+The in-game tooltip saying **3** is right; Rain of Fire costs 30 fragments on both spell IDs.
+The `3.5` is a **hand-tuned APL constant, Diabolist-AoE only**, gated `active_enemies>=4`:
+
+```
+:48  rain_of_fire,if=((soul_shard>=(3.5-0.1*(active_dot.immolate)))|buff.alythesss_ire.up)&active_enemies>=4
+:63  rain_of_fire,if=(soul_shard>=(4.0-0.1*(active_dot.wither)))&active_enemies>=(5-talent.destructive_rapidity)
+:68  rain_of_fire,if=active_enemies>=(5-talent.destructive_rapidity)          ← no shard condition at all
+```
+
+The `-0.1 × active_dot` term is exactly one Immolate tick's yield per active DoT, so it reads
+as income anticipation — but the buffer **shrinks as income rises**, which is backwards for a
+pooling reserve, and at 8 Immolates it falls **below** the real 3-shard cost. Nothing in the
+APL, the generator or the C++ explains it, so no rationale is invented here. **Rain of Fire
+stays on a plain integer floor**: the gate is hero-tree- and AoE-specific, has an
+unconditional fallback the KB never mentioned, and the brain has no `active_dot` count to feed
+it. Recorded in `specs/destruction/rotation.md` rather than half-implemented.
+
+#### Open, and deliberately not blocking
+
+- **Infernal Bolt 20 vs 30 on Destruction** — the one place the two simc researchers
+  disagreed (agent 1: the spec aura `137046 e#13` applies −10; agent 2 read the unmodified
+  30). **20 is taken** because it is the lower figure and the floor is the contract. It is
+  Diabolist-only, so it gates nothing. Settle it by casting one and watching the bar move 2
+  shards or 3.
+- **Crit yields are unprojectable**, fenced to the floor by design.
+- **Yields are gear- and talent-dependent** and authored constants will drift; the alternative
+  is a live energize read the API does not expose.
+
+**Tests: 645 → 689, 0 failures, luacheck 0 warnings.** The fixture builders keep `f.shards`
+in **whole shards** and multiply by 10 internally, so all ~146 existing `shards = N` call
+sites work unchanged — the same trick Phase 6 used for `f.incoming` — with `f.frags`,
+`f.inflight` and `f.exactRefused` as the new escape hatches. New coverage: the motivating
+boundary (**18 fragments + an in-flight Incinerate makes Chaos Bolt the press; 17 + 2 does
+not**, with the display rail asserted to read `1` in both, which is the mutation check), the
+two restored gates at 42/43 and 46/47, the unit boundary asserted **as a number** rather than
+only through the press it produces, the exact read refusing, `modifier == 1` as a no-op, the
+Diabolic Embers cache and its invalidation, and — the regression the deletion is really about
+— `ns.ShardCost` returning a raw `20` as `20`. `util_shardcost_spec.lua` is new and is the
+first test of the **real** `ns.PowerCost`/`ns.ShardCost` ladder; every other spec reads costs
+through the harness override, which proves the callers and nothing about the reader.
+
+**Two things filed rather than done** (`docs/status.md` backlog): **partial-fill pip
+rendering** — the decision layer now knows the bar sits at 1.8 while the HUD still draws two
+lit pips of five, blocked on the Renderer's per-pip loop, **not** on the read — and
+**projecting an in-flight cast's COOLDOWN effect** the way this phase projects its resource
+effect.
 
 ---
 
@@ -1145,9 +1399,10 @@ the answers reshaped three phases and the reasoning should not be re-derived.
 Phase 1  fixture harness + CDM edge inventory      ← ✅ DONE 2026-07-31 (the net)
 Phase 2  the correctness fixes (all ten)           ← ✅ DONE 2026-07-31, v0.32.46 (see §3.11)
 Phase 3  keybind channel separation                ← ✅ DONE 2026-07-31, v0.32.48 (see §4.2)
-Phase 4  roster coverage probe                     ← ▶ CURRENT. Its API prerequisite landed in Phase 3
-Phase 6  cast-results → Coach                      ← independent deletion, can jump the queue
-Phase 5  roster anchor inversion                   ← last; the largest blast radius
+Phase 4  roster coverage probe                     ← ✅ DONE 2026-07-31 (see §5.1), FLOWN 2026-08-01 (§5.2)
+Phase 6  cast-results → Coach                      ← ✅ DONE 2026-08-01 (see §7.1) — it did jump the queue
+Phase 6.2 Soul Shard FRAGMENTS (the exact rail)    ← ✅ DONE 2026-08-01 (see §7.2), awaiting its in-game pass
+Phase 5  roster anchor inversion                   ← ▶ CURRENT. Last; the largest blast radius. Read §6.1 FIRST
 ```
 
 **⚠ PHASE 2's INTERNAL ORDER WAS EVIDENCE-LED, not the §3.1→§3.9 numbering.** The 2026-07-31
@@ -1167,7 +1422,7 @@ in**, kept because it is the reasoning a future phase should copy:
 ⚠ In the event **§3.9 was fixed too**, folded into C5 alongside §3.4 — both touch the same
 struct read, and guarding it once was cheaper than guarding it twice. Nothing was left pinned.
 
-Phase 6 remains independently shippable today and touches nothing else. **The Phase-2 workflow
+**The Phase-2 workflow
 was mechanical, and it worked exactly as designed:** make the fix, watch the named case go RED
 (a `pinned-defect` errors when it starts passing), flip its `status` to `"green"` + `fixed` in
 the same diff, and the message the runner prints tells you which one and why.

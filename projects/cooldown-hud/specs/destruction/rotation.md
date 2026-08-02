@@ -44,13 +44,37 @@ ability is usable"* — off cooldown, procced, charged, and affordable.
 Demonology's rail is **5 discrete shards**. Destruction spends in whole shards but
 **the bar reads in tenths** ("Soul Shard Fragments"): Incinerate, Conflagrate,
 Soul Fire and Immolate ticks each pay out a *fraction* of a shard. That is why the
-simc gates read `soul_shard<=4.2` and `>=3.5` rather than integers.
+simc gates read `soul_shard<=4.2` and `<=4.6` rather than integers.
 
-**This list rounds those to whole shards on purpose** (`shards <= 4`, `shards >= 4`),
-because the fractional read is not currently available to the HUD — see
-`observability-map.md` → *the fragment read*. If the fragment read is wired up, the
-fractional thresholds from the KB APL are the values to restore, and they are noted
-per line below.
+**✅ THE FRAGMENT READ IS WIRED (Phase 6.2, 2026-08-01), and the rounding is gone.**
+This list used to round the fractional gates to whole shards on purpose, because
+`State.lua` read `UnitPower` without the `unmodified` flag and the pipeline could not
+see a fraction at all. It can now: the game stores **0–50 fragments** and displays
+0–5 shards (measured: max 50 vs 5, **modifier 10**, and the flagged read works in
+combat), so the brain decides in **integer fragments** and simc's own numbers are
+expressible verbatim. `<= 4.2` is `<= 42`; `<= 4.6` is `<= 46`.
+
+⚠ **`>= 3.5` FOR RAIN OF FIRE IS NOT A DESTRUCTION RULE, and this document used to
+imply it was.** Rain of Fire costs **3 whole shards** (30 fragments) on both spell IDs
+— the in-game tooltip is right. The `3.5` is a hand-tuned APL constant that appears on
+**one Diabolist AoE line only**, gated `active_enemies>=4`:
+
+```
+:48  rain_of_fire,if=((soul_shard>=(3.5-0.1*(active_dot.immolate)))|buff.alythesss_ire.up)&active_enemies>=4
+:63  rain_of_fire,if=(soul_shard>=(4.0-0.1*(active_dot.wither)))&active_enemies>=(5-talent.destructive_rapidity)
+:68  rain_of_fire,if=active_enemies>=(5-talent.destructive_rapidity)          ← no shard condition at all
+```
+
+There is a **Hellcaller sibling at 4.0** and an **unconditional fallback with no shard
+condition**, neither of which was ever mentioned here. The `-0.1 × active_dot` term is
+exactly one Immolate tick's yield per active DoT, so it reads as income anticipation —
+but the buffer **shrinks as income rises**, which is backwards for a pooling reserve,
+and at 8 Immolates it falls *below* the real 3-shard cost. Nothing in the APL, the
+generator or simc's C++ explains it, so no rationale is invented here.
+
+**So L10 keeps a plain integer floor** (`>= 40` fragments): the real gate is
+hero-tree- and AoE-specific, and the brain has no `active_dot` count to feed it anyway.
+Half-implementing it would be worse than not implementing it.
 
 ## The priority list (as derived)
 
@@ -58,15 +82,15 @@ per line below.
 L1   if Ruination:                                   cast Ruination
 L2   if Soul Fire and shards <= 4:                   cast Soul Fire
 L3   if Art is armed:                                cast CB
-L4   if Conflagrate and shards <= 4                  (simc: <= 4.2)
+L4   if Conflagrate and shards <= 4.2               (42 fragments, simc:33)
         and Backdraft is not stacked:                cast Conf
 L5   if Summon Infernal:                             cast Summon Infernal
-L6   if Chaotic Inferno and shards <= 4:             cast Inc     (simc: <= 4.6)
+L6   if Chaotic Inferno and shards <= 4.6:           cast Inc     (46 fragments, simc:36)
 L7   if Shadowburn and (Fiendish Cruelty
         or target <= 20% HP):                        cast SB*
 L8   if Immolate is missing or refreshable:          cast Immolate
 L9   if Cataclysm:                                   cast Cataclysm
-L10  if AoE and shards >= 4:                         cast RoF
+L10  if AoE and shards >= 4:                         cast RoF   (see the >= 3.5 note)
 L11  cast CB
 L12  if shards <= 3:                                 cast IB
 L13  cast Inc
@@ -93,11 +117,15 @@ L13  cast Inc
    alone and is deliberately *below* the Art/anti-cap Chaos Bolts. On Hellcaller
    this line moves up — see the delta.
 
-4. **The fractional shard gates were rounded** (see *Fragments*). L4's `<= 4.2` and
-   L6's `<= 4.6` both become `<= 4`, which is **more conservative** — it builds one
-   press later than simc would. That is the safe direction (never overcap-by-guess)
-   but it is a real fidelity loss, and it is the single best argument for wiring the
-   fragment read.
+4. ~~**The fractional shard gates were rounded.**~~ ✅ **RESOLVED 2026-08-01 (Phase
+   6.2)** — the deviation is retired, not merely reduced. L4's `<= 4.2` and L6's
+   `<= 4.6` are simc's own numbers again (42 and 46 fragments), hardcoded **with a
+   citation** rather than derived: `4.6 + 0.4` (Incinerate with Diabolic Embers) is
+   exactly 5.0, which makes them *look* like overcap guards computed off the yields,
+   but `4.2 + 0.5` (Conflagrate) is 4.7, not 5.0 — the relationship is suggestive and
+   **not exact**, so deriving them would be inventing a rule simc does not state.
+   ⚠ The one gate still deliberately un-restored is **Rain of Fire's** — see the
+   `>= 3.5` note under *Fragments* for why that one is not a Destruction rule at all.
 
 5. **Havoc is not in the list.** simc's Havoc logic is `target_if` — "the add with
    the most time-to-die that isn't your current target, and not right before

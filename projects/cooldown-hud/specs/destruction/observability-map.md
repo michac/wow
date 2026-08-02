@@ -46,7 +46,7 @@ cannot model recharge at all (it counts one cooldown, not a refilling pool).
 | # | Field | Source in the pulse | OOC | In combat | Confidence | Degrades to |
 |---|---|---|---|---|---|---|
 | 1 | `shards` (whole) | `power.SoulShards.value + .incoming` | exact | **readable** (power survives combat) | **High** | value secret one pulse → unknown; don't force a shard gate |
-| 1b | `shards` (fragments) | **not read today** — see *the fragment read* below | — | — | **Absent** | falls back to whole shards + the rounded gates |
+| 1b | `shards` (fragments) | `power.SoulShards.unmodified` (+ `.unmodifiedMax` / `.modifier`) — ✅ **read since Phase 6.2** | exact (0–50) | **readable** — the `unmodified` flag is not part of the secrecy verdict | **High (measured 2026-08-01)** | absent → `value × modifier`, i.e. back to whole-shard granularity; never zero |
 | 2 | `ruination_up` | `override`/`liveSpellID` on the **Chaos Bolt** frame = the Ruination Art id | exact | **readable** (override event fires in combat, per Demo) | **Med–High — verify ID** | no override seen → false. ⚠ the Destruction Ruination ID is *not* Demo's (`notes.md`) |
 | 3 | `soulfire_usable` | `cd` on Soul Fire (readiness model) | exact | edge/baseline observed, else napkin | **Med–High** | unknown → false |
 | 4 | `art_armed` | Diabolic Ritual `428514` `buff.isActive`, and/or the CB override edge | exact | **readable (presence)** | **Med–High** | neither → false. Expect `428514` tracked **twice** (Demo finding) — key on cooldownID |
@@ -67,16 +67,25 @@ cannot model recharge at all (it counts one cooldown, not a refilling pool).
 
 ## The five fields that need a decision or a check
 
-- **The fragment read (#1b) — the one genuinely new capability question.**
-  `State.lua`'s `readOnePower` calls `UnitPower("player", value)` with **no unmodified
-  flag**, so it returns whole shards; Destruction's fractional generation is invisible.
-  The documented route to fragments is the *unmodified* power read scaled by the
-  power's display modifier — i.e. a second argument and a divisor, not a new event or a
-  secret-value workaround. **Verify** that (a) the unmodified read is not itself secret
-  in combat and (b) it is worth the fidelity: the payoff is restoring simc's `<= 4.2` /
-  `<= 4.6` gates instead of the conservative rounding in `rotation.md`. Note this also
-  forces a `resourceDisplay` member (`notes.md`), so it is a **contract-touching**
-  change, not a spec-local one.
+- ~~**The fragment read (#1b) — the one genuinely new capability question.**~~
+  ✅ **ANSWERED AND SHIPPED 2026-08-01** (`docs/roster-state-plan.md` §7.2, v0.32.73).
+  `readOnePower` now makes a second guarded `UnitPower("player", value, true)` +
+  `UnitPowerMax(…, true)` call and puts `unmodified` / `unmodifiedMax` / `modifier` on the
+  pulse. Both worries resolved, and one of them the *opposite* way to the guess:
+  - **(a) It is not secret in combat.** Measured: max **50** against a displayed 5,
+    modifier **10**, readable mid-pull. `ShouldUnitPowerBeSecret` takes
+    `(unit, powerType)`, so the flag is not a parameter of the verdict — which is exactly
+    why it behaves identically to the read we already had.
+  - **(b) It was worth more than the fidelity argued here.** This entry framed the payoff
+    as restoring `<= 4.2` / `<= 4.6`, and it did do that — but the real payoff was a
+    **capability**, not precision: without it the pipeline could not represent "1.8 shards
+    plus 0.2 in flight is enough for Chaos Bolt" *at all*, and told you to keep building.
+  - **⚠ It did NOT force a `resourceDisplay` member**, contrary to the last sentence here
+    and to `notes.md`'s prediction. The decision layer decides in fragments while the bar
+    stays whole-shard, because `Renderer.lua` draws one pip per unit of `max`. The contract
+    change was **additive** (`valueExact` / `maxExact` / `incomingExact` / `modifier`), so
+    the enum stayed closed and nothing general was edited. A partial-fill pip is filed as
+    its own backlog item — blocked on the *renderer*, not the read.
 
 - **`dot_refreshable` (#14) blocks a whole line and is the spec's spine.** Immolate is
   tracked as the **DoT aura `157736`**, which is the encouraging part — a tracked bar

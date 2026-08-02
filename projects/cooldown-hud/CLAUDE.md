@@ -35,8 +35,9 @@ The docs split **general** (spec-agnostic — the product, the pipeline) from
   HUD draws its own icons for abilities Blizzard's Cooldown Manager does not track, so a
   spec's floor press stops being invisible (Destruction was blank for 31 % of a pull).
   Only the v0.32.36 **re-fly** is outstanding, and that needs a live session, not code.
-- **`docs/roster-state-plan.md`** — **Phases 1 + 2 + 3 + 4 DONE (2026-07-31); ▶ Phase 6 is
-  CURRENT; Phase 5 after it**: anchor State on the spec's declared **roster** (abilities + auras)
+- **`docs/roster-state-plan.md`** — **Phases 1 + 2 + 3 + 4 DONE (2026-07-31) and Phase 6 DONE
+  (2026-08-01); ▶ Phase 5 is CURRENT and is the last one** (read **§6.1** first — its
+  load-bearing design decision): anchor State on the spec's declared **roster** (abilities + auras)
   rather than on the CDM database, plus the correctness fixes and the **fixture inventory** of
   CDM edges that had to come first. Written out of a client-correctness review of `State.lua`
   against `knowledge/addon-dev/cooldown-manager.md`.
@@ -62,11 +63,27 @@ The docs split **general** (spec-agnostic — the product, the pipeline) from
   not have), so v0.32.54 fenced it on knownness — see §5.2.
   ✅ **Flown 2026-08-01** — one `/cdmp flight` pass discharged Phases 2, 3 and 4, the
   `ChargeGained` re-fly and the `C_AssistedCombat` rider. **§5.2 is the flight record.**
+  **Phase 6.2 gave the resource rail its EXACT unit** (v0.32.73, 2026-08-01) — `State.lua`
+  now reads `UnitPower(unit, type, true)`, so the pipeline sees Soul Shards as the **0–50
+  fragments** the game actually stores rather than the 0–5 it displays. That was a **missing
+  capability, not imprecision**: a true 1.9 arrived as `1`, so "you are one Incinerate from a
+  Chaos Bolt" was unsayable and the HUD said "build". Every gate in both brains is
+  fragment-denominated now (integers — floats only at the log's edge), simc's `<= 4.2` /
+  `<= 4.6` are restored verbatim, and Destruction projects **builders** as well as spenders.
+  ⚠ Costs go the OTHER way (`C_Spell.GetSpellPowerCost` pre-applies the divisor), so the
+  rename — `ctx.shards` **deleted**, `*Frags` everywhere — is the mitigation for a silent 10×
+  error. **§7.2 is the record.** ⏳ Its in-game pass rides with the flight below.
+  **Phase 6 moved the in-flight power projection out of State and into the Coach** —
+  `ns.Coach.InflightPower`, a pure function of the pulse's cast history — deleting
+  `inflightIncoming`/`projectIncoming`/`spendStartShards`, the `ns.SpecPowerDelta` injection
+  and **both `Enum.PowerType.SoulShards` hardwires**, the last class-specific literals in
+  State's code. ⚠ The double-deduction guard was **dropped, not ported** (a deliberate
+  behaviour change) and the `"stopped"` cast phase became load-bearing — **§7.1 has both**.
   ⏳ Two things remain and neither is a re-pull: the **v0.32.36 re-fly is BLOCKED** (the
   decision log carries no combat flag, so its `w:-` acceptance cannot be read — fix the log,
   then re-read the capture already on disk), and the `/cdmp rt states` visual card.
   `status.md` → *Owed: the v0.32.36 re-fly* has both.
-  **§3.11, §4.2, §5.1 and §5.2 are the records of what actually changed**, including the deliberate
+  **§3.11, §4.2, §5.1, §5.2 and §7.1 are the records of what actually changed**, including the deliberate
   deviations — read them before "fixing" any of those back, and read §3.1–§3.10 / §4.1
   before "fixing" anything a case pins.
 - **`docs/field-fixes-plan.md`** — ✅ **done, history** (Phases A/B/C/C2, v0.32.28–31): the
