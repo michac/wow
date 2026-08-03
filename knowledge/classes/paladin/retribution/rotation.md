@@ -2,7 +2,7 @@
 title: Retribution Paladin — Rotation (Midnight S1)
 patch: 12.0.7
 fetched: 2026-07-11
-reviewed: 2026-07-11
+reviewed: 2026-08-03
 sources:
   - https://raw.githubusercontent.com/simulationcraft/simc/midnight/profiles/MID1/MID1_Paladin_Retribution.simc  # tier 1 APL (PRIMARY), 2026-07-11
   - https://www.method.gg/guides/retribution-paladin/playstyle-and-rotation  # tier 3, Midnight 12.0.7, 2026-07-11
@@ -18,6 +18,14 @@ which reshapes the finisher priority around **Hammer of Light**: after **Wake
 of Ashes** your spender slot becomes Hammer of Light for 20s, and **Light's
 Deliverance** later grants free Hammer of Light procs. **Herald of the Sun** is
 a viable alternative but is not the button-backbone below.
+
+> **⚠ COST vs POOLING — corrected 2026-08-03.** "Spend at 5 Holy Power" below is a
+> **pooling** rule (don't overcap), **not a cost**. **Every Retribution finisher costs 3
+> Holy Power** — Templar's Verdict 85256, Divine Storm 53385, Final Verdict 383328 and
+> **Hammer of Light 427453** all read `PowerType 9, cost 3`
+> `[T1 DB2: SpellPower @ 12.0.7]`. `abilities.md` previously listed Hammer of Light as a
+> "5-HP nuke" and the two spenders as "3–5 Holy Power"; both were the pooling rule mistaken
+> for the cost, and both are fixed.
 
 The engine is a Holy Power economy: build with Judgment / Blade of Justice /
 the Templar Strike (or Crusading Strikes) filler / Wake of Ashes / Divine Toll,

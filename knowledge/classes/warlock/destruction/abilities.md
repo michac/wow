@@ -2,12 +2,14 @@
 title: Destruction Warlock — Ability Inventory (Midnight S1)
 patch: 12.0.7
 fetched: 2026-07-11
-reviewed: 2026-07-11
+reviewed: 2026-08-01
 sources:
   - https://raw.githubusercontent.com/simulationcraft/simc/midnight/profiles/MID1/MID1_Warlock_Destruction.simc  # tier 1, simc midnight APL, 2026-07-11
   - raw/wago/SpellName.csv @ 12.0.7  # tier 1 game-data name reconciliation, 2026-07-11
   - https://www.method.gg/guides/destruction-warlock  # tier 3, upd. 2026-06-16, 2026-07-11
   - https://www.method.gg/guides/destruction-warlock/playstyle-and-rotation  # tier 3, 2026-07-11
+  - raw/wago/SpellEffect.csv @ 12.0.7  # tier 1, energize effects -> the fragment yields, 2026-08-01
+  - raw/addon-research/simc @ ab7b0b8  # tier 1, local simc checkout (branch midnight, DBC 12.0.7.68887), 2026-08-01
 confidence: high
 ---
 
@@ -15,11 +17,28 @@ confidence: high
 
 ## Overview
 
-- **Resource:** **Soul Shards** (0–5, tracked internally in tenths / "fragments").
-  Builders — Incinerate, Conflagrate, Soul Fire, Immolate ticks — generate
-  fragments; spenders — **Chaos Bolt** (2 shards), **Rain of Fire** (3),
-  **Shadowburn** (1) — consume whole shards. The whole spec is a shard economy:
-  never overcap, always be casting.
+- **Resource:** **Soul Shards** — displayed 0–5, stored internally as **0–50
+  fragments** (10 per shard; confirmed in-client 2026-08-01 via
+  `UnitPowerMax("player", SoulShards, true)` = 50 against a displayed 5).
+  Builders generate fragments; spenders — **Chaos Bolt** (2 shards / 20 frags),
+  **Rain of Fire** (3 / 30), **Shadowburn** (1 / 10) — consume whole shards. The
+  whole spec is a shard economy: never overcap, always be casting.
+
+  **Yields, in fragments** (DB2 energize effects + 12.0.7 tooltips):
+
+  | Ability | Base | On crit | Modifiers |
+  |---|---|---|---|
+  | Incinerate | 2 | +1 | **Diabolic Embers ×2 → 4** |
+  | Conflagrate | 5 | — | MID1 4-set **+2** |
+  | Immolate / Wither tick | 1 | +1 at 50 % | haste-scaled 3 s period |
+  | Soul Fire | **10** (a full shard) | — | Havoc copy doubles |
+  | Infernal Bolt | **20** (Destro) / 30 (Demo) | — | see below |
+  | Shadowburn kill refund | 10 | — | — |
+  | Infernal pet / Overfiend | 1 / sec | — | — |
+
+  ⚠ **Infernal Bolt is 20 or 30 on Destruction and the sources disagree** — one
+  reading has the spec aura `137046` (effect #13) applying −10 to Demonology's 30.
+  @verify-ingame — cast one as Diabolist and watch the bar move 2 shards or 3.
 - **Hero trees (Midnight):** **Diabolist** (default — best single target,
   competitive in stacked cleave; builds shards into Chaos Bolt and cycles
   **Diabolic Ritual → Demonic Art → free Ruination**) and **Hellcaller**
@@ -34,14 +53,14 @@ confidence: high
 
 | Ability | Function | Resource | Cast / CD | Description |
 |---|---|---|---|---|
-| Incinerate | Rotational-builder | — | 2s cast | Core filler; generates a Soul Shard fragment (more with Diabolic Embers / Fire and Brimstone in AoE). |
-| Conflagrate | Rotational-builder | — | Instant · 2 charges, ~13s recharge | Instant fire nuke, generates a fragment, grants **Backdraft** (faster Incinerate/Chaos Bolt casts). Mobile filler. |
-| Immolate | Rotational-builder (DoT) | — | 1.5s cast · DoT | Fire DoT you keep up; its ticks generate shard fragments and can proc Conflagrate resets. Diabolist maintenance DoT. |
+| Incinerate | Rotational-builder | — | 2s cast | Core filler; generates **2** fragments (+1 on crit), **doubled to 4 by Diabolic Embers**. ⚠ **Fire and Brimstone does NOT grant fragments** — its 12.0.7 tooltip is damage-only (cleave); an earlier revision of this line said otherwise. |
+| Conflagrate | Rotational-builder | — | Instant · 2 charges, ~13s recharge | Instant fire nuke, generates **5** fragments (**7** with the MID1 4-set), grants **Backdraft** (faster Incinerate/Chaos Bolt casts). Mobile filler. |
+| Immolate | Rotational-builder (DoT) | — | 1.5s cast · DoT | Fire DoT you keep up; each tick generates **1** fragment (+1 at 50 % on a crit tick) and can proc Conflagrate resets. Diabolist maintenance DoT. |
 | Wither | Rotational-builder (DoT) | — | 1.5s cast · DoT | **Hellcaller** replacement for Immolate — stacking fire/shadow DoT that Malevolence detonates/empowers. Midnight-new hero DoT. @verify-ingame |
 | Chaos Bolt | Rotational-spender | 2 Soul Shards | ~2.5s cast | Primary spender and the bulk of single-target damage; benefits from crit scaling (Chaos Incarnate / Ruin). |
 | Rain of Fire | Rotational-spender (AoE) | 3 Soul Shards | Channeled AoE | Ground-target AoE spender; the shard dump at high target counts (Hellcaller sooner, Diabolist only at ~8+). |
-| Shadowburn | Rotational-spender / Execute | 1 Soul Shard | Instant · 2 charges, ~12s recharge | Instant spender, extra value sub-20% (execute) and with Fiendish Cruelty; refunds resources / shard on a kill. |
-| Soul Fire | Rotational-builder | — | ~4s cast · ~45s CD (charge-like) | Hard-cast that applies/refreshes Immolate and generates multiple shard fragments; best consumed with Backdraft. |
+| Shadowburn | Rotational-spender / Execute | 1 Soul Shard | Instant · ⚠ **charges disputed — see below** | Instant spender, extra value sub-20% (execute) and with Fiendish Cruelty; refunds resources / shard on a kill. |
+| Soul Fire | Rotational-builder | — | ~4s cast · ~45s CD (charge-like) | Hard-cast that applies/refreshes Immolate and generates **10 fragments — a full Soul Shard**; best consumed with Backdraft. |
 | Cataclysm | Rotational-builder (AoE) | — | Instant · ~30s CD | Ground AoE that applies Immolate to all targets hit and deals burst damage; strong opener + AoE setup. |
 | Channel Demonfire | Rotational-spender | — | Channeled · ~25s CD | Launches bolts at all targets with Immolate/Wither; choice-node vs Demonfire Infusion. Talent. |
 | Infernal Bolt | Rotational-builder | — | ~2s cast | **Diabolist** Incinerate replacement that generates **more** shards; appears in the APL as a shard-refill button when low. Midnight-new. @verify-ingame |
@@ -77,6 +96,19 @@ confidence: high
 | Demonic Gateway | Movement (utility) | — | Cast · ~10s | Places a linked portal pair; players click to travel between them. Talent. |
 | Grimoire of Sacrifice | Utility (passive buff) | — | Instant (talent) | Sacrifices your pet for a personal damage buff + a proc (choice with Summoner's Embrace). |
 | Command Demon / pet-specific | Utility | — | Instant | Contextual pet command (Spell Lock, Seduction, Shadow Bulwark, etc. depending on active pet). |
+
+> ⚠ **Shadowburn's "2 charges, ~12s recharge" is contradicted by Tier-1 data (2026-07-30).**
+> The old row asserted 2 charges. Two independent Tier-1 sources disagree: wago DB2 has
+> Shadowburn `17877` with `SpellCategories.ChargeCategory = 0` and
+> `SpellCooldowns.RecoveryTime = 0` (against Conflagrate `17962`, which carries
+> `ChargeCategory = 672`), and a live in-client capture found Shadowburn raising **no**
+> `Available`/`OnCooldown`/`ChargeGained` Cooldown-Manager alerts, i.e. it has no recovery
+> event at all — while Conflagrate raised all three. The likely origin of the old claim is
+> a pre-Midnight tooltip. **Not yet corrected outright**, because a talent could add charges
+> via an aura effect that base DB2 rows would not show. `@verify-ingame` — check
+> Shadowburn's tooltip on a live Destruction character and, if it shows 1 charge and no
+> recharge, delete this note and fix the row.
+
 
 > **Interrupt note:** Destruction has **no baseline personal interrupt**. Kicks
 > come from the **Felhunter's Spell Lock** (or CC via Sayaad's Seduction /

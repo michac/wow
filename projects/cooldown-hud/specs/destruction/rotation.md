@@ -5,12 +5,20 @@ This is the **spec of record** for the Destruction rotation as a flat, ordered
 action is castable is the press**. Every line carries an implicit gate: *"the
 ability is usable"* — off cooldown, procced, charged, and affordable.
 
-> **⚠ STATUS: DRAFT — derived, not play-settled.** Unlike
+> **⚠ STATUS: IMPLEMENTED, but derived and not play-settled.** Unlike
 > `specs/demonology/rotation.md` (authored by the player, then annotated with
 > settled clarifications), this list is **distilled from the Tier-1 simc midnight
 > APL** via `knowledge/classes/warlock/destruction/rotation.md`. Every place I
 > departed from the simc order is called out under **Deviations** — those are the
-> lines to adjudicate before this becomes settled. Nothing here has been flown.
+> lines to adjudicate before this becomes settled. **Nothing here has been flown.**
+>
+> **This list SHIPS** as of 2026-07-29: `CoachDestruction.lua` implements L1–L13
+> line-for-line (the line numbers below are its comment labels, so the two diff by
+> eye), and `tests/spec/coach_destruction_apl_spec.lua` is the independent oracle
+> that pins the code to *this document*. So a change here is a change to the addon
+> — edit the list, then the brain, then the oracle. What the implementation had to
+> decide that this document left open is recorded in **Implementation notes** at the
+> bottom.
 
 > **v1 profile: Diabolist.** Both hero trees are live-viable (the KB calls
 > Diabolist the default / best single target). Diabolist is taken as the profile
@@ -36,13 +44,37 @@ ability is usable"* — off cooldown, procced, charged, and affordable.
 Demonology's rail is **5 discrete shards**. Destruction spends in whole shards but
 **the bar reads in tenths** ("Soul Shard Fragments"): Incinerate, Conflagrate,
 Soul Fire and Immolate ticks each pay out a *fraction* of a shard. That is why the
-simc gates read `soul_shard<=4.2` and `>=3.5` rather than integers.
+simc gates read `soul_shard<=4.2` and `<=4.6` rather than integers.
 
-**This list rounds those to whole shards on purpose** (`shards <= 4`, `shards >= 4`),
-because the fractional read is not currently available to the HUD — see
-`observability-map.md` → *the fragment read*. If the fragment read is wired up, the
-fractional thresholds from the KB APL are the values to restore, and they are noted
-per line below.
+**✅ THE FRAGMENT READ IS WIRED (Phase 6.2, 2026-08-01), and the rounding is gone.**
+This list used to round the fractional gates to whole shards on purpose, because
+`State.lua` read `UnitPower` without the `unmodified` flag and the pipeline could not
+see a fraction at all. It can now: the game stores **0–50 fragments** and displays
+0–5 shards (measured: max 50 vs 5, **modifier 10**, and the flagged read works in
+combat), so the brain decides in **integer fragments** and simc's own numbers are
+expressible verbatim. `<= 4.2` is `<= 42`; `<= 4.6` is `<= 46`.
+
+⚠ **`>= 3.5` FOR RAIN OF FIRE IS NOT A DESTRUCTION RULE, and this document used to
+imply it was.** Rain of Fire costs **3 whole shards** (30 fragments) on both spell IDs
+— the in-game tooltip is right. The `3.5` is a hand-tuned APL constant that appears on
+**one Diabolist AoE line only**, gated `active_enemies>=4`:
+
+```
+:48  rain_of_fire,if=((soul_shard>=(3.5-0.1*(active_dot.immolate)))|buff.alythesss_ire.up)&active_enemies>=4
+:63  rain_of_fire,if=(soul_shard>=(4.0-0.1*(active_dot.wither)))&active_enemies>=(5-talent.destructive_rapidity)
+:68  rain_of_fire,if=active_enemies>=(5-talent.destructive_rapidity)          ← no shard condition at all
+```
+
+There is a **Hellcaller sibling at 4.0** and an **unconditional fallback with no shard
+condition**, neither of which was ever mentioned here. The `-0.1 × active_dot` term is
+exactly one Immolate tick's yield per active DoT, so it reads as income anticipation —
+but the buffer **shrinks as income rises**, which is backwards for a pooling reserve,
+and at 8 Immolates it falls *below* the real 3-shard cost. Nothing in the APL, the
+generator or simc's C++ explains it, so no rationale is invented here.
+
+**So L10 keeps a plain integer floor** (`>= 40` fragments): the real gate is
+hero-tree- and AoE-specific, and the brain has no `active_dot` count to feed it anyway.
+Half-implementing it would be worse than not implementing it.
 
 ## The priority list (as derived)
 
@@ -50,15 +82,15 @@ per line below.
 L1   if Ruination:                                   cast Ruination
 L2   if Soul Fire and shards <= 4:                   cast Soul Fire
 L3   if Art is armed:                                cast CB
-L4   if Conflagrate and shards <= 4                  (simc: <= 4.2)
+L4   if Conflagrate and shards <= 4.2               (42 fragments, simc:33)
         and Backdraft is not stacked:                cast Conf
 L5   if Summon Infernal:                             cast Summon Infernal
-L6   if Chaotic Inferno and shards <= 4:             cast Inc     (simc: <= 4.6)
+L6   if Chaotic Inferno and shards <= 4.6:           cast Inc     (46 fragments, simc:36)
 L7   if Shadowburn and (Fiendish Cruelty
         or target <= 20% HP):                        cast SB*
 L8   if Immolate is missing or refreshable:          cast Immolate
 L9   if Cataclysm:                                   cast Cataclysm
-L10  if AoE and shards >= 4:                         cast RoF
+L10  if AoE and shards >= 4:                         cast RoF   (see the >= 3.5 note)
 L11  cast CB
 L12  if shards <= 3:                                 cast IB
 L13  cast Inc
@@ -85,11 +117,15 @@ L13  cast Inc
    alone and is deliberately *below* the Art/anti-cap Chaos Bolts. On Hellcaller
    this line moves up — see the delta.
 
-4. **The fractional shard gates were rounded** (see *Fragments*). L4's `<= 4.2` and
-   L6's `<= 4.6` both become `<= 4`, which is **more conservative** — it builds one
-   press later than simc would. That is the safe direction (never overcap-by-guess)
-   but it is a real fidelity loss, and it is the single best argument for wiring the
-   fragment read.
+4. ~~**The fractional shard gates were rounded.**~~ ✅ **RESOLVED 2026-08-01 (Phase
+   6.2)** — the deviation is retired, not merely reduced. L4's `<= 4.2` and L6's
+   `<= 4.6` are simc's own numbers again (42 and 46 fragments), hardcoded **with a
+   citation** rather than derived: `4.6 + 0.4` (Incinerate with Diabolic Embers) is
+   exactly 5.0, which makes them *look* like overcap guards computed off the yields,
+   but `4.2 + 0.5` (Conflagrate) is 4.7, not 5.0 — the relationship is suggestive and
+   **not exact**, so deriving them would be inventing a rule simc does not state.
+   ⚠ The one gate still deliberately un-restored is **Rain of Fire's** — see the
+   `>= 3.5` note under *Fragments* for why that one is not a Destruction rule at all.
 
 5. **Havoc is not in the list.** simc's Havoc logic is `target_if` — "the add with
    the most time-to-die that isn't your current target, and not right before
@@ -116,11 +152,25 @@ L13  cast Inc
    currently in the State pulse. See the observability map; this is a *missing
    input*, not a blind spot.
 
-3. **Immolate maintenance is the spec's spine and the spec's biggest open question.**
-   Destruction lives or dies on a fire DoT being up (it also *pays* shard fragments
-   on tick). L8 needs a "is it up / is it in the pandemic window" read, which the
-   pipeline does not have today — `abilities[base].uptime` is an open backlog item
-   in `docs/status.md`. Until it exists, L8 cannot fire honestly.
+3. **Immolate maintenance is the spec's spine — ✅ SOLVED 2026-07-30 (field-fix C), and
+   not the way this note expected.** Destruction lives or dies on a fire DoT being up (it
+   also *pays* shard fragments on tick). The plan was an `abilities[base].uptime` read off
+   the tracked bar's duration; that number **cannot exist** — `pandemicStartTime`/`EndTime`
+   read `SECRET` in combat and `IsInPandemicTime` *throws*. What works is the **edge**:
+   `TriggerAlertEvent(PandemicTime)` fires normally, so State latches it and L8 reads
+   `ctx.dotRefreshable`. Blizzard derives that window from the duration a recast would really
+   carry over, per spell — not a tuned lead.
+   > ⚠ **AMENDED 2026-07-31 (roster-state-plan §3.10, v0.32.46).** This note called the edge
+   > "better than the plan". It is better in *derivation* and worse in *kind*: a one-shot
+   > notification cannot report a state, so it goes silent for as long as the DoT is
+   > maintained and **L8 had no working channel at all** after the first pandemic entry — one
+   > 5.8 s window in a whole pull. The real fix is `item.auraDataUnit` + `item.PandemicIcon`,
+   > recomputed every frame and therefore **self-clearing**; the edge is now channel 2 of
+   > three. See implementation note 3 below for the full trust order.
+
+   ⚠ And L8 was keyed on the **wrong id**: `157736` is the DoT *aura* (Buff-bar viewer,
+   never pressable, never in `abilities`), while the pressable row is the *cast* id `348`.
+   `ctx.dotID` now resolves through Wither → `157736` → `348`, whichever the pulse carries.
 
 4. **Charges are new here.** Conflagrate and Shadowburn are both 2-charge abilities.
    Demonology has **no charged tracked ability**, which is why the `charge` half of
@@ -153,6 +203,66 @@ rest of the list stands:
 
 Ruination / Infernal Bolt / Demonic Art (L1, L3, L12) **do not exist on Hellcaller**;
 those lines simply never fire.
+
+## Implementation notes (what `CoachDestruction.lua` had to decide)
+
+These are the places the list above was under-specified for code, and the call that
+was made. They are the first things to revisit after a live pass.
+
+1. **L1 vs L3 — what does "Art is armed" actually read off?** The two lines look
+   distinct but collapse under observation: the only unambiguous "the Art is armed"
+   signal is the **transform** (a Chaos Bolt frame overridden to Ruination), and that
+   is already L1's read. `observability-map.md` #4 suggests the Diabolic Ritual aura
+   `428514` as a second source — but that is the ritual **container**, and the KB's
+   simc line gates on a separate `demonic_art` buff. If the container is up for most
+   of the cycle, using it would pin Chaos Bolt above Conflagrate and Summon Infernal
+   permanently. **Decision:** L3 is transform-only by default
+   (`spec.ART_FROM_RITUAL = false`); flip that one boolean if the live pass shows the
+   container is honest. So today L3 is reached only in the second-place recompute.
+
+2. **L5b — Malevolence needed a line of its own.** The Hellcaller delta says
+   "Malevolence slots beside L5", which is now an explicit line **below** Summon
+   Infernal. Both are plain on-cooldown presses and neither waits for the other, per
+   `notes.md`. ⚠ **The "hero tree is detected structurally" claim in this note was WRONG
+   and is retracted** (field-fix B, 2026-07-30): a live Hellcaller build tracked Malevolence
+   but **Immolate**, so "a tracked Wither means Hellcaller" answered Diabolist. Hero tree is
+   now read from `C_ClassTalents.GetActiveHeroTalentSpec()` → SubTreeID (TraitSubTree @
+   12.0.7: Hellcaller 58, Diabolist 59), with a multi-signal inference behind it. L5b itself
+   is unchanged — Malevolence is gated on being tracked and usable, not on the tree.
+
+3. **L8 runs on THREE channels, in trust order** (roster-state-plan §3.10, v0.32.46 — this
+   note previously claimed L8 was "fully live" on the alert latch alone, which the 2026-07-31
+   capture refuted):
+   1. **The per-frame aura verdict** — `item.auraDataUnit` (is the aura up, and on which
+      side) and `item.PandemicIcon` (is it in the refresh window). Blizzard recomputes both
+      **every frame** off secrets we cannot read, so unlike an edge they **self-clear**, and
+      `unit == nil` on a capable, readable row is positive evidence the DoT is **down** — the
+      "apply it" answer nothing else can reach. Consulted only when the row is `capable`:
+      these are widget internals with no deprecation path, so a silently-absent field must
+      not read as "no DoT" (`security-taint-and-restricted-data.md` §4.11 rule 17b).
+   2. **The alert latch** (`pandemic` / `fresh` / `absent`) — **demoted to a fast path.** It
+      is a one-shot *notification*, not a state: `PandemicTime` cannot fire twice for one
+      aura instance, and re-applying a live aura raises nothing at all (measured: 41 Immolate
+      casts → 1 `OnAuraApplied`, 1 `PandemicTime`, 0 `OnAuraRemoved`). Still the quickest
+      signal when it does fire, and still the **whole** answer on an incapable row.
+   3. **The aura/buff-item presence read** — OOC fallback only. ⚠ For a DoT on a **tab-1**
+      row this no longer exists: `IsActive()` there is `self.cooldownID ~= nil`, a constant
+      `true`, which is what jammed the read to "up" on both hero trees (§3.1).
+
+   The three-way `up` / `missing` / `unknown` distinction remains load-bearing — an
+   *unreadable* DoT must stay silent, because treating "no read" as "not up" would spam the
+   refresh press every GCD. What changed is that `missing` is now **reachable**: before this,
+   a whole pull produced 169 `pandemic_refresh` cues and **zero** `not_up`.
+
+4. **L10's Hellcaller delta needed no branch.** "Rain of Fire moves above the anti-cap
+   Chaos Bolt" is already true of the base list (L10 sits above L11), and the part that
+   differs between trees is a *target count* we cannot read either way. The mode toggle
+   covers both trees; only the shard floor is expressed.
+
+5. **Charges are now read, out of combat only.** L4/L7 treat "a charge is banked" as
+   usable even while the recharge timer runs — but `C_Spell.GetSpellCharges` is secret
+   in combat, so in a pull they fall back to binary off-cooldown and the list
+   under-presses, exactly as clarification 4 predicted.
 
 ## Winner and second place (for the module)
 

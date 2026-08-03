@@ -8,9 +8,10 @@
 
 ## Elevator pitch
 
-A spec-specific **overlay that enhances Blizzard's built-in Cooldown Manager**
-(Midnight 12.0) — more precisely, a **rotation helper wearing a skin**: its job is
-to make the *next decision* pop, not to make the CDM prettier. The idea:
+A spec-specific **rotation helper that displays on Blizzard's built-in Cooldown
+Manager when it can, and on its own icons when it cannot** (Midnight 12.0) — a
+**rotation helper wearing a skin**: its job is to make the *next decision* pop, not
+to make the CDM prettier. The idea:
 **vertical space encodes priority, horizontal space encodes grouping** (line a
 burst cooldown up with what it buffs) — realized as a **vertical CDM column with
 our overlay frames beside it**. We **leave Blizzard's icons native and untouched**
@@ -21,6 +22,16 @@ the game: an **empty board = nothing to do**.
 **v1 target spec: Demonology Warlock.** These docs are the source of truth for the
 design; the addon (`michac/CDMProbe`, checked out at `addon/`) is the source of
 truth for the code.
+
+> **Amended 2026-07-30 (the virtual CDM panel).** This doc used to describe the product
+> as strictly *an overlay on the CDM*. That framing died on contact with Destruction:
+> Blizzard's Cooldown Manager does not track Incinerate **at all**, so the spec's most-
+> pressed button was invisible and the HUD was blank for **31 %** of a pull. The HUD now
+> draws **its own icons** for such abilities on a small panel it owns (`/cdmp panel`).
+> Pillar 3 below still holds — and is what keeps this honest: the panel is **additive
+> only**. It exists solely for abilities Blizzard displays *nowhere*, so nothing native is
+> replaced, re-skinned or moved. "Enhance, don't replace" was never a promise to stay
+> silent where Blizzard says nothing.
 
 ## Direction — three pillars
 

@@ -148,7 +148,7 @@ e.g. imp count). Buff-bar = `Bar` (StatusBar) + `.BarBG` + `.Pip` (spark) +
 | **Cooldown countdown text** | ✅ displayed, ❌ read | Blizzard draws the number; unreadable in Lua (like `Applications` count) |
 | Stack count (`Applications`) | ✅ displayed, ❌ read | restyle/enlarge/reposition the FontString; can't read the number. **Wild Imps → enlarge Blizzard's X and append a static "/6"** (the ≥6 Implosion gate); Demonic Core's cap is **4** — different constant, don't cross them |
 | Pandemic indicator | ✅ restyle/replace | it's a `PandemicIcon` **state frame** — restyle it, or observe its shown-state and draw our own (e.g. an offset arrow). "In pandemic?" is secret. **Not** available for cooldowns (auras only). |
-| Free/proc glow | ✅ art | spell-activation-overlay (`SPELL_ACTIVATION_OVERLAY_GLOW_SHOW/HIDE`, `RefreshOverlayGlow`); restyle via LibCustomGlow; trigger secure. Distinct from **Assisted Highlight** (`C_AssistedCombat`, Blizzard-only). |
+| Free/proc glow | ✅ art | spell-activation-overlay (`SPELL_ACTIVATION_OVERLAY_GLOW_SHOW/HIDE`, `RefreshOverlayGlow`); restyle via LibCustomGlow; trigger secure. Distinct from **Assisted Highlight** (`C_AssistedCombat`) — ⚠ **not Blizzard-only**: `GetNextCastSpell()` was measured returning a **plain, readable number in combat** (2026-08-01, v0.32.53 flight; `api-events-and-discovery.md` §2.9). Readability is proven, usefulness is not — the sampled value never varied. |
 | Native sound alerts | ✅ Blizzard-secure | **six** `Enum.CooldownViewerAlertEventType`: `Available` (off-cd), `OnCooldown`, `ChargeGained`, `PandemicTime`, **`OnAuraApplied`**, **`OnAuraRemoved`** → a native sound on *proc-applied* (Demonic Core gained) is possible, not just off-cd/pandemic. User-configured (right-click); programmatic injection = experiment. |
 | Layout: orient/rows/direction/spacing | ✅ | `RefreshLayout`: orientation, iconLimit (stride/rows), direction, padding, scale; EditMode / LibEditModeOverride out of combat |
 | Draw our own regions past the icon bounds | ✅ unconstrained | no `clipsChildren` in the CDM templates; `MaskTexture` masks only the `Icon`. Anchor per-icon readouts freely (§9) |
@@ -311,20 +311,44 @@ not a looser one. From `Blizzard_APIDocumentationGenerated/UnitAuraDocumentation
 
 ### Aura-backed cooldown items — how the CDM tracks a DoT like Agony (2026-07-22, source @ 68453)
 
-A CDM item is **one abstraction over three backing sources**: a spell cooldown, a
-self-aura, or a **target aura** (an offensive DoT). Agony is the third case — the
-"cooldown" swipe on its icon is actually the **remaining duration of your Agony
-debuff on your target**, not a cooldown.
+A CDM item is **one abstraction over four backing sources**: a totem, a spell
+cooldown, a self-aura, or a **target aura** (an offensive DoT). Agony is the last
+case — the "cooldown" swipe on its icon is actually the **remaining duration of your
+Agony debuff on your target**, not a cooldown.
 
-- **Readable static classifier.** `C_CooldownViewer.GetCooldownViewerCooldownInfo(cooldownID)`
-  returns `{spellID, overrideSpellID, overrideTooltipSpellID, linkedSpellIDs[],
-  selfAura, hasAura, charges, isKnown, flags, category}`
-  (`CooldownViewerDocumentation.lua:118`). **`hasAura && not selfAura` =
-  target-DoT**; `hasAura && selfAura` = self-buff-with-duration; `hasAura=false` =
-  a real cooldown. This classification is **readable config** even though the live
-  aura state is secret — the single richest readable source for auto-classifying
-  any spec's items (finer than `SpecDemonology.lua`'s hand-authored
-  `kind = "button"|"aura"`).
+> ⚠ **Corrected 2026-07-31 (twice).** This section originally said *three* sources and
+> offered a `hasAura`/`selfAura` classifier. Both were wrong; see the two amendments
+> below. The full resolution model now lives in
+> **`knowledge/addon-dev/cooldown-manager.md`** (identity ladder, the per-family value
+> cascade, refresh cadence, the readable surface) — read that first; this section keeps
+> only the DoT-specific taint ledger.
+
+- ⚠ **The `hasAura`/`selfAura` classifier was WRONG — do not use it.** This bullet used
+  to read: *"`hasAura && not selfAura` = target-DoT; `hasAura && selfAura` =
+  self-buff-with-duration; `hasAura=false` = a real cooldown."* It is refuted by our own
+  measurement: **Demonic Core is `selfAura=true, hasAura=FALSE`** (cooldownID 777) and
+  is emphatically not "a real cooldown" — the v0.30.0 fix in `State.lua` exists
+  precisely because gating on `hasAura` alone hard-coded every proc aura inactive.
+  Two reasons it was never sound:
+  1. **Nothing in Blizzard's Lua reads those fields.** A grep across all of
+     `Interface/` finds `hasAura`/`selfAura`/`charges` only in the generated
+     documentation table — they are DB2 hints the C side consumes. The classifier was
+     ours, presented as Blizzard's.
+  2. **The real split is the item's mixin family**, which *is* structural: Essential +
+     Utility are `CooldownViewerCooldownItemMixin` (four value sources, incl. a real
+     spell cooldown); TrackedBuff + TrackedBar are `CooldownViewerBuffItemMixin`
+     (three sources, **no cooldown rung at all**). The settings UI enforces the line —
+     a row cannot be dragged across it. Classify on **family**; within a family the
+     category is user-editable placement and tells you nothing.
+- **The struct is still the richest readable config** —
+  `C_CooldownViewer.GetCooldownViewerCooldownInfo(cooldownID)` returns
+  `{spellID, overrideSpellID, overrideTooltipSpellID, linkedSpellIDs[], selfAura,
+  hasAura, charges, isKnown, flags, category}`
+  (`CooldownViewerDocumentation.lua:118`), readable even when live aura state is
+  secret. The salvageable parts are `linkedSpellIDs` (the static aura-candidate pool —
+  this is where the Immolate/Wither pairing already lives, as game data rather than a
+  hand-authored spec fact), `isKnown`, `flags` and `category`. Just not
+  `hasAura`/`selfAura` as a type oracle.
 - **Runtime linkage** (`CooldownViewerItemData.lua`): `scanUnits = {player,
   target}` in order; `FindLinkedSpellForCurrentAuras` matches a `linkedSpellIDs`
   entry and **requires `auraData.sourceUnit == "player"`** (your DoT, not another
@@ -332,6 +356,12 @@ debuff on your target**, not a cooldown.
   the item's identity — `GetSpellID` precedence is *active aura → linked →
   overrideTooltip → override → base* (`:174`) — and its expiration/duration drive
   the swipe.
+  ⚠ **This is only ONE of the two ways the `linked` rung gets set.** The other,
+  `UpdateLinkedSpell` on `SPELL_UPDATE_COOLDOWN`, needs **no aura and performs no
+  sourceUnit check** — it just tests whether the spellID the event happened to carry is
+  in `linkedSpellIDs`. It is also *sticky*: an aura removal clears the link only when it
+  matches the bound aura. So a row can report a linked identity with nothing live
+  anywhere. Full mechanism in `knowledge/addon-dev/cooldown-manager.md` §2.2–2.3.
 - **Current target only**, re-homed on target switch (`OnNewTarget`,
   `CooldownViewer.lua:631`). Single-target; a multi-DoT spread across a pack is
   invisible to it.

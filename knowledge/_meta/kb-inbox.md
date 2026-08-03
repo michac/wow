@@ -107,6 +107,26 @@ _(design context: `projects/cooldown-hud/docs/`; source-read findings folded int
      resource/mode model into declared fields. Do that before any DoT spec.
   See `milestones.md` §6 M7 second-spec bullet for the full framing. *(2026-07-22)*
 
+- **Reading the player's BUILD (spec + hero tree) has no home in `knowledge/addon-dev/`.**
+  The seven topic files partition the *programming model*; "which API tells me the player's
+  current spec / hero talent tree / loadout" fits none of them cleanly, and the only mention
+  anywhere is an incidental `GetSpecializationInfo` note in
+  `state-persistence-and-communication.md` §2.3 (about logout, not about spec reads).
+  Two Tier-1 facts established 2026-07-30 while fixing CDMProbe's hero detection, worth
+  keeping wherever this eventually lands:
+  - `C_ClassTalents.GetActiveHeroTalentSpec()` → the active **SubTreeID**, nilable
+    *[T1 docs: `Blizzard_APIDocumentationGenerated/ClassTalentsDocumentation.lua:82`;
+    used by Blizzard itself at `Blizzard_MicroMenu/Mainline/MainMenuBarMicroButtons.lua:723`]*.
+    Warlock SubTreeIDs @ 12.0.7: Soul Harvester 57, **Hellcaller 58, Diabolist 59**
+    *[T1 DB2: `TraitSubTree` @ 12.0.7, TraitTreeID 720]*.
+  - **`PLAYER_SPECIALIZATION_CHANGED` is not enough to invalidate a hero-tree cache** — a
+    hero swap changes the build without changing the spec, so `TRAIT_CONFIG_UPDATED` is the
+    event that actually fires. (It fires several times per loadout swap, so anything it
+    triggers must be idempotent and must not re-announce an unchanged answer.)
+    [Reasoned from the event's purpose, not yet observed in-client. @verify-ingame]
+  Deciding whether this becomes an eighth topic, a section of `api-events-and-discovery`, or
+  stays parked is a KB-structure call, not a drive-by edit. *(2026-07-30)*
+
 ## Research to-do
 
 _(empty — drop "look into X" research threads here that aren't claim-verifications)_

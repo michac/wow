@@ -1,8 +1,8 @@
 ---
 title: Addon-dev KB — entry point
 patch: 12.0.7
-fetched: 2026-07-23
-reviewed: 2026-07-23
+fetched: 2026-07-31
+reviewed: 2026-07-31
 sources:
   - ./sources.md
   - https://github.com/Gethe/wow-ui-source (live, version.txt 12.0.7.68887, commit 4383ced30106d51b27e3e86d1987f1552f0d259d)
@@ -37,10 +37,13 @@ The two must not be blended:
 
 What the two subtrees *do* share is the front-matter convention (`patch`,
 `fetched`, `reviewed`, `sources`, `confidence`) and the `@verify-ingame` marker.
-**Nothing in this subtree has been executed in the client** — every claim is a
-read of source, generated documentation, shipped artefacts on disk, or a dated
-community page. Items where running the code would change the answer are marked
-`@verify-ingame` throughout.
+**Nothing in the seven topic files has been executed in the client** — every claim
+there is a read of source, generated documentation, shipped artefacts on disk, or a
+dated community page. Items where running the code would change the answer are
+marked `@verify-ingame` throughout. **The one exception is the system study
+[`cooldown-manager.md`](./cooldown-manager.md)** (§1.1), which carries a subset of
+claims confirmed from CDMProbe in-client captures, individually marked `[client]`
+with their capture date.
 
 **Scope**: Retail, patch **12.0.7** (Midnight), build **12.0.7.68887**. Classic
 flavours appear only where a `.toc` mechanism forces them into view. Anything
@@ -86,6 +89,22 @@ Each ends with a **"Rules we could audit against"** section (see §4).
 source registry — what is on disk, at which commit, what each source is good and
 bad for, and where the holes are. **Read its §0 (tiers) and §7 (per-topic
 routing) before adding to any topic file.**
+
+### 1.1 System studies
+
+A **system study** is organised around one Blizzard system rather than one
+mechanism, for cases where this workspace has an addon built on top of it and the
+model does not survive being cut across the seven-way partition. A system study
+**defers to the topic files for general mechanism** and claims only what is
+specific to its subject.
+
+| File | Subject | Ask it when |
+|---|---|---|
+| [**cooldown-manager**](./cooldown-manager.md) | `Blizzard_CooldownViewer` — the two row families, the five-rung identity ladder, the value cascade, refresh cadence, per-family event sets, and the readable surface under secret values. Backs `CDMProbe`. | "What spellID is this CDM row *actually*?" · "Why did my cooldown read come back ready?" · "Which events does a TrackedBuff row get?" · "Why does that icon glow?" |
+
+⚠ **`cooldown-manager.md` is the one file here carrying client-confirmed claims**
+(marked `[client]`), which is an exception to the rule in §0 below. The seven
+topic files remain source-reads only.
 
 ---
 

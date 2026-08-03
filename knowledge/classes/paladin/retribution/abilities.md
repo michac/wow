@@ -2,7 +2,7 @@
 title: Retribution Paladin — Ability Inventory (Midnight S1)
 patch: 12.0.7
 fetched: 2026-07-11
-reviewed: 2026-07-11
+reviewed: 2026-08-03
 sources:
   - https://raw.githubusercontent.com/simulationcraft/simc/midnight/profiles/MID1/MID1_Paladin_Retribution.simc  # tier 1 APL + talent string, 2026-07-11
   - https://www.method.gg/guides/retribution-paladin/playstyle-and-rotation  # tier 3, Midnight 12.0.7, 2026-07-11
@@ -47,10 +47,10 @@ haste-dependent; low-confidence numbers are marked `@verify-ingame`.
 | **Crusading Strikes** (passive) | Rotational-builder | — | passive | Alternative to Templar Strikes: auto-attacks generate Holy Power (1 HP roughly every other swing) and turn autos into a resource stream. Track it so finishers don't overcap. |
 | **Judgment** | Rotational-builder | — | instant / ~6s (haste/talents) | 30yd builder; applies the Judgment debuff (amplifies your next holy damage) and generates Holy Power (with Boundless/Improved Judgment). Becomes empowered by Hammer of Wrath uptime during wings. |
 | **Blade of Justice** | Rotational-builder | — | instant / ~12s (2 charges w/ Improved BoJ) | Strong ranged-ish builder (+2 HP), applies **Expurgation** (fire DoT) with Holy Flames. Resets/procs off **Art of War** and **Righteous Cause** for free instant casts. High priority. |
-| **Final Verdict** | Rotational-spender | 3–5 Holy Power | instant / — | Primary single-target finisher (talent that upgrades Templar's Verdict). Big single-target hit; buffed +20% during Avenging Wrath via the Light Within apex. Spend at 5 HP (or 4 with a pending Crusading Strikes auto). |
+| **Final Verdict** | Rotational-spender | 3 Holy Power | instant / — | Primary single-target finisher (talent that upgrades Templar's Verdict). Big single-target hit; buffed +20% during Avenging Wrath via the Light Within apex. Spend at 5 HP (or 4 with a pending Crusading Strikes auto). |
 | **Templar's Verdict** | Rotational-spender | 3 Holy Power | instant / — | Baseline single-target finisher; upgraded to Final Verdict when talented. The simc APL's `templars_verdict` action is Final Verdict in the recommended build. |
-| **Divine Storm** | Rotational-spender | 3–5 Holy Power | instant / — | AoE finisher; hits all nearby enemies. Free instant cast on an **Empyrean Power** proc. Primary spender at 3+ targets (2+ with Tempest of the Lightbringer, no Jurisdiction). |
-| **Hammer of Light** | Rotational-spender | 5 Holy Power | instant / — | **Templar** signature. Replaces Wake of Ashes for 20s after WoA; a 5-HP nuke that fuels Shake the Heavens / Empyrean Hammer / Light's Deliverance. **Light's Deliverance** later grants *free* Hammer of Light procs. Top spend priority when available. |
+| **Divine Storm** | Rotational-spender | 3 Holy Power | instant / — | AoE finisher; hits all nearby enemies. Free instant cast on an **Empyrean Power** proc. Primary spender at 3+ targets (2+ with Tempest of the Lightbringer, no Jurisdiction). |
+| **Hammer of Light** | Rotational-spender | 3 Holy Power | instant / — | **Templar** signature. Replaces your spender for 20s after Wake of Ashes; a finisher that fuels Shake the Heavens / Empyrean Hammer / Light's Deliverance. **Light's Deliverance** later grants *free* Hammer of Light procs. Top spend priority when available. |
 | **Wake of Ashes** | Major cooldown / builder | — | instant / ~30s (talent) | Cone burst that generates a chunk of Holy Power, applies a truesilver/holy debuff, and (Templar) enables **Hammer of Light** for 20s. With **Sacrosanct Crusade** it also heals/shields — doubles as a defensive. |
 | **Execution Sentence** | Major cooldown | — | instant / ~30s (talent) | Marks the target; after a delay (~8–10s) detonates for accumulated holy damage. Line up with Avenging Wrath. Cast just before wings. @verify-ingame |
 | **Divine Toll** | Major cooldown / builder | — | instant / ~60s (Quickened Invocation reduces) | Fires up to 5 Judgments across nearby enemies, generating a burst of Holy Power. With **Divine Hammer** (Templar) it summons Empyrean Hammers around you afterward. Strong AoE Holy Power injection. |

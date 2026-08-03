@@ -147,19 +147,32 @@ right split.
       "liveSpellID": 105174,            // added W4 P1 — the resolved display identity (B1)
       "linkedSpellIDs": [], "category": "Essential",
       "selfAura": false,                // added W4 P1 — the aura is a self-buff
-      "hasAura": false, "charges": false, "isKnown": true,
+      "hasAura": false, "charges": false,
+      "isKnown": true,                  // THREE-VALUED: true | false | null (unreadable).
+                                        // `false` is a filter signal (see the domain view);
+                                        // null is "we don't know" and never filters.
+      "displayable": true,              // added field-fix A — an item frame exists for this
+                                        // cooldownID, i.e. the Binder could anchor to it
       "flags": 0,                       // added W4 P1 — Enum.CooldownSetSpellFlags bitfield
 
       // live facts — secrecy FIRST-CLASS (value OR null + readable flag):
       "cd":     { "state": "ready|cooling|anticipated|unknown",
                   "remaining": 4.2, "readable": true, "source": "live|napkin|none",
                   "changedAt": 12340.1 },   // when this cd's observed state last flipped
-      "charge": { "cur": null, "max": 0, "readable": true },
+      "charge": { "cur": null, "max": 0, "readable": true, "source": "live|napkin" },
+                                        // `source` added field-fix C2: "live" = the exact
+                                        // OOC read, "napkin" = the edge-latched estimate
+                                        // (seed OOC, −1 on cast, +1 on ChargeGained,
+                                        // clamped, biased to UNDERCOUNT). `readable` still
+                                        // mirrors source == "live".
       "aura":   { "active": false, "readable": true },   // C_UnitAuras — OOC only (see procs)
       "glow":   { "active": false, "readable": true },   // IsSpellOverlayed — readable in combat
       "buff":   { "isActive": false, "shown": false, "hideWhenInactive": true },  // buff-item frame state
 
-      "keybind": "S-3"          // mostly-static, from HudBinds, OOC-resolved off the BASE id
+      "keybind": "S-3"          // mostly-static, from HudBinds, OOC-resolved down the RUNG
+                                // LADDER: overrideTooltipSpellID -> overrideSpellID -> base,
+                                // first id with a real binding wins (Phase 3 §4.1).  Base-only
+                                // left Hellcaller's Immolate/Wither row with no key at all.
     }
   },
 
@@ -168,40 +181,91 @@ right split.
   // the RAW CDM diagnostic view (retained for diagnostics); this is what the Coach
   // decides on. base-spellID -> cooldownID is N:1 (a summon is one Essential row +
   // one TrackedBar/TrackedBuff row); State folds them and picks the PRESSABLE member.
+  //
+  // ⚠ FILTERED (field-fix A). "Pressable" is now enforced, not merely intended: a row that
+  // is UNLEARNED (`isKnown == false`) or UNDRAWABLE (`displayable == false`) never enters
+  // `abilities`, because both read `ready` forever and therefore WIN the priority list.
+  // Raw `cooldowns` keeps everything — it is the diagnostic view.
   "abilities": {
     // keyed by BASE spellID; the folded, pressable-cooldown view
     "105174": {
       "ready": false, "remaining": 4.2, "charges": null, "source": "napkin",
       "glow": { "active": false, "readable": true },
       "aura": { "active": false, "readable": true },
+      "dot": { "state": "pandemic|fresh|absent", "at": 12344.0 },  // field-fix C, if latched
       "keybind": "S-3", "liveSpellID": 105174,
       // the CDM row this ability displays through — the Binder's anchor. The fold picks
       // the Essential (> Utility) member; a summon's TrackedBar row never becomes `display`.
       "display": { "cooldownID": 42, "category": "Essential" }
     }
   },
+  "dropped": { "6353": "unlearned", "29722": "no-icon" },  // added field-fix A — what the
+                                // filter REMOVED and why, keyed by base spellID. Rendered by
+                                // the decision log (`DR:`) so a filter that drops a REAL
+                                // button is visible in the trace instead of silently absent.
+  "dotEdges": {                 // added field-fix C — the CDM aura-lifecycle latch, re-keyed
+    "348": { "state": "pandemic", "at": 12344.0 }   // cooldownID -> BASE spellID. Carried
+  },                            // separately as well as on the row, because an ability's
+                                // latch can live on a row that is NOT pressable (Immolate's
+                                // DoT aura sits on the Buff-bar viewer and never enters
+                                // `abilities`, yet raises PandemicTime like the cast row).
   "buffs": { "265187": true, "264173": true },  // procs/auras PRESENT, keyed by spellID
                                                  // (secrecy-guarded: an unreadable aura is
                                                  // ABSENCE, never a false `true`)
-  "resources": { "shards": { "value": 3, "max": 5, "incoming": 0 } },  // domain-keyed power
+  // (the domain-keyed `resources.shards` ALIAS was retired in multi-spec Phase 3 —
+  //  every consumer reads `power` directly)
 
   "power": {
     // keyed by the REAL power-type (game vocabulary); Coach decides what matters
-    "soulShards": { "value": 3, "max": 5, "incoming": 0, "readable": true }
-    // `incoming` (added W4 P2) = net shard delta of IN-FLIGHT casts — a NAPKIN
-    // projection from history's in-flight `start`: spenders use the readable power
-    // cost, builders an injected mechanical shard-yield table (a game-fact input like
-    // base cooldowns, so State's CODE stays spec-agnostic; the rotational ROLE stays
-    // Coach-only). Clears if the cast is interrupted. The Coach ranks on PROJECTED
-    // shards = value + incoming (the overcap guard + spender anticipation — re-homed
-    // from the old HudScore ghost-fill, not net-new logic).
+    "soulShards": { "value": 3, "max": 5, "readable": true,
+                    // ── THE EXACT RAIL (Phase 6.2), purely additive ──────────────────
+                    // `UnitPower(unit, type, unmodified)` returns the game's INTERNAL
+                    // units rather than the display ones. Soul Shards are stored as 0–50
+                    // FRAGMENTS and displayed as 0–5 whole shards (measured in game
+                    // 2026-08-01: max 50 vs 5, and the flagged read WORKS IN COMBAT —
+                    // `ShouldUnitPowerBeSecret` takes (unit, powerType), so the flag is
+                    // not a parameter of the secrecy verdict). Every other power has a
+                    // modifier of 1, so mana/energy are untouched.
+                    //
+                    // Before this, a true 1.9 shards arrived as `1`, `shards >= 2` was
+                    // false, and the HUD said "build" one Incinerate from a Chaos Bolt —
+                    // a MISSING CAPABILITY, not a rounding preference.
+                    //
+                    // ⚠ ABSENT, NEVER ZERO, when the client refuses: `unmodified` and
+                    // `unmodifiedMax` simply do not appear. Zero would read as "you have
+                    // none", which is a different and actionable sentence. `modifier` is
+                    // DERIVED from the two maxes (unmodifiedMax / max, floored at 1), not
+                    // assumed, so a power that gains or loses a divisor needs no edit.
+                    // State keeps NO opinion about which power matters (invariant #3),
+                    // which is why these carry Blizzard's own vocabulary — `unmodified`,
+                    // not "fragments", a Soul-Shard word.
+                    "unmodified": 30, "unmodifiedMax": 50, "modifier": 10 }
+    // ⚠ Otherwise RAW — value/max/readable and the exact pair. There is NO `incoming` here.
+    // The in-flight projection lived on this bar from W4 P2 until roster-state-plan
+    // PHASE 6, which moved it up to Stage 2: `ns.Coach.InflightPower` derives it as a
+    // PURE FUNCTION of this pulse (history's in-flight `start`s × the spec's signed
+    // `ns.SpecPowerDelta`) and the brains fold it onto `guidance.resourceBars[].incoming`
+    // (see Stage 2 below). That took State's only class-specific literals — both
+    // `Enum.PowerType.SoulShards` hardwires — out of the ingestion layer.
   },
   "activeAuras": [ // added W4 P1 — every readable active player buff (Coach's proc source)
     { "spellID": 296553, "name": "Wild Imp" }
   ],
   "history": [  // added W4 P1 — bounded WINDOW of recent casts (the sequence memory)
     { "phase": "start",     "spellID": 116858, "base": 116858, "at": 12344.0 },
-    { "phase": "succeeded", "spellID": 105174, "base": 105174, "at": 12345.5 }
+    { "phase": "succeeded", "spellID": 105174, "base": 105174, "at": 12345.5 },
+    { "phase": "stopped",   "spellID": 116858, "base": 116858, "at": 12344.8 }
+    // THREE phases, not two:
+    //   "start"     UNIT_SPELLCAST_START     — committed / in flight (cast-time spells
+    //                                          only; instants fire SUCCEEDED alone)
+    //   "succeeded" UNIT_SPELLCAST_SUCCEEDED — it LANDED; advance the sequence
+    //   "stopped"   INTERRUPTED / FAILED / FAILED_QUIET / STOP — it ENDED WITHOUT
+    //               landing (or the STOP that trails a normal cast). Undocumented here
+    //               since W4 P6 Part 2 and LOAD-BEARING since roster-state-plan Phase 6:
+    //               it is what lets a latest-phase-per-base walk supersede a 'start', so a
+    //               CANCELLED spender stops projecting instead of holding its −shards for
+    //               the whole flight window. `ns.Coach.InflightPower` is that walk, and
+    //               State's four terminal cast-event registrations exist only to feed it.
   ],
   "events": [ // DELTA SINCE LAST PULSE — observed only; see "Events" below
     { "kind": "cast_started",   "spellID": 116858, "at": 12344.0 },
@@ -311,8 +375,25 @@ pass-through strings.
   // one-element array (Soul Shards); a dual-resource spec emits N. Renderer stacks them.
   "resourceBars": [
     { "value": 3, "max": 5, "incoming": 1,
+      // `incoming` = net power delta of the casts currently IN FLIGHT, and it is DERIVED
+      // HERE, at Stage 2 — `ns.Coach.InflightPower` walks the pulse's `history` for a
+      // 'start' with no later 'succeeded'/'stopped' on the same base inside a 3 s flight
+      // window, and sums the spec's SIGNED `ns.SpecPowerDelta` per power. Signed is the
+      // point: a builder credits, an in-flight spender subtracts, so the brain ranking on
+      // projected = value + incoming clears the spell it is mid-cast on. It rode the
+      // STAGE-1 pulse from W4 P2 until roster-state-plan Phase 6 moved it up; State's
+      // `power` is raw now. This array is also where DecisionLog's `PW:` field reads it.
       "display": "discrete",          // enum:resourceDisplay ("discrete" | "percentage" | "continuous")
-      "powerType": "SOUL_SHARDS" }    // game Enum.PowerType token → PowerBarColor in Renderer
+      "powerType": "SOUL_SHARDS",     // game Enum.PowerType token → PowerBarColor in Renderer
+      // ── THE EXACT RAIL RIDES ALONGSIDE (Phase 6.2) ───────────────────────────────
+      // `value`/`max`/`incoming` stay in DISPLAY units because the Renderer draws ONE PIP
+      // PER UNIT OF `max` — a max of 50 would try to draw fifty pips. The exact fields are
+      // INTEGERS in the game's internal units; dividing is the consumer's job, at the
+      // edge, so no boundary comparison upstream is ever decided by a float. The brain
+      // itself decides on ctx.frags*, not on this bar.
+      "valueExact": 18, "maxExact": 50, "incomingExact": 2, "modifier": 10 }
+      // ⚠ `valueExact`/`maxExact` are MEASUREMENTS and are ABSENT (never 0) when the
+      // client refused; `incomingExact` is our own arithmetic and is always present.
   ],
 
   "cues": {
@@ -389,9 +470,16 @@ same way), producing the DrawList the Renderer draws verbatim.
 ```jsonc
 // DrawList (Binder output): "anchorTo" is an opaque HANDLE or a root token.
 {
+  // ONE ENTRY PER DECISION.  A cue carries an emphasis TOKEN and no keybind (Phase 3).
   "cues": [
     { "anchorTo": 42, "point": "CENTER", "relPoint": "CENTER", "dx": 0, "dy": 0, "w": 48, "h": 48,
       "color": [0.2,0.8,0.4,1.0], "fill": 0.6, "pulse": false, "width": "narrow" }
+  ],
+  // The SECOND per-icon channel: identity chrome, one entry per displayed icon that has a
+  // key, built straight off the Layout with no Guidance involvement.  It is separate because
+  // a keybind is not a rotation signal — see Stage 4's "two channels" note.
+  "keybinds": [
+    { "anchorTo": 42, "point": "TOPLEFT", "relPoint": "TOPLEFT", "dx": 2, "dy": -2, "keybind": "S-3" }
   ],
   "panel":       { "anchorTo": "UIPARENT", "point": "TOP", "dx": 0, "dy": -200, "title": "OPENER", "steps": [/*…*/] },
   "resourceBars": [  // N stacked meters, one per declared power (Demo = one)
@@ -418,6 +506,13 @@ same way), producing the DrawList the Renderer draws verbatim.
   frames); *absolute rects* (`{x,y,w,h}`, no registry) is the "pure draw tool" extreme,
   fine for our own widgets (panel, resource bar, callouts) that we position ourselves.
   Recommended: handle-anchor for cues, self-anchored for the rest.
+- **Two per-icon channels, not one (Phase 3).** `cues[]` is emitted only where the Coach
+  signalled an emphasis, so `#cues` means *decisions this tick*; `keybinds[]` is emitted for
+  every displayed icon that resolves a key, with **no Guidance argument at all**. Until
+  Phase 3 both rode one entry: an emphasis-less "empty cue" was how a key hint reached an
+  uncued icon, which pushed a display concern through the decision channel and made the cue
+  count meaningless. The geometry for both lives in `ns.HudGeometry` (`G.cue` / `G.keybind`),
+  so the Binder and the `/cdmp rt` fixtures agree by construction.
 - **In the code:** `Binder.lua` does exactly this — merges Guidance's spellID cues with
   the live Layout (`HudLayout.Scan`) and emits the DrawList the Renderer draws. Greened
   against `binder_spec`.
@@ -433,6 +528,15 @@ does `frame:SetPoint(d.point, registry[d.anchorTo], d.relPoint, d.dx, d.dy)` and
 applies colour/fill/animation. **No decisions.** Diffs by key so only changed frames
 are touched; starts an effect animation when a new effect `id` appears, owns its clock
 thereafter.
+
+**THE DOT AND THE KEY HINT ARE TWO CHANNELS (Phase 3).** They draw from `cues[]` and
+`keybinds[]` respectively and are independent by construction: an icon can carry a dot, a
+key hint, both, or neither, and none of those is a special case. Before Phase 3 they shared
+one cue entry, so "a keybind with no emphasis" was a shape the Renderer had to recognise.
+⚠ Both channels ride the **same per-icon holder frame** (that is what gives them Blizzard's
+own action-button strata), so `drawCues` and `drawKeybinds` each *return* their active
+handle set and **`R:Draw` culls holders on the union**. A per-channel cull would hide the
+other channel's decoration every frame.
 
 ---
 
@@ -461,7 +565,8 @@ counts — live in `specs/<spec>/notes.md`.)
 | **Exact cooldown time-remaining** | `GetSpellCooldown().duration` is `<secret>` | Borrow the secure radial swipe; drive urgency off a **napkin timer** for fixed-CD abilities only |
 | **Napkin-timer accuracy** | the *modified* CD (haste-scaled recharge, CDR/reset procs) is secret | Accurate for **fixed-CD** abilities; **drifts** otherwise — treat as best-guess, never as truth (the napkin's honesty rule: an expired estimate is `unknown`, never `ready`) |
 | **Aura/proc stack counts** | `Applications` is displayed but secret | Surface *presence* only; enlarge Blizzard's own stack text; **cannot compute** a threshold ("≥N") ourselves |
-| **In-pandemic / refresh-window boolean** | `IsInPandemicTime` is secret-derived (window computed from secret aura durations) | Observe the pandemic **edge** (the `ShowPandemicStateFrame` hook + the one-shot `TriggerAlertEvent(PandemicTime)`, `notes.md`) and redraw our own; **cannot poll/branch** the boolean or read the seconds; current target only |
+| **In-pandemic / refresh-window boolean** | ⚠ Worse than "secret": `pandemicStartTime`/`EndTime` read `SECRET` in combat and `IsInPandemicTime` **THROWS** — it compares against a Secret Value, so it must be `pcall`ed, not `issecretvalue`-guarded (measured 2026-07-30) | ✅ **SOLVED as an edge, not a state (field-fix C).** `TriggerAlertEvent(PandemicTime)` fires normally in combat, so State latches it per cooldownID and clears on `OnAuraApplied`/`OnAuraRemoved`; the Coach reads `ctx.dotRefreshable`. Better than a heuristic, too: Blizzard derives the window from the duration a recast would really carry over, not the community's "30% of base" rule. Still **cannot poll** the boolean or read the seconds; current target only |
+| **In-combat charge count** | `C_Spell.GetSpellCharges` is secret in restricted combat | ✅ **Estimated honestly (field-fix C2).** `ChargeGained` fires in combat on any upward move of Blizzard's cached count (so cooldown-reset procs are captured too), so the napkin is: exact OOC seed → −1 on `SUCCEEDED` → +1 on `ChargeGained` → clamp `[0, max]`, exact re-read wins on combat exit. Biased to **undercount** — it can hold a charge you have, never claim one you do not — and tagged `source:"napkin"` so a consumer can tell estimate from measurement |
 | **True "all cooldowns up" for a burst window** | requires reading N cooldown-ready states | Approximate via napkin timers (own casts) + the borrowed swipes; flagged best-guess |
 
 ## Open questions (ClientLab / in-game answerable — do not assume)
@@ -482,6 +587,13 @@ counts — live in `specs/<spec>/notes.md`.)
   CDM display or on the spell being learned. *(Charge values were not exercised — this
   character's Demo set has no charged tracked ability, so the `charge` half stays
   `@verify-ingame` until a charged spec is captured.)*
+  — ⚠ **AND THAT ANSWER IS EXACTLY THE PROBLEM (field-fix A, 2026-07-30).** "The live read
+  works for unlearned entries too" sounded like a capability; in the field it is a defect.
+  An unlearned spell has no cooldown running, so it reads **`ready` forever** — and a
+  permanently-ready row WINS a priority list. One live session logged **216 dropped Soul
+  Fire cues** from an untalented Soul Fire taking L2 every GCD. The domain view now filters
+  on `isKnown == false` and on `displayable == false`; the raw `cooldowns` map keeps the
+  whole database, since that is what makes it a diagnostic view.
 - **Do those reads go secret in combat the same way tracked ones do?** The seam is
   proven for the tracked set (the combat secret-gate — a settled game-wide rule); the
   full-database read is not.

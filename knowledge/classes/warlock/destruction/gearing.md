@@ -2,7 +2,7 @@
 title: Destruction Warlock — gearing (stats, trinkets, tier set, consumables) (Midnight S1)
 patch: 12.0.7
 fetched: 2026-07-14
-reviewed: 2026-07-14
+reviewed: 2026-08-01
 sources:
   - https://maxroll.gg/wow/class-guides/destruction-warlock-raid-guide  # maxroll.gg, Tier 3
   - https://maxroll.gg/wow/class-guides/destruction-warlock-mythic-plus-guide  # maxroll.gg, Tier 3
@@ -42,8 +42,15 @@ sim on Raidbots to confirm the order for raid vs M+.
 
 Identical in the raid and M+ captures (verbatim):
 
-- **2-Set:** [Chaos Bolt](https://www.wowhead.com/spell=136835) and [Rain of Fire](https://www.wowhead.com/spell=91592) damage increased by 5%.
-- **4-Set:** [Conflagrate](https://www.wowhead.com/spell=91591) generates 2 additional [Soul Shard Fragments](https://www.wowhead.com/spell=246985) and its damage is increased by 10%.
+- **2-Set:** [Chaos Bolt](https://www.wowhead.com/spell=116858) and [Rain of Fire](https://www.wowhead.com/spell=5740) damage increased by 5%.
+- **4-Set:** [Conflagrate](https://www.wowhead.com/spell=17962) generates 2 additional Soul Shard Fragments and its damage is increased by 10%.
+
+⚠ **The spell IDs above were corrected 2026-08-01.** The captured text linked
+`spell=91591` for Conflagrate, `spell=91592` for Rain of Fire and `spell=136835` for
+Chaos Bolt — none of which are those spells; they are artefacts of the maxroll capture's
+own link rendering. The **effect** is right and is Tier-1-confirmed (the 4-set's +2
+fragments matches DB2), only the citations were junk. The real ids are Chaos Bolt
+`116858`, Rain of Fire `5740`, Conflagrate `17962`.
 
 Full set list: [Midnight Season 1 Tier Sets](https://maxroll.gg/wow/resources/midnight-season-1-tier-sets).
 BiS tier pieces (see table below): Head, Gloves, Legs from the tier set; Chest via

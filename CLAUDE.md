@@ -170,7 +170,10 @@ touching the code**. Status as of 2026-07-09:
   design language · `docs/architecture.md` the State→Coach→Binder→Renderer pipeline ·
   `docs/status.md` the live worklist + backlog · `docs/notes.md` the Secret-Values
   reality) from **per-spec** (`specs/demonology/` — the
-  rotation brain + facts). Build history is in `docs/archive/`. The addon
+  rotation brain + facts) — plus `docs/multi-class-rollout.md`, the **7-spec rollout plan and
+  the record of Retribution's first flight** (5 defects fixed, the API measurements, the
+  per-spec DB2 brief, and the case for doing the roster anchor before the next spec).
+  Build history is in `docs/archive/`. The addon
   (`michac/CDMProbe`) is at `addon/` (own git repo, gitignored, own `CLAUDE.md` for
   the release workflow). (Current addon version: `wowkb.addon list`.)
 - `todo/` — design docs / specs with milestone logs for the above
@@ -229,6 +232,7 @@ uv run python -m wowkb.addon pull [--all|bb cdmp ps]     # clone-if-missing + gi
 uv run python -m wowkb.addon check                       # report addons with local-only (uncommitted/unpushed) work; exit 1 if any (pre-push gate)
 uv run python -m wowkb.addon release <bb|cdmp|ps> [--patch|--minor|--major] [--notes …]  # bump .toc → luaparser check → commit → push → gh release (tag=version) → ghaddons deploy
 uv run python -m wowkb.addon deploy <bb|cdmp|ps>         # redeploy the latest existing release via ghaddons (no new cut)
+uv run python -m wowkb.cdmp flight                      # the PASS/FAIL ACCEPTANCE REPORT for an in-game pass recorded by `/cdmp flight` (run this after a test build)
 uv run python -m wowkb.cdmp decisionlog                 # extract the CDMProbe pipeline DECISION LOG off SavedVariables → flat .log (see below)
 ```
 
@@ -248,6 +252,30 @@ out by hand (they keep the *why*; this owns the *how*).
   docs describing addon code it doesn't have. **On a fresh checkout / before
   touching an addon, run `wowkb.addon pull --all`** (clone-if-missing + `git pull`
   each). Since this file loads every session, that's the standing reminder.
+  - ⚠ **AND THE SAME GAP EXISTS BETWEEN WORKTREES ON ONE MACHINE** — the docs used
+    to frame this as a cross-*machine* problem only, which is half the story.
+    `wow`, `hud-classes` and `wwt-keyboard` are git **worktrees of the same repo**,
+    but because the addons are gitignored **each worktree carries its own
+    independent full clone** of `michac/CDMProbe` (and of BucketBinds/PlannerState).
+    Three clones, one GitHub remote, no shared refs — so a release cut in one
+    worktree leaves the others silently behind, on the same machine, with no `git`
+    signal anywhere in the parent repo.
+  - **What that actually breaks (measured 2026-08-03):** the stale worktree's
+    `.toc` is behind, so `wowkb.addon release` there bumps into a version number
+    **that already exists as a tag** and the push fails. That is the *good* failure
+    — loud, and mid-release rather than silent — but it costs a rebase to unpick.
+    **So: `wowkb.addon pull` in a worktree you have not released from lately, before
+    you cut anything.** `wowkb.addon list`'s `drift` column is the cheap check — it
+    diffs the LOCAL `.toc` against the latest GitHub release, so a stale worktree
+    reads **`BEHIND release — pull`** instead of `in sync`. ⚠ And it is genuinely
+    per-worktree: the registry resolves its paths from the *running tools'* repo
+    root (`addon.py`'s `REPO = Path(__file__).parents[2]`), so `wowkb.addon list`
+    always reports the clone belonging to the worktree you ran it from — which is
+    exactly the one you are about to release.
+  - **Nothing is ever lost by this** — every clone points at the same remote, so a
+    behind worktree is a plain fast-forward (`git -C <path> merge --ff-only
+    origin/main` after a fetch). It only diverges if you cut releases from two
+    worktrees without pulling, and even then the tag collision stops you first.
 - **`check` is the pre-push gate** (see the Git-workflow note): reports any addon
   with local-only work (uncommitted or unpushed), exits 1 if so. Run it when you
   push this repo — pushing here means I want the addon code on GitHub too.
@@ -259,12 +287,27 @@ out by hand (they keep the *why*; this owns the *how*).
   warns to bump the Lua `schema` field by hand if the `/ps` dump format changed
   (it does **not** touch schema). `--dry-run` stops before the commit.
 
+**`wowkb.cdmp flight`** is the door for **verifying a Cooldown-HUD test build in game**, and
+it exists because that used to be a checklist of ~10 slash commands, several of them typed
+mid-pull, whose answers a human eyeballed. Now: `/cdmp flight` in game arms a recorder (it
+samples coverage / assist / capability / layout on every *change of answer*, through combat
+entry and spec + hero swaps, with **no further typing**), you play, you `/reload`, and this
+prints a **PASS / FAIL / MEASURED** report judged against criteria that live in code. Exit
+**2** = no failures but part of it was never flown — a criterion nobody exercised must never
+read as a pass. ⚠ SavedVariables only flush on **`/reload`**.
+
+**`wowkb.cdmp decisionlog`** also prints a **COMBAT SPLIT** (v0.32.75+): `w:-` (the Coach
+found no winner) is only meaningful **in a pull** — out of combat "no winner" is the correct
+answer, so idle time inflates the raw ratio. The addon stamps `# combat start`/`# combat end`
+on the edge and this reports the in-combat ratio off it. ⚠ A capture recorded **before** that
+marker shipped is reported **UNREADABLE, never 0 %**: entries are stored pre-rendered, so
+combat cannot be recovered retroactively — you have to re-fly.
+
 **`wowkb.cdmp decisionlog`** extracts the Cooldown HUD's **pipeline decision log**
 off SavedVariables (newest `WTF/Account/*/SavedVariables/CDMProbe.lua`,
 `CDMProbeDB.decisionlog`) and flattens it to a grep-friendly `.log` — a ring of the
 last 3 sessions, one `S{…} G{…} B{…}` line per pipeline decision change, the
-instrument for "why does `/cdmp hud` show nothing here?" (`hud2log` is a back-compat
-alias). ⚠ SavedVariables only flush on **`/reload`**. *(The old `/cdmp probe` +
+instrument for "why does `/cdmp hud` show nothing here?". ⚠ SavedVariables only flush on **`/reload`**. *(The old `/cdmp probe` +
 `probe-baseline.json` assertion suite was retired 2026-07-29 — the readability rules it
 discovered are settled game-wide, and a spec's tracked set comes from wago DB2 via
 `wowkb.spec_inventory`, so per-spec re-measurement bought nothing.)*
