@@ -112,9 +112,11 @@
       "members": {
         "discrete": "whole segments (soul shards). The Destruction draft calls this 'segmented' -- treat that as a synonym for 'discrete', NOT a separate enum member (avoid enum drift).",
         "percentage": "a continuous fill (legacy synonym of 'continuous')",
-        "continuous": "a continuous fill (e.g. an energy/mana bar). Added multi-spec Phase 3 for the full resource seam; the Renderer's pixel path is a Phase-when-needed STUB (a continuous bar currently draws nothing) -- no live consumer yet."
+        "continuous": "a continuous fill (e.g. an energy/mana bar). Added multi-spec Phase 3 for the full resource seam; the Renderer's pixel path is a Phase-when-needed STUB (a continuous bar currently draws nothing) -- no live consumer yet.",
+        "none": "TRACKED BUT NOT DRAWN. Added 2026-08-02 for the Paladin/DH specs, whose resources (Holy Power, Fury) the brain decides on but the HUD deliberately does not render. The entry is a FULL resourceBars member -- it carries value/max/incoming and the exact rail, DecisionLog's PW column reads it, the Coach ranks on it -- and the Renderer skips it. This is why it is a display member and not an empty spec.powers: an empty powers array emits NO resourceBars entry, so PW: would render `?/?` and the primary instrument for debugging a brain nobody can watch live would go dark across five new specs. `none` keeps the data rail whole and turns off exactly one thing: pixels."
       },
       "open": "Enumerate additional forms as later specs need them (keep the meter renderer closed-set).",
+      "rendererPredicate": "The Renderer tests `display == 'discrete'` and draws pips for THAT ALONE; every other member (and any future one) draws nothing. Until 2026-08-02 it tested `== 'continuous'` instead, so 'percentage' -- a member this contract declares valid -- fell through into the pip loop and rendered a continuous fill as segments. An unrecognised display must draw nothing, never guess.",
       "notAddedInPhase62": "Destruction's real bar is 5 segments with PARTIAL FILL (Soul Shards are 0-50 fragments), which is neither 'discrete' nor 'continuous'. Phase 6.2 shipped the exact READ and deliberately did NOT grow this enum. The old reason -- 'State cannot read the fraction' -- is spent; the remaining blocker is purely the Renderer's per-pip loop, which has no fractional path. valueExact/maxExact/modifier above are exactly what such a member would consume, so the data is already waiting. See docs/status.md backlog 'Partial-shard pip rendering'."
     }
   },

@@ -14,11 +14,12 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
   (see `architecture.md` → "Live wiring"). The old
   HudChrome/HudBoard/HudScore engine + the opener/burst/pane widgets were **deleted at
   the W4 cutover**; the pipeline is the sole engine.
-- **Registered specs: Demonology (266) and Destruction (267).** Both plug into the one
-  spec-agnostic pipeline: `Spec<Name>.lua` (data) + `Coach<Name>.lua` (the rotation brain).
-  Every other spec resolves passive by design. Demonology is play-settled; **Destruction has
-  now flown** (first live pass 2026-07-30) — see the Destruction item below for what that
-  settled and what it left.
+- **Registered specs: Demonology (266), Destruction (267) and Retribution Paladin (70).**
+  All three plug into the one spec-agnostic pipeline: `Spec<Name>.lua` (data) +
+  `Coach<Name>.lua` (the rotation brain). Every other spec resolves passive by design.
+  Demonology is play-settled; **Destruction has now flown** (first live pass 2026-07-30) —
+  see the Destruction item below; **Retribution shipped 2026-08-02 and has NOT flown** — it
+  is the in-game gate that Phases 2–5 of the multi-class rollout wait on.
 - **Instrument:** the **decision log** — `CDMProbeDB.decisionlog`, one `S{…} G{…} B{…}`
   line per pipeline decision change, extracted by `wowkb.cdmp decisionlog`. The old-engine `statelog`/`pulls` recorders were retired at the
   cutover; the `/cdmp probe` + `probe-baseline.json` assertion suite was retired 2026-07-29
@@ -106,8 +107,56 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
   charge restored and *never* raises `OnCooldown`, so the ready-edge latched true forever and
   Conflagrate was cued at zero charges. That doc holds the evidence and the two things the
   pass left unproven. **Nothing in it is outstanding.**
-- **Active work: `roster-state-plan.md` — ▶ PHASE 5 (anchor State on the roster). Phases 1,
-  2, 3, 4 (2026-07-31), 6 and 6.2 (2026-08-01) are all DONE.**
+- **▶ ACTIVE WORK: the multi-class rollout — Phase 0 + Phase 1 DONE (2026-08-02), and
+  PHASE 1 IS AN IN-GAME GATE.** Seven specs across three classes was the target (Havoc 577,
+  Vengeance 581, Devourer 1480, Retribution 70, Protection 66 on top of the two Warlock
+  specs). **Phase 0 (pipeline work) and Phase 1 (Retribution) have shipped; Phases 2–5 are
+  deliberately BLOCKED on flying Retribution**, because every one of them clones its pattern
+  and a pattern that is wrong in game would be replicated four times.
+  - **Phase 0.1** — `resourceDisplay` gained **`"none"`** (tracked-but-not-drawn), the
+    Renderer's display predicate was **inverted** to *only `discrete` draws pips* (which
+    closed a real hole: the contract's documented `"percentage"` synonym was falling through
+    into the pip loop), and `drawResourceRow` gained a **`MAX_PIPS` clamp** — the executable
+    form of four prose warnings that could not stop a `max` of 50 pooling 50 textures. Both
+    the clamp and the inversion are **mutation-checked**.
+  - **Phase 0.2** — **`ns.Coach.PowerContext`**, the ~15-line power-rail block both Warlock
+    brains had copied byte-for-byte (filed in this backlog on 2026-08-01 with the trigger
+    *"a third spec is when this stops being cosmetic"*). Both Warlock oracles stayed green
+    **unchanged**, which was the success criterion. The Soul-Shard `*Frags` vocabulary stayed
+    in the brains; only the arithmetic moved.
+  - **Phase 0.3** — the **class-resource channel**: `ns.ReadCastCount` /
+    `ns.ReadAuraApplications` / `ns.ReadMaxAuraApplications` (guarded ladder, **no combat
+    gate** — that would make the measurement impossible) plus a declarative `spec.derived`
+    block emitted as `state.derived[name]`. For Demon Hunter Soul Fragments, which
+    `Enum.PowerType` structurally cannot carry. **Nothing consumes it yet** — Vengeance and
+    Devourer are its consumers. ⚠ The KB already predicts the *aura-stacks* half refuses in
+    combat (`cooldown-manager.md:517` — the whole `AuraData` record is secret when
+    restricted), so Devourer should expect to degrade; the *cast-count* half is genuinely
+    unmeasured and is the promising one.
+  - **Phase 0.4** — `HERO_BY_SUBTREE` gained the DH and Paladin trees (`TraitSubTree` @
+    12.0.7, Tier-1 wago). Nine trees mapped, each pinned by id.
+  - **Phase 1 — Retribution Paladin (70)**, four docs + `SpecRetribution.lua` +
+    `CoachRetribution.lua` + a **68-case branch oracle** authored from `rotation.md`.
+    Suite **706 → 821**, luacheck 0.
+  - ⏳ **What the flight has to settle** is listed in
+    `specs/retribution/observability-map.md` → *Retribution-specific open questions* (six of
+    them). The two that would change the design: **does Hammer of Wrath get a virtual row**
+    (it has no CDM icon at all), and **is a 1-charge charge-category ability marked
+    `charges = true`** (six of nine Essential buttons depend on the answer).
+  - ▶ **THE ROLLOUT PLAN + THE FIRST FLIGHT'S RECORD LIVE IN `docs/multi-class-rollout.md`.**
+    Retribution was flown 2026-08-03 on a **level 37** character; **five defects** were found
+    and fixed (v0.32.88 → **v0.32.91**, suite 827 → **849**). ⚠ **THE GATE IS STILL OPEN** —
+    `/cdmp flight` has *never* been armed on Retribution (every flight report to date is a
+    stale Destruction capture), and level 37 means no hero tree and no burst lines, so a
+    **max-level pass is still owed**. Question 2 above is now **ANSWERED (no)** and question 3
+    (**24275**); the rest stand. That file also carries the four in-game API measurements, a
+    per-spec DB2 brief for Havoc/Prot/Vengeance/Devourer, and — most importantly — the
+    **argument that Phase 5's roster anchor should land BEFORE any further spec**: three of
+    the five defects were the same shape (an ability's facts derived through a *CDM row's*
+    identity instead of asked about the ability itself), so the current fixes are guards
+    against contradictions the data model still permits.
+- **Active work (paused for the above): `roster-state-plan.md` — ▶ PHASE 5 (anchor State on
+  the roster). Phases 1, 2, 3, 4 (2026-07-31), 6 and 6.2 (2026-08-01) are all DONE.**
   This is the last phase and the largest blast radius: State stops anchoring on the CDM
   database and anchors on the spec's declared roster instead. **Read §6.1 first** — knownness:
   MARK, don't filter, plus the wholesale guard — it is the phase's load-bearing design
@@ -895,7 +944,38 @@ states over real icon art after the file split.
 The container for what's next. The old engine is gone, so this is where feature/quality
 work lands now — the user drives the list; a few already-surfaced items are seeded:
 
+- **📋 The napkin is blind on any ability whose cooldown lives on a CHARGE CATEGORY.**
+  *(Filed 2026-08-02 by the Retribution build, which is where it stopped being an edge case.)*
+  `ns.BaseCooldown` reads `GetSpellBaseCooldown`, which reports the **spell's**
+  `SpellCooldowns.RecoveryTime` — and that is **0** for any ability that keeps its cooldown on
+  a `SpellCategory` instead. `HudNapkin` then has nothing to count down from, so it
+  contributes no `remaining`: **`SOON` never lights** for those abilities and in-combat
+  readiness rests entirely on the CDM's `Available` / `OnCooldown` edges, with no estimate
+  underneath. Destruction met this once (Conflagrate, field-fix C2). **Retribution meets it
+  on six of its nine Essential buttons** — Judgment (category 1663, 11s), Crusader Strike
+  (1627, 6s, **2 charges**), Blade of Justice (2128, 12s), Wake of Ashes (2285, 30s), Hammer
+  of Wrath (1895, 7.5s) and Avenging Wrath (1550) `[T1 DB2 @ 12.0.7]`.
+  The fix is a **spec-declared cooldown fallback** that `ns.BaseCooldown` consults when the
+  live read is 0 — the data is already authored (`chargeCD` on each `SpecRetribution` entry,
+  documentation-only today), so this is a new pipeline seam and nothing else. ⚠ Mind the
+  honesty rule: a declared constant is **not** a measurement, so it must reach the pulse as
+  something the napkin can only make the HUD *early* with, never as `source = "live"`.
+
+- **📋 `coach_destruction_apl_spec` never wires the cost reader.** *(Noticed 2026-08-02 while
+  writing the Retribution oracle.)* It builds `ns.Coach.New()` with no `cfg`, so
+  `env.shardCostFn` is nil and **every** `costOf(...)` in `CoachDestruction:Context` silently
+  falls back to the spec's constant. The live driver passes
+  `{ shardCost = ns.ShardCost }` (`HudDriver.lua:94`), so the oracle is testing a path
+  production does not take, and the "resolved live, never hardcoded" rule is **unasserted for
+  Destruction** — a fixture that set a different client cost would agree with the fallback
+  anyway. `coach_retribution_apl_spec` wires it and pins both directions; port that.
+
 - **📋 The two brains' `Context` opens with the same byte-identical block.**
+  ✅ **DONE 2026-08-02** — hoisted to `ns.Coach.PowerContext` in the multi-class rollout's
+  Phase 0.2, with both Warlock oracles green *unchanged*. Kept here as the record of why:
+  the trigger this item named ("a third spec is when this stops being cosmetic") is exactly
+  what fired. Per-power fallbacks moved onto the `spec.powers[]` entry (`modifier` /
+  `exactMax` / `barMax`); the Soul-Shard naming stayed in the brains.
   *(Noted 2026-08-01 during `roster-state-plan.md` Phase 6, deliberately left out of scope so
   that diff stayed narrow. ⚠ The argument got STRONGER on 2026-08-01: Phase 6.2 made the same
   edit twice in it AGAIN, and the block grew from five lines to ~15 — the exact-rail read, the

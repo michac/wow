@@ -170,7 +170,10 @@ touching the code**. Status as of 2026-07-09:
   design language · `docs/architecture.md` the State→Coach→Binder→Renderer pipeline ·
   `docs/status.md` the live worklist + backlog · `docs/notes.md` the Secret-Values
   reality) from **per-spec** (`specs/demonology/` — the
-  rotation brain + facts). Build history is in `docs/archive/`. The addon
+  rotation brain + facts) — plus `docs/multi-class-rollout.md`, the **7-spec rollout plan and
+  the record of Retribution's first flight** (5 defects fixed, the API measurements, the
+  per-spec DB2 brief, and the case for doing the roster anchor before the next spec).
+  Build history is in `docs/archive/`. The addon
   (`michac/CDMProbe`) is at `addon/` (own git repo, gitignored, own `CLAUDE.md` for
   the release workflow). (Current addon version: `wowkb.addon list`.)
 - `todo/` — design docs / specs with milestone logs for the above
@@ -249,6 +252,30 @@ out by hand (they keep the *why*; this owns the *how*).
   docs describing addon code it doesn't have. **On a fresh checkout / before
   touching an addon, run `wowkb.addon pull --all`** (clone-if-missing + `git pull`
   each). Since this file loads every session, that's the standing reminder.
+  - ⚠ **AND THE SAME GAP EXISTS BETWEEN WORKTREES ON ONE MACHINE** — the docs used
+    to frame this as a cross-*machine* problem only, which is half the story.
+    `wow`, `hud-classes` and `wwt-keyboard` are git **worktrees of the same repo**,
+    but because the addons are gitignored **each worktree carries its own
+    independent full clone** of `michac/CDMProbe` (and of BucketBinds/PlannerState).
+    Three clones, one GitHub remote, no shared refs — so a release cut in one
+    worktree leaves the others silently behind, on the same machine, with no `git`
+    signal anywhere in the parent repo.
+  - **What that actually breaks (measured 2026-08-03):** the stale worktree's
+    `.toc` is behind, so `wowkb.addon release` there bumps into a version number
+    **that already exists as a tag** and the push fails. That is the *good* failure
+    — loud, and mid-release rather than silent — but it costs a rebase to unpick.
+    **So: `wowkb.addon pull` in a worktree you have not released from lately, before
+    you cut anything.** `wowkb.addon list`'s `drift` column is the cheap check — it
+    diffs the LOCAL `.toc` against the latest GitHub release, so a stale worktree
+    reads **`BEHIND release — pull`** instead of `in sync`. ⚠ And it is genuinely
+    per-worktree: the registry resolves its paths from the *running tools'* repo
+    root (`addon.py`'s `REPO = Path(__file__).parents[2]`), so `wowkb.addon list`
+    always reports the clone belonging to the worktree you ran it from — which is
+    exactly the one you are about to release.
+  - **Nothing is ever lost by this** — every clone points at the same remote, so a
+    behind worktree is a plain fast-forward (`git -C <path> merge --ff-only
+    origin/main` after a fetch). It only diverges if you cut releases from two
+    worktrees without pulling, and even then the tag collision stops you first.
 - **`check` is the pre-push gate** (see the Git-workflow note): reports any addon
   with local-only work (uncommitted or unpushed), exits 1 if so. Run it when you
   push this repo — pushing here means I want the addon code on GitHub too.

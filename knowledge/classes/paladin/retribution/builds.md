@@ -2,7 +2,7 @@
 title: Retribution Paladin — Talents & Builds (Midnight S1)
 patch: 12.0.7
 fetched: 2026-07-11
-reviewed: 2026-07-11
+reviewed: 2026-08-03
 sources:
   - https://www.method.gg/guides/retribution-paladin/talents  # tier 3, Midnight 12.0.7, 2026-07-11
   - https://raw.githubusercontent.com/simulationcraft/simc/midnight/profiles/MID1/MID1_Paladin_Retribution.simc  # tier 1 talent string + APL, 2026-07-11
@@ -22,8 +22,8 @@ and the key interactions** that drive the rotation in `rotation.md`.
 "slightly edging out Herald of the Sun" (method.gg). Its identity:
 
 - **Wake of Ashes → Hammer of Light.** For 20s after Wake of Ashes, your Holy
-  Power spender is replaced by **Hammer of Light** (a 5-HP nuke). This is the
-  centerpiece the rest of the tree feeds.
+  Power spender is replaced by **Hammer of Light** (a 3-Holy-Power finisher, same
+  cost as every other spender). This is the centerpiece the rest of the tree feeds.
 - **Light's Deliverance** — after enough Hammer of Light / Holy Power activity,
   grants *free* Hammer of Light procs to dump inside your burst window.
 - **Divine Hammer** — after **Divine Toll**, summons **Empyrean Hammers**

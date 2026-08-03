@@ -7,11 +7,63 @@
 > a test. **You do not touch the pipeline** (State / Coach shell / Binder / Renderer /
 > DecisionLog).
 >
-> **Status: reference pattern, not yet a skill — now EXERCISED once.** Derived from how
+> ## ⚠ CORRECTIONS FIRST — read this box before the recipe (2026-08-02)
+>
+> The recipe below is **broadly right and specifically stale in seven places**. It was
+> written before hero talents, virtual rows and the Phase-6/6.2 refactors, and
+> **Retribution Paladin (70)** — the first non-Warlock spec — was authored against it and
+> found these. Fix the recipe in your head as you read:
+>
+> 1. **`spec.SpecPowerDelta` is NOT read by State any more.** Step 2 and the Tier-1 table
+>    both say State reads it for the in-flight projection. Phase 6 moved that to the
+>    brains via **`ns.Coach.InflightPower`**, which takes the delta function as a
+>    parameter. Your brain calls it from `Context`; State never sees it.
+> 2. **The six "shell-read" `spec.Spec` fields are wrong in both directions.** Of the listed
+>    six, **`emphasis` and `transform` have ZERO readers** in the v1 pipeline. And
+>    **`expect` is load-bearing and missing from the list**: `State.lua`'s virtual-row walk
+>    auto-promotes an untracked `kind = "button"` ability with no base cooldown into a
+>    self-drawn icon, so an **alias** that passes those fences draws a *duplicate* beside
+>    the real one. Every override/alias entry needs `expect = false`.
+> 3. **`SHARD_CAP` is now `FRAG_CAP`**, `spec.powers` entries need **`modifier`**, and the
+>    `FRAG_CAP` / `BAR_MAX` / `FRAGS_PER_SHARD` trio the Warlock specs carry is undocumented
+>    here. Since the **`ns.Coach.PowerContext` hoist (2026-08-02)** the per-power fallbacks
+>    live on the `spec.powers[]` entry as **`modifier` / `exactMax` / `barMax`** — that is
+>    what a new spec fills in.
+> 4. **Step 5's Renderer reasoning is superseded, twice.** Its two "generalization points"
+>    are gone: `PowerBarColor` was never the blocker, and **`display = "none"`** (added to
+>    `guidance-contract.json` 2026-08-02) means a spec can track a resource without drawing
+>    anything, which is what the five Paladin/DH specs use. `drawResourceRow` also now
+>    **clamps** the pip pool (`MAX_PIPS`), so a raw-unit `max` can no longer pool 50
+>    textures. See `status.md`'s note on the spent "State cannot read the fraction" reason.
+> 5. **Step 0 says to fetch APLs with `wowkb.simc`.** The **full simc clone is on disk** at
+>    `~/code/fun/wow/raw/addon-research/simc` (branch `midnight`) and is strictly better —
+>    it carries `ActionPriorityLists/default/*.simc` for specs the MID1 profiles lack
+>    (Protection Paladin among them). ⚠ **Do NOT use `ActionPriorityLists/assisted_combat/`**
+>    — that is Blizzard's one-button rotation from the `AssistedCombat*` DBC tables and it
+>    is a *suboptimal* rotation, not a second Tier-1 opinion.
+> 6. **It predates hero talents entirely.** `state.hero` carries the active tree
+>    (`State.lua`'s `HERO_BY_SUBTREE`, `TraitSubTree` @ 12.0.7). A brain must read it off the
+>    pulse and **never infer it from the tracked set** — that inference is field-fix B, and it
+>    confidently returned the wrong tree on Destruction's first live session.
+> 7. **It predates virtual rows.** An ability the CDM tracks nowhere can still get an icon
+>    if it passes `State.virtualCandidates`' fences (`kind = "button"`, non-utility,
+>    `expect ~= false`, not already on screen, `ns.BaseCooldown == 0`, and **known**).
+>
+> **One more thing the Retribution run learned, which is not a correction but a warning:**
+> **`SpellName` is full of homonyms and resolving one by eye is how bugs get in.** There are
+> **eight** spells called "Hammer of Light" and three called "Hammer of Wrath" on the Paladin
+> side alone. Resolve a name by a **property only the real spell has** — a Holy Power cost in
+> `SpellPower`, a shared `ChargeCategory` in `SpellCategories`, membership of the spec's
+> `CooldownSetSpell` rows — never by picking the plausible-looking number.
+
+> **Status: reference pattern, not yet a skill — now EXERCISED twice.** Derived from how
 > Demonology (266) is wired (`SpecDemonology.lua` + `CoachDemonology.lua`) and verified
 > against the live code 2026-07-29. **Destruction (267) was then added by following it
 > end to end** the same day, with no pipeline edit, no Renderer edit and no contract edit —
-> so the recipe is confirmed, not just asserted. What that run learned:
+> so the recipe is confirmed, not just asserted. **Retribution (70) followed on 2026-08-02**,
+> and it is the more informative run precisely because it is the first spec *outside
+> Warlock*: it needed a Renderer edit, a contract edit and a shell-kit hoist, all of which
+> the recipe said would not be necessary. What the two runs learned:
 >
 > - **Step 5 held**, and the *conclusion* outlived its *reason* — read both. Destruction
 >   rides the same `SOUL_SHARDS` token rendered `discrete`, so neither Renderer
@@ -39,6 +91,30 @@
 >   source that turned out to be a ritual *container*, not the proc. It became
 >   `spec.ART_FROM_RITUAL = false`, defaulted to the safe reading, for the in-game pass to
 >   settle. Better than either guessing or blocking the whole spec on it.
+>
+> **What the RETRIBUTION run learned (2026-08-02) — the first non-Warlock spec:**
+>
+> - **"You do not touch the pipeline" held for a second spec of the same class, and stopped
+>   holding at the third.** Destruction needed no pipeline edit because it rode Demonology's
+>   resource. Retribution needed three, and every one was a *generalisation the seam had
+>   been deferring*, not a special case: `display = "none"` in the contract + Renderer
+>   (a spec that tracks a resource it does not draw), the `ns.Coach.PowerContext` hoist (the
+>   ~15-line block both Warlock brains had copied), and the `HERO_BY_SUBTREE` vocabulary.
+>   **Read the rule as "a spec adds no pipeline BRANCH", not "a spec adds no pipeline line".**
+>   The test is whether the edit is spec-agnostic when you are done, and all three were.
+> - **The genuinely new open question was structural, not numeric.** Destruction's was "what
+>   does Art armed read off?"; Retribution's is **"is a 1-charge charge-category ability
+>   marked `charges = true` on the CDM row?"** — because *six of its nine* Essential buttons
+>   have `SpellCooldowns.RecoveryTime = 0` and keep their cooldown on a `SpellCategory`. That
+>   makes `ns.BaseCooldown` return 0 and the **napkin blind on most of the spec**. Destruction
+>   met this once (Conflagrate, field-fix C2); Retribution meets it everywhere. **Check
+>   `SpellCategories.ChargeCategory` for every rotation button during Step 0** — it changes
+>   how much of the readiness model you actually have.
+> - **`spec.derived` exists now** for a class resource `Enum.PowerType` cannot carry (Demon
+>   Hunter Soul Fragments). Retribution does not use it; Vengeance and Devourer do. It is a
+>   declaration State reads, not a branch State runs — `{ name, kind, spellID, max }`.
+> - **The parked one-line switch is a repeatable pattern, not a Destruction quirk.** Expect
+>   exactly one per spec. Retribution's is `RET_HOL_FROM_BUFF`.
 >
 > May be converted into a skill later — keep it faithful to the code so the conversion is
 > mechanical.

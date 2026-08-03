@@ -2,8 +2,10 @@
 
 A standalone companion app (NOT the KB): a spec-specific overlay that skins
 Blizzard's built-in **Cooldown Manager** under Midnight 12.0. Registered specs:
-**Demonology** (266, play-settled) and **Destruction** (267, shipped 2026-07-29,
-awaiting its first live pass). Every other spec resolves passive by design.
+**Demonology** (266, play-settled), **Destruction** (267, shipped 2026-07-29, flown
+2026-07-30) and **Retribution Paladin** (70, shipped 2026-08-02, **not yet flown — it is an
+in-game gate**, see `docs/status.md` → Active work). Every other spec resolves passive by
+design.
 
 **The W4 pipeline is LIVE** (`/cdmp hud` runs `State → Coach → Binder → Renderer`; the
 old engine was deleted at the W4 cutover).
@@ -105,6 +107,18 @@ The docs split **general** (spec-agnostic — the product, the pipeline) from
   (Tyrant + Dreadstalkers), Demonic Core proc, shard mechanics.
 - **`specs/demonology/input-contract.md`**, **`observability-map.md`** — reference-only:
   the evaluator's inputs and what the game exposes vs. hides.
+- **`specs/retribution/`** — the same four docs for **Retribution Paladin** (v1 profile
+  **Templar**, Herald of the Sun as a delta section). **Shipped 2026-08-02** —
+  `SpecRetribution.lua` + `CoachRetribution.lua` implement `rotation.md` L1–L12, with a
+  68-test branch oracle. The project's **first non-Warlock spec**, and the one that proved
+  the seam is class-agnostic — at the cost of three pipeline generalisations it had deferred
+  (`display = "none"`, `ns.Coach.PowerContext`, the hero-tree vocabulary).
+  ⚠ Its defining fact is **not** the rotation: **six of its nine Essential buttons keep
+  their cooldown on a `SpellCategory` with `RecoveryTime = 0`**, so `ns.BaseCooldown` reads 0
+  and the napkin is blind on most of the spec — readiness rests on the CDM's alert edges
+  alone, and `usable()`'s "the count outranks the cooldown read" rule carries far more weight
+  here than it did on Destruction. `observability-map.md` has the six open questions the
+  live pass must settle.
 - **`specs/destruction/`** — the same four docs for **Destruction Warlock** (v1 profile
   Diabolist, Hellcaller as a delta section). **Shipped 2026-07-29** —
   `SpecDestruction.lua` + `CoachDestruction.lua` implement `rotation.md` L1–L13, with a
@@ -126,8 +140,10 @@ don't cite it as fact. See `docs/archive/README.md`.
 ## Layout
 
 - `docs/` — the general design docs (above).
-- `specs/<spec>/` — per-spec rotation brain + facts. `demonology/` (shipped, play-settled)
-  and `destruction/` (shipped, not yet flown). Adding a third is `docs/adding-a-spec.md`.
+- `specs/<spec>/` — per-spec rotation brain + facts. `demonology/` (shipped, play-settled),
+  `destruction/` (shipped, flown) and `retribution/` (shipped 2026-08-02, **not yet flown**).
+  Adding another is `docs/adding-a-spec.md` — ⚠ **read its CORRECTIONS box first**; the
+  Retribution run found seven stale claims in the recipe body.
 - `addon/` — the **CDMProbe addon** (`michac/CDMProbe`), its **own git repo**,
   **gitignored** from this workspace. Has its own `CLAUDE.md` for the
   deploy/release workflow (a plain push does NOT reach the game — cut a release).
