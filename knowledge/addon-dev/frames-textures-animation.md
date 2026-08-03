@@ -1,8 +1,8 @@
 ---
 title: Frames, widgets and rendering
 patch: 12.0.7
-fetched: 2026-07-30
-reviewed: 2026-07-30
+fetched: 2026-08-02
+reviewed: 2026-08-02
 sources:
   - https://github.com/Gethe/wow-ui-source (live, version.txt 12.0.7.68887, commit 4383ced30106d51b27e3e86d1987f1552f0d259d)
   - Interface/AddOns/Blizzard_SharedXML/UI.xsd (1628 lines, the Tier-1 XML schema)
@@ -1095,6 +1095,26 @@ pointed at the `<xs:complexContent>` line inside the type):
 | `FlipBook` | `flipBookRows/Columns/Frames/FrameWidth/FrameHeight` (all 0) | `:1560` |
 | `VertexColor` | `<StartColor>`, `<EndColor>` | `:1573` |
 | `TextureCoordTranslation` | `offsetU` (0), `offsetV` (0) | `:1587` |
+
+⚠ **The XML attribute name is NOT the Lua setter name, and for `Scale` that gap has
+burned us.** The table above is the XSD's view (`fromScaleX` / `toScaleX`), which is all
+this file used to carry — so anyone reaching for the Lua API had to guess between two
+spellings in circulation, and one addon here shipped a scale animation that silently did
+nothing because it guessed wrong and failed quietly. The generated docs settle it:
+
+| animation | Lua setters `[T1 docs]` |
+|---|---|
+| `Scale` | **`SetScaleFrom(x, y)` / `SetScaleTo(x, y)`** (+ `SetScale`, `SetOrigin(point, x, y)`, and the four matching getters) `[SimpleAnimScaleAPIDocumentation.lua:39-108]` |
+| `Alpha` | `SetFromAlpha` / `SetToAlpha` `[SimpleAnimAlphaAPIDocumentation.lua:36,46]` |
+| `Rotation` | `SetDegrees` / `SetRadians` / `SetOrigin` `[SimpleAnimRotationAPIDocumentation.lua:51,61,73]` |
+
+**`SetFromScale` / `SetToScale` — the spelling much older addon code uses — do not appear
+anywhere in the generated docs at build 12.0.7.68887.** Whether they survive as
+undocumented aliases is unmeasured `@verify-ingame`; write `SetScaleFrom`/`SetScaleTo`.
+⚠ Note the *inconsistency* is real and is the trap: `Alpha` puts the direction first
+(`SetFromAlpha`), `Scale` puts it last (`SetScaleFrom`). Do not pattern-match from one to
+the other — and if you must probe for a setter, make the miss say so out loud, because a
+scale animation that never got its endpoints looks exactly like one that isn't helping.
 
 Shared `Animation` attributes `[T1 xsd:1447-1469]`: `name`, `mixin`,
 `secureMixin`, `inherits`, `virtual`, `target`, `targetKey`, `parentKey`,

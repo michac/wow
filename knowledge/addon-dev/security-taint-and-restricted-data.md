@@ -1,8 +1,8 @@
 ---
 title: Security — protected actions, taint, and restricted data (secret values)
 patch: 12.0.7
-fetched: 2026-07-23
-reviewed: 2026-07-23
+fetched: 2026-07-31
+reviewed: 2026-07-31
 sources:
   - https://github.com/Gethe/wow-ui-source (live, 12.0.7.68887, commit 4383ced30106)
   - https://warcraft.wiki.gg/wiki/Secret_Values (revid 6777907, 2026-07-22)
@@ -1080,6 +1080,44 @@ and `RUNE_TYPE_UPDATE` (:3885), `UNIT_DISTANCE_CHECK_UPDATE` (:4086),
 in `UnitDocumentation.lua`, and
 `UNIT_SPELL_DIMINISH_CATEGORY_STATE_UPDATED` (`SpellDiminishUIDocumentation.lua:77`).
 `ConditionalSecret` appears 17 times at return-field level.
+
+**Per-field markers — secrecy is not all-or-nothing per call.** The function-level
+predicates above say *when the call goes secret*; a second, finer layer annotates
+**individual return fields and table contents**, and it is what tells you which parts
+of a restricted return you can still use. Counts at 12.0.7.68887
+(`grep -rhoE '\b(NeverSecret|ConditionalSecret|SecretReturns|ReturnsNeverSecret) = true' … | sort | uniq -c`):
+
+| Marker | Count | Level | Means |
+|---|---|---|---|
+| `NeverSecret = true` | **921** | return field | this field survives even when the call is restricted — **the most common secret-related annotation in the whole corpus** |
+| `SecretReturns = true` | 18 | function | every return always secret |
+| `ReturnsNeverSecret = true` | 15 | function | the inverse guarantee, e.g. `LuaDurationObject:HasSecretValues()` |
+| `ConditionalSecret = true` | 15 | return field | this field *may* be secret depending on the ambient predicate |
+| `NeverSecretContents = true` | 2 | table field | the table's **elements** are never secret |
+| `ConditionalSecretContents = true` | 2 | table field | the table's **elements** may be secret |
+
+Worked example — `UnitAuraUpdateInfo`, the `UNIT_AURA` payload
+(`UnitConstantsDocumentation.lua:31-40`):
+
+```lua
+{ Name = "removedAuraInstanceIDs", Type = "table", InnerType = "number", NeverSecretContents = true },
+{ Name = "addedAuras",             Type = "table", InnerType = "AuraData", ConditionalSecretContents = true },
+{ Name = "updatedAuraInstanceIDs", Type = "table", InnerType = "number", NeverSecretContents = true },
+```
+
+That asymmetry is directly legible in Blizzard's own consumer. `CooldownViewerMixin:OnUnitAura`
+(`Blizzard_CooldownViewer/CooldownViewer.lua:1629`) routes the **removed** and **updated**
+paths through an `auraInstanceID → itemFrame` map (`:1517`) — a table lookup, which requires a
+readable ID — while the **added** path broadcasts to *every* item frame and lets each one test
+the aura itself (`:1661`, `NeedsAddedAuraUpdate` at `:424`). The generated docs say why: the
+two ID lists are `NeverSecretContents`, the added-aura table is not. The same pair appears on
+`C_UnitAuras.GetUnitAuras`' `auras` return (`UnitAuraDocumentation.lua:422`,
+`ConditionalSecretContents`) — the call the CDM's per-frame aura scan makes.
+
+**Reading rule:** to answer "is this value secret", check the function's predicate *and* the
+field's own marker. A `SecretWhen…`-restricted function can still hand back perfectly usable
+identity fields; 921 `NeverSecret` annotations exist precisely so that identity (spellIDs,
+instance IDs, class filenames, texture IDs) keeps flowing while magnitudes and timings do not.
 
 ### 4.8 Curves and Durations — computing on secrets without seeing them
 

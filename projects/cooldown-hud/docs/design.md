@@ -116,6 +116,44 @@ core spenders → utility) is Demonology-specific: `specs/demonology/notes.md`.
   math is deliberately back-of-envelope — see the Napkin honesty rule in
   `architecture.md`. The per-ability tuning is spec-specific.
 
+### Motion and sound are channels too (2026-08-01)
+
+Colour and luminance were the whole vocabulary until the cue treatment was dialled in on
+`/cdmp rt fx`. Two more channels are now committed, both **on the change**, never on the
+steady state — the declutter rule above is what makes them affordable:
+
+- **Motion.** A cue is a dot inside a spinning ring, with an **outer echo of that ring at
+  1.5× the diameter, counter-rotating at 2.5× the period**. The echo is what carries
+  *reach*: a ring cannot be stretched radially (a texture is a quad — the length of a ray
+  is baked into the art), so the only way to extend it is to draw it again, larger. And
+  because additive light **stacks**, the light is **split** between the two rather than
+  added — reach grows, brightness does not. The opposed rotation is load-bearing: two
+  copies turning together read as one thicker ring, whereas crossing spokes read as rays.
+  A **black backing disc** sits under both, because additive light over busy icon art
+  washes out and needs something to read against.
+- **Escalation is a ratio, not a hue.** `LATE` is not a different *kind* of press, it is
+  the same press overdue — so it draws ROTATION's green with a ring **~1.39× bigger
+  turning ~2.5× faster**. Everything downstream (the echo's period, its size) is expressed
+  as a ratio of the base, so a retune moves the whole family and the escalation survives.
+- **Spin speed is a property of the ART, not just the animation.** What the eye clocks is
+  not angular velocity but **how often a spoke passes a fixed point** — velocity × the
+  sprite's rotational symmetry order. The shipped sprite is 8-fold, so it needs a period
+  ~3× longer than the near-featureless ring gradient it replaced to read as the same
+  *speed*. Ring art, ring size and ring period are one dial with three parts; changing the
+  sprite invalidates the other two.
+- **A cue arriving pops; a cue leaving leaves a ghost.** One-shot, ~0.28 s, fast out and
+  slower settle — a symmetric split reads as a wobble rather than a punch.
+- **Sound, on the set — not on the handle.** One short, dry, physical sound per *change of
+  the cue set*, on channel **Master** so it cannot be silenced by turning effects down.
+  ⚠ A **swap** (one cue out, another in, same tick) is **one** event, not two: 60 % of
+  real set changes are swaps, and a cue that moved was not removed. Measured off 504 s of
+  play: ~120 plays, one every ~4 s, tracking your casts. `/cdmp hud sound off` silences
+  it in one command, which is the honest answer to "what does this sound like in a raid".
+
+The through-line with the rest of this section: **never continuously animate a steady
+state**. The ring spins because a live cue *is* the urgent instant; everything else here
+fires on an edge and is over in a third of a second.
+
 ### The pre-pull affordance
 
 Out of combat the Secret-Values wall is down, so it's the one place we can
