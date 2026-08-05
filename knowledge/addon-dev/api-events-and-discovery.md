@@ -2,7 +2,7 @@
 title: API surface, events and discovery
 patch: 12.0.7
 fetched: 2026-08-01
-reviewed: 2026-08-01
+reviewed: 2026-08-05
 sources:
   - https://github.com/Gethe/wow-ui-source (live, version.txt 12.0.7.68887, commit 4383ced30106d51b27e3e86d1987f1552f0d259d)
   - in-client capture, CDMProbe AlertTape v0.32.27 (/cdmp alerts), Destruction Warlock, 2026-07-30  # §2.8 alert-channel confirmations
@@ -23,6 +23,12 @@ sources:
   - https://warcraft.wiki.gg/wiki/Secret_Values (revid 6777907, 2026-07-22)
   - https://wago.tools/api/builds (queried 2026-07-23)
   - Live install /mnt/c/Program Files (x86)/World of Warcraft/_retail_/
+  - EllesmereUI v8.7.5 @ c4eba58d996a8436f467ac8f297148bff9dd3008 (2026-08-04),
+    https://github.com/EllesmereGaming/EllesmereUI — license CUSTOM, ALL RIGHTS
+    RESERVED; read for API discovery only, no code copied. Mined 2026-08-05 via the
+    `mine-addon` skill; clone deleted after (step 5). file:line citations resolve
+    only against that commit. Unverified residue:
+    `addon-dev/mined-pending-verification.md`.
 confidence: high
 verified: 2026-07-23   # adversarial re-check of every locator + independent re-derivation of every corpus count
 ---
@@ -1053,6 +1059,29 @@ shape even if you do not take the dependency.
 ---
 
 ## 4. The API surface and its vocabulary
+
+### 4.0 ⚠ Kstrings (`|K…|k`) — opaque server strings, and NOT secret values
+
+Chat, LFG and Club payloads can carry server-resolved opaque strings encoded as a
+`|K…|k` escape sequence. The generated docs declare them as first-class types —
+`kstringLfgListChat`, `kstringLfgListApplicant`, `kstringLfgListSearch`
+(`LFGListInfoDocumentation.lua:692, 845, 871-873, 912`) and `kstringClubMessage`
+(`ClubDocumentation.lua:1846`); `ClubDocumentation.lua:1800` states outright that a
+name *"may be encoded as a Kstring"*. Blizzard's own chat code branches on the
+two-character prefix (`Blizzard_ChatFrameBase/Mainline/FloatingChatFrame.lua:2455`,
+`strsub(playerTarget, 1, 2) ~= "|K"`).
+
+**Stripping the sequence with a `gsub` destroys the value rather than sanitising it.**
+
+⚠⚠ **Document them as a SEPARATE mechanism, and resist the obvious conflation.**
+Kstrings **predate Midnight** and have nothing to do with Secret Values — but the
+failure mode looks identical (a name renders empty or garbled), so a reader who has
+just learned §4 of the security file will diagnose it wrong and reach for
+`issecretvalue`, which answers `false`. A shipping addon's own source comment calls
+them "secret value placeholders"; that is exactly the mistake to avoid.
+*[T1: the doc types + Blizzard's own branch, above. Surfaced by the 2026-08-05
+addon-mining run; the addon adds nothing the Tier-1 sources do not already carry, so
+cite Blizzard.]*
 
 ### 4.1 Shape
 

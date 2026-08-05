@@ -2,8 +2,14 @@
 title: Module architecture and project layout
 patch: 12.0.7
 fetched: 2026-07-23
-reviewed: 2026-07-23
+reviewed: 2026-08-05
 sources:
+  - EllesmereUI v8.7.5 @ c4eba58d996a8436f467ac8f297148bff9dd3008 (2026-08-04),
+    https://github.com/EllesmereGaming/EllesmereUI — license CUSTOM, ALL RIGHTS
+    RESERVED; read for API discovery only, no code copied. Mined 2026-08-05 via the
+    `mine-addon` skill; clone deleted after (step 5). file:line citations resolve
+    only against that commit. Unverified residue:
+    `addon-dev/mined-pending-verification.md`.
   - https://github.com/Gethe/wow-ui-source (live, version.txt 12.0.7.68887, commit 4383ced30106d51b27e3e86d1987f1552f0d259d)
   - https://warcraft.wiki.gg/wiki/TOC_format (revid 6767089, 2026-07-09)
   - https://warcraft.wiki.gg/wiki/Using_the_AddOn_namespace (revid 6474636, 2025-09-16)
@@ -107,6 +113,34 @@ Function *bodies* are not evaluated at load, so a function that references a
 later-loaded global is fine. The constraint bites only on file-scope
 expressions — mixin composition, `CreateFrame` calls, table literals that read
 another file's value.
+
+#### 1.1a Corollary — the first file in the `.toc` is where cross-cutting constants belong
+
+Because order *is* the contract, the first-loaded file is the only place every later
+file can rely on. Two things earn that slot, and both are load-bearing rather than
+stylistic:
+
+- **A shared constant list that more than one consumer reads.** A seeder, a migration
+  and a settings panel each holding their own copy of the same list is how they drift
+  apart — and drift here is silent, because each copy is individually valid.
+- **A dual-client version flag.** When a single codebase must serve two interface
+  versions (a live patch and its successor during the PTR window), compute the flag
+  **once**, at the top of the first file, from `select(4, GetBuildInfo())` against the
+  numeric interface — never re-derive it per call site. An 18-addon suite spanning the
+  12.0.7 / 12.1.0 window resolves ~103 branch sites off exactly one such flag.
+  ⚠ **Pair it with a demolition plan in the comment**: name the flag a *documented
+  exception* to whatever "no version branches" rule the codebase otherwise holds, and
+  state that the post-launch cleanup deletes both the branches and the flag. A version
+  gate with no stated expiry becomes permanent, and permanent gates are how a codebase
+  ends up serving three dead patches.
+
+⚠ **This is about to matter here.** 12.1.0 is imminent (`12.1.0-ptr-heads-up.md`), and
+CDMProbe will face the same dual-client window. Adopting the single-flag shape *before*
+the first branch is written is much cheaper than retrofitting it after twenty.
+
+*[Constraint (`.toc` order) is Tier 1, §1.1 above. The single-flag + demolition-plan
+pattern was observed in EllesmereUI 8.7.5 — read for API discovery only, no code
+copied; the reasoning is restated, not reproduced.]*
 
 ### 1.2 XML is a second, nestable ordering mechanism
 

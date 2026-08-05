@@ -143,4 +143,16 @@ _(design context: `projects/cooldown-hud/docs/`; source-read findings folded int
 
 ## Research to-do
 
-_(empty — drop "look into X" research threads here that aren't claim-verifications)_
+- **The addon-mining queue lives in its own file, not here.**
+  `knowledge/addon-dev/mined-pending-verification.md` (created 2026-08-05 by the first
+  `/mine-addon` run, against EllesmereUI 8.7.5). It holds everything mined from a
+  third-party addon that is **Tier 3 or needs a client** — nothing in it is asserted
+  anywhere, and each item names exactly what would settle it.
+  ⚠ It is a **third** queue, deliberately distinct from the two that already exist:
+  `_meta/verify-in-game.md` is **generated** from `@verify-ingame` markers on claims the
+  KB *already asserts* ("confirm this while logged in"); this inbox is free-form and
+  un-routed. The mining queue is neither — several of its items need a **Tier-1 re-read**
+  or a **PTR**, not a login. Not harvested by any tool.
+  **Highest-value item in it:** whether `item.auraDataCached` is plain in combat — if it
+  is, the in-combat DoT-remaining read that `cooldown-manager.md` §5.1 and §7 both call
+  unanswerable is already sitting on the CDM item frame. *(2026-08-05)*

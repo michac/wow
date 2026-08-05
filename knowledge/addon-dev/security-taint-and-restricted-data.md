@@ -2,11 +2,23 @@
 title: Security — protected actions, taint, and restricted data (secret values)
 patch: 12.0.7
 fetched: 2026-08-04
-reviewed: 2026-08-04
+reviewed: 2026-08-05
 sources:
   - https://github.com/Gethe/wow-ui-source (live, 12.0.7.68887, commit 4383ced30106)
   - IN-CLIENT MEASUREMENT 2026-08-04 — CDMProbe `/cdmp curve` (CurveLab.lua v0.32.98),
     Havoc Demon Hunter, 12.0.7 live. §4.8.1 is the only RUN evidence in this file.
+  - IN-CLIENT MEASUREMENT 2026-08-04 — CDMProbe `/cdmp curve text` (CurveLab.lua
+    v0.32.117), Demonology Warlock, 12.0.7 live. §4.8.1 finding 9 — a SECRET cooldown
+    remaining rendered as ticking text IN COMBAT via FormatRemainingDuration + SetText.
+  - EllesmereUI v8.7.5 @ c4eba58d996a8436f467ac8f297148bff9dd3008 (2026-08-04),
+    https://github.com/EllesmereGaming/EllesmereUI — license CUSTOM, ALL RIGHTS
+    RESERVED; read for API discovery only, no code copied. Mined 2026-08-05 via the
+    `mine-addon` skill; clone deleted after (step 5). file:line citations resolve
+    only against that commit. Unverified residue:
+    `addon-dev/mined-pending-verification.md`.
+  - EllesmereUICooldownManager (installed addon, read for API discovery only, no code
+    copied) — `EllesmereUICdmBuffBars.lua:4499-4517`, the working SetMinMaxValues(0,1)
+    -> SetTimerDuration ordering behind §4.8.1 finding 10.
   - https://warcraft.wiki.gg/wiki/Secret_Values (revid 6777907, 2026-07-22)
   - https://warcraft.wiki.gg/wiki/Secure_Execution_and_Tainting (revid 6651217, 2026-02-15)
   - https://warcraft.wiki.gg/wiki/Patch_12.0.0/Planned_API_changes (revid 6746061, 2026-06-17)
@@ -1039,7 +1051,17 @@ The distinction that most sources get wrong:
   `UnitHealthPercent` (:1426), `UnitPercentHealthFromGUID` (:2514),
   `UnitGetIncomingHeals` (:1237), `UnitGetTotalAbsorbs` (:1254),
   `UnitGetTotalHealAbsorbs` (:1270), `UnitCastingDuration` (:798),
-  `UnitInRange` (:1618), `UnitPowerBarTimerInfo` (:2643),
+  `UnitInRange` (:1618) — ⚠ **but range is NOT lost, and this list read as if it
+  were**: `C_Spell.IsSpellInRange(spellIdentifier, targetUnit)` carries **no secret
+  predicate at all** (`SpellDocumentation.lua:841-855`, only
+  `SecretArguments = "AllowedWhenTainted"`) and returns true / false / **nil**
+  (nil = the check was invalid — unknown spell, missing target). `C_Item.IsItemInRange`
+  is likewise unpredicated (`ItemDocumentation.lua:1498-1511`). So a per-spec ladder
+  of spell IDs is the working range check under restriction. ⚠ Resolve each id
+  through `C_SpellBook.FindSpellOverrideByID` first, or a talent-replaced base id
+  silently answers `nil` and reads as "out of range". [Tier 1 for the predicates;
+  the ladder pattern seen working in EllesmereUI 8.7.5, read for API discovery only.]
+  `UnitPowerBarTimerInfo` (:2643),
   `UnitSpellTargetClass` (:3003), `UnitSpellTargetName` (:3020),
   `PlayerIsSpellTarget` (:510), `ClosestUnitPosition` (:53),
   `ClosestGameObjectPosition` (:34),
@@ -1205,7 +1227,7 @@ reports them **method-less**; probe with a pcall'd call instead.
 | bar fill | `SetValue` / `SetMinMaxValues` | ✅ **carries** — aspect `{BarValue}` |
 | bar colour | `SetStatusBarColor` | ✅ **carries** — but only with a bar texture, and the aspect lands on the **texture** |
 | rotation | `Texture:SetRotation` | ✅ **carries** — aspect `{Rotation}` |
-| **duration** | `SetCooldownFromDurationObject` · `StatusBar:SetTimerDuration` · `DurationTextBinding` | ✅ **carries, and does NOT poison the anchor chain** |
+| **duration** | `SetCooldownFromDurationObject` · `StatusBar:SetTimerDuration` · `DurationTextBinding` | ✅ **carries, and does NOT poison the anchor chain** — ⚠ but see the **grade correction** under finding 1: this row proves the *object* carried a secret, **not** that a pixel moved |
 | text | `FontString:SetText` / `SetFormattedText` | ⚠ **carries AND poisons the anchor chain** — see below |
 | ⚠ | `Texture:SetTexture` | ❌ **REFUSES** — *"Cannot set texture to a secret string value."* |
 | ⚠ | `Texture:SetAtlas` | ⚪ accepted, nothing observable changed (no aspect, no getter) |
@@ -1220,6 +1242,122 @@ behaves identically**, which is a live in-combat *aura* timer — §4.9's "aura 
 is wholly sealed in combat" is about the `AuraData` record, and the duration
 object is a way round it for display. ⚠ `C_Spell.GetSpellChargeDuration` returns
 **nothing** for a spell with no charges (`MayReturnNothing`); that is not a refusal.
+
+⚠⚠ **GRADE CORRECTION, 2026-08-04 — "the sinks consume it" was over-claimed, and it
+cost four builds.** The three duration sinks declare **no**
+`SecretArgumentsAddAspect` (`SimpleStatusBarAPIDocumentation.lua:308-320`), so they
+are **aspect-less** — the class this file elsewhere calls the dangerous one, with
+*no readback of any kind*. `hsv` and `anchor 0>0` prove the **object carried a
+secret** and **the chain stayed clean**. Neither shows a pixel moving. A
+`StatusBar:SetTimerDuration` bar rendering **nothing** is fully consistent with the
+evidence as originally recorded, and that is exactly what happened: a correctly
+installed duration (`GetTimerDuration` → userdata, `IsZero` false) with the
+status-bar texture at **0 % width** for four builds. **Read this row as "the channel
+accepts a secret", never as "the channel displays one."** The two sub-findings below
+close it: **9** is the display route that is *confirmed rendering in combat*, and
+**10** is why the bar was blank (it was our bug, not the client's).
+
+**9. ✅✅ CONFIRMED IN COMBAT — the shortest route to a secret number on screen is
+two calls, and it is TEXT, not a bar.** Measured 2026-08-04, Demonology, Summon
+Demonic Tyrant 265187 (`/cdmp curve text`):
+
+```lua
+local dur = C_Spell.GetSpellCooldownDuration(spellID, true)   -- ignoreGCD = true
+local fmt = C_StringUtil.CreateSecondsFormatter()             -- StringUtilDocumentation.lua:29-37
+local s   = dur:FormatRemainingDuration(fmt, Enum.DurationTimeModifier.RealTime)
+fontString:SetText(s)                                          -- renders. In combat. Ticking.
+```
+
+`FormatRemainingDuration` returns a **`string`**
+(`LuaDurationObjectAPIDocumentation.lua:144-158`) — not a curve result, not an
+object — and it comes back **SECRET in combat**, which `SetText` then renders per
+finding 4. **No curve, no StatusBar, no `DurationTextBinding`, no clock.** Both
+halves were already in this file and were simply never used together.
+⚠ **The constraint is finding 4's other half**: `SetText` with a secret also marks
+**anchoring** secret, so the FontString must be a **leaf** — its own holder, and
+nothing ever anchored to it. ⚠ `modifier` is `Nilable = false` *with* a `Default`
+(`:154`) — pass it explicitly; see §4.6's `Default ≠ Nilable` rule.
+
+**10. ⚠⚠ `StatusBar:SetTimerDuration` NEEDS A RANGE — `SetMinMaxValues(0, 1)` FIRST.**
+A timer **drives the value within** a range; it does not bring one. With no range
+the bar holds a valid duration object and draws **0 %**. This was misdiagnosed here
+first: Blizzard calls `SetMinMaxValues(0, 0)` in
+`EncounterTimelineTimerEvent.lua:76-82` under *"Ensure the timer bar doesn't keep a
+reference to the timer object"*, which reads as "min/max releases the timer, never
+call it". **The releasing part is the degenerate ZERO range, not the call** — `(0,0)`
+is teardown, `(0,1)` is setup. Confirmed against a shipping implementation rather
+than inferred from a teardown path: **EllesmereUICooldownManager**
+(`EllesmereUICdmBuffBars.lua:4499-4517`) does `sb:SetMinMaxValues(0, 1)` and *then*
+`sb:SetTimerDuration(durObj, interp, RemainingTime)`, in that order.
+⚠ It also reaches for `Enum.StatusBarInterpolation.None`, which is **not** in the
+generated enum (only `Immediate = 0` and `ExponentialEaseOut = 1`,
+`SimpleStatusBarConstantsDocumentation.lua:25-28`) — prefer the documented member.
+⚠ And `SetStatusBarTexture` returns a `success` **bool** (`:295-307`) that almost
+everyone discards; a texture that fails to resolve yields a bar nothing can fill.
+@verify-ingame — our own bar's fix is shipped but not yet re-flown.
+
+**11. ⚠⚠ A DURATION OBJECT IS ITSELF A CURVE EVALUATOR — the curve sink we
+concluded did not exist.** `LuaDurationObject:EvaluateRemainingDuration(curve,
+modifier)` takes a `LuaCurveObjectBase` and returns a `LuaCurveEvaluatedResult`
+(`LuaDurationObjectAPIDocumentation.lua:72-88`). So a **Step** curve
+(`LuaCurveType.Step = 1`, *"performs no interpolation between points, instead
+snapping to values exactly"*, `LuaCurveObjectConstantsDocumentation.lua:14`)
+**thresholds a secret cooldown-remaining entirely in C**:
+
+```lua
+local curve = C_CurveUtil.CreateCurve()
+curve:SetType(Enum.LuaCurveType.Step)
+curve:AddPoint(0, 1); curve:AddPoint(threshold, 0)     -- our points, not secret
+local r = dur:EvaluateRemainingDuration(curve, Enum.DurationTimeModifier.RealTime)
+texture:SetDesaturation(r)                              -- AllowedWhenTainted sink
+```
+
+§4.8.1 concluded secret **counts** have no curve sink. True for counts — but a
+duration object carries its own evaluator, so this is a general *"threshold a
+secret number engine-side"* primitive, and it reaches `Desaturation` and
+`CooldownStyle`, both already graded ✅ carries above.
+⚠ **The secrecy of the RESULT is unmeasured and the annotation is ambiguous.**
+`EvaluateRemainingDuration` is marked `SecretWhenCurveSecret` — i.e. secret *when
+the curve is*. Ours is not. Read literally that returns a **readable** number
+derived from a sealed duration, which would let you binary-search the remaining
+time. Either the annotation is incomplete or that is a leak. **Do not assume
+either** — `mined-pending-verification.md` carries this as a one-cell CurveLab
+measurement. Treat the result as secret until measured.
+⚠ **`modifier` is `Nilable = false` WITH a `Default`** (`:82`) — pass it
+explicitly (§4.6's `Default ≠ Nilable` rule). A shipping addon passes an *alpha
+value* in that slot, evidently believing it is a fallback; there is no fallback
+parameter. Do not copy that shape.
+*Seen working in:* EllesmereUI 8.7.5 (read for API discovery only, no code copied).
+*Confidence:* high on the mechanism, **unmeasured** on result secrecy.
+
+**12. `StatusBar:SetToTargetValue()` after arming a timer, on first show.** A bar
+just made visible otherwise interpolates from its stale previous value up to the
+timer's position. `SetToTargetValue` *"immediately finishes any interpolation of
+the bar and snaps it to the target value"*
+(`SimpleStatusBarAPIDocumentation.lua:322-329`). So the full recipe is
+`SetMinMaxValues(0, 1)` → `SetTimerDuration(dur, interp, RemainingTime)` →
+*`SetToTargetValue()` if newly shown*. *Confidence:* high.
+
+**13. `Cooldown:SetCooldownFromDurationObject` needs NO range-equivalent** — unlike
+the StatusBar, the duration object is passed bare and the swipe geometry comes
+from it (`FrameAPICooldownDocumentation.lua:305-314`; `clearIfZero` defaults
+`true`). Two riders: the swipe is drawn from the widget's **armed duration**, not
+from the `SetDrawSwipe` flag, so `SetDrawSwipe(true)` on a cleared widget draws
+nothing; and a widget that may be showing aura display time needs
+`SetUseAuraDisplayTime(false)` first (`:545-554`) or it keeps drawing the aura
+timer. *Confidence:* high on the first, medium on the ordering rider.
+
+**14. A second text route: `GetRemainingDuration()` → `SetFormattedText`.**
+`GetRemainingDuration(modifier)` returns a `DurationSeconds`
+(`LuaDurationObjectAPIDocumentation.lua:270-283`) that is a **secret number in
+combat**, and `FontString:SetFormattedText` (`AllowedWhenTainted`, aspect `{Text}`)
+renders it. Unlike finding 9's formatter route the format string lives in Lua, so
+precision is per-call. ⚠ It inherits finding 4 — `SetFormattedText` **poisons
+anchoring**, so the FontString must be a leaf. `DurationTextBinding` remains the
+only anchor-safe text route.
+⚠⚠ **AND `type(x) == "number"` IS THE WRONG GUARD.** A secret number fails it, so
+a bare `type()` check silently rejects exactly the in-combat case you need. Ask
+`issecretvalue` first (rule 15). *Confidence:* high on the API pair.
 
 **2. `UnitPowerPercent` accepts a `LuaColorCurveObject`.** Its curve argument is
 typed `LuaCurveObjectBase` (`UnitDocumentation.lua:2729`), the shared base of both
@@ -1277,6 +1415,69 @@ the two `AnimVertexColor` setters declare no aspect, expose no getter and did no
 touch the anchor chain, so "accepted and nothing observable changed" is the strongest
 statement the instrument can make. Whether the pixel moved needs an eyeball on
 `/cdmp curve card`. @verify-ingame
+
+#### 4.8.2 A THRESHOLD CUE ON A SECRET COUNT — shipped and confirmed in play
+
+⚠ **This is not a measurement, it is a working technique.** Built and flown
+2026-08-04 (CDMProbe `/cdmp curve stack`, Demonology): a visible cue that fires at
+*>6 Wild Imps* and at *4 Demonic Core* — two counts that are **secret in combat**
+and, per §4.8.1, have **no curve sink**, so they can never reach alpha, colour or a
+bar. Text is the only channel that accepts one at all.
+
+**The trick is that the comparison happens in C and we consume only the visual
+difference.** `C_UnitAuras.GetAuraApplicationDisplayCount(unit, auraInstanceID,
+minDisplayCount, maxDisplayCount)` (`UnitAuraDocumentation.lua:112-128`) is a
+three-way quantiser:
+
+| applications | returns |
+|---|---|
+| below `min` | **empty string** |
+| between | the count |
+| above `max` | `"*"` |
+
+An empty string renders nothing; a count renders. So a FontString fed
+`(unit, id, 7, nil)` is **invisible below 7 stacks and shows the number at 7+**, and
+no Lua ever reads, compares or sees the value. **The appearance of the text is the
+cue.** Confirmed on screen: the number appears on crossing the threshold.
+
+**Three preconditions, all of them non-obvious:**
+
+1. **A live `auraInstanceID`.** The call is `RequiresValidUnitAuraInstance` and the
+   aura enumeration is sealed in combat — but `item.auraInstanceID` on Blizzard's own
+   CDM frame reads a plain number in a pull (cooldown-manager.md §7 Tier 2). Without
+   that the technique is dead; a secret id would be **refused**, since the API is
+   `SecretArguments = "AllowedWhenUntainted"`.
+2. **The FontString must be a LEAF.** `SetText` with a secret applies `{Text}` *and*
+   marks anchoring secret, propagating down (§4.8.1 finding 4). Anchor it *to*
+   something and never anchor anything *to it*.
+3. **Draw where you like.** ⚠ The read needs the CDM item frame; **the draw does
+   not.** By the time you hold the string the comparison is done and it is ordinary
+   text. Anchoring the draw to the item is a design choice, and a poor one here — the
+   same aura can be tracked on **two viewers at once** (Demonic Core: bar *and* icon),
+   so a first-match-wins anchor flip-flops.
+
+⚠ **Out of combat the same call returns a PLAIN STRING** (`SecretWhenUnitAuraRestricted`,
+so the seal is contextual, not permanent). Openers and desk checks can read the count
+as ordinary text; only mid-pull is the quantiser needed.
+
+#### 4.8.3 `[client]` Which comparisons a secret survives — partial, measured
+
+Bare `==` against a **number** throws: `item.auraSpellID == spellID` killed a refresh
+loop the instant combat started (2026-08-04). But `x == nil` appears to be
+**permitted** — a nil-guard has run on secrets every sample of every capture without
+raising. That asymmetry is consistent with the model (comparing to nil leaks nothing
+that is not already knowable) but is **inferred from two data points, not from any
+Tier-1 statement**. @verify-ingame
+
+**The practical rule needs neither:** ask `ns.ClassOf`/`issecretvalue` first and branch
+on the **class**, never on the value. Then nothing depends on which comparisons the
+client happens to allow.
+
+⚠ **And the meta-lesson from four rounds of debugging this**, worth more than either
+fact: *every* guard was on the reads expected to be secret, and *every* actual break
+was on a value not thought of as data at all — a frame's `auraSpellID`, a StatusBar
+with no texture, a holder frame with no rect. The secret-values model is not the hard
+part. Remembering that everything touching a restricted object is in scope is.
 
 ### 4.9 Communication and combat log
 
@@ -1688,8 +1889,22 @@ brackets is the evidence the rule rests on.
    those substrings inside comments and string literals.
    [Tier 1: `RestrictedExecution.lua:58-66`]
 7. A snippet may only call names present in `RESTRICTED_FUNCTIONS_SCOPE` or
-   `DIRECT_MACRO_CONDITIONAL_NAMES`; `table` is not among them.
-   [Tier 1: `RestrictedEnvironment.lua:24-77` (note :27) and :81+]
+   `DIRECT_MACRO_CONDITIONAL_NAMES`. ⚠ **CORRECTED 2026-08-05 — `table` IS
+   available, and this rule said the opposite.** The comment at
+   `RestrictedEnvironment.lua:27` ("table is provided elsewhere, as direct tables
+   are not allowed") names a different file as the source, and we stopped at the
+   first one: `RestrictedExecution.lua:324-334` injects a `table` namespace —
+   `maxn`, `insert`, `remove`, `sort`, `concat`, `wipe`, and **`new`**
+   (= `rtable.newtable`) — via `PopulateGlobalFunctions` at `:335`. It also injects
+   at top level `newtable`, `copytable`, `pairs`, `ipairs`, `next`, `unpack`,
+   `wipe`, `tinsert`, `tremove`, a restricted-table-aware `type`, and `rtgsub`
+   (`:276-294`). So **`table.new()` / `newtable()` is the sanctioned substitute for
+   the `{}` constructor**, which `BuildRestrictedClosure` rejects at build time —
+   snippet-local storage is entirely possible, where this rule previously implied
+   it was not.
+   [Tier 1: `RestrictedExecution.lua:276-294, 324-335`;
+   `RestrictedInfrastructure.lua:562-579` (the `rtable` export);
+   `RestrictedEnvironment.lua:24-77`]
 8. `RegisterAttributeDriver` silently no-ops on any attribute name whose first
    character is `_`.
    [Tier 1: `SecureStateDriver.lua:9`]
@@ -1790,10 +2005,19 @@ brackets is the evidence the rule rests on.
     (82 getters) returns a secret thereafter. The **addon-reachable** example is
     `FontString:SetText` (`AllowedWhenTainted`) → `GetText` via
     `Enum.SecretAspect.Text`. The `SetShown` → `IsShown`/`IsVisible` pairing via
-    `Enum.SecretAspect.Shown` is real in the docs but an addon cannot trigger it:
-    `SetShown` is `AllowedWhenUntainted` *and* `IsProtectedFunction = true`. Audit
-    for the getter side regardless — Blizzard code can set the aspect on a frame
-    you then read.
+    `Enum.SecretAspect.Shown` cannot be **triggered** by an addon — `SetShown` is
+    `AllowedWhenUntainted` *and* `IsProtectedFunction = true`.
+    ⚠ **But do not read that as "an addon will never see this aspect."** It was
+    phrased that way and the phrasing invited exactly the wrong shortcut: skipping
+    the `issecretvalue` guard on `IsVisible` because *"we never call `SetShown` on
+    it."* `IsVisible` carries `SecretReturnsForAspect = { Enum.SecretAspect.Shown }`
+    (`SimpleScriptRegionAPIDocumentation.lua:534-536`), and an addon-created frame
+    parented into an **engine-owned** subtree returns a secret from it, because the
+    engine drives the parent's shown state. A bare boolean test on that return
+    errors. **Guard the getter side always** — that is what the trailing sentence
+    always meant, and the parenthetical in front of it undercut.
+    [Tier 3 for the engine-subtree reachability, reported against 12.1.0 aura
+    buttons; Tier 1 for the annotation.] @verify-ingame
     [Tier 1: `SimpleFontStringAPIDocumentation.lua:653-656, 352`;
     `SimpleFrameAPIDocumentation.lua:1354-1358, 841, 895`]
 20. Code must not assume `GetPoint`/`GetLeft`/`GetWidth` are readable on a

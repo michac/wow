@@ -2,12 +2,18 @@
 title: The Cooldown Manager — how a CDM row resolves
 patch: 12.0.7
 fetched: 2026-07-31
-reviewed: 2026-07-31   # + a client capture 2026-07-31 (CDMProbe /cdmp census, Destruction both hero trees)
+reviewed: 2026-08-05   # + a client capture 2026-07-31 (CDMProbe /cdmp census, Destruction both hero trees)
 sources:
   - raw/addon-research/wow-ui-source @ 12.0.7.68887 — Interface/AddOns/Blizzard_CooldownViewer/*
   - raw/addon-research/wow-ui-source @ 12.0.7.68887 — Blizzard_APIDocumentationGenerated/CooldownViewer{,Constants}Documentation.lua
   - wago.tools DB2 @ 12.0.7 — CooldownSet, CooldownSetSpell, CooldownSetLinkedSpell (raw/wago/)
   - projects/cooldown-hud/docs/notes.md — CDMProbe in-client captures
+  - EllesmereUI v8.7.5 @ c4eba58d996a8436f467ac8f297148bff9dd3008 (2026-08-04),
+    https://github.com/EllesmereGaming/EllesmereUI — license CUSTOM, ALL RIGHTS
+    RESERVED; read for API discovery only, no code copied. Mined 2026-08-05 via the
+    `mine-addon` skill; clone deleted after (step 5). file:line citations resolve
+    only against that commit. Unverified residue:
+    `addon-dev/mined-pending-verification.md`.
 confidence: high
 ---
 
@@ -496,6 +502,8 @@ file; the refuted claim is retained there with its reasoning.)* Classify on **fa
 | `item.cooldownID` | both | readable; **can read secret in restricted combat** | The binding key. Resolve out of combat; never overwrite a known-good id with an unreadable one. |
 | `item:IsActive()` | **tab 2 only, meaningfully** | **`[client]`** readable | On tab 1 it is `cooldownID ~= nil` → **constant true**. Same method, two meanings (§1.1). |
 | `item.auraDataUnit` | both | **`[client]` READABLE IN COMBAT — and the best in-combat aura-presence signal found so far** | A plain `"player"`/`"target"` string — the only thing that says **which side the bound aura is on**. Nothing in the struct carries this. **Measured 2026-07-31** (Destruction, both hero trees): `nil` on every row out of combat, and in combat exactly the rows with a live bound aura answer — Immolate cid 133441 and 164597 → `"target"`; Backdraft, Malevolence, Conflagration of Chaos → `"player"`. **Why this matters more than it looks:** with the alert channel silent for a maintained aura (§5.1) and `C_UnitAuras` fully secret, a non-nil `auraDataUnit` is a *readable, in-combat* statement that this row has a live bound aura — which is the "is the DoT up" read nothing else can currently answer. **`[client]` CONTROL MEASURED 2026-07-31**: in combat *before* the DoT was applied it read `nil`, and `target` once applied — so it discriminates, it does not latch. Together with `PandemicIcon` this gives a tab-1 row two readable in-combat aura facts: *is it up* and *is it in pandemic*. |
+| `item.auraInstanceID` | both | **`[client]` READABLE IN COMBAT — reads a plain number** | ⚠ **This is the key that unlocks in-combat aura queries.** `RequiresValidUnitAuraInstance` APIs need an instance id, and the enumeration that hands them out (`GetAuraDataByIndex` and friends) is sealed in a pull — but Blizzard's own frame carries one and keeps it fresh (`SetAuraInstanceInfo`, §2.5). **Measured 2026-08-04** (CDMProbe `/cdmp curve stack`, Demonology, in combat): `id=num` on Wild Imps 296553 and Demonic Core 264173, and it passes cleanly into `C_UnitAuras.GetAuraApplicationDisplayCount` — which is `SecretArguments = "AllowedWhenUntainted"` and would have **refused** a secret. See security-taint §4.8.2 for what that buys. |
+| `item.auraSpellID` | both | ⚠ **`[client]` SECRET IN COMBAT** | Written from aura data (`auraInfo.spellId`, §2.5), so it inherits the seal — unlike its sibling `auraInstanceID` above, which does not. **Measured 2026-08-04, the hard way:** `aid == spellID` on this field **threw** the moment a pull started, killing an entire refresh loop. ⚠ **Never compare it; class-check first.** A frame search that matches on this field must guard, or it dies exactly when it is needed. |
 | `item.wasSetFromCharges` / `wasSetFromCooldown` / `wasSetFromAura` | tab 1 | **`[client]` READABLE IN COMBAT** | Plain booleans set by bare assignment `[:648-669]`, recording **which source won this refresh** — i.e. what the dial currently *means*. **Measured 2026-07-31**: 66–69 readable booleans vs 9 `nil` per capture, unchanged in and out of combat. This is the one axis that separates "the swipe is a cooldown" from "the swipe is an aura remaining", and it survives restriction. |
 | `item.cooldownStartTime` / `cooldownDuration` | tab 1 | secret in combat | Copied straight from `C_Spell.GetSpellCooldown`, so they inherit its secrecy. Values, not verdicts. |
 | `item.pandemicStartTime` / `pandemicEndTime` | both | **`[client]`** secret in combat; `IsInPandemicTime` **throws** | 2026-07-30, re-confirmed 2026-07-31. ⚠ `IsInPandemicTime` is **not blocked** — its body (`:587`) compares these two fields against `timeNow`, and they are secret, so the *comparison* is what fails. Untainted code does that arithmetic fine; we cannot. |
@@ -514,7 +522,8 @@ file; the refuted claim is retained there with its reasoning.)* Classify on **fa
 | `UNIT_SPELLCAST_*` (player) | **`[client]`** readable spellID in all four phases |
 | `C_SpellActivationOverlay.IsSpellOverlayed` | **`[client]`** readable in combat |
 | `C_Spell.GetSpellCooldown` / `GetSpellCharges` | **`[client]`** fully readable **out** of combat, secret **in** |
-| `C_UnitAuras.Get*` | The **entire `AuraData` record** is secret when restricted — including `GetPlayerAuraBySpellID`. Your own auras are as sealed as the target's. See `security-taint-and-restricted-data.md`. |
+| `C_UnitAuras.Get*` | The **entire `AuraData` record** is secret when restricted. ⚠ **But "your own auras are as sealed as the target's" was too strong — CORRECTED 2026-08-05.** Three getters carry a **`Precondition`** our KB had never recorded: `RequiresNonSecretAura = true` on `GetPlayerAuraBySpellID` (`UnitAuraDocumentation.lua:335`), `GetUnitAuraBySpellID` (`:372`) and `GetAuraDataBySpellName` (`:208`), declared as a `Precondition` at `:560`. That is a **per-aura allowlist**, not a blanket seal: a spell flagged non-secret still answers. ⚠ It is a *precondition*, so a spell that is flagged secret yields **silent absence** — not an error, not a secret value (§4.7's Secret-vs-Precondition split). ⚠⚠ **And the set is being narrowed build-over-build**: Ebon Might (395296) was reportedly dropped from it during 12.1.0 PTR, killing a shipping addon's numeric `expirationTime` path outright. Anything built on a passing aura is on a moving floor. [Tier 1 for the annotation; Tier 3 for the narrowing.] |
+| `item.auraDataCached` / `GetAuraDataCached()` | ⚠ **NEW 2026-08-05, and the most promising unmeasured lead here.** Every item frame parks the **complete `AuraData` record** of its currently-bound aura on itself, written in the *same statement block* as `auraDataUnit` — the field we already measured readable in combat — and nil'd together with it (`CooldownViewerItemData.lua:395-408`, accessor `:411-413`). Blizzard's own consumers read `.expirationTime`, `.duration`, `.timeMod`, `.applications` and `.auraInstanceID` off it. Refreshed on both families via `RefreshAuraInstance` inside every `RefreshData`. **If those members are plain in combat, the "how much time is left on my DoT" read that §5.1 and §7 both call unanswerable is already sitting on the frame.** ⚠ Secrecy is tagged per value at read time and *Blizzard's* untainted code performed this read, so this is plausible but **entirely unverified** — measure before building on it. @verify-ingame |
 
 **Summary: the readable surface changes with the family, but asymmetrically.** Tier 1
 is identical. Tier 2 diverges hardest — tab 1 carries a cooldown/charge cache and the

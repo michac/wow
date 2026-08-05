@@ -1217,6 +1217,25 @@ work lands now — the user drives the list; a few already-surfaced items are se
     it works, and *neither moves* = the instrument is broken and the capture proves nothing.
     Then `/reload` → `uv run python -m wowkb.cdmp curvelab`. Repeat on the Warlock for the
     Soul Shards control row.
+  - **✅ THE THRESHOLD CUE WORKS — CONFIRMED IN PLAY 2026-08-04** (`/cdmp curve stack`).
+    A visible cue at **>6 Wild Imps** and **4 Demonic Core**: two counts that are secret in
+    combat and have **no curve sink**, so text is the only channel that can carry them. The
+    comparison happens in C (`GetAuraApplicationDisplayCount`'s `min` returns an EMPTY STRING
+    below the threshold) and we consume only the visual difference — nothing here ever reads
+    the count. Written up as a shipped pattern in
+    `knowledge/addon-dev/security-taint-and-restricted-data.md` **§4.8.2**.
+    - ⚠ **What unlocked it: `item.auraInstanceID` reads a PLAIN NUMBER in combat.** The
+      aura enumeration is sealed in a pull, but Blizzard's own CDM frame carries a live
+      instance id — and the API would have *refused* a secret one, so this was genuinely
+      load-bearing rather than convenient.
+    - ⚠ **It took five builds, and every one of them was our bug, not the client's**: a
+      secret `item.auraSpellID` compared against a number (which threw and froze the whole
+      refresh), a ticker `pcall` that swallowed that throw, the same aura tracked on **two
+      viewers** so the anchor flip-flopped, a stale number that could never be cleared, and a
+      StatusBar with no texture. **The pattern: every guard was on the reads we expected to
+      be secret; every actual break was on a value we did not think of as data at all.**
+    - ⚠ **The draw does not need the CDM item — only the READ does.** Anchoring both to the
+      frame caused most of the above; the cue now draws in its own panel.
   - ⏳ **Fly it on the DH** (Fury is secret there, which is the whole point) — it rides along
     with the Havoc flight above rather than competing with it, since it needs the same
     session. **If the duration route proves out, that becomes its own piece of work with the

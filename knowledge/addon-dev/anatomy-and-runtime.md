@@ -2,8 +2,14 @@
 title: Addon anatomy and the runtime environment
 patch: 12.0.7
 fetched: 2026-07-23
-reviewed: 2026-07-23
+reviewed: 2026-08-05
 sources:
+  - EllesmereUI v8.7.5 @ c4eba58d996a8436f467ac8f297148bff9dd3008 (2026-08-04),
+    https://github.com/EllesmereGaming/EllesmereUI — license CUSTOM, ALL RIGHTS
+    RESERVED; read for API discovery only, no code copied. Mined 2026-08-05 via the
+    `mine-addon` skill; clone deleted after (step 5). file:line citations resolve
+    only against that commit. Unverified residue:
+    `addon-dev/mined-pending-verification.md`.
   - https://github.com/Gethe/wow-ui-source (live, version.txt 12.0.7.68887, commit 4383ced30106d51b27e3e86d1987f1552f0d259d)
   - https://warcraft.wiki.gg/wiki/TOC_format (revid 6767089, 2026-07-09)
   - https://warcraft.wiki.gg/wiki/AddOn_loading_process (revid 6302251, 2025-04-23)
@@ -273,6 +279,18 @@ entirely** — treat as Blizzard-internal and unusable:
 | `## ShowInAddOnList: 0` | `Blizzard_PerksProgram/Blizzard_PerksProgram.toc:3` |
 | `## ShowInDebugList: 1` | `Blizzard_EventTrace/Blizzard_EventTrace.toc:4` |
 | `## SuppressLocalTableRef: 1` | `Blizzard_RecruitAFriend/Blizzard_RecruitAFriend.toc:5` — the wiki says this was **removed in 11.0.0**, yet it is still in the 12.0.7 corpus. |
+
+⚠ **`## Category:` is a real, addon-facing field this file did not carry** (added
+2026-08-05). It sets the grouping label an addon appears under in Blizzard's addon
+list. It does **not** affect loading, dependencies or environment — it is purely how
+the addon list clusters entries, which is why a suite that ships as N separate addons
+(the only way to make parts individually toggleable) uses one shared `Category` string
+to keep them together in the UI instead of scattered alphabetically. ⚠ The value is a
+display string and **accepts colour escapes**, so it is not safe to compare or key on.
+*[Seen in use across an 18-addon suite: EllesmereUI 8.7.5, read for API discovery only,
+no code copied. `## Category:` does not appear in the Blizzard corpus, which ships as
+`Blizzard_*` addons that are hidden from the list — so this is a third-party-only field
+in practice.]* @verify-ingame — confirm the grouping renders as described.
 
 ### 2.4 Per-line conditionals and variables
 
