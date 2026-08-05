@@ -1,12 +1,15 @@
 ---
 title: Havoc Demon Hunter — Rotation (Midnight S1)
 patch: 12.0.7
-fetched: 2026-07-11
-reviewed: 2026-07-11
+fetched: 2026-08-03
+reviewed: 2026-08-03
 sources:
   - https://raw.githubusercontent.com/simulationcraft/simc/midnight/profiles/MID1/MID1_Demon_Hunter_Havoc.simc  # tier 1 APL, simc midnight branch (default = Fel-Scarred), 2026-07-11
   - https://www.method.gg/guides/havoc-demon-hunter/playstyle-and-rotation  # tier 3, 12.0.7, 2026-07-11
   - https://www.icy-veins.com/wow/havoc-demon-hunter-pve-dps-rotation-cooldowns-abilities  # tier 3, 12.0.7, 2026-07-11
+  - https://www.warcraftlogs.com/  # tier 2, top-100 Mythic Imperator Averzian parses, 12.0.7, 2026-08-03 (cast + damage + resourcechange event timelines, n=7)
+  - https://www.method.gg/guides/havoc-demon-hunter/interface-and-macros  # tier 3, 12.0.7, 2026-08-03
+  - https://www.icy-veins.com/wow/havoc-demon-hunter-pve-dps-macros-addons  # tier 3, 12.0.7, 2026-08-03
 confidence: high
 ---
 
@@ -132,3 +135,67 @@ at **3+ targets**, or 2+ with **Trail of Ruin**, or always with First Blood):
 - [x] Both hero-tree branches captured (Fel-Scarred default, Aldrachi Reaver)
 - [ ] Sanity-check the opener against a top WCL Havoc log (`wowkb.wcl`)
 - [ ] Re-distill if the simc midnight branch publishes a retuned 12.0.7 APL
+
+
+## What the logs say — measured from real parses (Tier 2, 2026-08-03)
+
+Pulled from the **top-100 Mythic Imperator Averzian** rankings (WCL, 12.0.7): full cast,
+damage and `resourcechange` event timelines for **7 parses**, 47 Vengeful Retreats.
+
+### Fury management is close to a non-issue for this build
+
+| player | Fury gained | wasted (overcap) | waste |
+|---|---:|---:|---:|
+| Paprzdh | 4,119 | 311 | 7.6 % |
+| Yunadh | 4,345 | 482 | 11.1 % |
+| Bibussy | 5,612 | 708 | 12.6 % |
+| Chezzar | 5,386 | 1,237 | 23.0 % |
+| **pooled** | **19,462** | **2,738** | **14.1 %** |
+
+**Top players waste roughly one Fury in seven**, and the dominant source is **Demon
+Blades** — a *passive* off autoattacks that no rotation decision can gate — with
+Immolation Aura's ticks second. This is why the guides carry almost no Fury advice: the
+only Fury instruction maxroll gives is *"Cast Immolation Aura if you won't overcap on
+fury"*. Practical reading: **do not treat Fury as a resource to be managed tightly.** The
+one decision that matters is not sitting on capped Immolation Aura charges.
+
+⚠ Fury's max measured **170** on these characters (`maxResourceAmount` in the raw events),
+not the 120 class base — it is talent-inflated.
+
+### Vengeful Retreat: what actually follows it
+
+VR is **off the global cooldown** (since patch 8.1.0), so it is woven into another
+ability's GCD rather than costing a press. It does, however, impose a short lockout on
+**Felblade and Fel Rush** specifically.
+
+First ability cast after each VR (n=47):
+
+| followup | share | median delay | range |
+|---|---:|---:|---|
+| **Felblade** | 46.8 % | **0.86 s** | 0.69–1.04 |
+| **Fel Rush** | 23.4 % | **1.07 s** | 0.97–1.41 |
+| **Metamorphosis** | 17.0 % | 1.14 s | 0.30–1.37 |
+| other (Consuming Fire / IA / BD / EB) | 12.8 % | ~0.8 s | — |
+
+Felblade at 0.86 s is **one hasted GCD** — no waiting, because its lockout is shorter than
+a global. Fel Rush's delays cluster hard against **1.0 s** (`0.97, 0.99, 1.01, 1.02, 1.03,
+1.07, 1.07, …`), which is its lockout to the millisecond: players press it the instant it
+is legal. Metamorphosis at 17 % is the animation-cancel technique — VR backward, Meta
+leaps you back in.
+
+**Nobody macros VR.** Neither method.gg (10 macros) nor Icy Veins (6) lists one at 12.0.7;
+it stays a hand-pressed button because the movement is situational.
+
+### The positioning cost is real, and irrelevant
+
+Melee swings landed in the 5 s after a VR (baseline 5.34 expected):
+
+| | swings | vs baseline |
+|---|---:|---:|
+| VR alone (n=36) | 4.92 | −8 % |
+| **VR → Fel Rush ≤2 s** (n=11) | 2.82 | **−47 %** (≈2.5 swings lost) |
+
+So the pair does cost ~2.5 autoattacks — players are **not** threading a needle. But
+**autoattacks are only ~3.1 % of Havoc damage** (2.8–3.6 % across parses), so 2.5 swings is
+≈ **0.05 % of a pull**. Against that, VR resets **Initiative** (+crit) on every hostile
+target. Take the retreat; do not contort to save the swings.

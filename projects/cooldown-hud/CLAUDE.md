@@ -3,9 +3,12 @@
 A standalone companion app (NOT the KB): a spec-specific overlay that skins
 Blizzard's built-in **Cooldown Manager** under Midnight 12.0. Registered specs:
 **Demonology** (266, play-settled), **Destruction** (267, shipped 2026-07-29, flown
-2026-07-30) and **Retribution Paladin** (70, shipped 2026-08-02, **not yet flown — it is an
-in-game gate**, see `docs/status.md` → Active work). Every other spec resolves passive by
-design.
+2026-07-30), **Retribution Paladin** (70, shipped 2026-08-02, **cannot be flown** — the
+player has no max-level Paladin) and **Havoc Demon Hunter** (577, shipped 2026-08-03,
+**flown twice: the first pass FAILED — Fury is a SECRET value — and the Phase-1 remediation
+then flew CLEAN. A third flight is owed for v0.32.95's three new features and is THE in-game
+gate**, see `docs/status.md` → Active work). Every other
+spec resolves passive by design.
 
 **The W4 pipeline is LIVE** (`/cdmp hud` runs `State → Coach → Binder → Renderer`; the
 old engine was deleted at the W4 cutover).
@@ -37,13 +40,27 @@ The docs split **general** (spec-agnostic — the product, the pipeline) from
   HUD draws its own icons for abilities Blizzard's Cooldown Manager does not track, so a
   spec's floor press stops being invisible (Destruction was blank for 31 % of a pull).
   Only the v0.32.36 **re-fly** is outstanding, and that needs a live session, not code.
-- **`docs/roster-state-plan.md`** — **Phases 1 + 2 + 3 + 4 DONE (2026-07-31) and Phase 6 DONE
-  (2026-08-01); ▶ Phase 5 is CURRENT and is the last one** (read **§6.1** first — its
-  load-bearing design decision): anchor State on the spec's declared **roster** (abilities + auras)
-  rather than on the CDM database, plus the correctness fixes and the **fixture inventory** of
-  CDM edges that had to come first. Written out of a client-correctness review of `State.lua`
+- **`docs/roster-state-plan.md`** — ✅ **THE PLAN IS COMPLETE.** Phases 1 + 2 + 3 + 4 DONE
+  (2026-07-31), Phase 6 DONE (2026-08-01), and **Phase 5 — the last and largest — DONE
+  2026-08-03**: anchor State on the spec's declared **roster** (abilities + auras) rather than
+  on the CDM database, plus the correctness fixes and the **fixture inventory** of CDM edges
+  that had to come first. Written out of a client-correctness review of `State.lua`
   against `knowledge/addon-dev/cooldown-manager.md`.
-  **Phase 1 shipped the inventory** — `addon/CDMProbe/tests/fixtures/cdm-cases.lua`, now 99
+  ⏳ **Code-complete is not flown** — Phase 5's acceptance is one **max-level Retribution**
+  pass, which discharges Retribution's own gate, the v0.32.36 re-fly and Phase 6.2's fragment
+  pass at the same time. `docs/status.md` owns that gate.
+  **Phase 5 inverted the anchor**: the spec's roster leads and the CDM became **one evidence
+  source joined against it**. The root fix is that an ability's cooldown and its charges are
+  now read about the **same spellID** — they used to resolve on two different ladders, which
+  on a row whose identity flips (Judgment) meant comparing one ability's cooldown against
+  another's charges, and that was three of the five Retribution flight defects. **Read §6.3
+  before touching `State.lua`** — eleven implementation decisions there are *not* in the plan
+  text and a fresh reader will otherwise revert them. **Read §6.1's ⚠ CORRECTION** too: the
+  `judgeable`/`secretGate` "cap at available and say why" mechanism the phase was planned
+  around **does not exist** (its consumer died at the W4 cutover); "cap at available" and
+  "never cue" turn out to be the same pixels, and the "why" lands in the decision log's `DR:`
+  field.
+  **Phase 1 shipped the inventory** — `addon/CDMProbe/tests/fixtures/cdm-cases.lua`, now 107
   declarative cases — where a `pinned-defect` case asserts the contract answer and FAILS ON
   PURPOSE, so the fix turns its own case red and flips the status in the same diff.
   **Phase 2 (v0.32.46) landed all ten correctness fixes** and cleared every pin. The
@@ -57,7 +74,7 @@ The docs split **general** (spec-agnostic — the product, the pipeline) from
   **0 `pinned-defect` / 21 `fixed`**.
   **Phase 4 shipped the roster coverage probe** — `Coverage.lua` + `/cdmp hud coverage`:
   does the CDM actually *track* every id the spec declares, or is the HUD silently blind to
-  one? It is also the required replacement for `pulse.dropped`, which Phase 5 deletes. Its
+  one? It was also the required replacement for `pulse.dropped`, which Phase 5 deleted. Its
   wholesale guard (an empty scan reports "the read refused", never "your roster is blind")
   is the load-bearing part; Crashing Chaos 417234, its one live instance, was **deleted**
   rather than covered — so the `blind` verdict is fixture-proven only. ⚠ The first flight
@@ -110,19 +127,47 @@ The docs split **general** (spec-agnostic — the product, the pipeline) from
 - **`specs/retribution/`** — the same four docs for **Retribution Paladin** (v1 profile
   **Templar**, Herald of the Sun as a delta section). **Shipped 2026-08-02** —
   `SpecRetribution.lua` + `CoachRetribution.lua` implement `rotation.md` L1–L12, with a
-  68-test branch oracle. The project's **first non-Warlock spec**, and the one that proved
+  branch oracle now **87 tests** (68 at ship; the flight's five defects and Phase 5 added the
+  rest). The project's **first non-Warlock spec**, and the one that proved
   the seam is class-agnostic — at the cost of three pipeline generalisations it had deferred
   (`display = "none"`, `ns.Coach.PowerContext`, the hero-tree vocabulary).
-  ⚠ Its defining fact is **not** the rotation: **six of its nine Essential buttons keep
-  their cooldown on a `SpellCategory` with `RecoveryTime = 0`**, so `ns.BaseCooldown` reads 0
-  and the napkin is blind on most of the spec — readiness rests on the CDM's alert edges
-  alone, and `usable()`'s "the count outranks the cooldown read" rule carries far more weight
-  here than it did on Destruction. `observability-map.md` has the six open questions the
-  live pass must settle.
+  ⚠ Its defining fact is **not** the rotation: **four of its nine Essential buttons** —
+  Judgment, Crusader Strike, Blade of Justice, Wake of Ashes — keep their cooldown on a
+  **charge category** with `RecoveryTime = 0`, so `ns.BaseCooldown` reads 0 and the napkin
+  has nothing to count down from. ⚠ *This said "six" until 2026-08-03; Avenging Wrath and
+  the two spenders are not among them.* **Readiness itself is not lost** — it comes from the
+  **charge count**; what is genuinely lost is `SOON` and `Escalate`'s overdue call, i.e.
+  decoration rather than presses. `usable()`'s "the count outranks the cooldown read" rule
+  carries far more weight here than on Destruction — and for a **1-charge** pool the count
+  and the cooldown are the same fact and must AGREE (the v0.32.90 defect).
+  `observability-map.md` has the open questions the live pass must settle.
+- **`specs/havoc/`** — the same four docs for **Havoc Demon Hunter** (v1 profile
+  **Fel-Scarred**, Aldrachi Reaver as a delta section). **Shipped 2026-08-03** —
+  `SpecHavoc.lua` + `CoachHavoc.lua` implement `rotation.md` **L1–L15**, with a branch oracle
+  of **100 tests**. The project's **4th spec and 2nd class outside Warlock**, and it needed
+  **zero pipeline generalisations** — which is itself the finding.
+  ⚠ **Its defining fact is an observability one, and it is worse in KIND than
+  Retribution's:** three Essential buttons report a base cooldown that is not absent but
+  **WRONG** — Fel Rush 195072 reads **1 s** against a real 10 s, Immolation Aura 258920
+  reads 2 s against 30 s, Vengeful Retreat 198793 reads 0.5 s against 25 s, because a short
+  *shared-category lockout* sits on the spell row while the real recovery lives on a charge
+  category. A lie defeats the mitigation an honest zero gets (HudNapkin's declared-`chargeCD`
+  fallback is gated on `not (len > 0)`, which a lying 1 passes). **All three are 1-charge
+  categories**, so `usable()`'s one-charge rule makes the count veto the early read — **the
+  press is protected; only the decoration lies.** The napkin fix is **deliberately unshipped**
+  and the flight arbitrates it.
+  ⚠ **Three rotational presses are filed CDM-Utility** (Felblade, Vengeful Retreat, Fel Rush
+  — the last with *two* CDM rows) and that needed **no pipeline edit**: both fences read the
+  **spec-authored `cadence`**, never the CDM category. The next tank spec meets the same shape.
+  ⚠ **The meta fork is ONE cascade**, not simc's two lists — both overrides are 1:1 display
+  overrides on their own base's frame, so `ctx.inMeta` touches exactly two lines.
+  `observability-map.md` → *THE FLIGHT'S JOB* is the whole in-game procedure and **both**
+  acceptance sets (Havoc's own, plus `roster-state-plan.md` Phase 5's, which had nowhere else
+  to run).
 - **`specs/destruction/`** — the same four docs for **Destruction Warlock** (v1 profile
   Diabolist, Hellcaller as a delta section). **Shipped 2026-07-29** —
   `SpecDestruction.lua` + `CoachDestruction.lua` implement `rotation.md` L1–L13, with a
-  57-test branch oracle. ⚠ Of the three inputs once listed as *missing rather than merely
+  branch oracle now **116 tests** (57 at ship). ⚠ Of the three inputs once listed as *missing rather than merely
   secret*, **DoT presence + refresh is now solved** (roster-state-plan §3.10, v0.32.46 — the
   per-frame `auraDataUnit`/`PandemicIcon` verdict); **in-combat charges** and **target health**
   are still missing. `rotation.md` → *Implementation notes* and
@@ -141,9 +186,10 @@ don't cite it as fact. See `docs/archive/README.md`.
 
 - `docs/` — the general design docs (above).
 - `specs/<spec>/` — per-spec rotation brain + facts. `demonology/` (shipped, play-settled),
-  `destruction/` (shipped, flown) and `retribution/` (shipped 2026-08-02, **not yet flown**).
+  `destruction/` (shipped, flown), `retribution/` (shipped 2026-08-02, **cannot be flown** —
+  no max-level Paladin) and `havoc/` (shipped 2026-08-03, **not yet flown — the gate**).
   Adding another is `docs/adding-a-spec.md` — ⚠ **read its CORRECTIONS box first**; the
-  Retribution run found seven stale claims in the recipe body.
+  Retribution and Havoc runs between them found nine stale claims in the recipe body.
 - `addon/` — the **CDMProbe addon** (`michac/CDMProbe`), its **own git repo**,
   **gitignored** from this workspace. Has its own `CLAUDE.md` for the
   deploy/release workflow (a plain push does NOT reach the game — cut a release).

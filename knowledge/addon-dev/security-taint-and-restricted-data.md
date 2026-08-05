@@ -1,10 +1,12 @@
 ---
 title: Security — protected actions, taint, and restricted data (secret values)
 patch: 12.0.7
-fetched: 2026-07-31
-reviewed: 2026-07-31
+fetched: 2026-08-04
+reviewed: 2026-08-04
 sources:
   - https://github.com/Gethe/wow-ui-source (live, 12.0.7.68887, commit 4383ced30106)
+  - IN-CLIENT MEASUREMENT 2026-08-04 — CDMProbe `/cdmp curve` (CurveLab.lua v0.32.98),
+    Havoc Demon Hunter, 12.0.7 live. §4.8.1 is the only RUN evidence in this file.
   - https://warcraft.wiki.gg/wiki/Secret_Values (revid 6777907, 2026-07-22)
   - https://warcraft.wiki.gg/wiki/Secure_Execution_and_Tainting (revid 6651217, 2026-02-15)
   - https://warcraft.wiki.gg/wiki/Patch_12.0.0/Planned_API_changes (revid 6746061, 2026-06-17)
@@ -1172,6 +1174,110 @@ can't do the arithmetic":
   enters Lua, not because these functions are on the 120-member
   `AllowedWhenTainted` list. They are not.
 
+#### 4.8.1 MEASURED IN CLIENT, 2026-08-04 — which channels actually carry a secret
+
+⚠ **Everything above §4.8.1 is a read of the generated docs. This subsection is the
+first thing in this file that was RUN.** Measured with `/cdmp curve` (CDMProbe
+`CurveLab.lua`, v0.32.98) on a **Havoc Demon Hunter**, out of combat and in a
+dummy pull, at 12.0.7. Sources: `UnitPowerPercent(player, Fury, false, curve)`,
+`UnitHealthPercent`, `C_Spell.GetSpellCooldownDuration`,
+`C_UnitAuras.GetAuraDuration`, `GetAuraDispelTypeColor`,
+`GetAuraApplicationDisplayCount`. The readback is the **aspect**
+(`HasSecretAspect`), not the value — the values are unreadable by construction.
+
+**The model in §4.5–4.8 holds.** All four negative controls refused:
+`curve:Evaluate(secret)` → *"Secret values are only allowed…"*, `curve:AddPoint(0,
+secret)`, `C_CurveUtil.EvaluateGameCurve(id, secret)` and
+`Cooldown:SetCooldown(secret, secret)` all raised. The `AllowedWhenUntainted`
+reading in §4.5 is confirmed against the client.
+
+**Curve and duration objects are `userdata`, not tables.** `C_CurveUtil.CreateCurve`
+/ `CreateColorCurve` / `C_DurationUtil.CreateDuration` /
+`CreateDurationTextBinding` / `CreateManualClock` all return userdata. A
+capability probe written as `type(o) == "table" and type(o[name]) == "function"`
+reports them **method-less**; probe with a pcall'd call instead.
+
+| channel | setter | result |
+|---|---|---|
+| transparency | `SetAlpha` | ✅ **carries** — aspect `{Alpha}`; `GetEffectiveAlpha` then **throws** |
+| colour | `SetVertexColor` | ✅ **carries** — aspect `{VertexColor, Alpha}` |
+| brightness | `SetDesaturation` | ✅ **carries** — aspect `{Desaturation}`; `IsDesaturated` then **throws** |
+| bar fill | `SetValue` / `SetMinMaxValues` | ✅ **carries** — aspect `{BarValue}` |
+| bar colour | `SetStatusBarColor` | ✅ **carries** — but only with a bar texture, and the aspect lands on the **texture** |
+| rotation | `Texture:SetRotation` | ✅ **carries** — aspect `{Rotation}` |
+| **duration** | `SetCooldownFromDurationObject` · `StatusBar:SetTimerDuration` · `DurationTextBinding` | ✅ **carries, and does NOT poison the anchor chain** |
+| text | `FontString:SetText` / `SetFormattedText` | ⚠ **carries AND poisons the anchor chain** — see below |
+| ⚠ | `Texture:SetTexture` | ❌ **REFUSES** — *"Cannot set texture to a secret string value."* |
+| ⚠ | `Texture:SetAtlas` | ⚪ accepted, nothing observable changed (no aspect, no getter) |
+| ⚠ | `Texture:SetColorTexture` | ⚠ **POISONS the anchor chain** on every secret source |
+| ⚠ | `AnimVertexColor:SetStartColor`/`SetEndColor` | ⚪ accepted, nothing observable changed |
+
+**1. The duration route works, and it is the useful one.**
+`C_Spell.GetSpellCooldownDuration(spellID, false)` returns a duration whose
+`HasSecretValues()` is **true in combat and false out of it**, and all three sinks
+consume it (`anchor 0>0` on subject and dependent — no contagion). **`C_UnitAuras.GetAuraDuration`
+behaves identically**, which is a live in-combat *aura* timer — §4.9's "aura data
+is wholly sealed in combat" is about the `AuraData` record, and the duration
+object is a way round it for display. ⚠ `C_Spell.GetSpellChargeDuration` returns
+**nothing** for a spell with no charges (`MayReturnNothing`); that is not a refusal.
+
+**2. `UnitPowerPercent` accepts a `LuaColorCurveObject`.** Its curve argument is
+typed `LuaCurveObjectBase` (`UnitDocumentation.lua:2729`), the shared base of both
+curve types, and the client **does** take a colour curve there: secret Fury drove
+`SetVertexColor` directly, with no boolean quantisation. Previously inferred from
+the type signature; now measured.
+
+**3. ⚠⚠ A COLOUR RESULT IS A READABLE TABLE WITH SECRET MEMBERS.** Both
+`UnitPowerPercent(…colorCurve)` and `GetAuraDispelTypeColor` return an ordinary
+ColorMixin whose `.r`/`.g`/`.b` are secret. So `issecretvalue` on the table is
+**false** and `issecrettable` is **false** — you must ask about the *members*.
+Code that classifies a colour by the table alone concludes "no secret here".
+
+**4. ⚠⚠ TEXT BREAKS THE §4.6 (a)-OR-(b) FRAMING.** `FontString:SetText(secret)`
+records **both** `landed=aspect+` (the `{Text}` aspect) **and** `anchor 0>1` on the
+FontString *and its dependent* — i.e. it applies an aspect **and** marks anchoring
+secret. §4.6 presents (a) aspect and (b) whole-object secrecy as alternatives; for
+text they co-occur. Mechanically this is unsurprising — a FontString's extent is
+derived from its text, so a secret string implies a secret size — but the
+consequence is practical: **never anchor anything to a FontString you feed a secret
+string.** ⚠ **`DurationTextBinding` does NOT do this**: it writes the text C-side
+and the anchor stayed clean (`0>0`), so it is the anchor-safe route to secret text
+and `SetText` is not.
+
+**5. `SetTexture` refuses a secret string outright** despite carrying
+`SecretArguments = "AllowedWhenTainted"`
+(`SimpleTextureBaseAPIDocumentation.lua:441`). The annotation is necessary, not
+sufficient — the client's own message is *"Cannot set texture to a secret string
+value."* `SetAtlas`, on the identical annotation, accepts it silently.
+
+**6. `SetColorTexture` poisons the anchor chain**, confirming the §4.6(b)
+prediction for the aspect-less setters, and the contagion **reached the dependent
+child** — down-chain propagation observed, not merely documented. `UIParent` stayed
+clean throughout (the canary never fired), so **propagation really is down-only**;
+that had been Tier 2.
+
+**7. ✅ `StatusBar:SetStatusBarColor` carries a secret — but only on a bar that HAS a
+status-bar texture, and the aspect lands on the TEXTURE, not the bar.** An earlier
+run recorded *"Object did not allow secret."* on every attempt; that was the
+probe's own bug (a StatusBar with no `SetStatusBarTexture`, and that setter tints
+the bar's texture, so there was no object to mark). Re-measured with a texture:
+the call succeeds and `GetStatusBarColor` flips to secret. ⚠ **But
+`HasSecretAspect(VertexColor)` on the StatusBar stays FALSE** (`landed=aspect-`,
+`read=SECRET`) — so **an aspect can land on a delegated child object rather than
+the one you called the setter on**, and an aspect check on the wrong object reports
+a working channel as inert. Check `GetStatusBarTexture()` for this one.
+
+⚠ **The client's refusal message distinguishes the two failure modes**: *"Object did
+not allow secret."* is the **object** refusing, where *"Cannot set texture to a
+secret string value."* (finding 5) is the **argument** being rejected. Read the
+message — the docs' `SecretArguments` annotation only covers the second.
+
+**[gap] — the two `⚪` rows above are unresolved by construction.** `SetAtlas` and
+the two `AnimVertexColor` setters declare no aspect, expose no getter and did not
+touch the anchor chain, so "accepted and nothing observable changed" is the strongest
+statement the instrument can make. Whether the pixel moved needs an eyeball on
+`/cdmp curve card`. @verify-ingame
+
 ### 4.9 Communication and combat log
 
 - `COMBAT_LOG_EVENT` and `COMBAT_LOG_EVENT_UNFILTERED` carry
@@ -1294,6 +1400,100 @@ plain `"player"`/`"target"` string naming which side a bound aura is on, where t
 `AuraData` record is sealed; and `item:IsActive()` on **tab 2 only**, where it genuinely
 tracks aura liveness. The last one is the pair that makes precondition 3 concrete: the same
 method name, on two mixins, is a real signal on one and a constant on the other.
+
+---
+
+### 4.12 Power secrecy is per power type — PRIMARY resources are always secret
+
+**This is the single most consequential secrecy rule for a rotation addon, and it is easy to
+get exactly backwards from experience.** `UnitPower` is `SecretWhenUnitPowerRestricted`
+(§4.7), which reads like an ambient combat gate. It is not. The restriction is **per power
+type**, and the split is **primary vs. secondary resource**:
+
+> "We have relaxed restrictions around `UnitPower` so the player's **secondary** resources
+> are no longer secret (**primary resources remain secret**). Affected resources: Combo
+> Points, Runes, Soul Shards, Holy Power, Chi, Arcane Charges, Essence."
+>
+> — `[T1]` Blizzard blue post, *Midnight Public Alpha Addon API Changes*, 2025-11-24
+>   (archived at `https://warcraft.wiki.gg/wiki/Patch_12.0.0/Planned_API_changes`)
+
+So the **seven never-secret power types** are exactly that list. Everything else — **Mana,
+Rage, Focus, Energy, Runic Power, Fury, Pain, Insanity, Maelstrom** — is secret, which is
+**most specs in the game**.
+
+**⚠ "Contextually secret" means the UNIT, not combat. There is no out-of-combat window.**
+Measured in game 2026-08-03:
+
+| probe | Fury (17) | Holy Power (9) |
+|---|---|---|
+| `C_Secrets.GetPowerTypeSecrecy(t)` | **2** (`ContextuallySecret`) | **0** (`NeverSecret`) |
+| `C_Secrets.ShouldUnitPowerBeSecret("player", t)` | **true**, in a city *and* mid-pull | false |
+
+The predicate's own documentation says why: *"…unless the subject unit does not have a power
+of this type."* A Demon Hunter always has Fury, so Fury is always secret. Anyone waiting for
+a quiet moment to seed a value is waiting for something that cannot happen.
+
+**⚠ `UnitPower` and `UnitPowerMax` are DIFFERENT PREDICATES, and the max is readable.**
+`UnitPowerMax` carries `SecretWhenUnitPowerMaxRestricted`, which applies only to units that
+are **not player-controlled**. So on the player you can read the cap and never the current
+value — an asymmetry worth knowing before concluding the whole rail is dark.
+
+#### The sanctioned replacement: `C_Spell.IsSpellUsable`
+
+`C_Spell.IsSpellUsable(spellID) -> isUsable, insufficientPower`
+`[T1 src: SpellDocumentation.lua:873-888 @ 12.0.7.68887]`. It carries
+`SecretArguments = "AllowedWhenTainted"` and — decisively — **no `SecretReturns` and no
+`SecretWhen*` predicate at all**, so both returns are plain booleans from a tainted caller.
+`insufficientPower` is documented as *"True if spell is specifically unusable due to
+insufficient power (ie MANA, RAGE, etc)"*.
+
+This is §4.11's rule generalised into an actual API: **read the verdict, not the value.** It
+is the same shape as §4.8's `GetSpellCooldownDuration` → `LuaDurationObject` — Blizzard
+answers the question in C and never hands you the input.
+
+Measured in game 2026-08-03, **one sample, at low Fury** (Havoc Demon Hunter):
+
+| spell | `isUsable` | `insufficientPower` |
+|---|---|---|
+| Throw Glaive 185123 | true | **false** |
+| Eye Beam 198013 | false | **true** |
+| Blade Dance 188499 | false | **true** |
+| Chaos Strike 162794 | false | **true** |
+
+Three spells reporting insufficient power while a fourth in the **same sample** reports fine
+proves the flag is computed **per spell against its own cost**. At high Fury all four read
+`true / false`.
+
+**⚠ Three traps, all of which have cost this workspace a build.**
+
+1. **Use `insufficientPower`, NOT `isUsable`.** `isUsable` was measured returning **true for
+   a spell visibly on cooldown**. It answers *"can I afford it"*, not *"can I cast it"*.
+   Readiness still has to come from a cooldown channel.
+2. **DB2 costs are not the client's costs.** Throw Glaive reads `insufficientPower = false`
+   at a Fury level where everything else fails — i.e. **free** — while DB2 `SpellPower` says
+   25. Any hardcoded cost table is wrong for some build; ask the client.
+3. **It is BINARY.** It is false at 40 Fury and at 170 alike, so **overcap avoidance is
+   unrecoverable through it**. If you need "how full is the bar", the only route is §4.8's
+   curve trick — `UnitPowerPercent(unit, type, unmodified, curve)` evaluated in C and handed
+   straight to a draw call — and that result is unreadable to Lua by construction.
+
+**⚠ A macro is a faithful test bed for `IsSpellUsable` specifically** (it has no return
+predicate to gate), **but not in general**: the 3473 APIs marked `AllowedWhenUntainted`
+genuinely behave differently from addon code. Macros get **no** secrecy exemption —
+`issecretvalue(UnitPower("player", 17))` returns **true inside a macro** too.
+
+**⚠ And "my resource bar works fine in ElvUI" is not a counter-example.** §4.8's
+`AllowedWhenTainted` list lets a secret be *displayed* (`SetValue`, `SetText`,
+`SetVertexColor`, …) while remaining un-branchable, and `print()` renders one. Both
+observations are consistent with the secrecy finding; neither contradicts it.
+
+**The failure mode this rule exists to prevent** is not "the gate does not work" — it is
+that a refused read gets coerced to `0` somewhere downstream and every resource comparison
+silently inverts: every spender unaffordable, every generator maximally urgent. That is
+**absent-is-never-zero** (§4.3) applied to a rail rather than a field, and it shipped
+undetected through 100 green unit tests in `projects/cooldown-hud` because the fixtures
+supplied the number the client refuses. If your test harness can hand the code a resource
+value, it cannot reproduce the only state the game ever produces.
 
 ---
 

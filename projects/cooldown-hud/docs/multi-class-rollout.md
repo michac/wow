@@ -1,16 +1,322 @@
 # Cooldown HUD — the multi-class rollout (Retribution + Havoc + Protection + Vengeance + Devourer)
 
-> **STATUS: Phase 0 + Phase 1 shipped. THE RETRIBUTION GATE IS STILL OPEN.**
-> Phases 2–5 remain blocked. Do not start a new spec.
+> **STATUS: Phase 0 + Phase 1 + Phase 2 shipped. THE HAVOC FLIGHT RAN 2026-08-03 AND FAILED;
+> the Phase-1 remediation has shipped and a RE-FLY is the outstanding deliverable.**
+> Phases 3–5 (Protection, Vengeance, Devourer) remain blocked **behind the Havoc in-game
+> pass**, not behind Retribution's.
 >
-> This file is the forward plan as it was handed to the 2026-08-03 session, **plus** that
-> session's findings. Read **§ SESSION LOG** first — it corrects several claims in the plan
-> body and records five shipped fixes, four in-game measurements, and one architectural
-> recommendation that should probably land before any further spec work.
+> ⚠⚠ **THE FLIGHT FOUND A GAME-API FACT NOBODY IN THIS PROJECT KNEW, AND IT IS NOT A HAVOC
+> FACT.** `UnitPower` secrecy is **per power type**, and the rule is **primary vs. secondary
+> resource** — primary resources are secret **forever**, in a city and mid-pull alike. The
+> first four specs shipped were **lucky** (Soul Shards ×2, Holy Power ×1 are all
+> never-secret); **most specs in the game behave like Havoc**. Read
+> **§ FLIGHT RECORD — PHASE 2** before touching any remaining phase. ⚠ **Vengeance and
+> Devourer are both Fury specs and inherit all of it.**
+>
+> This file is the forward plan as it was handed to the 2026-08-03 session, **plus** two
+> sessions' findings and one flight record. Read **§ FLIGHT RECORD — PHASE 2** first (it is
+> the current state), then **§ SESSION LOG — PHASE 2**, then **§ SESSION LOG — PHASE 1** (it
+> corrects several claims in the plan body and records five shipped fixes, four in-game
+> measurements, and the architectural finding — which has since **shipped**, as
+> `roster-state-plan.md` Phase 5 / v0.32.92).
 
 ---
 
-# § SESSION LOG — 2026-08-03 (the first Retribution flight, and what it cost)
+# § FLIGHT RECORD — PHASE 2 (2026-08-03): Havoc flew, and failed
+
+Max-level Demon Hunter, Fel-Scarred, single-target and AoE at a dummy, on **v0.32.93**.
+`wowkb.cdmp flight` + `wowkb.cdmp decisionlog` produced **2380 Havoc decision-log lines,
+2374 of them in combat**. The user's summary was *"hints felt all over the place."*
+
+## What the log said
+
+| Winner | count | why it won |
+|---|---:|---|
+| Throw Glaive | 770 | L15 — its Fury cost resolved to **0** |
+| Vengeful Retreat | 480 | L5 — no Fury gate |
+| Felblade | 414 | L11 — `deficit = 120 - 0 = 120`, always ≥ 40 |
+| Immolation Aura (+CFire/CFire2) | 385 | L12 — same |
+| The Hunt | 41 | L3 — no Fury gate |
+| **Chaos Strike / Annihilation** | **0** | L8/L13 — `projected >= cost` never true |
+| **Eye Beam** | **0** | L9 — same |
+| **Blade Dance / Death Sweep** | **0** | L7/L10 — same |
+| **Metamorphosis** | **0** | L2 — vetoed by `not bladeDanceUsable` |
+
+**`PW:0/+0` on all 2380 lines. The entire core rotation was unreachable.**
+
+⚠ **The in-combat `w:-` ratio was 0.0 %** — a perfect score, and *because of* the bug: the
+generator lines were jammed on, so something always won. **Read the winner distribution, not
+the ratio.** That lesson is now criterion 11 in `specs/havoc/observability-map.md` and a
+banner in `wowkb.cdmp decisionlog`'s consumers.
+
+## Root cause — two coercions over a secret rail
+
+`UnitPower("player", Enum.PowerType.Fury)` returns a **Secret Value**, so `readOnePower`
+correctly dropped the `value` field. Two separate coercions then turned *"we could not read
+it"* into *"you have zero"*:
+
+- `Coach:ResourceBars` — `value = p.value or 0`
+- `CoachHavoc:RankWinner` — `local live = ctx.fury or 0`
+
+**Zero is the worst possible degradation** for a resource: every spender becomes unaffordable
+and every generator maximally urgent, which is exactly the distribution above. This is the
+project's own **absent-is-never-zero** rule broken in the one place nothing tested. ⚠ And
+100 green oracle cases did not catch it, because the fixture **supplied the number the client
+refuses** — a harness that can hand the code a resource value cannot reproduce the only state
+the game ever produces.
+
+## The game fact — and it generalises to most of the game
+
+> "We have relaxed restrictions around `UnitPower` so the player's **secondary** resources are
+> no longer secret (**primary resources remain secret**). Affected resources: Combo Points,
+> Runes, Soul Shards, Holy Power, Chi, Arcane Charges, Essence."
+>
+> — `[T1]` Blizzard blue post, *Midnight Public Alpha Addon API Changes*, 2025-11-24
+
+| probe | Fury (17) | Holy Power (9), the control |
+|---|---|---|
+| `C_Secrets.GetPowerTypeSecrecy` | **2** (`ContextuallySecret`) | **0** (`NeverSecret`) |
+| `C_Secrets.ShouldUnitPowerBeSecret("player", …)` | **true**, city *and* mid-pull | false |
+
+⚠ **`ContextuallySecret`'s "context" is the UNIT, not combat** — the predicate reads *"…unless
+the subject unit does not have a power of this type."* You always have Fury. **There is no
+out-of-combat window and no seed value.** ⚠ `UnitPowerMax` is a **different predicate**
+(`SecretWhenUnitPowerMaxRestricted`, non-player-controlled units only), so **the max is
+readable** — 170 on the test character, not the 120 `SpecHavoc.powers` declared.
+
+⚠ **This invalidated `roster-state-plan.md` §7.2**, which measured Soul Shards, concluded
+*"the flagged read WORKS IN COMBAT"*, and generalised to every power. That section now carries
+a correction box. The claim is true for Soul Shards and false for every primary resource.
+
+## The remediation, in two phases (user's decision, 2026-08-03)
+
+**Phase 1 — shipped.** Affordability moves to `C_Spell.IsSpellUsable`'s second return,
+`insufficientPower`, attached per-ability by State so it is loggable, fixture-testable and
+visible in the decision log. The deficit gates are dropped in favour of Blizzard's own
+ordering-and-repetition shape. The absent-rail coercions die.
+`specs/havoc/rotation.md` → *Fury is SECRET* is the full write-up;
+`knowledge/addon-dev/security-taint-and-restricted-data.md` §4.12 is the game-wide rule.
+
+**Phase 2 — designed, NOT built.** `IsSpellUsable` is binary (false at 40 Fury and at 170
+alike), so **overcap avoidance is unrecoverable through it** and Havoc will overcap without a
+warning. Phase 2 keeps the deficit gates as an explicit **hypothetical** and runs the cascade
+twice — once assuming Fury has room, once assuming it is capped. Identical winners → one cue
+(the common case, because any ready cooldown wins in both). Different winners → both are
+drawn and a **`LuaCurveObject`, forwarded through the pipeline as an opaque draw parameter**,
+decides in C which one the player sees. No Lua ever compares Fury. See § *Phase 2 design*
+below. **Staged behind a clean Phase-1 flight** because its visible outcome is
+**unobservable to the decision log** — a permanent blind spot in the one instrument that has
+found every bug in this project, including this one.
+
+## What Blizzard's own rotation does
+
+`ActionPriorityLists/assisted_combat/demonhunter_havoc.simc` — the in-client Assisted Combat
+list — contains **zero** Fury references, and handles the resource purely by **ordering and
+repetition**:
+
+```
+chaos_strike,if=buff.metamorphosis.up
+felblade                              <- bare, no deficit gate
+chaos_strike                          <- again
+immolation_aura,if=active_enemies>1   <- enemy count only
+throw_glaive
+chaos_strike                          <- and again, as the floor
+```
+
+⚠ **Do not over-read this as "Blizzard avoids secret resources."** Their other
+assisted-combat lists branch on energy / rage / focus / runic_power freely — that engine runs
+in C and sees everything. The finding is narrower and still load-bearing: **a competent Havoc
+rotation is expressible with no Fury threshold at all.**
+
+## Phase 2 design — the two-branch cascade + the Fury curve
+
+> ### ⚠⚠ RECOMMENDED AGAINST, 2026-08-03 — MEASURE FIRST, THE MEASUREMENT IS IN
+>
+> This design exists to recover **overcap avoidance**, which Phase 1 gives up. WCL data says
+> that is not worth recovering. Fury overcap across the top-100 Mythic parses on Imperator
+> Averzian (12.0.7, `resourcechange` `waste` vs `resourceChange`, type 17):
+>
+> | player | gained | wasted | waste |
+> |---|---:|---:|---:|
+> | Paprzdh | 4,119 | 311 | 7.6 % |
+> | Yunadh | 4,345 | 482 | 11.1 % |
+> | Bibussy | 5,612 | 708 | 12.6 % |
+> | Chezzar | 5,386 | 1,237 | 23.0 % |
+> | **pooled** | **19,462** | **2,738** | **14.1 %** |
+>
+> **The best players in the world waste one Fury in seven**, and the dominant source is
+> **Demon Blades** — a passive off autoattacks that no rotation decision can gate. maxroll's
+> only Fury sentence for the spec is *"Cast Immolation Aura if you won't overcap on fury"*
+> (one line, one button), and **that** piece is already recovered by L12's readable
+> charge-cap gate (shipped v0.32.95).
+>
+> So this would be elaborate machinery — a doubled cascade, a new contract invariant, an
+> opaque draw parameter, and a **permanent blind spot in the decision log**, the one
+> instrument that has found every bug in this project — to chase a behaviour top parses do
+> not practise. **Essence Break's pooling gate (rotation.md Deviation 13) is the only Fury
+> loss still worth calling real**, and it is one line rather than an architecture.
+>
+> Kept below because the `LuaCurveObject` technique is correct and will be the right answer
+> for some future problem. It is not the right answer for this one.
+
+
+`UnitPowerPercent(unitToken, powerType, unmodified, curve)`
+(`UnitDocumentation.lua:2716`) returns *"the result of evaluating the curve with the
+percentage as the input"*, evaluated **in C**. Build the curve with
+`C_CurveUtil.CreateCurve()` / `CreateColorCurve()`. The result stays secret (it carries both
+`SecretWhenUnitPowerRestricted` and `SecretWhenCurveSecret`) but can be handed straight to
+`SetAlpha` / `SetVertexColor` / `SetStatusBarColor`, all on the 120-member
+`SecretArguments = "AllowedWhenTainted"` list. **Shipping precedent: oUF does exactly this**
+(`elements/power.lua`, colour via `UnitPowerPercent(unit, nil, true, color:GetCurve())`).
+
+⚠ The curve must be applied **inside the same call that sets the alpha** — `setDotGlow`
+re-asserts alpha at ~10 Hz, so an externally-mutated alpha would be clobbered (the trap the
+`R.BURST` header documents).
+
+⚠ **When the branches differ, the Fury-variant REPLACES `ROTATION_FALLBACK`** (user's
+decision) — it is a strictly more informative runner-up, so the on-screen dot count never
+grows.
+
+**Contract changes** (`guidance-contract.json`), to be made deliberately rather than smuggled
+in: `vocabularies.emphasis.invariant_singleTopPress` currently reads *"Exactly ONE cue holds
+the 'press now' emphasis"*; Phase 2 makes that **two, mutually resolved in C**. And
+`channels.cues.<cooldownID>` gains a `curve` field (opaque handle, pass-through only, never
+inspected by the Coach or the Binder).
+
+## ⚠ What every remaining phase inherits
+
+**Check `C_Secrets.GetPowerTypeSecrecy` for the spec's resource during Step 0**, before a line
+of rotation doc is written. A primary-resource spec **cannot use resource-threshold gates at
+all**, and that changes the rotation model rather than being a detail to degrade later.
+
+| # | Spec | Resource | Secrecy |
+|---|---|---|---|
+| 3 | Protection Paladin | Holy Power | ✅ **never secret** — safe, thresholds work |
+| 4 | Vengeance DH | **Fury** + Soul Fragments | ⚠ **Fury is SECRET.** Inherits all of Phase 1. Soul Fragments ride `GetSpellCastCount`, a different channel |
+| 5 | Devourer DH | **Fury** + Souls (aura stacks) | ⚠ **Fury is SECRET.** Same |
+
+⚠ **Do not start either DH spec until the Havoc re-fly is clean** — that is exactly what the
+rollout gate is for, and this flight is the reason it exists.
+
+---
+
+# § SESSION LOG — PHASE 2 (2026-08-03): Havoc DH shipped, and the gate inverted
+
+## The gate did not pass. It moved.
+
+The Phase-1 gate read *"Phases 2–5 remain blocked. Do not start a new spec"*, and its stated
+reason was that a **max-level Retribution flight** had never happened. Two things changed and
+the user ruled on a third:
+
+1. **The architectural precondition is satisfied.** The gate's deeper justification was the
+   *ARCHITECTURAL FINDING* below — three of Retribution's five flight defects came from
+   deriving an ability's facts through a **CDM row's identity**. That fix,
+   `roster-state-plan.md` Phase 5 (the roster anchor), **shipped 2026-08-03 as v0.32.92**.
+   The RECOMMENDATION in that section is **done**, and in its full form rather than the
+   narrow one.
+2. **The flight requirement cannot be satisfied.** The user has **no max-level Paladin**. The
+   level-37 pass could not exercise the hero-tree branch, the burst lines, or Phase 5's
+   acceptance at all, and no amount of waiting changes that.
+3. **User decision (2026-08-03): proceed to Havoc and discharge the gate from the DEMON
+   HUNTER side.** The user *does* have a max-level Demon Hunter. This **inverts** the gate
+   rather than skipping it — the pattern still gets a max-level flight, just not on the spec
+   that first raised the question.
+
+⚠ **So the Havoc in-game pass is a HARD DELIVERABLE, not a smoke test.** It carries two sets
+of criteria: Havoc's own, and Retribution's **orphaned Phase-5 acceptance**, which now has
+nowhere else to run. Both live in `specs/havoc/observability-map.md` → *THE FLIGHT'S JOB*.
+**The accepted cost:** if that flight finds a pattern defect, the defect is in **two** shipped
+specs rather than one. The mitigation is that the flight happens **before** Protection,
+Vengeance and Devourer — not after.
+
+## What shipped
+
+`specs/havoc/` — four docs, 987 lines (`rotation.md` 431 · `notes.md` 270 ·
+`observability-map.md` 174 · `input-contract.md` 112) — plus `SpecHavoc.lua` (538) and
+`CoachHavoc.lua` (642) implementing **L1–L15**, wired into the `.toc` after the Retribution
+pair, and `tests/spec/coach_havoc_apl_spec.lua` (**100 cases**) as the independent oracle.
+Tests **883 → 983**, luacheck 0, and the two Warlock oracles + the Retribution oracle stayed
+green **unchanged** (the standing regression guard held).
+
+**Zero pipeline generalisations were needed**, against the plan's budget of one or two — see
+the corrections below for why.
+
+## ⚠ Corrections this phase makes to the plan body and the DB2 appendix
+
+Each was resolved **by property** from Tier-1 DB2 @ 12.0.7, never by name (Demon Hunter has
+the Hammer-of-Light homonym problem twice over — `SpellName` carries 76 rows called
+"Annihilation" and 19 called "Chaos Strike"). The durable write-up is `specs/havoc/notes.md`.
+
+1. **THREE lying base cooldowns, not one.** The appendix's *"+1 (Fel Rush)"* row is wrong.
+   **Immolation Aura 258920** (`CategoryRecoveryTime 1500` vs 30 s on charge category 1676)
+   and **Vengeful Retreat 198793** (`RecoveryTime 500` vs 25 s on 1601) have the identical
+   shape — a short **shared-category lockout** on the spell row masking the real charge
+   recovery. (`ns.BaseCooldown` returns `CategoryRecoveryTime` when `RecoveryTime` is 0.)
+2. **…and the risk inverts in our favour.** All three are **ONE-charge** categories, so
+   `usable()`'s one-charge rule (`cur >= 1 AND probablyUp`, shipped for Retribution flight
+   defect #5) makes the **charge count veto the early cooldown read for the whole real
+   duration**. **The press is protected; only the decoration lies.** The generalised napkin
+   fix was therefore **deliberately not shipped** — the exact one-line shape it should take
+   is recorded in `rotation.md` → *The two lying cooldowns*, for the flight to arbitrate.
+   Residual hole: an **absent** charge count falls through to the early napkin (flight
+   question #1).
+3. **THREE rotational presses are CDM-Utility, not two** — Felblade 232893, Vengeful Retreat
+   198793, **and Fel Rush 195072, which has TWO rows (one Essential, one Utility)**. And the
+   appendix's implied worry — *"which Retribution's model never scores"* — **dissolved**:
+   both fences that could have blocked them (the SOON fence `Coach.lua:501` and the
+   virtual-row fence `State.lua:1941`) test the **spec-authored `cadence`**, never the CDM's
+   category. Declaring them `"filler"` / `"oncd"` is the whole fix. **No pipeline edit.**
+   ⚠ The next **tank** spec will meet the same shape — this is the finding to carry forward.
+4. **The meta fork is cleaner than "two complete priority lists" suggests.** Metamorphosis
+   **162264** (the *aura*, not the tracked 191427 cast) carries two `EffectAura 332` effects →
+   Annihilation 201427 and Death Sweep 210152. Both are **1:1 display overrides riding their
+   own base's frame**, which is the channel Demonology's Ruination and Retribution's Hammer of
+   Light already use — so the Coach cues the **base** spellID and the icon supplies the label
+   for free. Modelled as **one cascade** with `ctx.inMeta` on exactly **two** lines (L6 is
+   meta-only; L7-vs-L10 is the Blade Dance / Eye Beam inversion). Unlike Retribution, **no
+   semantic discriminator is needed anywhere** — every Havoc override replaces exactly one
+   named base.
+5. **The Reaver's Glaive sequence is a DATA WALL, not a modelling problem** — and therefore
+   **not** a parked switch. `Rending Strike` 442442, `Glaive Flurry` 442435 and
+   `buff.reavers_glaive` 442294 have **no `CooldownSetSpell` row** in set 1599, so six APL
+   lines (:56–61) are dark with no channel to light them. A parked `spec.X = false` switch
+   waits on a question a *flight can settle*; this one already has an answer. The parked
+   switch became **`HAVOC_RG_FROM_BUFF = false`** instead — whether Art of the Glaive 442290
+   may count as "a glaive is armed" beside the transform, which is the `RET_HOL_FROM_BUFF`
+   shape exactly and *is* flight-settleable.
+6. **`SpecBindAlias` was needed, and the plan did not anticipate it.** SkillLine 1848 teaches
+   **wrapper** spells: Chaos Strike **344862** → the CDM tracks **162794**; Fel Rush **344865**
+   → the CDM tracks **195072**. The rung ladder asks the action bar about the *tracked* id and
+   finds nothing, so both would silently lose their keybind hint. The Imp Lord case exactly.
+7. **The TrackedBuff `CumulativeAura = 0` trap is real and costs nothing.** Art of the Glaive
+   442290 reads 0 against its real aura 444661's **80**; Demonsurge 452402 vs 452416's **4**.
+   But `state.buffs` is keyed by the **CDM row's** spellID and the channel is `IsActive()` — a
+   **bool** — so a stack count was never reachable whichever id we keyed on. Declaring the
+   *real* aura instead would create a roster entry with no CDM row, which Coverage reports as
+   BLIND. Key on the tracked id; the real aura ids are documentation.
+8. **New vocabulary, flagged as such:** L5 (Vengeful Retreat) reads **Eye Beam's napkin
+   `remaining`** — the first cross-ability timing gate in any brain. Licensed because Eye
+   Beam's 30 s lives on the spell row so the napkin counts it honestly. The rule that
+   separates it from the handshake Retribution *dropped*: **a cross-ability timing gate is
+   allowed when the other ability's cooldown is one the napkin can honestly count.** First
+   suspect if VR misbehaves in the flight.
+9. **`essence_break` is META-ONLY because the APL says so** — simc's top-level line at :87
+   sits inside a `#` comment. Possibly an authoring accident; taking the file literally is the
+   Tier-1-faithful call and it fails safe (a missed press, never a wrong one). **Re-check on
+   the next simc pull.**
+
+## What Phase 2 owes forward
+
+1. **THE HAVOC FLIGHT** — the whole gate. Procedure + both acceptance sets in
+   `specs/havoc/observability-map.md`. ⚠ Do the **out-of-combat `C_Spell.GetSpellCharges`
+   sweep** (195072 / 258920 / 198793 / 185123, with 198013 as the control) *before* arming:
+   it is the only way to check the three lying base cooldowns against the truth, and it is the
+   read that caught Retribution's wrong `chargeCD = 12`.
+2. Everything in *Still open* below that Phase 1 left, minus the architectural finding.
+
+---
+
+# § SESSION LOG — PHASE 1, 2026-08-03 (the first Retribution flight, and what it cost)
 
 Retribution was flown for the first time on a **level 37** Paladin. Five defects were found
 and fixed across **v0.32.88 → v0.32.91**. Tests went **827 → 849**, luacheck stayed at 0,
@@ -32,8 +338,11 @@ could settle:
   Deliverance) are mostly absent, so the proc lines are unexercised.
 - **Observability-map questions 1 and 5 cannot be answered at this level.**
 
-**A max-level pass is still required before Retribution can be called settled**, and
-therefore before Phase 2 begins.
+**A max-level pass is still required before Retribution can be called settled.**
+⚠ **SUPERSEDED as a GATE (2026-08-03):** the user has no max-level Paladin, so this pass
+cannot happen. The gate was **inverted onto Havoc** — see *§ SESSION LOG — PHASE 2*. The
+requirement itself stands; it simply no longer blocks the rollout, and Retribution's
+acceptance criteria are carried by the Havoc flight instead.
 
 ## The five defects
 
@@ -186,7 +495,7 @@ BoJ is down) but cannot directly replace the napkin. **Untested.** And per the p
 assisted combat is a *suboptimal rotation* — usable as a castability signal only, never as a
 priority source.
 
-## ⚠ THE ARCHITECTURAL FINDING — read this before Phase 2
+## ⚠ THE ARCHITECTURAL FINDING — ✅ FIXED (v0.32.92), history from here down
 
 Three of the five defects (#1's second site, #4, #5) are the same shape: **an ability's facts
 were derived through a CDM row's identity rather than asked about the ability itself.**
@@ -211,6 +520,17 @@ charges **per roster spellID** out of combat, and use the CDM only for (a) the f
 and does not touch the knownness question that §6.1 warns is where Phase 5 goes wrong.
 Replicating the current model across four more specs would replicate the wound four times —
 which is exactly the risk the plan's own gate exists to prevent.
+
+> ✅ **DONE, 2026-08-03, and in the FULL form rather than the narrow one.**
+> `roster-state-plan.md` **Phase 5 shipped as v0.32.92**: the spec's declared roster is the
+> anchor and the CDM became **one evidence source joined against it**. The root fix is that
+> `readAbilityFacts(rid, rep)` passes the **roster** spellID to both `readCd` and `readCharge`,
+> so an ability's cooldown and its charges are asked about the **same** id. **Read
+> `roster-state-plan.md` §6.3 before touching `State.lua`** — eleven implementation decisions
+> there are not in the plan text.
+> ⏳ **Code-complete is not flown.** Phase 5's acceptance had exactly one home (a max-level
+> Retribution pass) and that home does not exist, which is half of why the gate was inverted
+> onto Havoc. Criteria 6–9 of the Havoc flight ARE Phase 5's, carried over verbatim.
 
 ## Still open (nothing here is done)
 
@@ -426,18 +746,20 @@ and `×` (Binder dropped a cue), and read the **COMBAT SPLIT**, not the raw rati
 
 ## After the gate — the four remaining specs
 
-> ⚠ **Phase 2's spec is deliberately NOT chosen** (user's call, deferred 2026-08-03).
-> **Protection** is the cheapest next (same class, same resource, same `display = "none"`
-> plumbing) but is the first **tank**; **Havoc** keeps the original risk ordering at the cost
-> of a whole new class's groundwork. **The session log recommends the roster-anchor work
-> before either.**
+> ✅ **RESOLVED 2026-08-03: Phase 2 is HAVOC, and it has shipped.** The user chose it over
+> Protection so the gate could be discharged from the Demon Hunter side (they have a
+> max-level DH and no max-level Paladin). The roster-anchor work the session log asked for
+> **landed first**, as v0.32.92.
+>
+> ⚠ **Phases 3–5 are now blocked behind the HAVOC flight**, on the same reasoning the
+> original gate used: do not clone an unflown pattern four more times.
 
 | # | Spec | ID | Resources | Why it sits here |
 |---|---|---|---|---|
-| 2 | **Havoc DH** | 577 | Fury 0–120 | Closest to the shipped pattern. Clean builder/spender, 140-line APL, no derived resource. |
-| 3 | **Protection Paladin** | 66 | Holy Power 0–5 | **First tank.** Reuses everything from Retribution. Charge-heavy (Shield of the Righteous). |
-| 4 | **Vengeance DH** | 581 | Fury + Soul Fragments | **First consumer of the Phase-0.3 derived channel.** Largest APL (275 lines). |
-| 5 | **Devourer DH** | 1480 | Fury + Souls (aura stacks) | New spec, and a resource that changes which aura it lives on. ⚠ **Expect to descope.** |
+| 2 | ✅ **Havoc DH** | 577 | Fury 0–**170** (**SECRET**) | **SHIPPED 2026-08-03; FLOWN AND FAILED the same day; Phase-1 remediation shipped; ⏳ RE-FLY outstanding.** Its four surprises: three lying cooldowns, three CDM-Utility presses, the wrapper-spell aliases — and **Fury being unreadable**, which is § FLIGHT RECORD. |
+| 3 | **Protection Paladin** | 66 | Holy Power 0–5 (✅ never secret) | **First tank.** Reuses everything from Retribution. Charge-heavy (Shield of the Righteous). **The only remaining spec whose resource thresholds work.** |
+| 4 | **Vengeance DH** | 581 | **Fury (SECRET)** + Soul Fragments | ⚠ **INHERITS EVERY WORD OF PHASE 1** — no `fury>=N` gate can be written. **First consumer of the Phase-0.3 derived channel** (Soul Fragments ride `GetSpellCastCount`, which is a different and still-readable channel). Largest APL (275 lines). |
+| 5 | **Devourer DH** | 1480 | **Fury (SECRET)** + Souls (aura stacks) | ⚠ Same inheritance. New spec, and a resource that changes which aura it lives on. ⚠ **Expect to descope.** |
 
 ### Data sources (all on disk, all Tier 1)
 
@@ -459,6 +781,18 @@ The simc clone is in the **sibling `wow` worktree**:
 > nonetheless a useful window into what the engine filters vs. expresses.)*
 
 ### The three things Phase 1 says to do differently
+
+0. ⚠ **ASK WHETHER THE SPEC'S RESOURCE IS SECRET, FIRST — before the DB2 sweep and before a
+   line of `rotation.md`.** `C_Secrets.GetPowerTypeSecrecy(<Enum.PowerType>)`: **0** =
+   `NeverSecret` (thresholds work), **2** = `ContextuallySecret` (for a player's own primary
+   resource that means **secret forever** — there is no out-of-combat window). The seven
+   never-secret types are Combo Points, Runes, Soul Shards, Holy Power, Chi, Arcane Charges
+   and Essence; **everything else is secret**. A primary-resource spec cannot use
+   resource-threshold gates **at all**, which changes the rotation model rather than being a
+   detail to degrade later — see § FLIGHT RECORD — PHASE 2. ⚠ And the `SpellPower` sweep in
+   step 1 becomes **informational only** for such a spec: there is nothing to compare a cost
+   against, and **DB2 costs disagree with the live client anyway** (DB2 says Throw Glaive
+   costs 25; the client reports it free).
 
 1. **Do the DB2 sweep as one step, before writing any doc.** For every Essential ability:
    `SpellCooldowns.RecoveryTime`, `SpellCategories.ChargeCategory` (+ `MaxCharges` /
@@ -582,22 +916,28 @@ specs, so **this resolution step must be made explicit before it is trusted.**
 |---|---:|---:|---:|---:|---:|
 | Essential | 10 | 11 | 13 | **6** | 9 |
 | Charge-cat hole (rec=0 & cc≠0) | 2 | 3 | **6** | 3 | 4 |
-| …incl. *lying* base CDs | +1 (Fel Rush) | +1 (**GotAK 8 s→180 s**) | +2 (Demon Spikes, **Meta 1 s→120 s**) | +2 (no CD at all) | 0 |
+| …incl. *lying* base CDs | **+3** (Fel Rush 1 s→10 s, Immolation Aura 2 s→30 s, Vengeful Retreat 0.5 s→25 s) ⚠ *this row said "+1 (Fel Rush)" until Phase 2 measured it* | +1 (**GotAK 8 s→180 s**) | +2 (Demon Spikes, **Meta 1 s→120 s**) | +2 (no CD at all) | 0 |
 | Essential with **no** readable CD | 3/10 | 4/11 | **8/13** | **5/6** | 4/9 |
-| Rotation abilities with no icon | 3 override + 2 Utility | **2 homeless** + 2 override | 1 override + 3 Utility | **6 homeless** + 3 override | 2 homeless + 5 override |
+| Rotation abilities with no icon | **6 override + 3 Utility** ⚠ *"3 override + 2 Utility" until Phase 2 — Fel Rush is the third Utility (and carries TWO rows)* | **2 homeless** + 2 override | 1 override + 3 Utility | **6 homeless** + 3 override | 2 homeless + 5 override |
 | Key stacking buff | *(all behind talent IDs)* | Masterwork 6 | **Soul Fragments 20** | **Void Meta 50, Collapsing Star 40** | Light's Deliverance 60 |
 | APL lines / variables / sub-lists | 140 / 24 / 3 | **44 / 0 / 1** | **275 / 65 / 15** | 86 / 23 / 5 | — |
 | Hero trees | Fel-Scarred **34 (default)**, Aldrachi Reaver 35 | Templar 48 (raid), Lightsmith 49 (M+) | Aldrachi Reaver 35, Annihilator **124** | Annihilator **124**, Void-Scarred 126 |
 
 ## Per-spec headlines
 
-**Havoc 577** — harder than Retribution. `run_action_list,name=meta` is a **hard state fork**:
-two complete priority lists where the *same button IDs mean different things* (Chaos Strike →
-Annihilation, Blade Dance → Death Sweep). Two rotational presses (**Felblade 232893**,
-**Vengeful Retreat 198793**) are filed **Utility**, which Retribution's model never scores.
-**Fel Rush 195072 has a *lying* base cooldown** (`RecoveryTime = 1000`, real 10 s on category
-1545) — worse than an honest zero. **Rain from Above 206803 never appears in the APL** — a
-dead Essential icon.
+**Havoc 577** — ✅ **SHIPPED (Phase 2, 2026-08-03).** ⚠ **This paragraph was the pre-build
+estimate and Phase 2 corrected three of its four claims — the corrected version is
+`specs/havoc/notes.md`; the ⚠ CORRECTIONS list in § SESSION LOG — PHASE 2 is the diff.**
+What survived: `run_action_list,name=meta` *is* a hard state fork in simc, and **Rain from
+Above 206803 never appears in the APL** (shipped as a knowingly dead Essential icon —
+registered so Coverage does not report it blind, `cadence = "utility"` so SOON never
+advertises it). What was wrong: the fork did **not** need two priority lists (both overrides
+are 1:1 display overrides on their own base's frame, so it is **one cascade, two `ctx.inMeta`
+lines**); it is **three** Utility presses, not two (**Fel Rush 195072** as well, with two CDM
+rows), and scoring them needed **no pipeline edit** because the fences read the
+spec-authored `cadence`; and there are **three** lying base cooldowns, not one — but all three
+are 1-charge categories, so the charge count vetoes the early read and only the *decoration*
+lies.
 
 **Protection Paladin 66** — roughly Retribution's difficulty; **simplest APL of all four**
 (44 lines, **zero** variables, zero sub-lists). Same Holy Power rail, same 3-cost spenders,
@@ -632,3 +972,10 @@ markers.
 **Implementation order implied by this data:** ProtPal → Havoc → Vengeance → Devourer.
 *(Note this differs from the plan body's risk ordering, which put Havoc first. The plan body
 is the user's call; this row is only what the DB2 complexity suggests.)*
+
+⚠ **SUPERSEDED 2026-08-03: Havoc went first**, and the reason had nothing to do with DB2
+complexity — it is the only remaining spec on a class where the player has a **max-level
+character**, which is what the gate needs. Remaining order: **ProtPal → Vengeance →
+Devourer**, all behind the Havoc flight. And Havoc's complexity read **lower** than this
+appendix estimated once it was built: the meta fork collapsed to one cascade, and the
+CDM-Utility problem dissolved entirely.

@@ -32,7 +32,8 @@ against the WoW knowledge base and Tier-1 game data (not any addon):
   the generated default APL this list is distilled from, line for line.
 - wago DB2 @ 12.0.7 (`CooldownSetSpell` 901, `SpellPower`, `SpellCategory`,
   `TraitNode`→`TraitDefinition`) — every spell ID in `notes.md`, the 3-Holy-Power
-  spender cost, and the charge categories behind six of the nine Essential buttons.
+  spender cost, and the charge categories behind **four** of the nine Essential buttons
+  (*"six" until 2026-08-03 — see `observability-map.md` §Retribution's headline hole*).
 
 ## The input table
 

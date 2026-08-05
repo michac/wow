@@ -14,18 +14,29 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
   (see `architecture.md` → "Live wiring"). The old
   HudChrome/HudBoard/HudScore engine + the opener/burst/pane widgets were **deleted at
   the W4 cutover**; the pipeline is the sole engine.
-- **Registered specs: Demonology (266), Destruction (267) and Retribution Paladin (70).**
-  All three plug into the one spec-agnostic pipeline: `Spec<Name>.lua` (data) +
-  `Coach<Name>.lua` (the rotation brain). Every other spec resolves passive by design.
-  Demonology is play-settled; **Destruction has now flown** (first live pass 2026-07-30) —
-  see the Destruction item below; **Retribution shipped 2026-08-02 and has NOT flown** — it
-  is the in-game gate that Phases 2–5 of the multi-class rollout wait on.
+- **Registered specs: Demonology (266), Destruction (267), Retribution Paladin (70) and
+  Havoc Demon Hunter (577).** All four plug into the one spec-agnostic pipeline:
+  `Spec<Name>.lua` (data) + `Coach<Name>.lua` (the rotation brain). Every other spec resolves
+  passive by design. Demonology is play-settled; **Destruction has now flown** (first live
+  pass 2026-07-30) — see the Destruction item below; **Retribution shipped 2026-08-02 and
+  CANNOT be flown** (no max-level Paladin); **Havoc shipped 2026-08-03, flew and FAILED, and its
+  Phase-1 remediation then FLEW CLEAN the same day** (Fury is a SECRET value — see Active
+  work). A **third flight is owed for v0.32.95's three new features**, and it is still the
+  in-game gate Phases 3–5 of the multi-class rollout wait on.
+- **⚠ TEMPORARY INSTRUMENT, shipped v0.32.97 and owed a flight: `/cdmp curve`** — the
+  curve / secret-display lab (`CurveLab.lua`), which measures **which visual channels can
+  actually carry a Secret Value to the screen**. Probe only; nothing in the pipeline reads
+  it. Full brief + the four-step sequencing in *Improvements / backlog* below. Delete the
+  file, its `.toc` line, its saved-vars, its spec and `wowkb.cdmp curvelab` once the answers
+  land in `knowledge/addon-dev/security-taint-and-restricted-data.md` §4.8.
 - **Instrument:** the **decision log** — `CDMProbeDB.decisionlog`, one `S{…} G{…} B{…}`
   line per pipeline decision change, extracted by `wowkb.cdmp decisionlog`. The old-engine `statelog`/`pulls` recorders were retired at the
   cutover; the `/cdmp probe` + `probe-baseline.json` assertion suite was retired 2026-07-29
   (settled readability rules + DB2-sourced tracked set made per-spec re-measurement moot).
 - **Gates:** `luaparser` (release) + `luacheck CDMProbe/` + `busted CDMProbe/tests/spec`
-  (**643 tests / 4 pending**, luacheck 0 warnings). All three are **hard** release gates —
+  (**1011 tests / 4 pending** as of 2026-08-03, luacheck 0 warnings — ⚠ this number drifts,
+  **re-run `busted` and read its summary rather than copying it**). All three are **hard**
+  release gates —
   `wowkb.addon release` aborts the cut on any non-zero exit.
   ⚠ All three are **source** gates: none of them runs the game, and the v0.32.25 outage
   below is what that blind spot looks like in practice.
@@ -107,12 +118,140 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
   charge restored and *never* raises `OnCooldown`, so the ready-edge latched true forever and
   Conflagrate was cued at zero charges. That doc holds the evidence and the two things the
   pass left unproven. **Nothing in it is outstanding.**
-- **▶ ACTIVE WORK: the multi-class rollout — Phase 0 + Phase 1 DONE (2026-08-02), and
-  PHASE 1 IS AN IN-GAME GATE.** Seven specs across three classes was the target (Havoc 577,
+- **✅ SHIPPED v0.32.95 — the Coach gained three things the first re-flight asked for.**
+  *(2026-08-03, after reading the v0.32.94 flight. That flight PASSED Phase 1 on every
+  criterion — `PW:restricted` on all 1298 lines, Chaos Strike + Annihilation the top winner
+  at 35.4 %, Eye Beam / Blade Dance / Metamorphosis all cueing after zero — so this is
+  improvement work, not remediation.)*
+  - **Immolation Aura's anti-charge-cap gate (L12).** The flight found IA won **zero**
+    presses across **839** in-combat lines on which it was ready with a banked charge: L12b
+    sits below a spender that is affordable almost always, so it was unreachable. Both
+    positions are wrong once the Fury-deficit gate dies, so a SECOND occurrence went in above
+    the dump with simc:72's own gate — `cur >= max`, outside an Essence Break window, Blade
+    Dance not up. ⚠ **absent count ≠ at cap**; the in-combat count is a napkin biased to
+    undercount, which fails the safe way.
+  - **`ctx.ampWindow`** — one published amp signal from the three channels the flight PROVED
+    (the Essence Break window, `inMeta`, Initiative), each also published by name so the log
+    can say which one opened it. ⚠ **Inertia is deliberately excluded**: 427640 is the
+    *talent* id and its ON-runs measured `20.0 / 12.2 / 6.7 / 6.6 / 5.7 / 0.8` s against a
+    **5 s** aura, so the row may latch. Parked as `HAVOC_INERTIA_FROM_BUFF`, default off —
+    the `PR:` column collects the evidence on its own.
+  - **⚠⚠ THE RUNNER-UP BECAME A ONE-GCD LOOK-AHEAD, FOR ALL FOUR SPECS.** `ROTATION_FALLBACK`
+    used to mean "re-run the list with the winner excluded" — a substitute at the same
+    instant. It now means **the next press**: the same cascade re-ranked over
+    `ns.Coach.Advance(state, winner)`, which starts the winner's cooldown, spends a charge,
+    and moves everything else one GCD closer. When it lands on the winner's own ability there
+    is **no second cue** — the winner's cue carries `next = true` and the Renderer draws a
+    **companion dot** on that one icon, so the dot count never grows and a repeat reads as a
+    repeat. The log renders it as a trailing **`+1`** on `w:`.
+    - ⚠ **It cannot model resources or buffs** — Fury is secret, so affordability passes
+      through unchanged, and a press that would open a window does not flip it. It fails
+      toward the STEADY-STATE next press, and a predicted-ready cooldown carries
+      `source = "lookahead"` so it can only ever reach the next cue, never the press-now one.
+    - ⚠ **`baseCD`/`chargeCD` in a spec table is now LOAD-BEARING**, not decoration: it is the
+      only source the advance has. A rotational button with a real cooldown and no declared
+      number would repeat forever. All four tables audited clean 2026-08-03; pinned by
+      `coach_apl_spec`'s "an ability WITH a cooldown does not repeat".
+    - The exclusion machinery survives with **no shell caller** and is now tested directly in
+      all four oracles.
+- **📉 PHASE 2 OF THE ROLLOUT (the two-branch `LuaCurveObject` cascade) IS RECOMMENDED
+  AGAINST.** *(2026-08-03, on WCL data.)* It existed to recover overcap avoidance. Top-100
+  Mythic parses waste **14.1 % of all Fury generated** (n=7, pooled 2,738 of 19,462), and the
+  dominant source is **Demon Blades** — a passive off autoattacks that no rotation decision
+  can gate. The one controllable piece is Immolation Aura, and L12 above now covers it. The
+  design stays in `multi-class-rollout.md` because the technique is correct; it is not the
+  right answer for this problem. **Essence Break's pooling gate is the only Fury loss still
+  worth calling real.**
+- **▶ ACTIVE WORK: FLY HAVOC AGAIN — v0.32.95, and this time it is IMPROVEMENT WORK, not
+  remediation.** *(2026-08-03. Everything to run it is in
+  `specs/havoc/observability-map.md` → THE FLIGHT'S JOB. Nothing to code first.)*
+  - **✅ FLIGHT 2 (v0.32.94) PASSED — Phase 1 is DISCHARGED.** 1276 in-combat lines. Every
+    Phase-1 criterion cleared, and two that had never been testable before:
+
+    | | flight 1 (v0.32.93) | flight 2 (v0.32.94) |
+    |---|---:|---:|
+    | `PW:` | `0/+0` ×2380 | **`restricted` ×1298** |
+    | Chaos Strike + Annihilation | **0** | **452 (35.4 %)** — top winner |
+    | Eye Beam / Abyssal Gaze | 0 | 277 |
+    | Blade Dance / Death Sweep | 0 | 140 |
+    | Metamorphosis | 0 | 119 |
+    | Throw Glaive | 770 (top) | 0 |
+
+    The **meta fork resolved** (`# config` flipped `BD,CS ↔ Anni,DS` six times mid-session —
+    criterion 2, never previously exercised) and **Felblade + Vengeful Retreat both cued**
+    from CDM-Utility rows (criterion 3). Rider answered: `C_AssistedCombat.GetNextCastSpell`
+    returns a **readable number in combat** (201427, Annihilation) — and it agreed with the
+    Coach.
+  - **⏳ WHAT FLIGHT 3 IS FOR — three things shipped in v0.32.95 that have never run:**
+    1. **L12, Immolation Aura's charge-cap gate.** Flight 2 found IA won **zero** presses
+       across **839** lines where it was ready with a banked charge. Watch that IA now cues
+       at 2/2 and still yields to the spender below cap.
+    2. **The COMPANION DOT.** When the look-ahead lands on the ability already cued, the same
+       icon gets a small second dot (and the log a trailing **`+1`** on `w:`). Chaos Strike
+       has no cooldown and won 35 % of flight 2, so this should be common — **eyeball whether
+       it reads as "press twice" or as clutter.** This is a design call only you can make.
+    3. **The LOOK-AHEAD itself** (`ROTATION_FALLBACK` now = the next press, all four specs).
+       Does the second dot lead you usefully, or does it jump around?
+  - **⚠ NEVER EXERCISED IN EITHER FLIGHT, and both are cheap to close:**
+    - **AoE mode** — zero `AoE` notes in flight 2, so **L4 and L14 have never run**. `/cdmp aoe`.
+    - **Essence Break** — `EssB:unlearned` on all 1298 lines, so **L6 and L8 are still dark**,
+      including the Deviation-13 pooling regression. Needs a build that talents it.
+  - **⚠⚠ `w:-` IS NOT THE SCORE.** Flight 1 scored **0.0 %** in-combat `w:-` — a perfect
+    number — *because* the generator lines were jammed on and something always won. **Read
+    the winner distribution.** Flight 2 also scored 0.0 %, and there it was genuine.
+  - ⚠ **Do the out-of-combat `C_Spell.GetSpellCharges` sweep BEFORE arming** — 195072 Fel
+    Rush / 258920 Immolation Aura / 198793 Vengeful Retreat / 185123 Throw Glaive, with
+    **198013 Eye Beam as the control** (an ordinary cooldown must *refuse*). It gives the
+    charge/no-charge split and the haste-scaled recharges in one pass, and it is the only way
+    to check the **three lying base cooldowns** against the truth. ⚠ **AND SEE THE CORRECTION
+    BELOW — they may not be lying at all.**
+  - Then: `/reload` · `/cdmp hud status` · `/cdmp hud coverage` · **`/cdmp flight` (ARM
+    FIRST)** · play single-target, **then `/cdmp aoe`**, swap hero tree, respec away and back ·
+    `/reload` (⚠ SavedVariables only flush there) · `wowkb.cdmp flight` (**exit 2 = "never
+    flown", NOT a pass**) · `wowkb.cdmp decisionlog` (read the **COMBAT SPLIT** and the
+    winner distribution, never the raw `w:-` ratio).
+  - ⚠ **`wowkb.cdmp flight` REPORTS ONE FALSE FAILURE ON THIS SPEC** — *"the DoT `not_up` cue
+    appears at all: 0 vs 0"* is a **Destruction** criterion scored against a Havoc flight, and
+    Havoc has no DoTs. Filed in the backlog; ignore it until the tool skips it.
+  - ⚠ **This flight still carries `roster-state-plan.md` Phase 5's criteria 6–9**, which had
+    exactly one home (a max-level Retribution pass) and lost it — including **criterion 7,
+    the roster-anchor root fix, which shipped as v0.32.92 and has never been observed**.
+- **📌 CORRECTION OWED — "the three lying cooldowns" is probably the WRONG DIAGNOSIS.**
+  *(2026-08-03, from method.gg 12.0.7.)* `SpecHavoc.lua`'s header and
+  `specs/havoc/rotation.md` both say Fel Rush (1 s), Immolation Aura (2 s) and Vengeful
+  Retreat (0.5 s) report a base cooldown that is **wrong**. Method's guide says *"Vengeful
+  Retreat only incurs a GCD for **Felblade and Fel Rush**"* — i.e. those short numbers are a
+  real **cross-ability movement lockout**, correctly reported, that our napkin reads as the
+  button's own cooldown. **The mitigation (the one-charge rule) is unaffected and still
+  right**; the description is what needs fixing, and the napkin may have a real signal to use
+  rather than noise to suppress. ⚠ Corroborated by real parses: top players press Fel Rush
+  after a Vengeful Retreat at a median **1.07 s**, clustered hard against **1.0 s** — Fel
+  Rush's `RecoveryTime` to the millisecond.
+- **📌 ALSO OWED — the off-GCD gap, and it is the bigger of the two.** *(2026-08-03.)*
+  **Vengeful Retreat does not cost a global** (off the GCD since patch 8.1.0), and the
+  pipeline has **no concept of off-GCD anywhere** — one passing mention in a Destruction
+  comment and nothing else. So cueing VR spends the single "press now" slot on an ability
+  that consumes no global and **hides whatever should be on it**. VR was 5.8 % of flight 2's
+  winners. Metamorphosis's `use_off_gcd` lines and trinkets hit the same wall. This needs a
+  `guidance-contract.json` decision (a cue that coexists with the press rather than replacing
+  it), not a gate tweak.
+  - ⚠ **The "can I get back in?" gate I proposed for L5 was WRONG and is not owed** — real
+    parses settle it. VR alone costs **−8 %** of melee swings; a VR→Fel Rush pair costs
+    **2.5 swings**; and autoattacks are only **3.1 %** of Havoc damage, so the whole pair is
+    ≈ **0.05 % of a pull** against an Initiative reset on every target. Top players eat it.
+    Do not gate L5 on a return being available.
+- **✅ DONE (code-complete) — the multi-class rollout, Phase 0 + Phase 1 + Phase 2. THE GATE
+  WAS INVERTED, NOT SKIPPED.** Seven specs across three classes was the target (Havoc 577,
   Vengeance 581, Devourer 1480, Retribution 70, Protection 66 on top of the two Warlock
-  specs). **Phase 0 (pipeline work) and Phase 1 (Retribution) have shipped; Phases 2–5 are
-  deliberately BLOCKED on flying Retribution**, because every one of them clones its pattern
-  and a pattern that is wrong in game would be replicated four times.
+  specs). **Phases 3–5 (Protection, Vengeance, Devourer) are deliberately BLOCKED on the
+  HAVOC flight**, because every one of them clones its pattern and a pattern that is wrong in
+  game would be replicated three times.
+  - ⚠ **Why the gate moved rather than passed** *(user's decision, 2026-08-03)*: its stated
+    condition was a **max-level Retribution** pass, and the user **has no max-level Paladin**,
+    so that condition can never be met. They *do* have a max-level Demon Hunter — so Phase 2
+    went to **Havoc** and the gate was **inverted onto it**. The gate's deeper justification
+    (the *ARCHITECTURAL FINDING* — facts derived through a CDM row's identity) was satisfied
+    separately: the roster anchor **shipped first**, as v0.32.92.
   - **Phase 0.1** — `resourceDisplay` gained **`"none"`** (tracked-but-not-drawn), the
     Renderer's display predicate was **inverted** to *only `discrete` draws pips* (which
     closed a real hole: the contract's documented `"percentage"` synonym was falling through
@@ -142,26 +281,116 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
     `specs/retribution/observability-map.md` → *Retribution-specific open questions* (six of
     them). The two that would change the design: **does Hammer of Wrath get a virtual row**
     (it has no CDM icon at all), and **is a 1-charge charge-category ability marked
-    `charges = true`** (six of nine Essential buttons depend on the answer).
-  - ▶ **THE ROLLOUT PLAN + THE FIRST FLIGHT'S RECORD LIVE IN `docs/multi-class-rollout.md`.**
+    `charges = true`** (**four** of nine Essential buttons depend on the answer — Judgment,
+    Crusader Strike, Blade of Justice, Wake of Ashes; this read "six" until 2026-08-03).
+  - ▶ **THE ROLLOUT PLAN + BOTH SESSION LOGS LIVE IN `docs/multi-class-rollout.md`.**
     Retribution was flown 2026-08-03 on a **level 37** character; **five defects** were found
-    and fixed (v0.32.88 → **v0.32.91**, suite 827 → **849**). ⚠ **THE GATE IS STILL OPEN** —
-    `/cdmp flight` has *never* been armed on Retribution (every flight report to date is a
-    stale Destruction capture), and level 37 means no hero tree and no burst lines, so a
-    **max-level pass is still owed**. Question 2 above is now **ANSWERED (no)** and question 3
-    (**24275**); the rest stand. That file also carries the four in-game API measurements, a
-    per-spec DB2 brief for Havoc/Prot/Vengeance/Devourer, and — most importantly — the
-    **argument that Phase 5's roster anchor should land BEFORE any further spec**: three of
-    the five defects were the same shape (an ability's facts derived through a *CDM row's*
-    identity instead of asked about the ability itself), so the current fixes are guards
-    against contradictions the data model still permits.
-- **Active work (paused for the above): `roster-state-plan.md` — ▶ PHASE 5 (anchor State on
-  the roster). Phases 1, 2, 3, 4 (2026-07-31), 6 and 6.2 (2026-08-01) are all DONE.**
-  This is the last phase and the largest blast radius: State stops anchoring on the CDM
-  database and anchors on the spec's declared roster instead. **Read §6.1 first** — knownness:
-  MARK, don't filter, plus the wholesale guard — it is the phase's load-bearing design
-  decision, and §6.2 answers the sizing worry. Phase 4's `Coverage.lua` is the required
-  replacement for `pulse.dropped`, which this phase deletes.
+    and fixed (v0.32.88 → **v0.32.91**, suite 827 → **849**). `/cdmp flight` has *never* been
+    armed on Retribution (every flight report to date is a stale Destruction capture), and
+    level 37 means no hero tree and no burst lines. Question 2 above is now **ANSWERED (no)**
+    and question 3 (**24275**); the rest stand and are now **unanswerable on this character** —
+    which is why the gate moved. That file also carries the four in-game API measurements and
+    a per-spec DB2 brief for Havoc/Prot/Vengeance/Devourer. ⚠ Its argument that **Phase 5's
+    roster anchor should land BEFORE any further spec** was **taken**: it shipped as v0.32.92,
+    before Havoc.
+  - **Phase 2 — Havoc Demon Hunter (577)**, the **2nd class outside Warlock**. Four docs
+    (`specs/havoc/`, 987 lines) + `SpecHavoc.lua` (538) + `CoachHavoc.lua` (642) implementing
+    **L1–L15**, plus a **100-case branch oracle** authored from `rotation.md`. Suite
+    **883 → 983**, luacheck 0, and the two Warlock oracles + the Retribution oracle stayed
+    green **unchanged**. **Zero pipeline generalisations were needed** — against the plan's
+    budget of one or two, and that is a finding rather than an oversight:
+    - **The CDM-Utility worry dissolved.** Three rotational presses (Felblade, Vengeful
+      Retreat, **and Fel Rush**, which carries *two* CDM rows) are filed **Utility** by
+      Blizzard, and the plan expected a pipeline edit. Both fences that could have blocked
+      them — the SOON fence (`Coach.lua:501`) and the virtual-row fence (`State.lua:1941`) —
+      test the **spec-authored `cadence`**, never the CDM's category. Declaring them
+      `"filler"` / `"oncd"` is the whole fix. ⚠ **The next tank spec will meet this shape.**
+    - **THREE lying base cooldowns, not the one the DB2 appendix predicted** — Fel Rush
+      1 s→10 s, Immolation Aura 2 s→30 s, Vengeful Retreat 0.5 s→25 s (a short shared-category
+      lockout on the spell row masking the real charge recovery). A **lie** is worse than an
+      honest zero: HudNapkin's declared-`chargeCD` fallback is gated on `not (len > 0)`, which
+      a lying 1 passes. What saves it is that all three are **1-charge** categories, so
+      `usable()`'s one-charge rule makes the count veto the early read — **the press is
+      protected; only the decoration lies**. The generalised napkin fix was **deliberately not
+      shipped**; its exact one-line shape is recorded in `specs/havoc/rotation.md` for the
+      flight to arbitrate. Residual hole (flight question #1): an **absent** count falls
+      through to the early napkin.
+    - **The meta fork is ONE cascade, not two lists.** Both overrides (Chaos Strike →
+      Annihilation, Blade Dance → Death Sweep) are 1:1 display overrides riding their own
+      base's frame, so the Coach cues the **base** and `ctx.inMeta` touches exactly **two**
+      lines. Unlike Retribution, **no semantic discriminator anywhere**.
+    - **`SpecBindAlias` was needed and the plan did not anticipate it** — SkillLine 1848
+      teaches *wrapper* spells (Chaos Strike 344862 → tracked 162794; Fel Rush 344865 →
+      tracked 195072), so both would silently lose their keybind hint.
+    - **New vocabulary, flagged:** L5 reads **Eye Beam's napkin `remaining`** — the first
+      cross-ability timing gate in any brain. Licensed because Eye Beam's 30 s lives on the
+      spell row so the napkin counts it honestly. **First suspect if VR misbehaves.**
+- **✅ DONE — `roster-state-plan.md` Phase 5: anchor State on the roster. THE PLAN IS NOW
+  COMPLETE.** *(2026-08-03. Phases 1, 2, 3, 4 landed 2026-07-31; 6 and 6.2 on 2026-08-01.)*
+  The last phase and the largest blast radius: State stopped anchoring on the CDM database and
+  anchors on the **spec's declared roster** instead, with the CDM demoted to **one evidence
+  source joined against it**. Suite **849 → 883**, luacheck 0, corpus **107 cases / 0 pinned /
+  29 `fixed`**.
+  - **The root fix**: an ability's **cooldown and its charges are now read about the same
+    spellID**. They used to resolve on two different ladders — cooldown on the *display*
+    identity, charges on `overrideSpellID or spellID` — so on a row whose identity flips
+    mid-session (Judgment alternates with Hammer of Wrath in the tracked set) the HUD compared
+    one ability's cooldown against another's charges. That single cause produced **three of
+    the five defects** the Retribution flight found; the shipped fixes were guards against a
+    contradiction the data model still permitted, and this removes the permission.
+  - **Knownness now MARKS instead of filtering** (§6.1): every declared ability reaches
+    `abilities` carrying three-valued `known` (`true | false | "unknown" | nil`), and `nil`
+    still means *"nobody asked"*. `Coach.Classify` owns the decision — `false` returns nil,
+    `"unknown"` keeps the row but zeroes its readiness flags (which IS "cap at available").
+    The wholesale guard overrides both. `pulse.dropped` is deleted and the decision log's
+    `DR:` field is **re-sourced** off the rows' `known`, rendering `!refused` when the guard
+    fires — strictly more visibility than `dropped` ever had.
+  - ⚠ **§6.1 carries a CORRECTION**: the `judgeable = false` + `secretGate` mechanism the
+    phase was planned around **does not exist** — both fields are declared and read by
+    nothing, their consumer (`HudScore.lua`) died at the W4 cutover and the `JUDGE` token was
+    retired in W4 Phase 8. It cost nothing: *"cap at available"* and *"never cue"* are the
+    same pixels, and the *"say why"* lands in `DR:`. Reviving a real emphasis token is filed
+    as backlog, not done here.
+  - ⚠ **READ §6.3 BEFORE EDITING `State.lua`.** Eleven implementation decisions are recorded
+    there that are **not** in the plan text — each forced by something the plan did not
+    anticipate, and each of a shape a fresh reader will "fix" back.
+  - **`CoachRetribution:usable()`'s `max == 1` guard was deliberately KEPT** and commented:
+    its cause is gone, but a guard must not be deleted in the same diff that removes its
+    cause. It retires on its own after a clean max-level `Judg=` / `Judg~` column.
+  - ⏳ **ITS ACCEPTANCE IS AN IN-GAME GATE — see the entry directly below.**
+- **⏳ THE ONE OPEN GATE: a max-level Retribution flight.** *(Filed 2026-08-03.)* Four separate
+  owed passes collapse into **one session**, which is why it is worth doing properly rather
+  than piecemeal: **Phase 5's acceptance**, **Retribution's own never-armed flight**, the
+  **owed v0.32.36 re-fly**, and **Phase 6.2's fragment pass**. The 2026-08-03 Retribution pass
+  was level 37 — no hero tree, no burst lines — and `/cdmp flight` has *never* been armed on
+  the spec at all.
+  ```
+  /cdmp flight            # ARM FIRST — this is the step that has never happened
+  /cdmp hud coverage      # blind count must not rise
+  … play a real pull, swap hero tree, swap spec …
+  /reload                 # ⚠ SavedVariables only flush here
+  ```
+  ```bash
+  uv run python -m wowkb.cdmp flight        # PASS/FAIL/MEASURED; exit 2 = "never flown", NOT a pass
+  uv run python -m wowkb.cdmp decisionlog   # read the COMBAT SPLIT, never the raw w:- ratio
+  ```
+  **Acceptance:** (1) `abilities` never empty on login (the wholesale guard, the v0.32.25
+  shape). (2) **Judgment never cues while its own cooldown reads down** — grep for `Judg=c<n>`
+  beside `Judg~1/1`; it was **191 of 226 lines** last time. (3) **Hammer of Wrath gets a row**,
+  so `CoachRetribution` L9 stops being dead code (this also answers `observability-map.md`
+  open question 1). (4) Coverage `blind` unchanged or lower, every `blind` row an ability the
+  character actually has. (5) In-combat `w:-` ratio no worse than v0.32.90's **13.9 %**.
+  (6) **MEASURED, not scored:** the OOC guarded-call rate — §6.2 predicted ~7,000/sec →
+  ~600/sec, but after the unclaimed-row saving and the 0.5 s throttle the realistic figure is
+  nearer **~1,000–1,500/sec**. *State the measurement, not the prediction.*
+  ⚠ **Criterion 4 is now nearly free and must be reported honestly** — Phase 5 narrowed
+  Coverage's `blind` verdict to `kind = "aura"` entries, because every declared non-utility
+  *button* gets a virtual row by construction now. Say that in the write-up rather than
+  claiming a win.
+  ⚠ **The likeliest bad outcome is a wall of `blind` aura rows** — Retribution declares 16
+  aura entries with no `expect = false`, and `CRUSADE 1253598` is documented untracked and
+  carries no `expect` field. **If that wall appears the fix is roster authoring, not a Phase 5
+  rollback.**
 - **✅ DONE — `roster-state-plan.md` Phase 6: cast-*results* → the Coach.** *(2026-08-01;
   jumped the queue ahead of Phase 5 as §10 permits.)* The in-flight power projection left the
   **ingestion** layer for the **decision** layer: `ns.Coach.InflightPower` derives it as a pure
@@ -944,17 +1173,101 @@ states over real icon art after the file split.
 The container for what's next. The old engine is gone, so this is where feature/quality
 work lands now — the user drives the list; a few already-surfaced items are seeded:
 
+- **🔬 SHIPPED v0.32.97 — `/cdmp curve`, THE CURVE / SECRET-DISPLAY LAB. Owed a flight.**
+  *(2026-08-04. `CDMProbe/CurveLab.lua` + `curvelab_spec.lua` + `wowkb.cdmp curvelab`.
+  ⚠ TEMPORARY and MEANT TO BE DELETED — the trigger is in the file's banner.)*
+  Midnight seals the values this HUD most wants (Fury, in-combat cooldown remaining, aura
+  duration and stacks, target health), and Blizzard shipped **curves** and **duration
+  objects** as the sanctioned way to *display* a secret without inspecting it — and
+  **nothing in this workspace had ever called one**. This is measure-first and **probe
+  only**: no `State`/`Coach`/`Binder`/`Renderer` change, no `guidance-contract.json` change,
+  and **not** a revival of the Phase-2 Fury cascade (`multi-class-rollout.md` recommended
+  that against on 2026-08-03 and that verdict stands — it is a verdict about *Fury*, not
+  about curves, and the doc says the technique "will be the right answer for some future
+  problem").
+  - **The matrix** is 15 sources × 20 sinks, sparse by kind. Verdicts are **five-valued and
+    never boolean**: `WORKED` / `INERT` / `REFUSED` / `UNSOURCED` / `POISONED`. ⚠ **`INERT`
+    is the dangerous cell, not the boring one** — the setter took a secret and nothing
+    flipped, so the pixel may or may not have moved; it is escalated to the card and never
+    scored. ⚠ **`UNSOURCED` must never read as a pass** (no secret was available that
+    sample). ⚠ **A THROW from `GetEffectiveAlpha` / `IsDesaturated` is a POSITIVE result** —
+    the refusal *is* the proof the aspect landed.
+  - **Aspects are the readback**, which is what makes a channel we cannot read back
+    measurable at all: `HasSecretAspect` / `HasAnySecretAspect`. ⚠ **Five secret-accepting
+    setters declare NO aspect** — `SetTexture`, `SetAtlas`, `SetColorTexture`,
+    `AnimVertexColor:SetStartColor`/`SetEndColor` — and they are the only anchor-contagion
+    candidates and the only cells with **no readback at all**. The earlier worry that
+    `SetAlpha` poisons the anchor chain is **wrong**; it declares `{Alpha}`.
+  - **The negative controls run FIRST and a REFUSAL is the pass.** If
+    `curve:Evaluate(secret)` ever succeeds, the Tier-1 model the whole file rests on is
+    wrong, the matrix is **not run**, and both the readout and `wowkb.cdmp curvelab` say so
+    (exit 1). The sharpest pairing in the corpus is in there: `Cooldown:SetCooldown(secret,
+    secret)` must refuse while `SetCooldownFromDurationObject` takes the same fact.
+  - **⚠ THE `UIParent:IsAnchoringSecret()` CANARY is the most important safety property.**
+    "Contagion propagates down only" is **Tier 2**, not the generated docs; if it is wrong
+    this sandbox poisons the whole UI rather than a hidden corner. It is asked before and
+    after every cell, a flip halts the run, and it is mutation-checked.
+  - **THE SEQUENCING (do it in this order):** (1) `/cdmp curve` bare, out of combat —
+    constructors, negatives, source census; **stop if `curveEvaluate` does not refuse**.
+    (2) **The duration column** — it needs no curve at all and is the likeliest real win, an
+    in-combat countdown the HUD has never had. (3) The aspect matrix + the contagion test:
+    `/cdmp curve watch`, one pull. (4) **`/cdmp curve card`** for the `INERT` and
+    aspect-less cells — the control rows are pinned at the top and drawn with a hard `Step`
+    curve, so *top moves + subject frozen* = the channel is dead for secrets, *both move* =
+    it works, and *neither moves* = the instrument is broken and the capture proves nothing.
+    Then `/reload` → `uv run python -m wowkb.cdmp curvelab`. Repeat on the Warlock for the
+    Soul Shards control row.
+  - ⏳ **Fly it on the DH** (Fury is secret there, which is the whole point) — it rides along
+    with the Havoc flight above rather than competing with it, since it needs the same
+    session. **If the duration route proves out, that becomes its own piece of work with the
+    report in hand.**
+- **📋 ROSTER GAP #2 — the aura half of the roster is WRITE-ONLY for State.**
+  *(Filed 2026-08-03 by roster-state-plan Phase 5, which recorded it and deliberately did not
+  fix it.)* Phase 5 made the spec's declared roster the anchor, but only `kind = "button"`
+  entries participate: **`kind = "aura"` entries claim no CDM row and are never consulted by
+  `St.RosterView`.** They are declared, they are covered by `Coverage.lua`, and then nothing
+  reads them. Today the buff channel is populated the old way, so this is a *structural*
+  inconsistency rather than a live defect — but it is the half of the inversion that did not
+  happen, and it is why **Coverage's `blind` verdict now narrows to auras** (see the next
+  item): the only thing the HUD can still be blind to is an aura. ⚠ **It also makes roster
+  maintenance correctness-bearing in a way that is easy to get wrong** — adding a spec now
+  means enumerating its *auras*, not just its buttons, and the guardrail for that (Coverage)
+  has itself never been flown on Retribution.
+- **📋 Coverage's `blind` verdict narrowed to auras — the probe got weaker, honestly.**
+  *(Filed 2026-08-03, Phase 5 decision 9.)* Every declared non-utility **button** now gets a
+  virtual row by construction, so the HUD cannot be blind to a button any more and `blind`
+  can only fire on `kind = "aura"` entries. That is a real narrowing of what the probe can
+  catch, and it makes **acceptance criterion 4 of the Phase-5 flight nearly free** — noted in
+  `Coverage.lua` itself so a future reader does not mistake a quiet report for broad coverage.
+  Worth revisiting once roster gap #2 above is closed, since auras are then joined too and
+  the verdict could mean something again.
+- **📋 The `JUDGE` token revival — "cap at available AND SAY WHY", on screen.**
+  *(Filed 2026-08-03 out of the roster-state-plan §6.1 correction.)* `judgeable = false` +
+  `secretGate` are declared by the spec files and **read by nothing**: their consumer
+  (`HudScore.lua`) was deleted at the W4 cutover and the `JUDGE` emphasis token was retired in
+  W4 Phase 8. Phase 5 needed "an ability whose gate is unreadable caps at available" and got
+  it for free — `guidance-contract.json` makes AVAILABLE *"off cooldown but not a call — no
+  cue"*, so the cap and "never cue" are the same pixels — but the **"say why" half only
+  reaches the decision log's `DR:` field, never the screen.** Putting it back means a new
+  emphasis token + a Binder reason pass-through + a Renderer treatment, i.e. a
+  `guidance-contract.json` change. Do it as its own piece of work or delete the two dead
+  fields; leaving them declared-and-unread is the state that produced the wrong plan.
 - **📋 The napkin is blind on any ability whose cooldown lives on a CHARGE CATEGORY.**
   *(Filed 2026-08-02 by the Retribution build, which is where it stopped being an edge case.)*
   `ns.BaseCooldown` reads `GetSpellBaseCooldown`, which reports the **spell's**
   `SpellCooldowns.RecoveryTime` — and that is **0** for any ability that keeps its cooldown on
-  a `SpellCategory` instead. `HudNapkin` then has nothing to count down from, so it
-  contributes no `remaining`: **`SOON` never lights** for those abilities and in-combat
-  readiness rests entirely on the CDM's `Available` / `OnCooldown` edges, with no estimate
-  underneath. Destruction met this once (Conflagrate, field-fix C2). **Retribution meets it
-  on six of its nine Essential buttons** — Judgment (category 1663, 11s), Crusader Strike
-  (1627, 6s, **2 charges**), Blade of Justice (2128, 12s), Wake of Ashes (2285, 30s), Hammer
-  of Wrath (1895, 7.5s) and Avenging Wrath (1550) `[T1 DB2 @ 12.0.7]`.
+  a **charge category** instead. `HudNapkin` then has nothing to count down from, so it
+  contributes no `remaining`: **`SOON` never lights** for those abilities and `Escalate`'s
+  overdue call goes with it. ⚠ **Readiness itself is NOT what is lost** — it comes from the
+  **charge count** (State seeds it out of combat and maintains it off `ChargeGained`); the
+  alert edges are a second channel, not the only one. *This bullet said "readiness rests
+  entirely on the CDM's edges" until 2026-08-03; that was overstated.* Destruction met this
+  once (Conflagrate, field-fix C2). **Retribution meets it on four of its nine Essential
+  buttons** — Judgment (category 1663, 11s), Crusader Strike (1627, 6s, **2 charges**), Blade
+  of Justice (2128, 12s) and Wake of Ashes (2285, 30s) `[T1 DB2 @ 12.0.7]`. ⚠ *This said
+  **six** until 2026-08-03: Hammer of Wrath (1895, 7.5s) has the same shape but is **not in
+  the tracked set**, and Avenging Wrath (1550) carries `CategoryRecoveryTime` on the **spell**
+  row, so `GetSpellBaseCooldown` answers for it normally.*
   The fix is a **spec-declared cooldown fallback** that `ns.BaseCooldown` consults when the
   live read is 0 — the data is already authored (`chargeCD` on each `SpecRetribution` entry,
   documentation-only today), so this is a new pipeline seam and nothing else. ⚠ Mind the

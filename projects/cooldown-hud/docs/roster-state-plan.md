@@ -1,11 +1,19 @@
 # Cooldown HUD — the roster-anchored State
 
-> **STATUS: ▶ PHASE 5 IS CURRENT (the last one). Phases 1 + 2 + 3 + 4 done 2026-07-31;
-> Phase 6 done 2026-08-01, having jumped the queue as §10 permitted.**
+> **STATUS: ✅ ALL PHASES DONE — THE PLAN IS COMPLETE.** Phases 1 + 2 + 3 + 4 done
+> 2026-07-31; Phase 6 done 2026-08-01 (it jumped the queue as §10 permitted);
+> **Phase 5, the last one, done 2026-08-03 — §6.3 is its record.**
 > (⚠ This header read "▶ PHASE 4 IS CURRENT" until 2026-08-01, weeks after Phase 4 shipped
 > and was flown — §10's `▶ CURRENT` marker was stale the same way. Move BOTH when a phase
-> lands.) **Read §6.1 before starting Phase 5** — it is that phase's load-bearing design
-> decision (knownness: MARK, don't filter).
+> lands.) **Read §6.1 before touching the knownness code** — it is Phase 5's load-bearing
+> design decision (knownness: MARK, don't filter), and it now carries a ⚠ **correction**: the
+> `judgeable`/`secretGate` mechanism it leaned on **does not exist** and has not since the W4
+> cutover. **Read §6.3 before "fixing" anything in `State.lua`** — eleven decisions there are
+> not in the plan text above and were each forced by something it did not anticipate.
+>
+> ⏳ **Code-complete is not flown.** Phase 5's acceptance is one pass on a **max-level
+> Retribution** character, which also discharges Retribution's own open gate, the owed
+> v0.32.36 re-fly and Phase 6.2's fragment pass. `docs/status.md` carries the gate.
 >
 > **✅ Phase 3 SHIPPED 2026-07-31** (commits C1–C4, released as **v0.32.48**). The DrawList
 > gained a **`keybinds[]` channel**, so `cues[]` means *decisions* again and the empty-cue
@@ -1024,9 +1032,23 @@ untalented in this build.
 let the Coach decide:
 
 - **`false`** → never cue. Cheap and correct.
-- **`unknown`** → the Coach already owns this shape. `judgeable = false` + `secretGate` exist
-  so an ability whose true gate is unreadable **caps at "available" and says why** rather than
-  claiming it is the right press. Unknown knownness is the same class of claim.
+- **`unknown`** → ~~the Coach already owns this shape. `judgeable = false` + `secretGate`
+  exist so an ability whose true gate is unreadable **caps at "available" and says why**
+  rather than claiming it is the right press.~~
+  ⚠ **CORRECTED 2026-08-03 — THAT MECHANISM DOES NOT EXIST.** Both fields are *declared* by
+  the spec files and *read by nothing*: their consumer was `HudScore.lua`, deleted at the W4
+  cutover, and the `JUDGE` emphasis token they fed was retired in W4 Phase 8. The plan was
+  written against a capability the codebase had already lost.
+  **The resolution costs nothing, because the two halves land in different places.**
+  `guidance-contract.json` defines AVAILABLE as *"off cooldown but not a call — no cue"*, so
+  **"cap at available" and "never cue" are the same pixels**: zeroing
+  `ready`/`probablyUp`/`anticipated`/`overdue` on the finished record IS the cap, and it is
+  the entire implementation (`usable()` in both brains needs `probablyUp` or a banked charge,
+  `Emit`'s fallback needs a castable rec, `SOON` needs `anticipated`). The **"say why"** half
+  lands in the decision log's `DR:` field — `<abbr>:unknown` — which is exactly where
+  `pulse.dropped` used to say it. A new emphasis token / Binder reason pass-through /
+  Renderer treatment would be the **`JUDGE` revival**, a contract change in its own right,
+  and is filed in `status.md` rather than done here.
 - Either way the row is **present and visible** in the pulse and the decision log, rather than
   absent without a trace. That visibility is what made the Soul Fire bug findable at all, and
   it is what replaces `pulse.dropped`.
@@ -1061,6 +1083,88 @@ over all ~64 rows. Per row, out of combat: `cooldownInfo` (1 pcall) + `ReadCoold
 
 Roster-anchored: ~20 abilities + ~10 auras = 30 rows at 2 Hz ≈ **600/sec**. Over an order of
 magnitude cheaper. (Phase 2.3's GCD hoist alone removes ~128 calls/tick before any of this.)
+
+### 6.3 What actually shipped *(the record — 2026-08-03)*
+
+The inversion landed whole, in one phase: the spec's declared roster is the anchor and the CDM
+is **one evidence source joined against it**. Desk gates at the cut: **luacheck 0 warnings**,
+**busted 883 tests / 0 failures / 4 pending** (from 737), corpus **107 cases / 0 pinned /
+29 `fixed`**.
+
+**The root fix (§C2)** is one line of intent: `readAbilityFacts(rid, rep)` passes the **roster
+spellID** to both `readCd` and `readCharge`. Before, the cooldown ladder resolved on the
+*display identity* while charges used `overrideSpellID or spellID` — two ladders, and on a row
+whose identity flips mid-session (Judgment alternates with Hammer of Wrath in the tracked set)
+they resolve to **different spells**, so the HUD compared one ability's cooldown against
+another's charges. That is three of the five Retribution flight defects, one cause. The claimed
+row's `cooldownID` still goes in, so `cdBaseline` / `readyEdge` / the charge napkin's gain-floor
+seed cadence are unchanged.
+
+**Eleven decisions were taken during implementation that this plan did not anticipate.** They
+are recorded here because each was *forced* by something the plan text did not foresee, and a
+fresh reader would otherwise "fix" them back:
+
+1. **The third value of `known` is the STRING `"unknown"`, not `nil`.** `nil` has to keep
+   meaning *"nobody asked"* — it is what every hand-built fixture pulse carries and what every
+   consumer written before the field existed sees. Making absence mean "unreadable" would have
+   capped every Coach-spec fixture row at once.
+2. **The spellbook is the AUTHORITY; the CDM row's `isKnown` is the FALLBACK.** The naive fold
+   ("false wins") is wrong: a row's `isKnown` describes the row's *base*, which on a
+   display-overridden row is a different spell. On Hellcaller, cid 66181's base (Shadow Bolt)
+   is unlearned while the ability it draws (Incinerate) is pressed every GCD.
+3. **Unclaimed CDM rows cost no reads.** A row no declared ability claims gets
+   `cd = {state="unknown", source="none"}` / `charge = {readable=false}` rather than its own
+   read. **This is where §6.2's sizing win actually comes from**, and it is why the
+   `asked.cooldownCount` assertions in `cdm-cases` had to move.
+4. **`linkedSpellIDs` is deliberately NOT a domain-view join field** (Coverage's *is*).
+   Coverage asks *"does the CDM know this id at all"*; the join asks *"which ability IS this
+   row"*, and the pool is a bag of alternatives — joining on it lets one id claim a row that
+   visibly draws another ability.
+5. **Synthesis has THREE wholesale guards, not one:** no frame map · empty database · **any row
+   with no resolvable base** (an unreadable row makes every "untracked" negative unprovable —
+   Coverage's `unreadableRows` rule). Without them a refused CDM read puts *our* icon on screen
+   for the whole rotation: the v0.32.32 duplicate at roster scale. ⚠ Guard 3 is keyed on
+   `baseOfRow(entry, fold) == nil`, **not** on "the spellID read secret", so a warm in-combat
+   pulse keeps drawing.
+6. **`virtualCd`** — static `ready` / `source = "static"` only when `ns.BaseCooldown` genuinely
+   reads 0; otherwise the real `readCd` ladder (no cooldownID ⇒ no baseline/edge, but the OOC
+   read and the napkin both key on the spell). The virtual **charge** stays static, because the
+   charge napkin is keyed by cooldownID and a virtual row has none.
+7. **An undrawable *claimed* row keeps its row and its readings**, and merely takes the negative
+   display handle. It is no longer dropped and replaced by a from-scratch static row — strictly
+   better than the pre-Phase-5 Hellcaller path.
+8. **`pulse.virtual` is the DRAW list and stays knownness-fenced** (`known == true`, or all of
+   them when the wholesale guard fired). *Marking* buys visibility for free; an **icon on
+   screen** for an ability you do not have is noise.
+9. **Coverage's `blind` verdict narrows to `kind = "aura"` entries.** Every declared non-utility
+   button now gets a virtual row, so the HUD cannot be blind to a *button* any more. ⚠ This
+   makes acceptance criterion 4 nearly free — **report it honestly in the flight write-up
+   rather than claiming a win.**
+10. **cdm-cases fixture moves:** `TYRANT` → `SUMMON_INFERNAL 1122` in the four `spec = 3` cases
+    that used a Demonology id; *"a trackedbuff row is never a press and never a drop"* split
+    into an aura case plus a new **declared-button-tracked-as-a-bar** case (Immolate now DOES
+    get a row — the CDM tracks it only as a tab-2 bar, and the roster says it is a button);
+    `flags/charges-are-read-on-the-DISPLAY-identity` **inverted** into
+    `flags/charges-and-the-cooldown-are-read-about-the-SAME-id`.
+11. **`state_domainview_spec` runs Destruction throughout** (`H.setSpecIndex(3)`), and the
+    "exactly one virtual row per spec" guards build their board from `St.RosterEntries`
+    (`onScreenExcept(...)`) instead of a hand-listed id set — a hand-listed board silently
+    stops covering anything added to the spec table later.
+
+**Retained on purpose:** `CoachRetribution:usable()`'s `max == 1` invariant. Its cause is gone
+(decision §C2 above), but deleting a guard in the same diff that removes its cause leaves a
+regression in the cause with nothing beneath it. It is commented to that effect and retires on
+its own, after a clean max-level `Judg=` / `Judg~` column.
+
+**Two mutation checks were run, not merely asserted** (§Verification): deleting the
+`(asked == 0) or sawReadable` term turns *"knownReadable is FALSE when the whole roster
+refused"* red (plus a downstream Coach case); deleting the `info.expect ~= false` fence in
+`virtualCandidates` turns four cases red, including both *"EXPECT=FALSE ⇒ no row"* and
+*"…and the cast-id ALIAS beside it changes nothing"*.
+
+**⚠ Still open — the aura half of the roster is write-only for State** (roster gap #2):
+`kind = "aura"` entries claim no row and are never consulted. Recorded here, deliberately not
+fixed in this phase.
 
 ---
 
@@ -1202,6 +1306,36 @@ Secret-Values question that gated this for a month. `ShouldUnitPowerBeSecret` ta
 `(unit, powerType)` (`knowledge/addon-dev/security-taint-and-restricted-data.md`), so the
 `unmodified` flag is not a parameter of the verdict, which is exactly why it behaves
 identically.
+
+> ### ⚠ CORRECTION (2026-08-03) — "the flagged read WORKS IN COMBAT" is TRUE FOR SOUL SHARDS AND FALSE FOR MOST OF THE GAME
+>
+> The paragraph above is **correct as a measurement and wrong as a generalisation**, and the
+> generalisation is the one that got used. What it measured is Soul Shards; what it was read
+> as saying is *"`UnitPower` works in combat"*. It does not.
+>
+> **Secrecy is per POWER TYPE, and the rule is primary vs. secondary resource.** Blizzard blue
+> post, *Midnight Public Alpha Addon API Changes*, 2025-11-24: *"We have relaxed restrictions
+> around `UnitPower` so the player's **secondary** resources are no longer secret (**primary
+> resources remain secret**). Affected resources: Combo Points, Runes, Soul Shards, Holy
+> Power, Chi, Arcane Charges, Essence."*
+>
+> Soul Shards are on that list. So are Holy Power. **Fury, Rage, Energy, Focus, Mana, Runic
+> Power, Pain, Insanity and Maelstrom are not** — and the sentence above is the reason nobody
+> checked before shipping Havoc. `C_Secrets.GetPowerTypeSecrecy(17)` (Fury) is **2**
+> (`ContextuallySecret`) and `ShouldUnitPowerBeSecret("player", 17)` is **true in a city and
+> mid-pull alike**; the "context" is the UNIT, not combat.
+>
+> **What it cost:** the Havoc flight, 2026-08-03. Every Fury gate compared against a
+> fabricated zero, and the core rotation was unreachable for a whole session. The remediation
+> is `specs/havoc/rotation.md` → *Fury is SECRET* and
+> `knowledge/addon-dev/security-taint-and-restricted-data.md` §4.12.
+>
+> ⚠ **The `unmodified` sub-claim survives intact** — the flag genuinely is not a parameter of
+> the secrecy verdict. It is the scope of "works" that was wrong, not the mechanism.
+>
+> **The first four specs this project shipped were LUCKY**: Soul Shards ×2 and Holy Power ×1
+> are all never-secret. Of the remaining rollout, Protection Paladin is Holy Power (safe) and
+> **Vengeance and Devourer are both Fury**.
 
 #### The unit model, and why it is INTEGERS
 
@@ -1402,8 +1536,12 @@ Phase 3  keybind channel separation                ← ✅ DONE 2026-07-31, v0.3
 Phase 4  roster coverage probe                     ← ✅ DONE 2026-07-31 (see §5.1), FLOWN 2026-08-01 (§5.2)
 Phase 6  cast-results → Coach                      ← ✅ DONE 2026-08-01 (see §7.1) — it did jump the queue
 Phase 6.2 Soul Shard FRAGMENTS (the exact rail)    ← ✅ DONE 2026-08-01 (see §7.2), awaiting its in-game pass
-Phase 5  roster anchor inversion                   ← ▶ CURRENT. Last; the largest blast radius. Read §6.1 FIRST
+Phase 5  roster anchor inversion                   ← ✅ DONE 2026-08-03 (see §6.3), awaiting its in-game pass
 ```
+
+**✅ THE PLAN IS COMPLETE.** Every phase is code-complete and green at the desk. What remains
+is not code: **one max-level Retribution flight** discharges Phase 5's acceptance, Phase 6.2's
+fragment pass and the owed v0.32.36 re-fly together. `docs/status.md` owns that gate.
 
 **⚠ PHASE 2's INTERNAL ORDER WAS EVIDENCE-LED, not the §3.1→§3.9 numbering.** The 2026-07-31
 capture measured every trigger, and the numbering predates it. **This is the order it shipped

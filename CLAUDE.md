@@ -170,10 +170,14 @@ touching the code**. Status as of 2026-07-09:
   design language · `docs/architecture.md` the State→Coach→Binder→Renderer pipeline ·
   `docs/status.md` the live worklist + backlog · `docs/notes.md` the Secret-Values
   reality) from **per-spec** (`specs/demonology/` — the
-  rotation brain + facts) — plus `docs/multi-class-rollout.md`, the **7-spec rollout plan and
-  the record of Retribution's first flight** (5 defects fixed, the API measurements, the
-  per-spec DB2 brief, and the case for doing the roster anchor before the next spec).
-  Build history is in `docs/archive/`. The addon
+  rotation brain + facts) — plus `docs/multi-class-rollout.md`, the **rollout plan and both
+  session logs**: Retribution's first flight (5 defects fixed, the API measurements, the
+  per-spec DB2 brief) and **Phase 2 — Havoc DH, shipped 2026-08-03, where the in-game gate
+  was INVERTED rather than skipped** (the gate wanted a max-level *Retribution* pass, there
+  is no max-level Paladin, so the user's call was to discharge it from the *Demon Hunter*
+  side; the roster anchor it also asked for shipped first, as v0.32.92).
+  ⏳ **The Havoc flight is the outstanding deliverable** — everything else in the rollout is
+  blocked behind it. Build history is in `docs/archive/`. The addon
   (`michac/CDMProbe`) is at `addon/` (own git repo, gitignored, own `CLAUDE.md` for
   the release workflow). (Current addon version: `wowkb.addon list`.)
 - `todo/` — design docs / specs with milestone logs for the above
@@ -234,6 +238,7 @@ uv run python -m wowkb.addon release <bb|cdmp|ps> [--patch|--minor|--major] [--n
 uv run python -m wowkb.addon deploy <bb|cdmp|ps>         # redeploy the latest existing release via ghaddons (no new cut)
 uv run python -m wowkb.cdmp flight                      # the PASS/FAIL ACCEPTANCE REPORT for an in-game pass recorded by `/cdmp flight` (run this after a test build)
 uv run python -m wowkb.cdmp decisionlog                 # extract the CDMProbe pipeline DECISION LOG off SavedVariables → flat .log (see below)
+uv run python -m wowkb.cdmp curvelab                    # ⚠ TEMPORARY — flatten + GRADE the `/cdmp curve` secret-display lab (see below)
 ```
 
 Blizzard + WCL commands require credentials in `.env` (user-registered).
@@ -311,6 +316,20 @@ instrument for "why does `/cdmp hud` show nothing here?". ⚠ SavedVariables onl
 `probe-baseline.json` assertion suite was retired 2026-07-29 — the readability rules it
 discovered are settled game-wide, and a spec's tracked set comes from wago DB2 via
 `wowkb.spec_inventory`, so per-spec re-measurement bought nothing.)*
+
+**`wowkb.cdmp curvelab`** is ⚠ **TEMPORARY**, and it reads the Cooldown HUD's
+**curve / secret-display lab** (`/cdmp curve`, addon `CurveLab.lua`). Midnight 12.0 seals the
+values that HUD most wants, and Blizzard shipped **curves** and **duration objects** as the
+sanctioned way to *display* a secret without inspecting it — a technique nothing in this
+workspace had ever called. The lab measures **which visual channels can actually carry a
+secret to the screen**; this flattens the capture and **grades** it. ⚠ It grades on whether a
+secret was ever actually put in front of a sink, **not** on whether the run completed: three
+of the five verdicts are "we learned nothing" in disguise. **Exit 1** = a POISONED anchor
+chain, a negative control that passed (they exist to *fail*), or the canary fired · **exit 2**
+= nothing wrong but no cell ever ran on a real secret, which must never read as a pass ·
+**exit 0** = every cell has a verdict and at least one ran on a secret. Delete this
+subcommand with the addon file once the answers land in
+`knowledge/addon-dev/security-taint-and-restricted-data.md` §4.8.
 
 **`wowkb.character`** is the one-shot snapshot for `knowledge/characters/`:
 it pulls every Blizzard profile endpoint (summary/equipment/specs/professions/

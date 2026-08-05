@@ -26,11 +26,20 @@ always means the /reload was skipped.
 ⚠ SavedVariables only flush on /reload or logout. A capture that looks stale almost
 always means the /reload was skipped.
 
+    CDMProbeDB.curvelab      <- ⚠ TEMPORARY. The curve / secret-display discovery lab
+                                (addon CurveLab.lua): one row per VERDICT change across the
+                                source × sink matrix — which visual channels can actually
+                                carry a Secret Value to the screen. Delete this half of the
+                                module with CurveLab.lua once the answers land in
+                                knowledge/addon-dev/security-taint-and-restricted-data.md
+                                §4.8.
+
 Usage:
     uv run python -m wowkb.cdmp decisionlog                 # → raw/cdmp-decision.log
     uv run python -m wowkb.cdmp decisionlog --out my.log
     uv run python -m wowkb.cdmp decisionlog --wow-path <dir>
     uv run python -m wowkb.cdmp alerttape                   # → raw/cdmp-alerttape.log
+    uv run python -m wowkb.cdmp curvelab                    # → raw/cdmp-curvelab.log
 """
 
 from __future__ import annotations
@@ -286,6 +295,213 @@ def cmd_alerttape(alerttape, path: str, out: Path) -> int:
         print("\n⚠ No event rows. The capture proves NOTHING about the alert channel — "
               "check: /cdmp alerts on, /cdmp hud on, then a pull, then /reload.",
               file=sys.stderr)
+    return 0
+
+
+# --------------------------------------------------------------------------- #
+# curvelab — the TEMPORARY curve / secret-display discovery lab                 #
+# --------------------------------------------------------------------------- #
+# ⚠ Delete this section with the addon's CurveLab.lua once "which visual channels can carry
+# a secret" lands in knowledge/addon-dev/security-taint-and-restricted-data.md §4.8. It is a
+# one-question instrument, not a permanent recorder.
+#
+# THE ONE THING THIS MUST NEVER DO is let a quiet capture read as a clean bill of health.
+# Three of the five verdicts are "we learned nothing" in disguise — UNSOURCED (no secret was
+# available), REFUSED (the call never landed) and a skipped matrix (the model check failed) —
+# so the exit code is graded on whether a SECRET was ever actually put in front of a sink,
+# not on whether the run completed.
+
+def load_curvelab(wow_path: str) -> tuple[object, str] | None:
+    """(curvelab, path) from the newest CDMProbe.lua, or None."""
+    pth = _find_savedvar(wow_path)
+    if not pth:
+        return None
+    db = parse_savedvar(Path(pth).read_text(encoding="utf-8", errors="replace"), "CDMProbeDB")
+    if not isinstance(db, dict):
+        return None
+    return (db.get("curvelab"), pth)
+
+
+# The four row kinds, and they answer four different questions — never merge them:
+#   CAP  the sample header: when, which build, in or out of combat, was the lab halted
+#   NEG  the negative controls. A REFUSAL is the PASS here; these exist to fail.
+#   SRC  per source: did this read produce a secret at all this sample (`borne`)
+#   CEL  per (source × sink) cell: the five-valued verdict plus its six raw readings
+_CURVELAB_VERDICTS = ("WORKED", "INERT", "REFUSED", "UNSOURCED", "POISONED")
+
+
+def cmd_curvelab(curvelab, path: str, out: Path) -> int:
+    """Flatten the curve lab's ring, newest row last, and grade the capture.
+
+    ⚠ SORTED BY BUILD FIRST, always — the same correction the alert tape needed. The ring
+    keeps recording across a spec or hero-tree swap when there is no /reload, and the
+    duration column asks about a spellID resolved off the ACTIVE SPEC, so two builds in one
+    capture are two different measurements. Reading them interleaved is how you conclude the
+    client is nondeterministic when you simply respecced.
+    """
+    rows = _aslist(curvelab)
+    out = Path(out)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    lines: list[str] = []
+    builds: set[str] = set()
+    poisoned: list[str] = []
+    neg_failed: list[str] = []
+    verdict_tally: dict[str, int] = {}
+    unverdicted = 0
+    sourced_cells = 0            # cells that actually ran with a secret in front of them
+    halted = False
+    stack_ok: set[str] = set()       # the threshold cue reached the client
+    stack_closed: set[str] = set()   # …or `item.auraInstanceID` read secret, closing it
+
+    # Rows are the addon's ring (a positional array), but sort by build so a swap cannot
+    # interleave; `t` keeps the original order within a build.
+    rows = [_asdict(r) for r in rows if isinstance(r, dict)]
+    rows.sort(key=lambda r: (str(r.get("build")), r.get("t") or 0))
+
+    for r in rows:
+        build = str(r.get("build", "?"))
+        builds.add(build)
+        if r.get("halted"):
+            halted = True
+        lines.append(
+            f"CAP [{build}] t={r.get('t')} v{r.get('version', '?')} "
+            f"{'combat' if r.get('combat') else 'ooc'} "
+            f"spell={r.get('spellID')}[{r.get('spellSource', '?')}] "
+            + (f"⚠STACK-ERROR[{r.get('stackError')}] " if r.get("stackError") else "")
+            f"secretScalar={r.get('secretScalar')} sandbox={r.get('sandbox')}"
+            + ("  ⚠HALTED" if r.get("halted") else "")
+            + ("  ⚠MODEL-BROKEN" if r.get("modelBroken") else ""))
+
+        ctors = _asdict(r.get("constructors"))
+        if ctors:
+            lines.append("CAP [%s]   constructors: %s" % (
+                build, ", ".join(f"{k}={ctors[k]}" for k in sorted(ctors))))
+
+        # NEG — read these FIRST. `curveEvaluate` is load-bearing: if it ever reads WORKED
+        # the Tier-1 model the whole instrument is built on is wrong and every CEL row below
+        # it is suspect, so it is surfaced as a hard failure rather than a line to notice.
+        for key in sorted(_asdict(r.get("negatives"))):
+            n = _asdict(_asdict(r.get("negatives"))[key])
+            v = str(n.get("verdict"))
+            lines.append(f"NEG [{build}] {key:<20} {v:<10} {n.get('err') or n.get('why') or ''}")
+            if v == "WORKED":                       # inverted on purpose — a pass is REFUSED
+                neg_failed.append(f"[{build}] {key}")
+
+        # STK — the stack cue's reads. Its question is settled by a CLASS, not by whether
+        # any text appeared on screen: `GetAuraApplicationDisplayCount` is
+        # `AllowedWhenUntainted`, so a SECRET `item.auraInstanceID` closes the technique
+        # outright. ⚠ `id-unreadable` and `aura-down` both draw nothing and mean opposite
+        # things — "we may not ask" vs "you do not have the buff".
+        for key in sorted(_asdict(r.get("stack"))):
+            st = _asdict(_asdict(r.get("stack"))[key])
+            state = str(st.get("state"))
+            lines.append(
+                f"STK [{build}] {key:<6} spell={st.get('spellID')} >={st.get('min')} "
+                f"{state:<15} id={st.get('idClass')} text={st.get('textClass')} "
+                f"unit={st.get('unit')} frames={st.get('frames')} "
+                f"[{st.get('viewers')}] painted={st.get('painted')}"
+                + (f"   {st.get('err')}" if st.get("err") else ""))
+            if state == "id-unreadable":
+                stack_closed.add(f"[{build}] {key}")
+            elif state == "ok":
+                stack_ok.add(f"[{build}] {key}")
+
+        for key in sorted(_asdict(r.get("sources"))):
+            s = _asdict(_asdict(r.get("sources"))[key])
+            lines.append(
+                f"SRC [{build}] {key:<5} {str(s.get('kind')):<9} {str(s.get('class')):<13} "
+                f"{'SECRET-BORNE' if s.get('borne') else 'clean':<13} "
+                f"{'control ' if s.get('control') else ''}{s.get('label') or ''}"
+                + (f"   {s.get('err')}" if s.get("err") else ""))
+
+        for key in sorted(_asdict(r.get("cells"))):
+            c = _asdict(_asdict(r.get("cells"))[key])
+            v = c.get("verdict")
+            verdict_tally[str(v)] = verdict_tally.get(str(v), 0) + 1
+            if v not in _CURVELAB_VERDICTS:
+                unverdicted += 1
+            if v == "POISONED":
+                poisoned.append(f"[{build}] {key}")
+            if v in ("WORKED", "INERT"):
+                # Both mean a secret reached the setter — WORKED flipped something, INERT
+                # did not. Only these two prove the matrix was exercised at all.
+                sourced_cells += 1
+            lines.append(
+                f"CEL [{build}] {key:<22} {str(v):<10} arg={c.get('arg')} "
+                f"call={c.get('call')} landed={c.get('landed')} read={c.get('read')} "
+                f"hsv={c.get('hsv')} anchor={c.get('anchor')}"
+                + (f" access={c.get('access')}" if c.get("access") else "")
+                + (f"   {c.get('err')}" if c.get("err") else ""))
+
+    out.write_text("\n".join(lines) + ("\n" if lines else ""), encoding="utf-8")
+    print(path)
+    print(f"{len(rows)} verdict-change row(s) → {out}")
+    known = sorted(b for b in builds if b not in ("None", "?"))
+    if known:
+        print("builds: " + ", ".join(known))
+    if rows:
+        print("verdicts: " + ", ".join(
+            f"{k}={verdict_tally.get(k, 0)}" for k in _CURVELAB_VERDICTS))
+
+    if not rows:
+        print("\n⚠ No curve-lab rows. The capture proves NOTHING — check: /cdmp curve watch, "
+              "play, then /reload.", file=sys.stderr)
+        return 2
+
+    # Exit codes extend cmd_flight's contract, and the ordering is the contract:
+    #   1  something is WRONG (a poisoned anchor chain, or a negative control that passed)
+    #   2  nothing is wrong but the matrix was NEVER EXERCISED — must not read as a pass
+    #   0  every cell carries a verdict AND at least one ran on a real secret
+    if neg_failed:
+        print(f"\n⚠⚠ {len(neg_failed)} NEGATIVE CONTROL(S) SUCCEEDED — they exist to fail. "
+              f"The Tier-1 model is wrong and every CEL row above is suspect: "
+              f"{neg_failed}", file=sys.stderr)
+        return 1
+    if poisoned:
+        print(f"\n⚠⚠ {len(poisoned)} POISONED cell(s) — a setter marked the ANCHOR CHAIN "
+              f"secret, which propagates DOWN to dependents. Do not put any of these sinks "
+              f"anywhere near a live frame: {poisoned}", file=sys.stderr)
+        return 1
+    if halted:
+        print("\n⚠⚠ THE UIParent CANARY FIRED — the down-only contagion rule is WRONG and "
+              "the run was halted. Everything after the halt is REFUSED, not measured.",
+              file=sys.stderr)
+        return 1
+    if unverdicted:
+        print(f"\n⚠ {unverdicted} cell(s) carry no recognised verdict — the capture predates "
+              f"this extractor, or the addon changed shape. Re-fly.", file=sys.stderr)
+        return 2
+    # ⚠ The duration column is the likeliest real win AND the easiest to waste: aimed at the
+    # global cooldown it reports `clean` on every row, and every duration cell then reads
+    # UNSOURCED — indistinguishable from "the channel is dead". Called out separately from
+    # the exit code because the rest of the capture can still be perfectly good.
+    if stack_ok or stack_closed:
+        print("\n# ── STACK CUE — a threshold cue on a count nothing may read ──")
+        if stack_ok:
+            print(f"  ✅ reached the client on: {sorted(stack_ok)}  — `item.auraInstanceID` "
+                  f"READS PLAINLY, so the C-side threshold is usable. Whether the number "
+                  f"actually appeared at the threshold is an EYEBALL question.")
+        if stack_closed:
+            print(f"  ⚠ CLOSED on: {sorted(stack_closed)} — `item.auraInstanceID` read "
+                  f"SECRET, and GetAuraApplicationDisplayCount is AllowedWhenUntainted, so "
+                  f"it cannot be passed on. That is a real finding, not a bug: the "
+                  f"threshold-cue technique does not work for those auras.")
+
+    if all(str(r.get("spellSource")) == "gcd" for r in rows):
+        print("\n⚠ EVERY row aimed the DURATION COLUMN at the global cooldown (61304), which "
+              "has nothing to count down — so those cells prove nothing whatever they say. "
+              "Re-fly with `/cdmp curve spell <id>` on a real button.", file=sys.stderr)
+    if sourced_cells == 0:
+        # A criterion nobody exercised must never read as a pass — cmd_flight's exit 2.
+        print("\n⚠ NO CELL EVER RAN WITH A SECRET IN FRONT OF IT (0 WORKED, 0 INERT). "
+              "Every row is UNSOURCED or REFUSED, so the capture says nothing about whether "
+              "any channel can carry a secret. Fly it on a spec whose resource IS secret "
+              "(Fury), in combat, with a target.", file=sys.stderr)
+        return 2
+    print(f"\n{sourced_cells} cell(s) ran on a real secret. Read the WORKED rows for "
+          f"channels that work, and take every INERT row to `/cdmp curve card` — INERT means "
+          f"the setter accepted a secret and nothing observable changed, which the matrix "
+          f"cannot resolve and only the eye can.")
     return 0
 
 
@@ -748,11 +964,15 @@ def _rtfx_cues(sample: dict) -> dict[str, dict]:
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(
         description="Extract CDMProbe recorders off SavedVariables.")
-    ap.add_argument("command", choices=["decisionlog", "alerttape", "flight"],
+    ap.add_argument("command", choices=["decisionlog", "alerttape", "flight", "curvelab"],
                     help="flight: the PASS/FAIL ACCEPTANCE REPORT for an in-game pass "
                          "recorded by `/cdmp flight` (this is the one you want after a "
                          "test build) · decisionlog: flatten the pipeline decision log · "
-                         "alerttape: flatten the temporary CDM alert-channel discovery tape")
+                         "alerttape: flatten the temporary CDM alert-channel discovery tape "
+                         "· curvelab: flatten the temporary curve / secret-display lab "
+                         "(`/cdmp curve watch`) and grade it — exit 1 on a poisoned anchor "
+                         "chain or a negative control that passed, exit 2 when no cell ever "
+                         "ran on a real secret")
     ap.add_argument("--wow-path", default=DEFAULT_WOW,
                     help=f"WoW _retail_ path (default: {DEFAULT_WOW})")
     ap.add_argument("--out", default=None,
@@ -767,6 +987,16 @@ def main(argv=None) -> int:
             return 1
         db, path = loaded
         return cmd_flight(db, path)
+
+    if args.command == "curvelab":
+        loaded = load_curvelab(args.wow_path)
+        if loaded is None:
+            print(f"No readable CDMProbe.lua under "
+                  f"{args.wow_path}/WTF/Account/*/SavedVariables/.", file=sys.stderr)
+            return 1
+        curvelab, path = loaded
+        out = args.out or str(REPO_ROOT / "raw" / "cdmp-curvelab.log")
+        return cmd_curvelab(curvelab, path, Path(out))
 
     if args.command == "alerttape":
         loaded = load_alerttape(args.wow_path)

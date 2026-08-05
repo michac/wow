@@ -7,12 +7,56 @@
 > a test. **You do not touch the pipeline** (State / Coach shell / Binder / Renderer /
 > DecisionLog).
 >
-> ## ⚠ CORRECTIONS FIRST — read this box before the recipe (2026-08-02)
+> ## ⚠ CORRECTIONS FIRST — read this box before the recipe (2026-08-02, +2026-08-03)
 >
-> The recipe below is **broadly right and specifically stale in seven places**. It was
+> The recipe below is **broadly right and specifically stale in ten places**. It was
 > written before hero talents, virtual rows and the Phase-6/6.2 refactors, and
 > **Retribution Paladin (70)** — the first non-Warlock spec — was authored against it and
-> found these. Fix the recipe in your head as you read:
+> found the first seven. **Havoc DH (577)** added two more (8 and 9) at the desk, and a
+> **tenth in game** — correction 0 below, which is the one that changes the rotation model
+> before a line is written. Fix the recipe in your head as you read:
+>
+> 0. ⚠⚠ **ASK WHETHER THE SPEC'S RESOURCE IS SECRET, IN STEP 0, BEFORE ANYTHING ELSE.** The
+>    recipe assumes throughout that a rotation can compare a resource against a threshold. For
+>    **most specs in the game it cannot**, and this cost the project a whole flight
+>    (2026-08-03, Havoc — `docs/multi-class-rollout.md` → § FLIGHT RECORD).
+>
+>    `UnitPower` secrecy is **per power type**, and the rule is **primary vs. secondary
+>    resource** (Blizzard blue post, *Midnight Public Alpha Addon API Changes*, 2025-11-24).
+>    The **seven never-secret** types are **Combo Points, Runes, Soul Shards, Holy Power, Chi,
+>    Arcane Charges, Essence**. Everything else — **Mana, Rage, Focus, Energy, Runic Power,
+>    Fury, Pain, Insanity, Maelstrom** — is **secret**. Check it directly:
+>
+>    ```lua
+>    /dump C_Secrets.GetPowerTypeSecrecy(<Enum.PowerType.X>)   -- 0 NeverSecret · 2 Contextual
+>    /dump C_Secrets.ShouldUnitPowerBeSecret("player", <X>)
+>    ```
+>
+>    ⚠ **`ContextuallySecret` (2) on a player's own PRIMARY resource means SECRET FOREVER** —
+>    the "context" is the *unit*, not combat, and it measured `true` in a city and mid-pull
+>    alike. **Do not plan an out-of-combat seed; there isn't one.** ⚠ `UnitPowerMax` is a
+>    *different* predicate and **is** readable, so a readable max next to an absent value is
+>    the expected shape, not a bug.
+>
+>    **If it is secret, three things change before you write `rotation.md`:**
+>    - **No resource-threshold gate may be written at all** — not degraded, not approximated.
+>      Affordability comes from `C_Spell.IsSpellUsable(id)`'s **second** return,
+>      `insufficientPower` (`ns.SpellUsable`; State attaches it per-ability, fenced on the
+>      spec's `spends`). ⚠ Use `insufficientPower`, **never** `isUsable` — the latter was
+>      measured `true` for a spell visibly on cooldown.
+>    - **Overcap / pooling rules are unexpressible.** `IsSpellUsable` is binary. Drop them and
+>      say so in the deviations rather than approximating.
+>    - **Ordering carries the resource instead.** Blizzard's own assisted-combat lists for
+>      such specs use **generator → spender → generator** with the spender repeated, and no
+>      threshold anywhere. Copy that shape.
+>
+>    ⚠ **The DB2 `SpellPower` sweep becomes informational** for such a spec: there is nothing
+>    to compare a cost against, and **DB2 costs disagree with the live client anyway** (DB2
+>    says Throw Glaive costs 25; the client reports it **free**).
+>
+>    ⚠ **And the fixture rule that would have caught it:** if the spec's oracle can hand the
+>    brain a resource *number*, it cannot reproduce the only state the game ever produces. A
+>    secret-resource spec's pulse fixture must default to a **restricted** rail.
 >
 > 1. **`spec.SpecPowerDelta` is NOT read by State any more.** Step 2 and the Tier-1 table
 >    both say State reads it for the in-flight projection. Phase 6 moved that to the
@@ -48,6 +92,16 @@
 > 7. **It predates virtual rows.** An ability the CDM tracks nowhere can still get an icon
 >    if it passes `State.virtualCandidates`' fences (`kind = "button"`, non-utility,
 >    `expect ~= false`, not already on screen, `ns.BaseCooldown == 0`, and **known**).
+> 8. **It never mentions `spec.SpecBindAlias`, which is not optional for every spec.** Where
+>    `SkillLineAbility` teaches a **wrapper** spell whose only effect is
+>    `trigger -> <the tracked id>`, the keybind rung ladder asks the action bar about the
+>    tracked id, finds nothing, and the icon silently loses its key hint — no error, no log
+>    line. Havoc needs two aliases (Chaos Strike 344862 → 162794, Fel Rush 344865 → 195072).
+>    **Add "does the SkillLine teach this exact id?" to Step 0.**
+> 9. **It treats "the CDM filed this Utility" as decisive, and it is not.** The field that
+>    makes an ability cueable is the **spec-authored `cadence`**; both fences that could block
+>    a press (`Coach.lua:501`, `State.lua:1941`) test that, never the CDM category. Three of
+>    Havoc's rotational presses are CDM-Utility and needed **no pipeline edit at all**.
 >
 > **One more thing the Retribution run learned, which is not a correction but a warning:**
 > **`SpellName` is full of homonyms and resolving one by eye is how bugs get in.** There are
@@ -56,7 +110,8 @@
 > `SpellPower`, a shared `ChargeCategory` in `SpellCategories`, membership of the spec's
 > `CooldownSetSpell` rows — never by picking the plausible-looking number.
 
-> **Status: reference pattern, not yet a skill — now EXERCISED twice.** Derived from how
+> **Status: reference pattern, not yet a skill — now EXERCISED THREE TIMES** (Destruction,
+> Retribution, Havoc). Derived from how
 > Demonology (266) is wired (`SpecDemonology.lua` + `CoachDemonology.lua`) and verified
 > against the live code 2026-07-29. **Destruction (267) was then added by following it
 > end to end** the same day, with no pipeline edit, no Renderer edit and no contract edit —
@@ -104,10 +159,11 @@
 >   The test is whether the edit is spec-agnostic when you are done, and all three were.
 > - **The genuinely new open question was structural, not numeric.** Destruction's was "what
 >   does Art armed read off?"; Retribution's is **"is a 1-charge charge-category ability
->   marked `charges = true` on the CDM row?"** — because *six of its nine* Essential buttons
->   have `SpellCooldowns.RecoveryTime = 0` and keep their cooldown on a `SpellCategory`. That
->   makes `ns.BaseCooldown` return 0 and the **napkin blind on most of the spec**. Destruction
->   met this once (Conflagrate, field-fix C2); Retribution meets it everywhere. **Check
+>   marked `charges = true` on the CDM row?"** — because *four of its nine* Essential buttons
+>   (*"six" until 2026-08-03*) have `SpellCooldowns.RecoveryTime = 0` and keep their cooldown
+>   on a **charge category**. That makes `ns.BaseCooldown` return 0 and the **napkin blind on
+>   those four** — readiness survives on the charge count; `SOON` and the overdue call do not.
+>   Destruction met this once (Conflagrate, field-fix C2). **Check
 >   `SpellCategories.ChargeCategory` for every rotation button during Step 0** — it changes
 >   how much of the readiness model you actually have.
 > - **`spec.derived` exists now** for a class resource `Enum.PowerType` cannot carry (Demon
@@ -115,6 +171,82 @@
 >   declaration State reads, not a branch State runs — `{ name, kind, spellID, max }`.
 > - **The parked one-line switch is a repeatable pattern, not a Destruction quirk.** Expect
 >   exactly one per spec. Retribution's is `RET_HOL_FROM_BUFF`.
+>
+> **What the HAVOC run learned (2026-08-03) — the 4th spec, 2nd class outside Warlock:**
+>
+> - **THE FIELD THAT MAKES AN ABILITY CUEABLE IS `cadence`, NOT THE CDM CATEGORY.** Three of
+>   Havoc's rotational presses (Felblade 232893, Vengeful Retreat 198793, Fel Rush 195072)
+>   are filed **Utility** by Blizzard, and the rollout plan budgeted a pipeline edit for it.
+>   There is none to make: both fences that could block them — the SOON fence
+>   (`Coach.lua:501`) and the virtual-row fence (`State.lua:1941`) — test the **spec-authored
+>   `info.cadence`**. Declaring them `"filler"` / `"oncd"` is the whole fix; the CDM category
+>   only decides which viewer frame they draw on and how a claim is ranked when two roster
+>   entries contest one row. ⚠ **Do not read a CDM-Utility filing as "the HUD cannot cue
+>   this."** The next tank spec will meet the same shape at scale.
+> - **A WRAPPER SPELL ON THE ACTION BAR IS A `SpecBindAlias` CASE, and Step 0 should look for
+>   it.** `SkillLineAbility` can teach a *wrapper* whose only `SpellEffect` is
+>   `trigger -> <the real id>`, and the CDM tracks the **real** id. Havoc has two (Chaos
+>   Strike 344862 → 162794, Fel Rush 344865 → 195072). The rung ladder asks the action bar
+>   about the tracked id, finds nothing, and the icon **silently loses its keybind hint** —
+>   a failure with no error and no log line. **The check: for every declared button, does the
+>   spec's SkillLine teach that exact id, or a different one that triggers it?**
+>   ⚠ This is *not* the same as an override — an override rides a frame whose **base** id IS
+>   on the bar, which the ladder already resolves. Only the wrapper needs an alias.
+> - **A PARKED SWITCH NEEDS A QUESTION A FLIGHT CAN ANSWER.** The obvious candidate for
+>   Havoc's switch was the Reaver's Glaive spend sequence — and it should **not** have been
+>   one: `Rending Strike` 442442, `Glaive Flurry` 442435 and `buff.reavers_glaive` 442294
+>   have **no `CooldownSetSpell` row**, so there is no presence channel on any surface the
+>   addon can reach, and no in-game observation could ever flip the switch on. Machinery
+>   behind a switch nothing can flip is worse than an honest documented gap. The real switch
+>   became `HAVOC_RG_FROM_BUFF` — *may an 80-stack counter's presence count as "armed"* —
+>   which is the `RET_HOL_FROM_BUFF` shape and **is** flight-settleable.
+>   **Test before parking: "what would I look at in the decision log to decide this?"** No
+>   answer ⇒ it is a documented deviation, not a switch.
+> - **A LYING BASE COOLDOWN IS A DISTINCT FAILURE FROM AN ABSENT ONE, and it is worse.**
+>   Retribution's four charge-category buttons read **0**, which trips HudNapkin's
+>   declared-`chargeCD` fence (`not (len > 0)`) and gets the fallback. Havoc has **three that
+>   read a WRONG POSITIVE NUMBER** — a short *shared-category lockout* on the spell row while
+>   the real recovery lives on a charge category — and a lying `1` **passes** that fence, so
+>   no declared constant can rescue it. **Step 0 must compare `RecoveryTime` /
+>   `CategoryRecoveryTime` against `SpellCategory.ChargeRecoveryTime` for every button, not
+>   merely check whether a base cooldown exists.** What saved Havoc was incidental: all three
+>   are **1-charge** categories, so `usable()`'s one-charge rule lets the count veto the early
+>   read. On a 2-charge pool it would not have.
+> - **Zero pipeline generalisations is a legitimate outcome, and so is one.** Retribution
+>   needed three; Havoc needed none. The number is not a quality signal in either direction —
+>   what matters is that the two worries the plan *had* budgeted for both dissolved on
+>   inspection (the CDM-Utility one had no fence to change; the lying-cooldown one was
+>   already mitigated), and shipping a pipeline edit against a symptom nobody has observed is
+>   how a guard outlives its reason. **Defer it to the flight and record the exact one-line
+>   shape it should take.**
+> - **The genuinely new open question was a MEASUREMENT, not a structure:** *does the charge
+>   count actually arrive for a 1-charge category?* — because that count is the entire
+>   mitigation above. Note it is the same question Retribution's run raised, now
+>   **load-bearing** rather than merely interesting. A question that recurs across specs with
+>   rising stakes is a sign the read belongs in the shared readability write-up, not in a
+>   per-spec observability map.
+> - **Cross-ability timing gates have a rule now.** simc is full of `cooldown.X.remains <= N`
+>   gates on *other* abilities, and a client cooldown read is secret in combat — Retribution
+>   dropped its whole Execution-Sentence/Wake-of-Ashes handshake for that reason. Havoc's L5
+>   keeps one, reading **our own napkin's** `remaining` for Eye Beam. **The rule: a
+>   cross-ability timing gate is allowed when the OTHER ability's cooldown is one the napkin
+>   can HONESTLY count** — i.e. it lives on the spell row, not a charge category. Wake of
+>   Ashes fails that test; Eye Beam passes. Flag any such line at the line, in the tunable
+>   and in `rotation.md`, as the first suspect for that ability misbehaving.
+> - **A "hard state fork" in simc is usually a DISPLAY OVERRIDE in the client.** Havoc's
+>   `run_action_list,name=meta` is a second complete priority list where the same buttons mean
+>   different things — and it collapsed to **one cascade with `ctx.inMeta` on two lines**,
+>   because both overrides are 1:1 replacements riding their own base's frame. **Before
+>   modelling a fork, check whether it is really an `EffectAura 332` override**: if it is, the
+>   Coach cues the base, the icon supplies the label, and the fork is only about ORDER. Then
+>   read the two lists side by side and record **exactly which orderings differ** — for Havoc
+>   it was two out of fifteen.
+> - **A `CumulativeAura = 0` on a TrackedBuff row usually means you have the TALENT id, not
+>   the aura id — and it costs nothing to key on the tracked one.** `state.buffs` is keyed by
+>   the **CDM row's** spellID (`State.lua:2304`) and the channel is `item:IsActive()`, a
+>   **bool**, so a stack count was never reachable whichever id you declared. Declaring the
+>   *real* aura instead creates a roster entry with **no CDM row**, which Coverage reports as
+>   BLIND. **Declare the tracked id; put the real aura id in a comment.**
 >
 > May be converted into a skill later — keep it faithful to the code so the conversion is
 > mechanical.
