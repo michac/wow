@@ -1,8 +1,8 @@
 ---
 title: State, persistence & communication (Midnight 12.0.7)
 patch: 12.0.7
-fetched: 2026-07-23
-reviewed: 2026-07-23
+fetched: 2026-08-05
+reviewed: 2026-08-05
 sources:
   - https://github.com/Gethe/wow-ui-source (live, 12.0.7.68887, commit 4383ced30106d51b27e3e86d1987f1552f0d259d)
   - https://warcraft.wiki.gg/wiki/Saving_variables_between_game_sessions (rev 5890180, 2023-12-11)
@@ -43,9 +43,9 @@ their code differs from upstream because the packager has substituted keywords).
 Wiki citations carry the `lastedit` timestamp because wiki pages rot silently.
 Wiki **line numbers** refer to the raw wikitext of the cited revision as returned by
 `https://warcraft.wiki.gg/api.php?action=query&prop=revisions&rvprop=content&rvslots=main`
-(identical to `index.php?…&action=raw`). All wikitext line numbers in this file were
-re-measured against that source on 2026-07-23; an earlier pass had them uniformly
-five lines high.
+(identical to `index.php?…&action=raw`). ⚠ **Measure wikitext line numbers against the
+raw API output, not against the rendered page** — the two differ by a constant offset,
+which is silent and makes every locator in a file wrong by the same amount.
 
 Tiers: **1** Blizzard's shipped artefacts · **2** warcraft.wiki.gg + WoWUIBugs ·
 **3** community addons/libraries (practice, never rules) · **4** everything else.
@@ -144,7 +144,16 @@ files **before** the first file listed in the TOC, instead of after the last one
   file specified in the TOC has been loaded". That is a proposal in a feature
   request, not a shipped-behaviour statement; the wiki's "Finally, ADDON_LOADED
   fires" ordering is consistent with it. **[gap]** No Tier-1 artefact states the
-  event ordering under `LoadSavedVariablesFirst`. @verify-ingame
+  event ordering under `LoadSavedVariablesFirst`.
+
+  **The default branch — without the directive — is measured** `[client 2026-08-05]`:
+  while the `.toc`'s files are still executing, the SavedVariable global is **`nil`**; by
+  `ADDON_LOADED` it is a **table** carrying the previous session's contents. So the
+  familiar rule ("read your saved data in `ADDON_LOADED`, never at file scope") is a
+  measurement rather than folklore. `SAVED_VARIABLES_TOO_LARGE` did not fire for a normal
+  payload, and `C_AddOns.GetAddOnMetadata(name, "LoadSavedVariablesFirst")` returns `nil`,
+  so the tag is not readable back through the metadata API. What the directive itself
+  changes is still untested — that needs an addon whose own `.toc` sets it.
 - Tier 3 adoption: 2 of the 63 third-party addons in the install use it —
   `INSTALL/Interface/AddOns/BigWigs/BigWigs.toc:18` and
   `INSTALL/Interface/AddOns/DragonRider/DragonRider.toc:49`.
@@ -187,10 +196,31 @@ documentation example for settings uses exactly this
 
 [gap] I found no Tier-1 statement of the type whitelist. The generated API docs
 describe API shapes, not the SavedVariables serializer; there is no serializer
-source in `wow-ui-source`. The list above is Tier 2 only. Number precision,
-NaN/inf handling, integer-key vs string-key round-tripping, and the maximum
-nesting depth are **undocumented at every tier I checked** (generated docs, UI
-source grep for `SavedVariables`, wiki, WoWUIBugs).
+source in `wow-ui-source`.
+
+**What the writer does, measured by a write → `/reload` → read-back round trip**
+`[client 2026-08-05]`:
+
+| Input | Comes back as |
+|---|---|
+| π, 1/3, 2^53, 2^53−1, a tiny denormal, integers, negatives | **exactly**, bit-identical |
+| `1234567890.1234567` | `1234567890.123457` — ~17 significant digits truncated to ~16 |
+| `nan`, `inf`, `-inf` | **`nil`** — silently dropped, key and all |
+| `-0` | `0` |
+| a self-referencing field | **`nil`**; the rest of the table survives intact |
+| two fields aliasing one table | two **separate** tables, same content — identity is not preserved |
+| 64 levels of nesting | all 64, no truncation |
+| a **Secret Value** | **`nil`**, and the surrounding table survives (a sentinel before it and a field after it both round-trip) |
+
+So the writer never hangs and never corrupts the file on any of these; it drops what it
+cannot express. **The dangerous ones are the silent nils**: a NaN produced by a division
+you did not guard disappears between sessions rather than announcing itself, and so does
+a secret.
+
+⚠ **Key order is not stable across a round trip** `[client 2026-08-05]`. Ten string keys
+written in one order came back in a different one, with the same ten keys present. Do not
+diff two SavedVariables files line-by-line and read the result as a change in content —
+`wowkb.capture` and `wowkb.cdmp` both parse rather than diff for this reason.
 
 ### 1.5 The on-disk file format (observed)
 
@@ -268,11 +298,22 @@ at `:18`). Three other shipped addons handle it —
 `Blizzard_SettingsDefinitions_Shared/Audio.lua:20,64,84`. That is **4 of 317
 shipped addons**, which is the honest size of the Tier-1 sample.
 
-⚠ The wiki's ordering claim — `PLAYER_LEAVING_WORLD` → `PLAYER_LOGOUT` →
-`ADDONS_UNLOADING`, and "this does not occur during a crash or Alt-F4" — carries
-the wiki's own `{{fact}}` (citation-needed) markers on both bullets
-(`AddOn loading process`, lastedit 2025-04-23). Treat the relative order of
-`PLAYER_LOGOUT` and `ADDONS_UNLOADING` as **unverified**. @verify-ingame
+**The order is `PLAYER_LEAVING_WORLD` → `ADDONS_UNLOADING` → `PLAYER_LOGOUT`**
+`[client 2026-08-05]`, recorded by a listener that stamps each firing with a sequence
+number and reads the log back in the next session. All three land in the same `GetTime()`
+tick, so they are one dispatch batch rather than three moments — do not put work between
+them expecting time to pass.
+
+That **swaps the last two** relative to the wiki, whose ordering claim
+(`PLAYER_LEAVING_WORLD` → `PLAYER_LOGOUT` → `ADDONS_UNLOADING`) carries its own `{{fact}}`
+citation-needed markers on both bullets (`AddOn loading process`, lastedit 2025-04-23).
+`ADDONS_UNLOADING` is the **second** of the three, so it is not the last-chance hook the
+wiki's order implies — `PLAYER_LOGOUT` still runs after it.
+
+`ADDONS_UNLOADING` carries **`closingClient = false` on a `/reload`** `[client 2026-08-05]`,
+confirming the payload field means what its name says.
+
+⚠ The crash / Alt-F4 half is untestable politely and stays unverified.
 
 ### 2.3 Not everything works during a real logout
 
@@ -352,7 +393,7 @@ publicly fetchable** — see §10. An earlier, weaker phrasing of the same rule
 ("Saved variables *will no longer be allowed* to contain secrets") appears at
 `:366-367`, under the November 4 header at `:336`.]
 
-@verify-ingame — I could not corroborate the "a comment will also be present"
+`@verify-ingame` — I could not corroborate the "a comment will also be present"
 half. No comment lines exist in any of the 49 account-scope SavedVariables files on this
 install, but none of them was holding a secret at save time, so this is *absence
 of the test case*, not a contradiction.
@@ -522,10 +563,28 @@ can leave `s` nil), while the four serialize/deserialize functions are not.
 secrets — but note that is **not** a distinguishing feature: **all ten**
 `C_EncodingUtil` functions carry the same annotation.
 
-[gap] No max input size, no error text, and no statement of which Lua types CBOR
-vs JSON serialization accepts. The generated docs give shape only. Nothing in
-`wow-ui-source` calls `C_EncodingUtil` in a way that demonstrates the failure
-modes.
+⚠ **`MayReturnNothing` is not how these actually fail** `[client 2026-08-05]`. Across
+every failure mode probed — nil source, an out-of-range enum, an odd-length hex string,
+non-hex characters, an empty string, garbage handed to a decompressor — **not one call
+returned nothing**. They split two ways instead:
+
+- **They raise.** `EncodeHex(nil)`, `CompressString(nil)`, an out-of-range `variant` or
+  `method`, and `DecodeHex` on an odd-length string all error with a usage string naming
+  the real signature — `DecodeHex()`'s is specific and useful: *"attempted to decode a
+  string that does not have an even number of bytes"*. `DecompressString` on empty or
+  garbage input raises *"internal decompression error"*.
+- **Or they accept bad input and return garbage.** `DecodeHex` on **non-hex** characters
+  and `DecodeBase64` on invalid input both return a short string rather than failing. So
+  a decoder returning a value is **not** evidence the input was well-formed; checksum the
+  payload yourself.
+
+So write these calls inside `pcall` and treat a raise as the normal failure path. A bare
+`local s = C_EncodingUtil.CompressString(...)` is far more likely to throw than to leave
+`s` nil. *(The compress → decompress round trip and hex/base64 round trips are all
+lossless.)*
+
+[gap] No max input size, and no statement of which Lua types CBOR vs JSON serialization
+accepts. The generated docs give shape only.
 
 ### 6.2 The library stack (Tier 3)
 
@@ -633,6 +692,16 @@ and recommends a negative `select` index for forward-compatible access [Tier 2,
 both lastedit 2026-06-04]
 
 - prefix: **at most 16 characters**, non-empty; recommended to be the addon name.
+  **Measured, and the limit is real and enforced by return code, not by an error**:
+  a 16-character prefix returns `Success` (0) and a 17-character one returns
+  `InvalidPrefix` (2) `[client 2026-07-24]`. Neither raises — an over-long prefix
+  fails *silently* unless you check the result, which is exactly the trap §7.1
+  describes (every outcome is truthy, so `if RegisterAddonMessagePrefix(p) then`
+  passes on failure). Compare against `Enum.RegisterAddonMessagePrefixResult.Success`.
+  ⚠ **Re-registering a prefix already registered this session returns
+  `DuplicatePrefix` (1), not `Success`** `[client 2026-07-24]` — observed by the same
+  test running a second time in one session. So `~= Success` is the wrong failure
+  test for idempotent setup code; treat `DuplicatePrefix` as success too.
 - message: **at most 255 characters**; all byte values 1-255 allowed, **NUL (0) is
   not**.
 - **Prefix registration does not survive `/reload`** — re-register every load
@@ -922,43 +991,42 @@ the copy vendored inside BigWigs**, and may not match upstream.
 
 ## 10. Honest gaps
 
-- **[gap] The SavedVariables writer is not in the shipped Lua source.** It is C
-  code. Everything in §1.5 is inferred from output files. Number formatting
-  precision, NaN/inf, table-cycle behaviour, key ordering, and depth limits are
-  unverified at every tier.
+- **[closed] The SavedVariables writer's behaviour is measured** `[client 2026-08-05]`
+  by a write → `/reload` → read-back round trip: ~16 significant digits, NaN/±inf and
+  Secret Values silently become `nil`, a cycle's field becomes `nil` with the rest of the
+  table intact, table identity is not preserved, 64 levels of nesting survive, and **key
+  order is not stable**. See §1.4. The writer itself is still C code with no shipped
+  source, so the *file format* notes in §1.5 remain observation.
 - **[gap] `.bak` semantics are undocumented** at Tier 1 and Tier 2. Rename-vs-copy,
   and the ordering relative to the main write, are unknown. WoWUIBugs #241 is
   Tier-2 evidence it is not a reliable recovery mechanism.
-- **[gap] "Secrets in SavedVariables become nil, with a comment"** is traceable
-  only to a Discord blue post archived on the wiki. I could not produce the comment
-  locally because no SavedVariable on this install held a secret. @verify-ingame
+- **[mostly closed] Secrets in SavedVariables become `nil`** `[client 2026-08-05]` —
+  written without error, read back as nil, surrounding table intact. The **comment** half
+  of the blue post is unconfirmed: it needs reading the written file off disk, which is a
+  desk job rather than an addon one.
 - **[gap] No Tier-1 statement of the 16-char prefix / 255-byte message limits.**
   The generated docs type them as bare `cstring`. Wiki (Tier 2) + AceComm's tested
-  comment (Tier 3) agree, which is the strongest corroboration available.
+  comment (Tier 3) agree, which is the strongest corroboration available. Narrowed: the
+  **255-byte limit is not enforced at the call** — a 256-byte body returns `Success`
+  `[client 2026-08-05]` — so whatever enforces it is downstream and invisible to the
+  sender.
 - **[gap] The throttle numbers (10 allowance, 1/s regen) are Tier 2 only** and the
   same source says the server may change them at any time. Do not encode them.
 - **[gap] No length or rate limits documented for `C_BattleNet.SendGameData`** at
   any tier.
-- **[gap] `C_EncodingUtil` error semantics.** Six of ten functions are
-  `MayReturnNothing`, but nothing says under what conditions.
+- **[closed] `C_EncodingUtil` error semantics** `[client 2026-08-05]` — the
+  `MayReturnNothing` functions **raise** rather than return nothing, and the decoders
+  accept malformed input and return garbage. See §6.1.
 - **[gap] LDB's attribute specification** lives on an external GitHub wiki I did not
   fetch.
-- **[gap] Nothing here was executed in the client.** Every "Tier 1 by observation"
-  claim is a read of files the client wrote; every API-behaviour claim is a read of
-  Blizzard's own documentation tables.
+- **[gap] Most of this file was not executed in the client.** The exceptions carry
+  `[client YYYY-MM-DD]` — the writer round trip (§1.4), the logout event order (§2.2),
+  the SavedVariables load ordering (§1.2) and `C_EncodingUtil`'s failure modes (§6.1).
+  Everything else is a read of files the client wrote or of Blizzard's documentation
+  tables.
 - **[gap] `LibDBIcon-1.0` and `LibSharedMedia-3.0` have no upstream clone here.**
   Every LibDBIcon line cited in §9 is read from the copy vendored inside BigWigs and
-  may differ from upstream. An earlier version of §9 asserted their upstream was
-  "CurseForge SVN"; that was uncited and is removed.
-- **Adversarial re-verification pass, 2026-07-23.** Every locator in this file was
-  re-opened. Two classes of error were found and fixed: (a) all wikitext line numbers
-  on `Patch 12.0.0/Planned API changes`, `Patch 12.0.0/API changes`,
-  `Patch 12.0.5/API changes` and `TOC format` were uniformly **five lines high** — they
-  now match the raw wikitext at the cited revid; (b) the `WeakAuras2` short commit was
-  `38d4bf1e6099`, actually `38d4bf1e60b0`, and
-  `INSTALL/WTF/SavedVariables/Blizzard_Console.lua`'s `["version"] = 3` is on line 3,
-  not line 2. **No quoted text was found to be misquoted, and no revid or issue
-  number was wrong.**
+  may differ from upstream. Where upstream is hosted is **uncited** — do not assert it.
 - Build skew to keep straight: `wow-ui-source` = 12.0.7.**68887**;
   `BlizzardInterfaceResources` (used only for GlobalStrings and CVars above) =
   12.0.7.**68256**. Same patch, different build.
@@ -1072,9 +1140,15 @@ states — do not report them as violations of a documented rule.
     fact.]
 
 11. **A payload longer than 255 bytes must be chunked, and a payload that may
-    contain NUL must be encoded before it is sent.** [Tier 2: wiki
-    `API C_ChatInfo.SendAddonMessage`, "at most 255 characters… all characters
-    (decimal ID 1-255) are permissible except NULL", lastedit 2026-06-04.
+    contain NUL must be encoded before it is sent.** ⚠ **The client does not enforce
+    this at the call**: a 256-byte body returns `Success`, exactly as a 255-byte one
+    does `[client 2026-08-05]`. So an over-long send fails *somewhere else* — silently
+    truncated, or dropped in transit — and never at the line that wrote it. Chunk
+    because the receiver needs it, not because the API will stop you.
+    (What a 256-byte body actually *delivers* is unmeasured: delivery is asynchronous
+    and no echo was observed in the window.)
+    [Tier 2: wiki `API C_ChatInfo.SendAddonMessage`, "at most 255 characters… all
+    characters (decimal ID 1-255) are permissible except NULL", lastedit 2026-06-04.
     Tier 3 implementations: `AceComm-3.0.lua:95,105-137`;
     `LibDeflate.lua:3060-3079`.]
 
@@ -1178,3 +1252,13 @@ states — do not report them as violations of a documented rule.
     back out with `inString:find("^(!WA:%d+!)(.+)$")` (`:306-308`, comment at
     `:304`) and switches deserializer on it (`:344-348`). No Tier 1 or Tier 2
     source requires this.]
+
+---
+
+## Changelog
+
+- 2026-08-05 — **the 16-char addon-message prefix limit is real and enforced by
+  RETURN CODE, not by an error** `[client 2026-07-24]`: 16 chars → `Success` (0),
+  17 → `InvalidPrefix` (2), neither raising. Also measured: re-registering within a
+  session returns `DuplicatePrefix` (1), so `~= Success` is the wrong failure test
+  for idempotent setup code (§7.2).

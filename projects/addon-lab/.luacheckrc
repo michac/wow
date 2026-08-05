@@ -23,12 +23,17 @@ stds.wow = {
     "CopyTable", "DEFAULT_CHAT_FRAME",
     "issecretvalue", "issecrettable",
     "C_AddOns", "C_Spell", "C_CooldownViewer", "Enum",
+    -- Scratch-frame and timing surface for the frame/event/lifecycle tests: these are
+    -- globals whose EXISTENCE is not in question, so they are called by identifier.
+    -- Anything a test is actually asking about still goes through ns.G / ns.GlobalType.
+    "UIParent", "C_Timer", "GetTime",
   },
   -- The lab's TRUE global writes.  Everything else is `local ADDON, ns = ...`.
   globals = {
     "SLASH_CLIENTLAB1", "SLASH_CLIENTLAB2",
     "SlashCmdList",
     "ClientLabDB",            -- SavedVariable
+    "ClientLabScratchDB",     -- SavedVariable: quarantine for payloads that may not survive a write
   },
 }
 

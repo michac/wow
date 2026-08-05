@@ -8,10 +8,18 @@ confidence: high
 
 # KB Inbox
 
-A **free-form parking lot**. Drop a todo here the moment it appears, instead of
-half-implementing it, or asserting an unvalidated claim into a `knowledge/**` file.
-Nothing here is trusted as fact or acted on automatically — it's a holding pen until
-someone routes each item to where it belongs.
+A **free-form parking lot for the game KB and this workspace's tooling**. Drop a todo
+here the moment it appears, instead of half-implementing it, or asserting an unvalidated
+claim into a `knowledge/**` file. Nothing here is trusted as fact or acted on
+automatically — it's a holding pen until someone routes each item to where it belongs.
+
+⚠ **`knowledge/addon-dev/` does not park anything here.** That subtree is firewalled from
+the game KB (its README §0) and runs **four queues of its own** — `observations.md`,
+`mined-pending-verification.md`, `<version>-ptr-heads-up.md`, and the unknowns registry
+`projects/addon-lab/questions.json` (`wowkb.lab note`). An addon-dev *claim* or *open
+question* goes to one of those, never here. What may still land here is a **structural or
+tooling** call *about* that subtree — "should addon-dev grow an eighth topic file", "teach
+`wowkb.lab` to validate anchors" — because that is workspace work, not a claim.
 
 ## What goes here vs. the other queues
 
@@ -22,8 +30,9 @@ This is deliberately the *catch-all*. Use the more specific queue when one fits:
 | a **claim that needs an in-game check** before we trust it | the in-line verify marker on the claim → harvested into `verify-in-game.md` by `wowkb.gen_verify` | ✗ |
 | a **weekly the addon saw but the watchlist doesn't track** | `planning/discovered-weeklies.json` (auto-maintained) | ✗ |
 | a **per-reset chore to tick off** | `planning/todo.md` (session checklist) | ✗ |
-| a **stub/next-step scoped to one KB doc** | that doc's own `## TODO` section | ✗ |
-| **anything else** — tooling ideas, addon features, research-to-do, structural KB work, "look into X" | **here** | ✓ |
+| a **stub/next-step scoped to one KB doc** | that doc's own `## TODO` section (a **game-KB** convention — `addon-dev/` has none and wants none) | ✗ |
+| **anything about writing addon code** — a fact, an unknown, a patch-day landmine | the four `knowledge/addon-dev/` queues above | ✗ |
+| **anything else** — tooling ideas, a feature idea for one of our addons, research-to-do, structural KB work, "look into X" | **here** | ✓ |
 
 ## How to use it
 
@@ -137,7 +146,8 @@ _(design context: `projects/cooldown-hud/docs/`; source-read findings folded int
     hero swap changes the build without changing the spec, so `TRAIT_CONFIG_UPDATED` is the
     event that actually fires. (It fires several times per loadout swap, so anything it
     triggers must be idempotent and must not re-announce an unchanged answer.)
-    [Reasoned from the event's purpose, not yet observed in-client. @verify-ingame]
+    [Reasoned from the event's purpose, not yet observed in-client. Registered as
+    `traitconfig-fires-on-hero-swap` in `projects/addon-lab/questions.json`.]
   Deciding whether this becomes an eighth topic, a section of `api-events-and-discovery`, or
   stays parked is a KB-structure call, not a drive-by edit. *(2026-07-30)*
 

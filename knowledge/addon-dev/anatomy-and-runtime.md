@@ -1,16 +1,12 @@
 ---
 title: Addon anatomy and the runtime environment
 patch: 12.0.7
-fetched: 2026-07-23
+fetched: 2026-08-05
 reviewed: 2026-08-05
 sources:
-  - EllesmereUI v8.7.5 @ c4eba58d996a8436f467ac8f297148bff9dd3008 (2026-08-04),
-    https://github.com/EllesmereGaming/EllesmereUI — license CUSTOM, ALL RIGHTS
-    RESERVED; read for API discovery only, no code copied. Mined 2026-08-05 via the
-    `mine-addon` skill; clone deleted after (step 5). file:line citations resolve
-    only against that commit. Unverified residue:
-    `addon-dev/mined-pending-verification.md`.
   - https://github.com/Gethe/wow-ui-source (live, version.txt 12.0.7.68887, commit 4383ced30106d51b27e3e86d1987f1552f0d259d)
+  - Live install /mnt/c/Program Files (x86)/World of Warcraft/_retail_/ (81 addon folders, 147 top-level .toc files, 38 nested .toc files, 26 client-written AddOns.txt)
+  - https://github.com/Ketho/BlizzardInterfaceResources (commit 774b2c550366, build 12.0.7.68256)
   - https://warcraft.wiki.gg/wiki/TOC_format (revid 6767089, 2026-07-09)
   - https://warcraft.wiki.gg/wiki/AddOn_loading_process (revid 6302251, 2025-04-23)
   - https://warcraft.wiki.gg/wiki/Using_the_AddOn_namespace (revid 6474636, 2025-09-16)
@@ -21,8 +17,12 @@ sources:
   - https://warcraft.wiki.gg/wiki/VARIABLES_LOADED (revid 6589741, 2026-01-03)
   - https://warcraft.wiki.gg/wiki/MACRO_reload (revid 2436052, 2020-12-23 — stale)
   - https://warcraft.wiki.gg/wiki/API_date (revid 3016063, 2022-07-21 — stale)
-  - Live install /mnt/c/Program Files (x86)/World of Warcraft/_retail_/ (81 addon folders, 147 top-level .toc files, 38 nested .toc files, 26 client-written AddOns.txt)
-  - https://github.com/Ketho/BlizzardInterfaceResources (commit 774b2c550366, build 12.0.7.68256)
+  - '[T3] EllesmereUI v8.7.5 @ c4eba58d996a8436f467ac8f297148bff9dd3008 (commit 2026-08-04), mined 2026-08-05 —
+    https://github.com/EllesmereGaming/EllesmereUI. License CUSTOM, ALL RIGHTS
+    RESERVED; read for API discovery only, no code copied. The clone was deleted
+    after mining (mine-addon step 5), so its file:line citations resolve only
+    against that commit. Unverified residue —
+    addon-dev/mined-pending-verification.md.'
 confidence: high
 ---
 
@@ -49,15 +49,6 @@ machine your code lands in. Cross-file code organisation is the
 > is `12.0.7.68256`. Same patch, three builds. Nothing in this file has been run in
 > the client — items that need that are marked `@verify-ingame`.
 
-> ✅ **Adversarial verification pass, 2026-07-23.** Every locator in this file was
-> re-opened independently: 346 shipped tocs + 147 installed tocs re-censused, every
-> cited `.lua`/`.xml`/`.xsd`/`.toc` line re-read, all ten wiki pages re-fetched at
-> the stated revids, all seven Tier-3 checkouts re-counted. The overwhelming
-> majority reproduced exactly. Nine claims were corrected; each correction is marked
-> inline with **"corrected from the draft"** so the delta is auditable. The two that
-> mattered most: the `acos`/`asin`/`atan`/`atan2` direction in §5.3 / rule 11, and
-> the `AddOns.txt` argument in §1 / rule 19b.
-
 ---
 
 ## 1. What an addon is
@@ -78,8 +69,8 @@ _retail_/
   Logs/  Cache/  Fonts/  Screenshots/
 ```
 `[T1 obs]` — `_retail_/Interface/` contains exactly one entry, `AddOns`; `_retail_/WTF/`
-contains `Account`, `Config.wtf`, `SavedVariables`; `_retail_/Errors/` held one
-`2026-05-21_13.01.49_Error_33292.txt`.
+contains `Account`, `Config.wtf`, `SavedVariables`; `_retail_/Errors/` held one dump,
+named `<YYYY-MM-DD>_<HH.MM.SS>_Error_<n>.txt`.
 
 **Blizzard's own 317 `Blizzard_*` addons are not on disk here.** The live install's
 `Interface/AddOns/` holds 81 directories and **zero** whose name begins with
@@ -97,8 +88,8 @@ On this install **147 of 147** top-level `.toc` files sit at
 `Interface/AddOns/<Folder>/<Folder>[_Suffix].toc`, with `_Suffix` drawn from the
 recognised flavour list; zero mismatches `[T1 obs]`. The wiki states the rule
 outright: *"The filename of the `.toc` file must match the folder it's inside,
-otherwise the `.toc` file won't load."* `[T2 wiki: TOC format, revid 6767089,
-2026-07-09]`.
+otherwise the `.toc` file won't load."*
+`[T2 wiki: TOC format, revid 6767089, 2026-07-09]`.
 
 A further **38** `.toc` files exist *nested* deeper (e.g.
 `Bartender4/libs/LibStub/LibStub.toc`, `EllesmereUI/Libs/LibDeflate/LibDeflate.toc`)
@@ -106,31 +97,35 @@ A further **38** `.toc` files exist *nested* deeper (e.g.
 
 **The client's own per-character list is suggestive but not decisive.** The client
 writes a per-character `WTF/Account/<ACCOUNT>/<Realm>/<Char>/AddOns.txt` of
-`<AddonName>: enabled|disabled` — 26 such files on this install, newest written
-**2026-07-23 17:26** with 78 entries (49 `enabled`, 29 `disabled`) `[T1 obs]`.
+`<AddonName>: enabled|disabled` — 26 such files on this install, the newest holding
+78 entries (49 `enabled`, 29 `disabled`) `[T1 obs]`.
 
-> ⚠ **Corrected from the draft: the 26 files do NOT carry an identical name set.**
-> Re-counted: sizes are 78 (×1), 71 (×21), 70 (×2) and **3 (×2)**; the union is 78
-> names but the *intersection is only 3* `[T1 obs, set arithmetic over all 26
-> files]`. Each file is per-character state, evidently written as of that
-> character's last session — the 71-entry files all lack the same 7 recently-added
-> addons. Only the single newest file spans the full union.
+**The 26 files do not carry an identical name set.** Sizes are 78 (×1), 71 (×21),
+70 (×2) and **3 (×2)**; the union is 78 names but the *intersection is only 3*
+`[T1 obs, set arithmetic over all 26 files]`. Each file is per-character state,
+evidently written as of that character's last session — the 71-entry files all lack
+the same 7 recently-added addons. Only the single newest file spans the full union.
 
 **No nested library that has its own `.toc` appears in any of the 26** — no
-`LibStub`, `LibDeflate`, `LibSharedMedia-3.0` `[T1 obs]`. (The draft also listed
-`CallbackHandler-1.0` and `LibDBIcon-1.0`; **corrected** — those ship as nested
-*folders* with no `.toc` at all, e.g. `Bartender4/libs/LibDBIcon-1.0/`, so their
-absence proves nothing about nested manifests.)
+`LibStub`, `LibDeflate`, `LibSharedMedia-3.0` `[T1 obs]`. (`CallbackHandler-1.0` and
+`LibDBIcon-1.0` are *not* evidence either way: they ship as nested *folders* with no
+`.toc` at all, e.g. `Bartender4/libs/LibDBIcon-1.0/`, so their absence says nothing
+about nested manifests.)
 
-> `[gap]` **This is weaker evidence than the draft claimed.** The draft argued
-> "disabled addons are still listed, therefore absence ⇒ never enumerated". That
-> inference does not survive the next paragraph: **8 well-formed, top-level addon
-> folders are also absent** from the newest file. So absence from `AddOns.txt` is
-> demonstrably *not* proof that the client never enumerated a name. What the
-> observation supports is only the weaker statement: *no nested-`.toc` library has
-> ever been observed in a client-written addon list on this install.* The rule in
-> §19b rests on the wiki's folder-name requirement, not on this.
-> `@verify-ingame`: `C_AddOns.DoesAddOnExist("LibStub")` is the decisive test.
+> `[gap]` **That absence is weak evidence, not proof.** The tempting inference —
+> "disabled addons are still listed, therefore absence ⇒ never enumerated" — does
+> not survive the next paragraph: **8 well-formed, top-level addon folders are also
+> absent** from the newest file. So absence from `AddOns.txt` is demonstrably *not*
+> proof that the client never enumerated a name. What the observation supports is
+> only the weaker statement: *no nested-`.toc` library has ever been observed in a
+> client-written addon list on this install.*
+>
+> **Measured, and it settles both halves:** `C_AddOns.DoesAddOnExist("LibStub")` is
+> **false** and `C_AddOns.DoesAddOnExist("RaiderIO")` is **true** `[client 2026-07-24]`.
+> So a nested-`.toc` library is genuinely *not* enumerated as an addon — the §19b
+> folder-name rule holds — while `RaiderIO`, absent from every `AddOns.txt` on this
+> install, **is** enumerated. The two results are the same fact from both sides:
+> `AddOns.txt` is not the enumeration.
 
 Two more things fall out of the same file, and both cut against naive assumptions:
 
@@ -146,7 +141,10 @@ Two more things fall out of the same file, and both cut against naive assumption
   other 12 `RaiderIO_DB_*` region packs (CN/EU/KR/TW) *are* listed — only the US
   three and the `RaiderIO` core are missing.
 
-> `[gap]` **Why those 8 are omitted is unresolved.** Re-checked independently and
+> **Those 8 are enumerated by the client regardless.** `DoesAddOnExist("RaiderIO")`
+> returns **true** `[client 2026-07-24]` for one of them, so omission from `AddOns.txt`
+> does not mean the client never saw the addon. `[gap]` **Why they are omitted from the
+> file is still unresolved.** Re-checked independently and
 > no pattern holds: the set mixes `LoadOnDemand: 1` (TellMeWhen_Options) with
 > non-LoD, mixes has-`Dependencies` with none, mixes current `## Interface: 120007`
 > (RaiderIO, EllesmereUIDataBars) with out-of-date `120000`
@@ -154,9 +152,8 @@ Two more things fall out of the same file, and both cut against naive assumption
 > 13:36–13:38 mtime band, so mtime cannot separate them either. The most likely
 > mundane explanation — *installed after the character last logged in* — is
 > consistent with the per-character size variance above but is **not established**.
-> Do **not** treat `AddOns.txt` as the authoritative installed-addon list.
-> `@verify-ingame`: `C_AddOns.DoesAddOnExist("LibStub")` and
-> `C_AddOns.DoesAddOnExist("RaiderIO")` would settle both halves of this.
+> Do **not** treat `AddOns.txt` as the authoritative installed-addon list — it
+> demonstrably omits addons the client enumerates.
 
 Blizzard's own corpus does **not** obey the folder-name rule: 2 of 346 shipped
 `.toc` files mismatch their directory (`Blizzard_BarbershopUI/Blizzard_BarberShopUI.toc`,
@@ -174,7 +171,7 @@ shipped corpus.**
 
 ### 2.1 Syntax
 
-Three line kinds `[T2 wiki: TOC format, 2026-07-09]`:
+Three line kinds `[T2 wiki: TOC format, revid 6767089, 2026-07-09]`:
 
 ```wowtoc
 ## Directive: Value      # metadata
@@ -215,10 +212,10 @@ in practice) `[T1 obs]`. Definitions are
 | `Author` | 109 | Informational. |
 | `Notes` | 74 | Tooltip text. Localisable. |
 | `SavedVariables` | 55 | Account-wide persisted globals. |
-| `LoadOnDemand` | 46 | `1` ⇒ don't load at login; wait for `C_AddOns.LoadAddOn()`. ⚠ 46 is the **line** count; 45 are `: 1` and 1 is `: 0` (§4.3). |
+| `LoadOnDemand` | 46 lines — 45 `: 1`, 1 `: 0` | `1` ⇒ don't load at login; wait for `C_AddOns.LoadAddOn()`. Count the values, not the lines: only the 45 are load-on-demand (§4.3). |
 | `DefaultState` | 45 | `disabled` ⇒ user must enable explicitly. |
 | `OptionalDeps` | 24 | Load first *if present*; absence is not an error. |
-| `Category` | 21 | Collapsible header in the AddOns list. Localisable. |
+| `Category` | 21 (+86 localised `Category-<locale>`) | Grouping label — the collapsible header the addon appears under in the AddOns list. Localisable. Purely presentational; see below. |
 | `Group` | 18 | Indented sub-list under a parent addon. |
 | `SavedVariablesPerCharacter` | 10 | Per-character persisted globals. |
 | `LoadSavedVariablesFirst` | 7 | `1` ⇒ SVs load *before* the addon's files instead of after (added 11.1.5). |
@@ -243,13 +240,27 @@ minimap code reads `AddonCompartmentFunc`, `IconTexture`, `IconAtlas`,
 `_G[addonCompartmentFunc](addonName, ...)` `[T1 src: AddonCompartment.lua:99]`.
 A file-local or namespace-table function will not be found.
 
+**`## Category:` is the suite-grouping directive, and it is display-only.** It sets
+which collapsible header the addon appears under in the AddOns list and affects
+**nothing** about loading, dependencies or environment. That makes it the standard way
+a suite that must ship as N separate addons — the only way to make parts individually
+toggleable — keeps its parts together in the UI instead of scattered alphabetically:
+**18 of the 21 bare `## Category:` lines on this install carry one shared value,
+belonging to the EllesmereUI suite** `[T1 obs]`. ⚠ The value is a display string and
+**accepts colour escapes** — that shared value is literally `|cff0cd29fEllesmere|rUI`
+on disk `[T1 obs]` — so never compare, sort or key on it. Blizzard's
+own corpus is a non-example: `## Category:` occurs on **1** of 346 shipped tocs,
+`Blizzard_AccountSaveUI/Blizzard_AccountSaveUI.toc:6` (`## Category: Character Utils`)
+`[T1 src]`, so treat this as a directive proven by third-party practice rather than by
+the shipped corpus. `@verify-ingame` — confirm the grouping renders as described.
+
 ### 2.3 Restricted directives — do not use them
 
 The wiki's `== Restricted ==` section — *"The following tags are inaccessible to
 third-party AddOns"* — contains exactly five: `AllowLoad`,
 `EscalateErrorDuringLoad`, `LoadFirst`, `SavedVariablesMachine`,
-`UseSecureEnvironment` `[T2 wiki: TOC format §Restricted, revid 6767089,
-2026-07-09]`.
+`UseSecureEnvironment`
+`[T2 wiki: TOC format §Restricted, revid 6767089, 2026-07-09]`.
 
 **`Secure` is not one of them.** It appears on that page only as a patch-change
 note (*"Patch 1.11.0 — Added the `Secure` metadata field"*) with no section of its
@@ -280,22 +291,10 @@ entirely** — treat as Blizzard-internal and unusable:
 | `## ShowInDebugList: 1` | `Blizzard_EventTrace/Blizzard_EventTrace.toc:4` |
 | `## SuppressLocalTableRef: 1` | `Blizzard_RecruitAFriend/Blizzard_RecruitAFriend.toc:5` — the wiki says this was **removed in 11.0.0**, yet it is still in the 12.0.7 corpus. |
 
-⚠ **`## Category:` is a real, addon-facing field this file did not carry** (added
-2026-08-05). It sets the grouping label an addon appears under in Blizzard's addon
-list. It does **not** affect loading, dependencies or environment — it is purely how
-the addon list clusters entries, which is why a suite that ships as N separate addons
-(the only way to make parts individually toggleable) uses one shared `Category` string
-to keep them together in the UI instead of scattered alphabetically. ⚠ The value is a
-display string and **accepts colour escapes**, so it is not safe to compare or key on.
-*[Seen in use across an 18-addon suite: EllesmereUI 8.7.5, read for API discovery only,
-no code copied. `## Category:` does not appear in the Blizzard corpus, which ships as
-`Blizzard_*` addons that are hidden from the list — so this is a third-party-only field
-in practice.]* @verify-ingame — confirm the grouping renders as described.
-
 ### 2.4 Per-line conditionals and variables
 
 Conditions attach to a metadata line or a file line, in square brackets
-`[T2 wiki: TOC format, 2026-07-09]`:
+`[T2 wiki: TOC format, revid 6767089, 2026-07-09]`:
 
 | Condition | Since | Note |
 |---|---|---|
@@ -371,8 +370,7 @@ checkbox — labelled with the global string `ADDON_FORCE_LOAD` = "Load out of d
 AddOns" `[T1 src: Blizzard_AddOnList/AddonList.xml:137`; string body at
 `T2 res: GlobalStrings/enUS.lua:701]` — whose `OnClick` toggles
 `C_AddOns.SetAddonVersionCheck(false/true)` `[T1 src: AddonList.lua:276-285, the
-calls at :279 and :282` — the draft cited `:275-278`, which is the `OnShow`
-handler, **corrected**`]`.
+calls at :279 and :282; note :275-278 is the `OnShow` handler, not this]`.
 
 Comma-delimited multi-flavour lists are normal in the wild — TellMeWhen_Options
 ships `## Interface: 120005, 120007, 110205, 50503, 50504, 40402, 20505, 11508`
@@ -460,11 +458,10 @@ local function GetAddOnDependenciesRecursive(addonName, dependencyArray, depende
 consumed by `AddOnUtil.LoadAddOn` `[T1 src: AddOnUtil.lua:40-52]`.
 
 `OptionalDeps` names *"AddOns that should load first if available"*
-`[T2 wiki: TOC format §OptionalDeps, revid 6767089]`. **Corrected from the draft:**
-that page does **not** say an absent optional dep is harmless, so "it never blocks
-the load" is not a cited claim — it is the natural reading of "if available", and
-the shipped corpus offers no counter-example, but treat it as `[unverified]`
-until an explicit source or in-game test says otherwise. `@verify-ingame`.
+`[T2 wiki: TOC format §OptionalDeps, revid 6767089]`. That page does **not** say an
+absent optional dep is harmless, so "it never blocks the load" is `[unverified]` — it
+is the natural reading of "if available" and the shipped corpus offers no
+counter-example, but no source states it. `@verify-ingame`.
 
 Failure is reported as a **reason token**, not prose.
 `C_AddOns.GetAddOnInfo(name)` returns
@@ -482,9 +479,8 @@ entry.Status:SetText(_G["ADDON_"..reason]);
 The token vocabulary is enumerable from the global strings `[T2 res:
 Resources/GlobalStrings/enUS.lua:679-726]` — `BANNED`, `CORRUPT`, `DEMAND_LOADED`,
 `DISABLED`, `EXCLUDED_FROM_BUILD`, `INCOMPATIBLE`, `INSECURE`,
-`INTERFACE_VERSION`, `MISSING`, `NOT_AVAILABLE`, `NO_ACTIVE_INTERFACE` (the draft
-listed only 7 of these 11 and stopped the range at `:724`; **corrected**), and the
-15-member `DEP_*` family at `:684-698`
+`INTERFACE_VERSION`, `MISSING`, `NOT_AVAILABLE`, `NO_ACTIVE_INTERFACE` — 11 of them,
+over the full range `:679-726` — and the 15-member `DEP_*` family at `:684-698`
 (`DEP_BANNED`, `DEP_CORRUPT`, `DEP_DEMAND_LOADED`, `DEP_DISABLED`,
 `DEP_EXCLUDED_FROM_BUILD`, `DEP_INCOMPATIBLE`, `DEP_INSECURE`,
 `DEP_INTERFACE_VERSION`, `DEP_MISSING`, `DEP_NOT_AVAILABLE`,
@@ -529,16 +525,11 @@ LoD is common on Blizzard's side (**125** of 346 shipped tocs set
 `TellMeWhen_Options`, the 15 `RaiderIO_DB_*` data packs, per-zone `LittleWigs_*`
 modules).
 
-> ⚠ **Corrected 2026-07-23 (cross-file reconciliation).** This paragraph, and
-> rule 20 below, previously read "167 of 346" and "46 of 147". Those are counts of
-> tocs carrying a `## LoadOnDemand` **line of any value**, and **42 shipped tocs
-> declare `## LoadOnDemand: 0`** (plus 1 third-party toc), which is the explicit
-> *opposite* of load-on-demand. Re-counted `[T1 src / T1 obs]`:
-> `## LoadOnDemand: 1` → **125**/346 shipped and **45**/147 third-party;
-> `: 0` → 42 shipped and 1 third-party. `module-architecture.md` §5.4 already
-> carried the correct 125/45; the two files now agree. The **line** counts in
-> §2.2 and in `sources.md` §1.1 (`LoadOnDemand` 167 / 46) remain right *as line
-> frequencies* — do not read either as "is load-on-demand".
+**Count the values, not the lines.** A further **42** shipped tocs (plus 1
+third-party) carry `## LoadOnDemand: 0`, the explicit *opposite* of load-on-demand
+`[T1 src / T1 obs]`. So the raw `## LoadOnDemand` **line** frequencies — 167/346 and
+46/147, which is what §2.2 and `sources.md` §1.1 report — are correct as line counts
+and must never be read as "is load-on-demand".
 
 `C_AddOns.IsAddOnLoaded(name)` returns **two** booleans —
 `loadedOrLoading, loaded` `[T1 docs: AddOnsDocumentation.lua:322]`. Code that
@@ -635,12 +626,11 @@ each checkout, `.git/` excluded:
 | WeakAuras2 `38d4bf1e6099` | 7 | 198 |
 | Ace3 `4475787f06f7` | 0 | 74 |
 
-> ⚠ **Cross-file note (2026-07-23).** `module-architecture.md` §2.3 counts the
-> same thing with a **one-or-more-identifier** regex and reports **WeakAuras2 =
-> 128** where this table says 7, and (after its own 2026-07-23 correction)
-> **Details = 111**, matching this table. Both greps reproduce exactly; they
-> measure different *spellings*. Neither number is "the" adoption figure — cite
-> the regex with the count.
+**This metric is not comparable across files unless the regex travels with it.**
+`module-architecture.md` §2.3 counts the same idiom with a **one-or-more-identifier**
+regex and reports **WeakAuras2 = 128** where this table says 7 (it agrees on
+Details = 111). Both greps reproduce exactly; they measure different *spellings*.
+Neither number is "the" adoption figure — always cite the regex with the count.
 
 WeakAuras' low count is a spelling difference, not a different mechanism — it uses
 the split form `local AddonName = ...` / `local Private = select(2, ...)`
@@ -661,8 +651,7 @@ is overwhelmingly global-based.
 
 *"World of Warcraft uses a modified version of Lua 5.1 which also supports taint.
 Notably, operating system and file I/O libraries are not present."*
-`[T2 wiki: Lua functions, revid 6779934, **2026-07-23** — edited the day this file
-was written]`.
+`[T2 wiki: Lua functions, revid 6779934, 2026-07-23]`.
 
 **Present** `[T2 wiki: Lua functions]`: the base library (`assert`, `error`,
 `pcall`, `xpcall`, `select`, `type`, `tonumber`, `tostring`, `pairs`, `ipairs`,
@@ -672,9 +661,9 @@ was written]`.
 `date`, `time` and `difftime` exist **as globals** — the `Lua functions` page lists
 all three in the base-library section `[T2 wiki: Lua functions, revid 6779934]`, and
 `API date` explains why: *"date() is a reference to the os.date function. It is put
-in the global table as the os module is not available."* `[T2 wiki: API date, revid
-3016063, **2022-07-21** — a stale page; the claim is corroborated by the current
-`Lua functions` listing, which is why it is repeated here]`.
+in the global table as the os module is not available."*
+`[T2 wiki: API date, revid 3016063, 2022-07-21 — stale, but corroborated by the
+current `Lua functions` listing, which is why it is repeated here]`.
 
 **Absent.** Two strengths of evidence here, and they are not the same:
 
@@ -690,29 +679,37 @@ in the global table as the os module is not available."* `[T2 wiki: API date, re
 Tier-1 corroboration by absence: across the 2298 `.lua` files of the shipped UI
 there is **not one** call to `require(`, `dofile`, `loadfile`, `module(`, or —
 with a word-boundary-anchored regex `(^|[^A-Za-z0-9_."])(os|io)\.[a-z]` — `os.`
-or `io.` `[T1 src, grep over Interface/AddOns/**/*.lua]`. That is corroboration,
-not proof of absence, but it is a strong signal that no Blizzard code assumes them.
-`@verify-ingame`: `/dump type(require), type(os), type(io)` settles it in one line.
+or `io.` `[T1 src, grep over Interface/AddOns/**/*.lua]` — corroboration by absence,
+and a strong signal that no Blizzard code assumes them. **Measured in the client:
+all three are genuinely absent.** `require`, `os` and `io` each resolve to `nil` in
+`_G` *and* in the addon's own environment — the two were probed separately because
+they can differ, and here they agree `[client 2026-07-24]`. The sandbox does not
+expose them, so this is no longer an argument from silence.
 
 **WoW-specific additions**, verified as actually used by the shipped UI `[T1 src,
 file counts]`: `strcmputf8i` (36 files), `strlenutf8` (8), `securecall` (60),
 `table.count` (2), `table.create` (2), `fastrandom` (1), `string.rtgsub` (1).
 
-- **Corrected from the draft:** it also listed `loadstring` (6 files) and
-  `newproxy` (3) as WoW-specific. Both are **stock Lua 5.1** — they are already in
-  the "Present" list above, and the wiki tags neither with `{{apitag|wow}}`
-  `[T2 wiki: Lua functions, revid 6779934]`. The file counts are right; the label
-  was not.
+- `loadstring` (6 files) and `newproxy` (3) also appear in the shipped UI but are
+  **not** WoW-specific — both are stock Lua 5.1, are already in the "Present" list
+  above, and the wiki tags neither with `{{apitag|wow}}`
+  `[T2 wiki: Lua functions, revid 6779934]`.
 - `string.rtgsub` is wiki-tagged **`framexml`**, i.e. flagged as Blizzard-internal
-  rather than addon-facing `[T2 wiki: Lua functions §String library]`. `[gap]` I did
-  not establish whether an addon can call it. `@verify-ingame`.
+  rather than addon-facing `[T2 wiki: Lua functions §String library]` — but **an addon
+  can call it, and it works.** From a plain insecure addon frame it reads as a normal
+  `function`, and `string.rtgsub("aXbXc", "X", "-")` returns `"a-b-c"`
+  `[client 2026-07-24]`. So the `framexml` tag is **documentation of intent, not
+  enforcement**: it says who Blizzard means the function for, and nothing in the client
+  stops an addon using it. Treat that as the general reading of the tag until some
+  `framexml`-tagged name is measured to actually refuse a call.
 
 The wiki also lists `table.freeze`, `table.isfrozen`, `table.removemulti`,
 `strsplittable`, `string.split`/`join`/`trim`/`concat`, `tostringall` — of which
 `table.freeze`, `table.isfrozen`, `table.removemulti` and `strsplittable` have
-**zero** uses in the shipped source `[T1 src, re-counted]`, so they rest on Tier 2
-alone. (`table.removemulti` was in the draft's wiki list but missing from its
-zero-use list; **corrected**.) `@verify-ingame`.
+**zero** uses in the shipped source `[T1 src]`, so they rested on Tier 2 alone.
+**All four measured present as functions at 12.0.7** `[client 2026-07-24]` — the
+wiki list is accurate, and a zero-use name is not a stale one. (Existence is all
+that was measured; none has been *called*, so their signatures remain Tier 2.)
 
 Coroutines exist but are barely used by Blizzard: `coroutine.` appears in 2 files
 `[T1 src]`.
@@ -735,9 +732,8 @@ It is what defines the familiar bare globals: `tinsert`, `tremove`, `wipe`, `sor
 `strbyte`, `strchar`, `strfind`, `format`, `gmatch`, `gsub`, `strlen`, `strlower`,
 `strmatch`, `strrep`, `strrev`, `strsub`, `strtrim`, `strupper` `[:47-61]`.
 
-> ⚠ **Corrected from the draft, which said all seven trig wrappers are
-> "degree-taking". They are not — the two halves differ, and getting this backwards
-> is exactly the silent bug the rule is meant to catch.** Read the actual lines:
+> ⚠ **The seven trig wrappers are degree-based in two opposite directions.** Getting
+> this backwards is a silent correctness bug, so read the actual lines:
 >
 > ```lua
 > acos = function (x) return math.deg(math.acos(x)) end   -- :22   arg = ratio, RESULT in degrees
@@ -780,10 +776,11 @@ function AddLuaErrorHandler(handler)
 ```
 `[T1 src: Blizzard_ScriptErrors/Blizzard_ScriptErrors.lua:66-67]`
 
-> `[gap]` Whether an addon can ever satisfy `issecure()` at that call site is a
-> security-topic question, not settled here. The assert is Tier 1; the conclusion
-> "addons cannot register a Lua error handler this way" is inference.
-> `@verify-ingame`.
+**An addon cannot satisfy that assert.** `issecure()` returns **false** from a plain
+addon call frame, so `AddLuaErrorHandler` raises for us — the conclusion is a measurement
+now, not an inference from the assert `[client 2026-08-05]`. `AddLuaErrorHandler` itself
+**is** visible to addon code (it resolves to a function); it is the guard that refuses,
+not the binding.
 
 `geterrorhandler()` is used pervasively by Blizzard for deferred error reporting
 `[T1 src: Blizzard_SharedXMLBase/ErrorUtil.lua:3, 18-19;
@@ -846,8 +843,8 @@ What each is for:
 **`VARIABLES_LOADED` is not part of the sequence.** *"Previously (prior to 3.0.1)
 this event was part of the loading sequence. … it no longer has a guaranteed order
 that can be relied on. … Addons should not use this event to check if their addon's
-saved variables have loaded."* `[T2 wiki: VARIABLES_LOADED, revid 6589741,
-2026-01-03]`. It is still a live event `[T1 docs: SystemDocumentation.lua:220]` —
+saved variables have loaded."*
+`[T2 wiki: VARIABLES_LOADED, revid 6589741, 2026-01-03]`. It is still a live event `[T1 docs: SystemDocumentation.lua:220]` —
 it just means *Blizzard's* CVars/keybindings, not yours. (The wiki contradicts
 itself on the patch: the `VARIABLES_LOADED` page says **3.0.1**, while
 `AddOn loading process` §Patch changes says **3.0.2** `[T2 wiki, revid 6302251]`.
@@ -879,8 +876,8 @@ Error path: `SAVED_VARIABLES_TOO_LARGE(addOnName: cstring)`
 ## 7. `/reload` semantics
 
 `/reload` ≡ `/console reloadUI` ≡ `/run ReloadUI()`
-`[T2 wiki: MACRO reload, revid 2436052, **2020-12-23** — stale page, but the
-mechanism is confirmed Tier 1 below]`.
+`[T2 wiki: MACRO reload, revid 2436052, 2020-12-23 — stale page, but the mechanism
+is confirmed Tier 1 below]`.
 
 ```lua
 function ReloadUI()
@@ -911,8 +908,8 @@ What a reload does, from the evidence:
    `[T2 wiki: PLAYER_LOGIN, revid 6589506 — "on login and UI Reload"]`, and the
    wiki notes *"If this is a reload, talent information is also available"* at
    `PLAYER_ENTERING_WORLD` `[T2 wiki: AddOn loading process, revid 6302251]`.
-   `[unverified]` The draft added "the world state is not re-fetched from scratch";
-   no source I found says that, so it is cut to the two cited facts.
+   Those two cited facts are the whole of it — nothing sourced says the world state
+   is or is not re-fetched from scratch.
 
 > `[gap]` I found no Tier-1 or Tier-2 statement of the *exact* set of state a
 > reload preserves vs discards (e.g. whether the Lua state is fully destroyed or
@@ -933,8 +930,6 @@ what §4 covers: `GetAddOnTitle` `[:241]`, `GetAddOnNotes` `[:196]`,
 `GetScriptsDisallowedForBeta` `[:265]`, plus the mutating `DisableAddOn` `[:11]`,
 `DisableAllAddOns` `[:22]`, `EnableAddOn` `[:62]`, `EnableAllAddOns` `[:73]`,
 `ResetAddOns` `[:363]`, `ResetDisabledAddOns` `[:367]`, `SaveAddOns` `[:371]`.
-(The draft gave the same seven line numbers but in a different order from the
-names, so `EnableAddOn` read as `:11`; **corrected** — names and lines now pair.)
 
 `C_AddOnProfiler` — 10 functions `[T1 docs: AddOnProfilerDocumentation.lua:3]`:
 `IsEnabled`, `GetAddOnMetric(name, metric)`, `GetOverallMetric`,
@@ -970,11 +965,10 @@ call sites** in the shipped UI `[T1 src]` — the CPU story moved to
   `C_AddOns.DoesAddOnHaveLoadError` proves errors are tracked per addon. §4.3.
 - `[gap]` **"One VM"** is not sourced. The evidence supports "one shared global
   table"; VM topology is unstated anywhere I looked. §5.1.
-- `[gap]` **Nested `.toc` files are still not proven un-enumerable.** The draft
-  marked this "resolved" on the strength of `AddOns.txt`; that argument is retracted
-  (§1) because 8 well-formed *top-level* folders are missing from the same file, so
-  absence there proves nothing. The rule rests on Tier 2 (the wiki's placement
-  requirement) with `AddOns.txt` as corroboration. §1, §19b.
+- `[gap]` **Nested `.toc` files are not proven un-enumerable.** Absence from
+  `AddOns.txt` does not establish it — 8 well-formed *top-level* folders are missing
+  from that file too (§1). The rule rests on Tier 2 (the wiki's placement
+  requirement) with `AddOns.txt` as corroboration only. §1, §19b.
 - `[gap]` **`AddOns.txt` omits 8 present, well-formed addon folders** and retains 2
   removed ones; no pattern (LoD, deps, declared `Interface`, mtime) explains the
   omissions. It is also **not** consistent across characters — 78/71/70/3 entries
@@ -991,12 +985,14 @@ call sites** in the shipped UI `[T1 src]` — the CPU story moved to
 - `[gap]` **Whether addon code can call `AddLuaErrorHandler`** turns on `issecure()`
   in that frame; not resolved here. §5.4.
 - `[gap]` **The 1024-char toc line limit** rests on the wiki alone. §2.1.
-- `[gap]` **`table.freeze` / `table.isfrozen` / `table.removemulti` /
-  `strsplittable`** are wiki-only — zero uses in the shipped UI source. §5.3.
-- `[gap]` **`string.rtgsub` is wiki-tagged `framexml`** — whether addons may call
-  it at all is unestablished. §5.3.
-- **Nothing here has been run in the client.** Items marked `@verify-ingame` above
-  are the ones where that would change the answer.
+- **Some of this HAS now been run in the client** — a ClientLab pass
+  `[client 2026-07-24]` (12.0.7, interface 120007) closed five items that had sat in
+  this list, each now tagged at its claim: `require`/`os`/`io` are absent
+  (§5.3), `table.freeze`/`table.isfrozen`/`table.removemulti`/`strsplittable` all
+  exist (§5.3), `string.rtgsub` is callable (§5.3), `DoesAddOnExist` settles both
+  the nested-library rule and the `AddOns.txt` question (§1, §19b). Items still
+  marked `@verify-ingame` above are the ones where a run would still change the
+  answer; the registry that tracks them is `projects/addon-lab/questions.json`.
 
 ---
 
@@ -1011,9 +1007,9 @@ Each rule is checkable against real addon source or a real `.toc`.
    *[Tier 2: warcraft.wiki.gg `TOC format` revid 6767089, 2026-07-09 — §Rules +
    intro for the name rule ("otherwise the .toc file won't load"), §Client-specific
    TOC files for the suffix table and its `_Mainline`/`_Classic`-rank-lowest
-   precedence. Tier 1 corroboration: re-counted, 147/147 third-party tocs on the
+   precedence. Tier 1 corroboration: 147/147 third-party tocs on the
    live install conform to exactly that suffix list.]*
-   ⚠ **Blizzard's own corpus violates this rule twice** (§1), so do not use the
+   **Blizzard's own corpus violates this rule twice** (§1), so do not use the
    shipped tocs as the reference implementation of it.
 
 2. **A `.toc` lists only `.lua` and `.xml` as file entries.** Any other extension
@@ -1026,8 +1022,8 @@ Each rule is checkable against real addon source or a real `.toc`.
    `EscalateErrorDuringLoad`.** (Note this is the *metadata* `## AllowLoad:`; the
    bracketed `[AllowLoad …]` *condition* is a separate, documented, addon-facing
    feature.)
-   *[Tier 2 for the restriction: wiki `TOC format` §Restricted, revid 6767089,
-   2026-07-09 — exactly these five. Tier 1 corroboration: 0/147 third-party tocs on
+   *[Tier 2 for the restriction: wiki `TOC format` §Restricted,
+   revid 6767089, 2026-07-09 — exactly these five. Tier 1 corroboration: 0/147 third-party tocs on
    this install use any of them, while Blizzard tocs use `AllowLoad` 177×,
    `LoadFirst` 19×, `UseSecureEnvironment` 13×, `SavedVariablesMachine` 3×,
    `EscalateErrorDuringLoad` 3× — e.g.
@@ -1100,9 +1096,9 @@ Each rule is checkable against real addon source or a real `.toc`.
     `sin`/`cos`/`tan` take **degrees** where `math.sin`/`cos`/`tan` take radians;
     `acos`/`asin`/`atan`/`atan2` take the **same** argument as their `math.*`
     counterparts but **return degrees** where `math.*` returns radians. Mixing
-    either pair is a silent correctness bug. **Audit for both directions — the
-    earlier draft of this rule said all seven "take degrees", which is wrong for
-    the four arc functions and would mis-flag correct code.**
+    either pair is a silent correctness bug. **Audit for both directions** — a check
+    that assumes all seven "take degrees" is wrong for the four arc functions and
+    will mis-flag correct code.
     *[Tier 1: `Interface/AddOns/Blizzard_SharedXMLBase/Compat.lua` — `:41`
     `sin = function (x) return math.sin(math.rad(x)) end` (arg wrapped in `rad`)
     vs `:22` `acos = function (x) return math.deg(math.acos(x)) end` (result
@@ -1163,7 +1159,7 @@ Each rule is checkable against real addon source or a real `.toc`.
     Blizzard's 317 `Blizzard_*` addons are not present under `Interface/AddOns/` on
     disk, and the client's own `AddOns.txt` is neither complete nor current.
     *[Tier 1 obs: the live install's `Interface/AddOns/` holds 81 directories, 0
-    beginning `Blizzard_`; the newest of 26 `AddOns.txt` files (2026-07-23 17:26)
+    beginning `Blizzard_`; the newest of the 26 `AddOns.txt` files
     lists 78 names, of which 3 are `Blizzard_*` with no folder and 2 are addons no
     longer installed, while omitting 8 installed folders. Tier 1 API:
     `AddOnsDocumentation.lua:256, :181`.]*
@@ -1172,16 +1168,14 @@ Each rule is checkable against real addon source or a real `.toc`.
     addon and must not be referenced as one** (no `## Dependencies: LibStub`, no
     `C_AddOns.IsAddOnLoaded("LibStub")`). Only a `.toc` at
     `Interface/AddOns/<Folder>/<Folder>.toc` is enumerated.
-    *[Tier 2 is what this rule actually rests on: the wiki's placement requirement,
-    `TOC format` revid 6767089, 2026-07-09 (intro + §Rules). Tier 1 obs is
-    **corroboration only**: 38 nested `.toc` files exist on this install and no
-    nested-`.toc` library name (`LibStub`, `LibDeflate`, `LibSharedMedia-3.0`)
-    appears in any of the 26 client-written `AddOns.txt` files.]*
-    ⚠ **Weakened from the draft**, which argued absence from `AddOns.txt` proves
-    never-enumerated. It does not: 8 well-formed *top-level* addon folders are also
-    absent from that file (§1). Absence there is consistent with the rule, not
-    proof of it. `@verify-ingame` for certainty:
-    `C_AddOns.DoesAddOnExist("LibStub")`.
+    *[Tier 1: **measured in the client** — `C_AddOns.DoesAddOnExist("LibStub")` is
+    **false** even though `LibStub` is installed 38 times over as a nested `.toc`
+    `[client 2026-07-24]`. This confirms the wiki's placement requirement
+    (`TOC format` revid 6767089, 2026-07-09, intro + §Rules), so the rule no
+    longer rests on Tier 2.]*
+    Note the `AddOns.txt` absence of those library names is **not** what establishes
+    this — 8 well-formed *top-level* folders are absent from that file too and are
+    enumerated fine (§1). The `DoesAddOnExist` call is the evidence; the file is not.
 
 20. **A `LoadOnDemand: 1` addon does not load of its own accord at login**, so its
     `ADDON_LOADED` can arrive at any point in the session — or not at all. An LoD
@@ -1192,14 +1186,12 @@ Each rule is checkable against real addon source or a real `.toc`.
     AddOns might trigger part-way or after all steps have finished". Tier 1
     corroboration that this is a mainstream configuration: **125**/346 shipped tocs
     and **45**/147 third-party tocs on this install set `## LoadOnDemand: 1`
-    (a further 42 shipped + 1 third-party set it to `0`, which is not LoD).
-    ⚠ **Corrected 2026-07-23** from 167/46, which were any-value line counts —
-    see the note in §4.3.]*
-    ⚠ **Softened from the draft's "never fires `ADDON_LOADED` during login".** An
-    LoD addon can still be loaded during login by something else — as another
-    addon's `Dependencies` target, or via `## LoadWith` (which the wiki says
-    *implies* LoadOnDemand, `§LoadWith` revid 6767089). Audit for the gating bug,
-    not for the absolute.
+    (a further 42 shipped + 1 third-party set it to `0`, which is not LoD; the
+    167/46 figures elsewhere are any-value line counts — §4.3).]*
+    **This is not an absolute.** An LoD addon can still be loaded during login by
+    something else — as another addon's `Dependencies` target, or via `## LoadWith`
+    (which the wiki says *implies* LoadOnDemand, `§LoadWith` revid 6767089). Audit
+    for the gating bug, not for "never fires `ADDON_LOADED` during login".
 
 21. **`Dependencies` are hard, and a broken dependency chain is reported as a
     `DEP_*` reason rather than the addon's own.**
@@ -1207,7 +1199,7 @@ Each rule is checkable against real addon source or a real `.toc`.
     Tier 1 for the reason surface: Blizzard branches on `"DEP_DISABLED"` at
     `Blizzard_AddOnList/AddonList.lua:190` and `:368`, and the 15-member `DEP_*`
     string family exists at `GlobalStrings/enUS.lua:684-698` (Tier 2 `res` dump).]*
-    ⚠ **The draft's transitivity citation is over-claimed and is corrected here.**
+    ⚠ **Do not cite `AddOnUtil.lua` as proof of engine-level transitivity.**
     `Blizzard_SharedXMLBase/AddOnUtil.lua:3-18` (`GetAddOnDependenciesRecursive`,
     consumed by `AddOnUtil.LoadAddOn` at `:40-52`) shows Blizzard's **own Lua
     demand-load helper** walking `C_AddOns.GetAddOnDependencies`
@@ -1224,7 +1216,27 @@ Each rule is checkable against real addon source or a real `.toc`.
     `<Ui>` at `:1157`. Tier 2 for the consequence: wiki `TOC format` §File loading
     order, revid 6767089.]*
 
-23. **No addon may call `AddLuaErrorHandler` from a tainted execution path** — the
-    function asserts on `issecure()`.
-    *[Tier 1: `Blizzard_ScriptErrors/Blizzard_ScriptErrors.lua:66-67`. Whether an
-    addon call frame is ever secure is out of scope here — `@verify-ingame`.]*
+23. **No addon may register a Lua error handler via `AddLuaErrorHandler`** — the
+    function asserts on `issecure()`, and `issecure()` is **false** in a plain addon
+    call frame, so the assert always fires. The function is visible to us; the guard is
+    what refuses. Use `geterrorhandler()`/`pcall` instead.
+    *[Tier 1: `Blizzard_ScriptErrors/Blizzard_ScriptErrors.lua:66-67`.
+    `[client 2026-08-05]` for the `issecure()` reading.]*
+
+---
+
+## Changelog
+
+- 2026-08-05 — **first ClientLab answers land** `[client 2026-07-24]`. Five claims
+  rewritten from measurements rather than inference: `require`/`os`/`io` are absent
+  from both `_G` and the addon env (§5.3); all four zero-use Lua additions exist
+  (§5.3); `string.rtgsub` **is** callable, so the wiki's `framexml` tag is
+  documentation of intent, not enforcement (§5.3); `DoesAddOnExist` settles the
+  nested-library rule (§19b) and kills the inference that absence from `AddOns.txt`
+  proves never-enumerated (§1).
+- 2026-08-05 — §2.2 `## Category:` is addon-facing and display-only, and it **does**
+  occur in Blizzard's corpus (1 of 346, `Blizzard_AccountSaveUI.toc:6`). It had been
+  asserted as absent from the corpus and filed under §2.3 "restricted".
+- 2026-07-23 — §4.3 / rule 20 LoadOnDemand: **125**/346 shipped and 45/147
+  third-party actually *are* LoD. 167/46 are `## LoadOnDemand` line frequencies of
+  any value and 42 shipped tocs declare `: 0`.

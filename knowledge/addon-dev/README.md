@@ -37,13 +37,26 @@ The two must not be blended:
 
 What the two subtrees *do* share is the front-matter convention (`patch`,
 `fetched`, `reviewed`, `sources`, `confidence`) and the `@verify-ingame` marker.
-**Nothing in the seven topic files has been executed in the client** — every claim
-there is a read of source, generated documentation, shipped artefacts on disk, or a
-dated community page. Items where running the code would change the answer are
-marked `@verify-ingame` throughout. **The one exception is the system study
-[`cooldown-manager.md`](./cooldown-manager.md)** (§1.1), which carries a subset of
-claims confirmed from CDMProbe in-client captures, individually marked `[client]`
-with their capture date.
+
+**Evidence classes, and how to read one.** A claim here carries a marker saying how it
+is known, and the marker outranks the file's `confidence:` scalar:
+
+- **`[client YYYY-MM-DD]`** — measured by running our own code in the client. The
+  strongest class in the subtree, and the only one that knows what the docs cannot say.
+  Concentrated in **`cooldown-manager.md`** (which owns the Cooldown-Manager
+  measurements) and **`security-taint-and-restricted-data.md`** §4.8 onward, with a few
+  in `frames-textures-animation.md` §5.1/§5.7. `grep -rl '\[client 20'` is the live list —
+  do not maintain a copy of it here.
+- **unmarked** — a read of Blizzard's shipped source, its generated documentation, an
+  on-disk artefact, or a dated community page. Correct about *shape*. Not sufficient about
+  *behaviour*: a generated-docs annotation is necessary and not sufficient, and the gap
+  between the two is exactly what a measurement closes. (`SetTexture` carries
+  `SecretArguments = "AllowedWhenTainted"` and the client still refuses a secret string.)
+- **`@verify-ingame`** — running the code would settle this. A hypothesis.
+- **`@pending-test: <id>`** — a ClientLab test with that `id` exists and flies on the next
+  login/pull. **In flight, not open**, and not measured either. It becomes
+  `[client YYYY-MM-DD]` when the run is drained (§1.2).
+- **`[gap]`** — an honest hole.
 
 **Scope**: Retail, patch **12.0.7** (Midnight), build **12.0.7.68887**. Classic
 flavours appear only where a `.toc` mechanism forces them into view. Anything
@@ -102,9 +115,56 @@ specific to its subject.
 |---|---|---|
 | [**cooldown-manager**](./cooldown-manager.md) | `Blizzard_CooldownViewer` — the two row families, the five-rung identity ladder, the value cascade, refresh cadence, per-family event sets, and the readable surface under secret values. Backs `CDMProbe`. | "What spellID is this CDM row *actually*?" · "Why did my cooldown read come back ready?" · "Which events does a TrackedBuff row get?" · "Why does that icon glow?" |
 
-⚠ **`cooldown-manager.md` is the one file here carrying client-confirmed claims**
-(marked `[client]`), which is an exception to the rule in §0 below. The seven
-topic files remain source-reads only.
+⚠ **`cooldown-manager.md` carries the densest run of client-confirmed claims**
+(marked `[client]`), but it is no longer the only file that has any — see §0's
+evidence classes for where else measurements live.
+
+### 1.2 Queues — files that ask rather than assert
+
+Four queues are **not** claims and must never be cited as one. A topic file asserts;
+a queue file asks. Each says in its own header what would settle an entry.
+
+| File | Holds | Drains to |
+|---|---|---|
+| [**observations.md**](./observations.md) | Facts **our own running code** discovered — the class that used to end up in a source comment and die with the file. Every entry carries a required `Drains to:`. | the topic file it names. `wowkb.obs check` gates a release. |
+| [**mined-pending-verification.md**](./mined-pending-verification.md) | Findings from reading **third-party addons**, with clone provenance, not yet corroborated against Tier 1. | a topic file, once corroborated |
+| [**12.1.0-ptr-heads-up.md**](./12.1.0-ptr-heads-up.md) | What goes wrong **on patch day** — the lines that become false. `patch:` is deliberately ahead of live. | applied at the patch, by `/update` |
+| **`projects/addon-lab/questions.json`** — outside this tree | **The TEST registry**: one row per question the lab tests or could test, keyed by a stable `id`, anchored `<file>:<line>` back into these topic files. It binds a question to the Lua that tests it and the run row that answers it — the half a marker cannot do. Run by the **ClientLab** addon (`/clab`); deploy is a directory copy, not a release. | a topic file, once the question is answered |
+
+**Put an unsettled finding in a queue, not in a topic file.** That is the rule §7.7
+states, and these are where it points.
+
+⚠ The fourth lives outside `knowledge/` on purpose — it is a **test registry with an
+addon behind it**, not prose. It is indexed here anyway, because a queue an agent cannot
+reach from the topic map is a queue nobody drains. **If you add a fifth queue anywhere,
+index it here.** (There is deliberately no fifth. In particular the game KB's per-doc
+`## TODO` section is **not** a convention here — no file in this subtree has one, and
+`_meta/kb-inbox.md` is the game KB's parking lot, not this one's.)
+
+**A *don't-know* is not filed in any of the four.** It is written **on the claim**, as a
+marker in the topic file — and that is deliberate, because the other three queues each
+need you to have **learned** something (our code observed it, an addon demonstrated it, a
+patch will break it), and a hole you looked into and walked away from is none of those. A
+marker needs no tool, no id and no row: whoever next reads the claim reads the marker, at
+exactly the moment it matters.
+
+**The marker carries the whole lifecycle:**
+
+| Marker | State |
+|---|---|
+| `[gap]` · `[unverified]` · `@verify-ingame` | open — nobody is on it |
+| `@pending-test: <id>` | a `ns.Test{}` with that id is in ClientLab and flies on the next login/pull; the row is `built` |
+| `[client YYYY-MM-DD]` | measured and drained; the marker is gone and the claim is rewritten |
+
+⚠ **A marked claim you are about to BUILD ON is a STOP** — surface it and ask, never assume
+silently. That is the one thing this subtree does not let accumulate, alongside a measured
+answer that has not reached the KB (`wowkb.obs check`). **An open marker, by contrast, has
+no clock, no cap and no gate**: the trigger for testing an unknown is *use*, not age, and
+this file's `[gap]`s are a catalogue rather than a backlog. Do **not** sweep them into the
+registry — many are epistemics warnings against a tempting inference, which is prose doing
+its job, and a question earns a row when somebody decides to **test** it.
+(`wowkb.lab blocked` shows the rows nobody is testing, grouped by the capability each
+waits on.)
 
 ---
 
@@ -221,11 +281,9 @@ typos; they were the kind of error that reads as authoritative:
 - **"Blizzard always does X"** where Blizzard's own tree contains a counterexample
   (`GridLayoutFrameMixin:Layout` returns early without `MarkClean`).
 
-Because of this, the files carry an unusual amount of **visible self-correction**:
-inline `[corrected 2026-07-23]` notes saying what the earlier draft claimed and
-what the source actually says. That apparatus is deliberate. Do not clean it up —
-it is how a reader who saw an earlier version knows what to un-learn, and it is
-the record that a claim was *checked* rather than merely *written*.
+The lesson to carry forward is **re-derive before you act**, not "distrust everything".
+The corrections themselves belong in a file's `## Changelog`, one line each — see §7 for
+how a claim is written here.
 
 **How to read a claim here.** Every claim states the tier of its strongest
 evidence. `[T1 src]`/`[T1 docs]` = Blizzard's shipped source or generated spec at
@@ -252,11 +310,20 @@ leans on one of those, it says `[inference]` and the rule is advisory.
 
 ## 4. The intended next use: audit this workspace's three addons
 
-Every topic file ends with **"Rules we could audit against"** — **204** numbered,
-individually-cited statements (anatomy 25 · api-events 30 · frames 40 · security
-31 · module 25 · state-persistence 25 · libraries 28), written to be decidable by
-grep or by reading a call site rather than by taste. That section is the point of
-the KB, not an appendix.
+Every topic file ends with **"Rules we could audit against"** — roughly two hundred
+numbered, individually-cited statements, written to be decidable by grep or by reading
+a call site rather than by taste. `cooldown-manager.md` carries its own set too. That
+section is the point of the KB, not an appendix.
+
+⚠ **No exact census is kept here, deliberately.** The files number rules differently
+enough that any single grep miscounts several of them, so a precise total in this file
+would be wrong within a patch and would be believed. Count the file you care about.
+
+⚠ **A rule and the body section it audits must be edited together.** Every rule
+restates a body claim, so a correction applied to one and not the other is invisible to
+any single-file read — that is exactly how the pool-proxy count and the secure-snippet
+`table` claim each stayed wrong for weeks. Prefer a rule that asserts and cites its
+section over one that re-argues it.
 
 The intended consumer is this workspace's own addon code:
 
@@ -299,108 +366,30 @@ session, and each closure upgrades a `[gap]` to a fact.
 
 ---
 
-## 5. Cross-file reconciliation — disagreements found and what was done
-
-The seven topics were researched independently, so they were cross-checked
-against each other on 2026-07-23. Findings, all resolved rather than papered over:
-
-**Resolved by re-deriving the number.**
-
-- **Load-on-demand counts.** `anatomy` §4.3 said "167 of 346 shipped tocs" are
-  LoD; `module` §5.4 said 125. Both greps reproduce — **but 42 shipped tocs
-  declare `## LoadOnDemand: 0`**, the explicit opposite. 167 is a line count,
-  125 is the semantic count. `anatomy` §4.3 and its rule 20 were **corrected to
-  125/346 and 45/147**; `sources.md` §1.1 now flags its own 167 as a line
-  frequency.
-- **`sources.md` annotation counts.** Its §1.2 table mixes function-only counts
-  with corpus totals, which is why `HasRestrictions` reads 231 there and 236 in
-  `security`. Both are right for what they count (231 functions + 5 events).
-  One entry — `SecretWhenUnitIdentityRestricted` **12** — was simply **wrong**
-  (15). `sources.md` now carries the re-derived table and a note that the topic
-  files' numbers win.
-- **"51 secret predicates."** Only 19 are `Type = "Secret"`; 32 are
-  `Type = "Precondition"`, and the two kinds behave differently (value vs call).
-  `sources.md` relabelled.
-- **Doc-file count.** 592 `.lua` + 1 `.toc` = 593 entries. `sources.md` said
-  "593 Lua files"; corrected.
-- **oUF's size.** 784 K in `sources.md` includes `.git`; 504 K in `libraries`
-  does not. Both now shown.
-
-**Resolved as a measurement artefact — the most instructive one.**
-
-- **Addon-namespace adoption.** `anatomy` §5.2 reported Details **111** files
-  binding the `...` vararg and WeakAuras2 **7**; `module` §2.3 reported Details
-  **8** and WeakAuras2 **128**. Nearly inverted, and both greps reproduce exactly.
-  Cause: `module`'s regex (`^local [A-Za-z_, ]+= *\.\.\.`) has **no digits in its
-  character class**, and Details' namespace local is spelled `Details222` — so it
-  missed 103 files. `anatomy`'s regex requires **two** identifiers, and WeakAuras
-  writes `local AddonName = ...` — so it missed 121. **Details = 8 was corrected
-  to 111**; the WeakAuras divergence is left standing in both files with a
-  cross-reference, because it is a genuine difference in what is being counted.
-  The lesson, now stated in both files: *a corpus count is only as good as its
-  regex — cite the regex with the count.*
-
-**Resolved by correcting an over-read.**
-
-- **The Cooldown-setter falsification** in `sources.md` §4 concluded those four
-  setters "do accept secret arguments" from the absence of `NotAllowed`. They are
-  `AllowedWhenUntainted`, and **all addon code is tainted** — so from an addon
-  they do not. `security` §4.5 caught this; `sources.md` now carries the
-  correction. (The verdict on the AI-generated guide is unchanged: do not cite it.
-  But this particular refutation should not be reused as written.)
-- **"Wiki-only globals."** `sources.md` listed `issecretvalue`,
-  `hasanysecretvalues` and `scrub` as Tier-2-only. All three are **Tier 1**,
-  documented in `FrameScriptDocumentation.lua`, along with the whole
-  secret-testing family. `security` §4.4 caught it; `sources.md` §1.2 and §7 are
-  fixed.
-- **`## Secure`.** `sources.md` called it Blizzard-internal alongside the
-  documented-restricted directives. It is **undocumented**, not
-  *documented-as-restricted* — a distinction both `anatomy` §2.3 and `module`
-  §5.1/rule 17 insist on. `sources.md` now makes it too.
-
-**Left standing as a real divergence, with the reason recorded.**
-
-- **"The seven clones" is not the same seven.** `anatomy`, `frames`, `security`
-  and `module` survey WeakAuras2 · BigWigs · Details · Plater · ElvUI · oUF ·
-  **Ace3**; `libraries` substitutes **Bagnon** for Ace3 (Ace3 being its subject,
-  not its sample). So "4 of 7" in one file is not over the same population as
-  "4 of 7" in another. Noted in `sources.md` §3.1. Independence is worse than
-  n=7 in both sets — Details and Plater share an author and a framework, and
-  ElvUI vendors oUF — so treat effective n as ~5.
-- **ElvUI's secure-template footprint** is 21 files in `security` §3.4 and 16 in
-  `libraries` §11. Different greps (`security` also matches `RegisterStateDriver`
-  and `SecureGroupHeader`, and searches `.xml`). Both publish their command; no
-  correction needed.
-- **BigWigs `IsSecret` line numbers** differ between `sources.md` §3.1 and
-  `security` §5 because they cite *different call sites* (guard sites vs the
-  compat-shim aliases), not the same one twice.
-
-**Registry additions.** `sources.md` gained a §3.8 recording sources the topic
-agents used that predated no entry: the **Bagnon** clone, **`gh api`** repository
-metadata, **WoWInterface's `api.mmoui.com` file list**, `wago.tools/api/builds`,
-raw-wikitext line numbering, the specific WoWUIBugs issues relied on, and the
-live `WTF/` tree used as a persistence-format corpus.
-
----
-
 ## 6. Known weaknesses of this KB
 
 Stated plainly so nobody has to rediscover them.
 
-- **Nothing has been run in the client.** This is the single biggest limitation.
-  Every `@verify-ingame` marker is a real open question.
-- **This subtree's markers are deliberately invisible to `wowkb.gen_verify`, and
-  that is a decision, not a bug** (recorded 2026-07-23 during the W1 design).
-  `gen_verify` treats a marker written inside `` `backticks` `` as prose
-  (`gen_verify.py` `_strip_code`), and **64 of this subtree's 68 markers are
-  backticked**, so `_meta/verify-in-game.md` lists **zero** addon-dev items.
-  *Left that way on purpose*: §0 above sets a hard firewall between game data and
-  engineering guidance, and pouring ~45 engineering questions into a game-side
-  checklist of 29 would break it — you would be asked to test `table.freeze`
-  while standing at an obelisk. The registry for this subtree is instead
-  `projects/addon-lab/questions.json`, keyed by a **stable id** rather than by
-  marker text, so an id survives the line moving. `grep -rn '@verify-ingame'
-  knowledge/addon-dev/` remains the raw view.
+- **Most of this subtree has not been run in the client**, and that remains the
+  single biggest limitation. The exceptions carry a `[client YYYY-MM-DD]` tag (§0);
+  everything else is a source read, and every `@verify-ingame` marker is a real open
+  question.
+- **This subtree's markers are meant to be invisible to `wowkb.gen_verify`, and that
+  is a decision, not a bug.** `gen_verify` treats a marker written inside
+  `` `backticks` `` as prose (`gen_verify.py` `_strip_code`), so a backticked marker
+  stays out of `_meta/verify-in-game.md`. *By design*: §0 sets a hard firewall between
+  game data and engineering guidance, and pouring engineering questions into a
+  game-side checklist would break it — you would be asked to test `table.freeze` while
+  standing at an obelisk.
+  The raw view, and the honest one, is
+  `grep -rn '@verify-ingame' knowledge/addon-dev/`; the leaked count is whatever that
+  reports with **no** surrounding backticks. Do not "correct" a backticked marker to a
+  bare one — a bare marker here is a leak, not an open item.
+  ⚠ **Backticking hides the marker from `gen_verify`, not from a reader.** Nothing
+  harvests these into a checklist, and nothing needs to: the marker sits **on the claim**,
+  so it is met at the point of use, by whoever is about to build on it (§1.2). What a
+  backticked marker must never become is *silent* — do not delete one to tidy a paragraph,
+  and do not soften the claim it sits on so the marker looks unnecessary.
 - **Blizzard's actual developer channel is unreadable.** Its technical addon-API
   posts go to the **WoWUIDev Discord**, which is not publicly fetchable. Every
   Blizzard *statement* quoted in this KB reaches us through warcraft.wiki.gg's
@@ -430,3 +419,64 @@ Stated plainly so nobody has to rediscover them.
   (CurseForge 403, wago.io 401), so every "widely used" is a count of copies on
   **one** install. Both are honest about it; neither needs re-running, but both
   would improve most from evidence this box cannot reach.
+
+---
+
+## 7. How a claim is written here — the current-state rule
+
+**A topic file states what is true now. It never states what it used to say.**
+
+1. **Correcting a claim means rewriting the claim.** Edit the sentence, the table cell,
+   the number, in place. Do **not** leave the old text standing under a correction note.
+   If a reader can get the wrong answer by reading top-down or by grepping a single line,
+   the edit is not finished.
+2. **History goes in one place or nowhere.** If the *fact that we were wrong* is itself
+   worth keeping — because it would otherwise be re-derived, or because it burned a
+   release — it is **one line** in a `## Changelog` at the bottom of the file:
+   `2026-08-04 — §4.8 duration sinks: "carries" ≠ "displays"; aspect-less, no readback.`
+   Cap: 20 entries or 2 KB, whichever comes first; drop entries older than two patches.
+   Anything longer belongs in `projects/<addon>/docs/`.
+3. **A measurement is a claim plus a tag, not a story.** Write the claim in the present
+   tense and tag it `[client YYYY-MM-DD]`. **One** sentence of method is allowed if the
+   method is load-bearing. The spec, the character, the addon build, what we tried first
+   and how many builds it cost are session facts — they go in the project docs.
+4. **Dates appear in exactly four places:** front matter (`fetched`/`reviewed`), a citation
+   stamp, a `[client YYYY-MM-DD]` provenance tag, and the `## Changelog`. **A date in prose
+   is a defect.** A citation stamp is any bracketed tier tag carrying the date *inside* the
+   brackets — `[T2 wiki: …, revid X, 2026-02-19]`, `[T2 bug: WoWUIBugs#414, closed 2025-03-07]`.
+   An external event's date (a bug filed, an issue closed, a repo last pushed) **is**
+   provenance and keeps its date — put it in the citation, not in the sentence.
+5. **No numbered "findings" list in a reference body.** A finding is merged into the
+   section it amends. Out-of-order ordinals are the signature of a file being appended to
+   instead of edited.
+6. **A claim is scoped to the API, not the call site.** "`SetText` with a secret marks
+   anchoring secret" — not "our FontString broke because…". If a fact is only true of
+   CDMProbe/Demonology/one build, it is not a KB fact; it belongs in the project.
+7. **Unsettled findings do not go in a topic file at all.** They go in a queue (§1.2).
+   A topic file asserts; a queue file asks.
+
+### The gates
+
+`wowkb.kblint` runs these in CI. Each must return zero.
+
+```bash
+# 1 — no retrospective prose outside a Changelog section
+awk '/^## Changelog/{skip=1} skip{next} 1' knowledge/addon-dev/*.md \
+| grep -nEi 'an earlier (draft|version|pass|run|note)|previously (said|read|cited|written|showed|gave|asserted)|\[corrected|used to (be|read|say|assert|show)|GRADE CORRECTION|\*\*Correction|Adversarial verification pass'
+
+# 2 — every date sits in front matter, a citation, a [client] tag, or the Changelog.
+# ⚠ The Changelog is skipped by CONTENT, not by its heading line — rule 2 mandates dated
+# entries there, so a file that complies must not fail its own gate.
+# The three QUEUES are exempt: a queue entry IS a dated event (§1.2). So is sources.md,
+# a registry whose rows are "what was on disk, when".
+for f in knowledge/addon-dev/*.md; do
+  case "$f" in *observations.md|*mined-pending-verification.md|*12.1.0-ptr-heads-up.md|*sources.md) continue;; esac
+  awk '/^## Changelog/{skip=1} skip{next} 1' "$f" \
+  | grep -nE '20[0-9]{2}-[0-9]{2}-[0-9]{2}' \
+  | grep -vE '\[(T[0-9][^]]*|client) 20|revid [0-9]+, 20|pushed_at 20|created_at 20|^[0-9]+:(patch|fetched|reviewed|title|sources|  -)' \
+  | sed "s|^|$f:|"
+done
+
+# 3 — no section corrected by a later part of the same file
+grep -nE '(⚠⚠?|❌).{0,120}§[0-9]' knowledge/addon-dev/*.md
+```

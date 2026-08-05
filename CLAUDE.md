@@ -180,6 +180,15 @@ touching the code**. Status as of 2026-07-09:
   blocked behind it. Build history is in `docs/archive/`. The addon
   (`michac/CDMProbe`) is at `addon/` (own git repo, gitignored, own `CLAUDE.md` for
   the release workflow). (Current addon version: `wowkb.addon list`.)
+- `projects/addon-lab/` — **ClientLab**: the scratch lab addon that answers
+  `knowledge/addon-dev/` questions by running Lua in the live client, plus
+  **`questions.json`, the test registry** (four statuses:
+  `answered`/`built`/`parked`/`not-answerable`). Deliberately **not** a product: no repo,
+  no releases, not in `wowkb.addon`; deploy is a directory copy. **An unknown is recorded
+  as a marker on the claim, not in a tool** — `[gap]`/`@verify-ingame` → `@pending-test:
+  <id>` once a test exists → `[client YYYY-MM-DD]` once drained. A marked claim you are
+  about to build on is a **STOP: ask**. Nothing ages an open marker. The process is
+  `docs/lab-process.md`; the addon rules are its `CLAUDE.md`.
 - `todo/` — design docs / specs with milestone logs for the above
   (`rotation-trainer.md`, `talent-calculator-prototype.md`). The informal
   "what's unfinished" inventory, but not exhaustive (mplus_memory's spec lives
@@ -238,8 +247,21 @@ uv run python -m wowkb.addon release <bb|cdmp|ps> [--patch|--minor|--major] [--n
 uv run python -m wowkb.addon deploy <bb|cdmp|ps>         # redeploy the latest existing release via ghaddons (no new cut)
 uv run python -m wowkb.cdmp flight                      # the PASS/FAIL ACCEPTANCE REPORT for an in-game pass recorded by `/cdmp flight` (run this after a test build)
 uv run python -m wowkb.cdmp decisionlog                 # extract the CDMProbe pipeline DECISION LOG off SavedVariables → flat .log (see below)
-uv run python -m wowkb.cdmp curvelab                    # ⚠ TEMPORARY — flatten + GRADE the `/cdmp curve` secret-display lab (see below)
+uv run python -m wowkb.capture <bb|cdmp|clab|ps> [stream]  # THE ONE READER for addon captures — `<DB>.captures.<stream>` → greppable .log (`--list` for streams + bounds)
+uv run python -m wowkb.lab [deploy|show|drain|blocked]  # the ClientLab addon-dev lab: deploy the scratch addon (a directory copy + the id ⇄ ns.Test{} cross-check), read a run (`show` = result BESIDE expect, never a verdict), drain an answer into the KB. `blocked` = the untested rows, grouped by the capability each waits on. ⚠ An UNKNOWN is not filed here — it is a marker on the claim in knowledge/addon-dev/ (projects/addon-lab/docs/lab-process.md)
+uv run python -m wowkb.obs [list|check|drain OBS-nnn]   # the addon-dev observations queue + its drain; `check` gates a --minor/--major release
+uv run python -m wowkb.kblint                           # the knowledge/addon-dev gates (README §7's current-state rule); exit 1 on any hit
 ```
+
+**`wowkb.capture` is the one door for getting data out of an addon.** Every recorder in
+every addon writes to a single SavedVariables key with one shape
+(`<AddonDB>.captures.<stream>`), and this is the only thing that reads it — which is the
+enforcement: an addon that writes the wrong shape fails here, loudly, the first time
+anyone reads a capture. Graders stay per-addon (`wowkb.cdmp flight`) and consume
+`capture.load()` rather than globbing a path. The contract, the Lua-side `Capture.lua` /
+`DumpPanel.lua` interfaces and the dump-panel design live in
+`.claude/skills/wow-developer/references/capture-and-dump-standard.md`.
+⚠ SavedVariables only flush on `/reload` or logout.
 
 Blizzard + WCL commands require credentials in `.env` (user-registered).
 
@@ -316,20 +338,6 @@ instrument for "why does `/cdmp hud` show nothing here?". ⚠ SavedVariables onl
 `probe-baseline.json` assertion suite was retired 2026-07-29 — the readability rules it
 discovered are settled game-wide, and a spec's tracked set comes from wago DB2 via
 `wowkb.spec_inventory`, so per-spec re-measurement bought nothing.)*
-
-**`wowkb.cdmp curvelab`** is ⚠ **TEMPORARY**, and it reads the Cooldown HUD's
-**curve / secret-display lab** (`/cdmp curve`, addon `CurveLab.lua`). Midnight 12.0 seals the
-values that HUD most wants, and Blizzard shipped **curves** and **duration objects** as the
-sanctioned way to *display* a secret without inspecting it — a technique nothing in this
-workspace had ever called. The lab measures **which visual channels can actually carry a
-secret to the screen**; this flattens the capture and **grades** it. ⚠ It grades on whether a
-secret was ever actually put in front of a sink, **not** on whether the run completed: three
-of the five verdicts are "we learned nothing" in disguise. **Exit 1** = a POISONED anchor
-chain, a negative control that passed (they exist to *fail*), or the canary fired · **exit 2**
-= nothing wrong but no cell ever ran on a real secret, which must never read as a pass ·
-**exit 0** = every cell has a verdict and at least one ran on a secret. Delete this
-subcommand with the addon file once the answers land in
-`knowledge/addon-dev/security-taint-and-restricted-data.md` §4.8.
 
 **`wowkb.character`** is the one-shot snapshot for `knowledge/characters/`:
 it pulls every Blizzard profile endpoint (summary/equipment/specs/professions/

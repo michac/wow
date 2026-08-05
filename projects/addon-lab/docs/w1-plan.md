@@ -26,8 +26,10 @@ Three findings that the program doc gets wrong or does not mention:
 
 1. **The addon-dev marker backlog is invisible to `wowkb.gen_verify`.** That tool
    deliberately ignores a marker written inside `` `backticks` `` (prose vs. live
-   marker — `gen_verify.py:43` `_strip_code`). **64 of 68** addon-dev markers are
-   backticked, so `_meta/verify-in-game.md` lists **zero** addon-dev items.
+   marker — `gen_verify.py:43` `_strip_code`). Addon-dev markers are backticked, so
+   `_meta/verify-in-game.md` lists **zero** addon-dev items. (Counts drift; run
+   `grep -rn '@verify-ingame' knowledge/addon-dev/` rather than trusting a number
+   written here — one bare marker is a leak, and this doc cannot know about it.)
    *Decision: leave it that way.* `README.md:33-37` sets a hard firewall between
    the game KB and the addon-dev subtree, and dumping 45 engineering questions into
    the game-side verify checklist (currently 29 items) breaks it. `grep -rn

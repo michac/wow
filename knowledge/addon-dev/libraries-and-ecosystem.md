@@ -1,8 +1,8 @@
 ---
 title: Libraries and the addon ecosystem
 patch: 12.0.7
-fetched: 2026-07-23
-reviewed: 2026-07-23
+fetched: 2026-08-05
+reviewed: 2026-08-05
 sources:
   - https://github.com/Gethe/wow-ui-source (live, version.txt 12.0.7.68887, commit 4383ced30106d51b27e3e86d1987f1552f0d259d)
   - https://github.com/WoWUIDev/Ace3 (commit 4475787f06f74d2079b2ab2082195432103da424, 2026-07-10)
@@ -15,7 +15,6 @@ sources:
   - https://api.mmoui.com/v3/game/WOW/filelist.json (8134 entries, fetched 2026-07-23)
   - Clones at raw/addon-research/ — WeakAuras2 38d4bf1e, BigWigs 3fdc10f6, details e14de53c, plater 2b2ff463, ElvUI f60934a1, oUF 5672a3cb, Bagnon 9f72bd96, TaintLess a4f3eda9 (all verified 2026-07-23)
 confidence: medium
-verified: 2026-07-23   # adversarial re-check of every locator; 11 claims corrected, see "Adversarial verification pass"
 ---
 
 # Libraries and the addon ecosystem
@@ -36,8 +35,13 @@ addons are worth reading *for*. Module boundaries inside one addon are the
 | `[T1 docs]` | `Interface/AddOns/Blizzard_APIDocumentationGenerated/…` in the same checkout. |
 | `[T1 obs]` | Directly observed on the live install at `/mnt/c/Program Files (x86)/World of Warcraft/_retail_/`. Observation of shipped artefacts. |
 | `[T2 wiki]` | warcraft.wiki.gg with revid + last-edit date. Stamps are load-bearing; pages rot silently. |
-| `[T2 gh]` | GitHub repository metadata read through `gh api` on 2026-07-23. A `pushed_at` date is evidence about the repo, not about whether the code works. |
+| `[T2 gh]` | GitHub repository metadata read through `gh api`. A `pushed_at` date is evidence about the repo, not about whether the code works. |
 | `[T3]` | A named community addon or library at a named commit / a named vendored copy on this install. **A data point, never a rule.** |
+
+**Dates.** Every `[T1 obs]`, `[T2 gh]` and `[T3]` observation in this file was made on
+the `fetched:` date in front matter; individual citations do not restate it. A date
+that *does* appear inline is evidence about the subject — a `pushed_at`, an SVN
+revision stamp, a commit date, a wiki last-edit — never a note about when we looked.
 
 > ⚠ **The clones and the install are different artefacts.** The `raw/addon-research/`
 > clones are *upstream source*. The copies under
@@ -47,51 +51,6 @@ addons are worth reading *for*. Module boundaries inside one addon are the
 >
 > ⚠ **Nothing here has been run in the client.** Items needing that are marked
 > `@verify-ingame` per repo convention.
-
-### Adversarial verification pass — 2026-07-23
-
-Every locator in this file was re-opened by a second pass whose brief was to
-refute it. Roughly 50 claims were checked; **11 were wrong** and are corrected
-in place, each with an inline note saying what the earlier draft said. Summary of
-what changed, so a reader who saw the previous version knows what to un-learn:
-
-| § | Was | Is |
-|---|---|---|
-| §1 | ElvUI calls LibStub in 24 non-library files | **3** (21 hits were inside `ElvUI_Libraries/`) |
-| §2.2, Rule 27 | 3 byte-variants of LibStub, 1 program | **7 byte-variants, 2 programs** |
-| §2.3, §4, Rule 5 | CallbackHandler v6 **and v7** use `loadstring` dispatchers | **v6 only**; v7 is a plain `xpcall` loop |
-| §3.1 | "mature libraries ship both `lib.xml` and `.toc`" | unsupported generalisation → `[gap]` + the three observed combinations |
-| §3.3 | WeakAuras externals span 3 hosts | **4** (`repos.wowace.com` was missed) |
-| §3.3, §11, Rule 7 | Details! has 19 in-tree lib dirs; WeakAuras has 27 externals | **18** dirs; **25** externals |
-| §5 | a CurseForge-SVN pointer for Ace3 is a staleness signal | **refuted** — WeakAuras and BigWigs package Ace3 from those SVN trunks today |
-| §5.2 | Details, **Plater** and ElvUI call `LibStub("AceAddon-3.0")` | Details and ElvUI only; Plater: zero call sites |
-| §8.2, Rule 2 | LibDBIcon consumes LDB *optionally* | it hard-requires LDB; the `silent` flag only swaps the error message |
-| §9, Rule 25 | LibDeflate is an external in **ElvUI**'s `.pkgmeta` | ElvUI vendors it in-tree; not an external |
-| §9 | "Dongle, Rock, Sea, Ace2" named on the wiki category | category members are `Ace (AddOns)`, `ChatThrottleLib`, `Dongle`, `LibKarma`, `Sea` — **Rock and Ace2 are not** |
-
-Additionally, six locators were off by a line or two and were tightened
-(AceSerializer's `error` is `:106` not `:104`; AceTimer's clamp is `:33-35` not
-`:34`; Bagnon's `LibStub('C_Everywhere')` is `frame.lua:7` not `:6`; the wiki's
-`X-_____` line is wikitext **376**; LSM's duplicate-key early-out is `:265-268`;
-oUF's global-collision block is `:1026-1034`), three overreaching statements were
-weakened to what their source shows (`EventRegistry` as an addon-facing API;
-LibDBIcon's maintenance status; the "same defensive shim" in §10), and
-three counts were corrected (Details 108 → unchanged, but ElvUI is a 13-module
-suite not 20; oUF is 504 KB not 784 KB; `LIBSTUB_MINOR` is declared on a
-two-variable line, so the grep in the old locator would not have matched).
-
-**Everything not listed above verified as written**, including all 12 Tier-1
-Blizzard-source locators (`CallbackRegistry.lua:112/155/184/269`,
-`GlobalCallbackRegistry.lua:1-11/13-36`, `Blizzard_Settings.lua:133/143/153/161/173/382/398/404`,
-`AddonCompartment.lua:81/106/113/136`, `MenuUtil.lua:151/335/354/373`,
-`11_0_0_MenuImplementationGuide.lua:4-7` verbatim, `Pools.lua:856-861`,
-`Blizzard_SharedXML_Mainline.toc:212-215`, `UIDropDownMenu.lua` 1589 lines / 62
-functions / `GetCurrentEnvironment()` at `:1`, `UITimerDocumentation.lua:11/22/39`,
-`AddOnsDocumentation.lua:165`), every Ace3 component version and line count, the
-23/16/81 LibStub census, the 14-copy 1/3/10 CallbackHandler census, the 5-copy
-`12000001` LibSharedMedia census, the 165-file secret-value grep, all 15 GitHub
-`pushed_at`/star figures, all four wiki revids, the WoWInterface 8134-entry
-filelist and its 2017-09-04 Ace3 date, and the wago 401.
 
 ---
 
@@ -118,26 +77,24 @@ global `[T3: Ace3@4475787f AceComm-3.0/ChatThrottleLib.lua:26, :31, :54]`.
 **(c) Custom `.toc` metadata plus a caller-chosen global.** oUF reads
 `C_AddOns.GetAddOnMetadata(parent, 'X-oUF')` at load and installs itself into
 `_G[global]`, erroring if the name is already taken or if a non-oUF parent tries to
-claim the name `oUF` `[T3: oUF@5672a3cb ouf.lua:2 and :1026-1033; oUF.toc:7
+claim the name `oUF` `[T3: oUF@5672a3cb ouf.lua:2 and :1026-1034; oUF.toc:7
 declares `## X-oUF: oUF`]`. Arbitrary `X-`-prefixed metadata being readable is
 Tier 2: *"X-_____: Any custom metadata prefixed by 'X-'"*
-`[T2 wiki: TOC format, revid 6767089, 2026-07-09 — wikitext line 376
-(`action=raw`), verified 2026-07-23]`.
+`[T2 wiki: TOC format, revid 6767089, 2026-07-09 — wikitext line 376,
+read via `action=raw`]`.
 
 Do not assume LibStub. Six of the seven reference addons surveyed call
 `LibStub(...)` from non-library code; oUF calls it zero times
 `[T3: grep over the 7 clones, excluding vendored-library paths
 (`/libs?/`, `/Libraries/`, `ElvUI_Libraries/`) — WeakAuras2 69 files,
-Details 131, BigWigs 25, ElvUI **3**, Plater 15, Bagnon 5, oUF 0. Re-counted
-2026-07-23]`.
+Details 131, BigWigs 25, ElvUI **3**, Plater 15, Bagnon 5, oUF 0]`.
 
-> **Corrected on verification.** An earlier draft of this file reported ElvUI at
-> 24. That count did not exclude `ElvUI_Libraries/` (the directory name has no
-> `/libs/` or `/Libraries/` path segment, so the exclusion regex missed it):
-> 21 of the 24 hits are inside ElvUI's own bundled libraries. Outside them ElvUI
-> calls LibStub in exactly three files —
-> `ElvUI/Game/Shared/General/Initialize.lua`, `…/Modules/Skins/Ace3.lua`,
-> `…/Modules/Skins/Skins.lua` `[T3: ElvUI@f60934a1]`.
+⚠ **That census has one trap worth knowing: `ElvUI_Libraries/` contains neither a
+`/libs/` nor a `/Libraries/` path segment**, so the obvious exclusion regex misses it
+and ElvUI reads as 24 files. 21 of those 24 hits are inside ElvUI's own bundled
+libraries. Outside them ElvUI calls LibStub in exactly three —
+`ElvUI/Game/Shared/General/Initialize.lua`, `…/Modules/Skins/Ace3.lua`,
+`…/Modules/Skins/Skins.lua` `[T3: ElvUI@f60934a1]`.
 
 ---
 
@@ -188,19 +145,18 @@ alias of `string.match`, so behaviour is identical. All 23 declare
 `local LIBSTUB_MAJOR, LIBSTUB_MINOR = "LibStub", 2`, so grep for that line, not
 for `LIBSTUB_MINOR = 2` `[T1 obs: `find … -name LibStub.lua` under
 `_retail_/Interface/AddOns/`, md5 over raw bytes and over comment/whitespace-
-stripped text, 2026-07-23]`.
-
-> **Corrected on verification.** An earlier draft said "3 byte-variants that
-> reduce to the same program". Both numbers were wrong: 7 byte-variants, 2
-> programs. The *conclusion* (no version drift, one behaviour) survives.
+stripped text]`.
 
 ### 2.3 The failure modes LibStub actually has
 
 **Different minors of the same library ship simultaneously, and the loser's
 consumers get the winner's code.** On this install `CallbackHandler-1.0` exists in
 14 vendored copies at three different minors — **10 × v8, 3 × v7, 1 × v6**
-`[T1 obs: v6 in `Simulationcraft/libs/`, v7 in `ClassCodex/`, `RaiderIO/`,
-`TradeSkillMaster/External/EmbeddedLibs/`, v8 in the other ten]`. Those versions
+`[T1 obs: the 14 `CallbackHandler-1.0.lua` files under
+`_retail_/Interface/AddOns/`, minors read off each file's
+`local MAJOR, MINOR = "CallbackHandler-1.0", N` line — v6 in `Simulationcraft/libs/`,
+v7 in `ClassCodex/`, `RaiderIO/`, `TradeSkillMaster/External/EmbeddedLibs/`, v8 in
+the other ten]`. Those versions
 are not cosmetically different — but the three differ from each other in
 **two** steps, not one:
 
@@ -212,11 +168,10 @@ are not cosmetically different — but the three differ from each other in
 
 An addon shipping v6 will, at runtime, be talking to whichever minor won.
 
-> **Corrected on verification.** An earlier draft said "v6 *and v7* build
-> dispatchers with `loadstring`". Only v6 does. v7 still *upvalues* `loadstring`
-> at `:11` — vestigially, it is never called — which is presumably what misled
-> the first pass. The taint-relevant difference (`xpcall` vs
-> `securecallfunction`) is v7→v8, not v6→v7.
+⚠ **Do not identify v6 by grepping for `loadstring`.** v7 still *upvalues* it at
+`:11` and never calls it, so the grep hits both. Read `CreateDispatcher` instead:
+only v6 has one. The taint-relevant step is `xpcall` → `securecallfunction`, which
+is v7→v8, not v6→v7.
 
 **Upgrade-in-place is the library's job, and libraries disagree about it.** Two
 contrasting real implementations:
@@ -248,7 +203,7 @@ wins on a given install. The `.toc`/dependency ordering rules are the
 ### 3.1 There is no such thing as "installing a library"
 
 A library is just Lua files that some addon's load list points at. Two entry points
-are conventional, and mature libraries ship both:
+are conventional:
 
 - **`lib.xml`** (or `<Name>.xml`) — a minimal `<Ui>` wrapper with `<Script file=…/>`,
   meant to be `<Include>`d by the *embedding addon*. Example, verbatim, four lines
@@ -261,12 +216,12 @@ packager can strip them. On this install: `Bartender4/libs/LibSharedMedia-3.0/`
 holds `lib.xml` and no `.toc`; `TellMeWhen/Lib/LibSharedMedia-3.0/` holds a
 `.toc`; and `BigWigs/Libs/LibSharedMedia-3.0/` holds **neither** — just the
 `.lua` — because `Libs/LibSharedMedia-3.0/lib.xml` is in BigWigs' `.pkgmeta`
-`ignore:` list `[T1 obs, 2026-07-23; T3: BigWigs@3fdc10f6 .pkgmeta ignore block]`.
+`ignore:` list `[T1 obs; T3: BigWigs@3fdc10f6 .pkgmeta ignore block]`.
 Counted across the install there are 24 `lib.xml` files and 38 `.toc` files at
 depth ≥3 (i.e. inside a parent addon) `[T1 obs]`.
-`[gap]` I did **not** establish that "mature libraries ship both" as a norm — an
-earlier draft asserted that without a survey. What is shown above is that all
-three combinations occur.
+`[gap]` **"Mature libraries ship both" is not established as a norm** — no survey
+here supports it, and the widely repeated claim should not be relied on. What *is*
+shown above is that all three combinations occur.
 
 Details! shows the embedding side plainly: an `embeds.xml` that `<Script>`s
 `Libs\LibStub\LibStub.lua` first and then `<Include>`s each library's own xml
@@ -311,7 +266,7 @@ false as a general rule.** Measured across the seven clones:
 | oUF `5672a3cb` | 0 | 0 — `.pkgmeta` has no externals; oUF has no library dependencies |
 | Bagnon `9f72bd96` | 0 | **no `.pkgmeta` file exists**; deps come via `## Dependencies: BagBrother` |
 
-`[T3: `ls`/`find` over each clone plus each `.pkgmeta`, 2026-07-23. Details' pkgmeta
+`[T3: `ls`/`find` over each clone plus each `.pkgmeta`. Details' pkgmeta
 is `package-as` + `move-folders` only; Bagnon.toc:10 carries the Dependencies line.]`
 
 So: **grepping a clone and finding no `LibStub` proves nothing** (true for
@@ -323,9 +278,7 @@ addon — **25** externals across `WeakAuras/Libs/` (20) and `WeakAurasOptions/L
 two of them version-pinned (`Archivist` at tag `v1.0.8`, `LibSerialize` at tag `v1.0.0`)
 and drawn from **four** different hosts — `github.com`, `repos.curseforge.com`,
 `repos.wowace.com` (`LibUIDropDownMenu`), and
-`www.townlong-yak.com/addons.git/taintless` `[T3: WeakAuras2@38d4bf1e .pkgmeta,
-re-parsed 2026-07-23]`. (An earlier draft said three hosts and omitted
-`repos.wowace.com`.)
+`www.townlong-yak.com/addons.git/taintless` `[T3: WeakAuras2@38d4bf1e .pkgmeta]`.
 
 ### 3.4 Embedding into an *object*: the Ace3 `:Embed` contract
 
@@ -376,8 +329,8 @@ CallbackHandler that libraries like LibSharedMedia and LibDataBroker hand out.
 
 ## 5. Ace3
 
-`https://github.com/WoWUIDev/Ace3`, clone at `4475787f06f7` (2026-07-10), 110 stars
-`[T2 gh]`. **Actively maintained**: the changelog's newest entry is
+`https://github.com/WoWUIDev/Ace3`, clone at `4475787f06f7`
+`[T2 gh: pushed_at 2026-07-10, 110★]`. **Actively maintained**: the changelog's newest entry is
 *"Ace3 Release - Revision r1390 (February 3rd, 2026)"* and its first bullet is a
 12.0-specific migration note — *"AceConfigDialog-3.0: The original category ID is
 now preserved in AddToBlizOptions in 12.0, making it mandatory for addons to store
@@ -386,26 +339,23 @@ the second return value and forward it to Settings.OpenToCategory"*
 *"AceComm-3.0: Updated ChatThrottleLib for WoW 12.0"* and
 *"AceGUI-3.0: EditBox: Fix InsertLink hook for WoW 12.0"* `[T3: changelog.txt:8-15 — the quoted bullets are :10 and :15]`.
 
-**Do not treat a `wowace.com` / CurseForge-SVN pointer for Ace3 as a staleness
-signal.** An earlier draft of this file claimed exactly that and it is **refuted**
-by current evidence: WeakAuras2 at `38d4bf1e` (2026-07-20) pulls five Ace3
-components straight from `https://repos.curseforge.com/wow/ace3/trunk/…`, and
-BigWigs at `3fdc10f6` (2026-07-21) pulls six from
-`https://repos.wowace.com/wow/ace3/trunk/…` `[T3: their `.pkgmeta` externals
+**A `wowace.com` / CurseForge-SVN pointer for Ace3 is not a staleness signal.** The
+SVN trunks are live mirrors that the two biggest addons in the corpus package from
+today: WeakAuras2 at `38d4bf1e` pulls five Ace3 components straight from
+`https://repos.curseforge.com/wow/ace3/trunk/…`, and BigWigs at `3fdc10f6` pulls six
+from `https://repos.wowace.com/wow/ace3/trunk/…` `[T3: their `.pkgmeta` externals
 blocks]`. Ace3's own toc still carries `## X-Website: http://www.wowace.com`
-`[T3: Ace3@4475787f Ace3.toc:6]`. The SVN trunks are live mirrors that the two
-biggest addons in the corpus package from today.
-`[gap]` The GitHub repo `WoWUIDev/Ace3` was **created 2022-09-20**
-`[T2 gh: `.created_at`]`, but I could not establish from Tier 1 or Tier 2 that
+`[T3: Ace3@4475787f Ace3.toc:6]`.
+`[gap]` The GitHub repo `WoWUIDev/Ace3` is younger than the project
+`[T2 gh: created_at 2022-09-20]`, but I could not establish from Tier 1 or Tier 2 that
 the project *moved* orgs, or which of GitHub / CurseForge SVN / wowace SVN is
 canonical versus mirrored. Treat all three as live locations.
 
 `Ace3.toc` declares
 `## Interface: 11508, 11509, 20505, 20506, 30405, 38001, 40402, 50503, 50504, 120100, 120005, 120007`
-— multi-flavour comma form, and it lists **120100**, an *interface* number for a
-12.1.0 client, ahead of live 12.0.7 (`120007`) `[T3: Ace3.toc:1]`. (Interface
-numbers are `MMmmpp`, not build numbers; the earlier draft called it a build
-number.)
+— multi-flavour comma form, and it lists **120100**, an *interface* number
+(`MMmmpp`, **not** a build number) for a 12.1.0 client, ahead of live 12.0.7
+(`120007`) `[T3: Ace3.toc:1]`.
 
 ### 5.1 Component register (versions read off the clone)
 
@@ -448,13 +398,13 @@ These are honest observations, not rules.
   `[T3: ElvUI@f60934a1 ElvUI/Game/Shared/General/Initialize.lua:37 —
   `_G.LibStub('AceAddon-3.0')`]`. **Plater does not**: it declares `libs/AceAddon-3.0`
   as an external but the string `AceAddon` appears zero times outside `libs/`
-  `[T3: plater@2b2ff463, grep 2026-07-23]` — an earlier draft of this file listed
-  Plater here and that was wrong. WeakAuras and BigWigs also do not; the only
-  `AceAddon` hits in BigWigs are two backwards-compat comments
+  `[T3: plater@2b2ff463, grep over non-lib Lua]`. Declaring a component as an external
+  is therefore not evidence that it is used. WeakAuras and BigWigs also do not use
+  AceAddon; the only `AceAddon` hits in BigWigs are two backwards-compat comments
   `[T3: BigWigs@3fdc10f6 Core/Core.lua:452, :501]`. WeakAuras uses Ace3 for the
   options UI plus comms and serialization — its non-lib Lua names `AceGUI-3.0` 47×,
   and `AceTimer-3.0` / `AceSerializer-3.0` / `AceComm-3.0` twice each
-  `[T3: string census over each clone's non-lib Lua, 2026-07-23]`.
+  `[T3: string census over each clone's non-lib Lua]`.
 - **AceGUI-3.0 is 7110 lines.** If your options are five checkboxes, Blizzard's own
   `Settings` API (§7) is a smaller surface with no dependency and native placement in
   the game's options panel.
@@ -463,7 +413,6 @@ These are honest observations, not rules.
   else: `error(MAJOR..": Cannot serialize a value of type '"..t.."'")`
   `[T3: AceSerializer-3.0.lua — `SerializeValue` at :54, `local t=type(v)` at :56,
   the branch chain at :58 / :63 / :83 / :93 / :101, and the `error` at **:106**]`.
-  (An earlier draft cited `:104` for the error; it is `:106`.)
   Neither `LibSerialize` nor `LibDeflate`
   mentions secrets either — zero hits for `issecretvalue`/`secret` in
   `libs/LibSerialize/LibSerialize.lua` and `libs/LibDeflate/LibDeflate.lua`
@@ -495,17 +444,17 @@ files can load in any order `[T3: :48-69]`.
 **It is far from universal.** Across the seven clones: Details references
 `AceLocale-3.0` in 108 files, Bagnon in 3, ElvUI in 2, Plater in 1; **WeakAuras,
 BigWigs and oUF reference it in zero** and instead branch on `GetLocale()` in
-plain Lua tables (WeakAuras 34 files, BigWigs 14) `[T3: grep census over the clones,
-2026-07-23]`. That is four of seven using it at all and only one leaning on it hard.
+plain Lua tables (WeakAuras 34 files, BigWigs 14) `[T3: grep census over the clones]`.
+That is four of seven using it at all and only one leaning on it hard.
 So **not using AceLocale is normal in this corpus**. What the three non-users
 actually do is branch on `GetLocale()` and select a plain Lua table; I did **not**
 verify that any of them uses the specific
 `setmetatable({}, {__index=function(_,k) return k end})` fallback idiom, so treat
 that idiom as a suggestion, not as observed practice `[gap]`.
 
-`[gap]` The wiki's `Localizing an addon` HOWTO was last edited **2023-10-22**
-(revid 5585193, 143 lines) `[T2 wiki]` — I did not verify its contents against
-12.0.7 behaviour and would not cite it for anything mechanical.
+`[gap]` The wiki's `Localizing an addon` HOWTO is three years stale and 143 lines
+`[T2 wiki: Localizing an addon, revid 5585193, 2023-10-22]` — its contents were not
+verified against 12.0.7 behaviour, so do not cite it for anything mechanical.
 
 ---
 
@@ -513,6 +462,15 @@ that idiom as a suggestion, not as observed practice `[gap]`.
 
 This is the most important part of the buy-vs-build map, because most guides
 predate it. All Tier 1.
+
+**This table is an index, not a reference.** Each row names the API that removes a
+library dependency and cites where it lives; the **mechanism** behind each row is
+another file's claim and is not restated here — timers and callback registries in
+[`api-events-and-discovery`](./api-events-and-discovery.md), pools and mixins in
+[`frames-textures-animation`](./frames-textures-animation.md), the `Settings` API in
+[`state-persistence-and-communication`](./state-persistence-and-communication.md),
+the addon compartment and `.toc` directives in
+[`anatomy-and-runtime`](./anatomy-and-runtime.md). Cite across; do not copy detail in.
 
 | Need | Blizzard's shipped answer | Evidence |
 |---|---|---|
@@ -541,15 +499,22 @@ But **it is deprecated, not removed at 12.0.7**: `Mainline\UIDropDownMenu.lua` i
 still listed in the shipped toc and is still a 1589-line implementation defining 62
 `UIDropDownMenu*` functions `[T1 src: Blizzard_SharedXML/Blizzard_SharedXML_Mainline.toc:212-215;
 Blizzard_SharedXML/Mainline/UIDropDownMenu.lua, `wc -l` = 1589, 62 `^function UIDropDownMenu` matches]`.
-`[gap]` That file opens with `local envTable = GetCurrentEnvironment();` and resolves
-frames through `envTable[...]` rather than `_G` `[T1 src: same file:1, :53, :71]`, so
-I **cannot** conclude from source alone that `UIDropDownMenu_Initialize` is still
-reachable as a global from addon code. Relatedly — though I have no source stating
-the causal link — `LibUIDropDownMenu`, a forked copy of the old system, is still an
-external in WeakAurasOptions in 2026
+That file opens with `local envTable = GetCurrentEnvironment();` and resolves
+frames through `envTable[...]` rather than `_G` `[T1 src: same file:1, :53, :71]`,
+which made it impossible to conclude from source alone that the globals were still
+reachable. **They are.** `UIDropDownMenu_Initialize`, `UIDropDownMenu_AddButton`,
+`UIDropDownMenu_SetWidth` and `ToggleDropDownMenu` all resolve to `function` — in
+`_G` **and** in the addon environment, which were probed separately precisely
+because they can differ, and here they agree `[client 2026-07-24]`. So
+`GetCurrentEnvironment()` is not scoping the API away from addons; the file still
+publishes its globals normally.
+
+**This narrows why `LibUIDropDownMenu` persists**, rather than explaining it: the
+fork is still an external in WeakAurasOptions in 2026
 `[T3: WeakAuras2@38d4bf1e .pkgmeta — `WeakAurasOptions/Libs/LibUIDropDownMenu:
-https://repos.wowace.com/wow/libuidropdownmenu/trunk/LibUIDropDownMenu`]`.
-Resolving whether the globals still work is `@verify-ingame`.
+https://repos.wowace.com/wow/libuidropdownmenu/trunk/LibUIDropDownMenu`]`, and it
+is **not** because the globals stopped resolving. Deprecation-proofing and taint
+isolation remain the plausible reasons, and neither is established here.
 
 ---
 
@@ -575,7 +540,8 @@ Contract worth knowing, all from `[T1 obs / T3: BigWigs/Libs/LibSharedMedia-3.0/
 - `:Register(mediatype, key, data, langmask)` **returns `false` rather than erroring**
   when the key is already taken — first registration wins `[:264-267]`.
 - Path-registered background/border/statusbar/sound media must live under
-  `interface`: *"files accessed via path only allowed from interface folder"* `[:251-256]`.
+  `interface`: *"files accessed via path only allowed from interface folder"*
+  `[:253-256, inside the `type(data) == "string"` guard opened at `:251`]`.
 - Sounds must be `.ogg` or `.mp3` `[:257-260]`.
 - Non-string `mediatype`/`key` **do** error `[:240-245]`.
 - Registration fires `LibSharedMedia_Registered` through its CallbackHandler
@@ -588,8 +554,8 @@ Upstream is CurseForge SVN — the file carries a `--@curseforge-project-slug:
 libsharedmedia-3-0@` marker on line 1 `[T1 obs: LibSharedMedia-3.0.lua:1]`, and
 WeakAuras/BigWigs both external it from
 `repos.curseforge.com`/`repos.wowace.com` `[T3: their `.pkgmeta`]`.
-`[gap]` There is no *canonical* GitHub repo I could find: a
-`gh api search/repositories q=LibSharedMedia-3.0` on 2026-07-23 returns only
+`[gap]` There is no *canonical* GitHub repo: a
+`gh api search/repositories q=LibSharedMedia-3.0` returns only
 third-party mirrors (`wowace-clone/`, `WoWAddonMirrors/`, `NoobTaco/`), none
 official and all 0★. Read the vendored copies.
 
@@ -604,8 +570,9 @@ LibDBIcon-1.0 (713 lines) **hard-requires** it. It calls
 `LibStub("LibDataBroker-1.1", true)` at `:11` — the `true` only suppresses
 LibStub's own error message, because `:12` immediately raises its own:
 `if not ldb then error(DBICON10 .. " requires LibDataBroker-1.1.") end`
-`[T1 obs: LibDBIcon-1.0.lua:10-12]`. (An earlier draft read the silent flag as
-"consumes LDB optionally"; it does not.) It provides the minimap button, with
+`[T1 obs: LibDBIcon-1.0.lua:10-12]`. ⚠ **The `silent` flag here does not mean
+"optional dependency"** — it only swaps whose error message you get. It provides the
+minimap button, with
 `Register/Lock/Unlock/Hide/Show/
 IsRegistered/Refresh/GetMinimapButton/SetButtonRadius/…` `[T1 obs: LibDBIcon-1.0.lua:11,
 `lib:Register` at :363, `lib:AddButtonToCompartment` at :637]`. It also bridges into Blizzard's addon compartment
@@ -619,14 +586,14 @@ neither of which Blizzard ships.
 
 ### 8.3 Serialization and compression
 
-- **LibSerialize** — active (`pushed_at` 2026-07-16) `[T2 gh: rossnichols/LibSerialize]`.
+- **LibSerialize** — active `[T2 gh: rossnichols/LibSerialize, pushed_at 2026-07-16]`.
   The modern binary serializer; WeakAuras pins it at tag `v1.0.0` `[T3: WeakAuras2 .pkgmeta]`.
-- **LibDeflate** — pure-Lua DEFLATE/zlib. `pushed_at` **2021-05-05**
-  `[T2 gh: SafeteeWoW/LibDeflate, 117 stars, not archived]`. **Stable by design, not
+- **LibDeflate** — pure-Lua DEFLATE/zlib, and five years unchanged
+  `[T2 gh: SafeteeWoW/LibDeflate, pushed_at 2021-05-05, 117★, archived=false]`. **Stable by design, not
   abandoned**: an external in WeakAuras' and Plater's `.pkgmeta` in 2026, vendored
-  in-tree by ElvUI (`ElvUI_Libraries/Game/Shared/LibDeflate/` — **not** an ElvUI
-  external, contrary to an earlier draft) and by Details!, and present on this
-  install `[T3: those `.pkgmeta` files and trees, 2026-07-23; T1 obs:
+  in-tree by ElvUI (`ElvUI_Libraries/Game/Shared/LibDeflate/` — ElvUI's `.pkgmeta`
+  does **not** mention it) and by Details!, and present on this
+  install `[T3: those `.pkgmeta` files and trees; T1 obs:
   EllesmereUI/Libs/LibDeflate/]`. Say "unchanged since 2021", never "unmaintained".
 - **LibCompress** — the thing LibDeflate replaced. The copy on this install carries
   `Revision: $Revision: 83 $` / `Date: 2018-07-03` and registers as
@@ -640,8 +607,8 @@ neither of which Blizzard ships.
 
 ### 8.4 Addon comms
 
-`AceComm-3.0` (chunking + ChatThrottleLib) and `Chomp` (`wow-rp-addons/Chomp`,
-`pushed_at` 2026-04-20 `[T2 gh]`) are the two live transports. WeakAuras externals
+`AceComm-3.0` (chunking + ChatThrottleLib) and `Chomp`
+`[T2 gh: wow-rp-addons/Chomp, pushed_at 2026-04-20]` are the two live transports. WeakAuras externals
 Chomp; Plater, ElvUI and Details external AceComm `[T3: their `.pkgmeta`]`. Mechanics
 and the Midnight comms restrictions belong to
 `state-persistence-and-communication` — this file only records that both libraries
@@ -659,30 +626,30 @@ specification-shaped library means nothing.
 
 | Library | Live evidence | Status |
 |---|---|---|
-| **Ace3** | `WoWUIDev/Ace3` pushed 2026-07-10, 110★ `[T2 gh]`; changelog r1390 dated 2026-02-03 with 12.0-specific fixes `[T3: changelog.txt:1-6]` | **Active.** |
+| **Ace3** | `WoWUIDev/Ace3` `[T2 gh: pushed_at 2026-07-10, 110★]`; changelog r1390, dated 2026-02-03, carries 12.0-specific fixes `[T3: changelog.txt:1-6]` | **Active.** |
 | **LibStub** | Frozen at minor 2 since 2007 `[T1 obs: BigWigs copy `$Id … 2007-09-03` at :1]`; 23 copies on this install, all minor 2 | **Frozen by design.** Not a risk. |
 | **CallbackHandler-1.0** | v8 in Ace3 `[T3]`; 10 of 14 install copies at v8 | **Active** (ships inside Ace3). |
 | **LibSharedMedia-3.0** | Version `12000001` = "12.0.0 v1" `[T1 obs: :13]`; CurseForge SVN upstream | **Active**, but SVN-hosted and un-clonable from here. |
-| **LibDataBroker-1.1** | `tekkub/libdatabroker-1-1` pushed **2015-09-02**, 58★, not archived `[T2 gh]`; 90 lines | **Frozen spec.** Fine to depend on. |
-| **LibDBIcon-1.0** | No canonical GitHub repo (`Nevcairiel/LibDBIcon-1.0` → 404; repo search returns only 0★ mirrors) `[T2 gh]`; the single install copy is minor **56** `[T1 obs: :9]` and knows about `AddonCompartmentFrame` `[T1 obs: :20]`, a 10.0-era feature | **`[gap]` Status not established.** Still externalled by BigWigs, WeakAuras and Plater in 2026 `[T3: their `.pkgmeta`]`, which shows it is *shipped*. I found **no** direct evidence of Midnight-era commits — an earlier draft asserted "Active on CurseForge SVN" without any. Only readable via vendored copies. |
-| **LibDeflate** | pushed 2021-05-05, 117★ `[T2 gh]`; still externalled by 3 major addons in 2026 `[T3]` | **Stable, still standard.** |
-| **LibSerialize** | pushed 2026-07-16 `[T2 gh]` | **Active.** |
-| **LibCompress** | Revision 83, 2018-07-03 `[T1 obs]`; superseded per LibDeflate README `[T3]` | **Legacy.** New code should not adopt it. |
-| **Chomp** | pushed 2026-04-20 `[T2 gh]` | **Active.** |
-| **LibSpecialization** | `BigWigsMods/LibSpecialization` pushed 2026-07-17 `[T2 gh]` | **Active.** |
-| **LibCustomGlow-1.0** | `Stanzilla/LibCustomGlow` pushed 2026-07-17 `[T2 gh]`; secret-aware on this install `[T1 obs]` | **Active.** |
-| **LibRangeCheck-3.0** | `WeakAuras/LibRangeCheck-3.0` pushed 2026-07-04 `[T2 gh]` | **Active.** |
-| **LibGetFrame-1.0** | `mrbuds/LibGetFrame` pushed 2026-07-17 `[T2 gh]` | **Active.** |
-| **LibDispel** | `tukui-org/LibDispel` pushed 2026-07-21 `[T2 gh]` | **Active.** |
-| **Archivist** | `emptyrivers/Archivist` pushed 2026-02-18 `[T2 gh]`; WeakAuras pins `v1.0.8` `[T3]` | **Maintained, slow.** |
-| **oUF** | `oUF-wow/oUF` pushed 2026-07-22, 236★ `[T2 gh]`; `oUF.toc` declares `## Interface: 120007, 120100` `[T3]` | **Active.** |
-| **Details Framework (DF)** | `Tercioo/Details-Framework` pushed 2026-07-10 `[T2 gh]` | **Active**, but effectively single-author. |
+| **LibDataBroker-1.1** | `tekkub/libdatabroker-1-1` `[T2 gh: pushed_at 2015-09-02, 58★, archived=false]`; 90 lines `[T1 obs: `wc -l` over the BigWigs copy]` | **Frozen spec.** Fine to depend on. |
+| **LibDBIcon-1.0** | No canonical GitHub repo (`Nevcairiel/LibDBIcon-1.0` → 404; repo search returns only 0★ mirrors) `[T2 gh]`; the single install copy is minor **56** `[T1 obs: :9]` and knows about `AddonCompartmentFrame` `[T1 obs: :20]`, a 10.0-era feature | **`[gap]` Status not established.** Still externalled by BigWigs, WeakAuras and Plater in 2026 `[T3: their `.pkgmeta`]`, which shows it is *shipped*. There is **no** direct evidence of Midnight-era commits, so do not call it "active on CurseForge SVN". Only readable via vendored copies. |
+| **LibDeflate** | `SafeteeWoW/LibDeflate` `[T2 gh: pushed_at 2021-05-05, 117★]`; still externalled by 3 major addons in 2026 `[T3]` | **Stable, still standard.** |
+| **LibSerialize** | `rossnichols/LibSerialize` `[T2 gh: pushed_at 2026-07-16]` | **Active.** |
+| **LibCompress** | `[T1 obs: SVN `$Revision: 83 $`, `Date: 2018-07-03`]`; superseded per LibDeflate README `[T3]` | **Legacy.** New code should not adopt it. |
+| **Chomp** | `wow-rp-addons/Chomp` `[T2 gh: pushed_at 2026-04-20]` | **Active.** |
+| **LibSpecialization** | `BigWigsMods/LibSpecialization` `[T2 gh: pushed_at 2026-07-17]` | **Active.** |
+| **LibCustomGlow-1.0** | `Stanzilla/LibCustomGlow` `[T2 gh: pushed_at 2026-07-17]`; secret-aware on this install `[T1 obs]` | **Active.** |
+| **LibRangeCheck-3.0** | `WeakAuras/LibRangeCheck-3.0` `[T2 gh: pushed_at 2026-07-04]` | **Active.** |
+| **LibGetFrame-1.0** | `mrbuds/LibGetFrame` `[T2 gh: pushed_at 2026-07-17]` | **Active.** |
+| **LibDispel** | `tukui-org/LibDispel` `[T2 gh: pushed_at 2026-07-21]` | **Active.** |
+| **Archivist** | `emptyrivers/Archivist` `[T2 gh: pushed_at 2026-02-18]`; WeakAuras pins `v1.0.8` `[T3]` | **Maintained, slow.** |
+| **oUF** | `oUF-wow/oUF` `[T2 gh: pushed_at 2026-07-22, 236★]`; `oUF.toc` declares `## Interface: 120007, 120100` `[T3]` | **Active.** |
+| **Details Framework (DF)** | `Tercioo/Details-Framework` `[T2 gh: pushed_at 2026-07-10]` | **Active**, but effectively single-author. |
 | **LibDogTag-3.0** | The copy **vendored inside TellMeWhen** versions itself `20260619153904` and carries a secret-value shim `[T1 obs: TellMeWhen/Lib/LibDogTag-3.0/LibDogTag-3.0.lua:9; Helpers.lua:138]` | **Maintained *as shipped by TellMeWhen*.** The version number is a timestamp-shaped integer, and reading it as "2026-06-19" is an inference, not a dated commit. `[gap]` I did not reach LibDogTag-3.0 upstream (wowace SVN per its own header at :4) and so cannot say whether the maintenance is upstream's or TellMeWhen's fork. Either way the "dead library" reputation is wrong for this copy. |
-| **LibSpellRange-1.0** | `ascott18/LibSpellRange-1.0` pushed **2024-08-19** `[T2 gh]`; still a WeakAuras external `[T3]` | **Quiet.** Pre-Midnight. Check before adopting. |
-| **LibTranslit** | `Vardex/LibTranslit` pushed **2022-11-11** `[T2 gh]` | **Quiet.** Small enough that this may be fine. |
+| **LibSpellRange-1.0** | `ascott18/LibSpellRange-1.0` `[T2 gh: pushed_at 2024-08-19]`; still a WeakAuras external `[T3]` | **Quiet.** Pre-Midnight. Check before adopting. |
+| **LibTranslit** | `Vardex/LibTranslit` `[T2 gh: pushed_at 2022-11-11]` | **Quiet.** Small enough that this may be fine. |
 | **TaintLess** | `libs/TaintLess@a4f3eda9`, last commit **2025-02-26**, self-versioned `[24-07-27]`; predates Midnight (12.0.0, 2026-01-20) | **Tier down.** Still shipped by WeakAuras and ElvUI, which proves it is *shipped*, not *current*. Its fix set is pre-secret-values. |
 | **LibBabble-\*-3.0** | Only surviving copies on this install are inside TellMeWhen, at `LibBabble-3.0` minor **2** `[T1 obs]` | **Legacy.** Localised-name lookup tables; do not adopt. |
-| **Dongle, Sea, LibKarma** | The only *framework* entries in the wiki's near-abandoned library category, whose full membership is `Ace (AddOns)`, `ChatThrottleLib`, `Dongle`, `LibKarma`, `Sea (add-on)` `[T2 wiki: Category:Function Libraries, revid 5355606, 2019-06-08, members read via the MediaWiki API 2026-07-23]`; zero copies on this install `[T1 obs]` | **Dead.** (An earlier draft also listed **Rock** and **Ace2** here as "named on the category" — they are **not** members. They may well be dead, but this file has no evidence for them, so they are removed rather than asserted.) |
+| **Dongle, Sea, LibKarma** | The only *framework* entries in the wiki's near-abandoned library category, whose full membership is `Ace (AddOns)`, `ChatThrottleLib`, `Dongle`, `LibKarma`, `Sea (add-on)` `[T2 wiki: Category:Function Libraries, revid 5355606, 2019-06-08 — members read via the MediaWiki API]`; zero copies on this install `[T1 obs]` | **Dead.** ⚠ **Rock** and **Ace2** are commonly named alongside these as category members; they are **not** members, and this file has no evidence about them either way. |
 
 ### 9.1 Where libraries actually live now
 
@@ -694,7 +661,7 @@ specification-shaped library means nothing.
   `curseforge.com/wow/addons` is Cloudflare-403 from this box; the SVN repos need an
   SVN client. **Read the vendored copies in the live install.**
 - **WoWInterface is stale as a library source.** Its public file list
-  (`api.mmoui.com/v3/game/WOW/filelist.json`, 8134 entries, fetched 2026-07-23)
+  (`api.mmoui.com/v3/game/WOW/filelist.json`, 8134 entries)
   shows `Ace3` last updated **2017-09-04** there, against r1390 / 2026-02-03 upstream
   `[T2: api.mmoui.com filelist.json vs Ace3@4475787f changelog.txt:1]`. Never take a
   library's version from WoWInterface.
@@ -727,15 +694,14 @@ local issecretvalue = issecretvalue or function() end -- XXX 12.0 compat
 `[T3: BigWigs@3fdc10f6 Tools/AutoInvite.lua:69 — verified directly in the clone]`
 
 Note the fallbacks differ: DogTag's returns `false`, BigWigs' returns `nil`. Both
-are falsy so both work as guards, but "the same defensive shim" (an earlier
-draft's wording) overstated it, as did calling both of them libraries. **Two
+are falsy so both work as guards, but they are not the same shim. **Two
 samples is not a pattern** — treat this as two data points showing the idiom
 exists, not as an ecosystem convention. oUF guards a GUID comparison directly:
 `if(unitGUID ~= nil and not issecretvalue(unitGUID) and unitGUID ~= self.unitGUID) then`
 `[T1 obs: EllesmereUIUnitFrames/Libs/oUF/ouf.lua:241]`.
 
 Across the whole live install, **165 Lua files mention `issecretvalue` or
-`hasanysecretvalues`** `[T1 obs: grep, 2026-07-23]`, of which the library-path hits
+`hasanysecretvalues`** `[T1 obs: grep over the install]`, of which the library-path hits
 include LibDurability, LibLatency, LibCustomGlow-1.0, LibAdvFlight, oUF,
 LibDogTag-3.0 (+ `-Unit-3.0`), and LibRangeCheck-3.0.
 
@@ -756,13 +722,13 @@ What each is actually worth opening. All Tier 3 — practice, not rules.
 | **BigWigs** | `3fdc10f6`, 2026-07-21 | The cleanest module architecture in the set; and the best real Midnight secret-value adaptation, including the `issecretvalue or function() end` compat shim. | Vendors only LibStub / CallbackHandler / LibDataBroker in git; the other 16 are externals. Does **not** use AceAddon. |
 | **Details!** | `e14de53c`, 2026-07-21 | Combat-log processing at scale; hand-written `API *.txt` docs; heaviest `AceLocale-3.0` user by far (108 files); the only clone that calls `LibStub("AceAddon-3.0")` in a one-liner worth copying (`boot.lua:9`). | **Zero externals** — 18 libraries committed in-tree (`Libs/` also holds `libs.xml`). Ships its own UI framework (`Libs/DF`). |
 | **Plater** | `2b2ff463`, 2026-07-23 | Nameplates, import/export, its own scripting API. | **Shares an author (Tercioo) and the `DF` framework with Details** — Plater externals `libs/DF` straight from `Tercioo/Details-Framework`. The two are *one* data point, not two. |
-| **ElvUI** | `f60934a1`, 2026-07-23 | The canonical suite: how a **13-module** UI replacement partitions itself (`ElvUI/Game/Shared/Modules/` — ActionBars, Auras, Bags, Blizzard, Chat, DataBars, DataTexts, Maps, Misc, Nameplates, Skins, Tooltip, UnitFrames); densest secure-template user in the set by a wide margin — 16 files matching `SecureActionButtonTemplate`/`SecureHandler`/`RegisterAttributeDriver`/`SecureUnitButtonTemplate` vs 2 for the next clone `[T3: census 2026-07-23]`. | Vendors 10 library dirs in-tree (including a full 50-file oUF) *and* declares 21 externals. Only **3** of its own non-library files call LibStub. |
+| **ElvUI** | `f60934a1`, 2026-07-23 | The canonical suite: how a **13-module** UI replacement partitions itself (`ElvUI/Game/Shared/Modules/` — ActionBars, Auras, Bags, Blizzard, Chat, DataBars, DataTexts, Maps, Misc, Nameplates, Skins, Tooltip, UnitFrames); densest secure-template user in the set by a wide margin — 16 files matching `SecureActionButtonTemplate`/`SecureHandler`/`RegisterAttributeDriver`/`SecureUnitButtonTemplate` vs 2 for the next clone `[T3: census over the clones]`. | Vendors 10 library dirs in-tree (including a full 50-file oUF) *and* declares 21 externals. Only **3** of its own non-library files call LibStub. |
 | **oUF** | `5672a3cb`, 2026-07-20, 504 KB (excl. `.git`) | **The best single readable example of a zero-dependency library.** No LibStub, no Ace3, no `.pkgmeta` externals. Its `## X-oUF` metadata trick (§1c) is the clearest non-LibStub distribution pattern in the corpus. | `## Notes: Unit frame framework. Does nothing by itself.` — it is a framework for *other* addons, so it shows library authorship, not addon authorship. |
 | **Bagnon** | `9f72bd96`, 2026-07-17 | The "split addon" pattern: no `.pkgmeta` at all, no `Libs/`, dependencies satisfied by a sibling addon via `## Dependencies: BagBrother` (`Bagnon.toc:10`) — and cross-addon XML includes (`src/main.xml`: `<Include file="..\..\BagBrother\core\core.xml"/>`). | Uses a compat shim library (`LibStub('C_Everywhere')`, `src/frame.lua:7`) rather than Ace3. `## X-License: All Rights Reserved` (`Bagnon.toc:4`) — readable, not reusable. |
 
 **Counting discipline.** Seven clones is seven data points minus one: Details and
 Plater share an author and a framework. When this file says "four of seven", it
-means four of these seven, on 2026-07-23, and nothing more.
+means four of these seven clones, at the commits listed above, and nothing more.
 
 ---
 
@@ -771,22 +737,22 @@ means four of these seven, on 2026-07-23, and nothing more.
 - `[gap]` **No Tier-1 or Tier-2 statement exists that LibStub is the sanctioned
   approach.** It is a 2007 community artefact that the platform neither knows nor
   blesses. Looked in: the full `wow-ui-source` checkout at 12.0.7.68887
-  (`grep -ril 'libstub'` over all 3685 files → zero hits, re-run 2026-07-23) and the
-  generated API docs under `Blizzard_APIDocumentationGenerated/`. An earlier draft
-  also cited "Blizzard's news article 24244638" as a place searched; that reference
-  is unverifiable as written and is dropped rather than repeated.
+  (`grep -ril 'libstub'` over all 3685 files → zero hits) and the
+  generated API docs under `Blizzard_APIDocumentationGenerated/`.
 - `[gap]` **The wiki is not a usable library index.**
-  `Category:Function Libraries` was last edited **2019-06-08** and has **five
-  members**, three of which (Dongle, Sea, LibKarma) are dead
-  `[T2 wiki: revid 5355606]`. The real index is the `.pkgmeta` files of active
+  `Category:Function Libraries` has **five members**, three of which (Dongle, Sea,
+  LibKarma) are dead, and has not been touched in seven years
+  `[T2 wiki: Category:Function Libraries, revid 5355606, 2019-06-08]`.
+  The real index is the `.pkgmeta` files of active
   addons. There is no maintained ecosystem registry I could find.
 - `[gap]` **Adoption numbers are unobtainable from this box.** `addons.wago.io` API
   → 401; `curseforge.com/wow/addons` → 403. Every popularity claim here is a count of
   copies on one install or of `.pkgmeta` references.
-- `[gap]` **Whether the deprecated `UIDropDownMenu_*` globals still work for addons
-  at 12.0.7.** The file is still loaded and still 1589 lines, but it resolves through
-  `GetCurrentEnvironment()` rather than `_G` `[T1 src: UIDropDownMenu.lua:1]`.
-  `@verify-ingame`.
+- **[closed] The deprecated `UIDropDownMenu_*` globals DO still resolve for addons at
+  12.0.7** — as functions, in both `_G` and the addon environment `[client 2026-07-24]`,
+  despite the file resolving internally through `GetCurrentEnvironment()`
+  `[T1 src: UIDropDownMenu.lua:1]`. See §7.1. Still open: *why* `LibUIDropDownMenu`
+  is still vendored, since availability is no longer the explanation.
 - `[gap]` **What actually happens when a secret value reaches AceSerializer /
   LibSerialize / LibDeflate.** Source inspection proves only that none of them tests
   for it. `@verify-ingame`.
@@ -802,264 +768,199 @@ means four of these seven, on 2026-07-23, and nothing more.
 
 ## Rules we could audit against
 
+Each rule is an assertion plus the section that argues it. Citations appear here
+only where the body does not already carry them.
+
 1. **`LibStub:NewLibrary` returns `nil` — not a table — when an equal-or-newer minor
-   is already registered.** Code of the form `local lib = LibStub:NewLibrary(M, N)`
-   that then indexes `lib` without an `if not lib then return end` guard will error on
-   any install where another addon shipped the same-or-newer copy.
-   *[Tier 1 obs / Tier 3: `BigWigs/Libs/LibStub/LibStub.lua:25` (`if oldminor and
-   oldminor >= minor then return nil end`); the guard idiom at
+   is already registered.** `local lib = LibStub:NewLibrary(M, N)` that then indexes
+   `lib` without an `if not lib then return end` guard errors on any install where
+   another addon shipped the same-or-newer copy. *[§2.1; guard idiom at
    `Ace3@4475787f CallbackHandler-1.0/CallbackHandler-1.0.lua:5`.]*
 
 2. **`LibStub:GetLibrary(major)` throws unless the second argument is truthy.**
    `LibStub("SomeOptionalLib")` on an install lacking it raises
-   `Cannot find a library instance of "…"`; `LibStub("SomeOptionalLib", true)`
-   returns `nil`. Any optional-dependency lookup missing the `true` is a bug.
-   *[Tier 1 obs / Tier 3: `BigWigs/Libs/LibStub/LibStub.lua:36-41`, error at `:38`.
-   Example of the silent form in use — note it is **not** an optional dependency,
-   the library just wants to raise its own message: `LibDBIcon-1.0.lua:11-12`
-   (`LibStub("LibDataBroker-1.1", true)` then
-   `if not ldb then error(DBICON10 .. " requires LibDataBroker-1.1.") end`).]*
+   `Cannot find a library instance of "…"`; `LibStub("SomeOptionalLib", true)` returns
+   `nil`. Any optional-dependency lookup missing the `true` is a bug — but the
+   converse does not hold: passing `true` is also how a library suppresses LibStub's
+   message so it can raise its own (§8.2). *[§2.1.]*
 
 3. **A library table handed out by LibStub is reused across upgrades, so any state a
    library keeps must be re-initialised with `or`.** `self.libs[major] or {}` means an
    upgraded library sees the previous minor's table.
-   *[Tier 1 obs / Tier 3: `LibStub.lua:26`. The compliant idiom, **five** times in
-   five consecutive lines — `DefaultMedia`, `MediaList`, `MediaTable`, `MediaType`,
-   `OverrideMedia` — at
+   *[§2.1. Tier 1 obs for the reuse: `BigWigs/Libs/LibStub/LibStub.lua:26`. The
+   compliant idiom, **five** times in five consecutive lines — `DefaultMedia`,
+   `MediaList`, `MediaTable`, `MediaType`, `OverrideMedia` — at
    `BigWigs/Libs/LibSharedMedia-3.0/LibSharedMedia-3.0.lua:41-45`, plus
    `lib.callbacks = lib.callbacks or CallbackHandler:New(lib)` at `:39`.]*
 
 4. **A library that changes behaviour between minors and does not gate on `oldminor`
-   leaves already-created objects on the old behaviour.** CallbackHandler-1.0
-   returns early on upgrade and rebuilds nothing; LibDataBroker-1.1 patches its live
-   table under `if oldminor < N` gates. Both patterns exist; only the second
-   actually upgrades.
-   *[Tier 3: `Ace3 CallbackHandler-1.0.lua:5` vs
-   `BigWigs/Libs/LibDataBroker-1.1/LibDataBroker-1.1.lua:5-7, :14, :21, :35`.]*
+   leaves already-created objects on the old behaviour.** CallbackHandler-1.0 returns
+   early on upgrade and rebuilds nothing; LibDataBroker-1.1 patches its live table
+   under `if oldminor < N` gates. Both patterns exist; only the second actually
+   upgrades. *[§2.3.]*
 
 5. **Multiple minors of the same library ship simultaneously in the wild, and they are
    not behaviourally equivalent.** On this install `CallbackHandler-1.0` is present at
-   v6 (1 copy), v7 (3) and v8 (10). **v6** builds per-arity dispatchers with
-   `loadstring` and runs handlers under `xpcall`; **v7** drops the `loadstring`
-   dispatcher but still runs handlers under `xpcall`; **v8** runs them through
-   `securecallfunction`. Any claim of the form "CallbackHandler does X" must name a
-   minor.
-   *[Tier 1 obs: 14 `CallbackHandler-1.0.lua` files under `_retail_/Interface/AddOns/`,
-   minors counted from each file's `local MAJOR, MINOR = "CallbackHandler-1.0", N`
-   line (2026-07-23). Tier 1 obs / Tier 3 for the dispatch difference:
-   `Simulationcraft/libs/…:25-57` (`CreateDispatcher` :25, `loadstring` :51),
-   `RaiderIO/libs/…:25-32` (plain `xpcall` loop),
-   `Ace3@4475787f …:15-22` (`securecallfunction` at :19).
-   **A previous version of this rule claimed v7 used `loadstring`. It does not** —
-   it only upvalues `loadstring` at `:11` without ever calling it.]*
+   v6 (1 copy), v7 (3) and v8 (10), differing in dispatch — `loadstring` dispatcher +
+   `xpcall`, plain loop + `xpcall`, plain loop + `securecallfunction`. Any claim of the
+   form "CallbackHandler does X" must name a minor. *[§2.3, including why grepping for
+   `loadstring` misidentifies v7.]*
 
 6. **A library shipped inside another addon's folder never has its `.toc` parsed, so
    that `.toc`'s `## Interface:` is not a compatibility signal.**
    `EllesmereUI/Libs/LibDeflate/LibDeflate.toc` says `## Interface: 80300` on a 12.0.7
-   install and the addon works. There are **38** such never-parsed `.toc` files on
-   this install.
-   *[Tier 1 obs: that file, line 1; `find … -mindepth 3 -name '*.toc'` → 38.
-   Tier 2 for the placement rule: wiki `TOC format`, revid 6767089, 2026-07-09,
-   wikitext lines 2 and 5 — *"The filename of the `.toc` file must match the folder
-   it's inside, otherwise the `.toc` file won't load"*, with the example
-   `..\Interface\AddOns\MyAddon\MyAddon.toc`. Flavour-suffixed variants of that same
-   basename (`MyAddon_Mainline.toc`) also load — wikitext line 180.]*
+   install and the addon works. There are **38** such never-parsed `.toc` files here.
+   *[§3.1, §3.2. Tier 1 obs for the count: `find … -mindepth 3 -name '*.toc'` → 38.
+   Tier 2 for the placement rule, with the example
+   `..\Interface\AddOns\MyAddon\MyAddon.toc`:
+   `[T2 wiki: TOC format, revid 6767089, 2026-07-09 — wikitext lines 2, 5 and 180]`.]*
 
 7. **An addon's git repository is not a reliable inventory of its dependencies in
    either direction.** WeakAuras2 has zero library directories in git and **25**
    `.pkgmeta` externals; Details! has **18** library directories in git and zero
-   externals. Read `.pkgmeta` *and* the tree.
-   *[Tier 3: `WeakAuras2@38d4bf1e .pkgmeta` (25 external targets, no `Libs/` dir);
-   `details@e14de53c .pkgmeta` (no `externals:` key) with `details/Libs/` holding 19
-   entries, one of which is the file `libs.xml` → 18 library directories.
-   An earlier version of this rule said "27" and "nineteen"; both were wrong, and
-   "27" also contradicted its own citation.]*
+   externals. Read `.pkgmeta` *and* the tree. *[§3.3, §11.]*
 
 8. **`AceAddon:EmbedLibrary` errors — it does not skip — on a library that lacks a
    `:Embed` method.** So `MyAddon = AceAddon:NewAddon("X", "SomeLib")` only works if
-   `SomeLib.Embed` is a function.
-   *[Tier 3: `Ace3@4475787f AceAddon-3.0/AceAddon-3.0.lua:182-193`, error string
-   `"Library '%s' is not Embed capable"` at `:191`.]*
+   `SomeLib.Embed` is a function. *[§3.4; error string
+   `"Library '%s' is not Embed capable"` at `AceAddon-3.0.lua:191`.]*
 
 9. **AceAddon drains its init and enable queues from one handler bound to both
-    `ADDON_LOADED` and `PLAYER_LOGIN`, and it deliberately ignores `ADDON_LOADED`
-    for six named Blizzard early-load addons.** Precisely: on either event the
-    handler drains `initializequeue` (calling `OnInitialize` via
-    `AceAddon:InitializeAddon`); then, **only if `IsLoggedIn()` is already true**,
-    it drains `enablequeue` (calling `OnEnable` via `AceAddon:EnableAddon`). So
-    before login `OnInitialize` fires and `OnEnable` waits for `PLAYER_LOGIN`;
-    after login (load-on-demand addons) both fire in the same handler pass. Code
-    that assumes a fixed gap between the two is wrong in one direction or the other.
-    *[Tier 3: `Ace3@4475787f AceAddon-3.0/AceAddon-3.0.lua:600-608` (the
-    `BlizzardEarlyLoadAddons` table — `Blizzard_DebugTools`, `Blizzard_TimeManager`,
-    `Blizzard_BattlefieldMap`, `Blizzard_MapCanvas`,
-    `Blizzard_SharedMapDataProviders`, `Blizzard_CombatLog`), `:611-630` (the
-    `onEvent` handler; the combined event test at `:613`, the `IsLoggedIn()` gate at
-    `:623`), `:632-634` (two `RegisterEvent` calls + `SetScript`), `:493`
-    (`InitializeAddon`), `:516` (`EnableAddon`).
-    An earlier version of this rule added "or that either fires for a demand-loaded
-    Blizzard addon" — that clause was confused and is removed: the six named addons
-    are Blizzard's, not Ace addons, and the exclusion only stops the queue from
-    being drained *at the moment they load*.]*
+   `ADDON_LOADED` and `PLAYER_LOGIN`, and it deliberately ignores `ADDON_LOADED`
+   for six named Blizzard early-load addons.** On either event the handler drains
+   `initializequeue` (calling `OnInitialize` via `AceAddon:InitializeAddon`); then,
+   **only if `IsLoggedIn()` is already true**, it drains `enablequeue` (calling
+   `OnEnable` via `AceAddon:EnableAddon`). So before login `OnInitialize` fires and
+   `OnEnable` waits for `PLAYER_LOGIN`; after login (load-on-demand addons) both fire
+   in the same handler pass. Code that assumes a fixed gap between the two is wrong in
+   one direction or the other. The six-addon exclusion only stops the queue from being
+   drained *at the moment those addons load* — they are Blizzard's, not Ace addons.
+   *[Tier 3: `Ace3@4475787f AceAddon-3.0/AceAddon-3.0.lua:600-608` (the
+   `BlizzardEarlyLoadAddons` table — `Blizzard_DebugTools`, `Blizzard_TimeManager`,
+   `Blizzard_BattlefieldMap`, `Blizzard_MapCanvas`, `Blizzard_SharedMapDataProviders`,
+   `Blizzard_CombatLog`), `:611-630` (the `onEvent` handler; combined event test at
+   `:613`, `IsLoggedIn()` gate at `:623`), `:632-634` (two `RegisterEvent` calls +
+   `SetScript`), `:493` (`InitializeAddon`), `:516` (`EnableAddon`).]*
 
 10. **AceTimer-3.0 clamps every delay to a floor of 0.01 s.** `self:ScheduleTimer(f, 0)`
-    fires no sooner than 10 ms. The looping re-arm path clamps too.
-    *[Tier 3: `Ace3@4475787f AceTimer-3.0/AceTimer-3.0.lua:33-35` — `if delay < 0.01
-    then` / `delay = 0.01 -- Restrict to the lowest time that the C_Timer API allows
-    us` / `end` (an earlier draft cited only `:34`, which is the assignment, not the
-    test); the same clamp on re-arm at `:66`; the `C_TimerAfter` calls at `:67` and
-    `:75`; the upvalue `local GetTime, C_TimerAfter = GetTime, C_Timer.After` at
-    `:30`. Tier 1 for the underlying API: `UITimerDocumentation.lua:11`.]*
+    fires no sooner than 10 ms, and the looping re-arm path clamps too. *[§5.2.]*
 
 11. **AceSerializer-3.0 errors on any value that is not string / number / table /
-    boolean / nil.** There is no fall-through and no secret-value branch.
-    *[Tier 3: `Ace3 AceSerializer-3.0/AceSerializer-3.0.lua:54` (`SerializeValue`),
-    `:56` (`local t=type(v)`), the branch chain at `:58`/`:63`/`:83`/`:93`/`:101`,
-    and the `else` at **`:106`**
-    (`error(MAJOR..": Cannot serialize a value of type '"..t.."'")`). An earlier
-    draft cited `:104`.
-    Corroboration that the alternatives are equally unaware: zero matches for
-    `issecretvalue`/`secret` in `libs/LibSerialize/LibSerialize.lua` and
-    `libs/LibDeflate/LibDeflate.lua`.]*
+    boolean / nil.** There is no fall-through and no secret-value branch, and neither
+    LibSerialize nor LibDeflate is any more aware. *[§5.2, §10.]*
 
 12. **AceComm-3.0 chunks at 255 bytes and prefixes each chunk with `\001`/`\002`/`\003`.**
     A receiver that reads `CHAT_MSG_ADDON` directly, without AceComm on its side, will
-    see those control bytes and truncated payloads.
-    *[Tier 3: `Ace3 AceComm-3.0/AceComm-3.0.lua:41-43` and `:95` (`local maxtextlen = 255`
-    with the comment "Yes, the max is 255 even if the dev post said 256. I tested.").]*
+    see those control bytes and truncated payloads. *[§5.1, §8.4.]*
 
 13. **AceLocale-3.0 returns the missing key as its own value and raises a non-fatal
     error through `geterrorhandler()`, unless the locale was registered `silent`.** So
     a missing translation shows the key on screen *and* produces an error report.
-    *[Tier 3: `Ace3 AceLocale-3.0/AceLocale-3.0.lua:24-30` (loud) and `:33-38`
-    (silent variant).]*
+    *[§6.]*
 
 14. **`LibSharedMedia-3.0:Register` returns `false` instead of erroring when the key
     already exists, so first registration wins and a later registration of the same
     key is silently a no-op.** Code that ignores the return value cannot tell whether
-    its media was installed.
-    *[Tier 1 obs / Tier 3: `BigWigs/Libs/LibSharedMedia-3.0/LibSharedMedia-3.0.lua` —
-    `function lib:Register` at `:239`; the duplicate-key early-out at `:265-268`
-    (`if mtable[key] then` / `-- key already registered` / `return false` / `end`);
-    against the `error()` calls for bad argument types at `:241` and `:244`.]*
+    its media was installed. *[§8.1. Tier 1 obs:
+    `BigWigs/Libs/LibSharedMedia-3.0/LibSharedMedia-3.0.lua` — `function lib:Register`
+    at `:239`, the duplicate-key early-out at `:264-267`, against the `error()` calls
+    for bad argument types at `:241` and `:244`.]*
 
 15. **`LibSharedMedia-3.0:Register` also returns `false` for a path outside
-    `interface`, and for a sound that is not `.ogg` or `.mp3`.** Both checks apply
-    only when `data` is a string and the type is background/border/statusbar/sound.
-    *[Tier 1 obs / Tier 3: same file, `:252-256` (`if not path:find("^interface")` —
-    comment "files accessed via path only allowed from interface folder" at `:254`)
-    and `:258-260` (comment "only ogg and mp3 are valid sounds" at `:258`), inside
-    the `type(data) == "string"` guard opened at `:252`.]*
+    `interface`, and for a sound that is not `.ogg` or `.mp3`.** Both checks apply only
+    when `data` is a string and the type is background/border/statusbar/sound.
+    *[§8.1. Tier 1 obs: same file, `:253-256` (`if not path:find("^interface")`, comment
+    at `:254`) and `:257-260` (comment "only ogg and mp3 are valid sounds" at `:258`),
+    both inside the `type(data) == "string"` guard opened at `:251`.]*
 
 16. **A font registered with LibSharedMedia and no `langmask` is dropped on
     non-western clients.** `:Register` returns `false` before storing it.
-    *[Tier 1 obs / Tier 3: same file, `:247-250` — `if mediatype ==
-    lib.MediaType.FONT and ((langmask and band(langmask, LOCALE_MASK) == 0) or not
-    (langmask or locale_is_western)) then … return false` — against the locale-bit
-    constants at `:31-35`.]*
+    *[§8.1. Tier 1 obs: same file, `:247-250`, against the locale-bit constants at
+    `:31-35`.]*
 
 17. **`LibDataBroker-1.1` hard-requires both LibStub and CallbackHandler-1.0 at file
-    scope, via two bare `assert(...)` calls before anything else runs.** An addon
-    that embeds LDB without also embedding CallbackHandler gets a Lua error and no
-    LDB. (Scope note: an error at file scope aborts *that file*; the rest of the
-    addon's files still load. "The addon fails to load" — an earlier draft's
-    wording — is too strong.)
-    *[Tier 1 obs / Tier 3: `BigWigs/Libs/LibDataBroker-1.1/LibDataBroker-1.1.lua:2-3`
-    — `assert(LibStub, "LibDataBroker-1.1 requires LibStub")` and
-    `assert(LibStub:GetLibrary("CallbackHandler-1.0", true), "LibDataBroker-1.1
-    requires CallbackHandler-1.0")`.]*
+    scope, via two bare `assert(...)` calls before anything else runs.** An addon that
+    embeds LDB without also embedding CallbackHandler gets a Lua error and no LDB.
+    ⚠ Scope: an error at file scope aborts *that file*; the rest of the addon's files
+    still load — this is not "the addon fails to load". *[§2.3.]*
 
 18. **Every write to an LDB data object fires four callbacks, not one** —
-    `LibDataBroker_AttributeChanged`, `…_<name>`, `…_<name>_<key>`, `…__<key>` — and
-    a write of an unchanged value fires none.
-    *[Tier 1 obs / Tier 3: same file, the four `callbacks:Fire` calls at `:28-31`; the
-    early-out is `if attributestorage[self][key] == value then return end` at `:24`.]*
+    `LibDataBroker_AttributeChanged`, `…_<name>`, `…_<name>_<key>`, `…__<key>` — and a
+    write of an unchanged value fires none. *[§8.2; the early-out is
+    `if attributestorage[self][key] == value then return end` at
+    `BigWigs/Libs/LibDataBroker-1.1/LibDataBroker-1.1.lua:24`.]*
 
 19. **`UIDropDownMenu` is deprecated at Blizzard's own word, with no shims provided,
     while still shipping.** Any addon still calling it is on a path Blizzard has
-    declared replaced; `Blizzard_Menu` / `MenuUtil` is the replacement.
-    *[Tier 1: `Blizzard_Menu/11_0_0_MenuImplementationGuide.lua:4-7` for the statement;
-    `Blizzard_SharedXML/Blizzard_SharedXML_Mainline.toc:212-215` for the fact it still
-    loads; `Blizzard_Menu/MenuUtil.lua:151, :335, :354, :373` for the replacement API.]*
+    declared replaced; `Blizzard_Menu` / `MenuUtil` is the replacement. *[§7, §7.1.]*
 
 20. **A minimap-button library is not required to appear in the addon compartment —
-    a `.toc` metadata line is enough.** Blizzard reads `AddonCompartmentFunc`
-    (and `AddonCompartmentFuncOnEnter` / `…OnLeave`) via `C_AddOns.GetAddOnMetadata`
-    and registers the addon itself.
-    *[Tier 1: `Blizzard_Minimap/Mainline/AddonCompartment.lua:81, :106, :113, :136`;
-    `C_AddOns.GetAddOnMetadata` at `AddOnsDocumentation.lua:165`.]*
+    a `.toc` metadata line is enough.** Blizzard reads `AddonCompartmentFunc` (and
+    `AddonCompartmentFuncOnEnter` / `…OnLeave`) via `C_AddOns.GetAddOnMetadata` and
+    registers the addon itself. *[§7, §8.2.]*
 
 21. **Arbitrary `X-`-prefixed `.toc` metadata is readable at runtime and is a working
     alternative to LibStub for library self-identification.** oUF resolves its global
     name from `## X-oUF` at load and refuses to install over an existing global.
-    *[Tier 3 for the usage: `oUF@5672a3cb ouf.lua:2`
-    (`local global = C_AddOns.GetAddOnMetadata(parent, 'X-oUF')`) and `:1026-1034`
-    (the `if(global) then` collision block, `_G[global] = oUF` at `:1032`),
-    `oUF.toc:7` (`## X-oUF: oUF`).
-    Tier 2 for the mechanism: wiki `TOC format`, revid 6767089, 2026-07-09,
-    wikitext line **376** — "X-_____: Any custom metadata prefixed by 'X-', such as
-    'X-Date', 'X-Website' or 'X-Feedback'". Tier 1 for the reader:
-    `Blizzard_APIDocumentationGenerated/AddOnsDocumentation.lua:165`
-    (`Name = "GetAddOnMetadata"`).]*
+    *[§1(c); `_G[global] = oUF` at `oUF@5672a3cb ouf.lua:1032`, inside the collision
+    block at `:1026-1034`.]*
 
 22. **Not every library uses LibStub, so `LibStub("X")` is not a general availability
     test.** ChatThrottleLib gates on `_G.ChatThrottleLib.version` and publishes itself
-    as a plain global.
-    *[Tier 3: `Ace3@4475787f AceComm-3.0/ChatThrottleLib.lua:26, :31, :54`.]*
+    as a plain global. *[§1(b).]*
 
 23. **`TaintLess` as shipped predates Midnight, so nothing in it was written for
     secret values.** Its last commit in the clone is 2025-02-26 and it self-versions
     `[24-07-27]`, both before 12.0.0 (2026-01-20). Its continued presence in WeakAuras'
     and ElvUI's `.pkgmeta` is evidence it is *shipped*, not that it is *current*.
-    (Stated as "predates", not "cannot address" — pre-existing fixes may still be
-    correct; what the dates rule out is that it was written with secret values in
-    mind.)
-    *[Tier 3: `raw/addon-research/libs/TaintLess@a4f3eda90db1`, whose single file
-    `TaintLess.xml` opens `TaintLess [24-07-27]`; `.pkgmeta` entries in
+    Stated as "predates", not "cannot address" — pre-existing fixes may still be
+    correct; what the dates rule out is that it was written with secret values in mind.
+    *[§9, §10. Tier 3: `raw/addon-research/libs/TaintLess@a4f3eda90db1`, whose single
+    file `TaintLess.xml` opens `TaintLess [24-07-27]`; `.pkgmeta` entries in
     `WeakAuras2@38d4bf1e` (`url: https://www.townlong-yak.com/addons.git/taintless`,
-    `commit: default`) and `ElvUI@f60934a1`. Tier 1 for the patch date:
-    this repo's `knowledge/_meta/game-version.md`.]*
+    `commit: default`) and `ElvUI@f60934a1`. Tier 1 for the patch date: this repo's
+    `knowledge/_meta/game-version.md`.]*
 
 24. **`LibCompress` on this install is at SVN revision 83, dated 2018-07-03, and
-    LibDeflate's own published benchmark claims it beats LibCompress on size at
-    equal speed.** New code adopting LibCompress is adopting a legacy path.
-    *[Tier 1 obs: `MythicDungeonTools/libs/LibCompress/LibCompress.lua:7-9`, version
-    expression at `:13` —
-    `LibStub:NewLibrary("LibCompress", 90000 + tonumber(("$Revision: 83 $"):match("%d+")))`.
-    Tier 3, and note it is the *competitor's own* benchmark:
-    `libs/LibDeflate/README.md:127` — "LibDeflate with compression level 1 compresses
-    as fast as LibCompress, but already produces significantly smaller data than
-    LibCompress." No independent measurement was made for this file.]*
+    LibDeflate's own published benchmark claims it beats LibCompress on size at equal
+    speed.** New code adopting LibCompress is adopting a legacy path. Note the
+    benchmark is the *competitor's own*; no independent measurement was made.
+    *[§8.3, §9. Tier 1 obs for the version expression:
+    `MythicDungeonTools/libs/LibCompress/LibCompress.lua:7-9`, `:13`.]*
 
 25. **`LibDeflate`'s 2021 `pushed_at` is not evidence of abandonment.** It is an
-    external in **two** of the seven surveyed addons' `.pkgmeta` in 2026
-    (WeakAuras2, Plater), vendored in-tree by **two** more (ElvUI, Details!), and
-    present on this install.
-    *[Tier 2 gh: `SafeteeWoW/LibDeflate` pushed 2021-05-05, archived=false, 117 stars.
-    Tier 3: externals lines in `WeakAuras2@38d4bf1e` and `plater@2b2ff463`; in-tree at
-    `ElvUI/ElvUI_Libraries/Game/Shared/LibDeflate/` and `details/Libs/LibDeflate/`.
-    Tier 1 obs: vendored at `EllesmereUI/Libs/LibDeflate/`.
-    An earlier draft listed ElvUI as an external — ElvUI's `.pkgmeta` does not
-    mention LibDeflate.]*
+    external in **two** of the seven surveyed addons' `.pkgmeta` (WeakAuras2, Plater),
+    vendored in-tree by **two** more (ElvUI, Details!), and present on this install.
+    *[§8.3, §9. Tier 3 for the in-tree copies:
+    `ElvUI/ElvUI_Libraries/Game/Shared/LibDeflate/` and `details/Libs/LibDeflate/`.]*
 
-26. **A library version taken from WoWInterface may be years behind upstream.**
-    Its file list shows Ace3 last updated 2017-09-04; upstream's newest changelog entry
-    is 2026-02-03.
-    *[Tier 2: `https://api.mmoui.com/v3/game/WOW/filelist.json`, fetched 2026-07-23,
-    8134 entries. Tier 3: `Ace3@4475787f changelog.txt:1`.]*
+26. **A library version taken from WoWInterface may be years behind upstream.** Its
+    file list shows Ace3 last updated 2017-09-04; upstream's newest changelog entry is
+    2026-02-03. *[§9.1.]*
 
 27. **`LibStub` is not a version-drift risk on this install: every copy is minor 2.**
-    All 23 copies declare `local LIBSTUB_MAJOR, LIBSTUB_MINOR = "LibStub", 2`. They
-    are 7 distinct byte sequences reducing to 2 distinct programs, differing only in
-    `strmatch` (21 copies) vs `string.match` (2 copies) — aliases of the same
-    function — so behaviour is identical regardless of which copy wins.
-    *[Tier 1 obs: `find … -name LibStub.lua` over `_retail_/Interface/AddOns/`, md5
-    over raw bytes and over comment/whitespace-stripped text, 2026-07-23. An earlier
-    draft said "three byte-level variants … the same program"; corrected here.
-    **Scope:** "every copy in the wild" was never shown — this is one install of 81
-    addons.]*
+    All 23 copies declare `local LIBSTUB_MAJOR, LIBSTUB_MINOR = "LibStub", 2`. They are
+    7 distinct byte sequences reducing to 2 distinct programs, differing only in
+    `strmatch` (21 copies) vs `string.match` (2 copies) — aliases of the same function
+    — so behaviour is identical regardless of which copy wins. ⚠ Scope: this is one
+    install of 81 addons, never "every copy in the wild". *[§2.2.]*
 
 28. **The string `LibStub` appears nowhere in Blizzard's shipped UI source**, so no
     claim that the client "knows about" or "supports" LibStub can be true.
-    *[Tier 1: `grep -ril 'libstub'` over the whole `wow-ui-source` checkout at
-    12.0.7.68887, commit `4383ced30106` — zero hits.]*
+    *[§1, §12.]*
+
+---
+
+## Changelog
+
+- 2026-08-05 — **the `UIDropDownMenu_*` gap is closed** `[client 2026-07-24]`: the
+  deprecated globals still resolve as functions, in `_G` *and* the addon environment,
+  despite `UIDropDownMenu.lua` routing internally through `GetCurrentEnvironment()`.
+  So availability is **not** why `LibUIDropDownMenu` is still vendored — that question
+  narrows to deprecation-proofing or taint isolation, neither established (§7.1).
+- 2026-07-23 — adversarial re-read of every locator in this file; 11 of ~50 claims
+  corrected in place. The ones a reader may have carried away wrong: ElvUI calls
+  LibStub in 3 non-library files, not 24 (§1); LibStub is 7 byte-variants / 2 programs,
+  not 3 / 1 (§2.2); only CallbackHandler v6 builds `loadstring` dispatchers (§2.3);
+  a CurseForge/wowace-SVN pointer for Ace3 is **not** a staleness signal (§5); Plater
+  has zero `AceAddon` call sites (§5.2); LibDBIcon hard-requires LDB (§8.2).

@@ -1,24 +1,24 @@
 ---
 title: Security — protected actions, taint, and restricted data (secret values)
 patch: 12.0.7
-fetched: 2026-08-04
+fetched: 2026-08-05
 reviewed: 2026-08-05
 sources:
   - https://github.com/Gethe/wow-ui-source (live, 12.0.7.68887, commit 4383ced30106)
   - IN-CLIENT MEASUREMENT 2026-08-04 — CDMProbe `/cdmp curve` (CurveLab.lua v0.32.98),
     Havoc Demon Hunter, 12.0.7 live. §4.8.1 is the only RUN evidence in this file.
   - IN-CLIENT MEASUREMENT 2026-08-04 — CDMProbe `/cdmp curve text` (CurveLab.lua
-    v0.32.117), Demonology Warlock, 12.0.7 live. §4.8.1 finding 9 — a SECRET cooldown
+    v0.32.117), Demonology Warlock, 12.0.7 live. §4.8.1 finding 2 — a SECRET cooldown
     remaining rendered as ticking text IN COMBAT via FormatRemainingDuration + SetText.
   - EllesmereUI v8.7.5 @ c4eba58d996a8436f467ac8f297148bff9dd3008 (2026-08-04),
     https://github.com/EllesmereGaming/EllesmereUI — license CUSTOM, ALL RIGHTS
-    RESERVED; read for API discovery only, no code copied. Mined 2026-08-05 via the
+    RESERVED; read for API discovery only, no code copied. Mined via the
     `mine-addon` skill; clone deleted after (step 5). file:line citations resolve
     only against that commit. Unverified residue:
     `addon-dev/mined-pending-verification.md`.
   - EllesmereUICooldownManager (installed addon, read for API discovery only, no code
     copied) — `EllesmereUICdmBuffBars.lua:4499-4517`, the working SetMinMaxValues(0,1)
-    -> SetTimerDuration ordering behind §4.8.1 finding 10.
+    -> SetTimerDuration ordering behind §4.8.1 finding 3.
   - https://warcraft.wiki.gg/wiki/Secret_Values (revid 6777907, 2026-07-22)
   - https://warcraft.wiki.gg/wiki/Secure_Execution_and_Tainting (revid 6651217, 2026-02-15)
   - https://warcraft.wiki.gg/wiki/Patch_12.0.0/Planned_API_changes (revid 6746061, 2026-06-17)
@@ -42,16 +42,6 @@ Counts were produced by grep/scripted extraction over
 `Interface/AddOns/Blizzard_APIDocumentationGenerated/` at that build and are
 reproducible; re-run them after any `git pull` of the checkout.
 
-**Adversarial verification pass, 2026-07-23.** Every Tier-1 file:line, every
-count, every wiki revid and every WoWUIBugs label in this file was re-opened
-against the source. Corrections made in that pass are called out inline as
-"an earlier draft…". The material refutations were: the "casting/targeting have
-no callable API" claim in §1.1 (false — see the ⚠ there), the
-`SecureHandlerTemplates.xml` template count (§3.2), the claim that all nine
-secret-testing primitives carry `SecretArguments` (§4.4), four of seven
-"densest user" attributions (§2.2), the `HasRestrictions` count (§6), and the
-`Frame:SetShown` worked example (§4.6, §7 rule 19).
-
 Tier definitions are in [`sources.md`](./sources.md) §0. Short form:
 **Tier 1** = Blizzard's shipped UI source and its generated API docs ·
 **Tier 2** = warcraft.wiki.gg and WoWUIBugs · **Tier 3** = community addons
@@ -72,9 +62,9 @@ mechanisms that compose:
 | **Secret values** | Patch 12.0.0 (Midnight) | *May this path read/compute on this datum?* | **Immediate Lua error** at the operation |
 
 A value can be secret on an untainted path and be perfectly usable
-(Tier 2: `Secret Values`, 2026-07-22 — *"When execution is not tainted secret
-values are effectively equivalent to regular values, and no operations on them
-are blocked."*). A protected function can be blocked with no secrets anywhere
+(Tier 2: `Secret Values`, revid 6777907, 2026-07-22 — *"When execution is not
+tainted secret values are effectively equivalent to regular values, and no
+operations on them are blocked."*). A protected function can be blocked with no secrets anywhere
 in sight. Diagnose them separately.
 
 Blizzard's own stated goal for the 12.0 layer, verbatim from the addon-dev blue
@@ -86,11 +76,11 @@ post archived on the wiki:
 > goal (almost as important) is to still allow addons to customize the look and
 > feel of the UI (including combat-related UIs).
 >
-> — *Midnight Public Alpha Addon API Changes*, 2025-10-01, WoWUIDev Discord
-> (Tier-1 content via Tier-2 archive: `Patch 12.0.0/Planned API changes`,
-> revid 6746061, 2026-06-17; Discord permalink
-> `discord.com/channels/327414731654692866/1422999311410790541` — **not
-> independently verifiable, see §10**)
+> — *Midnight Public Alpha Addon API Changes* (WoWUIDev Discord). Tier-1 content
+> read through its Tier-2 archive, which quotes
+> the post of 2025-10-01 at `Patch 12.0.0/Planned API changes`, revid 6746061, 2026-06-17. The Discord
+> permalink `discord.com/channels/327414731654692866/1422999311410790541` is
+> **not independently verifiable, see §6**
 
 ---
 
@@ -275,12 +265,11 @@ from WoWUIBugs issue bodies (Tier 2, observation not spec).
 `FrameScriptObject:SetForbidden()` / `IsForbidden()`
 (`SimpleFrameScriptObjectAPIDocumentation.lua:128, 83`). **[unverified] — what
 "forbidden" *means* is not stated at Tier 1.** Neither entry carries a
-`Documentation` string. An earlier draft of this file said a forbidden frame is
-"hidden from the global environment for tainted code"; the wiki's own text for
-`MouseFocusValidForLimitedInput` lists *"forbidden, hidden from the global
-environment, fully locked down, script inaccessible, or protected frames"* as
-**five separate** conditions, so that gloss conflated two of them and has been
-removed. What is Tier 1 is the *behaviour*: Blizzard's secure-handler API refuses
+`Documentation` string. ⚠ **"Forbidden" is not the same as "hidden from the
+global environment"** — the wiki's own text for `MouseFocusValidForLimitedInput`
+lists *"forbidden, hidden from the global environment, fully locked down, script
+inaccessible, or protected frames"* as **five separate** conditions, so any gloss
+that equates two of them is wrong. What is Tier 1 is the *behaviour*: Blizzard's secure-handler API refuses
 to operate on a forbidden frame and will *mark the caller's frame forbidden* if
 it tries to reference one:
 
@@ -338,7 +327,9 @@ if atRisk then forceinsecure(); end
 `issecurevariable([tbl,] key) -> isSecure, taintSource` is the introspection
 primitive. **It appears nowhere in the shipped source and nowhere in the
 generated docs** (`wowkb.uiapi missing issecurevariable` → "NOT FOUND in
-either"). The wiki is the only source: Tier 2, `API issecurevariable`,
+either") — **yet it exists: it resolves to a `function` in the client**
+`[client 2026-07-24]`. So the name is live, and only its *semantics* are Tier 2.
+The wiki is the only source for those: `API issecurevariable`,
 revid 6588975, 2026-01-03 — second return is the addon name that tainted the
 key, `""` for a macro, `nil` if secure; it cannot inspect locals or non-string
 keys; and an unset key with an `__index` metatable reports the metatable's
@@ -403,12 +394,6 @@ real calls, verified by reading them.
 | `issecure` | 51 | `Blizzard_RestrictedAddOnEnvironment/RestrictedInfrastructure.lua` (10) |
 | `hooksecurefunc` | 14 | `Blizzard_PTRFeedback/Blizzard_PTRFeedback_Tooltips.lua` (6) |
 
-(An earlier draft named `Blizzard_SharedXMLBase/Mixin.lua`,
-`Blizzard_MapCanvas`, `SecureTemplates.lua` and `SecureTypes.lua` as the densest
-users of `issecure` / `secureexecuterange` / `forceinsecure` /
-`securecallfunction`. Re-counting refuted all four; the table above is the
-re-count.)
-
 `securecallmethod(object, "method", ...)` **is** documented, at
 `FrameScriptDocumentation.lua:400-417`, with the clearest Tier-1 statement of
 what a call barrier does: *"Invokes a named method on an object with a secure
@@ -437,12 +422,12 @@ That exact comment appears at **six** sites, all `*Inbound.lua` files:
 `Blizzard_CatalogShop/Blizzard_CatalogShop_Inbound.lua:4`,
 `Blizzard_CatalogShopRefundFlow/Blizzard_CatalogShopRefundFlow_Inbound.lua:4`,
 `Blizzard_CatalogShopTopUpFlow/Blizzard_CatalogShopTopUpFlow_Inbound.lua:9`.
-A *different but aligned* comment states the reason from the other side:
+A *second, differently worded* comment states the reason from the other side:
 *"Setting attributes is how the external UI should communicate with this frame.
 That way their taint won't be spread to this code."*
 (`Blizzard_CatalogShop/Blizzard_CatalogShop.lua:525`,
-`Blizzard_WowTokenUI/Blizzard_WowTokenUI.lua:287`). An earlier draft cited those
-two as the same comment; they are not.
+`Blizzard_WowTokenUI/Blizzard_WowTokenUI.lua:287`). The two comments are distinct
+strings, not one comment at eight sites.
 
 **`SecureTypes` — Blizzard's own containers.** `Blizzard_SharedXMLBase/SecureTypes.lua`
 (393 lines) exists because *"Secure types are expected to be used by Blizzard
@@ -481,10 +466,9 @@ barrier protects Blizzard from the addon, not the reverse.
      i.e. a different build from our source checkout) carries the in-client
      description and stops at level 4.
 
-   Enable with `/console taintLog 1` and restart. **@verify-ingame** — I could
-   not confirm level 5's behaviour; there is no `taint.log` in
-   `_retail_/Logs/` on this install (checked 2026-07-23), consistent with the
-   default of `0`.
+   Enable with `/console taintLog 1` and restart. `@verify-ingame` — level 5's
+   behaviour is unconfirmed; there is no `taint.log` in `_retail_/Logs/` on this
+   install, consistent with the default of `0`.
 
 2. **Register `ADDON_ACTION_BLOCKED` / `ADDON_ACTION_FORBIDDEN`** and read the
    `isTainted` / `function` payload (§1.4).
@@ -495,8 +479,8 @@ barrier protects Blizzard from the addon, not the reverse.
 4. **`debugstack` / `debuglocals` are themselves secret-contaminated as of
    12.0.7**: *"debugstack and debuglocals will now return secret values if the
    current function — or any caller up the stack — has accessed a secret
-   value."* (Blizzard blue post 2026-04-30, archived at Tier 2:
-   `Patch 12.0.7/API changes`, revid 6778033, 2026-07-22). Blizzard's own error
+   value."* (Tier-2 archive of the Blizzard blue post of
+   2026-04-30: `Patch 12.0.7/API changes`, revid 6778033, 2026-07-22). Blizzard's own error
    handler already guards for this:
    `if canaccessvalue(formattedMessage) then addframetext(...)`
    `Blizzard_ScriptErrors/Blizzard_ScriptErrors.lua:75-83`.
@@ -530,11 +514,11 @@ never evidence of intended design):
 - **WoWUIBugs #811** *"Tooltip secret value error inside LayoutFrame.lua"*
   (open; labels `Bug`, `Regression`, `Mainline`, `Default UI`).
 
-(Labels and states re-checked via `gh api repos/Stanzilla/WoWUIBugs/issues/<n>`
-on 2026-07-23.)
+(Labels and states are read with `gh api repos/Stanzilla/WoWUIBugs/issues/<n>`;
+re-run it before relying on any of them.)
 
 A `taint` search of the tracker returns ~86 issues and a `secret value` search
-13 (counts recorded in `sources.md` §2.2, 2026-07-23).
+13 (counts recorded in `sources.md` §2.2).
 
 ---
 
@@ -587,10 +571,9 @@ UnitExists(unit) then return nil; end`).
 ### 3.2 Secure handler snippets
 
 `Blizzard_RestrictedAddOnEnvironment/SecureHandlerTemplates.xml` (106 lines)
-defines **ten** templates (an earlier draft said nine while listing ten — the
-file has ten `<Frame>`/`<Button>` elements, at :6, :13, :21, :29, :37, :45, :56,
-:67, :78, :90), each binding a widget script to a named attribute whose value is
-a **string of restricted Lua**:
+defines **ten** templates (ten `<Frame>`/`<Button>` elements, at :6, :13, :21,
+:29, :37, :45, :56, :67, :78, :90), each binding a widget script to a named
+attribute whose value is a **string of restricted Lua**:
 
 | Template | Line | Snippet attribute(s) |
 |---|---|---|
@@ -627,12 +610,38 @@ end
 `Blizzard_RestrictedAddOnEnvironment/RestrictedExecution.lua:58-66`
 (the same `function` check is applied to the signature, :68-71)
 
-The environment handed to snippets is an explicit allow-list —
-`RESTRICTED_FUNCTIONS_SCOPE` at `RestrictedEnvironment.lua:24-77`: `math`,
-`string`, `select`, `tonumber`, `tostring`, the `str*` family, and the `math`
-scalar functions. `table` is deliberately excluded — the comment says
-*"table is provided elsewhere, as direct tables are not allowed"* (:27). Game
-state is exposed only at macro-conditional granularity via
+The environment handed to snippets is an explicit allow-list, and it is
+**assembled from two files** — reading only the first gives the wrong answer
+about what a snippet can do.
+
+1. `RESTRICTED_FUNCTIONS_SCOPE` at `RestrictedEnvironment.lua:24-77`: `math`,
+   `string`, `select`, `tonumber`, `tostring`, `rawtype`, the `str*` family, and
+   the `math` scalar functions. Its comment *"table is provided elsewhere, as
+   direct tables are not allowed"* (:27) names the second file rather than
+   excluding `table`.
+2. `RestrictedExecution.lua` then merges that scope into
+   `LOCAL_Restricted_Global_Functions` (`:276-294`, merge at `:317-321`) and adds
+   a **`table` namespace** (`:323-333`) with `maxn`, `insert`, `remove`, `sort`,
+   `concat`, `wipe` and **`new`**, plus at top level `newtable`, `copytable`,
+   `pairs`, `ipairs`, `next`, `unpack`, `wipe`, `tinsert`, `tremove`, a
+   restricted-table-aware `type`, and `rtgsub` (`:276-294`). Every one of these
+   is an `rtable.*` function — the restricted-table implementations exported at
+   `RestrictedInfrastructure.lua:563-580`, not stock Lua `table`. Namespaces are
+   copied in through `PopulateGlobalFunctions` (`:297-315`, called at `:319` and
+   `:335`), which re-exposes each sub-table behind a `newproxy` with
+   `__index`/`__metatable = false`, so a snippet may call through `table.*` but
+   may not write to it.
+
+**So snippet-local storage is entirely possible.** `BuildRestrictedClosure`
+rejects the `{}` constructor at build time (`:63-66`), and
+**`newtable()` / `table.new()` is the sanctioned substitute** — that is exactly
+what "table is provided elsewhere, as direct tables are not allowed" means. What
+you get back is a *restricted* table (`RestrictedTable_create`,
+`RestrictedInfrastructure.lua:282`, exported as `rtable.newtable` at `:568`), so
+iterate it with the injected `pairs`/`next`/`ipairs`/`unpack` — those are the
+only ones in scope, and they are the restricted-table-aware implementations.
+
+Game state is exposed only at macro-conditional granularity via
 `DIRECT_MACRO_CONDITIONAL_NAMES` (:81+): `SecureCmdOptionParse`,
 `GetShapeshiftForm`, `IsStealthed`, `UnitExists`, `UnitIsDead`, `UnitIsGhost`,
 `UnitPlayerOrPetInParty`, `UnitPlayerOrPetInRaid`, the modifier-key predicates,
@@ -692,7 +701,8 @@ Note :123 — initial attributes are copied through `scrub()`.
 
 ### 3.4 A readable worked example (Tier 3)
 
-oUF is the smallest complete real user of this machinery (784 K). It builds
+oUF is the smallest complete real user of this machinery (504 K of code; the
+784 K figure elsewhere in the corpus is the clone including `.git`). It builds
 `PetBattleFrameHider` from `SecureHandlerStateTemplate` (`oUF/ouf.lua:22`),
 defaults headers to `SecureGroupHeaderTemplate` (:643), sets the child template
 to `'SecureUnitButtonTemplate, SecureHandlerStateTemplate,
@@ -722,34 +732,60 @@ documented rule.
 > APIs and pass those Secrets into certain APIs, but it cannot actually see the
 > value that is inside of that box.
 >
-> — Blizzard, *Midnight Public Alpha Addon API Changes*, 2025-10-01
-> (Tier 2 archive: `Patch 12.0.0/Planned API changes`, revid 6746061)
+> — Blizzard, *Midnight Public Alpha Addon API Changes*; Tier-2 archive of the
+> post of 2025-10-01: `Patch 12.0.0/Planned API changes`, revid 6746061, 2026-06-17
 
 Secrecy is a property of the **value**, and the restriction is a property of the
 **path**. Untainted code operates on secrets normally.
 
 ### 4.2 The operation table
 
-From Tier 2 (`Secret Values`, revid 6777907, 2026-07-22), which is the only
-consolidated statement of the rules. **When a disallowed operation happens the
-result is an immediate Lua error**, not a nil return.
+Originally from Tier 2 (`Secret Values`, revid 6777907, 2026-07-22), the only
+consolidated statement of the rules. **Every row below has now been executed in the
+client against a genuine Secret Value** — a tracked cooldown read in combat — so this
+table is Tier 1 by measurement `[client 2026-08-05]`. **When a disallowed operation
+happens the result is an immediate Lua error**, not a nil return.
 
-| Operation on a secret, from tainted code | Allowed? |
-|---|---|
-| Store in a local / upvalue / table **value** | ✅ |
-| Pass to a **Lua** function | ✅ |
-| Pass to a **C** function | ❌ unless that API is explicitly marked (§4.5) |
-| Concatenate, if string or number | ✅ |
-| `string.format` / `string.join` / `string.concat` | ✅ |
-| Arithmetic | ❌ |
-| Compare (`==`, `<`, …) | ❌ |
-| Boolean test on a **boolean** secret | ❌ |
-| Boolean test on a **non-boolean** secret | ✅ (type isn't secret: nil→false, everything else→true) |
-| Length operator `#` | ❌ |
-| Use as a table **key** | ❌ |
-| Index or index-assign (`secret.foo`, `secret["foo"] = 1`) | ❌ |
-| Call it as a function | ❌ |
-| `type(secret)` | ✅ — **returns the real type** |
+The **result column is the half the wiki does not state**, and it is where the surprises
+are: an allowed operation does not necessarily give back a plain value.
+
+| Operation on a secret, from tainted code | Allowed? | Is the RESULT secret? |
+|---|---|---|
+| Store in a local / upvalue / table **value** | ✅ | n/a — the stored value stays secret |
+| Pass to a **Lua** function | ✅ | **yes** — it comes back out secret |
+| Pass to a **C** function | ❌ unless explicitly marked (§4.5) | — |
+| Concatenate, if string or number | ✅ | **yes** |
+| `string.format` / `string.join` / `string.concat` | ✅ | **yes** |
+| Arithmetic | ❌ | — |
+| Compare (`==`, `<`, …) | ❌ **except against `nil`** — see below | — |
+| Boolean test on a **boolean** secret | ❌ *(unverified — see below)* | — |
+| Boolean test on a **non-boolean** secret | ✅ | **no** — a plain boolean |
+| Length operator `#` | ❌ | — |
+| Use as a table **key** | ❌ | — |
+| Index or index-assign (`secret.foo`, `secret["foo"] = 1`) | ❌ both directions | — |
+| Call it as a function | ❌ | — |
+| `type(secret)` | ✅ — **returns the real type** | **no** — a plain string |
+
+⚠ **`string.format` and `..` return a SECRET string.** That is the row most likely to be
+misread as an escape hatch: formatting a secret is permitted, so it looks like a way to
+get text out — but the text is itself secret and printing it is the next error. The two
+operations that hand back a genuinely plain value are `type()` and a truthiness test on a
+non-boolean.
+
+⚠ **The boolean-secret row is the one thing here still NOT measured.** The cooldown source
+hands out a secret **number**, so there was no boolean secret to test with; the test
+recorded `measured = false` with that reason rather than a verdict `[client 2026-08-05]`.
+The ❌ is still Tier 2 alone. Finding a boolean-valued secret would close it.
+
+**`== nil` is permitted, and it is the one comparison that is.** Measured all four ways
+`[client 2026-08-05]`: `s == nil` → `false`, `nil == s` → `false`, `s ~= nil` → `true`,
+all plain booleans and none erroring — while the control `s == 0` threw
+*"attempt to compare upvalue 'v' (a secret number value, while execution tainted by
+'ClientLab')"*. So a nil-guard on a maybe-secret value is safe, which is consistent with
+the model: comparing against nil leaks nothing that holding the value did not already.
+⚠ **This does not license comparing to nil in product code.** The house rule stands —
+class-check first (`issecretvalue`), branch on the class. This row exists so the table is
+honest, not to change the practice.
 
 ### 4.3 The traps
 
@@ -764,8 +800,7 @@ passes the type check and blows up on the comparison. Tier 2 states this
 explicitly (`Secret Values`, revid 6777907: *"Querying the type of a secret
 value type(secret) returns its real type"*). Blizzard's own dumper is written to
 match — it takes `local valType = type(val)` and then separately asks
-`canaccessvalue(val)`. Exact lines in `Blizzard_SharedXML/Dump.lua` (re-checked
-by `grep -n`, an earlier draft was off by up to 3 on four of them):
+`canaccessvalue(val)`. Exact lines in `Blizzard_SharedXML/Dump.lua`:
 `type(val)` :98 → `canaccessvalue(val)` :106, :113 (in `prepSimple`);
 `type(val)` :149 → `canaccessvalue(val)` :151;
 `type(val)` :309 → `issecretvalue(val)` :312 → `canaccessvalue`/`canaccesstable`
@@ -773,8 +808,16 @@ by `grep -n`, an earlier draft was off by up to 3 on four of them):
 `type(value)` :406 → `canaccesstable(value)` :407.
 The correct guard is `issecretvalue(v)` or `canaccessvalue(v)`, never `type()`.
 
-**Trap 2 — truthiness is type-dependent.** `if secretNumber then` is legal;
-`if secretBoolean then` errors. You cannot tell which you have without asking.
+**Trap 2 — truthiness is type-dependent.** `if secretNumber then` is legal and returns a
+plain boolean `[client 2026-08-05]`; `if secretBoolean then` errors. You cannot tell which
+you have without asking. **Only the first half is measured**: the cooldown source hands
+out a secret *number*, so the boolean case has never been executed and rests on Tier 2
+alone, as the operation table above records.
+
+**Trap 2b — a formatted secret is still secret.** `string.format("%s", s)` and `"x" .. s`
+are both permitted, which reads like a way to get text out. The result is a **secret
+string** `[client 2026-08-05]`, so the print is the next error. The only operations that
+hand back a genuinely plain value are `type()` and a truthiness test on a non-boolean.
 
 **Trap 3 — the error lands in Blizzard's file.** See §2.4; WoWUIBugs #801 and
 #804 are the canonical shapes (`attempt to perform arithmetic on a secret
@@ -801,12 +844,11 @@ tainted code cannot touch it at all.
 ### 4.4 Testing for secrets
 
 Nine primitives, **all in the generated docs** in
-`Blizzard_APIDocumentationGenerated/FrameScriptDocumentation.lua`
-(this corrects `sources.md` **§1.2** — the "Global coverage is partial" bullet —
-and **§7**, whose routing line calls `issecretvalue`, `hasanysecretvalues` and
-`scrub` "wiki-only globals". That is true of
-`issecure`/`issecurevariable`/`securecall`/`forceinsecure`, but **not** of the
-secret family, which is fully documented at Tier 1):
+`Blizzard_APIDocumentationGenerated/FrameScriptDocumentation.lua`. The secret
+family is Tier 1, unlike
+`issecure`/`issecurevariable`/`securecall`/`forceinsecure`, which are wiki-only
+for their *semantics* — though all four are now confirmed to **exist** as
+functions in the client `[client 2026-07-24]`:
 
 | Function | Line | Documentation string (verbatim from the file) |
 |---|---|---|
@@ -833,11 +875,10 @@ Tables get their own lever: `SetTableSecurityOption(table, option)`
 SecretWrapContents 2` (:490-501).
 
 **[gap] — a real inconsistency I could not resolve.** **Eight** of those nine
-carry `SecretArguments = "AllowedWhenUntainted"` in the same file. (The ninth,
+carry `SecretArguments = "AllowedWhenUntainted"` in the same file. The ninth,
 `canaccesssecrets`, takes **no arguments at all** and therefore carries no
-`SecretArguments` field — an earlier draft said "every one of those nine", which
-is wrong. `dropsecretaccess` is likewise argument-less and unannotated.) Read
-literally against the wiki's definition of that value (§4.5), a *tainted*
+`SecretArguments` field; `dropsecretaccess` is likewise argument-less and
+unannotated. Read literally against the wiki's definition of that value (§4.5), a *tainted*
 caller could not pass a secret to `issecretvalue` — which would make the
 function useless to addons, and directly contradicts Blizzard's own blue post
 (*"you can also test if a value is Secret by calling the issecretvalue API"*,
@@ -895,8 +936,8 @@ takes secrets (`GetSpellCooldown`:249,
 `GetSpellInfo`:338, `IsSpellUsable`:873, `IsSpellInRange`:841, …, all in
 `SpellDocumentation.lua`), several `C_UnitAuras.*`
 (`GetPlayerAuraBySpellID`:332, `GetUnitAuraBySpellID`:369,
-`GetCooldownAuraBySpellID`:299, `GetAuraBaseDuration`:133 —
-`UnitAuraDocumentation.lua`), `UnitName`:2368, `UnitNameFromGUID`:2385,
+`GetCooldownAuraBySpellID`:299, `GetAuraBaseDuration`:133,
+`GetRefreshExtendedDuration`:349 — `UnitAuraDocumentation.lua`), `UnitName`:2368, `UnitNameFromGUID`:2385,
 `UnitClassFromGUID`:933, `UnitTokenFromGUID`:3150
 (`UnitDocumentation.lua`), the `C_StringUtil.*` escape/format helpers
 (`StringUtilDocumentation.lua:41-222`), `AbbreviateNumbers` /
@@ -913,15 +954,26 @@ all carry `SecretArguments = "AllowedWhenUntainted"` together with
 `SecretArgumentsAddAspect = { Enum.SecretAspect.Cooldown }`
 (`FrameAPICooldownDocumentation.lua:280-283, 293-296, 316-319, 329-332`).
 Read against the Tier-2 definition of `AllowedWhenUntainted`, **tainted addon
-code cannot pass a secret number to any of the four.** `sources.md` §4 asserts
-the opposite ("they DO accept secrets") on the strength of the absence of
-`NotAllowed`; that reading drops the untainted/tainted distinction and should
-be corrected. The sanctioned path for secret cooldown data is instead §4.8.
+code cannot pass a secret number to any of the four.** The absence of
+`NotAllowed` does **not** mean "they accept secrets" — that reading drops the
+untainted/tainted distinction. The sanctioned path for secret cooldown data is
+instead §4.8.
+
+⚠ **`AllowedWhenTainted` governs the *arguments*; a `Precondition` can still
+refuse the *call*.** Two of the `C_UnitAuras` entries above carry
+`RequiresNonSecretAura = true` on top of `AllowedWhenTainted`:
+`GetPlayerAuraBySpellID` (`UnitAuraDocumentation.lua:332`, marker at `:335`) and
+`GetUnitAuraBySpellID` (`:369`, marker at `:372`). So being on the 120-member
+list is necessary and not sufficient — see §4.7 for what that predicate does.
+`GetCooldownAuraBySpellID`, `GetAuraBaseDuration` and `GetRefreshExtendedDuration`
+do **not** carry it.
 
 ### 4.6 Aspects, anchors, and const accessors
 
-Passing a secret into a widget setter *marks the object*. Three distinct
-outcomes:
+Passing a secret into a widget setter *marks the object*. There are three
+outcomes, and **they are not mutually exclusive** — read them as three things
+that can happen, not as a three-way choice. One setter can do two of them
+(`SetText` does (a) and (b) together; see the worked example below).
 
 **(a) Aspect.** If the setter carries `SecretArgumentsAddAspect`, the object
 gains that aspect and every getter carrying the matching
@@ -944,11 +996,20 @@ itself** (`SecretAspectConstantsDocumentation.lua:13-19`) — this is not a
 tooling artefact on our side. Header says `NumValues = 29, MinValue = 1,
 MaxValue = 4194304`. Do not do bit arithmetic on those seven.
 
-Worked example, all Tier 1, **and the only one of the two an addon can actually
-trigger**: `FontString:SetText` adds `Text`
+**Worked example — `FontString:SetText`, which does (a) and (b) at once.** It is
+the aspect case an addon can actually trigger: it adds `Text`
 (`SimpleFontStringAPIDocumentation.lua:653-656`) and is
 `SecretArguments = "AllowedWhenTainted"`, so tainted addon code *can* feed it a
-secret; `FontString:GetText` then returns secret for `Text` (`:352`).
+secret, after which `FontString:GetText` returns secret for `Text` (`:352`).
+⚠ **It also marks anchoring secret** — measured, the FontString *and its
+dependent* flip to `IsAnchoringSecret`, which is outcome (b), not (a)
+(§4.8.1 finding 10, `[client 2026-08-04]`). Mechanically that follows: a
+FontString's extent is derived from its text, so a secret string implies a
+secret size.
+
+**The practical rule: a FontString you feed a secret must be a leaf.** Anchor it
+*to* things; never anchor anything *to* it, and never read `GetPoint`/`GetWidth`
+off its dependents. §4.8.1 records the anchor-safe alternative for secret text.
 
 ⚠ `Frame:SetShown` also declares
 `SecretArgumentsAddAspect = { Enum.SecretAspect.Shown }`
@@ -957,8 +1018,7 @@ derive from `Shown` (`:841, :895`) — but `SetShown` is *both*
 `SecretArguments = "AllowedWhenUntainted"` **and** `IsProtectedFunction = true`,
 so an addon cannot set that aspect by passing a secret. If your `IsShown` starts
 returning a secret, the aspect was applied by *untainted* (Blizzard) code, not by
-you. An earlier draft used this as the headline worked example without that
-caveat.
+you — which does happen, so guard the getter anyway (rule 19).
 
 Aspects do not share state — an object with `Shown` set still returns clean
 values from the `Alpha` getters.
@@ -969,23 +1029,24 @@ Query with `FrameScriptObject:HasSecretAspect(aspect)` /
 An aspect can also **block a call outright**, not just secrete its return. The
 `RequiresFontStringTextAccess` precondition — *"Guarded APIs reject access for
 tainted callers if the object has the secret Text aspect assigned"*,
-`failureMode = ReturnNothing` (`SecretPredicatesDocumentation.lua:21`) — is
+`FailureMode = "ReturnNothing"` (`SecretPredicatesDocumentation.lua:21-24`) — is
 applied to exactly two APIs, both text-measurement:
 `FontString:CalculateScreenAreaFromCharacterSpan`
 (`SimpleFontStringAPIDocumentation.lua:10`, marker at `:12`) and
-`FontString:FindCharacterIndexAtCoordinate` (`:72`, marker at `:75`;
-an earlier draft said `:73`). So a FontString that has
-ever been fed a secret string stops being measurable by tainted code, which is
-a layout problem, not a display problem.
+`FontString:FindCharacterIndexAtCoordinate` (`:72`, marker at `:75`). So a
+FontString that has ever been fed a secret string stops being measurable by
+tainted code — a second, independent reason it has to be a layout leaf.
 
-**(b) Whole-object secrecy.** A setter that accepts secrets but has *no*
-declared aspect marks the object as having secret values —
+**(b) Whole-object secrecy.** The object is marked as having secret values —
 `HasSecretValues()` (`SimpleFrameScriptObjectAPIDocumentation.lua:69`) — and
 that in turn marks all anchoring/positioning data secret, propagating **down**
 the anchor chain to dependents but not up.
 `ScriptRegion:IsAnchoringSecret()` (`SimpleScriptRegionAPIDocumentation.lua:367`)
 tests it; `IsAnchoringRestricted()` (`:353`) is the neighbouring query.
-The propagation rule is Tier 2 + blue post, not the generated docs.
+A setter with **no** declared aspect can only do this — but declaring an aspect
+does not exempt a setter from it, which is why `SetText` does (a) and (b) both.
+Down-only propagation is Tier 2 + blue post in the generated-docs sense, and
+confirmed in client at §4.8.1 findings 4 and 6 (`[client 2026-08-04]`).
 
 ⚠ **The wiki's own example for this case is stale.** `Secret Values`
 (revid 6777907, 2026-07-22) says *"calling StatusBar:SetValue(value) with a
@@ -1029,20 +1090,45 @@ that uses them (e.g. `MouseFocusValidForLimitedInput` at
 `ChatConstantsDocumentation.lua:233`). Full dump:
 `uv run python -m wowkb.uiapi predicates`.
 
-The two kinds behave differently, and the `failureMode` field proves it:
+The two kinds behave differently, and the `FailureMode` field proves it:
 
 ```
-Type = "Secret"        19   failureMode = None            (all 19)
-Type = "Precondition"  32   failureMode = ReturnNothing   20
-                            failureMode = Error            5
-                            failureMode = ReturnWithError  5
-                            failureMode = None             2
+Type = "Secret"        19   FailureMode absent            (all 19)
+Type = "Precondition"  32   FailureMode = "ReturnNothing"  20
+                            FailureMode = "Error"           5
+                            FailureMode = "ReturnWithError" 5
+                            FailureMode absent              2
 ```
 
 A `Secret` predicate never changes *whether* the call succeeds — it changes
 what the return **is**. A `Precondition` predicate changes whether you get a
 value at all. Conflating the two is the difference between "guard the value"
 and "guard the call".
+
+⚠ **The two `Precondition`s with no `FailureMode` are the dangerous ones**,
+because Tier 1 does not say what they do on failure:
+`RestrictedForMacroChatMessages` (`ChatConstantsDocumentation.lua:233`) and
+**`RequiresNonSecretAura`** (`UnitAuraDocumentation.lua:560`). Neither carries a
+`Documentation` string either. **[gap]**
+
+**`RequiresNonSecretAura` — the per-aura allowlist.** It is applied to exactly
+three `C_UnitAuras` getters, all keyed by spell identity rather than by aura
+index or instance ID: `GetAuraDataBySpellName` (`UnitAuraDocumentation.lua:205`,
+marker at `:208`), `GetPlayerAuraBySpellID` (`:332`, marker at `:335`) and
+`GetUnitAuraBySpellID` (`:369`, marker at `:372`). All three also carry
+`SecretWhenUnitAuraRestricted`, and two of the three (`GetPlayerAuraBySpellID`,
+`GetUnitAuraBySpellID`) are `AllowedWhenTainted` (§4.5). The consequence is that
+*aura secrecy under restriction is not a blanket seal*: a spell the client flags
+non-secret still answers through these three. Being a `Precondition`, a spell
+that is **not** on the allowlist fails at the *call*, not at the value — so do
+not guard these with `issecretvalue` on the return. ⚠ Because the failure mode
+is undeclared, whether that failure is silent absence or an error is
+**unverified here**: treat a `nil` return as "not on the allowlist" and do not
+assume you will get an error. `@verify-ingame`
+
+⚠ The allowlist membership is per-spell client data, not an API contract, so it
+moves between builds. Anything built on one specific aura passing the predicate
+is standing on a moving floor. [Tier 1 for the annotation.]
 
 The distinction that most sources get wrong:
 
@@ -1051,17 +1137,7 @@ The distinction that most sources get wrong:
   `UnitHealthPercent` (:1426), `UnitPercentHealthFromGUID` (:2514),
   `UnitGetIncomingHeals` (:1237), `UnitGetTotalAbsorbs` (:1254),
   `UnitGetTotalHealAbsorbs` (:1270), `UnitCastingDuration` (:798),
-  `UnitInRange` (:1618) — ⚠ **but range is NOT lost, and this list read as if it
-  were**: `C_Spell.IsSpellInRange(spellIdentifier, targetUnit)` carries **no secret
-  predicate at all** (`SpellDocumentation.lua:841-855`, only
-  `SecretArguments = "AllowedWhenTainted"`) and returns true / false / **nil**
-  (nil = the check was invalid — unknown spell, missing target). `C_Item.IsItemInRange`
-  is likewise unpredicated (`ItemDocumentation.lua:1498-1511`). So a per-spec ladder
-  of spell IDs is the working range check under restriction. ⚠ Resolve each id
-  through `C_SpellBook.FindSpellOverrideByID` first, or a talent-replaced base id
-  silently answers `nil` and reads as "out of range". [Tier 1 for the predicates;
-  the ladder pattern seen working in EllesmereUI 8.7.5, read for API discovery only.]
-  `UnitPowerBarTimerInfo` (:2643),
+  `UnitInRange` (:1618), `UnitPowerBarTimerInfo` (:2643),
   `UnitSpellTargetClass` (:3003), `UnitSpellTargetName` (:3020),
   `PlayerIsSpellTarget` (:510), `ClosestUnitPosition` (:53),
   `ClosestGameObjectPosition` (:34),
@@ -1075,10 +1151,21 @@ The distinction that most sources get wrong:
   `C_Spell.GetSpellCooldown` is `SecretWhenCooldownsRestricted`
   (`SpellDocumentation.lua:249`).
 
+⚠ **`UnitInRange` being on that list does not mean range checking is lost.**
+`C_Spell.IsSpellInRange(spellIdentifier, targetUnit)` carries **no secret
+predicate at all** (`SpellDocumentation.lua:841-855`, only
+`SecretArguments = "AllowedWhenTainted"`) and returns true / false / **nil**
+(nil = the check was invalid — unknown spell, missing target).
+`C_Item.IsItemInRange` is likewise unpredicated
+(`ItemDocumentation.lua:1498-1511`). So a per-spec ladder of spell IDs is the
+working range check under restriction. ⚠ Resolve each id through
+`C_SpellBook.FindSpellOverrideByID` first, or a talent-replaced base id silently
+answers `nil` and reads as "out of range". [Tier 1 for the predicates; the ladder
+pattern seen working in EllesmereUI 8.7.5, read for API discovery only.]
+
 Observed application counts at this build (`grep -rh '<predicate> = true' … | wc -l`):
 `SecretInChatMessagingLockdown` 98 · **`SecretWhenUnitStatsRestricted` 50**
-(omitted from an earlier draft — it is the second-widest) ·
-`SecretWhenUnitAuraRestricted` 20 ·
+(the second-widest) · `SecretWhenUnitAuraRestricted` 20 ·
 `SecretWhenUnitIdentityRestricted` 15 · `SecretWhenCooldownsRestricted` 14 ·
 `SecretWhenInCombat` 4 · `SecretInActivePvPMatch` 2 ·
 **`SecretOnRestrictedMaps` 0** — declared as a predicate
@@ -1160,7 +1247,7 @@ can't do the arithmetic":
   (`CurveUtilDocumentation.lua:31, 49`) — a secret boolean can pick a colour.
 - **Durations.** `C_DurationUtil.CreateDuration()` (`:11`),
   `CreateDurationTextBinding()` (`:21`), `CreateManualClock()` (`:31`) — all in
-  `DurationUtilDocumentation.lua`; an earlier draft cited `:3-9`, which is the
+  `DurationUtilDocumentation.lua`. ⚠ Cite the getter, not `:3-9`, which is the
   system header, not the functions. A `LuaDurationObject`
   (`LuaDurationObjectAPIDocumentation.lua`) carries `SetTimeFromStart`,
   `SetTimeFromEnd`, `SetTimeSpan`, `GetRemainingDuration`, `HasExpired`,
@@ -1196,10 +1283,10 @@ can't do the arithmetic":
   enters Lua, not because these functions are on the 120-member
   `AllowedWhenTainted` list. They are not.
 
-#### 4.8.1 MEASURED IN CLIENT, 2026-08-04 — which channels actually carry a secret
+#### 4.8.1 Which channels actually carry a secret `[client 2026-08-04]`
 
-⚠ **Everything above §4.8.1 is a read of the generated docs. This subsection is the
-first thing in this file that was RUN.** Measured with `/cdmp curve` (CDMProbe
+⚠ **Measured, not read.** Everything in this subsection was run in the client. Unmarked
+claims elsewhere in this file are source reads — see §0's evidence classes. Measured with `/cdmp curve` (CDMProbe
 `CurveLab.lua`, v0.32.98) on a **Havoc Demon Hunter**, out of combat and in a
 dummy pull, at 12.0.7. Sources: `UnitPowerPercent(player, Fury, false, curve)`,
 `UnitHealthPercent`, `C_Spell.GetSpellCooldownDuration`,
@@ -1227,38 +1314,50 @@ reports them **method-less**; probe with a pcall'd call instead.
 | bar fill | `SetValue` / `SetMinMaxValues` | ✅ **carries** — aspect `{BarValue}` |
 | bar colour | `SetStatusBarColor` | ✅ **carries** — but only with a bar texture, and the aspect lands on the **texture** |
 | rotation | `Texture:SetRotation` | ✅ **carries** — aspect `{Rotation}` |
-| **duration** | `SetCooldownFromDurationObject` · `StatusBar:SetTimerDuration` · `DurationTextBinding` | ✅ **carries, and does NOT poison the anchor chain** — ⚠ but see the **grade correction** under finding 1: this row proves the *object* carried a secret, **not** that a pixel moved |
+| **duration** | `SetCooldownFromDurationObject` · `StatusBar:SetTimerDuration` · `DurationTextBinding` | ✅ **carries, renders, and does NOT poison the anchor chain** `[client 2026-08-04]`. ⚠ Aspect-less — there is **no readback**, so "the call was accepted" is not evidence a pixel moved; the StatusBar route additionally needs `SetMinMaxValues(0,1)` **first** or it draws at 0 % width. Full recipe below. |
 | text | `FontString:SetText` / `SetFormattedText` | ⚠ **carries AND poisons the anchor chain** — see below |
 | ⚠ | `Texture:SetTexture` | ❌ **REFUSES** — *"Cannot set texture to a secret string value."* |
-| ⚠ | `Texture:SetAtlas` | ⚪ accepted, nothing observable changed (no aspect, no getter) |
+| ⚠ | `Texture:SetAtlas` | ⚪ accepted, nothing observable changed — **and not attributable to secrecy**, see below |
 | ⚠ | `Texture:SetColorTexture` | ⚠ **POISONS the anchor chain** on every secret source |
 | ⚠ | `AnimVertexColor:SetStartColor`/`SetEndColor` | ⚪ accepted, nothing observable changed |
+
+**0. `SetAtlas` cannot be probed with the secrets we can obtain, and the attempt is
+recorded so it is not repeated.** An atlas NAME is a string; the only secret string
+reachable from a cooldown source is a concatenation (§4.2 row 4), which is **never a
+valid atlas name**. Shown as three framed cells — a valid plain name, an invalid plain
+name, and the secret string — a person reported the secret cell **indistinguishable from
+the invalid one** `[client 2026-08-05]`. Both are blank, so "the secret was dropped" and
+"a bad name renders nothing" produce identical pixels and the observation attributes
+nothing to secrecy.
+
+⚠ **Do not read that as "the channel is dead."** It means this *probe* is inconclusive.
+Settling it needs a secret that is *itself* a valid atlas name, and no such source has
+been identified — if none exists, `SetAtlas` is permanently unfalsifiable here and should
+be documented as such rather than left looking untested. The sibling half of the same
+question — `AnimVertexColor:SetStartColor`/`SetEndColor` — has **not been attempted at
+all**; those take colours rather than names, so the category problem above does not apply
+to them and they remain the live half.
 
 **1. The duration route works, and it is the useful one.**
 `C_Spell.GetSpellCooldownDuration(spellID, false)` returns a duration whose
 `HasSecretValues()` is **true in combat and false out of it**, and all three sinks
 consume it (`anchor 0>0` on subject and dependent — no contagion). **`C_UnitAuras.GetAuraDuration`
-behaves identically**, which is a live in-combat *aura* timer — §4.9's "aura data
-is wholly sealed in combat" is about the `AuraData` record, and the duration
-object is a way round it for display. ⚠ `C_Spell.GetSpellChargeDuration` returns
+behaves identically**, which is a live in-combat *aura* timer. The `AuraData` record
+being sealed in combat is a fact about **that record**; a duration object is a way round
+it for display. ⚠ `C_Spell.GetSpellChargeDuration` returns
 **nothing** for a spell with no charges (`MayReturnNothing`); that is not a refusal.
 
-⚠⚠ **GRADE CORRECTION, 2026-08-04 — "the sinks consume it" was over-claimed, and it
-cost four builds.** The three duration sinks declare **no**
-`SecretArgumentsAddAspect` (`SimpleStatusBarAPIDocumentation.lua:308-320`), so they
-are **aspect-less** — the class this file elsewhere calls the dangerous one, with
-*no readback of any kind*. `hsv` and `anchor 0>0` prove the **object carried a
-secret** and **the chain stayed clean**. Neither shows a pixel moving. A
-`StatusBar:SetTimerDuration` bar rendering **nothing** is fully consistent with the
-evidence as originally recorded, and that is exactly what happened: a correctly
-installed duration (`GetTimerDuration` → userdata, `IsZero` false) with the
-status-bar texture at **0 % width** for four builds. **Read this row as "the channel
-accepts a secret", never as "the channel displays one."** The two sub-findings below
-close it: **9** is the display route that is *confirmed rendering in combat*, and
-**10** is why the bar was blank (it was our bug, not the client's).
+⚠⚠ **"Accepted" is not "displayed", and on an aspect-less sink nothing tells you which
+you have.** The three duration sinks declare **no** `SecretArgumentsAddAspect`
+(`SimpleStatusBarAPIDocumentation.lua:308-320`), so there is *no readback of any kind*.
+`hsv` and `anchor 0>0` prove the object carried a secret and the chain stayed clean —
+neither shows a pixel moving. A correctly installed duration (`GetTimerDuration` →
+userdata, `IsZero` false) drawing at **0 % width** is fully consistent with that
+evidence, and is what happens when the bar has no range (finding 3). **On any
+aspect-less channel, the only oracle is an eyeball.**
 
-**9. ✅✅ CONFIRMED IN COMBAT — the shortest route to a secret number on screen is
-two calls, and it is TEXT, not a bar.** Measured 2026-08-04, Demonology, Summon
+**2. ✅✅ CONFIRMED IN COMBAT — the shortest route to a secret number on screen is
+two calls, and it is TEXT, not a bar.** `[client 2026-08-04]` Demonology, Summon
 Demonic Tyrant 265187 (`/cdmp curve text`):
 
 ```lua
@@ -1271,14 +1370,14 @@ fontString:SetText(s)                                          -- renders. In co
 `FormatRemainingDuration` returns a **`string`**
 (`LuaDurationObjectAPIDocumentation.lua:144-158`) — not a curve result, not an
 object — and it comes back **SECRET in combat**, which `SetText` then renders per
-finding 4. **No curve, no StatusBar, no `DurationTextBinding`, no clock.** Both
+finding 10. **No curve, no StatusBar, no `DurationTextBinding`, no clock.** Both
 halves were already in this file and were simply never used together.
-⚠ **The constraint is finding 4's other half**: `SetText` with a secret also marks
+⚠ **The constraint is finding 10's other half**: `SetText` with a secret also marks
 **anchoring** secret, so the FontString must be a **leaf** — its own holder, and
 nothing ever anchored to it. ⚠ `modifier` is `Nilable = false` *with* a `Default`
 (`:154`) — pass it explicitly; see §4.6's `Default ≠ Nilable` rule.
 
-**10. ⚠⚠ `StatusBar:SetTimerDuration` NEEDS A RANGE — `SetMinMaxValues(0, 1)` FIRST.**
+**3. ⚠⚠ `StatusBar:SetTimerDuration` NEEDS A RANGE — `SetMinMaxValues(0, 1)` FIRST.**
 A timer **drives the value within** a range; it does not bring one. With no range
 the bar holds a valid duration object and draws **0 %**. This was misdiagnosed here
 first: Blizzard calls `SetMinMaxValues(0, 0)` in
@@ -1294,9 +1393,10 @@ generated enum (only `Immediate = 0` and `ExponentialEaseOut = 1`,
 `SimpleStatusBarConstantsDocumentation.lua:25-28`) — prefer the documented member.
 ⚠ And `SetStatusBarTexture` returns a `success` **bool** (`:295-307`) that almost
 everyone discards; a texture that fails to resolve yields a bar nothing can fill.
-@verify-ingame — our own bar's fix is shipped but not yet re-flown.
+✅ **The bar renders.** `[client 2026-08-04]` — a live Summon Demonic Tyrant cooldown bar
+drawing off a secret duration, in combat, on the recipe above.
 
-**11. ⚠⚠ A DURATION OBJECT IS ITSELF A CURVE EVALUATOR — the curve sink we
+**4. ⚠⚠ A DURATION OBJECT IS ITSELF A CURVE EVALUATOR — the curve sink we
 concluded did not exist.** `LuaDurationObject:EvaluateRemainingDuration(curve,
 modifier)` takes a `LuaCurveObjectBase` and returns a `LuaCurveEvaluatedResult`
 (`LuaDurationObjectAPIDocumentation.lua:72-88`). So a **Step** curve
@@ -1330,7 +1430,7 @@ parameter. Do not copy that shape.
 *Seen working in:* EllesmereUI 8.7.5 (read for API discovery only, no code copied).
 *Confidence:* high on the mechanism, **unmeasured** on result secrecy.
 
-**12. `StatusBar:SetToTargetValue()` after arming a timer, on first show.** A bar
+**5. `StatusBar:SetToTargetValue()` after arming a timer, on first show.** A bar
 just made visible otherwise interpolates from its stale previous value up to the
 timer's position. `SetToTargetValue` *"immediately finishes any interpolation of
 the bar and snaps it to the target value"*
@@ -1338,7 +1438,7 @@ the bar and snaps it to the target value"*
 `SetMinMaxValues(0, 1)` → `SetTimerDuration(dur, interp, RemainingTime)` →
 *`SetToTargetValue()` if newly shown*. *Confidence:* high.
 
-**13. `Cooldown:SetCooldownFromDurationObject` needs NO range-equivalent** — unlike
+**6. `Cooldown:SetCooldownFromDurationObject` needs NO range-equivalent** — unlike
 the StatusBar, the duration object is passed bare and the swipe geometry comes
 from it (`FrameAPICooldownDocumentation.lua:305-314`; `clearIfZero` defaults
 `true`). Two riders: the swipe is drawn from the widget's **armed duration**, not
@@ -1347,54 +1447,53 @@ nothing; and a widget that may be showing aura display time needs
 `SetUseAuraDisplayTime(false)` first (`:545-554`) or it keeps drawing the aura
 timer. *Confidence:* high on the first, medium on the ordering rider.
 
-**14. A second text route: `GetRemainingDuration()` → `SetFormattedText`.**
+**7. A second text route: `GetRemainingDuration()` → `SetFormattedText`.**
 `GetRemainingDuration(modifier)` returns a `DurationSeconds`
 (`LuaDurationObjectAPIDocumentation.lua:270-283`) that is a **secret number in
 combat**, and `FontString:SetFormattedText` (`AllowedWhenTainted`, aspect `{Text}`)
-renders it. Unlike finding 9's formatter route the format string lives in Lua, so
-precision is per-call. ⚠ It inherits finding 4 — `SetFormattedText` **poisons
+renders it. Unlike finding 2's formatter route the format string lives in Lua, so
+precision is per-call. ⚠ It inherits finding 10 — `SetFormattedText` **poisons
 anchoring**, so the FontString must be a leaf. `DurationTextBinding` remains the
 only anchor-safe text route.
 ⚠⚠ **AND `type(x) == "number"` IS THE WRONG GUARD.** A secret number fails it, so
 a bare `type()` check silently rejects exactly the in-combat case you need. Ask
 `issecretvalue` first (rule 15). *Confidence:* high on the API pair.
 
-**2. `UnitPowerPercent` accepts a `LuaColorCurveObject`.** Its curve argument is
+**8. `UnitPowerPercent` accepts a `LuaColorCurveObject`.** Its curve argument is
 typed `LuaCurveObjectBase` (`UnitDocumentation.lua:2729`), the shared base of both
 curve types, and the client **does** take a colour curve there: secret Fury drove
 `SetVertexColor` directly, with no boolean quantisation. Previously inferred from
 the type signature; now measured.
 
-**3. ⚠⚠ A COLOUR RESULT IS A READABLE TABLE WITH SECRET MEMBERS.** Both
+**9. ⚠⚠ A COLOUR RESULT IS A READABLE TABLE WITH SECRET MEMBERS.** Both
 `UnitPowerPercent(…colorCurve)` and `GetAuraDispelTypeColor` return an ordinary
 ColorMixin whose `.r`/`.g`/`.b` are secret. So `issecretvalue` on the table is
 **false** and `issecrettable` is **false** — you must ask about the *members*.
 Code that classifies a colour by the table alone concludes "no secret here".
 
-**4. ⚠⚠ TEXT BREAKS THE §4.6 (a)-OR-(b) FRAMING.** `FontString:SetText(secret)`
+**10. ⚠⚠ TEXT APPLIES AN ASPECT *AND* MARKS ANCHORING SECRET.** `FontString:SetText(secret)`
 records **both** `landed=aspect+` (the `{Text}` aspect) **and** `anchor 0>1` on the
-FontString *and its dependent* — i.e. it applies an aspect **and** marks anchoring
-secret. §4.6 presents (a) aspect and (b) whole-object secrecy as alternatives; for
-text they co-occur. Mechanically this is unsurprising — a FontString's extent is
+FontString *and its dependent* — the two outcomes co-occur, which is why §4.6 states them
+as non-exclusive. Mechanically this is unsurprising — a FontString's extent is
 derived from its text, so a secret string implies a secret size — but the
 consequence is practical: **never anchor anything to a FontString you feed a secret
 string.** ⚠ **`DurationTextBinding` does NOT do this**: it writes the text C-side
 and the anchor stayed clean (`0>0`), so it is the anchor-safe route to secret text
 and `SetText` is not.
 
-**5. `SetTexture` refuses a secret string outright** despite carrying
+**11. `SetTexture` refuses a secret string outright** despite carrying
 `SecretArguments = "AllowedWhenTainted"`
 (`SimpleTextureBaseAPIDocumentation.lua:441`). The annotation is necessary, not
 sufficient — the client's own message is *"Cannot set texture to a secret string
 value."* `SetAtlas`, on the identical annotation, accepts it silently.
 
-**6. `SetColorTexture` poisons the anchor chain**, confirming the §4.6(b)
+**12. `SetColorTexture` poisons the anchor chain**, confirming the §4.6(b)
 prediction for the aspect-less setters, and the contagion **reached the dependent
 child** — down-chain propagation observed, not merely documented. `UIParent` stayed
 clean throughout (the canary never fired), so **propagation really is down-only**;
 that had been Tier 2.
 
-**7. ✅ `StatusBar:SetStatusBarColor` carries a secret — but only on a bar that HAS a
+**13. ✅ `StatusBar:SetStatusBarColor` carries a secret — but only on a bar that HAS a
 status-bar texture, and the aspect lands on the TEXTURE, not the bar.** An earlier
 run recorded *"Object did not allow secret."* on every attempt; that was the
 probe's own bug (a StatusBar with no `SetStatusBarTexture`, and that setter tints
@@ -1407,19 +1506,19 @@ a working channel as inert. Check `GetStatusBarTexture()` for this one.
 
 ⚠ **The client's refusal message distinguishes the two failure modes**: *"Object did
 not allow secret."* is the **object** refusing, where *"Cannot set texture to a
-secret string value."* (finding 5) is the **argument** being rejected. Read the
+secret string value."* (finding 11) is the **argument** being rejected. Read the
 message — the docs' `SecretArguments` annotation only covers the second.
 
 **[gap] — the two `⚪` rows above are unresolved by construction.** `SetAtlas` and
 the two `AnimVertexColor` setters declare no aspect, expose no getter and did not
 touch the anchor chain, so "accepted and nothing observable changed" is the strongest
 statement the instrument can make. Whether the pixel moved needs an eyeball on
-`/cdmp curve card`. @verify-ingame
+`/cdmp curve card`. `@verify-ingame`
 
 #### 4.8.2 A THRESHOLD CUE ON A SECRET COUNT — shipped and confirmed in play
 
 ⚠ **This is not a measurement, it is a working technique.** Built and flown
-2026-08-04 (CDMProbe `/cdmp curve stack`, Demonology): a visible cue that fires at
+`[client 2026-08-04]` (Demonology): a visible cue that fires at
 *>6 Wild Imps* and at *4 Demonic Core* — two counts that are **secret in combat**
 and, per §4.8.1, have **no curve sink**, so they can never reach alpha, colour or a
 bar. Text is the only channel that accepts one at all.
@@ -1448,7 +1547,7 @@ cue.** Confirmed on screen: the number appears on crossing the threshold.
    that the technique is dead; a secret id would be **refused**, since the API is
    `SecretArguments = "AllowedWhenUntainted"`.
 2. **The FontString must be a LEAF.** `SetText` with a secret applies `{Text}` *and*
-   marks anchoring secret, propagating down (§4.8.1 finding 4). Anchor it *to*
+   marks anchoring secret, propagating down (§4.8.1 finding 10). Anchor it *to*
    something and never anchor anything *to it*.
 3. **Draw where you like.** ⚠ The read needs the CDM item frame; **the draw does
    not.** By the time you hold the string the comparison is done and it is ordinary
@@ -1463,11 +1562,11 @@ as ordinary text; only mid-pull is the quantiser needed.
 #### 4.8.3 `[client]` Which comparisons a secret survives — partial, measured
 
 Bare `==` against a **number** throws: `item.auraSpellID == spellID` killed a refresh
-loop the instant combat started (2026-08-04). But `x == nil` appears to be
+loop the instant combat started `[client 2026-08-04]`. But `x == nil` appears to be
 **permitted** — a nil-guard has run on secrets every sample of every capture without
 raising. That asymmetry is consistent with the model (comparing to nil leaks nothing
 that is not already knowable) but is **inferred from two data points, not from any
-Tier-1 statement**. @verify-ingame
+Tier-1 statement**. `@verify-ingame`
 
 **The practical rule needs neither:** ask `ns.ClassOf`/`issecretvalue` first and branch
 on the **class**, never on the value. Then nothing depends on which comparisons the
@@ -1510,7 +1609,7 @@ part. Remembering that everything touching a restricted object is in scope is.
 - The blue post states the outbound rule directly: *"While in an instance, chat
   messages will be sent to Lua as Secret Values, and addons are not allowed to
   send communications to other players (either through addon comms or regular
-  chat)."* (2025-10-01, Tier 2 archive). The `Chat` member of
+  chat)."* `[T2 archive: 2025-10-01]`. The `Chat` member of
   `Enum.AddOnRestrictionType` (value 5) is the corresponding runtime query.
 - `RestrictedForMacroChatMessages` (`ChatConstantsDocumentation.lua:233`)
   restricts macro-initiated chat on externally observable channels during
@@ -1531,7 +1630,7 @@ ahead of live — the wiki's API index is stamped for a build this repo's
 `game-version.md` says is not deployed. Neither appears in our 12.0.7.68887
 checkout.
 
-12.0.7's own security-relevant deltas, from the 2026-04-30 blue post archived at
+12.0.7's own security-relevant deltas, from the blue post `[T2 blue: 2026-04-30]` archived at
 `Patch 12.0.7/API changes` (revid 6778033, 2026-07-22):
 `GameTooltip_AddMoneyLine` added and all internal `SetTooltipMoney` calls
 removed; unit-identity-restricted APIs now return nil/defaults instead of
@@ -1554,7 +1653,7 @@ plain boolean, a colour. **The decision is readable even when its inputs are not
 a value is sealed, the question to ask is not "is there another accessor" but *"where does
 the client render this, and what ordinary Lua does it write on the way there?"*
 
-**`[client]` The worked example** (2026-07-31, `Blizzard_CooldownViewer` @ 12.0.7.68887).
+**The worked example** `[client 2026-07-31]` (`Blizzard_CooldownViewer` @ 12.0.7.68887).
 `CooldownViewerItemMixin:IsInPandemicTime(timeNow)` is
 
 ```lua
@@ -1615,7 +1714,7 @@ type**, and the split is **primary vs. secondary resource**:
 > are no longer secret (**primary resources remain secret**). Affected resources: Combo
 > Points, Runes, Soul Shards, Holy Power, Chi, Arcane Charges, Essence."
 >
-> — `[T1]` Blizzard blue post, *Midnight Public Alpha Addon API Changes*, 2025-11-24
+> — `[T1 blue: Midnight Public Alpha Addon API Changes, 2025-11-24]`
 >   (archived at `https://warcraft.wiki.gg/wiki/Patch_12.0.0/Planned_API_changes`)
 
 So the **seven never-secret power types** are exactly that list. Everything else — **Mana,
@@ -1623,7 +1722,7 @@ Rage, Focus, Energy, Runic Power, Fury, Pain, Insanity, Maelstrom** — is secre
 **most specs in the game**.
 
 **⚠ "Contextually secret" means the UNIT, not combat. There is no out-of-combat window.**
-Measured in game 2026-08-03:
+`[client 2026-08-03]`:
 
 | probe | Fury (17) | Holy Power (9) |
 |---|---|---|
@@ -1652,7 +1751,7 @@ This is §4.11's rule generalised into an actual API: **read the verdict, not th
 is the same shape as §4.8's `GetSpellCooldownDuration` → `LuaDurationObject` — Blizzard
 answers the question in C and never hands you the input.
 
-Measured in game 2026-08-03, **one sample, at low Fury** (Havoc Demon Hunter):
+`[client 2026-08-03]`, **one sample, at low Fury** (Havoc Demon Hunter):
 
 | spell | `isUsable` | `insufficientPower` |
 |---|---|---|
@@ -1700,8 +1799,8 @@ value, it cannot reproduce the only state the game ever produces.
 
 ## 5. What real addons do (Tier 3 — practice, not rules)
 
-Measured 2026-07-23 across the seven clones in `raw/addon-research/`, at the
-commits recorded in `sources.md` §3.1. **Details and Plater share an author
+Measured across the seven clones in `raw/addon-research/`, at the commits
+recorded in `sources.md` §3.1. **Details and Plater share an author
 (Tercioo) and are not independent data points.** The exact commands, so the
 numbers are reproducible:
 
@@ -1765,12 +1864,11 @@ than comparing it".
 
 ElvUI's vendored oUF also wraps `C_Secrets` prospectively:
 `local ShouldUnitIdentityBeSecret = C_Secrets and C_Secrets.ShouldUnitIdentityBeSecret`
-plus `CanCompareUnitTokens` on the next line (`init.lua:15-16`; an earlier draft
-said `:14-15`, which is `UnitThreatSituation`) — asking the *predicate* before
-the call rather than testing the *result* after.
+plus `CanCompareUnitTokens` on the next line (`init.lua:15-16`) — asking the
+*predicate* before the call rather than testing the *result* after.
 
-None of the above is a rule. It is what four of seven surveyed codebases were
-shipping on 2026-07-23.
+None of the above is a rule. It is what four of the seven surveyed codebases
+ship at the commits recorded in `sources.md` §3.1.
 
 ---
 
@@ -1789,9 +1887,8 @@ shipping on 2026-07-23.
   guide.
 - **[gap] Error *text* is not Tier 1, though the failure *shape* now is.**
   Tier 1 gives you the shape: `MayReturnNothing` (596 entries),
-  `HasRestrictions` (**236**, re-counted — an earlier draft said 231), and a
-  per-predicate `failureMode` of
-  `None`/`ReturnNothing`/`Error`/`ReturnWithError` (§4.7). It never gives you
+  `HasRestrictions` (**236**), and a per-predicate `FailureMode` of
+  `ReturnNothing`/`Error`/`ReturnWithError`, or none at all (§4.7). It never gives you
   the error string, and never says at what point in a frame the check runs.
   WoWUIBugs issue bodies are the best available proxy (§2.4) and are
   observations, not spec. Blizzard's own `error(...)` calls in
@@ -1817,18 +1914,31 @@ shipping on 2026-07-23.
   are marked `[unverified]` in §1.2 and §1.5.
 - **[gap] Taint propagation through parents and anchors is Tier 2 only.** I
   found no Tier-1 statement of the rule, only Blizzard code that relies on it.
-- **[gap] `issecure`, `issecurevariable`, `securecall`, `securecallfunction`,
-  `secureexecuterange`, `forceinsecure`, `hooksecurefunc`, `CreateFrame` are
-  absent from the generated docs.** `issecurevariable` appears **nowhere in the
-  shipped source either** — the wiki (2026-01-03) is the only source for its
-  signature and semantics.
+- **[mostly closed] The undocumented security primitives all EXIST.** `issecure`,
+  `issecurevariable`, `issecretvalue`, `issecrettable`, `canaccessvalue`,
+  `secureexecuterange`, `forceinsecure`, `hooksecurefunc` and `scrub` every one
+  resolves as a `function`, and `C_Secrets` as a `table` `[client 2026-07-24]`.
+  That matters most for **`issecurevariable`**, which is absent from the generated
+  docs *and* appears nowhere in the shipped source — it is nonetheless present and
+  callable, so the wiki (`API issecurevariable`, revid 6588975, 2026-01-03) is
+  describing something real, not something removed.
+  ⚠ Still open: **existence was measured, behaviour was not.** No signature,
+  argument order or return shape here has been exercised, so the wiki remains the
+  only source for *semantics*. Existence is the cheap half.
 - **[gap] `taintLog` level 5 unverified.** The wiki says 12.0.1 added it; the
   BlizzardInterfaceResources dump (build 68256) does not mention it. No
-  `taint.log` exists on this install to check against. **@verify-ingame**
-- **[gap] Nothing here has been executed in the client.** Every claim is
-  static-source or documentary. Anything phrased as runtime behaviour —
+  `taint.log` exists on this install to check against. `@verify-ingame`
+- **[gap] Only the `[client]`-tagged claims — §4.8.1–§4.8.3, §4.11, §4.12 — have
+  been executed in the client.** Everything else here is static-source or
+  documentary, §0–§4.7 included. Anything phrased as runtime behaviour —
   especially the operation table in §4.2 and the aspect-marking claims in §4.6 —
-  should be confirmed in game before being relied on. **@verify-ingame**
+  should be confirmed in game before being relied on, and the one place that was
+  is exactly where the generated-docs reading turned out to be insufficient
+  (`SetTexture` carries `AllowedWhenTainted` and still refuses a secret string).
+  This is a **coverage statement, not a claim** — there is nothing here for a single
+  marker to resolve, so it carries none. The per-operation questions it implies live
+  in `projects/addon-lab/questions.json` (README §1.2), where each is separately
+  answerable.
 - **Build skew.** `wow-ui-source` 12.0.7.**68887** vs
   `BlizzardInterfaceResources` 12.0.7.**68256** vs the wiki's API index stamped
   **12.1.0 (68301)**. On conflict the local checkout wins; where I used the
@@ -1888,22 +1998,16 @@ brackets is the evidence the rule rests on.
    not permitted"`. The check is a plain `string.match`, so it also rejects
    those substrings inside comments and string literals.
    [Tier 1: `RestrictedExecution.lua:58-66`]
-7. A snippet may only call names present in `RESTRICTED_FUNCTIONS_SCOPE` or
-   `DIRECT_MACRO_CONDITIONAL_NAMES`. ⚠ **CORRECTED 2026-08-05 — `table` IS
-   available, and this rule said the opposite.** The comment at
-   `RestrictedEnvironment.lua:27` ("table is provided elsewhere, as direct tables
-   are not allowed") names a different file as the source, and we stopped at the
-   first one: `RestrictedExecution.lua:324-334` injects a `table` namespace —
-   `maxn`, `insert`, `remove`, `sort`, `concat`, `wipe`, and **`new`**
-   (= `rtable.newtable`) — via `PopulateGlobalFunctions` at `:335`. It also injects
-   at top level `newtable`, `copytable`, `pairs`, `ipairs`, `next`, `unpack`,
-   `wipe`, `tinsert`, `tremove`, a restricted-table-aware `type`, and `rtgsub`
-   (`:276-294`). So **`table.new()` / `newtable()` is the sanctioned substitute for
-   the `{}` constructor**, which `BuildRestrictedClosure` rejects at build time —
-   snippet-local storage is entirely possible, where this rule previously implied
-   it was not.
-   [Tier 1: `RestrictedExecution.lua:276-294, 324-335`;
-   `RestrictedInfrastructure.lua:562-579` (the `rtable` export);
+7. A snippet may only call names present in the assembled restricted scope:
+   `RESTRICTED_FUNCTIONS_SCOPE` (`RestrictedEnvironment.lua:24-77`),
+   `DIRECT_MACRO_CONDITIONAL_NAMES` (`:81+`), **and** the injections
+   `RestrictedExecution.lua` adds on top — including a `table` namespace
+   (`maxn`, `insert`, `remove`, `sort`, `concat`, `wipe`, `new`) and top-level
+   `newtable`/`copytable`/`pairs`/`ipairs`/`next`/`unpack`/`tinsert`/`tremove`/
+   `type`/`rtgsub`. Snippet-local storage is available: `newtable()` /
+   `table.new()` is the substitute for the `{}` constructor rule 6 rejects (§3.2).
+   [Tier 1: `RestrictedExecution.lua:276-294, 323-335`;
+   `RestrictedInfrastructure.lua:563-580` (the `rtable` export);
    `RestrictedEnvironment.lua:24-77`]
 8. `RegisterAttributeDriver` silently no-ops on any attribute name whose first
    character is `_`.
@@ -1950,8 +2054,8 @@ brackets is the evidence the rule rests on.
     `issecrettable`, `canaccesstable` or `hasanysecretvalues` — **never
     `type(v) == "<t>"`**, which returns the true type of a secret and therefore
     passes.
-    [Tier 2 for the `type()` behaviour: `Secret Values`, revid 6777907,
-    2026-07-22. Tier 1 for Blizzard writing code that way:
+    [Tier 2 for the `type()` behaviour: `Secret Values`, revid 6777907, 2026-07-22.
+    Tier 1 for Blizzard writing code that way:
     `Blizzard_SharedXML/Dump.lua:98/106/113`, `:149/151`, `:309/312/315`,
     `:406/407`]
 14. No arithmetic, comparison, `#`, indexing, indexed assignment, function call,
@@ -1992,7 +2096,7 @@ brackets is the evidence the rule rests on.
     constant `true`. Same method, two mixins, opposite trustworthiness.
     [Tier 1: `Blizzard_CooldownViewer/CooldownViewer.lua:362-364` (the constant),
     `:570-585` + `:98` (the per-frame `PandemicIcon` write).
-    `[client]` 2026-07-31 for both the constant-true measurement and the
+    [client 2026-07-31] for both the constant-true measurement and the
     `PandemicIcon` cycle]
 18. Percentage/colour derivation from a secret unit stat goes through a curve
     (`C_CurveUtil.CreateCurve` / `CreateColorCurve`, passed to e.g.
@@ -2007,32 +2111,31 @@ brackets is the evidence the rule rests on.
     `Enum.SecretAspect.Text`. The `SetShown` → `IsShown`/`IsVisible` pairing via
     `Enum.SecretAspect.Shown` cannot be **triggered** by an addon — `SetShown` is
     `AllowedWhenUntainted` *and* `IsProtectedFunction = true`.
-    ⚠ **But do not read that as "an addon will never see this aspect."** It was
-    phrased that way and the phrasing invited exactly the wrong shortcut: skipping
-    the `issecretvalue` guard on `IsVisible` because *"we never call `SetShown` on
-    it."* `IsVisible` carries `SecretReturnsForAspect = { Enum.SecretAspect.Shown }`
+    ⚠ **"An addon cannot trigger it" is not "an addon will never see it."**
+    `IsVisible` carries `SecretReturnsForAspect = { Enum.SecretAspect.Shown }`
     (`SimpleScriptRegionAPIDocumentation.lua:534-536`), and an addon-created frame
     parented into an **engine-owned** subtree returns a secret from it, because the
     engine drives the parent's shown state. A bare boolean test on that return
-    errors. **Guard the getter side always** — that is what the trailing sentence
-    always meant, and the parenthetical in front of it undercut.
+    errors. **Guard the getter side always**, whoever set the aspect.
     [Tier 3 for the engine-subtree reachability, reported against 12.1.0 aura
-    buttons; Tier 1 for the annotation.] @verify-ingame
+    buttons; Tier 1 for the annotation.] `@verify-ingame`
     [Tier 1: `SimpleFontStringAPIDocumentation.lua:653-656, 352`;
     `SimpleFrameAPIDocumentation.lua:1354-1358, 841, 895`]
 20. Code must not assume `GetPoint`/`GetLeft`/`GetWidth` are readable on a
     frame anchored (directly or transitively) to a frame marked
     `HasSecretValues()`. Test with `ScriptRegion:IsAnchoringSecret()`.
+    ⚠ **A FontString fed a secret via `SetText` is one of these** — it takes the
+    `Text` aspect *and* goes anchoring-secret, so it must be a layout leaf:
+    anchor it to things, never things to it (§4.6, measured at §4.8.1 finding 10).
     [Tier 1 for the APIs: `SimpleScriptRegionAPIDocumentation.lua:367`;
     `SimpleFrameScriptObjectAPIDocumentation.lua:69`. Tier 2 for downward
-    propagation: `Secret Values`, revid 6777907, and the 2025-10-01 blue post]
+    propagation: the blue post of 2025-10-01 and `Secret Values`, revid 6777907, 2026-07-22]
 21. Aspect/secret state on a widget is cleared only by
     `FrameScriptObject:SetToDefaults()`, which is itself
     `IsProtectedFunction = true` — so on a **protected** frame it cannot be
     called from addon code in combat. On an ordinary unprotected addon frame it
-    is callable; an earlier draft over-generalised this to "any design that needs
-    mid-combat clearing is unimplementable", which does not follow. Separately,
-    Tier 2 notes that *clearing anchor points* can reset the
+    **is** callable, so mid-combat clearing is not categorically impossible.
+    Separately, Tier 2 notes that *clearing anchor points* can reset the
     anchoring-secret state (a different lever from `SetToDefaults`).
     [Tier 1: `SimpleFrameScriptObjectAPIDocumentation.lua:136`. Tier 2 for
     "only `SetToDefaults` clears aspects" and for the anchor-clearing reset:
@@ -2060,17 +2163,20 @@ brackets is the evidence the rule rests on.
 25b. A FontString that has been given a secret string via `SetText` is never
     afterwards measured with `CalculateScreenAreaFromCharacterSpan` or
     `FindCharacterIndexAtCoordinate` by tainted code — those two carry
-    `RequiresFontStringTextAccess` with `failureMode = ReturnNothing`, so they
+    `RequiresFontStringTextAccess` with `FailureMode = "ReturnNothing"`, so they
     return nothing (not an error) once the `Text` aspect is set. Layout code
     that divides by the returned width will then fail on nil.
-    [Tier 1: `SecretPredicatesDocumentation.lua:21`;
-    `SimpleFontStringAPIDocumentation.lua:10, 73`]
+    [Tier 1: `SecretPredicatesDocumentation.lua:21-24`;
+    `SimpleFontStringAPIDocumentation.lua:10, 72`]
 25c. Code distinguishes the two predicate kinds: a `Type = "Secret"` predicate
-    (19 of them, all `failureMode = None`) changes the *value* returned; a
+    (19 of them, none declaring a `FailureMode`) changes the *value* returned; a
     `Type = "Precondition"` predicate (32, of which 20 `ReturnNothing`,
-    5 `Error`, 5 `ReturnWithError`, 2 `None`) changes whether the *call*
+    5 `Error`, 5 `ReturnWithError`, 2 undeclared) changes whether the *call*
     succeeds. Guarding a Precondition-annotated API with `issecretvalue` on its
-    return is the wrong guard — it may have returned nothing at all.
+    return is the wrong guard — it may have returned nothing at all. The
+    Precondition addon code hits most often is `RequiresNonSecretAura` on
+    `C_UnitAuras.GetPlayerAuraBySpellID` / `GetUnitAuraBySpellID` /
+    `GetAuraDataBySpellName` (§4.7).
     [Tier 1: `uv run python -m wowkb.uiapi predicates` over
     `Blizzard_APIDocumentationGenerated/` at 12.0.7.68887 — 51 predicates,
     counts as given]
@@ -2080,3 +2186,24 @@ brackets is the evidence the rule rests on.
     [Tier 1 for the pattern: `Blizzard_ScriptErrors/Blizzard_ScriptErrors.lua:75-83`.
     Tier 2 (blue-post archive) for the 12.0.7 change:
     `Patch 12.0.7/API changes`, revid 6778033, 2026-07-22]
+
+---
+
+## Changelog
+
+- 2026-08-05 — **the security-primitive surface is measured** `[client 2026-07-24]`:
+  all ten probed names exist (`C_Secrets` as a table, the rest as functions), including
+  **`issecurevariable`**, which is absent from the generated docs *and* from the shipped
+  source yet is live. Existence only — no signature or return shape was exercised, so
+  the wiki remains the sole source for semantics (§2.3, §4.1).
+- 2026-08-05 — §3.2 / rule 7: `table` **is** available to secure snippets. The
+  restricted scope is assembled from two files and we had only read the first;
+  `newtable()` / `table.new()` is the sanctioned `{}` substitute, so
+  snippet-local storage is possible.
+- 2026-08-05 — §4.5, §4.7: `RequiresNonSecretAura` is a per-aura **allowlist**
+  Precondition on three `C_UnitAuras` spell-keyed getters. Aura secrecy under
+  restriction is not a blanket seal, and `AllowedWhenTainted` alone does not mean
+  the call will run.
+- 2026-08-05 — §4.6: the three outcomes are not mutually exclusive. `SetText`
+  applies the `Text` aspect **and** marks anchoring secret, so a FontString fed a
+  secret must be a layout leaf.

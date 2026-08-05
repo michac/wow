@@ -23,12 +23,22 @@ milestone provenance is in `archive/milestones.md` (frozen log) and `docs/archiv
   Phase-1 remediation then FLEW CLEAN the same day** (Fury is a SECRET value — see Active
   work). A **third flight is owed for v0.32.95's three new features**, and it is still the
   in-game gate Phases 3–5 of the multi-class rollout wait on.
-- **⚠ TEMPORARY INSTRUMENT, shipped v0.32.97 and owed a flight: `/cdmp curve`** — the
-  curve / secret-display lab (`CurveLab.lua`), which measures **which visual channels can
-  actually carry a Secret Value to the screen**. Probe only; nothing in the pipeline reads
-  it. Full brief + the four-step sequencing in *Improvements / backlog* below. Delete the
-  file, its `.toc` line, its saved-vars, its spec and `wowkb.cdmp curvelab` once the answers
-  land in `knowledge/addon-dev/security-taint-and-restricted-data.md` §4.8.
+- **✅ CLOSED 2026-08-05 — the curve / secret-display lab (`/cdmp curve`, `CurveLab.lua`)
+  is DELETED**, with its spec, `.toc` line, saved-vars and `wowkb.cdmp curvelab` (~4,000
+  lines of Lua). It answered its question: **which visual channels can carry a Secret Value
+  to the screen**, measured in client 2026-08-04 and now asserted in
+  `knowledge/addon-dev/security-taint-and-restricted-data.md` §4.8. The two shipping routes
+  are there — the **text** route (`FormatRemainingDuration` → `SetText`, confirmed rendering
+  in combat) and the **bar** route (`SetMinMaxValues(0,1)` → `SetTimerDuration` →
+  `SetToTargetValue`, a live Tyrant cooldown bar). ⚠ The one thing no instrument can settle —
+  whether the *aspect-less* sinks (`SetAtlas`, `AnimVertexColor:SetStartColor/SetEndColor`)
+  actually move a pixel, since they have no readback of any kind — is parked as
+  `secret-aspectless-pixel-moved` in `projects/addon-lab/questions.json`. It needs an
+  eyeball, not a probe.
+  ⚠ **The lesson worth keeping:** this probe grew to 2,857 lines inside a *product* addon,
+  and most of the last ten builds went on fixing the instrument rather than reading it.
+  `projects/addon-lab/` (ClientLab) exists precisely so API-poking stops accreting in
+  CDMProbe. Next one goes there.
 - **Instrument:** the **decision log** — `CDMProbeDB.decisionlog`, one `S{…} G{…} B{…}`
   line per pipeline decision change, extracted by `wowkb.cdmp decisionlog`. The old-engine `statelog`/`pulls` recorders were retired at the
   cutover; the `/cdmp probe` + `probe-baseline.json` assertion suite was retired 2026-07-29

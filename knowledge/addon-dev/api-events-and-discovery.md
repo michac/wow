@@ -1,15 +1,10 @@
 ---
 title: API surface, events and discovery
 patch: 12.0.7
-fetched: 2026-08-01
+fetched: 2026-08-05
 reviewed: 2026-08-05
 sources:
   - https://github.com/Gethe/wow-ui-source (live, version.txt 12.0.7.68887, commit 4383ced30106d51b27e3e86d1987f1552f0d259d)
-  - in-client capture, CDMProbe AlertTape v0.32.27 (/cdmp alerts), Destruction Warlock, 2026-07-30  # §2.8 alert-channel confirmations
-  - in-client capture, CDMProbe AlertTape v0.32.29, Destruction/Hellcaller Warlock, 2026-07-30  # §2.8 same-frame refresh tie; simultaneous PandemicTime on both Immolate cooldownIDs
-  - in-client capture, CDMProbe v0.32.32 decision log, Destruction Warlock (Hellcaller AND Diabolist), 2026-07-30  # §2.8 cid 66181's base/display spellID split + hero-talent-dependent isKnown; override event firing for an untracked display id
-  - in-client capture, CDMProbe v0.32.46 decision log, Destruction Warlock (both hero trees), 2026-07-31  # §2.8 ChargeGained is a prediction-queue drain, not a charge: duplicate credits measured 0.2s apart
-  - in-client capture, CDMProbe v0.32.53 flight recorder, Destruction + Demonology Warlock, 2026-08-01  # §2.9 C_AssistedCombat readable through combat
   - https://warcraft.wiki.gg/wiki/API_Frame_RegisterEvent (revid 6654488, 2026-02-19)
   - https://warcraft.wiki.gg/wiki/API_Frame_RegisterUnitEvent (revid 6735133, 2026-06-04)
   - https://warcraft.wiki.gg/wiki/API_Frame_RegisterAllEvents (revid 6654327, 2026-02-19)
@@ -59,26 +54,9 @@ animation → `frames-textures-animation`. `.toc` and load order →
 
 > ⚠ **Build skew.** This repo's `knowledge/_meta/game-version.md` records live as
 > `12.0.7.68453`; the source checkout is `12.0.7.68887`; `BlizzardInterfaceResources`
-> is `12.0.7.68256`. `wago.tools/api/builds` reported the newest `wow` build as
-> **`12.0.7.68887`, created 2026-07-23** when queried on 2026-07-23, which is the
-> checkout we are citing. Nothing in this file has been executed in the client;
-> items that need that are marked `@verify-ingame`.
-
-> ✅ **Adversarial verification pass, 2026-07-23.** Every citation in this file was
-> re-opened at its stated `file:line`, every corpus count independently re-derived
-> with a from-scratch Lua-table parser over all 592 doc files (not via
-> `wowkb.uiapi`), and every wiki revid re-fetched. Locator accuracy was high — of
-> ~70 checked locators, none pointed at the wrong line. Six *claims* did not
-> survive and are corrected in place, each marked where it sits: the
-> "global-vs-`Frame:` callback shapes" distinction (§2.5), "every `Layout()` ends
-> in `MarkClean()`" (§3.3 / rule 14), "`scrub` is absent from the docs" (§4.3),
-> "events span 308 systems" (§2.1), "`/dump` additionally gates on dangerous
-> scripts" (§5.1), "`SetScript` is declared only on `SimpleScriptRegionAPI`"
-> (§4.1 / rule 20), and the uncited "attribute store is a taint barrier" (§2.7).
-> Two count labels were also wrong (`735 structures`, `51 secret predicates` —
-> §4.1) and the doc-file count is 592, not 593. Rule 19 was stated backwards and
-> is rewritten. Rules that rest on undocumented doc-generator annotations
-> (#4, #9) are now marked **[inference]** rather than presented as fact.
+> is `12.0.7.68256`. `wago.tools/api/builds` reports the newest `wow` build as
+> **`12.0.7.68887`**, which is the checkout we are citing. Nothing in this file has been
+> executed in the client; items that need that are marked `@verify-ingame`.
 
 ---
 
@@ -194,27 +172,42 @@ failure mode by asserting on them before registering:
 `assert(C_EventUtils.IsEventValid(event), ("Unknown event \"%s\""):format(event))`
 *[T1 src: `Blizzard_SharedXML/EventUtil.lua:12`]*.
 
-**`RegisterAllEvents` is a different mode, not a bulk registration.** *"This
-internally sets a flag to receive all events, so it cannot be used in conjunction
-with `Frame:UnregisterEvent`."* *[T2 wiki: `API Frame RegisterAllEvents`, revid
-6654327, 2026-02-19, attributing the change to 8.0.1]*. Blizzard's Event Trace
+**`RegisterAllEvents` is a different mode, not a bulk registration, and
+`UnregisterEvent` cannot punch a hole in it** `[client 2026-08-05]`. On a frame that has
+called `RegisterAllEvents()`:
+
+- `IsEventRegistered(x)` reads **false** — the mode leaves no per-event registration to
+  inspect, so the usual predicate cannot tell you what the frame is listening to.
+- `UnregisterEvent(x)` **succeeds and returns `false`**, and the event **keeps arriving**:
+  the unregistered event was delivered 8 times in the same window its never-unregistered
+  paired control was delivered 15 (552 events, 68 distinct, 26 s). A live control is what
+  makes that 8 a measurement rather than a quiet window.
+
+So the wiki's account is right, and Blizzard's Event Trace
 calls `self:RegisterAllEvents()` *[T1 src:
-`Blizzard_EventTrace/Blizzard_EventTrace.lua:107`]* and then, later, calls
-`self:UnregisterEvent("ADDON_LOADED")` *[T1 src: same file, `:702`]* — which,
-if the wiki is right, is a no-op. Both statements cannot be simultaneously
-useful; this is a concrete thing to check. `@verify-ingame`
+`Blizzard_EventTrace/Blizzard_EventTrace.lua:107`]* and then
+`self:UnregisterEvent("ADDON_LOADED")` *[T1 src: same file, `:702`]* — **a no-op in
+Blizzard's own code.** If you need all-events *minus* a few, filter in the handler.
+*[T2 wiki: `API Frame RegisterAllEvents`, revid 6654327, 2026-02-19, attributing the
+change to 8.0.1]*
 
 `RegisterUnitEvent` accepts *"up to four units"* and *"If no unit is given, then
 all units will be watched; which is effectively the same as calling
-`Frame:RegisterEvent`"* *[T2 wiki: `API Frame RegisterUnitEvent`, revid 6735133,
-2026-06-04]*. The four-unit cap is Tier 2 only — the generated docs express the
-parameter as an unbounded variadic. `@verify-ingame`
+`Frame:RegisterEvent`"*
+*[T2 wiki: `API Frame RegisterUnitEvent`, revid 6735133, 2026-06-04]*.
+**The four-unit cap is not enforced.** Registering with *five* unit tokens is
+accepted — the call does not error `[client 2026-07-24]`, matching the generated
+docs' unbounded variadic rather than the wiki's "up to four". Treat "four" as
+guidance about how many filters are useful, not a limit the client applies.
+⚠ Only the *acceptance* was measured; whether units past the fourth actually
+filter anything was not, so do not rely on a fifth unit being watched.
 
 ### 2.3 The frame-as-listener idiom
 
 The handler signature is `(self, event, ...)`, where `self` is the registered
-frame and `...` is the payload *[T2 wiki: `UIHANDLER_OnEvent`, revid 3807472,
-2021-07-27]*. Blizzard's own dispatcher demonstrates it directly:
+frame and `...` is the payload
+*[T2 wiki: `UIHANDLER_OnEvent`, revid 3807472, 2021-07-27]*.
+Blizzard's own dispatcher demonstrates it directly:
 
 ```lua
 self.frameEventFrame = CreateFrame("Frame");
@@ -246,13 +239,22 @@ It uses them alongside, not instead of, direct calls: **223**
 **2734** direct `:RegisterEvent(` calls *[T1 src: grep counts over
 `Interface/AddOns/`]*. Treat the helper as a convenience, not a house style.
 
-**Dispatch order between frames is not specified anywhere at Tier 1.** The wiki
-carries an explicit disclaimer box around its description ("the wiki is not
-liable if your addon somehow depends on this and it turns out to be wrong") and
-then reports, citing a `wowless` test harness, that frames are notified in
-first-registration order with holes back-filled *[T2 wiki: `API Frame
-RegisterEvent`, revid 6654488, §In-Depth Details]*. Treat that as an observation
-about one build, not a contract.
+**Dispatch order between frames is not stable, and must not be relied on**
+`[client 2026-08-05]`. Four frames created `ABCD` and registered `ABDC` — so creation and
+registration order disagree on the last pair, and the observed order discriminates between
+them — received 68 firings of one event in **two different orders within a single session**:
+registration order `ABDC` 41 times and its exact reverse `CDBA` 27 times. Neither creation
+order nor any single rule accounts for both.
+
+That is stronger than "unspecified": it is *observably variable on one frame set in one
+session*, so no amount of testing can establish an order to depend on. If two of your
+frames must act in sequence, give one frame the event and have it call the other.
+
+The wiki carries an explicit disclaimer box around its own description ("the wiki is not
+liable if your addon somehow depends on this and it turns out to be wrong") and reports,
+citing a `wowless` test harness, first-registration order with holes back-filled *[T2 wiki:
+`API Frame RegisterEvent`, revid 6654488, §In-Depth Details]* — which matches the more
+common of the two orders here and not the other.
 
 ### 2.4 The annotations that change how an event behaves
 
@@ -291,11 +293,18 @@ they fit; it is illustration, not proof of a pattern across the set.
 > Looked at: `wowkb.uiapi grep`, `Blizzard_APIDocumentation/*.lua`,
 > `Blizzard_EventTrace/*.lua`, `wowkb.wiki search`.
 >
-> The same holds for **`SecureHooksAllowed`** (§5.4) and **`CallbackEvent`**:
 > `grep -rn 'SecureHooksAllowed\|SynchronousEvent\|UniqueEvent'` over every
 > non-generated `.lua`/`.xml` in the checkout returns **zero** hits, so these are
 > annotations the doc generator emits and nothing in the shipped Lua consumes or
-> explains. Their names are suggestive; that is all we have.
+> explains. For `SynchronousEvent`/`UniqueEvent` their names are suggestive and that
+> is all we have.
+>
+> **`SecureHooksAllowed` and `CallbackEvent` are no longer in that boat** — both are
+> measured `[client 2026-07-24]` and both are enforced: hooking a
+> `SecureHooksAllowed = false` function is refused outright (§5.4), and
+> `C_EventUtils.IsCallbackEvent` tracks the `CallbackEvent` flag exactly (§2.5). That
+> two of the four annotations turned out to be real is a reason to *test* the other
+> two rather than to keep reasoning about them.
 
 Secret-payload consequences belong to the security topic; the wiki's `Secret
 Values` page states that these predicates apply to *"Guarded APIs **and
@@ -373,16 +382,13 @@ Blizzard passes bare closures to those too:
 *[T1 src: `Blizzard_Minimap/Mainline/Minimap.lua:150`]* — that one takes no
 parameters at all, so it is not evidence either way about the owner argument.
 
-> **Correction of record.** An earlier draft of this file claimed the global form
-> "takes a container" while the `Frame:` form "takes a bare closure", and that
-> `Event.RegisterCallback` was the only worked example of the global API. Both
-> are **false**: the global form is called with bare functions at five sites
-> (above), so the two forms do **not** demand different callback shapes, and
-> there are **five** direct global call sites besides the `Event.lua` wrapper.
-> Full census of `RegisterEventCallback` / `RegisterUnitEventCallback` in the
-> checkout: global form — `ClassTalentHelper.lua:15, :20, :25, :30`,
-> `TooltipComparisonManager.lua:387`, `Event.lua:14`, `:28`; `Frame:` form —
-> `Minimap.lua:150`, `FrameUtil.lua:53`, `:66`.
+> **The two forms do not demand different callback shapes.** Both accept a bare function
+> and both accept a container; the global form is called with bare functions at five sites
+> (above) and with a container at two. Full census of `RegisterEventCallback` /
+> `RegisterUnitEventCallback` in the checkout — global form:
+> `ClassTalentHelper.lua:15, :20, :25, :30`, `TooltipComparisonManager.lua:387`,
+> `Event.lua:14`, `:28`; `Frame:` form: `Minimap.lua:150`, `FrameUtil.lua:53`, `:66`
+> *[T1 src]*.
 
 > **[gap] `Frame:UnregisterEventCallback` is undocumented but used.** Blizzard's
 > own helper calls `frame:UnregisterEventCallback(event)` — one argument — at
@@ -395,9 +401,18 @@ parameters at all, so it is not evidence either way about the owner argument.
 > `Frame:RegisterEventCallback` and `Frame:RegisterUnitEventCallback`
 > *[T2 wiki: `Patch 12.0.0/API changes` revid 6747189, §Consolidated changes →
 > Widgets → Added (28)]*, and the wiki has no `API Frame UnregisterEventCallback`
-> page *[T2 wiki: reported `PAGE DOES NOT EXIST` on 2026-07-23]*. `FrameUtil.lua:59`
-> is the **only** call site in the entire checkout. Its arity and existence are
-> unverified. `@verify-ingame`
+> page *[T2 wiki: reported `PAGE DOES NOT EXIST`]*. `FrameUtil.lua:59`
+> is the **only** call site in the entire checkout.
+>
+> **Measured: the frame method does not exist.** `UnregisterEventCallback` on a live
+> frame reads `nil` `[client 2026-07-24]` — there is no such widget method, only the
+> global at `FrameScriptDocumentation.lua:442`. So `FrameUtil.lua:59` is **a latent
+> error in Blizzard's own shipped code**: that line would raise
+> *"attempt to call method 'UnregisterEventCallback' (a nil value)"* if it ever ran.
+> Its being the sole call site is consistent with the path being dead.
+> ⚠ **Do not call `frame:UnregisterEventCallback(...)`.** To unregister a callback,
+> use the global two-argument form, which takes the callback back as its second
+> argument — meaning you must keep a reference to it.
 
 **`CallbackEvent = true` marks 12 events** *[T1 docs: grep over the corpus]*:
 
@@ -419,7 +434,12 @@ own `RegisterEventCallback` call sites use events from this list
 (`CLASS_TALENTS_SWITCH_TO_*` ×4, `TOOLTIP_SHOW_ITEM_COMPARISON`, `MINIMAP_PING`),
 as does `Blizzard_CombatLogProcessor` (`COMBAT_LOG_EVENT`,
 `COMBAT_LOG_REFILTER_ENTRIES`, `COMBAT_LOG_APPLY_FILTER_SETTINGS`).
-`@verify-ingame` — call `C_EventUtils.IsCallbackEvent` on a non-flagged event.
+**The predicate tracks the flag.** `C_EventUtils.IsCallbackEvent("MINIMAP_PING")`
+(flagged) returns **true** and `IsCallbackEvent("PLAYER_LOGIN")` (unflagged) returns
+**false** `[client 2026-07-24]`. So *"the 12 `CallbackEvent` events are exactly what
+the callback API accepts"* is no longer just a reasonable reading — the client agrees
+on both sides of the boundary, and `IsCallbackEvent` is the cheap runtime check for
+whether an event can be used with `RegisterEventCallback` at all.
 
 **Nobody in the surveyed ecosystem uses it.** Across the seven cloned addons —
 WeakAuras2, BigWigs, Details, Plater, ElvUI, oUF, Ace3 — there are **0**
@@ -443,7 +463,7 @@ raises an error.** Three independent sources:
    a commented-out entry in that addon's tracking-event list reading
    `-- "COMBAT_LOG_EVENT_UNFILTERED", -- TODO: This didn't error on beta, but
    started to upon 12.0 release`. This is a shipping addon's own field note,
-   dated by its build stamp to 2026-07-23.
+   dated by its own build stamp.
 3. *[T3: BigWigs @ `3fdc10f6cfd1`, 2026-07-21]* — the addon's entire combat-log
    subscription API is disabled on Retail: `function boss:Log(event, func, ...)
    if self:Retail() then return end` (`Core/BossPrototype.lua:1201-1202`), same
@@ -490,9 +510,12 @@ secure environment, for which no deprecation is (intentionally) provided."*
 **`GetCurrentEventInfo`**, `GetEntryCount`, `ShouldShowCurrentEntry` — are absent
 from the documented `C_CombatLog` surface and **present on `C_CombatLogSecure`**
 *[T1 docs: `CombatLogSecureDocumentation.lua:11, :16, :36, :45, :54, :102`]*, the
-`Environment = "SecureOnly"` table below. So the read is: those globals resolve
-to `nil` for addons by design. Proving the `nil` in the client is still an
-in-game check. `@verify-ingame`
+`Environment = "SecureOnly"` table below. **Measured: all six read `nil` on
+`C_CombatLog` from addon code** `[client 2026-07-24]`. So `Environment = "SecureOnly"`
+is enforced exactly the way the read predicted — by not binding the name in our
+environment at all, rather than by a call-time refusal. The deprecation shim's
+`CombatLogGetCurrentEventInfo = C_CombatLog.GetCurrentEventInfo` therefore assigns
+`nil` for us even with `loadDeprecationFallbacks` on.
 
 Several addons on this install still contain `RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")`
 without a flavour guard — e.g. `TellMeWhen` 12.0.13,
@@ -527,13 +550,11 @@ Properties worth knowing, all Tier 1 from
   `EventRegistry:RegisterFrameEvent` reads a count off `frameEventFrame:GetAttribute(frameEvent)`,
   calls `RegisterEvent` only when it is 0, and increments *[T1 src:
   `GlobalCallbackRegistry.lua:13-21`]*; `UnregisterFrameEvent` mirrors it
-  (`:23-31`). **[unverified]** An earlier draft asserted the attribute store here
-  is "a taint barrier, not a convenience". Nothing in `GlobalCallbackRegistry.lua`
-  says so — the code is a plain refcount that happens to live in a frame
-  attribute, and it carries no comment. `CallbackRegistry.lua` *does* have a
-  genuine taint-barrier mechanism (`SecureInsertEvent`, comment at `:125`,
-  delegate frame at `:21-26`), but that is a different mechanism in a different
-  file. Claim removed rather than transplanted.
+  (`:23-31`). ⚠ **Do not read that attribute store as a taint barrier** — nothing in
+  `GlobalCallbackRegistry.lua` says it is one, and the code is a plain refcount that
+  happens to live in a frame attribute, uncommented. The genuine taint-barrier
+  mechanism is elsewhere: `CallbackRegistry.lua`'s `SecureInsertEvent`, comment at
+  `:125`, delegate frame at `:21-26`.
 
 `EventUtil` layers the one-shot helpers on top: `ContinueOnAddOnLoaded`,
 `ContinueOnPlayerLogin`, `ContinueAfterAllEvents`, and the generic
@@ -549,325 +570,32 @@ through a **single shared frame** named `AceEvent30Frame`, registering the
 underlying game event lazily on `OnUsed` and unregistering on `OnUnused`
 *[T3: Ace3 @ `4475787f06f7`, `AceEvent-3.0/AceEvent-3.0.lua:23, :32-37`]*.
 
-### 2.8 A third dispatch shape: a mixin method used as an alert channel
+### 2.8 A fourth dispatch shape: a choke-point method used as an alert channel
 
-`EventRegistry` (§2.7) is not the only in-process bus Blizzard ships. The Cooldown
-Manager exposes its per-item alerts through **a plain mixin method that exists to be
-called at a choke point** — `CooldownViewerItemMixin:TriggerAlertEvent(event)`
-*[T1 src: `Blizzard_CooldownViewer/CooldownViewer.lua:483-493`]*. It is not a game
-event, not an `EventRegistry` callback, and not registered anywhere; it is simply the
-one function every alert flows through. Its body only walks `self.alertsByEvent[event]`
-to play the configured sound/visual, so it *does nothing* when the player has no alert
-configured — but it is still **called**, which is what makes it hookable.
+`EventRegistry` (§2.7) is not the only in-process bus Blizzard ships. A subsystem can also
+publish through **a plain mixin method that exists to be called at a choke point** — no game
+event, no `EventRegistry` callback, no registration anywhere, just the one function every
+signal in that subsystem flows through. The worked instance is the Cooldown Manager's
+`CooldownViewerItemMixin:TriggerAlertEvent(event)`
+*[T1 src: `Blizzard_CooldownViewer/CooldownViewer.lua:483-493`]*, whose body only walks
+`self.alertsByEvent[event]` to play a configured sound or visual — so it *does nothing* when
+the player has configured no alert, and is still **called**, which is what makes it hookable.
 
-That is the point worth generalising: **a choke-point method is a dispatch shape, and
+That is the generalisable point: **a choke-point method is a dispatch shape, and
 `hooksecurefunc` on it is a supported way to observe a subsystem** (§5.4 treats
-`hooksecurefunc` as a discovery instrument; this is the same tool used as a runtime
-signal). A post-hook fires regardless of what the original did, so an addon sees every
-alert even when Blizzard's own handler early-outs.
+`hooksecurefunc` as a discovery instrument; this is the same tool used as a runtime signal).
+A post-hook fires regardless of what the original did, so an addon sees every signal even
+when Blizzard's own handler early-outs. Two conditions make or break it:
 
-The event argument is `Enum.CooldownViewerAlertEventType`, six members
-*[T1 docs: `CooldownViewerConstantsDocumentation.lua:43-55`]*:
+- **Hook the instance, not the mixin table**, when the methods were `Mixin()`-copied onto
+  each object — a hook on the shared table is not what the object will call.
+- **Readable is not the same as useful.** The same subsystem's `item:IsActive()` stays
+  readable in restricted combat and is a **constant `true`** on one of its two families —
+  no `nil`, no error, nothing to distinguish it from a real signal.
 
-| Value | Member | Raised at |
-|---|---|---|
-| 1 | `Available` | `CooldownViewer.lua:500` — cooldown finished |
-| 2 | `PandemicTime` | `:556` — a tracked **target** DoT entered its refresh window |
-| 3 | `OnCooldown` | `:1068` — went on cooldown |
-| 4 | `ChargeGained` | `:608` |
-| 5 | `OnAuraApplied` | `:612` |
-| 6 | `OnAuraRemoved` | `:622` |
-
-**Why this channel matters disproportionately under Secret Values.** These alerts are
-raised by Blizzard's *trusted* code from data it can see, and the argument is a plain
-enum. So the channel carries information in restricted combat that the corresponding
-direct API reads refuse — the same asymmetry that makes `item:IsActive()` readable while
-`C_UnitAuras` goes dark (see `security-taint-and-restricted-data.md`). An addon that
-wants combat-truthful cooldown state is better served observing this choke point than
-polling.
-
-✅ **CONFIRMED IN THE CLIENT, 2026-07-30.** A capture on a live Destruction Warlock
-(CDMProbe `AlertTape`, `/cdmp alerts`, 12.0.7) observed **five of the six firing in
-combat**: `Available`, `OnCooldown`, `PandemicTime`, `ChargeGained`, `OnAuraApplied`,
-`OnAuraRemoved` — every one except a case where no eligible spell existed. Counts from one
-~80 s pull: `ChargeGained` ×10 (Conflagrate), `PandemicTime` ×5, `OnAuraApplied` ×15,
-`OnAuraRemoved` ×13. **The alert channel is the most reliable combat signal the Cooldown
-Manager exposes**, and `ChargeGained` is notable on its own: `C_Spell.GetSpellCharges` is
-secret in combat, so a gain *edge* may be the only in-combat charge information available.
-
-#### `PandemicTime` — Blizzard computes the real refresh window for you
-
-Worth calling out because it replaces a rule of thumb with an exact value.
-`CheckSetPandemicAlertTriggerTime` *[T1 src: `CooldownViewer.lua:511-531`]* does:
-
-```lua
-local extendedDuration = C_UnitAuras.GetRefreshExtendedDuration("target", auraData.auraInstanceID, self:GetSpellID());
-local baseDuration     = C_UnitAuras.GetAuraBaseDuration("target", auraData.auraInstanceID, self:GetSpellID());
-local carriedOverToNewCast = (extendedDuration and baseDuration) and (extendedDuration - baseDuration) or 0;
-```
-
-`pandemicStartTime = auraData.expirationTime - carriedOverToNewCast` *[`:523`]* — i.e.
-the window is derived from **how much duration a recast would actually carry over**, per
-spell and per current state, not from the community's "30% of base duration" heuristic.
-Addons reasoning about DoT refresh should prefer this to their own arithmetic.
-
-Three conditions gate it, all easy to miss:
-
-1. **Target auras only** — `if self:GetAuraDataUnit() == "target" and isActive` *[`:515`]*.
-   A self-buff never gets pandemic state, however long it lasts.
-2. **Eligibility is DATA-driven, not a user setting** — `CanTriggerAlertType` resolves
-   through `C_CooldownViewer.GetValidAlertTypes(cooldownID)`
-   *[T1 src: `CooldownViewerItemData.lua:541, 550-553`]*, a public documented API
-   returning the alert types valid for that cooldownID
-   *[T1 docs: `CooldownViewerDocumentation.lua:52-65`]*. An addon can query the same
-   thing directly to know, ahead of time, whether a tracked spell will ever produce a
-   pandemic signal.
-3. **`carriedOverToNewCast > 0`** *[`:520`]* — no carry-over, no window.
-
-Besides the edge, the item carries **live state** an addon can read without waiting for
-the alert:
-
-- `item:IsInPandemicTime(timeNow)` → `pandemicStartTime and timeNow >= pandemicStartTime
-  and timeNow <= pandemicEndTime` *[T1 src: `CooldownViewer.lua:587-589`]*.
-- `item.pandemicStartTime` / `item.pandemicEndTime` — plain numeric fields set at
-  *[`:534-542`]*. `pandemicEndTime` **is the aura's expiration time**, which makes this
-  one of the few routes to a tracked DoT's remaining duration.
-
-Freshness: `OnUpdate` re-evaluates every frame *[`:89-98`]*, and
-`CheckSetPandemicAlertTriggerTime` re-runs on aura updates *[`:208`, `:859`, `:1205`]*.
-
-❌ **MEASURED 2026-07-30: the STATE is secret in combat, but the EDGE is not.** The
-question above was "are those fields readable?" and the answer is no — decisively:
-
-| Read | In combat |
-|---|---|
-| `item.pandemicStartTime` | **`SECRET`** |
-| `item.pandemicEndTime` | **`SECRET`** |
-| `item.pandemicAlertTriggerTime` | `SECRET` while armed; `nil` after it fires (cleared at `:554`) |
-| `item:IsInPandemicTime(t)` | **throws** — it compares `t >= self.pandemicStartTime`, and comparing a Secret Value errors |
-| the `PandemicTime` **alert** | ✅ **fires normally** |
-
-So the earlier hypothesis (b) is what happens, plus a consequence not anticipated:
-`IsInPandemicTime` does not return a secret boolean, it **raises**. Any call must be
-`pcall`-wrapped, not merely `issecretvalue`-guarded.
-
-**The design consequence is the whole point:** an addon can learn *that a DoT entered its
-refresh window* (the edge) but cannot ask *whether it is in the window now*, nor *how long
-is left*. The usable pattern is therefore an **edge-driven latch** — set on `PandemicTime`,
-clear on `OnAuraRemoved`/`OnAuraApplied` for the same cooldownID — not a state poll.
-
-⚠ **Do not read "not populated" from a `nil` here.** The same capture shows `nil` on
-non-eligible items and `SECRET` on eligible ones, which is exactly the discrimination that
-makes the result meaningful: the fields *are* populated, we are simply not allowed to read
-them. An instrument that collapsed `SECRET` into `nil` would have concluded the opposite.
-(Not yet measured **out of combat** — every alert in the capture fired in combat. Likely
-readable there, but unconfirmed and largely moot, since combat is where it matters.)
-
-The visual side is unambiguous regardless: the pandemic FX are real frames
-*[T1 src: `PandemicAlertAnimation.xml:3` (icon), `:47` (bar)]*.
-
-#### `ChargeGained` is about CHARGES, not aura stacks — and cannot fire for a buff entry
-
-A natural assumption is that a stacking proc (Demonic Core, Backdraft) would raise
-`ChargeGained` as it accumulates. It cannot, and the reason is in the mixin tree:
-
-- `CooldownViewerCooldownItemMixin` *[T1 src: `CooldownViewer.lua:678`]* — the parent of
-  `CooldownViewerEssentialItemMixin` *[`:1150`]* and `CooldownViewerUtilityItemMixin`
-  *[`:1153`]* — is the **only** owner of `CacheChargeValues` / `SetCachedChargeValues`
-  *[`:997`, `:986`]*, which is the sole path to `AddChargeGainedAlertTime`.
-- `CooldownViewerBuffItemMixin` *[`:1157`]*, parent of the BuffIcon *[`:1245`]* and BuffBar
-  *[`:1318`]* items, derives from `CooldownViewerItemMixin` **directly** and never picks up
-  that mixin. A buff/aura entry therefore has no charge-caching code at all.
-
-What the count actually reads, in precedence order *[T1 src: `CooldownViewer.lua:997-1016`]*:
-
-1. `GetSpellChargeInfo()` when `maxCharges > 1` — real spell charges.
-2. else `C_Spell.GetSpellCastCount(spellID)` — the "cast count" / "use count" a spell may
-   expose (Blizzard's own comment: *"can have different meanings based on the context of
-   the spell"*).
-3. else unchanged and hidden.
-
-The alert then fires on any **increase** of that cached value
-(`previousCooldownChargesCount < cooldownChargesCount` *[`:992-994`]*).
-
-❗ **BUT `ChargeGained` IS NOT "ONE CHARGE WAS GAINED".** It is *"one entry in a prediction
-queue came due"*, and the difference is load-bearing for anyone counting charges off it.
-`[client]` + T1 src, 2026-07-31:
-
-- `AddChargeGainedAlertTime(predictedChargeCount, predictedChargeGainTime)` *[`:591-594`]*
-  writes into `chargeGainedAlertTimes`, a table **keyed by predicted charge count**.
-- **Two independent producers write it.** A *predictor* —
-  `CheckCacheCooldownValuesFromCharges` *[`:886`]* registers `currentCharges + 1` at a
-  **future** timestamp on every refresh while a recharge is running — and an *observer*,
-  the `SetCachedChargeValues` path above, which registers the new count at `GetTime()`.
-- `ShouldTriggerChargeGainedAlert` *[`:596-605`]* drains **at most one due entry per call**
-  (it `return`s on the first hit) and is polled once per frame from `OnUpdate` *[`:100-101`]*.
-
-So a backlog of two due entries fires as **two alerts on consecutive frames**, and one real
-charge restore can raise the alert twice. Measured on Conflagrate: a `0 → 1 → 2` climb in
-**200 ms**, plus credits 1.9 s and 4.0 s apart on an ability whose recharge is several
-seconds. **An addon that credits `+1` per alert overcounts** — it will claim a charge the
-player does not have and cue a press that fails.
-
-It errs the other way too: `OnCooldownIDCleared` *[`:722`]* nils
-`previousCooldownChargesCount`, so `considerAddingAlert` is false on the next set and the
-first rise after **any** re-resolve is swallowed.
-
-**The workable rule:** treat the alert as *"the count may have risen"*, and bound credits by
-a **gain floor** — a charge cannot return faster than its recharge. `C_Spell.GetSpellCharges`
-exposes `cooldownDuration` **out of combat**, and that is the only source for the number (a
-charged spell's cooldown lives on its charge category, so `GetSpellBaseCooldown` yields
-nothing — see the ⚠ below). Seed the floor OOC, refuse a second credit inside it, and the
-cases you get wrong (a genuine cooldown-reset proc) bias toward **under**counting, which is
-the safe direction. *(CDMProbe implements exactly this in `State.lua`'s `chargeGain`.)*
-
-✅ Confirmed by the 2026-07-30 capture: **Conflagrate** (2 real charges) →
-`Available, OnCooldown, ChargeGained`; **Backdraft** (a 2-stack buff on the BuffBar viewer)
-→ `OnAuraApplied, OnAuraRemoved` only.
-
-✅ **A REFRESH FIRES BOTH CLEARS IN ONE FRAME, WITH THE SAME TIMESTAMP** (measured
-2026-07-30, second capture). Refreshing a DoT raises `OnAuraRemoved` **and**
-`OnAuraApplied` for the same cooldownID at an identical `GetTime()` — the capture shows
-both on `cid 133441` *and* `cid 164597` at `131184.611`. So an edge latch that simply takes
-the last write lets **Blizzard's dispatch order** decide whether the addon believes the aura
-is up or gone, and a timestamp comparison cannot break the tie because the timestamps are
-equal. The rule that resolves it is semantic, not temporal: **a re-application supersedes
-the removal it replaces.** Anything latching `OnAura*` needs that precedence explicitly.
-
-The same capture also confirms the two-cooldownID warning below in its sharpest form: both
-Immolate rows raised `PandemicTime` at the *identical* timestamp (`131182.959`), so an
-addon keying per cooldownID gets two edges for one game event and must fold them to one
-answer.
-
-**And `OnAuraApplied` will not count stacks either.** It fires only from
-`unitAuraUpdateInfo.addedAuras`, matched on `aura.auraInstanceID ==
-self:GetAuraSpellInstanceID()` *[T1 src: `CooldownViewer.lua:615-618`, `:1682-1690`]*. A
-stack gained on an existing aura keeps the same `auraInstanceID` and arrives under
-`updatedAuraInstanceIDs`, which nothing here listens to — so the alert marks a **fresh
-application**, not an increment. (Capture: Backdraft 5 applied / 5 removed across ~10
-Conflagrate charge gains.)
-
-❗ **A CHARGED ABILITY NEVER RAISES `OnCooldown`** (measured 2026-07-30). Conflagrate
-(`cid 18860`) advertises `Available, OnCooldown, ChargeGained` in `GetValidAlertTypes`, and
-across a ~190 s pull it raised **`Available` ×7 and `OnCooldown` ×0** — while four
-non-charged entries in the same capture (`18800`, `18812`, `18814`, `33527`) raised
-`OnCooldown` normally. `Available` fires **once per charge restored**, not once per
-"the ability became usable".
-
-The consequence for anyone building readiness on these edges: an `Available`/`OnCooldown`
-pair is **not a complete state machine for a charged ability** — the "on" edge never
-arrives, so a latch built from them reads *ready* forever after the first charge comes
-back, including at zero charges. Readiness for a charged spell has to come from the charge
-count (`ChargeGained` + a seeded baseline, since `C_Spell.GetSpellCharges` is secret in
-combat), not from the cooldown edges.
-
-⚠ And the obvious fallback does not work either: a charged spell's cooldown often lives on
-its **charge category**, not the spell. Conflagrate `17962` has `RecoveryTime = 0` with
-`ChargeCategory = 672` `[T1 DB2: SpellCooldowns, SpellCategories @ 12.0.7]`, so
-`GetSpellBaseCooldown` yields nothing to count down from.
-
-**The live lead this leaves open:** source 2 means an ability icon *can* raise
-`ChargeGained` off `GetSpellCastCount` without having real charges. Whether any spec's
-proc is modelled that way — e.g. Demonic Core surfacing as a cast count on Demonbolt — is
-unmeasured and would be a way to count something otherwise secret. `@verify-ingame`.
-
-#### Two structural facts from the same capture
-
-- **`GetValidAlertTypes` does NOT gate the channel — it gates only `PandemicTime`.**
-  ⚠ **Correction, same day.** An earlier draft of this section read the eligibility list as
-  "what this cooldown can raise", and warned that a tracked spell with `(none)` raises
-  nothing. **That is wrong.** `CanTriggerAlertType` is called in exactly ONE place in the
-  entire addon — the pandemic arming path *[T1 src: `CooldownViewer.lua:520`]*. Nothing on
-  the `Available` / `OnCooldown` / `ChargeGained` / `OnAuraApplied` / `OnAuraRemoved` paths
-  consults it; `CheckTriggerAuraAppliedAlert` *[`:615-618`]*, for instance, checks only that
-  the `auraInstanceID` matches.
-  The 2026-07-30 capture demonstrates the divergence directly: **Shadowburn's eligibility
-  is `(none)`, yet it raised `OnAuraApplied` ×3 and `OnAuraRemoved` ×3 in combat.**
-  So the correct reading is:
-  - `GetValidAlertTypes(cooldownID)` = **what the settings UI offers the player to
-    configure** (the sound/visual alerts), and a hard gate on `PandemicTime` *only*.
-  - An addon hooking `TriggerAlertEvent` therefore sees **more** than the eligibility list
-    predicts. Use it as a predictor for `PandemicTime`; do **not** use it to conclude that
-    any other alert will not fire.
-  - The list is still static per cooldownID — `validAlertTypes` is invalidated only when
-    the frame's cooldownID is set or cleared *[T1 src: `CooldownViewerItemData.lua:48, :65`]*,
-    never on cast, cooldown, aura or combat entry — so it is a *data* property, unaffected
-    by what the player has pressed.
-  - Observed values, for calibration: Conflagrate → `Available, OnCooldown, ChargeGained`;
-    Summon Infernal / Cataclysm / Malevolence → `Available, OnCooldown`; Chaos Bolt,
-    Shadowburn, Command Demon → `(none)`. The `(none)` cases correlate with having neither
-    a recovery time nor a charge category in DB2 (Shadowburn `17877` and Chaos Bolt
-    `116858` both carry `ChargeCategory = 0` and `RecoveryTime = 0`, against Conflagrate
-    `17962`'s `ChargeCategory = 672`) `[T1 DB2: SpellCategories, SpellCooldowns @ 12.0.7]`
-    — i.e. there is simply no recovery event to configure.
-- **One ability can occupy TWO cooldownIDs carrying DIFFERENT spellIDs.** Immolate appeared
-  as `cid 133441 → spellID 157736` (the DoT **aura** id, on the Buff-bar viewer) *and*
-  `cid 164597 → spellID 348` (the **cast** id, on Essential). **Both raised `PandemicTime`.**
-  So keying an ability by a single "the" spellID is unsafe; the pressable row and the
-  aura row can disagree, and which one an addon sees depends on which viewer it walked.
-- **A CDM entry's base `spellID` can be a DIFFERENT SPELL from the one it displays**, and
-  its `isKnown` can be **hero-talent dependent**. Destruction Warlock's set carries
-  `cid 66181 → spellID 686` (**Shadow Bolt**, which Destruction does not have) with its
-  display overridden to **Incinerate `29722`** — an id that appears in `CooldownSetSpell`
-  for *no* set at all `[T1 DB2: CooldownSetSpell @ 12.0.7]`. The same character, in one
-  session, read that entry `isKnown = false` on **Hellcaller** (Blizzard drew nothing) and
-  `isKnown = true` on **Diabolist** (Blizzard drew an Incinerate icon)
-  `[in-client capture, CDMProbe v0.32.32 decision log, 2026-07-30]`.
-  Three consequences for anyone walking the CDM database:
-  1. **"Is ability X on screen?" is not answerable from base spellIDs.** It has to union
-     each row's `spellID` with its `overrideSpellID` / `overrideTooltipSpellID` /
-     resolved live id. Keying only by base reports Incinerate as absent while Blizzard is
-     visibly drawing it.
-  2. **Use the STATIC override fields, not just the live one, for that test.** While a
-     transform is armed the live id becomes the transform's (here Infernal Bolt `433891`),
-     so a live-id-only check flickers false exactly when the ability is most active.
-  3. **`isKnown = false` is not stable across a spec's hero trees**, so a set read once at
-     login can be wrong after a talent swap. `SPELLS_CHANGED` is the invalidation signal.
-- **`COOLDOWN_VIEWER_SPELL_OVERRIDE_UPDATED` fires for such an entry**, including when the
-  overridden display is a spell with no `CooldownSetSpell` row of its own — observed as the
-  Diabolist Demonic-Art transform arming on `cid 66181` (114 of 137 logged decision changes
-  carried an armed Art) `[in-client capture, CDMProbe v0.32.32, 2026-07-30]`. So the
-  override channel is usable for abilities the Cooldown Manager does not otherwise track.
-
----
-
-### 2.9 `C_AssistedCombat.GetNextCastSpell()` is READABLE IN COMBAT — a rotation oracle that survives Secret Values
-
-**MEASURED 2026-08-01** `[in-client capture, CDMProbe v0.32.53 flight recorder,
-Destruction + Demonology Warlock]`. `C_AssistedCombat.GetNextCastSpell(checkForVisibleButton)`
-returns a **plain number** — `issecretvalue()` false, safe to compare, format and use as a
-table key — **both out of combat and inside a dummy pull**, on both `false` and `true`
-arguments. `IsAvailable()` returned a plain `bool` and `GetRotationSpells()` a plain
-(non-secret) table in the same samples.
-
-This matters because it is a **rotation answer that does not go secret**. Every cooldown
-channel this KB documents (§4 of `security-taint-and-restricted-data.md`) refuses in
-restricted combat; this one does not.
-
-**Why it survives, and how you could have predicted it** — the reasoning generalises to any
-`C_*` call you are unsure about:
-
-1. The generated docs declare **no Predicate** for it
-   *[T1 src: `Blizzard_APIDocumentationGenerated/AssistedCombatDocumentation.lua`]*.
-   Predicates are how the docs declare *when* a return goes secret (§4.7 there); the
-   cooldown APIs carry them and this does not. **An absent Predicate is positive evidence.**
-2. Its `SecretArguments = "AllowedWhenUntainted"` governs whether a **secret ARGUMENT** may
-   be passed — **not** the return. `C_SpellBook.IsSpellKnown` carries the same annotation and
-   is likewise readable. Do not read this annotation as a secrecy warning about the result.
-3. Blizzard's own `AssistedCombatManager.lua:323-336` calls it on an `OnUpdate` ticker and
-   then does `if spellID ~= self.lastNextCastSpellID` — a plain `~=` on the return, which a
-   secret cannot survive — in a file that registers `PLAYER_REGEN_DISABLED`.
-
-⚠ **Blizzard code being untainted makes point 3 suggestive, not conclusive, for an addon
-caller** — which is why it was flown rather than asserted. It is now measured from addon
-code.
-
-⚠ **READABILITY IS PROVEN; USEFULNESS IS NOT.** The capture recorded a **constant `691`
-(Summon Felhunter)** at every sample, out of combat and in, on both arguments. The recorder
-dedups by readability *class*, so it only sampled at transitions and cannot show whether the
-value tracked the rotation. Before treating this as an oracle to diff a rotation addon
-against, take a **value-sampling** pass. Also note what it is by design: a generic
-single-target rotation with **no AoE/mode awareness and no burst planning**.
+The Cooldown Manager's own six alert types, what each edge actually means, and what the
+channel does and does not survive under Secret Values are
+[`cooldown-manager`](./cooldown-manager.md) §5.
 
 ---
 
@@ -876,15 +604,18 @@ single-target rotation with **no AoE/mode awareness and no burst planning**.
 ### 3.1 The `OnUpdate` contract
 
 `(self, elapsed)`, where `elapsed` is seconds since the previous dispatch
-*[T2 wiki: `UIHANDLER_OnUpdate`, revid 3167340, **2023-08-18** — an old page;
+*[T2 wiki: `UIHANDLER_OnUpdate`, revid 3167340, 2023-08-18]* — an **old** page:
 its "excluding time when the UI was not being drawn" clause carries the wiki's
 own `{{fact}}` tag, i.e. the wiki does not vouch for it]*. Blizzard's helper uses
 exactly that signature *[T1 src: `Blizzard_SharedXMLBase/FrameUtil.lua:17`]*.
 
-The wiki also states *"Blocked by hiding a frame or its parent"* *[T2 wiki: same
-page]*. That claim is Tier 2 and dated; oUF's dispatcher independently guards on
-`self:IsVisible()` *[T3: oUF `events.lua:72`]*, which is consistent with it but
-is not proof. `@verify-ingame`
+**`OnUpdate` is blocked by hiding the frame *or* its parent, and resumes on re-show**
+`[client 2026-08-05]`. A child frame ticking across four half-second phases counted 39
+ticks while shown, **0** while self-hidden, **0** while its (shown) self sat under a hidden
+parent, and 61 once re-shown — with `IsVisible()` reading `true/false/false/true` across
+the same phases. So visibility, not merely `IsShown()`, is the gate, and a hidden subtree
+costs nothing. This confirms the wiki *[T2 wiki: same page]* and explains oUF's independent
+`self:IsVisible()` guard *[T3: oUF `events.lua:72`]*.
 
 **A Tier-1 hazard worth internalising:** clearing an `OnUpdate` script does not
 guarantee the handler will not run again on the same frame. Blizzard's own helper
@@ -1079,9 +810,8 @@ failure mode looks identical (a name renders empty or garbled), so a reader who 
 just learned §4 of the security file will diagnose it wrong and reach for
 `issecretvalue`, which answers `false`. A shipping addon's own source comment calls
 them "secret value placeholders"; that is exactly the mistake to avoid.
-*[T1: the doc types + Blizzard's own branch, above. Surfaced by the 2026-08-05
-addon-mining run; the addon adds nothing the Tier-1 sources do not already carry, so
-cite Blizzard.]*
+*[T1: the doc types + Blizzard's own branch, above. Surfaced by an addon-mining run;
+the addon adds nothing the Tier-1 sources do not already carry, so cite Blizzard.]*
 
 ### 4.1 Shape
 
@@ -1182,16 +912,15 @@ locale-independent and do not depend on spellbook state.
   `C_PingSecure` namespace (`PingManagerSecureDocumentation.lua:16`), so a bare
   name grep will mislead you. `wowkb.uiapi missing <name>` distinguishes "absent
   from docs" from "absent from the game".
-  ⚠ **`scrub` is *not* absent** — it is documented at
-  `FrameScriptDocumentation.lua:348-362`, with prose and a
-  `SecureHooksAllowed = false` flag. An earlier draft listed it here, which
-  contradicted §5.4's own list. Corrected.
+  ⚠ **`scrub` is *not* absent**, despite belonging to the same family — it is
+  documented at `FrameScriptDocumentation.lua:348-362`, with prose and a
+  `SecureHooksAllowed = false` flag.
 - **Named types that are never declared.** 716 parameters/returns are typed bare
   `table`, and named types like `AuraData` (10 uses, 0 declarations) resolve to
   nothing — see the table in §4.2.
 - **`Enum.ScriptBindingType` does not exist in Tier 1.** The wiki's `HookScript`
-  page names it *[T2 wiki: `API ScriptRegion HookScript`, revid 6779372,
-  2026-07-23 — it types `bindingType` as `Enum.ScriptBindingType?` and transcludes
+  page names it *[T2 wiki: `API ScriptRegion HookScript`, revid 6779372, 2026-07-23
+  — it types `bindingType` as `Enum.ScriptBindingType?` and transcludes
   an `Enum.ScriptBindingType` page]*, but `grep -r ScriptBinding` over all 592
   generated doc files returns nothing, and the docs type the parameter as a bare
   `number` *[T1 docs: `SimpleScriptRegionAPIDocumentation.lua:325-335`]*. What does exist is the
@@ -1225,8 +954,7 @@ if Kiosk mode is enabled, if `C_AddOns.GetScriptsDisallowedForBeta()`, or if the
 `AreDangerousScriptsAllowed()` behind a `DANGEROUS_SCRIPTS_WARNING` popup
 *[T1 src: `Blizzard_ChatFrameBase/Shared/SlashCommands.lua:1329-1337` (tinspect,
 kiosk check `:1330-1333`, dangerous-scripts check `:1334-1337`) and `:1359-1367`
-(dump)]*. (An earlier draft said the dangerous-scripts gate was `/dump`-only;
-it is not.) `/fstack` has neither gate *[T1 src:
+(dump)]*. `/fstack` has neither gate *[T1 src:
 `Blizzard_ChatFrameBase/Mainline/SlashCommandsOverrides.lua:171-173`]*.
 "It didn't print anything" is not the same as "the value is nil".
 
@@ -1244,7 +972,12 @@ slowestHandlerName, slowestHandlerTime` *[T1 docs:
 `FrameScriptDocumentation.lua:163, :181`]*. **Neither is called anywhere in the
 2298 shipped `.lua` files** *[T1 src: grep returns zero non-documentation hits]*,
 so there is no worked example of how to obtain a valid `eventProfileIndex`.
-`@verify-ingame`
+**Both exist as functions, and both return nothing useful when called from outside
+an event handler**: `GetCurrentEventID()` returns `nil`, and `GetEventTime(0)`
+likewise `[client 2026-07-24]`. Neither errors — they simply have no answer there.
+That leaves the pair usable only from *inside* a handler, and still with no worked
+example of obtaining a valid index; assume it needs a profiling CVar we have not
+identified. Do not build on this pair.
 
 ### 5.2 Off the client
 
@@ -1305,12 +1038,16 @@ Two hard limits, from different tiers:
   `securecallmethod` *[T1 docs: `grep -rh 'SecureHooksAllowed = false' | wc -l` =
   24, `… = true` = 0, over all 592 doc files; names re-extracted this session]*.
   Note the two lists overlap only on `scrub`.
-  ⚠ **What the annotation *means* is not stated anywhere** — see the `[gap]` in
-  §2.4. `SecureHooksAllowed` appears in zero non-generated `.lua`/`.xml` files.
-  The natural reading (hooking these raises) is the same *kind* of inference as
-  the `SynchronousEvent` reading, and the fact that it overlaps the wiki's
-  empirically-derived unhookable list on only one name is a reason for caution,
-  not confidence. `@verify-ingame`
+  ✅ **What the annotation means is now measured: `SecureHooksAllowed = false`
+  means `hooksecurefunc` refuses the function.** Hooking `CreateFromMixins` — which
+  carries the flag and is *not* on the wiki's list — fails, and the error names both
+  the caller and the target:
+  `hooksecurefunc(): CreateFromMixins is forbidden for hooking` `[client 2026-07-24]`.
+  Two things follow. First, the annotation is enforced, not merely descriptive, so
+  **treat all 24 as unhookable**. Second, the refusal message is **distinct from the
+  wiki's *"Cannot hook function"*** for the 23-name list, which suggests two separate
+  engine checks rather than one — consistent with the lists overlapping on only
+  `scrub`. The union, not either list alone, is what an addon must avoid.
 
 For script handlers the analogue is `HookScript`, which *"If the script type
 doesn't have an existing handler … will be equivalent to `SetScript`"*, whose
@@ -1326,9 +1063,8 @@ Some questions are about *game data*, not the API — "what is the spell ID for 
 "what rows exist in this table", "which build introduced this". The client does
 not expose the client database tables to Lua; `wago.tools` mirrors them.
 
-- `https://wago.tools/api/builds` → per-product build list. Queried 2026-07-23 it
-  returned `wow` newest = `12.0.7.68887`, `created_at 2026-07-23 00:56:01` —
-  matching the source checkout *[verified this session]*.
+- `https://wago.tools/api/builds` → per-product build list, newest first. It reports
+  `wow` newest = `12.0.7.68887`, matching the source checkout.
 - `https://wago.tools/db2/<Table>/csv?build=<version>` → the table as CSV. Wrapped
   as `uv run python -m wowkb.wago <Db2Table> [--build …]` *[repo tool:
   `tools/wowkb/wago.py:25-36` (the `download()` helper)]*.
@@ -1356,16 +1092,40 @@ Down-tier any source on sight if it:
   AI-generated, GitHub-archived, and has been falsified against Tier 1
   *[see `sources.md` §4]*.
 
+### 5.7 Predicting whether a `C_*` return goes secret, before you fly it
+
+A cheap read of the generated docs narrows "will this be readable in restricted combat?"
+before anyone runs the client. Three signals, in order of strength:
+
+1. **An absent `Predicate` is positive evidence.** Predicates are how the docs declare *when*
+   a return goes secret (`security-taint-and-restricted-data` §4.7); the cooldown and aura
+   APIs carry them. A function whose doc entry declares none — e.g. everything in
+   `AssistedCombatDocumentation.lua` *[T1 docs]* — is not on the secrecy ladder at all.
+2. **`SecretArguments` is about the *argument*, not the return.** It governs whether a secret
+   may be *passed in*. `C_SpellBook.IsSpellKnown` carries
+   `SecretArguments = "AllowedWhenUntainted"` and is readable. Do not read this annotation as
+   a warning about the result.
+3. **Blizzard doing plain arithmetic on the return, in a file that registers
+   `PLAYER_REGEN_DISABLED`,** is suggestive — a `~=` or `>` on a secret cannot survive. ⚠ It
+   is only suggestive: Blizzard's code is untainted, an addon's is not, so this predicts
+   nothing on its own.
+
+The signals are necessary, not sufficient — an annotation is a shape claim, and behaviour is
+what a measurement closes. The worked case that ran the ladder and then flew it is
+`C_AssistedCombat.GetNextCastSpell`, in [`cooldown-manager`](./cooldown-manager.md) §7
+Tier 3.
+
 ---
 
 ## 6. Gaps
 
-- **[gap] `SynchronousEvent` / `UniqueEvent` / `SecureHooksAllowed` /
-  `CallbackEvent` semantics.** These flags are emitted by the doc generator and
-  consumed by nothing in the shipped Lua; nothing anywhere says what they mean.
-  Looked in: all 592 generated doc files, every other `.lua`/`.xml` in the
-  checkout (zero hits), `Blizzard_APIDocumentation/` (the `/api` renderer),
-  `Blizzard_EventTrace/`, and warcraft.wiki.gg via `wowkb.wiki search`.
+- **[gap] `SynchronousEvent` / `UniqueEvent` semantics.** Emitted by the doc
+  generator, consumed by nothing in the shipped Lua, explained nowhere. Looked in:
+  all 592 generated doc files, every other `.lua`/`.xml` in the checkout (zero
+  hits), `Blizzard_APIDocumentation/` (the `/api` renderer), `Blizzard_EventTrace/`,
+  and warcraft.wiki.gg via `wowkb.wiki search`.
+  **`SecureHooksAllowed` and `CallbackEvent` are CLOSED** `[client 2026-07-24]` —
+  both are enforced by the client, §5.4 and §2.5.
 - **[gap] `EventCallbackType` / `FrameEventCallbackType` are opaque.** Both are
   declared `Type = "CallbackType"` with zero fields, so the spec asserts nothing
   about the accepted shape. What is *observed*: both a plain Lua function and a
@@ -1374,16 +1134,19 @@ Down-tier any source on sight if it:
   is undocumented (11 source call sites, no doc entry). Unresolved: whether the
   container buys anything beyond an unregisterable identity, and whether the
   leading `_nilOwner` argument is ever non-nil.
-- **[gap] `Frame:UnregisterEventCallback` is used by Blizzard and documented
-  nowhere.** See §2.5.
-- **[gap] Event dispatch order between frames** has no Tier-1 statement. The
-  wiki's account is explicitly disclaimed by the wiki.
-- **[gap] `RegisterAllEvents` + `UnregisterEvent` interaction.** The wiki says
-  they cannot be combined; Blizzard's Event Trace combines them. One of the two
-  is wrong. `@verify-ingame`
-- **[gap] `GetCurrentEventID` / `GetEventTime`** exist in the spec with zero call
-  sites in the shipped Lua, so the `eventProfileIndex` argument has no worked
-  example.
+- **[closed] `Frame:UnregisterEventCallback` does not exist** `[client 2026-07-24]`
+  — it reads `nil` on a live frame, making `FrameUtil.lua:59` a latent error in
+  Blizzard's own code. Use the global two-argument form. See §2.5.
+- **[closed] Event dispatch order between frames is observably variable**
+  `[client 2026-08-05]` — two different orders for one event within one session on one
+  frame set. Not merely unspecified: unusable. See §2.3.
+- **[closed] `RegisterAllEvents` + `UnregisterEvent`: the wiki is right**
+  `[client 2026-08-05]` — the unregister returns `false` and the event keeps arriving, so
+  Blizzard's Event Trace `:702` is a no-op in its own code. See §2.2.
+- **[gap] `GetCurrentEventID` / `GetEventTime`** exist as functions and both return
+  `nil` when called outside an event handler `[client 2026-07-24]`. Still open: how
+  to obtain a valid `eventProfileIndex`, which has no worked example anywhere and
+  probably needs a profiling CVar we have not identified.
 - **[mostly closed] `C_CombatLog.GetCurrentEventInfo`** is referenced by the
   deprecation shim but absent from the documented `C_CombatLog` surface — because
   it (and five sibling names) were relocated to the SecureOnly
@@ -1432,18 +1195,18 @@ Blizzard has not documented (§2.4 gap) — advisory only.
    with no `Environment` field).
    *[Tier 1: `CombatLogSecureDocumentation.lua:1-6` (`Environment` at `:6`);
    corpus count 383 × `"All"` + 2 × `"SecureOnly"`, the other being
-   `PingManagerSecure` / `C_PingSecure`. **[inference]** that `SecureOnly` implies
-   "unreachable from an addon" — the docs define no such semantics; the
-   corroboration is that `Blizzard_CombatLogProcessor.toc` declares
+   `PingManagerSecure` / `C_PingSecure`. **Measured**: all six of the relocated
+   `C_CombatLog.*` names read `nil` from addon code `[client 2026-07-24]`, so
+   `SecureOnly` is enforced by not binding the name in our environment — no longer
+   an inference. Corroboration: `Blizzard_CombatLogProcessor.toc` declares
    `## UseSecureEnvironment: 1`.]*
 
 5. **`RegisterAllEvents` and `UnregisterEvent` must not be mixed on the same
-   frame.** A frame that calls `RegisterAllEvents()` and later
-   `UnregisterEvent(x)` is relying on behaviour the wiki says was removed in
-   8.0.1.
-   *[Tier 2: wiki `API Frame RegisterAllEvents`, revid 6654327. Counter-example
-   to check: Blizzard does exactly this at
-   `Blizzard_EventTrace/Blizzard_EventTrace.lua:107` and `:702`.]*
+   frame.** The unregister returns `false` and the event goes on arriving; filter in
+   the handler instead. Blizzard does exactly this at
+   `Blizzard_EventTrace/Blizzard_EventTrace.lua:107` and `:702`, where it achieves
+   nothing.
+   *[`[client 2026-08-05]`; T2 wiki `API Frame RegisterAllEvents`, revid 6654327.]*
 
 6. **A `CallbackRegistryMixin` owner has at most one callback per event; a second
    `RegisterCallback` with the same owner silently replaces the first.**
@@ -1463,15 +1226,18 @@ Blizzard has not documented (§2.4 gap) — advisory only.
    *[Tier 1: `CallbackRegistry.lua:120-121` — `error("… 'owner' as number is
    reserved internally.")`.]*
 
-9. **[inference] `hooksecurefunc` should not target any of the 24 functions
-   annotated `SecureHooksAllowed = false`** — which includes all four
-   event-callback registration globals.
+9. **`hooksecurefunc` cannot target any of the 24 functions annotated
+   `SecureHooksAllowed = false`** — which includes all four event-callback
+   registration globals. The attempt is refused with
+   `hooksecurefunc(): <name> is forbidden for hooking`.
    *[Tier 1 for the annotation: 24 entries carry `SecureHooksAllowed = false` and
    none carries `true`; e.g. `FrameScriptDocumentation.lua:296`
-   (`RegisterEventCallback`), `:308`, `:442`, `:454`. **No tier at all for what
-   the annotation does** — see the §2.4 gap; the string occurs in zero
-   non-generated files and has no wiki page. This is a *flag*, not a *fail*,
-   until someone tests it in the client.]*
+   (`RegisterEventCallback`), `:308`, `:442`, `:454`. **Tier 1 for the behaviour:
+   measured in the client** — hooking `CreateFromMixins` fails with that message
+   `[client 2026-07-24]`. It is a *fail*, not merely a flag. Note the message
+   differs from rule 10's *"Cannot hook function"*, so the two restrictions are
+   separate engine checks and an addon must avoid the **union** of both lists,
+   which overlap only on `scrub`.]*
 
 10. **`hooksecurefunc` must not target any of the 23 names on the 11.0.0
     unhookable list** (`pairs`, `next`, `type`, `select`, `securecall`, …);
@@ -1540,7 +1306,10 @@ Blizzard has not documented (§2.4 gap) — advisory only.
     Frame:RegisterEvent will also overwrite the old registration." Tier 3
     corroboration that the filter is readable back:
     `IsEventRegistered(frame, event)` returns `registered, unit1, unit2` and oUF
-    branches on it at `events.lua:48-52`.]*
+    branches on it at `events.lua:48-52`.
+    ⚠ The wiki's *"up to four units"* is **not** a client-enforced cap: a
+    five-unit registration is accepted without error `[client 2026-07-24]`.
+    Whether the fifth actually filters was not measured.]*
 
 19. **`IsEventRegistered` returns more than a boolean** — `isRegistered: bool,
     units: UnitTokenType?…` (variadic, `StrideIndex = 1`). So `if
@@ -1549,19 +1318,17 @@ Blizzard has not documented (§2.4 gap) — advisory only.
     to all its returns: `foo(f:IsEventRegistered(e))` passes N arguments,
     `{f:IsEventRegistered(e)}` builds an N-element table, and
     `return f:IsEventRegistered(e)` returns N values. Wrap in parentheses to
-    truncate. *(An earlier draft of this rule named `local reg = …` as the unsafe
-    case; that was backwards.)*
+    truncate.
     *[Tier 1: `SimpleFrameAPIDocumentation.lua:680-696`, returns at `:691-695`.
     Tier 3 that the extra returns are load-bearing: oUF reads them back at
     `events.lua:48-52`.]*
 
 20. **Do not infer that a widget lacks a method because it is absent from that
     widget's documentation table.** The generated docs record no inheritance:
-    `SetScript` is declared on `SimpleScriptRegionAPI`, `SimpleAnimAPI` and
-    `SimpleAnimGroupAPI` — and **not** on `SimpleFrameAPI`, which every frame
-    nonetheless has. (An earlier draft said "only on `SimpleScriptRegionAPI`";
-    there are three declarations, which if anything strengthens the rule — the
-    generator duplicates rather than inherits.)
+    `SetScript` is declared on **three** tables — `SimpleScriptRegionAPI`,
+    `SimpleAnimAPI` and `SimpleAnimGroupAPI` — and **not** on `SimpleFrameAPI`,
+    which every frame nonetheless has. The triplication is itself the point: the
+    generator duplicates rather than inherits.
     *[Tier 1: `SimpleScriptRegionAPIDocumentation.lua:628`,
     `SimpleAnimAPIDocumentation.lua:343`, `SimpleAnimGroupAPIDocumentation.lua:318`;
     `SimpleFrameAPIDocumentation.lua:1-6` and
@@ -1605,9 +1372,27 @@ Blizzard has not documented (§2.4 gap) — advisory only.
     before the payload.** Every Blizzard callback in the shipped tree declares it
     (and discards it) as `_nilOwner`; a handler written as
     `function(payloadArg) … end` will read the owner as its first payload value.
-    *[Tier 1, 6 sites: `Blizzard_ChatFrame/Shared/ClassTalentHelper.lua:15, :20,
+    *[Tier 1, 7 sites: `Blizzard_ChatFrame/Shared/ClassTalentHelper.lua:15, :20,
     :25, :30`; `Blizzard_SharedXMLGame/Tooltip/TooltipComparisonManager.lua:383`;
     `Blizzard_SharedXMLBase/Event.lua:6`, `:20`. **[inference]** that this is a
     contract rather than six consistent conventions — the generated docs declare
     `EventCallbackType` with no fields at all
     (`FrameScriptDocumentation.lua:503-505`). `@verify-ingame`]*
+
+---
+
+## Changelog
+
+- 2026-08-05 — **six ClientLab answers** `[client 2026-07-24]`. `SecureHooksAllowed`
+  is enforced, with a message (`… is forbidden for hooking`) distinct from the wiki
+  list's *"Cannot hook function"* — two checks, avoid the union (§5.4, rule 9);
+  `IsCallbackEvent` tracks the `CallbackEvent` flag on both sides (§2.5); all six
+  relocated `C_CombatLog.*` names read `nil` (§3, rule 4); **`Frame:UnregisterEventCallback`
+  does not exist**, making `FrameUtil.lua:59` a latent error in Blizzard's own code
+  (§2.5); the four-unit `RegisterUnitEvent` cap is not enforced (§2.3, rule 18);
+  `GetCurrentEventID`/`GetEventTime` exist but return `nil` outside a handler (§5.1).
+- 2026-08-05 — §2.8–2.9 (the Cooldown Manager alert channel; `C_AssistedCombat`) moved to
+  `cooldown-manager.md`. Only the generalisable choke-point dispatch shape stays here.
+- 2026-07-23 — adversarial re-verification of every locator and corpus count (front matter
+  `verified:`). Six claims were corrected in place; all six were re-checked against the
+  12.0.7.68887 checkout on 2026-08-05 and stand.

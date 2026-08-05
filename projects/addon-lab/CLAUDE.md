@@ -43,10 +43,34 @@ install path, so the `/mnt/c/...` path lives in exactly one place.
 `questions.json` is the single source of truth for what the lab tests. Every entry
 is `{id, anchor, bucket, question, expect, status}` keyed by a **stable id** — the
 join column between the JSON, the `ns.Test{}` records in `ClientLab/T_*.lua`, and
-the on-disk run under `ClientLabDB.runs`. It is the registry *instead of*
-`_meta/verify-in-game.md`: `knowledge/addon-dev/` is firewalled from the game KB
-and 64 of its 68 markers are backticked, so `wowkb.gen_verify` reports zero
-addon-dev items — a documented decision, not a bug (see `addon-dev/README.md` §6).
+each row of the `runs` capture stream. It is the registry *instead of*
+`_meta/verify-in-game.md`: `knowledge/addon-dev/` is firewalled from the game KB, so
+its `@verify-ingame` markers are written inside backticks and `wowkb.gen_verify`
+ignores them — a documented decision, not a bug (`addon-dev/README.md` §6, which
+indexes this file as the fourth queue in §1.2).
+
+⚠ **This is the registry of TESTS, not the record of unknowns.** An unknown lives as a
+**marker on the claim** in the topic file — `grep -rn '@verify-ingame' knowledge/addon-dev/`
+for the raw count. A question earns a row here when somebody decides to **test** it.
+
+### The unknowns loop — five lines
+
+Full process doc: [`docs/lab-process.md`](docs/lab-process.md).
+
+1. **A marked claim you are about to build on is a STOP** — ask the user. Three answers:
+   *assume it* (proceed, and say so in the code), *park it* (leave the marker), *test it*.
+2. **"Test it"** = write `ns.Test{}` into `T_<Topic>.lua`, add/flip the row here to
+   `built`, promote the marker on the claim to `` `@pending-test: <id>` ``, `lab deploy`.
+3. **Nothing is scheduled.** `Autorun` flies every `built` test on the next login/pull —
+   writing the test *is* queuing it.
+4. **`wowkb.lab show` → `drain <id>`** clears it: rewrite the claim, drop `@pending-test`,
+   tag `[client YYYY-MM-DD]`, **and delete the test** (house rule 2 — probe code dies in
+   the edit that writes its claim; `deploy --check` fails by name until it does). Delete
+   the file and its `.toc` line too if that was its last test. **The suite shrinks as the
+   KB grows.**
+5. **Four statuses only:** `answered` · `built` · `parked` · `not-answerable` (`deploy
+   --check` refuses a fifth). Nothing ages an open marker — the trigger is **use**, not age.
+   `wowkb.lab blocked` groups the untested rows by the capability each waits on.
 
 **`expect` lives only in the JSON and is never compared in-game.** The lab
 *discovers* an unknown answer; it does not *assert* a known one (that is what
@@ -56,7 +80,9 @@ PASS/FAIL would be the instrument grading its own subject.
 
 **Registry cross-check (both directions).** `deploy` refuses to copy unless every
 `status: "built"` question has a matching `ns.Test{}` and every `ns.Test{}` id is a
-built question. An unmatched id is a loud error, never a silent skip.
+built question. An unmatched id is a loud error, never a silent skip. An **`answered`**
+id still present in the Lua fails **by name** — that is the direction the suite grows
+back in.
 
 ## Test-authoring rules (learned, not optional)
 
@@ -83,16 +109,43 @@ built question. An unmatched id is a loud error, never a silent skip.
 The §4.2 secret table is combat-gated: a genuine Secret Value only exists in
 combat (a GCD cooldown read, per CDMProbe's `cooldown-read-combat-seam`).
 
+**The lab runs itself. There is nothing to type.** This addon is only enabled when
+someone is deliberately gathering values, so gathering must not cost keystrokes —
+and the one window in which the §4.2 secret rows can execute at all is *during a
+pull*, which is the worst possible moment to ask a human to type. `Autorun.lua`
+watches for the state instead:
+
 ```
-/clab run            (out of combat — secret rows record `skipped`)
-/clab guide          (what coverage is still missing; pull-based, re-type to re-check)
-pull a target dummy
-/clab run            (in combat — the secret rows fire)
-/reload              <- NOT optional; SavedVariables only flush on reload/logout
+login          -> settles ~6 s, then runs out of combat
+combat starts  -> runs ~2 s in, once cooldowns are actually rolling
+during a pull  -> retries ONLY the rows still unanswered, every 3 s, while it lasts
+spec/hero swap -> re-runs out of combat (the old rows' stamp no longer describes you)
 ```
 
-The run lands at `…/WTF/Account/<ACCT>/SavedVariables/ClientLab.lua` under
-`ClientLabDB.runs.ooc` / `.combat`.
+So the whole in-game procedure is: **enable the addon, `/reload`, and go pull
+something.** Chat says when coverage is complete.
+
+`/clab` opens the **panel** — the only interface, and the only slash command. Its
+buttons are for a moment only the player can recognise (re-run *now*, at this point
+in the pull), never for the routine gathering the driver already does.
+
+Runs land in the **`runs` capture stream** (`ClientLabDB.captures.runs`, the house
+standard — `references/capture-and-dump-standard.md`), a **ring of 8 sessions**. A
+session is one addon load and holds **every** run in it, so an in-combat run no
+longer clobbers the out-of-combat one, and each row is stamped with `combat` /
+`spec` / `hero` / `instance` at the moment it was taken.
+
+```bash
+uv run python -m wowkb.capture clab runs   # → raw/clab-runs.log, one line per row
+uv run python -m wowkb.lab show            # result beside expect (no verdict)
+```
+
+⚠ `/reload` is still what flushes SavedVariables — but `[copy]` off the dump panel
+reads the live ring, so you only reload when you actually want the file on disk.
+
+The pre-standard `ClientLabDB.runs` two-slot store is **gone** (purged on load). Its
+last run is archived at `runs/2026-07-24-v0.1.0-legacy.json`, and `wowkb.lab show`
+keeps a reader for the old shape.
 
 ## Checks
 
@@ -106,30 +159,54 @@ the `read_globals` std in `.luacheckrc` (the CDMProbe doctrine). The std is kept
 short *because* maybe-missing globals are probed by string, not named as
 identifiers.
 
-## Scope of pass 1 (this build)
+## What is here now
 
-Harness + record format + the 15 call-and-record questions + the 14-row §4.2 secret
-table = ~29 tests. Everything else — the 7 container/TOC questions (need generated
-sibling addons, **W1d**), the 3 not-answerable, buckets 2/3 (scratch-frame, XML,
-animation, event, lifecycle), and the ~11 unmarked `[gap]` candidates — is recorded
-in `questions.json` with the appropriate `status` and **not built**. See
-`docs/w1-plan.md` for the full scope split.
+**A `T_*.lua` file holds only what is still OPEN**, so this list is a live measure of what
+the KB does not yet know — it shrinks with every drain, and a file disappears when its last
+question is settled. `T_Module.lua` and `T_CooldownManager.lua` are gone that way; expect
+more to follow. Current split: `wowkb.lab deploy --check`.
 ```
 projects/addon-lab/
   CLAUDE.md            this file
-  docs/w1-plan.md      the durable project doc
+  docs/lab-process.md  THE PROCESS — how an unknown becomes a KB claim
+  docs/w1-plan.md      the harness design
   questions.json       THE REGISTRY
   .luacheckrc          read_globals curated for the lab
+  runs/                archived pre-standard runs (provenance for drained claims)
   ClientLab/
     ClientLab.toc
     Core.lua           namespace, SavedVariables, chat helpers, GlobalType/G, registry
-    Lab.lua            ns.Test / stash / the runner + result envelope
+    Capture.lua        VENDORED from CDMProbe — the `<DB>.captures.<stream>` ring
+    Lab.lua            ns.Test / stash / ns.Stamp / the runner + the `runs` stream
     Secret.lua         obtain ONE genuine Secret Value; gate needs="secret" tests
-    Report.lua         chat rendering of the last run + /clab guide
-    T_Anatomy.lua      tests, ONE FILE PER KB TOPIC FILE
-    T_ApiEvents.lua
+    Ask.lua            the eyeball channel — a stimulus and a human verdict
+    Report.lua         chat rendering of the last run + the coverage goals
+    Dumps.lua          the DUMP PANEL — /clab, [print] and [copy]
+    Autorun.lua        the driver: the lab runs itself, nothing to type
+    T_ApiEvents.lua    tests, ONE FILE PER KB TOPIC FILE
     T_Libraries.lua
-    T_Module.lua
-    T_State.lua
-    T_Security.lua     the §4.2 14-row secret-op table
+    T_Security.lua     what is still open in the §4.2 secret-op table
 ```
+
+## The panel — `/clab`
+
+**A human-triggered capture is a button, never a slash subcommand** (capture standard
+§4, §6). So there is no `/clab run`, no `/clab guide`, no `/clab list` — the driver
+covers all of that unprompted, and what remains is three buttons plus `[copy]`.
+
+`[copy]` **reads the in-memory ring**, so an answer leaves the client with **no
+`/reload`**. That is the point: a reload ends the pull that made the value secret.
+
+- **`run all tests`** — a re-run *now*, at this instant in the pull. Goes through the
+  normal `ns.RunAll()`, so rows land on the `runs` stream too: the bytes a human
+  copies and the bytes the extractor reads describe **one** run.
+- **`secret probe`** — `ns.GetSecret()` plus its `source`/`why`. When the gate fails
+  this is the difference between "14 rows skipped" and knowing why in five seconds.
+- **`coverage`** — what evidence is still missing. Every unmet goal names a **game
+  situation to get into**, never a command to type.
+
+The panel **refuses to build in combat** (open it once beforehand; it stays usable
+mid-pull), its copy EditBox is never a secure frame, and `SetMaxLetters(0)` /
+`SetMaxBytes(0)` are called unconditionally. Copy pages at **30,000 chars — a guess
+that `OBS-003` owns measuring.** If a payload ever stalls the client here, that is a
+measurement: record it in `knowledge/addon-dev/observations.md`.

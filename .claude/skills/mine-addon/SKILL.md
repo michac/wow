@@ -180,11 +180,27 @@ re-reading it. ⚠ A subagent that returns code snippets has failed the task; re
 **Step 3 — corroborate centrally.** Do §2 yourself on the merged list. Subagents are
 optimistic; a fact nobody checked against the generated docs is a rumour.
 
-**Step 4 — write.** Into the right `knowledge/addon-dev/` file (`security-…`,
-`frames-textures-animation`, `api-events-and-discovery`, `cooldown-manager`,
-`module-architecture`, `anatomy-and-runtime`). Update front matter: bump `reviewed:`,
-and **add the addon to `sources:` with its version and a "read for API discovery only,
-no code copied" note.** That line is the audit trail; it is not decoration.
+**Step 4 — write.** A mined fact that survived §2 lands in **one of two places**, and the
+split is this skill's whole output contract:
+
+- **Corroborated against Tier 1** → the right `knowledge/addon-dev/` topic file
+  (`security-…`, `frames-textures-animation`, `api-events-and-discovery`,
+  `cooldown-manager`, `module-architecture`, `anatomy-and-runtime`).
+- **Not corroborated** — Tier 3 alone, or it needs a client — →
+  **`knowledge/addon-dev/mined-pending-verification.md`**, this skill's own queue, with
+  the clone provenance on every entry. It is a queue, not a claim: nothing in it may be
+  cited as fact until a topic file adopts it (`README.md` §1.2). ⚠ Putting an
+  uncorroborated fact straight into a topic file is the failure this file exists to
+  prevent — a Tier-3 rumour reading as settled because of where it sits.
+
+Either way, update front matter: bump `reviewed:`, and **add the addon to `sources:` with
+its version and a "read for API discovery only, no code copied" note.** That line is the
+audit trail; it is not decoration.
+
+⚠ **What you could not find out is also a result.** A surface you read that did *not*
+answer the question is an unknown, and it is recorded the cheapest way there is: a
+`` `[gap]` `` marker **on the claim** in the topic file, saying what is not known. No tool,
+no ticket. A hole nobody wrote down gets re-searched by the next run.
 
 **Step 5 — delete the clone.** `rm -rf raw/addon-research/<Name>`. The KB now carries
 the facts; the source is a liability, not an asset. Skip only if the user says to keep

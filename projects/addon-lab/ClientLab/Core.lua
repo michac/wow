@@ -21,16 +21,19 @@ ns.name = ADDON
 ns.version = (C_AddOns and C_AddOns.GetAddOnMetadata and C_AddOns.GetAddOnMetadata(ADDON, "Version")) or "?"
 
 -- Saved-variable defaults -----------------------------------------------------
--- `runs` is keyed by combat state (ooc / combat) exactly like CDMProbeDB.probe:
--- one out-of-combat run and one in-combat run per session, the second overwriting
--- the first only within its own key.  `journal` is reserved for pass 3's
--- lifecycle event log (logout ordering, reload state) and stays empty in pass 1.
--- No schema field and no migration, matching CDMProbe's reasoning: stale keys in
--- an existing DB are harmless because nothing reads them.
-local DEFAULTS = {
-  runs = {},        -- runs.ooc / runs.combat — one structured run each
-  journal = {},     -- pass 3 reserve; unused in pass 1
-}
+-- Deliberately empty.  Everything this addon persists goes through Capture into the
+-- single `captures` key, which Capture.lua creates on first write — one top-level
+-- store per addon is rule 1 of the capture standard, and the alternative is the
+-- seven-stores-four-retention-policies state that standard exists to end.
+local DEFAULTS = {}
+
+-- The pre-standard keys.  `runs` was a two-slot store (ooc/combat) where a second
+-- run of the same kind CLOBBERED the first; `journal` was reserved for a lifecycle
+-- log and never written.  Both are gone, and they are actively removed rather than
+-- left to rot, so `ClientLabDB` cannot accumulate a shape nothing reads.
+-- The last legacy run is archived at projects/addon-lab/runs/, and `wowkb.lab show`
+-- keeps a reader for the old shape, so purging here loses nothing.
+local RETIRED = { "runs", "journal" }
 
 -- Chat helpers ----------------------------------------------------------------
 -- Print also tees a color-stripped copy into an optional capture buffer so a
@@ -131,13 +134,18 @@ local function printHelp()
   for _, name in ipairs(ns.commandOrder) do
     ns.Printf("  |cff88ff88%s|r — %s", name, ns.commands[name].help)
   end
-  ns.Print("suggested run: |cffffffffrun|r (out of combat) -> pull a dummy -> |cffffffffrun|r again in combat -> |cffffffff/reload|r, then the runs are on disk under ClientLabDB.runs.")
+  ns.Print("The lab runs itself: out of combat after login, again when combat starts, "
+    .. "then retries whatever could not answer while the pull lasts. Nothing to type.")
 end
 
+-- Bare /clab opens the panel.  There is no run command to type: a human-triggered
+-- capture is a BUTTON (the capture standard §4), and everything else happens on its
+-- own, so chat has nothing left to drive.
 local function dispatch(msg)
   msg = (msg or ""):gsub("^%s+", ""):gsub("%s+$", "")
   local cmd, rest = msg:match("^(%S+)%s*(.*)$")
   cmd = cmd and cmd:lower() or ""
+  if cmd == "" and ns.Dumps then return ns.Dumps.Toggle() end
   if cmd == "" or cmd == "help" then return printHelp() end
   local entry = ns.commands[cmd]
   if not entry then
@@ -164,7 +172,14 @@ boot:SetScript("OnEvent", function(_, event, arg1)
         ClientLabDB[k] = (type(v) == "table") and CopyTable(v) or v
       end
     end
+    for _, k in ipairs(RETIRED) do ClientLabDB[k] = nil end
     ns.db = ClientLabDB
+    -- A SECOND file, deliberately.  Probes that write values the serializer may not
+    -- survive — NaN, infinity, a self-referencing table, a Secret Value — go here, so
+    -- a file the loader rejects costs only the probe that caused it.  ns.db holds the
+    -- capture ring, which is the evidence everything else in this addon exists to make.
+    ClientLabScratchDB = ClientLabScratchDB or {}
+    ns.scratch = ClientLabScratchDB
   elseif event == "PLAYER_LOGIN" then
     ns.Printf("v%s loaded. |cffffffff/clab help|r — the client lab.", ns.version)
   end

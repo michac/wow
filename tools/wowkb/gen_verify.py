@@ -21,15 +21,19 @@ It disappears from the list on the next run.
 A `@verify-ingame` written inside `backticks` is treated as prose (docs referring
 to the convention) and ignored — only a live, bare marker counts as an open item.
 
-KNOWN + DELIBERATE: `knowledge/addon-dev/` is effectively invisible to this tool.
-64 of its 68 markers are backticked, so it contributes ~zero rows. That subtree is
-firewalled from the game KB by its own README §0 (different sources, different
-tiers, different reader), and its questions are *engineering* tests — "does the
-sandbox expose `require`?" — not things you resolve while logged in doing content.
-They live in their own registry, `projects/addon-lab/questions.json`, keyed by a
-stable id and run by the ClientLab addon. Do NOT "fix" this by un-backticking those
-markers or by teaching `_strip_code` about the subtree: it would drown this
-checklist. Decision recorded 2026-07-23 (W1); see `knowledge/addon-dev/README.md` §6.
+KNOWN + DELIBERATE: `knowledge/addon-dev/` is invisible to this tool. Its markers are
+written inside backticks, so it contributes zero rows. That subtree is firewalled from
+the game KB by its own README §0 (different sources, different tiers, different
+reader), and its questions are *engineering* tests — "does the sandbox expose
+`require`?" — not things you resolve while logged in doing content. They live in their
+own registry, `projects/addon-lab/questions.json`, keyed by a stable id and run by the
+ClientLab addon. Do NOT "fix" this by un-backticking those markers or by teaching
+`_strip_code` about the subtree: it would drown this checklist. See
+`knowledge/addon-dev/README.md` §6 and §1.2.
+
+⚠ The corollary, which is easy to get backwards: backticking a marker makes it
+invisible HERE but does not answer it. A marker hidden with no matching entry in
+questions.json is not resolved, it is lost. Register, then backtick.
 """
 
 from __future__ import annotations

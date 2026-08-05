@@ -1,12 +1,12 @@
 ---
 title: Frames, widgets and rendering
 patch: 12.0.7
-fetched: 2026-08-02
-reviewed: 2026-08-02
+fetched: 2026-08-05
+reviewed: 2026-08-05
 sources:
   - https://github.com/Gethe/wow-ui-source (live, version.txt 12.0.7.68887, commit 4383ced30106d51b27e3e86d1987f1552f0d259d)
   - Interface/AddOns/Blizzard_SharedXML/UI.xsd (1628 lines, the Tier-1 XML schema)
-  - Interface/AddOns/Blizzard_APIDocumentationGenerated/ (593 files, 77 ScriptObject tables)
+  - Interface/AddOns/Blizzard_APIDocumentationGenerated/ (592 .lua doc files + 1 .toc, 77 ScriptObject tables)
   - https://github.com/Ketho/BlizzardInterfaceResources (branch live, commit 774b2c550366, "12.0.7 (68256)") — Resources/WidgetAPI.lua for the inheritance graph
   - https://warcraft.wiki.gg/wiki/XML/Texture (revid 6776374, 2026-07-19)
   - https://warcraft.wiki.gg/wiki/API_Region_SetVertexColor (revid 6654858, 2026-02-19)
@@ -25,24 +25,6 @@ sources:
   - https://github.com/Stanzilla/WoWUIBugs issues #107, #250, #474, #847, #848
 confidence: high
 ---
-
-> **Adversarial verification pass, 2026-07-23.** Every locator in this file was
-> re-opened against the same checkout. **27 claims were corrected, weakened or
-> re-scoped**; each edit is marked `[corrected 2026-07-23]` inline and states
-> what the old text said and what the source actually says. Everything not so
-> marked was opened and confirmed — including all seven Tier-3 addon-corpus
-> counts, all 15 wiki revids/dates, all four WoWUIBugs issues, every strata and
-> draw-layer census figure, and the whole `Pools.lua` / `UI.xsd` /
-> `SecretPredicates` line set. (WoWUIBugs #250 was listed in `sources:` but cited
-> nowhere; it is now cited, in §5.1.)
->
-> The substantive ones, if you read nothing else: the §4.2 annotation table
-> (`SetClipsChildren` was not unannotated), §4.4 (`SetDrawLayer` is not
-> unannotated), §3.1 (`GetNumPoints` is not `SecretWhenAnchoringSecret`), §5.1
-> (`SetMask` is not a base-image writer, and "exactly one is in force" was never
-> cited), §5.1 `GetTextureInfo` (four `assetType` values, not two), §9.4 and
-> rule 37 (region-pool proxies expose nine methods, not eight; collections nine,
-> not eleven), and §6.3 (LibSharedMedia is vendored 5×, not 8×).
 
 # Frames, widgets and rendering
 
@@ -71,8 +53,9 @@ records only where those concepts intersect rendering, and points there.
 
 > ⚠ **Build skew.** Source checkout `12.0.7.68887`; `BlizzardInterfaceResources`
 > `12.0.7.68256`; this repo's `_meta/game-version.md` records live as
-> `12.0.7.68453`. Same patch, three builds. **Nothing in this file has been run
-> in the client.** Items that need that are marked `@verify-ingame`.
+> `12.0.7.68453`. Same patch, three builds. **Almost nothing in this file has
+> been run in the client** — the exceptions carry a `[client YYYY-MM-DD]` tag.
+> Items that still need the client are marked `@verify-ingame`.
 
 ---
 
@@ -116,9 +99,9 @@ Animation      (Object + ScriptObject)   :318
 Font (FrameScriptObject + FontInstance)  :159
 ```
 
-`[corrected 2026-07-23]` The animation-subtype range was previously written
-`:363–:474`; `:474` is `Frame`. The ten subtypes are the per-type lines above,
-each with `inherits = {"Animation"}`; the block ends at `:466`.
+Each of the ten `Animation` subtypes carries its own `inherits = {"Animation"}`
+entry at the line shown; that block ends at `:466` `[T2 res:
+WidgetAPI.lua:363-466]`. (`:474` is `Frame`, not an animation type.)
 
 Two facts that matter and that people get wrong:
 
@@ -126,9 +109,8 @@ Two facts that matter and that people get wrong:
   `[T2 res: WidgetAPI.lua:474-475]`, so a `Texture` is a *sibling branch* of
   `Frame`, not a child of it. Methods like `SetPoint`, `Show`, `Hide`,
   `SetAlpha`, `SetScale`, `GetRect` live on `ScriptRegion`/`Region` and are
-  shared by both. `[corrected 2026-07-23]` This bullet used to also assert
-  "and so does `Region`" — that is exactly the edge the gap below says is
-  unverified, so it has been removed from the claim.
+  shared by both. Whether `Region` *itself* inherits `ScriptRegion` is the one
+  edge the gap below leaves unverified — do not assert it.
 - **`FontString` is a `Region`.** It inherits `Region` *and* `FontInstance`
   `[T2 res: WidgetAPI.lua:170-171]`. That is why a FontString has both
   `SetTextColor` (from the font side) and `SetVertexColor` (from the region
@@ -140,8 +122,9 @@ Two facts that matter and that people get wrong:
 > `ScriptRegion` (the method split is consistent with it, and the wiki's
 > `UIOBJECT Texture` page transcludes `UIOBJECT_Region`, `UIOBJECT_ScriptRegion`,
 > `UIOBJECT_ScriptRegionResizing`, `UIOBJECT_AnimatableObject`, `UIOBJECT_Object`,
-> `UIOBJECT_FrameScriptObject` in that order `[T2 wiki: UIOBJECT Texture, revid
-> 6777822, 2026-07-21]`). I could not find a Tier-1 statement of the parent.
+> `UIOBJECT_FrameScriptObject` in that order
+> `[T2 wiki: UIOBJECT Texture, revid 6777822, 2026-07-21]`). No Tier-1 statement
+> of the parent could be found.
 > Don't build on that one edge.
 
 ### 1.2 The `Simple*` naming in the generated docs
@@ -186,15 +169,13 @@ what a given object can do without looking anything up:
 onward; Mixin at :279, CreateFromMixins at :82]`. So the canonical signature —
 `CreateFrame(frameType, name, parent, template, id)` — rests on the wiki
 `[T2 wiki: API CreateFrame, revid 6779954, 2026-07-23]` and on **329** call
-sites in the shipped source, e.g.
+sites in the shipped source
+`[T1 obs: grep -rho 'CreateFrame(' --include='*.lua' over Interface/AddOns]`, e.g.
 `[T1 src: Blizzard_Menu/11_0_0_MenuImplementationGuide.lua:107]`
 (`CreateFrame("DropdownButton", nil, MyParentFrame, "WowStyle1DropdownTemplate")`).
-`[corrected 2026-07-23]` The count was written as "~338"; a
-`grep -rho 'CreateFrame(' --include='*.lua'` over `Interface/AddOns` returns 329.
 
 `CreateForbiddenFrame` likewise has no doc entry; it appears **11** times in the
-shipped source, and `[corrected 2026-07-23]` **not** all inside
-`Blizzard_StoreUI` as previously claimed. The actual spread `[T1 obs]`:
+shipped source, and **not** only inside `Blizzard_StoreUI`. The spread `[T1 obs]`:
 
 | File | Lines |
 |---|---|
@@ -215,14 +196,17 @@ Frame:CreateFontString(name?, drawLayer?, templateName?)              SimpleFram
 All four carry `SecretArguments = "NotAllowed"` `[T1 docs:
 SimpleFrameAPIDocumentation.lua:68,85,121]`.
 
-> **Inconsistency worth knowing.** Blizzard's own pool code calls
-> `parent:CreateFontString(name, layer, template, subLevel)` — four arguments —
-> at `[T1 src: Blizzard_SharedXMLBase/Pools.lua:586]`, against a documented
-> three-argument signature. Either the generated docs are incomplete for
-> `CreateFontString` or the fourth argument is silently discarded.
-> `[gap]` I could not settle which. `@verify-ingame`: create two FontStrings on
-> the same frame and draw layer with different `subLevel` values and see whether
-> the stacking order differs.
+> **`CreateFontString` accepts a fourth `subLevel` argument and silently discards it**
+> `[client 2026-08-05]`. The four-argument call does not error, and the resulting
+> FontString reports `subLevel` **0** — the value passed is dropped. `CreateTexture`,
+> given the same treatment, **honours** it (a passed `3` reads back as `3`), so this is
+> specific to FontStrings rather than a general truncation.
+>
+> So Blizzard's own pool code at
+> `[T1 src: Blizzard_SharedXMLBase/Pools.lua:586]` — `parent:CreateFontString(name,
+> layer, template, subLevel)` — is passing an argument that does nothing, and the
+> documented three-argument signature is the accurate one. **To sub-level a FontString,
+> call `SetDrawLayer(layer, subLevel)` afterwards.**
 
 ### 2.2 XML is a real, schema-defined language — and almost nobody uses it
 
@@ -269,9 +253,8 @@ The rest are mostly file-load manifests and `Bindings.xml` — WeakAuras' seven
 XML files are `WeakAuras/locales.xml`, `WeakAurasTemplates/locales.xml`,
 `WeakAurasOptions/locales.xml`, `WeakAuras/embeds.xml`,
 `WeakAurasOptions/embeds.xml`, `WeakAuras/Bindings.xml` and
-`WeakAuras/Profiling.xml` `[T1 obs]`. `[corrected 2026-07-23]` The earlier
-wording implied none of them carried markup; `WeakAuras/Profiling.xml` is
-precisely the one that does, and is the "1" in the table row.
+`WeakAuras/Profiling.xml` `[T1 obs]` — of which `WeakAuras/Profiling.xml` is the
+one carrying widget markup, i.e. the "1" in that table row.
 Note Details and Plater share an author (Tercioo) so
 they are not independent data points. This is a *practice* observation, not a
 recommendation: XML remains fully supported and Blizzard's own UI is 1028 `.xml`
@@ -345,7 +328,7 @@ Ten shipped XML files declare `intrinsic="true"` `[T1 obs]`, e.g.
 `[T1 src: Blizzard_ItemButton/Shared/ItemButtonTemplate.xml:4]`,
 `[T1 src: Blizzard_Menu/DropdownButton.xml:3]`.
 
-> `[corrected 2026-07-23]` **The two tens are not the same ten.** The counts
+> ⚠ **The two tens are not the same ten.** The counts
 > match by coincidence; the sets differ by one element each way `[T1 obs]`:
 > - `ScrollingMessageFrame` is declared `intrinsic="true"` at
 >   `[T1 src: Blizzard_SharedXML/ScrollingMessageFrame.xml:3]` but has **no**
@@ -394,8 +377,8 @@ The full anchoring/sizing method set lives on `ScriptRegionResizing`, and
 `SetPoint`, `SetAllPoints`, `ClearAllPoints`, `ClearPoint`, `ClearPointsOffset`,
 `AdjustPointsOffset`, `SetPointsOffset`, `SetSize`, `SetWidth`, `SetHeight`.
 
-`[corrected 2026-07-23]` The accessors are **not** uniform, contrary to what this
-section previously said. `GetPoint` (`:65`) and `GetPointByName` (`:88`) are
+The accessors, by contrast, are **not** uniform.
+`GetPoint` (`:65`) and `GetPointByName` (`:88`) are
 `MayReturnNothing` + `SecretWhenAnchoringSecret` + `ConstSecretAccessor`;
 **`GetNumPoints` (`:52`) carries no annotations at all** — it is not
 `SecretWhenAnchoringSecret`, so a point *count* survives secret anchoring even
@@ -446,7 +429,7 @@ belongs here as well as in the security file.
   data secret, and **propagates downward to anything anchored to it** —
   "If child frame B is anchored to parent frame A, and A has secret anchoring
   data, B implicitly has secret anchors too." Clearing anchor points can reset it.
-  `[T2 wiki: Secret Values, revid 6777907, §Secret anchors, 2026-07-22]`.
+  `[T2 wiki: Secret Values, revid 6777907, 2026-07-22, §Secret anchors]`.
 
 The practical shape: `StatusBar:SetValue(secretNumber)` can poison the geometry
 readout of an entire anchored subtree.
@@ -497,11 +480,21 @@ PARENT  BACKGROUND  LOW  MEDIUM  HIGH  DIALOG  FULLSCREEN  FULLSCREEN_DIALOG  TO
 ```
 
 `PARENT` is the XML attribute default (`frameStrata` default `"PARENT"`,
-`[T1 xsd:730]`). `[corrected 2026-07-23]` The gloss *"i.e. inherit from parent,
-not a z-band"* has been dropped — it is inference from the name. Tier 1 gives the
+`[T1 xsd:730]`). What `PARENT` *means* is not stated anywhere: Tier 1 gives the
 value and the default and nothing more, and no shipped XML or Lua ever writes
-`PARENT` explicitly (0 occurrences, table below), so the corpus offers no
-behavioural evidence either. `[gap] @verify-ingame`.
+`PARENT` explicitly (0 occurrences, table below).
+
+**`PARENT` is XML-only, and it names the default behaviour rather than changing it**
+`[client 2026-08-05]`. Two halves:
+
+- **`SetFrameStrata("PARENT")` is rejected from Lua** — on a child and on a top-level
+  frame alike, it raises `bad argument #2 to '?' (Usage: self:SetFrameStrata(strata))`.
+  The value exists in the XSD enum and is not accepted by the setter, so it cannot be
+  round-tripped and there is no way to return a frame to it once another strata is set.
+- **A child already behaves that way without being told to.** A child of a `HIGH` frame
+  reports `HIGH`; move the parent to `DIALOG` and the child reports `DIALOG` too. So the
+  obvious reading of the name is right about the behaviour — inheritance, not a z-band of
+  its own — it simply is not something Lua can ask for.
 
 Observed usage in the shipped corpus `[T1 obs]`:
 
@@ -518,16 +511,32 @@ Observed usage in the shipped corpus `[T1 obs]`:
 | BLIZZARD | 0 | 1 — `[T1 src: Blizzard_AuthChallengeUI/Blizzard_AuthChallengeUI.xml:65]` |
 | PARENT | 0 | 0 |
 
-> ⚠ **The wiki's `Frame Strata` page is stale.** Last edited **2024-02-23**
-> (revid 5975111). It lists **nine** strata, headed by `WORLD`, and does not
-> mention `BLIZZARD` or `PARENT` at all. `WORLD` does not appear in `UI.xsd`.
+> ⚠ **The wiki's `Frame Strata` page is stale**
+> `[T2 wiki: Frame Strata, revid 5975111, 2024-02-23]`. It lists **nine** strata,
+> headed by `WORLD`, and does not mention `BLIZZARD` or `PARENT` at all. `WORLD`
+> does not appear in `UI.xsd`.
 > Use the XSD list; use the wiki page only for the behavioural notes below.
 
-Behavioural notes, Tier 2 only `[T2 wiki: Frame Strata, revid 5975111,
-2024-02-23]`: frame levels run 0–10000; a child defaults to one level above its
-parent; moving a parent shifts descendants by the same delta, and a shift that
-would take a level below 0 is set to 10000 instead. **None of that is stated at
-Tier 1** — `@verify-ingame`.
+**Frame-level arithmetic, measured** `[client 2026-08-05]`. Every Tier-2 behavioural note
+`[T2 wiki: Frame Strata, revid 5975111, 2024-02-23]` holds, and the measurement adds the
+number the wiki does not give:
+
+| Behaviour | Reading |
+|---|---|
+| a child defaults one level above its parent | parent `1`, child `2` |
+| moving a parent shifts descendants by the same delta | parent → `10`, child → `11` |
+| the effective ceiling is 10000 | `SetFrameLevel(10001)` succeeds and reads back `10000` |
+| a shift below 0 wraps to the top | parent → `0` sends the child to **`10000`**, not `1` |
+| a negative level is refused outright | `SetFrameLevel(-1)` raises |
+
+⚠ **Two different ranges are in play, and the error message names the one that is not the
+clamp.** `SetFrameLevel(-1)` raises `outside of expected range 0 to 65535`, but 10001 is
+accepted and silently clamped to 10000. So **0–65535 is argument validation and 0–10000 is
+the effective range** — a value between them is taken without complaint and quietly
+changed. `UIParent` sits at level `0`.
+
+The wrap is the trap worth remembering: dropping a parent to level 0 does not floor its
+children at 0, it flings them to the very top of the strata.
 
 ### 4.2 Frame level and the protection asymmetry
 
@@ -545,12 +554,11 @@ SetIsFrameBuffer(bool)                           SecretArguments=NotAllowed     
 `[T1 docs: SimpleFrameAPIDocumentation.lua, lines as shown]`
 (`+X` = `SecretArgumentsAddAspect = { Enum.SecretAspect.X }`.)
 
-> `[corrected 2026-07-23]` This table previously showed `SetClipsChildren` as
-> "— no annotations —". It carries `SecretArguments = "AllowedWhenUntainted"`.
-> The `SetFixedFrame*` / `SetUsingParentLevel` / `SetFrameLevel` / `SetToplevel`
-> rows were also missing their `SecretArguments` value. `SetFrameStrata` is the
-> only `NotAllowed` entry in the strata/level family, and `SetIsFrameBuffer` the
-> only `NotAllowed` entry that is *not* also `IsProtectedFunction`.
+> Two things to read off that table: `SetFrameStrata` is the **only**
+> `NotAllowed` entry in the strata/level family, and `SetIsFrameBuffer` is the
+> only `NotAllowed` entry that is *not* also `IsProtectedFunction`. Nothing in
+> the family is unannotated — `SetClipsChildren` and `SetFlattensRenderLayers`
+> carry `AllowedWhenUntainted` despite not being protected.
 
 Note the split: **strata rejects secret arguments outright; frame level accepts
 them and marks the frame's `FrameLevel` aspect secret.** `GetFrameLevel` is
@@ -561,7 +569,7 @@ carries no annotation at all. `IsToplevel` is
 
 `Frame:GetHighestFrameLevel(iterateAllChildren)` (`:418`) and
 `GetRaisedFrameLevel()` (`:519`) exist — useful for "put my overlay one above
-whatever is there". `[corrected 2026-07-23]` They are **not** both unannotated:
+whatever is there". They are **not** annotated alike:
 `GetRaisedFrameLevel` is unannotated, but `GetHighestFrameLevel` carries
 `SecretArguments = "AllowedWhenUntainted"` and its `frameLevel` return is marked
 `ConditionalSecret = true` `[T1 docs: SimpleFrameAPIDocumentation.lua:418-431]`
@@ -572,8 +580,9 @@ whatever is there". `[corrected 2026-07-23]` They are **not** both unannotated:
 `SetFlattensRenderLayers(flatten)` composites all descendant textures and
 fontstrings into a single render layer, so unrelated overlapping frames stop
 interleaving. `Frame:SetToplevel` implicitly enables it, and other frame
-attributes can too `[T2 wiki: API Frame SetFlattensRenderLayers, revid 6654668,
-2026-02-19]`. Tier 1 corroborates only the *shape*: there are both
+attributes can too
+`[T2 wiki: API Frame SetFlattensRenderLayers, revid 6654668, 2026-02-19]`.
+Tier 1 corroborates only the *shape*: there are both
 `GetFlattensRenderLayers()` (explicit request) and
 `GetEffectivelyFlattensRenderLayers()` (actual state) `[T1 docs:
 SimpleFrameAPIDocumentation.lua]`, plus the XML attribute `flattenRenderLayers`
@@ -598,21 +607,32 @@ Observed sub-levels in the shipped Lua: −8, −1, 1, 2, 3, 6, 7 `[T1 obs:
 `SetDrawLayer("X", n)` call census]` — consistent with the schema bound, and
 `-8` is actually used (`SetDrawLayer("BACKGROUND", -8)`).
 
-> `[gap]` The XSD gives the five layer names but **does not state that the
-> listing order is the z-order**. That BACKGROUND is behind HIGHLIGHT is
-> universally-believed and matches the names, but I found no Tier-1 statement
-> ordering them, and no Tier-1 statement that `HIGHLIGHT` has special
-> mouse-over semantics. Tier 2: `[T2 wiki: XML/Layer]` says `level` "sequences
-> graphical regions". `@verify-ingame`.
+**The listing order IS the z-order — observed** `[client 2026-08-05]`. Two opaque
+squares of the same size, overlapping, one on `ARTWORK` and one on `OVERLAY`, created
+ARTWORK-first: the **OVERLAY square draws in front**. So the enumeration order is the
+stacking order, as universally believed — now with an observation behind it rather than
+the name alone.
+
+⚠ **This is an eyeball verdict, not an instrument reading, and it could not be anything
+else**: no API returns composite draw order between two overlapping regions. The
+accompanying `draw-layer-z-order` test measures what *can* be read — which layer names
+the setter accepts, how sub-levels clamp — and explicitly records `zOrderMeasured=false`.
+
+> `[gap]` Only the ARTWORK/OVERLAY pair was shown, so the *full* five-way ordering is
+> still inference from one adjacent pair plus the names. And there is still **no Tier-1
+> statement that `HIGHLIGHT` has special mouse-over semantics** — the test found a
+> HIGHLIGHT region shown with no cursor over it, but the scratch container is parked
+> off-screen by design, so mouse-over behaviour was never exercised. Tier 2:
+> `[T2 wiki: XML/Layer]` says `level` "sequences graphical regions".
 
 The Lua pair is `Region:SetDrawLayer(layer, sublevel)` (`:147`) /
 `GetDrawLayer() -> layer, sublayer` (`:24`)
 `[T1 docs: SimpleRegionAPIDocumentation.lua]`. Draw layer is **not protected and
 not secret-bearing**: neither carries `IsProtectedFunction`, neither carries a
-`SecretArgumentsAddAspect` or `SecretReturnsForAspect`.
-`[corrected 2026-07-23]` The earlier wording "neither is annotated" was wrong —
-`SetDrawLayer` does carry `SecretArguments = "AllowedWhenUntainted"` (so tainted
-code may not feed it a secret); `GetDrawLayer` genuinely has no annotations.
+`SecretArgumentsAddAspect` or `SecretReturnsForAspect`. They are not both
+*unannotated*, though: `SetDrawLayer` carries
+`SecretArguments = "AllowedWhenUntainted"` (so tainted code may not feed it a
+secret), while `GetDrawLayer` has no annotations at all.
 
 ---
 
@@ -631,21 +651,26 @@ Three writers set the image:
 | `SetAtlas(atlas, useAtlasSize, filterMode?, resetTexCoords?, hWrapMode?, vWrapMode?)` | a named atlas region (file + tex-coords in one) | `[T1 docs: SimpleTextureBaseAPIDocumentation.lua:278]` |
 | `SetColorTexture(r, g, b, a?)` | a solid colour | `[T1 docs: SimpleTextureBaseAPIDocumentation.lua:313]` |
 
-> `[corrected 2026-07-23]` This table used to be headed *"Exactly one of these is
-> in force at a time, and each is a full replacement"* and used to include
-> `SetMask(file)` (`:370`) as a fourth row. Both were wrong-ish:
-> - **`SetMask` is not a base-image writer.** It attaches a mask by path and is
->   orthogonal to `SetTexture`/`SetAtlas`/`SetColorTexture`; it belongs with §5.7.
->   It is listed in `[T2 wiki: XML/Texture, revid 6776374]` as the Lua equivalent
->   of the `mask` **attribute**, alongside `file` and `atlas`, not instead of them.
->   ⚠ **"Orthogonal" is not the same as "works with all three."** Measured
->   2026-07-30: `SetMask(path)` + `SetColorTexture` **does not clip** — see §5.7,
->   which carries the observation and the mask-object form that does.
-> - **"Exactly one is in force" is uncited.** It is the near-universal mental
->   model and is consistent with `GetTexture` returning nil after `SetAtlas`, but
->   I could find no Tier-1 or Tier-2 statement of mutual exclusion.
->   `@verify-ingame`: `SetTexture(...)` then `SetAtlas(...)` then read
->   `GetTexture()`/`GetAtlas()`, and the reverse order.
+> **`SetMask(file)` (`:370`) is not a fourth row — it is not a base-image
+> writer.** It attaches a mask by path and is orthogonal to
+> `SetTexture`/`SetAtlas`/`SetColorTexture`; it belongs with §5.7.
+> `[T2 wiki: XML/Texture, revid 6776374, 2026-07-19]` lists it as the Lua
+> equivalent of the `mask` **attribute**, alongside `file` and `atlas`, not
+> instead of them.
+> ⚠ **"Orthogonal" is not the same as "works with all three":**
+> `SetMask(path)` + `SetColorTexture` **does not clip** `[client 2026-07-30]`.
+> §5.7 carries that observation and the mask-object form that does work.
+>
+> **Exactly one of the three is in force at a time — the last call wins**
+> `[client 2026-08-05]`. `SetTexture` then `SetAtlas` leaves `GetAtlas()` naming the
+> atlas; the reverse order leaves `GetAtlas()` nil and `GetTexture()` on the file.
+> `SetColorTexture` clears both (`GetTexture()` and `GetAtlas()` read nil).
+>
+> ⚠ **But the readback does not work the way the mental model says.** After `SetAtlas`,
+> `GetTexture()` does **not** return nil — it returns the atlas's **backing fileID as a
+> number** (`4701874` for `bags-item-slot64`). So `GetTexture()` is not a test for "is
+> this a file texture", and code branching on it will take the file path for an atlas.
+> **Ask `GetAtlas()` first**; only a nil there means the region is not atlas-backed.
 >
 > Related and unresolved: `[T2 bug: WoWUIBugs #250, created 2022-08-13, closed,
 > labels Bug / Mainline / ✔️ Verifiable Example / Acknowledged by Blizzard]`
@@ -655,8 +680,19 @@ Three writers set the image:
 
 `SetTexture`, `SetAtlas` and `SetColorTexture` all carry
 `SecretArguments = "AllowedWhenTainted"` and **no** `SecretArgumentsAddAspect`
-`[T1 docs, same file]` — i.e. they accept secret arguments and, having no
-connected aspect, that marks the *whole object* as having secret values (§3.3).
+`[T1 docs, same file]`. Where a secret argument *is* accepted there is therefore
+no connected aspect to hold it, and the *whole object* is marked as having
+secret values (§3.3).
+
+⚠ **A `SecretArguments` annotation is necessary, not sufficient — and these
+three do not behave alike despite carrying the identical one.** The annotation
+says only that the call will not be rejected at the annotation layer; it says
+nothing about whether the implementation accepts the value. `SetTexture`
+**refuses a secret string outright**, with the client's own message *"Cannot set
+texture to a secret string value."*, while `SetAtlas` on the byte-identical
+annotation accepts one silently `[client 2026-08-04]`. The measured
+channel-by-channel table lives in `security-taint-and-restricted-data.md`
+§4.8.1 — read it there; do not re-derive runtime behaviour from annotations.
 
 Readers: `GetTexture() -> cstring?`, `GetTextureFileID() -> fileID`,
 `GetTextureFilePath() -> cstring?`, `GetAtlas() -> textureAtlas` — all
@@ -677,10 +713,10 @@ GetTextureInfo(obj) -> assetName, assetType, ulX,ulY, blX,blY, urX,urY, brX,brY
   the 8 coords are a straight passthrough of obj:GetTexCoord()  (TextureUtil.lua:23)
 ```
 
-`[corrected 2026-07-23]` The `assetType` was previously given as
-`("Atlas"|"File")`. There are **four** values — it falls through
-`GetAtlas → GetTextureFilePath → GetTextureFileID → "UnknownAsset"` — and the
-function returns nil for a non-Texture, so callers must nil-check.
+The **four** `assetType` values come from a fall-through on `assetName` —
+`GetAtlas` → `GetTextureFilePath` → `GetTextureFileID` → the literal
+`"UnknownAsset"` (whose `assetType` is `"Unknown"`). The function returns
+nothing at all for a non-Texture, so callers must nil-check.
 
 ### 5.2 Channel 2 — tex-coords, tiling, slicing, geometry
 
@@ -691,9 +727,8 @@ Independent of channel 1 and of colour:
   documented `SetTexCoord` takes **four** numbers (`left, right, bottom, top`,
   `[T1 docs: …:417-429]`), while `GetTexCoord` returns **eight**
   (`ulX, ulY, llX, llY, urX, urY, lrX, lrY`, `[T1 docs: …:95-114]`). An
-  eight-argument *setter* form exists and is undocumented — `[corrected
-  2026-07-23]` this was previously asserted as "widely used" with no evidence;
-  it is now counted: **13 call sites in Blizzard's own shipped Lua**, e.g.
+  eight-argument *setter* form exists and is undocumented:
+  **13 call sites in Blizzard's own shipped Lua**, e.g.
   `[T1 src: Blizzard_FrameXML/EquipmentFlyout.lua:644-647]`, and **21 files**
   across the seven surveyed addon clones `[T3 obs]`. Still absent from the
   generated docs `[gap]`.  Both `SetTexCoord` and
@@ -759,20 +794,23 @@ underlying color of the texture image, but acts as a filter; see
 Region:SetVertexColor for details." `[T2 wiki: API TextureBase SetGradient,
 revid 6654937, 2026-02-19]`.
 
-> `[gap] — this is the load-bearing unknown of the section.` **Whether
-> `SetVertexColor` and `SetGradient` write the same storage** (so the later call
-> wins) or two composable slots is **not established by any source I could
-> reach.** Tier 1 gives only that they sit on different types, have different
-> security annotations, and that only one of them is readable. Tier 2 says both
-> are multiplicative filters, which is consistent with either. I looked in:
-> `UI.xsd`, all 593 generated doc files, the shipped Lua (there is no Blizzard
-> file that applies both to the same texture — the only `SetGradient` call sites
-> are `[T1 src: Blizzard_NamePlates/Blizzard_NamePlates.lua:519-520]`), the
-> wiki pages for both methods, and WoWUIBugs.
-> `@verify-ingame`: create a white 8×8 texture, `SetVertexColor(1,0,0)`, then
-> `SetGradient("HORIZONTAL", yellow, blue)`, then `GetVertexColor()`; then
-> reverse the order. Record whether the red tint survives the gradient and what
-> the getter reports.
+**`SetGradient` resets the vertex colour to white** `[client 2026-08-05]`. On a white
+8×8 texture, `SetVertexColor(1,0,0)` reads back red; a following
+`SetGradient("HORIZONTAL", yellow, blue)` leaves `GetVertexColor()` reading
+**`1,1,1,1`**. Running the two in the opposite order gives the same picture: after a
+gradient the getter reads white, and a later `SetVertexColor` then sets red normally.
+
+Two consequences, and the second is the one that bites:
+
+- **They are not one slot you can read.** A gradient is never visible through
+  `GetVertexColor`, so the getter cannot tell you what a region is tinted with once a
+  gradient is involved.
+- **`SetGradient` destroys an existing vertex tint.** Apply the gradient first and the
+  tint second, or the tint silently disappears. This is the ordering rule the section's
+  four-channel model needs, and no source at any tier states it — the only Blizzard
+  `SetGradient` call sites are
+  `[T1 src: Blizzard_NamePlates/Blizzard_NamePlates.lua:519-520]`, which never combine
+  the two.
 
 Alpha propagation: a frame's alpha applies to its descendants
 `[T2 wiki: API Region SetAlpha, revid 6654851, 2026-02-19, citing the 2.1.0
@@ -781,9 +819,8 @@ explicit opt-out on both the region and the XML side —
 `Region:SetIgnoreParentAlpha(ignore)` / `IsIgnoringParentAlpha()`
 `[T1 docs: SimpleRegionAPIDocumentation.lua:158 and neighbour]` and
 `ignoreParentAlpha` on `TextureAttributes` `[T1 xsd:558]`, `FrameAttributes`
-`[T1 xsd:738]` and `FontStringType` `[T1 xsd:667]`
-(`[corrected 2026-07-23]` — the texture-side line was cited as `:556`, which is
-`hWrapMode`). Same story for scale (`SetIgnoreParentScale`,
+`[T1 xsd:738]` and `FontStringType` `[T1 xsd:667]`.
+Same story for scale (`SetIgnoreParentScale`,
 `ignoreParentScale`), except `SetIgnoreParentScale` is additionally
 `IsProtectedFunction = True` + `SecretArguments = NotAllowed`
 `[T1 docs: SimpleRegionAPIDocumentation.lua]`.
@@ -807,12 +844,16 @@ That is **byte-for-byte the annotation set of `Region:SetVertexColor` /
 getter. Since `FontString` inherits `Region` `[T2 res: WidgetAPI.lua:170-171]`,
 a FontString has both methods.
 
-> `[gap]` "Identical annotations ⇒ identical storage" is inference, not a cited
-> fact. Neither the wiki's `API FontInstance SetTextColor` (revid 6654635,
-> 2026-02-19) nor `API FontString SetTextColor` (revid 4473731, **2021-08-09**,
-> effectively abandoned) says anything about the relationship.
-> `@verify-ingame`: `fs:SetTextColor(1,0,0)` then `fs:GetVertexColor()`, and the
-> reverse.
+**They are one storage slot, and either getter reads it** `[client 2026-08-05]`. On a
+FontString with a font object: both getters agree at baseline (`1.00, 0.82, 0.00`);
+`SetTextColor(1,0,0)` makes **both** `GetTextColor()` and `GetVertexColor()` read red;
+`SetVertexColor(0,0,1)` then makes **both** read blue. The identical annotations do mean
+identical storage — so pick one pair and use it consistently, and never assume a text
+colour survives a `SetVertexColor` on the same region.
+Neither wiki page states the relationship
+`[T2 wiki: API FontInstance SetTextColor, revid 6654635, 2026-02-19]`
+`[T2 wiki: API FontString SetTextColor, revid 4473731, 2021-08-09]` — the latter
+effectively abandoned.
 
 FontString also has `SetFixedColor(fixedColor)` and an `OnColorsUpdated()` hook
 `[T1 docs: SimpleFontStringAPIDocumentation.lua]`, neither of which I could find
@@ -829,13 +870,11 @@ with `CreateColor`); setting both rgb and `color` is an error
 
 The wiki's `XML/Texture` attribute table has a "Lua Equivalent" column, and the
 `<Color>` child element (transcluded from `XML/Color`) has **no Lua equivalent
-given anywhere** `[T2 wiki: XML/Texture, revid 6776374, 2026-07-19;
-XML/Color, revid 6771907]`. `[corrected 2026-07-23]` The earlier phrasing —
-"gives a Lua-Equivalent for every *attribute* but leaves it blank for `<Color>`"
-— overstated the contrast: `alphaMode`, `noanimalpha`, `nolazyload` and
-`nounload` also have blank Lua-Equivalent cells on that same table. The blank
-cell is therefore weaker evidence than it looked; the Tier-1 evidence below is
-what carries the point.
+given anywhere**
+`[T2 wiki: XML/Texture, revid 6776374, 2026-07-19; XML/Color, revid 6771907]`.
+That blank cell is weak evidence on its own — `alphaMode`, `noanimalpha`,
+`nolazyload` and `nounload` have blank Lua-Equivalent cells on the same table
+too. The Tier-1 evidence below is what carries the point.
 
 What Tier 1 does establish: **`<Color>` cannot simply be replacing the image**,
 because Blizzard ships textures that carry *both* a `file` and a `<Color>`:
@@ -886,19 +925,17 @@ methods. In XML the binding is the other way round: `<MaskTexture>` carries a
 `<MaskedTextures><MaskedTexture childKey= target=/></MaskedTextures>` block
 `[T1 xsd:611-636]`.
 
-#### `SetMask(path)` does NOT clip a `SetColorTexture` fill — measured
+#### `SetMask(path)` does NOT clip a `SetColorTexture` fill
 
-`[T3 field: CDMProbe v0.32.34→36, observed in client 12.0.7, 2026-07-30]`
-
-The §5.2 correction above flags "exactly one image writer is in force" as
-**uncited at every tier** and asks whether `SetMask` survives alongside the base
-writers. One half of that is now answered in the client, by accident:
+`[client 2026-07-30]` §5.1 leaves "exactly one image writer is in force" uncited
+at every tier and asks whether `SetMask` survives alongside the base writers.
+Half of that is answered:
 
 - **Observed:** a `Texture` created, given
   `SetMask("Interface\CharacterFrame\TempPortraitAlphaMask")` **once at
   creation**, then filled per redraw with `SetColorTexture(r,g,b,a)`, renders as
-  a **hard-edged square**. The mask has no visible effect at all. This ran at
-  ~10 Hz for a full raid-dummy pull, so it is not a one-frame race.
+  a **hard-edged square**. The mask has no visible effect at all. Method: the
+  redraw ran at ~10 Hz for a full pull, so it is not a one-frame race.
 - **The working form** is a mask **object**, not the path shortcut:
 
   ```lua
@@ -965,8 +1002,7 @@ object. Do not reach for `SetMask(path)` and assume it took — it fails
 SimpleFontStringAPIDocumentation.lua — SetFont, which additionally returns
 `success: bool`]`. 12.0.7 improved the failure message: "`SetFont` has more
 informative error messaging when supplied invalid font flag names"
-`[Tier-1 content via Tier-2 archive: `Patch 12.0.7/API changes`, revid 6778033,
-2026-07-22]`.
+`[Tier-1 content via Tier-2 archive: Patch 12.0.7/API changes, revid 6778033, 2026-07-22]`.
 
 System-level font APIs `[T1 docs: FontDocumentation.lua]`:
 `GetFonts() -> table` (`:41`), `GetFontInfo(fontObject) -> FontScriptInfo?`,
@@ -1011,9 +1047,9 @@ at Tier 1 anywhere I looked — `[gap]`.
 `[T1 docs: SimpleRegionAPIDocumentation.lua]`, plus
 `SetBlockingLoadsRequested(blocking)` / `IsBlockingLoadRequested()` on
 TextureBase, plus the XML `nonBlocking` `[T1 xsd:560]`, `nolazyload`
-`[T1 xsd:567]` and `nounload` `[T1 xsd:568]` attributes
-(`[corrected 2026-07-23]` — previously cited as `:558,566-568`; `:558` is
-`ignoreParentAlpha` and `:566` is `noanimalpha`), plus
+`[T1 xsd:567]` and `nounload` `[T1 xsd:568]` attributes (neighbouring lines are
+*not* interchangeable here: `:558` is `ignoreParentAlpha` and `:566` is
+`noanimalpha`), plus
 `TextureLoadingGroupMixin` `[T1 src: Blizzard_SharedXML/MixinUtil.lua:302-326]`.
 Tier 2 spells out the
 consequence: `texture:GetSize()` returns `0,0` until `IsObjectLoaded()` is true
@@ -1045,8 +1081,8 @@ file?, filename?, sliceData?}` `[T1 docs: TextureUtilsDocumentation.lua:204]`.
 `[T3: as shipped in Bartender4 on this install,
 `_retail_/Interface/AddOns/Bartender4/libs/LibSharedMedia-3.0/LibSharedMedia-3.0.lua:54-58,
 :239 (Register), :275 (Fetch), :282 (IsValid), :286 (HashTable), :290 (List)]`.
-`[corrected 2026-07-23]` It is vendored into **5** addon folders on this install,
-not 8 — Bartender4, BigWigs, DandersFrames, EllesmereUI, TellMeWhen
+It is vendored into **5** addon folders on this install — Bartender4, BigWigs,
+DandersFrames, EllesmereUI, TellMeWhen
 `[T1 obs: find -iname '*LibSharedMedia*' under _retail_/Interface/AddOns]`.
 Its `Register` refuses any background/border/statusbar/sound
 path that does not match `^interface` and any sound that is not `.ogg`/`.mp3`
@@ -1061,13 +1097,13 @@ Upstream is CurseForge SVN, so the only readable copies are the vendored ones.
 ### 7.1 Structure
 
 An **AnimationGroup** hangs off any `AnimatableObject` and contains ordered
-**Animation**s. `[corrected 2026-07-23]` The widget list used to be given bare;
+**Animation**s. Which widgets are `AnimatableObject`s rests on **Tier 2 only**:
 the generated docs do not encode inheritance (§1.1) and `AnimatableObject` does
-**not** appear in `WidgetAPI.lua` at all, so the set rests on Tier 2: the wiki
-transcludes `UIOBJECT_AnimatableObject` into `Frame` (revid 6750022),
-`FontString` (6750105), `Line` (6750104), `MaskTexture` (6750102) and `Texture`
-(6777822) — all last edited 2026-06-20 or later. **MaskTexture** was missing from
-the old list. Creation:
+**not** appear in `WidgetAPI.lua` at all. The wiki transcludes
+`UIOBJECT_AnimatableObject` into exactly five pages — `Frame`, `FontString`,
+`Line`, **`MaskTexture`** and `Texture`
+`[T2 wiki: UIOBJECT AnimatableObject, revid 6749996, 2026-06-20; UIOBJECT Frame 6750022, UIOBJECT FontString 6750105, UIOBJECT Line 6750104, UIOBJECT MaskTexture 6750102, UIOBJECT Texture 6777822]`.
+Creation:
 
 ```
 AnimatableObject:CreateAnimationGroup(name?, templateName?) -> SimpleAnimGroup   [SecretArguments=NotAllowed]
@@ -1079,9 +1115,8 @@ AnimGroup:CreateAnimation(animationType?, name?, templateName?) -> SimpleAnim   
 SimpleAnimGroupAPIDocumentation.lua:3]`
 
 Ten animation types, all extending `AnimationType` `[T1 xsd:1473-1595]`. Line
-numbers are the `<xs:complexType name="…Type">` line —
-`[corrected 2026-07-23]`, seven of the ten were previously off by one (they
-pointed at the `<xs:complexContent>` line inside the type):
+numbers below are the `<xs:complexType name="…Type">` line, **not** the
+`<xs:complexContent>` line one below it:
 
 | Type | Distinguishing attributes | XSD |
 |---|---|---|
@@ -1096,11 +1131,10 @@ pointed at the `<xs:complexContent>` line inside the type):
 | `VertexColor` | `<StartColor>`, `<EndColor>` | `:1573` |
 | `TextureCoordTranslation` | `offsetU` (0), `offsetV` (0) | `:1587` |
 
-⚠ **The XML attribute name is NOT the Lua setter name, and for `Scale` that gap has
-burned us.** The table above is the XSD's view (`fromScaleX` / `toScaleX`), which is all
-this file used to carry — so anyone reaching for the Lua API had to guess between two
-spellings in circulation, and one addon here shipped a scale animation that silently did
-nothing because it guessed wrong and failed quietly. The generated docs settle it:
+⚠ **The XML attribute name is NOT the Lua setter name.** The table above is the XSD's
+view (`fromScaleX` / `toScaleX`); the Lua API spells the same endpoints differently, and
+guessing wrong is silent — a `Scale` animation that never received its endpoints looks
+exactly like one that is playing and not helping. The generated docs settle the spelling:
 
 | animation | Lua setters `[T1 docs]` |
 |---|---|
@@ -1111,10 +1145,10 @@ nothing because it guessed wrong and failed quietly. The generated docs settle i
 **`SetFromScale` / `SetToScale` — the spelling much older addon code uses — do not appear
 anywhere in the generated docs at build 12.0.7.68887.** Whether they survive as
 undocumented aliases is unmeasured `@verify-ingame`; write `SetScaleFrom`/`SetScaleTo`.
-⚠ Note the *inconsistency* is real and is the trap: `Alpha` puts the direction first
+⚠ The *inconsistency* is real and is the trap: `Alpha` puts the direction first
 (`SetFromAlpha`), `Scale` puts it last (`SetScaleFrom`). Do not pattern-match from one to
-the other — and if you must probe for a setter, make the miss say so out loud, because a
-scale animation that never got its endpoints looks exactly like one that isn't helping.
+the other, and when probing for a setter make the miss say so out loud rather than
+falling through silently.
 
 Shared `Animation` attributes `[T1 xsd:1447-1469]`: `name`, `mixin`,
 `secureMixin`, `inherits`, `virtual`, `target`, `targetKey`, `parentKey`,
@@ -1156,20 +1190,22 @@ Anim:      Play / Pause / Stop / Restart / SetPlaying(bool)
 `[T1 docs: SimpleAnimGroupAPIDocumentation.lua:3…, SimpleAnimAPIDocumentation.lua:3…]`
 
 Security annotations on the animation surface are sparse and specific. The
-complete `SecretArguments = "NotAllowed"` set across the five animation doc
-tables is **exactly seven** entries `[T1 obs over the generated docs]`:
-`Anim:SetOrder` (`:312`), `Anim:SetEndDelay` (`:301`), `Anim:SetPlaying`
-(`:333`), `Anim:SetSmoothProgress` (`:354`), `AnimGroup:SetLooping` (`:298`),
-`AnimGroup:CreateAnimation` (`:10`) and
-`AnimatableObject:CreateAnimationGroup` (`:10`). Note the `SetPlaying`
+complete `SecretArguments = "NotAllowed"` set across the **13** `SimpleAnim*`
+doc tables is **ten** entries `[T1 obs over the generated docs]`:
+`Anim:SetEndDelay` (`:301`), `Anim:SetOrder` (`:312`), `Anim:SetPlaying`
+(`:333`), `Anim:SetSmoothProgress` (`:354`), `AnimAlpha:SetFromAlpha` (`:36`),
+`AnimAlpha:SetToAlpha` (`:46`), `AnimGroup:CreateAnimation` (`:10`),
+`AnimGroup:SetLooping` (`:298`), `AnimPath:CreateControlPoint` (`:10`) and
+`AnimatableObject:CreateAnimationGroup` (`:10`). The other **eight**
+`SimpleAnim*` tables — FlipBook, Rotation, Scale, ScaleLine,
+TextureCoordTranslation, Translation, TranslationLine, VertexColor — carry
+none. Note the `SetPlaying`
 asymmetry: **`Anim:SetPlaying` is `NotAllowed`, `AnimGroup:SetPlaying` is
 `AllowedWhenUntainted`.** `Anim:SetDuration` (`:290`) and `Anim:SetStartDelay`
 (`:374`) are `AllowedWhenUntainted`, i.e. **not** rejected outright.
 The `VertexColor` animation's `SetStartColor` / `SetEndColor` are
 `SecretArguments = "AllowedWhenTainted"`
-`[T1 docs: SimpleAnimVertexColorAPIDocumentation.lua:3]`. The `Alpha`
-animation's `SetFromAlpha`/`SetToAlpha` are `NotAllowed`
-`[T1 docs: SimpleAnimAlphaAPIDocumentation.lua:3]`.
+`[T1 docs: SimpleAnimVertexColorAPIDocumentation.lua:3]`.
 
 **Animations are a third writer to the colour channels.** A `VertexColor`
 animation drives the same per-vertex colour that `Region:SetVertexColor` writes,
@@ -1178,10 +1214,21 @@ because the default is *not* to keep the final value `[T1 xsd:1612]`. Combined
 with §5.3's open question, treat "who owns the colour of this texture right now"
 as something to decide once per widget, not per call site.
 
-> `[gap]` I could not find, at any tier, a statement of what an alpha or
-> vertex-colour animation does to the underlying value when it stops **without**
-> `setToFinalAlpha`. The attribute's existence implies restoration, but that is
-> inference. `@verify-ingame`.
+**Alpha is restored when the animation ends; vertex colour is not**
+`[client 2026-08-05]`. That asymmetry is the rule to carry:
+
+- **Alpha** returns to the pre-animation value, on both exit paths and with
+  `setToFinalAlpha` false. A region at `0.502` animated to `1` reads `1` while playing
+  and `0.502` again after `Stop()`; on a natural finish it is already back to `0.502`
+  **at `OnFinished`**, so a handler reading alpha there sees the restored value, not the
+  final one.
+- **Vertex colour is left where the animation put it.** A texture based red, animated to
+  green, still reads green after the animation stops. There is no `setToFinalVertexColor`
+  and no restoration.
+
+So a `VertexColor` animation **permanently edits** the region's colour, and anything that
+re-uses that region — a pool, a re-skin, a second animation — must set the colour itself
+rather than assume the base survived.
 
 Related bug worth knowing: `SetParent` on a FlipBook animation could crash the
 client `[T2 bug: WoWUIBugs #474, closed, labels Bug/Mainline/Classic/Stale]`.
@@ -1209,11 +1256,9 @@ reachable by global name or `parentKey` walk — except:
 - **Forbidden frames.** `FrameScriptObject:IsForbidden()` /
   `SetForbidden()` `[T1 docs: SimpleFrameScriptObjectAPIDocumentation.lua:83,
   :128]`, with `IsForbidden` returning for the `ObjectSecurity` aspect.
-  `CreateForbiddenFrame` is what creates them (§2.1).
-  `[corrected 2026-07-23]` The sentence "Touching one from addon code errors"
-  was uncited and has been cut. What Tier 1 actually gives is only the
-  *existence* of the flag and its getter/setter, plus `IsForbidden` returning
-  for the `ObjectSecurity` aspect. What happens on access is
+  `CreateForbiddenFrame` is what creates them (§2.1). That is the whole of what
+  Tier 1 gives: the *existence* of the flag and its getter/setter. **What
+  actually happens when addon code touches one is not established here** and is
   `security-taint-and-restricted-data.md`'s subject — do not restate it here.
   `[gap]`
 - **Protected frames in combat.** All the geometry and visibility mutators are
@@ -1256,8 +1301,7 @@ frame `[T1 src: Blizzard_SharedXML/Backdrop.xml:5-8]`, which supplies
 `GetBackdropBorderColor`, `SetBorderBlendMode`, `HasBackdropInfo`
 `[T1 src: Backdrop.lua:285,289,301,336,354,397,406,416,429,273]`. The file also
 exports **17** `BACKDROP_*` preset tables `[T1 src: Backdrop.lua:1-140,
-`grep -c '^BACKDROP_'` = 17]` — `[corrected 2026-07-23]`, previously written as
-"~dozens".
+`grep -c '^BACKDROP_'` = 17]`.
 
 ### 8.4 Hooking, in practice
 
@@ -1278,12 +1322,11 @@ that ships no hooks into Blizzard's UI at all. Neither is a rule.
 **substantially rewritten for the secret-values era** (proxies, secure
 containers, secret-release guards).
 
-> `[corrected 2026-07-23]` This section used to open "If you learned pools before
-> Midnight, most of what you know about the *names* is wrong." That overstates
-> it. **Every** legacy constructor name still exists and still works — they are
-> aliases (§9.1). Exactly one name in the pool surface is known to have gone
+> **The names survived; the implementations behind them did not.** Every legacy
+> constructor name still exists and still works — they are aliases to the secure
+> variants (§9.1). Exactly one name in the pool surface is known to have gone
 > away: the resetter `FramePool_HideAndClearAnchors` (§9.2). What changed
-> underneath the names — the proxy, the eight-method surface, the
+> underneath the names — the proxy, the restricted method surface, the
 > secret-release assert — is the real story.
 
 ### 9.1 The constructor set at 12.0.7
@@ -1406,23 +1449,21 @@ written to remove it. Blizzard's resetter cannot know about it.
 - `Reserve(pool, capacity)` is **deliberately not exposed** — *"to prevent the
   attack vector of addons having control over the quantity of objects available
   to a preexisting pool"* `[T1 src: Pools.lua:18-31]`.
-- A secure pool handed to addon code is a **proxy**, not the pool. The
-  `ObjectPoolProxyMixin` surface is eight methods: `Acquire, ReleaseAll, Release,
+- A secure pool handed to addon code is a **proxy**, not the pool. A **plain
+  object pool** proxy exposes eight methods — `Acquire, ReleaseAll, Release,
   EnumerateActive, GetNextActive, IsActive, GetNumActive,
-  DoesObjectBelongToPool` `[T1 src: Pools.lua:282-297]`.
-  `[corrected 2026-07-23]` **"Exactly eight" is true only of a plain object
-  pool.** Every *region* pool (frame / texture / fontstring / masktexture /
-  actor) goes through `CreateSecureRegionPoolInstance`, which bolts a ninth
-  method straight onto the proxy — `proxy.GetTemplate = function(self) return
-  template end` `[T1 src: Pools.lua:536-544, the assignment at :539]`. So a
-  frame-pool proxy has **nine** callables. A pool **collection**
-  proxy exposes **nine** — `GetNumActive, Acquire, Release, ReleaseAll,
+  DoesObjectBelongToPool` `[T1 src: Pools.lua:282-297]`. Every **region** pool
+  (frame / texture / fontstring / masktexture / actor) goes through
+  `CreateSecureRegionPoolInstance`, which bolts a ninth method straight onto the
+  proxy — `proxy.GetTemplate = function(self) return template end`
+  `[T1 src: Pools.lua:536-544, the assignment at :539]` — so a frame-pool proxy
+  has **nine** callables. A pool **collection** proxy also exposes nine —
+  `GetNumActive, Acquire, Release, ReleaseAll,
   ReleaseAllByTemplate, EnumerateActiveByTemplate, EnumerateActive, IsActive,
   DoesObjectBelongToPool` (`Dump` is present but commented out) — plus
   `GetPool`/`CreatePool`/`GetOrCreatePool`, which re-proxy their results
   `[T1 src: Pools.lua:757-769 (the Funcs list), :774-792 (the three re-proxying
-  accessors)]`. `[corrected 2026-07-23]` The collection count was previously
-  given as eleven; the list has nine live entries. The file's header comment states the
+  accessors)]`. The file's header comment states the
   motive: *"Any file using ProxyUtil needs to have local references to each
   function in the event an addon tries to replace them [to] expose the private
   objects."* `[T1 src: Blizzard_SharedXMLBase/ProxyUtil.lua:1-4]`.
@@ -1441,29 +1482,33 @@ WeakAuras 7, Plater 3, Details 2, and **zero** in BigWigs, ElvUI, oUF, Ace3
 
 Collected for visibility; each is also stated inline.
 
-1. **Vertex colour vs gradient composition** (§5.3) — the single most important
-   unknown here. Not stated at Tier 1 or Tier 2. Concrete in-game test given.
-2. **`FontString:SetTextColor` vs `Region:SetVertexColor`** (§5.4) — identical
-   Tier-1 annotations, no statement that they are the same storage.
+1. **[closed] Vertex colour vs gradient** (§5.3) — `SetGradient` **resets the vertex
+   colour to white**, so apply the gradient first and the tint second
+   `[client 2026-08-05]`.
+2. **[closed] `FontString:SetTextColor` vs `Region:SetVertexColor`** (§5.4) — one
+   storage slot; either getter reads it `[client 2026-08-05]`.
 3. **XML `<Color>`'s Lua equivalent** (§5.5) — no Lua equivalent is given by the
-   wiki or the XSD. (The "blank cell" argument is weaker than it first looked;
+   wiki or the XSD. (The blank Lua-Equivalent cell is weak evidence on its own:
    four *attributes* on the same table are blank too — see §5.5.)
 4. **Draw-layer z-order** (§4.4) — the five names are Tier 1, the *ordering*
-   between them is not.
+   between them is not. Narrowed: OVERLAY draws in front of ARTWORK (an eyeball
+   verdict, `[client 2026-08-05]`); the other three pairs are untested.
 5. **`Region.inherits` self-reference** (§1.1) — generator artefact in the only
    available inheritance dump.
-6. **`CreateFontString` arity** (§2.1) — Blizzard's own code passes four
-   arguments to a three-argument documented signature.
-7. **Animation stop semantics without `setToFinalAlpha`** (§7.3).
+6. **[closed] `CreateFontString` arity** (§2.1) — the fourth argument is accepted and
+   **silently discarded**; `CreateTexture` honours the same argument
+   `[client 2026-08-05]`.
+7. **[closed] Animation stop semantics** (§7.3) — alpha is restored, vertex colour is
+   **not** `[client 2026-08-05]`.
 8. **Addon-declared intrinsics** (§2.5) — schema-permitted, zero corpus usage.
-   Narrowed 2026-07-23: `ScrollingMessageFrame` is declared `intrinsic="true"`
-   with no XSD element declaration, so the XSD list is evidently not the
-   registration mechanism. Whether an *addon*'s declaration is honoured remains
-   untested.
+   Narrowed: `ScrollingMessageFrame` is declared `intrinsic="true"` with no XSD
+   element declaration, so the XSD list is evidently not the registration
+   mechanism. Whether an *addon*'s declaration is honoured remains untested.
 9. **Texture file-format rules** (§6.3) — power-of-two, BLP/JPEG/PNG/TGA, and the
    PNG-extension quirk are Tier 2 only.
 10. **Frame-level range 0–10000 and the parent-shift/clamp-to-10000 behaviour**
-    (§4.1) — Tier 2, from a page last edited 2024-02-23.
+    (§4.1) — Tier 2 only, from a stale page
+    `[T2 wiki: Frame Strata, revid 5975111, 2024-02-23]`.
 11. **`FontString:SetFixedColor` / `OnColorsUpdated`** (§5.4) — no prose at any
     tier.
 12. **The eight-argument `SetTexCoord` form** (§5.2) — `GetTexCoord` returns
@@ -1472,14 +1517,15 @@ Collected for visibility; each is also stated inline.
     the generated docs.
 13. **Base-image mutual exclusion** (§5.1) — that `SetTexture` / `SetAtlas` /
     `SetColorTexture` each fully replace the others is uncited at every tier.
-    Added 2026-07-23 after the adversarial pass removed the flat assertion.
 14. **Forbidden-frame access semantics** (§8.1) — what actually happens when
-    addon code touches a forbidden frame is not established here; the claim was
-    cut rather than guessed. Owned by `security-taint-and-restricted-data.md`.
+    addon code touches a forbidden frame is not established here. Owned by
+    `security-taint-and-restricted-data.md`.
 15. **`FRAMESTRATA.PARENT` semantics** (§4.1, rule 11) — Tier 1 gives the value
     and that it is the XML default; the "inherit from parent" reading is
-    inference and is not stated anywhere I looked.
-16. **Nothing in this file has been executed in the client.**
+    inference and is not stated anywhere reachable.
+16. **Almost nothing in this file has been executed in the client.** The
+    exceptions are the two `[client …]`-tagged findings in §5.1 and §5.7;
+    everything else is read off source, schema, docs or the wiki.
 
 ---
 
@@ -1527,8 +1573,6 @@ Tier 1; rules stated as *observed behaviour* say so.
    `SetWidth`, `SetHeight`. What the flag *means* at runtime (blocked action on a
    protected frame in combat) is `security-taint-and-restricted-data.md`'s
    claim, not this file's — the generated docs assert only the flag.
-   `[corrected 2026-07-23]` — the runtime consequence used to be stated here
-   flatly with a Tier-1 citation that only supports the flag.
    The accessors are **not** uniform: `GetPoint`/`GetPointByName` are
    `MayReturnNothing` + `SecretWhenAnchoringSecret`; `GetNumPoints` carries no
    annotations at all.
@@ -1549,7 +1593,7 @@ Tier 1; rules stated as *observed behaviour* say so.
    `SimpleFontStringAPIDocumentation.lua` for the carriers]
 9. Anchoring secrecy propagates from a region to everything anchored to it, and
    is testable with `ScriptRegion:IsAnchoringSecret()`.
-   [Tier 2: `Secret Values`, revid 6777907, §Secret anchors, 2026-07-22 · Tier 1 for the API's
+   [Tier 2: `Secret Values`, revid 6777907, 2026-07-22, §Secret anchors · Tier 1 for the API's
    existence: `SimpleScriptRegionAPIDocumentation.lua — IsAnchoringSecret`]
 10. Only nine `FRAMEPOINT` values exist. A string outside
     `TOPLEFT TOP TOPRIGHT LEFT CENTER RIGHT BOTTOMLEFT BOTTOM BOTTOMRIGHT`
@@ -1560,11 +1604,10 @@ Tier 1; rules stated as *observed behaviour* say so.
 
 11. `frameStrata` has exactly ten schema values, including `PARENT` (the XML
     attribute default) and `BLIZZARD`. Any list that says nine and starts with
-    `WORLD` is describing a pre-Midnight page. `[corrected 2026-07-23]` — the
-    gloss *"meaning 'inherit'"* was uncited inference from the name and has been
-    dropped; the XSD states only the value and that it is the default. `[gap]`
+    `WORLD` is describing a pre-Midnight page. What `PARENT` *does* is not
+    stated by the XSD — see §4.1. `[gap]`
     [Tier 1: `UI.xsd:18-31`, `UI.xsd:730` for the default · the nine-value
-    `WORLD`-headed list is Tier 2 `Frame Strata`, revid 5975111, **2024-02-23**,
+    `WORLD`-headed list is Tier 2 `Frame Strata`, revid 5975111, 2024-02-23,
     which also says "WORLD is reserved for the world frame and cannot be
     assigned" — consistent with its absence from the XSD]
 12. `Frame:SetFrameStrata` is `SecretArguments = "NotAllowed"` while
@@ -1575,8 +1618,8 @@ Tier 1; rules stated as *observed behaviour* say so.
     [Tier 1: `SimpleFrameAPIDocumentation.lua:1188-1191`, `:1176`, `:391-393`]
 13. `textureSubLevel` is bounded inclusively to **−8 … 7**. Values outside that
     range are schema violations.
-    [Tier 1: `UI.xsd:790-796` · corroborated Tier 2: `XML/Layer`, revid 6769786,
-    2026-07-12 · observed usage spans −8 to 7 in the shipped Lua]
+    [Tier 1: `UI.xsd:790-796` · corroborated Tier 2:
+    `XML/Layer`, revid 6769786, 2026-07-12 · observed usage spans −8 to 7 in the shipped Lua]
 14. There are exactly five draw layers: `BACKGROUND BORDER ARTWORK OVERLAY
     HIGHLIGHT`. The XML default is `ARTWORK` and the default sub-level is `0`.
     [Tier 1: `UI.xsd:33-41`, `:789`, `:790`]
@@ -1670,17 +1713,21 @@ Tier 1; rules stated as *observed behaviour* say so.
 29. `ANIMSMOOTHTYPE` is exactly `NONE IN OUT IN_OUT OUT_IN`; `ANIMLOOPTYPE` is
     exactly `NONE REPEAT BOUNCE`; `Path`'s `curve` is exactly `NONE SMOOTH`.
     [Tier 1: `UI.xsd:1388-1396`, `:1380-1386`, `:1398-1403`]
-30. `AnimGroup:CreateAnimation` and `AnimatableObject:CreateAnimationGroup` are
-    `SecretArguments = "NotAllowed"`; so are `Anim:SetOrder`, `Anim:SetEndDelay`,
-    `Anim:SetPlaying`, `Anim:SetSmoothProgress`, `AnimGroup:SetLooping`, and the
-    Alpha animation's `SetFromAlpha`/`SetToAlpha`. `Anim:SetDuration` and
+30. Exactly ten methods across the 13 `SimpleAnim*` tables are
+    `SecretArguments = "NotAllowed"` — `AnimGroup:CreateAnimation`,
+    `AnimGroup:SetLooping`, `AnimatableObject:CreateAnimationGroup`,
+    `AnimPath:CreateControlPoint`, `Anim:SetOrder`, `Anim:SetEndDelay`,
+    `Anim:SetPlaying`, `Anim:SetSmoothProgress`, and the Alpha animation's
+    `SetFromAlpha`/`SetToAlpha` (full list, §7.3). `Anim:SetDuration` and
     `Anim:SetStartDelay` are `AllowedWhenUntainted`, not `NotAllowed`.
     **Watch the `SetPlaying` split**: it is `NotAllowed` on `Anim` (`:333`) but
     `AllowedWhenUntainted` on `AnimGroup` (`:308`) — a rule keyed on the method
     name alone will misfire.
-    [Tier 1: `SimpleAnimGroupAPIDocumentation.lua:3…`,
-    `SimpleAnimAPIDocumentation.lua:3…`, `SimpleAnimAlphaAPIDocumentation.lua:3`,
-    `SimpleAnimatableObjectAPIDocumentation.lua:3`]
+    [Tier 1: `SimpleAnimGroupAPIDocumentation.lua:10,298`,
+    `SimpleAnimAPIDocumentation.lua:301,312,333,354`,
+    `SimpleAnimAlphaAPIDocumentation.lua:36,46`,
+    `SimpleAnimPathAPIDocumentation.lua:10`,
+    `SimpleAnimatableObjectAPIDocumentation.lua:10`]
 
 **Pooling**
 
@@ -1714,21 +1761,17 @@ Tier 1; rules stated as *observed behaviour* say so.
 36. Releasing a secret value into a secure pool asserts with
     `"attempted to release a secret value into a pool: %s"`.
     [Tier 1: `Pools.lua:265-279`]
-37. A secure pool handed to addon code is a proxy exposing eight methods —
-    `Acquire, ReleaseAll, Release, EnumerateActive, GetNextActive, IsActive,
-    GetNumActive, DoesObjectBelongToPool` — **plus `GetTemplate` on any region
-    pool** (frame / texture / fontstring / masktexture / actor), for nine.
-    There is no `Reserve`, no `resetFunc` accessor, and no `Dump`.
-    A secure **pool collection** proxy exposes nine (`GetNumActive, Acquire,
-    Release, ReleaseAll, ReleaseAllByTemplate, EnumerateActiveByTemplate,
-    EnumerateActive, IsActive, DoesObjectBelongToPool`) plus the three
-    re-proxying accessors `GetPool`/`CreatePool`/`GetOrCreatePool`.
+37. A secure pool handed to addon code is a **proxy**, and the surface is not one
+    fixed size: **eight** methods on a plain object pool, **nine** on any region
+    pool (frame / texture / fontstring / masktexture / actor — `GetTemplate` is
+    bolted on), and **nine** plus the three re-proxying accessors
+    `GetPool`/`CreatePool`/`GetOrCreatePool` on a pool collection. There is no
+    `Reserve`, no `resetFunc` accessor, no `Dump`, and no access to the
+    underlying pool table. Method lists in §9.4.
     [Tier 1: `Pools.lua:282-297` (pool `Funcs`), `:539` (`GetTemplate` added to
     region-pool proxies), `:757-769` (collection `Funcs`, with `Dump` commented
     out), `:774-792`; `Reserve` withheld deliberately per the comment at
     `Pools.lua:18-31`]
-    *`[corrected 2026-07-23]` — was "exactly eight methods … and no access to the
-    underlying pool table", and gave the collection surface as eleven.*
 38. Pools may only hold tables; a pool `createFunc` returning a non-table asserts.
     [Tier 1: `Pools.lua:51-55`]
 
@@ -1745,3 +1788,18 @@ Tier 1; rules stated as *observed behaviour* say so.
     `CENTER`, `justifyV` is `MIDDLE`, and `bytes` is 255. Lua-built FontStrings
     that assume otherwise are assuming.
     [Tier 1: `UI.xsd:638-675`]
+
+---
+
+## Changelog
+
+- 2026-08-05 — §7.3 / rule 30: the animation `SecretArguments = "NotAllowed"`
+  set is **ten** entries across the 13 `SimpleAnim*` doc tables, not seven
+  across five; `AnimPath:CreateControlPoint` had been missed entirely.
+- 2026-08-04 — §5.1: a `SecretArguments` annotation is necessary, not
+  sufficient. `SetTexture` refuses a secret string that `SetAtlas` accepts on
+  the byte-identical annotation. Do not infer runtime behaviour from the
+  annotation alone.
+- 2026-07-23 — §9.4 / rule 37: a **region**-pool proxy exposes nine methods, not
+  eight (`GetTemplate` bolted on at `Pools.lua:539`); a pool-collection proxy
+  nine, not eleven.

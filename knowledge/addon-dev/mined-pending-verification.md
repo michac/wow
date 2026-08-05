@@ -45,7 +45,23 @@ todos), `_meta/verify-in-game.md` (generated, asserted-claim confirmations),
 
 ## A. Needs an in-game measurement (12.0.7 live)
 
-### A1. ⭐ `item.auraDataCached` — is the record plain in combat?
+### A1. ✅ SETTLED `[client 2026-08-05]` — `item.auraDataCached` is a plain container with SECRET members
+
+**Measured** in a real pull (Demonology, 29 item frames, the bound row on
+`BuffIconCooldownViewer`): the record reads `table` through **both** the field and
+`GetAuraDataCached()`, and is indexable — but `.expirationTime`, `.duration`, `.timeMod`
+and `.applications` all read **secret**. Only `.auraInstanceID` is a plain `number`.
+
+**So the capability this entry was chasing does not exist.** `cooldown-manager.md` §5.1
+and §7 are correct that the in-combat DoT-remaining read is unanswerable, and this route
+does not change it — the full claim now lives in `cooldown-manager.md` §7. What *is* new:
+`auraInstanceID` is a readable in-combat per-aura identity, enough to distinguish "still
+the same application" from "a fresh one", though it carries no timing.
+
+The reasoning below is kept as the record of why the lead was worth chasing — the
+"Blizzard's untainted code performed this read" caveat is exactly the thing that turned
+out to matter.
+
 **The highest-value open question in the queue**, and the reason the run was worth it.
 Every CDM item frame parks the complete `AuraData` record of its bound aura on itself,
 written in the same statement block as `auraDataUnit` — which we already measured
@@ -60,15 +76,13 @@ surfaces**; `auraDataCached` is a *Lua field on a frame* and appears nowhere in 
 `cooldown-manager.md` §7 has a *measured* Tier 2 at all. Secrecy is tagged per value at
 read time; Blizzard's **untainted** code performed this read.
 
-**Settles it:** one `/cdmp` cell — `ns.ClassOf` on each member of
-`item:GetAuraDataCached()`, in and out of combat, on a row with a live aura.
-**If plain:** the "how long is left on my DoT" read that `cooldown-manager.md` §5.1 and
-§7 both call unanswerable is already on the frame. That is a capability, not a footnote.
-⚠ 12.1 risk: a Tier-3 report says `.applications` goes secret under a 12.1.0 combat
-restriction. Would not affect 12.0.7 work; would affect anything built to last.
+**Settled by:** ClientLab `cdm-auradatacached-plain-in-combat` — class-check the record
+*before* indexing it, then class-check each member, on a row with a live aura in combat.
+⚠ The 12.1 note that `.applications` goes secret under a combat restriction is **moot
+here**: it already reads secret at 12.0.7, along with every other time-bearing member.
 
 ### A2. Does `EvaluateRemainingDuration` leak a readable number?
-§4.8.1 finding 11 ships the mechanism but **not** this. The API is annotated
+§4.8.1 finding 4 ships the mechanism but **not** this. The API is annotated
 `SecretWhenCurveSecret` — secret *when the curve is*. Ours is not. Read literally, a
 **readable** number comes back derived from a sealed duration, which would let you
 binary-search the remaining cooldown with step curves.

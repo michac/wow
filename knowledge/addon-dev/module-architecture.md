@@ -1,15 +1,14 @@
 ---
 title: Module architecture and project layout
 patch: 12.0.7
-fetched: 2026-07-23
+fetched: 2026-08-05
 reviewed: 2026-08-05
 sources:
-  - EllesmereUI v8.7.5 @ c4eba58d996a8436f467ac8f297148bff9dd3008 (2026-08-04),
-    https://github.com/EllesmereGaming/EllesmereUI — license CUSTOM, ALL RIGHTS
-    RESERVED; read for API discovery only, no code copied. Mined 2026-08-05 via the
-    `mine-addon` skill; clone deleted after (step 5). file:line citations resolve
-    only against that commit. Unverified residue:
-    `addon-dev/mined-pending-verification.md`.
+  - EllesmereUI v8.7.5 @ c4eba58d996a8436f467ac8f297148bff9dd3008 (2026-08-04), mined 2026-08-05
+    via the `mine-addon` skill, https://github.com/EllesmereGaming/EllesmereUI —
+    license CUSTOM, ALL RIGHTS RESERVED; read for API discovery only, no code
+    copied; clone deleted after (step 5). file:line citations resolve only against
+    that commit. Unverified residue: `addon-dev/mined-pending-verification.md`.
   - https://github.com/Gethe/wow-ui-source (live, version.txt 12.0.7.68887, commit 4383ced30106d51b27e3e86d1987f1552f0d259d)
   - https://warcraft.wiki.gg/wiki/TOC_format (revid 6767089, 2026-07-09)
   - https://warcraft.wiki.gg/wiki/Using_the_AddOn_namespace (revid 6474636, 2025-09-16)
@@ -63,19 +62,6 @@ choices are not independent. Counts below say "of the 6 addons surveyed".
 > ⚠ **Nothing here has been run in the client.** Items that need that are marked
 > `@verify-ingame` per this repo's convention.
 
-> **Adversarial verification pass, 2026-07-23.** Every locator in this file was
-> re-opened against the checkouts and URLs named above. Nine claims were changed:
-> the `## Secure` restriction (§5.1, rule 17 — **not** on the wiki's restricted
-> list), Plater's use of AceAddon-3.0 (§3.2 — it does not), the "7 abstract-method
-> sites / rare, not a house style" finding (§4.2 — the grep was too narrow and the
-> conclusion inverted), BigWigs' shipped addon count (§5.4 — 10, not 9), the
-> `[Family]`/`[Game]` toc count (§1.3 — 28, not 23), the live-install dependency
-> count (§1.4 — 109/147, not 111), the WeakAuras state→region call chain (§4.4 —
-> an intermediate was missing), the CooldownViewer dirty-flag producer set (§4.3 —
-> two cited producers belong to a different object), and `Mixin.lua`'s line 4→5.
-> Each correction is marked inline at the point of use rather than silently
-> applied. Everything else in the file reproduced exactly.
-
 ---
 
 ## 1. What the platform actually constrains
@@ -103,11 +89,16 @@ The `.toc` therefore *must* list them earlier, and does — `.toc:11` (visual al
 target), `:20` (item data), `:25` (`CooldownViewer.lua`)
 `[T1 src: Blizzard_CooldownViewer/Blizzard_CooldownViewer.toc:11,20,25]`.
 Reorder those three lines and `CreateFromMixins` would be handed a `nil` where a
-mixin table is expected. `[unverified]` — that the client errors rather than
-silently producing an empty mixin is inference from the Lua `SecureMixin`
-implementation (`for k, v in pairs(mixin)`, `Mixin.lua:30`); `Mixin` /
-`CreateFromMixins` themselves are engine functions (§3.1) whose failure mode has
-not been observed. `@verify-ingame`
+mixin table is expected. **It errors — loudly, and it does not silently produce an
+empty mixin.** `CreateFromMixins(nil)` raises
+`Usage: local object = CreateFromMixins(...)` `[client 2026-07-24]`, so a `.toc`
+that lists a mixin file after its consumer fails at load with a usage error rather
+than yielding a half-built object that misbehaves later. That is the good failure
+mode: the error names the call, and the stack points at the consuming file.
+
+⚠ Note what came back **with** the error: the raised message carried a
+`Lua Taint: ClientLab` line, i.e. the engine attributes the erroring frame to the
+calling addon. Expect your own addon name there, not Blizzard's, when this fires.
 
 Function *bodies* are not evaluated at load, so a function that references a
 later-loaded global is fine. The constraint bites only on file-scope
@@ -124,23 +115,15 @@ stylistic:
   and a settings panel each holding their own copy of the same list is how they drift
   apart — and drift here is silent, because each copy is individually valid.
 - **A dual-client version flag.** When a single codebase must serve two interface
-  versions (a live patch and its successor during the PTR window), compute the flag
-  **once**, at the top of the first file, from `select(4, GetBuildInfo())` against the
-  numeric interface — never re-derive it per call site. An 18-addon suite spanning the
-  12.0.7 / 12.1.0 window resolves ~103 branch sites off exactly one such flag.
-  ⚠ **Pair it with a demolition plan in the comment**: name the flag a *documented
-  exception* to whatever "no version branches" rule the codebase otherwise holds, and
-  state that the post-launch cleanup deletes both the branches and the flag. A version
-  gate with no stated expiry becomes permanent, and permanent gates are how a codebase
-  ends up serving three dead patches.
+  versions (a live patch and its successor during the PTR window), the flag derived
+  from `select(4, GetBuildInfo())` against the numeric interface has to be computed in
+  the first-loaded file if every later file is to branch off the same value. An
+  18-addon suite spanning the 12.0.7 / 12.1.0 window resolves ~103 branch sites off
+  exactly one such flag.
 
-⚠ **This is about to matter here.** 12.1.0 is imminent (`12.1.0-ptr-heads-up.md`), and
-CDMProbe will face the same dual-client window. Adopting the single-flag shape *before*
-the first branch is written is much cheaper than retrofitting it after twenty.
-
-*[Constraint (`.toc` order) is Tier 1, §1.1 above. The single-flag + demolition-plan
-pattern was observed in EllesmereUI 8.7.5 — read for API discovery only, no code
-copied; the reasoning is restated, not reproduced.]*
+*[Constraint (`.toc` order) is Tier 1, §1.1 above. The single-flag placement was
+observed in EllesmereUI 8.7.5 — one Tier-3 data point, read for API discovery only,
+no code copied. 12.1.0 timing is `12.1.0-ptr-heads-up.md`'s.]*
 
 ### 1.2 XML is a second, nestable ordering mechanism
 
@@ -191,18 +174,17 @@ The flavour file then redefines the same global — `MenuStyle1Mixin` is assigne
 both `Mainline/MenuTemplates.lua:51` and `Classic/MenuTemplates.lua:34`, and only
 one of the two ever loads `[T1 src]`. 23 of the 346 shipped `.toc` files use
 `[Family]`; **28** use `[Family]` or `[Game]`
-`[T1 src, counted: grep -rlE '\[Family\]|\[Game\]' --include=*.toc]`. (An earlier
-draft of this file reported 23 for the "or" — that is the `[Family]`-only figure.)
+`[T1 src, counted: grep -rlE '\[Family\]|\[Game\]' --include=*.toc]`.
 
 ### 1.4 Cross-addon order is `Dependencies`, and it is coarse
 
 Within one addon you control order line by line. Across addons you get
 `## Dependencies` / `## Dep` / `## RequiredDep` and nothing finer. 225 of the 346
 shipped `.toc` files declare one `[T1 src, counted]`; **109** of the 147
-top-level third-party `.toc` files on the live install do `[T1 obs, counted
-2026-07-23]`. (An earlier draft said 111 — that is the count over all 185 `.toc`
-files on the install, including nested embedded-library tocs, and so is not
-"of 147".) Blizzard's own root of the dependency graph, `Blizzard_SharedXMLBase`,
+top-level third-party `.toc` files on the live install do `[T1 obs, counted]`.
+⚠ Mind the denominator: counting *all* 185 `.toc` files on the install — i.e.
+including the nested embedded-library tocs — gives **111**, which is not a figure
+"of 147". Blizzard's own root of the dependency graph, `Blizzard_SharedXMLBase`,
 is itself declared to depend on `Blizzard_ScriptErrors`
 `[T1 src: Blizzard_SharedXMLBase/Blizzard_SharedXMLBase.toc:3]`.
 
@@ -225,8 +207,8 @@ This is the single biggest reason addon initialisation is split into
 Since 11.1.5 there is `## LoadSavedVariablesFirst: 1`, which loads the SV files
 *before* the first script file
 `[T2 wiki: TOC format, revid 6767089, §LoadSavedVariablesFirst; §Patch changes lists it under 11.1.5]`.
-It originated as WoWUIBugs #414, labelled `Acknowledged by Blizzard`, closed
-2025-03-07 `[T2 bug: Stanzilla/WoWUIBugs#414]`.
+It originated as WoWUIBugs #414, labelled `Acknowledged by Blizzard`, since closed
+`[T2 bug: Stanzilla/WoWUIBugs#414]`.
 
 **Adoption is thin.** 2 of the 346 shipped Blizzard `.toc` files use it
 (`Blizzard_DamageMeter`, `Blizzard_SettingsDefinitions_Shared`) `[T1 src, counted]`,
@@ -272,9 +254,8 @@ globals** — 3201 distinct `*Mixin` global tables carrying 25054 methods
 `[T1 src, counted: grep -rhoE '^function [A-Za-z_]+Mixin:[A-Za-z_]*\(' --include=*.lua
 → 25054. Quote the pattern with the number — the looser '^function [A-Za-z_]+Mixin:'
 gives 25076, so 25054 is only reproducible with the trailing paren group]`. That is
-the actual Blizzard convention. `[unverified]` — the clause "and it is the opposite
-of what most community style advice says" was uncited and has been cut; no survey
-of community style advice was done.
+the actual Blizzard convention. `[unverified]` — no survey of community style advice
+exists here, so do not state how Blizzard's convention compares to it.
 
 ### 2.3 Community usage is heavier, and varies a lot
 
@@ -285,38 +266,41 @@ of community style advice was done.
 | BigWigs | 131 | 54 |
 | ElvUI | 680 | 55 |
 | Plater | 185 | 34 |
-| Details | 326 | **111** ⚠ corrected — was 8 |
+| Details | 326 | **111** |
 | Ace3 | 74 | **0** |
 
-`[T3, counted across the clones named in §0]`
+`[T3, counted across the clones named in §0]` — the table reports the **union**
+reading: the widest correct count per addon across the two regexes below.
 
-> ⚠ **Corrected 2026-07-23 (cross-file reconciliation).** The Details row read
-> **8**. That number was a **regex artefact, not a finding**: the grep quoted
-> above (`^local [A-Za-z_, ]+= *\.\.\.`) has no digits in its character class, and
-> Details' namespace local is spelled **`Details222`** — so 103 of its 111 binding
-> files were silently excluded. Re-counted with
-> `grep -rlE '^local [A-Za-z_][A-Za-z0-9_]*[[:space:]]*,[[:space:]]*[A-Za-z_][A-Za-z0-9_]*[[:space:]]*=[[:space:]]*\.\.\.'`:
-> **111 of 326** (`local addonName, Details222 = ...` ×94, `local _, Details222 = ...`
-> ×6, `local tocName, Details222 = ...` ×2, `local addonId, edTable = ...` ×5, …).
+> ⚠ **These counts are regex artefacts unless you cite the regex with the number.**
+> There is no canonical spelling of the namespace bind, and no single grep catches
+> all of them. Two failure modes, both live in this corpus:
 >
-> **The remaining divergence with `anatomy-and-runtime.md` §5.2 is real and is
-> not an error in either file.** That file uses a **two-identifier** regex and so
-> reports **WeakAuras2 = 7**, where this table says 128 — because WeakAuras spells
-> it `local AddonName = ...` (119 files) plus `local AddonName, TemplatePrivate =
-> ...` (7). Both counts reproduce exactly. They measure different *spellings* of
-> the same mechanism, so **neither is "the" adoption figure** — always cite the
-> regex alongside the count. Verified 2026-07-23:
-> two-identifier regex → oUF 41 · Details 111 · BigWigs 54 · ElvUI 55 · Plater 34 ·
-> WeakAuras2 **7** · Ace3 0; this section's regex → oUF 41 · Details **8** ·
-> BigWigs 54 · ElvUI 55 · Plater 34 · WeakAuras2 **128** · Ace3 0.
-> The table above reports the *union* reading (widest correct count per addon).
+> - **Digits in the identifier.** §2.2's grep (`^local [A-Za-z_, ]+= *\.\.\.`) has no
+>   digits in its character class, and Details spells its namespace local
+>   **`Details222`** — so that grep sees only 8 of Details' 326 files. Counted with
+>   `grep -rlE '^local [A-Za-z_][A-Za-z0-9_]*[[:space:]]*,[[:space:]]*[A-Za-z_][A-Za-z0-9_]*[[:space:]]*=[[:space:]]*\.\.\.'`
+>   it is **111 of 326** (`local addonName, Details222 = ...` ×94,
+>   `local _, Details222 = ...` ×6, `local tocName, Details222 = ...` ×2,
+>   `local addonId, edTable = ...` ×5, …).
+> - **Binding only the first vararg.** WeakAuras writes `local AddonName = ...` in 119
+>   files and `local AddonName, TemplatePrivate = ...` in only 7, so a
+>   **two-identifier** regex reports WeakAuras2 = **7** where a one-or-two-identifier
+>   regex reports **128**.
+>
+> Reproduced side by side: two-identifier regex → oUF 41 · Details 111 · BigWigs 54 ·
+> ElvUI 55 · Plater 34 · WeakAuras2 **7** · Ace3 0. §2.2's regex → oUF 41 ·
+> Details **8** · BigWigs 54 · ElvUI 55 · Plater 34 · WeakAuras2 **128** · Ace3 0.
+> Both reproduce exactly; they measure different *spellings* of the same mechanism, so
+> **neither is "the" adoption figure.** `anatomy-and-runtime.md` §5.2 reports the
+> two-identifier reading — that divergence from this table is real and is not an error
+> in either file.
 
 Ace3 is 0 because its modules are designed to be **embedded into a host addon's
 folder**, where `...` would hand them the *host's* namespace, not their own; it
-uses LibStub for cross-copy version resolution instead (§3.4). Note the earlier
-claim that "a library has no addon folder of its own" is wrong as stated — Ace3
-does ship a standalone `Ace3.toc` (`## Title: Lib: Ace3`)
-`[T3: Ace3@4475787f Ace3.toc:4]`.
+uses LibStub for cross-copy version resolution instead (§3.4). Note that this is a
+property of the *embedded copy*, not of libraries generally — Ace3 does ship a
+standalone `Ace3.toc` (`## Title: Lib: Ace3`) `[T3: Ace3@4475787f Ace3.toc:4]`.
 
 ### 2.4 Two real idioms built on it
 
@@ -388,7 +372,7 @@ comma-delimited list of variable names in the global environment"
 `[T2 wiki: Saving variables between game sessions, revid 5890180]`. So an addon
 that keeps everything in `ns` still has to expose exactly its persisted tables as
 globals, and reconnect them at `ADDON_LOADED`. This is a known irritant: WoWUIBugs
-#649 *"Private addon storage"* (open, `Feature Request`, filed 2024-09-02) asks
+#649 *"Private addon storage"* (open, `Feature Request`) asks
 for a third vararg carrying the SV table so that no global is needed
 `[T2 bug: Stanzilla/WoWUIBugs#649]`. It has not shipped as of 12.0.7 — the wiki's
 TOC-format patch list runs to 12.0.7 with no such field
@@ -415,8 +399,7 @@ Mixin(object: LuaValueVariant, mixins: LuaValueVariant) -> outObject   [SecureHo
 `[T1 docs: FrameScriptDocumentation.lua:82 (CreateFromMixins), :279 (Mixin)]`
 
 Neither has a Lua definition anywhere in the shipped source — `Mixin.lua` is 48
-lines and *consumes* them (`local PrivateMixin = Mixin;` at **line 5**, not line 4
-as an earlier draft said; line 4 is blank), defining only
+lines and *consumes* them (`local PrivateMixin = Mixin;` at **line 5**), defining only
 `CreateAndInitFromMixin`, `CreateSecureMixinCopy`, `SecureMixin`, and
 `CreateFromSecureMixins` `[T1 src: Blizzard_SharedXMLBase/Mixin.lua:1-48]`.
 Corroborated at a nearby build: both names are listed in `GlobalAPI.lua`, not
@@ -478,20 +461,22 @@ Checkable contracts inside it:
   in `OnEnable` does not abort the others `[T3: :494, :523, :558]`.
 - It maintains a hard-coded skip-list of Blizzard addons that "load very early …
   and mess with Ace3 addon loading" `[T3: :600-608]` — a load-order workaround
-  preserved in a comment dated 2020-08-28 `[T3: :612]`.
+  preserved in a comment carrying a 2020 date `[T3: :612]`.
 
 Of the 6 addons surveyed, **2 build on `AceAddon-3.0`**: ElvUI
 (`AceAddon:NewAddon(AddOnName, …)` at `ElvUI/Game/Shared/General/Initialize.lua:41`)
 and Details (`boot.lua:9`, `LibStub("AceAddon-3.0"):NewAddon("_detalhes", …)`) `[T3]`.
 
-⚠ **Correction.** An earlier draft counted Plater as a third, citing
-`plater/libs/DF/addon.lua:155`. That line is inside DetailsFramework's
+⚠ **Plater is not a third, despite grepping like one.** `plater/libs/DF/addon.lua:155`
+does call `NewAddon`, but that line is inside DetailsFramework's
 `detailsFramework:CreateAddOn`, which its own comment marks *"deprecated, you
 should always prefer using `CreateNewAddOn`"* `[T3: plater@2b2ff463
 libs/DF/addon.lua:152-155]`, and **no file outside `plater/libs/` calls
 `CreateAddOn` or `NewAddon`** `[T3, counted: grep -rn 'CreateAddOn\|NewAddon'
 --include=*.lua over plater/, excluding libs/ → 0 call sites]`. Plater *vendors*
-Ace3 libraries; it does not build its addon object on `AceAddon-3.0`.
+Ace3 libraries; it does not build its addon object on `AceAddon-3.0`. The general
+form of the trap: **a vendored `libs/` tree makes an addon match every library's
+grep signature.**
 BigWigs, WeakAuras and oUF have zero `NewAddon` hits at all `[T3, counted]`.
 
 ElvUI's shape is worth naming because it inverts §1.1: it declares **24 modules
@@ -525,13 +510,12 @@ Instances are created by `core:NewBoss(moduleName, zoneId, journalId)`
 `[T3: Core/Core.lua:447]` over a metatable
 `{ __index = bossPrototype, __metatable = false }` `[T3: Core/Core.lua:441]` —
 note `__metatable = false`, which blocks `getmetatable`/`setmetatable` tampering.
-`core:RegisterPlugin` errors on an unknown or already-registered name
-`[T3: Core/Core.lua:736, :738]`.
 
-⚠ The two registration paths differ, and the difference matters for §3.3's
-"duplicates are an error" claim: `core:NewBoss` on a duplicate name **prints**
-(`core:Print(bossAlreadyRegistered:format(moduleName))`) and returns, it does not
-raise `[T3: Core/Core.lua:447-449]`. Only `RegisterPlugin` errors.
+⚠ **BigWigs' two registration paths reject duplicates differently.**
+`core:RegisterPlugin` **errors** on an unknown or already-registered name
+`[T3: Core/Core.lua:736, :738]`, but `core:NewBoss` on a duplicate name only
+**prints** (`core:Print(bossAlreadyRegistered:format(moduleName))`) and returns
+`[T3: Core/Core.lua:447-449]`. Only `RegisterPlugin` raises.
 
 **WeakAuras — typed registries with duplicate rejection.**
 `Private.RegisterRegionType(name, createFunction, modifyFunction, default, properties, validate)`
@@ -633,8 +617,8 @@ twice, and both times it is the *shared* `GameTooltip`, never its own regions:
 `[T1 src, counted with the pattern
 `:Show\(\)|:Hide\(\)|:SetTexture|:SetAtlas|:SetText|:SetPoint|:SetShown|:SetAlpha|:SetDesaturated|GameTooltip_`
 → **3** hits in `CooldownViewerItemData.lua` (the two above plus the anchor call)
-against **34** in `CooldownViewer.lua`. An earlier draft said "2 vs 36" without
-recording its grep; that pair is not reproducible]`.
+against **34** in `CooldownViewer.lua`. The ratio is only reproducible with that
+exact pattern — quote it with the numbers]`.
 It also calls `GameTooltip_SetDefaultAnchor(tooltip, self)` at `:501`, which
 presumes `self` *is* a frame. So the honest description is: **the data mixin
 never touches the item's own regions, but it does assume it will be mixed into
@@ -667,31 +651,30 @@ at `[T1 src: CooldownViewer.lua:1136]` and
 `CooldownViewerSettingsItemMixin:RefreshData` at
 `[T1 src: CooldownViewerSettings.lua:163]`.
 
-⚠ **Corrected.** An earlier draft claimed the abstract-method idiom "appears at
-exactly 7 sites … it is rare, not a house style." That was an artefact of grepping
-two literal phrases (`must be overridden|must be implemented`), and it is wrong in
-both directions:
+**Declaring abstracts is common; enforcing them at runtime is rare.** 137 lines in
+the shipped source are a bare comment telling a derived mixin to implement or
+override the method `[T1 src, counted: grep -rniE
+'^\s*--\s*(Override|Implement)[a-z]* (this )?(in|by) (your )?(derived|overriding)? ?mixins?'
+--include=*.lua]` — concentrated in `Blizzard_SharedTalentUI/Blizzard_TalentDisplay.lua`,
+`Blizzard_TalentButtonBase.lua`, `Blizzard_UnitFrame/Mainline/AlternatePowerBarBase.lua`
+and `Blizzard_MapCanvas/MapCanvas_DataProviderBase.lua`. Against those 137, only
+**8** known sites make *calling* the abstract a runtime error, in three different
+idioms:
 
-- Those 7 hits are not all the same idiom. Four are `error(…)`, not `assert`
-  `[T1 src: Blizzard_SharedXML/TemplatedList.lua:243,248,253,258]`; one is
-  `assert(false, …)` `[T1 src: Blizzard_EncounterTimeline/EncounterTimelineFrameManager.lua:43]`;
-  two are `assertsafe(false, …)` `[T1 src: Blizzard_CooldownViewer/CooldownViewerItemData.lua:497;
-  Blizzard_EncounterTimeline/EncounterTimelineView.lua:224]`.
-- The phrase grep **missed** at least one runtime-enforced abstract:
-  `function QuestSessionDialogMixin:Confirm() assert(false); -- implement this in
-  derived mixin end` `[T1 src: Blizzard_FrameXML/QuestSession.lua:176]`.
-- **Declaring abstracts is common; enforcing them at runtime is rare.** 137 lines
-  in the shipped source are a bare comment telling a derived mixin to implement or
-  override the method `[T1 src, counted: grep -rniE
-  '^\s*--\s*(Override|Implement)[a-z]* (this )?(in|by) (your )?(derived|overriding)? ?mixins?'
-  --include=*.lua]` — concentrated in `Blizzard_SharedTalentUI/Blizzard_TalentDisplay.lua`,
-  `Blizzard_TalentButtonBase.lua`, `Blizzard_UnitFrame/Mainline/AlternatePowerBarBase.lua`
-  and `Blizzard_MapCanvas/MapCanvas_DataProviderBase.lua`.
+- `error(…)` ×4 `[T1 src: Blizzard_SharedXML/TemplatedList.lua:243, :248, :253, :258]`
+- `assert(false, …)` ×2 `[T1 src: Blizzard_EncounterTimeline/EncounterTimelineFrameManager.lua:43;
+  Blizzard_FrameXML/QuestSession.lua:176 — QuestSessionDialogMixin:Confirm]`
+- `assertsafe(false, …)` ×2 `[T1 src: Blizzard_CooldownViewer/CooldownViewerItemData.lua:497;
+  Blizzard_EncounterTimeline/EncounterTimelineView.lua:224]`
 
-So the supportable statement is narrower: **Blizzard declares abstract mixin
-methods routinely, but almost never makes calling one a runtime error** — roughly
-8 enforced sites against 137 comment-only ones. `RefreshData` is one of the
-enforced few.
+⚠ Treat 8 as a **lower bound**: because the idioms differ, no single phrase grep
+finds them. Searching the two literal strings `must be overridden|must be
+implemented` returns 7 and misses `QuestSession.lua:176`, whose comment reads
+`-- implement this in derived mixin`.
+
+So: **Blizzard declares abstract mixin methods routinely, but almost never makes
+calling one a runtime error** — 8 enforced sites against 137 comment-only ones.
+`RefreshData` is one of the enforced few.
 
 Likewise, `*DataMixin` as a naming convention has exactly **two** instances in the
 whole source: `CooldownViewerItemDataMixin` and `GameTooltipDataMixin`
@@ -739,11 +722,11 @@ if self:IsDirty() then self:Clean(); else self:RefreshCooldownInfo(); end
 `Blizzard_CooldownViewer/*.lua` → 12 hits, one drain]`. The single producer for
 that flag is `:1194`.
 
-An earlier draft also listed `CooldownViewerSettingsDataProvider.lua:18, :169` as
-"producers on the settings side". They are producers for a **different** dirty
-flag on a different object — `CooldownViewerSettingsDataProviderMixin` has its own
-`MarkDirty`/`IsDirty` at `:210`/`:214` `[T1 src]`. Same shape, separate mechanism;
-they do not feed `CooldownViewerItemMixin:Clean`.
+⚠ **The settings side has a second, unrelated dirty flag of the same shape.**
+`CooldownViewerSettingsDataProviderMixin` owns its own `MarkDirty`/`IsDirty` at
+`:210`/`:214`, with producers at `CooldownViewerSettingsDataProvider.lua:18, :169`
+`[T1 src]`. Same shape, separate mechanism; those producers do **not** feed
+`CooldownViewerItemMixin:Clean`.
 
 `GameTooltipDataMixin` does the same with `shouldRefreshData` /
 `RefreshDataNextUpdate()` — and note its `RefreshData` clears its own flag rather
@@ -774,8 +757,8 @@ rather than a mixin composition. Its comment states the contract:
 The registries are separate tables keyed by type: `Private.regionTypes`,
 `Private.subRegionTypes`, `Private.regionOptions`, `Private.subRegionOptions`,
 `Private.triggerTypes`, `Private.triggerTypesOptions`
-`[T3: WeakAuras.lua:316, :319, :323, :326, :330, :334 — an earlier draft cited
-":315-330", which excludes `triggerTypesOptions` at :334]`. Region construction
+`[T3: WeakAuras.lua:316, :319, :323, :326, :330, :334 — cite the six lines, not a
+":315-330" range, which drops triggerTypesOptions at :334]`. Region construction
 is `regionTypes[regionType].create(WeakAurasFrame, data)` followed by
 `regionTypes[regionType].modify(parent, region, data)`
 `[T3: WeakAuras.lua:3421, :3453]`, with a validity check against the type's
@@ -795,7 +778,7 @@ end
 ```
 `[T3: WeakAuras.lua:4886-4898]`
 
-⚠ The chain has an intermediate the earlier draft omitted. `ApplyStateToRegion`
+⚠ The chain has an intermediate, and it is easy to miss. `ApplyStateToRegion`
 has exactly **one** call site, `:4986`, inside `ApplyStatesToRegions(id,
 activeTrigger, states)` at `:4944`; *that* is what `Private.UpdatedTriggerState`
 calls, at `:5101` and `:5122` `[T3: WeakAuras.lua:4886, :4944, :4986, :5025, :5101, :5122]`.
@@ -806,9 +789,9 @@ and the `changed`-flag test that gates it is `applyChanges` — set at `:4977-49
 `Private.UpdatedTriggerState` `[T3: WeakAuras.lua:5025]` is called from **13**
 sites: 7 in `WeakAuras.lua` (`:1483, :3232, :4728, :4745, :4773, :4791, :4876`),
 5 in `GenericTrigger.lua` (`:956, :1014, :1031, :1093, :1216`) and 1 in
-`BuffTrigger2.lua` (`:2004`) `[T3, counted]`. (The earlier draft said "8+" while
-listing 7 — the list was WeakAuras.lua-only.) **That many callers is precisely why
-the entry point must be safe to call repeatedly** — the `changed` flag is what
+`BuffTrigger2.lua` (`:2004`) `[T3, counted]` — note that 6 of the 13 are outside
+`WeakAuras.lua`, so a single-file grep undercounts. **That many callers is precisely
+why the entry point must be safe to call repeatedly** — the `changed` flag is what
 makes that true.
 
 So: two independent codebases (Blizzard's CooldownViewer, WeakAuras), two
@@ -859,8 +842,8 @@ attribute — it is a **separate file, or a separate addon.**
 
 - **Separate addon.** `## UseSecureEnvironment: 1` loads *every* file of an addon
   into a private function environment — 13 shipped `.toc` files set it, and 5 set
-  `## Secure: 1` `[T1 src, counted]`. (`[unverified]` — an earlier draft called
-  `Secure` "the older" of the two; I found nothing dating either directive.)
+  `## Secure: 1` `[T1 src, counted]`. `[unverified]` — nothing in the sources dates
+  either directive, so do not claim one is the older of the two.
   Blizzard has split whole features in
   two along this line: `Blizzard_Communities` / `Blizzard_CommunitiesSecure` and
   `Blizzard_ClassTrial` / `Blizzard_ClassTrialSecure` both exist as sibling
@@ -871,9 +854,8 @@ attribute — it is a **separate file, or a separate addon.**
   exactly five: `AllowLoad`, `EscalateErrorDuringLoad`, `LoadFirst`,
   `SavedVariablesMachine`, `UseSecureEnvironment`
   `[T2 wiki: TOC format, revid 6767089, 2026-07-09, §Restricted]`. **`Secure` is
-  not on that list, and the page does not document a `## Secure` tag at all** — an
-  earlier draft asserted it was restricted, which the cited source does not
-  support. What is observable is only that 5 shipped Blizzard tocs set it and 0 of
+  not on that list, and the page does not document a `## Secure` tag at all.**
+  What is observable is only that 5 shipped Blizzard tocs set it and 0 of
   the 147 third-party tocs on this install do `[T1 src / T1 obs, counted]`.
   Treat `Secure` as **undocumented**, not as documented-and-restricted.
   `@verify-ingame`
@@ -935,11 +917,29 @@ sites for `CreateFramePool(` versus 2 for `CreateSecureFramePool(`
 documented as *"not intended to be used for sharing between tainted and untainted
 code"* `[T1 src: Pools.lua:271-272]`.
 
-Secure pools are additionally exposed only through a **proxy** with a fixed method
-whitelist — `Acquire`, `ReleaseAll`, `Release`, `EnumerateActive`, `GetNextActive`,
-`IsActive`, `GetNumActive`, `DoesObjectBelongToPool`
-`[T1 src: Pools.lua:282-297]` — so you cannot reach the pool's internals at all.
-Design against those eight methods.
+**A secure pool handed to addon code is a proxy, not the pool.** The proxy carries a
+fixed method whitelist and nothing else, so the pool's own machinery —
+`PopInactiveObject`, `AddObject`, `ReclaimObject`, `CallCreate`, `CallReset`, `Init`
+and every field — is unreachable from addon code, even though all of it is defined on
+`SecureObjectPoolMixin` `[T1 src: Pools.lua:198-263]`. A pooled object is on loan
+through a keyhole. That is the ownership discipline this section is about.
+
+⚠ **There is no single whitelist — the surface depends on which factory made the
+pool**, which is why a bare method count drifts:
+
+- A plain **object** pool (`CreateObjectPool`) exposes **eight** methods
+  `[T1 src: Pools.lua:282-297]`.
+- Every **region** pool — frame, texture, fontstring, masktexture, actor — routes
+  through `CreateSecureRegionPoolInstance`, which bolts a **ninth**, `GetTemplate`,
+  straight onto the proxy `[T1 src: Pools.lua:536-544, the assignment at :539; the
+  five region factories that call it at :559, :572, :580, :588, :596]`. Since
+  `CreateFramePool` is a region factory, **nine is the case almost every addon
+  actually meets.**
+- A pool **collection** proxy is a different list again, plus three accessors that
+  re-proxy their results `[T1 src: Pools.lua:757-769, :774-792]`.
+
+`frames-textures-animation` holds the enumerated surface for all three; design against
+that rather than against a count restated here.
 
 ### 5.3 The SavedVariables format forces a data / presentation split
 
@@ -1049,7 +1049,7 @@ undocumented rather than documented-as-restricted.
   rejected is unknown. `@verify-ingame`
 - **[gap] No Tier-1 or Tier-2 statement exists on how to structure an addon.**
   There is no Blizzard-authored tutorial. The wiki's `Using the AddOn namespace`
-  (revid 6474636, **2025-09-16**) only describes the vararg. No
+  (revid 6474636, 2025-09-16) only describes the vararg. No
   Blizzard document recommends a module system, a file layout, or a data/display
   split. Everything in §3 and §4 is inference from shipped code.
 - **[gap] Ordering guarantees within a single `.toc` are Tier 2 only.** "Files are
@@ -1087,18 +1087,18 @@ wrong".
 2. **`## SavedVariables` / `## SavedVariablesPerCharacter` name *globals*.** An
    addon that stores its persisted state only inside its `ns` table will persist
    nothing.
-   *[Tier 2: wiki `Saving variables between game sessions` revid 5890180,
-   2023-12-11 — "a comma-delimited list of variable names in the global
+   *[Tier 2: wiki `Saving variables between game sessions` revid 5890180, 2023-12-11
+   — "a comma-delimited list of variable names in the global
    environment". Tier 2 corroboration that this is felt as a defect:
-   WoWUIBugs#649 "Private addon storage", open, filed 2024-09-02.]*
+   WoWUIBugs#649 "Private addon storage", open.]*
 
 3. **Without `## LoadSavedVariablesFirst: 1`, no file-scope code in the addon can
    read its SavedVariables.** They are loaded after the last script file, just
    before `ADDON_LOADED`.
    *[Tier 2: wiki `Saving variables between game sessions` revid 5890180, §The
    loading process; wiki `TOC format` revid 6767089, §LoadSavedVariablesFirst,
-   added 11.1.5. Origin: WoWUIBugs#414, `Acknowledged by Blizzard`, closed
-   2025-03-07. Adoption: 2/346 Blizzard tocs, 2/81 addons on this install.]*
+   added 11.1.5. Origin: WoWUIBugs#414, `Acknowledged by Blizzard`, since closed.
+   Adoption: 2/346 Blizzard tocs, 2/81 addons on this install.]*
 
 4. **Reading another addon's namespace table requires `## AllowAddOnTableAccess: 1`
    in *that* addon's `.toc` and `C_AddOns.GetAddOnLocalTable(name)` at the reader.
@@ -1144,10 +1144,15 @@ wrong".
     *[Tier 1: `Pools.lua:265-280`.]*
 
 11. **Code that uses `CreateFramePool` (and its seven sibling aliases) is using
-    the *secure* pool and is limited to the eight proxied methods** — `Acquire`,
-    `Release`, `ReleaseAll`, `EnumerateActive`, `GetNextActive`, `IsActive`,
-    `GetNumActive`, `DoesObjectBelongToPool`.
-    *[Tier 1: aliases at `Pools.lua:856-863`; proxy whitelist at `Pools.lua:282-297`.]*
+    the *secure* pool and is limited to that proxy's whitelist.** Audit against the
+    whitelist for the pool's *kind*, not against a single number: a plain object pool
+    proxy carries eight methods; a **region** pool (frame / texture / fontstring /
+    masktexture / actor — including `CreateFramePool`) carries those eight **plus
+    `GetTemplate`**, i.e. nine; a pool collection proxy is a different list again.
+    *[Tier 1: aliases at `Pools.lua:856-863`; base whitelist at `:282-297`;
+    `GetTemplate` assigned at `:539` inside `CreateSecureRegionPoolInstance`
+    (`:536-544`); collection whitelist at `:757-769`. The enumerated surfaces live in
+    `frames-textures-animation`.]*
 
 12. **A `CallbackRegistryMixin` owner may hold at most one callback per event.**
     Re-registering the same `(event, owner)` replaces the previous callback —
@@ -1188,11 +1193,10 @@ wrong".
     for who uses them: 13 shipped tocs set `UseSecureEnvironment`, 19 set
     `LoadFirst`, 177 set `AllowLoad`; 0 of the 147 top-level third-party tocs on
     this install set any of the five.]*
-    ⚠ **`## Secure` is NOT on the restricted list** — an earlier version of this
-    rule included it, and the cited page does not mention the tag at all. 5
-    shipped Blizzard tocs set it `[Tier 1, counted]`, 0 third-party tocs do. Do
-    not audit against `Secure` as if it were a documented restriction; audit it,
-    if at all, as "undocumented, and nobody in the field uses it". See §6.
+    ⚠ **`## Secure` is NOT one of the five** — the cited page does not mention the
+    tag at all. 5 shipped Blizzard tocs set it `[Tier 1, counted]`, 0 third-party
+    tocs do. Do not audit against `Secure` as if it were a documented restriction;
+    audit it, if at all, as "undocumented, and nobody in the field uses it". See §6.
 
 18. **`LibStub:NewLibrary` returns `nil` when an equal-or-newer minor is already
     loaded — the call site must bail out on nil.** On a real upgrade the *same*
@@ -1200,10 +1204,9 @@ wrong".
     must be re-bound.
     *[Tier 3: `Ace3@4475787f LibStub/LibStub.lua:16` (nil return), `:17`
     (`self.libs[major] or {}`). A convention of the LibStub-embedding libraries,
-    not a platform rule. `[unverified]` — the earlier claim that "every
-    LibStub-based library in the ecosystem depends on it" was not surveyed and is
-    withdrawn; the checkable statement is only about libraries that call
-    `LibStub:NewLibrary`.]*
+    not a platform rule. `[unverified]` — scope the audit to code that calls
+    `LibStub:NewLibrary`; no survey of ecosystem-wide reliance on this behaviour
+    was done.]*
 
 19. **Registration by unique string name rejects duplicates rather than
     overwriting, in every module system surveyed.** Audit as "a second
@@ -1237,10 +1240,10 @@ wrong".
     `:1194`. `GameTooltipDataMixin` is the same shape with the flag cleared inside
     `RefreshData` itself rather than by a separate `Clean`:
     `Blizzard_GameTooltip/Mainline/GameTooltip.lua:955-958, :960-963, :965-972`.
-    ⚠ `CooldownViewerSettingsDataProvider.lua:18, :169` were previously cited here
-    as producers; they mark a **different** object dirty
+    ⚠ Do **not** audit `CooldownViewerSettingsDataProvider.lua:18, :169` as part of
+    this chain: they mark a **different** object dirty
     (`CooldownViewerSettingsDataProviderMixin`, own `MarkDirty`/`IsDirty` at
-    `:210`/`:214`), so do not audit them as part of this chain.
+    `:210`/`:214`).
     Tier 3 corroboration at scale: WeakAuras' `changed` flag
     (`WeakAuras.lua:336-345`), with `Private.UpdatedTriggerState` (`:5025`) called
     from 13 sites — `WeakAuras.lua:1483, :3232, :4728, :4745, :4773, :4791, :4876`;
@@ -1255,9 +1258,9 @@ wrong".
     *[Tier 1: `CooldownViewerItemData.lua:501`; the file's only other widget calls
     are `tooltip:Show()` at `:508` and `GetAppropriateTooltip():Hide()` at `:512`
     — **3** widget touches versus **34** in the paired display file, counted with
-    `grep -cE ':Show\(\)|:Hide\(\)|:SetTexture|:SetAtlas|:SetText|:SetPoint|:SetShown|:SetAlpha|:SetDesaturated|GameTooltip_'`.
-    An earlier version said "2 versus 36" without recording the pattern; that pair
-    is not reproducible.]*
+    `grep -cE ':Show\(\)|:Hide\(\)|:SetTexture|:SetAtlas|:SetText|:SetPoint|:SetShown|:SetAlpha|:SetDesaturated|GameTooltip_'`
+    — the ratio is only reproducible with that exact pattern, so quote it with the
+    numbers.]*
 
 23. **A `.pkgmeta` `move-folders` block means the shipped addon partition differs
     from the repo tree.** Load-order and dependency reasoning must be done against
@@ -1276,10 +1279,9 @@ wrong".
     (`BigWigs@3fdc10f6`, all 18 `.toc` files inspected — 2 of the 12 declare more
     than `BigWigs`). The load-failure semantics themselves are the
     `anatomy-and-runtime` topic's.]*
-    `[unverified]` The stronger form this rule used to state — "…or the symbol
-    will be missing" — is an inference about cross-addon load order that I could
-    not source; see the `[gap]` in §1.4. Audit the counts and the declaration, not
-    the failure mode.
+    `[unverified]` Audit the counts and the declaration, **not** a failure mode. The
+    stronger form — "…or the symbol will be missing" — is an inference about
+    cross-addon load order with no source behind it; see the `[gap]` in §1.4.
 
 25. **XML-declarative composition (`mixin=`, `parentKey=`) is a Blizzard house
     style, not an ecosystem norm.** An audit that flags Lua-built frames as
@@ -1287,3 +1289,17 @@ wrong".
     *[Tier 1 for the mechanism: `Blizzard_SharedXML/UI.xsd:468-476`. Counts:
     Blizzard uses `parentKey="` 17706 times; the 6 surveyed addons use it 57 times
     across 105 XML files and `mixin="` 4 times; BigWigs ships no XML at all.]*
+
+---
+
+## Changelog
+
+- 2026-08-05 — **`CreateFromMixins(nil)` errors** `[client 2026-07-24]`, raising
+  `Usage: local object = CreateFromMixins(...)` rather than silently producing an empty
+  mixin. §1.1's mis-ordered-`.toc` failure mode is now measured, not inferred from the
+  Lua `SecureMixin` body. The raised message also carried a `Lua Taint: <addon>` line.
+- 2026-08-05 — §5.2 / rule 11 secure pool proxy: a **region** pool proxy (including
+  everything `CreateFramePool` returns) exposes **nine** methods, not eight —
+  `GetTemplate` is bolted on at `Pools.lua:539`. Eight is the plain-object-pool case
+  only. This file and `frames-textures-animation` had disagreed; the enumerated
+  surfaces now live there and this file cites them.

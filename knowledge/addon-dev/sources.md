@@ -72,7 +72,7 @@ Directories that carry the most weight per topic:
 
 | Directory | Why it matters |
 |---|---|
-| `Blizzard_APIDocumentationGenerated/` (593 files) | The complete generated API spec. See §1.2 — query it with `wowkb.uiapi`, do not grep it by hand. |
+| `Blizzard_APIDocumentationGenerated/` (592 `.lua` doc files + 1 `.toc`) | The complete generated API spec. See §1.2 — query it with `wowkb.uiapi`, do not grep it by hand. |
 | `Blizzard_APIDocumentation/` (8 files) | The **in-game `/api` browser** that reads the above. `Blizzard_APIDocumentation.lua:120-139` documents the `/api search`, `/api system list`, `/api <system> list` syntax. Tier-1 proof that in-game API discovery exists and how it is spelled. |
 | `Blizzard_RestrictedAddOnEnvironment/` | **The security topic's home.** `RestrictedEnvironment.lua`, `RestrictedExecution.lua`, `RestrictedFrames.lua`, `RestrictedInfrastructure.lua`, `SecureHandlers.lua`, `SecureHandlerTemplates.xml`, `SecureGroupHeaders.lua`, `SecureStateDriver.lua`, `SecureHoverDriver.lua`. This folder is **new in the Midnight-era layout** — these files used to sit loose in FrameXML. |
 | `Blizzard_FrameXML/SecureTemplates.lua` + `.xml` + `SecureTemplatesBase.xml` | Secure action-button templates; the canonical protected-action path. |
@@ -94,6 +94,7 @@ tocs: `Title` 346, `Author` 214, `AllowLoad` 177, `Dependencies` 176,
 `SavedVariables` 10, **`Secure` 5**, `OptionalDeps` 4, `Interface` 4,
 `SavedVariablesMachine` 3, `EscalateErrorDuringLoad` 3, `LoadWith` 2,
 `AllowAddOnTableAccess` 1, `IconTexture` 1, `Category` 1 …
+⚠ `Category` is **addon-facing**, not Blizzard-only — see `anatomy-and-runtime.md` §2.2. Its single occurrence here (`Blizzard_AccountSaveUI.toc:6`) is a non-example, not a restriction.
 ⚠ These are **line frequencies, not semantics** — 167 tocs carry a
 `## LoadOnDemand` line, but **42 of them declare `: 0`**, so only **125** are
 actually load-on-demand. Two topic files disagreed on this until 2026-07-23; see
@@ -227,7 +228,7 @@ path : /mnt/c/Program Files (x86)/World of Warcraft/_retail_/
 
 - `Interface/AddOns/` — **81 entries**, including Bartender4, BigWigs+LittleWigs,
   Details, MythicDungeonTools, OPie, RaiderIO, Syndicator, TellMeWhen, TomTom,
-  TradeSkillMaster, Auctionator, Baganator, EllesmereUI (a 20-module suite),
+  TradeSkillMaster, Auctionator, Baganator, EllesmereUI (a multi-addon suite — ⚠ its module count is **contested** (18/19/20 across sources) and the clone is deleted, so no count is asserted),
   DandersFrames, plus this repo's own BucketBinds / CDMProbe / PlannerState.
   **WeakAuras is not installed** — use the clone.
 - `WTF/Account/*/SavedVariables/*.lua` — ~50 live SV files. Real persisted-state
@@ -461,7 +462,7 @@ Note the repo moved to the `WoWUIDev` org — old guides pointing at
 | `Chomp` (wow-rp-addons) | `0b2e0b067a0a` | 2026-04-20 | Addon-comms transport with throttling/queueing. |
 | `LibSpecialization` (BigWigsMods) | `1151c4788bb4` | 2026-07-17 | Spec broadcast over comms. |
 | `LibCustomGlow` (Stanzilla) | `4f8f5c2607d7` | 2026-07-17 | Glow/highlight effects — frames topic. |
-| `libdatabroker-1-1` (tekkub) | `1a63ede0248c` | **2008-07-31** | The LDB spec itself. Frozen since 2008 — it is a 40-line spec, not rotting code. Still universally used (LibDBIcon consumes it). |
+| `libdatabroker-1-1` (tekkub) | `1a63ede0248c` | **2008-07-31** (clone HEAD commit; `pushed_at` is 2015-09-02) | The LDB spec itself. Frozen — it is a **90-line** library, not rotting code. Still universally used (LibDBIcon consumes it). |
 | `TaintLess` (townlong-yak) | `a4f3eda90db1` | **2025-02-26** | ⚠ **Tier down.** Single-file `TaintLess.xml`, self-versioned `[24-07-27]`. It monkey-patches known *Blizzard* taint bugs. It predates Midnight (12.0.0, 2026-01-20), so its fix set is pre-secret-values. It is still listed in WeakAuras' `.pkgmeta` as of 2026-07, which tells you it is *still shipped*, not that it is *still current*. Read it for the technique (`securecall`, `issecurevariable`, `purgeKey`), not for a list of live bugs. |
 
 **Not clonable from GitHub:** `LibSharedMedia-3.0` and `LibDBIcon-1.0` live on
@@ -627,7 +628,7 @@ uv run python -m wowkb.uiapi missing hooksecurefunc # docs? source? neither?
 uv run python -m wowkb.uiapi grep 'SecureHandler' --type lua
 ```
 
-It loads the 593 doc files through `lua5.1` with stubs for `APIDocumentation` and
+It loads the 592 doc files through `lua5.1` with stubs for `APIDocumentation` and
 proxy metatables for `Enum`/`Constants` (including arithmetic metamethods — three
 files need them), then serialises to
 `raw/addon-research/_index/uiapi.json` (gitignored). **Every line of output ends
