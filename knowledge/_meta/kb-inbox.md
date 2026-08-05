@@ -38,6 +38,20 @@ This is deliberately the *catch-all*. Use the more specific queue when one fits:
 
 ## Tooling / KB structure
 
+- **📌 12.1.0 addon-API sweep — driving doc `knowledge/addon-dev/12.1.0-ptr-heads-up.md`
+  (2026-08-04).** Five-file audit of `addon-dev/` against the PTR
+  `Patch_12.1.0/API_changes` page: nothing in the KB is falsified *today* (all
+  changes are PTR-only, docs well-hedged), so **do not touch the `patch: 12.0.7`
+  bodies until 12.1.0 is live**. The heads-up doc carries the per-file patch-day
+  anchor list. Headline: **auras go fully secret** (`C_UnitAuras` secret vectors,
+  `UNIT_AURA` secret payload, `SecureAuraHeaderTemplate` removed →
+  `AuraContainer`/`AuraButton`) + **unit-identity APIs return secrets**. Only one
+  live *example* actually rots: `UIParentLoadAddOn` → `LoadAddOnWithErrorHandling`.
+  On patch day the `/update` full-apply + `kb-patch-sweep` should consume the
+  heads-up doc's edit list (and re-pull exact signatures verbatim — the initial
+  fetch paraphrased some). Also flags a separate **Cooldown HUD / CDMProbe**
+  review pass (route via `todo/addon-engineering.md`).
+
 - **BucketBinds: source `spec_inventory` talents from wago `Trait*` (shrink `inventoryGaps` to
   zero).** The talent side of `wowkb.spec_inventory`'s union comes from `all-talents.tsv`, built
   off the Blizzard talent-tree API — whose static build (67808) **itself omits some real
