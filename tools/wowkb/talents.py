@@ -50,6 +50,18 @@ WAGO_TABLES = [
     "TraitCond", "TraitNodeXTraitCond", "TraitTreeLoadout", "TraitTreeLoadoutEntry",
     "TraitTreeXTraitCurrency", "TraitCurrencySource", "ChrSpecialization",
     "ChrClasses", "SpellName",
+    # ── also fetched here so a fresh checkout can run `wowkb.gen_abilities` ──
+    # gen_abilities pins every read to one exact build and hard-fails on a miss;
+    # none of these existed in raw/wago before 2026-08-06, so without this list a
+    # patch-day fetch leaves the ability-inventory generator dead on arrival.
+    # Native spec-scoping + cost-derived tree kind:
+    "TraitNodeGroupXTraitCond", "TraitCost", "TraitNodeXTraitCost",
+    "TraitNodeGroupXTraitCost", "SpecSetMember", "SkillLineXTraitTree",
+    # The non-talent union legs (class kit, spec baseline, PvP, pets, CDM):
+    "SkillLine", "SkillLineAbility", "SkillRaceClassInfo", "SpecializationSpells",
+    "PvpTalent", "CreatureFamily", "SpellClassOptions",
+    # Annotation: castability, cooldowns, Blizzard's Essential/Utility signal.
+    "SpellMisc", "SpellCooldowns", "CooldownSet", "CooldownSetSpell",
 ]
 
 # Midnight Season 1 level cap. Budgets (TraitCurrencySource) are resolved at this
