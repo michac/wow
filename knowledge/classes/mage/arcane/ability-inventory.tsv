@@ -1,208 +1,208 @@
-class	spec	spec_id	name	spell_id	origin	source	castable	cooldown	band	tree	hero_tree	node_id	entry_id	max_ranks	blizz_category	seed_bucket	also_from	aliases
-Mage	Arcane	62	Mass Invisibility	414664	talent-active	TraitNodeEntry	true	300	Cooldown	class		62092	115878	1	Buff/Utility	Class 4 (Special)	cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Greater Invisibility	110959	talent-active	TraitNodeEntry	true	120	Cooldown	class		93524	115877	1		Taunt/Quick Access		
-Mage	Arcane	62	Mirror Image	55342	talent-active	TraitNodeEntry	true	120	Cooldown	class		62124	80183	1	Buff/Utility	Self-Heal 2	cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Arcane Surge	365350	talent-active	TraitNodeEntry	true	90	Cooldown	spec		102449	126519	1	Essential/Other	Cooldown 2	cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Alter Time	342245	talent-active	TraitNodeEntry	true	60	Cooldown	class		62115	80174	1	Buff/Utility	Self-Heal 1	cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Prismatic Barrier	235450	talent-active	TraitNodeEntry	true	30	Rotational	class		62121	80180	1	Buff/Utility	Personal Defensive 1	cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Remove Curse	475	talent-active	TraitNodeEntry	true	8	Rotational	class		62116	80175	1	Utility	Class 6 (Dispel)	cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Touch of the Magi	321507	talent-active	TraitNodeEntry	true	0.5	Rotational	spec		102468	126538	1	Buff/Essential	Cooldown 1	cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Arcane Missiles	5143	talent-active	TraitNodeEntry	true	0	Rotational	spec		102467	126537	1	Essential		cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Arcane Orb	153626	talent-active	TraitNodeEntry	true	0	Rotational	spec		104113	128689	1	Essential		cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Arcane Pulse	1241462	talent-active	TraitNodeEntry	true	0	Rotational	spec		102439	126509	1				
-Mage	Arcane	62	Ice Block	45438	talent-active	TraitNodeEntry	true	0	Rotational	class		62122	80181	1	Buff/Utility	Immune/Spell Immune/Movement	cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Spellsteal	30449	talent-active	TraitNodeEntry	true	0	Rotational	class		62084	80140	1		Class 5 (Purge)		
-Mage	Arcane	62	Mass Polymorph	383121	talent-choice	TraitNodeEntry	true	60	Cooldown	class		62088	134198	1	Buff/Utility	Class 1 (Movement)	cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Dragon's Breath	31661	talent-choice	TraitNodeEntry	true	45	Cooldown	class		101883	125819	1	Buff/Utility		cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Presence of Mind	205025	talent-choice	TraitNodeEntry	true	45	Cooldown	spec		102460	126530	1	Buff/Essential		cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Ring of Frost	113724	talent-choice	TraitNodeEntry	true	45	Cooldown	class		62088	80144	1	Buff/Utility		cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Supernova	157980	talent-choice	TraitNodeEntry	true	45	Cooldown	class		101883	125818	1	Utility	CC 2	cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Ice Nova	157997	talent-choice	TraitNodeEntry	true	25	Rotational	class		62087	134199	1	Buff		cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Shimmer	212653	talent-choice	TraitNodeEntry	true	0.5	Rotational	class		62105	80163	1				
-Mage	Arcane	62	Evocation	12051	talent-choice	TraitNodeEntry	true	0	Rotational	spec		102454	126524	1	Buff/Essential		cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Illusion	131784	class-baseline	SkillLineAbility:904	true	600	Cooldown									
-Mage	Arcane	62	Invisibility	66	class-baseline	SkillLineAbility:904	true	300	Cooldown						Buff/Utility		cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Time Warp	80353	class-baseline	SkillLineAbility:904	true	300	Cooldown						Utility	Class 8 (Lust/BRes)	cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Ancient Portal: Dalaran	120146	class-baseline	SkillLineAbility:904	true	60	Cooldown									
-Mage	Arcane	62	Mark of Aluneth	210726	class-baseline	SkillLineAbility:904	true	60	Cooldown									
-Mage	Arcane	62	Portal: Boralus	281400	class-baseline	SkillLineAbility:904	true	60	Cooldown									
-Mage	Arcane	62	Portal: Dalaran - Broken Isles	224871	class-baseline	SkillLineAbility:904	true	60	Cooldown									
-Mage	Arcane	62	Portal: Dalaran - Northrend	53142	class-baseline	SkillLineAbility:904	true	60	Cooldown									
-Mage	Arcane	62	Portal: Darnassus	11419	class-baseline	SkillLineAbility:904	true	60	Cooldown									
-Mage	Arcane	62	Portal: Dazar'alor	281402	class-baseline	SkillLineAbility:904	true	60	Cooldown									
-Mage	Arcane	62	Portal: Dornogal	446534	class-baseline	SkillLineAbility:904	true	60	Cooldown									
-Mage	Arcane	62	Portal: Exodar	32266	class-baseline	SkillLineAbility:904	true	60	Cooldown									
-Mage	Arcane	62	Portal: Ironforge	11416	class-baseline	SkillLineAbility:904	true	60	Cooldown									
-Mage	Arcane	62	Portal: Orgrimmar	11417	class-baseline	SkillLineAbility:904	true	60	Cooldown									
-Mage	Arcane	62	Portal: Oribos	344597	class-baseline	SkillLineAbility:904	true	60	Cooldown									
-Mage	Arcane	62	Portal: Shattrath	33691	class-baseline	SkillLineAbility:904	true	60	Cooldown									
-Mage	Arcane	62	Portal: Silvermoon (Burning Crusade)	32267	class-baseline	SkillLineAbility:904	true	60	Cooldown									
-Mage	Arcane	62	Portal: Silvermoon City	1259194	class-baseline	SkillLineAbility:904	true	60	Cooldown									
-Mage	Arcane	62	Portal: Stonard	49361	class-baseline	SkillLineAbility:904	true	60	Cooldown									
-Mage	Arcane	62	Portal: Stormshield	176246	class-baseline	SkillLineAbility:904	true	60	Cooldown									
-Mage	Arcane	62	Portal: Stormwind	10059	class-baseline	SkillLineAbility:904	true	60	Cooldown									
-Mage	Arcane	62	Portal: Theramore	49360	class-baseline	SkillLineAbility:904	true	60	Cooldown									
-Mage	Arcane	62	Portal: Thunder Bluff	11420	class-baseline	SkillLineAbility:904	true	60	Cooldown									
-Mage	Arcane	62	Portal: Tol Barad	88345	class-baseline	SkillLineAbility:904	true	60	Cooldown									
-Mage	Arcane	62	Portal: Undercity	11418	class-baseline	SkillLineAbility:904	true	60	Cooldown									
-Mage	Arcane	62	Portal: Valdrakken	395289	class-baseline	SkillLineAbility:904	true	60	Cooldown									
-Mage	Arcane	62	Portal: Vale of Eternal Blossoms	132626	class-baseline	SkillLineAbility:904	true	60	Cooldown									
-Mage	Arcane	62	Portal: Warspear	176244	class-baseline	SkillLineAbility:904	true	60	Cooldown									
-Mage	Arcane	62	Teleport: Hall of the Guardian	193759	class-baseline	SkillLineAbility:904	true	60	Cooldown									
-Mage	Arcane	62	Ebonbolt	214634	class-baseline	SkillLineAbility:904	true	45	Cooldown									
-Mage	Arcane	62	Cone of Cold	120	class-baseline	SkillLineAbility:904	true	25	Rotational						Utility	Class 2 (CC)	cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Counterspell	2139	class-baseline	SkillLineAbility:904	true	25	Rotational						Utility	Interrupt	cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Conjure Refreshment	190336	class-baseline	SkillLineAbility:904	true	15	Rotational									
-Mage	Arcane	62	Blink	1953	class-baseline	SkillLineAbility:904	true	0.5	Rotational						Utility	Movement Ability	cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Fire Blast	319836	class-baseline	SkillLineAbility:904	true	0.5	Rotational									
-Mage	Arcane	62	Ancient Teleport: Dalaran	120145	class-baseline	SkillLineAbility:904	true	0	Rotational									
-Mage	Arcane	62	Arcane Barrage	44425	class-baseline	SpecializationSpells	true	0	Rotational						Essential	Rotational 2	cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Arcane Blast	30451	class-baseline	SpecializationSpells	true	0	Rotational							Rotational 1		
-Mage	Arcane	62	Arcane Explosion	1449	class-baseline	SkillLineAbility:904	true	0	Rotational						Essential		cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Arcane Intellect	1459	class-baseline	SkillLineAbility:904	true	0	Rotational							Res		
-Mage	Arcane	62	Frost Nova	122	class-baseline	SkillLineAbility:904	true	0	Rotational						Buff/Utility	CC	cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Frostbolt	116	class-baseline	SkillLineAbility:904	true	0	Rotational									
-Mage	Arcane	62	Phoenix's Flames	194466	class-baseline	SkillLineAbility:904	true	0	Rotational									
-Mage	Arcane	62	Polymorph	118	class-baseline	SkillLineAbility:904	true	0	Rotational						Buff	Class 3 (Tag)	cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Portal	343140	class-baseline	SkillLineAbility:904	true	0	Rotational									
-Mage	Arcane	62	Single-Button Assistant	1229376	class-baseline	SpecializationSpells	true	0	Rotational									
-Mage	Arcane	62	Slow Fall	130	class-baseline	SkillLineAbility:904	true	0	Rotational						Buff	Class 7 (Raid Defensive)	cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Teleport	343127	class-baseline	SkillLineAbility:904	true	0	Rotational									
-Mage	Arcane	62	Teleport: Boralus	281403	class-baseline	SkillLineAbility:904	true	0	Rotational									
-Mage	Arcane	62	Teleport: Dalaran - Broken Isles	224869	class-baseline	SkillLineAbility:904	true	0	Rotational									
-Mage	Arcane	62	Teleport: Dalaran - Northrend	53140	class-baseline	SkillLineAbility:904	true	0	Rotational									
-Mage	Arcane	62	Teleport: Darnassus	3565	class-baseline	SkillLineAbility:904	true	0	Rotational									
-Mage	Arcane	62	Teleport: Dazar'alor	281404	class-baseline	SkillLineAbility:904	true	0	Rotational									
-Mage	Arcane	62	Teleport: Dornogal	446540	class-baseline	SkillLineAbility:904	true	0	Rotational									
-Mage	Arcane	62	Teleport: Exodar	32271	class-baseline	SkillLineAbility:904	true	0	Rotational									
-Mage	Arcane	62	Teleport: Ironforge	3562	class-baseline	SkillLineAbility:904	true	0	Rotational									
-Mage	Arcane	62	Teleport: Orgrimmar	3567	class-baseline	SkillLineAbility:904	true	0	Rotational									
-Mage	Arcane	62	Teleport: Oribos	344587	class-baseline	SkillLineAbility:904	true	0	Rotational									
-Mage	Arcane	62	Teleport: Shattrath	33690	class-baseline	SkillLineAbility:904	true	0	Rotational									
-Mage	Arcane	62	Teleport: Silvermoon (Burning Crusade)	32272	class-baseline	SkillLineAbility:904	true	0	Rotational									
-Mage	Arcane	62	Teleport: Silvermoon City	1259190	class-baseline	SkillLineAbility:904	true	0	Rotational									
-Mage	Arcane	62	Teleport: Stonard	49358	class-baseline	SkillLineAbility:904	true	0	Rotational									
-Mage	Arcane	62	Teleport: Stormshield	176248	class-baseline	SkillLineAbility:904	true	0	Rotational									
-Mage	Arcane	62	Teleport: Stormwind	3561	class-baseline	SkillLineAbility:904	true	0	Rotational									
-Mage	Arcane	62	Teleport: Theramore	49359	class-baseline	SkillLineAbility:904	true	0	Rotational									
-Mage	Arcane	62	Teleport: Thunder Bluff	3566	class-baseline	SkillLineAbility:904	true	0	Rotational									
-Mage	Arcane	62	Teleport: Tol Barad	88342	class-baseline	SkillLineAbility:904	true	0	Rotational									
-Mage	Arcane	62	Teleport: Undercity	3563	class-baseline	SkillLineAbility:904	true	0	Rotational									
-Mage	Arcane	62	Teleport: Valdrakken	395277	class-baseline	SkillLineAbility:904	true	0	Rotational									
-Mage	Arcane	62	Teleport: Vale of Eternal Blossoms	132621	class-baseline	SkillLineAbility:904	true	0	Rotational									
-Mage	Arcane	62	Teleport: Warspear	176242	class-baseline	SkillLineAbility:904	true	0	Rotational									
-Mage	Arcane	62	Ice Wall	352278	pvp-talent	PvpTalent	true	90	Cooldown						Utility		cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Arcanosphere	353128	pvp-talent	PvpTalent	true	45	Cooldown						Essential		cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Ring of Fire	353082	pvp-talent	PvpTalent	true	45	Cooldown						Buff		cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Kleptomania	198100	pvp-talent	PvpTalent	true	20	Rotational						Utility		cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Chrono Shift	235711	pvp-talent	PvpTalent	false	0	Rotational						Buff		cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Ethereal Blink	410939	pvp-talent	PvpTalent	false	0	Rotational						Buff		cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Improved Mass Invisibility	415945	pvp-talent	PvpTalent	false	0	Rotational									
-Mage	Arcane	62	Master Shepherd	410248	pvp-talent	PvpTalent	false	0	Rotational									
-Mage	Arcane	62	Overpowered Barrier	1220739	pvp-talent	PvpTalent	false	0	Rotational									
-Mage	Arcane	62	Aegwynn's Technique	1243507	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102465	134020	1				
-Mage	Arcane	62	Aether Attunement	1243307	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108535	134023	2				
-Mage	Arcane	62	Amplification	236628	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102473	126543	1				
-Mage	Arcane	62	Arcane Echo	342231	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102465	135699	1				
-Mage	Arcane	62	Arcane Familiar	205022	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102469	126539	1				
-Mage	Arcane	62	Arcane Salvo	384452	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108539	134028	1	Buff		cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Arcane Singularity	1244001	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108537	134026	2				
-Mage	Arcane	62	Arcane Tempo	383980	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110442	137084	1				
-Mage	Arcane	62	Arcane Warding	383092	talent-passive	TraitNodeEntry	false	0	Rotational	class		62114	80173	2				
-Mage	Arcane	62	Archmage's Wrath	444968	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Spellslinger	94658	117261	1				
-Mage	Arcane	62	Arcing Cleave	231564	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102471	126541	1				
-Mage	Arcane	62	Ashes of Inspiration	1260272	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94643	117246	1				
-Mage	Arcane	62	Attuned Familiar	1261106	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Spellslinger	109669	135920	1				
-Mage	Arcane	62	Augury Abounds	1280165	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Spellslinger	94662	117265	1				
-Mage	Arcane	62	Barrier Diffusion	455428	talent-passive	TraitNodeEntry	false	0	Rotational	class		62091	80147	1				
-Mage	Arcane	62	Brainstorm	461261	talent-passive	TraitNodeEntry	false	0	Rotational	class		110081	136579	1	Buff		cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Burden of Power	451035	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94644	117247	1				
-Mage	Arcane	62	Captured Thoughts	1270872	talent-passive	TraitNodeEntry	false	0	Rotational	class		62125	134184	1				
-Mage	Arcane	62	Charged Missiles	461251	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102472	134022	1				
-Mage	Arcane	62	Charged Orb	384651	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102475	126545	1				
-Mage	Arcane	62	Charm of Aegwynn	1244105	talent-passive	TraitNodeEntry	false	0	Rotational	class		108658	134188	1				
-Mage	Arcane	62	Charm of Medivh	1244107	talent-passive	TraitNodeEntry	false	0	Rotational	class		108657	134187	1				
-Mage	Arcane	62	Codex of the Sunstriders	449382	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94645	117248	1				
-Mage	Arcane	62	Concentrated Power	414379	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108538	134027	1				
-Mage	Arcane	62	Consortium's Bauble	461260	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108536	134024	1				
-Mage	Arcane	62	Controlled Instincts	444483	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Spellslinger	94656	117259	1				
-Mage	Arcane	62	Energized Barriers	386828	talent-passive	TraitNodeEntry	false	0	Rotational	class		62100	80157	1				
-Mage	Arcane	62	Energized Familiar	452997	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102441	126511	1				
-Mage	Arcane	62	Enlightened	321387	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102470	126540	1				
-Mage	Arcane	62	Eureka	452198	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108665	134196	1				
-Mage	Arcane	62	Expanded Mind	1243557	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109002	134834	1				
-Mage	Arcane	62	Explosive Potential	1246030	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94651	134249	1	Buff		cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Flow of Time	382268	talent-passive	TraitNodeEntry	false	0	Rotational	class		62096	80153	1				
-Mage	Arcane	62	Focusing Crystal	461257	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102451	126521	1				
-Mage	Arcane	62	Force of Will	444719	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Spellslinger	94663	117266	1				
-Mage	Arcane	62	Freezing Cold	386763	talent-passive	TraitNodeEntry	false	0	Rotational	class		62087	80143	1	Buff		cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Frost Conditioning	1250315	talent-passive	TraitNodeEntry	false	0	Rotational	class		62107	80165	1				
-Mage	Arcane	62	Glorious Incandescence	449394	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	109675	135926	1	Buff		cdm-only:CooldownSetSpell	
-Mage	Arcane	62	High Voltage	461248	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102472	126542	1				
-Mage	Arcane	62	Ice Cold	414659	talent-passive	TraitNodeEntry	false	0	Rotational	class		62085	80141	1				
-Mage	Arcane	62	Ice Ward	205036	talent-passive	TraitNodeEntry	false	0	Rotational	class		62110	136466	1				
-Mage	Arcane	62	Illuminated Thoughts	384060	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108551	134047	1				
-Mage	Arcane	62	Impetus	383676	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102453	126523	1				
-Mage	Arcane	62	Improved Blink	1244340	talent-passive	TraitNodeEntry	false	0	Rotational	class		62105	134197	1				
-Mage	Arcane	62	Improved Clearcasting	321420	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102445	126515	1				
-Mage	Arcane	62	Improved Conjuration	1244025	talent-passive	TraitNodeEntry	false	0	Rotational	class		108662	134192	2				
-Mage	Arcane	62	Improved Counterspell	1270865	talent-passive	TraitNodeEntry	false	0	Rotational	class		110079	136577	1				
-Mage	Arcane	62	Improved Frost Nova	343183	talent-passive	TraitNodeEntry	false	0	Rotational	class		62110	80168	1				
-Mage	Arcane	62	Improved Prismatic Barrier	321745	talent-passive	TraitNodeEntry	false	0	Rotational	class		108664	134194	1				
-Mage	Arcane	62	Improved Remove Curse	1270847	talent-passive	TraitNodeEntry	false	0	Rotational	class		110078	136576	1				
-Mage	Arcane	62	Improved Spellsteal	1270827	talent-passive	TraitNodeEntry	false	0	Rotational	class		110082	136581	1	Buff		cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Incantation of Swiftness	382293	talent-passive	TraitNodeEntry	false	0	Rotational	class		62112	80170	2	Buff		cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Infused Splinters	1261080	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Spellslinger	109668	135919	1				
-Mage	Arcane	62	Inspired Intellect	458437	talent-passive	TraitNodeEntry	false	0	Rotational	class		108660	134190	1				
-Mage	Arcane	62	Intuition	1223798	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102446	126516	1	Buff		cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Invocation: Arcane Phoenix	448658	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94652	117255	1				
-Mage	Arcane	62	Lessons in Debilitation	449627	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94651	117254	1				
-Mage	Arcane	62	Look Again	444756	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Spellslinger	94659	123418	1				
-Mage	Arcane	62	Mana Adept	321526	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102454	136465	1				
-Mage	Arcane	62	Mana Bomb	457521	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102440	126510	1				
-Mage	Arcane	62	Mana Cascade	449293	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94653	117256	1	Buff		cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Mana Confluence	1270845	talent-passive	TraitNodeEntry	false	0	Rotational	class		110080	136578	1				
-Mage	Arcane	62	Master of Escape	210476	talent-passive	TraitNodeEntry	false	0	Rotational	class		108659	134189	1				
-Mage	Arcane	62	Master of Time	342249	talent-passive	TraitNodeEntry	false	0	Rotational	class		62102	80159	2				
-Mage	Arcane	62	Memory of Al'ar	449619	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94646	117249	1				
-Mage	Arcane	62	Merely a Setback	449330	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94649	117252	1	Buff		cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Orb Barrage	384858	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102474	126544	1				
-Mage	Arcane	62	Orb Mastery	1243435	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102438	126508	1				
-Mage	Arcane	62	Overflowing Energy	390218	talent-passive	TraitNodeEntry	false	0	Rotational	class		108661	134191	1	Buff		cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Overflowing Insight	1243542	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102476	126546	1				
-Mage	Arcane	62	Overpowered Missiles	1244329	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109478	135698	1	Buff		cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Permafrost Bauble	1265517	talent-passive	TraitNodeEntry	false	0	Rotational	class		62086	80142	1				
-Mage	Arcane	62	Phantasmal Image	444784	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Spellslinger	94660	123417	1				
-Mage	Arcane	62	Polished Focus	1261082	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Spellslinger	109667	135918	1				
-Mage	Arcane	62	Prodigious Savant	384612	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102480	126550	2				
-Mage	Arcane	62	Pyrocosm	1260673	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	109674	135925	1				
-Mage	Arcane	62	Quick Witted	382297	talent-passive	TraitNodeEntry	false	0	Rotational	class		62104	80161	1				
-Mage	Arcane	62	Reactive Barrier	444827	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Spellslinger	94660	117263	1				
-Mage	Arcane	62	Reflection	1270829	talent-passive	TraitNodeEntry	false	0	Rotational	class		62094	136580	1	Buff		cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Resonance	205028	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108541	134030	1				
-Mage	Arcane	62	Reverberate	281482	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102462	126532	1				
-Mage	Arcane	62	Rondurmancy	449596	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94648	117251	1				
-Mage	Arcane	62	Savor the Moment	449412	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94650	117253	1				
-Mage	Arcane	62	Shifting Shards	444675	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Spellslinger	109669	135946	1				
-Mage	Arcane	62	Signature Spell	470021	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Spellslinger	94657	128267	1				
-Mage	Arcane	62	Slippery Slinging	444752	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Spellslinger	94659	117262	1				
-Mage	Arcane	62	Slipstream	236457	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102460	134025	1				
-Mage	Arcane	62	Spatial Manipulation	1244031	talent-passive	TraitNodeEntry	false	0	Rotational	class		62094	126060	1				
-Mage	Arcane	62	Spellfire Salvo	1260616	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	109673	135924	1				
-Mage	Arcane	62	Spellfire Spheres	448601	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94647	117250	1	Buff		cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Spellfrost Teachings	444986	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Spellslinger	94655	117258	1				
-Mage	Arcane	62	Splintering Orbs	444256	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Spellslinger	94661	117264	1				
-Mage	Arcane	62	Splintering Sorcery	443739	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Spellslinger	94664	117267	1				
-Mage	Arcane	62	Splinterstorm	443783	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Spellslinger	94654	117257	1				
-Mage	Arcane	62	Sunfury Execution	449349	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94650	123867	1				
-Mage	Arcane	62	Temporal Realignment	1244090	talent-passive	TraitNodeEntry	false	0	Rotational	class		108654	134182	1				
-Mage	Arcane	62	Time Manipulation	387807	talent-passive	TraitNodeEntry	false	0	Rotational	class		62129	80189	1				
-Mage	Arcane	62	Time Twist	1255166	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94649	135598	1				
-Mage	Arcane	62	Time Walk	1244087	talent-passive	TraitNodeEntry	false	0	Rotational	class		108654	134183	1				
-Mage	Arcane	62	Tome of Antonidas	382490	talent-passive	TraitNodeEntry	false	0	Rotational	class		62098	80155	1				
-Mage	Arcane	62	Tome of Rhonin	382493	talent-passive	TraitNodeEntry	false	0	Rotational	class		62127	80187	1				
-Mage	Arcane	62	Touch of the Archmage	1257942	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110420	137028	1	Buff		talent-passive:TraitNodeEntry;cdm-only:CooldownSetSpell	
-Mage	Arcane	62	Winter's Protection	382424	talent-passive	TraitNodeEntry	false	0	Rotational	class		62123	80182	2				
-Mage	Arcane	62	Arcane Soul	451038	cdm-only	CooldownSetSpell	true	0	Rotational						Other			
-Mage	Arcane	62	Clearcasting	79684	cdm-only	CooldownSetSpell	false	0	Rotational						Buff			
-Mage	Arcane	62	Hypothermia	41425	cdm-only	CooldownSetSpell	true	0	Rotational						Buff			
+class	spec	spec_id	name	spell_id	origin	source	castable	cooldown	band	tree	hero_tree	node_id	entry_id	max_ranks	blizz_category	seed_bucket	also_from	aliases	description_source	description
+Mage	Arcane	62	Mass Invisibility	414664	talent-active	TraitNodeEntry	true	300	Cooldown	class		62092	115878	1	Buff/Utility	Class 4 (Special)	cdm-only:CooldownSetSpell		api	You and your allies within 40 yards instantly become invisible for 12 sec. Taking any action will cancel the effect.\n\nDoes not affect allies in combat.
+Mage	Arcane	62	Greater Invisibility	110959	talent-active	TraitNodeEntry	true	120	Cooldown	class		93524	115877	1		Taunt/Quick Access			api	Makes you invisible and untargetable for 20 sec, removing all threat. Any action taken cancels this effect.
+Mage	Arcane	62	Mirror Image	55342	talent-active	TraitNodeEntry	true	120	Cooldown	class		62124	80183	1	Buff/Utility	Self-Heal 2	cdm-only:CooldownSetSpell		api	Creates 3 copies of you nearby for 15 sec, which cast spells and attack your enemies. While active, you generate significantly reduced threat.\n\nTaking direct damage will cause one of your images to dissipate
+Mage	Arcane	62	Arcane Surge	365350	talent-active	TraitNodeEntry	true	90	Cooldown	spec		102449	126519	1	Essential/Other	Cooldown 2	cdm-only:CooldownSetSpell		api	Expend all of your current mana to annihilate your enemy target and nearby enemies for up to 3,740 Arcane damage based on Mana spent. Deals reduced damage beyond 8 targets.\n\nFor the next 15 sec, your Mana regeneration is increased by 425% and spell damage is increased by 35%.\n\nGenerates Clearcasting.
+Mage	Arcane	62	Alter Time	342245	talent-active	TraitNodeEntry	true	60	Cooldown	class		62115	80174	1	Buff/Utility	Self-Heal 1	cdm-only:CooldownSetSpell		api	Alters the fabric of time, returning you to your current location and health when cast a second time, or after 10 sec. Effect negated by long distance or death.
+Mage	Arcane	62	Prismatic Barrier	235450	talent-active	TraitNodeEntry	true	30	Rotational	class		62121	80180	1	Buff/Utility	Personal Defensive 1	cdm-only:CooldownSetSpell		api	Shields you with an arcane force, absorbing 9,165 damage and reducing magic damage taken by 15% for 1 min.\n\nThe duration of harmful Magic effects against you is reduced by 25%.
+Mage	Arcane	62	Remove Curse	475	talent-active	TraitNodeEntry	true	8	Rotational	class		62116	80175	1	Utility	Class 6 (Dispel)	cdm-only:CooldownSetSpell		api	Removes all Curses from a friendly target.
+Mage	Arcane	62	Touch of the Magi	321507	talent-active	TraitNodeEntry	true	0.5	Rotational	spec		102468	126538	1	Buff/Essential	Cooldown 1	cdm-only:CooldownSetSpell		api	Applies Touch of the Magi to your current target, accumulating 20% of the damage you deal to the target for 12 sec, and then exploding for that amount of Arcane damage to the target and reduced damage to all nearby enemies.\n\nGenerates 4 Arcane Charges.
+Mage	Arcane	62	Arcane Missiles	5143	talent-active	TraitNodeEntry	true	0	Rotational	spec		102467	126537	1	Essential		cdm-only:CooldownSetSpell		api	Requires Clearcasting\nLaunches 5 waves of Arcane Missiles at the enemy over 2.2 sec, causing a total of 2,162 Arcane damage.
+Mage	Arcane	62	Arcane Orb	153626	talent-active	TraitNodeEntry	true	0	Rotational	spec		104113	128689	1	Essential		cdm-only:CooldownSetSpell		api	Launches an Arcane Orb forward from your position, traveling up to 40 yds, dealing 1,209 Arcane damage to enemies it passes through.\n\nGrants 1 Arcane Charge when cast and every time it deals damage.
+Mage	Arcane	62	Arcane Pulse	1241462	talent-active	TraitNodeEntry	true	0	Rotational	spec		102439	126509	1					api	A pulse of Arcane magic erupts from underneath your target, dealing 370 Arcane damage to all enemies within 2 yds. Damage reduced beyond 5 targets.\n\nEach Arcane Charge increases damage by 84%, radius by 2 yds, and mana cost by 100%.\n\nGenerates 1 Arcane Charge.
+Mage	Arcane	62	Ice Block	45438	talent-active	TraitNodeEntry	true	0	Rotational	class		62122	80181	1	Buff/Utility	Immune/Spell Immune/Movement	cdm-only:CooldownSetSpell		api	Encases you in a block of ice, protecting you from all attacks and damage for 10 sec, but during that time you cannot attack, move, or cast spells.\n\nCauses Hypothermia, preventing you from recasting Ice Block for 30 sec.
+Mage	Arcane	62	Spellsteal	30449	talent-active	TraitNodeEntry	true	0	Rotational	class		62084	80140	1		Class 5 (Purge)			api	Steals a beneficial magic effect from the target. This effect lasts a maximum of 2 min.
+Mage	Arcane	62	Mass Polymorph	383121	talent-choice	TraitNodeEntry	true	60	Cooldown	class		62088	134198	1	Buff/Utility	Class 1 (Movement)	cdm-only:CooldownSetSpell		api	Transforms all enemies within 10 yards into sheep, wandering around incapacitated for 15 sec. While affected, the victims cannot take actions but will regenerate health very quickly. Damage will cancel the effect.\n\nOnly works on Beasts, Humanoids and Critters.
+Mage	Arcane	62	Dragon's Breath	31661	talent-choice	TraitNodeEntry	true	45	Cooldown	class		101883	125819	1	Buff/Utility		cdm-only:CooldownSetSpell		api	Enemies in a 12 yd cone in front of you take 274 Fire damage and are disoriented for 4 sec. Damage will cancel the effect.
+Mage	Arcane	62	Presence of Mind	205025	talent-choice	TraitNodeEntry	true	45	Cooldown	spec		102460	126530	1	Buff/Essential		cdm-only:CooldownSetSpell		api	Causes your next 2 Arcane Blasts to be instant cast.
+Mage	Arcane	62	Ring of Frost	113724	talent-choice	TraitNodeEntry	true	45	Cooldown	class		62088	80144	1	Buff/Utility		cdm-only:CooldownSetSpell		api	Summons a Ring of Frost for 10 sec at the target location. Enemies entering the ring are incapacitated for 10 sec. Limit 10 targets.\n\nWhen the incapacitate expires, enemies are slowed by 65% for 4 sec.
+Mage	Arcane	62	Supernova	157980	talent-choice	TraitNodeEntry	true	45	Cooldown	class		101883	125818	1	Utility	CC 2	cdm-only:CooldownSetSpell		api	Pulses arcane energy around the target enemy or ally, dealing 173 Arcane damage to all enemies within 8 yds, and knocking them upward. A primary enemy target will take 100% increased damage.
+Mage	Arcane	62	Ice Nova	157997	talent-choice	TraitNodeEntry	true	25	Rotational	class		62087	134199	1	Buff		cdm-only:CooldownSetSpell		api	Causes a whirl of icy wind around the enemy, dealing 562 Frost damage to the target and all other enemies within 8 yds, freezing them in place for 2 sec. Damage reduced beyond 8 targets.
+Mage	Arcane	62	Shimmer	212653	talent-choice	TraitNodeEntry	true	0.5	Rotational	class		62105	80163	1					api	Teleports you 20 yds forward, unless something is in the way. Unaffected by the global cooldown and castable while casting.
+Mage	Arcane	62	Evocation	12051	talent-choice	TraitNodeEntry	true	0	Rotational	spec		102454	126524	1	Buff/Essential		cdm-only:CooldownSetSpell		api	Increases your mana regeneration by 1,500% for 2.7 sec.
+Mage	Arcane	62	Illusion	131784	class-baseline	SkillLineAbility:904	true	600	Cooldown										api	Transforms the Mage to look like another player for 2 min.
+Mage	Arcane	62	Invisibility	66	class-baseline	SkillLineAbility:904	true	300	Cooldown						Buff/Utility		cdm-only:CooldownSetSpell		api	Turns you invisible over 3 sec, reducing threat each second. While invisible, you are untargetable by enemies. Lasts 20 sec. Taking any action cancels the effect.
+Mage	Arcane	62	Time Warp	80353	class-baseline	SkillLineAbility:904	true	300	Cooldown						Utility	Class 8 (Lust/BRes)	cdm-only:CooldownSetSpell		api	Warp the flow of time, increasing haste by 30% for all party and raid members for 40 sec.\n\nAllies will be unable to benefit from Bloodlust, Heroism, or Time Warp again for 10 min.
+Mage	Arcane	62	Ancient Portal: Dalaran	120146	class-baseline	SkillLineAbility:904	true	60	Cooldown										api	Creates a portal, teleporting group members that use it to Dalaran.
+Mage	Arcane	62	Mark of Aluneth	210726	class-baseline	SkillLineAbility:904	true	60	Cooldown										api	Creates a runic prison at the target's location, slowing enemy movement speed by 70%, inflicting 912 Arcane damage over 6 sec, and then detonating for Arcane damage equal to 15% of your maximum mana.
+Mage	Arcane	62	Portal: Boralus	281400	class-baseline	SkillLineAbility:904	true	60	Cooldown										api	Creates a portal, teleporting group members that use it to Boralus.
+Mage	Arcane	62	Portal: Dalaran - Broken Isles	224871	class-baseline	SkillLineAbility:904	true	60	Cooldown										api	Creates a portal, teleporting group members that use it to Dalaran in the Broken Isles.
+Mage	Arcane	62	Portal: Dalaran - Northrend	53142	class-baseline	SkillLineAbility:904	true	60	Cooldown										api	Creates a portal, teleporting group members that use it to Dalaran.
+Mage	Arcane	62	Portal: Darnassus	11419	class-baseline	SkillLineAbility:904	true	60	Cooldown										api	Creates a portal, teleporting group members that use it to Darnassus.
+Mage	Arcane	62	Portal: Dazar'alor	281402	class-baseline	SkillLineAbility:904	true	60	Cooldown										api	Creates a portal, teleporting group members that use it to Dazar'alor.
+Mage	Arcane	62	Portal: Dornogal	446534	class-baseline	SkillLineAbility:904	true	60	Cooldown										api	Creates a portal, teleporting group members that use it to Dornogal.
+Mage	Arcane	62	Portal: Exodar	32266	class-baseline	SkillLineAbility:904	true	60	Cooldown										api	Creates a portal, teleporting group members that use it to Exodar.
+Mage	Arcane	62	Portal: Ironforge	11416	class-baseline	SkillLineAbility:904	true	60	Cooldown										api	Creates a portal, teleporting group members that use it to Ironforge.
+Mage	Arcane	62	Portal: Orgrimmar	11417	class-baseline	SkillLineAbility:904	true	60	Cooldown										api	Creates a portal, teleporting group members that use it to Orgrimmar.
+Mage	Arcane	62	Portal: Oribos	344597	class-baseline	SkillLineAbility:904	true	60	Cooldown										api	Creates a portal, teleporting group members that use it to Oribos.
+Mage	Arcane	62	Portal: Shattrath	33691	class-baseline	SkillLineAbility:904	true	60	Cooldown										api	Creates a portal, teleporting group members that use it to Shattrath.
+Mage	Arcane	62	Portal: Silvermoon (Burning Crusade)	32267	class-baseline	SkillLineAbility:904	true	60	Cooldown										api	Creates a portal, teleporting group members that use it to Silvermoon.
+Mage	Arcane	62	Portal: Silvermoon City	1259194	class-baseline	SkillLineAbility:904	true	60	Cooldown										api	Creates a portal, teleporting group members that use it to Silvermoon City.
+Mage	Arcane	62	Portal: Stonard	49361	class-baseline	SkillLineAbility:904	true	60	Cooldown										api	Creates a portal, teleporting group members that use it to Stonard.
+Mage	Arcane	62	Portal: Stormshield	176246	class-baseline	SkillLineAbility:904	true	60	Cooldown										api	Creates a portal, teleporting group members that use it to Stormshield.
+Mage	Arcane	62	Portal: Stormwind	10059	class-baseline	SkillLineAbility:904	true	60	Cooldown										api	Creates a portal, teleporting group members that use it to Stormwind.
+Mage	Arcane	62	Portal: Theramore	49360	class-baseline	SkillLineAbility:904	true	60	Cooldown										api	Creates a portal, teleporting group members that use it to Theramore.
+Mage	Arcane	62	Portal: Thunder Bluff	11420	class-baseline	SkillLineAbility:904	true	60	Cooldown										api	Creates a portal, teleporting group members that use it to Thunder Bluff.
+Mage	Arcane	62	Portal: Tol Barad	88345	class-baseline	SkillLineAbility:904	true	60	Cooldown										api	Creates a portal, teleporting group members that use it to Tol Barad.
+Mage	Arcane	62	Portal: Undercity	11418	class-baseline	SkillLineAbility:904	true	60	Cooldown										api	Creates a portal, teleporting group members that use it to Undercity.
+Mage	Arcane	62	Portal: Valdrakken	395289	class-baseline	SkillLineAbility:904	true	60	Cooldown										api	Creates a portal, teleporting group members that use it to Valdrakken.
+Mage	Arcane	62	Portal: Vale of Eternal Blossoms	132626	class-baseline	SkillLineAbility:904	true	60	Cooldown										api	Creates a portal, teleporting group members that use it to Vale of Eternal Blossoms.
+Mage	Arcane	62	Portal: Warspear	176244	class-baseline	SkillLineAbility:904	true	60	Cooldown										api	Creates a portal, teleporting group members that use it to Warspear.
+Mage	Arcane	62	Teleport: Hall of the Guardian	193759	class-baseline	SkillLineAbility:904	true	60	Cooldown										api	Teleports you to the Hall of the Guardian.
+Mage	Arcane	62	Ebonbolt	214634	class-baseline	SkillLineAbility:904	true	45	Cooldown										api	Deals 1,222 Shadowfrost damage and causes Brain Freeze.
+Mage	Arcane	62	Cone of Cold	120	class-baseline	SkillLineAbility:904	true	25	Rotational						Utility	Class 2 (CC)	cdm-only:CooldownSetSpell		api	Targets in a cone in front of you take 174 Frost damage and have movement slowed by 50% for 8 sec.
+Mage	Arcane	62	Counterspell	2139	class-baseline	SkillLineAbility:904	true	25	Rotational						Utility	Interrupt	cdm-only:CooldownSetSpell		api	Counters the enemy's spellcast, preventing any spell from that school of magic from being cast for 7 sec.
+Mage	Arcane	62	Conjure Refreshment	190336	class-baseline	SkillLineAbility:904	true	15	Rotational										api	Conjures mana food for you and your allies. Conjured items disappear if logged out for more than 15 minutes.
+Mage	Arcane	62	Blink	1953	class-baseline	SkillLineAbility:904	true	0.5	Rotational						Utility	Movement Ability	cdm-only:CooldownSetSpell		api	Teleports you forward 20 yds or until reaching an obstacle, and frees you from all stuns and bonds.
+Mage	Arcane	62	Fire Blast	319836	class-baseline	SkillLineAbility:904	true	0.5	Rotational										api	Blasts the enemy for 340 Fire damage.
+Mage	Arcane	62	Ancient Teleport: Dalaran	120145	class-baseline	SkillLineAbility:904	true	0	Rotational										api	Teleports you to Dalaran.
+Mage	Arcane	62	Arcane Barrage	44425	class-baseline	SpecializationSpells	true	0	Rotational						Essential	Rotational 2	cdm-only:CooldownSetSpell		api	Launches bolts of arcane energy at the enemy target, causing 361 Arcane damage. \n\nFor each Arcane Charge, deals 107% additional damage.\n\nConsumes all Arcane Charges.
+Mage	Arcane	62	Arcane Blast	30451	class-baseline	SpecializationSpells	true	0	Rotational							Rotational 1			api	Blasts the target with energy, dealing 504 Arcane damage.\n\nEach Arcane Charge increases damage by 84% and mana cost by 100%, and reduces cast time by 8%.\n\nGenerates 1 Arcane Charge.
+Mage	Arcane	62	Arcane Explosion	1449	class-baseline	SkillLineAbility:904	true	0	Rotational						Essential		cdm-only:CooldownSetSpell		api	Causes an explosion of magic around the caster, dealing 250 Arcane damage to all enemies within 10 yards.\n\nGenerates 1 Arcane Charge if any targets are hit.
+Mage	Arcane	62	Arcane Intellect	1459	class-baseline	SkillLineAbility:904	true	0	Rotational							Res			api	Infuses the target with brilliance, increasing their Intellect by 3% for 1 hour.  \n\nIf the target is in your party or raid, all party and raid members will be affected.
+Mage	Arcane	62	Frost Nova	122	class-baseline	SkillLineAbility:904	true	0	Rotational						Buff/Utility	CC	cdm-only:CooldownSetSpell		api	Blasts enemies within 12 yds of you for 20 Frost damage and freezes them in place for 6 sec. Damage may interrupt the freeze effect.
+Mage	Arcane	62	Frostbolt	116	class-baseline	SkillLineAbility:904	true	0	Rotational										api	Launches a bolt of frost at the enemy, causing 1,008 Frost damage and slowing movement speed by 50% for 8 sec.
+Mage	Arcane	62	Phoenix's Flames	194466	class-baseline	SkillLineAbility:904	true	0	Rotational										api	Hurls a Phoenix that causes 369 Fire damage to the target and splashes 123 Fire damage to other nearby enemies. This damage is always a critical strike.
+Mage	Arcane	62	Polymorph	118	class-baseline	SkillLineAbility:904	true	0	Rotational						Buff	Class 3 (Tag)	cdm-only:CooldownSetSpell		api	Transforms the enemy into a sheep, wandering around incapacitated for 1 min. While affected, the victim cannot take actions but will regenerate health very quickly. Damage may cancel the effect. Limit 1.\n\nOnly works on Beasts, Humanoids and Critters.
+Mage	Arcane	62	Portal	343140	class-baseline	SkillLineAbility:904	true	0	Rotational										api	Creates a portal, teleporting group members that use it to a Major City.
+Mage	Arcane	62	Single-Button Assistant	1229376	class-baseline	SpecializationSpells	true	0	Rotational										api	Casts damaging abilities for use in combat, rotating through them based on priority.\n\nThe global cooldown of abilities used through the Single-Button Assistant is 25% longer.
+Mage	Arcane	62	Slow Fall	130	class-baseline	SkillLineAbility:904	true	0	Rotational						Buff	Class 7 (Raid Defensive)	cdm-only:CooldownSetSpell		api	Slows a group member's falling speed for 30 sec.
+Mage	Arcane	62	Teleport	343127	class-baseline	SkillLineAbility:904	true	0	Rotational										api	Teleports you to a major city.
+Mage	Arcane	62	Teleport: Boralus	281403	class-baseline	SkillLineAbility:904	true	0	Rotational										api	Teleports you to Boralus.
+Mage	Arcane	62	Teleport: Dalaran - Broken Isles	224869	class-baseline	SkillLineAbility:904	true	0	Rotational										api	Teleports you to Dalaran in the Broken Isles.
+Mage	Arcane	62	Teleport: Dalaran - Northrend	53140	class-baseline	SkillLineAbility:904	true	0	Rotational										api	Teleports you to Dalaran in Northrend.
+Mage	Arcane	62	Teleport: Darnassus	3565	class-baseline	SkillLineAbility:904	true	0	Rotational										api	Teleports you to Darnassus.
+Mage	Arcane	62	Teleport: Dazar'alor	281404	class-baseline	SkillLineAbility:904	true	0	Rotational										api	Teleports you to Dazar'alor.
+Mage	Arcane	62	Teleport: Dornogal	446540	class-baseline	SkillLineAbility:904	true	0	Rotational										api	Teleports you to Dornogal.
+Mage	Arcane	62	Teleport: Exodar	32271	class-baseline	SkillLineAbility:904	true	0	Rotational										api	Teleports you to Exodar.
+Mage	Arcane	62	Teleport: Ironforge	3562	class-baseline	SkillLineAbility:904	true	0	Rotational										api	Teleports you to Ironforge.
+Mage	Arcane	62	Teleport: Orgrimmar	3567	class-baseline	SkillLineAbility:904	true	0	Rotational										api	Teleports you to Orgrimmar.
+Mage	Arcane	62	Teleport: Oribos	344587	class-baseline	SkillLineAbility:904	true	0	Rotational										api	Teleports you to Oribos.
+Mage	Arcane	62	Teleport: Shattrath	33690	class-baseline	SkillLineAbility:904	true	0	Rotational										api	Teleports you to Shattrath.
+Mage	Arcane	62	Teleport: Silvermoon (Burning Crusade)	32272	class-baseline	SkillLineAbility:904	true	0	Rotational										api	Teleports you to Silvermoon.
+Mage	Arcane	62	Teleport: Silvermoon City	1259190	class-baseline	SkillLineAbility:904	true	0	Rotational										api	Teleports you to Silvermoon.
+Mage	Arcane	62	Teleport: Stonard	49358	class-baseline	SkillLineAbility:904	true	0	Rotational										api	Teleports you to Stonard.
+Mage	Arcane	62	Teleport: Stormshield	176248	class-baseline	SkillLineAbility:904	true	0	Rotational										api	Teleports you to Stormshield.
+Mage	Arcane	62	Teleport: Stormwind	3561	class-baseline	SkillLineAbility:904	true	0	Rotational										api	Teleports you to Stormwind.
+Mage	Arcane	62	Teleport: Theramore	49359	class-baseline	SkillLineAbility:904	true	0	Rotational										api	Teleports you to Theramore.
+Mage	Arcane	62	Teleport: Thunder Bluff	3566	class-baseline	SkillLineAbility:904	true	0	Rotational										api	Teleports you to Thunder Bluff.
+Mage	Arcane	62	Teleport: Tol Barad	88342	class-baseline	SkillLineAbility:904	true	0	Rotational										api	Teleports you to Tol Barad.
+Mage	Arcane	62	Teleport: Undercity	3563	class-baseline	SkillLineAbility:904	true	0	Rotational										api	Teleports you to Undercity.
+Mage	Arcane	62	Teleport: Valdrakken	395277	class-baseline	SkillLineAbility:904	true	0	Rotational										api	Teleports you to Valdrakken.
+Mage	Arcane	62	Teleport: Vale of Eternal Blossoms	132621	class-baseline	SkillLineAbility:904	true	0	Rotational										api	Teleports you to Vale of Eternal Blossoms.
+Mage	Arcane	62	Teleport: Warspear	176242	class-baseline	SkillLineAbility:904	true	0	Rotational										api	Teleports you to Warspear.
+Mage	Arcane	62	Ice Wall	352278	pvp-talent	PvpTalent	true	90	Cooldown						Utility		cdm-only:CooldownSetSpell		api	Conjures an Ice Wall 30 yards long that obstructs line of sight. The wall has 30% of your maximum health and lasts up to 15 sec.
+Mage	Arcane	62	Arcanosphere	353128	pvp-talent	PvpTalent	true	45	Cooldown						Essential		cdm-only:CooldownSetSpell		api	Builds a sphere of Arcane energy, gaining power over 4 sec. Upon release, the sphere passes through any barriers, knocking enemies back and dealing up to 14,893 Arcane damage.
+Mage	Arcane	62	Ring of Fire	353082	pvp-talent	PvpTalent	true	45	Cooldown						Buff		cdm-only:CooldownSetSpell		api	Summons a Ring of Fire for 8 sec at the target location. Enemies entering the ring are disoriented and burn for 3% of their total health over 3 sec.
+Mage	Arcane	62	Kleptomania	198100	pvp-talent	PvpTalent	true	20	Rotational						Utility		cdm-only:CooldownSetSpell		api	Unleash a flurry of disruptive magic onto your target, stealing a beneficial magic effect every 0.4 sec for 3.6 sec.\n\nCastable while moving, but movement speed is reduced by 40% while channeling.
+Mage	Arcane	62	Chrono Shift	235711	pvp-talent	PvpTalent	false	0	Rotational						Buff		cdm-only:CooldownSetSpell		api	Arcane Barrage slows enemies by 50% and increases your movement speed by 10% for 5 sec.
+Mage	Arcane	62	Ethereal Blink	410939	pvp-talent	PvpTalent	false	0	Rotational						Buff		cdm-only:CooldownSetSpell		api	Blink and Shimmer apply Slow at 100% effectiveness to all enemies you Blink through. For each enemy you Blink through, the cooldown of Blink and Shimmer are reduced by 1 sec, up to 5 sec.
+Mage	Arcane	62	Improved Mass Invisibility	415945	pvp-talent	PvpTalent	false	0	Rotational										api	The cooldown of Mass Invisibility is reduced by 4 min and can affect allies in combat.
+Mage	Arcane	62	Master Shepherd	410248	pvp-talent	PvpTalent	false	0	Rotational										api	While an enemy player is affected by your Polymorph or Mass Polymorph, your movement speed is increased by 25% and your Versatility is increased by 12%. \n\nAdditionally, Polymorph and Mass Polymorph no longer heal enemies.
+Mage	Arcane	62	Overpowered Barrier	1220739	pvp-talent	PvpTalent	false	0	Rotational										api	Your barriers absorb 100% more damage and have an additional effect, but last 4 sec.\n\n Prismatic Barrier\nIf the barrier is fully absorbed, your next Blink or Shimmer within 15 sec grants Invisibility and immunity to damage for 3 sec. The damage reduction is lost if Invisibility ends.
+Mage	Arcane	62	Aegwynn's Technique	1243507	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102465	134020	1					api	Casting Touch of the Magi grants Clearcasting.
+Mage	Arcane	62	Aether Attunement	1243307	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108535	134023	2					api	Arcane Missiles now damages 2 additional targets at 50% effectiveness.
+Mage	Arcane	62	Amplification	236628	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102473	126543	1					api	Arcane Missiles fires 2 additional missiles.
+Mage	Arcane	62	Arcane Echo	342231	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102465	135699	1					api	Direct damage you deal to enemies affected by Touch of the Magi, causes an explosion that deals 40 Arcane damage to all nearby enemies. Deals reduced damage beyond 8 targets.
+Mage	Arcane	62	Arcane Familiar	205022	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102469	126539	1					api	Casting Arcane Intellect summons a Familiar that attacks your enemies and increases your maximum mana by 10% for 1 hour.
+Mage	Arcane	62	Arcane Salvo	384452	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108539	134028	1	Buff		cdm-only:CooldownSetSpell		api	Each wave of Arcane Missiles increases the damage of Arcane Barrage by 3%, up to 60%.
+Mage	Arcane	62	Arcane Singularity	1244001	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108537	134026	2					api	Arcane Salvo damage bonus increased by 2%.\n\n Arcane Salvo:\nIncreases the damage of your next Arcane Barrage by 3%.
+Mage	Arcane	62	Arcane Tempo	383980	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110442	137084	1					api	Your Haste is increased by 2%.
+Mage	Arcane	62	Arcane Warding	383092	talent-passive	TraitNodeEntry	false	0	Rotational	class		62114	80173	2					api	Reduces magic damage taken by 4%.
+Mage	Arcane	62	Archmage's Wrath	444968	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Spellslinger	94658	117261	1					api	Arcane Surge damage increased by 30%.\n\nYour chance to gain Clearcasting is increased by 3%.
+Mage	Arcane	62	Arcing Cleave	231564	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102471	126541	1					api	For each Arcane Charge, Arcane Barrage hits 1 additional nearby target for 40% damage.
+Mage	Arcane	62	Ashes of Inspiration	1260272	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94643	117246	1					api	When your Arcane Phoenix expires, it grants you Lesser Time Warp for 6 sec.\n\n Lesser Time Warp\nWarp the flow of time, increasing your haste by 15%.
+Mage	Arcane	62	Attuned Familiar	1261106	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Spellslinger	109669	135920	1					api	Your Arcane Familiar has a 50% chance to conjure a Splinter alongside its Arcane Assault.
+Mage	Arcane	62	Augury Abounds	1280165	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Spellslinger	94662	117265	1					api	Conjuring one or more Arcane Splinters has a 10% chance to conjure a burst of 8 Arcane Splinters.
+Mage	Arcane	62	Barrier Diffusion	455428	talent-passive	TraitNodeEntry	false	0	Rotational	class		62091	80147	1					api	When your Barrier is removed, reduce its cooldown by 5 sec.
+Mage	Arcane	62	Brainstorm	461261	talent-passive	TraitNodeEntry	false	0	Rotational	class		110081	136579	1	Buff		cdm-only:CooldownSetSpell		api	Gaining Clearcasting increases your Intellect by 1% for 8 sec. Multiple instances may overlap.
+Mage	Arcane	62	Burden of Power	451035	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94644	117247	1					api	Arcane Blast damage increased by 30%.\n\nArcane Pulse damage increased by 20%.
+Mage	Arcane	62	Captured Thoughts	1270872	talent-passive	TraitNodeEntry	false	0	Rotational	class		62125	134184	1					api	The duration of Clearcasting is increased by 10 sec.
+Mage	Arcane	62	Charged Missiles	461251	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102472	134022	1					api	Each wave of Arcane Missiles will consume an Arcane Charge to increase its damage by 40%.
+Mage	Arcane	62	Charged Orb	384651	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102475	126545	1					api	Arcane Orb gains 1 additional charge. Arcane Orb damage increased by 15%.
+Mage	Arcane	62	Charm of Aegwynn	1244105	talent-passive	TraitNodeEntry	false	0	Rotational	class		108658	134188	1					api	The critical strike damage of your spells is increased by 5%.
+Mage	Arcane	62	Charm of Medivh	1244107	talent-passive	TraitNodeEntry	false	0	Rotational	class		108657	134187	1					api	Your Mastery is increased by 3%.
+Mage	Arcane	62	Codex of the Sunstriders	449382	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94645	117248	1					api	When your Arcane Phoenix is summoned, it consumes all your Spellfire Spheres.\n\nEach Sphere consumed increases your spell damage during Arcane Surge by 1% and causes your Arcane Phoenix to cast an exceptional Arcane or Fire spell over its duration.
+Mage	Arcane	62	Concentrated Power	414379	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108538	134027	1					api	Arcane Missiles channels 20% faster.
+Mage	Arcane	62	Consortium's Bauble	461260	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108536	134024	1					api	Reduces Arcane Blast's mana cost by 5% and increases its damage by 8%.
+Mage	Arcane	62	Controlled Instincts	444483	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Spellslinger	94656	117259	1					api	40% of the direct damage dealt by an Arcane Splinter is also dealt to nearby enemies. Damage reduced beyond 5 targets.
+Mage	Arcane	62	Energized Barriers	386828	talent-passive	TraitNodeEntry	false	0	Rotational	class		62100	80157	1					api	Casting your barrier removes all snare effects.
+Mage	Arcane	62	Energized Familiar	452997	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102441	126511	1					api	During Arcane Surge, your Familiar fires 4 bolts instead of 1.\n\nDamage from your Arcane Familiar has a 6% chance to grant you up to 2% of your maximum mana.
+Mage	Arcane	62	Enlightened	321387	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102470	126540	1					api	Arcane damage dealt is increased based on your current mana, up to 6% at full mana.\n\nMana Regen is increased based on your current mana, up to 20% when out of mana.
+Mage	Arcane	62	Eureka	452198	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108665	134196	1					api	When a spell consumes Clearcasting, its damage is increased by 20%.
+Mage	Arcane	62	Expanded Mind	1243557	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109002	134834	1					api	Casting Arcane Blast or Arcane Pulse grants 2 stacks of Arcane Salvo.\n\nCasting Arcane Orb grants 2 stacks of Arcane Salvo.
+Mage	Arcane	62	Explosive Potential	1246030	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94651	134249	1	Buff		cdm-only:CooldownSetSpell		api	After casting Arcane Surge, your next Blink will cause a Blast Wave at your previous location, dealing 224 Fire damage, knocking enemies back 8 yds, and slowing them by 70% for 6 sec.
+Mage	Arcane	62	Flow of Time	382268	talent-passive	TraitNodeEntry	false	0	Rotational	class		62096	80153	1					api	The cooldowns of Blink and Shimmer are reduced by 3 sec.
+Mage	Arcane	62	Focusing Crystal	461257	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102451	126521	1					api	Each wave of Arcane Missiles has a 50% chance to grant 1 additional stack of Arcane Salvo.
+Mage	Arcane	62	Force of Will	444719	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Spellslinger	94663	117266	1					api	Casting Arcane Barrage conjures an Arcane Splinter for every 5 Arcane Salvo stacks consumed.
+Mage	Arcane	62	Freezing Cold	386763	talent-passive	TraitNodeEntry	false	0	Rotational	class		62087	80143	1	Buff		cdm-only:CooldownSetSpell		api	Enemies hit by Cone of Cold are frozen in place for 5 sec instead of snared.\n\nWhen your roots expire or are dispelled, your target is snared by 80%, decaying over 3 sec.
+Mage	Arcane	62	Frost Conditioning	1250315	talent-passive	TraitNodeEntry	false	0	Rotational	class		62107	80165	1					api	Hypothermia's duration is reduced by 10 sec.
+Mage	Arcane	62	Glorious Incandescence	449394	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	109675	135926	1	Buff		cdm-only:CooldownSetSpell		api	Arcane Barrage summons 1 Meteorite for every 6 Arcane Salvo stacks consumed.\n\n Meteorite\nCalls down a meteorite which lands at the target location after 3 sec, dealing 417 Fire damage to all enemies hit, reduced beyond 8 targets.
+Mage	Arcane	62	High Voltage	461248	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102472	126542	1					api	Each wave of Arcane Missiles has a 50% chance to grant you 1 Arcane Charge.\n\nArcane Missiles damage increased by 20%.
+Mage	Arcane	62	Ice Cold	414659	talent-passive	TraitNodeEntry	false	0	Rotational	class		62085	80141	1					api	Ice Block now reduces all damage taken by 70% for 6 sec but no longer grants Immunity, prevents movement, attacks, or casting spells. Does not incur the Global Cooldown.
+Mage	Arcane	62	Ice Ward	205036	talent-passive	TraitNodeEntry	false	0	Rotational	class		62110	136466	1					api	Frost Nova now has 2 charges.
+Mage	Arcane	62	Illuminated Thoughts	384060	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108551	134047	1					api	Clearcasting has a 3% increased chance to proc.
+Mage	Arcane	62	Impetus	383676	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102453	126523	1					api	Arcane Blast and Arcane Pulse generate an additional Arcane Charge.
+Mage	Arcane	62	Improved Blink	1244340	talent-passive	TraitNodeEntry	false	0	Rotational	class		62105	134197	1					api	Blink's cooldown is reduced by 2 sec.
+Mage	Arcane	62	Improved Clearcasting	321420	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102445	126515	1					api	Clearcasting can stack up to 2 additional times.
+Mage	Arcane	62	Improved Conjuration	1244025	talent-passive	TraitNodeEntry	false	0	Rotational	class		108662	134192	2					api	Mirror Image's cooldown is reduced by 30 sec.
+Mage	Arcane	62	Improved Counterspell	1270865	talent-passive	TraitNodeEntry	false	0	Rotational	class		110079	136577	1					api	Counterspell prevents casting for an additional 1.0 sec.
+Mage	Arcane	62	Improved Frost Nova	343183	talent-passive	TraitNodeEntry	false	0	Rotational	class		62110	80168	1					api	Frost Nova duration is increased by 2 sec.
+Mage	Arcane	62	Improved Prismatic Barrier	321745	talent-passive	TraitNodeEntry	false	0	Rotational	class		108664	134194	1					api	Prismatic Barrier further reduces magical damage taken by an additional 10% and duration of harmful Magic effects by 15%.
+Mage	Arcane	62	Improved Remove Curse	1270847	talent-passive	TraitNodeEntry	false	0	Rotational	class		110078	136576	1					api	Casting Remove Curse on a friendly target also casts it on yourself, but its cooldown is increased by 20 sec.
+Mage	Arcane	62	Improved Spellsteal	1270827	talent-passive	TraitNodeEntry	false	0	Rotational	class		110082	136581	1	Buff		cdm-only:CooldownSetSpell		api	Spellsteal repeats its effect after 4 sec, but it now has a cooldown of 4.0 sec.
+Mage	Arcane	62	Incantation of Swiftness	382293	talent-passive	TraitNodeEntry	false	0	Rotational	class		62112	80170	2	Buff		cdm-only:CooldownSetSpell		api	Invisibility increases your movement speed by 20% for 6 sec.
+Mage	Arcane	62	Infused Splinters	1261080	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Spellslinger	109668	135919	1					api	Direct damage from Arcane Splinters have a 25% chance to grant 1 stack Arcane Salvo.\n\n Arcane Salvo\nIncreases the damage of your next Arcane Barrage by 3%.
+Mage	Arcane	62	Inspired Intellect	458437	talent-passive	TraitNodeEntry	false	0	Rotational	class		108660	134190	1					api	Arcane Intellect grants you an additional 2% Intellect.
+Mage	Arcane	62	Intuition	1223798	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102446	126516	1	Buff		cdm-only:CooldownSetSpell		api	Upon reaching maximum stacks of Arcane Salvo, your next Arcane Barrage deals 25% increased damage.
+Mage	Arcane	62	Invocation: Arcane Phoenix	448658	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94652	117255	1					api	When you cast Arcane Surge, summon an Arcane Phoenix to aid you in battle.\n\n  Arcane Phoenix\nYour Arcane Phoenix aids you for the duration of your Arcane Surge, casting random Arcane and Fire spells.
+Mage	Arcane	62	Lessons in Debilitation	449627	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94651	117254	1					api	Your Arcane Phoenix has picked up a few tricks, and will Spellsteal when it is summoned and when it expires.
+Mage	Arcane	62	Look Again	444756	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Spellslinger	94659	123418	1					api	While in combat, Blink summons a Mirror Image at your previous location.
+Mage	Arcane	62	Mana Adept	321526	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102454	136465	1					api	Arcane Barrage grants you 2.0% of your maximum mana per Arcane Charge spent.
+Mage	Arcane	62	Mana Bomb	457521	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102440	126510	1					api	Arcane Surge's damage is increased by an additional 50% based on your mana spent.
+Mage	Arcane	62	Mana Cascade	449293	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94653	117256	1	Buff		cdm-only:CooldownSetSpell		api	Casting Arcane Blast or Arcane Barrage grants you 0.5% Haste for 10 sec. Stacks up to 10 times. Multiple instances may overlap.
+Mage	Arcane	62	Mana Confluence	1270845	talent-passive	TraitNodeEntry	false	0	Rotational	class		110080	136578	1					api	Your mana costs are reduced by 5%.
+Mage	Arcane	62	Master of Escape	210476	talent-passive	TraitNodeEntry	false	0	Rotational	class		108659	134189	1					api	Reduces the cooldown of Invisibility by 60 sec.
+Mage	Arcane	62	Master of Time	342249	talent-passive	TraitNodeEntry	false	0	Rotational	class		62102	80159	2					api	Reduces the cooldown of Alter Time by 5 sec.
+Mage	Arcane	62	Memory of Al'ar	449619	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94646	117249	1					api	During Arcane Surge, you gain twice as many stacks of Mana Cascade.\n\nWhen your Arcane Phoenix expires, it empowers you, granting Arcane Soul for 4.0 sec.\n\nArcane Soul:\nArcane Barrage grants Clearcasting and generates 4 Arcane Charges.\n\nEach cast of Arcane Barrage grants 5 stacks of Arcane Salvo and casting Arcane Barrage does not consume Arcane Salvo.
+Mage	Arcane	62	Merely a Setback	449330	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94649	117252	1	Buff		cdm-only:CooldownSetSpell		api	The bonuses provided by your Barrier spells persist an additional 8 sec after your Barrier is removed.
+Mage	Arcane	62	Orb Barrage	384858	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102474	126544	1					api	Arcane Barrage has a 4% chance per stack of Arcane Salvo to launch an Arcane Orb in front of you at 100% effectiveness.
+Mage	Arcane	62	Orb Mastery	1243435	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102438	126508	1					api	Casting Arcane Orb while you have Clearcasting causes you to fire 2 additional Arcane Orbs at 100% effectiveness.\n\nCasting Arcane Orb now consumes Clearcasting.
+Mage	Arcane	62	Overflowing Energy	390218	talent-passive	TraitNodeEntry	false	0	Rotational	class		108661	134191	1	Buff		cdm-only:CooldownSetSpell		api	Each time your Arcane Barrage fails to critically strike, it gains 10% increased critical strike chance.\n\nCritical strike bonus is removed when the affected spell critically strikes.
+Mage	Arcane	62	Overflowing Insight	1243542	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102476	126546	1					api	The damage of Arcane Blast and Arcane Pulse are increased by 15%, but their mana costs are increased by 25%.
+Mage	Arcane	62	Overpowered Missiles	1244329	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109478	135698	1	Buff		cdm-only:CooldownSetSpell		api	Gaining Clearcasting has a 25% chance to cause your next Arcane Missiles to be Overpowered, causing it to deal 100% increased damage, generate maximum stacks of Arcane Salvo, and strike 3 additional targets at 50% effectiveness.
+Mage	Arcane	62	Permafrost Bauble	1265517	talent-passive	TraitNodeEntry	false	0	Rotational	class		62086	80142	1					api	The cooldown of Ice Block and Ice Cold are reduced by 30 sec.
+Mage	Arcane	62	Phantasmal Image	444784	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Spellslinger	94660	123417	1					api	Your Mirror Image summons 1 extra clone.
+Mage	Arcane	62	Polished Focus	1261082	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Spellslinger	109667	135918	1					api	Casting Arcane Barrage while at 20 or more Arcane Salvo stacks refunds 5 Arcane Salvo stacks.\n\nArcane Barrage damage increased by 15%.
+Mage	Arcane	62	Prodigious Savant	384612	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102480	126550	2					api	Arcane Charges increase the damage of Arcane Blast, Arcane Pulse, and Arcane Barrage by an additional 10%.
+Mage	Arcane	62	Pyrocosm	1260673	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	109674	135925	1					api	Each wave of Arcane Missiles has a 10% chance to summon a Meteorite.\n\nWhen a Meteorite lands, you have a 5% chance to gain Clearcasting.
+Mage	Arcane	62	Quick Witted	382297	talent-passive	TraitNodeEntry	false	0	Rotational	class		62104	80161	1					api	Counterspell's cooldown is reduced by 5 sec.
+Mage	Arcane	62	Reactive Barrier	444827	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Spellslinger	94660	117263	1					api	Your Prismatic Barrier can absorb up to 25% more damage based on your missing Health.\n\nMax effectiveness when under 25% health.
+Mage	Arcane	62	Reflection	1270829	talent-passive	TraitNodeEntry	false	0	Rotational	class		62094	136580	1	Buff		cdm-only:CooldownSetSpell		api	After casting Blink, it is replaced with Reflection for 8 sec.\n\n Reflection\nTeleports you back to where you last Blinked. Castable while casting and unaffected by the global cooldown.
+Mage	Arcane	62	Resonance	205028	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108541	134030	1					api	Arcane Barrage deals 8% increased damage per target it hits beyond the first.
+Mage	Arcane	62	Reverberate	281482	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102462	126532	1					api	Arcane Pulse has a 50% chance to repeat its explosion at 30% effectiveness.
+Mage	Arcane	62	Rondurmancy	449596	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94648	117251	1					api	Spellfire Spheres can now stack up to 5 times.
+Mage	Arcane	62	Savor the Moment	449412	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94650	117253	1					api	When you cast Arcane Surge, its duration is extended by 0.4 sec for each Spellfire Sphere you have, up to 2.0 sec.
+Mage	Arcane	62	Shifting Shards	444675	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Spellslinger	109669	135946	1					api	Gaining Clearcasting conjures 2 Arcane Splinters.
+Mage	Arcane	62	Signature Spell	470021	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Spellslinger	94657	128267	1					api	Arcane Blast and Arcane Pulse damage increased by 15%.\n\nCasting Touch of the Magi conjures 4 Arcane Splinters.
+Mage	Arcane	62	Slippery Slinging	444752	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Spellslinger	94659	117262	1					api	You have 40% increased movement speed during Alter Time.
+Mage	Arcane	62	Slipstream	236457	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102460	134025	1					api	Arcane Missiles and Evocation can now be channeled while moving.
+Mage	Arcane	62	Spatial Manipulation	1244031	talent-passive	TraitNodeEntry	false	0	Rotational	class		62094	126060	1					api	Blink gains an additional charge.
+Mage	Arcane	62	Spellfire Salvo	1260616	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	109673	135924	1					api	Arcane Salvo can stack 5 additional times.\n\nMeteorite damage increased by 15%.
+Mage	Arcane	62	Spellfire Spheres	448601	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94647	117250	1	Buff		cdm-only:CooldownSetSpell		api	Casting a damaging spell has a 12% chance to conjure a Spellfire Sphere.\n\nWhile you're out of combat, you will slowly conjure Spellfire Spheres over time.\n\n Spellfire Sphere\nIncreases your spell damage by 1.0%. Stacks up to 3 times.
+Mage	Arcane	62	Spellfrost Teachings	444986	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Spellslinger	94655	117258	1					api	Direct damage from Arcane Splinters reduces the cooldown of Arcane Orb by 0.25 sec.
+Mage	Arcane	62	Splintering Orbs	444256	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Spellslinger	94661	117264	1					api	Enemies damaged by your Arcane Orb conjure 2 Arcane Splinters, up to 4.\n\nArcane Orb damage is increased by 10%.
+Mage	Arcane	62	Splintering Sorcery	443739	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Spellslinger	94664	117267	1					api	Casting Arcane Blast or Arcane Pulse conjures an Arcane Splinter.\n\nArcane Splinter:\nConjure raw Arcane magic into a sharp projectile that deals 219 Arcane damage.
+Mage	Arcane	62	Splinterstorm	443783	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Spellslinger	94654	117257	1					api	Casting Arcane Surge generates 8 Arcane Splinters.\n\nDuring Arcane Surge, your chance to conjure an additional Arcane Splinter is increased to 100%.
+Mage	Arcane	62	Sunfury Execution	449349	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94650	123867	1					api	Arcane Barrage deals 5% increased damage to enemies affected by your Touch of the Magi.
+Mage	Arcane	62	Temporal Realignment	1244090	talent-passive	TraitNodeEntry	false	0	Rotational	class		108654	134182	1					api	Upon dropping below 25% health, your past self corrects your timeline, casting Alter Time and instantly returning 50% of your maximum health.
+Mage	Arcane	62	Time Manipulation	387807	talent-passive	TraitNodeEntry	false	0	Rotational	class		62129	80189	1					api	The cooldown of your loss of control spells are reduced by 5 sec.
+Mage	Arcane	62	Time Twist	1255166	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94649	135598	1					api	The cooldown of Alter Time is reduced by 10 sec.
+Mage	Arcane	62	Time Walk	1244087	talent-passive	TraitNodeEntry	false	0	Rotational	class		108654	134183	1					api	Alter Time resets the cooldown of Blink and Shimmer when you return to your original location.
+Mage	Arcane	62	Tome of Antonidas	382490	talent-passive	TraitNodeEntry	false	0	Rotational	class		62098	80155	1					api	Increases Haste by 2%.
+Mage	Arcane	62	Tome of Rhonin	382493	talent-passive	TraitNodeEntry	false	0	Rotational	class		62127	80187	1					api	Increases critical strike chance by 2%.
+Mage	Arcane	62	Touch of the Archmage	1257942	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110420	137028	1	Buff		talent-passive:TraitNodeEntry;cdm-only:CooldownSetSpell		api	Touch of the Magi increases the damage your target receives from you by 15%.
+Mage	Arcane	62	Winter's Protection	382424	talent-passive	TraitNodeEntry	false	0	Rotational	class		62123	80182	2					api	The cooldown of Ice Block is reduced by 30 sec.
+Mage	Arcane	62	Arcane Soul	451038	cdm-only	CooldownSetSpell	true	0	Rotational						Other				db2-template	Arcane Barrage grants Clearcasting and generates $s1 Arcane Charges.\n\nEach cast of Arcane Barrage grants $s2 stacks of Arcane Salvo and casting Arcane Barrage does not consume Arcane Salvo.
+Mage	Arcane	62	Clearcasting	79684	cdm-only	CooldownSetSpell	false	0	Rotational						Buff				api	Casting Arcane spells has a 10% chance to grant access to Arcane Missiles or make your next Arcane Explosion free.
+Mage	Arcane	62	Hypothermia	41425	cdm-only	CooldownSetSpell	true	0	Rotational						Buff				db2-template	As a side-effect of exposure to intense cold, the caster cannot Ice Block or Ice Cold again for $d.

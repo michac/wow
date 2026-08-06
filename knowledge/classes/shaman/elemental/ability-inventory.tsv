@@ -1,182 +1,182 @@
-class	spec	spec_id	name	spell_id	origin	source	castable	cooldown	band	tree	hero_tree	node_id	entry_id	max_ranks	blizz_category	seed_bucket	also_from	aliases
-Shaman	Elemental	262	Ascendance	114050	talent-active	TraitNodeEntry	true	180	Cooldown	spec		80989	101860	1	Buff/Essential	Cooldown 1	cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Earth Elemental	198103	talent-active	TraitNodeEntry	true	180	Cooldown	class		103585	127858	1	Buff/Utility	Personal Defensive 2	cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Astral Shift	108271	talent-active	TraitNodeEntry	true	120	Cooldown	class		103616	127893	1	Buff/Utility	Personal Defensive 1	cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Spiritwalker's Grace	79206	talent-active	TraitNodeEntry	true	120	Cooldown	class		103584	127857	1	Buff/Utility	Class 4 (Special)	cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Wind Rush Totem	192077	talent-active	TraitNodeEntry	true	120	Cooldown	class		103627	127909	1	Buff/Utility	Class 1 (Movement)	cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Capacitor Totem	192058	talent-active	TraitNodeEntry	true	60	Cooldown	class		103579	127851	1	Buff/Utility	CC	cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Nature's Swiftness	378081	talent-active	TraitNodeEntry	true	60	Cooldown	class		103620	127899	1	Buff/Essential		cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Stormkeeper	191634	talent-active	TraitNodeEntry	true	60	Cooldown	spec		80988	101859	1	Buff/Essential	Cooldown 2	class-baseline:SkillLineAbility:924;cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Ancestral Swiftness	443454	talent-active	TraitNodeEntry	true	30	Rotational	hero	Farseer	94894	117491	1	Buff		cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Earthgrab Totem	51485	talent-active	TraitNodeEntry	true	30	Rotational	class		103622	127902	1		Slow		
-Shaman	Elemental	262	Hex	51514	talent-active	TraitNodeEntry	true	30	Rotational	class		103623	127903	1	Buff/Utility	Class 3 (Tag)	class-baseline:SkillLineAbility:924;cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Wind Shear	57994	talent-active	TraitNodeEntry	true	12	Rotational	class		103615	127892	1	Utility	Interrupt	cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Totemic Projection	108287	talent-active	TraitNodeEntry	true	10	Rotational	class		109386	135590	1	Utility	Class 7 (Raid Defensive)	cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Voltaic Blaze	470057	talent-active	TraitNodeEntry	true	10	Rotational	spec		81007	101883	1				
-Shaman	Elemental	262	Cleanse Spirit	51886	talent-active	TraitNodeEntry	true	8	Rotational	class		103608	127884	1	Utility	Class 6 (Dispel)	cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Chain Heal	1064	talent-active	TraitNodeEntry	true	0	Rotational	class		103588	127861	1		Self-Heal 2		
-Shaman	Elemental	262	Chain Lightning	188443	talent-active	TraitNodeEntry	true	0	Rotational	class		103583	127856	1	Essential	Rotational 4	cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Earth Shield	974	talent-active	TraitNodeEntry	true	0	Rotational	class		103596	127871	1		Self-Heal 4 (Emergency/Overflow)		
-Shaman	Elemental	262	Flametongue Weapon	318038	talent-active	TraitNodeEntry	true	0	Rotational	spec		81004	101879	1				
-Shaman	Elemental	262	Frost Shock	196840	talent-active	TraitNodeEntry	true	0	Rotational	class		109492	135718	1	Buff/Essential		cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Healing Stream Totem	5394	talent-active	TraitNodeEntry	true	0	Rotational	class		103590	127863	1	Buff/Utility	Self-Heal 3 (Overflow)	cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Lava Burst	51505	talent-active	TraitNodeEntry	true	0	Rotational	class		103598	127873	1	Essential	Rotational 2	cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Poison Cleansing Totem	383013	talent-choice	TraitNodeEntry	true	120	Cooldown	class		103599	136567	1	Buff/Utility		cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Spirit Walk	58875	talent-choice	TraitNodeEntry	true	60	Cooldown	class		103591	127865	1	Buff/Utility	Movement Ability 2	cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Tremor Totem	8143	talent-choice	TraitNodeEntry	true	60	Cooldown	class		103599	127874	1	Buff/Utility	Class 2 (CC)	cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Gust of Wind	192063	talent-choice	TraitNodeEntry	true	20	Rotational	class		103591	127864	1	Utility		cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Greater Purge	378773	talent-choice	TraitNodeEntry	true	12	Rotational	class		103624	127904	1	Utility		cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Earth Shock	8042	talent-choice	TraitNodeEntry	true	0	Rotational	spec		80984	101854	1	Essential		cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Earthquake	462620	talent-choice	TraitNodeEntry	true	0	Rotational	spec		80985	101855	1	Buff/Essential		talent-choice:TraitNodeEntry;class-baseline:SkillLineAbility:924;cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Elemental Blast	117014	talent-choice	TraitNodeEntry	true	0	Rotational	spec		80984	127924	1	Essential		cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Purge	370	talent-choice	TraitNodeEntry	true	0	Rotational	class		103624	127905	1		Class 5 (Purge)		
-Shaman	Elemental	262	Thunderstrike Ward	462757	talent-choice	TraitNodeEntry	true	0	Rotational	spec		103631	135716	1				
-Shaman	Elemental	262	Astral Recall	556	class-baseline	SkillLineAbility:924	true	600	Cooldown						Essential		cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Bloodlust	2825	class-baseline	SkillLineAbility:924	true	300	Cooldown						Utility		cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Heroism	32182	class-baseline	SkillLineAbility:924	true	300	Cooldown						Utility	Class 8 (Lust/BRes)	cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Earthbind Totem	2484	class-baseline	SkillLineAbility:924	true	30	Rotational						Buff/Utility		cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Thunderstorm	51490	class-baseline	SpecializationSpells	true	30	Rotational						Utility	CC 2	cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Flame Shock	470411	class-baseline	SkillLineAbility:924	true	6	Rotational						Essential/Other	Rotational 3	cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Ancestral Guidance	114911	class-baseline	SkillLineAbility:924	true	0	Rotational									
-Shaman	Elemental	262	Ancestral Spirit	2008	class-baseline	SkillLineAbility:924	true	0	Rotational							Res		
-Shaman	Elemental	262	Downpour	207778	class-baseline	SkillLineAbility:924	true	0	Rotational									
-Shaman	Elemental	262	Fae Transfusion	328930	class-baseline	SkillLineAbility:924	true	0	Rotational									
-Shaman	Elemental	262	Far Sight	6196	class-baseline	SkillLineAbility:924	true	0	Rotational									
-Shaman	Elemental	262	Flametongue Attack	10444	class-baseline	SkillLineAbility:924	true	0	Rotational									
-Shaman	Elemental	262	Ghost Wolf	2645	class-baseline	SkillLineAbility:924	true	0	Rotational						Buff	Movement Ability	cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Healing Surge	8004	class-baseline	SkillLineAbility:924	true	0	Rotational							Self-Heal 1		
-Shaman	Elemental	262	Lightning Bolt	188196	class-baseline	SkillLineAbility:924	true	0	Rotational						Essential	Rotational 1	cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Lightning Shield	192106	class-baseline	SkillLineAbility:924	true	0	Rotational						Buff		cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Primal Strike	73899	class-baseline	SkillLineAbility:924	true	0	Rotational									
-Shaman	Elemental	262	Primordial Wave	327163	class-baseline	SkillLineAbility:924	true	0	Rotational									
-Shaman	Elemental	262	Single-Button Assistant	1229376	class-baseline	SpecializationSpells	true	0	Rotational									
-Shaman	Elemental	262	Skyfury	462854	class-baseline	SkillLineAbility:924	true	0	Rotational							Buff		
-Shaman	Elemental	262	Stormstrike	32175	class-baseline	SkillLineAbility:924	true	0	Rotational									
-Shaman	Elemental	262	Stormstrike Off-Hand	32176	class-baseline	SkillLineAbility:924	true	0	Rotational									
-Shaman	Elemental	262	Surge of Earth	320747	class-baseline	SkillLineAbility:924	true	0	Rotational									
-Shaman	Elemental	262	Water Walking	546	class-baseline	SkillLineAbility:924	true	0	Rotational						Buff		cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Windfury Attack	25504	class-baseline	SkillLineAbility:924	true	0	Rotational									
-Shaman	Elemental	262	Windlash	114089	class-baseline	SkillLineAbility:924	true	0	Rotational									
-Shaman	Elemental	262	Windlash Off-Hand	114093	class-baseline	SkillLineAbility:924	true	0	Rotational									
-Shaman	Elemental	262	Windstrike	115356	class-baseline	SkillLineAbility:924	true	0	Rotational									
-Shaman	Elemental	262	Windstrike Off-Hand	115360	class-baseline	SkillLineAbility:924	true	0	Rotational									
-Shaman	Elemental	262	Burrow	409293	pvp-talent	PvpTalent	true	120	Cooldown						Buff/Utility		cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Static Field Totem	355580	pvp-talent	PvpTalent	true	90	Cooldown						Buff/Utility		cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Counterstrike Totem	204331	pvp-talent	PvpTalent	true	45	Cooldown						Buff/Utility		cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Lightning Lasso	305483	pvp-talent	PvpTalent	true	45	Cooldown						Buff/Utility		cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Grounding Totem	204336	pvp-talent	PvpTalent	true	30	Rotational						Buff/Utility		cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Electrocute	206642	pvp-talent	PvpTalent	false	0	Rotational									
-Shaman	Elemental	262	Shamanism	193876	pvp-talent	PvpTalent	false	0	Rotational									
-Shaman	Elemental	262	Storm Conduit	1217092	pvp-talent	PvpTalent	false	0	Rotational									
-Shaman	Elemental	262	Totem of Wrath	460697	pvp-talent	PvpTalent	false	0	Rotational						Buff		cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Aftershock	273221	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81000	101873	1				
-Shaman	Elemental	262	Amped Up	1269360	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103638	127919	1				
-Shaman	Elemental	262	Ancestral Influence	1270446	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	109732	135990	1				
-Shaman	Elemental	262	Ancestral Wolf Affinity	382197	talent-passive	TraitNodeEntry	false	0	Rotational	class		103610	127886	1				
-Shaman	Elemental	262	Ancient Fellowship	443423	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94862	123632	1				
-Shaman	Elemental	262	Arc Discharge	455096	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94885	117482	1				
-Shaman	Elemental	262	Arctic Snowstorm	462764	talent-passive	TraitNodeEntry	false	0	Rotational	class		109493	135717	1				
-Shaman	Elemental	262	Ascending Air	462791	talent-passive	TraitNodeEntry	false	0	Rotational	class		103607	127883	1				
-Shaman	Elemental	262	Astral Bulwark	377933	talent-passive	TraitNodeEntry	false	0	Rotational	class		103611	127887	1				
-Shaman	Elemental	262	Awakening Storms	455129	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94867	117464	1				
-Shaman	Elemental	262	Brimming with Life	381689	talent-passive	TraitNodeEntry	false	0	Rotational	class		103582	127855	2	Buff		cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Call of Fire	378255	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80992	101864	1	Other		cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Call of the Ancestors	443450	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94888	117485	1	Buff		cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Charged Conduit	468625	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80991	101862	1				
-Shaman	Elemental	262	Conductive Energy	455123	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94868	117465	1				
-Shaman	Elemental	262	Crackling Fury	1269215	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103632	127914	2				
-Shaman	Elemental	262	Descending Skies	1264688	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	109727	135985	1				
-Shaman	Elemental	262	Earthen Communion	443441	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94858	123631	1				
-Shaman	Elemental	262	Earthen Rage	170374	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81010	101887	1				
-Shaman	Elemental	262	Earthshatter	468626	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80995	101867	1				
-Shaman	Elemental	262	Echo Chamber	382032	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81015	101892	1				
-Shaman	Elemental	262	Echo of the Elements	333919	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80981	101850	1				
-Shaman	Elemental	262	Electroshock	454022	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94863	128226	1	Buff		cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Elemental Fury	60188	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80983	101853	1				
-Shaman	Elemental	262	Elemental Orbit	383010	talent-passive	TraitNodeEntry	false	0	Rotational	class		103602	127877	1				
-Shaman	Elemental	262	Elemental Resistance	462368	talent-passive	TraitNodeEntry	false	0	Rotational	class		103601	127876	1				
-Shaman	Elemental	262	Elemental Resonance	1258895	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103631	127913	1				
-Shaman	Elemental	262	Elemental Reverb	443418	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94869	117466	1				
-Shaman	Elemental	262	Elemental Unity	462866	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103633	127915	1				
-Shaman	Elemental	262	Elemental Warding	381650	talent-passive	TraitNodeEntry	false	0	Rotational	class		103586	127859	1				
-Shaman	Elemental	262	Encasing Cold	462762	talent-passive	TraitNodeEntry	false	0	Rotational	class		109493	135719	1	Buff		cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Enhanced Imbues	462796	talent-passive	TraitNodeEntry	false	0	Rotational	class		103606	127881	1				
-Shaman	Elemental	262	Everlasting Elements	462867	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103634	127916	1				
-Shaman	Elemental	262	Eye of the Storm	381708	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81003	101877	1				
-Shaman	Elemental	262	Feedback Loop	1270061	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110402	136974	1			talent-passive:TraitNodeEntry	
-Shaman	Elemental	262	Final Calling	443446	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94875	117472	1				
-Shaman	Elemental	262	Fire and Ice	382886	talent-passive	TraitNodeEntry	false	0	Rotational	class		103605	127880	1				
-Shaman	Elemental	262	First Ascendant	462440	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103640	127921	1				
-Shaman	Elemental	262	Flames of the Cauldron	378266	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103630	127912	1				
-Shaman	Elemental	262	Flames of the Firelord	381784	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103641	127922	1				
-Shaman	Elemental	262	Flash of Lightning	381936	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80990	101861	1				
-Shaman	Elemental	262	Fury of the Storms	191717	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80998	101871	1	Other		cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Fusion of Elements	462840	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80993	101865	1				
-Shaman	Elemental	262	Graceful Spirit	192088	talent-passive	TraitNodeEntry	false	0	Rotational	class		103626	127908	1				
-Shaman	Elemental	262	Heed My Call	443444	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94884	117481	1				
-Shaman	Elemental	262	Herald of the Storms	468571	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80998	128223	1				
-Shaman	Elemental	262	Inferno Arc	1259047	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81008	101885	1				
-Shaman	Elemental	262	Instinctive Imbuements	1270350	talent-passive	TraitNodeEntry	false	0	Rotational	class		109387	135591	1				
-Shaman	Elemental	262	Jet Stream	462817	talent-passive	TraitNodeEntry	false	0	Rotational	class		103607	127882	1				
-Shaman	Elemental	262	Latent Wisdom	443449	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94862	117459	1				
-Shaman	Elemental	262	Lava Flows	1273485	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110186	136713	1				
-Shaman	Elemental	262	Lightning Capacitor	462862	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80997	101870	1				
-Shaman	Elemental	262	Lightning Conduit	467778	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94863	117460	1	Buff		cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Lightning Rod	210689	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81012	101889	1				
-Shaman	Elemental	262	Maelstrom Supremacy	443447	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94883	117480	1				
-Shaman	Elemental	262	Mana Spring	381930	talent-passive	TraitNodeEntry	false	0	Rotational	class		103587	127860	1				
-Shaman	Elemental	262	Master of the Elements	16166	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80999	136714	1	Buff		cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Molten Wrath	1258843	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80999	101872	1				
-Shaman	Elemental	262	Mountains Will Fall	381726	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81002	101876	1				
-Shaman	Elemental	262	Mystic Knowledge	1270450	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	109730	135988	1				
-Shaman	Elemental	262	Natural Gift	1264691	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	109728	135986	1				
-Shaman	Elemental	262	Natural Harmony	443442	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94858	117455	1				
-Shaman	Elemental	262	Nature's Fury	381655	talent-passive	TraitNodeEntry	false	0	Rotational	class		103617	127894	2				
-Shaman	Elemental	262	Nature's Guardian	30884	talent-passive	TraitNodeEntry	false	0	Rotational	class		103613	127890	1				
-Shaman	Elemental	262	Nature's Protection	454027	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94880	117477	1				
-Shaman	Elemental	262	Offering from Beyond	443451	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94887	117484	1				
-Shaman	Elemental	262	Path of the Seer	1269364	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110066	136561	1				
-Shaman	Elemental	262	Planes Traveler	381647	talent-passive	TraitNodeEntry	false	0	Rotational	class		103611	127888	1				
-Shaman	Elemental	262	Power of the Maelstrom	191861	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80996	101869	1	Buff		cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Preeminence	462443	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103640	128224	1				
-Shaman	Elemental	262	Primal Elementalist	117013	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80978	101844	1				
-Shaman	Elemental	262	Primordial Bond	1279819	talent-passive	TraitNodeEntry	false	0	Rotational	class		103612	127889	1				
-Shaman	Elemental	262	Primordial Capacity	443448	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94860	117457	1				
-Shaman	Elemental	262	Primordial Fury	378193	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103639	127920	1				
-Shaman	Elemental	262	Purging Flames	1259471	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103637	101884	1	Buff		cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Reactive Warding	462454	talent-passive	TraitNodeEntry	false	0	Rotational	class		103593	136584	1				
-Shaman	Elemental	262	Refreshing Waters	378211	talent-passive	TraitNodeEntry	false	0	Rotational	class		103594	127869	1				
-Shaman	Elemental	262	Rolling Thunder	454026	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94889	117486	1				
-Shaman	Elemental	262	Routine Communication	443445	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94884	123630	1				
-Shaman	Elemental	262	Searing Flames	381782	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81005	101880	1				
-Shaman	Elemental	262	Spirit Wolf	260878	talent-passive	TraitNodeEntry	false	0	Rotational	class		103581	127854	1	Buff		cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Spiritual Awakening	1270375	talent-passive	TraitNodeEntry	false	0	Rotational	class		110085	136585	1				
-Shaman	Elemental	262	Spiritwalker's Aegis	378077	talent-passive	TraitNodeEntry	false	0	Rotational	class		103626	127907	1	Buff		cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Spiritwalker's Momentum	443425	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94861	117458	1				
-Shaman	Elemental	262	Static Charge	265046	talent-passive	TraitNodeEntry	false	0	Rotational	class		103618	127896	2				
-Shaman	Elemental	262	Storm Frenzy	462695	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103635	127917	1				
-Shaman	Elemental	262	Storm Infusion	1258889	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103636	127918	1				
-Shaman	Elemental	262	Storm Swell	455088	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94873	117470	1	Buff		cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Stormcaller	454021	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94893	117490	1				
-Shaman	Elemental	262	Stormwell	1264762	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	109729	135987	1				
-Shaman	Elemental	262	Supercharge	455110	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94873	128225	1				
-Shaman	Elemental	262	Surging Currents	454372	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94880	125617	1	Buff		cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Swelling Maelstrom	381707	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81016	101893	1				
-Shaman	Elemental	262	Tectonic Collapse	1258899	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81000	101874	1				
-Shaman	Elemental	262	Tempest	454009	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94892	117489	1	Buff		cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Therazane's Resilience	1217622	talent-passive	TraitNodeEntry	false	0	Rotational	class		103593	127868	1				
-Shaman	Elemental	262	Thunderous Paws	378075	talent-passive	TraitNodeEntry	false	0	Rotational	class		103581	127853	1	Buff		cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Totemic Focus	382201	talent-passive	TraitNodeEntry	false	0	Rotational	class		103625	127906	1				
-Shaman	Elemental	262	Totemic Surge	381867	talent-passive	TraitNodeEntry	false	0	Rotational	class		109388	135592	1				
-Shaman	Elemental	262	Unlimited Power	454391	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94886	117483	1	Buff		cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Voltaic Surge	454919	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94870	117467	1				
-Shaman	Elemental	262	Voodoo Mastery	204268	talent-passive	TraitNodeEntry	false	0	Rotational	class		103600	127875	1	Buff		cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Winds of Al'Akir	382215	talent-passive	TraitNodeEntry	false	0	Rotational	class		103614	127891	2				
-Shaman	Elemental	262	Windspeaker	1270447	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	109731	135989	1				
-Shaman	Elemental	262	Windveil	355630	talent-passive	TraitNodeEntry	false	0	Rotational	class		103628	127910	1	Buff		cdm-only:CooldownSetSpell	
-Shaman	Elemental	262	Reincarnation	20608	cdm-only	CooldownSetSpell	false	1800	Cooldown						Utility			
-Shaman	Elemental	262	Elemental Blast: Critical Strike	118522	cdm-only	CooldownSetSpell	true	0	Rotational						Buff			
-Shaman	Elemental	262	Elemental Blast: Haste	173183	cdm-only	CooldownSetSpell	true	0	Rotational						Buff			
-Shaman	Elemental	262	Elemental Blast: Mastery	173184	cdm-only	CooldownSetSpell	true	0	Rotational						Buff			
-Shaman	Elemental	262	Lava Surge	77756	cdm-only	CooldownSetSpell	false	0	Rotational						Buff			
-Shaman	Elemental	262	Wind Rush	192082	cdm-only	CooldownSetSpell	true	0	Rotational						Buff			
+class	spec	spec_id	name	spell_id	origin	source	castable	cooldown	band	tree	hero_tree	node_id	entry_id	max_ranks	blizz_category	seed_bucket	also_from	aliases	description_source	description
+Shaman	Elemental	262	Ascendance	114050	talent-active	TraitNodeEntry	true	180	Cooldown	spec		80989	101860	1	Buff/Essential	Cooldown 1	cdm-only:CooldownSetSpell		api	Transform into a Flame Ascendant for 15 sec, instantly casting a Flame Shock and a 100% effectiveness Lava Burst at up to 6 nearby enemies.\n\nWhile ascended, Elemental Overload damage is increased by 75% and spells affected by your Mastery: Elemental Overload cause 1 additional Elemental Overload.
+Shaman	Elemental	262	Earth Elemental	198103	talent-active	TraitNodeEntry	true	180	Cooldown	class		103585	127858	1	Buff/Utility	Personal Defensive 2	cdm-only:CooldownSetSpell		api	Calls forth a Greater Earth Elemental to protect you and your allies, generating high threat and taunting enemies periodically for 30 sec.
+Shaman	Elemental	262	Astral Shift	108271	talent-active	TraitNodeEntry	true	120	Cooldown	class		103616	127893	1	Buff/Utility	Personal Defensive 1	cdm-only:CooldownSetSpell		api	Shift partially into the elemental planes, taking 40% less damage for 12 sec.
+Shaman	Elemental	262	Spiritwalker's Grace	79206	talent-active	TraitNodeEntry	true	120	Cooldown	class		103584	127857	1	Buff/Utility	Class 4 (Special)	cdm-only:CooldownSetSpell		api	Calls upon the guidance of the spirits for 15 sec, permitting movement while casting Shaman spells. Castable while casting.
+Shaman	Elemental	262	Wind Rush Totem	192077	talent-active	TraitNodeEntry	true	120	Cooldown	class		103627	127909	1	Buff/Utility	Class 1 (Movement)	cdm-only:CooldownSetSpell		api	Summons a totem at the target location for 15 sec, continually granting all allies who pass within 10 yards 40% increased movement speed for 5 sec.
+Shaman	Elemental	262	Capacitor Totem	192058	talent-active	TraitNodeEntry	true	60	Cooldown	class		103579	127851	1	Buff/Utility	CC	cdm-only:CooldownSetSpell		api	Summons a totem at the target location that gathers electrical energy from the surrounding air and explodes after 2 sec, stunning all enemies within 8 yards for 3 sec.
+Shaman	Elemental	262	Nature's Swiftness	378081	talent-active	TraitNodeEntry	true	60	Cooldown	class		103620	127899	1	Buff/Essential		cdm-only:CooldownSetSpell		api	Your next healing or damaging Nature spell is instant cast and costs no mana.
+Shaman	Elemental	262	Stormkeeper	191634	talent-active	TraitNodeEntry	true	60	Cooldown	spec		80988	101859	1	Buff/Essential	Cooldown 2	class-baseline:SkillLineAbility:924;cdm-only:CooldownSetSpell		api	Charge yourself with lightning, causing your next 2 Lightning Bolts to deal 150% more damage, and also causes your next 2 Lightning Bolts or Chain Lightings to be instant cast and trigger an Elemental Overload on every target.
+Shaman	Elemental	262	Ancestral Swiftness	443454	talent-active	TraitNodeEntry	true	30	Rotational	hero	Farseer	94894	117491	1	Buff		cdm-only:CooldownSetSpell		api	Your next healing or damaging spell is instant, costs no mana, and deals 10% increased damage and healing.\n\nIf you know Nature's Swiftness, it is replaced by Ancestral Swiftness and causes Ancestral Swiftness to call an Ancestor to your side for 8 sec.
+Shaman	Elemental	262	Earthgrab Totem	51485	talent-active	TraitNodeEntry	true	30	Rotational	class		103622	127902	1		Slow			api	Summons a totem at the target location for 20 sec. The totem pulses every 2 sec, rooting all enemies within 8 yards for 8 sec. Enemies previously rooted by the totem instead suffer 50% movement speed reduction.
+Shaman	Elemental	262	Hex	51514	talent-active	TraitNodeEntry	true	30	Rotational	class		103623	127903	1	Buff/Utility	Class 3 (Tag)	class-baseline:SkillLineAbility:924;cdm-only:CooldownSetSpell		api	Transforms the enemy into a frog for 1 min. While hexed, the victim is incapacitated, and cannot attack or cast spells. Damage may cancel the effect. Limit 1. Only works on Humanoids and Beasts.
+Shaman	Elemental	262	Wind Shear	57994	talent-active	TraitNodeEntry	true	12	Rotational	class		103615	127892	1	Utility	Interrupt	cdm-only:CooldownSetSpell		api	Disrupts the target's concentration with a burst of wind, interrupting spellcasting and preventing any spell in that school from being cast for 4 sec.
+Shaman	Elemental	262	Totemic Projection	108287	talent-active	TraitNodeEntry	true	10	Rotational	class		109386	135590	1	Utility	Class 7 (Raid Defensive)	cdm-only:CooldownSetSpell		api	Relocates your active totems to the specified location.
+Shaman	Elemental	262	Voltaic Blaze	470057	talent-active	TraitNodeEntry	true	10	Rotational	spec		81007	101883	1					api	Instantly shocks the target and 5 enemies within 10 yds with blazing thunder, applying Flame Shock and dealing 1,511 Nature damage. Always critically strikes.\n\nGenerates 1 stack of Maelstrom Weapon.
+Shaman	Elemental	262	Cleanse Spirit	51886	talent-active	TraitNodeEntry	true	8	Rotational	class		103608	127884	1	Utility	Class 6 (Dispel)	cdm-only:CooldownSetSpell		api	Removes all Curse effects from a friendly target.
+Shaman	Elemental	262	Chain Heal	1064	talent-active	TraitNodeEntry	true	0	Rotational	class		103588	127861	1		Self-Heal 2			api	Heals the friendly target for 875, then jumps up to 20 yards to heal the 3 most injured nearby allies. Healing is reduced by 30% with each jump.
+Shaman	Elemental	262	Chain Lightning	188443	talent-active	TraitNodeEntry	true	0	Rotational	class		103583	127856	1	Essential	Rotational 4	cdm-only:CooldownSetSpell		api	Hurls a lightning bolt at the enemy, dealing 278 Nature damage and then jumping to additional nearby enemies. Affects 3 total targets
+Shaman	Elemental	262	Earth Shield	974	talent-active	TraitNodeEntry	true	0	Rotational	class		103596	127871	1		Self-Heal 4 (Emergency/Overflow)			api	Protects the target with an earthen shield, increasing your healing on them by 20% and healing them for 332 when they take damage. This heal can only occur once every 3 sec. Maximum 9 charges.\n\nEarth Shield can only be placed on one target at a time. Only one Elemental Shield can be active on the Shaman.
+Shaman	Elemental	262	Flametongue Weapon	318038	talent-active	TraitNodeEntry	true	0	Rotational	spec		81004	101879	1					api	Imbue your weapon with the element of Fire for 1 hour, increasing the damage of your Fire spells by 5.0%.
+Shaman	Elemental	262	Frost Shock	196840	talent-active	TraitNodeEntry	true	0	Rotational	class		109492	135718	1	Buff/Essential		cdm-only:CooldownSetSpell		api	Chills the target with frost, causing 279 Frost damage and reducing the target's movement speed by 50% for 6 sec.
+Shaman	Elemental	262	Healing Stream Totem	5394	talent-active	TraitNodeEntry	true	0	Rotational	class		103590	127863	1	Buff/Utility	Self-Heal 3 (Overflow)	cdm-only:CooldownSetSpell		api	Summons a totem at your feet for 15 sec that heals an injured party or raid member within 40 yards for 254 every 1.8 sec.\n\nIf you already know Healing Stream Totem, instead gain 1 additional charge of Healing Stream Totem.
+Shaman	Elemental	262	Lava Burst	51505	talent-active	TraitNodeEntry	true	0	Rotational	class		103598	127873	1	Essential	Rotational 2	cdm-only:CooldownSetSpell		api	Hurls molten lava at the target, dealing 525 Fire damage. Lava Burst will always critically strike if the target is affected by Flame Shock and its damage is increased by your critical strike chance.
+Shaman	Elemental	262	Poison Cleansing Totem	383013	talent-choice	TraitNodeEntry	true	120	Cooldown	class		103599	136567	1	Buff/Utility		cdm-only:CooldownSetSpell		api	Summons a totem at your feet that removes all Poison effects from a nearby party or raid member within 30 yards every 1.5 sec for 6 sec.
+Shaman	Elemental	262	Spirit Walk	58875	talent-choice	TraitNodeEntry	true	60	Cooldown	class		103591	127865	1	Buff/Utility	Movement Ability 2	cdm-only:CooldownSetSpell		api	Removes all movement impairing effects and increases your movement speed by 60% for 8 sec.
+Shaman	Elemental	262	Tremor Totem	8143	talent-choice	TraitNodeEntry	true	60	Cooldown	class		103599	127874	1	Buff/Utility	Class 2 (CC)	cdm-only:CooldownSetSpell		api	Summons a totem at your feet that shakes the ground around it for 10 sec, removing Fear, Charm and Sleep effects from party and raid members within 30 yards.
+Shaman	Elemental	262	Gust of Wind	192063	talent-choice	TraitNodeEntry	true	20	Rotational	class		103591	127864	1	Utility		cdm-only:CooldownSetSpell		api	A gust of wind hurls you forward.
+Shaman	Elemental	262	Greater Purge	378773	talent-choice	TraitNodeEntry	true	12	Rotational	class		103624	127904	1	Utility		cdm-only:CooldownSetSpell		api	Purges the enemy target, removing 2 beneficial Magic effects.
+Shaman	Elemental	262	Earth Shock	8042	talent-choice	TraitNodeEntry	true	0	Rotational	spec		80984	101854	1	Essential		cdm-only:CooldownSetSpell		api	Instantly shocks the target with concussive force, causing 3,011 Nature damage.
+Shaman	Elemental	262	Earthquake	462620	talent-choice	TraitNodeEntry	true	0	Rotational	spec		80985	101855	1	Buff/Essential		talent-choice:TraitNodeEntry;class-baseline:SkillLineAbility:924;cdm-only:CooldownSetSpell		api	Causes the earth within 8 yards of your target to tremble and break, dealing 1,433 Nature damage over 6 sec and has a 5% chance to knock the enemy down. Multiple uses of Earthquake may overlap.\n\nThis spell is cast at your target.
+Shaman	Elemental	262	Elemental Blast	117014	talent-choice	TraitNodeEntry	true	0	Rotational	spec		80984	127924	1	Essential		cdm-only:CooldownSetSpell		api	Harnesses the raw power of the elements, dealing 780 Elemental damage and increasing your Critical Strike or Haste by 3% or Mastery by 6% for 10 sec.
+Shaman	Elemental	262	Purge	370	talent-choice	TraitNodeEntry	true	0	Rotational	class		103624	127905	1		Class 5 (Purge)			api	Purges the enemy target, removing 1 beneficial Magic effect.
+Shaman	Elemental	262	Thunderstrike Ward	462757	talent-choice	TraitNodeEntry	true	0	Rotational	spec		103631	135716	1					api	Imbue your shield with the element of Lightning for 1 hour, giving Lightning Bolt and Chain Lightning a chance to call down 2 Thunderstrikes on your target for 271 Nature damage.
+Shaman	Elemental	262	Astral Recall	556	class-baseline	SkillLineAbility:924	true	600	Cooldown						Essential		cdm-only:CooldownSetSpell		api	Yanks you through the twisting nether back to your inn. Speak to an Innkeeper in a different place to change your home location.
+Shaman	Elemental	262	Bloodlust	2825	class-baseline	SkillLineAbility:924	true	300	Cooldown						Utility		cdm-only:CooldownSetSpell		api	Increases haste by 30% for all party and raid members for 40 sec.\n\nAllies receiving this effect will become Sated and unable to benefit from Bloodlust or Time Warp again for 10 min.
+Shaman	Elemental	262	Heroism	32182	class-baseline	SkillLineAbility:924	true	300	Cooldown						Utility	Class 8 (Lust/BRes)	cdm-only:CooldownSetSpell		api	Increases haste by 30% for all party and raid members for 40 sec.\n\nAllies receiving this effect will become Exhausted and unable to benefit from Heroism or Time Warp again for 10 min.
+Shaman	Elemental	262	Earthbind Totem	2484	class-baseline	SkillLineAbility:924	true	30	Rotational						Buff/Utility		cdm-only:CooldownSetSpell		api	Summons a totem at the target location for 20 sec that slows the movement speed of enemies within 10 yards by 50%.
+Shaman	Elemental	262	Thunderstorm	51490	class-baseline	SpecializationSpells	true	30	Rotational						Utility	CC 2	cdm-only:CooldownSetSpell		api	Calls down a bolt of lightning, dealing 57 Nature damage to all enemies within 10 yards, reducing their movement speed by 40% for 5 sec, and knocking them away from the Shaman. Usable while stunned.
+Shaman	Elemental	262	Flame Shock	470411	class-baseline	SkillLineAbility:924	true	6	Rotational						Essential/Other	Rotational 3	cdm-only:CooldownSetSpell		api	Sears the target with fire, causing 86 Volcanic damage and then an additional 511 Volcanic damage over 18 sec.\n\nFlame Shock can be applied to a maximum of 6 targets.\n\nIf Flame Shock is dispelled, a volcanic eruption wells up beneath the dispeller, exploding for 12,065 Volcanic damage and knocking them into the air.
+Shaman	Elemental	262	Ancestral Guidance	114911	class-baseline	SkillLineAbility:924	true	0	Rotational										api	For the next 10 sec, 25% of your healing done and 25% of your damage done is converted to healing on up to 3 nearby injured party or raid members, up to 6,110 healing to each target per second.
+Shaman	Elemental	262	Ancestral Spirit	2008	class-baseline	SkillLineAbility:924	true	0	Rotational							Res			api	Returns the spirit to the body, restoring a dead target to life with 35% of maximum health and mana. Cannot be cast when in combat.
+Shaman	Elemental	262	Downpour	207778	class-baseline	SkillLineAbility:924	true	0	Rotational										api	A burst of water at your Healing Rain's location heals up to 5 injured allies within 12 yards for 1,247.
+Shaman	Elemental	262	Fae Transfusion	328930	class-baseline	SkillLineAbility:924	true	0	Rotational										api	Transfer the life force of up to 4 enemies in the targeted area, dealing 2,648 Nature damage evenly split to each enemy target over 2.7 sec. \n\nPressing Fae Transfusion again within 20 sec will release 60% of all damage from Fae Transfusion, healing up to 4 allies within 20 yds.
+Shaman	Elemental	262	Far Sight	6196	class-baseline	SkillLineAbility:924	true	0	Rotational										api	Changes your viewpoint to the targeted location for 1 min.
+Shaman	Elemental	262	Flametongue Attack	10444	class-baseline	SkillLineAbility:924	true	0	Rotational										api	Imbue your weapon with the element of Fire for 1 hour, increasing the damage of your Fire spells by 5.0%.
+Shaman	Elemental	262	Ghost Wolf	2645	class-baseline	SkillLineAbility:924	true	0	Rotational						Buff	Movement Ability	cdm-only:CooldownSetSpell		api	Turn into a Ghost Wolf, increasing movement speed by 30% and preventing movement speed from being reduced below 100%.
+Shaman	Elemental	262	Healing Surge	8004	class-baseline	SkillLineAbility:924	true	0	Rotational							Self-Heal 1			api	A quick surge of healing energy that restores 4,164 of a friendly target's health.
+Shaman	Elemental	262	Lightning Bolt	188196	class-baseline	SkillLineAbility:924	true	0	Rotational						Essential	Rotational 1	cdm-only:CooldownSetSpell		api	Hurls a bolt of lightning at the target, dealing 502 Nature damage.
+Shaman	Elemental	262	Lightning Shield	192106	class-baseline	SkillLineAbility:924	true	0	Rotational						Buff		cdm-only:CooldownSetSpell		api	Surround yourself with a shield of lightning for 1 hour.\n\nMelee attackers have a 100% chance to suffer 82 Nature damage.\n\nOnly one Elemental Shield can be active on the Shaman at a time.
+Shaman	Elemental	262	Primal Strike	73899	class-baseline	SkillLineAbility:924	true	0	Rotational										api	An instant weapon strike that causes 11 Physical damage.
+Shaman	Elemental	262	Primordial Wave	327163	class-baseline	SkillLineAbility:924	true	0	Rotational										api	Blast your target with a Primordial Wave, dealing 241 Shadow damage and apply Flame Shock to an enemy, or heal an ally for 248.\n\nYour next Healing Wave will also hit all targets affected by your Riptide for 150% of normal damage.
+Shaman	Elemental	262	Single-Button Assistant	1229376	class-baseline	SpecializationSpells	true	0	Rotational										api	Casts damaging abilities for use in combat, rotating through them based on priority.\n\nThe global cooldown of abilities used through the Single-Button Assistant is 25% longer.
+Shaman	Elemental	262	Skyfury	462854	class-baseline	SkillLineAbility:924	true	0	Rotational							Buff			api	Harness the fury of the Windlord to grant a target ally 2% Mastery and empower their auto attacks to have a 20% chance to instantly strike again for 1 hour.\n\nIf the target is in your party or raid, all party and raid members will be affected.
+Shaman	Elemental	262	Stormstrike	32175	class-baseline	SkillLineAbility:924	true	0	Rotational										api	Energizes both your weapons with lightning and delivers a massive blow to your target, dealing a total of 114 Physical damage.
+Shaman	Elemental	262	Stormstrike Off-Hand	32176	class-baseline	SkillLineAbility:924	true	0	Rotational										api	Energizes both your weapons with lightning and delivers a massive blow to your target, dealing a total of 114 Physical damage.
+Shaman	Elemental	262	Surge of Earth	320747	class-baseline	SkillLineAbility:924	true	0	Rotational										api	Consume up to 3 charges of Earth Shield to heal up to 3 allies near your Earth Shield target for 321 per charge consumed.
+Shaman	Elemental	262	Water Walking	546	class-baseline	SkillLineAbility:924	true	0	Rotational						Buff		cdm-only:CooldownSetSpell		api	Allows the friendly target to walk across water for 10 min. Damage will cancel the effect.
+Shaman	Elemental	262	Windfury Attack	25504	class-baseline	SkillLineAbility:924	true	0	Rotational										api	Imbue your main-hand weapon with the element of Wind for 1 hour. Each main-hand attack has a 15% chance to trigger two extra attacks, dealing 9 Physical damage each.
+Shaman	Elemental	262	Windlash	114089	class-baseline	SkillLineAbility:924	true	0	Rotational										api	A massive gust of air that deals 416 Physical damage.
+Shaman	Elemental	262	Windlash Off-Hand	114093	class-baseline	SkillLineAbility:924	true	0	Rotational										api	A massive gust of air that deals 416 Physical damage.
+Shaman	Elemental	262	Windstrike	115356	class-baseline	SkillLineAbility:924	true	0	Rotational										api	Hurl a staggering blast of wind at an enemy, dealing a total of 123 Physical damage, bypassing armor.
+Shaman	Elemental	262	Windstrike Off-Hand	115360	class-baseline	SkillLineAbility:924	true	0	Rotational										api	Hurl a staggering blast of wind at an enemy, dealing a total of 124 Physical damage, bypassing armor.
+Shaman	Elemental	262	Burrow	409293	pvp-talent	PvpTalent	true	120	Cooldown						Buff/Utility		cdm-only:CooldownSetSpell		api	Burrow beneath the ground, becoming unattackable, removing movement impairing effects, and increasing your movement speed by 50% for 5 sec.\n\nWhen the effect ends, enemies within 6 yards are knocked in the air and take 2,508 Physical damage.
+Shaman	Elemental	262	Static Field Totem	355580	pvp-talent	PvpTalent	true	90	Cooldown						Buff/Utility		cdm-only:CooldownSetSpell		api	Summons a totem with 4% of your health at the target location for 6 sec that forms a circuit of electricity that enemies cannot pass through.
+Shaman	Elemental	262	Counterstrike Totem	204331	pvp-talent	PvpTalent	true	45	Cooldown						Buff/Utility		cdm-only:CooldownSetSpell		api	Summons a totem at your feet for 15 sec.\n\nWhenever enemies within 20 yards of the totem deal direct damage, the totem will deal 100% of the damage dealt back to attacker.
+Shaman	Elemental	262	Lightning Lasso	305483	pvp-talent	PvpTalent	true	45	Cooldown						Buff/Utility		cdm-only:CooldownSetSpell		api	Grips the target in lightning, stunning and dealing 14,630 Nature damage over 5 sec while the target is lassoed. Can move while channeling.
+Shaman	Elemental	262	Grounding Totem	204336	pvp-talent	PvpTalent	true	30	Rotational						Buff/Utility		cdm-only:CooldownSetSpell		api	Summons a totem at your feet that will redirect all harmful spells cast within 30 yards on a nearby party or raid member to itself. Will not redirect area of effect spells. Lasts 3 sec.
+Shaman	Elemental	262	Electrocute	206642	pvp-talent	PvpTalent	false	0	Rotational										api	When you successfully Purge a beneficial effect, the enemy suffers 2,154 Nature damage over 3 sec.
+Shaman	Elemental	262	Shamanism	193876	pvp-talent	PvpTalent	false	0	Rotational										api	Your Heroism spell now has a 60 sec cooldown, but increases Haste by 15%, and only affects you and your friendly target when cast for 10 sec.\n\nIn addition, Heroism is no longer affected by Exhaustion.
+Shaman	Elemental	262	Storm Conduit	1217092	pvp-talent	PvpTalent	false	0	Rotational										api	Casting Lightning Bolt or Chain Lightning reduces the cooldown of Astral Shift, Gust of Wind, Wind Shear, and Nature Totems by 1.0 sec.\n\nInterrupt duration reduced by 65% on Lightning Bolt and Chain Lightning casts.
+Shaman	Elemental	262	Totem of Wrath	460697	pvp-talent	PvpTalent	false	0	Rotational						Buff		cdm-only:CooldownSetSpell		api	Stormkeeper summons a totem at your feet for 15 sec that increases the critical effect of damage and healing spells of all nearby allies within 40 yards by 15% for 15 sec.
+Shaman	Elemental	262	Aftershock	273221	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81000	101873	1					api	Earth Shock, Elemental Blast, and Earthquake have a 25% chance to refund all Maelstrom spent.
+Shaman	Elemental	262	Amped Up	1269360	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103638	127919	1					api	Increases your haste by 3%.
+Shaman	Elemental	262	Ancestral Influence	1270446	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	109732	135990	1					api	Your Intellect is increased by 1.0% for each Ancestor active.
+Shaman	Elemental	262	Ancestral Wolf Affinity	382197	talent-passive	TraitNodeEntry	false	0	Rotational	class		103610	127886	1					api	Cleanse Spirit, Wind Shear, Purge, and totem casts no longer cancel Ghost Wolf.
+Shaman	Elemental	262	Ancient Fellowship	443423	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94862	123632	1					api	Ancestors have a 20% chance to call another Ancestor for 8 sec when they depart.
+Shaman	Elemental	262	Arc Discharge	455096	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94885	117482	1					api	Tempest causes your next Chain Lightning to be instant cast, deal 40% increased damage, and cast an additional time.\n\nCan accumulate up to 2 charges.
+Shaman	Elemental	262	Arctic Snowstorm	462764	talent-passive	TraitNodeEntry	false	0	Rotational	class		109493	135717	1					api	Enemies within 10 yds of your Frost Shock are snared by 30%.
+Shaman	Elemental	262	Ascending Air	462791	talent-passive	TraitNodeEntry	false	0	Rotational	class		103607	127883	1					api	Wind Rush Totem's cooldown is reduced by 30 sec and its movement speed effect lasts an additional 2 sec.
+Shaman	Elemental	262	Astral Bulwark	377933	talent-passive	TraitNodeEntry	false	0	Rotational	class		103611	127887	1					api	Astral Shift reduces damage taken by an additional 20%.
+Shaman	Elemental	262	Awakening Storms	455129	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94867	117464	1					api	Stormstrike has a small chance to upgrade your next Lightning Bolt to Tempest.
+Shaman	Elemental	262	Brimming with Life	381689	talent-passive	TraitNodeEntry	false	0	Rotational	class		103582	127855	2	Buff		cdm-only:CooldownSetSpell		api	Stamina increased by 8%.\n\nWhile you are at full health, Reincarnation cools down 50% faster.
+Shaman	Elemental	262	Call of Fire	378255	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80992	101864	1	Other		cdm-only:CooldownSetSpell		api	Ascendance summons a Greater Fire Elemental to rain destruction on your enemies for 20 sec. \n\nWhile the Fire Elemental is active, Flame Shock deals damage 33% faster, and newly applied Flame Shocks last 100% longer.
+Shaman	Elemental	262	Call of the Ancestors	443450	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94888	117485	1	Buff		cdm-only:CooldownSetSpell		api	Unleash Life calls an Ancestor to your side for 12 sec.\n\nWhenever you cast a healing or damaging spell, the Ancestor will cast a similar spell.
+Shaman	Elemental	262	Charged Conduit	468625	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80991	101862	1					api	Increases the duration of Lightning Rod by 4 sec and its damage bonus by 25%.
+Shaman	Elemental	262	Conductive Energy	455123	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94868	117465	1					api	Gain the effects of the Lightning Rod talent:\n\n Lightning Rod\nLightning Bolt and Chain Lightning make your target a Lightning Rod for 8 sec.\n \nLightning Rods take 10% of all damage you deal with Lightning Bolt and Chain Lightning.
+Shaman	Elemental	262	Crackling Fury	1269215	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103632	127914	2					api	Voltaic Blaze's cooldown is reduced by 3 sec and its instant damage is increased by 50%.
+Shaman	Elemental	262	Descending Skies	1264688	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	109727	135985	1					api	Casting Ascendance upgrades your next Lightning Bolt to Tempest.
+Shaman	Elemental	262	Earthen Communion	443441	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94858	123631	1					api	Earth Shield has an additional 3 charges and heals you for 25% more.
+Shaman	Elemental	262	Earthen Rage	170374	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81010	101887	1					api	Your damaging spells incite the earth around you to come to your aid for 6 sec, repeatedly dealing 160 Nature damage to your most recently attacked target.
+Shaman	Elemental	262	Earthshatter	468626	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80995	101867	1					api	Increases Earth Shock and Earthquake damage by 8% and the stat bonuses granted by Elemental Blast by 25%.
+Shaman	Elemental	262	Echo Chamber	382032	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81015	101892	1					api	Increases the damage dealt by your Elemental Overloads by 25%.
+Shaman	Elemental	262	Echo of the Elements	333919	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80981	101850	1					api	Lava Burst has an additional charge.
+Shaman	Elemental	262	Electroshock	454022	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94863	128226	1	Buff		cdm-only:CooldownSetSpell		api	Tempest increases your movement speed by 20% for 5 sec.
+Shaman	Elemental	262	Elemental Fury	60188	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80983	101853	1					api	Your damaging critical strikes deal 250% damage instead of the usual 200%.
+Shaman	Elemental	262	Elemental Orbit	383010	talent-passive	TraitNodeEntry	false	0	Rotational	class		103602	127877	1					api	Increases the number of Elemental Shields you can have active on yourself by 1.\n\nYou can have Earth Shield on yourself and one ally at the same time.
+Shaman	Elemental	262	Elemental Resistance	462368	talent-passive	TraitNodeEntry	false	0	Rotational	class		103601	127876	1					api	Healing from Healing Stream Totem reduces Fire, Frost, and Nature damage taken by 6% for 3 sec.
+Shaman	Elemental	262	Elemental Resonance	1258895	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103631	127913	1					api	All Elemental damage increased by 3%.
+Shaman	Elemental	262	Elemental Reverb	443418	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94869	117466	1					api	Lava Burst gains an additional charge and deals 10% increased damage.
+Shaman	Elemental	262	Elemental Unity	462866	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103633	127915	1					api	While a Fire Elemental is active, your Fire damage dealt is increased by 6%.\n\nWhile a Storm Elemental is active, your Nature damage dealt is increased by 6%.
+Shaman	Elemental	262	Elemental Warding	381650	talent-passive	TraitNodeEntry	false	0	Rotational	class		103586	127859	1					api	Reduces all magic damage taken by 8%.
+Shaman	Elemental	262	Encasing Cold	462762	talent-passive	TraitNodeEntry	false	0	Rotational	class		109493	135719	1	Buff		cdm-only:CooldownSetSpell		api	Increases the cooldown of Frost Shock by 15 sec, but Frost Shock now freezes targets in place for 4 sec.
+Shaman	Elemental	262	Enhanced Imbues	462796	talent-passive	TraitNodeEntry	false	0	Rotational	class		103606	127881	1					api	The effects of your weapon and shield imbues are increased by 30%.
+Shaman	Elemental	262	Everlasting Elements	462867	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103634	127916	1					api	Increases the duration of your Elementals by 20%.
+Shaman	Elemental	262	Eye of the Storm	381708	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81003	101877	1					api	Reduces the Maelstrom cost of Earth Shock and Earthquake by 5.\n\nReduces the Maelstrom cost of Elemental Blast by 10.
+Shaman	Elemental	262	Feedback Loop	1270061	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110402	136974	1			talent-passive:TraitNodeEntry		api	Elemental Overload damage increased by 35%.
+Shaman	Elemental	262	Final Calling	443446	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94875	117472	1					api	When an Ancestor departs, they cast Hydrobubble on a nearby injured ally.\n\n Hydrobubble\nSurrounds your target in a protective water bubble for 15 sec.\n\nThe shield absorbs the next 1,795 incoming damage, but the absorb amount decays fully over its duration.
+Shaman	Elemental	262	Fire and Ice	382886	talent-passive	TraitNodeEntry	false	0	Rotational	class		103605	127880	1					api	Increases all Fire and Frost damage you deal by 3%.
+Shaman	Elemental	262	First Ascendant	462440	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103640	127921	1					api	The cooldown of Ascendance is reduced by 60 sec.
+Shaman	Elemental	262	Flames of the Cauldron	378266	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103630	127912	1					api	Reduces the cooldown of Flame Shock and Voltaic Blaze by 1.5 sec.\n\nFlame Shock deals damage 15% faster.
+Shaman	Elemental	262	Flames of the Firelord	381784	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103641	127922	1					api	Flame Shock damage increased by 100%.
+Shaman	Elemental	262	Flash of Lightning	381936	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80990	101861	1					api	Increases the critical strike chance of Lightning Bolt and Chain Lightning by 10%.
+Shaman	Elemental	262	Fury of the Storms	191717	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80998	101871	1	Other		cdm-only:CooldownSetSpell		api	Casting Stormkeeper summons a Greater Storm Elemental to hurl gusts of wind at your enemies for 10 sec.
+Shaman	Elemental	262	Fusion of Elements	462840	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80993	101865	1					api	Consuming Power of the Maelstrom additionally fires an Elemental Blast at your target at 40% effectiveness.
+Shaman	Elemental	262	Graceful Spirit	192088	talent-passive	TraitNodeEntry	false	0	Rotational	class		103626	127908	1					api	Reduces the cooldown of Spiritwalker's Grace by 30 sec and increases your movement speed by 20% while it is active.
+Shaman	Elemental	262	Heed My Call	443444	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94884	117481	1					api	Ancestors last an additional 4 sec.
+Shaman	Elemental	262	Herald of the Storms	468571	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80998	128223	1					api	Reduces the cooldown of Stormkeeper by 15 sec.
+Shaman	Elemental	262	Inferno Arc	1259047	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81008	101885	1					api	Lightning Bolt, Chain Lightning, Earth Shock, Elemental Blast, and Earthquake deal 10% increased damage to targets affected by Flame Shock.
+Shaman	Elemental	262	Instinctive Imbuements	1270350	talent-passive	TraitNodeEntry	false	0	Rotational	class		109387	135591	1					api	Lightning Shield increases your Intellect by 3%.\n\nCasting Lightning Shield now applies your weapon imbuements. Earth Shield is also applied if you have the Elemental Orbit talent.
+Shaman	Elemental	262	Jet Stream	462817	talent-passive	TraitNodeEntry	false	0	Rotational	class		103607	127882	1					api	Wind Rush Totem's movement speed bonus is increased by 10% and now removes snares.
+Shaman	Elemental	262	Latent Wisdom	443449	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94862	117459	1					api	Your Ancestors' spells are 25% more powerful.
+Shaman	Elemental	262	Lava Flows	1273485	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110186	136713	1					api	Lava Burst damage increased by 5%.\n\nLava Burst and Lava Burst Overload generate 1 additional Maelstrom.
+Shaman	Elemental	262	Lightning Capacitor	462862	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80997	101870	1					api	While Lightning Shield is active, your Nature damage dealt is increased by 8%.
+Shaman	Elemental	262	Lightning Conduit	467778	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94863	117460	1	Buff		cdm-only:CooldownSetSpell		api	You have a chance to get struck by lightning, increasing your movement speed by 50% for 5 sec. The effectiveness is increased to 100% in outdoor areas.\n\nYou call down a Thunderstorm when you Reincarnate.
+Shaman	Elemental	262	Lightning Rod	210689	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81012	101889	1					api	Lightning Bolt and Chain Lightning make your target a Lightning Rod for 8 sec.\n \nLightning Rods take 10% of all damage you deal with Lightning Bolt and Chain Lightning.
+Shaman	Elemental	262	Maelstrom Supremacy	443447	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94883	117480	1					api	Increases the healing done by Healing Wave, Downpour, and Chain Heal by 25%.
+Shaman	Elemental	262	Mana Spring	381930	talent-passive	TraitNodeEntry	false	0	Rotational	class		103587	127860	1					api	Your Lava Burst casts restore 22 mana to you and 4 allies nearest to you within 40 yards.\n\nAllies can only benefit from one Shaman's Mana Spring effect at a time, prioritizing healers.
+Shaman	Elemental	262	Master of the Elements	16166	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80999	136714	1	Buff		cdm-only:CooldownSetSpell		api	Casting Lava Burst increases the damage or healing of your next Nature, Physical, or Frost spell by 15%.
+Shaman	Elemental	262	Molten Wrath	1258843	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80999	101872	1					api	Lava Burst deals 15% additional damage.
+Shaman	Elemental	262	Mountains Will Fall	381726	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81002	101876	1					api	Earth Shock, Elemental Blast, and Earthquake can trigger your Mastery: Elemental Overload at 50% effectiveness.\n\nOverloaded Earthquakes do not knock enemies down.
+Shaman	Elemental	262	Mystic Knowledge	1270450	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	109730	135988	1					api	Increases the chance for Lava Surge to occur by 20%.
+Shaman	Elemental	262	Natural Gift	1264691	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	109728	135986	1					api	Nature damage is increased by 2%
+Shaman	Elemental	262	Natural Harmony	443442	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94858	117455	1					api	Reduces the cooldown of Nature's Guardian by 15 sec and causes it to heal for an additional 10% of your maximum health.
+Shaman	Elemental	262	Nature's Fury	381655	talent-passive	TraitNodeEntry	false	0	Rotational	class		103617	127894	2					api	Increases the critical strike chance of your Nature spells and abilities by 2%.
+Shaman	Elemental	262	Nature's Guardian	30884	talent-passive	TraitNodeEntry	false	0	Rotational	class		103613	127890	1					api	When your health is brought below 35%, you instantly heal for 40% of your maximum health. Cannot occur more than once every 45 sec.
+Shaman	Elemental	262	Nature's Protection	454027	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94880	117477	1					api	Lightning Shield reduces the damage you take by 3%.
+Shaman	Elemental	262	Offering from Beyond	443451	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94887	117484	1					api	When an Ancestor is called, they reduce the cooldown of Riptide by 2 sec.
+Shaman	Elemental	262	Path of the Seer	1269364	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110066	136561	1					api	Increases your Intellect by 3%.
+Shaman	Elemental	262	Planes Traveler	381647	talent-passive	TraitNodeEntry	false	0	Rotational	class		103611	127888	1					api	Reduces the cooldown of Astral Shift by 30 sec.
+Shaman	Elemental	262	Power of the Maelstrom	191861	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80996	101869	1	Buff		cdm-only:CooldownSetSpell		api	Casting Lava Burst has a 15% chance to cause your next Lightning Bolt or Chain Lightning cast to trigger Elemental Overload an additional time, stacking up to 2 times.
+Shaman	Elemental	262	Preeminence	462443	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103640	128224	1					api	Your haste is increased by 25% during Ascendance and its duration is increased by 3 sec.
+Shaman	Elemental	262	Primal Elementalist	117013	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80978	101844	1					api	Your Earth, Fire, and Storm Elementals are drawn from primal elementals 80% more powerful than regular elementals, with additional abilities, and you gain direct control over your Primal Fire Elemental.
+Shaman	Elemental	262	Primordial Bond	1279819	talent-passive	TraitNodeEntry	false	0	Rotational	class		103612	127889	1					api	Your Earth Elemental no longer taunts nearby enemies or generates threat and instead increases your maximum health by 15% while active.
+Shaman	Elemental	262	Primordial Capacity	443448	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94860	117457	1					api	Increases your maximum mana by 10%.\n\nTidal Waves can now stack up to 3 times.
+Shaman	Elemental	262	Primordial Fury	378193	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103639	127920	1					api	Elemental Fury increases critical strike damage by an additional 25%.
+Shaman	Elemental	262	Purging Flames	1259471	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103637	101884	1	Buff		cdm-only:CooldownSetSpell		api	Voltaic Blaze unleashes volcanic rage, causing your next Lava Burst to also fire at 5 additional targets with your Flame Shock at 80% effectiveness with reduced Maelstrom generation.\n\nLava Burst damage increased by 10%.
+Shaman	Elemental	262	Reactive Warding	462454	talent-passive	TraitNodeEntry	false	0	Rotational	class		103593	136584	1					api	When refreshing Earth Shield, your target is healed for 830 for each stack of Earth Shield they are missing.\n\nAdditionally, Earth Shield can consume charges 1.0 sec faster.
+Shaman	Elemental	262	Refreshing Waters	378211	talent-passive	TraitNodeEntry	false	0	Rotational	class		103594	127869	1					api	Your Healing Surge is 25% more effective on yourself.
+Shaman	Elemental	262	Rolling Thunder	454026	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94889	117486	1					api	Doom Winds summons a Nature Feral Spirit for 12 sec.\n\nFeral Spirit\nAn Elemental Spirit infused with Nature magic, granting the summoner with 5% increased Nature damage and 5% Physical damage for 12 sec.
+Shaman	Elemental	262	Routine Communication	443445	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94884	123630	1					api	Riptide has a 15% chance to call an Ancestor to your side for 8 sec.
+Shaman	Elemental	262	Searing Flames	381782	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81005	101880	1					api	Flame Shock damage has a chance to generate 2 Maelstrom.
+Shaman	Elemental	262	Spirit Wolf	260878	talent-passive	TraitNodeEntry	false	0	Rotational	class		103581	127854	1	Buff		cdm-only:CooldownSetSpell		api	While transformed into a Ghost Wolf, you gain 5% increased movement speed and 5% damage reduction every 1 sec, stacking up to 4 times.
+Shaman	Elemental	262	Spiritual Awakening	1270375	talent-passive	TraitNodeEntry	false	0	Rotational	class		110085	136585	1					api	Mastery increased by 3%.
+Shaman	Elemental	262	Spiritwalker's Aegis	378077	talent-passive	TraitNodeEntry	false	0	Rotational	class		103626	127907	1	Buff		cdm-only:CooldownSetSpell		api	When you cast Spiritwalker's Grace, you become immune to Silence and Interrupt effects for 5 sec.
+Shaman	Elemental	262	Spiritwalker's Momentum	443425	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94861	117458	1					api	Using spells with a cast time increases the duration of Spiritwalker's Grace and Spiritwalker's Aegis by 1 sec, up to a maximum of 4 sec.
+Shaman	Elemental	262	Static Charge	265046	talent-passive	TraitNodeEntry	false	0	Rotational	class		103618	127896	2					api	Reduces the cooldown of Capacitor Totem by 15 sec.
+Shaman	Elemental	262	Storm Frenzy	462695	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103635	127917	1					api	Reduces the cast time of Lightning Bolt and Chain Lightning by 15%.
+Shaman	Elemental	262	Storm Infusion	1258889	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103636	127918	1					api	Elemental Resonance\nAll elemental damage is increased by an additional 2%.\n\n Thunderstrike Ward\nIncreases the chance for Thunderstrikes to occur by 30% and increases Thunderstrike damage by 75%.
+Shaman	Elemental	262	Storm Swell	455088	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94873	117470	1	Buff		cdm-only:CooldownSetSpell		api	Tempest grants 7% Mastery for 6 sec.
+Shaman	Elemental	262	Stormcaller	454021	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94893	117490	1					api	Increases the critical strike chance of your Nature damage spells by 5% and the critical strike damage of your Nature spells by 5%.
+Shaman	Elemental	262	Stormwell	1264762	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	109729	135987	1					api	Storm Elemental lasts 2 sec longer, and Stormkeeper generates 10 Maelstrom.
+Shaman	Elemental	262	Supercharge	455110	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94873	128225	1					api	Lightning Bolt, Tempest, and Chain Lightning have a 35% chance to refund 2 Maelstrom Weapon stacks.
+Shaman	Elemental	262	Surging Currents	454372	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94880	125617	1	Buff		cdm-only:CooldownSetSpell		api	Casting Tempest grants Surging Currents, increasing the effectiveness of your next Chain Heal or Healing Surge by 16%, up to 80%.
+Shaman	Elemental	262	Swelling Maelstrom	381707	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81016	101893	1					api	Increases your maximum Maelstrom by 50.\n\nIncreases Earth Shock, Elemental Blast, and Earthquake damage by 5%.
+Shaman	Elemental	262	Tectonic Collapse	1258899	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81000	101874	1					api	Earth Shock, Elemental Blast, and Earthquake deal 20% increased damage.
+Shaman	Elemental	262	Tempest	454009	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94892	117489	1	Buff		cdm-only:CooldownSetSpell		api	Each Maelstrom Weapon spent has a 2.00% chance to upgrade your next Lightning Bolt to Tempest.
+Shaman	Elemental	262	Therazane's Resilience	1217622	talent-passive	TraitNodeEntry	false	0	Rotational	class		103593	127868	1					api	Earth Shield no longer loses charges and is 115% effective.
+Shaman	Elemental	262	Thunderous Paws	378075	talent-passive	TraitNodeEntry	false	0	Rotational	class		103581	127853	1	Buff		cdm-only:CooldownSetSpell		api	Ghost Wolf removes snares and increases your movement speed by an additional 25% for the first 3 sec. May only occur once every 20 sec.
+Shaman	Elemental	262	Totemic Focus	382201	talent-passive	TraitNodeEntry	false	0	Rotational	class		103625	127906	1					api	Increases the radius of your totem effects by 15%.\n\nIncreases the duration of your Earthbind and Earthgrab Totems by 10 sec.\n\nIncreases the duration of your Healing Stream, Tremor, Poison Cleansing, and Wind Rush Totems by 3.0 sec.
+Shaman	Elemental	262	Totemic Surge	381867	talent-passive	TraitNodeEntry	false	0	Rotational	class		109388	135592	1					api	Reduces the cooldown of most totems by 5 sec.
+Shaman	Elemental	262	Unlimited Power	454391	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94886	117483	1	Buff		cdm-only:CooldownSetSpell		api	Spending Maelstrom Weapon stacks grants you 1% haste for 15 sec.\n\nMultiple applications may overlap.
+Shaman	Elemental	262	Voltaic Surge	454919	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94870	117467	1					api	Crash Lightning and Chain Lightning damage increased by 15%.
+Shaman	Elemental	262	Voodoo Mastery	204268	talent-passive	TraitNodeEntry	false	0	Rotational	class		103600	127875	1	Buff		cdm-only:CooldownSetSpell		api	Your Hex target is slowed by 70% during Hex and for 6 sec after it ends.\n\nReduces the cooldown of Hex by 15 sec.
+Shaman	Elemental	262	Winds of Al'Akir	382215	talent-passive	TraitNodeEntry	false	0	Rotational	class		103614	127891	2					api	Increases your movement speed by 5% and the movement speed bonus of Ghost Wolf by an additional 5%.
+Shaman	Elemental	262	Windspeaker	1270447	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	109731	135989	1					api	The cast times of Healing Surge, Chain Heal and Lava Burst are reduced by 10%.
+Shaman	Elemental	262	Windveil	355630	talent-passive	TraitNodeEntry	false	0	Rotational	class		103628	127910	1	Buff		cdm-only:CooldownSetSpell		api	Interrupting a spell with Wind Shear reduces all spell damage taken by 15% for 12 sec.
+Shaman	Elemental	262	Reincarnation	20608	cdm-only	CooldownSetSpell	false	1800	Cooldown						Utility				api	Allows you to resurrect yourself upon death with 20% health and mana. This effect can occur only once every 30 minutes.
+Shaman	Elemental	262	Elemental Blast: Critical Strike	118522	cdm-only	CooldownSetSpell	true	0	Rotational						Buff				db2-template	Critical Strike increased by $s1%.
+Shaman	Elemental	262	Elemental Blast: Haste	173183	cdm-only	CooldownSetSpell	true	0	Rotational						Buff				db2-template	Haste increased by $s1%.
+Shaman	Elemental	262	Elemental Blast: Mastery	173184	cdm-only	CooldownSetSpell	true	0	Rotational						Buff				db2-template	Mastery increased by ${$s1*$168534bc1}%.
+Shaman	Elemental	262	Lava Surge	77756	cdm-only	CooldownSetSpell	false	0	Rotational						Buff				api	Flame Shock periodic damage has a chance to reset the remaining cooldown on Lava Burst and cause your next Lava Burst to be instant.
+Shaman	Elemental	262	Wind Rush	192082	cdm-only	CooldownSetSpell	true	0	Rotational						Buff				db2-template	Movement speed increased by $s1%.

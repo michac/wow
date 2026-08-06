@@ -360,3 +360,46 @@ already recorded. What belongs here is the **tool** gap, not the ability.
   markers asked about Rage-on-cast and heal-%/DR-% — questions ledger §6 itself says the
   tsv cannot answer. Dropping them removed three genuine open unknowns. They are re-opened
   as markers in the prose files.
+
+## Ability inventory — a `none` description marks a stub row *(2026-08-06)*
+
+Fell out of adding `description` + `description_source` to the generated inventory
+(`wowkb.gen_abilities`, DB2 `Spell.Description_lang` spine + a cached Blizzard-API
+rendering). **Recorded as an observation, not a task** — nothing here is scheduled, and
+the fix is explicitly *not* ours to make: dropping a row changes the union BucketBinds
+reads as a spec's real kit.
+
+**The finding.** 26 of the 7,065 inventory rows (12 distinct spellIDs) get
+`description_source: none` — no text in DB2 and no text from the API. That is **not** all
+junk. Six of them are **stub twins**: the name is a real ability, but *that* spellID is a
+hollow shell sitting in specs that do not have the ability, while the real button is a
+different spellID with a real cooldown and full API text.
+
+| name | hollow spellID | carried by | the real button |
+|---|---|---|---|
+| Force of Nature | `37846` cd 0, `SkillLineAbility:798` | Feral, Guardian, Restoration | `205636` cd 60, **Balance** `talent-active` |
+| Incarnation: Tree of Life | `81098` cd 0, `NameSubtext_lang` "Passive" | Balance, Feral, Guardian | `33891` cd 180, **Restoration** `talent-choice` |
+
+The other 20 rows / 10 names have no twin and are fairly called junk: four spec identity
+auras (`Frost Death Knight` 137006, `Unholy Death Knight` 137007, `Protection Paladin`
+137028, `Enhancement Shaman` 137041 — all `cdm-only`, all passive-flagged), one internal
+driver (`Pyroblast Clearcasting Driver` 44448), UI plumbing (`Hotbar Slot 01/02` 294184 /
+294189) and internal class-line entries (`Energy Usage` 119650,
+`Zen Pilgrimage/Death Gate/Moonglade Storage Aura I` 126893, `Shapeshift Form` 228545).
+
+**Measured caveats, so nobody over-reads this:**
+
+- `AuraDescription_lang` — the other DB2 text column, which the generator does not read —
+  is **also empty** for all 12 spellIDs. No third source rescues them.
+- **The signal under-detects.** 101 inventory names carry more than one spellID; **11**
+  have the stub *shape* (a cd-0 `class-baseline` member beside a cd>0 member) and only
+  **2 of the 11** are `none`. The other nine — Ardent Defender, Bestial Wrath, Bladestorm,
+  Chi Burst, Fists of Fury, Ravager, Track Beasts, Track Humanoids, Tranquility — carry
+  full API text on both spellIDs, and several of those pairs are a legitimate
+  button/aura or player/pet split rather than a stub. A `none` is a free lead; it is not a
+  survey of stub rows, and "11" is a count of a *shape*, not of confirmed stubs.
+- All figures are at build **12.0.7.67808**.
+
+`wowkb.gen_abilities` prints the split on every run and
+`knowledge/classes/_abilities/README.md` § *When a row has no description* carries the
+same table. Nothing ages either one.

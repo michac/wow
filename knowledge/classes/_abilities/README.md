@@ -25,12 +25,14 @@ The generated per-spec files are `ability-inventory.tsv` + `ability-inventory.md
 | File | One row per | Use |
 |------|-------------|-----|
 | `all-abilities.tsv` | (spec, ability) | grep/awk across all 40 specs |
-| `pet-family-annex.tsv` | (pet skill line, spell) | "which pet/demon gives me X" |
-| `../<class>/<spec>/ability-inventory.tsv` | ability | per-spec data |
-| `../<class>/<spec>/ability-inventory.md` | ability | reading, citing |
+| `spell-descriptions.tsv` | **distinct spellID** | the description join table |
+| `pet-family-annex.tsv` | (pet skill line, spell) | "which pet/demon gives me X" — **incl. `description`** |
+| `../<class>/<spec>/ability-inventory.tsv` | ability | per-spec data, **incl. `description`** |
+| `../<class>/<spec>/ability-inventory.md` | ability | reading, citing (table + `## Descriptions`) |
 | `section-3-corroborated.{tsv,md}` | (spec, reached ability) | section 3 — reached, not joined |
 | `section-4-catalogue.{tsv,md}` | (spec, unplaced name) | section 4 — the catalogue |
 | `residual-probe.json` | residual name | leg B's cached `/data/wow/spell/{id}` results |
+| `spell-descriptions.json` | spellID | the cached RESOLVED `/data/wow/spell/{id}` descriptions |
 
 ## The four sections
 
@@ -82,6 +84,122 @@ silently mixes them (the unversioned `CooldownSetSpell.csv` is build >= 68209).
 | `seed_bucket` | the BucketBinds seed bucket binding this name today |
 | `also_from` | other legs that also claim this name, `origin:source` |
 | `aliases` | other names for the same entry (`Holy Bulwark` ⇄ `Holy Armaments`) |
+| `description_source` | which source rendered the description — **see below** |
+| `description` | the tooltip text. **Per-spec `ability-inventory.tsv` only**; `all-abilities.tsv` carries `description_source` and joins to `spell-descriptions.tsv` on `spell_id` |
+
+## Descriptions
+
+Two Tier-1 sources, complementary. Measured at **12.0.7.67808** over the 7,065
+inventory rows:
+
+| | DB2 `Spell.Description_lang` | Blizzard API `/data/wow/spell/{id}` |
+|---|---|---|
+| row coverage | **7,039 = 99.6 %**, pets **6/6** | 6,928 = 98.1 %, pets **0/6** |
+| readable as-is | **no** — mostly templates | **yes**, resolved English |
+| offline / build-pinned | **yes** | no — network + a committed cache |
+
+**DB2 is the spine; the API is the rendering.** The API wins wherever it has
+text, because its numbers are real values. DB2 covers what the API cannot reach:
+the entire pet leg, most of the `cdm-only` residue (API 43/109) and every 404.
+Each row records which source served it — **check it before quoting a number.**
+
+| `description_source` | What you are reading |
+|---|---|
+| `api` | RESOLVED English. Durations and magnitudes are real values. |
+| `db2-plain` | DB2 text with no `$` placeholder — readable as-is. |
+| `db2-template` | DB2 text with **unresolved `$…` slots**. `$s3`, `$d`, `$?s53376&c2[…][]` are template syntax, **not text** — never quote one as a value. |
+| `…+redirect` | a `$@spelldesc<id>` splice was followed (target text from DB2). |
+| `…+redirect-api` | a splice resolved from the API cache instead. |
+| `…+redirect-unresolved` | a splice could **not** be resolved and is left in the text verbatim. |
+| `none` | neither source has text at this build (26 rows). **Not "junk" — see below.** |
+
+⚠ `$@spelldesc<id>` means *"render spell `<id>`'s description here"* — Hammer of
+Light 427441 is **literally** `$@spelldesc427453`. Splices are followed before
+storing, cycle-guarded and depth-capped, and **every bound hit is printed**.
+
+⚠ `+redirect-unresolved` is not "this spell has no description". Three spells at
+12.0.7.67808 point at a target with no DB2 text that also 404s on the API — Blade
+Flurry 22482 → 319606, Ravager 156287 → 152277, Chakrams 259398 → 259381. **A 404
+is not evidence of absence**; it is a pointer this build cannot follow.
+
+### When a row has no description
+
+`description_source == none` is **26 rows over 12 distinct spellIDs** at 12.0.7.67808,
+and it turns out to be a **signal about the row**, not an absence of data.
+`AuraDescription_lang` — the other DB2 text column — is empty for all 12 as well,
+so no third source rescues them. They split in two:
+
+| kind | rows | what it is |
+|---|---|---|
+| **stub twin** | 6 (2 names) | The name **is** a real ability, but *this* spellID is a hollow shell carried by specs that do not have it. The real button is a different spellID with a real cooldown and full API text. |
+| hidden / internal | 20 (10 names) | Spec identity auras, an internal driver, UI plumbing, internal class-line entries. Genuinely not player-facing. |
+
+The two measured stub twins:
+
+| name | hollow spellID | carried by | the real button |
+|---|---|---|---|
+| Force of Nature | `37846` cd 0, `SkillLineAbility:798` | Feral, Guardian, Restoration | `205636` cd 60, **Balance** `talent-active` |
+| Incarnation: Tree of Life | `81098` cd 0, `NameSubtext_lang` "Passive" | Balance, Feral, Guardian | `33891` cd 180, **Restoration** `talent-choice` |
+
+The other ten names — `Frost Death Knight` 137006, `Unholy Death Knight` 137007,
+`Protection Paladin` 137028, `Enhancement Shaman` 137041 (spec identity auras,
+all `cdm-only` and passive-flagged), `Pyroblast Clearcasting Driver` 44448,
+`Hotbar Slot 01/02` 294184 / 294189, `Energy Usage` 119650,
+`Zen Pilgrimage/Death Gate/Moonglade Storage Aura I` 126893, `Shapeshift Form`
+228545 — have no twin and are fairly called junk.
+
+⚠ **It under-detects; it is not "the stub detector".** 101 names in the inventory
+carry more than one spellID, and **11** of those have the stub *shape* (a cd-0
+`class-baseline` member beside a cd>0 member) — but only **2 of the 11** are
+`none`. The other nine (Ardent Defender, Bestial Wrath, Bladestorm, Chi Burst,
+Fists of Fury, Ravager, Track Beasts, Track Humanoids, Tranquility) carry full
+API text on both spellIDs and this signal is silent about them. A `none` is a
+free lead, not a survey.
+
+⚠ **Nothing is fixed from this.** Dropping a stub row changes the union
+BucketBinds reads as a spec's real kit. The generator **reports** the split on
+every run and stops there. Also recorded in `knowledge/_meta/kb-inbox.md`
+§ *Ability inventory — `none` descriptions*.
+
+### The pet annex
+
+`pet-family-annex.tsv` carries `description` + `description_source` on the same
+contract. The Blizzard API serves **0** of its 169 distinct spellIDs (measured on
+a 25-spell random sample, consistent with the inventory pet leg's 0/6), so the
+annex is entirely the **DB2 spine** — which is precisely why the spine is there.
+It covers the pet abilities the prose files actually cite: Spell Lock 19647, Axe
+Toss 89766. `--descriptions` deliberately does **not** fetch annex-only spellIDs
+— 169 GETs for a measured-zero return.
+
+### Why `all-abilities.tsv` carries no `description`
+
+Measured: the text is **990 KB** spread over the 7,065 rows but **561 KB** over
+the 3,949 distinct spellIDs — 43 % of it is the same tooltip repeated for a spell
+several specs share. A description is a property of the **spell**, not of the
+`(spec, ability)` pair, so folding it into the cross-spec grep file would roughly
+double that file (905 KB → ~1.9 MB) to hold nothing new. It lives once in
+`spell-descriptions.tsv`; join on `spell_id`. `description_source` **does** stay
+in `all-abilities.tsv`, because coverage is genuinely per row and "how much of
+origin X is only a template?" must be answerable without the join.
+
+### TSV safety
+
+Descriptions carry `\r\n` and could carry a tab; either written raw silently
+corrupts a TSV — `csv.DictReader` reads the damage as data, not as an error. Every
+emitted cell is escaped: `\` → `\\`, CRLF/CR/LF → `\n`, TAB → `\t`. Reverse with
+`s.replace('\\n', '\n')` after un-doubling `\\`.
+
+### Refreshing the API cache
+
+```bash
+uv run python -m wowkb.gen_abilities --fetched <YYYY-MM-DD> --descriptions   # NETWORK
+```
+
+~3,950 GETs against `/data/wow/spell/{id}` (the inventory's distinct spellIDs
+plus any DB2-dangling `$@spelldesc` target), written to
+`spell-descriptions.json`. **Ordinary generation and `--check` never call out** —
+they read the committed cache, so both stay offline and deterministic. With the
+cache absent, every row falls back to its DB2 template and the run says so.
 
 ### `origin`, in precedence order
 
@@ -141,6 +259,7 @@ cd tools
 uv run python -m wowkb.gen_abilities --fetched <YYYY-MM-DD>
 uv run python -m wowkb.gen_abilities --fetched <YYYY-MM-DD> --check   # drift gate
 uv run python -m wowkb.gen_abilities --fetched <YYYY-MM-DD> --residual
+uv run python -m wowkb.gen_abilities --fetched <YYYY-MM-DD> --descriptions  # NETWORK
 ```
 
 `--check` re-renders in memory and byte-compares. **There is no CI in this repo**

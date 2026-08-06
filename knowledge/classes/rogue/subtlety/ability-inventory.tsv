@@ -1,181 +1,181 @@
-class	spec	spec_id	name	spell_id	origin	source	castable	cooldown	band	tree	hero_tree	node_id	entry_id	max_ranks	blizz_category	seed_bucket	also_from	aliases
-Rogue	Subtlety	261	Blind	2094	talent-active	TraitNodeEntry	true	120	Cooldown	class		90684	112572	1	Utility	Class 2 (CC)	class-baseline:SkillLineAbility:921;cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Cloak of Shadows	31224	talent-active	TraitNodeEntry	true	120	Cooldown	class		90697	112585	1	Buff/Utility	Self-Heal 4 (Emergency/Overflow)	class-baseline:SkillLineAbility:921;cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Evasion	5277	talent-active	TraitNodeEntry	true	120	Cooldown	class		90762	112654	1	Buff/Utility	Personal Defensive 1	class-baseline:SkillLineAbility:921;cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Shadow Blades	121471	talent-active	TraitNodeEntry	true	90	Cooldown	spec		90726	112614	1	Buff/Essential	Cooldown 1	cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Goremaw's Bite	426591	talent-active	TraitNodeEntry	true	45	Cooldown	spec		94581	117169	1	Buff/Essential		cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Thistle Tea	381623	talent-active	TraitNodeEntry	true	1	Rotational	class		90756	112648	1	Buff/Essential	Self-Heal 2	cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Gloomblade	200758	talent-active	TraitNodeEntry	true	0	Rotational	spec		90699	112587	1				
-Rogue	Subtlety	261	Shiv	5938	talent-active	TraitNodeEntry	true	0	Rotational	class		90740	112630	1	Utility	Class 5 (Purge)	class-baseline:SkillLineAbility:921;cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Tricks of the Trade	57934	talent-choice	TraitNodeEntry	true	30	Rotational	class		90686	112574	1	Buff/Utility		class-baseline:SkillLineAbility:921;cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Gouge	1776	talent-choice	TraitNodeEntry	true	25	Rotational	class		90741	112631	1	Utility	Slow	cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Atrophic Poison	381637	talent-choice	TraitNodeEntry	true	0	Rotational	class		90763	112655	1				
-Rogue	Subtlety	261	Numbing Poison	5761	talent-choice	TraitNodeEntry	true	0	Rotational	class		90763	112656	1			class-baseline:SkillLineAbility:921	
-Rogue	Subtlety	261	Shroud of Concealment	114018	class-baseline	SkillLineAbility:921	true	360	Cooldown						Buff/Utility	Class 8 (Lust/BRes)	cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Sprint	2983	class-baseline	SkillLineAbility:921	true	120	Cooldown						Buff/Utility	Movement Ability	cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Crimson Vial	185311	class-baseline	SkillLineAbility:921	true	30	Rotational						Buff/Utility	Self-Heal 1	cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Distract	1725	class-baseline	SkillLineAbility:921	true	30	Rotational						Utility		cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Kidney Shot	408	class-baseline	SkillLineAbility:921	true	30	Rotational						Utility	CC	cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Kick	1766	class-baseline	SkillLineAbility:921	true	15	Rotational						Utility	Interrupt	cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Shadow Dance	185313	class-baseline	SpecializationSpells	true	6	Rotational						Buff/Essential	Rotational 6	cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Stealth	1784	class-baseline	SkillLineAbility:921	true	2	Rotational						Buff	Stance 1	cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Cheap Shot	1833	class-baseline	SkillLineAbility:921	true	1	Rotational						Utility	CC 2	cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Feint	1966	class-baseline	SkillLineAbility:921	true	1	Rotational						Buff/Utility	Personal Defensive 2	cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Vanish	1856	class-baseline	SkillLineAbility:921	true	1	Rotational						Essential/Utility	Class 4 (Special)	cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Pick Pocket	921	class-baseline	SkillLineAbility:921	true	0.5	Rotational									
-Rogue	Subtlety	261	Ambush	8676	class-baseline	SkillLineAbility:921	true	0	Rotational									
-Rogue	Subtlety	261	Backstab	53	class-baseline	SpecializationSpells	true	0	Rotational						Essential	Rotational 1	cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Black Powder	319175	class-baseline	SpecializationSpells	true	0	Rotational							Rotational 7		
-Rogue	Subtlety	261	Blade Flurry	22482	class-baseline	SkillLineAbility:921	true	0	Rotational									
-Rogue	Subtlety	261	Create: Crimson Vial	212205	class-baseline	SkillLineAbility:921	true	0	Rotational									
-Rogue	Subtlety	261	Crippling Poison	3408	class-baseline	SkillLineAbility:921	true	0	Rotational									
-Rogue	Subtlety	261	Deadly Poison	2818	class-baseline	SkillLineAbility:921	true	0	Rotational									
-Rogue	Subtlety	261	Detection	56814	class-baseline	SkillLineAbility:921	true	0	Rotational									
-Rogue	Subtlety	261	Eviscerate	196819	class-baseline	SkillLineAbility:921	true	0	Rotational						Essential	Rotational 3	cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Instant Poison	315584	class-baseline	SkillLineAbility:921	true	0	Rotational									
-Rogue	Subtlety	261	Main Gauche	86392	class-baseline	SkillLineAbility:921	true	0	Rotational									
-Rogue	Subtlety	261	Mutilate	5374	class-baseline	SkillLineAbility:921	true	0	Rotational									
-Rogue	Subtlety	261	Pick Lock	1804	class-baseline	SkillLineAbility:921	true	0	Rotational									
-Rogue	Subtlety	261	Sap	6770	class-baseline	SkillLineAbility:921	true	0	Rotational							Class 1 (Movement)		
-Rogue	Subtlety	261	Secret Technique	280719	class-baseline	SpecializationSpells	true	0	Rotational						Essential	Rotational 4	cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Shadowstrike	185438	class-baseline	SpecializationSpells	true	0	Rotational							Rotational 2		
-Rogue	Subtlety	261	Shuriken Storm	197835	class-baseline	SpecializationSpells	true	0	Rotational							Rotational 5		
-Rogue	Subtlety	261	Shuriken Toss	114014	class-baseline	SpecializationSpells	true	0	Rotational							Class 3 (Tag)		
-Rogue	Subtlety	261	Single-Button Assistant	1229376	class-baseline	SpecializationSpells	true	0	Rotational									
-Rogue	Subtlety	261	Sinister Strike	1752	class-baseline	SkillLineAbility:921	true	0	Rotational									
-Rogue	Subtlety	261	Slice and Dice	315496	class-baseline	SkillLineAbility:921	true	0	Rotational						Buff		cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Wound Poison	8679	class-baseline	SkillLineAbility:921	true	0	Rotational									
-Rogue	Subtlety	261	Smoke Bomb	359053	pvp-talent	PvpTalent	true	120	Cooldown						Utility		cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Dismantle	207777	pvp-talent	PvpTalent	true	45	Cooldown						Utility		cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Death from Above	269513	pvp-talent	PvpTalent	true	30	Rotational						Essential		cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Control is King	354406	pvp-talent	PvpTalent	false	0	Rotational									
-Rogue	Subtlety	261	Dagger in the Dark	198675	pvp-talent	PvpTalent	false	0	Rotational									
-Rogue	Subtlety	261	Distracting Mirage	354661	pvp-talent	PvpTalent	false	0	Rotational									
-Rogue	Subtlety	261	Maneuverability	197000	pvp-talent	PvpTalent	false	0	Rotational									
-Rogue	Subtlety	261	Preemptive Maneuver	1219122	pvp-talent	PvpTalent	false	0	Rotational									
-Rogue	Subtlety	261	Silhouette	197899	pvp-talent	PvpTalent	false	0	Rotational									
-Rogue	Subtlety	261	Thick as Thieves	221622	pvp-talent	PvpTalent	false	0	Rotational									
-Rogue	Subtlety	261	Thief's Bargain	354825	pvp-talent	PvpTalent	false	0	Rotational									
-Rogue	Subtlety	261	Airborne Irritant	200733	talent-passive	TraitNodeEntry	false	0	Rotational	class		90741	117740	1				
-Rogue	Subtlety	261	Alacrity	193539	talent-passive	TraitNodeEntry	false	0	Rotational	class		90751	112643	2				
-Rogue	Subtlety	261	Ancient Arts	1268932	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110432	137064	1	Buff		talent-passive:TraitNodeEntry;cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Bait and Switch	457034	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathstalker	95106	126029	1				
-Rogue	Subtlety	261	Blackjack	379005	talent-passive	TraitNodeEntry	false	0	Rotational	class		90686	117143	1				
-Rogue	Subtlety	261	Cheat Death	31230	talent-passive	TraitNodeEntry	false	0	Rotational	class		90742	114737	1				
-Rogue	Subtlety	261	Clear the Witnesses	1248793	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathstalker	95110	117707	1				
-Rogue	Subtlety	261	Clever Combatant	1276679	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Trickster	109763	136021	1				
-Rogue	Subtlety	261	Cloaked in Shadows	382515	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90733	112622	1	Buff		cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Cloud Cover	441429	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Trickster	95116	117713	1	Buff		cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Cold Blooded Killer	382245	talent-passive	TraitNodeEntry	false	0	Rotational	class		90748	112639	1	Buff		cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Corrupt the Blood	1248785	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathstalker	95108	117705	1				
-Rogue	Subtlety	261	Coup de Grace	441423	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Trickster	95115	117712	1	Buff		cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Danger Sense	1267220	talent-passive	TraitNodeEntry	false	0	Rotational	class		90760	112652	1				
-Rogue	Subtlety	261	Danse Macabre	382528	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90730	112618	1				
-Rogue	Subtlety	261	Dark Brew	382504	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90719	112607	1				
-Rogue	Subtlety	261	Dark Shadow	245687	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90732	112620	2				
-Rogue	Subtlety	261	Darkest Night	457058	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathstalker	95142	117739	1	Buff		cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Deadened Nerves	231719	talent-passive	TraitNodeEntry	false	0	Rotational	class		110323	136881	1				
-Rogue	Subtlety	261	Deadly Precision	381542	talent-passive	TraitNodeEntry	false	0	Rotational	class		90743	112633	1				
-Rogue	Subtlety	261	Death Perception	469642	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90706	112594	2				
-Rogue	Subtlety	261	Deathstalker's Mark	457052	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathstalker	95136	117733	1	Buff		cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Deep Cuts	1267216	talent-passive	TraitNodeEntry	false	0	Rotational	class		94562	117145	1				
-Rogue	Subtlety	261	Deepening Shadows	185314	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90724	112612	1				
-Rogue	Subtlety	261	Deeper Daggers	382517	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90721	112609	1				
-Rogue	Subtlety	261	Deeper Stratagem	193531	talent-passive	TraitNodeEntry	false	0	Rotational	class		90750	112642	1				
-Rogue	Subtlety	261	Devious Distractions	441263	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Trickster	95133	117730	1				
-Rogue	Subtlety	261	Disorienting Strikes	441274	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Trickster	95118	117715	1				
-Rogue	Subtlety	261	Don't Be Suspicious	441415	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Trickster	95134	120133	1				
-Rogue	Subtlety	261	Double Dance	394930	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101715	125619	1				
-Rogue	Subtlety	261	Echoing Reprimand	470669	talent-passive	TraitNodeEntry	false	0	Rotational	class		90638	112524	1				
-Rogue	Subtlety	261	Elusiveness	79008	talent-passive	TraitNodeEntry	false	0	Rotational	class		90742	112632	1				
-Rogue	Subtlety	261	Ephemeral Bond	426563	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90728	136808	1				
-Rogue	Subtlety	261	Ethereal Cloak	457022	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathstalker	95106	117703	1				
-Rogue	Subtlety	261	Exhilarating Execution	428486	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90701	136807	1				
-Rogue	Subtlety	261	Fade to Nothing	382514	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90733	112621	1	Buff		cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Featherfoot	423683	talent-passive	TraitNodeEntry	false	0	Rotational	class		101714	125615	1				
-Rogue	Subtlety	261	Finality	382525	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90720	112608	2				
-Rogue	Subtlety	261	Find Weakness	91023	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90690	112578	1	Buff		cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Flashing Steel	1276630	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Trickster	109764	136022	1				
-Rogue	Subtlety	261	Flawless Form	441321	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Trickster	95111	117708	1	Buff		cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Fleet Footed	378813	talent-passive	TraitNodeEntry	false	0	Rotational	class		90764	112657	1				
-Rogue	Subtlety	261	Flickerstrike	441359	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Trickster	95137	120131	1				
-Rogue	Subtlety	261	Follow the Blood	457068	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathstalker	95131	126028	1				
-Rogue	Subtlety	261	Forced Induction	470668	talent-passive	TraitNodeEntry	false	0	Rotational	class		90638	112523	1				
-Rogue	Subtlety	261	Graceful Guile	423647	talent-passive	TraitNodeEntry	false	0	Rotational	class		90754	112646	1				
-Rogue	Subtlety	261	Hoodwink	1276626	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Trickster	109765	136023	1				
-Rogue	Subtlety	261	Hunt Them Down	457054	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathstalker	95132	117729	1				
-Rogue	Subtlety	261	Improved Ambush	381620	talent-passive	TraitNodeEntry	false	0	Rotational	class		90692	112580	1				
-Rogue	Subtlety	261	Improved Backstab	319949	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90739	112629	1				
-Rogue	Subtlety	261	Improved Find Weakness	382512	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90704	112592	1				
-Rogue	Subtlety	261	Improved Secret Technique	1279444	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90715	112603	1				
-Rogue	Subtlety	261	Improved Shuriken Storm	319951	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90710	112598	1				
-Rogue	Subtlety	261	Improved Sprint	231691	talent-passive	TraitNodeEntry	false	0	Rotational	class		90687	112575	1				
-Rogue	Subtlety	261	Improved Wound Poison	319066	talent-passive	TraitNodeEntry	false	0	Rotational	class		90637	112522	1				
-Rogue	Subtlety	261	Iron Stomach	193546	talent-passive	TraitNodeEntry	false	0	Rotational	class		90744	112634	1				
-Rogue	Subtlety	261	Leeching Poison	280716	talent-passive	TraitNodeEntry	false	0	Rotational	class		90758	112650	1				
-Rogue	Subtlety	261	Lethality	382238	talent-passive	TraitNodeEntry	false	0	Rotational	class		90749	112640	2				
-Rogue	Subtlety	261	Lingering Darkness	457056	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathstalker	95109	117706	1	Buff		cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Lingering Shadow	382524	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90731	112619	1	Buff		cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Mass Casualty	1273035	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathstalker	109760	136018	1				
-Rogue	Subtlety	261	Master Poisoner	378436	talent-passive	TraitNodeEntry	false	0	Rotational	class		90636	112521	1				
-Rogue	Subtlety	261	Master of Shadows	196976	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90727	112615	1				
-Rogue	Subtlety	261	Mirrors	441250	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Trickster	95141	120130	1				
-Rogue	Subtlety	261	Momentum of Despair	457067	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathstalker	95131	117728	1	Buff		cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Night Terrors	277953	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90714	112602	1				
-Rogue	Subtlety	261	Nimble Fingers	378427	talent-passive	TraitNodeEntry	false	0	Rotational	class		90745	112635	1				
-Rogue	Subtlety	261	Nimble Flurry	441367	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Trickster	95128	117725	1				
-Rogue	Subtlety	261	No Scruples	441398	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Trickster	95116	120132	1				
-Rogue	Subtlety	261	Perforated Veins	382518	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90707	112595	1				
-Rogue	Subtlety	261	Planned Execution	382508	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90703	112591	1				
-Rogue	Subtlety	261	Potent Powder	1265952	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90718	112606	1				
-Rogue	Subtlety	261	Precise Killer	1272989	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathstalker	109762	136020	1				
-Rogue	Subtlety	261	Premeditation	343160	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90700	112588	1	Buff		cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Quick Decisions	382503	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90728	112616	1				
-Rogue	Subtlety	261	Quick Fingers	1267210	talent-passive	TraitNodeEntry	false	0	Rotational	class		90746	112636	1				
-Rogue	Subtlety	261	Quietus Celeris	1273017	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathstalker	109761	136019	1				
-Rogue	Subtlety	261	Recuperator	378996	talent-passive	TraitNodeEntry	false	0	Rotational	class		90640	112526	1				
-Rogue	Subtlety	261	Relentless Strikes	58423	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90709	112597	1				
-Rogue	Subtlety	261	Replicating Shadows	382506	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90716	112604	1				
-Rogue	Subtlety	261	Sanguine Vial	1293135	talent-passive	TraitNodeEntry	false	0	Rotational	class		110576	137380	1	Buff		cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Secret Stratagem	394320	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90722	112610	1				
-Rogue	Subtlety	261	Shadewalker	457057	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathstalker	95123	117720	1				
-Rogue	Subtlety	261	Shadow Focus	108209	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90734	112623	1				
-Rogue	Subtlety	261	Shadowcraft	426594	talent-passive	TraitNodeEntry	false	0	Rotational	spec		94580	117168	1				
-Rogue	Subtlety	261	Shadowed Finishers	382511	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90723	112611	1				
-Rogue	Subtlety	261	Shadowrunner	378807	talent-passive	TraitNodeEntry	false	0	Rotational	class		110324	136882	1				
-Rogue	Subtlety	261	Shot in the Dark	257505	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90701	112589	1				
-Rogue	Subtlety	261	Shroud of Night	457063	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathstalker	95123	126027	1				
-Rogue	Subtlety	261	Shrouded in Darkness	382507	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90698	112586	1				
-Rogue	Subtlety	261	Shuriken Tornado	1264764	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90717	112605	1				
-Rogue	Subtlety	261	Silent Storm	385722	talent-passive	TraitNodeEntry	false	0	Rotational	spec		94582	117170	1	Buff		cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Singular Focus	457055	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathstalker	95117	117714	1				
-Rogue	Subtlety	261	Smoke	441247	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Trickster	95141	117738	1				
-Rogue	Subtlety	261	So Tricky	441403	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Trickster	95134	117731	1				
-Rogue	Subtlety	261	Soothing Darkness	393970	talent-passive	TraitNodeEntry	false	0	Rotational	class		90691	112579	1				
-Rogue	Subtlety	261	Stillshroud	423662	talent-passive	TraitNodeEntry	false	0	Rotational	class		94563	117146	1				
-Rogue	Subtlety	261	Subterfuge	108208	talent-passive	TraitNodeEntry	false	0	Rotational	class		90688	112576	2	Other		cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Supercharger	470347	talent-passive	TraitNodeEntry	false	0	Rotational	class		90639	112525	2				
-Rogue	Subtlety	261	Superior Mixture	423701	talent-passive	TraitNodeEntry	false	0	Rotational	class		94567	117151	1				
-Rogue	Subtlety	261	Surprising Strikes	441273	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Trickster	95121	117718	1				
-Rogue	Subtlety	261	Swift Slasher	381988	talent-passive	TraitNodeEntry	false	0	Rotational	class		90752	112644	1				
-Rogue	Subtlety	261	Symbolic Victory	457062	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathstalker	95109	126030	1	Buff		cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Terrifying Pace	428387	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90714	136488	1				
-Rogue	Subtlety	261	The First Dance	382505	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90735	112625	1				
-Rogue	Subtlety	261	The Rotten	382015	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90705	112593	1				
-Rogue	Subtlety	261	Thousand Cuts	441346	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Trickster	95137	117734	1				
-Rogue	Subtlety	261	Thrill Seeking	394931	talent-passive	TraitNodeEntry	false	0	Rotational	class		90695	112583	1				
-Rogue	Subtlety	261	Tight Spender	381621	talent-passive	TraitNodeEntry	false	0	Rotational	class		90692	117152	1				
-Rogue	Subtlety	261	Toxic Stiletto	1267182	talent-passive	TraitNodeEntry	false	0	Rotational	class		110325	136883	1				
-Rogue	Subtlety	261	Umbral Edge	1281468	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90738	112628	1				
-Rogue	Subtlety	261	Unbreakable Stride	400804	talent-passive	TraitNodeEntry	false	0	Rotational	class		94561	117144	1				
-Rogue	Subtlety	261	Unseen Blade	441146	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Trickster	95140	117737	1	Buff		cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Unshakeable Drive	1248774	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathstalker	95135	117732	1	Buff		cdm-only:CooldownSetSpell	
-Rogue	Subtlety	261	Veiltouched	382017	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90713	112601	1				
-Rogue	Subtlety	261	Vigor	14983	talent-passive	TraitNodeEntry	false	0	Rotational	class		90759	112651	2				
-Rogue	Subtlety	261	Virulent Poisons	381543	talent-passive	TraitNodeEntry	false	0	Rotational	class		90747	112638	1				
-Rogue	Subtlety	261	Warning Signs	426555	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90703	117172	1				
-Rogue	Subtlety	261	Weaponmaster	193537	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90737	112627	1				
-Rogue	Subtlety	261	Without a Trace	382513	talent-passive	TraitNodeEntry	false	0	Rotational	class		101713	125614	1				
-Rogue	Subtlety	261	Mark for Death	1293340	cdm-only	CooldownSetSpell	true	20	Rotational						Essential			
-Rogue	Subtlety	261	Shadowstep	36554	cdm-only	CooldownSetSpell	true	1	Rotational						Utility	Immune/Spell Immune/Movement		
-Rogue	Subtlety	261	Shadow Techniques	196912	cdm-only	CooldownSetSpell	false	0	Rotational						Buff			
+class	spec	spec_id	name	spell_id	origin	source	castable	cooldown	band	tree	hero_tree	node_id	entry_id	max_ranks	blizz_category	seed_bucket	also_from	aliases	description_source	description
+Rogue	Subtlety	261	Blind	2094	talent-active	TraitNodeEntry	true	120	Cooldown	class		90684	112572	1	Utility	Class 2 (CC)	class-baseline:SkillLineAbility:921;cdm-only:CooldownSetSpell		api	Blinds the target, causing it to wander disoriented for 1 min. Damage may interrupt the effect. Limit 1.
+Rogue	Subtlety	261	Cloak of Shadows	31224	talent-active	TraitNodeEntry	true	120	Cooldown	class		90697	112585	1	Buff/Utility	Self-Heal 4 (Emergency/Overflow)	class-baseline:SkillLineAbility:921;cdm-only:CooldownSetSpell		api	Provides a moment of magic immunity, instantly removing all harmful spell effects. The cloak lingers, causing you to resist harmful spells for 5 sec.
+Rogue	Subtlety	261	Evasion	5277	talent-active	TraitNodeEntry	true	120	Cooldown	class		90762	112654	1	Buff/Utility	Personal Defensive 1	class-baseline:SkillLineAbility:921;cdm-only:CooldownSetSpell		api	Increases your dodge chance by 100% for 10 sec.
+Rogue	Subtlety	261	Shadow Blades	121471	talent-active	TraitNodeEntry	true	90	Cooldown	spec		90726	112614	1	Buff/Essential	Cooldown 1	cdm-only:CooldownSetSpell		api	Draws upon surrounding shadows to empower your weapons, causing your attacks to deal 20% additional damage as Shadow and causing your combo point generating abilities to generate double combo points for 16 sec.
+Rogue	Subtlety	261	Goremaw's Bite	426591	talent-active	TraitNodeEntry	true	45	Cooldown	spec		94581	117169	1	Buff/Essential		cdm-only:CooldownSetSpell		api	Lashes out at the target, inflicting 114 Shadow damage and causing your next 3 finishing moves to cost no Energy.\n\nAwards 3 combo points.
+Rogue	Subtlety	261	Thistle Tea	381623	talent-active	TraitNodeEntry	true	1	Rotational	class		90756	112648	1	Buff/Essential	Self-Heal 2	cdm-only:CooldownSetSpell		api	Restore 100 Energy.\n\nWhen your Energy is reduced below 30, drink a Thistle Tea.
+Rogue	Subtlety	261	Gloomblade	200758	talent-active	TraitNodeEntry	true	0	Rotational	spec		90699	112587	1					api	Punctures your target with your shadow-infused blade for 43 Shadow damage, bypassing armor.\n\nAwards 1 combo point.
+Rogue	Subtlety	261	Shiv	5938	talent-active	TraitNodeEntry	true	0	Rotational	class		90740	112630	1	Utility	Class 5 (Purge)	class-baseline:SkillLineAbility:921;cdm-only:CooldownSetSpell		api	Attack with your off-hand, dealing 2 Physical damage, dispelling all enrage effects and applying a concentrated form of your active Non-Lethal poison.\n\nAwards 1 combo point.
+Rogue	Subtlety	261	Tricks of the Trade	57934	talent-choice	TraitNodeEntry	true	30	Rotational	class		90686	112574	1	Buff/Utility		class-baseline:SkillLineAbility:921;cdm-only:CooldownSetSpell		api	Redirects all threat you cause to the targeted party or raid member, beginning with your next damaging attack within the next 30 sec and lasting 6 sec.
+Rogue	Subtlety	261	Gouge	1776	talent-choice	TraitNodeEntry	true	25	Rotational	class		90741	112631	1	Utility	Slow	cdm-only:CooldownSetSpell		api	Gouges the eyes of an enemy target, incapacitating for 4 sec. Damage may interrupt the effect.\n\nMust be in front of your target.\n\nAwards 1 combo point.
+Rogue	Subtlety	261	Atrophic Poison	381637	talent-choice	TraitNodeEntry	true	0	Rotational	class		90763	112655	1					api	Coats your weapons with a Non-Lethal Poison that lasts for 1 hour. Each strike has a 30% chance of poisoning the enemy, reducing their damage by 3.0% for 10 sec.
+Rogue	Subtlety	261	Numbing Poison	5761	talent-choice	TraitNodeEntry	true	0	Rotational	class		90763	112656	1			class-baseline:SkillLineAbility:921		api	Coats your weapons with a Non-Lethal Poison that lasts for 1 hour. Each strike has a 30% chance of poisoning the enemy, clouding their mind and slowing their attack and casting speed by 15% for 10 sec.
+Rogue	Subtlety	261	Shroud of Concealment	114018	class-baseline	SkillLineAbility:921	true	360	Cooldown						Buff/Utility	Class 8 (Lust/BRes)	cdm-only:CooldownSetSpell		api	Extend a cloak that shrouds party and raid members within 30 yards in shadows, providing stealth for 15 sec.
+Rogue	Subtlety	261	Sprint	2983	class-baseline	SkillLineAbility:921	true	120	Cooldown						Buff/Utility	Movement Ability	cdm-only:CooldownSetSpell		api	Increases your movement speed by 70% for 8 sec. Usable while stealthed.
+Rogue	Subtlety	261	Crimson Vial	185311	class-baseline	SkillLineAbility:921	true	30	Rotational						Buff/Utility	Self-Heal 1	cdm-only:CooldownSetSpell		api	Drink an alchemical concoction that heals you for 20% of your maximum health over 4 sec.
+Rogue	Subtlety	261	Distract	1725	class-baseline	SkillLineAbility:921	true	30	Rotational						Utility		cdm-only:CooldownSetSpell		api	Throws a distraction, attracting the attention of all nearby monsters for 10 seconds. Usable while stealthed.
+Rogue	Subtlety	261	Kidney Shot	408	class-baseline	SkillLineAbility:921	true	30	Rotational						Utility	CC	cdm-only:CooldownSetSpell		api	Finishing move that stuns the target. Lasts longer per combo point, up to 8 sec:\n   1 point : 4 seconds\n   2 points: 5 seconds\n   3 points: 6 seconds\n   4 points: 7 seconds\n   5 points: 8 seconds
+Rogue	Subtlety	261	Kick	1766	class-baseline	SkillLineAbility:921	true	15	Rotational						Utility	Interrupt	cdm-only:CooldownSetSpell		api	A quick kick that interrupts spellcasting and prevents any spell in that school from being cast for 6 sec.
+Rogue	Subtlety	261	Shadow Dance	185313	class-baseline	SpecializationSpells	true	6	Rotational						Buff/Essential	Rotational 6	cdm-only:CooldownSetSpell		api	Allows use of all Stealth abilities and grants all the combat benefits of Stealth for 6 sec. Effect not broken from taking damage or attacking.
+Rogue	Subtlety	261	Stealth	1784	class-baseline	SkillLineAbility:921	true	2	Rotational						Buff	Stance 1	cdm-only:CooldownSetSpell		api	Conceals you in the shadows until cancelled, allowing you to stalk enemies without being seen.
+Rogue	Subtlety	261	Cheap Shot	1833	class-baseline	SkillLineAbility:921	true	1	Rotational						Utility	CC 2	cdm-only:CooldownSetSpell		api	Stuns the target for 6 sec.\n\nAwards 1 combo point.
+Rogue	Subtlety	261	Feint	1966	class-baseline	SkillLineAbility:921	true	1	Rotational						Buff/Utility	Personal Defensive 2	cdm-only:CooldownSetSpell		api	Performs an evasive maneuver, reducing damage taken from area-of-effect attacks by 40% for 6 sec.
+Rogue	Subtlety	261	Vanish	1856	class-baseline	SkillLineAbility:921	true	1	Rotational						Essential/Utility	Class 4 (Special)	cdm-only:CooldownSetSpell		api	Allows you to vanish from sight, entering stealth while in combat. For the first 3 sec after vanishing, damage and harmful effects received will not break stealth. Also breaks movement impairing effects.
+Rogue	Subtlety	261	Pick Pocket	921	class-baseline	SkillLineAbility:921	true	0.5	Rotational										api	Pick the target's pocket.
+Rogue	Subtlety	261	Ambush	8676	class-baseline	SkillLineAbility:921	true	0	Rotational										api	Ambush the target, causing 96 Physical damage.\n\nAwards 2 combo points.
+Rogue	Subtlety	261	Backstab	53	class-baseline	SpecializationSpells	true	0	Rotational						Essential	Rotational 1	cdm-only:CooldownSetSpell		api	Stab the target, causing 38 Physical damage. Damage increased by 20% when you are behind your target.\n\nAwards 1 combo point.
+Rogue	Subtlety	261	Black Powder	319175	class-baseline	SpecializationSpells	true	0	Rotational							Rotational 7			api	Finishing move that launches explosive Black Powder at all nearby enemies dealing Physical damage. Deals reduced damage beyond 8 targets.\n\n   1 point  : 6 damage\n   2 points: 13 damage\n   3 points: 20 damage\n   4 points: 26 damage\n   5 points: 33 damage
+Rogue	Subtlety	261	Blade Flurry	22482	class-baseline	SkillLineAbility:921	true	0	Rotational										db2-template+redirect-unresolved	$@spelldesc319606
+Rogue	Subtlety	261	Create: Crimson Vial	212205	class-baseline	SkillLineAbility:921	true	0	Rotational										api	Create a Crimson Vial to share with allies. Maximum of 3 can be carried at once. \n\n Crimson Vial\nDrink an alchemical concoction that heals you for 30% of your maximum health over 6 sec.
+Rogue	Subtlety	261	Crippling Poison	3408	class-baseline	SkillLineAbility:921	true	0	Rotational										api	Coats your weapons with a Non-Lethal Poison that lasts for 1 hour. Each strike has a 30% chance to poison the enemy, slowing movement speed by 50% for 12 sec.
+Rogue	Subtlety	261	Deadly Poison	2818	class-baseline	SkillLineAbility:921	true	0	Rotational										api	Coats your weapons with a Lethal Poison that lasts for 1 hour. Each strike has a 30% chance to poison the enemy for 27 Nature damage over 12 sec. Subsequent poison applications will instantly deal 2 Nature damage.
+Rogue	Subtlety	261	Detection	56814	class-baseline	SkillLineAbility:921	true	0	Rotational										api	Focus intently on trying to detect certain creatures.
+Rogue	Subtlety	261	Eviscerate	196819	class-baseline	SkillLineAbility:921	true	0	Rotational						Essential	Rotational 3	cdm-only:CooldownSetSpell		api	Finishing move that disembowels the target, causing damage per combo point.\n   1 point  : 13 damage\n   2 points: 26 damage\n   3 points: 39 damage\n   4 points: 52 damage\n   5 points: 67 damage
+Rogue	Subtlety	261	Instant Poison	315584	class-baseline	SkillLineAbility:921	true	0	Rotational										api	Coats your weapons with a Lethal Poison that lasts for 1 hour. Each strike has a 30% chance of poisoning the enemy which instantly inflicts 2 Nature damage.
+Rogue	Subtlety	261	Main Gauche	86392	class-baseline	SkillLineAbility:921	true	0	Rotational										api	Your main-hand attacks have a 30% chance to trigger an attack with your off-hand that deals 0 Physical damage.
+Rogue	Subtlety	261	Mutilate	5374	class-baseline	SkillLineAbility:921	true	0	Rotational										api	Instantly attacks for 41 Physical damage.\n\nAwards 1 combo point.
+Rogue	Subtlety	261	Pick Lock	1804	class-baseline	SkillLineAbility:921	true	0	Rotational										api	Allows opening of locked chests and doors that require a skill level of up to 70.
+Rogue	Subtlety	261	Sap	6770	class-baseline	SkillLineAbility:921	true	0	Rotational							Class 1 (Movement)			api	Incapacitates a target not in combat for 1 min. Only works on Humanoids, Beasts, Demons, and Dragonkin. Damage will revive the target. Limit 1.
+Rogue	Subtlety	261	Secret Technique	280719	class-baseline	SpecializationSpells	true	0	Rotational						Essential	Rotational 4	cdm-only:CooldownSetSpell		api	Finishing move that creates shadow clones of yourself. You and your shadow clones each perform a piercing attack on all enemies near your target, dealing Physical damage to the primary target and reduced damage to other targets.\n   1 point  : 30 total damage\n   2 points: 59 total damage\n   3 points: 89 total damage\n   4 points: 116 total damage\n   5 points: 148 total damage
+Rogue	Subtlety	261	Shadowstrike	185438	class-baseline	SpecializationSpells	true	0	Rotational							Rotational 2			api	Strike the target, dealing 198 Physical damage.\n\nWhile Stealthed, you strike through the shadows and appear behind your target up to 25 yds away, dealing 25% additional damage.\n\nAwards 2 combo points.
+Rogue	Subtlety	261	Shuriken Storm	197835	class-baseline	SpecializationSpells	true	0	Rotational							Rotational 5			api	Sprays shurikens at all enemies within 10 yards, dealing 22 Physical damage. Deals reduced damage beyond 8 targets.\n\nAwards 1 combo point per target hit.
+Rogue	Subtlety	261	Shuriken Toss	114014	class-baseline	SpecializationSpells	true	0	Rotational							Class 3 (Tag)			api	Throws a shuriken at an enemy target for 8 Physical damage.\n\nAwards 1 combo point.
+Rogue	Subtlety	261	Single-Button Assistant	1229376	class-baseline	SpecializationSpells	true	0	Rotational										api	Casts damaging abilities for use in combat, rotating through them based on priority.\n\nThe global cooldown of abilities used through the Single-Button Assistant is 25% longer.
+Rogue	Subtlety	261	Sinister Strike	1752	class-baseline	SkillLineAbility:921	true	0	Rotational										api	Viciously strike an enemy, causing 31 Physical damage.\n\nAwards 1 combo point.
+Rogue	Subtlety	261	Slice and Dice	315496	class-baseline	SkillLineAbility:921	true	0	Rotational						Buff		cdm-only:CooldownSetSpell		api	Finishing move that consumes combo points to increase attack speed by 50%. Lasts longer per combo point.\n   1 point  : 12 seconds\n   2 points: 18 seconds\n   3 points: 24 seconds\n   4 points: 30 seconds\n   5 points: 36 seconds
+Rogue	Subtlety	261	Wound Poison	8679	class-baseline	SkillLineAbility:921	true	0	Rotational										api	Coats your weapons with a Lethal Poison that lasts for 1 hour. Each strike has a 30% chance to poison the enemy, which instantly inflicts 1 Nature damage and reduces all healing received by 8% for 12 sec, stacking up to 3 times.
+Rogue	Subtlety	261	Smoke Bomb	359053	pvp-talent	PvpTalent	true	120	Cooldown						Utility		cdm-only:CooldownSetSpell		api	Creates a cloud of thick smoke in an 8 yard radius around the Rogue for 5 sec. Enemies are unable to target into or out of the smoke cloud.
+Rogue	Subtlety	261	Dismantle	207777	pvp-talent	PvpTalent	true	45	Cooldown						Utility		cdm-only:CooldownSetSpell		api	Disarm the enemy, preventing the use of any weapons or shield for 5 sec.
+Rogue	Subtlety	261	Death from Above	269513	pvp-talent	PvpTalent	true	30	Rotational						Essential		cdm-only:CooldownSetSpell		api	Finishing move that empowers your weapons with energy to perform a deadly attack.\n\nYou leap into the air and Eviscerate your target on the way back down, with such force that it has a 15% stronger effect.
+Rogue	Subtlety	261	Control is King	354406	pvp-talent	PvpTalent	false	0	Rotational										api	Cheap Shot grants Slice and Dice for 15 sec and Kidney Shot restores 10 Energy per combo point spent.
+Rogue	Subtlety	261	Dagger in the Dark	198675	pvp-talent	PvpTalent	false	0	Rotational										api	Each second while Stealth is active, nearby enemies within 12 yards take an additional 2% damage from you for 10 sec. Stacks up to 6 times.
+Rogue	Subtlety	261	Distracting Mirage	354661	pvp-talent	PvpTalent	false	0	Rotational										api	Distract slows affected enemies by 60% and creates a Mirage that follows an enemy for 8 sec. Reactivate Distract to teleport to your Mirage's location.
+Rogue	Subtlety	261	Maneuverability	197000	pvp-talent	PvpTalent	false	0	Rotational										api	Sprint has 50% reduced cooldown and 50% reduced duration.
+Rogue	Subtlety	261	Preemptive Maneuver	1219122	pvp-talent	PvpTalent	false	0	Rotational										api	Feint decreases your damage taken by an additional 40% while stunned and its energy cost is reduced by 30%.
+Rogue	Subtlety	261	Silhouette	197899	pvp-talent	PvpTalent	false	0	Rotational										api	Shadowstep's cooldown is reduced by 67% when cast on a friendly target.
+Rogue	Subtlety	261	Thick as Thieves	221622	pvp-talent	PvpTalent	false	0	Rotational										api	Tricks of the Trade now increases the friendly target's damage by 15% for 6 sec.
+Rogue	Subtlety	261	Thief's Bargain	354825	pvp-talent	PvpTalent	false	0	Rotational										api	The cooldowns of Shadow Blades, Vanish, and Feint are reduced by 20%, but using one reduces your damage by 10% for 6 sec.
+Rogue	Subtlety	261	Airborne Irritant	200733	talent-passive	TraitNodeEntry	false	0	Rotational	class		90741	117740	1					api	Blind has 50% reduced cooldown, 70% reduced duration, and applies to all nearby enemies.
+Rogue	Subtlety	261	Alacrity	193539	talent-passive	TraitNodeEntry	false	0	Rotational	class		90751	112643	2					api	Haste increased by 1.5%.
+Rogue	Subtlety	261	Ancient Arts	1268932	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110432	137064	1	Buff		talent-passive:TraitNodeEntry;cdm-only:CooldownSetSpell		api	Damaging attacks that expend Shadow Techniques to generate combo points have a 15% chance per stack expended to create a Shadow Clone that repeats the attack for 50% of normal damage as Shadow.
+Rogue	Subtlety	261	Bait and Switch	457034	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathstalker	95106	126029	1					api	Evasion reduces magical damage taken by 15%. \n\nCloak of Shadows reduces physical damage taken by 20%.
+Rogue	Subtlety	261	Blackjack	379005	talent-passive	TraitNodeEntry	false	0	Rotational	class		90686	117143	1					api	Enemies have 30% reduced damage and healing for 6 sec after Blind or Sap's effect on them ends.
+Rogue	Subtlety	261	Cheat Death	31230	talent-passive	TraitNodeEntry	false	0	Rotational	class		90742	114737	1					api	Fatal attacks instead reduce you to 7% of your maximum health. For 3 sec afterward, you take 85% reduced damage. Cannot trigger more often than once per 6 min.
+Rogue	Subtlety	261	Clear the Witnesses	1248793	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathstalker	95110	117707	1					api	Fan of Knives damage increased by 60%.
+Rogue	Subtlety	261	Clever Combatant	1276679	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Trickster	109763	136021	1					api	Shuriken Storm has 10% increased critical strike chance and now triggers Unseen Blade when available.
+Rogue	Subtlety	261	Cloaked in Shadows	382515	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90733	112622	1	Buff		cdm-only:CooldownSetSpell		api	Vanish grants you a shield for 6 sec, absorbing damage equal to 18% of your maximum health.
+Rogue	Subtlety	261	Cloud Cover	441429	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Trickster	95116	117713	1	Buff		cdm-only:CooldownSetSpell		api	Activating Shadow Blades creates a cloud of smoke for 6 sec, allowing attacks from within the cloud to apply Fazed, stacking up to 2 additional times.\n\nEffect persists for 6 sec after leaving the cloud.
+Rogue	Subtlety	261	Cold Blooded Killer	382245	talent-passive	TraitNodeEntry	false	0	Rotational	class		90748	112639	1	Buff		cdm-only:CooldownSetSpell		api	Critically striking with an attack that generates combo points increases the critical strike chance of your next finishing move by 10%.
+Rogue	Subtlety	261	Corrupt the Blood	1248785	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathstalker	95108	117705	1					api	Rupture damage increased by 20%.
+Rogue	Subtlety	261	Coup de Grace	441423	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Trickster	95115	117712	1	Buff		cdm-only:CooldownSetSpell		api	After 4 strikes with Unseen Blade, your next Eviscerate will be performed as a Coup de Grace, functioning as if it had consumed 5 additional combo points, and granting you 5 stacks of Flawless Form.
+Rogue	Subtlety	261	Danger Sense	1267220	talent-passive	TraitNodeEntry	false	0	Rotational	class		90760	112652	1					api	You have a 20% chance to partially evade any damage dealt to you, reducing the damage it deals by 20%.
+Rogue	Subtlety	261	Danse Macabre	382528	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90730	112618	1					api	While Shadow Dance is active, each different attack that generates or spends combo points lashes out at the target, dealing 150 Shadow damage.
+Rogue	Subtlety	261	Dark Brew	382504	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90719	112607	1					api	Your weapon poisons have 10% increased application chance and now deal damage as Shadow instead of Nature.\n\nShadow damage increased by 10%.
+Rogue	Subtlety	261	Dark Shadow	245687	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90732	112620	2					api	Shadow Dance increases all ability damage by 5%, and Shadowstrike and Shuriken Storm damage by an additional 5%.
+Rogue	Subtlety	261	Darkest Night	457058	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathstalker	95142	117739	1	Buff		cdm-only:CooldownSetSpell		api	When you consume the final Deathstalker's Mark from a target or your target dies, gain 30 Energy and Darkest Night, causing your next Envenom cast with 5 or more combo points to critically strike, deal 35% additional damage, and apply 3 stacks of Deathstalker's Mark to the target if no other Deathstalker's Mark is active.\n\nEnvenom cast with Darkest Night does not consume a stack of active Deathstalker's Marks.
+Rogue	Subtlety	261	Deadened Nerves	231719	talent-passive	TraitNodeEntry	false	0	Rotational	class		110323	136881	1					api	Physical damage taken reduced by 5%.
+Rogue	Subtlety	261	Deadly Precision	381542	talent-passive	TraitNodeEntry	false	0	Rotational	class		90743	112633	1					api	Increases the critical strike chance of your attacks that generate combo points by 5%.
+Rogue	Subtlety	261	Death Perception	469642	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90706	112594	2					api	Find Weakness increases the damage of finishing moves by 5%.\n\nShadow Dance increases the damage of finishing moves by 5%.\n\nShadow Blades increases the damage of finishing moves by 5%.
+Rogue	Subtlety	261	Deathstalker's Mark	457052	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathstalker	95136	117733	1	Buff		cdm-only:CooldownSetSpell		api	Garrote applies 3 stacks of Deathstalker's Mark to your target, unless Deathstalker's Mark is already active. You learn Mark for Death.\n\nWhen you spend 5 or more combo points on attacks against a Marked target you consume an application of Deathstalker's Mark, dealing 54 Plague damage.\n\n\nMark for Death\nMove your active Deathstalker's Mark to your target.
+Rogue	Subtlety	261	Deep Cuts	1267216	talent-passive	TraitNodeEntry	false	0	Rotational	class		94562	117145	1					api	Your finishing moves deal 6% increased damage.
+Rogue	Subtlety	261	Deepening Shadows	185314	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90724	112612	1					api	Shadow Dance duration is increased by 150% of your Haste stat.\n\nCurrent bonus duration: 0.00 sec
+Rogue	Subtlety	261	Deeper Daggers	382517	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90721	112609	1					api	Shadow damage increased by 8%.
+Rogue	Subtlety	261	Deeper Stratagem	193531	talent-passive	TraitNodeEntry	false	0	Rotational	class		90750	112642	1					api	Gain 1 additional max combo point.\n\nYour finishing moves that consume more than 5 combo points have increased effects, and your finishing moves deal 5% increased damage.
+Rogue	Subtlety	261	Devious Distractions	441263	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Trickster	95133	117730	1					api	Secret Technique applies Fazed to any targets struck.
+Rogue	Subtlety	261	Disorienting Strikes	441274	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Trickster	95118	117715	1					api	Secret Technique has 10% reduced cooldown and allows your next 2 strikes of Unseen Blade to ignore its cooldown.
+Rogue	Subtlety	261	Don't Be Suspicious	441415	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Trickster	95134	120133	1					api	Blind and Shroud of Concealment have 10% reduced cooldown.\n\nPick Pocket and Sap have 10 yd increased range.
+Rogue	Subtlety	261	Double Dance	394930	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101715	125619	1					api	Shadow Dance has 1 additional charge.
+Rogue	Subtlety	261	Echoing Reprimand	470669	talent-passive	TraitNodeEntry	false	0	Rotational	class		90638	112524	1					api	After consuming a supercharged combo point, your next Mutilate also strikes the target with an Echoing Reprimand dealing 41 Physical damage.
+Rogue	Subtlety	261	Elusiveness	79008	talent-passive	TraitNodeEntry	false	0	Rotational	class		90742	112632	1					api	Evasion also reduces damage taken by 20%, and Feint also reduces non-area-of-effect damage taken by 20%.
+Rogue	Subtlety	261	Ephemeral Bond	426563	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90728	136808	1					api	Increases healing received by 8%.
+Rogue	Subtlety	261	Ethereal Cloak	457022	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathstalker	95106	117703	1					api	Cloak of Shadows duration increased by 2 sec.
+Rogue	Subtlety	261	Exhilarating Execution	428486	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90701	136807	1					api	Your finishing moves heal you for 5% of damage done. At full health gain shielding instead, absorbing up to 10% of your maximum health.
+Rogue	Subtlety	261	Fade to Nothing	382514	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90733	112621	1	Buff		cdm-only:CooldownSetSpell		api	Movement speed increased by 20% and damage taken reduced by 10% for 8 sec after gaining Stealth, Vanish, or Shadow Dance.
+Rogue	Subtlety	261	Featherfoot	423683	talent-passive	TraitNodeEntry	false	0	Rotational	class		101714	125615	1					api	Sprint increases movement speed by an additional 30% and has 4 sec increased duration.
+Rogue	Subtlety	261	Finality	382525	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90720	112608	2					api	Eviscerate and Black Powder have 15% increased critical strike damage bonus.
+Rogue	Subtlety	261	Find Weakness	91023	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90690	112578	1	Buff		cdm-only:CooldownSetSpell		api	Your Stealth abilities allow you to see the flaws in enemies' defenses, causing your attacks to ignore 30% armor for 10 sec.
+Rogue	Subtlety	261	Flashing Steel	1276630	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Trickster	109764	136022	1					api	Unseen Blade may now occur once every 15 sec and has 25% chance to strike twice.
+Rogue	Subtlety	261	Flawless Form	441321	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Trickster	95111	117708	1	Buff		cdm-only:CooldownSetSpell		api	Unseen Blade and Secret Technique increase the damage of your finishing moves by 4% for 12 sec. Max 5 stacks.
+Rogue	Subtlety	261	Fleet Footed	378813	talent-passive	TraitNodeEntry	false	0	Rotational	class		90764	112657	1					api	Movement speed increased by 15%.
+Rogue	Subtlety	261	Flickerstrike	441359	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Trickster	95137	120131	1					api	Taking damage from an area-of-effect attack while Feint is active or dodging while Evasion is active refreshes your opportunity to strike with Unseen Blade.\n\nThis effect may only occur once every 5 sec.
+Rogue	Subtlety	261	Follow the Blood	457068	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathstalker	95131	126028	1					api	Fan of Knives and Crimson Tempest deal 30% additional damage while 2 or more enemies are afflicted with Rupture.
+Rogue	Subtlety	261	Forced Induction	470668	talent-passive	TraitNodeEntry	false	0	Rotational	class		90638	112523	1					api	Increase the bonus granted when a damaging finishing move consumes a supercharged combo point by 1.
+Rogue	Subtlety	261	Graceful Guile	423647	talent-passive	TraitNodeEntry	false	0	Rotational	class		90754	112646	1					api	Feint has 1 additional charge.
+Rogue	Subtlety	261	Hoodwink	1276626	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Trickster	109765	136023	1					api	Fazed increases damage taken by an additional 3%.
+Rogue	Subtlety	261	Hunt Them Down	457054	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathstalker	95132	117729	1					api	Auto-attacks against Marked targets deal an additional 3 Plague damage.
+Rogue	Subtlety	261	Improved Ambush	381620	talent-passive	TraitNodeEntry	false	0	Rotational	class		90692	112580	1					api	Ambush generates 1 additional combo point.
+Rogue	Subtlety	261	Improved Backstab	319949	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90739	112629	1					api	Backstab has 15% increased critical strike chance.\n\nWhile behind your target, Backstab critical strikes grant Find Weakness for 10 sec.
+Rogue	Subtlety	261	Improved Find Weakness	382512	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90704	112592	1					api	Find Weakness causes your attacks to ignore an additional 20% armor.
+Rogue	Subtlety	261	Improved Secret Technique	1279444	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90715	112603	1					api	Secret Technique damage increased by 15%.
+Rogue	Subtlety	261	Improved Shuriken Storm	319951	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90710	112598	1					api	Shuriken Storm has 15% increased critical strike chance.\n\nShuriken Storm critical strikes grant Find Weakness for 10 sec.
+Rogue	Subtlety	261	Improved Sprint	231691	talent-passive	TraitNodeEntry	false	0	Rotational	class		90687	112575	1					api	Reduces the cooldown of Sprint by 60 sec.
+Rogue	Subtlety	261	Improved Wound Poison	319066	talent-passive	TraitNodeEntry	false	0	Rotational	class		90637	112522	1					api	Wound Poison can now stack 2 additional times.
+Rogue	Subtlety	261	Iron Stomach	193546	talent-passive	TraitNodeEntry	false	0	Rotational	class		90744	112634	1					api	Increases the healing you receive from Crimson Vial, healing potions, and healthstones by 25%.
+Rogue	Subtlety	261	Leeching Poison	280716	talent-passive	TraitNodeEntry	false	0	Rotational	class		90758	112650	1					api	Adds a Leeching effect to your Lethal poisons, granting you 3.0% Leech.
+Rogue	Subtlety	261	Lethality	382238	talent-passive	TraitNodeEntry	false	0	Rotational	class		90749	112640	2					api	Critical strike chance increased by 1%. Critical strike damage bonus of your attacks that generate combo points increased by 10%.
+Rogue	Subtlety	261	Lingering Darkness	457056	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathstalker	95109	117706	1	Buff		cdm-only:CooldownSetSpell		api	After Deathmark expires, gain 30% increased Nature damage for 30 sec.
+Rogue	Subtlety	261	Lingering Shadow	382524	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90731	112619	1	Buff		cdm-only:CooldownSetSpell		api	After Shadow Dance ends, Backstab deals an additional 50% damage as Shadow, fading by 2.8% per sec.
+Rogue	Subtlety	261	Mass Casualty	1273035	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathstalker	109760	136018	1					api	Deathstalker's Mark deals 40% of its normal damage to all other enemies within 8 yds that are afflicted by Rupture.
+Rogue	Subtlety	261	Master Poisoner	378436	talent-passive	TraitNodeEntry	false	0	Rotational	class		90636	112521	1					api	Increases the non-damaging effects of your weapon poisons by 20%.
+Rogue	Subtlety	261	Master of Shadows	196976	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90727	112615	1					api	Gain 30 Energy over 3 sec when you enter Stealth or activate Shadow Dance.
+Rogue	Subtlety	261	Mirrors	441250	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Trickster	95141	120130	1					api	Feint reduces damage taken from area-of-effect attacks by an additional 10%
+Rogue	Subtlety	261	Momentum of Despair	457067	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathstalker	95131	117728	1	Buff		cdm-only:CooldownSetSpell		api	If you have critically struck with Fan of Knives, increase the critical strike chance of Fan of Knives and Crimson Tempest by 10% and critical strike damage by 20% for 8 sec.
+Rogue	Subtlety	261	Night Terrors	277953	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90714	112602	1					api	Shuriken Storm reduces enemies' movement speed by 50% for 8 sec.
+Rogue	Subtlety	261	Nimble Fingers	378427	talent-passive	TraitNodeEntry	false	0	Rotational	class		90745	112635	1					api	Energy cost of Feint and Crimson Vial reduced by 10.
+Rogue	Subtlety	261	Nimble Flurry	441367	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Trickster	95128	117725	1					api	Your auto-attacks, Unseen Blade, and Coup de Grace also strike up to 7 nearby enemies for 50% of normal damage while Flawless Form is active.
+Rogue	Subtlety	261	No Scruples	441398	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Trickster	95116	120132	1					api	Finishing moves have 12% increased chance to critically strike Fazed targets.
+Rogue	Subtlety	261	Perforated Veins	382518	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90707	112595	1					api	Backstab, Shuriken Storm, and Shadowstrike have 10% increased damage while Find Weakness is active.
+Rogue	Subtlety	261	Planned Execution	382508	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90703	112591	1					api	Shadow Dance increases the critical strike damage bonus of your abilities by 10%.
+Rogue	Subtlety	261	Potent Powder	1265952	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90718	112606	1					api	Black Powder deals increased damage equal to 20% of your Mastery when it spends 5 or more combo points.
+Rogue	Subtlety	261	Precise Killer	1272989	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathstalker	109762	136020	1					api	Critical strike damage bonus increased by 20%.
+Rogue	Subtlety	261	Premeditation	343160	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90700	112588	1	Buff		cdm-only:CooldownSetSpell		api	After entering Stealth, your next combo point generating ability generates full combo points.
+Rogue	Subtlety	261	Quick Decisions	382503	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90728	112616	1					api	Shadowstep's cooldown is reduced by 20%, and its maximum range is increased by 20%.
+Rogue	Subtlety	261	Quick Fingers	1267210	talent-passive	TraitNodeEntry	false	0	Rotational	class		90746	112636	1					api	Increases your Agility by 3%.
+Rogue	Subtlety	261	Quietus Celeris	1273017	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathstalker	109761	136019	1					api	Deathstalker's Mark has a 30% chance to immediately consume a stack when applied.
+Rogue	Subtlety	261	Recuperator	378996	talent-passive	TraitNodeEntry	false	0	Rotational	class		90640	112526	1					api	Slice and Dice heals you for up to 1% of your maximum health per 3 sec.
+Rogue	Subtlety	261	Relentless Strikes	58423	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90709	112597	1					api	Your finishing moves generate 5 Energy per combo point spent.
+Rogue	Subtlety	261	Replicating Shadows	382506	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90716	112604	1					api	Shadow Clones deal 15% increased damage and your effects that have a chance to create them have 5% additional chance to occur.
+Rogue	Subtlety	261	Sanguine Vial	1293135	talent-passive	TraitNodeEntry	false	0	Rotational	class		110576	137380	1	Buff		cdm-only:CooldownSetSpell		api	When you deal the killing blow to a target that yields experience or honor, the cooldown of Crimson Vial is reduced by 15 sec and your next use heals 5% of your health instantly.
+Rogue	Subtlety	261	Secret Stratagem	394320	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90722	112610	1					api	Gain 1 additional max combo point.\n\nYour finishing moves that consume more than 5 combo points have increased effects, and your finishing moves deal 5% increased damage.
+Rogue	Subtlety	261	Shadewalker	457057	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathstalker	95123	117720	1					api	Each time you consume a stack of Deathstalker's Mark, reduce the cooldown of Shadowstep by 3 sec.
+Rogue	Subtlety	261	Shadow Focus	108209	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90734	112623	1					api	Abilities deal 10% more damage while Stealth or Shadow Dance is active.
+Rogue	Subtlety	261	Shadowcraft	426594	talent-passive	TraitNodeEntry	false	0	Rotational	spec		94580	117168	1					api	While Shadow Dance is active, your Shadow Techniques triggers 40% more frequently, stores 1 additional combo point, and generates 2 additional Energy.
+Rogue	Subtlety	261	Shadowed Finishers	382511	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90723	112611	1					api	Eviscerate and Black Powder deal an additional 30% damage as Shadow while Find Weakness is active.
+Rogue	Subtlety	261	Shadowrunner	378807	talent-passive	TraitNodeEntry	false	0	Rotational	class		110324	136882	1					api	While Stealth or Shadow Dance is active, you move 20% faster.
+Rogue	Subtlety	261	Shot in the Dark	257505	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90701	112589	1					api	After using Vanish or Shadow Dance, your next Cheap Shot is free and ignores its cooldown.
+Rogue	Subtlety	261	Shroud of Night	457063	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathstalker	95123	126027	1					api	Shroud of Concealment duration increased by 5 sec.
+Rogue	Subtlety	261	Shrouded in Darkness	382507	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90698	112586	1					api	Shroud of Concealment increases the movement speed of allies by 100% and leaving its area no longer cancels the effect.
+Rogue	Subtlety	261	Shuriken Tornado	1264764	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90717	112605	1					api	Shuriken Storm has a 15% chance to create a Shadow Clone that repeats the attack for 50% of normal damage as Shadow.
+Rogue	Subtlety	261	Silent Storm	385722	talent-passive	TraitNodeEntry	false	0	Rotational	spec		94582	117170	1	Buff		cdm-only:CooldownSetSpell		api	Gaining Stealth, Vanish, or Shadow Dance causes your next Shuriken Storm to have 100% increased chance to critically strike.
+Rogue	Subtlety	261	Singular Focus	457055	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathstalker	95117	117714	1					api	Damage dealt to targets other than your Marked target deals 5% Plague damage to your Marked target.
+Rogue	Subtlety	261	Smoke	441247	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Trickster	95141	117738	1					api	You take 5% reduced damage from Fazed targets.
+Rogue	Subtlety	261	So Tricky	441403	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Trickster	95134	117731	1					api	Tricks of the Trade's threat redirect duration is increased to 1 hour.
+Rogue	Subtlety	261	Soothing Darkness	393970	talent-passive	TraitNodeEntry	false	0	Rotational	class		90691	112579	1					api	You are healed for 30% of your maximum health over 6 sec after activating Vanish.
+Rogue	Subtlety	261	Stillshroud	423662	talent-passive	TraitNodeEntry	false	0	Rotational	class		94563	117146	1					api	Shroud of Concealment has 50% reduced cooldown.
+Rogue	Subtlety	261	Subterfuge	108208	talent-passive	TraitNodeEntry	false	0	Rotational	class		90688	112576	2	Other		cdm-only:CooldownSetSpell		api	Abilities requiring Stealth can be used for 3 sec after Stealth breaks.\n\nCombat benefits requiring Stealth persist for an additional 3 sec after Stealth breaks.
+Rogue	Subtlety	261	Supercharger	470347	talent-passive	TraitNodeEntry	false	0	Rotational	class		90639	112525	2					api	Kingsbane supercharges 1 combo point.\n\nDamaging finishing moves consume a supercharged combo point to function as if they spent 2 additional combo points.
+Rogue	Subtlety	261	Superior Mixture	423701	talent-passive	TraitNodeEntry	false	0	Rotational	class		94567	117151	1					api	Crippling Poison reduces movement speed by an additional 10%.
+Rogue	Subtlety	261	Surprising Strikes	441273	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Trickster	95121	117718	1					api	Attacks that generate combo points deal 50% increased critical strike damage to Fazed targets.
+Rogue	Subtlety	261	Swift Slasher	381988	talent-passive	TraitNodeEntry	false	0	Rotational	class		90752	112644	1					api	Slice and Dice grants additional attack speed equal to 100% of your Haste.
+Rogue	Subtlety	261	Symbolic Victory	457062	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathstalker	95109	126030	1	Buff		cdm-only:CooldownSetSpell		api	Shadow Dance additionally increases the damage of your next Eviscerate or Black Powder by 15%.
+Rogue	Subtlety	261	Terrifying Pace	428387	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90714	136488	1					api	Shuriken Storm increases your movement speed by 30% for 3 sec when striking 3 or more enemies.
+Rogue	Subtlety	261	The First Dance	382505	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90735	112625	1					api	Remaining out of combat for 6 sec increases the duration of your next Shadow Dance by 3 sec.
+Rogue	Subtlety	261	The Rotten	382015	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90705	112593	1					api	After activating Shadow Dance, your next 2 attacks that generate combo points deal 35% increased damage.
+Rogue	Subtlety	261	Thousand Cuts	441346	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Trickster	95137	117734	1					api	Slice and Dice grants 10% additional attack speed and gives your auto-attacks a chance to refresh your opportunity to strike with Unseen Blade.
+Rogue	Subtlety	261	Thrill Seeking	394931	talent-passive	TraitNodeEntry	false	0	Rotational	class		90695	112583	1					api	Shadowstep has 1 additional charge.
+Rogue	Subtlety	261	Tight Spender	381621	talent-passive	TraitNodeEntry	false	0	Rotational	class		90692	117152	1					api	Energy cost of finishing moves reduced by 6%.
+Rogue	Subtlety	261	Toxic Stiletto	1267182	talent-passive	TraitNodeEntry	false	0	Rotational	class		110325	136883	1					api	Shiv's Energy cost is reduced by 20, its cooldown is reduced by 15 sec, and its range is increased by 3 yds.
+Rogue	Subtlety	261	Umbral Edge	1281468	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90738	112628	1					api	Shadow Clones deal 15% increased damage.\n\nCheap Shot creates a Shadow Clone to Shadowstrike the target for 50% of normal damage as Shadow.\n\nKidney Shot creates a Shadow Clone to Eviscerate the target for 50% of normal damage as Shadow.
+Rogue	Subtlety	261	Unbreakable Stride	400804	talent-passive	TraitNodeEntry	false	0	Rotational	class		94561	117144	1					api	Reduces the duration of movement slowing effects 30%.
+Rogue	Subtlety	261	Unseen Blade	441146	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Trickster	95140	117737	1	Buff		cdm-only:CooldownSetSpell		api	Backstab and Shadowstrike now also strike with an Unseen Blade dealing 97 damage. Targets struck are Fazed for 10 sec.\n\nFazed enemies take 5% more damage from you and cannot parry your attacks.\n\nThis effect may occur once every 20 sec.
+Rogue	Subtlety	261	Unshakeable Drive	1248774	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathstalker	95135	117732	1	Buff		cdm-only:CooldownSetSpell		api	When you consume an application of Deathstalker's Mark, the damage of your next Ambush or Mutilate is increased by 50%.
+Rogue	Subtlety	261	Veiltouched	382017	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90713	112601	1					api	Your abilities deal 5% increased magic damage.
+Rogue	Subtlety	261	Vigor	14983	talent-passive	TraitNodeEntry	false	0	Rotational	class		90759	112651	2					api	Increases your maximum Energy by 50 and Energy regeneration by 5%.
+Rogue	Subtlety	261	Virulent Poisons	381543	talent-passive	TraitNodeEntry	false	0	Rotational	class		90747	112638	1					api	Increases the damage of your weapon poisons by 10%.
+Rogue	Subtlety	261	Warning Signs	426555	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90703	117172	1					api	Shadow Dance increases attack speed by 25%.
+Rogue	Subtlety	261	Weaponmaster	193537	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90737	112627	1					api	Backstab and Shadowstrike have a 15% chance to create a Shadow Clone that repeats the attack for 50% of normal damage as Shadow.
+Rogue	Subtlety	261	Without a Trace	382513	talent-passive	TraitNodeEntry	false	0	Rotational	class		101713	125614	1					api	Vanish has 1 additional charge.
+Rogue	Subtlety	261	Mark for Death	1293340	cdm-only	CooldownSetSpell	true	20	Rotational						Essential				db2-plain	Move your active Deathstalker's Mark to your target.
+Rogue	Subtlety	261	Shadowstep	36554	cdm-only	CooldownSetSpell	true	1	Rotational						Utility	Immune/Spell Immune/Movement			api	Step through the shadows to appear behind your target and gain 70% increased movement speed for 2 sec.
+Rogue	Subtlety	261	Shadow Techniques	196912	cdm-only	CooldownSetSpell	false	0	Rotational						Buff				api	Your auto attacks have a 28% chance to generate 4 Energy and store 1 combo point, up to 10.\n\nAttacks that generate combo points can expend those stored to generate additional combo points, up to your maximum.

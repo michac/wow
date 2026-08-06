@@ -1,160 +1,160 @@
-class	spec	spec_id	name	spell_id	origin	source	castable	cooldown	band	tree	hero_tree	node_id	entry_id	max_ranks	blizz_category	seed_bucket	also_from	aliases
-Warrior	Arms	71	Rallying Cry	97462	talent-active	TraitNodeEntry	true	180	Cooldown	class		90331	112188	1	Buff/Utility	Class 7 (Raid Defensive)	cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Die by the Sword	118038	talent-active	TraitNodeEntry	true	120	Cooldown	spec		90269	112121	1	Buff/Utility	Personal Defensive 1	cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Avatar	107574	talent-active	TraitNodeEntry	true	90	Cooldown	spec		110176	136703	1	Buff/Essential		cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Champion's Spear	376079	talent-active	TraitNodeEntry	true	90	Cooldown	class		90380	112247	1	Essential		cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Colossus Smash	167105	talent-active	TraitNodeEntry	true	45	Cooldown	spec		90290	112144	1	Essential/Other	Cooldown 1	cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Demolish	436358	talent-active	TraitNodeEntry	true	45	Cooldown	hero	Colossus	94818	117415	1	Essential		cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Shockwave	46968	talent-active	TraitNodeEntry	true	40	Rotational	class		90375	112242	1	Buff/Utility	CC 2	cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Storm Bolt	107570	talent-active	TraitNodeEntry	true	30	Rotational	class		90337	112198	1	Buff/Utility	CC	cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Impending Victory	202168	talent-active	TraitNodeEntry	true	25	Rotational	class		90326	112183	1		Self-Heal 1		
-Warrior	Arms	71	Mortal Strike	12294	talent-active	TraitNodeEntry	true	6	Rotational	spec		90270	112122	1	Essential	Rotational 1	cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Rend	772	talent-active	TraitNodeEntry	true	6	Rotational	class		109391	135597	1	Buff/Essential		cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Thunder Clap	6343	talent-active	TraitNodeEntry	true	6	Rotational	class		90343	112205	1	Buff/Essential		cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Cleave	845	talent-active	TraitNodeEntry	true	4.5	Rotational	spec		90293	112147	1	Essential		cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Battle Stance	386164	talent-active	TraitNodeEntry	true	3	Rotational	class		90327	112184	1	Buff	Stance 2	cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Defensive Stance	386208	talent-active	TraitNodeEntry	true	3	Rotational	class		92537	114643	1	Buff	Stance 1	cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Heroic Leap	6544	talent-active	TraitNodeEntry	true	1.5	Rotational	class		90346	112208	1	Utility	Movement Ability	class-baseline:SkillLineAbility:840;cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Spell Reflection	23920	talent-active	TraitNodeEntry	true	1	Rotational	class		90385	112253	1	Buff/Utility	Self-Heal 4 (Emergency/Overflow)	cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Overpower	7384	talent-active	TraitNodeEntry	true	0	Rotational	spec		90271	112123	1	Essential	Rotational 2	cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Shattering Throw	64382	talent-choice	TraitNodeEntry	true	180	Cooldown	class		90351	112214	1	Utility		cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Bladestorm	227847	talent-choice	TraitNodeEntry	true	90	Cooldown	spec		90441	112314	1	Buff/Essential		class-baseline:SkillLineAbility:840;cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Intimidating Shout	5246	talent-choice	TraitNodeEntry	true	90	Cooldown	class		108705	134254	1	Buff/Utility		cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Piercing Howl	12323	talent-choice	TraitNodeEntry	true	90	Cooldown	class		108705	136627	1	Buff/Utility	Class 2 (CC)	cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Ravager	228920	talent-choice	TraitNodeEntry	true	90	Cooldown	spec		90441	136702	1	Essential		class-baseline:SkillLineAbility:840;cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Berserker Shout	384100	talent-choice	TraitNodeEntry	true	60	Cooldown	class		90348	112211	1		Self-Heal 3 (Overflow)		
-Warrior	Arms	71	Wrecking Throw	384110	talent-choice	TraitNodeEntry	true	45	Cooldown	class		90351	112215	1	Utility	Class 4 (Special)	cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Ignore Pain	1277297	talent-choice	TraitNodeEntry	true	20	Rotational	spec		90276	136701	1	Buff/Utility	Self-Heal 2	cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Interpose	1244088	talent-choice	TraitNodeEntry	true	1.5	Rotational	class		108676	134216	1	Utility		cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Intervene	3411	talent-choice	TraitNodeEntry	true	1.5	Rotational	class		108676	134217	1	Utility	Class 5 (Purge)	cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Berserker Rage	18499	class-baseline	SkillLineAbility:840	true	60	Cooldown						Buff/Utility	Personal Defensive 2	cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Warbreaker	209577	class-baseline	SkillLineAbility:840	true	60	Cooldown									
-Warrior	Arms	71	Neltharion's Fury	203524	class-baseline	SkillLineAbility:840	true	45	Cooldown									
-Warrior	Arms	71	Odyn's Fury	205545	class-baseline	SkillLineAbility:840	true	45	Cooldown									
-Warrior	Arms	71	Sweeping Strikes	260708	class-baseline	SpecializationSpells	true	30	Rotational						Buff/Essential	Rotational 8	cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Victory Rush	118779	class-baseline	SkillLineAbility:840	true	30	Rotational						Utility		cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Pummel	6552	class-baseline	SkillLineAbility:840	true	15	Rotational						Utility	Interrupt	cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Shield Slam	23922	class-baseline	SkillLineAbility:840	true	9	Rotational						Essential		cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Taunt	355	class-baseline	SkillLineAbility:840	true	8	Rotational						Essential	Taunt/Quick Access	cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Execute	163201	class-baseline	SkillLineAbility:840	true	6	Rotational						Essential	Rotational 3	cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Heroic Throw	57755	class-baseline	SkillLineAbility:840	true	6	Rotational							Class 3 (Tag)		
-Warrior	Arms	71	Charge	100	class-baseline	SkillLineAbility:840	true	1.5	Rotational						Utility	Class 1 (Movement)	cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Shield Block	2565	class-baseline	SkillLineAbility:840	true	1	Rotational						Essential		cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Attack	88163	class-baseline	SkillLineAbility:840	true	0	Rotational									
-Warrior	Arms	71	Battle Shout	6673	class-baseline	SkillLineAbility:840	true	0	Rotational							Buff		
-Warrior	Arms	71	Bladestorm Off-Hand	95738	class-baseline	SkillLineAbility:840	true	0	Rotational									
-Warrior	Arms	71	Bloodbath	113344	class-baseline	SkillLineAbility:840	true	0	Rotational									
-Warrior	Arms	71	Bloodthirst Heal	117313	class-baseline	SkillLineAbility:840	true	0	Rotational									
-Warrior	Arms	71	Hamstring	1715	class-baseline	SkillLineAbility:840	true	0	Rotational						Buff	Slow	cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Hotbar Slot 01	294184	class-baseline	SkillLineAbility:840	true	0	Rotational									
-Warrior	Arms	71	Hotbar Slot 02	294189	class-baseline	SkillLineAbility:840	true	0	Rotational									
-Warrior	Arms	71	Raging Blow	85384	class-baseline	SkillLineAbility:840	true	0	Rotational									
-Warrior	Arms	71	Single-Button Assistant	1229376	class-baseline	SpecializationSpells	true	0	Rotational									
-Warrior	Arms	71	Slam	1464	class-baseline	SkillLineAbility:840	true	0	Rotational						Essential	Rotational 4	cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Trauma	215537	class-baseline	SkillLineAbility:840	true	0	Rotational									
-Warrior	Arms	71	Whirlwind	1680	class-baseline	SkillLineAbility:840	true	0	Rotational									
-Warrior	Arms	71	Whirlwind Off-Hand	44949	class-baseline	SkillLineAbility:840	true	0	Rotational									
-Warrior	Arms	71	Duel	236273	pvp-talent	PvpTalent	true	60	Cooldown						Utility		cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Disarm	236077	pvp-talent	PvpTalent	true	45	Cooldown						Utility		cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Berserker Roar	1227751	pvp-talent	PvpTalent	false	0	Rotational									
-Warrior	Arms	71	Demolition	329033	pvp-talent	PvpTalent	false	0	Rotational									
-Warrior	Arms	71	Dragon Charge	206572	pvp-talent	PvpTalent	true	0	Rotational									
-Warrior	Arms	71	Master and Commander	235941	pvp-talent	PvpTalent	false	0	Rotational									
-Warrior	Arms	71	Rebound	213915	pvp-talent	PvpTalent	false	0	Rotational									
-Warrior	Arms	71	Safeguard	424654	pvp-talent	PvpTalent	false	0	Rotational									
-Warrior	Arms	71	Sharpen Blade	1219165	pvp-talent	PvpTalent	false	0	Rotational									
-Warrior	Arms	71	Storm of Destruction	236308	pvp-talent	PvpTalent	false	0	Rotational									
-Warrior	Arms	71	Anger Management	152278	talent-passive	TraitNodeEntry	false	0	Rotational	class		108543	134032	1				
-Warrior	Arms	71	Armored to the Teeth	384124	talent-passive	TraitNodeEntry	false	0	Rotational	class		90366	112233	2				
-Warrior	Arms	71	Arterial Bleed	440995	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94799	119856	1				
-Warrior	Arms	71	Barbaric Training	383082	talent-passive	TraitNodeEntry	false	0	Rotational	class		90347	112209	1				
-Warrior	Arms	71	Battlefield Commander	424742	talent-passive	TraitNodeEntry	false	0	Rotational	class		108544	134033	1				
-Warrior	Arms	71	Battlelord	386630	talent-passive	TraitNodeEntry	false	0	Rotational	spec		92615	114740	1				
-Warrior	Arms	71	Bloodborne	383287	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90283	112135	2				
-Warrior	Arms	71	Bloodletting	383154	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90438	112310	1				
-Warrior	Arms	71	Bloodsurge	384361	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90277	112129	1				
-Warrior	Arms	71	Boneshaker	429639	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94789	117386	1				
-Warrior	Arms	71	Bounding Stride	202163	talent-passive	TraitNodeEntry	false	0	Rotational	class		90355	112219	1				
-Warrior	Arms	71	Broad Strokes	1261049	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109686	135942	1				
-Warrior	Arms	71	Brutal Finish	446085	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94786	123409	1	Buff		cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Brute Force	1261046	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109681	135936	1				
-Warrior	Arms	71	Celeritous Conclusion	1270710	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	109812	136071	1	Buff		cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Collateral Damage	334779	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109682	135937	1	Buff		cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Colossal Might	429634	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94819	117416	1	Buff		cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Crackling Thunder	203201	talent-passive	TraitNodeEntry	false	0	Rotational	class		95959	118853	1				
-Warrior	Arms	71	Critical Thinking	389306	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90444	112317	2				
-Warrior	Arms	71	Cruel Strikes	392777	talent-passive	TraitNodeEntry	false	0	Rotational	class		90381	112248	2				
-Warrior	Arms	71	Crushing Combo	1261056	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109683	135938	1	Buff		cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Crushing Force	382764	talent-passive	TraitNodeEntry	false	0	Rotational	class		108686	134226	1				
-Warrior	Arms	71	Culling Cyclone	444778	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94786	117383	1				
-Warrior	Arms	71	Cut to the Bone	1270709	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	109813	136072	1				
-Warrior	Arms	71	Deadly Focus	1270718	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	109816	136075	1				
-Warrior	Arms	71	Death Drive	444770	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94813	117410	1				
-Warrior	Arms	71	Decimator	1270704	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	109814	136073	1				
-Warrior	Arms	71	Deep Wounds	1261060	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109684	135940	1	Buff		cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Dominance of the Colossus	429636	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94793	117390	1	Buff		cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Double Time	103827	talent-passive	TraitNodeEntry	false	0	Rotational	class		90382	112249	1				
-Warrior	Arms	71	Dreadnaught	262150	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90285	112137	1				
-Warrior	Arms	71	Earthquaker	440992	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94789	119858	1				
-Warrior	Arms	71	Efficiency	1261047	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109681	135935	1				
-Warrior	Arms	71	Executioner's Precision	386634	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90445	112318	1	Buff		cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Fast Footwork	382260	talent-passive	TraitNodeEntry	false	0	Rotational	class		90344	112206	1				
-Warrior	Arms	71	Fatality	383703	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90439	112311	1	Buff		cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Fearless	1271925	talent-passive	TraitNodeEntry	false	0	Rotational	class		90348	112210	1				
-Warrior	Arms	71	Fervor of Battle	202316	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90267	135932	1				
-Warrior	Arms	71	Field Dressing	1271926	talent-passive	TraitNodeEntry	false	0	Rotational	class		110119	136626	1				
-Warrior	Arms	71	Fierce Followthrough	444773	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94787	117384	1	Buff		cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Frothing Berserker	392792	talent-passive	TraitNodeEntry	false	0	Rotational	class		90352	112216	1				
-Warrior	Arms	71	Fueled by Violence	383103	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90276	112128	1				
-Warrior	Arms	71	Honed Reflexes	391271	talent-passive	TraitNodeEntry	false	0	Rotational	class		95956	118850	1				
-Warrior	Arms	71	Imminent Demise	444769	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94788	117385	1	Buff		cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Impale	383430	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90292	112146	1				
-Warrior	Arms	71	Improved Execute	316405	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90273	112125	1				
-Warrior	Arms	71	Improved Overpower	385571	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90279	112131	1				
-Warrior	Arms	71	Improved Sweeping Strikes	383155	talent-passive	TraitNodeEntry	false	0	Rotational	spec		92536	114641	1				
-Warrior	Arms	71	Javelineer	1271948	talent-passive	TraitNodeEntry	false	0	Rotational	class		110118	136625	1				
-Warrior	Arms	71	Just Warming Up	1261048	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109686	135943	1				
-Warrior	Arms	71	Leeching Strikes	382258	talent-passive	TraitNodeEntry	false	0	Rotational	class		90371	112238	1				
-Warrior	Arms	71	Martial Expert	429638	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94812	117409	1				
-Warrior	Arms	71	Martial Prowess	1273062	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109680	135934	1	Buff		cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Mass Execution	1273075	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110175	136700	1				
-Warrior	Arms	71	Massacre	281001	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90291	112145	1				
-Warrior	Arms	71	Master Tactician	1261057	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109679	135933	1				
-Warrior	Arms	71	Master of Warfare	1269314	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110407	136989	1	Buff		talent-passive:TraitNodeEntry;cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Mortal Wounds	1261062	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109685	135941	1				
-Warrior	Arms	71	Mountain of Muscle and Scars	429642	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94806	117403	1				
-Warrior	Arms	71	No Stranger to Pain	429644	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94815	117412	1				
-Warrior	Arms	71	One Against Many	429637	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94799	117396	1				
-Warrior	Arms	71	Opportunist	444774	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94787	123770	1	Buff		cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Overpowering Finish	400205	talent-passive	TraitNodeEntry	false	0	Rotational	spec		92614	114733	1				
-Warrior	Arms	71	Overwhelming Blades	444772	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94810	117407	1	Buff		cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Overwhelming Rage	382767	talent-passive	TraitNodeEntry	false	0	Rotational	class		90378	112245	1				
-Warrior	Arms	71	Pain and Gain	382549	talent-passive	TraitNodeEntry	false	0	Rotational	class		90353	112217	1				
-Warrior	Arms	71	Powerful Momentum	1261050	talent-passive	TraitNodeEntry	false	0	Rotational	spec		92536	114739	1				
-Warrior	Arms	71	Practiced Strikes	429647	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94796	117393	1				
-Warrior	Arms	71	Precise Might	431548	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94794	117391	1				
-Warrior	Arms	71	Reap the Storm	444775	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94809	117406	1				
-Warrior	Arms	71	Reinforced Plates	382939	talent-passive	TraitNodeEntry	false	0	Rotational	class		90368	112235	2				
-Warrior	Arms	71	Relentless Pursuit	444776	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94795	117392	1				
-Warrior	Arms	71	Resonant Voice	1243660	talent-passive	TraitNodeEntry	false	0	Rotational	class		108685	134225	1				
-Warrior	Arms	71	Rumbling Earth	275339	talent-passive	TraitNodeEntry	false	0	Rotational	class		90374	112241	1				
-Warrior	Arms	71	Second Wind	29838	talent-passive	TraitNodeEntry	false	0	Rotational	class		90332	112190	1	Buff		cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Sharpened Blades	383341	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90447	112320	2				
-Warrior	Arms	71	Show No Mercy	444771	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94784	117381	1				
-Warrior	Arms	71	Slayer's Dominance	444767	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94814	117411	1	Buff		cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Slayer's Malice	444779	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94801	117398	1				
-Warrior	Arms	71	Stance Mastery	1280961	talent-passive	TraitNodeEntry	false	0	Rotational	class		108542	134031	1				
-Warrior	Arms	71	Strength of Arms	400803	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109687	135944	2				
-Warrior	Arms	71	Sudden Death	29725	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90274	112126	1	Buff		cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Tactical Edge	1261051	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109683	135939	1	Buff		cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Tactician	184783	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90282	112134	1				
-Warrior	Arms	71	Tide of Battle	429641	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94811	117408	1				
-Warrior	Arms	71	Two-Handed Weapon Specialization	382896	talent-passive	TraitNodeEntry	false	0	Rotational	class		90322	112179	2				
-Warrior	Arms	71	Unhinged	386628	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	109815	136074	1				
-Warrior	Arms	71	Unrelenting Onslaught	444780	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94820	117417	1				
-Warrior	Arms	71	Veteran Vitality	440993	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94815	119857	1	Buff		cdm-only:CooldownSetSpell	
-Warrior	Arms	71	Vicious Agility	444777	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94795	123408	1				
-Warrior	Arms	71	Violent Euphoria	1270717	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	109817	136076	1	Buff		cdm-only:CooldownSetSpell	
-Warrior	Arms	71	War Machine	262231	talent-passive	TraitNodeEntry	false	0	Rotational	class		90328	112185	1				
-Warrior	Arms	71	Wild Strikes	382946	talent-passive	TraitNodeEntry	false	0	Rotational	class		90360	112224	2				
-Warrior	Arms	71	Heroic Might	1292058	cdm-only	CooldownSetSpell	true	0	Rotational						Buff			
+class	spec	spec_id	name	spell_id	origin	source	castable	cooldown	band	tree	hero_tree	node_id	entry_id	max_ranks	blizz_category	seed_bucket	also_from	aliases	description_source	description
+Warrior	Arms	71	Rallying Cry	97462	talent-active	TraitNodeEntry	true	180	Cooldown	class		90331	112188	1	Buff/Utility	Class 7 (Raid Defensive)	cdm-only:CooldownSetSpell		api	Lets loose a rallying cry, granting all party or raid members within 40 yards 10% temporary and maximum health for 10 sec.\n\nHealth granted increased by 50% when not in a raid.
+Warrior	Arms	71	Die by the Sword	118038	talent-active	TraitNodeEntry	true	120	Cooldown	spec		90269	112121	1	Buff/Utility	Personal Defensive 1	cdm-only:CooldownSetSpell		api	Increases your parry chance by 100% and reduces all damage you take by 30% for 8 sec.
+Warrior	Arms	71	Avatar	107574	talent-active	TraitNodeEntry	true	90	Cooldown	spec		110176	136703	1	Buff/Essential		cdm-only:CooldownSetSpell		api	Transform into a colossus, increasing all damage you deal by 20% and reducing damage you take from area of effect attacks by 5% for 20 sec.
+Warrior	Arms	71	Champion's Spear	376079	talent-active	TraitNodeEntry	true	90	Cooldown	class		90380	112247	1	Essential		cdm-only:CooldownSetSpell		api	Throw a spear at the target location, chaining all enemies in the area to the spear's location and dealing 84 Physical damage instantly and an additional 128 Physical damage over 6 sec. \n\nWhile the spear is active, activating this ability will cause you to leap to the spear, dealing 16 Physical damage to all targets.\n\nAll damage dealt reduced beyond 5 targets.\n\nGenerates 10 Rage.
+Warrior	Arms	71	Colossus Smash	167105	talent-active	TraitNodeEntry	true	45	Cooldown	spec		90290	112144	1	Essential/Other	Cooldown 1	cdm-only:CooldownSetSpell		api	Smash the ground and shatter the armor of all enemies within 10 yds, dealing 107 Physical damage and increasing damage you deal to them by 30% for 10 sec. Deals reduced damage beyond 8 targets.
+Warrior	Arms	71	Demolish	436358	talent-active	TraitNodeEntry	true	45	Cooldown	hero	Colossus	94818	117415	1	Essential		cdm-only:CooldownSetSpell		api	Unleash a series of precise and powerful strikes against your target, dealing 802 damage to it, and 430 damage to enemies within 10 yds of it. Deals reduced damage beyond 8 targets.\n\nWhile channeling Demolish, you take 10% less damage and are immune to stuns, knockbacks, and forced movement effects.\n\nYou can block, parry, dodge, and use certain defensive abilities while channeling Demolish.
+Warrior	Arms	71	Shockwave	46968	talent-active	TraitNodeEntry	true	40	Rotational	class		90375	112242	1	Buff/Utility	CC 2	cdm-only:CooldownSetSpell		api	Sends a wave of force in a frontal cone, causing 7 damage and stunning all enemies within 10 yards for 2 sec.
+Warrior	Arms	71	Storm Bolt	107570	talent-active	TraitNodeEntry	true	30	Rotational	class		90337	112198	1	Buff/Utility	CC	cdm-only:CooldownSetSpell		api	Hurls your weapon at an enemy, causing 9 Physical damage and stunning for 4 sec.
+Warrior	Arms	71	Impending Victory	202168	talent-active	TraitNodeEntry	true	25	Rotational	class		90326	112183	1		Self-Heal 1			api	Instantly attack the target, causing 20 damage and healing you for 30% of your maximum health.\n\nKilling an enemy that yields experience or honor resets the cooldown of Impending Victory and makes it cost no Rage.
+Warrior	Arms	71	Mortal Strike	12294	talent-active	TraitNodeEntry	true	6	Rotational	spec		90270	112122	1	Essential	Rotational 1	cdm-only:CooldownSetSpell		api	A vicious strike that deals 183 Physical damage and reduces the effectiveness of healing on the target by 50% for 10 sec.
+Warrior	Arms	71	Rend	772	talent-active	TraitNodeEntry	true	6	Rotational	class		109391	135597	1	Buff/Essential		cdm-only:CooldownSetSpell		api	Lash out with your weapon, striking all targets within 10 yds for 92 Physical damage instantly and wounding them for an additional 74 Bleed damage over 15 sec.
+Warrior	Arms	71	Thunder Clap	6343	talent-active	TraitNodeEntry	true	6	Rotational	class		90343	112205	1	Buff/Essential		cdm-only:CooldownSetSpell		api	Blasts all enemies within 8 yards for 82 Physical damage and reduces their movement speed by 20% for 10 sec. Deals reduced damage beyond 5 targets.\n\nIf you know Rend, inflicts Rend on all targets.
+Warrior	Arms	71	Cleave	845	talent-active	TraitNodeEntry	true	4.5	Rotational	spec		90293	112147	1	Essential		cdm-only:CooldownSetSpell		api	Strikes all enemies in front of you for 90 Physical damage. Deals reduced damage beyond 5 targets.
+Warrior	Arms	71	Battle Stance	386164	talent-active	TraitNodeEntry	true	3	Rotational	class		90327	112184	1	Buff	Stance 2	cdm-only:CooldownSetSpell		api	A balanced combat state that increases the critical strike chance of your abilities by 3% and reduces the duration of movement impairing effects by 10%. \n\nLasts until canceled.
+Warrior	Arms	71	Defensive Stance	386208	talent-active	TraitNodeEntry	true	3	Rotational	class		92537	114643	1	Buff	Stance 1	cdm-only:CooldownSetSpell		api	A defensive combat state that reduces all damage you take by 15% and all damage you deal by 10%.\n\nLasts until canceled.
+Warrior	Arms	71	Heroic Leap	6544	talent-active	TraitNodeEntry	true	1.5	Rotational	class		90346	112208	1	Utility	Movement Ability	class-baseline:SkillLineAbility:840;cdm-only:CooldownSetSpell		api	Leap through the air toward a target location, slamming down with destructive force to deal 8 Physical damage to all enemies within 8 yards.
+Warrior	Arms	71	Spell Reflection	23920	talent-active	TraitNodeEntry	true	1	Rotational	class		90385	112253	1	Buff/Utility	Self-Heal 4 (Emergency/Overflow)	cdm-only:CooldownSetSpell		api	Raise your weapon, reflecting the first spell cast on you and reducing magic damage you take by 20% for 5 sec.
+Warrior	Arms	71	Overpower	7384	talent-active	TraitNodeEntry	true	0	Rotational	spec		90271	112123	1	Essential	Rotational 2	cdm-only:CooldownSetSpell		api	Overpower the enemy, dealing 132 Physical damage. Cannot be blocked, dodged, or parried.
+Warrior	Arms	71	Shattering Throw	64382	talent-choice	TraitNodeEntry	true	180	Cooldown	class		90351	112214	1	Utility		cdm-only:CooldownSetSpell		api	Hurl your weapon at the enemy,  removing any magical immunities and causing 214 Physical damage, ignoring armor. Deals up to 500% increased damage to absorb shields.
+Warrior	Arms	71	Bladestorm	227847	talent-choice	TraitNodeEntry	true	90	Cooldown	spec		90441	112314	1	Buff/Essential		class-baseline:SkillLineAbility:840;cdm-only:CooldownSetSpell		api	Become an unstoppable storm of destructive force, striking all nearby enemies for 669 Physical damage over 5.4 sec. Deals reduced damage beyond 8 targets.\n\nYou are immune to movement impairing and loss of control effects, but can use defensive abilities and can avoid attacks.
+Warrior	Arms	71	Intimidating Shout	5246	talent-choice	TraitNodeEntry	true	90	Cooldown	class		108705	134254	1	Buff/Utility		cdm-only:CooldownSetSpell		api	Causes the targeted enemy to cower in fear while all enemies within 8 yards flee from you and their movement speed is reduced by 70% for 8 sec.\nDamage may cancel the effect.
+Warrior	Arms	71	Piercing Howl	12323	talent-choice	TraitNodeEntry	true	90	Cooldown	class		108705	136627	1	Buff/Utility	Class 2 (CC)	cdm-only:CooldownSetSpell		api	Snares all enemies within 12 yards, reducing their movement speed by 70% for 8 sec.\n\nSpurs all allies within 6 yards, increasing their movement speed by 30% for 4 sec.
+Warrior	Arms	71	Ravager	228920	talent-choice	TraitNodeEntry	true	90	Cooldown	spec		90441	136702	1	Essential		class-baseline:SkillLineAbility:840;cdm-only:CooldownSetSpell		api	Throws a whirling weapon at your target that chases nearby enemies, inflicting 250 Physical damage to all enemies over 10.7 sec. Deals reduced damage beyond 8 targets.\n\nCleave and Whirlwind deal 50% increased damage while Ravager is active
+Warrior	Arms	71	Berserker Shout	384100	talent-choice	TraitNodeEntry	true	60	Cooldown	class		90348	112211	1		Self-Heal 3 (Overflow)			api	Go berserk, removing and granting immunity to Fear, Sap, and Incapacitate effects for 6 sec.\n\nAlso remove fear effects from group members within 12 yds.
+Warrior	Arms	71	Wrecking Throw	384110	talent-choice	TraitNodeEntry	true	45	Cooldown	class		90351	112215	1	Utility	Class 4 (Special)	cdm-only:CooldownSetSpell		api	Hurl your weapon at the enemy, causing 211 Physical damage, ignoring armor. Deals up to 500% increased damage to absorb shields.
+Warrior	Arms	71	Ignore Pain	1277297	talent-choice	TraitNodeEntry	true	20	Rotational	spec		90276	136701	1	Buff/Utility	Self-Heal 2	cdm-only:CooldownSetSpell		api	Fight through the pain, ignoring 50% of damage taken for 12 sec or until 560 damage has been prevented.
+Warrior	Arms	71	Interpose	1244088	talent-choice	TraitNodeEntry	true	1.5	Rotational	class		108676	134216	1	Utility		cdm-only:CooldownSetSpell		api	Run at high speed toward a target location near your allies, taking 30% of all damage dealt to allies within 3 yards for 8 sec or until you take at least 6,110 damage from this effect.
+Warrior	Arms	71	Intervene	3411	talent-choice	TraitNodeEntry	true	1.5	Rotational	class		108676	134217	1	Utility	Class 5 (Purge)	cdm-only:CooldownSetSpell		api	Run at high speed toward an ally, intercepting all melee and ranged attacks against them for 6 sec while they remain within 10 yds.
+Warrior	Arms	71	Berserker Rage	18499	class-baseline	SkillLineAbility:840	true	60	Cooldown						Buff/Utility	Personal Defensive 2	cdm-only:CooldownSetSpell		api	Go berserk, removing and granting immunity to Fear, Sap, and some Incapacitate effects for 6 sec.
+Warrior	Arms	71	Warbreaker	209577	class-baseline	SkillLineAbility:840	true	60	Cooldown										api	Stomp the ground, causing a ring of corrupted spikes to erupt upwards, dealing 119 Shadow damage and applying the Colossus Smash effect to all nearby enemies.
+Warrior	Arms	71	Neltharion's Fury	203524	class-baseline	SkillLineAbility:840	true	45	Cooldown										api	Enter a defensive posture, critically blocking all attacks while a stream of shadowflame erupts from Scale of the Earth-Warder, dealing 40 Shadowflame over 3 sec to all enemies in front of you. You can use defensive abilities while this is active.
+Warrior	Arms	71	Odyn's Fury	205545	class-baseline	SkillLineAbility:840	true	45	Cooldown										api	Unleashes the fiery power Odyn bestowed the Warswords, dealing 182 Fire damage and an additional 29 Fire damage over 4 sec to all enemies within 14 yards.
+Warrior	Arms	71	Sweeping Strikes	260708	class-baseline	SpecializationSpells	true	30	Rotational						Buff/Essential	Rotational 8	cdm-only:CooldownSetSpell		api	Your next 12 damaging single-target abilities hit 1 additional target within 8 yds for 75% damage. Lasts 30 sec.
+Warrior	Arms	71	Victory Rush	118779	class-baseline	SkillLineAbility:840	true	30	Rotational						Utility		cdm-only:CooldownSetSpell		api	Strikes the target, causing 16 damage and healing you for 10% of your maximum health.\n\nOnly usable within 20 sec after you kill an enemy that yields experience or honor.
+Warrior	Arms	71	Pummel	6552	class-baseline	SkillLineAbility:840	true	15	Rotational						Utility	Interrupt	cdm-only:CooldownSetSpell		api	Pummels the target, interrupting spellcasting and preventing any spell in that school from being cast for 5 sec.
+Warrior	Arms	71	Shield Slam	23922	class-baseline	SkillLineAbility:840	true	9	Rotational						Essential		cdm-only:CooldownSetSpell		api	Slams the target with your shield, causing 80 Physical damage.\n\nGenerates 15 Rage.
+Warrior	Arms	71	Taunt	355	class-baseline	SkillLineAbility:840	true	8	Rotational						Essential	Taunt/Quick Access	cdm-only:CooldownSetSpell		api	Taunts the target to attack you, and increases the threat you generate against them by 800% for 6 sec.
+Warrior	Arms	71	Execute	163201	class-baseline	SkillLineAbility:840	true	6	Rotational						Essential	Rotational 3	cdm-only:CooldownSetSpell		api	Attempts to finish off a foe, causing up to 170 Physical damage based on Rage spent. Only usable on enemies that have less than 20% health.
+Warrior	Arms	71	Heroic Throw	57755	class-baseline	SkillLineAbility:840	true	6	Rotational							Class 3 (Tag)			api	Throws your weapon at the enemy, causing 12 Physical damage. Generates high threat.
+Warrior	Arms	71	Charge	100	class-baseline	SkillLineAbility:840	true	1.5	Rotational						Utility	Class 1 (Movement)	cdm-only:CooldownSetSpell		api	Charge to an enemy, dealing 7 Physical damage, rooting it for 1 sec.\n\nGenerates 20 Rage.
+Warrior	Arms	71	Shield Block	2565	class-baseline	SkillLineAbility:840	true	1	Rotational						Essential		cdm-only:CooldownSetSpell		api	Raise your shield, blocking all melee attacks against you for 6 sec.
+Warrior	Arms	71	Attack	88163	class-baseline	SkillLineAbility:840	true	0	Rotational										api	Starts combat by attacking a target with a melee weapon.
+Warrior	Arms	71	Battle Shout	6673	class-baseline	SkillLineAbility:840	true	0	Rotational							Buff			api	Increases the attack power of all raid and party members within 100 yards by 5% for 1 hour.
+Warrior	Arms	71	Bladestorm Off-Hand	95738	class-baseline	SkillLineAbility:840	true	0	Rotational										api	You become a whirling storm of destructive force, striking all nearby targets with your off-hand weapon for 5 Physical damage.
+Warrior	Arms	71	Bloodbath	113344	class-baseline	SkillLineAbility:840	true	0	Rotational										api	Assault the target in a bloodthirsty craze, dealing 181 Physical damage and restoring 3% of your health.\n\nBloodbath wounds the target to suffer 21 Bleed damage over 6 sec. Using Bloodbath on a target that is affected by Bloodbath extends the bleed by 6 sec.\n\nGenerates 8 Rage and has a 30% chance to Enrage you.
+Warrior	Arms	71	Bloodthirst Heal	117313	class-baseline	SkillLineAbility:840	true	0	Rotational										api	Bloodthirst heals the Warrior for 3% of their health.
+Warrior	Arms	71	Hamstring	1715	class-baseline	SkillLineAbility:840	true	0	Rotational						Buff	Slow	cdm-only:CooldownSetSpell		api	Maims the enemy for 5 Physical damage, reducing movement speed by 50% for 15 sec.
+Warrior	Arms	71	Hotbar Slot 01	294184	class-baseline	SkillLineAbility:840	true	0	Rotational										none	
+Warrior	Arms	71	Hotbar Slot 02	294189	class-baseline	SkillLineAbility:840	true	0	Rotational										none	
+Warrior	Arms	71	Raging Blow	85384	class-baseline	SkillLineAbility:840	true	0	Rotational										api	A mighty blow with both weapons that deals a total of 77 Physical damage.\n\nGenerates 12 Rage.
+Warrior	Arms	71	Single-Button Assistant	1229376	class-baseline	SpecializationSpells	true	0	Rotational										api	Casts damaging abilities for use in combat, rotating through them based on priority.\n\nThe global cooldown of abilities used through the Single-Button Assistant is 25% longer.
+Warrior	Arms	71	Slam	1464	class-baseline	SkillLineAbility:840	true	0	Rotational						Essential	Rotational 4	cdm-only:CooldownSetSpell		api	Slams an opponent, causing 106 Physical damage.
+Warrior	Arms	71	Trauma	215537	class-baseline	SkillLineAbility:840	true	0	Rotational										api	Slam, Whirlwind, and Execute now cause the target to bleed for 20% additional damage over 6 sec. Multiple uses accumulate increased damage.
+Warrior	Arms	71	Whirlwind	1680	class-baseline	SkillLineAbility:840	true	0	Rotational										api	Unleashes a whirlwind of steel, striking all nearby targets for 74 Physical damage. Deals reduced damage beyond 5 targets.
+Warrior	Arms	71	Whirlwind Off-Hand	44949	class-baseline	SkillLineAbility:840	true	0	Rotational										api	Unleashes a whirlwind of steel, striking all nearby enemies for 56 Physical damage. Deals reduced damage beyond 5 targets.
+Warrior	Arms	71	Duel	236273	pvp-talent	PvpTalent	true	60	Cooldown						Utility		cdm-only:CooldownSetSpell		api	You challenge the target to a duel. While challenged, all damage you and the target deal to all targets other than each other is reduced by 50%. Lasts 12 sec.
+Warrior	Arms	71	Disarm	236077	pvp-talent	PvpTalent	true	45	Cooldown						Utility		cdm-only:CooldownSetSpell		api	Disarm the enemy's weapons and shield for 5 sec. Disarmed creatures deal significantly reduced damage.
+Warrior	Arms	71	Berserker Roar	1227751	pvp-talent	PvpTalent	false	0	Rotational										api	Berserker Shout also reduces the duration of the next crowd control effect within 5 sec by 50% on group members within 12 yds.
+Warrior	Arms	71	Demolition	329033	pvp-talent	PvpTalent	false	0	Rotational										api	Reduces the cooldown of your Shattering Throw or Wrecking Throw by 50% and increases its damage to absorb shields by an additional 250%.
+Warrior	Arms	71	Dragon Charge	206572	pvp-talent	PvpTalent	true	0	Rotational										api	Run at high speed at a distance in front of you. All enemies in your path will take 24 Physical damage and be knocked back.
+Warrior	Arms	71	Master and Commander	235941	pvp-talent	PvpTalent	false	0	Rotational										api	Cooldown of Rallying Cry reduced by 120 sec.
+Warrior	Arms	71	Rebound	213915	pvp-talent	PvpTalent	false	0	Rotational										api	Spell Reflection reflects the next 2 incoming spells cast on you and reflected spells deal 100% extra damage to the attacker.\n\nSpell Reflection's cooldown is increased by 10 sec.
+Warrior	Arms	71	Safeguard	424654	pvp-talent	PvpTalent	false	0	Rotational										api	Intervene now has 2 charges and reduces the ally's damage taken by 20% for 5 sec.\n\nIntervene's cooldown is increased by 10 sec.
+Warrior	Arms	71	Sharpen Blade	1219165	pvp-talent	PvpTalent	false	0	Rotational										api	Colossus Smash causes your next Mortal Strike to deal 15% increased damage and reduce healing taken by 50% for 4 sec.
+Warrior	Arms	71	Storm of Destruction	236308	pvp-talent	PvpTalent	false	0	Rotational										api	Bladestorm, Ravager, and Demolish now snare all targets you hit by 60% for 6 sec and decrease their healing taken by 50% for 10 sec.
+Warrior	Arms	71	Anger Management	152278	talent-passive	TraitNodeEntry	false	0	Rotational	class		108543	134032	1					api	Every 20 Rage you spend on attacks reduces the remaining cooldown on Avatar and Colossus Smash by 1 sec.
+Warrior	Arms	71	Armored to the Teeth	384124	talent-passive	TraitNodeEntry	false	0	Rotational	class		90366	112233	2					api	Gain Strength equal to 5% of your Armor.
+Warrior	Arms	71	Arterial Bleed	440995	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94799	119856	1					api	Colossal Might increases the damage of your Rend and Deep Wounds by 3% per stack.
+Warrior	Arms	71	Barbaric Training	383082	talent-passive	TraitNodeEntry	false	0	Rotational	class		90347	112209	1					api	Slam, Whirlwind, and Cleave deal 10% more damage and 5% increased critical strike damage.
+Warrior	Arms	71	Battlefield Commander	424742	talent-passive	TraitNodeEntry	false	0	Rotational	class		108544	134033	1					api	Your Shout abilities have additional effects.\n\n Battle Shout:\nGrants you an additional 3% attack power.\n\n Rallying Cry:\nGrants an additional 2% health and duration increased by 3 sec.\n\n Piercing Howl:\nRadius increased by 100%\n\n Berserker Shout:\nRadius increased by 100%.\n\n Intimidating Shout:\nCooldown reduced by 15 sec.
+Warrior	Arms	71	Battlelord	386630	talent-passive	TraitNodeEntry	false	0	Rotational	spec		92615	114740	1					api	Overpower has a 35% chance to reset the cooldown of Mortal Strike and reduce the cost of your next Mortal Strike by 33%.
+Warrior	Arms	71	Bloodborne	383287	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90283	112135	2					api	Your Bleed effects deal 5% increased damage and 5% increased critical strike damage.
+Warrior	Arms	71	Bloodletting	383154	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90438	112310	1					api	Rend and Deep Wounds' Bleed effects last 33% longer and have a 5% increased critical strike chance.\n\nIf you know Rend, Mortal Strike inflicts Rend on targets below 35% health.
+Warrior	Arms	71	Bloodsurge	384361	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90277	112129	1					api	Damage from Rend has a chance to generate 5 Rage.
+Warrior	Arms	71	Boneshaker	429639	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94789	117386	1					api	Shockwave's stun duration is increased by 1 sec and reduces the movement speed of affected enemies by 40% for 3 sec after the stun ends.
+Warrior	Arms	71	Bounding Stride	202163	talent-passive	TraitNodeEntry	false	0	Rotational	class		90355	112219	1					api	Reduces the cooldown of Heroic Leap by 15 sec and Heroic Leap also increases your movement speed by 70% for 3 sec.
+Warrior	Arms	71	Broad Strokes	1261049	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109686	135942	1					api	Colossus Smash grants you Sweeping Strikes.
+Warrior	Arms	71	Brutal Finish	446085	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94786	123409	1	Buff		cdm-only:CooldownSetSpell		api	Your next Mortal Strike after Bladestorm ends deals 50% additional damage.
+Warrior	Arms	71	Brute Force	1261046	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109681	135936	1					api	Slam has a 10% increased chance to trigger Tactician.
+Warrior	Arms	71	Celeritous Conclusion	1270710	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	109812	136071	1	Buff		cdm-only:CooldownSetSpell		api	Demolish's final strike grants 10% Haste for 10 sec and increases the critical strike chance of your next Mortal Strike by 100%.
+Warrior	Arms	71	Collateral Damage	334779	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109682	135937	1	Buff		cdm-only:CooldownSetSpell		api	When an ability used during Sweeping Strikes damages a second target, your next Cleave or Whirlwind deals 25% increased damage, stacking up to 3 times.
+Warrior	Arms	71	Colossal Might	429634	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94819	117416	1	Buff		cdm-only:CooldownSetSpell		api	Colossal Might increases damage dealt by your next Demolish by 5%, stacking up to 5 times.\n\nMortal Strike grants a stack of Colossal Might and Cleave grants a stack of Colossal Might when it strikes 3 or more targets.
+Warrior	Arms	71	Crackling Thunder	203201	talent-passive	TraitNodeEntry	false	0	Rotational	class		95959	118853	1					api	Thunder Clap's radius is increased by 50% and it reduces affected target's movement speed by an additional 20%.
+Warrior	Arms	71	Critical Thinking	389306	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90444	112317	2					api	Execute critical strike chance increased by 5% and Execute immediately refunds an additional 10% of the Rage spent.
+Warrior	Arms	71	Cruel Strikes	392777	talent-passive	TraitNodeEntry	false	0	Rotational	class		90381	112248	2					api	Critical strike chance increased by 1% and critical strike damage of Execute increased by 5%.
+Warrior	Arms	71	Crushing Combo	1261056	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109683	135938	1	Buff		cdm-only:CooldownSetSpell		api	Colossus Smash causes your next 2 Cleaves within 20 sec to trigger no cooldown.
+Warrior	Arms	71	Crushing Force	382764	talent-passive	TraitNodeEntry	false	0	Rotational	class		108686	134226	1					api	Mortal Strike deals an additional 5% damage and deals 5% increased critical strike damage.
+Warrior	Arms	71	Culling Cyclone	444778	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94786	117383	1					api	Each strike of Bladestorm deals an additional 20% damage evenly split across all targets.
+Warrior	Arms	71	Cut to the Bone	1270709	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	109813	136072	1					api	Mortal Strike critical strikes increase your Rend and Deep Wounds damage by 15% for 8 sec.
+Warrior	Arms	71	Deadly Focus	1270718	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	109816	136075	1					api	Executioner's duration is increased by 6 sec.
+Warrior	Arms	71	Death Drive	444770	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94813	117410	1					api	You heal for 15% of damage dealt by Sudden Death.
+Warrior	Arms	71	Decimator	1270704	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	109814	136073	1					api	Demolish's final strike applies Deep Wounds to all targets at 100% effectiveness.
+Warrior	Arms	71	Deep Wounds	1261060	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109684	135940	1	Buff		cdm-only:CooldownSetSpell		api	Execute inflicts Deep Wounds on the target.\n\n Deep Wounds\nCauses the target to suffer 50 Bleed damage over 6 sec. If this effect is reapplied, any remaining damage will be added to the new Deep Wounds.
+Warrior	Arms	71	Dominance of the Colossus	429636	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94793	117390	1	Buff		cdm-only:CooldownSetSpell		api	Colossal Might stacks up to 10 times. If you would gain a stack of Colossal Might and are at max stacks, the cooldown of Demolish is reduced by 5 sec.\n\nEnemies affected by Demolish take up to 10% more damage from you and deal up to 10% less damage to you for 10 sec based on the number of stacks of Colossal Might consumed by Demolish.
+Warrior	Arms	71	Double Time	103827	talent-passive	TraitNodeEntry	false	0	Rotational	class		90382	112249	1					api	Charge gains 1 additional charge and its cooldown is reduced by 3 sec.
+Warrior	Arms	71	Dreadnaught	262150	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90285	112137	1					api	Overpower causes a seismic wave, dealing 24 damage to all enemies in a 10 yd line. Deals reduced damage beyond 5 targets.
+Warrior	Arms	71	Earthquaker	440992	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94789	119858	1					api	Shockwave also knocks enemies into the air and its cooldown is reduced by 5 sec.
+Warrior	Arms	71	Efficiency	1261047	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109681	135935	1					api	Slam's Rage cost is reduced by 25%.
+Warrior	Arms	71	Executioner's Precision	386634	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90445	112318	1	Buff		cdm-only:CooldownSetSpell		api	Execute increases the damage of your next Mortal Strike by 35%, stacking up to 2 times.
+Warrior	Arms	71	Fast Footwork	382260	talent-passive	TraitNodeEntry	false	0	Rotational	class		90344	112206	1					api	Movement speed increased by 5%.
+Warrior	Arms	71	Fatality	383703	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90439	112311	1	Buff		cdm-only:CooldownSetSpell		api	Mortal Strike has a 50% chance to apply a Fatal Mark to your target, stacking up to 5 times. Your next Execute on a target with a Fatal Mark causes the Fatal Mark to deal 96 additional Physical damage per stack.
+Warrior	Arms	71	Fearless	1271925	talent-passive	TraitNodeEntry	false	0	Rotational	class		90348	112210	1					api	Cooldown of Berserker Rage is reduced by 50% and Berseker Rage removes all movement speed-impairing effects.
+Warrior	Arms	71	Fervor of Battle	202316	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90267	135932	1					api	If Cleave or Whirlwind hits 3 or more targets you also Slam your primary target. This Slam deals 50% additional damage.
+Warrior	Arms	71	Field Dressing	1271926	talent-passive	TraitNodeEntry	false	0	Rotational	class		110119	136626	1					api	Healing received increased by 3% and all self-healing increased by an additional 10%.
+Warrior	Arms	71	Fierce Followthrough	444773	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94787	117384	1	Buff		cdm-only:CooldownSetSpell		api	Mortal Strike critical strikes increase the damage of your next Mortal Strike by 20%.
+Warrior	Arms	71	Frothing Berserker	392792	talent-passive	TraitNodeEntry	false	0	Rotational	class		90352	112216	1					api	Mortal Strike and Cleave have a 20% chance to immediately refund 10% of the Rage spent.
+Warrior	Arms	71	Fueled by Violence	383103	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90276	112128	1					api	You are healed for 85% of the Bleed damage dealt by Rend and Deep Wounds.
+Warrior	Arms	71	Honed Reflexes	391271	talent-passive	TraitNodeEntry	false	0	Rotational	class		95956	118850	1					api	Cooldown of Die By the Sword, Intervene, Interpose, Spell Reflection, Storm Bolt, and Pummel reduced by 10%.\n\nSuccessfully interrupting an enemy increases the damage you deal to them by 5% for 10 sec.
+Warrior	Arms	71	Imminent Demise	444769	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94788	117385	1	Buff		cdm-only:CooldownSetSpell		api	Every 3 Slayer's Strikes you gain Sudden Death.\n\nUsing Sudden Death accelerates your next Bladestorm, striking 1 additional time (max 3). Bladestorm's total duration is unchanged.\n\nSudden Death has a 100% chance to trigger Reap the Storm at 100% effectiveness.
+Warrior	Arms	71	Impale	383430	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90292	112146	1					api	Critical strike damage of your abilities is increased by 10%.
+Warrior	Arms	71	Improved Execute	316405	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90273	112125	1					api	Execute no longer has a cooldown and if your foe survives, 10% of the Rage spent is refunded.
+Warrior	Arms	71	Improved Overpower	385571	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90279	112131	1					api	Overpower has 2 charges and deals 15% more damage.
+Warrior	Arms	71	Improved Sweeping Strikes	383155	talent-passive	TraitNodeEntry	false	0	Rotational	spec		92536	114641	1					api	Sweeping Strikes affects 6 additional damaging single-target abilities.
+Warrior	Arms	71	Javelineer	1271948	talent-passive	TraitNodeEntry	false	0	Rotational	class		110118	136625	1					api	Range of your thrown abilities is increased by 5 yards.\n\nDamage dealt by Champion's Spear, Shattering Throw, and Wrecking Throw increased by 20%.\n\nShattering Throw and Wrecking Throw silence non-players for 3 sec.
+Warrior	Arms	71	Just Warming Up	1261048	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109686	135943	1					api	Colossus Smash generates 15 Rage.
+Warrior	Arms	71	Leeching Strikes	382258	talent-passive	TraitNodeEntry	false	0	Rotational	class		90371	112238	1					api	Leech increased by 3%.
+Warrior	Arms	71	Martial Expert	429638	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94812	117409	1					api	Critical strike damage of your abilities is increased by 10% and the amount of damage blocked by your critical blocks is increased by 20%.
+Warrior	Arms	71	Martial Prowess	1273062	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109680	135934	1	Buff		cdm-only:CooldownSetSpell		api	Overpower and Slam increase the damage of your next Mortal Strike by 5%, stacking up to 3 times.
+Warrior	Arms	71	Mass Execution	1273075	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110175	136700	1					api	Cleave and Whirlwind deal 20% additional damage to targets below 35% health.
+Warrior	Arms	71	Massacre	281001	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90291	112145	1					api	Execute is usable on targets below 35% health.
+Warrior	Arms	71	Master Tactician	1261057	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109679	135933	1					api	Tactician has a 5% increased chance to trigger.
+Warrior	Arms	71	Master of Warfare	1269314	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110407	136989	1	Buff		talent-passive:TraitNodeEntry;cdm-only:CooldownSetSpell		api	Your single target melee abilities have a chance to upgrade Slam to Heroic Strike.\nAll modifiers and talents that affect Slam also affect Heroic Strike.
+Warrior	Arms	71	Mortal Wounds	1261062	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109685	135941	1					api	Mortal Strike and Slam critical strikes inflict Deep Wounds at 100% effectiveness.\n\n Deep Wounds\nCauses the target to suffer 50 Bleed damage over 6 sec. If this effect is reapplied, any remaining damage will be added to the new Deep Wounds.
+Warrior	Arms	71	Mountain of Muscle and Scars	429642	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94806	117403	1					api	You deal 5% more damage and take 5% less damage.\n\nSize increased by 5%.
+Warrior	Arms	71	No Stranger to Pain	429644	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94815	117412	1					api	Damage prevented by each use of Ignore Pain is increased by 20%.
+Warrior	Arms	71	One Against Many	429637	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94799	117396	1					api	Shockwave, Cleave, and Whirlwind deal 5% more damage per target affected up to 5.
+Warrior	Arms	71	Opportunist	444774	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94787	123770	1	Buff		cdm-only:CooldownSetSpell		api	When Overpower has its cooldown reset by Tactician, your next Overpower deals 10% additional damage and 10% additional critical damage. Stacking up to 2 times.
+Warrior	Arms	71	Overpowering Finish	400205	talent-passive	TraitNodeEntry	false	0	Rotational	spec		92614	114733	1					api	Overpower deals 15% additional damage to targets below 35% health.
+Warrior	Arms	71	Overwhelming Blades	444772	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94810	117407	1	Buff		cdm-only:CooldownSetSpell		api	Each strike of Bladestorm applies Overwhelmed to all enemies affected, increasing damage you deal to them by 1% for 20 sec, max 5 stacks.
+Warrior	Arms	71	Overwhelming Rage	382767	talent-passive	TraitNodeEntry	false	0	Rotational	class		90378	112245	1					api	Maximum Rage increased by 30.
+Warrior	Arms	71	Pain and Gain	382549	talent-passive	TraitNodeEntry	false	0	Rotational	class		90353	112217	1					api	When you take any damage, heal for 2.0% of your maximum health. \n\nThis can only occur once every 10 sec.
+Warrior	Arms	71	Powerful Momentum	1261050	talent-passive	TraitNodeEntry	false	0	Rotational	spec		92536	114739	1					api	Secondary targets take an additional 25% damage from Sweeping Strikes.
+Warrior	Arms	71	Practiced Strikes	429647	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94796	117393	1					api	Mortal Strike and Slam damage increased by 25%.\n\nCleave and Whirlwind damage increased by 15%.
+Warrior	Arms	71	Precise Might	431548	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94794	117391	1					api	Mortal Strike critical strikes grant an additional stack of Colossal Might.
+Warrior	Arms	71	Reap the Storm	444775	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94809	117406	1					api	When Cleave hits 3 or more targets you have a 20% chance to unleash a flurry of steel, striking all nearby enemies for 272 Physical damage and applying Overwhelmed. Deals reduced damage beyond 8 targets.
+Warrior	Arms	71	Reinforced Plates	382939	talent-passive	TraitNodeEntry	false	0	Rotational	class		90368	112235	2					api	Stamina increased by 5% and Armor increased by 5%.
+Warrior	Arms	71	Relentless Pursuit	444776	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94795	117392	1					api	Charge increases your movement speed by 70% for 3 sec.\n\nCharge removes all movement impairing effects, this effect cannot occur more than once every 30 sec.
+Warrior	Arms	71	Resonant Voice	1243660	talent-passive	TraitNodeEntry	false	0	Rotational	class		108685	134225	1					api	The effects of your shouts last 20% longer.
+Warrior	Arms	71	Rumbling Earth	275339	talent-passive	TraitNodeEntry	false	0	Rotational	class		90374	112241	1					api	Shockwave's range increased by 6 yards and when it strikes at least 3 targets its cooldown is reduced by 15 sec.
+Warrior	Arms	71	Second Wind	29838	talent-passive	TraitNodeEntry	false	0	Rotational	class		90332	112190	1	Buff		cdm-only:CooldownSetSpell		api	Restores 6% health every 1 sec when you have not taken damage for 5 sec.\n\nRestores 2% health every 1 sec while you are below 35% health. The amount restored increases the closer you are to death.
+Warrior	Arms	71	Sharpened Blades	383341	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90447	112320	2					api	Mortal Strike, Cleave, and Execute damage increased by 5% and critical strike damage increased by 5%.
+Warrior	Arms	71	Show No Mercy	444771	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94784	117381	1					api	Executioner also increases your Execute critical strike chance and critical strike damage by 3% per stack.
+Warrior	Arms	71	Slayer's Dominance	444767	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94814	117411	1	Buff		cdm-only:CooldownSetSpell		api	Your attacks against your primary target have a 15% chance to overwhelm their defenses and trigger a Slayer's Strike, dealing 298 Physical damage and granting you a stack of Executioner, increasing your Execute damage by 3% for 12 sec. Multiple stacks of Executioner may overlap.
+Warrior	Arms	71	Slayer's Malice	444779	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94801	117398	1					api	Overpower and Execute damage increased by 15%.
+Warrior	Arms	71	Stance Mastery	1280961	talent-passive	TraitNodeEntry	false	0	Rotational	class		108542	134031	1					api	Your stances have additional effects.\n\n Battle Stance\nIncreases the critical strike damage of your abilities by 3%.\n\n Defensive Stance\nWhen an attack deals 20% or more of your maximum health in damage, that damage is reduced by 15%.
+Warrior	Arms	71	Strength of Arms	400803	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109687	135944	2					api	Overpower and Slam damage increased by 5% and critical strike damage increased by 5%.\nCritical strike chance of Slam and Overpower increased by 5%.
+Warrior	Arms	71	Sudden Death	29725	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90274	112126	1	Buff		cdm-only:CooldownSetSpell		api	Your attacks have a chance to make your next Execute cost no Rage, be usable on any target regardless of their health, and deal damage as if you spent 40 Rage.
+Warrior	Arms	71	Tactical Edge	1261051	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109683	135939	1	Buff		cdm-only:CooldownSetSpell		api	Colossus Smash causes your next 2 Mortal Strikes to have a 100% chance to trigger Tactician.
+Warrior	Arms	71	Tactician	184783	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90282	112134	1					api	You have a 30% chance to gain a charge of Overpower when you use an attack that has a Rage cost.\nThis effect applies even if that ability's Rage cost has been reduced to zero.
+Warrior	Arms	71	Tide of Battle	429641	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94811	117408	1					api	Colossal Might increases the damage of your Overpower by 3% per stack.
+Warrior	Arms	71	Two-Handed Weapon Specialization	382896	talent-passive	TraitNodeEntry	false	0	Rotational	class		90322	112179	2					api	While wielding two-handed weapons your damage is increased by 3% and damage taken from area of effect attacks is reduced by 2%.
+Warrior	Arms	71	Unhinged	386628	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	109815	136074	1					api	Every 2 strikes of Bladestorm, you automatically cast a Mortal Strike at your target or random nearby enemy, dealing 100% of normal damage.
+Warrior	Arms	71	Unrelenting Onslaught	444780	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94820	117417	1					api	Using Sudden Death causes you to both reduce the cooldown of Bladestorm by 5 sec and apply 1 stack of Overwhelmed to your primary target per stack of Executioner you have.\n\nYou can use Pummel and Storm Bolt while Bladestorming.\n\nBladestorm damage increased by 20%.
+Warrior	Arms	71	Veteran Vitality	440993	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94815	119857	1	Buff		cdm-only:CooldownSetSpell		api	When your health is brought below 35%, you gain a Second Wind, healing you for 12% of your max health over 2 sec.\n\nThis effect cannot occur more than once every 60 sec.
+Warrior	Arms	71	Vicious Agility	444777	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94795	123408	1					api	Heroic Leap reduces the cooldown of Charge by 5 sec and Charge reduces the cooldown of Heroic Leap by 2 sec.
+Warrior	Arms	71	Violent Euphoria	1270717	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	109817	136076	1	Buff		cdm-only:CooldownSetSpell		api	Bladestorm puts you into a battle trance, granting you 15% haste for 8 sec after you stop Bladestorming.
+Warrior	Arms	71	War Machine	262231	talent-passive	TraitNodeEntry	false	0	Rotational	class		90328	112185	1					api	Your auto-attacks generate 10% more Rage.\n\nKilling an enemy instantly generates 5 Rage and increases your movement speed by 30% for 8 sec.
+Warrior	Arms	71	Wild Strikes	382946	talent-passive	TraitNodeEntry	false	0	Rotational	class		90360	112224	2					api	Haste increased by 1% and your auto-attack critical strikes increase your auto-attack speed by 10% for 10 sec.
+Warrior	Arms	71	Heroic Might	1292058	cdm-only	CooldownSetSpell	true	0	Rotational						Buff				db2-template+redirect	Heroic Strike increases the damage you deal to enemies affected by your next Colossus Smash by an additional ${$1292058s1}.1%. Stacks up to $1292058u times.

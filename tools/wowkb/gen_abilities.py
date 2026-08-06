@@ -1,4 +1,4 @@
-"""Generate the per-spec ability inventory as a Tier-1 KB artifact.
+r"""Generate the per-spec ability inventory as a Tier-1 KB artifact.
 
 This is the *writer* for `knowledge/classes/<class>/<spec>/ability-inventory.tsv`
 + `.md` and the aggregate `knowledge/classes/_abilities/`. It extends — it does
@@ -8,7 +8,8 @@ BucketBinds floats work and `wowkb.cdmp` read.
     uv run python -m wowkb.gen_abilities --fetched 2026-08-06
     uv run python -m wowkb.gen_abilities --fetched 2026-08-06 --check
     uv run python -m wowkb.gen_abilities --fetched 2026-08-06 --residual
-    uv run python -m wowkb.gen_abilities --fetched 2026-08-06 --probe   # network
+    uv run python -m wowkb.gen_abilities --fetched 2026-08-06 --probe          # network
+    uv run python -m wowkb.gen_abilities --fetched 2026-08-06 --descriptions   # network
 
 ⚠ `abilities.md` in each spec directory is HAND-WRITTEN PROSE. This module never
 writes it. The generated file is `ability-inventory.md`.
@@ -144,6 +145,115 @@ B. THE RESIDUAL PROBE (`--probe`) — for a name `--residual` still cannot place
    deterministic.
 
 ────────────────────────────────────────────────────────────────────────────────
+THE DESCRIPTION LEG — two sources, one spine, one rendering
+────────────────────────────────────────────────────────────────────────────────
+Every inventory row carries `description` + `description_source`. The two sources
+are COMPLEMENTARY, not redundant, and both are Tier 1. Measured @ 12.0.7.67808
+over the 7,065 inventory rows:
+
+                          | DB2 `Spell.Description_lang` | API `/data/wow/spell/{id}`
+    row coverage          | 7,039 = 99.6 %, pets 6/6     | 6,928 = 98.1 %, pets 0/6
+    readable as-is        | NO — mostly templates        | YES, resolved English
+    offline, build-pinned | YES                          | NO — network + a cache
+
+**DB2 is the spine; the API is the rendering.** The API wins where it has text
+because its numbers are real; DB2 covers what the API cannot reach — the whole
+pet leg (6/6 rows, API 0/6), most of the `cdm-only` residue (API 43/109), and
+every 404. Neither alone gets to 99.6 % with readable prose, so the row records
+WHICH one served it and a reader checks that before quoting a number.
+
+    api                          resolved English. Durations/magnitudes are real.
+    db2-plain                    DB2 text with no `$` placeholder — readable as-is.
+    db2-template                 DB2 text with UNRESOLVED `$…` slots. `$s3`, `$d`,
+                                 `$?s53376&c2[…][]` are template syntax, NOT text.
+    …+redirect                   a `$@spelldesc<id>` splice was followed (DB2).
+    …+redirect-api               a splice resolved from the API cache instead.
+    …+redirect-unresolved        a splice could not be resolved and is LEFT IN the
+                                 text verbatim. 3 spells @ 67808: Blade Flurry
+                                 22482 → 319606, Ravager 156287 → 152277, Chakrams
+                                 259398 → 259381 — the target has no DB2 text AND
+                                 404s on the API. Not evidence of absence; it is a
+                                 pointer this build cannot follow.
+    none                         neither source has text (26 rows @ 67808). NOT
+                                 "junk" — see below; `AuraDescription_lang` is
+                                 empty for all 12 of those spellIDs too, so the
+                                 third DB2 column would not rescue them either.
+
+⚠ A `none` DESCRIPTION IS A SIGNAL, NOT A DEFECT. Measured @ 67808, the 26 rows
+are 12 distinct spellIDs in two kinds:
+
+  * 6 rows / 2 names — STUB TWINS. The name IS a real ability, but THIS spellID
+    is a hollow shell sitting in specs that do not have it, while the real button
+    is a different spellID with a real cooldown and full API text:
+      Force of Nature 37846 (cd 0, `SkillLineAbility:798`, in Feral + Guardian +
+        Restoration) vs the real 205636 (cd 60, Balance talent-active).
+      Incarnation: Tree of Life 81098 (cd 0, `NameSubtext_lang` "Passive", in
+        Balance + Feral + Guardian) vs the real 33891 (cd 180, Restoration
+        talent-choice).
+  * 20 rows / 10 names — hidden, non-button spells with no twin: 4 spec identity
+    auras (`Frost Death Knight` 137006, `Unholy Death Knight` 137007,
+    `Protection Paladin` 137028, `Enhancement Shaman` 137041 — all `cdm-only`,
+    all passive-flagged), 1 internal driver (`Pyroblast Clearcasting Driver`
+    44448), 6 rows of UI plumbing (`Hotbar Slot 01/02` 294184 / 294189), and 9
+    rows of internal class-line entries (`Energy Usage` 119650,
+    `Zen Pilgrimage/Death Gate/Moonglade Storage Aura I` 126893,
+    `Shapeshift Form` 228545). These ARE fairly called junk. The first group is
+    not.
+
+⚠ AND IT UNDER-DETECTS — do not sell it as "the stub detector". 101 names in the
+inventory carry more than one spellID; 11 of those have the stub SHAPE (a cd-0
+`class-baseline` member beside a cd>0 member) and only 2 of the 11 are `none`.
+The other 9 (Ardent Defender, Bestial Wrath, Bladestorm, Chi Burst, Fists of
+Fury, Ravager, Track Beasts, Track Humanoids, Tranquility) carry full API text on
+both spellIDs and this signal says nothing about them. `none` finds a subset for
+free; it is not a survey. `none_rows()` computes the split, `main` prints it.
+
+⚠ NOTHING IS FIXED FROM THIS. Dropping a stub row changes the union BucketBinds
+consumes and that is the user's call. It is reported and recorded, not actioned.
+
+⚠ `$@spelldesc<id>` means "render spell <id>'s description here" and is spliced
+in before storing — Hammer of Light 427441 is LITERALLY `$@spelldesc427453` and
+would otherwise store as that string. Cycle-guarded and capped at
+`DESC_REDIRECT_DEPTH`; every bound hit is counted and PRINTED, never silent.
+
+⚠ The API results are CACHED to `_abilities/spell-descriptions.json`, a committed
+KB artifact, exactly like `residual-probe.json`. Ordinary generation and `--check`
+read the cache and never call out — offline and deterministic. Only
+`--descriptions` (network, ~3,950 GETs) refreshes it. Its fetch set is the
+inventory's distinct spellIDs PLUS any DB2-dangling `$@spelldesc` target.
+
+⚠ A 404 from the endpoint is NOT evidence of absence (59/3,952 @ 67808). It drops
+the row to its DB2 template and nothing more is ever concluded from it.
+
+WHERE THE TEXT IS RENDERED, and why it is not everywhere:
+  * `<class>/<spec>/ability-inventory.tsv` — full `description` column. Per-spec
+    files are small; this is the data twin a spec's reader actually joins against.
+  * `<class>/<spec>/ability-inventory.md` — a `## Descriptions` section BELOW the
+    table, same numbering. The table is already 10 columns; an eleventh holding
+    200 characters of tooltip makes every row unreadable.
+  * `_abilities/spell-descriptions.tsv` — one row per DISTINCT spellID (3,949),
+    the join table.
+  * `_abilities/pet-family-annex.tsv` — full `description` column, same contract.
+    The API serves 0 of its 169 distinct spellIDs (measured on a 25-spell random
+    sample; consistent with the inventory pet leg's 0/6), so this is entirely the
+    DB2 spine — which is the whole reason the spine exists. `--descriptions` does
+    NOT fetch annex-only spellIDs: 169 GETs for a measured-zero return.
+  * `_abilities/all-abilities.tsv` — `description_source` ONLY, no text. Measured:
+    the text is 990 KB spread over 7,065 rows but 561 KB over 3,949 distinct
+    spellIDs, i.e. 43 % of it is the same tooltip repeated for a spell several
+    specs share. A description is a property of the SPELL, not of the (spec,
+    ability) pair, so duplicating it into the cross-spec grep file would double
+    that file's size to hold nothing new. Join on `spell_id` instead. The
+    `description_source` column stays because coverage IS per row and a
+    cross-spec coverage question must be answerable without the join.
+
+⚠ TSV SAFETY. Descriptions carry `\r\n` (and could carry a tab); either written
+raw silently corrupts the file — `csv.DictReader` reads the damage as data, not
+as an error. `_scrub` escapes `\` → `\\`, CRLF/CR/LF → `\n`, TAB → `\t` on every
+cell of every emitted TSV. No existing column contained any of those characters
+at 67808, so the escape is a no-op for them.
+
+────────────────────────────────────────────────────────────────────────────────
 ORIGIN + PRECEDENCE
 ────────────────────────────────────────────────────────────────────────────────
 A spec's rows are deduped by normalised name. When two legs claim the same name
@@ -244,9 +354,16 @@ TSV_COLUMNS = [
     "castable", "cooldown", "band", "tree", "hero_tree", "node_id", "entry_id",
     "max_ranks", "blizz_category", "seed_bucket", "also_from", "aliases",
 ]
+# The per-spec twin carries the full text; the aggregate carries only the
+# provenance tag and joins to `_abilities/spell-descriptions.tsv` on `spell_id`.
+# See "THE DESCRIPTION LEG" in the docstring for the measured size argument.
+SPEC_TSV_COLUMNS = TSV_COLUMNS + ["description_source", "description"]
+ALL_TSV_COLUMNS = TSV_COLUMNS + ["description_source"]
+DESC_COLUMNS = ["spell_id", "name", "description_source", "description"]
 ANNEX_COLUMNS = [
     "skill_line", "line_name", "class", "class_id", "family", "family_id",
     "pet_talent_type", "exotic", "name", "spell_id", "castable", "cooldown",
+    "description_source", "description",
 ]
 SECTION3_COLUMNS = [
     "class", "spec", "name", "spell_id", "reached_by", "spec_scope",
@@ -768,6 +885,218 @@ def probe(data: dict, fetched: str) -> dict:
     return out
 
 
+# ── the description leg ──────────────────────────────────────────────────────
+DESC_CACHE = ABIL_DIR / "spell-descriptions.json"
+
+# `$@spelldesc<id>` splices another spell's description in. Both forms occur:
+# a WHOLE-text redirect (Hammer of Light 427441 is literally `$@spelldesc427453`)
+# and an embedded one inside longer prose. Substitution handles both.
+SPELLDESC_RE = re.compile(r"\$@spelldesc(\d+)")
+# Depth cap on that substitution. Bounded and LOGGED — a silent cap would read
+# as "fully resolved". Measured at 12.0.7.67808: max observed depth is 1.
+DESC_REDIRECT_DEPTH = 4
+
+
+def _spell_descriptions() -> dict[str, str]:
+    """`Spell.Description_lang` at the pin — the raw, UNRESOLVED template text."""
+    return {r["ID"]: (r["Description_lang"] or "")
+            for r in _rows("Spell") if (r["Description_lang"] or "").strip()}
+
+
+def _expand_redirects(text: str, raw: dict[str, str], stats: Counter,
+                      api: dict | None = None, depth: int = 0,
+                      seen: frozenset = frozenset()) -> tuple[str, str]:
+    r"""Splice `$@spelldesc<id>` targets in. Returns (text, provenance_suffix).
+
+    A redirect resolves against DB2 first, then against the API cache — the
+    directive means "render spell <id>'s description here", so either source
+    satisfies it. Measured at 12.0.7.67808: three inventory spells (Blade Flurry
+    22482 → 319606, Ravager 156287 → 152277, Chakrams 259398 → 259381) redirect
+    to a spell with NO `Description_lang`, and only the API leg reaches them.
+
+    Suffix, worst-case wins so the weakest link is the one you see:
+
+        ""                       nothing was spliced
+        "+redirect"              every splice came from DB2
+        "+redirect-api"          at least one splice came from the API cache
+        "+redirect-unresolved"   at least one `$@spelldesc` could not be resolved
+
+    Cycle-guarded (`seen`) and depth-capped (`DESC_REDIRECT_DEPTH`); every bound
+    hit is counted into `stats` and printed by the caller, never swallowed.
+    """
+    if "$@spelldesc" not in text:
+        return text, ""
+    if depth >= DESC_REDIRECT_DEPTH:
+        stats["redirect_depth_capped"] += 1
+        return text, "+redirect-unresolved"
+    rank = {"": 0, "+redirect": 1, "+redirect-api": 2, "+redirect-unresolved": 3}
+    worst = ""
+
+    def note(tag: str) -> None:
+        nonlocal worst
+        if rank[tag] > rank[worst]:
+            worst = tag
+
+    def sub(m: re.Match) -> str:
+        tid = m.group(1)
+        if tid in seen:
+            stats["redirect_cycle"] += 1
+            note("+redirect-unresolved")
+            return m.group(0)
+        inner = (raw.get(tid) or "").strip()
+        if inner:
+            out, tag = _expand_redirects(inner, raw, stats, api, depth + 1, seen | {tid})
+            note(tag or "+redirect")
+            return out
+        live = ((api or {}).get(tid) or {}).get("description", "").strip()
+        if live:
+            stats["redirect_via_api"] += 1
+            note("+redirect-api")
+            return live
+        stats["redirect_unresolved"] += 1
+        note("+redirect-unresolved")
+        return m.group(0)
+
+    return SPELLDESC_RE.sub(sub, text), worst
+
+
+def _redirect_targets(ids, raw: dict[str, str]) -> set[str]:
+    """Every `$@spelldesc` target reachable from `ids` that DB2 cannot render.
+
+    These are the extra spellIDs `--descriptions` must fetch: without them the
+    three affected rows keep a literal `$@spelldesc319606` as their "description".
+    """
+    out: set[str] = set()
+    stack = [(str(i), 0) for i in ids]
+    seen: set[str] = set()
+    while stack:
+        sid, depth = stack.pop()
+        if sid in seen or depth >= DESC_REDIRECT_DEPTH:
+            continue
+        seen.add(sid)
+        for tid in SPELLDESC_RE.findall(raw.get(sid) or ""):
+            if (raw.get(tid) or "").strip():
+                stack.append((tid, depth + 1))
+            else:
+                out.add(tid)
+    return out
+
+
+def _load_desc_cache() -> dict:
+    """The committed `/data/wow/spell/{id}` description cache.
+
+    Absent ⇒ every row falls back to the DB2 template. Never fetched implicitly:
+    generation and `--check` stay offline and deterministic, exactly like
+    `residual-probe.json`. Only `--descriptions` writes this file.
+    """
+    if not DESC_CACHE.exists():
+        return {"fetched": "", "build": "", "descriptions": {}, "misses": {}}
+    return json.loads(DESC_CACHE.read_text(encoding="utf-8"))
+
+
+def _describe(spell_id: int, raw: dict[str, str], api: dict, stats: Counter) -> tuple[str, str]:
+    """(description, description_source) for one spell.
+
+    Precedence: the API's RESOLVED English wins; the DB2 template is the spine
+    that covers what the API cannot reach (pets, cdm-only residue, 404s).
+
+        api                    resolved English, `GET /data/wow/spell/{id}` → 200
+        db2-plain              DB2 text carrying NO `$` placeholder — readable as-is
+        db2-template           DB2 text with unresolved `$…` placeholders
+        …+redirect[-api|
+           -unresolved]        a `$@spelldesc<id>` splice was followed — see
+                               `_expand_redirects` for which source served it
+        none                   neither source has text at this build
+    """
+    sid = str(spell_id)
+    hit = api.get(sid) or {}
+    text = (hit.get("description") or "").strip()
+    if text:
+        stats["api"] += 1
+        return text, "api"
+    text, suffix = _expand_redirects((raw.get(sid) or "").strip(), raw, stats, api)
+    if not text:
+        stats["none"] += 1
+        return "", "none"
+    src = ("db2-template" if "$" in text else "db2-plain") + suffix
+    stats[src] += 1
+    return text, src
+
+
+def none_rows(data: dict) -> tuple[list[dict], list[dict]]:
+    """Split the `description_source == none` rows into (stub_twins, no_twin).
+
+    A `none` row whose NAME is also carried by a DIFFERENT spellID that DOES have
+    text is a STUB TWIN: the sibling is the real button, this spellID is a hollow
+    shell. Measured @ 12.0.7.67808 — Force of Nature 37846 (cd 0, class kit, in
+    Feral/Guardian/Restoration) beside the real 205636 (cd 60, Balance talent),
+    and Incarnation: Tree of Life 81098 (cd 0, `NameSubtext_lang` "Passive", in
+    Balance/Feral/Guardian) beside the real 33891 (cd 180, Restoration talent).
+
+    ⚠ THIS DETECTS A SUBSET, NOT ALL STUBS — see `_NONE_NOTE`. Reported, never
+    acted on: dropping these rows would change the union BucketBinds consumes.
+    """
+    rows = [a for v in data["specs"].values() for a in v["abilities"]]
+    with_text: dict[str, set[int]] = defaultdict(set)
+    for a in rows:
+        if a["description_source"] != "none":
+            with_text[_norm(a["name"])].add(a["spell_id"])
+    stub, alone = [], []
+    for a in rows:
+        if a["description_source"] != "none":
+            continue
+        twins = with_text.get(_norm(a["name"]), set()) - {a["spell_id"]}
+        (stub if twins else alone).append(dict(a, twin_spell_ids=sorted(twins)))
+    return stub, alone
+
+
+def fetch_descriptions(data: dict, fetched: str) -> dict:
+    """NETWORK: GET `/data/wow/spell/{id}` for every distinct inventory spellID.
+
+    ⚠ A 404 IS NOT EVIDENCE OF ABSENCE — the endpoint covers independently-
+    castable spellbook entries only, and Hammer of Light 427441/427453 both 404
+    while being demonstrably live. A miss simply leaves the row on its DB2
+    template; nothing is ever recorded as "does not exist".
+    """
+    from concurrent.futures import ThreadPoolExecutor
+
+    from .blizzard import get  # network + credentials; keep the import local
+
+    inv = {str(a["spell_id"]) for v in data["specs"].values() for a in v["abilities"]}
+    extra = _redirect_targets(inv, _spell_descriptions()) - inv
+    ids = sorted({int(i) for i in inv | extra})
+    print(f"  {len(inv)} distinct inventory spellIDs across {len(data['specs'])} specs"
+          + (f" + {len(extra)} DB2-dangling `$@spelldesc` target(s) "
+             f"({', '.join(sorted(extra, key=int))})" if extra else ""))
+
+    def one(sid: int):
+        try:
+            doc = get(f"/data/wow/spell/{sid}")
+        except Exception as exc:
+            code = getattr(getattr(exc, "response", None), "status_code", None)
+            return sid, None, str(code or type(exc).__name__)
+        return sid, doc, None
+
+    descriptions: dict[str, dict] = {}
+    misses: dict[str, str] = {}
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        for n, (sid, doc, err) in enumerate(pool.map(one, ids), 1):
+            if err:
+                misses[str(sid)] = err
+            else:
+                descriptions[str(sid)] = {
+                    "name": doc.get("name", "") or "",
+                    "description": (doc.get("description") or "").strip(),
+                }
+            if n % 500 == 0:
+                print(f"    {n}/{len(ids)} …")
+
+    out = {"fetched": fetched, "build": PINNED_BUILD, "requested": len(ids),
+           "descriptions": descriptions, "misses": misses}
+    _atomic_write(DESC_CACHE, json.dumps(out, indent=2, sort_keys=True) + "\n")
+    return out
+
+
 # ── the union ────────────────────────────────────────────────────────────────
 def _empty(rec: dict) -> dict:
     rec.setdefault("tree", "")
@@ -914,14 +1243,65 @@ def build(seed_path: Path = SEED) -> dict:
 
     specs_out = dict(sorted(out.items()))
     walk = EffectWalk(specs_out, names)
+
+    # ── the description leg (offline: DB2 spine + the committed API cache) ────
+    raw_desc = _spell_descriptions()
+    api_desc = _load_desc_cache().get("descriptions", {})
+    desc_stats: Counter = Counter()
+    desc_by_spell: dict[int, tuple[str, str]] = {}
+    for entry in specs_out.values():
+        for a in entry["abilities"]:
+            sid = a["spell_id"]
+            if sid not in desc_by_spell:
+                desc_by_spell[sid] = _describe(sid, raw_desc, api_desc, desc_stats)
+            a["description"], a["description_source"] = desc_by_spell[sid]
+    # The pet annex runs on the SAME contract. The API cannot serve it — measured
+    # 0/25 on a random sample of its 169 distinct spellIDs, consistent with the
+    # inventory's pet leg being 0/6 — so this is the DB2 spine doing exactly the
+    # job it is there for. `--descriptions` deliberately does NOT fetch these:
+    # 169 GETs for a measured-zero return. They still go through `_describe`, so
+    # an annex spell that IS in the cache (the shared line overlaps the
+    # inventory) gets the resolved text and is tagged `api` like anything else.
+    annex_stats: Counter = Counter()
+    for rec in pet.rows:
+        sid = rec["spell_id"]
+        if sid in desc_by_spell:
+            rec["description"], rec["description_source"] = desc_by_spell[sid]
+            annex_stats[rec["description_source"]] += 1
+        else:
+            rec["description"], rec["description_source"] = _describe(
+                sid, raw_desc, api_desc, annex_stats)
+
+    desc_rows = [{"spell_id": sid, "name": names.get(str(sid), ""),
+                  "description_source": src, "description": txt}
+                 for sid, (txt, src) in sorted(desc_by_spell.items())]
+
     return {"specs": specs_out, "pet_annex": pet.rows,
             "pet_lines": pet.line_class, "trait_stats": trait.stats,
             "overrides": walk.overrides, "triggers": walk.triggers,
+            "descriptions": desc_rows, "desc_stats": desc_stats,
+            "annex_desc_stats": annex_stats,
             "hero_map": {trait.subtree_name.get(k, k): sorted(v, key=int)
                          for k, v in trait.hero_map.items()}}
 
 
 # ── rendering ────────────────────────────────────────────────────────────────
+def _scrub(s: str) -> str:
+    r"""Make a value safe to drop between two tabs.
+
+    Spell descriptions carry `\r\n` (and could carry a tab); either one written
+    raw silently corrupts the file — the row grows a field or splits in two, and
+    `csv.DictReader` reports it as data rather than as an error. Escaped, not
+    stripped, so the paragraph breaks survive: `\` → `\\`, CRLF/CR/LF → `\n`,
+    TAB → `\t`. Reverse with `s.replace('\\n', '\n')` after un-doubling `\\`.
+    """
+    if not ("\\" in s or "\r" in s or "\n" in s or "\t" in s):
+        return s
+    return (s.replace("\\", "\\\\")
+             .replace("\r\n", "\\n").replace("\r", "\\n").replace("\n", "\\n")
+             .replace("\t", "\\t"))
+
+
 def _tsv(rows: list[dict], columns: list[str]) -> str:
     def cell(r, c):
         v = r.get(c, "")
@@ -931,7 +1311,7 @@ def _tsv(rows: list[dict], columns: list[str]) -> str:
             return ";".join(str(x) for x in v)
         if isinstance(v, float):
             return f"{v:g}"
-        return str(v)
+        return _scrub(str(v))
     lines = ["\t".join(columns)]
     lines += ["\t".join(cell(r, c) for c in columns) for r in rows]
     return "\n".join(lines) + "\n"
@@ -955,10 +1335,11 @@ def _front_matter(title: str, fetched: str, extra_sources: list[str] = ()) -> st
     )
 
 
-def _spec_md(entry: dict, fetched: str) -> str:
+def _spec_md(entry: dict, fetched: str, desc_source: str = "") -> str:
     counts = Counter(a["origin"] for a in entry["abilities"])
     head = _front_matter(
-        f"{entry['class']} {entry['spec']} — ability inventory ({PATCH})", fetched)
+        f"{entry['class']} {entry['spec']} — ability inventory ({PATCH})", fetched,
+        [desc_source] if desc_source else [])
     body = [
         f"# {entry['class']} {entry['spec']} — ability inventory ({PATCH})\n",
         f"\n> **{BANNER}** Writer: `uv run python -m wowkb.gen_abilities "
@@ -977,7 +1358,48 @@ def _spec_md(entry: dict, fetched: str) -> str:
             f"| {i} | {a['name']} | `{a['spell_id']}` | {cd} | {a['origin']} | "
             f"{a['source']} | {a['tree'] or '—'} | {a['hero_tree'] or '—'} | "
             f"{a['blizz_category'] or '—'} | {a['seed_bucket'] or '—'} |\n")
+    body.append(_descriptions_md(entry))
     return head + "".join(body)
+
+
+def _blockquote(text: str) -> str:
+    """Multi-paragraph description as a markdown blockquote."""
+    lines = text.replace("\r\n", "\n").replace("\r", "\n").split("\n")
+    return "".join((f"> {ln}\n" if ln.strip() else ">\n") for ln in lines)
+
+
+def _descriptions_md(entry: dict) -> str:
+    """The `## Descriptions` section — kept OUT of the table on purpose.
+
+    The inventory table is already 10 columns; a 200-character tooltip in an
+    eleventh makes every row unreadable. The numbering here is the table's `#`,
+    so the two read together.
+    """
+    counts = Counter(a["description_source"] for a in entry["abilities"])
+    out = [
+        "\n## Descriptions\n",
+        "\nOne entry per row of the table above, same numbering. `description_source`"
+        " says which of the two sources rendered it — **read it before quoting a"
+        " number**:\n",
+        "\n| source | what you are reading |\n|---|---|\n",
+        "| `api` | RESOLVED English from `GET /data/wow/spell/{id}`. Durations and"
+        " magnitudes are real values. |\n",
+        f"| `db2-plain` | `Spell.Description_lang` @ {PINNED_BUILD} carrying no `$`"
+        " placeholder — readable as-is. |\n",
+        f"| `db2-template` | `Spell.Description_lang` @ {PINNED_BUILD} with"
+        " **unresolved `$…` placeholders**. `$s1`, `$d`, `$?s123[a][b]` are"
+        " template slots, NOT text — do not quote one as a value. |\n",
+        "| `…+redirect` | built by following a `$@spelldesc<id>` splice to another"
+        " spell's text. |\n",
+        "| `none` | neither source has text at this build. |\n",
+        "\n" + " · ".join(f"`{s}` {counts[s]}" for s in sorted(counts)) + "\n\n",
+    ]
+    for i, a in enumerate(entry["abilities"], 1):
+        out.append(f"**{i}. {a['name']}** `{a['spell_id']}` · `{a['description_source']}`\n\n")
+        out.append(_blockquote(a["description"]) if a["description"]
+                   else "> _(no description text in either source at this build)_\n")
+        out.append("\n")
+    return "".join(out)
 
 
 _README_TEMPLATE = """# Ability inventory — schema & regeneration
@@ -994,12 +1416,14 @@ The generated per-spec files are `ability-inventory.tsv` + `ability-inventory.md
 | File | One row per | Use |
 |------|-------------|-----|
 | `all-abilities.tsv` | (spec, ability) | grep/awk across all 40 specs |
-| `pet-family-annex.tsv` | (pet skill line, spell) | "which pet/demon gives me X" |
-| `../<class>/<spec>/ability-inventory.tsv` | ability | per-spec data |
-| `../<class>/<spec>/ability-inventory.md` | ability | reading, citing |
+| `spell-descriptions.tsv` | **distinct spellID** | the description join table |
+| `pet-family-annex.tsv` | (pet skill line, spell) | "which pet/demon gives me X" — **incl. `description`** |
+| `../<class>/<spec>/ability-inventory.tsv` | ability | per-spec data, **incl. `description`** |
+| `../<class>/<spec>/ability-inventory.md` | ability | reading, citing (table + `## Descriptions`) |
 | `section-3-corroborated.{{tsv,md}}` | (spec, reached ability) | section 3 — reached, not joined |
 | `section-4-catalogue.{{tsv,md}}` | (spec, unplaced name) | section 4 — the catalogue |
 | `residual-probe.json` | residual name | leg B's cached `/data/wow/spell/{{id}}` results |
+| `spell-descriptions.json` | spellID | the cached RESOLVED `/data/wow/spell/{{id}}` descriptions |
 
 ## The four sections
 
@@ -1051,6 +1475,122 @@ silently mixes them (the unversioned `CooldownSetSpell.csv` is build >= 68209).
 | `seed_bucket` | the BucketBinds seed bucket binding this name today |
 | `also_from` | other legs that also claim this name, `origin:source` |
 | `aliases` | other names for the same entry (`Holy Bulwark` ⇄ `Holy Armaments`) |
+| `description_source` | which source rendered the description — **see below** |
+| `description` | the tooltip text. **Per-spec `ability-inventory.tsv` only**; `all-abilities.tsv` carries `description_source` and joins to `spell-descriptions.tsv` on `spell_id` |
+
+## Descriptions
+
+Two Tier-1 sources, complementary. Measured at **{build}** over the 7,065
+inventory rows:
+
+| | DB2 `Spell.Description_lang` | Blizzard API `/data/wow/spell/{{id}}` |
+|---|---|---|
+| row coverage | **7,039 = 99.6 %**, pets **6/6** | 6,928 = 98.1 %, pets **0/6** |
+| readable as-is | **no** — mostly templates | **yes**, resolved English |
+| offline / build-pinned | **yes** | no — network + a committed cache |
+
+**DB2 is the spine; the API is the rendering.** The API wins wherever it has
+text, because its numbers are real values. DB2 covers what the API cannot reach:
+the entire pet leg, most of the `cdm-only` residue (API 43/109) and every 404.
+Each row records which source served it — **check it before quoting a number.**
+
+| `description_source` | What you are reading |
+|---|---|
+| `api` | RESOLVED English. Durations and magnitudes are real values. |
+| `db2-plain` | DB2 text with no `$` placeholder — readable as-is. |
+| `db2-template` | DB2 text with **unresolved `$…` slots**. `$s3`, `$d`, `$?s53376&c2[…][]` are template syntax, **not text** — never quote one as a value. |
+| `…+redirect` | a `$@spelldesc<id>` splice was followed (target text from DB2). |
+| `…+redirect-api` | a splice resolved from the API cache instead. |
+| `…+redirect-unresolved` | a splice could **not** be resolved and is left in the text verbatim. |
+| `none` | neither source has text at this build (26 rows). **Not "junk" — see below.** |
+
+⚠ `$@spelldesc<id>` means *"render spell `<id>`'s description here"* — Hammer of
+Light 427441 is **literally** `$@spelldesc427453`. Splices are followed before
+storing, cycle-guarded and depth-capped, and **every bound hit is printed**.
+
+⚠ `+redirect-unresolved` is not "this spell has no description". Three spells at
+{build} point at a target with no DB2 text that also 404s on the API — Blade
+Flurry 22482 → 319606, Ravager 156287 → 152277, Chakrams 259398 → 259381. **A 404
+is not evidence of absence**; it is a pointer this build cannot follow.
+
+### When a row has no description
+
+`description_source == none` is **26 rows over 12 distinct spellIDs** at {build},
+and it turns out to be a **signal about the row**, not an absence of data.
+`AuraDescription_lang` — the other DB2 text column — is empty for all 12 as well,
+so no third source rescues them. They split in two:
+
+| kind | rows | what it is |
+|---|---|---|
+| **stub twin** | 6 (2 names) | The name **is** a real ability, but *this* spellID is a hollow shell carried by specs that do not have it. The real button is a different spellID with a real cooldown and full API text. |
+| hidden / internal | 20 (10 names) | Spec identity auras, an internal driver, UI plumbing, internal class-line entries. Genuinely not player-facing. |
+
+The two measured stub twins:
+
+| name | hollow spellID | carried by | the real button |
+|---|---|---|---|
+| Force of Nature | `37846` cd 0, `SkillLineAbility:798` | Feral, Guardian, Restoration | `205636` cd 60, **Balance** `talent-active` |
+| Incarnation: Tree of Life | `81098` cd 0, `NameSubtext_lang` "Passive" | Balance, Feral, Guardian | `33891` cd 180, **Restoration** `talent-choice` |
+
+The other ten names — `Frost Death Knight` 137006, `Unholy Death Knight` 137007,
+`Protection Paladin` 137028, `Enhancement Shaman` 137041 (spec identity auras,
+all `cdm-only` and passive-flagged), `Pyroblast Clearcasting Driver` 44448,
+`Hotbar Slot 01/02` 294184 / 294189, `Energy Usage` 119650,
+`Zen Pilgrimage/Death Gate/Moonglade Storage Aura I` 126893, `Shapeshift Form`
+228545 — have no twin and are fairly called junk.
+
+⚠ **It under-detects; it is not "the stub detector".** 101 names in the inventory
+carry more than one spellID, and **11** of those have the stub *shape* (a cd-0
+`class-baseline` member beside a cd>0 member) — but only **2 of the 11** are
+`none`. The other nine (Ardent Defender, Bestial Wrath, Bladestorm, Chi Burst,
+Fists of Fury, Ravager, Track Beasts, Track Humanoids, Tranquility) carry full
+API text on both spellIDs and this signal is silent about them. A `none` is a
+free lead, not a survey.
+
+⚠ **Nothing is fixed from this.** Dropping a stub row changes the union
+BucketBinds reads as a spec's real kit. The generator **reports** the split on
+every run and stops there. Also recorded in `knowledge/_meta/kb-inbox.md`
+§ *Ability inventory — `none` descriptions*.
+
+### The pet annex
+
+`pet-family-annex.tsv` carries `description` + `description_source` on the same
+contract. The Blizzard API serves **0** of its 169 distinct spellIDs (measured on
+a 25-spell random sample, consistent with the inventory pet leg's 0/6), so the
+annex is entirely the **DB2 spine** — which is precisely why the spine is there.
+It covers the pet abilities the prose files actually cite: Spell Lock 19647, Axe
+Toss 89766. `--descriptions` deliberately does **not** fetch annex-only spellIDs
+— 169 GETs for a measured-zero return.
+
+### Why `all-abilities.tsv` carries no `description`
+
+Measured: the text is **990 KB** spread over the 7,065 rows but **561 KB** over
+the 3,949 distinct spellIDs — 43 % of it is the same tooltip repeated for a spell
+several specs share. A description is a property of the **spell**, not of the
+`(spec, ability)` pair, so folding it into the cross-spec grep file would roughly
+double that file (905 KB → ~1.9 MB) to hold nothing new. It lives once in
+`spell-descriptions.tsv`; join on `spell_id`. `description_source` **does** stay
+in `all-abilities.tsv`, because coverage is genuinely per row and "how much of
+origin X is only a template?" must be answerable without the join.
+
+### TSV safety
+
+Descriptions carry `\\r\\n` and could carry a tab; either written raw silently
+corrupts a TSV — `csv.DictReader` reads the damage as data, not as an error. Every
+emitted cell is escaped: `\\` → `\\\\`, CRLF/CR/LF → `\\n`, TAB → `\\t`. Reverse with
+`s.replace('\\\\n', '\\n')` after un-doubling `\\\\`.
+
+### Refreshing the API cache
+
+```bash
+uv run python -m wowkb.gen_abilities --fetched <YYYY-MM-DD> --descriptions   # NETWORK
+```
+
+~3,950 GETs against `/data/wow/spell/{{id}}` (the inventory's distinct spellIDs
+plus any DB2-dangling `$@spelldesc` target), written to
+`spell-descriptions.json`. **Ordinary generation and `--check` never call out** —
+they read the committed cache, so both stay offline and deterministic. With the
+cache absent, every row falls back to its DB2 template and the run says so.
 
 ### `origin`, in precedence order
 
@@ -1110,6 +1650,7 @@ cd tools
 uv run python -m wowkb.gen_abilities --fetched <YYYY-MM-DD>
 uv run python -m wowkb.gen_abilities --fetched <YYYY-MM-DD> --check   # drift gate
 uv run python -m wowkb.gen_abilities --fetched <YYYY-MM-DD> --residual
+uv run python -m wowkb.gen_abilities --fetched <YYYY-MM-DD> --descriptions  # NETWORK
 ```
 
 `--check` re-renders in memory and byte-compares. **There is no CI in this repo**
@@ -1316,13 +1857,17 @@ def render_all(data: dict, fetched: str) -> dict[Path, str]:
     compares this against disk and `main` writes it."""
     files: dict[Path, str] = {}
     all_rows = []
+    desc_src = (f"Blizzard Game Data API /data/wow/spell/{{id}} (Tier 1, resolved "
+                f"descriptions, fetched "
+                f"{_load_desc_cache().get('fetched') or 'NOT YET'})")
     for key, entry in data["specs"].items():
         cls, spec = _slug(entry["class"]), _slug(entry["spec"])
         d = CLASSES / cls / spec
-        files[d / "ability-inventory.tsv"] = _tsv(entry["abilities"], TSV_COLUMNS)
-        files[d / "ability-inventory.md"] = _spec_md(entry, fetched)
+        files[d / "ability-inventory.tsv"] = _tsv(entry["abilities"], SPEC_TSV_COLUMNS)
+        files[d / "ability-inventory.md"] = _spec_md(entry, fetched, desc_src)
         all_rows.extend(entry["abilities"])
-    files[ABIL_DIR / "all-abilities.tsv"] = _tsv(all_rows, TSV_COLUMNS)
+    files[ABIL_DIR / "all-abilities.tsv"] = _tsv(all_rows, ALL_TSV_COLUMNS)
+    files[ABIL_DIR / "spell-descriptions.tsv"] = _tsv(data["descriptions"], DESC_COLUMNS)
     files[ABIL_DIR / "pet-family-annex.tsv"] = _tsv(data["pet_annex"], ANNEX_COLUMNS)
 
     probe_cache = _load_probe()
@@ -1411,6 +1956,10 @@ def main(argv=None) -> int:
     p.add_argument("--probe", action="store_true",
                    help="NETWORK: GET /data/wow/spell/{id} for every residual name "
                         "and refresh _abilities/residual-probe.json (leg B)")
+    p.add_argument("--descriptions", action="store_true",
+                   help="NETWORK: GET /data/wow/spell/{id} for every inventory "
+                        "spellID and refresh _abilities/spell-descriptions.json "
+                        "(the resolved-English cache for the description leg)")
     p.add_argument("--json", metavar="PATH", help="dump the computed union as JSON")
     args = p.parse_args(argv)
 
@@ -1429,6 +1978,23 @@ def main(argv=None) -> int:
             print("  candidate cap hit (NOT probed exhaustively): " +
                   ", ".join(f"{k} +{v}" for k, v in sorted(out["truncated"].items())))
         print("  re-run without --probe to fold these into section 3")
+        return 0
+
+    if args.descriptions:
+        print("fetching /data/wow/spell/{id} for every inventory spellID …")
+        out = fetch_descriptions(data, args.fetched)
+        blank = sum(1 for v in out["descriptions"].values() if not v["description"])
+        print(f"wrote {DESC_CACHE.relative_to(ROOT)} — "
+              f"{len(out['descriptions'])}/{out['requested']} resolved "
+              f"({blank} returned 200 with EMPTY description), "
+              f"{len(out['misses'])} not returned")
+        codes = Counter(out["misses"].values())
+        if codes:
+            print("  not-returned by status: " +
+                  ", ".join(f"{k} ×{v}" for k, v in sorted(codes.items())))
+        print("  ⚠ a 404 is NOT evidence of absence — those rows keep their DB2 "
+              "template (Hammer of Light 427441/427453 both 404 and are live)")
+        print("  re-run without --descriptions to fold these into the inventory")
         return 0
 
     files = render_all(data, args.fetched)
@@ -1475,6 +2041,55 @@ def main(argv=None) -> int:
           f"{sum(1 for r in s3 if r['reached_by'] == 'spell-endpoint')} spell-endpoint)")
     print(f"  section 4: {len(s4)} rows — a CATALOGUE, not a backlog; "
           f"researched on ask, never on age")
+
+    # description coverage — by ROW (what a reader of a spec file sees) and by
+    # origin, plus every bound the redirect walk hit. No silent caps.
+    by_src = Counter(a["description_source"]
+                     for v in data["specs"].values() for a in v["abilities"])
+    dcache = _load_desc_cache()
+    covered = rows - by_src["none"]
+    print(f"  descriptions: {covered}/{rows} rows ({covered / rows * 100:.1f} %) · " +
+          " ".join(f"{s} {by_src[s]}" for s in sorted(by_src)))
+    per_origin = defaultdict(Counter)
+    for v in data["specs"].values():
+        for a in v["abilities"]:
+            per_origin[a["origin"]][a["description_source"]] += 1
+    for o in ORIGIN_ORDER:
+        c = per_origin.get(o)
+        if c:
+            n = sum(c.values())
+            print(f"    {o:<15} {n - c['none']}/{n} · " +
+                  " ".join(f"{s} {c[s]}" for s in sorted(c)))
+    stub, alone = none_rows(data)
+    if stub or alone:
+        print(f"    `none` ({len(stub) + len(alone)} rows): {len(stub)} are STUB TWINS "
+              f"(the name's real button is another spellID with text) — " +
+              ", ".join(sorted({f"{a['name']} {a['spell_id']}→{a['twin_spell_ids']}"
+                                for a in stub})) or "")
+        print(f"      the other {len(alone)} are hidden/internal spells with no twin: " +
+              ", ".join(sorted({f"{a['name']} {a['spell_id']}" for a in alone})))
+        print(f"      REPORTED, NOT FIXED — dropping a row changes the union "
+              f"BucketBinds consumes. See _abilities/README.md § 'When a row has no "
+              f"description'.")
+    ds = data["desc_stats"]
+    if ds.get("redirect_via_api"):
+        print(f"    {ds['redirect_via_api']} `$@spelldesc` splice(s) resolved from "
+              f"the API cache (DB2 has no text for the target)")
+    for k in ("redirect_depth_capped", "redirect_cycle", "redirect_unresolved"):
+        if ds.get(k):
+            print(f"    ⚠ {k}: {ds[k]} — bounded at depth {DESC_REDIRECT_DEPTH}; "
+                  f"those splices are LEFT IN the text as a literal "
+                  f"`$@spelldesc<id>` and tagged `+redirect-unresolved`")
+    ac = data["annex_desc_stats"]
+    an = sum(ac.values())
+    print(f"  pet annex descriptions: {an - ac['none']}/{an} rows · " +
+          " ".join(f"{s} {ac[s]}" for s in sorted(ac)))
+    print(f"      the DB2 spine carries {an - ac['none'] - ac['api']} of them; the API "
+          f"reaches {ac['api']} (only where an annex spell is ALSO in the inventory "
+          f"and so in the cache — annex-only spellIDs are not fetched, measured 0/25)")
+    if not dcache.get("fetched"):
+        print("  ⚠ spell-descriptions.json absent — every row is on its DB2 "
+              "TEMPLATE (placeholders unresolved). Run --descriptions (network).")
     if not cache.get("probed"):
         print("  ⚠ residual-probe.json absent — leg B contributed nothing. "
               "Run --probe (network) to fill it.")

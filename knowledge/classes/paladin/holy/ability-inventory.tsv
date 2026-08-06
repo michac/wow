@@ -1,207 +1,207 @@
-class	spec	spec_id	name	spell_id	origin	source	castable	cooldown	band	tree	hero_tree	node_id	entry_id	max_ranks	blizz_category	seed_bucket	also_from	aliases
-Paladin	Holy	65	Lay on Hands	633	talent-active	TraitNodeEntry	true	600	Cooldown	class		81597	102583	1	Essential	Self-Heal 4 (Emergency/Overflow)	class-baseline:SkillLineAbility:800;cdm-only:CooldownSetSpell	
-Paladin	Holy	65	Aura Mastery	31821	talent-active	TraitNodeEntry	true	180	Cooldown	spec		81567	102548	1	Essential	Cooldown 2	cdm-only:CooldownSetSpell	
-Paladin	Holy	65	Blessing of Sacrifice	6940	talent-active	TraitNodeEntry	true	120	Cooldown	class		81614	102602	1	Utility	Class 3 (Tag)	class-baseline:SkillLineAbility:800;cdm-only:CooldownSetSpell	
-Paladin	Holy	65	Blinding Light	115750	talent-active	TraitNodeEntry	true	90	Cooldown	class		81598	102584	1	Utility	CC 2	cdm-only:CooldownSetSpell	
-Paladin	Holy	65	Turn Evil	10326	talent-active	TraitNodeEntry	true	15	Rotational	class		93010	102623	1	Utility	Class 5 (Purge)	class-baseline:SkillLineAbility:800;cdm-only:CooldownSetSpell	
-Paladin	Holy	65	Blessing of Protection	1022	talent-active	TraitNodeEntry	true	1.5	Rotational	class		81616	102604	1	Buff/Utility	Class 2 (CC)	class-baseline:SkillLineAbility:800;cdm-only:CooldownSetSpell	
-Paladin	Holy	65	Divine Steed	190784	talent-active	TraitNodeEntry	true	0.8	Rotational	class		81632	102625	1	Buff/Utility	Movement Ability	class-baseline:SkillLineAbility:800;cdm-only:CooldownSetSpell	
-Paladin	Holy	65	Eternal Flame	156322	talent-active	TraitNodeEntry	true	0	Rotational	hero	Herald of the Sun	95095	117692	1				
-Paladin	Holy	65	Holy Armaments	432459	talent-active	TraitNodeEntry	true	0	Rotational	hero	Lightsmith	95234	117882	1			talent-active:TraitNodeEntry	Holy Bulwark
-Paladin	Holy	65	Holy Shock	20473	talent-active	TraitNodeEntry	true	0	Rotational	spec		81555	102534	1	Essential	Rotational 1	class-baseline:SkillLineAbility:800;cdm-only:CooldownSetSpell	
-Paladin	Holy	65	Light of Dawn	85222	talent-active	TraitNodeEntry	true	0	Rotational	spec		81565	102545	1	Essential	Rotational 6	cdm-only:CooldownSetSpell	
-Paladin	Holy	65	Avenging Wrath	31884	talent-choice	TraitNodeEntry	true	120	Cooldown	spec		81584	102569	1	Buff/Essential	Cooldown 1	class-baseline:SkillLineAbility:800;cdm-only:CooldownSetSpell	
-Paladin	Holy	65	Avenging Crusader	216331	talent-choice	TraitNodeEntry	true	60	Cooldown	spec		81584	102568	1				
-Paladin	Holy	65	Divine Toll	375576	talent-choice	TraitNodeEntry	true	60	Cooldown	class		81496	102465	1	Essential		cdm-only:CooldownSetSpell	
-Paladin	Holy	65	Holy Prism	114165	talent-choice	TraitNodeEntry	true	45	Cooldown	class		81496	133480	1	Essential		class-baseline:SkillLineAbility:800;cdm-only:CooldownSetSpell	
-Paladin	Holy	65	Beacon of Virtue	200025	talent-choice	TraitNodeEntry	true	15	Rotational	spec		81554	102532	1	Buff/Essential		cdm-only:CooldownSetSpell	
-Paladin	Holy	65	Blessing of Freedom	1044	talent-choice	TraitNodeEntry	true	1.5	Rotational	class		81631	128251	1	Buff/Utility	Class 1 (Movement)	class-baseline:SkillLineAbility:800;cdm-only:CooldownSetSpell	
-Paladin	Holy	65	Beacon of Faith	156910	talent-choice	TraitNodeEntry	true	0	Rotational	spec		81554	102533	1	Essential	Self-Heal 2	cdm-only:CooldownSetSpell	
-Paladin	Holy	65	Rite of Adjuration	433583	talent-choice	TraitNodeEntry	true	0	Rotational	hero	Lightsmith	95233	117880	1				
-Paladin	Holy	65	Rite of Sanctification	433568	talent-choice	TraitNodeEntry	true	0	Rotational	hero	Lightsmith	95233	117881	1		Buff		
-Paladin	Holy	65	Intercession	391054	class-baseline	SkillLineAbility:800	true	600	Cooldown							Class 8 (Lust/BRes)		
-Paladin	Holy	65	Divine Shield	642	class-baseline	SkillLineAbility:800	true	300	Cooldown						Buff/Utility	Immune/Spell Immune/Movement	cdm-only:CooldownSetSpell	
-Paladin	Holy	65	Jailer's Judgment	162056	class-baseline	SkillLineAbility:800	true	180	Cooldown									
-Paladin	Holy	65	Tyr's Deliverance	200652	class-baseline	SkillLineAbility:800	true	90	Cooldown								talent-passive:TraitNodeEntry	
-Paladin	Holy	65	Divine Protection	498	class-baseline	SpecializationSpells	true	60	Cooldown						Buff/Utility	Personal Defensive 1	cdm-only:CooldownSetSpell	
-Paladin	Holy	65	Eye of Tyr	209202	class-baseline	SkillLineAbility:800	true	60	Cooldown									
-Paladin	Holy	65	Hammer of Justice	853	class-baseline	SkillLineAbility:800	true	45	Cooldown						Utility	CC	cdm-only:CooldownSetSpell	
-Paladin	Holy	65	Wake of Ashes	205273	class-baseline	SkillLineAbility:800	true	30	Rotational									
-Paladin	Holy	65	Cleanse	4987	class-baseline	SpecializationSpells	true	8	Rotational						Utility	Class 6 (Dispel)	cdm-only:CooldownSetSpell	
-Paladin	Holy	65	Cleanse Toxins	440013	class-baseline	SpecializationSpells	true	8	Rotational									
-Paladin	Holy	65	Contemplation	121183	class-baseline	SkillLineAbility:800	true	8	Rotational									
-Paladin	Holy	65	Shield of the Righteous	53600	class-baseline	SkillLineAbility:800	true	1	Rotational						Essential	Rotational 5	class-baseline:SpecializationSpells;cdm-only:CooldownSetSpell	
-Paladin	Holy	65	Absolution	212056	class-baseline	SpecializationSpells	true	0	Rotational									
-Paladin	Holy	65	Ancient Fury	86704	class-baseline	SkillLineAbility:800	true	0	Rotational									
-Paladin	Holy	65	Ardent Defender	66235	class-baseline	SkillLineAbility:800	true	0	Rotational									
-Paladin	Holy	65	Beacon of Light	53652	class-baseline	SkillLineAbility:800	true	0	Rotational						Essential	Self-Heal 1	class-baseline:SpecializationSpells;cdm-only:CooldownSetSpell	
-Paladin	Holy	65	Consecration	81297	class-baseline	SkillLineAbility:800	true	0	Rotational						Essential		cdm-only:CooldownSetSpell	
-Paladin	Holy	65	Crusader Aura	32223	class-baseline	SkillLineAbility:800	true	0	Rotational							Stance 1		
-Paladin	Holy	65	Crusader Strike	35395	class-baseline	SkillLineAbility:800	true	0	Rotational									
-Paladin	Holy	65	Crusader's Direhorn	290608	class-baseline	SkillLineAbility:800	true	0	Rotational									
-Paladin	Holy	65	Devotion Aura	465	class-baseline	SkillLineAbility:800	true	0	Rotational							Stance 2		
-Paladin	Holy	65	Earthen Ordinant's Ramolith	453785	class-baseline	SkillLineAbility:800	true	0	Rotational									
-Paladin	Holy	65	Flash of Light	19750	class-baseline	SkillLineAbility:800	true	0	Rotational						Essential	Rotational 3	cdm-only:CooldownSetSpell	
-Paladin	Holy	65	Hammer of Wrath	24275	class-baseline	SkillLineAbility:800	true	0	Rotational								talent-passive:TraitNodeEntry	
-Paladin	Holy	65	Hand of Reckoning	62124	class-baseline	SkillLineAbility:800	true	0	Rotational							Taunt/Quick Access		
-Paladin	Holy	65	Holy Light	82326	class-baseline	SpecializationSpells	true	0	Rotational						Essential	Rotational 4	cdm-only:CooldownSetSpell	
-Paladin	Holy	65	Judgment	20271	class-baseline	SkillLineAbility:800	true	0	Rotational						Essential	Rotational 2	class-baseline:SpecializationSpells;cdm-only:CooldownSetSpell	
-Paladin	Holy	65	Light of the Ancient Kings	86678	class-baseline	SkillLineAbility:800	true	0	Rotational									
-Paladin	Holy	65	Light's Hammer	114919	class-baseline	SkillLineAbility:800	true	0	Rotational									
-Paladin	Holy	65	Protector of the Innocent	94289	class-baseline	SkillLineAbility:800	true	0	Rotational									
-Paladin	Holy	65	Redemption	7328	class-baseline	SkillLineAbility:800	true	0	Rotational							Res		
-Paladin	Holy	65	Retribution Aura	183435	class-baseline	SkillLineAbility:800	true	0	Rotational									
-Paladin	Holy	65	Sense Undead	5502	class-baseline	SkillLineAbility:800	true	0	Rotational									
-Paladin	Holy	65	Single-Button Assistant	1229376	class-baseline	SpecializationSpells	true	0	Rotational									
-Paladin	Holy	65	Summon Charger	23214	class-baseline	SkillLineAbility:800	true	0	Rotational									
-Paladin	Holy	65	Summon Darkforge Ram	270562	class-baseline	SkillLineAbility:800	true	0	Rotational									
-Paladin	Holy	65	Summon Dawnforge Ram	270564	class-baseline	SkillLineAbility:800	true	0	Rotational									
-Paladin	Holy	65	Summon Exarch's Elekk	73629	class-baseline	SkillLineAbility:800	true	0	Rotational									
-Paladin	Holy	65	Summon Great Exarch's Elekk	73630	class-baseline	SkillLineAbility:800	true	0	Rotational									
-Paladin	Holy	65	Summon Great Sunwalker Kodo	69826	class-baseline	SkillLineAbility:800	true	0	Rotational									
-Paladin	Holy	65	Summon Lightforged Ruinstrider	363613	class-baseline	SkillLineAbility:800	true	0	Rotational									
-Paladin	Holy	65	Summon Sunwalker Kodo	69820	class-baseline	SkillLineAbility:800	true	0	Rotational									
-Paladin	Holy	65	Summon Thalassian Charger	34767	class-baseline	SkillLineAbility:800	true	0	Rotational									
-Paladin	Holy	65	Summon Thalassian Warhorse	34769	class-baseline	SkillLineAbility:800	true	0	Rotational									
-Paladin	Holy	65	Summon Warhorse	13819	class-baseline	SkillLineAbility:800	true	0	Rotational									
-Paladin	Holy	65	Word of Glory	85673	class-baseline	SkillLineAbility:800	true	0	Rotational						Essential	Rotational 7	cdm-only:CooldownSetSpell	
-Paladin	Holy	65	Searing Glare	410126	pvp-talent	PvpTalent	true	60	Cooldown									
-Paladin	Holy	65	Blessing of Spellwarding	204018	pvp-talent	PvpTalent	true	1.5	Rotational						Utility		cdm-only:CooldownSetSpell	
-Paladin	Holy	65	Cleanse the Weak	199330	pvp-talent	PvpTalent	false	0	Rotational									
-Paladin	Holy	65	Darkest before the Dawn	210378	pvp-talent	PvpTalent	false	0	Rotational									
-Paladin	Holy	65	Denounce	2812	pvp-talent	PvpTalent	true	0	Rotational									
-Paladin	Holy	65	Divine Plea	415244	pvp-talent	PvpTalent	false	0	Rotational									
-Paladin	Holy	65	Divine Vision	199324	pvp-talent	PvpTalent	false	0	Rotational									
-Paladin	Holy	65	Luminescence	556606	pvp-talent	PvpTalent	false	0	Rotational									
-Paladin	Holy	65	Shining Revelation	936051	pvp-talent	PvpTalent	false	0	Rotational									
-Paladin	Holy	65	Spellbreaker	469895	pvp-talent	PvpTalent	false	0	Rotational									
-Paladin	Holy	65	Spreading the Word	199456	pvp-talent	PvpTalent	false	0	Rotational									
-Paladin	Holy	65	Ultimate Sacrifice	199452	pvp-talent	PvpTalent	false	0	Rotational									
-Paladin	Holy	65	A Just Reward	469411	talent-passive	TraitNodeEntry	false	0	Rotational	class		103858	128254	2				
-Paladin	Holy	65	Afterimage	385414	talent-passive	TraitNodeEntry	false	0	Rotational	class		81613	102601	1	Buff		cdm-only:CooldownSetSpell	
-Paladin	Holy	65	Armory of Light	1277443	talent-passive	TraitNodeEntry	false	0	Rotational	class		110092	136593	1				
-Paladin	Holy	65	Auras of the Resolute	385633	talent-passive	TraitNodeEntry	false	0	Rotational	class		81600	102587	1				
-Paladin	Holy	65	Aurora	439760	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95069	117666	1				
-Paladin	Holy	65	Authoritative Rebuke	469886	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	95232	117879	1				
-Paladin	Holy	65	Awakening	414195	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81592	116205	1	Buff		cdm-only:CooldownSetSpell	
-Paladin	Holy	65	Awestruck	417855	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81564	102544	1				
-Paladin	Holy	65	Beacon of the Lightbringer	197446	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81568	102549	1				
-Paladin	Holy	65	Beacon of the Savior	1244878	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110417	137019	1			talent-passive:TraitNodeEntry	
-Paladin	Holy	65	Bestow Light	448040	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81560	102539	1				
-Paladin	Holy	65	Blessed Assurance	433015	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	95235	117883	1				
-Paladin	Holy	65	Blessed Calling	469770	talent-passive	TraitNodeEntry	false	0	Rotational	class		103868	128264	1				
-Paladin	Holy	65	Blessing of An'she	445200	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95071	117668	1				
-Paladin	Holy	65	Blessing of Dawn	183416	talent-passive	TraitNodeEntry	false	0	Rotational	class		93357	115673	1				
-Paladin	Holy	65	Blessing of Dusk	1241945	talent-passive	TraitNodeEntry	false	0	Rotational	class		103863	128259	1				
-Paladin	Holy	65	Blessing of the Forge	433011	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	95230	117875	1				
-Paladin	Holy	65	Born in Sunlight	1263920	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	109749	136007	1				
-Paladin	Holy	65	Breaking Dawn	387879	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81583	102567	2				
-Paladin	Holy	65	Brought to Light	1265549	talent-passive	TraitNodeEntry	false	0	Rotational	class		109998	136486	1				
-Paladin	Holy	65	Call of the Righteous	1241511	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81587	102572	2				
-Paladin	Holy	65	Cavalier	230332	talent-passive	TraitNodeEntry	false	0	Rotational	class		81605	102592	1				
-Paladin	Holy	65	Commanding Light	387781	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81580	102564	1				
-Paladin	Holy	65	Consecrated Ground	204054	talent-passive	TraitNodeEntry	false	0	Rotational	class		81543	102518	1				
-Paladin	Holy	65	Crusader's Might	196926	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102502	136574	1				
-Paladin	Holy	65	Dawnlight	431377	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95099	117696	1	Buff		cdm-only:CooldownSetSpell	
-Paladin	Holy	65	Divine Favor	1270916	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81570	102551	1				
-Paladin	Holy	65	Divine Glimpse	387805	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81585	102570	1				
-Paladin	Holy	65	Divine Guidance	433106	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	95235	117884	1				
-Paladin	Holy	65	Divine Inspiration	432964	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	95231	117877	1				
-Paladin	Holy	65	Divine Overload	1271077	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81589	102574	1				
-Paladin	Holy	65	Divine Purpose	223817	talent-passive	TraitNodeEntry	false	0	Rotational	class		93191	128246	1	Buff		cdm-only:CooldownSetSpell	
-Paladin	Holy	65	Divine Reach	469476	talent-passive	TraitNodeEntry	false	0	Rotational	class		93168	115447	1				
-Paladin	Holy	65	Divine Resonance	386738	talent-passive	TraitNodeEntry	false	0	Rotational	class		93180	115466	1	Other		cdm-only:CooldownSetSpell	
-Paladin	Holy	65	Divine Revelations	387808	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81578	102562	1				
-Paladin	Holy	65	Divine Spurs	469409	talent-passive	TraitNodeEntry	false	0	Rotational	class		103857	128253	1				
-Paladin	Holy	65	Echoing Blessings	387801	talent-passive	TraitNodeEntry	false	0	Rotational	class		93520	115872	1				
-Paladin	Holy	65	Empyreal Ward	387791	talent-passive	TraitNodeEntry	false	0	Rotational	class		103859	128255	1				
-Paladin	Holy	65	Empyrean Legacy	1241358	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103831	102576	1	Buff		cdm-only:CooldownSetSpell	
-Paladin	Holy	65	Endless Gleam	1263787	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	109748	136006	1				
-Paladin	Holy	65	Extrication	461278	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81590	102575	1				
-Paladin	Holy	65	Eye for an Eye	469309	talent-passive	TraitNodeEntry	false	0	Rotational	class		81628	102620	1				
-Paladin	Holy	65	Faith's Armor	406101	talent-passive	TraitNodeEntry	false	0	Rotational	class		81495	102464	1				
-Paladin	Holy	65	Fear No Evil	1265541	talent-passive	TraitNodeEntry	false	0	Rotational	class		109997	136485	1				
-Paladin	Holy	65	Fist of Justice	234299	talent-passive	TraitNodeEntry	false	0	Rotational	class		109999	136487	1				
-Paladin	Holy	65	Forewarning	432804	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	95231	117876	1				
-Paladin	Holy	65	Gleaming Rays	431480	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95073	117778	1				
-Paladin	Holy	65	Glistening Radiance	1241805	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81576	102559	1				
-Paladin	Holy	65	Glorious Dawn	461246	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93521	115873	1				
-Paladin	Holy	65	Golden Path	377128	talent-passive	TraitNodeEntry	false	0	Rotational	class		103856	128252	1				
-Paladin	Holy	65	Greater Judgment	231644	talent-passive	TraitNodeEntry	false	0	Rotational	class		92220	114292	1				
-Paladin	Holy	65	Guided Prayer	404357	talent-passive	TraitNodeEntry	false	0	Rotational	class		110012	136503	1				
-Paladin	Holy	65	Hammer and Anvil	433718	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	109743	136001	1				
-Paladin	Holy	65	Hand of Divinity	1242008	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81588	133501	1	Buff		cdm-only:CooldownSetSpell	
-Paladin	Holy	65	Holy Aegis	385515	talent-passive	TraitNodeEntry	false	0	Rotational	class		81609	102597	1				
-Paladin	Holy	65	Holy Reprieve	469445	talent-passive	TraitNodeEntry	false	0	Rotational	class		103860	128256	1				
-Paladin	Holy	65	Holy Ritual	199422	talent-passive	TraitNodeEntry	false	0	Rotational	class		103866	128262	1				
-Paladin	Holy	65	Illumine	431423	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95098	117695	1				
-Paladin	Holy	65	Imbued Infusions	392961	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81557	102536	1				
-Paladin	Holy	65	Improved Blessing of Protection	384909	talent-passive	TraitNodeEntry	false	0	Rotational	class		81617	102606	1				
-Paladin	Holy	65	Improved Cleanse	393024	talent-passive	TraitNodeEntry	false	0	Rotational	class		81508	102477	1				
-Paladin	Holy	65	Inflorescence of the Sunwell	392907	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81591	102577	1				
-Paladin	Holy	65	Infusion of Light	53576	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81569	102550	1	Buff		cdm-only:CooldownSetSpell	
-Paladin	Holy	65	Inspired Guard	469439	talent-passive	TraitNodeEntry	false	0	Rotational	class		103864	128260	1				
-Paladin	Holy	65	Laying Down Arms	432866	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	95236	117885	1				
-Paladin	Holy	65	Lead the Charge	469780	talent-passive	TraitNodeEntry	false	0	Rotational	class		103867	128263	1				
-Paladin	Holy	65	Liberation	461287	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102502	126571	1				
-Paladin	Holy	65	Light of the Martyr	447985	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81561	102540	1				
-Paladin	Holy	65	Light's Conviction	414073	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93927	116376	1				
-Paladin	Holy	65	Light's Countenance	469325	talent-passive	TraitNodeEntry	false	0	Rotational	class		103854	128247	1				
-Paladin	Holy	65	Light's Protection	461243	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93522	115874	1				
-Paladin	Holy	65	Light's Revocation	146956	talent-passive	TraitNodeEntry	false	0	Rotational	class		81608	102596	1				
-Paladin	Holy	65	Lightbearer	469416	talent-passive	TraitNodeEntry	false	0	Rotational	class		103861	128257	1				
-Paladin	Holy	65	Lightforged Blessing	406468	talent-passive	TraitNodeEntry	false	0	Rotational	class		103852	128242	1			talent-passive:TraitNodeEntry	
-Paladin	Holy	65	Lingering Radiance	431407	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95071	117779	1				
-Paladin	Holy	65	Luminosity	431402	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95080	117677	1				
-Paladin	Holy	65	Masterwork	1271387	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	109742	136000	1	Buff		cdm-only:CooldownSetSpell	
-Paladin	Holy	65	Moment of Compassion	387786	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81571	102553	1				
-Paladin	Holy	65	Morning Star	431482	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95073	117670	1				
-Paladin	Holy	65	Obduracy	385427	talent-passive	TraitNodeEntry	false	0	Rotational	class		81630	102622	2				
-Paladin	Holy	65	Overflowing Light	461244	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81556	102535	1				
-Paladin	Holy	65	Pillars of Light	1232616	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81579	102563	1				
-Paladin	Holy	65	Protection of Tyr	200430	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81566	102546	1				
-Paladin	Holy	65	Quickened Invocation	379391	talent-passive	TraitNodeEntry	false	0	Rotational	class		93180	115465	1				
-Paladin	Holy	65	Reclamation	415364	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81558	102537	1				
-Paladin	Holy	65	Recompense	384914	talent-passive	TraitNodeEntry	false	0	Rotational	class		81607	102594	1				
-Paladin	Holy	65	Reflection of Radiance	1271466	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	95238	117887	1				
-Paladin	Holy	65	Resounding Strike	1271553	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	109744	136002	1				
-Paladin	Holy	65	Resplendent Light	392902	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81571	102552	1				
-Paladin	Holy	65	Righteous Judgment	414113	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93523	115875	1				
-Paladin	Holy	65	Righteous Protection	469321	talent-passive	TraitNodeEntry	false	0	Rotational	class		103865	128248	1				
-Paladin	Holy	65	Ringing of the Heavens	1241542	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108099	133479	1				
-Paladin	Holy	65	Rising Sunlight	1277651	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81595	102581	1				
-Paladin	Holy	65	Sacred Strength	469337	talent-passive	TraitNodeEntry	false	0	Rotational	class		93191	115489	1				
-Paladin	Holy	65	Sacrifice of the Just	384820	talent-passive	TraitNodeEntry	false	0	Rotational	class		81607	102595	1				
-Paladin	Holy	65	Sanctified Plates	402964	talent-passive	TraitNodeEntry	false	0	Rotational	class		93009	115034	2				
-Paladin	Holy	65	Sanctified Wrath	53376	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81592	102578	1				
-Paladin	Holy	65	Saved by the Light	157047	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81574	102557	1				
-Paladin	Holy	65	Seal of Might	385450	talent-passive	TraitNodeEntry	false	0	Rotational	class		81621	102612	2				
-Paladin	Holy	65	Second Sunrise	431474	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95086	117683	1				
-Paladin	Holy	65	Seek Deliverance	1271016	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81594	102580	1				
-Paladin	Holy	65	Selfless Healer	469434	talent-passive	TraitNodeEntry	false	0	Rotational	class		103856	128309	1				
-Paladin	Holy	65	Seraphic Barrier	1241714	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81593	102579	1				
-Paladin	Holy	65	Shared Resolve	432821	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	95237	117886	1				
-Paladin	Holy	65	Shining Righteousness	414443	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81562	102541	1				
-Paladin	Holy	65	Solar Grace	431404	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	109750	136008	1	Buff		cdm-only:CooldownSetSpell	
-Paladin	Holy	65	Solidarity	432802	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	95228	117873	1				
-Paladin	Holy	65	Stand Against Evil	469317	talent-passive	TraitNodeEntry	false	0	Rotational	class		103855	128249	1				
-Paladin	Holy	65	Steed of Liberty	469304	talent-passive	TraitNodeEntry	false	0	Rotational	class		81631	102624	1				
-Paladin	Holy	65	Stoicism	469316	talent-passive	TraitNodeEntry	false	0	Rotational	class		103862	128258	1				
-Paladin	Holy	65	Sun Sear	431413	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95072	117669	1				
-Paladin	Holy	65	Sun's Avatar	431425	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95105	117702	1				
-Paladin	Holy	65	Tempered in Battle	469701	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	95232	117878	1				
-Paladin	Holy	65	Tirion's Devotion	414720	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81573	102556	1				
-Paladin	Holy	65	Truth Prevails	461273	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108034	133407	1				
-Paladin	Holy	65	Unbound Freedom	305394	talent-passive	TraitNodeEntry	false	0	Rotational	class		93520	131438	1				
-Paladin	Holy	65	Unbreakable Spirit	114154	talent-passive	TraitNodeEntry	false	0	Rotational	class		81615	102603	1				
-Paladin	Holy	65	Unending Light	1271221	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81575	102558	1				
-Paladin	Holy	65	Unwavering Spirit	392911	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81566	102547	1				
-Paladin	Holy	65	Valiance	432919	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	95229	117874	1				
-Paladin	Holy	65	Veneration	392938	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81581	102565	1				
-Paladin	Holy	65	Vengeful Wrath	1241958	talent-passive	TraitNodeEntry	false	0	Rotational	class		103851	128241	2				
-Paladin	Holy	65	Walk Into Light	1263782	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95094	117691	1				
-Paladin	Holy	65	Will of the Dawn	431406	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95098	117777	1	Buff		cdm-only:CooldownSetSpell	
-Paladin	Holy	65	Worthy Sacrifice	469279	talent-passive	TraitNodeEntry	false	0	Rotational	class		103865	128261	1				
-Paladin	Holy	65	Wrench Evil	460720	talent-passive	TraitNodeEntry	false	0	Rotational	class		103855	128250	1				
-Paladin	Holy	65	Holy Bulwark	432459	cdm-only	CooldownSetSpell	true	0	Rotational						Essential	Rotational 8		
-Paladin	Holy	65	Holy Paladin	137029	cdm-only	CooldownSetSpell	false	0	Rotational						Buff			
+class	spec	spec_id	name	spell_id	origin	source	castable	cooldown	band	tree	hero_tree	node_id	entry_id	max_ranks	blizz_category	seed_bucket	also_from	aliases	description_source	description
+Paladin	Holy	65	Lay on Hands	633	talent-active	TraitNodeEntry	true	600	Cooldown	class		81597	102583	1	Essential	Self-Heal 4 (Emergency/Overflow)	class-baseline:SkillLineAbility:800;cdm-only:CooldownSetSpell		api	Heals a friendly target for an amount equal to 100% your maximum health.\n\nCannot be used on a target with Forbearance. Causes Forbearance for 30 sec.
+Paladin	Holy	65	Aura Mastery	31821	talent-active	TraitNodeEntry	true	180	Cooldown	spec		81567	102548	1	Essential	Cooldown 2	cdm-only:CooldownSetSpell		api	Empowers your chosen aura for 8 sec.\n\nDevotion Aura: Damage reduction increased to 12%.\n\nCrusader Aura: Mount speed bonus increased to 60%.\n\nConcentration Aura: Affected allies immune to interrupts and silences.
+Paladin	Holy	65	Blessing of Sacrifice	6940	talent-active	TraitNodeEntry	true	120	Cooldown	class		81614	102602	1	Utility	Class 3 (Tag)	class-baseline:SkillLineAbility:800;cdm-only:CooldownSetSpell		api	Blesses a party or raid member, reducing their damage taken by 30%, but you suffer 100% of damage prevented.\n\nLast 12 sec, or until transferred damage would cause you to fall below 20% health.
+Paladin	Holy	65	Blinding Light	115750	talent-active	TraitNodeEntry	true	90	Cooldown	class		81598	102584	1	Utility	CC 2	cdm-only:CooldownSetSpell		api	Emits dazzling light in all directions, blinding enemies within 10 yds, causing them to wander disoriented for 6 sec. Damage may cancel the effect.
+Paladin	Holy	65	Turn Evil	10326	talent-active	TraitNodeEntry	true	15	Rotational	class		93010	102623	1	Utility	Class 5 (Purge)	class-baseline:SkillLineAbility:800;cdm-only:CooldownSetSpell		api	The power of the Light compels an Undead, Aberration, or Demon target to flee for up to 40 sec. Damage may break the effect. Lesser creatures have a chance to be destroyed. Only one target can be turned at a time.
+Paladin	Holy	65	Blessing of Protection	1022	talent-active	TraitNodeEntry	true	1.5	Rotational	class		81616	102604	1	Buff/Utility	Class 2 (CC)	class-baseline:SkillLineAbility:800;cdm-only:CooldownSetSpell		api	Blesses a party or raid member, granting immunity to Physical damage and harmful effects for 10 sec.\n\nCannot be used on a target with Forbearance. Causes Forbearance for 30 sec.
+Paladin	Holy	65	Divine Steed	190784	talent-active	TraitNodeEntry	true	0.8	Rotational	class		81632	102625	1	Buff/Utility	Movement Ability	class-baseline:SkillLineAbility:800;cdm-only:CooldownSetSpell		api	Leap atop your Charger for 3 sec, increasing movement speed by 100%. Usable while indoors or in combat.
+Paladin	Holy	65	Eternal Flame	156322	talent-active	TraitNodeEntry	true	0	Rotational	hero	Herald of the Sun	95095	117692	1					api	Heals an ally for 1,436 and an additional 465 over 16 sec.\n\nHealing increased by 25% when cast on self.
+Paladin	Holy	65	Holy Armaments	432459	talent-active	TraitNodeEntry	true	0	Rotational	hero	Lightsmith	95234	117882	1			talent-active:TraitNodeEntry	Holy Bulwark	api	Will the Light to coalesce and become manifest as a Holy Armament, wielded by your friendly target.\n\n Holy Bulwark:\n\nWhile wielding a Holy Bulwark, gain an absorb shield for 15.0% of your max health and an additional 2.0% every 2 sec. Lasts 20 sec.\n\nBecomes Sacred Weapon after use.\n\nGenerates 3 Holy Power.
+Paladin	Holy	65	Holy Shock	20473	talent-active	TraitNodeEntry	true	0	Rotational	spec		81555	102534	1	Essential	Rotational 1	class-baseline:SkillLineAbility:800;cdm-only:CooldownSetSpell		api	Triggers a burst of Light on the target, dealing 811 Holy damage to an enemy, or 2,554 healing to an ally.\n\nGenerates 1 Holy Power.
+Paladin	Holy	65	Light of Dawn	85222	talent-active	TraitNodeEntry	true	0	Rotational	spec		81565	102545	1	Essential	Rotational 6	cdm-only:CooldownSetSpell		api	Unleashes Holy energy, healing up to 5 injured allies within a 40 yd radius around you for 1,925.
+Paladin	Holy	65	Avenging Wrath	31884	talent-choice	TraitNodeEntry	true	120	Cooldown	spec		81584	102569	1	Buff/Essential	Cooldown 1	class-baseline:SkillLineAbility:800;cdm-only:CooldownSetSpell		api	Call upon the Light to become an avatar of retribution, increasing your damage, healing, and critical strike chance by 20% for 20 sec.
+Paladin	Holy	65	Avenging Crusader	216331	talent-choice	TraitNodeEntry	true	60	Cooldown	spec		81584	102568	1					api	You become the ultimate crusader of light, for 15 sec. Auto-attack damage is increased by 1,000%, Judgment and Crusader Strike heal up to 5 injured allies within 40 yds for 80% of the damage done, split evenly among them.\n\nThis spell is replaced with Crusader Strike while active.\n\nCrusader Strike:\nStrike the target for 49 Physical damage.\n\nGenerates 1 Holy Power.
+Paladin	Holy	65	Divine Toll	375576	talent-choice	TraitNodeEntry	true	60	Cooldown	class		81496	102465	1	Essential		cdm-only:CooldownSetSpell		api	Instantly cast Holy Shock, Avenger's Shield, or Judgment on up to 5 targets within 30 yds.
+Paladin	Holy	65	Holy Prism	114165	talent-choice	TraitNodeEntry	true	45	Cooldown	class		81496	133480	1	Essential		class-baseline:SkillLineAbility:800;cdm-only:CooldownSetSpell		api	Fires a beam of light that scatters to strike a clump of targets. \n\nIf the beam is aimed at an enemy target, it deals 2,501 Holy damage and radiates 2,555 healing to 5 allies within 30 yds.\n\nIf the beam is aimed at a friendly target, it heals for 6,037 and radiates 944 Holy damage to 5 enemies within 30 yds.\n\nGenerates 3 Holy Power.
+Paladin	Holy	65	Beacon of Virtue	200025	talent-choice	TraitNodeEntry	true	15	Rotational	spec		81554	102532	1	Buff/Essential		cdm-only:CooldownSetSpell		api	Apply a Beacon of Light to your target and 4 injured allies within 30 yds for 9 sec.\n\nAll affected allies will be healed for 10% of the amount of your other healing done.
+Paladin	Holy	65	Blessing of Freedom	1044	talent-choice	TraitNodeEntry	true	1.5	Rotational	class		81631	128251	1	Buff/Utility	Class 1 (Movement)	class-baseline:SkillLineAbility:800;cdm-only:CooldownSetSpell		api	Blesses a party or raid member, granting immunity to movement impairing effects for 8 sec.
+Paladin	Holy	65	Beacon of Faith	156910	talent-choice	TraitNodeEntry	true	0	Rotational	spec		81554	102533	1	Essential	Self-Heal 2	cdm-only:CooldownSetSpell		api	Mark a second target as a Beacon, mimicking the effects of Beacon of Light. Your heals will now heal both of your Beacons, but at 30% reduced effectiveness.
+Paladin	Holy	65	Rite of Adjuration	433583	talent-choice	TraitNodeEntry	true	0	Rotational	hero	Lightsmith	95233	117880	1					api	Imbue your weapon with the power of the Light, increasing your Stamina by 3% and causing your Holy Power abilities to sometimes unleash a burst of healing around a target.\n\nLasts 1 hour.
+Paladin	Holy	65	Rite of Sanctification	433568	talent-choice	TraitNodeEntry	true	0	Rotational	hero	Lightsmith	95233	117881	1		Buff			api	Imbue your weapon with the power of the Light, increasing your armor by 5% and your primary stat by 2%.\n\nLasts 1 hour.
+Paladin	Holy	65	Intercession	391054	class-baseline	SkillLineAbility:800	true	600	Cooldown							Class 8 (Lust/BRes)			api	Petition the Light on the behalf of a fallen ally, restoring spirit to body and allowing them to reenter battle with 60% health and at least 20% mana.
+Paladin	Holy	65	Divine Shield	642	class-baseline	SkillLineAbility:800	true	300	Cooldown						Buff/Utility	Immune/Spell Immune/Movement	cdm-only:CooldownSetSpell		api	Grants immunity to all damage, harmful effects, knockbacks and forced movement effects for 8 sec. \n\nCannot be used if you have Forbearance. Causes Forbearance for 30 sec.
+Paladin	Holy	65	Jailer's Judgment	162056	class-baseline	SkillLineAbility:800	true	180	Cooldown										api	Stuns the target Player for 6 sec. If the judgment holds for 6 sec, the enemy will be instantly teleported to your jail. Can only be used while in Ashran.
+Paladin	Holy	65	Tyr's Deliverance	200652	class-baseline	SkillLineAbility:800	true	90	Cooldown								talent-passive:TraitNodeEntry		api	Releases the Light within yourself, healing 5 injured allies instantly and an injured ally every 0.9 sec within 40 yds for 133.\n\nAllies healed also receive 10% increased healing from your Holy Light, Flash of Light, and Holy Shock spells for 12 sec.
+Paladin	Holy	65	Divine Protection	498	class-baseline	SpecializationSpells	true	60	Cooldown						Buff/Utility	Personal Defensive 1	cdm-only:CooldownSetSpell		api	Reduces all damage you take by 20% for 8 sec. Usable while stunned.
+Paladin	Holy	65	Eye of Tyr	209202	class-baseline	SkillLineAbility:800	true	60	Cooldown										api	Releases a blinding flash from Truthguard, causing 19 Holy damage to all nearby enemies within 8 yds and reducing all damage they deal to you by 25% for 9 sec.
+Paladin	Holy	65	Hammer of Justice	853	class-baseline	SkillLineAbility:800	true	45	Cooldown						Utility	CC	cdm-only:CooldownSetSpell		api	Stuns the target for 6 sec.
+Paladin	Holy	65	Wake of Ashes	205273	class-baseline	SkillLineAbility:800	true	30	Rotational										api	Lash out with the Ashbringer, dealing 61 Radiant damage to all enemies within 12 yd in front of you, and reducing movement speed by 50% for 6 sec.\n\nDemon and Undead enemies are stunned for 6 sec if struck by the Wake of Ashes.
+Paladin	Holy	65	Cleanse	4987	class-baseline	SpecializationSpells	true	8	Rotational						Utility	Class 6 (Dispel)	cdm-only:CooldownSetSpell		api	Cleanses a friendly target, removing all Magic effects.
+Paladin	Holy	65	Cleanse Toxins	440013	class-baseline	SpecializationSpells	true	8	Rotational										api	Cleanses a friendly target, removing all Poison and Disease effects..
+Paladin	Holy	65	Contemplation	121183	class-baseline	SkillLineAbility:800	true	8	Rotational										api	Allows you a moment of peace as you kneel in quiet contemplation to ponder the nature of the Light.
+Paladin	Holy	65	Shield of the Righteous	53600	class-baseline	SkillLineAbility:800	true	1	Rotational						Essential	Rotational 5	class-baseline:SpecializationSpells;cdm-only:CooldownSetSpell		api	Slams enemies in front of you with your shield, causing 33 Holy damage, and increasing your Armor by 608 for 4.5 sec.
+Paladin	Holy	65	Absolution	212056	class-baseline	SpecializationSpells	true	0	Rotational										api	Returns all dead party members to life with 35% of maximum health and mana.  Cannot be cast when in combat.
+Paladin	Holy	65	Ancient Fury	86704	class-baseline	SkillLineAbility:800	true	0	Rotational										api	Unleash the fury of ancient kings, causing 10 Holy damage per application of Ancient Power, divided evenly among all targets within 10 yards.
+Paladin	Holy	65	Ardent Defender	66235	class-baseline	SkillLineAbility:800	true	0	Rotational										api	Reduces all damage you take by 30% for 12 sec.\n\nWhile Ardent Defender is active, the next attack that would otherwise kill you will instead bring you to 20% of your maximum health.
+Paladin	Holy	65	Beacon of Light	53652	class-baseline	SkillLineAbility:800	true	0	Rotational						Essential	Self-Heal 1	class-baseline:SpecializationSpells;cdm-only:CooldownSetSpell		api	Wrap a single ally in holy energy, causing your direct healing on other party or raid members to also heal that ally for 10% of the amount healed.
+Paladin	Holy	65	Consecration	81297	class-baseline	SkillLineAbility:800	true	0	Rotational						Essential		cdm-only:CooldownSetSpell		api	Deals 1 Holy damage every 0.9 sec to enemies within 8 yards.
+Paladin	Holy	65	Crusader Aura	32223	class-baseline	SkillLineAbility:800	true	0	Rotational							Stance 1			api	Increases mounted speed by 20% for all party and raid members within 40 yds.
+Paladin	Holy	65	Crusader Strike	35395	class-baseline	SkillLineAbility:800	true	0	Rotational										api	Strike the target for 49 Physical damage.\n\nGenerates 1 Holy Power.
+Paladin	Holy	65	Crusader's Direhorn	290608	class-baseline	SkillLineAbility:800	true	0	Rotational										api	Summons a Crusader's Direhorn, which serves as a mount.
+Paladin	Holy	65	Devotion Aura	465	class-baseline	SkillLineAbility:800	true	0	Rotational							Stance 2			api	Party and raid members within 40 yds are bolstered by their devotion, reducing damage taken by 3%.
+Paladin	Holy	65	Earthen Ordinant's Ramolith	453785	class-baseline	SkillLineAbility:800	true	0	Rotational										api	Summons the Earthen Ordinant's Ramolith, which serves as a mount.
+Paladin	Holy	65	Flash of Light	19750	class-baseline	SkillLineAbility:800	true	0	Rotational						Essential	Rotational 3	cdm-only:CooldownSetSpell		api	Quickly heal a friendly target for 1,204.
+Paladin	Holy	65	Hammer of Wrath	24275	class-baseline	SkillLineAbility:800	true	0	Rotational								talent-passive:TraitNodeEntry		api	Hurls a divine hammer that strikes an enemy for 51 Holy damage.\n\nGenerates 1 Holy Power.
+Paladin	Holy	65	Hand of Reckoning	62124	class-baseline	SkillLineAbility:800	true	0	Rotational							Taunt/Quick Access			api	Commands the attention of an enemy target, forcing them to attack you and increasing the threat you generate against them by 800% for 6 sec.
+Paladin	Holy	65	Holy Light	82326	class-baseline	SpecializationSpells	true	0	Rotational						Essential	Rotational 4	cdm-only:CooldownSetSpell		api	A powerful but expensive spell, healing a friendly target for 12,442.
+Paladin	Holy	65	Judgment	20271	class-baseline	SkillLineAbility:800	true	0	Rotational						Essential	Rotational 2	class-baseline:SpecializationSpells;cdm-only:CooldownSetSpell		api	Judges the target, dealing 258 Holy damage.
+Paladin	Holy	65	Light of the Ancient Kings	86678	class-baseline	SkillLineAbility:800	true	0	Rotational										api	Heals the target of your heals for 30% of the amount healed.
+Paladin	Holy	65	Light's Hammer	114919	class-baseline	SkillLineAbility:800	true	0	Rotational										api	Hurls a Light-infused hammer to the ground, dealing 77 Holy damage to nearby enemies and healing up to 6 nearby allies for 181, every 2 sec for 14 sec.
+Paladin	Holy	65	Protector of the Innocent	94289	class-baseline	SkillLineAbility:800	true	0	Rotational										api	Casting a targeted heal on any target, except yourself, also heals you for 20.
+Paladin	Holy	65	Redemption	7328	class-baseline	SkillLineAbility:800	true	0	Rotational							Res			api	Brings a dead ally back to life with 35% of maximum health and mana. Cannot be cast when in combat.
+Paladin	Holy	65	Retribution Aura	183435	class-baseline	SkillLineAbility:800	true	0	Rotational										api	When any party or raid member within 40 yds takes more than 30% of their health in damage in a single hit, each member gains 5% increased damage and healing, decaying over 30 sec. This cannot occur within 30 sec of the aura being applied.
+Paladin	Holy	65	Sense Undead	5502	class-baseline	SkillLineAbility:800	true	0	Rotational										api	Shows the location of all nearby undead on the minimap until cancelled. Only one form of tracking can be active at a time.
+Paladin	Holy	65	Single-Button Assistant	1229376	class-baseline	SpecializationSpells	true	0	Rotational										api	Casts damaging abilities for use in combat, rotating through them based on priority.\n\nThe global cooldown of abilities used through the Single-Button Assistant is 25% longer.
+Paladin	Holy	65	Summon Charger	23214	class-baseline	SkillLineAbility:800	true	0	Rotational										api	Summons a Charger, which serves as a mount.
+Paladin	Holy	65	Summon Darkforge Ram	270562	class-baseline	SkillLineAbility:800	true	0	Rotational										api	Summons a Darkforge Ram, which serves as a mount.
+Paladin	Holy	65	Summon Dawnforge Ram	270564	class-baseline	SkillLineAbility:800	true	0	Rotational										api	Summons a Dawnforge Ram, which serves as a mount.
+Paladin	Holy	65	Summon Exarch's Elekk	73629	class-baseline	SkillLineAbility:800	true	0	Rotational										api	Summons an Exarch's Elekk, which serves as a mount.
+Paladin	Holy	65	Summon Great Exarch's Elekk	73630	class-baseline	SkillLineAbility:800	true	0	Rotational										api	Summons an Great Exarch's Elekk, which serves as a mount.
+Paladin	Holy	65	Summon Great Sunwalker Kodo	69826	class-baseline	SkillLineAbility:800	true	0	Rotational										api	Summons a Great Sunwalker Kodo, which serves as a mount.
+Paladin	Holy	65	Summon Lightforged Ruinstrider	363613	class-baseline	SkillLineAbility:800	true	0	Rotational										api	Summons a Lightforged Ruinstrider, which serves as a mount.
+Paladin	Holy	65	Summon Sunwalker Kodo	69820	class-baseline	SkillLineAbility:800	true	0	Rotational										api	Summons a Sunwalker Kodo, which serves as a mount.
+Paladin	Holy	65	Summon Thalassian Charger	34767	class-baseline	SkillLineAbility:800	true	0	Rotational										api	Summons a Thalassian Charger, which serves as a mount.
+Paladin	Holy	65	Summon Thalassian Warhorse	34769	class-baseline	SkillLineAbility:800	true	0	Rotational										api	Summons a Thalassian Warhorse, which serves as a mount.
+Paladin	Holy	65	Summon Warhorse	13819	class-baseline	SkillLineAbility:800	true	0	Rotational										api	Summons a Warhorse, which serves as a mount.
+Paladin	Holy	65	Word of Glory	85673	class-baseline	SkillLineAbility:800	true	0	Rotational						Essential	Rotational 7	cdm-only:CooldownSetSpell		api	Calls down the Light to heal a friendly target for 1,604.
+Paladin	Holy	65	Searing Glare	410126	pvp-talent	PvpTalent	true	60	Cooldown										api	Call upon the light to blind enemy players in a 25 yd cone, causing enemies to miss their spells and attacks for 4 sec.
+Paladin	Holy	65	Blessing of Spellwarding	204018	pvp-talent	PvpTalent	true	1.5	Rotational						Utility		cdm-only:CooldownSetSpell		api	Blesses a party or raid member, granting immunity to magical damage and harmful effects for 10 sec.\n\nCannot be used on a target with Forbearance. Causes Forbearance for 30 sec.\n\nShares a cooldown with Blessing of Protection.
+Paladin	Holy	65	Cleanse the Weak	199330	pvp-talent	PvpTalent	false	0	Rotational										api	When you Cleanse an ally, 1 ally within 40 yds is dispelled of the same effects, but the cooldown of Cleanse is increased by 4 sec.\n\nHealing allies with your Flash of Light or Holy Light will cleanse all Diseases and Poisons from the target.
+Paladin	Holy	65	Darkest before the Dawn	210378	pvp-talent	PvpTalent	false	0	Rotational										api	Every 5 sec the healing done by your next Light of Dawn is increased by 20%. Stacks up to 5 times.
+Paladin	Holy	65	Denounce	2812	pvp-talent	PvpTalent	true	0	Rotational										api	Casts down the enemy with a bolt of Holy Light, causing 2,899 Holy damage and preventing the target from causing critical effects for the next 8 sec.
+Paladin	Holy	65	Divine Plea	415244	pvp-talent	PvpTalent	false	0	Rotational										api	After casting Aura Mastery, you restore 6,428 Mana over 30 sec, but your healing and damage is decreased by 30%.
+Paladin	Holy	65	Divine Vision	199324	pvp-talent	PvpTalent	false	0	Rotational										api	Increases the range of your Aura by 30 yards and reduces the cooldown of Aura Mastery by 30 sec.
+Paladin	Holy	65	Luminescence	556606	pvp-talent	PvpTalent	false	0	Rotational										api	Lightbearer's healing transfer is increased by up to 150% based on your current health. Lower health heals allies for more.
+Paladin	Holy	65	Shining Revelation	936051	pvp-talent	PvpTalent	false	0	Rotational										api	The light reveals all enemies in stealth or invisible to you while under the effects of Divine Shield. This effect lingers for 20 sec after Divine Shield fades.
+Paladin	Holy	65	Spellbreaker	469895	pvp-talent	PvpTalent	false	0	Rotational										api	Eye for an Eye can now also trigger at 100% effectiveness from direct Magic damage.
+Paladin	Holy	65	Spreading the Word	199456	pvp-talent	PvpTalent	false	0	Rotational										api	Your allies affected by your Aura gain an effect after you cast Blessing of Protection or Blessing of Freedom.\n\n Blessing of Protection\nPhysical damage reduced by 30% for 6 sec.\n\n Blessing of Freedom\nCleared of all movement impairing effects.
+Paladin	Holy	65	Ultimate Sacrifice	199452	pvp-talent	PvpTalent	false	0	Rotational										api	Your Blessing of Sacrifice now transfers 100% of all damage to you into a damage over time effect, but lasts 6 sec and no longer cancels when you are below 20% health.
+Paladin	Holy	65	A Just Reward	469411	talent-passive	TraitNodeEntry	false	0	Rotational	class		103858	128254	2					api	After Cleanse successfully removes an effect from an ally, they are healed for 2,052.
+Paladin	Holy	65	Afterimage	385414	talent-passive	TraitNodeEntry	false	0	Rotational	class		81613	102601	1	Buff		cdm-only:CooldownSetSpell		api	After you spend 20 Holy Power, your next Word of Glory echoes onto a nearby ally at 30% effectiveness.
+Paladin	Holy	65	Armory of Light	1277443	talent-passive	TraitNodeEntry	false	0	Rotational	class		110092	136593	1					api	While holding a shield, you have a 15% chance to block incoming spells, reducing their damage by 20%. \n\nWithout a shield, you have a 15% chance to parry incoming melee attacks, reducing their damage by 20%.
+Paladin	Holy	65	Auras of the Resolute	385633	talent-passive	TraitNodeEntry	false	0	Rotational	class		81600	102587	1					api	Learn Concentration Aura, Devotion Aura, and Crusader Aura:\n\nConcentration Aura:\nInterrupt and Silence effects on party and raid members within 40 yds are 30% shorter. \n\n Devotion Aura:\nParty and raid members within 40 yds are bolstered by their devotion, reducing damage taken by 3%.\n\n Crusader Aura:\nIncreases mounted speed by 20% for all party and raid members within 40 yds.
+Paladin	Holy	65	Aurora	439760	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95069	117666	1					api	After you cast Holy Prism or Divine Toll, gain Divine Purpose.\n\n Divine Purpose\nYour next Holy Power spending ability is free and deals 15% increased damage and healing.
+Paladin	Holy	65	Authoritative Rebuke	469886	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	95232	117879	1					api	Successfully dispelling a harmful effect reduces Cleanse's cooldown by 1.0 sec. Effect increased by 100% while wielding a Holy Armament.
+Paladin	Holy	65	Awakening	414195	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81592	116205	1	Buff		cdm-only:CooldownSetSpell		api	While in combat, your Holy Power spenders have a 10% chance to cause your next Judgment to deal 30% increased damage and critically strike.\n\nActivating Avenging Wrath activates Awakening.
+Paladin	Holy	65	Awestruck	417855	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81564	102544	1					api	Holy Shock, Holy Light, and Flash of Light critical healing increased by 20%.
+Paladin	Holy	65	Beacon of the Lightbringer	197446	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81568	102549	1					api	Mastery: Lightbringer now increases your healing based on the target's proximity to either you or your Beacon of Light, whichever is closer.
+Paladin	Holy	65	Beacon of the Savior	1244878	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110417	137019	1			talent-passive:TraitNodeEntry		api	While in combat, apply a Beacon of the Savior to the lowest health ally within 30 yds that causes your direct healing on others to also heal that ally for 10% of the amount healed.\n\nBeacon of the Savior transfers to the lowest health ally within 30 yds if it heals a target past maximum health or if an ally drops below 50% health.
+Paladin	Holy	65	Bestow Light	448040	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81560	102539	1					api	Light of the Martyr's health threshold is reduced to 70% and increases Holy Shock's healing by an additional 5% for every 5 sec Light of the Martyr is active, stacking up to 3 times.\n\nWhile below 70% health, the light urgently heals you for 76 every 1 sec.
+Paladin	Holy	65	Blessed Assurance	433015	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	95235	117883	1					api	Casting a Holy Power ability increases the damage and healing of your next Crusader Strike by 200%.
+Paladin	Holy	65	Blessed Calling	469770	talent-passive	TraitNodeEntry	false	0	Rotational	class		103868	128264	1					api	Allies affected by your Blessings have 15% increased movement speed.
+Paladin	Holy	65	Blessing of An'she	445200	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95071	117668	1					api	The healing and damage of Holy Shock is increased by 15%.
+Paladin	Holy	65	Blessing of Dawn	183416	talent-passive	TraitNodeEntry	false	0	Rotational	class		93357	115673	1					api	While you are above 85% health, 5% of all damage taken by allies within 20 yds is redirected to you, up to a maximum of 1,527 every 5 sec.
+Paladin	Holy	65	Blessing of Dusk	1241945	talent-passive	TraitNodeEntry	false	0	Rotational	class		103863	128259	1					api	Damage taken reduced by up to 10%, increasing as your health decreases.
+Paladin	Holy	65	Blessing of the Forge	433011	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	95230	117875	1					api	Avenging Wrath summons an additional Sacred Weapon, and during Avenging Wrath your Sacred Weapon casts spells on your target and echoes the effects of your Holy Power abilities.
+Paladin	Holy	65	Born in Sunlight	1263920	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	109749	136007	1					api	Dawnlight's critical strike chance is increased by 15% during Avenging Wrath.
+Paladin	Holy	65	Breaking Dawn	387879	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81583	102567	2					api	Increases Light of Dawn's healing by 5%.
+Paladin	Holy	65	Brought to Light	1265549	talent-passive	TraitNodeEntry	false	0	Rotational	class		109998	136486	1					api	Killing an enemy that yields experience or honor causes you to explode with holy energy, healing up to 5 nearby allies and yourself for 175, split evenly among them.
+Paladin	Holy	65	Call of the Righteous	1241511	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81587	102572	2					api	Avenging Wrath's cooldown is reduced by 30 sec, but its duration is reduced by 5.0 sec.\n\nAvenging Crusader's cooldown is reduced by 30.0 sec, but its duration is reduced by 3.0 sec.
+Paladin	Holy	65	Cavalier	230332	talent-passive	TraitNodeEntry	false	0	Rotational	class		81605	102592	1					api	Divine Steed now has 2 charges.
+Paladin	Holy	65	Commanding Light	387781	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81580	102564	1					api	Beacon of Light transfers an additional 5% of the amount healed.
+Paladin	Holy	65	Consecrated Ground	204054	talent-passive	TraitNodeEntry	false	0	Rotational	class		81543	102518	1					api	Your Consecration is 15% larger, and enemies within it have 50% reduced movement speed.
+Paladin	Holy	65	Crusader's Might	196926	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102502	136574	1					api	Holy Shock reduces the cooldown of Judgment by 1.5 sec and Crusader Strike reduces the cooldown of Judgment by 1.5 sec.
+Paladin	Holy	65	Dawnlight	431377	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95099	117696	1	Buff		cdm-only:CooldownSetSpell		api	Casting Holy Prism or Divine Toll causes your next 2 Holy Power spending abilities to apply Dawnlight on your target, dealing 1,327 Radiant damage or 2,802 healing over 8 sec.\n\n8% of Dawnlight's damage and healing radiates to nearby allies or enemies, reduced beyond 5 targets.\n\nDawnlight's healing does not transfer to Beacon of Light.
+Paladin	Holy	65	Divine Favor	1270916	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81570	102551	1					api	The mana cost of Holy Light is reduced by 10% and its cast time is reduced by 15%.
+Paladin	Holy	65	Divine Glimpse	387805	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81585	102570	1					api	Holy Shock and Judgment have a 8% increased critical strike chance.
+Paladin	Holy	65	Divine Guidance	433106	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	95235	117884	1					api	For each Holy Power ability cast, your next Consecration deals 1,140 damage or healing immediately, split across all enemies and allies.
+Paladin	Holy	65	Divine Inspiration	432964	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	95231	117877	1					api	Your spells and abilities have a chance to manifest a Holy Armament for a nearby ally.
+Paladin	Holy	65	Divine Overload	1271077	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81589	102574	1					api	Holy Light's healing is increased by 30%, but its mana cost is increased by 20%.
+Paladin	Holy	65	Divine Purpose	223817	talent-passive	TraitNodeEntry	false	0	Rotational	class		93191	128246	1	Buff		cdm-only:CooldownSetSpell		api	Holy Power spending abilities have a 15% chance to make your next Holy Power spending ability free and deal 15% increased damage and healing.
+Paladin	Holy	65	Divine Reach	469476	talent-passive	TraitNodeEntry	false	0	Rotational	class		93168	115447	1					api	The radius of your auras is increased by 20 yds.
+Paladin	Holy	65	Divine Resonance	386738	talent-passive	TraitNodeEntry	false	0	Rotational	class		93180	115466	1	Other		cdm-only:CooldownSetSpell		api	After casting Holy Prism, Holy Armament, or Divine Toll, you instantly cast Holy Shock every 5 sec for 15 sec.
+Paladin	Holy	65	Divine Revelations	387808	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81578	102562	1					api	While empowered by Infusion of Light, Flash of Light heals for an additional 20% and Judgment refunds 0.5% of your maximum mana.
+Paladin	Holy	65	Divine Spurs	469409	talent-passive	TraitNodeEntry	false	0	Rotational	class		103857	128253	1					api	Divine Steed's cooldown is reduced by 20%, but its duration is reduced by 40%.
+Paladin	Holy	65	Echoing Blessings	387801	talent-passive	TraitNodeEntry	false	0	Rotational	class		93520	115872	1					api	Blessing of Freedom increases the target's movement speed by 30%. Blessing of Protection and Blessing of Sacrifice reduce the target's damage taken by 15%. These effects linger for 8 sec after the Blessing ends.
+Paladin	Holy	65	Empyreal Ward	387791	talent-passive	TraitNodeEntry	false	0	Rotational	class		103859	128255	1					api	Lay on Hands grants the target 30% increased armor for 8 sec and now ignores healing reduction effects.
+Paladin	Holy	65	Empyrean Legacy	1241358	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103831	102576	1	Buff		cdm-only:CooldownSetSpell		api	Judgment critical strikes empower your next Word of Glory to automatically activate Light of Dawn at 30% effectiveness.
+Paladin	Holy	65	Endless Gleam	1263787	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	109748	136006	1					api	Dawnlight's duration is increased by 0.5 sec when it heals an ally with full health.
+Paladin	Holy	65	Extrication	461278	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81590	102575	1					api	Word of Glory and Light of Dawn gain up to 30% additional chance to critically strike, based on their target's current health. Lower health targets are more likely to be critically struck.
+Paladin	Holy	65	Eye for an Eye	469309	talent-passive	TraitNodeEntry	false	0	Rotational	class		81628	102620	1					api	Melee and ranged attackers receive 133 Holy damage each time they strike you during Divine Protection and Divine Shield.
+Paladin	Holy	65	Faith's Armor	406101	talent-passive	TraitNodeEntry	false	0	Rotational	class		81495	102464	1					api	Word of Glory grants 20% bonus armor for 4.5 sec.
+Paladin	Holy	65	Fear No Evil	1265541	talent-passive	TraitNodeEntry	false	0	Rotational	class		109997	136485	1					api	Fear duration on you reduced by 20%. This effect is increased to 60% during Avenging Wrath.
+Paladin	Holy	65	Fist of Justice	234299	talent-passive	TraitNodeEntry	false	0	Rotational	class		109999	136487	1					api	Hammer of Justice's cooldown is reduced by 15 sec.
+Paladin	Holy	65	Forewarning	432804	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	95231	117876	1					api	The cooldown of Holy Armaments is reduced by 20%.
+Paladin	Holy	65	Gleaming Rays	431480	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95073	117778	1					api	Your Holy Power spenders deal 3% additional damage and healing.
+Paladin	Holy	65	Glistening Radiance	1241805	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81576	102559	1					api	While at maximum health, targets with Beacon of Light generate an absorb shield equal to 1% of their health every 3 sec, up to a maximum of 5%.
+Paladin	Holy	65	Glorious Dawn	461246	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93521	115873	1					api	Holy Shock has a 12% chance to refund a charge when cast and its healing is increased by 10%.
+Paladin	Holy	65	Golden Path	377128	talent-passive	TraitNodeEntry	false	0	Rotational	class		103856	128252	1					api	Consecration heals you and 5 allies within it for 2 every 0.9 sec.
+Paladin	Holy	65	Greater Judgment	231644	talent-passive	TraitNodeEntry	false	0	Rotational	class		92220	114292	1					api	Judgment deems the target unworthy, preventing the next 1,835 damage dealt by the target.
+Paladin	Holy	65	Guided Prayer	404357	talent-passive	TraitNodeEntry	false	0	Rotational	class		110012	136503	1					api	When your health is brought below 25%, you instantly cast a free Word of Glory at 60% effectiveness on yourself.\n\nCannot occur more than once every 60 sec.
+Paladin	Holy	65	Hammer and Anvil	433718	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	109743	136001	1					api	Judgment critical strikes cause a shockwave around the target, healing to up to 5 injuried allies for 430.
+Paladin	Holy	65	Hand of Divinity	1242008	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81588	133501	1	Buff		cdm-only:CooldownSetSpell		api	Activating Avenging Wrath calls upon the Light to empower you, causing your next 2 Holy Lights to be instant cast and cost 50% less mana.
+Paladin	Holy	65	Holy Aegis	385515	talent-passive	TraitNodeEntry	false	0	Rotational	class		81609	102597	1					api	Armor and critical strike chance increased by 4%.
+Paladin	Holy	65	Holy Reprieve	469445	talent-passive	TraitNodeEntry	false	0	Rotational	class		103860	128256	1					api	Your Forbearance's duration is reduced by 10 sec.
+Paladin	Holy	65	Holy Ritual	199422	talent-passive	TraitNodeEntry	false	0	Rotational	class		103866	128262	1					api	Allies are healed for 7,552 when you cast Blessing of Protection or Blessing of Sacrifice on them.
+Paladin	Holy	65	Illumine	431423	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95098	117695	1					api	Dawnlight reduces the movement speed of enemies by 50% and increases the movement speed of allies by 20%.
+Paladin	Holy	65	Imbued Infusions	392961	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81557	102536	1					api	Consuming Infusion of Light reduces the cooldown of Holy Shock by 1.0 sec.
+Paladin	Holy	65	Improved Blessing of Protection	384909	talent-passive	TraitNodeEntry	false	0	Rotational	class		81617	102606	1					api	Reduces the cooldown of Blessing of Protection by 60 sec.
+Paladin	Holy	65	Improved Cleanse	393024	talent-passive	TraitNodeEntry	false	0	Rotational	class		81508	102477	1					api	Cleanse additionally removes all Disease and Poison effects.
+Paladin	Holy	65	Inflorescence of the Sunwell	392907	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81591	102577	1					api	Infusion of Light has 1 additional charge.
+Paladin	Holy	65	Infusion of Light	53576	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81569	102550	1	Buff		cdm-only:CooldownSetSpell		api	Your Holy Shocks have a 10% chance to empower your next spell cast:\n\nFlash of Light: healing increased by 200% and becomes instant cast.\nJudgment: Greater Judgment prevents an additional 150% damage dealt by the target and generates 1 additional Holy Power.
+Paladin	Holy	65	Inspired Guard	469439	talent-passive	TraitNodeEntry	false	0	Rotational	class		103864	128260	1					api	Divine Protection increases healing taken by 15% for its duration.
+Paladin	Holy	65	Laying Down Arms	432866	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	95236	117885	1					api	When an Armament fades from you, the cooldown of Lay on Hands is reduced by 15.0 sec and you gain Infusion of Light.
+Paladin	Holy	65	Lead the Charge	469780	talent-passive	TraitNodeEntry	false	0	Rotational	class		103867	128263	1					api	Divine Steed reduces the cooldown of 4 nearby ally's major movement ability by 3.0 sec.\n\nYour movement speed is increased by 3%.
+Paladin	Holy	65	Liberation	461287	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102502	126571	1					api	12% of Word of Glory and Light of Dawn's healing is converted into Holy damage that strikes a nearby enemy.
+Paladin	Holy	65	Light of the Martyr	447985	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81561	102540	1					api	While above 80% health, Holy Shock's healing is increased 20%, but creates a heal absorb on you for 30% of the amount healed that prevents Beacon of Light from healing you until it has dissipated.
+Paladin	Holy	65	Light's Conviction	414073	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93927	116376	1					api	Holy Shock now has 2 charges and it refunds 50% of its mana cost when cast on an enemy.
+Paladin	Holy	65	Light's Countenance	469325	talent-passive	TraitNodeEntry	false	0	Rotational	class		103854	128247	1					api	The cooldown of Blinding Light is reduced by 15 sec.
+Paladin	Holy	65	Light's Protection	461243	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93522	115874	1					api	Allies with Beacon of Light receive 5% less damage.
+Paladin	Holy	65	Light's Revocation	146956	talent-passive	TraitNodeEntry	false	0	Rotational	class		81608	102596	1					api	Removing harmful effects with Divine Shield heals you for 10% for each effect removed.  This heal cannot exceed 30% of your maximum health.\n\nDivine Shield may now be cast while Forbearance is active.
+Paladin	Holy	65	Lightbearer	469416	talent-passive	TraitNodeEntry	false	0	Rotational	class		103861	128257	1					api	10% of all healing done to you from other sources heals up to 4 nearby allies, divided evenly among them.
+Paladin	Holy	65	Lightforged Blessing	406468	talent-passive	TraitNodeEntry	false	0	Rotational	class		103852	128242	1			talent-passive:TraitNodeEntry		api	Shield of the Righteous heals you and up to 2 nearby allies for 35.
+Paladin	Holy	65	Lingering Radiance	431407	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95071	117779	1					api	Dawnlight leaves an Eternal Flame for 6 sec on allies or a Greater Judgment on enemies when it expires or is extended.
+Paladin	Holy	65	Luminosity	431402	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95080	117677	1					api	Critical Strike chance of Holy Shock and Light of Dawn increased by 5%.
+Paladin	Holy	65	Masterwork	1271387	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	109742	136000	1	Buff		cdm-only:CooldownSetSpell		api	After casting a Holy Armament, your next 3 abilities cast a Lesser Armament of the same kind on a nearby ally.
+Paladin	Holy	65	Moment of Compassion	387786	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81571	102553	1					api	Your Flash of Light heals for an additional 50% when cast on a target affected by your Beacon of Light.
+Paladin	Holy	65	Morning Star	431482	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95073	117670	1					api	Every 5.0 sec, your next Dawnlight's damage or healing is increased by 5%, stacking up to 10 times.\n\nMorning Star stacks twice as fast while out of combat.
+Paladin	Holy	65	Obduracy	385427	talent-passive	TraitNodeEntry	false	0	Rotational	class		81630	102622	2					api	Speed increased by 2% and damage taken from area of effect attacks reduced by 2%.
+Paladin	Holy	65	Overflowing Light	461244	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81556	102535	1					api	30% of Holy Shock's overhealing is converted into an absorb shield. The shield amount cannot exceed 10% of your max health.
+Paladin	Holy	65	Pillars of Light	1232616	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81579	102563	1					api	Beacon of Faith:\nAllies with Beacon of Light or Beacon of Faith are healed for 125 every 3 sec.\n\n Beacon of Virtue:\nBeacon of Virtue instantly heals allies for 1,484.
+Paladin	Holy	65	Protection of Tyr	200430	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81566	102546	1					api	Aura Mastery also increases all healing received by party or raid members within 40 yards by 10%.
+Paladin	Holy	65	Quickened Invocation	379391	talent-passive	TraitNodeEntry	false	0	Rotational	class		93180	115465	1					api	Divine Toll's, Holy Armament's, and Holy Prism's cooldown is reduced by 15 sec.
+Paladin	Holy	65	Reclamation	415364	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81558	102537	1					api	Holy Shock refunds up to 10% of its Mana cost and deals up to 50% more healing or damage, based on the target's missing health.
+Paladin	Holy	65	Recompense	384914	talent-passive	TraitNodeEntry	false	0	Rotational	class		81607	102594	1					api	After your Blessing of Sacrifice ends, 50% of the total damage it diverted is added to your next Judgment as bonus damage, or your next Word of Glory as bonus healing.\n\nThis effect's bonus damage cannot exceed 30% of your maximum health and its bonus healing cannot exceed 100% of your maximum health.
+Paladin	Holy	65	Reflection of Radiance	1271466	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	95238	117887	1					api	When your Holy Bulwark absorbs damage or your Sacred Weapon deals damage or healing, you have a chance to gain Awakening.
+Paladin	Holy	65	Resounding Strike	1271553	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	109744	136002	1					api	Holy Armaments activate Hammer and Anvil at 100% effectiveness.
+Paladin	Holy	65	Resplendent Light	392902	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81571	102552	1					api	Holy Light heals up to 5 targets within 12 yds for 8% of its healing.
+Paladin	Holy	65	Righteous Judgment	414113	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93523	115875	1					api	Judgment has a 100% chance to cast Consecration at the target's location.\n\nThe limit on Consecration does not apply to this effect.
+Paladin	Holy	65	Righteous Protection	469321	talent-passive	TraitNodeEntry	false	0	Rotational	class		103865	128248	1					api	Blessing of Sacrifice now removes and prevents all Poison and Disease effects.
+Paladin	Holy	65	Ringing of the Heavens	1241542	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108099	133479	1					api	Activating Aura Mastery also casts a Divine Toll at 100% effectiveness.
+Paladin	Holy	65	Rising Sunlight	1277651	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81595	102581	1					api	Your healing is increased by up to 10%, based on the average health percentage of allies with your Beacon of Light.
+Paladin	Holy	65	Sacred Strength	469337	talent-passive	TraitNodeEntry	false	0	Rotational	class		93191	115489	1					api	Holy Power spending abilities have 2% increased damage and healing.
+Paladin	Holy	65	Sacrifice of the Just	384820	talent-passive	TraitNodeEntry	false	0	Rotational	class		81607	102595	1					api	Reduces the cooldown of Blessing of Sacrifice by 60 sec.
+Paladin	Holy	65	Sanctified Plates	402964	talent-passive	TraitNodeEntry	false	0	Rotational	class		93009	115034	2					api	Armor increased by 10%, Stamina increased by 5% and damage taken from area of effect attacks reduced by 3%.
+Paladin	Holy	65	Sanctified Wrath	53376	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81592	102578	1					api	Avenging Wrath and Avenging Crusader have 25% increased duration.
+Paladin	Holy	65	Saved by the Light	157047	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81574	102557	1					api	When an ally with your Beacon of Light is damaged, they absorb the next 57 damage, increasing by up to 300% based on their current health. Lower health allies are shielded for more.
+Paladin	Holy	65	Seal of Might	385450	talent-passive	TraitNodeEntry	false	0	Rotational	class		81621	102612	2					api	Mastery increased by 2% and Intellect increased by 2%.
+Paladin	Holy	65	Second Sunrise	431474	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95086	117683	1					api	Light of Dawn and Holy Shock have a 15% chance to cast again at 30% effectiveness.
+Paladin	Holy	65	Seek Deliverance	1271016	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81594	102580	1					api	While Avenging Wrath is not active, you gain 5% Mastery.\n\nWhile Avenging Wrath is active, you gain 30% movement speed.
+Paladin	Holy	65	Selfless Healer	469434	talent-passive	TraitNodeEntry	false	0	Rotational	class		103856	128309	1					api	Flash of Light and Holy Light are 30% more effective on your allies and 40% of the healing done also heals you.
+Paladin	Holy	65	Seraphic Barrier	1241714	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81593	102579	1					api	Word of Glory and Light of Dawn now convert 15% of their healing into an absorb shield instead.
+Paladin	Holy	65	Shared Resolve	432821	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	95237	117886	1					api	The effect of your active Aura is increased by 33% on targets with your Armaments.
+Paladin	Holy	65	Shining Righteousness	414443	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81562	102541	1					api	Shield of the Righteous deals 956 damage to its first target struck.\n\nShield of the Righteous now has a 35% chance to activate Divine Purpose if talented.
+Paladin	Holy	65	Solar Grace	431404	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	109750	136008	1	Buff		cdm-only:CooldownSetSpell		api	Haste is increased by 5%.
+Paladin	Holy	65	Solidarity	432802	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	95228	117873	1					api	If you bestow an Armament upon an ally, you also gain its benefits.\n\nIf you bestow an Armament upon yourself, a nearby ally also gains its benefits.
+Paladin	Holy	65	Stand Against Evil	469317	talent-passive	TraitNodeEntry	false	0	Rotational	class		103855	128249	1					api	Turn Evil now affects 5 additional enemies.
+Paladin	Holy	65	Steed of Liberty	469304	talent-passive	TraitNodeEntry	false	0	Rotational	class		81631	102624	1					api	Divine Steed also grants Blessing of Freedom for 3.0 sec.\n\n Blessing of Freedom:\nBlesses a party or raid member, granting immunity to movement impairing effects for 8 sec.
+Paladin	Holy	65	Stoicism	469316	talent-passive	TraitNodeEntry	false	0	Rotational	class		103862	128258	1					api	The duration of stun effects on you is reduced by 20%.
+Paladin	Holy	65	Sun Sear	431413	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95072	117669	1					api	Holy Shock and Light of Dawn critical strikes cause the target to be healed for an additional 281 over 4 sec.
+Paladin	Holy	65	Sun's Avatar	431425	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95105	117702	1					api	You link to your Dawnlights within 30 yds, causing 82 Radiant damage to enemies or 141 healing to allies that pass through the beams, reduced beyond 5 targets.
+Paladin	Holy	65	Tempered in Battle	469701	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	95232	117878	1					api	When you or an ally wielding a Holy Bulwark are healed above maximum health, transfer 100% of the overhealing to your ally.\n\nWhen you or an ally wielding a Sacred Weapon drop below 40% health, redistribute your health immediately and every 1 sec for 4 sec. May only occur once per cast.
+Paladin	Holy	65	Tirion's Devotion	414720	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81573	102556	1					api	Lay on Hands' cooldown is reduced by 30% and restores 5% of your Mana.
+Paladin	Holy	65	Truth Prevails	461273	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108034	133407	1					api	Judgment heals you for 912 and its mana cost is reduced by 30%. 50% of overhealing from this effect is transferred onto 2 allies within 40 yds.
+Paladin	Holy	65	Unbound Freedom	305394	talent-passive	TraitNodeEntry	false	0	Rotational	class		93520	131438	1					api	Blessing of Freedom increases movement speed by 30%, and you gain Blessing of Freedom when cast on a friendly target.
+Paladin	Holy	65	Unbreakable Spirit	114154	talent-passive	TraitNodeEntry	false	0	Rotational	class		81615	102603	1					api	Reduces the cooldown of your Divine Shield, Divine Protection, and Lay on Hands by 30%.
+Paladin	Holy	65	Unending Light	1271221	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81575	102558	1					api	Light of Dawn receives 20% increased benefit from Mastery: Lightbringer.
+Paladin	Holy	65	Unwavering Spirit	392911	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81566	102547	1					api	The cooldown of Aura Mastery is reduced by 30 sec.
+Paladin	Holy	65	Valiance	432919	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	95229	117874	1					api	Consuming Infusion of Light reduces the cooldown of Holy Armaments by 3.0 sec.
+Paladin	Holy	65	Veneration	392938	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81581	102565	1					api	Judgment grants an absorb shield on up to 5 injured allies for 8% of the damage done, split evenly among them.\n\nFlash of Light and Holy Light critical strikes reset the cooldown of Judgment.
+Paladin	Holy	65	Vengeful Wrath	1241958	talent-passive	TraitNodeEntry	false	0	Rotational	class		103851	128241	2					api	Hammer of Wrath deals up to 50% additional damage based on its target's health. Lower health targets receive more damage.
+Paladin	Holy	65	Walk Into Light	1263782	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95094	117691	1					api	Infusion of Light occurs 100% more often during Avenging Wrath.
+Paladin	Holy	65	Will of the Dawn	431406	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95098	117777	1	Buff		cdm-only:CooldownSetSpell		api	Movement speed increased by 5% while above 80% health.\n\nWhen your health is brought below 35%, your movement speed is increased by 40% for 5 sec. Cannot occur more than once every 1 min.
+Paladin	Holy	65	Worthy Sacrifice	469279	talent-passive	TraitNodeEntry	false	0	Rotational	class		103865	128261	1					api	You automatically cast Blessing of Sacrifice onto an ally within 40 yds when they are below 35% health and you are not in a loss of control effect.\n\nThis effect activates 100% of Blessing of Sacrifice's cooldown.
+Paladin	Holy	65	Wrench Evil	460720	talent-passive	TraitNodeEntry	false	0	Rotational	class		103855	128250	1					api	Turn Evil's cast time is reduced by 100%.
+Paladin	Holy	65	Holy Bulwark	432459	cdm-only	CooldownSetSpell	true	0	Rotational						Essential	Rotational 8			api	Will the Light to coalesce and become manifest as a Holy Armament, wielded by your friendly target.\n\n Holy Bulwark:\n\nWhile wielding a Holy Bulwark, gain an absorb shield for 15.0% of your max health and an additional 2.0% every 2 sec. Lasts 20 sec.\n\nBecomes Sacred Weapon after use.\n\nGenerates 3 Holy Power.
+Paladin	Holy	65	Holy Paladin	137029	cdm-only	CooldownSetSpell	false	0	Rotational						Buff				api	Holy Paladin core passive

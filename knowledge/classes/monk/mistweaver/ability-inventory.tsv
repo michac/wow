@@ -1,189 +1,189 @@
-class	spec	spec_id	name	spell_id	origin	source	castable	cooldown	band	tree	hero_tree	node_id	entry_id	max_ranks	blizz_category	seed_bucket	also_from	aliases
-Monk	Mistweaver	270	Fortifying Brew	115203	talent-active	TraitNodeEntry	true	360	Cooldown	class		101173	124968	1	Buff/Utility	Personal Defensive 1	cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Invoke Xuen, the White Tiger	123904	talent-active	TraitNodeEntry	true	120	Cooldown	hero	Conduit of the Celestials	101243	125062	1				
-Monk	Mistweaver	270	Celestial Conduit	443028	talent-active	TraitNodeEntry	true	90	Cooldown	hero	Conduit of the Celestials	110067	136562	1	Essential	Cooldown 3	talent-active:TraitNodeEntry;cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Paralysis	115078	talent-active	TraitNodeEntry	true	45	Cooldown	class		101142	124932	1	Utility	CC 2	cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Tiger's Lust	116841	talent-active	TraitNodeEntry	true	30	Rotational	class		101147	124937	1	Buff/Utility	Movement Ability 2	cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Rising Sun Kick	107428	talent-active	TraitNodeEntry	true	10	Rotational	class		101186	124985	1	Essential	Rotational 3	cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Transcendence	101643	talent-active	TraitNodeEntry	true	10	Rotational	class		101167	124962	1	Utility	Class 5 (Purge)	cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Thunder Focus Tea	116680	talent-active	TraitNodeEntry	true	1	Rotational	spec		101133	124921	1	Buff/Essential	Self-Heal 1	cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Life Cocoon	116849	talent-active	TraitNodeEntry	true	0.8	Rotational	spec		101096	124875	1	Essential	Cooldown 4	cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Diffuse Magic	1243287	talent-active	TraitNodeEntry	true	0	Rotational	class		108540	134029	1		Class 7 (Raid Defensive)		
-Monk	Mistweaver	270	Enveloping Mist	124682	talent-active	TraitNodeEntry	true	0	Rotational	spec		101134	124922	1	Essential	Rotational 7	cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Mana Tea	115869	talent-active	TraitNodeEntry	true	0	Rotational	spec		101132	124920	1	Essential	Self-Heal 4 (Emergency/Overflow)	cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Sheilun's Gift	399491	talent-active	TraitNodeEntry	true	0	Rotational	spec		101120	124904	1		Rotational 5	class-baseline:SkillLineAbility:829	
-Monk	Mistweaver	270	Soothing Mist	115175	talent-active	TraitNodeEntry	true	0	Rotational	class		101143	124933	1	Essential	Rotational 8	class-baseline:SkillLineAbility:829;cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Invoke Chi-Ji, the Red Crane	325197	talent-choice	TraitNodeEntry	true	120	Cooldown	spec		101129	124914	1	Essential/Other	Cooldown 1	cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Invoke Yu'lon, the Jade Serpent	322118	talent-choice	TraitNodeEntry	true	120	Cooldown	spec		101129	124915	1	Essential/Other		cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Ring of Peace	116844	talent-choice	TraitNodeEntry	true	45	Cooldown	class		101136	124926	1	Utility	Class 2 (CC)	cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Song of Chi-Ji	198898	talent-choice	TraitNodeEntry	true	30	Rotational	class		101136	124925	1	Utility		cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Rushing Wind Kick	467307	talent-choice	TraitNodeEntry	true	10	Rotational	spec		101102	128221	1				
-Monk	Mistweaver	270	Summon Jade Serpent Statue	115313	talent-choice	TraitNodeEntry	true	10	Rotational	class		101164	133997	1		Class 8 (Lust/BRes)		
-Monk	Mistweaver	270	Restoral	388615	talent-choice	TraitNodeEntry	true	1	Rotational	spec		101131	124918	1	Essential		cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Revival	115310	talent-choice	TraitNodeEntry	true	1	Rotational	spec		101131	124919	1	Essential	Cooldown 2	cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Chi Torpedo	115008	talent-choice	TraitNodeEntry	true	0	Rotational	class		101183	124981	1				
-Monk	Mistweaver	270	Disable	116095	talent-choice	TraitNodeEntry	true	0	Rotational	class		101149	124939	1	Buff	Slow	cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Touch of Death	322109	class-baseline	SkillLineAbility:829	true	180	Cooldown						Utility	Class 4 (Special)	cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Touch of Fatality	169340	class-baseline	SkillLineAbility:829	true	90	Cooldown									
-Monk	Mistweaver	270	Leg Sweep	119381	class-baseline	SkillLineAbility:829	true	60	Cooldown						Utility	CC	cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Zen Pilgrimage	126892	class-baseline	SkillLineAbility:829	true	60	Cooldown									
-Monk	Mistweaver	270	Expel Harm	322101	class-baseline	SkillLineAbility:829	true	15	Rotational							Self-Heal 3 (Overflow)		
-Monk	Mistweaver	270	Provoke	115546	class-baseline	SkillLineAbility:829	true	8	Rotational							Taunt/Quick Access		
-Monk	Mistweaver	270	Blackout Kick	100784	class-baseline	SkillLineAbility:829	true	3	Rotational						Essential	Rotational 2	cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Roll	109132	class-baseline	SkillLineAbility:829	true	0.8	Rotational						Utility	Movement Ability	cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Chi Burst	130654	class-baseline	SkillLineAbility:829	true	0	Rotational									
-Monk	Mistweaver	270	Chi Wave	132463	class-baseline	SkillLineAbility:829	true	0	Rotational								talent-passive:TraitNodeEntry	
-Monk	Mistweaver	270	Crackling Jade Lightning	117952	class-baseline	SkillLineAbility:829	true	0	Rotational						Essential	Class 3 (Tag)	cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Detox	115450	class-baseline	SpecializationSpells	true	0	Rotational						Utility	Class 6 (Dispel)	cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Energy Usage	119650	class-baseline	SkillLineAbility:829	true	0	Rotational									
-Monk	Mistweaver	270	Fists of Fury	117418	class-baseline	SkillLineAbility:829	true	0	Rotational									
-Monk	Mistweaver	270	Flying Serpent Kick	123586	class-baseline	SkillLineAbility:829	true	0	Rotational									
-Monk	Mistweaver	270	Healing Sphere	125355	class-baseline	SkillLineAbility:829	true	0	Rotational									
-Monk	Mistweaver	270	Reawaken	212051	class-baseline	SpecializationSpells	true	0	Rotational									
-Monk	Mistweaver	270	Renewing Mist	119611	class-baseline	SkillLineAbility:829	true	0	Rotational						Essential	Rotational 6	class-baseline:SpecializationSpells;cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Resuscitate	115178	class-baseline	SkillLineAbility:829	true	0	Rotational									
-Monk	Mistweaver	270	Single-Button Assistant	1229376	class-baseline	SpecializationSpells	true	0	Rotational									
-Monk	Mistweaver	270	Spinning Crane Kick	107270	class-baseline	SkillLineAbility:829	true	0	Rotational						Essential	Rotational 4	cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Tiger Palm	100780	class-baseline	SkillLineAbility:829	true	0	Rotational						Essential	Rotational 1	cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Touch of Karma	124280	class-baseline	SkillLineAbility:829	true	0	Rotational									
-Monk	Mistweaver	270	Vivify	116670	class-baseline	SkillLineAbility:829	true	0	Rotational						Essential	Self-Heal 2	cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Zen Flight	125883	class-baseline	SkillLineAbility:829	true	0	Rotational									
-Monk	Mistweaver	270	Zen Pilgrimage/Death Gate/Moonglade Storage Aura I	126893	class-baseline	SkillLineAbility:829	true	0	Rotational									
-Monk	Mistweaver	270	Zen Pilgrimage: Return	126895	class-baseline	SkillLineAbility:829	true	0	Rotational									
-Monk	Mistweaver	270	Mighty Ox Kick	202370	pvp-talent	PvpTalent	true	30	Rotational						Utility		cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Absolute Serenity	455945	pvp-talent	PvpTalent	false	0	Rotational									
-Monk	Mistweaver	270	Counteract Magic	353502	pvp-talent	PvpTalent	false	0	Rotational									
-Monk	Mistweaver	270	Dematerialize	353361	pvp-talent	PvpTalent	false	0	Rotational									
-Monk	Mistweaver	270	Eminence	353584	pvp-talent	PvpTalent	false	0	Rotational									
-Monk	Mistweaver	270	Healing Spheres	1243418	pvp-talent	PvpTalent	false	0	Rotational									
-Monk	Mistweaver	270	Peaceweaver	353313	pvp-talent	PvpTalent	false	0	Rotational									
-Monk	Mistweaver	270	Zen Focus Tea	468430	pvp-talent	PvpTalent	false	0	Rotational									
-Monk	Mistweaver	270	Zen Spheres	1243554	pvp-talent	PvpTalent	false	0	Rotational									
-Monk	Mistweaver	270	Transcendence: Linked Spirits	434774	talent-passive	TraitNodeEntry	false	10	Rotational	class		101176	124972	1				
-Monk	Mistweaver	270	Amplified Rush	1271431	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101103	124884	1				
-Monk	Mistweaver	270	Ancient Arts	344359	talent-passive	TraitNodeEntry	false	0	Rotational	class		101184	124983	2				
-Monk	Mistweaver	270	Aspect of Harmony	450508	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101223	125033	1				
-Monk	Mistweaver	270	Balanced Stratagem	450889	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101230	125043	1				
-Monk	Mistweaver	270	Bounding Agility	450520	talent-passive	TraitNodeEntry	false	0	Rotational	class		101161	124955	1				
-Monk	Mistweaver	270	Burst of Life	399226	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101098	124877	1				
-Monk	Mistweaver	270	Calming Coalescence	388218	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101095	124874	1				
-Monk	Mistweaver	270	Calming Presence	388664	talent-passive	TraitNodeEntry	false	0	Rotational	class		101153	124944	1				
-Monk	Mistweaver	270	Celerity	115173	talent-passive	TraitNodeEntry	false	0	Rotational	class		101183	124982	1				
-Monk	Mistweaver	270	Celestial Determination	450638	talent-passive	TraitNodeEntry	false	0	Rotational	class		101180	124977	1				
-Monk	Mistweaver	270	Celestial Harmony	343655	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101128	124913	1				
-Monk	Mistweaver	270	Chi Proficiency	450426	talent-passive	TraitNodeEntry	false	0	Rotational	class		101169	124964	2				
-Monk	Mistweaver	270	Chi Transfer	1272452	talent-passive	TraitNodeEntry	false	0	Rotational	class		101177	124974	1				
-Monk	Mistweaver	270	Chi Warding	1277444	talent-passive	TraitNodeEntry	false	0	Rotational	class		110097	136598	1				
-Monk	Mistweaver	270	Chi-Ji's Swiftness	443566	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101237	125055	1				
-Monk	Mistweaver	270	Chrysalis	202424	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101098	124878	1				
-Monk	Mistweaver	270	Clarity of Purpose	451017	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101228	125040	1				
-Monk	Mistweaver	270	Coalescence	450529	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101227	125039	1				
-Monk	Mistweaver	270	Courage of the White Tiger	443087	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101242	125061	1				
-Monk	Mistweaver	270	Crane Style	446260	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101097	124876	1				
-Monk	Mistweaver	270	Crashing Momentum	450335	talent-passive	TraitNodeEntry	false	0	Rotational	class		101149	124940	1	Buff		cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Dance of Chi-Ji	438439	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101106	124887	1	Buff		cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Dance of the Wind	432181	talent-passive	TraitNodeEntry	false	0	Rotational	class		101139	124929	1	Buff		cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Dancing Mists	388701	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101112	124893	1				
-Monk	Mistweaver	270	Deep Clarity	446345	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101122	124906	1				
-Monk	Mistweaver	270	Elusive Mists	388681	talent-passive	TraitNodeEntry	false	0	Rotational	class		101144	124934	1				
-Monk	Mistweaver	270	Emperor's Elixir	1268807	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101101	124881	1				
-Monk	Mistweaver	270	Emperor's Favor	471761	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101118	128344	1				
-Monk	Mistweaver	270	Endless Draught	450892	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101225	125036	1				
-Monk	Mistweaver	270	Energizing Brew	422031	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101130	124917	1				
-Monk	Mistweaver	270	Escape from Reality	394110	talent-passive	TraitNodeEntry	false	0	Rotational	class		101176	124973	1	Buff		cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Expeditious Fortification	388813	talent-passive	TraitNodeEntry	false	0	Rotational	class		101174	124969	1				
-Monk	Mistweaver	270	Fast Feet	388809	talent-passive	TraitNodeEntry	false	0	Rotational	class		101185	124984	1				
-Monk	Mistweaver	270	Fatal Touch	394123	talent-passive	TraitNodeEntry	false	0	Rotational	class		101178	124975	1				
-Monk	Mistweaver	270	Ferocity of Xuen	388674	talent-passive	TraitNodeEntry	false	0	Rotational	class		101166	124961	2				
-Monk	Mistweaver	270	Flow of Chi	450569	talent-passive	TraitNodeEntry	false	0	Rotational	class		101170	124965	1				
-Monk	Mistweaver	270	Flowing Wisdom	1262672	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	109700	135958	1				
-Monk	Mistweaver	270	Focused Thunder	197895	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101115	124897	1				
-Monk	Mistweaver	270	Gift of the Celestials	388212	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101113	124894	1				
-Monk	Mistweaver	270	Grace of the Crane	388811	talent-passive	TraitNodeEntry	false	0	Rotational	class		101146	124936	1				
-Monk	Mistweaver	270	Harmonic Gambit	450870	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101224	125034	1				
-Monk	Mistweaver	270	Harmonic Surge	1270958	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	109694	135952	1	Buff		cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Hasty Provocation	328670	talent-passive	TraitNodeEntry	false	0	Rotational	class		101158	124950	1				
-Monk	Mistweaver	270	Healing Elixir	122280	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101109	124890	1	Buff		cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Healing Winds	450560	talent-passive	TraitNodeEntry	false	0	Rotational	class		101171	124966	1				
-Monk	Mistweaver	270	Heart of the Jade Serpent	443294	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	109701	135959	1	Other		cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Improved Detox	388874	talent-passive	TraitNodeEntry	false	0	Rotational	class		101089	124866	1				
-Monk	Mistweaver	270	Improved Touch of Death	322113	talent-passive	TraitNodeEntry	false	0	Rotational	class		101140	124930	1				
-Monk	Mistweaver	270	Inner Compass	443571	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101235	125052	1				
-Monk	Mistweaver	270	Invigorating Mists	274586	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101110	124891	1				
-Monk	Mistweaver	270	Ironshell Brew	388814	talent-passive	TraitNodeEntry	false	0	Rotational	class		101174	124970	1				
-Monk	Mistweaver	270	Jade Bond	388031	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101113	124895	1				
-Monk	Mistweaver	270	Jade Empowerment	467316	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101125	124910	1				
-Monk	Mistweaver	270	Jade Infusion	1242910	talent-passive	TraitNodeEntry	false	0	Rotational	class		101164	124958	1				
-Monk	Mistweaver	270	Jade Sanctuary	443059	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101238	125056	1				
-Monk	Mistweaver	270	Jade Walk	450553	talent-passive	TraitNodeEntry	false	0	Rotational	class		101160	124954	1	Buff		cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Jadefire Teachings	467293	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101102	124882	1				
-Monk	Mistweaver	270	Legacy of Wisdom	404408	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101118	124901	1				
-Monk	Mistweaver	270	Lifecycles	197915	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101130	124916	1				
-Monk	Mistweaver	270	Lighter Than Air	449582	talent-passive	TraitNodeEntry	false	0	Rotational	class		101168	124963	1	Buff		cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Lotus Infusion	458431	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101121	124905	1				
-Monk	Mistweaver	270	Manifestation	450875	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101222	125032	1				
-Monk	Mistweaver	270	Mantra of Purity	451036	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101229	125042	1				
-Monk	Mistweaver	270	Mantra of Tenacity	451029	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101229	125041	1				
-Monk	Mistweaver	270	Martial Instincts	450427	talent-passive	TraitNodeEntry	false	0	Rotational	class		101179	124976	2				
-Monk	Mistweaver	270	Meditative Focus	1271105	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	109696	135954	1				
-Monk	Mistweaver	270	Mist Caller	1266811	talent-passive	TraitNodeEntry	false	0	Rotational	class		110019	136510	1				
-Monk	Mistweaver	270	Mist Wrap	197900	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101093	124871	1				
-Monk	Mistweaver	270	Mistline	1280297	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101123	124907	1				
-Monk	Mistweaver	270	Mists of Life	388548	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101099	124879	1				
-Monk	Mistweaver	270	Misty Coalescence	1268817	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101107	124888	1				
-Monk	Mistweaver	270	Misty Peaks	388682	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101114	124896	2				
-Monk	Mistweaver	270	Morning Breeze	1277302	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101125	124909	1				
-Monk	Mistweaver	270	Niuzao's Protection	442747	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101238	125057	1	Buff		cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Overflowing Mists	388511	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101094	124872	1				
-Monk	Mistweaver	270	Overwhelming Force	451024	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101220	125029	1				
-Monk	Mistweaver	270	Path of Resurgence	450912	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101226	125038	1				
-Monk	Mistweaver	270	Path of the Falling Star	1273154	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101234	125050	1				
-Monk	Mistweaver	270	Peace and Prosperity	450448	talent-passive	TraitNodeEntry	false	0	Rotational	class		101163	124957	1				
-Monk	Mistweaver	270	Peaceful Mending	388593	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101116	124898	1				
-Monk	Mistweaver	270	Pool of Mists	173841	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101127	125932	1				
-Monk	Mistweaver	270	Potential Energy	1271048	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	109695	135953	1				
-Monk	Mistweaver	270	Pressure Points	450432	talent-passive	TraitNodeEntry	false	0	Rotational	class		101141	124931	1				
-Monk	Mistweaver	270	Purified Spirit	450867	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101224	125035	1				
-Monk	Mistweaver	270	Quick Footed	450503	talent-passive	TraitNodeEntry	false	0	Rotational	class		101158	124951	1				
-Monk	Mistweaver	270	Rapid Diffusion	388847	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101111	124892	2				
-Monk	Mistweaver	270	Refreshment	467270	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101095	124873	1				
-Monk	Mistweaver	270	Reinvigoration	1266740	talent-passive	TraitNodeEntry	false	0	Rotational	class		110027	136520	1				
-Monk	Mistweaver	270	Resplendent Mist	388020	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101126	124911	2				
-Monk	Mistweaver	270	Restore Balance	442719	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101233	125049	1			talent-passive:TraitNodeEntry	
-Monk	Mistweaver	270	Rising Mist	274909	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101117	124899	1				
-Monk	Mistweaver	270	Roar from the Heavens	451043	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101221	125030	1				
-Monk	Mistweaver	270	Rushing Reflexes	450154	talent-passive	TraitNodeEntry	false	0	Rotational	class		101154	124946	1				
-Monk	Mistweaver	270	Save Them All	389579	talent-passive	TraitNodeEntry	false	0	Rotational	class		101157	124949	1				
-Monk	Mistweaver	270	Secret Infusion	388491	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101124	124908	2				
-Monk	Mistweaver	270	Serene Surge	1266734	talent-passive	TraitNodeEntry	false	0	Rotational	class		110026	136516	1	Buff		cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Silent Sanctuary	1266719	talent-passive	TraitNodeEntry	false	0	Rotational	class		110024	136517	1				
-Monk	Mistweaver	270	Spirit's Essence	450595	talent-passive	TraitNodeEntry	false	0	Rotational	class		101138	124928	1				
-Monk	Mistweaver	270	Spiritfont	1260511	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109516	135749	1	Other		talent-passive:TraitNodeEntry;cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Stampede of the Ancients	1262756	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101240	125059	1				
-Monk	Mistweaver	270	Stillstep Coil	1266733	talent-passive	TraitNodeEntry	false	0	Rotational	class		110025	136518	1				
-Monk	Mistweaver	270	Strength of the Black Ox	443110	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	110211	136747	1	Buff		cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Swift Art	450622	talent-passive	TraitNodeEntry	false	0	Rotational	class		101155	124947	1				
-Monk	Mistweaver	270	Tear of Morning	387991	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101117	124900	1				
-Monk	Mistweaver	270	Temple Training	442743	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101236	125054	1				
-Monk	Mistweaver	270	Tiger Tail Sweep	264348	talent-passive	TraitNodeEntry	false	0	Rotational	class		101182	124980	1				
-Monk	Mistweaver	270	Tiger's Vigor	451041	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101221	125031	1				
-Monk	Mistweaver	270	Tranquil Tea	1270621	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101119	124902	1				
-Monk	Mistweaver	270	Unity Within	443589	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101239	125058	1				
-Monk	Mistweaver	270	Uplifted Spirits	388551	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101092	124869	1				
-Monk	Mistweaver	270	Veil of Pride	400053	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101119	124903	1				
-Monk	Mistweaver	270	Vital Clarity	1266748	talent-passive	TraitNodeEntry	false	0	Rotational	class		110021	136512	1				
-Monk	Mistweaver	270	Vivacious Vivification	388812	talent-passive	TraitNodeEntry	false	0	Rotational	class		110026	136519	1	Buff		cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Way of a Thousand Strikes	450965	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101226	125037	1				
-Monk	Mistweaver	270	Way of the Crane	388779	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101104	134001	1				
-Monk	Mistweaver	270	Way of the Serpent	1243155	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101104	124885	1				
-Monk	Mistweaver	270	Wind's Reach	450514	talent-passive	TraitNodeEntry	false	0	Rotational	class		101148	124938	1				
-Monk	Mistweaver	270	Windwalking	157411	talent-passive	TraitNodeEntry	false	0	Rotational	class		101175	124971	1				
-Monk	Mistweaver	270	Xuen's Bond	392986	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	110221	136744	1				
-Monk	Mistweaver	270	Xuen's Guidance	442687	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101236	125053	1				
-Monk	Mistweaver	270	Yu'lon's Avatar	1262667	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	110218	136754	1				
-Monk	Mistweaver	270	Yu'lon's Grace	414131	talent-passive	TraitNodeEntry	false	0	Rotational	class		101165	124960	1				
-Monk	Mistweaver	270	Yu'lon's Knowledge	443625	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101233	125048	1				
-Monk	Mistweaver	270	Yu'lon's Whisper	388038	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101100	124880	1				
-Monk	Mistweaver	270	Zen Pulse	446326	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101108	124889	1	Buff		cdm-only:CooldownSetSpell	
-Monk	Mistweaver	270	Transcendence: Transfer	119996	cdm-only	CooldownSetSpell	true	45	Cooldown						Utility	Class 1 (Movement)		
-Monk	Mistweaver	270	Teachings of the Monastery	116645	cdm-only	CooldownSetSpell	false	0	Rotational						Buff			
+class	spec	spec_id	name	spell_id	origin	source	castable	cooldown	band	tree	hero_tree	node_id	entry_id	max_ranks	blizz_category	seed_bucket	also_from	aliases	description_source	description
+Monk	Mistweaver	270	Fortifying Brew	115203	talent-active	TraitNodeEntry	true	360	Cooldown	class		101173	124968	1	Buff/Utility	Personal Defensive 1	cdm-only:CooldownSetSpell		api	Turns your skin to stone for 15 sec.
+Monk	Mistweaver	270	Invoke Xuen, the White Tiger	123904	talent-active	TraitNodeEntry	true	120	Cooldown	hero	Conduit of the Celestials	101243	125062	1					api	Summons an effigy of Xuen, the White Tiger for 20 sec. Xuen attacks your primary target, and strikes 3 enemies within 10 yards every 0.9 sec with Tiger Lightning for 8 Nature damage.
+Monk	Mistweaver	270	Celestial Conduit	443028	talent-active	TraitNodeEntry	true	90	Cooldown	hero	Conduit of the Celestials	110067	136562	1	Essential	Cooldown 3	talent-active:TraitNodeEntry;cdm-only:CooldownSetSpell		api	The August Celestials empower you, causing you to radiate 387 Nature damage onto enemies and 20,555 healing onto up to 5 injured allies within 15 yds over 3.6 sec, reduced beyond 5 targets.\n\nYou may move while channeling, but casting other healing or damaging spells cancels this effect.
+Monk	Mistweaver	270	Paralysis	115078	talent-active	TraitNodeEntry	true	45	Cooldown	class		101142	124932	1	Utility	CC 2	cdm-only:CooldownSetSpell		api	Incapacitates the target for 1 min. Limit 1. Damage may cancel the effect.
+Monk	Mistweaver	270	Tiger's Lust	116841	talent-active	TraitNodeEntry	true	30	Rotational	class		101147	124937	1	Buff/Utility	Movement Ability 2	cdm-only:CooldownSetSpell		api	Increases a friendly target's movement speed by 70% for 6 sec and removes all roots and snares.
+Monk	Mistweaver	270	Rising Sun Kick	107428	talent-active	TraitNodeEntry	true	10	Rotational	class		101186	124985	1	Essential	Rotational 3	cdm-only:CooldownSetSpell		api	Kick upwards, dealing 49 Physical damage.
+Monk	Mistweaver	270	Transcendence	101643	talent-active	TraitNodeEntry	true	10	Rotational	class		101167	124962	1	Utility	Class 5 (Purge)	cdm-only:CooldownSetSpell		api	Split your body and spirit, leaving your spirit behind for 15 min. Use Transcendence: Transfer to swap locations with your spirit.
+Monk	Mistweaver	270	Thunder Focus Tea	116680	talent-active	TraitNodeEntry	true	1	Rotational	spec		101133	124921	1	Buff/Essential	Self-Heal 1	cdm-only:CooldownSetSpell		api	Receive a jolt of energy, empowering your next spell cast:\n\nEnveloping Mist: Immediately heals for 2,784 and is instant cast.\nRenewing Mist: Duration increased by 10 sec.\nRising Sun Kick: Cooldown reduced by 9 sec.
+Monk	Mistweaver	270	Life Cocoon	116849	talent-active	TraitNodeEntry	true	0.8	Rotational	spec		101096	124875	1	Essential	Cooldown 4	cdm-only:CooldownSetSpell		api	Encases the target in a cocoon of Chi energy for 12 sec, absorbing 14,664 damage and increasing all healing over time received by 50%.
+Monk	Mistweaver	270	Diffuse Magic	1243287	talent-active	TraitNodeEntry	true	0	Rotational	class		108540	134029	1		Class 7 (Raid Defensive)			api	Activating Fortifying Brew transfers all currently active harmful magical effects on you back to their original caster if possible.
+Monk	Mistweaver	270	Enveloping Mist	124682	talent-active	TraitNodeEntry	true	0	Rotational	spec		101134	124922	1	Essential	Rotational 7	cdm-only:CooldownSetSpell		api	Wraps the target in healing mists, healing for 3,189 over 6 sec, and increasing healing received from your other spells by 10%.
+Monk	Mistweaver	270	Mana Tea	115869	talent-active	TraitNodeEntry	true	0	Rotational	spec		101132	124920	1	Essential	Self-Heal 4 (Emergency/Overflow)	cdm-only:CooldownSetSpell		api	For every 3,000 Mana you spend, you gain 1 stack of Mana Tea, with a chance equal to your critical strike chance to generate 1 extra stack.\n\nMana Tea:\nConsumes 1 stack of Mana Tea per 0.4 sec to restore 648 Mana.\n\nCan be cast while moving, but movement speed is reduced by 40% while channeling.
+Monk	Mistweaver	270	Sheilun's Gift	399491	talent-active	TraitNodeEntry	true	0	Rotational	spec		101120	124904	1		Rotational 5	class-baseline:SkillLineAbility:829		api	Draws in all nearby clouds of mist, healing the friendly target and up to 2 nearby allies for 1,584 and an additional 79 per cloud absorbed.\n\nA cloud of mist is generated every 8 sec while in combat.
+Monk	Mistweaver	270	Soothing Mist	115175	talent-active	TraitNodeEntry	true	0	Rotational	class		101143	124933	1	Essential	Rotational 8	class-baseline:SkillLineAbility:829;cdm-only:CooldownSetSpell		api	Heals the target for 6,386 over 7.1 sec. While channeling, Enveloping Mist and Vivify may be cast instantly on the target.
+Monk	Mistweaver	270	Invoke Chi-Ji, the Red Crane	325197	talent-choice	TraitNodeEntry	true	120	Cooldown	spec		101129	124914	1	Essential/Other	Cooldown 1	cdm-only:CooldownSetSpell		api	Summon an effigy of Chi-Ji for 25 sec that kicks up 3 Gust of Mists when you Blackout Kick, Rising Sun Kick, or Spinning Crane Kick, healing up to 2 allies for 0.\n\nChi-Ji's presence makes you immune to movement impairing effects, makes Enveloping Mist instant cast, and reduces the mana cost of Enveloping Mist by 20%.
+Monk	Mistweaver	270	Invoke Yu'lon, the Jade Serpent	322118	talent-choice	TraitNodeEntry	true	120	Cooldown	spec		101129	124915	1	Essential/Other		cdm-only:CooldownSetSpell		api	Summons an effigy of Yu'lon, the Jade Serpent for 25 sec. Yu'lon will heal injured allies with Soothing Breath, healing the target and up to 2 allies for 797 over 4.0 sec. \n\nEnveloping Mist costs 50% less mana while Yu'lon is active.
+Monk	Mistweaver	270	Ring of Peace	116844	talent-choice	TraitNodeEntry	true	45	Cooldown	class		101136	124926	1	Utility	Class 2 (CC)	cdm-only:CooldownSetSpell		api	Form a Ring of Peace at the target location for 5 sec. Enemies that enter will be ejected from the Ring.
+Monk	Mistweaver	270	Song of Chi-Ji	198898	talent-choice	TraitNodeEntry	true	30	Rotational	class		101136	124925	1	Utility		cdm-only:CooldownSetSpell		api	Conjures a cloud of hypnotic mist that slowly travels forward. Enemies touched by the mist fall asleep, Disoriented for 20 sec.
+Monk	Mistweaver	270	Rushing Wind Kick	467307	talent-choice	TraitNodeEntry	true	10	Rotational	spec		101102	128221	1					api	Kick up a powerful gust of wind, dealing 62 Nature damage in a 25 yd cone to enemies in front of you, split evenly among them. Damage is increased by 6% for each target hit, up to 30%.
+Monk	Mistweaver	270	Summon Jade Serpent Statue	115313	talent-choice	TraitNodeEntry	true	10	Rotational	class		101164	133997	1		Class 8 (Lust/BRes)			api	Summons a Jade Serpent Statue at the target location. When you channel Soothing Mist, the statue will also begin to channel Soothing Mist on your target, healing for 2,128 over 7.1 sec.
+Monk	Mistweaver	270	Restoral	388615	talent-choice	TraitNodeEntry	true	1	Rotational	spec		101131	124918	1	Essential		cdm-only:CooldownSetSpell		api	Heals all party and raid members within 40 yds for 22,203 and clears them of all harmful Poison and Disease effects. \n\nCastable while stunned.\n\nHealing reduced beyond 5 targets.
+Monk	Mistweaver	270	Revival	115310	talent-choice	TraitNodeEntry	true	1	Rotational	spec		101131	124919	1	Essential	Cooldown 2	cdm-only:CooldownSetSpell		api	Heals all party and raid members within 40 yds for 22,452 and clears them of 3 harmful Magic, all Poison, and all Disease effects.\n\nHealing reduced beyond 5 targets.
+Monk	Mistweaver	270	Chi Torpedo	115008	talent-choice	TraitNodeEntry	true	0	Rotational	class		101183	124981	1					api	Torpedoes you forward a long distance and increases your movement speed by 30% for 10 sec, stacking up to 2 times.
+Monk	Mistweaver	270	Disable	116095	talent-choice	TraitNodeEntry	true	0	Rotational	class		101149	124939	1	Buff	Slow	cdm-only:CooldownSetSpell		api	Reduces the target's movement speed by 50% for 15 sec, duration refreshed by your melee attacks.
+Monk	Mistweaver	270	Touch of Death	322109	class-baseline	SkillLineAbility:829	true	180	Cooldown						Utility	Class 4 (Special)	cdm-only:CooldownSetSpell		api	You exploit the enemy target's weakest point, instantly dealing damage equal to 100% of your maximum health to them.\n\nOnly usable on creatures that have less health than you.
+Monk	Mistweaver	270	Touch of Fatality	169340	class-baseline	SkillLineAbility:829	true	90	Cooldown										api	Instantly kills any creature under level 50, or player under 20% health.
+Monk	Mistweaver	270	Leg Sweep	119381	class-baseline	SkillLineAbility:829	true	60	Cooldown						Utility	CC	cdm-only:CooldownSetSpell		api	Knocks down all enemies within 6 yards, stunning them for 3 sec.
+Monk	Mistweaver	270	Zen Pilgrimage	126892	class-baseline	SkillLineAbility:829	true	60	Cooldown										api	Your spirit travels to your home temple, leaving your body behind. \n\nUse Zen Pilgrimage again to return back to near your departure point.
+Monk	Mistweaver	270	Expel Harm	322101	class-baseline	SkillLineAbility:829	true	15	Rotational							Self-Heal 3 (Overflow)			api	Expel negative chi from your body, healing for 467 and dealing 10% of the amount healed as Nature damage to an enemy within 20 yards.
+Monk	Mistweaver	270	Provoke	115546	class-baseline	SkillLineAbility:829	true	8	Rotational							Taunt/Quick Access			api	Taunts the target to attack you, and increases the threat you generate against them by 800% for 6 sec.
+Monk	Mistweaver	270	Blackout Kick	100784	class-baseline	SkillLineAbility:829	true	3	Rotational						Essential	Rotational 2	cdm-only:CooldownSetSpell		api	Kick with a blast of Chi energy, dealing 30 Physical damage.
+Monk	Mistweaver	270	Roll	109132	class-baseline	SkillLineAbility:829	true	0.8	Rotational						Utility	Movement Ability	cdm-only:CooldownSetSpell		api	Roll a short distance.
+Monk	Mistweaver	270	Chi Burst	130654	class-baseline	SkillLineAbility:829	true	0	Rotational										api	Hurls a torrent of Chi energy up to 40 yds forward, dealing 98 Nature damage to all enemies, and 77 healing to the Monk and all allies in its path. Healing and damage reduced beyond 5 targets.\n\n\nCasting Chi Burst does not prevent avoiding attacks.
+Monk	Mistweaver	270	Chi Wave	132463	class-baseline	SkillLineAbility:829	true	0	Rotational								talent-passive:TraitNodeEntry		api	Every 15 sec, your next Rising Sun Kick or Vivify releases a wave of Chi energy that flows through friends and foes, dealing 6 Nature damage or 20 healing. Bounces up to 7 times to targets within 25 yards.
+Monk	Mistweaver	270	Crackling Jade Lightning	117952	class-baseline	SkillLineAbility:829	true	0	Rotational						Essential	Class 3 (Tag)	cdm-only:CooldownSetSpell		api	Channel Jade lightning, causing 9 Nature damage over 3.6 sec to the target and sometimes knocking back melee attackers.
+Monk	Mistweaver	270	Detox	115450	class-baseline	SpecializationSpells	true	0	Rotational						Utility	Class 6 (Dispel)	cdm-only:CooldownSetSpell		api	Removes all Magic effects from the target.
+Monk	Mistweaver	270	Energy Usage	119650	class-baseline	SkillLineAbility:829	true	0	Rotational										none	
+Monk	Mistweaver	270	Fists of Fury	117418	class-baseline	SkillLineAbility:829	true	0	Rotational										api	Pummels all targets in front of you, dealing 456 Physical damage to your primary target and 274 damage to all other enemies over 3.6 sec. Deals reduced damage beyond 5 targets. Can be channeled while moving.
+Monk	Mistweaver	270	Flying Serpent Kick	123586	class-baseline	SkillLineAbility:829	true	0	Rotational										api	Soar forward through the air at high speed for 1.5 sec.\n \nIf used again while active, you will land, reducing the movement speed of enemies within 8 yds by 70% for 4 sec.
+Monk	Mistweaver	270	Healing Sphere	125355	class-baseline	SkillLineAbility:829	true	0	Rotational										api	When you kill an enemy, you summon a Healing Sphere, healing you for 69 when you walk through it.
+Monk	Mistweaver	270	Reawaken	212051	class-baseline	SpecializationSpells	true	0	Rotational										api	Returns all dead party members to life with 35% of maximum health and mana. Cannot be cast when in combat.
+Monk	Mistweaver	270	Renewing Mist	119611	class-baseline	SkillLineAbility:829	true	0	Rotational						Essential	Rotational 6	class-baseline:SpecializationSpells;cdm-only:CooldownSetSpell		api	Surrounds the target with healing mists, restoring 837 health over 20 sec.\n\nIf Renewing Mist heals a target past maximum health, it will travel to another injured ally within 20 yds.
+Monk	Mistweaver	270	Resuscitate	115178	class-baseline	SkillLineAbility:829	true	0	Rotational										api	Returns the spirit to the body, restoring a dead target to life with 35% of maximum health and mana. Cannot be cast when in combat.
+Monk	Mistweaver	270	Single-Button Assistant	1229376	class-baseline	SpecializationSpells	true	0	Rotational										api	Casts damaging abilities for use in combat, rotating through them based on priority.\n\nThe global cooldown of abilities used through the Single-Button Assistant is 25% longer.
+Monk	Mistweaver	270	Spinning Crane Kick	107270	class-baseline	SkillLineAbility:829	true	0	Rotational						Essential	Rotational 4	cdm-only:CooldownSetSpell		api	Spin while kicking in the air, dealing 14 Physical damage over 1.3 sec to all enemies within 8 yds. Deals reduced damage beyond 5 targets.
+Monk	Mistweaver	270	Tiger Palm	100780	class-baseline	SkillLineAbility:829	true	0	Rotational						Essential	Rotational 1	cdm-only:CooldownSetSpell		api	Strike with the palm of your hand, dealing 31 Physical damage.
+Monk	Mistweaver	270	Touch of Karma	124280	class-baseline	SkillLineAbility:829	true	0	Rotational										api	Absorbs all damage taken for 10 sec, up to 50% of your maximum health, and redirects 70% of that amount to the enemy target as Nature damage over 6 sec.
+Monk	Mistweaver	270	Vivify	116670	class-baseline	SkillLineAbility:829	true	0	Rotational						Essential	Self-Heal 2	cdm-only:CooldownSetSpell		api	Causes a surge of invigorating mists, healing the target for 959.
+Monk	Mistweaver	270	Zen Flight	125883	class-baseline	SkillLineAbility:829	true	0	Rotational										api	You fly through the air at a quick speed on a meditative cloud.
+Monk	Mistweaver	270	Zen Pilgrimage/Death Gate/Moonglade Storage Aura I	126893	class-baseline	SkillLineAbility:829	true	0	Rotational										none	
+Monk	Mistweaver	270	Zen Pilgrimage: Return	126895	class-baseline	SkillLineAbility:829	true	0	Rotational										api	Returns your spirit back to its body, returning you near to where you once were.\n\nLeaving Peak of Serenity will cancel Zen Pilgrimage: Return.
+Monk	Mistweaver	270	Mighty Ox Kick	202370	pvp-talent	PvpTalent	true	30	Rotational						Utility		cdm-only:CooldownSetSpell		api	You perform a Mighty Ox Kick, hurling your enemy a distance behind you.
+Monk	Mistweaver	270	Absolute Serenity	455945	pvp-talent	PvpTalent	false	0	Rotational										api	Celestial Conduit now prevents all crowd control for its duration.
+Monk	Mistweaver	270	Counteract Magic	353502	pvp-talent	PvpTalent	false	0	Rotational										api	Removing hostile magic effects from a target increases the healing they receive from you by 10% for 10 sec, stacking up to 3 times.
+Monk	Mistweaver	270	Dematerialize	353361	pvp-talent	PvpTalent	false	0	Rotational										api	Demateralize into mist while stunned, reducing damage taken by 30%. Each second you remain stunned reduces this bonus by 10%.
+Monk	Mistweaver	270	Eminence	353584	pvp-talent	PvpTalent	false	0	Rotational										api	Transcendence: Transfer can now be cast if you are stunned. Cooldown reduced by 15 sec if you are not.
+Monk	Mistweaver	270	Healing Spheres	1243418	pvp-talent	PvpTalent	false	0	Rotational										api	Your healing has a chance to coalesces a Healing Sphere out of the mists at your target's location after 1.5 sec. If allies walk through it, they consume the sphere, healing themselves for 1,667 and dispelling all harmful periodic magic effects.\n\nMaximum of 3 Healing Spheres can be active by the Monk at any given time.
+Monk	Mistweaver	270	Peaceweaver	353313	pvp-talent	PvpTalent	false	0	Rotational										api	Revival's cooldown is reduced by 16%, and provides immunity to magical damage and harmful effects for 2 sec.
+Monk	Mistweaver	270	Zen Focus Tea	468430	pvp-talent	PvpTalent	false	0	Rotational										api	Thunder Focus Tea provides immunity to Silence and Interrupt effects for 5 sec.
+Monk	Mistweaver	270	Zen Spheres	1243554	pvp-talent	PvpTalent	false	0	Rotational										api	Soothing Mist, Crackling Jade Lightning, and Rising Sun Kick form a sphere of Hope or Despair above their targets. Only one of each sphere can be active at a time.\n\n Sphere of Hope: Increases your healing done to the target by 10%.\n Sphere of Despair: Target deals 3% less damage and takes 10% increased damage from all sources.
+Monk	Mistweaver	270	Transcendence: Linked Spirits	434774	talent-passive	TraitNodeEntry	false	10	Rotational	class		101176	124972	1					api	Transcendence now tethers your spirit onto an ally for 1 hour. Use Transcendence: Transfer to teleport to your ally's location.
+Monk	Mistweaver	270	Amplified Rush	1271431	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101103	124884	1					api	The healing of Gusts of Mist caused by Renewing Mist is increased by 100%.
+Monk	Mistweaver	270	Ancient Arts	344359	talent-passive	TraitNodeEntry	false	0	Rotational	class		101184	124983	2					api	Reduces the cooldown of Paralysis by 15 sec and the cooldown of Leg Sweep by 10 sec.
+Monk	Mistweaver	270	Aspect of Harmony	450508	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101223	125033	1					api	Store vitality from 10% of your damage dealt and 30% of your healing.\n\nFor 10 sec after casting Thunder Focus Tea your spells and abilities draw upon the stored vitality to deal 40% additional healing over 8 sec.
+Monk	Mistweaver	270	Balanced Stratagem	450889	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101230	125043	1					api	Casting a Physical spell or ability increases the damage and healing of your next Fire or Nature spell or ability by 3%, and vice versa. Stacks up to 5.
+Monk	Mistweaver	270	Bounding Agility	450520	talent-passive	TraitNodeEntry	false	0	Rotational	class		101161	124955	1					api	Roll and Chi Torpedo travel a small distance further.
+Monk	Mistweaver	270	Burst of Life	399226	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101098	124877	1					api	When Life Cocoon expires, it releases a burst of mist that restores 3,062 health to 3 nearby allies.
+Monk	Mistweaver	270	Calming Coalescence	388218	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101095	124874	1					api	The absorb amount of Life Cocoon is increased by 80%.
+Monk	Mistweaver	270	Calming Presence	388664	talent-passive	TraitNodeEntry	false	0	Rotational	class		101153	124944	1					api	Reduces all damage taken by 3%.
+Monk	Mistweaver	270	Celerity	115173	talent-passive	TraitNodeEntry	false	0	Rotational	class		101183	124982	1					api	Reduces the cooldown of Roll by 5 sec and increases its maximum number of charges by 1.
+Monk	Mistweaver	270	Celestial Determination	450638	talent-passive	TraitNodeEntry	false	0	Rotational	class		101180	124977	1					api	While your Celestial is active, you cannot be slowed below 90% normal movement speed.
+Monk	Mistweaver	270	Celestial Harmony	343655	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101128	124913	1					api	When activated, Yu'lon and Chi-Ji apply Chi Cocoons to 5 targets within 40 yds, absorbing 7,332 damage for 10 sec.\n\nChi-Ji grants 4 stacks of Teachings of the Monastery when invoked.\n\nYu'lon reduces the cast speed of Enveloping Mist by 30%.
+Monk	Mistweaver	270	Chi Proficiency	450426	talent-passive	TraitNodeEntry	false	0	Rotational	class		101169	124964	2					api	Magical damage done increased by 5% and healing done increased by 5%.
+Monk	Mistweaver	270	Chi Transfer	1272452	talent-passive	TraitNodeEntry	false	0	Rotational	class		101177	124974	1					api	Touch of Death now heals you for 50% of its damage done.
+Monk	Mistweaver	270	Chi Warding	1277444	talent-passive	TraitNodeEntry	false	0	Rotational	class		110097	136598	1					api	You heal for 3% of all magical damage taken.
+Monk	Mistweaver	270	Chi-Ji's Swiftness	443566	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101237	125055	1					api	Your movement speed is increased by 75% during Celestial Conduit and by 15% for 3 sec after being assisted by any Celestial.
+Monk	Mistweaver	270	Chrysalis	202424	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101098	124878	1					api	Reduces the cooldown of Life Cocoon by 45 sec.
+Monk	Mistweaver	270	Clarity of Purpose	451017	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101228	125040	1					api	Casting Enveloping Mist stores 1,140 additional vitality.
+Monk	Mistweaver	270	Coalescence	450529	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101227	125039	1					api	When Aspect of Harmony heals, it has a chance to spread to a nearby ally. When you directly heal an affected target, it has a chance to intensify, withdrawing additional vitality to increase its effect by up to 20%.\n\nVivify no longer contributes vitality. While Aspect of Harmony is not active, Vivify instead draws on available vitality to deal an additional 100% healing over 8 sec.\n\nVitality stored by other abilities is increased by 50%.
+Monk	Mistweaver	270	Courage of the White Tiger	443087	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101242	125061	1					api	Xuen claws your target for 118 Physical damage, healing a nearby ally for 100% of the damage done.\n\nInvoking a celestial guarantees your next cast activates this effect.
+Monk	Mistweaver	270	Crane Style	446260	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101097	124876	1					api	Rising Sun Kick now kicks up a Gust of Mist to heal 2 allies within 40 yds for 0. \n\nSpinning Crane Kick and Blackout Kick have a chance to kick up a Gust of Mist to heal 1 ally within 40 yds for 0.
+Monk	Mistweaver	270	Crashing Momentum	450335	talent-passive	TraitNodeEntry	false	0	Rotational	class		101149	124940	1	Buff		cdm-only:CooldownSetSpell		api	Targets you Roll through are snared by 40% for 5 sec.
+Monk	Mistweaver	270	Dance of Chi-Ji	438439	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101106	124887	1	Buff		cdm-only:CooldownSetSpell		api	Your spells and abilities have a chance to make your next Spinning Crane Kick deal an additional 400% damage.
+Monk	Mistweaver	270	Dance of the Wind	432181	talent-passive	TraitNodeEntry	false	0	Rotational	class		101139	124929	1	Buff		cdm-only:CooldownSetSpell		api	Your physical damage taken is reduced by 10% and an additional 10% every 4 sec until you receive a physical attack.
+Monk	Mistweaver	270	Dancing Mists	388701	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101112	124893	1					api	Renewing Mist has a 8% chance to immediately spread to an additional target when initially cast or when traveling to a new target.
+Monk	Mistweaver	270	Deep Clarity	446345	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101122	124906	1					api	After you fully consume Thunder Focus Tea, your next Vivify triggers Zen Pulse.
+Monk	Mistweaver	270	Elusive Mists	388681	talent-passive	TraitNodeEntry	false	0	Rotational	class		101144	124934	1					api	Reduces all damage taken by you and your target while channeling Soothing Mists by 6%.
+Monk	Mistweaver	270	Emperor's Elixir	1268807	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101101	124881	1					api	Thunder Focus Tea now empowers Enveloping Mist and Rising Sun Kick further.\n\n Enveloping Mist:\nBegins a channel of Soothing Mist onto your target.\n\n Rising Sun Kick:\nReleases a Jadefire Stomp infront of you that transfers damage into Ancient Teachings at 20% effectiveness.\n\n Jadefire Stomp:\nYou release a Jadefire Stomp, dealing 35 damage to 5 enemies in front of you.
+Monk	Mistweaver	270	Emperor's Favor	471761	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101118	128344	1					api	Sheilun's Gift's healing is increased by 20% and its cast time is reduced by 100%, but it now only heals a single ally.
+Monk	Mistweaver	270	Endless Draught	450892	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101225	125036	1					api	Thunder Focus Tea has 1 additional charge.
+Monk	Mistweaver	270	Energizing Brew	422031	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101130	124917	1					api	Mana Tea now channels 50% faster and generates 20% more Mana.
+Monk	Mistweaver	270	Escape from Reality	394110	talent-passive	TraitNodeEntry	false	0	Rotational	class		101176	124973	1	Buff		cdm-only:CooldownSetSpell		api	After you use Transcendence: Transfer, you can use Transcendence: Transfer again within 10 sec, ignoring its cooldown.
+Monk	Mistweaver	270	Expeditious Fortification	388813	talent-passive	TraitNodeEntry	false	0	Rotational	class		101174	124969	1					api	Fortifying Brew cooldown reduced by 30 sec.
+Monk	Mistweaver	270	Fast Feet	388809	talent-passive	TraitNodeEntry	false	0	Rotational	class		101185	124984	1					api	Rising Sun Kick deals 70% increased damage. Spinning Crane Kick deals 10% additional damage.
+Monk	Mistweaver	270	Fatal Touch	394123	talent-passive	TraitNodeEntry	false	0	Rotational	class		101178	124975	1					api	Touch of Death's cooldown is reduced by 90 sec.
+Monk	Mistweaver	270	Ferocity of Xuen	388674	talent-passive	TraitNodeEntry	false	0	Rotational	class		101166	124961	2					api	Increases all damage dealt by 2%.
+Monk	Mistweaver	270	Flow of Chi	450569	talent-passive	TraitNodeEntry	false	0	Rotational	class		101170	124965	1					api	You gain a bonus effect based on your current health.\n\nAbove 90% health: Movement speed increased by 5%. This bonus stacks with similar effects.\n\nBetween 90% and 35% health: Damage taken reduced by 5%.\n\nBelow 35% health: Healing received increased by 10%.
+Monk	Mistweaver	270	Flowing Wisdom	1262672	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	109700	135958	1					api	Heart of the Jade Serpent increases your haste by 10% while active.
+Monk	Mistweaver	270	Focused Thunder	197895	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101115	124897	1					api	Thunder Focus Tea now empowers your next 2 spells.
+Monk	Mistweaver	270	Gift of the Celestials	388212	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101113	124894	1					api	Reduces the cooldown of Invoke Yul'on, the Jade Serpent by 1 min, but decreases its duration to 12 sec.
+Monk	Mistweaver	270	Grace of the Crane	388811	talent-passive	TraitNodeEntry	false	0	Rotational	class		101146	124936	1					api	Increases all healing taken by 6%.
+Monk	Mistweaver	270	Harmonic Gambit	450870	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101224	125034	1					api	During Aspect of Harmony, Rising Sun Kick, Blackout Kick, and Tiger Palm also withdraw vitality to damage enemies for an additional 20% over 8 sec.
+Monk	Mistweaver	270	Harmonic Surge	1270958	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	109694	135952	1	Buff		cdm-only:CooldownSetSpell		api	Casting Thunder Focus Tea grants 2 charges of Potential Energy. Your next cast of Tiger Palm or Vivify consumes all charges of Potential Energy to cause a Harmonic Surge.\n\nHarmonic Surge:\nFor each charge of Potential Energy, deal 836 Nature damage to your target and 836 Nature damage to other nearby enemies, and heal up to 5 allies for 190. Damage reduced above 5 targets.
+Monk	Mistweaver	270	Hasty Provocation	328670	talent-passive	TraitNodeEntry	false	0	Rotational	class		101158	124950	1					api	Provoked targets move towards you at 50% increased speed.
+Monk	Mistweaver	270	Healing Elixir	122280	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101109	124890	1	Buff		cdm-only:CooldownSetSpell		api	You consume a healing elixir when you drop below 40% health or generate excess healing elixirs, instantly healing you for 15% of your maximum health.\n\nYou generate 1 healing elixir every 30 sec, stacking up to 2 times.
+Monk	Mistweaver	270	Healing Winds	450560	talent-passive	TraitNodeEntry	false	0	Rotational	class		101171	124966	1					api	Transcendence: Transfer immediately heals you for 10% of your maximum health.
+Monk	Mistweaver	270	Heart of the Jade Serpent	443294	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	109701	135959	1	Other		cdm-only:CooldownSetSpell		api	upon Yu'lon to increase the cooldown recovery rate of  by 75% for .
+Monk	Mistweaver	270	Improved Detox	388874	talent-passive	TraitNodeEntry	false	0	Rotational	class		101089	124866	1					api	Detox additionally removes all Poison and Disease effects.
+Monk	Mistweaver	270	Improved Touch of Death	322113	talent-passive	TraitNodeEntry	false	0	Rotational	class		101140	124930	1					api	Touch of Death can now be used on targets with less than 15% health remaining, dealing 35% of your maximum health in damage.
+Monk	Mistweaver	270	Inner Compass	443571	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101235	125052	1					api	You switch between alignments every 8 sec, increasing a corresponding secondary stat by 2%.\n\nCrane Stance:\nHaste\n\nTiger Stance:\nCritical Strike\n\nOx Stance:\nVersatility\n\nSerpent Stance: \nMastery
+Monk	Mistweaver	270	Invigorating Mists	274586	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101110	124891	1					api	Vivify heals all allies with your Renewing Mist active for 1,199.\n\nSheilun's Gift's healing is increased by 500% on its primary target.
+Monk	Mistweaver	270	Ironshell Brew	388814	talent-passive	TraitNodeEntry	false	0	Rotational	class		101174	124970	1					api	Increases your maximum health by an additional 10% and your damage taken is reduced by an additional 10% while Fortifying Brew is active.
+Monk	Mistweaver	270	Jade Bond	388031	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101113	124895	1					api	Chi Cocoons now apply Enveloping Mist for 4 sec when they expire or are consumed, and Chi-Ji's Gusts of Mists healing is increased by 20% and Yu'lon's Soothing Breath healing is increased by 500%.
+Monk	Mistweaver	270	Jade Empowerment	467316	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101125	124910	1					api	Crackling Jade Lightning's damage is increased by 300% and now chains to 4 additional enemies at 25% effectiveness.
+Monk	Mistweaver	270	Jade Infusion	1242910	talent-passive	TraitNodeEntry	false	0	Rotational	class		101164	124958	1					api	Thunder Focus Tea summons a Jade Serpent Statue at your location. When you channel Soothing Mist, the statue will also begin to channel Soothing Mist on your target, healing for 2,128 over 7.1 sec.
+Monk	Mistweaver	270	Jade Sanctuary	443059	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101238	125056	1					api	You heal for 10% of your maximum health instantly when you activate Celestial Conduit and receive 15% less damage for its duration. \n\nThis effect lingers for an additional 8 sec after Celestial Conduit ends.
+Monk	Mistweaver	270	Jade Walk	450553	talent-passive	TraitNodeEntry	false	0	Rotational	class		101160	124954	1	Buff		cdm-only:CooldownSetSpell		api	While out of combat, your movement speed is increased by 15%.
+Monk	Mistweaver	270	Jadefire Teachings	467293	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101102	124882	1					api	Ancient Teachings transfers an additional 270% damage to healing.\n\nYour Stamina is increased by 8%.
+Monk	Mistweaver	270	Legacy of Wisdom	404408	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101118	124901	1					api	Sheilun's Gift heals 2 additional allies and its cast time is reduced by 0.5 sec.
+Monk	Mistweaver	270	Lifecycles	197915	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101130	124916	1					api	Vivify has a 20% chance to cause your next Rising Sun Kick or Enveloping Mist to generate 1 stack of Mana Tea.\n\nEnveloping Mist and Rising Sun Kick have a 20% chance to cause your next Vivify to generate 1 stack of Mana Tea.
+Monk	Mistweaver	270	Lighter Than Air	449582	talent-passive	TraitNodeEntry	false	0	Rotational	class		101168	124963	1	Buff		cdm-only:CooldownSetSpell		api	Roll causes you to become lighter than air, allowing you to double jump to dash forward a short distance once within 5 sec, but the cooldown of Roll is increased by 2 sec.
+Monk	Mistweaver	270	Lotus Infusion	458431	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101121	124905	1					api	Allies with Renewing Mist receive 6% more healing from you and Renewing Mist's duration is increased by 2 sec.
+Monk	Mistweaver	270	Manifestation	450875	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101222	125032	1					api	Chi Burst and Chi Wave deal 50% increased damage and healing.
+Monk	Mistweaver	270	Mantra of Purity	451036	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101229	125042	1					api	When cast on yourself, your single-target healing spells heal for 10% more and restore an additional 570 health over 6 sec.
+Monk	Mistweaver	270	Mantra of Tenacity	451029	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101229	125041	1					api	Fortifying Brew grants 20% Stagger.
+Monk	Mistweaver	270	Martial Instincts	450427	talent-passive	TraitNodeEntry	false	0	Rotational	class		101179	124976	2					api	Increases your Physical damage done by 5% and Avoidance increased by 2%.
+Monk	Mistweaver	270	Meditative Focus	1271105	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	109696	135954	1					api	Blackout Combo:\nIncreases Tiger Palm damage by an additional 50% and Keg Smash reduces the cooldown on your Brews by an additional 1.0 sec.\n\n  Press the Advantage:\nNature damage dealt by your main hand auto-attacks is increased by 100% and they now reduce the cooldown on your Brews by an additional 0.25 sec.
+Monk	Mistweaver	270	Mist Caller	1266811	talent-passive	TraitNodeEntry	false	0	Rotational	class		110019	136510	1					api	Vivify and Sheilun's Gift trigger a Gust of Mist on yourself.
+Monk	Mistweaver	270	Mist Wrap	197900	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101093	124871	1					api	Increases Enveloping Mist's duration by 1 sec and its healing bonus by 10%.
+Monk	Mistweaver	270	Mistline	1280297	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101123	124907	1					api	Renewing Mist's healing is increased by 500% on your lowest health ally with its effect.
+Monk	Mistweaver	270	Mists of Life	388548	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101099	124879	1					api	Life Cocoon applies Renewing Mist and Enveloping Mist to the target.
+Monk	Mistweaver	270	Misty Coalescence	1268817	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101107	124888	1					api	Renewing Mist healing is increased by up to 300% in proportion to its coverage on yourself and your allies.
+Monk	Mistweaver	270	Misty Peaks	388682	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101114	124896	2					api	Renewing Mist's heal over time effect has a 5.0% chance to apply Enveloping Mist for 2 sec.
+Monk	Mistweaver	270	Morning Breeze	1277302	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101125	124909	1					api	Rising Sun Kick's damage is increased by your Mastery rating and Thunder Focus Tea resets its cooldown.
+Monk	Mistweaver	270	Niuzao's Protection	442747	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101238	125057	1	Buff		cdm-only:CooldownSetSpell		api	Fortifying Brew grants you an absorb shield for 25% of your maximum health.
+Monk	Mistweaver	270	Overflowing Mists	388511	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101094	124872	1					api	Your Enveloping Mists heal the target for 2,280 each time they take direct damage.
+Monk	Mistweaver	270	Overwhelming Force	451024	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101220	125029	1					api	Rising Sun Kick, Blackout Kick and Tiger Palm deal 15% additional damage to enemies in a line in front of you. Damage reduced above 5 targets.
+Monk	Mistweaver	270	Path of Resurgence	450912	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101226	125038	1					api	Chi Burst increases vitality stored by 25% for 10 sec.
+Monk	Mistweaver	270	Path of the Falling Star	1273154	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101234	125050	1					api	Celestial Conduit's healing and damage is increased by 100% when striking a single target.\n\nEach addtional target reduces this bonus by 20%.
+Monk	Mistweaver	270	Peace and Prosperity	450448	talent-passive	TraitNodeEntry	false	0	Rotational	class		101163	124957	1					api	Reduces the cooldown of Ring of Peace by 5 sec and Song of Chi-Ji's cast time is reduced by 0.5 sec.
+Monk	Mistweaver	270	Peaceful Mending	388593	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101116	124898	1					api	Allies targeted by Soothing Mist receive 40% more healing from your Enveloping Mist and Renewing Mist effects.
+Monk	Mistweaver	270	Pool of Mists	173841	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101127	125932	1					api	Renewing Mist now has 3 charges and reduces the remaining cooldown of Rising Sun Kick by 1.0 sec.\n\nRising Sun Kick now reduces the remaining cooldown of Renewing Mist by 1.0 sec.
+Monk	Mistweaver	270	Potential Energy	1271048	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	109695	135953	1					api	Casting Keg Smash grants a charge of Potential Energy.
+Monk	Mistweaver	270	Pressure Points	450432	talent-passive	TraitNodeEntry	false	0	Rotational	class		101141	124931	1					api	Paralysis now removes all Enrage effects from its target.
+Monk	Mistweaver	270	Purified Spirit	450867	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101224	125035	1					api	When Aspect of Harmony ends, any remaining vitality is expelled as healing over 8 sec, split among nearby targets.
+Monk	Mistweaver	270	Quick Footed	450503	talent-passive	TraitNodeEntry	false	0	Rotational	class		101158	124951	1					api	The duration of snare effects on you is reduced by 20%.
+Monk	Mistweaver	270	Rapid Diffusion	388847	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101111	124892	2					api	Rising Sun Kick and Enveloping Mist apply Renewing Mist for 6 seconds to an ally within 40 yds.
+Monk	Mistweaver	270	Refreshment	467270	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101095	124873	1					api	Life Cocoon grants up to 5 stacks of Mana Tea and applies 2 stacks of Healing Elixir to its target.
+Monk	Mistweaver	270	Reinvigoration	1266740	talent-passive	TraitNodeEntry	false	0	Rotational	class		110027	136520	1					api	After Detox successfully removes an effect from an ally, their movement speed is increased by 30% for 5 sec.
+Monk	Mistweaver	270	Resplendent Mist	388020	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101126	124911	2					api	Gust of Mists has a 30% chance to do 100% more healing.
+Monk	Mistweaver	270	Restore Balance	442719	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101233	125049	1			talent-passive:TraitNodeEntry		db2-template	$?c2[Healing increased by $322118s8% while Chi-Ji, the Red Crane or Yu'lon, the Jade Serpent is active.]?c3[Damage increased by $123904s4% while Xuen, the White Tiger is active.][]
+Monk	Mistweaver	270	Rising Mist	274909	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101117	124899	1					api	Rising Sun Kick extends your Renewing Mist and Enveloping Mist effects by 4 sec, up to 100% of their original duration.
+Monk	Mistweaver	270	Roar from the Heavens	451043	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101221	125030	1					api	Tiger's Lust grants 20% movement speed to up to 2 allies near its target.
+Monk	Mistweaver	270	Rushing Reflexes	450154	talent-passive	TraitNodeEntry	false	0	Rotational	class		101154	124946	1					api	Your heightened reflexes allow you to react swiftly to the presence of enemies, causing you to quickly lunge to the nearest enemy in front of you within 10 yards after you Roll.
+Monk	Mistweaver	270	Save Them All	389579	talent-passive	TraitNodeEntry	false	0	Rotational	class		101157	124949	1					api	Your healing is increased by up to 10%, based on the current health of your target. Lower health targets are healed for more.
+Monk	Mistweaver	270	Secret Infusion	388491	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101124	124908	2					api	After using Thunder Focus Tea, your next spell gives 4% of a stat. Only one stat increase may be active at once:\nEnveloping Mist: Critical strike\nRenewing Mist: Haste\nRising Sun Kick: Versatility
+Monk	Mistweaver	270	Serene Surge	1266734	talent-passive	TraitNodeEntry	false	0	Rotational	class		110026	136516	1	Buff		cdm-only:CooldownSetSpell		api	After casting Enveloping Mist, your next Vivify becomes instant cast.
+Monk	Mistweaver	270	Silent Sanctuary	1266719	talent-passive	TraitNodeEntry	false	0	Rotational	class		110024	136517	1					api	While no enemies are within 15 yds, you heal for 1,140 every 3 sec.
+Monk	Mistweaver	270	Spirit's Essence	450595	talent-passive	TraitNodeEntry	false	0	Rotational	class		101138	124928	1					api	Transcendence: Transfer snares targets within 10 yds by 70% for 4 sec when cast.
+Monk	Mistweaver	270	Spiritfont	1260511	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109516	135749	1	Other		talent-passive:TraitNodeEntry;cdm-only:CooldownSetSpell		api	Rising Sun Kick and Vivify have a chance to activate Spiritfont, causing your next Enveloping Mist's cast time to be reduced by 50% and channel Soothing Mist from you onto up to 5 allies at 20% effectiveness for 8 sec.\n\nIf Spiritfont's Soothing Mists heal a full health target, they will jump to another injured ally or split its healing into your remaining Soothing Mists.
+Monk	Mistweaver	270	Stampede of the Ancients	1262756	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101240	125059	1					api	Strength of the Black Ox's effect is 400% more effective on your primary target.
+Monk	Mistweaver	270	Stillstep Coil	1266733	talent-passive	TraitNodeEntry	false	0	Rotational	class		110025	136518	1					api	Leg Sweep applies Disable for 5.0 sec when it ends.
+Monk	Mistweaver	270	Strength of the Black Ox	443110	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	110211	136747	1	Buff		cdm-only:CooldownSetSpell		db2-template	$?c2[After Xuen assists you, your next Enveloping Mist's cast time is reduced by $443112s1% and causes Niuzao to grant an absorb shield to $443113s3 nearby allies for $443113s1.]?c3[After Xuen assists you, your next Blackout Kick refunds $s3 stacks of Teachings of the Monastery and causes Niuzao to stomp at your target's location, dealing $443127s1 damage to nearby enemies, reduced beyond $s2 targets.][]
+Monk	Mistweaver	270	Swift Art	450622	talent-passive	TraitNodeEntry	false	0	Rotational	class		101155	124947	1					api	Roll removes a snare effect once every 30 sec.
+Monk	Mistweaver	270	Tear of Morning	387991	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101117	124900	1					api	Your Invigorating Mist healing is increased by 20% and your Enveloping Mist also heals allies with Renewing Mist for 8% of its healing.\n\nThe duration of Enveloping Mist is increased by 4 sec while you have a celestial summoned.
+Monk	Mistweaver	270	Temple Training	442743	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101236	125054	1					db2-template	$?c2[The healing of Enveloping Mist, Vivify, and Sheilun's Gift is increased by $s1%.]?c3[Fists of Fury and Spinning Crane Kick deal $s2% more damage.][]
+Monk	Mistweaver	270	Tiger Tail Sweep	264348	talent-passive	TraitNodeEntry	false	0	Rotational	class		101182	124980	1					api	Increases the range of Leg Sweep by 4 yds.
+Monk	Mistweaver	270	Tiger's Vigor	451041	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101221	125031	1					api	Casting Tiger's Lust reduces the remaining cooldown on Roll by 5 sec.
+Monk	Mistweaver	270	Tranquil Tea	1270621	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101119	124902	1					api	Consuming Mana Tea generates 1 cloud of mist.
+Monk	Mistweaver	270	Unity Within	443589	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101239	125058	1					api	Celestial Conduit can be recast once during its duration to call upon all of the August Celestials to assist you at 200% effectiveness.\n\nUnity Within is automatically cast when Celestial Conduit ends if not used before expiration.
+Monk	Mistweaver	270	Uplifted Spirits	388551	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101092	124869	1					api	The cooldown of Revival is reduced by 30 sec and Revival healing increased by 15%.
+Monk	Mistweaver	270	Veil of Pride	400053	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101119	124903	1					api	Increases Sheilun's Gift cloud of mist generation to every 4 sec.
+Monk	Mistweaver	270	Vital Clarity	1266748	talent-passive	TraitNodeEntry	false	0	Rotational	class		110021	136512	1					api	Vivify and Sheilun's Gift critical strike chances are increased by 15% on yourself.
+Monk	Mistweaver	270	Vivacious Vivification	388812	talent-passive	TraitNodeEntry	false	0	Rotational	class		110026	136519	1	Buff		cdm-only:CooldownSetSpell		api	After casting Rising Sun Kick, your next Vivify becomes instant cast.\n\nThis effect also reduces the energy cost of Vivify by 75%.
+Monk	Mistweaver	270	Way of a Thousand Strikes	450965	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101226	125037	1					api	Rising Sun Kick, Blackout Kick and Tiger Palm contribute 30% additional vitality.
+Monk	Mistweaver	270	Way of the Crane	388779	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101104	134001	1					api	Tiger Palms strike twice, Blackout Kicks strike an additional 2 targets at 20% effectiveness, and Spinning Crane Kick heals 1 nearby allies for 340% of the damage done.
+Monk	Mistweaver	270	Way of the Serpent	1243155	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101104	124885	1					api	Vivify healing increased by 15% and Renewing Mist's healing is increased by 30%.
+Monk	Mistweaver	270	Wind's Reach	450514	talent-passive	TraitNodeEntry	false	0	Rotational	class		101148	124938	1					api	The range of Disable is increased by 5 yds.\n \nThe duration of Crashing Momentum is increased by 3 sec and its snare now reduces movement speed by an additional 20%.
+Monk	Mistweaver	270	Windwalking	157411	talent-passive	TraitNodeEntry	false	0	Rotational	class		101175	124971	1					api	You and your allies within 10 yards have 10% increased movement speed. Stacks with other similar effects.
+Monk	Mistweaver	270	Xuen's Bond	392986	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	110221	136744	1					api	Invoke Xuen, the White Tiger's damage is increased by 30% and its cooldown is reduced by 30 sec.
+Monk	Mistweaver	270	Xuen's Guidance	442687	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101236	125053	1					api	Teachings of the Monastery has a 15% chance to refund a charge when consumed. \n\nThe damage of Tiger Palm is increased by 10%.
+Monk	Mistweaver	270	Yu'lon's Avatar	1262667	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	110218	136754	1					api	Vivify and Sheilun's Gift have a chance to trigger Heart of the Jade Serpent for 4 sec at 100% effectiveness.
+Monk	Mistweaver	270	Yu'lon's Grace	414131	talent-passive	TraitNodeEntry	false	0	Rotational	class		101165	124960	1					api	Find resilience in the flow of chi in battle, gaining a magic absorb shield for 1.0% of your max health every 3 sec in combat, stacking up to 10%.
+Monk	Mistweaver	270	Yu'lon's Knowledge	443625	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101233	125048	1					api	Rising Sun Kick damage increased by 15%.
+Monk	Mistweaver	270	Yu'lon's Whisper	388038	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101100	124880	1					api	While channeling Mana Tea you exhale the breath of Yu'lon, healing up to 5 allies within 15 yards for 347 every 0.4 sec.
+Monk	Mistweaver	270	Zen Pulse	446326	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101108	124889	1	Buff		cdm-only:CooldownSetSpell		api	Renewing Mist's heal over time has a chance to cause your next Vivify to also trigger a Zen Pulse on its target and all allies with Renewing Mist, healing them for 610 increased by 6% per Renewing Mist active, up to 30%.
+Monk	Mistweaver	270	Transcendence: Transfer	119996	cdm-only	CooldownSetSpell	true	45	Cooldown						Utility	Class 1 (Movement)			db2-plain	Your body and spirit swap locations.
+Monk	Mistweaver	270	Teachings of the Monastery	116645	cdm-only	CooldownSetSpell	false	0	Rotational						Buff				api	Tiger Palm causes your next Blackout Kick to strike an additional time dealing 29 Physical damage, stacking up to 4.\n\nBlackout Kick has a 12% chance to reset the remaining cooldown on Rising Sun Kick.

@@ -1,166 +1,166 @@
-class	spec	spec_id	name	spell_id	origin	source	castable	cooldown	band	tree	hero_tree	node_id	entry_id	max_ranks	blizz_category	seed_bucket	also_from	aliases
-Warrior	Protection	73	Rallying Cry	97462	talent-active	TraitNodeEntry	true	180	Cooldown	class		90331	112188	1	Buff/Utility	Class 7 (Raid Defensive)	cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Avatar	107574	talent-active	TraitNodeEntry	true	90	Cooldown	spec		90433	112305	1	Buff/Essential	Cooldown 1	cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Champion's Spear	376079	talent-active	TraitNodeEntry	true	90	Cooldown	class		90380	112247	1	Essential		cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Disrupting Shout	386071	talent-active	TraitNodeEntry	true	90	Cooldown	spec		107579	132886	1	Buff		cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Demolish	436358	talent-active	TraitNodeEntry	true	45	Cooldown	hero	Colossus	94818	117415	1	Essential		cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Demoralizing Shout	1160	talent-active	TraitNodeEntry	true	45	Cooldown	spec		90305	112159	1	Buff/Essential		cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Shield Charge	385952	talent-active	TraitNodeEntry	true	45	Cooldown	spec		90317	112173	1	Buff/Essential		cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Shockwave	46968	talent-active	TraitNodeEntry	true	40	Rotational	class		90375	112242	1	Buff/Utility	CC 2	cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Storm Bolt	107570	talent-active	TraitNodeEntry	true	30	Rotational	class		90337	112198	1	Buff/Utility	CC	cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Impending Victory	202168	talent-active	TraitNodeEntry	true	25	Rotational	class		90326	112183	1		Self-Heal 1		
-Warrior	Protection	73	Shield Wall	871	talent-active	TraitNodeEntry	true	8	Rotational	spec		90302	112156	1	Essential/Other	Personal Defensive 1	cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Rend	772	talent-active	TraitNodeEntry	true	6	Rotational	class		109391	135597	1	Buff/Essential		cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Thunder Clap	6343	talent-active	TraitNodeEntry	true	6	Rotational	class		90343	112205	1	Buff/Essential	Rotational 2	cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Battle Stance	386164	talent-active	TraitNodeEntry	true	3	Rotational	class		90261	112112	1	Buff	Stance 2	cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Defensive Stance	386208	talent-active	TraitNodeEntry	true	3	Rotational	class		90330	112187	1	Buff	Stance 1	cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Heroic Leap	6544	talent-active	TraitNodeEntry	true	1.5	Rotational	class		90346	112208	1	Utility	Movement Ability	class-baseline:SkillLineAbility:840;cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Intervene	3411	talent-active	TraitNodeEntry	true	1.5	Rotational	class		90329	112186	1	Utility	Class 5 (Purge)	cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Ignore Pain	190456	talent-active	TraitNodeEntry	true	1	Rotational	spec		90295	112149	1	Essential/Other	Rotational 6	cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Spell Reflection	23920	talent-active	TraitNodeEntry	true	1	Rotational	class		90385	112253	1	Buff/Essential	Self-Heal 4 (Emergency/Overflow)	cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Last Stand	1243659	talent-active	TraitNodeEntry	true	0	Rotational	spec		107576	132879	1	Buff	Personal Defensive 2	cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Revenge	6572	talent-active	TraitNodeEntry	true	0	Rotational	spec		90298	112152	1	Essential	Rotational 3	cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Shattering Throw	64382	talent-choice	TraitNodeEntry	true	180	Cooldown	class		90351	112214	1	Utility		cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Intimidating Shout	5246	talent-choice	TraitNodeEntry	true	90	Cooldown	class		108705	134254	1	Buff/Utility		cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Piercing Howl	12323	talent-choice	TraitNodeEntry	true	90	Cooldown	class		108705	136627	1	Buff/Utility	Class 2 (CC)	cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Ravager	228920	talent-choice	TraitNodeEntry	true	90	Cooldown	spec		90432	132880	1	Essential		class-baseline:SkillLineAbility:840;cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Berserker Shout	384100	talent-choice	TraitNodeEntry	true	60	Cooldown	class		90348	112211	1		Self-Heal 3 (Overflow)		
-Warrior	Protection	73	Wrecking Throw	384110	talent-choice	TraitNodeEntry	true	45	Cooldown	class		90351	112215	1	Utility	Class 4 (Special)	cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Challenging Shout	1161	class-baseline	SpecializationSpells	true	120	Cooldown						Utility	Class 6 (Dispel)	cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Berserker Rage	18499	class-baseline	SkillLineAbility:840	true	60	Cooldown						Buff/Utility		cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Warbreaker	209577	class-baseline	SkillLineAbility:840	true	60	Cooldown									
-Warrior	Protection	73	Neltharion's Fury	203524	class-baseline	SkillLineAbility:840	true	45	Cooldown									
-Warrior	Protection	73	Odyn's Fury	205545	class-baseline	SkillLineAbility:840	true	45	Cooldown									
-Warrior	Protection	73	Victory Rush	118779	class-baseline	SkillLineAbility:840	true	30	Rotational						Utility		cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Pummel	6552	class-baseline	SkillLineAbility:840	true	15	Rotational						Utility	Interrupt	cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Shield Slam	23922	class-baseline	SkillLineAbility:840	true	9	Rotational						Essential	Rotational 1	cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Taunt	355	class-baseline	SkillLineAbility:840	true	8	Rotational						Utility	Taunt/Quick Access	cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Execute	163201	class-baseline	SkillLineAbility:840	true	6	Rotational						Essential	Rotational 4	cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Heroic Throw	57755	class-baseline	SkillLineAbility:840	true	6	Rotational							Class 3 (Tag)		
-Warrior	Protection	73	Charge	100	class-baseline	SkillLineAbility:840	true	1.5	Rotational						Utility	Class 1 (Movement)	cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Shield Block	2565	class-baseline	SkillLineAbility:840	true	1	Rotational						Essential/Other	Rotational 5	cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Attack	88163	class-baseline	SkillLineAbility:840	true	0	Rotational									
-Warrior	Protection	73	Battle Shout	6673	class-baseline	SkillLineAbility:840	true	0	Rotational							Buff		
-Warrior	Protection	73	Bladestorm	50622	class-baseline	SkillLineAbility:840	true	0	Rotational									
-Warrior	Protection	73	Bladestorm Off-Hand	95738	class-baseline	SkillLineAbility:840	true	0	Rotational									
-Warrior	Protection	73	Bloodbath	113344	class-baseline	SkillLineAbility:840	true	0	Rotational									
-Warrior	Protection	73	Bloodthirst Heal	117313	class-baseline	SkillLineAbility:840	true	0	Rotational									
-Warrior	Protection	73	Devastate	20243	class-baseline	SpecializationSpells	true	0	Rotational									
-Warrior	Protection	73	Hamstring	1715	class-baseline	SkillLineAbility:840	true	0	Rotational						Buff	Slow	cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Hotbar Slot 01	294184	class-baseline	SkillLineAbility:840	true	0	Rotational									
-Warrior	Protection	73	Hotbar Slot 02	294189	class-baseline	SkillLineAbility:840	true	0	Rotational									
-Warrior	Protection	73	Raging Blow	85384	class-baseline	SkillLineAbility:840	true	0	Rotational									
-Warrior	Protection	73	Single-Button Assistant	1229376	class-baseline	SpecializationSpells	true	0	Rotational									
-Warrior	Protection	73	Slam	1464	class-baseline	SkillLineAbility:840	true	0	Rotational									
-Warrior	Protection	73	Trauma	215537	class-baseline	SkillLineAbility:840	true	0	Rotational									
-Warrior	Protection	73	Whirlwind	1680	class-baseline	SkillLineAbility:840	true	0	Rotational									
-Warrior	Protection	73	Whirlwind Off-Hand	44949	class-baseline	SkillLineAbility:840	true	0	Rotational									
-Warrior	Protection	73	Disarm	236077	pvp-talent	PvpTalent	true	45	Cooldown						Utility		cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Oppressor	205800	pvp-talent	PvpTalent	true	20	Rotational									
-Warrior	Protection	73	Bodyguard	213871	pvp-talent	PvpTalent	true	15	Rotational						Utility		cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Berserker Roar	1227751	pvp-talent	PvpTalent	false	0	Rotational									
-Warrior	Protection	73	Demolition	329033	pvp-talent	PvpTalent	false	0	Rotational									
-Warrior	Protection	73	Dragon Charge	206572	pvp-talent	PvpTalent	true	0	Rotational									
-Warrior	Protection	73	Morale Killer	199023	pvp-talent	PvpTalent	false	0	Rotational									
-Warrior	Protection	73	Power Through Adversity	1234791	pvp-talent	PvpTalent	false	0	Rotational									
-Warrior	Protection	73	Rebound	213915	pvp-talent	PvpTalent	false	0	Rotational									
-Warrior	Protection	73	Safeguard	424654	pvp-talent	PvpTalent	false	0	Rotational									
-Warrior	Protection	73	Shield Bash	198912	pvp-talent	PvpTalent	false	0	Rotational									
-Warrior	Protection	73	Storm of Destruction	236308	pvp-talent	PvpTalent	false	0	Rotational									
-Warrior	Protection	73	Thunderstruck	199045	pvp-talent	PvpTalent	false	0	Rotational									
-Warrior	Protection	73	Anger Management	152278	talent-passive	TraitNodeEntry	false	0	Rotational	class		108543	134032	1				
-Warrior	Protection	73	Armor Specialization	1234769	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90306	112160	1				
-Warrior	Protection	73	Armored to the Teeth	384124	talent-passive	TraitNodeEntry	false	0	Rotational	class		90366	112233	2				
-Warrior	Protection	73	Arterial Bleed	440995	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94799	119856	1				
-Warrior	Protection	73	Avatar of the Storm	437134	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94805	117402	1				
-Warrior	Protection	73	Barbaric Training	383082	talent-passive	TraitNodeEntry	false	0	Rotational	class		90347	112209	1				
-Warrior	Protection	73	Battle-Scarred Veteran	386394	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90435	112307	1	Buff		cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Battlefield Commander	424742	talent-passive	TraitNodeEntry	false	0	Rotational	class		108544	134033	1				
-Warrior	Protection	73	Best Served Cold	202560	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90309	112163	1				
-Warrior	Protection	73	Bloodborne	385704	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90264	112115	1				
-Warrior	Protection	73	Bloodsurge	384361	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90300	112154	1				
-Warrior	Protection	73	Boneshaker	429639	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94789	117386	1				
-Warrior	Protection	73	Booming Voice	202743	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90314	112170	1				
-Warrior	Protection	73	Bounding Stride	202163	talent-passive	TraitNodeEntry	false	0	Rotational	class		90355	112219	1				
-Warrior	Protection	73	Brace For Impact	386030	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90304	112158	1	Buff		cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Brutal Vitality	384036	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90451	112325	1				
-Warrior	Protection	73	Burst of Power	437118	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94807	117404	1	Buff		cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Capacitance	1270724	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	109809	136068	1				
-Warrior	Protection	73	Celeritous Conclusion	1270710	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	109812	136071	1	Buff		cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Colossal Might	429634	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94819	117416	1	Buff		cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Conductivity	1270723	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	109810	136069	1				
-Warrior	Protection	73	Crackling Thunder	203201	talent-passive	TraitNodeEntry	false	0	Rotational	class		95959	118853	1				
-Warrior	Protection	73	Crashing Thunder	436707	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94816	117413	1				
-Warrior	Protection	73	Cruel Strikes	392777	talent-passive	TraitNodeEntry	false	0	Rotational	class		90381	112248	2				
-Warrior	Protection	73	Crushing Force	382764	talent-passive	TraitNodeEntry	false	0	Rotational	class		108686	134226	1				
-Warrior	Protection	73	Cut to the Bone	1270709	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	109813	136072	1				
-Warrior	Protection	73	Decimator	1270704	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	109814	136073	1				
-Warrior	Protection	73	Deep Wounds	1261060	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90310	112165	1	Buff		cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Defender's Aegis	397103	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90318	112174	1				
-Warrior	Protection	73	Devastating Focus	1264330	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90296	112150	1	Buff		cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Devastator	236279	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90297	112151	1				
-Warrior	Protection	73	Dominance of the Colossus	429636	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94793	117390	1	Buff		cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Double Time	103827	talent-passive	TraitNodeEntry	false	0	Rotational	class		90382	112249	1				
-Warrior	Protection	73	Earthquaker	440992	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94789	119858	1				
-Warrior	Protection	73	Enduring Alacrity	384063	talent-passive	TraitNodeEntry	false	0	Rotational	spec		107577	132882	1				
-Warrior	Protection	73	Enduring Defenses	386027	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90311	112166	2				
-Warrior	Protection	73	Fast Footwork	382260	talent-passive	TraitNodeEntry	false	0	Rotational	class		90344	112206	1				
-Warrior	Protection	73	Fearless	1271925	talent-passive	TraitNodeEntry	false	0	Rotational	class		90348	112210	1				
-Warrior	Protection	73	Field Dressing	1271926	talent-passive	TraitNodeEntry	false	0	Rotational	class		110119	136626	1				
-Warrior	Protection	73	Fight Through the Flames	452494	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90299	112153	1				
-Warrior	Protection	73	Flashing Skies	437079	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94797	117394	1				
-Warrior	Protection	73	Focused Vigor	384067	talent-passive	TraitNodeEntry	false	0	Rotational	spec		107578	132883	1				
-Warrior	Protection	73	Frothing Berserker	392792	talent-passive	TraitNodeEntry	false	0	Rotational	class		90352	112216	1				
-Warrior	Protection	73	Fueled by Violence	383103	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90319	112176	1				
-Warrior	Protection	73	Gathering Clouds	436201	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94792	117389	1				
-Warrior	Protection	73	Ground Current	436148	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94800	117397	1				
-Warrior	Protection	73	Heavy Handed	1235088	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90313	112169	1				
-Warrior	Protection	73	Heavy Repercussions	203177	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90312	112167	1				
-Warrior	Protection	73	Honed Reflexes	391271	talent-passive	TraitNodeEntry	false	0	Rotational	class		95956	118850	1				
-Warrior	Protection	73	Hunker Down	1235022	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90450	112110	1				
-Warrior	Protection	73	Impenetrable Wall	384072	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90318	132881	1				
-Warrior	Protection	73	Indomitable	202095	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90434	112306	1				
-Warrior	Protection	73	Instigate	394311	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90301	112155	1				
-Warrior	Protection	73	Into the Fray	202603	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90312	132885	1	Buff		cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Javelineer	1271948	talent-passive	TraitNodeEntry	false	0	Rotational	class		110118	136625	1				
-Warrior	Protection	73	Keep Your Feet on the Ground	438590	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94798	117395	1				
-Warrior	Protection	73	Leeching Strikes	382258	talent-passive	TraitNodeEntry	false	0	Rotational	class		90371	112238	1				
-Warrior	Protection	73	Lightning Strikes	434969	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94803	117400	1				
-Warrior	Protection	73	Martial Expert	429638	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94812	117409	1				
-Warrior	Protection	73	Massacre	281001	talent-passive	TraitNodeEntry	false	0	Rotational	spec		107575	132878	1				
-Warrior	Protection	73	Mountain of Muscle and Scars	429642	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94806	117403	1				
-Warrior	Protection	73	No Stranger to Pain	429644	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94815	117412	1				
-Warrior	Protection	73	One Against Many	429637	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94799	117396	1				
-Warrior	Protection	73	One-Handed Weapon Specialization	382895	talent-passive	TraitNodeEntry	false	0	Rotational	class		90324	112181	2				
-Warrior	Protection	73	Overwhelming Rage	382767	talent-passive	TraitNodeEntry	false	0	Rotational	class		90378	112245	1				
-Warrior	Protection	73	Pain and Gain	382549	talent-passive	TraitNodeEntry	false	0	Rotational	class		90353	112217	1				
-Warrior	Protection	73	Phalanx	1269311	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110411	137001	1	Buff		talent-passive:TraitNodeEntry;cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Practiced Strikes	429647	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94796	117393	1				
-Warrior	Protection	73	Precise Might	431548	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94794	117391	1				
-Warrior	Protection	73	Punish	275334	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90448	112321	1	Buff		cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Reinforced Plates	382939	talent-passive	TraitNodeEntry	false	0	Rotational	class		90368	112235	2				
-Warrior	Protection	73	Resonant Voice	1243660	talent-passive	TraitNodeEntry	false	0	Rotational	class		108685	134225	1				
-Warrior	Protection	73	Rumbling Earth	275339	talent-passive	TraitNodeEntry	false	0	Rotational	class		90374	112241	1				
-Warrior	Protection	73	Second Wind	29838	talent-passive	TraitNodeEntry	false	0	Rotational	class		90332	112190	1	Buff		cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Shield Specialization	386011	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90315	112171	1				
-Warrior	Protection	73	Snap Induction	456270	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94797	118833	1				
-Warrior	Protection	73	Spellbreaker	1235023	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90450	112324	1				
-Warrior	Protection	73	Stance Mastery	1280961	talent-passive	TraitNodeEntry	false	0	Rotational	class		108542	134031	1				
-Warrior	Protection	73	Steadfast as the Peaks	434970	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94798	118836	1	Buff		cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Storm Bolts	436162	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94817	117414	1				
-Warrior	Protection	73	Storm Shield	438597	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94817	118835	1				
-Warrior	Protection	73	Storm Surge	275336	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	109811	136070	1				
-Warrior	Protection	73	Strategist	384041	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90303	112157	1				
-Warrior	Protection	73	Strength of the Mountain	437068	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94808	117405	1				
-Warrior	Protection	73	Sudden Death	29725	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90264	132884	1	Buff		cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Thorim's Might	436152	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94792	118834	1				
-Warrior	Protection	73	Thunder Blast	435607	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94785	117382	1	Buff		cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Thunderlord	385840	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90308	112162	1				
-Warrior	Protection	73	Tide of Battle	429641	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94811	117408	1				
-Warrior	Protection	73	Tough as Nails	385888	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90320	112177	1				
-Warrior	Protection	73	Unyielding Stance	1235047	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90449	112323	1				
-Warrior	Protection	73	Veteran Vitality	440993	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94815	119857	1	Buff		cdm-only:CooldownSetSpell	
-Warrior	Protection	73	Violent Outburst	386477	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90265	112116	1	Buff		cdm-only:CooldownSetSpell	
-Warrior	Protection	73	War Machine	262231	talent-passive	TraitNodeEntry	false	0	Rotational	class		90328	112185	1				
-Warrior	Protection	73	Whirling Blade	1235113	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90432	112304	1				
-Warrior	Protection	73	Wild Strikes	382946	talent-passive	TraitNodeEntry	false	0	Rotational	class		90360	112224	2				
+class	spec	spec_id	name	spell_id	origin	source	castable	cooldown	band	tree	hero_tree	node_id	entry_id	max_ranks	blizz_category	seed_bucket	also_from	aliases	description_source	description
+Warrior	Protection	73	Rallying Cry	97462	talent-active	TraitNodeEntry	true	180	Cooldown	class		90331	112188	1	Buff/Utility	Class 7 (Raid Defensive)	cdm-only:CooldownSetSpell		api	Lets loose a rallying cry, granting all party or raid members within 40 yards 10% temporary and maximum health for 10 sec.\n\nHealth granted increased by 50% when not in a raid.
+Warrior	Protection	73	Avatar	107574	talent-active	TraitNodeEntry	true	90	Cooldown	spec		90433	112305	1	Buff/Essential	Cooldown 1	cdm-only:CooldownSetSpell		api	Transform into a colossus, increasing all damage you deal by 20% and reducing damage you take from area of effect attacks by 5% for 20 sec.
+Warrior	Protection	73	Champion's Spear	376079	talent-active	TraitNodeEntry	true	90	Cooldown	class		90380	112247	1	Essential		cdm-only:CooldownSetSpell		api	Throw a spear at the target location, chaining all enemies in the area to the spear's location and dealing 84 Physical damage instantly and an additional 128 Physical damage over 6 sec. \n\nWhile the spear is active, activating this ability will cause you to leap to the spear, dealing 16 Physical damage to all targets.\n\nAll damage dealt reduced beyond 5 targets.\n\nGenerates 10 Rage.
+Warrior	Protection	73	Disrupting Shout	386071	talent-active	TraitNodeEntry	true	90	Cooldown	spec		107579	132886	1	Buff		cdm-only:CooldownSetSpell		api	Taunts all enemies within 14 yds to attack you for 6 sec, interrupts all spellcasting within 14 yds and prevents any spell in that school from being cast for 6 sec. Increases the threat you generate against the target by 800%.
+Warrior	Protection	73	Demolish	436358	talent-active	TraitNodeEntry	true	45	Cooldown	hero	Colossus	94818	117415	1	Essential		cdm-only:CooldownSetSpell		api	Unleash a series of precise and powerful strikes against your target, dealing 802 damage to it, and 430 damage to enemies within 10 yds of it. Deals reduced damage beyond 8 targets.\n\nWhile channeling Demolish, you take 10% less damage and are immune to stuns, knockbacks, and forced movement effects.\n\nYou can block, parry, dodge, and use certain defensive abilities while channeling Demolish.
+Warrior	Protection	73	Demoralizing Shout	1160	talent-active	TraitNodeEntry	true	45	Cooldown	spec		90305	112159	1	Buff/Essential		cdm-only:CooldownSetSpell		api	Demoralizes all enemies within 10 yards, reducing the damage they deal to you by 20% for 8 sec.
+Warrior	Protection	73	Shield Charge	385952	talent-active	TraitNodeEntry	true	45	Cooldown	spec		90317	112173	1	Buff/Essential		cdm-only:CooldownSetSpell		api	Charge to an enemy with your shield, granting you Shield Block and dealing 297 Physical damage to it and 94 Physical damage to all enemies within 10 yards.\n\nAlso stuns the primary target for 4 sec.\n\nGenerates 20 Rage.
+Warrior	Protection	73	Shockwave	46968	talent-active	TraitNodeEntry	true	40	Rotational	class		90375	112242	1	Buff/Utility	CC 2	cdm-only:CooldownSetSpell		api	Sends a wave of force in a frontal cone, causing 7 damage and stunning all enemies within 10 yards for 2 sec.
+Warrior	Protection	73	Storm Bolt	107570	talent-active	TraitNodeEntry	true	30	Rotational	class		90337	112198	1	Buff/Utility	CC	cdm-only:CooldownSetSpell		api	Hurls your weapon at an enemy, causing 9 Physical damage and stunning for 4 sec.
+Warrior	Protection	73	Impending Victory	202168	talent-active	TraitNodeEntry	true	25	Rotational	class		90326	112183	1		Self-Heal 1			api	Instantly attack the target, causing 20 damage and healing you for 30% of your maximum health.\n\nKilling an enemy that yields experience or honor resets the cooldown of Impending Victory and makes it cost no Rage.
+Warrior	Protection	73	Shield Wall	871	talent-active	TraitNodeEntry	true	8	Rotational	spec		90302	112156	1	Essential/Other	Personal Defensive 1	cdm-only:CooldownSetSpell		api	Reduces all damage you take by 40% for 8 sec.
+Warrior	Protection	73	Rend	772	talent-active	TraitNodeEntry	true	6	Rotational	class		109391	135597	1	Buff/Essential		cdm-only:CooldownSetSpell		api	Lash out with your weapon, striking all targets within 10 yds for 92 Physical damage instantly and wounding them for an additional 74 Bleed damage over 15 sec.
+Warrior	Protection	73	Thunder Clap	6343	talent-active	TraitNodeEntry	true	6	Rotational	class		90343	112205	1	Buff/Essential	Rotational 2	cdm-only:CooldownSetSpell		api	Blasts all enemies within 8 yards for 82 Physical damage and reduces their movement speed by 20% for 10 sec. Deals reduced damage beyond 5 targets.\n\nIf you know Rend, inflicts Rend on all targets.
+Warrior	Protection	73	Battle Stance	386164	talent-active	TraitNodeEntry	true	3	Rotational	class		90261	112112	1	Buff	Stance 2	cdm-only:CooldownSetSpell		api	A balanced combat state that increases the critical strike chance of your abilities by 3% and reduces the duration of movement impairing effects by 10%. \n\nLasts until canceled.
+Warrior	Protection	73	Defensive Stance	386208	talent-active	TraitNodeEntry	true	3	Rotational	class		90330	112187	1	Buff	Stance 1	cdm-only:CooldownSetSpell		api	A defensive combat state that reduces all damage you take by 15% and all damage you deal by 10%.\n\nLasts until canceled.
+Warrior	Protection	73	Heroic Leap	6544	talent-active	TraitNodeEntry	true	1.5	Rotational	class		90346	112208	1	Utility	Movement Ability	class-baseline:SkillLineAbility:840;cdm-only:CooldownSetSpell		api	Leap through the air toward a target location, slamming down with destructive force to deal 8 Physical damage to all enemies within 8 yards.
+Warrior	Protection	73	Intervene	3411	talent-active	TraitNodeEntry	true	1.5	Rotational	class		90329	112186	1	Utility	Class 5 (Purge)	cdm-only:CooldownSetSpell		api	Run at high speed toward an ally, intercepting all melee and ranged attacks against them for 6 sec while they remain within 10 yds.
+Warrior	Protection	73	Ignore Pain	190456	talent-active	TraitNodeEntry	true	1	Rotational	spec		90295	112149	1	Essential/Other	Rotational 6	cdm-only:CooldownSetSpell		api	Fight through the pain, ignoring 50% of damage taken for 12 sec sec or until 451 damage has been prevented.
+Warrior	Protection	73	Spell Reflection	23920	talent-active	TraitNodeEntry	true	1	Rotational	class		90385	112253	1	Buff/Essential	Self-Heal 4 (Emergency/Overflow)	cdm-only:CooldownSetSpell		api	Raise your weapon, reflecting the first spell cast on you and reducing magic damage you take by 20% for 5 sec.
+Warrior	Protection	73	Last Stand	1243659	talent-active	TraitNodeEntry	true	0	Rotational	spec		107576	132879	1	Buff	Personal Defensive 2	cdm-only:CooldownSetSpell		api	Activating Shield Wall increases your maximum health by 30% for 8 sec and instantly heals you for that amount.
+Warrior	Protection	73	Revenge	6572	talent-active	TraitNodeEntry	true	0	Rotational	spec		90298	112152	1	Essential	Rotational 3	cdm-only:CooldownSetSpell		api	Swing in a wide arc, dealing 84 Physical damage to all enemies in front of you. Deals reduced damage beyond 5 targets.\n\nYour successful dodges and parries have a chance to make your next Revenge cost no Rage.
+Warrior	Protection	73	Shattering Throw	64382	talent-choice	TraitNodeEntry	true	180	Cooldown	class		90351	112214	1	Utility		cdm-only:CooldownSetSpell		api	Hurl your weapon at the enemy,  removing any magical immunities and causing 214 Physical damage, ignoring armor. Deals up to 500% increased damage to absorb shields.
+Warrior	Protection	73	Intimidating Shout	5246	talent-choice	TraitNodeEntry	true	90	Cooldown	class		108705	134254	1	Buff/Utility		cdm-only:CooldownSetSpell		api	Causes the targeted enemy to cower in fear while all enemies within 8 yards flee from you and their movement speed is reduced by 70% for 8 sec.\nDamage may cancel the effect.
+Warrior	Protection	73	Piercing Howl	12323	talent-choice	TraitNodeEntry	true	90	Cooldown	class		108705	136627	1	Buff/Utility	Class 2 (CC)	cdm-only:CooldownSetSpell		api	Snares all enemies within 12 yards, reducing their movement speed by 70% for 8 sec.\n\nSpurs all allies within 6 yards, increasing their movement speed by 30% for 4 sec.
+Warrior	Protection	73	Ravager	228920	talent-choice	TraitNodeEntry	true	90	Cooldown	spec		90432	132880	1	Essential		class-baseline:SkillLineAbility:840;cdm-only:CooldownSetSpell		api	Throws a whirling weapon at your target that chases nearby enemies, inflicting 250 Physical damage to all enemies over 10.7 sec. Deals reduced damage beyond 8 targets.\n\nCleave and Whirlwind deal 50% increased damage while Ravager is active
+Warrior	Protection	73	Berserker Shout	384100	talent-choice	TraitNodeEntry	true	60	Cooldown	class		90348	112211	1		Self-Heal 3 (Overflow)			api	Go berserk, removing and granting immunity to Fear, Sap, and Incapacitate effects for 6 sec.\n\nAlso remove fear effects from group members within 12 yds.
+Warrior	Protection	73	Wrecking Throw	384110	talent-choice	TraitNodeEntry	true	45	Cooldown	class		90351	112215	1	Utility	Class 4 (Special)	cdm-only:CooldownSetSpell		api	Hurl your weapon at the enemy, causing 211 Physical damage, ignoring armor. Deals up to 500% increased damage to absorb shields.
+Warrior	Protection	73	Challenging Shout	1161	class-baseline	SpecializationSpells	true	120	Cooldown						Utility	Class 6 (Dispel)	cdm-only:CooldownSetSpell		api	Taunts all enemies within 10 yds to attack you for 6 sec, and increases the threat you generate against them by 800% for 6 sec.
+Warrior	Protection	73	Berserker Rage	18499	class-baseline	SkillLineAbility:840	true	60	Cooldown						Buff/Utility		cdm-only:CooldownSetSpell		api	Go berserk, removing and granting immunity to Fear, Sap, and some Incapacitate effects for 6 sec.
+Warrior	Protection	73	Warbreaker	209577	class-baseline	SkillLineAbility:840	true	60	Cooldown										api	Stomp the ground, causing a ring of corrupted spikes to erupt upwards, dealing 119 Shadow damage and applying the Colossus Smash effect to all nearby enemies.
+Warrior	Protection	73	Neltharion's Fury	203524	class-baseline	SkillLineAbility:840	true	45	Cooldown										api	Enter a defensive posture, critically blocking all attacks while a stream of shadowflame erupts from Scale of the Earth-Warder, dealing 40 Shadowflame over 3 sec to all enemies in front of you. You can use defensive abilities while this is active.
+Warrior	Protection	73	Odyn's Fury	205545	class-baseline	SkillLineAbility:840	true	45	Cooldown										api	Unleashes the fiery power Odyn bestowed the Warswords, dealing 182 Fire damage and an additional 29 Fire damage over 4 sec to all enemies within 14 yards.
+Warrior	Protection	73	Victory Rush	118779	class-baseline	SkillLineAbility:840	true	30	Rotational						Utility		cdm-only:CooldownSetSpell		api	Strikes the target, causing 16 damage and healing you for 10% of your maximum health.\n\nOnly usable within 20 sec after you kill an enemy that yields experience or honor.
+Warrior	Protection	73	Pummel	6552	class-baseline	SkillLineAbility:840	true	15	Rotational						Utility	Interrupt	cdm-only:CooldownSetSpell		api	Pummels the target, interrupting spellcasting and preventing any spell in that school from being cast for 5 sec.
+Warrior	Protection	73	Shield Slam	23922	class-baseline	SkillLineAbility:840	true	9	Rotational						Essential	Rotational 1	cdm-only:CooldownSetSpell		api	Slams the target with your shield, causing 80 Physical damage.\n\nGenerates 15 Rage.
+Warrior	Protection	73	Taunt	355	class-baseline	SkillLineAbility:840	true	8	Rotational						Utility	Taunt/Quick Access	cdm-only:CooldownSetSpell		api	Taunts the target to attack you, and increases the threat you generate against them by 800% for 6 sec.
+Warrior	Protection	73	Execute	163201	class-baseline	SkillLineAbility:840	true	6	Rotational						Essential	Rotational 4	cdm-only:CooldownSetSpell		api	Attempts to finish off a foe, causing up to 170 Physical damage based on Rage spent. Only usable on enemies that have less than 20% health.
+Warrior	Protection	73	Heroic Throw	57755	class-baseline	SkillLineAbility:840	true	6	Rotational							Class 3 (Tag)			api	Throws your weapon at the enemy, causing 12 Physical damage. Generates high threat.
+Warrior	Protection	73	Charge	100	class-baseline	SkillLineAbility:840	true	1.5	Rotational						Utility	Class 1 (Movement)	cdm-only:CooldownSetSpell		api	Charge to an enemy, dealing 7 Physical damage, rooting it for 1 sec.\n\nGenerates 20 Rage.
+Warrior	Protection	73	Shield Block	2565	class-baseline	SkillLineAbility:840	true	1	Rotational						Essential/Other	Rotational 5	cdm-only:CooldownSetSpell		api	Raise your shield, blocking all melee attacks against you for 6 sec.
+Warrior	Protection	73	Attack	88163	class-baseline	SkillLineAbility:840	true	0	Rotational										api	Starts combat by attacking a target with a melee weapon.
+Warrior	Protection	73	Battle Shout	6673	class-baseline	SkillLineAbility:840	true	0	Rotational							Buff			api	Increases the attack power of all raid and party members within 100 yards by 5% for 1 hour.
+Warrior	Protection	73	Bladestorm	50622	class-baseline	SkillLineAbility:840	true	0	Rotational										api	You become a whirling storm of destructive force, striking all nearby targets with your main hand weapon for 96 Physical damage.
+Warrior	Protection	73	Bladestorm Off-Hand	95738	class-baseline	SkillLineAbility:840	true	0	Rotational										api	You become a whirling storm of destructive force, striking all nearby targets with your off-hand weapon for 5 Physical damage.
+Warrior	Protection	73	Bloodbath	113344	class-baseline	SkillLineAbility:840	true	0	Rotational										api	Assault the target in a bloodthirsty craze, dealing 181 Physical damage and restoring 3% of your health.\n\nBloodbath wounds the target to suffer 21 Bleed damage over 6 sec. Using Bloodbath on a target that is affected by Bloodbath extends the bleed by 6 sec.\n\nGenerates 8 Rage and has a 30% chance to Enrage you.
+Warrior	Protection	73	Bloodthirst Heal	117313	class-baseline	SkillLineAbility:840	true	0	Rotational										api	Bloodthirst heals the Warrior for 3% of their health.
+Warrior	Protection	73	Devastate	20243	class-baseline	SpecializationSpells	true	0	Rotational										api	A direct strike, dealing 44 Physical damage.
+Warrior	Protection	73	Hamstring	1715	class-baseline	SkillLineAbility:840	true	0	Rotational						Buff	Slow	cdm-only:CooldownSetSpell		api	Maims the enemy for 5 Physical damage, reducing movement speed by 50% for 15 sec.
+Warrior	Protection	73	Hotbar Slot 01	294184	class-baseline	SkillLineAbility:840	true	0	Rotational										none	
+Warrior	Protection	73	Hotbar Slot 02	294189	class-baseline	SkillLineAbility:840	true	0	Rotational										none	
+Warrior	Protection	73	Raging Blow	85384	class-baseline	SkillLineAbility:840	true	0	Rotational										api	A mighty blow with both weapons that deals a total of 77 Physical damage.\n\nGenerates 12 Rage.
+Warrior	Protection	73	Single-Button Assistant	1229376	class-baseline	SpecializationSpells	true	0	Rotational										api	Casts damaging abilities for use in combat, rotating through them based on priority.\n\nThe global cooldown of abilities used through the Single-Button Assistant is 25% longer.
+Warrior	Protection	73	Slam	1464	class-baseline	SkillLineAbility:840	true	0	Rotational										api	Slams an opponent, causing 106 Physical damage.
+Warrior	Protection	73	Trauma	215537	class-baseline	SkillLineAbility:840	true	0	Rotational										api	Slam, Whirlwind, and Execute now cause the target to bleed for 20% additional damage over 6 sec. Multiple uses accumulate increased damage.
+Warrior	Protection	73	Whirlwind	1680	class-baseline	SkillLineAbility:840	true	0	Rotational										api	Unleashes a whirlwind of steel, striking all nearby targets for 74 Physical damage. Deals reduced damage beyond 5 targets.
+Warrior	Protection	73	Whirlwind Off-Hand	44949	class-baseline	SkillLineAbility:840	true	0	Rotational										api	Unleashes a whirlwind of steel, striking all nearby enemies for 56 Physical damage. Deals reduced damage beyond 5 targets.
+Warrior	Protection	73	Disarm	236077	pvp-talent	PvpTalent	true	45	Cooldown						Utility		cdm-only:CooldownSetSpell		api	Disarm the enemy's weapons and shield for 5 sec. Disarmed creatures deal significantly reduced damage.
+Warrior	Protection	73	Oppressor	205800	pvp-talent	PvpTalent	true	20	Rotational										api	You focus the assault on this target, increasing their damage taken by 3% for 6 sec. Each unique player that attacks the target increases the damage taken by an additional 3%, stacking up to 5 times.\n\nYour melee attacks refresh the duration of Focused Assault.
+Warrior	Protection	73	Bodyguard	213871	pvp-talent	PvpTalent	true	15	Rotational						Utility		cdm-only:CooldownSetSpell		api	Protect an ally, causing 40% of all Physical damage they take to be transfered to you. When the target takes Physical damage, your Shield Slam cooldown has a 30% chance to be reset. Bodyguard is cancelled if the target is further than 20 yards from you. Lasts 1 min.\n\nOnly one target can be Bodyguarded at a time.
+Warrior	Protection	73	Berserker Roar	1227751	pvp-talent	PvpTalent	false	0	Rotational										api	Berserker Shout also reduces the duration of the next crowd control effect within 5 sec by 50% on group members within 12 yds.
+Warrior	Protection	73	Demolition	329033	pvp-talent	PvpTalent	false	0	Rotational										api	Reduces the cooldown of your Shattering Throw or Wrecking Throw by 50% and increases its damage to absorb shields by an additional 250%.
+Warrior	Protection	73	Dragon Charge	206572	pvp-talent	PvpTalent	true	0	Rotational										api	Run at high speed at a distance in front of you. All enemies in your path will take 24 Physical damage and be knocked back.
+Warrior	Protection	73	Morale Killer	199023	pvp-talent	PvpTalent	false	0	Rotational										api	Reduces the cooldown of Demoralizing Shout by 15 sec, and Demoralizing Shout now reduces the damage enemies deal to all targets, not just you.
+Warrior	Protection	73	Power Through Adversity	1234791	pvp-talent	PvpTalent	false	0	Rotational										api	Second Wind reduces damage taken by 10% to 40%, with larger attacks being reduced by more.\n\nWhile Shield Wall is active, healing reductions do not apply to you.
+Warrior	Protection	73	Rebound	213915	pvp-talent	PvpTalent	false	0	Rotational										api	Spell Reflection reflects the next 2 incoming spells cast on you and reflected spells deal 100% extra damage to the attacker.\n\nSpell Reflection's cooldown is increased by 10 sec.
+Warrior	Protection	73	Safeguard	424654	pvp-talent	PvpTalent	false	0	Rotational										api	Intervene now has 2 charges and reduces the ally's damage taken by 20% for 5 sec.\n\nIntervene's cooldown is increased by 10 sec.
+Warrior	Protection	73	Shield Bash	198912	pvp-talent	PvpTalent	false	0	Rotational										api	When Shield Slam is used on targets that are casting, it reduces their damage done by 15% for 8 sec and the cooldown is instantly reset.
+Warrior	Protection	73	Storm of Destruction	236308	pvp-talent	PvpTalent	false	0	Rotational										api	Bladestorm, Ravager, and Demolish now snare all targets you hit by 60% for 6 sec and decrease their healing taken by 50% for 10 sec.
+Warrior	Protection	73	Thunderstruck	199045	pvp-talent	PvpTalent	false	0	Rotational										api	After casting Avatar, Shockwave, or Stormbolt, your next Thunder Clap roots all targets it damages for 4 sec.
+Warrior	Protection	73	Anger Management	152278	talent-passive	TraitNodeEntry	false	0	Rotational	class		108543	134032	1					api	Every 20 Rage you spend on attacks reduces the remaining cooldown on Avatar and Colossus Smash by 1 sec.
+Warrior	Protection	73	Armor Specialization	1234769	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90306	112160	1					api	Armor increased by 6%.
+Warrior	Protection	73	Armored to the Teeth	384124	talent-passive	TraitNodeEntry	false	0	Rotational	class		90366	112233	2					api	Gain Strength equal to 5% of your Armor.
+Warrior	Protection	73	Arterial Bleed	440995	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94799	119856	1					api	Colossal Might increases the damage of your Rend and Deep Wounds by 3% per stack.
+Warrior	Protection	73	Avatar of the Storm	437134	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94805	117402	1					api	Casting Avatar grants you 2 charges of Thunder Blast and resets the cooldown of Thunder Clap.\n\nWhile Avatar is not active, Lightning Strikes have a 10% chance to grant you Avatar for 4 secs.\n\nThunder Blast\nYour next Thunder Clap becomes a Thunder Blast that deals Stormstrike damage.
+Warrior	Protection	73	Barbaric Training	383082	talent-passive	TraitNodeEntry	false	0	Rotational	class		90347	112209	1					api	Slam, Whirlwind, and Cleave deal 10% more damage and 5% increased critical strike damage.
+Warrior	Protection	73	Battle-Scarred Veteran	386394	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90435	112307	1	Buff		cdm-only:CooldownSetSpell		api	When your health is brought below 30%, you take 80% less damage for 8 sec and healing you receive is increased by 100%.\n\nCannot occur more than once every 3 min.
+Warrior	Protection	73	Battlefield Commander	424742	talent-passive	TraitNodeEntry	false	0	Rotational	class		108544	134033	1					api	Your Shout abilities have additional effects.\n\n Battle Shout:\nGrants you an additional 3% attack power.\n\n Rallying Cry:\nGrants an additional 2% health and duration increased by 3 sec.\n\n Piercing Howl:\nRadius increased by 100%\n\n Berserker Shout:\nRadius increased by 100%.\n\n Intimidating Shout:\nCooldown reduced by 15 sec.
+Warrior	Protection	73	Best Served Cold	202560	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90309	112163	1					api	Your dodges and parries make your Revenge cost no Rage 20% more frequently and increase the damage your free Revenges deal by 15%. Revenge increases the damage of your next Thunder Clap by 8%.
+Warrior	Protection	73	Bloodborne	385704	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90264	112115	1					api	Your Deep Wounds and Rend deal 25% increased damage.
+Warrior	Protection	73	Bloodsurge	384361	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90300	112154	1					api	Damage from Rend has a chance to generate 5 Rage.
+Warrior	Protection	73	Boneshaker	429639	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94789	117386	1					api	Shockwave's stun duration is increased by 1 sec and reduces the movement speed of affected enemies by 40% for 3 sec after the stun ends.
+Warrior	Protection	73	Booming Voice	202743	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90314	112170	1					api	Demoralizing Shout also generates 20 Rage and increases damage you deal to affected targets by 20%.
+Warrior	Protection	73	Bounding Stride	202163	talent-passive	TraitNodeEntry	false	0	Rotational	class		90355	112219	1					api	Reduces the cooldown of Heroic Leap by 15 sec and Heroic Leap also increases your movement speed by 70% for 3 sec.
+Warrior	Protection	73	Brace For Impact	386030	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90304	112158	1	Buff		cdm-only:CooldownSetSpell		api	Using Shield Slam increases the damage of Shield Slam by 10% and the block value of your shield by 5% for 16 sec. Stacking up to 3 times.
+Warrior	Protection	73	Brutal Vitality	384036	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90451	112325	1					api	8% of damage you deal adds to your active Ignore Pain or the next Ignore Pain you activate.\n\nYour next Ignore Pain can be increased by up to 4,582.
+Warrior	Protection	73	Burst of Power	437118	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94807	117404	1	Buff		cdm-only:CooldownSetSpell		api	Lightning Strikes have a 15% chance to make your next 2 Bloodthirsts have no cooldown.
+Warrior	Protection	73	Capacitance	1270724	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	109809	136068	1					api	During Avatar, Thunder Blast extends Avatar's duration by 2.0 sec.
+Warrior	Protection	73	Celeritous Conclusion	1270710	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	109812	136071	1	Buff		cdm-only:CooldownSetSpell		api	Demolish's final strike grants 10% Haste for 10 sec and increases the critical strike chance of your next Mortal Strike by 100%.
+Warrior	Protection	73	Colossal Might	429634	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94819	117416	1	Buff		cdm-only:CooldownSetSpell		api	Colossal Might increases damage dealt by your next Demolish by 5%, stacking up to 5 times.\n\nMortal Strike grants a stack of Colossal Might and Cleave grants a stack of Colossal Might when it strikes 3 or more targets.
+Warrior	Protection	73	Conductivity	1270723	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	109810	136069	1					api	Lightning Strike damage increased by 10% and critical strike damage increased by 10%.
+Warrior	Protection	73	Crackling Thunder	203201	talent-passive	TraitNodeEntry	false	0	Rotational	class		95959	118853	1					api	Thunder Clap's radius is increased by 50% and it reduces affected target's movement speed by an additional 20%.
+Warrior	Protection	73	Crashing Thunder	436707	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94816	117413	1					api	Stormstrike or Nature damage your abilities deal is increased by 5%. Stormstrike damage ignores Armor.\n\nThunder Clap damage increased by 30%.
+Warrior	Protection	73	Cruel Strikes	392777	talent-passive	TraitNodeEntry	false	0	Rotational	class		90381	112248	2					api	Critical strike chance increased by 1% and critical strike damage of Execute increased by 5%.
+Warrior	Protection	73	Crushing Force	382764	talent-passive	TraitNodeEntry	false	0	Rotational	class		108686	134226	1					api	Mortal Strike deals an additional 5% damage and deals 5% increased critical strike damage.
+Warrior	Protection	73	Cut to the Bone	1270709	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	109813	136072	1					api	Mortal Strike critical strikes increase your Rend and Deep Wounds damage by 15% for 8 sec.
+Warrior	Protection	73	Decimator	1270704	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	109814	136073	1					api	Demolish's final strike applies Deep Wounds to all targets at 100% effectiveness.
+Warrior	Protection	73	Deep Wounds	1261060	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90310	112165	1	Buff		cdm-only:CooldownSetSpell		api	Execute inflicts Deep Wounds on the target.\n\n Deep Wounds\nCauses the target to suffer 50 Bleed damage over 6 sec. If this effect is reapplied, any remaining damage will be added to the new Deep Wounds.
+Warrior	Protection	73	Defender's Aegis	397103	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90318	112174	1					api	Shield Wall gains 1 additional charge and its cooldown is reduced by 60 sec.
+Warrior	Protection	73	Devastating Focus	1264330	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90296	112150	1	Buff		cdm-only:CooldownSetSpell		api	You focus on the target struck by your Devastator, dealing 30% additional Revenge damage to them.\n\nOnly one target can have your focus at a time.
+Warrior	Protection	73	Devastator	236279	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90297	112151	1					api	Your auto-attacks deal an additional 44 Physical damage and have a 25% chance to reset the remaining cooldown on Shield Slam.
+Warrior	Protection	73	Dominance of the Colossus	429636	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94793	117390	1	Buff		cdm-only:CooldownSetSpell		api	Colossal Might stacks up to 10 times. If you would gain a stack of Colossal Might and are at max stacks, the cooldown of Demolish is reduced by 5 sec.\n\nEnemies affected by Demolish take up to 10% more damage from you and deal up to 10% less damage to you for 10 sec based on the number of stacks of Colossal Might consumed by Demolish.
+Warrior	Protection	73	Double Time	103827	talent-passive	TraitNodeEntry	false	0	Rotational	class		90382	112249	1					api	Charge gains 1 additional charge and its cooldown is reduced by 3 sec.
+Warrior	Protection	73	Earthquaker	440992	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94789	119858	1					api	Shockwave also knocks enemies into the air and its cooldown is reduced by 5 sec.
+Warrior	Protection	73	Enduring Alacrity	384063	talent-passive	TraitNodeEntry	false	0	Rotational	spec		107577	132882	1					api	Increases Stamina by 5% and your Haste by 2%.
+Warrior	Protection	73	Enduring Defenses	386027	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90311	112166	2					api	Shield Block lasts 1 sec longer.
+Warrior	Protection	73	Fast Footwork	382260	talent-passive	TraitNodeEntry	false	0	Rotational	class		90344	112206	1					api	Movement speed increased by 5%.
+Warrior	Protection	73	Fearless	1271925	talent-passive	TraitNodeEntry	false	0	Rotational	class		90348	112210	1					api	Cooldown of Berserker Rage is reduced by 50% and Berseker Rage removes all movement speed-impairing effects.
+Warrior	Protection	73	Field Dressing	1271926	talent-passive	TraitNodeEntry	false	0	Rotational	class		110119	136626	1					api	Healing received increased by 3% and all self-healing increased by an additional 10%.
+Warrior	Protection	73	Fight Through the Flames	452494	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90299	112153	1					api	Defensive Stance additionally reduces magic damage you take by 6%.
+Warrior	Protection	73	Flashing Skies	437079	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94797	117394	1					api	Thunder Blast calls down a Lightning Strike on an enemy it hits.
+Warrior	Protection	73	Focused Vigor	384067	talent-passive	TraitNodeEntry	false	0	Rotational	spec		107578	132883	1					api	Increases Strength by 3% and your critical strike chance by 1%.
+Warrior	Protection	73	Frothing Berserker	392792	talent-passive	TraitNodeEntry	false	0	Rotational	class		90352	112216	1					api	Mortal Strike and Cleave have a 20% chance to immediately refund 10% of the Rage spent.
+Warrior	Protection	73	Fueled by Violence	383103	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90319	112176	1					api	You are healed for 85% of the Bleed damage dealt by Rend and Deep Wounds.
+Warrior	Protection	73	Gathering Clouds	436201	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94792	117389	1					api	Your attacks trigger Lightning Strikes 30% more often.
+Warrior	Protection	73	Ground Current	436148	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94800	117397	1					api	Lightning Strikes also deal 15 Nature damage to enemies near their target. Damage reduced beyond 5 targets.
+Warrior	Protection	73	Heavy Handed	1235088	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90313	112169	1					api	Execute hits up to 2 additional targets for 70% damage.
+Warrior	Protection	73	Heavy Repercussions	203177	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90312	112167	1					api	Shield Slam generates 2 more Rage and extends the duration of Shield Block by 1.0 sec.
+Warrior	Protection	73	Honed Reflexes	391271	talent-passive	TraitNodeEntry	false	0	Rotational	class		95956	118850	1					api	Cooldown of Die By the Sword, Intervene, Interpose, Spell Reflection, Storm Bolt, and Pummel reduced by 10%.\n\nSuccessfully interrupting an enemy increases the damage you deal to them by 5% for 10 sec.
+Warrior	Protection	73	Hunker Down	1235022	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90450	112110	1					api	Damage you take from area of effect attacks is reduced by 2%. Spell Reflection reduces magic damage taken by an additional 10%.
+Warrior	Protection	73	Impenetrable Wall	384072	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90318	132881	1					api	Shield Slam reduces the remaining cooldown of Shield Wall by 6 sec.
+Warrior	Protection	73	Indomitable	202095	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90434	112306	1					api	Your maximum health is increased by 10% and every 15 Rage you spend heals you for 1% of your maximum health.
+Warrior	Protection	73	Instigate	394311	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90301	112155	1					api	Devastate deals 20% increased damage and generates 2 Rage.\n\nDevastator deals 10% increased damage and generates 2 Rage.
+Warrior	Protection	73	Into the Fray	202603	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90312	132885	1	Buff		cdm-only:CooldownSetSpell		api	You gain 2% Haste for each enemy or ally within 10 yards, up to 8% Haste.
+Warrior	Protection	73	Javelineer	1271948	talent-passive	TraitNodeEntry	false	0	Rotational	class		110118	136625	1					api	Range of your thrown abilities is increased by 5 yards.\n\nDamage dealt by Champion's Spear, Shattering Throw, and Wrecking Throw increased by 20%.\n\nShattering Throw and Wrecking Throw silence non-players for 3 sec.
+Warrior	Protection	73	Keep Your Feet on the Ground	438590	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94798	117395	1					api	Physical damage taken reduced by 2%.\n\nThunder Blast reduces damage you take by 8% for 5 sec.
+Warrior	Protection	73	Leeching Strikes	382258	talent-passive	TraitNodeEntry	false	0	Rotational	class		90371	112238	1					api	Leech increased by 3%.
+Warrior	Protection	73	Lightning Strikes	434969	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94803	117400	1					api	Damaging enemies with Thunder Clap, Raging Blow, or Execute has a 25% chance to also strike one with a lightning bolt, dealing 54 Nature damage.\n\nLightning Strikes occur 30% more often during Avatar.
+Warrior	Protection	73	Martial Expert	429638	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94812	117409	1					api	Critical strike damage of your abilities is increased by 10% and the amount of damage blocked by your critical blocks is increased by 20%.
+Warrior	Protection	73	Massacre	281001	talent-passive	TraitNodeEntry	false	0	Rotational	spec		107575	132878	1					api	Execute is usable on targets below 35% health.
+Warrior	Protection	73	Mountain of Muscle and Scars	429642	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94806	117403	1					api	You deal 5% more damage and take 5% less damage.\n\nSize increased by 5%.
+Warrior	Protection	73	No Stranger to Pain	429644	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94815	117412	1					api	Damage prevented by each use of Ignore Pain is increased by 20%.
+Warrior	Protection	73	One Against Many	429637	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94799	117396	1					api	Shockwave, Cleave, and Whirlwind deal 5% more damage per target affected up to 5.
+Warrior	Protection	73	One-Handed Weapon Specialization	382895	talent-passive	TraitNodeEntry	false	0	Rotational	class		90324	112181	2					api	While wielding one-handed weapons your damage is increased by 3% and Leech increased by 2%.
+Warrior	Protection	73	Overwhelming Rage	382767	talent-passive	TraitNodeEntry	false	0	Rotational	class		90378	112245	1					api	Maximum Rage increased by 30.
+Warrior	Protection	73	Pain and Gain	382549	talent-passive	TraitNodeEntry	false	0	Rotational	class		90353	112217	1					api	When you take any damage, heal for 2.0% of your maximum health. \n\nThis can only occur once every 10 sec.
+Warrior	Protection	73	Phalanx	1269311	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110411	137001	1	Buff		talent-passive:TraitNodeEntry;cdm-only:CooldownSetSpell		api	Thunder Clap causes your next Shield Slam to deal 10% additional damage and unleash a wave of force, dealing 69 Physical damage to all enemies in front of you.
+Warrior	Protection	73	Practiced Strikes	429647	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94796	117393	1					api	Mortal Strike and Slam damage increased by 25%.\n\nCleave and Whirlwind damage increased by 15%.
+Warrior	Protection	73	Precise Might	431548	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94794	117391	1					api	Mortal Strike critical strikes grant an additional stack of Colossal Might.
+Warrior	Protection	73	Punish	275334	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90448	112321	1	Buff		cdm-only:CooldownSetSpell		api	Shield Slam deals 15% increased damage and reduces enemies' damage against you by 3% for 9 sec. Multiple punishments may overlap.
+Warrior	Protection	73	Reinforced Plates	382939	talent-passive	TraitNodeEntry	false	0	Rotational	class		90368	112235	2					api	Stamina increased by 5% and Armor increased by 5%.
+Warrior	Protection	73	Resonant Voice	1243660	talent-passive	TraitNodeEntry	false	0	Rotational	class		108685	134225	1					api	The effects of your shouts last 20% longer.
+Warrior	Protection	73	Rumbling Earth	275339	talent-passive	TraitNodeEntry	false	0	Rotational	class		90374	112241	1					api	Shockwave's range increased by 6 yards and when it strikes at least 3 targets its cooldown is reduced by 15 sec.
+Warrior	Protection	73	Second Wind	29838	talent-passive	TraitNodeEntry	false	0	Rotational	class		90332	112190	1	Buff		cdm-only:CooldownSetSpell		api	Restores 6% health every 1 sec when you have not taken damage for 5 sec.\n\nRestores 2% health every 1 sec while you are below 35% health. The amount restored increases the closer you are to death.
+Warrior	Protection	73	Shield Specialization	386011	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90315	112171	1					api	Increases Block chance by 8% and your Block value by 16%.
+Warrior	Protection	73	Snap Induction	456270	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94797	118833	1					api	Activating Recklessness grants a charge of Thunder Blast.
+Warrior	Protection	73	Spellbreaker	1235023	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90450	112324	1					api	You have a 8% chance to disrupt magic damage dealt to you, reducing the damage it deals by 50%.
+Warrior	Protection	73	Stance Mastery	1280961	talent-passive	TraitNodeEntry	false	0	Rotational	class		108542	134031	1					api	Your stances have additional effects.\n\n Battle Stance\nIncreases the critical strike damage of your abilities by 3%.\n\n Defensive Stance\nWhen an attack deals 20% or more of your maximum health in damage, that damage is reduced by 15%.
+Warrior	Protection	73	Steadfast as the Peaks	434970	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94798	118836	1	Buff		cdm-only:CooldownSetSpell		api	Stamina increased by 5%.\n\nVictory Rush increases your maximum health by 10% for 5 sec. When this health increase expires, you heal for any amount of the original Victory Rush that healed you in excess of your full health.
+Warrior	Protection	73	Storm Bolts	436162	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94817	117414	1					api	Storm Bolt also hits 2 additional nearby targets, stunning them for 2 sec, but its cooldown is increased by 10 sec.
+Warrior	Protection	73	Storm Shield	438597	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94817	118835	1					api	Intervening a target grants them a shield for 5 sec that absorbs magic damage equal to 3 times your Armor.
+Warrior	Protection	73	Storm Surge	275336	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	109811	136070	1					api	Avatar increases the damage of Thunder Clap by 50% and reduces its cooldown by 50%.
+Warrior	Protection	73	Strategist	384041	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90303	112157	1					api	Devastate, Thunder Clap, Revenge, and Execute have a 25% chance to reset the remaining cooldown on Shield Slam.
+Warrior	Protection	73	Strength of the Mountain	437068	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94808	117405	1					api	Shield Slam damage increased by 15%.\n\nBloodthirst and Rampage damage increased by 25%.
+Warrior	Protection	73	Sudden Death	29725	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90264	132884	1	Buff		cdm-only:CooldownSetSpell		api	Your attacks have a chance to make your next Execute cost no Rage, be usable on any target regardless of their health, and deal damage as if you spent 40 Rage.
+Warrior	Protection	73	Thorim's Might	436152	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94792	118834	1					api	Lightning Strikes generate 3 Rage.\n\nRaging Blow and Execute damage increased by 25%.
+Warrior	Protection	73	Thunder Blast	435607	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94785	117382	1	Buff		cdm-only:CooldownSetSpell		api	Shield Slam and Bloodthirst have a 35% chance to grant you Thunder Blast, stacking up to 2 charges.\n\nThunder Blast\nYour next Thunder Clap becomes a Thunder Blast that deals 67 Stormstrike damage and generates 2 Rage.
+Warrior	Protection	73	Thunderlord	385840	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90308	112162	1					api	Increases the radius of Demoralizing Shout by 5 yards.\n\nEach enemy hit by Thunder Clap reduces the remaining cooldown on Demoralizing Shout by 1.5 sec, up to 4.5 sec.
+Warrior	Protection	73	Tide of Battle	429641	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94811	117408	1					api	Colossal Might increases the damage of your Overpower by 3% per stack.
+Warrior	Protection	73	Tough as Nails	385888	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90320	112177	1					api	Blocking an attack deals 42 Physical damage to the attacker. Critical blocks deal double damage.\n\nGenerates high threat.
+Warrior	Protection	73	Unyielding Stance	1235047	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90449	112323	1					api	Defensive Stance reduces damage taken by an additional 4%.
+Warrior	Protection	73	Veteran Vitality	440993	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94815	119857	1	Buff		cdm-only:CooldownSetSpell		api	When your health is brought below 35%, you gain a Second Wind, healing you for 12% of your max health over 2 sec.\n\nThis effect cannot occur more than once every 60 sec.
+Warrior	Protection	73	Violent Outburst	386477	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90265	112116	1	Buff		cdm-only:CooldownSetSpell		api	Every 250 rage you spend triggers a Violent Outburst, causing your next Shield Slam to deal 200% increased damage, generate 50% more Rage and grant Ignore Pain.
+Warrior	Protection	73	War Machine	262231	talent-passive	TraitNodeEntry	false	0	Rotational	class		90328	112185	1					api	Your auto-attacks generate 10% more Rage.\n\nKilling an enemy instantly generates 5 Rage and increases your movement speed by 30% for 8 sec.
+Warrior	Protection	73	Whirling Blade	1235113	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90432	112304	1					api	Your attacks have a chance to target a nearby enemy with Ravager for 4 sec.
+Warrior	Protection	73	Wild Strikes	382946	talent-passive	TraitNodeEntry	false	0	Rotational	class		90360	112224	2					api	Haste increased by 1% and your auto-attack critical strikes increase your auto-attack speed by 10% for 10 sec.
