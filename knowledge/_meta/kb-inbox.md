@@ -163,6 +163,83 @@ _(design context: `projects/cooldown-hud/docs/`; source-read findings folded int
   KB *already asserts* ("confirm this while logged in"); this inbox is free-form and
   un-routed. The mining queue is neither — several of its items need a **Tier-1 re-read**
   or a **PTR**, not a login. Not harvested by any tool.
-  **Highest-value item in it:** whether `item.auraDataCached` is plain in combat — if it
-  is, the in-combat DoT-remaining read that `cooldown-manager.md` §5.1 and §7 both call
-  unanswerable is already sitting on the CDM item frame. *(2026-08-05)*
+  ⚠ **Its former headline item is ANSWERED and should be struck from that file** — whether
+  `item.auraDataCached` is plain in combat. `cooldown-manager.md` §7 now carries the
+  measurement `[client 2026-08-05]` and **the answer is no**: the container is plain but
+  `expirationTime` / `duration` / `timeMod` / `applications` are all secret (only
+  `auraInstanceID` is plain). So the in-combat DoT-remaining read stays unanswerable. The
+  matching `[gap]` line in §9 was deleted 2026-08-05; this one is noted here because the
+  mining queue is a separate file. *(2026-08-05)*
+
+## Combat Assist Plus — findings from the M2/catalog session *(2026-08-05)*
+
+Raised by three parallel tracks building `cap`. **None is asserted anywhere**; each names
+what would settle it. The addon code they came from is unflown (cap has no release yet).
+
+**`cooldown-manager.md` — four, from the CDM-binding work:**
+
+- **`:740` is the one untagged row in a §7 Tier 2 table where every neighbour is
+  `[client]`-measured.** `item.cooldownID | both | can read secret` carries neither a
+  `[client]` tag nor `@verify-ingame`, so an unmarked source-read sits visually identical
+  to a measurement — and it is the claim cap's whole merge-don't-replace binding design
+  honours. Either measure it or mark it. (cap built the conservative branch, which is
+  correct either way, so this is not blocking.)
+- **`:66-73` quotes `HiddenSpell` / `HiddenAura` as `Enum.CooldownViewerCategory` members
+  without saying they are not in the enum.** The generated enum is `NumValues = 4`,
+  0–3 (Essential/Utility/TrackedBuff/TrackedBar). `HiddenSpell = -1` / `HiddenAura = -2`
+  are Lua-side assignments at `Blizzard_CooldownViewer/CooldownViewerSettingsConstants.lua:4-5`.
+  Two unstated consequences: they are **nil until `Blizzard_CooldownViewer` loads**, and
+  they are **negative**, so anything iterating the enum or assuming 0..3 is surprised.
+- **Rule 15's spellID union is narrower than Blizzard's own matcher, and the file does not
+  reconcile them.** Rule 15 (`:963-966`) = base ∪ override ∪ overrideTooltip ∪ live; but
+  §2.4 (`:186-195`) shows `SpellIDMatchesAnyAssociatedSpellIDs` *also* tests every
+  `linkedSpellIDs` pool candidate. For "is ability X on this row?" they give different
+  answers — the pool also matches aura ids (Wither `445474` hits Immolate's *cast* row).
+  Genuinely ambiguous which is intended; cap split it behind an opt-in flag rather than pick.
+- **A hole, not an error: the file documents what you can read off a row you already hold,
+  and nowhere documents how to OBTAIN the rows.** No coverage of the four viewer globals,
+  `CooldownViewerMixin:GetItemFrames()` (it is `GetLayoutChildren()`, so shown-children-
+  with-a-layoutIndex only), `GetCooldownIDs()`, or the `minimumItemCount = 2` padding
+  frames that make a naive frame count over-report. Sourced from `CooldownViewer.lua` +
+  `CooldownViewer.xml:283-333`. Would slot into §7 as a "getting the rows" preamble.
+
+**`frames-textures-animation.md` — two, from the movable-frame work:**
+
+- **The movable-frame family is entirely absent.** `SetMovable`, `StartMoving`,
+  `StopMovingOrSizing`, `RegisterForDrag`, `SetClampedToScreen`, `SetUserPlaced`,
+  `dontSavePosition` appear nowhere in §3 (Anchoring and size) or §4, despite §3 being the
+  declared home for anchoring. The subtree's only mention of the drag family is inside the
+  enumeration of the protected 59 in `security-taint-and-restricted-data.md:104`/`:108`.
+  Every addon that draws anything needs this; cap had to reconstruct the position-
+  persistence contract from Blizzard's Edit Mode source instead. Suggested home: a new
+  `### 3.6 Moving a frame, and persisting where it went`, anchored on
+  `EditModeManager.lua:295-320` + `EditModeSystemTemplates.lua:355-380`.
+- **§8.1 (`:1252-1266`) omits that `UIParent` is itself `protected="true"`.** Tier 1:
+  `Blizzard_UIParent/Mainline/UIParent.xml:4` —
+  `<Frame name="UIParent" setAllPoints="true" protected="true" preventSecretValues="true" frameStrata="MEDIUM">`.
+  Load-bearing for "is my addon frame protected?", because §1.2 says protection propagates
+  to parents and anchor targets — and every addon frame is a child of, and anchored to, a
+  protected frame. The resolution is that propagation is upward, so children are
+  unaffected; but the KB never states the premise, so a careful reader can reason their way
+  to the wrong answer. The same line is also the Tier-1 source for UIParent's `MEDIUM`
+  strata and a live `preventSecretValues="true"` example — both flagged `[gap]` at
+  `security-taint-and-restricted-data.md:1077` and `:1900`. ✅ **Verified verbatim against
+  the local UISRC checkout** (`raw/addon-research/wow-ui-source/Interface/AddOns/Blizzard_UIParent/Mainline/UIParent.xml:4`)
+  — the attribute list is exactly as quoted, so this is Tier 1 and ready to write, not a
+  lead. One detail the report missed and the file should carry: the frame sits inside
+  `<ScopedModifier addToSecureEnv="true">` (`:3`), which is also a live example for the
+  open `scoped-modifier-for-addons` lab question.
+
+**Demonology data — two, from the catalog work:**
+
+- **Transform spell-ID conflict, one pair is wrong.** Ruination reads `433885` via DB2
+  (`wowkb.spec_inventory`) vs `434635` in `projects/cooldown-hud/specs/demonology/notes.md`;
+  Infernal Bolt reads `433891` (DB2, and `abilities.md`) vs `434506`. Resolve via game data
+  per the workspace's conflict rule, then correct whichever doc is wrong. cap's catalog
+  binds by observing the override so it is not blocked.
+- **Unverified inference now load-bearing in cap's catalog:** that the Dreadstalkers
+  **buff-bar** row carries a live bound aura (readable via `auraDataUnit`) for the pair's
+  ~12s duration. Inferred from the row existing plus general in-combat readability of
+  bound-aura presence — **not measured on Demonology**. It is the whole basis of Tyrant's
+  HIGH band; if it does not hold, that entry collapses to one band and loses its point.
+  Marked medium-confidence in `projects/combat-assist/specs/demonology/catalog.md`.

@@ -1,9 +1,24 @@
 # Combat Assist Plus — project root
 
 A standalone companion app (NOT the KB): `/cap`, a combat-assistance addon for
-Retail / Midnight 12.0. **Scaffold stage** — the addon loads, registers its slash
-router and does nothing else. What it is *for* has not been decided; that decision
-belongs in `specs/spec.md` and is the first item in `specs/backlog.md`.
+Retail / Midnight 12.0. It makes Blizzard's Cooldown Manager tell you more without
+telling you what to press — re-presenting, *grading* and contextualising what you
+already have, rather than deciding for you. The core is a **tier signal**: HIGH /
+MEDIUM / LOW emphasis across the tracked set, several things lit at once, you pick.
+Around it: procs as a tier input, auto-detected sequence hints layered on top, and a
+movable cooldown-bar panel reusing the same signal. **`specs/spec.md` is the
+definition** — read it before touching anything, especially §3.1's three rules,
+which are what keep the tier signal from quietly becoming a rotation engine.
+
+**cap supersedes Cooldown HUD** (`projects/cooldown-hud/`, CDMProbe), which grew
+into the decision engine this project is deliberately not. No code is ported;
+CDMProbe's client facts live in `knowledge/addon-dev/` and stay authoritative.
+
+**Code status: M2 code-complete, not flown.** `Core.lua` (router + the
+`ns.RegisterCommand` / `ns.RegisterStatus` registries), `Bind.lua` (the CDM binding)
+and `Frame.lua` (the movable panel). ⚠ **The deployed release is still the scaffold** —
+Bind and Frame have never executed in the client. `specs/backlog.md` → `Now` holds the
+acceptance list they need.
 
 The addon source is `addon/` — its own git repo (`michac/cap`), **gitignored** by
 the wow workspace, with its own `CLAUDE.md` covering the release workflow. This
@@ -59,5 +74,7 @@ uv run python -m wowkb.addon release cap [--patch|--minor|--major]
 ```
 
 ⚠ **A push does not reach the game.** `ghaddons` installs from the latest GitHub
-*release*. Nothing is deployed until a release is cut — as of now none has been,
-so the addon is not in the game folder. Current version: `wowkb.addon list`.
+*release*, so nothing is deployed until a release is cut. cap **is** released and
+installed — but the deployed build is the **scaffold** (`.toc` + `Core.lua`); any
+module added since is working-tree-only until the next cut. Always read the live
+version off `wowkb.addon list` rather than this file.

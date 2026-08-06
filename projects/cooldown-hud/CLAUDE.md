@@ -1,5 +1,38 @@
 # Cooldown HUD — project root
 
+> ## ⛔ SUPERSEDED — 2026-08-05
+>
+> **This project is replaced by Combat Assist Plus (`projects/combat-assist/`, `/cap`).**
+> There is one addon riding the Cooldown Manager going forward and it is not this one.
+>
+> **Why.** CDMProbe started as "what can I do with the CDM" and grew into a
+> **next-action decision engine** — one answer per GCD. That runs against Blizzard's
+> stated position on combat addons, and the 12.0 Secret-Values restrictions had already
+> begun capping what it could calculate. cap is the same premise re-aimed at what the
+> platform invites: re-present, grade, contextualise — **narrow** the decision instead of
+> making it. See `projects/combat-assist/specs/spec.md` §1 and §4's *Cooldown HUD
+> boundary*.
+>
+> **What that means in practice:**
+>
+> - **No new work.** The multi-class rollout is stopped; Phases 3–5 will not be built.
+> - **The Havoc flight is MOOT as a CDMProbe deliverable.** Everything below that names
+>   it as "the in-game gate" is describing a gate on work that is no longer happening.
+> - **No code is ported to cap.** The `State → Coach → Binder → Renderer` pipeline was
+>   shaped around authoring a priority answer, which is the one thing cap does not do;
+>   inheriting it would smuggle the premise back in.
+> - **Two things here stay authoritative and are actively read:**
+>   1. **Measured client facts** — already written into `knowledge/addon-dev/` (that KB
+>      is the authority, not these docs). §4.8's secret-display channels are what cap's
+>      whole visual design rests on.
+>   2. **Per-spec rotation research** — `specs/demonology/` especially, which cap
+>      harvests into its catalog format.
+> - **The auto-deploy exception below is dead** with the project. cap has no standing
+>   exception; releasing it is ask-first.
+>
+> **Read the rest of this file as history.** Its present-tense claims about active work,
+> gates and next phases were true on 2026-08-04 and are not now.
+
 A standalone companion app (NOT the KB): a spec-specific overlay that skins
 Blizzard's built-in **Cooldown Manager** under Midnight 12.0. Registered specs:
 **Demonology** (266, play-settled), **Destruction** (267, shipped 2026-07-29, flown

@@ -1,5 +1,21 @@
 # Cooldown HUD — status & worklist
 
+> ## ⛔ SUPERSEDED 2026-08-05 — THIS IS NO LONGER A LIVE WORKLIST
+>
+> Cooldown HUD is replaced by **Combat Assist Plus** (`projects/combat-assist/`, `/cap`).
+> See `../CLAUDE.md`'s banner for why. **Nothing below is open work.**
+>
+> - The **Active work** item and the **owed Havoc flight** are moot — that gate guards
+>   rollout phases that will not be built.
+> - The **Improvements / backlog** section is **not** a queue any more. Do not pull the
+>   next item from it. If something in it still matters, it belongs in
+>   `projects/combat-assist/specs/backlog.md` under `Ideas`.
+> - The routing rule below — *"plan / do the next cooldown-HUD thing" starts HERE* — is
+>   **revoked**. There is no next cooldown-HUD thing.
+>
+> Read this file as a record of where the HUD stopped, and as source material for cap's
+> Demonology catalog.
+
 **The live worklist.** Current state, what's done, and the improvement backlog. Vision +
 design language live in `design.md`; the pipeline in `architecture.md`; the Secret-Values
 reality in `notes.md`; the rotation in `specs/demonology/rotation.md`. Historical

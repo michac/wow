@@ -162,33 +162,39 @@ touching the code**. Status as of 2026-07-09:
   §10. In-game verification: Demonology pilot verified; the other 32
   DPS/tank specs' float placement is the outstanding in-game pass. Read off disk
   by `wowkb.diagnostics`. (Current addon version: `wowkb.addon list`.)
-- `projects/cooldown-hud/` — **Cooldown HUD**: a spec-specific overlay that skins
-  Blizzard's built-in **Cooldown Manager** (Midnight 12.0), terminal/CRT
-  aesthetic; v1 target **Demonology Warlock**. **This file tracks none of its
-  state** — status, roadmap, and design all live in the project. Start at its
-  `CLAUDE.md` (the doc map): the docs split **general** (`docs/design.md` vision +
-  design language · `docs/architecture.md` the State→Coach→Binder→Renderer pipeline ·
-  `docs/status.md` the live worklist + backlog · `docs/notes.md` the Secret-Values
-  reality) from **per-spec** (`specs/demonology/` — the
-  rotation brain + facts) — plus `docs/multi-class-rollout.md`, the **rollout plan and both
-  session logs**: Retribution's first flight (5 defects fixed, the API measurements, the
-  per-spec DB2 brief) and **Phase 2 — Havoc DH, shipped 2026-08-03, where the in-game gate
-  was INVERTED rather than skipped** (the gate wanted a max-level *Retribution* pass, there
-  is no max-level Paladin, so the user's call was to discharge it from the *Demon Hunter*
-  side; the roster anchor it also asked for shipped first, as v0.32.92).
-  ⏳ **The Havoc flight is the outstanding deliverable** — everything else in the rollout is
-  blocked behind it. Build history is in `docs/archive/`. The addon
-  (`michac/CDMProbe`) is at `addon/` (own git repo, gitignored, own `CLAUDE.md` for
-  the release workflow). (Current addon version: `wowkb.addon list`.)
-- `projects/combat-assist/` — **Combat Assist Plus** (`/cap`): a combat-assistance
-  addon. **Scaffold only** as of 2026-08-05 — `.toc`, namespace, SavedVariables and
-  the schema-driven slash router, no gameplay behaviour. **What it's for is
-  deliberately undefined**; deciding it is the first backlog item. Start at its
-  `CLAUDE.md` (project root), which owns the **spec process**: `specs/spec.md` = what
-  the addon is supposed to do (present-tense, no history) · `specs/backlog.md` = the
-  work items · `specs/notes.md` = what we did, session logs + decisions. The addon
-  (`michac/cap`) is at `addon/` — own git repo, **gitignored**, own `CLAUDE.md` for
-  the release workflow. (Current addon version: `wowkb.addon list`.)
+- `projects/cooldown-hud/` — **Cooldown HUD** (CDMProbe): ⛔ **SUPERSEDED 2026-08-05 by
+  Combat Assist Plus** (below). A spec-specific overlay skinning Blizzard's Cooldown
+  Manager that **grew into a next-action decision engine** — one answer per GCD — which
+  is both against Blizzard's stated position on combat addons and increasingly capped by
+  the 12.0 Secret-Values restrictions. **There is one addon riding the CDM going forward
+  and it is `cap`, not this.** No new work; the multi-class rollout is stopped and
+  **the owed Havoc flight is moot** — it gated rollout phases that will not be built.
+  **Do NOT route "plan the next cooldown-HUD thing" here** — its `docs/status.md` was the
+  live worklist and is now explicitly closed; read that file and its `CLAUDE.md` for the
+  SUPERSEDED banners before believing anything present-tense in either.
+  **Two things stay authoritative and are actively read:** its **measured client facts**
+  (already written into `knowledge/addon-dev/` — that KB is the authority, not these
+  docs) and its **per-spec rotation research** (`specs/demonology/` especially), which
+  cap harvests into its catalogs. Its *code* is not ported. The addon
+  (`michac/CDMProbe`) is still at `addon/` (own git repo, gitignored). Build history:
+  `docs/archive/`.
+- `projects/combat-assist/` — **Combat Assist Plus** (`/cap`): **the live CDM addon**, a
+  combat-assistance overlay that makes the Cooldown Manager tell you more **without
+  telling you what to press**. The core is a **tier signal** — HIGH/MEDIUM/LOW emphasis
+  across the tracked set, several things lit at once, you pick — with procs as a tier
+  *input*, auto-detected sequence hints layered on top, and a movable cooldown-bar panel
+  reusing the same signal. It **re-presents, grades and contextualises**: narrowing
+  decisions instead of making them, which is the line the whole design is built along
+  and the reason it supersedes the HUD. **Spec §1–§5 written (M1 ✅); code is scaffold +
+  M2 foundation in progress.** v1 spec: **Demonology Warlock**; a spec without a catalog
+  gets nothing, by design. Start at its `CLAUDE.md` (project root), which owns the
+  **spec process**: `specs/spec.md` = what the addon is supposed to do (present-tense, no
+  history — **read §3.1's three rules**, they're what keep the tier signal from quietly
+  becoming a rotation engine) · `specs/backlog.md` = the work items · `specs/notes.md` =
+  what we did, session logs + decisions. ⚠ **No standing auto-deploy exception** (the
+  HUD's was scoped to CDMProbe alone) — releasing is ask-first. The addon (`michac/cap`)
+  is at `addon/` — own git repo, **gitignored**, own `CLAUDE.md` for the release
+  workflow. (Current addon version: `wowkb.addon list`.)
 - `projects/addon-lab/` — **ClientLab**: the scratch lab addon that answers
   `knowledge/addon-dev/` questions by running Lua in the live client, plus
   **`questions.json`, the test registry** (four statuses:
