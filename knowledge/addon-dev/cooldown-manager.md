@@ -899,12 +899,19 @@ combat; this one does not. *(Why it survives is predictable from the generated d
 reasoning generalises beyond the CDM — see
 [`api-events-and-discovery`](./api-events-and-discovery.md) §5.7.)*
 
-⚠ **Readability is proven; usefulness is not.** The capture recorded a **constant `691`
-(Summon Felhunter)** at every sample, out of combat and in, on both arguments. The recorder
-dedups by readability *class*, so it only sampled at transitions and cannot show whether the
-value tracked the rotation. Before treating this as an oracle to diff a rotation against,
-take a **value-sampling** pass. Note also what it is by design: a generic single-target
-rotation with **no AoE/mode awareness and no burst planning**.
+⚠ **Readability is proven; usefulness is not.** `` @pending-test:
+assisted-combat-next-cast-varies `` The capture recorded a **constant `691`
+(Summon Felhunter)** at every sample, out of combat and in, on both arguments.
+
+⚠⚠ **That constant is not evidence the oracle is stuck, and must not be quoted as
+though it were.** The recorder dedups by readability *class*, so it sampled only at
+readable⇄secret transitions — of which there were none — and a value changing every GCD
+would have been recorded **exactly once**, indistinguishable from one that never changed.
+The measurement cannot separate the two hypotheses, so it supports neither. Before
+treating this as an oracle to diff a rotation against, take a **value-sampling** pass —
+one keyed to the player's own casts, not to a timer or a readability edge, since a
+rotation answer should advance when you cast. Note also what it is by design: a generic
+single-target rotation with **no AoE/mode awareness and no burst planning**.
 
 **Summary: the readable surface changes with the family, but asymmetrically.** Tier 1
 is identical. Tier 2 diverges hardest — tab 1 carries a cooldown/charge cache and the
@@ -970,9 +977,6 @@ source flags; tab 2 carries little but computes on demand, and is the only side 
   two Preconditions in the corpus declaring no `FailureMode`, and the three getters carrying
   it also carry the `SecretWhenUnitAuraRestricted` *Secret* predicate — so neither the
   failure behaviour nor the interaction of the two annotations is documented at Tier 1.
-- **`[gap]`** Whether the members of `item.auraDataCached` are plain in restricted combat
-  (§7 Tier 2). If they are, the "how long is left on my DoT" read this file elsewhere calls
-  unanswerable is already sitting on the frame.
 - **`[gap]`** Whether any spec's proc is modelled as a **cast count** rather than real
   charges, so that `ChargeGained` fires for it off `C_Spell.GetSpellCastCount` (§5.3) — that
   would be a way to count something otherwise secret.
