@@ -1,0 +1,190 @@
+class	spec	spec_id	name	spell_id	origin	source	castable	cooldown	band	tree	hero_tree	node_id	entry_id	max_ranks	blizz_category	seed_bucket	also_from	aliases
+Druid	Feral	103	Berserk	106951	talent-active	TraitNodeEntry	true	180	Cooldown	spec		82101	103162	1	Essential/Other		cdm-only:CooldownSetSpell	
+Druid	Feral	103	Innervate	29166	talent-active	TraitNodeEntry	true	180	Cooldown	class		82244	103324	1	Utility	Self-Heal 3 (Overflow)	cdm-only:CooldownSetSpell	
+Druid	Feral	103	Heart of the Wild	1261867	talent-active	TraitNodeEntry	true	120	Cooldown	class		82231	103309	1	Buff/Utility	Self-Heal 4 (Emergency/Overflow)	cdm-only:CooldownSetSpell	
+Druid	Feral	103	Stampeding Roar	106898	talent-active	TraitNodeEntry	true	120	Cooldown	class		82234	103312	1	Buff/Utility	Class 1 (Movement)	cdm-only:CooldownSetSpell	
+Druid	Feral	103	Feral Frenzy	274837	talent-active	TraitNodeEntry	true	45	Cooldown	spec		82112	103175	1	Buff/Essential		cdm-only:CooldownSetSpell	
+Druid	Feral	103	Maim	22570	talent-active	TraitNodeEntry	true	30	Rotational	class		82221	103299	1	Buff/Utility	CC 2	cdm-only:CooldownSetSpell	
+Druid	Feral	103	Tiger's Fury	5217	talent-active	TraitNodeEntry	true	30	Rotational	spec		82124	103188	1	Essential/Other	Rotational 5	cdm-only:CooldownSetSpell	
+Druid	Feral	103	Typhoon	132469	talent-active	TraitNodeEntry	true	30	Rotational	class		82209	103287	1	Buff/Utility	Slow	class-baseline:SkillLineAbility:798;cdm-only:CooldownSetSpell	
+Druid	Feral	103	Skull Bash	106839	talent-active	TraitNodeEntry	true	15	Rotational	class		82242	103322	1	Utility	Interrupt	cdm-only:CooldownSetSpell	
+Druid	Feral	103	Starsurge	197626	talent-active	TraitNodeEntry	true	10	Rotational	class		82200	103278	1				
+Druid	Feral	103	Wild Growth	48438	talent-active	TraitNodeEntry	true	10	Rotational	class		82205	103283	1				
+Druid	Feral	103	Remove Corruption	2782	talent-active	TraitNodeEntry	true	8	Rotational	class		82241	103320	1	Utility	Class 6 (Dispel)	cdm-only:CooldownSetSpell	
+Druid	Feral	103	Survival Instincts	61336	talent-active	TraitNodeEntry	true	6	Rotational	spec		82116	103180	1	Buff/Utility	Personal Defensive 2	cdm-only:CooldownSetSpell	
+Druid	Feral	103	Frenzied Regeneration	22842	talent-active	TraitNodeEntry	true	1	Rotational	class		82220	103298	1	Buff/Utility	Self-Heal 2	cdm-only:CooldownSetSpell	
+Druid	Feral	103	Ironfur	192081	talent-active	TraitNodeEntry	true	0.5	Rotational	class		82227	103305	1	Buff/Utility		cdm-only:CooldownSetSpell	
+Druid	Feral	103	Hibernate	2637	talent-active	TraitNodeEntry	true	0	Rotational	class		82211	103289	1	Buff/Utility	Class 4 (Special)	cdm-only:CooldownSetSpell	
+Druid	Feral	103	Moonkin Form	24858	talent-active	TraitNodeEntry	true	0	Rotational	class		82208	103286	1		Stance 4	talent-active:TraitNodeEntry	
+Druid	Feral	103	Primal Wrath	285381	talent-active	TraitNodeEntry	true	0	Rotational	spec		82120	103184	1	Essential		cdm-only:CooldownSetSpell	
+Druid	Feral	103	Rake	1822	talent-active	TraitNodeEntry	true	0	Rotational	class		82199	103277	1	Buff/Essential	Rotational 2	cdm-only:CooldownSetSpell	
+Druid	Feral	103	Rejuvenation	774	talent-active	TraitNodeEntry	true	0	Rotational	class		82217	103295	1				
+Druid	Feral	103	Rip	1079	talent-active	TraitNodeEntry	true	0	Rotational	class		82222	103300	1	Buff/Essential	Rotational 3	cdm-only:CooldownSetSpell	
+Druid	Feral	103	Starfire	197628	talent-active	TraitNodeEntry	true	0	Rotational	class		91044	112967	1			talent-active:TraitNodeEntry	
+Druid	Feral	103	Sunfire	93402	talent-active	TraitNodeEntry	true	0	Rotational	class		93714	116102	1			class-baseline:SkillLineAbility:798	
+Druid	Feral	103	Swipe	213764	talent-active	TraitNodeEntry	true	0	Rotational	class		82223	103301	1	Essential	Rotational 6	cdm-only:CooldownSetSpell	
+Druid	Feral	103	Symbiotic Relationship	474750	talent-active	TraitNodeEntry	true	0	Rotational	class		100173	123792	1		PvP 3		
+Druid	Feral	103	Incarnation: Avatar of Ashamane	102543	talent-choice	TraitNodeEntry	true	180	Cooldown	spec		82114	103178	1				
+Druid	Feral	103	Convoke the Spirits	391528	talent-choice	TraitNodeEntry	true	120	Cooldown	spec		82114	103177	1	Essential		cdm-only:CooldownSetSpell	
+Druid	Feral	103	Mighty Bash	5211	talent-choice	TraitNodeEntry	true	60	Cooldown	class		82237	103315	1	Buff/Utility	CC	cdm-only:CooldownSetSpell	
+Druid	Feral	103	Ursol's Vortex	102793	talent-choice	TraitNodeEntry	true	60	Cooldown	class		82207	128589	1	Utility		class-baseline:SkillLineAbility:798;cdm-only:CooldownSetSpell	
+Druid	Feral	103	Frantic Frenzy	1243807	talent-choice	TraitNodeEntry	true	45	Cooldown	spec		82111	134211	1				
+Druid	Feral	103	Tiger Dash	252216	talent-choice	TraitNodeEntry	true	45	Cooldown	class		82198	103275	1				
+Druid	Feral	103	Incapacitating Roar	99	talent-choice	TraitNodeEntry	true	30	Rotational	class		82237	103316	1	Buff/Utility		cdm-only:CooldownSetSpell	
+Druid	Feral	103	Mass Entanglement	102359	talent-choice	TraitNodeEntry	true	30	Rotational	class		82207	103285	1	Utility	Class 2 (CC)	cdm-only:CooldownSetSpell	
+Druid	Feral	103	Chomp	1244258	talent-choice	TraitNodeEntry	true	20	Rotational	spec		82108	134212	1	Essential		cdm-only:CooldownSetSpell	
+Druid	Feral	103	Wild Charge	102401	talent-choice	TraitNodeEntry	true	15	Rotational	class		82198	103276	1	Utility	Immune/Spell Immune/Movement	cdm-only:CooldownSetSpell	
+Druid	Feral	103	Soothe	2908	talent-choice	TraitNodeEntry	true	10	Rotational	class		82229	103307	1	Utility	Class 5 (Purge)	cdm-only:CooldownSetSpell	
+Druid	Feral	103	Cyclone	33786	talent-choice	TraitNodeEntry	true	0	Rotational	class		82229	128587	1	Buff/Utility		cdm-only:CooldownSetSpell	
+Druid	Feral	103	Rebirth	20484	class-baseline	SkillLineAbility:798	true	600	Cooldown						Utility	Class 8 (Lust/BRes)	cdm-only:CooldownSetSpell	
+Druid	Feral	103	Dash	1850	class-baseline	SkillLineAbility:798	true	120	Cooldown						Buff/Utility	Movement Ability	cdm-only:CooldownSetSpell	
+Druid	Feral	103	Essence of G'Hanir	208253	class-baseline	SkillLineAbility:798	true	90	Cooldown									
+Druid	Feral	103	Ashamane's Frenzy	210722	class-baseline	SkillLineAbility:798	true	75	Cooldown									
+Druid	Feral	103	Barkskin	22812	class-baseline	SkillLineAbility:798	true	60	Cooldown						Buff/Utility	Personal Defensive 1	cdm-only:CooldownSetSpell	
+Druid	Feral	103	Dreamwalk	193753	class-baseline	SkillLineAbility:798	true	60	Cooldown									
+Druid	Feral	103	Charm Woodland Creature	127757	class-baseline	SkillLineAbility:798	true	30	Rotational									
+Druid	Feral	103	Growl	6795	class-baseline	SkillLineAbility:798	true	8	Rotational						Utility		cdm-only:CooldownSetSpell	
+Druid	Feral	103	Prowl	102547	class-baseline	SkillLineAbility:798	true	6	Rotational						Buff/Essential	Taunt/Quick Access	cdm-only:CooldownSetSpell	
+Druid	Feral	103	Thrash	77758	class-baseline	SkillLineAbility:798	true	6	Rotational						Essential		cdm-only:CooldownSetSpell	
+Druid	Feral	103	Strength of the Wild	236716	class-baseline	SkillLineAbility:798	true	3	Rotational						Buff		pvp-talent:PvpTalent;cdm-only:CooldownSetSpell	
+Druid	Feral	103	Track Beasts	210065	class-baseline	SkillLineAbility:798	true	1.5	Rotational									
+Druid	Feral	103	Track Humanoids	5225	class-baseline	SkillLineAbility:798	true	1.5	Rotational									
+Druid	Feral	103	Bear Form	5487	class-baseline	SkillLineAbility:798	true	0	Rotational							Stance 1		
+Druid	Feral	103	Cat Form	768	class-baseline	SkillLineAbility:798	true	0	Rotational							Stance 2		
+Druid	Feral	103	Cenarion Ward	102352	class-baseline	SkillLineAbility:798	true	0	Rotational									
+Druid	Feral	103	Clearcasting	16870	class-baseline	SkillLineAbility:798	true	0	Rotational									
+Druid	Feral	103	Efflorescence	81269	class-baseline	SkillLineAbility:798	true	0	Rotational									
+Druid	Feral	103	Entangling Roots	339	class-baseline	SkillLineAbility:798	true	0	Rotational						Buff	Class 3 (Tag)	cdm-only:CooldownSetSpell	
+Druid	Feral	103	Ferocious Bite	22568	class-baseline	SkillLineAbility:798	true	0	Rotational						Essential	Rotational 4	cdm-only:CooldownSetSpell	
+Druid	Feral	103	Flap	164862	class-baseline	SkillLineAbility:798	true	0	Rotational									
+Druid	Feral	103	Flight Form	165962	class-baseline	SkillLineAbility:798	true	0	Rotational									
+Druid	Feral	103	Force of Nature	37846	class-baseline	SkillLineAbility:798	true	0	Rotational									
+Druid	Feral	103	Incarnation: Tree of Life	81098	class-baseline	SkillLineAbility:798	true	0	Rotational									
+Druid	Feral	103	Mangle	33917	class-baseline	SkillLineAbility:798	true	0	Rotational						Essential		cdm-only:CooldownSetSpell	
+Druid	Feral	103	Mark of the Wild	1126	class-baseline	SkillLineAbility:798	true	0	Rotational							Buff		
+Druid	Feral	103	Moonfire	8921	class-baseline	SkillLineAbility:798	true	0	Rotational						Buff/Essential		cdm-only:CooldownSetSpell	
+Druid	Feral	103	Mount Form	210053	class-baseline	SkillLineAbility:798	true	0	Rotational									
+Druid	Feral	103	Regrowth	8936	class-baseline	SkillLineAbility:798	true	0	Rotational						Utility	Self-Heal 1	cdm-only:CooldownSetSpell	
+Druid	Feral	103	Revive	50769	class-baseline	SkillLineAbility:798	true	0	Rotational							Res		
+Druid	Feral	103	Shapeshift Form	228545	class-baseline	SpecializationSpells	true	0	Rotational									
+Druid	Feral	103	Shred	5221	class-baseline	SkillLineAbility:798	true	0	Rotational						Essential	Rotational 1	cdm-only:CooldownSetSpell	
+Druid	Feral	103	Single-Button Assistant	1229376	class-baseline	SpecializationSpells	true	0	Rotational									
+Druid	Feral	103	Teleport: Moonglade	18960	class-baseline	SkillLineAbility:798	true	0	Rotational									
+Druid	Feral	103	Tranquility	157982	class-baseline	SkillLineAbility:798	true	0	Rotational									
+Druid	Feral	103	Travel Form	783	class-baseline	SkillLineAbility:798	true	0	Rotational							Stance 3		
+Druid	Feral	103	Treant Form	114282	class-baseline	SkillLineAbility:798	true	0	Rotational									
+Druid	Feral	103	Wrath	5176	class-baseline	SkillLineAbility:798	true	0	Rotational									
+Druid	Feral	103	Ysera's Gift	145109	class-baseline	SkillLineAbility:798	true	0	Rotational									
+Druid	Feral	103	Ferocious Wound	236020	pvp-talent	PvpTalent	false	0	Rotational						Buff		cdm-only:CooldownSetSpell	
+Druid	Feral	103	Freedom of the Herd	213200	pvp-talent	PvpTalent	false	0	Rotational									
+Druid	Feral	103	Fresh Wound	203224	pvp-talent	PvpTalent	false	0	Rotational									
+Druid	Feral	103	High Winds	200931	pvp-talent	PvpTalent	false	0	Rotational									
+Druid	Feral	103	Leader of the Pack	202626	pvp-talent	PvpTalent	false	0	Rotational									
+Druid	Feral	103	Malorne's Swiftness	236012	pvp-talent	PvpTalent	false	0	Rotational									
+Druid	Feral	103	Savage Momentum	205673	pvp-talent	PvpTalent	false	0	Rotational									
+Druid	Feral	103	Thorns	1217017	pvp-talent	PvpTalent	false	0	Rotational						Buff		cdm-only:CooldownSetSpell	
+Druid	Feral	103	Tireless Pursuit	377801	pvp-talent	PvpTalent	false	0	Rotational						Buff		cdm-only:CooldownSetSpell	
+Druid	Feral	103	Wicked Claws	203242	pvp-talent	PvpTalent	false	0	Rotational									
+Druid	Feral	103	Aessina's Renewal	474678	talent-passive	TraitNodeEntry	false	0	Rotational	class		82232	128581	1				
+Druid	Feral	103	Aggravate Wounds	441829	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Druid of the Claw	94616	117216	1				
+Druid	Feral	103	Apex Predator's Craving	391881	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82109	103172	1	Buff		cdm-only:CooldownSetSpell	
+Druid	Feral	103	Ashamane's Guidance	391548	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82113	103176	1				
+Druid	Feral	103	Astral Influence	197524	talent-passive	TraitNodeEntry	false	0	Rotational	class		82210	103288	1				
+Druid	Feral	103	Berserk: Heart of the Lion	391174	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82100	103161	1				
+Druid	Feral	103	Bestial Strength	441841	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Druid of the Claw	94611	117208	1				
+Druid	Feral	103	Blood Spattered	1244532	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82090	103149	1				
+Druid	Feral	103	Bond with Nature	439929	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Wildstalker	94625	117225	1				
+Druid	Feral	103	Bursting Growth	440120	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Wildstalker	109716	135974	1				
+Druid	Feral	103	Carnivorous Instinct	390902	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82110	103173	2				
+Druid	Feral	103	Circle of Life and Death	400320	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82092	103152	1				
+Druid	Feral	103	Circle of the Heavens	474541	talent-passive	TraitNodeEntry	false	0	Rotational	class		104078	128579	1				
+Druid	Feral	103	Circle of the Wild	474530	talent-passive	TraitNodeEntry	false	0	Rotational	class		104078	128580	1				
+Druid	Feral	103	Claw Rampage	441835	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Druid of the Claw	94613	117211	1				
+Druid	Feral	103	Coiled to Spring	449537	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82085	103144	1	Buff		cdm-only:CooldownSetSpell	
+Druid	Feral	103	Double-Clawed Rake	391700	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82086	103145	1				
+Druid	Feral	103	Dreadful Bleeding	391045	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82118	103182	1				
+Druid	Feral	103	Dreadful Wound	441809	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Druid of the Claw	94620	117220	1				
+Druid	Feral	103	Empowered Shapeshifting	441689	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Druid of the Claw	94612	117210	1				
+Druid	Feral	103	Entangling Vortex	439895	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Wildstalker	94622	117222	1				
+Druid	Feral	103	Exacerbating Wounds	1271839	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Druid of the Claw	94619	117219	1				
+Druid	Feral	103	Feline Swiftness	131768	talent-passive	TraitNodeEntry	false	0	Rotational	class		82236	103314	1				
+Druid	Feral	103	Flower Walk	439901	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Wildstalker	94622	119855	1				
+Druid	Feral	103	Fluid Form	449193	talent-passive	TraitNodeEntry	false	0	Rotational	class		82246	103326	1				
+Druid	Feral	103	Focused Frenzy	1244544	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82111	103174	1				
+Druid	Feral	103	Forestwalk	400129	talent-passive	TraitNodeEntry	false	0	Rotational	class		82243	103323	2				
+Druid	Feral	103	Fount of Strength	441675	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Druid of the Claw	94618	117218	1				
+Druid	Feral	103	Frantic Momentum	391875	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82115	103179	2	Buff		cdm-only:CooldownSetSpell	
+Druid	Feral	103	Gale Winds	400142	talent-passive	TraitNodeEntry	false	0	Rotational	class		104079	128583	1				
+Druid	Feral	103	Gift of the Wild	1262034	talent-passive	TraitNodeEntry	false	0	Rotational	class		100175	123794	1				
+Druid	Feral	103	Green Thumb	1270565	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Wildstalker	109717	135975	1				
+Druid	Feral	103	Grievous Wounds	474526	talent-passive	TraitNodeEntry	false	0	Rotational	class		82239	103318	1				
+Druid	Feral	103	Harmonious Constitution	440116	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Wildstalker	94625	119854	1				
+Druid	Feral	103	Hunger for Battle	1244547	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82095	103156	1	Buff		cdm-only:CooldownSetSpell	
+Druid	Feral	103	Hunt Beneath the Open Skies	439868	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Wildstalker	94629	117231	1				
+Druid	Feral	103	Implant	440118	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Wildstalker	94628	117229	1				
+Druid	Feral	103	Improved Barkskin	327993	talent-passive	TraitNodeEntry	false	0	Rotational	class		104085	128591	1				
+Druid	Feral	103	Improved Stampeding Roar	288826	talent-passive	TraitNodeEntry	false	0	Rotational	class		82230	103308	1				
+Druid	Feral	103	Incessant Tempest	400140	talent-passive	TraitNodeEntry	false	0	Rotational	class		104079	128582	1				
+Druid	Feral	103	Infected Wounds	48484	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82088	103147	1	Buff		cdm-only:CooldownSetSpell	
+Druid	Feral	103	Instincts of the Claw	449184	talent-passive	TraitNodeEntry	false	0	Rotational	class		104081	128585	1				
+Druid	Feral	103	Killer Instinct	108299	talent-passive	TraitNodeEntry	false	0	Rotational	class		82225	103303	2				
+Druid	Feral	103	Killing Strikes	441824	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Druid of the Claw	109723	136624	1	Buff		cdm-only:CooldownSetSpell	
+Druid	Feral	103	Lacerating Claws	1244632	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82096	103157	1				
+Druid	Feral	103	Lethal Preservation	455461	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Wildstalker	94624	117224	1				
+Druid	Feral	103	Limb from Limb	1271540	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Druid of the Claw	109722	135980	1				
+Druid	Feral	103	Lingering Healing	231040	talent-passive	TraitNodeEntry	false	0	Rotational	class		82240	103319	1				
+Druid	Feral	103	Lore of the Grove	449185	talent-passive	TraitNodeEntry	false	0	Rotational	class		104080	128584	1				
+Druid	Feral	103	Lunar Inspiration	155580	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82108	103170	1				
+Druid	Feral	103	Lycara's Inspiration	1232897	talent-passive	TraitNodeEntry	false	0	Rotational	class		92229	114300	1				
+Druid	Feral	103	Lycara's Teachings	378988	talent-passive	TraitNodeEntry	false	0	Rotational	class		82233	103311	2				
+Druid	Feral	103	Matted Fur	385786	talent-passive	TraitNodeEntry	false	0	Rotational	class		100177	123796	2				
+Druid	Feral	103	Merciless Claws	231063	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82098	103159	1				
+Druid	Feral	103	Moment of Clarity	236068	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82106	103167	1				
+Druid	Feral	103	Natural Recovery	377796	talent-passive	TraitNodeEntry	false	0	Rotational	class		82206	103284	1				
+Druid	Feral	103	Nurturing Instinct	33873	talent-passive	TraitNodeEntry	false	0	Rotational	class		82214	103292	2				
+Druid	Feral	103	Oakskin	449191	talent-passive	TraitNodeEntry	false	0	Rotational	class		100176	123795	1				
+Druid	Feral	103	Omen of Clarity	16864	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82123	103187	1	Buff		cdm-only:CooldownSetSpell	
+Druid	Feral	103	Pack's Endurance	441844	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Druid of the Claw	94615	117215	1				
+Druid	Feral	103	Panther's Guile	1280316	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82103	103164	1				
+Druid	Feral	103	Patient Custodian	1270592	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Wildstalker	94630	117232	1				
+Druid	Feral	103	Perfectly-Honed Instincts	1213597	talent-passive	TraitNodeEntry	false	0	Rotational	class		104082	128586	1				
+Druid	Feral	103	Pouncing Strikes	390772	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82119	103183	1				
+Druid	Feral	103	Predator	202021	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82122	103186	1				
+Druid	Feral	103	Primal Fury	159286	talent-passive	TraitNodeEntry	false	0	Rotational	class		82224	103302	1				
+Druid	Feral	103	Raging Fury	391078	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82107	103169	1				
+Druid	Feral	103	Rampancy	1270586	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Wildstalker	109715	135973	1				
+Druid	Feral	103	Rampant Ferocity	391709	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82117	103181	1				
+Druid	Feral	103	Ravage	441583	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Druid of the Claw	94609	117206	1	Buff		cdm-only:CooldownSetSpell	
+Druid	Feral	103	Resilient Flourishing	439880	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Wildstalker	94631	117234	1				
+Druid	Feral	103	Rip and Tear	391347	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82093	103153	1	Buff		cdm-only:CooldownSetSpell	
+Druid	Feral	103	Root Network	439882	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Wildstalker	94631	117233	1				
+Druid	Feral	103	Ruthless Aggression	441814	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Druid of the Claw	109723	135981	1	Buff		cdm-only:CooldownSetSpell	
+Druid	Feral	103	Saber Jaws	421432	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82094	103155	2				
+Druid	Feral	103	Sabertooth	202031	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82102	103163	1	Buff		cdm-only:CooldownSetSpell	
+Druid	Feral	103	Savage Fury	449645	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82099	103160	1	Buff		cdm-only:CooldownSetSpell	
+Druid	Feral	103	Soul of the Forest	158476	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82091	103150	1				
+Druid	Feral	103	Starlight Conduit	451211	talent-passive	TraitNodeEntry	false	0	Rotational	class		100223	123868	1				
+Druid	Feral	103	Strategic Infusion	439890	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Wildstalker	94623	117223	1	Buff		cdm-only:CooldownSetSpell	
+Druid	Feral	103	Strike for the Heart	441845	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Druid of the Claw	94614	117214	1				
+Druid	Feral	103	Sudden Ambush	384667	talent-passive	TraitNodeEntry	false	0	Rotational	spec		92641	114771	1	Buff		cdm-only:CooldownSetSpell	
+Druid	Feral	103	Taste for Blood	384665	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82104	103165	1				
+Druid	Feral	103	Tear Down the Mighty	441846	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Druid of the Claw	94614	117213	1				
+Druid	Feral	103	Thick Hide	16931	talent-passive	TraitNodeEntry	false	0	Rotational	class		82228	103306	1				
+Druid	Feral	103	Thriving Growth	439528	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Wildstalker	94626	117226	1	Buff		cdm-only:CooldownSetSpell	
+Druid	Feral	103	Tiger's Tenacity	391872	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82107	103168	1	Buff		cdm-only:CooldownSetSpell	
+Druid	Feral	103	Tireless Energy	383352	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82121	103185	2				
+Druid	Feral	103	Twin Claw	1271635	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Druid of the Claw	109721	135979	1				
+Druid	Feral	103	Twin Sprouts	440117	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Wildstalker	94628	117230	1				
+Druid	Feral	103	Unseen Predator	1263657	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110426	137046	1	Buff		talent-passive:TraitNodeEntry;cdm-only:CooldownSetSpell	
+Druid	Feral	103	Ursine Vigor	377842	talent-passive	TraitNodeEntry	false	0	Rotational	class		100174	123793	1	Buff		cdm-only:CooldownSetSpell	
+Druid	Feral	103	Ursoc's Spirit	449182	talent-passive	TraitNodeEntry	false	0	Rotational	class		82219	103297	1				
+Druid	Feral	103	Veinripper	391978	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82093	103154	1				
+Druid	Feral	103	Verdant Heart	301768	talent-passive	TraitNodeEntry	false	0	Rotational	class		82218	103296	1				
+Druid	Feral	103	Vigorous Creepers	440119	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Wildstalker	94627	117227	1				
+Druid	Feral	103	Well-Honed Instincts	377847	talent-passive	TraitNodeEntry	false	0	Rotational	class		82235	103313	1				
+Druid	Feral	103	Wild Slashes	390864	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82105	103166	1				
+Druid	Feral	103	Wildpower Surge	441691	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Druid of the Claw	94612	117209	1	Buff		cdm-only:CooldownSetSpell	
+Druid	Feral	103	Wildshape Mastery	441678	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Druid of the Claw	94610	117207	1	Buff		cdm-only:CooldownSetSpell	
+Druid	Feral	103	Wildstalker's Power	439926	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Wildstalker	94621	117221	1				
+Druid	Feral	103	Overflowing Power	405189	cdm-only	CooldownSetSpell	true	0	Rotational						Buff			
+Druid	Feral	103	Predatory Swiftness	16974	cdm-only	CooldownSetSpell	false	0	Rotational						Buff			

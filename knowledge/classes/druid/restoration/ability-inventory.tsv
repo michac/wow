@@ -1,0 +1,193 @@
+class	spec	spec_id	name	spell_id	origin	source	castable	cooldown	band	tree	hero_tree	node_id	entry_id	max_ranks	blizz_category	seed_bucket	also_from	aliases
+Druid	Restoration	105	Innervate	29166	talent-active	TraitNodeEntry	true	180	Cooldown	class		82244	103324	1	Other/Utility	Self-Heal 3 (Overflow)	cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Tranquility	740	talent-active	TraitNodeEntry	true	180	Cooldown	spec		82054	103108	1	Essential	Cooldown 1	class-baseline:SkillLineAbility:798;cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Heart of the Wild	1261867	talent-active	TraitNodeEntry	true	120	Cooldown	class		82231	103309	1	Buff/Utility	Self-Heal 4 (Emergency/Overflow)	cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Stampeding Roar	106898	talent-active	TraitNodeEntry	true	120	Cooldown	class		82234	103312	1	Buff/Utility	Class 1 (Movement)	cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Ironbark	102342	talent-active	TraitNodeEntry	true	90	Cooldown	spec		82082	103141	1	Buff/Essential	Cooldown 4	cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Nature's Swiftness	132158	talent-active	TraitNodeEntry	true	60	Cooldown	spec		82050	103101	1	Buff/Essential	Self-Heal 1	cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Maim	22570	talent-active	TraitNodeEntry	true	30	Rotational	class		82221	103299	1	Essential		cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Typhoon	132469	talent-active	TraitNodeEntry	true	30	Rotational	class		82209	103287	1	Utility	CC 2	class-baseline:SkillLineAbility:798;cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Starsurge	197626	talent-active	TraitNodeEntry	true	10	Rotational	class		82200	103278	1	Essential/Utility		cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Wild Growth	48438	talent-active	TraitNodeEntry	true	10	Rotational	class		82205	103283	1	Essential	Cooldown 3	cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Frenzied Regeneration	22842	talent-active	TraitNodeEntry	true	1	Rotational	class		82220	103298	1	Buff/Utility		cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Ironfur	192081	talent-active	TraitNodeEntry	true	0.5	Rotational	class		82227	103305	1	Essential		cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Efflorescence	145205	talent-active	TraitNodeEntry	true	0	Rotational	spec		82057	103111	1	Buff/Essential		class-baseline:SkillLineAbility:798;cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Hibernate	2637	talent-active	TraitNodeEntry	true	0	Rotational	class		82211	103289	1	Buff/Utility	Class 4 (Special)	cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Lifebloom	33763	talent-active	TraitNodeEntry	true	0	Rotational	spec		82049	103100	1	Essential/Other	Rotational 7	cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Moonkin Form	24858	talent-active	TraitNodeEntry	true	0	Rotational	class		82208	103286	1		Stance 4		
+Druid	Restoration	105	Rake	1822	talent-active	TraitNodeEntry	true	0	Rotational	class		82199	103277	1	Buff/Essential		cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Rejuvenation	774	talent-active	TraitNodeEntry	true	0	Rotational	class		82217	103295	1	Essential	Rotational 5	cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Rip	1079	talent-active	TraitNodeEntry	true	0	Rotational	class		82222	103300	1	Buff/Essential		cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Starfire	197628	talent-active	TraitNodeEntry	true	0	Rotational	class		91044	112967	1	Essential	Rotational 2	cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Sunfire	93402	talent-active	TraitNodeEntry	true	0	Rotational	class		93714	116102	1	Buff/Essential	Rotational 4	class-baseline:SkillLineAbility:798;cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Swiftmend	18562	talent-active	TraitNodeEntry	true	0	Rotational	spec		82047	103098	1	Essential	Rotational 8	cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Swipe	213764	talent-active	TraitNodeEntry	true	0	Rotational	class		82223	103301	1	Essential		cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Symbiotic Relationship	474750	talent-active	TraitNodeEntry	true	0	Rotational	class		100173	123792	1	Essential	PvP 3	cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Incarnation: Tree of Life	33891	talent-choice	TraitNodeEntry	true	180	Cooldown	spec		82064	103120	1	Essential	Cooldown 2	class-baseline:SkillLineAbility:798;cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Convoke the Spirits	391528	talent-choice	TraitNodeEntry	true	120	Cooldown	spec		82064	103119	1	Essential		cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Mighty Bash	5211	talent-choice	TraitNodeEntry	true	60	Cooldown	class		82237	103315	1	Utility	CC	cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Ursol's Vortex	102793	talent-choice	TraitNodeEntry	true	60	Cooldown	class		82207	128589	1	Utility		class-baseline:SkillLineAbility:798;cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Tiger Dash	252216	talent-choice	TraitNodeEntry	true	45	Cooldown	class		82198	103275	1				
+Druid	Restoration	105	Incapacitating Roar	99	talent-choice	TraitNodeEntry	true	30	Rotational	class		82237	103316	1	Utility		cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Mass Entanglement	102359	talent-choice	TraitNodeEntry	true	30	Rotational	class		82207	103285	1	Utility	Class 2 (CC)	cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Wild Charge	102401	talent-choice	TraitNodeEntry	true	15	Rotational	class		82198	103276	1	Utility	Immune/Spell Immune/Movement	cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Soothe	2908	talent-choice	TraitNodeEntry	true	10	Rotational	class		82229	103307	1	Utility	Class 5 (Purge)	cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Cyclone	33786	talent-choice	TraitNodeEntry	true	0	Rotational	class		82229	128587	1	Buff/Utility		cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Rebirth	20484	class-baseline	SkillLineAbility:798	true	600	Cooldown						Utility	Class 8 (Lust/BRes)	cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Dash	1850	class-baseline	SkillLineAbility:798	true	120	Cooldown						Buff/Utility	Movement Ability	cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Essence of G'Hanir	208253	class-baseline	SkillLineAbility:798	true	90	Cooldown									
+Druid	Restoration	105	Ashamane's Frenzy	210722	class-baseline	SkillLineAbility:798	true	75	Cooldown									
+Druid	Restoration	105	Barkskin	22812	class-baseline	SkillLineAbility:798	true	60	Cooldown						Buff/Utility	Personal Defensive 1	cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Dreamwalk	193753	class-baseline	SkillLineAbility:798	true	60	Cooldown									
+Druid	Restoration	105	Charm Woodland Creature	127757	class-baseline	SkillLineAbility:798	true	30	Rotational									
+Druid	Restoration	105	Growl	6795	class-baseline	SkillLineAbility:798	true	8	Rotational									
+Druid	Restoration	105	Remove Corruption	440015	class-baseline	SpecializationSpells	true	8	Rotational									
+Druid	Restoration	105	Prowl	102547	class-baseline	SkillLineAbility:798	true	6	Rotational						Buff/Essential	Taunt/Quick Access	cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Thrash	77758	class-baseline	SkillLineAbility:798	true	6	Rotational									
+Druid	Restoration	105	Strength of the Wild	236716	class-baseline	SkillLineAbility:798	true	3	Rotational									
+Druid	Restoration	105	Track Beasts	210065	class-baseline	SkillLineAbility:798	true	1.5	Rotational									
+Druid	Restoration	105	Track Humanoids	5225	class-baseline	SkillLineAbility:798	true	1.5	Rotational									
+Druid	Restoration	105	Bear Form	5487	class-baseline	SkillLineAbility:798	true	0	Rotational							Stance 1		
+Druid	Restoration	105	Cat Form	768	class-baseline	SkillLineAbility:798	true	0	Rotational							Stance 2		
+Druid	Restoration	105	Cenarion Ward	102352	class-baseline	SkillLineAbility:798	true	0	Rotational									
+Druid	Restoration	105	Clearcasting	16870	class-baseline	SkillLineAbility:798	true	0	Rotational									
+Druid	Restoration	105	Entangling Roots	339	class-baseline	SkillLineAbility:798	true	0	Rotational						Buff	Class 3 (Tag)	cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Ferocious Bite	22568	class-baseline	SkillLineAbility:798	true	0	Rotational						Essential		cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Flap	164862	class-baseline	SkillLineAbility:798	true	0	Rotational									
+Druid	Restoration	105	Flight Form	165962	class-baseline	SkillLineAbility:798	true	0	Rotational									
+Druid	Restoration	105	Force of Nature	37846	class-baseline	SkillLineAbility:798	true	0	Rotational									
+Druid	Restoration	105	Mangle	33917	class-baseline	SkillLineAbility:798	true	0	Rotational						Essential		cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Mark of the Wild	1126	class-baseline	SkillLineAbility:798	true	0	Rotational							Buff		
+Druid	Restoration	105	Moonfire	8921	class-baseline	SkillLineAbility:798	true	0	Rotational						Buff	Rotational 3	cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Mount Form	210053	class-baseline	SkillLineAbility:798	true	0	Rotational									
+Druid	Restoration	105	Nature's Cure	88423	class-baseline	SpecializationSpells	true	0	Rotational						Utility	Class 6 (Dispel)	cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Regrowth	8936	class-baseline	SkillLineAbility:798	true	0	Rotational						Essential	Rotational 6	cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Revitalize	212040	class-baseline	SpecializationSpells	true	0	Rotational									
+Druid	Restoration	105	Revive	50769	class-baseline	SkillLineAbility:798	true	0	Rotational							Res		
+Druid	Restoration	105	Shred	5221	class-baseline	SkillLineAbility:798	true	0	Rotational						Essential		cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Single-Button Assistant	1229376	class-baseline	SpecializationSpells	true	0	Rotational									
+Druid	Restoration	105	Teleport: Moonglade	18960	class-baseline	SkillLineAbility:798	true	0	Rotational									
+Druid	Restoration	105	Travel Form	783	class-baseline	SkillLineAbility:798	true	0	Rotational							Stance 3		
+Druid	Restoration	105	Treant Form	114282	class-baseline	SkillLineAbility:798	true	0	Rotational									
+Druid	Restoration	105	Wrath	5176	class-baseline	SkillLineAbility:798	true	0	Rotational						Essential	Rotational 1	cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Ysera's Gift	145109	class-baseline	SkillLineAbility:798	true	0	Rotational								talent-passive:TraitNodeEntry	
+Druid	Restoration	105	Call of Ohn'ahra	1246126	pvp-talent	PvpTalent	false	0	Rotational									
+Druid	Restoration	105	Deep Roots	233755	pvp-talent	PvpTalent	false	0	Rotational									
+Druid	Restoration	105	Disentanglement	233673	pvp-talent	PvpTalent	false	0	Rotational									
+Druid	Restoration	105	Early Spring	203624	pvp-talent	PvpTalent	false	0	Rotational								talent-passive:TraitNodeEntry	
+Druid	Restoration	105	Entangling Bark	247543	pvp-talent	PvpTalent	false	0	Rotational									
+Druid	Restoration	105	Forest Guardian	1217474	pvp-talent	PvpTalent	false	0	Rotational									
+Druid	Restoration	105	High Winds	200931	pvp-talent	PvpTalent	false	0	Rotational									
+Druid	Restoration	105	Malorne's Swiftness	236147	pvp-talent	PvpTalent	false	0	Rotational									
+Druid	Restoration	105	Thorns	1217017	pvp-talent	PvpTalent	false	0	Rotational									
+Druid	Restoration	105	Tireless Pursuit	377801	pvp-talent	PvpTalent	false	0	Rotational									
+Druid	Restoration	105	Abundance	207383	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103876	128277	1	Buff		cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Aessina's Renewal	474678	talent-passive	TraitNodeEntry	false	0	Rotational	class		82232	128581	1				
+Druid	Restoration	105	Astral Influence	197524	talent-passive	TraitNodeEntry	false	0	Rotational	class		82210	103288	1				
+Druid	Restoration	105	Blooming Infusion	429433	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Keeper of the Grove	94601	117196	1	Buff		cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Bond with Nature	439929	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Wildstalker	94625	117225	1				
+Druid	Restoration	105	Bounteous Bloom	429215	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Keeper of the Grove	94591	117184	1				
+Druid	Restoration	105	Bursting Growth	440120	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Wildstalker	109716	135974	1				
+Druid	Restoration	105	Call of the Elder Druid	426784	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82067	103123	1	Buff/Essential		cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Cenarius' Guidance	393371	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82063	103118	1				
+Druid	Restoration	105	Cenarius' Might	455797	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Keeper of the Grove	94604	117199	1				
+Druid	Restoration	105	Circle of the Heavens	474541	talent-passive	TraitNodeEntry	false	0	Rotational	class		104078	128579	1				
+Druid	Restoration	105	Circle of the Wild	474530	talent-passive	TraitNodeEntry	false	0	Rotational	class		104078	128580	1				
+Druid	Restoration	105	Control of the Dream	434249	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Keeper of the Grove	94592	117894	1				
+Druid	Restoration	105	Cultivation	200390	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82056	103110	1				
+Druid	Restoration	105	Dream Surge	433831	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Keeper of the Grove	94600	117195	1	Buff		cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Dream of Cenarius	158504	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82066	103122	1				
+Druid	Restoration	105	Dryad's Dance	1264776	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Keeper of the Grove	109713	135971	1				
+Druid	Restoration	105	Durability of Nature	429227	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Keeper of the Grove	94605	117200	1				
+Druid	Restoration	105	Embrace of the Dream	392124	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82070	103126	1				
+Druid	Restoration	105	Entangling Vortex	439895	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Wildstalker	94622	117222	1				
+Druid	Restoration	105	Everbloom	392167	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110424	137040	1			talent-passive:TraitNodeEntry	
+Druid	Restoration	105	Expansiveness	429399	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Keeper of the Grove	94602	117197	1				
+Druid	Restoration	105	Feline Swiftness	131768	talent-passive	TraitNodeEntry	false	0	Rotational	class		82236	103314	1				
+Druid	Restoration	105	Flourish	197721	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82053	103106	1				
+Druid	Restoration	105	Flower Walk	439901	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Wildstalker	94622	119855	1				
+Druid	Restoration	105	Fluid Form	449193	talent-passive	TraitNodeEntry	false	0	Rotational	class		82246	103326	1				
+Druid	Restoration	105	Forestwalk	400129	talent-passive	TraitNodeEntry	false	0	Rotational	class		82243	103323	2	Buff		cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Gale Winds	400142	talent-passive	TraitNodeEntry	false	0	Rotational	class		104079	128583	1				
+Druid	Restoration	105	Germination	155675	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82071	103127	1				
+Druid	Restoration	105	Gift of the Wild	1262034	talent-passive	TraitNodeEntry	false	0	Rotational	class		100175	123794	1				
+Druid	Restoration	105	Green Thumb	1270565	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Wildstalker	109717	135975	1				
+Druid	Restoration	105	Grievous Wounds	474526	talent-passive	TraitNodeEntry	false	0	Rotational	class		82239	103318	1				
+Druid	Restoration	105	Grove Guardians	1226140	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82043	117104	1				
+Druid	Restoration	105	Grove's Inspiration	429402	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Keeper of the Grove	94595	117189	1				
+Druid	Restoration	105	Harmonious Blooming	392256	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82077	103134	1				
+Druid	Restoration	105	Harmonious Constitution	440116	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Wildstalker	94625	119854	1				
+Druid	Restoration	105	Harmony of the Grove	428731	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Keeper of the Grove	94606	117203	1	Other		cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Hunt Beneath the Open Skies	439868	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Wildstalker	94629	117231	1				
+Druid	Restoration	105	Implant	440118	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Wildstalker	94628	117229	1				
+Druid	Restoration	105	Improved Barkskin	327993	talent-passive	TraitNodeEntry	false	0	Rotational	class		104085	128591	1				
+Druid	Restoration	105	Improved Ironbark	382552	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82081	103139	1				
+Druid	Restoration	105	Improved Nature's Cure	392378	talent-passive	TraitNodeEntry	false	0	Rotational	class		104084	128590	1				
+Druid	Restoration	105	Improved Regrowth	231032	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82083	103142	1				
+Druid	Restoration	105	Improved Stampeding Roar	288826	talent-passive	TraitNodeEntry	false	0	Rotational	class		82230	103308	1				
+Druid	Restoration	105	Improved Swiftmend	470549	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103873	128274	1				
+Druid	Restoration	105	Improved Wild Growth	328025	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82045	103096	1				
+Druid	Restoration	105	Incessant Tempest	400140	talent-passive	TraitNodeEntry	false	0	Rotational	class		104079	128582	1				
+Druid	Restoration	105	Inner Peace	197073	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82053	103107	1				
+Druid	Restoration	105	Instincts of the Claw	449184	talent-passive	TraitNodeEntry	false	0	Rotational	class		104081	128585	1				
+Druid	Restoration	105	Intensity	1264649	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82052	103105	1				
+Druid	Restoration	105	Killer Instinct	108299	talent-passive	TraitNodeEntry	false	0	Rotational	class		82225	103303	2				
+Druid	Restoration	105	Lethal Preservation	455461	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Wildstalker	94624	117224	1				
+Druid	Restoration	105	Lifetreading	1217941	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103874	128708	1				
+Druid	Restoration	105	Lingering Healing	231040	talent-passive	TraitNodeEntry	false	0	Rotational	class		82240	103319	1				
+Druid	Restoration	105	Liveliness	426702	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82074	103130	1				
+Druid	Restoration	105	Lore of the Grove	449185	talent-passive	TraitNodeEntry	false	0	Rotational	class		104080	128584	1				
+Druid	Restoration	105	Lycara's Inspiration	1232897	talent-passive	TraitNodeEntry	false	0	Rotational	class		92229	114300	1				
+Druid	Restoration	105	Lycara's Teachings	378988	talent-passive	TraitNodeEntry	false	0	Rotational	class		82233	103311	2				
+Druid	Restoration	105	Master Shapeshifter	289237	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82074	114809	1				
+Druid	Restoration	105	Matted Fur	385786	talent-passive	TraitNodeEntry	false	0	Rotational	class		100177	123796	2	Buff		cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Natural Recovery	377796	talent-passive	TraitNodeEntry	false	0	Rotational	class		82206	103284	1				
+Druid	Restoration	105	Nature's Bounty	1263879	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82072	103128	1				
+Druid	Restoration	105	Nature's Splendor	392288	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82051	103103	1				
+Druid	Restoration	105	Nurturing Dormancy	392099	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82076	103132	1				
+Druid	Restoration	105	Nurturing Instinct	33873	talent-passive	TraitNodeEntry	false	0	Rotational	class		82214	103292	2				
+Druid	Restoration	105	Oakskin	449191	talent-passive	TraitNodeEntry	false	0	Rotational	class		100176	123795	1				
+Druid	Restoration	105	Omen of Clarity	113043	talent-passive	TraitNodeEntry	false	0	Rotational	spec		104125	128707	1	Buff		cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Passing Seasons	382550	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82051	103102	1				
+Druid	Restoration	105	Patient Custodian	1270592	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Wildstalker	94630	117232	1				
+Druid	Restoration	105	Perfectly-Honed Instincts	1213597	talent-passive	TraitNodeEntry	false	0	Rotational	class		104082	128586	1				
+Druid	Restoration	105	Photosynthesis	274902	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82073	103129	1				
+Druid	Restoration	105	Potent Enchantments	429420	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Keeper of the Grove	94595	117188	1				
+Druid	Restoration	105	Power of Nature	428859	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Keeper of the Grove	94605	117201	1	Buff		cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Power of the Archdruid	392302	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82065	103121	1				
+Druid	Restoration	105	Power of the Dream	434220	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Keeper of the Grove	94592	117185	1				
+Druid	Restoration	105	Primal Fury	159286	talent-passive	TraitNodeEntry	false	0	Rotational	class		82224	103302	1				
+Druid	Restoration	105	Prosperity	200383	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82079	103136	1				
+Druid	Restoration	105	Protective Growth	433748	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Keeper of the Grove	94593	117186	1				
+Druid	Restoration	105	Rampancy	1270586	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Wildstalker	109715	135973	1				
+Druid	Restoration	105	Rampant Growth	404521	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82058	103112	1				
+Druid	Restoration	105	Reforestation	392356	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82069	103125	1	Buff		cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Regenerative Heartwood	392116	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82075	103131	1				
+Druid	Restoration	105	Regenesis	383191	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82062	103117	2				
+Druid	Restoration	105	Renewing Surge	470562	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82060	103114	1				
+Druid	Restoration	105	Resilient Flourishing	439880	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Wildstalker	94631	117234	1				
+Druid	Restoration	105	Root Network	439882	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Wildstalker	94631	117233	1	Buff		cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Soul of the Forest	158478	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82055	103109	1	Buff		cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Spirit of the Thicket	1264899	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Keeper of the Grove	109712	135970	1				
+Druid	Restoration	105	Starlight Conduit	451211	talent-passive	TraitNodeEntry	false	0	Rotational	class		100223	123868	1				
+Druid	Restoration	105	Stonebark	197061	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82081	103140	1				
+Druid	Restoration	105	Strategic Infusion	439890	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Wildstalker	94623	117223	1	Buff		cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Sylvan Beckoning	1264614	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Keeper of the Grove	109714	135972	1	Buff		cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Thick Hide	16931	talent-passive	TraitNodeEntry	false	0	Rotational	class		82228	103306	1				
+Druid	Restoration	105	Thriving Growth	439528	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Wildstalker	94626	117226	1	Buff		cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Thriving Vegetation	447131	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82068	103124	2				
+Druid	Restoration	105	Tranquil Mind	403521	talent-passive	TraitNodeEntry	false	0	Rotational	spec		92674	114808	1				
+Druid	Restoration	105	Treants of the Moon	428544	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Keeper of the Grove	94599	117194	1				
+Druid	Restoration	105	Twin Sprouts	440117	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Wildstalker	94628	117230	1				
+Druid	Restoration	105	Unstoppable Growth	382559	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82080	103138	2				
+Druid	Restoration	105	Ursine Vigor	377842	talent-passive	TraitNodeEntry	false	0	Rotational	class		100174	123793	1	Buff		cdm-only:CooldownSetSpell	
+Druid	Restoration	105	Ursoc's Spirit	449182	talent-passive	TraitNodeEntry	false	0	Rotational	class		82219	103297	1				
+Druid	Restoration	105	Verdancy	392325	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82059	103113	1				
+Druid	Restoration	105	Verdant Heart	301768	talent-passive	TraitNodeEntry	false	0	Rotational	class		82218	103296	1				
+Druid	Restoration	105	Verdant Infusion	392410	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82079	103137	1				
+Druid	Restoration	105	Vigorous Creepers	440119	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Wildstalker	94627	117227	1				
+Druid	Restoration	105	Waking Dream	392221	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82046	103097	1				
+Druid	Restoration	105	Well-Honed Instincts	377847	talent-passive	TraitNodeEntry	false	0	Rotational	class		82235	103313	1				
+Druid	Restoration	105	Wild Synthesis	400533	talent-passive	TraitNodeEntry	false	0	Rotational	spec		94535	117105	1				
+Druid	Restoration	105	Wildstalker's Power	439926	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Wildstalker	94621	117221	1				
+Druid	Restoration	105	Incarnation	117679	cdm-only	CooldownSetSpell	true	0	Rotational						Other			

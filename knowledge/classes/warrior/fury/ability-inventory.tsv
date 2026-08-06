@@ -1,0 +1,156 @@
+class	spec	spec_id	name	spell_id	origin	source	castable	cooldown	band	tree	hero_tree	node_id	entry_id	max_ranks	blizz_category	seed_bucket	also_from	aliases
+Warrior	Fury	72	Rallying Cry	97462	talent-active	TraitNodeEntry	true	180	Cooldown	class		90331	112188	1	Buff/Utility	Class 7 (Raid Defensive)	cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Enraged Regeneration	184364	talent-active	TraitNodeEntry	true	120	Cooldown	spec		90395	112264	1	Buff/Utility	Personal Defensive 1	cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Champion's Spear	376079	talent-active	TraitNodeEntry	true	90	Cooldown	class		90380	112247	1	Essential		cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Recklessness	1719	talent-active	TraitNodeEntry	true	90	Cooldown	spec		90412	112281	1	Buff/Essential	Cooldown 1	cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Odyn's Fury	385059	talent-active	TraitNodeEntry	true	45	Cooldown	spec		110203	136735	1	Essential		class-baseline:SkillLineAbility:840;cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Shockwave	46968	talent-active	TraitNodeEntry	true	40	Rotational	class		90375	112242	1	Buff/Utility	CC 2	cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Storm Bolt	107570	talent-active	TraitNodeEntry	true	30	Rotational	class		90337	112198	1	Buff/Utility	CC	cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Impending Victory	202168	talent-active	TraitNodeEntry	true	25	Rotational	class		90326	112183	1		Self-Heal 1		
+Warrior	Fury	72	Rend	772	talent-active	TraitNodeEntry	true	6	Rotational	class		109391	135597	1	Buff/Essential		cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Thunder Clap	6343	talent-active	TraitNodeEntry	true	6	Rotational	class		90343	112205	1	Buff/Essential		cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Bloodthirst	23881	talent-active	TraitNodeEntry	true	4.5	Rotational	spec		90392	112261	1	Essential	Rotational 1	cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Berserker Stance	386196	talent-active	TraitNodeEntry	true	3	Rotational	class		90325	112182	1	Buff	Stance 2	cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Defensive Stance	386208	talent-active	TraitNodeEntry	true	3	Rotational	class		92538	114644	1	Buff	Stance 1	cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Heroic Leap	6544	talent-active	TraitNodeEntry	true	1.5	Rotational	class		90346	112208	1	Utility	Movement Ability	class-baseline:SkillLineAbility:840;cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Spell Reflection	23920	talent-active	TraitNodeEntry	true	1	Rotational	class		90385	112253	1	Buff/Utility	Self-Heal 4 (Emergency/Overflow)	cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Raging Blow	85288	talent-active	TraitNodeEntry	true	0	Rotational	spec		90396	112265	1	Essential	Rotational 3	class-baseline:SkillLineAbility:840;cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Rampage	184367	talent-active	TraitNodeEntry	true	0	Rotational	spec		90408	112277	1	Essential	Rotational 2	cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Shattering Throw	64382	talent-choice	TraitNodeEntry	true	180	Cooldown	class		90351	112214	1	Utility		cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Avatar	107574	talent-choice	TraitNodeEntry	true	90	Cooldown	spec		90415	112285	1	Buff/Essential		cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Bladestorm	227847	talent-choice	TraitNodeEntry	true	90	Cooldown	spec		90415	112284	1	Buff/Essential		class-baseline:SkillLineAbility:840;cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Intimidating Shout	5246	talent-choice	TraitNodeEntry	true	90	Cooldown	class		108705	134254	1	Buff/Utility		cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Piercing Howl	12323	talent-choice	TraitNodeEntry	true	90	Cooldown	class		108705	136627	1	Buff/Utility	Class 2 (CC)	cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Berserker Shout	384100	talent-choice	TraitNodeEntry	true	60	Cooldown	class		90348	112211	1		Self-Heal 3 (Overflow)		
+Warrior	Fury	72	Wrecking Throw	384110	talent-choice	TraitNodeEntry	true	45	Cooldown	class		90351	112215	1	Utility	Class 4 (Special)	cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Interpose	1244088	talent-choice	TraitNodeEntry	true	1.5	Rotational	class		108674	134213	1	Utility		cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Intervene	3411	talent-choice	TraitNodeEntry	true	1.5	Rotational	class		108674	134214	1	Utility	Class 5 (Purge)	cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Berserker Rage	18499	class-baseline	SkillLineAbility:840	true	60	Cooldown						Buff/Utility		cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Warbreaker	209577	class-baseline	SkillLineAbility:840	true	60	Cooldown									
+Warrior	Fury	72	Neltharion's Fury	203524	class-baseline	SkillLineAbility:840	true	45	Cooldown									
+Warrior	Fury	72	Victory Rush	118779	class-baseline	SkillLineAbility:840	true	30	Rotational						Utility		cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Pummel	6552	class-baseline	SkillLineAbility:840	true	15	Rotational						Utility	Interrupt	cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Shield Slam	23922	class-baseline	SkillLineAbility:840	true	9	Rotational						Essential		cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Taunt	355	class-baseline	SkillLineAbility:840	true	8	Rotational						Essential	Taunt/Quick Access	cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Execute	163201	class-baseline	SkillLineAbility:840	true	6	Rotational						Essential	Rotational 4	class-baseline:SpecializationSpells;cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Heroic Throw	57755	class-baseline	SkillLineAbility:840	true	6	Rotational							Class 3 (Tag)		
+Warrior	Fury	72	Charge	100	class-baseline	SkillLineAbility:840	true	1.5	Rotational						Utility	Class 1 (Movement)	cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Shield Block	2565	class-baseline	SkillLineAbility:840	true	1	Rotational						Essential		cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Attack	88163	class-baseline	SkillLineAbility:840	true	0	Rotational									
+Warrior	Fury	72	Battle Shout	6673	class-baseline	SkillLineAbility:840	true	0	Rotational							Buff		
+Warrior	Fury	72	Bladestorm Off-Hand	95738	class-baseline	SkillLineAbility:840	true	0	Rotational									
+Warrior	Fury	72	Bloodbath	113344	class-baseline	SkillLineAbility:840	true	0	Rotational									
+Warrior	Fury	72	Bloodthirst Heal	117313	class-baseline	SkillLineAbility:840	true	0	Rotational									
+Warrior	Fury	72	Hamstring	1715	class-baseline	SkillLineAbility:840	true	0	Rotational						Buff	Slow	cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Hotbar Slot 01	294184	class-baseline	SkillLineAbility:840	true	0	Rotational									
+Warrior	Fury	72	Hotbar Slot 02	294189	class-baseline	SkillLineAbility:840	true	0	Rotational									
+Warrior	Fury	72	Ravager	156287	class-baseline	SkillLineAbility:840	true	0	Rotational									
+Warrior	Fury	72	Single-Button Assistant	1229376	class-baseline	SpecializationSpells	true	0	Rotational									
+Warrior	Fury	72	Slam	1464	class-baseline	SkillLineAbility:840	true	0	Rotational									
+Warrior	Fury	72	Trauma	215537	class-baseline	SkillLineAbility:840	true	0	Rotational									
+Warrior	Fury	72	Whirlwind	1680	class-baseline	SkillLineAbility:840	true	0	Rotational							Rotational 5	class-baseline:SpecializationSpells	
+Warrior	Fury	72	Whirlwind Off-Hand	44949	class-baseline	SkillLineAbility:840	true	0	Rotational									
+Warrior	Fury	72	Disarm	236077	pvp-talent	PvpTalent	true	45	Cooldown						Utility		cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Death Wish	199261	pvp-talent	PvpTalent	true	4	Rotational						Buff/Utility		cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Berserker Roar	1227751	pvp-talent	PvpTalent	false	0	Rotational									
+Warrior	Fury	72	Demolition	329033	pvp-talent	PvpTalent	false	0	Rotational									
+Warrior	Fury	72	Dragon Charge	206572	pvp-talent	PvpTalent	true	0	Rotational									
+Warrior	Fury	72	Enduring Rage	411764	pvp-talent	PvpTalent	false	0	Rotational									
+Warrior	Fury	72	Master and Commander	235941	pvp-talent	PvpTalent	false	0	Rotational									
+Warrior	Fury	72	Rebound	213915	pvp-talent	PvpTalent	false	0	Rotational									
+Warrior	Fury	72	Safeguard	424654	pvp-talent	PvpTalent	false	0	Rotational									
+Warrior	Fury	72	Slaughterhouse	352998	pvp-talent	PvpTalent	false	0	Rotational									
+Warrior	Fury	72	Anger Management	152278	talent-passive	TraitNodeEntry	false	0	Rotational	class		108543	134032	1				
+Warrior	Fury	72	Armored to the Teeth	384124	talent-passive	TraitNodeEntry	false	0	Rotational	class		90366	112233	2				
+Warrior	Fury	72	Avatar of the Storm	437134	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94805	117402	1				
+Warrior	Fury	72	Barbaric Training	383082	talent-passive	TraitNodeEntry	false	0	Rotational	class		90347	112209	1				
+Warrior	Fury	72	Battlefield Commander	424742	talent-passive	TraitNodeEntry	false	0	Rotational	class		108544	134033	1				
+Warrior	Fury	72	Bloodborne	385703	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90401	112270	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Bloodcraze	393950	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90405	112274	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Bounding Stride	202163	talent-passive	TraitNodeEntry	false	0	Rotational	class		90355	112219	1				
+Warrior	Fury	72	Brutal Finish	446085	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94786	123409	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Burst of Power	437118	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94807	117404	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Capacitance	1270724	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	109809	136068	1				
+Warrior	Fury	72	Cold Steel, Hot Blood	383959	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90402	112271	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Conductivity	1270723	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	109810	136069	1				
+Warrior	Fury	72	Crackling Thunder	203201	talent-passive	TraitNodeEntry	false	0	Rotational	class		95959	118853	1				
+Warrior	Fury	72	Crashing Thunder	436707	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94816	117413	1				
+Warrior	Fury	72	Critical Thinking	383297	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90425	112296	2				
+Warrior	Fury	72	Cruel Strikes	392777	talent-passive	TraitNodeEntry	false	0	Rotational	class		90381	112248	2				
+Warrior	Fury	72	Cruelty	392931	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90428	112299	2				
+Warrior	Fury	72	Crushing Force	382764	talent-passive	TraitNodeEntry	false	0	Rotational	class		108686	134226	1				
+Warrior	Fury	72	Culling Cyclone	444778	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94786	117383	1				
+Warrior	Fury	72	Deadly Focus	1270718	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	109816	136075	1				
+Warrior	Fury	72	Death Drive	444770	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94813	117410	1				
+Warrior	Fury	72	Deep Wounds	1261060	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109966	136451	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Deft Experience	383295	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90421	112292	2				
+Warrior	Fury	72	Double Time	103827	talent-passive	TraitNodeEntry	false	0	Rotational	class		90382	112249	1				
+Warrior	Fury	72	Dual Wield Specialization	382900	talent-passive	TraitNodeEntry	false	0	Rotational	class		90373	112240	2				
+Warrior	Fury	72	Executioner's Wrath	1265570	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109968	136453	1				
+Warrior	Fury	72	Fast Footwork	382260	talent-passive	TraitNodeEntry	false	0	Rotational	class		90344	112206	1				
+Warrior	Fury	72	Fearless	1271925	talent-passive	TraitNodeEntry	false	0	Rotational	class		90348	112210	1				
+Warrior	Fury	72	Field Dressing	1271926	talent-passive	TraitNodeEntry	false	0	Rotational	class		110119	136626	1				
+Warrior	Fury	72	Fierce Followthrough	444773	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94787	117384	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Flashing Skies	437079	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94797	117394	1				
+Warrior	Fury	72	Focus in Chaos	383486	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90403	112272	1				
+Warrior	Fury	72	Frenzied Enrage	383848	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90398	112267	1				
+Warrior	Fury	72	Frenzy	335077	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90406	112275	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Fresh Meat	215568	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90399	112268	1				
+Warrior	Fury	72	Frothing Berserker	392792	talent-passive	TraitNodeEntry	false	0	Rotational	class		90352	112216	1				
+Warrior	Fury	72	Gathering Clouds	436201	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94792	117389	1				
+Warrior	Fury	72	Ground Current	436148	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94800	117397	1				
+Warrior	Fury	72	Hack and Slash	383877	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90407	112276	1				
+Warrior	Fury	72	Honed Reflexes	391271	talent-passive	TraitNodeEntry	false	0	Rotational	class		95956	118850	1				
+Warrior	Fury	72	Imminent Demise	444769	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94788	117385	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Improved Execute	316402	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90429	112300	1				
+Warrior	Fury	72	Improved Raging Blow	383854	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90390	112259	1				
+Warrior	Fury	72	Improved Whirlwind	12950	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90427	112298	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Invigorating Fury	383468	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110330	136890	1				
+Warrior	Fury	72	Javelineer	1271948	talent-passive	TraitNodeEntry	false	0	Rotational	class		110118	136625	1				
+Warrior	Fury	72	Keep Your Feet on the Ground	438590	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94798	117395	1				
+Warrior	Fury	72	Kill or Be Killed	1265361	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109965	136450	1	Other		cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Leeching Strikes	382258	talent-passive	TraitNodeEntry	false	0	Rotational	class		90371	112238	1				
+Warrior	Fury	72	Lightning Strikes	434969	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94803	117400	1				
+Warrior	Fury	72	Massacre	206315	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90410	112279	1				
+Warrior	Fury	72	Meat Cleaver	280392	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109967	136452	1				
+Warrior	Fury	72	Opportunist	444774	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94787	123770	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Overwhelming Blades	444772	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94810	117407	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Overwhelming Rage	382767	talent-passive	TraitNodeEntry	false	0	Rotational	class		90378	112245	1				
+Warrior	Fury	72	Pain and Gain	382549	talent-passive	TraitNodeEntry	false	0	Rotational	class		90353	112217	1				
+Warrior	Fury	72	Powerful Enrage	440277	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90398	119112	1				
+Warrior	Fury	72	Ragedrinker	1265356	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109962	136447	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Rampaging Berserker	1269308	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110412	137004	1	Buff		talent-passive:TraitNodeEntry;cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Rampaging Ruin	1265357	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90391	112260	1				
+Warrior	Fury	72	Reap the Storm	444775	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94809	117406	1				
+Warrior	Fury	72	Reckless Abandon	396749	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90388	119139	1				
+Warrior	Fury	72	Reinforced Plates	382939	talent-passive	TraitNodeEntry	false	0	Rotational	class		90368	112235	2				
+Warrior	Fury	72	Relentless Pursuit	444776	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94795	117392	1				
+Warrior	Fury	72	Resonant Voice	1243660	talent-passive	TraitNodeEntry	false	0	Rotational	class		108685	134225	1				
+Warrior	Fury	72	Rumbling Earth	275339	talent-passive	TraitNodeEntry	false	0	Rotational	class		90374	112241	1				
+Warrior	Fury	72	Scent of Blood	1265355	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109969	136454	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Second Wind	29838	talent-passive	TraitNodeEntry	false	0	Rotational	class		90332	112190	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Show No Mercy	444771	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94784	117381	1				
+Warrior	Fury	72	Slayer's Dominance	444767	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94814	117411	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Slayer's Malice	444779	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94801	117398	1				
+Warrior	Fury	72	Snap Induction	456270	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94797	118833	1				
+Warrior	Fury	72	Spite	383852	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90397	112266	2				
+Warrior	Fury	72	Stance Mastery	1280961	talent-passive	TraitNodeEntry	false	0	Rotational	class		108542	134031	1				
+Warrior	Fury	72	Steadfast as the Peaks	434970	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94798	118836	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Storm Bolts	436162	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94817	117414	1				
+Warrior	Fury	72	Storm Shield	438597	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94817	118835	1				
+Warrior	Fury	72	Storm Surge	275336	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	109811	136070	1				
+Warrior	Fury	72	Strength of the Mountain	437068	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94808	117405	1				
+Warrior	Fury	72	Sudden Death	29725	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90430	112301	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Surge of Adrenaline	1265359	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109964	136449	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Thorim's Might	436152	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94792	118834	1				
+Warrior	Fury	72	Thunder Blast	435607	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94785	117382	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Fury	72	Unhinged	386628	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	109815	136074	1				
+Warrior	Fury	72	Unrelenting Onslaught	444780	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94820	117417	1				
+Warrior	Fury	72	Vicious Agility	444777	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94795	123408	1				
+Warrior	Fury	72	Vicious Contempt	383885	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109963	136448	1				
+Warrior	Fury	72	Violent Euphoria	1270717	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	109817	136076	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Fury	72	War Machine	262231	talent-passive	TraitNodeEntry	false	0	Rotational	class		90328	112185	1				
+Warrior	Fury	72	Warpaint	208154	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90394	112263	1				
+Warrior	Fury	72	Wild Strikes	382946	talent-passive	TraitNodeEntry	false	0	Rotational	class		90360	112224	2				
+Warrior	Fury	72	Wrath and Fury	392936	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90387	112255	1				
+Warrior	Fury	72	Enrage	184361	cdm-only	CooldownSetSpell	false	0	Rotational						Other			

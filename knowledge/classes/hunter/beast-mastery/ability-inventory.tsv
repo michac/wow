@@ -1,0 +1,190 @@
+class	spec	spec_id	name	spell_id	origin	source	castable	cooldown	band	tree	hero_tree	node_id	entry_id	max_ranks	blizz_category	seed_bucket	also_from	aliases
+Hunter	Beast Mastery	253	Bestial Wrath	19574	talent-active	TraitNodeEntry	true	90	Cooldown	spec		102340	126402	1	Buff/Essential	Rotational 4	class-baseline:SkillLineAbility:795;cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Camouflage	199483	talent-active	TraitNodeEntry	true	60	Cooldown	class		110156	136676	1	Buff/Utility	Self-Heal 4 (Emergency/Overflow)	cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Intimidation	19577	talent-active	TraitNodeEntry	true	60	Cooldown	class		102397	126461	1	Buff/Utility	CC	pet:SkillLineAbility:270;cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Binding Shot	109248	talent-active	TraitNodeEntry	true	45	Cooldown	class		109488	135711	1	Buff/Utility	CC 2	class-baseline:SkillLineAbility:795;cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Misdirection	34477	talent-active	TraitNodeEntry	true	30	Rotational	class		102419	126484	1	Utility	Class 4 (Special)	cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Counter Shot	147362	talent-active	TraitNodeEntry	true	24	Rotational	class		102292	126352	1	Utility	Interrupt	cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Tranquilizing Shot	19801	talent-active	TraitNodeEntry	true	10	Rotational	class		109489	135712	1	Utility	Class 5 (Purge)	cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Wild Thrash	1264359	talent-active	TraitNodeEntry	true	8	Rotational	spec		102363	126425	1	Essential		cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Concussive Shot	5116	talent-active	TraitNodeEntry	true	5	Rotational	class		102407	126471	1		Slow		
+Hunter	Beast Mastery	253	Kill Command	34026	talent-active	TraitNodeEntry	true	0.5	Rotational	spec		102346	126408	1	Essential	Rotational 1	cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Barbed Shot	217200	talent-active	TraitNodeEntry	true	0	Rotational	spec		102377	126440	1	Essential/Other	Rotational 2	cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Black Arrow	466930	talent-active	TraitNodeEntry	true	0	Rotational	hero	Dark Ranger	109961	136446	1	Buff/Essential		talent-passive:TraitNodeEntry;cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Cobra Shot	193455	talent-active	TraitNodeEntry	true	0	Rotational	spec		102354	126416	1	Essential	Rotational 3	cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Survival of the Fittest	264735	talent-active	TraitNodeEntry	true	0	Rotational	class		102422	126488	1	Buff/Utility	Personal Defensive 1	cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Roar of Sacrifice	53480	talent-choice	TraitNodeEntry	true	120	Cooldown	class		110164	136686	1	Buff/Utility	Class 7 (Raid Defensive)	cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Tar Trap	187698	talent-choice	TraitNodeEntry	true	30	Rotational	class		102393	126457	1	Buff/Utility	Class 1 (Movement)	cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Scare Beast	1513	talent-choice	TraitNodeEntry	true	0	Rotational	class		102393	135707	1	Buff/Utility		cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Aspect of the Chameleon	61648	class-baseline	SkillLineAbility:795	true	180	Cooldown									
+Hunter	Beast Mastery	253	Aspect of the Cheetah	186257	class-baseline	SkillLineAbility:795	true	180	Cooldown						Buff/Utility	Movement Ability	cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Aspect of the Turtle	186265	class-baseline	SkillLineAbility:795	true	180	Cooldown						Buff/Utility	Immune/Spell Immune/Movement	cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Exhilaration	109304	class-baseline	SkillLineAbility:795	true	120	Cooldown						Utility	Self-Heal 1	cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Titan's Thunder	207068	class-baseline	SkillLineAbility:795	true	60	Cooldown									
+Hunter	Beast Mastery	253	Death Chakram	325028	class-baseline	SkillLineAbility:795	true	45	Cooldown									
+Hunter	Beast Mastery	253	Fury of the Eagle	203415	class-baseline	SkillLineAbility:795	true	45	Cooldown									
+Hunter	Beast Mastery	253	Feign Death	5384	class-baseline	SkillLineAbility:795	true	30	Rotational						Buff/Utility	Personal Defensive 2	cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Freezing Trap	187650	class-baseline	SkillLineAbility:795	true	30	Rotational						Buff/Utility	Class 2 (CC)	cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Play Dead	209997	class-baseline	SkillLineAbility:795	true	30	Rotational									
+Hunter	Beast Mastery	253	Wake Up	210000	class-baseline	SkillLineAbility:795	true	30	Rotational									
+Hunter	Beast Mastery	253	Flare	1543	class-baseline	SkillLineAbility:795	true	20	Rotational									
+Hunter	Beast Mastery	253	Windburst	204147	class-baseline	SkillLineAbility:795	true	20	Rotational									
+Hunter	Beast Mastery	253	Feed Pet	6991	class-baseline	SkillLineAbility:795	true	10	Rotational									
+Hunter	Beast Mastery	253	Mend Pet	136	class-baseline	SkillLineAbility:795	true	10	Rotational						Utility	Self-Heal 2	cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Disengage	781	class-baseline	SkillLineAbility:795	true	1	Rotational						Utility	Taunt/Quick Access	cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Ancient Zandalari Knowledge	138430	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Beast Mastery	253	Arcane Shot	185358	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Beast Mastery	253	Beast Lore	1462	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Beast Mastery	253	Call Pet 1	883	class-baseline	SkillLineAbility:795	true	0	Rotational							Buff		
+Hunter	Beast Mastery	253	Call Pet 2	83242	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Beast Mastery	253	Call Pet 3	83243	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Beast Mastery	253	Call Pet 4	83244	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Beast Mastery	253	Call Pet 5	83245	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Beast Mastery	253	Chakrams	259398	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Beast Mastery	253	Command Pet	272651	class-baseline	SkillLineAbility:795	true	0	Rotational						Utility		cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Control Pet	93322	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Beast Mastery	253	Dismiss Pet	2641	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Beast Mastery	253	Eyes of the Beast	321297	class-baseline	SpecializationSpells	true	0	Rotational									
+Hunter	Beast Mastery	253	Fetch	125050	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Beast Mastery	253	Fireworks	127933	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Beast Mastery	253	Hunter's Mark	257284	class-baseline	SkillLineAbility:795	true	0	Rotational						Buff	Class 3 (Tag)	cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Hybrid Kinship	242155	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Beast Mastery	253	Mecha-Bond Imprint Matrix	205154	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Beast Mastery	253	Revive Pet	982	class-baseline	SkillLineAbility:795	true	0	Rotational							Self-Heal 3 (Overflow)		
+Hunter	Beast Mastery	253	Single-Button Assistant	1229376	class-baseline	SpecializationSpells	true	0	Rotational									
+Hunter	Beast Mastery	253	Steady Shot	56641	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Beast Mastery	253	Steel Trap	162487	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Beast Mastery	253	Stopping Power	175686	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Beast Mastery	253	Tame Beast	1515	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Beast Mastery	253	Track Beasts	1494	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Beast Mastery	253	Track Demons	19878	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Beast Mastery	253	Track Dragonkin	19879	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Beast Mastery	253	Track Elementals	19880	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Beast Mastery	253	Track Giants	19882	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Beast Mastery	253	Track Hidden	19885	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Beast Mastery	253	Track Humanoids	19883	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Beast Mastery	253	Track Mechanicals	229533	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Beast Mastery	253	Track Undead	19884	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Beast Mastery	253	Wailing Arrow	354831	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Beast Mastery	253	Wing Clip	195645	class-baseline	SkillLineAbility:795	true	0	Rotational						Buff/Utility		cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Chimaeral Sting	356719	pvp-talent	PvpTalent	true	60	Cooldown						Utility	PvP	cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Wild Kingdom	356707	pvp-talent	PvpTalent	true	60	Cooldown							PvP 3		
+Hunter	Beast Mastery	253	Dire Beast: Hawk	208652	pvp-talent	PvpTalent	true	30	Rotational									
+Hunter	Beast Mastery	253	Diamond Ice	203340	pvp-talent	PvpTalent	false	0	Rotational									
+Hunter	Beast Mastery	253	Hunting Pack	203235	pvp-talent	PvpTalent	false	0	Rotational									
+Hunter	Beast Mastery	253	Interlope	248518	pvp-talent	PvpTalent	false	0	Rotational									
+Hunter	Beast Mastery	253	Kindred Beasts	356962	pvp-talent	PvpTalent	false	0	Rotational									
+Hunter	Beast Mastery	253	Survival Tactics	202746	pvp-talent	PvpTalent	false	0	Rotational									
+Hunter	Beast Mastery	253	The Beast Within	356976	pvp-talent	PvpTalent	false	0	Rotational								talent-passive:TraitNodeEntry	
+Hunter	Beast Mastery	253	Dash	61684	pet	SkillLineAbility:270	true	20	Rotational									
+Hunter	Beast Mastery	253	Growl	2649	pet	SkillLineAbility:270	true	8	Rotational									
+Hunter	Beast Mastery	253	Alpha Predator	269737	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102368	126431	1				
+Hunter	Beast Mastery	253	Animal Companion	267116	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110158	136679	1				
+Hunter	Beast Mastery	253	Aspect of the Beast	191384	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102351	126413	1				
+Hunter	Beast Mastery	253	Banshee's Mark	467902	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Dark Ranger	94957	117554	1				
+Hunter	Beast Mastery	253	Barbed Scales	469880	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102353	126415	1				
+Hunter	Beast Mastery	253	Beast Cleave	115939	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102341	126403	1	Other		cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Better Together	472357	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Pack Leader	94962	117559	1				
+Hunter	Beast Mastery	253	Bleak Arrows	467749	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Dark Ranger	94961	117558	1				
+Hunter	Beast Mastery	253	Bleak Powder	467911	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Dark Ranger	94974	117571	1				
+Hunter	Beast Mastery	253	Blighted Quiver	1264291	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Dark Ranger	94983	128238	1				
+Hunter	Beast Mastery	253	Bloodshed	1272099	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102362	126424	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Bloody Frenzy	407412	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102339	126400	1				
+Hunter	Beast Mastery	253	Born To Be Wild	266921	talent-passive	TraitNodeEntry	false	0	Rotational	class		102416	126481	2				
+Hunter	Beast Mastery	253	Brutal Companion	386870	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102350	126412	1				
+Hunter	Beast Mastery	253	Catlike Reflexes	1258404	talent-passive	TraitNodeEntry	false	0	Rotational	class		109486	135709	1				
+Hunter	Beast Mastery	253	Cobra Senses	378244	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102344	128265	1				
+Hunter	Beast Mastery	253	Cold Feet	1268671	talent-passive	TraitNodeEntry	false	0	Rotational	class		110153	136672	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Combat Experience	1268871	talent-passive	TraitNodeEntry	false	0	Rotational	class		110157	136677	1				
+Hunter	Beast Mastery	253	Corpsecaller	1264289	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Dark Ranger	109801	136059	1				
+Hunter	Beast Mastery	253	Dark Chains	430712	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Dark Ranger	94960	117557	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Devilsaur Tranquilizer	459991	talent-passive	TraitNodeEntry	false	0	Rotational	class		102415	126479	1				
+Hunter	Beast Mastery	253	Dire Beast	120679	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102376	126439	1				
+Hunter	Beast Mastery	253	Dire Cleave	1217524	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102337	126398	1				
+Hunter	Beast Mastery	253	Dire Command	378743	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102365	126427	1				
+Hunter	Beast Mastery	253	Dire Frenzy	385810	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102367	126430	2				
+Hunter	Beast Mastery	253	Dire Summons	472352	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Pack Leader	94992	117589	1				
+Hunter	Beast Mastery	253	Disruptive Rounds	343244	talent-passive	TraitNodeEntry	false	0	Rotational	class		102395	126459	1				
+Hunter	Beast Mastery	253	Ebon Bowstring	467897	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Dark Ranger	94986	117583	1				
+Hunter	Beast Mastery	253	Emergency Salve	459517	talent-passive	TraitNodeEntry	false	0	Rotational	class		102389	126452	1				
+Hunter	Beast Mastery	253	Frenzy	1264934	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102336	126397	2				
+Hunter	Beast Mastery	253	Fury of the Wyvern	472550	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Pack Leader	94984	117581	1				
+Hunter	Beast Mastery	253	Go for the Throat	459550	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102357	126419	1				
+Hunter	Beast Mastery	253	Guardian's Hide	1272094	talent-passive	TraitNodeEntry	false	0	Rotational	class		110164	136685	1				
+Hunter	Beast Mastery	253	Guttural Roar	1258509	talent-passive	TraitNodeEntry	false	0	Rotational	class		102394	135704	1				
+Hunter	Beast Mastery	253	Heart of the Pack	1265052	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102360	126422	1				
+Hunter	Beast Mastery	253	Hogstrider	472639	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Pack Leader	94988	117585	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Hoof and Blade	1264797	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Pack Leader	109804	136062	1				
+Hunter	Beast Mastery	253	Horsehair Tether	472729	talent-passive	TraitNodeEntry	false	0	Rotational	class		110152	136670	1				
+Hunter	Beast Mastery	253	Howl of the Pack Leader	471876	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Pack Leader	94991	117588	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Hunter's Avoidance	384799	talent-passive	TraitNodeEntry	false	0	Rotational	class		102423	126489	1				
+Hunter	Beast Mastery	253	Huntmaster's Call	459730	talent-passive	TraitNodeEntry	false	0	Rotational	spec		107286	132189	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Improved Aspect of the Cheetah	1258407	talent-passive	TraitNodeEntry	false	0	Rotational	class		109485	135708	1				
+Hunter	Beast Mastery	253	Improved Aspect of the Turtle	1258485	talent-passive	TraitNodeEntry	false	0	Rotational	class		102424	126490	1				
+Hunter	Beast Mastery	253	Improved Feign Death	1258486	talent-passive	TraitNodeEntry	false	0	Rotational	class		109484	135706	2				
+Hunter	Beast Mastery	253	Improved Snaring	1268868	talent-passive	TraitNodeEntry	false	0	Rotational	class		102414	126478	1				
+Hunter	Beast Mastery	253	Improved Traps	343247	talent-passive	TraitNodeEntry	false	0	Rotational	class		102418	126483	1				
+Hunter	Beast Mastery	253	Jagged Wounds	1265044	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102358	126420	1				
+Hunter	Beast Mastery	253	Keen Eyesight	378004	talent-passive	TraitNodeEntry	false	0	Rotational	class		102409	126473	2				
+Hunter	Beast Mastery	253	Kill Cleave	378207	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102355	126417	1				
+Hunter	Beast Mastery	253	Killer Cobra	199532	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102375	126438	1				
+Hunter	Beast Mastery	253	Killer Instinct	273887	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102364	126426	2				
+Hunter	Beast Mastery	253	Kindling Flare	459506	talent-passive	TraitNodeEntry	false	0	Rotational	class		102425	126491	1				
+Hunter	Beast Mastery	253	Kodo Tranquilizer	459983	talent-passive	TraitNodeEntry	false	0	Rotational	class		102415	126480	1				
+Hunter	Beast Mastery	253	Laceration	459552	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102369	126432	1				
+Hunter	Beast Mastery	253	Lethal Barbs	1264781	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Pack Leader	109803	136061	1				
+Hunter	Beast Mastery	253	Lone Survivor	388039	talent-passive	TraitNodeEntry	false	0	Rotational	class		102391	126454	1				
+Hunter	Beast Mastery	253	Master Handler	424558	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102359	126421	1				
+Hunter	Beast Mastery	253	Masterful Call	1268705	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Pack Leader	94979	123781	1				
+Hunter	Beast Mastery	253	Moment of Opportunity	459488	talent-passive	TraitNodeEntry	false	0	Rotational	class		110155	136674	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Natural Mending	270581	talent-passive	TraitNodeEntry	false	0	Rotational	class		102401	126465	2				
+Hunter	Beast Mastery	253	Nature's Ally	1273043	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110428	137052	1	Buff		talent-passive:TraitNodeEntry;cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	No Hard Feelings	459546	talent-passive	TraitNodeEntry	false	0	Rotational	class		102412	126476	1				
+Hunter	Beast Mastery	253	No Mercy	472660	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Pack Leader	94969	117566	1				
+Hunter	Beast Mastery	253	Pack Mentality	472358	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Pack Leader	94985	117582	1				
+Hunter	Beast Mastery	253	Pack Tactics	321014	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102374	126437	1				
+Hunter	Beast Mastery	253	Pact of the Hollow	1264690	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Dark Ranger	109799	136057	1				
+Hunter	Beast Mastery	253	Padded Armor	459450	talent-passive	TraitNodeEntry	false	0	Rotational	class		102406	126470	1				
+Hunter	Beast Mastery	253	Pathfinding	378002	talent-passive	TraitNodeEntry	false	0	Rotational	class		102404	126468	1				
+Hunter	Beast Mastery	253	Piercing Fangs	392053	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102371	126434	1				
+Hunter	Beast Mastery	253	Posthaste	109215	talent-passive	TraitNodeEntry	false	0	Rotational	class		102411	126475	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Precision Strikes	1267003	talent-passive	TraitNodeEntry	false	0	Rotational	class		102380	126443	1				
+Hunter	Beast Mastery	253	Rejuvenating Wind	385539	talent-passive	TraitNodeEntry	false	0	Rotational	class		102381	126444	1				
+Hunter	Beast Mastery	253	Savagery	424557	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102356	126418	1				
+Hunter	Beast Mastery	253	Scent of Blood	193532	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102342	126404	1				
+Hunter	Beast Mastery	253	Scout's Instincts	459455	talent-passive	TraitNodeEntry	false	0	Rotational	class		109483	135705	1				
+Hunter	Beast Mastery	253	Serpentine Strikes	468701	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102372	126435	1				
+Hunter	Beast Mastery	253	Serrated Tips	459502	talent-passive	TraitNodeEntry	false	0	Rotational	class		102384	126447	2				
+Hunter	Beast Mastery	253	Shadow Dagger	467741	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Dark Ranger	94960	128219	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Sharpened Claws	472524	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Pack Leader	94972	128358	1				
+Hunter	Beast Mastery	253	Sharpened Fangs	1264775	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Pack Leader	109802	136060	1				
+Hunter	Beast Mastery	253	Shell Cover	472707	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Pack Leader	94967	117564	1				
+Hunter	Beast Mastery	253	Shell Wall	1267218	talent-passive	TraitNodeEntry	false	0	Rotational	class		110154	136673	1				
+Hunter	Beast Mastery	253	Slicked Shoes	472719	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Pack Leader	94979	117576	1				
+Hunter	Beast Mastery	253	Smoke Screen	430709	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Dark Ranger	94959	123779	1				
+Hunter	Beast Mastery	253	Snakeskin Quiver	468695	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102344	126406	1				
+Hunter	Beast Mastery	253	Solitary Companion	474746	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110158	136678	1				
+Hunter	Beast Mastery	253	Soul Drinker	469638	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Dark Ranger	94968	117565	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Specialized Arsenal	459542	talent-passive	TraitNodeEntry	false	0	Rotational	class		102390	126453	1				
+Hunter	Beast Mastery	253	Stampede!	472741	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Pack Leader	94966	117563	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Stomp	199530	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102347	126409	1				
+Hunter	Beast Mastery	253	Tar-Coated Bindings	459460	talent-passive	TraitNodeEntry	false	0	Rotational	class		110152	136671	1				
+Hunter	Beast Mastery	253	Territorial Instincts	459507	talent-passive	TraitNodeEntry	false	0	Rotational	class		102394	126458	1				
+Hunter	Beast Mastery	253	The Bell Tolls	467644	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Dark Ranger	94957	136231	1				
+Hunter	Beast Mastery	253	Thrill of the Hunt	1265051	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102345	126407	2				
+Hunter	Beast Mastery	253	Through the Eyes	1277565	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Dark Ranger	94986	136742	1				
+Hunter	Beast Mastery	253	Thundering Hooves	459693	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102370	126433	1				
+Hunter	Beast Mastery	253	Touch of Grass	1258402	talent-passive	TraitNodeEntry	false	0	Rotational	class		109487	135710	2				
+Hunter	Beast Mastery	253	Trailblazer	199921	talent-passive	TraitNodeEntry	false	0	Rotational	class		110155	136675	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Training Expert	378209	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102338	126399	2				
+Hunter	Beast Mastery	253	Trigger Finger	459534	talent-passive	TraitNodeEntry	false	0	Rotational	class		102396	126460	2				
+Hunter	Beast Mastery	253	Umbral Reach	1235397	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Dark Ranger	94982	132888	1				
+Hunter	Beast Mastery	253	Unnatural Causes	459527	talent-passive	TraitNodeEntry	false	0	Rotational	class		102387	126450	1				
+Hunter	Beast Mastery	253	Ursine Fury	472476	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Pack Leader	94972	117569	1				
+Hunter	Beast Mastery	253	Wailing Dead	1264290	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Dark Ranger	109800	136058	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	War Orders	393933	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102343	126405	1				
+Hunter	Beast Mastery	253	Wild Instincts	378442	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102339	126401	1				
+Hunter	Beast Mastery	253	Wilderness Medicine	343242	talent-passive	TraitNodeEntry	false	0	Rotational	class		102383	126446	1				
+Hunter	Beast Mastery	253	Wildspeaker	1232739	talent-passive	TraitNodeEntry	false	0	Rotational	spec		107285	132188	1				
+Hunter	Beast Mastery	253	Withering Fire	466990	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Dark Ranger	94993	117590	1	Other		cdm-only:CooldownSetSpell	
+Hunter	Beast Mastery	253	Wyvern's Gaze	1264792	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Pack Leader	109804	136236	1				

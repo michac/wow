@@ -1,0 +1,200 @@
+class	spec	spec_id	name	spell_id	origin	source	castable	cooldown	band	tree	hero_tree	node_id	entry_id	max_ranks	blizz_category	seed_bucket	also_from	aliases
+Paladin	Protection	66	Lay on Hands	633	talent-active	TraitNodeEntry	true	600	Cooldown	class		81597	102583	1	Utility	Self-Heal 4 (Emergency/Overflow)	class-baseline:SkillLineAbility:800;cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Blessing of Sacrifice	6940	talent-active	TraitNodeEntry	true	120	Cooldown	class		81614	102602	1	Utility	Class 3 (Tag)	class-baseline:SkillLineAbility:800;cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Ardent Defender	31850	talent-active	TraitNodeEntry	true	90	Cooldown	spec		81481	102445	1	Buff/Essential	Cooldown 3	class-baseline:SkillLineAbility:800;cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Blinding Light	115750	talent-active	TraitNodeEntry	true	90	Cooldown	class		81598	102584	1	Utility	CC 2	cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Divine Toll	375576	talent-active	TraitNodeEntry	true	60	Cooldown	class		110006	136496	1	Essential	Cooldown 2	cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Avenger's Shield	31935	talent-active	TraitNodeEntry	true	15	Rotational	spec		81502	102471	1	Essential	Rotational 4	cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Rebuke	96231	talent-active	TraitNodeEntry	true	15	Rotational	class		81604	102591	1	Utility	Interrupt	cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Turn Evil	10326	talent-active	TraitNodeEntry	true	15	Rotational	class		93010	102623	1	Utility	Class 5 (Purge)	class-baseline:SkillLineAbility:800;cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Cleanse Toxins	213644	talent-active	TraitNodeEntry	true	8	Rotational	class		81507	102476	1	Utility	Class 6 (Dispel)	cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Blessing of Protection	1022	talent-active	TraitNodeEntry	true	1.5	Rotational	class		81616	102604	1	Buff/Utility	Class 2 (CC)	class-baseline:SkillLineAbility:800;cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Divine Steed	190784	talent-active	TraitNodeEntry	true	0.8	Rotational	class		81632	102625	1	Buff/Utility	Movement Ability	class-baseline:SkillLineAbility:800;cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Guardian of Ancient Kings	86659	talent-active	TraitNodeEntry	true	0	Rotational	spec		81490	102456	1	Essential/Other	Cooldown 4	cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Holy Armaments	432459	talent-active	TraitNodeEntry	true	0	Rotational	hero	Lightsmith	95234	117882	1			talent-active:TraitNodeEntry	Holy Bulwark
+Paladin	Protection	66	Avenging Wrath	31884	talent-choice	TraitNodeEntry	true	120	Cooldown	spec		81483	102448	1	Essential/Other		class-baseline:SkillLineAbility:800;cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Sentinel	389539	talent-choice	TraitNodeEntry	true	120	Cooldown	spec		81483	102447	1	Essential/Other		cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Blessing of Freedom	1044	talent-choice	TraitNodeEntry	true	1.5	Rotational	class		81631	128251	1	Buff/Utility	Class 1 (Movement)	class-baseline:SkillLineAbility:800;cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Blessing of Spellwarding	204018	talent-choice	TraitNodeEntry	true	1.5	Rotational	spec		90062	111886	1	Buff/Utility	Class 4 (Special)	cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Blessed Hammer	204019	talent-choice	TraitNodeEntry	true	0	Rotational	spec		81469	102430	1				
+Paladin	Protection	66	Hammer of the Righteous	53595	talent-choice	TraitNodeEntry	true	0	Rotational	spec		81469	102431	1				
+Paladin	Protection	66	Rite of Adjuration	433583	talent-choice	TraitNodeEntry	true	0	Rotational	hero	Lightsmith	95233	117880	1				
+Paladin	Protection	66	Rite of Sanctification	433568	talent-choice	TraitNodeEntry	true	0	Rotational	hero	Lightsmith	95233	117881	1		Buff		
+Paladin	Protection	66	Intercession	391054	class-baseline	SkillLineAbility:800	true	600	Cooldown						Utility	Class 8 (Lust/BRes)	cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Divine Shield	642	class-baseline	SkillLineAbility:800	true	300	Cooldown						Buff/Utility	Immune/Spell Immune/Movement	cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Jailer's Judgment	162056	class-baseline	SkillLineAbility:800	true	180	Cooldown									
+Paladin	Protection	66	Tyr's Deliverance	200652	class-baseline	SkillLineAbility:800	true	90	Cooldown									
+Paladin	Protection	66	Eye of Tyr	209202	class-baseline	SkillLineAbility:800	true	60	Cooldown									
+Paladin	Protection	66	Hammer of Justice	853	class-baseline	SkillLineAbility:800	true	45	Cooldown						Utility	CC	cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Wake of Ashes	205273	class-baseline	SkillLineAbility:800	true	30	Rotational									
+Paladin	Protection	66	Holy Prism	114852	class-baseline	SkillLineAbility:800	true	20	Rotational									
+Paladin	Protection	66	Contemplation	121183	class-baseline	SkillLineAbility:800	true	8	Rotational									
+Paladin	Protection	66	Shield of the Righteous	53600	class-baseline	SkillLineAbility:800	true	1	Rotational						Essential/Other	Rotational 1	cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Ancient Fury	86704	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Protection	66	Beacon of Light	53652	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Protection	66	Consecration	81297	class-baseline	SkillLineAbility:800	true	0	Rotational						Essential/Other	Rotational 6	cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Crusader Aura	32223	class-baseline	SkillLineAbility:800	true	0	Rotational							Stance 1		
+Paladin	Protection	66	Crusader Strike	35395	class-baseline	SkillLineAbility:800	true	0	Rotational						Essential		cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Crusader's Direhorn	290608	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Protection	66	Devotion Aura	465	class-baseline	SkillLineAbility:800	true	0	Rotational							Stance 2		
+Paladin	Protection	66	Earthen Ordinant's Ramolith	453785	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Protection	66	Flash of Light	19750	class-baseline	SkillLineAbility:800	true	0	Rotational							Self-Heal 1		
+Paladin	Protection	66	Hammer of Wrath	24275	class-baseline	SkillLineAbility:800	true	0	Rotational								talent-passive:TraitNodeEntry	
+Paladin	Protection	66	Hand of Reckoning	62124	class-baseline	SkillLineAbility:800	true	0	Rotational						Utility	Taunt/Quick Access	cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Holy Shock	25912	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Protection	66	Judgment	20271	class-baseline	SkillLineAbility:800	true	0	Rotational						Buff/Essential	Rotational 3	class-baseline:SpecializationSpells;cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Light of the Ancient Kings	86678	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Protection	66	Light's Hammer	114919	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Protection	66	Protector of the Innocent	94289	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Protection	66	Redemption	7328	class-baseline	SkillLineAbility:800	true	0	Rotational							Res		
+Paladin	Protection	66	Retribution Aura	183435	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Protection	66	Sense Undead	5502	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Protection	66	Single-Button Assistant	1229376	class-baseline	SpecializationSpells	true	0	Rotational									
+Paladin	Protection	66	Summon Charger	23214	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Protection	66	Summon Darkforge Ram	270562	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Protection	66	Summon Dawnforge Ram	270564	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Protection	66	Summon Exarch's Elekk	73629	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Protection	66	Summon Great Exarch's Elekk	73630	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Protection	66	Summon Great Sunwalker Kodo	69826	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Protection	66	Summon Lightforged Ruinstrider	363613	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Protection	66	Summon Sunwalker Kodo	69820	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Protection	66	Summon Thalassian Charger	34767	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Protection	66	Summon Thalassian Warhorse	34769	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Protection	66	Summon Warhorse	13819	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Protection	66	Word of Glory	85673	class-baseline	SkillLineAbility:800	true	0	Rotational						Essential	Rotational 7	cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Searing Glare	410126	pvp-talent	PvpTalent	true	60	Cooldown						Utility		cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Shield of Virtue	215652	pvp-talent	PvpTalent	true	45	Cooldown						Utility		cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Inquisition	207028	pvp-talent	PvpTalent	true	20	Rotational									
+Paladin	Protection	66	Bear the Burden	468454	pvp-talent	PvpTalent	false	0	Rotational									
+Paladin	Protection	66	Guarded by the Light	216855	pvp-talent	PvpTalent	false	0	Rotational									
+Paladin	Protection	66	Guardian of the Forgotten Queen	228049	pvp-talent	PvpTalent	true	0	Rotational									
+Paladin	Protection	66	Hallowed Ground	216868	pvp-talent	PvpTalent	false	0	Rotational									
+Paladin	Protection	66	Luminescence	556606	pvp-talent	PvpTalent	false	0	Rotational									
+Paladin	Protection	66	Sacred Duty	216853	pvp-talent	PvpTalent	false	0	Rotational									
+Paladin	Protection	66	Shining Revelation	936051	pvp-talent	PvpTalent	false	0	Rotational									
+Paladin	Protection	66	Spellbreaker	469895	pvp-talent	PvpTalent	false	0	Rotational									
+Paladin	Protection	66	Steed of Glory	199542	pvp-talent	PvpTalent	false	0	Rotational									
+Paladin	Protection	66	Warrior of Light	210341	pvp-talent	PvpTalent	false	0	Rotational									
+Paladin	Protection	66	A Just Reward	469411	talent-passive	TraitNodeEntry	false	0	Rotational	class		103858	128254	2				
+Paladin	Protection	66	Adjudication	1277005	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81505	136732	1	Buff		cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Afterimage	385414	talent-passive	TraitNodeEntry	false	0	Rotational	class		93188	115480	1	Buff		cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Auras of the Resolute	385633	talent-passive	TraitNodeEntry	false	0	Rotational	class		81600	102587	1				
+Paladin	Protection	66	Authoritative Rebuke	469886	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	95232	117879	1				
+Paladin	Protection	66	Blessed Assurance	433015	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	95235	117883	1	Buff		cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Blessed Calling	469770	talent-passive	TraitNodeEntry	false	0	Rotational	class		103868	128264	1				
+Paladin	Protection	66	Blessing of Dawn	183416	talent-passive	TraitNodeEntry	false	0	Rotational	class		93357	115673	1				
+Paladin	Protection	66	Blessing of Dusk	1241945	talent-passive	TraitNodeEntry	false	0	Rotational	class		103863	128259	1				
+Paladin	Protection	66	Blessing of the Forge	433011	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	95230	117875	1				
+Paladin	Protection	66	Bonds of Fellowship	432992	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Templar	95181	117814	1				
+Paladin	Protection	66	Brought to Light	1265549	talent-passive	TraitNodeEntry	false	0	Rotational	class		109998	136486	1				
+Paladin	Protection	66	Bulwark of Order	209389	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81499	102468	1				
+Paladin	Protection	66	Bulwark of Righteous Fury	386653	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81491	102457	1	Buff		cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Cavalier	230332	talent-passive	TraitNodeEntry	false	0	Rotational	class		81605	102592	1				
+Paladin	Protection	66	Consecrated Ground	204054	talent-passive	TraitNodeEntry	false	0	Rotational	class		81543	102518	1				
+Paladin	Protection	66	Consecration in Flame	379022	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81485	102450	2				
+Paladin	Protection	66	Crusader's Judgment	204023	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81612	102600	1				
+Paladin	Protection	66	Crusader's Resolve	380188	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81493	102460	1				
+Paladin	Protection	66	Divine Exaction	1260429	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Templar	109745	136003	1				
+Paladin	Protection	66	Divine Guidance	433106	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	95235	117884	1	Buff		cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Divine Hammer	432929	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Templar	109747	136005	1	Buff		cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Divine Inspiration	432964	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	95231	117877	1				
+Paladin	Protection	66	Divine Purpose	223817	talent-passive	TraitNodeEntry	false	0	Rotational	class		93192	128244	1	Buff		cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Divine Reach	469476	talent-passive	TraitNodeEntry	false	0	Rotational	class		93168	115447	1				
+Paladin	Protection	66	Divine Resonance	386738	talent-passive	TraitNodeEntry	false	0	Rotational	class		81479	102443	1				
+Paladin	Protection	66	Divine Spurs	469409	talent-passive	TraitNodeEntry	false	0	Rotational	class		103857	128253	1				
+Paladin	Protection	66	Empyreal Ward	387791	talent-passive	TraitNodeEntry	false	0	Rotational	class		103859	128255	1				
+Paladin	Protection	66	Empyrean Authority	1246481	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81497	102466	1				
+Paladin	Protection	66	Endless Wrath	432615	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Templar	95185	117820	1				
+Paladin	Protection	66	Eye for an Eye	469309	talent-passive	TraitNodeEntry	false	0	Rotational	class		81628	102620	1				
+Paladin	Protection	66	Faith's Armor	406101	talent-passive	TraitNodeEntry	false	0	Rotational	class		81495	102464	1				
+Paladin	Protection	66	Fear No Evil	1265541	talent-passive	TraitNodeEntry	false	0	Rotational	class		109997	136485	1				
+Paladin	Protection	66	Ferren Marcus's Fervor	378762	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81482	102446	2				
+Paladin	Protection	66	Final Stand	204077	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81504	102473	1				
+Paladin	Protection	66	Fist of Justice	234299	talent-passive	TraitNodeEntry	false	0	Rotational	class		109999	136487	1				
+Paladin	Protection	66	Focused Enmity	378845	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81472	102435	1				
+Paladin	Protection	66	Forewarning	432804	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	95231	117876	1				
+Paladin	Protection	66	Gift of the Golden Val'kyr	378279	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81484	102449	1				
+Paladin	Protection	66	Glory of the Vanguard	1267203	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110418	137022	1	Buff		talent-passive:TraitNodeEntry;cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Golden Path	377128	talent-passive	TraitNodeEntry	false	0	Rotational	class		103856	128252	1				
+Paladin	Protection	66	Grand Crusader	85043	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81487	102453	1				
+Paladin	Protection	66	Greater Judgment	231663	talent-passive	TraitNodeEntry	false	0	Rotational	class		81603	102590	1				
+Paladin	Protection	66	Guided Prayer	404357	talent-passive	TraitNodeEntry	false	0	Rotational	class		110012	136503	1				
+Paladin	Protection	66	Hammer and Anvil	433718	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	109743	136001	1				
+Paladin	Protection	66	Hammerfall	432463	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Templar	95184	117818	1				
+Paladin	Protection	66	Hand of the Protector	315924	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81475	102438	1				
+Paladin	Protection	66	Higher Calling	431687	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Templar	95178	117811	1				
+Paladin	Protection	66	Holy Aegis	385515	talent-passive	TraitNodeEntry	false	0	Rotational	class		81609	102597	1				
+Paladin	Protection	66	Holy Reprieve	469445	talent-passive	TraitNodeEntry	false	0	Rotational	class		103860	128256	1				
+Paladin	Protection	66	Holy Ritual	199422	talent-passive	TraitNodeEntry	false	0	Rotational	class		103866	128262	1				
+Paladin	Protection	66	Imbued Shield	1276945	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81494	102463	1				
+Paladin	Protection	66	Improved Ardent Defender	393114	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90062	111887	1				
+Paladin	Protection	66	Improved Blessing of Protection	384909	talent-passive	TraitNodeEntry	false	0	Rotational	class		81617	102606	1				
+Paladin	Protection	66	Inspired Guard	469439	talent-passive	TraitNodeEntry	false	0	Rotational	class		103864	128260	1				
+Paladin	Protection	66	Instrument of the Divine	1277162	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81488	102454	1				
+Paladin	Protection	66	Laying Down Arms	432866	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	95236	117885	1				
+Paladin	Protection	66	Lead the Charge	469780	talent-passive	TraitNodeEntry	false	0	Rotational	class		103867	128263	1				
+Paladin	Protection	66	Light of the Titans	378405	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81503	102472	1	Buff		cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Light's Countenance	469325	talent-passive	TraitNodeEntry	false	0	Rotational	class		103854	128247	1				
+Paladin	Protection	66	Light's Deliverance	425518	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Templar	95182	117815	1	Buff		cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Light's Guidance	427445	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Templar	95180	117813	1				
+Paladin	Protection	66	Light's Judicator	1261525	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Templar	109746	136004	1				
+Paladin	Protection	66	Light's Revocation	146956	talent-passive	TraitNodeEntry	false	0	Rotational	class		81608	102596	1				
+Paladin	Protection	66	Lightbearer	469416	talent-passive	TraitNodeEntry	false	0	Rotational	class		103861	128257	1				
+Paladin	Protection	66	Lightforged Blessing	406468	talent-passive	TraitNodeEntry	false	0	Rotational	class		103850	128240	1			talent-passive:TraitNodeEntry	
+Paladin	Protection	66	Masterwork	1271387	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	109742	136000	1	Buff		cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Obduracy	385427	talent-passive	TraitNodeEntry	false	0	Rotational	class		81630	102622	2				
+Paladin	Protection	66	Punishment	403530	talent-passive	TraitNodeEntry	false	0	Rotational	class		93165	115444	1				
+Paladin	Protection	66	Quickened Invocation	379391	talent-passive	TraitNodeEntry	false	0	Rotational	class		81479	115168	1				
+Paladin	Protection	66	Recompense	384914	talent-passive	TraitNodeEntry	false	0	Rotational	class		81607	102594	1				
+Paladin	Protection	66	Redoubt	280373	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81494	102462	1	Buff		cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Refining Fire	469883	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81486	102452	1	Buff		cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Reflection of Radiance	1271466	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	95238	117887	1				
+Paladin	Protection	66	Relentless Inquisitor	383388	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81506	102475	1				
+Paladin	Protection	66	Resounding Strike	1271553	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	109744	136002	1				
+Paladin	Protection	66	Righteous Protection	469321	talent-passive	TraitNodeEntry	false	0	Rotational	class		103865	128248	1				
+Paladin	Protection	66	Righteous Protector	204074	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81477	102440	1				
+Paladin	Protection	66	Sacred Strength	469337	talent-passive	TraitNodeEntry	false	0	Rotational	class		93192	115490	1				
+Paladin	Protection	66	Sacrifice of the Just	384820	talent-passive	TraitNodeEntry	false	0	Rotational	class		81607	102595	1				
+Paladin	Protection	66	Sacrosanct Crusade	431730	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Templar	95179	117812	1				
+Paladin	Protection	66	Sanctification	432977	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Templar	95185	117819	1	Buff		cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Sanctified Plates	402964	talent-passive	TraitNodeEntry	false	0	Rotational	class		93009	115034	2				
+Paladin	Protection	66	Sanctified Wrath	53376	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103877	128278	1				
+Paladin	Protection	66	Sanctuary	379021	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81473	102436	1				
+Paladin	Protection	66	Seal of Charity	384815	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81498	102467	1				
+Paladin	Protection	66	Seal of Might	385450	talent-passive	TraitNodeEntry	false	0	Rotational	class		81621	102612	2				
+Paladin	Protection	66	Seal of Reprisal	377053	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81629	102621	1				
+Paladin	Protection	66	Seal of the Templar	1263252	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Templar	109745	136184	1				
+Paladin	Protection	66	Searing Sunlight	1244070	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81501	102470	1				
+Paladin	Protection	66	Selfless Healer	469434	talent-passive	TraitNodeEntry	false	0	Rotational	class		103856	128309	1				
+Paladin	Protection	66	Shake the Heavens	431533	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Templar	95187	117823	1	Buff		cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Shared Resolve	432821	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	95237	117886	1				
+Paladin	Protection	66	Shining Light	321136	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81489	102455	1	Buff		cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Soaring Shield	378457	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101928	102434	1				
+Paladin	Protection	66	Solace	1245891	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101927	102451	1				
+Paladin	Protection	66	Solidarity	432802	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	95228	117873	1				
+Paladin	Protection	66	Stand Against Evil	469317	talent-passive	TraitNodeEntry	false	0	Rotational	class		103855	128249	1				
+Paladin	Protection	66	Steed of Liberty	469304	talent-passive	TraitNodeEntry	false	0	Rotational	class		81631	102624	1				
+Paladin	Protection	66	Stoicism	469316	talent-passive	TraitNodeEntry	false	0	Rotational	class		103862	128258	1				
+Paladin	Protection	66	Strength in Adversity	393071	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81493	102461	1				
+Paladin	Protection	66	Sweeping Verdict	1246488	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81505	102474	1				
+Paladin	Protection	66	Tempered in Battle	469701	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	95232	117878	1				
+Paladin	Protection	66	Tirion's Devotion	392928	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81503	125873	1				
+Paladin	Protection	66	Tyr's Enforcer	378285	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81474	102437	2				
+Paladin	Protection	66	Unbound Freedom	305394	talent-passive	TraitNodeEntry	false	0	Rotational	class		93187	115479	1				
+Paladin	Protection	66	Unbreakable Spirit	114154	talent-passive	TraitNodeEntry	false	0	Rotational	class		81615	102603	1				
+Paladin	Protection	66	Undisputed Ruling	432626	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Templar	95186	117822	1	Buff		cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Undying Embers	1244019	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81492	102459	1				
+Paladin	Protection	66	Unrelenting Charger	432990	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Templar	95181	117858	1				
+Paladin	Protection	66	Uther's Counsel	378425	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81500	102469	1				
+Paladin	Protection	66	Valiance	432919	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Lightsmith	95229	117874	1				
+Paladin	Protection	66	Valiant Crusade	1245979	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81476	102439	1	Buff		cdm-only:CooldownSetSpell	
+Paladin	Protection	66	Vengeful Wrath	1241958	talent-passive	TraitNodeEntry	false	0	Rotational	class		103851	128241	2				
+Paladin	Protection	66	Vision of Sanctity	1245354	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81470	102432	1				
+Paladin	Protection	66	Worthy Sacrifice	469279	talent-passive	TraitNodeEntry	false	0	Rotational	class		103865	128261	1				
+Paladin	Protection	66	Wrathful Descent	431551	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Templar	95177	117810	1				
+Paladin	Protection	66	Wrench Evil	460720	talent-passive	TraitNodeEntry	false	0	Rotational	class		103855	128250	1				
+Paladin	Protection	66	Zealot's Paragon	391142	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81471	102433	2				
+Paladin	Protection	66	Zealous Vindication	431463	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Templar	95183	117816	1				
+Paladin	Protection	66	Hammer of Light	1246643	cdm-only	CooldownSetSpell	true	0	Rotational						Buff			
+Paladin	Protection	66	Holy Bulwark	432459	cdm-only	CooldownSetSpell	true	0	Rotational						Essential			
+Paladin	Protection	66	Protection Paladin	137028	cdm-only	CooldownSetSpell	false	0	Rotational						Buff			

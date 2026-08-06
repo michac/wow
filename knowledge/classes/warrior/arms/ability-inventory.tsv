@@ -1,0 +1,160 @@
+class	spec	spec_id	name	spell_id	origin	source	castable	cooldown	band	tree	hero_tree	node_id	entry_id	max_ranks	blizz_category	seed_bucket	also_from	aliases
+Warrior	Arms	71	Rallying Cry	97462	talent-active	TraitNodeEntry	true	180	Cooldown	class		90331	112188	1	Buff/Utility	Class 7 (Raid Defensive)	cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Die by the Sword	118038	talent-active	TraitNodeEntry	true	120	Cooldown	spec		90269	112121	1	Buff/Utility	Personal Defensive 1	cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Avatar	107574	talent-active	TraitNodeEntry	true	90	Cooldown	spec		110176	136703	1	Buff/Essential		cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Champion's Spear	376079	talent-active	TraitNodeEntry	true	90	Cooldown	class		90380	112247	1	Essential		cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Colossus Smash	167105	talent-active	TraitNodeEntry	true	45	Cooldown	spec		90290	112144	1	Essential/Other	Cooldown 1	cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Demolish	436358	talent-active	TraitNodeEntry	true	45	Cooldown	hero	Colossus	94818	117415	1	Essential		cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Shockwave	46968	talent-active	TraitNodeEntry	true	40	Rotational	class		90375	112242	1	Buff/Utility	CC 2	cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Storm Bolt	107570	talent-active	TraitNodeEntry	true	30	Rotational	class		90337	112198	1	Buff/Utility	CC	cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Impending Victory	202168	talent-active	TraitNodeEntry	true	25	Rotational	class		90326	112183	1		Self-Heal 1		
+Warrior	Arms	71	Mortal Strike	12294	talent-active	TraitNodeEntry	true	6	Rotational	spec		90270	112122	1	Essential	Rotational 1	cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Rend	772	talent-active	TraitNodeEntry	true	6	Rotational	class		109391	135597	1	Buff/Essential		cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Thunder Clap	6343	talent-active	TraitNodeEntry	true	6	Rotational	class		90343	112205	1	Buff/Essential		cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Cleave	845	talent-active	TraitNodeEntry	true	4.5	Rotational	spec		90293	112147	1	Essential		cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Battle Stance	386164	talent-active	TraitNodeEntry	true	3	Rotational	class		90327	112184	1	Buff	Stance 2	cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Defensive Stance	386208	talent-active	TraitNodeEntry	true	3	Rotational	class		92537	114643	1	Buff	Stance 1	cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Heroic Leap	6544	talent-active	TraitNodeEntry	true	1.5	Rotational	class		90346	112208	1	Utility	Movement Ability	class-baseline:SkillLineAbility:840;cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Spell Reflection	23920	talent-active	TraitNodeEntry	true	1	Rotational	class		90385	112253	1	Buff/Utility	Self-Heal 4 (Emergency/Overflow)	cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Overpower	7384	talent-active	TraitNodeEntry	true	0	Rotational	spec		90271	112123	1	Essential	Rotational 2	cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Shattering Throw	64382	talent-choice	TraitNodeEntry	true	180	Cooldown	class		90351	112214	1	Utility		cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Bladestorm	227847	talent-choice	TraitNodeEntry	true	90	Cooldown	spec		90441	112314	1	Buff/Essential		class-baseline:SkillLineAbility:840;cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Intimidating Shout	5246	talent-choice	TraitNodeEntry	true	90	Cooldown	class		108705	134254	1	Buff/Utility		cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Piercing Howl	12323	talent-choice	TraitNodeEntry	true	90	Cooldown	class		108705	136627	1	Buff/Utility	Class 2 (CC)	cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Ravager	228920	talent-choice	TraitNodeEntry	true	90	Cooldown	spec		90441	136702	1	Essential		class-baseline:SkillLineAbility:840;cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Berserker Shout	384100	talent-choice	TraitNodeEntry	true	60	Cooldown	class		90348	112211	1		Self-Heal 3 (Overflow)		
+Warrior	Arms	71	Wrecking Throw	384110	talent-choice	TraitNodeEntry	true	45	Cooldown	class		90351	112215	1	Utility	Class 4 (Special)	cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Ignore Pain	1277297	talent-choice	TraitNodeEntry	true	20	Rotational	spec		90276	136701	1	Buff/Utility	Self-Heal 2	cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Interpose	1244088	talent-choice	TraitNodeEntry	true	1.5	Rotational	class		108676	134216	1	Utility		cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Intervene	3411	talent-choice	TraitNodeEntry	true	1.5	Rotational	class		108676	134217	1	Utility	Class 5 (Purge)	cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Berserker Rage	18499	class-baseline	SkillLineAbility:840	true	60	Cooldown						Buff/Utility	Personal Defensive 2	cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Warbreaker	209577	class-baseline	SkillLineAbility:840	true	60	Cooldown									
+Warrior	Arms	71	Neltharion's Fury	203524	class-baseline	SkillLineAbility:840	true	45	Cooldown									
+Warrior	Arms	71	Odyn's Fury	205545	class-baseline	SkillLineAbility:840	true	45	Cooldown									
+Warrior	Arms	71	Sweeping Strikes	260708	class-baseline	SpecializationSpells	true	30	Rotational						Buff/Essential	Rotational 8	cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Victory Rush	118779	class-baseline	SkillLineAbility:840	true	30	Rotational						Utility		cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Pummel	6552	class-baseline	SkillLineAbility:840	true	15	Rotational						Utility	Interrupt	cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Shield Slam	23922	class-baseline	SkillLineAbility:840	true	9	Rotational						Essential		cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Taunt	355	class-baseline	SkillLineAbility:840	true	8	Rotational						Essential	Taunt/Quick Access	cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Execute	163201	class-baseline	SkillLineAbility:840	true	6	Rotational						Essential	Rotational 3	cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Heroic Throw	57755	class-baseline	SkillLineAbility:840	true	6	Rotational							Class 3 (Tag)		
+Warrior	Arms	71	Charge	100	class-baseline	SkillLineAbility:840	true	1.5	Rotational						Utility	Class 1 (Movement)	cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Shield Block	2565	class-baseline	SkillLineAbility:840	true	1	Rotational						Essential		cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Attack	88163	class-baseline	SkillLineAbility:840	true	0	Rotational									
+Warrior	Arms	71	Battle Shout	6673	class-baseline	SkillLineAbility:840	true	0	Rotational							Buff		
+Warrior	Arms	71	Bladestorm Off-Hand	95738	class-baseline	SkillLineAbility:840	true	0	Rotational									
+Warrior	Arms	71	Bloodbath	113344	class-baseline	SkillLineAbility:840	true	0	Rotational									
+Warrior	Arms	71	Bloodthirst Heal	117313	class-baseline	SkillLineAbility:840	true	0	Rotational									
+Warrior	Arms	71	Hamstring	1715	class-baseline	SkillLineAbility:840	true	0	Rotational						Buff	Slow	cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Hotbar Slot 01	294184	class-baseline	SkillLineAbility:840	true	0	Rotational									
+Warrior	Arms	71	Hotbar Slot 02	294189	class-baseline	SkillLineAbility:840	true	0	Rotational									
+Warrior	Arms	71	Raging Blow	85384	class-baseline	SkillLineAbility:840	true	0	Rotational									
+Warrior	Arms	71	Single-Button Assistant	1229376	class-baseline	SpecializationSpells	true	0	Rotational									
+Warrior	Arms	71	Slam	1464	class-baseline	SkillLineAbility:840	true	0	Rotational						Essential	Rotational 4	cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Trauma	215537	class-baseline	SkillLineAbility:840	true	0	Rotational									
+Warrior	Arms	71	Whirlwind	1680	class-baseline	SkillLineAbility:840	true	0	Rotational									
+Warrior	Arms	71	Whirlwind Off-Hand	44949	class-baseline	SkillLineAbility:840	true	0	Rotational									
+Warrior	Arms	71	Duel	236273	pvp-talent	PvpTalent	true	60	Cooldown						Utility		cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Disarm	236077	pvp-talent	PvpTalent	true	45	Cooldown						Utility		cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Berserker Roar	1227751	pvp-talent	PvpTalent	false	0	Rotational									
+Warrior	Arms	71	Demolition	329033	pvp-talent	PvpTalent	false	0	Rotational									
+Warrior	Arms	71	Dragon Charge	206572	pvp-talent	PvpTalent	true	0	Rotational									
+Warrior	Arms	71	Master and Commander	235941	pvp-talent	PvpTalent	false	0	Rotational									
+Warrior	Arms	71	Rebound	213915	pvp-talent	PvpTalent	false	0	Rotational									
+Warrior	Arms	71	Safeguard	424654	pvp-talent	PvpTalent	false	0	Rotational									
+Warrior	Arms	71	Sharpen Blade	1219165	pvp-talent	PvpTalent	false	0	Rotational									
+Warrior	Arms	71	Storm of Destruction	236308	pvp-talent	PvpTalent	false	0	Rotational									
+Warrior	Arms	71	Anger Management	152278	talent-passive	TraitNodeEntry	false	0	Rotational	class		108543	134032	1				
+Warrior	Arms	71	Armored to the Teeth	384124	talent-passive	TraitNodeEntry	false	0	Rotational	class		90366	112233	2				
+Warrior	Arms	71	Arterial Bleed	440995	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94799	119856	1				
+Warrior	Arms	71	Barbaric Training	383082	talent-passive	TraitNodeEntry	false	0	Rotational	class		90347	112209	1				
+Warrior	Arms	71	Battlefield Commander	424742	talent-passive	TraitNodeEntry	false	0	Rotational	class		108544	134033	1				
+Warrior	Arms	71	Battlelord	386630	talent-passive	TraitNodeEntry	false	0	Rotational	spec		92615	114740	1				
+Warrior	Arms	71	Bloodborne	383287	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90283	112135	2				
+Warrior	Arms	71	Bloodletting	383154	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90438	112310	1				
+Warrior	Arms	71	Bloodsurge	384361	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90277	112129	1				
+Warrior	Arms	71	Boneshaker	429639	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94789	117386	1				
+Warrior	Arms	71	Bounding Stride	202163	talent-passive	TraitNodeEntry	false	0	Rotational	class		90355	112219	1				
+Warrior	Arms	71	Broad Strokes	1261049	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109686	135942	1				
+Warrior	Arms	71	Brutal Finish	446085	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94786	123409	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Brute Force	1261046	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109681	135936	1				
+Warrior	Arms	71	Celeritous Conclusion	1270710	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	109812	136071	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Collateral Damage	334779	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109682	135937	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Colossal Might	429634	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94819	117416	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Crackling Thunder	203201	talent-passive	TraitNodeEntry	false	0	Rotational	class		95959	118853	1				
+Warrior	Arms	71	Critical Thinking	389306	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90444	112317	2				
+Warrior	Arms	71	Cruel Strikes	392777	talent-passive	TraitNodeEntry	false	0	Rotational	class		90381	112248	2				
+Warrior	Arms	71	Crushing Combo	1261056	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109683	135938	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Crushing Force	382764	talent-passive	TraitNodeEntry	false	0	Rotational	class		108686	134226	1				
+Warrior	Arms	71	Culling Cyclone	444778	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94786	117383	1				
+Warrior	Arms	71	Cut to the Bone	1270709	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	109813	136072	1				
+Warrior	Arms	71	Deadly Focus	1270718	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	109816	136075	1				
+Warrior	Arms	71	Death Drive	444770	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94813	117410	1				
+Warrior	Arms	71	Decimator	1270704	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	109814	136073	1				
+Warrior	Arms	71	Deep Wounds	1261060	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109684	135940	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Dominance of the Colossus	429636	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94793	117390	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Double Time	103827	talent-passive	TraitNodeEntry	false	0	Rotational	class		90382	112249	1				
+Warrior	Arms	71	Dreadnaught	262150	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90285	112137	1				
+Warrior	Arms	71	Earthquaker	440992	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94789	119858	1				
+Warrior	Arms	71	Efficiency	1261047	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109681	135935	1				
+Warrior	Arms	71	Executioner's Precision	386634	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90445	112318	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Fast Footwork	382260	talent-passive	TraitNodeEntry	false	0	Rotational	class		90344	112206	1				
+Warrior	Arms	71	Fatality	383703	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90439	112311	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Fearless	1271925	talent-passive	TraitNodeEntry	false	0	Rotational	class		90348	112210	1				
+Warrior	Arms	71	Fervor of Battle	202316	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90267	135932	1				
+Warrior	Arms	71	Field Dressing	1271926	talent-passive	TraitNodeEntry	false	0	Rotational	class		110119	136626	1				
+Warrior	Arms	71	Fierce Followthrough	444773	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94787	117384	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Frothing Berserker	392792	talent-passive	TraitNodeEntry	false	0	Rotational	class		90352	112216	1				
+Warrior	Arms	71	Fueled by Violence	383103	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90276	112128	1				
+Warrior	Arms	71	Honed Reflexes	391271	talent-passive	TraitNodeEntry	false	0	Rotational	class		95956	118850	1				
+Warrior	Arms	71	Imminent Demise	444769	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94788	117385	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Impale	383430	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90292	112146	1				
+Warrior	Arms	71	Improved Execute	316405	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90273	112125	1				
+Warrior	Arms	71	Improved Overpower	385571	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90279	112131	1				
+Warrior	Arms	71	Improved Sweeping Strikes	383155	talent-passive	TraitNodeEntry	false	0	Rotational	spec		92536	114641	1				
+Warrior	Arms	71	Javelineer	1271948	talent-passive	TraitNodeEntry	false	0	Rotational	class		110118	136625	1				
+Warrior	Arms	71	Just Warming Up	1261048	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109686	135943	1				
+Warrior	Arms	71	Leeching Strikes	382258	talent-passive	TraitNodeEntry	false	0	Rotational	class		90371	112238	1				
+Warrior	Arms	71	Martial Expert	429638	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94812	117409	1				
+Warrior	Arms	71	Martial Prowess	1273062	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109680	135934	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Mass Execution	1273075	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110175	136700	1				
+Warrior	Arms	71	Massacre	281001	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90291	112145	1				
+Warrior	Arms	71	Master Tactician	1261057	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109679	135933	1				
+Warrior	Arms	71	Master of Warfare	1269314	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110407	136989	1	Buff		talent-passive:TraitNodeEntry;cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Mortal Wounds	1261062	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109685	135941	1				
+Warrior	Arms	71	Mountain of Muscle and Scars	429642	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94806	117403	1				
+Warrior	Arms	71	No Stranger to Pain	429644	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94815	117412	1				
+Warrior	Arms	71	One Against Many	429637	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94799	117396	1				
+Warrior	Arms	71	Opportunist	444774	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94787	123770	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Overpowering Finish	400205	talent-passive	TraitNodeEntry	false	0	Rotational	spec		92614	114733	1				
+Warrior	Arms	71	Overwhelming Blades	444772	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94810	117407	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Overwhelming Rage	382767	talent-passive	TraitNodeEntry	false	0	Rotational	class		90378	112245	1				
+Warrior	Arms	71	Pain and Gain	382549	talent-passive	TraitNodeEntry	false	0	Rotational	class		90353	112217	1				
+Warrior	Arms	71	Powerful Momentum	1261050	talent-passive	TraitNodeEntry	false	0	Rotational	spec		92536	114739	1				
+Warrior	Arms	71	Practiced Strikes	429647	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94796	117393	1				
+Warrior	Arms	71	Precise Might	431548	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94794	117391	1				
+Warrior	Arms	71	Reap the Storm	444775	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94809	117406	1				
+Warrior	Arms	71	Reinforced Plates	382939	talent-passive	TraitNodeEntry	false	0	Rotational	class		90368	112235	2				
+Warrior	Arms	71	Relentless Pursuit	444776	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94795	117392	1				
+Warrior	Arms	71	Resonant Voice	1243660	talent-passive	TraitNodeEntry	false	0	Rotational	class		108685	134225	1				
+Warrior	Arms	71	Rumbling Earth	275339	talent-passive	TraitNodeEntry	false	0	Rotational	class		90374	112241	1				
+Warrior	Arms	71	Second Wind	29838	talent-passive	TraitNodeEntry	false	0	Rotational	class		90332	112190	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Sharpened Blades	383341	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90447	112320	2				
+Warrior	Arms	71	Show No Mercy	444771	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94784	117381	1				
+Warrior	Arms	71	Slayer's Dominance	444767	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94814	117411	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Slayer's Malice	444779	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94801	117398	1				
+Warrior	Arms	71	Stance Mastery	1280961	talent-passive	TraitNodeEntry	false	0	Rotational	class		108542	134031	1				
+Warrior	Arms	71	Strength of Arms	400803	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109687	135944	2				
+Warrior	Arms	71	Sudden Death	29725	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90274	112126	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Tactical Edge	1261051	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109683	135939	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Tactician	184783	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90282	112134	1				
+Warrior	Arms	71	Tide of Battle	429641	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94811	117408	1				
+Warrior	Arms	71	Two-Handed Weapon Specialization	382896	talent-passive	TraitNodeEntry	false	0	Rotational	class		90322	112179	2				
+Warrior	Arms	71	Unhinged	386628	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	109815	136074	1				
+Warrior	Arms	71	Unrelenting Onslaught	444780	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94820	117417	1				
+Warrior	Arms	71	Veteran Vitality	440993	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94815	119857	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Arms	71	Vicious Agility	444777	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	94795	123408	1				
+Warrior	Arms	71	Violent Euphoria	1270717	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Slayer	109817	136076	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Arms	71	War Machine	262231	talent-passive	TraitNodeEntry	false	0	Rotational	class		90328	112185	1				
+Warrior	Arms	71	Wild Strikes	382946	talent-passive	TraitNodeEntry	false	0	Rotational	class		90360	112224	2				
+Warrior	Arms	71	Heroic Might	1292058	cdm-only	CooldownSetSpell	true	0	Rotational						Buff			

@@ -1,0 +1,256 @@
+skill_line	line_name	class	class_id	family	family_id	pet_talent_type	exotic	name	spell_id	castable	cooldown
+188	Pet - Imp	9	9	Fel Imp, Imp	23,100		false	Firebolt	3110	true	0
+188	Pet - Imp	9	9	Fel Imp, Imp	23,100		false	Avoidance	32233	false	0
+188	Pet - Imp	9	9	Fel Imp, Imp	23,100		false	Flee	89792	true	20
+188	Pet - Imp	9	9	Fel Imp, Imp	23,100		false	Singe Magic	89808	true	15
+189	Pet - Felhunter	9	9	Felhunter, Observer	15,103		false	Shadow Bite	54049	true	0
+189	Pet - Felhunter	9	9	Felhunter, Observer	15,103		false	Avoidance	32233	false	0
+189	Pet - Felhunter	9	9	Felhunter, Observer	15,103		false	Devour Magic	19505	true	15
+189	Pet - Felhunter	9	9	Felhunter, Observer	15,103		false	Spell Lock	19647	true	24
+203	Pet - Spider	3	3	Spider	3	Ferocity	false	Bite	17253	true	3
+203	Pet - Spider	3	3	Spider	3	Ferocity	false	Web Spray	160067	true	10
+204	Pet - Voidwalker	9	9	Voidlord, Voidwalker	16,101		false	Consuming Shadows	3716	true	0
+204	Pet - Voidwalker	9	9	Voidlord, Voidwalker	16,101		false	Suffering	17735	true	10
+204	Pet - Voidwalker	9	9	Voidlord, Voidwalker	16,101		false	Shadow Bulwark	17767	true	120
+204	Pet - Voidwalker	9	9	Voidlord, Voidwalker	16,101		false	Avoidance	32233	false	0
+204	Pet - Voidwalker	9	9	Voidlord, Voidwalker	16,101		false	Threatening Presence	112042	true	0
+204	Pet - Voidwalker	9	9	Voidlord, Voidwalker	16,101		false	Shadow Shield	264993	false	10
+205	Pet - Succubus	9	9	Incubus, Shivarra, Succubus	17,102,302		false	Whiplash	6360	true	6
+205	Pet - Succubus	9	9	Incubus, Shivarra, Succubus	17,102,302		false	Lash of Pain	7814	true	0
+205	Pet - Succubus	9	9	Incubus, Shivarra, Succubus	17,102,302		false	Seduction	6358	true	30
+205	Pet - Succubus	9	9	Incubus, Shivarra, Succubus	17,102,302		false	Lesser Invisibility	7870	true	0
+205	Pet - Succubus	9	9	Incubus, Shivarra, Succubus	17,102,302		false	Avoidance	32233	false	0
+206	Pet - Infernal	9	9	Infernal	108		false	Immolation	19483	true	0
+206	Pet - Infernal	9	9	Infernal	108		false	Burning Presence	171011	true	0
+206	Pet - Infernal	9	9	Infernal	108		false	Meteor Strike	171017	true	60
+206	Pet - Infernal	9	9	Infernal	108		false	Torch Magic	171021	true	10
+206	Pet - Infernal	9	9	Infernal	108		false	Seethe	171014	true	10
+206	Pet - Infernal	9	9	Infernal	108		false	Avoidance	190019	false	0
+207	Pet - Doomguard	9	9	Doomguard	19		false	Doom Bolt	85692	true	0
+207	Pet - Doomguard	9	9	Doomguard	19		false	Shadow Lock	171138	true	24
+207	Pet - Doomguard	9	9	Doomguard	19		false	Cripple	170995	true	30
+207	Pet - Doomguard	9	9	Doomguard	19		false	Avoidance	190019	false	0
+208	Pet - Wolf	3	3	Wolf	1	Ferocity	false	Bite	17253	true	3
+208	Pet - Wolf	3	3	Wolf	1	Ferocity	false	Furious Bite	263840	true	10
+209	Pet - Cat	3	3	Cat	2	Ferocity	false	Claw	16827	true	3
+209	Pet - Cat	3	3	Cat	2	Ferocity	false	Prowl	24450	true	10
+209	Pet - Cat	3	3	Cat	2	Ferocity	false	Catlike Reflexes	263892	true	90
+210	Pet - Bear	3	3	Bear	4	Tenacity	false	Claw	16827	true	3
+210	Pet - Bear	3	3	Bear	4	Tenacity	false	Rest	94019	true	0
+210	Pet - Bear	3	3	Bear	4	Tenacity	false	Thick Fur	263934	false	0
+211	Pet - Boar	3	3	Boar	5	Cunning	false	Bite	17253	true	3
+211	Pet - Boar	3	3	Boar	5	Cunning	false	Bristle	263869	true	60
+212	Pet - Crocolisk	3	3	Crocolisk	6	Ferocity	false	Bite	17253	true	3
+212	Pet - Crocolisk	3	3	Crocolisk	6	Ferocity	false	Ankle Crack	50433	true	10
+213	Pet - Carrion Bird	3	3	Carrion Bird	7	Ferocity	false	Bite	17253	true	3
+213	Pet - Carrion Bird	3	3	Carrion Bird	7	Ferocity	false	Bloody Screech	24423	true	6
+214	Pet - Crab	3	3	Crab	8	Tenacity	false	Claw	16827	true	3
+214	Pet - Crab	3	3	Crab	8	Tenacity	false	Pin	50245	true	10
+215	Pet - Gorilla	3	3	Gorilla	9	Ferocity	false	Smack	49966	true	3
+215	Pet - Gorilla	3	3	Gorilla	9	Ferocity	false	Silverback	263939	false	0
+217	Pet - Raptor	3	3	Raptor	11	Cunning	false	Claw	16827	true	3
+217	Pet - Raptor	3	3	Raptor	11	Cunning	false	Savage Rend	263854	true	6
+218	Pet - Tallstrider	3	3	Tallstrider	12	Ferocity	false	Claw	16827	true	3
+218	Pet - Tallstrider	3	3	Tallstrider	12	Ferocity	false	Dust Cloud	50285	true	10
+236	Pet - Scorpid	3	3	Scorpid, Zombie	20,56	Ferocity	false	Claw	16827	true	3
+236	Pet - Scorpid	3	3	Scorpid, Zombie	20,56	Ferocity	false	Deadly Sting	160060	true	6
+251	Pet - Turtle	3	3	Turtle	21	Tenacity	false	Bite	17253	true	3
+251	Pet - Turtle	3	3	Turtle	21	Tenacity	false	Shell Shield	26064	true	60
+270	Pet - Generic Hunter	3	3	Aqiri, Basilisk, Bat, Bear, Beetle, Bird of Prey, Blood Beast, Boar, Camel, Carapid, Carrion Bird, Cat, Chimaera, Clefthoof, Core Hound, Courser, Crab, Crocolisk, Devilsaur, Direhorn, Dragonhawk, Feathermane, Fox, Gorilla, Gruffhorn, Hopper, Hound, Hydra, Hyena, Lesser Dragonkin, Lizard, Mammoth, Mechanical, Monkey, Moth, Oxen, Pterrordax, Raptor, Ravager, Ray, Riverbeast, Rodent, Scalehide, Scorpid, Serpent, Shale Beast, Spider, Spirit Beast, Sporebat, Stag, Stone Hound, Tallstrider, Turtle, Warp Stalker, Wasp, Water Strider, Waterfowl, Whiptail, Wind Serpent, Wolf, Worm	1,2,3,4,5,6,7,8,9,11,12,20,21,24,25,26,27,30,31,32,33,34,35,37,38,39,41,42,43,44,45,46,50,51,52,53,55,68,125,126,127,128,129,130,138,150,151,154,156,157,160,288,290,291,292,296,298,299,300,303,315	Cunning/Ferocity/Tenacity	false	Intimidation	24394	true	0
+270	Pet - Generic Hunter	3	3	Aqiri, Basilisk, Bat, Bear, Beetle, Bird of Prey, Blood Beast, Boar, Camel, Carapid, Carrion Bird, Cat, Chimaera, Clefthoof, Core Hound, Courser, Crab, Crocolisk, Devilsaur, Direhorn, Dragonhawk, Feathermane, Fox, Gorilla, Gruffhorn, Hopper, Hound, Hydra, Hyena, Lesser Dragonkin, Lizard, Mammoth, Mechanical, Monkey, Moth, Oxen, Pterrordax, Raptor, Ravager, Ray, Riverbeast, Rodent, Scalehide, Scorpid, Serpent, Shale Beast, Spider, Spirit Beast, Sporebat, Stag, Stone Hound, Tallstrider, Turtle, Warp Stalker, Wasp, Water Strider, Waterfowl, Whiptail, Wind Serpent, Wolf, Worm	1,2,3,4,5,6,7,8,9,11,12,20,21,24,25,26,27,30,31,32,33,34,35,37,38,39,41,42,43,44,45,46,50,51,52,53,55,68,125,126,127,128,129,130,138,150,151,154,156,157,160,288,290,291,292,296,298,299,300,303,315	Cunning/Ferocity/Tenacity	false	Intimidation	19577	true	60
+270	Pet - Generic Hunter	3	3	Aqiri, Basilisk, Bat, Bear, Beetle, Bird of Prey, Blood Beast, Boar, Camel, Carapid, Carrion Bird, Cat, Chimaera, Clefthoof, Core Hound, Courser, Crab, Crocolisk, Devilsaur, Direhorn, Dragonhawk, Feathermane, Fox, Gorilla, Gruffhorn, Hopper, Hound, Hydra, Hyena, Lesser Dragonkin, Lizard, Mammoth, Mechanical, Monkey, Moth, Oxen, Pterrordax, Raptor, Ravager, Ray, Riverbeast, Rodent, Scalehide, Scorpid, Serpent, Shale Beast, Spider, Spirit Beast, Sporebat, Stag, Stone Hound, Tallstrider, Turtle, Warp Stalker, Wasp, Water Strider, Waterfowl, Whiptail, Wind Serpent, Wolf, Worm	1,2,3,4,5,6,7,8,9,11,12,20,21,24,25,26,27,30,31,32,33,34,35,37,38,39,41,42,43,44,45,46,50,51,52,53,55,68,125,126,127,128,129,130,138,150,151,154,156,157,160,288,290,291,292,296,298,299,300,303,315	Cunning/Ferocity/Tenacity	false	Growl	2649	true	8
+270	Pet - Generic Hunter	3	3	Aqiri, Basilisk, Bat, Bear, Beetle, Bird of Prey, Blood Beast, Boar, Camel, Carapid, Carrion Bird, Cat, Chimaera, Clefthoof, Core Hound, Courser, Crab, Crocolisk, Devilsaur, Direhorn, Dragonhawk, Feathermane, Fox, Gorilla, Gruffhorn, Hopper, Hound, Hydra, Hyena, Lesser Dragonkin, Lizard, Mammoth, Mechanical, Monkey, Moth, Oxen, Pterrordax, Raptor, Ravager, Ray, Riverbeast, Rodent, Scalehide, Scorpid, Serpent, Shale Beast, Spider, Spirit Beast, Sporebat, Stag, Stone Hound, Tallstrider, Turtle, Warp Stalker, Wasp, Water Strider, Waterfowl, Whiptail, Wind Serpent, Wolf, Worm	1,2,3,4,5,6,7,8,9,11,12,20,21,24,25,26,27,30,31,32,33,34,35,37,38,39,41,42,43,44,45,46,50,51,52,53,55,68,125,126,127,128,129,130,138,150,151,154,156,157,160,288,290,291,292,296,298,299,300,303,315	Cunning/Ferocity/Tenacity	false	Pet Damage	8875	false	0
+270	Pet - Generic Hunter	3	3	Aqiri, Basilisk, Bat, Bear, Beetle, Bird of Prey, Blood Beast, Boar, Camel, Carapid, Carrion Bird, Cat, Chimaera, Clefthoof, Core Hound, Courser, Crab, Crocolisk, Devilsaur, Direhorn, Dragonhawk, Feathermane, Fox, Gorilla, Gruffhorn, Hopper, Hound, Hydra, Hyena, Lesser Dragonkin, Lizard, Mammoth, Mechanical, Monkey, Moth, Oxen, Pterrordax, Raptor, Ravager, Ray, Riverbeast, Rodent, Scalehide, Scorpid, Serpent, Shale Beast, Spider, Spirit Beast, Sporebat, Stag, Stone Hound, Tallstrider, Turtle, Warp Stalker, Wasp, Water Strider, Waterfowl, Whiptail, Wind Serpent, Wolf, Worm	1,2,3,4,5,6,7,8,9,11,12,20,21,24,25,26,27,30,31,32,33,34,35,37,38,39,41,42,43,44,45,46,50,51,52,53,55,68,125,126,127,128,129,130,138,150,151,154,156,157,160,288,290,291,292,296,298,299,300,303,315	Cunning/Ferocity/Tenacity	false	Pet Health	19581	false	0
+270	Pet - Generic Hunter	3	3	Aqiri, Basilisk, Bat, Bear, Beetle, Bird of Prey, Blood Beast, Boar, Camel, Carapid, Carrion Bird, Cat, Chimaera, Clefthoof, Core Hound, Courser, Crab, Crocolisk, Devilsaur, Direhorn, Dragonhawk, Feathermane, Fox, Gorilla, Gruffhorn, Hopper, Hound, Hydra, Hyena, Lesser Dragonkin, Lizard, Mammoth, Mechanical, Monkey, Moth, Oxen, Pterrordax, Raptor, Ravager, Ray, Riverbeast, Rodent, Scalehide, Scorpid, Serpent, Shale Beast, Spider, Spirit Beast, Sporebat, Stag, Stone Hound, Tallstrider, Turtle, Warp Stalker, Wasp, Water Strider, Waterfowl, Whiptail, Wind Serpent, Wolf, Worm	1,2,3,4,5,6,7,8,9,11,12,20,21,24,25,26,27,30,31,32,33,34,35,37,38,39,41,42,43,44,45,46,50,51,52,53,55,68,125,126,127,128,129,130,138,150,151,154,156,157,160,288,290,291,292,296,298,299,300,303,315	Cunning/Ferocity/Tenacity	false	Hunter Pet	34902	false	0
+270	Pet - Generic Hunter	3	3	Aqiri, Basilisk, Bat, Bear, Beetle, Bird of Prey, Blood Beast, Boar, Camel, Carapid, Carrion Bird, Cat, Chimaera, Clefthoof, Core Hound, Courser, Crab, Crocolisk, Devilsaur, Direhorn, Dragonhawk, Feathermane, Fox, Gorilla, Gruffhorn, Hopper, Hound, Hydra, Hyena, Lesser Dragonkin, Lizard, Mammoth, Mechanical, Monkey, Moth, Oxen, Pterrordax, Raptor, Ravager, Ray, Riverbeast, Rodent, Scalehide, Scorpid, Serpent, Shale Beast, Spider, Spirit Beast, Sporebat, Stag, Stone Hound, Tallstrider, Turtle, Warp Stalker, Wasp, Water Strider, Waterfowl, Whiptail, Wind Serpent, Wolf, Worm	1,2,3,4,5,6,7,8,9,11,12,20,21,24,25,26,27,30,31,32,33,34,35,37,38,39,41,42,43,44,45,46,50,51,52,53,55,68,125,126,127,128,129,130,138,150,151,154,156,157,160,288,290,291,292,296,298,299,300,303,315	Cunning/Ferocity/Tenacity	false	Avoidance	65220	false	0
+270	Pet - Generic Hunter	3	3	Aqiri, Basilisk, Bat, Bear, Beetle, Bird of Prey, Blood Beast, Boar, Camel, Carapid, Carrion Bird, Cat, Chimaera, Clefthoof, Core Hound, Courser, Crab, Crocolisk, Devilsaur, Direhorn, Dragonhawk, Feathermane, Fox, Gorilla, Gruffhorn, Hopper, Hound, Hydra, Hyena, Lesser Dragonkin, Lizard, Mammoth, Mechanical, Monkey, Moth, Oxen, Pterrordax, Raptor, Ravager, Ray, Riverbeast, Rodent, Scalehide, Scorpid, Serpent, Shale Beast, Spider, Spirit Beast, Sporebat, Stag, Stone Hound, Tallstrider, Turtle, Warp Stalker, Wasp, Water Strider, Waterfowl, Whiptail, Wind Serpent, Wolf, Worm	1,2,3,4,5,6,7,8,9,11,12,20,21,24,25,26,27,30,31,32,33,34,35,37,38,39,41,42,43,44,45,46,50,51,52,53,55,68,125,126,127,128,129,130,138,150,151,154,156,157,160,288,290,291,292,296,298,299,300,303,315	Cunning/Ferocity/Tenacity	false	Kindred Spirits	88680	false	0
+270	Pet - Generic Hunter	3	3	Aqiri, Basilisk, Bat, Bear, Beetle, Bird of Prey, Blood Beast, Boar, Camel, Carapid, Carrion Bird, Cat, Chimaera, Clefthoof, Core Hound, Courser, Crab, Crocolisk, Devilsaur, Direhorn, Dragonhawk, Feathermane, Fox, Gorilla, Gruffhorn, Hopper, Hound, Hydra, Hyena, Lesser Dragonkin, Lizard, Mammoth, Mechanical, Monkey, Moth, Oxen, Pterrordax, Raptor, Ravager, Ray, Riverbeast, Rodent, Scalehide, Scorpid, Serpent, Shale Beast, Spider, Spirit Beast, Sporebat, Stag, Stone Hound, Tallstrider, Turtle, Warp Stalker, Wasp, Water Strider, Waterfowl, Whiptail, Wind Serpent, Wolf, Worm	1,2,3,4,5,6,7,8,9,11,12,20,21,24,25,26,27,30,31,32,33,34,35,37,38,39,41,42,43,44,45,46,50,51,52,53,55,68,125,126,127,128,129,130,138,150,151,154,156,157,160,288,290,291,292,296,298,299,300,303,315	Cunning/Ferocity/Tenacity	false	Dash	61684	true	20
+653	Pet - Bat	3	3	Bat	24	Ferocity	false	Sonic Screech	344348	true	10
+653	Pet - Bat	3	3	Bat	24	Ferocity	false	Bite	17253	true	3
+654	Pet - Hyena	3	3	Hyena	25	Cunning	false	Bite	17253	true	3
+654	Pet - Hyena	3	3	Hyena	25	Cunning	false	Infected Bite	263853	true	6
+655	Pet - Bird of Prey	3	3	Bird of Prey	26	Cunning	false	Claw	16827	true	3
+655	Pet - Bird of Prey	3	3	Bird of Prey	26	Cunning	false	Trick	94022	true	0
+655	Pet - Bird of Prey	3	3	Bird of Prey	26	Cunning	false	Talon Rend	263852	true	10
+656	Pet - Wind Serpent	3	3	Wind Serpent	27	Ferocity	false	Bite	17253	true	3
+656	Pet - Wind Serpent	3	3	Wind Serpent	27	Ferocity	false	Winged Agility	264360	true	90
+758	Pet - Event - Remote Control	UNRESOLVED	UNRESOLVED	Remote Control	28		false	Flamethrower	25027	true	2
+758	Pet - Event - Remote Control	UNRESOLVED	UNRESOLVED	Remote Control	28		false	Activate MG Turret	25026	true	10
+761	Pet - Felguard	9	9	Felguard, Wrathguard	29,104		false	Pursuit	30151	true	15
+761	Pet - Felguard	9	9	Felguard, Wrathguard	29,104		false	Pursuit	30153	true	0
+761	Pet - Felguard	9	9	Felguard, Wrathguard	29,104		false	Legion Strike	30213	true	0
+761	Pet - Felguard	9	9	Felguard, Wrathguard	29,104		false	Avoidance	32233	false	0
+761	Pet - Felguard	9	9	Felguard, Wrathguard	29,104		false	Felstorm	89751	true	30
+761	Pet - Felguard	9	9	Felguard, Wrathguard	29,104		false	Axe Toss	89766	true	30
+761	Pet - Felguard	9	9	Felguard, Wrathguard	29,104		false	Void Reflexes	117225	false	0
+761	Pet - Felguard	9	9	Felguard, Wrathguard	29,104		false	Threatening Presence	134477	true	0
+763	Pet - Dragonhawk	3	3	Dragonhawk	30	Tenacity	false	Bite	17253	true	3
+763	Pet - Dragonhawk	3	3	Dragonhawk	30	Tenacity	false	Dragon's Guile	263887	true	90
+764	Pet - Nether Ray	3	3	Ray	34	Ferocity	false	Bite	17253	true	3
+764	Pet - Nether Ray	3	3	Ray	34	Ferocity	false	Nether Energy	344349	true	10
+765	Pet - Sporebat	3	3	Sporebat	33	Cunning	false	Smack	49966	true	3
+765	Pet - Sporebat	3	3	Sporebat	33	Cunning	false	Spore Cloud	344347	true	10
+766	Pet - Warp Stalker	3	3	Warp Stalker	32	Cunning	false	Warp Time	35346	true	10
+766	Pet - Warp Stalker	3	3	Warp Stalker	32	Cunning	false	Bite	17253	true	3
+767	Pet - Ravager	3	3	Ravager	31	Ferocity	false	Bite	17253	true	3
+767	Pet - Ravager	3	3	Ravager	31	Ferocity	false	Ravage	263857	true	6
+768	Pet - Serpent	3	3	Serpent	35	Cunning	false	Bite	17253	true	3
+768	Pet - Serpent	3	3	Serpent	35	Cunning	false	Serpent's Swiftness	263904	true	90
+775	Pet - Moth	3	3	Moth	37	Cunning	false	Smack	49966	true	3
+775	Pet - Moth	3	3	Moth	37	Cunning	false	Serenity Dust	344353	true	10
+780	Pet - Exotic Chimaera	3	3	Chimaera	38	Ferocity	true	Bite	17253	true	3
+780	Pet - Exotic Chimaera	3	3	Chimaera	38	Ferocity	true	Frost Breath	54644	true	10
+780	Pet - Exotic Chimaera	3	3	Chimaera	38	Ferocity	true	Froststorm Breath	92380	true	0
+780	Pet - Exotic Chimaera	3	3	Chimaera	38	Ferocity	true	Hunter Pet Exotic Marker (DND)	93273	false	0
+781	Pet - Exotic Devilsaur	3	3	Devilsaur	39	Ferocity	true	Bite	17253	true	3
+781	Pet - Exotic Devilsaur	3	3	Devilsaur	39	Ferocity	true	Monstrous Bite	54680	true	8
+781	Pet - Exotic Devilsaur	3	3	Devilsaur	39	Ferocity	true	Hunter Pet Exotic Marker (DND)	93273	false	0
+781	Pet - Exotic Devilsaur	3	3	Devilsaur	39	Ferocity	true	Feast	159953	true	60
+782	Pet - Ghoul	6	6	Ghoul	40		false	Claw	47468	true	0
+782	Pet - Ghoul	6	6	Ghoul	40		false	Gnaw	47481	true	90
+782	Pet - Ghoul	6	6	Ghoul	40		false	Leap	47482	true	30
+782	Pet - Ghoul	6	6	Ghoul	40		false	Huddle	47484	true	45
+782	Pet - Ghoul	6	6	Ghoul	40		false	Claw	91776	true	0
+782	Pet - Ghoul	6	6	Ghoul	40		false	Sweeping Claws	91778	true	0
+782	Pet - Ghoul	6	6	Ghoul	40		false	Monstrous Blow	91797	true	90
+782	Pet - Ghoul	6	6	Ghoul	40		false	Gnaw	91800	true	90
+782	Pet - Ghoul	6	6	Ghoul	40		false	Leap	91809	true	30
+782	Pet - Ghoul	6	6	Ghoul	40		false	Shambling Rush	91802	true	30
+782	Pet - Ghoul	6	6	Ghoul	40		false	Putrid Bulwark	91837	true	45
+782	Pet - Ghoul	6	6	Ghoul	40		false	Huddle	91838	true	45
+782	Pet - Ghoul	6	6	Ghoul	40		false	Avoidance	62137	false	0
+783	Pet - Exotic Aqiri	3	3	Aqiri	41	Cunning	true	Claw	16827	true	3
+783	Pet - Exotic Aqiri	3	3	Aqiri	41	Cunning	true	Hunter Pet Exotic Marker (DND)	93273	false	0
+783	Pet - Exotic Aqiri	3	3	Aqiri	41	Cunning	true	Tendon Rip	160065	true	10
+783	Pet - Exotic Aqiri	3	3	Aqiri	41	Cunning	true	Dune Strider	280151	false	0
+784	Pet - Exotic Worm	3	3	Worm	42	Tenacity	true	Bite	17253	true	3
+784	Pet - Exotic Worm	3	3	Worm	42	Tenacity	true	Hunter Pet Exotic Marker (DND)	93273	false	0
+784	Pet - Exotic Worm	3	3	Worm	42	Tenacity	true	Burrow Attack	93433	true	14
+784	Pet - Exotic Worm	3	3	Worm	42	Tenacity	true	Acid Spit	263446	true	10
+785	Pet - Wasp	3	3	Wasp	44	Ferocity	false	Smack	49966	true	3
+785	Pet - Wasp	3	3	Wasp	44	Ferocity	false	Toxic Sting	263858	true	6
+786	Pet - Exotic Clefthoof	3	3	Clefthoof	43	Ferocity	true	Smack	49966	true	3
+786	Pet - Exotic Clefthoof	3	3	Clefthoof	43	Ferocity	true	Hunter Pet Exotic Marker (DND)	93273	false	0
+786	Pet - Exotic Clefthoof	3	3	Clefthoof	43	Ferocity	true	Thick Hide	160057	false	0
+786	Pet - Exotic Clefthoof	3	3	Clefthoof	43	Ferocity	true	Blood of the Rhino	280069	false	0
+787	Pet - Exotic Core Hound	3	3	Core Hound	45	Ferocity	true	Bite	17253	true	3
+787	Pet - Exotic Core Hound	3	3	Core Hound	45	Ferocity	true	Hunter Pet Exotic Marker (DND)	93273	false	0
+787	Pet - Exotic Core Hound	3	3	Core Hound	45	Ferocity	true	Molten Hide	159788	false	0
+787	Pet - Exotic Core Hound	3	3	Core Hound	45	Ferocity	true	Obsidian Skin	263867	true	60
+788	Pet - Exotic Spirit Beast	3	3	Spirit Beast	46	Tenacity	true	Claw	16827	true	3
+788	Pet - Exotic Spirit Beast	3	3	Spirit Beast	46	Tenacity	true	Spirit Walk	90328	true	10
+788	Pet - Exotic Spirit Beast	3	3	Spirit Beast	46	Tenacity	true	Spirit Mend	90361	true	30
+788	Pet - Exotic Spirit Beast	3	3	Spirit Beast	46	Tenacity	true	Hunter Pet Exotic Marker (DND)	93273	false	0
+788	Pet - Exotic Spirit Beast	3	3	Spirit Beast	46	Tenacity	true	Spirit Pulse	344351	true	10
+805	Pet - Water Elemental	8	8	Water Elemental	49		false	Freeze	33395	true	25
+805	Pet - Water Elemental	8	8	Water Elemental	49		false	Waterbolt	31707	true	0
+805	Pet - Water Elemental	8	8	Water Elemental	49		false	Avoidance	65220	false	0
+805	Pet - Water Elemental	8	8	Water Elemental	49		false	Water Jet	135029	true	20
+808	Pet - Fox	3	3	Fox	50	Cunning	false	Bite	17253	true	3
+808	Pet - Fox	3	3	Fox	50	Cunning	false	Play	90347	true	0
+808	Pet - Fox	3	3	Fox	50	Cunning	false	Agile Reflexes	160011	true	90
+811	Pet - Hound	3	3	Hound	52	Cunning	false	Bite	17253	true	3
+811	Pet - Hound	3	3	Hound	52	Cunning	false	Lock Jaw	263423	true	10
+815	Pet - Monkey	3	3	Monkey	51	Cunning	false	Smack	49966	true	3
+815	Pet - Monkey	3	3	Monkey	51	Cunning	false	Primal Agility	160044	true	90
+817	Pet - Exotic Shale Beast	3	3	Shale Beast	55	Cunning	true	Bite	17253	true	3
+817	Pet - Exotic Shale Beast	3	3	Shale Beast	55	Cunning	true	Hunter Pet Exotic Marker (DND)	93273	false	0
+817	Pet - Exotic Shale Beast	3	3	Shale Beast	55	Cunning	true	Solid Shell	160063	true	60
+817	Pet - Exotic Shale Beast	3	3	Shale Beast	55	Cunning	true	Shimmering Shale	279259	false	0
+818	Beetle	3	3	Beetle	53	Tenacity	false	Bite	17253	true	3
+818	Beetle	3	3	Beetle	53	Tenacity	false	Harden Carapace	90339	true	60
+824	Pet - Hydra	3	3	Hydra	68	Tenacity	false	Bite	17253	true	3
+824	Pet - Hydra	3	3	Hydra	68	Tenacity	false	Acid Bite	263863	true	6
+962	Pet - Primal Fire Elemental	7	7	Fire Elemental	116		false	Meteor	117588	true	60
+962	Pet - Primal Fire Elemental	7	7	Fire Elemental	116		false	Fire Blast	57984	true	0
+962	Pet - Primal Fire Elemental	7	7	Fire Elemental	116		false	Avoidance	65220	false	0
+962	Pet - Primal Fire Elemental	7	7	Fire Elemental	116		false	Immolate	118297	true	10
+963	Pet - Primal Earth Elemental	7	7	Earth Elemental	117		false	Avoidance	65220	false	0
+963	Pet - Primal Earth Elemental	7	7	Earth Elemental	117		false	Angered Earth	36213	true	5
+963	Pet - Primal Earth Elemental	7	7	Earth Elemental	117		false	Pulverize	118345	true	40
+963	Pet - Primal Earth Elemental	7	7	Earth Elemental	117		false	Earth Elemental	35773	false	0
+983	Pet - Rodent	3	3	Rodent	127	Cunning	false	Claw	16827	true	3
+983	Pet - Rodent	3	3	Rodent	127	Cunning	false	Rest	126364	true	0
+983	Pet - Rodent	3	3	Rodent	127	Cunning	false	Gnaw	263856	true	6
+984	Pet - Crane	3	3	Waterfowl	125	Tenacity	false	Smack	49966	true	3
+984	Pet - Crane	3	3	Waterfowl	125	Tenacity	false	Trick	126259	true	0
+984	Pet - Crane	3	3	Waterfowl	125	Tenacity	false	Oiled Feathers	344350	true	10
+985	Pet - Water Strider	3	3	Water Strider	126	Cunning	false	Bite	17253	true	3
+985	Pet - Water Strider	3	3	Water Strider	126	Cunning	false	Surface Trot	126311	true	0
+985	Pet - Water Strider	3	3	Water Strider	126	Cunning	false	Soothing Waters	344346	true	10
+986	Pet - Exotic Stone Hound	3	3	Stone Hound	128	Tenacity	false	Bite	17253	true	3
+986	Pet - Exotic Stone Hound	3	3	Stone Hound	128	Tenacity	false	Eternal Guardian	267922	true	480
+986	Pet - Exotic Stone Hound	3	3	Stone Hound	128	Tenacity	false	Stone Armor	160049	false	0
+987	Pet - Gruffhorn	3	3	Gruffhorn	129	Cunning	false	Smack	49966	true	3
+987	Pet - Gruffhorn	3	3	Gruffhorn	129	Cunning	false	Gruff	263921	false	0
+988	Pet - Basilisk	3	3	Basilisk	130	Cunning	false	Bite	17253	true	3
+988	Pet - Basilisk	3	3	Basilisk	130	Cunning	false	Petrifying Gaze	263841	true	10
+1305	Pet - Direhorn	3	3	Direhorn	138	Tenacity	false	Bite	17253	true	3
+1305	Pet - Direhorn	3	3	Direhorn	138	Tenacity	false	Gore	263861	true	6
+1748	Pet - Primal Storm Elemental	7	7	Storm Elemental	145		false	Wind Gust	157331	true	0
+1748	Pet - Primal Storm Elemental	7	7	Storm Elemental	145		false	Avoidance	65220	false	0
+1748	Pet - Primal Storm Elemental	7	7	Storm Elemental	145		false	Stormfury	157375	true	40
+1748	Pet - Primal Storm Elemental	7	7	Storm Elemental	145		false	Call Lightning	157348	true	20
+1819	Pet - Riverbeast	3	3	Riverbeast	150	Tenacity	false	Bite	17253	true	3
+1819	Pet - Riverbeast	3	3	Riverbeast	150	Tenacity	false	Gruesome Bite	160018	true	6
+1981	Pet - Terrorguard	9	9	Terrorguard	147		false	Doom Bolt	85692	true	0
+1981	Pet - Terrorguard	9	9	Terrorguard	147		false	Debilitate	170996	true	30
+1981	Pet - Terrorguard	9	9	Terrorguard	147		false	Shadow Lock	171138	true	24
+1981	Pet - Terrorguard	9	9	Terrorguard	147		false	Avoidance	32233	false	0
+1982	Pet - Abyssal	9	9	Abyssal	148		false	Immolation	19483	true	0
+1982	Pet - Abyssal	9	9	Abyssal	148		false	Burning Presence	171012	true	0
+1982	Pet - Abyssal	9	9	Abyssal	148		false	Meteor Strike	171018	true	60
+1982	Pet - Abyssal	9	9	Abyssal	148		false	Blaze Magic	171023	true	30
+1982	Pet - Abyssal	9	9	Abyssal	148		false	Seethe	171014	true	10
+1982	Pet - Abyssal	9	9	Abyssal	148		false	Avoidance	32233	false	0
+1993	Pet - Stag	3	3	Stag	151	Tenacity	false	Smack	49966	true	3
+1993	Pet - Stag	3	3	Stag	151	Tenacity	false	Nature's Grace	344352	true	10
+2189	Pet - Mechanical	3	3	Mechanical	154	Cunning	false	Bite	17253	true	3
+2189	Pet - Mechanical	3	3	Mechanical	154	Cunning	false	Defense Matrix	263868	true	60
+2216	Pet - Abomination	6	6	Abomination	155		false	Cleaver	212333	true	0
+2216	Pet - Abomination	6	6	Abomination	155		false	Smash	212336	true	90
+2216	Pet - Abomination	6	6	Abomination	155		false	Hook	212468	true	30
+2216	Pet - Abomination	6	6	Abomination	155		false	Protective Bile	212384	true	45
+2216	Pet - Abomination	6	6	Abomination	155		false	Cleaver	212335	true	0
+2216	Pet - Abomination	6	6	Abomination	155		false	Vile Gas	212338	true	0
+2216	Pet - Abomination	6	6	Abomination	155		false	Powerful Smash	212337	true	90
+2216	Pet - Abomination	6	6	Abomination	155		false	Smash	212332	true	90
+2216	Pet - Abomination	6	6	Abomination	155		false	Hook	212469	true	30
+2216	Pet - Abomination	6	6	Abomination	155		false	Flesh Hook	212470	true	30
+2216	Pet - Abomination	6	6	Abomination	155		false	Gastric Bloat	212383	true	45
+2216	Pet - Abomination	6	6	Abomination	155		false	Protective Bile	212385	true	45
+2216	Pet - Abomination	6	6	Abomination	155		false	Avoidance	62137	false	0
+2279	Pet - Oxen	3	3	Oxen	157	Tenacity	false	Smack	49966	true	3
+2279	Pet - Oxen	3	3	Oxen	157	Tenacity	false	Niuzao's Fortitude	264023	false	0
+2280	Pet - Scalehide	3	3	Scalehide	156	Ferocity	false	Smack	49966	true	3
+2280	Pet - Scalehide	3	3	Scalehide	156	Ferocity	false	Scale Shield	263865	true	60
+2361	Pet - Feathermane	3	3	Feathermane	160	Tenacity	false	Updraft	160007	true	0
+2361	Pet - Feathermane	3	3	Feathermane	160	Tenacity	false	Bite	17253	true	3
+2361	Pet - Feathermane	3	3	Feathermane	160	Tenacity	false	Feather Flurry	263916	true	90
+2703	Pet - Lizard	3	3	Lizard	288	Tenacity	false	Bite	17253	true	3
+2703	Pet - Lizard	3	3	Lizard	288	Tenacity	false	Grievous Bite	279362	true	6
+2705	Pet - Exotic Pterrordax	3	3	Pterrordax	290	Cunning	true	Bite	17253	true	3
+2705	Pet - Exotic Pterrordax	3	3	Pterrordax	290	Cunning	true	Ancient Hide	279399	false	0
+2705	Pet - Exotic Pterrordax	3	3	Pterrordax	290	Cunning	true	Hunter Pet Exotic Marker (DND)	93273	false	0
+2705	Pet - Exotic Pterrordax	3	3	Pterrordax	290	Cunning	true	Updraft	160007	true	0
+2706	Pet - Toad	3	3	Hopper	291	Tenacity	false	Smack	49966	true	3
+2706	Pet - Toad	3	3	Hopper	291	Tenacity	false	Swarm of Flies	279336	true	90
+2707	Pet - Exotic Carapid	3	3	Carapid	292	Tenacity	true	Bite	17253	true	3
+2707	Pet - Exotic Carapid	3	3	Carapid	292	Tenacity	true	Calcified Carapace	279254	false	0
+2707	Pet - Exotic Carapid	3	3	Carapid	292	Tenacity	true	Bulwark	279410	true	60
+2707	Pet - Exotic Carapid	3	3	Carapid	292	Tenacity	true	Hunter Pet Exotic Marker (DND)	93273	false	0
+2719	Pet - Blood Beast	3	3	Blood Beast	296	Tenacity	false	Bite	17253	true	3
+2719	Pet - Blood Beast	3	3	Blood Beast	296	Tenacity	false	Blood Bolt	288962	true	10
+2805	Pet - Mammoth	3	3	Mammoth	300	Tenacity	false	Smack	49966	true	3
+2805	Pet - Mammoth	3	3	Mammoth	300	Tenacity	false	Trample	341118	true	10
+2806	Pet - Courser	3	3	Courser	299	Ferocity	false	Smack	49966	true	3
+2806	Pet - Courser	3	3	Courser	299	Ferocity	false	Fleethoof	341117	true	90
+2807	Pet - Camel	3	3	Camel	298	Cunning	false	Smack	49966	true	3
+2807	Pet - Camel	3	3	Camel	298	Cunning	false	Hardy	341115	false	0
+2850	Pet - Lesser Dragonkin	3	3	Lesser Dragonkin	303	Ferocity	false	Claw	16827	true	3
+2850	Pet - Lesser Dragonkin	3	3	Lesser Dragonkin	303	Ferocity	false	Shimmering Scales	392622	true	90
+2961	Pet - Exotic Whiptail	3	3	Whiptail	315	Ferocity	true	Claw	16827	true	3
+2961	Pet - Exotic Whiptail	3	3	Whiptail	315	Ferocity	true	Hunter Pet Exotic Marker (DND)	93273	false	0
+2961	Pet - Exotic Whiptail	3	3	Whiptail	315	Ferocity	true	Shadow Jump	1247078	true	40
+2961	Pet - Exotic Whiptail	3	3	Whiptail	315	Ferocity	true	Serrated Strike	1247058	true	6
+2961	Pet - Exotic Whiptail	3	3	Whiptail	315	Ferocity	true	Prowl	24450	true	10

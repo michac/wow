@@ -1,0 +1,148 @@
+class	spec	spec_id	name	spell_id	origin	source	castable	cooldown	band	tree	hero_tree	node_id	entry_id	max_ranks	blizz_category	seed_bucket	also_from	aliases
+Demon Hunter	Devourer	1480	Darkness	196718	talent-active	TraitNodeEntry	true	300	Cooldown	class		91002	112921	1	Buff/Utility	Class 7 (Raid Defensive)	cdm-only:CooldownSetSpell	
+Demon Hunter	Devourer	1480	The Hunt	1246167	talent-active	TraitNodeEntry	true	90	Cooldown	spec		109503	135736	1	Buff/Essential		cdm-only:CooldownSetSpell	
+Demon Hunter	Devourer	1480	Imprison	217832	talent-active	TraitNodeEntry	true	45	Cooldown	class		91007	112927	1	Buff/Utility	Class 6 (Dispel)	cdm-only:CooldownSetSpell	
+Demon Hunter	Devourer	1480	Void Nova	1234195	talent-active	TraitNodeEntry	true	45	Cooldown	class		107347	132289	1	Buff/Utility	CC	cdm-only:CooldownSetSpell	
+Demon Hunter	Devourer	1480	Vengeful Retreat	198793	talent-active	TraitNodeEntry	true	25	Rotational	class		90942	112853	1	Buff/Utility		cdm-only:CooldownSetSpell	
+Demon Hunter	Devourer	1480	Consume Magic	278326	talent-active	TraitNodeEntry	true	10	Rotational	class		91006	112926	1	Utility	Class 5 (Purge)	cdm-only:CooldownSetSpell	
+Demon Hunter	Devourer	1480	Collapsing Star	1221167	talent-active	TraitNodeEntry	true	0	Rotational	spec		107339	132281	1	Buff	Rotational 4	cdm-only:CooldownSetSpell	
+Demon Hunter	Devourer	1480	Sigil of Misery	207684	talent-active	TraitNodeEntry	true	0	Rotational	class		90946	112859	1	Buff/Utility	CC 2	cdm-only:CooldownSetSpell	
+Demon Hunter	Devourer	1480	Soul Immolation	1241937	talent-active	TraitNodeEntry	true	0	Rotational	spec		107344	132286	1	Buff/Essential	Rotational 5	cdm-only:CooldownSetSpell	
+Demon Hunter	Devourer	1480	Void Metamorphosis	471306	talent-active	TraitNodeEntry	true	0	Rotational	spec		107340	132282	1	Buff/Essential	Cooldown 1	class-baseline:SpecializationSpells;cdm-only:CooldownSetSpell	
+Demon Hunter	Devourer	1480	Void Ray	473728	talent-active	TraitNodeEntry	true	0	Rotational	spec		107336	132278	1	Essential	Rotational 2	cdm-only:CooldownSetSpell	
+Demon Hunter	Devourer	1480	Voidblade	1245412	talent-active	TraitNodeEntry	true	0	Rotational	class		108723	134272	1	Essential/Utility		cdm-only:CooldownSetSpell	
+Demon Hunter	Devourer	1480	Metamorphosis	191427	class-baseline	SkillLineAbility:1848	true	120	Cooldown									
+Demon Hunter	Devourer	1480	Fury of the Illidari	201467	class-baseline	SkillLineAbility:1848	true	60	Cooldown									
+Demon Hunter	Devourer	1480	Soul Carver	207407	class-baseline	SkillLineAbility:1848	true	60	Cooldown									
+Demon Hunter	Devourer	1480	Spectral Sight	188501	class-baseline	SkillLineAbility:1848	true	30	Rotational						Buff/Utility	Class 4 (Special)	class-baseline:SpecializationSpells;cdm-only:CooldownSetSpell	
+Demon Hunter	Devourer	1480	Disrupt	183752	class-baseline	SkillLineAbility:1848	true	15	Rotational						Utility	Interrupt	cdm-only:CooldownSetSpell	
+Demon Hunter	Devourer	1480	Immolation Aura	258920	class-baseline	SkillLineAbility:1848	true	1.5	Rotational									
+Demon Hunter	Devourer	1480	Fel Rush	344865	class-baseline	SkillLineAbility:1848	true	1	Rotational									
+Demon Hunter	Devourer	1480	Glide	131347	class-baseline	SkillLineAbility:1848	true	1	Rotational									
+Demon Hunter	Devourer	1480	Shift	1234796	class-baseline	SpecializationSpells	true	0.8	Rotational						Utility	Movement Ability	cdm-only:CooldownSetSpell	
+Demon Hunter	Devourer	1480	Blur	198589	class-baseline	SpecializationSpells	true	0.5	Rotational						Buff/Utility	Personal Defensive 1	cdm-only:CooldownSetSpell	
+Demon Hunter	Devourer	1480	Chaos Strike	344862	class-baseline	SkillLineAbility:1848	true	0	Rotational									
+Demon Hunter	Devourer	1480	Consume	473662	class-baseline	SpecializationSpells	true	0	Rotational							Rotational 1		
+Demon Hunter	Devourer	1480	Demon's Bite	344859	class-baseline	SkillLineAbility:1848	true	0	Rotational									
+Demon Hunter	Devourer	1480	Reap	1226019	class-baseline	SpecializationSpells	true	0	Rotational						Essential	Rotational 3	cdm-only:CooldownSetSpell	
+Demon Hunter	Devourer	1480	Sigil of Flame	204596	class-baseline	SkillLineAbility:1848	true	0	Rotational									
+Demon Hunter	Devourer	1480	Single-Button Assistant	1229376	class-baseline	SpecializationSpells	true	0	Rotational									
+Demon Hunter	Devourer	1480	Throw Glaive	185123	class-baseline	SkillLineAbility:1848	true	0	Rotational						Utility	Class 3 (Tag)	cdm-only:CooldownSetSpell	
+Demon Hunter	Devourer	1480	Torment	185245	class-baseline	SkillLineAbility:1848	true	0	Rotational						Buff	Taunt/Quick Access	cdm-only:CooldownSetSpell	
+Demon Hunter	Devourer	1480	Reverse Magic	205604	pvp-talent	PvpTalent	true	60	Cooldown									
+Demon Hunter	Devourer	1480	Armor of Souls	1261414	pvp-talent	PvpTalent	false	0	Rotational									
+Demon Hunter	Devourer	1480	Beckon	1261697	pvp-talent	PvpTalent	false	0	Rotational									
+Demon Hunter	Devourer	1480	Cleansed by Flame	205625	pvp-talent	PvpTalent	false	0	Rotational									
+Demon Hunter	Devourer	1480	Cover of Darkness	357419	pvp-talent	PvpTalent	false	0	Rotational									
+Demon Hunter	Devourer	1480	Detainment	205596	pvp-talent	PvpTalent	false	0	Rotational									
+Demon Hunter	Devourer	1480	Glimpse	354489	pvp-talent	PvpTalent	false	0	Rotational									
+Demon Hunter	Devourer	1480	Inevitable End	1261409	pvp-talent	PvpTalent	false	0	Rotational									
+Demon Hunter	Devourer	1480	Surrender to the Void	1261423	pvp-talent	PvpTalent	false	0	Rotational									
+Demon Hunter	Devourer	1480	Aldrachi Design	391409	talent-passive	TraitNodeEntry	false	0	Rotational	class		90999	112917	1				
+Demon Hunter	Devourer	1480	Aura of Pain	207347	talent-passive	TraitNodeEntry	false	0	Rotational	class		90933	112844	1				
+Demon Hunter	Devourer	1480	Blazing Path	320416	talent-passive	TraitNodeEntry	false	0	Rotational	class		95150	117759	1				
+Demon Hunter	Devourer	1480	Blind Focus	1272364	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Void-Scarred	110105	136607	1				
+Demon Hunter	Devourer	1480	Bouncing Glaives	320386	talent-passive	TraitNodeEntry	false	0	Rotational	class		90931	112841	1				
+Demon Hunter	Devourer	1480	Burn It Out	1266316	talent-passive	TraitNodeEntry	false	0	Rotational	class		90927	112837	1				
+Demon Hunter	Devourer	1480	Burning Blades	452408	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Void-Scarred	110111	136610	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Devourer	1480	Calamitous	1242495	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110166	136691	1				
+Demon Hunter	Devourer	1480	Catastrophe	1253769	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Annihilator	109453	135671	1				
+Demon Hunter	Devourer	1480	Celestial Echoes	1253415	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Annihilator	109451	135669	1				
+Demon Hunter	Devourer	1480	Champion of the Glaive	429211	talent-passive	TraitNodeEntry	false	0	Rotational	class		90994	117768	1				
+Demon Hunter	Devourer	1480	Charred Warblades	213010	talent-passive	TraitNodeEntry	false	0	Rotational	class		90948	112861	1				
+Demon Hunter	Devourer	1480	Dark Matter	1256307	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Annihilator	109444	135662	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Devourer	1480	Demon Muzzle	1266329	talent-passive	TraitNodeEntry	false	0	Rotational	class		90928	112838	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Devourer	1480	Demonic Instinct	1247538	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110165	136690	2				
+Demon Hunter	Devourer	1480	Demonic Intensity	452415	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Void-Scarred	110116	136617	1				
+Demon Hunter	Devourer	1480	Demonic Resilience	1266307	talent-passive	TraitNodeEntry	false	0	Rotational	class		90997	117755	1				
+Demon Hunter	Devourer	1480	Devourer's Bite	1240201	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110167	136692	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Devourer	1480	Devourer's Edge	1244222	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108143	133538	2				
+Demon Hunter	Devourer	1480	Disrupting Fury	183782	talent-passive	TraitNodeEntry	false	0	Rotational	class		90937	112848	1				
+Demon Hunter	Devourer	1480	Doomsayer	1253676	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Annihilator	109450	135668	1				
+Demon Hunter	Devourer	1480	Duty Eternal	1246562	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108726	134275	1				
+Demon Hunter	Devourer	1480	Emptiness	1242492	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108123	133512	1				
+Demon Hunter	Devourer	1480	Enduring Torment	452410	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Void-Scarred	110106	136615	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Devourer	1480	Entropy	1261684	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108122	133511	1				
+Demon Hunter	Devourer	1480	Eradicate	1226033	talent-passive	TraitNodeEntry	false	0	Rotational	spec		107345	132287	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Devourer	1480	Erratic Felheart	391397	talent-passive	TraitNodeEntry	false	0	Rotational	class		90996	112914	2				
+Demon Hunter	Devourer	1480	Feast of Souls	1237270	talent-passive	TraitNodeEntry	false	0	Rotational	spec		107343	132285	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Devourer	1480	Felfire Haste	389846	talent-passive	TraitNodeEntry	false	0	Rotational	class		90939	112850	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Devourer	1480	Final Breath	1266500	talent-passive	TraitNodeEntry	false	0	Rotational	class		110011	136501	1				
+Demon Hunter	Devourer	1480	Final Hour	1253805	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Annihilator	109445	135663	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Devourer	1480	First In, Last Out	1266497	talent-passive	TraitNodeEntry	false	0	Rotational	class		95149	117758	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Devourer	1480	Flamebound	452413	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Void-Scarred	110107	136614	1				
+Demon Hunter	Devourer	1480	Focused Hatred	452405	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Void-Scarred	110113	136612	1				
+Demon Hunter	Devourer	1480	Focused Ire	1266296	talent-passive	TraitNodeEntry	false	0	Rotational	class		95154	117767	1				
+Demon Hunter	Devourer	1480	Focused Ray	1240203	talent-passive	TraitNodeEntry	false	0	Rotational	spec		107774	133110	1				
+Demon Hunter	Devourer	1480	Furious	1266326	talent-passive	TraitNodeEntry	false	0	Rotational	class		95152	117762	1				
+Demon Hunter	Devourer	1480	Gift of the Void	1272847	talent-passive	TraitNodeEntry	false	0	Rotational	spec		107775	133111	1				
+Demon Hunter	Devourer	1480	Guile	1223171	talent-passive	TraitNodeEntry	false	0	Rotational	class		107346	132288	1				
+Demon Hunter	Devourer	1480	Harness the Cosmos	1279247	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Annihilator	109450	136810	1				
+Demon Hunter	Devourer	1480	Hungering Slash	1239519	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108136	133531	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Devourer	1480	Illidari Knowledge	389696	talent-passive	TraitNodeEntry	false	0	Rotational	class		90935	112846	2				
+Demon Hunter	Devourer	1480	Impending Apocalypse	1227707	talent-passive	TraitNodeEntry	false	0	Rotational	spec		107341	132283	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Devourer	1480	Improved Consume	1272817	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108144	134330	1				
+Demon Hunter	Devourer	1480	Improved Disrupt	320361	talent-passive	TraitNodeEntry	false	0	Rotational	class		90938	112849	1				
+Demon Hunter	Devourer	1480	Improved Sigil of Misery	320418	talent-passive	TraitNodeEntry	false	0	Rotational	class		90945	112858	1				
+Demon Hunter	Devourer	1480	Improved Soul Rending	452407	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Void-Scarred	110117	136618	1				
+Demon Hunter	Devourer	1480	Infernal Armor	320331	talent-passive	TraitNodeEntry	false	0	Rotational	class		91004	112924	2				
+Demon Hunter	Devourer	1480	Internal Struggle	393822	talent-passive	TraitNodeEntry	false	0	Rotational	class		90934	112845	1				
+Demon Hunter	Devourer	1480	Live by the Glaive	428607	talent-passive	TraitNodeEntry	false	0	Rotational	class		95151	117761	1				
+Demon Hunter	Devourer	1480	Long Night	389781	talent-passive	TraitNodeEntry	false	0	Rotational	class		91001	112920	1				
+Demon Hunter	Devourer	1480	Lost in Darkness	389849	talent-passive	TraitNodeEntry	false	0	Rotational	class		90947	112860	1				
+Demon Hunter	Devourer	1480	Mass Acceleration	1256295	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Annihilator	109447	135665	1				
+Demon Hunter	Devourer	1480	Master of the Glaive	389763	talent-passive	TraitNodeEntry	false	0	Rotational	class		90994	112912	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Devourer	1480	Meteoric Fall	1253391	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Annihilator	109446	135664	1				
+Demon Hunter	Devourer	1480	Meteoric Rise	1253377	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Annihilator	109455	135673	1				
+Demon Hunter	Devourer	1480	Midnight	1242486	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110416	137016	1			talent-passive:TraitNodeEntry	
+Demon Hunter	Devourer	1480	Moment of Craving	1238488	talent-passive	TraitNodeEntry	false	0	Rotational	spec		107770	133106	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Devourer	1480	Monster Rising	452414	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Void-Scarred	110104	136608	1				
+Demon Hunter	Devourer	1480	Otherworldly Focus	1253817	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Annihilator	109443	135661	1				
+Demon Hunter	Devourer	1480	Path to Oblivion	1253399	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Annihilator	109448	135666	1				
+Demon Hunter	Devourer	1480	Phase Shift	1256245	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Annihilator	109452	135670	1				
+Demon Hunter	Devourer	1480	Pitch Black	389783	talent-passive	TraitNodeEntry	false	0	Rotational	class		91001	112919	1				
+Demon Hunter	Devourer	1480	Predator's Thirst	1215617	talent-passive	TraitNodeEntry	false	0	Rotational	spec		107771	133107	1				
+Demon Hunter	Devourer	1480	Pursuit	320654	talent-passive	TraitNodeEntry	false	0	Rotational	class		90940	112851	1				
+Demon Hunter	Devourer	1480	Pursuit of Angriness	452404	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Void-Scarred	110114	136619	1				
+Demon Hunter	Devourer	1480	Remorseless	1266328	talent-passive	TraitNodeEntry	false	0	Rotational	class		90929	112839	1				
+Demon Hunter	Devourer	1480	Rolling Torment	1244237	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110168	136693	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Devourer	1480	Scythe's Embrace	1246558	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108726	134279	1				
+Demon Hunter	Devourer	1480	Second Helping	1239537	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110009	136499	1				
+Demon Hunter	Devourer	1480	Set Fire to the Pain	452406	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Void-Scarred	110117	136620	1				
+Demon Hunter	Devourer	1480	Shattered Restoration	389824	talent-passive	TraitNodeEntry	false	0	Rotational	class		90950	112863	1				
+Demon Hunter	Devourer	1480	Singed Spirit	1272832	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108627	134148	1				
+Demon Hunter	Devourer	1480	Singular Strikes	1272770	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110170	136695	1				
+Demon Hunter	Devourer	1480	Soul Cleanse	1266496	talent-passive	TraitNodeEntry	false	0	Rotational	class		90927	136502	1				
+Demon Hunter	Devourer	1480	Soul Glutton	1247534	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108123	134331	1				
+Demon Hunter	Devourer	1480	Soul Rending	204909	talent-passive	TraitNodeEntry	false	0	Rotational	class		90936	112847	2				
+Demon Hunter	Devourer	1480	Soul Splitter	1266330	talent-passive	TraitNodeEntry	false	0	Rotational	class		90949	112862	2				
+Demon Hunter	Devourer	1480	Soulforged Blades	1272432	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110171	136696	1				
+Demon Hunter	Devourer	1480	Soulshaper	1238739	talent-passive	TraitNodeEntry	false	0	Rotational	spec		107342	132284	1				
+Demon Hunter	Devourer	1480	Spontaneous Immolation	1246556	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108727	135730	1				
+Demon Hunter	Devourer	1480	Star Fragments	1240204	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110172	136697	1				
+Demon Hunter	Devourer	1480	State of Matter	1253402	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Annihilator	109448	135659	1				
+Demon Hunter	Devourer	1480	Student of Suffering	452412	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Void-Scarred	110107	136616	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Devourer	1480	Swallowed Anger	320313	talent-passive	TraitNodeEntry	false	0	Rotational	class		91005	112925	1				
+Demon Hunter	Devourer	1480	Sweet Release	1242768	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108628	134149	2				
+Demon Hunter	Devourer	1480	Sweet Suffering	1244295	talent-passive	TraitNodeEntry	false	0	Rotational	spec		107338	132280	2				
+Demon Hunter	Devourer	1480	Swift Erasure	1253668	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Annihilator	109454	135672	1				
+Demon Hunter	Devourer	1480	Tempered Soul	1246555	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108727	134280	1				
+Demon Hunter	Devourer	1480	Umbral Blade	1272842	talent-passive	TraitNodeEntry	false	0	Rotational	spec		107997	133368	1				
+Demon Hunter	Devourer	1480	Undying Embers	1272405	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Void-Scarred	110108	136609	1				
+Demon Hunter	Devourer	1480	Unrestrained Fury	320770	talent-passive	TraitNodeEntry	false	0	Rotational	class		90941	112852	1				
+Demon Hunter	Devourer	1480	Untethered Fury	452411	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Void-Scarred	110109	136606	1				
+Demon Hunter	Devourer	1480	Vengeful Bonds	320635	talent-passive	TraitNodeEntry	false	0	Rotational	class		90930	112840	1				
+Demon Hunter	Devourer	1480	Violent Transformation	452409	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Void-Scarred	110115	136622	1				
+Demon Hunter	Devourer	1480	Voidfall	1253304	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Annihilator	109449	135667	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Devourer	1480	Voidglare Boon	1240202	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110169	136694	1				
+Demon Hunter	Devourer	1480	Voidpurge	1244220	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110174	136699	1				
+Demon Hunter	Devourer	1480	Voidrage	1242956	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109871	136131	2				
+Demon Hunter	Devourer	1480	Voidrush	1272422	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110173	136698	1				
+Demon Hunter	Devourer	1480	Voidsurge	452402	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Void-Scarred	110112	136613	1				Demonsurge
+Demon Hunter	Devourer	1480	Volatile Instinct	1272453	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Void-Scarred	110110	136611	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Devourer	1480	Waste Not	1223918	talent-passive	TraitNodeEntry	false	0	Rotational	spec		107999	133370	1				
+Demon Hunter	Devourer	1480	Wave of Debilitation	452403	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Void-Scarred	110114	136621	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Devourer	1480	Will of the Illidari	389695	talent-passive	TraitNodeEntry	false	0	Rotational	class		91000	112918	2				
+Demon Hunter	Devourer	1480	Wings of Wrath	1266493	talent-passive	TraitNodeEntry	false	0	Rotational	class		110010	136500	1				
+Demon Hunter	Devourer	1480	World Killer	1256353	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Annihilator	109442	135660	1				
+Demon Hunter	Devourer	1480	Shattered Souls	1227619	cdm-only	CooldownSetSpell	false	0	Rotational						Buff			

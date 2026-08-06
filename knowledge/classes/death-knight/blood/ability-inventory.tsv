@@ -1,0 +1,166 @@
+class	spec	spec_id	name	spell_id	origin	source	castable	cooldown	band	tree	hero_tree	node_id	entry_id	max_ranks	blizz_category	seed_bucket	also_from	aliases
+Death Knight	Blood	250	Anti-Magic Zone	51052	talent-active	TraitNodeEntry	true	240	Cooldown	class		76065	96194	1	Utility	Class 7 (Raid Defensive)	cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Dancing Rune Weapon	49028	talent-active	TraitNodeEntry	true	120	Cooldown	spec		76138	96269	1	Essential/Other	Cooldown 1	cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Death Pact	48743	talent-active	TraitNodeEntry	true	120	Cooldown	class		76075	96204	1	Utility	Self-Heal 4 (Emergency/Overflow)	cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Icebound Fortitude	48792	talent-active	TraitNodeEntry	true	120	Cooldown	class		76081	96210	1	Essential/Other	Personal Defensive 1	cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Raise Dead	46585	talent-active	TraitNodeEntry	true	120	Cooldown	class		76072	96201	1		Buff		
+Death Knight	Blood	250	Vampiric Blood	55233	talent-active	TraitNodeEntry	true	90	Cooldown	spec		76173	96308	1	Buff/Essential	Cooldown 2	cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Blinding Sleet	207167	talent-active	TraitNodeEntry	true	60	Cooldown	class		76044	96172	1	Buff/Utility	CC 2	cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Consumption	1263824	talent-active	TraitNodeEntry	true	45	Cooldown	spec		102244	126300	1	Buff/Essential		class-baseline:SkillLineAbility:796;cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Reaper's Mark	439843	talent-active	TraitNodeEntry	true	45	Cooldown	hero	Deathbringer	95062	117659	1	Buff/Essential		cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Mind Freeze	47528	talent-active	TraitNodeEntry	true	15	Rotational	class		76084	96213	1	Utility	Interrupt	cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Blood Boil	50842	talent-active	TraitNodeEntry	true	0	Rotational	spec		76170	96305	1	Buff/Essential	Rotational 3	cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Control Undead	111673	talent-active	TraitNodeEntry	true	0	Rotational	class		76059	96188	1		Class 5 (Purge)		
+Death Knight	Blood	250	Death Strike	49998	talent-active	TraitNodeEntry	true	0	Rotational	class		76071	96200	1	Buff	Rotational 2	cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Heart Strike	206930	talent-active	TraitNodeEntry	true	0	Rotational	spec		76169	96304	1	Essential	Rotational 1	cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Marrowrend	195182	talent-active	TraitNodeEntry	true	0	Rotational	spec		76168	96303	1	Essential	Rotational 4	cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Abomination Limb	1263569	talent-choice	TraitNodeEntry	true	120	Cooldown	spec		76042	136213	1	Other/Utility		cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Gorefiend's Grasp	108199	talent-choice	TraitNodeEntry	true	90	Cooldown	spec		76042	96170	1	Buff/Utility	Class 2 (CC)	cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Wraith Walk	212552	talent-choice	TraitNodeEntry	true	60	Cooldown	class		76074	133518	1	Buff/Utility	Movement Ability 2	cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Asphyxiate	221562	talent-choice	TraitNodeEntry	true	45	Cooldown	class		76064	96193	1	Utility	CC	cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Raise Ally	61999	class-baseline	SkillLineAbility:796	true	600	Cooldown						Utility	Class 8 (Lust/BRes)	cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Sindragosa's Fury	190778	class-baseline	SkillLineAbility:796	true	300	Cooldown									
+Death Knight	Blood	250	Lichborne	49039	class-baseline	SkillLineAbility:796	true	120	Cooldown						Buff/Utility	Self-Heal 2	cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Apocalypse	220143	class-baseline	SkillLineAbility:796	true	90	Cooldown									
+Death Knight	Blood	250	Anti-Magic Shell	48707	class-baseline	SkillLineAbility:796	true	60	Cooldown						Buff/Essential	Immune/Spell Immune/Movement	cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Death Gate	50977	class-baseline	SkillLineAbility:796	true	60	Cooldown									
+Death Knight	Blood	250	Corpse Exploder	127344	class-baseline	SkillLineAbility:796	true	15	Rotational									
+Death Knight	Blood	250	Dark Command	56222	class-baseline	SkillLineAbility:796	true	8	Rotational						Utility	Taunt/Quick Access	cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Death's Caress	195292	class-baseline	SpecializationSpells	true	6	Rotational						Essential	Rotational 6	cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Death Grip	49576	class-baseline	SkillLineAbility:796	true	1	Rotational						Utility	Class 1 (Movement)	cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Death's Advance	48265	class-baseline	SkillLineAbility:796	true	1	Rotational						Buff/Utility	Movement Ability	cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Blood Plague	55078	class-baseline	SkillLineAbility:796	true	0	Rotational									
+Death Knight	Blood	250	Chains of Ice	45524	class-baseline	SkillLineAbility:796	true	0	Rotational							Slow		
+Death Knight	Blood	250	Death Coil	47541	class-baseline	SkillLineAbility:796	true	0	Rotational							Self-Heal 3 (Overflow)		
+Death Knight	Blood	250	Death and Decay	52212	class-baseline	SkillLineAbility:796	true	0	Rotational						Essential/Other	Rotational 5	cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Frost Breath	190780	class-baseline	SkillLineAbility:796	true	0	Rotational									
+Death Knight	Blood	250	Frost Fever	55095	class-baseline	SkillLineAbility:796	true	0	Rotational									
+Death Knight	Blood	250	Path of Frost	3714	class-baseline	SkillLineAbility:796	true	0	Rotational							Class 6 (Dispel)		
+Death Knight	Blood	250	Rune Strike	316239	class-baseline	SkillLineAbility:796	true	0	Rotational									
+Death Knight	Blood	250	Rune of Razorice	53343	class-baseline	SkillLineAbility:960 (secondary)	true	0	Rotational									
+Death Knight	Blood	250	Rune of Sanguination	326805	class-baseline	SkillLineAbility:960 (secondary)	true	0	Rotational									
+Death Knight	Blood	250	Rune of Spellwarding	326855	class-baseline	SkillLineAbility:960 (secondary)	true	0	Rotational									
+Death Knight	Blood	250	Rune of Unending Thirst	326977	class-baseline	SkillLineAbility:960 (secondary)	true	0	Rotational									
+Death Knight	Blood	250	Rune of the Apocalypse	327082	class-baseline	SkillLineAbility:960 (secondary)	true	0	Rotational									
+Death Knight	Blood	250	Rune of the Fallen Crusader	53344	class-baseline	SkillLineAbility:960 (secondary)	true	0	Rotational									
+Death Knight	Blood	250	Rune of the Stoneskin Gargoyle	62158	class-baseline	SkillLineAbility:960 (secondary)	true	0	Rotational									
+Death Knight	Blood	250	Runeforging	53428	class-baseline	SkillLineAbility:960 (secondary)	true	0	Rotational									
+Death Knight	Blood	250	Single-Button Assistant	1229376	class-baseline	SpecializationSpells	true	0	Rotational									
+Death Knight	Blood	250	Strangulate	47476	pvp-talent	PvpTalent	true	45	Cooldown									
+Death Knight	Blood	250	Death Chain	203173	pvp-talent	PvpTalent	true	30	Rotational						Utility	PvP 2	cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Dark Simulacrum	77606	pvp-talent	PvpTalent	true	20	Rotational						Utility	PvP	cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Murderous Intent	207018	pvp-talent	PvpTalent	true	20	Rotational									
+Death Knight	Blood	250	Bloodforged Armor	410301	pvp-talent	PvpTalent	false	0	Rotational									
+Death Knight	Blood	250	Decomposing Aura	199720	pvp-talent	PvpTalent	false	0	Rotational									
+Death Knight	Blood	250	Last Dance	233412	pvp-talent	PvpTalent	false	0	Rotational									
+Death Knight	Blood	250	Price of Progress	1233429	pvp-talent	PvpTalent	true	0	Rotational									
+Death Knight	Blood	250	Rot and Wither	202727	pvp-talent	PvpTalent	false	0	Rotational									
+Death Knight	Blood	250	Spellwarden	410320	pvp-talent	PvpTalent	false	0	Rotational									
+Death Knight	Blood	250	Anti-Magic Barrier	205727	talent-passive	TraitNodeEntry	false	0	Rotational	class		76046	96174	1				
+Death Knight	Blood	250	Assimilation	374383	talent-passive	TraitNodeEntry	false	0	Rotational	class		76048	96176	1				
+Death Knight	Blood	250	Bind in Darkness	440031	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathbringer	95043	117640	1				
+Death Knight	Blood	250	Blood Bond	1267028	talent-passive	TraitNodeEntry	false	0	Rotational	class		76060	96189	1				
+Death Knight	Blood	250	Blood Draw	374598	talent-passive	TraitNodeEntry	false	0	Rotational	class		76056	96184	1	Other		cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Blood Feast	391386	talent-passive	TraitNodeEntry	false	0	Rotational	spec		76174	96309	1				
+Death Knight	Blood	250	Blood Mist	1263743	talent-passive	TraitNodeEntry	false	0	Rotational	spec		76128	96259	1				
+Death Knight	Blood	250	Blood Scent	374030	talent-passive	TraitNodeEntry	false	0	Rotational	class		76078	96207	1				
+Death Knight	Blood	250	Blood-Soaked Ground	434033	talent-passive	TraitNodeEntry	false	0	Rotational	hero	San'layn	95048	117645	1				
+Death Knight	Blood	250	Bloodied Blade	458753	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102242	126296	1	Buff		cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Bloodshot	391398	talent-passive	TraitNodeEntry	false	0	Rotational	spec		76125	96256	1				
+Death Knight	Blood	250	Bloodworms	195679	talent-passive	TraitNodeEntry	false	0	Rotational	spec		76147	96280	1				
+Death Knight	Blood	250	Bloody Fortitude	434136	talent-passive	TraitNodeEntry	false	0	Rotational	hero	San'layn	95056	117891	1				
+Death Knight	Blood	250	Bloody Reflection	1279633	talent-passive	TraitNodeEntry	false	0	Rotational	spec		76139	96271	1				
+Death Knight	Blood	250	Boiling Point	1265790	talent-passive	TraitNodeEntry	false	0	Rotational	spec		76039	96167	1				
+Death Knight	Blood	250	Bone Collector	458572	talent-passive	TraitNodeEntry	false	0	Rotational	spec		76171	96306	1				
+Death Knight	Blood	250	Brittle	374504	talent-passive	TraitNodeEntry	false	0	Rotational	class		76061	96190	1	Buff		cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Carnage	458752	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102245	126301	1				
+Death Knight	Blood	250	Cleaving Strikes	316916	talent-passive	TraitNodeEntry	false	0	Rotational	class		76073	96202	1				
+Death Knight	Blood	250	Coagulopathy	391477	talent-passive	TraitNodeEntry	false	0	Rotational	spec		76041	96169	1	Buff		cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Coldthirst	378848	talent-passive	TraitNodeEntry	false	0	Rotational	class		76083	96212	1				
+Death Knight	Blood	250	Dance of Midnight	1264506	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110353	136917	1	Buff		talent-passive:TraitNodeEntry;cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Dark Talons	436687	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathbringer	95057	117654	1				
+Death Knight	Blood	250	Deadly Reach	1264235	talent-passive	TraitNodeEntry	false	0	Rotational	spec		76166	96301	1				
+Death Knight	Blood	250	Death Defiance	1266818	talent-passive	TraitNodeEntry	false	0	Rotational	class		110031	136525	1				
+Death Knight	Blood	250	Death Notes	1266819	talent-passive	TraitNodeEntry	false	0	Rotational	class		110030	136524	1				
+Death Knight	Blood	250	Death's Echo	356367	talent-passive	TraitNodeEntry	false	0	Rotational	class		102007	126015	1				
+Death Knight	Blood	250	Death's Messenger	437122	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathbringer	95049	117646	1				
+Death Knight	Blood	250	Death's Reach	276079	talent-passive	TraitNodeEntry	false	0	Rotational	class		76064	136526	1				
+Death Knight	Blood	250	Deathly Blows	1265932	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathbringer	109734	135992	1				
+Death Knight	Blood	250	Desecrate	1234559	talent-passive	TraitNodeEntry	false	0	Rotational	hero	San'layn	95048	136836	1				
+Death Knight	Blood	250	Echoing Fury	1265855	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathbringer	109733	135991	1				
+Death Knight	Blood	250	Enfeeble	392566	talent-passive	TraitNodeEntry	false	0	Rotational	class		110029	136523	1	Buff		cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Everlasting Bond	377668	talent-passive	TraitNodeEntry	false	0	Rotational	spec		76130	96261	1				
+Death Knight	Blood	250	Expelling Shield	439948	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathbringer	95049	128234	1	Buff		cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Exterminate	441378	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathbringer	95068	117665	1	Buff		cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Foul Bulwark	206974	talent-passive	TraitNodeEntry	false	0	Rotational	spec		76167	96302	1				
+Death Knight	Blood	250	Frenzied Bloodthirst	434075	talent-passive	TraitNodeEntry	false	0	Rotational	hero	San'layn	95065	117662	1				
+Death Knight	Blood	250	Frigid Resolve	1265859	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathbringer	109735	135993	1				
+Death Knight	Blood	250	Gift of the San'layn	434152	talent-passive	TraitNodeEntry	false	0	Rotational	hero	San'layn	95053	117650	1	Buff		cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Gloom Ward	391571	talent-passive	TraitNodeEntry	false	0	Rotational	class		76052	96180	2				
+Death Knight	Blood	250	Grim Reaper	434905	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathbringer	95034	117631	1				
+Death Knight	Blood	250	Grip of the Dead	273952	talent-passive	TraitNodeEntry	false	0	Rotational	class		76057	96186	1				
+Death Knight	Blood	250	Heartbreaker	221536	talent-passive	TraitNodeEntry	false	0	Rotational	spec		76135	96266	1				
+Death Knight	Blood	250	Hemostasis	273946	talent-passive	TraitNodeEntry	false	0	Rotational	spec		76137	96268	1	Buff		cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Ice Prison	454786	talent-passive	TraitNodeEntry	false	0	Rotational	class		76086	96215	1	Utility		cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Icy Talons	194878	talent-passive	TraitNodeEntry	false	0	Rotational	class		76085	96214	1	Buff		cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Improved Bone Shield	374715	talent-passive	TraitNodeEntry	false	0	Rotational	spec		76142	96274	1				
+Death Knight	Blood	250	Improved Death Strike	374277	talent-passive	TraitNodeEntry	false	0	Rotational	class		76067	96196	1				
+Death Knight	Blood	250	Improved Heart Strike	374717	talent-passive	TraitNodeEntry	false	0	Rotational	spec		76126	96257	2				
+Death Knight	Blood	250	Improved Vampiric Blood	317133	talent-passive	TraitNodeEntry	false	0	Rotational	spec		76140	96272	2				
+Death Knight	Blood	250	Incite Terror	434151	talent-passive	TraitNodeEntry	false	0	Rotational	hero	San'layn	95040	117637	1	Buff		cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Inevitable	1280658	talent-passive	TraitNodeEntry	false	0	Rotational	hero	San'layn	95045	117642	1				
+Death Knight	Blood	250	Infliction of Sorrow	434143	talent-passive	TraitNodeEntry	false	0	Rotational	hero	San'layn	95033	117630	1				
+Death Knight	Blood	250	Insatiable Blade	377637	talent-passive	TraitNodeEntry	false	0	Rotational	spec		76129	96260	1				
+Death Knight	Blood	250	Insidious Chill	391566	talent-passive	TraitNodeEntry	false	0	Rotational	class		76051	96179	1	Buff		cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Iron Heart	391395	talent-passive	TraitNodeEntry	false	0	Rotational	spec		76172	96307	1				
+Death Knight	Blood	250	Leeching Strike	377629	talent-passive	TraitNodeEntry	false	0	Rotational	spec		76145	96278	1				
+Death Knight	Blood	250	Lifeblood	1264296	talent-passive	TraitNodeEntry	false	0	Rotational	spec		76143	96276	1				
+Death Knight	Blood	250	March of Darkness	391546	talent-passive	TraitNodeEntry	false	0	Rotational	class		76074	96203	1				
+Death Knight	Blood	250	Newly Turned	433934	talent-passive	TraitNodeEntry	false	0	Rotational	hero	San'layn	95064	117661	1	Buff		cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Null Magic	454842	talent-passive	TraitNodeEntry	false	0	Rotational	class		102008	126016	1				
+Death Knight	Blood	250	Osmosis	454835	talent-passive	TraitNodeEntry	false	0	Rotational	class		76088	96217	1				
+Death Knight	Blood	250	Ossuary	219786	talent-passive	TraitNodeEntry	false	0	Rotational	spec		76144	96277	1	Buff		cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Pact of the Deathbringer	440476	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathbringer	95035	117632	1				
+Death Knight	Blood	250	Pact of the San'layn	434261	talent-passive	TraitNodeEntry	false	0	Rotational	hero	San'layn	95055	117652	1				
+Death Knight	Blood	250	Permafrost	207200	talent-passive	TraitNodeEntry	false	0	Rotational	class		76066	96195	1	Buff		cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Perseverance of the Ebon Blade	374747	talent-passive	TraitNodeEntry	false	0	Rotational	spec		76124	96255	1	Buff		cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Plague Infusion	1265869	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102243	126298	1				
+Death Knight	Blood	250	Proliferating Chill	373930	talent-passive	TraitNodeEntry	false	0	Rotational	class		101708	125606	1				
+Death Knight	Blood	250	Purgatory	114556	talent-passive	TraitNodeEntry	false	0	Rotational	spec		76133	96264	1	Other		cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Rapid Decomposition	194662	talent-passive	TraitNodeEntry	false	0	Rotational	spec		76141	96273	1				
+Death Knight	Blood	250	Reaper's Onslaught	469870	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathbringer	95057	128266	1				
+Death Knight	Blood	250	Red Thirst	205723	talent-passive	TraitNodeEntry	false	0	Rotational	spec		76132	96263	1				
+Death Knight	Blood	250	Relish in Blood	317610	talent-passive	TraitNodeEntry	false	0	Rotational	spec		76146	96279	1				
+Death Knight	Blood	250	Rune Carved Plates	440282	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathbringer	95035	123420	1	Buff		cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Rune Mastery	374574	talent-passive	TraitNodeEntry	false	0	Rotational	class		76079	96208	2	Buff		cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Runic Attenuation	207104	talent-passive	TraitNodeEntry	false	0	Rotational	class		76045	96173	1				
+Death Knight	Blood	250	Runic Protection	454788	talent-passive	TraitNodeEntry	false	0	Rotational	class		76055	96183	1				
+Death Knight	Blood	250	Sanguinary Burst	1263781	talent-passive	TraitNodeEntry	false	0	Rotational	spec		76127	96258	1				
+Death Knight	Blood	250	Sanguine Ground	391458	talent-passive	TraitNodeEntry	false	0	Rotational	spec		76131	96262	1				
+Death Knight	Blood	250	Sanguine Scent	434263	talent-passive	TraitNodeEntry	false	0	Rotational	hero	San'layn	95055	117893	1				
+Death Knight	Blood	250	Soul Rupture	437161	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathbringer	95061	117658	1				
+Death Knight	Blood	250	Subduing Grasp	454822	talent-passive	TraitNodeEntry	false	0	Rotational	class		76080	96209	1	Buff		cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Suppression	374049	talent-passive	TraitNodeEntry	false	0	Rotational	class		76087	96216	1				
+Death Knight	Blood	250	Swift and Painful	443560	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathbringer	95032	117629	1				
+Death Knight	Blood	250	The Blood is Life	434260	talent-passive	TraitNodeEntry	false	0	Rotational	hero	San'layn	95046	117643	1				
+Death Knight	Blood	250	Thrill of Blood	1265547	talent-passive	TraitNodeEntry	false	0	Rotational	hero	San'layn	109737	135995	1				
+Death Knight	Blood	250	Transfusion	1265574	talent-passive	TraitNodeEntry	false	0	Rotational	hero	San'layn	109736	135994	1				
+Death Knight	Blood	250	Umbilicus Eternus	391517	talent-passive	TraitNodeEntry	false	0	Rotational	spec		76040	96168	1	Buff		cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Unholy Bond	374261	talent-passive	TraitNodeEntry	false	0	Rotational	class		76076	96205	1				
+Death Knight	Blood	250	Unholy Endurance	389682	talent-passive	TraitNodeEntry	false	0	Rotational	class		76058	96187	1				
+Death Knight	Blood	250	Unholy Momentum	374265	talent-passive	TraitNodeEntry	false	0	Rotational	class		76069	96198	2				
+Death Knight	Blood	250	Unyielding Will	457574	talent-passive	TraitNodeEntry	false	0	Rotational	class		76050	96178	1				
+Death Knight	Blood	250	Vampiric Aura	434100	talent-passive	TraitNodeEntry	false	0	Rotational	hero	San'layn	95056	117653	1				
+Death Knight	Blood	250	Vampiric Speed	434028	talent-passive	TraitNodeEntry	false	0	Rotational	hero	San'layn	95064	117892	1				
+Death Knight	Blood	250	Vampiric Strike	433901	talent-passive	TraitNodeEntry	false	0	Rotational	hero	San'layn	95051	117648	1	Buff		cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Vestigial Shell	454851	talent-passive	TraitNodeEntry	false	0	Rotational	class		76053	96181	1				
+Death Knight	Blood	250	Veteran of the Third War	48263	talent-passive	TraitNodeEntry	false	0	Rotational	class		76068	96197	1				
+Death Knight	Blood	250	Visceral Strength	434157	talent-passive	TraitNodeEntry	false	0	Rotational	hero	San'layn	109738	135996	1	Buff		cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Voracious	273953	talent-passive	TraitNodeEntry	false	0	Rotational	spec		76043	96171	1	Buff		cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Wave of Souls	439851	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathbringer	95036	117633	1	Buff		cdm-only:CooldownSetSpell	
+Death Knight	Blood	250	Will of the Necropolis	206967	talent-passive	TraitNodeEntry	false	0	Rotational	class		76054	96182	2				
+Death Knight	Blood	250	Wither Away	441894	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Deathbringer	95058	117655	1				
+Death Knight	Blood	250	Blood Shield	77535	cdm-only	CooldownSetSpell	true	0	Rotational						Buff			
+Death Knight	Blood	250	Bone Shield	195181	cdm-only	CooldownSetSpell	true	0	Rotational						Other			
+Death Knight	Blood	250	Crimson Scourge	81136	cdm-only	CooldownSetSpell	false	0	Rotational						Buff			
+Death Knight	Blood	250	Unholy Strength	53365	cdm-only	CooldownSetSpell	true	0	Rotational						Buff			

@@ -1,0 +1,166 @@
+class	spec	spec_id	name	spell_id	origin	source	castable	cooldown	band	tree	hero_tree	node_id	entry_id	max_ranks	blizz_category	seed_bucket	also_from	aliases
+Warrior	Protection	73	Rallying Cry	97462	talent-active	TraitNodeEntry	true	180	Cooldown	class		90331	112188	1	Buff/Utility	Class 7 (Raid Defensive)	cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Avatar	107574	talent-active	TraitNodeEntry	true	90	Cooldown	spec		90433	112305	1	Buff/Essential	Cooldown 1	cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Champion's Spear	376079	talent-active	TraitNodeEntry	true	90	Cooldown	class		90380	112247	1	Essential		cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Disrupting Shout	386071	talent-active	TraitNodeEntry	true	90	Cooldown	spec		107579	132886	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Demolish	436358	talent-active	TraitNodeEntry	true	45	Cooldown	hero	Colossus	94818	117415	1	Essential		cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Demoralizing Shout	1160	talent-active	TraitNodeEntry	true	45	Cooldown	spec		90305	112159	1	Buff/Essential		cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Shield Charge	385952	talent-active	TraitNodeEntry	true	45	Cooldown	spec		90317	112173	1	Buff/Essential		cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Shockwave	46968	talent-active	TraitNodeEntry	true	40	Rotational	class		90375	112242	1	Buff/Utility	CC 2	cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Storm Bolt	107570	talent-active	TraitNodeEntry	true	30	Rotational	class		90337	112198	1	Buff/Utility	CC	cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Impending Victory	202168	talent-active	TraitNodeEntry	true	25	Rotational	class		90326	112183	1		Self-Heal 1		
+Warrior	Protection	73	Shield Wall	871	talent-active	TraitNodeEntry	true	8	Rotational	spec		90302	112156	1	Essential/Other	Personal Defensive 1	cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Rend	772	talent-active	TraitNodeEntry	true	6	Rotational	class		109391	135597	1	Buff/Essential		cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Thunder Clap	6343	talent-active	TraitNodeEntry	true	6	Rotational	class		90343	112205	1	Buff/Essential	Rotational 2	cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Battle Stance	386164	talent-active	TraitNodeEntry	true	3	Rotational	class		90261	112112	1	Buff	Stance 2	cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Defensive Stance	386208	talent-active	TraitNodeEntry	true	3	Rotational	class		90330	112187	1	Buff	Stance 1	cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Heroic Leap	6544	talent-active	TraitNodeEntry	true	1.5	Rotational	class		90346	112208	1	Utility	Movement Ability	class-baseline:SkillLineAbility:840;cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Intervene	3411	talent-active	TraitNodeEntry	true	1.5	Rotational	class		90329	112186	1	Utility	Class 5 (Purge)	cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Ignore Pain	190456	talent-active	TraitNodeEntry	true	1	Rotational	spec		90295	112149	1	Essential/Other	Rotational 6	cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Spell Reflection	23920	talent-active	TraitNodeEntry	true	1	Rotational	class		90385	112253	1	Buff/Essential	Self-Heal 4 (Emergency/Overflow)	cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Last Stand	1243659	talent-active	TraitNodeEntry	true	0	Rotational	spec		107576	132879	1	Buff	Personal Defensive 2	cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Revenge	6572	talent-active	TraitNodeEntry	true	0	Rotational	spec		90298	112152	1	Essential	Rotational 3	cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Shattering Throw	64382	talent-choice	TraitNodeEntry	true	180	Cooldown	class		90351	112214	1	Utility		cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Intimidating Shout	5246	talent-choice	TraitNodeEntry	true	90	Cooldown	class		108705	134254	1	Buff/Utility		cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Piercing Howl	12323	talent-choice	TraitNodeEntry	true	90	Cooldown	class		108705	136627	1	Buff/Utility	Class 2 (CC)	cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Ravager	228920	talent-choice	TraitNodeEntry	true	90	Cooldown	spec		90432	132880	1	Essential		class-baseline:SkillLineAbility:840;cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Berserker Shout	384100	talent-choice	TraitNodeEntry	true	60	Cooldown	class		90348	112211	1		Self-Heal 3 (Overflow)		
+Warrior	Protection	73	Wrecking Throw	384110	talent-choice	TraitNodeEntry	true	45	Cooldown	class		90351	112215	1	Utility	Class 4 (Special)	cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Challenging Shout	1161	class-baseline	SpecializationSpells	true	120	Cooldown						Utility	Class 6 (Dispel)	cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Berserker Rage	18499	class-baseline	SkillLineAbility:840	true	60	Cooldown						Buff/Utility		cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Warbreaker	209577	class-baseline	SkillLineAbility:840	true	60	Cooldown									
+Warrior	Protection	73	Neltharion's Fury	203524	class-baseline	SkillLineAbility:840	true	45	Cooldown									
+Warrior	Protection	73	Odyn's Fury	205545	class-baseline	SkillLineAbility:840	true	45	Cooldown									
+Warrior	Protection	73	Victory Rush	118779	class-baseline	SkillLineAbility:840	true	30	Rotational						Utility		cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Pummel	6552	class-baseline	SkillLineAbility:840	true	15	Rotational						Utility	Interrupt	cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Shield Slam	23922	class-baseline	SkillLineAbility:840	true	9	Rotational						Essential	Rotational 1	cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Taunt	355	class-baseline	SkillLineAbility:840	true	8	Rotational						Utility	Taunt/Quick Access	cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Execute	163201	class-baseline	SkillLineAbility:840	true	6	Rotational						Essential	Rotational 4	cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Heroic Throw	57755	class-baseline	SkillLineAbility:840	true	6	Rotational							Class 3 (Tag)		
+Warrior	Protection	73	Charge	100	class-baseline	SkillLineAbility:840	true	1.5	Rotational						Utility	Class 1 (Movement)	cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Shield Block	2565	class-baseline	SkillLineAbility:840	true	1	Rotational						Essential/Other	Rotational 5	cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Attack	88163	class-baseline	SkillLineAbility:840	true	0	Rotational									
+Warrior	Protection	73	Battle Shout	6673	class-baseline	SkillLineAbility:840	true	0	Rotational							Buff		
+Warrior	Protection	73	Bladestorm	50622	class-baseline	SkillLineAbility:840	true	0	Rotational									
+Warrior	Protection	73	Bladestorm Off-Hand	95738	class-baseline	SkillLineAbility:840	true	0	Rotational									
+Warrior	Protection	73	Bloodbath	113344	class-baseline	SkillLineAbility:840	true	0	Rotational									
+Warrior	Protection	73	Bloodthirst Heal	117313	class-baseline	SkillLineAbility:840	true	0	Rotational									
+Warrior	Protection	73	Devastate	20243	class-baseline	SpecializationSpells	true	0	Rotational									
+Warrior	Protection	73	Hamstring	1715	class-baseline	SkillLineAbility:840	true	0	Rotational						Buff	Slow	cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Hotbar Slot 01	294184	class-baseline	SkillLineAbility:840	true	0	Rotational									
+Warrior	Protection	73	Hotbar Slot 02	294189	class-baseline	SkillLineAbility:840	true	0	Rotational									
+Warrior	Protection	73	Raging Blow	85384	class-baseline	SkillLineAbility:840	true	0	Rotational									
+Warrior	Protection	73	Single-Button Assistant	1229376	class-baseline	SpecializationSpells	true	0	Rotational									
+Warrior	Protection	73	Slam	1464	class-baseline	SkillLineAbility:840	true	0	Rotational									
+Warrior	Protection	73	Trauma	215537	class-baseline	SkillLineAbility:840	true	0	Rotational									
+Warrior	Protection	73	Whirlwind	1680	class-baseline	SkillLineAbility:840	true	0	Rotational									
+Warrior	Protection	73	Whirlwind Off-Hand	44949	class-baseline	SkillLineAbility:840	true	0	Rotational									
+Warrior	Protection	73	Disarm	236077	pvp-talent	PvpTalent	true	45	Cooldown						Utility		cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Oppressor	205800	pvp-talent	PvpTalent	true	20	Rotational									
+Warrior	Protection	73	Bodyguard	213871	pvp-talent	PvpTalent	true	15	Rotational						Utility		cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Berserker Roar	1227751	pvp-talent	PvpTalent	false	0	Rotational									
+Warrior	Protection	73	Demolition	329033	pvp-talent	PvpTalent	false	0	Rotational									
+Warrior	Protection	73	Dragon Charge	206572	pvp-talent	PvpTalent	true	0	Rotational									
+Warrior	Protection	73	Morale Killer	199023	pvp-talent	PvpTalent	false	0	Rotational									
+Warrior	Protection	73	Power Through Adversity	1234791	pvp-talent	PvpTalent	false	0	Rotational									
+Warrior	Protection	73	Rebound	213915	pvp-talent	PvpTalent	false	0	Rotational									
+Warrior	Protection	73	Safeguard	424654	pvp-talent	PvpTalent	false	0	Rotational									
+Warrior	Protection	73	Shield Bash	198912	pvp-talent	PvpTalent	false	0	Rotational									
+Warrior	Protection	73	Storm of Destruction	236308	pvp-talent	PvpTalent	false	0	Rotational									
+Warrior	Protection	73	Thunderstruck	199045	pvp-talent	PvpTalent	false	0	Rotational									
+Warrior	Protection	73	Anger Management	152278	talent-passive	TraitNodeEntry	false	0	Rotational	class		108543	134032	1				
+Warrior	Protection	73	Armor Specialization	1234769	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90306	112160	1				
+Warrior	Protection	73	Armored to the Teeth	384124	talent-passive	TraitNodeEntry	false	0	Rotational	class		90366	112233	2				
+Warrior	Protection	73	Arterial Bleed	440995	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94799	119856	1				
+Warrior	Protection	73	Avatar of the Storm	437134	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94805	117402	1				
+Warrior	Protection	73	Barbaric Training	383082	talent-passive	TraitNodeEntry	false	0	Rotational	class		90347	112209	1				
+Warrior	Protection	73	Battle-Scarred Veteran	386394	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90435	112307	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Battlefield Commander	424742	talent-passive	TraitNodeEntry	false	0	Rotational	class		108544	134033	1				
+Warrior	Protection	73	Best Served Cold	202560	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90309	112163	1				
+Warrior	Protection	73	Bloodborne	385704	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90264	112115	1				
+Warrior	Protection	73	Bloodsurge	384361	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90300	112154	1				
+Warrior	Protection	73	Boneshaker	429639	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94789	117386	1				
+Warrior	Protection	73	Booming Voice	202743	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90314	112170	1				
+Warrior	Protection	73	Bounding Stride	202163	talent-passive	TraitNodeEntry	false	0	Rotational	class		90355	112219	1				
+Warrior	Protection	73	Brace For Impact	386030	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90304	112158	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Brutal Vitality	384036	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90451	112325	1				
+Warrior	Protection	73	Burst of Power	437118	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94807	117404	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Capacitance	1270724	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	109809	136068	1				
+Warrior	Protection	73	Celeritous Conclusion	1270710	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	109812	136071	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Colossal Might	429634	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94819	117416	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Conductivity	1270723	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	109810	136069	1				
+Warrior	Protection	73	Crackling Thunder	203201	talent-passive	TraitNodeEntry	false	0	Rotational	class		95959	118853	1				
+Warrior	Protection	73	Crashing Thunder	436707	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94816	117413	1				
+Warrior	Protection	73	Cruel Strikes	392777	talent-passive	TraitNodeEntry	false	0	Rotational	class		90381	112248	2				
+Warrior	Protection	73	Crushing Force	382764	talent-passive	TraitNodeEntry	false	0	Rotational	class		108686	134226	1				
+Warrior	Protection	73	Cut to the Bone	1270709	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	109813	136072	1				
+Warrior	Protection	73	Decimator	1270704	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	109814	136073	1				
+Warrior	Protection	73	Deep Wounds	1261060	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90310	112165	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Defender's Aegis	397103	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90318	112174	1				
+Warrior	Protection	73	Devastating Focus	1264330	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90296	112150	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Devastator	236279	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90297	112151	1				
+Warrior	Protection	73	Dominance of the Colossus	429636	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94793	117390	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Double Time	103827	talent-passive	TraitNodeEntry	false	0	Rotational	class		90382	112249	1				
+Warrior	Protection	73	Earthquaker	440992	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94789	119858	1				
+Warrior	Protection	73	Enduring Alacrity	384063	talent-passive	TraitNodeEntry	false	0	Rotational	spec		107577	132882	1				
+Warrior	Protection	73	Enduring Defenses	386027	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90311	112166	2				
+Warrior	Protection	73	Fast Footwork	382260	talent-passive	TraitNodeEntry	false	0	Rotational	class		90344	112206	1				
+Warrior	Protection	73	Fearless	1271925	talent-passive	TraitNodeEntry	false	0	Rotational	class		90348	112210	1				
+Warrior	Protection	73	Field Dressing	1271926	talent-passive	TraitNodeEntry	false	0	Rotational	class		110119	136626	1				
+Warrior	Protection	73	Fight Through the Flames	452494	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90299	112153	1				
+Warrior	Protection	73	Flashing Skies	437079	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94797	117394	1				
+Warrior	Protection	73	Focused Vigor	384067	talent-passive	TraitNodeEntry	false	0	Rotational	spec		107578	132883	1				
+Warrior	Protection	73	Frothing Berserker	392792	talent-passive	TraitNodeEntry	false	0	Rotational	class		90352	112216	1				
+Warrior	Protection	73	Fueled by Violence	383103	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90319	112176	1				
+Warrior	Protection	73	Gathering Clouds	436201	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94792	117389	1				
+Warrior	Protection	73	Ground Current	436148	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94800	117397	1				
+Warrior	Protection	73	Heavy Handed	1235088	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90313	112169	1				
+Warrior	Protection	73	Heavy Repercussions	203177	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90312	112167	1				
+Warrior	Protection	73	Honed Reflexes	391271	talent-passive	TraitNodeEntry	false	0	Rotational	class		95956	118850	1				
+Warrior	Protection	73	Hunker Down	1235022	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90450	112110	1				
+Warrior	Protection	73	Impenetrable Wall	384072	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90318	132881	1				
+Warrior	Protection	73	Indomitable	202095	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90434	112306	1				
+Warrior	Protection	73	Instigate	394311	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90301	112155	1				
+Warrior	Protection	73	Into the Fray	202603	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90312	132885	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Javelineer	1271948	talent-passive	TraitNodeEntry	false	0	Rotational	class		110118	136625	1				
+Warrior	Protection	73	Keep Your Feet on the Ground	438590	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94798	117395	1				
+Warrior	Protection	73	Leeching Strikes	382258	talent-passive	TraitNodeEntry	false	0	Rotational	class		90371	112238	1				
+Warrior	Protection	73	Lightning Strikes	434969	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94803	117400	1				
+Warrior	Protection	73	Martial Expert	429638	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94812	117409	1				
+Warrior	Protection	73	Massacre	281001	talent-passive	TraitNodeEntry	false	0	Rotational	spec		107575	132878	1				
+Warrior	Protection	73	Mountain of Muscle and Scars	429642	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94806	117403	1				
+Warrior	Protection	73	No Stranger to Pain	429644	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94815	117412	1				
+Warrior	Protection	73	One Against Many	429637	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94799	117396	1				
+Warrior	Protection	73	One-Handed Weapon Specialization	382895	talent-passive	TraitNodeEntry	false	0	Rotational	class		90324	112181	2				
+Warrior	Protection	73	Overwhelming Rage	382767	talent-passive	TraitNodeEntry	false	0	Rotational	class		90378	112245	1				
+Warrior	Protection	73	Pain and Gain	382549	talent-passive	TraitNodeEntry	false	0	Rotational	class		90353	112217	1				
+Warrior	Protection	73	Phalanx	1269311	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110411	137001	1	Buff		talent-passive:TraitNodeEntry;cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Practiced Strikes	429647	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94796	117393	1				
+Warrior	Protection	73	Precise Might	431548	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94794	117391	1				
+Warrior	Protection	73	Punish	275334	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90448	112321	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Reinforced Plates	382939	talent-passive	TraitNodeEntry	false	0	Rotational	class		90368	112235	2				
+Warrior	Protection	73	Resonant Voice	1243660	talent-passive	TraitNodeEntry	false	0	Rotational	class		108685	134225	1				
+Warrior	Protection	73	Rumbling Earth	275339	talent-passive	TraitNodeEntry	false	0	Rotational	class		90374	112241	1				
+Warrior	Protection	73	Second Wind	29838	talent-passive	TraitNodeEntry	false	0	Rotational	class		90332	112190	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Shield Specialization	386011	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90315	112171	1				
+Warrior	Protection	73	Snap Induction	456270	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94797	118833	1				
+Warrior	Protection	73	Spellbreaker	1235023	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90450	112324	1				
+Warrior	Protection	73	Stance Mastery	1280961	talent-passive	TraitNodeEntry	false	0	Rotational	class		108542	134031	1				
+Warrior	Protection	73	Steadfast as the Peaks	434970	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94798	118836	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Storm Bolts	436162	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94817	117414	1				
+Warrior	Protection	73	Storm Shield	438597	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94817	118835	1				
+Warrior	Protection	73	Storm Surge	275336	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	109811	136070	1				
+Warrior	Protection	73	Strategist	384041	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90303	112157	1				
+Warrior	Protection	73	Strength of the Mountain	437068	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94808	117405	1				
+Warrior	Protection	73	Sudden Death	29725	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90264	132884	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Thorim's Might	436152	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94792	118834	1				
+Warrior	Protection	73	Thunder Blast	435607	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Mountain Thane	94785	117382	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Thunderlord	385840	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90308	112162	1				
+Warrior	Protection	73	Tide of Battle	429641	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94811	117408	1				
+Warrior	Protection	73	Tough as Nails	385888	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90320	112177	1				
+Warrior	Protection	73	Unyielding Stance	1235047	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90449	112323	1				
+Warrior	Protection	73	Veteran Vitality	440993	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Colossus	94815	119857	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Protection	73	Violent Outburst	386477	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90265	112116	1	Buff		cdm-only:CooldownSetSpell	
+Warrior	Protection	73	War Machine	262231	talent-passive	TraitNodeEntry	false	0	Rotational	class		90328	112185	1				
+Warrior	Protection	73	Whirling Blade	1235113	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90432	112304	1				
+Warrior	Protection	73	Wild Strikes	382946	talent-passive	TraitNodeEntry	false	0	Rotational	class		90360	112224	2				

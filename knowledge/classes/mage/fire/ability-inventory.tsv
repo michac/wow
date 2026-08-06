@@ -1,0 +1,210 @@
+class	spec	spec_id	name	spell_id	origin	source	castable	cooldown	band	tree	hero_tree	node_id	entry_id	max_ranks	blizz_category	seed_bucket	also_from	aliases
+Mage	Fire	63	Mass Invisibility	414664	talent-active	TraitNodeEntry	true	300	Cooldown	class		62092	115878	1	Buff/Utility	Class 4 (Special)	cdm-only:CooldownSetSpell	
+Mage	Fire	63	Combustion	190319	talent-active	TraitNodeEntry	true	120	Cooldown	spec		100995	124756	1	Essential/Other	Cooldown 1	cdm-only:CooldownSetSpell	
+Mage	Fire	63	Greater Invisibility	110959	talent-active	TraitNodeEntry	true	120	Cooldown	class		93524	115877	1		Taunt/Quick Access		
+Mage	Fire	63	Mirror Image	55342	talent-active	TraitNodeEntry	true	120	Cooldown	class		62124	80183	1	Buff/Utility	Self-Heal 2	cdm-only:CooldownSetSpell	
+Mage	Fire	63	Alter Time	342245	talent-active	TraitNodeEntry	true	60	Cooldown	class		62115	80174	1	Buff/Utility	Self-Heal 1	cdm-only:CooldownSetSpell	
+Mage	Fire	63	Meteor	153561	talent-active	TraitNodeEntry	true	45	Cooldown	spec		101021	124786	1	Essential		cdm-only:CooldownSetSpell	
+Mage	Fire	63	Blazing Barrier	235313	talent-active	TraitNodeEntry	true	30	Rotational	class		62119	80178	1	Buff/Utility	Personal Defensive 1	cdm-only:CooldownSetSpell	
+Mage	Fire	63	Remove Curse	475	talent-active	TraitNodeEntry	true	8	Rotational	class		62116	80175	1	Utility	Class 6 (Dispel)	cdm-only:CooldownSetSpell	
+Mage	Fire	63	Fire Blast	108853	talent-active	TraitNodeEntry	true	0.5	Rotational	spec		100989	124750	1	Essential	Rotational 2	class-baseline:SkillLineAbility:904;cdm-only:CooldownSetSpell	
+Mage	Fire	63	Frostfire Bolt	431044	talent-active	TraitNodeEntry	true	0	Rotational	hero	Frostfire	94636	117239	1	Essential		talent-active:TraitNodeEntry;cdm-only:CooldownSetSpell	
+Mage	Fire	63	Ice Block	45438	talent-active	TraitNodeEntry	true	0	Rotational	class		62122	80181	1	Buff/Utility	Immune/Spell Immune/Movement	cdm-only:CooldownSetSpell	
+Mage	Fire	63	Pyroblast	11366	talent-active	TraitNodeEntry	true	0	Rotational	spec		100998	124759	1	Essential	Rotational 3	cdm-only:CooldownSetSpell	
+Mage	Fire	63	Scorch	2948	talent-active	TraitNodeEntry	true	0	Rotational	spec		110322	136879	1	Essential	Rotational 4	cdm-only:CooldownSetSpell	
+Mage	Fire	63	Spellsteal	30449	talent-active	TraitNodeEntry	true	0	Rotational	class		62084	80140	1		Class 5 (Purge)		
+Mage	Fire	63	Mass Polymorph	383121	talent-choice	TraitNodeEntry	true	60	Cooldown	class		62088	134198	1	Buff/Utility	Class 1 (Movement)	cdm-only:CooldownSetSpell	
+Mage	Fire	63	Dragon's Breath	31661	talent-choice	TraitNodeEntry	true	45	Cooldown	class		101883	125819	1	Buff/Utility		cdm-only:CooldownSetSpell	
+Mage	Fire	63	Ring of Frost	113724	talent-choice	TraitNodeEntry	true	45	Cooldown	class		62088	80144	1	Buff/Utility		cdm-only:CooldownSetSpell	
+Mage	Fire	63	Supernova	157980	talent-choice	TraitNodeEntry	true	45	Cooldown	class		101883	125818	1	Utility	CC 2	cdm-only:CooldownSetSpell	
+Mage	Fire	63	Ice Nova	157997	talent-choice	TraitNodeEntry	true	25	Rotational	class		62087	134199	1	Buff		cdm-only:CooldownSetSpell	
+Mage	Fire	63	Shimmer	212653	talent-choice	TraitNodeEntry	true	0.5	Rotational	class		62105	80163	1				
+Mage	Fire	63	Flamestrike	2120	talent-choice	TraitNodeEntry	true	0	Rotational	spec		109409	135619	1	Essential		talent-choice:TraitNodeEntry;cdm-only:CooldownSetSpell	
+Mage	Fire	63	Illusion	131784	class-baseline	SkillLineAbility:904	true	600	Cooldown									
+Mage	Fire	63	Invisibility	66	class-baseline	SkillLineAbility:904	true	300	Cooldown						Buff/Utility		cdm-only:CooldownSetSpell	
+Mage	Fire	63	Time Warp	80353	class-baseline	SkillLineAbility:904	true	300	Cooldown						Utility	Class 8 (Lust/BRes)	cdm-only:CooldownSetSpell	
+Mage	Fire	63	Ancient Portal: Dalaran	120146	class-baseline	SkillLineAbility:904	true	60	Cooldown									
+Mage	Fire	63	Mark of Aluneth	210726	class-baseline	SkillLineAbility:904	true	60	Cooldown									
+Mage	Fire	63	Portal: Boralus	281400	class-baseline	SkillLineAbility:904	true	60	Cooldown									
+Mage	Fire	63	Portal: Dalaran - Broken Isles	224871	class-baseline	SkillLineAbility:904	true	60	Cooldown									
+Mage	Fire	63	Portal: Dalaran - Northrend	53142	class-baseline	SkillLineAbility:904	true	60	Cooldown									
+Mage	Fire	63	Portal: Darnassus	11419	class-baseline	SkillLineAbility:904	true	60	Cooldown									
+Mage	Fire	63	Portal: Dazar'alor	281402	class-baseline	SkillLineAbility:904	true	60	Cooldown									
+Mage	Fire	63	Portal: Dornogal	446534	class-baseline	SkillLineAbility:904	true	60	Cooldown									
+Mage	Fire	63	Portal: Exodar	32266	class-baseline	SkillLineAbility:904	true	60	Cooldown									
+Mage	Fire	63	Portal: Ironforge	11416	class-baseline	SkillLineAbility:904	true	60	Cooldown									
+Mage	Fire	63	Portal: Orgrimmar	11417	class-baseline	SkillLineAbility:904	true	60	Cooldown									
+Mage	Fire	63	Portal: Oribos	344597	class-baseline	SkillLineAbility:904	true	60	Cooldown									
+Mage	Fire	63	Portal: Shattrath	33691	class-baseline	SkillLineAbility:904	true	60	Cooldown									
+Mage	Fire	63	Portal: Silvermoon (Burning Crusade)	32267	class-baseline	SkillLineAbility:904	true	60	Cooldown									
+Mage	Fire	63	Portal: Silvermoon City	1259194	class-baseline	SkillLineAbility:904	true	60	Cooldown									
+Mage	Fire	63	Portal: Stonard	49361	class-baseline	SkillLineAbility:904	true	60	Cooldown									
+Mage	Fire	63	Portal: Stormshield	176246	class-baseline	SkillLineAbility:904	true	60	Cooldown									
+Mage	Fire	63	Portal: Stormwind	10059	class-baseline	SkillLineAbility:904	true	60	Cooldown									
+Mage	Fire	63	Portal: Theramore	49360	class-baseline	SkillLineAbility:904	true	60	Cooldown									
+Mage	Fire	63	Portal: Thunder Bluff	11420	class-baseline	SkillLineAbility:904	true	60	Cooldown									
+Mage	Fire	63	Portal: Tol Barad	88345	class-baseline	SkillLineAbility:904	true	60	Cooldown									
+Mage	Fire	63	Portal: Undercity	11418	class-baseline	SkillLineAbility:904	true	60	Cooldown									
+Mage	Fire	63	Portal: Valdrakken	395289	class-baseline	SkillLineAbility:904	true	60	Cooldown									
+Mage	Fire	63	Portal: Vale of Eternal Blossoms	132626	class-baseline	SkillLineAbility:904	true	60	Cooldown									
+Mage	Fire	63	Portal: Warspear	176244	class-baseline	SkillLineAbility:904	true	60	Cooldown									
+Mage	Fire	63	Teleport: Hall of the Guardian	193759	class-baseline	SkillLineAbility:904	true	60	Cooldown									
+Mage	Fire	63	Ebonbolt	214634	class-baseline	SkillLineAbility:904	true	45	Cooldown									
+Mage	Fire	63	Cone of Cold	120	class-baseline	SkillLineAbility:904	true	25	Rotational						Utility	Class 2 (CC)	cdm-only:CooldownSetSpell	
+Mage	Fire	63	Counterspell	2139	class-baseline	SkillLineAbility:904	true	25	Rotational						Utility	Interrupt	cdm-only:CooldownSetSpell	
+Mage	Fire	63	Conjure Refreshment	190336	class-baseline	SkillLineAbility:904	true	15	Rotational									
+Mage	Fire	63	Blink	1953	class-baseline	SkillLineAbility:904	true	0.5	Rotational						Utility	Movement Ability	cdm-only:CooldownSetSpell	
+Mage	Fire	63	Ancient Teleport: Dalaran	120145	class-baseline	SkillLineAbility:904	true	0	Rotational									
+Mage	Fire	63	Arcane Explosion	1449	class-baseline	SkillLineAbility:904	true	0	Rotational									
+Mage	Fire	63	Arcane Intellect	1459	class-baseline	SkillLineAbility:904	true	0	Rotational							Res		
+Mage	Fire	63	Fireball	133	class-baseline	SpecializationSpells	true	0	Rotational							Rotational 1		
+Mage	Fire	63	Frost Nova	122	class-baseline	SkillLineAbility:904	true	0	Rotational						Buff/Utility	CC	cdm-only:CooldownSetSpell	
+Mage	Fire	63	Frostbolt	116	class-baseline	SkillLineAbility:904	true	0	Rotational									
+Mage	Fire	63	Phoenix's Flames	194466	class-baseline	SkillLineAbility:904	true	0	Rotational									
+Mage	Fire	63	Polymorph	118	class-baseline	SkillLineAbility:904	true	0	Rotational						Buff	Class 3 (Tag)	cdm-only:CooldownSetSpell	
+Mage	Fire	63	Portal	343140	class-baseline	SkillLineAbility:904	true	0	Rotational									
+Mage	Fire	63	Single-Button Assistant	1229376	class-baseline	SpecializationSpells	true	0	Rotational									
+Mage	Fire	63	Slow Fall	130	class-baseline	SkillLineAbility:904	true	0	Rotational						Buff	Class 7 (Raid Defensive)	cdm-only:CooldownSetSpell	
+Mage	Fire	63	Teleport	343127	class-baseline	SkillLineAbility:904	true	0	Rotational									
+Mage	Fire	63	Teleport: Boralus	281403	class-baseline	SkillLineAbility:904	true	0	Rotational									
+Mage	Fire	63	Teleport: Dalaran - Broken Isles	224869	class-baseline	SkillLineAbility:904	true	0	Rotational									
+Mage	Fire	63	Teleport: Dalaran - Northrend	53140	class-baseline	SkillLineAbility:904	true	0	Rotational									
+Mage	Fire	63	Teleport: Darnassus	3565	class-baseline	SkillLineAbility:904	true	0	Rotational									
+Mage	Fire	63	Teleport: Dazar'alor	281404	class-baseline	SkillLineAbility:904	true	0	Rotational									
+Mage	Fire	63	Teleport: Dornogal	446540	class-baseline	SkillLineAbility:904	true	0	Rotational									
+Mage	Fire	63	Teleport: Exodar	32271	class-baseline	SkillLineAbility:904	true	0	Rotational									
+Mage	Fire	63	Teleport: Ironforge	3562	class-baseline	SkillLineAbility:904	true	0	Rotational									
+Mage	Fire	63	Teleport: Orgrimmar	3567	class-baseline	SkillLineAbility:904	true	0	Rotational									
+Mage	Fire	63	Teleport: Oribos	344587	class-baseline	SkillLineAbility:904	true	0	Rotational									
+Mage	Fire	63	Teleport: Shattrath	33690	class-baseline	SkillLineAbility:904	true	0	Rotational									
+Mage	Fire	63	Teleport: Silvermoon (Burning Crusade)	32272	class-baseline	SkillLineAbility:904	true	0	Rotational									
+Mage	Fire	63	Teleport: Silvermoon City	1259190	class-baseline	SkillLineAbility:904	true	0	Rotational									
+Mage	Fire	63	Teleport: Stonard	49358	class-baseline	SkillLineAbility:904	true	0	Rotational									
+Mage	Fire	63	Teleport: Stormshield	176248	class-baseline	SkillLineAbility:904	true	0	Rotational									
+Mage	Fire	63	Teleport: Stormwind	3561	class-baseline	SkillLineAbility:904	true	0	Rotational									
+Mage	Fire	63	Teleport: Theramore	49359	class-baseline	SkillLineAbility:904	true	0	Rotational									
+Mage	Fire	63	Teleport: Thunder Bluff	3566	class-baseline	SkillLineAbility:904	true	0	Rotational									
+Mage	Fire	63	Teleport: Tol Barad	88342	class-baseline	SkillLineAbility:904	true	0	Rotational									
+Mage	Fire	63	Teleport: Undercity	3563	class-baseline	SkillLineAbility:904	true	0	Rotational									
+Mage	Fire	63	Teleport: Valdrakken	395277	class-baseline	SkillLineAbility:904	true	0	Rotational									
+Mage	Fire	63	Teleport: Vale of Eternal Blossoms	132621	class-baseline	SkillLineAbility:904	true	0	Rotational									
+Mage	Fire	63	Teleport: Warspear	176242	class-baseline	SkillLineAbility:904	true	0	Rotational									
+Mage	Fire	63	Ice Wall	352278	pvp-talent	PvpTalent	true	90	Cooldown						Utility		cdm-only:CooldownSetSpell	
+Mage	Fire	63	Ring of Fire	353082	pvp-talent	PvpTalent	true	45	Cooldown						Buff		cdm-only:CooldownSetSpell	
+Mage	Fire	63	Greater Pyroblast	203286	pvp-talent	PvpTalent	true	15	Rotational						Essential		cdm-only:CooldownSetSpell	
+Mage	Fire	63	Ethereal Blink	410939	pvp-talent	PvpTalent	false	0	Rotational						Buff		cdm-only:CooldownSetSpell	
+Mage	Fire	63	Glass Cannon	390428	pvp-talent	PvpTalent	false	0	Rotational									
+Mage	Fire	63	Improved Mass Invisibility	415945	pvp-talent	PvpTalent	false	0	Rotational									
+Mage	Fire	63	Master Shepherd	410248	pvp-talent	PvpTalent	false	0	Rotational									
+Mage	Fire	63	Overpowered Barrier	1220739	pvp-talent	PvpTalent	false	0	Rotational									
+Mage	Fire	63	World in Flames	203280	pvp-talent	PvpTalent	false	0	Rotational									
+Mage	Fire	63	Arcane Warding	383092	talent-passive	TraitNodeEntry	false	0	Rotational	class		62114	80173	2				
+Mage	Fire	63	Ashes of Inspiration	1260272	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94643	117246	1	Buff		cdm-only:CooldownSetSpell	
+Mage	Fire	63	Barrier Diffusion	455428	talent-passive	TraitNodeEntry	false	0	Rotational	class		62091	80147	1				
+Mage	Fire	63	Blast Radius	1248016	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Frostfire	94637	117240	1				
+Mage	Fire	63	Blast Zone	416719	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109400	135608	1				
+Mage	Fire	63	Brainstorm	461261	talent-passive	TraitNodeEntry	false	0	Rotational	class		110081	136579	1	Buff		cdm-only:CooldownSetSpell	
+Mage	Fire	63	Burden of Power	451035	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94644	117247	1				
+Mage	Fire	63	Burn It All	1254512	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101007	135618	1				
+Mage	Fire	63	Burnout	1271177	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110088	136589	1				
+Mage	Fire	63	Captured Thoughts	1270872	talent-passive	TraitNodeEntry	false	0	Rotational	class		62125	134184	1				
+Mage	Fire	63	Cauterize	86949	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109403	135612	1	Buff		cdm-only:CooldownSetSpell	
+Mage	Fire	63	Charm of Aegwynn	1244105	talent-passive	TraitNodeEntry	false	0	Rotational	class		108658	134188	1				
+Mage	Fire	63	Charm of Medivh	1244107	talent-passive	TraitNodeEntry	false	0	Rotational	class		108657	134187	1				
+Mage	Fire	63	Cinderstorm	1254865	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109397	135605	1				
+Mage	Fire	63	Codex of the Sunstriders	449382	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94645	117248	1				
+Mage	Fire	63	Conflagration	1271171	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110087	136588	1				
+Mage	Fire	63	Controlled Destruction	383669	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109401	135609	1	Buff		cdm-only:CooldownSetSpell	
+Mage	Fire	63	Critical Mass	117216	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101029	124795	2				
+Mage	Fire	63	Deep Impact	1254857	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101016	124779	1				
+Mage	Fire	63	Dualcasting Adept	1248014	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Frostfire	94634	117237	1				
+Mage	Fire	63	Duality	1262843	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Frostfire	109672	135923	1				
+Mage	Fire	63	Elemental Affinity	431067	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Frostfire	94633	117236	1				
+Mage	Fire	63	Elemental Conduit	1262845	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Frostfire	109670	135921	1				
+Mage	Fire	63	Energized Barriers	386828	talent-passive	TraitNodeEntry	false	0	Rotational	class		62100	80157	1				
+Mage	Fire	63	Explosive Potential	1246030	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94651	134249	1	Buff		cdm-only:CooldownSetSpell	
+Mage	Fire	63	Feel the Burn	383391	talent-passive	TraitNodeEntry	false	0	Rotational	spec		100999	124760	1	Buff		cdm-only:CooldownSetSpell	
+Mage	Fire	63	Fervent Flickering	387044	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101027	124793	1				
+Mage	Fire	63	Fevered Incantation	383810	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101019	124783	2	Buff		cdm-only:CooldownSetSpell	
+Mage	Fire	63	Fiery Rush	383634	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109396	135604	1				
+Mage	Fire	63	Fire's Ire	450831	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101004	124765	2				
+Mage	Fire	63	Fired Up	1257343	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110423	137037	1	Buff		talent-passive:TraitNodeEntry;cdm-only:CooldownSetSpell	
+Mage	Fire	63	Firestarter	205026	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110321	136878	1				
+Mage	Fire	63	Flame Accelerant	453282	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109394	135601	1				
+Mage	Fire	63	Flame On	205029	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101009	124771	1				
+Mage	Fire	63	Flame and Frost	431112	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Frostfire	94633	117775	1				
+Mage	Fire	63	Flash Freezeburn	431178	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Frostfire	94632	117235	1				
+Mage	Fire	63	Flow of Time	382268	talent-passive	TraitNodeEntry	false	0	Rotational	class		62096	80153	1				
+Mage	Fire	63	Freezing Cold	386763	talent-passive	TraitNodeEntry	false	0	Rotational	class		62087	80143	1	Buff		cdm-only:CooldownSetSpell	
+Mage	Fire	63	From the Ashes	342344	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109393	135600	1				
+Mage	Fire	63	Frost Conditioning	1250315	talent-passive	TraitNodeEntry	false	0	Rotational	class		62107	80165	1				
+Mage	Fire	63	Frostfire Empowerment	431176	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Frostfire	94641	117244	1	Buff		cdm-only:CooldownSetSpell	
+Mage	Fire	63	Frostfire Infusion	431166	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Frostfire	94639	117242	1				
+Mage	Fire	63	Fuel the Fire	416094	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109406	135615	1				
+Mage	Fire	63	Glorious Incandescence	449394	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	109675	135926	1	Buff		cdm-only:CooldownSetSpell	
+Mage	Fire	63	Heat Shimmer	457735	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109411	135621	1	Buff		cdm-only:CooldownSetSpell	
+Mage	Fire	63	Heat Sink	1248002	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Frostfire	94638	117241	1				
+Mage	Fire	63	Ice Cold	414659	talent-passive	TraitNodeEntry	false	0	Rotational	class		62085	80141	1				
+Mage	Fire	63	Ice Ward	205036	talent-passive	TraitNodeEntry	false	0	Rotational	class		62110	136466	1				
+Mage	Fire	63	Ignition	1254756	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109407	135616	1				
+Mage	Fire	63	Imbued Warding	431066	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Frostfire	94642	117245	1				
+Mage	Fire	63	Improved Blazing Barrier	321708	talent-passive	TraitNodeEntry	false	0	Rotational	class		108656	134186	1				
+Mage	Fire	63	Improved Blink	1244340	talent-passive	TraitNodeEntry	false	0	Rotational	class		62105	134197	1				
+Mage	Fire	63	Improved Conjuration	1244025	talent-passive	TraitNodeEntry	false	0	Rotational	class		108662	134192	2				
+Mage	Fire	63	Improved Counterspell	1270865	talent-passive	TraitNodeEntry	false	0	Rotational	class		110079	136577	1				
+Mage	Fire	63	Improved Frost Nova	343183	talent-passive	TraitNodeEntry	false	0	Rotational	class		62110	80168	1				
+Mage	Fire	63	Improved Remove Curse	1270847	talent-passive	TraitNodeEntry	false	0	Rotational	class		110078	136576	1				
+Mage	Fire	63	Improved Spellsteal	1270827	talent-passive	TraitNodeEntry	false	0	Rotational	class		110082	136581	1	Buff		cdm-only:CooldownSetSpell	
+Mage	Fire	63	Incantation of Swiftness	382293	talent-passive	TraitNodeEntry	false	0	Rotational	class		62112	80170	2	Buff		cdm-only:CooldownSetSpell	
+Mage	Fire	63	Inflame	417467	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110086	136587	1				
+Mage	Fire	63	Inspired Intellect	458437	talent-passive	TraitNodeEntry	false	0	Rotational	class		108660	134190	1				
+Mage	Fire	63	Intensifying Flame	416714	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109402	135610	1				
+Mage	Fire	63	Invocation: Arcane Phoenix	448658	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94652	117255	1				
+Mage	Fire	63	Isothermic Core	431095	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Frostfire	94635	117238	1				
+Mage	Fire	63	Kindling	1254194	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101024	124789	1				
+Mage	Fire	63	Lessons in Debilitation	449627	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94651	117254	1				
+Mage	Fire	63	Mana Cascade	449293	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94653	117256	1	Buff		cdm-only:CooldownSetSpell	
+Mage	Fire	63	Mana Confluence	1270845	talent-passive	TraitNodeEntry	false	0	Rotational	class		110080	136578	1				
+Mage	Fire	63	Master of Escape	210476	talent-passive	TraitNodeEntry	false	0	Rotational	class		108659	134189	1				
+Mage	Fire	63	Master of Flame	384174	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109395	135603	1				
+Mage	Fire	63	Master of Time	342249	talent-passive	TraitNodeEntry	false	0	Rotational	class		62102	80159	2				
+Mage	Fire	63	Meltdown	431131	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Frostfire	94642	117776	1				
+Mage	Fire	63	Memory of Al'ar	449619	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94646	117249	1				
+Mage	Fire	63	Merely a Setback	449330	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94649	117252	1	Buff		cdm-only:CooldownSetSpell	
+Mage	Fire	63	Molten Chill	1262844	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Frostfire	109671	135922	1				
+Mage	Fire	63	Molten Fury	457803	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109398	135606	1				
+Mage	Fire	63	Mote of Flame	343230	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109399	135607	1				
+Mage	Fire	63	Overflowing Energy	390218	talent-passive	TraitNodeEntry	false	0	Rotational	class		108661	134191	1	Buff		cdm-only:CooldownSetSpell	
+Mage	Fire	63	Permafrost Bauble	1265517	talent-passive	TraitNodeEntry	false	0	Rotational	class		62086	80142	1				
+Mage	Fire	63	Pyroclasm	269650	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101015	124778	1	Buff		cdm-only:CooldownSetSpell	
+Mage	Fire	63	Pyrocosm	1260673	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	109674	135925	1				
+Mage	Fire	63	Pyromaniac	451466	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110089	136590	1				
+Mage	Fire	63	Quick Witted	382297	talent-passive	TraitNodeEntry	false	0	Rotational	class		62104	80161	1				
+Mage	Fire	63	Reflection	1270829	talent-passive	TraitNodeEntry	false	0	Rotational	class		62094	136580	1	Buff		cdm-only:CooldownSetSpell	
+Mage	Fire	63	Rondurmancy	449596	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94648	117251	1				
+Mage	Fire	63	Savor the Moment	449412	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94650	117253	1				
+Mage	Fire	63	Scald	450746	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109408	135617	1				
+Mage	Fire	63	Severe Temperatures	431189	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Frostfire	94640	134441	1				
+Mage	Fire	63	Slow Burn	383967	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101007	124769	1				
+Mage	Fire	63	Spatial Manipulation	1244031	talent-passive	TraitNodeEntry	false	0	Rotational	class		62094	126060	1				
+Mage	Fire	63	Spellfire Salvo	1260616	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	109673	135924	1				
+Mage	Fire	63	Spellfire Spheres	448601	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94647	117250	1	Buff		cdm-only:CooldownSetSpell	
+Mage	Fire	63	Spontaneous Combustion	451875	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109412	135622	2				
+Mage	Fire	63	Sunfury Execution	449349	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94650	123867	1				
+Mage	Fire	63	Temporal Realignment	1244090	talent-passive	TraitNodeEntry	false	0	Rotational	class		108654	134182	1				
+Mage	Fire	63	Thermal Conditioning	431117	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Frostfire	94640	117243	1				
+Mage	Fire	63	Time Manipulation	387807	talent-passive	TraitNodeEntry	false	0	Rotational	class		62129	80189	1				
+Mage	Fire	63	Time Twist	1255166	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sunfury	94649	135598	1				
+Mage	Fire	63	Time Walk	1244087	talent-passive	TraitNodeEntry	false	0	Rotational	class		108654	134183	1				
+Mage	Fire	63	Tome of Antonidas	382490	talent-passive	TraitNodeEntry	false	0	Rotational	class		62098	80155	1				
+Mage	Fire	63	Tome of Rhonin	382493	talent-passive	TraitNodeEntry	false	0	Rotational	class		62127	80187	1				
+Mage	Fire	63	Wildfire	1254828	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109404	135613	2				
+Mage	Fire	63	Winter's Protection	382424	talent-passive	TraitNodeEntry	false	0	Rotational	class		62123	80182	2				
+Mage	Fire	63	Kleptomania	198100	cdm-only	CooldownSetSpell	true	20	Rotational						Utility			
+Mage	Fire	63	Chilled	205708	cdm-only	CooldownSetSpell	true	0	Rotational						Buff			
+Mage	Fire	63	Hyperthermia	383874	cdm-only	CooldownSetSpell	true	0	Rotational						Other			
+Mage	Fire	63	Hypothermia	41425	cdm-only	CooldownSetSpell	true	0	Rotational						Buff			
+Mage	Fire	63	Ice Barrier	11426	cdm-only	CooldownSetSpell	true	0	Rotational						Buff			
+Mage	Fire	63	Mastery: Ignite	12846	cdm-only	CooldownSetSpell	false	0	Rotational						Buff			
+Mage	Fire	63	Meteor Burn	155158	cdm-only	CooldownSetSpell	true	0	Rotational						Buff			
+Mage	Fire	63	Pyroblast Clearcasting Driver	44448	cdm-only	CooldownSetSpell	false	0	Rotational						Buff			

@@ -1,0 +1,188 @@
+class	spec	spec_id	name	spell_id	origin	source	castable	cooldown	band	tree	hero_tree	node_id	entry_id	max_ranks	blizz_category	seed_bucket	also_from	aliases
+Paladin	Retribution	70	Lay on Hands	633	talent-active	TraitNodeEntry	true	600	Cooldown	class		81597	102583	1	Utility	Self-Heal 4 (Emergency/Overflow)	class-baseline:SkillLineAbility:800;cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Avenging Wrath	31884	talent-active	TraitNodeEntry	true	120	Cooldown	spec		81544	102519	1	Essential/Other		class-baseline:SkillLineAbility:800;cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Blessing of Sacrifice	6940	talent-active	TraitNodeEntry	true	120	Cooldown	class		81614	102602	1	Utility	Class 3 (Tag)	class-baseline:SkillLineAbility:800;cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Blinding Light	115750	talent-active	TraitNodeEntry	true	90	Cooldown	class		81598	102584	1	Utility	CC 2	cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Divine Toll	375576	talent-active	TraitNodeEntry	true	60	Cooldown	class		109368	135564	1	Essential		cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Execution Sentence	343527	talent-active	TraitNodeEntry	true	60	Cooldown	spec		109373	115435	1	Essential/Other		cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Rebuke	96231	talent-active	TraitNodeEntry	true	15	Rotational	class		110093	136594	1	Utility	Interrupt	cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Turn Evil	10326	talent-active	TraitNodeEntry	true	15	Rotational	class		93010	102623	1	Utility	Class 5 (Purge)	class-baseline:SkillLineAbility:800;cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Cleanse Toxins	213644	talent-active	TraitNodeEntry	true	8	Rotational	class		81507	102476	1	Utility	Class 6 (Dispel)	cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Blessing of Protection	1022	talent-active	TraitNodeEntry	true	1.5	Rotational	class		81616	102604	1	Buff/Utility	Class 2 (CC)	class-baseline:SkillLineAbility:800;cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Divine Steed	190784	talent-active	TraitNodeEntry	true	0.8	Rotational	class		81632	102625	1	Buff/Utility	Movement Ability	class-baseline:SkillLineAbility:800;cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Blade of Justice	184575	talent-active	TraitNodeEntry	true	0	Rotational	spec		81526	102498	1	Essential		cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Divine Storm	53385	talent-active	TraitNodeEntry	true	0	Rotational	spec		81527	102499	1	Essential		cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Eternal Flame	156322	talent-active	TraitNodeEntry	true	0	Rotational	hero	Herald of the Sun	95095	117692	1				
+Paladin	Retribution	70	Final Verdict	383328	talent-active	TraitNodeEntry	true	0	Rotational	spec		81532	102504	1				
+Paladin	Retribution	70	Shield of Vengeance	1261562	talent-active	TraitNodeEntry	true	0	Rotational	class		109867	136127	1	Buff	Personal Defensive 2	cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Wake of Ashes	255937	talent-active	TraitNodeEntry	true	0	Rotational	spec		81525	102497	1	Buff/Essential		class-baseline:SkillLineAbility:800;cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Blessing of Freedom	1044	talent-choice	TraitNodeEntry	true	1.5	Rotational	class		81631	128251	1	Buff/Utility	Class 1 (Movement)	class-baseline:SkillLineAbility:800;cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Intercession	391054	class-baseline	SkillLineAbility:800	true	600	Cooldown						Utility	Class 8 (Lust/BRes)	cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Divine Shield	642	class-baseline	SkillLineAbility:800	true	300	Cooldown						Buff/Utility	Immune/Spell Immune/Movement	cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Jailer's Judgment	162056	class-baseline	SkillLineAbility:800	true	180	Cooldown									
+Paladin	Retribution	70	Tyr's Deliverance	200652	class-baseline	SkillLineAbility:800	true	90	Cooldown									
+Paladin	Retribution	70	Divine Protection	403876	class-baseline	SpecializationSpells	true	60	Cooldown						Buff/Utility	Personal Defensive 1	cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Eye of Tyr	209202	class-baseline	SkillLineAbility:800	true	60	Cooldown									
+Paladin	Retribution	70	Hammer of Justice	853	class-baseline	SkillLineAbility:800	true	45	Cooldown						Utility	CC	cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Holy Prism	114852	class-baseline	SkillLineAbility:800	true	20	Rotational									
+Paladin	Retribution	70	Contemplation	121183	class-baseline	SkillLineAbility:800	true	8	Rotational									
+Paladin	Retribution	70	Shield of the Righteous	53600	class-baseline	SkillLineAbility:800	true	1	Rotational									
+Paladin	Retribution	70	Ancient Fury	86704	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Retribution	70	Ardent Defender	66235	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Retribution	70	Beacon of Light	53652	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Retribution	70	Consecration	81297	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Retribution	70	Crusader Aura	32223	class-baseline	SkillLineAbility:800	true	0	Rotational							Stance 1		
+Paladin	Retribution	70	Crusader Strike	35395	class-baseline	SkillLineAbility:800	true	0	Rotational						Essential	Rotational 2	cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Crusader's Direhorn	290608	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Retribution	70	Devotion Aura	465	class-baseline	SkillLineAbility:800	true	0	Rotational							Stance 2		
+Paladin	Retribution	70	Earthen Ordinant's Ramolith	453785	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Retribution	70	Flash of Light	19750	class-baseline	SkillLineAbility:800	true	0	Rotational							Self-Heal 1		
+Paladin	Retribution	70	Hammer of Wrath	24275	class-baseline	SkillLineAbility:800	true	0	Rotational								talent-passive:TraitNodeEntry	
+Paladin	Retribution	70	Hand of Reckoning	62124	class-baseline	SkillLineAbility:800	true	0	Rotational							Taunt/Quick Access		
+Paladin	Retribution	70	Holy Shock	25912	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Retribution	70	Judgment	20271	class-baseline	SkillLineAbility:800	true	0	Rotational						Essential	Rotational 3	cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Light of the Ancient Kings	86678	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Retribution	70	Light's Hammer	114919	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Retribution	70	Protector of the Innocent	94289	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Retribution	70	Redemption	7328	class-baseline	SkillLineAbility:800	true	0	Rotational							Res		
+Paladin	Retribution	70	Retribution Aura	183435	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Retribution	70	Sense Undead	5502	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Retribution	70	Single-Button Assistant	1229376	class-baseline	SpecializationSpells	true	0	Rotational									
+Paladin	Retribution	70	Summon Charger	23214	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Retribution	70	Summon Darkforge Ram	270562	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Retribution	70	Summon Dawnforge Ram	270564	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Retribution	70	Summon Exarch's Elekk	73629	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Retribution	70	Summon Great Exarch's Elekk	73630	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Retribution	70	Summon Great Sunwalker Kodo	69826	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Retribution	70	Summon Lightforged Ruinstrider	363613	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Retribution	70	Summon Sunwalker Kodo	69820	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Retribution	70	Summon Thalassian Charger	34767	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Retribution	70	Summon Thalassian Warhorse	34769	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Retribution	70	Summon Warhorse	13819	class-baseline	SkillLineAbility:800	true	0	Rotational									
+Paladin	Retribution	70	Templar's Verdict	85256	class-baseline	SpecializationSpells	true	0	Rotational						Essential	Rotational 1	cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Word of Glory	85673	class-baseline	SkillLineAbility:800	true	0	Rotational							Self-Heal 2		
+Paladin	Retribution	70	Blessing of Sanctuary	210256	pvp-talent	PvpTalent	true	60	Cooldown						Buff/Utility		cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Searing Glare	410126	pvp-talent	PvpTalent	true	60	Cooldown									
+Paladin	Retribution	70	Blessing of Spellwarding	204018	pvp-talent	PvpTalent	true	1.5	Rotational						Utility		cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Hallowed Ground	216868	pvp-talent	PvpTalent	false	0	Rotational									
+Paladin	Retribution	70	Luminescence	556606	pvp-talent	PvpTalent	false	0	Rotational									
+Paladin	Retribution	70	Shining Revelation	936051	pvp-talent	PvpTalent	false	0	Rotational									
+Paladin	Retribution	70	Spellbreaker	469895	pvp-talent	PvpTalent	false	0	Rotational									
+Paladin	Retribution	70	Spreading the Word	199456	pvp-talent	PvpTalent	false	0	Rotational									
+Paladin	Retribution	70	Ultimate Retribution	355614	pvp-talent	PvpTalent	false	0	Rotational									
+Paladin	Retribution	70	A Just Reward	469411	talent-passive	TraitNodeEntry	false	0	Rotational	class		103858	128254	2				
+Paladin	Retribution	70	Afterimage	385414	talent-passive	TraitNodeEntry	false	0	Rotational	class		93189	115482	1				
+Paladin	Retribution	70	Art of War	406064	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81523	102493	1	Buff		cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Auras of the Resolute	385633	talent-passive	TraitNodeEntry	false	0	Rotational	class		81600	102587	1				
+Paladin	Retribution	70	Aurora	439760	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95069	117666	1				
+Paladin	Retribution	70	Blade of Vengeance	403826	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81545	102521	1				
+Paladin	Retribution	70	Blades of Light	403664	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93164	115443	2				
+Paladin	Retribution	70	Blessed Calling	469770	talent-passive	TraitNodeEntry	false	0	Rotational	class		103868	128264	1				
+Paladin	Retribution	70	Blessed Champion	403010	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81541	102515	1				
+Paladin	Retribution	70	Blessing of An'she	445200	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95071	117668	1	Other		cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Blessing of Dawn	183416	talent-passive	TraitNodeEntry	false	0	Rotational	class		93357	115673	1				
+Paladin	Retribution	70	Blessing of Dusk	1241945	talent-passive	TraitNodeEntry	false	0	Rotational	class		103863	128259	1				
+Paladin	Retribution	70	Bonds of Fellowship	432992	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Templar	95181	117814	1				
+Paladin	Retribution	70	Born in Sunlight	1263920	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	109749	136007	1				
+Paladin	Retribution	70	Boundless Judgment	405278	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81533	115021	1				
+Paladin	Retribution	70	Brought to Light	1265549	talent-passive	TraitNodeEntry	false	0	Rotational	class		109998	136486	1				
+Paladin	Retribution	70	Burn to Ash	446663	talent-passive	TraitNodeEntry	false	0	Rotational	spec		92686	114824	1				
+Paladin	Retribution	70	Burning Crusade	403026	talent-passive	TraitNodeEntry	false	0	Rotational	spec		92839	115024	1				
+Paladin	Retribution	70	Cavalier	230332	talent-passive	TraitNodeEntry	false	0	Rotational	class		81605	102592	1				
+Paladin	Retribution	70	Consecrated Ground	204054	talent-passive	TraitNodeEntry	false	0	Rotational	class		81543	102518	1				
+Paladin	Retribution	70	Crusade	1253598	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109369	135565	1				
+Paladin	Retribution	70	Crusading Strikes	404542	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109374	136809	1	Other		cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Dawnlight	431377	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95099	117696	1	Buff		cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Divine Exaction	1260429	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Templar	109745	136003	1				
+Paladin	Retribution	70	Divine Hammer	432929	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Templar	109747	136005	1	Other		cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Divine Purpose	408459	talent-passive	TraitNodeEntry	false	0	Rotational	class		81618	128243	1	Buff		cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Divine Reach	469476	talent-passive	TraitNodeEntry	false	0	Rotational	class		93168	115447	1				
+Paladin	Retribution	70	Divine Resonance	384027	talent-passive	TraitNodeEntry	false	0	Rotational	class		93181	115468	1	Buff/Other		cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Divine Spurs	469409	talent-passive	TraitNodeEntry	false	0	Rotational	class		103857	128253	1				
+Paladin	Retribution	70	Divine Wrath	406872	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93160	115439	2				
+Paladin	Retribution	70	Empyreal Ward	387791	talent-passive	TraitNodeEntry	false	0	Rotational	class		103859	128255	1				
+Paladin	Retribution	70	Empyrean Legacy	387170	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93173	115453	1	Buff		cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Empyrean Power	326732	talent-passive	TraitNodeEntry	false	0	Rotational	spec		92860	115051	1	Buff		cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Endless Gleam	1263787	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	109748	136006	1				
+Paladin	Retribution	70	Endless Wrath	432615	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Templar	95185	117820	1				
+Paladin	Retribution	70	Expurgation	383344	talent-passive	TraitNodeEntry	false	0	Rotational	spec		92689	114830	1	Buff		cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Eye for an Eye	469309	talent-passive	TraitNodeEntry	false	0	Rotational	class		81628	102620	1				
+Paladin	Retribution	70	Faith's Armor	406101	talent-passive	TraitNodeEntry	false	0	Rotational	class		81495	102464	1				
+Paladin	Retribution	70	Fear No Evil	1265541	talent-passive	TraitNodeEntry	false	0	Rotational	class		109997	136485	1				
+Paladin	Retribution	70	Fist of Justice	234299	talent-passive	TraitNodeEntry	false	0	Rotational	class		109999	136487	1				
+Paladin	Retribution	70	Gleaming Rays	431480	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95073	117778	1				
+Paladin	Retribution	70	Golden Path	377128	talent-passive	TraitNodeEntry	false	0	Rotational	class		103856	128252	1				
+Paladin	Retribution	70	Greater Judgment	231663	talent-passive	TraitNodeEntry	false	0	Rotational	class		81603	102590	1	Buff		cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Guided Prayer	404357	talent-passive	TraitNodeEntry	false	0	Rotational	class		110012	136503	1				
+Paladin	Retribution	70	Hammerfall	432463	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Templar	95184	117818	1				
+Paladin	Retribution	70	Healing Hands	326734	talent-passive	TraitNodeEntry	false	0	Rotational	class		93189	115481	1				
+Paladin	Retribution	70	Heart of the Crusader	406154	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93190	115483	2				
+Paladin	Retribution	70	Higher Calling	431687	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Templar	95178	117811	1				
+Paladin	Retribution	70	Highlord's Wrath	404512	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81534	102506	1				
+Paladin	Retribution	70	Holy Aegis	385515	talent-passive	TraitNodeEntry	false	0	Rotational	class		81609	102597	1				
+Paladin	Retribution	70	Holy Blade	383342	talent-passive	TraitNodeEntry	false	0	Rotational	spec		92838	115022	1				
+Paladin	Retribution	70	Holy Flames	406545	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109371	115438	1				
+Paladin	Retribution	70	Holy Reprieve	469445	talent-passive	TraitNodeEntry	false	0	Rotational	class		103860	128256	1				
+Paladin	Retribution	70	Holy Ritual	199422	talent-passive	TraitNodeEntry	false	0	Rotational	class		103866	128262	1				
+Paladin	Retribution	70	Illumine	431423	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95098	117695	1				
+Paladin	Retribution	70	Improved Blade of Justice	403745	talent-passive	TraitNodeEntry	false	0	Rotational	spec		92838	115023	1				
+Paladin	Retribution	70	Improved Blessing of Protection	384909	talent-passive	TraitNodeEntry	false	0	Rotational	class		81617	102606	1				
+Paladin	Retribution	70	Improved Judgment	405461	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81533	102505	1				
+Paladin	Retribution	70	Inspired Guard	469439	talent-passive	TraitNodeEntry	false	0	Rotational	class		103864	128260	1				
+Paladin	Retribution	70	Judge, Jury and Executioner	406157	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81537	102511	1	Buff		cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Judgment of Justice	403495	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93161	115440	1	Buff		cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Jurisdiction	402971	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81542	102516	1				
+Paladin	Retribution	70	Lead the Charge	469780	talent-passive	TraitNodeEntry	false	0	Rotational	class		103867	128263	1				
+Paladin	Retribution	70	Light Within	1261113	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110419	137025	1			talent-passive:TraitNodeEntry	
+Paladin	Retribution	70	Light of Justice	404436	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81521	114828	1				
+Paladin	Retribution	70	Light's Countenance	469325	talent-passive	TraitNodeEntry	false	0	Rotational	class		103854	128247	1				
+Paladin	Retribution	70	Light's Deliverance	425518	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Templar	95182	117815	1	Buff		cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Light's Guidance	427445	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Templar	95180	117813	1				
+Paladin	Retribution	70	Light's Judicator	1261525	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Templar	109746	136004	1				
+Paladin	Retribution	70	Light's Revocation	146956	talent-passive	TraitNodeEntry	false	0	Rotational	class		81608	102596	1				
+Paladin	Retribution	70	Lightbearer	469416	talent-passive	TraitNodeEntry	false	0	Rotational	class		103861	128257	1				
+Paladin	Retribution	70	Lightforged Blessing	403479	talent-passive	TraitNodeEntry	false	0	Rotational	class		93008	115239	1				
+Paladin	Retribution	70	Lingering Radiance	431407	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95071	117779	1				
+Paladin	Retribution	70	Luminosity	431402	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95080	117677	1				
+Paladin	Retribution	70	Morning Star	431482	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95073	117670	1				
+Paladin	Retribution	70	Obduracy	385427	talent-passive	TraitNodeEntry	false	0	Rotational	class		81630	102622	2				
+Paladin	Retribution	70	Punishment	403530	talent-passive	TraitNodeEntry	false	0	Rotational	class		110091	136592	1				
+Paladin	Retribution	70	Quickened Invocation	379391	talent-passive	TraitNodeEntry	false	0	Rotational	class		93181	115467	1				
+Paladin	Retribution	70	Radiant Glory	458359	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81549	102525	1				
+Paladin	Retribution	70	Recompense	384914	talent-passive	TraitNodeEntry	false	0	Rotational	class		81607	102594	1				
+Paladin	Retribution	70	Righteous Cause	402912	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81523	102494	1	Buff		cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Righteous Protection	469321	talent-passive	TraitNodeEntry	false	0	Rotational	class		103865	128248	1				
+Paladin	Retribution	70	Rush of Light	407067	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81512	115475	1	Buff		cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Sacred Strength	469337	talent-passive	TraitNodeEntry	false	0	Rotational	class		81618	102608	1				
+Paladin	Retribution	70	Sacrifice of the Just	384820	talent-passive	TraitNodeEntry	false	0	Rotational	class		81607	102595	1				
+Paladin	Retribution	70	Sacrosanct Crusade	431730	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Templar	95179	117812	1	Buff		cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Sanctification	432977	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Templar	95185	117819	1	Buff		cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Sanctified Plates	402964	talent-passive	TraitNodeEntry	false	0	Rotational	class		93009	115034	2				
+Paladin	Retribution	70	Sanctify	382536	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109370	115488	1	Buff		cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Seal of Might	385450	talent-passive	TraitNodeEntry	false	0	Rotational	class		81621	102612	2				
+Paladin	Retribution	70	Seal of the Templar	1263252	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Templar	109745	136184	1				
+Paladin	Retribution	70	Second Sunrise	431474	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95086	117683	1				
+Paladin	Retribution	70	Seething Flames	405355	talent-passive	TraitNodeEntry	false	0	Rotational	spec		92854	115043	1				
+Paladin	Retribution	70	Selfless Healer	469434	talent-passive	TraitNodeEntry	false	0	Rotational	class		103856	128309	1				
+Paladin	Retribution	70	Shake the Heavens	431533	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Templar	95187	117823	1	Other		cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Solar Grace	431404	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	109750	136008	1				
+Paladin	Retribution	70	Stand Against Evil	469317	talent-passive	TraitNodeEntry	false	0	Rotational	class		103855	128249	1				
+Paladin	Retribution	70	Steed of Liberty	469304	talent-passive	TraitNodeEntry	false	0	Rotational	class		81631	102624	1				
+Paladin	Retribution	70	Stoicism	469316	talent-passive	TraitNodeEntry	false	0	Rotational	class		103862	128258	1				
+Paladin	Retribution	70	Sun Sear	431413	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95072	117669	1	Buff		cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Sun's Avatar	431425	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95105	117702	1				
+Paladin	Retribution	70	Swift Justice	383228	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81521	102491	1				
+Paladin	Retribution	70	Tempest of the Lightbringer	383396	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109372	115452	1				
+Paladin	Retribution	70	Templar Strikes	406646	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109374	115473	1				
+Paladin	Retribution	70	Unbound Freedom	305394	talent-passive	TraitNodeEntry	false	0	Rotational	class		93174	115454	1				
+Paladin	Retribution	70	Unbreakable Spirit	114154	talent-passive	TraitNodeEntry	false	0	Rotational	class		81615	102603	1				
+Paladin	Retribution	70	Undisputed Ruling	432626	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Templar	95186	117822	1	Buff		cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Unrelenting Charger	432990	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Templar	95181	117858	1				
+Paladin	Retribution	70	Vengeful Wrath	1241958	talent-passive	TraitNodeEntry	false	0	Rotational	class		103851	128241	2				
+Paladin	Retribution	70	Walk Into Light	1263782	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95094	117691	1				
+Paladin	Retribution	70	Will of the Dawn	431406	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Herald of the Sun	95098	117777	1	Buff		cdm-only:CooldownSetSpell	
+Paladin	Retribution	70	Worthy Sacrifice	469279	talent-passive	TraitNodeEntry	false	0	Rotational	class		103865	128261	1				
+Paladin	Retribution	70	Wrathful Descent	431551	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Templar	95177	117810	1				
+Paladin	Retribution	70	Wrench Evil	460720	talent-passive	TraitNodeEntry	false	0	Rotational	class		103855	128250	1				
+Paladin	Retribution	70	Zealot's Fervor	403509	talent-passive	TraitNodeEntry	false	0	Rotational	spec		92952	115165	2				
+Paladin	Retribution	70	Zealous Vindication	431463	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Templar	95183	117816	1				

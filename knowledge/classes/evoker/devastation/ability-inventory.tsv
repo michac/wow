@@ -1,0 +1,151 @@
+class	spec	spec_id	name	spell_id	origin	source	castable	cooldown	band	tree	hero_tree	node_id	entry_id	max_ranks	blizz_category	seed_bucket	also_from	aliases
+Evoker	Devastation	1467	Dragonrage	375087	talent-active	TraitNodeEntry	true	120	Cooldown	spec		93331	115643	1	Buff/Essential	Cooldown 1	cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Oppressing Roar	372048	talent-active	TraitNodeEntry	true	120	Cooldown	class		93298	115607	1	Buff/Utility	CC 2	cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Tip the Scales	370553	talent-active	TraitNodeEntry	true	120	Cooldown	class		93350	115665	1	Buff/Essential	Self-Heal 3 (Overflow)	cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Zephyr	374227	talent-active	TraitNodeEntry	true	120	Cooldown	class		93346	115661	1	Buff/Utility	Class 7 (Raid Defensive)	cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Landslide	358385	talent-active	TraitNodeEntry	true	90	Cooldown	class		93305	115614	1	Buff/Utility	Class 3 (Tag)	cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Cauterizing Flame	374251	talent-active	TraitNodeEntry	true	60	Cooldown	class		93294	115602	1	Utility	Self-Heal 4 (Emergency/Overflow)	cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Rescue	370665	talent-active	TraitNodeEntry	true	60	Cooldown	class		93288	115596	1	Utility	Class 5 (Purge)	cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Eternity Surge	359073	talent-active	TraitNodeEntry	true	30	Rotational	spec		93275	115581	1	Essential	Rotational 4	cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Quell	351338	talent-active	TraitNodeEntry	true	20	Rotational	spec		93332	115645	1	Utility	Interrupt	cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Expunge	365585	talent-active	TraitNodeEntry	true	8	Rotational	class		93306	115615	1	Utility	Class 6 (Dispel)	cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Obsidian Scales	363916	talent-active	TraitNodeEntry	true	1	Rotational	class		93304	115613	1	Buff/Utility	Personal Defensive 1	cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Verdant Embrace	360995	talent-active	TraitNodeEntry	true	0.5	Rotational	class		93341	115655	1	Essential	Self-Heal 1	cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Pyre	357211	talent-active	TraitNodeEntry	true	0	Rotational	spec		93334	115647	1	Essential		cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Renewing Blaze	374348	talent-active	TraitNodeEntry	true	0	Rotational	class		93354	115669	1		Personal Defensive 2		
+Evoker	Devastation	1467	Sleep Walk	360806	talent-active	TraitNodeEntry	true	0	Rotational	class		93293	115601	1	Buff/Essential	Class 2 (CC)	cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Source of Magic	369459	talent-active	TraitNodeEntry	true	0	Rotational	class		93344	115658	1	Buff		cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Spatial Paradox	406732	talent-choice	TraitNodeEntry	true	180	Cooldown	class		93351	125610	1	Buff/Utility	Class 4 (Special)	cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Time Spiral	374968	talent-choice	TraitNodeEntry	true	120	Cooldown	class		93351	115666	1	Utility		cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Fury of the Aspects	390386	class-baseline	SkillLineAbility:2810	true	300	Cooldown						Essential	Class 8 (Lust/BRes)	cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Tail Swipe	368970	class-baseline	SkillLineAbility:2810	true	180	Cooldown						Utility	CC	cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Emerald Blossom	355913	class-baseline	SkillLineAbility:2810	true	30	Rotational						Utility	Self-Heal 2	cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Blessing of the Bronze	364342	class-baseline	SkillLineAbility:2810	true	15	Rotational						Essential	Buff	cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Deep Breath	357210	class-baseline	SkillLineAbility:2810	true	1	Rotational						Essential	Cooldown 2	cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Hover	358267	class-baseline	SkillLineAbility:2810	true	1	Rotational						Other/Utility	Movement Ability	cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Azure Strike	362969	class-baseline	SkillLineAbility:2810	true	0	Rotational						Essential	Rotational 6	cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Disintegrate	356995	class-baseline	SkillLineAbility:2810	true	0	Rotational						Essential	Rotational 1	cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Fire Breath	357208	class-baseline	SkillLineAbility:2810	true	0	Rotational						Buff/Essential	Rotational 3	cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Living Flame	361469	class-baseline	SkillLineAbility:2810	true	0	Rotational						Essential	Rotational 2	cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Return	361227	class-baseline	SkillLineAbility:2810	true	0	Rotational							Res		
+Evoker	Devastation	1467	Single-Button Assistant	1229376	class-baseline	SpecializationSpells	true	0	Rotational									
+Evoker	Devastation	1467	Swoop Up	370388	pvp-talent	PvpTalent	true	90	Cooldown						Utility	PvP 2	cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Chrono Loop	383005	pvp-talent	PvpTalent	true	45	Cooldown						Buff/Utility	PvP 3	cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Time Stop	378441	pvp-talent	PvpTalent	true	45	Cooldown						Utility	PvP	cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Divide and Conquer	384689	pvp-talent	PvpTalent	false	0	Rotational									
+Evoker	Devastation	1467	Dreamwalker's Embrace	415651	pvp-talent	PvpTalent	false	0	Rotational						Buff		cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Nullifying Shroud	1241352	pvp-talent	PvpTalent	false	0	Rotational						Buff		cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Obsidian Mettle	378444	pvp-talent	PvpTalent	false	0	Rotational									
+Evoker	Devastation	1467	Scouring Flame	378438	pvp-talent	PvpTalent	false	0	Rotational									
+Evoker	Devastation	1467	Unburdened Flight	378437	pvp-talent	PvpTalent	false	0	Rotational									
+Evoker	Devastation	1467	Aerial Mastery	365933	talent-passive	TraitNodeEntry	false	0	Rotational	class		93352	115667	1				
+Evoker	Devastation	1467	Ancient Flame	369990	talent-passive	TraitNodeEntry	false	0	Rotational	class		93271	115577	1				
+Evoker	Devastation	1467	Animosity	375797	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93330	115642	1				
+Evoker	Devastation	1467	Arcane Intensity	375618	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93274	115580	2				
+Evoker	Devastation	1467	Ashes in Motion	1264365	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Flameshaper	99857	123416	1				
+Evoker	Devastation	1467	Attuned to the Dream	376930	talent-passive	TraitNodeEntry	false	0	Rotational	class		93292	115600	2				
+Evoker	Devastation	1467	Azure Celerity	1219723	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93325	115637	1				
+Evoker	Devastation	1467	Azure Essence Burst	375721	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93333	115646	1				
+Evoker	Devastation	1467	Azure Sweep	1265867	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93273	115579	1	Buff		cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Blast Furnace	375510	talent-passive	TraitNodeEntry	false	0	Rotational	class		93309	115618	1				
+Evoker	Devastation	1467	Bombardments	434300	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Scalecommander	94936	117533	1	Buff		cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Bountiful Bloom	370886	talent-passive	TraitNodeEntry	false	0	Rotational	class		93291	115599	1				
+Evoker	Devastation	1467	Burning Adrenaline	444020	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Flameshaper	94946	117543	1				
+Evoker	Devastation	1467	Burnout	375801	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93314	115624	1	Buff		cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Catalyze	386283	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93280	115587	1				
+Evoker	Devastation	1467	Causality	375777	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93366	115683	1				
+Evoker	Devastation	1467	Charged Blast	370455	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93317	115628	1	Buff		cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Clobbering Sweep	375443	talent-passive	TraitNodeEntry	false	0	Rotational	class		103844	128217	1				
+Evoker	Devastation	1467	Command Squadron	1260745	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Scalecommander	109795	136053	1	Buff		cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Concentrated Power	1261448	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Scalecommander	109794	136052	1				
+Evoker	Devastation	1467	Conduit of Flame	444843	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Flameshaper	94949	117546	1				
+Evoker	Devastation	1467	Consume Flame	444088	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Flameshaper	94922	117519	1				
+Evoker	Devastation	1467	Deep Exhalation	1264321	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Flameshaper	94945	117542	1				
+Evoker	Devastation	1467	Diverted Power	441219	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Scalecommander	94928	120124	1				
+Evoker	Devastation	1467	Draconic Instincts	445958	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Flameshaper	94931	123405	1				
+Evoker	Devastation	1467	Draconic Legacy	376166	talent-passive	TraitNodeEntry	false	0	Rotational	class		93300	115609	1				
+Evoker	Devastation	1467	Engulfing Blaze	370837	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93278	115585	1				
+Evoker	Devastation	1467	Enkindle	444016	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Flameshaper	94956	117553	1	Buff		cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Enkindled	375554	talent-passive	TraitNodeEntry	false	0	Rotational	class		93295	115603	2				
+Evoker	Devastation	1467	Essence Attunement	375722	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93319	115631	1				
+Evoker	Devastation	1467	Essence Well	1265993	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Flameshaper	109797	136055	1				
+Evoker	Devastation	1467	Eternity's Span	375757	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93320	115632	1				
+Evoker	Devastation	1467	Event Horizon	411164	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93318	115629	1				
+Evoker	Devastation	1467	Expanded Lungs	444845	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Flameshaper	94956	128713	1				
+Evoker	Devastation	1467	Extended Battle	441212	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Scalecommander	94928	117525	1				
+Evoker	Devastation	1467	Extended Flight	375517	talent-passive	TraitNodeEntry	false	0	Rotational	class		93349	115664	2				
+Evoker	Devastation	1467	Exuberance	375542	talent-passive	TraitNodeEntry	false	0	Rotational	class		93299	115608	1				
+Evoker	Devastation	1467	Eye of Infinity	411165	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93318	115630	1				
+Evoker	Devastation	1467	Feed the Flames	369846	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93277	115584	1	Buff		cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Fire Torrent	1265992	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Flameshaper	109796	136054	1				
+Evoker	Devastation	1467	Foci of Life	375574	talent-passive	TraitNodeEntry	false	0	Rotational	class		93345	115660	1				
+Evoker	Devastation	1467	Font of Magic	411212	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93279	115586	1				
+Evoker	Devastation	1467	Forger of Mountains	375528	talent-passive	TraitNodeEntry	false	0	Rotational	class		93270	115576	1				
+Evoker	Devastation	1467	Fulminous Roar	1218447	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Flameshaper	94923	117520	1				
+Evoker	Devastation	1467	Hardened Scales	441180	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Scalecommander	94933	117530	1				
+Evoker	Devastation	1467	Heat Wave	375725	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93281	115588	2				
+Evoker	Devastation	1467	Heavy Wingbeats	368838	talent-passive	TraitNodeEntry	false	0	Rotational	class		103843	128216	1				
+Evoker	Devastation	1467	Honed Aggression	371038	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93329	115641	2				
+Evoker	Devastation	1467	Imminent Destruction	370781	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93326	115638	1	Buff		cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Inherent Resistance	375544	talent-passive	TraitNodeEntry	false	0	Rotational	class		93355	115670	2				
+Evoker	Devastation	1467	Innate Magic	375520	talent-passive	TraitNodeEntry	false	0	Rotational	class		93302	115611	2				
+Evoker	Devastation	1467	Inner Radiance	386405	talent-passive	TraitNodeEntry	false	0	Rotational	class		93311	115620	1				
+Evoker	Devastation	1467	Instinctive Arcana	376164	talent-passive	TraitNodeEntry	false	0	Rotational	class		93310	115619	2				
+Evoker	Devastation	1467	Iridescence	370867	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93321	115633	1				
+Evoker	Devastation	1467	Lay Waste	371034	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93284	115592	1				
+Evoker	Devastation	1467	Leaping Flames	369939	talent-passive	TraitNodeEntry	false	0	Rotational	class		93343	115657	1	Buff		cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Legacy of the Lifebinder	1264269	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Flameshaper	94950	117547	1				
+Evoker	Devastation	1467	Lifecinders	444322	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Flameshaper	94931	117528	1				
+Evoker	Devastation	1467	Lush Growth	375561	talent-passive	TraitNodeEntry	false	0	Rotational	class		93347	115662	2				
+Evoker	Devastation	1467	Maneuverability	433871	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Scalecommander	94941	117538	1				
+Evoker	Devastation	1467	Mass Disintegrate	436335	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Scalecommander	94939	117536	1	Buff		cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Mass Eruption	438587	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Scalecommander	98931	122279	1				
+Evoker	Devastation	1467	Melt Armor	441176	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Scalecommander	94921	117518	1	Buff		cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Menacing Presence	441181	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Scalecommander	94933	120125	1	Buff		cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Might of the Black Dragonflight	441705	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Scalecommander	94952	117549	1				
+Evoker	Devastation	1467	Natural Convergence	369913	talent-passive	TraitNodeEntry	false	0	Rotational	class		93312	115621	1				
+Evoker	Devastation	1467	Nimble Flyer	441253	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Scalecommander	94943	117540	1				
+Evoker	Devastation	1467	Obsidian Bulwark	375406	talent-passive	TraitNodeEntry	false	0	Rotational	class		93289	115597	1				
+Evoker	Devastation	1467	Onslaught	441245	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Scalecommander	94944	117541	1				
+Evoker	Devastation	1467	Onyx Legacy	386348	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93327	115639	1				
+Evoker	Devastation	1467	Overawe	374346	talent-passive	TraitNodeEntry	false	0	Rotational	class		93297	115606	1				
+Evoker	Devastation	1467	Panacea	387761	talent-passive	TraitNodeEntry	false	0	Rotational	class		93348	115663	1				
+Evoker	Devastation	1467	Potent Mana	418101	talent-passive	TraitNodeEntry	false	0	Rotational	class		93715	116103	1				
+Evoker	Devastation	1467	Power Nexus	369908	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93276	115582	1				
+Evoker	Devastation	1467	Power Swell	370839	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93322	115634	1	Buff		cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Protracted Talons	369909	talent-passive	TraitNodeEntry	false	0	Rotational	class		110064	136559	1				
+Evoker	Devastation	1467	Recall	371806	talent-passive	TraitNodeEntry	false	0	Rotational	class		93301	115610	1	Buff		cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Refined Essence	1261452	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Scalecommander	109793	136051	1				
+Evoker	Devastation	1467	Regenerative Magic	387787	talent-passive	TraitNodeEntry	false	0	Rotational	class		93353	115668	1				
+Evoker	Devastation	1467	Rising Fury	1271687	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110414	137010	1	Buff		talent-passive:TraitNodeEntry;cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Ruby Embers	365937	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93282	115590	1	Buff		cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Ruby Essence Burst	376872	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93285	115593	1				
+Evoker	Devastation	1467	Scarlet Adaptation	372469	talent-passive	TraitNodeEntry	false	0	Rotational	class		93340	115654	1				
+Evoker	Devastation	1467	Scintillation	370821	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93324	115636	1				
+Evoker	Devastation	1467	Scorching Embers	370819	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93365	115622	1				
+Evoker	Devastation	1467	Shape of Flame	445074	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Flameshaper	94937	123404	1				
+Evoker	Devastation	1467	Shattering Stars	1265802	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93316	115627	1				
+Evoker	Devastation	1467	Slipstream	441257	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Scalecommander	94943	120123	1				
+Evoker	Devastation	1467	Spellweaver's Dominance	370845	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93323	115635	1				
+Evoker	Devastation	1467	Star Salvo	1265826	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93315	115626	1				
+Evoker	Devastation	1467	Strafing Run	1266151	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93313	115623	1	Buff		cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Stretch Time	410352	talent-passive	TraitNodeEntry	false	0	Rotational	class		93308	115617	1				
+Evoker	Devastation	1467	Strike from Above	1267206	talent-passive	TraitNodeEntry	false	0	Rotational	class		110065	136560	1				
+Evoker	Devastation	1467	Tailwind	375556	talent-passive	TraitNodeEntry	false	0	Rotational	class		93290	115598	1				
+Evoker	Devastation	1467	Terror of the Skies	371032	talent-passive	TraitNodeEntry	false	0	Rotational	class		93342	115656	1	Buff		cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Titanic Precision	445625	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Flameshaper	94920	117517	1				
+Evoker	Devastation	1467	Titanic Wrath	386272	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93272	115578	1				
+Evoker	Devastation	1467	Trailblazer	444849	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Flameshaper	94937	117534	1				
+Evoker	Devastation	1467	Twin Flame	1265979	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Flameshaper	109798	136056	1				
+Evoker	Devastation	1467	Twin Guardian	370888	talent-passive	TraitNodeEntry	false	0	Rotational	class		93287	115595	1	Buff		cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Tyranny	376888	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93328	115640	1				
+Evoker	Devastation	1467	Unravel	1264378	talent-passive	TraitNodeEntry	false	0	Rotational	class		93307	115616	1				
+Evoker	Devastation	1467	Unrelenting Siege	441246	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Scalecommander	94934	117531	1	Buff		cdm-only:CooldownSetSpell	
+Evoker	Devastation	1467	Volatility	369089	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93283	115591	2				
+Evoker	Devastation	1467	Walloping Blow	387341	talent-passive	TraitNodeEntry	false	0	Rotational	class		93286	115594	1				
+Evoker	Devastation	1467	Wingleader	441206	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Scalecommander	94953	117550	1				
+Evoker	Devastation	1467	Wing Buffet	357214	cdm-only	CooldownSetSpell	true	180	Cooldown						Utility			
+Evoker	Devastation	1467	Essence Burst	359618	cdm-only	CooldownSetSpell	true	0	Rotational						Buff			
+Evoker	Devastation	1467	Iridescence: Blue	386399	cdm-only	CooldownSetSpell	true	0	Rotational						Buff			
+Evoker	Devastation	1467	Iridescence: Red	386353	cdm-only	CooldownSetSpell	true	0	Rotational						Buff			
+Evoker	Devastation	1467	Permeating Chill	370898	cdm-only	CooldownSetSpell	true	0	Rotational						Buff			

@@ -1,0 +1,184 @@
+class	spec	spec_id	name	spell_id	origin	source	castable	cooldown	band	tree	hero_tree	node_id	entry_id	max_ranks	blizz_category	seed_bucket	also_from	aliases
+Monk	Windwalker	269	Fortifying Brew	115203	talent-active	TraitNodeEntry	true	360	Cooldown	class		101173	124968	1	Buff/Other/Utility	Personal Defensive 1	cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Invoke Xuen, the White Tiger	123904	talent-active	TraitNodeEntry	true	120	Cooldown	hero	Conduit of the Celestials	101243	125062	1	Essential	Cooldown 1	cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Celestial Conduit	443028	talent-active	TraitNodeEntry	true	90	Cooldown	hero	Conduit of the Celestials	110067	136562	1	Essential		talent-active:TraitNodeEntry;cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Paralysis	115078	talent-active	TraitNodeEntry	true	45	Cooldown	class		101142	124932	1	Utility	CC 2	cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Slicing Winds	1217413	talent-active	TraitNodeEntry	true	30	Rotational	spec		102250	126307	1	Essential		cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Tiger's Lust	116841	talent-active	TraitNodeEntry	true	30	Rotational	class		101147	124937	1	Buff/Utility	Movement Ability 2	cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Fists of Fury	113656	talent-active	TraitNodeEntry	true	24	Rotational	spec		101218	125026	1	Essential	Rotational 4	class-baseline:SkillLineAbility:829;cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Zenith	1249625	talent-active	TraitNodeEntry	true	16	Rotational	spec		101053	124826	1	Essential/Other	Cooldown 2	cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Spear Hand Strike	116705	talent-active	TraitNodeEntry	true	15	Rotational	class		110098	136599	1	Utility	Interrupt	cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Rising Sun Kick	107428	talent-active	TraitNodeEntry	true	10	Rotational	class		101186	124985	1	Essential	Rotational 3	cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Transcendence	101643	talent-active	TraitNodeEntry	true	10	Rotational	class		101167	124962	1	Utility	Class 5 (Purge)	cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Detox	218164	talent-active	TraitNodeEntry	true	0	Rotational	class		101150	124941	1	Utility	Class 6 (Dispel)	cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Diffuse Magic	1243287	talent-active	TraitNodeEntry	true	0	Rotational	class		108540	134029	1		Class 7 (Raid Defensive)		
+Monk	Windwalker	269	Soothing Mist	115175	talent-active	TraitNodeEntry	true	0	Rotational	class		101143	124933	1		Self-Heal 3 (Overflow)	class-baseline:SkillLineAbility:829	
+Monk	Windwalker	269	Ring of Peace	116844	talent-choice	TraitNodeEntry	true	45	Cooldown	class		101136	124926	1	Utility	Class 2 (CC)	cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Strike of the Windlord	392983	talent-choice	TraitNodeEntry	true	35	Rotational	spec		101207	125014	1	Essential		cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Whirling Dragon Punch	152175	talent-choice	TraitNodeEntry	true	35	Rotational	spec		101207	134452	1	Essential		cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Song of Chi-Ji	198898	talent-choice	TraitNodeEntry	true	30	Rotational	class		101136	124925	1	Utility		cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Chi Torpedo	115008	talent-choice	TraitNodeEntry	true	0	Rotational	class		101183	124981	1				
+Monk	Windwalker	269	Disable	116095	talent-choice	TraitNodeEntry	true	0	Rotational	class		101149	124939	1	Buff	Slow	cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Touch of Death	322109	class-baseline	SkillLineAbility:829	true	180	Cooldown						Essential	Cooldown 3	cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Touch of Fatality	169340	class-baseline	SkillLineAbility:829	true	90	Cooldown									
+Monk	Windwalker	269	Leg Sweep	119381	class-baseline	SkillLineAbility:829	true	60	Cooldown						Utility	CC	cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Zen Pilgrimage	126892	class-baseline	SkillLineAbility:829	true	60	Cooldown									
+Monk	Windwalker	269	Expel Harm	322101	class-baseline	SkillLineAbility:829	true	15	Rotational									
+Monk	Windwalker	269	Provoke	115546	class-baseline	SkillLineAbility:829	true	8	Rotational							Taunt/Quick Access		
+Monk	Windwalker	269	Blackout Kick	100784	class-baseline	SkillLineAbility:829	true	3	Rotational						Essential	Rotational 2	cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Roll	109132	class-baseline	SkillLineAbility:829	true	0.8	Rotational						Utility	Movement Ability	cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Chi Burst	130654	class-baseline	SkillLineAbility:829	true	0	Rotational									
+Monk	Windwalker	269	Chi Wave	132463	class-baseline	SkillLineAbility:829	true	0	Rotational									
+Monk	Windwalker	269	Crackling Jade Lightning	117952	class-baseline	SkillLineAbility:829	true	0	Rotational						Essential	Class 3 (Tag)	cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Energy Usage	119650	class-baseline	SkillLineAbility:829	true	0	Rotational									
+Monk	Windwalker	269	Flying Serpent Kick	123586	class-baseline	SkillLineAbility:829	true	0	Rotational						Utility	Immune/Spell Immune/Movement	class-baseline:SpecializationSpells;cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Healing Sphere	125355	class-baseline	SkillLineAbility:829	true	0	Rotational									
+Monk	Windwalker	269	Renewing Mist	119611	class-baseline	SkillLineAbility:829	true	0	Rotational									
+Monk	Windwalker	269	Resuscitate	115178	class-baseline	SkillLineAbility:829	true	0	Rotational									
+Monk	Windwalker	269	Sheilun's Gift	205406	class-baseline	SkillLineAbility:829	true	0	Rotational									
+Monk	Windwalker	269	Single-Button Assistant	1229376	class-baseline	SpecializationSpells	true	0	Rotational									
+Monk	Windwalker	269	Spinning Crane Kick	107270	class-baseline	SkillLineAbility:829	true	0	Rotational						Essential	Rotational 5	cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Tiger Palm	100780	class-baseline	SkillLineAbility:829	true	0	Rotational						Essential	Rotational 1	cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Touch of Karma	124280	class-baseline	SkillLineAbility:829	true	0	Rotational						Buff/Utility	Personal Defensive 2	class-baseline:SpecializationSpells;cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Vivify	116670	class-baseline	SkillLineAbility:829	true	0	Rotational							Self-Heal 1		
+Monk	Windwalker	269	Zen Flight	125883	class-baseline	SkillLineAbility:829	true	0	Rotational									
+Monk	Windwalker	269	Zen Pilgrimage/Death Gate/Moonglade Storage Aura I	126893	class-baseline	SkillLineAbility:829	true	0	Rotational									
+Monk	Windwalker	269	Zen Pilgrimage: Return	126895	class-baseline	SkillLineAbility:829	true	0	Rotational									
+Monk	Windwalker	269	Grapple Weapon	233759	pvp-talent	PvpTalent	true	45	Cooldown						Utility		cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Absolute Serenity	455945	pvp-talent	PvpTalent	false	0	Rotational									
+Monk	Windwalker	269	Perpetual Paralysis	357495	pvp-talent	PvpTalent	false	0	Rotational									
+Monk	Windwalker	269	Predestination	345829	pvp-talent	PvpTalent	false	0	Rotational									
+Monk	Windwalker	269	Ride the Wind	201372	pvp-talent	PvpTalent	false	0	Rotational									
+Monk	Windwalker	269	Rising Dragon Sweep	460276	pvp-talent	PvpTalent	false	0	Rotational									
+Monk	Windwalker	269	Turbo Fists	287681	pvp-talent	PvpTalent	false	0	Rotational									
+Monk	Windwalker	269	Wind Waker	357633	pvp-talent	PvpTalent	false	0	Rotational									
+Monk	Windwalker	269	Transcendence: Linked Spirits	434774	talent-passive	TraitNodeEntry	false	10	Rotational	class		101176	124972	1				
+Monk	Windwalker	269	Against All Odds	450986	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Shado-Pan	101253	125074	1				
+Monk	Windwalker	269	Airborne Rhythm	1248833	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101043	124815	1				
+Monk	Windwalker	269	Ancient Arts	344359	talent-passive	TraitNodeEntry	false	0	Rotational	class		101184	124983	2				
+Monk	Windwalker	269	Ascension	115396	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101037	124807	1				
+Monk	Windwalker	269	Bounding Agility	450520	talent-passive	TraitNodeEntry	false	0	Rotational	class		101161	124955	1				
+Monk	Windwalker	269	Brawler's Intensity	451485	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101038	124809	1				
+Monk	Windwalker	269	Calming Presence	388664	talent-passive	TraitNodeEntry	false	0	Rotational	class		101153	124944	1				
+Monk	Windwalker	269	Celerity	115173	talent-passive	TraitNodeEntry	false	0	Rotational	class		101183	124982	1				
+Monk	Windwalker	269	Celestial Determination	450638	talent-passive	TraitNodeEntry	false	0	Rotational	class		101180	124977	1				
+Monk	Windwalker	269	Chi Proficiency	450426	talent-passive	TraitNodeEntry	false	0	Rotational	class		101169	124964	2				
+Monk	Windwalker	269	Chi Transfer	1272452	talent-passive	TraitNodeEntry	false	0	Rotational	class		101177	124974	1				
+Monk	Windwalker	269	Chi-Ji's Swiftness	443566	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101237	125055	1				
+Monk	Windwalker	269	Combat Stance	1272844	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Shado-Pan	101254	125076	1				
+Monk	Windwalker	269	Combat Wisdom	121817	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101217	125025	1	Other		cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Combo Breaker	137384	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101215	125022	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Communion With Wind	451576	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101041	124812	1				
+Monk	Windwalker	269	Courage of the White Tiger	443087	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101242	125061	1				
+Monk	Windwalker	269	Crane Vortex	388848	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101211	125018	1				
+Monk	Windwalker	269	Crashing Fists	1248747	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101057	134453	1				
+Monk	Windwalker	269	Crashing Momentum	450335	talent-passive	TraitNodeEntry	false	0	Rotational	class		101149	124940	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Cyclone's Drift	1248749	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101057	124830	1				
+Monk	Windwalker	269	Dance of Chi-Ji	325201	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101060	124834	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Dance of the Wind	432181	talent-passive	TraitNodeEntry	false	0	Rotational	class		101137	124927	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Drinking Horn Cover	391370	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101052	124825	1				
+Monk	Windwalker	269	Dual Threat	451823	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101055	124828	1				
+Monk	Windwalker	269	Echo Technique	1250042	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101203	125009	1				
+Monk	Windwalker	269	Efficient Training	450989	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Shado-Pan	101251	125072	1				
+Monk	Windwalker	269	Elusive Mists	388681	talent-passive	TraitNodeEntry	false	0	Rotational	class		101144	124934	1				
+Monk	Windwalker	269	Energy Burst	451498	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101056	124829	1				
+Monk	Windwalker	269	Energy Transfer	450631	talent-passive	TraitNodeEntry	false	0	Rotational	class		110095	136596	1				
+Monk	Windwalker	269	Escape from Reality	394110	talent-passive	TraitNodeEntry	false	0	Rotational	class		101176	124973	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Expeditious Fortification	388813	talent-passive	TraitNodeEntry	false	0	Rotational	class		101174	124969	1				
+Monk	Windwalker	269	Fast Feet	388809	talent-passive	TraitNodeEntry	false	0	Rotational	class		101185	124984	1				
+Monk	Windwalker	269	Fatal Touch	394123	talent-passive	TraitNodeEntry	false	0	Rotational	class		101178	124975	1				
+Monk	Windwalker	269	Ferociousness	458623	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101035	124805	2				
+Monk	Windwalker	269	Ferocity of Xuen	388674	talent-passive	TraitNodeEntry	false	0	Rotational	class		101166	124961	2				
+Monk	Windwalker	269	Flow of Chi	450569	talent-passive	TraitNodeEntry	false	0	Rotational	class		101170	124965	1				
+Monk	Windwalker	269	Flowing Wisdom	1262672	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	109700	135958	1				
+Monk	Windwalker	269	Flurry Strikes	450615	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Shado-Pan	101248	125069	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Flurry of Xuen	452137	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101204	125011	1				
+Monk	Windwalker	269	Glory of the Dawn	392958	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101039	124810	1				
+Monk	Windwalker	269	Grace of the Crane	388811	talent-passive	TraitNodeEntry	false	0	Rotational	class		101146	124936	1				
+Monk	Windwalker	269	Hardened Soles	391383	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101047	124819	2				
+Monk	Windwalker	269	Harmonic Combo	1250041	talent-passive	TraitNodeEntry	false	0	Rotational	spec		104129	128712	1				
+Monk	Windwalker	269	Hasty Provocation	328670	talent-passive	TraitNodeEntry	false	0	Rotational	class		101158	124950	1				
+Monk	Windwalker	269	Healing Winds	450560	talent-passive	TraitNodeEntry	false	0	Rotational	class		101171	124966	1				
+Monk	Windwalker	269	Heart of the Jade Serpent	443294	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	109701	135959	1	Other		cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	High Impact	450982	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Shado-Pan	101247	125067	1				
+Monk	Windwalker	269	Hit Combo	196740	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101216	125023	1				
+Monk	Windwalker	269	Hurricane's Vault	1248837	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101043	124814	1				
+Monk	Windwalker	269	Improved Touch of Death	322113	talent-passive	TraitNodeEntry	false	0	Rotational	class		101140	124930	1				
+Monk	Windwalker	269	Initiator's Edge	1272849	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Shado-Pan	101254	125075	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Inner Compass	443571	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101235	125052	1				
+Monk	Windwalker	269	Inner Peace	397768	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101214	125021	1				
+Monk	Windwalker	269	Ironshell Brew	388814	talent-passive	TraitNodeEntry	false	0	Rotational	class		101174	124970	1				
+Monk	Windwalker	269	Jade Ignition	392979	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101050	124822	1				
+Monk	Windwalker	269	Jade Sanctuary	443059	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101238	125056	1				
+Monk	Windwalker	269	Jade Walk	450553	talent-passive	TraitNodeEntry	false	0	Rotational	class		101160	124954	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Jadefire Stomp	457974	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101045	124817	1				
+Monk	Windwalker	269	Knowledge of the Broken Temple	451529	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101212	125019	1				
+Monk	Windwalker	269	Lighter Than Air	449582	talent-passive	TraitNodeEntry	false	0	Rotational	class		101168	124963	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Martial Agility	1272685	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101208	125015	1				
+Monk	Windwalker	269	Martial Instincts	450427	talent-passive	TraitNodeEntry	false	0	Rotational	class		101179	124976	2				
+Monk	Windwalker	269	Martial Precision	450990	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Shado-Pan	101246	125066	1				
+Monk	Windwalker	269	Memory of the Monastery	454969	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101209	125016	1				
+Monk	Windwalker	269	Meridian Strikes	391330	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101061	124835	1				
+Monk	Windwalker	269	Momentum Boost	451294	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101048	124820	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Niuzao's Protection	442747	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101238	125057	1				
+Monk	Windwalker	269	Obsidian Spiral	1249832	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101051	124823	1				
+Monk	Windwalker	269	One Versus Many	450988	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Shado-Pan	101250	125071	1				
+Monk	Windwalker	269	Path of Jade	392994	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101044	124816	1				
+Monk	Windwalker	269	Path of the Falling Star	1273154	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101234	125050	1				
+Monk	Windwalker	269	Peace and Prosperity	450448	talent-passive	TraitNodeEntry	false	0	Rotational	class		101163	124957	1				
+Monk	Windwalker	269	Predictive Training	450992	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Shado-Pan	101245	125064	1				
+Monk	Windwalker	269	Pressure Points	450432	talent-passive	TraitNodeEntry	false	0	Rotational	class		101141	124931	1				
+Monk	Windwalker	269	Pride of Pandaria	450979	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Shado-Pan	101247	125068	1				
+Monk	Windwalker	269	Profound Rebuttal	392910	talent-passive	TraitNodeEntry	false	0	Rotational	class		110022	136513	1				
+Monk	Windwalker	269	Quick Footed	450503	talent-passive	TraitNodeEntry	false	0	Rotational	class		101158	124951	1				
+Monk	Windwalker	269	Reinvigoration	1266740	talent-passive	TraitNodeEntry	false	0	Rotational	class		110027	136520	1				
+Monk	Windwalker	269	Restore Balance	442719	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101233	125049	1			talent-passive:TraitNodeEntry	
+Monk	Windwalker	269	Revolving Whirl	451524	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101203	125010	1				
+Monk	Windwalker	269	Rising Star	388849	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101205	125012	1				
+Monk	Windwalker	269	Rushing Reflexes	450154	talent-passive	TraitNodeEntry	false	0	Rotational	class		101154	124946	1				
+Monk	Windwalker	269	Rushing Wind Kick	1250566	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108946	134543	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Save Them All	389579	talent-passive	TraitNodeEntry	false	0	Rotational	class		101157	124949	1				
+Monk	Windwalker	269	Sequenced Strikes	451515	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101059	124833	1				
+Monk	Windwalker	269	Shado Over the Battlefield	1262612	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Shado-Pan	109697	135955	1				
+Monk	Windwalker	269	Shadowboxing Treads	392982	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101062	124836	1				
+Monk	Windwalker	269	Sharp Reflexes	261917	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101036	124806	1				
+Monk	Windwalker	269	Silent Sanctuary	1266719	talent-passive	TraitNodeEntry	false	0	Rotational	class		110024	136517	1				
+Monk	Windwalker	269	Singularly Focused Jade	451573	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101044	126026	1				
+Monk	Windwalker	269	Skyfire Heel	1248704	talent-passive	TraitNodeEntry	false	0	Rotational	spec		104128	128711	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Spirit's Essence	450595	talent-passive	TraitNodeEntry	false	0	Rotational	class		101138	124928	1				
+Monk	Windwalker	269	Spiritual Focus	280197	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101052	124824	1				
+Monk	Windwalker	269	Stampede of the Ancients	1262756	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101240	125059	1				
+Monk	Windwalker	269	Stand Ready	1262603	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Shado-Pan	109698	135956	1				
+Monk	Windwalker	269	Stillstep Coil	1266733	talent-passive	TraitNodeEntry	false	0	Rotational	class		110025	136518	1				
+Monk	Windwalker	269	Strength of Spirit	387276	talent-passive	TraitNodeEntry	false	0	Rotational	class		110022	136514	1				
+Monk	Windwalker	269	Strength of the Black Ox	443110	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	110211	136747	1	Other		cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Sunfire Spiral	1272415	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101213	125020	1				
+Monk	Windwalker	269	Swift Art	450622	talent-passive	TraitNodeEntry	false	0	Rotational	class		101155	124947	1				
+Monk	Windwalker	269	Teachings of the Monastery	116645	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101054	124827	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Temple Training	442743	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101236	125054	1				
+Monk	Windwalker	269	Thunderfist	392985	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101040	124811	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Tiger Fang	1272781	talent-passive	TraitNodeEntry	false	0	Rotational	class		101159	124953	1				
+Monk	Windwalker	269	Tiger Tail Sweep	264348	talent-passive	TraitNodeEntry	false	0	Rotational	class		101182	124980	1				
+Monk	Windwalker	269	Tigereye Brew	1261703	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110436	137076	1	Buff		talent-passive:TraitNodeEntry;cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Touch of the Tiger	388856	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101049	124821	1				
+Monk	Windwalker	269	Unity Within	443589	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101239	125058	1				
+Monk	Windwalker	269	Universal Energy	1272175	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101046	124818	1				
+Monk	Windwalker	269	Veteran's Eye	450987	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Shado-Pan	101249	125070	1				
+Monk	Windwalker	269	Vigilant Watch	450993	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Shado-Pan	101244	125063	1				
+Monk	Windwalker	269	Vigorous Expulsion	392900	talent-passive	TraitNodeEntry	false	0	Rotational	class		110020	136511	1				
+Monk	Windwalker	269	Vivacious Vivification	388812	talent-passive	TraitNodeEntry	false	0	Rotational	class		110023	136515	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Windwalker	269	Weapon of Wind	1272678	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101206	125013	1				
+Monk	Windwalker	269	Weapons of the Wall	1262610	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Shado-Pan	109699	135957	1				
+Monk	Windwalker	269	Whirling Steel	450991	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Shado-Pan	101245	125065	1				
+Monk	Windwalker	269	Wind's Reach	450514	talent-passive	TraitNodeEntry	false	0	Rotational	class		101148	124938	1				
+Monk	Windwalker	269	Windwalking	157411	talent-passive	TraitNodeEntry	false	0	Rotational	class		101175	124971	1				
+Monk	Windwalker	269	Wisdom of the Wall	1272821	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Shado-Pan	101252	125073	1				
+Monk	Windwalker	269	Xuen's Battlegear	392993	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101210	125017	1				
+Monk	Windwalker	269	Xuen's Bond	392986	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	110221	136744	1				
+Monk	Windwalker	269	Xuen's Guidance	442687	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101236	125053	1				
+Monk	Windwalker	269	Yu'lon's Avatar	1262667	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	110218	136754	1				
+Monk	Windwalker	269	Yu'lon's Grace	414131	talent-passive	TraitNodeEntry	false	0	Rotational	class		101165	124960	1				
+Monk	Windwalker	269	Yu'lon's Knowledge	443625	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101233	125048	1				
+Monk	Windwalker	269	Zenith Stomp	1272694	talent-passive	TraitNodeEntry	false	0	Rotational	class		101162	124956	1				
+Monk	Windwalker	269	Transcendence: Transfer	119996	cdm-only	CooldownSetSpell	true	45	Cooldown						Utility	Class 1 (Movement)		
+Monk	Windwalker	269	Mastery: Combo Strikes	115636	cdm-only	CooldownSetSpell	false	0	Rotational						Buff			

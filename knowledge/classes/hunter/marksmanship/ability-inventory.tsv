@@ -1,0 +1,196 @@
+class	spec	spec_id	name	spell_id	origin	source	castable	cooldown	band	tree	hero_tree	node_id	entry_id	max_ranks	blizz_category	seed_bucket	also_from	aliases
+Hunter	Marksmanship	254	Trueshot	288613	talent-active	TraitNodeEntry	true	120	Cooldown	spec		103947	128367	1	Buff/Essential	Cooldown 1	cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Camouflage	199483	talent-active	TraitNodeEntry	true	60	Cooldown	class		110156	136676	1	Buff/Utility	Self-Heal 4 (Emergency/Overflow)	cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Intimidation	474421	talent-active	TraitNodeEntry	true	60	Cooldown	class		103990	128413	1	Buff/Utility	CC	pet:SkillLineAbility:270;cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Binding Shot	109248	talent-active	TraitNodeEntry	true	45	Cooldown	class		109488	135711	1	Buff/Utility	CC 2	class-baseline:SkillLineAbility:795;cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Volley	260243	talent-active	TraitNodeEntry	true	45	Cooldown	spec		103956	128376	1	Essential	Rotational 6	cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Explosive Shot	212431	talent-active	TraitNodeEntry	true	30	Rotational	spec		110575	137378	1	Essential		cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Misdirection	34477	talent-active	TraitNodeEntry	true	30	Rotational	class		102419	126484	1	Utility	Class 3 (Tag)	cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Counter Shot	147362	talent-active	TraitNodeEntry	true	24	Rotational	class		102402	126466	1	Utility	Interrupt	cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Rapid Fire	257044	talent-active	TraitNodeEntry	true	16	Rotational	spec		103961	128383	1	Essential	Rotational 3	cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Tranquilizing Shot	19801	talent-active	TraitNodeEntry	true	10	Rotational	class		109489	135712	1	Utility	Class 5 (Purge)	cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Concussive Shot	5116	talent-active	TraitNodeEntry	true	5	Rotational	class		102407	126471	1		Slow		
+Hunter	Marksmanship	254	Aimed Shot	19434	talent-active	TraitNodeEntry	true	0	Rotational	spec		103982	128404	1	Essential	Rotational 1	cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Black Arrow	466930	talent-active	TraitNodeEntry	true	0	Rotational	hero	Dark Ranger	109961	136446	1	Buff		talent-passive:TraitNodeEntry;cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Kill Shot	53351	talent-active	TraitNodeEntry	true	0	Rotational	spec		109490	135713	1	Essential		cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Survival of the Fittest	264735	talent-active	TraitNodeEntry	true	0	Rotational	class		102422	126488	1	Buff/Utility	Personal Defensive 1	cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Roar of Sacrifice	53480	talent-choice	TraitNodeEntry	true	120	Cooldown	class		110164	136686	1	Buff/Utility	Class 7 (Raid Defensive)	cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Tar Trap	187698	talent-choice	TraitNodeEntry	true	30	Rotational	class		102393	126457	1	Buff/Utility	Class 1 (Movement)	cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Scare Beast	1513	talent-choice	TraitNodeEntry	true	0	Rotational	class		102393	135707	1	Buff/Utility		cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Harrier's Cry	466904	class-baseline	SpecializationSpells	true	360	Cooldown						Buff/Utility	Class 8 (Lust/BRes)	cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Aspect of the Chameleon	61648	class-baseline	SkillLineAbility:795	true	180	Cooldown									
+Hunter	Marksmanship	254	Aspect of the Cheetah	186257	class-baseline	SkillLineAbility:795	true	180	Cooldown						Buff/Utility	Movement Ability	cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Aspect of the Turtle	186265	class-baseline	SkillLineAbility:795	true	180	Cooldown						Buff/Utility	Immune/Spell Immune/Movement	cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Exhilaration	109304	class-baseline	SkillLineAbility:795	true	120	Cooldown						Utility	Self-Heal 1	cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Titan's Thunder	207068	class-baseline	SkillLineAbility:795	true	60	Cooldown									
+Hunter	Marksmanship	254	Death Chakram	325028	class-baseline	SkillLineAbility:795	true	45	Cooldown									
+Hunter	Marksmanship	254	Fury of the Eagle	203415	class-baseline	SkillLineAbility:795	true	45	Cooldown									
+Hunter	Marksmanship	254	Feign Death	5384	class-baseline	SkillLineAbility:795	true	30	Rotational						Buff/Utility	Personal Defensive 2	cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Freezing Trap	187650	class-baseline	SkillLineAbility:795	true	30	Rotational						Buff/Utility	Class 2 (CC)	cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Play Dead	209997	class-baseline	SkillLineAbility:795	true	30	Rotational									
+Hunter	Marksmanship	254	Wake Up	210000	class-baseline	SkillLineAbility:795	true	30	Rotational									
+Hunter	Marksmanship	254	Flare	1543	class-baseline	SkillLineAbility:795	true	20	Rotational							Class 6 (Dispel)		
+Hunter	Marksmanship	254	Windburst	204147	class-baseline	SkillLineAbility:795	true	20	Rotational									
+Hunter	Marksmanship	254	Feed Pet	6991	class-baseline	SkillLineAbility:795	true	10	Rotational									
+Hunter	Marksmanship	254	Mend Pet	136	class-baseline	SkillLineAbility:795	true	10	Rotational							Self-Heal 2		
+Hunter	Marksmanship	254	Disengage	781	class-baseline	SkillLineAbility:795	true	1	Rotational						Utility	Taunt/Quick Access	cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Ancient Zandalari Knowledge	138430	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Marksmanship	254	Arcane Shot	185358	class-baseline	SkillLineAbility:795	true	0	Rotational							Rotational 2		
+Hunter	Marksmanship	254	Beast Lore	1462	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Marksmanship	254	Bestial Wrath	344572	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Marksmanship	254	Call Pet 1	883	class-baseline	SkillLineAbility:795	true	0	Rotational							Class 4 (Special)		
+Hunter	Marksmanship	254	Call Pet 2	83242	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Marksmanship	254	Call Pet 3	83243	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Marksmanship	254	Call Pet 4	83244	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Marksmanship	254	Call Pet 5	83245	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Marksmanship	254	Chakrams	259398	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Marksmanship	254	Command Pet	272651	class-baseline	SkillLineAbility:795	true	0	Rotational						Utility		cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Control Pet	93322	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Marksmanship	254	Dismiss Pet	2641	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Marksmanship	254	Eagle Eye	6197	class-baseline	SpecializationSpells	true	0	Rotational									
+Hunter	Marksmanship	254	Fetch	125050	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Marksmanship	254	Fireworks	127933	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Marksmanship	254	Hunter's Mark	257284	class-baseline	SkillLineAbility:795	true	0	Rotational						Buff	Free	cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Hybrid Kinship	242155	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Marksmanship	254	Mecha-Bond Imprint Matrix	205154	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Marksmanship	254	Multi-Shot	257620	class-baseline	SpecializationSpells	true	0	Rotational							Rotational 5		
+Hunter	Marksmanship	254	Revive Pet	982	class-baseline	SkillLineAbility:795	true	0	Rotational							Self-Heal 3 (Overflow)		
+Hunter	Marksmanship	254	Single-Button Assistant	1229376	class-baseline	SpecializationSpells	true	0	Rotational									
+Hunter	Marksmanship	254	Steady Shot	56641	class-baseline	SkillLineAbility:795	true	0	Rotational							Rotational 4		
+Hunter	Marksmanship	254	Steel Trap	162487	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Marksmanship	254	Stopping Power	175686	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Marksmanship	254	Tame Beast	1515	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Marksmanship	254	Track Beasts	1494	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Marksmanship	254	Track Demons	19878	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Marksmanship	254	Track Dragonkin	19879	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Marksmanship	254	Track Elementals	19880	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Marksmanship	254	Track Giants	19882	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Marksmanship	254	Track Hidden	19885	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Marksmanship	254	Track Humanoids	19883	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Marksmanship	254	Track Mechanicals	229533	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Marksmanship	254	Track Undead	19884	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Marksmanship	254	Wailing Arrow	354831	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Marksmanship	254	Wing Clip	195645	class-baseline	SkillLineAbility:795	true	0	Rotational						Buff/Utility		cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Chimaeral Sting	356719	pvp-talent	PvpTalent	true	60	Cooldown						Utility	PvP	cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Aspect of the Fox	1219162	pvp-talent	PvpTalent	false	0	Rotational									
+Hunter	Marksmanship	254	Consecutive Concussion	357018	pvp-talent	PvpTalent	false	0	Rotational									
+Hunter	Marksmanship	254	Diamond Ice	203340	pvp-talent	PvpTalent	false	0	Rotational									
+Hunter	Marksmanship	254	Hunting Pack	203235	pvp-talent	PvpTalent	false	0	Rotational									
+Hunter	Marksmanship	254	Ranger's Finesse	248443	pvp-talent	PvpTalent	false	0	Rotational									
+Hunter	Marksmanship	254	Sniper's Advantage	1217102	pvp-talent	PvpTalent	false	0	Rotational									
+Hunter	Marksmanship	254	Survival Tactics	202746	pvp-talent	PvpTalent	false	0	Rotational									
+Hunter	Marksmanship	254	Dash	61684	pet	SkillLineAbility:270	true	20	Rotational									
+Hunter	Marksmanship	254	Growl	2649	pet	SkillLineAbility:270	true	8	Rotational									
+Hunter	Marksmanship	254	Arcane Talons	1253846	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sentinel	94970	117567	1				
+Hunter	Marksmanship	254	Aspect of the Hydra	470945	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103957	128377	1				
+Hunter	Marksmanship	254	Avian Specialization	466867	talent-passive	TraitNodeEntry	false	0	Rotational	spec		104127	128710	1				
+Hunter	Marksmanship	254	Banshee's Mark	467902	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Dark Ranger	94957	117554	1				
+Hunter	Marksmanship	254	Bleak Arrows	467749	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Dark Ranger	94961	117558	1				
+Hunter	Marksmanship	254	Bleak Powder	467911	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Dark Ranger	94974	117571	1				
+Hunter	Marksmanship	254	Blighted Quiver	1264291	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Dark Ranger	94983	128238	1				
+Hunter	Marksmanship	254	Born To Be Wild	266921	talent-passive	TraitNodeEntry	false	0	Rotational	class		102416	126481	2				
+Hunter	Marksmanship	254	Bulletstorm	389019	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103962	128384	1	Other		cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Bullseye	204089	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103985	128407	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Calling the Shots	260404	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103958	128379	1				
+Hunter	Marksmanship	254	Can't Miss, Won't Miss	1253830	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sentinel	94990	117587	1				
+Hunter	Marksmanship	254	Catlike Reflexes	1258404	talent-passive	TraitNodeEntry	false	0	Rotational	class		109486	135709	1				
+Hunter	Marksmanship	254	Cold Feet	1268671	talent-passive	TraitNodeEntry	false	0	Rotational	class		110153	136672	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Combat Experience	1268871	talent-passive	TraitNodeEntry	false	0	Rotational	class		110157	136677	1				
+Hunter	Marksmanship	254	Conditioning	1253887	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sentinel	94980	117577	1				
+Hunter	Marksmanship	254	Corpsecaller	1264289	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Dark Ranger	109801	136059	1				
+Hunter	Marksmanship	254	Critical Precision	1277572	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103955	128375	1				
+Hunter	Marksmanship	254	Cunning	474440	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103986	128411	1				
+Hunter	Marksmanship	254	Dark Chains	430712	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Dark Ranger	94960	117557	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Deadeye	321460	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103972	128715	1				
+Hunter	Marksmanship	254	Deathblow	343248	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109491	135714	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Devilsaur Tranquilizer	459991	talent-passive	TraitNodeEntry	false	0	Rotational	class		102415	126479	1				
+Hunter	Marksmanship	254	Disruptive Rounds	343244	talent-passive	TraitNodeEntry	false	0	Rotational	class		102395	126459	1				
+Hunter	Marksmanship	254	Don't Look Back	450373	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sentinel	94989	117586	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Double Tap	473370	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109938	136232	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Eagle's Accuracy	473369	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103973	128395	2				
+Hunter	Marksmanship	254	Ebon Bowstring	467897	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Dark Ranger	94986	117583	1				
+Hunter	Marksmanship	254	Emergency Salve	459517	talent-passive	TraitNodeEntry	false	0	Rotational	class		102389	126452	1				
+Hunter	Marksmanship	254	Feathered Frenzy	470943	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103984	128406	1				
+Hunter	Marksmanship	254	Focus Fire	1277546	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103979	128401	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Focused Aim	378767	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103987	128716	1				
+Hunter	Marksmanship	254	Guardian's Hide	1272094	talent-passive	TraitNodeEntry	false	0	Rotational	class		110164	136685	1				
+Hunter	Marksmanship	254	Guttural Roar	1258509	talent-passive	TraitNodeEntry	false	0	Rotational	class		102394	135704	1				
+Hunter	Marksmanship	254	Headshot	471363	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103972	128394	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Horsehair Tether	472729	talent-passive	TraitNodeEntry	false	0	Rotational	class		110152	136670	1				
+Hunter	Marksmanship	254	Hunter's Avoidance	384799	talent-passive	TraitNodeEntry	false	0	Rotational	class		102423	126489	1				
+Hunter	Marksmanship	254	Improved Aspect of the Cheetah	1258407	talent-passive	TraitNodeEntry	false	0	Rotational	class		109485	135708	1				
+Hunter	Marksmanship	254	Improved Aspect of the Turtle	1258485	talent-passive	TraitNodeEntry	false	0	Rotational	class		102424	126490	1				
+Hunter	Marksmanship	254	Improved Feign Death	1258486	talent-passive	TraitNodeEntry	false	0	Rotational	class		109484	135706	2				
+Hunter	Marksmanship	254	Improved Snaring	1268868	talent-passive	TraitNodeEntry	false	0	Rotational	class		102414	126478	1				
+Hunter	Marksmanship	254	Improved Traps	343247	talent-passive	TraitNodeEntry	false	0	Rotational	class		102418	126483	1				
+Hunter	Marksmanship	254	Incendiary Ammunition	471428	talent-passive	TraitNodeEntry	false	0	Rotational	spec		107290	132195	1				
+Hunter	Marksmanship	254	Invigorating Pulse	450379	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sentinel	94971	117568	1				
+Hunter	Marksmanship	254	Keen Eyesight	378004	talent-passive	TraitNodeEntry	false	0	Rotational	class		102409	126473	2				
+Hunter	Marksmanship	254	Kindling Flare	459506	talent-passive	TraitNodeEntry	false	0	Rotational	class		102425	126491	1				
+Hunter	Marksmanship	254	Kodo Tranquilizer	459983	talent-passive	TraitNodeEntry	false	0	Rotational	class		102415	126480	1				
+Hunter	Marksmanship	254	Light Ammo	378913	talent-passive	TraitNodeEntry	false	0	Rotational	spec		107288	132192	1				
+Hunter	Marksmanship	254	Lock and Load	194595	talent-passive	TraitNodeEntry	false	0	Rotational	spec		107289	132193	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Lone Survivor	388039	talent-passive	TraitNodeEntry	false	0	Rotational	class		102391	126454	1				
+Hunter	Marksmanship	254	Lunar Calling	1253852	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sentinel	94965	117562	1				
+Hunter	Marksmanship	254	Lunar Storm	1253732	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sentinel	94978	117575	1				
+Hunter	Marksmanship	254	Master Marksman	260309	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103974	128396	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Moment of Opportunity	459488	talent-passive	TraitNodeEntry	false	0	Rotational	class		110155	136674	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Moon's Blessing	1253825	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sentinel	94973	117570	1				
+Hunter	Marksmanship	254	Moonlight Chakram	1264902	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sentinel	109807	136065	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Natural Mending	270581	talent-passive	TraitNodeEntry	false	0	Rotational	class		102401	126465	2				
+Hunter	Marksmanship	254	No Hard Feelings	459546	talent-passive	TraitNodeEntry	false	0	Rotational	class		102412	126476	1				
+Hunter	Marksmanship	254	No Scope	473385	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110572	137375	1				
+Hunter	Marksmanship	254	Obsidian Arrowhead	471350	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103959	128380	1				
+Hunter	Marksmanship	254	On Target	471348	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103959	128714	1				
+Hunter	Marksmanship	254	Open Fire	1253807	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sentinel	94958	135589	1				
+Hunter	Marksmanship	254	Pact of the Hollow	1264690	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Dark Ranger	109799	136057	1				
+Hunter	Marksmanship	254	Padded Armor	459450	talent-passive	TraitNodeEntry	false	0	Rotational	class		102406	126470	1				
+Hunter	Marksmanship	254	Pathfinding	378002	talent-passive	TraitNodeEntry	false	0	Rotational	class		102404	126468	1				
+Hunter	Marksmanship	254	Penetrating Shots	459783	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103964	128386	1				
+Hunter	Marksmanship	254	Posthaste	109215	talent-passive	TraitNodeEntry	false	0	Rotational	class		102411	126475	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Precise Shots	260240	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103977	128399	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Precision Detonation	471369	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110574	137377	1				
+Hunter	Marksmanship	254	Precision Strikes	1267003	talent-passive	TraitNodeEntry	false	0	Rotational	class		102380	126443	1				
+Hunter	Marksmanship	254	Quick Draw	459794	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103975	128397	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Radiant Edge	1264903	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sentinel	109805	136063	1				
+Hunter	Marksmanship	254	Rejuvenating Wind	385539	talent-passive	TraitNodeEntry	false	0	Rotational	class		102381	126444	1				
+Hunter	Marksmanship	254	Salvo	400456	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103960	128381	1				
+Hunter	Marksmanship	254	Sanctified Armaments	1253831	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sentinel	94981	117578	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Scout's Instincts	459455	talent-passive	TraitNodeEntry	false	0	Rotational	class		109483	135705	1				
+Hunter	Marksmanship	254	Scout's Vigil	1253892	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sentinel	94980	123870	1				
+Hunter	Marksmanship	254	Sentinel	1253599	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sentinel	94976	117573	1				
+Hunter	Marksmanship	254	Serrated Tips	459502	talent-passive	TraitNodeEntry	false	0	Rotational	class		102384	126447	2				
+Hunter	Marksmanship	254	Shadow Dagger	467741	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Dark Ranger	94960	128219	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Shell Wall	1267218	talent-passive	TraitNodeEntry	false	0	Rotational	class		110154	136673	1				
+Hunter	Marksmanship	254	Shrapnel Shot	473520	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110573	137376	1				
+Hunter	Marksmanship	254	Small Game Hunter	459802	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103978	128400	1				
+Hunter	Marksmanship	254	Smoke Screen	430709	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Dark Ranger	94959	123779	1				
+Hunter	Marksmanship	254	Soul Drinker	469638	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Dark Ranger	94968	117565	1				
+Hunter	Marksmanship	254	Specialized Arsenal	459542	talent-passive	TraitNodeEntry	false	0	Rotational	class		102390	126453	1				
+Hunter	Marksmanship	254	Stalk and Strike	1266069	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sentinel	110028	136521	1				
+Hunter	Marksmanship	254	Stargazer	1253751	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sentinel	94958	117555	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Surging Shots	391559	talent-passive	TraitNodeEntry	false	0	Rotational	spec		104130	128717	1				
+Hunter	Marksmanship	254	Take Aim	1273132	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110430	137058	1			talent-passive:TraitNodeEntry	
+Hunter	Marksmanship	254	Tar-Coated Bindings	459460	talent-passive	TraitNodeEntry	false	0	Rotational	class		110152	136671	1				
+Hunter	Marksmanship	254	Tenacious	474456	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103986	128408	1				
+Hunter	Marksmanship	254	Tensile Bowstring	471366	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103966	128388	1				
+Hunter	Marksmanship	254	Territorial Instincts	459507	talent-passive	TraitNodeEntry	false	0	Rotational	class		102394	126458	1				
+Hunter	Marksmanship	254	The Bell Tolls	467644	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Dark Ranger	94957	136231	1				
+Hunter	Marksmanship	254	Through the Eyes	1277565	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Dark Ranger	94986	136742	1				
+Hunter	Marksmanship	254	Touch of Grass	1258402	talent-passive	TraitNodeEntry	false	0	Rotational	class		109487	135710	2				
+Hunter	Marksmanship	254	Trailblazer	199921	talent-passive	TraitNodeEntry	false	0	Rotational	class		110155	136675	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Trick Shots	257621	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103957	128378	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Trigger Finger	459534	talent-passive	TraitNodeEntry	false	0	Rotational	class		102396	126460	2				
+Hunter	Marksmanship	254	Twilight Requiem	1264904	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sentinel	110028	136522	1				
+Hunter	Marksmanship	254	Umbral Reach	1235397	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Dark Ranger	94982	132888	1				
+Hunter	Marksmanship	254	Unbreakable Bond	1223323	talent-passive	TraitNodeEntry	false	0	Rotational	spec		104127	129619	1				
+Hunter	Marksmanship	254	Unerring Vision	474738	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103958	132194	1				
+Hunter	Marksmanship	254	Unload	1277548	talent-passive	TraitNodeEntry	false	0	Rotational	spec		104095	128609	1				
+Hunter	Marksmanship	254	Unmatched Precision	1232955	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103950	128370	2				
+Hunter	Marksmanship	254	Unnatural Causes	459527	talent-passive	TraitNodeEntry	false	0	Rotational	class		102387	126450	1				
+Hunter	Marksmanship	254	Wailing Dead	1264290	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Dark Ranger	109800	136058	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	Wilderness Medicine	343242	talent-passive	TraitNodeEntry	false	0	Rotational	class		102383	126446	1				
+Hunter	Marksmanship	254	Windrunner Quiver	473523	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103952	128372	1				
+Hunter	Marksmanship	254	Withering Fire	466990	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Dark Ranger	94993	117590	1	Other		cdm-only:CooldownSetSpell	
+Hunter	Marksmanship	254	In the Rhythm	407404	cdm-only	CooldownSetSpell	false	0	Rotational						Buff			
+Hunter	Marksmanship	254	Spotter's Mark	1219616	cdm-only	CooldownSetSpell	false	0	Rotational						Buff			

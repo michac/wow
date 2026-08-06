@@ -1,0 +1,156 @@
+class	spec	spec_id	name	spell_id	origin	source	castable	cooldown	band	tree	hero_tree	node_id	entry_id	max_ranks	blizz_category	seed_bucket	also_from	aliases
+Demon Hunter	Vengeance	581	Darkness	196718	talent-active	TraitNodeEntry	true	300	Cooldown	class		91002	112921	1	Buff/Utility	Class 7 (Raid Defensive)	cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Soul Carver	207407	talent-active	TraitNodeEntry	true	60	Cooldown	spec		90982	112898	1	Buff/Essential		class-baseline:SkillLineAbility:1848;cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Chaos Nova	179057	talent-active	TraitNodeEntry	true	45	Cooldown	class		108729	134282	1	Buff/Utility	CC	cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Imprison	217832	talent-active	TraitNodeEntry	true	45	Cooldown	class		91007	112927	1	Utility	Class 6 (Dispel)	cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Fel Devastation	212084	talent-active	TraitNodeEntry	true	40	Rotational	spec		90991	112908	1	Essential		cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Spirit Bomb	247454	talent-active	TraitNodeEntry	true	25	Rotational	spec		90990	112907	1	Essential		cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Vengeful Retreat	198793	talent-active	TraitNodeEntry	true	25	Rotational	class		90942	112853	1	Utility		cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Felblade	232893	talent-active	TraitNodeEntry	true	12	Rotational	class		108722	134271	1	Utility		cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Consume Magic	278326	talent-active	TraitNodeEntry	true	10	Rotational	class		91006	112926	1	Utility	Class 5 (Purge)	cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Fiery Brand	204021	talent-active	TraitNodeEntry	true	0	Rotational	spec		90951	112864	1	Essential/Other	Personal Defensive 1	cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Sigil of Chains	202138	talent-active	TraitNodeEntry	true	0	Rotational	spec		90954	112867	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Sigil of Misery	207684	talent-active	TraitNodeEntry	true	0	Rotational	class		90946	112859	1	Buff/Utility	CC 2	cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Sigil of Spite	390163	talent-active	TraitNodeEntry	true	0	Rotational	spec		90978	112894	1	Essential		cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Sigil of Silence	202137	talent-choice	TraitNodeEntry	true	0	Rotational	spec		90988	112904	1	Buff/Utility	Class 2 (CC)	cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Metamorphosis	191427	class-baseline	SkillLineAbility:1848	true	120	Cooldown						Essential/Other	Cooldown 1	class-baseline:SpecializationSpells;cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Fury of the Illidari	201467	class-baseline	SkillLineAbility:1848	true	60	Cooldown									
+Demon Hunter	Vengeance	581	Spectral Sight	188501	class-baseline	SkillLineAbility:1848	true	30	Rotational						Buff/Utility	Class 4 (Special)	cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Disrupt	183752	class-baseline	SkillLineAbility:1848	true	15	Rotational						Utility	Interrupt	cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Demon Spikes	203720	class-baseline	SpecializationSpells	true	1.5	Rotational						Essential/Other	Rotational 4	cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Immolation Aura	258920	class-baseline	SkillLineAbility:1848	true	1.5	Rotational						Buff/Essential	Rotational 3	cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Fel Rush	344865	class-baseline	SkillLineAbility:1848	true	1	Rotational									
+Demon Hunter	Vengeance	581	Glide	131347	class-baseline	SkillLineAbility:1848	true	1	Rotational									
+Demon Hunter	Vengeance	581	Infernal Strike	189110	class-baseline	SpecializationSpells	true	1	Rotational						Utility	Movement Ability	cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Chaos Strike	344862	class-baseline	SkillLineAbility:1848	true	0	Rotational									
+Demon Hunter	Vengeance	581	Demon's Bite	344859	class-baseline	SkillLineAbility:1848	true	0	Rotational									
+Demon Hunter	Vengeance	581	Fracture	263642	class-baseline	SpecializationSpells	true	0	Rotational						Essential	Rotational 1	cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Sigil of Flame	204596	class-baseline	SkillLineAbility:1848	true	0	Rotational						Buff/Essential	Rotational 5	class-baseline:SpecializationSpells;cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Single-Button Assistant	1229376	class-baseline	SpecializationSpells	true	0	Rotational									
+Demon Hunter	Vengeance	581	Soul Cleave	228477	class-baseline	SpecializationSpells	true	0	Rotational						Essential	Rotational 2	cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Throw Glaive	185123	class-baseline	SkillLineAbility:1848	true	0	Rotational						Essential	Class 3 (Tag)	class-baseline:SpecializationSpells;cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Torment	185245	class-baseline	SkillLineAbility:1848	true	0	Rotational						Utility	Taunt/Quick Access	cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Rain from Above	206803	pvp-talent	PvpTalent	true	90	Cooldown						Essential	PvP	cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Illidan's Grasp	205630	pvp-talent	PvpTalent	true	60	Cooldown						Utility	PvP 2	cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Reverse Magic	205604	pvp-talent	PvpTalent	true	60	Cooldown							PvP 3		
+Demon Hunter	Vengeance	581	Demonic Trample	205629	pvp-talent	PvpTalent	true	0.8	Rotational									
+Demon Hunter	Vengeance	581	Blood Moon	355995	pvp-talent	PvpTalent	false	0	Rotational									
+Demon Hunter	Vengeance	581	Cleansed by Flame	205625	pvp-talent	PvpTalent	false	0	Rotational									
+Demon Hunter	Vengeance	581	Cover of Darkness	357419	pvp-talent	PvpTalent	false	0	Rotational									
+Demon Hunter	Vengeance	581	Detainment	205596	pvp-talent	PvpTalent	false	0	Rotational									
+Demon Hunter	Vengeance	581	Everlasting Hunt	205626	pvp-talent	PvpTalent	false	0	Rotational									
+Demon Hunter	Vengeance	581	Glimpse	354489	pvp-talent	PvpTalent	false	0	Rotational									
+Demon Hunter	Vengeance	581	Jagged Spikes	205627	pvp-talent	PvpTalent	false	0	Rotational									
+Demon Hunter	Vengeance	581	Lay In Wait	1235091	pvp-talent	PvpTalent	false	0	Rotational									
+Demon Hunter	Vengeance	581	Sigil Mastery	211489	pvp-talent	PvpTalent	false	0	Rotational									
+Demon Hunter	Vengeance	581	Tormentor	207029	pvp-talent	PvpTalent	true	0	Rotational									
+Demon Hunter	Vengeance	581	Unending Hatred	213480	pvp-talent	PvpTalent	false	0	Rotational									
+Demon Hunter	Vengeance	581	Agonizing Flames	207548	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90971	112887	1				
+Demon Hunter	Vengeance	581	Aldrachi Design	391409	talent-passive	TraitNodeEntry	false	0	Rotational	class		90999	112917	1				
+Demon Hunter	Vengeance	581	Aldrachi Tactics	442683	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Aldrachi Reaver	94914	117511	1				
+Demon Hunter	Vengeance	581	Army Unto Oneself	442714	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Aldrachi Reaver	94896	117493	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Art of the Glaive	442290	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Aldrachi Reaver	94915	117512	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Ascending Flame	428603	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90960	112875	1				
+Demon Hunter	Vengeance	581	Aura of Pain	207347	talent-passive	TraitNodeEntry	false	0	Rotational	class		90933	112844	1				
+Demon Hunter	Vengeance	581	Bladecraft	1272153	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Aldrachi Reaver	94906	117503	1				
+Demon Hunter	Vengeance	581	Blazing Path	320416	talent-passive	TraitNodeEntry	false	0	Rotational	class		95150	117759	1				
+Demon Hunter	Vengeance	581	Bouncing Glaives	320386	talent-passive	TraitNodeEntry	false	0	Rotational	class		90931	112841	1				
+Demon Hunter	Vengeance	581	Broken Spirit	1272143	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Aldrachi Reaver	109771	136029	1				
+Demon Hunter	Vengeance	581	Burn It Out	1266316	talent-passive	TraitNodeEntry	false	0	Rotational	class		90927	112837	1				
+Demon Hunter	Vengeance	581	Burning Alive	207739	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90959	112873	1				
+Demon Hunter	Vengeance	581	Burning Blood	390213	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90987	112903	1				
+Demon Hunter	Vengeance	581	Calcified Spikes	389720	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90967	112882	1				
+Demon Hunter	Vengeance	581	Catastrophe	1253769	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Annihilator	109453	135671	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Celestial Echoes	1253415	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Annihilator	109451	135669	1				
+Demon Hunter	Vengeance	581	Chains of Anger	389715	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90964	112879	1				
+Demon Hunter	Vengeance	581	Champion of the Glaive	429211	talent-passive	TraitNodeEntry	false	0	Rotational	class		90994	117768	1				
+Demon Hunter	Vengeance	581	Charred Flesh	336639	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90962	112877	2				
+Demon Hunter	Vengeance	581	Charred Warblades	213010	talent-passive	TraitNodeEntry	false	0	Rotational	class		90948	112861	1				
+Demon Hunter	Vengeance	581	Cycle of Binding	389718	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90963	112878	1				
+Demon Hunter	Vengeance	581	Dark Matter	1256307	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Annihilator	109444	135662	1				
+Demon Hunter	Vengeance	581	Darkglare Boon	389708	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90985	112901	1				
+Demon Hunter	Vengeance	581	Demon Muzzle	1266329	talent-passive	TraitNodeEntry	false	0	Rotational	class		90928	112838	1				
+Demon Hunter	Vengeance	581	Demonic Resilience	1266307	talent-passive	TraitNodeEntry	false	0	Rotational	class		90997	117755	1				
+Demon Hunter	Vengeance	581	Disrupting Fury	183782	talent-passive	TraitNodeEntry	false	0	Rotational	class		90937	112848	1				
+Demon Hunter	Vengeance	581	Doomsayer	1253676	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Annihilator	109450	135668	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Down in Flames	389732	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90961	112876	1				
+Demon Hunter	Vengeance	581	Erratic Felheart	391397	talent-passive	TraitNodeEntry	false	0	Rotational	class		90996	112914	2				
+Demon Hunter	Vengeance	581	Evasive Action	444926	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Aldrachi Reaver	94911	117508	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Fallout	227174	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90972	112888	1				
+Demon Hunter	Vengeance	581	Feast of Souls	207697	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90969	112884	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Feed the Demon	218612	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90966	112881	1				
+Demon Hunter	Vengeance	581	Fel Flame Fortification	389705	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90955	112868	1				
+Demon Hunter	Vengeance	581	Felbound	1266762	talent-passive	TraitNodeEntry	false	0	Rotational	class		108728	134281	1				
+Demon Hunter	Vengeance	581	Felfire Fist	389724	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90953	112866	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Felfire Haste	389846	talent-passive	TraitNodeEntry	false	0	Rotational	class		90939	112850	1				
+Demon Hunter	Vengeance	581	Fiery Demise	389220	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90958	112872	2				
+Demon Hunter	Vengeance	581	Final Breath	1266500	talent-passive	TraitNodeEntry	false	0	Rotational	class		110011	136501	1				
+Demon Hunter	Vengeance	581	Final Hour	1253805	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Annihilator	109445	135663	1				
+Demon Hunter	Vengeance	581	First In, Last Out	1266497	talent-passive	TraitNodeEntry	false	0	Rotational	class		95149	117758	1				
+Demon Hunter	Vengeance	581	Focused Cleave	343207	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90975	112891	1				
+Demon Hunter	Vengeance	581	Focused Ire	1266296	talent-passive	TraitNodeEntry	false	0	Rotational	class		95154	117767	1				
+Demon Hunter	Vengeance	581	Frailty	389958	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90977	112893	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Furious	1266326	talent-passive	TraitNodeEntry	false	0	Rotational	class		95152	117762	1				
+Demon Hunter	Vengeance	581	Fury of the Aldrachi	442718	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Aldrachi Reaver	94898	117495	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Harness the Cosmos	1279247	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Annihilator	109450	136810	1				
+Demon Hunter	Vengeance	581	Illidari Knowledge	389696	talent-passive	TraitNodeEntry	false	0	Rotational	class		90935	112846	2				
+Demon Hunter	Vengeance	581	Improved Disrupt	320361	talent-passive	TraitNodeEntry	false	0	Rotational	class		90938	112849	1				
+Demon Hunter	Vengeance	581	Improved Sigil of Misery	320418	talent-passive	TraitNodeEntry	false	0	Rotational	class		90945	112858	1				
+Demon Hunter	Vengeance	581	Incisive Blade	442492	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Aldrachi Reaver	94895	117492	1				
+Demon Hunter	Vengeance	581	Incorruptible Spirit	442736	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Aldrachi Reaver	94896	123046	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Infernal Armor	320331	talent-passive	TraitNodeEntry	false	0	Rotational	class		91004	112924	2				
+Demon Hunter	Vengeance	581	Internal Struggle	393822	talent-passive	TraitNodeEntry	false	0	Rotational	class		90934	112845	1				
+Demon Hunter	Vengeance	581	Keen Edge	1272138	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Aldrachi Reaver	109770	136028	1				
+Demon Hunter	Vengeance	581	Keen Engagement	442497	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Aldrachi Reaver	94910	117507	1				
+Demon Hunter	Vengeance	581	Last Resort	209258	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90979	112895	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Live by the Glaive	428607	talent-passive	TraitNodeEntry	false	0	Rotational	class		95151	117761	1				
+Demon Hunter	Vengeance	581	Long Night	389781	talent-passive	TraitNodeEntry	false	0	Rotational	class		91001	112920	1				
+Demon Hunter	Vengeance	581	Lost in Darkness	389849	talent-passive	TraitNodeEntry	false	0	Rotational	class		90947	112860	1				
+Demon Hunter	Vengeance	581	Mass Acceleration	1256295	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Annihilator	109447	135665	1				
+Demon Hunter	Vengeance	581	Master of the Glaive	389763	talent-passive	TraitNodeEntry	false	0	Rotational	class		90994	112912	1				
+Demon Hunter	Vengeance	581	Meteoric Fall	1253391	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Annihilator	109446	135664	1				
+Demon Hunter	Vengeance	581	Meteoric Rise	1253377	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Annihilator	109455	135673	1				
+Demon Hunter	Vengeance	581	Otherworldly Focus	1253817	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Annihilator	109443	135661	1				
+Demon Hunter	Vengeance	581	Painbringer	207387	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90976	112892	2	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Path to Oblivion	1253399	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Annihilator	109448	135666	1				
+Demon Hunter	Vengeance	581	Perfectly Balanced Glaive	320387	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90970	112886	1				
+Demon Hunter	Vengeance	581	Phase Shift	1256245	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Annihilator	109452	135670	1				
+Demon Hunter	Vengeance	581	Pitch Black	389783	talent-passive	TraitNodeEntry	false	0	Rotational	class		91001	112919	1				
+Demon Hunter	Vengeance	581	Preemptive Strike	444997	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Aldrachi Reaver	94910	122422	1				
+Demon Hunter	Vengeance	581	Pursuit	320654	talent-passive	TraitNodeEntry	false	0	Rotational	class		90940	112851	1				
+Demon Hunter	Vengeance	581	Quickened Sigils	209281	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90989	112906	1				
+Demon Hunter	Vengeance	581	Reaver's Mark	442679	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Aldrachi Reaver	94903	117500	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Remorseless	1266328	talent-passive	TraitNodeEntry	false	0	Rotational	class		90929	112839	1				
+Demon Hunter	Vengeance	581	Retaliation	389729	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90952	112865	1				
+Demon Hunter	Vengeance	581	Revel in Pain	343014	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90957	112871	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Roaring Fire	391178	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90988	112905	1				
+Demon Hunter	Vengeance	581	Ruinous Bulwark	326853	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90965	112880	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Shattered Restoration	389824	talent-passive	TraitNodeEntry	false	0	Rotational	class		90950	112863	1				
+Demon Hunter	Vengeance	581	Soul Barrier	1265924	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90956	112870	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Soul Cleanse	1266496	talent-passive	TraitNodeEntry	false	0	Rotational	class		90927	136502	1				
+Demon Hunter	Vengeance	581	Soul Rending	204909	talent-passive	TraitNodeEntry	false	0	Rotational	class		90936	112847	2				
+Demon Hunter	Vengeance	581	Soul Sigils	395446	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90956	112869	1				
+Demon Hunter	Vengeance	581	Soul Splitter	1266330	talent-passive	TraitNodeEntry	false	0	Rotational	class		90949	112862	2				
+Demon Hunter	Vengeance	581	Soulcrush	389985	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90980	112896	1				
+Demon Hunter	Vengeance	581	Soulmonger	389711	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90973	112889	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	State of Matter	1253402	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Annihilator	109448	135659	1				
+Demon Hunter	Vengeance	581	Stoke the Flames	393827	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90984	112900	1				
+Demon Hunter	Vengeance	581	Swallowed Anger	320313	talent-passive	TraitNodeEntry	false	0	Rotational	class		91005	112925	1				
+Demon Hunter	Vengeance	581	Swift Erasure	1253668	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Annihilator	109454	135672	1				
+Demon Hunter	Vengeance	581	Tempered Steel	1265800	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90968	112883	1				
+Demon Hunter	Vengeance	581	Thrill of the Fight	442686	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Aldrachi Reaver	94919	117516	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Unhindered Assault	444931	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Aldrachi Reaver	94911	123047	1				
+Demon Hunter	Vengeance	581	Unrestrained Fury	320770	talent-passive	TraitNodeEntry	false	0	Rotational	class		90941	112852	1				
+Demon Hunter	Vengeance	581	Untethered Rage	1270444	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110425	137043	1	Buff		talent-passive:TraitNodeEntry;cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Vengeful Beast	1265818	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90983	112899	1				
+Demon Hunter	Vengeance	581	Vengeful Bonds	320635	talent-passive	TraitNodeEntry	false	0	Rotational	class		90930	112840	1				
+Demon Hunter	Vengeance	581	Void Reaver	268175	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90974	112890	1				
+Demon Hunter	Vengeance	581	Voidfall	1253304	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Annihilator	109449	135667	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Vengeance	581	Volatile Flameblood	390808	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90986	112902	1				
+Demon Hunter	Vengeance	581	Vulnerability	389976	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90981	112897	2				
+Demon Hunter	Vengeance	581	Warblade's Hunger	442502	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Aldrachi Reaver	109769	136027	1				
+Demon Hunter	Vengeance	581	Will of the Illidari	389695	talent-passive	TraitNodeEntry	false	0	Rotational	class		91000	112918	2				
+Demon Hunter	Vengeance	581	Wings of Wrath	1266493	talent-passive	TraitNodeEntry	false	0	Rotational	class		110010	136500	1				
+Demon Hunter	Vengeance	581	World Killer	1256353	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Annihilator	109442	135660	1				
+Demon Hunter	Vengeance	581	Wounded Quarry	442806	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Aldrachi Reaver	94897	117494	1				
+Demon Hunter	Vengeance	581	Soul Fragments	203981	cdm-only	CooldownSetSpell	true	0	Rotational						Buff			

@@ -1,0 +1,186 @@
+class	spec	spec_id	name	spell_id	origin	source	castable	cooldown	band	tree	hero_tree	node_id	entry_id	max_ranks	blizz_category	seed_bucket	also_from	aliases
+Shaman	Restoration	264	Earth Elemental	198103	talent-active	TraitNodeEntry	true	180	Cooldown	class		103585	127858	1	Buff/Utility	Personal Defensive 2	cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Astral Shift	108271	talent-active	TraitNodeEntry	true	120	Cooldown	class		103616	127893	1	Buff/Utility	Personal Defensive 1	cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Spiritwalker's Grace	79206	talent-active	TraitNodeEntry	true	120	Cooldown	class		103584	127857	1	Other/Utility	Class 4 (Special)	cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Wind Rush Totem	192077	talent-active	TraitNodeEntry	true	120	Cooldown	class		103627	127909	1	Buff/Utility	Class 1 (Movement)	cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Capacitor Totem	192058	talent-active	TraitNodeEntry	true	60	Cooldown	class		103579	127851	1	Buff/Utility	CC	cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Nature's Swiftness	378081	talent-active	TraitNodeEntry	true	60	Cooldown	class		103620	127899	1	Buff/Essential	Rotational 8	cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Ancestral Swiftness	443454	talent-active	TraitNodeEntry	true	30	Rotational	hero	Farseer	94894	117491	1				
+Shaman	Restoration	264	Earthgrab Totem	51485	talent-active	TraitNodeEntry	true	30	Rotational	class		103622	127902	1		Slow		
+Shaman	Restoration	264	Hex	51514	talent-active	TraitNodeEntry	true	30	Rotational	class		103623	127903	1	Buff/Utility	Class 3 (Tag)	class-baseline:SkillLineAbility:924;cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Surging Totem	444995	talent-active	TraitNodeEntry	true	25	Rotational	hero	Totemic	94877	117474	1	Essential		cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Healing Rain	73920	talent-active	TraitNodeEntry	true	18	Rotational	spec		81040	101923	1	Essential/Other	Cooldown 2	cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Wind Shear	57994	talent-active	TraitNodeEntry	true	12	Rotational	class		103615	127892	1	Utility	Interrupt	cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Totemic Projection	108287	talent-active	TraitNodeEntry	true	10	Rotational	class		109386	135590	1	Utility	Class 7 (Raid Defensive)	cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Chain Heal	1064	talent-active	TraitNodeEntry	true	0	Rotational	class		103588	127861	1	Essential	Rotational 7	cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Chain Lightning	188443	talent-active	TraitNodeEntry	true	0	Rotational	class		103583	127856	1		Rotational 4		
+Shaman	Restoration	264	Earth Shield	974	talent-active	TraitNodeEntry	true	0	Rotational	class		103596	127871	1		Self-Heal 4 (Emergency/Overflow)		
+Shaman	Restoration	264	Earthliving Weapon	382021	talent-active	TraitNodeEntry	true	0	Rotational	spec		81049	101935	1				
+Shaman	Restoration	264	Frost Shock	196840	talent-active	TraitNodeEntry	true	0	Rotational	class		109492	135718	1	Buff/Essential		cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Healing Stream Totem	5394	talent-active	TraitNodeEntry	true	0	Rotational	spec		81022	101900	1	Essential/Other	Self-Heal 3 (Overflow)	talent-active:TraitNodeEntry;cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Lava Burst	51505	talent-active	TraitNodeEntry	true	0	Rotational	class		103598	127873	1	Essential	Rotational 2	cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Riptide	61295	talent-active	TraitNodeEntry	true	0	Rotational	spec		81027	101905	1	Essential	Rotational 5	cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Spirit Link Totem	98008	talent-active	TraitNodeEntry	true	0	Rotational	spec		81041	101924	1	Buff/Essential	Cooldown 4	cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Unleash Life	73685	talent-active	TraitNodeEntry	true	0	Rotational	spec		92675	114811	1	Buff/Essential	Cooldown 3	cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Ascendance	114052	talent-choice	TraitNodeEntry	true	180	Cooldown	spec		81032	101912	1	Essential/Other	Cooldown 1	cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Healing Tide Totem	108280	talent-choice	TraitNodeEntry	true	180	Cooldown	spec		81032	135486	1	Essential/Other		cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Poison Cleansing Totem	383013	talent-choice	TraitNodeEntry	true	120	Cooldown	class		103599	136567	1	Buff/Utility		cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Spirit Walk	58875	talent-choice	TraitNodeEntry	true	60	Cooldown	class		103591	127865	1	Buff/Utility	Movement Ability 2	cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Tremor Totem	8143	talent-choice	TraitNodeEntry	true	60	Cooldown	class		103599	127874	1	Buff/Utility	Class 2 (CC)	cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Gust of Wind	192063	talent-choice	TraitNodeEntry	true	20	Rotational	class		103591	127864	1	Utility		cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Greater Purge	378773	talent-choice	TraitNodeEntry	true	12	Rotational	class		103624	127904	1	Utility		cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Purge	370	talent-choice	TraitNodeEntry	true	0	Rotational	class		103624	127905	1		Class 5 (Purge)		
+Shaman	Restoration	264	Astral Recall	556	class-baseline	SkillLineAbility:924	true	600	Cooldown						Essential		cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Bloodlust	2825	class-baseline	SkillLineAbility:924	true	300	Cooldown						Utility		cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Heroism	32182	class-baseline	SkillLineAbility:924	true	300	Cooldown						Utility	Class 8 (Lust/BRes)	cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Stormkeeper	205495	class-baseline	SkillLineAbility:924	true	60	Cooldown									
+Shaman	Restoration	264	Earthbind Totem	2484	class-baseline	SkillLineAbility:924	true	30	Rotational						Buff/Utility		cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Cleanse Spirit	440012	class-baseline	SpecializationSpells	true	8	Rotational									
+Shaman	Restoration	264	Flame Shock	470411	class-baseline	SkillLineAbility:924	true	6	Rotational						Buff/Essential	Rotational 3	cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Ancestral Guidance	114911	class-baseline	SkillLineAbility:924	true	0	Rotational									
+Shaman	Restoration	264	Ancestral Spirit	2008	class-baseline	SkillLineAbility:924	true	0	Rotational							Res		
+Shaman	Restoration	264	Ancestral Vision	212048	class-baseline	SpecializationSpells	true	0	Rotational							Buff		
+Shaman	Restoration	264	Downpour	207778	class-baseline	SkillLineAbility:924	true	0	Rotational						Buff		talent-passive:TraitNodeEntry;cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Earthquake	77478	class-baseline	SkillLineAbility:924	true	0	Rotational									
+Shaman	Restoration	264	Fae Transfusion	328930	class-baseline	SkillLineAbility:924	true	0	Rotational									
+Shaman	Restoration	264	Far Sight	6196	class-baseline	SkillLineAbility:924	true	0	Rotational									
+Shaman	Restoration	264	Flametongue Attack	10444	class-baseline	SkillLineAbility:924	true	0	Rotational									
+Shaman	Restoration	264	Ghost Wolf	2645	class-baseline	SkillLineAbility:924	true	0	Rotational						Buff	Movement Ability	cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Healing Surge	8004	class-baseline	SkillLineAbility:924	true	0	Rotational							Self-Heal 1		
+Shaman	Restoration	264	Healing Wave	77472	class-baseline	SpecializationSpells	true	0	Rotational							Rotational 6		
+Shaman	Restoration	264	Lightning Bolt	188196	class-baseline	SkillLineAbility:924	true	0	Rotational							Rotational 1		
+Shaman	Restoration	264	Lightning Shield	192106	class-baseline	SkillLineAbility:924	true	0	Rotational						Buff		cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Primal Strike	73899	class-baseline	SkillLineAbility:924	true	0	Rotational									
+Shaman	Restoration	264	Primordial Wave	327163	class-baseline	SkillLineAbility:924	true	0	Rotational									
+Shaman	Restoration	264	Purify Spirit	77130	class-baseline	SpecializationSpells	true	0	Rotational						Utility	Class 6 (Dispel)	cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Single-Button Assistant	1229376	class-baseline	SpecializationSpells	true	0	Rotational									
+Shaman	Restoration	264	Skyfury	462854	class-baseline	SkillLineAbility:924	true	0	Rotational									
+Shaman	Restoration	264	Stormstrike	32175	class-baseline	SkillLineAbility:924	true	0	Rotational									
+Shaman	Restoration	264	Stormstrike Off-Hand	32176	class-baseline	SkillLineAbility:924	true	0	Rotational									
+Shaman	Restoration	264	Surge of Earth	320747	class-baseline	SkillLineAbility:924	true	0	Rotational									
+Shaman	Restoration	264	Water Shield	52127	class-baseline	SpecializationSpells	true	0	Rotational						Buff		cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Water Walking	546	class-baseline	SkillLineAbility:924	true	0	Rotational						Buff		cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Windfury Attack	25504	class-baseline	SkillLineAbility:924	true	0	Rotational									
+Shaman	Restoration	264	Windlash	114089	class-baseline	SkillLineAbility:924	true	0	Rotational									
+Shaman	Restoration	264	Windlash Off-Hand	114093	class-baseline	SkillLineAbility:924	true	0	Rotational									
+Shaman	Restoration	264	Windstrike	115356	class-baseline	SkillLineAbility:924	true	0	Rotational									
+Shaman	Restoration	264	Windstrike Off-Hand	115360	class-baseline	SkillLineAbility:924	true	0	Rotational									
+Shaman	Restoration	264	Burrow	409293	pvp-talent	PvpTalent	true	120	Cooldown						Buff/Utility		cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Static Field Totem	355580	pvp-talent	PvpTalent	true	90	Cooldown						Buff/Utility		cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Counterstrike Totem	204331	pvp-talent	PvpTalent	true	45	Cooldown						Buff/Utility		cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Lightning Lasso	305483	pvp-talent	PvpTalent	true	45	Cooldown						Buff/Utility		cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Grounding Totem	204336	pvp-talent	PvpTalent	true	30	Rotational						Other/Utility		cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Call of Al'Akir	1246131	pvp-talent	PvpTalent	false	0	Rotational									
+Shaman	Restoration	264	Electrocute	206642	pvp-talent	PvpTalent	false	0	Rotational									
+Shaman	Restoration	264	Master of the Elements	462375	pvp-talent	PvpTalent	false	0	Rotational						Buff		cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Rain Dance	290250	pvp-talent	PvpTalent	false	0	Rotational									
+Shaman	Restoration	264	Storm Conduit	1217092	pvp-talent	PvpTalent	false	0	Rotational									
+Shaman	Restoration	264	Totem of Wrath	460697	pvp-talent	PvpTalent	false	0	Rotational						Buff		cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Acid Rain	378443	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81039	101922	1				
+Shaman	Restoration	264	Amplification Core	445029	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Totemic	94874	117471	1	Buff		cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Ancestral Awakening	382309	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81043	101927	2				
+Shaman	Restoration	264	Ancestral Influence	1270446	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	109732	135990	1				
+Shaman	Restoration	264	Ancestral Reach	382732	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81031	101911	1				
+Shaman	Restoration	264	Ancestral Vigor	207401	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103429	127673	2				
+Shaman	Restoration	264	Ancestral Wolf Affinity	382197	talent-passive	TraitNodeEntry	false	0	Rotational	class		103610	127886	1				
+Shaman	Restoration	264	Ancient Fellowship	443423	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94862	123632	1				
+Shaman	Restoration	264	Arctic Snowstorm	462764	talent-passive	TraitNodeEntry	false	0	Rotational	class		109493	135717	1				
+Shaman	Restoration	264	Ascending Air	462791	talent-passive	TraitNodeEntry	false	0	Rotational	class		103607	127883	1				
+Shaman	Restoration	264	Astral Bulwark	377933	talent-passive	TraitNodeEntry	false	0	Rotational	class		103611	127887	1				
+Shaman	Restoration	264	Brimming with Life	381689	talent-passive	TraitNodeEntry	false	0	Rotational	class		103582	127855	2	Buff		cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Call of the Ancestors	443450	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94888	117485	1	Buff		cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Calm Waters	1252841	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81019	101896	1				
+Shaman	Restoration	264	Coalescing Water	470076	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81042	101925	1	Buff		cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Crashing Waves	1253090	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110084	136583	1				
+Shaman	Restoration	264	Current Control	1253093	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81038	101920	1				
+Shaman	Restoration	264	Deeply Rooted Elements	378270	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81051	101937	1				
+Shaman	Restoration	264	Deluge	200076	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81037	101919	1				
+Shaman	Restoration	264	Double Dip	1252882	talent-passive	TraitNodeEntry	false	0	Rotational	spec		104124	128703	1				
+Shaman	Restoration	264	Earthen Accord	1271104	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110083	136582	1				
+Shaman	Restoration	264	Earthen Communion	443441	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94858	123631	1				
+Shaman	Restoration	264	Earthen Harmony	382020	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103430	127674	1				
+Shaman	Restoration	264	Earthsurge	455590	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Totemic	94881	125822	1				
+Shaman	Restoration	264	Earthweaver	1254210	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81046	101931	1				
+Shaman	Restoration	264	Echo of the Elements	333919	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81055	101942	1				
+Shaman	Restoration	264	Elemental Attunement	1263288	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Totemic	109725	135983	1				
+Shaman	Restoration	264	Elemental Orbit	383010	talent-passive	TraitNodeEntry	false	0	Rotational	class		103602	127877	1				
+Shaman	Restoration	264	Elemental Resistance	462368	talent-passive	TraitNodeEntry	false	0	Rotational	class		103601	127876	1				
+Shaman	Restoration	264	Elemental Reverb	443418	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94869	117466	1				
+Shaman	Restoration	264	Elemental Warding	381650	talent-passive	TraitNodeEntry	false	0	Rotational	class		103586	127859	1				
+Shaman	Restoration	264	Encasing Cold	462762	talent-passive	TraitNodeEntry	false	0	Rotational	class		109493	135719	1	Buff		cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Enhanced Imbues	462796	talent-passive	TraitNodeEntry	false	0	Rotational	class		103606	127881	1				
+Shaman	Restoration	264	Final Calling	443446	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94875	117472	1				
+Shaman	Restoration	264	Fire and Ice	382886	talent-passive	TraitNodeEntry	false	0	Rotational	class		103605	127880	1				
+Shaman	Restoration	264	First Ascendant	462440	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81033	101913	1				
+Shaman	Restoration	264	Flow of the Tides	382039	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81031	101910	1				
+Shaman	Restoration	264	Graceful Spirit	192088	talent-passive	TraitNodeEntry	false	0	Rotational	class		103626	127908	1				
+Shaman	Restoration	264	Heed My Call	443444	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94884	117481	1				
+Shaman	Restoration	264	Imbuement Mastery	445028	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Totemic	94871	117468	1				
+Shaman	Restoration	264	Improved Earthliving Weapon	382315	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81050	101936	1				
+Shaman	Restoration	264	Improved Purify Spirit	383016	talent-passive	TraitNodeEntry	false	0	Rotational	class		81073	101964	1				
+Shaman	Restoration	264	Instinctive Imbuements	1270350	talent-passive	TraitNodeEntry	false	0	Rotational	class		109387	135591	1				
+Shaman	Restoration	264	Jet Stream	462817	talent-passive	TraitNodeEntry	false	0	Rotational	class		103607	127882	1				
+Shaman	Restoration	264	Latent Wisdom	443449	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94862	117459	1				
+Shaman	Restoration	264	Lively Totems	445034	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Totemic	94882	117479	1				
+Shaman	Restoration	264	Living Stream	382482	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81018	101895	1				
+Shaman	Restoration	264	Maelstrom Supremacy	443447	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94883	117480	1				
+Shaman	Restoration	264	Mana Spring	381930	talent-passive	TraitNodeEntry	false	0	Rotational	class		103587	127860	1				
+Shaman	Restoration	264	Mystic Knowledge	1270450	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	109730	135988	1	Buff		cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Natural Harmony	443442	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94858	117455	1				
+Shaman	Restoration	264	Nature's Fury	381655	talent-passive	TraitNodeEntry	false	0	Rotational	class		103617	127894	2				
+Shaman	Restoration	264	Nature's Guardian	30884	talent-passive	TraitNodeEntry	false	0	Rotational	class		103613	127890	1				
+Shaman	Restoration	264	Offering from Beyond	443451	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94887	117484	1				
+Shaman	Restoration	264	Overflowing Shores	383222	talent-passive	TraitNodeEntry	false	0	Rotational	spec		92677	114813	1				
+Shaman	Restoration	264	Oversized Totems	445026	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Totemic	94859	117456	1				
+Shaman	Restoration	264	Oversurge	445030	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Totemic	94874	125823	1				
+Shaman	Restoration	264	Planes Traveler	381647	talent-passive	TraitNodeEntry	false	0	Rotational	class		103611	127888	1				
+Shaman	Restoration	264	Preeminence	462443	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81033	135485	1				
+Shaman	Restoration	264	Primal Catalyst	1260874	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Totemic	109724	135982	1				
+Shaman	Restoration	264	Primal Tide Core	382045	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80976	101842	1				
+Shaman	Restoration	264	Primordial Bond	1279819	talent-passive	TraitNodeEntry	false	0	Rotational	class		103612	127889	1				
+Shaman	Restoration	264	Primordial Capacity	443448	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94860	117457	1				
+Shaman	Restoration	264	Pulse Capacitor	445032	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Totemic	94866	117463	1				
+Shaman	Restoration	264	Quickstream	1253099	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81048	101934	1				
+Shaman	Restoration	264	Reactive Warding	462454	talent-passive	TraitNodeEntry	false	0	Rotational	class		103593	136584	1				
+Shaman	Restoration	264	Refreshing Waters	378211	talent-passive	TraitNodeEntry	false	0	Rotational	class		103594	127869	1				
+Shaman	Restoration	264	Resurgence	16196	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81024	101902	1				
+Shaman	Restoration	264	Rip Current	1254251	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109301	135487	1				
+Shaman	Restoration	264	Routine Communication	443445	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94884	123630	1				
+Shaman	Restoration	264	Soothing Rain	1252874	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103428	127672	1				
+Shaman	Restoration	264	Spirit Wolf	260878	talent-passive	TraitNodeEntry	false	0	Rotational	class		103581	127854	1	Buff		cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Spiritual Awakening	1270375	talent-passive	TraitNodeEntry	false	0	Rotational	class		110085	136585	1				
+Shaman	Restoration	264	Spiritwalker's Aegis	378077	talent-passive	TraitNodeEntry	false	0	Rotational	class		103626	127907	1	Other		cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Spiritwalker's Momentum	443425	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94861	117458	1				
+Shaman	Restoration	264	Splitstream	445035	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Totemic	94872	117469	1				
+Shaman	Restoration	264	Spouting Spirits	462383	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103915	128332	1				
+Shaman	Restoration	264	Static Charge	265046	talent-passive	TraitNodeEntry	false	0	Rotational	class		103618	127896	2				
+Shaman	Restoration	264	Stormstream Totem	1267016	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110403	136977	1	Buff		talent-passive:TraitNodeEntry;cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Supportive Imbuements	445033	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Totemic	94866	125824	1				
+Shaman	Restoration	264	Swift Recall	445027	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Totemic	94859	125825	1				
+Shaman	Restoration	264	Therazane's Resilience	1217622	talent-passive	TraitNodeEntry	false	0	Rotational	class		103593	127868	1				
+Shaman	Restoration	264	Thunderous Paws	378075	talent-passive	TraitNodeEntry	false	0	Rotational	class		103581	127853	1	Buff		cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Tidal Waves	51564	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81044	101928	1	Buff		cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Tidewaters	462424	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103433	127679	1				
+Shaman	Restoration	264	Torrent	200072	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103432	127678	1				
+Shaman	Restoration	264	Totemic Coordination	445036	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Totemic	94881	117478	1				
+Shaman	Restoration	264	Totemic Focus	382201	talent-passive	TraitNodeEntry	false	0	Rotational	class		103625	127906	1				
+Shaman	Restoration	264	Totemic Momentum	1260644	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Totemic	109726	135984	1				
+Shaman	Restoration	264	Totemic Rebound	445025	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Totemic	94890	117487	1				
+Shaman	Restoration	264	Totemic Surge	381867	talent-passive	TraitNodeEntry	false	0	Rotational	class		109388	135592	1				
+Shaman	Restoration	264	Undercurrent	382194	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81052	101939	2	Buff		cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Voodoo Mastery	204268	talent-passive	TraitNodeEntry	false	0	Rotational	class		103600	127875	1	Buff		cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Water Expulsion	1253014	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103434	127680	1				
+Shaman	Restoration	264	Water Totem Mastery	382030	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81021	101899	1				
+Shaman	Restoration	264	Wavespeaker's Blessing	381946	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103427	127671	2				
+Shaman	Restoration	264	Whirling Elements	445024	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Totemic	94879	117476	1				
+Shaman	Restoration	264	White Water	462587	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81047	101932	1				
+Shaman	Restoration	264	Wind Barrier	445031	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Totemic	94891	117488	1	Buff		cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Winds of Al'Akir	382215	talent-passive	TraitNodeEntry	false	0	Rotational	class		103614	127891	2				
+Shaman	Restoration	264	Windspeaker	1270447	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	109731	135989	1				
+Shaman	Restoration	264	Windveil	355630	talent-passive	TraitNodeEntry	false	0	Rotational	class		103628	127910	1	Buff		cdm-only:CooldownSetSpell	
+Shaman	Restoration	264	Reincarnation	20608	cdm-only	CooldownSetSpell	false	1800	Cooldown						Utility			
+Shaman	Restoration	264	Lava Surge	77756	cdm-only	CooldownSetSpell	false	0	Rotational						Buff			
+Shaman	Restoration	264	Whirling Air	453409	cdm-only	CooldownSetSpell	true	0	Rotational						Buff			
+Shaman	Restoration	264	Whirling Earth	453406	cdm-only	CooldownSetSpell	true	0	Rotational						Buff			
+Shaman	Restoration	264	Whirling Water	453407	cdm-only	CooldownSetSpell	true	0	Rotational						Buff			
+Shaman	Restoration	264	Wind Rush	192082	cdm-only	CooldownSetSpell	true	0	Rotational						Buff			

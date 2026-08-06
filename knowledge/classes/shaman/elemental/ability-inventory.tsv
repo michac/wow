@@ -1,0 +1,182 @@
+class	spec	spec_id	name	spell_id	origin	source	castable	cooldown	band	tree	hero_tree	node_id	entry_id	max_ranks	blizz_category	seed_bucket	also_from	aliases
+Shaman	Elemental	262	Ascendance	114050	talent-active	TraitNodeEntry	true	180	Cooldown	spec		80989	101860	1	Buff/Essential	Cooldown 1	cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Earth Elemental	198103	talent-active	TraitNodeEntry	true	180	Cooldown	class		103585	127858	1	Buff/Utility	Personal Defensive 2	cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Astral Shift	108271	talent-active	TraitNodeEntry	true	120	Cooldown	class		103616	127893	1	Buff/Utility	Personal Defensive 1	cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Spiritwalker's Grace	79206	talent-active	TraitNodeEntry	true	120	Cooldown	class		103584	127857	1	Buff/Utility	Class 4 (Special)	cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Wind Rush Totem	192077	talent-active	TraitNodeEntry	true	120	Cooldown	class		103627	127909	1	Buff/Utility	Class 1 (Movement)	cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Capacitor Totem	192058	talent-active	TraitNodeEntry	true	60	Cooldown	class		103579	127851	1	Buff/Utility	CC	cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Nature's Swiftness	378081	talent-active	TraitNodeEntry	true	60	Cooldown	class		103620	127899	1	Buff/Essential		cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Stormkeeper	191634	talent-active	TraitNodeEntry	true	60	Cooldown	spec		80988	101859	1	Buff/Essential	Cooldown 2	class-baseline:SkillLineAbility:924;cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Ancestral Swiftness	443454	talent-active	TraitNodeEntry	true	30	Rotational	hero	Farseer	94894	117491	1	Buff		cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Earthgrab Totem	51485	talent-active	TraitNodeEntry	true	30	Rotational	class		103622	127902	1		Slow		
+Shaman	Elemental	262	Hex	51514	talent-active	TraitNodeEntry	true	30	Rotational	class		103623	127903	1	Buff/Utility	Class 3 (Tag)	class-baseline:SkillLineAbility:924;cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Wind Shear	57994	talent-active	TraitNodeEntry	true	12	Rotational	class		103615	127892	1	Utility	Interrupt	cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Totemic Projection	108287	talent-active	TraitNodeEntry	true	10	Rotational	class		109386	135590	1	Utility	Class 7 (Raid Defensive)	cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Voltaic Blaze	470057	talent-active	TraitNodeEntry	true	10	Rotational	spec		81007	101883	1				
+Shaman	Elemental	262	Cleanse Spirit	51886	talent-active	TraitNodeEntry	true	8	Rotational	class		103608	127884	1	Utility	Class 6 (Dispel)	cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Chain Heal	1064	talent-active	TraitNodeEntry	true	0	Rotational	class		103588	127861	1		Self-Heal 2		
+Shaman	Elemental	262	Chain Lightning	188443	talent-active	TraitNodeEntry	true	0	Rotational	class		103583	127856	1	Essential	Rotational 4	cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Earth Shield	974	talent-active	TraitNodeEntry	true	0	Rotational	class		103596	127871	1		Self-Heal 4 (Emergency/Overflow)		
+Shaman	Elemental	262	Flametongue Weapon	318038	talent-active	TraitNodeEntry	true	0	Rotational	spec		81004	101879	1				
+Shaman	Elemental	262	Frost Shock	196840	talent-active	TraitNodeEntry	true	0	Rotational	class		109492	135718	1	Buff/Essential		cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Healing Stream Totem	5394	talent-active	TraitNodeEntry	true	0	Rotational	class		103590	127863	1	Buff/Utility	Self-Heal 3 (Overflow)	cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Lava Burst	51505	talent-active	TraitNodeEntry	true	0	Rotational	class		103598	127873	1	Essential	Rotational 2	cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Poison Cleansing Totem	383013	talent-choice	TraitNodeEntry	true	120	Cooldown	class		103599	136567	1	Buff/Utility		cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Spirit Walk	58875	talent-choice	TraitNodeEntry	true	60	Cooldown	class		103591	127865	1	Buff/Utility	Movement Ability 2	cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Tremor Totem	8143	talent-choice	TraitNodeEntry	true	60	Cooldown	class		103599	127874	1	Buff/Utility	Class 2 (CC)	cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Gust of Wind	192063	talent-choice	TraitNodeEntry	true	20	Rotational	class		103591	127864	1	Utility		cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Greater Purge	378773	talent-choice	TraitNodeEntry	true	12	Rotational	class		103624	127904	1	Utility		cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Earth Shock	8042	talent-choice	TraitNodeEntry	true	0	Rotational	spec		80984	101854	1	Essential		cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Earthquake	462620	talent-choice	TraitNodeEntry	true	0	Rotational	spec		80985	101855	1	Buff/Essential		talent-choice:TraitNodeEntry;class-baseline:SkillLineAbility:924;cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Elemental Blast	117014	talent-choice	TraitNodeEntry	true	0	Rotational	spec		80984	127924	1	Essential		cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Purge	370	talent-choice	TraitNodeEntry	true	0	Rotational	class		103624	127905	1		Class 5 (Purge)		
+Shaman	Elemental	262	Thunderstrike Ward	462757	talent-choice	TraitNodeEntry	true	0	Rotational	spec		103631	135716	1				
+Shaman	Elemental	262	Astral Recall	556	class-baseline	SkillLineAbility:924	true	600	Cooldown						Essential		cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Bloodlust	2825	class-baseline	SkillLineAbility:924	true	300	Cooldown						Utility		cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Heroism	32182	class-baseline	SkillLineAbility:924	true	300	Cooldown						Utility	Class 8 (Lust/BRes)	cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Earthbind Totem	2484	class-baseline	SkillLineAbility:924	true	30	Rotational						Buff/Utility		cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Thunderstorm	51490	class-baseline	SpecializationSpells	true	30	Rotational						Utility	CC 2	cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Flame Shock	470411	class-baseline	SkillLineAbility:924	true	6	Rotational						Essential/Other	Rotational 3	cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Ancestral Guidance	114911	class-baseline	SkillLineAbility:924	true	0	Rotational									
+Shaman	Elemental	262	Ancestral Spirit	2008	class-baseline	SkillLineAbility:924	true	0	Rotational							Res		
+Shaman	Elemental	262	Downpour	207778	class-baseline	SkillLineAbility:924	true	0	Rotational									
+Shaman	Elemental	262	Fae Transfusion	328930	class-baseline	SkillLineAbility:924	true	0	Rotational									
+Shaman	Elemental	262	Far Sight	6196	class-baseline	SkillLineAbility:924	true	0	Rotational									
+Shaman	Elemental	262	Flametongue Attack	10444	class-baseline	SkillLineAbility:924	true	0	Rotational									
+Shaman	Elemental	262	Ghost Wolf	2645	class-baseline	SkillLineAbility:924	true	0	Rotational						Buff	Movement Ability	cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Healing Surge	8004	class-baseline	SkillLineAbility:924	true	0	Rotational							Self-Heal 1		
+Shaman	Elemental	262	Lightning Bolt	188196	class-baseline	SkillLineAbility:924	true	0	Rotational						Essential	Rotational 1	cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Lightning Shield	192106	class-baseline	SkillLineAbility:924	true	0	Rotational						Buff		cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Primal Strike	73899	class-baseline	SkillLineAbility:924	true	0	Rotational									
+Shaman	Elemental	262	Primordial Wave	327163	class-baseline	SkillLineAbility:924	true	0	Rotational									
+Shaman	Elemental	262	Single-Button Assistant	1229376	class-baseline	SpecializationSpells	true	0	Rotational									
+Shaman	Elemental	262	Skyfury	462854	class-baseline	SkillLineAbility:924	true	0	Rotational							Buff		
+Shaman	Elemental	262	Stormstrike	32175	class-baseline	SkillLineAbility:924	true	0	Rotational									
+Shaman	Elemental	262	Stormstrike Off-Hand	32176	class-baseline	SkillLineAbility:924	true	0	Rotational									
+Shaman	Elemental	262	Surge of Earth	320747	class-baseline	SkillLineAbility:924	true	0	Rotational									
+Shaman	Elemental	262	Water Walking	546	class-baseline	SkillLineAbility:924	true	0	Rotational						Buff		cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Windfury Attack	25504	class-baseline	SkillLineAbility:924	true	0	Rotational									
+Shaman	Elemental	262	Windlash	114089	class-baseline	SkillLineAbility:924	true	0	Rotational									
+Shaman	Elemental	262	Windlash Off-Hand	114093	class-baseline	SkillLineAbility:924	true	0	Rotational									
+Shaman	Elemental	262	Windstrike	115356	class-baseline	SkillLineAbility:924	true	0	Rotational									
+Shaman	Elemental	262	Windstrike Off-Hand	115360	class-baseline	SkillLineAbility:924	true	0	Rotational									
+Shaman	Elemental	262	Burrow	409293	pvp-talent	PvpTalent	true	120	Cooldown						Buff/Utility		cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Static Field Totem	355580	pvp-talent	PvpTalent	true	90	Cooldown						Buff/Utility		cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Counterstrike Totem	204331	pvp-talent	PvpTalent	true	45	Cooldown						Buff/Utility		cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Lightning Lasso	305483	pvp-talent	PvpTalent	true	45	Cooldown						Buff/Utility		cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Grounding Totem	204336	pvp-talent	PvpTalent	true	30	Rotational						Buff/Utility		cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Electrocute	206642	pvp-talent	PvpTalent	false	0	Rotational									
+Shaman	Elemental	262	Shamanism	193876	pvp-talent	PvpTalent	false	0	Rotational									
+Shaman	Elemental	262	Storm Conduit	1217092	pvp-talent	PvpTalent	false	0	Rotational									
+Shaman	Elemental	262	Totem of Wrath	460697	pvp-talent	PvpTalent	false	0	Rotational						Buff		cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Aftershock	273221	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81000	101873	1				
+Shaman	Elemental	262	Amped Up	1269360	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103638	127919	1				
+Shaman	Elemental	262	Ancestral Influence	1270446	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	109732	135990	1				
+Shaman	Elemental	262	Ancestral Wolf Affinity	382197	talent-passive	TraitNodeEntry	false	0	Rotational	class		103610	127886	1				
+Shaman	Elemental	262	Ancient Fellowship	443423	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94862	123632	1				
+Shaman	Elemental	262	Arc Discharge	455096	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94885	117482	1				
+Shaman	Elemental	262	Arctic Snowstorm	462764	talent-passive	TraitNodeEntry	false	0	Rotational	class		109493	135717	1				
+Shaman	Elemental	262	Ascending Air	462791	talent-passive	TraitNodeEntry	false	0	Rotational	class		103607	127883	1				
+Shaman	Elemental	262	Astral Bulwark	377933	talent-passive	TraitNodeEntry	false	0	Rotational	class		103611	127887	1				
+Shaman	Elemental	262	Awakening Storms	455129	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94867	117464	1				
+Shaman	Elemental	262	Brimming with Life	381689	talent-passive	TraitNodeEntry	false	0	Rotational	class		103582	127855	2	Buff		cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Call of Fire	378255	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80992	101864	1	Other		cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Call of the Ancestors	443450	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94888	117485	1	Buff		cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Charged Conduit	468625	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80991	101862	1				
+Shaman	Elemental	262	Conductive Energy	455123	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94868	117465	1				
+Shaman	Elemental	262	Crackling Fury	1269215	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103632	127914	2				
+Shaman	Elemental	262	Descending Skies	1264688	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	109727	135985	1				
+Shaman	Elemental	262	Earthen Communion	443441	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94858	123631	1				
+Shaman	Elemental	262	Earthen Rage	170374	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81010	101887	1				
+Shaman	Elemental	262	Earthshatter	468626	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80995	101867	1				
+Shaman	Elemental	262	Echo Chamber	382032	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81015	101892	1				
+Shaman	Elemental	262	Echo of the Elements	333919	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80981	101850	1				
+Shaman	Elemental	262	Electroshock	454022	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94863	128226	1	Buff		cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Elemental Fury	60188	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80983	101853	1				
+Shaman	Elemental	262	Elemental Orbit	383010	talent-passive	TraitNodeEntry	false	0	Rotational	class		103602	127877	1				
+Shaman	Elemental	262	Elemental Resistance	462368	talent-passive	TraitNodeEntry	false	0	Rotational	class		103601	127876	1				
+Shaman	Elemental	262	Elemental Resonance	1258895	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103631	127913	1				
+Shaman	Elemental	262	Elemental Reverb	443418	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94869	117466	1				
+Shaman	Elemental	262	Elemental Unity	462866	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103633	127915	1				
+Shaman	Elemental	262	Elemental Warding	381650	talent-passive	TraitNodeEntry	false	0	Rotational	class		103586	127859	1				
+Shaman	Elemental	262	Encasing Cold	462762	talent-passive	TraitNodeEntry	false	0	Rotational	class		109493	135719	1	Buff		cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Enhanced Imbues	462796	talent-passive	TraitNodeEntry	false	0	Rotational	class		103606	127881	1				
+Shaman	Elemental	262	Everlasting Elements	462867	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103634	127916	1				
+Shaman	Elemental	262	Eye of the Storm	381708	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81003	101877	1				
+Shaman	Elemental	262	Feedback Loop	1270061	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110402	136974	1			talent-passive:TraitNodeEntry	
+Shaman	Elemental	262	Final Calling	443446	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94875	117472	1				
+Shaman	Elemental	262	Fire and Ice	382886	talent-passive	TraitNodeEntry	false	0	Rotational	class		103605	127880	1				
+Shaman	Elemental	262	First Ascendant	462440	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103640	127921	1				
+Shaman	Elemental	262	Flames of the Cauldron	378266	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103630	127912	1				
+Shaman	Elemental	262	Flames of the Firelord	381784	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103641	127922	1				
+Shaman	Elemental	262	Flash of Lightning	381936	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80990	101861	1				
+Shaman	Elemental	262	Fury of the Storms	191717	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80998	101871	1	Other		cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Fusion of Elements	462840	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80993	101865	1				
+Shaman	Elemental	262	Graceful Spirit	192088	talent-passive	TraitNodeEntry	false	0	Rotational	class		103626	127908	1				
+Shaman	Elemental	262	Heed My Call	443444	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94884	117481	1				
+Shaman	Elemental	262	Herald of the Storms	468571	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80998	128223	1				
+Shaman	Elemental	262	Inferno Arc	1259047	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81008	101885	1				
+Shaman	Elemental	262	Instinctive Imbuements	1270350	talent-passive	TraitNodeEntry	false	0	Rotational	class		109387	135591	1				
+Shaman	Elemental	262	Jet Stream	462817	talent-passive	TraitNodeEntry	false	0	Rotational	class		103607	127882	1				
+Shaman	Elemental	262	Latent Wisdom	443449	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94862	117459	1				
+Shaman	Elemental	262	Lava Flows	1273485	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110186	136713	1				
+Shaman	Elemental	262	Lightning Capacitor	462862	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80997	101870	1				
+Shaman	Elemental	262	Lightning Conduit	467778	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94863	117460	1	Buff		cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Lightning Rod	210689	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81012	101889	1				
+Shaman	Elemental	262	Maelstrom Supremacy	443447	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94883	117480	1				
+Shaman	Elemental	262	Mana Spring	381930	talent-passive	TraitNodeEntry	false	0	Rotational	class		103587	127860	1				
+Shaman	Elemental	262	Master of the Elements	16166	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80999	136714	1	Buff		cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Molten Wrath	1258843	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80999	101872	1				
+Shaman	Elemental	262	Mountains Will Fall	381726	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81002	101876	1				
+Shaman	Elemental	262	Mystic Knowledge	1270450	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	109730	135988	1				
+Shaman	Elemental	262	Natural Gift	1264691	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	109728	135986	1				
+Shaman	Elemental	262	Natural Harmony	443442	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94858	117455	1				
+Shaman	Elemental	262	Nature's Fury	381655	talent-passive	TraitNodeEntry	false	0	Rotational	class		103617	127894	2				
+Shaman	Elemental	262	Nature's Guardian	30884	talent-passive	TraitNodeEntry	false	0	Rotational	class		103613	127890	1				
+Shaman	Elemental	262	Nature's Protection	454027	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94880	117477	1				
+Shaman	Elemental	262	Offering from Beyond	443451	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94887	117484	1				
+Shaman	Elemental	262	Path of the Seer	1269364	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110066	136561	1				
+Shaman	Elemental	262	Planes Traveler	381647	talent-passive	TraitNodeEntry	false	0	Rotational	class		103611	127888	1				
+Shaman	Elemental	262	Power of the Maelstrom	191861	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80996	101869	1	Buff		cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Preeminence	462443	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103640	128224	1				
+Shaman	Elemental	262	Primal Elementalist	117013	talent-passive	TraitNodeEntry	false	0	Rotational	spec		80978	101844	1				
+Shaman	Elemental	262	Primordial Bond	1279819	talent-passive	TraitNodeEntry	false	0	Rotational	class		103612	127889	1				
+Shaman	Elemental	262	Primordial Capacity	443448	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94860	117457	1				
+Shaman	Elemental	262	Primordial Fury	378193	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103639	127920	1				
+Shaman	Elemental	262	Purging Flames	1259471	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103637	101884	1	Buff		cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Reactive Warding	462454	talent-passive	TraitNodeEntry	false	0	Rotational	class		103593	136584	1				
+Shaman	Elemental	262	Refreshing Waters	378211	talent-passive	TraitNodeEntry	false	0	Rotational	class		103594	127869	1				
+Shaman	Elemental	262	Rolling Thunder	454026	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94889	117486	1				
+Shaman	Elemental	262	Routine Communication	443445	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94884	123630	1				
+Shaman	Elemental	262	Searing Flames	381782	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81005	101880	1				
+Shaman	Elemental	262	Spirit Wolf	260878	talent-passive	TraitNodeEntry	false	0	Rotational	class		103581	127854	1	Buff		cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Spiritual Awakening	1270375	talent-passive	TraitNodeEntry	false	0	Rotational	class		110085	136585	1				
+Shaman	Elemental	262	Spiritwalker's Aegis	378077	talent-passive	TraitNodeEntry	false	0	Rotational	class		103626	127907	1	Buff		cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Spiritwalker's Momentum	443425	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	94861	117458	1				
+Shaman	Elemental	262	Static Charge	265046	talent-passive	TraitNodeEntry	false	0	Rotational	class		103618	127896	2				
+Shaman	Elemental	262	Storm Frenzy	462695	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103635	127917	1				
+Shaman	Elemental	262	Storm Infusion	1258889	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103636	127918	1				
+Shaman	Elemental	262	Storm Swell	455088	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94873	117470	1	Buff		cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Stormcaller	454021	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94893	117490	1				
+Shaman	Elemental	262	Stormwell	1264762	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	109729	135987	1				
+Shaman	Elemental	262	Supercharge	455110	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94873	128225	1				
+Shaman	Elemental	262	Surging Currents	454372	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94880	125617	1	Buff		cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Swelling Maelstrom	381707	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81016	101893	1				
+Shaman	Elemental	262	Tectonic Collapse	1258899	talent-passive	TraitNodeEntry	false	0	Rotational	spec		81000	101874	1				
+Shaman	Elemental	262	Tempest	454009	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94892	117489	1	Buff		cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Therazane's Resilience	1217622	talent-passive	TraitNodeEntry	false	0	Rotational	class		103593	127868	1				
+Shaman	Elemental	262	Thunderous Paws	378075	talent-passive	TraitNodeEntry	false	0	Rotational	class		103581	127853	1	Buff		cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Totemic Focus	382201	talent-passive	TraitNodeEntry	false	0	Rotational	class		103625	127906	1				
+Shaman	Elemental	262	Totemic Surge	381867	talent-passive	TraitNodeEntry	false	0	Rotational	class		109388	135592	1				
+Shaman	Elemental	262	Unlimited Power	454391	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94886	117483	1	Buff		cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Voltaic Surge	454919	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Stormbringer	94870	117467	1				
+Shaman	Elemental	262	Voodoo Mastery	204268	talent-passive	TraitNodeEntry	false	0	Rotational	class		103600	127875	1	Buff		cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Winds of Al'Akir	382215	talent-passive	TraitNodeEntry	false	0	Rotational	class		103614	127891	2				
+Shaman	Elemental	262	Windspeaker	1270447	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Farseer	109731	135989	1				
+Shaman	Elemental	262	Windveil	355630	talent-passive	TraitNodeEntry	false	0	Rotational	class		103628	127910	1	Buff		cdm-only:CooldownSetSpell	
+Shaman	Elemental	262	Reincarnation	20608	cdm-only	CooldownSetSpell	false	1800	Cooldown						Utility			
+Shaman	Elemental	262	Elemental Blast: Critical Strike	118522	cdm-only	CooldownSetSpell	true	0	Rotational						Buff			
+Shaman	Elemental	262	Elemental Blast: Haste	173183	cdm-only	CooldownSetSpell	true	0	Rotational						Buff			
+Shaman	Elemental	262	Elemental Blast: Mastery	173184	cdm-only	CooldownSetSpell	true	0	Rotational						Buff			
+Shaman	Elemental	262	Lava Surge	77756	cdm-only	CooldownSetSpell	false	0	Rotational						Buff			
+Shaman	Elemental	262	Wind Rush	192082	cdm-only	CooldownSetSpell	true	0	Rotational						Buff			

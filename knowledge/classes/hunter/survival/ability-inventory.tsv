@@ -1,0 +1,194 @@
+class	spec	spec_id	name	spell_id	origin	source	castable	cooldown	band	tree	hero_tree	node_id	entry_id	max_ranks	blizz_category	seed_bucket	also_from	aliases
+Hunter	Survival	255	Takedown	1250646	talent-active	TraitNodeEntry	true	90	Cooldown	spec		109323	135514	1	Essential/Other	Cooldown 1	cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Boomstick	1261193	talent-active	TraitNodeEntry	true	60	Cooldown	spec		109324	135515	1	Essential	Rotational 5	cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Camouflage	199483	talent-active	TraitNodeEntry	true	60	Cooldown	class		110156	136676	1	Buff/Utility	Self-Heal 4 (Emergency/Overflow)	cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Intimidation	19577	talent-active	TraitNodeEntry	true	60	Cooldown	class		103989	128412	1	Buff/Utility	CC	pet:SkillLineAbility:270;cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Binding Shot	109248	talent-active	TraitNodeEntry	true	45	Cooldown	class		109488	135711	1	Buff/Utility	CC 2	class-baseline:SkillLineAbility:795;cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Misdirection	34477	talent-active	TraitNodeEntry	true	30	Rotational	class		102419	126484	1	Utility	Class 3 (Tag)	cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Muzzle	187707	talent-active	TraitNodeEntry	true	15	Rotational	class		79837	100543	1	Utility	Interrupt	cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Tranquilizing Shot	19801	talent-active	TraitNodeEntry	true	10	Rotational	class		109489	135712	1	Utility	Class 5 (Purge)	cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Concussive Shot	5116	talent-active	TraitNodeEntry	true	5	Rotational	class		102407	126471	1		Slow		
+Hunter	Survival	255	Flamefang Pitch	1251592	talent-active	TraitNodeEntry	true	0	Rotational	spec		102252	126311	1	Essential	Rotational 4	cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Kill Command	259489	talent-active	TraitNodeEntry	true	0	Rotational	spec		102255	126314	1	Essential	Rotational 1	cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Raptor Strike	186270	talent-active	TraitNodeEntry	true	0	Rotational	spec		102262	126322	1	Essential	Rotational 2	cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Survival of the Fittest	264735	talent-active	TraitNodeEntry	true	0	Rotational	class		102422	126488	1	Buff/Utility	Personal Defensive 1	cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Wildfire Bomb	259495	talent-active	TraitNodeEntry	true	0	Rotational	spec		102264	126324	1	Essential/Other	Rotational 3	cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Roar of Sacrifice	53480	talent-choice	TraitNodeEntry	true	120	Cooldown	class		110164	136686	1	Buff/Utility	Class 7 (Raid Defensive)	cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Tar Trap	187698	talent-choice	TraitNodeEntry	true	30	Rotational	class		102393	126457	1	Buff/Utility	Class 1 (Movement)	cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Scare Beast	1513	talent-choice	TraitNodeEntry	true	0	Rotational	class		102393	135707	1	Buff/Utility		cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Aspect of the Chameleon	61648	class-baseline	SkillLineAbility:795	true	180	Cooldown									
+Hunter	Survival	255	Aspect of the Cheetah	186257	class-baseline	SkillLineAbility:795	true	180	Cooldown						Buff/Utility	Movement Ability	cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Aspect of the Turtle	186265	class-baseline	SkillLineAbility:795	true	180	Cooldown						Buff/Utility	Immune/Spell Immune/Movement	cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Exhilaration	109304	class-baseline	SkillLineAbility:795	true	120	Cooldown						Utility	Self-Heal 1	cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Aspect of the Eagle	186289	class-baseline	SpecializationSpells	true	90	Cooldown						Other/Utility	Cooldown 2	cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Titan's Thunder	207068	class-baseline	SkillLineAbility:795	true	60	Cooldown									
+Hunter	Survival	255	Death Chakram	325028	class-baseline	SkillLineAbility:795	true	45	Cooldown									
+Hunter	Survival	255	Fury of the Eagle	203415	class-baseline	SkillLineAbility:795	true	45	Cooldown									
+Hunter	Survival	255	Feign Death	5384	class-baseline	SkillLineAbility:795	true	30	Rotational						Buff/Utility	Personal Defensive 2	cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Freezing Trap	187650	class-baseline	SkillLineAbility:795	true	30	Rotational						Buff/Utility	Class 2 (CC)	cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Play Dead	209997	class-baseline	SkillLineAbility:795	true	30	Rotational									
+Hunter	Survival	255	Wake Up	210000	class-baseline	SkillLineAbility:795	true	30	Rotational									
+Hunter	Survival	255	Flare	1543	class-baseline	SkillLineAbility:795	true	20	Rotational							Class 6 (Dispel)		
+Hunter	Survival	255	Windburst	204147	class-baseline	SkillLineAbility:795	true	20	Rotational									
+Hunter	Survival	255	Feed Pet	6991	class-baseline	SkillLineAbility:795	true	10	Rotational									
+Hunter	Survival	255	Mend Pet	136	class-baseline	SkillLineAbility:795	true	10	Rotational							Self-Heal 2		
+Hunter	Survival	255	Disengage	781	class-baseline	SkillLineAbility:795	true	1	Rotational						Utility		cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Harpoon	190925	class-baseline	SpecializationSpells	true	1	Rotational						Utility	Movement Ability 2	cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Ancient Zandalari Knowledge	138430	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Survival	255	Arcane Shot	185358	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Survival	255	Beast Lore	1462	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Survival	255	Bestial Wrath	344572	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Survival	255	Call Pet 1	883	class-baseline	SkillLineAbility:795	true	0	Rotational							Class 4 (Special)		
+Hunter	Survival	255	Call Pet 2	83242	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Survival	255	Call Pet 3	83243	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Survival	255	Call Pet 4	83244	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Survival	255	Call Pet 5	83245	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Survival	255	Chakrams	259398	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Survival	255	Command Pet	272651	class-baseline	SkillLineAbility:795	true	0	Rotational						Utility		cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Control Pet	93322	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Survival	255	Dismiss Pet	2641	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Survival	255	Eyes of the Beast	321297	class-baseline	SpecializationSpells	true	0	Rotational									
+Hunter	Survival	255	Fetch	125050	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Survival	255	Fireworks	127933	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Survival	255	Hatchet Toss	193265	class-baseline	SpecializationSpells	true	0	Rotational									
+Hunter	Survival	255	Hunter's Mark	257284	class-baseline	SkillLineAbility:795	true	0	Rotational						Buff	Free	cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Hybrid Kinship	242155	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Survival	255	Mecha-Bond Imprint Matrix	205154	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Survival	255	Revive Pet	982	class-baseline	SkillLineAbility:795	true	0	Rotational							Self-Heal 3 (Overflow)		
+Hunter	Survival	255	Single-Button Assistant	1229376	class-baseline	SpecializationSpells	true	0	Rotational									
+Hunter	Survival	255	Steady Shot	56641	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Survival	255	Steel Trap	162487	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Survival	255	Stopping Power	175686	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Survival	255	Tame Beast	1515	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Survival	255	Track Beasts	1494	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Survival	255	Track Demons	19878	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Survival	255	Track Dragonkin	19879	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Survival	255	Track Elementals	19880	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Survival	255	Track Giants	19882	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Survival	255	Track Hidden	19885	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Survival	255	Track Humanoids	19883	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Survival	255	Track Mechanicals	229533	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Survival	255	Track Undead	19884	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Survival	255	Wailing Arrow	354831	class-baseline	SkillLineAbility:795	true	0	Rotational									
+Hunter	Survival	255	Wing Clip	195645	class-baseline	SkillLineAbility:795	true	0	Rotational						Buff/Utility		cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Chimaeral Sting	356719	pvp-talent	PvpTalent	true	60	Cooldown						Utility	PvP	cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Wild Kingdom	356707	pvp-talent	PvpTalent	true	60	Cooldown						Buff/Utility		cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Sticky Tar Bomb	407028	pvp-talent	PvpTalent	true	45	Cooldown						Utility		cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Mending Bandage	212640	pvp-talent	PvpTalent	true	25	Rotational						Essential/Utility		cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Tracker's Net	212638	pvp-talent	PvpTalent	true	25	Rotational						Utility		cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Diamond Ice	203340	pvp-talent	PvpTalent	false	0	Rotational									
+Hunter	Survival	255	Hunting Pack	203235	pvp-talent	PvpTalent	false	0	Rotational									
+Hunter	Survival	255	Interlope	248518	pvp-talent	PvpTalent	false	0	Rotational									
+Hunter	Survival	255	Survival Tactics	202746	pvp-talent	PvpTalent	false	0	Rotational									
+Hunter	Survival	255	Dash	61684	pet	SkillLineAbility:270	true	20	Rotational									
+Hunter	Survival	255	Growl	2649	pet	SkillLineAbility:270	true	8	Rotational									
+Hunter	Survival	255	Arcane Talons	1253846	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sentinel	94970	117567	1				
+Hunter	Survival	255	Better Together	472357	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Pack Leader	94962	117559	1				
+Hunter	Survival	255	Blackrock Munitions	462036	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102282	135688	1				
+Hunter	Survival	255	Bloodseeker	260248	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102270	126330	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Bloody Claws	385737	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109307	135498	1				
+Hunter	Survival	255	Bonding	1262442	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109311	135502	1				
+Hunter	Survival	255	Born To Be Wild	266921	talent-passive	TraitNodeEntry	false	0	Rotational	class		102416	126481	2				
+Hunter	Survival	255	Can't Miss, Won't Miss	1253830	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sentinel	94990	117587	1				
+Hunter	Survival	255	Catlike Reflexes	1258404	talent-passive	TraitNodeEntry	false	0	Rotational	class		109486	135709	1				
+Hunter	Survival	255	Cold Feet	1268671	talent-passive	TraitNodeEntry	false	0	Rotational	class		110153	136672	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Combat Experience	1268871	talent-passive	TraitNodeEntry	false	0	Rotational	class		110157	136677	1				
+Hunter	Survival	255	Conditioning	1253887	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sentinel	94980	117577	1				
+Hunter	Survival	255	Devilsaur Tranquilizer	459991	talent-passive	TraitNodeEntry	false	0	Rotational	class		102415	126479	1				
+Hunter	Survival	255	Dire Summons	472352	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Pack Leader	94992	117589	1				
+Hunter	Survival	255	Disruptive Rounds	343244	talent-passive	TraitNodeEntry	false	0	Rotational	class		102395	126459	1				
+Hunter	Survival	255	Don't Look Back	450373	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sentinel	94989	117586	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Emergency Salve	459517	talent-passive	TraitNodeEntry	false	0	Rotational	class		102389	126452	1				
+Hunter	Survival	255	Explosives Expert	378937	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102281	126341	2				
+Hunter	Survival	255	Flamebreak	1253176	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109309	135493	1				
+Hunter	Survival	255	Flanked	1256938	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110161	136682	1				
+Hunter	Survival	255	Flanker's Advantage	459964	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102279	126339	1				
+Hunter	Survival	255	Fury of the Wyvern	472550	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Pack Leader	94984	117581	1				
+Hunter	Survival	255	Grenade Juggler	459843	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109317	135508	1				
+Hunter	Survival	255	Guardian's Hide	1272094	talent-passive	TraitNodeEntry	false	0	Rotational	class		110164	136685	1				
+Hunter	Survival	255	Guerrilla Tactics	264332	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102285	126345	1				
+Hunter	Survival	255	Guttural Roar	1258509	talent-passive	TraitNodeEntry	false	0	Rotational	class		102394	135704	1				
+Hunter	Survival	255	Hogstrider	472639	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Pack Leader	94988	117585	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Hoof and Blade	1264797	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Pack Leader	109804	136062	1				
+Hunter	Survival	255	Horsehair Tether	472729	talent-passive	TraitNodeEntry	false	0	Rotational	class		110152	136670	1				
+Hunter	Survival	255	Howl of the Pack Leader	471876	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Pack Leader	94991	117588	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Hunter's Avoidance	384799	talent-passive	TraitNodeEntry	false	0	Rotational	class		102423	126489	1				
+Hunter	Survival	255	Improved Aspect of the Cheetah	1258407	talent-passive	TraitNodeEntry	false	0	Rotational	class		109485	135708	1				
+Hunter	Survival	255	Improved Aspect of the Turtle	1258485	talent-passive	TraitNodeEntry	false	0	Rotational	class		102424	126490	1				
+Hunter	Survival	255	Improved Feign Death	1258486	talent-passive	TraitNodeEntry	false	0	Rotational	class		109484	135706	2				
+Hunter	Survival	255	Improved Snaring	1268868	talent-passive	TraitNodeEntry	false	0	Rotational	class		102414	126478	1				
+Hunter	Survival	255	Improved Traps	343247	talent-passive	TraitNodeEntry	false	0	Rotational	class		102418	126483	1				
+Hunter	Survival	255	Improved Wildfire Bomb	321290	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102289	126349	2				
+Hunter	Survival	255	Invigorating Pulse	450379	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sentinel	94971	117568	1				
+Hunter	Survival	255	Keen Eyesight	378004	talent-passive	TraitNodeEntry	false	0	Rotational	class		102409	126473	2				
+Hunter	Survival	255	Killer Companion	378955	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109312	135503	2				
+Hunter	Survival	255	Kindling Flare	459506	talent-passive	TraitNodeEntry	false	0	Rotational	class		102425	126491	1				
+Hunter	Survival	255	Kodo Tranquilizer	459983	talent-passive	TraitNodeEntry	false	0	Rotational	class		102415	126480	1				
+Hunter	Survival	255	Lethal Barbs	1264781	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Pack Leader	109803	136061	1				
+Hunter	Survival	255	Lethal Calibration	1262409	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102257	126316	1				
+Hunter	Survival	255	Lone Survivor	388039	talent-passive	TraitNodeEntry	false	0	Rotational	class		102391	126454	1				
+Hunter	Survival	255	Lunar Calling	1253852	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sentinel	94965	117562	1				
+Hunter	Survival	255	Lunar Storm	1253732	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sentinel	94978	117575	1				
+Hunter	Survival	255	Lunge	378934	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102272	126332	1				
+Hunter	Survival	255	Masterful Call	1268705	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Pack Leader	94979	123781	1				
+Hunter	Survival	255	Moment of Opportunity	459488	talent-passive	TraitNodeEntry	false	0	Rotational	class		110155	136674	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Mongoose Fury	1252708	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109310	135501	1	Other		cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Mongoose Rounds	1253945	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109316	135507	1				
+Hunter	Survival	255	Moon's Blessing	1253825	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sentinel	94973	117570	1				
+Hunter	Survival	255	Moonlight Chakram	1264902	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sentinel	109807	136065	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Natural Mending	270581	talent-passive	TraitNodeEntry	false	0	Rotational	class		102401	126465	2				
+Hunter	Survival	255	No Hard Feelings	459546	talent-passive	TraitNodeEntry	false	0	Rotational	class		102412	126476	1				
+Hunter	Survival	255	No Mercy	472660	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Pack Leader	94969	117566	1				
+Hunter	Survival	255	Open Fire	1253807	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sentinel	94958	135589	1				
+Hunter	Survival	255	Outland Venom	459939	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109306	135497	1				
+Hunter	Survival	255	Pack Mentality	472358	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Pack Leader	94985	117582	1				
+Hunter	Survival	255	Padded Armor	459450	talent-passive	TraitNodeEntry	false	0	Rotational	class		102406	126470	1				
+Hunter	Survival	255	Pathfinding	378002	talent-passive	TraitNodeEntry	false	0	Rotational	class		102404	126468	1				
+Hunter	Survival	255	Posthaste	109215	talent-passive	TraitNodeEntry	false	0	Rotational	class		102411	126475	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Precision Strikes	1267003	talent-passive	TraitNodeEntry	false	0	Rotational	class		102380	126443	1				
+Hunter	Survival	255	Primal Surge	1272154	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110159	136680	1				
+Hunter	Survival	255	Quick Reload	1272136	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110162	136683	1				
+Hunter	Survival	255	Radiant Edge	1264903	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sentinel	109805	136063	1				
+Hunter	Survival	255	Raptor Swipe	1259003	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110429	137055	1	Buff		talent-passive:TraitNodeEntry;cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Rejuvenating Wind	385539	talent-passive	TraitNodeEntry	false	0	Rotational	class		102381	126444	1				
+Hunter	Survival	255	Sanctified Armaments	1253831	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sentinel	94981	117578	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Savagery	1251790	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109320	135511	2				
+Hunter	Survival	255	Scout's Instincts	459455	talent-passive	TraitNodeEntry	false	0	Rotational	class		109483	135705	1				
+Hunter	Survival	255	Scout's Vigil	1253892	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sentinel	94980	123870	1				
+Hunter	Survival	255	Sentinel	1253599	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sentinel	94976	117573	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Serrated Tips	459502	talent-passive	TraitNodeEntry	false	0	Rotational	class		102384	126447	2				
+Hunter	Survival	255	Sharpened Claws	472524	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Pack Leader	94972	128358	1				
+Hunter	Survival	255	Sharpened Fangs	1264775	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Pack Leader	109802	136060	1				
+Hunter	Survival	255	Shell Cover	472707	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Pack Leader	94967	117564	1				
+Hunter	Survival	255	Shell Wall	1267218	talent-passive	TraitNodeEntry	false	0	Rotational	class		110154	136673	1				
+Hunter	Survival	255	Shellshock	1252931	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109319	135510	1				
+Hunter	Survival	255	Shower of Blood	1253053	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109304	135495	2				
+Hunter	Survival	255	Shrapnel Bomb	1253172	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109309	135500	1				
+Hunter	Survival	255	Sic 'Em	1253137	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109305	135496	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Slicked Shoes	472719	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Pack Leader	94979	117576	1				
+Hunter	Survival	255	Specialized Arsenal	459542	talent-passive	TraitNodeEntry	false	0	Rotational	class		102390	126453	1				
+Hunter	Survival	255	Stalk and Strike	1266069	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sentinel	110028	136521	1				
+Hunter	Survival	255	Stampede!	472741	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Pack Leader	94966	117563	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Stargazer	1253751	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sentinel	94958	117555	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Strike as One	1251717	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109321	135512	1				
+Hunter	Survival	255	Sweeping Spear	378950	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109313	135504	2				
+Hunter	Survival	255	Tar-Coated Bindings	459460	talent-passive	TraitNodeEntry	false	0	Rotational	class		110152	136671	1				
+Hunter	Survival	255	Territorial Instincts	459507	talent-passive	TraitNodeEntry	false	0	Rotational	class		102394	126458	1				
+Hunter	Survival	255	Tip of the Spear	260285	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102263	126323	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Touch of Grass	1258402	talent-passive	TraitNodeEntry	false	0	Rotational	class		109487	135710	2				
+Hunter	Survival	255	Trailblazer	199921	talent-passive	TraitNodeEntry	false	0	Rotational	class		110155	136675	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Trigger Finger	459534	talent-passive	TraitNodeEntry	false	0	Rotational	class		102396	126460	2				
+Hunter	Survival	255	Twilight Requiem	1264904	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Sentinel	110028	136522	1				
+Hunter	Survival	255	Twin Fangs	1272139	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109470	135689	1				
+Hunter	Survival	255	Two Against Many	1251718	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110163	136684	1				
+Hunter	Survival	255	Unnatural Causes	459527	talent-passive	TraitNodeEntry	false	0	Rotational	class		102387	126450	1				
+Hunter	Survival	255	Ursine Fury	472476	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Pack Leader	94972	117569	1				
+Hunter	Survival	255	Vulnerability	1257011	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102282	126342	1				
+Hunter	Survival	255	Wallop	1252738	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109307	136144	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Wilderness Medicine	343242	talent-passive	TraitNodeEntry	false	0	Rotational	class		102383	126446	1				
+Hunter	Survival	255	Wildfire Imbuement	1252943	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110160	136681	1	Buff		cdm-only:CooldownSetSpell	
+Hunter	Survival	255	Wildfire Infusion	460198	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102268	126328	1				
+Hunter	Survival	255	Wildfire Shells	1261229	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109316	136066	1				
+Hunter	Survival	255	Wyvern's Gaze	1264792	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Pack Leader	109804	136236	1				
+Hunter	Survival	255	Counter Shot	147362	cdm-only	CooldownSetSpell	true	24	Rotational						Utility			
+Hunter	Survival	255	Mastery: Spirit Bond	263135	cdm-only	CooldownSetSpell	false	0	Rotational						Buff			

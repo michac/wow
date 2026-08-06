@@ -1,0 +1,155 @@
+class	spec	spec_id	name	spell_id	origin	source	castable	cooldown	band	tree	hero_tree	node_id	entry_id	max_ranks	blizz_category	seed_bucket	also_from	aliases
+Evoker	Preservation	1468	Oppressing Roar	372048	talent-active	TraitNodeEntry	true	120	Cooldown	class		93298	115607	1	Buff/Utility	CC 2	cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Tip the Scales	370553	talent-active	TraitNodeEntry	true	120	Cooldown	class		93350	115665	1	Essential	Self-Heal 3 (Overflow)	cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Zephyr	374227	talent-active	TraitNodeEntry	true	120	Cooldown	class		93346	115661	1	Buff/Utility	Class 7 (Raid Defensive)	cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Landslide	358385	talent-active	TraitNodeEntry	true	90	Cooldown	class		93305	115614	1	Utility	Class 3 (Tag)	cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Cauterizing Flame	374251	talent-active	TraitNodeEntry	true	60	Cooldown	class		93294	115602	1	Utility	Self-Heal 4 (Emergency/Overflow)	cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Rescue	370665	talent-active	TraitNodeEntry	true	60	Cooldown	class		93288	115596	1	Utility	Class 5 (Purge)	cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Temporal Anomaly	373861	talent-active	TraitNodeEntry	true	15	Rotational	spec		93257	115561	1	Essential	Rotational 8	cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Expunge	365585	talent-active	TraitNodeEntry	true	8	Rotational	class		93306	115615	1				
+Evoker	Preservation	1468	Dream Breath	355936	talent-active	TraitNodeEntry	true	1	Rotational	spec		93240	115542	1	Essential	Cooldown 4	cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Obsidian Scales	363916	talent-active	TraitNodeEntry	true	1	Rotational	class		93304	115613	1	Buff/Utility	Personal Defensive 1	cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Time Dilation	357170	talent-active	TraitNodeEntry	true	1	Rotational	spec		93336	115650	1	Essential	Rotational 7	cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Verdant Embrace	360995	talent-active	TraitNodeEntry	true	0.5	Rotational	class		93341	115655	1	Essential	Self-Heal 1	cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Echo	364343	talent-active	TraitNodeEntry	true	0	Rotational	spec		93339	115653	1	Essential	Rotational 5	cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Renewing Blaze	374348	talent-active	TraitNodeEntry	true	0	Rotational	class		93354	115669	1				
+Evoker	Preservation	1468	Reversion	366155	talent-active	TraitNodeEntry	true	0	Rotational	spec		93338	115652	1	Essential	Rotational 6	cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Rewind	363534	talent-active	TraitNodeEntry	true	0	Rotational	spec		93337	115651	1	Essential	Cooldown 3	cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Sleep Walk	360806	talent-active	TraitNodeEntry	true	0	Rotational	class		93293	115601	1		Class 2 (CC)		
+Evoker	Preservation	1468	Source of Magic	369459	talent-active	TraitNodeEntry	true	0	Rotational	class		93344	115658	1	Buff		cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Spatial Paradox	406732	talent-choice	TraitNodeEntry	true	180	Cooldown	class		93351	125610	1	Buff/Utility	Class 4 (Special)	cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Dream Flight	359816	talent-choice	TraitNodeEntry	true	120	Cooldown	spec		93267	115573	1	Essential	Cooldown 2	cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Time Spiral	374968	talent-choice	TraitNodeEntry	true	120	Cooldown	class		93351	115666	1	Utility		cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Stasis	370537	talent-choice	TraitNodeEntry	true	90	Cooldown	spec		93267	133527	1	Buff/Essential		cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Temporal Barrier	1291636	talent-choice	TraitNodeEntry	true	15	Rotational	spec		93258	115563	1				
+Evoker	Preservation	1468	Fury of the Aspects	390386	class-baseline	SkillLineAbility:2810	true	300	Cooldown							Class 8 (Lust/BRes)		
+Evoker	Preservation	1468	Tail Swipe	368970	class-baseline	SkillLineAbility:2810	true	180	Cooldown						Utility	CC	cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Emerald Blossom	355913	class-baseline	SkillLineAbility:2810	true	30	Rotational						Essential	Self-Heal 2	cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Blessing of the Bronze	364342	class-baseline	SkillLineAbility:2810	true	15	Rotational							Buff		
+Evoker	Preservation	1468	Naturalize	360823	class-baseline	SpecializationSpells	true	8	Rotational						Utility	Class 6 (Dispel)	cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Deep Breath	357210	class-baseline	SkillLineAbility:2810	true	1	Rotational						Essential	Cooldown 1	cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Hover	358267	class-baseline	SkillLineAbility:2810	true	1	Rotational						Other/Utility	Movement Ability	cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Azure Strike	362969	class-baseline	SkillLineAbility:2810	true	0	Rotational							Rotational 2		
+Evoker	Preservation	1468	Disintegrate	356995	class-baseline	SkillLineAbility:2810	true	0	Rotational							Rotational 3		
+Evoker	Preservation	1468	Fire Breath	357208	class-baseline	SkillLineAbility:2810	true	0	Rotational						Buff/Essential	Rotational 4	cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Living Flame	361469	class-baseline	SkillLineAbility:2810	true	0	Rotational						Essential	Rotational 1	cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Mass Return	361178	class-baseline	SpecializationSpells	true	0	Rotational									
+Evoker	Preservation	1468	Return	361227	class-baseline	SkillLineAbility:2810	true	0	Rotational							Res		
+Evoker	Preservation	1468	Single-Button Assistant	1229376	class-baseline	SpecializationSpells	true	0	Rotational									
+Evoker	Preservation	1468	Emerald Communion	370960	pvp-talent	PvpTalent	true	180	Cooldown						Essential		cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Swoop Up	370388	pvp-talent	PvpTalent	true	90	Cooldown						Utility	PvP 2	cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Dream Projection	377509	pvp-talent	PvpTalent	true	60	Cooldown						Essential		cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Chrono Loop	383005	pvp-talent	PvpTalent	true	45	Cooldown						Utility	PvP 3	cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Time Stop	378441	pvp-talent	PvpTalent	true	45	Cooldown						Essential	PvP	cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Divide and Conquer	384689	pvp-talent	PvpTalent	false	0	Rotational									
+Evoker	Preservation	1468	Dreamwalker's Embrace	415651	pvp-talent	PvpTalent	false	0	Rotational									
+Evoker	Preservation	1468	Nullifying Shroud	1241352	pvp-talent	PvpTalent	false	0	Rotational						Buff		cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Obsidian Mettle	378444	pvp-talent	PvpTalent	false	0	Rotational									
+Evoker	Preservation	1468	Scouring Flame	378438	pvp-talent	PvpTalent	false	0	Rotational									
+Evoker	Preservation	1468	Unburdened Flight	378437	pvp-talent	PvpTalent	false	0	Rotational									
+Evoker	Preservation	1468	Time of Need	368412	talent-passive	TraitNodeEntry	false	120	Cooldown	spec		93259	115564	1	Essential		cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Aerial Mastery	365933	talent-passive	TraitNodeEntry	false	0	Rotational	class		93352	115667	1				
+Evoker	Preservation	1468	Afterimage	431875	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Chronowarden	94929	117526	1				
+Evoker	Preservation	1468	Ancient Flame	369990	talent-passive	TraitNodeEntry	false	0	Rotational	class		93271	115577	1				
+Evoker	Preservation	1468	Ashes in Motion	1264365	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Flameshaper	99857	123416	1				
+Evoker	Preservation	1468	Attuned to the Dream	376930	talent-passive	TraitNodeEntry	false	0	Rotational	class		93292	115600	2				
+Evoker	Preservation	1468	Blast Furnace	375510	talent-passive	TraitNodeEntry	false	0	Rotational	class		93309	115618	1				
+Evoker	Preservation	1468	Bountiful Bloom	370886	talent-passive	TraitNodeEntry	false	0	Rotational	class		93291	115599	1				
+Evoker	Preservation	1468	Burning Adrenaline	444020	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Flameshaper	94946	117543	1				
+Evoker	Preservation	1468	Call of Ysera	373834	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93250	115554	1				
+Evoker	Preservation	1468	Chronal Dynamo	1291522	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Chronowarden	109509	135742	1				
+Evoker	Preservation	1468	Chrono Flame	431442	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Chronowarden	94954	117551	1				
+Evoker	Preservation	1468	Chronoboon	1260484	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Chronowarden	109510	135743	1				
+Evoker	Preservation	1468	Clobbering Sweep	375443	talent-passive	TraitNodeEntry	false	0	Rotational	class		103844	128217	1				
+Evoker	Preservation	1468	Conduit of Flame	444843	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Flameshaper	94949	117546	1				
+Evoker	Preservation	1468	Consume Flame	444088	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Flameshaper	94922	117519	1				
+Evoker	Preservation	1468	Deep Exhalation	1264321	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Flameshaper	94945	117542	1				
+Evoker	Preservation	1468	Delay Harm	376207	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93335	115649	1				
+Evoker	Preservation	1468	Double-time	431874	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Chronowarden	94932	117529	1				
+Evoker	Preservation	1468	Draconic Instincts	445958	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Flameshaper	94931	123405	1				
+Evoker	Preservation	1468	Draconic Legacy	376166	talent-passive	TraitNodeEntry	false	0	Rotational	class		93300	115609	1				
+Evoker	Preservation	1468	Dream Simulacrum	1241669	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93243	115546	1				
+Evoker	Preservation	1468	Empath	376138	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93242	115545	1	Buff		cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Energy Loop	372233	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93261	115566	1				
+Evoker	Preservation	1468	Enkindle	444016	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Flameshaper	94956	117553	1				
+Evoker	Preservation	1468	Enkindled	375554	talent-passive	TraitNodeEntry	false	0	Rotational	class		93295	115603	2				
+Evoker	Preservation	1468	Essence Attunement	375722	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93238	115540	1				
+Evoker	Preservation	1468	Essence Burst	369297	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93239	115541	1	Buff		cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Essence Well	1265993	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Flameshaper	109797	136055	1				
+Evoker	Preservation	1468	Exhilarating Burst	377100	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93246	115550	2	Buff		cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Expanded Lungs	444845	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Flameshaper	94956	128713	1				
+Evoker	Preservation	1468	Extended Flight	375517	talent-passive	TraitNodeEntry	false	0	Rotational	class		93349	115664	2				
+Evoker	Preservation	1468	Exuberance	375542	talent-passive	TraitNodeEntry	false	0	Rotational	class		93299	115608	1				
+Evoker	Preservation	1468	Field of Dreams	370062	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93248	115552	1				
+Evoker	Preservation	1468	Fire Torrent	1265992	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Flameshaper	109796	136054	1				
+Evoker	Preservation	1468	Flow State	385696	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93256	115560	2	Buff		cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Fluttering Seedlings	359793	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93247	115551	2				
+Evoker	Preservation	1468	Foci of Life	375574	talent-passive	TraitNodeEntry	false	0	Rotational	class		93345	115660	1				
+Evoker	Preservation	1468	Font of Magic	375783	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93252	115556	1				
+Evoker	Preservation	1468	Forger of Mountains	375528	talent-passive	TraitNodeEntry	false	0	Rotational	class		93270	115576	1				
+Evoker	Preservation	1468	Fulminous Roar	1218447	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Flameshaper	94923	117520	1				
+Evoker	Preservation	1468	Golden Hour	378196	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93255	115559	1				
+Evoker	Preservation	1468	Golden Opportunity	432004	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Chronowarden	94942	117539	1				
+Evoker	Preservation	1468	Grace Period	376239	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93260	115565	1				
+Evoker	Preservation	1468	Heavy Wingbeats	368838	talent-passive	TraitNodeEntry	false	0	Rotational	class		103843	128216	1				
+Evoker	Preservation	1468	Inherent Resistance	375544	talent-passive	TraitNodeEntry	false	0	Rotational	class		93355	115670	2				
+Evoker	Preservation	1468	Innate Magic	375520	talent-passive	TraitNodeEntry	false	0	Rotational	class		93302	115611	2				
+Evoker	Preservation	1468	Inner Flame	1242745	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93266	115572	1	Buff		cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Inner Radiance	386405	talent-passive	TraitNodeEntry	false	0	Rotational	class		93311	115620	1				
+Evoker	Preservation	1468	Instability Matrix	431484	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Chronowarden	94930	126310	1				
+Evoker	Preservation	1468	Instinctive Arcana	376164	talent-passive	TraitNodeEntry	false	0	Rotational	class		93310	115619	2				
+Evoker	Preservation	1468	Just in Time	376204	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93335	115648	1				
+Evoker	Preservation	1468	Leaping Flames	369939	talent-passive	TraitNodeEntry	false	0	Rotational	class		93343	115657	1	Buff		cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Legacy of the Lifebinder	1264269	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Flameshaper	94950	117547	1				
+Evoker	Preservation	1468	Life-Giver's Flame	371426	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93237	115539	1				
+Evoker	Preservation	1468	Lifebind	373270	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93253	115557	1	Other		cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Lifecinders	444322	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Flameshaper	94931	117528	1				
+Evoker	Preservation	1468	Lifeforce Mender	376179	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93236	115538	2				
+Evoker	Preservation	1468	Lifespark	443177	talent-passive	TraitNodeEntry	false	0	Rotational	spec		99804	123294	1	Buff		cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Lush Growth	375561	talent-passive	TraitNodeEntry	false	0	Rotational	class		93347	115662	2				
+Evoker	Preservation	1468	Merithra's Blessing	1256577	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110413	137007	1	Buff		talent-passive:TraitNodeEntry;cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Motes of Acceleration	432008	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Chronowarden	94935	117784	1				
+Evoker	Preservation	1468	Natural Convergence	369913	talent-passive	TraitNodeEntry	false	0	Rotational	class		93312	115621	1				
+Evoker	Preservation	1468	Nozdormu Adept	431715	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Chronowarden	94947	117544	1				
+Evoker	Preservation	1468	Nozdormu's Teachings	376237	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93258	115562	1				
+Evoker	Preservation	1468	Obsidian Bulwark	375406	talent-passive	TraitNodeEntry	false	0	Rotational	class		93289	115597	1				
+Evoker	Preservation	1468	Ouroboros	381921	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93251	115555	1	Buff		cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Overawe	374346	talent-passive	TraitNodeEntry	false	0	Rotational	class		93297	115606	1				
+Evoker	Preservation	1468	Overclock	1260647	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Chronowarden	109508	135741	1				
+Evoker	Preservation	1468	Panacea	387761	talent-passive	TraitNodeEntry	false	0	Rotational	class		93348	115663	1				
+Evoker	Preservation	1468	Potent Mana	418101	talent-passive	TraitNodeEntry	false	0	Rotational	class		93715	116103	1				
+Evoker	Preservation	1468	Power Nexus	369908	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93249	115553	1				
+Evoker	Preservation	1468	Primacy	431657	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Chronowarden	94951	117548	1	Buff		cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Protracted Talons	369909	talent-passive	TraitNodeEntry	false	0	Rotational	class		110064	136559	1				
+Evoker	Preservation	1468	Recall	371806	talent-passive	TraitNodeEntry	false	0	Rotational	class		93301	115610	1				
+Evoker	Preservation	1468	Regenerative Magic	387787	talent-passive	TraitNodeEntry	false	0	Rotational	class		93353	115668	1				
+Evoker	Preservation	1468	Renewing Breath	371257	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93268	115574	2				
+Evoker	Preservation	1468	Reverberations	431615	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Chronowarden	94925	117522	1				
+Evoker	Preservation	1468	Scarlet Adaptation	372469	talent-passive	TraitNodeEntry	false	0	Rotational	class		93340	115654	1				
+Evoker	Preservation	1468	Shape of Flame	445074	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Flameshaper	94937	123404	1				
+Evoker	Preservation	1468	Spark of Insight	377099	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93269	115575	1				
+Evoker	Preservation	1468	Spiritual Clarity	376150	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93242	115544	1				
+Evoker	Preservation	1468	Stretch Time	410352	talent-passive	TraitNodeEntry	false	0	Rotational	class		93308	115617	1				
+Evoker	Preservation	1468	Strike from Above	1267206	talent-passive	TraitNodeEntry	false	0	Rotational	class		110065	136560	1				
+Evoker	Preservation	1468	Tailwind	375556	talent-passive	TraitNodeEntry	false	0	Rotational	class		93290	115598	1				
+Evoker	Preservation	1468	Tempo Charged	1237978	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93262	115567	1				
+Evoker	Preservation	1468	Temporal Artificer	381922	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93264	115570	1				
+Evoker	Preservation	1468	Temporal Burst	431695	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Chronowarden	94955	117552	1	Buff		cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Temporal Compression	362874	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93241	115543	1	Buff		cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Temporality	431873	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Chronowarden	94935	117532	1	Buff		cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Terror of the Skies	371032	talent-passive	TraitNodeEntry	false	0	Rotational	class		93342	115656	1				
+Evoker	Preservation	1468	Time Convergence	431984	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Chronowarden	94932	117786	1	Buff		cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Time Lord	372527	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93254	115558	2				
+Evoker	Preservation	1468	Timeless Magic	376240	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93263	115568	2				
+Evoker	Preservation	1468	Titan's Gift	443264	talent-passive	TraitNodeEntry	false	0	Rotational	spec		99803	123293	1				
+Evoker	Preservation	1468	Titanic Precision	445625	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Flameshaper	94920	117517	1				
+Evoker	Preservation	1468	Trailblazer	444849	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Flameshaper	94937	117534	1				
+Evoker	Preservation	1468	Twin Echoes	1242031	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93265	115571	1	Buff		cdm-only:CooldownSetSpell	
+Evoker	Preservation	1468	Twin Flame	1265979	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Flameshaper	109798	136056	1				
+Evoker	Preservation	1468	Twin Guardian	370888	talent-passive	TraitNodeEntry	false	0	Rotational	class		93287	115595	1				
+Evoker	Preservation	1468	Unravel	1264378	talent-passive	TraitNodeEntry	false	0	Rotational	class		93307	115616	1				
+Evoker	Preservation	1468	Unshakable	1239581	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93245	115549	1				
+Evoker	Preservation	1468	Walloping Blow	387341	talent-passive	TraitNodeEntry	false	0	Rotational	class		93286	115594	1				
+Evoker	Preservation	1468	Warp	429483	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Chronowarden	94948	117545	1				
+Evoker	Preservation	1468	Wings of Liberty	1241704	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93243	133503	1				
+Evoker	Preservation	1468	Wing Buffet	357214	cdm-only	CooldownSetSpell	true	180	Cooldown						Utility			

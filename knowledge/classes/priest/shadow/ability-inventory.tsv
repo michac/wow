@@ -1,0 +1,171 @@
+class	spec	spec_id	name	spell_id	origin	source	castable	cooldown	band	tree	hero_tree	node_id	entry_id	max_ranks	blizz_category	seed_bucket	also_from	aliases
+Priest	Shadow	258	Mass Dispel	32375	talent-active	TraitNodeEntry	true	120	Cooldown	class		109890	136157	1	Utility	Class 3 (Tag)	cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Power Infusion	10060	talent-active	TraitNodeEntry	true	120	Cooldown	class		82556	103834	1	Buff/Essential	Cooldown 2	cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Voidform	228260	talent-active	TraitNodeEntry	true	120	Cooldown	spec		82657	103674	1	Essential/Other	Cooldown 1	cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Desperate Prayer	19236	talent-active	TraitNodeEntry	true	90	Cooldown	class		109012	134846	1	Buff/Utility	Self-Heal 1	cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Halo	120644	talent-active	TraitNodeEntry	true	60	Cooldown	hero	Archon	94697	117300	1	Essential		talent-active:TraitNodeEntry;cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Psychic Scream	8122	talent-active	TraitNodeEntry	true	40	Rotational	class		82701	103851	1	Buff/Utility	CC	cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Fade	586	talent-active	TraitNodeEntry	true	30	Rotational	class		109015	134849	1	Buff/Utility	Personal Defensive 1	cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Void Torrent	263165	talent-active	TraitNodeEntry	true	30	Rotational	hero	Voidweaver	94684	117287	1	Essential		class-baseline:SkillLineAbility:804;cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Purify Disease	213634	talent-active	TraitNodeEntry	true	8	Rotational	class		82704	103854	1	Utility	Class 6 (Dispel)	cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Leap of Faith	73325	talent-active	TraitNodeEntry	true	1	Rotational	class		82715	103867	1	Utility	Immune/Spell Immune/Movement	cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Angelic Feather	121536	talent-active	TraitNodeEntry	true	0	Rotational	class		82703	103853	1	Buff/Utility	Movement Ability	cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Dispel Magic	528	talent-active	TraitNodeEntry	true	0	Rotational	class		109009	103677	1		Class 5 (Purge)		
+Priest	Shadow	258	Holy Nova	132157	talent-active	TraitNodeEntry	true	0	Rotational	class		82718	103870	1	Essential	Class 1 (Movement)	cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Mind Blast	8092	talent-active	TraitNodeEntry	true	0	Rotational	class		82713	103865	1	Essential	Rotational 2	cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Shackle Horror	9484	talent-active	TraitNodeEntry	true	0	Rotational	class		82693	103843	1	Buff/Essential	CC 2	cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Shadow Word: Death	32379	talent-active	TraitNodeEntry	true	0	Rotational	class		82712	103864	1	Essential	Rotational 6	cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Shadow Word: Madness	335467	talent-active	TraitNodeEntry	true	0	Rotational	spec		82665	103808	1	Buff/Essential	Rotational 1	cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Shadowfiend	34433	talent-active	TraitNodeEntry	true	0	Rotational	spec		109018	134851	1	Buff	Cooldown 3	cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Tentacle Slam	1227280	talent-active	TraitNodeEntry	true	0	Rotational	spec		93171	115448	1	Essential	Rotational 5	cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Dominate Mind	205364	talent-choice	TraitNodeEntry	true	30	Rotational	class		82710	103678	1	Utility		cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Mind Control	605	talent-choice	TraitNodeEntry	true	0	Rotational	class		82710	103862	1		Slow		
+Priest	Shadow	258	Dispersion	47585	class-baseline	SpecializationSpells	true	120	Cooldown						Buff/Utility	Taunt/Quick Access	cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Spirit of Redemption	215769	class-baseline	SkillLineAbility:804	true	120	Cooldown									
+Priest	Shadow	258	Vampiric Embrace	15286	class-baseline	SpecializationSpells	true	120	Cooldown						Buff/Utility	Self-Heal 3 (Overflow)	cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Ascension	161862	class-baseline	SkillLineAbility:804	true	90	Cooldown									
+Priest	Shadow	258	Light's Wrath	207946	class-baseline	SkillLineAbility:804	true	90	Cooldown									
+Priest	Shadow	258	Silence	15487	class-baseline	SpecializationSpells	true	30	Rotational						Buff/Utility	Interrupt	cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Power Word: Shield	17	class-baseline	SkillLineAbility:804	true	7.5	Rotational						Buff/Utility	Self-Heal 4 (Emergency/Overflow)	cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Mind Soothe	453	class-baseline	SkillLineAbility:804	true	5	Rotational						Buff/Utility	Class 8 (Lust/BRes)	cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Echo of Light	77489	class-baseline	SkillLineAbility:804	true	0	Rotational									
+Priest	Shadow	258	Flash Heal	2061	class-baseline	SkillLineAbility:804	true	0	Rotational							Self-Heal 2		
+Priest	Shadow	258	Levitate	1706	class-baseline	SkillLineAbility:804	true	0	Rotational						Buff		cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Light of T'uure	208065	class-baseline	SkillLineAbility:804	true	0	Rotational									
+Priest	Shadow	258	Mind Flay	15407	class-baseline	SpecializationSpells	true	0	Rotational						Essential	Overflow 1	cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Mind Vision	2096	class-baseline	SkillLineAbility:804	true	0	Rotational									
+Priest	Shadow	258	Power Word: Fortitude	21562	class-baseline	SkillLineAbility:804	true	0	Rotational							Buff		
+Priest	Shadow	258	Resurrection	2006	class-baseline	SkillLineAbility:804	true	0	Rotational							Res		
+Priest	Shadow	258	Shadow Word: Pain	589	class-baseline	SkillLineAbility:804	true	0	Rotational						Buff/Essential	Rotational 4	cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Shadowform	232698	class-baseline	SpecializationSpells	true	0	Rotational						Buff		cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Single-Button Assistant	1229376	class-baseline	SpecializationSpells	true	0	Rotational									
+Priest	Shadow	258	Smite	585	class-baseline	SkillLineAbility:804	true	0	Rotational									
+Priest	Shadow	258	Vampiric Touch	34914	class-baseline	SpecializationSpells	true	0	Rotational						Buff/Essential	Rotational 7	cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Mindgames	375901	pvp-talent	PvpTalent	true	45	Cooldown						Essential		cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Psyfiend	211522	pvp-talent	PvpTalent	true	45	Cooldown						Buff/Utility		cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Absolute Faith	408853	pvp-talent	PvpTalent	false	0	Rotational						Buff		cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Cascading Horrors	357711	pvp-talent	PvpTalent	false	0	Rotational									
+Priest	Shadow	258	Driven to Madness	199259	pvp-talent	PvpTalent	false	0	Rotational									
+Priest	Shadow	258	Improved Mass Dispel	426438	pvp-talent	PvpTalent	false	0	Rotational									
+Priest	Shadow	258	Mind Trauma	199445	pvp-talent	PvpTalent	false	0	Rotational						Buff		cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Phase Shift	408557	pvp-talent	PvpTalent	false	0	Rotational						Buff		cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Psychic Shroud	1246968	pvp-talent	PvpTalent	false	0	Rotational						Buff		cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Ancient Madness	1231346	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82656	134052	1				
+Priest	Shadow	258	Angel's Mercy	238100	talent-passive	TraitNodeEntry	false	0	Rotational	class		82680	103828	1				
+Priest	Shadow	258	Angelic Bulwark	108945	talent-passive	TraitNodeEntry	false	0	Rotational	class		82675	103821	1	Buff		cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Auspicious Spirits	155271	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82667	103811	1				
+Priest	Shadow	258	Benevolence	415416	talent-passive	TraitNodeEntry	false	0	Rotational	class		82676	115884	1				
+Priest	Shadow	258	Binding Heals	368275	talent-passive	TraitNodeEntry	false	0	Rotational	class		82678	103825	1				
+Priest	Shadow	258	Body and Soul	64129	talent-passive	TraitNodeEntry	false	0	Rotational	class		109917	136185	1	Buff		cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Collapsing Void	448403	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Voidweaver	94694	117297	1				
+Priest	Shadow	258	Crushing Void	1279354	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82655	103797	1	Buff		cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Dark Energy	451018	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Voidweaver	94693	123845	1				
+Priest	Shadow	258	Dark Enlightenment	1250835	talent-passive	TraitNodeEntry	false	0	Rotational	class		109020	134859	1				
+Priest	Shadow	258	Dark Evangelism	391099	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108031	134051	1				
+Priest	Shadow	258	Dark Thoughts	1240388	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82660	103802	1				
+Priest	Shadow	258	Darkening Horizon	449912	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Voidweaver	94695	125982	1				
+Priest	Shadow	258	Death and Madness	321291	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82558	134274	1				
+Priest	Shadow	258	Death's Torment	1240364	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108006	133377	1				
+Priest	Shadow	258	Deathspeaker	392507	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82558	103681	1				
+Priest	Shadow	258	Descending Darkness	1242666	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82670	103814	1				
+Priest	Shadow	258	Devour Matter	451840	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Voidweaver	94668	117271	1				
+Priest	Shadow	258	Distorted Reality	409044	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82647	115671	1				
+Priest	Shadow	258	Divine Halo	449806	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Archon	94702	117305	1				
+Priest	Shadow	258	Embrace the Shadow	451569	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Voidweaver	94696	123844	1				
+Priest	Shadow	258	Empowered Surges	453799	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Archon	94688	117291	1				
+Priest	Shadow	258	Energy Compression	449874	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Archon	94678	117281	1				
+Priest	Shadow	258	Energy Conservation	1272308	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Archon	94680	117283	1				
+Priest	Shadow	258	Energy Cycle	453828	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Archon	94685	117288	1				
+Priest	Shadow	258	Entropic Rift	447444	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Voidweaver	110008	136498	1	Other		cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Everlasting Light	1249233	talent-passive	TraitNodeEntry	false	0	Rotational	class		82702	103852	1				
+Priest	Shadow	258	False Autonomy	1250806	talent-passive	TraitNodeEntry	false	0	Rotational	class		109005	134841	1				
+Priest	Shadow	258	Focused Outburst	1272320	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Archon	109777	136035	1				
+Priest	Shadow	258	Focused Power	1249230	talent-passive	TraitNodeEntry	false	0	Rotational	class		82676	135091	1				
+Priest	Shadow	258	Haunting Shadows	1279355	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82658	103799	1				
+Priest	Shadow	258	Heightened Alteration	453729	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Archon	109776	136687	1				
+Priest	Shadow	258	Idol of C'Thun	377349	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82643	103782	1				
+Priest	Shadow	258	Idol of N'Zoth	373280	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82552	103781	1				
+Priest	Shadow	258	Idol of Y'Shaarj	373310	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82553	103787	1	Buff		cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Idol of Yogg-Saron	373273	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82555	103817	1	Buff		cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Improved Fade	390670	talent-passive	TraitNodeEntry	false	0	Rotational	class		82686	103836	2				
+Priest	Shadow	258	Improved Flash Heal	393870	talent-passive	TraitNodeEntry	false	0	Rotational	class		82717	103869	1				
+Priest	Shadow	258	Improved Voidform	341240	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82656	103798	1				
+Priest	Shadow	258	Incessant Screams	453918	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Archon	94686	125083	1				
+Priest	Shadow	258	Inescapable Torment	373427	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82644	103783	1				
+Priest	Shadow	258	Inner Quietus	448278	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Voidweaver	94670	117273	1				
+Priest	Shadow	258	Insidious Ire	373212	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82560	103683	2	Buff		cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Inspiration	390676	talent-passive	TraitNodeEntry	false	0	Rotational	class		82696	103846	1				
+Priest	Shadow	258	Instilled Doubt	1242862	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108152	133549	2				
+Priest	Shadow	258	Intangibility	288733	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109017	134850	1				
+Priest	Shadow	258	Invoked Nightmare	1279350	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82666	136811	1				
+Priest	Shadow	258	Light's Inspiration	373450	talent-passive	TraitNodeEntry	false	0	Rotational	class		82679	103826	1				
+Priest	Shadow	258	Lightburst	1246549	talent-passive	TraitNodeEntry	false	0	Rotational	class		82719	103871	1				
+Priest	Shadow	258	Maddening Tentacles	1279353	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82654	103796	1				
+Priest	Shadow	258	Maddening Touch	391228	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82662	103805	1				
+Priest	Shadow	258	Madness Weaving	1240394	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82671	103816	2				
+Priest	Shadow	258	Manifested Power	453783	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Archon	94699	117302	1	Buff		cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Mastermind	391151	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82645	103784	2				
+Priest	Shadow	258	Mental Agility	341167	talent-passive	TraitNodeEntry	false	0	Rotational	class		109019	134852	1				
+Priest	Shadow	258	Mental Decay	375994	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108007	133378	1				
+Priest	Shadow	258	Mental Fortitude	377065	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109017	136223	1				
+Priest	Shadow	258	Mind Devourer	373202	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108153	133550	1	Buff		cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Mind's Eye	407470	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82647	103786	1				
+Priest	Shadow	258	Mindbender	1230339	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82648	103788	1	Buff		cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Mindpierce	1251029	talent-passive	TraitNodeEntry	false	0	Rotational	class		109011	134845	1				
+Priest	Shadow	258	Misery	238558	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82666	103809	1				
+Priest	Shadow	258	Move with Grace	390620	talent-passive	TraitNodeEntry	false	0	Rotational	class		82699	103849	1				
+Priest	Shadow	258	No Escape	451204	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Voidweaver	94693	117296	1	Buff		cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Overwhelming Shadows	1266883	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Voidweaver	109778	136036	1				
+Priest	Shadow	258	Painful Invocation	1251030	talent-passive	TraitNodeEntry	false	0	Rotational	class		109006	103841	1				
+Priest	Shadow	258	Perfected Form	453917	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Archon	94677	117280	1				
+Priest	Shadow	258	Petrifying Scream	55676	talent-passive	TraitNodeEntry	false	0	Rotational	class		82695	114588	1				
+Priest	Shadow	258	Phantasm	108942	talent-passive	TraitNodeEntry	false	0	Rotational	class		82674	115883	1				
+Priest	Shadow	258	Phantom Menace	1242779	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82646	103785	1				
+Priest	Shadow	258	Phantom Reach	459559	talent-passive	TraitNodeEntry	false	0	Rotational	class		82673	103819	1				
+Priest	Shadow	258	Power Surge	453109	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Archon	94681	117284	1	Buff		cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Protective Light	193063	talent-passive	TraitNodeEntry	false	0	Rotational	class		82677	103823	1	Buff		cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Psychic Link	199484	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82663	103806	1				
+Priest	Shadow	258	Psychic Voice	196704	talent-passive	TraitNodeEntry	false	0	Rotational	class		82708	103860	1				
+Priest	Shadow	258	Quickened Pulse	1266845	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Voidweaver	94692	117295	1				
+Priest	Shadow	258	Realized Potential	1272326	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Archon	109775	136033	1				
+Priest	Shadow	258	Resonant Energy	453845	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Archon	94676	117279	1	Buff		cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Sanguine Teachings	373218	talent-passive	TraitNodeEntry	false	0	Rotational	class		109021	134860	1				
+Priest	Shadow	258	Screams of the Void	375767	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82649	103789	2	Buff		cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Shadowy Apparitions	341491	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82651	103792	1				
+Priest	Shadow	258	Shadowy Insight	375888	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82669	103813	1	Buff		cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Shattered Psyche	391090	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108029	133400	1	Buff		cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Sheer Terror	390919	talent-passive	TraitNodeEntry	false	0	Rotational	class		82695	103845	1				
+Priest	Shadow	258	Shock Pulse	453852	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Archon	94686	117289	1				
+Priest	Shadow	258	Spectral Horrors	407469	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82563	103686	1				
+Priest	Shadow	258	Spectral Illusion	1250378	talent-passive	TraitNodeEntry	false	0	Rotational	class		109014	134848	1	Buff		cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Spell Warding	390667	talent-passive	TraitNodeEntry	false	0	Rotational	class		109010	134844	2				
+Priest	Shadow	258	Spiritual Guidance	1250818	talent-passive	TraitNodeEntry	false	0	Rotational	class		82672	103818	1				
+Priest	Shadow	258	Spiritwell	1247178	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Archon	109775	136688	1				
+Priest	Shadow	258	Strength of Resolve	1250820	talent-passive	TraitNodeEntry	false	0	Rotational	class		82687	103837	1				
+Priest	Shadow	258	Subservient Shadows	1228516	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82559	103682	1				
+Priest	Shadow	258	Surge of Insanity	391399	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82668	103812	1				
+Priest	Shadow	258	Surge of Light	109186	talent-passive	TraitNodeEntry	false	0	Rotational	class		82716	103868	1	Buff		cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Sustained Potency	454001	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Archon	94678	125085	1	Buff		cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Thought Harvester	406788	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82653	103795	1				
+Priest	Shadow	258	Tithe Evasion	373223	talent-passive	TraitNodeEntry	false	0	Rotational	class		82711	103863	1				
+Priest	Shadow	258	Tormented Spirits	391284	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93170	103810	1				
+Priest	Shadow	258	Tormenting Whispers	1250492	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82659	103801	1				
+Priest	Shadow	258	Touch of the Void	1266856	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Voidweaver	109779	136037	1				
+Priest	Shadow	258	Translucent Image	373446	talent-passive	TraitNodeEntry	false	0	Rotational	class		82685	103835	1				
+Priest	Shadow	258	Twin Disciplines	1251077	talent-passive	TraitNodeEntry	false	0	Rotational	class		82690	103840	1				
+Priest	Shadow	258	Twins of the Sun Priestess	373466	talent-passive	TraitNodeEntry	false	0	Rotational	class		108731	134284	1				
+Priest	Shadow	258	Twist of Fate	390972	talent-passive	TraitNodeEntry	false	0	Rotational	class		82684	103833	2	Buff		cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Unwavering Will	373456	talent-passive	TraitNodeEntry	false	0	Rotational	class		82697	103847	2				
+Priest	Shadow	258	Void Apparitions	1264096	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110408	136992	1			talent-passive:TraitNodeEntry	
+Priest	Shadow	258	Void Blast	450405	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Voidweaver	94703	117306	1				
+Priest	Shadow	258	Void Empowerment	450138	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Voidweaver	94695	125821	1				
+Priest	Shadow	258	Void Infusion	450612	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Voidweaver	94669	117272	1				
+Priest	Shadow	258	Void Leech	451311	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Voidweaver	94696	117299	1				
+Priest	Shadow	258	Void Tendrils	1250691	talent-passive	TraitNodeEntry	false	0	Rotational	class		82708	103859	1	Buff		cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Voidheart	449880	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Voidweaver	109780	136038	1	Buff		cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Voidtouched	407430	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108147	133542	1				
+Priest	Shadow	258	Voidwraith	451234	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Voidweaver	100212	123841	1	Buff		cdm-only:CooldownSetSpell	
+Priest	Shadow	258	Word of Supremacy	453726	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Archon	109776	136034	1				
+Priest	Shadow	258	Focused Will	45243	cdm-only	CooldownSetSpell	false	0	Rotational						Buff			
+Priest	Shadow	258	Horrific Visions	1243069	cdm-only	CooldownSetSpell	true	0	Rotational						Buff			
+Priest	Shadow	258	Thing from Beyond	373277	cdm-only	CooldownSetSpell	true	0	Rotational						Buff			

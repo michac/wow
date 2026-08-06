@@ -1,0 +1,189 @@
+class	spec	spec_id	name	spell_id	origin	source	castable	cooldown	band	tree	hero_tree	node_id	entry_id	max_ranks	blizz_category	seed_bucket	also_from	aliases
+Monk	Mistweaver	270	Fortifying Brew	115203	talent-active	TraitNodeEntry	true	360	Cooldown	class		101173	124968	1	Buff/Utility	Personal Defensive 1	cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Invoke Xuen, the White Tiger	123904	talent-active	TraitNodeEntry	true	120	Cooldown	hero	Conduit of the Celestials	101243	125062	1				
+Monk	Mistweaver	270	Celestial Conduit	443028	talent-active	TraitNodeEntry	true	90	Cooldown	hero	Conduit of the Celestials	110067	136562	1	Essential	Cooldown 3	talent-active:TraitNodeEntry;cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Paralysis	115078	talent-active	TraitNodeEntry	true	45	Cooldown	class		101142	124932	1	Utility	CC 2	cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Tiger's Lust	116841	talent-active	TraitNodeEntry	true	30	Rotational	class		101147	124937	1	Buff/Utility	Movement Ability 2	cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Rising Sun Kick	107428	talent-active	TraitNodeEntry	true	10	Rotational	class		101186	124985	1	Essential	Rotational 3	cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Transcendence	101643	talent-active	TraitNodeEntry	true	10	Rotational	class		101167	124962	1	Utility	Class 5 (Purge)	cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Thunder Focus Tea	116680	talent-active	TraitNodeEntry	true	1	Rotational	spec		101133	124921	1	Buff/Essential	Self-Heal 1	cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Life Cocoon	116849	talent-active	TraitNodeEntry	true	0.8	Rotational	spec		101096	124875	1	Essential	Cooldown 4	cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Diffuse Magic	1243287	talent-active	TraitNodeEntry	true	0	Rotational	class		108540	134029	1		Class 7 (Raid Defensive)		
+Monk	Mistweaver	270	Enveloping Mist	124682	talent-active	TraitNodeEntry	true	0	Rotational	spec		101134	124922	1	Essential	Rotational 7	cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Mana Tea	115869	talent-active	TraitNodeEntry	true	0	Rotational	spec		101132	124920	1	Essential	Self-Heal 4 (Emergency/Overflow)	cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Sheilun's Gift	399491	talent-active	TraitNodeEntry	true	0	Rotational	spec		101120	124904	1		Rotational 5	class-baseline:SkillLineAbility:829	
+Monk	Mistweaver	270	Soothing Mist	115175	talent-active	TraitNodeEntry	true	0	Rotational	class		101143	124933	1	Essential	Rotational 8	class-baseline:SkillLineAbility:829;cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Invoke Chi-Ji, the Red Crane	325197	talent-choice	TraitNodeEntry	true	120	Cooldown	spec		101129	124914	1	Essential/Other	Cooldown 1	cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Invoke Yu'lon, the Jade Serpent	322118	talent-choice	TraitNodeEntry	true	120	Cooldown	spec		101129	124915	1	Essential/Other		cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Ring of Peace	116844	talent-choice	TraitNodeEntry	true	45	Cooldown	class		101136	124926	1	Utility	Class 2 (CC)	cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Song of Chi-Ji	198898	talent-choice	TraitNodeEntry	true	30	Rotational	class		101136	124925	1	Utility		cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Rushing Wind Kick	467307	talent-choice	TraitNodeEntry	true	10	Rotational	spec		101102	128221	1				
+Monk	Mistweaver	270	Summon Jade Serpent Statue	115313	talent-choice	TraitNodeEntry	true	10	Rotational	class		101164	133997	1		Class 8 (Lust/BRes)		
+Monk	Mistweaver	270	Restoral	388615	talent-choice	TraitNodeEntry	true	1	Rotational	spec		101131	124918	1	Essential		cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Revival	115310	talent-choice	TraitNodeEntry	true	1	Rotational	spec		101131	124919	1	Essential	Cooldown 2	cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Chi Torpedo	115008	talent-choice	TraitNodeEntry	true	0	Rotational	class		101183	124981	1				
+Monk	Mistweaver	270	Disable	116095	talent-choice	TraitNodeEntry	true	0	Rotational	class		101149	124939	1	Buff	Slow	cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Touch of Death	322109	class-baseline	SkillLineAbility:829	true	180	Cooldown						Utility	Class 4 (Special)	cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Touch of Fatality	169340	class-baseline	SkillLineAbility:829	true	90	Cooldown									
+Monk	Mistweaver	270	Leg Sweep	119381	class-baseline	SkillLineAbility:829	true	60	Cooldown						Utility	CC	cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Zen Pilgrimage	126892	class-baseline	SkillLineAbility:829	true	60	Cooldown									
+Monk	Mistweaver	270	Expel Harm	322101	class-baseline	SkillLineAbility:829	true	15	Rotational							Self-Heal 3 (Overflow)		
+Monk	Mistweaver	270	Provoke	115546	class-baseline	SkillLineAbility:829	true	8	Rotational							Taunt/Quick Access		
+Monk	Mistweaver	270	Blackout Kick	100784	class-baseline	SkillLineAbility:829	true	3	Rotational						Essential	Rotational 2	cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Roll	109132	class-baseline	SkillLineAbility:829	true	0.8	Rotational						Utility	Movement Ability	cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Chi Burst	130654	class-baseline	SkillLineAbility:829	true	0	Rotational									
+Monk	Mistweaver	270	Chi Wave	132463	class-baseline	SkillLineAbility:829	true	0	Rotational								talent-passive:TraitNodeEntry	
+Monk	Mistweaver	270	Crackling Jade Lightning	117952	class-baseline	SkillLineAbility:829	true	0	Rotational						Essential	Class 3 (Tag)	cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Detox	115450	class-baseline	SpecializationSpells	true	0	Rotational						Utility	Class 6 (Dispel)	cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Energy Usage	119650	class-baseline	SkillLineAbility:829	true	0	Rotational									
+Monk	Mistweaver	270	Fists of Fury	117418	class-baseline	SkillLineAbility:829	true	0	Rotational									
+Monk	Mistweaver	270	Flying Serpent Kick	123586	class-baseline	SkillLineAbility:829	true	0	Rotational									
+Monk	Mistweaver	270	Healing Sphere	125355	class-baseline	SkillLineAbility:829	true	0	Rotational									
+Monk	Mistweaver	270	Reawaken	212051	class-baseline	SpecializationSpells	true	0	Rotational									
+Monk	Mistweaver	270	Renewing Mist	119611	class-baseline	SkillLineAbility:829	true	0	Rotational						Essential	Rotational 6	class-baseline:SpecializationSpells;cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Resuscitate	115178	class-baseline	SkillLineAbility:829	true	0	Rotational									
+Monk	Mistweaver	270	Single-Button Assistant	1229376	class-baseline	SpecializationSpells	true	0	Rotational									
+Monk	Mistweaver	270	Spinning Crane Kick	107270	class-baseline	SkillLineAbility:829	true	0	Rotational						Essential	Rotational 4	cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Tiger Palm	100780	class-baseline	SkillLineAbility:829	true	0	Rotational						Essential	Rotational 1	cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Touch of Karma	124280	class-baseline	SkillLineAbility:829	true	0	Rotational									
+Monk	Mistweaver	270	Vivify	116670	class-baseline	SkillLineAbility:829	true	0	Rotational						Essential	Self-Heal 2	cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Zen Flight	125883	class-baseline	SkillLineAbility:829	true	0	Rotational									
+Monk	Mistweaver	270	Zen Pilgrimage/Death Gate/Moonglade Storage Aura I	126893	class-baseline	SkillLineAbility:829	true	0	Rotational									
+Monk	Mistweaver	270	Zen Pilgrimage: Return	126895	class-baseline	SkillLineAbility:829	true	0	Rotational									
+Monk	Mistweaver	270	Mighty Ox Kick	202370	pvp-talent	PvpTalent	true	30	Rotational						Utility		cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Absolute Serenity	455945	pvp-talent	PvpTalent	false	0	Rotational									
+Monk	Mistweaver	270	Counteract Magic	353502	pvp-talent	PvpTalent	false	0	Rotational									
+Monk	Mistweaver	270	Dematerialize	353361	pvp-talent	PvpTalent	false	0	Rotational									
+Monk	Mistweaver	270	Eminence	353584	pvp-talent	PvpTalent	false	0	Rotational									
+Monk	Mistweaver	270	Healing Spheres	1243418	pvp-talent	PvpTalent	false	0	Rotational									
+Monk	Mistweaver	270	Peaceweaver	353313	pvp-talent	PvpTalent	false	0	Rotational									
+Monk	Mistweaver	270	Zen Focus Tea	468430	pvp-talent	PvpTalent	false	0	Rotational									
+Monk	Mistweaver	270	Zen Spheres	1243554	pvp-talent	PvpTalent	false	0	Rotational									
+Monk	Mistweaver	270	Transcendence: Linked Spirits	434774	talent-passive	TraitNodeEntry	false	10	Rotational	class		101176	124972	1				
+Monk	Mistweaver	270	Amplified Rush	1271431	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101103	124884	1				
+Monk	Mistweaver	270	Ancient Arts	344359	talent-passive	TraitNodeEntry	false	0	Rotational	class		101184	124983	2				
+Monk	Mistweaver	270	Aspect of Harmony	450508	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101223	125033	1				
+Monk	Mistweaver	270	Balanced Stratagem	450889	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101230	125043	1				
+Monk	Mistweaver	270	Bounding Agility	450520	talent-passive	TraitNodeEntry	false	0	Rotational	class		101161	124955	1				
+Monk	Mistweaver	270	Burst of Life	399226	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101098	124877	1				
+Monk	Mistweaver	270	Calming Coalescence	388218	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101095	124874	1				
+Monk	Mistweaver	270	Calming Presence	388664	talent-passive	TraitNodeEntry	false	0	Rotational	class		101153	124944	1				
+Monk	Mistweaver	270	Celerity	115173	talent-passive	TraitNodeEntry	false	0	Rotational	class		101183	124982	1				
+Monk	Mistweaver	270	Celestial Determination	450638	talent-passive	TraitNodeEntry	false	0	Rotational	class		101180	124977	1				
+Monk	Mistweaver	270	Celestial Harmony	343655	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101128	124913	1				
+Monk	Mistweaver	270	Chi Proficiency	450426	talent-passive	TraitNodeEntry	false	0	Rotational	class		101169	124964	2				
+Monk	Mistweaver	270	Chi Transfer	1272452	talent-passive	TraitNodeEntry	false	0	Rotational	class		101177	124974	1				
+Monk	Mistweaver	270	Chi Warding	1277444	talent-passive	TraitNodeEntry	false	0	Rotational	class		110097	136598	1				
+Monk	Mistweaver	270	Chi-Ji's Swiftness	443566	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101237	125055	1				
+Monk	Mistweaver	270	Chrysalis	202424	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101098	124878	1				
+Monk	Mistweaver	270	Clarity of Purpose	451017	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101228	125040	1				
+Monk	Mistweaver	270	Coalescence	450529	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101227	125039	1				
+Monk	Mistweaver	270	Courage of the White Tiger	443087	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101242	125061	1				
+Monk	Mistweaver	270	Crane Style	446260	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101097	124876	1				
+Monk	Mistweaver	270	Crashing Momentum	450335	talent-passive	TraitNodeEntry	false	0	Rotational	class		101149	124940	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Dance of Chi-Ji	438439	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101106	124887	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Dance of the Wind	432181	talent-passive	TraitNodeEntry	false	0	Rotational	class		101139	124929	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Dancing Mists	388701	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101112	124893	1				
+Monk	Mistweaver	270	Deep Clarity	446345	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101122	124906	1				
+Monk	Mistweaver	270	Elusive Mists	388681	talent-passive	TraitNodeEntry	false	0	Rotational	class		101144	124934	1				
+Monk	Mistweaver	270	Emperor's Elixir	1268807	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101101	124881	1				
+Monk	Mistweaver	270	Emperor's Favor	471761	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101118	128344	1				
+Monk	Mistweaver	270	Endless Draught	450892	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101225	125036	1				
+Monk	Mistweaver	270	Energizing Brew	422031	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101130	124917	1				
+Monk	Mistweaver	270	Escape from Reality	394110	talent-passive	TraitNodeEntry	false	0	Rotational	class		101176	124973	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Expeditious Fortification	388813	talent-passive	TraitNodeEntry	false	0	Rotational	class		101174	124969	1				
+Monk	Mistweaver	270	Fast Feet	388809	talent-passive	TraitNodeEntry	false	0	Rotational	class		101185	124984	1				
+Monk	Mistweaver	270	Fatal Touch	394123	talent-passive	TraitNodeEntry	false	0	Rotational	class		101178	124975	1				
+Monk	Mistweaver	270	Ferocity of Xuen	388674	talent-passive	TraitNodeEntry	false	0	Rotational	class		101166	124961	2				
+Monk	Mistweaver	270	Flow of Chi	450569	talent-passive	TraitNodeEntry	false	0	Rotational	class		101170	124965	1				
+Monk	Mistweaver	270	Flowing Wisdom	1262672	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	109700	135958	1				
+Monk	Mistweaver	270	Focused Thunder	197895	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101115	124897	1				
+Monk	Mistweaver	270	Gift of the Celestials	388212	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101113	124894	1				
+Monk	Mistweaver	270	Grace of the Crane	388811	talent-passive	TraitNodeEntry	false	0	Rotational	class		101146	124936	1				
+Monk	Mistweaver	270	Harmonic Gambit	450870	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101224	125034	1				
+Monk	Mistweaver	270	Harmonic Surge	1270958	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	109694	135952	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Hasty Provocation	328670	talent-passive	TraitNodeEntry	false	0	Rotational	class		101158	124950	1				
+Monk	Mistweaver	270	Healing Elixir	122280	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101109	124890	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Healing Winds	450560	talent-passive	TraitNodeEntry	false	0	Rotational	class		101171	124966	1				
+Monk	Mistweaver	270	Heart of the Jade Serpent	443294	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	109701	135959	1	Other		cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Improved Detox	388874	talent-passive	TraitNodeEntry	false	0	Rotational	class		101089	124866	1				
+Monk	Mistweaver	270	Improved Touch of Death	322113	talent-passive	TraitNodeEntry	false	0	Rotational	class		101140	124930	1				
+Monk	Mistweaver	270	Inner Compass	443571	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101235	125052	1				
+Monk	Mistweaver	270	Invigorating Mists	274586	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101110	124891	1				
+Monk	Mistweaver	270	Ironshell Brew	388814	talent-passive	TraitNodeEntry	false	0	Rotational	class		101174	124970	1				
+Monk	Mistweaver	270	Jade Bond	388031	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101113	124895	1				
+Monk	Mistweaver	270	Jade Empowerment	467316	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101125	124910	1				
+Monk	Mistweaver	270	Jade Infusion	1242910	talent-passive	TraitNodeEntry	false	0	Rotational	class		101164	124958	1				
+Monk	Mistweaver	270	Jade Sanctuary	443059	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101238	125056	1				
+Monk	Mistweaver	270	Jade Walk	450553	talent-passive	TraitNodeEntry	false	0	Rotational	class		101160	124954	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Jadefire Teachings	467293	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101102	124882	1				
+Monk	Mistweaver	270	Legacy of Wisdom	404408	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101118	124901	1				
+Monk	Mistweaver	270	Lifecycles	197915	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101130	124916	1				
+Monk	Mistweaver	270	Lighter Than Air	449582	talent-passive	TraitNodeEntry	false	0	Rotational	class		101168	124963	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Lotus Infusion	458431	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101121	124905	1				
+Monk	Mistweaver	270	Manifestation	450875	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101222	125032	1				
+Monk	Mistweaver	270	Mantra of Purity	451036	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101229	125042	1				
+Monk	Mistweaver	270	Mantra of Tenacity	451029	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101229	125041	1				
+Monk	Mistweaver	270	Martial Instincts	450427	talent-passive	TraitNodeEntry	false	0	Rotational	class		101179	124976	2				
+Monk	Mistweaver	270	Meditative Focus	1271105	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	109696	135954	1				
+Monk	Mistweaver	270	Mist Caller	1266811	talent-passive	TraitNodeEntry	false	0	Rotational	class		110019	136510	1				
+Monk	Mistweaver	270	Mist Wrap	197900	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101093	124871	1				
+Monk	Mistweaver	270	Mistline	1280297	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101123	124907	1				
+Monk	Mistweaver	270	Mists of Life	388548	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101099	124879	1				
+Monk	Mistweaver	270	Misty Coalescence	1268817	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101107	124888	1				
+Monk	Mistweaver	270	Misty Peaks	388682	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101114	124896	2				
+Monk	Mistweaver	270	Morning Breeze	1277302	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101125	124909	1				
+Monk	Mistweaver	270	Niuzao's Protection	442747	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101238	125057	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Overflowing Mists	388511	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101094	124872	1				
+Monk	Mistweaver	270	Overwhelming Force	451024	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101220	125029	1				
+Monk	Mistweaver	270	Path of Resurgence	450912	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101226	125038	1				
+Monk	Mistweaver	270	Path of the Falling Star	1273154	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101234	125050	1				
+Monk	Mistweaver	270	Peace and Prosperity	450448	talent-passive	TraitNodeEntry	false	0	Rotational	class		101163	124957	1				
+Monk	Mistweaver	270	Peaceful Mending	388593	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101116	124898	1				
+Monk	Mistweaver	270	Pool of Mists	173841	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101127	125932	1				
+Monk	Mistweaver	270	Potential Energy	1271048	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	109695	135953	1				
+Monk	Mistweaver	270	Pressure Points	450432	talent-passive	TraitNodeEntry	false	0	Rotational	class		101141	124931	1				
+Monk	Mistweaver	270	Purified Spirit	450867	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101224	125035	1				
+Monk	Mistweaver	270	Quick Footed	450503	talent-passive	TraitNodeEntry	false	0	Rotational	class		101158	124951	1				
+Monk	Mistweaver	270	Rapid Diffusion	388847	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101111	124892	2				
+Monk	Mistweaver	270	Refreshment	467270	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101095	124873	1				
+Monk	Mistweaver	270	Reinvigoration	1266740	talent-passive	TraitNodeEntry	false	0	Rotational	class		110027	136520	1				
+Monk	Mistweaver	270	Resplendent Mist	388020	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101126	124911	2				
+Monk	Mistweaver	270	Restore Balance	442719	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101233	125049	1			talent-passive:TraitNodeEntry	
+Monk	Mistweaver	270	Rising Mist	274909	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101117	124899	1				
+Monk	Mistweaver	270	Roar from the Heavens	451043	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101221	125030	1				
+Monk	Mistweaver	270	Rushing Reflexes	450154	talent-passive	TraitNodeEntry	false	0	Rotational	class		101154	124946	1				
+Monk	Mistweaver	270	Save Them All	389579	talent-passive	TraitNodeEntry	false	0	Rotational	class		101157	124949	1				
+Monk	Mistweaver	270	Secret Infusion	388491	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101124	124908	2				
+Monk	Mistweaver	270	Serene Surge	1266734	talent-passive	TraitNodeEntry	false	0	Rotational	class		110026	136516	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Silent Sanctuary	1266719	talent-passive	TraitNodeEntry	false	0	Rotational	class		110024	136517	1				
+Monk	Mistweaver	270	Spirit's Essence	450595	talent-passive	TraitNodeEntry	false	0	Rotational	class		101138	124928	1				
+Monk	Mistweaver	270	Spiritfont	1260511	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109516	135749	1	Other		talent-passive:TraitNodeEntry;cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Stampede of the Ancients	1262756	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101240	125059	1				
+Monk	Mistweaver	270	Stillstep Coil	1266733	talent-passive	TraitNodeEntry	false	0	Rotational	class		110025	136518	1				
+Monk	Mistweaver	270	Strength of the Black Ox	443110	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	110211	136747	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Swift Art	450622	talent-passive	TraitNodeEntry	false	0	Rotational	class		101155	124947	1				
+Monk	Mistweaver	270	Tear of Morning	387991	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101117	124900	1				
+Monk	Mistweaver	270	Temple Training	442743	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101236	125054	1				
+Monk	Mistweaver	270	Tiger Tail Sweep	264348	talent-passive	TraitNodeEntry	false	0	Rotational	class		101182	124980	1				
+Monk	Mistweaver	270	Tiger's Vigor	451041	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101221	125031	1				
+Monk	Mistweaver	270	Tranquil Tea	1270621	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101119	124902	1				
+Monk	Mistweaver	270	Unity Within	443589	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101239	125058	1				
+Monk	Mistweaver	270	Uplifted Spirits	388551	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101092	124869	1				
+Monk	Mistweaver	270	Veil of Pride	400053	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101119	124903	1				
+Monk	Mistweaver	270	Vital Clarity	1266748	talent-passive	TraitNodeEntry	false	0	Rotational	class		110021	136512	1				
+Monk	Mistweaver	270	Vivacious Vivification	388812	talent-passive	TraitNodeEntry	false	0	Rotational	class		110026	136519	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Way of a Thousand Strikes	450965	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101226	125037	1				
+Monk	Mistweaver	270	Way of the Crane	388779	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101104	134001	1				
+Monk	Mistweaver	270	Way of the Serpent	1243155	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101104	124885	1				
+Monk	Mistweaver	270	Wind's Reach	450514	talent-passive	TraitNodeEntry	false	0	Rotational	class		101148	124938	1				
+Monk	Mistweaver	270	Windwalking	157411	talent-passive	TraitNodeEntry	false	0	Rotational	class		101175	124971	1				
+Monk	Mistweaver	270	Xuen's Bond	392986	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	110221	136744	1				
+Monk	Mistweaver	270	Xuen's Guidance	442687	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101236	125053	1				
+Monk	Mistweaver	270	Yu'lon's Avatar	1262667	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	110218	136754	1				
+Monk	Mistweaver	270	Yu'lon's Grace	414131	talent-passive	TraitNodeEntry	false	0	Rotational	class		101165	124960	1				
+Monk	Mistweaver	270	Yu'lon's Knowledge	443625	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Conduit of the Celestials	101233	125048	1				
+Monk	Mistweaver	270	Yu'lon's Whisper	388038	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101100	124880	1				
+Monk	Mistweaver	270	Zen Pulse	446326	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101108	124889	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Mistweaver	270	Transcendence: Transfer	119996	cdm-only	CooldownSetSpell	true	45	Cooldown						Utility	Class 1 (Movement)		
+Monk	Mistweaver	270	Teachings of the Monastery	116645	cdm-only	CooldownSetSpell	false	0	Rotational						Buff			

@@ -1,0 +1,187 @@
+class	spec	spec_id	name	spell_id	origin	source	castable	cooldown	band	tree	hero_tree	node_id	entry_id	max_ranks	blizz_category	seed_bucket	also_from	aliases
+Monk	Brewmaster	268	Fortifying Brew	115203	talent-active	TraitNodeEntry	true	360	Cooldown	class		101173	124968	1	Essential/Other	Personal Defensive 1	cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Invoke Niuzao, the Black Ox	132578	talent-active	TraitNodeEntry	true	120	Cooldown	spec		101075	124849	1	Buff/Essential/Other		cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Exploding Keg	325153	talent-active	TraitNodeEntry	true	60	Cooldown	spec		101197	125001	1	Buff/Essential		cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Paralysis	115078	talent-active	TraitNodeEntry	true	45	Cooldown	class		101142	124932	1	Utility	CC 2	cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Tiger's Lust	116841	talent-active	TraitNodeEntry	true	30	Rotational	class		101147	124937	1	Buff/Utility	Movement Ability 2	cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Breath of Fire	115181	talent-active	TraitNodeEntry	true	15	Rotational	spec		101069	124843	1	Buff/Essential	Rotational 4	cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Spear Hand Strike	116705	talent-active	TraitNodeEntry	true	15	Rotational	class		101152	124943	1	Utility	Interrupt	cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Summon Black Ox Statue	115315	talent-active	TraitNodeEntry	true	10	Rotational	class		101172	124967	1		Class 8 (Lust/BRes)		
+Monk	Brewmaster	268	Transcendence	101643	talent-active	TraitNodeEntry	true	10	Rotational	class		101167	124962	1	Utility	Class 5 (Purge)	cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Keg Smash	121253	talent-active	TraitNodeEntry	true	1	Rotational	spec		101088	124865	1	Buff/Essential	Rotational 1	cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Purifying Brew	119582	talent-active	TraitNodeEntry	true	1	Rotational	spec		101064	124838	1	Essential	Rotational 5	cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Detox	218164	talent-active	TraitNodeEntry	true	0	Rotational	class		101090	124867	1	Utility	Class 6 (Dispel)	cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Diffuse Magic	1243287	talent-active	TraitNodeEntry	true	0	Rotational	class		108540	134029	1		Class 7 (Raid Defensive)		
+Monk	Brewmaster	268	Soothing Mist	115175	talent-active	TraitNodeEntry	true	0	Rotational	class		101143	124933	1		Self-Heal 3 (Overflow)	class-baseline:SkillLineAbility:829	
+Monk	Brewmaster	268	Black Ox Brew	115399	talent-choice	TraitNodeEntry	true	120	Cooldown	spec		101190	124991	1	Essential	Self-Heal 4 (Emergency/Overflow)	cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Ring of Peace	116844	talent-choice	TraitNodeEntry	true	45	Cooldown	class		101136	124926	1	Utility	Class 2 (CC)	cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Chi Burst	123986	talent-choice	TraitNodeEntry	true	30	Rotational	class		102433	126501	1	Essential		class-baseline:SkillLineAbility:829;cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Song of Chi-Ji	198898	talent-choice	TraitNodeEntry	true	30	Rotational	class		101136	124925	1	Utility		cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Rushing Jade Wind	116847	talent-choice	TraitNodeEntry	true	6	Rotational	spec		101202	125007	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Celestial Brew	322507	talent-choice	TraitNodeEntry	true	0	Rotational	spec		101067	124841	1	Buff/Essential		cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Celestial Infusion	1241059	talent-choice	TraitNodeEntry	true	0	Rotational	spec		101067	136146	1	Buff/Essential		cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Chi Torpedo	115008	talent-choice	TraitNodeEntry	true	0	Rotational	class		101183	124981	1				
+Monk	Brewmaster	268	Disable	116095	talent-choice	TraitNodeEntry	true	0	Rotational	class		101149	124939	1	Buff	Slow	cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Touch of Death	322109	class-baseline	SkillLineAbility:829	true	180	Cooldown						Essential	Class 4 (Special)	cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Touch of Fatality	169340	class-baseline	SkillLineAbility:829	true	90	Cooldown									
+Monk	Brewmaster	268	Leg Sweep	119381	class-baseline	SkillLineAbility:829	true	60	Cooldown						Utility	CC	cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Zen Pilgrimage	126892	class-baseline	SkillLineAbility:829	true	60	Cooldown									
+Monk	Brewmaster	268	Expel Harm	322101	class-baseline	SkillLineAbility:829	true	15	Rotational							Self-Heal 2		
+Monk	Brewmaster	268	Provoke	115546	class-baseline	SkillLineAbility:829	true	8	Rotational						Utility	Taunt/Quick Access	cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Blackout Kick	100784	class-baseline	SkillLineAbility:829	true	3	Rotational						Essential	Rotational 2	cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Roll	109132	class-baseline	SkillLineAbility:829	true	0.8	Rotational						Utility	Movement Ability	cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Chi Wave	132463	class-baseline	SkillLineAbility:829	true	0	Rotational								talent-passive:TraitNodeEntry	
+Monk	Brewmaster	268	Crackling Jade Lightning	117952	class-baseline	SkillLineAbility:829	true	0	Rotational							Class 3 (Tag)		
+Monk	Brewmaster	268	Energy Usage	119650	class-baseline	SkillLineAbility:829	true	0	Rotational									
+Monk	Brewmaster	268	Fists of Fury	117418	class-baseline	SkillLineAbility:829	true	0	Rotational									
+Monk	Brewmaster	268	Flying Serpent Kick	123586	class-baseline	SkillLineAbility:829	true	0	Rotational									
+Monk	Brewmaster	268	Healing Sphere	125355	class-baseline	SkillLineAbility:829	true	0	Rotational									
+Monk	Brewmaster	268	Renewing Mist	119611	class-baseline	SkillLineAbility:829	true	0	Rotational									
+Monk	Brewmaster	268	Resuscitate	115178	class-baseline	SkillLineAbility:829	true	0	Rotational									
+Monk	Brewmaster	268	Sheilun's Gift	205406	class-baseline	SkillLineAbility:829	true	0	Rotational									
+Monk	Brewmaster	268	Single-Button Assistant	1229376	class-baseline	SpecializationSpells	true	0	Rotational									
+Monk	Brewmaster	268	Spinning Crane Kick	107270	class-baseline	SkillLineAbility:829	true	0	Rotational							Overflow 1	class-baseline:SpecializationSpells	
+Monk	Brewmaster	268	Tiger Palm	100780	class-baseline	SkillLineAbility:829	true	0	Rotational							Rotational 3		
+Monk	Brewmaster	268	Touch of Karma	124280	class-baseline	SkillLineAbility:829	true	0	Rotational									
+Monk	Brewmaster	268	Vivify	116670	class-baseline	SkillLineAbility:829	true	0	Rotational							Self-Heal 1		
+Monk	Brewmaster	268	Zen Flight	125883	class-baseline	SkillLineAbility:829	true	0	Rotational									
+Monk	Brewmaster	268	Zen Pilgrimage/Death Gate/Moonglade Storage Aura I	126893	class-baseline	SkillLineAbility:829	true	0	Rotational									
+Monk	Brewmaster	268	Zen Pilgrimage: Return	126895	class-baseline	SkillLineAbility:829	true	0	Rotational									
+Monk	Brewmaster	268	Nimble Brew	354540	pvp-talent	PvpTalent	true	90	Cooldown						Buff/Utility	PvP	cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Avert Harm	202162	pvp-talent	PvpTalent	true	45	Cooldown						Utility		cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Double Barrel	202335	pvp-talent	PvpTalent	true	45	Cooldown						Utility	PvP 2	cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Mighty Ox Kick	202370	pvp-talent	PvpTalent	true	30	Rotational						Utility		cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Admonishment	207025	pvp-talent	PvpTalent	true	20	Rotational									
+Monk	Brewmaster	268	Dematerialize	353361	pvp-talent	PvpTalent	false	0	Rotational									
+Monk	Brewmaster	268	Eerie Fermentation	205147	pvp-talent	PvpTalent	false	0	Rotational									
+Monk	Brewmaster	268	Hot Trub	410346	pvp-talent	PvpTalent	false	0	Rotational									
+Monk	Brewmaster	268	Microbrew	202107	pvp-talent	PvpTalent	false	0	Rotational									
+Monk	Brewmaster	268	Niuzao's Essence	232876	pvp-talent	PvpTalent	false	0	Rotational									
+Monk	Brewmaster	268	Transcendence: Linked Spirits	434774	talent-passive	TraitNodeEntry	false	10	Rotational	class		101176	124972	1				
+Monk	Brewmaster	268	Against All Odds	450986	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Shado-Pan	101253	125074	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Ancient Arts	344359	talent-passive	TraitNodeEntry	false	0	Rotational	class		101184	124983	2				
+Monk	Brewmaster	268	Anvil and Stave	386937	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101081	124856	2				
+Monk	Brewmaster	268	Aspect of Harmony	450508	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101223	125033	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	August Blessing	454483	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109883	136147	1				
+Monk	Brewmaster	268	Awakening Spirit	1262628	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101196	125000	1				
+Monk	Brewmaster	268	Balanced Stratagem	450889	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101230	125043	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Blackout Combo	196736	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101193	124996	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Bob and Weave	280515	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101190	124992	1				
+Monk	Brewmaster	268	Bounding Agility	450520	talent-passive	TraitNodeEntry	false	0	Rotational	class		101161	124955	1				
+Monk	Brewmaster	268	Bring Me Another	1265129	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110435	137075	1			talent-passive:TraitNodeEntry	
+Monk	Brewmaster	268	Calming Presence	388664	talent-passive	TraitNodeEntry	false	0	Rotational	class		101153	124944	1				
+Monk	Brewmaster	268	Celerity	115173	talent-passive	TraitNodeEntry	false	0	Rotational	class		101183	124982	1				
+Monk	Brewmaster	268	Celestial Determination	450638	talent-passive	TraitNodeEntry	false	0	Rotational	class		101180	124977	1				
+Monk	Brewmaster	268	Celestial Flames	1263353	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101076	124850	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Charred Passions	386965	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101187	124986	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Chi Proficiency	450426	talent-passive	TraitNodeEntry	false	0	Rotational	class		101169	124964	2				
+Monk	Brewmaster	268	Chi Transfer	1272452	talent-passive	TraitNodeEntry	false	0	Rotational	class		101177	124974	1				
+Monk	Brewmaster	268	Clarity of Purpose	451017	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101228	125040	1				
+Monk	Brewmaster	268	Coalescence	450529	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101227	125039	1				
+Monk	Brewmaster	268	Combat Stance	1272844	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Shado-Pan	101254	125076	1				
+Monk	Brewmaster	268	Counterstrike	383785	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101079	124854	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Crashing Momentum	450335	talent-passive	TraitNodeEntry	false	0	Rotational	class		101149	124940	1				
+Monk	Brewmaster	268	Dance of the Wind	414132	talent-passive	TraitNodeEntry	false	0	Rotational	class		101181	124979	1				
+Monk	Brewmaster	268	Dragonfire Brew	383994	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101187	124987	1				
+Monk	Brewmaster	268	Efficient Training	450989	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Shado-Pan	101251	125072	1				
+Monk	Brewmaster	268	Elixir of Determination	455139	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101085	124862	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Elusive Footwork	387046	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109882	136145	1				
+Monk	Brewmaster	268	Elusive Mists	388681	talent-passive	TraitNodeEntry	false	0	Rotational	class		101144	124934	1				
+Monk	Brewmaster	268	Empty the Cellar	1262329	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101198	136150	1			talent-passive:TraitNodeEntry	
+Monk	Brewmaster	268	Endless Draught	450892	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101225	125036	1				
+Monk	Brewmaster	268	Energy Transfer	450631	talent-passive	TraitNodeEntry	false	0	Rotational	class		101151	124942	1				
+Monk	Brewmaster	268	Escape from Reality	394110	talent-passive	TraitNodeEntry	false	0	Rotational	class		101176	124973	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Expeditious Fortification	388813	talent-passive	TraitNodeEntry	false	0	Rotational	class		101174	124969	1				
+Monk	Brewmaster	268	Face Palm	389942	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101080	124855	1				
+Monk	Brewmaster	268	Fast Feet	1261543	talent-passive	TraitNodeEntry	false	0	Rotational	class		109826	136085	1				
+Monk	Brewmaster	268	Fatal Touch	394123	talent-passive	TraitNodeEntry	false	0	Rotational	class		101178	124975	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Ferocity of Xuen	388674	talent-passive	TraitNodeEntry	false	0	Rotational	class		101166	124961	2				
+Monk	Brewmaster	268	Flow of Chi	450569	talent-passive	TraitNodeEntry	false	0	Rotational	class		101170	124965	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Fluidity of Motion	387230	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101078	124852	1				
+Monk	Brewmaster	268	Flurry Strikes	450615	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Shado-Pan	101248	125069	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Fortifying Brew: Determination	322960	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101068	124842	1				
+Monk	Brewmaster	268	Fuel on the Fire	1262017	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101198	125003	1				
+Monk	Brewmaster	268	Gai Plin's Imperial Brew	383700	talent-passive	TraitNodeEntry	false	0	Rotational	spec		102004	124859	1				
+Monk	Brewmaster	268	Gift of the Ox	124502	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101071	124845	1				
+Monk	Brewmaster	268	Grace of the Crane	388811	talent-passive	TraitNodeEntry	false	0	Rotational	class		101146	124936	1				
+Monk	Brewmaster	268	Harmonic Gambit	450870	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101224	125034	1				
+Monk	Brewmaster	268	Harmonic Surge	1270958	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	109694	135952	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Hasty Provocation	328670	talent-passive	TraitNodeEntry	false	0	Rotational	class		101158	124950	1				
+Monk	Brewmaster	268	Healing Winds	450560	talent-passive	TraitNodeEntry	false	0	Rotational	class		101171	124966	1				
+Monk	Brewmaster	268	Heart of the Ox	1263245	talent-passive	TraitNodeEntry	false	0	Rotational	spec		109910	136177	1				
+Monk	Brewmaster	268	High Impact	450982	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Shado-Pan	101247	125067	1				
+Monk	Brewmaster	268	High Tolerance	196737	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101189	124990	2				
+Monk	Brewmaster	268	Improved Blackout Kick	383695	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101072	124846	1				
+Monk	Brewmaster	268	Improved Touch of Death	322113	talent-passive	TraitNodeEntry	false	0	Rotational	class		101140	124930	1				
+Monk	Brewmaster	268	Initiator's Edge	1272849	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Shado-Pan	101254	125075	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Ironshell Brew	388814	talent-passive	TraitNodeEntry	false	0	Rotational	class		101174	124970	1				
+Monk	Brewmaster	268	Jade Flash	1262334	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101070	124844	1				
+Monk	Brewmaster	268	Jade Walk	450553	talent-passive	TraitNodeEntry	false	0	Rotational	class		101160	124954	1				
+Monk	Brewmaster	268	Light Brewing	325093	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101082	124858	1				
+Monk	Brewmaster	268	Lighter Than Air	449582	talent-passive	TraitNodeEntry	false	0	Rotational	class		101168	124963	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Manifestation	450875	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101222	125032	1				
+Monk	Brewmaster	268	Mantra of Purity	451036	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101229	125042	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Mantra of Tenacity	451029	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101229	125041	1				
+Monk	Brewmaster	268	Martial Instincts	450427	talent-passive	TraitNodeEntry	false	0	Rotational	class		101179	124976	2				
+Monk	Brewmaster	268	Martial Precision	450990	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Shado-Pan	101246	125066	1				
+Monk	Brewmaster	268	Meditative Focus	1271105	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	109696	135954	1				
+Monk	Brewmaster	268	Mighty Stomp	322740	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101073	124847	1				
+Monk	Brewmaster	268	Niuzao's Resolve	1241097	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101084	124861	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	One Versus Many	450988	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Shado-Pan	101250	125071	1				
+Monk	Brewmaster	268	One With the Wind	454484	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101710	125611	1				
+Monk	Brewmaster	268	Overwhelming Force	451024	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101220	125029	1				
+Monk	Brewmaster	268	Ox Stance	455068	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101199	125004	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Path of Resurgence	450912	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101226	125038	1				
+Monk	Brewmaster	268	Peace and Prosperity	450448	talent-passive	TraitNodeEntry	false	0	Rotational	class		101163	124957	1				
+Monk	Brewmaster	268	Potential Energy	1271048	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	109695	135953	1				
+Monk	Brewmaster	268	Predictive Training	450992	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Shado-Pan	101245	125064	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Press the Advantage	418359	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101193	124997	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Pressure Points	450432	talent-passive	TraitNodeEntry	false	0	Rotational	class		101141	124931	1				
+Monk	Brewmaster	268	Pretense of Instability	393516	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101201	125006	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Pride of Pandaria	450979	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Shado-Pan	101247	125068	1				
+Monk	Brewmaster	268	Profound Rebuttal	392910	talent-passive	TraitNodeEntry	false	0	Rotational	class		101135	124923	1				
+Monk	Brewmaster	268	Purified Spirit	450867	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101224	125035	1				
+Monk	Brewmaster	268	Quick Footed	450503	talent-passive	TraitNodeEntry	false	0	Rotational	class		101158	124951	1				
+Monk	Brewmaster	268	Quick Sip	388505	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101065	136148	1				
+Monk	Brewmaster	268	Reinvigoration	1266740	talent-passive	TraitNodeEntry	false	0	Rotational	class		110027	136520	1				
+Monk	Brewmaster	268	Roar from the Heavens	451043	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101221	125030	1				
+Monk	Brewmaster	268	Rushing Reflexes	450154	talent-passive	TraitNodeEntry	false	0	Rotational	class		101154	124946	1				
+Monk	Brewmaster	268	Sal'salabim's Strength	383697	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101188	124988	1				
+Monk	Brewmaster	268	Save Them All	389579	talent-passive	TraitNodeEntry	false	0	Rotational	class		101157	124949	1				
+Monk	Brewmaster	268	Scalding Brew	383698	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101188	124989	1				
+Monk	Brewmaster	268	Shado Over the Battlefield	1262612	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Shado-Pan	109697	135955	1				
+Monk	Brewmaster	268	Shadowboxing Treads	387638	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101078	124853	1				
+Monk	Brewmaster	268	Shuffle	322120	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101087	124864	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Silent Sanctuary	1266719	talent-passive	TraitNodeEntry	false	0	Rotational	class		110024	136517	1				
+Monk	Brewmaster	268	Special Delivery	196730	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101202	125008	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Spirit of the Ox	400629	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101086	124863	1				
+Monk	Brewmaster	268	Spirit's Essence	450595	talent-passive	TraitNodeEntry	false	0	Rotational	class		101138	124928	1				
+Monk	Brewmaster	268	Stagger	115069	talent-passive	TraitNodeEntry	false	0	Rotational	class		109827	136086	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Staggering Strikes	387625	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101065	124839	1				
+Monk	Brewmaster	268	Stand Ready	1262603	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Shado-Pan	109698	135956	1				
+Monk	Brewmaster	268	Stillstep Coil	1266733	talent-passive	TraitNodeEntry	false	0	Rotational	class		110025	136518	1				
+Monk	Brewmaster	268	Stormstout's Last Keg	383707	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101195	124999	1				
+Monk	Brewmaster	268	Strength of Spirit	387276	talent-passive	TraitNodeEntry	false	0	Rotational	class		101135	124924	1				
+Monk	Brewmaster	268	Swift Art	450622	talent-passive	TraitNodeEntry	false	0	Rotational	class		101155	124947	1				
+Monk	Brewmaster	268	Swift as a Coursing River	1263346	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101063	124837	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Tiger Tail Sweep	264348	talent-passive	TraitNodeEntry	false	0	Rotational	class		101182	124980	1				
+Monk	Brewmaster	268	Tiger's Vigor	451041	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101221	125031	1				
+Monk	Brewmaster	268	Training of Niuzao	383714	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101082	124857	1				
+Monk	Brewmaster	268	Tranquil Spirit	393357	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101083	124860	1				
+Monk	Brewmaster	268	Veteran's Eye	450987	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Shado-Pan	101249	125070	1				
+Monk	Brewmaster	268	Vigilant Watch	450993	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Shado-Pan	101244	125063	1				
+Monk	Brewmaster	268	Vigorous Expulsion	392900	talent-passive	TraitNodeEntry	false	0	Rotational	class		101156	124948	1				
+Monk	Brewmaster	268	Vital Flame	1262659	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101196	136149	1				
+Monk	Brewmaster	268	Vivacious Vivification	388812	talent-passive	TraitNodeEntry	false	0	Rotational	class		101145	124935	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Walk with the Ox	387219	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101074	124848	2				
+Monk	Brewmaster	268	Way of a Thousand Strikes	450965	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Master of Harmony	101226	125037	1				
+Monk	Brewmaster	268	Weapons of the Wall	1262610	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Shado-Pan	109699	135957	1				
+Monk	Brewmaster	268	Whirling Steel	450991	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Shado-Pan	101245	125065	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Wind's Reach	450514	talent-passive	TraitNodeEntry	false	0	Rotational	class		101148	124938	1				
+Monk	Brewmaster	268	Windwalking	157411	talent-passive	TraitNodeEntry	false	0	Rotational	class		101175	124971	1				
+Monk	Brewmaster	268	Wisdom of the Wall	1272821	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Shado-Pan	101252	125073	1				
+Monk	Brewmaster	268	Yu'lon's Grace	414131	talent-passive	TraitNodeEntry	false	0	Rotational	class		101165	124960	1	Buff		cdm-only:CooldownSetSpell	
+Monk	Brewmaster	268	Zen State	1241136	talent-passive	TraitNodeEntry	false	0	Rotational	spec		101077	124851	1				
+Monk	Brewmaster	268	Transcendence: Transfer	119996	cdm-only	CooldownSetSpell	true	45	Cooldown						Utility	Class 1 (Movement)		
+Monk	Brewmaster	268	Flurry Charge	451021	cdm-only	CooldownSetSpell	true	0	Rotational						Buff			
+Monk	Brewmaster	268	Mastery: Elusive Brawler	117906	cdm-only	CooldownSetSpell	false	0	Rotational						Buff			

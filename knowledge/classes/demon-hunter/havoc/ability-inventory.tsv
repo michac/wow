@@ -1,0 +1,150 @@
+class	spec	spec_id	name	spell_id	origin	source	castable	cooldown	band	tree	hero_tree	node_id	entry_id	max_ranks	blizz_category	seed_bucket	also_from	aliases
+Demon Hunter	Havoc	577	Darkness	196718	talent-active	TraitNodeEntry	true	300	Cooldown	class		91002	112921	1	Utility	Class 7 (Raid Defensive)	cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	The Hunt	370965	talent-active	TraitNodeEntry	true	90	Cooldown	spec		90921	112830	1	Buff/Essential		cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Chaos Nova	179057	talent-active	TraitNodeEntry	true	45	Cooldown	class		90993	112911	1	Buff/Utility	CC	cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Imprison	217832	talent-active	TraitNodeEntry	true	45	Cooldown	class		91007	112927	1	Utility	Class 6 (Dispel)	cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Essence Break	258860	talent-active	TraitNodeEntry	true	40	Rotational	spec		91033	112956	1	Essential		cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Eye Beam	198013	talent-active	TraitNodeEntry	true	30	Rotational	spec		91018	112939	1	Essential	Rotational 3	cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Vengeful Retreat	198793	talent-active	TraitNodeEntry	true	25	Rotational	class		90942	112853	1	Utility		cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Felblade	232893	talent-active	TraitNodeEntry	true	12	Rotational	class		91008	112928	1	Utility		cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Consume Magic	278326	talent-active	TraitNodeEntry	true	10	Rotational	class		91006	112926	1	Utility	Class 5 (Purge)	cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Sigil of Misery	207684	talent-active	TraitNodeEntry	true	0	Rotational	class		90946	112859	1	Utility	CC 2	cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Metamorphosis	191427	class-baseline	SkillLineAbility:1848	true	120	Cooldown						Buff/Essential	Cooldown 1	cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Fury of the Illidari	201467	class-baseline	SkillLineAbility:1848	true	60	Cooldown									
+Demon Hunter	Havoc	577	Soul Carver	207407	class-baseline	SkillLineAbility:1848	true	60	Cooldown									
+Demon Hunter	Havoc	577	Spectral Sight	188501	class-baseline	SkillLineAbility:1848	true	30	Rotational						Utility	Class 4 (Special)	cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Blade Dance	188499	class-baseline	SpecializationSpells	true	15	Rotational						Essential	Rotational 2	cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Disrupt	183752	class-baseline	SkillLineAbility:1848	true	15	Rotational						Utility	Interrupt	cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Immolation Aura	258920	class-baseline	SkillLineAbility:1848	true	1.5	Rotational						Buff/Essential	Rotational 4	cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Fel Rush	344865	class-baseline	SkillLineAbility:1848	true	1	Rotational						Essential/Utility	Movement Ability	class-baseline:SpecializationSpells;cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Glide	131347	class-baseline	SkillLineAbility:1848	true	1	Rotational									
+Demon Hunter	Havoc	577	Blur	198589	class-baseline	SpecializationSpells	true	0.5	Rotational						Buff/Utility	Personal Defensive 1	cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Chaos Strike	344862	class-baseline	SkillLineAbility:1848	true	0	Rotational						Essential	Rotational 1	class-baseline:SpecializationSpells;cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Demon's Bite	344859	class-baseline	SkillLineAbility:1848	true	0	Rotational								class-baseline:SpecializationSpells	
+Demon Hunter	Havoc	577	Sigil of Flame	204596	class-baseline	SkillLineAbility:1848	true	0	Rotational									
+Demon Hunter	Havoc	577	Single-Button Assistant	1229376	class-baseline	SpecializationSpells	true	0	Rotational									
+Demon Hunter	Havoc	577	Throw Glaive	185123	class-baseline	SkillLineAbility:1848	true	0	Rotational						Essential	Rotational 8	cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Torment	185245	class-baseline	SkillLineAbility:1848	true	0	Rotational						Utility	Taunt/Quick Access	cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Rain from Above	206803	pvp-talent	PvpTalent	true	90	Cooldown						Essential	PvP	cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Illidan's Grasp	205630	pvp-talent	PvpTalent	true	60	Cooldown							PvP 2		
+Demon Hunter	Havoc	577	Reverse Magic	205604	pvp-talent	PvpTalent	true	60	Cooldown						Utility	PvP 3	cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Blood Moon	355995	pvp-talent	PvpTalent	false	0	Rotational									
+Demon Hunter	Havoc	577	Cleansed by Flame	205625	pvp-talent	PvpTalent	false	0	Rotational									
+Demon Hunter	Havoc	577	Cover of Darkness	357419	pvp-talent	PvpTalent	false	0	Rotational									
+Demon Hunter	Havoc	577	Detainment	205596	pvp-talent	PvpTalent	false	0	Rotational									
+Demon Hunter	Havoc	577	Glimpse	354489	pvp-talent	PvpTalent	false	0	Rotational									
+Demon Hunter	Havoc	577	Sigil Mastery	211489	pvp-talent	PvpTalent	false	0	Rotational									
+Demon Hunter	Havoc	577	Unending Hatred	213480	pvp-talent	PvpTalent	false	0	Rotational									
+Demon Hunter	Havoc	577	A Fire Inside	427775	talent-passive	TraitNodeEntry	false	0	Rotational	spec		95143	117741	1				
+Demon Hunter	Havoc	577	Accelerated Blade	391275	talent-passive	TraitNodeEntry	false	0	Rotational	spec		91011	112932	1				
+Demon Hunter	Havoc	577	Aldrachi Design	391409	talent-passive	TraitNodeEntry	false	0	Rotational	class		90999	112917	1				
+Demon Hunter	Havoc	577	Aldrachi Tactics	442683	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Aldrachi Reaver	94914	117511	1				
+Demon Hunter	Havoc	577	Army Unto Oneself	442714	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Aldrachi Reaver	94896	117493	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Art of the Glaive	442290	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Aldrachi Reaver	94915	117512	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Aura of Pain	207347	talent-passive	TraitNodeEntry	false	0	Rotational	class		90933	112844	1				
+Demon Hunter	Havoc	577	Bladecraft	1272153	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Aldrachi Reaver	94906	117503	1				
+Demon Hunter	Havoc	577	Blazing Path	320416	talent-passive	TraitNodeEntry	false	0	Rotational	class		95150	117759	1				
+Demon Hunter	Havoc	577	Blind Focus	1272364	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Fel-Scarred	109773	136031	1				
+Demon Hunter	Havoc	577	Blind Fury	203550	talent-passive	TraitNodeEntry	false	0	Rotational	spec		91026	112949	2				
+Demon Hunter	Havoc	577	Bouncing Glaives	320386	talent-passive	TraitNodeEntry	false	0	Rotational	class		90931	112841	1				
+Demon Hunter	Havoc	577	Broken Spirit	1272143	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Aldrachi Reaver	109771	136029	1				
+Demon Hunter	Havoc	577	Burn It Out	1266316	talent-passive	TraitNodeEntry	false	0	Rotational	class		90927	112837	1				
+Demon Hunter	Havoc	577	Burning Blades	452408	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Fel-Scarred	94905	117502	1				
+Demon Hunter	Havoc	577	Burning Hatred	320374	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90923	112832	1				
+Demon Hunter	Havoc	577	Burning Wound	391189	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90917	112826	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Champion of the Glaive	429211	talent-passive	TraitNodeEntry	false	0	Rotational	class		90994	117768	1				
+Demon Hunter	Havoc	577	Chaos Theory	389687	talent-passive	TraitNodeEntry	false	0	Rotational	spec		91035	112958	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Chaotic Disposition	428492	talent-passive	TraitNodeEntry	false	0	Rotational	spec		95147	117754	2				
+Demon Hunter	Havoc	577	Chaotic Transformation	388112	talent-passive	TraitNodeEntry	false	0	Rotational	spec		91024	117765	1				
+Demon Hunter	Havoc	577	Charred Warblades	213010	talent-passive	TraitNodeEntry	false	0	Rotational	class		90948	112861	1				
+Demon Hunter	Havoc	577	Collective Anguish	390152	talent-passive	TraitNodeEntry	false	0	Rotational	spec		91031	134227	1				
+Demon Hunter	Havoc	577	Critical Chaos	320413	talent-passive	TraitNodeEntry	false	0	Rotational	spec		91028	112951	1				
+Demon Hunter	Havoc	577	Cycle of Hatred	258887	talent-passive	TraitNodeEntry	false	0	Rotational	spec		91032	112955	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Dancing with Fate	389978	talent-passive	TraitNodeEntry	false	0	Rotational	spec		91015	112936	2				
+Demon Hunter	Havoc	577	Dash of Chaos	427794	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93014	115245	1				
+Demon Hunter	Havoc	577	Deflecting Dance	427776	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93015	115246	1				
+Demon Hunter	Havoc	577	Demon Hide	428241	talent-passive	TraitNodeEntry	false	0	Rotational	spec		91017	112938	1				
+Demon Hunter	Havoc	577	Demon Muzzle	1266329	talent-passive	TraitNodeEntry	false	0	Rotational	class		90928	112838	1				
+Demon Hunter	Havoc	577	Demonic	213410	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90922	112831	1				
+Demon Hunter	Havoc	577	Demonic Intensity	452415	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Fel-Scarred	94901	117498	1				
+Demon Hunter	Havoc	577	Demonic Resilience	1266307	talent-passive	TraitNodeEntry	false	0	Rotational	class		90997	117755	1				
+Demon Hunter	Havoc	577	Demonsurge	452402	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Fel-Scarred	94917	117514	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Desperate Instincts	205411	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93016	115248	1				
+Demon Hunter	Havoc	577	Disrupting Fury	183782	talent-passive	TraitNodeEntry	false	0	Rotational	class		90937	112848	1				
+Demon Hunter	Havoc	577	Enduring Torment	452410	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Fel-Scarred	94916	117513	1				
+Demon Hunter	Havoc	577	Erratic Felheart	391397	talent-passive	TraitNodeEntry	false	0	Rotational	class		90996	112914	2				
+Demon Hunter	Havoc	577	Eternal Hunt	1270898	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110427	137049	1	Buff		talent-passive:TraitNodeEntry;cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Evasive Action	444926	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Aldrachi Reaver	94911	117508	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Exergy	206476	talent-passive	TraitNodeEntry	false	0	Rotational	spec		91021	112943	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Felbound	1266762	talent-passive	TraitNodeEntry	false	0	Rotational	class		91003	112923	1				
+Demon Hunter	Havoc	577	Felfire Haste	389846	talent-passive	TraitNodeEntry	false	0	Rotational	class		90939	112850	1				
+Demon Hunter	Havoc	577	Final Breath	1266500	talent-passive	TraitNodeEntry	false	0	Rotational	class		110011	136501	1				
+Demon Hunter	Havoc	577	First Blood	206416	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90925	112834	1				
+Demon Hunter	Havoc	577	First In, Last Out	1266497	talent-passive	TraitNodeEntry	false	0	Rotational	class		95149	117758	1				
+Demon Hunter	Havoc	577	Flamebound	452413	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Fel-Scarred	94902	124009	1				
+Demon Hunter	Havoc	577	Focused Hatred	452405	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Fel-Scarred	94918	117515	1				
+Demon Hunter	Havoc	577	Focused Ire	1266296	talent-passive	TraitNodeEntry	false	0	Rotational	class		95154	117767	1				
+Demon Hunter	Havoc	577	Furious	1266326	talent-passive	TraitNodeEntry	false	0	Rotational	class		95152	117762	1				
+Demon Hunter	Havoc	577	Furious Gaze	343311	talent-passive	TraitNodeEntry	false	0	Rotational	spec		91025	112948	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Furious Throws	393029	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93013	115244	1				
+Demon Hunter	Havoc	577	Fury of the Aldrachi	442718	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Aldrachi Reaver	94898	117495	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Glaive Tempest	1244557	talent-passive	TraitNodeEntry	false	0	Rotational	spec		108669	134203	1				
+Demon Hunter	Havoc	577	Growing Inferno	390158	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90916	112825	1				
+Demon Hunter	Havoc	577	Illidari Knowledge	389696	talent-passive	TraitNodeEntry	false	0	Rotational	class		90935	112846	2				
+Demon Hunter	Havoc	577	Improved Chaos Strike	343206	talent-passive	TraitNodeEntry	false	0	Rotational	spec		91030	112953	1				
+Demon Hunter	Havoc	577	Improved Disrupt	320361	talent-passive	TraitNodeEntry	false	0	Rotational	class		90938	112849	1				
+Demon Hunter	Havoc	577	Improved Sigil of Misery	320418	talent-passive	TraitNodeEntry	false	0	Rotational	class		90945	112858	1				
+Demon Hunter	Havoc	577	Improved Soul Rending	452407	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Fel-Scarred	94899	124010	1				
+Demon Hunter	Havoc	577	Incisive Blade	442492	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Aldrachi Reaver	94895	117492	1				
+Demon Hunter	Havoc	577	Incorruptible Spirit	442736	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Aldrachi Reaver	94896	123046	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Inertia	427640	talent-passive	TraitNodeEntry	false	0	Rotational	spec		91021	117744	1	Buff/Other		cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Infernal Armor	320331	talent-passive	TraitNodeEntry	false	0	Rotational	class		91004	112924	2				
+Demon Hunter	Havoc	577	Initiative	388108	talent-passive	TraitNodeEntry	false	0	Rotational	spec		91027	112950	1	Other		cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Inner Demon	389693	talent-passive	TraitNodeEntry	false	0	Rotational	spec		91024	112947	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Internal Struggle	393822	talent-passive	TraitNodeEntry	false	0	Rotational	class		90934	112845	1				
+Demon Hunter	Havoc	577	Isolated Prey	388113	talent-passive	TraitNodeEntry	false	0	Rotational	spec		91036	112959	1				
+Demon Hunter	Havoc	577	Keen Edge	1272138	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Aldrachi Reaver	109770	136028	1				
+Demon Hunter	Havoc	577	Keen Engagement	442497	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Aldrachi Reaver	94910	117507	1				
+Demon Hunter	Havoc	577	Know Your Enemy	388118	talent-passive	TraitNodeEntry	false	0	Rotational	spec		91034	112957	2				
+Demon Hunter	Havoc	577	Live by the Glaive	428607	talent-passive	TraitNodeEntry	false	0	Rotational	class		95151	117761	1				
+Demon Hunter	Havoc	577	Long Night	389781	talent-passive	TraitNodeEntry	false	0	Rotational	class		91001	112920	1				
+Demon Hunter	Havoc	577	Lost in Darkness	389849	talent-passive	TraitNodeEntry	false	0	Rotational	class		90947	112860	1				
+Demon Hunter	Havoc	577	Master of the Glaive	389763	talent-passive	TraitNodeEntry	false	0	Rotational	class		90994	112912	1				
+Demon Hunter	Havoc	577	Monster Rising	452414	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Fel-Scarred	94909	117506	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Mortal Dance	328725	talent-passive	TraitNodeEntry	false	0	Rotational	spec		93015	117743	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Pitch Black	389783	talent-passive	TraitNodeEntry	false	0	Rotational	class		91001	112919	1				
+Demon Hunter	Havoc	577	Preemptive Strike	444997	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Aldrachi Reaver	94910	122422	1				
+Demon Hunter	Havoc	577	Pursuit	320654	talent-passive	TraitNodeEntry	false	0	Rotational	class		90940	112851	1				
+Demon Hunter	Havoc	577	Pursuit of Angriness	452404	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Fel-Scarred	94913	124011	1				
+Demon Hunter	Havoc	577	Ragefire	388107	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90918	112827	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Reaver's Mark	442679	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Aldrachi Reaver	94903	117500	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Relentless Onslaught	389977	talent-passive	TraitNodeEntry	false	0	Rotational	spec		91012	112933	1				
+Demon Hunter	Havoc	577	Remorseless	1266328	talent-passive	TraitNodeEntry	false	0	Rotational	class		90929	112839	1				
+Demon Hunter	Havoc	577	Scars of Suffering	428232	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90914	112823	1				
+Demon Hunter	Havoc	577	Screaming Brutality	1220506	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90919	112828	1				
+Demon Hunter	Havoc	577	Serrated Glaive	390154	talent-passive	TraitNodeEntry	false	0	Rotational	spec		91013	112934	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Set Fire to the Pain	452406	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Fel-Scarred	94899	117496	1				
+Demon Hunter	Havoc	577	Shattered Destiny	388116	talent-passive	TraitNodeEntry	false	0	Rotational	spec		91031	112954	1				
+Demon Hunter	Havoc	577	Shattered Restoration	389824	talent-passive	TraitNodeEntry	false	0	Rotational	class		90950	112863	1				
+Demon Hunter	Havoc	577	Soul Cleanse	1266496	talent-passive	TraitNodeEntry	false	0	Rotational	class		90927	136502	1				
+Demon Hunter	Havoc	577	Soul Rending	204909	talent-passive	TraitNodeEntry	false	0	Rotational	class		90936	112847	2				
+Demon Hunter	Havoc	577	Soul Splitter	1266330	talent-passive	TraitNodeEntry	false	0	Rotational	class		90949	112862	2				
+Demon Hunter	Havoc	577	Soulscar	388106	talent-passive	TraitNodeEntry	false	0	Rotational	spec		91012	117764	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Student of Suffering	452412	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Fel-Scarred	94902	117499	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Swallowed Anger	320313	talent-passive	TraitNodeEntry	false	0	Rotational	class		91005	112925	1				
+Demon Hunter	Havoc	577	Tactical Retreat	389688	talent-passive	TraitNodeEntry	false	0	Rotational	spec		91022	112944	1				
+Demon Hunter	Havoc	577	Thrill of the Fight	442686	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Aldrachi Reaver	94919	117516	1	Buff/Other		cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Trail of Ruin	258881	talent-passive	TraitNodeEntry	false	0	Rotational	spec		90915	112824	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Unbound Chaos	347461	talent-passive	TraitNodeEntry	false	0	Rotational	spec		91020	112942	1	Buff		cdm-only:CooldownSetSpell	
+Demon Hunter	Havoc	577	Undying Embers	1272405	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Fel-Scarred	109774	136032	1				
+Demon Hunter	Havoc	577	Unhindered Assault	444931	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Aldrachi Reaver	94911	123047	1				
+Demon Hunter	Havoc	577	Unrestrained Fury	320770	talent-passive	TraitNodeEntry	false	0	Rotational	class		90941	112852	1				
+Demon Hunter	Havoc	577	Untethered Fury	452411	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Fel-Scarred	94904	117501	1				
+Demon Hunter	Havoc	577	Vengeful Bonds	320635	talent-passive	TraitNodeEntry	false	0	Rotational	class		90930	112840	1				
+Demon Hunter	Havoc	577	Violent Transformation	452409	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Fel-Scarred	94912	117509	1				
+Demon Hunter	Havoc	577	Volatile Instinct	1272453	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Fel-Scarred	109772	136030	1				
+Demon Hunter	Havoc	577	Warblade's Hunger	442502	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Aldrachi Reaver	109769	136027	1				
+Demon Hunter	Havoc	577	Wave of Debilitation	452403	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Fel-Scarred	94913	117510	1				
+Demon Hunter	Havoc	577	Will of the Illidari	389695	talent-passive	TraitNodeEntry	false	0	Rotational	class		91000	112918	2				
+Demon Hunter	Havoc	577	Wings of Wrath	1266493	talent-passive	TraitNodeEntry	false	0	Rotational	class		110010	136500	1				
+Demon Hunter	Havoc	577	Wounded Quarry	442806	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Aldrachi Reaver	94897	117494	1				

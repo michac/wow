@@ -1,0 +1,163 @@
+class	spec	spec_id	name	spell_id	origin	source	castable	cooldown	band	tree	hero_tree	node_id	entry_id	max_ranks	blizz_category	seed_bucket	also_from	aliases
+Priest	Holy	257	Divine Hymn	64843	talent-active	TraitNodeEntry	true	180	Cooldown	spec		82621	103755	1	Essential	Cooldown 2	cdm-only:CooldownSetSpell	
+Priest	Holy	257	Guardian Spirit	47788	talent-active	TraitNodeEntry	true	180	Cooldown	spec		82637	103774	1	Essential	Cooldown 4	cdm-only:CooldownSetSpell	
+Priest	Holy	257	Apotheosis	200183	talent-active	TraitNodeEntry	true	120	Cooldown	spec		82614	103748	1	Buff/Essential	Cooldown 1	cdm-only:CooldownSetSpell	
+Priest	Holy	257	Mass Dispel	32375	talent-active	TraitNodeEntry	true	120	Cooldown	class		109890	136157	1	Utility	Class 3 (Tag)	cdm-only:CooldownSetSpell	
+Priest	Holy	257	Power Infusion	10060	talent-active	TraitNodeEntry	true	120	Cooldown	class		82556	103834	1	Buff/Essential	Class 4 (Special)	cdm-only:CooldownSetSpell	
+Priest	Holy	257	Desperate Prayer	19236	talent-active	TraitNodeEntry	true	90	Cooldown	class		109012	134846	1	Buff/Utility	Self-Heal 1	cdm-only:CooldownSetSpell	
+Priest	Holy	257	Halo	120644	talent-active	TraitNodeEntry	true	60	Cooldown	hero	Archon	94697	117300	1	Essential	Rotational 8	talent-active:TraitNodeEntry;cdm-only:CooldownSetSpell	
+Priest	Holy	257	Holy Word: Chastise	88625	talent-active	TraitNodeEntry	true	60	Cooldown	spec		82639	103776	1	Buff/Essential	Interrupt	cdm-only:CooldownSetSpell	
+Priest	Holy	257	Psychic Scream	8122	talent-active	TraitNodeEntry	true	40	Rotational	class		82701	103851	1	Buff/Utility	CC	cdm-only:CooldownSetSpell	
+Priest	Holy	257	Fade	586	talent-active	TraitNodeEntry	true	30	Rotational	class		109015	134849	1	Buff/Utility	Personal Defensive 1	cdm-only:CooldownSetSpell	
+Priest	Holy	257	Holy Fire	14914	talent-active	TraitNodeEntry	true	10	Rotational	class		108730	134283	1		Rotational 2		
+Priest	Holy	257	Leap of Faith	73325	talent-active	TraitNodeEntry	true	1	Rotational	class		82715	103867	1	Utility	Immune/Spell Immune/Movement	cdm-only:CooldownSetSpell	
+Priest	Holy	257	Angelic Feather	121536	talent-active	TraitNodeEntry	true	0	Rotational	class		82703	103853	1	Buff/Utility	Movement Ability	cdm-only:CooldownSetSpell	
+Priest	Holy	257	Dispel Magic	528	talent-active	TraitNodeEntry	true	0	Rotational	class		109009	103677	1		Class 5 (Purge)		
+Priest	Holy	257	Holy Nova	132157	talent-active	TraitNodeEntry	true	0	Rotational	class		82718	103870	1	Essential	Class 1 (Movement)	cdm-only:CooldownSetSpell	
+Priest	Holy	257	Holy Word: Sanctify	34861	talent-active	TraitNodeEntry	true	0	Rotational	spec		82631	103766	1	Essential	Rotational 7	cdm-only:CooldownSetSpell	
+Priest	Holy	257	Holy Word: Serenity	2050	talent-active	TraitNodeEntry	true	0	Rotational	spec		82638	103775	1	Essential	Rotational 5	cdm-only:CooldownSetSpell	
+Priest	Holy	257	Prayer of Healing	596	talent-active	TraitNodeEntry	true	0	Rotational	spec		82632	103767	1	Essential	Rotational 6	cdm-only:CooldownSetSpell	
+Priest	Holy	257	Shackle Horror	9484	talent-active	TraitNodeEntry	true	0	Rotational	class		82693	103843	1	Buff/Essential	CC 2	cdm-only:CooldownSetSpell	
+Priest	Holy	257	Shadow Word: Death	32379	talent-active	TraitNodeEntry	true	0	Rotational	class		82712	103864	1	Essential	Class 2 (CC)	cdm-only:CooldownSetSpell	
+Priest	Holy	257	Dominate Mind	205364	talent-choice	TraitNodeEntry	true	30	Rotational	class		82710	103678	1	Utility		cdm-only:CooldownSetSpell	
+Priest	Holy	257	Mind Control	605	talent-choice	TraitNodeEntry	true	0	Rotational	class		82710	103862	1				
+Priest	Holy	257	Spirit of Redemption	215769	class-baseline	SkillLineAbility:804	true	120	Cooldown						Essential/Other		cdm-only:CooldownSetSpell	
+Priest	Holy	257	Ascension	161862	class-baseline	SkillLineAbility:804	true	90	Cooldown									
+Priest	Holy	257	Light's Wrath	207946	class-baseline	SkillLineAbility:804	true	90	Cooldown									
+Priest	Holy	257	Void Torrent	205065	class-baseline	SkillLineAbility:804	true	60	Cooldown									
+Priest	Holy	257	Purify	527	class-baseline	SpecializationSpells	true	8	Rotational						Utility	Class 6 (Dispel)	cdm-only:CooldownSetSpell	
+Priest	Holy	257	Purify Disease	440006	class-baseline	SpecializationSpells	true	8	Rotational									
+Priest	Holy	257	Power Word: Shield	17	class-baseline	SkillLineAbility:804	true	7.5	Rotational									
+Priest	Holy	257	Mind Soothe	453	class-baseline	SkillLineAbility:804	true	5	Rotational						Buff/Essential	Class 8 (Lust/BRes)	cdm-only:CooldownSetSpell	
+Priest	Holy	257	Prayer of Mending	33076	class-baseline	SpecializationSpells	true	1.5	Rotational						Essential	Rotational 3	cdm-only:CooldownSetSpell	
+Priest	Holy	257	Echo of Light	77489	class-baseline	SkillLineAbility:804	true	0	Rotational									
+Priest	Holy	257	Flash Heal	2061	class-baseline	SkillLineAbility:804	true	0	Rotational						Essential	Rotational 4	cdm-only:CooldownSetSpell	
+Priest	Holy	257	Levitate	1706	class-baseline	SkillLineAbility:804	true	0	Rotational						Buff		cdm-only:CooldownSetSpell	
+Priest	Holy	257	Light of T'uure	208065	class-baseline	SkillLineAbility:804	true	0	Rotational									
+Priest	Holy	257	Mass Resurrection	212036	class-baseline	SpecializationSpells	true	0	Rotational									
+Priest	Holy	257	Mind Vision	2096	class-baseline	SkillLineAbility:804	true	0	Rotational									
+Priest	Holy	257	Power Word: Fortitude	21562	class-baseline	SkillLineAbility:804	true	0	Rotational							Buff		
+Priest	Holy	257	Resurrection	2006	class-baseline	SkillLineAbility:804	true	0	Rotational							Res		
+Priest	Holy	257	Shadow Word: Pain	589	class-baseline	SkillLineAbility:804	true	0	Rotational						Buff/Essential		cdm-only:CooldownSetSpell	
+Priest	Holy	257	Single-Button Assistant	1229376	class-baseline	SpecializationSpells	true	0	Rotational									
+Priest	Holy	257	Smite	585	class-baseline	SkillLineAbility:804	true	0	Rotational							Rotational 1		
+Priest	Holy	257	Greater Heal	289666	pvp-talent	PvpTalent	true	12	Rotational						Essential		cdm-only:CooldownSetSpell	
+Priest	Holy	257	Absolute Faith	408853	pvp-talent	PvpTalent	false	0	Rotational						Buff		cdm-only:CooldownSetSpell	
+Priest	Holy	257	Improved Mass Dispel	426438	pvp-talent	PvpTalent	false	0	Rotational									
+Priest	Holy	257	Phase Shift	408557	pvp-talent	PvpTalent	false	0	Rotational						Buff		cdm-only:CooldownSetSpell	
+Priest	Holy	257	Psychic Shroud	1246968	pvp-talent	PvpTalent	false	0	Rotational						Buff		cdm-only:CooldownSetSpell	
+Priest	Holy	257	Purification	196439	pvp-talent	PvpTalent	false	0	Rotational									
+Priest	Holy	257	Sanctified Ground	357481	pvp-talent	PvpTalent	false	0	Rotational						Buff		cdm-only:CooldownSetSpell	
+Priest	Holy	257	Spirit of the Redeemer	215982	pvp-talent	PvpTalent	false	0	Rotational									
+Priest	Holy	257	Afterlife	196707	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82635	103771	1				
+Priest	Holy	257	Angel's Mercy	238100	talent-passive	TraitNodeEntry	false	0	Rotational	class		82682	103831	1				
+Priest	Holy	257	Angelic Bulwark	108945	talent-passive	TraitNodeEntry	false	0	Rotational	class		82675	103821	1	Buff		cdm-only:CooldownSetSpell	
+Priest	Holy	257	Angelic Touch	1250565	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82627	103762	1				
+Priest	Holy	257	Assured Safety	440766	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Oracle	94691	117294	1				
+Priest	Holy	257	Benediction	1262755	talent-passive	TraitNodeEntry	false	0	Rotational	spec		110409	136995	1	Buff		talent-passive:TraitNodeEntry;cdm-only:CooldownSetSpell	
+Priest	Holy	257	Benevolence	415416	talent-passive	TraitNodeEntry	false	0	Rotational	class		82676	115884	1				
+Priest	Holy	257	Binding Heals	368275	talent-passive	TraitNodeEntry	false	0	Rotational	class		82678	103825	1				
+Priest	Holy	257	Body and Soul	64129	talent-passive	TraitNodeEntry	false	0	Rotational	class		109917	136185	1	Buff		cdm-only:CooldownSetSpell	
+Priest	Holy	257	Burning Vehemence	372307	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82607	103739	1				
+Priest	Holy	257	Censure	200199	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82619	103753	1				
+Priest	Holy	257	Cosmic Ripple	238136	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82630	103765	1				
+Priest	Holy	257	Cosmic Wave	1248418	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103916	128333	1				
+Priest	Holy	257	Crisis Management	390954	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82628	103763	1				
+Priest	Holy	257	Dark Enlightenment	1250835	talent-passive	TraitNodeEntry	false	0	Rotational	class		109020	134859	1				
+Priest	Holy	257	Desperate Measures	458718	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Oracle	94690	126068	1				
+Priest	Holy	257	Desperate Times	391381	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82609	103741	2				
+Priest	Holy	257	Dispersing Light	1215265	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82604	103735	1				
+Priest	Holy	257	Divine Feathers	440670	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Oracle	94675	117278	1				
+Priest	Holy	257	Divine Halo	449806	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Archon	94702	117305	1				
+Priest	Holy	257	Divine Image	392988	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82554	103675	1	Other		cdm-only:CooldownSetSpell	
+Priest	Holy	257	Divine Service	391233	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82617	103751	1				
+Priest	Holy	257	Divinity	1215241	talent-passive	TraitNodeEntry	false	0	Rotational	spec		104097	128611	1	Buff		cdm-only:CooldownSetSpell	
+Priest	Holy	257	Efficient Prayers	1247131	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82623	103757	1				
+Priest	Holy	257	Empowered Surges	453799	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Archon	94688	117291	1				
+Priest	Holy	257	Empyreal Blaze	372616	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82640	103777	1	Buff		cdm-only:CooldownSetSpell	
+Priest	Holy	257	Energy Compression	449874	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Archon	94678	117281	1				
+Priest	Holy	257	Energy Conservation	1272308	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Archon	94680	117283	1				
+Priest	Holy	257	Energy Cycle	453828	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Archon	94685	117288	1				
+Priest	Holy	257	Enlightenment	193155	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82618	103752	1				
+Priest	Holy	257	Epiphany	414553	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82608	103740	1				
+Priest	Holy	257	Eternal Sanctity	1215245	talent-passive	TraitNodeEntry	false	0	Rotational	spec		104097	128612	1				
+Priest	Holy	257	Everlasting Light	1249233	talent-passive	TraitNodeEntry	false	0	Rotational	class		82702	103852	1				
+Priest	Holy	257	False Autonomy	1250806	talent-passive	TraitNodeEntry	false	0	Rotational	class		109005	134841	1				
+Priest	Holy	257	Focused Outburst	1272320	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Archon	109777	136035	1				
+Priest	Holy	257	Focused Power	1249230	talent-passive	TraitNodeEntry	false	0	Rotational	class		82676	135091	1				
+Priest	Holy	257	Foreseen Circumstances	440738	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Oracle	94689	117292	1				
+Priest	Holy	257	Gales of Song	372370	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82613	128316	1				
+Priest	Holy	257	Guardian Angel	200209	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82636	128315	1				
+Priest	Holy	257	Guiding Light	1248423	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Oracle	94683	117286	1				
+Priest	Holy	257	Healing Focus	1247166	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82634	103770	1				
+Priest	Holy	257	Heightened Alteration	453729	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Archon	109776	136687	1				
+Priest	Holy	257	Holy Celerity	1215275	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82612	103745	1				
+Priest	Holy	257	Improved Fade	390670	talent-passive	TraitNodeEntry	false	0	Rotational	class		82686	103836	2				
+Priest	Holy	257	Improved Flash Heal	393870	talent-passive	TraitNodeEntry	false	0	Rotational	class		82717	103869	1				
+Priest	Holy	257	Improved Purify	390632	talent-passive	TraitNodeEntry	false	0	Rotational	class		82705	103855	1				
+Priest	Holy	257	Incessant Screams	453918	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Archon	94686	125083	1				
+Priest	Holy	257	Inspiration	390676	talent-passive	TraitNodeEntry	false	0	Rotational	class		82696	103846	1				
+Priest	Holy	257	Lasting Words	471504	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103901	103676	1				
+Priest	Holy	257	Light in the Darkness	471668	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103914	128331	2				
+Priest	Holy	257	Light of the Naaru	196985	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82629	103764	2				
+Priest	Holy	257	Light's Inspiration	373450	talent-passive	TraitNodeEntry	false	0	Rotational	class		82679	103826	1				
+Priest	Holy	257	Light's Resurgence	193157	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82641	103779	1				
+Priest	Holy	257	Lightburst	1246549	talent-passive	TraitNodeEntry	false	0	Rotational	class		82719	103871	1				
+Priest	Holy	257	Lightweaver	390992	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82603	103734	1	Buff		cdm-only:CooldownSetSpell	
+Priest	Holy	257	Manifested Power	453783	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Archon	94699	117302	1				
+Priest	Holy	257	Mental Agility	341167	talent-passive	TraitNodeEntry	false	0	Rotational	class		109019	134852	1				
+Priest	Holy	257	Mindpierce	1251029	talent-passive	TraitNodeEntry	false	0	Rotational	class		109011	134845	1				
+Priest	Holy	257	Miracle Worker	235587	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82610	103743	1				
+Priest	Holy	257	Move with Grace	390620	talent-passive	TraitNodeEntry	false	0	Rotational	class		82699	103849	1				
+Priest	Holy	257	Painful Invocation	1251030	talent-passive	TraitNodeEntry	false	0	Rotational	class		109006	103841	1				
+Priest	Holy	257	Perfected Form	453917	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Archon	94677	117280	1				
+Priest	Holy	257	Petrifying Scream	55676	talent-passive	TraitNodeEntry	false	0	Rotational	class		82695	114588	1				
+Priest	Holy	257	Phantasm	108942	talent-passive	TraitNodeEntry	false	0	Rotational	class		82674	115883	1				
+Priest	Holy	257	Phantom Reach	459559	talent-passive	TraitNodeEntry	false	0	Rotational	class		82673	103819	1				
+Priest	Holy	257	Piety	1246802	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Oracle	94700	117303	1				
+Priest	Holy	257	Power Surge	453109	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Archon	94681	117284	1	Buff		cdm-only:CooldownSetSpell	
+Priest	Holy	257	Prayerful Litany	391209	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82633	103769	1				
+Priest	Holy	257	Prayers of the Virtuous	390977	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82616	103750	1				
+Priest	Holy	257	Preemptive Care	440671	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Oracle	94674	117277	1				
+Priest	Holy	257	Preventive Measures	440662	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Oracle	94698	117301	1				
+Priest	Holy	257	Prismatic Echoes	390967	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82611	103744	2				
+Priest	Holy	257	Prompt Prognosis	1246799	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Oracle	94673	117276	1				
+Priest	Holy	257	Prophet's Insight	1272359	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Oracle	109783	136041	1				
+Priest	Holy	257	Prophet's Will	433905	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Oracle	94690	117293	1				
+Priest	Holy	257	Protective Light	193063	talent-passive	TraitNodeEntry	false	0	Rotational	class		82677	103823	1	Buff		cdm-only:CooldownSetSpell	
+Priest	Holy	257	Psychic Voice	196704	talent-passive	TraitNodeEntry	false	0	Rotational	class		82708	103860	1				
+Priest	Holy	257	Radiant Plea	1250684	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82606	103738	1				
+Priest	Holy	257	Realized Potential	1272326	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Archon	109775	136033	1				
+Priest	Holy	257	Renewed Faith	341997	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82642	103780	1				
+Priest	Holy	257	Resonant Energy	453845	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Archon	94676	117279	1				
+Priest	Holy	257	Restitution	391124	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82636	103773	1				
+Priest	Holy	257	Sanguine Teachings	373218	talent-passive	TraitNodeEntry	false	0	Rotational	class		109021	134860	1				
+Priest	Holy	257	Save the Day	440669	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Oracle	94675	119331	1	Buff		cdm-only:CooldownSetSpell	
+Priest	Holy	257	Say Your Prayers	391186	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82615	103749	1				
+Priest	Holy	257	Seraphic Crescendo	419110	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82613	103747	1				
+Priest	Holy	257	Sheer Terror	390919	talent-passive	TraitNodeEntry	false	0	Rotational	class		82695	103845	1				
+Priest	Holy	257	Shock Pulse	453852	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Archon	94686	117289	1	Buff		cdm-only:CooldownSetSpell	
+Priest	Holy	257	Spectral Illusion	1250378	talent-passive	TraitNodeEntry	false	0	Rotational	class		109014	134848	1	Buff		cdm-only:CooldownSetSpell	
+Priest	Holy	257	Spell Warding	390667	talent-passive	TraitNodeEntry	false	0	Rotational	class		109010	134844	2				
+Priest	Holy	257	Spiritual Guidance	1250818	talent-passive	TraitNodeEntry	false	0	Rotational	class		82672	103818	1				
+Priest	Holy	257	Spiritwell	1247178	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Archon	109775	136688	1				
+Priest	Holy	257	Strength of Resolve	1250820	talent-passive	TraitNodeEntry	false	0	Rotational	class		82687	103837	1				
+Priest	Holy	257	Surge of Light	109186	talent-passive	TraitNodeEntry	false	0	Rotational	class		82716	103868	1	Buff		cdm-only:CooldownSetSpell	
+Priest	Holy	257	Sustained Potency	454001	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Archon	94678	125085	1	Buff		cdm-only:CooldownSetSpell	
+Priest	Holy	257	Tithe Evasion	373223	talent-passive	TraitNodeEntry	false	0	Rotational	class		82711	103863	1				
+Priest	Holy	257	Trail of Light	200128	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82604	128613	1				
+Priest	Holy	257	Translucent Image	373446	talent-passive	TraitNodeEntry	false	0	Rotational	class		82685	103835	1				
+Priest	Holy	257	Twin Disciplines	1251077	talent-passive	TraitNodeEntry	false	0	Rotational	class		82690	103840	1				
+Priest	Holy	257	Twins of the Sun Priestess	373466	talent-passive	TraitNodeEntry	false	0	Rotational	class		108731	134284	1				
+Priest	Holy	257	Twinsight	440742	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Oracle	94687	117290	1				
+Priest	Holy	257	Twist of Fate	390972	talent-passive	TraitNodeEntry	false	0	Rotational	class		82684	103833	2	Buff		cdm-only:CooldownSetSpell	
+Priest	Holy	257	Ultimate Serenity	1246517	talent-passive	TraitNodeEntry	false	0	Rotational	spec		103900	103733	1				
+Priest	Holy	257	Unfolding Vision	1272363	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Oracle	109781	136039	1				
+Priest	Holy	257	Unwavering Will	373456	talent-passive	TraitNodeEntry	false	0	Rotational	class		82697	103847	2				
+Priest	Holy	257	Uplifting Words	1250562	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82622	103756	1				
+Priest	Holy	257	Voice of Harmony	390994	talent-passive	TraitNodeEntry	false	0	Rotational	spec		82620	103754	1				
+Priest	Holy	257	Void Tendrils	1250691	talent-passive	TraitNodeEntry	false	0	Rotational	class		82708	103859	1	Buff		cdm-only:CooldownSetSpell	
+Priest	Holy	257	Waste No Time	440681	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Oracle	94679	117282	1				
+Priest	Holy	257	Word of Supremacy	453726	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Archon	109776	136034	1				
+Priest	Holy	257	Words of the Wise	1272352	talent-passive	TraitNodeEntry	false	0	Rotational	hero	Oracle	109782	136040	1				
+Priest	Holy	257	Focused Will	45243	cdm-only	CooldownSetSpell	false	0	Rotational						Buff			
