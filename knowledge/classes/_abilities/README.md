@@ -28,6 +28,34 @@ The generated per-spec files are `ability-inventory.tsv` + `ability-inventory.md
 | `pet-family-annex.tsv` | (pet skill line, spell) | "which pet/demon gives me X" |
 | `../<class>/<spec>/ability-inventory.tsv` | ability | per-spec data |
 | `../<class>/<spec>/ability-inventory.md` | ability | reading, citing |
+| `section-3-corroborated.{tsv,md}` | (spec, reached ability) | section 3 — reached, not joined |
+| `section-4-catalogue.{tsv,md}` | (spec, unplaced name) | section 4 — the catalogue |
+| `residual-probe.json` | residual name | leg B's cached `/data/wow/spell/{id}` results |
+
+## The four sections
+
+| # | What | Where |
+|---|------|-------|
+| 1 | base spell list per class/spec — **mined** | `ability-inventory.{tsv,md}` |
+| 2 | base talent list — **mined** | same, plus `../_talents/all-talents.tsv` |
+| 3 | validated but not directly joined | `section-3-corroborated.{tsv,md}` |
+| 4 | un-mined / uncorroborated | `section-4-catalogue.{tsv,md}` |
+
+Sections 1 + 2 are a **join** — a row is there because a Tier-1 table says the
+spec acquires it. Section 3 is **reached**: corroborated one hop out (an
+`EffectAura 332` override row, or a 200 from `/data/wow/spell/{id}`) with no
+acquisition row naming it. Section 4 is everything still unplaced.
+
+⚠ **Section 4 is a catalogue, not a backlog.** Nothing in it is scheduled, aged
+or chased; an entry is researched when someone **asks**, or when real work needs
+that specific ability — use, not age, the same rule
+`projects/addon-lab/docs/lab-process.md` sets for client unknowns. Do not open a
+marker, a kb-inbox line or a lab test for a row just because it sits there.
+
+⚠ **Neither section 3 nor section 4 writes into `ability-inventory.tsv`.** Neither
+produces an acquisition row, and BucketBinds reads that file as the spec's real
+kit — an override target folded in silently would re-band keybinds off evidence
+that never said "this spec learns this".
 
 ## Build pinning
 
@@ -79,8 +107,16 @@ loser is recorded in `also_from`.
   attribution the data does not support.
 - **Runtime override / proc-replacement buttons are in no spec-keyed DB2 table**
   at 12.0.7.67808: Devour, Pierce the Veil, Hammer of Light, Templar Slash, Void
-  Volley, Engulf, Heroic Strike, Empty the Cellar, Zenith Stomp. Closing them
-  needs an in-game spellbook enumeration (ClientLab), not another DB2 join.
+  Volley, Engulf, Heroic Strike. The override walk (leg A) reaches a **few** of
+  them from `SpellEffect` alone — Templar Strike 407480, Cull 1245453, Voidblade
+  1245412, Condemn 317485, Kill Shot 53351 — which is why ledger gap **G2** is
+  partly refuted rather than confirmed. The rest still need an in-game spellbook
+  enumeration (ClientLab), not another DB2 join.
+- **A button and an internal effect are not mechanically distinguishable.**
+  `override` is a good signal and `trigger` is a poor one, but Hammer of Light
+  arrives via `trigger` (Light's Guidance 427445 → `EffectTriggerSpell`) and is a
+  real pressed button, while `override` yields cross-spec leads like Spiritbloom
+  for Devastation. Hence `spec_scope` on section-3 rows, and hence section 4.
 - **Presence on a pet line is not proof the pet is obtainable in 12.0.7.**
 - `SkillLine 758` "Pet - Event - Remote Control" is emitted **UNRESOLVED** in the
   annex. It is an event vehicle; guessing a class would be a fabricated value.

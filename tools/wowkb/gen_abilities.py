@@ -8,9 +8,31 @@ BucketBinds floats work and `wowkb.cdmp` read.
     uv run python -m wowkb.gen_abilities --fetched 2026-08-06
     uv run python -m wowkb.gen_abilities --fetched 2026-08-06 --check
     uv run python -m wowkb.gen_abilities --fetched 2026-08-06 --residual
+    uv run python -m wowkb.gen_abilities --fetched 2026-08-06 --probe   # network
 
 ⚠ `abilities.md` in each spec directory is HAND-WRITTEN PROSE. This module never
 writes it. The generated file is `ability-inventory.md`.
+
+────────────────────────────────────────────────────────────────────────────────
+THE FOUR SECTIONS
+────────────────────────────────────────────────────────────────────────────────
+The KB models a spec's abilities in four bands of decreasing confidence:
+
+  1. base spell list per class/spec   — mined  ┐ `ability-inventory.{tsv,md}`
+  2. base talent list                 — mined  ┘ (+ `_talents/all-talents.tsv`)
+  3. validated but not directly joined         — `section-3-corroborated.{tsv,md}`
+  4. un-mined / uncorroborated                 — `section-4-catalogue.{tsv,md}`
+
+Sections 1 + 2 are a JOIN: a row is there because a Tier-1 table says the spec
+acquires it. Section 3 is REACHED, not joined — the ability is corroborated by
+game data one hop away (an override aura, a live spell endpoint) but no
+acquisition row names it. Section 4 is a CATALOGUE of everything still unplaced.
+
+⚠ **SECTION 4 IS NOT A BACKLOG.** Nothing in it is scheduled, aged or chased. An
+entry is researched when someone ASKS about it, or when real work needs that
+specific ability — the same use-not-age trigger as
+`projects/addon-lab/docs/lab-process.md`. A row carries its provenance and
+nothing else, on purpose: an explanation would be an unmeasured claim.
 
 ────────────────────────────────────────────────────────────────────────────────
 BUILD PINNING
@@ -80,6 +102,46 @@ THE SIX LEGS
    Hunter's inventory ~40 % with ~65 flavour passives.
 6. `CooldownSetSpell` — annotation (Essential/Utility + OrderIndex) and the
    `cdm-only` residue, exactly as `spec_inventory` uses it.
+
+Legs 1-6 build sections 1 + 2. Two further legs build sections 3 + 4; neither
+may write into `ability-inventory.tsv`, because neither produces an acquisition
+row and BucketBinds reads that file as the spec's real kit.
+
+A. THE OVERRIDE WALK (`EffectWalk`) — `SpellEffect` outward from the spec's own
+   talent spells. Two edges, and only two:
+     * `EffectTriggerSpell` — always a genuine spell reference.
+     * `EffectMiscValue_0` — a spell reference ONLY when `EffectAura == 332`
+       (`OVERRIDE_ACTIONBAR_SPELLS`). ⚠ Under any other aura the same column is a
+       skill line, a mechanic or an item id; reading it unconditionally yields
+       "Dry Pork Ribs" and "Teleport: Goldshire" as Paladin abilities.
+   ANCHORS INCLUDE RANK SIBLINGS — spells sharing the inventory button's
+   normalised name AND its `SpellClassOptions.SpellClassSet`. Without that the
+   walk misses the two clearest hits in the set: the aura-332 row for Kill Shot
+   53351 sits on Black Arrow **466932**, not on the inventory button 466930, and
+   Templar Strike 407480's sits on Templar Strikes **406648**, not 406646. The
+   class-set half of the test is load-bearing: name alone drags in "Shockwave"
+   25425 (a creature spell) and "Frenzy" 27897 (an Arcane Explosion).
+   `override` → section 3. `trigger` → section 4.
+   ⚠ THE SPLIT IS NOT CLEAN AND MUST NOT BE PRESENTED AS IF IT WERE. Hammer of
+   Light arrives via `trigger` (Light's Guidance 427445 uses `EffectTriggerSpell`)
+   and is a real pressed button. There is no mechanical rule separating a button
+   from an internal effect — which is why section 4 exists rather than a filter.
+   Override rows carry `spec_scope`: `spec-exclusive` when the anchor→target pair
+   fires for exactly one spec of the class, `class-shared` when it fires for
+   several. A `class-shared` row proves the ABILITY is reachable from that class's
+   talent; it does NOT prove this spec is the one that presses it (Font of Magic
+   375783 lists Spiritbloom for all three Evoker specs; only Preservation has it).
+B. THE RESIDUAL PROBE (`--probe`) — for a name `--residual` still cannot place,
+   take its candidate IDs from `SpellName` at the pin and GET
+   `/data/wow/spell/{id}`. A **200** gives the live ID + tooltip → section 3.
+   ⚠ A 404 IS NOT EVIDENCE OF ABSENCE. Hammer of Light 427441 and 427453 both 404
+   and are demonstrably live; the endpoint covers independently-castable
+   spellbook entries only. A 200 is strong positive evidence, a 404 says nothing,
+   so a 404 leaves the name in section 4 unchanged rather than marking it dead.
+   The probe is NETWORK and its results are cached to
+   `_abilities/residual-probe.json` — a committed KB artifact. Ordinary runs and
+   `--check` read the cache and never call out, so generation stays offline and
+   deterministic.
 
 ────────────────────────────────────────────────────────────────────────────────
 ORIGIN + PRECEDENCE
@@ -186,6 +248,19 @@ ANNEX_COLUMNS = [
     "skill_line", "line_name", "class", "class_id", "family", "family_id",
     "pet_talent_type", "exotic", "name", "spell_id", "castable", "cooldown",
 ]
+SECTION3_COLUMNS = [
+    "class", "spec", "name", "spell_id", "reached_by", "spec_scope",
+    "anchor", "anchor_spell_id", "provenance",
+]
+SECTION4_COLUMNS = [
+    "class", "spec", "name", "spell_id", "reached_by", "provenance",
+]
+
+# SpellEffect.EffectAura — the ONLY aura under which EffectMiscValue_0 is a spell.
+AURA_OVERRIDE_ACTIONBAR_SPELLS = "332"
+# Cap on `/data/wow/spell/{id}` calls per residual name. Truncation is LOGGED,
+# never silent: "Devour" alone has 140 SpellName candidates at the pin.
+PROBE_CANDIDATE_CAP = 40
 
 # CreatureFamily.PetTalentType (Hunter specialisation of a tamed family).
 PET_TALENT_TYPE = {"0": "Ferocity", "1": "Tenacity", "2": "Cunning"}
@@ -541,6 +616,158 @@ class PetLeg:
                     })
 
 
+# ── leg A: the override / trigger walk ───────────────────────────────────────
+class EffectWalk:
+    """`SpellEffect` one hop out from each spec's own talent spells.
+
+    See "THE FOUR SECTIONS" and leg A in the module docstring. Emits two lists:
+
+        overrides  [{spec_key, name, spell_id, anchor, anchor_spell_id, spec_scope}]
+        triggers   [{spec_key, name, spell_id, anchor, anchor_spell_id}]
+
+    A target already present in the spec's inventory (by name or alias) is not a
+    hit — the walk only reports what sections 1 + 2 could not reach.
+    """
+
+    def __init__(self, specs: dict[str, dict], names: dict[str, str]):
+        self.names = names
+        classset = {r["SpellID"]: r["SpellClassSet"] for r in _rows("SpellClassOptions")
+                    if r["SpellClassSet"] not in ("", "0")}
+        # (normalised name, class set) -> every spellID sharing both = rank siblings.
+        siblings: dict[tuple[str, str], set[str]] = defaultdict(set)
+        for sid, nm in names.items():
+            cs = classset.get(sid)
+            if cs:
+                siblings[(_norm(nm), cs)].add(sid)
+
+        trig: dict[str, set[str]] = defaultdict(set)
+        ovr: dict[str, set[str]] = defaultdict(set)
+        for r in _rows("SpellEffect"):
+            if r.get("DifficultyID") != "0":
+                continue
+            sid = r["SpellID"]
+            t = r.get("EffectTriggerSpell") or "0"
+            if t not in ("", "0"):
+                trig[sid].add(t)
+            if r.get("EffectAura") == AURA_OVERRIDE_ACTIONBAR_SPELLS:
+                m = r.get("EffectMiscValue_0") or "0"
+                if m not in ("", "0"):
+                    ovr[sid].add(m)
+
+        raw_ovr, raw_trig = [], []
+        # (class, anchor name, target) -> every spec of the class whose inventory
+        # carries that anchor. Counted BEFORE the already-have filter: a hero
+        # talent shared by two specs fires for both even when one of them already
+        # owns the target and so contributes no hit. Filtering first would label
+        # Coup de Grace → Dispatch `spec-exclusive` for Subtlety purely because
+        # Outlaw, the spec that actually presses Dispatch, was filtered out.
+        fires: dict[tuple[str, str, int], set[str]] = defaultdict(set)
+        for key, entry in specs.items():
+            have = set()
+            for a in entry["abilities"]:
+                have.add(_norm(a["name"]))
+                have |= {_norm(x) for x in a["aliases"]}
+            # anchor spellID -> the inventory ability it belongs to
+            anchors: dict[str, dict] = {}
+            for a in entry["abilities"]:
+                if not a["origin"].startswith("talent"):
+                    continue
+                sid = str(a["spell_id"])
+                anchors[sid] = a
+                cs = classset.get(sid)
+                if cs:
+                    for sib in siblings.get((_norm(a["name"]), cs), ()):
+                        anchors.setdefault(sib, a)
+            for src, a in sorted(anchors.items(), key=lambda kv: int(kv[0])):
+                for tgt in sorted(ovr.get(src, ()), key=int):
+                    if names.get(tgt):
+                        fires[(entry["class"], _norm(a["name"]), int(tgt))].add(entry["spec"])
+                for bucket, out in ((ovr, raw_ovr), (trig, raw_trig)):
+                    for tgt in sorted(bucket.get(src, ()), key=int):
+                        nm = names.get(tgt)
+                        if not nm or _norm(nm) in have:
+                            continue
+                        out.append({
+                            "class": entry["class"], "spec": entry["spec"],
+                            "spec_key": key, "name": nm, "spell_id": int(tgt),
+                            "anchor": a["name"], "anchor_spell_id": int(src),
+                        })
+
+        for h in raw_ovr:
+            n = len(fires[(h["class"], _norm(h["anchor"]), h["spell_id"])])
+            h["spec_scope"] = "spec-exclusive" if n == 1 else "class-shared"
+
+        self.overrides = self._dedupe(raw_ovr)
+        self.triggers = self._dedupe(raw_trig)
+
+    @staticmethod
+    def _dedupe(rows: list[dict]) -> list[dict]:
+        """One row per (spec, target name); the lowest anchor spellID wins."""
+        best: dict[tuple[str, str], dict] = {}
+        for r in sorted(rows, key=lambda r: r["anchor_spell_id"]):
+            best.setdefault((r["spec_key"], _norm(r["name"])), r)
+        return sorted(best.values(), key=lambda r: (r["spec_key"], r["name"]))
+
+
+# ── leg B: the residual probe ────────────────────────────────────────────────
+PROBE_CACHE = ABIL_DIR / "residual-probe.json"
+
+
+def _load_probe() -> dict:
+    """The committed `/data/wow/spell/{id}` results. Absent ⇒ no leg-B rows.
+
+    Never fetched implicitly: generation and `--check` must stay offline and
+    deterministic, so only `--probe` writes this file.
+    """
+    if not PROBE_CACHE.exists():
+        return {"probed": "", "hits": {}, "misses": {}, "truncated": {}}
+    return json.loads(PROBE_CACHE.read_text(encoding="utf-8"))
+
+
+def probe(data: dict, fetched: str) -> dict:
+    """GET `/data/wow/spell/{id}` for every candidate of every residual name.
+
+    A 200 promotes the name to section 3. A 404 changes nothing — the endpoint
+    covers independently-castable spellbook entries only, and Hammer of Light
+    427441/427453 both 404 while being demonstrably live.
+    """
+    from .blizzard import get  # network + credentials; keep the import local
+
+    names = {r["ID"]: r["Name_lang"] for r in _rows("SpellName")}
+    by_norm: dict[str, list[str]] = defaultdict(list)
+    for sid, nm in names.items():
+        by_norm[_norm(nm)].append(sid)
+
+    wanted = sorted({m["name"] for m in residual(data)})
+    hits: dict[str, list[dict]] = {}
+    misses: dict[str, int] = {}
+    truncated: dict[str, int] = {}
+    for name in wanted:
+        cands = sorted(by_norm.get(_norm(name), []), key=int)
+        if len(cands) > PROBE_CANDIDATE_CAP:
+            truncated[name] = len(cands) - PROBE_CANDIDATE_CAP
+            cands = cands[:PROBE_CANDIDATE_CAP]
+        found, miss = [], 0
+        for sid in cands:
+            try:
+                doc = get(f"/data/wow/spell/{sid}")
+            except Exception:
+                miss += 1
+                continue
+            found.append({"spell_id": int(sid), "live_name": doc.get("name", ""),
+                          "description": (doc.get("description") or "").strip()})
+        if found:
+            hits[name] = found
+        misses[name] = miss
+        print(f"  {name:<24} {len(found)}/{len(cands)} live"
+              + (f"  (+{truncated[name]} candidates not probed)" if name in truncated else ""))
+
+    out = {"probed": fetched, "build": PINNED_BUILD, "candidate_cap": PROBE_CANDIDATE_CAP,
+           "hits": hits, "misses": misses, "truncated": truncated}
+    _atomic_write(PROBE_CACHE, json.dumps(out, indent=2, sort_keys=True) + "\n")
+    return out
+
+
 # ── the union ────────────────────────────────────────────────────────────────
 def _empty(rec: dict) -> dict:
     rec.setdefault("tree", "")
@@ -685,8 +912,11 @@ def build(seed_path: Path = SEED) -> dict:
         out[key] = {"specID": int(spec_id), "class": meta["class"],
                     "spec": meta["spec"], "abilities": rows}
 
-    return {"specs": dict(sorted(out.items())), "pet_annex": pet.rows,
+    specs_out = dict(sorted(out.items()))
+    walk = EffectWalk(specs_out, names)
+    return {"specs": specs_out, "pet_annex": pet.rows,
             "pet_lines": pet.line_class, "trait_stats": trait.stats,
+            "overrides": walk.overrides, "triggers": walk.triggers,
             "hero_map": {trait.subtree_name.get(k, k): sorted(v, key=int)
                          for k, v in trait.hero_map.items()}}
 
@@ -767,6 +997,34 @@ The generated per-spec files are `ability-inventory.tsv` + `ability-inventory.md
 | `pet-family-annex.tsv` | (pet skill line, spell) | "which pet/demon gives me X" |
 | `../<class>/<spec>/ability-inventory.tsv` | ability | per-spec data |
 | `../<class>/<spec>/ability-inventory.md` | ability | reading, citing |
+| `section-3-corroborated.{{tsv,md}}` | (spec, reached ability) | section 3 — reached, not joined |
+| `section-4-catalogue.{{tsv,md}}` | (spec, unplaced name) | section 4 — the catalogue |
+| `residual-probe.json` | residual name | leg B's cached `/data/wow/spell/{{id}}` results |
+
+## The four sections
+
+| # | What | Where |
+|---|------|-------|
+| 1 | base spell list per class/spec — **mined** | `ability-inventory.{{tsv,md}}` |
+| 2 | base talent list — **mined** | same, plus `../_talents/all-talents.tsv` |
+| 3 | validated but not directly joined | `section-3-corroborated.{{tsv,md}}` |
+| 4 | un-mined / uncorroborated | `section-4-catalogue.{{tsv,md}}` |
+
+Sections 1 + 2 are a **join** — a row is there because a Tier-1 table says the
+spec acquires it. Section 3 is **reached**: corroborated one hop out (an
+`EffectAura 332` override row, or a 200 from `/data/wow/spell/{{id}}`) with no
+acquisition row naming it. Section 4 is everything still unplaced.
+
+⚠ **Section 4 is a catalogue, not a backlog.** Nothing in it is scheduled, aged
+or chased; an entry is researched when someone **asks**, or when real work needs
+that specific ability — use, not age, the same rule
+`projects/addon-lab/docs/lab-process.md` sets for client unknowns. Do not open a
+marker, a kb-inbox line or a lab test for a row just because it sits there.
+
+⚠ **Neither section 3 nor section 4 writes into `ability-inventory.tsv`.** Neither
+produces an acquisition row, and BucketBinds reads that file as the spec's real
+kit — an override target folded in silently would re-band keybinds off evidence
+that never said "this spec learns this".
 
 ## Build pinning
 
@@ -818,8 +1076,16 @@ loser is recorded in `also_from`.
   attribution the data does not support.
 - **Runtime override / proc-replacement buttons are in no spec-keyed DB2 table**
   at {build}: Devour, Pierce the Veil, Hammer of Light, Templar Slash, Void
-  Volley, Engulf, Heroic Strike, Empty the Cellar, Zenith Stomp. Closing them
-  needs an in-game spellbook enumeration (ClientLab), not another DB2 join.
+  Volley, Engulf, Heroic Strike. The override walk (leg A) reaches a **few** of
+  them from `SpellEffect` alone — Templar Strike 407480, Cull 1245453, Voidblade
+  1245412, Condemn 317485, Kill Shot 53351 — which is why ledger gap **G2** is
+  partly refuted rather than confirmed. The rest still need an in-game spellbook
+  enumeration (ClientLab), not another DB2 join.
+- **A button and an internal effect are not mechanically distinguishable.**
+  `override` is a good signal and `trigger` is a poor one, but Hammer of Light
+  arrives via `trigger` (Light's Guidance 427445 → `EffectTriggerSpell`) and is a
+  real pressed button, while `override` yields cross-spec leads like Spiritbloom
+  for Devastation. Hence `spec_scope` on section-3 rows, and hence section 4.
 - **Presence on a pet line is not proof the pet is obtainable in 12.0.7.**
 - `SkillLine 758` "Pet - Event - Remote Control" is emitted **UNRESOLVED** in the
   annex. It is an event vehicle; guessing a class would be a fabricated value.
@@ -852,6 +1118,167 @@ pre-commit gate — nothing enforces it automatically.
 """
 
 
+_SECTION3_PREAMBLE = """# Section 3 — corroborated, not joined
+
+Abilities that game data **reaches** but no acquisition row **names**. Sections 1
+and 2 (`../<class>/<spec>/ability-inventory.tsv`, `../_talents/all-talents.tsv`)
+are a join: a row is there because a Tier-1 table says the spec acquires it.
+Everything here is one hop further out, and is here because that hop is itself
+Tier-1 — an override aura at the pinned build, or a live Blizzard spell endpoint.
+
+Regenerated by `tools/wowkb/gen_abilities.py`. Data twin: `section-3-corroborated.tsv`.
+
+## How a row got here
+
+| `reached_by` | The evidence |
+|---|---|
+| `override-aura` | A `SpellEffect` row on one of this spec's talent spells carries `EffectAura == 332` (`OVERRIDE_ACTIONBAR_SPELLS`) and names this spell in `EffectMiscValue_0`. |
+| `spell-endpoint` | `GET /data/wow/spell/{{id}}` returned **200** for a name `--residual` could not place. The endpoint covers independently-castable spellbook entries, so a 200 is strong positive evidence that the button is live. |
+
+⚠ `EffectMiscValue_0` is a spell reference **only** under aura 332. Under other
+auras the same column is a skill line, a mechanic or an item id — reading it
+unconditionally files Dry Pork Ribs and Teleport: Goldshire as Paladin abilities.
+
+## `spec_scope` — read this before citing an override row
+
+| value | What it proves |
+|---|---|
+| `spec-exclusive` | The anchor→target pair fires for exactly **one** spec of the class. The spec attribution is as good as the evidence. |
+| `class-shared` | It fires for **several** specs of the class. The ability is real and reachable from that class's talent — but **which spec presses it is not decided here.** Font of Magic 375783 lists Spiritbloom for all three Evoker specs; only Preservation has it. |
+
+A `class-shared` row is a lead, not a spec claim. Do not copy one into a spec's
+`abilities.md` as an owned button without a second source.
+
+## What is deliberately NOT here
+
+`EffectTriggerSpell` hits. They are a genuine spell reference every time, but
+mostly to internal effects (Bloodworm, Virulent Plague, "Visual Effect: Tree of
+Life"), so they go to `section-4-catalogue.md` instead. **The split is not
+clean:** Hammer of Light is a real pressed button and arrives via `trigger`
+(Light's Guidance 427445), not via `override`. There is no mechanical rule
+separating a button from an internal effect — that is what section 4 is for.
+"""
+
+_SECTION4_PREAMBLE = """# Section 4 — the catalogue
+
+Everything still unplaced: names asserted in the hand-written `abilities.md`
+files that no Tier-1 join reaches, and the `EffectTriggerSpell` residue of the
+override walk. Each row carries **its provenance and nothing else**, on purpose —
+an explanation here would be an unmeasured claim wearing a Tier-1 file's clothes.
+
+Regenerated by `tools/wowkb/gen_abilities.py`. Data twin: `section-4-catalogue.tsv`.
+
+## ⚠ This is a catalogue, not a backlog
+
+**Nothing here is scheduled, aged, or chased.** An entry is researched when
+someone **asks** about it, or when real work needs that specific ability — for
+example combat-assist reading a rotation source that names one. The trigger is
+**use, not age**, exactly as `projects/addon-lab/docs/lab-process.md` sets it out
+for client unknowns. A long-lived row is not a debt and must not be reported as
+one.
+
+Corollary: do **not** open a `@verify-ingame` marker, a kb-inbox line or a lab
+test for a row merely because it appears here. The row *is* the record.
+
+## How a row got here
+
+| `reached_by` | Meaning |
+|---|---|
+| `trigger-effect` | A `SpellEffect` row on one of this spec's talent spells names this spell in `EffectTriggerSpell`. Always a genuine spell reference; usually an internal effect rather than a button. |
+| `prose-only` | The name is asserted in this spec's `abilities.md` inventory table and no leg of the union reaches it. `--residual` is the same list. |
+
+A `prose-only` row that the probe **did** resolve is not here — it is in
+`section-3-corroborated.md`. A probe **404** leaves the row here unchanged: the
+endpoint covers only independently-castable spellbook entries, so a 404 is not
+evidence of absence (Hammer of Light 427441 and 427453 both 404 and are live).
+"""
+
+
+def _section3(data: dict, probe_cache: dict) -> list[dict]:
+    """Override-aura hits + residual names the spell endpoint resolved."""
+    rows = []
+    for h in data["overrides"]:
+        rows.append({
+            "class": h["class"], "spec": h["spec"], "name": h["name"],
+            "spell_id": h["spell_id"], "reached_by": "override-aura",
+            "spec_scope": h["spec_scope"], "anchor": h["anchor"],
+            "anchor_spell_id": h["anchor_spell_id"],
+            "provenance": (f"SpellEffect.EffectAura 332 on {h['anchor']} "
+                           f"{h['anchor_spell_id']} @ {PINNED_BUILD}"),
+        })
+    hits = probe_cache.get("hits", {})
+    by_slug = {(_slug(v["class"]), _slug(v["spec"])): v for v in data["specs"].values()}
+    for m in residual(data):
+        found = hits.get(m["name"])
+        if not found:
+            continue
+        entry = by_slug[tuple(m["spec"].split("/"))]
+        for f in found:
+            rows.append({
+                "class": entry["class"], "spec": entry["spec"], "name": m["name"],
+                "spell_id": f["spell_id"], "reached_by": "spell-endpoint",
+                "spec_scope": "", "anchor": "", "anchor_spell_id": "",
+                "provenance": (f"GET /data/wow/spell/{f['spell_id']} → 200 "
+                               f"\"{f['live_name']}\" (probed {probe_cache.get('probed', '?')})"),
+            })
+    return sorted(rows, key=lambda r: (r["class"], r["spec"], r["name"], r["spell_id"]))
+
+
+def _section4(data: dict, probe_cache: dict) -> list[dict]:
+    """Trigger residue + prose names the probe did not resolve."""
+    rows = []
+    for h in data["triggers"]:
+        rows.append({
+            "class": h["class"], "spec": h["spec"], "name": h["name"],
+            "spell_id": h["spell_id"], "reached_by": "trigger-effect",
+            "provenance": (f"reached from {h['anchor']} {h['anchor_spell_id']} "
+                           f"via SpellEffect.EffectTriggerSpell @ {PINNED_BUILD}"),
+        })
+    hits = probe_cache.get("hits", {})
+    by_slug = {(_slug(v["class"]), _slug(v["spec"])): v for v in data["specs"].values()}
+    # A name section 3 already reaches is NOT unplaced — do not list it twice with
+    # contradictory framing (Templar Strike is both prose-only and an override hit).
+    placed = {(r["class"], r["spec"], _norm(r["name"]))
+              for r in _section3(data, probe_cache)}
+    annex = {_norm(r["name"]): r for r in data["pet_annex"]}
+    for m in residual(data):
+        if hits.get(m["name"]):
+            continue
+        entry = by_slug[tuple(m["spec"].split("/"))]
+        if (entry["class"], entry["spec"], _norm(m["name"])) in placed:
+            continue
+        pet = annex.get(_norm(m["name"]))
+        probed = m["name"] in probe_cache.get("misses", {})
+        why = f"asserted in abilities.md; no spec-keyed acquisition row at {PINNED_BUILD}"
+        if pet:
+            # The pet path carries NO spec granularity (see the module docstring),
+            # so this is a class-level fact stated as one — not a spec claim.
+            why += (f"; present in pet-family-annex.tsv on SkillLine "
+                    f"{pet['skill_line']} ({pet['line_name']}) as {pet['spell_id']} "
+                    f"— class-level, the pet path has no spec granularity")
+        elif probed:
+            why += "; spell endpoint returned no 200 — not evidence of absence"
+        else:
+            why += "; not yet probed"
+        rows.append({
+            "class": entry["class"], "spec": entry["spec"], "name": m["name"],
+            "spell_id": pet["spell_id"] if pet else "", "reached_by": "prose-only",
+            "provenance": why,
+        })
+    return sorted(rows, key=lambda r: (r["class"], r["spec"], r["name"], str(r["spell_id"])))
+
+
+def _section_md(title: str, preamble: str, rows: list[dict], columns: list[str],
+                fetched: str, extra_sources: list[str] = ()) -> str:
+    head = _front_matter(title, fetched, extra_sources)
+    body = [preamble, f"\n## Rows ({len(rows)})\n\n",
+            "| " + " | ".join(columns) + " |\n",
+            "|" + "|".join("---" for _ in columns) + "|\n"]
+    for r in rows:
+        body.append("| " + " | ".join(str(r.get(c, "")) for c in columns) + " |\n")
+    return head + "".join(body)
+
+
 def render_all(data: dict, fetched: str) -> dict[Path, str]:
     """Every output file as {path: content}. Rendering is pure — `--check` byte-
     compares this against disk and `main` writes it."""
@@ -865,6 +1292,20 @@ def render_all(data: dict, fetched: str) -> dict[Path, str]:
         all_rows.extend(entry["abilities"])
     files[ABIL_DIR / "all-abilities.tsv"] = _tsv(all_rows, TSV_COLUMNS)
     files[ABIL_DIR / "pet-family-annex.tsv"] = _tsv(data["pet_annex"], ANNEX_COLUMNS)
+
+    probe_cache = _load_probe()
+    s3, s4 = _section3(data, probe_cache), _section4(data, probe_cache)
+    probe_src = [f"Blizzard Game Data API /data/wow/spell/{{id}} "
+                 f"(Tier 1, probed {probe_cache.get('probed') or 'NOT YET'})"]
+    files[ABIL_DIR / "section-3-corroborated.tsv"] = _tsv(s3, SECTION3_COLUMNS)
+    files[ABIL_DIR / "section-3-corroborated.md"] = _section_md(
+        f"Section 3 — corroborated, not joined ({PATCH})", _SECTION3_PREAMBLE,
+        s3, SECTION3_COLUMNS, fetched, probe_src)
+    files[ABIL_DIR / "section-4-catalogue.tsv"] = _tsv(s4, SECTION4_COLUMNS)
+    files[ABIL_DIR / "section-4-catalogue.md"] = _section_md(
+        f"Section 4 — the catalogue ({PATCH})", _SECTION4_PREAMBLE,
+        s4, SECTION4_COLUMNS, fetched, probe_src)
+
     files[ABIL_DIR / "README.md"] = (
         _front_matter(f"Ability inventory — schema & regeneration ({PATCH})", fetched)
         + _README_TEMPLATE.format(build=PINNED_BUILD)
@@ -935,6 +1376,9 @@ def main(argv=None) -> int:
                    help="exit 1 if any generated file is out of date (manual gate; no CI)")
     p.add_argument("--residual", action="store_true",
                    help="list abilities.md inventory names the union still cannot see")
+    p.add_argument("--probe", action="store_true",
+                   help="NETWORK: GET /data/wow/spell/{id} for every residual name "
+                        "and refresh _abilities/residual-probe.json (leg B)")
     p.add_argument("--json", metavar="PATH", help="dump the computed union as JSON")
     args = p.parse_args(argv)
 
@@ -942,6 +1386,19 @@ def main(argv=None) -> int:
         sys.exit(f"error: --fetched must be an ISO date, got {args.fetched!r}")
 
     data = build()
+
+    if args.probe:
+        print("probing /data/wow/spell/{id} for every residual name …")
+        out = probe(data, args.fetched)
+        n = sum(len(v) for v in out["hits"].values())
+        print(f"wrote {PROBE_CACHE.relative_to(ROOT)} — "
+              f"{len(out['hits'])} name(s) resolved, {n} live spellID(s)")
+        if out["truncated"]:
+            print("  candidate cap hit (NOT probed exhaustively): " +
+                  ", ".join(f"{k} +{v}" for k, v in sorted(out["truncated"].items())))
+        print("  re-run without --probe to fold these into section 3")
+        return 0
+
     files = render_all(data, args.fetched)
 
     if args.json:
@@ -977,6 +1434,18 @@ def main(argv=None) -> int:
     print(f"  pet annex: {len(data['pet_annex'])} rows over "
           f"{len(data['pet_lines'])} reachable pet lines "
           f"({sum(1 for v in data['pet_lines'].values() if v == UNRESOLVED)} unresolved)")
+    cache = _load_probe()
+    s3, s4 = _section3(data, cache), _section4(data, cache)
+    scope = Counter(r["spec_scope"] for r in s3 if r["reached_by"] == "override-aura")
+    print(f"  section 3: {len(s3)} rows "
+          f"({scope['spec-exclusive']} spec-exclusive / {scope['class-shared']} "
+          f"class-shared override, "
+          f"{sum(1 for r in s3 if r['reached_by'] == 'spell-endpoint')} spell-endpoint)")
+    print(f"  section 4: {len(s4)} rows — a CATALOGUE, not a backlog; "
+          f"researched on ask, never on age")
+    if not cache.get("probed"):
+        print("  ⚠ residual-probe.json absent — leg B contributed nothing. "
+              "Run --probe (network) to fill it.")
     return 0
 
 
