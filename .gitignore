@@ -16,6 +16,8 @@ raw/*
 /projects/keybinder/data/bellular-keybinds.archive-import.json
 # michac/CDMProbe (Cooldown Manager probe addon source):
 /projects/cooldown-hud/addon/
+# michac/cap (Combat Assist Plus addon source):
+/projects/combat-assist/addon/
 
 # MCP tool scratch (Playwright browser session artifacts)
 .playwright-mcp/

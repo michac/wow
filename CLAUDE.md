@@ -19,12 +19,12 @@ Commit and push **only when asked** — do not offer to commit, do not append
 and do not treat a dirty tree as a finding. If a `git status` detail actually
 matters to the question, state it once, plainly, and move on. (Exception: the
 gitignored sub-repos — `planner-state/`, `projects/cooldown-hud/addon/`,
-`projects/keybinder/addon/` — where
+`projects/keybinder/addon/`, `projects/combat-assist/addon/` — where
 "a push does not reach the game, you must cut a release" is a real deploy fact
 worth saying when a deploy is in play.)
 
 **Pushing this repo ⇒ push the addons too.** If you push **this** repo to
-GitHub, assume I also want the latest addon code on GitHub for all three sub-repos
+GitHub, assume I also want the latest addon code on GitHub for all four sub-repos
 (they're separate repos a wow-repo push does not touch). So when you push here,
 run `wowkb.addon check` and, for any addon it flags with **unpushed** commits,
 `git -C <path> push` it as well; if it flags **uncommitted** changes, surface
@@ -180,6 +180,15 @@ touching the code**. Status as of 2026-07-09:
   blocked behind it. Build history is in `docs/archive/`. The addon
   (`michac/CDMProbe`) is at `addon/` (own git repo, gitignored, own `CLAUDE.md` for
   the release workflow). (Current addon version: `wowkb.addon list`.)
+- `projects/combat-assist/` — **Combat Assist Plus** (`/cap`): a combat-assistance
+  addon. **Scaffold only** as of 2026-08-05 — `.toc`, namespace, SavedVariables and
+  the schema-driven slash router, no gameplay behaviour. **What it's for is
+  deliberately undefined**; deciding it is the first backlog item. Start at its
+  `CLAUDE.md` (project root), which owns the **spec process**: `specs/spec.md` = what
+  the addon is supposed to do (present-tense, no history) · `specs/backlog.md` = the
+  work items · `specs/notes.md` = what we did, session logs + decisions. The addon
+  (`michac/cap`) is at `addon/` — own git repo, **gitignored**, own `CLAUDE.md` for
+  the release workflow. (Current addon version: `wowkb.addon list`.)
 - `projects/addon-lab/` — **ClientLab**: the scratch lab addon that answers
   `knowledge/addon-dev/` questions by running Lua in the live client, plus
   **`questions.json`, the test registry** (four statuses:
@@ -240,11 +249,11 @@ uv run python -m wowkb.gen_addon_quests              # regen addon quest-ID tabl
 uv run python -m wowkb.gen_candidates                # regen planning/candidates.json from activities/*.md (--check in CI; edit the .md, not the JSON)
 uv run python -m wowkb.gen_verify                    # regen _meta/verify-in-game.md from @verify-ingame markers (--check for CI; tag the claim, not the JSON)
 uv run python -m wowkb.spec_inventory [--spec X] [--unseeded] [--json PATH] [--validate CHAR]  # per-spec ability inventory as a UNION: all-talents.tsv (node_type!=PASSIVE) ∪ SkillLineAbility class kit ∪ CooldownSetSpell residue (cdm-only), annotated with cooldown, Blizz category, origin (class-baseline|talent-active|talent-choice|cdm-only), suggestedMode (fixed|float), talent tree/hero placement, and the seed bucket that binds each name. Tier 1, all 40 specs. `--validate <char>` diffs the union against a real in-game `/bb diagnostics` dump (false-negatives = holes). Feeds the BucketBinds floats work (layout-v2 §6).
-uv run python -m wowkb.addon list                       # the 3 sub-repo addons: presence + local HEAD + .toc version + latest release + drift
-uv run python -m wowkb.addon pull [--all|bb cdmp ps]     # clone-if-missing + git pull each sub-repo (the machine-B sync)
+uv run python -m wowkb.addon list                       # the 4 sub-repo addons: presence + local HEAD + .toc version + latest release + drift
+uv run python -m wowkb.addon pull [--all|bb cdmp ps cap] # clone-if-missing + git pull each sub-repo (the machine-B sync)
 uv run python -m wowkb.addon check                       # report addons with local-only (uncommitted/unpushed) work; exit 1 if any (pre-push gate)
-uv run python -m wowkb.addon release <bb|cdmp|ps> [--patch|--minor|--major] [--notes …]  # bump .toc → luaparser check → commit → push → gh release (tag=version) → ghaddons deploy
-uv run python -m wowkb.addon deploy <bb|cdmp|ps>         # redeploy the latest existing release via ghaddons (no new cut)
+uv run python -m wowkb.addon release <bb|cdmp|ps|cap> [--patch|--minor|--major] [--notes …]  # bump .toc → luaparser check → commit → push → gh release (tag=version) → ghaddons deploy
+uv run python -m wowkb.addon deploy <bb|cdmp|ps|cap>     # redeploy the latest existing release via ghaddons (no new cut)
 uv run python -m wowkb.cdmp flight                      # the PASS/FAIL ACCEPTANCE REPORT for an in-game pass recorded by `/cdmp flight` (run this after a test build)
 uv run python -m wowkb.cdmp decisionlog                 # extract the CDMProbe pipeline DECISION LOG off SavedVariables → flat .log (see below)
 uv run python -m wowkb.capture <bb|cdmp|clab|ps> [stream]  # THE ONE READER for addon captures — `<DB>.captures.<stream>` → greppable .log (`--list` for streams + bounds)
@@ -265,8 +274,9 @@ anyone reads a capture. Graders stay per-addon (`wowkb.cdmp flight`) and consume
 
 Blizzard + WCL commands require credentials in `.env` (user-registered).
 
-**`wowkb.addon`** is the one door for the three gitignored **sub-repo addons**
-(`bb` = BucketBinds · `cdmp` = CDMProbe · `ps` = PlannerState — short name =
+**`wowkb.addon`** is the one door for the four gitignored **sub-repo addons**
+(`bb` = BucketBinds · `cdmp` = CDMProbe · `ps` = PlannerState · `cap` = Combat
+Assist Plus — short name =
 in-game slash prefix; a checkout path also resolves). The registry inside the
 module (repo ↔ path ↔ `.toc`) is the source of truth for the addon set, and it
 owns the mechanical release recipe the per-addon `CLAUDE.md` files used to spell

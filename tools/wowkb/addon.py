@@ -1,4 +1,4 @@
-"""Manage the three gitignored sub-repo addons (BucketBinds, CDMProbe, PlannerState).
+"""Manage the gitignored sub-repo addons (BucketBinds, CDMProbe, PlannerState, CombatAssistPlus).
 
 These live at fixed paths inside the workspace but are **separate git repos**,
 gitignored here so the wow repo never sees them as embedded repos. That decoupling
@@ -13,7 +13,7 @@ recipe the per-addon CLAUDE.md files used to spell out by hand.
     uv run python -m wowkb.addon release bb --minor    # bump→lint→commit→push→gh release→deploy
     uv run python -m wowkb.addon deploy cdmp           # redeploy latest release, no new cut
 
-Short names are the in-game slash prefixes (`bb`, `cdmp`, `ps`); a repo-relative
+Short names are the in-game slash prefixes (`bb`, `cdmp`, `ps`, `cap`); a repo-relative
 path also resolves. The registry (repo↔path↔toc) is the source of truth for the
 addon set — `list` is the LIVE version signal, so never hardcode addon versions
 in prose, run it. `pull` is why root CLAUDE.md tells the agent to sync on session
@@ -65,6 +65,9 @@ REGISTRY = {
     "ps": Addon("ps", "michac/wow-planner-state", "planner-state",
                 "PlannerState/PlannerState.toc", "PlannerState/*.lua", "/ps",
                 schema_note=True),
+    "cap": Addon("cap", "michac/cap", "projects/combat-assist/addon",
+                 "CombatAssistPlus/CombatAssistPlus.toc", "CombatAssistPlus/*.lua",
+                 "/cap status"),
 }
 
 
@@ -450,7 +453,7 @@ def main(argv=None) -> int:
     pp.add_argument("--all", action="store_true", help="pull every registered addon")
 
     rp = sub.add_parser("release", help="bump→lint→commit→push→gh release→ghaddons deploy")
-    rp.add_argument("name", help="short name (bb|cdmp|ps) or a checkout path")
+    rp.add_argument("name", help="short name (bb|cdmp|ps|cap) or a checkout path")
     g = rp.add_mutually_exclusive_group()
     g.add_argument("--major", action="store_true", help="X+1.0.0")
     g.add_argument("--minor", action="store_true", help="x.Y+1.0")
