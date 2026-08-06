@@ -70,7 +70,7 @@ A `prose-only` row that the probe **did** resolve is not here — it is in
 endpoint covers only independently-castable spellbook entries, so a 404 is not
 evidence of absence (Hammer of Light 427441 and 427453 both 404 and are live).
 
-## Rows (126)
+## Rows (127)
 
 | class | spec | name | spell_id | reached_by | provenance |
 |---|---|---|---|---|---|
@@ -158,6 +158,7 @@ evidence of absence (Hammer of Light 427441 and 427453 both 404 and are live).
 | Priest | Discipline | Void Shield |  | prose-only | asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; spell endpoint returned no 200 — not evidence of absence |
 | Priest | Holy | Heal | 2060 | trigger-effect | reached from Lightweaver 390993 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
 | Priest | Holy | Light's Blessing | 286551 | trigger-effect | reached from Dispel Magic 286556 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
+| Priest | Holy | Mastery: Echo of Light |  | prose-only | asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; not yet probed |
 | Priest | Holy | Shadow Mend | 186263 | trigger-effect | reached from Surge of Light 114255 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
 | Priest | Shadow | Harvested Thoughts | 273321 | trigger-effect | reached from Thought Harvester 273320 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
 | Priest | Shadow | Insanity | 194251 | trigger-effect | reached from Voidform 185916 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |

@@ -83,6 +83,7 @@ Priest	Discipline	Prayer of Healing	596	trigger-effect	reached from Surge of Lig
 Priest	Discipline	Void Shield		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; spell endpoint returned no 200 — not evidence of absence
 Priest	Holy	Heal	2060	trigger-effect	reached from Lightweaver 390993 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
 Priest	Holy	Light's Blessing	286551	trigger-effect	reached from Dispel Magic 286556 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
+Priest	Holy	Mastery: Echo of Light		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; not yet probed
 Priest	Holy	Shadow Mend	186263	trigger-effect	reached from Surge of Light 114255 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
 Priest	Shadow	Harvested Thoughts	273321	trigger-effect	reached from Thought Harvester 273320 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
 Priest	Shadow	Insanity	194251	trigger-effect	reached from Voidform 185916 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808

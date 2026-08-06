@@ -403,3 +403,42 @@ driver (`Pyroblast Clearcasting Driver` 44448), UI plumbing (`Hotbar Slot 01/02`
 `wowkb.gen_abilities` prints the split on every run and
 `knowledge/classes/_abilities/README.md` § *When a row has no description* carries the
 same table. Nothing ages either one.
+
+## Ability inventory — the prose rollout is BLOCKED, plan written *(2026-08-06)*
+
+The mining is done and committed (`b66df73`..`7b03190`): 88 generated files, 7,065
+rows, every DB2 read pinned to 12.0.7.67808, plus descriptions transcribed from game
+data (99.6% coverage). What is **not** done is stripping the now-redundant restatement
+out of the 40 hand-written `abilities.md` files.
+
+📄 **The full plan, with enough context to resume cold, is `todo/ability-inventory-rollout.md`.**
+Read it before touching `knowledge/classes/*/*/abilities.md` or
+`tools/wowkb/gen_abilities.py`. Summary of why it is parked:
+
+- **Blocker 1 — `cost` and `cast_time` have no generated home.** The API tooltips say
+  what a spell *generates*, never what it *costs*. The `Resource` and `Cast / CD`
+  columns of the 40 prose files are the only record of Holy Power / Rage / mana costs
+  and of every cast time. A "delete the restated columns" pass destroys both. Sources
+  are already on disk (`SpellPower`, `SpellMisc.CastingTimeIndex` → `SpellCastTimes`),
+  both need a pinned refetch.
+- **Blocker 2 — `abilities.md` is a MACHINE INPUT and 18 of 40 specs are dark to it.**
+  `gen_abilities._inventory_names()` harvests the first table column under a heading
+  starting with `inventory`; `## Ability inventory` does **not** match. So the
+  `prose-only` leg of `section-4-catalogue` has never seen 18 specs — **10 rows are
+  missing**, including Cull, Devour, Pierce the Veil, Sacred Weapon and Spell Lock,
+  several of which were described as "recorded in the catalogue" when they were not.
+  Any rollout must keep a table with clean names in column 1 under a matching heading,
+  or it silently deletes tracked unknowns.
+- **Decision pending from Mike** — a 3-spec pilot (retribution / warrior-protection /
+  priest-holy) is **uncommitted in the working tree** proposing a four-section shape
+  with a two-column `Ability | Role` table. `git diff` to see it, `git checkout --` to
+  discard. Honest headline: the files got **longer**, not shorter.
+- **A free win that needs no decision:** a 16-line boilerplate blockquote is duplicated
+  verbatim across all 40 files and the hero-tree sections duplicate `builds.md`.
+  Deleting both shrinks 40 files by ~25 lines each with zero loss.
+
+Two quality caveats recorded there, not fixed: some tooltips render the **wrong spec's
+branch** (Protection Warrior's `Burst of Power` says "Bloodthirst", which is Fury's —
+Blizzard's API resolves `$?spec[…]` without spec context; ~445 loose candidates,
+2 confirmed), and `priest/holy/rotation.md` is **stale** in a way that contradicts its
+own `abilities.md` — so "check the sibling covers it" is not a sufficient test.
