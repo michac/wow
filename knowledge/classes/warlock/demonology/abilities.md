@@ -1,14 +1,18 @@
 ---
 title: Demonology Warlock — ability inventory (Midnight S1)
 patch: 12.0.7
-fetched: 2026-07-11
-reviewed: 2026-08-01  # Summon Demonic Tyrant costs 0 shards, not 1 (Tier-1 C_Spell.GetSpellPowerCost + DB2); Infernal Bolt yield 2→3 was corrected 2026-07-25
+fetched: 2026-08-06
+reviewed: 2026-08-06  # reconciled against the generated DB2 ability inventory (Summon Doomguard, Spell Lock origin, Create Healthstone). Earlier: the four not-on-the-tree names re-confirmed against the API tree itself; Summon Demonic Tyrant costs 0 shards, not 1 (Tier-1 C_Spell.GetSpellPowerCost + DB2); Infernal Bolt yield 2→3 was corrected 2026-07-25
 sources:
+  - knowledge/classes/warlock/demonology/ability-inventory.tsv  # tier 1, generated DB2 inventory @ 12.0.7.67808 — the name/spellID/origin/cooldown floor, 2026-08-06
+  - knowledge/classes/_abilities/pet-family-annex.tsv  # tier 1, pet skill lines @ 12.0.7.67808, 2026-08-06
+  - knowledge/classes/_abilities/reconcile-ledger.md  # tier 1 derived, the verdicts applied here, 2026-08-06
   - https://us.api.blizzard.com/data/wow/talent-tree/720/playable-specialization/266  # tier 1, Blizzard Game Data API talent/spell names, static-12.0.7
   - raw/wago/SpellName.csv  # tier 1, wago.tools SpellName DB2 @ 12.0.7.67808 — name canonicalization
   - https://www.icy-veins.com/wow/demonology-warlock-pve-dps-rotation-cooldowns-abilities  # tier 3, 12.0.7 (upd. 2026-05-19), ability roles + cast/CD corroboration
   - https://www.wowhead.com/spell=264178/demonbolt  # tier 4, Demonbolt effect corroboration
   - ./talents.md  # local, spec talent tree (12.0.7.67808)
+  - knowledge/classes/_talents/all-talents.tsv  # tier 1, every spec's tree — the four not-on-the-tree names checked across all of them
 confidence: medium
 ---
 
@@ -36,6 +40,11 @@ confidence: medium
 
 `Function` = game role, not a keybind assignment.
 
+> **Tier-1 floor.** Canonical **name, spellID, acquisition origin and base
+> cooldown** live in `ability-inventory.tsv` (generated from wago DB2 @
+> 12.0.7.67808) — read them there rather than trusting a restated number here.
+> This table is for **role and rotational context**; on any disagreement the tsv wins.
+
 | Ability | Function | Resource | Cast / CD | Description |
 |---|---|---|---|---|
 | **Shadow Bolt** | Rotational-builder | Generates 1 Soul Shard | ~2s cast | Baseline single-target filler / shard builder. Chance to grant a Demonic Core. **Replaced by Infernal Bolt** when *Demoniac* is talented (the S1 build). |
@@ -49,10 +58,10 @@ confidence: medium
 | **Power Siphon** | Utility (core generator) | — (consumes up to 2 Wild Imps) | ~30s CD | Choice-node vs Implosion. Sacrifices up to 2 Wild Imps to grant **2 Demonic Cores** — fuels the next Demonbolt / Hand of Gul'dan chain. |
 | **Grimoire: Fel Ravager** | Rotational-summon | Soul Shards | active (choice node) | Choice-node vs *Grimoire: Imp Lord*. Summons a **Fel Ravager** demon added to the Tyrant board. |
 | **Summon Vilefiend** | Passive summon | — | passive/talent | Talent that summons a **Vilefiend** demon for the rotation/Tyrant board (passive node in the S1 tree). |
-| **Summon Doomguard** | Rotational-summon / cooldown | Soul Shards | active talent | Summons a **Doomguard** demon (deep spec-tree talent). @verify-ingame |
+| **Summon Doomguard** | Rotational-summon / cooldown | Soul Shards | **120s CD** *[Tier 1]* | Summons a **Doomguard** demon — a genuine active talent on the deep spec tree (not a passive summon like Vilefiend), so it is a pressed button on a 2-minute cycle: line it up with the Tyrant window rather than pressing it on sight. |
 | **Summon Felguard** | Pet | 1 Soul Shard | ~cast, out of combat | Summons the **Felguard**, Demonology's permanent pet (universal in group content). Provides **Axe Toss** interrupt via Command Demon. |
 | **Command Demon / Axe Toss** | Interrupt | — | ~30s CD (Felguard) | *Command Demon* fires the active pet's special. With the Felguard that's **Axe Toss** — a ranged interrupt + brief stun. |
-| **Spell Lock** | Interrupt / Dispel | — | ~24s CD (Felhunter) | Felhunter's Command Demon ability — interrupt + a purge. Available when running the Felhunter instead of the Felguard. |
+| **Spell Lock** | Interrupt / Dispel | — | **24s CD** *[Tier 1]* | A **pet ability learned on the Felhunter's own skill line**, not a player spell — which is why it is absent from this spec's `ability-inventory.tsv` (it lives in `_abilities/pet-family-annex.tsv`). Interrupt + a purge, fired via Command Demon, and only available if you give up the Felguard's Axe Toss to run the Felhunter. |
 | **Doom** | Passive | — | passive talent | Demonbolt applies **Doom**, a delayed detonation on the target. Build-defining passive, not a pressed button. |
 | **Fel Domination** | Utility (pet) | — | ~3-min CD | Your next pet summon within 15s is **instant and free** — the emergency re-summon after a pet dies. |
 | **Subjugate Demon** | CC (utility) | — | ~1.5s cast | Enslaves a target demon to fight for you (leveling / niche PvE utility). |
@@ -60,7 +69,7 @@ confidence: medium
 | **Mortal Coil** | Defensive / CC | — | ~45s CD | Horrifies the target (~3s) and **heals ~20–25% max HP**. A defensive + single-target peel. |
 | **Dark Pact** | Defensive (absorb) | Sacrifices current HP | ~1-min CD (−15s w/ *Frequent Donor*) | Sacrifices health for a large **absorb shield**; usable while CC'd. |
 | **Unending Resolve** | Defensive (major) | — | ~3-min CD | **−25% damage taken** for 8s (−40% with *Strength of Will*) + interrupt/silence immunity — the big personal defensive. |
-| **Healthstone** | Defensive (item) | — | instant, 1/combat (reusable w/ *Pact of Gluttony*) | Instant **~25–30% HP** heal; conjured pre-combat. |
+| **Create Healthstone** | Defensive (conjure → item heal) | — | Instant · no CD | The **player ability** is `Create Healthstone`; "Healthstone" alone names the *item* use, which is not a learned spell — renamed here *[Tier 1, 2026-08-06]*. Conjure pre-combat; using the stone is an instant **~25–30% HP** heal, once per combat unless *Pact of Gluttony* is talented. |
 | **Soulstone** | Utility (battle-rez) | — | ~2.5s cast · 10-min CD | Combat resurrection on an ally (self-rez out of combat) — the warlock brez. |
 | **Soulburn** | Utility (empower) | 1 Soul Shard | instant | Empowers the **next** spell (e.g. Healthstone/Drain Life/Demonic Circle) with a bonus effect. |
 | **Demonic Circle** | Movement (utility) | — | ~0.5s cast | Places a portal on the ground. |
@@ -86,6 +95,11 @@ confidence: medium
   still exists in game data but is **not** on the Midnight Demo spec tree.
 - **Curse of Weakness** and **Blight of Weakness** are distinct: the curse is
   baseline; Blight is the talent upgrade (choice vs Blight of Tongues).
-- Not on the current Midnight Demo spec tree (present in older builds, omitted
-  here): **Bilescourge Bombers, Nether Portal, Demonic Strength, Guillotine** —
-  none appear in the 12.0.7.67808 talent tree (`talents.md`). @verify-ingame
+- **Not on the Midnight Demo spec tree** (present in older builds, omitted here):
+  **Bilescourge Bombers, Nether Portal, Demonic Strength, Guillotine**. Confirmed
+  against the Blizzard Game Data API tree itself — tree 720 / spec 266, whose 147
+  talent names contain none of the four, while Hand of Gul'dan, Implosion, Summon
+  Demonic Tyrant and Doom are all present as controls. They are absent from
+  `all-talents.tsv` for **every** spec, not just this one, so they are not talents
+  anywhere at 12.0.7. *[Tier 1, static-12.0.7_67808 — which is the API's current
+  static namespace, not a stale pin.]*

@@ -18,6 +18,70 @@ this file records *our* work, not the client's behaviour.
 
 ---
 
+## 2026-08-06 — M2a: the four client claims, measured
+
+M2a is done. The four assumptions M2's code was written against went to **ClientLab**,
+not to cap, because none of them is a cap question — they are `knowledge/addon-dev/`
+questions, and cap growing chat dumps to answer them was the lab-inside-a-product mistake
+this milestone exists to correct. One session, one pull, one UI-scale change; all four
+drained (OBS-056…059) and all four tests deleted, so the lab is back to 7 built ids.
+
+**Three of the four confirmed the code. One killed a branch.**
+
+- **`item.cooldownID` is never secret.** 26 rows across all four viewers, zero secret
+  reads on the field *or* on `item:GetCooldownID()`, across 4 out-of-combat runs and 13
+  samples spread through a pull, with the two expressions never disagreeing. The KB row
+  said *"can read secret"* and that was inherited, not measured.
+  → **`Bind.lua`'s stale-retention branch guards a case that has never been observed.**
+  That is a result to act on in M2b, not machinery to keep because it was expensive to
+  write. ⚠ It is not *annotated* non-secret, so the class-check on read stays; what goes
+  is the retain-the-old-id-because-the-new-one-is-unreadable path and the `unreadable`
+  counters that feed it.
+- **A hidden viewer still hands back its item frames** — `#GetItemFrames()` equalled the
+  pool's active count on all four viewers with all four hidden. And the two aura viewers
+  proved the mechanism rather than merely surviving it: their item frames are individually
+  *not* shown (1 of 9, 0 of 4) and come back anyway, because every item template sets
+  `includeAsLayoutChildWhenHidden`, so the `IsShown` leg of the layout filter never binds
+  on a CDM row at all.
+  → **`hidden` and `empty` cannot both be read off the row count.** `evaluate()`'s
+  `state.frames == 0 → hidden` branch is unreachable-by-construction for the reason it
+  thinks: zero rows means the pool is empty, nothing else. Read the viewer's own
+  `IsShown()` for hidden, and let the row count mean *configured*. M2b's job.
+- **An addon frame under UIParent is unprotected, and stays so.** `false, false` while
+  UIParent itself reads `true, true`; re-anchoring it to `ActionButton1` (`true, true`)
+  left it `false, false`; and in combat `SetPoint` / `SetScale` / `Show` / `Hide` all
+  succeeded. So §1.2's propagation runs *outward from* the protected frame, not inward to
+  whatever anchors onto one. `Frame.lua`'s unguarded `SetPoint` in the `UI_SCALE_CHANGED`
+  branch is fine.
+- **`SetClampedToScreen` is continuous, and applied inline.** A frame parked 120 past the
+  top-left corner read `left = 0.0` on the *same frame* as the `SetPoint`, and held `0.0`
+  through its own `SetScale(2)` and two UI-scale changes.
+  → **`Frame.lua:317-320`'s `--@unverified` comment can go, but so can most of its
+  reason for existing**: the engine had already re-clamped before the handler ran, so the
+  re-`SetPoint` is re-asserting a position, not rescuing one. Keep it for the *saved*
+  position's sake; drop the claim that it is what keeps the panel on screen.
+
+**Process notes, for the next time this shape comes up.**
+
+- **Marking a claim must be line-neutral.** Q1's and Q3's markers went *inside* the
+  existing table cell and sentence — nothing validates `questions.json` anchors, and Q3's
+  edit sat above 17 of them, two on live `built` rows. Q2 and Q4 needed lines that did not
+  exist yet, so the stub came first and the anchors were re-stamped in the same commit.
+- **Do not re-stamp anchors by matching text.** Tried it; several §4.2 anchors point at
+  *blank* lines, so three of them collapsed onto one. The correct instrument is a
+  positional `difflib` line map from the pre-edit file, rebuilt from `HEAD` — and the
+  check that it worked is that every anchor still lands on byte-identical text.
+- **`needs = "secret"` would have destroyed Q1.** That gate records `skipped` out of
+  combat and `skipped` never drains, so the out-of-combat half — which is half the claim —
+  would have been unrecordable by construction.
+- **One test file per KB topic file, and `T_Frames.lua` had one tenant**, so it and its
+  `.toc` line were deleted with the claim. ⚠ `lab.py`'s `lua_ids()` globs `T_*.lua` off
+  disk and never reads the `.toc`, so a test file missing from the `.toc` passes
+  `deploy --check`, deploys, and never loads. Add and remove the `.toc` line in the same
+  edit as the file, every time.
+
+---
+
 ## 2026-08-05 — M2 and the catalog, built in parallel
 
 Four tracks run concurrently — three subagents plus the integrator — after checking that

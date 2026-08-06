@@ -196,32 +196,36 @@ what would settle it. The addon code they came from is unflown (cap has no relea
   `linkedSpellIDs` pool candidate. For "is ability X on this row?" they give different
   answers — the pool also matches aura ids (Wither `445474` hits Immolate's *cast* row).
   Genuinely ambiguous which is intended; cap split it behind an opt-in flag rather than pick.
-- **A hole, not an error: the file documents what you can read off a row you already hold,
-  and nowhere documents how to OBTAIN the rows.** No coverage of the four viewer globals,
-  `CooldownViewerMixin:GetItemFrames()` (it is `GetLayoutChildren()`, so shown-children-
-  with-a-layoutIndex only), `GetCooldownIDs()`, or the `minimumItemCount = 2` padding
-  frames that make a naive frame count over-report. Sourced from `CooldownViewer.lua` +
-  `CooldownViewer.xml:283-333`. Would slot into §7 as a "getting the rows" preamble.
+- **PARTLY CLOSED — the file documents what you can read off a row you already hold, and
+  barely documents how to OBTAIN the rows.** §7 now carries the `GetItemFrames()` account
+  (it is `GetLayoutChildren()`, and every item template sets
+  `includeAsLayoutChildWhenHidden`, so a hidden viewer still enumerates — measured
+  `[client 2026-08-06]`). Still uncovered: the four viewer globals as such,
+  `GetCooldownIDs()`, and the `minimumItemCount = 2` padding frames that make a naive
+  frame count over-report. Sourced from `CooldownViewer.lua` + `CooldownViewer.xml:283-333`.
 
 **`frames-textures-animation.md` — two, from the movable-frame work:**
 
-- **The movable-frame family is entirely absent.** `SetMovable`, `StartMoving`,
-  `StopMovingOrSizing`, `RegisterForDrag`, `SetClampedToScreen`, `SetUserPlaced`,
-  `dontSavePosition` appear nowhere in §3 (Anchoring and size) or §4, despite §3 being the
-  declared home for anchoring. The subtree's only mention of the drag family is inside the
-  enumeration of the protected 59 in `security-taint-and-restricted-data.md:104`/`:108`.
-  Every addon that draws anything needs this; cap had to reconstruct the position-
-  persistence contract from Blizzard's Edit Mode source instead. Suggested home: a new
-  `### 3.6 Moving a frame, and persisting where it went`, anchored on
-  `EditModeManager.lua:295-320` + `EditModeSystemTemplates.lua:355-380`.
+- **The movable-frame family is still mostly absent.** §3.6 now exists and covers
+  `SetClampedToScreen` only — that the clamp is continuous and inline, measured
+  `[client 2026-08-06]`. `SetMovable`, `StartMoving`, `StopMovingOrSizing`,
+  `RegisterForDrag`, `SetUserPlaced` and `dontSavePosition` still appear nowhere in §3 or
+  §4, and the persistence half is unwritten; cap had to reconstruct that contract from
+  Blizzard's Edit Mode source instead. Suggested shape: grow §3.6 into
+  *"Moving a frame, and persisting where it went"*, anchored on
+  `EditModeManager.lua:295-320` + `EditModeSystemTemplates.lua:355-380`, and overlapping
+  `state-persistence-and-communication.md` on the persistence half. **Batch it with the
+  EditBox section `observations.md` OBS-002 and OBS-003 already owe the same file** — one
+  structural edit and one anchor re-stamp instead of two of each.
 - **§8.1 (`:1252-1266`) omits that `UIParent` is itself `protected="true"`.** Tier 1:
   `Blizzard_UIParent/Mainline/UIParent.xml:4` —
   `<Frame name="UIParent" setAllPoints="true" protected="true" preventSecretValues="true" frameStrata="MEDIUM">`.
   Load-bearing for "is my addon frame protected?", because §1.2 says protection propagates
   to parents and anchor targets — and every addon frame is a child of, and anchored to, a
-  protected frame. The resolution is that propagation is upward, so children are
-  unaffected; but the KB never states the premise, so a careful reader can reason their way
-  to the wrong answer. The same line is also the Tier-1 source for UIParent's `MEDIUM`
+  protected frame. §1.1 now settles the consequence by measurement (a UIParent child reads
+  `false, false` while UIParent reads `true, true`; the spread runs outward from the
+  protected frame) `[client 2026-08-06]`, but §8.1 still does not carry the XML line
+  itself, which is the Tier-1 premise. The same line is also the Tier-1 source for UIParent's `MEDIUM`
   strata and a live `preventSecretValues="true"` example — both flagged `[gap]` at
   `security-taint-and-restricted-data.md:1077` and `:1900`. ✅ **Verified verbatim against
   the local UISRC checkout** (`raw/addon-research/wow-ui-source/Interface/AddOns/Blizzard_UIParent/Mainline/UIParent.xml:4`)
@@ -243,3 +247,29 @@ what would settle it. The addon code they came from is unflown (cap has no relea
   bound-aura presence — **not measured on Demonology**. It is the whole basis of Tyrant's
   HIGH band; if it does not hold, that entry collapses to one band and loses its point.
   Marked medium-confidence in `projects/combat-assist/specs/demonology/catalog.md`.
+
+**`wowkb.spec_inventory` — a fixed bug worth knowing about (2026-08-06):**
+
+- `_class_skill_lines()` picked each class's kit line by "most rows carrying my class
+  bit". **SkillLine 810 is a shared line carrying rows for all 12 class masks**, so it
+  won for **Hunter, Priest and Druid** — beating Priest's own 804 (13 rows vs 5) and
+  edging Druid's 798 by one. The inverted `line_to_class` map then resolved 810 to a
+  single class, and the other two got **no `class-baseline` abilities at all**. Ten
+  specs were affected; the union went 2980 → 3217 rows once exclusivity (a kit line's
+  class-restricted rows name *only* that class) replaced popularity as the test.
+- **Consequence for BucketBinds:** the floats work reads this inventory, so Hunter /
+  Priest / Druid specs were being planned against an inventory missing their baseline
+  kit. `--unseeded` grew accordingly — those specs' seed coverage is worth re-checking
+  before the next placement pass.
+- **Consequence for the KB:** absence from this union was being read as "the ability is
+  gone", which is what made Flare, Circle of Healing and Renewal look removed.
+
+- **`wowkb.talents` does not emit `reviewed:`, but every generated `talents.md` has one
+  (2026-08-06).** `talents.py` writes `title, patch, build, fetched, sources, confidence`
+  and never `reviewed:` — yet all 40 committed `talents.md` carry `reviewed: 2026-07-07`,
+  hand-stamped by a later sweep. **This is a latent `--check` trap**: the moment anything
+  byte-compares a regenerated `talents.md` against the committed one it fails permanently,
+  and no amount of regenerating fixes it. Three ways out — the generator emits `reviewed:`
+  itself, `--check` compares semantically, or the patch sweep skips generated files. Pick
+  one before adding a `--check` to any new generator. (`wowkb.gen_abilities` is being
+  written to emit `reviewed:` itself.)

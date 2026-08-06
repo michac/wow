@@ -2,7 +2,7 @@
 title: Frames, widgets and rendering
 patch: 12.0.7
 fetched: 2026-08-05
-reviewed: 2026-08-05
+reviewed: 2026-08-06
 sources:
   - https://github.com/Gethe/wow-ui-source (live, version.txt 12.0.7.68887, commit 4383ced30106d51b27e3e86d1987f1552f0d259d)
   - Interface/AddOns/Blizzard_SharedXML/UI.xsd (1628 lines, the Tier-1 XML schema)
@@ -463,6 +463,43 @@ one frame between two different nameplates
 "ignore me in layout" is `collapsesLayout` `[T1 xsd:477]` with
 `SetCollapsesLayout` / `CollapsesLayout` / `IsCollapsed` on ScriptRegion
 `[T1 docs: SimpleScriptRegionAPIDocumentation.lua]`.
+
+### 3.6 Keeping a frame on screen
+
+`Frame:SetClampedToScreen(clamped)` and `Frame:SetClampRectInsets(...)` are declared at
+Tier 1 and nothing more is said about them
+`[T1 docs: SimpleFrameAPIDocumentation.lua:1102, :1088]`; both carry
+`IsProtectedFunction = true`, so they sit in the 59-entry protected-widget set that
+[`security-taint-and-restricted-data`](./security-taint-and-restricted-data.md) §1.1
+enumerates.
+
+**The clamp is continuous rather than a one-shot, and it is applied inline**
+`[client 2026-08-06]`. A 200×60 frame with `SetClampedToScreen(true)`, anchored
+`TOPLEFT` to UIParent's `TOPLEFT` at offset `(-120, +120)` — deliberately parked past
+the corner — read `left = 0.0` in screen units on the **same frame** as the `SetPoint`,
+where an unclamped frame would have read `-76.8`. It then held `left = 0.0` through a
+`SetScale(2)` of its own and through two UI-scale changes, its width tracking each new
+scale, with every value read both inline and after a settle:
+
+| step | effective scale | left (screen) | right (screen) |
+|---|---|---|---|
+| parked past the top-left corner | 0.640 | **0.0** | 128.0 |
+| `SetScale(2)` — its own geometry | 1.280 | **0.0** | 256.0 |
+| UI scale raised | 2.000 | **0.0** | 400.0 |
+| UI scale lowered | 1.560 | **0.0** | 312.0 |
+| settled | 1.280 | **0.0** | 256.0 |
+
+A UI-scale change raises **both** `UI_SCALE_CHANGED` and `DISPLAY_SIZE_CHANGED` — four
+firings across the two changes above. But an addon does not need either one to stay on
+screen: the engine had already re-clamped by the time the handler ran, so a
+re-`SetPoint` on those events is re-asserting a position, not rescuing it.
+
+⚠ Two ways to read a wrong number here, both of which produce a confident wrong answer.
+`GetLeft()` is in the frame's **own** coordinate space, so after `SetScale(2)` the same
+screen position reads as a different number — every value above is
+`GetLeft() * GetEffectiveScale()`, compared against UIParent's equivalent. And a frame
+that is shown and sized but carries **no anchor** has no resolved rect at all:
+`GetLeft()` returns `nil`, which is not an off-screen position.
 
 ---
 
@@ -1526,6 +1563,9 @@ Collected for visibility; each is also stated inline.
 16. **Almost nothing in this file has been executed in the client.** The
     exceptions are the two `[client …]`-tagged findings in §5.1 and §5.7;
     everything else is read off source, schema, docs or the wiki.
+17. **[closed] When `SetClampedToScreen` re-applies** (§3.6) — continuously and inline;
+    an edge-parked frame is pulled back on the frame's own geometry change and on a
+    UI-scale change alike, without the addon touching it `[client 2026-08-06]`.
 
 ---
 

@@ -18,6 +18,8 @@ the scaffold** — the game folder holds `.toc` + `Core.lua` only. `Bind.lua` an
 `Frame.lua` are working-tree-only, and `ghaddons` installs from the latest *release*.
 Code-complete is not done.
 
+**M2a is done** (2026-08-06 — see below and `notes.md`); M2b/M2c/M2d remain.
+
 **The four milestones below run in order and gate M2.** They exist because the first
 build put a lab inside the product: cap grew slash-command dumps that print to chat,
 and chat has no copy/paste, so the one output that has to reach the analysis machine
@@ -25,35 +27,32 @@ was the one that could not leave the client (house rule 4). The correction is a
 separation — **client behaviour is a ClientLab question; cap's own state is a capture
 log** — and cap ends up needing almost no diagnostics of its own.
 
-### M2a — Lab the four client questions, and fly the lab
+### M2a — Lab the four client questions, and fly the lab ✅ DONE 2026-08-06
 
-Four claims cap's M2 code rests on are **inferences, not measurements**. None of them
-is a cap question; all four are `knowledge/addon-dev/` questions, which is what
-ClientLab is for. Process is `projects/addon-lab/docs/lab-process.md`: mark the claim
-→ write the test → `@pending-test: <id>` → fly → `wowkb.lab drain` → `[client <date>]`.
+All four measured in one session and drained (OBS-056…059); the four tests are deleted
+and the lab is back to 7 built ids. Session log + what each result costs cap: `notes.md`.
 
-- [ ] **`item.cooldownID` — can it read secret, and when?** `cooldown-manager.md:740`
-      is the load-bearing claim for the whole binding, and it is the **only untagged
-      row in a §7 Tier 2 table where every neighbour carries `[client]`**. cap's
-      merge-don't-replace design exists to honour it, so it should be measured rather
-      than inherited. Mark `:740` `@pending-test` and write the test.
-- [ ] **Does `GetItemFrames()` on a HIDDEN viewer return children?** `GetLayoutChildren`
-      filters on each child's own `IsShown()`, which is local rather than `IsVisible()`,
-      so it is unsettled from source. This decides whether cap's `hidden` and `empty`
-      health verdicts can discriminate at all, or should collapse to one.
-- [ ] **Is an ordinary addon frame parented to UIParent `IsProtected() == false`?**
-      UIParent is itself `protected="true"`
-      (`Blizzard_UIParent/Mainline/UIParent.xml:4`) and protection propagates to parents
-      and anchor targets — the resolution is that propagation is upward, but the KB
-      never states the premise. The frame's whole non-secure argument rests on this.
-- [ ] **Does re-anchoring re-clamp after a UI-scale change?** `Frame.lua`'s one
-      `--@unverified` path assumes `UI_SCALE_CHANGED` → re-`SetPoint` pulls an
-      edge-parked frame back on screen. Never observed; the KB does not say.
-- [ ] **Fly the lab** and drain all four into `knowledge/addon-dev/`. ⚠ Also resolve
-      `knowledge/classes/warlock/demonology/abilities.md:89-91` while logged in — the
-      open `@verify-ingame` on "Demonic Strength / Bilescourge Bombers / Guillotine are
-      not on the Midnight Demo tree", which the catalog's silences build on. Edit the
-      claim, drop the marker, `wowkb.gen_verify`.
+- [x] **`item.cooldownID` — can it read secret, and when?** → **it never did.** 26 rows,
+      all four viewers, 4 OOC runs + 13 in-pull samples, zero secret reads on the field
+      or the accessor. `cooldown-manager.md:740` `[client 2026-08-06]`.
+- [x] **Does `GetItemFrames()` on a HIDDEN viewer return children?** → **yes, all of
+      them.** Every item template sets `includeAsLayoutChildWhenHidden`, so the
+      `IsShown` leg of the layout filter never binds on a CDM row.
+      `cooldown-manager.md:857` `[client 2026-08-06]`.
+- [x] **Is an ordinary addon frame parented to UIParent `IsProtected() == false`?** →
+      **yes, and re-anchoring it to a protected frame does not change that**; in combat
+      SetPoint / SetScale / Show / Hide all succeeded.
+      `security-taint-and-restricted-data.md:127` `[client 2026-08-06]`.
+- [x] **Does re-anchoring re-clamp after a UI-scale change?** → **the clamp is
+      continuous and applied inline**, so nothing needs re-anchoring for that reason.
+      `frames-textures-animation.md:467` (new §3.6) `[client 2026-08-06]`.
+- [x] **The catalog's silences are sound.** `abilities.md`'s `@verify-ingame` on
+      "Demonic Strength / Bilescourge Bombers / Guillotine / Nether Portal are not on
+      the Midnight Demo tree" is resolved — and it was never an in-game question:
+      the Blizzard Game Data API tree (720 / 266) is Tier 1 for exactly this, and its
+      147 talent names contain none of the four, with Hand of Gul'dan / Implosion /
+      Summon Demonic Tyrant / Doom present as controls. They are absent from
+      `all-talents.tsv` for every spec. Marker dropped, `gen_verify` re-run.
 
 ### M2b — Strip cap's diagnostic surface
 
@@ -67,6 +66,20 @@ ClientLab is for. Process is `projects/addon-lab/docs/lab-process.md`: mark the 
       one-line "loaded, spec, on/off" and all diagnostics move to the log, or it goes
       entirely. Don't leave the spec saying one thing and the code another.
 - [ ] `/cap move` stays — a placement affordance required by §3.4, not a diagnostic.
+- [ ] **Delete `Bind.lua`'s stale-retention branch.** M2a measured `item.cooldownID`
+      plain on every read, so retaining a stale id "because the new one is unreadable"
+      guards a case never observed — with it go the `unreadable` counters that only feed
+      it. ⚠ The field is not *annotated* non-secret, so the class-check on read stays;
+      what goes is the branch built on the class coming back secret.
+- [ ] **Fix the `hidden` health verdict, or drop it.** `evaluate()` infers `hidden` from
+      `state.frames == 0`, and M2a measured that a hidden viewer enumerates in full — so
+      zero rows means the pool is empty, nothing else. Read the viewer's own `IsShown()`
+      for hidden and let the row count mean *configured*; if that is more than the health
+      report is worth, collapse `hidden` into `empty` and say so in `spec.md`.
+- [ ] **Trim `Frame.lua:317-320`.** The `--@unverified` comment goes: the engine
+      re-clamps continuously and inline, so the re-`SetPoint` on `UI_SCALE_CHANGED` /
+      `DISPLAY_SIZE_CHANGED` re-asserts the *saved* position and is not what keeps the
+      panel on screen. Keep the call, correct the reason.
 
 ### M2c — Give cap the standard capture log
 
