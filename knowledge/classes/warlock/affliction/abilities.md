@@ -1,9 +1,12 @@
 ---
 title: Affliction Warlock — Ability Inventory (Midnight S1)
 patch: 12.0.7
-fetched: 2026-07-11
-reviewed: 2026-07-11
+fetched: 2026-08-06
+reviewed: 2026-08-06
 sources:
+  - knowledge/classes/warlock/affliction/ability-inventory.tsv  # tier 1, generated DB2 inventory @ 12.0.7.67808 — the name/spellID/origin/cooldown floor, 2026-08-06
+  - knowledge/classes/_abilities/pet-family-annex.tsv  # tier 1, pet skill lines @ 12.0.7.67808, 2026-08-06
+  - knowledge/classes/_abilities/reconcile-ledger.md  # tier 1 derived, the verdicts applied here, 2026-08-06
   - https://wago.tools/db2 SpellName @ 12.0.7 (Blizzard game data, Tier 1 — canonical names/IDs)  # tier 1, 2026-07-11
   - simc midnight branch profiles/MID1/MID1_Warlock_Affliction.simc  # tier 1 APL, 2026-07-11
   - https://www.icy-veins.com/wow/affliction-warlock-pve-dps-rotation-cooldowns-abilities  # tier 3, 12.0.7, 2026-07-11
@@ -43,7 +46,30 @@ belongs to one hero tree it is flagged in the table.
 the **pet's Spell Lock** (Felhunter), which is why Felhunter is the group-content
 pet. Plan interrupts around the pet ability, not a self-cast.
 
+> **Tier-1 floor.** Canonical **name, spellID, acquisition origin and base
+> cooldown** for everything below live in `ability-inventory.tsv` (generated from
+> wago DB2 @ 12.0.7.67808) — look them up there rather than trusting a restated
+> number here. This file exists for **function, role and rotational context**;
+> where its prose disagrees with the tsv, the tsv wins.
+
 ## Rotational core (DoTs, builders, spenders, fillers)
+
+> **What the Tier-1 floor does and does not cover.** A **bold `[T1]`** cooldown
+> below was read straight out of `ability-inventory.tsv` (wago DB2 @ 12.0.7.67808).
+> A `~` value was **not**: it is a Tier-3 guide number that the tsv could not
+> settle, and it is kept on purpose. The tsv's `cooldown` column is
+> `SpellCooldowns` at DifficultyID 0 — `max(RecoveryTime, CategoryRecoveryTime)` —
+> which is the real cooldown for a normal button and is **wrong for a charge
+> ability**, where it returns the GCD (Fire Blast 0.5s, Purifying Brew 1s). The
+> recharge lives in `SpellCategory.ChargeRecoveryTime`, unreachable without
+> breaking the build pin (`_abilities/reconcile-ledger.md` §5 G6). **So "the tsv
+> wins" applies to the values it actually carries, not to every row** — 194 rows
+> across the 40 files read 0 or sub-10s there and keep their `~` prose instead.
+>
+> Names this file asserts that **no** acquisition row reaches are catalogued in
+> `../../_abilities/section-4-catalogue.md`; ones game data reaches indirectly are
+> in `section-3-corroborated.md`. ⚠ Neither is a backlog — an entry there is
+> researched when someone **asks**, never because it has sat there a while.
 
 | Ability | Function | Resource | Cast / CD | Description |
 |---|---|---|---|---|
@@ -53,7 +79,7 @@ pet. Plan interrupts around the pet ability, not a self-cast.
 | Seed of Corruption | Rotational-spender (AoE) | **1 Soul Shard** | ~2s cast · no CD | Plants a seed that **detonates to apply Corruption** to nearby enemies — the **AoE shard spender** (weaponized by Sow the Seeds / Seeds of Destruction). Don't double-sow a target. |
 | Haunt | Rotational-spender (amp debuff) | 2% mana (**no shard**) | 1.5s cast · **15s CD** | Damage-amplification debuff **cast on cooldown**, not just to maintain. Improved Haunt + apex points make it a hard-hitting button; cleaves with talents. |
 | Drain Soul | Rotational-filler (channel) | Mana | Channeled · no CD | Default **filler channel**; generates shards and scales in execute. Buffed by **Nightfall** (empowered + ~50% faster). Choice-node vs Improved Shadow Bolt. |
-| Shadow Bolt | Rotational-filler | Mana | ~2s cast (instant w/ Nightfall) | Alternative hard-cast filler; **instant and +damage when a Nightfall proc is up**. With the Malefic Grasp talent it **becomes Malefic Grasp while Darkglare is active**. |
+| Shadow Bolt | Rotational-filler | Mana | ~2s cast (instant w/ Nightfall) | **Class-baseline, not a talent** — you always have it *[Tier 1]*; the choice node is over *Improved Shadow Bolt*, which only tunes it. Alternative hard-cast filler; **instant and +damage when a Nightfall proc is up**. With the Malefic Grasp talent it **becomes Malefic Grasp while Darkglare is active**. |
 | Malefic Grasp | Rotational-filler (channel; talent) | Mana | Channeled | The filler channel used **during Summon Darkglare** — amplifies your DoT ticks while channeled. Enabled by the Malefic Grasp talent (Shadow Bolt transforms into it in the Darkglare window). |
 | Shadow of Nathreza | Rotational cooldown (spec apex, active) | Soul Shards | ~instant · CD | Apex spec active — empowers your next spells / DoT burst (top point adds a meteor-style proc). Fit into the Darkglare burst window. @verify-ingame (exact cost/effect) |
 
@@ -63,7 +89,7 @@ pet. Plan interrupts around the pet ability, not a self-cast.
 |---|---|---|---|---|
 | Summon Darkglare | Major cooldown (pet) | 2% mana | Instant · **2 min CD** | Summons the Darkglare, which **extends all your active DoTs** and adds burst — the core burst window. Sync trinkets, potion, and racials to it; cast after Dark Harvest is on CD. |
 | Dark Harvest | Major cooldown / builder (channel) | Generates **~3 Soul Shards** | Channeled · **1 min CD** (~40–45s effective w/ Cull the Weak) | Channel that damages scaling with your active DoTs and **refills shards** — cast when **<3 shards** right before Darkglare, so the pair opens the burst window. |
-| Malevolence | Major cooldown (Hellcaller only) | — | ~instant · **1 min CD** | Hellcaller hero cooldown — burst that synergizes with the Wither/Darkglare window. Only relevant on the near-dead Hellcaller build. @verify-ingame |
+| Malevolence | Major cooldown (Hellcaller only) | — | ~instant · **60s CD** *[Tier 1]* | Hellcaller hero cooldown (a **talent**, not baseline) — burst that synergizes with the Wither/Darkglare window. Only relevant on the near-dead Hellcaller build. |
 
 ## Curses & applied debuffs (utility / CC)
 
@@ -72,7 +98,7 @@ pet. Plan interrupts around the pet ability, not a self-cast.
 | Curse of Tongues | Utility (debuff) | Mana | Instant · no CD | Slows the target's **cast speed** (class talent). Only one Curse per target at a time. |
 | Curse of Exhaustion | Utility / slow | Mana | Instant · no CD | Slows the target's **movement speed** (class talent) — kiting tool. |
 | Curse of Weakness | Utility (debuff) | Mana | Instant · no CD | Reduces the target's **physical damage dealt**. @verify-ingame (baseline vs talent availability in 12.0.7) |
-| Blight of Weakness | Utility (curse upgrade, DoT) | Mana | Instant · no CD | Choice talent: **Curse of Weakness becomes Blight of Weakness**, adding a damaging/effect component (alt: Blight of Tongues). |
+| Blight of Weakness | Utility (curse upgrade, DoT) | Mana | Instant / **120s** `[T1]` | Choice talent: **Curse of Weakness becomes Blight of Weakness**, adding a damaging/effect component (alt: Blight of Tongues). |
 
 ## Defensives & self-sustain
 
@@ -82,7 +108,7 @@ pet. Plan interrupts around the pet ability, not a self-cast.
 | Dark Pact | Defensive (absorb) | Sacrifices HP | Instant · **1 min CD** (−15s w/ Frequent Donor) | Sacrifices health for a **large absorb (~200%+ of sacrificed HP)**; **usable while CC'd**. Ichor of Devils drops the HP cost to 5%. |
 | Drain Life | Defensive / heal (channel) | Mana | Channeled · no CD | Channel that **damages and self-heals** (heals a % of damage done); Soulburn adds an absorb. Emergency sustain, not a rotational filler. |
 | Mortal Coil | Defensive / CC | Mana | Instant · **45s CD** | **Horrifies** the target 3s and heals you **20% max HP** (25% w/ Improved Mortal Coil) — panic heal + single-target CC. |
-| Healthstone | Defensive (item) | — | Instant · item | Consumes a conjured Healthstone to restore **25% HP** (30% w/ Empowered). **Pact of Gluttony** makes it reusable in combat; Soulburn/Gorebound inflate it. |
+| Create Healthstone | Defensive (conjure → item heal) | Mana | Instant · no CD | The **player ability** is `Create Healthstone` (class-baseline); the heal is the *item* use of the stone it conjures. This row was filed under the bare name "Healthstone" until *[Tier 1, 2026-08-06]* — that name belongs to the item-use spell, which is not something you learn. Conjure out of combat; using the stone restores **25% HP** (30% w/ Empowered). **Pact of Gluttony** makes it reusable in combat; Soulburn/Gorebound inflate it. |
 | Soulstone | Utility (battle-rez) | Mana | Instant · **10 min CD** | Places a self- or ally-**resurrection** buff (combat rez). Pre-place before pulls. |
 | Soulburn | Utility (empower) | **1 Soul Shard** | Instant · no CD | Empowers your **next** Healthstone / Drain Life / Demonic Circle / Demonic Gateway / Fel Domination — the enabler for the `Soulburn → Healthstone → Dark Pact` defensive combo. |
 
@@ -92,8 +118,8 @@ pet. Plan interrupts around the pet ability, not a self-cast.
 |---|---|---|---|---|
 | Burning Rush | Movement | **Health drain** | Instant · toggle | Toggle **+50% movement speed** while draining your health each second. Core mobility; watch the HP drain with Soul Leech. |
 | Demonic Circle | Movement (place) | Mana | Instant · no CD | Places a teleport anchor on the ground (class talent). |
-| Demonic Circle: Teleport | Movement | Mana | Instant · short CD | **Teleports to your placed circle** and breaks snares/roots — the reposition/escape button. |
-| Demonic Gateway | Movement / utility (group) | Mana | ~2s cast · CD | Places a **two-portal gateway** the party can click to teleport between two points — big skip/repositioning tool. |
+| Demonic Circle: Teleport | Movement | Mana | Instant / **30s** `[T1]` | **Teleports to your placed circle** and breaks snares/roots — the reposition/escape button. |
+| Demonic Gateway | Movement / utility (group) | Mana | ~2s cast / **10s** `[T1]` | Places a **two-portal gateway** the party can click to teleport between two points — big skip/repositioning tool. |
 | Fel Domination | Utility (pet) | 2% mana | Instant · **3 min CD** | Makes your next pet summon **instant and free** — fast re-summon after a pet dies. |
 
 ## Crowd control
@@ -101,7 +127,7 @@ pet. Plan interrupts around the pet ability, not a self-cast.
 | Ability | Function | Resource | Cast / CD | Description |
 |---|---|---|---|---|
 | Fear | CC (single) | Mana | ~1.5s cast · no CD | Fears one target (breaks on damage). Single-target soft CC. |
-| Shadowfury | CC (AoE stun) | Mana | Instant · **30s CD** | **Stuns all enemies** in a target area ~3s (choice vs Howl of Terror). AoE stop. |
+| Shadowfury | CC (AoE stun) | Mana | Instant / **60s** `[T1]` | **Stuns all enemies** in a target area ~3s (choice vs Howl of Terror). AoE stop. |
 | Howl of Terror | CC (AoE fear) | 2% mana | Instant · **40s CD** | **Fears nearby enemies** ~8s (choice vs Shadowfury). AoE panic. |
 | Banish | CC (single) | Mana | ~1.5s cast · no CD | Banishes a **demon or elemental**, making it untargetable/unable to act. |
 | Mortal Coil | CC (single) | Mana | Instant · 45s CD | Also a CC — see Defensives (horror + heal). |
@@ -110,10 +136,10 @@ pet. Plan interrupts around the pet ability, not a self-cast.
 
 | Ability | Function | Resource | Cast / CD | Description |
 |---|---|---|---|---|
-| Spell Lock | **Interrupt** (Felhunter pet) | — | Instant · **~24s CD** | The Felhunter's interrupt (can also be specced to silence) — **Affliction's only kick**. Commanded via the pet. @verify-ingame (exact CD in 12.0.7) |
+| Spell Lock | **Interrupt** (Felhunter pet) | — | Instant · **24s CD** *[Tier 1]* | A **pet ability, not a player spell** — it is learned on the Felhunter's own skill line, so it never appears in this spec's `ability-inventory.tsv`; it lives in `_abilities/pet-family-annex.tsv` instead. Still **Affliction's only kick** (can be specced to silence); commanded via the pet, so it is gated on having the Felhunter out and alive. |
 | Summon Felhunter | Pet | 2% mana | ~2.5s cast (instant w/ Fel Domination) | Summons the Felhunter — the group-content pet for **Spell Lock + Devour Magic** purge. Other pets (Imp/Voidwalker/Sayaad/Felguard) sim within noise; pick on utility. |
 | Subjugate Demon | CC / utility | Mana | ~2.6s cast · no CD | **Enslaves a demon** target for temporary control. Situational world/utility. |
-| Grimoire of Sacrifice | Passive / utility (talent) | — | Instant · toggle | Choice vs Summoner's Embrace: **sacrifices your pet** for a personal damage/utility buff (S1 meta keeps the pet out with Summoner's Embrace instead). |
+| Grimoire of Sacrifice | Passive / utility (talent) | — | Instant / toggle / **30s** `[T1]` | Choice vs Summoner's Embrace: **sacrifices your pet** for a personal damage/utility buff (S1 meta keeps the pet out with Summoner's Embrace instead). |
 
 ## Notable passives (context for the buttons above)
 

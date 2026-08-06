@@ -1,9 +1,11 @@
 ---
 title: Balance Druid — Ability Inventory (Midnight S1)
 patch: 12.0.7
-fetched: 2026-07-11
-reviewed: 2026-07-11
+fetched: 2026-08-06
+reviewed: 2026-08-06
 sources:
+  - knowledge/classes/druid/balance/ability-inventory.tsv  # tier 1 — wago DB2 pinned @ build 12.0.7.67808; the name/spellID/origin/cooldown floor, 2026-08-06
+  - knowledge/classes/_abilities/reconcile-ledger.md  # tier 1 derived — the per-row verdicts applied to this file, 2026-08-06
   - https://github.com/simulationcraft/simc/blob/midnight/profiles/MID1/MID1_Druid_Balance.simc  # tier 1 APL (ability names), 2026-07-11
   - knowledge/classes/druid/balance/talents.md  # tier 1 (wago DB2 + Blizzard talent API), spell IDs
   - https://www.method.gg/guides/balance-druid/playstyle-and-rotation  # tier 3, Midnight 12.0.7, 2026-07-11
@@ -34,6 +36,30 @@ confidence: medium
 
 ## Inventory
 
+> **Tier-1 floor.** `ability-inventory.tsv` in this folder — generated from wago DB2
+> pinned to build `12.0.7.67808` — is authoritative for **name, spellID, origin and
+> cooldown**, and wins wherever it and the prose below disagree. Cooldowns tagged
+> `[T1]` were read off it this pass; a `~` value is prose that has **not** been
+> measured and may drift. This table is here for **function, role and rotational
+> context** — read it for judgement, read the tsv for numbers.
+
+> **What the Tier-1 floor does and does not cover.** A **bold `[T1]`** cooldown
+> below was read straight out of `ability-inventory.tsv` (wago DB2 @ 12.0.7.67808).
+> A `~` value was **not**: it is a Tier-3 guide number that the tsv could not
+> settle, and it is kept on purpose. The tsv's `cooldown` column is
+> `SpellCooldowns` at DifficultyID 0 — `max(RecoveryTime, CategoryRecoveryTime)` —
+> which is the real cooldown for a normal button and is **wrong for a charge
+> ability**, where it returns the GCD (Fire Blast 0.5s, Purifying Brew 1s). The
+> recharge lives in `SpellCategory.ChargeRecoveryTime`, unreachable without
+> breaking the build pin (`_abilities/reconcile-ledger.md` §5 G6). **So "the tsv
+> wins" applies to the values it actually carries, not to every row** — 194 rows
+> across the 40 files read 0 or sub-10s there and keep their `~` prose instead.
+>
+> Names this file asserts that **no** acquisition row reaches are catalogued in
+> `../../_abilities/section-4-catalogue.md`; ones game data reaches indirectly are
+> in `section-3-corroborated.md`. ⚠ Neither is a backlog — an entry there is
+> researched when someone **asks**, never because it has sat there a while.
+
 | Ability | Function | Resource | Cast / CD | Description |
 |---|---|---|---|---|
 | **Wrath** | Rotational-builder | Generates Astral Power | ~1.5s cast | Solar-side filler nuke; arms **Solar Eclipse**. Primary generator outside Eclipse. |
@@ -47,22 +73,21 @@ confidence: medium
 | **Starfall** | Rotational-spender (AoE) | ~50 Astral Power | Instant | Ground AoE spender over all nearby targets; primary AoE dump. Feeds Starweaver/Touch the Cosmos. |
 | **Celestial Alignment** | Major cooldown | — | ~3 min (charges w/ talent) @verify-ingame | Burst window: grants both Eclipses + haste. Base capstone; **Incarnation** upgrades it. |
 | **Incarnation: Chosen of Elune** | Major cooldown | — | ~3 min @verify-ingame | Choice-node upgrade of Celestial Alignment — longer/stronger burst window. Preferred M+/council. |
-| **Ascendant Eclipses** | Major cooldown (active) | — | @verify-ingame | Capstone active (spell 1261564) — empowered spenders / guaranteed-crit bolts stacking the Eclipse debuff. |
+| **Ascendant Eclipses** | Passive (spec capstone) | — | — | Spec capstone that empowers spenders / guaranteed-crit bolts stacking the Eclipse debuff. **Not a pressed button** — Tier 1 has no castable spell of this name; every ID is flagged passive. Don't keybind it. |
 | **Convoke the Spirits** | Major cooldown | — | ~2 min, ~4s channel | Channels a random burst of druid spells; overlap with CA/Incarnation + Balance of All Things. Choice vs Incarnation. |
-| **Force of Nature** | Pet / cooldown | Generates Astral Power | ~60s CD @verify-ingame | Summons Treants; bursts AP + spreads Moonfire (to ~8 targets), triggers Dream Surge / Harmony of the Grove. Keeper's core button. |
-| **Fury of Elune** | Major cooldown | Generates Astral Power | ~60s CD, ~8s @verify-ingame | Ground beam of heavy Astral damage + strong AP generation. Elune's Chosen shortens it via Lunation. |
+| **Force of Nature** | Pet / cooldown | Generates Astral Power | 60s [T1] | Summons Treants; bursts AP + spreads Moonfire (to ~8 targets), triggers Dream Surge / Harmony of the Grove. Keeper's core button. |
+| **Fury of Elune** | Major cooldown | Generates Astral Power | 60s [T1], ~8s channel | Ground beam of heavy Astral damage + strong AP generation. Elune's Chosen shortens it via Lunation. Choice node. |
 | **New Moon** | Rotational-builder | Generates Astral Power | Instant, charges | First cast of the Moon chain (talent); heavy AP + damage. Leads into Half → Full. |
 | **Half Moon** | Rotational-builder | Generates Astral Power | Instant | Second Moon-chain cast; bigger than New Moon. |
 | **Full Moon** | Rotational-builder | Generates Astral Power | Instant | Third Moon-chain cast; biggest, recharges the chain. |
 | **Wild Mushroom** | Rotational-spender (AoE) | Astral Power | Instant, charges | Places a detonating mushroom for AoE AP dump (talent). |
 | **Sunseeker Mushroom** | Rotational-spender (AoE) | Astral Power | Instant, charges | Choice-node variant of Wild Mushroom (spell 468936). |
-| **Solar Beam** | Interrupt | — | ~45–60s CD @verify-ingame | Ground AoE **silence** — the spec's interrupt; silences + interrupts within the beam. |
+| **Solar Beam** | Interrupt | — | 60s [T1] | Ground AoE **silence** — the spec's interrupt; silences + interrupts within the beam. Long for a kick, so it is a *planned* interrupt, not a reactive one. |
 | **Barkskin** | Defensive | — | ~60s CD, 12s | −20% damage taken; castable in any form / while stunned. Core personal defensive. |
 | **Regrowth** | Defensive (heal) | Mana | ~1.5s cast | Direct heal + short HoT; off-heal (procs instant via Predatory Swiftness in Cat, otherwise hardcast). |
-| **Renewal** | Defensive (heal) | — | ~90s CD @verify-ingame | Instant self-heal for a chunk of max HP (class talent). |
 | **Frenzied Regeneration** | Defensive (heal) | — | Bear Form, charges | Bear-Form self-heal over time; requires shifting to Bear. |
 | **Innervate** | Utility | — | ~3 min CD | Grants an ally (or self) free spellcasting for a window — healer mana cooldown. |
-| **Heart of the Wild** | Major cooldown (utility) | — | ~5 min CD @verify-ingame | Empowers off-role casting for a window (extra Nature damage / healing / feral). |
+| **Heart of the Wild** | Major cooldown (utility) | — | 120s [T1] | Empowers off-role casting for a window (extra Nature damage / healing / feral). At two minutes it is far more pressable than the old five-minute framing suggested — treat it as a rotational off-role window, not an emergency. |
 | **Rebirth** | Utility (combat rez) | Mana | 10 min charges | Battle-resurrect a dead ally in combat. |
 | **Revive** | Utility (rez) | Mana | Out of combat | Resurrect a dead ally outside combat. |
 | **Soothe** | Dispel | Mana | Instant, ~10s CD | Removes an Enrage effect from an enemy. |
@@ -71,14 +96,14 @@ confidence: medium
 | **Stampeding Roar** | Movement (raid) | — | ~2 min (1 min talent) | AoE movement-speed burst for the group; usable from Bear/Cat. |
 | **Entangling Roots** | CC (root) | Mana | ~1.5s cast | Single-target root. |
 | **Mass Entanglement** | CC (AoE root) | — | ~30s CD | Roots the target + nearby enemies. Choice vs Ursol's Vortex. |
-| **Ursol's Vortex** | CC (AoE) | — | ~30s CD | Ground vortex that pulls/holds enemies (choice node). |
-| **Mighty Bash** | CC (stun) | — | ~50s CD @verify-ingame | Single-target stun. Choice vs Incapacitating Roar. |
+| **Ursol's Vortex** | CC (AoE) | — | **60s** `[T1]` | Ground vortex that pulls/holds enemies (choice node). |
+| **Mighty Bash** | CC (stun) | — | 60s [T1] | Single-target stun. Choice node vs Incapacitating Roar. |
 | **Typhoon** | CC (knockback) | — | ~30s CD | Cone knockback + daze (talent). |
 | **Cyclone** | CC (banish) | Mana | ~1.5s cast | Removes a target from combat briefly (choice vs Soothe). |
 | **Hibernate** | CC | Mana | ~1.5s cast | Sleep a Beast or Dragonkin. |
-| **Faerie Swarm** | Utility / CC | — | ~ CD @verify-ingame | Snares the target and reduces its movement (talent, from Moonkin). |
+| **Faerie Swarm** | Utility / CC (**PvP talent**) | — | 30s [T1] | Snares the target and reduces its movement. **PvP talent** — not available in raid or Mythic+; it is only on the bar in rated/war-mode content. |
 | **Symbiotic Relationship** | Utility | — | — | Links with an ally, sharing a portion of healing/absorb (class talent). |
-| **Moonkin Form** | Utility (form) | — | Instant | The Balance combat form (Astral power identity, armor). Baseline for the spec. |
+| **Moonkin Form** | Utility (form) | — | Instant | The Balance combat form (Astral power identity, armor). **Talented, not baseline** — it is a tree node you take, which is why it can be missing from a half-imported loadout. |
 | **Bear Form** | Utility (form) | — | Instant | Tank/survival form; access to Frenzied Regeneration, Ironfur, extra armor/HP. |
 | **Cat Form** | Utility (form) | — | Instant | Movement/melee form; Prowl, Dash, Rake. |
 | **Travel Form** | Movement (form) | — | Instant | Auto-adapting travel/aquatic/flight form. |
@@ -96,5 +121,29 @@ confidence: medium
 
 > Not exhaustive on baseline utility (Prowl, Travel Form sub-forms, Rake/Rip in
 > Cat, Ironfur/Swipe in Bear) — those belong to the shared druid kit and are
-> off-role for Balance. Cast/CD numbers marked `@verify-ingame` were not pulled
-> from the live spell API this pass; confirm against tooltips.
+> off-role for Balance. Remaining `@verify-ingame` markers are on **cast times and
+> charge recharges**, which the Tier-1 inventory has no column for — confirm those
+> against live tooltips.
+
+### Rows the generated inventory does not carry
+
+Absence from `ability-inventory.tsv` is **not** evidence a button is gone — these four
+are real and the generator simply cannot see them. Do not "clean them up."
+
+- **Lunar Eclipse**, **Half Moon**, **Full Moon** — sequential override buttons. Their
+  parents (`Eclipse`, `New Moon`) are on the live Druid tree, but an override that
+  replaces another button has no acquisition row of its own. (Solar Eclipse squeaks in
+  only via a CooldownSet row its Lunar twin lacks.) All three are recorded as
+  `prose-only` rows in `../../_abilities/section-4-catalogue.md`, which is where an
+  unreachable name belongs — **not** as `@verify-ingame` markers, because logging in
+  cannot answer a question about which DB2 table carries an acquisition row. ⚠ That
+  catalogue is not a backlog; these are not scheduled for investigation.
+  *[Tier 1: DB2 @ 12.0.7.67808 — no acquisition row; parents measured live.]*
+
+### Not on the Midnight Balance tree
+
+- **Renewal** — no longer acquirable at 12.0.7. Every spell of that name attaches to no
+  trait node, SkillLineAbility, SpecializationSpells or PvpTalent entry, and the live
+  Druid tree carries no Renewal node. Barkskin, Frenzied Regeneration (Bear) and
+  Regrowth are the personal-healing kit now.
+  *[Tier 1: DB2 @ 12.0.7.67808, `_abilities/reconcile-ledger.md`.]*

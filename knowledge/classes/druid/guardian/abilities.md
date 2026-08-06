@@ -1,9 +1,11 @@
 ---
 title: Guardian Druid — Ability Inventory (Midnight S1)
 patch: 12.0.7
-fetched: 2026-07-11
-reviewed: 2026-07-11
+fetched: 2026-08-06
+reviewed: 2026-08-06
 sources:
+  - knowledge/classes/druid/guardian/ability-inventory.tsv  # tier 1 — wago DB2 pinned @ build 12.0.7.67808; the name/spellID/origin/cooldown floor, 2026-08-06
+  - knowledge/classes/_abilities/reconcile-ledger.md  # tier 1 derived — the per-row verdicts applied to this file, 2026-08-06
   - https://www.method.gg/guides/guardian-druid/playstyle-and-rotation  # tier 3, 12.0.7 upd. 2026-06-16
   - https://www.icy-veins.com/wow/guardian-druid-pve-tank-rotation-cooldowns-abilities  # tier 3, 12.0.7
   - simc midnight branch profiles/MID1/MID1_Druid_Guardian.simc  # tier 1 APL + talents=, WoW 12.0.x
@@ -42,8 +44,35 @@ off the GCD, so bear can pump damage and stay defended simultaneously.
 
 ## Inventory
 
-Rage costs marked @verify-ingame where sources disagree on the exact number;
+Rage costs marked `@verify-ingame` where sources disagree on the exact number;
 the *function* is solid. "off-GCD" = does not trigger/consume the global.
+
+> **Tier-1 floor.** `ability-inventory.tsv` in this folder — generated from wago DB2
+> pinned to build `12.0.7.67808` — is authoritative for **name, spellID, origin and
+> cooldown**, and wins wherever it and the prose below disagree. A `~` value here is
+> prose that has **not** been measured. Two caveats before you "correct" anything
+> against it: its `cooldown` column returns the **GCD** for charge-based abilities
+> (Frenzied Regeneration, Survival Instincts), and its `castable` flag is computed on
+> the trait entry's visible spell, which for **Wild Guardian** is the passive aura — the
+> button is real, the column is wrong. This table is for **function, role and
+> rotational context**; read the tsv for numbers.
+
+> **What the Tier-1 floor does and does not cover.** A **bold `[T1]`** cooldown
+> below was read straight out of `ability-inventory.tsv` (wago DB2 @ 12.0.7.67808).
+> A `~` value was **not**: it is a Tier-3 guide number that the tsv could not
+> settle, and it is kept on purpose. The tsv's `cooldown` column is
+> `SpellCooldowns` at DifficultyID 0 — `max(RecoveryTime, CategoryRecoveryTime)` —
+> which is the real cooldown for a normal button and is **wrong for a charge
+> ability**, where it returns the GCD (Fire Blast 0.5s, Purifying Brew 1s). The
+> recharge lives in `SpellCategory.ChargeRecoveryTime`, unreachable without
+> breaking the build pin (`_abilities/reconcile-ledger.md` §5 G6). **So "the tsv
+> wins" applies to the values it actually carries, not to every row** — 194 rows
+> across the 40 files read 0 or sub-10s there and keep their `~` prose instead.
+>
+> Names this file asserts that **no** acquisition row reaches are catalogued in
+> `../../_abilities/section-4-catalogue.md`; ones game data reaches indirectly are
+> in `section-3-corroborated.md`. ⚠ Neither is a backlog — an entry there is
+> researched when someone **asks**, never because it has sat there a while.
 
 | Ability | Function | Resource | Cast / CD | Description |
 |---|---|---|---|---|
@@ -59,13 +88,12 @@ the *function* is solid. "off-GCD" = does not trigger/consume the global.
 | **Barkskin** | Defensive | Free | **Off-GCD**, ~1 min CD | 20% damage reduction for ~8–12s; usable in any form and while stunned. |
 | **Survival Instincts** | Major defensive | Free | **Off-GCD**, ~3 min recharge, 2 charges | ~50% damage reduction for a short window; the panic button. Don't overlap with Barkskin (multiplicative — wastes coverage). |
 | **Bristling Fur** | Defensive / rage-gen | Free | ~40s CD | Generates rage from damage taken for a few seconds; used to refill rage during heavy incoming damage. |
-| **Rage of the Sleeper** | (Historical — replaced) | — | — | Old Guardian defensive/offensive CD; **superseded by Wild Guardian** in the Midnight spec tree. @verify-ingame |
 | **Lunar Beam** | Major cooldown / Rotational (Elune's Chosen) | Free | ~1 min CD | Ground-target beam: heavy Arcane damage + healing/mitigation while standing in it. With **Lunation** it's pressed near-on-cooldown (Thrash/Moonfire reduce its CD). Also a strong defensive. |
 | **Wild Guardian** | Major cooldown (capstone active) | Free | On CD | Midnight-new burst active (spell 1269614); big damage, best fired at max Thrash stacks and/or during a Ravage/Lunar Beam window. |
 | **Berserk** | Major cooldown | Free | **Off-GCD**, ~3 min | Throughput/CDR window (haste + reduced generator CDs). Choice node vs **Incarnation** / Convoke. |
 | **Incarnation: Guardian of Ursoc** | Major cooldown | Free | **Off-GCD**, ~3 min | Empowered bear meta: big offensive + defensive uptime. Choice-node capstone (vs Convoke). Use on CD unless banking for a known hit. |
 | **Convoke the Spirits** | Major cooldown | Free | ~2 min | Channels a burst of random druid spells; talent choice vs Incarnation. |
-| **Sundering Roar** | Rotational cooldown / debuff | Free | On CD | Midnight-new roar (spell 1253799): damage + armor shred, fired at high Thrash stacks. |
+| **Sundering Roar** | Rotational cooldown / debuff | Free | **60s** `[T1]` | Midnight-new roar (spell 1253799): damage + armor shred, fired at high Thrash stacks. |
 | **Heart of the Wild** | Major cooldown (utility/throughput) | Free | ~2 min | Reworked: form-dependent bonus — bear grants an instant heal, cat empowers physical, moonkin a DoT burst. Enables the catweave/ripweave window. |
 | **Growl** | Taunt (Utility) | Free | ~8s CD | Forces the target to attack you; the tank taunt. |
 | **Skull Bash** | Interrupt | Free | ~15s CD | Bear-form kick / interrupt with a short gap-close. |
@@ -77,17 +105,25 @@ the *function* is solid. "off-GCD" = does not trigger/consume the global.
 | **Hibernate** | CC | — | Cast | Incapacitates a Beast or Dragonkin. |
 | **Soothe** | Dispel (Enrage) | Free | ~10s CD | Removes an Enrage effect from an enemy. |
 | **Remove Corruption** | Dispel | Free | Instant | Removes Curse and Poison from a friendly target. |
-| **Rebirth** | Utility (combat rez) | — | Cast | Battle resurrection. |
+| **Rebirth** | Utility (combat rez) | — | Cast / **600s** `[T1]` | Battle resurrection. |
 | **Revive** | Utility (rez) | — | Cast | Out-of-combat resurrection. |
 | **Innervate** | Utility (mana) | Free | ~3 min | Grants a healer free-mana casting for a few seconds. |
 | **Mark of the Wild** | Utility (raid buff) | — | Instant | Party/raid Versatility buff. |
 | **Symbiotic Relationship** | Utility | — | Cast | Links with an ally to share healing/leech benefits (talent). |
 | **Regrowth** | Utility (heal) | — | Cast | Direct heal + HoT; used out of bear for off-healing (Dream of Cenarius). |
 | **Barkskin / Survival Instincts** | *(listed above under Defensive)* | | | |
-| **Dash** | Movement | Free | ~1.5 min | Cat-form sprint. |
+| **Dash** | Movement | Free | **120s** `[T1]` | Cat-form sprint. |
 | **Wild Charge / Tiger Dash** | Movement | Free | Choice node | Form-based gap-closer (bear charge / cat leap) or a sprint. |
 | **Prowl** | Utility (stealth) | Free | — | Cat-form stealth (used to set up catweave openers). |
 | **Bear Form** | Form | Free (grants 25 Rage on shift) | Instant | The tank form; all mitigation lives here. |
 | **Cat Form** | Form | Free | Instant | Damage/movement form; entered for catweave/ripweave and Heart of the Wild. |
 | **Travel Form** | Movement (form) | Free | Instant | Out-of-combat travel/flight/aquatic. |
 | **Moonkin Form** | Form | Free | Instant | Caster form; used with Heart of the Wild for AoE Moonfire spread (6+ targets). |
+
+### Not on the Midnight Guardian tree
+
+- **Rage of the Sleeper** — not acquirable at 12.0.7. None of its spell IDs attaches to a
+  trait node, SkillLineAbility, SpecializationSpells or PvpTalent entry, and the live
+  Druid tree carries no node for it. The row-12 capstone active is **Wild Guardian**
+  (listed above); do not expect a Rage of the Sleeper button on the bar.
+  *[Tier 1: DB2 @ 12.0.7.67808, `_abilities/reconcile-ledger.md`.]*

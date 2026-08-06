@@ -1,9 +1,11 @@
 ---
 title: Feral Druid — ability inventory (Midnight S1)
 patch: 12.0.7
-fetched: 2026-07-11
-reviewed: 2026-07-11
+fetched: 2026-08-06
+reviewed: 2026-08-06
 sources:
+  - knowledge/classes/druid/feral/ability-inventory.tsv  # tier 1 — wago DB2 pinned @ build 12.0.7.67808; the name/spellID/origin/cooldown floor, 2026-08-06
+  - knowledge/classes/_abilities/reconcile-ledger.md  # tier 1 derived — the per-row verdicts applied to this file, 2026-08-06
   - https://raw.githubusercontent.com/simulationcraft/simc/midnight/profiles/MID1/MID1_Druid_Feral.simc  # tier 1 simc APL + talent string, 2026-07-11
   - https://www.method.gg/guides/feral-druid/playstyle-and-rotation  # tier 3, 12.0.7, 2026-07-11
   - https://www.icy-veins.com/wow/feral-druid-pve-dps-rotation-cooldowns-abilities  # tier 3, 12.0.7, 2026-07-11
@@ -43,6 +45,30 @@ duration, so DoTs are refreshed inside cooldown windows.
 
 ## Inventory
 
+> **Tier-1 floor.** `ability-inventory.tsv` in this folder — generated from wago DB2
+> pinned to build `12.0.7.67808` — is authoritative for **name, spellID, origin and
+> cooldown**, and wins wherever it and the prose below disagree. Cooldowns tagged
+> `[T1]` were read off it this pass; a `~` value is prose that has **not** been
+> measured and may drift. This table is here for **function, role and rotational
+> context** — read it for judgement, read the tsv for numbers.
+
+> **What the Tier-1 floor does and does not cover.** A **bold `[T1]`** cooldown
+> below was read straight out of `ability-inventory.tsv` (wago DB2 @ 12.0.7.67808).
+> A `~` value was **not**: it is a Tier-3 guide number that the tsv could not
+> settle, and it is kept on purpose. The tsv's `cooldown` column is
+> `SpellCooldowns` at DifficultyID 0 — `max(RecoveryTime, CategoryRecoveryTime)` —
+> which is the real cooldown for a normal button and is **wrong for a charge
+> ability**, where it returns the GCD (Fire Blast 0.5s, Purifying Brew 1s). The
+> recharge lives in `SpellCategory.ChargeRecoveryTime`, unreachable without
+> breaking the build pin (`_abilities/reconcile-ledger.md` §5 G6). **So "the tsv
+> wins" applies to the values it actually carries, not to every row** — 194 rows
+> across the 40 files read 0 or sub-10s there and keep their `~` prose instead.
+>
+> Names this file asserts that **no** acquisition row reaches are catalogued in
+> `../../_abilities/section-4-catalogue.md`; ones game data reaches indirectly are
+> in `section-3-corroborated.md`. ⚠ Neither is a backlog — an entry there is
+> researched when someone **asks**, never because it has sat there a while.
+
 | Ability | Function | Resource | Cast / CD | Description |
 |---|---|---|---|---|
 | Cat Form | Utility (form) | — | Instant | The DPS form; enables all Feral combat abilities and Energy/CP. |
@@ -53,15 +79,15 @@ duration, so DoTs are refreshed inside cooldown windows.
 | Rip | Rotational-spender | 5 CP (20 Energy) | Instant | Single-target finisher bleed; core sustained damage. Snapshots Tiger's Fury; keep up 100%. |
 | Ferocious Bite | Rotational-spender | 25 + up to 25 Energy | Instant | Direct-damage finisher; consumes up to 50 Energy total for extra damage. Extends Rip (Sabertooth). |
 | Primal Wrath | Rotational-spender (AoE) | 5 CP (20 Energy) | Instant | AoE finisher that applies/refreshes Rip on all targets in range. |
-| Maim | CC / finisher | 5 CP (30 Energy) | Instant | Finisher that stuns the target; damage scales with CP. |
+| Maim | CC / finisher | 5 CP (30 Energy) | Instant / **30s** `[T1]` | Finisher that stuns the target; damage scales with CP. |
 | Tiger's Fury | Major cooldown | — (grants 50 Energy) | 30s CD | Instant Energy + all Feral damage +15% for ~10s; **snapshots bleeds**. Core rhythm CD. |
 | Feral Frenzy | Major cooldown / builder | 25 Energy | 45s CD | 5-hit frontal bleed; generates 5 CP and a strong bleed. Sync to Tiger's Fury. |
 | Berserk | Major cooldown | — | 3 min (2 min talented) | ~15s window: +damage, reduced costs, 1 CP/1.5s, up to 8 CP (Overflowing Power). |
 | Incarnation: Avatar of Ashamane | Major cooldown | — | 3 min | Choice-node alternative to Convoke; a stronger, longer Berserk (Cat Form incarnation). |
 | Convoke the Spirits | Major cooldown | — | 2 min (1 min w/ Ashamane's Guidance) | Channels ~16 free Druid spells over ~4s; huge burst. Always under Berserk + Tiger's Fury. |
 | Ravage | Rotational-spender (proc, AoE) | 5 CP | Proc | Druid of the Claw: empowered cone-AoE Ferocious Bite from Claw Rampage/auto-attack procs. @verify-ingame |
-| Chomp | Rotational-builder/finisher | Energy | — | Midnight-new; choice-node builder/finisher (buffed by Tear Down the Mighty). Off-meta pick. @verify-ingame |
-| Moonfire | Rotational-builder (DoT) | 30 Energy | Instant | Via **Lunar Inspiration** talent: a ranged Arcane DoT that also builds a CP; a third bleed layer. |
+| Chomp | Rotational-builder/finisher | Energy | **20s** `[T1]` | Midnight-new; choice-node builder/finisher (buffed by Tear Down the Mighty). Off-meta pick. @verify-ingame |
+| Moonfire | Rotational-builder (DoT) | 30 Energy | Instant | **Class-baseline**, not a talent — every Druid has it. What **Lunar Inspiration** adds is the Feral-relevant part: castable in Cat Form and it builds a CP, making it a third bleed layer. Without that talent it is off-role downtime damage. |
 | Unseen Predator | Passive/proc (spec capstone) | — | Proc | Midnight-new spec capstone; Tiger's Fury grants a buff that amplifies finishers / +Rip damage. @verify-ingame |
 | Skull Bash | Interrupt | — | 15s CD | Charges and interrupts a spellcast (from Cat/Bear). The Feral kick. |
 | Barkskin | Defensive | — | 1 min CD | −20% damage taken for 12s; usable in any form, incl. while stunned. |
@@ -69,23 +95,22 @@ duration, so DoTs are refreshed inside cooldown windows.
 | Frenzied Regeneration | Defensive (heal) | — | Bear Form, ~36s CD, 2 charges | Bear-Form self-heal over 3s scaling with recent damage taken. |
 | Bear Form | Defensive (form) | — | Instant | Tank form; +armor/stamina, enables Frenzied Regeneration / Ironfur for emergencies. |
 | Regrowth | Utility (heal) | Mana | 1.5s cast (instant w/ proc) | Direct + HoT heal; Wildstalker gets instant/free Regrowths (Symbiotic Bloom). |
-| Renewal | Defensive (heal) | — | ~1.5 min CD | Instantly heals a chunk of max health (class talent). @verify-ingame |
 | Stampeding Roar | Movement (raid utility) | — | 2 min CD | +60% movement speed to nearby allies for 8s; also shifts them to a run-capable form. |
-| Dash | Movement | — | Cat Form, ~1.5 min CD | Instant burst of movement speed in Cat Form. |
+| Dash | Movement | — | Cat Form / **120s** `[T1]` | Instant burst of movement speed in Cat Form. |
 | Wild Charge / Tiger Dash | Movement | — | Choice, ~15–45s CD | Form-dependent gap-closer (Wild Charge) or a speed burst (Tiger Dash), choice node. |
 | Skull Bash | Interrupt | — | 15s CD | (Listed above.) The interrupt. |
-| Mighty Bash / Incapacitating Roar | CC | — | Choice, 50s / 30s CD | Single-target stun (Mighty Bash) or AoE incapacitate (Incapacitating Roar), choice node. |
+| Mighty Bash / Incapacitating Roar | CC | — | Choice, Mighty Bash **60s** `[T1]` / Incapacitating Roar **30s** `[T1]` | Single-target stun (Mighty Bash 5211) or AoE incapacitate (Incapacitating Roar), choice node. Mighty Bash read ~50s here from Tier 3. |
 | Typhoon | CC (knockback) | — | ~30s CD | Cone knockback + daze; class-tree pick. |
 | Mass Entanglement / Ursol's Vortex | CC | — | Choice, ~30s CD | AoE root (Mass Entanglement) or pull-in vortex (Ursol's Vortex), choice node. |
 | Entangling Roots | CC (root) | Mana | 1.7s cast | Single-target root. |
 | Hibernate | CC | Mana | 1.5s cast | Sleeps a Beast or Dragonkin. |
 | Cyclone | CC | Mana | 1.7s cast | Banishes a target (immune, can't act) — choice vs Soothe. |
-| Soothe | Dispel (offensive) | Mana | Instant | Removes an Enrage from an enemy — choice vs Cyclone. |
+| Soothe | Dispel (offensive) | Mana | Instant / **10s** `[T1]` | Removes an Enrage from an enemy — choice vs Cyclone. |
 | Remove Corruption | Dispel | Mana | Instant | Removes Curse + Poison from a friendly target. |
-| Rebirth | Utility (combat res) | Mana | 2s cast | Battle resurrection of a dead ally in combat. |
+| Rebirth | Utility (combat res) | Mana | 2s cast / **600s** `[T1]` | Battle resurrection of a dead ally in combat. |
 | Revive | Utility (res) | Mana | ~2s cast | Out-of-combat resurrection. |
 | Innervate | Utility (mana) | — | 3 min CD | Grants an ally free spellcasting for 8s (support healers/casters). |
-| Heart of the Wild | Major cooldown (hybrid) | — | ~5 min CD | Empowers off-spec casting for 45s; Feral use is minor burst/utility. |
+| Heart of the Wild | Major cooldown (hybrid) | — | **120s** `[T1]` | Empowers off-spec casting for 45s; Feral use is minor burst/utility. |
 | Mark of the Wild | Utility (buff) | Mana | Instant | Raid-wide Versatility buff. |
 | Symbiotic Relationship | Utility (link) | — | Instant, long CD | Links you to an ally, sharing healing/leech (Midnight talent). |
 | Travel Form | Movement (form) | — | Instant | Faster travel form (auto-adapts to terrain/flight). |
@@ -93,7 +118,16 @@ duration, so DoTs are refreshed inside cooldown windows.
 | Ironfur | Defensive | — | Bear Form, Rage | Bear armor buff for emergency mitigation via Bear Form. |
 | Regrowth / Rejuvenation / Wild Growth | Utility (heal) | Mana | Instant/cast | Off-spec heals available via the class tree; emergency/solo healing. |
 
-> CD and Energy/CP values are the standard Feral values; several were not
-> pulled from a Tier-1 tooltip dump this pass and carry @verify-ingame where
-> Midnight may have retuned them. Bleed snapshotting and the builder/spender
-> economy are corroborated across the simc APL and both guides.
+> Energy/CP costs and cast times are the standard Feral values and carry
+> `@verify-ingame` where Midnight may have retuned them — the Tier-1 inventory has no
+> resource or cast-time column, so those markers cannot be closed from DB2. Bleed
+> snapshotting and the builder/spender economy are corroborated across the simc APL
+> and both guides.
+
+### Not on the Midnight Feral tree
+
+- **Renewal** — no longer acquirable at 12.0.7. Every spell of that name attaches to no
+  trait node, SkillLineAbility, SpecializationSpells or PvpTalent entry, and the live
+  Druid tree carries no Renewal node. Feral's personal healing is Frenzied Regeneration
+  (Bear), Survival Instincts and Regrowth.
+  *[Tier 1: DB2 @ 12.0.7.67808, `_abilities/reconcile-ledger.md`.]*

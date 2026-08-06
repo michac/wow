@@ -1,9 +1,11 @@
 ---
 title: Restoration Shaman — Ability Inventory (Midnight S1)
 patch: 12.0.7
-fetched: 2026-07-11
-reviewed: 2026-07-11
+fetched: 2026-08-06
+reviewed: 2026-08-06
 sources:
+  - knowledge/classes/shaman/restoration/ability-inventory.tsv  # tier 1, generated from DB2 @ 12.0.7.67808 — name/spellID/origin/cooldown source of record
+  - knowledge/classes/_abilities/reconcile-ledger.md  # tier 1 derived, the 12.0.7.67808 adjudication behind this pass
   - https://www.method.gg/guides/restoration-shaman/playstyle-and-rotation  # tier 3, 12.0.7, 2026-07-11
   - https://www.method.gg/guides/restoration-shaman/talents  # tier 3, 12.0.7, 2026-07-11
   - https://www.icy-veins.com/wow/restoration-shaman-pve-healing-rotation-cooldowns-abilities  # tier 3, 12.0.7, 2026-07-11
@@ -35,6 +37,28 @@ Two hero trees:
 
 ## Inventory
 
+> **Where the numbers live.** `ability-inventory.tsv` in this folder is the Tier-1
+> source of record for **name, spellID, origin and cooldown** (generated from DB2 @
+> `12.0.7.67808`). This table is the *judgement* layer — function, role, healing
+> context — and does not re-transcribe columns that drift with every build.
+
+> **What the Tier-1 floor does and does not cover.** A **bold `[T1]`** cooldown
+> below was read straight out of `ability-inventory.tsv` (wago DB2 @ 12.0.7.67808).
+> A `~` value was **not**: it is a Tier-3 guide number that the tsv could not
+> settle, and it is kept on purpose. The tsv's `cooldown` column is
+> `SpellCooldowns` at DifficultyID 0 — `max(RecoveryTime, CategoryRecoveryTime)` —
+> which is the real cooldown for a normal button and is **wrong for a charge
+> ability**, where it returns the GCD (Fire Blast 0.5s, Purifying Brew 1s). The
+> recharge lives in `SpellCategory.ChargeRecoveryTime`, unreachable without
+> breaking the build pin (`_abilities/reconcile-ledger.md` §5 G6). **So "the tsv
+> wins" applies to the values it actually carries, not to every row** — 194 rows
+> across the 40 files read 0 or sub-10s there and keep their `~` prose instead.
+>
+> Names this file asserts that **no** acquisition row reaches are catalogued in
+> `../../_abilities/section-4-catalogue.md`; ones game data reaches indirectly are
+> in `section-3-corroborated.md`. ⚠ Neither is a backlog — an entry there is
+> researched when someone **asks**, never because it has sat there a while.
+
 | Ability | Function | Resource | Cast / CD | Description |
 |---|---|---|---|---|
 | **Riptide** | Rotational-builder | Mana | Instant / ~6s CD (2 charges w/ talent) | Instant HoT + upfront heal; core maintenance button, generates a Tidal Waves charge; enables Chain Heal's Flow of the Tides bounce. |
@@ -42,12 +66,12 @@ Two hero trees:
 | **Healing Wave** | Rotational-spender | Mana | ~2.5s cast / — | Efficient single-target heal; sped up / empowered by a Tidal Waves charge. Main filler. |
 | **Healing Surge** | Rotational-spender | Mana | ~1.5–2s cast / — | Fast, expensive emergency single-target heal; consumes Tidal Waves for a bigger crit. @verify-ingame |
 | **Healing Stream Totem** | Rotational-builder | Mana | Instant / ~30s CD (2 charges) | Drop-and-forget single-target totem heal; keep on cooldown; feeds Lively Totems / Stormstream procs. |
-| **Surging Totem** | Rotational-builder | Mana | Instant / CD (Totemic) | Totemic hero replacement for Healing Rain — an instant totem that heals allies (and damages enemies) in an area; relocate with Totemic Projection. Keep active. @verify-ingame |
-| **Healing Rain** | Rotational-spender | Mana | ~2s cast / ~10s CD | Ground-targeted AoE HoT puddle; the non-Totemic AoE anchor (Surging Totem replaces it under Totemic). |
+| **Surging Totem** | Rotational-builder | Mana | Instant / **25s** | **Tier-1 origin: `talent-active`** on the **Totemic** hero tree (spell 444995), cooldown **25s** — so it is gated on the hero pick, and a Farseer build never sees it. Totemic's replacement for Healing Rain: an instant totem that heals allies (and damages enemies) in an area; relocate with Totemic Projection. Keep active. |
+| **Healing Rain** | Rotational-spender | Mana | ~2s cast / **18s** `[T1]` | Ground-targeted AoE HoT puddle; the non-Totemic AoE anchor (Surging Totem replaces it under Totemic). |
 | **Downpour** | Rotational-spender | Mana | Instant / CD | Talented burst-AoE heal on the lowest allies in an area; used before Surging Totem/Healing Rain expires in the Downpour build. @verify-ingame |
 | **Unleash Life** | Rotational-builder | Mana | Instant / ~15s CD | Empowers the next Healing Wave / Riptide / Chain Heal by ~100% and shortens its cast; use on cooldown. Tier 4-set can affect two spells. |
 | **Nature's Swiftness** | Major cooldown | — | Instant / ~1 min CD | Makes the next heal instant and free; best on Chain Heal. Guarantees a Stormstream Totem proc. |
-| **Ancestral Swiftness** | Major cooldown | — | Instant / ~1 min CD | Farseer upgrade to Nature's Swiftness — instant free cast that also spawns an Ancestor and deals damage. Replaces Nature's Swiftness when talented. |
+| **Ancestral Swiftness** | Major cooldown | — | Instant / **30s** `[T1]` | Farseer upgrade to Nature's Swiftness — instant free cast that also spawns an Ancestor and deals damage. Replaces Nature's Swiftness when talented. |
 | **Stormstream Totem** | Rotational-spender | — | Instant / proc (apex) | Apex spec talent; empowered Healing Stream Totem, proc'd by Riptide (chance) or Nature's/Ancestral Swiftness (guaranteed); banks up to 2 charges outside normal HST charges. |
 | **Spirit Link Totem** | Major cooldown | Mana | Instant / ~3 min CD | Equalizes group health each second and grants ~10–15% damage reduction inside its radius; big Spouting Spirits upfront heal. Raid-stack cooldown. |
 | **Healing Tide Totem** | Major cooldown | Mana | Instant / ~3 min CD | Flat raid-wide heal for all allies within 40yd (scales inversely with count, max value at 5+). Totemic's primary raid CD (choice-node vs Ascendance). |
@@ -60,20 +84,19 @@ Two hero trees:
 | **Wind Shear** | Interrupt | Mana | Instant / ~12s CD | The Shaman interrupt; short cooldown, no GCD. |
 | **Purify Spirit** | Dispel | Mana | Instant / ~8s CD | Restoration's friendly dispel — removes Magic and Curse effects (Curse added by Improved Purify Spirit). |
 | **Purge** | Dispel (offensive) | Mana | Instant / — | Removes a beneficial Magic effect from an enemy (Greater Purge choice removes 2). |
-| **Astral Shift** | Defensive | — | Instant / ~1.5 min CD | Personal ~40% damage reduction for 8s (talents raise it / add duration). |
+| **Astral Shift** | Defensive | — | Instant / **120s** `[T1]` | Personal ~40% damage reduction for 8s (talents raise it / add duration). |
 | **Spirit Walk** | Movement / Defensive | — | Instant / ~1 min CD | Removes movement-impairing effects and grants a speed burst. |
 | **Ghost Wolf** | Movement | — | Instant / — | Travel form; +movement speed, minor toolkit for kiting/positioning. |
 | **Spiritwalker's Grace** | Movement / Utility | Mana | Instant / ~2 min CD | Lets you cast while moving for ~15s — the healer mobility cooldown. |
-| **Totemic Projection** | Utility | — | Instant / short CD | Relocates your active totems (Surging/Healing Stream/Spirit Link/Healing Tide) to a new spot. @verify-ingame |
+| **Totemic Projection** | Utility | — | Instant / **10s** | **Tier-1 origin: `talent-active`** (spell 108287, class tree), cooldown **10s**. Relocates your active totems (Surging/Healing Stream/Spirit Link/Healing Tide) to a new spot. |
 | **Heroism** / **Bloodlust** | Major cooldown (raid) | Mana | Instant / ~5 min CD | Raid-wide ~30% haste for 40s; applies Sated/Exhaustion. |
 | **Skyfury** | Utility (raid buff) | Mana | Instant / — | Applies the Shaman raid buff (Skyfury) to the group. @verify-ingame |
 | **Capacitor Totem** | CC | Mana | Instant / ~1 min CD | Totem that stuns nearby enemies after a short charge-up (AoE stun). |
 | **Earthgrab Totem** | CC | Mana | Instant / ~30s CD | Roots enemies in its radius (then slows). |
-| **Thunderstorm** | CC / Utility | Mana | Instant / ~30–45s CD | Knocks back nearby enemies and slows them; minor mana return. @verify-ingame |
 | **Tremor Totem** | Utility (dispel) | Mana | Instant / ~1 min CD | Breaks/prevents Fear, Charm, and Sleep on allies in radius. |
-| **Hex** | CC | Mana | ~1.7s cast / — | Transforms a single humanoid/beast enemy into a critter (incapacitate); breaks on damage. |
+| **Hex** | CC | Mana | ~1.7s cast / **30s** `[T1]` | Transforms a single humanoid/beast enemy into a critter (incapacitate); breaks on damage. |
 | **Wind Rush Totem** | Movement (utility) | Mana | Instant / ~2 min CD | Totem that repeatedly grants passing allies a movement-speed burst. |
-| **Earth Elemental** | Pet / Defensive | Mana | Instant / ~5 min CD | Summons a tanky earth elemental to soak/taunt; personal panic-button add. |
+| **Earth Elemental** | Pet / Defensive | Mana | Instant / **180s** `[T1]` | Summons a tanky earth elemental to soak/taunt; personal panic-button add. |
 | **Ancestral Vision** | Utility | — | Instant / — | Raid utility (battle-rez–style ancestral effect). Uncommon/situational; confirm current behavior. @verify-ingame |
 | **Water Shield** | Passive (resource) | — | Instant toggle / — | Self-buff shield that restores mana when you take hits; the resto mana-upkeep buff (keep active). |
 | **Mana Spring** | Passive (resource) | — | — | Lightning Bolt / Chain Lightning restore mana to you (and party); damage-weaving is also mana regen. |
@@ -82,3 +105,12 @@ Two hero trees:
 | **Resurgence** | Passive (resource) | — | — | Crits from your core heals return a chunk of mana; scales with Ascendance's guaranteed crits. |
 | **Lively Totems** | Passive (Totemic) | — | — | Your totems (e.g. Healing Stream) periodically cast free Chain Heals — Totemic's passive AoE throughput. |
 | **Call of the Ancestors** | Passive (Farseer) | — | — | Casting core heals spawns Ancestors that mirror them (Healing Wave→Healing Wave, Riptide/Unleash Life→Healing Surge, Chain Heal/AoE→Chain Heal). |
+
+**Not on the Midnight Restoration tree:** **Thunderstorm** (51490) is
+`SpecializationSpells` → **Shaman / Elemental** (class-baseline there, 30s) and belongs in
+that spec's file — see `knowledge/classes/shaman/elemental/abilities.md`. It is **absent
+from `PvpTalent` entirely**, and its only trait attachment is the **legacy** Shaman trees
+1033/1034, not the live tree 786 — so there is no route by which a Resto build acquires
+it. Resto's Tier-1 crowd-control rows are Capacitor Totem, Earthgrab Totem, Tremor Totem
+and Hex — plan peels off those, not off a knockback.
+*[Tier 1: DB2 @ 12.0.7.67808, via `_abilities/reconcile-ledger.md`.]*

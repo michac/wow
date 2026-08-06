@@ -1,9 +1,11 @@
 ---
 title: Vengeance Demon Hunter — Abilities (Midnight S1)
 patch: 12.0.7
-fetched: 2026-07-11
-reviewed: 2026-07-11
+fetched: 2026-08-06
+reviewed: 2026-08-06
 sources:
+  - knowledge/classes/demon-hunter/vengeance/ability-inventory.tsv  # tier 1, DB2 @ 12.0.7.67808 — names, spellIDs, origin, cooldowns
+  - knowledge/classes/_abilities/reconcile-ledger.md  # tier 1 derived, the verdicts applied 2026-08-06
   - simc midnight branch profiles/MID1/MID1_Demon_Hunter_Vengeance.simc  # tier 1 APL, talents=CUkAAAA..., WoW 12.0.7.67808
   - https://www.method.gg/guides/vengeance-demon-hunter  # tier 3, Midnight 12.0.7, upd. 2026-06-16
   - https://www.method.gg/guides/vengeance-demon-hunter/playstyle-and-rotation  # tier 3, 12.0.7
@@ -34,23 +36,51 @@ mitigation. The two Midnight hero trees bolt a distinct sub-game on top:
 **Aldrachi Reaver** (a Reaver's Glaive empower cycle) or **Annihilator** (a
 Voidfall-stack / Untethered-Rage burst engine). See `rotation.md` / `builds.md`.
 
-> **Midnight changes to flag:** **Spirit Bomb now carries a short (~25s,
-> haste-reduced) cooldown** in Midnight (the APL references
-> `cooldown.spirit_bomb`) rather than being a pure fragment-dump — verify the
-> exact value in-game. **Metamorphosis** is down to a **2-minute** cooldown and
-> makes Fracture generate **+15 Fury** while active. **Annihilator** is a
-> Midnight-new hero tree (it replaces The War Within's Fel-scarred). @verify-ingame
+> **Midnight changes to flag:** **Spirit Bomb now carries a 25s `[T1]`
+> (haste-reduced) cooldown** in Midnight — it is no longer a pure fragment-dump,
+> which is the single biggest change to how the AoE loop is played: you bank
+> fragments *to* the cooldown rather than spending on sight. **Metamorphosis** is
+> down to a **2-minute** cooldown and makes Fracture generate **+15 Fury** while
+> active. **Annihilator** is a Midnight-new hero tree (it replaces The War
+> Within's Fel-scarred). @verify-ingame (the Metamorphosis and Annihilator claims
+> here are still Tier-3)
+>
+> **Where the numbers come from.** `ability-inventory.tsv` in this folder is the
+> Tier-1 record for **name, spellID, origin and cooldown** (DB2 @ 12.0.7.67808).
+> A `[T1]` stamp marks a value read from it; everything else is Tier-3 colour.
+> **Reaver's Glaive** is a runtime override of Throw Glaive granted by Art of the
+> Glaive (442290, Aldrachi Reaver subtree 35, live on tree 854) — overrides have
+> no acquisition row, so it appears in no generated inventory. That is a
+> generator hole, not a missing ability.
+> *[Tier 1: reconcile-ledger.md §4 + §5 G2 @ 12.0.7.67808.]*
 
 ## Ability inventory
+
+> **What the Tier-1 floor does and does not cover.** A **bold `[T1]`** cooldown
+> below was read straight out of `ability-inventory.tsv` (wago DB2 @ 12.0.7.67808).
+> A `~` value was **not**: it is a Tier-3 guide number that the tsv could not
+> settle, and it is kept on purpose. The tsv's `cooldown` column is
+> `SpellCooldowns` at DifficultyID 0 — `max(RecoveryTime, CategoryRecoveryTime)` —
+> which is the real cooldown for a normal button and is **wrong for a charge
+> ability**, where it returns the GCD (Fire Blast 0.5s, Purifying Brew 1s). The
+> recharge lives in `SpellCategory.ChargeRecoveryTime`, unreachable without
+> breaking the build pin (`_abilities/reconcile-ledger.md` §5 G6). **So "the tsv
+> wins" applies to the values it actually carries, not to every row** — 194 rows
+> across the 40 files read 0 or sub-10s there and keep their `~` prose instead.
+>
+> Names this file asserts that **no** acquisition row reaches are catalogued in
+> `../../_abilities/section-4-catalogue.md`; ones game data reaches indirectly are
+> in `section-3-corroborated.md`. ⚠ Neither is a backlog — an entry there is
+> researched when someone **asks**, never because it has sat there a while.
 
 | Ability | Function | Resource | Cast / CD | Description |
 |---|---|---|---|---|
 | **Fracture** | Rotational-builder | Generates ~25 Fury (+15 in Meta) & **2 Soul Fragments** | Instant · 2 charges, ~4.5s recharge (−0.5s in 12.0.5) | Melee strike; the primary builder — keep it near-capped on charges. Feeds Voidfall (Annihilator) and Art of the Glaive (Aldrachi Reaver). @verify-ingame (exact Fury) |
 | **Soul Cleave** | Rotational-spender | **35 Fury**, consumes up to **2** Soul Fragments (more with Apex/Untethered Rage) | Instant | ST/cleave spender + self-heal; +20% damage per fragment consumed. The main single-target dump and heal button. |
-| **Spirit Bomb** | Rotational-spender (AoE) | **40 Fury**, consumes up to **5** Soul Fragments (6 talented) | Instant · **~25s CD (haste-reduced)** | AoE detonation + Frailty/mitigation; the AoE fragment dump. Prioritized at high fragment count. @verify-ingame (CD is new) |
+| **Spirit Bomb** | Rotational-spender (AoE, talent) | **40 Fury**, consumes up to **5** Soul Fragments (6 talented) | Instant · **25s `[T1]`** (haste-reduced) | AoE detonation + Frailty/mitigation; the AoE fragment dump. Because it is now on a real cooldown, arriving at it with 5 fragments banked matters more than pressing it early — a Spirit Bomb spent at 2 fragments costs you the whole window. |
 | **Immolation Aura** | Rotational-builder / AoE | Generates Fury over its duration | Instant · ~30s CD (charges) | Pulsing fire aura; with **Fallout** it spawns Soul Fragments in AoE. Keep on cooldown. |
 | **Sigil of Flame** | Rotational-builder | Generates Fury | Instant · ~30s CD | Places a sigil that detonates after ~1s for fire damage + a DoT; core builder, always on cooldown. |
-| **Felblade** | Rotational-builder / Movement | Generates ~40 Fury | Instant · 15s CD | Charge to target + strike; gap-closer and Fury injection. Reset by Vengeful Retreat with **Unhindered Assault**. |
+| **Felblade** | Rotational-builder / Movement | Generates ~40 Fury | Instant / **12s** `[T1]` | Charge to target + strike; gap-closer and Fury injection. Reset by Vengeful Retreat with **Unhindered Assault**. |
 | **Throw Glaive** | Rotational filler / ranged | — | Instant · ~9s CD (2 charges w/ Champion of the Glaive) | Ranged glaive throw; **Bouncing Glaives** makes it cleave. Ranged filler / pull tool. |
 | **Fel Devastation** | Rotational-spender / Major cooldown | **50 Fury** | Channel ~2s · ~40s CD | Frontal fire beam, big AoE damage + heal-over-channel. Amped inside a Fiery Brand (Fiery Demise) window. |
 | **Soul Carver** | Major cooldown (fragment generator) | — | Instant · **60s CD** | Big fire hit + carves **Soul Fragments** out over a few seconds. Line up inside Fiery Brand. |
@@ -58,27 +88,25 @@ Voidfall-stack / Untethered-Rage burst engine). See `rotation.md` / `builds.md`.
 | **Metamorphosis** | Major cooldown (Defensive + offensive) | — | Instant · **2 min CD** (off-GCD) | Vengeance demon form: large health/armor boost + damage; Fracture gains **+15 Fury**. Central to Annihilator (Voidfall meteors, Spirit Bomb reset) and a strong personal defensive. |
 | **Fiery Brand** | Defensive / Major cooldown | — | Instant · 2 charges (Down in Flames), ~60s recharge | Brands a target: **−40% damage taken from it** + fire DoT. The DoT window (**Fiery Demise**) amplifies your fire damage. Both offensive and mitigation. |
 | **Demon Spikes** | Defensive (active mitigation) | — | Instant · 2 charges, ~20s recharge (off-GCD) | +Armor and a chunk of **physical damage reduction** for its duration; the bread-and-butter mitigation — keep near-100% uptime (Feed the Demon / Calcified Spikes). |
-| **Darkness** | Defensive (raid) | — | Instant · ~3 min CD | AoE smoke dome giving allies a chance to fully avoid incoming hits. Raid/party cooldown. |
+| **Darkness** | Defensive (raid) | — | Instant / **300s** `[T1]` | AoE smoke dome giving allies a chance to fully avoid incoming hits. Raid/party cooldown. |
 | **Infernal Strike** | Movement | — | Instant · 2 charges, ~20s recharge (off-GCD) | Leap to a target location, fire burst on landing. Primary mobility + repositioning. |
-| **Vengeful Retreat** | Movement / Utility | — | Instant · ~20s CD (off-GCD) | Backflip away; **Unhindered Assault** resets Felblade on use (a rotational Fury tool, not just an escape). |
+| **Vengeful Retreat** | Movement / Utility | — | Instant / **25s** `[T1]` (off-GCD) | Backflip away; **Unhindered Assault** resets Felblade on use (a rotational Fury tool, not just an escape). |
 | **Disrupt** | Interrupt | — | Instant · 15s CD | Melee interrupt; **Disrupting Fury** refunds Fury on a successful interrupt. The kick. |
 | **Consume Magic** | Dispel (purge) | — | Instant · ~10s CD | Removes/consumes a beneficial **Magic** effect from an enemy (Aldrachi Design adds value). |
 | **Sigil of Silence** | CC (AoE silence) | — | Instant · ~60s CD | Sigil that silences enemies in the area. Choice node vs Roaring Fire in the spec tree. |
 | **Sigil of Misery** | CC (AoE) | — | Instant · ~90s CD | Sigil that causes enemies to cower/flee; AoE crowd control. |
-| **Chaos Nova** | CC (AoE stun) | — | Instant · ~60s CD | Bursts a stun on all nearby enemies. |
+| **Chaos Nova** | CC (AoE stun) | — | Instant / **45s** `[T1]` | Bursts a stun on all nearby enemies. |
 | **Imprison** | CC (incapacitate) | — | Instant · 45s CD | Incapacitates a single target (Demon/humanoid/beast). |
 | **Torment** | Utility (taunt) | — | Instant · 8s CD | Ranged taunt — forces the target to attack you. Core tank tool. |
 | **Spectral Sight** | Utility | — | Instant · ~30s CD | Reveals hidden/stealthed enemies and see through walls; movement-slowed while active. |
 | **Reaver's Glaive** | Rotational-spender / empower (Aldrachi Reaver) | — | Instant · no CD (generated) | Thrown glaive granted when Art of the Glaive fills; empowers the next Fracture (**Rending Strike**) and Soul Cleave (**Glaive Flurry**), driving the AR damage cycle. AR-only. |
 | **Untethered Rage** | Defensive/offensive Apex active (Annihilator synergy) | — | Instant (activates a granted charge) | Apex talent: consumed Soul Fragments have a rising chance to grant a special **Metamorphosis** charge (10s, activate within 12s); also boosts fragment damage. The Annihilator burst trigger. @verify-ingame |
-| **Illidan's Grasp** | PvP talent (CC) | — | ~— | PvP talent: grip/drag a target. Not part of the PvE loadout. @verify-ingame |
-| **Rain from Above** | PvP talent (Movement/utility) | — | ~— | PvP talent: lift into the air, then descend with fel bombs. Not a PvE ability. @verify-ingame |
-| **Reverse Magic** | PvP talent (Dispel) | — | ~— | PvP talent: removes harmful magic from you and allies, reflecting it. Not a PvE ability. @verify-ingame |
+| **Illidan's Grasp** | PvP talent (CC) | — | **60s** `[T1]` | PvP talent: grip/drag a target. Not part of the PvE loadout. @verify-ingame |
+| **Rain from Above** | PvP talent (Movement/utility) | — | **90s** `[T1]` | PvP talent: lift into the air, then descend with fel bombs. Not a PvE ability. @verify-ingame |
+| **Reverse Magic** | PvP talent (Dispel) | — | **60s** `[T1]` | PvP talent: removes harmful magic from you and allies, reflecting it. Not a PvE ability. @verify-ingame |
 
-> Exact Fury values and several cooldowns above are cross-checked against Tier-3
-> guides (Icy Veins / method.gg / Wowhead) rather than a Tier-1 tooltip pull;
-> treat marked rows as confirm-in-game. Names are canonicalized against
-> `raw/wago/SpellName.csv` (Tier-1): Soul Cleave (58913), Spirit Bomb (73572),
-> Immolation Aura (15733), Sigil of Flame (98006), Infernal Strike (174858),
-> Demon Spikes (203720), Soul Carver (207407), Fel Devastation (212084),
-> Throw Glaive (39635), Fracture (81710), Felblade (203557).
+> Exact Fury values and every cooldown above **without** a `[T1]` stamp are
+> cross-checked against Tier-3 guides (Icy Veins / method.gg / Wowhead) rather
+> than a Tier-1 pull; treat marked rows as confirm-in-game. Names and spellIDs
+> are not restated here on purpose — `ability-inventory.tsv` in this folder is
+> the Tier-1 record and will not drift out from under this prose.

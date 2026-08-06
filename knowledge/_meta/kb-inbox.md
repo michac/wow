@@ -273,3 +273,84 @@ what would settle it. The addon code they came from is unflown (cap has no relea
   itself, `--check` compares semantically, or the patch sweep skips generated files. Pick
   one before adding a `--check` to any new generator. (`wowkb.gen_abilities` is being
   written to emit `reviewed:` itself.)
+
+## Ability inventory — the seven tool gaps *(2026-08-06)*
+
+Routed out of `knowledge/classes/_abilities/reconcile-ledger.md` §5, which adjudicated
+1,578 prose claims against the generated Tier-1 inventory and named seven places the
+mining genuinely cannot reach. Each is **measured**, not suspected. Nothing here is
+scheduled — this is the parking lot, and these are recorded so the next person who hits
+one knows it is known.
+
+⚠ **The ledger's own instruction "file TOOL-GAP rows to kb-inbox" is superseded.** Every
+name a TOOL-GAP verdict covers now lives in `knowledge/classes/_abilities/section-4-catalogue.md`
+with its provenance, which is a better home: it is generated, so it cannot rot, and it
+carries the explicit *catalogue, not backlog* rule. **Do not also copy those names here** —
+Lunar Eclipse, Half Moon, Full Moon, Auto Shot, Heroic Strike, Crushing Blow, Restless
+Blades, Hammer of Light, Templar Slash, Void Volley, Mind Flay: Insanity and the rest are
+already recorded. What belongs here is the **tool** gap, not the ability.
+
+- **G1 — passive `SpecializationSpells` rows are dropped.** 458 of 632 real-spec rows are
+  passive and only 27 reach `all-abilities.tsv`. Most of the loss is junk (`Plate
+  Specialization`), but it swallows real spec identity: **Mastery: Echo of Light** 77485
+  (Holy), **Restless Blades** 79096 (Outlaw), **Mastery: Combo Strikes** 115636
+  (Windwalker), **Demonic Wards** 203513 / 278386 / 1277736 (Vengeance / Havoc / Devourer).
+  4 TOOL-GAP verdicts. ⚠ Admitting them means the inventory stops being "things you can
+  press" — decide what `castable=false` rows are *for* before widening, because
+  BucketBinds reads this file. (Leg B already closed Restless Blades into section 3 off a
+  live `/data/wow/spell/79096`, so the symptom is partly masked; the gap is not.)
+- **G2 — runtime override / proc-replacement buttons have no acquisition row.** 13 TOOL-GAP
+  verdicts. **Partly refuted 2026-08-06**: `gen_abilities`' override walk (leg A) reaches
+  five of them from `SpellEffect` alone — Templar Strike 407480, Cull 1245453, Voidblade
+  1245412, Condemn 317485, Kill Shot 53351. The rest (Annihilation, Death Sweep, Reaver's
+  Glaive, Abyssal Gaze, Consuming Fire, Devour, Pierce the Veil, Half/Full Moon, Templar
+  Slash, Hammer of Light, Void Shield, Void Volley, Mind Flay: Insanity, Heroic Strike,
+  Crushing Blow, Lunar Eclipse) still need an in-game spellbook enumeration (ClientLab),
+  not another DB2 join.
+- **G3 — `SkillLine 183 "GENERIC (DND)"` is outside both allowlists**, so **Auto Shot 75 is
+  invisible for every Hunter spec**. 2 TOOL-GAP verdicts. Widen carefully and measure
+  first: the two closed allowlists exist to keep the dead Shadowlands covenant lines out
+  (2730-2733 carry 13 class masks each), and that guard must survive. Check what else line
+  183 carries before admitting it.
+- **G4 — `castable` is computed on the trait entry's *visible* spell, which is often the
+  passive aura.** 45 rows across 23 specs read `castable=false` / `talent-passive` for
+  abilities that are unmistakably pressed — Drain Soul, Comet Storm, Shadow Mend, Flourish,
+  Summon Gargoyle, Raise Abomination, Tempest, Void Blast, Mindbender. Windwalker's
+  **Zenith Stomp** is recorded as 1272694 (passive) when 1272696 / 1291484 are castable.
+  ⚠ **These are not KB errors** — the prose rows are right and the column is wrong. Only
+  four names have no castable spell anywhere (Ascendant Eclipses, Draconic Attunements,
+  Void Apparitions, Embers of Nihilam) and only those are ORIGIN-SHIFT.
+- **G5 — pet abilities have no spec granularity** (already documented, re-confirmed). Not
+  in `SkillLine`, `SkillLineAbility`, `SkillRaceClassInfo` or `CreatureFamily`. Spell Lock
+  19647, Axe Toss 89766, Freeze 33395, Primal Rage 264667 are all real and all class-level.
+  5 ORIGIN-SHIFT verdicts ride on it. `pet-family-annex.tsv` carries the first three;
+  section 4 now names the annex line for any prose row that resolves there, so a prose file
+  should cite the **annex**, not a per-spec tsv. (This is the fix for the false
+  `pet-family-annex.tsv # … (Primal Rage)` pointer that was in Beast Mastery's front
+  matter — the annex has no Primal Rage row and never did.)
+- **G6 — charge recharge times are unreachable at the pin, and this one is a one-command
+  fix.** `SpellCooldowns` returns the **GCD** for charge abilities (Fire Blast 0.5s,
+  Celestial Alignment 1s, Purifying Brew 1s, Prayer of Mending 1.5s). The real value is
+  `SpellCategory.ChargeRecoveryTime` via `SpellCategories`, and both CSVs in `raw/wago/`
+  are unversioned, so reading them would break the 67808 pin. **15 markers stay open on
+  this alone.** `uv run python -m wowkb.wago SpellCategory --build 12.0.7.67808` (and
+  `SpellCategories`) closes it — deliberately not done in this pass because it changes the
+  `cooldown` column, which is BucketBinds' banding input.
+- **G7 — `mage/frost` "Icy Veins (Thermal Void)" cannot be re-anchored. UNBLOCKED
+  2026-08-06.** The stated blocker was that `SpellEffect.csv` was unversioned and could not
+  be pinned; `raw/wago/SpellEffect-12.0.7.67808.csv` now exists (fetched for leg A). Thermal
+  Void 1247729 is live on tree 658; what it now extends is answerable from that table and
+  was simply never asked. Still do not guess — read the effect rows.
+
+**Also routed here, from the adversarial verification of the prose pass:**
+
+- **Holy Armaments is NOT a Tier-1 vs Tier-1 conflict** — recorded so nobody re-opens it.
+  At 67808 tree 790 subtree 49 carries both node 95234 (TraitDefinition 122894 → spell
+  432459, named *Holy Bulwark*) and node 110257 (TraitDefinition 141558 → *Holy Armaments*
+  1289728, whose `VisibleSpellID` **is** 432459). That is exactly what the tsv's `aliases`
+  column encodes. One entry, two names, no collision.
+- **The ledger's §4 row for fury `Champion's Spear` / fury `Enraged Regeneration` / prot
+  `Champion's Spear` is wrong.** It files them under "markers the tsv settles", but those
+  markers asked about Rage-on-cast and heal-%/DR-% — questions ledger §6 itself says the
+  tsv cannot answer. Dropping them removed three genuine open unknowns. They are re-opened
+  as markers in the prose files.

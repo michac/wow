@@ -1,9 +1,11 @@
 ---
 title: Restoration Druid — Abilities (Midnight S1)
 patch: 12.0.7
-fetched: 2026-07-11
-reviewed: 2026-07-11
+fetched: 2026-08-06
+reviewed: 2026-08-06
 sources:
+  - knowledge/classes/druid/restoration/ability-inventory.tsv  # tier 1 — wago DB2 pinned @ build 12.0.7.67808; the name/spellID/origin/cooldown floor, 2026-08-06
+  - knowledge/classes/_abilities/reconcile-ledger.md  # tier 1 derived — the per-row verdicts applied to this file, 2026-08-06
   - https://us.api.blizzard.com/data/wow/talent-tree  # Blizzard Game Data API, tier 1, 2026-07-11 (via knowledge/classes/druid/restoration/talents.md, build 12.0.7.67808)
   - raw/wago/SpellName.csv  # tier 1 game data name canonicalization, 2026-07-11
   - https://www.icy-veins.com/wow/restoration-druid-pve-healing-rotation-cooldowns-abilities  # tier 3, 12.0.7 (upd 2026-06-15)
@@ -38,21 +40,40 @@ amplifying them, rather than reacting with big single-target casts.
 
 ## Ability inventory
 
-Cast/CD values are the live 12.0.7 baseline where a Tier-1/Tier-3 source
-confirms them; entries where the exact cooldown could not be pinned to a
-Tier-1 tooltip carry `@verify-ingame`.
+> **Tier-1 floor.** `ability-inventory.tsv` in this folder — generated from wago DB2
+> pinned to build `12.0.7.67808` — is authoritative for **name, spellID, origin and
+> cooldown**, and wins wherever it and the prose below disagree. Cooldowns tagged
+> `[T1]` were read off it this pass; a `~` value is prose that has **not** been
+> measured and still carries `@verify-ingame`. This table is for **function, role and
+> rotational context** — read it for judgement, read the tsv for numbers.
+
+> **What the Tier-1 floor does and does not cover.** A **bold `[T1]`** cooldown
+> below was read straight out of `ability-inventory.tsv` (wago DB2 @ 12.0.7.67808).
+> A `~` value was **not**: it is a Tier-3 guide number that the tsv could not
+> settle, and it is kept on purpose. The tsv's `cooldown` column is
+> `SpellCooldowns` at DifficultyID 0 — `max(RecoveryTime, CategoryRecoveryTime)` —
+> which is the real cooldown for a normal button and is **wrong for a charge
+> ability**, where it returns the GCD (Fire Blast 0.5s, Purifying Brew 1s). The
+> recharge lives in `SpellCategory.ChargeRecoveryTime`, unreachable without
+> breaking the build pin (`_abilities/reconcile-ledger.md` §5 G6). **So "the tsv
+> wins" applies to the values it actually carries, not to every row** — 194 rows
+> across the 40 files read 0 or sub-10s there and keep their `~` prose instead.
+>
+> Names this file asserts that **no** acquisition row reaches are catalogued in
+> `../../_abilities/section-4-catalogue.md`; ones game data reaches indirectly are
+> in `section-3-corroborated.md`. ⚠ Neither is a backlog — an entry there is
+> researched when someone **asks**, never because it has sat there a while.
 
 | Ability | Function | Resource | Cast / CD | Description |
 |---|---|---|---|---|
 | **Rejuvenation** | Rotational-builder | Mana | Instant / — | Core rolling HoT. The stack you maintain across the raid/party; each active Rejuv feeds *Abundance* (cheaper, higher-crit Regrowth). |
 | **Regrowth** | Rotational-spender | Mana | 1.5s / — | Direct heal + short HoT. With a full *Abundance* stack it becomes near-instant-value spot healing (up to +96% crit); free with *Clearcasting* (Omen of Clarity). |
 | **Lifebloom** | Rotational-builder | Mana | Instant / — | Single-target HoT that **blooms** (burst heal) when it expires or is Swiftmended. Stacks/auto-refreshes up to 3 via *Everbloom*; refresh in the last ~4.5s. Kept on tank (and often self). Feeds *Clearcasting* procs. |
-| **Wild Growth** | Rotational-builder | Mana | Instant / ~8s @verify-ingame | Smart AoE HoT on injured allies (up to 9 with *Incarnation*). Triggers Wildstalker *Symbiotic Blooms* and summons Keeper-of-the-Grove **Grove Guardians**. |
+| **Wild Growth** | Rotational-builder | Mana | Instant / **10s** `[T1]` | Smart AoE HoT on injured allies (up to 9 with *Incarnation*). Triggers Wildstalker *Symbiotic Blooms* and summons Keeper-of-the-Grove **Grove Guardians**. |
 | **Swiftmend** | Rotational-spender | Mana | Instant / ~15s @verify-ingame | Instant burst heal that consumes a Rejuv/Regrowth (not with *Verdant Infusion*). The engine of the rotation: procs *Soul of the Forest*, *Power of the Archdruid*, Grove Guardians, and extends nearby HoTs. |
 | **Efflorescence** | Rotational-builder | Mana | Instant / — | Ground-targeted AoE healing zone (blossoms). High mana cost; place under stacked melee. *Lifetreading* auto-repositions it to the Lifebloom target. |
-| **Nourish** | Rotational-spender | Mana | ~2s / — | Slow, mana-efficient direct heal (talent/utility filler). Rarely core; used when mana-starved. @verify-ingame |
 | **Tranquility** | Major cooldown | Mana | Channeled (~8s) / ~180s | Big raid-wide channeled heal; extends active HoTs and grants knockback immunity. In 12.0 also applies **Flourish** (HoT-extension) via talent. *Inner Peace* → −20% damage taken while channeling. |
-| **Incarnation: Tree of Life** | Major cooldown | Mana | Instant / ~180s @verify-ingame | 30s form: +healing, cheaper/instant Regrowth, Rejuv affects an extra target, Wild Growth hits up to 9. Choice-node vs Convoke; default for Keeper of the Grove. |
+| **Incarnation: Tree of Life** | Major cooldown | Mana | Instant / 180s [T1] | 30s form: +healing, cheaper/instant Regrowth, Rejuv affects an extra target, Wild Growth hits up to 9. Choice-node vs Convoke; default for Keeper of the Grove. |
 | **Convoke the Spirits** | Major cooldown | Mana | Channeled (~4s) / ~120s (→~60s w/ *Cenarius' Guidance*) | Channels a burst of random Druid spells (many Swiftmend/Wild Growth/Rejuv casts); with Keeper summons up to 5 Grove Guardians. Choice-node vs Incarnation. |
 | **Flourish** | Rotational-spender / CD | Mana | Instant / ~90s @verify-ingame | Extends the duration of all your active HoTs by ~8s and briefly boosts their rate. Talent (choice vs *Inner Peace*); also auto-triggered by Tranquility in 12.0. |
 | **Grove Guardians** | Pet (summon) | Mana | Passive/charge (via Swiftmend, Wild Growth) | Keeper-of-the-Grove treants; each active guardian grants +5% healing done, stacking to +25%. Not a directly-cast button — spawned by rotational casts and Convoke. |
@@ -74,7 +95,7 @@ Tier-1 tooltip carry `@verify-ingame`.
 | **Mass Entanglement** | CC (AoE root) | Mana | Instant / ~30s | Roots a target and spreads to nearby enemies. Choice-node vs *Ursol's Vortex*. |
 | **Ursol's Vortex** | CC (AoE pull/slow) | Mana | Instant / ~60s | Ground vortex that pulls and slows enemies leaving it. Choice-node vs Mass Entanglement. |
 | **Typhoon** | CC (knockback) | Mana | Instant / ~30s | Frontal cone knockback + daze. |
-| **Mighty Bash** | CC (stun) | Mana | Instant / ~50s | Single-target stun. Choice-node vs *Incapacitating Roar*. |
+| **Mighty Bash** | CC (stun) | Mana | Instant / **60s** `[T1]` | Single-target stun. Choice-node vs *Incapacitating Roar*. |
 | **Incapacitating Roar** | CC (AoE incap) | — | Instant / ~30s | Short AoE incapacitate. Choice-node vs Mighty Bash. |
 | **Hibernate** | CC (sleep) | Mana | 1.5s / — | Sleeps a Beast or Dragonkin. |
 | **Cyclone** | CC (banish) | Mana | 1.5s / — | Removes a target from combat (untargetable) briefly. Choice-node vs Soothe. |
@@ -82,8 +103,8 @@ Tier-1 tooltip carry `@verify-ingame`.
 | **Sunfire** | Rotational (damage DoT) | Mana | Instant / — | AoE-spreading Nature DoT. Downtime/Wildstalker DPS. |
 | **Wrath** | Rotational (damage filler) | Mana | ~1.5s / — | Nature nuke; downtime DPS + *Master Shapeshifter* mana. |
 | **Starfire** | Rotational (damage, AoE) | Mana | ~2s / — | Arcane nuke with cleave. Downtime DPS. |
-| **Starsurge** | Rotational (damage spender) | Mana | Instant / — | Instant Astral nuke. Downtime DPS. |
-| **Heart of the Wild** | Major cooldown (offensive/hybrid) | Mana | Instant / ~5min @verify-ingame | Greatly empowers off-spec abilities (Feral/Balance) for 45s — the enabler for meaningful Wildstalker damage windows (empowered *Feral Frenzy*). |
+| **Starsurge** | Rotational (damage spender) | Mana | Instant / **10s** `[T1]` | Instant Astral nuke. Downtime DPS. |
+| **Heart of the Wild** | Major cooldown (offensive/hybrid) | Mana | Instant / 120s [T1] | Greatly empowers off-spec abilities (Feral/Balance) for 45s — the enabler for meaningful Wildstalker damage windows (empowered *Feral Frenzy*). At two minutes it comes back often enough to be a scheduled damage window, not a once-a-fight novelty. |
 | **Rake** | Damage (cat, builder) | Energy | Instant / — | Cat-Form combo builder + bleed. Wildstalker weaving (auto-shifts via *Fluid Form*). |
 | **Shred** | Damage (cat, builder) | Energy | Instant / — | Cat-Form combo builder. |
 | **Rip** | Damage (cat, spender) | Energy/CP | Instant / — | Cat-Form finishing bleed. |
@@ -108,7 +129,14 @@ Tier-1 tooltip carry `@verify-ingame`.
   turns Swiftmend/Wild Growth into treant summons — not a hand-cast button.
 - **Convoke the Spirits** / **Incarnation: Tree of Life** are a single
   choice node (33891 / 391528) — you take one, not both.
-- No Midnight rename detected among the seed list; **Nourish**,
-  **Cenarion Ward**, and **Adaptive Swarm** are *not* in the 12.0.7 resto
-  tree — omitted from the build (Nourish kept only as an off-tree mana-filler
-  note, @verify-ingame).
+- No Midnight rename detected among the seed list; **Cenarion Ward** and
+  **Adaptive Swarm** are *not* in the 12.0.7 resto tree.
+
+### Not on the Midnight Restoration tree
+
+- **Nourish** — not acquirable at 12.0.7, and not merely off-tree. Thirteen spells carry
+  the name and none attaches to a trait node, SkillLineAbility, SpecializationSpells or
+  PvpTalent entry; the live Druid tree has no Nourish node. There is no
+  slow-and-efficient filler heal to fall back on when mana-starved — that role is now
+  Regrowth under *Abundance*/*Clearcasting*.
+  *[Tier 1: DB2 @ 12.0.7.67808, `_abilities/reconcile-ledger.md`.]*

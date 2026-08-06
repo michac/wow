@@ -1,9 +1,11 @@
 ---
 title: Protection Paladin — Ability Inventory (Midnight S1)
 patch: 12.0.7
-fetched: 2026-07-11
-reviewed: 2026-07-11
+fetched: 2026-08-06
+reviewed: 2026-08-06
 sources:
+  - knowledge/classes/paladin/protection/ability-inventory.tsv  # tier 1, generated from DB2 @ build 12.0.7.67808 — name/spellID/origin/cooldown floor
+  - knowledge/classes/_abilities/reconcile-ledger.md  # tier 1 adjudication of this file's claims @ 12.0.7.67808
   - https://www.method.gg/guides/protection-paladin/playstyle-and-rotation  # tier 3, upd. 2026-07-09
   - https://www.icy-veins.com/wow/protection-paladin-pve-tank-rotation-cooldowns-abilities  # tier 3, 12.0.7
   - https://www.icy-veins.com/wow/protection-paladin-pve-tank-spell-summary  # tier 3, 12.0.7
@@ -41,6 +43,28 @@ charge system.
 
 ## Ability inventory
 
+**`ability-inventory.tsv` in this directory is the Tier-1 floor** — canonical name, spellID,
+origin and baseline cooldown are regenerated there from DB2 and are not duplicated here.
+This file is the prose layer: what each button does for the active-mitigation loop. `~`
+values below are guide-derived; `@verify-ingame` marks what Tier 1 could not settle.
+
+> **What the Tier-1 floor does and does not cover.** A **bold `[T1]`** cooldown
+> below was read straight out of `ability-inventory.tsv` (wago DB2 @ 12.0.7.67808).
+> A `~` value was **not**: it is a Tier-3 guide number that the tsv could not
+> settle, and it is kept on purpose. The tsv's `cooldown` column is
+> `SpellCooldowns` at DifficultyID 0 — `max(RecoveryTime, CategoryRecoveryTime)` —
+> which is the real cooldown for a normal button and is **wrong for a charge
+> ability**, where it returns the GCD (Fire Blast 0.5s, Purifying Brew 1s). The
+> recharge lives in `SpellCategory.ChargeRecoveryTime`, unreachable without
+> breaking the build pin (`_abilities/reconcile-ledger.md` §5 G6). **So "the tsv
+> wins" applies to the values it actually carries, not to every row** — 194 rows
+> across the 40 files read 0 or sub-10s there and keep their `~` prose instead.
+>
+> Names this file asserts that **no** acquisition row reaches are catalogued in
+> `../../_abilities/section-4-catalogue.md`; ones game data reaches indirectly are
+> in `section-3-corroborated.md`. ⚠ Neither is a backlog — an entry there is
+> researched when someone **asks**, never because it has sat there a while.
+
 | Ability | Function | Resource | Cast / CD | Description |
 |---|---|---|---|---|
 | Shield of the Righteous | Rotational-spender (Defensive) | 3 Holy Power | Instant / off-GCD (no CD) | Core active mitigation. Deals Holy AoE damage in front and grants the SotR buff (armor + block/avoidance) for ~4.5s. Your primary Holy-Power sink; keep the buff rolling and never HP-cap. |
@@ -53,8 +77,9 @@ charge system.
 | Divine Toll | Major cooldown / Rotational-builder | Generates Holy Power | Instant / ~1 min | Casts Avenger's Shield at up to 5 nearby enemies, generating a burst of Holy Power. **Templar:** casting it grants **Hammer of Light** for 12s. Synced with the Avenging Wrath window. |
 | Hammer of Light | Rotational-spender (Templar) | 3 Holy Power | Instant / available 12s after Divine Toll | Templar-only. Big Holy AoE nuke that replaces Divine Toll for 12s after it is cast; top priority while active. Sustains Shake the Heavens. |
 | Word of Glory | Rotational-spender (Self-heal) | 3 Holy Power | Instant / no CD | Holy-Power heal scaling with missing health; **free/empowered with Shining Light** procs (and, for Templar, cheaper with Shake the Heavens active). |
-| Sacred Weapon | Utility buff (Lightsmith) | Holy Armaments charge | Instant / rechargeable charges | Lightsmith armament: a weapon buff that adds Holy damage/healing. Refresh when the buff drops below ~5s; use while Avenging Wrath is unavailable. |
-| Holy Bulwark | Defensive (Lightsmith) | Holy Armaments charge | Instant / rechargeable charges | Lightsmith armament: a personal absorb shield. Shares the Holy Armaments charge pool with Sacred Weapon; spend outside the Wings window. |
+| Sacred Weapon | Utility buff (Lightsmith) | Holy Armaments charge | Instant / rechargeable charges | Lightsmith armament: a weapon buff that adds Holy damage/healing. Refresh when the buff drops below ~5s; use while Avenging Wrath is unavailable. **Not a talent of its own [T1]** — the tree node is **Holy Armaments**, which alternates this with Holy Bulwark (the tsv carries the `Holy Bulwark ⇄ Holy Armaments` alias). |
+| Holy Bulwark | Defensive (Lightsmith) | Holy Armaments charge | Instant / rechargeable charges | Lightsmith armament: a personal absorb shield. Shares the Holy Armaments charge pool with Sacred Weapon; spend outside the Wings window. Same acquisition point as Sacred Weapon [T1]. |
+| **Holy Armaments** | Major cooldown / armament source (Lightsmith) | — | Instant / rechargeable charges @verify-ingame (recharge) | **The acquisition point for both armaments** — the Lightsmith tree node itself (432459 `talent-active`, hero subtree Lightsmith, node 95234) *[Tier 1]*. Each cast alternates between **Sacred Weapon** and **Holy Bulwark**, which is why neither of those has a row of its own in `ability-inventory.tsv`. The tsv carries this entry under the `Holy Bulwark ⇄ Holy Armaments` alias; one trait entry, two names, not a conflict. |
 | Avenging Wrath | Major cooldown (offensive) | — | Instant / ~2 min (≈1 min with Righteous Protector) | "Wings." +20% damage/healing (and crit when talented) for the burst window; converts Judgment to Hammer of Wrath. Choice node vs Sentinel. |
 | Sentinel | Major cooldown (defensive) | — | Instant / ~2 min | Choice-node alternative to Avenging Wrath: a stacking damage-and-mitigation buff that ramps over its duration. Defensive-leaning burst pick. |
 | Ardent Defender | Defensive | — | Instant / ~1.5 min | ~20% damage reduction + absorb for ~8s; the cheat-death floor (prevents one lethal hit and heals if it would kill you). Shortest-CD major wall. |
@@ -64,23 +89,34 @@ charge system.
 | Blessing of Freedom | Utility (movement) | — | Instant / ~25s | Removes and grants immunity to movement-impairing effects for a short time. |
 | Blessing of Protection | Defensive (external) | — | Instant / ~5 min | Physical-damage immunity on an ally (or self); causes a threat drop without Hand of Reckoning follow-up. |
 | Blessing of Spellwarding | Defensive (external) | — | Instant / ~3 min | Choice/talent replacing BoP: magic-damage immunity, no threat concern. Usable on self as a magic wall. |
-| Blessing of Sacrifice | Defensive (external) | — | Instant / ~1 min | Redirects a portion of an ally's incoming damage to you; core cooldown for guarding a co-tank or squishy. |
+| Blessing of Sacrifice | Defensive (external) | — | Instant / **120s** `[T1]` | Redirects a portion of an ally's incoming damage to you; core cooldown for guarding a co-tank or squishy. |
 | Divine Steed | Movement | — | Instant / 2 charges (Cavalier) | Temporary mounted speed boost; two charges with Cavalier for chaining gaps. |
 | Hand of Reckoning | Taunt | — | Instant, ranged / ~8s | Single-target taunt; forces the enemy to attack you. |
 | Rebuke | Interrupt | — | Instant / ~15s | Melee kick; interrupts a spellcast. Your on-demand interrupt (Avenger's Shield is the ranged one). |
-| Hammer of Justice | CC (stun) | — | Instant / ~60s (less w/ Fist of Justice) | Ranged stun. |
+| Hammer of Justice | CC (stun) | — | Instant / **45s** `[T1]` / Fist of Justice) | Ranged stun. |
 | Blinding Light | CC (disorient) | — | Instant / ~90s | AoE disorient around you. |
 | Turn Evil | CC (fear) | — | Cast / ~15s | Fears an Undead/Demon/Aberration target (instant with Wrench Evil). |
 | Cleanse Toxins | Dispel | — | Instant / ~8s | Removes Poison and Disease from an ally. |
 | Flash of Light | Utility (heal) | Mana | ~1.5s cast / — | Mana heal cast; slow off-Holy-Power topping tool. |
-| Intercession | Utility (combat rez) | Mana | Cast / — | Battle resurrection (in-combat rez). |
+| Intercession | Utility (combat rez) | Mana | Cast / **600s** `[T1]` | Battle resurrection (in-combat rez). |
 | Redemption | Utility (rez) | Mana | Cast / — | Out-of-combat resurrection. |
 | Rite of Sanctification | Utility buff (Lightsmith) | — | Cast (precombat) / — | Lightsmith raid buff (choice with Rite of Adjuration); set before pull. |
 | Devotion Aura | Passive/Utility (aura) | — | Instant / — | Group armor aura; set-and-forget (one aura active). |
-| Concentration Aura | Passive/Utility (aura) | — | Instant / — | Reduces silence/interrupt duration; situational aura swap. |
 | Crusader Aura | Passive/Utility (aura) | — | Instant / — | Mounted movement-speed aura; travel only. |
 | Guardian's/Empyrean absorbs (Bulwark of Order) | Passive | — | — | Avenger's Shield grants an absorb shield (Bulwark of Order); part of the passive EHP layer. |
 
-> Auras are mutually exclusive (one active at a time) — Devotion is the default,
-> swapped to Concentration for heavy silence/interrupt fights and Crusader only
-> while traveling.
+> Auras are mutually exclusive (one active at a time) — Devotion is the default and
+> Crusader is travel-only. There is **no Concentration Aura to swap to at 12.0.7** (see
+> the reconciliation notes).
+
+## Reconciliation notes — Tier 1 @ 12.0.7.67808
+
+- **Concentration Aura is not acquirable at 12.0.7** and the row is deleted: no spell of
+  that name attaches to a trait node, skill line, `SpecializationSpells` or `PvpTalent` row.
+  `Devotion Aura` is still on the Paladin skill line and `Aura Mastery` /
+  `Auras of the Resolute` are still on tree **790**, so the aura system survives — this aura
+  does not. The old "swap to Concentration on interrupt fights" advice is dead; plan
+  silence-heavy pulls without it.
+- **Sacred Weapon is an output of Holy Armaments, not a talent** — no spell named Sacred
+  Weapon has an acquisition row at all. The rows above are re-anchored to Holy Armaments
+  (live tree 790, Lightsmith subtree).

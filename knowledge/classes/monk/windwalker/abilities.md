@@ -1,9 +1,11 @@
 ---
 title: Windwalker Monk — Ability Inventory (Midnight S1)
 patch: 12.0.7
-fetched: 2026-07-11
-reviewed: 2026-07-11
+fetched: 2026-08-06
+reviewed: 2026-08-06
 sources:
+  - knowledge/classes/monk/windwalker/ability-inventory.tsv  # tier 1, generated from DB2 @ build 12.0.7.67808 — name/spellID/origin/cooldown floor
+  - knowledge/classes/_abilities/reconcile-ledger.md  # tier 1 adjudication of this file's claims @ 12.0.7.67808
   - https://www.method.gg/guides/windwalker-monk/playstyle-and-rotation  # tier 3, 2026-07-11 (upd. 2026-06-16)
   - https://raw.githubusercontent.com/simulationcraft/simc/midnight/profiles/MID1/MID1_Monk_Windwalker.simc  # tier 1 APL, 2026-07-11
   - raw/wago/SpellName.csv  # tier 1 game data, name reconciliation, 2026-07-11
@@ -32,12 +34,39 @@ weave builders and spenders so you neither cap Energy/Chi nor break Combo Strike
   spending resources and unleashing them; leans into a faster, more frequent
   **Zenith** cadence via Efficient Training.
 
-**Primary cooldown:** **Zenith** (Midnight's flexible burst window; it replaced the
-old Storm, Earth, and Fire / Serenity capstone) plus **Invoke Xuen, the White
-Tiger** (the summoned tiger). Defensives are thin: only **Fortifying Brew** and
-**Touch of Karma**.
+**Burst buttons:** **Zenith** (Midnight's flexible burst window; it replaced the old
+Storm, Earth, and Fire / Serenity capstone — and at a **16s [T1]** baseline it is a
+frequently-pressed window, not a two-minute cooldown) plus **Invoke Xuen, the White Tiger**
+(the summoned tiger, the real long cooldown). Defensives are thin: only **Fortifying Brew**
+and **Touch of Karma**.
 
 ## Inventory
+
+**`ability-inventory.tsv` in this directory is the Tier-1 floor** — canonical name, spellID,
+origin and baseline cooldown are regenerated there from DB2 and are not duplicated here.
+This file is the prose layer: role, priority context, and what the button is for.
+
+A cooldown written **`35s [T1]`** was read off that tsv (DB2 @ build 12.0.7.67808) and is
+the baseline before talents and Haste; a `~` value is guide-derived. `@verify-ingame` marks
+what Tier 1 could not settle (Chi/Energy costs, cast times, effect magnitudes, charge
+recharge).
+
+> **What the Tier-1 floor does and does not cover.** A **bold `[T1]`** cooldown
+> below was read straight out of `ability-inventory.tsv` (wago DB2 @ 12.0.7.67808).
+> A `~` value was **not**: it is a Tier-3 guide number that the tsv could not
+> settle, and it is kept on purpose. The tsv's `cooldown` column is
+> `SpellCooldowns` at DifficultyID 0 — `max(RecoveryTime, CategoryRecoveryTime)` —
+> which is the real cooldown for a normal button and is **wrong for a charge
+> ability**, where it returns the GCD (Fire Blast 0.5s, Purifying Brew 1s). The
+> recharge lives in `SpellCategory.ChargeRecoveryTime`, unreachable without
+> breaking the build pin (`_abilities/reconcile-ledger.md` §5 G6). **So "the tsv
+> wins" applies to the values it actually carries, not to every row** — 194 rows
+> across the 40 files read 0 or sub-10s there and keep their `~` prose instead.
+>
+> Names this file asserts that **no** acquisition row reaches are catalogued in
+> `../../_abilities/section-4-catalogue.md`; ones game data reaches indirectly are
+> in `section-3-corroborated.md`. ⚠ Neither is a backlog — an entry there is
+> researched when someone **asks**, never because it has sat there a while.
 
 | Ability | Function | Resource | Cast / CD | Description |
 |---|---|---|---|---|
@@ -45,22 +74,22 @@ Tiger** (the summoned tiger). Defensives are thin: only **Fortifying Brew** and
 | Blackout Kick | Rotational-spender | 1 Chi (often free) | Instant / — | Cheap spender; **Combo Breaker** and the *Blackout Kick!* proc make it free and reset other cooldowns. High press-count filler-spender. |
 | Rising Sun Kick | Rotational-spender | 2 Chi | Instant / ~10s (resets/CDR via procs) | High-damage kick, key with **Xuen's Battlegear** (crit + cooldown reduction on it). Priority spender. |
 | Fists of Fury | Rotational-spender / cleave | 3 Chi | ~4s channel (hasted) / ~24s | Channeled front-cone burst; primary Chi dump and a major share of damage. Cooldown sped up by Heart of the Jade Serpent. |
-| Strike of the Windlord | Rotational-spender | 2 Chi | Instant / ~40s | Twin fist strike hitting all in front; choice-node vs Whirling Dragon Punch. High-priority when talented. @verify-ingame (Chi cost/CD) |
-| Whirling Dragon Punch | Rotational-spender / AoE | — | Instant / ~24s | Only usable while **both** Fists of Fury and Rising Sun Kick are on cooldown; spinning AoE. Choice-node vs Strike of the Windlord. |
+| Strike of the Windlord | Rotational-spender | 2 Chi | Instant / 35s [T1] | Twin fist strike hitting all in front; choice-node vs Whirling Dragon Punch. High-priority when talented. @verify-ingame (Chi cost) |
+| Whirling Dragon Punch | Rotational-spender / AoE | — | Instant / **35s** `[T1]` | Only usable while **both** Fists of Fury and Rising Sun Kick are on cooldown; spinning AoE. Choice-node vs Strike of the Windlord. |
 | Spinning Crane Kick | Rotational-spender / AoE | 2 Chi (free w/ Dance of Chi-Ji) | ~1.5s channel / — | AoE spinning attack; **Dance of Chi-Ji** procs make it free and hard-hitting. Main multi-target spender. |
 | Rushing Wind Kick | Rotational-spender | — | Instant / — | Talent-granted strike woven high in the priority when talented; interacts with Strike of the Windlord / Thunderfist. @verify-ingame (exact mechanic) |
 | Slicing Winds | Rotational-spender / Movement | — | ~1s channel / ~30s | Talent; dashes forward dealing AoE. Doubles as a gap-closer but **stops at ledges** (won't cross gaps). @verify-ingame |
-| Zenith | Major cooldown | — | Instant / ~90s (reducible) | The flagship DPS window — buffs output / spawns celestial pressure for its duration. Cooldown shrinks via Spiritual Focus (Conduit) or Efficient Training (Shado-Pan). @verify-ingame (exact effect/CD) |
+| Zenith | Burst window (short CD) | — | Instant / 16s [T1] | The flagship DPS window — buffs output / spawns celestial pressure for its duration. The baseline cooldown shrinks further via Spiritual Focus (Conduit) or Efficient Training (Shado-Pan). @verify-ingame (exact effect) |
 | Zenith Stomp | Rotational-spender | Chi (spends into Zenith) | Instant / — | Talent (**Zenith Stomp**); an extra spender used inside a Zenith window to convert spare Chi into damage. @verify-ingame |
-| Celestial Conduit | Major cooldown | — | ~4s channel / ~90s | **Conduit of the Celestials** hero ability; channeled nuke cast when Heart of the Jade Serpent is down. Can be cancelled early. @verify-ingame (CD) |
+| Celestial Conduit | Major cooldown | — | ~4s channel / 90s [T1] | **Conduit of the Celestials** hero ability; channeled nuke cast when Heart of the Jade Serpent is down. Can be cancelled early. |
 | Invoke Xuen, the White Tiger | Major cooldown / Pet | — | Instant / ~120s | Summons Xuen to attack your target for the duration; the burst anchor synced with potions/racials/trinkets. |
-| Touch of Death | Rotational-spender (execute) | — | Instant / ~1.5–2 min | Instant large flat/execute hit; **Improved Touch of Death** lets it hit any target. Woven on cooldown. @verify-ingame (CD) |
+| Touch of Death | Rotational-spender (execute) | — | Instant / 180s [T1] | Instant large flat/execute hit; **Improved Touch of Death** lets it hit any target. Woven on cooldown. |
 | Tigereye Brew | Major cooldown | — | Instant / — | Spec capstone; stacks (**+1% crit per stack**, built from Chi spent) then consumed for a burst buff window. @verify-ingame |
 | Flying Serpent Kick | Movement | ~Energy | Instant / ~25s | Launch forward through the air, then land with an AoE slow. Primary movement/gap-closer; can cross gaps. |
 | Roll | Movement | — | Instant / 2 charges, ~20s | Short dash; baseline mobility. **Chi Torpedo** is the talent replacement (rolls farther, +movement speed buff). |
 | Tiger's Lust | Movement / Utility | — | Instant / ~30s | Removes roots/snares and grants a burst of movement speed to you or an ally. |
-| Transcendence | Utility / Movement | — | Instant / — | Places a spirit; recast to swap. Setup for Transcendence: Transfer. |
-| Transcendence: Transfer | Movement / Utility | — | Instant / ~10–25s | Teleports you to your placed Transcendence spirit — a mobility/escape/skip tool. |
+| Transcendence | Utility / Movement | — | Instant / **10s** `[T1]` | Places a spirit; recast to swap. Setup for Transcendence: Transfer. |
+| Transcendence: Transfer | Movement / Utility | — | Instant / 45s [T1] | Teleports you to your placed Transcendence spirit — a mobility/escape/skip tool. |
 | Crackling Jade Lightning | Utility / ranged | Energy | Channel / — | Ranged channeled Nature damage; used to pull or as a ranged option (knockback with Combat Wisdom / talents). |
 | Spear Hand Strike | Interrupt | — | Instant / ~15s | Melee interrupt + short school lockout. |
 | Leg Sweep | CC | — | Instant / ~60s | Short AoE stun around you. |
@@ -68,22 +97,37 @@ Tiger** (the summoned tiger). Defensives are thin: only **Fortifying Brew** and
 | Ring of Peace | CC / Utility | — | Instant / ~45s | Knocks enemies out of a zone; choice-node vs **Song of Chi-Ji** (a targeted disorient). |
 | Disable | CC / Utility | Chi/Energy | Instant / — | Slow that roots on reapplication; choice-node vs Crashing Momentum. |
 | Provoke | Utility (taunt) | — | Instant / ~8s | Taunt; also redirects Xuen. Niche for DPS (add pickup). |
-| Fortifying Brew | Defensive | — | Instant / ~6 min | +max health and damage reduction for the duration; core panic button. |
+| Fortifying Brew | Defensive | — | Instant / 360s [T1] | +max health and damage reduction for the duration; core panic button. |
 | Touch of Karma | Defensive / Utility | — | Instant / ~90s | Redirects a chunk of incoming damage and deals it back to the target — usable defensively (absorb a spike / stall for heals) **or** offensively as a damage cooldown. |
 | Diffuse Magic | Defensive (magic) | — | Instant / ~90s | Magic damage reduction + returns debuffs to caster. Class talent. @verify-ingame |
-| Dampen Harm | Defensive | — | Instant / ~120s | Reduces large incoming hits (percentage of health). Talent if picked. @verify-ingame (talented) |
 | Detox | Dispel | Energy | Instant / ~8s | Removes Poison and Disease effects from a friendly target. |
 | Vivify | Utility (heal) | Mana | ~1.5s cast (instant w/ proc) | Direct heal; **Vivacious Vivification** can make it instant. Self/ally topping. |
 | Soothing Mist | Utility (heal) | Mana | Channel / — | Channeled heal; enables instant Vivify while active. Rarely used by WW. |
 | Resuscitate | Utility (rez) | Mana | ~10s cast / — | Out-of-combat resurrection of a dead player. @verify-ingame (name) |
 | Zen Flight | Movement / travel | — | — | Slow-fall / flight travel spell (out of combat). |
-| Nimble Brew | Utility (PvP) | — | Instant / — | **PvP talent** — removes and reduces incoming loss-of-control effects. @verify-ingame |
-| Double Barrel | Utility (PvP) | — | — | **PvP talent** — empowers Fists of Fury (stun). @verify-ingame |
-| Reverse Magic | Dispel / Utility (PvP) | — | Instant / — | **PvP talent** — sends the group's harmful magic auras back to casters. @verify-ingame |
-| Combo Strikes (Mastery) | Passive | — | — | Repeating an ability loses a large damage buff; every APL spender/builder is gated on `combo_strike` (alternate abilities). |
+| Mastery: Combo Strikes | Passive (Mastery) | — | — | Formerly written here as *Combo Strikes (Mastery)*. Repeating an ability loses a large damage buff; every APL spender/builder is gated on `combo_strike` (alternate abilities). |
 | Hit Combo | Passive | — | — | Talent; consecutive **distinct** abilities stack a growing damage buff (dropped if you repeat). |
 | Combo Breaker | Passive (proc) | — | — | Tiger Palm can proc a **free Blackout Kick** (*Blackout Kick!*); high-value to consume promptly. |
 | Dance of Chi-Ji | Passive (proc) | — | — | Talent; procs a free, empowered Spinning Crane Kick (stacks to 2). |
 | Heart of the Jade Serpent | Passive (proc) | — | — | **Conduit** hero passive; a proc that accelerates the whole rotation and speeds Fists of Fury channels — the tree's defining effect. |
 | Flurry Strikes | Passive | — | — | **Shado-Pan** hero mechanic; resource spending accumulates charges that unleash extra strikes. |
 | Xuen's Battlegear | Passive | — | — | Talent; raises Rising Sun Kick crit and grants big cooldown reduction on it. |
+
+## Reconciliation notes — Tier 1 @ 12.0.7.67808
+
+Four rows this file carried are gone, and one is renamed:
+
+- **Dampen Harm is not acquirable at 12.0.7** — the row is deleted. Spell 122278 attaches
+  only to Monk tree **781** (the legacy copy; nodes 80704/95171/95172), and nothing on the
+  live Monk tree **1000**. Windwalker's defensives are Fortifying Brew and Touch of Karma.
+- **Nimble Brew** and **Double Barrel** are `PvpTalent` rows for Monk / **Brewmaster** only —
+  deleted here.
+- **Reverse Magic** is not a Monk ability at all: it is a **Demon Hunter** PvP talent
+  (Havoc, Vengeance, Devourer) — deleted here.
+- **`Combo Strikes (Mastery)` is renamed to `Mastery: Combo Strikes`**, the current name
+  (spell 115636, a passive that `SpecializationSpells` hands to Windwalker).
+
+Also corrected: **Zenith** is a **16s** baseline, not ~90s — the single largest correction in
+this file, and it changes how the button reads (a recurring window, not a raid cooldown).
+Strike of the Windlord is 35s, Touch of Death 180s, Fortifying Brew 360s and Transcendence:
+Transfer 45s, all against looser guide values previously carried here.

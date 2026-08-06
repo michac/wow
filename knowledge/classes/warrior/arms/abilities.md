@@ -1,9 +1,11 @@
 ---
 title: Arms Warrior — Ability Inventory (Midnight S1)
 patch: 12.0.7
-fetched: 2026-07-11
-reviewed: 2026-07-11
+fetched: 2026-08-06
+reviewed: 2026-08-06
 sources:
+  - knowledge/classes/warrior/arms/ability-inventory.tsv  # tier 1, generated DB2 inventory @ 12.0.7.67808 — the name/spellID/origin/cooldown floor, 2026-08-06
+  - knowledge/classes/_abilities/reconcile-ledger.md  # tier 1 derived, the verdicts applied here, 2026-08-06
   - raw/wago/SpellName.csv @ 12.0.7.67808  # tier 1, name reconciliation, 2026-07-11
   - knowledge/classes/warrior/arms/talents.md  # tier 1, Blizzard talent-tree API, node/spell IDs
   - simc midnight branch profiles/MID1/MID1_Warrior_Arms.simc  # tier 1 APL, WoW 12.0.7, 2026-07-11
@@ -46,11 +48,34 @@ execute phase.
 
 ## Inventory
 
+> **Tier-1 floor.** Canonical **name, spellID, acquisition origin and base
+> cooldown** live in `ability-inventory.tsv` (generated from wago DB2 @
+> 12.0.7.67808) — read them there rather than trusting a restated number here.
+> This table is for **role and rotational context**; on any disagreement the tsv wins.
+> One deliberate exception is flagged in the `Heroic Strike` row below.
+
+> **What the Tier-1 floor does and does not cover.** A **bold `[T1]`** cooldown
+> below was read straight out of `ability-inventory.tsv` (wago DB2 @ 12.0.7.67808).
+> A `~` value was **not**: it is a Tier-3 guide number that the tsv could not
+> settle, and it is kept on purpose. The tsv's `cooldown` column is
+> `SpellCooldowns` at DifficultyID 0 — `max(RecoveryTime, CategoryRecoveryTime)` —
+> which is the real cooldown for a normal button and is **wrong for a charge
+> ability**, where it returns the GCD (Fire Blast 0.5s, Purifying Brew 1s). The
+> recharge lives in `SpellCategory.ChargeRecoveryTime`, unreachable without
+> breaking the build pin (`_abilities/reconcile-ledger.md` §5 G6). **So "the tsv
+> wins" applies to the values it actually carries, not to every row** — 194 rows
+> across the 40 files read 0 or sub-10s there and keep their `~` prose instead.
+>
+> Names this file asserts that **no** acquisition row reaches are catalogued in
+> `../../_abilities/section-4-catalogue.md`; ones game data reaches indirectly are
+> in `section-3-corroborated.md`. ⚠ Neither is a backlog — an entry there is
+> researched when someone **asks**, never because it has sat there a while.
+
 | Ability | Function | Resource | Cast / CD | Description |
 |---|---|---|---|---|
 | Mortal Strike | Rotational-builder | ~30 Rage | Instant / ~6s (haste-scaled) | Signature strike; applies **Mortal Wounds** (healing reduction) and **Deep Wounds** bleed. Top single-target priority. |
 | Slam | Rotational-spender | ~20 Rage | Instant / — | Rage-dump filler when nothing higher is up. Becomes **Heroic Strike** with `Master of Warfare`. |
-| Heroic Strike | Rotational-spender | ~20 Rage | Instant / — | `Master of Warfare` apex form of `Slam`; stacks Armor Penetration. Same rotational slot as Slam. |
+| Heroic Strike | Rotational-spender | ~20 Rage | Instant / — | `Master of Warfare` apex form of `Slam`; stacks Armor Penetration. Same rotational slot as Slam. ⚠ **Expect this one to be missing from `ability-inventory.tsv`** — it is a runtime *override* button, so it has no acquisition row of its own; what Tier 1 can confirm is that its parent talent `Master of Warfare` is live on the Midnight Warrior tree *[Tier 1, 12.0.7.67808]*. Absence from the generated inventory is not evidence against this row. Recorded in `../../_abilities/section-4-catalogue.md` (`prose-only`) — that catalogue, not a marker, is where this unknown lives. |
 | Overpower | Rotational-builder | Generates Rage | Instant / ~12s, 2 charges | No-cost builder; empowers the next `Mortal Strike` (Martial Prowess) and is reset by `Tactician`/`Battlelord`. High priority. |
 | Execute | Rotational-spender | Rage (scales) | Instant / — | Execute-phase spender; usable <35% with `Massacre` (else <20%). `Sudden Death` grants free/anytime procs. |
 | Colossus Smash | Major cooldown | ~20 Rage | Instant / ~45s | Applies the **Colossus Smash** debuff (ignores armor + amplifies your damage). The burst window everything syncs to. |
@@ -62,20 +87,20 @@ execute phase.
 | Avatar | Major cooldown | — | Instant / ~90s | +damage steroid for ~20s; the core throughput CD, synced to `Colossus Smash`. |
 | Demolish | Major cooldown (Colossus) | Rage | Channel / ~45s | Colossus finisher — a heavy multi-hit channel; empowered by 10 stacks of `Colossal Might`. Use inside `Colossus Smash`. |
 | Bladestorm | Major cooldown / AoE | Rage | Channel ~4s / ~90s | Whirling channel hitting all nearby enemies; choice node vs `Ravager`. Big AoE burst. |
-| Ravager | Major cooldown / AoE | Rage | Instant deploy / ~45s | Thrown spinning weapon that AoEs an area over a few seconds; choice node vs `Bladestorm`. Deployed just before/into `Colossus Smash`. |
+| Ravager | Major cooldown / AoE | Rage | Instant deploy / **90s** `[T1]` | Thrown spinning weapon that AoEs an area over a few seconds; choice node vs `Bladestorm`. Deployed just before/into `Colossus Smash`. |
 | Champion's Spear | Major cooldown / CC | ~Rage | Instant / ~90s | Throws a spear that tethers/roots enemies at the point and deals burst; also a soft AoE root. |
 | Charge | Movement | Generates ~20 Rage | Instant / ~20s, 1–2 charges | Gap-closer that roots the target briefly and builds Rage. Also opener + "charge-weaving" for extra Rage. |
 | Heroic Leap | Movement | — | Instant / ~45s | Leap to a target location; small AoE on landing. Mobility / repositioning. |
 | Intervene | Movement / Defensive | — | Instant / ~30s | Run to an ally, intercepting the next attack against them. |
 | Storm Bolt | CC | — | Instant / ~30s | Single-target stun (talent). |
 | Shockwave | CC (AoE) | — | Instant / ~40s | Cone AoE stun (talent); shorter CD with `Rumbling Earth` on 3+ hit. |
-| Piercing Howl | CC (AoE slow) | — | Instant / ~30s | AoE slow; choice node vs `Intimidating Shout`. |
+| Piercing Howl | CC (AoE slow) | — | Instant / **90s** `[T1]` | AoE slow; choice node vs `Intimidating Shout`. |
 | Intimidating Shout | CC (AoE fear) | — | Instant / ~90s | Fears nearby enemies; choice node vs `Piercing Howl`. |
 | Hamstring | CC (slow) | ~10 Rage | Instant / — | Single-target movement slow. |
 | Pummel | Interrupt | — | Instant / 15s | Kick interrupt; the spec's only hard interrupt. |
 | Die by the Sword | Defensive | — | Instant / ~2min | +Parry and ~30% damage reduction for 8s. Personal survival CD. |
 | Rallying Cry | Defensive (raid) | — | Instant / ~3min | Grants the group temporary max-health; raid-wide cooldown. |
-| Ignore Pain | Defensive (absorb) | Rage | Instant / — | Damage-absorb shield (choice vs `Fueled by Violence`). Rage-fed mitigation. |
+| Ignore Pain | Defensive (absorb) | Rage | Instant / **20s** `[T1]` | Damage-absorb shield (choice vs `Fueled by Violence`). Rage-fed mitigation. |
 | Impending Victory | Defensive (self-heal) | ~10 Rage | Instant / ~25s | Strike that heals a chunk of max health. |
 | Spell Reflection | Defensive | — | Instant / ~25s | Reflects the next incoming spell. |
 | Berserker Rage | Defensive (fear break) | — | Instant / ~60s | Breaks/immunes fear, sap, incapacitate; generates Rage. |

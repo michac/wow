@@ -1,9 +1,11 @@
 ---
 title: Assassination Rogue — Ability inventory (Midnight S1)
 patch: 12.0.7
-fetched: 2026-07-11
-reviewed: 2026-07-11
+fetched: 2026-08-06
+reviewed: 2026-08-06
 sources:
+  - knowledge/classes/rogue/assassination/ability-inventory.tsv  # tier 1, generated from DB2 @ 12.0.7.67808 — name/spellID/origin/cooldown source of record
+  - knowledge/classes/_abilities/reconcile-ledger.md  # tier 1 derived, the 12.0.7.67808 adjudication behind this pass
   - simc midnight branch profiles/MID1/MID1_Rogue_Assassination.simc  # tier 1 APL + talent string
   - https://raw.githubusercontent.com/simulationcraft/simc/midnight/profiles/MID1/MID1_Rogue_Assassination.simc  # tier 1
   - https://www.method.gg/guides/assassination-rogue  # tier 3, upd. 2026-06-16
@@ -47,6 +49,30 @@ and bleeds tick on their own); the active rotation feeds those DoTs.
 
 ## Ability inventory
 
+> **Where the numbers live.** `ability-inventory.tsv` in this folder is the Tier-1
+> source of record for **name, spellID, origin and cooldown** (generated from DB2 @
+> `12.0.7.67808`). This table is the *judgement* layer — function, role, rotational
+> context — and deliberately does not re-transcribe columns that drift. Where a cell
+> below states a cooldown, it is a value the reconcile pass measured; everything else
+> points at the tsv.
+
+> **What the Tier-1 floor does and does not cover.** A **bold `[T1]`** cooldown
+> below was read straight out of `ability-inventory.tsv` (wago DB2 @ 12.0.7.67808).
+> A `~` value was **not**: it is a Tier-3 guide number that the tsv could not
+> settle, and it is kept on purpose. The tsv's `cooldown` column is
+> `SpellCooldowns` at DifficultyID 0 — `max(RecoveryTime, CategoryRecoveryTime)` —
+> which is the real cooldown for a normal button and is **wrong for a charge
+> ability**, where it returns the GCD (Fire Blast 0.5s, Purifying Brew 1s). The
+> recharge lives in `SpellCategory.ChargeRecoveryTime`, unreachable without
+> breaking the build pin (`_abilities/reconcile-ledger.md` §5 G6). **So "the tsv
+> wins" applies to the values it actually carries, not to every row** — 194 rows
+> across the 40 files read 0 or sub-10s there and keep their `~` prose instead.
+>
+> Names this file asserts that **no** acquisition row reaches are catalogued in
+> `../../_abilities/section-4-catalogue.md`; ones game data reaches indirectly are
+> in `section-3-corroborated.md`. ⚠ Neither is a backlog — an entry there is
+> researched when someone **asks**, never because it has sat there a while.
+
 | Ability | Function | Resource | Cast / CD | Description |
 |---|---|---|---|---|
 | Mutilate | Rotational-builder | ~45 energy | Instant / — | Core single-target builder; strikes with both weapons, generates 2 CP. Applies lethal/non-lethal poisons on hit. |
@@ -58,37 +84,42 @@ and bleeds tick on their own); the active rotation feeds those DoTs.
 | Crimson Tempest | Rotational-builder (AoE bleed) | energy, generates CP | Instant / — | **Reworked in Midnight** into an AoE generator that spreads the longest bleeds to unbuffed enemies. Spammed in AoE to blanket packs with Garrote/Rupture. @verify-ingame |
 | Kingsbane | Major cooldown | 35 energy, CP | Instant / 1 min | Applies a stacking lethal poison that ramps with every poison application; each stack adds nature damage. **Sync with Deathmark** so its stacks build twice as fast. |
 | Deathmark | Major cooldown | — | Instant / 2 min | Signature burst CD: marks the target so your **bleeds and poisons are duplicated** for its duration, and grants energy. The 2-min burst window; Kingsbane + trinkets + potion sync into it. |
-| Shiv | Utility (poison application) | ~20 energy | Instant / ~short CD | Via **Toxic Stiletto** talent (baseline Shiv removed in Midnight). Applies/refreshes Amplifying Poison stacks and dispels Enrage; used at 6 CP under Darkest Night. @verify-ingame |
+| Shiv | Utility (poison application) | ~20 energy | Instant / see tsv | **Tier-1 origin: `talent-active`** (spell 5938, class-tree node) — a talent pick, not baseline; the Overview's "baseline Shiv removed in Midnight" framing is the Tier-3 story behind that. Method attributes the talent as **Toxic Stiletto** *(Tier 3)*. Applies/refreshes Amplifying Poison stacks and dispels Enrage; used at 6 CP under Darkest Night. @verify-ingame (the Toxic Stiletto attribution and the Amplifying-Poison / Enrage behaviour — Tier 1 settled the origin, not these) |
 | Poisoned Knife | Utility (ranged builder) | ~40 energy | Instant / — | Ranged throw that applies lethal poison and generates 1 CP; pulls / applies poison at range. |
-| Deadly Poison | Passive (lethal poison) | — | — | Default lethal weapon poison; stacking nature DoT. Applied by weapon strikes. |
-| Amplifying Poison | Passive (lethal poison) | — | — | Lethal poison; stacks are consumed by Envenom for bonus damage. Paired with Deadly Poison in the S1 lethal package. |
-| Wound Poison | Passive (lethal poison) | — | — | Alternate lethal poison; reduces target healing (mostly PvP/utility). |
-| Instant Poison | Passive (lethal poison) | — | — | Non-stacking direct-damage lethal poison; niche. |
-| Crippling Poison | Passive (non-lethal) | — | — | Non-lethal slow; the M+ kiting choice. |
-| Numbing Poison | Passive (non-lethal) | — | — | Non-lethal; reduces target attack/cast speed. |
-| Atrophic Poison | Passive (non-lethal) | — | — | Non-lethal; reduces target damage dealt — the default raid non-lethal. |
-| Poisons (apply) | Utility | — | Out of combat | Applies chosen lethal + non-lethal weapon poisons (1-hour buff). Set before pull. |
+| Deadly Poison | Weapon imbue (lethal) — `talent-active` | — | Cast out of combat | Default lethal weapon poison; stacking nature DoT once applied. Applied by weapon strikes. |
+| Amplifying Poison | Weapon imbue (lethal) — `talent-active` | — | Cast out of combat | Lethal poison; stacks are consumed by Envenom for bonus damage. Paired with Deadly Poison in the S1 lethal package. |
+| Wound Poison | Weapon imbue (lethal) — `class-baseline` | — | Cast out of combat | Alternate lethal poison; reduces target healing (mostly PvP/utility). |
+| Instant Poison | Weapon imbue (lethal) — `class-baseline` | — | Cast out of combat | Non-stacking direct-damage lethal poison; niche. |
+| Crippling Poison | Weapon imbue (non-lethal) — `class-baseline` | — | Cast out of combat | Non-lethal slow; the M+ kiting choice. |
+| Numbing Poison | Weapon imbue (non-lethal) — `talent-choice` | — | Cast out of combat | Non-lethal; reduces target attack/cast speed. Choice node with Atrophic Poison. |
+| Atrophic Poison | Weapon imbue (non-lethal) — `talent-choice` | — | Cast out of combat | Non-lethal; reduces target damage dealt — the default raid non-lethal. Choice node with Numbing Poison. |
 | Slice and Dice | Utility (self-buff) | CP | Instant / — | Attack-speed self-buff; pre-cast in precombat (`slice_and_dice,precombat_seconds=1`). Uptime varies by build. |
 | Stealth | Utility | — | Out of combat | Enter stealth; enables opener abilities (Garrote/Ambush/Cheap Shot) and Improved Garrote. |
 | Vanish | Utility / Movement | — | 2 min (charges) | Re-enter Stealth in combat; used to re-apply **Improved Garrote** (notably before Deathmark) and to reset threat / drop combat. |
-| Sprint | Movement | — | ~1 min | +70% movement speed burst. |
+| Sprint | Movement | — | **120s** `[T1]` | +70% movement speed burst. |
 | Shadowstep | Movement | — | ~short CD (charges) | Teleport behind the target; gap-closer and repositioning. |
-| Crimson Vial | Defensive (self-heal) | ~20–30 energy | Instant / short CD | Instant self-heal over a few seconds; the spammable survivability button. |
+| Crimson Vial | Defensive (self-heal) | ~20–30 energy | Instant / **30s** `[T1]` | Instant self-heal over a few seconds; the spammable survivability button. |
 | Feint | Defensive | ~35 energy | Instant / short CD | Reduces AoE damage taken for a few seconds. |
 | Evasion | Defensive | — | ~2 min | +100% dodge vs melee/ranged physical for the duration. |
 | Cloak of Shadows | Defensive / Dispel | — | ~2 min | Removes and grants immunity to most magic/DoT effects briefly; a magic-damage panic button and self-dispel. |
 | Thistle Tea | Utility (energy) / Defensive | — | ~1 min (charges) | Restores a large chunk of energy and grants Mastery; multi-charge, used to sustain energy during Kingsbane. |
 | Kick | Interrupt | — | ~15 s | Melee interrupt; kicks the target's current cast. |
-| Kidney Shot | CC (stun finisher) | 25 energy, CP | Instant / ~20 s | Finisher stun; duration scales with CP. |
+| Kidney Shot | CC (stun finisher) | 25 energy, CP | Instant / **30s** `[T1]` | Finisher stun; duration scales with CP. |
 | Cheap Shot | CC (stun opener) | ~40 energy | Instant / — | Stun from Stealth; opener control. |
-| Gouge | CC (incapacitate) | ~25 energy | Instant / ~15 s | Incapacitates a facing target for a few seconds (breaks on damage). |
-| Blind | CC | — | ~1 min (talented reduce) | Disorients the target for up to 1 min (breaks on damage). |
+| Gouge | CC (incapacitate) | ~25 energy | Instant / **25s** `[T1]` | Incapacitates a facing target for a few seconds (breaks on damage). |
+| Blind | CC | — | **120s** `[T1]` (talented reduce) | Disorients the target for up to 1 min (breaks on damage). |
 | Sap | CC (from stealth) | — | — | Incapacitates a non-combat target from Stealth for crowd pull control. |
 | Distract | Utility | ~30 energy | Instant / ~30 s | Sends enemies to a location; pull manipulation. |
-| Tricks of the Trade | Utility (threat) | — | ~short CD | Redirects your threat to an ally and buffs their damage briefly. |
-| Shroud of Concealment | Utility (group stealth) | — | ~5 min | Cloaks the party/raid in stealth for skips. |
-| Mark for Death | Utility (Deathstalker) | — | ~ CD | Resets combo points to max on a low-health target; in Deathstalker also used to re-position **Deathstalker's Mark** when swapping targets before a Darkest Night proc. @verify-ingame |
+| Tricks of the Trade | Utility (threat) | — | **30s** `[T1]` | Redirects your threat to an ally and buffs their damage briefly. |
+| Shroud of Concealment | Utility (group stealth) | — | **360s** `[T1]` | Cloaks the party/raid in stealth for skips. |
+| Mark for Death | Utility (Deathstalker) | — | Instant / 20s | **Tier-1 origin: `cdm-only`** (spell 1293340) — it is carried by the Cooldown-Manager set but by **no** acquisition table at 12.0.7.67808, so how it is granted is not readable from DB2. Resets combo points to max on a low-health target; in Deathstalker also used to re-position **Deathstalker's Mark** when swapping targets before a Darkest Night proc. |
 
-> Energy costs / cooldowns above are approximate baseline values (talents shift
-> them); exact numbers are @verify-ingame. Names canonicalized against
-> `raw/wago/SpellName.csv` and the 12.0.7 talent tree (`talents.md`).
+> **`Poisons` is not a spell.** There is no ability of that name at 12.0.7.67808 — the
+> catch-all row this file used to carry ("Poisons (apply)") named no Tier-1 spell. Applying
+> poisons means casting the concrete imbues listed above, each of which is its own
+> Tier-1 row with its own origin. *[Tier 1: `ability-inventory.tsv`, DB2 @ 12.0.7.67808.]*
+
+> **Energy costs** above are approximate baseline values (talents shift them) and are not
+> readable from DB2 — they remain @verify-ingame. **Cooldowns, spellIDs and origins are
+> readable**: take them from `ability-inventory.tsv`, which is Tier 1 and regenerated per
+> build. Names canonicalized against that file and the 12.0.7 talent tree (`talents.md`).

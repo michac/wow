@@ -1,13 +1,15 @@
 ---
 title: Blood Death Knight — Ability Inventory (Midnight S1)
 patch: 12.0.7
-fetched: 2026-07-11
-reviewed: 2026-07-11
+fetched: 2026-08-06
+reviewed: 2026-08-06
 sources:
+  - knowledge/classes/death-knight/blood/ability-inventory.tsv  # tier 1, DB2 @ 12.0.7.67808 — names, spellIDs, origin, cooldowns
+  - knowledge/classes/_abilities/reconcile-ledger.md  # tier 1 derived, the verdicts applied 2026-08-06
+  - raw/wago/SpellName.csv  # tier 1, wago SpellName DB2 @ 12.0.7.67808 — name canonicalization only; the three spellIDs this file used to restate from it were stale (Reaper's Mark is 439843 not 434765, Vampiric Strike 433901 not 433895, Exterminate 441378 not 161362), so take IDs from ability-inventory.tsv
   - simc midnight branch engine/class_modules/apl/apl_death_knight.cpp  # tier 1 APL (blood_apl_start), fetched 2026-07-11
   - https://www.method.gg/guides/blood-death-knight/playstyle-and-rotation  # tier 3, Midnight 12.0.7
   - https://www.method.gg/guides/blood-death-knight  # tier 3, Midnight 12.0.7 intro
-  - raw/wago/SpellName.csv  # tier 1, name reconciliation (Vampiric Strike 433895, Reaper's Mark 434765, Exterminate 161362)
 confidence: medium
 ---
 
@@ -28,9 +30,30 @@ Two hero trees in S1: **San'layn** (Vampiric Strike / Essence of the Blood Queen
 buff-stacking, favored in raid) and **Deathbringer** (Reaper's Mark stacking +
 Exterminate, favored in M+). See `builds.md` and `rotation.md`.
 
-> CD/cost figures below are base values corroborated from the simc APL and
-> method.gg; several exact cooldown numbers are talent-modified and carry a
-> `@verify-ingame` marker where the live value was not directly sourced.
+> **Where the numbers come from.** `ability-inventory.tsv` in this folder is the
+> Tier-1 record for **name, spellID, origin and cooldown** (DB2 @ 12.0.7.67808) —
+> read it rather than trusting a number restated here. A `[T1]` stamp below marks
+> a cooldown taken from it; a `~` value is a Tier-3 approximation from the simc
+> APL / method.gg that nobody has measured, and rows still carrying
+> `@verify-ingame` are the ones no Tier-1 column can answer (resource costs, cast
+> times, effect magnitudes).
+
+> **What the Tier-1 floor does and does not cover.** A **bold `[T1]`** cooldown
+> below was read straight out of `ability-inventory.tsv` (wago DB2 @ 12.0.7.67808).
+> A `~` value was **not**: it is a Tier-3 guide number that the tsv could not
+> settle, and it is kept on purpose. The tsv's `cooldown` column is
+> `SpellCooldowns` at DifficultyID 0 — `max(RecoveryTime, CategoryRecoveryTime)` —
+> which is the real cooldown for a normal button and is **wrong for a charge
+> ability**, where it returns the GCD (Fire Blast 0.5s, Purifying Brew 1s). The
+> recharge lives in `SpellCategory.ChargeRecoveryTime`, unreachable without
+> breaking the build pin (`_abilities/reconcile-ledger.md` §5 G6). **So "the tsv
+> wins" applies to the values it actually carries, not to every row** — 194 rows
+> across the 40 files read 0 or sub-10s there and keep their `~` prose instead.
+>
+> Names this file asserts that **no** acquisition row reaches are catalogued in
+> `../../_abilities/section-4-catalogue.md`; ones game data reaches indirectly are
+> in `section-3-corroborated.md`. ⚠ Neither is a backlog — an entry there is
+> researched when someone **asks**, never because it has sat there a while.
 
 | Ability | Function | Resource | Cast / CD | Description |
 |---|---|---|---|---|
@@ -40,33 +63,33 @@ Exterminate, favored in M+). See `builds.md` and `rotation.md`.
 | **Death and Decay** | Rotational / Utility | 1 Rune | Instant / ~15s @verify-ingame | Ground AoE + damage-reduction zone; maintenance buff for the spec. **Crimson Scourge** procs make the next cast free and instant — always consume it. |
 | **Death Strike** | Defensive / Rotational-spender | ~40 Runic Power | Instant / — | The signature self-heal: heals for a % of damage taken in the last 5s (min floor). Primary Runic-Power dump — press to prevent death or to avoid overcapping RP (≈75+ RP). |
 | **Death's Caress** | Rotational-builder | 1 Rune | Instant / — | Ranged Bone Shield builder; applies Blood Plague at range. Pre-combat opener and a rune-starved Bone Shield top-up. |
-| **Consumption** | Rotational-spender / Defensive | 1 Rune | Instant / ~45s @verify-ingame | Frontal cone: damage + heal scaling with targets hit; empowerable (APL uses `empower_to=1` off-cooldown / after Dancing Rune Weapon). |
-| **Dancing Rune Weapon** | Major cooldown | — | Instant / ~120s @verify-ingame | Summons a rune weapon mirroring your strikes; big throughput + mitigation window. The build's primary offensive CD; synced with Reaper's Mark (Deathbringer) or Consumption (San'layn). |
-| **Reaper's Mark** | Major cooldown / Rotational | — | Instant / ~60s @verify-ingame | **Deathbringer** hero ability: marks a target; stacks build via shadow damage and detonate for a burst. Cast on cooldown; feeds **Exterminate**. |
+| **Consumption** | Rotational-spender / Defensive (talent) | 1 Rune | Instant / 45s `[T1]` | Frontal cone: damage + heal scaling with targets hit; empowerable (APL uses `empower_to=1` off-cooldown / after Dancing Rune Weapon). |
+| **Dancing Rune Weapon** | Major cooldown (talent) | — | Instant / 120s `[T1]` | Summons a rune weapon mirroring your strikes; big throughput + mitigation window. The build's primary offensive CD; synced with Reaper's Mark (Deathbringer) or Consumption (San'layn). |
+| **Reaper's Mark** | Major cooldown / Rotational (talent) | — | Instant / 45s `[T1]` | **Deathbringer** hero ability: marks a target; stacks build via shadow damage and detonate for a burst. Cast on cooldown; feeds **Exterminate**. Comes up twice as often as the old ~60s figure this file used to carry — treat it as a near-every-other-DRW button, not a paired one. |
 | **Vampiric Strike** | Rotational-builder | 1 Rune | Instant / — | **San'layn** hero proc: replaces Heart Strike when active, stacks **Essence of the Blood Queen** (Haste/Mastery). |
-| **Exterminate** | Rotational (proc) | — | Instant / — | **Deathbringer** proc consumed via Marrowrend after Reaper's Mark; a free empowered strike (spell 161362). |
+| **Exterminate** | Rotational (proc) | — | Instant / — | **Deathbringer** proc consumed via Marrowrend after Reaper's Mark; a free empowered strike. (spellID: see `ability-inventory.tsv` — the proc has an aura and a castable sibling, so don't quote one from memory.) |
 | **Vampiric Blood** | Defensive (major) | — | Instant / ~90s @verify-ingame | +max health and +healing-received for its duration; the most-used defensive (APL keeps it up whenever it isn't). |
-| **Icebound Fortitude** | Defensive (major) | — | Instant / ~180s @verify-ingame | −30% damage taken and stun immunity; the standard "big hit" panic button. |
+| **Icebound Fortitude** | Defensive (major) | — | Instant / **120s** `[T1]` | −30% damage taken and stun immunity; the standard "big hit" panic button. |
 | **Anti-Magic Shell** | Defensive | — | Instant / ~60s @verify-ingame | Absorbs incoming magic damage and generates Runic Power from it; prioritize vs magic damage. |
-| **Anti-Magic Zone** | Defensive / Utility (group) | — | Instant / ~120s | Ground zone that reduces magic damage for the whole party/raid standing in it. |
+| **Anti-Magic Zone** | Defensive / Utility (group) | — | Instant / **240s** `[T1]` | Ground zone that reduces magic damage for the whole party/raid standing in it. |
 | **Lichborne** | Defensive / Utility | — | Instant / ~120s @verify-ingame | Turns you Undead: immune to charm/fear/sleep; allows self-healing via Death Coil during high-damage phases. |
 | **Death Pact** | Defensive | — | Instant / ~120s @verify-ingame | Heals ~50% max health immediately, with an increased-damage-taken aftereffect; emergency top-up. |
-| **Raise Dead** | Pet | — | Instant / ~30s @verify-ingame | Summons a ghoul pet. For Blood it's a rotational/CD pairing (opener with Dancing Rune Weapon in the APL). |
+| **Raise Dead** | Pet (talent) | — | Instant / 120s `[T1]` | Summons a ghoul pet. For Blood it's a cooldown pairing, not a filler — at 120s it lines up 1:1 with Dancing Rune Weapon, which is exactly how the APL opens. |
 | **Death Grip** | Utility / Movement | — | Instant / ~15–25s @verify-ingame | Taunt + pull single target to you (also a gap-closer to a target). Threat + positioning tool. |
-| **Gorefiend's Grasp** | CC / Utility | — | Instant / ~120s @verify-ingame | Mass-grip: pulls all enemies near a target to you; the AoE-pull tank cornerstone. Choice node vs **Abomination Limb**. |
+| **Gorefiend's Grasp** | CC / Utility | — | Instant / **90s** `[T1]` | Mass-grip: pulls all enemies near a target to you; the AoE-pull tank cornerstone. Choice node vs **Abomination Limb**. |
 | **Death Coil** | Rotational-spender (minor) | Runic Power | Instant / — | Ranged Runic-Power spender; heals your ghoul and, under Lichborne, heals you. Mostly a ranged filler for Blood. |
 | **Control Undead** | Utility | 1 Rune | Instant / — | Enslaves an undead target to fight for you (out-of-combat / niche). |
 | **Path of Frost** | Utility | — | Instant / — | Lets you and allies walk on water; fall-damage protection. |
 | **Raise Ally** | Utility (battle rez) | — | Instant / ~600s | Combat resurrection of a dead ally (Rebirth-equivalent). San'layn grants extra rez utility. |
 | **Icebound Fortitude / Death's Advance** | Movement (passive) | — | Passive | **Death's Advance** — passive movement-speed + immunity to being slowed below a floor; core mobility for a tank. |
-| **Wraith Walk** | Movement | — | Channel / ~45s @verify-ingame | Channeled +70% movement speed and snare immunity; choice node vs **March of Darkness**. |
+| **Wraith Walk** | Movement | — | Channel / **60s** `[T1]` | Channeled +70% movement speed and snare immunity; choice node vs **March of Darkness**. |
 | **Chains of Ice** | Utility / CC (snare) | Runic Power @verify-ingame | Instant / — | Ranged heavy slow on a target; ranged pull/kite and threat tool. |
 | **Asphyxiate** | CC | — | Instant / ~45s @verify-ingame | Single-target stun; choice node vs **Death's Reach**. |
 | **Blinding Sleet** | CC | — | Instant / ~60s @verify-ingame | AoE disorient of nearby enemies; short cone/PBAoE crowd control. |
 | **Mind Freeze** | Interrupt | — | Instant / ~15s | The kick — interrupts spellcasting and locks the school briefly. |
 | **Dark Command** | Utility (taunt) | — | Instant / ~8s | Ranged taunt (forces target to attack you). |
-| **Dark Simulacrum** | Utility | — | Instant / ~20s @verify-ingame | Copies the next enemy spell cast on you and lets you cast it back. Niche PvP/utility. |
-| **Death Chain** | CC / Utility (PvP) | — | Instant / — | PvP talent (spell 203173): chains up to 3 enemies so damage is shared among them. |
+| **Dark Simulacrum** | Utility (**PvP talent**) | — | Instant / 20s `[T1]` | Copies the next enemy spell cast on you and lets you cast it back. It is a **PvP talent**, not a PvE-selectable one — it is unavailable in raid and Mythic+ entirely. |
+| **Death Chain** | CC / Utility (PvP) | — | Instant / **30s** `[T1]` | PvP talent (spell 203173): chains up to 3 enemies so damage is shared among them. |
 | **Bone Shield** | Passive (mitigation) | — | Passive | The stacking physical-mitigation buff built by Marrowrend/Death's Caress; also gates **Ossuary**, Haste, and free-DnD procs. Not a pressed button but the health of the rotation. |
 | **Blood Plague** | Passive (DoT/heal) | — | Passive | Disease applied by Blood Boil / Death's Caress; ticks damage and self-healing. Keep it up. |
 | **Crimson Scourge** | Passive (proc) | — | Passive | Free/instant next Death and Decay proc (from Blood Boil on a Blood-Plagued target). |

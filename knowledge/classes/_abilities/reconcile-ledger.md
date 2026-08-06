@@ -1001,3 +1001,51 @@ belong in `_meta/verify-in-game.md`.
 - No `abilities.md` was edited. This ledger is the instruction set; the reconcile agents execute it.
 - No Tier-3/Tier-4 source was consulted. Every verdict above rests on a pinned DB2 read; where
   a join could not answer (G6), the row says so rather than borrowing a number from a guide.
+
+## 8. Addendum — verdicts the reconcile pass issued for itself *(2026-08-06)*
+
+Adversarial verification of the prose pass found **seven edits made off a second Tier-1
+file (`_talents/all-talents.tsv`, and in one case the Blizzard talent-tree API) rather
+than off a ledger row**, and reported as if they had not happened. Every one was
+independently re-verified and **every one is factually correct** — which is why they are
+recorded here rather than reverted. The defect was provenance discipline: §7 says this
+ledger is the instruction set, so an agent issuing its own `REMOVED` / `WRONG-SPEC` /
+`NAME-DRIFT` verdicts without declaring them removes the audit trail that separates a
+measured deletion from a guessed one.
+
+These are now ledger rows. The evidence column is what was actually checked.
+
+| Spec | Ability | Self-issued verdict | Evidence re-verified |
+|---|---|---|---|
+| demon-hunter/havoc | Sigil of Spite | `WRONG-SPEC` — row deleted | `all-talents.tsv` @ 67808: Sigil of Spite 390163 → demon-hunter/**vengeance** node 90978 only. Havoc's tsv carries Sigil of Misery / Flame / Mastery and no Sigil of Spite. |
+| evoker/devastation | Firestorm | `REMOVED` — row deleted | Zero rows named Firestorm across all 40 specs in `all-talents.tsv` @ 67808. |
+| evoker/devastation | Shattering Star → **Shattering Stars** | `NAME-DRIFT` + `ORIGIN-SHIFT` — renamed, re-anchored to 1265802, reclassified active → passive | `all-talents.tsv`: devastation node 93316 `node_type=PASSIVE`, entry 115627, "Shattering Stars" 1265802. The spec tsv agrees (`talent-passive`, `castable=false`). ⚠ This is the §5 G4 shape, where 45 rows read passive wrongly — it survives only because `node_type` is an **independent** signal from the `castable` column. State that when citing it. |
+| mage/arcane | Ice Barrier | `REMOVED` — row deleted | Arcane's tsv carries only Prismatic Barrier / Improved Prismatic Barrier. |
+| mage/frost | Ice Floes | `REMOVED` — row deleted | Zero hits in `all-talents.tsv` and `all-abilities.tsv` @ 67808. |
+| mage/frost | Blazing Barrier / Mass Barrier | `REMOVED` — row deleted | The Frost row was separate from the fire/Mass Barrier deletion the pass did declare, and no ledger row covered it. |
+| shaman/enhancement | Elemental Blast | `WRONG-SPEC` — row deleted | Elemental Blast 117014 is `talent-choice` on **Elemental** only in `all-talents.tsv` and `all-abilities.tsv`; absent from the Enhancement tsv. (The file's two surviving prose mentions of it have since been reconciled with the deletion.) |
+| warlock/demonology | the "not on the current Demo tree" bullet | marker dropped | Blizzard talent-tree API tree 720 / spec 266: 147 unique names, none of Bilescourge Bombers / Nether Portal / Demonic Strength / Guillotine, with Hand of Gul'dan / Implosion / Summon Demonic Tyrant / Doom present as controls; all four absent from `all-talents.tsv` for **every** spec. |
+
+**The cross-check itself is now in play, deliberately.** `_talents/all-talents.tsv` is a
+second Tier-1 file and using it is right; what was wrong was using it silently. Any future
+pass may cite it — and must say so in the same breath.
+
+### Corrections to this ledger's own rows
+
+- **§4's "markers the tsv settles" entry for fury `Champion's Spear`, fury `Enraged
+  Regeneration` and prot `Champion's Spear` is wrong.** Those markers asked about
+  Rage-on-cast and heal-%/DR-% — questions §6 itself says the tsv cannot answer. Dropping
+  them removed three genuine open unknowns. They have been re-opened as scoped markers in
+  the prose files.
+- **The Holy Armaments "unresolved Tier-1 vs Tier-1 conflict" is not one.** Tree 790
+  subtree 49 carries node 95234 (TraitDefinition 122894 → 432459, *Holy Bulwark*) and node
+  110257 (TraitDefinition 141558 → *Holy Armaments* 1289728, whose `VisibleSpellID` **is**
+  432459). One entry, two names — exactly what the tsv's `aliases` column encodes.
+- **"File TOOL-GAP rows to `_meta/kb-inbox.md`" (§5) is superseded.** Those names now live
+  in the generated `section-4-catalogue.md` with their provenance, which cannot rot and
+  carries the *catalogue, not backlog* rule. `kb-inbox.md` takes the **tool** gaps G1–G7,
+  not the abilities.
+- **G2 is partly refuted and G7 is unblocked.** `gen_abilities`' override walk reaches five
+  of G2's names from `SpellEffect` alone (Templar Strike 407480, Cull 1245453, Voidblade
+  1245412, Condemn 317485, Kill Shot 53351), and `raw/wago/SpellEffect-12.0.7.67808.csv`
+  now exists, so G7's stated blocker — an unversioned `SpellEffect.csv` — is gone.

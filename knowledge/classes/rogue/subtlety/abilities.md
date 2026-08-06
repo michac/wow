@@ -1,9 +1,11 @@
 ---
 title: Subtlety Rogue — Ability Inventory (Midnight S1)
 patch: 12.0.7
-fetched: 2026-07-11
-reviewed: 2026-07-11
+fetched: 2026-08-06
+reviewed: 2026-08-06
 sources:
+  - knowledge/classes/rogue/subtlety/ability-inventory.tsv  # tier 1, generated from DB2 @ 12.0.7.67808 — name/spellID/origin/cooldown source of record
+  - knowledge/classes/_abilities/reconcile-ledger.md  # tier 1 derived, the 12.0.7.67808 adjudication behind this pass
   - simc midnight branch profiles/MID1/MID1_Rogue_Subtlety.simc  # tier 1 APL — action list + talent string, WoW 12.0.x
   - https://www.method.gg/guides/subtlety-rogue/playstyle-and-rotation  # tier 3, 12.0.7
   - https://www.icy-veins.com/wow/subtlety-rogue-pve-dps-rotation-cooldowns-abilities  # tier 3, 12.0.7 — ability numbers
@@ -32,15 +34,38 @@ applies *Deathstalker's Mark*, and consuming it grants **Darkest Night**
 which empowers the next **Eviscerate**). See `builds.md` / `rotation.md`.
 
 > **Midnight note:** the S1 core rotation drops several long-standing
-> Subtlety buttons. **Rupture** and **Symbols of Death** are **not** active
-> abilities in the S1 APL, and **Slice and Dice** appears only as a
+> Subtlety buttons. **Symbols of Death is gone outright** — Tier 1 no longer
+> attaches it to anything (see the note at the foot of this file). **Rupture** is
+> not an active ability in the S1 APL, and **Slice and Dice** appears only as a
 > maintained buff (kept up passively via Shadow Dance / talents, not spammed
 > as a cast). **Deepening Shadows** was reworked: it no longer grants Shadow
 > Dance cooldown reduction per combo point — it now extends Shadow Dance
-> **duration** scaling with Haste. @verify-ingame (confirm Rupture/SnD/Symbols
+> **duration** scaling with Haste. @verify-ingame (confirm Rupture/SnD
 > are truly off the bars and exact reworked numbers)
 
 ## Ability inventory
+
+> **Where the numbers live.** `ability-inventory.tsv` in this folder is the Tier-1
+> source of record for **name, spellID, origin and cooldown** (generated from DB2 @
+> `12.0.7.67808`). This table is the *judgement* layer — function, role, rotational
+> context — and does not re-transcribe columns that drift with every build.
+
+> **What the Tier-1 floor does and does not cover.** A **bold `[T1]`** cooldown
+> below was read straight out of `ability-inventory.tsv` (wago DB2 @ 12.0.7.67808).
+> A `~` value was **not**: it is a Tier-3 guide number that the tsv could not
+> settle, and it is kept on purpose. The tsv's `cooldown` column is
+> `SpellCooldowns` at DifficultyID 0 — `max(RecoveryTime, CategoryRecoveryTime)` —
+> which is the real cooldown for a normal button and is **wrong for a charge
+> ability**, where it returns the GCD (Fire Blast 0.5s, Purifying Brew 1s). The
+> recharge lives in `SpellCategory.ChargeRecoveryTime`, unreachable without
+> breaking the build pin (`_abilities/reconcile-ledger.md` §5 G6). **So "the tsv
+> wins" applies to the values it actually carries, not to every row** — 194 rows
+> across the 40 files read 0 or sub-10s there and keep their `~` prose instead.
+>
+> Names this file asserts that **no** acquisition row reaches are catalogued in
+> `../../_abilities/section-4-catalogue.md`; ones game data reaches indirectly are
+> in `section-3-corroborated.md`. ⚠ Neither is a backlog — an entry there is
+> researched when someone **asks**, never because it has sat there a while.
 
 | Ability | Function | Resource | Cast / CD | Description |
 |---|---|---|---|---|
@@ -48,26 +73,24 @@ which empowers the next **Eviscerate**). See `builds.md` / `rotation.md`.
 | **Backstab** | Rotational-builder | 35 Energy | instant | Non-stealth single-target builder; bonus damage/crit from behind. Replaced by **Gloomblade** if talented. |
 | **Gloomblade** | Rotational-builder | 35 Energy | instant | Talent replacement for Backstab — pure Shadow damage, no positional requirement, builds combo points. |
 | **Shuriken Storm** | Rotational-builder | 35 Energy | instant | AoE builder; hits all nearby enemies and builds a combo point per target. Empowered during Stealth/Shadow Dance (Silent Storm / Improved Shuriken Storm). Primary 2+ target builder. |
-| **Goremaw's Bite** | Rotational-builder / cooldown | ~45 Energy | ~45s CD (charges) | Talent active; a big shadow bite that generates a burst of combo points (and energy). Woven in on cooldown when combo-point deficit allows. @verify-ingame (exact cost/CD/CP) |
+| **Goremaw's Bite** | Rotational-builder / cooldown | ~45 Energy | Instant / **45s** | **Tier-1 origin: `talent-active`** (spell 426591, spec tree), cooldown **45s** — the file's earlier "~45s" was right. A big shadow bite that generates a burst of combo points (and energy). Woven in on cooldown when combo-point deficit allows. |
 | **Shuriken Toss** | Rotational-builder (ranged) | 40 Energy | instant, 30 yd | Ranged combo-point builder for when melee range isn't possible. |
 | **Eviscerate** | Rotational-spender | 35 Energy | instant | Baseline single-target finisher; spends combo points for Shadow damage. Empowered by **Darkest Night** (Deathstalker) — the priority finisher while that buff is up. |
 | **Secret Technique** | Rotational-spender / cooldown | 30 Energy | ~45s CD | Combo-point finisher summoning shadow clones for a large burst; short, Haste-reduced cooldown. Highest-priority finisher inside Shadow Dance. |
 | **Coup de Grace** | Rotational-spender | (finisher) | — | Trickster capstone finisher — after building Unseen Blade / Flawless Form stacks it delivers a large empowered strike. Prioritized over Eviscerate when up. |
 | **Black Powder** | Rotational-spender (AoE) | 35 Energy | instant | AoE finisher; Shadow damage to all nearby enemies and applies Find Weakness in AoE. Used on 3+ targets. |
-| **Shadow Dance** | Major cooldown | — | recharge, 2 charges | Grants a Stealth-like window (~6s, extended by Haste via Deepening Shadows) enabling Shadowstrike/Find Weakness and buffing shadow abilities. **The core damage window** — Double Dance gives 2 charges. @verify-ingame (exact recharge) |
+| **Shadow Dance** | Major cooldown | — | see tsv (charges) | **Tier-1 origin: `class-baseline`** (spell 185313, `SpecializationSpells` → Subtlety) — it is *not* a talent, though Double Dance adds the second charge. Grants a Stealth-like window (extended by Haste via Deepening Shadows) enabling Shadowstrike/Find Weakness and buffing shadow abilities. **The core damage window.** Read the cooldown from `ability-inventory.tsv` and not from here: that column is `max(RecoveryTime, CategoryRecoveryTime)`, which for a charge ability is not the recharge. |
 | **Shadow Blades** | Major cooldown | — | ~90s CD | Empowers autoattacks/abilities with Shadow damage and boosts combo-point generation for its duration. Lined up with Shadow Dance windows. |
-| **Symbols of Death** | (legacy) | — | — | Historically a 1-min damage cooldown; **not present in the S1 APL** — appears removed/reworked in Midnight for Subtlety. @verify-ingame |
 | **Vanish** | Major cooldown / Utility | — | ~2 min CD (charges) | Re-enters Stealth mid-combat (drops threat), re-enabling Shadowstrike and stealth openers; also an aggro/threat drop. |
 | **Stealth** | Utility (opener) | — | out of combat | Enter stealth before a pull to open with Shadowstrike + full Find Weakness. |
 | **Kick** | Interrupt | — | 15s CD | Melee interrupt — kicks a spellcast and briefly locks that school. |
-| **Kidney Shot** | CC (finisher) | 25 Energy | 20s CD | Combo-point finisher stun; duration scales with combo points spent. |
+| **Kidney Shot** | CC (finisher) | 25 Energy | **30s** `[T1]` | Combo-point finisher stun; duration scales with combo points spent. |
 | **Cheap Shot** | CC (opener) | 40 Energy | — | Stealth/Shadow Dance-only opener stun (~4s); builds a combo point. |
-| **Gouge** | CC | 25 Energy | 15s CD | Frontal incapacitate (~4s), breaks on damage. Choice node with Airborne Irritant. |
+| **Gouge** | CC | 25 Energy | **25s** `[T1]` | Frontal incapacitate (~4s), breaks on damage. Choice node with Airborne Irritant. |
 | **Blind** | CC | — | ~2 min CD | Disorients the target for up to 1 min (breaks on damage). |
 | **Sap** | CC (opener) | — | — | Stealth-only; incapacitates a non-combat target long-term. |
 | **Shadowstep** | Movement | — | ~30s CD (charges) | Teleports behind the target and boosts movement speed briefly — gap-closer + repositioner. |
-| **Sprint** | Movement | — | ~2 min CD | Large short-duration movement-speed boost. @verify-ingame (CD) |
-| **Grappling Hook** | Movement | — | ~1 min CD | Pull-to-location mobility (baseline Rogue). @verify-ingame (spec access) |
+| **Sprint** | Movement | — | Instant / **120s** | **Tier-1 origin: `class-baseline`** (spell 2983, `SkillLineAbility` 921), cooldown **120s**. Large short-duration movement-speed boost. |
 | **Evasion** | Defensive | — | ~2 min CD | +Dodge vs melee/ranged for ~10s. |
 | **Feint** | Defensive | 35 Energy | 15s CD | Reduces AoE damage taken for ~6s — the main scheduled raid-damage mitigation. |
 | **Cloak of Shadows** | Defensive / Dispel | — | ~2 min CD | Brief immunity to magic damage/effects and removes existing magic debuffs (self-dispel). |
@@ -78,9 +101,32 @@ which empowers the next **Eviscerate**). See `builds.md` / `rotation.md`.
 | **Tricks of the Trade** | Utility | — | 30s CD | Redirects your threat to an ally for a few seconds (choice node with Blackjack). |
 | **Distract** | Utility | — | 30s CD | Draws mob attention to a spot — pull/pathing tool. |
 | **Shroud of Concealment** | Utility (raid) | — | ~6 min CD | Group stealth — sneaks the party/raid past trash. |
-| **Poisons** | Utility (prep) | — | out of combat | Applied pre-combat: a **lethal** poison (Instant/Wound) plus a **nonlethal** utility poison (Crippling/Numbing/Atrophic). Passive damage/utility once applied. |
+| **Deadly Poison** | Weapon imbue (lethal) — `class-baseline` | — | Cast out of combat | Stacking lethal imbue; the default damage pick. |
+| **Instant Poison** | Weapon imbue (lethal) — `class-baseline` | — | Cast out of combat | Non-stacking direct-damage lethal imbue. |
+| **Wound Poison** | Weapon imbue (lethal) — `class-baseline` | — | Cast out of combat | Lethal imbue that reduces target healing; mostly PvP/utility. |
+| **Crippling Poison** | Weapon imbue (non-lethal) — `class-baseline` | — | Cast out of combat | Non-lethal slow — the kiting pick. |
+| **Numbing Poison** | Weapon imbue (non-lethal) — `talent-choice` | — | Cast out of combat | Non-lethal; reduces target attack/cast speed. Choice node with Atrophic Poison. |
+| **Atrophic Poison** | Weapon imbue (non-lethal) — `talent-choice` | — | Cast out of combat | Non-lethal; reduces target damage dealt. Choice node with Numbing Poison. |
 | **Find Weakness** | Passive | — | — | Applied by Shadowstrike/openers — grants a window of increased damage (armor-ignoring); a core part of Shadow Dance value. |
 | **Deathstalker's Mark** | Passive (Deathstalker) | — | — | Applied by Shadowstrike; stacking mark whose consumption grants **Darkest Night** to empower the next Eviscerate. |
 | **Darkest Night** | Passive (Deathstalker) | — | — | Buff from consuming Deathstalker's Mark — makes the next Eviscerate the top-priority, empowered finisher. |
 | **Unseen Blade** | Passive (Trickster) | — | — | Randomly strikes for extra damage and applies **Fazed** (+damage-taken, can't be parried); builds toward **Coup de Grace** via Flawless Form stacks. |
 | **Ancient Arts** | Passive (apex) | — | — | Apex talent — spending Shadow Techniques stacks triggers shadow-clone strikes / combo-point refunds; gates a few opener lines in the APL. |
+
+> **`Poisons` is not a spell.** There is no ability of that name at 12.0.7.67808 — the
+> single catch-all row this file used to carry has been split into the six concrete
+> imbues above, each with its own Tier-1 origin. *[Tier 1: `ability-inventory.tsv`,
+> DB2 @ 12.0.7.67808.]*
+
+**Not acquirable at 12.0.7:** **Symbols of Death** — none of 212283 / 227151 / 247895 /
+319063 / 328077 attaches to a trait node, `SkillLineAbility`, `SpecializationSpells` or
+`PvpTalent`, and there is no Symbols of Death node on the live Rogue tree (852). This
+file's earlier hedge ("appears removed/reworked in Midnight") is now settled: it is gone,
+not merely off the APL. Do not restore the row.
+*[Tier 1: DB2 @ 12.0.7.67808, via `_abilities/reconcile-ledger.md`.]*
+
+**Not on the Midnight Subtlety tree:** **Grappling Hook** (195457) is
+`SpecializationSpells` → **Rogue / Outlaw** and belongs in that spec's file. It is
+**absent from `PvpTalent` entirely**, so any "PvP talent" framing of it is wrong twice
+over. Subtlety's mobility is Shadowstep and Sprint.
+*[Tier 1: DB2 @ 12.0.7.67808, via `_abilities/reconcile-ledger.md`.]*

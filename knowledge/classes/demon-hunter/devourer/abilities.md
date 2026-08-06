@@ -1,9 +1,11 @@
 ---
 title: Demon Hunter Devourer — Abilities (Midnight S1)
 patch: 12.0.7
-fetched: 2026-07-11
-reviewed: 2026-07-11
+fetched: 2026-08-06
+reviewed: 2026-08-06
 sources:
+  - knowledge/classes/demon-hunter/devourer/ability-inventory.tsv  # tier 1, DB2 @ 12.0.7.67808 — names, spellIDs, origin, cooldowns
+  - knowledge/classes/_abilities/reconcile-ledger.md  # tier 1 derived, the verdicts applied 2026-08-06
   - https://www.method.gg/guides/devourer-demon-hunter/playstyle-and-rotation  # tier 3, upd. 2026-06-17, 2026-07-11
   - https://www.icy-veins.com/wow/devourer-demon-hunter-pve-dps-rotation-cooldowns-abilities  # tier 3, 12.0.7, 2026-07-11
   - https://conquestcapped.com/guides/wow/devourer-demon-hunter-overview/  # tier 4 corroboration, 2026-07-11
@@ -38,18 +40,49 @@ damage outside Meta) and **Void-Scarred** (Void Metamorphosis-centric; a
 single-target-competitive caster variant and a melee-hybrid variant using The
 Hunt / Hungering Slash). See `builds.md`.
 
-> ⚠ Brand-new spec with no Warcraft Logs history distilled yet; several exact
-> numbers (charges, cooldowns, Fury/Soul values) come from Tier-3 guides and are
-> marked `@verify-ingame`. Names are canonicalized against Tier-1 game data
-> (`SpellName.csv` / the talent tree in `talents.md`).
+> ⚠ Brand-new spec with no Warcraft Logs history distilled yet. Charge counts,
+> Fury/Soul yields, effect magnitudes and the cooldowns of the *transform-form*
+> buttons still come from Tier-3 guides and stay marked `@verify-ingame` — Tier 1
+> has no column for any of them.
+>
+> **Where the numbers come from.** `ability-inventory.tsv` in this folder is the
+> Tier-1 record for **name, spellID, origin and cooldown** (DB2 @ 12.0.7.67808) —
+> read it rather than trusting a number restated here. A `[T1]` stamp marks a
+> value taken from it.
+>
+> **One Devourer-specific caveat.** The transform-form buttons — **Cull**,
+> **Devour**, **Pierce the Veil** — are runtime *overrides* of Reap / Consume /
+> Voidblade. They exist in `SpellName` but attach to no acquisition table, so
+> they appear in **no** generated inventory and the tsv cannot confirm them. That
+> is a hole in the generator, not evidence they are gone; their parents are all
+> live. Same for the passive **Demonic Wards**, which the generator drops because
+> it drops passive `SpecializationSpells` rows.
+> *[Tier 1: reconcile-ledger.md §4 + §5 G1/G2 @ 12.0.7.67808.]*
 
 ## Ability inventory
+
+> **What the Tier-1 floor does and does not cover.** A **bold `[T1]`** cooldown
+> below was read straight out of `ability-inventory.tsv` (wago DB2 @ 12.0.7.67808).
+> A `~` value was **not**: it is a Tier-3 guide number that the tsv could not
+> settle, and it is kept on purpose. The tsv's `cooldown` column is
+> `SpellCooldowns` at DifficultyID 0 — `max(RecoveryTime, CategoryRecoveryTime)` —
+> which is the real cooldown for a normal button and is **wrong for a charge
+> ability**, where it returns the GCD (Fire Blast 0.5s, Purifying Brew 1s). The
+> recharge lives in `SpellCategory.ChargeRecoveryTime`, unreachable without
+> breaking the build pin (`_abilities/reconcile-ledger.md` §5 G6). **So "the tsv
+> wins" applies to the values it actually carries, not to every row** — 194 rows
+> across the 40 files read 0 or sub-10s there and keep their `~` prose instead.
+>
+> Names this file asserts that **no** acquisition row reaches are catalogued in
+> `../../_abilities/section-4-catalogue.md`; ones game data reaches indirectly are
+> in `section-3-corroborated.md`. ⚠ Neither is a backlog — an entry there is
+> researched when someone **asks**, never because it has sat there a while.
 
 | Ability | Function | Resource | Cast / CD | Description |
 |---|---|---|---|---|
 | **Consume** | Rotational-builder | Generates Fury + 1 Soul (+4 Fury/Soul) | ~2s cast, castable while moving | Primary filler outside transform. Becomes **Devour** inside Void Metamorphosis (collectible while moving). @verify-ingame exact Fury/Soul yield |
 | **Void Ray** | Rotational-spender | 100 Fury (free inside Meta) | 3s channel (haste-reduced), roots you | The main spender and a huge chunk of Devourer's damage + Soul generation. Outside Meta: no CD, costs 100 Fury. Inside Meta: no Fury cost but ~16s CD (14s talented). Fully channeling it resets **Reap** and can turn Reap into **Eradicate**. @verify-ingame CD inside Meta |
-| **Reap** | Rotational-builder | Pulls up to 4 Souls; generates Fury (*Scythe's Embrace*) | Instant, 8s CD | Instant ranged Cosmic damage; collects up to 4 Soul Fragments. CD resets on a full Void Ray channel. Becomes **Cull** inside Void Metamorphosis. *Eradicate* talent makes it an AoE frontal cone (primary AoE tool). |
+| **Reap** | Rotational-builder | Pulls up to 4 Souls; generates Fury (*Scythe's Embrace*) | Instant, 8s CD | Instant ranged Cosmic damage; collects up to 4 Soul Fragments. CD resets on a full Void Ray channel. Becomes **Cull** inside Void Metamorphosis. *Eradicate* talent makes it an AoE frontal cone (primary AoE tool). **Class-baseline `[T1]`** — it is granted with the spec, not talented, so it is a fixed part of every Devourer build. |
 | **Soul Immolation** | Rotational-builder / maintenance | Generates 3 Souls + 30 Fury over 5s | ~1 min CD | On-demand Soul/Fury bump aura; also has a heal/dispel use. Maintain it (kept up outside Meta; refreshed as a resource pump). @verify-ingame CD/values |
 | **Void Metamorphosis** | Major cooldown | Requires 50 Souls (35 w/ *Soul Glutton*); Fury drains while active | Fragment-gated (no fixed timer) | The defining transform and burst window. Consumes banked Souls to activate, sharply raises damage, unlocks **Collapsing Star**, and upgrades core abilities (Reap→Cull, Consume→Devour, Voidblade→Pierce the Veil). Fury drains rapidly until it ends. |
 | **Collapsing Star** | Rotational-spender (Meta only) | 30 Souls | Meta-only | Massive Cosmic-damage Soul spender available only inside Void Metamorphosis; **always crits** (via the *Midnight* capstone) and each cast within the window hits harder. The core in-Meta payoff button. |
@@ -61,18 +94,18 @@ Hunt / Hungering Slash). See `builds.md`.
 | **Hungering Slash** | Rotational-builder (talent) | Generates Fury; shatters up to 2 Soul Fragments | Talent | Converts Voidblade/The Hunt into melee slashes; core of the Void-Scarred melee hybrid. |
 | **Pierce the Veil** | Rotational-spender (Void-Scarred, Meta) | — | Meta-only | Void-Scarred's empowered Voidblade; first cast per window triggers **Voidsurge**. @verify-ingame |
 | **The Hunt** | Major cooldown / Movement | — | 90s CD | Class charge that dashes to a target and applies a DoT; opener + burst tool, heavier in Void-Scarred melee builds. |
-| **Void Nova** | CC | — | 45s CD, 30 yd, AoE | Midnight-new class talent (spell 1234195): stuns your target and nearby enemies for 3s. @verify-ingame |
+| **Void Nova** | CC (talent) | — | 45s `[T1]`, 30 yd, AoE | Midnight-new class talent. Stuns your target and nearby enemies (~3s per Tier-3 guides). At 45s it is the shortest hard CC in the kit and the one to spend freely on M+ trash packs. |
 | **Disrupt** | Interrupt | — | 15s CD, 30 yd | Baseline ranged interrupt. |
-| **Consume Magic** | Dispel / Utility | — | class talent | Offensive dispel — removes a beneficial magic effect from an enemy (and can generate resources per DH design). |
-| **Imprison** | CC | — | class talent | Incapacitate a target (demon/beast/humanoid/dragonkin) — long-duration crowd control. |
+| **Consume Magic** | Dispel / Utility | — | class talent / **10s** `[T1]` | Offensive dispel — removes a beneficial magic effect from an enemy (and can generate resources per DH design). |
+| **Imprison** | CC | — | class talent / **45s** `[T1]` | Incapacitate a target (demon/beast/humanoid/dragonkin) — long-duration crowd control. |
 | **Sigil of Misery** | CC | — | class talent | Places a sigil that disorients/fears enemies in the area after a short delay. |
 | **Torment** | Utility (taunt) | — | — | Single-target taunt (DH baseline) — off-tank/soak utility for DPS. |
-| **Spectral Sight** | Utility | — | — | Reveals hidden/stealthed enemies; see through walls briefly (DH baseline). |
+| **Spectral Sight** | Utility | — | **30s** `[T1]` | Reveals hidden/stealthed enemies; see through walls briefly (DH baseline). |
 | **Throw Glaive** | Utility / ranged | — | short CD/charges | Ranged thrown glaive — minor damage + range/utility (e.g. bouncing with *Bouncing Glaives*). |
 | **Vengeful Retreat** | Movement / Defensive | — | ~25s CD | Backward evasive leap; primarily a safety reposition, buffed by *Voidstep* in melee builds. |
 | **Shift** | Movement | — | 20s CD, 30 yd (to cursor) | **Midnight-new Devourer movement** — near-instant teleport toward your cursor within 30 yd (Devourer's replacement for Fel Rush). Baseline 1 charge; some guides cite up to 3 charges via talents. @verify-ingame charge count |
-| **Blur** | Defensive | — | 1 min CD, 10s | 25% damage reduction + dodge; a second charge is available via talent. Core personal defensive. |
-| **Darkness** | Defensive (raid/group) | — | class talent | Places a zone granting allies a chance to avoid incoming damage; proc-based value (stronger vs repeated damage events). |
+| **Blur** | Defensive | — | ~1 min CD, 10s | 25% damage reduction + dodge; a second charge is available via talent. Core personal defensive. **Class-baseline `[T1]`, not a talent** — every Devourer has it regardless of tree. (The tsv's cooldown column reads the GCD for this one, so the ~1 min figure stays Tier-3 until charge recharge can be pulled — see reconcile-ledger §5 G6.) |
+| **Darkness** | Defensive (raid/group) | — | class talent / **300s** `[T1]` | Places a zone granting allies a chance to avoid incoming damage; proc-based value (stronger vs repeated damage events). |
 | **Soul Rending** | Passive (defensive) | — | passive | Leech/self-healing, boosted while transformed and when consuming Souls. |
 | **Demonic Wards** | Passive (defensive) | — | passive | Always-on magic damage reduction (Devourer's baseline mitigation). |
 | **Feast of Souls** | Passive (offensive) | — | passive | Soul Fragments increase your damage done — part of why banking Souls matters. |
