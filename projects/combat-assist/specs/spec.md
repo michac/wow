@@ -463,6 +463,10 @@ then the surfaces that reuse it.
 | M0 | Scaffold — repo, `.toc`, `/cap` router, registered in `wowkb.addon` | ✅ 2026-08-05 |
 | M1 | Spec §1–§5 written | ✅ 2026-08-05 |
 | M2 | Foundation — bind to the CDM, the movable frame, nothing visible but status | ⚠ code-complete, **not flown** |
+| M2a | Lab the four client claims M2 rests on, and fly the lab | — |
+| M2b | Strip cap's diagnostic surface — client behaviour is a lab question | — |
+| M2c | The standard capture log (`ns.Capture` → `wowkb.capture cap`) | — |
+| M2d | Fly cap and read the log — M2's real acceptance | — |
 | MC | §3.5 the catalog format, and Demonology's | ✅ 2026-08-05 |
 | M3 | §3.1 the tier signal + §3.2 procs, on the Demonology catalog | — |
 | M4 | §3.4 smart cooldowns — bars, then the tier signal applied to them | — |

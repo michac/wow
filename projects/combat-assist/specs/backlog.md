@@ -18,33 +18,94 @@ the scaffold** — the game folder holds `.toc` + `Core.lua` only. `Bind.lua` an
 `Frame.lua` are working-tree-only, and `ghaddons` installs from the latest *release*.
 Code-complete is not done.
 
-- [ ] **Cut a release and fly M2.** Ask first — this project has no auto-deploy
-      exception. `wowkb.addon release cap --minor` (the tree is dirty; commit the
-      feature work first — `release` refuses a dirty tree), `/reload`, then work the
-      acceptance list below. Everything in `Next` is built on unflown code.
-- [ ] M2 acceptance, out of combat: `/cap status` shows `cdm: bound` with a plausible
-      per-viewer row split; `/cap bind rows` shows sane id unions; a two-cooldownID
-      ability appears as **two** rows. ⚠ `PARTIAL` out of combat means
-      `item:GetCooldownID()` is unreadable somewhere we assumed it wasn't — that's a
-      KB finding, not just a bug.
-- [ ] M2 acceptance, combat + swaps: entering combat queues the rebind and the row
-      count stays **stable and non-decreasing**; a hero-tree swap then a spec swap
-      each cause exactly one rebind with no warning printed; the CDM turned off prints
-      exactly one message, then silence — including across a spec change.
-- [ ] M2 acceptance, frame: `/cap move` → drag → `/cap move` → `/reload` and confirm
-      it stayed. Locked+empty must not eat mouse input. `/framestack` must report
-      `IsProtected() = false` — if it doesn't, the non-secure argument needs revisiting.
-      ⚠ The one `--@unverified` path: park it against a screen edge, change UI Scale,
-      confirm it's still fully on screen.
-- [ ] **STOP: ask** — the catalog's "not on the Demonology spec" silences (Demonic
-      Strength, Bilescourge Bombers, Guillotine) rest on
-      `knowledge/classes/warlock/demonology/abilities.md:89-91`, which still carries an
-      open **`@verify-ingame`** marker. Two sources agree and the DB2 talent table backs
-      it, but the marker is unresolved and the rule is that a marked claim you build on
-      is a stop. Resolve it in game → edit the claim + drop the marker + `wowkb.gen_verify`.
-- [ ] `hidden` vs `empty` CDM health may not discriminate — unsettled from source
-      whether `GetItemFrames()` on a hidden viewer still returns children. Cosmetic;
-      confirm or collapse the two verdicts.
+**The four milestones below run in order and gate M2.** They exist because the first
+build put a lab inside the product: cap grew slash-command dumps that print to chat,
+and chat has no copy/paste, so the one output that has to reach the analysis machine
+was the one that could not leave the client (house rule 4). The correction is a
+separation — **client behaviour is a ClientLab question; cap's own state is a capture
+log** — and cap ends up needing almost no diagnostics of its own.
+
+### M2a — Lab the four client questions, and fly the lab
+
+Four claims cap's M2 code rests on are **inferences, not measurements**. None of them
+is a cap question; all four are `knowledge/addon-dev/` questions, which is what
+ClientLab is for. Process is `projects/addon-lab/docs/lab-process.md`: mark the claim
+→ write the test → `@pending-test: <id>` → fly → `wowkb.lab drain` → `[client <date>]`.
+
+- [ ] **`item.cooldownID` — can it read secret, and when?** `cooldown-manager.md:740`
+      is the load-bearing claim for the whole binding, and it is the **only untagged
+      row in a §7 Tier 2 table where every neighbour carries `[client]`**. cap's
+      merge-don't-replace design exists to honour it, so it should be measured rather
+      than inherited. Mark `:740` `@pending-test` and write the test.
+- [ ] **Does `GetItemFrames()` on a HIDDEN viewer return children?** `GetLayoutChildren`
+      filters on each child's own `IsShown()`, which is local rather than `IsVisible()`,
+      so it is unsettled from source. This decides whether cap's `hidden` and `empty`
+      health verdicts can discriminate at all, or should collapse to one.
+- [ ] **Is an ordinary addon frame parented to UIParent `IsProtected() == false`?**
+      UIParent is itself `protected="true"`
+      (`Blizzard_UIParent/Mainline/UIParent.xml:4`) and protection propagates to parents
+      and anchor targets — the resolution is that propagation is upward, but the KB
+      never states the premise. The frame's whole non-secure argument rests on this.
+- [ ] **Does re-anchoring re-clamp after a UI-scale change?** `Frame.lua`'s one
+      `--@unverified` path assumes `UI_SCALE_CHANGED` → re-`SetPoint` pulls an
+      edge-parked frame back on screen. Never observed; the KB does not say.
+- [ ] **Fly the lab** and drain all four into `knowledge/addon-dev/`. ⚠ Also resolve
+      `knowledge/classes/warlock/demonology/abilities.md:89-91` while logged in — the
+      open `@verify-ingame` on "Demonic Strength / Bilescourge Bombers / Guillotine are
+      not on the Midnight Demo tree", which the catalog's silences build on. Edit the
+      claim, drop the marker, `wowkb.gen_verify`.
+
+### M2b — Strip cap's diagnostic surface
+
+- [ ] Remove the remaining diagnostic code from `Bind.lua` and `Frame.lua` — the dense
+      `ns.RegisterStatus` reporters and the helpers that exist only to render them
+      (`specLabel`, `breakdown`, `ago`, Frame's status line). `/cap bind` and its chat
+      dumps are already gone. What survives is the read API (`ns.Bind.*`,
+      `ns.Frame.*`), which is M3's input and not a diagnostic.
+- [ ] Decide `/cap status`'s fate and **write it into `spec.md` §2**, which currently
+      lists "checking status" as a permitted setup affordance. Either it keeps a plain
+      one-line "loaded, spec, on/off" and all diagnostics move to the log, or it goes
+      entirely. Don't leave the spec saying one thing and the code another.
+- [ ] `/cap move` stays — a placement affordance required by §3.4, not a diagnostic.
+
+### M2c — Give cap the standard capture log
+
+The contract is `.claude/skills/wow-developer/references/capture-and-dump-standard.md`.
+cap has **none of it today**: no `ns.Capture`, no `ns.Dumps`, no `captures` key.
+
+- [ ] `Capture.lua` — `ns.Capture.Open(name, {sessions, cap, dedup})`, writing
+      `CombatAssistPlusDB.captures.<stream>`. `sessions` and `cap` are **required**;
+      nothing is unbounded. `:Line` for a greppable trace, `:Row` for a grader,
+      `:Mark` for an edge.
+- [ ] **Register `cap` in `wowkb.capture`'s `ADDONS` map** (`tools/wowkb/capture.py`) —
+      it is currently `bb / cdmp / clab / ps` only, so `wowkb.capture cap <stream>`
+      fails today. Without this the log cannot be read and the milestone is a no-op.
+- [ ] Emit the binding state **on load and on every change of answer** — everything
+      `/cap status` would have printed: rows resolved, per-viewer split, spec + hero
+      tree, complete vs PARTIAL, unreadable/stale counts, generation, CDM health kind,
+      the reason that triggered the pass. This replaces the slash command rather than
+      supplementing it.
+- [ ] ⚠ **Pre-rendered lines are a one-way door.** Anything a reader might later slice
+      by — combat state, spec, hero tree, whether the pass was complete — must be a
+      `:Mark` **now**. No extractor change can add it to a capture already on disk, and
+      that exact omission cost the HUD a re-fly.
+- [ ] ⚠ No game value reaches a line except through `Capture.Safe()`, which returns a
+      readability class and never a raw secret. No `|cff` colour escapes inside a line.
+
+### M2d — Fly cap and read the log
+
+- [ ] Cut a release (**ask first** — no auto-deploy exception here) and `/reload`.
+- [ ] Play normally: a pull, combat entry and exit, a hero-tree swap, a spec swap, and
+      the Cooldown Manager toggled off and back on. **No typing mid-pull** — the log
+      records it.
+- [ ] `/reload` (SavedVariables only flush then), and read it:
+      `uv run python -m wowkb.capture cap <stream>`.
+- [ ] Judge against the things M2 was built to guarantee: the row count is **stable and
+      non-decreasing across combat entry**; a swap produces exactly one rebind; the CDM
+      going away leaves rows **retained and stale**, never dropped; missing-CDM states
+      announce **once** per transition. ⚠ A `PARTIAL` out of combat is a **KB finding**
+      (see M2a's first item), not merely a bug.
+- [ ] Frame: drag, `/reload`, confirm it stayed; locked+empty must not eat mouse input.
 
 ## Next
 
