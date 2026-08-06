@@ -117,8 +117,15 @@ buttons below, which are runtime replacement casts with no acquisition row of th
   an `EffectAura 332` row on `Templar Strikes` 406648. `Templar Slash` and `Hammer of Light`
   remain in `../../_abilities/section-4-catalogue.md`. ⚠ That catalogue is not a backlog and
   these are not scheduled. The rest of this note stands on
-  purpose: both are sequential/override replacement buttons that DB2 exposes no acquisition
-  row for (Hammer of Light 1246643 appears only in Retribution's `CooldownSetSpell` set
-  637), so their numbers cannot be settled from game data and stay marked for in-game
-  confirmation. The talents that grant them — **Templar Strikes**, and Wake of Ashes for
+  purpose: both are sequential/override replacement buttons with no **acquisition** row for
+  this spec. ⚠ That is not the same as "absent from game data" — `Hammer of Light` has eight
+  `SpellName` entries at 12.0.7.67808, is reached from **Light's Guidance 427445** via
+  `SpellEffect.EffectTriggerSpell`, and **Protection Paladin already carries it** as
+  `Hammer of Light 1246643 cdm-only`, because `CooldownSetSpell` set 637 belongs to
+  ChrSpecialization **66 (Protection)** — an earlier version of this note said set 637 was
+  Retribution's, which is wrong. Templar is shared between Protection and Retribution, so the
+  real open question is narrow and checkable: **why does the mining place it for one spec and
+  not the other?** The talents that grant them — **Templar Strikes**, and Wake of Ashes for
   Hammer of Light — are live on tree **790**.
+  *[Tier 1: DB2 @ 12.0.7.67808 — SpellName, SpellEffect, CooldownSet/CooldownSetSpell,
+  ChrSpecialization.]*

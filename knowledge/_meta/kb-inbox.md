@@ -299,7 +299,13 @@ already recorded. What belongs here is the **tool** gap, not the ability.
   press" — decide what `castable=false` rows are *for* before widening, because
   BucketBinds reads this file. (Leg B already closed Restless Blades into section 3 off a
   live `/data/wow/spell/79096`, so the symptom is partly masked; the gap is not.)
-- **G2 — runtime override / proc-replacement buttons have no acquisition row.** 13 TOOL-GAP
+- **G2 — runtime override / proc-replacement buttons have no acquisition row.** ⚠ Read that
+  literally: they are in `SpellName` (Wowhead/WoWDB find them) and several are reachable
+  through `SpellEffect`. What is missing is a row saying a **spec learns** them. Hammer of
+  Light is the worked case — eight `SpellName` entries, reached from Light's Guidance 427445,
+  and **Protection already carries it** (`cdm-only` 1246643, `CooldownSetSpell` set 637 =
+  spec 66); only **Retribution** lacks an acquisition row, on a hero tree they share. **First
+  move on any of these: check a sibling spec of the same class.** 13 TOOL-GAP
   verdicts. **Partly refuted 2026-08-06**: `gen_abilities`' override walk (leg A) reaches
   five of them from `SpellEffect` alone — Templar Strike 407480, Cull 1245453, Voidblade
   1245412, Condemn 317485, Kill Shot 53351. The rest (Annihilation, Death Sweep, Reaver's

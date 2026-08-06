@@ -73,7 +73,6 @@ Paladin	Protection	Judgments of the Pure	355867	trigger-effect	reached from Divi
 Paladin	Protection	Light's Decree	395605	trigger-effect	reached from Avenging Wrath 231895 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
 Paladin	Protection	Reign of Ancient Kings	337852	trigger-effect	reached from Guardian of Ancient Kings 337851 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
 Paladin	Retribution	Blessed Hammers	404140	trigger-effect	reached from Templar Strikes 408275 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Paladin	Retribution	Hammer of Light		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; spell endpoint returned no 200 — not evidence of absence
 Paladin	Retribution	Hammer of Light	427441	trigger-effect	reached from Light's Guidance 427445 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
 Paladin	Retribution	Judgments of the Pure	355867	trigger-effect	reached from Divine Reach 469476 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
 Paladin	Retribution	Light's Decree	395605	trigger-effect	reached from Avenging Wrath 231895 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808

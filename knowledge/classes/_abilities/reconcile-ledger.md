@@ -614,7 +614,7 @@ records what was measured rather than what was expected:
 | Ability (line) | Verdict | Evidence @ 12.0.7.67808 |
 |---|---|---|
 | `Templar Strike / Templar Slash` (L46) ⟨marked⟩ | **TOOL-GAP** | The acquiring talent **`Templar Strikes`** is on live tree 790. Templar Strike 1260091 is a Midnight-range ID; neither Strike nor Slash has an acquisition row because both are sequential replacement buttons. Keep the marker. |
-| `Hammer of Light` (L53) | **TOOL-GAP** | 1246643 is in **CooldownSetSpell set 637** (Retribution's) yet on no acquisition table — the signature of a runtime override button. Named in the generator README's known-gap list. Keep the marker. |
+| `Hammer of Light` (L53) | **TOOL-GAP** *(for Retribution only — see the correction below)* | 1246643 is in **CooldownSetSpell set 637**, which belongs to **ChrSpecialization 66, PROTECTION** — not Retribution, as this row originally said. The generator places it: Protection's inventory carries `Hammer of Light 1246643 cdm-only`. Retribution is the spec with no acquisition row, on a hero tree (Templar) the two share. |
 | `Concentration Aura` (L81) | **REMOVED** | Same measurement. Delete the row. |
 
 **Markers the tsv settles** (1) — drop the marker, write the Tier-1 cooldown
@@ -931,9 +931,18 @@ Already declared in `_abilities/README.md`; this pass measured its extent. **13 
 verdicts** are of this shape: Annihilation, Death Sweep, Reaver's Glaive (×2 specs), Abyssal
 Gaze, Consuming Fire, Cull, Devour, Pierce the Veil, Half Moon, Full Moon, Templar
 Strike/Slash, Hammer of Light, Void Shield, Void Volley, Mind Flay: Insanity, Heroic Strike,
-Crushing Blow, Lunar Eclipse. Only **one** of them (`Hammer of Light` 1246643, CooldownSet
-637) leaves any DB2 trace at all. Closing these needs an in-game spellbook enumeration
-(ClientLab), not another DB2 join.
+Crushing Blow, Lunar Eclipse.
+
+⚠ **"Leaves no DB2 trace" was too strong and this paragraph originally said it.** These
+names are in `SpellName` — that is how Wowhead and WoWDB find them — and several are
+reachable through `SpellEffect`. `Hammer of Light` has **eight** `SpellName` entries, is
+reached from **Light's Guidance 427445** via `EffectTriggerSpell`, and its 1246643 sits in
+**CooldownSetSpell set 637 = ChrSpecialization 66, Protection**, where the generator duly
+places it as `cdm-only`. The accurate claim is narrower: **no table says a given spec
+LEARNS these** — they have no *acquisition* row. Check a sibling spec of the same class
+before calling one unknown; a shared hero tree makes a one-sided gap likely, and that turns
+a vague unknown into a checkable one. Closing the rest needs an in-game spellbook
+enumeration (ClientLab), not another DB2 join.
 
 ### G3 — `SkillLine 183 "GENERIC (DND)"` is outside both allowlists
 
