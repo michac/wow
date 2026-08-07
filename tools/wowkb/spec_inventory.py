@@ -70,7 +70,23 @@ from pathlib import Path
 from ._common import ROOT
 from .charstate import DEFAULT_WOW, parse_savedvar
 
-WAGO = ROOT / "raw" / "wago"
+# The DB2 cache directory. Resolved at CALL time by `_pinned`, not at import, so
+# `set_raw()` propagates into `wowkb.gen_abilities` — which imports `_rows`, not
+# this constant. Precedence: --raw > $WOWKB_RAW > <repo>/raw.
+#
+# ⚠ Why this is settable at all: `raw/` is **gitignored**, so a git worktree of
+# this repo starts with an EMPTY one. `wow`, `hud-classes`, `wwt-*` etc. are
+# worktrees of the same repo but each carries its own `raw/`, and the pinned CSV
+# set is ~85 files nobody wants to re-fetch per worktree. Point a worktree at a
+# populated sibling instead:
+#     uv run python -m wowkb.gen_abilities --raw ~/code/fun/wow/raw ...
+#     WOWKB_RAW=~/code/fun/wow/raw uv run python -m wowkb.spec_inventory
+# This is SAFE to share across worktrees precisely because `_pinned` demands the
+# exact build suffix: a sibling holding a different build cannot be read, it
+# fails loudly. There is deliberately NO auto-discovery — a run must never
+# silently read a cache the caller did not name.
+RAW = Path(os.environ["WOWKB_RAW"]).expanduser() if os.environ.get("WOWKB_RAW") else ROOT / "raw"
+WAGO = RAW / "wago"
 SEED = ROOT / "projects" / "keybinder" / "data" / "bellular-keybinds.seed.json"
 TALENTS = ROOT / "knowledge" / "classes" / "_talents" / "all-talents.tsv"
 
@@ -103,8 +119,32 @@ NONCLASS_NORM = {
 }
 
 
+def set_raw(path) -> Path:
+    """Point every DB2 read at a different `raw/` (see the RAW comment above).
+
+    Rebinds the module globals so `_pinned` — and therefore `wowkb.gen_abilities`,
+    which imports `_rows` from here — resolves against it. Returns the new WAGO
+    dir. Hard-fails if it is not a directory, because the alternative is 85
+    identical "missing CSV" errors that all mean "you typed the path wrong".
+    """
+    global RAW, WAGO
+    RAW = Path(path).expanduser().resolve()
+    WAGO = RAW / "wago"
+    if not WAGO.is_dir():
+        sys.exit(f"error: --raw {path} has no wago/ subdirectory ({WAGO} is not a directory)")
+    return WAGO
+
+
+def add_raw_arg(parser) -> None:
+    """`--raw PATH` for any CLI in this package that reads DB2."""
+    parser.add_argument("--raw", metavar="PATH",
+                        help="DB2 cache directory to read (default: $WOWKB_RAW, "
+                             "else <repo>/raw). Use a populated sibling worktree's "
+                             "raw/ rather than re-fetching ~85 pinned CSVs.")
+
+
 def _pinned(stem: str) -> Path:
-    """raw/wago/<stem>-12.0.7.67808.csv, EXACTLY. Hard-fails on a miss.
+    """<raw>/wago/<stem>-12.0.7.67808.csv, EXACTLY. Hard-fails on a miss.
 
     ⚠ This replaced a "newest build suffix wins, else the unversioned file"
     resolver on 2026-08-06. That resolver silently MIXED BUILDS: raw/wago/ holds
@@ -122,8 +162,11 @@ def _pinned(stem: str) -> Path:
     """
     path = WAGO / f"{stem}-{PINNED_BUILD}.csv"
     if not path.exists():
-        sys.exit(f"error: missing {path.name} — run: "
-                 f"uv run python -m wowkb.wago {stem} --build {PINNED_BUILD}")
+        sys.exit(f"error: missing {path.name} in {WAGO}\n"
+                 f"  fetch it:      uv run python -m wowkb.wago {stem} --build {PINNED_BUILD}\n"
+                 f"  or, if another checkout already has the pinned set (raw/ is\n"
+                 f"  gitignored, so a fresh worktree's is empty), point at it:\n"
+                 f"                 --raw ~/code/fun/wow/raw   (or $WOWKB_RAW)")
     return path
 
 
@@ -155,6 +198,36 @@ def _cooldowns() -> dict[str, float]:
         sid = r["SpellID"]
         cds[sid] = max(cds.get(sid, 0), ms / 1000.0)
     return cds
+
+
+def _cast_times() -> dict[str, float]:
+    """spellID -> BASE cast seconds at DifficultyID 0. 0.0 == instant.
+
+    `SpellMisc.CastingTimeIndex` -> `SpellCastTimes.Base` (milliseconds). Index 1
+    is the instant row (Base 0) and covers **94.3 %** of the inventory's 3,949
+    distinct spellIDs, so this column is overwhelmingly "instant" and only ~226
+    spells carry a real number.
+
+    ⚠ Three things it is NOT, all of them the reason cast time is worth generating
+    while **cost is not** (todo/ability-inventory-rollout.md §3-B1):
+      * It is the BASE cast. Haste, and talents that alter a cast, are runtime
+        modifiers with no row here — a hasted 1.5s Frostbolt still reads 1.5.
+      * A CHANNEL is not a cast. Channel duration lives in `SpellDuration` via
+        `DurationIndex`; a channelled spell usually reads 0.0 here, i.e. it looks
+        instant. Do not read 0.0 as "no cast bar".
+      * `Minimum` (the haste floor) is deliberately dropped — it is 0 or equal to
+        Base on all but a handful of rows and would imply a precision we do not
+        have.
+    """
+    base: dict[str, int] = {r["ID"]: int(r.get("Base") or 0) for r in _rows("SpellCastTimes")}
+    out: dict[str, float] = {}
+    for r in _rows("SpellMisc"):
+        if r.get("DifficultyID") != "0":
+            continue
+        ms = base.get(r.get("CastingTimeIndex") or "", 0)
+        if ms:
+            out[r["SpellID"]] = ms / 1000.0
+    return out
 
 
 def _passive_ids() -> set[str]:
@@ -588,7 +661,10 @@ def main() -> int:
                     help="diff the union against a real in-game /bb diagnostics dump")
     ap.add_argument("--wow-path", default=DEFAULT_WOW,
                     help=f"WoW _retail_ path for --validate (default: {DEFAULT_WOW})")
+    add_raw_arg(ap)
     args = ap.parse_args()
+    if args.raw:
+        set_raw(args.raw)
 
     data = build()
 

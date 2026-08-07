@@ -254,7 +254,7 @@ uv run python -m wowkb.plan --gear --character <name>  # per-slot gearing chart 
 uv run python -m wowkb.gen_addon_quests              # regen addon quest-ID table from repeatables.json (then cut an addon release)
 uv run python -m wowkb.gen_candidates                # regen planning/candidates.json from activities/*.md (--check in CI; edit the .md, not the JSON)
 uv run python -m wowkb.gen_verify                    # regen _meta/verify-in-game.md from @verify-ingame markers (--check for CI; tag the claim, not the JSON)
-uv run python -m wowkb.spec_inventory [--spec X] [--unseeded] [--json PATH] [--validate CHAR]  # per-spec ability inventory as a UNION: all-talents.tsv (node_type!=PASSIVE) ∪ SkillLineAbility class kit ∪ CooldownSetSpell residue (cdm-only), annotated with cooldown, Blizz category, origin (class-baseline|talent-active|talent-choice|cdm-only), suggestedMode (fixed|float), talent tree/hero placement, and the seed bucket that binds each name. Tier 1, all 40 specs. `--validate <char>` diffs the union against a real in-game `/bb diagnostics` dump (false-negatives = holes). Feeds the BucketBinds floats work (layout-v2 §6).
+uv run python -m wowkb.spec_inventory [--spec X] [--unseeded] [--json PATH] [--validate CHAR] [--raw PATH]  # per-spec ability inventory as a UNION: all-talents.tsv (node_type!=PASSIVE) ∪ SkillLineAbility class kit ∪ CooldownSetSpell residue (cdm-only), annotated with cooldown, Blizz category, origin (class-baseline|talent-active|talent-choice|cdm-only), suggestedMode (fixed|float), talent tree/hero placement, and the seed bucket that binds each name. Tier 1, all 40 specs. `--validate <char>` diffs the union against a real in-game `/bb diagnostics` dump (false-negatives = holes). Feeds the BucketBinds floats work (layout-v2 §6).
 uv run python -m wowkb.addon list                       # the 4 sub-repo addons: presence + local HEAD + .toc version + latest release + drift
 uv run python -m wowkb.addon pull [--all|bb cdmp ps cap] # clone-if-missing + git pull each sub-repo (the machine-B sync)
 uv run python -m wowkb.addon check                       # report addons with local-only (uncommitted/unpushed) work; exit 1 if any (pre-push gate)
@@ -267,6 +267,21 @@ uv run python -m wowkb.lab [deploy|show|drain|blocked]  # the ClientLab addon-de
 uv run python -m wowkb.obs [list|check|drain OBS-nnn]   # the addon-dev observations queue + its drain; `check` gates a --minor/--major release
 uv run python -m wowkb.kblint                           # the knowledge/addon-dev gates (README §7's current-state rule); exit 1 on any hit
 ```
+
+**⚠ `raw/` is gitignored, so a fresh WORKTREE has an empty one** — and the DB2 readers
+(`wowkb.gen_abilities`, `wowkb.spec_inventory`) hard-fail on a missing pinned CSV rather
+than degrade. This is the same per-worktree gap the addon sub-repos have, one directory
+over. Don't re-fetch ~85 CSVs; point at a populated sibling:
+
+```bash
+uv run python -m wowkb.gen_abilities --fetched <date> --check --raw ~/code/fun/wow/raw
+WOWKB_RAW=~/code/fun/wow/raw uv run python -m wowkb.spec_inventory --unseeded
+```
+
+Precedence `--raw` > `$WOWKB_RAW` > `<repo>/raw`, and a run **prints** the directory
+whenever it is not the local one. Sharing across worktrees is safe *because* the reads
+demand the exact pinned build suffix — a sibling at another build fails loudly rather
+than silently mixing builds. There is deliberately **no auto-discovery**.
 
 **`wowkb.capture` is the one door for getting data out of an addon.** Every recorder in
 every addon writes to a single SavedVariables key with one shape

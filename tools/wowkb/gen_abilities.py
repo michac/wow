@@ -323,6 +323,7 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 from ._common import ROOT
+from . import spec_inventory
 from .spec_inventory import (
     CATEGORY,
     PINNED_BUILD,
@@ -330,10 +331,13 @@ from .spec_inventory import (
     SPELL_ATTR0_PASSIVE,
     _baseline_kit,
     _class_skill_lines,
+    _cast_times,
     _cooldowns,
     _norm,
     _passive_ids,
     _rows,
+    add_raw_arg,
+    set_raw,
 )
 
 CLASSES = ROOT / "knowledge" / "classes"
@@ -351,7 +355,7 @@ ORIGIN_RANK = {o: i for i, o in enumerate(ORIGIN_ORDER)}
 
 TSV_COLUMNS = [
     "class", "spec", "spec_id", "name", "spell_id", "origin", "source",
-    "castable", "cooldown", "band", "tree", "hero_tree", "node_id", "entry_id",
+    "castable", "cooldown", "cast_time", "band", "tree", "hero_tree", "node_id", "entry_id",
     "max_ranks", "blizz_category", "seed_bucket", "also_from", "aliases",
 ]
 # The per-spec twin carries the full text; the aggregate carries only the
@@ -363,6 +367,7 @@ DESC_COLUMNS = ["spell_id", "name", "description_source", "description"]
 ANNEX_COLUMNS = [
     "skill_line", "line_name", "class", "class_id", "family", "family_id",
     "pet_talent_type", "exotic", "name", "spell_id", "castable", "cooldown",
+    "cast_time",
     "description_source", "description",
 ]
 SECTION3_COLUMNS = [
@@ -624,7 +629,7 @@ class PetLeg:
     """
 
     def __init__(self, names: dict[str, str], passive: set[str], cds: dict[str, float],
-                 kit_lines: dict[str, dict[str, str]]):
+                 kit_lines: dict[str, dict[str, str]], casts: dict[str, float]):
         sl = {r["ID"]: r for r in _rows("SkillLine")}
         families = list(_rows("CreatureFamily"))
         sla = list(_rows("SkillLineAbility"))
@@ -723,6 +728,7 @@ class PetLeg:
                     "spell_id": int(spell),
                     "castable": spell not in passive,
                     "cooldown": round(cds.get(spell, 0.0), 1),
+                    "cast_time": casts.get(spell, 0.0),
                 }
                 self.rows.append(rec)
                 if ln == HUNTER_PET_LINE and rec["castable"]:
@@ -1113,6 +1119,7 @@ def build(seed_path: Path = SEED) -> dict:
     names = {r["ID"]: r["Name_lang"] for r in _rows("SpellName")}
     passive = _passive_ids()
     cds = _cooldowns()
+    casts = _cast_times()
     classes = {r["ID"]: r["Name_lang"] for r in _rows("ChrClasses")}
     specs = {r["ID"]: {"spec": r["Name_lang"], "classID": r["ClassID"],
                        "class": classes.get(r["ClassID"], "?")}
@@ -1128,7 +1135,7 @@ def build(seed_path: Path = SEED) -> dict:
 
     kit_lines = _class_skill_lines()
     trait = TraitLeg(names, passive, cds, seed_norms)
-    pet = PetLeg(names, passive, cds, kit_lines)
+    pet = PetLeg(names, passive, cds, kit_lines, casts)
 
     # leg 2 — class kit incl. the secondary exclusive lines and AcquireMethod 3.
     # `_baseline_kit` speaks spec_inventory's key names; translate once.
@@ -1232,6 +1239,7 @@ def build(seed_path: Path = SEED) -> dict:
             rec["blizz_category"] = "/".join(sorted(ann["categories"])) if ann else ""
             rec["order"] = ann["order"] if ann else 9999
             rec["seed_bucket"] = buckets.get(nk, "")
+            rec["cast_time"] = casts.get(str(rec["spell_id"]), 0.0)
             rec["band"] = "Cooldown" if rec["cooldown"] >= 45 else "Rotational"
             rec["class"] = meta["class"]
             rec["spec"] = meta["spec"]
@@ -1349,57 +1357,57 @@ def _spec_md(entry: dict, fetched: str, desc_source: str = "") -> str:
         f"different document; this file never replaces it.\n",
         f"\nspecID **{entry['specID']}** · **{len(entry['abilities'])}** rows · " +
         " · ".join(f"{o} {counts[o]}" for o in ORIGIN_ORDER if counts[o]) + "\n",
-        "\n| # | Ability | ID | CD | Origin | Source | Tree | Hero | Blizz cat | Seed bucket |\n",
-        "|---|---|---:|---:|---|---|---|---|---|---|\n",
+        _source_legend(entry),
+        "\n| # | Ability | ID | CD | Cast | Origin | Tree | Hero | Src | Description |\n",
+        "|---|---|---:|---:|---:|---|---|---|---|---|\n",
     ]
     for i, a in enumerate(entry["abilities"], 1):
         cd = f"{a['cooldown']:g}s" if a["cooldown"] else "—"
+        cast = f"{a['cast_time']:g}s" if a.get("cast_time") else "—"
         body.append(
-            f"| {i} | {a['name']} | `{a['spell_id']}` | {cd} | {a['origin']} | "
-            f"{a['source']} | {a['tree'] or '—'} | {a['hero_tree'] or '—'} | "
-            f"{a['blizz_category'] or '—'} | {a['seed_bucket'] or '—'} |\n")
-    body.append(_descriptions_md(entry))
+            f"| {i} | {a['name']} | `{a['spell_id']}` | {cd} | {cast} | {a['origin']} | "
+            f"{a['tree'] or '—'} | {a['hero_tree'] or '—'} | "
+            f"`{a['description_source']}` | {_cell(a['description'])} |\n")
     return head + "".join(body)
 
 
-def _blockquote(text: str) -> str:
-    """Multi-paragraph description as a markdown blockquote."""
-    lines = text.replace("\r\n", "\n").replace("\r", "\n").split("\n")
-    return "".join((f"> {ln}\n" if ln.strip() else ">\n") for ln in lines)
+def _cell(text: str) -> str:
+    """A tooltip as a single markdown table cell.
+
+    Newlines become spaces and `|` is escaped — either one raw would silently
+    break the row, and a broken row is read as data, not as an error.
+    """
+    if not text:
+        return "_(no description text in either source at this build)_"
+    flat = " ".join(text.replace("\r\n", "\n").replace("\r", "\n").split("\n"))
+    return " ".join(flat.replace("|", "\\|").split())
 
 
-def _descriptions_md(entry: dict) -> str:
-    """The `## Descriptions` section — kept OUT of the table on purpose.
+def _source_legend(entry: dict) -> str:
+    """The `Src` column's legend, inline above the table.
 
-    The inventory table is already 10 columns; a 200-character tooltip in an
-    eleventh makes every row unreadable. The numbering here is the table's `#`,
-    so the two read together.
+    Descriptions used to live in a `## Descriptions` section ~190 lines below the
+    table, on the argument that an eleventh column of tooltip made rows
+    unreadable. Measured: median description is 115 chars, p90 268 — it fits, and
+    the split cost more than it saved. Reading row 4 meant scrolling to entry 4;
+    an agent researching a spec got half an answer per glance, which is exactly
+    the friction that sends it looking through hand-written prose instead. Three
+    machine-only columns (`Source`, `Blizz cat`, `Seed bucket`) moved out to make
+    room — they are unchanged in `ability-inventory.tsv`, which is what code reads.
     """
     counts = Counter(a["description_source"] for a in entry["abilities"])
-    out = [
-        "\n## Descriptions\n",
-        "\nOne entry per row of the table above, same numbering. `description_source`"
-        " says which of the two sources rendered it — **read it before quoting a"
-        " number**:\n",
-        "\n| source | what you are reading |\n|---|---|\n",
-        "| `api` | RESOLVED English from `GET /data/wow/spell/{id}`. Durations and"
-        " magnitudes are real values. |\n",
-        f"| `db2-plain` | `Spell.Description_lang` @ {PINNED_BUILD} carrying no `$`"
-        " placeholder — readable as-is. |\n",
-        f"| `db2-template` | `Spell.Description_lang` @ {PINNED_BUILD} with"
-        " **unresolved `$…` placeholders**. `$s1`, `$d`, `$?s123[a][b]` are"
-        " template slots, NOT text — do not quote one as a value. |\n",
-        "| `…+redirect` | built by following a `$@spelldesc<id>` splice to another"
-        " spell's text. |\n",
-        "| `none` | neither source has text at this build. |\n",
-        "\n" + " · ".join(f"`{s}` {counts[s]}" for s in sorted(counts)) + "\n\n",
-    ]
-    for i, a in enumerate(entry["abilities"], 1):
-        out.append(f"**{i}. {a['name']}** `{a['spell_id']}` · `{a['description_source']}`\n\n")
-        out.append(_blockquote(a["description"]) if a["description"]
-                   else "> _(no description text in either source at this build)_\n")
-        out.append("\n")
-    return "".join(out)
+    return (
+        "\n> **`Src` — read it before quoting a number.**"
+        " `api` = RESOLVED English from `GET /data/wow/spell/{id}`; magnitudes and"
+        " durations are real values."
+        f" `db2-plain` = `Spell.Description_lang` @ {PINNED_BUILD}, no placeholders."
+        f" `db2-template` = same, but with **unresolved `$…` slots** — `$s1`, `$d`,"
+        " `$?s123[a][b]` are template syntax, **not text**; never quote one as a"
+        " value. `…+redirect` = built by following a `$@spelldesc<id>` splice."
+        " `none` = neither source has text at this build.\n"
+        "\nThis file carries every column code needs **except**"
+        " `source` / `blizz_category` / `seed_bucket` — those are in the `.tsv` twin.\n"
+        "\n" + " · ".join(f"`{k}` {counts[k]}" for k in sorted(counts)) + "\n")
 
 
 _README_TEMPLATE = """# Ability inventory — schema & regeneration
@@ -1410,6 +1418,13 @@ line and the Cooldown-Manager residue. Regenerated by `tools/wowkb/gen_abilities
 
 ⚠ **`<class>/<spec>/abilities.md` is hand-written prose** and is NOT generated.
 The generated per-spec files are `ability-inventory.tsv` + `ability-inventory.md`.
+It carries only what this layer structurally cannot say — §A real buttons the
+join cannot see, §B names encountered and believed invalid.
+
+📄 **Read `prose-conventions.md` beside this file before trusting a row.** It is
+the measured list of this layer's blind spots: charge cooldowns, channels, the
+missing cost column, resolved-but-wrong tooltips, `node_type`, class-line and
+pet-path over/under-reporting, and section-3 cross-spec leaks.
 
 ## Files
 
@@ -1467,6 +1482,7 @@ silently mixes them (the unversioned `CooldownSetSpell.csv` is build >= 68209).
 | `source` | the DB2 table (and skill line) the winning row came from |
 | `castable` | `NOT (SpellMisc.Attributes_0 & 0x40)` on the button spell, OR the name is bound in the BucketBinds seed |
 | `cooldown` | seconds, `SpellCooldowns` at DifficultyID 0 |
+| `cast_time` | **base** cast seconds — `SpellMisc.CastingTimeIndex` → `SpellCastTimes.Base`. `0.0` = instant, which is **94 %** of rows. ⚠ **Not** haste-adjusted, and a **channel reads 0.0** (its duration is `SpellDuration`, not this) — see below |
 | `band` | `Cooldown` if `cooldown >= 45` else `Rotational` (layout-v2 contract) |
 | `tree` | `class` \\| `spec` \\| `hero` — derived from the node's **cost currency**, not from spec-set width |
 | `hero_tree` | `TraitSubTree.Name_lang`, else empty |
@@ -1477,6 +1493,33 @@ silently mixes them (the unversioned `CooldownSetSpell.csv` is build >= 68209).
 | `aliases` | other names for the same entry (`Holy Bulwark` ⇄ `Holy Armaments`) |
 | `description_source` | which source rendered the description — **see below** |
 | `description` | the tooltip text. **Per-spec `ability-inventory.tsv` only**; `all-abilities.tsv` carries `description_source` and joins to `spell-descriptions.tsv` on `spell_id` |
+
+## Cast time — and why there is no `cost`
+
+`cast_time` is `SpellMisc.CastingTimeIndex` -> `SpellCastTimes.Base`, in seconds,
+at DifficultyID 0. Measured at {build}: **3,723 of the 3,949 distinct inventory
+spellIDs resolve to index 1 (Base 0) = instant**, so only **226** spells carry a
+number at all.
+
+Three things it does **not** say:
+
+- **It is the BASE cast.** Haste is a runtime modifier with no row here, and so is
+  any talent that shortens a cast. A hasted Frostbolt still reads its base.
+- **A channel is not a cast.** Channel length lives in `SpellDuration` via
+  `SpellMisc.DurationIndex`; a channelled spell typically reads `0.0` here. **Do
+  not read `0.0` as "no cast bar"** — read it as "no cast *time*".
+- **`SpellCastTimes.Minimum`** (the haste floor) is deliberately dropped: it is 0
+  or equal to `Base` on all but a handful of rows.
+
+**There is deliberately no `cost` column**, and it is not an oversight. Measured at
+{build} over the same 3,949 spellIDs: only **487 (12.3 %)** have any `SpellPower`
+row, **406 of those are Mana**, **155 of the 624 rows are gated on
+`RequiredAuraSpellID`** (a *conditional* cost — i.e. a talent or buff changes it),
+and **81 spellIDs carry more than one cost row**. A generated cost column would be
+mostly empty, dominated by irrelevant mana values, and ambiguous on a quarter of
+what it did cover. Resource costs stay in the hand-written `abilities.md` prose,
+where 177 cells state one; the rule for any rollout is **do not delete a cell that
+states a cost** (`todo/ability-inventory-rollout.md` §3-B1).
 
 ## Descriptions
 
@@ -1894,23 +1937,66 @@ def render_all(data: dict, fetched: str) -> dict[Path, str]:
 _JUNK = re.compile(r"[—–]|\betc\.|^Pet\b|^replaces\b", re.I)
 
 
-def _inventory_names(path: Path) -> set[str]:
-    """Ability names from the hand-written abilities.md `## Inventory` table.
+_NAME_HEADERS = {"ability", "name", "talent"}
+# Headings whose table this leg harvests. `notes` is the sparse annotation shape
+# (see knowledge/classes/warlock/demonology/abilities.md); `inventory` is the
+# legacy prose-table shape. Matched with `in`, not `startswith`, because 12 of the
+# 40 files head the section `## Ability inventory` — which `startswith("inventory")`
+# missed, leaving 18 files dark to this leg entirely (the old blocker B2).
+_HARVEST_HEADING = re.compile(r"\b(inventory|notes)\b", re.I)
 
-    First column only, inside the `## Inventory` section only. Parentheticals and
-    bold/code markers are stripped; `A / B` splits. This is a documented
-    heuristic over prose, not a Tier-1 read — treat the result as a worklist.
+
+def _inventory_names(path: Path) -> set[str]:
+    """Ability names asserted by the hand-written `abilities.md`.
+
+    Feeds the `prose-only` leg of `section-4-catalogue`: a name this file states
+    that no Tier-1 acquisition row reaches. A documented heuristic over prose, not
+    a Tier-1 read — treat the result as a worklist.
+
+    Reads the table under any heading matching `_HARVEST_HEADING`, taking the
+    column whose header is `Ability`/`Name`/`Talent` and falling back to the first
+    column when the table has no such header. The named-column lookup exists
+    because the annotation shape leads with `spellID`, so a positional read would
+    harvest IDs as if they were ability names.
+
+    ⚠ **This is a machine contract on hand-written prose.** A name deleted from a
+    harvested table silently disappears from the catalogue — a tracked unknown
+    erased by a docs edit, with no marker and no warning. If you restructure an
+    `abilities.md`, diff `_inventory_names()` before and after.
     """
     out: set[str] = set()
     in_section = False
+    in_table = False
+    col = 0
     for line in path.read_text(encoding="utf-8").splitlines():
         if line.startswith("#"):
-            in_section = line.lstrip("#").strip().lower().startswith("inventory")
+            in_section = bool(_HARVEST_HEADING.search(line.lstrip("#").strip()))
+            in_table = False
             continue
-        if not in_section or not line.startswith("|"):
+        if not line.startswith("|"):
+            in_table = False
             continue
-        cell = re.sub(r"\*\*|`", "", line.split("|")[1]).strip()
-        if not cell or set(cell) <= set("-: ") or cell.lower() in ("ability", "name", "talent"):
+        if not in_section:
+            continue
+        cells = [re.sub(r"\*\*|`", "", c).strip() for c in line.split("|")[1:-1]]
+        if not cells:
+            continue
+        lowered = [c.lower() for c in cells]
+        if not in_table:
+            # FIRST row of this table only. Header detection must not run on data
+            # rows: a `Cast / CD` cell reading exactly "Talent" would otherwise be
+            # taken as a header and re-point the column at cooldowns for the rest
+            # of the table (measured on demon-hunter/devourer — it injected 16
+            # rows like "45s CD, 30 yd" into section-4 as ability names).
+            in_table = True
+            col = 0
+            if set(lowered) & _NAME_HEADERS:
+                col = next(i for i, c in enumerate(lowered) if c in _NAME_HEADERS)
+                continue
+        if col >= len(cells):
+            continue
+        cell = cells[col]
+        if not cell or set(cell) <= set("-: ") or cell.lower() in _NAME_HEADERS:
             continue
         if _JUNK.search(cell):
             continue
@@ -1961,10 +2047,18 @@ def main(argv=None) -> int:
                         "spellID and refresh _abilities/spell-descriptions.json "
                         "(the resolved-English cache for the description leg)")
     p.add_argument("--json", metavar="PATH", help="dump the computed union as JSON")
+    add_raw_arg(p)
     args = p.parse_args(argv)
 
     if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", args.fetched):
         sys.exit(f"error: --fetched must be an ISO date, got {args.fetched!r}")
+
+    # Where the DB2 reads come from. Announced whenever it is NOT the repo's own
+    # raw/, so a run can never quietly source its Tier-1 input from a checkout
+    # the reader did not expect.
+    wago = set_raw(args.raw) if args.raw else spec_inventory.WAGO
+    if wago != ROOT / "raw" / "wago":
+        print(f"DB2 cache: {wago}  (not this checkout's raw/)")
 
     data = build()
 
