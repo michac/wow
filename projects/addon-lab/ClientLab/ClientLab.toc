@@ -14,5 +14,6 @@ Dumps.lua
 Autorun.lua
 Ask.lua
 T_ApiEvents.lua
+T_CooldownManager.lua
 T_Libraries.lua
 T_Security.lua

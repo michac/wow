@@ -1,6 +1,19 @@
 # Cooldown HUD — the multi-class rollout (Retribution + Havoc + Protection + Vengeance + Devourer)
 
-> **STATUS: Phase 0 + Phase 1 + Phase 2 shipped. THE HAVOC FLIGHT RAN 2026-08-03 AND FAILED;
+> ## ⛔ THIS ROLLOUT IS STOPPED — 2026-08-05
+>
+> Cooldown HUD is **superseded by Combat Assist Plus** (`projects/combat-assist/`); see
+> `../CLAUDE.md`'s banner. **Phases 3–5 (Protection, Vengeance, Devourer) will not be
+> built, and the owed Havoc re-fly is moot** — it gated exactly those phases.
+>
+> ⚠ **The API facts below are NOT moot** — but they are **already in the KB**, which is
+> where to read them. The headline `UnitPower` per-power-type secrecy finding is
+> `knowledge/addon-dev/security-taint-and-restricted-data.md` **§4.12**, with the blue-post
+> citation and the `C_Secrets.GetPowerTypeSecrecy` measurements; it is a game-wide fact cap
+> inherits in full. Cite the KB, not this file. **Everything here about phases, gates and
+> deliverables is history.**
+
+> **STATUS (historical): Phase 0 + Phase 1 + Phase 2 shipped. THE HAVOC FLIGHT RAN 2026-08-03 AND FAILED;
 > the Phase-1 remediation has shipped and a RE-FLY is the outstanding deliverable.**
 > Phases 3–5 (Protection, Vengeance, Devourer) remain blocked **behind the Havoc in-game
 > pass**, not behind Retribution's.

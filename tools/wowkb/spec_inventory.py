@@ -70,11 +70,31 @@ from pathlib import Path
 from ._common import ROOT
 from .charstate import DEFAULT_WOW, parse_savedvar
 
-WAGO = ROOT / "raw" / "wago"
+# The DB2 cache directory. Resolved at CALL time by `_pinned`, not at import, so
+# `set_raw()` propagates into `wowkb.gen_abilities` — which imports `_rows`, not
+# this constant. Precedence: --raw > $WOWKB_RAW > <repo>/raw.
+#
+# ⚠ Why this is settable at all: `raw/` is **gitignored**, so a git worktree of
+# this repo starts with an EMPTY one. `wow`, `hud-classes`, `wwt-*` etc. are
+# worktrees of the same repo but each carries its own `raw/`, and the pinned CSV
+# set is ~85 files nobody wants to re-fetch per worktree. Point a worktree at a
+# populated sibling instead:
+#     uv run python -m wowkb.gen_abilities --raw ~/code/fun/wow/raw ...
+#     WOWKB_RAW=~/code/fun/wow/raw uv run python -m wowkb.spec_inventory
+# This is SAFE to share across worktrees precisely because `_pinned` demands the
+# exact build suffix: a sibling holding a different build cannot be read, it
+# fails loudly. There is deliberately NO auto-discovery — a run must never
+# silently read a cache the caller did not name.
+RAW = Path(os.environ["WOWKB_RAW"]).expanduser() if os.environ.get("WOWKB_RAW") else ROOT / "raw"
+WAGO = RAW / "wago"
 SEED = ROOT / "projects" / "keybinder" / "data" / "bellular-keybinds.seed.json"
 TALENTS = ROOT / "knowledge" / "classes" / "_talents" / "all-talents.tsv"
 
 CATEGORY = {"0": "Essential", "1": "Utility", "2": "Buff", "3": "Other", "4": "Other"}
+
+# THE pin. Every DB2 read in this module (and in wowkb.gen_abilities, which
+# imports `_rows` from here) resolves exactly this build — see `_pinned`.
+PINNED_BUILD = "12.0.7.67808"
 
 SPELL_ATTR0_PASSIVE = 0x40  # SpellMisc.Attributes_0 bit — a genuine passive
 ACQUIRE_ARTIFACT = "3"      # SkillLineAbility.AcquireMethod for dead Legion rows
@@ -99,19 +119,59 @@ NONCLASS_NORM = {
 }
 
 
-def _newest(stem: str) -> Path:
-    """raw/wago/<stem>.csv, preferring the highest build-suffixed variant."""
-    exact = WAGO / f"{stem}.csv"
-    versioned = sorted(WAGO.glob(f"{stem}-*.csv"))
-    if versioned:
-        return versioned[-1]
-    if exact.exists():
-        return exact
-    sys.exit(f"error: missing {stem}.csv — run: uv run python -m wowkb.wago {stem}")
+def set_raw(path) -> Path:
+    """Point every DB2 read at a different `raw/` (see the RAW comment above).
+
+    Rebinds the module globals so `_pinned` — and therefore `wowkb.gen_abilities`,
+    which imports `_rows` from here — resolves against it. Returns the new WAGO
+    dir. Hard-fails if it is not a directory, because the alternative is 85
+    identical "missing CSV" errors that all mean "you typed the path wrong".
+    """
+    global RAW, WAGO
+    RAW = Path(path).expanduser().resolve()
+    WAGO = RAW / "wago"
+    if not WAGO.is_dir():
+        sys.exit(f"error: --raw {path} has no wago/ subdirectory ({WAGO} is not a directory)")
+    return WAGO
+
+
+def add_raw_arg(parser) -> None:
+    """`--raw PATH` for any CLI in this package that reads DB2."""
+    parser.add_argument("--raw", metavar="PATH",
+                        help="DB2 cache directory to read (default: $WOWKB_RAW, "
+                             "else <repo>/raw). Use a populated sibling worktree's "
+                             "raw/ rather than re-fetching ~85 pinned CSVs.")
+
+
+def _pinned(stem: str) -> Path:
+    """<raw>/wago/<stem>-12.0.7.67808.csv, EXACTLY. Hard-fails on a miss.
+
+    ⚠ This replaced a "newest build suffix wins, else the unversioned file"
+    resolver on 2026-08-06. That resolver silently MIXED BUILDS: raw/wago/ holds
+    some tables at 67808, some at 68256 and some unversioned (the unversioned
+    `CooldownSetSpell.csv` carries a `Field_12_1_0_68209_009` column, i.e. build
+    >= 68209). Joining CooldownSetSpell@68209 against SpellName@68256 against
+    SkillLineAbility@67808 manufactured rows like `<1310372>` — spellIDs that do
+    not exist at the other tables' build. Do not reintroduce a fallback: an
+    absent pinned CSV must fail loudly with the download command, not degrade.
+
+    MEASURED cost of the fix: the union went 3217 -> 3145 rows. The delta is 87
+    rows out / 15 in, ~93 % of them `cdm-only` (the newer CooldownSetSpell lists
+    more entries), including 9 unnamed `<spellID>` placeholder rows that were
+    pure build-skew garbage. No origin, schema or filter semantics changed.
+    """
+    path = WAGO / f"{stem}-{PINNED_BUILD}.csv"
+    if not path.exists():
+        sys.exit(f"error: missing {path.name} in {WAGO}\n"
+                 f"  fetch it:      uv run python -m wowkb.wago {stem} --build {PINNED_BUILD}\n"
+                 f"  or, if another checkout already has the pinned set (raw/ is\n"
+                 f"  gitignored, so a fresh worktree's is empty), point at it:\n"
+                 f"                 --raw ~/code/fun/wow/raw   (or $WOWKB_RAW)")
+    return path
 
 
 def _rows(stem: str):
-    with _newest(stem).open(encoding="utf-8", newline="") as fh:
+    with _pinned(stem).open(encoding="utf-8", newline="") as fh:
         yield from csv.DictReader(fh)
 
 
@@ -140,35 +200,122 @@ def _cooldowns() -> dict[str, float]:
     return cds
 
 
+def _cast_times() -> dict[str, float]:
+    """spellID -> BASE cast seconds at DifficultyID 0. 0.0 == instant.
+
+    `SpellMisc.CastingTimeIndex` -> `SpellCastTimes.Base` (milliseconds). Index 1
+    is the instant row (Base 0) and covers **94.3 %** of the inventory's 3,949
+    distinct spellIDs, so this column is overwhelmingly "instant" and only ~226
+    spells carry a real number.
+
+    ⚠ Three things it is NOT, all of them the reason cast time is worth generating
+    while **cost is not** (todo/ability-inventory-rollout.md §3-B1):
+      * It is the BASE cast. Haste, and talents that alter a cast, are runtime
+        modifiers with no row here — a hasted 1.5s Frostbolt still reads 1.5.
+      * A CHANNEL is not a cast. Channel duration lives in `SpellDuration` via
+        `DurationIndex`; a channelled spell usually reads 0.0 here, i.e. it looks
+        instant. Do not read 0.0 as "no cast bar".
+      * `Minimum` (the haste floor) is deliberately dropped — it is 0 or equal to
+        Base on all but a handful of rows and would imply a precision we do not
+        have.
+    """
+    base: dict[str, int] = {r["ID"]: int(r.get("Base") or 0) for r in _rows("SpellCastTimes")}
+    out: dict[str, float] = {}
+    for r in _rows("SpellMisc"):
+        if r.get("DifficultyID") != "0":
+            continue
+        ms = base.get(r.get("CastingTimeIndex") or "", 0)
+        if ms:
+            out[r["SpellID"]] = ms / 1000.0
+    return out
+
+
 def _passive_ids() -> set[str]:
-    """spellIDs flagged SPELL_ATTR0_PASSIVE — dropped from the baseline kit."""
+    """spellIDs flagged SPELL_ATTR0_PASSIVE at DifficultyID 0 — not castable.
+
+    ⚠ FIXED 2026-08-06: this keyed on `SpellMisc.ID` — the *record* id — instead of
+    `SpellMisc.SpellID`, and did not pin DifficultyID. MEASURED at 12.0.7.67808:
+    both keys yield 17059 ids but they overlap on only **313**, and exactly one row
+    in 407951 has `ID == SpellID`. So the passive filter was ~98 % inert; it was
+    dropping 16746 arbitrary spells that merely shared a number with some
+    SpellMisc row, and keeping nearly every real passive. Anything that read
+    "this ability is absent, so it must be passive" off the old behaviour was
+    reading noise.
+    """
     out = set()
     for r in _rows("SpellMisc"):
+        if r.get("DifficultyID") != "0":
+            continue
         try:
             if int(r.get("Attributes_0") or 0) & SPELL_ATTR0_PASSIVE:
-                out.add(r["ID"])
+                out.add(r["SpellID"])
         except ValueError:
             pass
     return out
 
 
-def _class_skill_lines() -> dict[str, str]:
-    """classID -> the SkillLine that IS that class's kit. Derived, not hardcoded:
-    the class skill line is the one holding the most rows whose ClassMask is exactly
-    that class's bit (Warlock classID 9 -> bit 256 -> SkillLine 849)."""
-    per_line: dict[str, Counter] = defaultdict(Counter)
+def _class_skill_lines() -> dict[str, dict[str, str]]:
+    """classID -> {SkillLine: "kit" | "secondary"}. Derived, not hardcoded.
+
+    THE KIT LINE IS *DECLARED*, NOT INFERRED (rewritten 2026-08-06). A class's kit
+    line is the one `SkillRaceClassInfo` declares available to exactly that class:
+
+        SkillLine.CategoryID == 7  AND  SkillLine.Flags & 0x8
+        AND SkillRaceClassInfo.Availability == 1
+        AND ClassMask is a single set bit AND ClassMask <= 4096
+        classID = ClassMask.bit_length()
+
+    MEASURED: yields exactly {795 Hunter, 796 DK, 798 Druid, 800 Paladin, 804 Priest,
+    829 Monk, 840 Warrior, 849 Warlock, 904 Mage, 921 Rogue, 924 Shaman, 1848 DH,
+    2810 Evoker} — set-identical to what the previous exclusivity heuristic derived,
+    but from a Blizzard declaration instead of a row-counting inference. Both guards
+    are load-bearing: without `CategoryID == 7` and `ClassMask <= 4096` the same query
+    also admits 129/139/293 (Plate Mail) and 2152 (Warglaives), and admits the
+    non-playable pseudo-classes Adventurer (2816, classID 14) and Traveler (2929, 15).
+    `Runeforging` (960) is excluded by `Availability == 1`: it is real in game but is
+    not spellbook class kit — do not re-admit it by relaxing that test.
+
+    (History, so nobody re-derives it from popularity: ranking by "most rows carrying
+    my class bit" picks **SkillLine 810** — a SHARED line carrying rows for all 12
+    class masks — for Hunter, Priest and Druid, which then silently get no baseline
+    kit at all. That is why Flare, Circle of Healing and Renewal once read as "not in
+    the game".)
+
+    SECONDARY LINES ARE KEPT, NOT DISCARDED. The previous "largest exclusive line
+    wins" tiebreak threw away every other genuinely class-exclusive line: Death Knight
+    lost **960 Runeforging** (Runeforging + the seven runes) and Demon Hunter lost
+    **2152 Warglaives**. They are labelled `"secondary"` so a caller can decide;
+    `_baseline_kit(include_secondary=...)` defaults to False, which keeps this
+    module's default contract byte-identical.
+    """
+    lines = {r["ID"]: r for r in _rows("SkillLine")}
+    out: dict[str, dict[str, str]] = defaultdict(dict)
+
+    for r in _rows("SkillRaceClassInfo"):
+        line = lines.get(r["SkillID"])
+        if not line or line["CategoryID"] != "7" or r["Availability"] != "1":
+            continue
+        if not int(line["Flags"] or 0) & 0x8:
+            continue
+        try:
+            mask = int(r["ClassMask"])
+        except ValueError:
+            continue
+        if mask <= 0 or mask > 4096 or (mask & (mask - 1)):
+            continue  # not a single playable-class bit
+        out[str(mask.bit_length())][r["SkillID"]] = "kit"
+
+    # Secondary: any other line whose class-restricted rows name only this class.
+    line_masks: dict[str, set[str]] = defaultdict(set)
     for r in _rows("SkillLineAbility"):
-        per_line[r["SkillLine"]][r["ClassMask"]] += 1
-    out: dict[str, str] = {}
+        if r["ClassMask"] not in ("", "0"):
+            line_masks[r["SkillLine"]].add(r["ClassMask"])
     for class_id in range(1, 14):  # 13 playable classes in 12.0.x
-        bit = str(1 << (class_id - 1))
-        best_line, best_n = None, 0
-        for line, masks in per_line.items():
-            if masks[bit] > best_n:
-                best_line, best_n = line, masks[bit]
-        if best_line:
-            out[str(class_id)] = best_line
-    return out
+        cid, bit = str(class_id), str(1 << (class_id - 1))
+        for ln, masks in line_masks.items():
+            if masks == {bit} and ln not in out[cid]:
+                out[cid][ln] = "secondary"
+    return dict(out)
 
 
 def _cdm_by_spec(cds: dict[str, float], names: dict[str, str]) -> dict[str, dict]:
@@ -193,23 +340,48 @@ def _cdm_by_spec(cds: dict[str, float], names: dict[str, str]) -> dict[str, dict
     return out
 
 
-def _baseline_kit(cds: dict[str, float], names: dict[str, str]) -> dict[str, list[dict]]:
+def _baseline_kit(cds: dict[str, float], names: dict[str, str], *,
+                  include_secondary: bool = False,
+                  keep_artifact_rows: bool = False) -> dict[str, list[dict]]:
     """classID -> [baseline ability records]. The shared class kit the talent tree
     omits: rows on the class skill line, class-bit or all-spec (mask 0), that are
-    castable (not passive) and not a dead Legion artifact row."""
+    castable (not passive).
+
+    Both flags default to False so this module's public contract is unchanged;
+    `wowkb.gen_abilities` turns both on for its richer artifact.
+
+    include_secondary
+        Also emit the class-exclusive lines that are not the declared kit line —
+        DK 960 Runeforging, DH 2152 Warglaives. Records carry a `source` key when
+        this is on (so the default output keeps its exact key set).
+    keep_artifact_rows
+        Keep `AcquireMethod == 3` rows. The default drops them as "dead Legion
+        artifact rows", which is WRONG at 12.0.7 and measured so: AcquireMethod 3
+        also carries 104 live non-passive class-kit rows across the 13 classes —
+        Hammer of Wrath, Lay on Hands, Avenging Wrath, Holy Shock, Blessing of
+        Freedom/Protection/Sacrifice, Divine Steed, Wake of Ashes, Heroic Leap,
+        Ravager, Stormstrike, Primordial Wave, Stormkeeper, Sigil of Flame, Soul
+        Carver, Void Torrent. Paladin alone loses 21. The default stays as-is only
+        to avoid silently changing BucketBinds' floats input.
+    """
     class_lines = _class_skill_lines()
     passive = _passive_ids()
-    line_to_class = {line: cid for cid, line in class_lines.items()}
+    line_to_class = {
+        line: (cid, kind)
+        for cid, lines in class_lines.items() for line, kind in lines.items()
+        if kind == "kit" or include_secondary
+    }
     out: dict[str, list[dict]] = defaultdict(list)
     seen: dict[str, set[str]] = defaultdict(set)  # classID -> normnames placed
     for r in _rows("SkillLineAbility"):
-        cid = line_to_class.get(r["SkillLine"])
-        if not cid:
+        hit = line_to_class.get(r["SkillLine"])
+        if not hit:
             continue
+        cid, kind = hit
         bit = str(1 << (int(cid) - 1))
         if r["ClassMask"] not in ("0", bit):
             continue
-        if r.get("AcquireMethod") == ACQUIRE_ARTIFACT:
+        if not keep_artifact_rows and r.get("AcquireMethod") == ACQUIRE_ARTIFACT:
             continue
         sid = r["Spell"]
         if sid in passive:
@@ -221,11 +393,15 @@ def _baseline_kit(cds: dict[str, float], names: dict[str, str]) -> dict[str, lis
         if nk in seen[cid]:
             continue
         seen[cid].add(nk)
-        out[cid].append({
+        rec = {
             "spellID": int(sid), "name": name,
             "cooldown": round(cds.get(sid, 0.0), 1),
             "origin": "class-baseline",
-        })
+        }
+        if include_secondary:
+            rec["source"] = f"SkillLineAbility:{r['SkillLine']}" + (
+                "" if kind == "kit" else " (secondary)")
+        out[cid].append(rec)
     return out
 
 
@@ -485,7 +661,10 @@ def main() -> int:
                     help="diff the union against a real in-game /bb diagnostics dump")
     ap.add_argument("--wow-path", default=DEFAULT_WOW,
                     help=f"WoW _retail_ path for --validate (default: {DEFAULT_WOW})")
+    add_raw_arg(ap)
     args = ap.parse_args()
+    if args.raw:
+        set_raw(args.raw)
 
     data = build()
 

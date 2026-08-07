@@ -1,79 +1,83 @@
 ---
-title: Demon Hunter Devourer — Abilities (Midnight S1)
+title: Demon Hunter Devourer — off-inventory abilities (Midnight S1)
 patch: 12.0.7
-fetched: 2026-07-11
-reviewed: 2026-07-11
+fetched: 2026-08-06
+reviewed: 2026-08-06
 sources:
-  - https://www.method.gg/guides/devourer-demon-hunter/playstyle-and-rotation  # tier 3, upd. 2026-06-17, 2026-07-11
-  - https://www.icy-veins.com/wow/devourer-demon-hunter-pve-dps-rotation-cooldowns-abilities  # tier 3, 12.0.7, 2026-07-11
-  - https://conquestcapped.com/guides/wow/devourer-demon-hunter-overview/  # tier 4 corroboration, 2026-07-11
-  - https://github.com/simulationcraft/simc/tree/midnight/profiles/MID1  # tier 1, MID1_Demon_Hunter_Devourer.simc, 2026-07-11
-  - raw/wago/SpellName.csv @ 12.0.7.67808  # tier 1, name canonicalization, 2026-07-11
-confidence: medium
+  - ./ability-inventory.md  # tier 1 — the generated inventory this file supplements, DB2 @ 12.0.7.67808
+  - ./talents.json  # tier 1 — Blizzard talent-tree capture, Devourer spec tree
+  - ../../_abilities/reconcile-ledger.md  # tier 1 derived — the DH verdicts, §4 + §5 G1/G2/G6
+  - ../../_talents/all-talents.tsv  # tier 1 — every spec's talent tree @ 12.0.7.67808
+  - ../../_abilities/section-3-corroborated.tsv  # tier 1 derived — override-aura reaches
+confidence: high
 ---
 
-# Demon Hunter Devourer — Abilities (Midnight S1)
+# Demon Hunter Devourer — off-inventory abilities
 
-Devourer is the **Midnight-new 4th Demon Hunter specialization** — a **mid-range
-(~25 yd, Evoker-like) Void caster** that keeps the class's mobility toolkit but
-"plants" for its key casts. It is a DPS spec, not a tank.
+**Everything about a Devourer ability is in `ability-inventory.md`** — 147 rows,
+each carrying spellID, cooldown, cast time, origin, talent/hero placement and the
+full tooltip. It is generated, Tier-1, DB2-pinned to `12.0.7.67808`.
 
-**Resource system — two interlocking resources:**
-- **Fury** — the standard DH primary resource. **Consume** and other builders
-  generate it; **Void Ray** (the main spender) costs **100 Fury** outside
-  transform.
-- **Soul Fragments ("Souls")** — a secondary economy unique to how Devourer
-  plays. Abilities generate Souls; Souls in turn generate Fury (Consume: +4 Fury
-  per Soul), boost damage via **Feast of Souls**, and — most importantly —
-  accumulate to **50** (35 with *Soul Glutton*) to unlock **Void Metamorphosis**.
+**This file holds only the two things that generated file structurally cannot
+say**, because it is a *join*: a row exists there because a Tier-1 acquisition
+table says this spec **learns** the spell. It can only ever list what **is**.
 
-**Playstyle in one line:** build Fury + Souls outside of transform, bank to
-**50 Souls**, pop **Void Metamorphosis**, then dump Souls into **Collapsing
-Star** and empowered casts before Fury drains and the form ends. The whole spec
-is built around maximizing damage inside those Void Metamorphosis windows.
+> ⛔ **If a Devourer ability is not named below, do not research it — read its row
+> in `ability-inventory.md` and go.** Rotation → `rotation.md`. Talents/hero pick
+> → `builds.md`. Both sections here are **closed lists, not backlogs.**
 
-**Hero trees:** **Annihilator** (the S1 default everywhere — a caster-leaning
-build that ramps *Voidfall* stacks to call down Void Meteors and barely does
-damage outside Meta) and **Void-Scarred** (Void Metamorphosis-centric; a
-single-target-competitive caster variant and a melee-hybrid variant using The
-Hunt / Hungering Slash). See `builds.md`.
+## §A — Real buttons the inventory cannot see
 
-> ⚠ Brand-new spec with no Warcraft Logs history distilled yet; several exact
-> numbers (charges, cooldowns, Fury/Soul values) come from Tier-3 guides and are
-> marked `@verify-ingame`. Names are canonicalized against Tier-1 game data
-> (`SpellName.csv` / the talent tree in `talents.md`).
+Confirmed to exist, but no spec-keyed acquisition table names them, so they will
+never appear in `ability-inventory.tsv`. **Absence there is not absence in game.**
 
-## Ability inventory
+> ⚠ **This section is a machine input.** `wowkb.gen_abilities` harvests the `name`
+> column of the table below — the heading is matched on the word **`inventory`** —
+> and feeds it to the `prose-only` leg of `section-4-catalogue.md`. Rename this
+> heading or drop the `name` column header and these rows **silently vanish from
+> the catalogue**, with no marker and no warning. §B is deliberately *not*
+> harvested: it asserts the opposite.
 
-| Ability | Function | Resource | Cast / CD | Description |
-|---|---|---|---|---|
-| **Consume** | Rotational-builder | Generates Fury + 1 Soul (+4 Fury/Soul) | ~2s cast, castable while moving | Primary filler outside transform. Becomes **Devour** inside Void Metamorphosis (collectible while moving). @verify-ingame exact Fury/Soul yield |
-| **Void Ray** | Rotational-spender | 100 Fury (free inside Meta) | 3s channel (haste-reduced), roots you | The main spender and a huge chunk of Devourer's damage + Soul generation. Outside Meta: no CD, costs 100 Fury. Inside Meta: no Fury cost but ~16s CD (14s talented). Fully channeling it resets **Reap** and can turn Reap into **Eradicate**. @verify-ingame CD inside Meta |
-| **Reap** | Rotational-builder | Pulls up to 4 Souls; generates Fury (*Scythe's Embrace*) | Instant, 8s CD | Instant ranged Cosmic damage; collects up to 4 Soul Fragments. CD resets on a full Void Ray channel. Becomes **Cull** inside Void Metamorphosis. *Eradicate* talent makes it an AoE frontal cone (primary AoE tool). |
-| **Soul Immolation** | Rotational-builder / maintenance | Generates 3 Souls + 30 Fury over 5s | ~1 min CD | On-demand Soul/Fury bump aura; also has a heal/dispel use. Maintain it (kept up outside Meta; refreshed as a resource pump). @verify-ingame CD/values |
-| **Void Metamorphosis** | Major cooldown | Requires 50 Souls (35 w/ *Soul Glutton*); Fury drains while active | Fragment-gated (no fixed timer) | The defining transform and burst window. Consumes banked Souls to activate, sharply raises damage, unlocks **Collapsing Star**, and upgrades core abilities (Reap→Cull, Consume→Devour, Voidblade→Pierce the Veil). Fury drains rapidly until it ends. |
-| **Collapsing Star** | Rotational-spender (Meta only) | 30 Souls | Meta-only | Massive Cosmic-damage Soul spender available only inside Void Metamorphosis; **always crits** (via the *Midnight* capstone) and each cast within the window hits harder. The core in-Meta payoff button. |
-| **Midnight** | Passive/empowerment capstone | — | — | Spec capstone (spell 1242486) that enables/empowers **Collapsing Star** (first rank = always crits). @verify-ingame exact effect |
-| **Cull** | Rotational-builder (Meta form of Reap) | Up to 4 Souls | Meta-only; CD reduced per Devour cast | Enhanced Reap while transformed; buffed by *Student of Suffering*. Consumes/collects Souls for damage. |
-| **Devour** | Rotational-builder (Meta form of Consume) | Fury + Souls | Meta-only, castable while moving | Consume's transformed version — soul-collecting filler used inside Void Metamorphosis. |
-| **Eradicate** | Rotational-spender / AoE | Souls + Fury | Talent; replaces Reap after a full Void Ray channel | AoE frontal cone; a large portion of Devourer's multi-target damage (*Eradicate* talent). |
-| **Voidblade** | Rotational-builder / Movement | Generates Fury | 30s CD, charges to target | Melee charge that generates Fury; enables melee-hybrid builds. Follows into **Hungering Slash** (talent) or **Pierce the Veil** (Void-Scarred, inside Meta). *Devourer's Bite* makes it a 12%/stack damage amp. |
-| **Hungering Slash** | Rotational-builder (talent) | Generates Fury; shatters up to 2 Soul Fragments | Talent | Converts Voidblade/The Hunt into melee slashes; core of the Void-Scarred melee hybrid. |
-| **Pierce the Veil** | Rotational-spender (Void-Scarred, Meta) | — | Meta-only | Void-Scarred's empowered Voidblade; first cast per window triggers **Voidsurge**. @verify-ingame |
-| **The Hunt** | Major cooldown / Movement | — | 90s CD | Class charge that dashes to a target and applies a DoT; opener + burst tool, heavier in Void-Scarred melee builds. |
-| **Void Nova** | CC | — | 45s CD, 30 yd, AoE | Midnight-new class talent (spell 1234195): stuns your target and nearby enemies for 3s. @verify-ingame |
-| **Disrupt** | Interrupt | — | 15s CD, 30 yd | Baseline ranged interrupt. |
-| **Consume Magic** | Dispel / Utility | — | class talent | Offensive dispel — removes a beneficial magic effect from an enemy (and can generate resources per DH design). |
-| **Imprison** | CC | — | class talent | Incapacitate a target (demon/beast/humanoid/dragonkin) — long-duration crowd control. |
-| **Sigil of Misery** | CC | — | class talent | Places a sigil that disorients/fears enemies in the area after a short delay. |
-| **Torment** | Utility (taunt) | — | — | Single-target taunt (DH baseline) — off-tank/soak utility for DPS. |
-| **Spectral Sight** | Utility | — | — | Reveals hidden/stealthed enemies; see through walls briefly (DH baseline). |
-| **Throw Glaive** | Utility / ranged | — | short CD/charges | Ranged thrown glaive — minor damage + range/utility (e.g. bouncing with *Bouncing Glaives*). |
-| **Vengeful Retreat** | Movement / Defensive | — | ~25s CD | Backward evasive leap; primarily a safety reposition, buffed by *Voidstep* in melee builds. |
-| **Shift** | Movement | — | 20s CD, 30 yd (to cursor) | **Midnight-new Devourer movement** — near-instant teleport toward your cursor within 30 yd (Devourer's replacement for Fel Rush). Baseline 1 charge; some guides cite up to 3 charges via talents. @verify-ingame charge count |
-| **Blur** | Defensive | — | 1 min CD, 10s | 25% damage reduction + dodge; a second charge is available via talent. Core personal defensive. |
-| **Darkness** | Defensive (raid/group) | — | class talent | Places a zone granting allies a chance to avoid incoming damage; proc-based value (stronger vs repeated damage events). |
-| **Soul Rending** | Passive (defensive) | — | passive | Leech/self-healing, boosted while transformed and when consuming Souls. |
-| **Demonic Wards** | Passive (defensive) | — | passive | Always-on magic damage reduction (Devourer's baseline mitigation). |
-| **Feast of Souls** | Passive (offensive) | — | passive | Soul Fragments increase your damage done — part of why banking Souls matters. |
-| **Voidfall** | Passive (mechanic) | — | passive | Annihilator mechanic: consuming stacks with Reap/Eradicate calls down Void Meteors (via *Meteoric Fall*). Build to 3 stacks then spend. |
+| spellID | name | how we know, and why the join misses it |
+|---|---|---|
+| `1277736` | Demonic Wards | Passive baseline magic mitigation. It **is** attached — `SpecializationSpells` → Devourer — but the generator drops **passive** `SpecializationSpells` rows (431 of 458 lost), so no inventory row exists. Tool gap **G1**; the siblings `278386` Havoc / `203513` Vengeance are the same hole. |
+| `1217610` | Devour | **The Void Metamorphosis form of Consume.** Parent `Consume` `473662` is `SpecializationSpells`/Devourer and live; a runtime override button has no acquisition row of its own, so no join can ever reach it. Tool gap **G2**. ⚠ `1217610` is a Tier-3 ID from the maxroll capture, not Tier-1-confirmed. **This prose is the only record of the button anywhere.** |
+| `1245483` | Pierce the Veil | **Void-Scarred's empowered Voidblade inside Void Metamorphosis.** `1245483` is a Midnight-range ID present in `SpellName` @ `12.0.7.67808` but attached to nothing; the parent `Voidblade` `1245412` is `talent-active` on live tree 854. Tool gap **G2**. **This prose is the only record of the button anywhere.** |
+
+**`Cull` deliberately has no row here.** It is the same shape — Reap's transform
+form, `1245453` — but it is already reached as `override-aura` off `Eradicate`
+`1239524` in `section-3-corroborated.tsv`, so the catalogue has it without prose.
+Adding it here would duplicate a Tier-1 reach with a hand assertion.
+
+## §B — Encountered, and we believe not valid
+
+Checked, and believed **not** part of this spec at 12.0.7. Listed so the next
+reader stops here instead of re-running the check.
+
+| name | verdict | evidence |
+|---|---|---|
+| Voidstep | **name drift — the live talent is `Voidrush`** | No `Voidstep` row in `all-talents.tsv` for **any** of the 40 specs. `talents.json` spec node `110173` carries **Voidrush** `1272422` ("Collapsing Star reduces the cooldown of Voidblade by 10 sec"), whose *icon file* is `inv_12_dh_void_ability_voidstep.jpg` — a dev-era filename is where the wrong name came from. |
+| Fel Rush | **suspected join over-report, not a Devourer button** | It enters the inventory via `SkillLineAbility:1848`, the Demon Hunter **class** skill line, which carries no spec granularity. The control: the same join also hands **Vengeance** Fel Rush `344865`, alongside its real `Infernal Strike` `189110`. Devourer's own movement button is **Shift** `1234796` (`SpecializationSpells`). Not settled — the class line can say yes but never no. |
+
+*[Tier 1: `all-talents.tsv` + `all-abilities.tsv` + this folder's `talents.json`,
+all @ `12.0.7.67808`.]*
+
+## Corrections this file has already made
+
+Kept only because re-asserting them is the likely failure mode:
+
+- **`Blur`'s cooldown column in the tsv reads `0.5` — that is the GCD, not the
+  cooldown.** Blur is charge-based and the generated schema has no charge-recharge
+  column, so the cell is meaningless for planning. Do not quote 0.5s.
+  *[reconcile-ledger §5 G6.]* Same trap on any charge ability in this spec.
+- **`Reap` and `Blur` are `class-baseline`, not talents.** Every Devourer has them
+  regardless of tree; an earlier revision of this file called both talented, off
+  Tier-3 guides.
+
+## Open in-game questions
+
+@verify-ingame Does Devourer's spellbook actually contain Fel Rush 344865, or does Shift 1234796 replace it as Infernal Strike does for Vengeance? Class SkillLine 1848 has no spec granularity, so only a spellbook enumeration settles it.
+
+Nothing else. A question belongs here only if it genuinely cannot be answered from
+game data. *"The exact cooldown / Fury yield / charge count is uncertain"* is
+**not** one: `ability-inventory.md` carries the Tier-1 number.

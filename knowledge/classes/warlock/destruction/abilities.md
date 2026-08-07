@@ -1,122 +1,110 @@
 ---
-title: Destruction Warlock — Ability Inventory (Midnight S1)
+title: Destruction Warlock — off-inventory abilities (Midnight S1)
 patch: 12.0.7
-fetched: 2026-07-11
-reviewed: 2026-08-01
+fetched: 2026-08-06
+reviewed: 2026-08-06
 sources:
-  - https://raw.githubusercontent.com/simulationcraft/simc/midnight/profiles/MID1/MID1_Warlock_Destruction.simc  # tier 1, simc midnight APL, 2026-07-11
-  - raw/wago/SpellName.csv @ 12.0.7  # tier 1 game-data name reconciliation, 2026-07-11
-  - https://www.method.gg/guides/destruction-warlock  # tier 3, upd. 2026-06-16, 2026-07-11
-  - https://www.method.gg/guides/destruction-warlock/playstyle-and-rotation  # tier 3, 2026-07-11
-  - raw/wago/SpellEffect.csv @ 12.0.7  # tier 1, energize effects -> the fragment yields, 2026-08-01
-  - raw/addon-research/simc @ ab7b0b8  # tier 1, local simc checkout (branch midnight, DBC 12.0.7.68887), 2026-08-01
+  - ./ability-inventory.md  # tier 1 — the generated inventory this file supplements, DB2 @ 12.0.7.67808
+  - ../../_abilities/pet-family-annex.tsv  # tier 1 — pet skill lines @ 12.0.7.67808
+  - ../../_abilities/all-abilities.tsv  # tier 1 — every spec's acquisition rows @ 12.0.7.67808
+  - ../../_talents/all-talents.tsv  # tier 1 — every spec's talent tree
+  - ../../_abilities/reconcile-ledger.md  # tier 1 derived — the name/origin verdicts applied here
 confidence: high
 ---
 
-# Destruction Warlock — Abilities (Midnight S1)
+# Destruction Warlock — off-inventory abilities
 
-## Overview
+**Everything about a Destruction ability is in `ability-inventory.md`** — 169
+rows, one row each carrying spellID, cooldown, cast time, origin, talent/hero
+placement and the full tooltip. It is generated, Tier-1, DB2-pinned to
+`12.0.7.67808`.
 
-- **Resource:** **Soul Shards** — displayed 0–5, stored internally as **0–50
-  fragments** (10 per shard; confirmed in-client 2026-08-01 via
-  `UnitPowerMax("player", SoulShards, true)` = 50 against a displayed 5).
-  Builders generate fragments; spenders — **Chaos Bolt** (2 shards / 20 frags),
-  **Rain of Fire** (3 / 30), **Shadowburn** (1 / 10) — consume whole shards. The
-  whole spec is a shard economy: never overcap, always be casting.
+**This file holds only the two things that generated file structurally cannot
+say**, because it is a *join*: a row exists there because a Tier-1 acquisition
+table says this spec **learns** the spell. It can only ever list what **is**.
 
-  **Yields, in fragments** (DB2 energize effects + 12.0.7 tooltips):
+> ⛔ **If a Destruction ability is not named below, do not research it — read its
+> row in `ability-inventory.md` and go.** Rotation and the shard economy →
+> `rotation.md`. Talents/hero pick → `builds.md`. Both sections here are
+> **closed lists, not backlogs.**
 
-  | Ability | Base | On crit | Modifiers |
-  |---|---|---|---|
-  | Incinerate | 2 | +1 | **Diabolic Embers ×2 → 4** |
-  | Conflagrate | 5 | — | MID1 4-set **+2** |
-  | Immolate / Wither tick | 1 | +1 at 50 % | haste-scaled 3 s period |
-  | Soul Fire | **10** (a full shard) | — | Havoc copy doubles |
-  | Infernal Bolt | **20** (Destro) / 30 (Demo) | — | see below |
-  | Shadowburn kill refund | 10 | — | — |
-  | Infernal pet / Overfiend | 1 / sec | — | — |
+## §A — Real buttons the inventory cannot see
 
-  ⚠ **Infernal Bolt is 20 or 30 on Destruction and the sources disagree** — one
-  reading has the spec aura `137046` (effect #13) applying −10 to Demonology's 30.
-  @verify-ingame — cast one as Diabolist and watch the bar move 2 shards or 3.
-- **Hero trees (Midnight):** **Diabolist** (default — best single target,
-  competitive in stacked cleave; builds shards into Chaos Bolt and cycles
-  **Diabolic Ritual → Demonic Art → free Ruination**) and **Hellcaller**
-  (replaces Immolate with **Wither**, adds the **Malevolence** burst CD; the
-  sustained-AoE / long-fight pick). Choose the tree first — it changes the
-  maintenance DoT and one major cooldown.
-- **Playstyle:** Chaos Bolt is the payoff button and most of the direct damage;
-  a maintained fire DoT (Immolate/Wither) plus a mix of instant Conflagrate and
-  Shadowburn keeps Destruction fairly mobile between hard-cast Incinerates.
+Confirmed to exist and be pressable, but no spec-keyed acquisition table names
+them, so they will never appear in `ability-inventory.tsv`. **Absence there is not
+absence in game.**
 
-## Ability inventory
+> ⚠ **This section is a machine input.** `wowkb.gen_abilities` harvests the `name`
+> column of the table below — the heading is matched on the word **`inventory`** —
+> and feeds it to the `prose-only` leg of `section-4-catalogue.md`. Rename this
+> heading or drop the `name` column header and these rows **silently vanish from
+> the catalogue**, with no marker and no warning. §B is deliberately *not*
+> harvested: it asserts the opposite.
 
-| Ability | Function | Resource | Cast / CD | Description |
-|---|---|---|---|---|
-| Incinerate | Rotational-builder | — | 2s cast | Core filler; generates **2** fragments (+1 on crit), **doubled to 4 by Diabolic Embers**. ⚠ **Fire and Brimstone does NOT grant fragments** — its 12.0.7 tooltip is damage-only (cleave); an earlier revision of this line said otherwise. |
-| Conflagrate | Rotational-builder | — | Instant · 2 charges, ~13s recharge | Instant fire nuke, generates **5** fragments (**7** with the MID1 4-set), grants **Backdraft** (faster Incinerate/Chaos Bolt casts). Mobile filler. |
-| Immolate | Rotational-builder (DoT) | — | 1.5s cast · DoT | Fire DoT you keep up; each tick generates **1** fragment (+1 at 50 % on a crit tick) and can proc Conflagrate resets. Diabolist maintenance DoT. |
-| Wither | Rotational-builder (DoT) | — | 1.5s cast · DoT | **Hellcaller** replacement for Immolate — stacking fire/shadow DoT that Malevolence detonates/empowers. Midnight-new hero DoT. @verify-ingame |
-| Chaos Bolt | Rotational-spender | 2 Soul Shards | ~2.5s cast | Primary spender and the bulk of single-target damage; benefits from crit scaling (Chaos Incarnate / Ruin). |
-| Rain of Fire | Rotational-spender (AoE) | 3 Soul Shards | Channeled AoE | Ground-target AoE spender; the shard dump at high target counts (Hellcaller sooner, Diabolist only at ~8+). |
-| Shadowburn | Rotational-spender / Execute | 1 Soul Shard | Instant · ⚠ **charges disputed — see below** | Instant spender, extra value sub-20% (execute) and with Fiendish Cruelty; refunds resources / shard on a kill. |
-| Soul Fire | Rotational-builder | — | ~4s cast · ~45s CD (charge-like) | Hard-cast that applies/refreshes Immolate and generates **10 fragments — a full Soul Shard**; best consumed with Backdraft. |
-| Cataclysm | Rotational-builder (AoE) | — | Instant · ~30s CD | Ground AoE that applies Immolate to all targets hit and deals burst damage; strong opener + AoE setup. |
-| Channel Demonfire | Rotational-spender | — | Channeled · ~25s CD | Launches bolts at all targets with Immolate/Wither; choice-node vs Demonfire Infusion. Talent. |
-| Infernal Bolt | Rotational-builder | — | ~2s cast | **Diabolist** Incinerate replacement that generates **more** shards; appears in the APL as a shard-refill button when low. Midnight-new. @verify-ingame |
-| Ruination | Rotational-spender (proc) | — | Instant (granted) | **Diabolist** free empowered nuke granted by cycling Diabolic Ritual → Demonic Art; press on proc. Midnight-new. @verify-ingame |
-| Embers of Nihilam | Rotational-spender / Apex | — | Active (talent) | Spec apex active (talent tree row 12). Situational burst button when talented. @verify-ingame |
-| Havoc | Utility (cleave) | — | Instant · ~30s CD | Marks a second target; single-target spells (Chaos Bolt, Shadowburn, etc.) are duplicated onto it. The 2-target cleave button. |
-| Summon Infernal | Major cooldown | — | Instant · 120s CD (90s w/ Inferno), 30s duration | Meteor + persistent infernal; the primary DPS burst window everything (potion/trinkets/racials) syncs to. Base CD confirmed 120s via DB2 (SpellCooldowns spell 1122); **Inferno** talent −30s → 90s. |
-| Malevolence | Major cooldown | — | ~60s CD | **Hellcaller** burst CD — grants haste and empowers/extends active Withers. Hellcaller-exclusive. Midnight-new. @verify-ingame |
-| Curse of Exhaustion | Utility (slow) | — | Instant | Reduces target movement speed. Curse. |
-| Curse of Tongues | Utility (slow-cast) | — | Instant | Slows enemy cast speed. Curse. |
-| Curse of Weakness | Utility (debuff) | — | Instant | Reduces target physical damage. Curse. |
-| Blight of Weakness | Utility (debuff) | — | Instant (talent) | **Hellcaller** curse upgrade (choice with Blight of Tongues) — the spreading/empowered version of Curse of Weakness. |
-| Drain Life | Defensive (self-heal) | — | Channeled | Channel that damages and heals you; the core sustain filler when low. |
-| Mortal Coil | CC / Defensive | — | Instant · 45s CD | Horrifies the target (~3s) and heals you 20–25% max HP. Talent. |
-| Shadowfury | CC (AoE stun) | — | Instant · ~30s CD | AoE stun at a ground location. Choice node with Howl of Terror. |
-| Fear | CC | — | 1.5s cast | Single-target fear; breaks on damage. |
-| Howl of Terror | CC (AoE) | — | Instant · CD (talent) | AoE fear around you; choice node with Shadowfury. |
-| Banish | CC | — | 1.5s cast | Incapacitates a Demon or Elemental. Talent. |
-| Spell Lock | Interrupt | — | Pet ability · 24s CD | **Felhunter** pet interrupt + purge; Destruction's interrupt comes from the pet, not the player. |
-| Subjugate Demon | Utility (enslave) | — | 3s cast | Takes control of a target demon. |
-| Fel Domination | Pet | — | Instant · long CD | Next pet summon is instant + free — emergency re-summon. |
-| Summon Pet (Imp / Voidwalker / Felhunter / Sayaad) | Pet | — | Cast | Your permanent pet; pick by utility (Felhunter interrupt/purge, Voidwalker tank, Imp dispel, Sayaad CC). Felguard is Demonology-only — not available to Destruction. |
-| Health Funnel | Pet (utility) | — | Channeled | Heals your pet from your health. |
-| Soulstone | Utility (battle rez) | — | 3s cast · long CD | Combat resurrection; can be pre-applied for a self-rez. |
-| Healthstone / Create Healthstone | Defensive (item) | — | Instant use | Instant heal (~25–30% HP); create out of combat, or reusable in combat with Pact of Gluttony. |
-| Create Soulwell | Utility | — | Cast | Places a well for the group to grab Healthstones. |
-| Soulburn | Utility (empower) | 1 Soul Shard | Instant · ~30s CD | Empowers your next specific spell (e.g. Soul Fire / Demonic Circle / Healthstone). Talent. |
-| Dark Pact | Defensive (absorb) | — | Instant · ~60s CD | Sacrifices health for a large shield; usable while CC'd. Talent. |
-| Unending Resolve | Defensive | — | Instant · ~3min CD | −25% damage taken (−40% with Strength of Will) + interrupt/silence immunity, 8s. |
-| Burning Rush | Movement | — | Toggle | +50% run speed at the cost of health-over-time; the main mobility toggle. |
-| Demonic Circle | Movement (utility) | — | Cast to place | Drops a portal; **Demonic Circle: Teleport** returns you to it. Talent. |
-| Demonic Circle: Teleport | Movement | — | Instant | Teleport to your placed Demonic Circle (also breaks roots). |
-| Demonic Gateway | Movement (utility) | — | Cast · ~10s | Places a linked portal pair; players click to travel between them. Talent. |
-| Grimoire of Sacrifice | Utility (passive buff) | — | Instant (talent) | Sacrifices your pet for a personal damage buff + a proc (choice with Summoner's Embrace). |
-| Command Demon / pet-specific | Utility | — | Instant | Contextual pet command (Spell Lock, Seduction, Shadow Bulwark, etc. depending on active pet). |
+| spellID | name | how we know, and why the join misses it |
+|---|---|---|
+| `19647` | Spell Lock | **Your only kick.** It is on the **Felhunter's** skill line (189), not yours — the pet path has no spec granularity in any DB2 table, so no row can attribute it to Destruction. In `../../_abilities/pet-family-annex.tsv` (cd 24s); catalogued `prose-only` in `section-4-catalogue.md`. Pressed via *Command Demon* `119898`, which **is** in the inventory and carries the `Interrupt` seed bucket — but Command Demon has no interrupt of its own, it delegates. ⚠ **Lose the Felhunter, lose the kick.** The Felhunter's `Devour Magic` `19505` reaches Destruction by the same path and is likewise uncatalogued. |
 
-> ⚠ **Shadowburn's "2 charges, ~12s recharge" is contradicted by Tier-1 data (2026-07-30).**
-> The old row asserted 2 charges. Two independent Tier-1 sources disagree: wago DB2 has
-> Shadowburn `17877` with `SpellCategories.ChargeCategory = 0` and
-> `SpellCooldowns.RecoveryTime = 0` (against Conflagrate `17962`, which carries
-> `ChargeCategory = 672`), and a live in-client capture found Shadowburn raising **no**
-> `Available`/`OnCooldown`/`ChargeGained` Cooldown-Manager alerts, i.e. it has no recovery
-> event at all — while Conflagrate raised all three. The likely origin of the old claim is
-> a pre-Midnight tooltip. **Not yet corrected outright**, because a talent could add charges
-> via an aura effect that base DB2 rows would not show. `@verify-ingame` — check
-> Shadowburn's tooltip on a live Destruction character and, if it shows 1 charge and no
-> recharge, delete this note and fix the row.
+**Destruction has no baseline personal interrupt, and that claim holds.** The only
+`Interrupt`-bucketed row in its 169-row inventory is *Command Demon*, a delegator.
+Plan interrupt assignments around the pet; the fallbacks are stops, not kicks
+(Shadowfury / Howl of Terror / Mortal Coil / Sayaad's Seduction).
 
+**This category is real and measured, not an edge case.** Across all 40 specs,
+pet-path and runtime-override buttons live in no spec-keyed DB2 table: `Devour`,
+`Pierce the Veil`, `Templar Slash`, `Void Volley` and `Heroic Strike` are all real
+pressed buttons whose *only* record anywhere is a hand-written row like this one.
 
-> **Interrupt note:** Destruction has **no baseline personal interrupt**. Kicks
-> come from the **Felhunter's Spell Lock** (or CC via Sayaad's Seduction /
-> Shadowfury / Howl of Terror / Mortal Coil). This matters for interrupt
-> assignments.
+## §B — Encountered, and we believe not valid
 
-> **Seed reconciliation:** the spec seed listed **Summon Felguard** — that is a
-> **Demonology** pet and is **not** available to Destruction; corrected above.
-> **Curse of Weakness** exists baseline; the Hellcaller talent line is
-> **Blight of Weakness / Blight of Tongues** (choice). Names verified vs
-> `raw/wago/SpellName.csv` @ 12.0.7.
+Names that appear in guides, older builds or other people's notes, which we have
+checked and believe are **not** part of this spec at 12.0.7. Listed so the next
+reader stops here instead of re-running the check.
+
+| name | verdict | evidence |
+|---|---|---|
+| Health Funnel | **not acquirable at 12.0.7** | zero rows across `all-abilities.tsv` (all 40 specs), `all-talents.tsv`, `pet-family-annex.tsv` and both catalogue tables. Nine spells carry the name in raw `SpellName` and **not one** attaches to an acquisition table — no talent node, no class skill line, no spec grant. It had a row here as a pet-sustain channel; deleted rather than left open, because the absence is measured. Pet healing is the pet's own business; don't plan around funnelling. |
+| Summon Felguard `30146` | **Demonology-only — Destruction cannot summon a Felguard** | `all-abilities.tsv` carries exactly one row for this name, `Warlock / Demonology / 266 / talent-active`, and `all-talents.tsv` places it on the **demonology spec tree**. The spec seed listed it; wrong. ⚠ *Fel Domination*'s tooltip still names Felguard — shared class text, not an acquisition claim. Consequence: **`Axe Toss` `89766` is unreachable for Destruction.** |
+| Healthstone `6262` | **not a learned player ability** | `6262` is the **item-use** spell and attaches to no acquisition table. The player ability is **`Create Healthstone`** `6201`, a SkillLineAbility on line 849 (Warlock) — already an inventory row under that name. Name-drift verdict recorded in `../../_abilities/reconcile-ledger.md`. |
+| Curse of Weakness → "the Hellcaller curse" | **Curse of Weakness is baseline; the Hellcaller line is a separate choice node** | `Curse of Weakness` `702` is class-baseline. The Hellcaller choice is **Blight of Weakness / Blight of Tongues**, both present as their own inventory rows. Do not merge them into one upgraded curse. |
+
+*[Tier 1: `all-abilities.tsv` / `all-talents.tsv` / `pet-family-annex.tsv`
+@ 12.0.7.67808.]*
+
+## Corrections this file has already made
+
+Kept only because re-asserting them is the likely failure mode:
+
+- **`Fire and Brimstone` `196408` does NOT grant fragments.** `talent-passive`,
+  `castable=false`; its 12.0.7 tooltip is damage-only — *"Incinerate now also hits
+  all enemies near your target for 25% damage."* Verified in the generated
+  inventory, 2026-08-06. An earlier revision of this file said otherwise.
+- **`Embers of Nihilam` `1265770` is a PASSIVE**, not a button — `talent-passive`,
+  `castable=false`. Casting Incinerate has a chance to evoke *Echo of Sargeras*.
+  An earlier revision called it a "situational burst button"; nothing in the
+  rotation is waiting on you to press it. Same for **`Ruination` `428522`**
+  (`talent-passive`): the *button* is Chaos Bolt, which becomes Ruination after a
+  Pit Lord summon.
+- **`Shadowburn` `17877` does not have 2 charges.** DB2 gives it
+  `ChargeCategory = 0` and `RecoveryTime = 0` (against Conflagrate `17962`,
+  `ChargeCategory = 672`), the inventory records cd 0, and a live in-client
+  capture found Shadowburn raising **no** `Available` / `OnCooldown` /
+  `ChargeGained` Cooldown-Manager alerts while Conflagrate raised all three. The
+  old "2 charges, ~12s recharge" is a pre-Midnight tooltip. ⚠ Note the spell's
+  *own* 12.0.7 tooltip still reads *"…and refunds a charge if the target dies"* —
+  legacy wording against four Tier-1 signals; the charge fields win.
+- **`Infernal Bolt`: 3 Soul Shards (30 fragments) on Destruction, not 2.** The
+  `Infernal Bolt` `433891` row is an unresolved DB2 template
+  (`generating ${$s2/10} Soul Shards`), but the Destruction-keyed **`Secrets of
+  the Coven` `428518`** row resolves the same text: *"…generating **3 Soul
+  Shards**."* That settles the old "20 or 30 and the sources disagree" note, which
+  carried an `@verify-ingame`. The sibling capture `maxroll-raid.md` (Tier 3,
+  `verbatim: true`) says **2** — a lower tier may corroborate Tier 1 but must
+  never overwrite it.
+
+## Open in-game questions
+
+**None.** A question belongs here only if it genuinely cannot be answered from
+game data — you must be logged in and looking at it. *"The exact cooldown /
+charges / shard yield is uncertain"* is **not** one: `ability-inventory.md`
+carries the Tier-1 number.

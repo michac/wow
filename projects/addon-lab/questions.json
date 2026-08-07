@@ -11,7 +11,7 @@
    "not-answerable": "no instrument can settle it and the reason is recorded in `expect`, so it is not re-attempted. `blocked_on` may still name what a DIFFERENT instrument would need — a desktop file read is not a ClientLab job, but it is not nothing either."
   },
   "cross_check": "`wowkb.lab deploy` asserts every `built` id here has a ns.Test{} and every ns.Test{} id is a `built` question. An unmatched id is a loud error, never a silent skip. An `answered` id still present in the Lua fails BY NAME — that is the direction the suite grows back in, and it is the one worth naming.",
-  "counts_as_of": "2026-08-05 (the unknowns pass + the drain that followed it): 51 answered, 6 built, 17 parked, 3 not-answerable (total 77). The six statuses collapsed to four here — `deferred`, `deferred-w1d` and `candidate` all said 'nobody got to it', which is not a state worth three names. `wowkb.lab deploy --check` refuses a status outside the four. The 6 remaining `built` rows are the whole live suite: 3 declare `blocked_on` and can only decline, 2 need a game situation nobody has been in (a CallbackEvent firing, a hero-tree swap), and 1 is the aspect-less eyeball channel.",
+  "counts_as_of": "2026-08-06 (after M2a — the four client claims a CDM binding and a movable panel were resting on, measured and drained): 55 answered, 7 built, 17 parked, 3 not-answerable (total 82). The six statuses collapsed to four here — `deferred`, `deferred-w1d` and `candidate` all said 'nobody got to it', which is not a state worth three names. `wowkb.lab deploy --check` refuses a status outside the four. The 7 remaining `built` rows are the whole live suite: 3 declare `blocked_on` and can only decline (one of those is the aspect-less eyeball channel), and 4 want a game situation nobody has been in — a CallbackEvent firing, a hero-tree swap, a value-sampled pull.",
   "anchor_form": "<file under knowledge/addon-dev/>:<line>. `also` lists further anchors that ask the same question — one test, several places in the KB to edit when it is answered.",
   "anchor_drift": "Anchors are `<file>:<line>` and LINE NUMBERS MOVE — the KB cleanup of 2026-08-05 silently drifted several. The `id` is the durable key; an anchor is a convenience. Treat a stale anchor as a lint finding, not as evidence the question is gone. ⚠ Nothing validates anchors today; that check belongs in `wowkb.lab deploy --check`.",
   "note_field": "Free text on a question that has been flown but not drained, or is otherwise not in the state its `status` alone suggests. It exists so 'we looked and chose not to' is distinguishable from 'nobody has looked'.",
@@ -220,7 +220,7 @@
   },
   {
    "id": "secret-api-surface",
-   "anchor": "security-taint-and-restricted-data.md:1328",
+   "anchor": "security-taint-and-restricted-data.md:1338",
    "bucket": "call",
    "status": "answered",
    "question": "Which of the security primitives are actually visible to an addon? `issecure`, `issecurevariable`, `issecretvalue`, `issecrettable`, `canaccessvalue`, `secureexecuterange`, `forceinsecure`, `hooksecurefunc`, `C_Secrets`. All are absent from the generated docs, and `issecurevariable` appears nowhere in the shipped source either — the wiki is its only source at any tier.",
@@ -248,7 +248,7 @@
   },
   {
    "id": "secret-op-store-local",
-   "anchor": "security-taint-and-restricted-data.md:722",
+   "anchor": "security-taint-and-restricted-data.md:732",
    "bucket": "secret",
    "status": "answered",
    "question": "§4.2 row 1 — store a secret in a local / upvalue / table VALUE.",
@@ -262,7 +262,7 @@
   },
   {
    "id": "secret-op-pass-lua-fn",
-   "anchor": "security-taint-and-restricted-data.md:723",
+   "anchor": "security-taint-and-restricted-data.md:733",
    "bucket": "secret",
    "status": "answered",
    "question": "§4.2 row 2 — pass a secret to a Lua function.",
@@ -276,7 +276,7 @@
   },
   {
    "id": "secret-op-pass-c-fn",
-   "anchor": "security-taint-and-restricted-data.md:724",
+   "anchor": "security-taint-and-restricted-data.md:734",
    "bucket": "secret",
    "status": "answered",
    "question": "§4.2 row 3 — pass a secret to an unmarked C function (e.g. `strlen`-ish builtin / a C API not marked as secret-accepting).",
@@ -290,7 +290,7 @@
   },
   {
    "id": "secret-op-concat",
-   "anchor": "security-taint-and-restricted-data.md:725",
+   "anchor": "security-taint-and-restricted-data.md:735",
    "bucket": "secret",
    "status": "answered",
    "question": "§4.2 row 4 — concatenate a secret string/number with `..`.",
@@ -304,7 +304,7 @@
   },
   {
    "id": "secret-op-string-format",
-   "anchor": "security-taint-and-restricted-data.md:726",
+   "anchor": "security-taint-and-restricted-data.md:736",
    "bucket": "secret",
    "status": "answered",
    "question": "§4.2 row 5 — `string.format` / `string.join` / `string.concat` with a secret argument.",
@@ -318,7 +318,7 @@
   },
   {
    "id": "secret-op-arith",
-   "anchor": "security-taint-and-restricted-data.md:727",
+   "anchor": "security-taint-and-restricted-data.md:737",
    "bucket": "secret",
    "status": "answered",
    "question": "§4.2 row 6 — arithmetic on a secret number.",
@@ -332,7 +332,7 @@
   },
   {
    "id": "secret-op-compare",
-   "anchor": "security-taint-and-restricted-data.md:728",
+   "anchor": "security-taint-and-restricted-data.md:738",
    "bucket": "secret",
    "status": "answered",
    "question": "§4.2 row 7 — compare a secret with `==` and with `<`.",
@@ -346,7 +346,7 @@
   },
   {
    "id": "secret-op-bool-test-boolean",
-   "anchor": "security-taint-and-restricted-data.md:729",
+   "anchor": "security-taint-and-restricted-data.md:739",
    "bucket": "secret",
    "status": "built",
    "question": "§4.2 row 8 — boolean test (`if v then`) on a BOOLEAN secret.",
@@ -355,7 +355,7 @@
   },
   {
    "id": "secret-op-bool-test-nonboolean",
-   "anchor": "security-taint-and-restricted-data.md:730",
+   "anchor": "security-taint-and-restricted-data.md:740",
    "bucket": "secret",
    "status": "answered",
    "question": "§4.2 row 9 — boolean test on a NON-boolean secret.",
@@ -369,7 +369,7 @@
   },
   {
    "id": "secret-op-length",
-   "anchor": "security-taint-and-restricted-data.md:731",
+   "anchor": "security-taint-and-restricted-data.md:741",
    "bucket": "secret",
    "status": "answered",
    "question": "§4.2 row 10 — length operator `#` on a secret.",
@@ -383,7 +383,7 @@
   },
   {
    "id": "secret-op-table-key",
-   "anchor": "security-taint-and-restricted-data.md:732",
+   "anchor": "security-taint-and-restricted-data.md:742",
    "bucket": "secret",
    "status": "answered",
    "question": "§4.2 row 11 — use a secret as a table KEY.",
@@ -397,7 +397,7 @@
   },
   {
    "id": "secret-op-index",
-   "anchor": "security-taint-and-restricted-data.md:733",
+   "anchor": "security-taint-and-restricted-data.md:743",
    "bucket": "secret",
    "status": "answered",
    "question": "§4.2 row 12 — index and index-assign a secret (`secret.foo`, `secret[\"foo\"] = 1`).",
@@ -411,7 +411,7 @@
   },
   {
    "id": "secret-op-call",
-   "anchor": "security-taint-and-restricted-data.md:734",
+   "anchor": "security-taint-and-restricted-data.md:744",
    "bucket": "secret",
    "status": "answered",
    "question": "§4.2 row 13 — call a secret as a function.",
@@ -425,7 +425,7 @@
   },
   {
    "id": "secret-op-type",
-   "anchor": "security-taint-and-restricted-data.md:735",
+   "anchor": "security-taint-and-restricted-data.md:745",
    "bucket": "secret",
    "status": "answered",
    "question": "§4.2 row 14 — `type(secret)`.",
@@ -547,7 +547,7 @@
   },
   {
    "id": "frame-strata-parent",
-   "anchor": "frames-textures-animation.md:485",
+   "anchor": "frames-textures-animation.md:522",
    "bucket": "frame",
    "status": "answered",
    "question": "What does frameStrata `PARENT` actually do? It is the XSD default and is never written explicitly anywhere in the shipped corpus.",
@@ -561,7 +561,7 @@
   },
   {
    "id": "frame-level-arithmetic",
-   "anchor": "frames-textures-animation.md:513",
+   "anchor": "frames-textures-animation.md:550",
    "bucket": "frame",
    "status": "answered",
    "question": "Do frame levels run 0–10000, does a child default to one level above its parent, and does moving a parent below 0 clamp to 10000?",
@@ -575,7 +575,7 @@
   },
   {
    "id": "draw-layer-z-order",
-   "anchor": "frames-textures-animation.md:606",
+   "anchor": "frames-textures-animation.md:643",
    "bucket": "frame",
    "status": "answered",
    "question": "Is the XSD's listing order of the five draw layers actually the z-order, and does HIGHLIGHT have special mouse-over semantics?",
@@ -590,7 +590,7 @@
   },
   {
    "id": "texture-source-exclusivity",
-   "anchor": "frames-textures-animation.md:644",
+   "anchor": "frames-textures-animation.md:681",
    "bucket": "frame",
    "status": "answered",
    "question": "Are SetTexture / SetAtlas / SetColorTexture mutually exclusive — does exactly one 'win'? `SetTexture(...)` then `SetAtlas(...)`, read GetTexture()/GetAtlas(), then the reverse order.",
@@ -604,7 +604,7 @@
   },
   {
    "id": "vertexcolor-vs-gradient",
-   "anchor": "frames-textures-animation.md:769",
+   "anchor": "frames-textures-animation.md:806",
    "bucket": "frame",
    "status": "answered",
    "question": "Do SetVertexColor and SetGradient write the same storage? White 8x8 texture, SetVertexColor(1,0,0), SetGradient(HORIZONTAL, yellow, blue), GetVertexColor(); then reverse.",
@@ -618,7 +618,7 @@
   },
   {
    "id": "settextcolor-vs-getvertexcolor",
-   "anchor": "frames-textures-animation.md:811",
+   "anchor": "frames-textures-animation.md:848",
    "bucket": "frame",
    "status": "answered",
    "question": "Do FontString:SetTextColor and Region:GetVertexColor share storage? `fs:SetTextColor(1,0,0)` then `fs:GetVertexColor()`, and the reverse.",
@@ -632,7 +632,7 @@
   },
   {
    "id": "anim-restore-without-final",
-   "anchor": "frames-textures-animation.md:1111",
+   "anchor": "frames-textures-animation.md:1148",
    "bucket": "anim",
    "status": "answered",
    "question": "What does an alpha or vertex-colour animation do to the underlying value when it stops WITHOUT `setToFinalAlpha`?",
@@ -677,7 +677,7 @@
   },
   {
    "id": "xml-color-element-target",
-   "anchor": "frames-textures-animation.md:856",
+   "anchor": "frames-textures-animation.md:893",
    "bucket": "xml",
    "status": "parked",
    "question": "Does an XML `<Color>` element compile to SetVertexColor or to SetColorTexture? Load a texture from XML with both `file` and `<Color>`, then read GetTexture() and GetVertexColor().",
@@ -763,9 +763,9 @@
   },
   {
    "id": "taintlog-level-5",
-   "anchor": "security-taint-and-restricted-data.md:467",
+   "anchor": "security-taint-and-restricted-data.md:477",
    "also": [
-    "security-taint-and-restricted-data.md:1869"
+    "security-taint-and-restricted-data.md:1879"
    ],
    "bucket": "call",
    "status": "not-answerable",
@@ -929,10 +929,10 @@
   },
   {
    "id": "secret-aspectless-pixel-moved",
-   "anchor": "security-taint-and-restricted-data.md:1282",
+   "anchor": "security-taint-and-restricted-data.md:1292",
    "also": [
-    "security-taint-and-restricted-data.md:1284",
-    "security-taint-and-restricted-data.md:1461"
+    "security-taint-and-restricted-data.md:1294",
+    "security-taint-and-restricted-data.md:1471"
    ],
    "bucket": "secret",
    "status": "built",
@@ -969,7 +969,7 @@
   },
   {
    "id": "secret-compare-to-nil-permitted",
-   "anchor": "security-taint-and-restricted-data.md:1514",
+   "anchor": "security-taint-and-restricted-data.md:1524",
    "bucket": "secret",
    "status": "answered",
    "question": "Is `x == nil` genuinely PERMITTED on a Secret Value, while `x == <number>` throws? Bare `==` against a number killed a refresh loop the instant combat started `[client 2026-08-04]`, but nil-guards have run on secrets every sample of every capture without raising.",
@@ -994,7 +994,7 @@
    "id": "cdm-aura-duration-object-chain",
    "anchor": "cooldown-manager.md:748",
    "also": [
-    "security-taint-and-restricted-data.md:1323"
+    "security-taint-and-restricted-data.md:1333"
    ],
    "bucket": "secret",
    "status": "answered",
@@ -1012,7 +1012,7 @@
    "id": "cdm-aura-duration-renders",
    "anchor": "cooldown-manager.md:748",
    "also": [
-    "security-taint-and-restricted-data.md:1323"
+    "security-taint-and-restricted-data.md:1333"
    ],
    "bucket": "secret",
    "status": "answered",
@@ -1024,6 +1024,80 @@
     "version": "0.2.1",
     "obs": "OBS-035",
     "tag": "[client 2026-08-05]"
+   }
+  },
+  {
+   "id": "assisted-combat-next-cast-varies",
+   "anchor": "cooldown-manager.md:935",
+   "bucket": "call",
+   "status": "built",
+   "question": "Does C_AssistedCombat.GetNextCastSpell's return VARY over a pull, or is it constant? §7 proves it is readable in combat but recorded a constant 691 (Summon Felhunter) at every sample.",
+   "expect": "UNKNOWN, and the instrument is the point. The 691 constant is NOT evidence the oracle is stuck: the recorder that produced it dedups by readability CLASS, so it sampled only at readable⇄secret transitions — of which there were none — and a value changing every GCD would have been recorded exactly once, indistinguishable from one that never changed. This samples on the player's own UNIT_SPELLCAST_SUCCEEDED instead, one sample per GCD boundary, paired with the cast that preceded it. distinctValues == 1 across a real pull means the oracle is constant and projects/combat-assist spec §3.1 has no content — that would kill M3 and force §6's first open question immediately. distinctValues > 1 means it moves, and whether it moves SENSIBLY is a judgement for a human reading the series, not for this test."
+  },
+  {
+   "id": "cdm-cooldownid-secret-when",
+   "anchor": "cooldown-manager.md:740",
+   "bucket": "call",
+   "status": "answered",
+   "question": "Can `item.cooldownID` on a Cooldown Manager item frame read SECRET, and in which state? Measured on the FIELD and on the accessor `item:GetCooldownID()` — the KB row names the field, a consumer calls the accessor, and they are not the same expression.",
+   "expect": "UNKNOWN. It is the only untagged row in a §7 Tier 2 table whose twelve neighbours all carry `[client]`, and it is load-bearing: `resolve out of combat, never overwrite a known-good id with an unreadable one` is the whole merge-don't-replace design of anything binding to the CDM. A result showing it is never secret does not fail the milestone — it means that machinery is unreachable and should be simplified rather than kept because it was expensive to write. ⚠ This row deliberately does NOT declare needs=\"secret\": that gate records `skipped` out of combat, `skipped` never drains, and the out-of-combat half IS half the claim — gating it would lose that half by construction.",
+   "note": "Returns `{ooc = {...}, combat = {...}}`, with `partial = true` while only the OOC half is on record — `partial` sorts below a complete result at drain time without refusing it. Ever-secret accumulates as a max rather than being replaced: one sighting answers `can read secret`, and a later all-plain sample must not erase it. The test also samples itself every 3 s through a pull, because one reading 2 s in is a weak reading of a field that can only go secret while something is rolling.",
+   "answered": {
+    "run": "2026-08-06 09:38:47",
+    "version": "0.2.2",
+    "obs": "OBS-056",
+    "tag": "[client 2026-08-06]"
+   }
+  },
+  {
+   "id": "cdm-hidden-viewer-item-frames",
+   "anchor": "cooldown-manager.md:857",
+   "bucket": "frame",
+   "status": "answered",
+   "question": "Does `CooldownViewerMixin:GetItemFrames()` still return item frames when the viewer itself is HIDDEN?",
+   "expect": "Tier 1 PREDICTS the children survive, and that is the reason to measure it rather than to assume it. GetItemFrames is GetLayoutChildren (`CooldownViewer.lua:1490-1497`), whose filter tests each CHILD's own `IsShown()` plus a `layoutIndex` (`LayoutFrame.lua:38`) rather than the viewer's `IsVisible()`, and the viewer's `OnHide` unregisters events without releasing `itemFramePool` (`:1570-1580`). It decides whether a consumer's `hidden` and `empty` health verdicts can discriminate at all, or should collapse to one. ⚠ FIVE NUMBERS OR IT PRODUCES A FALSE ANSWER — an empty list has three incompatible causes (the IsShown filter dropped every child / the pool holds nothing / no child carries a layoutIndex), so each row records IsShown, IsVisible, the raw child count, the pool-active count, #GetItemFrames() and how many raw children individually pass IsShown().",
+   "note": "Observational, and it declines rather than hiding a Blizzard frame itself — hiding a protected, Edit-Mode-managed frame from an addon is a different question with worse consequences. The precondition is a viewer that is hidden AND still holds pooled item frames; hidden-and-empty answers nothing and is reported as such. ⚠ The OOC pass fires only at PLAYER_LOGIN (+6 s) and on a spec/hero swap, so hiding a viewer mid-session produces no new run unless you press `/clab -> run all tests` or /reload.",
+   "answered": {
+    "run": "2026-08-06 09:41:27",
+    "version": "0.2.2",
+    "obs": "OBS-057",
+    "tag": "[client 2026-08-06]"
+   }
+  },
+  {
+   "id": "uiparent-child-frame-unprotected",
+   "anchor": "security-taint-and-restricted-data.md:127",
+   "also": [
+    "security-taint-and-restricted-data.md:189"
+   ],
+   "bucket": "frame",
+   "status": "answered",
+   "question": "Is an ordinary addon frame parented and anchored to UIParent `IsProtected() == false`, does anchoring it to a protected Blizzard frame change that, and do SetPoint / SetScale / Show / Hide still succeed on it IN COMBAT?",
+   "expect": "§1.1 asserts the frame is unprotected; §1.2 states that protection propagates to a protected frame's parents and anchor targets. But UIParent is itself `protected=\"true\"`, so a child of UIParent anchored to UIParent sits beside both legs of that rule, and the resolution — that the spread runs upward/outward FROM the protected frame and leaves such a child alone — is stated nowhere. Everything an addon draws rests on it. The in-combat pcalls are the half the claim is actually cashed for: all four setters sit in the protected-widget 59, and a `UI_SCALE_CHANGED` handler that re-`SetPoint`s carries no combat guard. Free rider: `:183`'s `[unverified]` on IsProtected()'s SECOND return is settled by recording both returns.",
+   "note": "No needs=\"secret\" — nothing here involves secret values and the gate would record `skipped` out of combat, where half the reading is taken. The protected anchor target is VERIFIED rather than assumed: the candidate's own IsProtected() is recorded beside it, and if no candidate reports itself protected the §1.2 half says so rather than implying a negative. Frames are created once at load; `run` executes on every retry tick.",
+   "answered": {
+    "run": "2026-08-06 09:38:47",
+    "version": "0.2.2",
+    "obs": "OBS-058",
+    "tag": "[client 2026-08-06]"
+   }
+  },
+  {
+   "id": "frame-clamp-reapplies-on-geometry-change",
+   "anchor": "frames-textures-animation.md:467",
+   "also": [
+    "frames-textures-animation.md:1566"
+   ],
+   "bucket": "frame",
+   "status": "answered",
+   "question": "Does `SetClampedToScreen(true)` re-clamp a frame parked past a screen edge when its own geometry changes (SetScale) or the screen's does (UI_SCALE_CHANGED / DISPLAY_SIZE_CHANGED), or is the clamp applied once at the call?",
+   "expect": "UNKNOWN — Tier 1 declares the setter and says nothing about when it applies. The case that matters is a movable panel parked at an edge and then met by a resolution or UI-scale change: a one-shot clamp walks the panel off screen with no recovery but a position reset. ⚠ Three ways to read a wrong number, all designed against: `GetLeft()` is in the frame's OWN coordinate space, so every reading is converted to screen units and compared against UIParent's equivalent (otherwise SetScale 'measures' a clamp failure that is arithmetic); the C layer plausibly applies the clamp off-frame, so each step is read inline AND after a settle; and `run` executes on every retry tick, so the frame is created once at load, kept shown but empty so a hidden frame is not a fourth confounder.",
+   "note": "The screen-side half is deliberately NOT `blocked` — a UI-scale change is one slider away, so the test declines with an instruction (`move the UI Scale slider, or /console uiScale 0.85`) and clears itself. `blocked` is for an input that does not exist on this machine and would drop the row out of coverage forever.",
+   "answered": {
+    "run": "2026-08-06 09:38:18",
+    "version": "0.2.2",
+    "obs": "OBS-059",
+    "tag": "[client 2026-08-06]"
    }
   }
  ]

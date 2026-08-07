@@ -1,87 +1,74 @@
 ---
-title: Hunter Beast Mastery — ability inventory (Midnight S1)
+title: Beast Mastery Hunter — off-inventory abilities (Midnight S1)
 patch: 12.0.7
-fetched: 2026-07-12
-reviewed: 2026-07-12
+fetched: 2026-08-06
+reviewed: 2026-08-06
 sources:
-  - simc midnight branch profiles/MID1/MID1_Hunter_Beast_Mastery.simc  # tier 1 APL + talent string, WoW 12.0.x
-  - https://www.method.gg/guides/beast-mastery-hunter/playstyle-and-rotation  # tier 3, 12.0.7
-  - https://www.icy-veins.com/wow/beast-mastery-hunter-pve-dps-rotation-cooldowns-abilities  # tier 3, 12.0.7
-  - raw/wago/SpellName.csv  # tier 1, name reconcile @ 12.0.7.67808
-confidence: medium
+  - ./ability-inventory.md  # tier 1 — the generated inventory this file supplements, DB2 @ 12.0.7.67808
+  - ../../_abilities/reconcile-ledger.md  # tier 1 derived — gaps G3 (SkillLine 183) and G5 (pet path)
+  - ../../_abilities/section-3-corroborated.tsv  # tier 1 — Primal Rage 264667, Kill Shot override link
+  - ../../_abilities/pet-family-annex.tsv  # tier 1 — pet skill lines @ 12.0.7.67808
+  - ../../_talents/all-talents.tsv  # tier 1 — every spec's talent tree
+confidence: high
 ---
 
-# Beast Mastery Hunter — abilities (Midnight S1, 12.0.7)
+# Beast Mastery Hunter — off-inventory abilities
 
-## Overview
+**Everything about a Beast Mastery ability is in `ability-inventory.md`** — 189
+rows, each carrying spellID, cooldown, cast time, origin, talent/hero placement
+and the full tooltip. It is generated, Tier-1, DB2-pinned to `12.0.7.67808`.
 
-Beast Mastery is a **ranged physical** spec whose damage is delivered mostly
-by the **pet(s)**, which means every ability is instant and castable while
-moving — the spec's signature. Resource is **Focus** (0–100, passive regen),
-generated chiefly by **Barbed Shot** (instant chunk via Pack Tactics) and
-spent on **Kill Command** and the **Cobra Shot** filler. The core loop is a
-two-charge juggle: never cap **Kill Command** or **Barbed Shot** charges, keep
-the pet's **Frenzy** stacks rolling with Barbed Shot, and pour everything else
-into Cobra Shot, all funnelled into the **Bestial Wrath** burst window every
-30s.
+**This file holds only the two things that generated file structurally cannot
+say**, because it is a *join*: a row exists there because a Tier-1 acquisition
+table says this spec **learns** the spell. It can only ever list what **is**.
 
-Two hero trees in S1:
-- **Pack Leader** — builds and spends **Howl of the Pack Leader** to summon a
-  rotating cast of empowered beasts (Wyvern / Boar / Bear) plus a **Stampede**
-  line on the first Kill Command inside Bestial Wrath. The default / recommended
-  tree for both single-target and AoE.
-- **Dark Ranger** — adds **Black Arrow** (a Deathblow-triggering shadow
-  attack) and **Wailing Arrow**, with a **Withering Fire** burst window. An
-  alternative single-target line.
+> ⛔ **If a Beast Mastery ability is not named below, do not research it — read
+> its row in `ability-inventory.md` and go.** Rotation → `rotation.md`.
+> Talents/hero pick → `builds.md`. Both sections here are **closed lists, not
+> backlogs.**
 
-> Names reconciled against `raw/wago/SpellName.csv` (12.0.7.67808): Cobra Shot
-> (145654), Barbed Shot (62318), Kill Command (34026), Wild Thrash (238250),
-> Bestial Wrath (19574), Black Arrow (Dark Ranger, 466930), Dire Beast (120679)
-> / Dire Beast: Hawk (208652), Wild Kingdom (356707), Chimaeral Sting (356719),
-> Ancient Hysteria (90355). **Interrupt note:** the seed listed *Muzzle*, but
-> Muzzle is the **Survival** melee interrupt — Beast Mastery's interrupt is
-> **Counter Shot** (147362, in the class tree). @verify-ingame
+## §A — Real buttons the inventory cannot see
 
-## Inventory
+Confirmed to exist and be pressable, but no spec-keyed acquisition table names
+them, so they will never appear in `ability-inventory.tsv`. **Absence there is
+not absence in game.**
 
-| Ability | Function | Resource | Cast / CD | Description |
-|---|---|---|---|---|
-| Barbed Shot | Rotational-builder | Generates ~25 Focus (Pack Tactics) | Instant · 2 charges, ~12s recharge | Applies/refreshes a bleed and stacks the pet's **Frenzy** (attack-speed buff). The spec's Focus engine and Frenzy-uptime button; never let charges cap. In Midnight it functions as a rolling DoT that stacks rather than resetting. @verify-ingame (recharge/Focus exact) |
-| Kill Command | Rotational-spender | 30 Focus | Instant · 2 charges (Alpha Predator), ~7.5s recharge | Commands the pet to savage the target — the primary spender and hardest hit. Empowered when **Nature's Ally** or **Howl of the Pack Leader** is up. Killer Cobra / Killer Instinct interactions in-tree. |
-| Cobra Shot | Rotational-builder/filler | 35 Focus | Instant | Focus-dump filler between Kill Command and Barbed Shot; reduces Kill Command's cooldown (strongly with **Killer Cobra** during Bestial Wrath). Decrements the Howl of the Pack Leader timer. @verify-ingame (Focus cost) |
-| Wild Thrash | Rotational-spender (AoE) | Focus | Instant · short CD | Midnight's primary AoE ability — **replaces Multi-Shot**. Enables/maintains **Beast Cleave** so the pet's Kill Commands hit all nearby enemies. Press whenever 2+ targets are up, even briefly. @verify-ingame (Focus cost/CD) |
-| Bestial Wrath | Major cooldown | No cost | Instant · 30s CD, ~15s duration | The core burst window: **+20% damage** (Midnight redesign, down from 30%) plus an upfront burst on activation. Triggers the capstones of **both** hero trees — Pack Leader's Howl summon + Stampede, Dark Ranger's Withering Fire. Dump Barbed Shot charges before pressing. |
-| Bloodshed | Passive | — | — | In the Midnight tree Bloodshed is a **passive** pet-damage talent (not the old active button). |
-| Dire Beast | Passive | — | — | Passively summons a short-lived beast to attack (procs off rotation). Pack Leader summons flavoured variants (**Dire Beast: Hawk** etc.). |
-| Nature's Ally | Rotational-empower (active) | — | Instant · CD | Spec capstone active that grants the **Nature's Ally** buff, empowering the next Kill Command(s). @verify-ingame (exact effect) |
-| Black Arrow | Rotational-spender (Dark Ranger) | Focus | Instant · CD | Dark Ranger shadow attack; low-health execute that can trigger **Deathblow** (free reset) and, in AoE, helps re-apply **Beast Cleave**. Spammable during **Withering Fire**. Dark Ranger only. |
-| Wailing Arrow | Rotational-spender (Dark Ranger) | Focus | ~2s cast | Dark Ranger nuke that guarantees a **Deathblow** proc and interrupts/silences targets hit for 1s. Replaces the Bestial Wrath button after activation in the Dark Ranger build. Dark Ranger only. @verify-ingame |
-| Hunter's Mark | Utility (buff) | No cost | Instant | Marks the target (bonus damage; reveals if stealthed). Apply pre-pull on the main target. |
-| Kill Shot | Execute | Focus | Instant · CD | Not present in the Midnight BM tree as a core button — execute pressure comes from Black Arrow / Deathblow instead. @verify-ingame (confirm absence) |
-| Counter Shot | Interrupt | No cost | Instant · 24s CD | Ranged interrupt (3s school lockout). BM's kick (class tree). Not Muzzle. |
-| Tranquilizing Shot | Dispel | 10 Focus | Instant · ~10s CD | Removes an Enrage or a Magic buff from the target. |
-| Intimidation | CC | No cost | Instant · ~60s CD | Commands the pet to stun the target ~5s. |
-| Binding Shot | CC | No cost | Instant · ~45s CD | Ground zone; enemies that move too far are stunned. AoE control. |
-| Freezing Trap | CC | No cost | Instant · 30s CD | Incapacitates the first enemy that enters (breaks on damage). |
-| Tar Trap | CC / slow | No cost | Instant · CD | Ground slow field; **Tar-Coated Bindings** synergy with Binding Shot. Choice-node vs Scare Beast. |
-| Scare Beast | CC | Focus | Cast | Fears a beast; choice-node alternative to Tar Trap. |
-| Concussive Shot | CC / slow | No cost | Instant · 5s CD | Single-target movement slow. |
-| Chimaeral Sting | CC | No cost | Instant · CD | Applies a disorienting poison (utility/PvP-leaning control). @verify-ingame |
-| Muzzle | Interrupt (Survival) | — | — | **Not a Beast Mastery ability** — Survival's melee interrupt; listed only to disambiguate the seed. BM uses Counter Shot. |
-| Exhilaration | Defensive (self-heal) | No cost | Instant · 2min CD | Heals a large chunk of your (and your pet's) max health; boosted by **Wilderness Medicine / Natural Mending**. |
-| Aspect of the Turtle | Defensive (immunity) | No cost | Instant · 3min CD | ~8s immunity to all damage/CC; you cannot attack while active. The panic button. |
-| Survival of the Fittest | Defensive | No cost | Instant · ~3min CD | Reduces damage taken by you and your pet (~30%) for a short window. |
-| Roar of Sacrifice | Defensive (external) | No cost | Instant · CD | Places a buff on a party member redirecting a share of damage they take to you. Choice-node vs Guardian's Hide. |
-| Survival cooldown — Aspect of the Cheetah | Movement | No cost | Instant · ~3min CD | Burst movement speed (then a lingering lesser boost); **Improved Aspect of the Cheetah** in tree. |
-| Disengage | Movement | No cost | Instant · ~20s CD | Leap backwards; disengages from melee. |
-| Feign Death | Utility | No cost | Instant · 30s CD | Drops combat / threat; also used to cancel casts and dodge mechanics. |
-| Misdirection | Utility (threat) | No cost | Instant · ~30s CD | Redirects your next few seconds of threat to your pet or a target ally. |
-| Camouflage | Utility (stealth) | No cost | Instant · CD | Stealth + minor heal-over-time; used to skip packs / reset. |
-| Flare | Utility | No cost | Instant · ~20s CD | Reveals stealth and removes some tracking/stealth effects in an area. |
-| Call Pet (1–5) | Pet | No cost | Cast | Summons one of your five stabled pets. |
-| Revive Pet | Pet | No cost | Cast | Resurrects a dead pet. |
-| Mend Pet | Pet (heal) | No cost | Channel · 10s CD | Heals the pet over time. |
-| Command Pet | Pet (utility) | — | — | Pet control (attack/follow/passive, special abilities). |
-| Wild Kingdom | Pet (utility/heal) | No cost | Instant · CD | Instantly heals/revives your pet and briefly calls additional pets to attack. @verify-ingame |
-| Ancient Hysteria / Primal Rage | Utility (Bloodlust) | No cost | Instant · long CD | Pet-provided Bloodlust/Heroism-equivalent (+30% haste, party-wide; exhaustion after). Availability depends on pet family / Primal Rage. @verify-ingame |
-| Auto Shot | Passive/auto | No cost | Auto | Automatic ranged attack; ticks in the background (in the APL as `auto_shot`). |
+> ⚠ **This section is a machine input.** `wowkb.gen_abilities` harvests the
+> `name` column of the table below — the heading is matched on the word
+> **`inventory`** — and feeds it to the `prose-only` leg of
+> `section-4-catalogue.md`. Rename this heading or drop the `name` column header
+> and these rows **silently vanish from the catalogue**, with no marker and no
+> warning. §B is deliberately *not* harvested: it asserts the opposite.
+
+| spellID | name | how we know, and why the join misses it |
+|---|---|---|
+| `75` | Auto Shot | Real and castable. `SkillLineAbility` on SkillLine **183 "GENERIC (DND)"**, which is outside the generator's two closed skill-line allowlists — so it is invisible for *every* Hunter spec. A **tool gap**, not a removal (ledger gap **G3**). No `@verify-ingame` on purpose: logging in cannot answer which DB2 skill line a generator reads. |
+| `883`, `83242`–`83245` | Call Pet 1 … Call Pet 5 | ⚠ **This `name` string looks like a harvest artifact** — it is range notation, not a live spell name. Reproduced verbatim under rule R1; a separate deliberate pass owns fixing it, and this row must not be split or reworded here. The underlying reality: all **five** spells (`Call Pet 1` 883, `Call Pet 2` 83242, `Call Pet 3` 83243, `Call Pet 4` 83244, `Call Pet 5` 83245) **are** in `ability-inventory.tsv` as `class-baseline` / `SkillLineAbility:795`. Five separate spells, one per stable slot — each needs its own keybind. Bare "Call Pet" resolves in `SpellName` but attaches to nothing. |
+| `264667` | Primal Rage | The pet-provided party-wide Lust. It rides `SpecializationSpells` → the **pet** spec *Ferocity*, and the pet path carries **no spec granularity in any DB2 table** (ledger gap **G5**), so no row can attribute it to Beast Mastery. ⚠ It is **not** in `pet-family-annex.tsv` either — the annex covers pet *skill lines*, and this is a pet *specialisation*. Already corroborated in `section-3-corroborated.tsv` (`GET /data/wow/spell/264667` → 200). **Whether you can Lust is decided by which pet you bring, not by a talent.** |
+
+Also invisible per-spec for the same G5 reason, and recorded in
+`../../_abilities/pet-family-annex.tsv` rather than here: the shared Hunter pet
+line **270 "Pet - Generic Hunter"** (`Growl` 2649, `Dash` 61684, `Intimidation`
+24394, …). Read the annex before concluding a pet button does not exist.
+
+## §B — Encountered, and we believe not valid
+
+Names that appear in guides, older builds or other people's notes, which we have
+checked and believe are **not** part of this spec at 12.0.7. Listed so the next
+reader stops here instead of re-running the check.
+
+| name | verdict | evidence |
+|---|---|---|
+| Kill Shot | **not on the Beast Mastery tree** | `all-talents.tsv` has exactly one Kill Shot node — 109490, spec tree, resolved by TraitCond → SpecSet to **hunter/marksmanship only**. Absent from BM's `ability-inventory.tsv`. ⚠ **It does appear in a BM row of `section-3-corroborated.tsv`** as `override-aura` reached from Black Arrow 466932 — that link is `class-shared`, i.e. join residue, **not** an acquisition. BM has no execute button; execute-window pressure comes from Black Arrow + Deathblow (Dark Ranger) instead. |
+| Muzzle | **Survival's, not reachable from here** | `all-talents.tsv`: node 79837, class tree, gated to **hunter/survival only**. BM's kick is `Counter Shot` 147362 (node 102292, gated Beast Mastery), already in `ability-inventory.tsv` — and it is ranged, so BM never closes to melee to interrupt. |
+| Ancient Hysteria | **does not exist at 12.0.7** | Neither 19372 nor 90355 attaches to a trait node, `SkillLineAbility`, `SpecializationSpells` or `PvpTalent` at 12.0.7.67808. The live pet Lust is **Primal Rage** 264667 (§A). |
+
+*[Tier 1: `all-talents.tsv` + `ability-inventory.tsv` + `section-3-corroborated.tsv`,
+all @ DB2 12.0.7.67808; verdicts recorded in `../../_abilities/reconcile-ledger.md`.]*
+
+## Open in-game questions
+
+**None.** A question belongs here only if it genuinely cannot be answered from
+game data — you must be logged in and looking at it. *"The exact cooldown / Focus
+cost is uncertain"* is **not** one: `ability-inventory.md` carries the Tier-1
+number.

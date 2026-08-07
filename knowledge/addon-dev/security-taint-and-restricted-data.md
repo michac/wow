@@ -2,7 +2,7 @@
 title: Security — protected actions, taint, and restricted data (secret values)
 patch: 12.0.7
 fetched: 2026-08-05
-reviewed: 2026-08-05
+reviewed: 2026-08-06
 sources:
   - https://github.com/Gethe/wow-ui-source (live, 12.0.7.68887, commit 4383ced30106)
   - IN-CLIENT MEASUREMENT 2026-08-04 — CDMProbe `/cdmp curve` (CurveLab.lua v0.32.98),
@@ -124,11 +124,17 @@ set, by owning documentation file:
 
 That list is the concrete answer to "what can't my addon do to a **protected**
 frame in combat": show/hide, move, resize, re-parent, re-scale, re-layer, and
-change input handling. On an ordinary, never-protected addon frame these methods
-are not restricted — **with the caveat in §1.2 that protection propagates to a
-protected frame's parents and anchor targets**, so an "ordinary" frame can
-acquire the restriction by being anchored or parented into a protected chain
-(Tier 2 for that propagation; no Tier-1 statement found).
+change input handling. On an ordinary addon frame these methods are **not**
+restricted, and the §1.2 propagation does not reach one by the routes an addon
+actually uses. Measured `[client 2026-08-06]`: a plain
+`CreateFrame("Frame", nil, UIParent)` anchored to UIParent reads
+`IsProtected() == false, false` — even though **UIParent itself reads
+`true, true`** — and re-anchoring that same frame to `ActionButton1`
+(`true, true`) left it `false, false`. In combat, `SetPoint`, `SetScale`, `Show`
+and `Hide` all succeeded on it. So the spread runs **outward from the protected
+frame** — to *its* parents and to the frames *it* is anchored to — and not
+inward to whatever chooses to parent or anchor itself onto one. Parenting an
+addon frame to UIParent, which is the ordinary case, costs nothing.
 
 ⚠ **`IsProtectedFunction = true` is not the whole protected-function surface.**
 It is the marker the *generated widget/API docs* use, and 58 of its 59 entries
@@ -180,11 +186,15 @@ The root secure template is one line:
 `ScriptRegion:IsProtected()` returns **two** values —
 `isProtected, isProtectedExplicitly`
 (`SimpleScriptRegionAPIDocumentation.lua:492`, returns at `:502-503`).
-**[unverified]** The natural reading is that the second flag distinguishes
-"protected because a template said so" from "protected by contagion"
-(parent / anchor) — but the generated docs carry **no** `Documentation` string
-for either return, and neither wiki page defines the pair. That is inference, not
-a documented contract. What *is* Tier 1 is that Blizzard's own secure-handler API
+The second flag distinguishes "protected because a template said so" from
+"protected by contagion" (parent / anchor), and **only the explicit half is
+measured**: two template-declared protected frames — UIParent and
+`ActionButton1` — both read `true, true`, and an ordinary addon frame reads
+`false, false` `[client 2026-08-06]`. **[gap]** No `true, false` frame, one
+protected *only* by contagion, was produced, so that half of the reading remains
+inference: the generated docs carry **no** `Documentation` string for either
+return, and neither wiki page defines the pair.
+What *is* Tier 1 is that Blizzard's own secure-handler API
 checks the *explicit* flag:
 `if (not select(2, header:IsProtected())) then error("Header frame must be
 explicitly protected"); end`

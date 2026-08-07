@@ -1,83 +1,74 @@
 ---
-title: Fire Mage — Abilities (Midnight S1)
+title: Fire Mage — off-inventory abilities (Midnight S1)
 patch: 12.0.7
-fetched: 2026-07-11
-reviewed: 2026-07-11
+fetched: 2026-08-06
+reviewed: 2026-08-06
 sources:
-  - simc midnight branch profiles/MID1/MID1_Mage_Fire.simc  # tier 1 APL + talent string, WoW 12.0.x
-  - https://www.method.gg/guides/fire-mage  # tier 3, 12.0.7, upd. 2026-06-16 (intro / removed abilities)
-  - https://www.method.gg/guides/fire-mage/playstyle-and-rotation  # tier 3, 12.0.7
-  - https://raw.githubusercontent.com/simulationcraft/simc/midnight/profiles/MID1/MID1_Mage_Fire.simc  # tier 1
-  - https://www.wowhead.com/spell=1257349/fired-up  # tier 4, Fired Up apex proc
+  - ./ability-inventory.md  # tier 1 — the generated inventory this file supplements, DB2 @ 12.0.7.67808
+  - ../../_talents/all-talents.tsv  # tier 1 — every spec's talent tree
+  - ../../_abilities/reconcile-ledger.md  # tier 1 derived — per-row verdicts
 confidence: high
 ---
 
-# Fire Mage — Abilities (Midnight S1)
+# Fire Mage — off-inventory abilities
 
-## Overview
+**Everything about a Fire ability is in `ability-inventory.md`** — 209 rows, one
+row each carrying spellID, cooldown, cast time, origin, talent/hero placement and
+the full tooltip. It is generated, Tier-1, DB2-pinned to `12.0.7.67808`.
 
-Fire is a **crit-and-proc burst caster**. The whole spec is a loop around two
-buffs: **Heating Up** (gained when a direct-damage fire spell crits) and
-**Hot Streak** (a second crit — or a **Fire Blast**, which is a guaranteed crit
-off the GCD — upgrades Heating Up into Hot Streak, making the next **Pyroblast**
-or **Flamestrike** instant and guaranteed-crit). Mastery is **Ignite**, a rolling
-burn that pools crit damage on the target. Damage is heavily front-loaded into
-the **Combustion** window (guarantees crits, so every spell feeds Hot Streak),
-which Kindling reduces to a ~1-minute cooldown.
+**This file holds only the two things that generated file structurally cannot
+say**, because it is a *join*: a row exists there because a Tier-1 acquisition
+table says this spec **learns** the spell. It can only ever list what **is**.
 
-- **Resource:** Mana (rarely a constraint) drives casts; the *rotational* economy
-  is **Fire Blast charges** (the Hot Streak converter) plus the Heating Up / Hot
-  Streak proc chain. During Combustion/**Hyperthermia** every cast crits, so Fire
-  Blast is spent purely to convert Heating Up.
-- **Hero trees:** **Sunfury** (recommended everywhere S1 — Spellfire Spheres +
-  Arcane Phoenix drive extra Meteorites, Haste, and Fire Blast CDR) and
-  **Frostfire** (Frostfire Bolt replaces Fireball; undertuned in S1). See
-  `builds.md`.
-- **Midnight removals (were baseline/rotational in prior expansions):**
-  **Phoenix Flames removed** (its Fire Blast-refund role is now covered by the
-  **Fired Up** apex proc), **Shifting Power removed**, and **Sun King's Blessing
-  folded into Pyroclasm**. Do not author these as live buttons.
+> ⛔ **If a Fire ability is not named below, do not research it — read its row in
+> `ability-inventory.md` and go.** Rotation → `rotation.md`. Talents/hero pick →
+> `builds.md`. Both sections here are **closed lists, not backlogs.**
 
-> Seed-list note: the seed listed **Prismatic Barrier** — that is *Arcane's*
-> baseline barrier. Fire's absorb is **Blazing Barrier** (class-tree, from the
-> talents.md), which is what appears below.
+## §A — Real buttons the inventory cannot see
 
-## Ability inventory
+Confirmed to exist and be pressable, but no spec-keyed acquisition table names
+them, so they will never appear in `ability-inventory.tsv`. **Absence there is not
+absence in game.**
 
-| Ability | Function | Resource | Cast / CD | Description |
-|---|---|---|---|---|
-| **Fireball** | Rotational-builder | Mana | ~2.25s cast | Primary single-target filler; crits grant **Heating Up**. Everything is cast to chase Fireball crits. |
-| **Frostfire Bolt** | Rotational-builder | Mana | ~2.25s cast | **Frostfire** hero-tree filler that *replaces* Fireball (deals Fire+Frost, feeds both schools). Talent; not used on the Sunfury build. |
-| **Fire Blast** | Rotational-builder (proc converter) | ~2 charges, off-GCD | Instant · ~12s recharge/charge | **Guaranteed crit, off the GCD.** Converts **Heating Up → Hot Streak** — the single most-pressed button. Bank 2–3 charges before Combustion. Flame On adds a charge + faster recharge. @verify-ingame (exact charges/recharge) |
-| **Pyroblast** | Rotational-spender | Mana | 3.5s cast · instant w/ **Hot Streak** | Single-target Hot Streak spender; the big Ignite deposit. Hardcast only when forced (e.g. Pyroclasm). |
-| **Scorch** | Rotational-builder / execute filler | Mana | 1.5s cast (castable while moving) | Movement filler and **execute** (empowered/guaranteed-crit under ~30% via Scald). **Heat Shimmer** proc makes it hit harder / instant. |
-| **Flamestrike** | Rotational-spender (AoE) | Mana | ~4s cast · instant w/ **Hot Streak** | Ground-targeted **AoE** Hot Streak spender (4+ targets). Replaces Pyroblast as the spender in AoE. |
-| **Meteor** | Major cooldown / AoE burst | Mana | Instant cast · ~45s CD | Ground-targeted burst + a burning DoT; **synced into Combustion**. Talent. @verify-ingame (CD) |
-| **Combustion** | Major cooldown | Mana | Instant · ~1 min CD (Kindling) | Guarantees critical strikes for ~10s (extended by **Fired Up** during the window). The burst window — use on cooldown. |
-| **Fired Up** | Passive (apex proc) | — | — | Consuming Hot Streak has a chance (much higher during Combustion) to grant **Fired Up**: +fire damage stacking buff **and −Fire Blast CD**; extends Combustion by 1s while it's up. Covers the removed Phoenix Flames refund. (talents.md flags row-11 as ACTIVE — @verify-ingame whether there is a pressable component.) |
-| **Arcane Explosion** | Rotational (off-spec AoE) | Mana | Instant | Baseline point-blank AoE; rarely used by Fire (Flamestrike is the AoE spender). |
-| **Counterspell** | Interrupt | Mana | Instant · 24s CD | Kick + 4s school lock. |
-| **Blazing Barrier** | Defensive (absorb) | Mana | Instant · ~25s CD | Fire's damage-absorb shield; knocks back / burns melee attackers. Pre-cast before damage. |
-| **Ice Block** | Defensive (immunity) | Mana | Instant · 4 min CD | Full immunity + clears magic; **Ice Cold** talent turns it into a big damage-reduction "cheat" and **Cauterize** links to it. Last-resort. |
-| **Cauterize** | Defensive (passive cheat-death) | — | Passive · ~1 min ICD | Fatal blow instead leaves you at low HP with a burning heal-over-time; talent. |
-| **Alter Time** | Defensive / utility | Mana | Instant · ~1 min CD | Snapshots HP/position; re-press within the window to rewind to it. Panic-button + positional reset. |
-| **Mirror Image** | Defensive / utility | Mana | Instant · 2 min CD | Summons 3 decoys, threat drop + damage reduction; also a small DPS/pre-pull cooldown. |
-| **Blink** / **Shimmer** | Movement | Mana | Instant · 15s CD (Shimmer 2 charges, off-GCD, castable while casting) | Short teleport. **Shimmer** (choice) is the DPS/mobility pick — off-GCD, usable mid-cast. |
-| **Frost Nova** | CC (root) | Mana | Instant · ~25s CD | PBAoE root; kiting + Combustion setup. |
-| **Cone of Cold** | CC / AoE | Mana | Instant · ~12s CD | Frontal slow + minor damage. |
-| **Dragon's Breath** / **Supernova** | CC | Mana | Instant · ~45s / ~25s CD | Choice node: **Dragon's Breath** frontal disorient (also fire damage); **Supernova** knock-up/AoE. |
-| **Polymorph** | CC | Mana | 1.7s cast | Single-target sheep; the mage crowd-control staple. |
-| **Mass Polymorph** | CC (AoE) | Mana | Cast · CD | Sheeps multiple targets; choice node vs Ring of Frost. |
-| **Spellsteal** | Utility (offensive dispel) | Mana | 1.5s cast | Steals a beneficial magic buff off an enemy. |
-| **Remove Curse** | Dispel | Mana | Instant · 8s CD | Removes a Curse from a friendly target. |
-| **Arcane Intellect** | Utility (raid buff) | Mana | Cast | Group Intellect buff; cast once, pre-pull. |
-| **Time Warp** | Major cooldown (Bloodlust) | Mana | Instant · 5 min CD | Group +30% Haste (Bloodlust effect). |
-| **Blazing Barrier / Blink / etc. movement & utility** | — | — | — | (see rows above) |
-| **Slow Fall** | Utility | Mana / reagent | Instant | Slow-fall on a friendly target. |
-| **Invisibility** / **Greater Invisibility** / **Mass Invisibility** | Utility / defensive | Mana | Instant · long CD | Threat drop / escape (Greater = self, big DR; Mass = whole group). |
-| **Mass Barrier** | REMOVED in Midnight | — | — | Not a live button (per method.gg). |
+> ⚠ **This section is a machine input.** `wowkb.gen_abilities` harvests the `name`
+> column of the table below — the heading is matched on the word **`inventory`** —
+> and feeds it to the `prose-only` leg of `section-4-catalogue`. Rename this
+> heading or drop the `name` column header and these rows **silently vanish from
+> the catalogue**, with no marker and no warning. §B is deliberately *not*
+> harvested: it asserts the opposite.
 
-> Cast times/cooldowns are baseline values (haste and talents shorten many);
-> the load-bearing detail for button priority is the **Function** column and the
-> Fireball → Fire Blast → Pyroblast proc loop, not the exact seconds. Entries
-> marked @verify-ingame carry the least certainty on their numeric CD.
+_None known for this spec._ Fire is petless and has no runtime-override button;
+every name the previous prose carried resolves to an acquisition row in
+`ability-inventory.tsv` (checked name-by-name, 2026-08-06).
+
+## §B — Encountered, and we believe not valid
+
+| name | verdict | evidence |
+|---|---|---|
+| Phoenix Flames | **removed in Midnight** | absent from `all-talents.tsv` for **every** spec, and from Fire's `ability-inventory.tsv` under any origin. Its Fire Blast-refund role is covered by the **Fired Up** apex proc `1257343`. `builds.md` already records the removal. |
+| Shifting Power | **not acquirable by any Mage spec** | absent from `all-talents.tsv` for every spec. Its only DB2 attachment is a SkillLineAbility row on the dead Shadowlands *Night Fae* covenant line — not a live acquisition path. |
+| Sun King's Blessing | **folded into Pyroclasm** | absent from `all-talents.tsv` for every spec; **Pyroclasm** is the live node that carries the effect. Not a separate button or buff to track. |
+| Mass Barrier `414660` | **not acquirable at 12.0.7** | attaches to no trait node, SkillLineAbility, SpecializationSpells or PvpTalent entry (`reconcile-ledger.md`). It survives only as a Cooldown-Manager set entry, which is why it can surface in *Frost's* inventory as `cdm-only`. **A CooldownSet row is not an acquisition row.** |
+| Prismatic Barrier `235450` | **belongs to Arcane, not on this tree** | the class barrier node resolves to one spell per spec — `all-talents.tsv` node `62119`→Blazing Barrier `235313` for Fire, `62121`→Prismatic Barrier for Arcane, `62117`→Ice Barrier for Frost. The BucketBinds seed once listed Prismatic Barrier for Fire; Fire's only barrier is **Blazing Barrier**. |
+| Ice Barrier `11426` | **appears in Fire's inventory as `cdm-only` — still not castable by Fire** | Fire's `ability-inventory.tsv` genuinely has an `Ice Barrier` row, origin `cdm-only`, source `CooldownSetSpell`. That is Blizzard's Cooldown-Manager set leaking Frost's barrier into Fire's set; there is **no** Fire trait node for it. Same trap as Mass Barrier, in the opposite direction — listed here precisely because the inventory *does* show it. |
+
+*[Tier 1: `all-talents.tsv` + per-spec `ability-inventory.tsv`, DB2 @ 12.0.7.67808;
+`_abilities/reconcile-ledger.md`.]*
+
+## Corrections this file has already made
+
+Kept only because re-asserting them is the likely failure mode:
+
+- **`Fired Up` `1257343` is a PASSIVE** — `talent-passive`, `castable=false`,
+  cd 0. An earlier revision hung an `@verify-ingame` on *"whether there is a
+  pressable component"* because `talents.md` flags the row-11 node ACTIVE. The
+  inventory row settles it: **there is no button.** Do not put it on a bar.
+- **Cone of Cold is a 25s class-baseline cooldown**, not an AoE filler you weave.
+  Older prose halved it. Take the number from `ability-inventory.md`.
+
+## Open in-game questions
+
+**None.** A question belongs here only if it genuinely cannot be answered from
+game data — you must be logged in and looking at it. *"The exact charges /
+recharge is uncertain"* is **not** one: `ability-inventory.md` carries the Tier-1
+number (e.g. Fire Blast `108853`).

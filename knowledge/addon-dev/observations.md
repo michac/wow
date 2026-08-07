@@ -945,3 +945,69 @@ Lua Taint: ClientLab, hex_decode_ok=n=1 string "hello", hex_encode=n=1 string "6
 **Drains to:** `state-persistence-and-communication.md:942`
 
 **Status:** drained 2026-08-05
+
+---
+
+## OBS-056 · 2026-08-06 · Can `item.cooldownID` on a Cooldown Manager item frame read SECRET, and in which state
+
+**Observed:** `cdm-cooldownid-secret-when` recorded **ok** — `{combat={disagreements=0, everFieldSecret=false, everMethodSecret=false, fieldErrored=0, fieldNil=0, fieldNumber=26, fieldOther=0, fieldSecret=0, frames=26, methodErrored=0, methodNil=0, methodNumber=26, methodOther=0, methodSecret=0, samples=1, viewers=4}, ooc={disagreements=0, everFieldSecret=false, everMethodSecret=false, fieldErrored=0, fieldNil=0, fieldNumber=26, fieldOther=0, fieldSecret=0, frames=26, methodErrored=0, methodNil=0, methodNumber=26, methodOther=0, methodSecret=0, samples=1, viewers=4}}`
+
+**How:** ClientLab run **2026-08-06 09:38:47** (v0.2.2, interface 120007), in combat, instance `none`. A direct measurement in the client.
+
+**Expected (questions.json):** UNKNOWN. It is the only untagged row in a §7 Tier 2 table whose twelve neighbours all carry `[client]`, and it is load-bearing: `resolve out of combat, never overwrite a known-good id with an unreadable one` is the whole merge-don't-replace design of anything binding to the CDM. A result showing it is never secret does not fail the milestone — it means that machinery is unreachable and should be simplified rather than kept because it was expensive to write. ⚠ This row deliberately does NOT declare needs="secret": that gate records `skipped` out of combat, `skipped` never drains, and the out-of-combat half IS half the claim — gating it would lose that half by construction.
+
+**Confidence:** high — the client answered directly. Low only if the result contradicts `expect` in a way that suggests the test asked the wrong thing.
+
+**Drains to:** `cooldown-manager.md:740`
+
+**Status:** drained 2026-08-06
+
+---
+
+## OBS-057 · 2026-08-06 · Does `CooldownViewerMixin:GetItemFrames()` still return item frames when the viewer itse
+
+**Observed:** `cdm-hidden-viewer-item-frames` recorded **ok** — `{hiddenAndPopulated=4, hiddenViewers=EssentialCooldownViewer, UtilityCooldownViewer, BuffIconCooldownViewer, BuffBarCooldownViewer, viewers={BuffBarCooldownViewer=IsShown=false IsVisible=false children=4 childrenShown=0 poolActive=3 itemFrames=3, BuffIconCooldownViewer=IsShown=false IsVisible=false children=9 childrenShown=1 poolActive=7 itemFrames=7, EssentialCooldownViewer=IsShown=false IsVisible=false children=10 childrenShown=9 poolActive=9 itemFrames=9, UtilityCooldownViewer=IsShown=false IsVisible=false children=8 childrenShown=7 poolActive=7 itemFrames=7}}`
+
+**How:** ClientLab run **2026-08-06 09:41:27** (v0.2.2, interface 120007), out of combat, instance `none`. A direct measurement in the client.
+
+**Expected (questions.json):** Tier 1 PREDICTS the children survive, and that is the reason to measure it rather than to assume it. GetItemFrames is GetLayoutChildren (`CooldownViewer.lua:1490-1497`), whose filter tests each CHILD's own `IsShown()` plus a `layoutIndex` (`LayoutFrame.lua:38`) rather than the viewer's `IsVisible()`, and the viewer's `OnHide` unregisters events without releasing `itemFramePool` (`:1570-1580`). It decides whether a consumer's `hidden` and `empty` health verdicts can discriminate at all, or should collapse to one. ⚠ FIVE NUMBERS OR IT PRODUCES A FALSE ANSWER — an empty list has three incompatible causes (the IsShown filter dropped every child / the pool holds nothing / no child carries a layoutIndex), so each row records IsShown, IsVisible, the raw child count, the pool-active count, #GetItemFrames() and how many raw children individually pass IsShown().
+
+**Confidence:** high — the client answered directly. Low only if the result contradicts `expect` in a way that suggests the test asked the wrong thing.
+
+**Drains to:** `cooldown-manager.md:857`
+
+**Status:** drained 2026-08-06
+
+---
+
+## OBS-058 · 2026-08-06 · Is an ordinary addon frame parented and anchored to UIParent `IsProtected() == false`, d
+
+**Observed:** `uiparent-child-frame-unprotected` recorded **ok** — `{inCombatOps=SetPoint=ok SetScale=ok Show=ok Hide=ok, plainUnderUIParent=isProtected=false explicit=false, reanchoredToProtected=target=ActionButton1 (isProtected=true explicit=true) -> our frame now isProtected=false explicit=false, uiparentItself=isProtected=true explicit=true}`
+
+**How:** ClientLab run **2026-08-06 09:38:47** (v0.2.2, interface 120007), in combat, instance `none`. A direct measurement in the client.
+
+**Expected (questions.json):** §1.1 asserts the frame is unprotected; §1.2 states that protection propagates to a protected frame's parents and anchor targets. But UIParent is itself `protected="true"`, so a child of UIParent anchored to UIParent sits beside both legs of that rule, and the resolution — that the spread runs upward/outward FROM the protected frame and leaves such a child alone — is stated nowhere. Everything an addon draws rests on it. The in-combat pcalls are the half the claim is actually cashed for: all four setters sit in the protected-widget 59, and a `UI_SCALE_CHANGED` handler that re-`SetPoint`s carries no combat guard. Free rider: `:183`'s `[unverified]` on IsProtected()'s SECOND return is settled by recording both returns.
+
+**Confidence:** high — the client answered directly. Low only if the result contradicts `expect` in a way that suggests the test asked the wrong thing.
+
+**Drains to:** `security-taint-and-restricted-data.md:131`, `security-taint-and-restricted-data.md:183`
+
+**Status:** drained 2026-08-06
+
+---
+
+## OBS-059 · 2026-08-06 · Does `SetClampedToScreen(true)` re-clamp a frame parked past a screen edge when its own 
+
+**Observed:** `frame-clamp-reapplies-on-geometry-change` recorded **ok** — `{readings=DISPLAY_SIZE_CHANGED, inline -> no resolved rect | UI_SCALE_CHANGED, inline -> no resolved rect | DISPLAY_SIZE_CHANGED, inline -> no resolved rect | UI_SCALE_CHANGED, inline -> no resolved rect | DISPLAY_SIZE_CHANGED, after a settle -> no resolved rect | UI_SCALE_CHANGED, after a settle -> no resolved rect | DISPLAY_SIZE_CHANGED, after a settle -> no resolved rect | UI_SCALE_CHANGED, after a settle -> no resolved rect | at rest, before parking -> no resolved rect | parked 120 past the top-left corner, same frame -> left=-0.0 right=128.0 screen=[0.0,1365.3] scale=0.640 onScreen=true | parked, after a settle -> left=-0.0 right=128.0 screen=[0.0,1365.3] scale=0.640 onScreen=true | immediately after SetScale(2), a geometry change of its own -> left=-0.0 right=256.0 screen=[0.0,1365.3] scale=1.280 onScreen=true | SetScale(2), after a settle -> left=-0.0 right=256.0 screen=[0.0,1365.3] scale=1.280 onScreen=true, scaleEvents=4}`
+
+**How:** ClientLab run **2026-08-06 09:38:18** (v0.2.2, interface 120007), out of combat, instance `none`. A direct measurement in the client.
+
+⚠ **The run quoted above is the FIRST of the session and predates the UI-scale change**, so its eight `no resolved rect` readings are the login-time events, taken before the frame was anchored. The screen-side half — four post-park firings across two UI-scale changes, `left` pinned at `0.0` at scales 2.000 / 1.560 / 1.280 — is on **run 17 of the same session** (`2026-08-06 09:42:48`), which is what `frames-textures-animation.md` §3.6 tabulates. `drain` picks the earliest complete run; both are the same session and the same date.
+
+**Expected (questions.json):** UNKNOWN — Tier 1 declares the setter and says nothing about when it applies. The case that matters is a movable panel parked at an edge and then met by a resolution or UI-scale change: a one-shot clamp walks the panel off screen with no recovery but a position reset. ⚠ Three ways to read a wrong number, all designed against: `GetLeft()` is in the frame's OWN coordinate space, so every reading is converted to screen units and compared against UIParent's equivalent (otherwise SetScale 'measures' a clamp failure that is arithmetic); the C layer plausibly applies the clamp off-frame, so each step is read inline AND after a settle; and `run` executes on every retry tick, so the frame is created once at load, kept shown but empty so a hidden frame is not a fourth confounder.
+
+**Confidence:** high — the client answered directly. Low only if the result contradicts `expect` in a way that suggests the test asked the wrong thing.
+
+**Drains to:** `frames-textures-animation.md:467`, `frames-textures-animation.md:1540`
+
+**Status:** drained 2026-08-06

@@ -2,7 +2,7 @@
 title: The Cooldown Manager — how a CDM row resolves
 patch: 12.0.7
 fetched: 2026-08-05
-reviewed: 2026-08-05   # + a client capture 2026-07-31 (CDMProbe /cdmp census, Destruction both hero trees)
+reviewed: 2026-08-06   # + a client capture 2026-07-31 (CDMProbe /cdmp census, Destruction both hero trees)
 sources:
   - raw/addon-research/wow-ui-source @ 12.0.7.68887 — Interface/AddOns/Blizzard_CooldownViewer/*
   - raw/addon-research/wow-ui-source @ 12.0.7.68887 — Blizzard_APIDocumentationGenerated/CooldownViewer{,Constants}Documentation.lua
@@ -737,7 +737,7 @@ author's own invention**, and the most obvious such classifier is **false**: the
 | `item.wasSetFromCharges` / `wasSetFromCooldown` / `wasSetFromAura` | tab 1 | **readable** `[client 2026-07-31]` | Plain booleans set by bare assignment `[:648-669]` recording **which of the four sources won this refresh** — i.e. what the dial currently *means*. 66–69 readable vs 9 `nil` per capture, unchanged in and out of combat. The one axis separating "the swipe is a cooldown" from "the swipe is an aura remaining". |
 | `item:IsActive()` | tab 2 only, meaningfully | **readable** `[client 2026-07-31]` | On tab 1 it is `cooldownID ~= nil` → a **constant `true`** that is actively misleading, not merely useless (§8 rule 10). Gate on family. |
 | `item:IsShown()` | both | conditional | `ShouldBeShown` returns true immediately when `not allowHideWhenInactive` **or** `not hideWhenInactive` `[:311-335]`. If the viewer is not set to hide-when-inactive this is **constant true** and anything driven off it latches on permanently. Capability-check, never assume. |
-| `item.cooldownID` | both | **can read secret** | The binding key. Resolve out of combat; never overwrite a known-good id with an unreadable one. |
+| `item.cooldownID` | both | **readable — plain, in combat and out** `[client 2026-08-06]` | The binding key, and the one field here that never sealed: 26 rows across all four viewers, **zero** secret reads on the field or on `item:GetCooldownID()`, over 4 out-of-combat runs and 13 samples spread through a pull. The two expressions never disagreed. It carries no `Secret*` annotation to guarantee it, so class-check as usual — but a binding that retains a stale id against an unreadable one is guarding a case never observed. |
 | `item.cooldownStartTime` / `cooldownDuration` | tab 1 | **secret** | Copied straight from `C_Spell.GetSpellCooldown`, so they inherit its secrecy. Values, not verdicts. |
 | `item.pandemicStartTime` / `pandemicEndTime` | both | **secret**; `IsInPandemicTime` **throws** `[client 2026-07-30]` | The throw is a *comparison* failure inside the method body `[:587]`, not a block — so the guard is `pcall`, not `issecretvalue` (§5.2). |
 | `item.pandemicAlertTriggerTime` / `nextAvailableTimeToPlayPandemicAlert` | both | **secret** `[client 2026-07-31]` | The alert's arm + throttle, transitioning exactly as `[:548-555]` describes. Useful only as a *class* (armed vs fired); the numbers never read. |
@@ -854,6 +854,39 @@ aura instance is still on the target" from "a different one is", which is a genu
 in-combat fact even though it carries no timing. Pair it with `auraDataUnit` (which side
 the aura is on) and `PandemicIcon` (is it refreshable) for the readable set.
 
+**How you OBTAIN these rows: `GetItemFrames()` keeps answering when the viewer is
+hidden.** It is `GetItemContainerFrame():GetLayoutChildren()`, and the container is the
+viewer itself `[T1 src: CooldownViewer.lua:1490-1497]`. `GetLayoutChildren` admits a
+pooled child only if three conditions hold — the child is shown **or** sets
+`includeAsLayoutChildWhenHidden`, it is not ignored in layout, and it carries a
+`layoutIndex`
+`[T1 src: Blizzard_SharedXML/LayoutFrame.lua:33-42 (the filter at :38), :58-68]`. The
+shown leg tests the **child's** own `IsShown()`, not the viewer's `IsVisible()` — and all
+four item templates set `includeAsLayoutChildWhenHidden = true`
+`[T1 src: CooldownViewer.xml:24, :90, :156, :207]`, so that leg never binds on a CDM row
+at all. The viewer's `OnHide` unregisters events without releasing `itemFramePool`
+`[T1 src: CooldownViewer.lua:1570-1580]`.
+
+**Measured with all four viewers hidden in Edit Mode** `[client 2026-08-06]`
+(Destruction, out of combat):
+
+| viewer | `IsShown` / `IsVisible` | children | of those, shown | pool active | `#GetItemFrames()` |
+|---|---|---|---|---|---|
+| `EssentialCooldownViewer` | false / false | 10 | 9 | 9 | **9** |
+| `UtilityCooldownViewer` | false / false | 8 | 7 | 7 | **7** |
+| `BuffIconCooldownViewer` | false / false | 9 | 1 | 7 | **7** |
+| `BuffBarCooldownViewer` | false / false | 4 | 0 | 3 | **3** |
+
+`#GetItemFrames()` equals the pool's active count on every viewer, hidden or not. The two
+aura viewers are the ones that prove the mechanism rather than merely surviving it: their
+item frames are individually **not** shown (1 of 9 and 0 of 4) and are returned anyway —
+which is `includeAsLayoutChildWhenHidden`, not luck.
+
+⚠ **So a consumer cannot tell "the CDM is hidden" from "the CDM is showing" by counting
+rows, and a row count of zero means the pool is empty — nothing else.** A health check
+that reports *hidden* off an empty enumeration is reporting a state it cannot observe;
+read the viewer's own `IsShown()` for that, and let the row count mean *configured*.
+
 ### Tier 3 — the live game API
 
 | Read | Status |
@@ -899,12 +932,19 @@ combat; this one does not. *(Why it survives is predictable from the generated d
 reasoning generalises beyond the CDM — see
 [`api-events-and-discovery`](./api-events-and-discovery.md) §5.7.)*
 
-⚠ **Readability is proven; usefulness is not.** The capture recorded a **constant `691`
-(Summon Felhunter)** at every sample, out of combat and in, on both arguments. The recorder
-dedups by readability *class*, so it only sampled at transitions and cannot show whether the
-value tracked the rotation. Before treating this as an oracle to diff a rotation against,
-take a **value-sampling** pass. Note also what it is by design: a generic single-target
-rotation with **no AoE/mode awareness and no burst planning**.
+⚠ **Readability is proven; usefulness is not.** `` @pending-test:
+assisted-combat-next-cast-varies `` The capture recorded a **constant `691`
+(Summon Felhunter)** at every sample, out of combat and in, on both arguments.
+
+⚠⚠ **That constant is not evidence the oracle is stuck, and must not be quoted as
+though it were.** The recorder dedups by readability *class*, so it sampled only at
+readable⇄secret transitions — of which there were none — and a value changing every GCD
+would have been recorded **exactly once**, indistinguishable from one that never changed.
+The measurement cannot separate the two hypotheses, so it supports neither. Before
+treating this as an oracle to diff a rotation against, take a **value-sampling** pass —
+one keyed to the player's own casts, not to a timer or a readability edge, since a
+rotation answer should advance when you cast. Note also what it is by design: a generic
+single-target rotation with **no AoE/mode awareness and no burst planning**.
 
 **Summary: the readable surface changes with the family, but asymmetrically.** Tier 1
 is identical. Tier 2 diverges hardest — tab 1 carries a cooldown/charge cache and the
@@ -970,9 +1010,6 @@ source flags; tab 2 carries little but computes on demand, and is the only side 
   two Preconditions in the corpus declaring no `FailureMode`, and the three getters carrying
   it also carry the `SecretWhenUnitAuraRestricted` *Secret* predicate — so neither the
   failure behaviour nor the interaction of the two annotations is documented at Tier 1.
-- **`[gap]`** Whether the members of `item.auraDataCached` are plain in restricted combat
-  (§7 Tier 2). If they are, the "how long is left on my DoT" read this file elsewhere calls
-  unanswerable is already sitting on the frame.
 - **`[gap]`** Whether any spec's proc is modelled as a **cast count** rather than real
   charges, so that `ChargeGained` fires for it off `C_Spell.GetSpellCastCount` (§5.3) — that
   would be a way to count something otherwise secret.
