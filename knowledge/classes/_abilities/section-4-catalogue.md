@@ -70,27 +70,36 @@ A `prose-only` row that the probe **did** resolve is not here — it is in
 endpoint covers only independently-castable spellbook entries, so a 404 is not
 evidence of absence (Hammer of Light 427441 and 427453 both 404 and are live).
 
-## Rows (127)
+## Rows (146)
 
 | class | spec | name | spell_id | reached_by | provenance |
 |---|---|---|---|---|---|
 | Death Knight | Blood | Bloodworm | 196361 | trigger-effect | reached from Bloodworms 195679 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
 | Death Knight | Blood | Essence of the Blood Queen | 433925 | trigger-effect | reached from Vampiric Strike 433895 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
+| Death Knight | Blood | Gnaw | 263856 | prose-only | asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; present in pet-family-annex.tsv on SkillLine 983 (Pet - Rodent) as 263856 — class-level, the pet path has no spec granularity |
 | Death Knight | Frost | Frost Strike Off-Hand | 66196 | trigger-effect | reached from Frost Strike 49143 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
 | Death Knight | Frost | Frostwhelp's Indignation | 287283 | trigger-effect | reached from Frozen Dominion 377253 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
+| Death Knight | Frost | Gnaw | 263856 | prose-only | asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; present in pet-family-annex.tsv on SkillLine 983 (Pet - Rodent) as 263856 — class-level, the pet path has no spec granularity |
 | Death Knight | Frost | Obliterate Off-Hand | 66198 | trigger-effect | reached from Obliterate 49020 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
 | Death Knight | Unholy | Dread Plague | 1240996 | trigger-effect | reached from Outbreak 77575 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
 | Death Knight | Unholy | Essence of the Blood Queen | 433925 | trigger-effect | reached from Vampiric Strike 433895 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
+| Death Knight | Unholy | Graveyard |  | prose-only | asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; not yet probed |
+| Death Knight | Unholy | Necrotic Coil |  | prose-only | asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; not yet probed |
 | Death Knight | Unholy | Virulent Plague | 191587 | trigger-effect | reached from Outbreak 77575 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
+| Demon Hunter | Devourer | Demonic Wards |  | prose-only | asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; not yet probed |
+| Demon Hunter | Devourer | Devour |  | prose-only | asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; not yet probed |
+| Demon Hunter | Devourer | Pierce the Veil |  | prose-only | asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; not yet probed |
 | Demon Hunter | Devourer | Predator's Wake | 1259431 | trigger-effect | reached from The Hunt 370966 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
 | Demon Hunter | Havoc | Abyssal Gaze |  | prose-only | asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; spell endpoint returned no 200 — not evidence of absence |
 | Demon Hunter | Havoc | Annihilation |  | prose-only | asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; spell endpoint returned no 200 — not evidence of absence |
 | Demon Hunter | Havoc | Consuming Fire |  | prose-only | asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; spell endpoint returned no 200 — not evidence of absence |
 | Demon Hunter | Havoc | Death Sweep |  | prose-only | asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; spell endpoint returned no 200 — not evidence of absence |
+| Demon Hunter | Havoc | Demon Blades |  | prose-only | asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; not yet probed |
 | Demon Hunter | Havoc | Exposed Wound | 339229 | trigger-effect | reached from Serrated Glaive 339230 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
 | Demon Hunter | Havoc | Predator's Wake | 1259431 | trigger-effect | reached from The Hunt 370966 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
 | Demon Hunter | Havoc | Reaver's Glaive |  | prose-only | asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; spell endpoint returned no 200 — not evidence of absence |
 | Demon Hunter | Vengeance | Elysian Decree | 339893 | trigger-effect | reached from Sigil of Spite 389860 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
+| Demon Hunter | Vengeance | Reaver's Glaive |  | prose-only | asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; spell endpoint returned no 200 — not evidence of absence |
 | Druid | Balance | Ascendant Fires | 1263363 | trigger-effect | reached from Ascendant Eclipses 1261564 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
 | Druid | Balance | Dazed | 50259 | trigger-effect | reached from Wild Charge 49376 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
 | Druid | Balance | Full Moon |  | prose-only | asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; spell endpoint returned no 200 — not evidence of absence |
@@ -119,6 +128,7 @@ evidence of absence (Hammer of Light 427441 and 427453 both 404 and are live).
 | Druid | Restoration | Starfall | 1286247 | trigger-effect | reached from Heart of the Wild 1261870 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
 | Druid | Restoration | Visual Effect: Tree of Life | 132213 | trigger-effect | reached from Incarnation: Tree of Life 33891 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
 | Evoker | Augmentation | Igneous Crucible | 372956 | trigger-effect | reached from Breath of Eons 403755 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
+| Evoker | Augmentation | Renewing |  | prose-only | asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; not yet probed |
 | Evoker | Augmentation | Temporal Wound | 409560 | trigger-effect | reached from Breath of Eons 403755 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
 | Hunter | Beast Mastery | Auto Shot |  | prose-only | asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; spell endpoint returned no 200 — not evidence of absence |
 | Hunter | Beast Mastery | Call Pet 1 … Call Pet 5 |  | prose-only | asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; spell endpoint returned no 200 — not evidence of absence |
@@ -140,14 +150,20 @@ evidence of absence (Hammer of Light 427441 and 427453 both 404 and are live).
 | Monk | Windwalker | Chi Explosion | 393056 | trigger-effect | reached from Jade Ignition 392979 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
 | Monk | Windwalker | Fel Rush | 346123 | trigger-effect | reached from Lighter Than Air 449590 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
 | Monk | Windwalker | Fists of Fury Visual Target | 123154 | trigger-effect | reached from Fists of Fury 117418 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
+| Paladin | Holy | Concentration Aura |  | prose-only | asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; not yet probed |
 | Paladin | Holy | Judgments of the Pure | 355867 | trigger-effect | reached from Divine Reach 469476 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
 | Paladin | Holy | Light's Beacon | 53651 | trigger-effect | reached from Beacon of Faith 156910 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
 | Paladin | Holy | Light's Decree | 395605 | trigger-effect | reached from Avenging Wrath 231895 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
 | Paladin | Holy | Sacred Weapon |  | prose-only | asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; spell endpoint returned no 200 — not evidence of absence |
+| Paladin | Protection | Concentration Aura |  | prose-only | asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; not yet probed |
+| Paladin | Protection | Empyrean absorbs |  | prose-only | asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; not yet probed |
+| Paladin | Protection | Guardian's |  | prose-only | asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; not yet probed |
 | Paladin | Protection | Judgments of the Pure | 355867 | trigger-effect | reached from Divine Reach 469476 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
 | Paladin | Protection | Light's Decree | 395605 | trigger-effect | reached from Avenging Wrath 231895 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
 | Paladin | Protection | Reign of Ancient Kings | 337852 | trigger-effect | reached from Guardian of Ancient Kings 337851 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
+| Paladin | Protection | Sacred Weapon |  | prose-only | asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; spell endpoint returned no 200 — not evidence of absence |
 | Paladin | Retribution | Blessed Hammers | 404140 | trigger-effect | reached from Templar Strikes 408275 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
+| Paladin | Retribution | Concentration Aura |  | prose-only | asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; not yet probed |
 | Paladin | Retribution | Hammer of Light | 427441 | trigger-effect | reached from Light's Guidance 427445 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
 | Paladin | Retribution | Judgments of the Pure | 355867 | trigger-effect | reached from Divine Reach 469476 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
 | Paladin | Retribution | Light's Decree | 395605 | trigger-effect | reached from Avenging Wrath 231895 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
@@ -187,6 +203,7 @@ evidence of absence (Hammer of Light 427441 and 427453 both 404 and are live).
 | Warlock | Affliction | Marked Soul | 450629 | trigger-effect | reached from Shared Fate 449704 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
 | Warlock | Affliction | Soul Swipe | 1239714 | trigger-effect | reached from Demonic Soul 1239715 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
 | Warlock | Affliction | Soulburn: Healthstone | 387636 | trigger-effect | reached from Gorebound Fortitude 449701 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
+| Warlock | Affliction | Spell Lock | 19647 | prose-only | asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; present in pet-family-annex.tsv on SkillLine 189 (Pet - Felhunter) as 19647 — class-level, the pet path has no spec granularity |
 | Warlock | Demonology | Axe Toss | 89766 | prose-only | asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; present in pet-family-annex.tsv on SkillLine 761 (Pet - Felguard) as 89766 — class-level, the pet path has no spec granularity |
 | Warlock | Demonology | Burning Cleave | 1264093 | trigger-effect | reached from Antoran Armaments 1251000 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
 | Warlock | Demonology | Marked Soul | 450629 | trigger-effect | reached from Shared Fate 449704 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
@@ -194,10 +211,12 @@ evidence of absence (Hammer of Light 427441 and 427453 both 404 and are live).
 | Warlock | Demonology | Soulburn: Healthstone | 387636 | trigger-effect | reached from Gorebound Fortitude 449701 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
 | Warlock | Demonology | Spell Lock | 19647 | prose-only | asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; present in pet-family-annex.tsv on SkillLine 189 (Pet - Felhunter) as 19647 — class-level, the pet path has no spec granularity |
 | Warlock | Destruction | Infernal Awakening | 22703 | trigger-effect | reached from Summon Infernal 1122 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
+| Warlock | Destruction | Spell Lock | 19647 | prose-only | asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; present in pet-family-annex.tsv on SkillLine 189 (Pet - Felhunter) as 19647 — class-level, the pet path has no spec granularity |
 | Warrior | Arms | Despawn Axe | 222332 | trigger-effect | reached from Bladestorm 222330 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
 | Warrior | Arms | Fatal Mark | 383704 | trigger-effect | reached from Fatality 383703 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
 | Warrior | Arms | Heroic Strike |  | prose-only | asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; spell endpoint returned no 200 — not evidence of absence |
 | Warrior | Fury | Berserk | 1269349 | trigger-effect | reached from Rampaging Berserker 1269308 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
+| Warrior | Fury | Crushing Blow |  | prose-only | asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; not yet probed |
 | Warrior | Fury | Despawn Axe | 222332 | trigger-effect | reached from Bladestorm 222330 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
 | Warrior | Fury | Gushing Wound | 288091 | trigger-effect | reached from Cold Steel, Hot Blood 288084 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
 | Warrior | Fury | Odyn's Fury Off-Hand | 385061 | trigger-effect | reached from Odyn's Fury 385059 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808 |
