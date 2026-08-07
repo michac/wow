@@ -1,122 +1,98 @@
 ---
-title: Outlaw Rogue — Abilities (Midnight S1)
+title: Outlaw Rogue — off-inventory abilities (Midnight S1)
 patch: 12.0.7
 fetched: 2026-08-06
 reviewed: 2026-08-06
 sources:
-  - knowledge/classes/rogue/outlaw/ability-inventory.tsv  # tier 1, generated from DB2 @ 12.0.7.67808 — name/spellID/origin/cooldown source of record
-  - knowledge/classes/_abilities/reconcile-ledger.md  # tier 1 derived, the 12.0.7.67808 adjudication behind this pass
-  - raw/wago/SpellName.csv (Blizzard game data, Tier 1)   # tier 1, 2026-07-11
-  - simc midnight branch profiles/MID1/MID1_Rogue_Outlaw.simc  # tier 1 APL (ability names / usage), 2026-07-11
-  - https://www.method.gg/guides/outlaw-rogue  # tier 3, 2026-07-11
-  - https://www.icy-veins.com/wow/outlaw-rogue-pve-dps-rotation-cooldowns-abilities  # tier 3, 2026-07-11
-confidence: medium
+  - ./ability-inventory.tsv  # tier 1 — the generated inventory this file supplements, DB2 @ 12.0.7.67808
+  - ./ability-inventory.md  # tier 1 — same data, rendered (tooltips quoted below come from here)
+  - ../../_talents/all-talents.tsv  # tier 1 — every spec's talent tree
+  - ../../_abilities/section-3-corroborated.tsv  # tier 1 derived — indirectly-reached spells
+  - ../../_abilities/section-4-catalogue.tsv  # tier 1 derived — the off-inventory catalogue
+  - ../../_abilities/reconcile-ledger.md  # tier 1 derived — the 12.0.7.67808 adjudication
+confidence: high
 ---
 
-# Outlaw Rogue — Abilities (Midnight S1)
+# Outlaw Rogue — off-inventory abilities
 
-## Overview
+**Everything about an Outlaw ability is in `ability-inventory.md`** — specID
+**260**, **171 rows**, each carrying spellID, cooldown, cast time, origin,
+talent/hero placement and the full tooltip. It is generated, Tier-1, DB2-pinned to
+`12.0.7.67808`, and regenerated on patch day.
 
-Outlaw is the swashbuckler melee-DPS Rogue spec: dual-wielding, pistol-toting,
-buff-juggling. **Resource system:** **Energy** (0–100+, regenerates passively;
-the primary spender fuel) plus **Combo Points** (build 0→6/7, spent by
-finishers). Builders (Sinister Strike, Ambush, Pistol Shot) generate combo
-points; finishers (Dispatch, Between the Eyes, Roll the Bones, Slice and Dice,
-Kidney Shot) spend them.
+**This file holds only the two things that generated file structurally cannot
+say**, because it is a *join*: a row exists there because a Tier-1 acquisition
+table says this spec **learns** the spell. It can only ever list what **is**.
 
-**Hero trees (Midnight):** **Trickster** (Unseen Blade → Coup de Grace) is the
-recommended tree for all Season 1 content; **Fatebound** (Hand of Fate →
-Lucky Coin coin-flip passive) is the low-maintenance alternative and is the tree
-the default SimulationCraft profile ships. Both slot into the same core spec
-shell.
+> ⛔ **If an Outlaw ability is not named below, do not research it — read its row
+> in `ability-inventory.md` and go.** Rotation → `rotation.md`. Talents/hero pick
+> → `builds.md`. Both sections here are **closed lists, not backlogs.**
 
-**Playstyle:** keep **Roll the Bones** and **Slice and Dice** rolling, keep
-**Adrenaline Rush** and **Blade Flurry** up, then loop builder → finisher while
-**Restless Blades** (passive) refunds cooldowns for every combo point spent —
-so spending finishers *is* your cooldown-reduction engine. Opportunity procs
-turn Pistol Shot into a free empowered builder.
+## §A — Real buttons the inventory cannot see
 
-> **Midnight rework flags:** **Roll the Bones** changed from a random-buff slot
-> machine to a deterministic **staged buff (stages 1–4)** — see the table.
-> **Killing Spree** is now used as a high-combo-point finisher in the APL rather
-> than a standalone burst channel. Old Underhanded/Crackshot Adrenaline-Rush-
-> extension play was removed. @verify-ingame (exact energy costs and whether
-> Killing Spree consumes combo points)
+Confirmed to exist and be pressable, but no spec-keyed acquisition table names
+them, so they will never appear in `ability-inventory.tsv`. **Absence there is not
+absence in game.**
 
-## Inventory
+> ⚠ **This section is a machine input.** `wowkb.gen_abilities` harvests the `name`
+> column of the table below — the heading is matched on the word **`inventory`** —
+> and feeds it to the `prose-only` leg of `section-4-catalogue`. Rename this
+> heading or drop the `name` column header and these rows **silently vanish from
+> the catalogue**, with no marker and no warning. §B is deliberately *not*
+> harvested: it asserts the opposite.
 
-> **Where the numbers live.** `ability-inventory.tsv` in this folder is the Tier-1
-> source of record for **name, spellID, origin and cooldown** (generated from DB2 @
-> `12.0.7.67808`). This table is the *judgement* layer — function, role, rotational
-> context — and does not re-transcribe columns that drift with every build.
+_None known for this spec._
 
-**Energy costs** below reflect commonly-cited Midnight values and are **not** readable
-from DB2 — they stay approximate; **verify in-game** (Restless Blades and haste also
-shorten most listed cooldowns dynamically). @verify-ingame (energy costs)
+Checked, not assumed: `section-4-catalogue.tsv` carries **no `prose-only` row for
+any Rogue spec**, and every ability named in this file's previous prose table
+resolves to a row in `ability-inventory.tsv` — with the single exception of
+**`Restless Blades` `79096`**, which is a **passive**, not a button, and already
+has a Tier-1 record elsewhere. See the correction below; do not promote it here.
 
-> **What the Tier-1 floor does and does not cover.** A **bold `[T1]`** cooldown
-> below was read straight out of `ability-inventory.tsv` (wago DB2 @ 12.0.7.67808).
-> A `~` value was **not**: it is a Tier-3 guide number that the tsv could not
-> settle, and it is kept on purpose. The tsv's `cooldown` column is
-> `SpellCooldowns` at DifficultyID 0 — `max(RecoveryTime, CategoryRecoveryTime)` —
-> which is the real cooldown for a normal button and is **wrong for a charge
-> ability**, where it returns the GCD (Fire Blast 0.5s, Purifying Brew 1s). The
-> recharge lives in `SpellCategory.ChargeRecoveryTime`, unreachable without
-> breaking the build pin (`_abilities/reconcile-ledger.md` §5 G6). **So "the tsv
-> wins" applies to the values it actually carries, not to every row** — 194 rows
-> across the 40 files read 0 or sub-10s there and keep their `~` prose instead.
->
-> Names this file asserts that **no** acquisition row reaches are catalogued in
-> `../../_abilities/section-4-catalogue.md`; ones game data reaches indirectly are
-> in `section-3-corroborated.md`. ⚠ Neither is a backlog — an entry there is
-> researched when someone **asks**, never because it has sat there a while.
+## §B — Encountered, and we believe not valid
 
-| Ability | Function | Resource | Cast / CD | Description |
-|---|---|---|---|---|
-| Sinister Strike | Rotational-builder | ~45 Energy, +1 CP | Instant / — | Bread-and-butter builder. Can strike twice / proc **Opportunity** (free Pistol Shot); Roll the Bones stage 2 gives it a bonus combo point. |
-| Ambush | Rotational-builder | ~50 Energy, +CP | Instant / — | Stealth/Vanish opener; hits harder and gives more CP than Sinister Strike. With **Hidden Opportunity / Audacity** it becomes usable outside stealth on proc. |
-| Pistol Shot | Rotational-builder | 25 Energy (free w/ Opportunity), +1 CP | Instant / — | Ranged builder. **Opportunity** procs make it free and empowered; **Fan the Hammer** fires extra shots for extra combo points. |
-| Dispatch | Rotational-spender (finisher) | ~35 Energy, spends CP | Instant / — | Primary single-target finisher — highest direct damage per combo point. |
-| Between the Eyes | Rotational-spender (finisher) | ~25 Energy, spends CP | Instant / **45s** `[T1]` | Ranged finisher; applies **Ruthless Precision** stacking crit/damage buff (each cast its own duration, can stack). Stuns in PvP. **Gravedigger** empowers it. Cooldown cut by Restless Blades. |
-| Roll the Bones | Rotational-spender (buff) | spends CP | Instant / **45s** `[T1]` | **Midnight staged rework:** applies/advances a combat buff by stage — **1:** ↑Opportunity proc chance · **2:** Sinister Strike gives +1 CP · **3:** stronger Restless Blades · **4:** ↑Critical Strike. Reroll to climb stages; **Loaded Dice** guarantees a higher roll. @verify-ingame |
-| Slice and Dice | Rotational-spender (buff) | spends CP | Instant / — | Self haste buff. Maintained in **Improved Adrenaline Rush** builds (pre-cast in the opener). |
-| Keep It Rolling | Major cooldown | — | Instant / ~6min (Restless Blades ≈1min effective) | Extends **all** active Roll the Bones buffs by 30s — used to bank a strong (stage 3+) roll. |
-| Adrenaline Rush | Major cooldown | — | Instant / 3min | Signature DPS cooldown: big energy-regen + attack-speed boost (~20s). Cut heavily by Restless Blades (~40% uptime). |
-| Blade Flurry | Rotational (cleave) / offensive CD | Energy | Instant / 30s (12s duration) | Echoes a share of single-target damage onto nearby enemies — the core AoE engine. **Deft Maneuvers** lets it also build combo points at 3+ targets. |
-| Blade Rush | Movement / rotational CD | — (grants energy) | Instant / **60s** `[T1]` | Charge to target dealing AoE and briefly boosting energy regen; gap-closer used near on-cooldown. Cut by Restless Blades. |
-| Killing Spree | Major cooldown (finisher) | high CP | Channel ~2s / **180s** | **Tier-1 origin: `talent-active`** (spell 51690), base cooldown **180s** — *not* the ~60s this file previously carried from Tier 3. (Restless Blades reduces it in play; see its row.) Teleporting flurry of strikes across targets; APL fires it at high combo points as a finisher-tier burst. |
-| Coup de Grace | Rotational (Trickster) | — | Instant / — | **Trickster** capstone (via Unseen Blade / Disorienting Strikes) — an empowered strike used in both builder and finisher windows when guaranteed. |
-| Gravedigger | Passive (spec apex) | — | — | Apex talent: Between the Eyes gains a double-stack chance, Dispatch procs bonus damage at high CP, and a bullet-stack system grants free high-impact Between the Eyes. |
-| Restless Blades | Passive (core) — `SpecializationSpells` → Outlaw | — | — | Each combo point spent by a finisher reduces the cooldown of Adrenaline Rush, Between the Eyes, Blade Flurry, Blade Rush, Killing Spree, Keep It Rolling, Vanish, Sprint and Grappling Hook. **Absent from `ability-inventory.tsv` by generator design, not by removal** — spell 79096 is Tier-1 attached to Outlaw but passive, and the generator drops passive `SpecializationSpells` rows (`_abilities/reconcile-ledger.md` §5 G1). It is carried in `../../_abilities/section-3-corroborated.md`, confirmed live by `GET /data/wow/spell/79096` → 200. Do not "correct" this row away. |
-| Opportunity | Passive (proc) | — | — | Sinister Strike can proc a free, empowered Pistol Shot; central to the builder loop. |
-| Preparation | Major cooldown (reset) | — | Instant / **240s** `[T1]` | Resets the cooldown of Adrenaline Rush, Between the Eyes, Blade Flurry, Blade Rush and Killing Spree — press once all are down. |
-| Vanish | Utility / stealth (defensive) | — | Instant / ~2min | Enter Stealth mid-combat, drop threat. Hidden Opportunity builds use it for an extra empowered Ambush. |
-| Stealth | Utility (stealth) | — | Instant / — | Out-of-combat stealth; enables openers (Ambush / Cheap Shot / Sap). |
-| Crimson Vial | Defensive (self-heal) | ~20 Energy | Instant / 30s | Heal-over-time on self; the spammable panic heal. |
-| Evasion | Defensive | — | Instant / ~2min | Large dodge boost vs melee/ranged for its duration. |
-| Feint | Defensive | 35 Energy | Instant / — | Reduces AoE damage taken (and threat); pressed pre-emptively for big raid hits. |
-| Cloak of Shadows | Defensive (magic immunity) | — | Instant / ~2min | Removes and briefly grants immunity to magic effects/debuffs. |
-| Thistle Tea | Defensive / resource | — | Instant / (charges) | Restores a chunk of energy and boosts Mastery; energy-panic + small throughput. |
-| Kick | Interrupt | — | Instant / 15s | Melee interrupt. |
-| Kidney Shot | CC (stun) | spends CP | Instant / **30s** `[T1]` | Combo-point finisher stun. |
-| Cheap Shot | CC (stun) | 40 Energy, +CP | Instant / — | Stealth-opener stun. |
-| Gouge | CC (incapacitate) | ~25 Energy | Instant / **25s** `[T1]` | Frontal incapacitate (choice node with Airborne Irritant). |
-| Blind | CC (disorient) | — | Instant / ~2min | Disorients the target. |
-| Sap | CC (out-of-combat) | — | Instant / — | Incapacitate a non-combat target from stealth. |
-| Sprint | Movement | — | Instant / **120s** `[T1]` | Burst of movement speed. |
-| Grappling Hook | Movement | — | Instant / see tsv | **Tier-1 origin: `class-baseline`** (spell 195457, `SpecializationSpells` → **Outlaw**) — it is an Outlaw-only spell, not a shared Rogue button and not a PvP talent (it is absent from `PvpTalent` entirely). Pull yourself to a location; core Outlaw mobility, and one of the cooldowns Restless Blades refunds. Read the cooldown from the tsv — its `0.8` there is the GCD, not the recharge. |
-| Shroud of Concealment | Utility (group stealth) | — | Instant / **360s** `[T1]` | Cloaks the party/raid in stealth for skips. |
-| Tricks of the Trade | Utility (threat) | — | Instant / **30s** `[T1]` | Redirects your threat to a party member (choice node with Blackjack). |
-| Distract | Utility | — | Instant / 30s | Diverts NPC attention to a location. |
-| Shiv | Utility / dispel | ~20 Energy | Instant / CD | Applies nonlethal poison effect; can strip enrages / enable poison utility. |
-| Deadly Poison | Weapon imbue (lethal) — `class-baseline` | — | Cast out of combat | Default lethal imbue; stacking nature damage once applied. |
-| Instant Poison | Weapon imbue (lethal) — `class-baseline` | — | Cast out of combat | Non-stacking direct-damage lethal imbue. |
-| Wound Poison | Weapon imbue (lethal) — `class-baseline` | — | Cast out of combat | Lethal imbue that reduces target healing; mostly PvP/utility. |
-| Crippling Poison | Weapon imbue (non-lethal) — `class-baseline` | — | Cast out of combat | Non-lethal slow — the kiting pick. |
-| Numbing Poison | Weapon imbue (non-lethal) — `talent-choice` | — | Cast out of combat | Non-lethal; reduces target attack/cast speed. Choice node with Atrophic Poison. |
-| Atrophic Poison | Weapon imbue (non-lethal) — `talent-choice` | — | Cast out of combat | Non-lethal; reduces target damage dealt. Choice node with Numbing Poison. |
+Names that appear in guides, older builds or other people's notes, which we have
+checked and believe are **not** part of this spec at 12.0.7. Listed so the next
+reader stops here instead of re-running the check.
 
-> **`Poisons` is not a spell.** There is no ability of that name at 12.0.7.67808 — the
-> single catch-all row this file used to carry has been split into the six concrete
-> imbues above, each with its own Tier-1 origin. *[Tier 1: `ability-inventory.tsv`,
-> DB2 @ 12.0.7.67808.]*
+| name | verdict | evidence |
+|---|---|---|
+| `Poisons` | **not a spell** | no row named `Poisons` in the 171-row inventory, and no `Poisons` talent in `all-talents.tsv` for any spec of any class — only `Virulent Poisons` `381543`, a passive. "Applying poisons" means casting one of the six concrete imbues that *are* rows: Deadly `2818`, Wound `8679`, Instant `315584`, Crippling `3408`, Numbing `5761`, Atrophic `381637`. An earlier revision carried a single catch-all "Poisons (apply)" row naming no Tier-1 spell. ⚠ Note **Deadly Poison is `2818` for Outlaw**, not Assassination's `2823`. |
+| Crackshot | **not on the tree** | absent from `all-talents.tsv` for **every** spec of **every** class, and absent from all three rogue inventories. The old "Crackshot / Adrenaline-Rush-extension" play the previous revision flagged as removed is confirmed gone at Tier 1. |
+| Underhanded Upper Hand | **not on the tree** | same check, same result |
+| Ghostly Strike | **not on the tree** | same check, same result |
+| Dreadblades | **not on the tree** | same check, same result |
+| Greenskin's Wickers | **not on the tree** | same check, same result |
+| Count the Odds | **not on the tree** | same check, same result. Controls present in the same check: `Loaded Dice`, `Ace Up Your Sleeve`, `Fan the Hammer`, `Deft Maneuvers`, `Hidden Opportunity`, `Audacity` — all live Outlaw talents. |
+| Take 'em by Surprise | **not on the tree** | same check, same result |
+| Sepsis | **not on the tree** | same check, same result |
+| Mark for Death / Marked for Death | **not an Outlaw ability** | `Mark for Death` `1293340` is a real spell but its `cdm-only` rows exist for **Assassination and Subtlety only** — neither name appears anywhere in Outlaw's 171 rows, and the historic `Marked for Death` `137619` appears in no rogue inventory at all. |
+
+*[Tier 1: `ability-inventory.tsv` + `all-talents.tsv`, both DB2 @ 12.0.7.67808.]*
+
+## Corrections this file has already made
+
+Kept only because re-asserting them is the likely failure mode:
+
+- **`Restless Blades` `79096` was not removed — the generator drops it by
+  design.** It *is* Tier-1 attached to Outlaw (`SpecializationSpells`), but it is
+  **passive**, and `gen_abilities` drops passive `SpecializationSpells` rows
+  (`../../_abilities/reconcile-ledger.md` §5 G1). It is carried instead in
+  `../../_abilities/section-3-corroborated.tsv`, confirmed live by
+  `GET /data/wow/spell/79096` → 200. It is a passive, so it does **not** belong in
+  §A either. Do not "correct" its absence from the inventory into a removal.
+- **`Killing Spree` `51690` has a base cooldown of `180s`, not ~60s.** Tier-1
+  `ability-inventory.tsv` reads `180`; the ~60s figure Tier-3 guides quote is the
+  *effective* cooldown after Restless Blades refunds, not the base. Its tooltip
+  also settles what it costs: *"Finishing move that unleashes a barrage of
+  gunfire… Number of strikes increased per combo point"* — it **is** a combo-point
+  finisher (and restores 1 CP every 0.45s while channelling).
+
+## Open in-game questions
+
+**None.** A question belongs here only if it genuinely cannot be answered from
+game data — you must be logged in and looking at it. Every `@verify-ingame` this
+file used to carry is answered by the Tier-1 tooltip and cooldown columns in
+`ability-inventory.md`: Roll the Bones' staged rework is spelled out verbatim in
+`1214909`'s tooltip ("1 set or better… 2 sets or better… 3 sets or better…
+Jackpot"), and Killing Spree's combo-point behaviour is in the row above.

@@ -1,146 +1,103 @@
 ---
-title: Protection Warrior — Abilities (Midnight S1)
+title: Protection Warrior — off-inventory abilities (Midnight S1)
 patch: 12.0.7
 fetched: 2026-08-06
 reviewed: 2026-08-06
 sources:
-  - knowledge/classes/warrior/protection/ability-inventory.md  # tier 1, generated from DB2 @ 12.0.7.67808 + Blizzard spell API — name/spellID/origin/cooldown/tooltip
-  - knowledge/classes/_abilities/reconcile-ledger.md  # tier 1 derived, the verdicts applied here, 2026-08-06
-  - raw/wago/SpellName.csv @ 12.0.7.67808  # tier 1 name reconciliation, 2026-07-11
-  - https://raw.githubusercontent.com/simulationcraft/simc/midnight/profiles/MID1/MID1_Warrior_Protection.simc  # tier 1 APL — backs which buttons are rotationally live, 2026-07-11
-  - https://www.icy-veins.com/wow/protection-warrior-pve-tank-rotation-cooldowns-abilities  # tier 3, 12.0.7, 2026-07-11
-  - https://www.method.gg/guides/protection-warrior/playstyle-and-rotation  # tier 3, Midnight 12.0.7, 2026-07-11
+  - ./ability-inventory.md  # tier 1 — the generated inventory this file supplements, DB2 @ 12.0.7.67808
+  - ../../_abilities/reconcile-ledger.md  # tier 1 derived — the Warrior/protection verdicts + §5 G6
+  - ../../_abilities/section-3-corroborated.tsv  # tier 1 derived — where Condemn is already recorded
+  - ../../_talents/all-talents.tsv  # tier 1 — every spec's talent tree @ 12.0.7.67808
+  - ../arms/ability-inventory.tsv  # tier 1 — sibling-spec cross-check for the §B verdicts
+  - ../fury/ability-inventory.tsv  # tier 1 — sibling-spec cross-check for the §B verdicts
 confidence: high
 ---
 
-# Protection Warrior — Abilities (Midnight S1)
+# Protection Warrior — off-inventory abilities
 
-> **This file carries no per-spell facts.** Canonical name, spellID, acquisition
-> origin, baseline cooldown, talent/hero placement and the **in-game tooltip
-> text** for every ability the spec can have live in **`ability-inventory.md`**
-> beside this file — generated from wago DB2 + the Blizzard spell API @
-> 12.0.7.67808 and regenerated on patch day.
->
-> | Question | Read |
-> |---|---|
-> | What does X do? Its spellID, cooldown, tooltip? | `ability-inventory.md` |
-> | When do I press X? | `rotation.md` |
-> | Do I take X? Which hero tree? | `builds.md`, `talents.md` |
-> | Why is X missing from the inventory? | `../../_abilities/section-3-corroborated.md`, `section-4-catalogue.md` |
->
-> This file is the editorial layer: the resource model, which inventory rows are
-> actually buttons, and the judgements game data cannot make.
+**Everything about a Protection ability is in `ability-inventory.md`** — 165 rows,
+one each carrying spellID, cooldown, cast time, origin, talent/hero placement and
+the full tooltip. It is generated, Tier-1, DB2-pinned to `12.0.7.67808`.
 
-## Resource model
+**This file holds only the two things that generated file structurally cannot
+say**, because it is a *join*: a row exists there because a Tier-1 acquisition
+table says this spec **learns** the spell. It can only ever list what **is**.
 
-Protection is Warrior's tank spec: sword-and-board, plate armor, **Rage** (0–100,
-higher with talents). **Unlike most tanks there is no separate "power" bar** —
-offense and defense compete for the same Rage, and that single fact is the spec.
-The skill is funding active mitigation without starving the damage loop, and
-never overcapping.
+> ⛔ **If a Protection ability is not named below, do not research it — read its
+> row in `ability-inventory.md` and go.** Rotation → `rotation.md`. Talents/hero
+> pick → `builds.md`. Both sections here are **closed lists, not backlogs.**
 
-Rage is *generated* by auto-attacks, Shield Slam, Thunder Clap, Charge / Shield
-Charge, Champion's Spear, Ravager and (with Booming Voice) Demoralizing Shout.
-It is *spent* on Shield Block and Ignore Pain, and on Revenge / Execute.
-⚠ **The generated inventory has no cost column** — its tooltips state what a
-spell *generates* and never what it *costs*, so the spend side is recorded only
-in prose: Shield Block 30, Ignore Pain ~35, Revenge ~30 (free on proc), Execute
-20+ scaling.
+## §A — Real buttons the inventory cannot see
 
-**Active mitigation is two-pronged and both halves double as something else.**
-Shield Block buffs Shield Slam +30%, so it is offense as well as defense; Ignore
-Pain is the **rage-overflow valve** as well as an absorb. Neither is a pure
-defensive and neither should be treated as one.
+_None known for this spec._
 
-**Hero trees.** `builds.md` owns the pick. In kit terms: **Mountain Thane** adds
-a proc button (**Thunder Blast**, which replaces Thunder Clap while a stack is
-up) and turns the bar proc-reactive; **Colossus** adds one real button
-(**Demolish**, channelled) and shifts the AoE spender from Thunder Clap to
-Revenge.
+All 48 ability names the previous revision of this file asserted resolve to a row
+in the 165-row generated inventory — checked by exact name match against
+`ability-inventory.tsv` @ 12.0.7.67808 — except `Seeing Red`, which is §B, not a
+button. Protection's one runtime override, **`Condemn` `317485`**, is *not* a §A
+case: Tier 1 reaches it by itself, via `SpellEffect.EffectAura 332` on `Massacre`
+`206315`, and it is already recorded in `../../_abilities/section-3-corroborated.tsv`
+for all three Warrior specs. The unreached-override problem that costs Arms
+(`Heroic Strike`) and Fury (`Crushing Blow`) a hand-written row does not bite here.
 
-## Inventory
+> ⚠ **Keep this heading exactly as written even while the section is empty.**
+> `wowkb.gen_abilities` matches it on the word **`inventory`** and harvests the
+> `name` column of any table under it into the `prose-only` leg of
+> `section-4-catalogue`. If a real override button is ever found for Protection,
+> it goes here in a `| spellID | name | how we know… |` table — nowhere else. §B
+> is deliberately *not* harvested: it asserts the opposite.
 
-The curated subset: which of the generated inventory's rows are buttons you
-actually press, and what each is *for*. **Role only** — no spellID, cooldown,
-cast time or mechanics, because all four regenerate one file over. ⚠ This table
-is also a **machine input**: `wowkb.gen_abilities` reads its first column to
-build the `prose-only` leg of `../../_abilities/section-4-catalogue.md`, so a
-name deleted from here silently disappears from that catalogue.
+## §B — Encountered, and we believe not valid
 
-| Ability | Role |
-|---|---|
-| **Shield Slam** | Damage core + top Rage generator; Shield Block buffs it, so the two are coupled |
-| **Thunder Clap** | AoE damage core + Rage; most of the AoE threat |
-| **Thunder Blast** | AoE damage core (Mountain Thane) — a proc that *replaces* Thunder Clap while a stack is up |
-| **Revenge** | Rage spender / cleave; Colossus's primary spender |
-| **Execute** | Rage spender — execute phase, or any time on a Sudden Death proc |
-| **Demolish** | Offensive cooldown (Colossus) — the one button that tree adds |
-| **Devastate** | Last-resort filler; usually retired by the Devastator passive |
-| **Shield Block** | Active mitigation — **and** an offensive buff, so not a pure defensive |
-| **Ignore Pain** | Active mitigation — **and** the Rage-overflow valve, so not a pure defensive |
-| **Avatar** | Offensive cooldown — the burst window |
-| **Shield Charge** | Offensive cooldown + gap closer + Rage |
-| **Champion's Spear** | Offensive cooldown + Rage. A **class** talent, so Arms and Fury get the identical button |
-| **Ravager** | Offensive cooldown (AoE) + Rage; Colossus choice-node alternative to Whirling Blade |
-| **Demoralizing Shout** | Raid-frame defensive — and, with Booming Voice, an offensive cooldown and Rage burst |
-| **Last Stand** | Major defensive — EHP |
-| **Shield Wall** | Major defensive — the largest personal |
-| **Rallying Cry** | Major defensive — group |
-| **Spell Reflection** | Major defensive — magic, reactive |
-| **Taunt** | Threat — the tank-swap tool |
-| **Challenging Shout** | Threat — AoE taunt |
-| **Heroic Throw** | Threat — ranged pull |
-| **Wrecking Throw** / **Shattering Throw** | Utility (choice node); the APL uses it with Javelineer |
-| **Charge** | Movement + the opener's Rage seed |
-| **Heroic Leap** | Movement — repositioning |
-| **Intervene** | Movement + co-tank defensive |
-| **Pummel** | **The spec's only interrupt** |
-| **Storm Bolt** | Control — single-target stun |
-| **Shockwave** | Control — AoE stun |
-| **Piercing Howl** | Control — AoE slow (choice node vs Intimidating Shout; you get one) |
-| **Intimidating Shout** | Control — AoE fear (the other side of that choice node) |
-| **Berserker Shout** | Control — self fear/sleep/incapacitate break |
-| **Impending Victory** | Self-heal |
-| **Hamstring** | Control — single-target slow |
-| **Battle Shout** | Group buff — maintain out of combat |
-| **Defensive Stance** | Stance — the tanking one. ⚠ **A talent, not baseline** |
-| **Battle Stance** | Stance — offensive; the APL opens in it |
-| **Rend** | Bleed (Colossus) — applied via Thunder Clap, refreshed by the APL |
-| **Devastator** | Passive — smooths the builder loop |
-| **Booming Voice** | Passive — promotes Demoralizing Shout into a rotational button |
-| **Violent Outburst** | Passive — a stacking empowerment you watch the buff for |
-| **Burst of Power** | Passive (Mountain Thane) — a proc you react to |
+Names that appear in guides, older builds or other people's notes, which we have
+checked and believe are **not** part of this spec at 12.0.7. Listed so the next
+reader stops here instead of re-running the check.
 
-## Notes the generated layer cannot make
+| name | verdict | evidence |
+|---|---|---|
+| Seeing Red | **not in any Tier-1 Warrior table** | **zero** rows in all three Warrior `ability-inventory.tsv` files (Arms 159 / Fury 155 / Protection 165) and **zero** hits in `all-talents.tsv` across all 40 specs. It also has no `reconcile-ledger` verdict. Tier-3 guides still use "Seeing Red" for the stacking buff that feeds `Violent Outburst` `386477` (which **is** in the inventory) — treat it as a guide nickname for that stack, not a spell, until something Tier-1 says otherwise. |
+| Protection Stance | **not a spell at 12.0.7** | same two checks, zero hits in either. The tanking stance is **`Defensive Stance` `386208`** — `talent-active`, class-tree node 90330 / entry 112187. The BucketBinds seed's "Protection Stance" is this spell under an old name. |
+
+*[Tier 1: `all-talents.tsv` + the three Warrior `ability-inventory.tsv` files,
+both @ 12.0.7.67808.]*
+
+## Corrections this file has already made
+
+Kept only because re-asserting them is the likely failure mode:
 
 - **`Defensive Stance` is a talent, not baseline** *[Tier 1]*. This file claimed
-  baseline until 12.0.7 data said otherwise. An untalented Protection build
-  genuinely does not have it — you cannot assume it on a fresh character or a
-  borrowed loadout.
-- **Name reconciliation.** The tanking stance is **`Defensive Stance`** (386208);
-  no "Protection Stance" exists in current game data (the BucketBinds seed's
-  "Protection Stance" is this). The fear-immunity shout is **`Berserker Shout`**
-  (384100), formerly "Berserker Rage". `Champion's Spear` (376079), `Thunder
-  Blast` (435607), `Violent Outburst` (386477) and `Demolish` (436358) all
-  confirmed against `SpellName.csv @ 12.0.7.67808`.
-- **`Seeing Red` is in no Warrior `ability-inventory.tsv`** and has no ledger
-  verdict. Tier-3 guides still name it as the stacking buff that feeds Violent
-  Outburst; the Tier-1 floor does not cover it. Treat "Seeing Red" in a guide as
-  a nickname for Violent Outburst's stack until something Tier-1 says otherwise.
-- ⚠ **Two Mountain Thane tooltips in `ability-inventory.md` render the wrong
-  spec's branch.** `Burst of Power` 437118 resolves to "…make your next 2
-  **Bloodthirsts** have no cooldown" and `Thunder Blast` 435607 to "**Shield Slam
-  and Bloodthirst** have a 35% chance…" — Bloodthirst is Fury's builder. These
-  are class-shared hero-tree spells whose `$?spec[…][…]` conditional the spell
-  API resolved without spec context. For Protection the trigger and the payoff
-  are Shield Slam. This is a **generated-layer wart, not a data correction**;
-  do not "fix" the tsv.
-  - Burst of Power + Thunder Blast — read both tooltips in the Protection spellbook: do they say Shield Slam or Bloodthirst? @verify-ingame
-- **Champion's Spear is a class talent**, so Arms and Fury get the identical
-  button — a cross-spec fact no per-spec inventory states.
-- **Charge/recharge times are in neither layer.** The inventory's `cooldown` is
-  `SpellCooldowns` at DifficultyID 0, which returns the **GCD** for a charge
-  ability — Shield Block and Ignore Pain both read ~1s there. The real recharge
-  lives in `SpellCategory.ChargeRecoveryTime`, unreachable without breaking the
-  build pin (`reconcile-ledger.md` §5 G6). Shield Block is 2 charges on a ~16s
-  recharge; Intervene is 2 charges *(Tier 3)*.
+  baseline until 12.0.7 data said otherwise; `reconcile-ledger` records the origin
+  mislabel. It is `talent-active` / `TraitNodeEntry`, class tree, for all three
+  Warrior specs. An untalented Protection build genuinely does not have it — do
+  not assume it on a fresh character or a borrowed loadout.
+- **`Berserker Shout` is not a rename of `Berserker Rage`.** Both are live and
+  distinct in all three Warrior inventories: `Berserker Rage 18499`
+  (`class-baseline`, castable) and `Berserker Shout 384100` (`talent-choice`, 60s).
+  Earlier text here said "formerly Berserker Rage".
+- **Do not trust the `cooldown` column for a charge ability.** It is
+  `SpellCooldowns` at DifficultyID 0, which returns the **GCD** for one: `Shield
+  Block` reads `1`, `Ignore Pain` `1`, `Intervene` `1.5`. The real recharge lives
+  in `SpellCategory.ChargeRecoveryTime`, unreachable without breaking the build pin
+  (`reconcile-ledger` §5 **G6**). Any recharge number you have seen for these
+  (Shield Block ~16s / 2 charges; Intervene 2 charges) is **Tier 3** — do not
+  restate it as Tier 1.
+- **No layer here carries Rage *costs*.** The generated tooltips state what a spell
+  *generates* and never what it *costs*, so there is no Tier-1 cost floor anywhere
+  in this KB. A Rage cost you read in a guide is Tier 3; the spend-side priority
+  itself (Ignore Pain as the overflow valve, Shield Block uptime) is in
+  `rotation.md`, which is better sourced.
+- ⚠ **Two Mountain Thane tooltips in `ability-inventory.md` render Fury's branch.**
+  `Burst of Power` `437118` resolves to *"…make your next 2 **Bloodthirsts** have
+  no cooldown"* and `Thunder Blast` `435607` to *"**Shield Slam and Bloodthirst**
+  have a 35% chance…"* — Bloodthirst is Fury's builder. These are class-shared
+  hero-tree spells whose `$?spec[…][…]` conditional the spell API resolved without
+  spec context. For Protection the trigger and the payoff are Shield Slam. This is
+  a **generated-layer wart, not a data correction** — do not "fix" the tsv.
+
+## Open in-game questions
+
+One, and only because the Tier-1 layer has already answered wrongly and cannot be
+re-asked: the spell API collapsed the `$?spec` conditional, so no offline source
+carries Protection's branch of these two tooltips.
+
+- Burst of Power `437118` + Thunder Blast `435607` — read both tooltips in the Protection spellbook: do they say Shield Slam or Bloodthirst? @verify-ingame

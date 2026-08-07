@@ -1,129 +1,87 @@
 ---
-title: Discipline Priest — Ability Inventory (Midnight S1)
+title: Discipline Priest — off-inventory abilities (Midnight S1)
 patch: 12.0.7
 fetched: 2026-08-06
 reviewed: 2026-08-06
 sources:
-  - knowledge/classes/priest/discipline/ability-inventory.tsv  # tier 1, generated from DB2 @ build 12.0.7.67808 — name/spellID/origin/cooldown floor
-  - knowledge/classes/_abilities/reconcile-ledger.md  # tier 1 adjudication of this file's claims @ 12.0.7.67808
-  - https://www.method.gg/guides/discipline-priest/playstyle-and-rotation  # tier 3, 2026-07-11 (Midnight 12.0.7)
-  - https://www.icy-veins.com/wow/discipline-priest-pve-healing-rotation-cooldowns-abilities  # tier 3, 2026-07-11 (12.0.7)
-  - https://www.wowhead.com/guide/classes/priest/discipline/rotation-cooldowns-pve-healer  # tier 4, 2026-07-11
-  - raw/wago/SpellName.csv  # tier 1, game-data name reconciliation, build 12.0.7.67808
-  - knowledge/classes/priest/discipline/talents.md  # tier 1, Blizzard talent-tree API 12.0.7.67808
-confidence: medium
+  - ./ability-inventory.md  # tier 1 — the generated inventory this file supplements, DB2 @ 12.0.7.67808
+  - ../../_talents/all-talents.tsv  # tier 1 — every spec's talent tree @ 12.0.7.67808
+  - ../../_abilities/reconcile-ledger.md  # tier 1 adjudication of this file's earlier claims @ 12.0.7.67808
+confidence: high
 ---
 
-# Discipline Priest — Ability Inventory (Midnight S1)
+# Discipline Priest — off-inventory abilities
 
-## Overview
+**Everything about a Discipline ability is in `ability-inventory.md`** — 164 rows,
+one row each carrying spellID, cooldown, cast time, origin, talent/hero placement
+and the full tooltip. It is generated, Tier-1, DB2-pinned to `12.0.7.67808`.
 
-Discipline is a **healer** spec whose throughput comes from **damage, not direct
-heals**: **Atonement** (passive, spell 81749) is applied to allies by a handful of
-spells, and while it is up on them a percentage of the Priest's **damage done**
-is mirrored back as healing to everyone carrying the buff. The whole spec is a
-loop of **stack Atonement on the group → deal as much damage as possible inside
-that window** ("ramping"). Direct heals (Flash Heal, Penance-on-ally) exist but
-are secondary; big single-hit healing usually comes from *spending* a pre-built
-Atonement blanket into damage.
+**This file holds only the two things that generated file structurally cannot
+say**, because it is a *join*: a row exists there because a Tier-1 acquisition
+table says this spec **learns** the spell. It can only ever list what **is**.
 
-- **Resource:** Mana. No builder/spender combo resource — everything is
-  mana-gated with per-ability cooldowns/charges.
-- **Hero trees (Midnight):** **Oracle** (default, more consistent throughput; its live
-  subtree carries **Prophet's Insight**, **Prophet's Will**, **Piety** and **Twinsight** —
-  the old `Premonition` button is gone, see the reconciliation notes — and the "always use
-  Penance defensively" habit comes with it) and **Voidweaver**
-  (`Entropic Rift` / `Void Blast` / `Void Torrent` — frequent "mini-ramp" windows
-  and much higher group damage). See `builds.md` / `rotation.md`.
-- **Notable gap:** Discipline has **no baseline interrupt** (no kick/silence) —
-  unusual among healers; plan CC/utility around that.
+> ⛔ **If a Discipline ability is not named below, do not research it — read its
+> row in `ability-inventory.md` and go.** Rotation → `rotation.md`. Talents/hero
+> pick → `builds.md`. Both sections here are **closed lists, not backlogs.**
 
-`Function` below is the ability's game role, not any bind assignment.
+## §A — Real buttons the inventory cannot see
 
-## Inventory
+Confirmed to exist and be pressable, but no spec-keyed acquisition table names
+them, so they will never appear in `ability-inventory.tsv`. **Absence there is not
+absence in game.**
 
-**`ability-inventory.tsv` in this directory is the Tier-1 floor** — canonical name, spellID,
-origin and baseline cooldown are regenerated there from DB2 and are not duplicated here.
-This file is the prose layer: the Atonement loop and what each button contributes to it.
+> ⚠ **This section is a machine input.** `wowkb.gen_abilities` harvests the `name`
+> column of the table below — the heading is matched on the word **`inventory`** —
+> and feeds it to the `prose-only` leg of `section-4-catalogue.md`. Rename this
+> heading or drop the `name` column header and these rows **silently vanish from
+> the catalogue**, with no marker and no warning. §B is deliberately *not*
+> harvested: it asserts the opposite.
 
-A cooldown written **`30s [T1]`** was read off that tsv (DB2 @ build 12.0.7.67808); `~`
-values are guide-derived. `@verify-ingame` marks what Tier 1 could not settle.
+| spellID | name | how we know, and why the join misses it |
+|---|---|---|
+| — | Void Shield | **A Power Word: Shield override**, so it has no acquisition row of its own — an override button is never *learned*, it replaces one you already have. The granting talent **`Master the Darkness` `1253590`** *is* in the inventory (`talent-passive`, spec tree) and its Tier-1 tooltip carries the whole button: *"Penance has a high chance to upgrade Power Word: Shield into Void Shield.\n\n Void Shield:\nShields 3 allies for 15 sec, absorbing 2,607 damage."* Corroborated by Oracle's `Unfolding Vision` `1272363`, which also names it. Eight Midnight-range IDs (`1213562`…`1293007`) exist in `SpellName`@67808 with no attachment. |
 
-> **What the Tier-1 floor does and does not cover.** A **bold `[T1]`** cooldown
-> below was read straight out of `ability-inventory.tsv` (wago DB2 @ 12.0.7.67808).
-> A `~` value was **not**: it is a Tier-3 guide number that the tsv could not
-> settle, and it is kept on purpose. The tsv's `cooldown` column is
-> `SpellCooldowns` at DifficultyID 0 — `max(RecoveryTime, CategoryRecoveryTime)` —
-> which is the real cooldown for a normal button and is **wrong for a charge
-> ability**, where it returns the GCD (Fire Blast 0.5s, Purifying Brew 1s). The
-> recharge lives in `SpellCategory.ChargeRecoveryTime`, unreachable without
-> breaking the build pin (`_abilities/reconcile-ledger.md` §5 G6). **So "the tsv
-> wins" applies to the values it actually carries, not to every row** — 194 rows
-> across the 40 files read 0 or sub-10s there and keep their `~` prose instead.
->
-> Names this file asserts that **no** acquisition row reaches are catalogued in
-> `../../_abilities/section-4-catalogue.md`; ones game data reaches indirectly are
-> in `section-3-corroborated.md`. ⚠ Neither is a backlog — an entry there is
-> researched when someone **asks**, never because it has sat there a while.
+**This category is real and measured, not an edge case.** Across all 40 specs,
+runtime override / proc-replacement buttons live in no spec-keyed DB2 table:
+`Devour`, `Pierce the Veil`, `Templar Slash`, `Void Volley`, `Void Shield` and
+`Heroic Strike` are all real pressed buttons whose *only* record anywhere is a
+hand-written row like this one.
 
-| Ability | Function | Resource | Cast / CD | Description |
-|---|---|---|---|---|
-| Atonement | Passive (core) | — | — | Buff placed on allies by shields/heals; a share of your **damage done** heals every Atonement'd ally. The entire spec builds around it. |
-| Penance | Rotational-spender / Defensive | Mana | Channel ~2s / ~9s CD (reduced by Castigation, Harsh Discipline) | Channels 3 bolts. **On an enemy = damage** (main damage button); **on an ally = heal** ("defensive Penance"). Power of the Dark Side empowers the next cast; Weal and Woe rewards weaving shields between casts. |
-| Smite | Rotational-builder (filler) | Mana | ~1.5s cast | Baseline Holy damage filler — lowest-priority damage button, heals via Atonement. Replaced by **Void Blast** while Entropic Rift is open (Voidweaver). |
-| Mind Blast | Rotational-builder | Mana | ~1.5s cast / short CD (hasted) | Priority damage. **Voidweaver:** opens/refreshes **Entropic Rift** and enables **Void Blast**. |
-| Shadow Word: Pain | Rotational (DoT) | Mana | Instant | Class-baseline, not a talent [T1]. Maintained Shadow DoT (the anchor DoT). **Purge the Wicked** talent upgrades it and lets **Penance spread it** to nearby enemies. |
-| Purge the Wicked | Rotational (DoT, talented) | Mana | Instant | Talent replacement for Shadow Word: Pain — stronger DoT that Penance propagates. @verify-ingame |
-| Shadow Word: Death | Rotational-spender / execute | Mana | Instant / 10s CD (2 charges w/ talent) | Execute-window nuke (big sub-20%). Feeds pet resets via **Inescapable Torment**; used outside execute for **Expiation**. |
-| Void Blast | Rotational-spender (Voidweaver) | Mana | Instant | Replaces Smite as filler **while Entropic Rift is active**; Voidweaver's damage core. |
-| Void Torrent | Major cooldown (Voidweaver channel) | Mana | Channel ~3s / 30s [T1] | Heavy Atonement-damage channel that drives an Entropic Rift window. |
-| Entropic Rift | Passive (Voidweaver) | — | — | Mind Blast opens a rift doing AoE Void damage over its duration — the Voidweaver "mini-ramp" engine. |
-| Holy Nova | Rotational (AoE) | Mana | Instant | PBAoE damage (+ Atonement application when talented). Situational AoE / pack-tagging. |
-| Power Word: Shield | Rotational (Atonement applier) | Mana | Instant | Damage absorb that **applies Atonement**. Buffed ~25% in 12.0.5. Upgraded into **Void Shield** by Master the Darkness. |
-| Void Shield | Rotational (upgraded Atonement applier) | Mana | Instant | **Master the Darkness** upgrade of Power Word: Shield (procced by Penance): shields **up to 3 allies** and applies Atonement to each. Buffed ~25% in 12.0.5. @verify-ingame |
-| Power Word: Radiance | Rotational (AoE Atonement applier) | Mana | ~2s cast / 2 charges, ~20s recharge | Applies Atonement to **5 allies** — the mass-ramp button. **Evangelism** makes the next two casts **instant**. |
-| Flash Heal | Rotational (Atonement applier / spot heal) | Mana | ~1.5s cast | Fast direct heal that also applies Atonement; used in ramps and for spot healing. Surge of Light can make it instant. |
-| Plea | Rotational (cheap Atonement applier) | Mana (low) | Instant | Low-cost single-target Atonement applier / small heal — used to top up Atonement blankets during ramps. @verify-ingame |
-| Shadow Mend | Reactive heal | Mana | Cast (instant on proc) | Emergency direct heal; in the Oracle M+ build it comes up as a **proc** for burst spot-healing. @verify-ingame |
-| Evangelism | Major cooldown (ramp) | Mana | Instant / ~90s CD | Applies **5 Atonements** at once and makes the **next 2 Power Word: Radiance instant** — the primary raid ramp opener (no longer extends Atonement duration in Midnight; it seeds fresh ones). |
-| Ultimate Penitence | Major cooldown | Mana | Channel / **4 min CD** | Long-CD flying Penance barrage; **used offensively** (cast on enemies) for a large Atonement-healing burst. Choice node vs Power Word: Barrier. |
-| Power Infusion | Major cooldown | — | Instant / 2 min CD | +25% haste for 20s (self, or gifted to an ally; Twins of the Sun grants both). |
-| Shadowfiend | Major cooldown (pet) | — | Instant / ~3 min CD | Summons a fiend that deals damage and returns mana. **A talent, not baseline [T1]** — you take it (or swap it for Mindbender). **Inescapable Torment** synergy. |
-| Mindbender | Major cooldown (pet) | — | Instant / ~1 min CD | Choice-node replacement for Shadowfiend — shorter CD, more frequent pet damage/mana. |
-| Master the Darkness | Rotational apex active | — | — / — | Apex spec talent (min 3 pts for Atonement-healing increases); empowers Atonement and upgrades Power Word: Shield → **Void Shield**. @verify-ingame |
-| Power Word: Barrier | Major defensive (raid) | Mana | Instant / 3 min CD | Ground zone granting **−25% damage taken** to allies inside. Choice node vs Ultimate Penitence. |
-| Pain Suppression | Defensive (external) | Mana | Instant / ~3 min CD | Strong single-target damage reduction on an ally (~40%) for 8s. @verify-ingame |
-| Desperate Prayer | Defensive (self) | — | Instant / ~90s CD | +25% max health and a self-heal for 10s. |
-| Fade | Defensive / Utility | — | Instant / 30s CD | Drops threat; with **Improved Fade / Phantasm** adds personal damage reduction / snare break. |
-| Psychic Scream | CC (AoE fear) | Mana | Instant / **40s** `[T1]` | Fears up to 5 nearby enemies for a few seconds. |
-| Shackle Horror | CC | Mana | ~1.5s cast | Incapacitates an Undead/Horror target (Midnight name for the old Shackle Undead). @verify-ingame |
-| Mind Control | CC | Mana | Cast (channel) | Takes control of an enemy; Dominate Mind is the talent variant. |
-| Mind Soothe | Utility | Mana | Instant | Reduces an enemy's aggro range (pull management). |
-| Purify | Dispel | Mana | Instant / 8s CD | Removes Magic + Disease from an ally. |
-| Dispel Magic | Dispel (offensive) | Mana | Instant | Removes a beneficial Magic effect from an enemy. |
-| Mass Dispel | Dispel (AoE) | Mana | Cast / **120s** `[T1]` | AoE Magic dispel; can strip certain immunities. |
-| Leap of Faith | Utility (save) | — | Instant / ~90s CD | Yanks a targeted ally to your location. |
-| Angelic Feather | Movement | — | Instant / 3 charges | Places a feather; allies passing over it gain a movement-speed burst. |
-| Levitate | Movement / Utility | Mana | Cast | Slow-fall / water-walk-style movement utility. |
-| Power Word: Fortitude | Utility (raid buff) | Mana | Cast | Raid-wide Stamina buff. |
-| Resurrection | Utility | Mana | ~10s cast | Out-of-combat single-target resurrection. |
+⚠ **Void Shield's numbers are no longer an open question.** An earlier revision of
+this file carried an `@verify-ingame` on them; the answer was sitting in the
+sibling inventory's `Master the Darkness` tooltip the whole time. **Settled. Do
+not re-open.**
 
-## Reconciliation notes — Tier 1 @ 12.0.7.67808
+## §B — Encountered, and we believe not valid
 
-- **Premonition is not acquirable at 12.0.7** and the row is deleted. Every spell of that
-  name is TWW-era and attaches to nothing; the Oracle subtree (**20**) *is* live on the
-  Priest tree (**795**) but now carries `Prophet's Insight`, `Prophet's Will`, `Piety` and
-  `Twinsight` — no Premonition node and no `Premonition of *`. Oracle is still the default
-  hero tree; the button it used to hand you is gone.
-- **Shadow Word: Pain is class-baseline** (not a talent) and **Shadowfiend is a talent**
-  (not baseline) — the file had these the wrong way round.
-- **Void Torrent is 30s**, not the ~30–45s range carried from the guides.
-- **Void Shield keeps its `@verify-ingame` marker on purpose.** The talent that grants it,
-  **Master the Darkness**, is live on tree 795 and the button has Midnight-range spell IDs,
-  but it is a Power Word: Shield *override* with no acquisition row — DB2 cannot settle its
-  numbers, so this is a tool gap, not a stale claim.
+Names that appear in guides, older builds or other people's notes, which we have
+checked and believe are **not** part of this spec at 12.0.7. Listed so the next
+reader stops here instead of re-running the check.
 
-> No simc APL exists for Discipline (SimulationCraft ships only `MID1_Priest_Shadow`
-> profiles — healers have no default APL), so cast/CD/resource figures above are
-> from Tier-3 guides + game-data names and are approximate; tuning-sensitive
-> numbers carry `@verify-ingame`.
+| name | verdict | evidence |
+|---|---|---|
+| Premonition | **removed — the button is gone** | `Premonition` appears **nowhere** in `all-talents.tsv` for **any** of the 40 specs, and nowhere in Discipline's inventory. The four spells of that name (`188779`/`428924`/`443056`/`450796`) are all TWW-era and attach to no trait node, `SkillLineAbility`, `SpecializationSpells` or `PvpTalent`. **Oracle is still live** on the Priest tree (**795**) and still the default hero pick — it now carries `Prophet's Insight`, `Prophet's Will`, `Piety`, `Twinsight` (+ `Assured Safety`, `Preemptive Care`, `Save the Day`, `Unfolding Vision`, `Words of the Wise`…). No Premonition node and no `Premonition of *`. |
+| Silence | **Shadow's, not Discipline's** | `Silence` `15487` appears in **`priest/shadow/ability-inventory.tsv` only** (`class-baseline`) and in neither Discipline's nor Holy's. **Discipline has no interrupt and no school lockout** — a real gap to plan group composition around, and one a generated inventory structurally cannot state, because it lists what *is*. |
+| battle rez (Rebirth / Raise Ally / Intercession / Soulstone) | **Priest has none, in any spec** | zero rows matching those four names across all three Priest inventories. `Resurrection` `2006` and `Mass Resurrection` `212036` are both out-of-combat. |
+
+*[Tier 1: `all-talents.tsv` + the three Priest `ability-inventory.tsv` files, both
+@ 12.0.7.67808; adjudicated in `../../_abilities/reconcile-ledger.md`.]*
+
+## Corrections this file has already made
+
+Kept only because re-asserting them is the likely failure mode:
+
+- **`builds.md` is stale on Oracle and contradicts §B above.** Its hero-tree
+  section still sells Oracle on a *"**Premonition** toolkit for reactive
+  throughput/defense"*. That button does not exist at 12.0.7 (§B, Tier-1). Oracle
+  remains the recommended default — the reason given for it is what is wrong.
+  **This file wins; `builds.md` has not been edited.**
+- **Shadow Word: Pain is `class-baseline`, Shadowfiend is `talent-active`** — an
+  earlier revision had these exactly the wrong way round. Both origins are now in
+  the generated inventory; read them there.
+
+## Open in-game questions
+
+**None.** A question belongs here only if it genuinely cannot be answered from
+game data — you must be logged in and looking at it. *"The exact cooldown / cost
+is uncertain"* is **not** one: `ability-inventory.md` carries the Tier-1 number.

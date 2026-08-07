@@ -1,114 +1,81 @@
 ---
-title: Augmentation Evoker — Abilities (Midnight S1)
+title: Augmentation Evoker — off-inventory abilities (Midnight S1)
 patch: 12.0.7
 fetched: 2026-08-06
 reviewed: 2026-08-06
 sources:
-  - knowledge/classes/evoker/augmentation/ability-inventory.tsv  # tier 1, DB2 @ 12.0.7.67808 — names, spellIDs, origin, cooldowns
-  - knowledge/classes/_abilities/reconcile-ledger.md  # tier 1 derived, the verdicts applied 2026-08-06
-  - simc midnight branch engine/class_modules/apl/apl_evoker.cpp augmentation_12_0_5  # tier 1, 2026-07-11
-  - https://www.method.gg/guides/augmentation-evoker/playstyle-and-rotation  # tier 3, 2026-07-11
-  - https://www.icy-veins.com/wow/augmentation-evoker-pve-dps-rotation-cooldowns-abilities  # tier 3, 2026-07-11
-  - raw/wago/SpellName.csv (Tier 1 game data — name canonicalization)  # tier 1, 2026-07-11
-confidence: medium
+  - ./ability-inventory.md  # tier 1 — the generated inventory this file supplements, DB2 @ 12.0.7.67808
+  - ../../_talents/all-talents.tsv  # tier 1 — every spec's talent tree @ 12.0.7.67808
+  - ../../_abilities/section-4-catalogue.tsv  # tier 1 derived — the prose-only catalogue this file feeds
+  - ../../_abilities/reconcile-ledger.md  # tier 1 derived — the verdicts applied 2026-08-06
+confidence: high
 ---
 
-# Augmentation Evoker — Abilities (Midnight S1)
+# Augmentation Evoker — off-inventory abilities
 
-## Overview
+**Everything about an Augmentation ability is in `ability-inventory.md`** — 160
+rows (specID 1473), each carrying spellID, cooldown, cast time, origin,
+talent/hero placement and the full tooltip. It is generated, Tier-1, DB2-pinned
+to `12.0.7.67808`.
 
-Augmentation is Evoker's **support DPS** spec: a large share of its damage
-lands as **buffs on allies** rather than its own meter. The rotation exists to
-keep two team buffs alive — **Ebon Might** (grants your primary stat to your
-4 highest-damage nearby allies) and **Prescience** (crit/versatility on a
-chosen ally) — and to funnel a raid-wide burst into **Breath of Eons**, which
-banks a slice of everyone's damage and detonates it.
+**This file holds only the two things that generated file structurally cannot
+say**, because it is a *join*: a row exists there because a Tier-1 acquisition
+table says this spec **learns** the spell. It can only ever list what **is**.
 
-- **Resource: Essence** (max 5, or 6 with Font of Magic). Regenerates slowly on
-  its own; you build it faster with **Living Flame / Azure Strike** and
-  **Essence Burst** procs, then spend it on **Eruption** (the signature
-  spender, which also **extends Ebon Might**).
-- **Empowers:** Fire Breath and Upheaval are hold-to-rank spells — holding the
-  key charges the empower level. Augmentation deliberately casts them at **low
-  rank** most of the time (fast, keeps the Ebon Might loop moving).
-- **Hero trees:** **Scalecommander** (adds a personal-damage bombardment layer
-  via Breath of Eons; the general default and the clear M+ pick) and
-  **Chronowarden** (time-magic buff-extension, ~3% more single-target). See
-  `builds.md`.
+> ⛔ **If an Augmentation ability is not named below, do not research it — read
+> its row in `ability-inventory.md` and go.** Rotation → `rotation.md`.
+> Talents/hero pick → `builds.md`. Both sections here are **closed lists, not
+> backlogs.**
 
-Empowered/support kit is a small set of buttons pressed constantly; most of the
-inventory below is utility, defensives, and CC that you press reactively.
+## §A — Real buttons the inventory cannot see
 
-## Ability inventory
+Confirmed to exist and be pressable, but no spec-keyed acquisition table names
+them, so they will never appear in `ability-inventory.tsv`. **Absence there is
+not absence in game.**
 
-> **Where the numbers come from.** `ability-inventory.tsv` in this folder is the
-> Tier-1 record for **name, spellID, origin and cooldown** (DB2 @ 12.0.7.67808) —
-> read it rather than trusting a number restated here. A `[T1]` stamp marks a
-> cooldown taken from it; a `~` value is a Tier-3 approximation nobody measured.
-> The `@verify-ingame` markers that remain ask about cast times, charge counts
-> and effect magnitudes, which that file has no column for.
+> ⚠ **This section is a machine input.** `wowkb.gen_abilities` harvests the
+> `name` column of the table below — the heading is matched on the word
+> **`inventory`** — and feeds it to the `prose-only` leg of
+> `section-4-catalogue`. Rename this heading or drop the `name` column header
+> and these rows **silently vanish from the catalogue**, with no marker and no
+> warning. §B is deliberately *not* harvested: it asserts the opposite.
 
-> **What the Tier-1 floor does and does not cover.** A **bold `[T1]`** cooldown
-> below was read straight out of `ability-inventory.tsv` (wago DB2 @ 12.0.7.67808).
-> A `~` value was **not**: it is a Tier-3 guide number that the tsv could not
-> settle, and it is kept on purpose. The tsv's `cooldown` column is
-> `SpellCooldowns` at DifficultyID 0 — `max(RecoveryTime, CategoryRecoveryTime)` —
-> which is the real cooldown for a normal button and is **wrong for a charge
-> ability**, where it returns the GCD (Fire Blast 0.5s, Purifying Brew 1s). The
-> recharge lives in `SpellCategory.ChargeRecoveryTime`, unreachable without
-> breaking the build pin (`_abilities/reconcile-ledger.md` §5 G6). **So "the tsv
-> wins" applies to the values it actually carries, not to every row** — 194 rows
-> across the 40 files read 0 or sub-10s there and keep their `~` prose instead.
->
-> Names this file asserts that **no** acquisition row reaches are catalogued in
-> `../../_abilities/section-4-catalogue.md`; ones game data reaches indirectly are
-> in `section-3-corroborated.md`. ⚠ Neither is a backlog — an entry there is
-> researched when someone **asks**, never because it has sat there a while.
+| spellID | name | how we know, and why the join misses it |
+|---|---|---|
+| | Renewing | **Looks like a harvest artifact, kept verbatim anyway.** The prose this file replaces carried one composite row, `Renewing / Verdant Embrace`, and the catalogue harvester split it on the `/`. The two real buttons both *are* in the generated inventory — **Renewing Blaze** `374348` (`talent-active`, castable) and **Verdant Embrace** `360995` (`talent-active`, castable, 0.5s) — so there is no missing Evoker button named "Renewing". It stays here spelled exactly as `section-4-catalogue.tsv` records it; a separate deliberate pass retires artifacts. Not losing data and improving data are different jobs. |
 
-| Ability | Function | Resource | Cast / CD | Description |
-|---|---|---|---|---|
-| **Ebon Might** | Rotational-builder (maintain) | — (Essence-free) | Instant / GCD / **30s** `[T1]` | Grants your primary stat to your top ~4 nearby allies and buffs your own damage; ~10s base, **extended by Eruption/Fire Breath/Upheaval**. The buff you keep up at all times. |
-| **Prescience** | Rotational-builder (maintain) | — | Instant · ~2 charges | Buffs an ally with crit + versatility (~18s). Cast on your best damage dealers; casting while targeting an enemy smart-buffs a random DPS. @verify-ingame (charge count / recharge) |
-| **Eruption** | Rotational-spender | 3 Essence (2 w/ Volcanism) | ~2.5s cast | Signature spender: earth erupts on the target for AoE damage and **extends Ebon Might**. Spend Essence here during an Ebon Might window. @verify-ingame (cast time) |
-| **Living Flame** | Rotational-builder / filler | — | ~2s cast | Filler nuke (or heal). Feeds Essence Burst / Leaping Flames procs. Chronowarden turns this into **Chrono Flame**. |
-| **Azure Strike** | Rotational-builder / filler | — | Instant | Instant ranged filler, hits 2 targets. The APL's default instant filler; press when Living Flame's cast doesn't fit. |
-| **Fire Breath** | Major cooldown (empower) | — | Empower · ~30s CD | Frontal empowered fire DoT. Cast **rank 4 with Leaping Flames, rank 1 without** (per the APL) during Ebon Might. |
-| **Upheaval** | Major cooldown (empower) | — | Empower · ~40s CD | Empowered ground burst (AoE knock-up + damage). APL casts **rank 1**; guides suggest upranking for AoE radius coverage. |
-| **Breath of Eons** | Major cooldown (talent) | — | 120s `[T1]` | Fly across the battlefield banking allies' damage as **Temporal Wound**, then detonate it. The spec's big burst window; stack ally cooldowns into it. Replaces Deep Breath. A flat 2 minutes — this file previously hedged with "~30s?", which is wrong by a factor of four; plan raid cooldown alignment on the 2-minute beat. |
-| **Blistering Scales** | Utility / ally-defensive (talent) | — | Instant · 30s `[T1]` | Armor buff (stacks) on an ally, usually the **tank**; also does damage when the tank is hit. Applied pre-pull and re-applied when stacks run low — at 30s you can afford to top it up on cooldown rather than rationing it. |
-| **Time Skip** | Major cooldown (CD acceleration, talent) | — | Channel · 180s `[T1]` | Channel that **advances your own cooldowns** (Fire Breath/Upheaval/Breath of Eons). Woven in when the empowers are down. At 3 minutes it is a once-per-fight-phase tool, not a rotational filler — the ~1.5 min this file used to carry made it look twice as available as it is. @verify-ingame (how much cooldown time it actually advances) |
-| **Tip the Scales** | Major cooldown (empower enabler) | — | Instant · 2 min CD | Makes your **next empowered spell instant and max rank**. Paired with Fire Breath (or Breath of Eons on some builds). |
-| **Hover** | Movement | — | Instant · 2 charges, ~35s | Lets you **cast while moving** for the duration. Off-GCD; used to weave casts around movement. |
-| **Deep Breath** | Movement / cooldown (situational) | — | ~1 min CD | Fly forward dealing damage along the path. Present in the APL/Scalecommander kit alongside Breath of Eons. @verify-ingame (availability/CD for Aug) |
-| **Quell** | Interrupt | — | Instant / **20s** `[T1]` | Ranged interrupt. |
-| **Obsidian Scales** | Defensive | — | Instant · 2 charges, ~90s | −30% damage taken. Core personal mitigation. @verify-ingame (values) |
-| **Renewing Blaze** | Defensive / self-heal | — | Instant · ~90s CD | Damage taken over the next 8s is healed back. @verify-ingame (CD) |
-| **Zephyr** | Defensive (group) / movement (talent) | — | 120s `[T1]` | Group damage reduction + minor movement speed for nearby allies. |
-| **Renewing / Verdant Embrace** | Utility / heal + movement | — | Instant · ~24s CD | Heal an ally and **pull yourself to them** (or them to you). Also triggers Ancient Flame. @verify-ingame (CD) |
-| **Emerald Blossom** | Utility / AoE heal | Essence | Instant / **30s** `[T1]` | Ground-target AoE heal; used with Dream of Spring builds to spend Essence Burst as a heal. |
-| **Cauterizing Flame** | Dispel / heal (talent) | — | Instant · 60s `[T1]` | Removes Bleed/Poison/Curse/Disease from an ally and heals them. The 60s cooldown is what makes it a *chosen* dispel rather than a spammable one — pick the debuff. |
-| **Expunge** | Dispel (talent) | — | Instant · 8s `[T1]` | Removes a Poison effect from an ally. Effectively always up; this is the one you can use freely. |
-| **Source of Magic** | Utility (mana battery) | — | Instant | Assign to a healer: they gain mana whenever you deal damage. Drop if another Evoker covers it. |
-| **Rescue** | Movement (ally, talent) | — | Instant · 60s `[T1]` | Fly to an ally and carry them back to safety; grants them a small shield. |
-| **Sleep Walk** | CC | — | ~1.5s cast | Puts an enemy to sleep (disorient); breaks on damage. Pack-skip / kite tool. |
-| **Landslide** | CC (root, talent) | — | Instant · 90s `[T1]` | Roots enemies in a line. |
-| **Oppressing Roar** | CC (amplify, talent) | — | Instant · 120s `[T1]` | Roar that increases the duration of loss-of-control on affected enemies; with Overawe also soothes enrages. |
-| **Tail Swipe** | CC (knockback) | — | Instant · 180s `[T1]` | AoE knockback behind you. **Class-baseline `[T1]`** — no talent point required, but at 3 minutes it is a once-per-pack tool at best. |
-| **Fury of the Aspects** | Major cooldown (Bloodlust) | — | ~5 min CD | Raid Heroism/Bloodlust equivalent (+30% haste); causes Exhaustion. |
-| **Spatial Paradox** | Utility (haste burst) | — | 180s `[T1]` | Empowers you **and an ally** with a large haste/casting buff. **Choice node `[T1]`** vs Time Spiral. At 3 minutes — not the 2 this file used to claim — it will not line up with every 2-minute raid burst; pick which one it feeds. @verify-ingame (values) |
-| **Draconic Attunements** | **Passive talent** (group aura) | — | — | **Not a pressed button — this row used to be listed as one.** Tier 1 has *no* castable spell of this name: every ID it resolves to is flagged passive, and the talent is `talent-passive` on the tree. It grants a group aura in one of two states, **Black Attunement** (armor/stamina) or **Bronze Attunement** (movement speed); how the state is chosen is Tier-3 colour and neither state has an acquisition row of its own, so don't assume a keybind exists for it. *[Tier 1: reconcile-ledger.md §4 @ 12.0.7.67808.]* |
-| **Blessing of the Bronze** | Utility (raid buff) | — | Instant / **15s** `[T1]` | Raid-wide movement-speed / cooldown buff; cast pre-combat. |
-| **Return** | Utility (teleport) | — | ~2s cast, long CD | Teleport back to a location you set with a portal. Out-of-combat mobility. |
-| **Swoop Up** | CC / utility (PvP talent) | — | Instant / **90s** `[T1]` | Grab a target into the air. PvP-oriented. @verify-ingame |
-| **Chrono Loop** | CC (PvP talent) | — | Instant / **45s** `[T1]` | Traps an enemy; after a few seconds returns them to their earlier position and health. PvP-oriented. @verify-ingame |
-| **Time Stop** | Utility (PvP talent) | — | Instant / **45s** `[T1]` | Freezes an ally in stasis — invulnerable but unable to act — for a few seconds. PvP-oriented. @verify-ingame |
-| **Essence Burst** | Notable passive | — | Passive | Your builders/empowers proc a charge that makes the **next Eruption free**. Drives the spender cadence. |
-| **Leaping Flames** | Notable passive | — | Passive | After an empower, Living Flame gains extra bounces / an Essence Burst chance; changes Fire Breath to rank-4 usage in the APL. |
+## §B — Encountered, and we believe not valid
 
-> **Name-reconciliation notes (Tier 1):** all seed names verify as current
-> game-data names — no renames detected for Midnight. SpellIDs are deliberately
-> not restated here; `ability-inventory.tsv` in this folder carries them and is
-> the thing that gets regenerated when they move. **Black/Bronze Attunement** are
-> the two states of the **Draconic Attunements** talent, not standalone buttons —
-> neither has an acquisition row of its own. **Prescience** is the Augmentation
-> version of the generic seed name.
+Names that appear in guides, older builds or other people's notes, which we have
+checked and believe are **not** pressable buttons for this spec at 12.0.7.
+Listed so the next reader stops here instead of re-running the check.
+
+| name | verdict | evidence |
+|---|---|---|
+| Black Attunement | **not a button — a state** | No row of this name in any acquisition table for any of the 40 specs (`all-talents.tsv`, and this spec's `ability-inventory.tsv`). It is one of the two states of the **Draconic Attunements** talent `403208`, whose tooltip enumerates both states. The nearest IDs that do exist are `Black Aspect's Favor` `407254` / `Bronze Aspect's Favor` `407244`, both `cdm-only` **buff** rows, and per `Aspects' Favor` `407243` they are activated by casting **Obsidian Scales** / **Hover** — not pressed. |
+| Bronze Attunement | **not a button — a state** | Same check, same result: the other state of `Draconic Attunements` `403208`. |
+
+*[Tier 1: `all-talents.tsv` + `ability-inventory.tsv` @ 12.0.7.67808.]*
+
+## Corrections this file has already made
+
+Kept only because re-asserting them is the likely failure mode:
+
+- **`Draconic Attunements` `403208` is a PASSIVE**, not a pressed group-buff
+  cooldown — `talent-passive`, `castable=false`, node type `PASSIVE` on the
+  tree, and Tier 1 has *no* castable spell of that name at all. An earlier
+  revision of this file listed it as a button in the ability table. Don't assume
+  a keybind exists for it. *[Tier 1: reconcile-ledger.md §4 @ 12.0.7.67808.]*
+- **`Return` `361227` is the Evoker battle res, not a teleport.** Tooltip:
+  *"Brings a dead party member back to life with 35% health and mana. Cannot be
+  cast when in combat."* — `class-baseline`, 10s cast, no cooldown column. An
+  earlier revision described it as "teleport back to a location you set with a
+  portal", which is a different game's spell. The same wrong line was carried by
+  all three Evoker specs.
+
+## Open in-game questions
+
+**None.** A question belongs here only if it genuinely cannot be answered from
+game data — you must be logged in and looking at it. *"The exact cooldown / cast
+time / charge count is uncertain"* is **not** one: `ability-inventory.md`
+carries the Tier-1 number.

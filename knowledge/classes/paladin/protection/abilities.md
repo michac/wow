@@ -1,122 +1,105 @@
 ---
-title: Protection Paladin — Ability Inventory (Midnight S1)
+title: Protection Paladin — off-inventory abilities (Midnight S1)
 patch: 12.0.7
 fetched: 2026-08-06
 reviewed: 2026-08-06
 sources:
-  - knowledge/classes/paladin/protection/ability-inventory.tsv  # tier 1, generated from DB2 @ build 12.0.7.67808 — name/spellID/origin/cooldown floor
-  - knowledge/classes/_abilities/reconcile-ledger.md  # tier 1 adjudication of this file's claims @ 12.0.7.67808
-  - https://www.method.gg/guides/protection-paladin/playstyle-and-rotation  # tier 3, upd. 2026-07-09
-  - https://www.icy-veins.com/wow/protection-paladin-pve-tank-rotation-cooldowns-abilities  # tier 3, 12.0.7
-  - https://www.icy-veins.com/wow/protection-paladin-pve-tank-spell-summary  # tier 3, 12.0.7
-  - raw/wago/SpellName.csv  # tier 1, name reconciliation @ build 12.0.7.67808
-  - knowledge/classes/paladin/protection/talents.md  # tier 1 talent tree (Blizzard API + wago)
+  - ./ability-inventory.md  # tier 1 — the generated inventory this file supplements, DB2 @ 12.0.7.67808
+  - ../../_talents/all-talents.tsv  # tier 1 — every spec's talent tree
+  - ../../_abilities/spell-descriptions.tsv  # tier 1 — resolved Blizzard spell-API tooltips, fetched 2026-08-06
+  - ../../_abilities/section-4-catalogue.tsv  # tier 1 derived — the unreached-name catalogue
+  - ../../_abilities/reconcile-ledger.md  # tier 1 adjudication of this file's earlier claims
 confidence: high
 ---
 
-# Protection Paladin — abilities (Midnight S1)
+# Protection Paladin — off-inventory abilities
 
-## Overview
+**Everything about a Protection ability is in `ability-inventory.md`** — 199 rows,
+one row each carrying spellID, cooldown, cast time, origin, talent/hero placement
+and the full tooltip. It is generated, Tier-1, DB2-pinned to `12.0.7.67808`.
 
-Protection Paladin is a plate melee tank built on the **Holy Power** resource
-(0–5). Short-cooldown builders (Judgment, Blessed Hammer / Hammer of the
-Righteous, Avenger's Shield) generate Holy Power in ones and twos; you spend it
-in blocks of **3** on **Shield of the Righteous** (the mitigation button — armor
-+ block/avoidance buff, off-GCD) or **Word of Glory** (a Holy-Power heal). The
-active-mitigation loop is: never Holy-Power-cap, keep **Consecration** down under
-you, and keep **Shield of the Righteous** rolling. The two hero trees fork the
-kit: **Templar** turns **Divine Toll** into a 12-second **Hammer of Light** burst
-window and layers **Shake the Heavens**; **Lightsmith** adds the **Holy
-Armaments** buffs (**Sacred Weapon** / **Holy Bulwark**) via a rechargeable
-charge system.
+**This file holds only the two things that generated file structurally cannot
+say**, because it is a *join*: a row exists there because a Tier-1 acquisition
+table says this spec **learns** the spell. It can only ever list what **is**.
 
-> **Midnight changes worth flagging (12.0.x):**
-> - **Hammer of Wrath is no longer its own button** — it is now a *transform of
->   Judgment* that is only castable during **Avenging Wrath** (and, baseline, on
->   enemies below the execute threshold). During Wings, press Judgment and it
->   fires Hammer of Wrath. This simplifies the bar and shifts the Holy-Power
->   economy. @verify-ingame (exact charge/HP behaviour of the Judgment→HoW swap)
-> - **Eye of Tyr, Moment of Glory, and Bastion of Light were removed** in
->   Midnight. Eye of Tyr is effectively replaced in the Templar kit by the
->   Divine Toll → Hammer of Light flow. (Eye of Tyr was not in the current spec
->   kit — do not author it as a live button.)
+> ⛔ **If a Protection ability is not named below, do not research it — read its
+> row in `ability-inventory.md` and go.** Rotation → `rotation.md`. Talents/hero
+> pick → `builds.md`. Both sections here are **closed lists, not backlogs.**
 
-## Ability inventory
+⚠ One caveat the inventory cannot flag: its **42 `class-baseline` rows are the
+whole Paladin skill line, not Protection's bar** — mounts, Holy's Beacon of Light,
+Retribution's Wake of Ashes. `SkillLineAbility:800` is a *class* attachment;
+nothing generated filters it to a spec.
 
-**`ability-inventory.tsv` in this directory is the Tier-1 floor** — canonical name, spellID,
-origin and baseline cooldown are regenerated there from DB2 and are not duplicated here.
-This file is the prose layer: what each button does for the active-mitigation loop. `~`
-values below are guide-derived; `@verify-ingame` marks what Tier 1 could not settle.
+## §A — Real buttons the inventory cannot see
 
-> **What the Tier-1 floor does and does not cover.** A **bold `[T1]`** cooldown
-> below was read straight out of `ability-inventory.tsv` (wago DB2 @ 12.0.7.67808).
-> A `~` value was **not**: it is a Tier-3 guide number that the tsv could not
-> settle, and it is kept on purpose. The tsv's `cooldown` column is
-> `SpellCooldowns` at DifficultyID 0 — `max(RecoveryTime, CategoryRecoveryTime)` —
-> which is the real cooldown for a normal button and is **wrong for a charge
-> ability**, where it returns the GCD (Fire Blast 0.5s, Purifying Brew 1s). The
-> recharge lives in `SpellCategory.ChargeRecoveryTime`, unreachable without
-> breaking the build pin (`_abilities/reconcile-ledger.md` §5 G6). **So "the tsv
-> wins" applies to the values it actually carries, not to every row** — 194 rows
-> across the 40 files read 0 or sub-10s there and keep their `~` prose instead.
->
-> Names this file asserts that **no** acquisition row reaches are catalogued in
-> `../../_abilities/section-4-catalogue.md`; ones game data reaches indirectly are
-> in `section-3-corroborated.md`. ⚠ Neither is a backlog — an entry there is
-> researched when someone **asks**, never because it has sat there a while.
+Confirmed to exist and be pressable, but no spec-keyed acquisition table names
+them, so they will never appear in `ability-inventory.tsv`. **Absence there is not
+absence in game.**
 
-| Ability | Function | Resource | Cast / CD | Description |
-|---|---|---|---|---|
-| Shield of the Righteous | Rotational-spender (Defensive) | 3 Holy Power | Instant / off-GCD (no CD) | Core active mitigation. Deals Holy AoE damage in front and grants the SotR buff (armor + block/avoidance) for ~4.5s. Your primary Holy-Power sink; keep the buff rolling and never HP-cap. |
-| Judgment | Rotational-builder | Generates Holy Power | Instant / ~6s (Crusader's Judgment adds a charge) | Ranged builder; applies Judgment debuff (Greater Judgment). **During Avenging Wrath it becomes Hammer of Wrath.** |
-| Blessed Hammer | Rotational-builder | Generates 1 Holy Power | Instant / ~3 charges, ~4.5s recharge | Choice-node builder (vs Hammer of the Righteous). Throws hammers that damage and briefly reduce enemy damage. Default M+/AoE builder. |
-| Hammer of the Righteous | Rotational-builder | Generates Holy Power | Instant / charges | Choice-node alternative to Blessed Hammer; melee builder, favored in some single-target/Templar setups (Blessed Assurance empowerment). |
-| Avenger's Shield | Rotational-builder / Interrupt / Utility | Generates Holy Power (up to 3 w/ Glory of the Vanguard) | Instant, ranged / ~15s (reset by Grand Crusader) | Throws shield at up to 3 targets (more with Bulwark of Order/Soaring Shield), **interrupts and silences** the first for 3s, applies a small absorb. Grand Crusader procs reset it. |
-| Consecration | Rotational / Utility | — | Instant / ~9s (or by charge) | Ground effect (~12s) that deals Holy damage and enables/boosts several talents; stay standing in it. Refresh when it drops or when moving off it. |
-| Hammer of Wrath | Rotational-builder (execute) | Generates Holy Power | Instant, ranged / usable during Avenging Wrath or on low-HP targets | Now a **Judgment transform** during Avenging Wrath; also usable baseline on enemies below the execute HP threshold. High-priority builder when available. |
-| Divine Toll | Major cooldown / Rotational-builder | Generates Holy Power | Instant / ~1 min | Casts Avenger's Shield at up to 5 nearby enemies, generating a burst of Holy Power. **Templar:** casting it grants **Hammer of Light** for 12s. Synced with the Avenging Wrath window. |
-| Hammer of Light | Rotational-spender (Templar) | 3 Holy Power | Instant / available 12s after Divine Toll | Templar-only. Big Holy AoE nuke that replaces Divine Toll for 12s after it is cast; top priority while active. Sustains Shake the Heavens. |
-| Word of Glory | Rotational-spender (Self-heal) | 3 Holy Power | Instant / no CD | Holy-Power heal scaling with missing health; **free/empowered with Shining Light** procs (and, for Templar, cheaper with Shake the Heavens active). |
-| Sacred Weapon | Utility buff (Lightsmith) | Holy Armaments charge | Instant / rechargeable charges | Lightsmith armament: a weapon buff that adds Holy damage/healing. Refresh when the buff drops below ~5s; use while Avenging Wrath is unavailable. **Not a talent of its own [T1]** — the tree node is **Holy Armaments**, which alternates this with Holy Bulwark (the tsv carries the `Holy Bulwark ⇄ Holy Armaments` alias). |
-| Holy Bulwark | Defensive (Lightsmith) | Holy Armaments charge | Instant / rechargeable charges | Lightsmith armament: a personal absorb shield. Shares the Holy Armaments charge pool with Sacred Weapon; spend outside the Wings window. Same acquisition point as Sacred Weapon [T1]. |
-| **Holy Armaments** | Major cooldown / armament source (Lightsmith) | — | Instant / rechargeable charges @verify-ingame (recharge) | **The acquisition point for both armaments** — the Lightsmith tree node itself (432459 `talent-active`, hero subtree Lightsmith, node 95234) *[Tier 1]*. Each cast alternates between **Sacred Weapon** and **Holy Bulwark**, which is why neither of those has a row of its own in `ability-inventory.tsv`. The tsv carries this entry under the `Holy Bulwark ⇄ Holy Armaments` alias; one trait entry, two names, not a conflict. |
-| Avenging Wrath | Major cooldown (offensive) | — | Instant / ~2 min (≈1 min with Righteous Protector) | "Wings." +20% damage/healing (and crit when talented) for the burst window; converts Judgment to Hammer of Wrath. Choice node vs Sentinel. |
-| Sentinel | Major cooldown (defensive) | — | Instant / ~2 min | Choice-node alternative to Avenging Wrath: a stacking damage-and-mitigation buff that ramps over its duration. Defensive-leaning burst pick. |
-| Ardent Defender | Defensive | — | Instant / ~1.5 min | ~20% damage reduction + absorb for ~8s; the cheat-death floor (prevents one lethal hit and heals if it would kill you). Shortest-CD major wall. |
-| Guardian of Ancient Kings | Major defensive | — | Instant / ~3–5 min | Large damage reduction (~50%) for ~8s; a second charge is possible via Empyrean Authority. @verify-ingame (exact cooldown 3 vs 5 min) |
-| Divine Shield | Defensive (immunity) | — | Instant / ~5 min | Full immunity for 8s. With **Final Stand** it also taunts nearby enemies (keeps aggro instead of dropping it). Drops threat otherwise. |
-| Lay on Hands | Defensive (emergency heal) | — | Instant / ~10 min | Heals the target to full (self or ally). Emergency button. |
-| Blessing of Freedom | Utility (movement) | — | Instant / ~25s | Removes and grants immunity to movement-impairing effects for a short time. |
-| Blessing of Protection | Defensive (external) | — | Instant / ~5 min | Physical-damage immunity on an ally (or self); causes a threat drop without Hand of Reckoning follow-up. |
-| Blessing of Spellwarding | Defensive (external) | — | Instant / ~3 min | Choice/talent replacing BoP: magic-damage immunity, no threat concern. Usable on self as a magic wall. |
-| Blessing of Sacrifice | Defensive (external) | — | Instant / **120s** `[T1]` | Redirects a portion of an ally's incoming damage to you; core cooldown for guarding a co-tank or squishy. |
-| Divine Steed | Movement | — | Instant / 2 charges (Cavalier) | Temporary mounted speed boost; two charges with Cavalier for chaining gaps. |
-| Hand of Reckoning | Taunt | — | Instant, ranged / ~8s | Single-target taunt; forces the enemy to attack you. |
-| Rebuke | Interrupt | — | Instant / ~15s | Melee kick; interrupts a spellcast. Your on-demand interrupt (Avenger's Shield is the ranged one). |
-| Hammer of Justice | CC (stun) | — | Instant / **45s** `[T1]` / Fist of Justice) | Ranged stun. |
-| Blinding Light | CC (disorient) | — | Instant / ~90s | AoE disorient around you. |
-| Turn Evil | CC (fear) | — | Cast / ~15s | Fears an Undead/Demon/Aberration target (instant with Wrench Evil). |
-| Cleanse Toxins | Dispel | — | Instant / ~8s | Removes Poison and Disease from an ally. |
-| Flash of Light | Utility (heal) | Mana | ~1.5s cast / — | Mana heal cast; slow off-Holy-Power topping tool. |
-| Intercession | Utility (combat rez) | Mana | Cast / **600s** `[T1]` | Battle resurrection (in-combat rez). |
-| Redemption | Utility (rez) | Mana | Cast / — | Out-of-combat resurrection. |
-| Rite of Sanctification | Utility buff (Lightsmith) | — | Cast (precombat) / — | Lightsmith raid buff (choice with Rite of Adjuration); set before pull. |
-| Devotion Aura | Passive/Utility (aura) | — | Instant / — | Group armor aura; set-and-forget (one aura active). |
-| Crusader Aura | Passive/Utility (aura) | — | Instant / — | Mounted movement-speed aura; travel only. |
-| Guardian's/Empyrean absorbs (Bulwark of Order) | Passive | — | — | Avenger's Shield grants an absorb shield (Bulwark of Order); part of the passive EHP layer. |
+> ⚠ **This section is a machine input.** `wowkb.gen_abilities` harvests the `name`
+> column of the table below — the heading is matched on the word **`inventory`** —
+> and feeds it to the `prose-only` leg of `section-4-catalogue.md`. Rename this
+> heading or drop the `name` column header and these rows **silently vanish from
+> the catalogue**, with no marker and no warning. §B is deliberately *not*
+> harvested: it asserts the opposite.
 
-> Auras are mutually exclusive (one active at a time) — Devotion is the default and
-> Crusader is travel-only. There is **no Concentration Aura to swap to at 12.0.7** (see
-> the reconciliation notes).
+| spellID | name | how we know, and why the join misses it |
+|---|---|---|
+| — | Empyrean absorbs | ⚠ **Not a spell name — an obvious harvest artifact, reproduced verbatim on purpose (see below).** |
+| — | Guardian's | ⚠ **Not a spell name — an obvious harvest artifact, reproduced verbatim on purpose (see below).** |
+| — | Sacred Weapon | **One of the two outputs of `Holy Armaments` `432459`** (talent-active, Lightsmith subtree, node 95234), which alternates them: that spell's Tier-1 resolved tooltip ends *"Becomes Sacred Weapon after use."* No spell **named** Sacred Weapon attaches to a trait node, skill line, `SpecializationSpells` or `PvpTalent` row — 432472 / 432502 / 432616 / 432757 / 441590 all attach to nothing *(`reconcile-ledger.md`)* — so the join can never emit it. The other half, **Holy Bulwark**, *does* appear, as a `cdm-only` row on the same spellID 432459. ⚠ A spell-API 404 is **not** evidence of absence. |
+| — | Concentration Aura | **Granted by the class-tree talent `Auras of the Resolute` `385633`** (node 102587, all three Paladin specs in `all-talents.tsv`), whose Tier-1 resolved tooltip reads *"**Learn Concentration Aura**, Devotion Aura, and Crusader Aura … Concentration Aura: Interrupt and Silence effects on party and raid members within 40 yds are 30% shorter."* `Aura Mastery` `31821` still carries a *"Concentration Aura: Affected allies immune to interrupts and silences"* clause. The aura has **no acquisition row of its own** (79963 / 81455 / 317920 / 344220 attach to nothing) — Devotion, Crusader and Retribution Aura each have a `class-baseline SkillLineAbility:800` row and this one does not. **This reverses the old "not acquirable" verdict — see Corrections.** |
 
-## Reconciliation notes — Tier 1 @ 12.0.7.67808
+⚠ **The first two rows are harvest artifacts and are kept spelled exactly as the
+catalogue has them.** The prose this file replaces carried a single row headed
+`Guardian's/Empyrean absorbs (Bulwark of Order)`;
+`gen_abilities._inventory_names()` splits a name cell on `/` and strips
+parentheticals, so that one cell became two catalogue entries, neither of which is
+a spell. **Nothing is actually missing**: the real spells behind the fragment are
+**`Bulwark of Order` `209389`** (talent-passive — *"Avenger's Shield also shields
+you for 8 sec, absorbing 60% as much damage as it dealt, up to 50% of your maximum
+health"*) and **`Guardian of Ancient Kings` `86659`** (talent-active, +
+`Empyrean Authority` `1246481` for the second charge), both already in
+`ability-inventory.md`. **Do not "fix" the two names here** — a separate
+deliberate artifact pass owns that; not losing data and improving data are
+different jobs.
 
-- **Concentration Aura is not acquirable at 12.0.7** and the row is deleted: no spell of
-  that name attaches to a trait node, skill line, `SpecializationSpells` or `PvpTalent` row.
-  `Devotion Aura` is still on the Paladin skill line and `Aura Mastery` /
-  `Auras of the Resolute` are still on tree **790**, so the aura system survives — this aura
-  does not. The old "swap to Concentration on interrupt fights" advice is dead; plan
-  silence-heavy pulls without it.
-- **Sacred Weapon is an output of Holy Armaments, not a talent** — no spell named Sacred
-  Weapon has an acquisition row at all. The rows above are re-anchored to Holy Armaments
-  (live tree 790, Lightsmith subtree).
+## §B — Encountered, and we believe not valid
+
+Names that appear in guides, older builds or other people's notes, which we have
+checked and believe are **not** part of this spec at 12.0.7. Listed so the next
+reader stops here instead of re-running the check.
+
+| name | verdict | evidence |
+|---|---|---|
+| Moment of Glory | **gone at 12.0.7** | the name appears **nowhere** in the generated layer: not in `all-talents.tsv` for any spec of any class, not in any of the 40 `ability-inventory.tsv` files, not in `section-3-corroborated.tsv` or `section-4-catalogue.tsv`. Do not author it. |
+| Bastion of Light | **gone at 12.0.7** | same check, same result — zero hits across `all-talents.tsv`, all 40 spec inventories and both catalogue sections. |
+
+*[Tier 1: `all-talents.tsv` + the 40 `ability-inventory.tsv` files @ 12.0.7.67808.]*
+
+## Corrections this file has already made
+
+Kept only because re-asserting them is the likely failure mode:
+
+- **`Concentration Aura` is acquirable at 12.0.7 — the old verdict was wrong.**
+  Every Paladin `abilities.md`, `reconcile-ledger.md` and
+  `../../_abilities/prose-conventions.md` §6 currently state *"Concentration Aura
+  is not acquirable at 12.0.7"*. The measurement is sound (no spell of that name
+  attaches to anything) but the **conclusion does not follow**: a *talent* grants
+  it. See §A. The old "swap to Concentration Aura on silence-heavy pulls" advice
+  is **not** dead — the earlier revision of this file said to plan without it.
+- **`Eye of Tyr` still has a live acquisition row.** An earlier revision asserted
+  *"Eye of Tyr, Moment of Glory and Bastion of Light were removed in Midnight —
+  do not author Eye of Tyr as a live button."* Moment of Glory and Bastion of
+  Light check out (§B); **Eye of Tyr does not.** `ability-inventory.tsv` carries
+  `Eye of Tyr 209202 class-baseline SkillLineAbility:800`, castable, cd **60s**,
+  for **all three** Paladin specs. Whether it is genuinely on the bar is a
+  separate question (below) — but "it was removed" is contradicted by Tier 1 and
+  must not be re-asserted.
+
+## Open in-game questions
+
+One, and it needs the spellbook — no table settles it:
+
+- Is `Eye of Tyr` 209202 an actual spellbook button at 12.0.7, or a dead class-line row? Its acquisition row is live (class-baseline, cd 60) but its tooltip still describes the Legion artifact ("Releases a blinding flash from Truthguard"), and the Paladin class line demonstrably carries dead rows (Sense Undead, Contemplation). @verify-ingame

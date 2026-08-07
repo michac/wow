@@ -1,164 +1,97 @@
 ---
-title: Retribution Paladin — Abilities (Midnight S1)
+title: Retribution Paladin — off-inventory abilities (Midnight S1)
 patch: 12.0.7
 fetched: 2026-08-06
 reviewed: 2026-08-06
 sources:
-  - knowledge/classes/paladin/retribution/ability-inventory.md  # tier 1, generated from DB2 @ 12.0.7.67808 + Blizzard spell API — name/spellID/origin/cooldown/tooltip
-  - knowledge/classes/_abilities/reconcile-ledger.md  # tier 1 adjudication of this file's claims @ 12.0.7.67808
-  - raw/wago/SpellPower.csv @ 12.0.7  # tier 1, Holy Power costs (no column for these in the generated inventory)
-  - https://raw.githubusercontent.com/simulationcraft/simc/midnight/profiles/MID1/MID1_Paladin_Retribution.simc  # tier 1 APL — backs which buttons are rotationally live, 2026-07-11
-  - https://www.method.gg/guides/retribution-paladin/playstyle-and-rotation  # tier 3, Midnight 12.0.7, 2026-07-11
-  - https://www.icy-veins.com/wow/retribution-paladin-pve-dps-rotation-cooldowns-abilities  # tier 3, 12.0.7, 2026-07-11
-confidence: medium
+  - ./ability-inventory.md  # tier 1 — the generated inventory this file supplements, DB2 @ 12.0.7.67808
+  - ../../_talents/all-talents.tsv  # tier 1 — every spec's talent tree
+  - ../../_abilities/spell-descriptions.tsv  # tier 1 — resolved Blizzard spell-API tooltips, fetched 2026-08-06
+  - ../../_abilities/section-3-corroborated.tsv  # tier 1 derived — reached-but-not-joined names
+  - ../../_abilities/section-4-catalogue.tsv  # tier 1 derived — the unreached-name catalogue
+  - ../../_abilities/reconcile-ledger.md  # tier 1 adjudication of this file's earlier claims
+confidence: high
 ---
 
-# Retribution Paladin — Abilities (Midnight S1)
+# Retribution Paladin — off-inventory abilities
 
-> **This file carries no per-spell facts.** Canonical name, spellID, acquisition
-> origin, baseline cooldown, talent/hero placement and the **in-game tooltip
-> text** for every ability the spec can have live in **`ability-inventory.md`**
-> beside this file — generated from wago DB2 + the Blizzard spell API @
-> 12.0.7.67808 and regenerated on patch day. Anything restated here would go
-> stale the moment that file did not.
->
-> | Question | Read |
-> |---|---|
-> | What does X do? Its spellID, cooldown, tooltip? | `ability-inventory.md` |
-> | When do I press X? | `rotation.md` |
-> | Do I take X? Which hero tree? | `builds.md`, `talents.md` |
-> | Why is X missing from the inventory? | `../../_abilities/section-3-corroborated.md`, `section-4-catalogue.md` |
->
-> This file is the editorial layer: the resource model, which of the inventory's
-> 187 rows are actually buttons, and the judgements game data cannot make.
+**Everything about a Retribution ability is in `ability-inventory.md`** — 187
+rows, one row each carrying spellID, cooldown, cast time, origin, talent/hero
+placement and the full tooltip. It is generated, Tier-1, DB2-pinned to
+`12.0.7.67808`.
 
-## Resource model
+**This file holds only the two things that generated file structurally cannot
+say**, because it is a *join*: a row exists there because a Tier-1 acquisition
+table says this spec **learns** the spell. It can only ever list what **is**.
 
-Retribution is a melee plate DPS spec that spends **Holy Power** (0–5), a
-discrete secondary resource built by melee builders and burned by finishers.
-Mana is a background pool used only for the paladin utility/blessing kit, never
-for the damage rotation. The loop is **build → spend**, with proc-driven
-instants (Art of War, Empyrean Power) jumping the queue and a burst window
-(Avenging Wrath, or its replacements) to align everything into.
+> ⛔ **If a Retribution ability is not named below, do not research it — read its
+> row in `ability-inventory.md` and go.** Rotation, priority and Holy-Power costs
+> → `rotation.md`. Talents/hero pick → `builds.md`, `talents.md`. Both sections
+> here are **closed lists, not backlogs.**
 
-**Every Retribution finisher costs 3 Holy Power** — Templar's Verdict 85256,
-Divine Storm 53385, Final Verdict 383328 and Hammer of Light 427453 all read
-`PowerType 9, cost 3` *[T1 DB2: SpellPower @ 12.0.7]*. "Spend at 5" is a
-**pooling** rule, not a cost; see `rotation.md`. ⚠ **The generated inventory has
-no cost column at all** — its descriptions state what a spell *generates*
-("Generates 3 Holy Power") and never what it *costs*, so this paragraph is the
-only Tier-1 record of the cost side.
+⚠ One caveat the inventory cannot flag: its **44 `class-baseline` rows are the
+whole Paladin skill line, not Retribution's bar** — eleven mounts, eight of
+Holy's (Beacon of Light, Holy Shock, Holy Prism, Light's Hammer, Tyr's
+Deliverance …), Protection's Ardent Defender and Eye of Tyr, plus Sense Undead
+and Contemplation. `SkillLineAbility:800` is a *class* attachment and the
+generator is right to emit it; nothing generated filters it to a spec.
 
-**Hero trees.** `builds.md` owns the pick and the talent detail. In kit terms:
-**Templar** swaps your spender for **Hammer of Light** for 20s after Wake of
-Ashes (and later hands out free ones), so the Templar bar has a button the
-inventory does not list; **Herald of the Sun** changes no spender and adds
-Dawnlight / Eternal Flame / Sun's Avatar instead.
+## §A — Real buttons the inventory cannot see
 
-## Inventory
+Confirmed to exist and be pressable, but no spec-keyed acquisition table names
+them, so they will never appear in `ability-inventory.tsv`. **Absence there is not
+absence in game.** All three Templar rows below are the same phenomenon: a hero
+tree whose buttons are *replacements*, granted by a passive rather than learned.
 
-The curated subset: which of the generated inventory's rows are buttons you
-actually press, and what each is *for*. **Role only** — no spellID, cooldown,
-cast time or mechanics, because all four regenerate one file over. ⚠ This table
-is also a **machine input**: `wowkb.gen_abilities` reads its first column to
-build the `prose-only` leg of `../../_abilities/section-4-catalogue.md`, so a
-name deleted from here silently disappears from that catalogue.
+> ⚠ **This section is a machine input.** `wowkb.gen_abilities` harvests the `name`
+> column of the table below — the heading is matched on the word **`inventory`** —
+> and feeds it to the `prose-only` leg of `section-4-catalogue.md`. Rename this
+> heading or drop the `name` column header and these rows **silently vanish from
+> the catalogue**, with no marker and no warning. §B is deliberately *not*
+> harvested: it asserts the opposite.
 
-| Ability | Role |
-|---|---|
-| **Crusader Strike** | Holy Power builder — baseline filler, retired by both choice-node alternatives below |
-| **Templar Strike** / **Templar Slash** | Holy Power builder — the two-part combo Templar Strikes turns Crusader Strike into |
-| **Crusading Strikes** | Holy Power builder (passive) — the other alternative: generation moves onto auto-attacks, so there is no filler button at all |
-| **Judgment** | Holy Power builder — ranged, and the debuff the burst window is built around |
-| **Blade of Justice** | Holy Power builder — the high-priority one; Art of War / Righteous Cause make it free |
-| **Final Verdict** | Holy Power spender — single target. The talented upgrade to Templar's Verdict, and what the simc APL's `templars_verdict` action really fires |
-| **Templar's Verdict** | Holy Power spender — the baseline single-target finisher it upgrades from |
-| **Divine Storm** | Holy Power spender — AoE |
-| **Hammer of Light** | Holy Power spender — **Templar only**, and it replaces the others rather than joining them |
-| **Wake of Ashes** | Burst cooldown + builder; the Templar spender swap starts here, and Sacrosanct Crusade makes it a defensive too |
-| **Execution Sentence** | Burst cooldown — delayed detonation, so it is cast *into* the window rather than during it |
-| **Divine Toll** | Burst cooldown + AoE Holy Power injection |
-| **Avenging Wrath** | Burst cooldown — the window everything else aligns to |
-| **Crusade** | Burst cooldown — a talent that *replaces* Avenging Wrath, not an addition |
-| **Hammer of Wrath** | Holy Power builder, conditional — an execute outside the burst window, unconditional inside it |
-| **Divine Hammer** | Passive (Templar) — turns Divine Toll into sustained area damage |
-| **Shield of Vengeance** | Personal defensive — **status contested, see below** |
-| **Divine Protection** | Personal defensive — the cheap, frequent one |
-| **Shield of the Righteous** | On the class line and pressable, but Ret spends Holy Power on damage; treat as a non-button |
-| **Divine Shield** | Personal defensive — full immunity, the paladin bubble |
-| **Lay on Hands** | Personal defensive — emergency full heal, self or ally |
-| **Word of Glory** | Holy Power spender (heal) — competes directly with damage spenders |
-| **Flash of Light** | Off-heal, downtime only |
-| **Blessing of Freedom** | Group utility — external |
-| **Blessing of Protection** | Group utility — external defensive |
-| **Blessing of Sacrifice** | Group utility — external defensive |
-| **Divine Steed** | Movement — the spec's only mobility cooldown |
-| **Rebuke** | **The spec's only interrupt** |
-| **Hammer of Justice** | Control — single-target stun |
-| **Blinding Light** | Control — AoE disorient |
-| **Turn Evil** | Control — creature-type gated, situational |
-| **Hand of Reckoning** | Threat — ranged taunt |
-| **Cleanse Toxins** | Dispel |
-| **Intercession** | Battle resurrection (shares the raid pool) |
-| **Redemption** | Out-of-combat resurrection |
-| **Devotion Aura** | Group utility — raid aura |
-| **Crusader Aura** | Group utility — travel aura |
-| **Light Within** | Passive (apex) — amplifies the Art of War proc and the burst window |
+| spellID | name | how we know, and why the join misses it |
+|---|---|---|
+| `407480` | Templar Strike | The first half of the combo `Templar Strikes` `406646` turns Crusader Strike into; that parent talent's Tier-1 tooltip describes it in full. Already catalogued in `section-3-corroborated.tsv` as `override-aura` / `spec-exclusive`, reached via `SpellEffect.EffectAura 332` on `Templar Strikes` 406648 — **reached, but never joined**, so it has no inventory row. |
+| — | Templar Slash | The second half of the same combo — *"Templar Strike … gets followed up by Templar Slash that deals 51 Radiant damage. Templar Slash always critically strikes"* (`Templar Strikes` 406646, Tier-1 resolved tooltip). No acquisition row of its own at 12.0.7.67808; catalogued `prose-only` in `section-4-catalogue.tsv`. ⚠ Its spell endpoint returned no 200 — **not** evidence of absence. |
+| `427441` | Hammer of Light | **The Templar spender.** Granted by `Light's Guidance` `427445` (talent-passive, Templar, in this spec's inventory) — *"Wake of Ashes is replaced with Hammer of Light for 20 sec after it is cast"* — and reached from it via `SpellEffect.EffectTriggerSpell`, which is how `section-4-catalogue.tsv` carries it as `trigger-effect`. It is a *replacement*, so no acquisition table ever names it. Five more Templar passives in the inventory (Light's Deliverance, Sacrosanct Crusade, Shake the Heavens, Undisputed Ruling, Zealous Vindication) describe its behaviour. ⚠ 427441 and 427453 both 404 on the spell endpoint and are demonstrably live. ⚠ **Cost conflict: read `rotation.md`, not the tooltip** — Light's Guidance renders *"Costs 5 Holy Power"* while DB2 `SpellPower` reads `PowerType 9, cost 3` for 427453. Shared hero-tree passives resolve without spec context (`prose-conventions.md` §7), so the 5 is likely Protection's. |
+| — | Concentration Aura | **Granted by the class-tree talent `Auras of the Resolute` `385633`** (node 102587, all three Paladin specs in `all-talents.tsv`), whose Tier-1 resolved tooltip reads *"**Learn Concentration Aura**, Devotion Aura, and Crusader Aura … Concentration Aura: Interrupt and Silence effects on party and raid members within 40 yds are 30% shorter."* `Aura Mastery` `31821` still carries a *"Concentration Aura: Affected allies immune to interrupts and silences"* clause. The aura has **no acquisition row of its own** (79963 / 81455 / 317920 / 344220 attach to nothing) — Devotion, Crusader and Retribution Aura each have a `class-baseline SkillLineAbility:800` row and this one does not. **This reverses the old "not acquirable" verdict — see Corrections.** |
 
-⚠ **Shield of Vengeance may no longer be its own button at 12.0.7.** The
-inventory row is a *new* spellID (1261562, not the historical 184662) whose
-resolved tooltip reads "Divine Protection … **casts Shield of Vengeance**" —
-i.e. an augment on Divine Protection rather than a cooldown of its own. But the
-same row is flagged `castable` and is tracked by the Cooldown Manager, which
-points the other way. One of those two signals is wrong and only the spellbook
-settles it:
+⚠ **The open oddity, recorded not resolved:** Templar is shared between Protection
+and Retribution, yet **Protection's inventory already carries Hammer of Light** as
+`1246643 cdm-only`, because `CooldownSetSpell` set 637 belongs to
+ChrSpecialization **66 (Protection)**. Retribution gets nothing. Same hero tree,
+same button, one-sided mining. *Why the mining places it for one spec and not the
+other is unanswered — do not "fix" it here.*
+*[Tier 1: DB2 @ 12.0.7.67808 — SpellName, SpellEffect, CooldownSet/CooldownSetSpell,
+ChrSpecialization.]*
 
-- Shield of Vengeance — is it a pressable button on the Ret bar, or does Divine Protection cast it? @verify-ingame
+## §B — Encountered, and we believe not valid
 
-### What this table is protecting you from
+_None recorded for this spec._ The only negative claim this file used to carry —
+*"Concentration Aura is not acquirable at 12.0.7"* — is **wrong**, and the name
+has moved to §A.
 
-`ability-inventory.md`'s **44 `class-baseline` rows are the whole Paladin skill
-line, not Retribution's bar.** Eleven of them are mounts (Summon Charger,
-Crusader's Direhorn, Summon Exarch's Elekk…); eight are Holy's (Beacon of Light,
-Holy Shock, Holy Prism, Light's Hammer, Tyr's Deliverance, Protector of the
-Innocent, Light of the Ancient Kings, Ancient Fury); two are Protection's
-(Ardent Defender, Eye of Tyr); and Sense Undead, Contemplation, Jailer's
-Judgment and Single-Button Assistant are not abilities in any useful sense.
-`SkillLineAbility:800` is a **class** attachment and the generator is right to
-emit it — but nothing in the generated layer says which of those Ret actually
-uses, and that is this section's job.
+## Corrections this file has already made
 
-## Reconciliation notes — Tier 1 @ 12.0.7.67808
+Kept only because re-asserting them is the likely failure mode:
 
-Full adjudication history is in `../../_abilities/reconcile-ledger.md`. What is
-still a live trap:
+- **`Concentration Aura` is acquirable at 12.0.7 — the old verdict was wrong.**
+  Every Paladin `abilities.md`, `reconcile-ledger.md` and
+  `../../_abilities/prose-conventions.md` §6 currently state the opposite —
+  prose-conventions even uses it as its worked example of a negative claim. The
+  measurement behind it is sound (no spell of that name attaches to anything) but
+  the **conclusion does not follow**: the aura is granted by a *talent*. See §A.
+- **The Holy-Power cost paragraph moved, it was not deleted.** *Every* Retribution
+  finisher costs **3** Holy Power — Templar's Verdict 85256, Divine Storm 53385,
+  Final Verdict 383328, Hammer of Light 427453 all read `PowerType 9, cost 3`
+  *[T1 DB2: SpellPower @ 12.0.7]*, and "spend at 5" is a **pooling** rule, not a
+  cost. That now lives in `rotation.md` (its ⚠ COST vs POOLING block). The
+  generated inventory has **no cost column at all**, so `rotation.md` is the only
+  record — do not re-derive it from a tooltip.
 
-- **Concentration Aura is not acquirable at 12.0.7.** No spell of that name
-  attaches to any acquisition table. Devotion and Crusader Aura are unaffected.
-  A negative claim like this exists nowhere in the generated layer — a generated
-  inventory lists what *is*, never what stopped being.
-- **Templar Strike, Templar Slash and Hammer of Light are real pressed buttons
-  with no acquisition row for this spec.** `Templar Strike` 407480 is *reached*
-  — `section-3-corroborated.md` carries it `spec-exclusive` off an
-  `EffectAura 332` row on `Templar Strikes` 406648. `Templar Slash` and `Hammer
-  of Light` are in `section-4-catalogue.md`. ⚠ That catalogue is **not a
-  backlog** and these are not scheduled. Their mechanics are not lost: the
-  parent talent's own tooltip in `ability-inventory.md` (**Templar Strikes**
-  406646) describes the full two-part combo, and Hammer of Light 427441 is
-  literally `$@spelldesc427453`.
-  ⚠ Absent from the join is **not** absent from game data — Hammer of Light has
-  eight `SpellName` entries at 12.0.7.67808, is reached from **Light's Guidance
-  427445** via `SpellEffect.EffectTriggerSpell`, and **Protection Paladin
-  already carries it** as `Hammer of Light 1246643 cdm-only`, because
-  `CooldownSetSpell` set 637 belongs to ChrSpecialization **66 (Protection)**.
-  Templar is shared between Protection and Retribution, so the open question is
-  narrow and checkable: **why does the mining place it for one spec and not the
-  other?**
-  *[Tier 1: DB2 @ 12.0.7.67808 — SpellName, SpellEffect, CooldownSet/CooldownSetSpell,
-  ChrSpecialization.]*
-- **Charge/recharge times are in neither layer.** The inventory's `cooldown` is
-  `SpellCooldowns` at DifficultyID 0, which returns the **GCD** for a charge
-  ability — Blade of Justice, Crusader Strike and Divine Steed all read 0 or
-  sub-1s there. The real recharge lives in `SpellCategory.ChargeRecoveryTime`,
-  unreachable without breaking the build pin (`reconcile-ledger.md` §5 G6). Do
-  not read a sub-10s `cooldown` on a charge ability as the recharge.
+## Open in-game questions
+
+One, and it needs the spellbook — no table settles it:
+
+- Is `Shield of Vengeance` 1261562 a pressable button on the Ret bar, or does Divine Protection cast it? Its inventory row is `talent-active` + `castable` and the Cooldown Manager tracks it, but its own resolved tooltip reads *"Divine Protection reduces damage taken by an additional 10% **and casts Shield of Vengeance**"*. The two signals disagree; only the spellbook decides. @verify-ingame

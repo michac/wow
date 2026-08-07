@@ -1,142 +1,88 @@
 ---
-title: Restoration Druid — Abilities (Midnight S1)
+title: Restoration Druid — off-inventory abilities (Midnight S1)
 patch: 12.0.7
 fetched: 2026-08-06
 reviewed: 2026-08-06
 sources:
-  - knowledge/classes/druid/restoration/ability-inventory.tsv  # tier 1 — wago DB2 pinned @ build 12.0.7.67808; the name/spellID/origin/cooldown floor, 2026-08-06
-  - knowledge/classes/_abilities/reconcile-ledger.md  # tier 1 derived — the per-row verdicts applied to this file, 2026-08-06
-  - https://us.api.blizzard.com/data/wow/talent-tree  # Blizzard Game Data API, tier 1, 2026-07-11 (via knowledge/classes/druid/restoration/talents.md, build 12.0.7.67808)
-  - raw/wago/SpellName.csv  # tier 1 game data name canonicalization, 2026-07-11
-  - https://www.icy-veins.com/wow/restoration-druid-pve-healing-rotation-cooldowns-abilities  # tier 3, 12.0.7 (upd 2026-06-15)
-  - https://www.method.gg/guides/restoration-druid/playstyle-and-rotation  # tier 3, 12.0.7 (upd 2026-06-16)
-  - https://www.wowhead.com/guide/classes/druid/restoration/rotation-cooldowns-pve-healer  # tier 4, 12.0.7 (Voulk, 2026-06-12)
+  - ./ability-inventory.md  # tier 1 — the generated inventory this file supplements, DB2 @ 12.0.7.67808
+  - ../../_talents/all-talents.tsv  # tier 1 — every spec's talent tree @ 12.0.7.67808
+  - ../../_abilities/all-abilities.tsv  # tier 1 — the 40-spec union, for absence checks
+  - ../../_abilities/spell-descriptions.tsv  # tier 1 — resolved English tooltips via /data/wow/spell/{id}
+  - ../../_abilities/reconcile-ledger.md  # tier 1 derived — the per-row verdicts applied to this file
 confidence: high
 ---
 
-# Restoration Druid — Abilities (Midnight Season 1)
+# Restoration Druid — off-inventory abilities
 
-## Overview
+**Everything about a Restoration ability is in `ability-inventory.md`** — 192
+rows (specID 105), one row each carrying spellID, cooldown, cast time, origin,
+talent/hero placement and the full tooltip. It is generated, Tier-1, DB2-pinned
+to `12.0.7.67808`.
 
-Restoration is the Druid healing spec: a **hybrid HoT (heal-over-time)
-healer** whose strength is layering many overlapping regen effects and then
-amplifying them, rather than reacting with big single-target casts.
+**This file holds only the two things that generated file structurally cannot
+say**, because it is a *join*: a row exists there because a Tier-1 acquisition
+table says this spec **learns** the spell. It can only ever list what **is**.
 
-- **Resource:** Mana. No secondary resource in caster form. When the spec
-  dips into **Cat Form** (Wildstalker cat-weaving) it uses **Energy + Combo
-  Points**; **Bear Form** uses **Rage**. Mana regen is helped by damage
-  spells via *Master Shapeshifter* and by *Innervate*.
-- **Hero trees (12.0):** **Keeper of the Grove** (Grove Guardian treant
-  summons tied to Swiftmend/Wild Growth, cooldown reduction, *Protective
-  Growth* defense) and **Wildstalker** (Symbiotic Blooms from
-  Wild Growth/Regrowth/Efflorescence that amplify regular healing, plus a
-  cat-weaving damage loop). See `builds.md`.
-- **Playstyle:** "Ramp" a bed of Rejuvenations (up to ~10–12) to power
-  *Abundance* (cheap, near-guaranteed-crit Regrowths), keep Lifebloom +
-  Efflorescence + Wild Growth rolling, and spend Swiftmend on cooldown to
-  drive *Soul of the Forest* / *Power of the Archdruid* / Grove Guardians.
-  Midnight intentionally slowed the pace of healing so recovery from heavy
-  damage is more gradual.
+> ⛔ **If a Restoration ability is not named below, do not research it — read its
+> row in `ability-inventory.md` and go.** Ramp order, Swiftmend cadence and the
+> Rejuv bed → `rotation.md`. Talents/hero pick → `builds.md`. Both sections here
+> are **closed lists, not backlogs.**
 
-## Ability inventory
+## §A — Real buttons the inventory cannot see
 
-> **Tier-1 floor.** `ability-inventory.tsv` in this folder — generated from wago DB2
-> pinned to build `12.0.7.67808` — is authoritative for **name, spellID, origin and
-> cooldown**, and wins wherever it and the prose below disagree. Cooldowns tagged
-> `[T1]` were read off it this pass; a `~` value is prose that has **not** been
-> measured and still carries `@verify-ingame`. This table is for **function, role and
-> rotational context** — read it for judgement, read the tsv for numbers.
+Confirmed to exist and be pressable, but no spec-keyed acquisition table names
+them, so they will never appear in `ability-inventory.tsv`. **Absence there is not
+absence in game.**
 
-> **What the Tier-1 floor does and does not cover.** A **bold `[T1]`** cooldown
-> below was read straight out of `ability-inventory.tsv` (wago DB2 @ 12.0.7.67808).
-> A `~` value was **not**: it is a Tier-3 guide number that the tsv could not
-> settle, and it is kept on purpose. The tsv's `cooldown` column is
-> `SpellCooldowns` at DifficultyID 0 — `max(RecoveryTime, CategoryRecoveryTime)` —
-> which is the real cooldown for a normal button and is **wrong for a charge
-> ability**, where it returns the GCD (Fire Blast 0.5s, Purifying Brew 1s). The
-> recharge lives in `SpellCategory.ChargeRecoveryTime`, unreachable without
-> breaking the build pin (`_abilities/reconcile-ledger.md` §5 G6). **So "the tsv
-> wins" applies to the values it actually carries, not to every row** — 194 rows
-> across the 40 files read 0 or sub-10s there and keep their `~` prose instead.
->
-> Names this file asserts that **no** acquisition row reaches are catalogued in
-> `../../_abilities/section-4-catalogue.md`; ones game data reaches indirectly are
-> in `section-3-corroborated.md`. ⚠ Neither is a backlog — an entry there is
-> researched when someone **asks**, never because it has sat there a while.
+> ⚠ **This section is a machine input.** `wowkb.gen_abilities` harvests the `name`
+> column of the table below — the heading is matched on the word **`inventory`** —
+> and feeds it to the `prose-only` leg of `section-4-catalogue.md`. Rename this
+> heading or drop the `name` column header and these rows **silently vanish from
+> the catalogue**, with no marker and no warning. §B is deliberately *not*
+> harvested: it asserts the opposite.
 
-| Ability | Function | Resource | Cast / CD | Description |
-|---|---|---|---|---|
-| **Rejuvenation** | Rotational-builder | Mana | Instant / — | Core rolling HoT. The stack you maintain across the raid/party; each active Rejuv feeds *Abundance* (cheaper, higher-crit Regrowth). |
-| **Regrowth** | Rotational-spender | Mana | 1.5s / — | Direct heal + short HoT. With a full *Abundance* stack it becomes near-instant-value spot healing (up to +96% crit); free with *Clearcasting* (Omen of Clarity). |
-| **Lifebloom** | Rotational-builder | Mana | Instant / — | Single-target HoT that **blooms** (burst heal) when it expires or is Swiftmended. Stacks/auto-refreshes up to 3 via *Everbloom*; refresh in the last ~4.5s. Kept on tank (and often self). Feeds *Clearcasting* procs. |
-| **Wild Growth** | Rotational-builder | Mana | Instant / **10s** `[T1]` | Smart AoE HoT on injured allies (up to 9 with *Incarnation*). Triggers Wildstalker *Symbiotic Blooms* and summons Keeper-of-the-Grove **Grove Guardians**. |
-| **Swiftmend** | Rotational-spender | Mana | Instant / ~15s @verify-ingame | Instant burst heal that consumes a Rejuv/Regrowth (not with *Verdant Infusion*). The engine of the rotation: procs *Soul of the Forest*, *Power of the Archdruid*, Grove Guardians, and extends nearby HoTs. |
-| **Efflorescence** | Rotational-builder | Mana | Instant / — | Ground-targeted AoE healing zone (blossoms). High mana cost; place under stacked melee. *Lifetreading* auto-repositions it to the Lifebloom target. |
-| **Tranquility** | Major cooldown | Mana | Channeled (~8s) / ~180s | Big raid-wide channeled heal; extends active HoTs and grants knockback immunity. In 12.0 also applies **Flourish** (HoT-extension) via talent. *Inner Peace* → −20% damage taken while channeling. |
-| **Incarnation: Tree of Life** | Major cooldown | Mana | Instant / 180s [T1] | 30s form: +healing, cheaper/instant Regrowth, Rejuv affects an extra target, Wild Growth hits up to 9. Choice-node vs Convoke; default for Keeper of the Grove. |
-| **Convoke the Spirits** | Major cooldown | Mana | Channeled (~4s) / ~120s (→~60s w/ *Cenarius' Guidance*) | Channels a burst of random Druid spells (many Swiftmend/Wild Growth/Rejuv casts); with Keeper summons up to 5 Grove Guardians. Choice-node vs Incarnation. |
-| **Flourish** | Rotational-spender / CD | Mana | Instant / ~90s @verify-ingame | Extends the duration of all your active HoTs by ~8s and briefly boosts their rate. Talent (choice vs *Inner Peace*); also auto-triggered by Tranquility in 12.0. |
-| **Grove Guardians** | Pet (summon) | Mana | Passive/charge (via Swiftmend, Wild Growth) | Keeper-of-the-Grove treants; each active guardian grants +5% healing done, stacking to +25%. Not a directly-cast button — spawned by rotational casts and Convoke. |
-| **Nature's Swiftness** | Utility (empower) | Mana | Instant / ~60s | Makes the next Regrowth (or other cast) instant and stronger — emergency spot heal. |
-| **Innervate** | Utility (mana) | Mana | Instant / ~180s | 8s of free spellcasting (0 mana). Used during a ramp / expensive Efflorescence window; can be cast on another healer. |
-| **Ironbark** | Defensive (external) | Mana | Instant / ~90s @verify-ingame | Targeted 20% damage reduction on an ally (12s). *Stonebark*/*Improved Ironbark* modify it. Core tank/spot external. |
-| **Barkskin** | Defensive (personal) | — | Instant / ~60s @verify-ingame | −20% damage taken self-defensive, usable in any form and while CC'd. |
-| **Nature's Cure** | Dispel | Mana | Instant / 8s (GCD) | Resto dispel — removes Magic, Curse, and Poison from an ally. *Improved Nature's Cure* adds a small heal. |
-| **Soothe** | Dispel (offensive) | Mana | Instant / 10s | Removes an Enrage effect from an enemy. (Choice-node vs *Cyclone*.) |
-| **Rebirth** | Utility (combat res) | Mana | ~2s / 10min (charges) | Battle resurrection of a dead ally in combat. |
-| **Revive** | Utility (res) | Mana | ~8s / — | Out-of-combat resurrection. |
-| **Mark of the Wild** | Utility (raid buff) | Mana | Instant / — | Raid-wide +Versatility buff. Cast pre-pull. |
-| **Symbiotic Relationship** | Utility (buff/heal-share) | Mana | Instant / — | Links you to an ally (usually the tank), sharing a portion of healing/absorb. Cast pre-pull. |
-| **Stampeding Roar** | Movement (raid) | — | Instant / ~120s @verify-ingame | Group movement-speed burst (works from any form; *Improved Stampeding Roar* widens range). |
-| **Wild Charge** | Movement | — | Instant / ~15s | Form-dependent mobility (leap/dash/etc.). Choice-node vs *Tiger Dash*. |
-| **Dash** | Movement | — | Instant / ~120s | Cat Form sprint. |
-| **Travel Form** | Movement | — | Instant / — | Fast travel shapeshift (auto-picks flight/land/aquatic). |
-| **Entangling Roots** | CC (root) | Mana | 1.5s / — | Single-target root. Baseline soft CC. |
-| **Mass Entanglement** | CC (AoE root) | Mana | Instant / ~30s | Roots a target and spreads to nearby enemies. Choice-node vs *Ursol's Vortex*. |
-| **Ursol's Vortex** | CC (AoE pull/slow) | Mana | Instant / ~60s | Ground vortex that pulls and slows enemies leaving it. Choice-node vs Mass Entanglement. |
-| **Typhoon** | CC (knockback) | Mana | Instant / ~30s | Frontal cone knockback + daze. |
-| **Mighty Bash** | CC (stun) | Mana | Instant / **60s** `[T1]` | Single-target stun. Choice-node vs *Incapacitating Roar*. |
-| **Incapacitating Roar** | CC (AoE incap) | — | Instant / ~30s | Short AoE incapacitate. Choice-node vs Mighty Bash. |
-| **Hibernate** | CC (sleep) | Mana | 1.5s / — | Sleeps a Beast or Dragonkin. |
-| **Cyclone** | CC (banish) | Mana | 1.5s / — | Removes a target from combat (untargetable) briefly. Choice-node vs Soothe. |
-| **Moonfire** | Rotational (damage DoT) | Mana | Instant / — | Arcane DoT. Baseline damage; used for downtime DPS and Wildstalker weaving. |
-| **Sunfire** | Rotational (damage DoT) | Mana | Instant / — | AoE-spreading Nature DoT. Downtime/Wildstalker DPS. |
-| **Wrath** | Rotational (damage filler) | Mana | ~1.5s / — | Nature nuke; downtime DPS + *Master Shapeshifter* mana. |
-| **Starfire** | Rotational (damage, AoE) | Mana | ~2s / — | Arcane nuke with cleave. Downtime DPS. |
-| **Starsurge** | Rotational (damage spender) | Mana | Instant / **10s** `[T1]` | Instant Astral nuke. Downtime DPS. |
-| **Heart of the Wild** | Major cooldown (offensive/hybrid) | Mana | Instant / 120s [T1] | Greatly empowers off-spec abilities (Feral/Balance) for 45s — the enabler for meaningful Wildstalker damage windows (empowered *Feral Frenzy*). At two minutes it comes back often enough to be a scheduled damage window, not a once-a-fight novelty. |
-| **Rake** | Damage (cat, builder) | Energy | Instant / — | Cat-Form combo builder + bleed. Wildstalker weaving (auto-shifts via *Fluid Form*). |
-| **Shred** | Damage (cat, builder) | Energy | Instant / — | Cat-Form combo builder. |
-| **Rip** | Damage (cat, spender) | Energy/CP | Instant / — | Cat-Form finishing bleed. |
-| **Ferocious Bite** | Damage (cat, spender) | Energy/CP | Instant / — | Cat-Form finisher. |
-| **Swipe** | Damage (cat, AoE) | Energy | Instant / — | Cat-Form AoE builder (talented). |
-| **Cat Form** | Form (utility/damage) | — | Instant / — | Melee/energy form; the Wildstalker damage stance and a speed boost. |
-| **Bear Form** | Form (defensive) | — | Instant / — | Tanky form (Rage, +stam/armor); emergency personal mitigation. |
-| **Moonkin Form** | Form (caster damage) | — | Instant / — | Balance caster form for stronger downtime DPS. |
-| **Prowl** | Utility (stealth) | — | Instant / — | Cat-Form stealth. |
-| **Frenzied Regeneration** | Defensive (self-heal) | Rage | Instant / ~36s (charges) | Bear-Form self-heal over 3s. Personal survivability while bear-weaving. |
-| **Omen of Clarity (Clearcasting)** | Passive (proc) | — | — | Periodic-heal-driven proc that makes the next Regrowth free. Fuels the Regrowth spot-heal loop. |
-| **Abundance** | Passive | — | — | Each active Rejuvenation lowers Regrowth cost 8% and adds 8% crit (to +96%). The reason to keep a wide Rejuv bed. |
-| **Soul of the Forest** | Passive (proc) | — | — | After Swiftmend, next Rejuv/Wild Growth is empowered — the core Swiftmend payoff. |
-| **Power of the Archdruid** | Passive (proc) | — | — | Swiftmend's *Soul of the Forest* Rejuv also copies to 2 nearby allies (+healing). |
+| spellID | name | how we know, and why the join misses it |
+|---|---|---|
 
-### Name reconciliation notes
+_None known for this spec._ Every button the old prose named resolves to a real
+row in `ability-inventory.tsv` — including the two the old "name reconciliation"
+section flagged as uncertain (**Efflorescence** `145205`, `talent-active`, and
+**Cenarion Ward** `102352`, class-baseline). Restoration has no override-only or
+pet-line button; the Grove Guardians are summoned, not cast.
 
-- **Efflorescence** (seed listed it as "Efflorescence?"): confirmed live —
-  spell 145205 in the 12.0.7 spec tree (`talents.md`), name matches
-  `SpellName.csv`. Not uncertain; drop the question mark.
-- **Grove Guardians** (spell 1226140) is the Keeper-of-the-Grove passive that
-  turns Swiftmend/Wild Growth into treant summons — not a hand-cast button.
-- **Convoke the Spirits** / **Incarnation: Tree of Life** are a single
-  choice node (33891 / 391528) — you take one, not both.
-- No Midnight rename detected among the seed list; **Cenarion Ward** and
-  **Adaptive Swarm** are *not* in the 12.0.7 resto tree.
+## §B — Encountered, and we believe not valid
 
-### Not on the Midnight Restoration tree
+| name | verdict | evidence |
+|---|---|---|
+| Nourish | **not a player button** | Zero rows in `all-talents.tsv` for **any** of the 40 specs, zero in `all-abilities.tsv`, none of Restoration's 192 inventory rows. ⚠ The name **does** still appear in game text — **Grove Guardians** `1226140` reads *"summons a Treant that casts **Nourish** on that target or a nearby ally periodically"* — which is why guides and notes keep surfacing it. It is the treant's spell, not yours. There is no slow-efficient filler heal to fall back on when mana-starved; that role is Regrowth under *Abundance* / *Clearcasting*. |
+| Adaptive Swarm | **removed** | Zero rows in `all-talents.tsv` and zero in `all-abilities.tsv` across all 40 specs — no trait node, no SkillLineAbility, no PvP talent, and no trace in any spell tooltip. |
+| Renewal | **removed from the class tree** | Same double miss across all 40 specs. The only surviving near-match is the unrelated passive **Aessina's Renewal** `474678` (class tree, row 7). |
 
-- **Nourish** — not acquirable at 12.0.7, and not merely off-tree. Thirteen spells carry
-  the name and none attaches to a trait node, SkillLineAbility, SpecializationSpells or
-  PvpTalent entry; the live Druid tree has no Nourish node. There is no
-  slow-and-efficient filler heal to fall back on when mana-starved — that role is now
-  Regrowth under *Abundance*/*Clearcasting*.
-  *[Tier 1: DB2 @ 12.0.7.67808, `_abilities/reconcile-ledger.md`.]*
+*[Tier 1: DB2 @ 12.0.7.67808 via `all-talents.tsv` + `all-abilities.tsv`;
+`_abilities/reconcile-ledger.md`.]*
+
+## Corrections this file has already made
+
+Kept only because re-asserting them is the likely failure mode:
+
+- **`Flourish` `197721` is a PASSIVE in Midnight, not a ~90s pressed cooldown.**
+  Tier-1 tooltip: *"Tranquility extends the duration of all of your heal over
+  time effects by 2 sec every 0.9 sec."* It is `talent-passive`,
+  `castable=false`, cd 0 — a modifier on Tranquility, with no button and no
+  cooldown of its own. An earlier revision listed it as *"Instant / ~90s"* with
+  an `@verify-ingame`, which is the pre-Midnight Flourish and would have put a
+  dead keybind on the bar.
+- **`Cenarion Ward` `102352` IS available — the old "not in the 12.0.7 resto
+  tree" line was misleading.** True as written (it is not a *talent node* — zero
+  `all-talents.tsv` rows), but it is learned as **class-baseline** via
+  `SkillLineAbility:798`, `castable=true`, by **all four** Druid specs. It is a
+  real button; do not tell anyone it was removed. This is the general trap: *not
+  on the tree* ≠ *not acquirable*, and only an acquisition table settles it.
+
+## Open in-game questions
+
+**None.** A question belongs here only if it genuinely cannot be answered from
+game data — you must be logged in and looking at it. *"Is Swiftmend's cooldown
+~15s? Is Ironbark's ~90s?"* are **not** such questions — `ability-inventory.md`
+carries the Tier-1 numbers, and the markers an earlier revision left on them were
+guesses, not observations.

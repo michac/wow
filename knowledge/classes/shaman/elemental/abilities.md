@@ -1,113 +1,89 @@
 ---
-title: Elemental Shaman — Ability Inventory (Midnight S1)
+title: Elemental Shaman — off-inventory abilities (Midnight S1)
 patch: 12.0.7
 fetched: 2026-08-06
 reviewed: 2026-08-06
 sources:
-  - knowledge/classes/shaman/elemental/ability-inventory.tsv  # tier 1, generated from DB2 @ 12.0.7.67808 — name/spellID/origin/cooldown source of record
-  - knowledge/classes/_abilities/reconcile-ledger.md  # tier 1 derived, the 12.0.7.67808 adjudication behind this pass
-  - raw/wago/SpellName.csv (Blizzard game data, Tier 1)   # tier 1, 2026-07-11
-  - simc midnight profiles/MID1/MID1_Shaman_Elemental.simc   # tier 1, 2026-07-11
-  - https://www.method.gg/guides/elemental-shaman/playstyle-and-rotation   # tier 3, upd 2026-06-16
-  - https://www.icy-veins.com/wow/elemental-shaman-pve-dps-rotation-cooldowns-abilities   # tier 3, 12.0.7
+  - ./ability-inventory.md  # tier 1 — the generated inventory this file supplements, DB2 @ 12.0.7.67808
+  - ./ability-inventory.tsv  # tier 1 — the data twin; name/spellID/origin/cooldown/tooltip source of record
+  - ../../_talents/all-talents.tsv  # tier 1 — every spec's talent tree @ 12.0.7.67808
+  - ../../_abilities/reconcile-ledger.md  # tier 1 derived — the 12.0.7.67808 adjudication behind the removals below
 confidence: high
 ---
 
-# Elemental Shaman — abilities (Midnight S1, 12.0.7)
+# Elemental Shaman — off-inventory abilities
 
-## Overview
+**Everything about an Elemental ability is in `ability-inventory.md`** — 181 rows,
+one row each carrying spellID, cooldown, cast time, origin, talent/hero placement
+and the full tooltip. It is generated, Tier-1, DB2-pinned to `12.0.7.67808`.
 
-Elemental is a ranged spell-caster that builds and spends **Maelstrom** (a
-0–100 resource, raised by talents such as Swelling Maelstrom). Builders —
-**Lightning Bolt**, **Chain Lightning**, **Lava Burst**, **Frost Shock** —
-generate Maelstrom; spenders — **Earth Shock**, **Earthquake**, **Elemental
-Blast** — dump it. **Flame Shock** is a maintained DoT that fuels **Lava
-Surge** procs (free instant Lava Bursts) and enables **Lava Burst**. Mastery
-(Elemental Overload) gives spells a chance to fire a second, free ~75%-damage
-copy — the whole kit is tuned around maximizing overloads.
+**This file holds only the two things that generated file structurally cannot
+say**, because it is a *join*: a row exists there because a Tier-1 acquisition
+table says this spec **learns** the spell. It can only ever list what **is**.
 
-**Two hero trees:**
-- **Stormbringer** — the lightning/single-target tree. Spending Maelstrom
-  charges **Tempest**, a hard-hitting overloading nuke that supercharges the
-  next Lightning Bolt (stacks to 2). Applies **Lightning Rod**. Default for
-  raid / low target counts.
-- **Farseer** — the summoning/cleave tree. **Call of the Ancestors** summons
-  ancestor spirits (via Stormkeeper / Ancestral Swiftness) that copy your
-  casts. Stronger in 2–3 target cleave and Mythic+.
+> ⛔ **If an Elemental ability is not named below, do not research it — read its
+> row in `ability-inventory.md` and go.** Rotation → `rotation.md`. Talents/hero
+> pick → `builds.md`. Both sections here are **closed lists, not backlogs.**
 
-## Ability inventory
+## §A — Real buttons the inventory cannot see
 
-> **Where the numbers live.** `ability-inventory.tsv` in this folder is the Tier-1
-> source of record for **name, spellID, origin and cooldown** (generated from DB2 @
-> `12.0.7.67808`). This table is the *judgement* layer — function, role, rotational
-> context — and does not re-transcribe columns that drift with every build.
+Confirmed to exist and be pressable, but no spec-keyed acquisition table names
+them, so they will never appear in `ability-inventory.tsv`. **Absence there is not
+absence in game.**
 
-> **What the Tier-1 floor does and does not cover.** A **bold `[T1]`** cooldown
-> below was read straight out of `ability-inventory.tsv` (wago DB2 @ 12.0.7.67808).
-> A `~` value was **not**: it is a Tier-3 guide number that the tsv could not
-> settle, and it is kept on purpose. The tsv's `cooldown` column is
-> `SpellCooldowns` at DifficultyID 0 — `max(RecoveryTime, CategoryRecoveryTime)` —
-> which is the real cooldown for a normal button and is **wrong for a charge
-> ability**, where it returns the GCD (Fire Blast 0.5s, Purifying Brew 1s). The
-> recharge lives in `SpellCategory.ChargeRecoveryTime`, unreachable without
-> breaking the build pin (`_abilities/reconcile-ledger.md` §5 G6). **So "the tsv
-> wins" applies to the values it actually carries, not to every row** — 194 rows
-> across the 40 files read 0 or sub-10s there and keep their `~` prose instead.
->
-> Names this file asserts that **no** acquisition row reaches are catalogued in
-> `../../_abilities/section-4-catalogue.md`; ones game data reaches indirectly are
-> in `section-3-corroborated.md`. ⚠ Neither is a backlog — an entry there is
-> researched when someone **asks**, never because it has sat there a while.
+> ⚠ **This section is a machine input.** `wowkb.gen_abilities` harvests the `name`
+> column of the table below — the heading is matched on the word **`inventory`** —
+> and feeds it to the `prose-only` leg of `section-4-catalogue.md`. Rename this
+> heading or drop the `name` column header and these rows **silently vanish from
+> the catalogue**, with no marker and no warning. §B is deliberately *not*
+> harvested: it asserts the opposite.
 
-| Ability | Function | Resource | Cast / CD | Description |
-|---|---|---|---|---|
-| **Lightning Bolt** | Rotational-builder | Generates Maelstrom | ~2s cast | Primary single-target filler; generates Maelstrom, can Overload. Supercharged by Tempest / instant under Stormkeeper. |
-| **Chain Lightning** | Rotational-builder (AoE) | Generates Maelstrom/target | ~2s cast | AoE builder, bounces between targets; the AoE replacement for Lightning Bolt (worth it at ~3 targets Stormbringer / 2 Farseer). |
-| **Lava Burst** | Rotational-builder | Generates Maelstrom | 2 charges / ~8s recharge | Guaranteed crit vs a Flame Shocked target. Instant and free when **Lava Surge** is up — the rule is "never hardcast Lava Burst, cast only on Lava Surge." |
-| **Flame Shock** | Rotational-builder (DoT) | Generates Maelstrom | instant, 6s CD | Maintained fire DoT; each tick can proc **Lava Surge**. Enables Lava Burst crits. Refresh at ≤ ~6s / pandemic. |
-| **Voltaic Blaze** | Rotational-builder (AoE Flame Shock) | Generates Maelstrom | instant (proc-gated) / **10s** `[T1]` | Talent (Voltaic Blaze). Instant nature/fire hit that also applies Flame Shock to up to 5 nearby targets — the AoE Flame Shock spreader. @verify-ingame |
-| **Frost Shock** | Rotational-builder / movement filler | Generates Maelstrom | instant, no CD | Instant filler; usable while moving. Slows the target. Low priority — a movement/overcap-dump button. |
-| **Earth Shock** | Rotational-spender | Spends Maelstrom | instant | Single-target Maelstrom dump (choice node vs Elemental Blast). Instant, so the mobility spender. |
-| **Elemental Blast** | Rotational-spender | Spends Maelstrom | ~2s cast | Alternative spender (choice vs Earth Shock): higher damage + grants a random secondary-stat buff, but has a cast time and higher cost. |
-| **Earthquake** | Rotational-spender (AoE) | Spends Maelstrom | instant (ground-target) | AoE Maelstrom dump; soft-caps ~20 targets. The AoE replacement for Earth Shock/Elemental Blast. |
-| **Tempest** | Rotational-spender (proc) | Charged by spending Maelstrom | instant | **Stormbringer** signature. Charges up after spending Maelstrom; overloads hard and supercharges the next Lightning Bolt/Chain Lightning (stacks to 2). Applies Lightning Rod. |
-| **Stormkeeper** | Major cooldown | — | instant, ~1min | Next 2 Lightning Bolts / Chain Lightnings are instant and empowered. On Farseer also summons an ancestor; shorter CD / stacks on Stormbringer. Pair with Ascendance. |
-| **Ascendance** | Major cooldown | — | instant, ~3min (First Ascendant/Preeminence adjust) | Burst window: Lava Burst gains charges / no cooldown and overload damage is boosted. Always cast **after** Stormkeeper. Sync with Heroism + trinkets. |
-| **Ancestral Swiftness** | Major cooldown / Utility | — | instant / **30s** `[T1]` | **Farseer** active (replaces Nature's Swiftness when talented). Makes the next spell instant, grants haste, and summons an ancestor. Use on cooldown; follow with a cast-time spell. |
-| **Nature's Swiftness** | Utility | — | instant, ~1min | Class talent (used when NOT running Ancestral Swiftness): next Nature/Frost spell is instant and empowered. Often spent on an instant Chain Heal / Lava Burst / hardcast filler. |
-| **Wind Shear** | Interrupt | — | instant, ~12s | The interrupt — a short-cooldown, no-GCD spell kick. |
-| **Astral Shift** | Defensive | — | instant / **120s** `[T1]` | −40% damage taken for ~8s (Nature's Guardian etc. improve). Core personal defensive. |
-| **Earth Elemental** | Defensive / Pet | — | instant, **180s** | **Tier-1 origin: `talent-active`** (spell 198103, class tree), cooldown **180s** — not the ~5min this file previously carried from Tier 3. Summons a tanky Earth Elemental to taunt/soak; a threat/defensive tool, strong solo/delve. **This is the only elemental summon the live Shaman tree grants** — see the note at the foot of this file. |
-| **Skyfury** | Utility (raid buff) | — | instant, 1hr buff | The Shaman group buff: empowers you and party/raid members' attack and spell power. Cast pre-pull. @verify-ingame |
-| **Heroism** | Major cooldown (party) | — | instant, ~5min (10min exhaustion) | Bloodlust/Heroism — party/raid +30% haste for 40s. Sync with Ascendance. (Alliance = Heroism, Horde = Bloodlust.) |
-| **Healing Surge** | Utility (heal) | Mana | ~1.5–2s cast | Emergency direct self/ally heal. |
-| **Chain Heal** | Utility (heal) | Mana | ~2.5s cast | Bouncing group heal — off-heal utility. |
-| **Healing Stream Totem** | Utility (heal) | Mana | instant, ~30s | Drops a totem that trickle-heals the lowest-health nearby ally. |
-| **Earth Shield** | Defensive / Utility | Mana | instant, ~1min | Places a charge-based shield on self (Elemental Orbit) or an ally that heals on hit and reduces damage. |
-| **Spiritwalker's Grace** | Movement | — | instant / **120s** `[T1]` | Lets you cast normally-stationary spells while moving for ~15s. The caster-mobility button. |
-| **Ghost Wolf** | Movement | — | instant | Travel form; +movement speed, quick in/out. |
-| **Spirit Walk** | Movement | — | instant, ~1min | Removes movement-impairing effects + speed burst (choice vs Gust of Wind). |
-| **Wind Rush Totem** | Movement (group) | — | instant, ~2min | Totem that grants passing allies a movement-speed burst — group mobility. |
-| **Capacitor Totem** | CC | — | instant, ~1min | Totem that charges up then AoE-stuns nearby enemies. |
-| **Earthgrab Totem** | CC | — | instant / **30s** `[T1]` | Totem roots nearby enemies, then slows them. |
-| **Thunderstorm** | CC / Defensive | — | instant, **30s** | **Tier-1 origin: `class-baseline`** (spell 51490, `SpecializationSpells` → **Elemental**), cooldown **30s**. Knocks back nearby enemies and slows them. **Elemental-only** — it is not a shared Shaman button and not a PvP talent (absent from `PvpTalent` entirely); the Enhancement and Restoration files used to claim it and no longer do. |
-| **Hex** | CC | Mana | ~1.5s cast, ~30s | Transforms a humanoid/beast enemy into a frog (incapacitate). |
-| **Tremor Totem** | Utility (CC break) | — | instant, ~1min | Totem that removes and prevents Fear/Sleep/Charm for nearby allies (choice vs Poison Cleansing Totem). |
-| **Purge** | Dispel (offensive) | Mana | instant | Removes a beneficial Magic effect from an enemy (choice vs Greater Purge). |
-| **Cleanse Spirit** | Dispel | Mana | instant, ~8s | Removes a Curse from a friendly target. |
-| **Totemic Projection** | Utility | — | instant, ~10s | Relocates your active totems to a targeted location. |
-| **Ancestral Spirit** | Utility (battle rez) | Mana | ~10s cast | Combat resurrection of a fallen ally (out-of-combat res too). |
-| **Lightning Shield** | Passive/buff (maintain) | — | instant | Self-buff that damages melee attackers; kept up (precombat). |
-| **Flametongue Weapon** | Utility (imbue) | — | instant | Weapon imbue (talent); maintained buff, applied precombat. |
-| **Thunderstrike Ward** | Defensive/buff (imbue) | — | instant | Talent weapon enchant / ward that retaliates with lightning; applied precombat (choice vs Elemental Resonance). |
+_None known for this spec._
 
-**Not acquirable at 12.0.7 — `Fire Elemental` and `Storm Elemental` are gone.**
-Fire Elemental (198067) and Storm Elemental (192249) attach to **no** live acquisition
-row: their only trait attachment is the **legacy** Shaman trees 1033/1034 (the trees that
-still carry the pre-Midnight set — Icefury, Primordial Wave, Liquid Magma Totem,
-Stormstrike). The **live** Shaman tree is **786**, and it carries `Earth Elemental`
-(198103) and the `Primal Elementalist` / `Call of Fire` passives but no Fire or Storm
-Elemental node. Both rows have been deleted rather than left marked; the burst window
-they used to anchor is Stormkeeper → Ascendance. Do not restore them from a Tier-3 guide
-without a fresh DB2 read — a guide describing them is describing The War Within.
-*[Tier 1: DB2 @ 12.0.7.67808, via `_abilities/reconcile-ledger.md`.]*
+Checked, not assumed: every ability name the replaced prose asserted resolves to a
+row in `ability-inventory.tsv` (spell-ID and origin both), and Shaman contributes
+**zero** `prose-only` rows to `_abilities/section-4-catalogue.tsv`. Elemental has no
+pet path (its one summon, `Earth Elemental` `198103`, is a normal `talent-active`
+row) and no runtime override button of the `Windstrike` / `Devour` kind that the
+join would miss. Add a row here **only** after grepping the `.tsv` and finding the
+name genuinely absent.
+
+## §B — Encountered, and we believe not valid
+
+Names that appear in guides, older builds or other people's notes, which we have
+checked and believe are **not** part of this spec at 12.0.7. Listed so the next
+reader stops here instead of re-running the check.
+
+| name | verdict | evidence |
+|---|---|---|
+| Fire Elemental `198067` | **removed — not acquirable** | attaches to **no** live acquisition row. Its only trait attachment is the **legacy** Shaman trees **1033/1034** (the trees still carrying the pre-Midnight set — Icefury, Primordial Wave, Liquid Magma Totem, Stormstrike). The **live** Shaman tree is **786**, which carries `Earth Elemental` `198103` and the `Primal Elementalist` / `Call of Fire` passives but no Fire Elemental node. Absent from `all-talents.tsv` for **every** spec. |
+| Storm Elemental `192249` | **removed — not acquirable** | same measurement, same result: legacy trees 1033/1034 only, nothing on live tree 786, absent from `all-talents.tsv` for every spec. |
+
+*[Tier 1: DB2 @ 12.0.7.67808 via `../../_abilities/reconcile-ledger.md`; `all-talents.tsv` @ 12.0.7.67808, all 40 specs.]*
+
+⚠ **A Tier-3 guide that describes Fire/Storm Elemental is describing The War
+Within.** Do not restore either row without a fresh DB2 read. The burst window they
+used to anchor is Stormkeeper → Ascendance (`rotation.md`).
+
+## Corrections this file has already made
+
+Kept only because re-asserting them is the likely failure mode:
+
+- **`Thunderstorm` `51490` is Elemental-only, and is not a PvP talent.**
+  `SpecializationSpells` → Shaman / **Elemental**, `class-baseline`, cd **30s**. It
+  is **absent from `PvpTalent` entirely** and is not a talent on any tree. The
+  Enhancement and Restoration files each used to claim it (Enhancement's row even
+  labelled it "PvP talent"); both rows are deleted and it is listed in their §B.
+  It is a real Elemental button — read its row in `ability-inventory.md`.
+- **`Ancestral Spirit` `2008` is NOT a combat resurrection.** Its Tier-1 tooltip
+  ends *"Cannot be cast when in combat."* An earlier revision of this file called
+  it a battle rez. **Shaman has no battle rez.** `Ancestral Vision` `212048` is the
+  out-of-combat **mass** res, also non-combat.
+
+## Open in-game questions
+
+**None.** A question belongs here only if it genuinely cannot be answered from
+game data — you must be logged in and looking at it. *"The exact cooldown / cast
+time / cost is uncertain"* is **not** one: `ability-inventory.md` carries the
+Tier-1 number. The two markers this file used to carry (Voltaic Blaze's cooldown,
+Skyfury's exact bonus) were both of that kind and are deleted with their guesses.
