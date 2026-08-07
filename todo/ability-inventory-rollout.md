@@ -13,8 +13,10 @@ confidence: high
 
 # Ability inventory — mined, not written
 
-**Status 2026-08-06: the mining is DONE and committed. The prose rollout is BLOCKED
-on two small tool changes and one decision from Mike.**
+**Status 2026-08-06: the mining is DONE and committed. The prose rollout is still
+BLOCKED on two small tool changes (§3) and one decision from Mike (§4). The
+independent de-duplication pass (§7) is DONE — that is the only thing that has moved
+since this file was written.**
 
 Read this file before touching `knowledge/classes/*/*/abilities.md` or
 `tools/wowkb/gen_abilities.py`.
@@ -110,22 +112,73 @@ The annex gets the same treatment: 239/255, almost all DB2 template.
 
 ### B1. `cost` and `cast_time` have no generated home
 
-**This is the hard blocker.** There is no cost column and no cast-time column, and
-the API tooltips state only what a spell **generates** ("Generates 3 Holy Power",
-"Generates 10 Rage") — **never what it costs**.
+**Nothing was lost.** The generated layer never carried cost or cast time; the
+`Resource` and `Cast / CD` columns of the 40 prose files are hand-written Tier-3
+prose that predates the mining. The API tooltips state only what a spell
+**generates** ("Generates 3 Holy Power") — never what it costs. So the risk was
+never regression, only that a "delete the restated columns" pass deletes prose
+nothing else holds.
 
-So the `Resource` and `Cast / CD` columns of the 40 prose files are the **only**
-record of:
+#### ⚠ MEASURED 2026-08-06 — this was framed as one blocker and it is two problems of very different size
 
-- Holy Power / Rage / Energy / mana costs across all 40 specs.
-- Cast times. "Flash Heal 1.5s vs Prayer of Healing ~2s vs Divine Hymn 8s channel"
-  is a healer's whole decision surface.
+| | prose cells that carry it | DB2 coverage of the 3,949 distinct inventory spellIDs |
+|---|---|---|
+| **cast time** | **132** of 1,435 (9 %); another 842 just say "Instant" | **3,949 / 3,949** via pinned `SpellMisc.CastingTimeIndex` — and **94.3 % resolve to index 1 = instant** |
+| **cost** | **177** of 1,436 (12 %) | **487 / 3,949 = 12.3 %** have any `SpellPower` row, and **406 of those are Mana** |
 
-A "delete the restated columns" pass destroys both. Sources are already on disk:
+**Cast time is cheap and worth generating.** One pinned fetch
+(`wowkb.wago SpellCastTimes --build 12.0.7.67808`; `SpellMisc` is already pinned on
+disk), total coverage, and 94 % of the column is the single word "Instant" the
+generator emits for free. Only **226** spells have a real cast time — a bounded set
+that subsumes all 132 prose values.
 
-- cost → `raw/wago/SpellPower.csv` (⚠ **unversioned** — refetch pinned:
-  `uv run python -m wowkb.wago SpellPower --build 12.0.7.67808`)
-- cast time → `SpellMisc.CastingTimeIndex` → `SpellCastTimes` (fetch pinned)
+**Cost is expensive and low-yield, and Mike's instinct about talents is right.**
+Beyond the 12 % coverage: **155 of the 624** `SpellPower` rows (25 %) are gated on
+`RequiredAuraSpellID` — a *conditional* cost, i.e. exactly the "a talent changes it"
+case — and **81 spellIDs carry more than one cost row**. A comprehensive generated
+cost column would be a mostly-empty column, dominated by irrelevant mana values,
+wrong or ambiguous on a quarter of what it does cover.
+
+**So B1 dissolves rather than gets solved.** The 177 hand-written cost numbers are a
+small finite set that already lives in prose and is worth **keeping there**. The
+requirement on a rollout is therefore a *rule*, not a tool change: **do not delete a
+cell that states a cost.** Only cast time needed generating.
+
+#### ✅ `cast_time` SHIPPED 2026-08-06
+
+`SpellCastTimes` fetched pinned; `spec_inventory._cast_times()` joins
+`SpellMisc.CastingTimeIndex` → `SpellCastTimes.Base`; the column sits beside
+`cooldown` in `ability-inventory.tsv`, `all-abilities.tsv` and the pet annex.
+Verified against known values: Flash Heal `1.5`, Prayer of Healing `2.5`,
+Frostbolt/Fireball `1.75`, portals/teleports `10`. 226 of 3,949 spellIDs carry a
+number; the rest are instant.
+
+⚠ **Two things it does not answer — both documented in `_abilities/README.md`:**
+
+1. **A channel reads `0.0`.** Divine Hymn, Tranquility, Mind Flay and Penance all
+   read 0, indistinguishable from an instant. Channel length is `SpellDuration` via
+   `SpellMisc.DurationIndex`, a separate table. **So cast_time does NOT fully retire
+   the prose `Cast / CD` column** — the same "don't delete it" rule that applies to
+   cost applies to any cell stating a **channel** duration. The `SPELL_ATTR1`
+   channel bits (`0x4`/`0x40`) do flag 52 inventory spellIDs and looked like a cheap
+   discriminator, but building on it needs a `SpellDuration` fetch and a check that
+   the flag is complete — **not done, not scheduled.**
+2. **It is the base cast**, not haste- or talent-adjusted.
+
+**A scare that turned out to be nothing, recorded so nobody re-runs it:** a loose
+scan for "row reads 0 but another spellID of the same name has a real cast" returns
+**696** pairs. It is almost entirely name collisions across unrelated spells (Agony,
+Ambush, Alacrity). Re-run with the real discriminator — castable, non-passive, and
+the **same `SpellClassOptions.SpellClassSet`** — and it returns **0**. The apparent
+cases (Chaos Bolt, Tranquility) are the already-documented **stub-twin** pattern:
+the spec that actually has the ability gets the right spellID *and* the right cast
+(Destruction's Chaos Bolt `116858` reads `3`), while the sibling specs carry the
+hollow twin. Same trap as §8.1's ~445 — a name-match scan over this corpus is
+mostly false positives. **Do not report the loose number.**
+
+Sources on disk: cast time → `SpellMisc.CastingTimeIndex` (pinned ✅) →
+`SpellCastTimes` (pinned ✅, fetched 2026-08-06). Cost → `raw/wago/SpellPower.csv`
+(⚠ **unversioned**; would need `--build 12.0.7.67808` — but see above, don't).
 
 ### B2. The `## Inventory` heading match is dark for 18 of 40 specs
 
@@ -160,9 +213,9 @@ docs edit, no marker, no warning.
 
 ---
 
-## 4. The pilot — UNCOMMITTED IN THE WORKING TREE
+## 4. The pilot — COMMITTED (this heading used to say otherwise)
 
-Three files restructured as a shape proposal, awaiting Mike's approve/reject:
+Three files restructured as a shape proposal, still awaiting Mike's approve/reject:
 
 ```
 knowledge/classes/paladin/retribution/abilities.md   (DPS, hero trees)
@@ -170,8 +223,12 @@ knowledge/classes/warrior/protection/abilities.md    (tank)
 knowledge/classes/priest/holy/abilities.md           (healer)
 ```
 
-Plus the regenerated `section-4-catalogue.*` and `_meta/verify-in-game.md`.
-`git diff` to see it. `git checkout -- <paths>` to discard if the shape is rejected.
+⚠ **Correction (2026-08-06):** this section said the pilot was uncommitted and that
+`git checkout -- <paths>` would discard it. **It is not.** All three landed in
+`cd8cc64` along with the regenerated `section-4-catalogue.*` and
+`_meta/verify-in-game.md`. Rejecting the shape means reverting those three files out
+of that commit, not discarding working-tree changes. `git show cd8cc64 -- <path>` to
+read the proposal.
 
 ### The proposed shape — four sections, nothing else
 
@@ -250,6 +307,14 @@ uv run python -m wowkb.gen_abilities --fetched 2026-08-06 --probe        # NETWO
 uv run python -m wowkb.gen_abilities --fetched 2026-08-06 --descriptions # NETWORK: ~3,952 GETs, ~4 min
 ```
 
+- **`--raw PATH` (added 2026-08-06) picks the DB2 cache.** `raw/` is gitignored, so a
+  fresh **worktree** has an empty one and every DB2 read hard-fails. Point it at a
+  populated sibling instead of re-fetching ~85 CSVs:
+  `--raw ~/code/fun/wow/raw`, or `WOWKB_RAW=~/code/fun/wow/raw`. Precedence
+  `--raw` > `$WOWKB_RAW` > `<repo>/raw`; the run **prints** the directory whenever it
+  is not the local one. Safe to share across worktrees *because* `_pinned` demands the
+  exact build suffix — a sibling at another build fails loudly rather than mixing.
+  There is deliberately **no auto-discovery**. Same flag on `wowkb.spec_inventory`.
 - **`--fetched` is REQUIRED** and is stamped as both `fetched:` and `reviewed:`.
   `gen_abilities` emits `reviewed:` itself, deliberately — `talents.py` does not, and
   all 40 committed `talents.md` carry a hand-stamped one, which is a permanent
@@ -280,16 +345,61 @@ that this spec presses it. Scope is counted **before** the already-have filter.
 
 ---
 
-## 7. The cheap, separate win — take it regardless
+## 7. ✅ The cheap, separate win — TAKEN 2026-08-06
 
-The volume in these files was never the restated facts. It is:
+The volume in these files was never the restated facts. It was:
 
 1. **A 16-line `[T1]`-vs-`~` boilerplate blockquote duplicated verbatim across all
-   40 files.** (I wrote it this session; it is longer than it needs to be.)
-2. **Hero-tree sections that duplicate `builds.md`,** which covers them better.
+   40 files**, plus a second preamble blockquote in 20 of them that had drifted
+   into **15 distinct variants** of the same paragraph.
+2. **Hero-tree blocks that duplicate `builds.md`,** which covers them better.
 
-Deleting those shrinks 40 files by **~25 lines each with zero loss and zero tool
-work.** Entirely independent of the rollout decision.
+**Done: −857 / +308 lines across 37 files** (the 3 pilot files already carried the
+routing header instead). Independent of the rollout decision, as advertised.
+
+### What replaced it
+
+`knowledge/classes/_abilities/prose-conventions.md` — **hand-written, NOT
+generated**, unlike its neighbour `README.md`, which `gen_abilities` writes. It
+carries once: the Tier-1 floor rule, the `[T1]`-vs-`~` notation, the G6 charge/GCD
+caveat, the section-3/4 "not a backlog" rule, **B2's `## Inventory` machine
+contract**, what the generated layer structurally cannot say (§5 of this file), and
+the §8.1 wrong-spec-tooltip caveat. Each prose file now carries a 5-line pointer at
+it. Two spec-unique facts were preserved inline rather than folded away: Guardian's
+`castable`-is-wrong-for-**Wild Guardian** wart, and Arms' `Heroic Strike` exception.
+
+Hero-tree blocks were rewritten to the **pilot's kit-shaped model** (§4-B): *which
+buttons does each tree add or remove*, with the pick deferred to `builds.md`. All 26
+affected `builds.md` were read first — §8.3's rule is that a sibling can be wrong, so
+nothing was deleted on the assumption it was covered.
+
+### Two stale siblings that check turned up
+
+Both kept in `abilities.md` and flagged inline, because `abilities.md` is the
+Tier-1-reconciled side and `builds.md` is not:
+
+- `evoker/devastation/builds.md` still lists **Engulf** as a Flameshaper active. It
+  does not exist at 12.0.7; the actives are Fire Torrent + Consume Flame.
+- `priest/discipline/builds.md` still describes Oracle's **Premonition** toolkit.
+  That button is gone.
+
+Third and fourth instances of the pattern after `priest/holy/rotation.md` (§8.3).
+Recorded in `_meta/kb-inbox.md`; a `rotation.md`/`builds.md` reconcile against the
+generated inventory is **not** scheduled.
+
+### Verification of this pass specifically
+
+- **Zero table rows and zero headings changed** — `git diff -U0 | grep -E '^[+-]\s*(\||#)'`
+  is empty. That is B2's machine contract held exactly: the `## Inventory` harvest
+  cannot have moved.
+- `gen_verify --check` re-stamped at the **same 314 open items**; only line numbers
+  moved. The single `@verify-ingame` deleted was **backticked**, i.e. never harvested.
+- `kblint` still **17**, all in `knowledge/addon-dev/`. `gen_candidates --check` and
+  `obs check` clean.
+- ⚠ `gen_abilities --check` was **NOT** run: `raw/` is gitignored, so this worktree has
+  no pinned DB2 CSVs and the generator hard-fails on the missing `SpellName-12.0.7.67808.csv`.
+  The table/heading proof above is what stands in for it. Run it from a worktree that
+  has `raw/wago/` populated before committing anything that touches a generated file.
 
 ---
 
@@ -402,8 +512,11 @@ them already seed-bound. Worth a look before the next placement pass.
 
 ## 11. NEXT ACTIONS, in order
 
-1. **[BLOCKER] Add `cost` + `cast_time` to `gen_abilities`.** Fetch `SpellPower`,
-   `SpellCastTimes` pinned to `12.0.7.67808` first. §3-B1.
+1. ~~**[BLOCKER] Add `cost` + `cast_time`.**~~ ✅ **RESOLVED 2026-08-06.**
+   `cast_time` shipped. `cost` **deliberately not built** — 12 % coverage,
+   mana-dominated, a quarter of its rows conditional on a talent. Replaced by a
+   rollout rule: **do not delete a prose cell stating a cost, or a channel
+   duration.** Measurement + the shipped column's two caveats: §3-B1.
 2. **[BLOCKER] Fix or standardise the `## Inventory` heading match.** §3-B2. Expect
    `section-4-catalogue` to grow by ~10 rows; that is the backlog surfacing, not new
    drift.
@@ -411,6 +524,8 @@ them already seed-bound. Worth a look before the next placement pass.
    two-column table is the part worth arguing about: it is simultaneously the human
    filter over 187 rows and the machine contract from B2.
 4. Roll out to the remaining 37 — only after 1–3.
-5. **[INDEPENDENT] Delete the duplicated boilerplate + hero-tree sections.** §7.
-   Free, needs no tool work, do it whenever.
+5. ~~**[INDEPENDENT] Delete the duplicated boilerplate + hero-tree sections.**~~
+   ✅ **DONE 2026-08-06** — see §7. −857/+308 over 37 files; the shared preamble now
+   lives once in `_abilities/prose-conventions.md`.
 6. Re-measure markers (`gen_verify`) and BucketBinds coverage after rollout.
+   (`gen_verify` re-stamped after step 5 — unchanged at 314 open items.)

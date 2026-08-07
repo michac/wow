@@ -430,15 +430,43 @@ Read it before touching `knowledge/classes/*/*/abilities.md` or
   Any rollout must keep a table with clean names in column 1 under a matching heading,
   or it silently deletes tracked unknowns.
 - **Decision pending from Mike** — a 3-spec pilot (retribution / warrior-protection /
-  priest-holy) is **uncommitted in the working tree** proposing a four-section shape
-  with a two-column `Ability | Role` table. `git diff` to see it, `git checkout --` to
-  discard. Honest headline: the files got **longer**, not shorter.
-- **A free win that needs no decision:** a 16-line boilerplate blockquote is duplicated
-  verbatim across all 40 files and the hero-tree sections duplicate `builds.md`.
-  Deleting both shrinks 40 files by ~25 lines each with zero loss.
+  priest-holy) proposes a four-section shape with a two-column `Ability | Role` table.
+  ⚠ It is **committed** (in `cd8cc64`), not sitting in the working tree as this entry
+  and `todo/ability-inventory-rollout.md` §4 originally said — so `git checkout --` no
+  longer discards it; reverting means reverting those three files out of that commit.
+  Honest headline: the files got **longer**, not shorter.
+- ~~**A free win that needs no decision:** a 16-line boilerplate blockquote is duplicated
+  verbatim across all 40 files and the hero-tree sections duplicate `builds.md`.~~
+  ✅ **DONE 2026-08-06.** Both stripped: −857/+308 lines over 37 files. The shared
+  preamble now lives once in `knowledge/classes/_abilities/prose-conventions.md`
+  (hand-written, **not** generated — unlike its neighbour `README.md`) and each prose
+  file carries a 5-line pointer; hero-tree blocks were rewritten to **kit-only**
+  (which buttons each tree adds/removes), with the pick deferred to `builds.md`.
+  Verified: **zero** table rows and **zero** headings changed, so the `## Inventory`
+  machine contract is untouched; `gen_verify` re-stamped at the same **314** open
+  items (only line numbers moved).
 
 Two quality caveats recorded there, not fixed: some tooltips render the **wrong spec's
 branch** (Protection Warrior's `Burst of Power` says "Bloodthirst", which is Fury's —
 Blizzard's API resolves `$?spec[…]` without spec context; ~445 loose candidates,
 2 confirmed), and `priest/holy/rotation.md` is **stale** in a way that contradicts its
 own `abilities.md` — so "check the sibling covers it" is not a sufficient test.
+
+### Two more stale siblings, found the same way *(2026-08-06)*
+
+The hero-tree de-dup above checked all 26 affected `builds.md` files before deleting
+anything from `abilities.md`. Two of them turned out to **contradict** the Tier-1
+reconciled prose, so the claim stayed in `abilities.md` and the conflict is flagged
+inline there. Both are `builds.md` defects, unfixed:
+
+| file | says | but `abilities.md` (Tier-1 reconciled @ 12.0.7.67808) says |
+|---|---|---|
+| `evoker/devastation/builds.md` | Flameshaper grants **Engulf** | Engulf **no longer exists**; the 12.0.7 actives are **Fire Torrent** + **Consume Flame** |
+| `priest/discipline/builds.md` | Oracle carries the **Premonition** toolkit | the `Premonition` **button is gone**; the live subtree is Prophet's Insight / Prophet's Will / Piety / Twinsight |
+
+This is the third and fourth instance of the same pattern (after
+`priest/holy/rotation.md`). The pattern is worth naming: **`abilities.md` got a Tier-1
+reconcile pass this cycle and its siblings did not**, so wherever the two disagree the
+sibling is the stale one — but nothing sweeps for that. A `rotation.md`/`builds.md`
+reconcile against the generated inventory is the obvious follow-up; it is **not**
+scheduled.
