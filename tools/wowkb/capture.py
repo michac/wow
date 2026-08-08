@@ -34,12 +34,13 @@ REPO = Path(__file__).resolve().parents[2]
 # capture never imports the release machinery.
 #
 # This registry is about WHO WRITES CAPTURES, not who gets released — the two sets
-# overlap but are not the same. `wowkb.addon`'s REGISTRY is the three product addons
+# overlap but are not the same. `wowkb.addon`'s REGISTRY is the product addons
 # (release targets); ClientLab is deliberately NOT one (projects/addon-lab/CLAUDE.md:
 # no repo, no releases, deploy is a directory copy) and still writes captures, so it
 # belongs here and nowhere near a release gate.
 ADDONS = {
     "bb": "BucketBinds",
+    "cap": "CombatAssistPlus",
     "cdmp": "CDMProbe",
     "clab": "ClientLab",
     "ps": "PlannerState",

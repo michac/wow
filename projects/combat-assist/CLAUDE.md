@@ -7,18 +7,34 @@ already have, rather than deciding for you. The core is a **tier signal**: HIGH 
 MEDIUM / LOW emphasis across the tracked set, several things lit at once, you pick.
 Around it: procs as a tier input, auto-detected sequence hints layered on top, and a
 movable cooldown-bar panel reusing the same signal. **`specs/spec.md` is the
-definition** — read it before touching anything, especially §3.1's three rules,
-which are what keep the tier signal from quietly becoming a rotation engine.
+definition** — read it before touching anything, especially §1's three principles,
+which everything else in the spec is downstream of.
 
 **cap supersedes Cooldown HUD** (`projects/cooldown-hud/`, CDMProbe), which grew
 into the decision engine this project is deliberately not. No code is ported;
 CDMProbe's client facts live in `knowledge/addon-dev/` and stay authoritative.
 
-**Code status: M2 code-complete, not flown.** `Core.lua` (router + the
-`ns.RegisterCommand` / `ns.RegisterStatus` registries), `Bind.lua` (the CDM binding)
-and `Frame.lua` (the movable panel). ⚠ **The deployed release is still the scaffold** —
-Bind and Frame have never executed in the client. `specs/backlog.md` → `Now` holds the
-acceptance list they need.
+**Code status: M2 flown; M3a done and M3b released but NOT yet flown.** `Core.lua`
+(router + the `ns.RegisterCommand` registry), `Bind.lua` (the CDM binding), `Frame.lua`
+(the movable panel), `Capture.lua` (vendored — the one data-out path) and `Log.lua`. The
+binding is confirmed **correct**, not merely present — 200 identity rows across 3 specs
+and 2 classes, including a Paladin.
+
+M3's tier signal is three pure modules and one impure one: `Catalog.lua` (the closed
+vocabulary and the §3.5 checks), `Catalogs/Demonology.lua`, `Tier.lua` (first-match
+bands), `Track.lua` (the readiness latch, the window arithmetic) and `Sense.lua` (hooks,
+clock, client reads). Plus `Mode.lua` — `/cap aoe`, cap's own answer to a target count the
+client will not give us. **Nothing is drawn yet, and none of it has executed in the
+client.** `specs/backlog.md` → `Now` holds the M3b flight and its acceptance table.
+
+**Three capture streams, and they are the only way anything here reports what it saw:**
+`wowkb.capture cap bind` (the binding), `cap tier` (the tier verdicts + gate health) and
+`cap edge` (every alert edge that landed). ⚠ SavedVariables only flush on `/reload`.
+
+⚠ **The capture on disk is a client-authored fixture, and it is the cheapest instrument
+in the project.** Reading the 21 live Demonology rows settled five catalog open questions
+and found three defects — including that Shadow Bolt *does* have a CDM row — before any
+M3 code existed. Read it before asserting what the CDM tracks.
 
 The addon source is `addon/` — its own git repo (`michac/cap`), **gitignored** by
 the wow workspace, with its own `CLAUDE.md` covering the release workflow. This
@@ -34,6 +50,21 @@ the split is what keeps each of them readable:
 | **`specs/spec.md`** | **What the addon is supposed to do.** The product definition — behaviours, boundaries, constraints. Present tense, no history. | Would a stranger reading only this know what to build? |
 | **`specs/backlog.md`** | **The list of work items.** Agreed work not yet done, one line each, in `Now` / `Next` / `Ideas` / `Done`. | Is it a thing someone could pick up and finish? |
 | **`specs/notes.md`** | **What we actually did.** Session logs, decisions and their rationale, dead ends, in-game observations. Newest first, dated. | Is it about the past — ours, not the game's? |
+| **`specs/discussion.md`** | **Questions raised and not yet decided**, with the case on both sides. Nothing here is a commitment and nothing here ages. | Would deciding it change the design, and is it genuinely still open? |
+
+⚠ **`discussion.md` is the newest of the four and the easiest to skip.** It exists because
+the other three have no home for an open question — so questions were getting decided in
+passing, or lost. An item leaves it when decided: the decision to `spec.md` or
+`backlog.md`, the reasoning to `notes.md`, struck here with a pointer to where it went.
+
+**Two published reference artifacts** — derived from the code and the captures rather than
+written from memory, so they are a view and these files are the truth. ⚠ **Both are STALE
+as of 2026-08-07**: they describe **windows**, the six-window cap and stack-count-only
+cues, none of which exist any more. Do not read a vocabulary claim out of either one until
+`backlog.md` → **The stale artifacts** re-derives them.
+
+- [Architecture — how cap is wired, and where the signal stops](https://claude.ai/code/artifact/2de40ee9-5457-4ca3-b46e-77178e021207)
+- [Demonology reference — every tracked row, what lights it, what is drawn on it](https://claude.ai/code/artifact/46bb78b6-7c41-4210-a9b0-3b1707678569)
 
 **How they interact.** A session reads `spec.md` for intent and `backlog.md` for
 the next item, does the work, then records the outcome in `notes.md` and strikes
@@ -60,8 +91,9 @@ Three rules worth stating because they're the ones that erode:
 Read the **wow-developer** skill first; its house rules are enforced by
 `/addon-review`. The two that bind hardest on a young addon are already live in
 `Core.lua`: commands come from the `ns.Commands` schema table (never a hand-rolled
-parser, no substring dispatch), and any future data extraction rides the one
-capture path (`ns.Capture.Open` → `wowkb.capture cap <stream>`).
+parser, no substring dispatch), and data extraction rides the one capture path
+(`ns.Capture.Open` → `wowkb.capture cap <stream>`) — `Log.lua`'s `bind` stream is the
+first user of it, and there is no second way out.
 
 ## Releasing
 

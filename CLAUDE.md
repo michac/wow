@@ -183,14 +183,14 @@ touching the code**. Status as of 2026-07-09:
   telling you what to press**. The core is a **tier signal** — HIGH/MEDIUM/LOW emphasis
   across the tracked set, several things lit at once, you pick — with procs as a tier
   *input*, auto-detected sequence hints layered on top, and a movable cooldown-bar panel
-  reusing the same signal. It **re-presents, grades and contextualises**: narrowing
-  decisions instead of making them, which is the line the whole design is built along
-  and the reason it supersedes the HUD. **Spec §1–§5 written (M1 ✅); code is scaffold +
-  M2 foundation in progress.** v1 spec: **Demonology Warlock**; a spec without a catalog
-  gets nothing, by design. Start at its `CLAUDE.md` (project root), which owns the
+  reusing the same signal. It **re-presents, grades and contextualises** — three moves
+  sitting under §1's three principles, which are what the design is built along and the
+  reason it supersedes the HUD. **Spec §1–§5 written (M1 ✅); M2 flown; M3a done
+  and M3b released but not yet flown** — the tier signal computes and nothing is drawn.
+  v1 spec: **Demonology Warlock**; a spec without a catalog gets nothing, by design. Start at its `CLAUDE.md` (project root), which owns the
   **spec process**: `specs/spec.md` = what the addon is supposed to do (present-tense, no
-  history — **read §3.1's three rules**, they're what keep the tier signal from quietly
-  becoming a rotation engine) · `specs/backlog.md` = the work items · `specs/notes.md` =
+  history — **read §1's three principles**, everything else in the spec is downstream of
+  them) · `specs/backlog.md` = the work items · `specs/notes.md` =
   what we did, session logs + decisions. ⚠ **No standing auto-deploy exception** (the
   HUD's was scoped to CDMProbe alone) — releasing is ask-first. The addon (`michac/cap`)
   is at `addon/` — own git repo, **gitignored**, own `CLAUDE.md` for the release
@@ -262,7 +262,7 @@ uv run python -m wowkb.addon release <bb|cdmp|ps|cap> [--patch|--minor|--major] 
 uv run python -m wowkb.addon deploy <bb|cdmp|ps|cap>     # redeploy the latest existing release via ghaddons (no new cut)
 uv run python -m wowkb.cdmp flight                      # the PASS/FAIL ACCEPTANCE REPORT for an in-game pass recorded by `/cdmp flight` (run this after a test build)
 uv run python -m wowkb.cdmp decisionlog                 # extract the CDMProbe pipeline DECISION LOG off SavedVariables → flat .log (see below)
-uv run python -m wowkb.capture <bb|cdmp|clab|ps> [stream]  # THE ONE READER for addon captures — `<DB>.captures.<stream>` → greppable .log (`--list` for streams + bounds)
+uv run python -m wowkb.capture <bb|cap|cdmp|clab|ps> [stream]  # THE ONE READER for addon captures — `<DB>.captures.<stream>` → greppable .log (`--list` for streams + bounds)
 uv run python -m wowkb.lab [deploy|show|drain|blocked]  # the ClientLab addon-dev lab: deploy the scratch addon (a directory copy + the id ⇄ ns.Test{} cross-check), read a run (`show` = result BESIDE expect, never a verdict), drain an answer into the KB. `blocked` = the untested rows, grouped by the capability each waits on. ⚠ An UNKNOWN is not filed here — it is a marker on the claim in knowledge/addon-dev/ (projects/addon-lab/docs/lab-process.md)
 uv run python -m wowkb.obs [list|check|drain OBS-nnn]   # the addon-dev observations queue + its drain; `check` gates a --minor/--major release
 uv run python -m wowkb.kblint                           # the knowledge/addon-dev gates (README §7's current-state rule); exit 1 on any hit

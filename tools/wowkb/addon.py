@@ -67,7 +67,7 @@ REGISTRY = {
                 schema_note=True),
     "cap": Addon("cap", "michac/cap", "projects/combat-assist/addon",
                  "CombatAssistPlus/CombatAssistPlus.toc", "CombatAssistPlus/*.lua",
-                 "/cap status"),
+                 "/cap"),
 }
 
 
