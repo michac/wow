@@ -138,6 +138,18 @@ merely *near* your work is not a stop — only one you would be building on.
 again on combat entry, and retries the unanswered ones through the pull. Writing the test
 *is* queuing it.
 
+**Before testing an API you have already touched, fill in its verdict TABLE — then test
+only a blank cell.** Prose cannot show the difference between *"measured, the answer is
+no"* and *"nobody ever asked"*, so a subsystem documented as findings accumulates
+invisible holes and gets re-tested every time one is brushed. A table with a row per
+method or per channel makes an open question look like a blank cell in something you are
+already reading, and a closed one impossible to re-open by accident. The worked examples
+are `security-taint-and-restricted-data.md` **§4.8.1** (channel × verdict — nobody
+re-asks whether `SetVertexColor` carries a secret) and **§4.8.4** (`LuaDurationObject`,
+method × verdict, written *because* the object had been re-litigated). Converting a
+findings section into a table is cheap, is not a test, and usually answers the question
+that prompted it.
+
 **Clearing one.** Next session: `wowkb.lab show` (result beside `expect` — no verdict is
 printed, a human decides) → `wowkb.lab drain <id>` mints the observation → rewrite the
 claim, **drop `@pending-test`**, tag `[client YYYY-MM-DD]` → **delete the test** →

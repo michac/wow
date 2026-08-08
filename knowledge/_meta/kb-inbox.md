@@ -137,7 +137,11 @@ _(design context: `projects/cooldown-hud/docs/`; source-read findings folded int
   `state-persistence-and-communication.md` §2.3 (about logout, not about spec reads).
   Two Tier-1 facts established 2026-07-30 while fixing CDMProbe's hero detection, worth
   keeping wherever this eventually lands:
-  - `C_ClassTalents.GetActiveHeroTalentSpec()` → the active **SubTreeID**, nilable
+  - `C_ClassTalents.GetActiveHeroTalentSpec()` → the active **SubTreeID**, nilable —
+    **nilable confirmed in-client** `[client 2026-08-06]`: a Retribution Paladin with no
+    hero tree returned nil through `pcall`, i.e. a genuine "none", not a refusal. (cap
+    v0.2.0's `bind` log renders the four cases apart — a name · `#id` · `-` none · `?`
+    unreadable — and logged `hero:-`.)
     *[T1 docs: `Blizzard_APIDocumentationGenerated/ClassTalentsDocumentation.lua:82`;
     used by Blizzard itself at `Blizzard_MicroMenu/Mainline/MainMenuBarMicroButtons.lua:723`]*.
     Warlock SubTreeIDs @ 12.0.7: Soul Harvester 57, **Hellcaller 58, Diabolist 59**
@@ -184,12 +188,12 @@ what would settle it. The addon code they came from is unflown (cap has no relea
   to a measurement — and it is the claim cap's whole merge-don't-replace binding design
   honours. Either measure it or mark it. (cap built the conservative branch, which is
   correct either way, so this is not blocking.)
-- **`:66-73` quotes `HiddenSpell` / `HiddenAura` as `Enum.CooldownViewerCategory` members
-  without saying they are not in the enum.** The generated enum is `NumValues = 4`,
-  0–3 (Essential/Utility/TrackedBuff/TrackedBar). `HiddenSpell = -1` / `HiddenAura = -2`
-  are Lua-side assignments at `Blizzard_CooldownViewer/CooldownViewerSettingsConstants.lua:4-5`.
-  Two unstated consequences: they are **nil until `Blizzard_CooldownViewer` loads**, and
-  they are **negative**, so anything iterating the enum or assuming 0..3 is surprised.
+- ~~**`:66-73` quotes `HiddenSpell` / `HiddenAura` as `Enum.CooldownViewerCategory` members
+  without saying they are not in the enum.**~~ **ROUTED 2026-08-07** → `cooldown-manager.md`
+  **§1.2** (new), which states the `-1` / `-2` Lua-side assignment at
+  `CooldownViewerSettingsConstants.lua:4-5` against the generated `NumValues = 4` enum, and
+  both consequences (nil until `Blizzard_CooldownViewer` loads; negative, so anything
+  assuming `0..3` is surprised).
 - **Rule 15's spellID union is narrower than Blizzard's own matcher, and the file does not
   reconcile them.** Rule 15 (`:963-966`) = base ∪ override ∪ overrideTooltip ∪ live; but
   §2.4 (`:186-195`) shows `SpellIDMatchesAnyAssociatedSpellIDs` *also* tests every
@@ -442,3 +446,33 @@ branch** (Protection Warrior's `Burst of Power` says "Bloodthirst", which is Fur
 Blizzard's API resolves `$?spec[…]` without spec context; ~445 loose candidates,
 2 confirmed), and `priest/holy/rotation.md` is **stale** in a way that contradicts its
 own `abilities.md` — so "check the sibling covers it" is not a sufficient test.
+
+## Warlock / Demonology — Dominion of Argus reads 25 s in game, 15 s in the KB *(2026-08-07)*
+
+**A hotfix has not been ingested.** The live in-game tooltip, read 2026-08-07, says
+*"Summoning your Demonic Tyrant leaves open a portal to Argus for **25 sec**…"*. The KB and
+the DB2 extract both say **15 sec**:
+
+- `knowledge/classes/warlock/demonology/ability-inventory.tsv` (row 84) and
+  `ability-inventory.md` §83 — generated from the Blizzard API description at build
+  12.0.7.67808, "for 15 sec".
+- `maxroll-raid.md:49,51` and `maxroll-mplus.md:49,51` — `verbatim: true` captures, "For 15
+  seconds after casting Summon Demonic Tyrant…". Third-party, so they follow whatever they
+  were written against; not independent corroboration.
+- `diabolist-sequences.md:250` — "possible for 15 s".
+
+**The running game outranks DB2 and the KB** (workspace `CLAUDE.md`, staleness doctrine
+§4: resolve a conflict against what the game is actually running). So the 25 s is the fact
+and the 15 s is stale, which means the numbers below it — how many Hand of Gul'dans fit in
+the window, and therefore the shard maths in `rotation.md` and `diabolist-sequences.md` —
+are all sized against the wrong window and want re-checking.
+
+**What to do:** re-pull `Spell`/`SpellDuration` at the current build (the extract on disk is
+12.0.7.67808, and live is 12.0.7 — check whether a newer build has landed), confirm the
+25 s, then correct the four game-KB files above. ⚠ Do **not** just edit the prose: the
+`ability-inventory.*` pair is **generated** by `wowkb.gen_abilities`, so fixing it by hand
+puts it back the next time the generator runs.
+
+*Raised by the Combat Assist Plus spec review — `projects/combat-assist/specs/notes.md`
+2026-08-07, where 25 s is recorded and a reviewer's "it is 15 s" was rejected on this
+basis.*

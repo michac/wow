@@ -2,9 +2,17 @@
 title: Security — protected actions, taint, and restricted data (secret values)
 patch: 12.0.7
 fetched: 2026-08-05
-reviewed: 2026-08-06
+reviewed: 2026-08-07
 sources:
   - https://github.com/Gethe/wow-ui-source (live, 12.0.7.68887, commit 4383ced30106)
+  - IN-CLIENT MEASUREMENT 2026-08-07 — ClientLab v0.2.2 `curve-step-and-clamp-semantics`
+    and `duration-curve-result-secret`, Demonology Warlock.  §4.8.1 finding 4 — Step is a
+    previous-point floor, both curve types clamp outside their range, and every Evaluate*
+    result is secret even with a non-secret curve.
+  - IN-CLIENT MEASUREMENT 2026-08-06 — ClientLab v0.2.2
+    `duration-predicate-secret-in-combat`, Demonology Warlock, 5 in-combat runs.
+    §4.8.4 — the four duration predicates are SECRET BOOLEANS, the first boolean-typed
+    secrets this workspace has obtained, which is what gives §4.2 row 8 a source.
   - IN-CLIENT MEASUREMENT 2026-08-04 — CDMProbe `/cdmp curve` (CurveLab.lua v0.32.98),
     Havoc Demon Hunter, 12.0.7 live. §4.8.1 is the only RUN evidence in this file.
   - IN-CLIENT MEASUREMENT 2026-08-04 — CDMProbe `/cdmp curve text` (CurveLab.lua
@@ -782,10 +790,14 @@ get text out — but the text is itself secret and printing it is the next error
 operations that hand back a genuinely plain value are `type()` and a truthiness test on a
 non-boolean.
 
-⚠ **The boolean-secret row is the one thing here still NOT measured.** The cooldown source
-hands out a secret **number**, so there was no boolean secret to test with; the test
-recorded `measured = false` with that reason rather than a verdict `[client 2026-08-05]`.
-The ❌ is still Tier 2 alone. Finding a boolean-valued secret would close it.
+⚠ **The boolean-secret row is the one thing here still NOT measured — but it is no longer
+unanswerable.** It was open because no boolean-valued secret was known to exist: every
+secret this client had handed an addon was a cooldown *number*, and the test recorded
+`measured = false` with that reason rather than a verdict `[client 2026-08-05]`. **A source
+now exists** — `LuaDurationObject:HasExpired()` / `IsActive()` / `HasStarted()` / `IsZero()`
+all return secret **booleans** in combat (§4.8.4) `[client 2026-08-06]`. The ❌ is still
+Tier 2 alone until the operation itself is executed against one.
+`` @pending-test: secret-op-bool-test-boolean ``
 
 **`== nil` is permitted, and it is the one comparison that is.** Measured all four ways
 `[client 2026-08-05]`: `s == nil` → `false`, `nil == s` → `false`, `s ~= nil` → `true`,
@@ -820,9 +832,12 @@ The correct guard is `issecretvalue(v)` or `canaccessvalue(v)`, never `type()`.
 
 **Trap 2 — truthiness is type-dependent.** `if secretNumber then` is legal and returns a
 plain boolean `[client 2026-08-05]`; `if secretBoolean then` errors. You cannot tell which
-you have without asking. **Only the first half is measured**: the cooldown source hands
-out a secret *number*, so the boolean case has never been executed and rests on Tier 2
-alone, as the operation table above records.
+you have without asking. **Only the first half is measured**: the boolean case has never
+been executed and rests on Tier 2 alone, as the operation table above records. ⚠ The
+*existence* of secret booleans is no longer in doubt — §4.8.4's four duration predicates
+are ones `[client 2026-08-06]` — so "in practice every secret is a number" is a reading
+that has now been falsified, and code that boolean-tests a secret without a class check is
+exposed rather than merely theoretically wrong.
 
 **Trap 2b — a formatted secret is still secret.** `string.format("%s", s)` and `"x" .. s`
 are both permitted, which reads like a way to get text out. The result is a **secret
@@ -1255,6 +1270,18 @@ can't do the arithmetic":
   `C_CurveUtil.EvaluateColorFromBoolean` / `EvaluateColorValueFromBoolean` are
   both `SecretArguments = "AllowedWhenTainted"`
   (`CurveUtilDocumentation.lua:31, 49`) — a secret boolean can pick a colour.
+
+  ⚠ **`LuaCurveEvaluatedResult` is referenced as a return type NINE times and
+  declared NOWHERE** `[T1 obs @ 12.0.7.68887]` — there is no `Structure` entry for
+  it anywhere in the generated corpus. Its only definition is prose on
+  `UnitHealthPercent` / `UnitPowerPercent`: *"If no curve is specified, a floating
+  point percentage value. Else, the result of evaluating the curve with the
+  percentage as the input."* So the type is **polymorphic in the curve's output**:
+  a `LuaCurveObject` (`AddPoint(x: number, y: number)`) yields a number, a
+  `LuaColorCurveObject` (`AddPoint(x: number, y: colorRGBA)`) yields a colour. Both
+  derive from `LuaCurveObjectBase`, which is why every consumer types the argument
+  to the base and accepts either. **Do not write a type check against this name** —
+  there is nothing to check against.
 - **Durations.** `C_DurationUtil.CreateDuration()` (`:11`),
   `CreateDurationTextBinding()` (`:21`), `CreateManualClock()` (`:31`) — all in
   `DurationUtilDocumentation.lua`. ⚠ Cite the getter, not `:3-9`, which is the
@@ -1266,6 +1293,8 @@ can't do the arithmetic":
   (`SecretWhenNumericFormatterSecret`), and — importantly —
   `HasSecretValues()` marked `ReturnsNeverSecret = true`, so you can always ask
   whether a duration is carrying secrets.
+  Per-method verdicts: **§4.8.4**, which is the table to read before asking this
+  object anything.
 - **The join.** `C_Spell.GetSpellCooldownDuration(spellIdentifier, ignoreGCD)`
   returns a `LuaDurationObject` and carries **no secret predicate at all**
   (`SpellDocumentation.lua:267`), and
@@ -1426,13 +1455,45 @@ texture:SetDesaturation(r)                              -- AllowedWhenTainted si
 duration object carries its own evaluator, so this is a general *"threshold a
 secret number engine-side"* primitive, and it reaches `Desaturation` and
 `CooldownStyle`, both already graded ✅ carries above.
-⚠ **The secrecy of the RESULT is unmeasured and the annotation is ambiguous.**
-`EvaluateRemainingDuration` is marked `SecretWhenCurveSecret` — i.e. secret *when
-the curve is*. Ours is not. Read literally that returns a **readable** number
-derived from a sealed duration, which would let you binary-search the remaining
-time. Either the annotation is incomplete or that is a leak. **Do not assume
-either** — `mined-pending-verification.md` carries this as a one-cell CurveLab
-measurement. Treat the result as secret until measured.
+✅ **The result is SECRET, and `SecretWhenCurveSecret` is not the whole condition**
+`[client 2026-08-07]`. All five `Evaluate*` methods returned `<secret number>` in
+combat on a duration whose `HasSecretValues()` was true, with the curve's own
+`HasSecretValues()` reading **false** and `GetRemainingDuration` secret as the
+control. So the annotation names a *sufficient* condition for secrecy, not a
+necessary one — a non-secret curve does **not** buy a readable result, and the
+binary-search leak the annotation seemed to license does not exist. **Feed the
+result straight to a sink; there is nothing to read and nothing to guard.**
+
+✅ **`Step` holds the PREVIOUS point's value, so an edge lands exactly on that point's
+x** `[client 2026-08-07]`. Measured on a two-point curve `(0, 10)` and `(20, 20)`:
+
+| x | −5 | 0 | 5 | 9.9 | 10 | 10.1 | 15 | 19.9 | **20** | 25 | 100 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| `Step` | 10 | 10 | 10 | 10 | 10 | 10 | 10 | 10 | **20** | 20 | 20 |
+| `Linear` | 10 | 10 | 12.5 | 14.95 | 15 | 15.05 | 17.5 | 19.95 | **20** | 20 | 20 |
+
+It is a **floor**, not nearest-point — the value changes at `x = 20`, not at the midpoint
+`x = 10`. So a threshold at *t* is two points: `AddPoint(0, below)` and
+`AddPoint(t, above)`. ⚠ Nothing in the shipped UI uses `Step`
+`[T1 obs: every Blizzard curve is Linear @ 12.0.7.68887]`, so this measurement is the
+only description of its behaviour that exists.
+
+✅ **Both curve types CLAMP outside their point range** `[client 2026-08-07]` — `x = −5`
+returns the first `y` and `x = 25` / `x = 100` return the last, on `Step` and `Linear`
+alike (table above). This had been inferred from `EncounterTimelineTrailAlphaCurve`
+defining points only at `x = 0.0` and `0.1` while driving alpha across a full 0→1
+progress `[T1 src: EncounterTimelineConstants.lua:193-196]`; the inference was right, and
+a curve needs no padding point to be safe at its edges.
+⚠ An **empty** curve evaluates to `0`, as documented — measured, so a zero result means
+"no points" and not "the evaluation failed".
+`` @pending-test: curve-step-and-clamp-semantics ``
+
+⚠ **`C_CurveUtil.CreateColorCurve` is used NOWHERE in the shipped UI** `[T1 obs @
+12.0.7.68887]`, so the colour-curve path has no Blizzard precedent — though `UnitPowerPercent`
+taking one *is* measured (finding 8). Its `AddPoint` takes `(x: number, y: colorRGBA)`, and
+`LuaColorCurveObject` additionally carries `EvaluateUnpacked` returning four plain numbers
+(`LuaColorCurveObjectAPIDocumentation.lua:62-80`) — the packed `Evaluate` returns a
+ColorMixin, which is finding 9's readable-table-with-secret-members shape.
 ⚠ **`modifier` is `Nilable = false` WITH a `Default`** (`:82`) — pass it
 explicitly (§4.6's `Default ≠ Nilable` rule). A shipping addon passes an *alpha
 value* in that slot, evidently believing it is a fallback; there is no fallback
@@ -1587,6 +1648,39 @@ fact: *every* guard was on the reads expected to be secret, and *every* actual b
 was on a value not thought of as data at all — a frame's `auraSpellID`, a StatusBar
 with no texture, a holder frame with no rect. The secret-values model is not the hard
 part. Remembering that everything touching a restricted object is in scope is.
+
+#### 4.8.4 `LuaDurationObject` — the per-method verdict table
+
+**Read this before asking this object anything.** It exists because the object's facts
+were previously spread through findings 1–7 as prose, and prose cannot show you the
+difference between *"measured, and the answer is no"* and *"nobody ever asked"*. A blank
+cell below is a question; a filled one is closed. The §4.8.1 channel table has stopped
+anyone re-asking about setters for the same reason.
+
+Methods from `LuaDurationObjectAPIDocumentation.lua` @ 12.0.7.68887. "Under restriction"
+means **in combat, on an object whose `HasSecretValues()` is true** — out of combat the
+whole object is plain and no row here applies.
+
+| Method | Returns | Under restriction | Evidence |
+|---|---|---|---|
+| `HasSecretValues()` | bool | **PLAIN, always** | `ReturnsNeverSecret = true`; read `true` in combat on a player buff and a target debuff `[client 2026-08-05]` |
+| `GetRemainingDuration(mod)` | `DurationSeconds` | **SECRET** | both columns of the aura table `[client 2026-08-05]`; also finding 7. **The seal has no hole here** |
+| `FormatRemainingDuration(fmt, mod)` | string | **secret string that RENDERS** | finding 2 `[client 2026-08-04]` — `SetText` puts it on screen, ticking, in combat. ⚠ the FontString must be a leaf (finding 10) |
+| `EvaluateRemainingDuration(curve, mod)` | `LuaCurveEvaluatedResult` | **SECRET** | `[client 2026-08-07]` — secret **even with a non-secret curve** (`curve:HasSecretValues()` false), control `GetRemainingDuration` secret in the same sample. `SecretWhenCurveSecret` is a sufficient condition, not a necessary one |
+| `EvaluateRemainingPercent` · `EvaluateElapsedDuration` · `EvaluateElapsedPercent` · `EvaluateTotalDuration` | same | **SECRET** | all four measured in the same sample `[client 2026-08-07]`. **The curve route leaks nothing — hand the result to a sink and stop guarding it** |
+| `HasExpired(mod)` · `IsActive(mod)` · `HasStarted(mod)` · `IsZero()` | bool | **SECRET booleans** | All four read `<secret boolean>` in combat, on 5 in-combat runs, on a duration whose `HasSecretValues()` is true, with `GetRemainingDuration` secret in the same sample as the control `[client 2026-08-06]`. **There is no readable in-combat cooldown predicate on this object**, and the absent annotation was again not a guarantee. A secret bool may not gate a branch, but it still drives `SetAlphaFromBoolean` / `SetVertexColorFromBoolean` leak-free — so readiness is **drawable and not branchable**, and an addon that must *branch* on readiness has to get it from events instead — the `Available` / `OnCooldown` alert edges of `cooldown-manager.md` §5.1, with that section's warning about the rows those edges never fire for. These are also the workspace's **first boolean-typed secrets**, which is what supplies the operation table's row 8 with a source it never had |
+| `GetElapsedDuration` · `GetTotalDuration` · `GetStartTime` · `GetEndTime` · `GetRemainingPercent` · `GetElapsedPercent` · `GetClockTime` · `GetModRate` | numbers | **UNMEASURED**, presumed secret | Same shape as `GetRemainingDuration`. Nobody has needed one; **presumed is not measured** and this row says so rather than implying coverage |
+| `Copy()` | `LuaDurationObject` | **PLAIN handle** | `ReturnsNeverSecret = true` |
+| `SetTimeFromStart` · `SetTimeFromEnd` · `SetTimeSpan` · `SetClock` · `Assign` · `Reset` · `SetToDefaults` · `GetClock` | — | setters/handles, no readback | — |
+
+**Consumption — settled, and not in question.** All three sinks accept the object and
+draw it in combat: `Cooldown:SetCooldownFromDurationObject` (finding 6),
+`StatusBar:SetTimerDuration` (finding 3 `[client 2026-08-04]`, ⚠ `SetMinMaxValues(0,1)`
+**first** or it draws 0 %), and `DurationTextBinding` (finding 10, the anchor-safe text
+route). Confirmed end to end by eyeball on both a player buff and a target debuff
+`[client 2026-08-05]`, and corroborated by a shipping addon. **Displaying an in-combat
+duration is a closed question. Reading its number is a closed question — you cannot.**
+What is open is exactly one row above.
 
 ### 4.9 Communication and combat log
 
@@ -2201,6 +2295,14 @@ brackets is the evidence the rule rests on.
 
 ## Changelog
 
+- 2026-08-07 — §4.8.1 finding 4: `Step` is a **previous-point floor** (an edge lands on the
+  point's own x, not the midpoint), both curve types **clamp** outside their range, and every
+  `Evaluate*` result is **secret even with a non-secret curve** — so the curve route grades a
+  sealed duration with nothing to guard and no leak to avoid.
+- 2026-08-07 — §4.8.4: the four `LuaDurationObject` predicates are **secret booleans**, so
+  there is no readable in-combat cooldown predicate and readiness is drawable but not
+  branchable. §4.2 row 8 and §4.3 trap 2: a boolean-typed secret is no longer hypothetical,
+  so the row is answerable and the test is queued against that source.
 - 2026-08-05 — **the security-primitive surface is measured** `[client 2026-07-24]`:
   all ten probed names exist (`C_Secrets` as a table, the rest as functions), including
   **`issecurevariable`**, which is absent from the generated docs *and* from the shipped

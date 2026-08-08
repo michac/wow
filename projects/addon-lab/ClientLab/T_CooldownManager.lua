@@ -1,6 +1,7 @@
 -- T_CooldownManager.lua — tests anchored in knowledge/addon-dev/cooldown-manager.md.
 local ADDON, ns = ...
 
+
 --------------------------------------------------------------------------------
 -- §7 — does the Assisted Combat oracle MOVE?
 --

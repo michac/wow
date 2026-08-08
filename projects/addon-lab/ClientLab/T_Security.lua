@@ -3,8 +3,8 @@
 --
 -- The table itself is a KB claim now: thirteen of its fourteen rows are measured and
 -- written up, and their tests were deleted with the claims that carry them.  What is
--- left is row 8, which no obtainable secret can exercise, and the aspect-less sinks,
--- which no instrument can read.
+-- left is row 8 — which needs a BOOLEAN secret, and now has one — and the aspect-less
+-- sinks, which no instrument can read.
 --
 -- Everything here declares needs="secret".  The runner gates it: OUT OF COMBAT a
 -- genuine Secret Value can't be obtained, so it records `skipped` with the reason and
@@ -31,21 +31,85 @@ local function row(id, line, question, run, blocked)
            blocked = blocked }
 end
 
-row("secret-op-bool-test-boolean", 729, "§4.2 row 8 — boolean test on a BOOLEAN secret.",
-  function()
-    local v = ns.GetSecret()
-    -- type() on a secret is allowed and returns the real type (row 14).  If our
-    -- secret is not boolean we CANNOT measure this row honestly — record that,
-    -- never a fabricated verdict.
-    local ok, ty = pcall(type, v)
-    if not ok then return { measured = false, why = "type() on the secret errored" } end
-    if ty ~= "boolean" then
-      return { measured = false, why = "no boolean secret available (cooldown source is " .. tostring(ty) .. ")" }
+--------------------------------------------------------------------------------
+-- The BOOLEAN secret source — §4.2 row 8's missing half
+--------------------------------------------------------------------------------
+-- Row 8 was open because no boolean-valued secret was known to exist.  One does:
+-- `LuaDurationObject:HasExpired` and its three siblings return secret BOOLEANS in
+-- combat (§4.8.4).  So this walks the tracked set for a duration object that is
+-- actually holding secrets and takes one of its predicates as the value to test.
+--
+-- `HasSecretValues()` is `ReturnsNeverSecret`, so it is a free oracle for whether the
+-- object holds anything secret at all — and it is the GATE: a duration holding nothing
+-- secret yields a PLAIN boolean and proves nothing about row 8.
+--
+-- ⚠ Duration objects are USERDATA, not tables (§4.8.1), so a method is probed by
+-- pcall'ing the call, never by `type(o.name) == "function"`.
+
+-- The first tracked Essential spell whose duration object reports secret contents.
+-- Walking the tracked set rather than naming a spell keeps this spec-independent,
+-- the same reason Secret.lua enumerates instead of hardcoding.
+local function secretDuration()
+  local getDur = ns.G("C_Spell.GetSpellCooldownDuration")
+  if type(getDur) ~= "function" then return nil, nil, "C_Spell.GetSpellCooldownDuration absent" end
+  local E = Enum and Enum.CooldownViewerCategory
+  if not (E and C_CooldownViewer and C_CooldownViewer.GetCooldownViewerCategorySet) then
+    return nil, nil, "C_CooldownViewer category set unavailable"
+  end
+  local okSet, set = pcall(C_CooldownViewer.GetCooldownViewerCategorySet, E.Essential, true)
+  if not okSet or type(set) ~= "table" then return nil, nil, "Essential category set unreadable" end
+  local tried = 0
+  for _, cdID in ipairs(set) do
+    local okI, info = pcall(C_CooldownViewer.GetCooldownViewerCooldownInfo, cdID)
+    if okI and type(info) == "table" and not ns.IsSecretTable(info) then
+      local sid
+      if pcall(function() sid = info.spellID end) and type(sid) == "number" and not ns.IsSecret(sid) then
+        tried = tried + 1
+        -- ignoreGCD = true: the GCD is a cooldown to this API, and a GCD-only
+        -- duration would answer about the wrong thing entirely.
+        local okD, dur = pcall(getDur, sid, true)
+        if okD and dur ~= nil then
+          local okH, holds = pcall(function() return dur:HasSecretValues() end)
+          if okH and holds == true then return dur, sid, nil end
+        end
+      end
     end
-    return op(function() if v then return "truthy" else return "falsy" end end)
-  end,
-  "a boolean-valued secret source — every secret this client hands an addon is a "
-  .. "cooldown number, so the row cannot be exercised at all")
+  end
+  return nil, nil, string.format("scanned %d tracked spells; no duration object reported HasSecretValues()"
+    .. " — nothing was actually on cooldown at this instant", tried)
+end
+
+row("secret-op-bool-test-boolean", 729,
+  "§4.2 row 8 — boolean test (`if v then`) on a BOOLEAN secret.",
+  function()
+    local dur, spellID, why = secretDuration()
+    if not dur then return { measured = false, why = why } end
+
+    local modifier = Enum and Enum.DurationTimeModifier and Enum.DurationTimeModifier.RealTime
+    if modifier == nil then
+      return { measured = false, why = "Enum.DurationTimeModifier.RealTime absent — the modifier is Nilable=false" }
+    end
+
+    local okV, v = pcall(function() return dur:HasExpired(modifier) end)
+    if not okV then return { measured = false, why = "HasExpired threw: " .. tostring(v) } end
+
+    -- Three ways this can fail to be the row 8 measurement, and each records why
+    -- rather than a verdict.  type() on a secret is allowed and returns the real
+    -- type (row 14), so it is the honest check for "is this actually a boolean".
+    local okT, ty = pcall(type, v)
+    if not okT then return { measured = false, why = "type() on the value errored" } end
+    if ty ~= "boolean" then
+      return { measured = false, why = "HasExpired returned " .. tostring(ty) .. ", not a boolean" }
+    end
+    if not ns.IsSecret(v) then
+      return { measured = false, why = "HasExpired returned a PLAIN boolean — nothing secret was tested" }
+    end
+
+    local out = op(function() if v then return "truthy" else return "falsy" end end)
+    out.source = "LuaDurationObject:HasExpired"
+    out.spellID = spellID
+    return out
+  end)
 
 --------------------------------------------------------------------------------
 -- The aspect-less secret sinks — the eyeball channel

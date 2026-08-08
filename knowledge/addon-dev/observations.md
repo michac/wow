@@ -1011,3 +1011,67 @@ Lua Taint: ClientLab, hex_decode_ok=n=1 string "hello", hex_encode=n=1 string "6
 **Drains to:** `frames-textures-animation.md:467`, `frames-textures-animation.md:1540`
 
 **Status:** drained 2026-08-06
+
+---
+
+## OBS-060 · 2026-08-07 · §4.8 — does LuaDurationObject:HasExpired / IsActive / HasStarted / IsZero return a PLAIN
+
+**Observed:** `duration-predicate-secret-in-combat` recorded **ok** — `{HasExpired=<secret boolean>, HasStarted=<secret boolean>, IsActive=<secret boolean>, IsZero=<secret boolean>, control_GetRemainingDuration=<secret>, holdsSecrets=true, spellID=686}`
+
+**How:** ClientLab run **2026-08-06 21:38:37** (v0.2.2, interface 120007), in combat, instance `none`. A direct measurement in the client.
+
+**Expected (questions.json):** UNKNOWN, and the annotation is not evidence either way. §4.8's roster lists these four predicates with no SecretWhen* and no ReturnsNeverSecret — exactly the annotation state of GetRemainingDuration, which finding 7 measured SECRET in combat. So absence of a marker is known NOT to be a guarantee on this object. Three outcomes, all useful to projects/combat-assist: a PLAIN boolean makes ready(this) one exact call and deletes the readiness latch that 6 of 9 Demonology catalog entries depend on; a SECRET boolean still drives emphasis leak-free through SetVertexColorFromBoolean / SetAlphaFromBoolean (both AllowedWhenTainted with SecretArgumentsAddAspect) but may never gate a band condition; a raise means the route does not exist. HasSecretValues() is ReturnsNeverSecret and is the GATE — a duration holding nothing secret proves nothing, so the test refuses to answer until it finds one that does, and GetRemainingDuration runs as the control.
+
+**Confidence:** high — the client answered directly. Low only if the result contradicts `expect` in a way that suggests the test asked the wrong thing.
+
+**Drains to:** `security-taint-and-restricted-data.md:1264`
+
+**Status:** drained 2026-08-07
+
+---
+
+## OBS-061 · 2026-08-07 · In COMBAT, can a consumer read a row's current DISPLAY identity — via item:GetSpellID() 
+
+**Observed:** `cdm-identity-readable-in-combat` recorded **ok** — `{auraBoundRows=2, getSpellID_plain=19, getSpellID_secret=2, infoOverride_plain=21, infoOverride_secret=0, rows=E/671 base=104316 ovr=104316 get=104316 aura=n | E/2742 base=265187 ovr=265187 get=265187 aura=n | E/34991 base=105174 ovr=105174 get=105174 aura=n | E/135056 base=1276452 ovr=1276452 get=1276452 aura=n | E/149122 base=196277 ovr=196277 get=196277 aura=n | E/1979 base=264178 ovr=264178 get=264178 aura=n | E/34990 base=686 ovr=686 get=686 aura=n | U/135274 base=1271802 ovr=1271802 get=1271802 aura=n | U/2425 base=119898 ovr=119898 get=119898 aura=n | U/2561 base=48020 ovr=48020 get=48020 aura=n | U/2254 base=104773 ovr=104773 get=104773 aura=n | U/782 base=108416 ovr=108416 get=108416 aura=n | U/2402 base=30283 ovr=30283 get=30283 aura=n | U/2512 base=6789 ovr=6789 get=6789 aura=n | BI/143038 base=296553 ovr=296553 get=296553 aura=Y | BI/9472 base=428514 ovr=428514 get=secret aura=Y | BI/9426 base=428514 ovr=428514 get=428514 aura=n | BB/777 base=264173 ovr=264173 get=264173 aura=n | BB/169561 base=1276166 ovr=1276166 get=1276166 aura=n | BB/84183 base=104773 ovr=104773 get=104773 aura=n | BB/760 base=104316 ovr=104316 get=secret aura=n, rowsSeen=21, verdictInput=info.overrideSpellID READ PLAIN on every row — the struct is an in-combat identity route}`
+
+**How:** ClientLab run **2026-08-06 21:38:37** (v0.2.2, interface 120007), in combat, instance `none`. A direct measurement in the client.
+
+**Expected (questions.json):** UNKNOWN, and the two candidate routes carry opposite evidence. item:GetSpellID() was measured secret on 8 of 51 rows and those 8 were exactly the rows carrying a live bound aura — so a row with NO bound aura may survive, but that was never measured separately. GetCooldownViewerCooldownInfo is Tier-1 documented as structural config 'readable even when live state is not', yet every reading of it on record was taken out of combat, including cap's own 200-row v0.2.0 capture. Splitting each row by auraDataUnit is the measurement: if secrecy tracks aura-boundness, a non-aura row is a working in-combat identity route. This gates projects/combat-assist catalog entry E6 (Ruination), whose whole content is a mid-combat transform — Bind refuses to resolve in combat, so without an independent read E6 is dead code that would pass every unit test and never light once in play.
+
+**Confidence:** high — the client answered directly. Low only if the result contradicts `expect` in a way that suggests the test asked the wrong thing.
+
+**Drains to:** `cooldown-manager.md:817`
+
+**Status:** drained 2026-08-07
+
+---
+
+## OBS-062 · 2026-08-07 · For a LuaCurveObject with points (0,10) and (20,20): what does Step snap to between them
+
+**Observed:** `curve-step-and-clamp-semantics` recorded **ok** — `{emptyCurveAt5=0, linear=-5=10 0=10 5=12.5 9.9=14.949999809265 10=15 10.1=15.050000190735 15=17.5 19.9=19.950000762939 20=20 25=20 100=20, step=-5=10 0=10 5=10 9.9=10 10=10 10.1=10 15=10 19.9=10 20=20 25=20 100=20}`
+
+**How:** ClientLab run **2026-08-07 14:30:54** (v0.2.2, interface 120007), out of combat, instance `none`. A direct measurement in the client.
+
+**Expected (questions.json):** UNKNOWN on both cells, and NEITHER needs a secret — curve semantics are a property of the curve, so plain inputs settle them and this answers out of combat on the first run. STEP DIRECTION: the docs say 'performs no interpolation between points, instead snapping to values exactly' without saying WHICH point. Previous-point-hold and nearest-point are both consistent and put a threshold in different places — with points at 0 and 20, hold gives an edge at 20, nearest gives one at 10. Read y at x=9.9 / 10 / 10.1 to separate them. OUT-OF-RANGE: clamping is INFERRED and never documented — Blizzard's EncounterTimelineTrailAlphaCurve defines points only at x=0.0 and x=0.1 yet drives alpha across a full 0..1 progress, which only works if x>0.1 clamps to the last y. x=-5 and x=100 settle it. Nothing in the shipped UI uses Step at all, so there is no precedent to read either off. Gates whether projects/combat-assist may threshold a cooldown with a Step curve or must pad a Linear one.
+
+**Confidence:** high — the client answered directly. Low only if the result contradicts `expect` in a way that suggests the test asked the wrong thing.
+
+**Drains to:** `security-taint-and-restricted-data.md:1464`
+
+**Status:** drained 2026-08-07
+
+---
+
+## OBS-063 · 2026-08-07 · §4.8.4 — with a NON-secret curve, does LuaDurationObject:Evaluate*(curve, modifier) retu
+
+**Observed:** `duration-curve-result-secret` recorded **ok** — `{EvaluateElapsedDuration=<secret number>, EvaluateElapsedPercent=<secret number>, EvaluateRemainingDuration=<secret number>, EvaluateRemainingPercent=<secret number>, EvaluateTotalDuration=<secret number>, control_GetRemainingDuration=<secret>, curveSecret=false, holdsSecrets=true, spellID=686}`
+
+**How:** ClientLab run **2026-08-07 14:31:18** (v0.2.2, interface 120007), in combat, instance `none`. A direct measurement in the client.
+
+**Expected (questions.json):** UNKNOWN, and the annotation is the whole problem. All five Evaluate* methods carry `SecretWhenCurveSecret` — secret WHEN THE CURVE IS — and ours is not. Read literally that returns a READABLE number derived from a duration measured SECRET on the same object (§4.8.4, GetRemainingDuration), which would let a caller binary-search the remaining time. Either the annotation is incomplete or it is a leak; §4.8.4 records the cell as unmeasured rather than guessing. The curve is an identity over 0..600 so a PLAIN result is legible as the remaining time itself rather than as an opaque number. `HasSecretValues()` on the DURATION is the gate — an unrestricted duration proves nothing — and GetRemainingDuration is the control; if the control reads plain the object is not restricted and every other cell is meaningless. A table result is checked at a MEMBER, since a colour result is a readable table with secret members (§4.8.1 finding 9). The answer decides what an addon may DO with the result, not whether the route works: SetDesaturation and SetVertexColor take a secret either way. PLAIN is the finding that matters — it means the graded emphasis route hands Lua a value the restriction exists to withhold, which is a legitimacy problem for projects/combat-assist §5 rather than a technical one.
+
+**Confidence:** high — the client answered directly. Low only if the result contradicts `expect` in a way that suggests the test asked the wrong thing.
+
+**Drains to:** `security-taint-and-restricted-data.md:1657`
+
+**Status:** drained 2026-08-07

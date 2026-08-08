@@ -5,7 +5,8 @@ How every addon in this workspace gets data out of the game client.
 This is a **house standard**, not a WoW fact — it says what we do, not what the client
 does. The API facts it rests on live in `knowledge/addon-dev/`; this file cites them.
 
-Applies to CDMProbe (`cdmp`), BucketBinds (`bb`), PlannerState (`ps`) and ClientLab (`clab`).
+Applies to CDMProbe (`cdmp`), BucketBinds (`bb`), PlannerState (`ps`), ClientLab (`clab`)
+and Combat Assist Plus (`cap`).
 ⚠ The capture registry is about **who writes captures**, not who gets released — ClientLab
 is deliberately not a release target and still belongs here.
 
@@ -13,14 +14,14 @@ is deliberately not a release target and still belongs here.
 
 ## 1. The seam: hard format, soft implementation
 
-Three separate addon repos with no package manager between them. WoW has no dependency
+Four separate addon repos (plus ClientLab, which has none) and no package manager between them. WoW has no dependency
 mechanism that isn't either "the user must install a second addon" or embedding — and
 embedding *is* vendoring. So we vendor, and we draw the contract at the only place where
 divergence actually costs something.
 
 | Layer | Contract | Why |
 |---|---|---|
-| **The SavedVariables shape** (§2) | **HARD.** Byte-identical semantics across all three addons | One Python reader consumes all of it. Divergence here is what produced four near-identical loaders in `cdmp.py` |
+| **The SavedVariables shape** (§2) | **HARD.** Byte-identical semantics across every addon | One Python reader consumes all of it. Divergence here is what produced four near-identical loaders in `cdmp.py` |
 | `Capture.lua` internals, function names, ergonomics | **SOFT.** Copy and adapt | Nothing outside the addon can observe them |
 | Dump panel UI, layout, which buttons exist | **SOFT.** Whatever fits the addon | Ditto |
 
@@ -176,7 +177,7 @@ Verified against source:
 
 ## 5. `wowkb.capture` — the Python side
 
-One reader for all three addons. Replaces the four hand-written loaders in `cdmp.py`.
+One reader for every addon. Replaces the four hand-written loaders in `cdmp.py`.
 
 ```python
 load(addon: str, wow_path=DEFAULT_WOW) -> Capture | None   # newest <Addon>.lua, parsed once
@@ -185,7 +186,7 @@ Capture.sessions(stream) -> list[Session]                  # .started .version .
 Capture.flatten(stream, out: Path) -> int                  # greppable .log, newest-last
 ```
 
-CLI: `uv run python -m wowkb.capture <bb|cdmp|clab|ps> <stream> [--out PATH] [--list]`
+CLI: `uv run python -m wowkb.capture <bb|cap|cdmp|clab|ps> <stream> [--out PATH] [--list]`
 
 **Graders stay per-addon and per-stream.** `flight`'s PASS/FAIL ladder and `curvelab`'s
 five-valued grading are domain logic and must not be generalised — but they consume
