@@ -22,26 +22,21 @@ cluster needs a name, describe it — don't mint a code.
 
 ## Now
 
-⚠ **The order changed on 2026-08-07 (later): drawing jumps the queue.** The rules were
-authored in full before anything was on screen, which is what produced four re-runs of one
-argument in `discussion.md`. The plan is now **ship the tier/cue system, play with it,
-refine until it feels good, then reverse-engineer the rules from that for the second spec.**
-The rule cull is **done** (2026-08-08), so the queue runs **M3c/M3d/M3e** (something on
-screen), then the M3b leftovers, then **the window migration**, then the hidden-row surface,
-then **the stale artifacts**, with M2's two loose decisions at the back. **The sections below
-are in that order and `Now` holds only open work** — the done ladders are in `## Reference`.
-Reasoning: `notes.md` 2026-08-07 (later); what the cull actually changed: `notes.md`
-2026-08-08.
+⚠ **The order is `simplify → draw → add detail as play tells us to`.** The window
+migration is **done** (2026-08-08; the record is in `## Reference` → *The window
+migration*), so the code and `catalog.md` now speak the vocabulary `spec.md` §3.1/§3.5
+describes, and what goes on screen next is the model we are keeping. The queue runs
+**M3c/M3d/M3e** (something on screen), then the M3b leftovers, then the hidden-row
+surface, then **the stale artifacts**, with M2's two loose decisions at the back.
 
-⚠ **The vocabulary changed on 2026-08-07 and the code has not caught up.** `spec.md`
-§3.1/§3.5 deleted windows, legalised negation, and gave cues polarity, arbitrary subjects
-and a thresholded form; `Catalog.lua`,
-`Catalogs/Demonology.lua`, `Tier.lua`, `Track.lua` and `specs/demonology/catalog.md` all
-still speak the old one. Reasoning: `notes.md` 2026-08-07. **This no longer blocks the
-drawing rungs** — M3c/M3d draw whatever `Tier.lua` computes, and the window-era catalog
-knows the same facts it will know after the migration, only spelled differently. It still
-blocks the artifact re-derivation, and M3b's acceptance table still asserts on window counts
-that no longer exist.
+⚠ **"Simplify" meant the code catching up, NOT another design round.** `spec.md` §3 is
+**not** re-opened — the rule cull of 2026-08-08 was its simplification pass, and re-arguing
+§3.1/§3.5 now would be the fifth re-run of the argument `discussion.md` already carries. The
+detail that gets added from here comes from **playing**, not from authoring.
+
+**The sections below are in queue order and `Now` holds only open work** — the done ladders
+are in `## Reference`. Reasoning: `notes.md` 2026-08-08 (migration) and (the reorder); what
+the cull changed: `notes.md` 2026-08-08; why drawing was moved up: `notes.md` 2026-08-07.
 
 ### The drawing rungs — M3c, M3d, M3e
 
@@ -49,15 +44,55 @@ that no longer exist.
 (2026-08-06, M3 planning). The ladder is M3a…M3e, each rung flyable, and `--patch`
 release + deploy is **pre-authorised for M3 flights** (nothing else).
 
-- [ ] **M3c** — the graded register, on **cap's own overlay**: `SPELL_UPDATE_USABLE`
-      rewrites a CDM icon's colour constantly, so anything cap writes there is stomped.
-- [ ] **M3d** — the Implosion threshold cue. Build the gate first.
+⚠ **These rungs are unblocked** — the window migration landed, so what goes on screen is
+the model we are keeping and the tuning done while playing survives. Detail gets added back
+from what playing actually says.
+
+- [x] ~~**M3c** — the graded register, on **cap's own overlay**~~ — **BUILT 2026-08-08.**
+      Static only; nothing flown, no release cut. What it draws and what a flight should
+      read: `## Reference` → *M3c*.
+- [ ] **Fly M3c and M3d together — the first pixels.** **v0.2.3 is released and deployed**
+      (2026-08-08); what is owed is the pull. `/reload`, a Demonology pull, then
+      `wowkb.capture cap draw`. ⚠ **The only oracle for a pixel is an eyeball**
+      — the `draw` stream exists so a flight that sees *nothing* can still tell a
+      treatment bug from an anchoring bug (`anch:`/`conf:` vs the `P{}` cells). Read both
+      before concluding anything. The acceptance table is in `## Reference` → *M3c*.
+      A one-page card for running it, derived from that table:
+      [the flight card](https://claude.ai/code/artifact/9dc3a713-5cbf-42e4-a7f7-8af576edfde7)
+      — ⚠ a **view**, not a source; where it and the acceptance tables disagree, they win.
+- [x] ~~**M3d** — the cues, drawn by the client~~ — **BUILT 2026-08-08.** Static only;
+      nothing flown, no release cut. What it draws, and the sharp limit on what a flight
+      can prove about it: `## Reference` → *M3d*.
+- [ ] **Give the unmarked channel forms markers, driven by a catalog that wants one** — the
+      table below is the current coverage. Nothing authors `auraRemaining(x) ≤ t` or
+      `active(x)` today, so building their markers now would be inventing a visual language
+      against no evidence; the trigger is a catalog entry that needs one.
 - [ ] **M3e** — procs and the Demonbolt demotion. ⚠ The "honesty measurement" that used to
       close this rung is gone — deleted by the rule cull, 2026-08-08. The HIGH distribution
       is reported, not graded. What
       replaces it as M3e's acceptance is **playing with it** — the point of drawing early is
       that the next spec's rules get reverse-engineered from a thing that felt good, rather
       than authored in advance against no evidence.
+
+**Which of `spec.md` §3.5's channel forms are actually drawn.** `Overlay.lua`'s `slotFor`
+owns this and implements **two** of the six that table's `Draws` column promises. A form
+with no marker is still **legal** — it loads, passes every check, and reports `nodraw` in
+`C{}` — so an author reading only `spec.md` gets silence rather than an error. This is
+milestone scoping, not a spec change; `spec.md` §3.5 points here for it.
+
+| §3.5 form | `Draws` | Today |
+| --- | --- | --- |
+| `stacks(x) ≥ n` | count | ✅ **drawn**, on a **positive** cue — the `count` slot |
+| `cooldownRemaining(x) ≤ t` | marker | ✅ **drawn**, on a **negative** cue — the `hold` slot |
+| `auraRemaining(x) ≤ t` | marker | ❌ not yet. ⚠ **check 4 admits it as a negative cue's channel**, so it is the form a catalog author is likeliest to write and get nothing from |
+| `cooldownRemaining(x)` · `auraRemaining(x)` | countdown | ❌ not yet — the bare forms are §3.4's bars, and the bar panel is a rung of its own |
+| `active(x)` | pip | ❌ not yet |
+
+⚠ **A slot is claimed by a (polarity, channel) pair, not by a channel alone.** A *positive*
+`cooldownRemaining ≤ t` and a *negative* `stacks ≥ n` both read `nodraw` today even though
+both channels sit in the drawn rows above — the renderer has a marker for each of the two
+live pairings and for nothing else. Which marker a future pairing should get is open
+(`discussion.md`, *how polarity is drawn*).
 
 ### The M3b leftovers — what the flight did not settle
 
@@ -74,64 +109,6 @@ release + deploy is **pre-authorised for M3 flights** (nothing else).
       it needs a real spec or hero swap. (b) the **dark-for-the-fight rule** — cap
       settled 19 s before the pull. Needs a `/reload` mid-combat or a swap immediately
       before one. (c) **`/cap aoe`** — `mode:single` on all 50 samples, never toggled.
-- [ ] ⚠ **`alt` is declared and read by nothing, and E3 drops on half the builds.**
-      `Catalog.Resolve`'s `match()` keys on `e.spell` alone, so E3 binds Imp Lord
-      `1276452` and **not** Fel Ravager `1276467` — the other half of the same choice
-      node, which `catalog.md` §1 lists as one entry covering both. On a Fel Ravager
-      build E3 drops silently and the player loses a real HIGH. Either `Resolve`
-      tries `alt` after `spell`, or the field comes out and the document says so.
-      Found while transcribing the catalog into a reference, not by a test — no case
-      covers a build cap has never been run on.
-
-### The window migration — re-express the five windows in the new vocabulary
-
-- [ ] **`specs/demonology/catalog.md` §2 deleted**, and each of the five live windows
-      re-expressed. Expected shapes, to be argued not assumed:
-      - `tyrant_setup` / `tyrant_far` → **keep E2/E3/E4's HIGH bands and ADD a negative
-        `cooldownRemaining(Summon Demonic Tyrant) ≤ t` hold cue.** ⚠ Not "convert the HIGH
-        bands into cues": a *negative* cue declares no tier, so converting costs E2 and E3
-        their HIGH bands outright (and E4's, on a build that talents it) for no gain. A
-        ready Dreadstalkers *is* HIGH; the cue says the window is imminent, so hold.
-        **Pick `t` as part of this item.** (The breadth-count arithmetic that used to ride
-        here is gone: check 2 was deleted on 2026-08-08, `notes.md` carries why. Don't
-        re-derive it.)
-      - `tyrant_active` → E5 band 1 already reads `auraUp(Dominion of Argus)`. ⚠ **Deleting
-        band 2 assumes an apex-talented build and the applies-to does not say so** — it
-        names the spec and Diabolist only. Either add the talent to applies-to and delete
-        band 2, or keep band 2 for the un-apexed build. **Record which, as part of this
-        item.**
-      - `dogs_out` → a band naming E2 directly, or a cue off cid 760 if it yields a
-        duration (⚠ `auraDataUnit` was nil on 13 samples — the row existing does not mean
-        the duration is reachable).
-      - `cores_dry` → **E9 band 1 becomes `ready(this) and not proc(E7)`.** ⚠ The old
-        "invert into a positive cue on E7" plan is **dead** — E7's bands both already
-        require `proc(this)`, so the cue would be redundant and E9 would collapse to an
-        unconditional LOW. Negation is legal now; `notes.md` 2026-08-07 has the argument.
-- [ ] **`opener` deleted.** It was referenced only by an unbuilt M5 sequence trigger — and
-      that trigger needs rewriting anyway: `spec.md` §3.5 now defines a sequence trigger as
-      a band-legal condition plus `casts == n`, so `catalog.md` §6's two `enter:
-      window(…)` lines are dangling.
-- [ ] **`Catalog.lua`** — drop the window vocabulary and `remaining`; allow a subject on
-      every gate term **except `elapsed`, which is restricted to `this`**; **drop `casts`
-      from the gate set** and admit it only in a sequence trigger; **allow negation in a
-      band**; add cue polarity, the `active(x)` channel and the thresholded
-      `cooldownRemaining(x) ≤ t` / `auraRemaining(x) ≤ t` channel forms. ⚠ **Checks are
-      the rule cull's five, numbered 1–5** — coverage, register legality, declared subjects (with the
-      `talent` / subject-less / `mode`-literal exemptions), cue schema, estimate disclosure.
-      **Do the rule cull's `Catalog.lua` item in the same pass** rather than building the four
-      deleted checks and then removing them.
-- [ ] **`Track.lua`** — the window arithmetic goes; the readiness latch stays.
-- [ ] **M3b's acceptance table** (now in `## Reference` → *M3b*) — the `windows 4/6 → 6/6`
-      criterion is void. Replace with the HIGH-at-once distribution **as a reported
-      number, not a pass/fail** — the rule cull, 2026-08-08, removed its pass/fail.
-- [ ] **E10's Infernal Bolt bands** — `catalog.md` E10 gained a HIGH band
-      (`identity(this) ≠ base and shards ≤ 2`) and the addon table has one unconditional
-      LOW. Transcribe it. ⚠ **Transcribe that grammar, not a spell id** — `identity`'s first
-      argument is the *subject*, and F3 corrected E10 away from `identity(Infernal Bolt)` on
-      2026-08-08 for exactly that reason. ⚠ Infernal Bolt's own row (cid `172289`) is
-      `HideByDefault` and binds nothing, so `identity` on the Shadow Bolt row is the only
-      route.
-
 ### The hidden-row surface — rows that exist but are switched off, found 2026-08-07
 
 ⚠ **Relabelled.** These were filed as "coverage defects" and neither of the first two is
@@ -168,7 +145,7 @@ and what is missing is the reporting around it.
       **stack-count-only cues**, none of which exist. `CLAUDE.md` carries a STALE warning
       in the meantime; replace it when they are re-derived. ⚠ Derive them by *running the
       code against the capture*, as the originals were — that is what found the `alt`
-      defect. **Do it after the window migration lands**, or they go stale again immediately.
+      defect. The window migration has landed, so this is unblocked.
 
 ### Loose decisions carried out of M2
 
@@ -187,6 +164,33 @@ work M2 has left.
 ## Next
 
 *(M3's own items moved to `Now`. What follows is what M3 hands on.)*
+
+### The claim-reliability revision — KB process, not cap code
+
+**Plan: [`todo/kb-claim-reliability.md`](../../../todo/kb-claim-reliability.md). Execute it
+in a fresh context; it is written to be self-contained.** Tracked here because cap is the
+consumer that gets hurt — the Dreadstalkers line is a cap question, and cap's catalogs are
+authored straight off `knowledge/addon-dev/`.
+
+**The problem:** a negative result is recorded with a positive's evidence class, and every
+follow-up is then framed by it, so the KB reinforces its own wrong answers instead of
+testing them. cid `760` read "a summon binds no aura, so there is nothing to read" for days
+— while the row was **totem-backed** the whole time and Blizzard's own source said so
+(`GetCooldownValues` checks totems before auras). Two aura instruments came back empty; the
+record could not distinguish *searched and absent* from *never examined*.
+
+**The fix, in four parts:** split `[client]` (a value was observed) from
+`[searched: <instruments>]` (we looked here and found nothing, and here is where we looked);
+gate both that and the citation circle in `wowkb.kblint`; strip claim→`OBS-nnn`/`projects/**`
+pointers so an observation cannot be cited as support for the claim that framed it; and make
+a claim whose capture has rolled off say so. 64 negatives and ~334 pointers to triage, once.
+
+⚠ **Not the sourcing ban** floated 2026-08-09 and rejected — wago/DB2, `UI.xsd`, blue posts
+and the wiki stay admissible. An audit put the strict version at ~52% of the subtree.
+
+**Done when** `kblint` is clean on the two new gates and a cold read of
+`cooldown-manager.md` §7 can answer *"can I track a summon's duration?"* without a fresh
+reader reaching "impossible" off a headline.
 
 **Carried into M3's rungs, recorded here because they are easy to lose:**
 
@@ -233,6 +237,13 @@ the roster is in the Demonology catalog. This is the bars themselves.
       visually distinct from it.
 - [ ] Drop the sequence silently and instantly when you cast off-script. No nagging,
       no correction, no resume.
+- [ ] ⚠ **Sequence triggers are not checked at all.** `Catalog.Check` never inspects
+      `cat.sequences`, so `spec.md` §3.5's *"a trigger naming a channel, or naming a term
+      outside this set, does not load"* is unenforced. That matters more than it sounds:
+      the trigger is the **one** place `casts` is legal, so it is exactly where new trigger
+      vocabulary gets written — and today a trigger could name a channel, or a word in
+      neither column, and load silently. Check it as a band-legal condition plus
+      `casts == n` when the machinery lands. (Found in review, 2026-08-08.)
 
 **Cross-cutting.**
 
@@ -241,6 +252,15 @@ the roster is in the Demonology catalog. This is the bars themselves.
       costs nothing further to let it answer — and a working oracle would make a
       useful *development-time* falsification check against our own tiers. Park it
       or keep it, but don't leave it undecided.
+- [ ] ⚠ **`talent(x)` is in the spec's gate table and nothing answers it.**
+      `Sense.buildReads` returns `affordable` / `proc` / `identity` / `resource` /
+      `resourceMax` / `mode` and never `talent`, and `talent` is not in `Sense`'s
+      `GATE_ORDER` either — so a band using it reads **unknown for the life of the build**
+      and nothing tallies the refusal, which is the one shape of failure gate health exists
+      to make visible. Nothing uses it today, which is why this is a backlog line and not a
+      fix. **Either wire it or delete the gate from `spec.md` §3.5** — decide when something
+      needs it, not before. (Found in review, 2026-08-08; `Catalog.GATES.talent` carries the
+      same warning in code.)
 - [ ] `/mine-addon` pass for prior art on graded emphasis under 12.0 restrictions.
 - [ ] Six KB findings from this session are parked in `knowledge/_meta/kb-inbox.md`
       (four on `cooldown-manager.md`, two on `frames-textures-animation.md`) plus a
@@ -341,7 +361,170 @@ cap's own state is a capture log** — is what M3a is built on.
 
 **M3a and M3b sit under the same heading for the same reason:** the measurements they
 made and the acceptance table's reading are what the open work in `Now` is argued
-against, so they are kept as the record rather than deleted.
+against, so they are kept as the record rather than deleted. **The window migration is
+here because two of its decisions still bind** — the `t = 20` imprecision and what E5
+lost — and because a reader meeting `catalog.md`'s O1 or O8 needs to know they were
+chosen rather than overlooked.
+
+### M3d — ✅ BUILT 2026-08-08. Static only; nothing flown, no release cut.
+
+**The half cap is not allowed to compute.** cap offers a cue, the client decides whether it
+appears, and cap never learns the answer — `spec.md` §1 principle (a) as running code
+rather than as a design claim. Both mechanisms are `knowledge/addon-dev/`'s, unchanged:
+the three-way quantiser (`security-taint-and-restricted-data.md` §4.8.2) and a Step curve
+thresholding a secret duration (§4.8.1 finding 4). Reasoning: `notes.md` 2026-08-08 (M3d).
+
+- [x] **`Channel.lua`** — new, impure, and the only place either mechanism lives.
+      `Channel.StackText(auraSpellID, min)` and `Channel.Threshold(spellID, t, on)`. Every
+      read `pcall`-guarded and class-checked; **could-not-arm returns nil and nil draws
+      nothing**. ⚠ `type(r) == "number"` is refused as a guard on the Step result — it is
+      *supposed* to be secret, and that guard rejects exactly the in-combat case.
+- [x] **The two-viewer tie-break, written down:** one aura can sit on a bar *and* an icon
+      (Demonic Core does), so the read picks the **lowest cooldownID among the `auras`
+      rows**. It is a read-side rule only — the *draw* is on the entry that owns the cue,
+      never on the aura's row, so the flip-flop cannot reach a pixel.
+      ⚠ **The family filter is part of the rule, not an optimisation.** Check 3's aura set
+      holds every entry's own spell id, so `stacks(<a castable ability>) ≥ n` is legal — and
+      on a spec whose buff is also a press, the `spells` row can hold the lower cooldownID
+      while carrying no bound aura at all. Unfiltered, that cue reads `refused` for the life
+      of the build, deterministically, so it never even looks flaky.
+- [x] **`Treatment.Ink`** — the one field the renderer lacked: a tier's ring or the hold
+      slate, and **nil for a veil-only tier**, which is what makes an un-inkable positive
+      cue a refusal rather than an invented colour. 3 tests, both mutations caught.
+- [x] **`Overlay.lua`** — two marker slots per row, claimed in sorted entry order. Setup is
+      keyed on the **offer**; the channel write runs every pass, because a count and a
+      countdown both move and cap cannot dedup on an answer it may not read.
+- [x] **The `draw` stream gains `C{}`** plus `cue:`/`arm:` in `D{}`.
+- [x] **busted 138 → 141, luacheck 0/0 in 20 files.**
+
+**What the `draw` line says now.**
+`D{n: rows: anch: conf: off: nf: cue: arm:} P{…} C{E8:+stacks:armed E2:-cooldownRemaining:refused}`
+
+| `C{}` state | Means |
+| --- | --- |
+| `armed` | cap resolved the inputs and handed the client the comparison. **Not** "it appeared" |
+| `refused` | cap tried and could not — no live `auraInstanceID`, no duration, no curve, no ink |
+| `nodraw` | the cue's shape has no marker in the vocabulary; cap never asked the client |
+| `taken` | a second cue wanted a slot another entry already holds on that row |
+
+⚠ **`arm:` is the only number this rung adds that means anything, and it means less than it
+looks.** `arm: = cue:` says the mechanism is wired end to end; `arm:` short of `cue:` with
+`C{}` naming `refused` says cap could not reach the client. **Neither says a pixel moved.**
+
+⚠ **E8's cue will flap `armed` ↔ `refused` through a pull, and that is the PASS case.** Its
+`auraInstanceID` comes off the Wild Imp row, which binds no aura when no imps are out — so
+`refused` there is *"there are no imps"*, which is the same thing the quantiser would have
+drawn (nothing) had it been asked. A cue that reads `refused` for a whole pull with imps
+visibly out is the failure.
+
+### M3c — ✅ BUILT 2026-08-08. Static only; nothing flown, no release cut.
+
+**Every CDM icon cap has an opinion about now gets an emphasis drawn by cap, on cap's own
+frames, recomputed on Sense's clock.** The visual vocabulary it settles is in `spec.md`
+§3.1 → *What a treatment looks like*, which is the normative copy — the numbers live once,
+in `Treatment.lua`, and are transcribed there. Reasoning: `notes.md` 2026-08-08 (M3c).
+
+- [x] **`Treatment.lua`** — pure. Tier → look, the grade band, the hold treatment,
+      `Brightness` (the one scalar the ladder is ordered by). 25 tests.
+- [x] **`Overlay.lua`** — impure. One frame per bound row, pooled by `cooldownID`,
+      parented to `UIParent`, **anchored** to the item frame and never parented to it.
+- [x] **`Sense.OnVerdicts`** — the surface rides cap's one clock. Fires on the early
+      return too, so a spec swap into a catalog-less build puts the lights out.
+- [x] **The `draw` stream** — `wowkb.capture cap draw`, no Python change needed.
+
+**What a flight has to separate, and how.** The `draw` line is
+`D{n: rows: anch: conf: off: nf:} P{E1:HIGH/a91t3* E7:LOW/v31* …}`. Combat start and end
+are `#`-marked on this stream carrying the full body, so a pull whose drawn set never
+changes still emits its numbers at both edges; `:Meta` carries the catalog, cap's version
+and the line count.
+
+| Reading | Means |
+| --- | --- |
+| `P{}` cells move, screen blank | **anchoring** — check `anch:`/`conf:` and the `!`/`?` suffixes |
+| `anch:` = `rows:`, `conf:` = `rows:`, screen blank | **treatment** — the paint ran on a real frame and produced nothing visible |
+| `anch:` = `rows:`, an overlay visibly **on the wrong icon** after a repool | ⚠ **not a treatment bug** — the §1.1 secret-anchor gap. `anchor()` calls `SetPoint` mid-pull when the item-frame pool hands a cooldownID a new frame, and a CDM item frame in combat carries a *secret* anchor; whether a dependent of one still moves is **unmeasured**. A silent no-op leaves the overlay on its previous position while `Bind.ItemFrame` succeeded, so every number in `D{}` reads healthy |
+| cells carry `!` | `Bind.ItemFrame` refused; a rebind is already scheduled |
+| cells carry `?` | anchored to an **unconfirmed** frame — drawn anyway, possibly on the wrong row |
+| a cell has no `*` | that entry LOST its row to a brighter sibling — its treatment is on no icon |
+| `off:` > 0 | the item frame is not visible; the overlay is correctly hidden |
+| `nf:` > 0 | ⚠ **no item frame at all** — anchoring failed. `nf:` = `rows:` is a total failure, not a quiet overlay |
+| no `draw` lines at all | the paint path never ran — check `tier` for a `# listener-error` mark |
+
+⚠ **What must not read as a pass.** The **`# listener-error`** mark on `tier` means a
+listener threw and was reported once; the `draw` stream after it is not evidence of
+anything. Cues are M3d's and are read out of `C{}`, not out of `P{}` — a `P{}` cell says
+nothing at all about whether a marker was drawn on that icon. And the wrong-icon row above
+is the one failure **no number in the log can show**: the gap is
+`knowledge/addon-dev/security-taint-and-restricted-data.md` §1.1 (registry
+`secret-anchor-dependent-geometry`), and only an eyeball on a repool can catch it.
+
+⚠ **One thing for the eyeball, not the log:** the *none* veil sits at **0.62 alpha over
+the CDM's own cooldown swipe and number**, which is the only timer the player has until
+§3.4's bars ship. Judge on screen whether an un-opinionated icon is still readable as a
+timer; if it isn't, the number to move is `NONE` in `Treatment.lua` (and `spec.md` §3.1's
+transcription of it).
+
+**Not a hazard, and the reason is worth keeping.** An overlay cannot first be created
+mid-pull: `Bind.resolve` early-returns in combat so the bound set never changes, and a
+settle happens out of combat only (`trySettle` returns in combat, and a `/reload` mid-pull
+never has `snapshot.complete`), so every frame in the pool was created and layered before
+the pull. `SetFrameStrata` is protected and unmeasured in combat; the out-of-combat guard
+on it is belt-and-braces rather than the thing holding the guarantee.
+
+### The window migration — ✅ DONE 2026-08-08. Static only; nothing flown, no release cut.
+
+**The code caught up to `spec.md` §3.1/§3.5.** It added no capability — every fact the
+window-era catalog knew, the migrated one knows — and what it bought is that the thing
+M3c/M3d put on screen is the model we are keeping. The four shape decisions and their
+reasoning: `notes.md` 2026-08-08 (the window migration). Kept here because two of them
+still bind.
+
+- [x] **`catalog.md` §2 deleted** and the document renumbered (§1 roster · §2 entries ·
+      §3 silence · §4 bars · §5 sequences · §6 open questions). O-numbers are unchanged;
+      O2 is struck as moot and O8 is new.
+- [x] **`dogs_out` → a band, not a cue.** E1 band 1 is `ready(this) and not ready(E2)`,
+      plus a negative cue at `cooldownRemaining(E2) ≤ 8`. The band reads long (20 s
+      cooldown against a ~12 s pet lifetime); the cue trims exactly the tail. Both halves
+      are **exact**, which is what deleting an `elapsed` estimate is worth.
+- [x] **`tyrant_setup` / `tyrant_far` → E2 keeps ONE HIGH band, plus a hold cue.**
+      `ready(this) and affordable(this)` → HIGH; negative cue, precondition adds
+      `not ready(E1)`, channel `cooldownRemaining(E1) ≤ 20`. E3/E4 band 1 became
+      `ready(E1)` verbatim. ⚠ **`not ready(E1)` in the precondition is load-bearing** — a
+      ready Tyrant reads zero remaining, which clears any `≤ t` and would pin the marker on.
+- [x] ⚠ **`t = 20` is imprecise and is filed, not hidden** — `catalog.md` **O8**. The real
+      hold zone is `12 < remaining < 20`; the channel table offers one upper threshold.
+- [x] **`tyrant_active` → E5 band 2 DELETED, applies-to NOT narrowed.** Adding the apex
+      talent to applies-to would make cap draw *nothing at all* on a build without it,
+      which is far worse than E5 losing a band. On an un-apexed build band 1 simply never
+      holds. ⚠ **What it cost is recorded in O1:** "spend the Tyrant window on Hand of
+      Gul'dan" is unexpressible until cid `84224` is enabled and yields a duration.
+- [x] **`cores_dry` → E9 band 1 is `ready(this) and not proc(E7)`**, and `opener` deleted —
+      `catalog.md` §5's two triggers are rewritten in the §3.5 sequence-trigger form
+      (`ready(E1)`; `combat and casts == 0`).
+- [x] **`Catalog.lua`** — window vocabulary, `remaining`, `MAX_WINDOWS` and the
+      window-count shape check gone. Subjects legal on every gate term except `elapsed`
+      (`this` only, refused in both `Check` and `Tier`); `combat` moved into the gate set;
+      `casts` refused in a band and named as sequence-trigger vocabulary; negation legal;
+      `e.cue` → `e.cues = {…}` with polarity, tier and a channel term. The checks are the
+      five, and **check 3 (declared subjects) is new** — with the `talent` / subject-less /
+      `mode`-literal exemptions. **Check 5 is a second return value**, because it cannot fail.
+- [x] **`Catalog.Reads` keys `byEntry` by SUBJECT**, and `Track`'s health tally with it —
+      `not ready(E2)` inside E1's band is a read of E2, and tallying it against E1 reports
+      a working catalog as blind.
+- [x] **`Catalog.Resolve`'s `alt` defect fixed** — `match()` tries `alt` after `spell`, so
+      a Fel Ravager build binds E3 instead of dropping it silently. Test added; it was
+      found by reading, not by a test, and no case covered a build cap has never run on.
+- [x] **`Track.lua`** — `windowTerms`, `windowHolds`, `remaining`, `SeedCooldown`, the `cd`
+      field and `health.windows` gone; `Track.New()` no longer takes the catalog. The
+      readiness latch, three-state, `castAt`/`elapsed`, the charge guard and the `casts`
+      counter (unread until M5) all stay.
+- [x] **`Sense.lua`** — mechanical only: `win:` out of `Render`, `hold:` in, `e.cues`
+      adapted, `winKnown`/`winUnknown` off the `Row`. Not restructured; the drawing work
+      lands on it next.
+- [x] **busted 92 → 104, luacheck 0/0.** New cases: a band naming another entry, negation
+      in a band, `not <unknown>` staying unknown, check 3 catching an undeclared subject,
+      check 4 refusing an un-thresholded negative cue, `casts` refused in a band, `elapsed`
+      refused on a non-`this` subject, and `Resolve` binding E3 through `alt`.
 
 ### M3a — ✅ DONE 2026-08-07. Lab flown and drained, pure core built and green.
 
@@ -401,7 +584,7 @@ against, so they are kept as the record rather than deleted.
 | `edge` stream, `refused:` | small | ⚠ **33 vs 19 landed — criterion not checkable**, see above |
 | `G{ready:…}` | reaches `n/n` in a pull | ✅ **4/4** from the first sample, never regressed |
 | `G{affordable} {proc} {identity} {resource}` | each `n/n` **in combat** | ✅ 2/2 · 1/1 · 1/1 · 1/1 — **no read refused once, all pull** |
-| `G{win:…}` | `6/6` once underway | ✅ **4/6 → 6/6** at t+6 s, the moment the first cast seeded `elapsed` |
+| ~~`G{win:…}`~~ | ~~`6/6` once underway~~ | **VOID** — windows no longer exist. What replaces it is the HIGH-at-once distribution below, **reported, never pass/fail** |
 | `# settle by:` | fires once, naming the arm | ⚠ **`by:quiet`** — correct for a login; the event arm is untested |
 | `# combat start` while unsettled | `S{… DARK}` | ⚠ **never exercised** — settled 19 s before the pull |
 | `S{mode:…}` | follows `/cap aoe` | ⚠ **never exercised** — `mode:single` throughout |

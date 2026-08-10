@@ -1,8 +1,8 @@
 ---
 title: The Cooldown Manager — how a CDM row resolves
 patch: 12.0.7
-fetched: 2026-08-05
-reviewed: 2026-08-07   # + a client capture 2026-07-31 (CDMProbe /cdmp census, Destruction both hero trees)
+fetched: 2026-08-09
+reviewed: 2026-08-09   # + a client capture 2026-08-09 (ClientLab CDMSweep, Demonology, in restricted combat)
 sources:
   - raw/addon-research/wow-ui-source @ 12.0.7.68887 — Interface/AddOns/Blizzard_CooldownViewer/*
   - raw/addon-research/wow-ui-source @ 12.0.7.68887 — Blizzard_APIDocumentationGenerated/CooldownViewer{,Constants}Documentation.lua
@@ -13,11 +13,13 @@ sources:
   - in-client capture, CDMProbe v0.32.32 decision log, Destruction Warlock (Hellcaller AND Diabolist), 2026-07-30  # §2.8 cid 66181's base/display spellID split + hero-talent-dependent isKnown; override event firing for an untracked display id
   - in-client capture, CDMProbe v0.32.46 decision log, Destruction Warlock (both hero trees), 2026-07-31  # §5.3 ChargeGained is a prediction-queue drain, not a charge
   - in-client capture, CDMProbe /cdmp census, Destruction Warlock (both hero trees), 2026-07-31  # §2.5, §7 the readable-surface sweep
+  - in-client capture, cap v0.2.1/v0.2.2 `edge` stream (`wowkb.capture cap edge`), Demonology/Diabolist Warlock, 2026-08-07  # §7 the alert channel is silent on cid 760: 0 edges of 1054 over 171 casts
   - in-client capture, CDMProbe v0.32.53 flight recorder, Destruction + Demonology Warlock, 2026-08-01  # §7 Tier 3 C_AssistedCombat readable through combat
   - in-client capture, CDMProbe /cdmp curve stack, Demonology Warlock, 2026-08-04  # §7 Tier 2 auraInstanceID plain / auraSpellID secret
   - in-client capture, cap v0.2.0 bind log, Destruction + Demonology Warlock (both hero trees) AND Retribution Paladin, 2026-08-06  # §2 overrideSpellID always populated; §4 TRAIT_CONFIG_UPDATED precedes the rebuild; §7 Tier 1 category set is a superset
   - in-client capture, ClientLab v0.2.2 `cdm-identity-readable-in-combat`, Demonology Warlock, 5 in-combat runs, 2026-08-06  # §2 overrideSpellID is the in-combat identity route and MOVES; §4 GetSpellID's secret set is volatile and does not track auraDataUnit
   - in-client capture, cap v0.2.1 bind log, Demonology/Diabolist Warlock, 2026-08-07  # §1.2 the three row enumerations (DB2 65 / category set 44 / laid out 21) and which HideByDefault rows a saved layout un-hid
+  - in-client capture, ClientLab CDMSweep, Demonology Warlock, 2026-08-09 (raw/clab-cdmsweep.log, raw/clab-cdmevent.log)  # §7 the SpellCooldownInfo per-member seal, Bar.Pip:IsShown(), the totem channel, GetSpellCooldownDuration in restricted combat
   - EllesmereUI v8.7.5 @ c4eba58d996a8436f467ac8f297148bff9dd3008 (2026-08-04),
     https://github.com/EllesmereGaming/EllesmereUI — license CUSTOM, ALL RIGHTS
     RESERVED; read for API discovery only, no code copied. Mined 2026-08-05 via the
@@ -645,8 +647,10 @@ The event argument is `Enum.CooldownViewerAlertEventType`, six members
 **Why this channel matters disproportionately under Secret Values.** The alerts are raised
 by Blizzard's *trusted* code from data it can see, and the argument is a plain enum — so the
 channel carries information in restricted combat that the corresponding direct API reads
-refuse. `ChargeGained` is the sharpest case: `C_Spell.GetSpellCharges` is secret in combat,
-so a gain *edge* may be the only in-combat charge information available at all. This is the
+refuse. `ChargeGained` is the sharpest case: `C_Spell.GetSpellCharges` does not hand back a
+readable **charge count** in combat (whether the rest of `SpellChargeInfo` seals with it is
+unmeasured — §7 Tier 3), so a gain *edge* may be the only in-combat charge information
+available at all. This is the
 single best in-combat signal on either side of the split, because it is an observation of a
 choke point rather than a secret-guarded API read.
 
@@ -794,8 +798,8 @@ The consequence for anyone building readiness on these edges: an `Available`/`On
 pair is **not a complete state machine for a charged ability** — the "on" edge never
 arrives, so a latch built from them reads *ready* forever after the first charge comes back,
 including at zero charges. Readiness for a charged spell has to come from the charge count
-(`ChargeGained` + a seeded baseline, since `C_Spell.GetSpellCharges` is secret in combat),
-not from the cooldown edges.
+(`ChargeGained` + a seeded baseline, since `C_Spell.GetSpellCharges` yields no readable
+**charge count** in combat), not from the cooldown edges.
 
 ⚠ And the obvious fallback does not work either: a charged spell's cooldown often lives on
 its **charge category**, not the spell. Conflagrate `17962` has `RecoveryTime = 0` with
@@ -939,7 +943,9 @@ author's own invention**, and the most obvious such classifier is **false**: the
 
 | Field / method | Family | In restricted combat | The rule |
 |---|---|---|---|
-| `item.auraDataUnit` | both | **readable** `[client 2026-07-31]` | Plain `"player"` / `"target"`; non-nil **iff** the row has a live bound aura, and it discriminates. The only in-combat "is the DoT up" read available — see below. |
+| `item.auraDataUnit` | both | **readable** `[client 2026-07-31]` | Plain `"player"` / `"target"`; non-nil **iff** the row has a live bound aura, and it discriminates. The in-combat "is the DoT up" read for an **aura-backed** row — see below. A totem-backed row has no aura to bind and answers on the two rows beneath instead. |
+| **`item.Bar.Pip:IsShown()`** | tab 2, BuffBar only | **readable — a plain boolean** `[client 2026-08-09]` | Blizzard's own `currentTime > 0` verdict mirrored into widget state `[T1 src: CooldownViewer.lua:1414-1442]`. `true` **iff** the bar is live, on 5 cooldownIDs each observed in both states; never secret, never threw. The sturdy "is this bar live" read, and it works on aura- and totem-backed rows alike — see below. |
+| `item.totemData` | both | **secret when populated, plain `nil` otherwise** `[client 2026-08-09]` | Set by `RefreshTotemData` from the player totem cache `[T1 src: CooldownViewer.lua:817, :1308, :1471]`. Secret on 3 of 141 rows, `nil` on the other 138. Class-check only: the record is sealed, so it says *this row is totem-backed and live* and nothing more — see below. |
 | `item.auraInstanceID` | both | **readable — a plain number** `[client 2026-08-04]` | The key that unlocks the instance-scoped aura APIs — see below. |
 | **`item.PandemicIcon`** | both | **readable — presence *is* the live pandemic state** `[client 2026-07-31]` | A frame reference, not a number. `~= nil` mirrors `IsInPandemicTime` exactly — see below. |
 | `item.wasSetFromCharges` / `wasSetFromCooldown` / `wasSetFromAura` | tab 1 | **readable** `[client 2026-07-31]` | Plain booleans set by bare assignment `[:648-669]` recording **which of the four sources won this refresh** — i.e. what the dial currently *means*. 66–69 readable vs 9 `nil` per capture, unchanged in and out of combat. The one axis separating "the swipe is a cooldown" from "the swipe is an aura remaining". |
@@ -964,37 +970,93 @@ same pull** read `nil` in combat *before* the DoT was applied and `"target"` onc
 it discriminates rather than latching. That matters more than it looks: with the alert
 channel silent for a maintained aura (§5.1) and `C_UnitAuras` sealed, a non-nil
 `auraDataUnit` is a *readable, in-combat* statement that this row has a live bound aura —
-which is the "is the DoT up" read nothing else can currently answer. Together with
-`PandemicIcon` a tab-1 row exposes two readable in-combat aura facts: *is it up*, and *is it
-in pandemic*.
+which is the "is the DoT up" read no other **aura** channel answers in a pull. It is not the
+only readable liveness signal on a row: a BuffBar row also carries `Bar.Pip:IsShown()`, which
+answers the narrower "is this bar live" without saying which unit or whether an aura is
+involved at all (below). Together with `PandemicIcon` a tab-1 row exposes two readable
+in-combat aura facts: *is it up*, and *is it in pandemic*.
 
-⚠ **A SUMMON binds no aura, so this read cannot answer "is my pet out."** A summon
-creates units in the world rather than applying an aura, so there is nothing for a row to
-bind. Measured on Call Dreadstalkers `[client 2026-08-06]`: cid 760 (BuffBar, base 104316)
-read `auraDataUnit = nil` on **13 in-combat samples across a pull with several casts**,
-while five genuine aura rows on the same two viewers — Demonic Core 264173, Wild Imp
-296553, Dominion of Argus 1276166 and both Diabolic Ritual rows — bound normally in the
-same samples. The consumer's answer is its own cast plus the summon's duration, not a read.
+⚠ **The Call Dreadstalkers BuffBar row is TOTEM-BACKED, not aura-backed — the aura
+instruments read empty because the row has no aura to bind.** Blizzard's buff-item code
+checks totems **before** auras: `GetCooldownValues` returns `totemData.expirationTime,
+duration, modRate` and falls through to `GetAuraData()` only when there is no totem
+`[T1 src: CooldownViewer.lua:1208-1233]`, and `IsExpired` branches the same way
+`[:1167-1184]`. Measured on cid `760` `[client 2026-08-09]`: a Call Dreadstalkers cast
+raised `PLAYER_TOTEM_UPDATE` on two slots in the same second, and `item.totemData` read
+**secret** — i.e. populated — while `item.auraDataUnit` stayed `nil`.
 
-⚠⚠ **DO NOT READ THE PARAGRAPH ABOVE AS "A SUMMON HAS NO DURATION."** It says one
-field on one row is `nil`, and that is all it says. Call Dreadstalkers binds **two**
-rows, and the second one is a bar: cid `671` on the `EssentialCooldownViewer` (the
-cooldown icon) **and cid `760` on the `BuffBarCooldownViewer`** — confirmed live across
-every generation of `wowkb.capture cap bind` on a Demonology character, and in
-`CooldownSetSpell` as `760,60,104316,3` (Category 3 = TrackedBar). The bar row also
-carries a **linked spell the icon row does not** — `CooldownSetLinkedSpell` row
-`688,193332,0,760` — and `193332` 404s on the Game Data spell endpoint, which is what a
-hidden duration aura looks like. Whether that linked aura is reachable from the row is
-open; **that the bar exists is not.** `[client 2026-08-07]` `[T1 db2 @ 12.0.7]`
+So the two negative aura measurements on this row were **correct reports of an absent
+aura**, and both are now explained rather than open:
 
-⚠ **But the row still draws a live bar, and the bar's own widgets may be readable.**
-`CooldownViewerBuffBarItemMixin:RefreshCooldownInfo` `[T1 src: CooldownViewer.lua:1414-1442]`
-computes `currentTime = expirationTime - GetTime()` — secret arithmetic Blizzard is allowed
-to do — and lands the verdict in widget state: `barFrame:SetValue(currentTime)` and
-**`pipTexture:SetShown(currentTime > 0)`**. So `pip:IsShown()` is a candidate boolean for
-"this bar is live", in the `PandemicIcon` mould (§4.11 / rule 17b). ⚠ **Unverified, and it
-must clear §4.11's discriminate test before anyone believes it** — `IsActive()` is the
-standing example of a widget read that looks like a signal and is a constant. `[gap]`
+1. **`auraDataUnit` read `nil`** on cid `760` (BuffBar, base 104316) on **13 in-combat
+   samples across a pull with several casts** `[client 2026-08-06]` — while five genuine
+   aura rows on the same two viewers (Demonic Core 264173, Wild Imp 296553, Dominion of
+   Argus 1276166 and both Diabolic Ritual rows) bound normally in the same samples.
+2. **The alert channel raised nothing on that row.** cap's `edge` capture holds **1054
+   alert edges** (`Available` / `OnCooldown` / `OnAuraApplied` / `OnAuraRemoved`) across the
+   M3b flight and the pull after it, and **zero of any kind on cid 760** — over **171 Call
+   Dreadstalkers casts**, counted off `OnCooldown cid:671` on the press row. A genuine aura
+   row in the same captures, Dominion of Argus cid `169561`, raised **71 `OnAuraApplied` and
+   70 `OnAuraRemoved`**. `[client 2026-08-07]`
+
+The remaining time this row shows comes off the **totem channel** described under Tier 3,
+and the "is it live" verdict is readable off the bar's own pip, below.
+
+**The bar row is real, it is bound, and it draws.** Call Dreadstalkers occupies **two**
+rows: cid `671` on the `EssentialCooldownViewer` (the cooldown icon) **and cid `760` on the
+`BuffBarCooldownViewer`** — confirmed live across every generation of `wowkb.capture cap bind`
+on a Demonology character, and in `CooldownSetSpell` as `760,60,104316,3` (Category 3 =
+TrackedBar). The bar row also carries a **linked spell the icon row does not** —
+`CooldownSetLinkedSpell` row `688,193332,0,760`, which `cap bind` reads back on the live frame
+as `pool=193332`, and `193332` raises its **own `SPELL_UPDATE_COOLDOWN` in the same second as
+the cast** `[client 2026-08-09]`. That is a second real handle on the summon; the pip below
+makes it unnecessary. `[client 2026-08-07]` `[T1 db2 @ 12.0.7]`
+
+**`Bar.Pip:IsShown()` is the readable in-combat "is this bar live" boolean, and it clears
+the discriminate test.** `CooldownViewerBuffBarItemMixin:RefreshCooldownInfo`
+`[T1 src: CooldownViewer.lua:1414-1442]` computes `currentTime = expirationTime - GetTime()`
+— secret arithmetic Blizzard is allowed to do — and lands the verdict in widget state:
+`barFrame:SetValue(currentTime)` and **`pipTexture:SetShown(currentTime > 0)`**. Reading the
+pip back is a plain widget read. Measured across **5 distinct BuffBar cooldownIDs, each
+observed in BOTH states** (`169561`, `181089`, `760`, `777`, `84224`) `[client 2026-08-09]`:
+
+| bar state | `Bar.Pip:IsShown()` | `Bar:GetValue()` | `item.totemData` |
+|---|---|---|---|
+| live | **`true`**, a plain boolean | **secret** | secret on the totem-backed rows, `nil` on the aura-backed ones |
+| idle | **`false`**, a plain boolean | usually plain `0` | `nil` |
+
+The pip never read secret and never threw, on any sample. This is the `PandemicIcon`
+pattern — Blizzard's own comparison, mirrored into widget state — and it is subject to the
+same four preconditions that pattern carries, in
+[`security-taint-and-restricted-data`](./security-taint-and-restricted-data.md) §4.11 and
+its rule 17b.
+
+⚠ **`Bar:GetValue()` is NOT a substitute for the pip — a bar that has once been fed a secret
+can go on reading secret while idle.** Counted over the 49 samples in that capture where the
+bar widget exists (8 live, 41 idle): it read `secret` on **8 of 8** live samples but plain `0`
+on only **38 of 41** idle ones. On the other **3**, with the pip already reading `false`,
+`GetValue()` returned `secret` **and** `GetMinMaxValues()` returned `secret|secret` — two
+cooldownIDs, `181089` (×2) and `777`, each of which had been live earlier **in the same
+session**. Both read plain `0` again at the login sweep after a `/reload`. `[client 2026-08-09]`
+
+**The source rules out the obvious explanation.** `pipTexture:SetShown(false)` occurs at
+exactly **one** place `[T1 src: CooldownViewer.lua:1440]`, inside the same `else` branch that
+writes `SetMinMaxValues(0, 0)` and `SetValue(0)` from plain constants `[:1433-1441]` — so the
+only path that can turn the pip off is the one that writes the plain zeros, and there is no
+"another path hid it" to blame. The likely mechanism is instead that a
+StatusBar's **readback class is sticky**: once the widget has been handed a secret, its
+getters keep answering secret for the life of the frame, whatever is written afterwards. The
+value is not stale — it is unreadable. ⚠ **That mechanism is unproven, `n = 3`**, and nothing
+here distinguishes it from a per-widget latch Blizzard clears on some event we did not sample.
+The practical conclusion does not depend on which: the pip is the sturdy read, the bar value is
+not.
+
+⚠⚠ **A negative measurement names an *instrument*, a *row* and a *build*.** The sentence
+that generalises it to "nothing can read this" is always the sentence nobody measured — and
+it is the sentence that gets quoted downstream while the qualification underneath it is left
+behind. **Put the qualification in the headline.** Call Dreadstalkers is the worked example:
+generalising "the aura instruments report nothing" into "nothing can read this" is **false** —
+the value sits on the totem channel.
 
 **`auraInstanceID` is the key to the instance-scoped aura APIs.** `RequiresValidUnitAuraInstance`
 APIs need an instance id, and the enumeration that hands them out (`GetAuraDataByIndex` and
@@ -1131,26 +1193,93 @@ read the viewer's own `IsShown()` for that, and let the row count mean *configur
 | `UNIT_SPELLCAST_*` (player) | **`[client]`** readable spellID in all four phases |
 | `C_SpellActivationOverlay.IsSpellOverlayed` | **`[client]`** readable in combat |
 | `C_AssistedCombat.GetNextCastSpell` | **`[client 2026-08-01]`** readable — a plain number in combat and out. See below: readability is proven, usefulness is not |
-| `C_Spell.GetSpellCooldown` / `GetSpellCharges` | **`[client]`** fully readable **out** of combat, secret **in** |
-| `C_Spell.GetSpellCooldownDuration(spellIdentifier, ignoreGCD)` | **doc-annotation inference, NOT measured** — carries no `SecretWhenCooldownsRestricted`, unlike its two siblings above. See below |
+| `C_Spell.GetSpellCooldown` | **`[client 2026-08-09]`** **not sealed whole** — a plain table whose members seal individually. `isEnabled` / `isActive` / `isOnGCD` read plain in restricted combat; `startTime` / `duration` / `modRate` are secret. See below |
+| `C_Spell.GetSpellCharges` | **`[client]`** its **charge count** reads plain **out** of combat and not **in**. Whether the rest of `SpellChargeInfo` seals with it, the way `GetSpellCooldown`'s struct does not, is **unmeasured** — see below |
+| `C_Spell.GetSpellCooldownDuration(spellIdentifier, ignoreGCD)` | **`[client 2026-08-09]`** returns a `LuaDurationObject` in restricted combat, `HasSecretValues()` plain `true`, every getter on it secret. See below |
 | `C_UnitAuras.Get*` | The `AuraData` record is secret when restricted. Three getters carry a **per-aura** `RequiresNonSecretAura` precondition — but its failure behaviour is undocumented, see below |
 
-**`C_Spell.GetSpellCooldownDuration` bypasses the CDM entirely, and the annotations say it
-survives restricted combat.** It takes a spell identifier and `ignoreGCD` and returns a
-`LuaDurationObject` `[T1 docs: SpellDocumentation.lua:265-280]` — no cooldownID, no item
-frame, no viewer. What makes it interesting here is what it does **not** declare:
-`GetSpellCharges` `[:230-246]` and `GetSpellCooldown` `[:247-264]` both carry
-`SecretWhenCooldownsRestricted = true`; `GetSpellCooldownDuration` carries only
-`SecretArguments = "AllowedWhenTainted"`, as does its sibling `GetSpellChargeDuration`
-`[:213-229]`. That is consistent with the whole duration-object design — the object holds
-the secret internally and is handed to a sink, so there is nothing to seal at the boundary
-(see [`security-taint-and-restricted-data`](./security-taint-and-restricted-data.md) §4.8).
+**`C_Spell.GetSpellCooldown` is NOT sealed whole, and `isActive` is a readable, branchable
+in-combat "is this spell on cooldown" boolean.** The call returns a **plain table whose
+members seal individually** — `issecrettable` was false on all 142 samples in the capture,
+in combat and out. Over the **90 in-combat samples** in which `startTime` read secret
+(Demonology Warlock, one row per tracked spell) `[client 2026-08-09]`:
 
-⚠ **This is an inference from a doc annotation, not a measurement, and must be quoted as
-one.** Nobody here has called it in restricted combat. The absence of an annotation is
-weaker evidence than the presence of one, and the useful test is not "does it return" but
-"does the object's own state stay usable by a sink" — the same shape §4.8 already measures
-for the other duration sources. `@verify-ingame`
+| Field | Doc annotation | In restricted combat |
+|---|---|---|
+| `startTime` · `duration` · `modRate` | — | **secret**, 90/90 |
+| `isEnabled` | `NeverSecret = true` | **plain `true`**, 90/90 |
+| `isActive` | `NeverSecret = true` | **plain boolean** — `false` ×71, `true` ×19 |
+| `isOnGCD` | `NeverSecret = true` | **plain** — `nil` ×76, `true` ×14 |
+| `activeCategory` | — | `nil` ×76, **secret** ×14 |
+| `timeUntilEndOfStartRecovery` | — | `nil` ×71, **secret** ×19 |
+
+`[T1 docs: SpellSharedDocumentation.lua:18-32]` for the annotations. They hold at runtime,
+and the two unannotated nilable fields seal exactly when they carry a value. **`isActive`
+discriminates** — 71 false against 19 true across the same pulls — so it is a real predicate
+and not a constant, which is the test a widget-or-field read has to clear before anyone
+builds on it. `isOnGCD` carries Blizzard's own caveat in the docs: *"do not trust this field
+unless responding to a `SPELL_UPDATE_COOLDOWN` event"*.
+
+**A different channel from `LuaDurationObject`, and not a contradiction of it.**
+[`security-taint-and-restricted-data`](./security-taint-and-restricted-data.md) §4.8.4's
+*"there is no readable in-combat cooldown predicate on this object"* is a claim about the
+duration object, whose `HasExpired` / `IsActive` / `HasStarted` / `IsZero` are **secret
+booleans** — and it stays true. `C_Spell.GetSpellCooldown(id).isActive` is a plain boolean
+on a different surface. So: an addon that must **branch** on readiness has this call, and an
+addon that must **draw** remaining time has the duration object.
+
+⚠ **`GetSpellCharges` is a separate question and it is unmeasured.** The sweep above had no
+charged ability in the tracked set, so `C_Spell.GetSpellCharges` returned nothing on all 90
+in-combat samples — which says nothing about whether `SpellChargeInfo` seals per member the
+way `SpellCooldownInfo` does. Its `maxCharges` and `isActive` carry `NeverSecret = true`
+`[T1 docs: SpellSharedDocumentation.lua:5-17]`, so the same shape is plausible; plausible is
+not measured.
+
+**`C_Spell.GetSpellCooldownDuration` bypasses the CDM entirely and survives restricted
+combat.** It takes a spell identifier and `ignoreGCD` and returns a `LuaDurationObject`
+`[T1 docs: SpellDocumentation.lua:266-283]` — no cooldownID, no item frame, no viewer. It
+declares no `SecretWhenCooldownsRestricted`, unlike `GetSpellCharges` `[:230-247]` and
+`GetSpellCooldown` `[:248-265]`, carrying only `SecretArguments = "AllowedWhenTainted"` as
+does its sibling `GetSpellChargeDuration` `[:213-229]`. `[client 2026-08-09]` on **90
+in-combat samples**, on both `ignoreGCD = false` and `ignoreGCD = true`: it returns a
+`userdata` object every time, `HasSecretValues()` reads a plain `true`, and every numeric
+and boolean getter on it reads secret. That is the whole duration-object design working as
+designed — the object holds the secret internally and is handed to a sink, so there is
+nothing to seal at the boundary (see
+[`security-taint-and-restricted-data`](./security-taint-and-restricted-data.md) §4.8).
+
+**The totem channel — a Warlock's summons occupy totem slots, and the seal there differs
+call by call.** `GetTotemInfo(slot)` and `GetTotemTimeLeft(slot)` both carry
+`SecretWhenTotemSlotSecret = true`; **`GetTotemDuration(slot)` carries no `Secret*When*` seal
+at all** — only `SecretArguments = "AllowedWhenUntainted"` `[T1 docs:
+TotemDocumentation.lua:43-96]`, which is a rule about what you may pass *in*, not about what
+comes back: the `slot` argument has to be a plain number or addon code is refused. Measured in restricted
+combat on a **Warlock**, `GetNumTotemSlots()` returns **5** — the totem system is not
+shaman-only, and Demonology's summons occupy slots. Sampled on `PLAYER_TOTEM_UPDATE` edges,
+five slots per edge, **55 slot reads: 24 occupied, 31 empty** `[client 2026-08-09]`:
+
+| call | occupied slot (24) | empty slot (31) |
+|---|---|---|
+| `GetTotemInfo(slot)` | returns 7 values — `haveTotem` · `totemName` · `startTime` · `duration` · `icon` · `modRate` · `spellID` — every one **secret** on **23 of the 24**; on the 24th `totemName` read a plain `nil` and the other six stayed secret | returns 7 values; six **secret**, and `icon` — the **fifth** return, not the last — **plain `nil`** on 31/31 |
+| `GetTotemTimeLeft(slot)` | **secret** | **plain `0`** |
+| `GetTotemDuration(slot)` | a **`LuaDurationObject`** | **`nil`** |
+
+On that duration object `HasSecretValues()` returns a **plain `true`**, and all thirteen
+numeric and boolean getters probed read **secret**: `GetRemainingDuration`,
+`GetTotalDuration`, `GetStartTime`, `GetEndTime`, `GetElapsedDuration`, `GetElapsedPercent`,
+`GetRemainingPercent`, `GetClockTime`, `GetModRate`, `HasExpired`, `HasStarted`, `IsActive`,
+`IsZero`. Same contract as the aura and spell duration objects: **drawable, not readable.**
+
+⚠ **`spellID` seals, so totem data alone cannot tell one summon from another.** Identity has
+to come from the CDM row binding, or from something outside the totem API.
+
+⚠ **A second, weaker signal, and it is fragile: the *readability class* of `GetTotemTimeLeft`
+discriminates occupancy** — plain `0` when the slot is empty, secret when it is occupied,
+31 against 24 with no exceptions. `issecretvalue()` returns a plain boolean, so branching on
+the class is legal Lua. But it leaks the fact the seal exists to withhold, it may be an
+oversight Blizzard closes, and `Bar.Pip:IsShown()` (Tier 2) answers the same question more
+sturdily. `GetTotemInfo`'s `icon` return discriminates identically and carries the same
+caveat.
 
 **`C_UnitAuras`'s seal is annotated per aura — but what that buys is undocumented.** Three
 getters carry a `Precondition` named `RequiresNonSecretAura = true`: `GetAuraDataBySpellName`
@@ -1199,6 +1328,34 @@ treating this as an oracle to diff a rotation against, take a **value-sampling**
 one keyed to the player's own casts, not to a timer or a readability edge, since a
 rotation answer should advance when you cast. Note also what it is by design: a generic
 single-target rotation with **no AoE/mode awareness and no burst planning**.
+
+**The three-step, and it is the same on all three channels.** Auras, spell cooldowns and
+totems now each expose the identical shape: a **plain boolean** says whether there is
+anything to show, a **duration object** carries the sealed timing, and a **sink** draws it.
+Nothing in between reads a number, and nothing in between needs to.
+
+```lua
+-- 1. DETECT with a plain boolean. Both of these are branchable in restricted combat.
+local live  = item.Bar.Pip:IsShown()                     -- BuffBar row: Blizzard's own verdict, mirrored
+local cd    = C_Spell.GetSpellCooldown(id)               -- MayReturnNothing: nil on an unknown spell
+local onCD  = cd and cd.isActive                         -- NeverSecret; this struct's OTHER members are not
+
+-- 2. OBTAIN the duration object. One call per channel; each holds its secret internally.
+local d
+if     slot   then d = GetTotemDuration(slot)                     -- nil when the slot is empty
+elseif instID then d = C_UnitAuras.GetAuraDuration(unit, instID)  -- both args must be plain, or it refuses
+else               d = C_Spell.GetSpellCooldownDuration(id, false) -- MayReturnNothing: nil-guard it
+end
+
+-- 3. HAND IT TO A SINK. Never read it back: every getter on the object is secret.
+bar:SetMinMaxValues(0, 1)        -- ⚠ BEFORE the timer, or a correct duration draws at 0 %
+bar:SetTimerDuration(d, 0, 1)    -- 0 = Interpolation.Immediate, 1 = TimerDirection.RemainingTime
+                                 -- StatusBar; or Cooldown:SetCooldownFromDurationObject(d)
+```
+
+⚠ **An eyeball is the only oracle for step 3.** The duration sinks declare no
+`SecretArgumentsAddAspect` and expose no readback, so "the call did not error" is not
+evidence that a pixel moved.
 
 **Summary: the readable surface changes with the family, but asymmetrically.** Tier 1
 is identical. Tier 2 diverges hardest — tab 1 carries a cooldown/charge cache and the
@@ -1279,9 +1436,11 @@ source flags; tab 2 carries little but computes on demand, and is the only side 
   `265187`** — i.e. whether the Essential row's own id is what a "Tyrant is active" read
   would key on. Three spells named **Demonic Power** exist in the Midnight id range
   (`265273`, `281870`, `1276788`) `[T1 db2: SpellName @ 12.0.7]`, any of which could be the
-  aura the summon actually applies. This blocks a route that piggybacks the visible
-  Essential twin (cid `2742`) rather than enabling the `HideByDefault` bar row (cid
-  `84224`), so it is worth settling before that bar is turned on. `@verify-ingame`
+  aura the summon actually applies. It is no longer a blocker for reading Tyrant's state:
+  the `HideByDefault` bar row (cid `84224`, `flags = 2`, base `265187`) is un-hidden by a
+  saved layout on a measured Demonology character, is **totem-backed** rather than
+  aura-backed, and answers through the pip and the totem channel (§7 Tier 2/Tier 3)
+  `[client 2026-08-09]`. What stays open is the aura's identity itself. `@verify-ingame`
 - **`[gap]`** Whether enabling a `HideByDefault` row through the Cooldown Manager's own UI
   actually lands it in a viewer, end to end (§1.2). The Lua path says yes and two rows on
   one measured character are un-hidden by a saved layout — but nobody has performed the
@@ -1295,6 +1454,24 @@ source flags; tab 2 carries little but computes on demand, and is the only side 
 
 ## Changelog
 
+- 2026-08-09 — **§7: three corrections, all from one in-client sweep.** `C_Spell.GetSpellCooldown`
+  is **not** sealed whole — it is a plain table whose members seal individually, and
+  `isActive` is a plain, discriminating, in-combat "on cooldown" boolean (`GetSpellCharges`
+  stays unmeasured on that point). `Bar.Pip:IsShown()` is **tried and works** — the
+  "nobody has tried either" `[gap]` is gone. And the cid-760 summons puzzle is closed the
+  other way round: the row is **totem-backed**, so the aura instruments were correctly
+  reporting an absent aura. New: the totem channel, and `C_Spell.GetSpellCooldownDuration`
+  measured in restricted combat instead of inferred from an annotation. Two traps for anyone
+  re-deriving this: `Bar:GetValue()`'s idle secret reads are a **sticky readback class**, not
+  a second path that hides the pip — `SetShown(false)` has exactly one call site and it writes
+  the plain zeros; and `GetTotemInfo` returns `icon` **fifth**, not last.
+- 2026-08-08 — **§7 corrected: "a summon binds no aura" was an overstatement and is gone.**
+  The claim now names its two instruments (`auraDataUnit`, the alert channel), its one row
+  (cid 760) and its build, and carries a second measurement — **zero alert edges of any kind
+  on cid 760 across 1054 edges and 171 Call Dreadstalkers casts**, against 71/70 aura edges on
+  Dominion of Argus cid 169561 in the same captures `[client 2026-08-07]`. The hedge that used
+  to sit *below* the overstatement is now **in the headline**, because three downstream
+  documents had quoted the headline and dropped the correction.
 - 2026-08-07 — **§1.2 is new: `HideByDefault`.** A flagged row is filtered out in Blizzard's
   *Lua* at data-set construction (the category is rewritten to a `-1`/`-2` pseudo-category),
   so it **never gets an item frame and therefore raises no alert edge** — which **scopes

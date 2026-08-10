@@ -144,6 +144,29 @@ frame** — to *its* parents and to the frames *it* is anchored to — and not
 inward to whatever chooses to parent or anchor itself onto one. Parenting an
 addon frame to UIParent, which is the ordinary case, costs nothing.
 
+> `[gap]` **The in-combat half of that measurement covered 4 of the 59, not all of
+> them.** `SetPoint`, `SetScale`, `Show` and `Hide` were exercised on the addon frame
+> in combat; the other 55 were not, and the general claim above is an inference from
+> the four plus the `IsProtected() == false` reading. Two of the unmeasured entries are
+> ones addons reach for constantly and are worth naming: **`SetFrameStrata`**, which is
+> additionally the **only `SecretArguments = NotAllowed`** member of the strata/level
+> family (§4.2 of `frames-textures-animation.md`), and **`SetHeight` / `SetWidth`**,
+> the resizing siblings of the `SetPoint` that *was* measured. Code that must not
+> guess should do its strata and its geometry out of combat and keep the in-combat
+> path to the four. `@verify-ingame`
+
+> `[gap]` **A dependent of a frame carrying a SECRET anchor is a different question from a
+> dependent of a PROTECTED frame, and only the protected half is measured.** The run above
+> anchored to `ActionButton1`, which is never fed a secret. §4.8.1 findings 10 and 12
+> record anchor-chain contagion propagating **down to the dependent** from
+> `FontString:SetText` and `Texture:SetColorTexture`, and the Cooldown Manager writes
+> secret cooldown text onto its own item frames in combat — so an addon frame anchored to
+> a CDM item frame can inherit a secret anchor by a route the measurement never touched.
+> **Whether such a dependent still accepts `SetPoint` / `Show` / `Hide` is unmeasured.**
+> This is a source-read inference from the two findings, not a run: nothing was executed
+> in the client for it. An overlay anchored to a CDM item frame should treat a frame that
+> silently fails to move as this possibility rather than as its own bug. `@verify-ingame`
+
 ⚠ **`IsProtectedFunction = true` is not the whole protected-function surface.**
 It is the marker the *generated widget/API docs* use, and 58 of its 59 entries
 are widget methods. Casting and targeting APIs still exist and are still
@@ -1617,6 +1640,13 @@ cue.** Confirmed on screen: the number appears on crossing the threshold.
    CDM frame reads a plain number in a pull (cooldown-manager.md §7 Tier 2). Without
    that the technique is dead; a secret id would be **refused**, since the API is
    `SecretArguments = "AllowedWhenUntainted"`.
+   ⚠ **`unit` should come off the same frame.** `item.auraDataUnit` is a plain
+   `"player"` / `"target"` and is non-nil *iff* that row has a live bound aura (same
+   section), so one frame supplies both arguments, they describe the same aura instance on
+   the same unit, and a nil unit is the same statement as no instance to point at. This
+   pairing is a **composition of two measured facts and has not itself been run** — the
+   flown cue hardcoded `"player"`, which is correct for a self-buff and says nothing about
+   a target aura. `@verify-ingame`
 2. **The FontString must be a LEAF.** `SetText` with a secret applies `{Text}` *and*
    marks anchoring secret, propagating down (§4.8.1 finding 10). Anchor it *to*
    something and never anchor anything *to it*.
@@ -1633,11 +1663,11 @@ as ordinary text; only mid-pull is the quantiser needed.
 #### 4.8.3 `[client]` Which comparisons a secret survives — partial, measured
 
 Bare `==` against a **number** throws: `item.auraSpellID == spellID` killed a refresh
-loop the instant combat started `[client 2026-08-04]`. But `x == nil` appears to be
-**permitted** — a nil-guard has run on secrets every sample of every capture without
-raising. That asymmetry is consistent with the model (comparing to nil leaks nothing
-that is not already knowable) but is **inferred from two data points, not from any
-Tier-1 statement**. `@verify-ingame`
+loop the instant combat started `[client 2026-08-04]`. `x == nil` is **permitted**, and it
+is the only comparison that is — measured all four ways `[client 2026-08-05]`, with `s == 0`
+as the throwing control in the same sample. §4.2's operation table is the row to cite. So a
+nil-guard on a maybe-secret value is safe and a guard on anything else is not, which is what
+lets a channel return "nil, or a value you may not look at" as its whole contract.
 
 **The practical rule needs neither:** ask `ns.ClassOf`/`issecretvalue` first and branch
 on the **class**, never on the value. Then nothing depends on which comparisons the
@@ -1668,7 +1698,7 @@ whole object is plain and no row here applies.
 | `FormatRemainingDuration(fmt, mod)` | string | **secret string that RENDERS** | finding 2 `[client 2026-08-04]` — `SetText` puts it on screen, ticking, in combat. ⚠ the FontString must be a leaf (finding 10) |
 | `EvaluateRemainingDuration(curve, mod)` | `LuaCurveEvaluatedResult` | **SECRET** | `[client 2026-08-07]` — secret **even with a non-secret curve** (`curve:HasSecretValues()` false), control `GetRemainingDuration` secret in the same sample. `SecretWhenCurveSecret` is a sufficient condition, not a necessary one |
 | `EvaluateRemainingPercent` · `EvaluateElapsedDuration` · `EvaluateElapsedPercent` · `EvaluateTotalDuration` | same | **SECRET** | all four measured in the same sample `[client 2026-08-07]`. **The curve route leaks nothing — hand the result to a sink and stop guarding it** |
-| `HasExpired(mod)` · `IsActive(mod)` · `HasStarted(mod)` · `IsZero()` | bool | **SECRET booleans** | All four read `<secret boolean>` in combat, on 5 in-combat runs, on a duration whose `HasSecretValues()` is true, with `GetRemainingDuration` secret in the same sample as the control `[client 2026-08-06]`. **There is no readable in-combat cooldown predicate on this object**, and the absent annotation was again not a guarantee. A secret bool may not gate a branch, but it still drives `SetAlphaFromBoolean` / `SetVertexColorFromBoolean` leak-free — so readiness is **drawable and not branchable**, and an addon that must *branch* on readiness has to get it from events instead — the `Available` / `OnCooldown` alert edges of `cooldown-manager.md` §5.1, with that section's warning about the rows those edges never fire for. These are also the workspace's **first boolean-typed secrets**, which is what supplies the operation table's row 8 with a source it never had |
+| `HasExpired(mod)` · `IsActive(mod)` · `HasStarted(mod)` · `IsZero()` | bool | **SECRET booleans** | All four read `<secret boolean>` in combat, on 5 in-combat runs, on a duration whose `HasSecretValues()` is true, with `GetRemainingDuration` secret in the same sample as the control `[client 2026-08-06]`. **There is no readable in-combat cooldown predicate on this object**, and the absent annotation was again not a guarantee. A secret bool may not gate a branch, but it still drives `SetAlphaFromBoolean` / `SetVertexColorFromBoolean` leak-free — so readiness is **drawable and not branchable *on this object***. An addon that must *branch* on readiness gets it off a different surface: `C_Spell.GetSpellCooldown(id).isActive` is a **plain, discriminating boolean in restricted combat** (`cooldown-manager.md` §7 Tier 3), because that struct seals per member rather than whole. Failing that, the `Available` / `OnCooldown` alert edges of `cooldown-manager.md` §5.1, with that section's warning about the rows those edges never fire for. These are also the workspace's **first boolean-typed secrets**, which is what supplies the operation table's row 8 with a source it never had |
 | `GetElapsedDuration` · `GetTotalDuration` · `GetStartTime` · `GetEndTime` · `GetRemainingPercent` · `GetElapsedPercent` · `GetClockTime` · `GetModRate` | numbers | **UNMEASURED**, presumed secret | Same shape as `GetRemainingDuration`. Nobody has needed one; **presumed is not measured** and this row says so rather than implying coverage |
 | `Copy()` | `LuaDurationObject` | **PLAIN handle** | `ReturnsNeverSecret = true` |
 | `SetTimeFromStart` · `SetTimeFromEnd` · `SetTimeSpan` · `SetClock` · `Assign` · `Reset` · `SetToDefaults` · `GetClock` | — | setters/handles, no readback | — |
@@ -2295,6 +2325,18 @@ brackets is the evidence the rule rests on.
 
 ## Changelog
 
+- 2026-08-09 — §4.8.4: the four predicates stay secret, but "branch on readiness from events
+  instead" was too narrow — `C_Spell.GetSpellCooldown(id).isActive` is a plain in-combat
+  boolean (`cooldown-manager.md` §7 Tier 3). The claim is scoped to the object it measured.
+- 2026-08-08 — §4.8.3's `== nil` marker dropped: §4.2's operation table already carried the
+  measurement, so the claim read open in one section and closed in another. §4.8.2 gains the
+  `unit` half of the quantiser's first precondition, marked unrun as a pairing.
+- 2026-08-08 — §1.1: `[gap]` on the untested half of the anchoring claim — a dependent of a
+  frame carrying a **secret** anchor (a CDM item frame in combat), as against the protected
+  `ActionButton1` the measurement used.
+- 2026-08-08 — §1.1: `[gap]` marking which of the 59 protected functions the in-combat
+  addon-frame measurement actually covered — four, not all — and naming `SetFrameStrata`
+  and `SetHeight`/`SetWidth` as the unmeasured ones addons reach for.
 - 2026-08-07 — §4.8.1 finding 4: `Step` is a **previous-point floor** (an edge lands on the
   point's own x, not the midpoint), both curve types **clamp** outside their range, and every
   `Evaluate*` result is **secret even with a non-secret curve** — so the curve route grades a

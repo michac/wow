@@ -1,10 +1,11 @@
 ---
 title: Observations while coding — the un-drained queue
 patch: 12.0.7
-fetched: 2026-08-05
-reviewed: 2026-08-05
+fetched: 2026-08-09
+reviewed: 2026-08-09
 sources:
   - our own addon code, running in the client
+  - in-client capture, ClientLab CDMSweep, Demonology Warlock, 2026-08-09  # OBS-064 — an earlier build of that sweep; its capture has rolled off the SavedVariables ring and is not on disk
 confidence: low
 ---
 
@@ -1075,3 +1076,52 @@ Lua Taint: ClientLab, hex_decode_ok=n=1 string "hello", hex_encode=n=1 string "6
 **Drains to:** `security-taint-and-restricted-data.md:1657`
 
 **Status:** drained 2026-08-07
+
+---
+
+## OBS-064 · 2026-08-09 · A Blizzard getter that memoises into a module-local upvalue is not a pure read
+
+**Observed:** calling `CooldownViewerItemDataMixin:GetCurrentPlayerTotemCache()` from addon
+code **throws in combat** at `CooldownViewerItemData.lua:454` (`if hasTotem then`, on the
+secret boolean `GetTotemInfo` hands back). The throw lands **after** the function has already
+wiped its module-local `playerTotemCache = {}` `[:449]` and **before** it restamps
+`playerTotemCacheTime = now` `[:482]` — so Blizzard's own cache is left **empty with a stale
+timestamp**. `CooldownViewerItemMixin:RefreshTotemData` reads that same cache on every
+cooldown-, BuffIcon- and BuffBar-item refresh
+`[T1 src: CooldownViewer.lua:817, :1308, :1471]`, where the throw is uncaught.
+
+Observed effect, on an **earlier CDMSweep build** whose capture is no longer on disk: CDM
+item frames released from their pools mid-session — `BuffBar` 9 → 2,
+`Essential` 7 → 6 — with `totemData` `nil` on 103/103 rows while the client was raising
+`PLAYER_TOTEM_UPDATE`.
+
+⚠ **Those effect figures are NOT reproducible on disk.** They were read off an **earlier
+CDMSweep build's** capture, and that session has since rolled off the three-session
+SavedVariables ring. The captures now present were recorded by a build that does **not**
+call the wrapper — every `kind=alerts` row lists `GetCurrentPlayerTotemCache` under
+`notCalled=` — and they show the opposite picture, as they should: no pool shrinkage
+(`BuffBar` 9 and `Essential` 7 on every viewer sample) and `totemData` populated on 3 of
+141 rows. **The reproducible half of this entry is the Tier-1 source read**
+(`CooldownViewerItemData.lua:449` / `:454` / `:482`) and the throw itself; the effect
+figures stand on a capture nobody can re-open.
+
+**The general rule, which is the point:** *a Blizzard "getter" that memoises into a
+module-local upvalue is not a pure read. Reading it from tainted code can corrupt state
+Blizzard's own secure path depends on.* Prefer the raw API (`GetTotemInfo(slot)`) over the
+cached wrapper — it owns no shared state, so it cannot damage the subject.
+
+**How:** ClientLab `CDMSweep`, Demonology Warlock, in combat. The mechanism is a source read
+of `CooldownViewerItemData.lua` at 12.0.7.68887; the effect is what an earlier build of that
+sweep recorded, before the call was dropped.
+
+⚠ **Not established:** whether Blizzard's *own* untainted call is affected the same way. The
+capture does not settle it, and this entry does not claim it either way.
+
+**Confidence:** medium — one client, one spec. The source mechanism is Tier 1; the pool
+counts are a single session that no longer exists on disk, so nobody can re-check them
+without re-flying a build that calls the wrapper.
+
+**Drains to:** `cooldown-manager.md` §7 — as a "do not call the cached wrapper" note beside
+the totem channel, once something in this workspace actually reads totems.
+
+**Status:** open

@@ -12,6 +12,7 @@ Secret.lua
 Report.lua
 Dumps.lua
 Autorun.lua
+CDMSweep.lua
 Ask.lua
 T_ApiEvents.lua
 T_CooldownManager.lua
