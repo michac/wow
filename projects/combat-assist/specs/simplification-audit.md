@@ -229,11 +229,10 @@ current sourced client constraint; it does not endorse the product mechanism bui
   still run the suite, but that suite should enforce engine/platform guarantees rather than
   opinions derived from prose.
 
-## Author decision packet
+## Author decision packet — approved
 
-Reply **“accept the recommendations”** to approve the complete packet, or name overrides by
-letter. These decisions authorize Phase 2's proposed permanent-doc rewrite; source still does
-not change until that rewrite is reviewed.
+The author approved the recommended packet by directing the plan to continue after the
+checkpoint. Source still does not change until the Phase 2 rewrite is reviewed.
 
 ### A — Emphasis vocabulary
 
@@ -320,7 +319,31 @@ saturation and gameplay-opinion load into the migration.
   validation/tests, while retaining operational Python tools and mechanical engine/platform
   tests. This does not concern the workspace-wide KB generators or provenance linters, which
   do not consume Combat Assist project docs.
-- Product decisions A–G remain pending.
+- **A1:** one emphasis plus context/hold.
+- **B1:** readable-only markers are first-class; sealed display bindings remain optional.
+- **C1:** catalog only enhanced abilities and reject unsupported bindings; no exhaustive
+  silences or anticipatory vocabulary.
+- **D1:** remove automatic sequences and park any future sequence-context idea.
+- **E1:** return to a static visual baseline.
+- **F1:** keep one independent Tyrant-bar experiment.
+- **G1:** begin with Demonbolt, Tyrant and that Tyrant bar.
+
+## Phase 2 — permanent-document proposal
+
+- [`spec.md`](spec.md) preserves §1 byte-for-byte and rewrites everything after it around the
+  approved player-visible outcomes and safety boundary.
+- [`backlog.md`](backlog.md) is again the only implementation-status source and carries the
+  Phase 3–8 work in order.
+- [`discussion.md`](discussion.md) now holds only the visual, proc-glow, marker-shape and bar
+  questions that still require play or author judgment.
+- [`notes.md`](notes.md) records the completed audit and documentation round without becoming
+  a second status source.
+- [`../CLAUDE.md`](../CLAUDE.md) and the addon's `CLAUDE.md` point to the backlog rather than
+  asserting independent implementation status.
+- [`demonology/catalog.md`](demonology/catalog.md) is labeled migration evidence until Phase 3
+  replaces it alongside the catalog API.
+- `flight-reading.md` remains unchanged in Phase 2 because it documents the capture format the
+  current source still emits. Phase 8 reduces it after source and fields have actually changed.
 
 ## Phase log
 
@@ -330,3 +353,9 @@ saturation and gameplay-opinion load into the migration.
   164-test baseline and classified every existing test group.
 - 2026-08-11 — Completed Phase 1: audited `spec.md` §2–§6, the Demonology catalog, source
   enforcement and tests against §1. Paused at the mandatory author decision checkpoint.
+- 2026-08-11 — Recorded approval of A1–G1 and completed the Phase 2 permanent-document
+  proposal. Paused at the required rewritten-spec checkpoint before source migration.
+- 2026-08-11 — The author approved the rewritten product spec. Completed Phase 3's source
+  migration and Phase 4's mechanical/product test split. Built Phase 5's static border, two
+  fixed readable dots, stock-glow coexistence baseline and independent Tyrant bar; paused for
+  the separately authorized release and mandatory in-game judgment.

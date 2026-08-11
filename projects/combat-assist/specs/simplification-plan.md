@@ -141,12 +141,13 @@ new evidence invalidates it.
 
 ### Resume status
 
-- **Current phase:** Phase 1 checkpoint — awaiting author decisions A–G
-- **Last completed phase:** Phase 1
+- **Current phase:** Phase 5 checkpoint — awaiting an in-game judgment of the static baseline
+- **Last completed phase:** Phase 4; Phase 5 source baseline is built
 - **Temporary audit artifact:** `simplification-audit.md`
-- **Pending author checkpoint:** approve or override the Phase 1 decision packet before
-  Phase 2 proposes permanent-document edits
-- **Source changes made by this plan:** none
+- **Pending author checkpoint:** separately approve a test release, then judge the Phase 5
+  flight questions in `flight-reading.md`
+- **Source changes made by this plan:** reduced catalog/signal/track contract, two-entry pilot,
+  static overlay, fixed readable markers, one independent bar, and split tests
 - **Last updated:** 2026-08-11
 
 At a mandatory checkpoint, end the work with a concise decision packet. Present the disputed

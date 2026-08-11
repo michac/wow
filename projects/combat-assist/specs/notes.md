@@ -43,6 +43,42 @@ nothing survives, "nothing; superseded by <X>" and stop.
 
 ---
 
+## 2026-08-11 — the small pilot replaced the tier engine
+
+**What changed.** The approved Phase 3–5 migration replaced the ten-entry tier/cue catalog
+with two enhanced entries and two readable dependencies. The source moved to unknown-safe
+signals, a static border, two fixed Tyrant context dots, stock-glow coexistence and one
+independent Tyrant bar. Tests split into engine guarantees and provisional Demonology
+characterization, and the capture guide was reduced to the fields the new source emits.
+`Catalog.lua`, `Catalogs/Demonology.lua`, `Signal.lua`, `Track.lua`, `Treatment.lua`,
+`Sense.lua`, `Overlay.lua`, `Bars.lua`, tests, `demonology/catalog.md`, `flight-reading.md`.
+
+**Why it still binds.** The implementation enforced the safety line from `spec.md` §3.5
+without enforcing the removed tier, silence, cue, sequence or visual-policy doctrine. A
+readable-only marker became a first-class output and mutable gameplay examples stopped
+masquerading as universal engine guarantees.
+
+**Caveat.** The new pixels had not been installed or flown. Their colors, geometry,
+stock-glow coexistence, marker usefulness and the bar's value remained Phase 5 judgments.
+
+## 2026-08-11 — the product returned to §1
+
+**What changed.** The simplification audit completed and the author approved its recommended
+A1–G1 direction. `spec.md` was rewritten after §1 around one static emphasis, readable-first
+context markers, an optional sealed display path, no automatic sequences, one independent
+Tyrant-bar experiment and a Demonbolt/Tyrant pilot. The backlog and discussion were reduced
+to the migration work and genuinely open play questions; both repository instructions now
+point to the backlog instead of restating status. `spec.md`, `backlog.md`, `discussion.md`,
+both `CLAUDE.md` files, `demonology/catalog.md`, `simplification-audit.md`.
+
+**Why it still binds.** Existing code and tests were no longer accepted as justification for
+product rules. The surviving enforceable boundary was readable facts may drive Lua while
+sealed facts may only feed client-owned display sinks; gameplay and visual choices returned
+to provisional hypotheses judged through play.
+
+**Caveat.** This round changed documentation only. The addon still implemented the old model
+until the rewritten spec passed its checkpoint and Phase 3 migrated source.
+
 ## 2026-08-11 — the capture read: the tier signal is saturated
 
 **What changed.** The v0.2.4 `draw` capture was interpreted — one Demonology pull, a 700.7 s
