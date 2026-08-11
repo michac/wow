@@ -1,22 +1,40 @@
 ---
-title: Seat of the Triumvirate — Midnight S1 M+ dungeon guide
-patch: 12.0.7
-fetched: 2026-06-25
-reviewed: 2026-07-07
+title: Seat of the Triumvirate — Midnight S1 M+ dungeon guide (historical)
+patch: 12.1
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
   - https://www.method.gg/guides/dungeons/seat-of-the-triumvirate  # upd. 2026-03-23
   - https://www.icy-veins.com/wow/seat-of-the-triumvirate-dungeon-guide  # upd. 2026-06-15 (12.0.7)
   - Blizzard journal-instance/945 + journal-encounter/1979,1980,1981,1982 (tier 1, boss-name corroboration)
   - https://www.youtube.com/watch?v=DMcpeEK_tHE  # Dalaran Gaming "How to Master All 8 Dungeons: Midnight S1 M+ Walkthrough", uploaded 2026-03-24 (tier 3, boss corroboration)
+  - https://worldofwarcraft.com/en-us/news/24294369  # Midnight Season 2 overview — S2 M+ pool (tier 1, rotation-out confirmation)
+  - https://worldofwarcraft.com/en-us/news/24293281  # 12.1 "Curse of Ula'tek" Content Update Notes (tier 1)
 confidence: high
 ---
 
 # Seat of the Triumvirate — Midnight S1 M+ dungeon guide
 
-Void / Shadowguard-themed Legion-era dungeon, returned for Midnight Season 1
-Mythic+. Four bosses: **Zuraal the Ascended → Saprish → Viceroy Nezhar →
-L'ura**. Boss names confirmed against the Blizzard journal (encounters
-1979/1980/1981/1982); the journal spellings match both guides exactly.
+> ⛔ **HISTORICAL — not in the current Mythic+ rotation.** Seat of the
+> Triumvirate **rotated out of the Mythic+ pool with patch 12.1** (2026-08-11);
+> Midnight **Season 1 ended** with that week's maintenance. The **Season 2**
+> pool (8 dungeons, live for Mythic+ from **2026-08-18**) is: **Altar of Fangs ·
+> Murder Row · Den of Nalorakk · The Blinding Vale · Voidscar Arena · Ruby Life
+> Pools · Kings' Rest · Temple of Sethraliss** — see
+> `season-2-overview.md`.
+>
+> Everything below describes the **Season 1** (12.0.x) state and is kept as
+> reference. The dungeon still exists and is still runnable on Normal/Heroic and
+> via Timewalking-style content, but it awards **no keystone, no M+ rating, and
+> no Season 2 crests or gear**, and its loot is Season-1-era and **not
+> upgradeable with Mistcrests**. Do not route present-tense "what should I run"
+> answers here.
+
+Void / Shadowguard-themed Legion-era dungeon, which was in the Midnight
+**Season 1** Mythic+ pool. Four bosses: **Zuraal the Ascended → Saprish →
+Viceroy Nezhar → L'ura**. Boss names confirmed against the Blizzard journal
+(encounters 1979/1980/1981/1982); the journal spellings match both guides
+exactly.
 
 Two of the four bosses are **summoned by clearing a set of 4 channeler/anchor
 trash mobs** (Zuraal via Merciless Subjugators, Saprish via Rift Wardens), so
@@ -202,6 +220,10 @@ intermission (boss takes massively increased damage — Alleria Windrunner's
 
 ## Notes / confidence
 
+- **Rotation status (12.1, 2026-08-11):** out of the Mythic+ pool. The mechanics
+  below were verified for Season 1 and are not re-verified against 12.1 — the
+  encounters themselves are unchanged by the patch notes, but tuning/affix
+  interactions described here are Season-1 context.
 - **High confidence on bosses** — all 4 names + creature/pet names (Coalesced
   Void, Darkfang, Shadewing, Alleria Windrunner) and core ability names
   corroborated by the Blizzard journal (tier 1) and present in both guides.

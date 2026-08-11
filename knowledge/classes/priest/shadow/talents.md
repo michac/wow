@@ -1,16 +1,22 @@
 ---
-title: Priest Shadow — talent tree (12.0.7)
-patch: 12.0.7
-build: 12.0.7.67808
-fetched: 2026-06-19
-reviewed: 2026-07-07
+title: Priest Shadow — talent tree (12.1.0)
+patch: 12.1.0
+build: 12.1.0.68914
+fetched: 
 sources:
   - https://us.api.blizzard.com/data/wow/talent-tree (Blizzard Game Data API, Tier 1)
-  - https://wago.tools/db2 Trait* @ 12.0.7.67808 (Tier 1)
+  - https://wago.tools/db2 Trait* @ 12.1.0.68914 (Tier 1)
 confidence: high
 ---
+> **Build provenance.** This file was generated from the Blizzard Game Data API and
+> wago `Trait*` DB2 at build **12.1.0.68914**, which is what the API's `static-12.1.0`
+> namespace reported on 2026-08-11. The live client that day was **12.1.0.69214**. The
+> `Trait*` DB2 exports at the two builds are **byte-identical** (verified by md5 on
+> `TraitNodeEntry`), so this data is valid for live 12.1 — cite it as **@ 12.1.0.68914**,
+> not 69214.
 
-# Priest Shadow — talents (12.0.7)
+
+# Priest Shadow — talents (12.1.0)
 
 > Generated from `knowledge/classes/_talents/all-talents.tsv`. Spell IDs are the talent's granted spell. Choice nodes show both options as `A / B`. See `_talents/README.md` for the schema.
 
@@ -41,13 +47,13 @@ confidence: high
 | Everlasting Light | 1249233 | 1 | PASSIVE | 6,2 | 8 | 82716 |
 | Move with Grace | 390620 | 1 | PASSIVE | 6,3 | 8 | 109917 |
 | Mental Agility | 341167 | 1 | PASSIVE | 6,4 | 8 | 109890 |
-| Twin Disciplines | 1251077 | 1 | PASSIVE | 6,5 | 8 | 82687,108731,109890 |
+| Twin Disciplines | 1251077 | 1 | PASSIVE | 6,5 | 8 | 109890,108731,82687 |
 | Dark Enlightenment | 1250835 | 1 | PASSIVE | 6,7 | 8 | 82687,82710 |
 | False Autonomy | 1250806 | 1 | PASSIVE | 6,8 | 8 | 82710 |
 | Shackle Horror | 9484 | 1 | ACTIVE | 6,9 | 8 | 82708,82710 |
 | Inspiration | 390676 | 1 | PASSIVE | 7,2 | 8 | 82699,82702 |
-| Binding Heals | 368275 | 1 | PASSIVE | 7,4 | 8 | 109019,82690,82699 |
-| Shadow Word: Death | 32379 | 1 | ACTIVE | 7,6 | 8 | 82690,109020 |
+| Binding Heals | 368275 | 1 | PASSIVE | 7,4 | 8 | 82699,109019,82690 |
+| Shadow Word: Death | 32379 | 1 | ACTIVE | 7,6 | 8 | 109020,82690 |
 | Sanguine Teachings | 373218 | 1 | PASSIVE | 7,8 | 8 | 109020,109005,82693 |
 | Desperate Prayer | 19236 | 1 | ACTIVE | 8,3 | 8 | 82696,82678 |
 | Twist of Fate | 390972 | 2 | PASSIVE | 8,5 | 8 | 82712,82678 |
@@ -90,7 +96,7 @@ confidence: high
 | Dark Thoughts | 1240388 | 1 | PASSIVE | 7,17 | 8 | 82669 |
 | Maddening Touch | 391228 | 1 | PASSIVE | 7,18 | 8 | 82657,82669,108147 |
 | Improved Voidform / Ancient Madness | 341240 / 1231346 | 1/1 | CHOICE | 7,19 | 8 | 82657 |
-| Phantom Menace | 1242779 | 1 | PASSIVE | 7,20 | 8 | 82657,82658,108007 |
+| Shadeburst | 73510 | 1 | PASSIVE | 7,20 | 8 | 82657,82658,108007 |
 | Dark Evangelism | 391099 | 1 | PASSIVE | 7,21 | 8 | 108007 |
 | Shattered Psyche | 391090 | 1 | PASSIVE | 7,22 | 8 | 108007 |
 | Subservient Shadows | 1228516 | 1 | PASSIVE | 8,16 | 8 | 109018 |
@@ -98,7 +104,7 @@ confidence: high
 | Mind's Eye / Distorted Reality | 407470 / 409044 | 1/1 | CHOICE | 8,19 | 8 | 82656,82662 |
 | Spectral Horrors | 407469 | 1 | PASSIVE | 8,20 | 8 | 82646,82656 |
 | Instilled Doubt | 1242862 | 2 | PASSIVE | 8,21 | 8 | 108031,82646,108029 |
-| Mindbender | 1230339 | 1 | PASSIVE | 9,16 | 20 | 82645,82559 |
+| Mindbender | 1230339 | 1 | PASSIVE | 9,16 | 20 | 82559,82645 |
 | Deathspeaker / Death and Madness | 392507 / 321291 | 1/1 | CHOICE | 9,18 | 20 | 82645,82647 |
 | Mind Devourer | 373202 | 1 | PASSIVE | 9,19 | 20 | 82647 |
 | Auspicious Spirits | 155271 | 1 | PASSIVE | 9,20 | 20 | 108152,82563,82647 |
@@ -106,7 +112,7 @@ confidence: high
 | Inescapable Torment | 373427 | 1 | PASSIVE | 10,16 | 20 | 82648 |
 | Madness Weaving | 1240394 | 2 | PASSIVE | 10,17 | 20 | 82558,82648 |
 | Death's Torment | 1240364 | 1 | PASSIVE | 10,18 | 20 | 82558 |
-| Screams of the Void | 375767 | 2 | PASSIVE | 10,19 | 20 | 82558,82667,108153 |
+| Screams of the Void | 375767 | 2 | PASSIVE | 10,19 | 20 | 82667,82558,108153 |
 | Tormented Spirits | 391284 | 1 | PASSIVE | 10,20 | 20 | 82667 |
 | Insidious Ire | 373212 | 2 | PASSIVE | 10,21 | 20 | 82654,82667 |
 | Crushing Void | 1279354 | 1 | PASSIVE | 10,22 | 20 | 82654 |
@@ -125,7 +131,7 @@ confidence: high
 | No Escape / Dark Energy | 451204 / 451018 | 1/1 | CHOICE | 8,10 | — | 94684,110008 |
 | Void Blast | 450405 | 1 | ACTIVE | 8,11 | — | 94684,110008 |
 | Inner Quietus | 448278 | 1 | PASSIVE | 8,12 | — | 94684,110008 |
-| Voidheart | 449880 | 1 | PASSIVE | 8,13 | — | 110008,94684 |
+| Voidheart | 449880 | 1 | PASSIVE | 8,13 | — | 94684,110008 |
 | Devour Matter | 451840 | 1 | PASSIVE | 9,10 | — | 94693 |
 | Void Empowerment / Darkening Horizon | 450138 / 449912 | 1/1 | CHOICE | 9,11 | — | 94703 |
 | Voidwraith | 451234 | 1 | PASSIVE | 9,12 | — | 94670 |

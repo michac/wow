@@ -1,11 +1,13 @@
 ---
-title: Omnium Folio — Midnight Runic Power System (12.0.7)
-patch: 12.0.7
-build: 12.0.7.68256
-fetched: 2026-07-07
-reviewed: 2026-07-07
+title: Omnium Folio — Midnight Runic Power System
+patch: 12.1
+build: 12.1.0.69214
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
   - https://worldofwarcraft.blizzard.com/en-us/news/24244888/revelations-content-update-notes
+  - https://worldofwarcraft.com/en-us/news/24293281  # 12.1 "Curse of Ula'tek" content update notes — QUESTS: intro questline account-skippable (Tier 1)
+  - https://us.forums.blizzard.com/en/wow/posts/29759681  # 2026-07-14 hotfix — Rommath's Magister's Terrace portal (Tier 1)
   - https://www.icy-veins.com/wow/news/a-new-power-system-for-midnight-is-coming-in-wow-patch-12-0-7-the-omnium-folio/
   - https://conquestcapped.com/guides/wow/omnium-folio/
   - https://finalboss.io/how-to-unlock-the-omnium-folio-in-wow
@@ -15,11 +17,14 @@ sources:
 confidence: medium
 ---
 
-# Omnium Folio (12.0.7)
+# Omnium Folio
 
-NEW borrowed-power progression system added in **12.0.7 "Revelations"**
-(live 2026-06-16). A runic ledger you build up one row per week; the
-runes stay relevant for the **rest of the Midnight expansion**.
+Borrowed-power progression system added in **12.0.7 "Revelations"**
+(live 2026-06-16), still current in **12.1 "Curse of Ula'tek"**. A runic
+ledger you build up one row per week; the runes stay relevant for the
+**rest of the Midnight expansion**. 12.1 did not change the rows, the
+runes or the weekly cadence — its one change is that the intro questline
+is now account-skippable (below).
 
 ## What it is
 
@@ -33,11 +38,16 @@ runes stay relevant for the **rest of the Midnight expansion**.
 - **Row progression is account-wide** (web verify 2026-07-07, Icy Veins
   ×2 + player-confirmed on the EU forums): earning a **Mote of Omnial
   Inquiry** on **any one** character unlocks that row for the **whole
-  warband** — alts do **not** re-accumulate rows week by week. The only
-  per-character step is the one-time **Sunstrider Omnium intro questline**
-  each alt runs to open the interface. (One Tier-3 outlier — conquestcapped
-  — calls it per-character; it conflates the intro gate with row unlocks
-  and is outweighed.)
+  warband** — alts do **not** re-accumulate rows week by week. (One Tier-3
+  outlier — conquestcapped — calls it per-character; it conflates the intro
+  gate with row unlocks and is outweighed.)
+- **As of 12.1 the intro questline is account-skippable too.** The
+  **Sunstrider Omnium introduction questline can be skipped on every other
+  character on the account** once **at least one** character has finished it
+  (Tier-1, 12.1 content update notes → QUESTS). Before 12.1 that questline
+  was the one unavoidable per-character step; it is now an offered skip, so
+  a fresh alt reaches the folio — with the warband's rows already unlocked —
+  in a single accept.
 
 ## Lore
 
@@ -50,16 +60,27 @@ of the Magisters' Terrace library / Thalassian University in Silvermoon.
 
 - **Intro quest:** pick up the **Magister's Missive** in **Silvermoon City**
   (beside the Ritual Site vendors, ~47.9, 51.6) to start the Magisters'
-  questline. (Source names vary — "The Magisters' Call" / "The Call of the
-  Magister"; the pickup item is the Magister's Missive.)
+  questline. (Tier-3 guides converge on **"The Magister's Call"**; older
+  captures also render it "The Magisters' Call" / "The Call of the Magister".
+  Still unconfirmed against game data — the pickup *item* is the Magister's
+  Missive, which is the reliable landmark.) **Since the 2026-07-14 hotfix,
+  Grand Magister Rommath provides a portal to the Magisters' Terrace right
+  beside the Magister's Missive**, so the weekly run no longer needs the trip
+  out to the Terrace on foot.
+- **Skipping the intro (12.1+):** once any one character on the account has
+  completed the introduction questline, every other character may **skip**
+  it — see "What it is" above. Alts still open the folio in Silvermoon; they
+  just no longer have to run the chain to get there.
 - After the intro, the weekly **"Seeking Knowledge"** quest awards **1 Mote
   of Omnial Inquiry per week**, which you spend to unlock **that week's new
   row** (one row per weekly reset → fully built in **5 weeks**).
 - **Account-wide prerequisites (hotfix 2026-06-25):** starting with **Week 2**,
   the Seeking Knowledge weekly's quest prerequisites are **account-wide** — an
   alt no longer has to work back up through the earlier weeks' chain to reach
-  the current week's quest. Each character must **still complete the Sunstrider
-  Omnium unlock questline** to access the weekly quests on that alt.
+  the current week's quest. That hotfix still required each character to
+  complete the Sunstrider Omnium unlock questline to access the weekly quests
+  on that alt; **12.1 lifted that last step by making the questline skippable
+  once one character has done it.**
 - **No catch-up mechanic** is noted: progression is gated by consistent
   weekly completion.
 - Completing **all 5** Seeking Knowledge quests awards the **Sunstrider
@@ -91,16 +112,22 @@ final. Treat as illustrative of the row structure, not as tuned values.
 ## TODO
 
 - [ ] Confirm exact intro quest name from the live build / wago.tools.
+      (2026-08-11: Tier-3 guides agree on "The Magister's Call"; Wowhead's
+      quest DB was not machine-readable from here, so this stays open — the
+      name has never been stated by a Tier-1 source.)
 - [ ] Confirm final rune names + per-rune effect values once tuned on live
       (current list is mostly pre-release datamining; **"Rune of
       Void-Tainted Shell" is now Tier-1 confirmed** via the 2026-06-30 hotfix
       notes, the rest still need per-rune live verification).
 - [x] Row progression is **account-wide** — a Mote earned on one character
-      unlocks that row warband-wide (web verify 2026-07-07); only the intro
-      questline is per-character. **Planner model:** an *account* need (run
-      the ~5 weekly "Seeking Knowledge" quests once, on any character) **plus
-      a one-time per-character** unlock-questline task — not a weekly per-alt
-      repeat.
+      unlocks that row warband-wide (web verify 2026-07-07). **As of 12.1 the
+      intro questline is account-skippable too** (Tier-1 12.1 notes), so
+      *nothing* about the system is per-character any more except slotting the
+      runes. **Planner model:** a pure *account* need — run the ~5 weekly
+      "Seeking Knowledge" quests once, on any character. The one-time
+      per-character unlock-questline task that used to sit beside it should be
+      dropped (or reduced to "accept the skip"); it is not a weekly per-alt
+      repeat and no longer a real per-alt cost.
 - [ ] Rune *effect/config* scope: appears **per-character** (each char slots @verify-ingame
       and benefits from its own rune per row) — low-med confidence, no source
       states it explicitly; confirm in-game.

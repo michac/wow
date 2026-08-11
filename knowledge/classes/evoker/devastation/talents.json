@@ -4,8 +4,8 @@
   "spec": "devastation",
   "spec_id": 1467,
   "tree_id": 872,
-  "patch": "12.0.7",
-  "build": "12.0.7.67808",
+  "patch": "12.1.0",
+  "build": "12.1.0.68914",
   "source": "api",
   "serial_count": 219,
   "granted_serials": [
@@ -685,8 +685,8 @@
         "serial_order": 105,
         "req_points": 8,
         "prereq_node_ids": [
-          93355,
-          110064
+          110064,
+          93355
         ],
         "entries": [
           {
@@ -1004,8 +1004,8 @@
         "req_points": 23,
         "prereq_node_ids": [
           93307,
-          93298,
-          93308
+          93308,
+          93298
         ],
         "entries": [
           {

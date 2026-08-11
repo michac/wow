@@ -1,16 +1,22 @@
 ---
-title: Evoker Devastation — talent tree (12.0.7)
-patch: 12.0.7
-build: 12.0.7.67808
-fetched: 2026-06-19
-reviewed: 2026-07-07
+title: Evoker Devastation — talent tree (12.1.0)
+patch: 12.1.0
+build: 12.1.0.68914
+fetched: 
 sources:
   - https://us.api.blizzard.com/data/wow/talent-tree (Blizzard Game Data API, Tier 1)
-  - https://wago.tools/db2 Trait* @ 12.0.7.67808 (Tier 1)
+  - https://wago.tools/db2 Trait* @ 12.1.0.68914 (Tier 1)
 confidence: high
 ---
+> **Build provenance.** This file was generated from the Blizzard Game Data API and
+> wago `Trait*` DB2 at build **12.1.0.68914**, which is what the API's `static-12.1.0`
+> namespace reported on 2026-08-11. The live client that day was **12.1.0.69214**. The
+> `Trait*` DB2 exports at the two builds are **byte-identical** (verified by md5 on
+> `TraitNodeEntry`), so this data is valid for live 12.1 — cite it as **@ 12.1.0.68914**,
+> not 69214.
 
-# Evoker Devastation — talents (12.0.7)
+
+# Evoker Devastation — talents (12.1.0)
 
 > Generated from `knowledge/classes/_talents/all-talents.tsv`. Spell IDs are the talent's granted spell. Choice nodes show both options as `A / B`. See `_talents/README.md` for the schema.
 
@@ -45,7 +51,7 @@ confidence: high
 | Extended Flight | 375517 | 2 | PASSIVE | 9,5 | 8 | 93290,93350 |
 | Bountiful Bloom | 370886 | 1 | PASSIVE | 9,6 | 8 | 93292 |
 | Regenerative Magic | 387787 | 1 | PASSIVE | 10,1 | 8 | 110064 |
-| Blast Furnace | 375510 | 1 | PASSIVE | 10,2 | 8 | 93355,110064 |
+| Blast Furnace | 375510 | 1 | PASSIVE | 10,2 | 8 | 110064,93355 |
 | Exuberance | 375542 | 1 | PASSIVE | 10,3 | 8 | 93355 |
 | Renewing Blaze | 374348 | 1 | PASSIVE | 10,4 | 8 | 93300 |
 | Walloping Blow | 387341 | 1 | PASSIVE | 10,5 | 8 | 93349 |
@@ -58,7 +64,7 @@ confidence: high
 | Lush Growth | 375561 | 2 | PASSIVE | 11,6 | 23 | 93348 |
 | Source of Magic | 369459 | 1 | ACTIVE | 11,7 | 23 | 93348 |
 | Strike from Above | 1267206 | 1 | PASSIVE | 12,1 | 23 | 93308 |
-| Leaping Flames | 369939 | 1 | PASSIVE | 12,2 | 23 | 93307,93298,93308 |
+| Leaping Flames | 369939 | 1 | PASSIVE | 12,2 | 23 | 93307,93308,93298 |
 | Overawe | 374346 | 1 | PASSIVE | 12,3 | 23 | 93298 |
 | Aerial Mastery | 365933 | 1 | PASSIVE | 12,4 | 23 | 93288,93345,93298 |
 | Twin Guardian | 370888 | 1 | PASSIVE | 12,5 | 23 | 93288 |

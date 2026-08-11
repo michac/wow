@@ -12,10 +12,11 @@ gate: { type: manual }
 reward: { type: [currency, collectible], detail: "Trader's Tender → cosmetics/mounts" }
 time_blocks: 0.3
 urgency: 1.5
-patch: 12.0.7
+patch: 12.1
 fetched: 2026-07-06
-reviewed: 2026-07-07
-sources: [knowledge/planning/candidates.json]
+reviewed: 2026-08-11
+sources:
+  - https://worldofwarcraft.blizzard.com/en-us/news/24294061/   # August 2026 Trading Post ("Showdown") — Tier 1
 confidence: high
 ---
 Fill the monthly Trading Post punch card for Trader's Tender → cosmetics. **Account-wide**

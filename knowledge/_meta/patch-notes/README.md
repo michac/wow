@@ -1,7 +1,8 @@
 ---
 title: Patch-Notes Archive — verbatim official notes
-patch: 12.0.7
-fetched: 2026-07-07
+patch: 12.1
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources: []
 confidence: high
 ---
@@ -44,7 +45,13 @@ The pipeline: **archive (verbatim) → changelog (distilled diff) → KB topic f
 | Patch | Codename | Live | Content notes | Hotfix log |
 |---|---|---|---|---|
 | 12.0.5 | Lingering Shadows | 2026-04-21 | ✅ captured | ✅ 17 batches (Apr 23 – Jun 9) |
-| 12.0.7 | Revelations | 2026-06-16 | ✅ captured | ✅ 5 batches (Jun 18 – Jun 30) + tuning/reward |
+| 12.0.7 | Revelations | 2026-06-16 | ✅ captured | ✅ 9 batches (Jun 18 – Jul 28) + 3 tuning + reward |
+| 12.1 | Curse of Ula'tek | 2026-08-11 | ✅ captured | — none yet (captured on patch day) |
+
+⚠ **12.1 shipped into a pre-season week.** Its notes describe both the
+2026-08-11 launch state *and* the Midnight Season 2 state that does not open
+until **2026-08-18**. `12.1.md` also archives the "Season 1 Ending and Season 2
+Information" post, which is the authoritative split between the two.
 
 The archive was introduced on 2026-07-07, after both patches shipped, so their
 content-update notes were backfilled verbatim from the official pages, and the

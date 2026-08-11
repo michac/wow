@@ -1,7 +1,8 @@
 ---
 title: Source Trust Registry
-patch: 12.0.7
-fetched: 2026-06-19
+patch: 12.1
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources: []
 confidence: high
 ---
@@ -50,7 +51,9 @@ when the answer matters.
 ## Staleness heuristics
 
 - WoW is 22 years old: **most search results describe a dead game version.**
-- Require "Midnight" / "12.0" / 2026 signals before trusting web content.
+- Require "Midnight" / "12.1" (or "12.0") / 2026 signals before trusting web
+  content. Match the **live** patch from `game-version.md`, not a hard-coded
+  version — this line is itself a staleness hazard on patch day.
 - Undated content is suspect by default.
 - Pre-Midnight expansion content (The War Within 11.x and earlier) is
   historical unless explicitly marked as such in the KB.

@@ -1,16 +1,22 @@
 ---
-title: Monk Windwalker — talent tree (12.0.7)
-patch: 12.0.7
-build: 12.0.7.67808
-fetched: 2026-06-19
-reviewed: 2026-07-07
+title: Monk Windwalker — talent tree (12.1.0)
+patch: 12.1.0
+build: 12.1.0.68914
+fetched: 
 sources:
   - https://us.api.blizzard.com/data/wow/talent-tree (Blizzard Game Data API, Tier 1)
-  - https://wago.tools/db2 Trait* @ 12.0.7.67808 (Tier 1)
+  - https://wago.tools/db2 Trait* @ 12.1.0.68914 (Tier 1)
 confidence: high
 ---
+> **Build provenance.** This file was generated from the Blizzard Game Data API and
+> wago `Trait*` DB2 at build **12.1.0.68914**, which is what the API's `static-12.1.0`
+> namespace reported on 2026-08-11. The live client that day was **12.1.0.69214**. The
+> `Trait*` DB2 exports at the two builds are **byte-identical** (verified by md5 on
+> `TraitNodeEntry`), so this data is valid for live 12.1 — cite it as **@ 12.1.0.68914**,
+> not 69214.
 
-# Monk Windwalker — talents (12.0.7)
+
+# Monk Windwalker — talents (12.1.0)
 
 > Generated from `knowledge/classes/_talents/all-talents.tsv`. Spell IDs are the talent's granted spell. Choice nodes show both options as `A / B`. See `_talents/README.md` for the schema.
 
@@ -30,24 +36,24 @@ confidence: high
 | Calming Presence | 388664 | 1 | PASSIVE | 4,4 | — | 101149,101147 |
 | Wind's Reach | 450514 | 1 | PASSIVE | 4,5 | — | 101149 |
 | Detox | 218164 | 1 | ACTIVE | 4,6 | — | 101185,101149 |
-| Vivacious Vivification | 388812 | 1 | PASSIVE | 5,1 | — | 101146,101144 |
+| Vivacious Vivification | 388812 | 1 | PASSIVE | 5,1 | — | 101144,101146 |
 | Silent Sanctuary | 1266719 | 1 | PASSIVE | 5,2 | — | 101146 |
-| Jade Walk | 450553 | 1 | PASSIVE | 5,3 | — | 101161,101153,101146 |
+| Jade Walk | 450553 | 1 | PASSIVE | 5,3 | — | 101146,101161,101153 |
 | Pressure Points | 450432 | 1 | PASSIVE | 5,4 | — | 101153 |
-| Spear Hand Strike | 116705 | 1 | ACTIVE | 5,5 | — | 101150,101153,101148 |
+| Spear Hand Strike | 116705 | 1 | ACTIVE | 5,5 | — | 101153,101148,101150 |
 | Reinvigoration | 1266740 | 1 | PASSIVE | 5,6 | — | 101150 |
-| Ancient Arts | 344359 | 2 | PASSIVE | 5,7 | — | 101150,101185 |
+| Ancient Arts | 344359 | 2 | PASSIVE | 5,7 | — | 101185,101150 |
 | Tiger Fang | 1272781 | 1 | PASSIVE | 6,2 | 8 | 101160,110024,110023 |
 | Transcendence | 101643 | 1 | ACTIVE | 6,4 | 8 | 101160,101141,110098 |
 | Energy Transfer | 450631 | 1 | PASSIVE | 6,5 | 8 | 110098 |
-| Celerity / Chi Torpedo | 115173 / 115008 | 1/1 | CHOICE | 6,6 | 8 | 110098,110027,101184 |
+| Celerity / Chi Torpedo | 115173 / 115008 | 1/1 | CHOICE | 6,6 | 8 | 101184,110098,110027 |
 | Stillstep Coil | 1266733 | 1 | PASSIVE | 6,7 | 8 | 101184 |
 | Quick Footed / Hasty Provocation | 450503 / 328670 | 1/1 | CHOICE | 7,1 | 8 | 101159,110023 |
 | Ferocity of Xuen | 388674 | 2 | PASSIVE | 7,3 | 8 | 101167 |
 | Ring of Peace / Song of Chi-Ji | 116844 / 198898 | 1/1 | CHOICE | 7,4 | 8 | 101167 |
 | Spirit's Essence | 450595 | 1 | PASSIVE | 7,5 | 8 | 101167 |
 | Tiger Tail Sweep | 264348 | 1 | PASSIVE | 7,6 | 8 | 101183,110095 |
-| Improved Touch of Death | 322113 | 1 | PASSIVE | 7,7 | 8 | 101183,110025 |
+| Improved Touch of Death | 322113 | 1 | PASSIVE | 7,7 | 8 | 110025,101183 |
 | Vigorous Expulsion | 392900 | 1 | PASSIVE | 8,2 | 8 | 101159,101166,101158 |
 | Yu'lon's Grace | 414131 | 1 | PASSIVE | 8,3 | 8 | 101136,101166 |
 | Peace and Prosperity | 450448 | 1 | PASSIVE | 8,4 | 8 | 101136 |
@@ -83,9 +89,9 @@ confidence: high
 | Ferociousness | 458623 | 2 | PASSIVE | 4,17 | — | 101048 |
 | Hardened Soles | 391383 | 2 | PASSIVE | 4,19 | — | 101036 |
 | Ascension | 115396 | 1 | PASSIVE | 4,20 | — | 101036 |
-| Dual Threat | 451823 | 1 | PASSIVE | 5,16 | — | 101035,101049 |
+| Dual Threat | 451823 | 1 | PASSIVE | 5,16 | — | 101049,101035 |
 | Teachings of the Monastery | 116645 | 1 | PASSIVE | 5,18 | — | 101217 |
-| Glory of the Dawn | 392958 | 1 | PASSIVE | 5,20 | — | 101047,101037 |
+| Glory of the Dawn | 392958 | 1 | PASSIVE | 5,20 | — | 101037,101047 |
 | Crane Vortex | 388848 | 1 | PASSIVE | 6,15 | 8 | 101055 |
 | Meridian Strikes | 391330 | 1 | PASSIVE | 6,16 | 8 | 101055 |
 | Rising Star | 388849 | 1 | PASSIVE | 6,17 | 8 | 101055,101054 |
@@ -106,7 +112,7 @@ confidence: high
 | Sunfire Spiral | 1272415 | 1 | PASSIVE | 9,16 | 20 | 101062,101060 |
 | Communion With Wind | 451576 | 1 | PASSIVE | 9,17 | 20 | 101207 |
 | Revolving Whirl / Echo Technique | 451524 / 1250042 | 1/1 | CHOICE | 9,18 | 20 | 101207 |
-| Universal Energy | 1272175 | 1 | PASSIVE | 9,19 | 20 | 101207,101056 |
+| Universal Energy | 1272175 | 1 | PASSIVE | 9,19 | 20 | 101056,101207 |
 | Memory of the Monastery | 454969 | 1 | PASSIVE | 9,20 | 20 | 101214,101056,101215 |
 | Rushing Wind Kick | 1250566 | 1 | PASSIVE | 10,14 | 20 | 101059 |
 | Xuen's Battlegear | 392993 | 1 | PASSIVE | 10,16 | 20 | 101213,101041,101059 |
@@ -118,7 +124,7 @@ confidence: high
 | Skyfire Heel | 1248704 | 1 | PASSIVE | 11,15 | 20 | 101210 |
 | Harmonic Combo | 1250041 | 1 | PASSIVE | 11,16 | 20 | 101210 |
 | Flurry of Xuen | 452137 | 1 | PASSIVE | 11,17 | 20 | 101040,101206,101210 |
-| Martial Agility | 1272685 | 1 | PASSIVE | 11,19 | 20 | 101206,101212 |
+| Martial Agility | 1272685 | 1 | PASSIVE | 11,19 | 20 | 101212,101206 |
 | Airborne Rhythm / Hurricane's Vault | 1248833 / 1248837 | 1/1 | CHOICE | 11,20 | 20 | 102250 |
 | Path of Jade / Singularly Focused Jade | 392994 / 451573 | 1/1 | CHOICE | 11,22 | 20 | 101045 |
 | Tigereye Brew | 1261703 | 1 | ACTIVE | 12,18 | 20 | — |
@@ -162,4 +168,4 @@ confidence: high
 | Efficient Training | 450989 | 1 | PASSIVE | 5,22 | — | 101250 |
 | Vigilant Watch | 450993 | 1 | PASSIVE | 5,23 | — | 101245 |
 | Weapons of the Wall | 1262610 | 1 | PASSIVE | 5,24 | — | 109698 |
-| Wisdom of the Wall | 1272821 | 1 | PASSIVE | 6,23 | — | 101244,101253,101251,109699 |
+| Wisdom of the Wall | 1272821 | 1 | PASSIVE | 6,23 | — | 109699,101244,101253,101251 |

@@ -1,16 +1,22 @@
 ---
-title: Demon Hunter Vengeance — talent tree (12.0.7)
-patch: 12.0.7
-build: 12.0.7.67808
-fetched: 2026-06-19
-reviewed: 2026-07-07
+title: Demon Hunter Vengeance — talent tree (12.1.0)
+patch: 12.1.0
+build: 12.1.0.68914
+fetched: 
 sources:
   - https://us.api.blizzard.com/data/wow/talent-tree (Blizzard Game Data API, Tier 1)
-  - https://wago.tools/db2 Trait* @ 12.0.7.67808 (Tier 1)
+  - https://wago.tools/db2 Trait* @ 12.1.0.68914 (Tier 1)
 confidence: high
 ---
+> **Build provenance.** This file was generated from the Blizzard Game Data API and
+> wago `Trait*` DB2 at build **12.1.0.68914**, which is what the API's `static-12.1.0`
+> namespace reported on 2026-08-11. The live client that day was **12.1.0.69214**. The
+> `Trait*` DB2 exports at the two builds are **byte-identical** (verified by md5 on
+> `TraitNodeEntry`), so this data is valid for live 12.1 — cite it as **@ 12.1.0.68914**,
+> not 69214.
 
-# Demon Hunter Vengeance — talents (12.0.7)
+
+# Demon Hunter Vengeance — talents (12.1.0)
 
 > Generated from `knowledge/classes/_talents/all-talents.tsv`. Spell IDs are the talent's granted spell. Choice nodes show both options as `A / B`. See `_talents/README.md` for the schema.
 
@@ -23,7 +29,7 @@ confidence: high
 | Sigil of Misery | 207684 | 1 | ACTIVE | 2,6 | — | — |
 | Vengeful Bonds | 320635 | 1 | PASSIVE | 3,2 | — | 90942 |
 | Unrestrained Fury | 320770 | 1 | PASSIVE | 3,3 | — | 90942,108722 |
-| Shattered Restoration | 389824 | 1 | PASSIVE | 3,5 | — | 108722,90946 |
+| Shattered Restoration | 389824 | 1 | PASSIVE | 3,5 | — | 90946,108722 |
 | Improved Sigil of Misery | 320418 | 1 | PASSIVE | 3,6 | — | 90946 |
 | Bouncing Glaives | 320386 | 1 | PASSIVE | 4,2 | — | 90941,90930 |
 | Imprison | 217832 | 1 | ACTIVE | 4,4 | — | 90941,90950 |
@@ -46,8 +52,8 @@ confidence: high
 | Burn It Out / Soul Cleanse | 1266316 / 1266496 | 1/1 | CHOICE | 7,6 | 8 | 90933 |
 | Lost in Darkness | 389849 | 1 | PASSIVE | 7,7 | 8 | 90933,95151 |
 | Illidari Knowledge | 389696 | 2 | PASSIVE | 8,2 | 8 | 90936,90940 |
-| Felbound | 1266762 | 1 | PASSIVE | 8,4 | 8 | 91004,90939,90936 |
-| Will of the Illidari | 389695 | 2 | PASSIVE | 8,6 | 8 | 91004,90947,90927 |
+| Felbound | 1266762 | 1 | PASSIVE | 8,4 | 8 | 91004,90936,90939 |
+| Will of the Illidari | 389695 | 2 | PASSIVE | 8,6 | 8 | 90947,91004,90927 |
 | Internal Struggle | 393822 | 1 | PASSIVE | 9,2 | 23 | 90935 |
 | Furious | 1266326 | 1 | PASSIVE | 9,3 | 23 | 108728,90935 |
 | Remorseless | 1266328 | 1 | PASSIVE | 9,5 | 23 | 91000,108728 |
@@ -73,12 +79,12 @@ confidence: high
 | Ascending Flame | 428603 | 1 | PASSIVE | 4,20 | — | 90951 |
 | Tempered Steel | 1265800 | 1 | PASSIVE | 5,15 | — | 90970 |
 | Calcified Spikes | 389720 | 1 | PASSIVE | 5,16 | — | 90970 |
-| Roaring Fire / Sigil of Silence | 391178 / 202137 | 1/1 | CHOICE | 5,18 | — | 90989 |
+| Feed the Demon | 218612 | 1 | PASSIVE | 5,18 | — | 90989 |
 | Retaliation | 389729 | 1 | PASSIVE | 5,20 | — | 90960 |
 | Felfire Fist | 389724 | 1 | PASSIVE | 5,21 | — | 90960 |
 | Sigil of Spite | 390163 | 1 | ACTIVE | 6,14 | 8 | 90968 |
 | Agonizing Flames | 207548 | 1 | PASSIVE | 6,16 | 8 | 90988,90967,90968 |
-| Feed the Demon | 218612 | 1 | PASSIVE | 6,18 | 8 | 90988 |
+| Sigil of Silence | 202137 | 1 | ACTIVE | 6,18 | 8 | 90988 |
 | Burning Blood | 390213 | 1 | PASSIVE | 6,20 | 8 | 90988,90953,90952 |
 | Revel in Pain | 343014 | 1 | PASSIVE | 6,22 | 8 | 90953 |
 | Frailty | 389958 | 1 | PASSIVE | 7,15 | 8 | 90978,90971 |
@@ -90,7 +96,7 @@ confidence: high
 | Fel Flame Fortification | 389705 | 1 | PASSIVE | 7,21 | 8 | 90987,90957 |
 | Void Reaver | 268175 | 1 | PASSIVE | 8,14 | 8 | 90977 |
 | Painbringer | 207387 | 2 | PASSIVE | 8,16 | 8 | 90972,90977,90969 |
-| Sigil of Chains | 202138 | 1 | ACTIVE | 8,18 | 8 | 90986,90965,90972 |
+| Roaring Fire | 391178 | 1 | PASSIVE | 8,18 | 8 | 90986,90965,90972 |
 | Fiery Demise | 389220 | 2 | PASSIVE | 8,20 | 8 | 90986,90955,90956 |
 | Chains of Anger | 389715 | 1 | PASSIVE | 8,22 | 8 | 90955 |
 | Focused Cleave | 343207 | 1 | PASSIVE | 9,15 | 20 | 90976,90974 |
@@ -125,7 +131,7 @@ confidence: high
 | Keen Engagement / Preemptive Strike | 442497 / 444997 | 1/1 | CHOICE | 5,10 | — | 94896 |
 | Bladecraft | 1272153 | 1 | PASSIVE | 5,11 | — | 94897 |
 | Warblade's Hunger | 442502 | 1 | PASSIVE | 5,12 | — | 109770 |
-| Thrill of the Fight | 442686 | 1 | PASSIVE | 6,11 | — | 94910,94895,94906,109769 |
+| Thrill of the Fight | 442686 | 1 | PASSIVE | 6,11 | — | 94910,94895,109769,94906 |
 
 ## Hero: Annihilator
 

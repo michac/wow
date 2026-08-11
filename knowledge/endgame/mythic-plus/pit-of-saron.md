@@ -1,9 +1,11 @@
 ---
-title: Pit of Saron — Midnight S1 M+ dungeon guide
-patch: 12.0.7
-fetched: 2026-06-25
-reviewed: 2026-07-07
+title: Pit of Saron — Midnight Season 1 M+ dungeon guide (rotated out for S2)
+patch: 12.1
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
+  - https://worldofwarcraft.com/en-us/news/24294369   # Midnight Season 2 overview — S2 M+ dungeon pool (tier 1)
+  - https://us.forums.blizzard.com/en/wow/posts/29833350  # S1 ending / S2 information (tier 1)
   - https://www.method.gg/guides/dungeons/pit-of-saron        # upd. 2026-03-23
   - https://www.icy-veins.com/wow/pit-of-saron-dungeon-guide    # upd. 2026-06-15 (12.0.7)
   - Blizzard journal-instance/278 + journal-encounter/608 + /609 + /610 (tier 1, boss-name corroboration)
@@ -11,7 +13,24 @@ sources:
 confidence: high
 ---
 
-# Pit of Saron — Midnight S1 M+ dungeon guide
+# Pit of Saron — Midnight Season 1 M+ dungeon guide (historical)
+
+> ⛔ **NOT IN THE CURRENT MYTHIC+ ROTATION.** Pit of Saron was a **Midnight
+> Season 1** dungeon and **rotated out with 12.1 (2026-08-11)**. The Season 2
+> pool (8 dungeons) is **Altar of Fangs · Murder Row · Den of Nalorakk · The
+> Blinding Vale · Voidscar Arena · Ruby Life Pools · Kings' Rest · Temple of
+> Sethraliss** — see `season-2-overview.md`. Season 2 keystones begin dropping
+> **2026-08-18**.
+>
+> **What this file is still good for:** the dungeon itself still exists and is
+> still runnable at Normal/Heroic/Timewalking, so the route, trash and boss
+> mechanics below remain accurate. **What it is not good for:** anything
+> season-scoped — affixes, keystone levels, loot ilvl, crests, ratings. Those
+> were Season-1 figures and this guide never carried them; get them from
+> `season-2-overview.md`, `loot.md` and `rating-and-rewards.md` instead.
+>
+> Everything below is preserved as written for Season 1 and has **not** been
+> re-verified against 12.1 — no 12.1 note touches this dungeon's encounters.
 
 Wrath-era ICC-adjacent dungeon, brought into Midnight Season 1 M+. Three
 bosses: **Forgemaster Garfrost**, **Ick and Krick**, **Scourgelord

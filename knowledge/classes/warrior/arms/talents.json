@@ -4,10 +4,10 @@
   "spec": "arms",
   "spec_id": 71,
   "tree_id": 850,
-  "patch": "12.0.7",
-  "build": "12.0.7.67808",
+  "patch": "12.1.0",
+  "build": "12.1.0.68914",
   "source": "api",
-  "serial_count": 208,
+  "serial_count": 209,
   "granted_serials": [
     147,
     151
@@ -202,8 +202,8 @@
         "serial_order": 56,
         "req_points": 0,
         "prereq_node_ids": [
-          90328,
-          90343
+          90343,
+          90328
         ],
         "entries": [
           {
@@ -375,8 +375,8 @@
         "serial_order": 61,
         "req_points": 0,
         "prereq_node_ids": [
-          90346,
-          90337
+          90337,
+          90346
         ],
         "entries": [
           {
@@ -532,8 +532,8 @@
         "serial_order": 74,
         "req_points": 8,
         "prereq_node_ids": [
-          90353,
-          108676
+          108676,
+          90353
         ],
         "entries": [
           {
@@ -615,8 +615,8 @@
         "serial_order": 58,
         "req_points": 8,
         "prereq_node_ids": [
-          90331,
-          90375
+          90375,
+          90331
         ],
         "entries": [
           {
@@ -649,8 +649,8 @@
         "serial_order": 171,
         "req_points": 8,
         "prereq_node_ids": [
-          90331,
-          90385
+          90385,
+          90331
         ],
         "entries": [
           {
@@ -683,8 +683,8 @@
         "serial_order": 154,
         "req_points": 8,
         "prereq_node_ids": [
-          90385,
-          108676
+          108676,
+          90385
         ],
         "entries": [
           {
@@ -881,8 +881,8 @@
         "serial_order": 72,
         "req_points": 23,
         "prereq_node_ids": [
-          110118,
-          90347
+          90347,
+          110118
         ],
         "entries": [
           {
@@ -931,8 +931,8 @@
         "serial_order": 63,
         "req_points": 23,
         "prereq_node_ids": [
-          108685,
-          108686
+          108686,
+          108685
         ],
         "entries": [
           {
@@ -1005,8 +1005,8 @@
         "serial_order": 164,
         "req_points": 23,
         "prereq_node_ids": [
-          90360,
-          90322
+          90322,
+          90360
         ],
         "entries": [
           {
@@ -1379,7 +1379,7 @@
       },
       {
         "node_id": 92614,
-        "type": "PASSIVE",
+        "type": "CHOICE",
         "row": 7,
         "col": 16,
         "x": 10800,
@@ -1398,6 +1398,15 @@
             "choice_index": 0,
             "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_punishingblow.jpg",
             "desc": "Overpower deals 15% additional damage to targets below 35% health."
+          },
+          {
+            "entry_id": "137473",
+            "talent": "Mass Execution",
+            "spell_id": 1273075,
+            "max_ranks": "1",
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/warrior_talent_icon_mastercleaver.jpg",
+            "desc": "Cleave and Whirlwind deal 20% additional damage to targets below 35% health."
           }
         ]
       },
@@ -1510,7 +1519,7 @@
       },
       {
         "node_id": 92536,
-        "type": "CHOICE",
+        "type": "PASSIVE",
         "row": 7,
         "col": 21,
         "x": 13800,
@@ -1522,20 +1531,11 @@
         ],
         "entries": [
           {
-            "entry_id": "114641",
-            "talent": "Improved Sweeping Strikes",
-            "spell_id": 383155,
-            "max_ranks": "1",
-            "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_slicedice.jpg",
-            "desc": "Sweeping Strikes affects 6 additional damaging single-target abilities."
-          },
-          {
             "entry_id": "114739",
             "talent": "Powerful Momentum",
             "spell_id": 1261050,
             "max_ranks": "1",
-            "choice_index": 1,
+            "choice_index": 0,
             "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_1115_warrior_crushingblow.jpg",
             "desc": "Secondary targets take an additional 25% damage from Sweeping Strikes."
           }
@@ -1673,42 +1673,18 @@
         ]
       },
       {
-        "node_id": 110175,
+        "node_id": 109682,
         "type": "PASSIVE",
         "row": 8,
         "col": 20,
         "x": 13200,
         "y": 4500,
-        "serial_order": 201,
-        "req_points": 8,
-        "prereq_node_ids": [
-          90447,
-          90293
-        ],
-        "entries": [
-          {
-            "entry_id": "136700",
-            "talent": "Mass Execution",
-            "spell_id": 1273075,
-            "max_ranks": "1",
-            "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/warrior_talent_icon_mastercleaver.jpg",
-            "desc": "Cleave and Whirlwind deal 20% additional damage to targets below 35% health."
-          }
-        ]
-      },
-      {
-        "node_id": 109682,
-        "type": "PASSIVE",
-        "row": 8,
-        "col": 21,
-        "x": 13800,
-        "y": 4500,
         "serial_order": 176,
         "req_points": 8,
         "prereq_node_ids": [
           92536,
-          90293
+          90293,
+          90447
         ],
         "entries": [
           {
@@ -1793,9 +1769,8 @@
         "serial_order": 109,
         "req_points": 20,
         "prereq_node_ids": [
-          90291,
-          110175,
-          109682
+          109682,
+          90291
         ],
         "entries": [
           {
@@ -1824,12 +1799,12 @@
         "entries": [
           {
             "entry_id": "114740",
-            "talent": "Battlelord",
-            "spell_id": 386630,
+            "talent": "Master Tactician",
+            "spell_id": 1261057,
             "max_ranks": "1",
             "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_pvp_hardiness.jpg",
-            "desc": "Overpower has a 35% chance to reset the cooldown of Mortal Strike and reduce the cost of your next Mortal Strike by 33%."
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_revenge.jpg",
+            "desc": "Tactician has a 5% increased chance to trigger."
           }
         ]
       },
@@ -1923,12 +1898,12 @@
         "entries": [
           {
             "entry_id": "135933",
-            "talent": "Master Tactician",
-            "spell_id": 1261057,
+            "talent": "Battlelord",
+            "spell_id": 386630,
             "max_ranks": "1",
             "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_warrior_revenge.jpg",
-            "desc": "Tactician has a 5% increased chance to trigger."
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_pvp_hardiness.jpg",
+            "desc": "Overpower has a 35% chance to reset the cooldown of Mortal Strike and reduce the cost of your next Mortal Strike by 33%."
           }
         ]
       },
@@ -1942,8 +1917,8 @@
         "serial_order": 179,
         "req_points": 20,
         "prereq_node_ids": [
-          90445,
-          90438
+          90438,
+          90445
         ],
         "entries": [
           {
@@ -1964,7 +1939,7 @@
         "col": 20,
         "x": 13200,
         "y": 6300,
-        "serial_order": 202,
+        "serial_order": 201,
         "req_points": 20,
         "prereq_node_ids": [
           90439,
@@ -1989,7 +1964,7 @@
         "col": 18,
         "x": 12000,
         "y": 7050,
-        "serial_order": 205,
+        "serial_order": 204,
         "req_points": 20,
         "prereq_node_ids": [],
         "entries": [

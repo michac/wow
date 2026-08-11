@@ -476,3 +476,323 @@ puts it back the next time the generator runs.
 *Raised by the Combat Assist Plus spec review — `projects/combat-assist/specs/notes.md`
 2026-08-07, where 25 s is recorded and a reviewer's "it is 15 s" was rejected on this
 basis.*
+
+## addon-dev — §4.2 and §4.8.1 finding 7 disagree about `type(secret)` *(2026-08-08)*
+
+**A reconciliation, not a new question.** `security-taint-and-restricted-data.md`
+contradicts itself on what `type()` does to a Secret Value, and both statements predate the
+session that filed this. Filed here as **structural work on the subtree** — an
+internal-consistency defect in one file, which is an editing job — rather than as an
+addon-dev claim, which would belong in that subtree's own queues.
+
+- **§4.2, the operation table** — row `type(secret)`: *allowed, **returns the real type***,
+  result a plain string. The whole table is tagged `[client 2026-08-05]` ("every row below
+  has now been executed in the client against a genuine Secret Value"), and the registry
+  row `secret-op-type` drained it as **OBS-033**.
+- **§4.3, Trap 1** — *"`type()` is not a guard"*, and the worked example is built **on**
+  §4.2's answer: `type(v) == "number"` **passes**, and the comparison on the next line is
+  what errors.
+- **§4.8.1, finding 7** — *"⚠⚠ AND `type(x) == "number"` IS THE WRONG GUARD. **A secret
+  number fails it**, so a bare `type()` check silently rejects exactly the in-combat case
+  you need."* That is the opposite reading: the guard is wrong because it is **false**, not
+  because it is true. Untagged prose, no `[client]` stamp.
+
+Both sections reach the same *advice* — ask `issecretvalue` first — by opposite mechanisms,
+which is exactly why neither reader notices the clash.
+
+**Nothing depends on the answer today.** Every guard in `projects/combat-assist`
+(`Channel.lua`'s `field()`, `Overlay.lua`'s `num()`) class-checks with `issecretvalue`
+before it ever asks `type()`, so both codebases are correct under either reading. That is
+what makes this a filing rather than a fix.
+
+**What to do:** decide which is right and rewrite the loser **in place** (README §7.1's
+current-state rule — no correction note left standing over the old text). ⚠ The evidence is
+not symmetric and the resolution should say so: §4.2's row is measured and drained, finding
+7's sentence is not. Do **not** settle it by re-running the test — `secret-op-type` is
+`answered` and `wowkb.lab drain` refuses an answered question; if the measurement needs
+re-reading, read **OBS-033**.
+
+---
+
+## `frames-textures-animation.md` §7.1 — the FlipBook Lua setters are missing from the setter table
+
+Filed 2026-08-10 by the cap measured-restyle round, which needed them and found the KB
+saying only that the XML attribute names are not the Lua setter names.
+
+§7.1's *"animation | Lua setters `[T1 docs]`"* table carries **Scale**, **Alpha** and
+**Rotation** and stops there — so a reader who needs `FlipBook` gets the warning without the
+answer. The generated docs have it: `SimpleAnimFlipBookAPIDocumentation.lua` declares
+`SetFlipBookRows` / `SetFlipBookColumns` / `SetFlipBookFrames` / `SetFlipBookFrameWidth` /
+`SetFlipBookFrameHeight` plus the five matching getters, every setter
+`SecretArguments = "AllowedWhenUntainted"` and every argument `Nilable = false`. The stem is
+the XSD attribute name with `Set` in front — the **opposite** of the `Scale` trap the same
+section warns about, which is worth stating because it is what makes guessing feel safe.
+
+Worth pairing with the usage: `Blizzard_ActionBar/Shared/ActionButtonSpellAlerts.xml:25`
+declares `flipBookFrameWidth="0" flipBookFrameHeight="0"` — the XSD defaults — so a caller
+setting only rows/columns/frames matches Blizzard's own declaration for that sheet.
+
+**A documentation read, not a measurement.** It takes `[T1 docs: …]`, not `[client]`.
+
+---
+
+## `rewards.py` has no `veteran_crest` / `adventurer_crest` consumer — S2 crest yields value at 0
+
+Filed 2026-08-11 by the 12.1 sweep of `planning/activities/ritual-sites.md`.
+
+12.1 re-pointed the Season-1 world activities at **Season 2 crests**, and several of them
+now pay the *low* tiers: Ritual Sites T1–6 pay Delve-equivalent crests (Veteran at T6, per
+`endgame/delves/overview.md`), Void Assaults and Val/Naigtal pay **S2 Adventurer** crests.
+`tools/wowkb/rewards.py`'s `CURRENCY_CONSUMERS` only defines `champion_crest`,
+`hero_crest`, `myth_crest`, `field_accolade` and the two spark keys — **`veteran_crest` is
+in `CANONICAL_CURRENCY_NAME` but has no consumer test, and `adventurer_crest` does not
+exist at all**. So every activity whose 12.1 yield is a low-tier crest contributes **0** to
+`plan.py:currency_R()` and gets under-ranked for exactly the character the crest is for: a
+fresh/early-S2 character still upgrading Veteran- and Adventurer-track slots.
+
+**What to do:** add both keys with `_crest_consumer("Veteran")` / `_crest_consumer("Adventurer")`
+and an `adventurer_crest` entry in `CANONICAL_CURRENCY_NAME`, then re-check the crest names
+themselves — S2 crests are **Mistcrests**, and `CANONICAL_CURRENCY_NAME` still says
+"Dawncrest" for all four tiers. Also worth a pass over the `_facets.md` canonical-key list,
+which likewise has no `adventurer_crest`.
+
+---
+
+## `rewards.py` still carries Season-1 ilvl constants — `FIELD_ACCOLADE_ILVL` and `CREST_CEILING`
+
+Filed 2026-08-11 by the 12.1 sweep of `planning/activities/val-naigtal.md`.
+
+Two hard-coded S1 numbers in `tools/wowkb/rewards.py` are now wrong by a full season:
+
+- **`FIELD_ACCOLADE_ILVL = 259`** encodes the **removed** 12.0.7 Maren Silverwing
+  Hero-track box. 12.1 deleted the Season 1 gear caches outright; the Field-Accolade
+  shelf is now a **200** Warbound S2 Adventurer cache and **500 / 750** BoP S2 Veteran
+  caches (random / slot-specific). So `_consume_field_accolade` values Accolades against
+  a 259 sidegrade when the real slot-targeted buy lands at **~279 (Veteran 1/6)** — and
+  it prices no distinction between the 200 and 750 tiers.
+- **`CREST_CEILING = {"Champion": 263, "Hero": 276, "Myth": 285}`** is the S1 Dawncrest
+  ladder. The S2 Mistcrest bands (Tier-1 `CurrencyTypes` DB2 @ 12.1.0.69214) are
+  Adventurer 269–282 · Veteran 282–295 · Champion 295–308 · Hero 308–321 · Myth 321–334.
+  Every crest-headroom calculation is therefore capped ~45 ilvl too low, which will read
+  as "no consumer / geared past this track" for a character who is in fact mid-track.
+
+**What to do:** re-fit both constants to the S2 ladder alongside the `adventurer_crest` /
+`veteran_crest` consumer work above (same file, same sweep), and consider sourcing the
+ceilings from the KB rather than a literal so the next season is a data edit.
+
+---
+
+## `goalboard.py` (the `--board`) is Season-1-hard-coded — Dawncrests, the 263 gate, 272/285 crafts
+
+Filed 2026-08-11 by the 12.1 sweep of `planning/goal-model.md`.
+
+The deterministic goal **board** behind `wowkb.plan --board` / `/plan-character` reads
+S1 values throughout `tools/wowkb/goalboard.py`:
+
+- **Currencies:** `MAT_KEYS` names `"Adventurer/Veteran/Champion/Hero/Myth Dawncrest"`,
+  and `_crest_up()` builds `f"{tname} Dawncrest"`. In S2 those balances are **Mistcrests**
+  — every crest lookup will read **0**, so *every* crest-up candidate reports unaffordable.
+- **`CHAMPION_LADDER = [246, 250, 253, 256, 259, 263]`** — the S1 Champion track. S2's
+  Champion band is **292 (1/6) → 308 (6/6)**.
+- **`DAWN_CHAMPION_ILVL = 263`** drives both the discount gate state and the
+  `sub_263_slots` cross-char fact. The S2 lever is **Champion of the Mist** at a **308**
+  high watermark in every slot; the Dawn discount is per-crest-currency and **does not
+  carry over**.
+- **`CRAFT_*` yields 272 (Hero) / 285 (Myth)** — S1 spark-craft brackets. The S2
+  brackets are **not published yet**; don't guess, gate this on `systems/professions.md`.
+
+**Impact:** `--board` output is untrustworthy in S2 until re-pointed — it will look
+plausible while claiming a fully-geared character has 15 sub-263 slots and can afford
+nothing. The *rubric* in `planning/goal-model.md` needs no change; only the constants do.
+
+**What to do:** re-fit alongside the `rewards.py` constants above (same season shift,
+same fix shape) — and prefer sourcing the ladders/ceilings from `endgame/dawncrests.md`
+over literals so the next season is a data edit, not a code edit.
+
+---
+
+## `CLAUDE.md` + `character.py` + `goalboard.py` still hardcode the **Season 1** Catalyst currency
+
+Filed 2026-08-11 by the 12.1 sweep of `endgame/catalyst.md`.
+
+Season 2's Catalyst charge currency is **Venomblight Manaflux**, currency **3465**
+(`CurrencyTypes` DB2 @ 12.1.0.69214, `MaxQty` 8, +1 per 1209600000 ms = 14 days).
+Season 1's **Dawnlight Manaflux (3378)** is now the *old* currency, and it is still
+asserted as the current one in three places:
+
+- **`CLAUDE.md`**, `wowkb.character` paragraph: *"Catalyst charges = Dawnlight Manaflux
+  (currency 3378 — a normal currency)"*.
+- **`tools/wowkb/character.py:608`** — emits that same sentence into every character
+  snapshot's digest.
+- **`tools/wowkb/goalboard.py:45`** — `CATALYST_CURRENCY = "Dawnlight Manaflux"`
+  (and the docstring at `:187` repeats "currency 3378, cap 8").
+
+**Impact:** a Syndicator balance lookup keyed on the S1 name/id will read **0** for every
+character in S2, so charge-aware board/digest output silently claims nobody can catalyze.
+Same failure shape as the `rewards.py` / `goalboard.py` crest-ladder entries above — fix
+in the same pass, and prefer sourcing the currency id from `endgame/catalyst.md` over a
+literal so the next season is a data edit.
+
+⚠ Open question the KB cannot answer yet: whether **leftover S1 Dawnlight Manaflux**
+carries, converts, or is lost at the S2 rollover — the 12.1 notes are silent
+(`@verify-ingame` marker lives on the claim in `endgame/catalyst.md`).
+
+---
+
+## `factions/` is missing a file for **Captain Tokka's Crew** (new in 12.1)
+
+Filed 2026-08-11 by the 12.1 sweep of `factions/amani-tribe.md`.
+
+The `changelog-12.1.md` `factions/` impact map lists exactly one **NEW** row —
+`factions/zuljarras-forces.md` — but 12.1 shipped **two** new Midnight reputation
+tracks. The second is **Captain Tokka's Crew**, the tortollan sea captain's
+fishing/friendship track on the Coiled Isle, documented Tier-1 at
+`raw/pages/worldofwarcraft-com-en-us-news-24293963.md` (l.398, l.410):
+
+- **5 ranks:** Stranger · Doomed Sailor · Cursed Angler · **Venom Trawler** ·
+  **Bloodsworn Crew** (vs the 20-rank shape of a normal renown faction).
+- Quartermaster **Second Mate Sluggs** at **Tokka's Folly**; Tokka himself at
+  **Tokka's Landing** teaches Cursed Fishing and tracks progress.
+- Currencies: Coins, **Voidlight Marl**, **Coiled Filament**, **Artisan Moxie**.
+- Rewards gated on rank: Sea-Dwelling Isle Serpent flying mount (2,500 Coiled
+  Filament + *Bloodsworn Crew or above*), the Envenomed weapon line (500–1,000
+  Coiled Filament + Bloodsworn Crew), Recipe: Tokka's Multi-Ward (1,500 Voidlight
+  Marl + Venom Trawler), Venom Elemental pet (Venom Trawler), profession recipes
+  at Cursed Angler, Eerie Lure (10 Voidlight Marl, ungated).
+- Also new: **Midnight Anglin' Score** (up to 100 pts/fish; 2,500 → *The Briny
+  Best* + the "Briny" title) and an **Epic Fishing Rod** with interchangeable boons.
+
+**Two knock-on fixes owed:** `factions/zuljarras-forces.md` l.18 calls itself
+*"The **sixth** Midnight renown faction"* against a five-faction list, which double-counts
+badly once Tokka's Crew exists; and the sweep's own faction counts need to stop asserting
+a bare number. `factions/amani-tribe.md` has been rewritten to enumerate rather than count.
+
+---
+
+## ~~DECIDE: flip `planning/activities/omnium-folio.md` to `scope:account`?~~ — DONE 2026-08-11
+
+Filed and **settled** 2026-08-11 by the 12.1 sweep of
+`planning/activities/omnium-folio.md`. **Flipped to `scope: account`** in the file's
+front matter (never in `candidates.json`).
+
+Why it was safe to settle inside the sweep rather than defer: the facet's only
+justification was the per-character Sunstrider Omnium unlock questline, and **12.1 made
+that intro account-skippable** once any one character finishes it (`patch-notes/12.1.md`
+l.1539; `changelog-12.1.md` l.390). Row unlocks were already account-wide, and the
+2026-06-25 hotfix already made the weekly's *prerequisites* account-wide from Week 2. So
+`account` is the factually correct value, not a tuning preference.
+
+**Measured while settling it — `scope` is a documented facet the tooling does not read.**
+`_facets.md` → *Cross-character scoring (v2)* describes `scope:character` as scoring a row
+per active character, but `grep scope tools/wowkb/gen_candidates.py tools/wowkb/plan.py`
+returns **nothing**: `gen_candidates` emits only `id / name / why / reward_base / urgency /
+time_blocks / enjoyment_key / gate`, and `candidates.json` has no `scope` key on any row.
+So the v2 cross-character rule is **specified but unimplemented** — the flip cannot have
+changed ranker output, and the earlier worry that a regen would "bake in" the wrong scope
+was unfounded. **Follow-up worth filing separately:** either implement v2 in `plan.py` or
+mark that section of `_facets.md` as aspirational, because a contract doc that describes
+scoring nobody performs will mislead the next sweep the same way.
+
+---
+
+## VERIFY IN GAME: is the Omnium Folio "Seeking Knowledge" weekly still offered?
+
+Filed 2026-08-11 by the 12.1 sweep of `planning/activities/omnium-folio.md`, which now
+carries `status: invalidated` and an `@verify-ingame` marker over exactly this.
+
+Tier-1 fixes the series at **five weeks**, one row per reset (the hotfix archive names
+*"Seeking Knowledge Week 4 of 5: Magical Primessence"*, `patch-notes/12.0.7.md`). 12.0.7
+went live **2026-06-16**, so Week 5 fell in the reset week of **2026-07-14**. Nothing at
+any tier — Tier-1 notes, hotfix archive, wiki, or the SEO guides — states whether a Seeking
+Knowledge quest is offered after that, or whether a character who never started restarts at
+Week 1. (12.1's intro-skip change is *not* evidence either way: the skip is worth shipping
+purely so alts can reach the folio interface, whose rune slotting is per-character.)
+
+**Two questions to answer with one login:** (1) does a caught-up character get a Seeking
+Knowledge quest this reset? (2) does a character that never did the intro get offered
+*Week 1* or the *current* week? Re-activate the planner row on a sighting, not on an
+assumption.
+
+---
+
+## Planner/tooling debts from the 12.1 retier of Field Accolades + world-boss loot
+
+Filed 2026-08-11 by the 12.1 sweep of `planning/activities/showdown-weekly.md`.
+
+Three items, all **scoring/tooling**, none a fact problem in the KB text:
+
+1. **`rewards.py` has no canonical `adventurer_crest` key.** 12.1 pays S2 Adventurer
+   crests from a wide set of sources (Val/Naigtal WQs/rares/elites, Void Strikes +
+   Incursions + their weekly, the Showdown weekly on Normal WT). Every one of those
+   activity rows currently under-declares its yield because there is no key to declare
+   it into. Add the key (and a Veteran-crest counterpart for the Heroic-WT payouts).
+   Blocked on: no Tier-1 source states crest *amounts* — confirm in game.
+2. **`rewards.py::_consume_field_accolade` values Accolades against a deleted item.**
+   It prices them against the Season 1 ~259 Hero-track slot cache, which 12.1 removed.
+   Re-point the consumer at the S2 slot-specific cache: **750 Accolades → Veteran 1/6
+   (279)**, with the 200-Accolade S2 Adventurer Warbound cache as the cheap tier.
+3. **Frozen world-boss loot is still credited at full value.**
+   `world-boss.md` declares `{track: hero, ilvl: 263, chance: 1.0}` for the boss's drop
+   (S1 Hero 1/6 = 263; `showdown-weekly.md` dropped its duplicate of this vector on
+   2026-08-11, since a Season 1 ilvl under a `track:` label that now names a Season 2
+   band is unreadable to the ranker). 263 is still *where the item lands*, but 12.1
+   froze it at Season 1 with **no upgrade path**, so its planning value is far below an
+   equivalent live-track slot —
+   the ranker keeps recommending the row for gearing while the prose sends gearing to
+   the lair (279 Veteran 1/6 + a Veteran Mistcrest). Needs a scoring-model answer for
+   "non-upgradeable yield", not a per-file number tweak (`planning/scoring-model.md`).
+
+Related open question, KB-side not tooling: `systems/void-incursions.md` records the
+200-Accolade S2 Adventurer cache as **slot-specific**, which the Tier-1 12.1 notes do not
+state (they give cost, track and binding only). The **ilvl half is settled** — 266 =
+Adventurer 1/6, derived from `CurrencyTypes` DB2 @ `12.1.0.69214` in
+`endgame/dawncrests.md`, closed 2026-08-11. Only the slot is open. Resolve at Maren
+Silverwing in game; if the cache *is*
+slot-targeted, the cheap deterministic slot buy is 200, not 750, and both files plus any
+Accolade-budget advice change.
+
+---
+
+## From the 12.1 full sweep (2026-08-11) — structural, not per-file
+
+1. **The 2026-08-18 Season-2 rollover is an unsignalled calendar event.** 12.1 shipped
+   into a pre-season week, so ~40 claims across `endgame/` and `planning/activities/`
+   are written as "opens Aug 18" and become present tense that reset, and **seven
+   planner activities are parked `status: invalidated`** awaiting re-activation
+   (`mplus`, `delve-bountiful`, `prey-weekly`, `pvp-conquest`, `voidcores`,
+   `turbulent-timeways` (permanently — the event ended), `omnium-folio` (parked for an
+   unrelated reason)). **No build or blue post will fire on that date** — the feeds
+   cannot catch it. `_meta/next-patch.md` carries the full unlock schedule.
+   ⚠ `delve-bountiful` and `prey-weekly` must have their `yields:` **re-sourced before**
+   `status:` flips back, not after — they were nulled rather than carried forward with
+   Season 1 numbers.
+
+2. **102 class files across 34 specs were not re-verified for 12.1** and carry a dated
+   "NOT RE-VERIFIED FOR 12.1" banner instead of a `reviewed:` stamp. This was a scope
+   decision, not an oversight: 12.1's **+25% player health and creature damage** retune
+   moved numbers in every one of them, so a mechanical restamp would have put a false
+   guarantee on exactly the most misleading content. They stay `patch: 12.0.7` until
+   someone does a real pass. The warlock + demon-hunter specs (6) *were* swept.
+
+3. **`endgame/dawncrests.md` is now a Mistcrest-primary document under a Dawncrest
+   filename.** Left as-is for link stability, but it is a naming decision that should be
+   made deliberately rather than inherited — a rename touches every file that links it.
+
+4. **`wowkb.uiapi` still indexes the 12.0.7 UI-source tree** while `knowledge/addon-dev/`
+   now cites 12.1.0. `uiapi stats` therefore disagrees with the topic files by design.
+   Needs repointing or a `--build` flag. (Also logged as a `[gap]` in
+   `addon-dev/sources.md`.) A second worktree of Blizzard's shipped source now exists at
+   `raw/addon-research/wow-ui-source-12.1.0`; the 12.0.7 checkout is **deliberately kept**
+   because several hundred `file:line` citations still resolve against it.
+
+5. **Two hardcoded constants silently defeat "regenerate on patch day":**
+   `spec_inventory.PINNED_BUILD` and `gen_abilities.PATCH`. Both were bumped on
+   2026-08-11 and a checklist item was added to `game-version.md`, but they should
+   probably read the live build rather than be edited by hand each patch.
+
+6. **`talents.md` and `ability-inventory.md` are pinned to different builds** —
+   `12.1.0.68914` (the Game Data API's `static-12.1.0` namespace) and `12.1.0.69214`
+   (the live client) respectively. Verified harmless this patch: the `Trait*` DB2
+   exports at the two builds are byte-identical (md5 on `TraitNodeEntry`). Each
+   `talents.md` now carries a provenance note saying so. If the API namespace ever lags
+   across a *real* data change, this becomes a live defect.

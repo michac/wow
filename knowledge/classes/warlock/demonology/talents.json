@@ -4,8 +4,8 @@
   "spec": "demonology",
   "spec_id": 266,
   "tree_id": 720,
-  "patch": "12.0.7",
-  "build": "12.0.7.67808",
+  "patch": "12.1.0",
+  "build": "12.1.0.68914",
   "source": "api",
   "serial_count": 202,
   "granted_serials": [
@@ -64,10 +64,10 @@
           {
             "entry_id": "91441",
             "talent": "Soul Leech",
-            "spell_id": 108370,
+            "spell_id": 1311653,
             "max_ranks": "1",
             "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/warlock_siphonlife.jpg",
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/571320.jpg",
             "desc": "All single-target damage done by you and your minions grants you and your pet shadowy shields that absorb 3% of the damage dealt for 15 sec, up to 5% of maximum health."
           }
         ]
@@ -458,9 +458,9 @@
         "serial_order": 178,
         "req_points": 8,
         "prereq_node_ids": [
+          109844,
           109846,
-          71942,
-          109844
+          71942
         ],
         "entries": [
           {
@@ -654,8 +654,8 @@
         "serial_order": 4,
         "req_points": 8,
         "prereq_node_ids": [
-          110072,
-          109845
+          109845,
+          110072
         ],
         "entries": [
           {
@@ -872,9 +872,9 @@
         "serial_order": 17,
         "req_points": 23,
         "prereq_node_ids": [
+          71917,
           110073,
-          110076,
-          71917
+          110076
         ],
         "entries": [
           {

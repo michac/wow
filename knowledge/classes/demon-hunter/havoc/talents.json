@@ -4,8 +4,8 @@
   "spec": "havoc",
   "spec_id": 577,
   "tree_id": 854,
-  "patch": "12.0.7",
-  "build": "12.0.7.67808",
+  "patch": "12.1.0",
+  "build": "12.1.0.68914",
   "source": "api",
   "serial_count": 227,
   "granted_serials": [
@@ -742,8 +742,8 @@
         "serial_order": 81,
         "req_points": 8,
         "prereq_node_ids": [
-          91004,
           90936,
+          91004,
           90939
         ],
         "entries": [
@@ -768,8 +768,8 @@
         "serial_order": 78,
         "req_points": 8,
         "prereq_node_ids": [
-          91004,
           90947,
+          91004,
           90927
         ],
         "entries": [
@@ -1172,7 +1172,7 @@
         "entries": [
           {
             "entry_id": "115245",
-            "talent": "Dash of Chaos",
+            "talent": "Never Say Die",
             "spell_id": 427794,
             "max_ranks": "1",
             "choice_index": 0,
@@ -1743,7 +1743,7 @@
       },
       {
         "node_id": 91035,
-        "type": "PASSIVE",
+        "type": "CHOICE",
         "row": 9,
         "col": 16,
         "x": 11400,
@@ -1751,9 +1751,9 @@
         "serial_order": 106,
         "req_points": 20,
         "prereq_node_ids": [
+          90921,
           91036,
-          91021,
-          90921
+          91021
         ],
         "entries": [
           {
@@ -1764,12 +1764,21 @@
             "choice_index": 0,
             "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_glaive_1h_artifactaldrochi_d_03dual.jpg",
             "desc": "Blade Dance causes your next Chaos Strike within 8 sec to have a 14-30% increased critical strike chance and will always refund Fury."
+          },
+          {
+            "entry_id": "137827",
+            "talent": "Inner Demon",
+            "spell_id": 389693,
+            "max_ranks": "1",
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_glide.jpg",
+            "desc": "Entering demon form causes your next Chaos Strike to unleash your inner demon, causing it to crash into your target and deal 74 Chaos damage to all nearby enemies. Deals reduced damage beyond 5 targets."
           }
         ]
       },
       {
         "node_id": 91024,
-        "type": "CHOICE",
+        "type": "PASSIVE",
         "row": 9,
         "col": 18,
         "x": 12300,
@@ -1782,19 +1791,10 @@
         "entries": [
           {
             "entry_id": "112947",
-            "talent": "Inner Demon",
-            "spell_id": 389693,
-            "max_ranks": "1",
-            "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_glide.jpg",
-            "desc": "Entering demon form causes your next Chaos Strike to unleash your inner demon, causing it to crash into your target and deal 74 Chaos damage to all nearby enemies. Deals reduced damage beyond 5 targets."
-          },
-          {
-            "entry_id": "117765",
             "talent": "Chaotic Transformation",
             "spell_id": 388112,
             "max_ranks": "1",
-            "choice_index": 1,
+            "choice_index": 0,
             "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_demonhunter_glide.jpg",
             "desc": "When you activate Metamorphosis, the cooldowns of Blade Dance and Eye Beam are immediately reset."
           }
@@ -1810,9 +1810,9 @@
         "serial_order": 88,
         "req_points": 20,
         "prereq_node_ids": [
+          90921,
           90917,
-          91013,
-          90921
+          91013
         ],
         "entries": [
           {
@@ -2136,8 +2136,8 @@
           "prereq_node_ids": [
             94904,
             94902,
-            94909,
-            109772
+            109772,
+            94909
           ],
           "entries": [
             {
@@ -2734,8 +2734,8 @@
           "prereq_node_ids": [
             94910,
             94895,
-            94906,
-            109769
+            109769,
+            94906
           ],
           "entries": [
             {

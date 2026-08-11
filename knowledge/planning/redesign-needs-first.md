@@ -1,8 +1,8 @@
 ---
 title: Session Planner — Needs-First Redesign (design doc)
-patch: 12.0.7
-fetched: 2026-07-07
-reviewed: 2026-07-07
+patch: 12.1
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
   - knowledge/planning/scoring-model.md
   - knowledge/planning/roadmap.md
@@ -11,6 +11,10 @@ sources:
   - knowledge/systems/void-incursions.md
   - https://worldofwarcraft.blizzard.com/en-us/news/24244888/revelations-content-update-notes
   - https://www.icy-veins.com/wow/news/showdown-reward-changes-higher-level-gear-faster-rare-spawns-and-more/
+  - https://worldofwarcraft.com/en-us/news/24293281   # 12.1 Content Update Notes (Tier 1)
+  - https://worldofwarcraft.com/en-us/news/24294369   # Midnight Season 2 overview (Tier 1)
+  - knowledge/_meta/moving-values.md                  # Tier-1 floor: rows 62-64, 73-75, 77, 92, 94
+  - knowledge/_meta/patch-notes/12.1.md               # verbatim archive: VOID-TOUCHED CACHES / VAL AND NAIGTAL / RITUAL SITES / Season 2 pre-season
 confidence: high     # design/methodology doc, not a fetched game fact
 ---
 
@@ -27,6 +31,57 @@ confidence: high     # design/methodology doc, not a fetched game fact
 > "scoring quality A/B/C" items in [`roadmap.md`](roadmap.md) with a single
 > architectural pivot they were each groping toward. Read `roadmap.md` and
 > `scoring-model.md` first — this doc assumes them.
+
+> ⚠ **12.1 re-base owed before Phase 2b (noted 2026-08-11; the architecture is
+> unaffected, the constants are not).** Everything numeric below is **Season 1**:
+> it was written against Encomplete's 2026-07-07 state and the S1 ladder. 12.1
+> went live 2026-08-11 and **Season 2 opens 2026-08-18**, which moves three
+> things this design hardcodes:
+> - **Crests renamed and the whole ladder shifted +45.** S1 *Dawncrests* → S2
+>   **Mistcrests**; S2 gear runs **269 → 334** (Adventurer 269–282 · Veteran
+>   282–295 · Champion 295–308 · Hero **308–321** · Myth 321–334) against S1's
+>   224 → 289. So every "Hero **276** ceiling", "259 slot" and "285 recraft" in
+>   this doc — and `rewards.py:CREST_CEILING = {Champion 263, Hero 276, Myth 285}`
+>   plus the `dawncrest` keys in `CURRENCY_RULES` / `CURRENCY_CONSUMERS` — is
+>   **S1-era and wrong for a character gearing today**. The *shapes* (currency
+>   scores by its pending consumer; a drop scores by `landing − current_slot`)
+>   are unchanged; only the tables move. Re-base off
+>   [`_meta/moving-values.md`](../_meta/moving-values.md), which is the Tier-1
+>   floor here (currency IDs 3437–3441, `CurrencyTypes` DB2 @ 12.1.0.69214).
+> - **The equipment-track gap Phase 1 works around is now worth closing properly.**
+>   The ilvl→track approximation is exactly the thing a +45 shift breaks silently;
+>   PlannerState schema ≥ 8 reads `track`/step off the item tooltip, so the
+>   [resolved-Q5](#resolved-questions-verified-2026-07-07) "extend the addon" path
+>   has partly shipped — wire the ranker to it rather than re-tuning the ceiling
+>   constants.
+> - **Two named activities are gone.** **Turbulent Timeways ended 2026-08-11**
+>   (dropped from the leveler-synergy and expiring-windows examples below), and Ritual
+>   Sites T6 — this doc's headline winner — **no longer offers a Voidcore bonus
+>   roll** and now pays **S2** crests at S2 Delve-equivalent rates.
+> - **Three reward *sources* below no longer exist** — structural, so the "it's all
+>   Season 1 numbers" scoping above does **not** cover them:
+>   - **Void-Touched Caches:** 12.1 **removed the Season 1 gear caches outright**.
+>     The replacements are an **S2 Adventurer *Warbound* cache for 200 Field
+>     Accolades** and **S2 Veteran *BoP* caches for 500 (random slot) / 750
+>     (slot-specific)**. So the Cross-character-model play below — "Warbound
+>     Champion caches (100) / Warbound Heroic caches (750)" — names two things that
+>     are gone, and the *only* warbound cache today is the 200-Accolade Adventurer
+>     one. ([`moving-values.md` row 75](../_meta/moving-values.md); `patch-notes/12.1.md`,
+>     VOID-TOUCHED CACHES.) The accolade→alt **shape** survives; the tier and price
+>     do not.
+>   - **Nebulous Voidcores:** S1 Voidcores **convert to gold** at S1's end and can no
+>     longer be spent on S1 content; from S2 they are a **Great Vault reward** (raid
+>     re-roll cost **1**, was 2), and they are **absent from the first S2 vault** —
+>     bonus rolls return the **week of Aug 25** and need ≥3 vault panes unlocked. So
+>     "Nebulous Voidcore 11" in Scan-state, and Voidcores as a spendable resource in
+>     Phase 1 / the worked example, describe a dead balance.
+>   - **"Knocking Off the Top (Heroic)":** its Mythic quest reward now **stays a
+>     Season 1 item and can no longer be upgraded** (`moving-values.md` row 77). That
+>     retires the Phase-3 chain built on it as a *design instruction*, not just as a
+>     stale ilvl.
+>
+> The Phase 0–2a ✅ claims stand as *shipped code*; treat their scores and worked
+> numbers as a 2026-07-07 snapshot, not a current ranking.
 
 ## TL;DR
 
@@ -96,7 +151,10 @@ dump is already the source: **schema 4 dumps `currencies` (via `scanCurrencies`)
 AND per-slot `equipment` directly** (verified on Encomplete's live dump), so the
 planner needs no Syndicator round-trip (Syndicator is only for the `wowkb.character`
 KB snapshots). Encomplete's balances (Hero 176, Myth 20, Field Accolade 1,309,
-Nebulous Voidcore 11, Coffer Shards 58) come straight off the dump. **Two real gaps
+Nebulous Voidcore 11, Coffer Shards 58) come straight off the dump — a 2026-07-07
+S1 reading, and note the **Voidcore line is now a dead balance**: S1 Voidcores
+convert to gold at S1's end (see the 12.1 callout above), so treat that key as
+present-but-unspendable until S2 restores Voidcores as a vault reward. **Two real gaps
 remain:** (1) `equipment` carries `itemID` + `ilvl` but **not the upgrade track/level**
 ("Hero 3/6") — needed to read a slot's remaining crest headroom; (2) **Sparks of
 Radiance, Catalyst charges, Ascendant Voidshards** aren't dumped yet (note: *Radiant
@@ -115,7 +173,11 @@ A **need** is a structured, character-scoped want with a value weight. Types:
 - `currency_accumulate{char, currency, have, target, purpose}` — e.g. *Myth crests
   to recraft the waist 259→285*; this is where bottleneck logic lives.
 - `power_unlock{char, system}` — Omnium Folio rows, embellishments, Nilhammer chain.
-- `alt_gearing{char, via_source}` — Champion/Heroic **warbound** caches, drops.
+- `alt_gearing{char, via_source}` — **warbound** caches, drops. ⚠ The S1
+  Champion/Heroic caches this example was written against were **removed in 12.1**;
+  the only warbound cache today is the **S2 Adventurer** one at 200 Field Accolades
+  (see the 12.1 callout above). The `warbound: true` flag is what the model keys off,
+  and that survives.
 - `maintenance{char, kind}` — vault fill, weekly-capped chunks, weekly profession KP.
 - `collectible{item, source, effort, novelty}` — mounts/pets/toys (the "fun" axis).
 
@@ -143,8 +205,12 @@ score(c) = value(c) / time(c)
 ```
 
 - `marginal(c, n)` = how much of need *n* **one run** of *c* closes, **capped by
-  the remaining need and the remaining weekly cap**. (This is what makes Ritual
-  Sites T6 — 5 Myth + 10 Hero crests/run — beat a world-boss drop for Encomplete.)
+  the remaining need and the remaining weekly cap**. (This is what made Ritual
+  Sites T6 — 5 Myth + 10 Hero Dawncrests/run — beat a world-boss drop for
+  Encomplete **in Season 1**. ⚠ **12.1 removed that yield:** Ritual Site tiers 1–6
+  now pay **Season 2 crests at Delve-equivalent rates**, i.e. only up to **Veteran
+  Mistcrests** — see `systems/ritual-sites.md`. The example still illustrates how
+  `marginal()` works; it is no longer a live recommendation.)
 - `w(n)` = need priority from step 3.
 - `p(c, n)` = probability / expected-value factor: **1.0 for a deterministic
   exchange**, `chance × affordable_attempts` for an RNG drop. This is the
@@ -167,7 +233,7 @@ yields:
     - { track: hero, ilvl: 259, chance: 0.5, slots: [ring, trinket] }   # RNG drop
   vault: { track: world, count: 1 }
 deterministic: true            # or per-yield `chance`
-weekly_cap: { runs: 6 }        # e.g. bountiful coffers; caps marginal()
+weekly_cap: { runs: 6 }        # illustrative only; caps marginal()
 scope: character               # character | account
 warbound: true                 # yield usable cross-character (drives alt_gearing)
 ```
@@ -193,14 +259,22 @@ but no code reads:
 - **Model warbound flows.** A purchase/drop on char A that yields *warbound* gear
   counts toward char B's `alt_gearing` need. Worked case (verified 2026-07-07):
   Encomplete holds **1,309 Field Accolades**; his own slots are already Hero, so
-  a BoP Hero cache doesn't upgrade him — but **Warbound Champion caches (100 ea)
-  and now Warbound Heroic caches (750 ea, flipped BoP→Warbound in the June 26/30
-  hotfixes)** turn that stockpile into ~13 Champion or ~1 Heroic alt piece(s).
-  The planner should surface "spend Accolades → warbound caches → Uncomplete/
-  Hallick" as a **top-of-roster** play.
-- **Leveler synergy.** XP-bearing activities (Turbulent Timeways, Void Assault's
-  12.0.7-doubled XP) are valued **only for roster members below cap** — worthless
-  on the 90 main, high for the leveler.
+  a BoP Hero cache doesn't upgrade him — but a **warbound** cache turns that
+  stockpile into alt pieces. The planner should surface "spend Accolades →
+  warbound caches → Uncomplete/Hallick" as a **top-of-roster** play.
+  ⚠ **The cache table this was written against is gone (12.1).** The S1 caches
+  (Warbound Champion 100 · Warbound Heroic 750, the latter flipped BoP→Warbound in
+  the June 26/30 hotfixes) were **removed**; today it is **S2 Adventurer *Warbound*
+  200** and **S2 Veteran *BoP* 500 (random) / 750 (slot-specific)**
+  ([`moving-values.md` row 75](../_meta/moving-values.md)). Note the flip: the
+  warbound tier is now the *lowest* one, so the alt-feeding math is 1,309 → ~6
+  Adventurer pieces, and the Veteran caches feed **nobody but the buyer**. Re-derive
+  the numbers when Phase 4 lands; the `warbound: true` yield flag is what the model
+  actually keys off, and that survives.
+- **Leveler synergy.** XP-bearing activities (e.g. Void Assault's 12.0.7-doubled
+  XP) are valued **only for roster members below cap** — worthless on the 90 main,
+  high for the leveler. (Turbulent Timeways was the other example here; the event
+  **ended 2026-08-11**, so it is out of the ranking entirely.)
 
 ## Fun / collectibles
 
@@ -222,7 +296,7 @@ that the phases below plug into rather than reinvent:
   scores by `reward_ilvl − your weakest slot`, currency by whether it advances an
   *uncapped* track. Its `char_state` schema — `{ilvl_by_slot, track_caps, renown,
   currencies}` — is the needs-first "scan state" object under another name. **Phase 1
-  extended it** with the currency→consumer layer (`TRACK_CEILING`/`track_of_ilvl`,
+  extended it** with the currency→consumer layer (`CREST_CEILING`/`track_of_ilvl`,
   `CURRENCY_CONSUMERS`, `currency_yield_R`) and wired that into `plan.py:score()` via
   `currency_R` (the `max(breakpoint, slot-target, currency)` override) — so it's now
   **called with a real dump** (Encomplete), not just synthetic `char_state`. Still
@@ -255,11 +329,16 @@ Order is chosen so each stage ships value and de-risks the next.
   (`renown-dungeon-weekly` pinned `reward_base: 1`; make it conditional-on-renown in
   Phase 4); stopped valuing Void Assault XP at cap (`void-assault` reward detail flags
   the doubled XP as leveler-only); promoted Ritual Sites T6 out of the backlog
-  (`ritual-sites` surfaces the 5 Myth + 10 Heroic Dawncrests/run — the only repeatable
-  solo Myth-crest farm); handled the `raid_weekly` (lockout match) / `campaign_incomplete`
+  (`ritual-sites` surfaced the 5 Myth + 10 Heroic Dawncrests/run — **in Season 1**
+  the only repeatable solo Myth-crest farm; ⚠ **12.1 removed that yield entirely**,
+  and there is currently **no repeatable solo Myth-crest source** — Myth Mistcrests
+  come only from Mythic Venomous Abyss and +9 keys); handled the `raid_weekly` (lockout match) / `campaign_incomplete`
   (level-cap proxy) gates that fell through to `unknown` (`plan.py:gate_status`).
-  `void-incursions.md` (Heroic caches now Warbound) was already corrected in the hotfix
-  sweep. `candidates.json` regenerated; the `@verify-ingame` on the Sporefall lockout
+  `void-incursions.md` was corrected in the hotfix sweep (the S1 Heroic cache had
+  flipped BoP→Warbound). ⚠ **That cache no longer exists:** 12.1 removed the Season 1
+  gear caches outright ([`moving-values.md` row 75](../_meta/moving-values.md);
+  `patch-notes/12.1.md`, VOID-TOUCHED CACHES) — read this bullet as a record of what
+  Phase 0 fixed, not as a current cache fact. `candidates.json` regenerated; the `@verify-ingame` on the Sporefall lockout
   name is on the generated checklist.
 - **Phase 1 — currency inventory + pending-consumer valuation. ✅ DONE (2026-07-07).**
   Read `currencies` off the dump (already there — no Syndicator). Implemented as a
@@ -269,7 +348,7 @@ Order is chosen so each stage ships value and de-risks the next.
   unlock it enables *right now*, → 0 when there's no pending consumer** — crests → 0
   once every equipped slot is track-capped; Field Accolades → the `slot_target`-shape
   R of the ~259 Hero box they'd buy, → 0 when weakest ≥ 259; Sparks → 0 with no craft
-  queued. Pure valuation lives in `rewards.py` (`TRACK_CEILING`/`track_of_ilvl`,
+  queued. Pure valuation lives in `rewards.py` (`CREST_CEILING`/`track_of_ilvl`,
   `CURRENCY_CONSUMERS`, `currency_yield_R`), thin orchestration in
   `plan.py:currency_R()` — folded into the existing
   `max(breakpoint, slot-target, currency)` override; genuine crest/accolade sources
@@ -309,15 +388,21 @@ Order is chosen so each stage ships value and de-risks the next.
   score the terminal via `slot_target_R`, apply a per-step discount, and surface "next
   step in chain X" — so a Myth chain ranks high *because* its terminal exceeds 276,
   not for its cheap early steps. Chains to encode (facts already in KB):
-  **Nilhammer/Ascendant → weapon 295** (`systems/void-forge.md`), **Val/Naigtal
-  heroic → Void Commander's Emblems → Myth belt quest** ([resolved-Q3](#resolved-questions-verified-2026-07-07)),
+  **Nilhammer/Ascendant → weapon 295** (`systems/void-forge.md`), ~~**Val/Naigtal
+  heroic → Void Commander's Emblems → Myth belt quest**~~ ([resolved-Q3](#resolved-questions-verified-2026-07-07))
+  — ⚠ **do not encode this one**: as of 12.1 the "Knocking Off the Top (Heroic)"
+  reward **stays a Season 1 item and can no longer be upgraded**
+  ([`moving-values.md` row 77](../_meta/moving-values.md)), so its terminal no longer
+  clears the S2 ladder and the chain is dead as an instruction, not merely re-numbered —
   **Prey → Nightmare unlock → Ascendant Voidshards** (`activities/prey-weekly.md`).
+  The chain *mechanism* (discounted terminal) still needs ≥2 live examples; find a
+  Season-2 replacement before building it.
 - **Phase 4 — cross-character roster + warbound flows + `scope`.** The big payoff.
   Add a **`--solo` coordination-cost penalty** — down-rank M+/raid when you can't
   field a group — so group content stops out-ranking solo plays on a solo night.
-- **Phase 5 — collectible/fun needs; an "expiring windows" output block** (Darkmoon /
-  Timeways deadlines surfaced independently of reset gating, so a closing window isn't
-  buried); `todo.md` auto-population; (long-term) the PlannerState in-game checklist UI
+- **Phase 5 — collectible/fun needs; an "expiring windows" output block** (Darkmoon
+  Faire and other limited-window event deadlines surfaced independently of reset
+  gating, so a closing window isn't buried); `todo.md` auto-population; (long-term) the PlannerState in-game checklist UI
   so manual-tier items are ticked in-game.
 
 Roadmap **A** (formula rebalance, `sqrt(T)`) and **C** (de-noise repeatables)
@@ -325,26 +410,42 @@ fold in as tuning of the Phase 1–2 scoring loop.
 
 ## Resolved questions (verified 2026-07-07)
 
-All five are now resolved — four via web verification against Tier-1/3 sources,
-one as a design decision. Findings were pushed to the topic files of record
+All five were resolved — four via web verification against Tier-1/3 sources,
+one as a design decision. **Four of the five (1, 2, 3 and 4) have since been
+overtaken by 12.1** and are struck below; read those as the Season 1 record plus the
+transferable lesson, never as buildable instructions. Findings were pushed to the topic files of record
 (this doc defers to them; citations live there). The handful of residual
 *in-game* spot-confirmations these surfaced (e.g. the Omnium rune-effect scope)
 are no longer loose ends: they carry `@verify-ingame` markers and appear on the
 generated checklist at `_meta/verify-in-game.md`, which `/sync-characters` shows
 while you're logged in.
 
-1. **Warbound Heroic cache — price is 750** (Champion cache 100), unchanged by
-   the June 26/30 Showdown hotfixes. Watch the conflation trap: the *slot-specific*
-   Heroic cache is 750; a separate *random-slot* Heroic cache was discounted to
-   100. `void-incursions.md` was already corrected in the hotfix sweep — no longer
-   stale. Home: `systems/void-incursions.md`, `systems/ritual-sites.md`.
+1. ~~**Warbound Heroic cache — price is 750**~~ **(SEASON 1 — HISTORICAL, the
+   caches were removed in 12.1.)** *S1 finding, retained for the reasoning only:*
+   Warbound Heroic cache 750 (Champion cache 100), unchanged by the June 26/30
+   Showdown hotfixes; the conflation trap was that the *slot-specific* Heroic cache
+   was 750 while a separate *random-slot* Heroic cache was discounted to 100.
+   **None of those caches exist now** — 12.1 removed the S1 gear caches and replaced
+   them with **S2 Adventurer Warbound 200** / **S2 Veteran BoP 500 (random) / 750
+   (slot-specific)** ([`moving-values.md` row 75](../_meta/moving-values.md)). The
+   *transferable* lesson is the trap itself: price alone does not identify a cache —
+   always pin **tier + warbound/BoP + random/slot-specific** together.
+   Home: `systems/void-incursions.md`, `systems/ritual-sites.md`.
 
-2. **Weekly caps — resolved.** Restored Coffer Keys hard-cap **6/wk** (600 shards;
-   100 shards auto-convert to a key on delve entry), unchanged in 12.0.7. The Myth
-   **gilded-stash** "conflict" was a false conflict: the T11 stash **unlocks at
-   Delver's Journey rank 2 (Hero crests)** and **upgrades to Myth Dawncrests at
-   rank 4**; weekly Myth output is **21 (7 × 3 stashes)**, not 20. Home:
-   `endgame/delves/overview.md` (TODO closed).
+2. ~~**Weekly caps — resolved.**~~ **(SEASON 1 — SUSPENDED IN 12.1; the numbers are
+   deleted, not re-hedged.)** The S1 finding was a Restored-Coffer-Key weekly hard cap
+   plus a Delver's-Journey-gated Myth gilded stash, and it closed the delve TODO. **None
+   of that is a current fact.** In the 12.1 pre-season week there are **no Coffer Keys
+   and no Bountiful Delves at all**, and Delves cap at **Adventurer 3/6 gear + Veteran
+   crests**; keys begin dropping again with maintenance the **week of Aug 18**
+   ([`moving-values.md` row 64](../_meta/moving-values.md); `patch-notes/12.1.md`,
+   Season 2 pre-season). 12.1 separately **retuned Coffer Key Shard amounts across
+   multiple sources**, and Blizzard calls that tuning **ongoing / a work in progress**
+   ([row 94](../_meta/moving-values.md)) — so no shard or weekly-Myth-output number is
+   carried forward here. This is a **structural** suspension, not a numeric drift, so
+   the "everything numeric below is Season 1" scoping does **not** cover it: a delve
+   activity's `weekly_cap` and Myth-crest yield have **no S2 value to fill in yet**.
+   Re-derive from `endgame/delves/overview.md` once Season 2 proper is running.
 
 3. **Val/Naigtal Myth claims — both literal claims FALSE, but they map to a real
    mechanic the KB was missing.** World-boss loot never escalates to Myth (caps at
@@ -354,9 +455,14 @@ while you're logged in.
    per weekly lockout from the Heroic-WT world bosses) → **one Myth 1/6 item, ilvl
    272, choice of Cloak / Belt / Bracers** — the only Myth-track reward from
    open-world content. **Now documented in `endgame/world-events.md`.**
-   **Planner impact:** a deterministic ~4-week path to a **Myth belt** that
-   satisfies Encomplete's waist need *without* the Myth-crest recraft — model it as
-   a high-value, slow, Heroic-WT `slot_upgrade` need competing with the crest path.
+   **Planner impact (S1 — NO LONGER BUILDABLE):** it *was* a deterministic ~4-week
+   path to a **Myth belt** satisfying Encomplete's waist need without the Myth-crest
+   recraft. ⚠ **12.1 froze it:** the "Knocking Off the Top (Heroic)" reward stays a
+   **Season 1 item and can no longer be upgraded**
+   ([`moving-values.md` row 77](../_meta/moving-values.md)), so it is not a
+   competitive `slot_upgrade` on the S2 ladder and **must not be encoded in Phase 3**.
+   The *mechanic* finding (both literal claims false; world-boss loot caps at Warbound
+   Heroic; Val/Naigtal crests capped at Heroic) stands as the S1 record.
 
 4. **Omnium Folio — row progression is ACCOUNT-WIDE.** Earning a Mote of Omnial
    Inquiry on any one character unlocks that row for the whole warband; the only
@@ -365,6 +471,13 @@ while you're logged in.
    quests once, on any character) **+ a one-time per-character unlock-questline
    task** — *not* a weekly per-alt repeat. Rune effect/config is per-character
    (low-med confidence, unverified vs Tier-1). Home: `systems/omnium-folio.md`.
+   ⚠ **OVERTAKEN BY 12.1 (2026-08-11):** the intro questline "can now be skipped
+   across characters on the account once it has been completed by at least one
+   character" (Tier 1, 12.1 notes → QUESTS). So the "+ a one-time per-character
+   unlock-questline task" half of this instruction is **dead** — the planner should
+   model Omnium Folio as a **pure account need** with no per-character step, which
+   is how `systems/omnium-folio.md` now describes it. Do not build the two-part
+   model above.
 
 5. **Currency capture gaps — decision: addon-dump, not manual tier.** The premise
    ("invisible to Syndicator") holds but doesn't force a manual tier: PlannerState
@@ -396,7 +509,10 @@ night — a materially better plan, because the model started from what he *need
 > example are now live. **Currency half (Phase 1):** Ritual Sites is lifted by its
 > Myth-crest consumer (`reward_base 3 → currency_R 4`, score 3.6 → **4.8**) and the
 > crest/bottleneck line surfaces "Myth 20 (bottleneck)." **Gear-drop half (Phase
-> 2a):** world-boss / voidcores / prey / delve / showdown / timeways / faction drops
+> 2a):** ⚠ *(Season 1 worked example — `timeways` has since ended, `world-boss` is
+> superseded by Lairs and frozen at S1, and S1 `voidcores` converted to gold; the
+> mechanism holds, the list does not.)* world-boss / voidcores / prey / delve /
+> showdown / timeways / faction drops
 > now fall to **R=0 on the slot term** for Encomplete (a 259 Hero drop can't beat his
 > 259 slots — "no slot upgrade — drop lands ≤ your slots"), landing at the bottom of
 > the list, while the same drops still score 20+ for the fresh alt Uncomplete — the

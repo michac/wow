@@ -1,18 +1,18 @@
 ---
 title: Devourer Demon Hunter Raid Guide
-patch: 12.0.7
-fetched: 2026-07-14
-reviewed: 2026-07-14
+patch: 12.1
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
   - https://maxroll.gg/wow/class-guides/devourer-demon-hunter-raid-guide (maxroll.gg, Tier 3)
 confidence: medium
 verbatim: true          # unedited external capture — distill on read, not on insert
 source: maxroll.gg
 author: nicememes
-maxroll_updated: 2026-06-22   # source's last-modified (staleness signal)
+maxroll_updated: 2026-08-11   # source's last-modified (staleness signal)
 ---
 
-Welcome to the **Devourer Demon Hunter** Raid guide for the World of Warcraft patch 12.0.7! This guide covers everything you need to know to understand your character! Are you starting out and leveling up from 80? Check out the leveling guide!
+Welcome to the **Devourer Demon Hunter** Raid guide for the World of Warcraft patch 12.1! This guide covers everything you need to know to understand your character! Are you starting out and leveling up from 80? Check out the leveling guide!
 
 Single-Target 
 
@@ -34,7 +34,7 @@ Mobility
 
 Excellent
 
-[Maxroll paperdoll import](https://backend.maxroll.gg/wow/embed-tools/paperdoll=I4fAgicB3_fABEL0DIIEBAwJ5OwVtOAEHIoAhEQAY48AAERAAwPrDwPrD4NNFQBGvC9AAgQAAUADkQL0DIACBAQC5OQBPAhHOPAgIUwLF8ACZKMAB4BBFoaCPgjJOPgAAEAAxj7AhEQAgtbBuBEGAPA_sOAAAIyLdEQAyC9AAEhWEkhzFACHvk7A8z6AeTTBQRReWPggIEQDUUgMM8fzDAQEywgAOPAARwAJa48ACgQAAcRuDUQOEgT-F8AA_0wD04czDIACBAQB5OggCESA)
+[Maxroll paperdoll import](https://backend.maxroll.gg/wow/embed-tools/paperdoll=J8pAQicB3_fABMgJEIIGBAw74OA_sOAZ1chNCKAWBEQ6XQAAZEAAX1aCWQAj1UgFI9KJEIACFAwM5OggC4UAXV9ABQbCSAQCJIBKXU9ABA-FEAIEBAQBNVQNAAbCjgQBqOQAPAPSBfBBBk1uDQAMBAwD5OAGAPAAjY7LgBzt1wgNbWySBEAY7OggIEAAYA8A8z6A3WzSBEgskQAAIUAACKgTBo8FEEQ2XQggQEAA13AsBcBEB4paCIYFUAgtJQBGnF9AAgQAAUAIIQ1HEUBDE09FNwALYFQA0LCBCgQAA8TuFsJOBM7FEIACBAwP5OggCgVA)
 
 **Devourer Demon Hunter** **Raid Best in Slot
 
@@ -69,7 +69,7 @@ As **Devourer Demon Hunter** , you have access to [Midnight](https://www.wowhead
 
 **[Annihilator](https://www.wowhead.com/spell=134251)**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CicBBG685WLf6r9l_nYEejUaUDAMjZmZMzMjxMDAAAAAAAjxYMDAAAAAAACmxMMzMzMzMzMDzsYGjFtsxMzMzSbzMzAYYAIgxMMmBA)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CicBIo1c2KfIEsPoy9fznypG4BA2MmZmZmZmBzMAAAAAAALzYMYGAAAAAAAEMjBzMzMzMzMzwMLmxYRLLMzMzs12MzMAmxAQAjBjZA)
 
 [Annihilator](https://www.wowhead.com/spell=134251) **Devourer Demon Hunter** Raid Build
 
@@ -105,10 +105,10 @@ Discover all talents that significantly alter your gameplay within the Spec and 
 
 ### Tier Set
 
-Check out all the [Midnight Season 1 Tier Sets](https://maxroll.gg/wow/resources/midnight-season-1-tier-sets)!
+Check out all the [**Midnight Season 2 Tier Sets**](https://maxroll.gg/wow/resources/midnight-season-2-tier-sets)!
 
-* **2-Set:** **Void ray damage increased by 10%.
-  * **4-Set:** **Collapsing Star damage increased by 10% and it now generates 10 Fury.
+* **2-Set:**  Harvesting 4 or more ‍Soul Fragments with ‍Reap has a 20% chance to cause your next ‍Consume to be instant cast and explode in a ‍Soulburst, dealing Cosmic damage to nearby enemies.
+  * **4-Set:**  ‍Soulburst generates 8 ‍Soul Fragments and grants ‍Moment of Craving. ‍Reap deals 20% increased damage.
 
 ### Single-Target
 
@@ -118,7 +118,7 @@ Check out all the [Midnight Season 1 Tier Sets](https://maxroll.gg/wow/resources
 
 * The **Devourer Demon Hunter's** opener is rather easy, you just spam consumes untill 100 fury, dump it with Void ray and finish with an eradicate, repeat this untill you can enter [Void Metamorphosis](https://www.wowhead.com/spell=132282).
 
-[Maxroll rotation import](https://backend.maxroll.gg/wow/embed-tools/rotation=IgYAklgQ-ozBAAwDV5GdpxGbgEDMwAiR1JXeAIEgBcBeAAgQiRrEAAAJSVGclFGdgQHapNHIzVWc1VmbjVGI1lANsVDMgM1b1x2cAIURUKBAAAgABIgzDAAAAAQAI6aBIggQjUbAYkBVE4hoJABKiRrEAAAAAIkSUKB)
+[Maxroll rotation import](https://backend.maxroll.gg/wow/embed-tools/rotation=JoZAwLXCC5jOHAAAXUlb0lGbgQDIhZXYpxWYixWZgM3b1x2cBI0I1KBAAIEg6cAAAAAACJGtSAAAkIVZwVWY0BCdol2cgMXZxVXZuNWZgUnb0lGbsBSNwAyUvVHbzBgQFRpEAAAACEwZRPAAIEAACKgTBEAiuOAABgUBWBAAZgFBeIaAsADACJGtSAAAAAgQKRpE)
 
 **Devourer Demon Hunter** single-target opener in Mythic+
 
@@ -131,6 +131,7 @@ This is a general priority you aim to maintain throughout the fight.
   * Cast [Collapsing Star](https://www.wowhead.com/spell=132281)
   * Cast [Eradicate](https://www.wowhead.com/spell=132287)
   * Cast [Void Ray](https://www.wowhead.com/spell=1213649) outside of [Void Metamorphosis](https://www.wowhead.com/spell=132282)
+  * Cast [Reap](https://www.wowhead.com/spell=1226019) if you are at 4. souls to fish for Tier proccs.
   * Cast [Reap](https://www.wowhead.com/spell=1226019) if you are at 3 stacks of [Voidfall](https://www.wowhead.com/spell=135667).
   * Cast [Devour](https://www.wowhead.com/spell=1217610)
   * Cast [Consume](https://www.wowhead.com/spell=473662)
@@ -141,9 +142,9 @@ This is a general priority you aim to maintain throughout the fight.
 
 ### Opener
 
-* The **Devourer Demon Hunter's** opener is rather easy but it is important that you follow the first 6 steps closely to not lose out on [Hungering Slash](https://www.wowhead.com/spell=133531) value.
+* The **Devourer Demon Hunter's** opener is rather easy, you just spam consumes untill 100 fury, dump it with Void ray and finish with an eradicate, repeat this untill you can enter [Void Metamorphosis](https://www.wowhead.com/spell=132282).
 
-[Maxroll rotation import](https://backend.maxroll.gg/wow/embed-tools/rotation=IgYAklgQ-ozBAAwDV5GdpxGbgEDMwAiR1JXeAIEgBcBeAAgQiRrEAAAJSVGclFGdgQHapNHIzVWc1VmbjVGI1lANsVDMgM1b1x2cAIURUKBAAAgABIgzDAAAAAQAI6aBIggQjUbAYkBVE4hoJABKiRrEAAAAAIkSUKB)
+[Maxroll rotation import](https://backend.maxroll.gg/wow/embed-tools/rotation=JoZAwLXCC5jOHAAAXUlb0lGbgQDIhZXYpxWYixWZgM3b1x2cBI0I1KBAAIEg6cAAAAAACJGtSAAAkIVZwVWY0BCdol2cgMXZxVXZuNWZgUnb0lGbsBSNwAyUvVHbzBgQFRpEAAAACEwZRPAAIEAACKgTBEAiuOAABgUBWBAAZgFBeIaAsADACJGtSAAAAAgQKRpE)
 
 **Devourer Demon Hunter** AoE opener in Mythic+
 
@@ -156,6 +157,7 @@ This is a general priority you aim to maintain throughout the fight.
   * Cast [Collapsing Star](https://www.wowhead.com/spell=132281)
   * Cast [Eradicate](https://www.wowhead.com/spell=132287)
   * Cast [Void Ray](https://www.wowhead.com/spell=1213649) outside of [Void Metamorphosis](https://www.wowhead.com/spell=132282)
+  * Cast [Reap](https://www.wowhead.com/spell=1226019) if you are at 4. souls to fish for Tier proccs.
   * Cast [Reap](https://www.wowhead.com/spell=1226019) if you are at 3 stacks of [Voidfall](https://www.wowhead.com/spell=135667).
   * Cast [Devour](https://www.wowhead.com/spell=1217610)
   * Cast [Consume](https://www.wowhead.com/spell=473662)
@@ -196,92 +198,110 @@ The following tips are mainly applicable to Heroic and Mythic Bosses.
 
 **← Scroll for more Bosses**→**
 
-**Chimaerus**
+**Nek'Zali**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CicBBG685WLf6r9l_nYEejUaUDAMjZmZMzMjxMDAAAAAAAjxYMDAAAAAAACmxMMzMzMzMzMDzsYGjFtsxMzMzSbzMzAYYAIgxMMmBA)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CicBIo1c2KfIEsPoy9fznypG4BA2MmZmZmZmBzMAAAAAAALzYMYGAAAAAAAEMjBzMzMzMzMzwMLmxYRLLMzMzs12MzMAmxAQAjBjZA)
 
-**Devourer Demon Hunter** **Chimaerus
-
-### Boss Tips
-
-* Don't forget that you can negate the knock up with [Shift](https://www.wowhead.com/spell=1234796).
-
-**Imperator Averzian**
-
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CicBBG685WLf6r9l_nYEejUaUDAMjZmZMzMjxMDAAAAAAAjxYMDAAAAAAACmxMMzMzMzMzMDzsYGjFtsxMzMzSbzMzAYYAIgxMMmBA)
-
-**Devourer Demon Hunter** **Imperator Averzian
+**Devourer Demon Hunter** **Nek'Zali
 
 ### Boss Tips
 
-* Be careful whenever [Void Marked](https://www.wowhead.com/spell=1280015) is dispelled and use a defensive cooldown for [Lingering Darkness](https://www.wowhead.com/spell=1280075) if needed.
+* Keep an eye on the [Possession Barrage](https://www.wowhead.com/spell=1284103) timer and make sure to never stand between the boss and your tank that the ability is targeted at.
+  * Try to look at corpses of the adds ahead of time to have an easier time reacting to the [Hungering Pyre](https://www.wowhead.com/spell=1294742) debuff that cleanses them.
 
-**Vorasius**
+**Entombed Sentinels**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CicBBG685WLf6r9l_nYEejUaUDAMjZmZMzMjxMDAAAAAAAjxYMDAAAAAAACmxMMzMzMzMzMDzsYGjFtsxMzMzSbzMzAYYAIgxMMmBA)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CicBIo1c2KfIEsPoy9fznypG4BA2MmZmZmZmBzMAAAAAAALzYMYGAAAAAAAEMjBzMzMzMzMzwMLmxYRLLMzMzs12MzMAmxAQAjBjZA)
 
-**Devourer** Demon Hunter** **Vorasius
-
-### Boss Tips
-
-* Don't stay too far away from the boss to have an easier time getting healed.
-  * Don't try to [Shift](https://www.wowhead.com/spell=1234796) over the [Void Breath](https://www.wowhead.com/spell=1256855), you will die.
-  * Use a defensive cooldown whenever there are multiple of **Blistercreeps** dying at the same time.
-
-**Fallen-King Salhadaar**
-
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CicBBG685WLf6r9l_nYEejUaUDAMjZmZMzMjxMDAAAAAAAjxYMDAAAAAAACmxMMzMzMzMzMDzsYGjFtsxMzMzSbzMzAYYAIgxMMmBA)
-
-**Devourer** Demon Hunter** **Fallen-King Salhadaar
+**Devourer Demon Hunter** **Entombed Sentinels
 
 ### Boss Tips
 
-* Help dealing with **Fractured Images** with your [Void Nova](https://www.wowhead.com/spell=132289) and [Sigil of Misery](https://www.wowhead.com/spell=112859).
-  * Keep an eye on boss energy and make sure to not waste offensive cooldowns right before [Entropic Unraveling](https://www.wowhead.com/spell=1246175) comes during which **Salhadaar** takes increased damage
+* Important to know that [Toxic Droplets](https://www.wowhead.com/spell=1284434) may also spawn on the opposite boss, so try not to stand between them and be careful whenever [Toxic Droplets](https://www.wowhead.com/spell=1284434) spawn.
+  * Keep an eye on the boss's energy and make sure to spread out whenever it is close to reaching 100 to have an easier time during the intermission.
+  * In general, be mindful of your positioning and play closer to the boss so you don't have to worry about the stacks of [Mark of Acid](https://www.wowhead.com/spell=1284494) and [Mark of Blood](https://www.wowhead.com/spell=1284503).
 
-**Vaelgor & Ezzorak**
+**Lost Explorers**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CicBBG685WLf6r9l_nYEejUaUDAMjZmZMzMjxMDAAAAAAAjxYMDAAAAAAACmxMMzMzMzMzMDzsYGjFtsxMzMzSbzMzAYYAIgxMMmBA)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CicBIo1c2KfIEsPoy9fznypG4BA2MmZmZmZmBzMAAAAAAALzYMYGAAAAAAAEMjBzMzMzMzMzwMLmxYRLLMzMzs12MzMAmxAQAjBjZA)
 
-**Devourer Demon Hunter** **Vaelgor & Ezzorak
-
-### Boss Tips
-
-* Use a defensive cooldown whenever [Nullzone Implosion](https://www.wowhead.com/spell=1252157) happens.
-
-**Lightblinded Vanguard**
-
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CicBBG685WLf6r9l_nYEejUaUDAMjZmZMzMjxMDAAAAAAAjxYMDAAAAAAACmxMMzMzMzMzMDzsYGjFtsxMzMzSbzMzAYYAIgxMMmBA)
-
-**Devourer** Demon Hunter** **Lightblinded Vanguard
+**Devourer** Demon Hunter** **Lost Explorers
 
 ### Boss Tips
 
-* Make sure to always target one of the 2 stacked bosses to have maximum amount of cleave uptime.
-  * Don't forget that **Commander Venel Lightblood** takes increased damage during his [Avenging Wrath](https://www.wowhead.com/spell=1246385).
+* Pay attention to [Shell Spin](https://www.wowhead.com/spell=1296062) casts to have an easier time dodging them.
+  * Do not oversoak [Throw Junk](https://www.wowhead.com/spell=1291934) as it applies a stacking **Bleed** debuff on you.
+  * Be careful around mushrooms from [Mushroom Toss](https://www.wowhead.com/spell=1292105) as they are consumed after being used once.
 
-**Crown of the Cosmos**
+**Vashnik**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CicBBG685WLf6r9l_nYEejUaUDAMjZmZMzMjxMDAAAAAAAjxYMDAAAAAAACmxMMzMzMzMzMDzsYGjFtsxMzMzSbzMzAYYAIgxMMmBA)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CicBIo1c2KfIEsPoy9fznypG4BA2MmZmZmZmBzMAAAAAAALzYMYGAAAAAAAEMjBzMzMzMzMzwMLmxYRLLMzMzs12MzMAmxAQAjBjZA)
 
-**Devourer** Demon Hunter** **Crown of the Cosmos
-
-**Belo'ren**
-
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CicBBG685WLf6r9l_nYEejUaUDAMjZmZMzMjxMDAAAAAAAjxYMDAAAAAAACmxMMzMzMzMzMDzsYGjFtsxMzMzSbzMzAYYAIgxMMmBA)
-
-**Devourer** Demon Hunter** **Belo'ren
+**Devourer** Demon Hunter** **Vashnik
 
 ### Boss Tips
 
-* Don't forget that during second phase you can be out of line of sight of your team behind the egg. Always be mindful of your positioning during that phase.
-  * Keep in mind that after initially defeating [Embers of Belo'ren](https://www.wowhead.com/spell=1241282), they will also start casting [Rebirth](https://www.wowhead.com/spell=1241313) and will try to revive themselves. Always swap to eggs to finish them off.
+* Always pre-spread whenever it's time for the [Plague Froth](https://www.wowhead.com/spell=1281907) debuff and try not to aim it at the boss if possible.
+  * Keep in mind that killing **Burning Venoms** applies a stacking debuff on you, so you want to avoid killing them at the same time.
 
-**Midnight Falls**
+**Sszorak**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CicBBG685WLf6r9l_nYEejUaUDAMjZmZMzMjxMDAAAAAAAjxYMDAAAAAAACmxMMzMzMzMzMDzsYGjFtsxMzMzSbzMzAYYAIgxMMmBA)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CicBIo1c2KfIEsPoy9fznypG4BA2MmZmZmZmBzMAAAAAAALzYMYGAAAAAAAEMjBzMzMzMzMzwMLmxYRLLMzMzs12MzMAmxAQAjBjZA)
 
-**Devourer** Demon Hunter** **Midnight Falls
+**Devourer Demon Hunter** **Sszorak
+
+### Boss Tips
+
+* In case you fail to find a partner to deal with [Raging Crosswinds](https://www.wowhead.com/spell=1285419), keep in mind that you can also negate it with a double jump.
+  * Very important to keep an eye on the [Venomous Surge](https://www.wowhead.com/spell=1305959) timer and, whenever it's close, scan the platform ahead of time to see where you will need to place it.
+  * Use a defensive cooldown if you are hit with [Tempest](https://www.wowhead.com/spell=1287072) as it applies a stacking **Poison** debuff on you.
+
+**Twin Fangs**
+
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CicBIo1c2KfIEsPoy9fznypG4BA2MmZmZmZmBzMAAAAAAALzYMYGAAAAAAAEMjBzMzMzMzMzwMLmxYRLLMzMzs12MzMAmxAQAjBjZA)
+
+**Devourer** Demon Hunter** **Twin Fangs
+
+### Boss Tips
+
+* Extremely important to have a good way of tracking your debuffs in this fight due to [Eternal Venom](https://www.wowhead.com/spell=1290336) guaranteed killing you at a certain amount of stacks, depending on the difficulty.
+  * Try not to run around too much whenever you are targeted with a [Corrosive Spit](https://www.wowhead.com/spell=1291478). Preferably, move in your line if you need to dodge something.
+  * Don't forget that soaking [Ravenous Feast](https://www.wowhead.com/spell=1290516) also knocks you back, so watch out for waves from [Stir the Depths](https://www.wowhead.com/spell=1290956) during it.
+  * Whenever [Vile Flood](https://www.wowhead.com/spell=1294293) happens, look at the **Vexhul** in the middle of the arena, and you will notice small orbs rotating around him that will indicate the direction of the beam that he casts.
+
+**Coiled Altar**
+
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CicBIo1c2KfIEsPoy9fznypG4BA2MmZmZmZmBzMAAAAAAALzYMYGAAAAAAAEMjBzMzMzMzMzwMLmxYRLLMzMzs12MzMAmxAQAjBjZA)
+
+**Devourer** Demon Hunter** **Coiled Altar
+
+### Boss Tips
+
+* Watch out for [Coalesced Venoms](https://www.wowhead.com/spell=1282403) and make sure to help with moving them around if needed.
+  * Pay extra attention to the ghosts that spawn after [Dreadmarch](https://www.wowhead.com/spell=1285643), as dealing with them is going to be the hardest part of the phase.
+    * Even if you avoided getting targeted by the ghost, make sure not to stay near them as they are going to get cleaved down by the [Soul Sever](https://www.wowhead.com/spell=1286620) frontal due to that being the only way of getting rid of them.
+  * Use a defensive cooldown whenever you are targeted with a [Gloombomb](https://www.wowhead.com/spell=1286895).
+
+**Ula'tek**
+
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CicBIo1c2KfIEsPoy9fznypG4BA2MmZmZmZmBzMAAAAAAALzYMYGAAAAAAAEMjBzMzMzMzMzwMLmxYRLLMzMzs12MzMAmxAQAjBjZA)
+
+**Devourer** Demon Hunter** **Ula'tek
+
+### Boss Tips
+
+*
+
+**Nymrissa Wavecaller**
+
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CicBIo1c2KfIEsPoy9fznypG4BA2MmZmZmZmBzMAAAAAAALzYMYGAAAAAAAEMjBzMzMzMzMzwMLmxYRLLMzMzs12MzMAmxAQAjBjZA)
+
+**Devourer** Demon Hunter** **Nymrissa Wavecaller
+
+### Boss Tips
+
+* Keep in mind that right after [Tidepiercer's Rush](https://www.wowhead.com/spell=1258673) happens, [Pop!](https://www.wowhead.com/spell=1258150) will knock you away from the middle, so position accordingly or be ready to negate the knockback with [Shimmer](https://www.wowhead.com/spell=80163) or [Alter Time](https://www.wowhead.com/spell=80174).
+  * Use a defensive cooldown whenever [Drifting Globules](https://www.wowhead.com/spell=1281393) are being popped.
 
 Understand your secondary stat priority and the tertiary stats needed for optimal performance during Raid boss fights as a **Devourer Demon Hunter**. For more detailed information, visit the **[Stats and Attributes](https://maxroll.gg/wow/resources/stats-and-attributes)** guide.
 
@@ -303,21 +323,21 @@ Understand your secondary stat priority and the tertiary stats needed for optima
 
 Slot| Item| Location  
 ---|---|---  
-Head| [Devouring Reaver's Intake](https://www.wowhead.com/item=250033)| Tier  
-Neck| [Eternal Voidsong Chain](https://www.wowhead.com/item=249368)| Crown of the Cosmos  
-Shoulder| [Devouring Reaver's Exhaustplates](https://www.wowhead.com/item=250031)| Tier  
-Cloak| [Draconic Nullcape](https://www.wowhead.com/item=249370)| Vaelgor & Ezzorak  
-Chest| [Devouring Reaver's Engine](https://www.wowhead.com/item=250036)| Tier  
-Wrist| [Aetherlume Bands](https://www.wowhead.com/item=244748)| Crafting  
-Gloves| [Devouring Reaver's Essence Grips](https://www.wowhead.com/item=250034)| Tier  
-Belt| [Scorn-Scarred Shul'ka's Belt](https://www.wowhead.com/item=249374)| Chimaerus  
-Legs| [Shaggy Wyrmleather Leggings](https://www.wowhead.com/item=49817)| Pit of Saron  
-Boots| [Canopy Walker's Footwraps](https://www.wowhead.com/item=249382)| Crown of the Cosmos  
-Ring 1| [Bond of Light](https://www.wowhead.com/item=249369)| Lightblinded Vanguard  
-Ring 2| [Loa Worshiper's Band](https://www.wowhead.com/item=251513)| Crafted  
-Trinket 1| [Gaze of the Alnseer](https://www.wowhead.com/item=249343)| Chimaerus  
-Trinket 2| [Vaelgor's Final Stare](https://www.wowhead.com/item=249346)| Vaelgor & Ezzorak  
-Weapon| [Lightless Lament](https://www.wowhead.com/item=260408) & [Blade of the Blind Verdict](https://www.wowhead.com/item=249294)| Midnight Falls & Lightblinded Vanguard
+Head| [Gaze of the Coiled Watcher](https://www.wowhead.com/item=271875)| Ula'tek  
+Neck| [Aqirbane Reliquary](https://www.wowhead.com/item=268265)| Ula'tek  
+Shoulder| [Abyssal Doomhound's Jaws](https://www.wowhead.com/item=271535)| Tier  
+Cloak| [Silken Voodoo Drape](https://www.wowhead.com/item=268253)| The Coiled Altar  
+Chest| [Abyssal Doomhound's Coreguard](https://www.wowhead.com/item=271540)| Tier  
+Wrist| [Silvermoon Agent's Deflectors](https://www.wowhead.com/item=244576)| Crafting  
+Gloves| [Abyssal Doomhound's Studded Gauntlets](https://www.wowhead.com/item=271538)| Tier  
+Belt| [Sash of the Forlorn Vessel](https://www.wowhead.com/item=268256)| The Coiled Altar  
+Legs| [Abyssal Doomhound's Legwraps](https://www.wowhead.com/item=271536)| Tier  
+Boots| [Silvermoon Agent's Sneakers](https://www.wowhead.com/item=244569)| Crafting  
+Ring 1| [Vile Alchemist's Band](https://www.wowhead.com/item=268249)| Vashnik  
+Ring 2| [Charged Sandstone Band](https://www.wowhead.com/item=158366)| Temple of Sehtraliss  
+Trinket 1| [Freightrunner's Flask](https://www.wowhead.com/item=250215)| Murder Row  
+Trinket 2| [Gebbo's Bottomless Bag](https://www.wowhead.com/item=270164)| The Lost Explorers  
+Weapon| [Jan'thrazet, the Soul Fang](https://www.wowhead.com/item=271092) & [Baleful Hexblade](https://www.wowhead.com/item=268211)| Ulatek & The Coiled Altar
 
 **Farmable Alternatives**
 
@@ -325,23 +345,23 @@ Below you are presented with a good list of farmable alternatives that are obtai
 
 Slot| Item| Location  
 ---|---|---  
-Head| [Voidlashed Hood](https://www.wowhead.com/item=151336)| Seat of the Triumvirate  
-Neck| [Barbed Ymirheim Choker](https://www.wowhead.com/item=50228)| Pit of Saron  
-Shoulder| [Enthralled Bonespines](https://www.wowhead.com/item=251171)| Maisara Caverns  
-Cloak| [Defiant Defender's Drape](https://www.wowhead.com/item=260312)|   
-Magisters' Terrace  
-Chest| [Maledict Vest](https://www.wowhead.com/item=251216)| Nexus-Point Xenas  
-Wrist| [Frenzyroot Cuffs](https://www.wowhead.com/item=193714)| Algeth'ar Academy  
-Gloves| [Gloves of the Dark Shroud](https://www.wowhead.com/item=151318)| Seat of the Triumvirate  
-Belt| [Flayer's Black Belt](https://www.wowhead.com/item=49806)|   
-Pit of Saron  
-Legs| [Shaggy Wyrmleather Leggings](https://www.wowhead.com/item=49817)| Pit of Saron  
-Boots| [Boots of Burning Focus](https://www.wowhead.com/item=258577)| Skyreach  
-Ring 1| [Omission of Light](https://www.wowhead.com/item=251093)| Nexus-Point Xenas  
-Ring 2| [Bifurcation Band](https://www.wowhead.com/item=251115)| Magisters Terrace  
-Trinket 1| [Heart of Wind](https://www.wowhead.com/item=250256)| Windrunner Spire  
-Trinket 2| [Emberwing Feather](https://www.wowhead.com/item=250144)| Windrunner Spire  
-Weapon| [Spellboon Saber](https://www.wowhead.com/item=193710)| Algeth'ar Academy
+Head| [Vilefiend's Guise](https://www.wowhead.com/item=251140)| Murder Row  
+Neck| [Yoke of the Charging Bear](https://www.wowhead.com/item=251173)| Den of Nalorakk  
+Shoulder| [Somber Spaulders](https://www.wowhead.com/item=251223)| Voidcar Arena  
+Cloak| [Speakeasy Shroud](https://www.wowhead.com/item=251132)|   
+Murder Row  
+Chest| [War Trial Vestments](https://www.wowhead.com/item=251159)| Den of Nalorakk  
+Wrist| [Fury-fletched Armlets](https://www.wowhead.com/item=251135)| Murder Row  
+Gloves| [Gauntlets of Fevered Defense](https://www.wowhead.com/item=251124)| Murder Row  
+Belt| [Whirling Dervish Sash](https://www.wowhead.com/item=159317)|   
+Temple of Sethraliss  
+Legs| [Breeches of Deft Deals](https://www.wowhead.com/item=251130)| Murder Row  
+Boots| [Sand-Shined Snakeskin Sandals](https://www.wowhead.com/item=159327)| Temple of Sethraliss  
+Ring 1| [Band of the Amani Warlord](https://www.wowhead.com/item=273792)| Altar of Fangs  
+Ring 2| [Sickening Signet of Atroxus](https://www.wowhead.com/item=252258)| Voidscar Arena  
+Trinket 1| [Freightrunner's Flask](https://www.wowhead.com/item=250215)| Murder Row  
+Trinket 2| [Sapling of the Dawnroot](https://www.wowhead.com/item=250259)| The Blinding Vale  
+Weapon| 2x [Polished Lightwood Channeler](https://www.wowhead.com/item=273778)| Altar of Fangs
 
 ### Trinkets
 
@@ -349,24 +369,22 @@ Below is a ranking of endgame trinkets obtainable from Dungeons, Raids, and Delv
 
 Rank| Trinkets  
 ---|---  
-**S-Tier**| [Gaze of the Alnseer](https://www.wowhead.com/item=249343)  
-[Vaelgor's Final Stare](https://www.wowhead.com/item=249346)  
-**A-Tier**| [Heart of Wind](https://www.wowhead.com/item=250256)  
-[Nevermelting Ice Crystal](https://www.wowhead.com/item=50259)  
-[Locus-Walker's Ribbon](https://www.wowhead.com/item=249809)  
-**B-Tier**| [Heart of Ancient Hunger](https://www.wowhead.com/item=249342)  
-[Emberwing Feather](https://www.wowhead.com/item=250144)  
-[Vessel of Tortured Souls](https://www.wowhead.com/item=250258)  
+**S-Tier**| [Vile Vial of Volatile Venom](https://www.wowhead.com/item=273796)  
+[Gebbo's Bottomless Bag](https://www.wowhead.com/item=270164)  
+[Freightrunner's Flask](https://www.wowhead.com/item=250215)  
+**A-Tier**| [Wavecaller's Seastone](https://www.wowhead.com/item=270167)  
+[Font of Venomous Rage](https://www.wowhead.com/item=270168)  
+[Hex Lord's Dooming Idol](https://www.wowhead.com/item=270169)  
+**B-Tier**| [Knot of Writhing Serpents](https://www.wowhead.com/item=273794)  
+[Vexhul's Everflowing Gland](https://www.wowhead.com/item=270170)  
+[Fang of Umbral Malignance](https://www.wowhead.com/item=270161)  
+**C-Tier**| [Sapling of the Dawnroot](https://www.wowhead.com/item=250259)  
 [Lightspire Core](https://www.wowhead.com/item=250214)  
-**C-Tier**| [Glorious Crusader's Keepsake](https://www.wowhead.com/item=251792)  
-[Eye of the Drowning Void](https://www.wowhead.com/item=250257)  
-[Wraps of Cosmic Madness](https://www.wowhead.com/item=249340)  
-[Sapling of the Dawnroot](https://www.wowhead.com/item=250259)  
 [Mindpiercer's Sigil](https://www.wowhead.com/item=250224)  
-[Soulcatcher's Charm](https://www.wowhead.com/item=250223)  
-[Reality Breacher](https://www.wowhead.com/item=151310)  
-[Ever-Collapsing Void Fissure](https://www.wowhead.com/item=251786)  
+[Sethraliss' Defiled Relic](https://www.wowhead.com/item=158368)  
+[Ruby Whelp Shell](https://www.wowhead.com/item=193757)  
 **Junkyard**| [Sealed Chaos Urn](https://www.wowhead.com/item=251787)  
+[Glorious Crusader's Keepsake](https://www.wowhead.com/item=251792)  
 [Void-Reaper's Libram](https://www.wowhead.com/item=251785)  
 [Sylvan Wakrapuku](https://www.wowhead.com/item=251784)
 
@@ -374,18 +392,18 @@ Rank| Trinkets
 
 * 1x [Loa Worshiper's Band](https://www.wowhead.com/item=251513)
     * Best overall choice of stat budget.
-  * [Stabilizing Gemstone Bandolier](https://www.wowhead.com/item=251490)
+  * [Arcanoweave Lining](https://www.wowhead.com/item=240166)
 
 #### Remaining Sparks
 
-* Crafted items are 285 item level and regular items are 289 on max item level, therefore, it's a small loss to equip crafted items outside of your 2x Embellishments unless you don't have access to other high item level gear on that slot.
+* Crafted items are 331 item level and regular items are 334 on max item level, therefore, it's a small loss to equip crafted items outside of your 2x Embellishments unless you don't have access to other high item level gear on that slot.
 
 ### Simcraft
 
 To find the best combination of gear available to you or identify the best possible upgrades, visit our **[Simcraft guide](https://maxroll.gg/wow/resources/simulationcraft-and-raidbots-guide)** to learn how to utilize Simcraft easily and effectively.
 
 * **Phials**
-    * **[Flask of the Shattered Sun](https://www.wowhead.com/item=241326) _\-- maximum DPS._**
+    * **[Flask of the Magisters](https://www.wowhead.com/item=241322) _\-- maximum DPS._**
     * **[Flask of Thalassian Resistance](https://www.wowhead.com/item=241320) _\-- less DPS but more survivability._**
   * **Food**
     * **[Quel'dorei Medley](https://www.wowhead.com/item=242272)**
@@ -393,7 +411,7 @@ To find the best combination of gear available to you or identify the best possi
   * **Combat Potion**
     * **[Potion of Recklessness](https://www.wowhead.com/item=241288)**
   * **Health Potion**
-    * **[Silvermoon Health Potion](https://www.wowhead.com/item=241304) _\-- a big burst of healing_**
+    * **[Concentrated Silvermoon Health Potion](https://www.wowhead.com/item=271884) _\-- a big burst of healing_**
   * **Weapon Oil**
     * **[Thalassian Phoenix Oil](https://www.wowhead.com/item=243734) _\-- default_**
     * **[Smuggler's Enchanted Edge](https://www.wowhead.com/item=243738)**
@@ -408,25 +426,24 @@ To find the best combination of gear available to you or identify the best possi
 
 ### Enchantments
 
-Head| [Radiant Jewelbinder](https://www.wowhead.com/item=263897)  
+Head| [Miasmic Jewelbinder](https://www.wowhead.com/item=275707)  
 [Enchant Helm - Empowered Rune of Avoidance](https://www.wowhead.com/item=244007)  
 ---|---  
 Shoulder| [Enchant Shoulders - Amirdrassil's Grace](https://www.wowhead.com/item=243991)  
 Chest| [Enchant Chest - Mark of the Worldsoul](https://www.wowhead.com/item=243977)  
-Wrist| [Enchant Bracer - Chant of Armored Avoidance](https://www.wowhead.com/item=223713)  
-[Radiant Jewelbinder](https://www.wowhead.com/item=263897)  
-Waist| [Radiant Jewelbinder](https://www.wowhead.com/item=263897)  
+Wrist| [Miasmic Jewelbinder](https://www.wowhead.com/item=275707)  
+Waist| [Miasmic Jewelbinder](https://www.wowhead.com/item=275707)  
 Legs| [Sunfire Silk Spellthread](https://www.wowhead.com/item=240133)  
 Boots| [Enchant Boots - Farstrider's Hunt](https://www.wowhead.com/item=244009)  
-Ring 1| [Enchant Ring - Silvermoon's Alacrity](https://www.wowhead.com/item=244015)  
-Ring 2| [Enchant Ring - Silvermoon's Alacrity](https://www.wowhead.com/item=244015)  
-Weapon| [Enchant Weapon - Arcane Mastery](https://www.wowhead.com/item=244031) & [Enchant Weapon - Berserker's Rage](https://www.wowhead.com/item=243973)
+Ring 1| [Enchant Ring - Eyes of the Eagle](https://www.wowhead.com/item=243957)  
+Ring 2| [Enchant Ring - Eyes of the Eagle](https://www.wowhead.com/item=243957)  
+Weapon| [Enchant Weapon - Arcane Mastery](https://www.wowhead.com/item=244031)
 
-[Maxroll paperdoll import](https://backend.maxroll.gg/wow/embed-tools/paperdoll=IwFZIXQ9NGQAnk7ACAAAAktBEEwF5OAAAAAABkQDIgQ2GQQBQQQBqmAGAkiOYAAAv0AERgAK_k7AAAAAAEQB5OA)
+[Maxroll paperdoll import](https://backend.maxroll.gg/wow/embed-tools/paperdoll=JwFZIXQ9NGQAnk7ACAAAAsPNEEwF5OAAAAAABkQDIgw-0QQBQQQBqmAGAkiOYAAB1jbCYEBCo8TuDAAAAAQA_k7A)
 
-**Devourer Demon Hunter** Enchantments in Raid
+**Devourer Demon Hunter** Enchantments in Raids
 
-> You buy [Radiant Jewelbinder](https://www.wowhead.com/item=263897) from the Great Vault Vendor to add sockets to your **Helm** , **Wrists** & **Waist**.
+> You buy [Miasmic Jewelbinder](https://www.wowhead.com/item=275707) from the Great Vault Vendor to add sockets to your **Helm** , **Wrists** & **Waist**.
 
 For min-maxing a **Devourer Demon Hunter** in raiding, different racial traits can provide a tremendous benefit to your characters. If this is not your top goal, picking a race that fits your style works just as well.
 
@@ -491,82 +508,27 @@ Below, you see a screenshot of the author's User Interface for their **Devourer 
   * **Details** _\-- In-depth Damage Meter_
     * Most powerful, reliable, handsome, damage meter.
 
-**Patch 12.0.1**
+**Patch 12.1**
 
-**DEMON HUNTER**
+Demon Hunters can now equip daggers.
 
-* **DEMON HUNTER**  
-**Hero Talents**
-  * **New Hero Talent: Annihilator** An Annihilator draws upon the most fundamental forces of reality to erase from existence any enemies who would threaten the same. While their methods are often questioned, they are always needed when the fight arrives.**
-  * **Devourer and Vengeance Demon Hunters can activate the Annihilator Hero Talent tree.**
-  * **Aldrachi Reaver** New Talent: Broken SpiritHavoc: The Hunt shatters 1 Soul Fragment. Blade Dance and Chaos Strike have a 20% chance to shatter a Soul Fragment.**
-  * **Vengeance: Sigil of Spite shatters 1 Soul Fragment. Soul Cleave has a 20% chance to shatter a Soul Fragment.**
-  * **New Talent: Keen Edge – Reaver's Glaive damage is increased by 20% and other Physical-only damage is increased by 10%.**
-  * **New Talent: BladecraftHavoc: Fury of the Aldrachi further empowers Blade Dance when cast after Chaos Strike, increasing slashes to 12. Reaver's Mark now stacks up to 3 times and further empowers Chaos Strike when cast after Blade Dance, applying an additional stack.**
-  * **Vengeance: Fury of the Aldrachi further empowers Soul Cleave when cast after Fracture, increasing slashes to 12. Reaver's Mark now stacks up to 3 times and further empowers Fracture when cast after Soul Cleave, applying an additional stack.**
-  * **Some talents have changed positions in the talent tree.**
-  * **Havoc** Thrill of the Fight has been redesigned – After consuming both enhancements gain Thrill of the Fight, increasing the damage of your next Reaver's Glaive by 30% and increasing Haste by 6% for 30 seconds.**
-  * **Fury of the Aldrachi damage reduced by 18% and now deals reduced damage beyond 8 targets.**
-  * **Vengeance** Art of the Glaive is now granted by casting Sigil of Spite (was The Hunt).**
-  * **Reaver's Glaive damage reduced by 26%.**
-  * **Fury of the Aldrachi damage reduced by 13%.**
-  * **Warblade's Hunger damage reduced by 25%.**
-  * **Wounded Quarry effect now 15% of Physical damage (was 20%).**
-  * **Fel-Scarred/Void-Scarred** Devourer Demon Hunters can activate the Void-Scarred Hero Talent tree.**
-  * **Vengeance Demon Hunters can activate the Annihilator Hero Talent tree instead of the Fel-Scarred Hero Talent tree.**
-  * **New Talent: Blind FocusDevourer: Cosmic damage increased by 3%. Effect is doubled while in demon form.**
-  * **Havoc: Fire damage increased by 5%. Effect is doubled while in demon form.**
-  * **New Talent: Undying EmbersDevourer: Soul Immolation has a 25% chance to reignite after it expires, reapplying its effect.**
-  * **Havoc: Immolation Aura has a 25% chance to reignite after it expires, reapplying its effect.**
-  * **New Talent: Volatile InstinctDevourer: Entering demon form immediately causes your next Voidsurge to repeat after a short delay.**
-  * **Havoc: Entering demon form immediately induces a Demonsurge.**
-  * **Student of Suffering effect now applied upon activating Eye Beam (was Sigil of Flame).**
-  * **Havoc** Demonsurge now deals Chaos damage (was Fire).**
-  * **Demonsurge damage reduced by 15% and damage increase per stack reduced to 5% (was 10%).**
-  * **Demonsurge now always empowers Blade Dance and Chaos Strike when entering demon form (e.g. via Demonic effect) even if Metamorphosis is already active.**
-  * **Burning Blades effect now also includes the First Blood portion Blade Dance's damage.**
-  * **Burning Blades effect reduced to 35% of listed ability damage (was 50%).**
-  * **Class** New Talent: Focused Ire – The primary target of Chaos/Void Nova is stunned for an additional 2 seconds.**
-  * **New Talent: Demonic Resilience – Demon Spikes/Blur gains 1 additional charge.**
-  * **New Talent: Burn It Out – Immolation Aura additionally dispels 1 Disease effect.**
-  * **New Talent: Soul Cleanse – Immolation Aura additionally dispels 1 Curse effect.**
-  * **New Talent: Remorseless – Attacks and abilities that spend Fury deal 3% increased damage.**
-  * **New Talent: Furious – Attacks and abilities that generate Fury deal 3% increased damage.**
-  * **New Talent: First In, Last Out – Fel Rush/Infernal Strike/Shift grants you a rapidly decaying shield for 6% of your maximum health.**
-  * **New Talent: Soul Splitter – Any time you would generate one or more Soul Fragments, you have a 2%/4% chance to generate an additional Soul Fragment.**
-  * **New Talent: Felbound – Your movement speed is increased by 3%. Available to Vengeance and Havoc only (replaced by Guile for Devourer).**
-  * **Will of the Illidari has been updated – Increases maximum health by 3%/6%.**
-  * **Illidari Knowledge has been updated – Reduces magic damage taken by 3%/6%.**
-  * **Aura of Pain has been updated – Now causes Soul Immolation to grant 5 additional Fury over its duration for Devourer Demon Hunters.**
-  * **Erratic Felheart has been updated – Now reduces the cooldown of Fel Rush, Shift, and Infernal Strike by 1 second/2 seconds (was 10%/20%).**
-  * **Demon Muzzle has been updated – Interrupting a spell with Disrupt decreases your magic damage taken by 15% for 12 seconds.**
-  * **Improved Sigil of Misery has been updated – Now also reduces Sigil of Chain's cooldown when learned.**
-  * **Felblade now generates 15 Fury (was 40).**
-  * **Infernal Armor damage increased by 100%.**
-  * **Wings of Wrath speed bonus reduced to 10% (was 40%).**
-  * **Sigil of Flame is now a Vengeance only ability (was all specializations).**
-  * **References to “Lesser Soul Fragments” have been replaced with “Soul Fragments” in relevant tooltips._Developers' notes: Lesser Soul Fragments have been the “default” soul fragment for quite some time, so we're simplifying the name of the fragments across all Demon Hunter specializations. Greater Soul Fragments will remain Greater._**
-  * **Pursuit icon has been updated.**
-  * **Several talents have changed positions in the talent tree.**
-  * **The following talents have been removed:Chaos Fragments**
-  * **Collective Anguish  _(moved to Havoc talent tree)_**
-  * **Demonic  _(moved to Havoc talent tree)_**
-  * **Flames of Fury**
-  * **Precise Sigils**
-  * **Quickened Sigils  _(moved to Vengeance talent tree)_**
-  * **Rush of Chaos**
-  * **Sigil of Spite  _(moved to Vengeance talent tree)_**
-  * **Soul Sigils  _(moved to Vengeance talent tree)_**
-  * **The Hunt  _(moved to Havoc talent tree)_**
+* _Developers' notes: This will allow Devourer Demon Hunters to acquire and use daggers with Intelligence on them._
 
-**Q: How do i avoid missing Collapsing Stars?**
+**Devourer**
 
-A: Make sure to pre-plan accordingly, since you lose all your souls if you cancel your cast.  
-1\. Position properly before the cast, move out of any swirly and make sure u dont have to move  
-2\. Target the highest or atleast a high health target so it does not die before u finish the cast  
-3\. !!!DO NOT SPAM THE BUTTON!!! as it tends to bug it out for ping reasons
-
-You rather lose a global than cancelling a Collapsing star cast by mistake.
+* _Developers' notes: We're reducing the scaling of Devourer's Mastery: Monster Within to help other stats to compete and compensating with an overall ability damage buff. Between that and a few more targeted changes, we expect damage during Void Metamorphosis to be slightly reduced while damage outside of Metamorphosis is significantly increased._
+  * Mastery: Monster Within has been updated – Bonus damage during Void Metamorphosis reduced by 66%.
+  * All ability damage increased by 32%.
+  * Collapsing Star damage increased by 12%.
+  * Eradicate damage reduced by 6% and secondary target damage reduced by 15%.
+  * Consume damage increased by 60% (does not affect Devour).
+  * Void Metamorphosis now increases Void Ray damage by 40% (was 67%).
+  * Impending Apocalypse now causes each Collapsing Star to grant 20% increased damage to the next one (was 30%).
+  * Hungering Slash now properly gives a temporary charge of Vengeful Retreat rather than giving a free cast and also resetting its cooldown.
+  * **Hero Talents**
+    * **Annihilator**
+      * Otherworldly Focus now increases Collapsing Star and Voidfall Meteor damage against a single target by 30% (was 35%).
+      * Final Hour now causes Voidfall bonuses to persist for 6 seconds (was 8 seconds).
 
 ### Credits
 
@@ -575,6 +537,12 @@ Written By: **Nicememes**
 Reviewed By: **Verb**
 
 ## Changelog
+
+Aug 8th 2026
+
+`Updated for patch 12.1 `
+
+* * *
 
 Jun 22nd 2026
 

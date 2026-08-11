@@ -4,10 +4,10 @@
   "spec": "shadow",
   "spec_id": 258,
   "tree_id": 795,
-  "patch": "12.0.7",
-  "build": "12.0.7.67808",
+  "patch": "12.1.0",
+  "build": "12.1.0.68914",
   "source": "api",
-  "serial_count": 226,
+  "serial_count": 227,
   "granted_serials": [
     158,
     171,
@@ -622,9 +622,9 @@
         "serial_order": 120,
         "req_points": 8,
         "prereq_node_ids": [
-          82687,
+          109890,
           108731,
-          109890
+          82687
         ],
         "entries": [
           {
@@ -747,9 +747,9 @@
         "serial_order": 112,
         "req_points": 8,
         "prereq_node_ids": [
+          82699,
           109019,
-          82690,
-          82699
+          82690
         ],
         "entries": [
           {
@@ -773,8 +773,8 @@
         "serial_order": 134,
         "req_points": 8,
         "prereq_node_ids": [
-          82690,
-          109020
+          109020,
+          82690
         ],
         "entries": [
           {
@@ -1749,12 +1749,12 @@
         "entries": [
           {
             "entry_id": "103785",
-            "talent": "Phantom Menace",
-            "spell_id": 1242779,
+            "talent": "Shadeburst",
+            "spell_id": 73510,
             "max_ranks": "1",
             "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_priest_spectralguise.jpg",
-            "desc": "Increases the critical strike chance of Shadowy Apparitions by 10% and their critical strike damage by 40%."
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/4067372.jpg",
+            "desc": "Shadowy Apparitions that float towards your primary target explode, dealing 532 Shadow damage to all enemies within 8 yds.\r\n\r\nDamage reduced beyond 5 targets."
           }
         ]
       },
@@ -1951,8 +1951,8 @@
         "serial_order": 86,
         "req_points": 20,
         "prereq_node_ids": [
-          82645,
-          82559
+          82559,
+          82645
         ],
         "entries": [
           {
@@ -2158,8 +2158,8 @@
         "serial_order": 87,
         "req_points": 20,
         "prereq_node_ids": [
-          82558,
           82667,
+          82558,
           108153
         ],
         "entries": [
@@ -2727,8 +2727,8 @@
           "serial_order": 214,
           "req_points": 0,
           "prereq_node_ids": [
-            110008,
-            94684
+            94684,
+            110008
           ],
           "entries": [
             {

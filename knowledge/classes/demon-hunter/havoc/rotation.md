@@ -1,27 +1,103 @@
 ---
-title: Havoc Demon Hunter — Rotation (Midnight S1)
-patch: 12.0.7
-fetched: 2026-08-03
-reviewed: 2026-08-03
+title: Havoc Demon Hunter — Rotation (Midnight 12.1)
+patch: 12.1
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
-  - https://raw.githubusercontent.com/simulationcraft/simc/midnight/profiles/MID1/MID1_Demon_Hunter_Havoc.simc  # tier 1 APL, simc midnight branch (default = Fel-Scarred), 2026-07-11
-  - https://www.method.gg/guides/havoc-demon-hunter/playstyle-and-rotation  # tier 3, 12.0.7, 2026-07-11
-  - https://www.icy-veins.com/wow/havoc-demon-hunter-pve-dps-rotation-cooldowns-abilities  # tier 3, 12.0.7, 2026-07-11
+  - https://worldofwarcraft.com/en-us/news/24293281  # tier 1, 12.1 "Curse of Ula'tek" content update notes — CLASSES ▶ DEMON HUNTER / Havoc, 2026-08-11
+  - https://raw.githubusercontent.com/simulationcraft/simc/midnight/profiles/MID1/MID1_Demon_Hunter_Havoc.simc  # tier 1 APL, simc midnight branch (default = Fel-Scarred) — re-pulled 2026-08-11, still pinned at commit 6e14948 dated 2026-03-13 (NOT retuned for 12.1)
+  - https://www.icy-veins.com/wow/havoc-demon-hunter-pve-dps-rotation-cooldowns-abilities  # tier 3, page updated to 12.1, 2026-08-11
+  - https://www.method.gg/guides/havoc-demon-hunter/playstyle-and-rotation  # tier 3, 12.0.7 framing, 2026-07-11
   - https://www.warcraftlogs.com/  # tier 2, top-100 Mythic Imperator Averzian parses, 12.0.7, 2026-08-03 (cast + damage + resourcechange event timelines, n=7)
   - https://www.method.gg/guides/havoc-demon-hunter/interface-and-macros  # tier 3, 12.0.7, 2026-08-03
   - https://www.icy-veins.com/wow/havoc-demon-hunter-pve-dps-macros-addons  # tier 3, 12.0.7, 2026-08-03
-confidence: high
+confidence: medium
 ---
 
-# Havoc Demon Hunter — Rotation (Midnight S1)
+# Havoc Demon Hunter — Rotation (Midnight 12.1)
 
 Distilled from the SimulationCraft default APL (Tier 1) with method.gg /
 Icy Veins (Tier 3) for framing. The simc default profile is **Fel-Scarred**
 (`talents=...Fel-Scarred`), but the single APL carries both hero trees'
 lines (Aldrachi Reaver's `reavers_glaive` / `rending_strike` / `glaive_flurry`
-and Fel-Scarred's `demonsurge` / `abyssal_gaze`). Fel-Scarred is the
-recommended S1 pick for nearly all content; Aldrachi Reaver is the funnel/
-cleave alternative (see `builds.md`).
+and Fel-Scarred's `demonsurge` / `abyssal_gaze`).
+
+> ⚠ **The shape of the loop below is unchanged by 12.1; the tuning underneath it
+> is not.** 12.1 retuned Fury generation, moved Inner Demon, deleted Dash of
+> Chaos, and put a **weapon-type requirement** on three core abilities — see
+> *What changed in 12.1* immediately below. Two caveats on the sourcing:
+> - the **simc MID1 APL is still pinned at a 2026-03-13 commit** (re-pulled
+>   2026-08-11, unchanged), so every APL condition quoted here is a **pre-12.1**
+>   condition and has not been re-derived against the new Fury/Inertia numbers;
+> - **Fel-Scarred was the S1 recommendation**, and that ranking has *not* been
+>   re-verified for Season 2 — Icy Veins' 12.1 page now leads its priority with
+>   Aldrachi Reaver's `Reaver's Glaive` lines. Treat hero-tree choice as open
+>   until `builds.md` is re-sourced; both branches are documented below.
+
+## What changed in 12.1 (2026-08-11)
+
+Tier-1, verbatim-archived in `_meta/patch-notes/12.1.md` (CLASSES ▶ DEMON
+HUNTER ▶ Havoc). Blizzard's own framing of the Fury block: *"a small overall
+increase, paced more smoothly and relying less heavily on Immolation Aura's
+talent effects."*
+
+**⛔ Weapon requirement — the one that can silently break your rotation.**
+**Demon Blades, Blade Dance and Chaos Strike now require equipped Warglaives,
+Axes, Swords or Fist Weapons.** Demon Hunters *can* now equip **daggers** in
+12.1 (added so Devourer can take Intelligence daggers) — so for the first time
+it is possible to equip a weapon that turns off your Fury generator, your AoE
+button and your Fury dump at once. Death Sweep / Annihilation are the demon-form
+forms of Blade Dance / Chaos Strike and go with them. **Never equip a dagger on
+Havoc.**
+
+| Thing | 12.0.7 | 12.1 |
+|---|---|---|
+| Burning Hatred (Immolation Aura Fury) | +40 | **+30** |
+| Demon Blades (per attack) | 8–15 Fury | **10–16** |
+| Blind Fury (Eye Beam, per sec, per rank) | 15 / 30 | **10 / 20** |
+| Inertia | +18% for 5s | **+12% for 6s** |
+| Blade Dance / Death Sweep / Chaos Strike / Annihilation | — | **+6% each** |
+| The Hunt | — | **+12%** |
+| Essence Break (initial hit) | — | **+49%** |
+| Immolation Aura | — | **−8%** |
+| Trail of Ruin | damage as a 4s DoT | **applied immediately** |
+| Serrated Glaive | 15s **debuff on the target** | **12s buff on you** |
+| Inner Demon | choice node with Chaotic Transformation | **choice node with Chaos Theory** |
+| Dash of Chaos | talent | **removed entirely** |
+| Never Say Die | — | **new talent**: +3% damage above 50% HP, +5% leech below 50% |
+
+What that means at the keyboard:
+
+- **Immolation Aura's rotational pull is weaker in both directions** — 8% less
+  damage *and* 10 less Fury per Burning Hatred proc — while your spenders gained
+  6%. The "don't sit on 2 IA charges" rule survives (it is still the one Fury
+  decision that matters, see the logs section), but IA is no longer the Fury
+  engine it was; **Demon Blades is** (and it went up).
+- **Inertia is a flatter, wider window**: 12% over 6s instead of 18% over 5s. The
+  extra second means you are no longer racing to cram the amp into one Eye Beam
+  cast, but the payoff for perfect alignment is a third smaller. Do not contort.
+- **Essence Break's initial hit is now a real chunk of the ability** (+49%), on
+  top of the ~4s amp window. Pressing it on cooldown-with-Fury-banked matters
+  more than it did; wasting the window matters the same.
+- **Serrated Glaive no longer lives on a target.** It is a buff on you, so it
+  **carries across target swaps and into cleave** instead of needing to be
+  re-applied per mob — one less thing to track in M+ and funnel.
+- **Trail of Ruin is front-loaded**, so its cleave contribution lands with the
+  Blade Dance rather than trickling for 4s. Its APL role is unchanged: it still
+  drops the Blade Dance AoE gate to **2+ targets** (`active_enemies>=3-talent.trail_of_ruin`).
+- **Chaotic Transformation is now a standalone passive**; Inner Demon moved off
+  it and onto the **Chaos Theory** choice node. So the "Metamorphosis resets Eye
+  Beam + Blade Dance" behaviour below is now available without giving up Inner
+  Demon — a build question, but it makes the cooldown rule below more reliably
+  true.
+- **Dash of Chaos is gone.** Any older opener/macro list naming it is dead text.
+
+Game-wide 12.1 changes that land on this spec: **player health and creature
+damage are both +25% at max level** (so absolute HP/healing numbers written
+before 2026-08-11 are wrong — Never Say Die's 50%-health thresholds are
+percentage-based and unaffected); **Disrupt now shows a "missed" visual + sound**
+when you kick nothing; **diminishing-return categories reset after 20s** (was
+16s), which lengthens Chaos Nova / Imprison / Sigil of Misery DR chains.
 
 **The core loop:** everything orbits the **demon-form window**. Eye Beam (and
 Metamorphosis) put you in demon form; while transformed your Chaos Strike →
@@ -48,12 +124,14 @@ Blade Dance / Immolation Aura charges cap.
 - **The Hunt** on cooldown, kept **out of** Essence Break windows and (with
   **Eternal Hunt**) synced so its cooldown reduction feeds the next Eye Beam.
   Fel-Scarred sends The Hunt + Meta before the next Eye Beam for trinket value.
-- **Essence Break** is a ~4s amp window — open it with Fury banked (≥35) and
-  immediately fill it with **Death Sweep** and **Annihilation** (Chaos Strike
-  outside meta). Don't cast anything weak inside it.
+- **Essence Break** is a ~4s amp window *plus* a hard initial hit (**+49% in
+  12.1**) — open it with Fury banked (≥35) and immediately fill it with **Death
+  Sweep** and **Annihilation** (Chaos Strike outside meta). Don't cast anything
+  weak inside it.
 - **Vengeful Retreat**: press it just before Eye Beam to proc **Initiative**
   (crit) / trigger **Inertia**; the APL cancels its movement when it's used to
-  reposition into Metamorphosis.
+  reposition into Metamorphosis. 12.1's Inertia is **+12% for 6s** (was 18%/5s) —
+  a slacker window worth less, so take the easy alignment and don't chase it.
 
 ## Single target (Fel-Scarred)
 
@@ -71,7 +149,9 @@ Sustained priority:
 3. **Death Sweep** (in demon form) / **Blade Dance** — on cooldown when it's
    worth pressing (see AoE thresholds; in ST it's still a spender when talented
    into First Blood).
-4. **Immolation Aura** if sitting on 2 charges (don't cap).
+4. **Immolation Aura** if sitting on 2 charges (don't cap). ⚠ 12.1 cut its damage
+   8% and Burning Hatred's Fury to 30 — it slid down the list relative to your
+   +6% spenders, but "never sit on two charges" still holds.
 5. **Vengeful Retreat** paired with **Eye Beam**.
 6. **Eye Beam** on cooldown, aligned (`eb_aligned`) so you don't clip a Vengeful
    Retreat / Inertia window.
@@ -82,16 +162,20 @@ Sustained priority:
 10. **Annihilation / Chaos Strike** as the Fury dump (don't overcap Fury).
 11. **Felblade** for Fury when low.
 12. **Throw Glaive** only as a last-resort filler (or actively with Soulscar /
-    Furious Throws talents).
+    Furious Throws talents). With **Serrated Glaive** this now buffs *you* for
+    12s rather than debuffing the target, so it no longer has to be aimed at the
+    priority mob.
 
 ## Cleave / AoE (3+)
 
 Largely the single-target loop with these shifts (APL `use_blade_dance` triggers
-at **3+ targets**, or 2+ with **Trail of Ruin**, or always with First Blood):
+at **3+ targets**, or 2+ with **Trail of Ruin** — whose damage is now applied
+immediately rather than over 4s — or always with First Blood):
 
-1. **Immolation Aura** early and kept rolling — it's a top AoE source with
+1. **Immolation Aura** early and kept rolling — it's still a top AoE source with
    **Ragefire** / **A Fire Inside**; the APL fires extra Immolation Auras at
-   `active_enemies>2`.
+   `active_enemies>2`. (12.1: **−8% damage**, and the APL condition predates
+   that — the ordering here is unverified against 12.1 tuning.)
 2. **Blade Dance / Death Sweep** become primary — they trigger the **Glaive
    Tempest** passive at 3+ targets. Keep them on cooldown.
 3. **Eye Beam** — at 5+ targets its raw AoE outweighs alignment; the APL drops
@@ -113,7 +197,7 @@ at **3+ targets**, or 2+ with **Trail of Ruin**, or always with First Blood):
   (Eye Beam) and **Consuming Fire** (Immolation Aura) — spend Immolation charges
   before Meta so Demonic Intensity refreshes them.
 - **Inertia** (via Felblade / Fel Rush / Vengeful Retreat) is the amp to line up
-  before every Eye Beam and burst window.
+  before every Eye Beam and burst window — **+12% for 6s** as of 12.1.
 
 ### Aldrachi Reaver
 
@@ -133,11 +217,27 @@ at **3+ targets**, or 2+ with **Trail of Ruin**, or always with First Blood):
 
 - [x] ST + AoE priority from simc midnight APL (2026-07-11) + method.gg
 - [x] Both hero-tree branches captured (Fel-Scarred default, Aldrachi Reaver)
+- [x] 12.1 tuning + talent-tree changes folded in against Tier-1 notes (2026-08-11)
 - [ ] Sanity-check the opener against a top WCL Havoc log (`wowkb.wcl`)
-- [ ] Re-distill if the simc midnight branch publishes a retuned 12.0.7 APL
+- [ ] **Re-distill when the simc midnight branch publishes a 12.1 APL.** Checked
+      2026-08-11: still commit `6e14948` (2026-03-13), i.e. pre-12.1. Every APL
+      condition on this page is therefore untuned for the new Fury/Inertia
+      numbers.
+- [ ] **Re-verify the hero-tree recommendation for Season 2** (`builds.md`) —
+      Fel-Scarred-first is an S1 claim; Icy Veins' 12.1 page leads Aldrachi
+      Reaver. Needs Tier-1/Tier-2 evidence, not day-1 editorial.
+- [ ] Re-measure Fury waste on 12.1 parses once Season 2 logs exist (2026-08-18+)
+      — the table below is 12.0.7 and the generation retune invalidates its
+      magnitudes.
 
 
 ## What the logs say — measured from real parses (Tier 2, 2026-08-03)
+
+⚠ **These are 12.0.7 measurements, taken before the 12.1 Fury retune** (Burning
+Hatred 40→30, Demon Blades 8–15→10–16, Blind Fury 15/30→10/20). The *conclusions*
+below still hold — Fury is not a tightly managed resource, Demon Blades dominates
+generation, VR's positioning cost is negligible — but **treat the specific
+percentages as historical**, not as 12.1 numbers.
 
 Pulled from the **top-100 Mythic Imperator Averzian** rankings (WCL, 12.0.7): full cast,
 damage and `resourcechange` event timelines for **7 parses**, 47 Vengeful Retreats.
@@ -152,12 +252,19 @@ damage and `resourcechange` event timelines for **7 parses**, 47 Vengeful Retrea
 | Chezzar | 5,386 | 1,237 | 23.0 % |
 | **pooled** | **19,462** | **2,738** | **14.1 %** |
 
-**Top players waste roughly one Fury in seven**, and the dominant source is **Demon
-Blades** — a *passive* off autoattacks that no rotation decision can gate — with
+**Top players waste roughly one Fury in seven** (12.0.7), and the dominant source is
+**Demon Blades** — a *passive* off autoattacks that no rotation decision can gate — with
 Immolation Aura's ticks second. This is why the guides carry almost no Fury advice: the
 only Fury instruction maxroll gives is *"Cast Immolation Aura if you won't overcap on
 fury"*. Practical reading: **do not treat Fury as a resource to be managed tightly.** The
 one decision that matters is not sitting on capped Immolation Aura charges.
+
+12.1 moves this the *right* way without changing the conclusion: Blizzard shifted
+generation **off** Immolation Aura (Burning Hatred 40→30) and **onto** Demon Blades
+(8–15→10–16), calling it "a small overall increase, paced more smoothly." More of your
+Fury now comes from the ungateable passive and less from the button whose overcap you
+were being told to avoid — so the overcap share is unlikely to fall much, and the advice
+stands.
 
 ⚠ Fury's max measured **170** on these characters (`maxResourceAmount` in the raw events),
 not the 120 class base — it is talent-inflated.

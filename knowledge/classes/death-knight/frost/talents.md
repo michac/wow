@@ -1,16 +1,22 @@
 ---
-title: Death Knight Frost — talent tree (12.0.7)
-patch: 12.0.7
-build: 12.0.7.67808
-fetched: 2026-06-19
-reviewed: 2026-07-07
+title: Death Knight Frost — talent tree (12.1.0)
+patch: 12.1.0
+build: 12.1.0.68914
+fetched: 
 sources:
   - https://us.api.blizzard.com/data/wow/talent-tree (Blizzard Game Data API, Tier 1)
-  - https://wago.tools/db2 Trait* @ 12.0.7.67808 (Tier 1)
+  - https://wago.tools/db2 Trait* @ 12.1.0.68914 (Tier 1)
 confidence: high
 ---
+> **Build provenance.** This file was generated from the Blizzard Game Data API and
+> wago `Trait*` DB2 at build **12.1.0.68914**, which is what the API's `static-12.1.0`
+> namespace reported on 2026-08-11. The live client that day was **12.1.0.69214**. The
+> `Trait*` DB2 exports at the two builds are **byte-identical** (verified by md5 on
+> `TraitNodeEntry`), so this data is valid for live 12.1 — cite it as **@ 12.1.0.68914**,
+> not 69214.
 
-# Death Knight Frost — talents (12.0.7)
+
+# Death Knight Frost — talents (12.1.0)
 
 > Generated from `knowledge/classes/_talents/all-talents.tsv`. Spell IDs are the talent's granted spell. Choice nodes show both options as `A / B`. See `_talents/README.md` for the schema.
 
@@ -32,19 +38,19 @@ confidence: high
 | Control Undead | 111673 | 1 | ACTIVE | 4,6 | — | 76073 |
 | Enfeeble | 392566 | 1 | PASSIVE | 4,7 | — | 76073 |
 | Coldthirst | 378848 | 1 | PASSIVE | 5,1 | — | 76084 |
-| Proliferating Chill | 373930 | 1 | PASSIVE | 5,2 | — | 76084,76044,76052 |
+| Proliferating Chill | 373930 | 1 | PASSIVE | 5,2 | — | 76052,76084,76044 |
 | Permafrost | 207200 | 1 | PASSIVE | 5,3 | — | 76052 |
-| Veteran of the Third War | 48263 | 1 | PASSIVE | 5,4 | — | 76069,76074,76052 |
+| Veteran of the Third War | 48263 | 1 | PASSIVE | 5,4 | — | 76069,76052,76074 |
 | Death Pact | 48743 | 1 | ACTIVE | 5,5 | — | 76069 |
-| Brittle | 374504 | 1 | PASSIVE | 5,6 | — | 76069,76059,110029 |
+| Brittle | 374504 | 1 | PASSIVE | 5,6 | — | 110029,76069,76059 |
 | Blood Bond | 1267028 | 1 | PASSIVE | 5,7 | — | 110029 |
 | Icy Talons | 194878 | 1 | PASSIVE | 6,2 | 8 | 76066,101708,76083 |
 | Death Notes | 1266819 | 1 | PASSIVE | 6,3 | 8 | 76066 |
 | Anti-Magic Zone | 51052 | 1 | ACTIVE | 6,4 | 8 | 76068,76075,76066 |
 | Death Defiance | 1266818 | 1 | PASSIVE | 6,5 | 8 | 76075 |
-| Unholy Bond | 374261 | 1 | PASSIVE | 6,6 | 8 | 76075,76061,76060 |
+| Unholy Bond | 374261 | 1 | PASSIVE | 6,6 | 8 | 76060,76075,76061 |
 | Ice Prison | 454786 | 1 | PASSIVE | 7,1 | 8 | 76085 |
-| Asphyxiate / Death's Reach | 221562 / 276079 | 1/1 | CHOICE | 7,3 | 8 | 76085,76065,110030 |
+| Asphyxiate / Death's Reach | 221562 / 276079 | 1/1 | CHOICE | 7,3 | 8 | 110030,76085,76065 |
 | Assimilation | 374383 | 1 | PASSIVE | 7,4 | 8 | 76065 |
 | Anti-Magic Barrier | 205727 | 1 | PASSIVE | 7,5 | 8 | 110031,76076,76065 |
 | Grip of the Dead | 273952 | 1 | PASSIVE | 7,7 | 8 | 76076 |
@@ -74,14 +80,14 @@ confidence: high
 | Empower Rune Weapon | 47568 | 1 | ACTIVE | 4,18 | — | 76116,76114 |
 | Frostscythe | 207230 | 1 | ACTIVE | 4,20 | — | 76114 |
 | Arctic Assault | 456230 | 1 | PASSIVE | 5,16 | — | 76117 |
-| Runic Overflow | 316803 | 2 | PASSIVE | 5,17 | — | 76096,76117 |
+| Runic Overflow | 316803 | 2 | PASSIVE | 5,17 | — | 76117,76096 |
 | Frostbound Will | 1238680 | 1 | PASSIVE | 5,18 | — | 76096 |
 | Runic Command | 376251 | 2 | PASSIVE | 5,19 | — | 76113,76096 |
 | Biting Cold | 377056 | 1 | PASSIVE | 5,20 | — | 76113 |
 | Inexorable Assault | 253593 | 1 | PASSIVE | 6,15 | 8 | 76118 |
 | Frostreaper | 1230301 | 1 | PASSIVE | 6,17 | 8 | 76103,76118,109258 |
 | Pillar of Frost | 51271 | 1 | ACTIVE | 6,18 | 8 | 109258 |
-| Icy Onslaught | 1230272 | 1 | PASSIVE | 6,19 | 8 | 76112,76102,109258 |
+| Icy Onslaught | 1230272 | 1 | PASSIVE | 6,19 | 8 | 109258,76112,76102 |
 | Gathering Storm | 194912 | 1 | PASSIVE | 6,21 | 8 | 76112 |
 | Murderous Efficiency | 207061 | 1 | PASSIVE | 7,16 | 8 | 76118,76098,76100 |
 | Rage of the Frozen Champion | 377076 | 1 | PASSIVE | 7,17 | 8 | 101929 |
@@ -93,8 +99,8 @@ confidence: high
 | Frostwyrm's Fury | 279302 | 1 | ACTIVE | 8,18 | 8 | 101930,102009,101931 |
 | Everfrost | 376938 | 1 | PASSIVE | 8,20 | 8 | 76092,102009 |
 | Northwinds | 1230284 | 1 | PASSIVE | 8,21 | 8 | 76110,76092 |
-| Bonegrinder | 377098 | 2 | PASSIVE | 9,16 | 20 | 106790,76037 |
-| Smothering Offense | 435005 | 1 | PASSIVE | 9,17 | 20 | 106790,101931,76106 |
+| Bonegrinder | 377098 | 2 | PASSIVE | 9,16 | 20 | 76037,106790 |
+| Smothering Offense | 435005 | 1 | PASSIVE | 9,17 | 20 | 101931,76106,106790 |
 | Avalanche | 207142 | 1 | PASSIVE | 9,19 | 20 | 76099,102009,76106 |
 | Icebreaker | 392950 | 2 | PASSIVE | 9,20 | 20 | 76109,76099 |
 | Obliteration | 281238 | 1 | PASSIVE | 10,15 | 20 | 76122 |

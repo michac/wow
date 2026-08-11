@@ -1,12 +1,14 @@
 ---
 title: Frames, widgets and rendering
-patch: 12.0.7
-fetched: 2026-08-05
-reviewed: 2026-08-06
+patch: 12.1.0
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
-  - https://github.com/Gethe/wow-ui-source (live, version.txt 12.0.7.68887, commit 4383ced30106d51b27e3e86d1987f1552f0d259d)
-  - Interface/AddOns/Blizzard_SharedXML/UI.xsd (1628 lines, the Tier-1 XML schema)
-  - Interface/AddOns/Blizzard_APIDocumentationGenerated/ (592 .lua doc files + 1 .toc, 77 ScriptObject tables)
+  - https://github.com/Gethe/wow-ui-source (tag 12.1.0, version.txt 12.1.0.69273, commit eb941aad028d73ddc69e3e8ef4da709f4d3cd744) — raw/addon-research/wow-ui-source-12.1.0; `[T1 docs @12.1.0]` / `[T1 src @12.1.0]` / `[T1 xsd @12.1.0]` locators resolve here (612 doc files, 79 ScriptObject tables)
+  - https://warcraft.wiki.gg/wiki/Patch_12.1.0/API_changes (revid 6801760, 2026-08-09)
+  - https://github.com/Gethe/wow-ui-source (version.txt 12.0.7.68887, commit 4383ced30106d51b27e3e86d1987f1552f0d259d) — raw/addon-research/wow-ui-source; the build an UNSTAMPED locator was read at, and the build every `[client]` measurement here was taken on
+  - Interface/AddOns/Blizzard_SharedXML/UI.xsd (the Tier-1 XML schema)
+  - Interface/AddOns/Blizzard_APIDocumentationGenerated/ (592 .lua doc files, 77 ScriptObject tables at 12.0.7.68887)
   - https://github.com/Ketho/BlizzardInterfaceResources (branch live, commit 774b2c550366, "12.0.7 (68256)") — Resources/WidgetAPI.lua for the inheritance graph
   - https://warcraft.wiki.gg/wiki/XML/Texture (revid 6776374, 2026-07-19)
   - https://warcraft.wiki.gg/wiki/API_Region_SetVertexColor (revid 6654858, 2026-02-19)
@@ -23,6 +25,14 @@ sources:
   - https://warcraft.wiki.gg/wiki/API_Frame_SetFlattensRenderLayers (revid 6654668, 2026-02-19)
   - https://warcraft.wiki.gg/wiki/UIOBJECT_AnimatableObject (revid 6749996, 2026-06-20) + the UIOBJECT_{Texture 6777822, Frame 6750022, FontString 6750105, Line 6750104, MaskTexture 6750102} pages that transclude it
   - https://github.com/Stanzilla/WoWUIBugs issues #107, #250, #474, #847, #848
+  # In-client measurements. This file carries `[client]` claims on four dates and had no
+  # in-client sources block at all, so nothing recorded whether their evidence still exists.
+  # It does now, per date. Note `raw/` is the gitignored fetch cache: even "extract survives"
+  # means machine-local, not committed.
+  - in-client measurement, ClientLab v0.2.0/v0.2.1, Demonology Warlock, 2026-08-05  # §2.1 CreateFontString arity, §4.4 draw-layer z-order, §5.1 base-image exclusivity, §5.3 SetGradient vs vertex colour, §5.4 one storage slot, §7.3 animation stop semantics. Extract survives in the local raw/ cache — 165 runs anchored to this file across 8 anchors
+  - in-client measurement, ClientLab v0.2.2, Demonology Warlock, 2026-08-06  # §3.6 and gap 17 — when SetClampedToScreen re-applies. ⚠ The capture is GONE: no surviving extract holds that date, that test id, or any clamp reading. The recorded values survive only as the verbatim transcription in observations.md
+  - in-client measurement, 2026-08-04  # §5.2 SetAtlas accepts a secret string where SetTexture refuses one; the measured channel table lives in security-taint-and-restricted-data.md §4.8.1. ⚠ PARTIAL — the surviving curve-lab extract carries the SetTexture refusal, but no SetAtlas sample; that half is not re-checkable
+  - in-client measurement, 2026-07-30  # §5.7 SetMask(path) does not clip a SetColorTexture fill. ⚠ NOT RE-CHECKABLE — no surviving extract carries that date or any mask sample
 confidence: high
 ---
 
@@ -53,8 +63,10 @@ records only where those concepts intersect rendering, and points there.
 
 > ⚠ **Build skew.** Source checkout `12.0.7.68887`; `BlizzardInterfaceResources`
 > `12.0.7.68256`; this repo's `_meta/game-version.md` records live as
-> `12.0.7.68453`. Same patch, three builds. **Almost nothing in this file has
-> been run in the client** — the exceptions carry a `[client YYYY-MM-DD]` tag.
+> `12.0.7.68453`. Same patch, three builds. **This file is mostly read off source,
+> schema and docs rather than run in the client** — but the measured exceptions are a
+> real minority, not a handful, and they carry a `[client YYYY-MM-DD]` tag. Grep for the
+> tag to see which claims they are, and treat them as the file's strongest material.
 > Items that still need the client are marked `@verify-ingame`.
 
 ---
@@ -63,7 +75,7 @@ records only where those concepts intersect rendering, and points there.
 
 ### 1.1 The inheritance graph
 
-The generated API docs **do not encode inheritance** — each of the 77
+The generated API docs **do not encode inheritance** — each of the 79
 `ScriptObject` tables is a flat method list with `Type = "ScriptObject"` and no
 parent field (e.g. `[T1 docs: SimpleTextureAPIDocumentation.lua:1-5]`, whose
 whole header is `Name / Type / Environment / Functions`). The inheritance graph
@@ -102,6 +114,26 @@ Font (FrameScriptObject + FontInstance)  :159
 Each of the ten `Animation` subtypes carries its own `inherits = {"Animation"}`
 entry at the line shown; that block ends at `:466` `[T2 res:
 WidgetAPI.lua:363-466]`. (`:474` is `Frame`, not an animation type.)
+
+⚠⚠ **THIS GRAPH IS A 12.0.7 CENSUS AND 12.1.0 MADE IT INCOMPLETE — in three
+different ways.** Nothing above is *wrong*; the omissions are:
+
+| New at 12.1.0 | What it is | Where it slots |
+|---|---|---|
+| **`VectorGraphics`** | a genuine new **UI object type** that renders SVG. It has its own generated-doc table (`SimpleVectorGraphicsAPI`) and its own XSD element with a `file` attribute, substituting into `LayoutFrameRef` exactly as `Texture` does `[T1 docs @12.1.0: SimpleVectorGraphicsAPIDocumentation.lua; T1 xsd @12.1.0: Blizzard_SharedXML/UI.xsd:702-713, child of Layer at :891]`. Created with `Frame:CreateVectorGraphics()` `[T1 docs @12.1.0: SimpleFrameAPIDocumentation.lua:149-163]` | a **Region sibling of `Texture`**, by XSD position. ⚠ Its *inherits* line is unconfirmed — `WidgetAPI.lua` is the source for that and has not been re-pulled past 12.0.7.68256. `@verify-ingame` |
+| **`RadialProgress`** | an **eleventh `Animation` subtype**, four methods: `GetFromPercent` / `SetFromPercent` / `GetToPercent` / `SetToPercent` `[T1 docs @12.1.0: SimpleAnimRadialProgressAPIDocumentation.lua]` | beside `Alpha`/`Scale`/`Rotation` in the `Animation` block. It animates §5.2's radial-progress channel. |
+| **`AuraContainer` / `AuraButton`** | **intrinsics, not new C types** — `<Frame name="AuraContainer" intrinsic="true">` and `<Button name="AuraButton" intrinsic="true">` in Blizzard's own XML `[T1 src @12.1.0: Blizzard_AuraContainer/Blizzard_AuraContainer.xml:5, Blizzard_AuraButton.xml:5]` | **nowhere in this graph, by construction.** They are a `Frame` and a `Button`; §2.4 owns intrinsics. They have **no generated-doc table**, so `wowkb.uiapi widget AuraButton` finds nothing — their API is Blizzard Lua mixins. `security-taint-and-restricted-data` §3.5. |
+
+⚠ `VectorGraphics` **lacks most of `TextureBase`'s channels** — Blizzard says so
+outright: *"the VectorGraphics objects don't currently support all of the APIs on
+regular Textures (rotation, masking, tex coords, etc.)"* `[T2 wiki: Patch 12.1.0/API
+changes §Other changes in 12.1 PTR 1, revid 6801760, 2026-08-09]`. Its whole declared
+surface is **four methods** — `SetSVG(svgAsset) -> success`, `ClearSVG()`, `HasSVG()`,
+`GetSVGFileID()` — so treat §5.2 and §5.7 as **not applying to it**. If you need
+rotation or a mask, use a `Texture` with `SetSVG` instead: `TextureBase` also gained
+`SetSVG`/`ClearSVG`, and Blizzard's framing is that a plain texture can show an SVG
+while a `VectorGraphics` object *"renders them at higher quality"* `[T2 wiki: same
+page]`.
 
 Two facts that matter and that people get wrong:
 
@@ -154,7 +186,9 @@ what a given object can do without looking anything up:
 | `SimpleRegionAPI` | `GetDrawLayer`/`SetDrawLayer`, `GetVertexColor`/`SetVertexColor`/`SetVertexColorFromBoolean`, `GetAlpha`/`SetAlpha`/`SetAlphaFromBoolean`, `GetScale`/`SetScale`/`GetEffectiveScale`, `SetIgnoreParentAlpha`/`SetIgnoreParentScale`, `IsObjectLoaded` | `[T1 docs: SimpleRegionAPIDocumentation.lua:3…]` |
 | `SimpleTextureBaseAPI` | `SetTexture`, `SetAtlas`, `SetColorTexture`, `SetMask`, `SetTexCoord`/`ResetTexCoord`, `SetGradient`, `SetDesaturated`/`SetDesaturation`, `SetBlendMode`, `SetRotation`, tiling, slice margins, vertex offsets, `SetSpriteSheetCell`, pixel-grid snapping | `[T1 docs: SimpleTextureBaseAPIDocumentation.lua:3…]` |
 | `SimpleTextureAPI` | only 4 methods — `AddMaskTexture`, `RemoveMaskTexture`, `GetMaskTexture`, `GetNumMaskTextures` | `[T1 docs: SimpleTextureAPIDocumentation.lua:3]` |
-| `SimpleFrameAPI` | `CreateTexture`/`CreateFontString`/`CreateLine`/`CreateMaskTexture`, strata/level/toplevel, `SetClipsChildren`, `SetFlattensRenderLayers`, `GetRegions`, `DesaturateHierarchy`, attributes, `Raise`/`Lower` | `[T1 docs: SimpleFrameAPIDocumentation.lua:3…]` |
+| `SimpleFrameAPI` | `CreateTexture`/`CreateFontString`/`CreateLine`/`CreateMaskTexture`, strata/level/toplevel, `SetClipsChildren`, `SetFlattensRenderLayers`, `GetRegions`, `DesaturateHierarchy`, attributes, `Raise`/`Lower` — **plus, at 12.1.0**, `CreateVectorGraphics`, `SetOnUpdateMode`/`GetOnUpdateMode`, `ResizeToBoundsRect`, and the four roleset methods `AddRoleset`/`RemoveRoleset`/`SetRolesets`/`IsRolesetFiltered` | `[T1 docs: SimpleFrameAPIDocumentation.lua:3…; the 12.1.0 additions at @12.1.0 :149, :1413, :536]` |
+| **`SimpleVectorGraphicsAPI`** *(new at 12.1.0)* | only 4 methods — `SetSVG`, `ClearSVG`, `HasSVG`, `GetSVGFileID` | `[T1 docs @12.1.0: SimpleVectorGraphicsAPIDocumentation.lua]` |
+| **`SimpleAnimRadialProgressAPI`** *(new at 12.1.0)* | only 4 methods — `SetFromPercent`, `GetFromPercent`, `SetToPercent`, `GetToPercent` | `[T1 docs @12.1.0: SimpleAnimRadialProgressAPIDocumentation.lua]` |
 
 ---
 
@@ -464,12 +498,37 @@ one frame between two different nameplates
 `SetCollapsesLayout` / `CollapsesLayout` / `IsCollapsed` on ScriptRegion
 `[T1 docs: SimpleScriptRegionAPIDocumentation.lua]`.
 
+**`AnchorUtil.CreateFlowLayout()` joins that factory list at 12.1.0**, with
+`AnchorUtil.ApplyFlowLayout(container, groups, layout)` as the imperative form and
+`FlowLayoutMixin:Apply(container, groups)` as the object form
+`[T1 src @12.1.0: Blizzard_SharedXMLBase/AnchorUtil.lua:606-610 (CreateFlowLayout),
+:637 (ApplyFlowLayout), :600-604 (the mixin)]`. Its axis comes from
+`AnchorUtil.FlowLayoutAxis = { Horizontal = 0, Vertical = 1 }` `[:465-469]`, and it
+lays out **groups** of elements rather than a flat list — a group table takes an
+`elements` array *or a function returning one*, and empty groups are skipped
+`[T1 src @12.1.0: the options comment block from :613]`. It is the engine behind the
+new aura containers (`Blizzard_UnitFrame/Shared/TargetFrameAuraContainer.lua:324`
+sets the axis directly).
+
+⚠ **It only anchors.** Sizing is the caller's job — an unsized element renders
+nothing. That is the same contract as the rest of `AnchorUtil`, and it is worth
+naming because a flow layout that silently produces an empty row reads as a layout
+bug rather than a missing `SetSize`.
+
+**`Frame:ResizeToBoundsRect()`** is the other 12.1.0 sizing addition — *"resize a
+frame to match the bounds of its children"* `[T2 wiki: Patch 12.1.0/API changes,
+2026-07-23 entry, revid 6801760, 2026-08-09]`, i.e. what `ResizeLayoutMixin` does in
+Lua, done in the engine. ⚠ It carries `IsProtectedFunction = true` in the generated
+docs `[T1 docs @12.1.0: SimpleFrameAPIDocumentation.lua]` even though Blizzard's post
+calls it "addon-safe" — see `security-taint-and-restricted-data` §1.1, which records
+the same oddity. On an ordinary addon frame the protection does not bite.
+
 ### 3.6 Keeping a frame on screen
 
 `Frame:SetClampedToScreen(clamped)` and `Frame:SetClampRectInsets(...)` are declared at
 Tier 1 and nothing more is said about them
 `[T1 docs: SimpleFrameAPIDocumentation.lua:1102, :1088]`; both carry
-`IsProtectedFunction = true`, so they sit in the 59-entry protected-widget set that
+`IsProtectedFunction = true`, so they sit in the 63-entry protected-widget set that
 [`security-taint-and-restricted-data`](./security-taint-and-restricted-data.md) §1.1
 enumerates.
 
@@ -479,7 +538,10 @@ enumerates.
 the corner — read `left = 0.0` in screen units on the **same frame** as the `SetPoint`,
 where an unclamped frame would have read `-76.8`. It then held `left = 0.0` through a
 `SetScale(2)` of its own and through two UI-scale changes, its width tracking each new
-scale, with every value read both inline and after a settle:
+scale, with every value read both inline and after a settle. ⚠ **Evidence gone** — the lab
+run behind this table is off the SavedVariables ring and no surviving extract holds it; the
+recorded readings survive only as a transcription in this subtree's queue, which is the
+archive of record for them:
 
 | step | effective scale | left (screen) | right (screen) |
 |---|---|---|---|
@@ -788,6 +850,47 @@ Independent of channel 1 and of colour:
   `DISABLE, BLEND, ALPHAKEY, ADD, MOD`, default `BLEND` `[T1 xsd:43-51, :550]`.
 - `SetSnapToPixelGrid(snap)` (XML `snapToPixelGrid`, default `true`) and
   `SetTexelSnappingBias(bias)` `[T1 xsd:554-555]`.
+- **Radial progress (new at 12.1.0)** — five setters, five getters and a clear, all
+  on `TextureBase` `[T1 docs @12.1.0: SimpleTextureBaseAPIDocumentation.lua]`. This is
+  the sanctioned cooldown-sweep-shaped fill, and Blizzard introduces it as removing
+  *"the need for hacky uses of cooldowns"* `[T2 wiki: Patch 12.1.0/API changes §Other
+  changes in 12.1 PTR 1, revid 6801760, 2026-08-09]`:
+
+  ```lua
+  texture:SetRadialProgressBarPercent(0.5);       -- 0..1 fill
+  texture:SetRadialProgressBarStartOffset(0.25);  -- 0..1 start angle
+  texture:SetRadialProgressBarEndOffset(0.75);    -- 0..1 end angle
+  texture:SetRadialProgressBarReverse(true);      -- counterclockwise
+  texture:SetRadialProgressBarFeather(0.125);     -- edge blur; higher = more gradual
+  texture:ClearRadialProgressBar();               -- back to standard texture display
+  ```
+
+  ⚠⚠ **Only `SetRadialProgressBarPercent` takes a secret, and that asymmetry is the
+  whole design.** It alone is `SecretArguments = "AllowedWhenTainted"` with
+  `SecretArgumentsAddAspect = { Enum.SecretAspect.RadialProgress }`; the other four
+  setters are `AllowedWhenUntainted`, i.e. **an addon may not feed them a secret**.
+  `GetRadialProgressBarPercent` is correspondingly
+  `SecretReturnsForAspect = { RadialProgress }` while the other four getters are
+  unannotated `[T1 docs @12.1.0: same file]`. So the shape of the arc is yours and
+  plain; only *how far along it is* may come from a sealed number, and once it has,
+  you cannot read it back. That is exactly the §4.8 secret→visual-sink contract of
+  `security-taint-and-restricted-data`, rendered as a texture channel.
+
+  `StatusBar` rides the same channel: `SetRenderMode(mode)` /`GetRenderMode()` with
+  `Enum.StatusBarRenderMode = { Linear = 0, Radial = 1 }`, where `Radial` *"renders
+  the status bar by driving the managed texture's radial progress fill percent
+  instead of resizing the texture anchors"* `[T1 docs @12.1.0:
+  SimpleStatusBarAPIDocumentation.lua:252-260; SimpleStatusBarConstantsDocumentation.lua:32-42]`.
+  Since `StatusBar:SetValue` is already `AllowedWhenTainted` (§5.3's sibling
+  discussion), that is a second, higher-level route to a secret-driven arc.
+  There is also an animation type for it — §1.1's `RadialProgress`, `SetFromPercent` /
+  `SetToPercent`, both `AllowedWhenUntainted` and therefore **not** a secret sink.
+- **SVG (new at 12.1.0)** — `SetSVG(svgAsset) -> success` / `ClearSVG()` on
+  `TextureBase` `[T1 docs @12.1.0: same file]`, or the whole `VectorGraphics` object
+  type (§1.1) for higher-quality rendering. A path with an `.svg` extension also
+  works through the ordinary `file=` attribute `[T2 wiki: same page]`.
+  `TextureBase:SetSVG` is `SecretArguments = "AllowedWhenTainted"`, matching
+  `SetTexture` (§5.1).
 
 ### 5.3 Channel 3 — per-vertex colour, and Channel 4 — alpha
 
@@ -961,6 +1064,19 @@ declares **zero** methods `[T1 docs: SimpleMaskTextureAPIDocumentation.lua:3]`
 methods. In XML the binding is the other way round: `<MaskTexture>` carries a
 `<MaskedTextures><MaskedTexture childKey= target=/></MaskedTextures>` block
 `[T1 xsd:611-636]`.
+
+⚠ **"Radial masking" at 12.1.0 is NOT part of this system.** Blizzard's own note
+files the radial-progress family under *"radial masking support has been added to
+textures and status bars"* `[T2 wiki: Patch 12.1.0/API changes §Other changes in 12.1
+PTR 1, revid 6801760, 2026-08-09]`, which reads as an extension of `MaskTexture`. It
+is not: it is a **geometry channel on `TextureBase` itself** (§5.2), it takes no mask
+object and no mask file, it composes with nothing here, and it carries its own secret
+aspect. Do not go looking for a `MaskTexture` API for it. What the wiki's framing does
+get right is the *use case* it replaces — a `Cooldown` frame abused as a circular wipe.
+
+⚠ **`VectorGraphics` does not support masking at all** — its whole declared surface
+is the four SVG methods, and nothing in this section reaches it (§1.1). If you need a
+masked SVG, put it on a `Texture` via `SetSVG`.
 
 #### `SetMask(path)` does NOT clip a `SetColorTexture` fill
 
@@ -1560,12 +1676,19 @@ Collected for visibility; each is also stated inline.
 15. **`FRAMESTRATA.PARENT` semantics** (§4.1, rule 11) — Tier 1 gives the value
     and that it is the XML default; the "inherit from parent" reading is
     inference and is not stated anywhere reachable.
-16. **Almost nothing in this file has been executed in the client.** The
-    exceptions are the two `[client …]`-tagged findings in §5.1 and §5.7;
-    everything else is read off source, schema, docs or the wiki.
+16. **This file mixes read-off-source claims with measured ones, and the mix is not
+    obvious by eye.** The bulk of it is read off Blizzard's source, the XSD, the
+    generated docs or the wiki. A real minority has been executed in the client and
+    carries a `[client …]` tag — including several of the `[closed]` entries in this
+    very list, which is the reason those entries closed. **Grep the file for the tag
+    rather than trusting a summary of it**: a census written into this prose is stale
+    the moment the next flight lands, and one that undercounts makes a reader discount
+    measurements that were genuinely taken.
 17. **[closed] When `SetClampedToScreen` re-applies** (§3.6) — continuously and inline;
     an edge-parked frame is pulled back on the frame's own geometry change and on a
-    UI-scale change alike, without the addon touching it `[client 2026-08-06]`.
+    UI-scale change alike, without the addon touching it `[client 2026-08-06]`
+    ⚠ *evidence gone — the run is off the ring; the readings survive only as a queue
+    transcription*.
 
 ---
 
@@ -1833,6 +1956,18 @@ Tier 1; rules stated as *observed behaviour* say so.
 
 ## Changelog
 
+- 2026-08-11 — 12.1.0. §1.1's type census is explicitly marked incomplete and given
+  the three additions: `VectorGraphics` (new object type, SVG, **no rotation/mask/
+  tex-coords**), `RadialProgress` (an 11th `Animation` subtype), and
+  `AuraContainer`/`AuraButton` (intrinsics, no generated-doc table). §1.3 gained two
+  ScriptObject rows and the new `SimpleFrameAPI` methods. §3.5 gained
+  `AnchorUtil.CreateFlowLayout` and `Frame:ResizeToBoundsRect`. §5.2 gained the
+  radial-progress channel + `SetSVG`, with the finding that **only
+  `SetRadialProgressBarPercent` accepts a secret** — the arc's shape is plain, only
+  its extent is sealable. §5.7 records that "radial masking" is not a `MaskTexture`
+  feature despite Blizzard's wording. ⚠ Unstamped `[T1 …]` line numbers are still
+  12.0.7.68887; `[T2 res] WidgetAPI.lua` was not re-pulled, so the new types' formal
+  `inherits` lines are unconfirmed.
 - 2026-08-05 — §7.3 / rule 30: the animation `SecretArguments = "NotAllowed"`
   set is **ten** entries across the 13 `SimpleAnim*` doc tables, not seven
   across five; `AnimPath:CreateControlPoint` had been missed entirely.

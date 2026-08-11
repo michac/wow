@@ -1,128 +1,132 @@
 class	spec	name	spell_id	reached_by	provenance
-Death Knight	Blood	Bloodworm	196361	trigger-effect	reached from Bloodworms 195679 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Death Knight	Blood	Essence of the Blood Queen	433925	trigger-effect	reached from Vampiric Strike 433895 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Death Knight	Frost	Frost Strike Off-Hand	66196	trigger-effect	reached from Frost Strike 49143 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Death Knight	Frost	Frostwhelp's Indignation	287283	trigger-effect	reached from Frozen Dominion 377253 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Death Knight	Frost	Obliterate Off-Hand	66198	trigger-effect	reached from Obliterate 49020 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Death Knight	Unholy	Dread Plague	1240996	trigger-effect	reached from Outbreak 77575 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Death Knight	Unholy	Essence of the Blood Queen	433925	trigger-effect	reached from Vampiric Strike 433895 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Death Knight	Unholy	Virulent Plague	191587	trigger-effect	reached from Outbreak 77575 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Demon Hunter	Devourer	Predator's Wake	1259431	trigger-effect	reached from The Hunt 370966 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Demon Hunter	Havoc	Abyssal Gaze		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; spell endpoint returned no 200 — not evidence of absence
-Demon Hunter	Havoc	Annihilation		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; spell endpoint returned no 200 — not evidence of absence
-Demon Hunter	Havoc	Consuming Fire		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; spell endpoint returned no 200 — not evidence of absence
-Demon Hunter	Havoc	Death Sweep		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; spell endpoint returned no 200 — not evidence of absence
-Demon Hunter	Havoc	Exposed Wound	339229	trigger-effect	reached from Serrated Glaive 339230 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Demon Hunter	Havoc	Predator's Wake	1259431	trigger-effect	reached from The Hunt 370966 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Demon Hunter	Havoc	Reaver's Glaive		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; spell endpoint returned no 200 — not evidence of absence
-Demon Hunter	Vengeance	Elysian Decree	339893	trigger-effect	reached from Sigil of Spite 389860 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Druid	Balance	Ascendant Fires	1263363	trigger-effect	reached from Ascendant Eclipses 1261564 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Druid	Balance	Dazed	50259	trigger-effect	reached from Wild Charge 49376 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Druid	Balance	Full Moon		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; spell endpoint returned no 200 — not evidence of absence
-Druid	Balance	Gift of an Ancient Guardian	1251877	trigger-effect	reached from Ironfur 192081 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Druid	Balance	Goldrinn's Fang	203001	trigger-effect	reached from Power of Goldrinn 202996 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Druid	Balance	Half Moon		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; spell endpoint returned no 200 — not evidence of absence
-Druid	Balance	Immobilized	45334	trigger-effect	reached from Wild Charge 16979 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Druid	Balance	Lunar Eclipse		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; spell endpoint returned no 200 — not evidence of absence
-Druid	Feral	Dazed	50259	trigger-effect	reached from Wild Charge 49376 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Druid	Feral	Gift of an Ancient Guardian	1251877	trigger-effect	reached from Ironfur 192081 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Druid	Feral	Immobilized	45334	trigger-effect	reached from Wild Charge 16979 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Druid	Feral	Maul	6807	trigger-effect	reached from Berserk 50334 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Druid	Feral	Stalking Predator	1263962	trigger-effect	reached from Unseen Predator 1263660 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Druid	Feral	Starfall	1286247	trigger-effect	reached from Heart of the Wild 1261870 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Druid	Guardian	Dazed	50259	trigger-effect	reached from Wild Charge 49376 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Druid	Guardian	Gift of Frenzied Regeneration	1269661	trigger-effect	reached from Wild Guardian 1269658 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Druid	Guardian	Gift of Ironfur	1269659	trigger-effect	reached from Wild Guardian 1269658 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Druid	Guardian	Gift of Maul	1269660	trigger-effect	reached from Wild Guardian 1269658 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Druid	Guardian	Immobilized	45334	trigger-effect	reached from Wild Charge 16979 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Druid	Guardian	Mastery: Nature's Guardian	155783	trigger-effect	reached from Wild Guardian 1269617 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Druid	Guardian	Starfall	1286247	trigger-effect	reached from Heart of the Wild 1261870 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Druid	Restoration	Dazed	50259	trigger-effect	reached from Wild Charge 49376 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Druid	Restoration	Gift of an Ancient Guardian	1251877	trigger-effect	reached from Ironfur 192081 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Druid	Restoration	Immobilized	45334	trigger-effect	reached from Wild Charge 16979 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Druid	Restoration	Memory of the Mother Tree	189877	trigger-effect	reached from Power of the Archdruid 189870 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Druid	Restoration	Starfall	1286247	trigger-effect	reached from Heart of the Wild 1261870 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Druid	Restoration	Visual Effect: Tree of Life	132213	trigger-effect	reached from Incarnation: Tree of Life 33891 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Evoker	Augmentation	Igneous Crucible	372956	trigger-effect	reached from Breath of Eons 403755 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Evoker	Augmentation	Temporal Wound	409560	trigger-effect	reached from Breath of Eons 403755 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Hunter	Beast Mastery	Auto Shot		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; spell endpoint returned no 200 — not evidence of absence
-Hunter	Beast Mastery	Call Pet 1 … Call Pet 5		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; spell endpoint returned no 200 — not evidence of absence
-Hunter	Beast Mastery	Summon Animal Companion	273277	trigger-effect	reached from Animal Companion 267116 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Hunter	Marksmanship	Auto Shot		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; spell endpoint returned no 200 — not evidence of absence
-Hunter	Marksmanship	Call Pet 1 … Call Pet 5		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; spell endpoint returned no 200 — not evidence of absence
-Hunter	Marksmanship	Sentinel Owl	388045	trigger-effect	reached from Sentinel 393504 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Hunter	Survival	Call Pet 1 … Call Pet 5		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; spell endpoint returned no 200 — not evidence of absence
-Hunter	Survival	Scorching Wildfire	259587	trigger-effect	reached from Wildfire Bomb 259496 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Hunter	Survival	Sentinel Owl	388045	trigger-effect	reached from Sentinel 393504 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Mage	Arcane	Nether Tempest	114923	trigger-effect	reached from Controlled Instincts 444483 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Mage	Fire	Blazing Speed	108843	trigger-effect	reached from Cauterize 86949 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Mage	Frost	Nether Tempest	114923	trigger-effect	reached from Controlled Instincts 444483 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Mage	Frost	Splinters		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; spell endpoint returned no 200 — not evidence of absence
-Monk	Brewmaster	Empty Barrel	1265307	trigger-effect	reached from Bring Me Another 1265129 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Monk	Brewmaster	Fel Rush	346123	trigger-effect	reached from Lighter Than Air 449590 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Monk	Mistweaver	Fel Rush	346123	trigger-effect	reached from Lighter Than Air 449590 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Monk	Windwalker	Chi Energy	337571	trigger-effect	reached from Jade Ignition 337483 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Monk	Windwalker	Chi Explosion	393056	trigger-effect	reached from Jade Ignition 392979 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Monk	Windwalker	Fel Rush	346123	trigger-effect	reached from Lighter Than Air 449590 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Monk	Windwalker	Fists of Fury Visual Target	123154	trigger-effect	reached from Fists of Fury 117418 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Paladin	Holy	Judgments of the Pure	355867	trigger-effect	reached from Divine Reach 469476 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Paladin	Holy	Light's Beacon	53651	trigger-effect	reached from Beacon of Faith 156910 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Paladin	Holy	Light's Decree	395605	trigger-effect	reached from Avenging Wrath 231895 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Paladin	Holy	Sacred Weapon		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; spell endpoint returned no 200 — not evidence of absence
-Paladin	Protection	Judgments of the Pure	355867	trigger-effect	reached from Divine Reach 469476 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Paladin	Protection	Light's Decree	395605	trigger-effect	reached from Avenging Wrath 231895 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Paladin	Protection	Reign of Ancient Kings	337852	trigger-effect	reached from Guardian of Ancient Kings 337851 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Paladin	Retribution	Blessed Hammers	404140	trigger-effect	reached from Templar Strikes 408275 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Paladin	Retribution	Hammer of Light	427441	trigger-effect	reached from Light's Guidance 427445 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Paladin	Retribution	Judgments of the Pure	355867	trigger-effect	reached from Divine Reach 469476 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Paladin	Retribution	Light's Decree	395605	trigger-effect	reached from Avenging Wrath 231895 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Paladin	Retribution	Templar Slash		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; spell endpoint returned no 200 — not evidence of absence
-Paladin	Retribution	Truth's Wake	403695	trigger-effect	reached from Wake of Ashes 255937 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Priest	Discipline	Light's Blessing	286551	trigger-effect	reached from Dispel Magic 286556 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Priest	Discipline	Prayer of Healing	596	trigger-effect	reached from Surge of Light 114255 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Priest	Discipline	Void Shield		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; spell endpoint returned no 200 — not evidence of absence
-Priest	Holy	Heal	2060	trigger-effect	reached from Lightweaver 390993 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Priest	Holy	Light's Blessing	286551	trigger-effect	reached from Dispel Magic 286556 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Priest	Holy	Mastery: Echo of Light		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; not yet probed
-Priest	Holy	Shadow Mend	186263	trigger-effect	reached from Surge of Light 114255 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Priest	Shadow	Harvested Thoughts	273321	trigger-effect	reached from Thought Harvester 273320 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Priest	Shadow	Insanity	194251	trigger-effect	reached from Voidform 185916 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Priest	Shadow	Light's Blessing	286551	trigger-effect	reached from Dispel Magic 286556 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Priest	Shadow	Mind Flay: Insanity		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; spell endpoint returned no 200 — not evidence of absence
-Priest	Shadow	Prayer of Healing	596	trigger-effect	reached from Surge of Light 114255 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Priest	Shadow	Shadow Mend	186263	trigger-effect	reached from Surge of Light 114255 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Priest	Shadow	Void Volley		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; spell endpoint returned no 200 — not evidence of absence
-Rogue	Assassination	Cold Blood	1264297	trigger-effect	reached from Cold Blooded Killer 382245 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Rogue	Outlaw	Amplifying Poison	381664	trigger-effect	reached from Master Poisoner 378436 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Rogue	Outlaw	Cold Blood	1264297	trigger-effect	reached from Cold Blooded Killer 382245 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Rogue	Subtlety	Amplifying Poison	381664	trigger-effect	reached from Master Poisoner 378436 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Rogue	Subtlety	Cold Blood	1264297	trigger-effect	reached from Cold Blooded Killer 382245 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Shaman	Elemental	Doom Winds	384352	trigger-effect	reached from Ascendance 114051 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Shaman	Elemental	Restorative Mists	294020	trigger-effect	reached from Ascendance 114052 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Shaman	Elemental	Static Accumulation	384437	trigger-effect	reached from Ascendance 114051 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Shaman	Elemental	Tempest Energize	188372	trigger-effect	reached from Tempest 188369 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Shaman	Enhancement	Primordial Fire	1218113	trigger-effect	reached from Primordial Storm 1218090 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Shaman	Enhancement	Primordial Frost	1218116	trigger-effect	reached from Primordial Storm 1218090 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Shaman	Enhancement	Primordial Lightning	1218118	trigger-effect	reached from Primordial Storm 1218090 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Shaman	Enhancement	Restorative Mists	294020	trigger-effect	reached from Ascendance 114052 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Shaman	Enhancement	Tempest Energize	188372	trigger-effect	reached from Tempest 188369 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Shaman	Restoration	Doom Winds	384352	trigger-effect	reached from Ascendance 114051 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Shaman	Restoration	Restorative Mists	294020	trigger-effect	reached from Ascendance 114052 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Shaman	Restoration	Static Accumulation	384437	trigger-effect	reached from Ascendance 114051 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Warlock	Affliction	Marked Soul	450629	trigger-effect	reached from Shared Fate 449704 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Warlock	Affliction	Soul Swipe	1239714	trigger-effect	reached from Demonic Soul 1239715 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Warlock	Affliction	Soulburn: Healthstone	387636	trigger-effect	reached from Gorebound Fortitude 449701 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Warlock	Demonology	Axe Toss	89766	prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; present in pet-family-annex.tsv on SkillLine 761 (Pet - Felguard) as 89766 — class-level, the pet path has no spec granularity
-Warlock	Demonology	Burning Cleave	1264093	trigger-effect	reached from Antoran Armaments 1251000 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Warlock	Demonology	Marked Soul	450629	trigger-effect	reached from Shared Fate 449704 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Warlock	Demonology	Soul Swipe	1239714	trigger-effect	reached from Demonic Soul 1239715 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Warlock	Demonology	Soulburn: Healthstone	387636	trigger-effect	reached from Gorebound Fortitude 449701 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Warlock	Demonology	Spell Lock	19647	prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; present in pet-family-annex.tsv on SkillLine 189 (Pet - Felhunter) as 19647 — class-level, the pet path has no spec granularity
-Warlock	Destruction	Infernal Awakening	22703	trigger-effect	reached from Summon Infernal 1122 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Warrior	Arms	Despawn Axe	222332	trigger-effect	reached from Bladestorm 222330 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Warrior	Arms	Fatal Mark	383704	trigger-effect	reached from Fatality 383703 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Warrior	Arms	Heroic Strike		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.0.7.67808; spell endpoint returned no 200 — not evidence of absence
-Warrior	Fury	Berserk	1269349	trigger-effect	reached from Rampaging Berserker 1269308 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Warrior	Fury	Despawn Axe	222332	trigger-effect	reached from Bladestorm 222330 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Warrior	Fury	Gushing Wound	288091	trigger-effect	reached from Cold Steel, Hot Blood 288084 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
-Warrior	Fury	Odyn's Fury Off-Hand	385061	trigger-effect	reached from Odyn's Fury 385059 via SpellEffect.EffectTriggerSpell @ 12.0.7.67808
+Death Knight	Blood	Bloodworm	196361	trigger-effect	reached from Bloodworms 195679 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Death Knight	Blood	Essence of the Blood Queen	433925	trigger-effect	reached from Vampiric Strike 433895 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Death Knight	Frost	Frost Strike Off-Hand	66196	trigger-effect	reached from Frost Strike 49143 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Death Knight	Frost	Frostwhelp's Indignation	287283	trigger-effect	reached from Frozen Dominion 377253 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Death Knight	Frost	Obliterate Off-Hand	66198	trigger-effect	reached from Obliterate 49020 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Death Knight	Unholy	Dread Plague	1240996	trigger-effect	reached from Outbreak 77575 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Death Knight	Unholy	Essence of the Blood Queen	433925	trigger-effect	reached from Vampiric Strike 433895 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Death Knight	Unholy	Virulent Plague	191587	trigger-effect	reached from Outbreak 77575 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Demon Hunter	Devourer	Predator's Wake	1259431	trigger-effect	reached from The Hunt 370966 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Demon Hunter	Havoc	Abyssal Gaze		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.1.0.69214; spell endpoint returned no 200 — not evidence of absence
+Demon Hunter	Havoc	Annihilation		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.1.0.69214; spell endpoint returned no 200 — not evidence of absence
+Demon Hunter	Havoc	Consuming Fire		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.1.0.69214; spell endpoint returned no 200 — not evidence of absence
+Demon Hunter	Havoc	Death Sweep		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.1.0.69214; spell endpoint returned no 200 — not evidence of absence
+Demon Hunter	Havoc	Exposed Wound	339229	trigger-effect	reached from Serrated Glaive 339230 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Demon Hunter	Havoc	Predator's Wake	1259431	trigger-effect	reached from The Hunt 370966 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Demon Hunter	Havoc	Reaver's Glaive		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.1.0.69214; spell endpoint returned no 200 — not evidence of absence
+Demon Hunter	Vengeance	Elysian Decree	339893	trigger-effect	reached from Sigil of Spite 389860 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Druid	Balance	Ascendant Fires	1263363	trigger-effect	reached from Ascendant Eclipses 1261564 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Druid	Balance	Dazed	50259	trigger-effect	reached from Wild Charge 49376 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Druid	Balance	Full Moon		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.1.0.69214; spell endpoint returned no 200 — not evidence of absence
+Druid	Balance	Gift of an Ancient Guardian	1251877	trigger-effect	reached from Ironfur 192081 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Druid	Balance	Goldrinn's Fang	203001	trigger-effect	reached from Power of Goldrinn 202996 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Druid	Balance	Half Moon		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.1.0.69214; spell endpoint returned no 200 — not evidence of absence
+Druid	Balance	Immobilized	45334	trigger-effect	reached from Wild Charge 16979 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Druid	Balance	Lunar Eclipse		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.1.0.69214; spell endpoint returned no 200 — not evidence of absence
+Druid	Feral	Dazed	50259	trigger-effect	reached from Wild Charge 49376 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Druid	Feral	Gift of an Ancient Guardian	1251877	trigger-effect	reached from Ironfur 192081 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Druid	Feral	Immobilized	45334	trigger-effect	reached from Wild Charge 16979 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Druid	Feral	Maul	6807	trigger-effect	reached from Berserk 50334 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Druid	Feral	Stalking Predator	1263962	trigger-effect	reached from Unseen Predator 1263660 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Druid	Feral	Starfall	1286247	trigger-effect	reached from Heart of the Wild 1261870 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Druid	Guardian	Answered Calling	1308399	trigger-effect	reached from Wild Guardian 1269614 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Druid	Guardian	Dazed	50259	trigger-effect	reached from Wild Charge 49376 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Druid	Guardian	Dream Conduit	1308176	trigger-effect	reached from Wild Guardian 1269658 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Druid	Guardian	Immobilized	45334	trigger-effect	reached from Wild Charge 16979 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Druid	Guardian	Mastery: Nature's Guardian	155783	trigger-effect	reached from Wild Guardian 1269617 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Druid	Guardian	Starfall	1286247	trigger-effect	reached from Heart of the Wild 1261870 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Druid	Restoration	Dazed	50259	trigger-effect	reached from Wild Charge 49376 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Druid	Restoration	Gift of an Ancient Guardian	1251877	trigger-effect	reached from Ironfur 192081 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Druid	Restoration	Immobilized	45334	trigger-effect	reached from Wild Charge 16979 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Druid	Restoration	Memory of the Mother Tree	189877	trigger-effect	reached from Power of the Archdruid 189870 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Druid	Restoration	Starfall	1286247	trigger-effect	reached from Heart of the Wild 1261870 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Druid	Restoration	Visual Effect: Tree of Life	132213	trigger-effect	reached from Incarnation: Tree of Life 33891 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Evoker	Augmentation	Igneous Crucible	372956	trigger-effect	reached from Breath of Eons 403755 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Evoker	Augmentation	Temporal Wound	409560	trigger-effect	reached from Breath of Eons 403755 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Evoker	Preservation	Swoop Up		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.1.0.69214; not yet probed
+Hunter	Beast Mastery	Auto Shot		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.1.0.69214; spell endpoint returned no 200 — not evidence of absence
+Hunter	Beast Mastery	Call Pet 1 … Call Pet 5		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.1.0.69214; spell endpoint returned no 200 — not evidence of absence
+Hunter	Beast Mastery	Summon Animal Companion	273277	trigger-effect	reached from Animal Companion 267116 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Hunter	Marksmanship	Auto Shot		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.1.0.69214; spell endpoint returned no 200 — not evidence of absence
+Hunter	Marksmanship	Call Pet 1 … Call Pet 5		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.1.0.69214; spell endpoint returned no 200 — not evidence of absence
+Hunter	Marksmanship	Sentinel Owl	388045	trigger-effect	reached from Sentinel 393504 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Hunter	Survival	Call Pet 1 … Call Pet 5		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.1.0.69214; spell endpoint returned no 200 — not evidence of absence
+Hunter	Survival	Flamefang Pitch		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.1.0.69214; not yet probed
+Hunter	Survival	Scorching Wildfire	259587	trigger-effect	reached from Wildfire Bomb 259496 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Hunter	Survival	Sentinel Owl	388045	trigger-effect	reached from Sentinel 393504 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Mage	Arcane	Nether Tempest	114923	trigger-effect	reached from Controlled Instincts 444483 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Mage	Arcane	Touch of the Archmage		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.1.0.69214; not yet probed
+Mage	Fire	Blazing Speed	108843	trigger-effect	reached from Cauterize 86949 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Mage	Fire	Meteor Burn	175396	trigger-effect	reached from Meteor 153564 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Mage	Frost	Nether Tempest	114923	trigger-effect	reached from Controlled Instincts 444483 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Mage	Frost	Splinters		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.1.0.69214; spell endpoint returned no 200 — not evidence of absence
+Monk	Brewmaster	Empty Barrel	1265307	trigger-effect	reached from Bring Me Another 1265129 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Monk	Brewmaster	Fel Rush	346123	trigger-effect	reached from Lighter Than Air 449590 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Monk	Mistweaver	Fel Rush	346123	trigger-effect	reached from Lighter Than Air 449590 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Monk	Windwalker	Chi Energy	337571	trigger-effect	reached from Jade Ignition 337483 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Monk	Windwalker	Chi Explosion	393056	trigger-effect	reached from Jade Ignition 392979 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Monk	Windwalker	Fel Rush	346123	trigger-effect	reached from Lighter Than Air 449590 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Monk	Windwalker	Fists of Fury Visual Target	123154	trigger-effect	reached from Fists of Fury 117418 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Paladin	Holy	Judgments of the Pure	355867	trigger-effect	reached from Divine Reach 469476 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Paladin	Holy	Light's Beacon	53651	trigger-effect	reached from Beacon of Faith 156910 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Paladin	Holy	Light's Decree	395605	trigger-effect	reached from Avenging Wrath 231895 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Paladin	Holy	Sacred Weapon		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.1.0.69214; spell endpoint returned no 200 — not evidence of absence
+Paladin	Protection	Hammer of Light	427441	trigger-effect	reached from Light's Guidance 427445 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Paladin	Protection	Judgments of the Pure	355867	trigger-effect	reached from Divine Reach 469476 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Paladin	Protection	Light's Decree	395605	trigger-effect	reached from Avenging Wrath 231895 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Paladin	Protection	Reign of Ancient Kings	337852	trigger-effect	reached from Guardian of Ancient Kings 337851 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Paladin	Retribution	Blessed Hammers	404140	trigger-effect	reached from Templar Strikes 408275 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Paladin	Retribution	Hammer of Light	427441	trigger-effect	reached from Light's Guidance 427445 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Paladin	Retribution	Judgments of the Pure	355867	trigger-effect	reached from Divine Reach 469476 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Paladin	Retribution	Light's Decree	395605	trigger-effect	reached from Avenging Wrath 231895 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Paladin	Retribution	Templar Slash		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.1.0.69214; spell endpoint returned no 200 — not evidence of absence
+Paladin	Retribution	Truth's Wake	403695	trigger-effect	reached from Wake of Ashes 255937 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Priest	Discipline	Light's Blessing	286551	trigger-effect	reached from Dispel Magic 286556 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Priest	Discipline	Prayer of Healing	596	trigger-effect	reached from Surge of Light 114255 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Priest	Holy	Heal	2060	trigger-effect	reached from Lightweaver 390993 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Priest	Holy	Light's Blessing	286551	trigger-effect	reached from Dispel Magic 286556 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Priest	Holy	Shadow Mend	186263	trigger-effect	reached from Surge of Light 114255 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Priest	Shadow	Harvested Thoughts	273321	trigger-effect	reached from Thought Harvester 273320 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Priest	Shadow	Insanity	194251	trigger-effect	reached from Voidform 185916 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Priest	Shadow	Light's Blessing	286551	trigger-effect	reached from Dispel Magic 286556 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Priest	Shadow	Mind Flay: Insanity		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.1.0.69214; spell endpoint returned no 200 — not evidence of absence
+Priest	Shadow	Prayer of Healing	596	trigger-effect	reached from Surge of Light 114255 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Priest	Shadow	Shadow Mend	186263	trigger-effect	reached from Surge of Light 114255 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Priest	Shadow	Void Volley	1242173	trigger-effect	reached from Crushing Void 1279437 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Rogue	Assassination	Cold Blood	1264297	trigger-effect	reached from Cold Blooded Killer 382245 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Rogue	Outlaw	Amplifying Poison	381664	trigger-effect	reached from Master Poisoner 378436 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Rogue	Outlaw	Cold Blood	1264297	trigger-effect	reached from Cold Blooded Killer 382245 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Rogue	Subtlety	Amplifying Poison	381664	trigger-effect	reached from Master Poisoner 378436 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Rogue	Subtlety	Cold Blood	1264297	trigger-effect	reached from Cold Blooded Killer 382245 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Shaman	Elemental	Doom Winds	384352	trigger-effect	reached from Ascendance 114051 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Shaman	Elemental	Restorative Mists	294020	trigger-effect	reached from Ascendance 114052 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Shaman	Elemental	Static Accumulation	384437	trigger-effect	reached from Ascendance 114051 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Shaman	Elemental	Tempest Energize	188372	trigger-effect	reached from Tempest 188369 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Shaman	Enhancement	Primordial Fire	1218113	trigger-effect	reached from Primordial Storm 1218090 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Shaman	Enhancement	Primordial Frost	1218116	trigger-effect	reached from Primordial Storm 1218090 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Shaman	Enhancement	Primordial Lightning	1218118	trigger-effect	reached from Primordial Storm 1218090 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Shaman	Enhancement	Restorative Mists	294020	trigger-effect	reached from Ascendance 114052 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Shaman	Enhancement	Tempest Energize	188372	trigger-effect	reached from Tempest 188369 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Shaman	Restoration	Doom Winds	384352	trigger-effect	reached from Ascendance 114051 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Shaman	Restoration	Restorative Mists	294020	trigger-effect	reached from Ascendance 114052 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Shaman	Restoration	Static Accumulation	384437	trigger-effect	reached from Ascendance 114051 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Warlock	Affliction	Marked Soul	450629	trigger-effect	reached from Shared Fate 449704 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Warlock	Affliction	Soul Swipe	1239714	trigger-effect	reached from Demonic Soul 1239715 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Warlock	Affliction	Soulburn: Healthstone	387636	trigger-effect	reached from Gorebound Fortitude 449701 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Warlock	Demonology	Axe Toss	89766	prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.1.0.69214; present in pet-family-annex.tsv on SkillLine 761 (Pet - Felguard) as 89766 — class-level, the pet path has no spec granularity
+Warlock	Demonology	Burning Cleave	1264093	trigger-effect	reached from Antoran Armaments 1251000 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Warlock	Demonology	Marked Soul	450629	trigger-effect	reached from Shared Fate 449704 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Warlock	Demonology	Soul Swipe	1239714	trigger-effect	reached from Demonic Soul 1239715 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Warlock	Demonology	Soulburn: Healthstone	387636	trigger-effect	reached from Gorebound Fortitude 449701 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Warlock	Demonology	Spell Lock	19647	prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.1.0.69214; present in pet-family-annex.tsv on SkillLine 189 (Pet - Felhunter) as 19647 — class-level, the pet path has no spec granularity
+Warlock	Destruction	Infernal Awakening	22703	trigger-effect	reached from Summon Infernal 1122 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Warrior	Arms	Despawn Axe	222332	trigger-effect	reached from Bladestorm 222330 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Warrior	Arms	Fatal Mark	383704	trigger-effect	reached from Fatality 383703 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Warrior	Arms	Heroic Strike		prose-only	asserted in abilities.md; no spec-keyed acquisition row at 12.1.0.69214; spell endpoint returned no 200 — not evidence of absence
+Warrior	Arms	Ravaged	1299405	trigger-effect	reached from Ravager 228920 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Warrior	Fury	Berserk	1269349	trigger-effect	reached from Rampaging Berserker 1269308 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Warrior	Fury	Despawn Axe	222332	trigger-effect	reached from Bladestorm 222330 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Warrior	Fury	Gushing Wound	288091	trigger-effect	reached from Cold Steel, Hot Blood 288084 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Warrior	Fury	Odyn's Fury Off-Hand	385061	trigger-effect	reached from Odyn's Fury 385059 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214
+Warrior	Protection	Ravaged	1299405	trigger-effect	reached from Ravager 228920 via SpellEffect.EffectTriggerSpell @ 12.1.0.69214

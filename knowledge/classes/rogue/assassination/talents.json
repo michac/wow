@@ -4,8 +4,8 @@
   "spec": "assassination",
   "spec_id": 259,
   "tree_id": 852,
-  "patch": "12.0.7",
-  "build": "12.0.7.67808",
+  "patch": "12.1.0",
+  "build": "12.1.0.68914",
   "source": "api",
   "serial_count": 206,
   "granted_serials": [
@@ -234,8 +234,8 @@
         "serial_order": 9,
         "req_points": 0,
         "prereq_node_ids": [
-          110325,
-          90764
+          90764,
+          110325
         ],
         "entries": [
           {
@@ -294,8 +294,8 @@
         "serial_order": 49,
         "req_points": 0,
         "prereq_node_ids": [
-          110324,
-          90695
+          90695,
+          110324
         ],
         "entries": [
           {
@@ -472,8 +472,8 @@
         "serial_order": 113,
         "req_points": 8,
         "prereq_node_ids": [
-          90637,
-          90745
+          90745,
+          90637
         ],
         "entries": [
           {
@@ -521,9 +521,9 @@
         "serial_order": 99,
         "req_points": 8,
         "prereq_node_ids": [
-          110323,
           90745,
-          90746
+          90746,
+          110323
         ],
         "entries": [
           {
@@ -571,8 +571,8 @@
         "serial_order": 106,
         "req_points": 8,
         "prereq_node_ids": [
-          90687,
-          90746
+          90746,
+          90687
         ],
         "entries": [
           {
@@ -780,9 +780,9 @@
         "serial_order": 104,
         "req_points": 8,
         "prereq_node_ids": [
+          110576,
           90743,
-          94562,
-          110576
+          94562
         ],
         "entries": [
           {
@@ -1026,7 +1026,7 @@
       },
       {
         "node_id": 90756,
-        "type": "ACTIVE",
+        "type": "CHOICE",
         "row": 11,
         "col": 2,
         "x": 2700,
@@ -1045,6 +1045,15 @@
             "choice_index": 0,
             "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_drink_milk_05.jpg",
             "desc": "Restore 100 Energy.\r\n\r\nWhen your Energy is reduced below 30, drink a Thistle Tea."
+          },
+          {
+            "entry_id": "137464",
+            "talent": "Thistle Tea",
+            "spell_id": 1298826,
+            "max_ranks": "1",
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/132819.jpg",
+            "desc": "Restore 100 Energy."
           }
         ]
       },
@@ -1705,7 +1714,7 @@
       },
       {
         "node_id": 90771,
-        "type": "PASSIVE",
+        "type": "ACTIVE",
         "row": 8,
         "col": 16,
         "x": 11100,
@@ -1720,12 +1729,12 @@
         "entries": [
           {
             "entry_id": "112664",
-            "talent": "Systemic Failure",
-            "spell_id": 381652,
+            "talent": "Amplifying Poison",
+            "spell_id": 381664,
             "max_ranks": "1",
             "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_skeer_bloodletting.jpg",
-            "desc": "Garrote increases the damage of Ambush and Mutilate on the target by 30%."
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_herb_fellotus.jpg",
+            "desc": "Coats your weapons with a Lethal Poison that lasts for 1 hour. Each strike has a 30% chance to poison the enemy, dealing 2 Nature damage and applying Amplifying Poison for 12 sec. Envenom can consume 10 stacks of Amplifying Poison to deal 35% increased damage. Max 20 stacks."
           }
         ]
       },
@@ -1757,7 +1766,7 @@
       },
       {
         "node_id": 90777,
-        "type": "ACTIVE",
+        "type": "PASSIVE",
         "row": 8,
         "col": 20,
         "x": 13500,
@@ -1772,12 +1781,12 @@
         "entries": [
           {
             "entry_id": "112670",
-            "talent": "Amplifying Poison",
-            "spell_id": 381664,
+            "talent": "Systemic Failure",
+            "spell_id": 381652,
             "max_ranks": "1",
             "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_herb_fellotus.jpg",
-            "desc": "Coats your weapons with a Lethal Poison that lasts for 1 hour. Each strike has a 30% chance to poison the enemy, dealing 2 Nature damage and applying Amplifying Poison for 12 sec. Envenom can consume 10 stacks of Amplifying Poison to deal 35% increased damage. Max 20 stacks."
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_skeer_bloodletting.jpg",
+            "desc": "Garrote increases the damage of Ambush and Mutilate on the target by 30%."
           }
         ]
       },
@@ -1796,12 +1805,12 @@
         "entries": [
           {
             "entry_id": "112679",
-            "talent": "Blindside",
-            "spell_id": 328085,
+            "talent": "Dashing Scoundrel",
+            "spell_id": 381797,
             "max_ranks": "1",
             "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_focusedattacks.jpg",
-            "desc": "Ambush and Mutilate have a 15% chance to make your next Ambush free and usable without Stealth. Chance increased to 30% if the target is under 35% health."
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_venomouswounds.jpg",
+            "desc": "Envenom's effect also increases the critical strike chance of your weapon poisons by 5%, and their critical strikes generate 1 Energy."
           }
         ]
       },
@@ -1894,12 +1903,12 @@
         "entries": [
           {
             "entry_id": "112507",
-            "talent": "Avulsion",
-            "spell_id": 1250358,
+            "talent": "Blindside",
+            "spell_id": 328085,
             "max_ranks": "1",
             "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_artifact_corruptedbloodofzakajz.jpg",
-            "desc": "Rupture damage increased by 20%."
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_focusedattacks.jpg",
+            "desc": "Ambush and Mutilate have a 15% chance to make your next Ambush free and usable without Stealth. Chance increased to 30% if the target is under 35% health."
           }
         ]
       },
@@ -2001,12 +2010,12 @@
         "entries": [
           {
             "entry_id": "112667",
-            "talent": "Deadly Momentum",
-            "spell_id": 1250271,
+            "talent": "Avulsion",
+            "spell_id": 1250358,
             "max_ranks": "1",
             "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_deadlymomentum.jpg",
-            "desc": "Finishing moves have a 3% chance per combo point spent to increase your chance to critically strike by 6% for 6 sec."
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_artifact_corruptedbloodofzakajz.jpg",
+            "desc": "Rupture damage increased by 20%."
           }
         ]
       },
@@ -2050,12 +2059,12 @@
         "entries": [
           {
             "entry_id": "112677",
-            "talent": "Dashing Scoundrel",
-            "spell_id": 381797,
+            "talent": "Unstable Toxin",
+            "spell_id": 1298812,
             "max_ranks": "1",
             "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_venomouswounds.jpg",
-            "desc": "Envenom's effect also increases the critical strike chance of your weapon poisons by 5%, and their critical strikes generate 1 Energy."
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/987740.jpg",
+            "desc": "Envenom's damage is increased by 18%, but its duration is reduced by 2 sec."
           }
         ]
       },

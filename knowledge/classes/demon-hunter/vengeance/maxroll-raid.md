@@ -1,18 +1,18 @@
 ---
 title: Vengeance Demon Hunter Raid Guide
 patch: 12.0.7
-fetched: 2026-07-14
-reviewed: 2026-07-14
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
   - https://maxroll.gg/wow/class-guides/vengeance-demon-hunter-raid-guide (maxroll.gg, Tier 3)
 confidence: medium
 verbatim: true          # unedited external capture — distill on read, not on insert
 source: maxroll.gg
 author: nicememes
-maxroll_updated: 2026-06-22   # source's last-modified (staleness signal)
+maxroll_updated: 2026-08-11   # source's last-modified (staleness signal)
 ---
 
-Welcome to the **Vengeance Demon Hunter** raid guide for the World of Warcraft patch 12.0.7! This guide covers everything you need to know to understand your character! Are you starting out and leveling up from 80? Check out the leveling guide!
+Welcome to the **Vengeance Demon Hunter** raid guide for the World of Warcraft patch 12.1! This guide covers everything you need to know to understand your character! Are you starting out and leveling up from 80? Check out the leveling guide!
 
 Single-Target 
 
@@ -34,7 +34,7 @@ Mobility
 
 Excellent
 
-[Maxroll paperdoll import](https://backend.maxroll.gg/wow/embed-tools/paperdoll=IIoAgWkA3_fABEL0DIIEBAQ74OwRtOAEHIoAhEQAY48AAERAAQQrDoQrD4NNFQBJvC9ACgQAAUTuDUwDEAV1F8AAJ0wDg4hzDAICBAg_smgHAAbCtQQo7mwDEYfzF0CAP0QLsB2uDQICBAgFAPgYWPAFtOgIv0RABIL0DAACBAQBdBCQQPgAJEAAvkbAeQAFtmQRQkn1DIICRURBzQw_NnxMEsI-ZwACwSvAVsEB4kfB7RQB5mQR0cU-DIACBAQB5OggCESA)
+[Maxroll paperdoll import](https://backend.maxroll.gg/wow/embed-tools/paperdoll=J8fAwTVRCc__BEQskQggYUAAvj7AX16AkVzF2IoAYFwAmQQApfBBAkQAAQRrDQRrDIoAYFQAvSCBCgQAAUTuDIoAOFQA0SCBCgQAAkQuDIoAOFQAgfBBAiQABATACRQAwmgHEE6uJ8ACRU9AB0CAp0APYB2uDQAABAgFAPgJqOwSBEgskQAAIEAAFgFMcfBBCiQAA8SuDQRrDUgEIMubCojEAQAVfkBMA0VEMABWBEQ3X0AGEiVABE7FEIAABAQP5OAWBEAEhOgBAEAA9k7AVA8AkqCBLFA)
 
 **Vengeance Demon Hunter** Raid BIS
 
@@ -111,7 +111,7 @@ Following you receive a list of meaningful class changes going from The War With
 
 **[Annihilator](https://www.wowhead.com/spell=134253)**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CWkABG685WLf6r9l_nYEejUaUDAWmxMzMGmRmZGMLmxMYmxMjZMzMjhZ2mZsZmZbMMAAAAAAACYGzsBAAAgBmZmZmt2mZmBAGAAAAD)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CWkAIo1c2KfIEsPoy9fznypG4BAYMzMjZmZkZmZY2MzMjBjZGzYmZGDzYmx2MzsNGAAAAAAAIgZmxGAAAAGMmZmZWabmZGAAAAAgBA)
 
 **Vengeance Demon Hunter** [Annihilator](https://www.wowhead.com/spell=134253) Build in Raid
 
@@ -147,7 +147,7 @@ Discover all talents that significantly alter your gameplay within the Spec and 
 
 ### Tier Set
 
-Check out all the [Midnight Season 1 Tier Sets](https://maxroll.gg/wow/resources/midnight-season-1-tier-sets)!
+Check out all the [**Midnight Season 2 Tier Sets**](https://maxroll.gg/wow/resources/midnight-season-2-tier-sets)!
 
 * **2-Set:** **Fracture damage increased by 35%.
   * **4-Set:** **Fracture has a 30% chance to spark a violent detonation, causing Fire damage onto nearby enemies. Damage reduced beyond 5 targets.
@@ -247,187 +247,171 @@ The following tips are mainly applicable to **Heroic Bosses**. Mythic tips are g
 
 **← Scroll for more Bosses**→**
 
-**Chimaerus**
+**Nek'Zali**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CWkABG685WLf6r9l_nYEejUaUDAWmxMzMGmRmZGMLmxMYmxMjZMzMjhZ2mZsZmZbMMAAAAAAACYGzsBAAAgBmZmZmt2mZmBAGAAAAD)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CWkAIo1c2KfIEsPoy9fznypG4BAYMzMjZmZkZmZY2MzMjBjZGzYmZGDzYmx2MzsNGAAAAAAAIgZmxGAAAAGMmZmZWabmZGAAAAAgBA)
 
-**Vengea**nce Demon Hunter** Raid Chimaerus**
+**Vengea**nce Demon Hunter** Raid Nek'Zali**
+
+### Tank mechanics
+
+* The main tank mechanic of this fight is Hollowing Strikes - a debuff that the boss applies with each melee strike, as well as with [Possession Barrage](https://www.wowhead.com/spell=1284103).
+  * During [Possession Barrage](https://www.wowhead.com/spell=1284103), the boss sends spectral echoes towards the active tank, applying extra stacks of Hollowing Strikes. These echoes burst on first impact with any player, dealing reduced raid 
+    * When targeted by this mechanic, move out of the raid and make sure no one is standing between you and the boss so they don't trigger the echoes too early. Otherwise, they will deal too much damage to the raid.
+    * Taunt swap after each cast of [Possession Barrage](https://www.wowhead.com/spell=1284103).
+  * Apart from that, the boss will spawn waves of Restless Amani - make sure to move the boss next to them to allow for better cleave.
+  * During the intermission, the active tank will be targeted by a group soak - [Hungering Pyre](https://www.wowhead.com/spell=1289855). Try to put it on top of as many Restless Amani corpses as possible to burn them with [Cremation](https://www.wowhead.com/spell=1289875) to prevent them from awakening again.
+
+**Entombed Sentinels**
+
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CWkAIo1c2KfIEsPoy9fznypG4BAYMzMjZmZkZmZY2MzMjBjZGzYmZGDzYmx2MzsNGAAAAAAAIgZmxGAAAAGMmZmZWabmZGAAAAAgBA)
+
+**Vengea**nce Demon Hunter** Raid Entombed Sentinels**
+
+### Tank mechanics
+
+* The bosses have to always be separated by at least 40 yards due to [Ula'tek's Dominance](https://www.wowhead.com/spell=1290189). At the start of each phase, split the bosses apart by moving them to different sides of the room.
+  * [Empowering Slam](https://www.wowhead.com/spell=1284458) and [Bloodvenom Injection](https://www.wowhead.com/spell=1284487) are the stacking tank debuffs of each of the bosses. Make sure to taunt swap on the bosses each time they meet in the middle of the room during [Vitriolic Stasis](https://www.wowhead.com/spell=1284588) to reset your stacks.
+    * [Bloodvenom Injection](https://www.wowhead.com/spell=1284487) additionally creates a large pool of blood upon expiration. Make sure to drop it off at the edges of the room if possible.
+  * Don't tank Breath of Ula'tek too close to the existing blood puddles so the [Venom Coagulation](https://www.wowhead.com/spell=1284251) doesn't spawn in the pool and melees can safely attack it.
+
+**Lost Explorers**
+
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CWkAIo1c2KfIEsPoy9fznypG4BAYMzMjZmZkZmZY2MzMjBjZGzYmZGDzYmx2MzsNGAAAAAAAIgZmxGAAAAGMmZmZWabmZGAAAAAgBA)
+
+**Vengea**nce Demon Hunter** **Raid Lost Explorers**
+
+### Tank mechanics
+
+* All three bosses cannot be positioned within 30 yards of each other due to [United Defense](https://www.wowhead.com/spell=1297645) \- always keep one of the bosses away from the other 2. 
+  * Trader Gebbo just wanders around the room and doesn't follow or attack its threat target. It also doesn't have any tank mechanics.
+  * Scrollsage Iku casts [Shredding Shards](https://www.wowhead.com/spell=1295854) at its current target - a series of ice shards, each doing magic damage and increasing damage taken from the next shard for 80 seconds.
+  * First Mate Nama applies [Steady Strikes](https://www.wowhead.com/spell=1291929) with each attack to its target, increasing physical damage done to that target for 30 seconds.
+  * The job of the tanks on this fight is to swap between Scollsage Iku and First Mate Nama, never letting [Shredding Shards](https://www.wowhead.com/spell=1295854) to be casted at the same target twice and resetting [Steady Strikes](https://www.wowhead.com/spell=1291929) as often as possible, while always keeping one of the bosses far enough to prevent [United Defense](https://www.wowhead.com/spell=1297645) from being applied.
+
+**Vashnik**
+
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CWkAIo1c2KfIEsPoy9fznypG4BAYMzMjZmZkZmZY2MzMjBjZGzYmZGDzYmx2MzsNGAAAAAAAIgZmxGAAAAGMmZmZWabmZGAAAAAgBA)
+
+**Vengea**nce Demon Hunter** Raid Vashnik**
+
+### Tank mechanics
+
+* There are 3 fountains placed on the sides of the room: Fountain of Blood, Fire, and Shadow. The boss will activate the two closest ones with [Imbibe](https://www.wowhead.com/spell=1283164) throughout the fight, gaining their powers and spawning some adds.
+    * Each fountain activation empowers the next activation for 1.5 minutes.
+    * Your job as a tank is to never let the boss activate the same two fountains in a row by moving the boss to the next fountain before each [Imbibe](https://www.wowhead.com/spell=1283164) cast.
+    * Make sure to position the boss on top of the adds coming from the fountain for better cleave. However, be careful with quickly killing all the fire adds, as they apply stacking [Caustic Surge](https://www.wowhead.com/spell=1285979) when they die.
+  * Vashnik's tank hit is [Dripping Fangs](https://www.wowhead.com/spell=1280935), taunt swap after each cast.
+
+**Sszorak**
+
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CWkAIo1c2KfIEsPoy9fznypG4BAYMzMjZmZkZmZY2MzMjBjZGzYmZGDzYmx2MzsNGAAAAAAAIgZmxGAAAAGMmZmZWabmZGAAAAAgBA)
+
+**Vengea**nce Demon Hunter** Raid Sszorak**
+
+### Fight mechanics
+
+* [Apex Predator](https://www.wowhead.com/spell=1277025) is a combination of tank frontals consisting of 2 [Ravages](https://www.wowhead.com/spell=1277002), 2 [Mutilates](https://www.wowhead.com/spell=1277027), and one [Tempest](https://www.wowhead.com/spell=1287072), cast in a random order.
+    * [Ravage](https://www.wowhead.com/spell=1277002) is a frontal cone that deals heavy physical damage and follows the active tank. Make sure to aim it **away from the raid**.
+    * [Mutilates](https://www.wowhead.com/spell=1277027) is a frontal cone that applies a heavy magic DOT, which is reduced by the number of people hit by the cone. Make sure this ability is aimed into one half of the raid, so people can soak it.
+    * [Tempest](https://www.wowhead.com/spell=1287072) spawns a bunch of tornadoes around the boss and sends them outwards at the end of the cast. Make sure you're not under the boss when this happens and dodge the tornadoes.
+    * In heroic and mythic difficulties, the boss will cast these in a random order. Since each frontal cone applies a damage taken increase from that ability, make sure that one tank never takes 2 of the same abilities. Keep in mind that you can taunt during the cast so the boss aims the frontal cone at you instead.
+  * Each cast of [Venomous Surge](https://www.wowhead.com/spell=1306120) spawns [Caustic Claws](https://www.wowhead.com/spell=1305998) puddles around the boss. Make sure to move the boss to an edge of the room, ideally opposite the [Howling Maelstroms](https://www.wowhead.com/spell=1285732) spawn, so that the puddles get blown off the edge of the room by the winds. 
+  * Apart from that, Sszorak applies a stack of [Corroding Venom](https://www.wowhead.com/spell=1282869) with each melee attack, increasing physical damage taken by the target. Taunt swapping on each [Apex Predator](https://www.wowhead.com/spell=1277025) combo is enough to reset the stacks.
+
+**Twin Fangs**
+
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CWkAIo1c2KfIEsPoy9fznypG4BAYMzMjZmZkZmZY2MzMjBjZGzYmZGDzYmx2MzsNGAAAAAAAIgZmxGAAAAGMmZmZWabmZGAAAAAgBA)
+
+**Vengea**nce Demon Hunter** **Raid Twin Fangs**
+
+### General mechanics
+
+* The entire fight revolves around managing [Eternal Venom](https://www.wowhead.com/spell=1290336) stacks
+    * [Venomous Emergence](https://www.wowhead.com/spell=1291404), [Corrosive Spit](https://www.wowhead.com/spell=1291478), getting hit by poison waves, or soaking [Caustic Globule](https://www.wowhead.com/spell=1289201) applies a stack of [Eternal Venom](https://www.wowhead.com/spell=1290336).
+    * Reaching 10 stacks in Heroic or 9 in Mythic difficulties immediately kills you.
+    * It is crucial to dodge as many poison waves as possible while managing how many [Caustic Globules](https://www.wowhead.com/spell=1289201) you soak to prevent reaching maximum stacks of this debuff.
+
+### Tank mechanics
+
+* Being outside of melee range of the boss that you're actively tanking will cause it to cast [Concentrated Spittle](https://www.wowhead.com/spell=1295107) or [Clotted Bolt](https://www.wowhead.com/spell=1295113), so make sure to never leave melee or use a big personal if you ever find yourself far from the boss.
+  * Vexhul's tank ability is [Caustic Deluge](https://www.wowhead.com/spell=1289192), which deals nature damage and pushes you back for 5 seconds.
+    * It also spawns [Caustic Globules](https://www.wowhead.com/spell=1289201) around you. These need to be soaked by players before they explode to prevent everyone from getting an [Eternal Venom](https://www.wowhead.com/spell=1290336) stack.
+    * Each hit applies [Envenomed](https://www.wowhead.com/spell=1310360), so taunt swap between every [Caustic Deluge](https://www.wowhead.com/spell=1289192) cast.
+    * Be aware of the pushback, especially when the poison waves are coming!
+  * Ithraz casts [Stone Breaker](https://www.wowhead.com/spell=1288538), pushing back players close to the boss and spawning 3 soak zones.
+    * Each zone deals heavy physical damage and increases the damage taken from the next zone by 33%. If it is left unsoaked, it deals raid-wide damage and knocks everyone away. Make sure to taunt swap between each set of [Stone Breakers](https://www.wowhead.com/spell=1288538) to reset the stacks of the damage increase.
+    * The zones spawn in a random order and need to be soaked in the same order that they spawned. Pay attention to the spawns and memorize the spawn order when this ability is happening. The boss will also shortly face towards the zone it will trigger next, so you can use that direction if you can't remember the spawn order.
+    * Each second [Stone Breaker](https://www.wowhead.com/spell=1288538) cast overlaps with poison waves coming - make sure you're not getting hit by waves while soaking the [Stone Breakers](https://www.wowhead.com/spell=1288538).
+    * Watch out for the pushback at the start of this mechanic, as it can push you into an incoming wave or a [Caustic Globule](https://www.wowhead.com/spell=1289201).
+
+**Coiled Altar**
+
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CWkAIo1c2KfIEsPoy9fznypG4BAYMzMjZmZkZmZY2MzMjBjZGzYmZGDzYmx2MzsNGAAAAAAAIgZmxGAAAAGMmZmZWabmZGAAAAAgBA)
+
+**Vengea**nce Demon Hunter** Raid Coiled Altar**
 
 ### Phase 1
 
-* The boss will cast [Alndust Upheaval](https://www.wowhead.com/spell=1246149) at the active tank.
-    * This is a group soak; position yourself so others can easily soak you.
-    * Soaking it applies [Alnsight](https://www.wowhead.com/spell=1264920), which sends you to another realm and allows you to see Manifestations for 40 seconds.
-    * Taunt swap after every cast of [Alndust Upheaval](https://www.wowhead.com/spell=1246149).
-  * While in the other realm, you will be dealing with three types of Manifestations:
-    * Colossal Horror has a tank hit - [Colossal Strikes](https://www.wowhead.com/spell=1262020). It is a series of strikes that does a combination of Physical and Nature damage. 
-    * Haunting Essence will be casting interruptible [Essence Bolts](https://www.wowhead.com/spell=1261997) and [Fearsome Cry](https://www.wowhead.com/spell=1249017). Make sure to kick these.
-    * Swarming Shade does not have any special abilities and will just melee you.
-    * The Manifestations are initially spread very widely in the other realm, which makes generating initial threat on every mob a bit tricky. 
-  * All of these Manifestations have an absorb shield [Alnshroud](https://www.wowhead.com/spell=1245727). Upon breaking it, the Manifestation leaves the alternative realm, appears in Reality, and tries to reach the boss.
-    * If any Manifestation reaches the boss, it will get consumed, and Chimearus will gain a stack of [Cannibalized Essence](https://www.wowhead.com/spell=1245844), healing Chimearus and increasing its damage done by 100%. 
-    * This could lead to a raid wipe. To prevent it from happening, tank the boss on one edge of the room, and move the adds in the other realm to the opposite side of the room. By doing this, the adds will have a longer distance to cross, and can be finished off before reaching the boss.
+* Only Zul'jan is active during this phase.
+  * He casts [Toxic Deluge](https://www.wowhead.com/spell=1299960), which spawns multiple [Coalesced Venom](https://www.wowhead.com/spell=1282403) orbs during this phase. They deal pulsing raid-wide AOE while they're active, and can be picked up and moved by players running into them. 
+  * [Sever](https://www.wowhead.com/spell=1299684) is a frontal cone aimed at the active tank that deals physical damage and destroys any [Coalesced Venoms](https://www.wowhead.com/spell=1282403) it hits.
+    * It also increases damage taken by the next [Sever](https://www.wowhead.com/spell=1299684) by 200%, so make sure to taunt swap after every cast.
+  * The goal of this phase is for the raid to group up the [Coalesced Venom](https://www.wowhead.com/spell=1282403) orbs so they can then be destroyed by [Sever](https://www.wowhead.com/spell=1299684).
+  * Additionally, each cast of [Fangs of the Crucible](https://www.wowhead.com/spell=1282487) empowers the next 23 melees of the boss with [Twinfang Toxin](https://www.wowhead.com/spell=1300322), dealing extra nature damage to the tank. 
+    * Make sure to frontload defensives while the boss has stacks of [Twinfang Toxin](https://www.wowhead.com/spell=1300322).
 
 ### Phase 2
 
-* During this phase, the boss will fly up and won't be attackable. It will keep casting [Corrupted Devastation](https://www.wowhead.com/spell=1245486), which summons the Manifestations.
-    * These have the same abilities as in Phase 1, but are not affected by [Alnshroud](https://www.wowhead.com/spell=1245727). 
-    * Generate good threat on these mobs, and don't forget to keep kicking the Haunting Essence.
+* Only Hex Lord Malacrass is active during this phase.
+  * He casts [Dreadmarch](https://www.wowhead.com/spell=1285640), which mind-controls selected players, and spawns 2 [Manifestations of Dread](https://www.wowhead.com/spell=1285842) per player when the mind control is broken.
+    * The Manifestations fixate on random players, moving towards them, unless the fixated player looks back at the Manifestation. 
+  * Similar to [Sever](https://www.wowhead.com/spell=1299684) in Phase 1, [Soul Sever](https://www.wowhead.com/spell=1286620) is a frontal cone aimed at the active tank that deals shadow damage and destroys any [Manifestations of Dread](https://www.wowhead.com/spell=1285842) it hits.
+    * It also increases damage taken by the next [Soul Sever](https://www.wowhead.com/spell=1286620) by 200%, so make sure to taunt swap after every cast.
+    * Additionally, it applies 3 stacks of [Gravebound](https://www.wowhead.com/spell=1286837), which spawn a Soul Fragment per stack that needs to be picked up in order to remove the stack. If the stacks are not cleared before the debuff expires, the affected player immediately dies.
+    * It is important to pay extra attention to finding and collecting all Soul Fragments quickly after each tank frontal.
+  * Getting hit by a [Gloombomb](https://www.wowhead.com/spell=1286895) also applies 3 stacks of [Gravebound](https://www.wowhead.com/spell=1286837). Don't let it catch you off guard!
 
-**Imperator Averzian**
+### Intermission
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CWkABG685WLf6r9l_nYEejUaUDAWmxMzMGmRmZGMLmxMYmxMjZMzMjhZ2mZsZmZbMMAAAAAAACYGzsBAAAgBmZmZmt2mZmBAGAAAAD)
+* Malacrass takes 100% extra damage while casting [Soulbinding](https://www.wowhead.com/spell=1287685). Make sure to save your big defensives for the intermission!
+  * Don't let any Fragments of Malacrass reach the boss by soaking them to prevent them from healing the boss.
+    * Soaking each fragment deals raid-wide AOE damage, so don't soak them too quickly to give your healers some time to react to the incoming damage.
 
-**Vengea**nce Demon Hunter** Raid Imperator Averzian**
+### Phase 3
 
-### Tank mechanics
+* During this phase, both Zul'jan and Malacrass are active, combining their abilities from Phases 1 and 2.
+  * Both [Toxic Deluge](https://www.wowhead.com/spell=1299960) and [Dreadmarch](https://www.wowhead.com/spell=1285640) happen in this phase, meaning both [Coalesced Venoms](https://www.wowhead.com/spell=1282403) and the [Manifestations of Dread](https://www.wowhead.com/spell=1285842) need to be cleared by the tank frontal.
+  * The tank frontal cone of this phase is [Blighted Sever](https://www.wowhead.com/spell=1307279), which deals shadow damage, destroys any [Coalesced Venoms](https://www.wowhead.com/spell=1282403) and [Manifestations of Dread](https://www.wowhead.com/spell=1285842) hit by it, and applies 3 stacks of [Gravebound](https://www.wowhead.com/spell=1286837).
+    * Don't forget to collect your Soul Fragments and taunt swap after each cone!
+  * [Defilement of the Crucible](https://www.wowhead.com/spell=1298381) is the empowered verision of [Fangs of the Crucible](https://www.wowhead.com/spell=1282487) from phase 1.
+    * In this phase, the empowered melee attacks additionally apply a **stacking** shadow DOT. Use big defensives when reaching high stacks.
 
-* Averzian's melee attacks apply [Blackening Wounds](https://www.wowhead.com/spell=1265540)
-    * Each stack reduces your maximum health by 4% for 20 seconds.
-    * The tank with the highest stacks becomes [Weakened](https://www.wowhead.com/spell=1283069), which forces mobs summoned by [Shadow's Advance](https://www.wowhead.com/spell=1251361) to attack them.
-    * Tanks should swap right before [Shadow's Advance](https://www.wowhead.com/spell=1251361) cast, and the one with the highest stacks should move the mobs at least 10 yards away from the boss to prevent it from gaining [Imperator's Glory](https://www.wowhead.com/spell=1253918).
+**Ula'tek**
 
-### The Tic-Tac-Toe mechanic
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CWkAIo1c2KfIEsPoy9fznypG4BAYMzMjZmZkZmZY2MzMjBjZGzYmZGDzYmx2MzsNGAAAAAAAIgZmxGAAAAGMmZmZWabmZGAAAAAgBA)
 
-* The main raid mechanic of the fight is [Shadow's Advance](https://www.wowhead.com/spell=1251361), which spawns 3 Abyssal Voidshaper adds on a 3 by 3 grid.
-    * These start casting a 20 seconds long [Void Rupture](https://www.wowhead.com/spell=1262036) cast in attempt to claim territory undeneath.
-    * Putting an [Umbral Collapse](https://www.wowhead.com/spell=1249262) on top of the add will destroy the add, preventing the territory from being captured.
-    * Letting Averzian claim three adjacent territories in a row on the grid will lead to a wipe.
-  * Dealing with this mechanic is very similar to a Tic-Tac-Toe game, where letting the opponent have 3 tiles in a row also leads to a loss. 
-  * Since [Umbral Collapse](https://www.wowhead.com/spell=1249262) is always targeting a tank, it is our responsibility to not let Averzian claim three territories in a row.
-    * Averzian will only cast [Umbral Collapse](https://www.wowhead.com/spell=1249262) twice per add phase, meaning we have to let one of the Abyssal Voidshapers finish the [Void Rupture](https://www.wowhead.com/spell=1262036) cast.
-    * Choosing which add is allowed to finish the cast, and which one would lead to a wipe is crucial in this fight.
+**Vengea**nce Demon Hunter** Raid Ula'tek**
 
-**Vorasius**
+**Nymrissa Wavecaller**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CWkABG685WLf6r9l_nYEejUaUDAWmxMzMGmRmZGMLmxMYmxMjZMzMjhZ2mZsZmZbMMAAAAAAACYGzsBAAAgBmZmZmt2mZmBAGAAAAD)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CWkAIo1c2KfIEsPoy9fznypG4BAYMzMjZmZkZmZY2MzMjBjZGzYmZGDzYmx2MzsNGAAAAAAAIgZmxGAAAAGMmZmZWabmZGAAAAAgBA)
 
-**Vengea**nce Demon Hunter** Raid Vorasius**
+**Vengea**nce Demon Hunter** Raid Nymrissa Wavecaller**
 
-* Voracius will keep casting [Shadowclaw Slams](https://www.wowhead.com/spell=1241692) throughout the fight.
-    * It deals a combination of Shadow and Physical damage to players in its impact area.
-    * If it fails to hit a player, Voracius will do lethal raid-wide damage, leading to a wipe.
-    * Therefore, it is crucial that this ability is soaked by the tanks.
-  * The first two [Shadowclaw Slam](https://www.wowhead.com/spell=1241692) casts on each phase will create Void Crystals walls on each side of the room, and apply [Smashed](https://www.wowhead.com/spell=1241844), which increases physical damage taken by 150%.
-  * The remaining casts will only do initial damage, without applying the [Smashed](https://www.wowhead.com/spell=1241844) debuff.
-  * One tank should soak the first two casts of a phase, getting both stacks of [Smashed](https://www.wowhead.com/spell=1241844). The other tank takes over for the remaining casts.
-    * While [Smashed](https://www.wowhead.com/spell=1241844) is up, you should not be tanking melee hits of the boss or soaking any more [Shadowclaw Slams](https://www.wowhead.com/spell=1241692).
-    * [Smashed](https://www.wowhead.com/spell=1241844) debuff lasts throughout the whole phase, making you the off-tank for the rest of the phase.
-    * Watch out for the raid-wide physical AOE [Primordial Roar](https://www.wowhead.com/spell=1260046) while affected by [Smashed](https://www.wowhead.com/spell=428887), as it will do increased damage to you.
+### General mechanics
 
-* [Parasite Expulsion](https://www.wowhead.com/spell=1254199) will spawn Blistercreep adds.
-    * If fixated by a Blistercreep - kite him next to a Void Crystal wall to destroy it with [Blisterburst](https://www.wowhead.com/spell=1243000).
-    * Watch out for Blistercreep's melee attacks while under the effect of [Smashed](https://www.wowhead.com/spell=1241844).
-
-**Fallen-King Salhadaar**
-
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CWkABG685WLf6r9l_nYEejUaUDAWmxMzMGmRmZGMLmxMYmxMjZMzMjhZ2mZsZmZbMMAAAAAAACYGzsBAAAgBmZmZmt2mZmBAGAAAAD)
-
-**Vengea**nce Demon Hunter** Raid Fallen-King Salhadaar**
+* The boss targets random players with Chilling Frost, which drops Frost Orbs under their feet.
+    * These orbs need to get soaked before they explode and wipe the raid.
+    * Soaking an orb applies a stacking debuff that increases the damage taken from soaking Frost Orbs, so don't soak too many in one go.
+    * Each orb soak also deals raid-wide AOE, so don't soak them too quickly to give your healers some time to react to the incoming damage.
+  * Occasionally, murlocs will spawn from the water and start walking towards the bubble in the middle of the room.
+    * Don't let them reach the bubble, and move the boss on top of them whenever possible to allow for better cleave.
 
 ### Tank mechanics
 
-* Salhadar's melee attacks apply a stack of [Destabilizing Strikes](https://www.wowhead.com/spell=1271577), make sure to swap around 5-8 stacks.
-  * The active tank will always be a target for [Shattering Twilight](https://www.wowhead.com/spell=1253032). 
-    * Make sure to move a bit away from the raid with it, while trying to aim [Twilight Spikes](https://www.wowhead.com/spell=1263131) away from the boss.
-  * [Void Convergence](https://www.wowhead.com/spell=1247738) will spawn 2 Concentrated Void orbs. These are drawn towards the boss, and will cause lethat raid-wide damage on contact.
-    * Make sure to keep moving the boss away from the orbs. 
-    * Make sure to move the boss extra far before [Shattering Twilight](https://www.wowhead.com/spell=1253032) cast if the orbs are still alive. It is a long cast during which the boss cannot be moved.
-  * Make sure to move the boss to an edge of the room for [Entropic Unraveling](https://www.wowhead.com/spell=1246175), as it leaves behind [Torturous Extract](https://www.wowhead.com/spell=1245592) after finishing this cast, which would deny part of the room.
-
-**Vaelgor & Ezzorak**
-
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CWkABG685WLf6r9l_nYEejUaUDAWmxMzMGmRmZGMLmxMYmxMjZMzMjhZ2mZsZmZbMMAAAAAAACYGzsBAAAgBmZmZmt2mZmBAGAAAAD)
-
-**Vengea**nce Demon Hunter** Raid Vaelgor & Ezzorak**
-
-* The fight starts with Vaelgor on the ground and Ezzorak in the air. In phase 2, they alternate, with Ezzorak returning to the ground. In phase 3, both dragons will be on the ground. 
-    * Note that this only affects boss positioning - you can only move the grounded boss, and the airborne one will adjust his position himself. Otherwise, they cast the same abilities regardless of whether grounded or in the air.
-
-### Vaelgor mechanics
-
-* Vaelgor hits the tank with [Vaelwing](https://www.wowhead.com/spell=1265131). This deals mixed damage and makes his melee attacks deal extra Shadow damage that ramps up until Vaelgor strikes a new target. Taunt swap will reset this effect.
-  * Vaelgor also targets the tank with [Nullbeam](https://www.wowhead.com/spell=1262623)
-    * It is a frontal beam that deals physical damage and stacks shadow damage. 
-    * Upon completion, a [Nullzone](https://www.wowhead.com/spell=1244672) will be formed at the tank's position, tethering all players and pulling them inward. 
-    * The [Nullzone's](https://www.wowhead.com/spell=1244672) pull is reduced by the amount of [Nullbeam](https://www.wowhead.com/spell=1262623) stacks that were applied to the tank.
-    * Get as many stacks of [Nullbeam](https://www.wowhead.com/spell=1262623) as possible and position yourself close to the middle of the room to simplify the pull for your group.
-
-### Ezzorak mechanics
-
-* Ezzorak hits the tank with [Rakfang](https://www.wowhead.com/spell=1245645), dealing mostly Physical damage and making his melee attacks also apply healing absorb that ramps up until Ezzorak strikes a new target. Taunt swap will reset this effect.
-  * He also targets the tank with [Gloom](https://www.wowhead.com/spell=1245391)
-    * It is an orb that flies in the direction Ezzorak is facing at the end of [Gloom](https://www.wowhead.com/spell=1245391) cast.
-    * The orb travels until it reaches the edge of the room, forming a [Gloomfield](https://www.wowhead.com/spell=1245420).
-    * The size of the resulting [Gloomfield](https://www.wowhead.com/spell=1245420) can be reduced when players soak the orb, up to 5 times.
-      * Soaking the orb once applies [Diminish](https://www.wowhead.com/spell=1270852), which prevents you from soaking the next one.
-    * Aim the orb at a far edge of the room, so that enough players can soak it until it hits the edge of the room.
-    * The targeted tank will get [Diminish](https://www.wowhead.com/spell=1270852) debuff, so taunt swap after every [Gloom](https://www.wowhead.com/spell=1245391) cast.
-
-**Lightblinded Vanguard**
-
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CWkABG685WLf6r9l_nYEejUaUDAWmxMzMGmRmZGMLmxMYmxMjZMzMjhZ2mZsZmZbMMAAAAAAACYGzsBAAAgBmZmZmt2mZmBAGAAAAD)
-
-**Vengea**nce Demon Hunter** Raid Lightblinded Vanguard**
-
-### Tank mechanics
-
-* War Chaplain Senn will keep casting [Exorcism](https://www.wowhead.com/spell=1246745) on her target instead of melee attacks. She does not have other tank-hitting abilities, so you do not have to taunt-swap on this boss.
-  * Commander Venel Lightblood casts a deadly combination of [Judgment](https://www.wowhead.com/spell=1246736) followed by [Final Verdict](https://www.wowhead.com/spell=1251812).
-  * At the same time, General Amias Bellamy casts a combination of [Judgment](https://www.wowhead.com/spell=1251857) followed by [Shield of the Righteous](https://www.wowhead.com/spell=1251859).
-  * Both of these combinations are lethal and require a tank swap.
-  * Each boss's [Judgment](https://www.wowhead.com/spell=1246736) only empowers their own follow-up abilities.
-    * For example, [Judgment](https://www.wowhead.com/spell=1246736) from Commander Venel Lightblood does not increase damage from [Shield of the Righteous](https://www.wowhead.com/spell=1251859), and vice-versa. 
-  * Tanks should swap after [Judgment](https://www.wowhead.com/spell=1246736) cast of each boss, so that no one gets a full combination from the same boss.
-
-### Dealing with Auras
-
-* Upon reaching 100 energy, each boss will cast their Aura.
-  * These are 25 second long casts during which the boss does not move or cast other abilities.
-  * Each Aura has a 40-yard radius, buffs the other bosses in its reach, and leaves behind [Consecration](https://www.wowhead.com/spell=1246155) upon expiration.
-  * Commander Venel Lightblood casts [Aura of Wrath](https://www.wowhead.com/spell=1248449), increasing Holy damage of nearby bosses by 100%.
-  * General Amias Bellamy casts [Aura of Devotion](https://www.wowhead.com/spell=1246162), reducing damage taken of nearby bosses by 75%.
-  * War Chaplain Senn casts [Aura of Peace](https://www.wowhead.com/spell=1248451), protecting nearby bosses, and pacifying players that directly attack them for 4 seconds.
-  * You want to make sure the active bosses are not in range of an Aura when it is happening.
-    * Drag the high-energy boss away from the other two at around 90-95 energy to the edge of the room to optimize [Consecration](https://www.wowhead.com/spell=1246155) placement and minimize area denial.
-    * This could be tricky with ongoing tank-hit combinations, so pay attention to tank swaps first. Failing these will most likely result in a tank's death.
-
-**Crown of the Cosmos**
-
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CWkABG685WLf6r9l_nYEejUaUDAWmxMzMGmRmZGMLmxMYmxMjZMzMjhZ2mZsZmZbMMAAAAAAACYGzsBAAAgBmZmZmt2mZmBAGAAAAD)
-
-**Vengea**nce Demon Hunter** Raid Crown of the Cosmos**
-
-**Belo'ren**
-
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CWkABG685WLf6r9l_nYEejUaUDAWmxMzMGmRmZGMLmxMYmxMjZMzMjhZ2mZsZmZbMMAAAAAAACYGzsBAAAgBmZmZmt2mZmBAGAAAAD)
-
-**Vengea**nce Demon Hunter** Raid Belo'ren**
-
-* Main mechanic of this fight is [Voidlight Convergence](https://www.wowhead.com/spell=1241932)
-    * One of the tanks will get infused with [Light Feather](https://www.wowhead.com/spell=1241162), reducing their Holy damage taken by 50%.
-    * The other tank gets infused with [Void Feather](https://www.wowhead.com/spell=1241163), reducing Shadow damage taken by 50%.
-  * Throughout the fight, Beloren will summon Light and Void Embers. 
-    * Tank these adds next to the boss so they can be cleaved down.
-    * After the Embers die, they transform into an egg and start casting [Rebirth](https://www.wowhead.com/spell=1263412). Don't move the boss away from the eggs before they are killed, otherwise the Embers will be reborn.
-
-### The tank mechanic of this fight is [Guardian's Edict](https://www.wowhead.com/spell=1260763)
-
-* Beloren will cast a combination of frontal cones - [Light Edict](https://www.wowhead.com/spell=1261217) and [Void Edict](https://www.wowhead.com/spell=1261218) in a random order, finished by [Voidlight Edict](https://www.wowhead.com/spell=1241678).
-  * Each part of the combination has to be soaked by a tank, otherwise Beloren will do 30% increased damage for the next 30 seconds.
-  * [Light Edict](https://www.wowhead.com/spell=1261217) does Physical and Holy damage, so the tank infused with [Light Feather](https://www.wowhead.com/spell=1241162) is supposed to soak it.
-  * [Void Edict](https://www.wowhead.com/spell=1261218) does Physical and Shadown damage, so [Void Feather](https://www.wowhead.com/spell=1241163) infused tank should soak it.
-  * You can freely taunt during the first two cones, and the boss will switch targets. So if you see a frontal of your color being cast on your co-tank - taunt. 
-    * Be careful and don't aim the frontal into the raid. Ideally, you keep the cone in place and let the other tank move out of it.
-  * Finally, Beloren casts [Voidlight Edict](https://www.wowhead.com/spell=1241678) \- a frontal cone split in half. One side of the cone will be void, and the other side will be light. 
-    * A tank with matching Feather needs to soak each half. 
-    * This frontal will not follow the active tank, and there is no point of taunt-swapping for this cast, since both tanks are supposed to soak the frontal anyway.
-
-**Midnight Falls**
-
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CWkABG685WLf6r9l_nYEejUaUDAWmxMzMGmRmZGMLmxMYmxMjZMzMjhZ2mZsZmZbMMAAAAAAACYGzsBAAAgBmZmZmt2mZmBAGAAAAD)
-
-**Vengea**nce Demon Hunter** **Raid Midnight Falls**
+* A tank-only mechanic of the fight is the Iceblade Flurry - a series of magic slashes, with each slash increasing the damage of the following ones.
+    * Use a defensive for each cast and taunt swap after each one.
 
 Understand your secondary stat priority and the tertiary stats needed for optimal performance raiding as a**Vengea**nce Demon Hunter**. For more detailed information, visit the **[Stats and Attributes](https://maxroll.gg/wow/resources/stats-and-attributes)** guide.
 
@@ -451,26 +435,25 @@ Haste is always the most sought after Stat as it gives a high amount of damage, 
 
 In conclusion, **Avoidance** **is what you should go for as a **Vengea**nce Demon Hunter** in raiding to min-max survivability as it gives you the greatest benefit in Raid over the other two tertiary stats. **Leech** is better on fights with lots of adds that are difficult to tank and live a long time.
 
-**Overall BiS**
+**Best in Slot**
 
 Slot| Item| Location  
 ---|---|---  
-Head| [Devouring Reaver's Intake](https://www.wowhead.com/item=250033)| Tier  
-Neck| [Eternal Voidsong Chain](https://www.wowhead.com/item=249368)| Crown of Cosmos  
-Shoulder| [Devouring Reaver's Exhaustplates](https://www.wowhead.com/item=250031)| Tier  
-Cloak| [Devouring Reaver's Exhaustplates](https://www.wowhead.com/item=250031)| Tier  
-Chest| [Maledict Vest](https://www.wowhead.com/item=251216)| Nexus-Point Xenas  
+Head| [Gaze of the Coiled Watcher](https://www.wowhead.com/item=271875)| Ula'tek  
+Neck| [Abyssal Doomhound's Relentless Stare](https://www.wowhead.com/item=271537)| Ula'tek  
+Shoulder| [Abyssal Doomhound's Jaws](https://www.wowhead.com/item=271535)| Tier  
+Cloak| [Silken Voodoo Drape](https://www.wowhead.com/item=268253)| The Coiled Altar  
+Chest| [Abyssal Doomhound's Coreguard](https://www.wowhead.com/item=271540)| Tier  
 Wrist| [Silvermoon Agent's Deflectors](https://www.wowhead.com/item=244576)| Crafting  
-Gloves| [Devouring Reaver's Essence Grips](https://www.wowhead.com/item=250034)| Tier  
-Belt| [Scorn-Scarred Shul'ka's Belt](https://www.wowhead.com/item=249374)| Chimaerus  
-Legs| [Devouring Reaver's Pistons](https://www.wowhead.com/item=250032)| Tier  
-Boots| [Void-Claimed Shinkickers](https://www.wowhead.com/item=249334)| Imperator Averzian  
-Ring 1| [Eye of Midnight](https://www.wowhead.com/item=249920)| Midnight Falls  
-Ring 2| [Loa Worshiper's Band](https://www.wowhead.com/item=251513)| Crafting  
-Trinket 1| [Gaze of the Alnseer](https://www.wowhead.com/item=249343)| Chimaerus  
-Trinket 2| [Umbral Plume](https://www.wowhead.com/item=260235)| Belo'ren  
-Weapon 1| [Lightless Lament](https://www.wowhead.com/item=260408)| Midnight Falls  
-Weapon 2| [Arator's Swift Remembrance](https://www.wowhead.com/item=260423)| Crown of Cosmos
+Gloves| [Abyssal Doomhound's Studded Gauntlets](https://www.wowhead.com/item=271538)| Tier  
+Belt| [Sash of the Forlorn Vessel](https://www.wowhead.com/item=268256)| The Coiled Altar  
+Legs| [Abyssal Doomhound's Legwraps](https://www.wowhead.com/item=271536)| Tier  
+Boots| [Arctic Explorer's Legwraps](https://www.wowhead.com/item=251153)| Den of Nalorakk  
+Ring 1| [Apex Brute's Claw Ring](https://www.wowhead.com/item=268252)| Sszorak  
+Ring 2| [Ritual Binder's Ring](https://www.wowhead.com/item=159459)| Kings' Rest  
+Trinket 1| [Gebbo's Bottomless Bag](https://www.wowhead.com/item=270164)| The Lost Explorers  
+Trinket 2| [Zul'jin's Guillotine Technique](https://www.wowhead.com/item=270173)| The Coiled Altar  
+Weapon| [Aman'muso, Warlord's Vengeance](https://www.wowhead.com/item=268209), [Spellbreaker's Warglaive](https://www.wowhead.com/item=237840)| The Coiled Altar, Crafting
 
 **Farmable Alternatives**
 
@@ -478,22 +461,21 @@ Below you are presented with a good list of farmable alternatives that are obtai
 
 Slot| Item| Location  
 ---|---|---  
-Head| [Voidlashed Hood](https://www.wowhead.com/item=151336)| Seat of the Triumvirate  
-Neck| [Necklace of the Twisting Void](https://www.wowhead.com/item=151309)| Seat of the Triumvirate  
-Shoulder| [Enthralled Bonespines](https://www.wowhead.com/item=251171)| Maisara Caverns  
-Cloak| [Potion-Stained Cloak](https://www.wowhead.com/item=193712)| Algeth'ar Academy  
-Chest| [Maledict Vest](https://www.wowhead.com/item=251216)| Nexus-Point Xenas  
-Wrist| [Custodial Cuffs](https://www.wowhead.com/item=251103)| Magisters' Terrace  
-Gloves| [Corewright's Zappers](https://www.wowhead.com/item=251204)| Nexus-Point Xenas  
-Belt| [Cinch of the Umbral Lasher](https://www.wowhead.com/item=151316)| Seat of the Triumvirate  
-Legs| [Legwraps of Lingering Legacies](https://www.wowhead.com/item=251087)| Windrunner Spire  
-Boots| [Eclipse Espadrilles](https://www.wowhead.com/item=251210)| Nexus-Point Xenas  
-Ring 1| [Occulsion of Void](https://www.wowhead.com/item=251217)| Nexus-Point Xenas  
-Ring 2| [Band of the Triumvirate](https://www.wowhead.com/item=151311)| Seat of the Triumvirate  
-Trinket 1| [Heart of Wind](https://www.wowhead.com/item=250256)| Windrunner Spire  
-Trinket 2| [Solarflare Prism](https://www.wowhead.com/item=252420)| Skyreach  
-Weapon 1| [Shadowslash Slicer](https://www.wowhead.com/item=251122)| Magisters' Terrace  
-Weapon 2| [Shadowslash Slicer](https://www.wowhead.com/item=251122)| Magisters' Terrace
+Head| [Spare Speaker's Hood](https://www.wowhead.com/item=273791)| Altar of Fangs  
+Neck| [Yoke of the Charging Bear](https://www.wowhead.com/item=251173)| Den of Nalorakk  
+Shoulder| [Somber Spaulders](https://www.wowhead.com/item=251223)| Voidscar Arena  
+Cloak| [Fireproof Drape](https://www.wowhead.com/item=193763)| Ruby Life Pools  
+Chest| [Hide of Pestilence](https://www.wowhead.com/item=251226)| Voidscar Arena  
+Wrist| [Fury-fletched Armlets](https://www.wowhead.com/item=251135)| Murder Row  
+Gloves| [Gauntlets of Fevered Defense](https://www.wowhead.com/item=251124)| Murder Row  
+Belt| [Primal Dinomancer's Belt](https://www.wowhead.com/item=159301)| Kings' Rest  
+Legs| [Breeches of the Sacred Hall](https://www.wowhead.com/item=159313)| Kings' Rest  
+Boots| [Arctic Explorer's Legwraps](https://www.wowhead.com/item=251153)| Den of Nalorakk  
+Ring 1| [Band of the Amani Warlord](https://www.wowhead.com/item=273792)| Altar of Fangs  
+Ring 2| [Ritual Binder's Ring](https://www.wowhead.com/item=159459)| Kings' Rest  
+Trinket 1| [Resonant Bellowstone](https://www.wowhead.com/item=250228)| Murder Row  
+Trinket 2| [Freightrunner's Flask](https://www.wowhead.com/item=250215)| Murder Row  
+Weapon| 2x [Grim Harvest Gloves](https://www.wowhead.com/item=251143)| Den of Nalorakk
 
 ### Trinkets
 
@@ -501,40 +483,36 @@ Below is a ranking of endgame trinkets obtainable from Dungeons, Raids, and Delv
 
 Rank| Trinkets  
 ---|---  
-**S-Tier**| [Gaze of the Alnseer](https://www.wowhead.com/item=249343)  
-[Umbral Plume](https://www.wowhead.com/item=260235)  
-**A-Tier**| [Solarflare Prism](https://www.wowhead.com/item=252420)  
-[Heart of Wind](https://www.wowhead.com/item=250256)  
-[Glorious Crusader's Keepsake](https://www.wowhead.com/item=251792) _\-- Not available at max. item level, prefer higher level alternatives_  
-**B-Tier**| [Emberwing Feather](https://www.wowhead.com/item=250144)  
-[Jelly Replicator](https://www.wowhead.com/item=250242)  
-[Algeth'ar Puzzle Box](https://www.wowhead.com/item=193701)  
-[Kroluk's Warbanner](https://www.wowhead.com/item=250227)  
-[Latch's Crooked Hook](https://www.wowhead.com/item=250226)  
-[Void Stalker's Contract](https://www.wowhead.com/item=151307)  
-**C-Tier**| [Gloom-Spattered Dreadscale](https://www.wowhead.com/item=249339)  
-[Ampoule of Pure Void](https://www.wowhead.com/item=151312)  
-[Solar Core Igniter](https://www.wowhead.com/item=252418)  
-[Rotting Globule](https://www.wowhead.com/item=252421)  
-[Vessel of Tortured Souls](https://www.wowhead.com/item=250258)  
-[Light Company Guidon](https://www.wowhead.com/item=249344)  
-**Junkyard**| [Ranger-Captain's Iridescent Insignia](https://www.wowhead.com/item=249345)  
-[The Eternal Egg](https://www.wowhead.com/item=249807)  
-[Undreamt God's Oozing Vestige](https://www.wowhead.com/item=249805)  
-[Sealed Chaos Urn](https://www.wowhead.com/item=251787)  
-[Desecrated Chalice](https://www.wowhead.com/item=251790)  
-[Endosymbiotic Mycelium](https://www.wowhead.com/item=251793)  
-[Gris-gris of Confidence](https://www.wowhead.com/item=251794)
+**S-Tier**| [Gebbo's Bottomless Bag](https://www.wowhead.com/item=270164)  
+[Voracious Heart of Ula'tek](https://www.wowhead.com/item=270175)  
+[Zul'jin's Guillotine Technique](https://www.wowhead.com/item=270173)  
+[Keeper's Seething Core](https://www.wowhead.com/item=270165)  
+**A-Tier**| [Freightrunner's Flask](https://www.wowhead.com/item=250215)  
+[Lustrous Golden Plumage](https://www.wowhead.com/item=159617)  
+[First Mate's Shellward](https://www.wowhead.com/item=270160)  
+[Resonant Bellowstone](https://www.wowhead.com/item=250228)  
+**B-Tier**| [Idol of the Howling Nexus](https://www.wowhead.com/item=270174)  
+[Lightspire Core](https://www.wowhead.com/item=250214)  
+[Void Execution Mandate](https://www.wowhead.com/item=250225)  
+[Manaheart's Binding Flame](https://www.wowhead.com/item=250243)  
+[Mchimba's Ritual Bandages](https://www.wowhead.com/item=159618)  
+**C-Tier**| [Vile Vial of Volatile Venom](https://www.wowhead.com/item=273796)  
+[Sapling of the Dawnroot](https://www.wowhead.com/item=250259)  
+[Permafrost Essence](https://www.wowhead.com/item=250244)  
+[Ruby Whelp Shell](https://www.wowhead.com/item=193757)  
+[Font of Venomous Rage](https://www.wowhead.com/item=270168)  
+**Junkyard**| [Tumor of the Swarm](https://www.wowhead.com/item=250245)  
+[Tattered Amani War Banner](https://www.wowhead.com/item=273797)
 
 ### Embellishments
 
-* 1x [Loa Worshiper's Band](https://www.wowhead.com/item=251513)
+* 1x [Hunter's Ritual Stone](https://www.wowhead.com/item=273060)
     * Best overall choice of stat budget.
-  * [Stabilizing Gemstone Bandolier](https://www.wowhead.com/item=251490)
+  * 1x [Arcanoweave Lining](https://www.wowhead.com/item=240166)
 
 #### Remaining Sparks
 
-* Crafted items are 285 item level and regular items are 289 on max item level, therefore, it's a small loss to equip crafted items outside of your 2x Embellishments unless you don't have access to other high item level gear on that slot.
+* Crafted items are 331 item level and regular items are 334 on max item level, therefore, it's a small loss to equip crafted items outside of your 2x Embellishments unless you don't have access to other high item level gear on that slot.
 
 #### Simcraft
 
@@ -547,7 +525,7 @@ To find the best combination of gear available to you or identify the best possi
   * **Combat Potion**
     * **[Light's Potential](https://www.wowhead.com/item=241308)**
   * **Health Potion**
-    * **[Silvermoon Health Potion](https://www.wowhead.com/item=241304)**
+    * **[Concentrated Silvermoon Health Potion](https://www.wowhead.com/item=271884)**
   * **Weapon Stone/Oil**
     * **[Thalassian Phoenix Oil](https://www.wowhead.com/item=243734)**
   * **Augment Rune**
@@ -561,24 +539,24 @@ To find the best combination of gear available to you or identify the best possi
 
 ### Enchantments
 
-Head| [Enchant Helm - Hex of Leeching](https://www.wowhead.com/item=243949)  
-[Radiant Jewelbinder](https://www.wowhead.com/item=263897)  
+Head| [Enchant Helm - Empowered Hex of Leeching](https://www.wowhead.com/item=243951)  
+[Miasmic Jewelbinder](https://www.wowhead.com/item=275707)  
 ---|---  
 Shoulder| [Enchant Shoulders - Silvermoon's Mending](https://www.wowhead.com/item=244021)  
 Chest| [Enchant Chest - Mark of the Worldsoul](https://www.wowhead.com/item=243977)  
-Wrist| [Radiant Jewelbinder](https://www.wowhead.com/item=263897)  
-Belt| [Radiant Jewelbinder](https://www.wowhead.com/item=263897)  
+Wrist| [Miasmic Jewelbinder](https://www.wowhead.com/item=275707)  
+Belt| [Miasmic Jewelbinder](https://www.wowhead.com/item=275707)  
 Legs| [Forest Hunter's Armor Kit](https://www.wowhead.com/item=244641)  
 Boots| [Enchant Boots - Shaladrassil's Roots](https://www.wowhead.com/item=243983)  
 Ring 1| [Enchant Ring - Silvermoon's Alacrity](https://www.wowhead.com/item=244015)  
 Ring 2| [Enchant Ring - Silvermoon's Alacrity](https://www.wowhead.com/item=244015)  
-Weapon| [Enchant Weapon - Berserker's Rage](https://www.wowhead.com/item=243973)
+Weapon| [Enchant Weapon - Acuity of the Ren'dorei](https://www.wowhead.com/item=244029)
 
-[Maxroll paperdoll import](https://backend.maxroll.gg/wow/embed-tools/paperdoll=IwFZFJQ9NGQAtj7ACAAAAktBEEQN5OAAAAAABkQDIgQ2GQQBQQQo7mAGA8gOYAAAv0AERgAKEk7AAAAAAEAB5OA)
+[Maxroll paperdoll import](https://backend.maxroll.gg/wow/embed-tools/paperdoll=JwFZFJQ9NGQA7TDBCAAAA8OuDEQN5OAAAAAABkQDIgw-0QQBQQQo7mAGA8gOYAAAv0AERgAK9k7AAAAAAEQP5OA)
 
-**Vengea**nce Demon Hunter** Raid**
+**Vengea**nce Demon Hunter**Raid**
 
-> ____You buy  ‍ ______________[Radiant Jewelbinder](https://www.wowhead.com/item=263897)______________  from the Great Vault Vendor to add sockets to your Helm, Wrists and Belt.____
+> ____You buy  ‍ ______________[Miasmic Jewelbinder](https://www.wowhead.com/item=275707)______________  from the Great Vault Vendor to add sockets to your Helm, Wrists and Belt.____
 
 In this section of the **Vengea**nce Demon Hunter** Raid Guide, we showcase and explain how impactful certain racials can be in World of Warcraft.
 
@@ -673,68 +651,26 @@ Below, you see a screenshot of the author's User Interface for their **Vengea**n
   * _Echo Raid Tools \-- Notes, Raid cooldowns, and more_
     * Echo Raid Tools is a World of Warcraft addon designed by Echo Esports to enhance raiding efficiency. It offers "Echo Approved" WeakAuras for each raid boss accessible through an in-game Dungeon Journal interface, allowing easy import and customization.
 
-**Patch 12.0**
+**Patch 12.1**
+
+**▶ DEMON HUNTER**
 
 * **Vengeance**
-    * **New Talent: Tempered Steel – Physical damage increased by 12%.**
-    * **New Talent: Felfire Fist – Activating Infernal Strike while out of combat or within 5 seconds of entering combat places a Sigil of Flame at the target location.**
-    * **New Talent: Vengeful Beast – Metamorphosis has 5 second increased duration and increases the damage of Fracture, Soul Cleave, and Spirit Bomb by 20%.**
-    * **Calcified Spikes has been redesigned – Demon Spikes reduces damage taken by 5% while active.**
-    * **Feed the Demon has been redesigned – Every 20 Fury spent reduces the remaining cooldown of Demon Spikes by 1 second.**
-    * **Revel in Pain has been redesigned – 2% of your Fire damage shields you, up to 10% of your max health. Shield and max values are doubled while Fiery Brand is active.**
-    * **Soulcrush has been redesigned – The effects of your Frailty are doubled.**
-    * **Sigil of Chains has been updated – Now replaces Sigil of Misery when learned. Cooldown increased to 1.5 minutes.**
-    * **Deflecting Spikes is now learned at level 33 (was a talent).**
-    * **Sigil of Flame is now a Vengeance only ability (was all specializations) and now generates 25 Fury (was 30).**
-    * **Sigil of Flame damage increased by 50%.**
-    * **Sigil of Spite, Soul Sigils, and Quickened Sigils moved to the Vengeance talent tree (was class talents).**
-    * **Mastery: Fel Blood effectiveness increased by 25%.**
-    * **All ability damage reduced by 35%.**
-    * **Melee auto-attack damage now increased by 135%.**
-    * **Felblade damage no longer reduced by 35%.**
-    * **Retaliation damage increased by 100%.**
-    * **Soul Carver damage increased by 50%.**
-    * **Throw Glaive damage increased by 50%.**
-    * **Demon Spikes duration increased to 12 seconds (was 8 seconds), no longer has 2 charges (now learned with the Demonic Resilience class talent), and its cooldown is now affected by Haste.**
-    * **Thick Skin now increases Armor by 150% (was 130%).**
-    * **Fel Devastation damage increased by 15% and healing increased by 600%.**
-    * **Stoke the Flames now increases Fel Devastation damage by 30% (was 35%).**
-    * **Fiery Brand damage increased by 100%.**
-    * **Fiery Brand now brands yourself and an enemy target, reducing damage you take by 40% and dealing Fire damage to the enemy over 12 seconds.**
-    * **Shear no longer automatically overrides Demon's Bite when specializing as Vengeance.**
-    * **Fracture now automatically overrides Demon's Bite when specializing as Vengeance.**
-    * **Fracture damage increased by 37.5% and its cooldown increased to 6 seconds (was 4.5 seconds).**
-    * **Fracture now generates 25 Fury (was 20).**
-    * **Infernal Strike cooldown reduced to 15 seconds (was 20 seconds) and is now affected by Haste.**
-    * **Infernal Strike damage increased by 50%.**
-    * **Metamorphosis cooldown reduced to 2 minutes and now causes Fracture to generate 15 additional Fury (was 20).**
-    * **Ascending Flame now increases all Sigil of Flame damage (was initial damage only) and no longer causes multiple applications to overlap.**
-    * **Soul Cleave now strikes all enemies in an arc in front of you (was 5) and damage reduced beyond 5 targets.**
-    * **Soul Cleave now deals 20% increased damage per soul consumed, up to 2, and costs costs 35 Fury (was 30).**
-    * **Soul Cleave damage increased by 35%.**
-    * **Soul Cleave no longer increases healing per Soul Fragment consumed.**
-    * **Spirit Bomb damage increased by 60%.**
-    * **Spirit Bomb now has a 25 second cooldown affected by Haste.**
-    * **Spirit Bomb now deals a larger base damage amount, increasing by 20% per soul consumed.**
-    * **Spirit Bomb no longer applies Frailty unless the Frailty talent is selected.**
-    * **Soul Barrier has been updated - Spirit Bomb now shields you for 10 seconds, absorbing damage plus additional damage based on each Soul Fragment consumed.**
-    * **Frailty now causes enemies struck by Sigil of Flame, Soul Cleave, and Spirit Bomb to be afflicted with Frailty for 8 seconds (was applied by Sigil of Flame for 6 seconds).**
-    * **Void Reaver now causes Frailty to reduce damage by 4% (was 3%) and no longer causes Soul Cleave to apply Frailty.**
-    * **Vulnerability now causes Frailty to increase damage taken by 3%/6% (was 2%/4%).**
-    * **Perfectly Balanced Glaive now also reduces the cooldown of Fracture by 1 second in addition to its previous effect.**
-    * **Volatile Flameblood now causes Immolation Aura to generate 1-5 Fury when it critical strikes (was 5-10 Fury) and also increases Immolation Aura critical strike chance by 10%.**
-    * **Immolation Aura damage increased by 50%.**
-    * **Ruinous Bulwark now converts 50% of healing into an absorb shield (was 100%).**
-    * **Painbringer now reduces damage by 3%/6% (was 1%/2% percent per stack) and duration increased to 8 seconds (was 6 seconds). No longer overlaps multiple applications.**
-    * **Shattered Souls now causes Soul Fragments to heal for 6% of recent damage (was 7%).**
-    * **Several talents have changed positions in the talent tree.**
-    * **The following talents have been removed:**
-      * **Bulk Extraction**
-      * **Extended Spike**
-      * **Illuminated Sigils**
-      * **Meteoric Strikes**
-      * **Shear Fury**
-      * **Soul Furnace**
+    * Fracture and Soul Cleave now require equipped Warglaives, Axes, Swords, and Fist Weapons.
+    * Sigil of Chains is now learned at level 35 and is no longer a talent.
+    * Sigil of Chains cooldown reduced to 60 seconds (was 90 seconds).
+    * Sigil of Chains no longer replaces Sigil of Misery.
+    * Sigil of Silence now replaces Sigil of Misery when selected.
+    * Improved Sigil of Misery no longer affects Sigil of Chains.
+    * Improved Sigil of Misery now reduces the cooldown of Sigil of Silence by 15 seconds when Sigil of Silence is selected.
+    * All damage increased by 5.5%.
+    * Soul Cleave healing increased by 25%.
+    * Fel Devastation healing increased by 25%.
+    * Charred Warblades heals you for 5% of Fire damage you deal (was 4%).
+    * Frailty causes you to heal for 10% of damage dealt to afflicted targets (was 8%).
+    * Feast of Souls healing increased by 25%.
+    * Revel in Pain causes 6% of your Fire damage to shield you (was 5%).
+    * Several talents have changed locations in the talent tree.
 
 **Q: How to get better at tanking?**
 
@@ -747,6 +683,12 @@ Written By: Nicememes
 Reviewed By: Tief
 
 ## Changelog
+
+Aug 9th 2026
+
+`Updated for patch 12.1 `
+
+* * *
 
 Jun 22nd 2026
 

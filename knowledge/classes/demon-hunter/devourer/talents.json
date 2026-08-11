@@ -4,8 +4,8 @@
   "spec": "devourer",
   "spec_id": 1480,
   "tree_id": 854,
-  "patch": "12.0.7",
-  "build": "12.0.7.67808",
+  "patch": "12.1.0",
+  "build": "12.1.0.68914",
   "source": "api",
   "serial_count": 227,
   "granted_serials": [
@@ -738,8 +738,8 @@
         "req_points": 8,
         "prereq_node_ids": [
           91004,
-          90939,
-          90936
+          90936,
+          90939
         ],
         "entries": [
           {
@@ -763,8 +763,8 @@
         "serial_order": 78,
         "req_points": 8,
         "prereq_node_ids": [
-          91004,
           90947,
+          91004,
           90927
         ],
         "entries": [

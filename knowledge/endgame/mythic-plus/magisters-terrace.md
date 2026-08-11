@@ -1,17 +1,39 @@
 ---
-title: Magisters' Terrace — Midnight S1 M+ dungeon guide
-patch: 12.0.7
-fetched: 2026-06-25
-reviewed: 2026-07-07
+title: Magisters' Terrace — Midnight S1 M+ dungeon guide (rotated out for S2)
+patch: 12.1
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
   - https://www.method.gg/guides/dungeons/magisters-terrace
   - https://www.icy-veins.com/wow/magisters-terrace-dungeon-guide
   - Blizzard journal-instance/1300 + journal-encounter/2659 + journal-encounter/2661 + journal-encounter/2660 + journal-encounter/2662 (tier 1, boss-name corroboration)
   - https://www.youtube.com/watch?v=DMcpeEK_tHE  # Dalaran Gaming "How to Master All 8 Dungeons: Midnight S1 M+ Walkthrough", uploaded 2026-03-24 (tier 3, boss corroboration)
+  - https://worldofwarcraft.com/en-us/news/24293281  # 12.1 "Curse of Ula'tek" content update notes — S2 M+ rotation (tier 1)
+  - https://worldofwarcraft.com/en-us/news/24294369  # Midnight Season 2 overview (tier 1)
 confidence: high
 ---
 
 # Magisters' Terrace — Midnight Season 1 Mythic+
+
+> ⛔ **HISTORICAL — not in the current Mythic+ rotation.** Magisters' Terrace was a
+> **Midnight Season 1** M+ dungeon. It **rotated out** with patch 12.1 "Curse of
+> Ula'tek": the **Season 2 pool (from 2026-08-18)** is Altar of Fangs · Murder Row ·
+> Den of Nalorakk · The Blinding Vale · Voidscar Arena · Ruby Life Pools · Kings' Rest ·
+> Temple of Sethraliss. Season 1 ended with the week of **2026-08-11** maintenance, so
+> nothing here feeds a keystone, an affix set, an M+ score or a seasonal reward any
+> more. Everything below is kept as a **route/mechanics reference** — the encounters
+> themselves are unchanged and still run outside M+.
+>
+> **The dungeon itself is still in the game and still used**: Grand Magister Rommath
+> provides a Magisters' Terrace portal next to the Magister's Missive for the **Omnium
+> Folio weekly quests** (12.0.7 hotfix, 2026-07-14), so the route below stays useful
+> for that. Its **non-M+ difficulty availability under S2** (Normal / Heroic / Mythic 0)
+> is not spelled out in the 12.1 notes — confirm in the Group Finder before planning
+> around it. @verify-ingame
+>
+> For the current pool see [`season-2-overview.md`](season-2-overview.md); for the S1
+> record (including the final title cutoffs) see
+> [`season-1-overview.md`](season-1-overview.md).
 
 Journal-instance **1300**. Four bosses (journal-confirmed):
 Arcanotron Custos (2659) → Seranel Sunlash (2661) → Gemellus (2660) → Degentrius (2662).
@@ -20,7 +42,8 @@ Both guides read as Midnight Season 1 (Method "season 1 of Midnight", last updat
 23 Mar 2026; Icy Veins "Midnight Season 1", updated 15 Jun 2026 for Patch 12.0.7).
 Boss names match the journal exactly. Trash detail is almost entirely Method-sourced
 (Icy Veins covers only the Arcane Tome and bosses), so most trash claims are flagged
-`confidence: low` below.
+`confidence: low` below. **The 12.1 notes list no changes to this dungeon's bosses or
+trash**, so the mechanics below stand; only its seasonal status changed.
 
 ## Route
 

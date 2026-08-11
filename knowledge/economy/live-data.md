@@ -1,10 +1,10 @@
 ---
 title: Economy — Live Data Only
-patch: 12.0.7
+patch: 12.1
 fetched: 2026-06-19
-reviewed: 2026-07-07
+reviewed: 2026-08-11
 sources:
-  - https://develop.battle.net/documentation/world-of-warcraft/game-data-apis  # AH / token / commodities endpoints
+  - https://community.developer.battle.net/documentation/world-of-warcraft/game-data-apis  # AH / token / commodities endpoints (develop.battle.net 301s here as of 2026-08-11)
   - https://undermine.exchange/  # live AH price reference
 confidence: high
 ---

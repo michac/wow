@@ -1,18 +1,27 @@
 ---
 title: Havoc Demon Hunter Mythic+ Guide
 patch: 12.0.7
-fetched: 2026-07-14
-reviewed: 2026-07-14
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
   - https://maxroll.gg/wow/class-guides/havoc-demon-hunter-mythic-plus-guide (maxroll.gg, Tier 3)
 confidence: medium
 verbatim: true          # unedited external capture — distill on read, not on insert
 source: maxroll.gg
 author: verb
-maxroll_updated: 2026-06-19   # source's last-modified (staleness signal)
+maxroll_updated: 2026-08-11   # source's last-modified (staleness signal)
+kb_caveat: |
+  ⚠ CAPTURED ON 12.1 PATCH DAY (2026-08-11) AND PARTIALLY STALE. The guide's own
+  header says 12.1, but the body still references talents that 12.1 REMOVED:
+  Dash of Chaos.
+  Verified absent from the live talent trees (Tier 1: Blizzard Game Data API +
+  wago.tools Trait* DB2, knowledge/classes/_talents/all-talents.tsv @ 12.1.0).
+  Affliction also GAINED Hedonic Gorging and Impetuous Wrath, which this capture
+  predates. Treat every talent/build recommendation here as pre-12.1 until the
+  author re-publishes. Distil on read — do not lift builds from this file as-is.
 ---
 
-Welcome to the **Havoc Demon Hunter** Raid guide for the World of Warcraft patch 12.0.7! This guide covers everything you need to know to understand your character! Are you starting out and leveling up from 80? Check out the leveling guide!
+Welcome to the **Havoc Demon Hunter** Raid guide for the World of Warcraft patch 12.1! This guide covers everything you need to know to understand your character! Are you starting out and leveling up from 80? Check out the leveling guide!
 
 Single-Target 
 
@@ -34,7 +43,7 @@ Mobility
 
 Excellent
 
-[Maxroll paperdoll import](https://backend.maxroll.gg/wow/embed-tools/paperdoll=IMoA8FkA3_fABEL0DIICBAwJ5OwVtOggCoSABMAGEAICBAADN8APvC9ACgQAAcRuDIoAhEQA0mwDAkQDPgg_XQgLtAABg3cBtQQo7mQLEYizF8ACxj7AFwDbgt7AEiQAA4BwDciqDwQrDIyLdEQAyC9AAgQAAUQIA8TCNSwE5GgHFIBCsSvAB8ZHSARp0LAAQEAMcYVNqEQA_38Ad4ABogaBwRwJqmwWcgT-DIAEBAwABwaBuwDwNPgAQEAADk7ACKgV1oSA)
+[Maxroll paperdoll import](https://backend.maxroll.gg/wow/embed-tools/paperdoll=JQpAIGkA3_fABMgJEIIEBAwJ5OADtOggCchNYFQApfBBAERAAcVrJQBXMWDWBEwrkQgAIUAAXk7ACKgTBY9FEEAtJIBAJkgEogcpDEA4XQAgIEAAFkEDYFQAwmQIMF6uDIoAYFQwXQQAf5mACgQAAEPuFUEMBA2uDQICBAQrqQgHAHwakdbNLFQAySCBAgQAAIoAOFQAZfBBCiQAAUPuB4RBSggnqJgOSAAGf9BBAgwAAEwYcUAABo0FCEQXBIRACBBWBEQ3XkhTIE7FEEgfEMQuFAJUBARoDYACBAgHAPwA5OApqQwt1sUA)
 
 **Havoc Demon Hunter** Mythic+ Best in Slot
 
@@ -123,11 +132,19 @@ Following you receive a list of meaningful class changes going from The War With
 
 **[Fel-Scarred](https://www.wowhead.com/spell=123329) M+ Build**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAjvgk5YFHsQU34mAAeg-_2amZmZmZ2MmZmxMzkxMDAAAAAAYWegxsNDzMwM2mtZmZMGYZglZzMGmNNNmZGDbAAAADAABAzMYAIAAw)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAIo1c2KfIEsPoy9fznypG4ZmZGzMz2MmZmZGzkxMDAAAAAAYWMmtZYmBmxyMzMDzMYWGYZ2MjhZTTjZmxwGAAAwAAQAwMDGACAAM)
 
 [Fel-Scarred](https://www.wowhead.com/spell=123329) **Havoc Demon Hunter** Mythic+ Build
 
-* These talents are focused on dealing massive amounts of AoE damage. Single-Target DPS is suboptimal with these talents.
+* These are some default M+ talents for [Fel-Scarred](https://www.wowhead.com/spell=123329). Fairly well rounded, which gives a good balance between aoe and single target DPS.
+
+**[Aldrachi Reaver](https://www.wowhead.com/spell=123330) Alternative**
+
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAIo1c2KfIEsPoy9fznypG4ZGMzMz2MmZmZGzkxMDAAAAAAY2MmlZYmZ2mZGLzMmhZGmZZmtZwwYbjJZMzYYBAAAAAABYmBYAIAAwA)
+
+[Aldrachi Reaver](https://www.wowhead.com/spell=123330) **Havoc Demon Hunter** Mythic+ Build
+
+* The [Aldrachi Reaver](https://www.wowhead.com/spell=123330) variant will provide you some of the best funnel damage in the game to destroy priority targets. This however comes at the cost of less AOE damage.
 
 ### Gameplay Altering Talents
 
@@ -163,10 +180,10 @@ When entering [Demonic](https://www.wowhead.com/spell=213410) with [Metamorphosi
 
 ### Tier Set
 
-Check out all the [Midnight Season 1 Tier Sets](https://maxroll.gg/wow/resources/midnight-season-1-tier-sets)!
+Check out all the [**Midnight Season 2 Tier Sets**](https://maxroll.gg/wow/resources/midnight-season-2-tier-sets)!
 
-* **2-Set:** **[Blade Dance](https://www.wowhead.com/spell=188499) damage increased by 15%.
-  * **4-Set:** **Your haste is increased by an additional 6% during [Metamorphosis](https://www.wowhead.com/spell=162264).
+* **2-Set:** **[Blade Dance](https://www.wowhead.com/spell=188499), [Chaos Strike](https://www.wowhead.com/spell=162794), and [Essence Break](https://www.wowhead.com/spell=112956) deal 12% increased damage.
+  * **4-Set:** **[Essence Break](https://www.wowhead.com/spell=112956) now applies and benefits from the effects of [Cycle of Hatred](https://www.wowhead.com/spell=112955), has 25% increased initial strike damage, and has 2 seconds of increased duration.
 
 ### Single-Target
 
@@ -176,11 +193,11 @@ Check out all the [Midnight Season 1 Tier Sets](https://maxroll.gg/wow/resources
 
 * The **Havoc Demon Hunter's** opener is very complex and it is important that you do it in this exact order to maximize your damage output.
 
-[Maxroll rotation import](https://backend.maxroll.gg/wow/embed-tools/rotation=IYZA84gQ3tvAAAwBQJXZwVHbsBQCPgBAAIUFpWAABgAV5D0AAAgCX9CIJ5WZyRXahFQAc66AAEgGE0XBJgABoTjNIAABTLRAQgSAClICDAAAChdeCUgLIAg-CIDSAgAACheD4kAMwAgQ9VwAAAAAAI0d7LA)
+[Maxroll rotation import](https://backend.maxroll.gg/wow/embed-tools/rotation=IoHPNI0d7LAAAcAUyVGc1xGbAkwD0AQABwprDAAAAAgQVkaBFgAB9VQCQQALznACEgON2gAAEMtEBABKBIUiIMAAAIE25JQB2QA60EgFQAgQHeuBFABKTLxAAAAAAIUknbA)
 
 **Havoc Demon Hunter** single-target opener in Mythic+
 
-* If you are not talented into [Inertia](https://www.wowhead.com/spell=427641), you can simply skip the abilities in the opener needed to trigger [Inertia](https://www.wowhead.com/spell=427641).
+* If you are talented into [Inertia](https://www.wowhead.com/spell=427641), you will have to make sure to use [Felblade](https://www.wowhead.com/spell=213241) or [Fel Rush](https://www.wowhead.com/spell=195072) in order to trigger your [Inertia](https://www.wowhead.com/spell=427641).
 
 ### Priority List
 
@@ -188,6 +205,7 @@ This is a general priority you aim to maintain throughout the fight.
 
 * Cast [Immolation Aura](https://www.wowhead.com/spell=258920) on cooldown with [A Fire Inside](https://www.wowhead.com/spell=427775) talented
   * Cast [Eye Beam](https://www.wowhead.com/spell=198013) on cooldown
+  * Cast [Essence Break](https://www.wowhead.com/spell=258860) on cooldown, combine with [Eye Beam](https://www.wowhead.com/spell=198013) when possible
   * Cast [Vengeful Retreat](https://www.wowhead.com/spell=198793) on cooldown, or with important damage events
   * Cast [The Hunt](https://www.wowhead.com/spell=370965) on cooldown
   * Cast [Death Sweep](https://www.wowhead.com/spell=210152)
@@ -204,7 +222,7 @@ This is a general priority you aim to maintain throughout the fight.
 
 * Below, you see an example of how your opener looks like using the recommended **AoE talent spec**.
 
-[Maxroll rotation import](https://backend.maxroll.gg/wow/embed-tools/rotation=IYZA84gQ3tvAAAwBQJXZwVHbsBQCPgBAAIUFpWAABgAV5D0AAAgCX9CIJ5WZyRXahFQAc66AAEgGE0XBJgABoTjNIAABTLRAQgSAClICDAAAChdeCUgLIAg-CIDSAgAACheD4kAMwAgQ9VwAAAAAAI0d7LA)
+[Maxroll rotation import](https://backend.maxroll.gg/wow/embed-tools/rotation=IoHPNI0d7LAAAcAUyVGc1xGbAkwD0AQABwprDAAAAAgQVkaBFgAB9VQCQQALznACEgON2gAAEMtEBABKBIUiIMAAAIE25JQB2QA60EgFQAgQHeuBFABKTLxAAAAAAIUknbA)
 
 **Havoc Demon Hunter** AoE opener in Mythic+
 
@@ -212,6 +230,7 @@ This is a general priority you aim to maintain throughout the fight.
 
 * Cast [Immolation Aura](https://www.wowhead.com/spell=258920) on cooldown with [A Fire Inside](https://www.wowhead.com/spell=427775) talented
   * Cast [Eye Beam](https://www.wowhead.com/spell=198013) on cooldown
+  * Cast [Essence Break](https://www.wowhead.com/spell=258860) on cooldown, combine with [Eye Beam](https://www.wowhead.com/spell=198013) when possible
   * Cast [Vengeful Retreat](https://www.wowhead.com/spell=198793) on cooldown, or with important damage events
   * Cast [The Hunt](https://www.wowhead.com/spell=370965) on cooldown
   * Cast [Death Sweep](https://www.wowhead.com/spell=210152)
@@ -260,395 +279,424 @@ Rotational min-maxing is just one aspect of mastering a specialization, but ther
 
 **← Scroll for more Dungeons**→**
 
-**Magisters' Terrace**
+**Altar of Fangs**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAjvgk5YFHsQU34mAAeg-_2amZmZmZ2mxMzMmZmMmZAAAAAAAzixsNDzMwM2mtZmZMGYZglZzMGmNNNmZGDbAAAADAABAzMYAIAAwA)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAIo1c2KfIEsPoy9fznypG4ZmZGzMz2MmZmZGzkxMDAAAAAAYWMmtZYmBmxyMzMDzMYWGYZ2MjhZTTjZmxwGAAAwAAQAwMDGACAAM)
 
-**Havoc Demon Hunter** Mythic+ Build in Magisters' Terrace
+**Havoc Demon Hunter** Mythic+ Build in Altar of Fangs
 
 ### Boss Tips
 
-#### Arcanotron Custos
+#### Rav'i
 
-* Pay attention to the energy of the boss since it takes increased damage whenever it fully depletes it and don't spend offensive cooldowns right before that.
-    * It takes around ~50 seconds each time to deplete the energy from full to 0.
-  * Be careful whenever you are rooted by [Ethereal Shackles](https://www.wowhead.com/spell=1214038) and be ready to press a defensive cooldown or a health potion if needed since not everyone can be dispelled at once.
+* Watch your health whenever you get a [Triple Shot](https://www.wowhead.com/spell=1296220) debuff. Be ready to press a health potion or a small defensive if needed.
+  * Be always on the lookout whenever you need to dodge the [Regurgitate](https://www.wowhead.com/spell=1296058) frontal of the boss and pools on the ground after the [Ravenous Stomp](https://www.wowhead.com/spell=1307894).
+  * During [Ssscavenging](https://www.wowhead.com/spell=1296216), make sure to have every pool of [Messy Eater](https://www.wowhead.com/spell=1306226) soaked and press a personal during it, especially if it's a **Carrion Pile** with [Fresh Meat](https://www.wowhead.com/spell=1307703).
 
-#### Seranel Sunlash
+#### The Writhing Coil
 
-* Plan your defensive cooldowns whenever you are cleansing the [Runic Marks](https://www.wowhead.com/spell=1225792).
+* Whenever you dodge a [Vindictive Onslaught](https://www.wowhead.com/spell=1299940), keep in mind that there is always a [Venom Jet](https://www.wowhead.com/spell=1300044) frontal cone right after, so you don't want to be too far from the boss when he finishes the charge.
+  * Keep an eye on the [Death Rattle](https://www.wowhead.com/spell=1299053) timing and be ready to break the [Vine Grip](https://www.wowhead.com/spell=1287797) as fast as you can.
+    * There is also an AoE phase that follows breaking the [Vine Grips](https://www.wowhead.com/spell=1287797), which also transfers all the damage done to the main body of the boss. That means that you definitely want to save your offensive cooldowns for this phase.
+  * Always be on the lookout for the [Toxic Atrophy](https://www.wowhead.com/spell=1310358) cast and be ready to interrupt it, especially during **The Uncoiled Writhe** phase, where it can easily be forgotten.
 
-#### Gemellus
+#### Zul'jan
 
-* It's very important to know that, due to [Synaptic Nexus](https://www.wowhead.com/spell=1223936), everything shares health, which means dealing maximum amount of damage, cleaving as much as possible, is the best way to defeat the boss.
-  * Additionally, don't forget to trigger the [Neural Link](https://www.wowhead.com/spell=1253707) and touch the Gemellus that you are linked to, this way you will remove a giant absorb shield from the boss and will greatly speed up the encounter.
-  * Be careful whenever you are afflicted by a [Cosmic Sting](https://www.wowhead.com/spell=1284958) and press a defensive cooldown if needed.
-
-#### Degentrius
-
-* Spread around with at least one person covering one section of the room.
-    * Keep in mind that you can quickly cross the sections just by blinking over [Void Torrents](https://www.wowhead.com/spell=1214714).
-  * If you got hit by an [Entropy Orb](https://www.wowhead.com/spell=1269631), you can remove the slow effect with you barrier due to [Energized Barriers](https://www.wowhead.com/spell=80157).
-  * Position yourself that way so you can see your whole section and be ready to soak the [Unstable Void Essence](https://www.wowhead.com/spell=1215087) whenever it's needed.
+* Always help with soaking [Ritual of the Fang](https://www.wowhead.com/spell=1300876), especially the first one, which happens very early into the fight.
+    * Don't forget to drop the stacks via soaking [Boneslicer](https://www.wowhead.com/spell=1301413) frontal. Good time to press a defensive cooldown whenever you do it.
+  * Whenever you dodge an [Axegrinder](https://www.wowhead.com/spell=1301111), keep in mind that it also bounces from the walls.
 
 ### Trash Tips
 
 * Important abilities to interrupt in this dungeon are:
-    * [Pyroblast](https://www.wowhead.com/spell=1254294) from **Blazing Pyromancer**.
-    * [Arcane Bolt](https://www.wowhead.com/spell=468962) and [Polymorph](https://www.wowhead.com/spell=468966) from **Arcane Magister**.
-    * [Shadow Bolt](https://www.wowhead.com/spell=1248327) from **Dreadful Voidwalker**.
-    * [Terror Wave](https://www.wowhead.com/spell=1264693) from **Void Terror**.
-      * Very dangerous cast and should never let it go through.
+    * [Piercing Hiss](https://www.wowhead.com/spell=1294557) from **Primal Serpent**.
+    * [Envenom](https://www.wowhead.com/spell=1289416) from **High Evolutionist**.
+    * [Mass Envenom](https://www.wowhead.com/spell=1307567) from **Ula'tek's Chosen**.
+
+* Pay extra attention to these casts:
+    * [Blood Sacrifice](https://www.wowhead.com/spell=1306517) from **Ritual Chieftain**.
+    * [Evolve](https://www.wowhead.com/spell=1306385) from **High Evolutionist**.
+      * Make sure to always stop this cast and never let it go through.
+    * [Rattle](https://www.wowhead.com/spell=1294849) from **Rattling Writhe**.
+      * Use a defensive cooldown during it.
+    * [Infest](https://www.wowhead.com/spell=1308864) from **Ascendant Serpent**.
+      * Use a defensive cooldown during it.
 
 * Dangerous debuffs to be wary of:
-    * [Void Bomb](https://www.wowhead.com/spell=1248138) from **Devouring Tyrant**.
-      * Inflicts shadow damage to all players hit once it expires. Every unit hit have their damage done increased and absorbs healing.
-
-* Useful debuffs to be wary of:
-    * [Energy Release](https://www.wowhead.com/spell=1254595) from **Brightscale Wyrm**.
-      * Applies a stacking damage and healing increase on players upon dying.
+    * [Paralyzing Shots](https://www.wowhead.com/spell=1294567) from **Twinfang Harrower**.
+      * This can also be removed with a slow removal, such as [Vengeful Retreat](https://www.wowhead.com/spell=198793).
 
 ### Pre Dungeon Start
 
 * Always use **[Metamorphosis](https://www.wowhead.com/spell=191427)** and **[Light's Potential](https://www.wowhead.com/item=241308)** before the key starts.
 
-**[](Legacy of Tyr)Maisara Caverns**
+**[](Legacy of Tyr)Den of Nalorakk**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAjvgk5YFHsQU34mAAeg-_2amZmZmZWmxMzMmZmMmZAAAAAAAzixsNDzMwM2mtZmZMGYZglZzMGmNNNmZGDbAAAADAABAzMYAIAAwA)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAIo1c2KfIEsPoy9fznypG4ZmZGzMz2MmZmZGzkxMDAAAAAAYWMmtZYmBmxyMzMDzMYWGYZ2MjhZTTjZmxwGAAAwAAQAwMDGACAAM)
 
-**Havoc Demon Hunter** Mythic+ Build in Maisara Caverns
+**Havoc Demon Hunter** Mythic+ Build in Den of Nalorakk
 
 ### Boss Tips
 
-#### Muro'Jin and Nekraxx
+#### The Hoardmonger
 
-* Keep in mind that you want to kill both bosses roughly at the same time due to [Revive Pet](https://www.wowhead.com/spell=1249789) and [Bestial Wrath](https://www.wowhead.com/spell=1249948).
-  * Spread around the boss to avoid cleaving too much with [Barrage](https://www.wowhead.com/spell=1260643) but keep a [Freezing Trap](https://www.wowhead.com/spell=1260731) nearby to have a way to deal with [Carrion Swoop](https://www.wowhead.com/spell=1249479).
-  * Use your [Immolation Aura](https://www.wowhead.com/spell=472649) with [Burn It Out](https://www.wowhead.com/spell=1266316) talented to dispell yourself of [Infected Pinions](https://www.wowhead.com/spell=1246666).
+* Press a defensive cooldown for every cast of [Ravenous Bellow](https://www.wowhead.com/spell=1234681).
+  * Always help with soaking [Spoiled Supplies](https://www.wowhead.com/spell=1234233), but make sure not to overdo it because it also applies a stacking poison debuff on you every time you soak.
+  * Don't be too far from the boss to have an easier time dodging the [Earthshatter Slam](https://www.wowhead.com/spell=1234021) frontal.
 
-#### Vordaza
+#### Sentinel of Winter
 
-* Press a defensive cooldown during [Necrotic Convergence](https://www.wowhead.com/spell=1250708).
-  * Decide within your group how you want to deal with **Unstable Phantoms**. It's up to you when to trigger them and who is triggering first.
-  * Don't stay too far from the boss or it will be too hard to dodge the [Unmake](https://www.wowhead.com/spell=1252054) frontal.
+* Press a defensive cooldown whenever you are afflicted with a [Glacial Torment](https://www.wowhead.com/spell=1235549) and not getting a dispel from your healer.
+  * Don't forget to interrupt the adds that the boss spawns. 
+    * Prioritize interrupting the one not in melee of the boss since you have a range interrupt.
+    * Keep in mind that adds also leave a pool under them that will help you deal with the pushback of the [Frozen Tempest](https://www.wowhead.com/spell=1235656) cast.
+  * Be mindful of your positioning whenever [Raging Squall](https://www.wowhead.com/spell=1235623) is happening, as it spawns a tornado right under you, which doesn't leave the spawn location much.
 
-#### Rak'tul, Vessel of Souls
+#### Nalorakk
 
-* Try your best to position the **Soulbind Totems** from [Crush Souls](https://www.wowhead.com/spell=1252676) as close as possible. You can see the order of leaps slightly ahead of time, ideally you can position all **Totems** so close that all of them will be cleaved from the boss.
-  * Keep in mind that you are getting a huge damage buff during the fight, roughly 1:30 into the encounter, so plan your offensive cooldowns accordingly.
+* Press a defensive cooldown whenever you are targeted with an [Echoing Maul](https://www.wowhead.com/spell=1242860) or helping with soaking [Fury of the War God](https://www.wowhead.com/spell=1243011).
+  * Keep an eye on the [Overwhelming Onslaught](https://www.wowhead.com/spell=1243569) timer and be somewhere near the boss to be ready to get into the [Defensive Stance](https://www.wowhead.com/spell=1261776) shield.
 
 ### Trash Tips
 
 * Important abilities to interrupt in this dungeon are:
-    * [Hooked Snare](https://www.wowhead.com/spell=1266381) and [Throw Spear](https://www.wowhead.com/spell=1255964) from **Keen Headhunter**.
-    * [Shrink](https://www.wowhead.com/spell=1263292) from **Umbral Shadowbinder**.
-    * [Shadowfrost Blast](https://www.wowhead.com/spell=1264327) from **Hollow Soulrender**.
-    * [Shadow Bolt](https://www.wowhead.com/spell=1256015) and [Hex](https://www.wowhead.com/spell=1256008) from **Ritual Hexxer**.
-    * [Piercing Screech](https://www.wowhead.com/spell=1259182) from **Gloomwing Bat**.
+    * [Earth Bolt](https://www.wowhead.com/spell=1241214) and [Healing Breeze](https://www.wowhead.com/spell=1297696) from **Earthwhisper Tender**.
+    * [Frigid Roar](https://www.wowhead.com/spell=1309919) from **Frigid Mauler**.
+    * [Lightning Bolt](https://www.wowhead.com/spell=1246687) and [Arc Lightning](https://www.wowhead.com/spell=1297778) from **Stormbound Mystic**.
+    * [Lightning Bolt](https://www.wowhead.com/spell=1290205) from **Loa Speaker Nanea**.
 
 * Pay extra attention to these casts:
-    * [Deafening Roar](https://www.wowhead.com/spell=1256047) from **Hulking Juggernaut**.
-      * Inflicts sonic damage and interrupts casts.
-    * [Shredding Talons](https://www.wowhead.com/spell=1257780) from **Hexbound Eagle**.
-      * Charges to a player and casts a frontal cone cleave, inflicting physical damage.
-    * [Vigilant Defense](https://www.wowhead.com/spell=1257546) from **Bound Defender**.
-      * Deflects all attacks from the front.
-
-### Pre Dungeon Start
-
-* Always use **[Metamorphosis](https://www.wowhead.com/spell=191427)** and **[Light's Potential](https://www.wowhead.com/item=241308)** before the key starts.
-
-**Nexus-Point Xenas**
-
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAjvgk5YFHsQU34mAAeg-_2amZmZmZ2mxMzMmZmMmZAAAAAAAzixsNDzMwM2mtZmZMGYZglZzMGmNNNmZGDbAAAADAABAzMYAIAAwA)
-
-**Havoc Demon Hunter** Mythic+ Build in Nexus-Point Xenas
-
-### Boss Tips
-
-#### Chief Corewright Kasreth
-
-* Positioning during this fight is very important due to [Leyline Arrays](https://www.wowhead.com/spell=1251579) so -plan ahead about how and where you wanna stay. Although this is way less punishing as a Demon Hunter due to [Glide](https://www.wowhead.com/spell=131347).
-  * Don't forget that [Corespark Detonation](https://www.wowhead.com/spell=1257509) is not only massive but also knocks you back once it lands. Always be ready to react to it with [Glide](https://www.wowhead.com/spell=131347), or have free space behind you to not get knocked into a [Leyline Array](https://www.wowhead.com/spell=1251579).
-
-#### Corewarden Nysarra
-
-* Keep in mind that this encounter has a damage increase phase during [Lightscar Flare](https://www.wowhead.com/spell=1247976). Stand in the beam of light to get the damage increase.
-    * Important to dodge it initially though as it stuns you once it first forms. Get into it once it starts channeling.
-
-#### Lothraxion
-
-* Think about which way you are dodging, as it's very easy to get cut off from the boss during this encounter.
-  * During the [Divine Guile](https://www.wowhead.com/spell=1257613) intermission look for the one **without** horns to find the real one.
-
-### Trash Tips
-
-* Important abilities to interrupt in this dungeon are:
-    * [Transference](https://www.wowhead.com/spell=1249815) from **Corewright Arcanist**.
-    * [Umbra Bolt](https://www.wowhead.com/spell=1271094) from **Nexus Adept**.
-    * [Nullify](https://www.wowhead.com/spell=1258681) from **Grand Nullifier**.
-    * [Holy Bolt](https://www.wowhead.com/spell=1263892) from **Lightwrought**.
-    * [Transference](https://www.wowhead.com/spell=1249815) from **Corewright Arcanist**.
-
-* Pay extra attention to these casts:
-    * [Void Lash](https://www.wowhead.com/spell=1252436) from **Dreadflail**.
-      * Inflicts shadow damage in front of the caster with every strike.
+    * [Feast of Misery](https://www.wowhead.com/spell=1238687) from **Spirit of Hunger**.
+    * [Glacial Tomb](https://www.wowhead.com/spell=1241463) from **Avatar of Determination**.
+      * Can remove the root with a [Greater Invisibility](https://www.wowhead.com/spell=115877).
+    * [Magma Totem](https://www.wowhead.com/spell=1246820) from **Ruthless Totemcaller**.
+      * This is an instant cast; make sure to kill the totem as soon as possible.
+    * [Primal Echo](https://www.wowhead.com/spell=1246957) from **Grizzled Warbringer**.
 
 * Dangerous debuffs to be wary of:
-    * [Creeping Void](https://www.wowhead.com/spell=1281636) from **Cursed Voidcaller**.
-      * Makes you take increased shadow damage. Can be dispelled with [Soul Cleanse](https://www.wowhead.com/spell=1266496).
+    * [Razor Dive](https://www.wowhead.com/spell=1238440) from **Keen-Eyed Striker**.
+    * [Starvation Effigy](https://www.wowhead.com/spell=1238760) from **Spirit of Hunger**.
+      * Swap to the totem as soon as possible.
+    * [Cryo Surge](https://www.wowhead.com/spell=1239860) from **Glacial Revenant**.
 
 ### Pre Dungeon Start
 
 * Always use **[Metamorphosis](https://www.wowhead.com/spell=191427)** and **[Light's Potential](https://www.wowhead.com/item=241308)** before the key starts.
 
-**Windrunner Spire**
+**Murder Row**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAjvgk5YFHsQU34mAAeg-_2amZmZmZ2mxMzMmZmMmZAAAAAAAzixsNDzMwM2mtZmZMGYZglZzMGmNNNmZGDbAAAADAABAzMYAIAAwA)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAIo1c2KfIEsPoy9fznypG4ZmZGzMz2MmZmZGzkxMDAAAAAAYWMmtZYmBmxyMzMDzMYWGYZ2MjhZTTjZmxwGAAAwAAQAwMDGACAAM)
 
-**Havoc Demon Hunter** Mythic+ Build in Windrunner Spire
+**Havoc Demon Hunter** Mythic+ Build in Murder Row
 
 ### Boss Tips
 
-#### Emberdawn
+#### Kystia Manaheart
 
-* Be ready with a defensive cooldown whenever you are targeted with [Flaming Updraft](https://www.wowhead.com/spell=466556) and be quick to get out of the flame patch that it leaves behind once it expires.
+* Always target **Nibbles** first and make sure to have your offensive cooldowns ready for whenever you kill him to do increased damage to **Kystia Manaheart** afterwards.
+  * Try not to stay behind your tank to have an easier time dealing with a [Fel Spray](https://www.wowhead.com/spell=1253811) frontal as it is always aimed at him.
+  * Keep an eye on the [Fel Nova](https://www.wowhead.com/spell=474240) timer and be close to the boss whenever it happens due to the boss jumping to a random player.
+  * Make sure to help with crowd controlling and interrupting adds casting [Felstorm](https://www.wowhead.com/spell=1264106).
 
-#### Derelict Duo
+#### Zaen Bladesorrow
 
-* Don't forget that you want to kill both bosses roughly at the same time due to [Broken Bond](https://www.wowhead.com/spell=1219551).
-  * Don't forget that you can dispel [Curse of Darkness](https://www.wowhead.com/spell=474105) with your [Soul Cleanse](https://www.wowhead.com/spell=1266496).
-  * Use a defensive cooldown whenever you are targeted with [Splattering Spew](https://www.wowhead.com/spell=472745).
-  * Look out for [Heaving Yank](https://www.wowhead.com/spell=472795) and don't be in the way if you are not the main target of it.
+* Try to group up during [Killing Spree](https://www.wowhead.com/spell=474478) casts to have an easier time healing the damage and press defensive cooldowns whenever you are afflicted with a [Fire Bomb](https://www.wowhead.com/spell=1217123).
+  * Keep an eye on the [Murder in a Row](https://www.wowhead.com/spell=734276) timer and do your best to pre-position yourself near any barrel to "claim" it to have an easier time spreading behind them during an actual cast.
 
-#### Commander Kroluk
+#### Xathuux the Annihilator
 
-* Keep in mind that during the [Rallying Bellow](https://www.wowhead.com/spell=468070) phase with adds, main boss is basically immune due to [Shield Wall](https://www.wowhead.com/spell=1250851), so make sure to properly switch targets.
-  * Use a defensive cooldown whenever you are targeted with [Throw Axe](https://www.wowhead.com/spell=468659).
-  * It's important to know that [Reckless Leap](https://www.wowhead.com/spell=472081) targets furthest player away from the boss which will naturally spread your group during it. Don't forget to group up right after it to not get feared from [Intimidating Shout](https://www.wowhead.com/spell=1253026).
+* Stay somewhere near the boss and bring an [Axe Toss](https://www.wowhead.com/spell=1214637) close to him whenever you are targeted by it.
+  * Try not to stay behind your tank to have an easier time dealing with a [Legion Strike](https://www.wowhead.com/spell=473898) frontal as it is always aimed at him.
+  * Do your best to line up offensive cooldowns with [Demonic Rage](https://www.wowhead.com/spell=474197) as the boss takes increased damage during it.
+  * Use defensive cooldowns whenever [Infernal Crush](https://www.wowhead.com/spell=1295453) happens.
 
-#### The Restless Heart
+#### Lithiel Cinderfury
 
-* Spread around the boss but not too far to have an easier time dealing with a [Bolt Gale](https://www.wowhead.com/spell=474528) frontal.
-  * Don't forget to use [Turbulent Arrows](https://www.wowhead.com/spell=1253977) to get rid of [Squall Leap](https://www.wowhead.com/spell=1216042) stacks. You can remove first stack once [Turbulent Arrows](https://www.wowhead.com/spell=1253977) spawn and remove it second time whenever [Bullseye Windblast](https://www.wowhead.com/spell=468429) happens.
+* Keep in mind that the **Infernal** always takes reduced damage and is almost immune, so you should never target him.
+  * Spread around the boss and press a defensive cooldown whenever [Fingers of Gul'dan](https://www.wowhead.com/spell=474462) happens.
+  * Be careful not to use [Demonic Gateway](https://www.wowhead.com/spell=1214675) instantly when the boss leaves you and wait for the [Malefic Wave](https://www.wowhead.com/spell=1217345) to spawn and travel a bit first.
 
 ### Trash Tips
 
 * Important abilities to interrupt in this dungeon are:
-    * [Fungal Bolt](https://www.wowhead.com/spell=1216819) from **Bloated Lasher**.
-    * [Spirit Bolt](https://www.wowhead.com/spell=1216135) from **Restless Steward**.
-    * [Shadow Bolt](https://www.wowhead.com/spell=473657) from **Devoted Woebringer**.
-    * [Chain Lightning](https://www.wowhead.com/spell=1216592) from **Phantasmal Mystic**.
+    * [Fel Missiles](https://www.wowhead.com/spell=1216571) from **Felonious Mage**. 
+    * [Seduction](https://www.wowhead.com/spell=1201554) from **Seductive Sayaad**.
+    * [Scathing Review](https://www.wowhead.com/spell=1257877) from **Influentual Reviewer**.
+    * [Felfire Burst](https://www.wowhead.com/spell=1223204) from **Unleashed Imp**.
+    * [Health Funnel](https://www.wowhead.com/spell=1214980) from **Fel Invoker**.
+    * [Fel Rage](https://www.wowhead.com/spell=1214922) from **Wrathguard Flayer**.
 
 * Pay extra attention to these casts:
-    * [Spellguard's Protection](https://www.wowhead.com/spell=1253683) from **Spellguard Magus**.
-      * Under 50% health, the caster creates a protective bubble, reducing the damage done to allies within it by 99%.
-    * [Fire Spit](https://www.wowhead.com/spell=1216848) from **Territorial Dragonhawk**.
-      * A channeled cast, inflicting fire damage to a player over it's duration.
-    * [Break Ranks](https://www.wowhead.com/spell=471648) from **Phalanx Breaker**.
-      * The caster charges towards a player, inflicting physical damage to players hit and knocking them away. Try your best to aim it into the wall so it doesn't run away too far.
-    * [Interrupting Screech](https://www.wowhead.com/spell=471643) from **Phalanx Breaker**.
-      * A screech that interrupts casting and inflicts sonic damage to all players within 60 yards.
-    * [Throw Axe](https://www.wowhead.com/spell=468659) from **Spectral Axethrower**.
-      * Inflicts physical damage to a player.
+    * [Drain Life](https://www.wowhead.com/spell=1297682) from **Corrupted Warlock**.
+    * [Blade Dance](https://www.wowhead.com/spell=1302007) from **Felmaster Lucsei**.
+    * [Defiled Slam](https://www.wowhead.com/spell=1294824) from **Defiled Golem**.
 
 * Dangerous debuffs to be wary of:
-    * [Soul Torment](https://www.wowhead.com/spell=1253700) from **Restless Steward**.
-      * Inflicts shadow damage over time. Press a personal defensive cooldown if you are not getting dispelled.
+    * [Cutpurse](https://www.wowhead.com/spell=1216300) from **Row Hooligan**.
+    * [Corroding Spittle](https://www.wowhead.com/spell=1217633) from **Massive Felwyrm**.
+    * [Flay](https://www.wowhead.com/spell=1295426) from **Wrathguard Flayer**.
+    * [Curse of Doom](https://www.wowhead.com/spell=1217973) from **Corrupted Warlock**.
+      * Can be dispelled with [Soul Cleanse](https://www.wowhead.com/spell=1266496).
 
 ### Pre Dungeon Start
 
 * Always use **[Metamorphosis](https://www.wowhead.com/spell=191427)** and **[Light's Potential](https://www.wowhead.com/item=241308)** before the key starts.
 
-**Algeth'ar Academy**
+**The Blinding Vale**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAjvgk5YFHsQU34mAAeg-_2amZmZmZ2mxMzMmZmMmZAAAAAAAzixsNDzMwM2mtZmZMGYZglZzMGmNNNmZGDbAAAADAABAzMYAIAAwA)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAIo1c2KfIEsPoy9fznypG4ZmZGzMz2MmZmZGzkxMDAAAAAAYWMmtZYmBmxyMzMDzMYWGYZ2MjhZTTjZmxwGAAAwAAQAwMDGACAAM)
 
-**Havoc Demon Hunter** Mythic+ Build in Algeth'ar Academy
+**Havoc Demon Hunter** Mythic+ Build in The Blinding Vale
 
 ### Boss Tips
 
-#### Overgrown Ancient
+#### Lightblossom Trinity
 
-* Stack up during the [Germinate](https://www.wowhead.com/spell=388796) to have an easier time dealing with Hungry Lashers.
-  * Use a defensive cooldown for [Burst Forth](https://www.wowhead.com/spell=388923) if you are not full health.
-  * Use a defensive cooldown whenever you have [Splinterbark](https://www.wowhead.com/spell=396716), especially if you've missed a cleanse from [Abundance](https://www.wowhead.com/spell=396721).
+* Position yourself near the flowers to be able to soak them immediately whenever [Lightblossom Beam](https://www.wowhead.com/spell=1235564) happens.
+  * Don't stay too far from the boss in case you get targeted with a [Thornblade](https://www.wowhead.com/spell=1235640).
+  * Make sure to interrupt [Light Bolts](https://www.wowhead.com/spell=1235616).
 
-#### Crawth
+#### Ikuzz the Light Hunter
 
-* Make sure to have offensive cooldowns whenever [Firestorm](https://www.wowhead.com/spell=376781) happens.
+* Position yourself under the boss whenever [Verdant Stomp](https://www.wowhead.com/spell=1236746) happens to cleave roots passively. If you find yourself far away from the boss, then make sure to use a defensive cooldown.
+  * Try to be grouped up during [Thorncaller Roar](https://www.wowhead.com/spell=1236709) casts to have an easier time healing through it.
+  * Keep an eye on the [Bloodthirsty Gaze](https://www.wowhead.com/spell=1253410) timer and be ready to run away from the boss to avoid getting eaten.
 
-#### Vexamus
+#### Lightwarden Ruia
 
-* Use a defensive cooldown whenever [Arcane Fissure](https://www.wowhead.com/spell=388537) happens or if you are afflicted with a [Mana Bomb](https://www.wowhead.com/spell=386173).
+* Use a defensive cooldown if you are targeted with a [Lightfire](https://www.wowhead.com/spell=1239824) and try not to aim at your teammates with it.
+  * Spread out around the boss during the [Shapeshift: Bear](https://www.wowhead.com/spell=1239885) phase to have an easier time dealing with [Pulverizing Strikes](https://www.wowhead.com/spell=1240257). Don't be too far from the boss either, as it is a frontal cone and is easier to avoid the closer you are to the boss.
+  * Keep in mind that the last phase, whenever the boss uses [Shapeshift: Haranir](https://www.wowhead.com/spell=1239883), is the hardest, and you might want to have your offensive and defensive cooldowns ready for it.
 
-#### Echo of Doragosa
+#### Ziekket
 
-* Keep an eye on [Overwhelming Power](https://www.wowhead.com/spell=389011) stacks and be ready to position yourself properly whenever you are close to max stacks to not drop a puddle awkwardly.
+* Don't stand between the boss and dead **Lashers** as they are going to get cleansed with a [Concentrated Lightbeam](https://www.wowhead.com/spell=1246607) frontal.
+  * Intercept the light orbs flying towards the boss, as they are going to grant you a [Lightbloom's Might](https://www.wowhead.com/spell=1247052) stacking buff, which increases your damage done.
 
 ### Trash Tips
 
 * Important abilities to interrupt in this dungeon are:
-    * [Surge](https://www.wowhead.com/spell=388862) from **Corrupted Manafiend**.
-    * [Monotonous Lecture](https://www.wowhead.com/spell=388392) from **Unruly Textbook**.
-    * [Arcane Bolt](https://www.wowhead.com/spell=1279627) from **Spectral Invoker**.
+    * [Seed Shot](https://www.wowhead.com/spell=1238232) from **Leafy Grovecrawler**. 
+    * [Disorienting Screech](https://www.wowhead.com/spell=1238294) from **Lightfeather Petalwing**.
+    * [Light Bolt](https://www.wowhead.com/spell=1238063) and [Light Bolt Volley](https://www.wowhead.com/spell=1301834) from **Radiant Spellsower**.
 
 * Pay extra attention to these casts:
-    * [Detonation Seeds](https://www.wowhead.com/spell=390915) from **Vile Lasher**.
-      * Creates exploding seeds on the ground, inflicting nature damage and disorients all players within 6 yards of impact.
-    * [Gust](https://www.wowhead.com/spell=377383) from **Alpha Eagle**.
-      * Inflicts nature damage and knocks all players within the frontal cone. It gets bigger the further away you are from the bird so don't stand too far out or you will get hit.
-    * [Vicious Ambush](https://www.wowhead.com/spell=388942) and [Riftbreath](https://www.wowhead.com/spell=388976) from **Vicious Ravager**.
-      * Charges to a random player and follows it up with a breath of powerful energy, inflicting arcane damage. Breath is a frontal cone so watch out for any breaths coming from range.
-    * [Arcane Smash](https://www.wowhead.com/spell=1270356) from **Algeth'ar Echoknight**.
-      * Inflicts arcane damage to players within 100 yards.
+    * [Lightmaw Beams](https://www.wowhead.com/spell=1238368) from **Overgrown Hydra**.
+    * [Spouting Floret](https://www.wowhead.com/spell=1271385) from **Sporeblight Belcher**.
+    * [Uproot](https://www.wowhead.com/spell=1255205) from **Virid Grovekeeper**.
+      * Be careful, as this spell also knocks you.
+    * [Toxic Spew](https://www.wowhead.com/spell=1250937) from **Potatoad Matriarch**.
+      * Applies a **Poison** debuff to every member of the group.
 
 * Dangerous debuffs to be wary of:
-    * [Darting Sting](https://www.wowhead.com/spell=390944) from **Aggravated Skitterfly**.
-      * Charges to a random player and stings it, inflicting nature damage.
-    * [Mana Void](https://www.wowhead.com/spell=388863) from **Corrupted Manafiend**.
-      * Applies a debuff inflicting arcane damage over time and also arcane damage once it expires. Additionally, drains mana from players within the explosion radius whenever it expires.
+    * [Thornblade](https://www.wowhead.com/spell=1238066) from **Underbush Stalker**.
 
 ### Pre Dungeon Start
 
 * Always use **[Metamorphosis](https://www.wowhead.com/spell=191427)** and **[Light's Potential](https://www.wowhead.com/item=241308)** before the key starts.
 
-**Pit of Saron**
+**Voidscar Arena**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAjvgk5YFHsQU34mAAeg-_2amZmZmZ2mxMzMmZmMmZAAAAAAAzixsNDzMwM2mtZmZMGYZglZzMGmNNNmZGDbAAAADAABAzMYAIAAwA)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAIo1c2KfIEsPoy9fznypG4ZmZGzMz2MmZmZGzkxMDAAAAAAYWMmtZYmBmxyMzMDzMYWGYZ2MjhZTTjZmxwGAAAwAAQAwMDGACAAM)
 
-**Havoc Demon Hunter** Mythic+ Build in Pit of Sauron
+**Havoc Demon Hunter** Mythic+ Build in Voidscar Arena
 
 ### Boss Tips
 
-#### Forgemaster Garfrost
+#### Taz'Rah
 
-* Make sure to plan your movement to not spawn any awkward Saronite Ores, preferably placing them near the Forge.
-  * Use a defensive cooldown whenever [Cryostomp](https://www.wowhead.com/spell=1261847) happens. Even a well timed [Deflecting Dance](https://www.wowhead.com/spell=427776) can be the difference between life or death.
+* Try to always group up with your teammates during this fight, as it is very easy to get separated during it.
+  * Use a defensive cooldown whenever you are hit with a [Nether Dash](https://www.wowhead.com/spell=1222100).
 
-#### Ick and Krick
+#### Atroxus
 
-* Keep in mind that thanks to [Necrolink](https://www.wowhead.com/spell=1264192) both bosses share health.
+* Don't be too far from the boss to have an easier time dodging the [Noxious Breath](https://www.wowhead.com/spell=1222721) frontal.
+  * Swap to the **Toxic Creeper** as soon as he spawns and press a defensive cooldown while it is alive.
 
-#### Scourgelord Tyrannus
+#### Charonus
 
-* Make sure you always freeze an [Infused Bone Piles](https://www.wowhead.com/spell=1276391) whenever you are targeted.
+* Use a defensive cooldown whenever [Cosmic Crash](https://www.wowhead.com/spell=1227197) happens.
+  * Hide behind your tank if you are targeted with a [Void Cascade](https://www.wowhead.com/spell=1227247). Additionally, you can also outrun it with a movement speed buff, but that is not recommended.
 
 ### Trash Tips
 
 * Important abilities to interrupt in this dungeon are:
-    * [Shadow Bolt](https://www.wowhead.com/spell=1258431) from **Gloombound Shadebringer**.
-    * [Icy Blast](https://www.wowhead.com/spell=1271074) from **Dreadpulse Lich**.
-    * [Netherburst](https://www.wowhead.com/spell=1271479) from **Arcanist Cadaver**.
-    * [Ice Bolt](https://www.wowhead.com/spell=1258436) from **Rimebone Coldwraith**.
+    * [Lava Bolt](https://www.wowhead.com/spell=1228176) from **Enthralled Shaman**.
+    * [Shadowbolt Volley](https://www.wowhead.com/spell=1299938) from **Voidtouched Magi**. 
+    * [Demoralizing Shout](https://www.wowhead.com/spell=1298899) from **Dominated Brawler**.
+    * [Violent Sand](https://www.wowhead.com/spell=1249621) from **Angry Krolusk**.
+    * [Mad Shriek](https://www.wowhead.com/spell=1233398) from **Kilivore Screamer**.
+    * [Mending Void](https://www.wowhead.com/spell=1310324) from **Voidminder**.
 
 * Pay extra attention to these casts:
-    * [Plungegrip](https://www.wowhead.com/spell=1258997) from **Plungetalon Gargoyle**.
-      * Applies an absorb shield to himself and pulls a random player upward, inflicting physical damage every second for 12 seconds. Upon breaking the absorb shield, interrupts the cast and drops the player down. If the cast finishes channeling, the victim is getting stunned for 5 seconds.
-    * [Frost Breath](https://www.wowhead.com/spell=1278986) from **Iceborn Proto-Drake**.
-      * Inflicts frost damage in a frontal cone to players hit.
-    * [Focused Guard](https://www.wowhead.com/spell=1259226) from **Glacieth**.
-      * Raises a shield, reducing damage taken from the front by 99% and inflicting frost damage to players within 60 yards. Additionally, attacks done to the caster from behind have 100% increased critical strike chance.
+    * [Magma Totem](https://www.wowhead.com/spell=1246820) from **Ruthless Totemcaller**.
+      * This is an instant cast; make sure to swap to it to kill it as soon as possible.
+    * [Thundering Storm](https://www.wowhead.com/spell=1299270) from **Raj'kess the Spellstorm**.
+    * [Insidious Aura](https://www.wowhead.com/spell=1234855) from **Chitigoth**.
+    * [Brutal Slams](https://www.wowhead.com/spell=1298900) from **Brutal Overseer**.
 
 * Dangerous debuffs to be wary of:
-    * [Curse of Torment](https://www.wowhead.com/spell=1258434) from **Quarry Tormentor**.
-      * Applies a **Curse** debuff that inflicts shadow damage over time and absorbs healing. Can be dispelled with [Soul Cleanse](https://www.wowhead.com/spell=1266496).
-    * [Permeating Cold](https://www.wowhead.com/spell=1258437) from **Rimebone Coldwraith**.
-      * Applies a **Magic** debuff that slows the movement speed of a player and inflicts frost damage every second. Can be removed with [Vengeful Retreat](https://www.wowhead.com/spell=198793).
+    * [Dreadbellow](https://www.wowhead.com/spell=1252406) from **Devouring Brutalizer**.
 
 ### Pre Dungeon Start
 
 * Always use **[Metamorphosis](https://www.wowhead.com/spell=191427)** and **[Light's Potential](https://www.wowhead.com/item=241308)** before the key starts.
 
-**Seat of the Triumvirate**
+**Kings' Rest**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAjvgk5YFHsQU34mAAeg-_2amZmZmZ2mxMzMmZmMmZAAAAAAAzixsNDzMwM2mtZmZMGYZglZzMGmNNNmZGDbAAAADAABAzMYAIAAwA)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAIo1c2KfIEsPoy9fznypG4ZmZGzMz2MmZmZGzkxMDAAAAAAYWMmtZYmBmxyMzMDzMYWGYZ2MjhZTTjZmxwGAAAwAAQAwMDGACAAM)
 
-**Havoc Demon Hunter** Mythic+ Build in Seat of the Triumvirate
+**Havoc Demon Hunter** Mythic+ Build in Kings' Rest
 
 ### Boss Tips
 
-#### Zuraal the Ascended
+#### The Golden Serpent
 
-* Keep in mind that if you are not handling **Coalesced Void** in time, you can also slow or crowd control it with spells like [Chaos Nova](https://www.wowhead.com/spell=179057).
+* Keep in mind that by the end of the [Spit Gold](https://www.wowhead.com/spell=1306736) debuff, you will spawn a pool on the ground, which will later transform into an add that you need to kill. Try to spawn them close to each other for better cleave value.
+    * [Spit Gold](https://www.wowhead.com/spell=1306736) debuff also hurts and is a good opportunity to use a defensive cooldown.
+  * Make sure to group up during the [Serpentine Gust](https://www.wowhead.com/spell=1311987) to have an easier time healing through it.
 
-#### Saprish
+#### Mchimba the Embalmer
 
-* Try to be always stacked up with your group to have an easier time dealing with [Void Bombs](https://www.wowhead.com/spell=246026).
-  * Always put **Shadewing** on your focus and be ready to interrupt [Dread Screech](https://www.wowhead.com/spell=248831) as it may easily wipe you in case of a missed cast.
+* Use a defensive cooldown whenever you are targeted by a [Drain Fluids](https://www.wowhead.com/spell=267618) cast.
+  * Don't forget that [Burning Ground](https://www.wowhead.com/spell=267874) debuff also leaves a pool on the ground, so place it accordingly.
 
-#### Viceroy Nezhar
+#### The Council of Tribes
 
-* Keep an eye on the boss energy to have an easier time reacting to the knockback of the [Collapsing Void](https://www.wowhead.com/spell=1263529).
+* Use a defensive cooldown whenever you are afflicted with a [Severing Axe](https://www.wowhead.com/spell=266231) debuff.
+  * Don't be too far from the boss to have an easier time grouping up for the [Barrel Through](https://www.wowhead.com/spell=267494) soak.
+  * During the last phase, whenever [Call of the Elements](https://www.wowhead.com/spell=267060) happens, make sure to swap to totems immediately and target **Explosive Totem** first.
 
-#### L'ura
+#### Dazar, The First King
 
-* Make sure to have offensive cooldowns ready whenever [Siphon Void](https://www.wowhead.com/spell=1265999) happens.
+* Important to know that **King Dazar** does not share his health with **Reban** and only does it with **T'zala** , who appears whenever **King Dazar** drops below 80%. 
+  * Use a defensive cooldown whenever [Gilded Destruction](https://www.wowhead.com/spell=1303267) happens.
+  * Don't stay too far away during [Quaking Leap](https://www.wowhead.com/spell=1303324).
 
 ### Trash Tips
 
 * Important abilities to interrupt in this dungeon are:
-    * [Shadowmend](https://www.wowhead.com/spell=1277339) from **Ruthless Riftstalker**.
-    * [Umbral Bolt](https://www.wowhead.com/spell=1262510) and [Summon Voidcaller](https://www.wowhead.com/spell=1262523) from **Dark Conjurer**.
-    * [Abyssal Enhancement](https://www.wowhead.com/spell=1262526) from **Dire Voidbender**.
+    * [Shadowfrost Bolt](https://www.wowhead.com/spell=1294815) and [Hex Volley](https://www.wowhead.com/spell=269972) from **Risen Hexer**.
+    * [Unholy Mending](https://www.wowhead.com/spell=270901) from **Seneschal M'bara**.
+    * [Soul Bolt](https://www.wowhead.com/spell=1294972) and [Bind Soul](https://www.wowhead.com/spell=270920) from **Queen Wasi**.
+    * [Wretched Discharge](https://www.wowhead.com/spell=267763) from **Half-Finished Mummy**.
+    * [Spectral Bolt](https://www.wowhead.com/spell=1295125) and [Hex](https://www.wowhead.com/spell=270492) from **Phantom Hex Priest**.
 
 * Pay extra attention to these casts:
-    * [Chains of Subjugation](https://www.wowhead.com/spell=1262509) from **Merciless Subjugator.**
-      * Can be removed with [Vengeful Retreat](https://www.wowhead.com/spell=198793).
-    * [Void Cleave](https://www.wowhead.com/spell=1262335) from **Void-Infused Destroyer**.
-      * Inflicts shadow damage to all enemies in front of the caster.
-    * [Eruption](https://www.wowhead.com/spell=1262429) from **Void-Infused Destroyer**.
-      * Blasts target players with void energy, inflicting shadow damage instantly and over time and knocks them into the air.
-    * [Gate of the Abyss](https://www.wowhead.com/spell=1264286) from **Grand Shadow-Weaver**.
-      * Summons a gate to the void that unleashes Umbral Waves.
-
-### Pre Dungeon Start
-
-* Always use **[Metamorphosis](https://www.wowhead.com/spell=191427)** and **[Light's Potential](https://www.wowhead.com/item=241308)** before the key starts.
-
-**Skyreach**
-
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAjvgk5YFHsQU34mAAeg-_2amZmZmZ2mxMzMmZmMmZAAAAAAAzixsNDzMwM2mtZmZMGYZglZzMGmNNNmZGDbAAAADAABAzMYAIAAwA)
-
-**Havoc Demon Hunter** Mythic+ Build in Skyreach
-
-### Boss Tips
-
-#### Ranjit
-
-* Don't stand on the very edge of the platform to avoid getting knocked off.
-  * Be ready to use a defensive cooldown whenever you are afflicted with a [Fan of Blades](https://www.wowhead.com/spell=153757).
-
-#### Araknath
-
-* Use a defensive cooldown whenever you are soaking [Solar Infusion](https://www.wowhead.com/spell=1252877).
-  * Don't stand too close to the boss by the end of soaking to have an easier time dealing with the [Heat Exhaustion](https://www.wowhead.com/spell=1281874).
-
-#### Rukhran
-
-* Position yourself somewhat close to the boss to have an easier time dealing with the **Sunwings** and cleave the boss at the same time if possible.
-
-#### High Sage Viryx
-
-* Be ready to use a defensive cooldown whenever you are afflicted with a [Scorching Ray](https://www.wowhead.com/spell=1253543).
-  * If you think that your team won't be able to manage killing the **Solar Zealot** in time, you press your [Vengeful Retreat](https://www.wowhead.com/spell=198793) immediately after the **Solar Zealot** lets you go. This way you can get back to the platform right after you are dropped down.
-
-### Trash Tips
-
-* Important abilities to interrupt in this dungeon are:
-    * [Repel](https://www.wowhead.com/spell=1255377) from **Driving Gale-Caller**.
-    * [Blinding Light](https://www.wowhead.com/spell=152953) from **Blinding Sun Priestess**.
-    * [Solar Bolt](https://www.wowhead.com/spell=1254669) from **Initiate of the Rising Sun**.
-
-* Pay extra attention to these casts:
-    * [Dread Wind](https://www.wowhead.com/spell=1258174) from **Dread Raven**.
-      * Inflicts nature damage to the target and knocks it back.
+    * [Suppression Slam](https://www.wowhead.com/spell=270003) from **Animated Guardian**.
+    * [Vigilant Defense](https://www.wowhead.com/spell=269928) from **Shadow-Borne Champion**.
+      * Make sure your spells are not getting deflected.
+    * [Forked Lightning](https://www.wowhead.com/spell=1296719) from **King Rahu'ai**.
+    * [Shadow Volley](https://www.wowhead.com/spell=1305982) from **Queen Patlaa**.
+      * This is baited at players, so make sure to group up and spawn them together.
+    * [Purification Strike](https://www.wowhead.com/spell=270293) from **Purification Construct**.
 
 * Dangerous debuffs to be wary of:
-    * [Blade Rush](https://www.wowhead.com/spell=1254460) from **Adorned Bladetalon**.
-      * **Bleed** inflicting heavy physical damage.
-    * [Solar Flame](https://www.wowhead.com/spell=1253446) from **Solar Construct**.
-      * Inflicts fire damage over time.
+    * [Mortal Bleed](https://www.wowhead.com/spell=1297918) from **King A'akul**.
+    * [Serpent Strike](https://www.wowhead.com/spell=1306763) from **Queen Patlaa**.
+    * [Bloodthirsty Axe](https://www.wowhead.com/spell=1301851) from **Royal Berserker**.
+    * [Dark Revelation](https://www.wowhead.com/spell=1298304) from **Shadow of Zul**.
+
+### Pre Dungeon Start
+
+* Always use **[Metamorphosis](https://www.wowhead.com/spell=191427)** and **[Light's Potential](https://www.wowhead.com/item=241308)** before the key starts.
+
+**Ruby Life Pools**
+
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAIo1c2KfIEsPoy9fznypG4ZmZGzMz2MmZmZGzkxMDAAAAAAYWMmtZYmBmxyMzMDzMYWGYZ2MjhZTTjZmxwGAAAwAAQAwMDGACAAM)
+
+**Havoc Demon Hunter** Mythic+ Build in Ruby Life Pools
+
+### Boss Tips
+
+#### Melidrussa Chillworn
+
+* Keep in mind that you leave a pool on the ground under you after [Hailburst](https://www.wowhead.com/spell=396044) cast, so make sure to position yourself close to the group and don't spawn any awkward pools alone.
+  * Be mindful of your positioning whenever [Awaken Whelps](https://www.wowhead.com/spell=373046) happens to give your tank an easier time picking up aggro on the **Whelps**.
+
+#### Kokia Blazehoof
+
+* Make sure to interrupt **Blazebound Firestorm** whenever it casts [Blaze Volley](https://www.wowhead.com/spell=373017).
+  * Use a defensive cooldown whenever [Inferno](https://www.wowhead.com/spell=384823) happens.
+  * Keep an eye on the timer of [Molten Boulder](https://www.wowhead.com/spell=372107) and aim it properly. Aiming it at the closest wall will result in it exploding early, which will make it harder for you to dodge it.
+
+#### Kyrakka and Erkhart Stormvein
+
+* Be close to the boss to have an easier time dodging the [Roaring Firebreath](https://www.wowhead.com/spell=381525) frontal.
+  * Use a defensive cooldown whenever you are afflicted with a [Inferno Spit](https://www.wowhead.com/spell=381602) debuff. Keep in mind that it also spawns fire pools on the ground that are also getting pushed away with [Winds of Change](https://www.wowhead.com/spell=381517), so be mindful of where you are going to spawn them.
+  * [Interrupting Cloudburst](https://www.wowhead.com/spell=381516) interrupts spellcasting when cast, luckily you can not get interrupted by this as a **Havoc Demon Hunter**.
+
+### Trash Tips
+
+* Important abilities to interrupt in this dungeon are:
+    * [Frostbolt](https://www.wowhead.com/spell=371984) and [Ice Shield](https://www.wowhead.com/spell=372743) from **Flashfrost Chillweaver**.
+    * [Cinderbolt](https://www.wowhead.com/spell=384194) from **Primalist Cinderweaver**.
+    * [Fiery Blast](https://www.wowhead.com/spell=1305955) from **Blazebound Destroyer**.
+    * [Thunder Blast](https://www.wowhead.com/spell=392576) from **Tempest Channeler**.
+
+* Pay extra attention to these casts:
+    * [Excavating Blast](https://www.wowhead.com/spell=1305201) from **Primal Juggernaut**.
+    * [Steel Barrage](https://www.wowhead.com/spell=372047) from **Defier Draghar**.
+    * [Flaming Barrage](https://www.wowhead.com/spell=385536) from **Ashseer Flamelasher**.
+      * Stop this cast as fast as possible.
+    * [Inferno](https://www.wowhead.com/spell=373692) from **Blazebound Destroyer**.
+    * [Lightning Torrent](https://www.wowhead.com/spell=1306366) from **Tempest Channeler**.
+
+* Dangerous debuffs to be wary of:
+    * [Earthbound's Imprint](https://www.wowhead.com/spell=1307205) from **Earthbound Guardian**. 
+    * [Living Bomb](https://www.wowhead.com/spell=373693) from **Primalist Cinderweaver**.
+    * [Rolling Thunder](https://www.wowhead.com/spell=392640) from **Thunderhead**.
+
+### Pre Dungeon Start
+
+* Always use **[Metamorphosis](https://www.wowhead.com/spell=191427)** and **[Light's Potential](https://www.wowhead.com/item=241308)** before the key starts.
+
+**Temple of Sethraliss**
+
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAIo1c2KfIEsPoy9fznypG4ZmZGzMz2MmZmZGzkxMDAAAAAAYWMmtZYmBmxyMzMDzMYWGYZ2MjhZTTjZmxwGAAAwAAQAwMDGACAAM)
+
+**Havoc Demon Hunter** Mythic+ Build in Temple of Sethraliss
+
+### Boss Tips
+
+#### Adderis and Aspix
+
+* Keep in mind that there is only one boss taking damage actively at a time, due to the [Storm Blessed](https://www.wowhead.com/spell=1310311) buff, which is swapped around every 33% health of the boss.
+  * Make sure to get back to the boss right after the knock of [Gale Force](https://www.wowhead.com/spell=1289062) since there is always a [Thunder and Lightning](https://www.wowhead.com/spell=1288092) cast following up right after that you need to soak.
+  * Don't forget that [Tempest Winds](https://www.wowhead.com/spell=1288864) debuff also leaves a pool on the ground by the end of it.
+
+#### Merektha
+
+* Keep an eye on the [A Knot of Snakes](https://www.wowhead.com/spell=1290031) timer and make sure to be close to the boss when it happens to have an easier time getting rid of it and cleaving the adds.
+  * Stack up and try to bait [Thunder Spit](https://www.wowhead.com/spell=1289602) properly together as a group, as it leaves pools on the ground after the hit.
+  * Use a defensive cooldown whenever [Serpentstorm](https://www.wowhead.com/spell=1293048) happens.
+  * Interrupt [Poison Spit](https://www.wowhead.com/spell=267027) during the intermission.
+
+#### Galvazzt
+
+* Make sure to soak all the pillars around the boss and use a defensive cooldown if needed.
+
+#### Avatar of Sethraliss
+
+* Use a defensive cooldown whenever you are afflicted with a [Latent Hex](https://www.wowhead.com/spell=1302153). Keep in mind that it also leaves a pool on the ground.
+  * Help soaking [Corrupted Lifeforce](https://www.wowhead.com/spell=1300869) once when it spawns.
+  * Interrupt **Twisted Hexxers**.
+
+### Trash Tips
+
+* Important abilities to interrupt in this dungeon are:
+    * [Lightning Bolt](https://www.wowhead.com/spell=1291262) from **Storm Adept**.
+    * [Venom Bolt](https://www.wowhead.com/spell=1310683) from **Brood Tender**.
+    * [Addle Mind](https://www.wowhead.com/spell=1293307) from **Faithless Subjugator**.
+    * [Poison Spit](https://www.wowhead.com/spell=267027) from **Toxic Viper**.
+    * [Flame Shock](https://www.wowhead.com/spell=268013) from **Twisted Hexxer**.
+
+* Pay extra attention to these casts:
+    * [Scouring Sand](https://www.wowhead.com/spell=272655) from **Sand-Sworn Rider**.
+
+* Dangerous debuffs to be wary of:
+    * [Serrated Charge](https://www.wowhead.com/spell=1291399) from **Barbed Krolusk**.
+    * [Cytotoxin](https://www.wowhead.com/spell=1308148) from **Poisonous Viper**.
 
 ### Pre Dungeon Start
 
@@ -708,21 +756,24 @@ All secondary stats are affected by **diminishing returns**. **[Click here](http
 
 Slot| Item| Location  
 ---|---|---  
-Head| [Devouring Reaver's Intake](https://www.wowhead.com/item=250033)| Rotmire Catalyst  
-Neck| [Rotmire's Sporeheart](https://www.wowhead.com/item=268291)| Rotmire  
-Shoulder| [Devouring Reaver's Exhaustplates](https://www.wowhead.com/item=250031)| Catalyst  
-Cloak| [Adherent's Silken Shroud](https://www.wowhead.com/item=239656)| Crafted  
-Chest| [Devouring Reaver's Engine](https://www.wowhead.com/item=250036)| Catalyst  
+Head| [Gaze of the Coiled Watcher](https://www.wowhead.com/item=271875)| Ula'tek  
+Neck| [Aqirbane Reliquary](https://www.wowhead.com/item=268265)| Ula'tek  
+Shoulder| Convert [Frothing Venom Spaulders](https://www.wowhead.com/item=268246)  
+into [Abyssal Doomhound's Jaws](https://www.wowhead.com/item=271535)| Vashnik Catalysted  
+Cloak| [Silken Voodoo Drape](https://www.wowhead.com/item=268253)| Coiled Altar  
+Chest| Convert [Vest of Reverent Adoration](https://www.wowhead.com/item=239048)  
+into [Abyssal Doomhound's Coreguard](https://www.wowhead.com/item=271540)| King's Rest Catalysted  
 Wrist| [Silvermoon Agent's Deflectors](https://www.wowhead.com/item=244576)| Crafted  
-Gloves| [Devouring Reaver's Essence Grips](https://www.wowhead.com/item=250034)| Catalyst  
-Belt| [Sash of the Putrid Giant](https://www.wowhead.com/item=268286)| Rotmire  
-Legs| [Nightblade's Pantaloons](https://www.wowhead.com/item=249312)| Crown of the Cosmos  
-Boots| [Canopy Walker's Footwraps](https://www.wowhead.com/item=249382)| Crown of the Cosmos  
-Ring 1| [Sin'dorei Band of Hope](https://www.wowhead.com/item=249919)| Belo'ren, Child of Al'ar  
-Ring 2| [Platinum Star Band](https://www.wowhead.com/item=193708)| Algeth'ar Academy  
-Trinket 1| [Algeth'ar Puzzle Box](https://www.wowhead.com/item=193701)| Algeth'ar Academy  
-Trinket 2| [Gaze of the Alnseer](https://www.wowhead.com/item=249343)| Chimaerus the Undreamt God  
-Weapon| [Lightless Lament](https://www.wowhead.com/item=260408) & [Emblazoned Sunglaive](https://www.wowhead.com/item=249280)| Midnight Falls & Vaelgor & Ezzorak
+Gloves| [Abyssal Doomhound's Studded Gauntlets](https://www.wowhead.com/item=271538)| Entombed Sentinels  
+Belt| [Sash of the Forlorn Vessel](https://www.wowhead.com/item=268256)| Coiled Altar  
+Legs| Convert [Coiled Hex Legguards](https://www.wowhead.com/item=268225)  
+into [Abyssal Doomhound's Legwraps](https://www.wowhead.com/item=271536)| Coiled Altar Catalysted  
+Boots| [Sand-Shined Snakeskin Sandals](https://www.wowhead.com/item=159327)| Temple of Sethraliss  
+Ring 1| [Vile Alchemist's Band](https://www.wowhead.com/item=268249)| Vashnik  
+Ring 2| [Charged Sandstone Band](https://www.wowhead.com/item=158366)| Temple of Sethraliss  
+Trinket 1| [Voracious Heart of Ula'tek](https://www.wowhead.com/item=270175)| Ula'tek  
+Trinket 2| [Zul'jin's Guillotine Technique](https://www.wowhead.com/item=270173)| Coiled Altar  
+Weapon| [Aman'muso, Warlord's Vengeance](https://www.wowhead.com/item=268209) & [Spellbreaker's Warglaive](https://www.wowhead.com/item=237840)| Coiled Altar & Crafted
 
 **Farmable Alternatives**
 
@@ -730,63 +781,55 @@ Below you are presented with a good list of farmable alternatives that are obtai
 
 Slot| Item| Location  
 ---|---|---  
-Head| [Spellsnap Shadowmask](https://www.wowhead.com/item=251109)| Magisters' Terrace  
-Neck| [Barbed Ymirheim Choker](https://www.wowhead.com/item=50228)| Pit of Saron  
-Shoulder| [Fallen Grunt's Mantle](https://www.wowhead.com/item=251092)| Windrunner Spire  
-Cloak| [Rigid Scale Greatcloak](https://www.wowhead.com/item=258575)| Skyreach  
-Chest| [Vest of the Howling Gale](https://www.wowhead.com/item=251099)| Windrunner Spire  
-Wrist| [Bracers of Dark Binding](https://www.wowhead.com/item=151315)| Seat of the Triumvirate  
-Gloves| [Gloves of Viscous Goo](https://www.wowhead.com/item=251113)| Magisters' Terrace  
-Belt| [Snapvine Cinch](https://www.wowhead.com/item=251082)| Windrunner Spire  
-Legs| [Legwraps of Lingering Legacies](https://www.wowhead.com/item=251087)| Windrunner Spire  
-Boots| [Boots of Burning Focus](https://www.wowhead.com/item=258577)| Skyreach  
-Ring 1| [Occulsion of Void](https://www.wowhead.com/item=251217)| Nexus-Point Xenas  
-Ring 2| [Platinum Star Band](https://www.wowhead.com/item=193708)| Algeth'ar Academy  
-Trinket 1| [Algeth'ar Puzzle Box](https://www.wowhead.com/item=193701)| Algeth'ar Academy  
-Trinket 2| [Solarflare Prism](https://www.wowhead.com/item=252420)| Skyreach  
-Weapon| [Mystakria's Harvester](https://www.wowhead.com/item=193717) & [Soulblight Cleaver](https://www.wowhead.com/item=251175)| Algeth'ar Academy & Maisara Caverns
+Head| [Hood of the Slithering Loa](https://www.wowhead.com/item=239033)| Temple of Sethraliss  
+Neck| [Graft of the Domanaar](https://www.wowhead.com/item=251234)| Voidscar Arena  
+Shoulder| [Somber Spaulders](https://www.wowhead.com/item=251223)| Voidscar Arena  
+Cloak| [Speakeasy Shroud](https://www.wowhead.com/item=251132)| Murder Row  
+Chest| [Vest of Reverent Adoration](https://www.wowhead.com/item=239048)| Kings' Rest  
+Wrist| [Rootwarden Wraps](https://www.wowhead.com/item=251183)| The Blinding Vale  
+Gloves| [Desiccator's Blessed Gloves](https://www.wowhead.com/item=159312)| Kings' Rest  
+Belt| [Whirling Dervish Sash](https://www.wowhead.com/item=159317)| Temple of Sethraliss  
+Legs| [Breeches of Deft Deals](https://www.wowhead.com/item=251130)| Murder Row  
+Boots| [Sand-Shined Snakeskin Sandals](https://www.wowhead.com/item=159327)| Temple of Sethraliss  
+Ring 1| [Charged Sandstone Band](https://www.wowhead.com/item=158366)| Temple of Sethraliss  
+Ring 2| [Signet of Snarling Servitude](https://www.wowhead.com/item=251136)| Murder Row  
+Trinket 1| [Freightrunner's Flask](https://www.wowhead.com/item=250215)| Murder Row  
+Trinket 2| [Resonant Bellowstone](https://www.wowhead.com/item=250228)| Murder Row  
+Weapon| [Thorntalon Edge](https://www.wowhead.com/item=251186) & [Singularity Slicer](https://www.wowhead.com/item=251231)| The Blinding Vale & Voidscar Arena
 
 ### Trinkets
 
-Below is a ranking of endgame trinkets obtainable from Dungeons, Raids, and Delves.
+Below is a ranking of endgame trinkets obtainable from Dungeons and Raids.
 
 Rank| Trinkets  
 ---|---  
-**S-Tier**| [Gaze of the Alnseer](https://www.wowhead.com/item=249343)  
-[Umbral Plume](https://www.wowhead.com/item=260235)  
-[Algeth'ar Puzzle Box](https://www.wowhead.com/item=193701)  
-**A-Tier**| [Ranger-Captain's Iridescent Insignia](https://www.wowhead.com/item=249345)  
-[Solarflare Prism](https://www.wowhead.com/item=252420)  
-**B-Tier**| [Undreamt God's Oozing Vestige](https://www.wowhead.com/item=249805)  
-[Heart of Wind](https://www.wowhead.com/item=250256)  
-[Light Company Guidon](https://www.wowhead.com/item=249344)  
-[Emberwing Feather](https://www.wowhead.com/item=250144)  
-**C-Tier**| [Latch's Crooked Hook](https://www.wowhead.com/item=250226)  
-[Void Stalker's Contract](https://www.wowhead.com/item=151307)  
-[Vessel of Tortured Souls](https://www.wowhead.com/item=250258)  
-[Kroluk's Warbanner](https://www.wowhead.com/item=250227)  
-[Eye of the Drowning Void](https://www.wowhead.com/item=250257)  
-**Junkyard**| [Sylvan Wakrapuku](https://www.wowhead.com/item=251784)  
-[Sealed Chaos Urn](https://www.wowhead.com/item=251787)  
-[Desecrated Chalice](https://www.wowhead.com/item=251790)  
-[Glorious Crusader's Keepsake](https://www.wowhead.com/item=251792)  
-[Gris-gris of Confidence](https://www.wowhead.com/item=251794)  
-[Endosymbiotic Mycelium](https://www.wowhead.com/item=251793)
+**S-Tier**| [Voracious Heart of Ula'tek](https://www.wowhead.com/item=270175)  
+[Zul'jin's Guillotine Technique](https://www.wowhead.com/item=270173)  
+[Font of Venomous Rage](https://www.wowhead.com/item=270168)  
+[Gebbo's Bottomless Bag](https://www.wowhead.com/item=270164)  
+**A-Tier**| [Freightrunner's Flask](https://www.wowhead.com/item=250215)  
+[Vashnik's Sanguine Rancor](https://www.wowhead.com/item=270166)  
+[Keeper's Seething Core](https://www.wowhead.com/item=270165)  
+**B-Tier**| [Lustrous Golden Plumage](https://www.wowhead.com/item=159617)  
+[Sapling of the Dawnroot](https://www.wowhead.com/item=250259)  
+[Resonant Bellowstone](https://www.wowhead.com/item=250228)  
+[Void Execution Mandate](https://www.wowhead.com/item=250225)  
+[Ruby Whelp Shell](https://www.wowhead.com/item=193757) (Trained)  
+**C-Tier**| [Lightspire Core](https://www.wowhead.com/item=250214)  
+[Vile Vial of Volatile Venom](https://www.wowhead.com/item=273796)  
+[Tiny Electromental in a Jar](https://www.wowhead.com/item=158374)  
+[Tattered Amani War Banner](https://www.wowhead.com/item=273797)  
+**Junkyard**| [Ruby Whelp Shell](https://www.wowhead.com/item=193757) (Untrained)
 
 ### Embellishments
 
-* 2x [Arcanoweave Lining](https://www.wowhead.com/item=240167) is the best combination.
-  * [Darkmoon Sigil: Hunt](https://www.wowhead.com/item=245876)
-    * Can only be crafted on weapons, so if you decide to craft a weapon you can have [Darkmoon Sigil: Hunt](https://www.wowhead.com/item=245876) on it, and ideally you will combine this with another embellishment.
-
-#### Honorable mention
-
-* [Signet of Azerothian Blessings](https://www.wowhead.com/item=241140)
-  * [Stabilizing Gemstone Bandolier](https://www.wowhead.com/item=251490) _\-- Combined with the[Signet of Azerothian Blessings](https://www.wowhead.com/item=241140)_.
+* [Hunter's Ritual Stone](https://www.wowhead.com/item=273060) is currently the most powerful embellish. This can however only be crafted on weapons, so depending on what items your character might have/need crafting 1 or 2 weapons with this embellishment will likely be the best option.
+  * [Adorned Fang](https://www.wowhead.com/item=273069) is the 2nd strongest embellishment, and can be crafted on normal armor pieces. This makes for a more versatile embellishment since it can go on any slot, and you might be able to craft in an item slot that benefits your character more.
+  * [Arcanoweave Lining](https://www.wowhead.com/item=240167) Similar to [Adorned Fang](https://www.wowhead.com/item=273069), but seems to output slightly lower DPS numbers.
 
 #### Remaining Sparks
 
-* Crafted items are 285 item level and regular items are 289 on max item level, therefore, it's a small loss to equip crafted items outside of your 2x Embellishments unless you don't have access to other high item level gear on that slot.
+* Crafted items are 331 item level and regular items are 334 on max item level, therefore, it's a small loss to equip crafted items outside of your 2x Embellishments unless you don't have access to other high item level gear on that slot.
 
 ### Simcraft
 
@@ -800,7 +843,7 @@ To find the best combination of gear available to you or identify the best possi
   * **Combat Potion**
     * **[Potion of Recklessness](https://www.wowhead.com/item=241288)**
   * **Health Potion**
-    * **[Silvermoon Health Potion](https://www.wowhead.com/item=241304) _\-- a big burst of healing_**
+    * **[Concentrated Silvermoon Health Potion](https://www.wowhead.com/item=271884) _\-- a big burst of healing_**
   * **Weapon**
     * **[Thalassian Phoenix Oil](https://www.wowhead.com/item=243734)**
   * **Augment Rune**
@@ -814,23 +857,23 @@ To find the best combination of gear available to you or identify the best possi
 
 ### Enchantments
 
-Head| [Enchant Helm - Empowered Rune of Avoidance](https://www.wowhead.com/item=244007) & [Radiant Jewelbinder](https://www.wowhead.com/item=263897)  
+Head| [Enchant Helm - Empowered Rune of Avoidance](https://www.wowhead.com/item=244007) & [Miasmic Jewelbinder](https://www.wowhead.com/item=275707)  
 ---|---  
 Shoulder| [Enchant Shoulders - Amirdrassil's Grace](https://www.wowhead.com/item=243991)  
 Chest| [Enchant Chest - Mark of the Worldsoul](https://www.wowhead.com/item=243977)  
-Wrist| [Radiant Jewelbinder](https://www.wowhead.com/item=263897)  
-Waist| [Radiant Jewelbinder](https://www.wowhead.com/item=263897)  
+Wrist| [Miasmic Jewelbinder](https://www.wowhead.com/item=275707)  
+Waist| [Miasmic Jewelbinder](https://www.wowhead.com/item=275707)  
 Legs| [Forest Hunter's Armor Kit](https://www.wowhead.com/item=244641)  
 Boots| [Enchant Boots - Lynx's Dexterity](https://www.wowhead.com/item=243953)  
-Ring 1| [Enchant Ring - Nature's Fury](https://www.wowhead.com/item=243987)  
-Ring 2| [Enchant Ring - Nature's Fury](https://www.wowhead.com/item=243987)  
+Ring 1| [Enchant Ring - Eyes of the Eagle](https://www.wowhead.com/item=243957)  
+Ring 2| [Enchant Ring - Eyes of the Eagle](https://www.wowhead.com/item=243957)  
 Weapon| 2x [Enchant Weapon - Jan'alai's Precision](https://www.wowhead.com/item=243971)
 
-[Maxroll paperdoll import](https://backend.maxroll.gg/wow/embed-tools/paperdoll=IwFZBJQ9NGQAnk7ACAAAAktBEEwF5OAAAAAABkQDIgQ2GQQBQQQo7mAGEEPuJgQEYAwENgSEIgyA5OAAAAAABMQuDA)
+[Maxroll paperdoll import](https://backend.maxroll.gg/wow/embed-tools/paperdoll=IwFZBJQ9NGQA7TDBCAAAAcSuDEwF5OAAAAAABkQDIgw-0QQBQQQo7mAGEEPuJgQEYAQ9NAREIgyA5OAAAAAABMQuDA)
 
 **Havoc Demon Hunter** **Enchantments in Raid
 
-> You buy [Radiant Jewelbinder](https://www.wowhead.com/item=263897) from the Great Vault Vendor to add sockets to your **Helm** , **Wrists** & **Waist**.
+> You buy [Miasmic Jewelbinder](https://www.wowhead.com/item=275707) from the Great Vault Vendor to add sockets to your **Helm** , **Wrists** & **Waist**.
 
 For min-maxing a **Havoc Demon Hunter** in raiding, different racial traits can provide combat benefits to your characters. If this is not your top goal, picking a race that fits your style works just as well.
 
@@ -845,7 +888,7 @@ For min-maxing a **Havoc Demon Hunter** in raiding, different racial traits can 
 
 ### Recommendation
 
-It does not really matter which Race you chose for **Havoc Demon Hunter** , as dps differences are marginal, it is however advised to go Bloodelf as it is usually ever so slightly higher dps. Also [Arcane Torrent](https://www.wowhead.com/spell=202719) might come in handy in some situations where you need a quick AoE purge and can be used to gain 15 Fury while you are fury starved or out of range of any target in combat.
+It does not really matter which Race you chose for **Havoc Demon Hunter** , as dps differences are marginal, it is however advised to go Blood Elf for raid as it is usually ever so slightly higher dps, and Night Elf for M+ as it provides the superior utility for this type of content with the correct use of [Shadowmeld](https://www.wowhead.com/spell=58984). Remember if you are Blood Elf, [Arcane Torrent](https://www.wowhead.com/spell=202719) might come in handy in some situations where you need a quick AoE purge, or it can be used to gain 15 Fury while you are fury starved or out of range of any target in combat.
 
 Discover recommended macros for **Havoc Demon Hunter** **during Raid encounters and watch a quick video guide on creating simple macros for your character.
 
@@ -893,9 +936,9 @@ Discover recommended macros for **Havoc Demon Hunter** **during Raid encounters 
 
 Below, you see a screenshot of the author's User Interface for their **Havoc Demon Hunter**.
 
-![](https://assets-ng.maxroll.gg/wordpress/Havoc-UI-maxroll-1024x608.png)Verb's UI for **Havoc Demon Hunter**
+![](https://assets-ng.maxroll.gg/wordpress/Skjermbilde-2026-08-08-020134-1024x575.png)Verb's UI for **Havoc Demon Hunter**
 
-Addons can be very helpful both inside and outside of combat. The addons listed below are often considered most essential to any raider.
+Addons can be very helpful both inside and outside of combat. Some of the addons listed below are often considered most essential to any high end player.
 
 **Addons**
 
@@ -903,113 +946,32 @@ Addons can be very helpful both inside and outside of combat. The addons listed 
     * Helpful addon for Raiders, especially for Raid leaders and officers.
   * **BigWigs** ___\--_ Generic Boss Mod_ _
     * BigWigs is a boss encounter add-on. It consists of many individual encounter scripts, or boss modules; mini add-ons that are designed to trigger alert messages, timer bars, sounds, and so forth, for one specific Raid encounter.
-  * **Plater** __\-- Advanced Nameplates__
-    * Plater is a nameplate addon with an extraordinary amount of settings, personalized design, out of the box debuff tracking, threat coloring, and support for scripting.
-  * **Details** \-- Advanced Damage Meter
-    * A useful addon for skinning and enhancing the features of the regular damage meter.
-  * **BetterCDM** \-- Better Cooldown Manager
-    * Improves the Blizzard Cooldown Manager, allowing for both visual improvements as well as functional ones. Most notable are improved buff tracking and ability for extra bars for spell/trinkets or other items.
+  * **EllesmereUI** \-- All rounder UI addon
+    * A user interface designed around user-friendliness with extra features that are not included in the standard UI.
 
-**Patch 12.0**
+**Patch 12.1**
 
 **DEMON HUNTER**
 
-* **Hero Talents**
-    * **Aldrachi Reaver**
-      * New Talent: Broken Spirit
-        * Havoc: The Hunt shatters 1 Soul Fragment. Blade Dance and Chaos Strike have a 20% chance to shatter a Soul Fragment.
-        * Vengeance: Sigil of Spite shatters 1 Soul Fragment. Soul Cleave has a 20% chance to shatter a Soul Fragment.
-      * New Talent: Keen Edge – Reaver's Glaive damage is increased by 20% and other Physical-only damage is increased by 10%.
-      * New Talent: Bladecraft
-        * Havoc: Fury of the Aldrachi further empowers Blade Dance when cast after Chaos Strike, increasing slashes to 12. Reaver's Mark now stacks up to 3 times and further empowers Chaos Strike when cast after Blade Dance, applying an additional stack.
-        * Vengeance: Fury of the Aldrachi further empowers Soul Cleave when cast after Fracture, increasing slashes to 12. Reaver's Mark now stacks up to 3 times and further empowers Fracture when cast after Soul Cleave, applying an additional stack.
-      * Some talents have changed positions in the talent tree.
-      * **Havoc**
-        * Thrill of the Fight has been redesigned – After consuming both enhancements gain Thrill of the Fight, increasing the damage of your next Reaver's Glaive by 30% and increasing Haste by 6% for 30 seconds.
-        * Fury of the Aldrachi damage reduced by 18% and now deals reduced damage beyond 8 targets.
-    * **Fel-Scarred/Void-Scarred**
-      * Devourer Demon Hunters can activate the Void-Scarred Hero Talent tree.
-      * Vengeance Demon Hunters can activate the Annihilator Hero Talent tree instead of the Fel-Scarred Hero Talent tree.
-      * New Talent: Blind Focus
-        * Devourer: Cosmic damage increased by 3%. Effect is doubled while in demon form.
-        * Havoc: Fire damage increased by 5%. Effect is doubled while in demon form.
-      * New Talent: Undying Embers
-        * Devourer: Soul Immolation has a 25% chance to reignite after it expires, reapplying its effect.
-        * Havoc: Immolation Aura has a 25% chance to reignite after it expires, reapplying its effect.
-      * New Talent: Volatile Instinct
-        * Devourer: Entering demon form immediately causes your next Voidsurge to repeat after a short delay.
-        * Havoc: Entering demon form immediately induces a Demonsurge.
-      * Student of Suffering effect now applied upon activating Eye Beam (was Sigil of Flame).
-      * **Havoc**
-        * Demonsurge now deals Chaos damage (was Fire).
-        * Demonsurge damage reduced by 15% and damage increase per stack reduced to 5% (was 10%).
-        * Demonsurge now always empowers Blade Dance and Chaos Strike when entering demon form (e.g. via Demonic effect) even if Metamorphosis is already active.
-        * Burning Blades effect now also includes the First Blood portion Blade Dance's damage.
-        * Burning Blades effect reduced to 35% of listed ability damage (was 50%).
-  * **Class**
-    * New Talent: Focused Ire – The primary target of Chaos/Void Nova is stunned for an additional 2 seconds.
-    * New Talent: Demonic Resilience – Demon Spikes/Blur gains 1 additional charge.
-    * New Talent: Burn It Out – Immolation Aura additionally dispels 1 Disease effect.
-    * New Talent: Soul Cleanse – Immolation Aura additionally dispels 1 Curse effect.
-    * New Talent: Remorseless – Attacks and abilities that spend Fury deal 3% increased damage.
-    * New Talent: Furious – Attacks and abilities that generate Fury deal 3% increased damage.
-    * New Talent: First In, Last Out – Fel Rush/Infernal Strike/Shift grants you a rapidly decaying shield for 6% of your maximum health.
-    * New Talent: Soul Splitter – Any time you would generate one or more Soul Fragments, you have a 2%/4% chance to generate an additional Soul Fragment.
-    * New Talent: Felbound – Your movement speed is increased by 3%. Available to Vengeance and Havoc only (replaced by Guile for Devourer).
-    * Will of the Illidari has been updated – Increases maximum health by 3%/6%.
-    * Illidari Knowledge has been updated – Reduces magic damage taken by 3%/6%.
-    * Aura of Pain has been updated – Now causes Soul Immolation to grant 5 additional Fury over its duration for Devourer Demon Hunters.
-    * Erratic Felheart has been updated – Now reduces the cooldown of Fel Rush, Shift, and Infernal Strike by 1 second/2 seconds (was 10%/20%).
-    * Demon Muzzle has been updated – Interrupting a spell with Disrupt decreases your magic damage taken by 15% for 12 seconds.
-    * Improved Sigil of Misery has been updated – Now also reduces Sigil of Chain's cooldown when learned.
-    * Felblade now generates 15 Fury (was 40).
-    * Infernal Armor damage increased by 100%.
-    * Wings of Wrath speed bonus reduced to 10% (was 40%).
-    * Sigil of Flame is now a Vengeance only ability (was all specializations).
-    * References to “Lesser Soul Fragments” have been replaced with “Soul Fragments” in relevant tooltips.
-      * _Developers' notes: Lesser Soul Fragments have been the “default” soul fragment for quite some time, so we're simplifying the name of the fragments across all Demon Hunter specializations. Greater Soul Fragments will remain Greater._
-    * Pursuit icon has been updated.
-    * Several talents have changed positions in the talent tree.
-    * The following talents have been removed:
-      * Chaos Fragments
-      * Collective Anguish _(moved to Havoc talent tree)_
-      * Demonic _(moved to Havoc talent tree)_
-      * Flames of Fury
-      * Precise Sigils
-      * Quickened Sigils _(moved to Vengeance talent tree)_
-      * Rush of Chaos
-      * Sigil of Spite _(moved to Vengeance talent tree)_
-      * Soul Sigils _(moved to Vengeance talent tree)_
-      * The Hunt _(moved to Havoc talent tree)_
-  * **Havoc**
-    * Desperate Instincts has been redesigned – Blur now reduces damage taken by an additional 10%. Additionally, damage taken below 35% Health is reduced by 10%.
-    * Essence Break has been redesigned – Slash all enemies in front of you for Chaos damage, causing Chaos Strike and Blade Dance to deal additional Chaos damage to them for 4 seconds. Deals reduced damage beyond 8 targets.
-    * Glaive Tempest has been redesigned – The final slash of Blade Dance consumes 25 Fury when it strikes 3 or more enemies, launching two demonic glaives in a whirlwind of energy, causing Chaos damage over 3 seconds to all nearby enemies. Damage reduced beyond 8 targets.
-    * The Hunt has been updated – No longer causes you to heal for a percentage of the damage you deal to The Hunt's target.
-    * The Hunt damage increased by 10%.
-    * All damage reduced by 8%.
-    * Melee auto-attack damage now increased by 250%.
-    * Demon Blades now automatically overrides Demon's Bite.
-    * Demon Blades damage increased by 150%.
-    * Demon Blades now generates 8-15 Fury (was 7-12).
-    * Blade Dance damage increased by 10%.
-    * Eye Beam damage increased by 10%.
-    * Eye Beam cooldown reduced to 30 seconds (was 40 seconds).
-    * Blind Fury now causes Eye Beam to generate 30 Fury per second (was 40).
-    * Cycle of Hatred now reduces Eye Beam cooldown by 2.5 seconds per stack (was 5 seconds), stacking up to 10 seconds (was 20 seconds).
-    * Blur now reduces damage taken by 25% (was 20%) and no longer increases Dodge chance.
-    * Furious Gaze effect now grants 8% Haste for 8 seconds (was 10% for 10 seconds).
-    * A Fire Inside effect now reduces the cooldown of Immolation Aura by 6 seconds instead of a 30% chance to refund a charge when cast.
-    * Collective Anguish, Demonic, and The Hunt have moved to the Havoc talent tree (was class talents).
-    * Several talents have changed positions in the talent tree.
-    * The following talents and skills have been removed:
-      * Fel Barrage
-      * Fel Eruption
-      * Looks Can Kill
-      * Improved Fel Rush
-      * Insatiable Hunger
-      * Netherwalk
-      * Restless Hunter
+* **Havoc**
+    *  _Developers' notes: The following changes to Fury generation are a small overall increase, paced more smoothly and relying less heavily on Immolation Aura's talent effects._
+    * Demon Blades, Blade Dance, and Chaos Strike now require equipped Warglaives, Axes, Swords, and Fist Weapons.
+    * New Talent: Never Say Die – Damage increased by 3% while above 50% Health. Leech increased by 5% while below 50% Health.
+    * Trail of Ruin has been updated – Damage is now applied immediately, rather than as a damage over time effect over 4 seconds.
+    * Serrated Glaive has been updated – Effect is now a buff on the Demon Hunter with a 12 second duration, rather than a debuff on enemy targets with a 15 second duration.
+    * Blade Dance damage increased by 6%.
+    * Death Sweep damage increased by 6%.
+    * Chaos Strike damage increased by 6%.
+    * Annihilation damage increased by 6%.
+    * The Hunt damage increased by 12%.
+    * Immolation Aura damage reduced by 8%.
+    * Essence Break initial damage increased by 49%.
+    * Burning Hatred now causes Immolation Aura to generate an additional 30 Fury (was 40).
+    * Demon Blades now generates 10-16 Fury per attack (was 8-15).
+    * Blind Fury now causes Eye Beam to generate 10/20 Fury per second (was 15/30 Fury).
+    * Inertia now increases damage by 12% for 6 seconds (was 18% for 5 seconds).
+    * Inner Demon has moved and is now a choice node option with Chaos Theory (was a choice node option with Chaotic Transformation).
+    * Dash of Chaos has been removed.
 
 **Q: Is it worth holding my [Eye Beam](https://www.wowhead.com/spell=112939) for X?**
 
@@ -1022,6 +984,12 @@ Written By: **Verb**
 Reviewed by: **Tief**
 
 ## Changelog
+
+Aug 8th 2026
+
+`Updated for patch 12.1 `
+
+* * *
 
 Jun 19th 2026
 

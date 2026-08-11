@@ -1,16 +1,22 @@
 ---
-title: Warrior Arms — talent tree (12.0.7)
-patch: 12.0.7
-build: 12.0.7.67808
-fetched: 2026-06-19
-reviewed: 2026-07-07
+title: Warrior Arms — talent tree (12.1.0)
+patch: 12.1.0
+build: 12.1.0.68914
+fetched: 
 sources:
   - https://us.api.blizzard.com/data/wow/talent-tree (Blizzard Game Data API, Tier 1)
-  - https://wago.tools/db2 Trait* @ 12.0.7.67808 (Tier 1)
+  - https://wago.tools/db2 Trait* @ 12.1.0.68914 (Tier 1)
 confidence: high
 ---
+> **Build provenance.** This file was generated from the Blizzard Game Data API and
+> wago `Trait*` DB2 at build **12.1.0.68914**, which is what the API's `static-12.1.0`
+> namespace reported on 2026-08-11. The live client that day was **12.1.0.69214**. The
+> `Trait*` DB2 exports at the two builds are **byte-identical** (verified by md5 on
+> `TraitNodeEntry`), so this data is valid for live 12.1 — cite it as **@ 12.1.0.68914**,
+> not 69214.
 
-# Warrior Arms — talents (12.0.7)
+
+# Warrior Arms — talents (12.1.0)
 
 > Generated from `knowledge/classes/_talents/all-talents.tsv`. Spell IDs are the talent's granted spell. Choice nodes show both options as `A / B`. See `_talents/README.md` for the schema.
 
@@ -25,25 +31,25 @@ confidence: high
 | Thunder Clap | 6343 | 1 | ACTIVE | 3,5 | — | 92537 |
 | Leeching Strikes | 382258 | 1 | PASSIVE | 3,7 | — | 92537 |
 | Impending Victory | 202168 | 1 | ACTIVE | 4,2 | — | 90344,90328 |
-| Heroic Leap | 6544 | 1 | ACTIVE | 4,4 | — | 90328,90343 |
+| Heroic Leap | 6544 | 1 | ACTIVE | 4,4 | — | 90343,90328 |
 | Crackling Thunder | 203201 | 1 | PASSIVE | 4,5 | — | 90343 |
 | Storm Bolt | 107570 | 1 | ACTIVE | 4,6 | — | 90371,90343 |
 | Rend | 772 | 1 | ACTIVE | 5,1 | — | 90344,90326 |
 | Second Wind | 29838 | 1 | PASSIVE | 5,2 | — | 90326 |
 | Frothing Berserker | 392792 | 1 | PASSIVE | 5,3 | — | 90328,90326,90346 |
 | Bounding Stride | 202163 | 1 | PASSIVE | 5,4 | — | 90346 |
-| Pain and Gain | 382549 | 1 | PASSIVE | 5,5 | — | 90346,90337 |
+| Pain and Gain | 382549 | 1 | PASSIVE | 5,5 | — | 90337,90346 |
 | Intervene / Interpose | 3411 / 1244088 | 1/1 | CHOICE | 5,7 | — | 90337,90371 |
 | Shockwave | 46968 | 1 | ACTIVE | 6,2 | 8 | 109391,90352 |
 | Overwhelming Rage | 382767 | 1 | PASSIVE | 6,3 | 8 | 90352 |
 | Rallying Cry | 97462 | 1 | ACTIVE | 6,4 | 8 | 90353,90352 |
 | Field Dressing | 1271926 | 1 | PASSIVE | 6,5 | 8 | 90353 |
-| Spell Reflection | 23920 | 1 | ACTIVE | 6,6 | 8 | 90353,108676 |
+| Spell Reflection | 23920 | 1 | ACTIVE | 6,6 | 8 | 108676,90353 |
 | Wrecking Throw / Shattering Throw | 384110 / 64382 | 1/1 | CHOICE | 7,1 | 8 | 90375,109391 |
 | Rumbling Earth | 275339 | 1 | PASSIVE | 7,2 | 8 | 90375 |
-| Berserker Shout / Fearless | 384100 / 1271925 | 1/1 | CHOICE | 7,3 | 8 | 90331,90375 |
-| Intimidating Shout / Piercing Howl | 5246 / 12323 | 1/1 | CHOICE | 7,5 | 8 | 90331,90385 |
-| Honed Reflexes | 391271 | 1 | PASSIVE | 7,7 | 8 | 90385,108676 |
+| Berserker Shout / Fearless | 384100 / 1271925 | 1/1 | CHOICE | 7,3 | 8 | 90375,90331 |
+| Intimidating Shout / Piercing Howl | 5246 / 12323 | 1/1 | CHOICE | 7,5 | 8 | 90385,90331 |
+| Honed Reflexes | 391271 | 1 | PASSIVE | 7,7 | 8 | 108676,90385 |
 | Armored to the Teeth | 384124 | 2 | PASSIVE | 8,2 | 8 | 90351,90348 |
 | Double Time | 103827 | 1 | PASSIVE | 8,4 | 8 | 108705,90348 |
 | Reinforced Plates | 382939 | 2 | PASSIVE | 8,6 | 8 | 95956,108705 |
@@ -51,12 +57,12 @@ confidence: high
 | Javelineer | 1271948 | 1 | PASSIVE | 9,3 | 23 | 90366,90382 |
 | Resonant Voice | 1243660 | 1 | PASSIVE | 9,5 | 23 | 90382,90368 |
 | Crushing Force | 382764 | 1 | PASSIVE | 9,7 | 23 | 90368 |
-| Cruel Strikes | 392777 | 2 | PASSIVE | 10,2 | 23 | 110118,90347 |
+| Cruel Strikes | 392777 | 2 | PASSIVE | 10,2 | 23 | 90347,110118 |
 | Two-Handed Weapon Specialization | 382896 | 2 | PASSIVE | 10,4 | 23 | 110118,108685 |
-| Wild Strikes | 382946 | 2 | PASSIVE | 10,6 | 23 | 108685,108686 |
+| Wild Strikes | 382946 | 2 | PASSIVE | 10,6 | 23 | 108686,108685 |
 | Anger Management | 152278 | 1 | PASSIVE | 11,1 | 23 | 90381 |
 | Champion's Spear | 376079 | 1 | ACTIVE | 11,3 | 23 | 90322,90381 |
-| Stance Mastery | 1280961 | 1 | PASSIVE | 11,5 | 23 | 90360,90322 |
+| Stance Mastery | 1280961 | 1 | PASSIVE | 11,5 | 23 | 90322,90360 |
 | Battlefield Commander | 424742 | 1 | PASSIVE | 11,7 | 23 | 90360 |
 
 ## Spec tree
@@ -76,28 +82,27 @@ confidence: high
 | Colossus Smash | 167105 | 1 | ACTIVE | 6,18 | 8 | 90279,90273 |
 | Impale | 383430 | 1 | PASSIVE | 6,20 | 8 | 90273,90267 |
 | Brute Force / Efficiency | 1261046 / 1261047 | 1/1 | CHOICE | 7,15 | 8 | 90282 |
-| Overpowering Finish | 400205 | 1 | PASSIVE | 7,16 | 8 | 90282 |
+| Overpowering Finish / Mass Execution | 400205 / 1273075 | 1/1 | CHOICE | 7,16 | 8 | 90282 |
 | Strength of Arms | 400803 | 2 | PASSIVE | 7,17 | 8 | 90282,90290 |
 | Just Warming Up / Broad Strokes | 1261048 / 1261049 | 1/1 | CHOICE | 7,18 | 8 | 90290 |
 | Sharpened Blades | 383341 | 2 | PASSIVE | 7,19 | 8 | 90292,90290 |
 | Cleave | 845 | 1 | ACTIVE | 7,20 | 8 | 90292 |
-| Improved Sweeping Strikes / Powerful Momentum | 383155 / 1261050 | 1/1 | CHOICE | 7,21 | 8 | 90292 |
+| Powerful Momentum | 1261050 | 1 | PASSIVE | 7,21 | 8 | 90292 |
 | Martial Prowess | 1273062 | 1 | PASSIVE | 8,15 | 8 | 92614,109681 |
 | Dreadnaught | 262150 | 1 | PASSIVE | 8,16 | 8 | 92614,109687 |
 | Deep Wounds | 1261060 | 1 | PASSIVE | 8,17 | 8 | 109687 |
 | Tactical Edge / Crushing Combo | 1261051 / 1261056 | 1/1 | CHOICE | 8,18 | 8 | 109686 |
 | Massacre | 281001 | 1 | PASSIVE | 8,19 | 8 | 90447 |
-| Mass Execution | 1273075 | 1 | PASSIVE | 8,20 | 8 | 90447,90293 |
-| Collateral Damage | 334779 | 1 | PASSIVE | 8,21 | 8 | 92536,90293 |
+| Collateral Damage | 334779 | 1 | PASSIVE | 8,20 | 8 | 92536,90293,90447 |
 | Bloodborne | 383287 | 2 | PASSIVE | 9,16 | 20 | 90285,109680,109684 |
 | Bladestorm / Ravager | 227847 / 228920 | 1/1 | CHOICE | 9,18 | 20 | 90291,109684,109683 |
-| Critical Thinking | 389306 | 2 | PASSIVE | 9,20 | 20 | 90291,110175,109682 |
-| Battlelord | 386630 | 1 | PASSIVE | 10,15 | 20 | 90283 |
+| Critical Thinking | 389306 | 2 | PASSIVE | 9,20 | 20 | 109682,90291 |
+| Master Tactician | 1261057 | 1 | PASSIVE | 10,15 | 20 | 90283 |
 | Bloodletting | 383154 | 1 | PASSIVE | 10,17 | 20 | 90441,90283 |
 | Executioner's Precision | 386634 | 1 | PASSIVE | 10,19 | 20 | 90444,90441 |
 | Fatality | 383703 | 1 | PASSIVE | 10,21 | 20 | 90444 |
-| Master Tactician | 1261057 | 1 | PASSIVE | 11,16 | 20 | 90438,92615 |
-| Mortal Wounds | 1261062 | 1 | PASSIVE | 11,18 | 20 | 90445,90438 |
+| Battlelord | 386630 | 1 | PASSIVE | 11,16 | 20 | 90438,92615 |
+| Mortal Wounds | 1261062 | 1 | PASSIVE | 11,18 | 20 | 90438,90445 |
 | Avatar | 107574 | 1 | ACTIVE | 11,20 | 20 | 90439,90445 |
 | Master of Warfare | 1269314 | 1 | ACTIVE | 12,18 | 20 | — |
 

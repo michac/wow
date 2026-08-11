@@ -1,18 +1,27 @@
 ---
 title: Havoc Demon Hunter Raid Guide
 patch: 12.0.7
-fetched: 2026-07-14
-reviewed: 2026-07-14
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
   - https://maxroll.gg/wow/class-guides/havoc-demon-hunter-raid-guide (maxroll.gg, Tier 3)
 confidence: medium
 verbatim: true          # unedited external capture — distill on read, not on insert
 source: maxroll.gg
 author: verb
-maxroll_updated: 2026-06-19   # source's last-modified (staleness signal)
+maxroll_updated: 2026-08-11   # source's last-modified (staleness signal)
+kb_caveat: |
+  ⚠ CAPTURED ON 12.1 PATCH DAY (2026-08-11) AND PARTIALLY STALE. The guide's own
+  header says 12.1, but the body still references talents that 12.1 REMOVED:
+  Dash of Chaos.
+  Verified absent from the live talent trees (Tier 1: Blizzard Game Data API +
+  wago.tools Trait* DB2, knowledge/classes/_talents/all-talents.tsv @ 12.1.0).
+  Affliction also GAINED Hedonic Gorging and Impetuous Wrath, which this capture
+  predates. Treat every talent/build recommendation here as pre-12.1 until the
+  author re-publishes. Distil on read — do not lift builds from this file as-is.
 ---
 
-Welcome to the **Havoc Demon Hunter** Raid guide for the World of Warcraft patch 12.0.7! This guide covers everything you need to know to understand your character! Are you starting out and leveling up from 80? Check out the leveling guide!
+Welcome to the **Havoc Demon Hunter** Raid guide for the World of Warcraft patch 12.1! This guide covers everything you need to know to understand your character! Are you starting out and leveling up from 80? Check out the leveling guide!
 
 Single-Target 
 
@@ -34,7 +43,7 @@ Mobility
 
 Excellent
 
-[Maxroll paperdoll import](https://backend.maxroll.gg/wow/embed-tools/paperdoll=IMoA8FkA3_fABEL0DIICBAwJ5OwVtOggCoSABMAGEAICBAADN8APvC9ACgQAAcRuDIoAhEQA0mwDAkQDPgg_XQgLtAABg3cBtQQo7mQLEYizF8ACxj7AFwDbgt7AEiQAA4BwDciqDwQrDIyLdEQAyC9AAgQAAUQIA8TCNSwE5GgHFIBCsSvAB8ZHSARp0LAAQEAMcYVNqEQA_38Ad4ABogaBwRwJqmwWcgT-DIAEBAwABwaBuwDwNPgAQEAADk7ACKgV1oSA)
+[Maxroll paperdoll import](https://backend.maxroll.gg/wow/embed-tools/paperdoll=JQpAIGkA3_fABMgJEIIEBAwJ5OADtOggCchNYFQApfBBAERAAcVrJQBXMWDWBEwrkQgAIUAAXk7ACKgTBY9FEEAtJIBAJkgEogcpDEA4XQAgIEAAFkEDYFQAwmQIMF6uDIoAYFQwXQQAf5mACgQAAEPuFUEMBA2uDQICBAQrqQgHAHwakdbNLFQAySCBAgQAAIoAOFQAZfBBCiQAAUPuB4RBSggnqJgOSAAGf9BBAgwAAEwYcUAABo0FCEQXBIRACBBWBEQ3XkhTIE7FEEgfEMQuFAJUBARoDYACBAgHAPwA5OApqQwt1sUA)
 
 **Havoc Demon Hunter** ** Raid Best in Slot
 
@@ -123,27 +132,27 @@ Following you receive a list of meaningful class changes going from The War With
 
 **[Fel-Scarred](https://www.wowhead.com/spell=123329) Single-Target**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAjvgk5YFHsQU34mAAeg-_2aGMzMjZMzMzMMZMzAAAAAAAmNjZbmxMzsNzM2mt5BmhxwYZglZxMGmNNNmZGDbAAAAAAIAYmBDABAAG)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAIo1c2KfIEsPoy9fznypG4ZAzMz2MmZmZmZmMmZAAAAAAAzmZmtZgxyMzYZm5BmZWmZWGjB2mFzYY200wMjhNAAAAAAEAMzgBgAAADA)
 
 [Fel-Scarred](https://www.wowhead.com/spell=123329) **Havoc Demon Hunter** Single-Target talents in Raids
 
-* These are the recommended talents focused on maximizing single target/priority target damage.
+* These talents are purely focused on maximizing single target/priority target damage.
 
 **[Fel-Scarred](https://www.wowhead.com/spell=123329) Multi-Target**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAjvgk5YFHsQU34mAAeg-_2amZmZmZ2mxMzMmZmMmZAAAAAAAzixsNDzMz2YGbz2YGGDjlBWmNzYY200YmZMsBAAAAAgAgZGMAEAAY)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAIo1c2KfIEsPoy9fznypG4ZmZGzMz2MmZmZGzkxMDAAAAAAYWMmtZYmBmxyMzMDzMYWGYZ2MjhZTTjZmxwGAAAwAAQAwMDGACAAM)
 
 [Fel-Scarred](https://www.wowhead.com/spell=123329) **Havoc Demon Hunter** Multi-Target talents in Raids
 
-* These talents are focused on dealing massive amounts of AoE damage. Important to note that the Single-Target DPS is substantially lower with these talents.
+* These talents are focused on dealing massive amounts of AoE damage, which happens passively around you and your priority target. A good choice for any bosses where there are multiple targets, or there are important adds that needs to be killed.
 
 **[Aldrachi Reaver](https://www.wowhead.com/spell=123330) Single-Target**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAjvgk5YFHsQU34mAAeg-_2aGMzMjZMzMzMMZMzAAAAAAAmNjZbmxMzsNzMWmtxMWGzYsMz2MYYssxkMmZMsAAAAAAgAMzAMAEAAYA)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAIo1c2KfIEsPoy9fznypG4ZGMzMz2MmZmZGzkxMDAAAAAAY2MmlZYmZ2mZGLzMmhZGmZZmtZwwYbjJZMzYYBAAAAAABYmBYAIAAwA)
 
 [Aldrachi Reaver](https://www.wowhead.com/spell=123330) **Havoc Demon Hunter** Single-Target talents in Raids
 
-* The [Aldrachi Reaver](https://www.wowhead.com/spell=123330) variant is useful when multiple targets are present and you mostly care about priority damage on 1-2 targets.
+* The [Aldrachi Reaver](https://www.wowhead.com/spell=123330) variant is what supplies Havoc with it's renowned funnel damage. This is especially useful when multiple targets are present and you mostly care about priority damage on 1-2 targets.
 
 ### Gameplay Altering Talents
 
@@ -179,10 +188,10 @@ When entering [Demonic](https://www.wowhead.com/spell=213410) with [Metamorphosi
 
 ### Tier Set
 
-Check out all the [Midnight Season 1 Tier Sets](https://maxroll.gg/wow/resources/midnight-season-1-tier-sets)!
+Check out all the [**Midnight Season 2 Tier Sets**](https://maxroll.gg/wow/resources/midnight-season-2-tier-sets)!
 
-* **2-Set:** **[Blade Dance](https://www.wowhead.com/spell=188499) damage increased by 15%.
-  * **4-Set:** **Your haste is increased by an additional 6% during [Metamorphosis](https://www.wowhead.com/spell=162264).
+* **2-Set:** **[Blade Dance](https://www.wowhead.com/spell=188499), [Chaos Strike](https://www.wowhead.com/spell=162794), and [Essence Break](https://www.wowhead.com/spell=112956) deal 12% increased damage.
+  * **4-Set:** **[Essence Break](https://www.wowhead.com/spell=112956) now applies and benefits from the effects of [Cycle of Hatred](https://www.wowhead.com/spell=112955), has 25% increased initial strike damage, and has 2 seconds of increased duration.
 
 ### Single-Target
 
@@ -192,11 +201,11 @@ Check out all the [Midnight Season 1 Tier Sets](https://maxroll.gg/wow/resources
 
 * The **Havoc Demon Hunter's** opener is very complex and it is important that you do it in this exact order to maximize your damage output.
 
-[Maxroll rotation import](https://backend.maxroll.gg/wow/embed-tools/rotation=I4YA42gQ3tvAAAwBQJXZwVHbsBgQVkaBAAAAAIU-ANAAAowVvASSuVmc0lWYBEAnuOAABoBB9VQCIQA60YDCAQw0SEAEsEgQJiwAAAgQYnnAAEgLIAg-CIDSAgAACheD4kAMwAgQ9VwAAAAAAI0d7LA)
+[Maxroll rotation import](https://backend.maxroll.gg/wow/embed-tools/rotation=IoHPNI0d7LAAAcAUyVGc1xGbAkwD0AQABwprDAAAAAgQVkaBFgAB9VQCQQALznACEgON2gAAEMtEBABKBIUiIMAAAIE25JQB2QA60EgFQAgQHeuBFABKTLxAAAAAAIUknbA)
 
 **Havoc Demon Hunter** Fel Scarred Single-target opener in Raids
 
-* If you are not talented into [Inertia](https://www.wowhead.com/spell=427641), you can simply skip the abilities in the opener needed to trigger [Inertia](https://www.wowhead.com/spell=427641).
+* If you are talented into [Inertia](https://www.wowhead.com/spell=427641), you will have to make sure to use [Felblade](https://www.wowhead.com/spell=213241) or [Fel Rush](https://www.wowhead.com/spell=195072) in order to trigger your [Inertia](https://www.wowhead.com/spell=427641).
 
 ### Priority List
 
@@ -220,11 +229,9 @@ This is a general priority you aim to maintain throughout the fight.
 
 * Below, you see an example of how your opener looks like using the recommended **Multi-Target talent spec**.
 
-[Maxroll rotation import](https://backend.maxroll.gg/wow/embed-tools/rotation=IYZA84gQ3tvAAAwBQJXZwVHbsBQCPgBAAIUFpWAABgAV5D0AAAgCX9CIJ5WZyRXahFQAc66AAEgGE0XBJgABoTjNIAABTLRAQgSAClICDAAAChdeCUgLIAg-CIDSAgAACheD4kAMwAgQ9VwAAAAAAI0d7LA)
+[Maxroll rotation import](https://backend.maxroll.gg/wow/embed-tools/rotation=IoHPNI0d7LAAAcAUyVGc1xGbAkwD0AQABwprDAAAAAgQVkaBFgAB9VQCQQALznACEgON2gAAEMtEBABKBIUiIMAAAIE25JQB2QA60EgFQAgQHeuBFABKTLxAAAAAAIUknbA)
 
 **Havoc Demon Hunter** Fel Scarred AoE opener in Raids
-
-* If you are not talented into [Inertia](https://www.wowhead.com/spell=427641), you can simply skip the abilities in the opener needed to trigger [Inertia](https://www.wowhead.com/spell=427641).
 
 ### Multi-Target Priority List
 
@@ -280,96 +287,110 @@ The following tips are mainly applicable to Heroic and Mythic Bosses.
 
 **← Scroll for more Bosses**→**
 
-**Chimaerus**
+**Nek'Zali**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAjvgk5YFHsQU34mAAeg-_2aGMzMjZMzMzMMZMzAAAAAAAmNjZbmxMzsNzM2mt5BmhxwYZglZxMGmNNNmZGDbAAAAAAIAYmBDABAAG)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAIo1c2KfIEsPoy9fznypG4ZmZGzMz2MmZmZGzkxMDAAAAAAYWMmtZYmBmxyMzMDzMYWGYZ2MjhZTTjZmxwGAAAwAAQAwMDGACAAM)
 
-**Havoc Demon Hunter** **Chimaerus
-
-### Boss Tips
-
-* Be ready to use your mobility to save your teammates from [Rift Madness](https://www.wowhead.com/spell=1264756).
-
-**Imperator Averzian**
-
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAjvgk5YFHsQU34mAAeg-_2aGMzMjZMzMzMMZMzAAAAAAAmNjZbmxMzsNzM2mt5BmhxwYZglZxMGmNNNmZGDbAAAAAAIAYmBDABAAG)
-
-**Havoc Demon Hunter** Imperator Averzian
+**Havoc Demon Hunter** **Nek'Zali
 
 ### Boss Tips
 
-* [Immolation Aura](https://www.wowhead.com/spell=472649) with [Soul Cleanse](https://www.wowhead.com/spell=1266496) talented can be used to dispell yourself of [Black Miasma](https://www.wowhead.com/spell=1275059).
+* Keep an eye on the [Possession Barrage](https://www.wowhead.com/spell=1284103) timer and make sure to never stand between the boss and your tank that the ability is targeted at.
+  * Try to look at corpses of the adds ahead of time to have an easier time reacting to the [Hungering Pyre](https://www.wowhead.com/spell=1294742) debuff that cleanses them.
 
-**Vorasius**
+**Entombed Sentinels**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAjvgk5YFHsQU34mAAeg-_2aGMzMjZMzMzMMZMzAAAAAAAmNjZbmxMzsNzM2mt5BmhxwYZglZxMGmNNNmZGDbAAAAAAIAYmBDABAAG)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAIo1c2KfIEsPoy9fznypG4ZGMzMz2MmZmZGzkxMDAAAAAAY2MmlZYmZ2mZGLzMmhZGmZZmtZwwYbjJZMzYYBAAAAAABYmBYAIAAwA)
 
-**Havoc Demon Hunter** **Vorasius
-
-### Boss Tips
-
-* Since many of your abilites cleave automatically, take care not to kill the adds before they are correctly positioned next to the walls.
-
-**Fallen-King Salhadaar**
-
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAjvgk5YFHsQU34mAAeg-_2aGMzMjZMzMzMMZMzAAAAAAAmNjZbmxMzsNzM2mt5BmhxwYZglZxMGmNNNmZGDbAAAAAAIAYmBDABAAG)
-
-**Havoc Demon Hunter** **Fallen-King Salhadaar
+**Havoc Demon Hunter** Entombed Sentinels
 
 ### Boss Tips
 
-* Make sure to use your frequent burst windows to kill off the orbs quickly.
-  * Use your plentiful cc toolkit to interrupt and stop the Fractured Images' casts.
+* Important to know that [Toxic Droplets](https://www.wowhead.com/spell=1284434) may also spawn on the opposite boss, so try not to stand between them and be careful whenever [Toxic Droplets](https://www.wowhead.com/spell=1284434) spawn.
+  * Keep an eye on the boss's energy and make sure to spread out whenever it is close to reaching 100 to have an easier time during the intermission.
+  * In general, be mindful of your positioning and play closer to the boss so you don't have to worry about the stacks of [Mark of Acid](https://www.wowhead.com/spell=1284494) and [Mark of Blood](https://www.wowhead.com/spell=1284503).
 
-**Vaelgor & Ezzorak**
+**Lost Explorers**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAjvgk5YFHsQU34mAAeg-_2aGMzMjZMzMzMMZMzAAAAAAAmNjZbmxMzsNzM2mt5BmhxwYZglZxMGmNNNmZGDbAAAAAAIAYmBDABAAG)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAIo1c2KfIEsPoy9fznypG4ZGMzMz2MmZmZGzkxMDAAAAAAY2MmlZYmZ2mZGLzMmhZGmZZmtZwwYbjJZMzYYBAAAAAABYmBYAIAAwA)
 
-**Havoc Demon Hunter** **Vaelgor & Ezzorak
-
-### Boss Tips
-
-* Make sure to use your AoE burst windows to kill off the adds quickly.
-
-**Lightblinded Vanguard**
-
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAjvgk5YFHsQU34mAAeg-_2amZmZmZ2mxMzMmZmMmZAAAAAAAzixsNDzMz2YGbz2YGGDjlBWmNzYY200YmZMsBAAAAAgAgZGMAEAAY)
-
-**Havoc Demon Hunter** **Lightblinded Vanguard
+**Havoc Demon Hunter** **Lost Explorers
 
 ### Boss Tips
 
-* This boss has many projectiles that you need to dodge. Focus on being aware of your surroundings so as not to [Fel Rush](https://www.wowhead.com/spell=192611) or [Vengeful Retreat](https://www.wowhead.com/spell=198793) into any dangerous mechanics.
+* Pay attention to [Shell Spin](https://www.wowhead.com/spell=1296062) casts to have an easier time dodging them.
+  * Do not oversoak [Throw Junk](https://www.wowhead.com/spell=1291934) as it applies a stacking **Bleed** debuff on you.
+  * Be careful around mushrooms from [Mushroom Toss](https://www.wowhead.com/spell=1292105) as they are consumed shortly after being used once.
 
-**Crown of the Cosmos**
+**Vashnik**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAjvgk5YFHsQU34mAAeg-_2aGMzMjZMzMzMMZMzAAAAAAAmNjZbmxMzsNzM2mt5BmhxwYZglZxMGmNNNmZGDbAAAAAAIAYmBDABAAG)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAIo1c2KfIEsPoy9fznypG4ZGMzMz2MmZmZGzkxMDAAAAAAY2MmlZYmZ2mZGLzMmhZGmZZmtZwwYbjJZMzYYBAAAAAABYmBYAIAAwA)
 
-**Havoc Demon Hunter** **Crown of the Cosmos
-
-### Boss Tips
-
-* Coming soon!
-
-**Belo'ren**
-
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAjvgk5YFHsQU34mAAeg-_2aGMzMjZMzMzMMZMzAAAAAAAmNjZbmxMzsNzM2mt5BmhxwYZglZxMGmNNNmZGDbAAAAAAIAYmBDABAAG)
-
-**Havoc Demon Hunter** **Belo'ren
+**Havoc Demon Hunter** **Vashnik
 
 ### Boss Tips
 
-* Use your mobility to soak [Radiant Echoes](https://www.wowhead.com/spell=1242981), and save your teammates from the [Infused Quills](https://www.wowhead.com/spell=1242260).
+* Always pre-spread whenever it's time for the [Plague Froth](https://www.wowhead.com/spell=1281907) debuff and try not to aim it at the boss if possible.
+  * Keep in mind that killing **Burning Venoms** applies a stacking debuff on you, so you want to avoid killing them at the same time.
 
-**Midnight Falls**
+**Sszorak**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAjvgk5YFHsQU34mAAeg-_2aGMzMjZMzMzMMZMzAAAAAAAmNjZbmxMzsNzM2mt5BmhxwYZglZxMGmNNNmZGDbAAAAAAIAYmBDABAAG)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAIo1c2KfIEsPoy9fznypG4ZGMzMz2MmZmZGzkxMDAAAAAAY2MmlZYmZ2mZGLzMmhZGmZZmtZwwYbjJZMzYYBAAAAAABYmBYAIAAwA)
 
-**Havoc Demon Hunter** **Midnight Falls
+**Havoc Demon Hunter** **Sszorak
 
 ### Boss Tips
 
-* Coming soon!
+* In case you fail to find a partner to deal with [Raging Crosswinds](https://www.wowhead.com/spell=1285419), keep in mind that you can also negate it with a [Shimmer](https://www.wowhead.com/spell=80163) or [Alter Time](https://www.wowhead.com/spell=80174).
+  * Very important to keep an eye on the [Venomous Surge](https://www.wowhead.com/spell=1305959) timer and, whenever it's close, scan the platform ahead of time to see where you will need to place it.
+  * Use a defensive cooldown if you are hit with [Tempest](https://www.wowhead.com/spell=1287072) as it applies a stacking **Poison** debuff on you.
+
+**Twin Fangs**
+
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAIo1c2KfIEsPoy9fznypG4ZGMzMz2MmZmZGzkxMDAAAAAAY2MmlZYmZ2mZGLzMmhZGmZZmtZwwYbjJZMzYYBAAAAAABYmBYAIAAwA)
+
+**Havoc Demon Hunter** **Twin Fangs
+
+### Boss Tips
+
+* Extremely important to have a good way of tracking your debuffs in this fight due to [Eternal Venom](https://www.wowhead.com/spell=1290336) guaranteed killing you at a certain amount of stacks, depending on the difficulty.
+  * Try not to run around too much whenever you are targeted with a [Corrosive Spit](https://www.wowhead.com/spell=1291478). Preferably, move in your line if you need to dodge something.
+  * Don't forget that soaking [Ravenous Feast](https://www.wowhead.com/spell=1290516) also knocks you back, so watch out for waves from [Stir the Depths](https://www.wowhead.com/spell=1290956) during it.
+  * Whenever [Vile Flood](https://www.wowhead.com/spell=1294293) happens, look at the **Vexhul** in the middle of the arena, and you will notice small orbs rotating around him that will indicate the direction of the beam that he casts.
+
+**Coiled Altar**
+
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAIo1c2KfIEsPoy9fznypG4ZGMzMz2MmZmZGzkxMDAAAAAAY2MmlZYmZ2mZGLzMmhZGmZZmtZwwYbjJZMzYYBAAAAAABYmBYAIAAwA)
+
+**Havoc Demon Hunter** **Coiled Altar
+
+### Boss Tips
+
+* Watch out for [Coalesced Venoms](https://www.wowhead.com/spell=1282403) and make sure to help with moving them around if needed.
+  * Pay extra attention to the ghosts that spawn after [Dreadmarch](https://www.wowhead.com/spell=1285643), as dealing with them is going to be the hardest part of the phase.
+    * Even if you avoided getting targeted by the ghost, make sure not to stay near them as they are going to get cleaved down by the [Soul Sever](https://www.wowhead.com/spell=1286620) frontal due to that being the only way of getting rid of them.
+  * Use a defensive cooldown whenever you are targeted with a [Gloombomb](https://www.wowhead.com/spell=1286895).
+
+**Ula'tek**
+
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAIo1c2KfIEsPoy9fznypG4ZGMzMz2MmZmZGzkxMDAAAAAAY2MmlZYmZ2mZGLzMmhZGmZZmtZwwYbjJZMzYYBAAAAAABYmBYAIAAwA)
+
+**Havoc Demon Hunter** **Ula'tek
+
+**Nymrissa Wavecaller**
+
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CGkAIo1c2KfIEsPoy9fznypG4ZmZGzMz2MmZmZGzkxMDAAAAAAYWMmtZYmBmxyMzMDzMYWGYZ2MjhZTTjZmxwGAAAwAAQAwMDGACAAM)
+
+**Havoc Demon Hunter** **Nymrissa Wavecaller
+
+### Boss Tips
+
+* Keep in mind that right after [Tidepiercer's Rush](https://www.wowhead.com/spell=1258673) happens, [Pop!](https://www.wowhead.com/spell=1258150) will knock you away from the middle, so position accordingly or be ready to negate the knockback with [Glide](https://www.wowhead.com/spell=131347).
+  * Use a defensive cooldown whenever [Drifting Globules](https://www.wowhead.com/spell=1281393) are being popped.
+
+It's worth noting that the [Aldrachi Reaver](https://www.wowhead.com/spell=123330) talents are performing well this tier, and in the right hands they can outperform any [Fel-Scarred](https://www.wowhead.com/spell=123329) setup on any boss in The Venomous Abyss. However, [Aldrachi Reaver](https://www.wowhead.com/spell=123330) generally comes with some added difficulty/clunkyness and is not for everyone. [Fel-Scarred](https://www.wowhead.com/spell=123329) will provide you with more on demand burst, and aoe damage, while [Aldrachi Reaver](https://www.wowhead.com/spell=123330) will give you high Single-Target dps paired with the funnel it gains from any extra targets present.
+
+The [Aldrachi Reaver](https://www.wowhead.com/spell=123330) talents are recommended because you can play these talents on every boss. Keep in mind that your raid might have other needs that are more suited for [Fel-Scarred](https://www.wowhead.com/spell=123329)'s damage profile, such as aoe burst damage for add spawns.
 
 Understand your secondary stat priority and the tertiary stats needed for optimal performance during Raid boss fights as a **Havoc Demon Hunter**. For more detailed information, visit the **[Stats and Attributes](https://maxroll.gg/wow/resources/stats-and-attributes)** guide.
 
@@ -391,21 +412,24 @@ Understand your secondary stat priority and the tertiary stats needed for optima
 
 Slot| Item| Location  
 ---|---|---  
-Head| [Devouring Reaver's Intake](https://www.wowhead.com/item=250033)| Rotmire Catalyst  
-Neck| [Rotmire's Sporeheart](https://www.wowhead.com/item=268291)| Rotmire  
-Shoulder| [Devouring Reaver's Exhaustplates](https://www.wowhead.com/item=250031)| Catalyst  
-Cloak| [Adherent's Silken Shroud](https://www.wowhead.com/item=239656)| Crafted  
-Chest| [Devouring Reaver's Engine](https://www.wowhead.com/item=250036)| Catalyst  
+Head| [Gaze of the Coiled Watcher](https://www.wowhead.com/item=271875)| Ula'tek  
+Neck| [Aqirbane Reliquary](https://www.wowhead.com/item=268265)| Ula'tek  
+Shoulder| Convert [Frothing Venom Spaulders](https://www.wowhead.com/item=268246)  
+into [Abyssal Doomhound's Jaws](https://www.wowhead.com/item=271535)| Vashnik Catalysted  
+Cloak| [Silken Voodoo Drape](https://www.wowhead.com/item=268253)| Coiled Altar  
+Chest| Convert [Vest of Reverent Adoration](https://www.wowhead.com/item=239048)  
+into [Abyssal Doomhound's Coreguard](https://www.wowhead.com/item=271540)| King's Rest Catalysted  
 Wrist| [Silvermoon Agent's Deflectors](https://www.wowhead.com/item=244576)| Crafted  
-Gloves| [Devouring Reaver's Essence Grips](https://www.wowhead.com/item=250034)| Catalyst  
-Belt| [Sash of the Putrid Giant](https://www.wowhead.com/item=268286)| Rotmire  
-Legs| [Nightblade's Pantaloons](https://www.wowhead.com/item=249312)| Crown of the Cosmos  
-Boots| [Canopy Walker's Footwraps](https://www.wowhead.com/item=249382)| Crown of the Cosmos  
-Ring 1| [Sin'dorei Band of Hope](https://www.wowhead.com/item=249919)| Belo'ren, Child of Al'ar  
-Ring 2| [Platinum Star Band](https://www.wowhead.com/item=193708)| Algeth'ar Academy  
-Trinket 1| [Algeth'ar Puzzle Box](https://www.wowhead.com/item=193701)| Algeth'ar Academy  
-Trinket 2| [Gaze of the Alnseer](https://www.wowhead.com/item=249343)| Chimaerus the Undreamt God  
-Weapon| [Lightless Lament](https://www.wowhead.com/item=260408) & [Emblazoned Sunglaive](https://www.wowhead.com/item=249280)| Midnight Falls & Vaelgor & Ezzorak
+Gloves| [Abyssal Doomhound's Studded Gauntlets](https://www.wowhead.com/item=271538)| Entombed Sentinels  
+Belt| [Sash of the Forlorn Vessel](https://www.wowhead.com/item=268256)| Coiled Altar  
+Legs| Convert [Coiled Hex Legguards](https://www.wowhead.com/item=268225)  
+into [Abyssal Doomhound's Legwraps](https://www.wowhead.com/item=271536)| Coiled Altar Catalysted  
+Boots| [Sand-Shined Snakeskin Sandals](https://www.wowhead.com/item=159327)| Temple of Sethraliss  
+Ring 1| [Vile Alchemist's Band](https://www.wowhead.com/item=268249)| Vashnik  
+Ring 2| [Charged Sandstone Band](https://www.wowhead.com/item=158366)| Temple of Sethraliss  
+Trinket 1| [Voracious Heart of Ula'tek](https://www.wowhead.com/item=270175)| Ula'tek  
+Trinket 2| [Zul'jin's Guillotine Technique](https://www.wowhead.com/item=270173)| Coiled Altar  
+Weapon| [Aman'muso, Warlord's Vengeance](https://www.wowhead.com/item=268209) & [Spellbreaker's Warglaive](https://www.wowhead.com/item=237840)| Coiled Altar & Crafted
 
 **Farmable Alternatives**
 
@@ -413,107 +437,99 @@ Below you are presented with a good list of farmable alternatives that are obtai
 
 Slot| Item| Location  
 ---|---|---  
-Head| [Spellsnap Shadowmask](https://www.wowhead.com/item=251109)| Magisters' Terrace  
-Neck| [Barbed Ymirheim Choker](https://www.wowhead.com/item=50228)| Pit of Saron  
-Shoulder| [Fallen Grunt's Mantle](https://www.wowhead.com/item=251092)| Windrunner Spire  
-Cloak| [Rigid Scale Greatcloak](https://www.wowhead.com/item=258575)| Skyreach  
-Chest| [Vest of the Howling Gale](https://www.wowhead.com/item=251099)| Windrunner Spire  
-Wrist| [Bracers of Dark Binding](https://www.wowhead.com/item=151315)| Seat of the Triumvirate  
-Gloves| [Gloves of Viscous Goo](https://www.wowhead.com/item=251113)| Magisters' Terrace  
-Belt| [Snapvine Cinch](https://www.wowhead.com/item=251082)| Windrunner Spire  
-Legs| [Legwraps of Lingering Legacies](https://www.wowhead.com/item=251087)| Windrunner Spire  
-Boots| [Boots of Burning Focus](https://www.wowhead.com/item=258577)| Skyreach  
-Ring 1| [Occulsion of Void](https://www.wowhead.com/item=251217)| Nexus-Point Xenas  
-Ring 2| [Platinum Star Band](https://www.wowhead.com/item=193708)| Algeth'ar Academy  
-Trinket 1| [Algeth'ar Puzzle Box](https://www.wowhead.com/item=193701)| Algeth'ar Academy  
-Trinket 2| [Solarflare Prism](https://www.wowhead.com/item=252420)| Skyreach  
-Weapon| [Mystakria's Harvester](https://www.wowhead.com/item=193717) & [Soulblight Cleaver](https://www.wowhead.com/item=251175)| Algeth'ar Academy & Maisara Caverns
+Head| [Hood of the Slithering Loa](https://www.wowhead.com/item=239033)| Temple of Sethraliss  
+Neck| [Graft of the Domanaar](https://www.wowhead.com/item=251234)| Voidscar Arena  
+Shoulder| [Somber Spaulders](https://www.wowhead.com/item=251223)| Voidscar Arena  
+Cloak| [Speakeasy Shroud](https://www.wowhead.com/item=251132)| Murder Row  
+Chest| [Vest of Reverent Adoration](https://www.wowhead.com/item=239048)| Kings' Rest  
+Wrist| [Rootwarden Wraps](https://www.wowhead.com/item=251183)| The Blinding Vale  
+Gloves| [Desiccator's Blessed Gloves](https://www.wowhead.com/item=159312)| Kings' Rest  
+Belt| [Whirling Dervish Sash](https://www.wowhead.com/item=159317)| Temple of Sethraliss  
+Legs| [Breeches of Deft Deals](https://www.wowhead.com/item=251130)| Murder Row  
+Boots| [Sand-Shined Snakeskin Sandals](https://www.wowhead.com/item=159327)| Temple of Sethraliss  
+Ring 1| [Charged Sandstone Band](https://www.wowhead.com/item=158366)| Temple of Sethraliss  
+Ring 2| [Signet of Snarling Servitude](https://www.wowhead.com/item=251136)| Murder Row  
+Trinket 1| [Freightrunner's Flask](https://www.wowhead.com/item=250215)| Murder Row  
+Trinket 2| [Resonant Bellowstone](https://www.wowhead.com/item=250228)| Murder Row  
+Weapon| [Thorntalon Edge](https://www.wowhead.com/item=251186) & [Singularity Slicer](https://www.wowhead.com/item=251231)| The Blinding Vale & Voidscar Arena
 
 ### Trinkets
 
-Below is a ranking of endgame trinkets obtainable from Dungeons, Raids, and Delves.
+Below is a ranking of endgame trinkets obtainable from Dungeons and Raids.
 
 Rank| Trinkets  
 ---|---  
-**S-Tier**| [Gaze of the Alnseer](https://www.wowhead.com/item=249343)  
-[Umbral Plume](https://www.wowhead.com/item=260235)  
-[Algeth'ar Puzzle Box](https://www.wowhead.com/item=193701)  
-**A-Tier**| [Ranger-Captain's Iridescent Insignia](https://www.wowhead.com/item=249345)  
-[Solarflare Prism](https://www.wowhead.com/item=252420)  
-**B-Tier**| [Undreamt God's Oozing Vestige](https://www.wowhead.com/item=249805)  
-[Heart of Wind](https://www.wowhead.com/item=250256)  
-[Light Company Guidon](https://www.wowhead.com/item=249344)  
-[Emberwing Feather](https://www.wowhead.com/item=250144)  
-**C-Tier**| [Latch's Crooked Hook](https://www.wowhead.com/item=250226)  
-[Void Stalker's Contract](https://www.wowhead.com/item=151307)  
-[Vessel of Tortured Souls](https://www.wowhead.com/item=250258)  
-[Kroluk's Warbanner](https://www.wowhead.com/item=250227)  
-[Eye of the Drowning Void](https://www.wowhead.com/item=250257)  
-**Junkyard**| [Sylvan Wakrapuku](https://www.wowhead.com/item=251784)  
-[Sealed Chaos Urn](https://www.wowhead.com/item=251787)  
-[Desecrated Chalice](https://www.wowhead.com/item=251790)  
-[Glorious Crusader's Keepsake](https://www.wowhead.com/item=251792)  
-[Gris-gris of Confidence](https://www.wowhead.com/item=251794)  
-[Endosymbiotic Mycelium](https://www.wowhead.com/item=251793)
+**S-Tier**| [Voracious Heart of Ula'tek](https://www.wowhead.com/item=270175)  
+[Zul'jin's Guillotine Technique](https://www.wowhead.com/item=270173)  
+[Font of Venomous Rage](https://www.wowhead.com/item=270168)  
+[Gebbo's Bottomless Bag](https://www.wowhead.com/item=270164)  
+**A-Tier**| [Freightrunner's Flask](https://www.wowhead.com/item=250215)  
+[Vashnik's Sanguine Rancor](https://www.wowhead.com/item=270166)  
+[Keeper's Seething Core](https://www.wowhead.com/item=270165)  
+**B-Tier**| [Lustrous Golden Plumage](https://www.wowhead.com/item=159617)  
+[Sapling of the Dawnroot](https://www.wowhead.com/item=250259)  
+[Resonant Bellowstone](https://www.wowhead.com/item=250228)  
+[Void Execution Mandate](https://www.wowhead.com/item=250225)  
+[Ruby Whelp Shell](https://www.wowhead.com/item=193757) (Trained)  
+**C-Tier**| [Lightspire Core](https://www.wowhead.com/item=250214)  
+[Vile Vial of Volatile Venom](https://www.wowhead.com/item=273796)  
+[Tiny Electromental in a Jar](https://www.wowhead.com/item=158374)  
+[Tattered Amani War Banner](https://www.wowhead.com/item=273797)  
+**Junkyard**| [Ruby Whelp Shell](https://www.wowhead.com/item=193757) (Untrained)
 
 ### Embellishments
 
-* 2x [Arcanoweave Lining](https://www.wowhead.com/item=240167) is the best combination.
-  * [Darkmoon Sigil: Hunt](https://www.wowhead.com/item=245876)
-    * Can only be crafted on weapons, so if you decide to craft a weapon you can have [Darkmoon Sigil: Hunt](https://www.wowhead.com/item=245876) on it, and ideally you will combine this with another embellishment.
-
-#### Honorable mention
-
-* [Signet of Azerothian Blessings](https://www.wowhead.com/item=241140)
-  * [Stabilizing Gemstone Bandolier](https://www.wowhead.com/item=251490) _\-- Combined with the[Signet of Azerothian Blessings](https://www.wowhead.com/item=241140)_.
+* [Hunter's Ritual Stone](https://www.wowhead.com/item=273060) is currently the most powerful embellish. This can however only be crafted on weapons, so depending on what items your character might have/need crafting 1 or 2 weapons with this embellishment will likely be the best option.
+  * [Adorned Fang](https://www.wowhead.com/item=273069) is the 2nd strongest embellishment, and can be crafted on normal armor pieces. This makes for a more versatile embellishment since it can go on any slot, and you might be able to craft in an item slot that benefits your character more.
+  * [Arcanoweave Lining](https://www.wowhead.com/item=240167) Similar to [Adorned Fang](https://www.wowhead.com/item=273069), but seems to output slightly lower DPS numbers.
 
 #### Remaining Sparks
 
-* Crafted items are 285 item level and regular items are 289 on max item level, therefore, it's a small loss to equip crafted items outside of your 2x Embellishments unless you don't have access to other high item level gear on that slot.
+* Crafted items are 331 item level and regular items are 334 on max item level, therefore, it's a small loss to equip crafted items outside of your 2x Embellishments unless you don't have access to other high item level gear on that slot.
 
 ### Simcraft
 
 To find the best combination of gear available to you or identify the best possible upgrades, visit our **[Simcraft guide](https://maxroll.gg/wow/resources/simulationcraft-and-raidbots-guide)** to learn how to utilize Simcraft easily and effectively.
 
 * **Phials**
-    * [Flask of the Shattered Sun](https://www.wowhead.com/item=241326) _\-- maximum DPS._
-    * [Flask of Thalassian Resistance](https://www.wowhead.com/item=241320) _\-- less DPS but more survivability._
+    * **[Flask of the Shattered Sun](https://www.wowhead.com/item=241326) _\-- maximum DPS._**
+    * **[Flask of Thalassian Resistance](https://www.wowhead.com/item=241320) _\-- less DPS but more survivability._**
   * **Food**
-    * [Blooming Feast](https://www.wowhead.com/item=242273)
+    * **[Blooming Feast](https://www.wowhead.com/item=242273)**
   * **Combat Potion**
-    * [Potion of Recklessness](https://www.wowhead.com/item=241288)
+    * **[Potion of Recklessness](https://www.wowhead.com/item=241288)**
   * **Health Potion**
-    * [Silvermoon Health Potion](https://www.wowhead.com/item=241304) _\-- a big burst of healing_
+    * **[Concentrated Silvermoon Health Potion](https://www.wowhead.com/item=271884) _\-- a big burst of healing_**
   * **Weapon**
-    * [Thalassian Phoenix Oil](https://www.wowhead.com/item=243734)
+    * **[Thalassian Phoenix Oil](https://www.wowhead.com/item=243734)**
   * **Augment Rune**
-    * [Void-Touched Augment Rune](https://www.wowhead.com/item=259085)
+    * **[Void-Touched Augment Rune](https://www.wowhead.com/item=259085)**
   * **Sockets**
-    * [Flawless Masterful Garnet](https://www.wowhead.com/item=240908)
-    * [Powerful Eversong Diamond](https://www.wowhead.com/item=240967) _\-- Unique, use one of each gem color to enhance your[Powerful Eversong Diamond](https://www.wowhead.com/item=240967)._
-      * [Flawless Deadly Amethyst](https://www.wowhead.com/item=240898)
-      * [Flawless Deadly Lapis](https://www.wowhead.com/item=240914)
-      * [Flawless Deadly Peridot](https://www.wowhead.com/item=240890)
+    * **[Flawless Masterful Garnet](https://www.wowhead.com/item=240908)**
+    * **[Powerful Eversong Diamond](https://www.wowhead.com/item=240967) _\-- Unique, use one of each gem color to enhance your[Powerful Eversong Diamond](https://www.wowhead.com/item=240967)._**
+      * **[Flawless Deadly Amethyst](https://www.wowhead.com/item=240898)**
+      * **[Flawless Deadly Lapis](https://www.wowhead.com/item=240914)**
+      * **[Flawless Deadly Peridot](https://www.wowhead.com/item=240890)**
 
 ### Enchantments
 
-Head| [Enchant Helm - Empowered Rune of Avoidance](https://www.wowhead.com/item=244007) & [Radiant Jewelbinder](https://www.wowhead.com/item=263897)  
+Head| [Enchant Helm - Empowered Rune of Avoidance](https://www.wowhead.com/item=244007) & [Miasmic Jewelbinder](https://www.wowhead.com/item=275707)  
 ---|---  
 Shoulder| [Enchant Shoulders - Amirdrassil's Grace](https://www.wowhead.com/item=243991)  
 Chest| [Enchant Chest - Mark of the Worldsoul](https://www.wowhead.com/item=243977)  
-Wrist| [Radiant Jewelbinder](https://www.wowhead.com/item=263897)  
-Waist| [Radiant Jewelbinder](https://www.wowhead.com/item=263897)  
+Wrist| [Miasmic Jewelbinder](https://www.wowhead.com/item=275707)  
+Waist| [Miasmic Jewelbinder](https://www.wowhead.com/item=275707)  
 Legs| [Forest Hunter's Armor Kit](https://www.wowhead.com/item=244641)  
 Boots| [Enchant Boots - Lynx's Dexterity](https://www.wowhead.com/item=243953)  
-Ring 1| [Enchant Ring - Nature's Fury](https://www.wowhead.com/item=243987)  
-Ring 2| [Enchant Ring - Nature's Fury](https://www.wowhead.com/item=243987)  
+Ring 1| [Enchant Ring - Eyes of the Eagle](https://www.wowhead.com/item=243957)  
+Ring 2| [Enchant Ring - Eyes of the Eagle](https://www.wowhead.com/item=243957)  
 Weapon| 2x [Enchant Weapon - Jan'alai's Precision](https://www.wowhead.com/item=243971)
 
-[Maxroll paperdoll import](https://backend.maxroll.gg/wow/embed-tools/paperdoll=IwFZBJQ9NGQAnk7ACAAAAktBEEwF5OAAAAAABkQDIgQ2GQQBQQQo7mAGEEPuJgQEYAwENgSEIgyA5OAAAAAABMQuDA)
+[Maxroll paperdoll import](https://backend.maxroll.gg/wow/embed-tools/paperdoll=IwFZBJQ9NGQA7TDBCAAAAcSuDEwF5OAAAAAABkQDIgw-0QQBQQQo7mAGEEPuJgQEYAQ9NAREIgyA5OAAAAAABMQuDA)
 
 **Havoc Demon Hunter** **Enchantments in Raid
 
-> You buy [Radiant Jewelbinder](https://www.wowhead.com/item=263897) from the Great Vault Vendor to add sockets to your **Helm** , **Wrists** & **Waist**.
+> You buy [Miasmic Jewelbinder](https://www.wowhead.com/item=275707) from the Great Vault Vendor to add sockets to your **Helm** , **Wrists** & **Waist**.
 
 For min-maxing a **Havoc Demon Hunter** in raiding, different racial traits can provide combat benefits to your characters. If this is not your top goal, picking a race that fits your style works just as well.
 
@@ -528,7 +544,7 @@ For min-maxing a **Havoc Demon Hunter** in raiding, different racial traits can 
 
 ### Recommendation
 
-It does not really matter which Race you chose for **Havoc Demon Hunter** , as dps differences are marginal, it is however advised to go Bloodelf as it is usually every so slightly higher dps. Also [Arcane Torrent](https://www.wowhead.com/spell=202719) might come in handy in some situations where you need a quick AoE purge and can be used to gain 15 Fury while you are fury starved or out of range of any target in combat.
+It does not really matter which Race you chose for **Havoc Demon Hunter** , as dps differences are marginal, it is however advised to go Blood Elf for raid as it is usually ever so slightly higher dps, and Night Elf for M+ as it provides the superior utility for this type of content with the correct use of [Shadowmeld](https://www.wowhead.com/spell=58984). Remember if you are Blood Elf, [Arcane Torrent](https://www.wowhead.com/spell=202719) might come in handy in some situations where you need a quick AoE purge, or it can be used to gain 15 Fury while you are fury starved or out of range of any target in combat.
 
 Discover recommended macros for **Havoc Demon Hunter** **during Raid encounters and watch a quick video guide on creating simple macros for your character.
 
@@ -576,7 +592,7 @@ Discover recommended macros for **Havoc Demon Hunter** **during Raid encounters 
 
 Below, you see a screenshot of the author's User Interface for their **Havoc Demon Hunter**.
 
-![](https://assets-ng.maxroll.gg/wordpress/Havoc-UI-maxroll-1-1024x608.png)Verb's UI for **Havoc Demon Hunter**
+![](https://assets-ng.maxroll.gg/wordpress/Skjermbilde-2026-08-08-020134-1024x575.png)Verb's UI for **Havoc Demon Hunter**
 
 Addons can be very helpful both inside and outside of combat. The addons listed below are often considered most essential to any raider.
 
@@ -586,113 +602,32 @@ Addons can be very helpful both inside and outside of combat. The addons listed 
     * Helpful addon for Raiders, especially for Raid leaders and officers.
   * **BigWigs** ___\--_ Generic Boss Mod_ _
     * BigWigs is a boss encounter add-on. It consists of many individual encounter scripts, or boss modules; mini add-ons that are designed to trigger alert messages, timer bars, sounds, and so forth, for one specific Raid encounter.
-  * **Plater** __\-- Advanced Nameplates__
-    * Plater is a nameplate addon with an extraordinary amount of settings, personalized design, out of the box debuff tracking, threat coloring, and support for scripting.
-  * **Details** \-- Advanced Damage Meter
-    * A useful addon for skinning and enhancing the features of the regular damage meter.
-  * **BetterCDM** \-- Better Cooldown Manager
-    * Improves the Blizzard Cooldown Manager, allowing for both visual improvements as well as functional ones. Most notable are improved buff tracking and ability for extra bars for spell/trinkets or other items.
+  * **EllesmereUI** \-- All rounder UI addon**
+    * A user interface designed around user-friendliness with extra features that are not included in the standard UI.
 
-**Patch 12.0**
+**Patch 12.1**
 
 **DEMON HUNTER**
 
-* **Hero Talents**
-    * **Aldrachi Reaver**
-      * New Talent: Broken Spirit
-        * Havoc: The Hunt shatters 1 Soul Fragment. Blade Dance and Chaos Strike have a 20% chance to shatter a Soul Fragment.
-        * Vengeance: Sigil of Spite shatters 1 Soul Fragment. Soul Cleave has a 20% chance to shatter a Soul Fragment.
-      * New Talent: Keen Edge – Reaver's Glaive damage is increased by 20% and other Physical-only damage is increased by 10%.
-      * New Talent: Bladecraft
-        * Havoc: Fury of the Aldrachi further empowers Blade Dance when cast after Chaos Strike, increasing slashes to 12. Reaver's Mark now stacks up to 3 times and further empowers Chaos Strike when cast after Blade Dance, applying an additional stack.
-        * Vengeance: Fury of the Aldrachi further empowers Soul Cleave when cast after Fracture, increasing slashes to 12. Reaver's Mark now stacks up to 3 times and further empowers Fracture when cast after Soul Cleave, applying an additional stack.
-      * Some talents have changed positions in the talent tree.
-      * **Havoc**
-        * Thrill of the Fight has been redesigned – After consuming both enhancements gain Thrill of the Fight, increasing the damage of your next Reaver's Glaive by 30% and increasing Haste by 6% for 30 seconds.
-        * Fury of the Aldrachi damage reduced by 18% and now deals reduced damage beyond 8 targets.
-    * **Fel-Scarred/Void-Scarred**
-      * Devourer Demon Hunters can activate the Void-Scarred Hero Talent tree.
-      * Vengeance Demon Hunters can activate the Annihilator Hero Talent tree instead of the Fel-Scarred Hero Talent tree.
-      * New Talent: Blind Focus
-        * Devourer: Cosmic damage increased by 3%. Effect is doubled while in demon form.
-        * Havoc: Fire damage increased by 5%. Effect is doubled while in demon form.
-      * New Talent: Undying Embers
-        * Devourer: Soul Immolation has a 25% chance to reignite after it expires, reapplying its effect.
-        * Havoc: Immolation Aura has a 25% chance to reignite after it expires, reapplying its effect.
-      * New Talent: Volatile Instinct
-        * Devourer: Entering demon form immediately causes your next Voidsurge to repeat after a short delay.
-        * Havoc: Entering demon form immediately induces a Demonsurge.
-      * Student of Suffering effect now applied upon activating Eye Beam (was Sigil of Flame).
-      * **Havoc**
-        * Demonsurge now deals Chaos damage (was Fire).
-        * Demonsurge damage reduced by 15% and damage increase per stack reduced to 5% (was 10%).
-        * Demonsurge now always empowers Blade Dance and Chaos Strike when entering demon form (e.g. via Demonic effect) even if Metamorphosis is already active.
-        * Burning Blades effect now also includes the First Blood portion Blade Dance's damage.
-        * Burning Blades effect reduced to 35% of listed ability damage (was 50%).
-  * **Class**
-    * New Talent: Focused Ire – The primary target of Chaos/Void Nova is stunned for an additional 2 seconds.
-    * New Talent: Demonic Resilience – Demon Spikes/Blur gains 1 additional charge.
-    * New Talent: Burn It Out – Immolation Aura additionally dispels 1 Disease effect.
-    * New Talent: Soul Cleanse – Immolation Aura additionally dispels 1 Curse effect.
-    * New Talent: Remorseless – Attacks and abilities that spend Fury deal 3% increased damage.
-    * New Talent: Furious – Attacks and abilities that generate Fury deal 3% increased damage.
-    * New Talent: First In, Last Out – Fel Rush/Infernal Strike/Shift grants you a rapidly decaying shield for 6% of your maximum health.
-    * New Talent: Soul Splitter – Any time you would generate one or more Soul Fragments, you have a 2%/4% chance to generate an additional Soul Fragment.
-    * New Talent: Felbound – Your movement speed is increased by 3%. Available to Vengeance and Havoc only (replaced by Guile for Devourer).
-    * Will of the Illidari has been updated – Increases maximum health by 3%/6%.
-    * Illidari Knowledge has been updated – Reduces magic damage taken by 3%/6%.
-    * Aura of Pain has been updated – Now causes Soul Immolation to grant 5 additional Fury over its duration for Devourer Demon Hunters.
-    * Erratic Felheart has been updated – Now reduces the cooldown of Fel Rush, Shift, and Infernal Strike by 1 second/2 seconds (was 10%/20%).
-    * Demon Muzzle has been updated – Interrupting a spell with Disrupt decreases your magic damage taken by 15% for 12 seconds.
-    * Improved Sigil of Misery has been updated – Now also reduces Sigil of Chain's cooldown when learned.
-    * Felblade now generates 15 Fury (was 40).
-    * Infernal Armor damage increased by 100%.
-    * Wings of Wrath speed bonus reduced to 10% (was 40%).
-    * Sigil of Flame is now a Vengeance only ability (was all specializations).
-    * References to “Lesser Soul Fragments” have been replaced with “Soul Fragments” in relevant tooltips.
-      * _Developers' notes: Lesser Soul Fragments have been the “default” soul fragment for quite some time, so we're simplifying the name of the fragments across all Demon Hunter specializations. Greater Soul Fragments will remain Greater._
-    * Pursuit icon has been updated.
-    * Several talents have changed positions in the talent tree.
-    * The following talents have been removed:
-      * Chaos Fragments
-      * Collective Anguish _(moved to Havoc talent tree)_
-      * Demonic _(moved to Havoc talent tree)_
-      * Flames of Fury
-      * Precise Sigils
-      * Quickened Sigils _(moved to Vengeance talent tree)_
-      * Rush of Chaos
-      * Sigil of Spite _(moved to Vengeance talent tree)_
-      * Soul Sigils _(moved to Vengeance talent tree)_
-      * The Hunt _(moved to Havoc talent tree)_
-  * **Havoc**
-    * Desperate Instincts has been redesigned – Blur now reduces damage taken by an additional 10%. Additionally, damage taken below 35% Health is reduced by 10%.
-    * Essence Break has been redesigned – Slash all enemies in front of you for Chaos damage, causing Chaos Strike and Blade Dance to deal additional Chaos damage to them for 4 seconds. Deals reduced damage beyond 8 targets.
-    * Glaive Tempest has been redesigned – The final slash of Blade Dance consumes 25 Fury when it strikes 3 or more enemies, launching two demonic glaives in a whirlwind of energy, causing Chaos damage over 3 seconds to all nearby enemies. Damage reduced beyond 8 targets.
-    * The Hunt has been updated – No longer causes you to heal for a percentage of the damage you deal to The Hunt's target.
-    * The Hunt damage increased by 10%.
-    * All damage reduced by 8%.
-    * Melee auto-attack damage now increased by 250%.
-    * Demon Blades now automatically overrides Demon's Bite.
-    * Demon Blades damage increased by 150%.
-    * Demon Blades now generates 8-15 Fury (was 7-12).
-    * Blade Dance damage increased by 10%.
-    * Eye Beam damage increased by 10%.
-    * Eye Beam cooldown reduced to 30 seconds (was 40 seconds).
-    * Blind Fury now causes Eye Beam to generate 30 Fury per second (was 40).
-    * Cycle of Hatred now reduces Eye Beam cooldown by 2.5 seconds per stack (was 5 seconds), stacking up to 10 seconds (was 20 seconds).
-    * Blur now reduces damage taken by 25% (was 20%) and no longer increases Dodge chance.
-    * Furious Gaze effect now grants 8% Haste for 8 seconds (was 10% for 10 seconds).
-    * A Fire Inside effect now reduces the cooldown of Immolation Aura by 6 seconds instead of a 30% chance to refund a charge when cast.
-    * Collective Anguish, Demonic, and The Hunt have moved to the Havoc talent tree (was class talents).
-    * Several talents have changed positions in the talent tree.
-    * The following talents and skills have been removed:
-      * Fel Barrage
-      * Fel Eruption
-      * Looks Can Kill
-      * Improved Fel Rush
-      * Insatiable Hunger
-      * Netherwalk
-      * Restless Hunter
+* **Havoc**
+    *  _Developers' notes: The following changes to Fury generation are a small overall increase, paced more smoothly and relying less heavily on Immolation Aura's talent effects._
+    * Demon Blades, Blade Dance, and Chaos Strike now require equipped Warglaives, Axes, Swords, and Fist Weapons.
+    * New Talent: Never Say Die – Damage increased by 3% while above 50% Health. Leech increased by 5% while below 50% Health.
+    * Trail of Ruin has been updated – Damage is now applied immediately, rather than as a damage over time effect over 4 seconds.
+    * Serrated Glaive has been updated – Effect is now a buff on the Demon Hunter with a 12 second duration, rather than a debuff on enemy targets with a 15 second duration.
+    * Blade Dance damage increased by 6%.
+    * Death Sweep damage increased by 6%.
+    * Chaos Strike damage increased by 6%.
+    * Annihilation damage increased by 6%.
+    * The Hunt damage increased by 12%.
+    * Immolation Aura damage reduced by 8%.
+    * Essence Break initial damage increased by 49%.
+    * Burning Hatred now causes Immolation Aura to generate an additional 30 Fury (was 40).
+    * Demon Blades now generates 10-16 Fury per attack (was 8-15).
+    * Blind Fury now causes Eye Beam to generate 10/20 Fury per second (was 15/30 Fury).
+    * Inertia now increases damage by 12% for 6 seconds (was 18% for 5 seconds).
+    * Inner Demon has moved and is now a choice node option with Chaos Theory (was a choice node option with Chaotic Transformation).
+    * Dash of Chaos has been removed.
 
 **Q: Is it worth holding my [Eye Beam](https://www.wowhead.com/spell=112939) for X?**
 
@@ -705,6 +640,12 @@ Written By: **Verb**
 Reviewed by: **Tief**
 
 ## Changelog
+
+Aug 8th 2026
+
+`Updated for patch 12.1 `
+
+* * *
 
 Jun 19th 2026
 

@@ -1,17 +1,39 @@
 ---
-title: Windrunner Spire — Midnight S1 M+ dungeon guide
-patch: 12.0.7
-fetched: 2026-06-25
-reviewed: 2026-07-07
+title: Windrunner Spire — Midnight S1 M+ dungeon guide (historical)
+patch: 12.1
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
   - https://www.method.gg/guides/dungeons/windrunner-spire        # upd. 2026-03-23
   - https://www.icy-veins.com/wow/windrunner-spire-dungeon-guide   # upd. 2026-06-15 (12.0.7)
   - Blizzard journal-instance/1299 + journal-encounter/2655,2656,2657,2658 (tier 1, boss-name corroboration)
   - https://www.youtube.com/watch?v=DMcpeEK_tHE  # Dalaran Gaming "How to Master All 8 Dungeons: Midnight S1 M+ Walkthrough", uploaded 2026-03-24 (tier 3, boss corroboration)
+  - https://worldofwarcraft.com/en-us/news/24294369   # "Midnight Season 2 Begins August 18" — S2 dungeon pool (tier 1)
+  - https://worldofwarcraft.com/en-us/news/24293281   # 12.1 "Curse of Ula'tek" Content Update Notes (tier 1)
 confidence: high
 ---
 
-# Windrunner Spire — Midnight S1 M+ dungeon guide
+# Windrunner Spire — Midnight S1 M+ dungeon guide (historical)
+
+> ⛔ **NOT IN THE CURRENT MYTHIC+ ROTATION.** Windrunner Spire was a **Midnight
+> Season 1** Mythic+ dungeon. It **rotated out** with patch **12.1 "Curse of
+> Ula'tek"** (2026-08-11); the **Season 2** pool that opens the week of
+> **2026-08-18** is **Altar of Fangs** · Murder Row · Den of Nalorakk ·
+> The Blinding Vale · Voidscar Arena · Ruby Life Pools · Kings' Rest ·
+> Temple of Sethraliss. See [`season-2-overview.md`](season-2-overview.md) for
+> what is live, and [`season-1-overview.md`](season-1-overview.md) for the
+> closed season this guide belongs to.
+>
+> **Everything below is kept as a historical reference** — the routes, trash
+> tables and boss mechanics are still accurate for the *instance*, which
+> remains part of the Midnight dungeon set and is still runnable outside the
+> M+ rotation. What is **no longer true** is anything that depends on it being
+> a keystone dungeon: no keystones for it drop, it has no seasonal affix
+> interaction, and it does not contribute Mythic+ rating, Great Vault M+ credit
+> or Season 2 crest/gear rewards. Season-1 reward numbers quoted anywhere
+> downstream of this file are dead (S1 gear ran ilvl 224–289; S2 runs 269–334).
+> `@verify-ingame` confirm which non-M+ difficulties the instance still offers
+> (Normal / Heroic / Mythic 0) now that it is out of the pool.
 
 Four bosses (journal-instance **1299**): **Emberdawn** (2655),
 **Derelict Duo** (2656), **Commander Kroluk** (2657),

@@ -4,10 +4,10 @@
   "spec": "discipline",
   "spec_id": 256,
   "tree_id": 795,
-  "patch": "12.0.7",
-  "build": "12.0.7.67808",
+  "patch": "12.1.0",
+  "build": "12.1.0.68914",
   "source": "api",
-  "serial_count": 226,
+  "serial_count": 227,
   "granted_serials": [
     157,
     158,
@@ -621,9 +621,9 @@
         "serial_order": 120,
         "req_points": 8,
         "prereq_node_ids": [
-          82687,
+          109890,
           108731,
-          109890
+          82687
         ],
         "entries": [
           {
@@ -746,9 +746,9 @@
         "serial_order": 112,
         "req_points": 8,
         "prereq_node_ids": [
+          82699,
           109019,
-          82690,
-          82699
+          82690
         ],
         "entries": [
           {
@@ -772,8 +772,8 @@
         "serial_order": 134,
         "req_points": 8,
         "prereq_node_ids": [
-          82690,
-          109020
+          109020,
+          82690
         ],
         "entries": [
           {
@@ -1820,8 +1820,8 @@
         "serial_order": 42,
         "req_points": 8,
         "prereq_node_ids": [
-          82575,
-          82566
+          82566,
+          82575
         ],
         "entries": [
           {
@@ -1845,9 +1845,9 @@
         "serial_order": 20,
         "req_points": 8,
         "prereq_node_ids": [
-          82575,
           82576,
-          82578
+          82578,
+          82575
         ],
         "entries": [
           {
@@ -1985,11 +1985,11 @@
           {
             "entry_id": "103692",
             "talent": "Shadow Mend",
-            "spell_id": 1252215,
+            "spell_id": 1252217,
             "max_ranks": "1",
             "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_shadowmend.jpg",
-            "desc": "Shadow Word: Pain damage has a chance to upgrade your next Flash Heal to Shadow Mend. Stacks up to 2 charges.\r\n\r\n Shadow Mend:\r\nWraps an ally in shadows which heal for 6,788, but at a price.\r\n\r\nThe ally will take 339 damage every 1 sec, until they have taken 3,458 total damage from all sources, or leave combat."
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/136202.jpg",
+            "desc": "Flash Heal is upgraded to Shadow Mend, a stronger heal with a higher mana cost.\r\n\r\n Shadow Mend:\r\nWraps an ally in shadows which heal for 3,285, but at a price.\r\n\r\nThe ally will take 169 damage every 1 sec, until they have taken 1,659 total damage from all sources, or leave combat."
           }
         ]
       },
@@ -2034,7 +2034,7 @@
             "entry_id": "103694",
             "talent": "Greater Smite",
             "spell_id": 1253724,
-            "max_ranks": "2",
+            "max_ranks": "1",
             "choice_index": 0,
             "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_paladin_inquisition.jpg",
             "desc": "Casting Smite increases the damage of Smite by 15%, stacking 2 times. Lasts 2 sec."
@@ -2095,8 +2095,8 @@
         "node_id": 82568,
         "type": "PASSIVE",
         "row": 10,
-        "col": 20,
-        "x": 13500,
+        "col": 19,
+        "x": 12900,
         "y": 6300,
         "serial_order": 12,
         "req_points": 20,
@@ -2113,6 +2113,30 @@
             "choice_index": 0,
             "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_searinglight.jpg",
             "desc": "The damage of Smite and Penance is increased by 8%, and Penance increases or decreases your target's movement speed by 25% for 2 sec."
+          }
+        ]
+      },
+      {
+        "node_id": 110648,
+        "type": "PASSIVE",
+        "row": 10,
+        "col": 20,
+        "x": 13500,
+        "y": 6300,
+        "serial_order": 226,
+        "req_points": 20,
+        "prereq_node_ids": [
+          82567
+        ],
+        "entries": [
+          {
+            "entry_id": "137463",
+            "talent": "Grim Deliverance",
+            "spell_id": 1298779,
+            "max_ranks": "1",
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/5852173.jpg",
+            "desc": "Shadow Mend heals for 40% more and applies Atonement for an additional 4 sec, but its cast time is increased by 0.3 sec."
           }
         ]
       },
@@ -2175,7 +2199,9 @@
         "serial_order": 141,
         "req_points": 20,
         "prereq_node_ids": [
-          82602
+          82602,
+          82572,
+          82569
         ],
         "entries": [
           {
@@ -2217,12 +2243,13 @@
         "node_id": 82586,
         "type": "PASSIVE",
         "row": 11,
-        "col": 20,
-        "x": 13500,
+        "col": 19,
+        "x": 12900,
         "y": 6900,
         "serial_order": 28,
         "req_points": 20,
         "prereq_node_ids": [
+          110648,
           82568
         ],
         "entries": [
@@ -2247,6 +2274,8 @@
         "serial_order": 27,
         "req_points": 20,
         "prereq_node_ids": [
+          110278,
+          110648,
           110277
         ],
         "entries": [
@@ -2639,8 +2668,8 @@
           "serial_order": 214,
           "req_points": 0,
           "prereq_node_ids": [
-            110008,
-            94684
+            94684,
+            110008
           ],
           "entries": [
             {

@@ -43,6 +43,9 @@ from .character import currency_names
 from .quest import _infobox
 
 REPO = ROOT
+# Front-matter `patch:` stamped on the generated catalog. Bump on patch day, with
+# the KB sweep — the scrape is always "whatever is live", so this labels it.
+KB_PATCH = "12.1"
 OUT_JSON = REPO / "knowledge" / "planning" / "repeatables.json"
 OUT_DOC = REPO / "knowledge" / "endgame" / "daily-weekly-quests.md"
 CACHE = ROOT / "raw" / "wowhead"
@@ -50,11 +53,15 @@ CACHE = ROOT / "raw" / "wowhead"
 UA = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko)"}
 LISTVIEW = "https://www.wowhead.com/quests/min-level:90/max-level:90"
 
-# Midnight (12.0) zone area ids -> name (from /data/wow/quest/area/index; 15000+/16000+).
+# Midnight zone area ids -> name (from /data/wow/quest/area/index; 15000+/16000+).
 MIDNIGHT_ZONES = {
     15355: "Harandar", 15947: "Zul'Aman", 15968: "Eversong Woods",
     15969: "Silvermoon City", 16173: "Sunstrider Isle", 16182: "Isle of Quel'Danas",
     16215: "Isle of Quel'Danas", 16648: "The Voidstorm",
+    # 12.1 "Curse of Ula'tek" — the Coiled Isle and its sub-areas.
+    16365: "The Coiled Isle", 16774: "Tokka's Landing",
+    16780: "The Whispering Marsh", 16535: "Vaults of Atal'Utek",
+    17316: "Vaults of Atal'Utek", 16915: "The Venomous Abyss",
 }
 
 # Curated zone overrides for AREA-LESS Midnight zones — quests whose Blizzard
@@ -90,6 +97,93 @@ KNOWN_REPEATABLES = {
     96713, 96717,
 }
 
+# --------------------------------------------------------------------------- #
+# Tier-1 overrides: the patch notes outrank the scrape                         #
+# --------------------------------------------------------------------------- #
+# Wowhead quest pages lag a patch by days, so a scraped reward can be one the
+# notes REMOVED. These drops are applied to the descriptor BEFORE valuation, so
+# the removal reaches reward_base, repeatables.json AND the doc — the previous
+# behaviour (a caveat paragraph in the .md only) left the planner-facing JSON
+# asserting a dead reward at value_confidence "high", and left the .md's R
+# computed off it.
+# qid -> (name substrings to drop, why)
+TIER1_REWARD_DROPS: dict[int, tuple[tuple[str, ...], str]] = {
+    # 12.1: "The Tier 6 Advanced Ritual Studies quests will no longer offer a
+    # Nebulous Voidcore bonus roll reward. The quests remain available to complete
+    # for the relevant achievement." (_meta/patch-notes/12.1.md; moving-values.md
+    # row "Ritual Sites T6 bonus roll → Removed"). Scoped to the **Advanced**
+    # (Tier 6) chain only — the Tier 1-3 "Ritual Site Studies" quests
+    # (96728/96729/96730) are NOT named by the note and keep theirs.
+    96731: (("voidcore",), "12.1 removed the T6 Voidcore bonus roll"),
+    96732: (("voidcore",), "12.1 removed the T6 Voidcore bonus roll"),
+    96733: (("voidcore",), "12.1 removed the T6 Voidcore bonus roll"),
+}
+
+# --------------------------------------------------------------------------- #
+# Season / pre-season flags                                                    #
+# --------------------------------------------------------------------------- #
+# 12.1 went live 2026-08-11 but **Midnight Season 2 does not open until
+# 2026-08-18** (changelog-12.1.md, "12.1 shipped in two steps"). A row that is
+# dormant or gated during the pre-season week must not read as a live repeatable,
+# and a Season 1 currency reward on a scraped page is not evidence the quest still
+# pays it. Flags are short tags on the row + a prose block under the tables.
+SEASON_FLAG_NOTES = {
+    "pre-season": "gated or dormant during the pre-season week (2026-08-11 → 08-17)",
+    "S1-currency": "reward column still shows a Season 1 currency — unverified for S2",
+    "S1-frozen-loot": ("Val/Naigtal world-boss drops stay Season 1 items and can no "
+                       "longer be upgraded (12.1, \"VAL AND NAIGTAL\")"),
+    "volatile-amount": ("the 12.1 notes say this reward's amount is still being tuned "
+                        "— the scraped number is not a confirmed current value"),
+}
+# The 12.1 "drops remain Season 1 drops and can no longer be upgraded" line sits
+# under the **VAL AND NAIGTAL** heading, so it is scoped to that rotation — the
+# older Midnight world bosses (Lu'ashal / Thorm'belan / Predaxas / Cragpine) are
+# not named by it and their quest rewards sit below every crest ladder anyway.
+WORLD_BOSS_S1_FROZEN = {96713, 96717}
+QUEST_SEASON_FLAGS: dict[int, list[tuple[str, str]]] = {
+    # Prey weekly: Nightmare mode is OFF in the pre-season week and returns
+    # 2026-08-18 with Prey Season 2 (weekly-checklist.md; changelog-12.1.md).
+    94446: [("pre-season",
+             "Nightmare mode is off this week — the S1 Prey weekly is dormant until "
+             "2026-08-18"),
+            ("S1-currency",
+             "Hero **Dawncrest** is the Season 1 crest family; S2 crests are "
+             "**Mistcrests** (moving-values.md). Whether the S2 version of this "
+             "weekly pays a Mistcrest is not confirmed — do not read the scraped "
+             "amount as a live S2 reward")],
+    # Rated PvP (and the Conquest season) does not open until 2026-08-18; this week
+    # is unrated only.
+    93593: [("pre-season",
+             "Season 2 PvP opens 2026-08-18 — unrated only this week, so the "
+             "Conquest reward is not earnable yet")],
+    93865: [("pre-season",
+             "Voidstorm PvP turn-in — S1 PvP closed with the 08-11 maintenance and "
+             "S2 opens 2026-08-18; treat the Honor/token payout as pre-season only")],
+    89354: [("pre-season",
+             "Voidstorm PvP turn-in — same S1-closed / S2-not-open gap as 93865")],
+    # Tier 1-3 Ritual Site Studies keeps its Voidcore (the 12.1 removal names the
+    # *Advanced*/T6 chain only) — but a Voidcore is not spendable during the
+    # pre-season week, and this row's R rests on it.
+    96730: [("pre-season",
+             "the Tier 6 removal does **not** touch this Tier 1-3 chain, so the "
+             "scraped `Nebulous Voidcore ×1` stands — but the payout is not "
+             "spendable this week: Season 1 Voidcores **convert to gold at the end "
+             "of S1 and may no longer be used in S1 content**, and Voidcore bonus "
+             "rolls return only the **week of 2026-08-25**, and then only with "
+             "**≥3 vault panes** unlocked (`_meta/patch-notes/12.1.md:1337-1338,1645`; "
+             "`_meta/moving-values.md` row \"Nebulous Voidcores — availability\"). "
+             "This row's **R=3 rests on that Voidcore**, so treat it as next-season "
+             "value, not this week's")],
+    # Coffer Key Shard amounts were retuned across multiple sources in 12.1 and
+    # Blizzard calls the tuning ongoing — so a scraped shard number is not current.
+    96640: [("volatile-amount",
+             "12.1 \"adjusted delve Coffer Key Shard amounts from multiple sources\" "
+             "and calls the tuning \"still ongoing and a work in progress\" "
+             "(`_meta/patch-notes/12.1.md:1343-1344`; `_meta/moving-values.md`), so "
+             "the scraped `×100` is a Wowhead number the Tier-1 feed does not "
+             "confirm — read it as an order of magnitude, not a current value")],
+}
+
 # "Name signals" — string-match heuristics that classify a quest from its NAME
 # when structured signals (Wowhead Type / recurring icon) are absent. WORLD_BOSSES
 # holds boss-NPC names; the Showdown weeklies carry neither a Type nor a recurring
@@ -105,9 +199,21 @@ REPEATABLE_NAME_RE = re.compile(
     r"showdown on val|showdown on naigtal|showdown",
     re.I)
 
-# Coarse ilvl -> upgrade-track bands (great-vault.md). track_confidence stays "low":
-# the Blizzard item API does not expose the track, so this is a best-effort guess.
-TRACK_BANDS = [(278, "Myth"), (265, "Hero"), (246, "Champion"), (220, "Veteran"), (1, "Adventurer")]
+# Coarse ilvl -> upgrade-track bands. track_confidence stays "low": the Blizzard
+# item API does not expose the track, so this is a best-effort guess.
+# Floors are the real crest upgrade bands (Tier 1, `_meta/moving-values.md`):
+# Season 2 **Mistcrests** 269-282-295-308-321-334, Season 1 **Dawncrests**
+# 224-237-250-263-276-289. An item BELOW 224 is under both ladders — it is
+# leveling-era / pre-season gear, not "Adventurer", so it gets NO track label
+# rather than being flattened into the bottom band (the old catch-all `(1,
+# "Adventurer")` row made ilvl-197 world-boss loot read as an Adventurer piece).
+# Bands must stay in descending-floor order (first match wins). The S1 rows only
+# cover 224-268, i.e. below the S2 ladder's floor — an item at 269+ is read as
+# Season 2 because Season 2 is the live ladder.
+TRACK_BANDS = [(321, "Myth"), (308, "Hero"), (295, "Champion"),
+               (282, "Veteran"), (269, "Adventurer"),
+               (263, "Hero (S1)"), (250, "Champion (S1)"),
+               (237, "Veteran (S1)"), (224, "Adventurer (S1)")]
 
 # Defaults for fields the scrape can't know — flagged _needs_human so nobody mistakes
 # them for measured values.
@@ -149,9 +255,16 @@ def harvest() -> dict[int, dict]:
     resp.raise_for_status()
     save_raw("wowhead", "listview-quests.html", resp.text)
     entries = _listview_data(resp.text)
-    # Midnight only (firstseenpatch 1200xx) — drop older content surfaced by the filter.
-    return {e["id"]: e for e in entries
-            if str(e.get("firstseenpatch", "")).startswith("1200")}
+    # Midnight only — drop older content surfaced by the filter. firstseenpatch is a
+    # 6-digit packed version: 120000 = 12.0.0, 120005 = 12.0.5, 120100 = 12.1.0.
+    # Keep the whole 12.x band. (The old `startswith("1200")` prefix test silently
+    # dropped every 12.1 "Curse of Ula'tek" quest — Coiled Isle — on patch day.)
+    def _midnight(e) -> bool:
+        try:
+            return 120000 <= int(e.get("firstseenpatch", 0)) < 130000
+        except (TypeError, ValueError):
+            return False
+    return {e["id"]: e for e in entries if _midnight(e)}
 
 
 # --------------------------------------------------------------------------- #
@@ -310,6 +423,17 @@ def enjoyment_key(name: str) -> str:
 # --------------------------------------------------------------------------- #
 # Entry assembly                                                               #
 # --------------------------------------------------------------------------- #
+def _dedupe_currencies(currencies: list[dict]) -> list[dict]:
+    """Collapse same-named currency rewards (duplicate CurrencyTypes ids) to one."""
+    best: dict[str, dict] = {}
+    for c in currencies:
+        key = (c.get("name") or "").lower()
+        prev = best.get(key)
+        if prev is None or (c.get("amount") or 0) > (prev.get("amount") or 0):
+            best[key] = c
+    return list(best.values())
+
+
 def build_entry(qid: int, entry: dict | None, curnames: dict,
                 id2zone: dict, use_cache: bool, seed: bool) -> dict | None:
     html = fetch_page(qid, use_cache)
@@ -381,9 +505,38 @@ def build_entry(qid: int, entry: dict | None, curnames: dict,
                  "goals": r["cache_goals"], "R": r["cache_R"]})
     desc["items"] = gear
 
+    # De-duplicate currencies BEFORE valuation. A listview row can carry the same
+    # currency under two ids (the 12.1 CurrencyTypes rows ship duplicates — e.g.
+    # Hero Dawncrest 3345/3346), which valued the same reward twice into R and
+    # printed twice in the JSON. Keep the largest amount seen per name.
+    desc["currencies"] = _dedupe_currencies(desc["currencies"])
+
+    # Tier-1 override: drop rewards the patch notes removed (see TIER1_REWARD_DROPS).
+    tier1_note = None
+    drop = TIER1_REWARD_DROPS.get(qid)
+    if drop:
+        pats, tier1_note = drop
+        kept = [c for c in desc["currencies"]
+                if not any(p in (c.get("name") or "").lower() for p in pats)]
+        if len(kept) != len(desc["currencies"]):
+            desc["currencies"] = kept
+            desc.setdefault("tier1_removed", []).append(tier1_note)
+        else:
+            tier1_note = None   # nothing to remove (scrape already caught up)
+
     cadence, cad_conf = classify_cadence(name, entry, facts)
     val = rewards.value_quest(desc)               # baseline R (char_state deferred)
     goals = val["goals"]
+
+    # Season/pre-season flags: curated per quest, plus a structural catch for any
+    # row still paying a Season 1 crest.
+    flags = [{"tag": t, "note": n} for t, n in QUEST_SEASON_FLAGS.get(qid, [])]
+    if (any("dawncrest" in (c.get("name") or "").lower() for c in desc["currencies"])
+            and not any(f["tag"] == "S1-currency" for f in flags)):
+        flags.append({"tag": "S1-currency", "note": SEASON_FLAG_NOTES["S1-currency"]})
+    if qid in WORLD_BOSS_S1_FROZEN:
+        flags.append({"tag": "S1-frozen-loot",
+                      "note": SEASON_FLAG_NOTES["S1-frozen-loot"]})
 
     why_bits = [cadence]
     if goals:
@@ -391,6 +544,10 @@ def build_entry(qid: int, entry: dict | None, curnames: dict,
     why = f"{cadence} repeatable"
     if val["note"]:
         why += f" — {val['note']}"
+    if tier1_note:
+        why += f"; ⚠ Tier-1 override: {tier1_note}"
+    for f in flags:
+        why += f"; ⚠ {f['tag']}: {f['note']}"
 
     return {
         # --- planner candidate schema (candidates.json-compatible) ---
@@ -411,7 +568,9 @@ def build_entry(qid: int, entry: dict | None, curnames: dict,
         "questID": qid,
         "questID_confidence": rep_conf,
         "quest_level": level,
-        "value_confidence": val["confidence"],
+        "value_confidence": ("medium" if (flags or tier1_note) else val["confidence"]),
+        "flags": flags,
+        "tier1_override": tier1_note,
         "_needs_human": True,                     # time_blocks + enjoyment_key are guesses
     }
 
@@ -487,12 +646,17 @@ def write_doc(entries: list[dict], wire: list[dict], coverage: dict) -> None:
 
     L: list[str] = []
     L += ["---",
-          "title: Midnight Daily/Weekly Repeatable Quests (Season 1)",
-          "patch: 12.0.7",
+          "title: Midnight Daily/Weekly Repeatable Quests",
+          f"patch: {KB_PATCH}",
           f"fetched: {today}",
+          f"reviewed: {today}",
           "sources:",
           "  - https://www.wowhead.com/quests/min-level:90/max-level:90   # listview harvest",
           "  - https://us.api.blizzard.com/data/wow/quest/area/15355       # Blizzard zone cross-check",
+          "  - https://worldofwarcraft.com/en-us/news/24293281   # 12.1 Curse of Ula'tek content update notes (Tier 1)",
+          "  - https://worldofwarcraft.com/en-us/news/24293963   # Coiled Isle / Vaults of Atal'Utek preview (Tier 1)",
+          "  - knowledge/_meta/patch-notes/12.1.md   # verbatim 12.1 notes (Tier 1 floor for rewards)",
+          "  - knowledge/_meta/moving-values.md   # crest family + reward-value registry (Tier 1)",
           "  - knowledge/_meta/quests.md   # quest-data doctrine",
           "confidence: medium   # auto-generated; cadence/track marked per-row, verify gated ones in-game",
           "---",
@@ -511,6 +675,13 @@ def write_doc(entries: list[dict], wire: list[dict], coverage: dict) -> None:
           "its baseline. Character-relative scoring is the deferred follow-up below.",
           "",
           f"Catalog: **{len(entries)}** repeatable quests.",
+          "",
+          "> ⚠ **Pre-season week.** 12.1 went live **2026-08-11**, but **Midnight "
+          "Season 2 opens 2026-08-18**. Rows tagged `⚠pre-season` in the notes column "
+          "are dormant or gated until then; `⚠S1-currency` marks a reward column still "
+          "showing a Season 1 currency; `⚠volatile-amount` marks an amount the 12.1 "
+          "notes say is still being tuned. All of them are spelled out under "
+          "[Pre-season & Season-2 gating](#pre-season--season-2-gating-week-of-2026-08-11).",
           ""]
 
     for cad in order:
@@ -530,12 +701,76 @@ def write_doc(entries: list[dict], wire: list[dict], coverage: dict) -> None:
                 notes.append(f"questID:{e['questID_confidence']}")
             if e["value_confidence"] != "high":
                 notes.append(f"value:{e['value_confidence']}")
+            if e.get("tier1_override"):
+                notes.append("⚠T1-override")
+            for f in e.get("flags") or []:
+                notes.append(f"⚠{f['tag']}")
             notes.append("time/E _needs_human")
             L.append(f"| {e['id']} | {e['name']} | {e['zone']} | {rw} | "
                      f"R={e['reward_base']} {goals} | {e['questID']} | {'; '.join(notes)} |")
         L.append("")
 
-    L += ["## Caveats",
+    # Pre-season / Season-2 gating block — the flags, in prose, with the reason.
+    flagged = [e for e in entries if e.get("flags") or e.get("tier1_override")]
+    if flagged:
+        L += ["## Pre-season & Season-2 gating (week of 2026-08-11)",
+              "",
+              "12.1 shipped **2026-08-11**; **Midnight Season 2 opens 2026-08-18** "
+              "(`_meta/changelog-12.1.md`). Every row below is either not currently "
+              "available, or carries a reward the season change has moved. The tables "
+              "above list them because they are catalogued repeatables — not because "
+              "they are all completable today.",
+              ""]
+        for e in sorted(flagged, key=lambda e: e["questID"]):
+            if e.get("tier1_override"):
+                L.append(f"- **{e['name']}** (`{e['questID']}`) — ⚠ **Tier-1 override**: "
+                         f"{e['tier1_override']}; the reward was removed from this row "
+                         f"before valuation, so R excludes it.")
+            for f in e.get("flags") or []:
+                L.append(f"- **{e['name']}** (`{e['questID']}`) — ⚠ **{f['tag']}**: {f['note']}.")
+        L.append("")
+
+    # Coiled Isle quest counts, straight off the zone cross-check, so the caveat and
+    # the coverage table can never disagree (they did: a hardcoded "~300" vs 124).
+    ISLE_ZONES = ("The Coiled Isle", "Tokka's Landing", "The Whispering Marsh",
+                  "Vaults of Atal'Utek", "The Venomous Abyss")
+    isle_counts = {z: (coverage.get(z) or {}).get("zone_total", 0) for z in ISLE_ZONES}
+    isle_quests = sum(isle_counts.values())
+    isle_breakdown = ", ".join(f"{z} {n}" for z, n in isle_counts.items() if n)
+
+    # The Coiled Isle systems the 12.1 ledger asks this file for. They are named, not
+    # catalogued: Wowhead carries no Type/recurring signal for their quests yet, so
+    # nothing here asserts a cadence, quest ID or amount.
+    L += ["## Coiled Isle repeatables not yet in this catalog (12.1)",
+          "",
+          "The 12.1 change ledger asks this file for the **Coiled Isle weeklies**. The "
+          "zone's repeatable *systems* are Tier-1 confirmed, so they are named here "
+          "rather than left as a silent hole — but their quests are **not** in the "
+          "tables above, because on patch day Wowhead's pages for them carry neither "
+          "`Type: Weekly|Daily` nor a recurring-turn-in icon (the coverage caveat below "
+          "measures how big that hole is). **No cadence, quest ID, reward, or amount is "
+          "asserted for any of them.** The zone's mechanics and currencies are written "
+          "up in `knowledge/systems/coiled-isle.md`.",
+          "",
+          "- **Curse Surges** — regularly spawn rare elites at **five rotating "
+          "locations** across the isle (`_meta/patch-notes/12.1.md:99`).",
+          "- **Venom Fishing** — killing a Curse Surge rare elite **unlocks Venom "
+          "Fishing at that location**; it comes with a local story for the tortollan "
+          "sea captain **Tokka**, reputation with his crew, and fishing in more cursed "
+          "waters around the isle (`:103`).",
+          "- **Vaults of Atal'Utek** — group content plus **rotating public events that "
+          "build up to a boss fight** (`:87`).",
+          "- **Zul'jarra's Forces** — the isle's renown faction; quartermaster "
+          "**Jan'sari the Watchful** at **Tokka's Landing** "
+          "([Coiled Isle preview](https://worldofwarcraft.com/en-us/news/24293963); "
+          "`_meta/changelog-12.1.md`). Whether its renown turn-in exists as a discrete "
+          "weekly quest is **unconfirmed** — the only catalogued row paying that "
+          "currency today is `Bounty of the Cursed` (`96640`).",
+          "",
+          "Curse Surges and the Vaults are **live during the pre-season week**, not "
+          "Aug-18 content (`_meta/patch-notes/12.1.md:1613`).",
+          "",
+          "## Caveats",
           "",
           "- **Campaign gating.** Several repeatables unlock only after a story chain — "
           "notably the Shul'ka Li'tya **WANTED** board (Harandar): level 88 *and* "
@@ -544,22 +779,86 @@ def write_doc(entries: list[dict], wire: list[dict], coverage: dict) -> None:
           "- **`_needs_human` fields.** `time_blocks` and `enjoyment_key` are placeholder "
           "defaults, not measured — tune before trusting the planner score.",
           "- **Gear track** is a coarse ilvl-band guess (`track_confidence: low`); the "
-          "Blizzard item API does not expose the upgrade track. Never asserted as fact.",
+          "Blizzard item API does not expose the upgrade track. Never asserted as fact. "
+          "Bands are the real crest bands (`_meta/moving-values.md`): Season 2 "
+          "**Mistcrests** 269-282-295-308-321-334, Season 1 **Dawncrests** "
+          "224-237-250-263-276-289, with `(S1)` appended below 269. An item under **224** "
+          "sits below both ladders — leveling-era or pre-season gear — and gets **no** "
+          "track label (`?`) rather than being flattened into \"Adventurer\".",
           "- **Cadence** is best-effort (Wowhead `Type` + recurring icon + name); rows "
           "flag low/medium confidence.",
-          "- **Turn-in ≠ activity loot.** R values the *quest reward* only. World-boss "
-          "and Void-Assault quests hand out just XP on turn-in (hence R=0) — the real "
-          "loot is the boss/activity drop + weekly lockout, which this model doesn't "
-          "see. Treat those rows' R as a floor.",
+          "- **Turn-in ≠ activity loot.** R values the *quest reward* only. For "
+          "world-boss and Void-Assault rows the bigger prize is the boss/activity drop "
+          "under its own lockout, which this model never sees — so their R is a floor, "
+          "whatever it reads.",
           "- **Container/cache rewards are R-floored.** When a quest rewards a *cache* "
           "(e.g. the Val/Naigtal Showdowns' Riftstalker's Cache), R + goals are derived "
           "from the item's description (which lists the contents), but the gear roll "
           "*inside* the cache is opaque to the API — so the shown R is a floor a real "
           "open can only beat.",
+          "- ⚠ **Coffer Key Shard rewards: the number is volatile and the `vault` goal "
+          "is dormant this week.** Eight rows pay Coffer Key Shards — the seven "
+          "Harandar **WANTED** dailies (unquantified in the scrape) and **Bounty of the "
+          "Cursed** (`96640`, scraped at `×100`). Two things qualify them. (1) 12.1 "
+          "\"adjusted delve Coffer Key Shard amounts from multiple sources\", weighted "
+          "toward Coiled Isle content, and states the tuning is \"still ongoing and a "
+          "work in progress\" (`_meta/patch-notes/12.1.md:1343-1344`; "
+          "`_meta/moving-values.md` row \"Delve Coffer Key Shards\") — the Tier-1 feed "
+          "publishes **no** shard number, so there is nothing to overwrite the scrape "
+          "with and nothing that confirms it either. (2) During the pre-season week "
+          "there are **no Bountiful Delves and Coffer Keys do not drop** — keys begin "
+          "dropping with the 2026-08-18 maintenance (`_meta/moving-values.md` row "
+          "\"Delve rewards (pre-season)\"; `_meta/patch-notes/12.1.md:1615`). Shards "
+          "are what feed the keys that open the Bountiful chests these rows' `vault` "
+          "tag is counting on, so that tag is **next-week value** and R over-states "
+          "these rows for the week this file describes.",
+          "- ⚠ **Tier-1 patch notes outrank this scrape on rewards, and the override is "
+          "applied, not just annotated.** Wowhead's quest pages lag a patch by days, so a "
+          "scraped reward can be one the notes removed; `TIER1_REWARD_DROPS` "
+          "(`tools/wowkb/repeatables.py`) strips those **before** valuation, so the "
+          "removal reaches the reward column, **R**, and `repeatables.json` alike. Known "
+          "12.1 override: the **Tier 6 Advanced Ritual Site Studies** quests "
+          "**no longer award a Nebulous Voidcore bonus roll** — they "
+          "stay completable for the achievement "
+          "([12.1 notes](https://worldofwarcraft.com/en-us/news/24293281); "
+          "`_meta/patch-notes/12.1.md`; `_meta/moving-values.md` row "
+          "\"Ritual Sites T6 bonus roll → Removed\"). The note names the **Advanced** "
+          "(Tier 6) chain only, so the **Tier 1-3 \"Ritual Site Studies\" quests "
+          "(96728/96729/96730) keep their Voidcore** — the two families are one word "
+          "apart, and only the *Advanced* one lost it. The override is **registered for "
+          "all three** Advanced quests (96731/96732/96733) but the `⚠T1-override` tag "
+          "marks only the row where it actually **fired**: 96731 and 96732 never "
+          "scraped a Voidcore in the first place, so nothing was removed from them and "
+          "they carry no tag. Read a missing tag as \"the scrape was already clean\", "
+          "not as \"the override skipped this row\".",
+          "- ⚠ **Val/Naigtal world-boss rewards are frozen at Season 1.** Per 12.1, "
+          "\"the World Boss drops will remain as Season 1 drops and can no longer be "
+          "upgraded\" (the \"Knocking off the Top (Heroic)\" Mythic quest rewards "
+          "likewise) — `_meta/patch-notes/12.1.md` (VAL AND NAIGTAL), "
+          "`_meta/moving-values.md` row \"World boss loot (Val/Naigtal …)\". So the "
+          "Showdown rows' gearing R is **last season's** gear at a dead end of the "
+          "upgrade ladder, not S2 progression; the part that still advances you is the "
+          "S2 crest payout (**Adventurer** in Normal World Tier, **Veteran** in Heroic), "
+          "which is activity loot this quest-reward model does not see. The older "
+          "Midnight world bosses (Lu'ashal / Thorm'belan / Predaxas / Cragpine) are not "
+          "named by that note; their quest gear sits below every crest ladder regardless.",
+          f"- ⚠ **12.1 Coiled Isle coverage is thin, by measurement.** The isle carries "
+          f"**{isle_quests}** level-90 quests across its zones in the Blizzard per-zone "
+          f"index ({isle_breakdown}) — the same numbers as the Zone cross-check below — "
+          "but on patch day Wowhead's pages for them carry no "
+          "`Type: Weekly|Daily` and no recurring-turn-in icon, which are this scraper's "
+          "two authorities on repeatability. Only rows with a daily-quest listview icon "
+          "or a power-goal currency reward can be caught today. The Coiled Isle systems "
+          "that are certainly repeatable but not yet classifiable are named in "
+          "[Coiled Isle repeatables not yet in this catalog]"
+          "(#coiled-isle-repeatables-not-yet-in-this-catalog-121) above and described in "
+          "full in `knowledge/systems/coiled-isle.md`. Widening the name-regex to catch "
+          "them today would sweep the zone's Prey/Nightmare one-offs in with them, which "
+          "is a scoping decision, not a scrape fix. **Re-run this scrape in a week.**",
           ""]
 
     if wire:
-        L += ["## questIDs to wire (verify in-game first)",
+        L += ["## questIDs to wire (verify in-game first) @verify-ingame",
               "",
               "Candidate IDs for the planner's `weekly_quest` gate / PlannerState "
               "`ns.WEEKLY_QUESTS`. **Not auto-wired** — a wrong ID false-reports \"done\" "
@@ -626,7 +925,14 @@ def run(use_cache: bool = True, limit: int | None = None) -> dict:
         return False
 
     pool = {qid for qid, e in entries.items()
-            if e.get("icon") != "quest-start-campaign" and has_power_currency(e)}
+            if e.get("icon") != "quest-start-campaign"
+            and (has_power_currency(e)
+                 # A daily-quest icon is a STRUCTURAL repeatable signal that is free
+                 # in the listview and that is_repeatable() already trusts — the
+                 # currency-only pare used to drop those rows before they were ever
+                 # fetched (e.g. the 12.1 Vaults of Atal'Utek "Barrier A–D" /
+                 # "Clear the Clutch" dailies, which reward no currency).
+                 or e.get("icon") == "quest-start-daily")}
     pool |= KNOWN_REPEATABLES
     qids = sorted(pool)
     if limit:

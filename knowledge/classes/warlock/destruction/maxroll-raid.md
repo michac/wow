@@ -1,18 +1,27 @@
 ---
 title: Destruction Warlock Raid Guide
-patch: 12.0.7
-fetched: 2026-07-14
-reviewed: 2026-07-14
+patch: 12.0.1
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
   - https://maxroll.gg/wow/class-guides/destruction-warlock-raid-guide (maxroll.gg, Tier 3)
 confidence: medium
 verbatim: true          # unedited external capture — distill on read, not on insert
 source: maxroll.gg
 author: xerwo
-maxroll_updated: 2026-06-19   # source's last-modified (staleness signal)
+maxroll_updated: 2026-08-11   # source's last-modified (staleness signal)
+kb_caveat: |
+  ⚠ CAPTURED ON 12.1 PATCH DAY (2026-08-11) AND PARTIALLY STALE. The guide's own
+  header says 12.1, but the body still references talents that 12.1 REMOVED:
+  Nocturnal Yield, Patient Zero.
+  Verified absent from the live talent trees (Tier 1: Blizzard Game Data API +
+  wago.tools Trait* DB2, knowledge/classes/_talents/all-talents.tsv @ 12.1.0).
+  Affliction also GAINED Hedonic Gorging and Impetuous Wrath, which this capture
+  predates. Treat every talent/build recommendation here as pre-12.1 until the
+  author re-publishes. Distil on read — do not lift builds from this file as-is.
 ---
 
-Welcome to the **Destruction Warlock** Raid guide for the World of Warcraft patch 12.0.7! This guide covers everything you need to know to understand your character! Are you starting out and leveling up from 80? Check out the leveling guide!
+Welcome to the **Destruction Warlock** Raid guide for the World of Warcraft patch 12.1! This guide covers everything you need to know to understand your character! Are you starting out and leveling up from 80? Check out the leveling guide!
 
 Single-Target 
 
@@ -20,7 +29,7 @@ Strong
 
 AoE 
 
-Excellent 
+Strong 
 
 Utility 
 
@@ -34,7 +43,7 @@ Mobility
 
 Average
 
-[Maxroll paperdoll import](https://backend.maxroll.gg/wow/embed-tools/paperdoll=IEfA4uQA3_PABoL0DIICBAwJ5OwRtOggCESABMAGEAAEBAg21IoAqEQANT9ACgQAAcRuJ0BJ9C9ACARAAkQuD0AIccezDAICBAADN0DC5C9AB8CBFoaCvwg-XQAAFwEI5IgKBEAIoOAhBwGUqOgGAPgAtOgIv0RABsL0DAACBAggBsHACExeAkTAvAwPJsJB1jbAskAIE48AB8EICKgV1oSAB8fzu4AAMgCqDQQFdVgW88_7DIAEBAQP5OggCYVNqEA)
+[Maxroll paperdoll import](https://backend.maxroll.gg/wow/embed-tools/paperdoll=JkoAwX3CBc__BEgAmQggUEAAnk7AH16AYxYNCKAWBEQ6XQAAREAA6z6A6z6ACKAj1gVABgLJEIACFAwF5OggC4UA3W6AB0LJEIACBAQC5OQcj4UABECqDQICBAwJqOgHAPADtOwt1sUABkLJEIACBAQBqOggC4UAB89FF8AApEQRMgVABAiLzAAB8zaCzgxukQAAIUAABkIQTfBBBw9FEIICBAQ94OgEtOQA7xQAeqmANIBAC0gEYcW0DAACBAQBegAVfQQFMQQ3X0ADogVABQvIEIACBAwPNsHKleBBAgQAAIoAOFA)
 
 **Destruction Warlock** Raid Best in Slot
 
@@ -90,7 +99,7 @@ Following you receive a list of meaningful class changes going from The War With
     * [Ritual of Ruin](https://www.wowhead.com/spell=387156) / [Master Ritualist](https://www.wowhead.com/spell=387165)
       * Another hit to our [Soul Shard](https://www.wowhead.com/spell=246985) generation and also causes less frequent spawns of [Avatar of Destruction](https://www.wowhead.com/spell=136833) since it only works with [Soul Fire](https://www.wowhead.com/spell=134221) or [Dimensional Rift](https://www.wowhead.com/spell=128600) now.
 
-* [Diabolist](https://www.wowhead.com/spell=123385) and [Hellcaller](https://www.wowhead.com/spell=123382) are both playable on single-target, while [Hellcaller](https://www.wowhead.com/spell=123382) does overall more AoE damage. [Hellcaller](https://www.wowhead.com/spell=123382) excels in spread out cleave and mass AoE through [Wither](https://www.wowhead.com/spell=445465) while [Diabolist](https://www.wowhead.com/spell=123385) has a lot of passive AoE and more priority damage due to [Diabolic Rituals](https://www.wowhead.com/spell=117452).
+* [Diabolist](https://www.wowhead.com/spell=123385) and [Hellcaller](https://www.wowhead.com/spell=123382) are both playable on single-target, while [Hellcaller](https://www.wowhead.com/spell=123382) does overall more AoE damage. [Hellcaller](https://www.wowhead.com/spell=123382) excels in spread out cleave while [Diabolist](https://www.wowhead.com/spell=123385) has a lot of passive AoE and more priority damage due to [Diabolic Rituals](https://www.wowhead.com/spell=117452).
 
 **[Diabolist](https://www.wowhead.com/spell=123385)**
 
@@ -129,11 +138,11 @@ Following you receive a list of meaningful class changes going from The War With
     * Casting [Malevolence](https://www.wowhead.com/spell=442726) increases all active [Wither](https://www.wowhead.com/spell=445465) stacks by 3 while each [Chaos Bolt](https://www.wowhead.com/spell=116858), [Shadowburn](https://www.wowhead.com/spell=91582) or [Rain of Fire](https://www.wowhead.com/spell=91592) adds 1 additional stack during its duration.
     * [Mark of Peroth'arn](https://www.wowhead.com/spell=117441) gives [Wither](https://www.wowhead.com/spell=445465) the chance to add a stack whenever it crits.
     * Whenever [Blackened Soul](https://www.wowhead.com/spell=117434) deals damage you have a chance to gain [Flashpoint](https://www.wowhead.com/spell=91485) stacks through [Seeds of Their Demise](https://www.wowhead.com/spell=440055) even if you are not currently talented into [Flashpoint](https://www.wowhead.com/spell=91485).
-  * [Wither](https://www.wowhead.com/spell=445465) has a built-in mechanic which consumes its' accumulated stacks one after another for more damage. This mechanic is called **Corrupted**.
+  * [Wither](https://www.wowhead.com/spell=445465) has a built-in mechanic that consumes its accumulated stacks one after another for more damage. This mechanic is called **Corrupted**.already below 20%
     * The **Corrupted** state of [Wither](https://www.wowhead.com/spell=445465) is triggered by the following: 
       * Chance whenever [Wither](https://www.wowhead.com/spell=445465) gains a stack.
       * If [Wither](https://www.wowhead.com/spell=445465) reaches 8 stacks.
-      * If the target [Wither](https://www.wowhead.com/spell=445465) is on reaches 20% or is below 20% already.
+      * If the target [Wither](https://www.wowhead.com/spell=445465) is on and reaches 20% or is already below 20% health.
       * When [Malevolence](https://www.wowhead.com/spell=442726) is up.
   * [Through the Felvine](https://www.wowhead.com/spell=136095)
     * Passive damage increase to Chaos Bolt and Rain of Fire which is doubled during [Malevolence](https://www.wowhead.com/spell=442726).
@@ -161,7 +170,7 @@ Discover all talents that significantly alter your gameplay within the Spec and 
 * [Shadowburn](https://www.wowhead.com/spell=91582)
     * Strong execute ability, usable when your enemy is below 20% health or [Fiendish Cruelty](https://www.wowhead.com/spell=126004) is up.
   * [Roaring Blaze](https://www.wowhead.com/spell=205184)
-    * Got reworked in this patch, it's not a debuff anymore but rather only increases your [Conflagrate](https://www.wowhead.com/spell=91591) damage and spreads [Immolate](https://www.wowhead.com/spell=348) upon use.
+    * Got reworked, it's not a debuff anymore but rather only increases your [Conflagrate](https://www.wowhead.com/spell=91591) damage and spreads [Immolate](https://www.wowhead.com/spell=348) upon use.
   * [Soul Fire](https://www.wowhead.com/spell=134221)
     * A hard hitting spell which procs [Avatar of Destruction](https://www.wowhead.com/spell=136833) and generates you a Soul Shard.
   * [Summon Infernal](https://www.wowhead.com/spell=1122)
@@ -172,11 +181,11 @@ Discover all talents that significantly alter your gameplay within the Spec and 
 * [Fel Domination](https://www.wowhead.com/spell=91439)
     * Used as a quick pet recovery either if your current pet dies or you got resurrected. Skips the [Soul Shard](https://www.wowhead.com/spell=246985) cost and significantly reduces the cast time for the summoned pet.
   * [Burning Rush](https://www.wowhead.com/spell=91460)
-    * Toggeable movementspeed increase that costs health per second to use.
+    * Toggleable movement speed increase that costs health per second to use.
   * [Mortal Coil](https://www.wowhead.com/spell=91452)
     * Quick selfheal on a short cooldown. Further enhanced by [Improved Mortal Coil](https://www.wowhead.com/spell=136105).
   * [Dark Pact](https://www.wowhead.com/spell=91444)
-    * Provides you with a big absorbshield at the cost of your heatlh. Health cost is reduced by [Ichor of Devils](https://www.wowhead.com/spell=91446). You can also change [Ichor of Devils](https://www.wowhead.com/spell=91446) to [Frequent Donor](https://www.wowhead.com/spell=91445) to have access to more potential [Dark Pact](https://www.wowhead.com/spell=91444) uses.
+    * Provides you with a big absorb shield at the cost of your heatlh. Health cost is reduced by [Ichor of Devils](https://www.wowhead.com/spell=91446). You can also change [Ichor of Devils](https://www.wowhead.com/spell=91446) to [Frequent Donor](https://www.wowhead.com/spell=91445) to have access to more potential [Dark Pact](https://www.wowhead.com/spell=91444) uses.
   * [Demonic Gateway](https://www.wowhead.com/spell=91466)
     * Enables you to travel a larger distance once every 90 seconds. You are able to use it twice if [Frequent Traveler](https://www.wowhead.com/spell=136101) is talented.
   * [Soulburn](https://www.wowhead.com/spell=91469)
@@ -257,10 +266,10 @@ Listing all the changes within the Class and Spec tree compared to the default b
 
 ### Tier Set
 
-Check out all the [Midnight Season 1 Tier Sets](https://maxroll.gg/wow/resources/midnight-season-1-tier-sets)!
+Check out all the [**Midnight Season 2 Tier Sets**](https://maxroll.gg/wow/resources/midnight-season-2-tier-sets)!
 
-* **2-Set:**  ‍[Chaos Bolt](https://www.wowhead.com/spell=136835) and ‍[Rain of Fire](https://www.wowhead.com/spell=91592) damage increased by 5%.
-  * **4-Set:**  ‍[Conflagrate](https://www.wowhead.com/spell=91591) generates 2 additional [Soul Shard Fragments](https://www.wowhead.com/spell=246985) and its damage is increased by 10%.
+* **2-Set:**  ‍[Incinerate](https://www.wowhead.com/spell=29722) damage increased by 25% and [Incinerate](https://www.wowhead.com/spell=29722) has a 10% increased chance to evoke an ‍[Echo of Sargeras](https://www.wowhead.com/spell=1265884).
+  * **4-Set:**  Targets damaged by ‍[Echo of Sargeras](https://www.wowhead.com/spell=1265884) take 6% increased damage from your spells and abilities for 6 seconds.
 
 ### Single-Target
 
@@ -283,13 +292,14 @@ This is a general priority you aim to maintain throughout the fight.
 
 1. Keep up [Immolate](https://www.wowhead.com/spell=348) on your target.
   2. Cast [Ruination](https://www.wowhead.com/spell=434635) if [Ruination](https://www.wowhead.com/spell=434636) is up.
-  3. Cast [Chaos Bolt](https://www.wowhead.com/spell=116858) if [Demonic Art: Overlord](https://www.wowhead.com/spell=428524), [Demonic Art: Mother of Chaos](https://www.wowhead.com/spell=432794) or [Demonic Art: Pit Lord](https://www.wowhead.com/spell=432795) is up or if you are capping on [Soul Shards](https://www.wowhead.com/spell=246985).
-  4. Cast [Infernal Bolt](https://www.wowhead.com/spell=434506) if you are below 3 [Soul Shards](https://www.wowhead.com/spell=246985) and [Infernal Bolt](https://www.wowhead.com/spell=433891) is up.
-  5. Cast [Conflagrate](https://www.wowhead.com/spell=17962) if you're close to 3 stacks.
-  6. Cast[Soul Fire](https://www.wowhead.com/spell=6353).
-  7. Cast [Cataclysm](https://www.wowhead.com/spell=152108).
-  8. Cast [Conflagrate](https://www.wowhead.com/spell=17962) to generate [Soul Shards](https://www.wowhead.com/spell=246985).
-  9. Cast [Incinerate](https://www.wowhead.com/spell=29722) to generate [Soul Shards](https://www.wowhead.com/spell=246985).
+  3. Cast [Shadowburn](https://www.wowhead.com/spell=17877) if you benefit from [Fiendish Cruelty](https://www.wowhead.com/spell=126004) or if you are capping on [Soul Shards](https://www.wowhead.com/spell=246985) and your target has sub 20% health.
+  4. Cast [Chaos Bolt](https://www.wowhead.com/spell=116858) if [Demonic Art: Overlord](https://www.wowhead.com/spell=428524), [Demonic Art: Mother of Chaos](https://www.wowhead.com/spell=432794) or [Demonic Art: Pit Lord](https://www.wowhead.com/spell=432795) is up or if you are capping on [Soul Shards](https://www.wowhead.com/spell=246985).
+  5. Cast [Infernal Bolt](https://www.wowhead.com/spell=434506) if you are below 3 [Soul Shards](https://www.wowhead.com/spell=246985) and [Infernal Bolt](https://www.wowhead.com/spell=433891) is up.
+  6. Cast [Conflagrate](https://www.wowhead.com/spell=17962) if you're close to 3 stacks.
+  7. Cast[Soul Fire](https://www.wowhead.com/spell=6353).
+  8. Cast [Cataclysm](https://www.wowhead.com/spell=152108).
+  9. Cast [Conflagrate](https://www.wowhead.com/spell=17962) to generate [Soul Shards](https://www.wowhead.com/spell=246985).
+  10. Cast [Incinerate](https://www.wowhead.com/spell=29722) to generate [Soul Shards](https://www.wowhead.com/spell=246985).
 
 **[Hellcaller](https://www.wowhead.com/spell=123382)**
 
@@ -336,11 +346,12 @@ This is a general priority you aim to maintain throughout the fight.
 1. Keep up [Immolate](https://www.wowhead.com/spell=348) on both targets.
   2. Cast [Ruination](https://www.wowhead.com/spell=434635) if [Ruination](https://www.wowhead.com/spell=434636) is up.
   3. Cast [Havoc](https://www.wowhead.com/spell=80240) on a secondary target.
-  4. Cast [Chaos Bolt](https://www.wowhead.com/spell=116858) if [Demonic Art: Overlord](https://www.wowhead.com/spell=428524), [Demonic Art: Mother of Chaos](https://www.wowhead.com/spell=432794) or [Demonic Art: Pit Lord](https://www.wowhead.com/spell=432795) is up or if you are capping on [Soul Shards](https://www.wowhead.com/spell=246985).
-  5. Cast [Cataclysm](https://www.wowhead.com/spell=152108).
-  6. Cast [Infernal Bolt](https://www.wowhead.com/spell=434506) if you are below 3 [Soul Shards](https://www.wowhead.com/spell=246985) and [Infernal Bolt](https://www.wowhead.com/spell=433891) is up.
-  7. Cast [Conflagrate](https://www.wowhead.com/spell=17962) to generate [Soul Shards](https://www.wowhead.com/spell=246985).
-  8. Cast [Incinerate](https://www.wowhead.com/spell=29722) to generate [Soul Shards](https://www.wowhead.com/spell=246985).
+  4. Cast [Shadowburn](https://www.wowhead.com/spell=17877) if you benefit from [Fiendish Cruelty](https://www.wowhead.com/spell=126004) or if you are capping on [Soul Shards](https://www.wowhead.com/spell=246985) and your target has sub 20% health.
+  5. Cast [Chaos Bolt](https://www.wowhead.com/spell=116858) if [Demonic Art: Overlord](https://www.wowhead.com/spell=428524), [Demonic Art: Mother of Chaos](https://www.wowhead.com/spell=432794) or [Demonic Art: Pit Lord](https://www.wowhead.com/spell=432795) is up or if you are capping on [Soul Shards](https://www.wowhead.com/spell=246985).
+  6. Cast [Cataclysm](https://www.wowhead.com/spell=152108).
+  7. Cast [Infernal Bolt](https://www.wowhead.com/spell=434506) if you are below 3 [Soul Shards](https://www.wowhead.com/spell=246985) and [Infernal Bolt](https://www.wowhead.com/spell=433891) is up.
+  8. Cast [Conflagrate](https://www.wowhead.com/spell=17962) to generate [Soul Shards](https://www.wowhead.com/spell=246985).
+  9. Cast [Incinerate](https://www.wowhead.com/spell=29722) to generate [Soul Shards](https://www.wowhead.com/spell=246985).
 
 **[Hellcaller](https://www.wowhead.com/spell=123382)**
 
@@ -389,11 +400,13 @@ This is a general priority you aim to maintain throughout the fight.
 1. Keep up [Immolate](https://www.wowhead.com/spell=348) on both targets.
   2. Cast [Ruination](https://www.wowhead.com/spell=434635) if [Ruination](https://www.wowhead.com/spell=434636) is up.
   3. Cast [Havoc](https://www.wowhead.com/spell=80240) on a secondary target.
-  4. Cast [Chaos Bolt](https://www.wowhead.com/spell=116858) or [Rain of Fire](https://www.wowhead.com/spell=91592) if [Demonic Art: Overlord](https://www.wowhead.com/spell=428524), [Demonic Art: Mother of Chaos](https://www.wowhead.com/spell=432794) or [Demonic Art: Pit Lord](https://www.wowhead.com/spell=432795) is up or if you are capping on [Soul Shards](https://www.wowhead.com/spell=246985).
-  5. Cast [Cataclysm](https://www.wowhead.com/spell=152108).
-  6. Cast [Infernal Bolt](https://www.wowhead.com/spell=434506) if you are below 3 [Soul Shards](https://www.wowhead.com/spell=246985) and [Infernal Bolt](https://www.wowhead.com/spell=433891) is up.
-  7. Cast [Conflagrate](https://www.wowhead.com/spell=17962) to generate [Soul Shards](https://www.wowhead.com/spell=246985).
-  8. Cast [Incinerate](https://www.wowhead.com/spell=29722) to generate [Soul Shards](https://www.wowhead.com/spell=246985).
+  4. Cast [Shadowburn](https://www.wowhead.com/spell=17877) if you want to deal priority damage and your target is sub 20% health or you benefit from [Fiendish Cruelty](https://www.wowhead.com/spell=126004).
+  5. Cast [Chaos Bolt](https://www.wowhead.com/spell=116858) or [Rain of Fire](https://www.wowhead.com/spell=91592) if [Demonic Art: Overlord](https://www.wowhead.com/spell=428524), [Demonic Art: Mother of Chaos](https://www.wowhead.com/spell=432794) or [Demonic Art: Pit Lord](https://www.wowhead.com/spell=432795) is up or if you are capping on [Soul Shards](https://www.wowhead.com/spell=246985).
+  6. Cast [Cataclysm](https://www.wowhead.com/spell=152108).
+  7. Cast [Infernal Bolt](https://www.wowhead.com/spell=434506) if you are below 3 [Soul Shards](https://www.wowhead.com/spell=246985) and [Infernal Bolt](https://www.wowhead.com/spell=433891) is up.
+  8. Cast [Shadowburn](https://www.wowhead.com/spell=17877) on enemies that are about to die.
+  9. Cast [Conflagrate](https://www.wowhead.com/spell=17962) to generate [Soul Shards](https://www.wowhead.com/spell=246985).
+  10. Cast [Incinerate](https://www.wowhead.com/spell=29722) to generate [Soul Shards](https://www.wowhead.com/spell=246985).
 
 **[Hellcaller](https://www.wowhead.com/spell=123382)**
 
@@ -469,96 +482,86 @@ Rotational min-maxing is just one aspect of mastering a specialization, but ther
 
 **← Scroll for more Bosses**→**
 
-**Chimaerus**
+**Nek'Zali**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CuQA-41RifCY33JXfKqYp1_dPzMmZmpZhhZmZmtZZMzMLmZ2W8ADAAmxYmZWsBDMLGNmBwsFbMAAwYA2AAmZgZGzMAAAMzMDAAmhBA)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CuQAUgGY_myp-zpUCockSq2z5zMMzoZxM2mZGz2sMzMzsYmZZhBAAzYMzMLWgBmFjGzAY2iNGAAYMYYDAYmBzMjZmFAAAzMzAAwYYA)
 
-**Destruction Warlock** Chimaerus talents in Raids
-
-### Boss Tips
-
-* Utilize your [Demonic Gateway](https://www.wowhead.com/spell=111771) to negate the knockup effect from the boss phasing.
-  * Use your [Demonic Circle](https://www.wowhead.com/spell=48018) right after soaking [Alndust Upheaval](https://www.wowhead.com/spell=1262289).
-
-**Imperator Averzian**
-
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CuQA-41RifCY33JXfKqYp1_dPzMmZGNbMMzMzsMLzMzMLmZ2WYAAwMGzMzCYMjhFyAbDL0YhBAAGDG2AwMDwMzYmBAAgZmZAAYMM)
-
-**Destruction Warlock** Imperator Averzian talents in Raids
+**Destruction Warlock** Nek'Zali talents in Raids
 
 ### Boss Tips
 
-* Put **Shadowguard Stalwart** on focus and kick [Pitch Bulwark](https://www.wowhead.com/spell=1255702).
-  * Utilize your [Demonic Gateway](https://www.wowhead.com/spell=91466) to allow your raid group to travel between adds quickly.
-  * Pre-place a [Demonic Circle](https://www.wowhead.com/spell=124694) before combat and it can save you a lot of movement throughout the fight.
+* Slow the adds with [Curse of Exhaustion](https://www.wowhead.com/spell=334275).
+  * Use [Demonic Circle: Teleport](https://www.wowhead.com/spell=48020) to quickly reposition yourself after you're affected by [Essence Rend](https://www.wowhead.com/spell=1287426).
 
-**Vorasius**
+**Entombed Sentinels**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CuQA-41RifCY33JXfKqYp1_dPzMmZGNbMMzMzsMLzMzMLGz2iZAAwMGzMzmFYgZxoxMAmtYjBAAGDwGAwMDmZGzMAAAMzMDAAjhB)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CuQAUgGY_myp-zpUCockSq2z5zMzMzoZjhZmxsNLzMzMLGz2iZAAwMGzMziFYgZxoxMAmtYjBAAGDwGAwMDMzYmZBAAwMzMAAMGG)
 
-**Destruction Warlock** Vorasius talents in Raids
-
-### Boss Tips
-
-* Make sure not to stay close to Blistercreep as they die, they deal significant damage and give you [Blisterburst](https://www.wowhead.com/spell=1259184) which increases shadow damage taken.
-  * Place your [Demonic Circle](https://www.wowhead.com/spell=124694) near melee, giving you an option to port over the rings.
-
-**Fallen-King Salhadaar**
-
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CuQA-41RifCY33JXfKqYp1_dPzMmZGNbMMzMzsMLzMzMLmZ2W8ADAAmxYmZWsADMLGNmBwsFbMAAwYA2AAmZwMzYMbAAAmZmBAgxwA)
-
-**Destruction Warlock** Fallen-King Salhadaar talents in Raids
+**Destruction Warlock** Entombed Sentinels talents in Raids
 
 ### Boss Tips
 
-* Place a [Demonic Circle](https://www.wowhead.com/spell=124694) before pull and use it when [Despotic Command](https://www.wowhead.com/spell=1248697) expires to place a pool of [Torturous Extract](https://www.wowhead.com/spell=1245592) in a good position that won't bother the raid.
+* You can position yourself in the middle between the bosses to constantly use [Havoc](https://www.wowhead.com/spell=91493). Make sure to only get either [Mark of Blood](https://www.wowhead.com/spell=1284503) or [Mark of Acid](https://www.wowhead.com/spell=1284494) to not grief your team.
 
-**Vaelgor & Ezzorak**
+**Lost Explorers**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CuQA-41RifCY33JXfKqYp1_dPzMzMzMNbMMzMzsMLjZmZxMzyCDAAmxYmZWAjZMsQGYbYhGLMAAwYwwGAmZAMzYMAAAMzMDAAmhB)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CuQAUgGY_myp-zpUCockSq2z5zMzMzoZjhZmZmlZZmZmZxYWWMDAAmxYmZWsgZmxMLLjmZG2GWmtGbMAAwYA2AwMzMDmZGjBAAgZmZAAYMM)
 
-**Destruction Warlock** Vaelgor & Ezzorak talents in Raids
-
-### Boss Tips
-
-* Be careful of **Vaelogors** tail, you might get lashed.
-  * You can hepl dispelling [Dread Breath](https://www.wowhead.com/spell=1244221) with [Singe Magic](https://www.wowhead.com/spell=89808).
-
-**Lightblinded Vanguard**
-
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CuQA-41RifCY33JXfKqYp1_dPzMmZGNbjhZmxsNbzMzMLGzyiHYAAwMGzMzCYMjhFyAbDL0YhBAAGDM2AwMDwMzYMbAAAmZmBAgxwA)
-
-**Destruction Warlock** Lightblinded Vanguard talents in Raids
-
-**Crown of the Cosmos**
-
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CuQA-41RifCY33JXfKqYp1_dPzMmZGNbMMzMmtZZmZmZxY2W8ADAAmxYmZWsADMLGNmBwsFbMAAwYgxGAwMDmZGzMbAAAmZmBAgxwA)
-
-**Destruction Warlock** Crown of the Cosmos talents in Raids
-
-**Belo'ren**
-
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CuQA-41RifCY33JXfKqYp1_dPjZmZGNbM2mZGzysMzMzsYMLLmBAAzYMzMLgxMGWIDsNsQjFGAAYMAbAYmBYmZMzAAAwMzMAAMGG)
-
-**Destruction Warlock** Belo'ren talents in Raids
+**Destruction Warlock** Lost Explorers talents in Raids
 
 ### Boss Tips
 
-* Soak the [Light Dive](https://www.wowhead.com/spell=1241291) if affected by [Light Feather](https://www.wowhead.com/spell=1241162).
-  * Soak the [Void Dive](https://www.wowhead.com/spell=1241339) if affected by [Void Feather](https://www.wowhead.com/spell=1241163).
-  * **Ember** adds retreat into an Egg and will cast [Rebirth](https://www.wowhead.com/spell=1241313). Defeat them before the cast finishes.
+* Use [Demonic Circle: Teleport](https://www.wowhead.com/spell=48020) to teleport over [Blast Wave](https://www.wowhead.com/spell=1305844) instead of using a mushroom.
 
-**Midnight Falls**
+**Vashnik**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CuQA-41RifCY33JXfKqYp1_dPzMzMzoZjhZmZmlZxMzMLmZs4BGAAMjxMzsAGzYYhMw2wGNWYAAgxgZsBgZGAzMGDAAAzMzMAAGDDA)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CuQAUgGY_myp-zpUCockSq2z5zMjZGNbmZ2mZGzysMzMzsYMLLmBAAzYMzMLWwMzYmllRzMDbDLzWjNGAAYMAbAYmZmBjZMmFAAAzMzAAwYY)
 
-**Destruction Warlock** Midnight Falls talents in Raids
+**Destruction Warlock** Vashnik talents in Raids
 
-**Rotmir**
+### Boss Tips
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CuQA-41RifCY33JXfKqYp1_dPzMzMzMNbMMzMzsMLjZmZxMz2CDAAmxYmZWAjZMsQGYbYhGLMAAwYwwGAmZAMzYMAAAMzMDAAmhB)
+* You may use [Banish](https://www.wowhead.com/spell=91454) on **Burning Venom** to prevent bad overlaps.
+  * Utilize your [Demonic Gateway](https://www.wowhead.com/spell=91466) to quickly cross the venom in the middle without taking extra damage.
+  * Use [Curse of Exhaustion](https://www.wowhead.com/spell=136107) on any adds trying to reach the middle.
 
-**Destruction Warlock** Rotmire Falls talents in Raids
+**Sszorak**
+
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CuQAUgGY_myp-zpUCockSq2z5zMzMzoZjhZmZmlZxMzMLGjFzAAgZmxMzsYBzMjZWWGNzMsNsMbN2YAAgxAjNAMzMzAzMGzCAAgZmZAAYMM)
+
+**Destruction Warlock** Sszorak talents in Raids
+
+### Boss Tips
+
+* Use [Demonic Circle: Teleport](https://www.wowhead.com/spell=48020) to cancel the knockback of [Raging Crosswinds](https://www.wowhead.com/spell=1285419).
+
+**Twin Fangs**
+
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CuQAUgGY_myp-zpUCockSq2z5zMzMzoZzM2mZmZWmlZmZmFjZZxMAAYGjZmZxGmZGzssMamZYbYZ2asxAAAjBYDAzMzMgZMGAAAmZmBAgxwA)
+
+**Destruction Warlock** Twin Fangs talents in Raids
+
+### Boss Tips
+
+* Use [Demonic Circle: Teleport](https://www.wowhead.com/spell=48020) to teleport over [Vile Flood](https://www.wowhead.com/spell=1294293) to skip a lot of movement.
+
+**The Coiled Altar**
+
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CuQAUgGY_myp-zpUCockSq2z5zMjZGNbmx2MzMzysMzMzsYMLLmBAAzYMzMLWwMzYmllRzMDbDLzWjNGAAYMAbAYmZmBjZMmNAAAzMzAAwYY)
+
+**Destruction Warlock** The Coiled Altar talents in Raids
+
+**Ula'tek**
+
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CuQAUgGY_myp-zpUCockSq2z5zMjZGNbmx2MzMzysMzMzsYMLLmBAAzYMzMLWwMzYmllRzMDbDLzWjNGAAYMAbAYmZmBjZMmNAAAzMzAAwYY)
+
+**Destruction Warlock** Ula'tek talents in Raids
+
+**Nymrissa Wavecaller**
+
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CuQAUgGY_myp-zpUCockSq2z5zMjZGNbmx2MzMzysMzMzsYMLLmBAAzYMzMLWwMzYmllRzMDbDLzWjNGAAYMAbAYmZmBjZMmNAAAzMzAAwYY)
+
+**Destruction Warlock** Nymrissa Wavecaller talents in Raids
 
 Understand your stat priority and the tertiary stats needed for optimal performance during Raid boss fights as a **Destruction Warlock**. For more detailed information, visit the **[Stats and Attributes](https://maxroll.gg/wow/resources/stats-and-attributes)** guide.
 
@@ -582,21 +585,22 @@ A static "**Stat Priority** " is just a starting point and can easily shift depe
 
 Slot| Item| Location  
 ---|---|---  
-Head| [Abyssal Immolator's Smoldering Flames](https://www.wowhead.com/item=250042)| Tier Set  
-Neck| [Rotmire's Sporeheart](https://www.wowhead.com/item=268291)| Rotmire  
-Shoulder| [Mantle of Dark Devotion](https://www.wowhead.com/item=251085)| Windrunner Spire  
-Cloak| [Adherent's Silken Shroud](https://www.wowhead.com/item=239656)| Crafting  
-Chest| [Abyssal Immolator's Dreadrobe](https://www.wowhead.com/item=250045)| Rotmire Catalyst  
+Head| [Venomkeeper's Horrific Cowl](https://www.wowhead.com/item=271874)| Ula'tek  
+Neck| [Aqirbane Reliquary](https://www.wowhead.com/item=268265)| Ula'tek  
+Shoulder| Convert [Brood Cleanser's Amice](https://www.wowhead.com/item=239031) into [Spires of the Damned Necrolyte](https://www.wowhead.com/item=271544)| Catalyst of Temple of Sethraliss  
+Cloak| [Silken Voodoo Drape](https://www.wowhead.com/item=268253)| The Coiled Altar  
+Chest| [Damned Necrolyte's Rattling Robes](https://www.wowhead.com/item=271549)| Vashnik  
 Wrist| [Martyr's Bindings](https://www.wowhead.com/item=239648)| Crafting  
-Gloves| [Abyssal Immolator's Grasps](https://www.wowhead.com/item=250043)| Tier Set  
-Belt| [Endless March Waistwrap](https://www.wowhead.com/item=249319)| Imperator Averzian  
-Legs| [Abyssal Immolator's Pillars](https://www.wowhead.com/item=250041)| Tier Set  
-Boots| [Luxurious Loamstriders](https://www.wowhead.com/item=268282)| Rotmire  
-Ring 1| [Sporecaller's Blooming Loop](https://www.wowhead.com/item=268290)| Rotmire  
-Ring 2| [Sin'dorei Band of Hope](https://www.wowhead.com/item=249919)| Belo'ren  
-Trinket 1| [Vaelgor's Final Stare](https://www.wowhead.com/item=249346)| Vaelgor & Ezzorak  
-Trinket 2| [Gaze of the Alnseer](https://www.wowhead.com/item=249343)| Chimaerus  
-Weapon| [Spire of the Furious Construct](https://www.wowhead.com/item=258047)| Skyreach
+Gloves| Convert [Grasps of the Eternal Shadow](https://www.wowhead.com/item=268243) into [Damned Necrolyte's Charred Grasps](https://www.wowhead.com/item=271547)| Catalyst of The Coiled Altar  
+Belt| [Martyr's Waistwrap](https://www.wowhead.com/item=239649)| Crafting  
+Legs| [Damned Necrolyte's Leg Bindings](https://www.wowhead.com/item=271545)| Sszorak  
+Boots| [Cackling Soultreads](https://www.wowhead.com/item=268255)| The Coiled Altar  
+Ring 1| [Apex Brute's Claw Ring](https://www.wowhead.com/item=268252)| Sszorak  
+Ring 2| [Charged Sandstone Band](https://www.wowhead.com/item=158366)| Temple of Sethraliss  
+Trinket 1| [Freightrunner's Flask](https://www.wowhead.com/item=250215)| Murder Row  
+Trinket 2| [Gebbo's Bottomless Bag](https://www.wowhead.com/item=270164)| The Lost Explorers  
+Weapon| [Jan'thrazet, the Soul Fang](https://www.wowhead.com/item=271092)| Ula'tek  
+Offhand| [Spine of the Hissing Abyss](https://www.wowhead.com/item=268197)| Entombed Sentinels
 
 **Farmable Alternatives**
 
@@ -604,23 +608,23 @@ Below you are presented with a good list of farmable alternatives that are obtai
 
 Slot| Item| Location  
 ---|---|---  
-Head| [Shadow-Weaver's Crown](https://www.wowhead.com/item=151337)| Seat of the Triumvirate  
-Neck| [Barbed Ymirheim Choker](https://www.wowhead.com/item=50228)| Pit of Saron  
-Shoulder| [Lightbinder Shoulderguards](https://www.wowhead.com/item=258578)| Skyreach  
-Cloak| [Rigid Scale Greatcloak](https://www.wowhead.com/item=258575)| Skyreach  
-Chest| [Voidbender Robe](https://www.wowhead.com/item=151303)| Seat of the Triumvirate  
-Wrist| [Entropic Wristwraps](https://www.wowhead.com/item=151305)| Seat of the Triumvirate  
-Gloves| [Handwraps of the Ascended](https://www.wowhead.com/item=151300)| Seat of the Triumvirate  
-Belt| [Cord of Unraveling Reality](https://www.wowhead.com/item=151302)| Seat of the Triumvirate  
-Legs| [Legwraps of Swirling Light](https://www.wowhead.com/item=258574)| Skyreach  
-Boots| [Lightbinder Treads](https://www.wowhead.com/item=258584)| Skyreach  
-Ring 1| [Occulsion of Void](https://www.wowhead.com/item=251217)| Nexus-Point Xenas  
-Ring 2| [Omission of Light](https://www.wowhead.com/item=251093)| Nexus-Point Xenas  
-Trinket 1| [Nevermelting Ice Crystal](https://www.wowhead.com/item=50259)| Pit of Saron  
-Trinket 2| [Heart of Wind](https://www.wowhead.com/item=250256)| Windrunner Spire  
-Weapon| [Surgeon's Needle](https://www.wowhead.com/item=50227)| Pit of Saron  
-Offhand| [Vexamus' Expulsion Rod](https://www.wowhead.com/item=193709)| Algeth'ar Academy  
-Two-Hand| [Spire of the Furious Construct](https://www.wowhead.com/item=258047)| Skyreach
+Head| [Worldroot Canopy](https://www.wowhead.com/item=251199)| The Blinding Vale  
+Neck| [Graft of the Domanaar](https://www.wowhead.com/item=251234)| Voidscar Arena  
+Shoulder| [Brood Cleanser's Amice](https://www.wowhead.com/item=239031)| Temple of Sethraliss  
+Cloak| [Fireproof Drape](https://www.wowhead.com/item=193763)| Ruby Life Pools  
+Chest| [Robes of the Reborn Serpent](https://www.wowhead.com/item=239032)| Temple of Sethraliss  
+Wrist| [Winter's Embrace Bracers](https://www.wowhead.com/item=251154)| Den of Nalorakk  
+Gloves| [Handwraps of Blasphemous Rites](https://www.wowhead.com/item=273773)| Altar of Fangs  
+Belt| [Ethereal Netherwrap](https://www.wowhead.com/item=251222)| Voidscar Arena  
+Legs| [Wind Soarer's Breeches](https://www.wowhead.com/item=193750)| Ruby Life Pools  
+Boots| [Sandswept Sandals](https://www.wowhead.com/item=159259)| Temple of Sethralis  
+Ring 1| [Signet of Snarling Servitude](https://www.wowhead.com/item=251136)| Murder Row  
+Ring 2| [Charged Sandstone Band](https://www.wowhead.com/item=158366)| Temple of Sethraliss  
+Trinket 1| [Freightrunner's Flask](https://www.wowhead.com/item=250215)| Murder Row  
+Trinket 2| [Lightspire Core](https://www.wowhead.com/item=250214)| The Blinding Vale  
+Weapon| [Crackling Jade Kilij](https://www.wowhead.com/item=160216)| Kings' Rest  
+Offhand| [Nocuous Focal Fang](https://www.wowhead.com/item=273779)| Altar of Fangs  
+Two-Hand| [Chillworn's Infusion Staff](https://www.wowhead.com/item=193761)| Ruby Life Pools
 
 ### Trinkets
 
@@ -628,28 +632,29 @@ Below is a ranking of endgame trinkets obtainable from Dungeons, Raids, and Delv
 
 Rank| Trinkets  
 ---|---  
-**S-Tier**| [Gaze of the Alnseer](https://www.wowhead.com/item=249343)  
-[Vaelgor's Final Stare](https://www.wowhead.com/item=249346)  
-**A-Tier**| [Locus-Walker's Ribbon](https://www.wowhead.com/item=249809)  
-[Shadow of the Empyrean Requiem](https://www.wowhead.com/item=249810)  
-[Emberwing Feather](https://www.wowhead.com/item=250144)  
-[Heart of Wind](https://www.wowhead.com/item=250256)  
-**B-Tier**| [Soulcatcher's Charm](https://www.wowhead.com/item=250223)  
-[Wraps of Cosmic Madness](https://www.wowhead.com/item=249340)  
-**C-Tier**| [Eye of the Drowning Void](https://www.wowhead.com/item=250257)  
-[Reality Breacher](https://www.wowhead.com/item=151310)  
-**Junkyard**| [Vessel of Tortured Souls](https://www.wowhead.com/item=250258)  
-[Nevermelting Ice Crystal](https://www.wowhead.com/item=50259)  
-[Sealed Chaos Urn](https://www.wowhead.com/item=251787)  
-[Void-Reaper's Libram](https://www.wowhead.com/item=251785)  
-[Sylvan Wakrapuku](https://www.wowhead.com/item=251784)  
+**S-Tier**| [Gebbo's Bottomless Bag](https://www.wowhead.com/item=270164)  
+[Freightrunner's Flask](https://www.wowhead.com/item=250215)  
+[Wavecaller's Seastone](https://www.wowhead.com/item=270167)  
+**A-Tier**| [Stormbound Emblem of Dazar](https://www.wowhead.com/item=273649)  
+[Vile Vial of Volatile Venom](https://www.wowhead.com/item=273796)  
+[Font of Venomous Rage](https://www.wowhead.com/item=270168)  
+[Hex Lord's Dooming Idol](https://www.wowhead.com/item=270169)  
+[Fang of Umbral Malignance](https://www.wowhead.com/item=270161)  
+**B-Tier**| [Sapling of the Dawnroot](https://www.wowhead.com/item=250259)  
+[Mindpiercer's Sigil](https://www.wowhead.com/item=250224)  
+[Vexhul's Everflowing Gland](https://www.wowhead.com/item=270170)  
+[Knot of Writhing Serpents](https://www.wowhead.com/item=273794)  
+[Lightspire Core](https://www.wowhead.com/item=250214)  
+**C-Tier**| [Drum of Renewed Bonds](https://www.wowhead.com/item=248583)  
 [Glorious Crusader's Keepsake](https://www.wowhead.com/item=251792)  
-[Ever-Collapsing Void Fissure](https://www.wowhead.com/item=251786)
+[Effigy of Ula'tek's Faithful](https://www.wowhead.com/item=274493)  
+**Junkyard**| [Sethraliss' Defiled Relic](https://www.wowhead.com/item=158368)  
+[Ruby Whelp Shell](https://www.wowhead.com/item=193757)
 
 ### Embellishments
 
 * 1x [Darkmoon Sigil: Hunt](https://www.wowhead.com/item=245875)
-    * Only crafted on your main hand or off-hand weapon. Craft it on your main hand for more power early on or on your off-hand for long-term BiS.
+    * Only crafted on your main hand or off-hand weapon. Craft it on your main hand / two hand for more power early on.
   * 1x [Arcanoweave Lining](https://www.wowhead.com/item=240167)
     * The optimal slots to craft on are **Wrists** , **Cloak** , **Boots** or **Waist** depending on your available gear.
 
@@ -660,7 +665,7 @@ or
 
 #### Remaining Sparks
 
-* Crafted items are 285 item level and regular items are 289 on max item level, therefore, it's not beneficial to equip crafted items outside of your 2x embellishments unless you don't have access to other high item level gear on that slot.
+* Crafted items are 331 item level and regular items are 334 on max item level, therefore, it's not beneficial to equip crafted items outside of your 2x embellishments unless you don't have access to other high item level gear on that slot.
 
 ### Simcraft
 
@@ -670,12 +675,13 @@ To find the best combination of gear available to you or identify the best possi
     * [Flask of the Shattered Sun](https://www.wowhead.com/item=241326) _\-- maximum DPS._
     * [Flask of Thalassian Resistance](https://www.wowhead.com/item=241320) _\-- less DPS but more survivability._
   * **Food**
-    * [Quel'dorei Medley](https://www.wowhead.com/item=242272)
-    * [Silvermoon Parade](https://www.wowhead.com/item=255845)
+    * [Hearty Harandar Celebration](https://www.wowhead.com/item=266996)
+    * [Hearty Quel'dorei Medley](https://www.wowhead.com/item=242744)
+    * [Hearty Silvermoon Parade](https://www.wowhead.com/item=266985)
   * **Combat Potion**
-    * [Potion of Recklessness](https://www.wowhead.com/item=241288)
+    * [Light's Potential](https://www.wowhead.com/item=241309)
   * **Health Potion**
-    * [Silvermoon Health Potion](https://www.wowhead.com/item=241304) _\-- a big burst of healing_
+    * [Concentrated Silvermoon Health Potion](https://www.wowhead.com/item=271884) _\-- a big burst of healing_
   * **Weapon Oil**
     * [Thalassian Phoenix Oil](https://www.wowhead.com/item=243734) _\-- default_
     * [Smuggler's Enchanted Edge](https://www.wowhead.com/item=243738)
@@ -685,30 +691,30 @@ To find the best combination of gear available to you or identify the best possi
     * [Powerful Eversong Diamond](https://www.wowhead.com/item=240967) __\-- Unique__
       * [Flawless Deadly Peridot](https://www.wowhead.com/item=240890)
       * [Flawless Deadly Amethyst](https://www.wowhead.com/item=240898)
+      * [Flawless Quick Amethyst](https://www.wowhead.com/item=240900)
       * [Flawless Quick Garnet](https://www.wowhead.com/item=240906)
       * [Flawless Deadly Lapis](https://www.wowhead.com/item=240914)
 
 ### Enchantments
 
-Head| [Radiant Jewelbinder](https://www.wowhead.com/item=263897)  
+Head| [Miasmic Jewelbinder](https://www.wowhead.com/item=275707)  
 [Enchant Helm - Empowered Rune of Avoidance](https://www.wowhead.com/item=244007)  
 ---|---  
 Shoulder| [Enchant Shoulders - Amirdrassil's Grace](https://www.wowhead.com/item=243991)  
 Chest| [Enchant Chest - Mark of the Worldsoul](https://www.wowhead.com/item=243977)  
-Wrist| [Enchant Bracer - Chant of Armored Avoidance](https://www.wowhead.com/item=223713)  
-[Radiant Jewelbinder](https://www.wowhead.com/item=263897)  
-Waist| [Radiant Jewelbinder](https://www.wowhead.com/item=263897)  
+Wrist| [Miasmic Jewelbinder](https://www.wowhead.com/item=275707)  
+Waist| [Miasmic Jewelbinder](https://www.wowhead.com/item=275707)  
 Legs| [Sunfire Silk Spellthread](https://www.wowhead.com/item=240133)  
 Boots| [Enchant Boots - Farstrider's Hunt](https://www.wowhead.com/item=244009)  
 Ring 1| [Enchant Ring - Eyes of the Eagle](https://www.wowhead.com/item=243957)  
 Ring 2| [Enchant Ring - Eyes of the Eagle](https://www.wowhead.com/item=243957)  
-Weapon| [Enchant Weapon - Acuity of the Ren'dorei](https://www.wowhead.com/item=244029)
+Weapon| [Enchant Weapon - Arcane Mastery](https://www.wowhead.com/item=244031)
 
-[Maxroll paperdoll import](https://backend.maxroll.gg/wow/embed-tools/paperdoll=IQFZLEQ9NCQAnk7ACAAAAktBEEwF5OAAAAAABkQDIgQ2GQQBQQQBqmAGAkiOYAAB1jbCYgS94OAAAAAAB0TuDA)
+[Maxroll paperdoll import](https://backend.maxroll.gg/wow/embed-tools/paperdoll=JQFZLEQ9NCQAnk7ACAAAAsPNEEwF5OAAAAAABkQDIgw-0QQBQQQBqmAGAkiOYAAB1jbCYgS94OAAAAAAB8TuDA)
 
 **Destruction Warlock** Enchantments in Raids
 
-> You buy [Radiant Jewelbinder](https://www.wowhead.com/item=263897) from the Great Vault Vendor to add sockets to your **Helm** , **Wrists** & **Waist**.
+> You buy [Miasmic Jewelbinder](https://www.wowhead.com/item=275707) from the Great Vault Vendor to add sockets to your **Helm** , **Wrists** & **Waist**.
 
 For min-maxing a **Destruction Warlock** in raiding, different racial traits can provide a tremendous benefit to your character. If this is not your top goal, picking a race that fits your style works just as well.
 
@@ -729,7 +735,7 @@ For min-maxing a **Destruction Warlock** in raiding, different racial traits can
 
 ### Recommendation
 
-In general, it's safe to say that if you care about min-maxing your DPS, you should go with the highest DPS racial. That being said, the story is a bit different if it's about progression raiding. Some help out massively to speed up the progression on certain bosses. Notably, Dwarf with their [Stoneform](https://www.wowhead.com/spell=65116) helped out on**The Soulhunters** in the latest Race to World First by having easy access to dispelling yourself at crucial points of the fights mentioned.
+In general, it's safe to say that if you care about min-maxing your DPS, you should go with the highest DPS racial. That being said, the story is a bit different if it's about progression raiding. Some help out massively to speed up the progression on certain bosses. Notably, Dwarf with their [Stoneform](https://www.wowhead.com/spell=65116) helped out on**The Soulhunters** in the Race to World First Manaforge by having easy access to dispelling yourself at crucial points of the fight.
 
 Discover recommended macros for **Destruction Warlocks** during Raid encounters and watch a quick video guide on creating simple macros for your character.
 
@@ -883,6 +889,64 @@ Below, you see a screenshot of the author's User Interface for their **Destructi
   * **LeatrixPlus **_\-- QoL and Map addon_
     * Adds lots of quality of life options as well as a smoother mini map, among other things.
 
+**Patch 12.1**
+
+* Warlock
+    * Drain Life health drain increased by 25%.
+    * Zevrim's Resilience healing increased by 25%.
+    * Summon Demonic Gateway is now a Utility spell by default in the Cooldown Manager.
+    * Fixed an issue where several abilities would not grant Soul Leech:Wither
+      * Blackened Soul
+      * Infernal Bolt
+      * Soul Anathema
+      * Wicked Reaping
+      * Avatar of Destruction’s Chaos Bolt
+      * Unstable Affliction
+      * Malefic Grasp
+      * Vilefiend’s Headbutt and Bile Spit
+      * Gloomhound’s Gloom Slash
+      * Wild Imp and Imp Gang Boss’s Fel Firebolt
+      * Imp Lord’s Greater Felbolt
+      * Demonic Tyrant’s Demonfire
+    * Fixed an issue where several abilities erroneously granted Soul Leech:Legion Strike
+      * Cunning Cruelty
+      * Channel Demonfire
+    * **Hero Talents**
+      * **[Hellcaller](https://www.wowhead.com/spell=123382)**
+        *  _Developers' notes: We're updating Blackened Soul to give Hellcaller a better tool for focusing damage into a priority target, increasing the overall flexibility of the hero talent tree rather than have it only excel in situations where multiple targets are present. However, we are keeping the functionality of Malevolence the same, so it remains a cool and impactful tool in Hellcaller's toolkit._
+        * Blackened Soul has been redesigned – If the target is afflicted with your Wither, your Chaos Bolt and Shadowburn increase its stack count by 1. Each time Wither gains a stack it has a chance to collapse, consuming a stack every 1 second to deal Shadowflame damage to its host until 1 stack remains. Blackened Soul damage increased by 45%.
+        * Mark of Peroth'arn has been redesigned – Damaging critical strikes dealt by Wither deal 215% damage instead of the usual 200%. Damaging critical strikes dealt by Blackened Soul deal 225% damage instead of the usual 200%.
+        * Wither damage increased by 25%.
+    * **Affliction**
+      * New Talent: Hedonic Gorging – Increases Drain Life damage by 10% and Siphon Life now increases the damage of Corruption by an additional 10%. Dark Harvest channels 10% faster and deals 15% increased damage.
+      * New Talent: Impetuous Wrath – Shadow Bolt, Drain Soul, and Malefic Grasp damage increased by 10% or 20% if the target is affected by Haunt. Dark Harvest damage increased by 10% or 20% if the target is affected by Haunt.
+      * Shard Instability has been redesigned – Damage dealt by Shadow Bolt or Drain Soul has a 20% chance to make your next Unstable Affliction or Seed of Corruption cost no Soul Shards and cast instantly.
+      * Haunt now increases your damage dealt to the target by 16% for 18 seconds (was 12%). 
+      * The following talents have been removed:Nocturnal Yield
+        *  _Developers' notes: Nocturnal Yield doesn’t offer much choice when it comes to how a Warlock chooses to spend their Nightfall. Instead, it is usually best spent on Seed of Corruption, regardless of target count. This can have adverse effects on talents that benefit from Shadow Bolt or Drain Soul. We like the feeling of occasional free Seeds of Corruption though and are merging that functionality into Shard Instability. In place of Nocturnal Yield, we are introducing a new talent called Impetuous Wrath that will serve as another means of Affliction accessing additional priority damage._
+      * Patient Zero
+        *  _Developers' notes: Patient Zero warps the damage profile of Seed of Corruption heavily. The specific use-case for Seed of Corruption as a tool is to supply damage in multi-target situations and having the ability to increase priority damage dilutes its identity. Hedonic Gorging is a new talent that hooks into the common throughline of health leech between Drain Life, Siphon Life, and Dark Harvest. The intention for this talent is for most of the throughput to reside in Siphon Life and Dark Harvest while the increase to Drain Life is meant to be smaller and a bit of flavor._
+    * **Demonology**
+      * Shadow Bolt damage increased by 45%. 
+      * Demonbolt damage increased by 55%. 
+      * Summon Gloomhound damage increased by 35%. 
+      * **Hero Talents**
+        * **[Diabolist](https://www.wowhead.com/spell=123385)**
+          * Chaos Salvo damage reduced by 20%.
+          * Felseeker damage reduced by 20%.
+          * Wicked Cleave damage reduced by 20%.
+          * Eye Explosion damage reduced by 20%.
+          * Flames of Xoroth now increases Fire damage and damage dealt by your demons by 3% (was 4%).
+    * **Destruction**
+      * Conflagration of Chaos has been redesigned – Conflagrate and Shadowburn have a 100% chance to critically strike, and their damage is increased by your critical strike chance.
+      * All damage increased by 4.5%.
+      * Soul Fire damage increased by 45%. 
+      * Chaos Bolt damage increased by 5%.
+      * Havoc now causes spells to deal 50% of their damage to the marked target (was 60%).
+      * Apex Talent: Embers of Nihilam (Rank 1) tooltip has been updated to show players the percent chance of Incinerate evoking an Echo of Sargeras.
+      * Shadowburn added as a tracked buff in the Cooldown Manager.
+      * Conflagration of Chaos has been removed from the Cooldown Manager.
+
 **Patch 12.0.1**
 
 * Warlock
@@ -1018,6 +1082,12 @@ Written By: **Xerwo**
 Reviewed By: **Rycn**
 
 ## Changelog
+
+Jul 31st 2026
+
+`Updated for Patch 12.1. `
+
+* * *
 
 Jun 19th 2026
 

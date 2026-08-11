@@ -1,10 +1,11 @@
 ---
 title: Libraries and the addon ecosystem
-patch: 12.0.7
-fetched: 2026-08-05
-reviewed: 2026-08-05
+patch: 12.1.0
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
-  - https://github.com/Gethe/wow-ui-source (live, version.txt 12.0.7.68887, commit 4383ced30106d51b27e3e86d1987f1552f0d259d)
+  - https://warcraft.wiki.gg/wiki/Patch_12.1.0/API_changes (revid 6801760, 2026-08-09)
+  - https://github.com/Gethe/wow-ui-source (12.0.7.68887, commit 4383ced30106d51b27e3e86d1987f1552f0d259d) — the build every unstamped locator here was read at; ⚠ every `[T3]` clone and `[T1 obs]` install census below is ALSO pre-12.1.0 and was not re-taken
   - https://github.com/WoWUIDev/Ace3 (commit 4475787f06f74d2079b2ab2082195432103da424, 2026-07-10)
   - https://github.com/BigWigsMods/packager (commit 36b4c3b7b7bd17c835ad8c83fed4976c067edfbe, 2026-06-17)
   - https://warcraft.wiki.gg/wiki/LibStub (revid 6029070, 2024-05-08)
@@ -13,6 +14,7 @@ sources:
   - Live install /mnt/c/Program Files (x86)/World of Warcraft/_retail_/ (81 installed addons, 23 vendored LibStub copies)
   - GitHub repository metadata via `gh api repos/<owner>/<repo>` (queried 2026-07-23)
   - https://api.mmoui.com/v3/game/WOW/filelist.json (8134 entries, fetched 2026-07-23)
+  - in-client measurement, ClientLab v0.1.0 (interface 120007), run 2026-07-24 07:49:13, out of combat  # the `[client 2026-07-24]` claims in this file. ✅ ARCHIVED, and re-checkable: projects/addon-lab/runs/2026-07-24-v0.1.0-legacy.json holds this run verbatim; the live SavedVariables key was purged by the capture-standard migration
   - Clones at raw/addon-research/ — WeakAuras2 38d4bf1e, BigWigs 3fdc10f6, details e14de53c, plater 2b2ff463, ElvUI f60934a1, oUF 5672a3cb, Bagnon 9f72bd96, TaintLess a4f3eda9 (all verified 2026-07-23)
 confidence: medium
 ---
@@ -642,7 +644,7 @@ specification-shaped library means nothing.
 | **LibGetFrame-1.0** | `mrbuds/LibGetFrame` `[T2 gh: pushed_at 2026-07-17]` | **Active.** |
 | **LibDispel** | `tukui-org/LibDispel` `[T2 gh: pushed_at 2026-07-21]` | **Active.** |
 | **Archivist** | `emptyrivers/Archivist` `[T2 gh: pushed_at 2026-02-18]`; WeakAuras pins `v1.0.8` `[T3]` | **Maintained, slow.** |
-| **oUF** | `oUF-wow/oUF` `[T2 gh: pushed_at 2026-07-22, 236★]`; `oUF.toc` declares `## Interface: 120007, 120100` `[T3]` | **Active.** |
+| **oUF** | `oUF-wow/oUF` `[T2 gh: pushed_at 2026-07-22, 236★]`; `oUF.toc` declares `## Interface: 120007, 120100` `[T3]` | **Active**, and the 120100 declaration was made **before** 12.1.0 shipped — it is an intent to support, not evidence of a completed migration. **The exposure is real** — oUF is built on the aura-header/secure-unit-template path that 12.1.0 removed; §10.1 has it. |
 | **Details Framework (DF)** | `Tercioo/Details-Framework` `[T2 gh: pushed_at 2026-07-10]` | **Active**, but effectively single-author. |
 | **LibDogTag-3.0** | The copy **vendored inside TellMeWhen** versions itself `20260619153904` and carries a secret-value shim `[T1 obs: TellMeWhen/Lib/LibDogTag-3.0/LibDogTag-3.0.lua:9; Helpers.lua:138]` | **Maintained *as shipped by TellMeWhen*.** The version number is a timestamp-shaped integer, and reading it as "2026-06-19" is an inference, not a dated commit. `[gap]` I did not reach LibDogTag-3.0 upstream (wowace SVN per its own header at :4) and so cannot say whether the maintenance is upstream's or TellMeWhen's fork. Either way the "dead library" reputation is wrong for this copy. |
 | **LibSpellRange-1.0** | `ascott18/LibSpellRange-1.0` `[T2 gh: pushed_at 2024-08-19]`; still a WeakAuras external `[T3]` | **Quiet.** Pre-Midnight. Check before adopting. |
@@ -662,8 +664,9 @@ specification-shaped library means nothing.
   SVN client. **Read the vendored copies in the live install.**
 - **WoWInterface is stale as a library source.** Its public file list
   (`api.mmoui.com/v3/game/WOW/filelist.json`, 8134 entries)
-  shows `Ace3` last updated **2017-09-04** there, against r1390 / 2026-02-03 upstream
-  `[T2: api.mmoui.com filelist.json vs Ace3@4475787f changelog.txt:1]`. Never take a
+  shows `Ace3` **nine years behind** upstream's newest changelog entry
+  `[T2: api.mmoui.com filelist.json, Ace3 last updated 2017-09-04, vs
+  Ace3@4475787f changelog.txt:1, newest entry r1390, 2026-02-03]`. Never take a
   library's version from WoWInterface.
 
 `[gap]` I could not obtain download/adoption counts. `addons.wago.io`'s API returns
@@ -710,6 +713,43 @@ until proven otherwise: the serializers (§5.2 — AceSerializer, LibSerialize a
 LibDeflate contain zero secret references) and **TaintLess**, whose fix set predates
 secret values entirely (§9).
 
+### 10.1 The 12.1.0 aura change is the largest ecosystem event since Midnight itself
+
+⚠⚠ **Every census, clone and maintenance rating in this file was taken while 12.0.7
+was live, and 12.1.0 invalidated the thing they were measuring for a specific,
+identifiable subset.** The ratings are not restamped below because nothing was
+re-fetched; what follows is the exposure, so a reader does not take an "Active" cell
+as evidence that a library still works.
+
+Three concrete platform facts (`security-taint-and-restricted-data` §4.7, §3.5;
+`Patch 12.1.0/API changes`, revid 6801760, 2026-08-09):
+
+1. **`SecureAuraHeaderTemplate` is Classic-only.** On Retail the template is simply
+   not defined, and the nine `SecureAuraHeader_*` globals are gone. Anything that
+   inherits it fails at frame creation, not subtly.
+2. **Index/slot/instanceID aura reads error** while auras are secret
+   (`RequiresUnitAuraAccess`, `FailureMode = "Error"`), and `AuraData` is always
+   fully secret. Only the three spell-keyed getters still answer, and their allowlist
+   was deliberately shrunk to exclude healer HoTs and shields.
+3. **The replacement is a widget API, not a call**: `AuraContainer`/`AuraButton`,
+   which invert control — you register output sinks and the engine fills them.
+
+Who that reaches, from what this file already records: **oUF** (a unit-frame
+framework whose whole job is the aura/secure-unit-template path), **ElvUI** (which
+vendors a full 50-file oUF *and* ships an `Auras` module), **Plater** (nameplate
+auras), **WeakAuras2** (aura-driven by name and design), and **LibDispel** /
+**LibGetFrame** / **LibCustomGlow-1.0**, whose reason to exist is aura-adjacent.
+
+`[gap]` **No post-12.1.0 maintenance signal was gathered for any of them.** Every
+clone commit in §11 was taken mid-PTR, before the patch shipped
+`[T3: the seven commit pins listed in §11, all created 2026-07-17…2026-07-23]`.
+`gh api` works from this box
+(§9.1) and re-checking `pushed_at` plus each `.toc`'s `## Interface:` line is the
+cheap next step; treat every "Active" in §9 as **"was active on 12.0.7"** until
+somebody does. Note that a `120100` in a `.toc` published during the PTR proves
+intent and not completion — the migration was a moving target that changed shape at
+least twice (§3.5 of the security file).
+
 ---
 
 ## 11. Reading mature addons as living documentation
@@ -729,6 +769,10 @@ What each is actually worth opening. All Tier 3 — practice, not rules.
 **Counting discipline.** Seven clones is seven data points minus one: Details and
 Plater share an author and a framework. When this file says "four of seven", it
 means four of these seven clones, at the commits listed above, and nothing more.
+
+⚠ **All seven commits predate 12.1.0's ship.** Read this table as "what these
+codebases looked like on 12.0.7". For the aura-facing ones the *architecture* lessons
+survive and the *aura code* does not — see §10.1.
 
 ---
 
@@ -910,8 +954,8 @@ only where the body does not already carry them.
     as a plain global. *[§1(b).]*
 
 23. **`TaintLess` as shipped predates Midnight, so nothing in it was written for
-    secret values.** Its last commit in the clone is 2025-02-26 and it self-versions
-    `[24-07-27]`, both before 12.0.0 (2026-01-20). Its continued presence in WeakAuras'
+    secret values.** Both its last commit and its self-declared version predate the
+    patch that introduced them. Its continued presence in WeakAuras'
     and ElvUI's `.pkgmeta` is evidence it is *shipped*, not that it is *current*.
     Stated as "predates", not "cannot address" — pre-existing fixes may still be
     correct; what the dates rule out is that it was written with secret values in mind.
@@ -921,12 +965,12 @@ only where the body does not already carry them.
     `commit: default`) and `ElvUI@f60934a1`. Tier 1 for the patch date: this repo's
     `knowledge/_meta/game-version.md`.]*
 
-24. **`LibCompress` on this install is at SVN revision 83, dated 2018-07-03, and
+24. **`LibCompress` on this install is at SVN revision 83 — eight years old — and
     LibDeflate's own published benchmark claims it beats LibCompress on size at equal
     speed.** New code adopting LibCompress is adopting a legacy path. Note the
     benchmark is the *competitor's own*; no independent measurement was made.
-    *[§8.3, §9. Tier 1 obs for the version expression:
-    `MythicDungeonTools/libs/LibCompress/LibCompress.lua:7-9`, `:13`.]*
+    *[§8.3, §9. `[T1 obs: MythicDungeonTools/libs/LibCompress/LibCompress.lua:7-9,
+    :13 — the file's own SVN keyword expansion reads `$Revision:` r83, 2018-07-03]`.]*
 
 25. **`LibDeflate`'s 2021 `pushed_at` is not evidence of abandonment.** It is an
     external in **two** of the seven surveyed addons' `.pkgmeta` (WeakAuras2, Plater),
@@ -935,8 +979,9 @@ only where the body does not already carry them.
     `ElvUI/ElvUI_Libraries/Game/Shared/LibDeflate/` and `details/Libs/LibDeflate/`.]*
 
 26. **A library version taken from WoWInterface may be years behind upstream.** Its
-    file list shows Ace3 last updated 2017-09-04; upstream's newest changelog entry is
-    2026-02-03. *[§9.1.]*
+    file list is nine years behind on Ace3 alone.
+    *[§9.1. `[T2: api.mmoui.com filelist.json — Ace3 last updated 2017-09-04]`
+    against `[T2: Ace3@4475787f changelog.txt:1 — newest entry 2026-02-03]`.]*
 
 27. **`LibStub` is not a version-drift risk on this install: every copy is minor 2.**
     All 23 copies declare `local LIBSTUB_MAJOR, LIBSTUB_MINOR = "LibStub", 2`. They are
@@ -953,6 +998,10 @@ only where the body does not already carry them.
 
 ## Changelog
 
+- 2026-08-11 — 12.1.0. New §10.1: the aura escalation as an ecosystem event, and an
+  explicit statement that every clone/census/maintenance rating in this file predates
+  it. No rating was restamped — nothing was re-fetched — and §9's "Active" cells now
+  read as "was active on 12.0.7".
 - 2026-08-05 — **the `UIDropDownMenu_*` gap is closed** `[client 2026-07-24]`: the
   deprecated globals still resolve as functions, in `_G` *and* the addon environment,
   despite `UIDropDownMenu.lua` routing internally through `GetCurrentEnvironment()`.

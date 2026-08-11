@@ -2,7 +2,7 @@
 title: Mined but not yet verified — the double-check queue
 patch: 12.0.7
 fetched: 2026-08-05
-reviewed: 2026-08-05
+reviewed: 2026-08-11   # §C triaged against shipped 12.1.0; sections A/B NOT re-reviewed and are still 12.0.7-era
 sources:
   - EllesmereUI v8.7.5 @ c4eba58d996a8436f467ac8f297148bff9dd3008 (2026-08-04),
     https://github.com/EllesmereGaming/EllesmereUI — license CUSTOM, ALL RIGHTS
@@ -180,11 +180,26 @@ different value. What is Tier 3 is whether this is *intended* or merely tolerate
 
 ---
 
-## C. 12.1.0 — annotate, do not act (keep writing 12.0.7)
+## C. 12.1.0 — ⛔ SUPERSEDED BY THE SHIPPED PATCH
 
-⚠ **None of this changes 12.0.7 code.** It is here so that when something stops working
-on patch day the cause is already written down. Detail lives in
-`12.1.0-ptr-heads-up.md`; this section is only the *"what might stop working"* list.
+> **12.1.0 shipped, and this section is Tier-3 PTR guesswork about it.** Everything
+> below was mined from one addon's mid-migration branch while 12.1.0 was on PTR. The
+> patch is now live, the API is readable from Blizzard's own shipped source, and the
+> topic files carry it:
+> **`security-taint-and-restricted-data.md` §3.5** (AuraContainer/AuraButton, from the
+> shipped mixins), **§4.7** (`RequiresUnitAuraAccess`, `SecretWhenAurasRestricted`),
+> **§4.13** (Private Script Objects), **§1.5** (`Enum.ForbiddenAspect`).
+> **Prefer those. Do not build from this section.**
+>
+> It is kept, unedited, for exactly one reason: it is the record of *what a competent
+> reader believed during the PTR*, and at least two of its beliefs were wrong in ways
+> worth remembering — `AddAuraFrame` was removed before ship, and
+> `SecureAuraHeaderTemplate` was in fact flavour-gated to Classic rather than deleted.
+> Read it as history, never as signature.
+>
+> ⚠ The rows below that survived contact with the shipped patch are the *exposure*
+> ones (which addon behaviours break), not the *API* ones. Those are now
+> `libraries-and-ecosystem.md` §10.1.
 
 ⚠⚠ **Read every 12.1 name below as "real at some PTR build", not as a shipping
 signature.** The mined addon's own migration history shows the API changing **twice**

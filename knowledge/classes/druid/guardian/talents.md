@@ -1,16 +1,22 @@
 ---
-title: Druid Guardian — talent tree (12.0.7)
-patch: 12.0.7
-build: 12.0.7.67808
-fetched: 2026-06-19
-reviewed: 2026-07-07
+title: Druid Guardian — talent tree (12.1.0)
+patch: 12.1.0
+build: 12.1.0.68914
+fetched: 
 sources:
   - https://us.api.blizzard.com/data/wow/talent-tree (Blizzard Game Data API, Tier 1)
-  - https://wago.tools/db2 Trait* @ 12.0.7.67808 (Tier 1)
+  - https://wago.tools/db2 Trait* @ 12.1.0.68914 (Tier 1)
 confidence: high
 ---
+> **Build provenance.** This file was generated from the Blizzard Game Data API and
+> wago `Trait*` DB2 at build **12.1.0.68914**, which is what the API's `static-12.1.0`
+> namespace reported on 2026-08-11. The live client that day was **12.1.0.69214**. The
+> `Trait*` DB2 exports at the two builds are **byte-identical** (verified by md5 on
+> `TraitNodeEntry`), so this data is valid for live 12.1 — cite it as **@ 12.1.0.68914**,
+> not 69214.
 
-# Druid Guardian — talents (12.0.7)
+
+# Druid Guardian — talents (12.1.0)
 
 > Generated from `knowledge/classes/_talents/all-talents.tsv`. Spell IDs are the talent's granted spell. Choice nodes show both options as `A / B`. See `_talents/README.md` for the schema.
 
@@ -100,19 +106,19 @@ confidence: high
 | Gift of an Ancient Guardian / Guardian of Elune | 1251876 / 155578 | 1/1 | CHOICE | 7,21 | 8 | 82140,82144 |
 | Ursoc's Endurance / Gory Fur | 393611 / 200854 | 1/1 | CHOICE | 7,22 | 8 | 82146,82144 |
 | Ursol's Warding | 471492 | 1 | PASSIVE | 7,23 | 8 | 82146 |
-| Rend and Tear / Untamed Savagery | 204053 / 372943 | 1/1 | CHOICE | 8,18 | 8 | 82156,109378,92226 |
+| Rend and Tear / Untamed Savagery | 204053 / 372943 | 1/1 | CHOICE | 8,18 | 8 | 92226,82156,109378 |
 | Raze | 400254 | 1 | ACTIVE | 8,20 | 8 | 82156,82161,109377 |
 | Lunar Beam | 204066 | 1 | ACTIVE | 8,22 | 8 | 82148,109377,109375 |
-| Ursoc's Fury | 377210 | 1 | PASSIVE | 9,17 | 20 | 109378,82152 |
+| Ursoc's Fury | 377210 | 1 | PASSIVE | 9,17 | 20 | 82152,109378 |
 | Flashing Claws | 393427 | 2 | PASSIVE | 9,18 | 20 | 82152 |
 | Blood Frenzy | 203962 | 1 | PASSIVE | 9,19 | 20 | 82137,82152 |
 | Moonless Night | 400278 | 1 | PASSIVE | 9,21 | 20 | 92587,82137 |
 | Fury of Nature | 370695 | 2 | PASSIVE | 9,22 | 20 | 92587 |
 | Twin Moonfire / Red Moon | 372567 / 1252871 | 1/1 | CHOICE | 9,23 | 20 | 82148,92587 |
 | Harnessed Rage | 1253035 | 1 | PASSIVE | 10,18 | 20 | 82154,82142,82159 |
-| Incarnation: Guardian of Ursoc / Convoke the Spirits | 102558 / 391528 | 1/1 | CHOICE | 10,20 | 20 | 82137,82142,92586 |
+| Incarnation: Guardian of Ursoc / Convoke the Spirits | 102558 / 391528 | 1/1 | CHOICE | 10,20 | 20 | 82142,92586,82137 |
 | Elune's Favored | 370586 | 1 | PASSIVE | 10,22 | 20 | 82138,82147,92586 |
-| Killing Blow | 1252994 | 1 | PASSIVE | 11,17 | 20 | 82159,109379 |
+| Killing Blow | 1252994 | 1 | PASSIVE | 11,17 | 20 | 109379,82159 |
 | Sundering Roar | 1253799 | 1 | ACTIVE | 11,19 | 20 | 82136,109379 |
 | Ursoc's Guidance | 393414 | 1 | PASSIVE | 11,20 | 20 | 82136 |
 | Waking Nightmare | 1253461 | 1 | PASSIVE | 11,21 | 20 | 82134,82136 |

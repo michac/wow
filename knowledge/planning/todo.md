@@ -1,10 +1,11 @@
 ---
 title: Session TODO — manual check-off (this reset)
-patch: 12.0.7
+patch: 12.1
 fetched: 2026-07-06
-reviewed: 2026-07-07
+reviewed: 2026-08-11
 sources:
   - knowledge/planning/activities/
+  - https://worldofwarcraft.blizzard.com/en-us/news/24294061/   # August 2026 Trading Post — Tier 1 (the one game-fact row below)
 confidence: high
 ---
 
@@ -33,7 +34,7 @@ confidence: high
 ## Hallick (gearing alt)
 - [ ] _populated by `wowkb.plan`_
 
-## Uncomplete (leveling)
+## Uncomplete (gearing alt)
 - [ ] _populated by `wowkb.plan`_
 
 ---

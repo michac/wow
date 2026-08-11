@@ -1,20 +1,22 @@
 ---
-title: Vengeance Demon Hunter — Abilities (Midnight S1)
-patch: 12.0.7
-fetched: 2026-08-06
-reviewed: 2026-08-06
+title: Vengeance Demon Hunter — Abilities (Midnight, 12.1)
+patch: 12.1
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
-  - knowledge/classes/demon-hunter/vengeance/ability-inventory.tsv  # tier 1, DB2 @ 12.0.7.67808 — names, spellIDs, origin, cooldowns
+  - https://worldofwarcraft.com/en-us/news/24293281  # tier 1, 12.1 "Curse of Ula'tek" content update notes (the Vengeance change list)
+  - knowledge/_meta/patch-notes/12.1.md  # tier 1 verbatim archive of the above (CLASSES ▶ DEMON HUNTER ▸ Vengeance)
+  - knowledge/classes/demon-hunter/vengeance/ability-inventory.tsv  # tier 1, DB2 + Game Data API @ 12.1.0.69214 — names, spellIDs, origin, cooldowns
+  - knowledge/classes/demon-hunter/vengeance/talents.md  # tier 1 generated tree @ 12.1.0.68914 — what is and is not a talent
   - knowledge/classes/_abilities/reconcile-ledger.md  # tier 1 derived, the verdicts applied 2026-08-06
-  - simc midnight branch profiles/MID1/MID1_Demon_Hunter_Vengeance.simc  # tier 1 APL, talents=CUkAAAA..., WoW 12.0.7.67808
-  - https://www.method.gg/guides/vengeance-demon-hunter  # tier 3, Midnight 12.0.7, upd. 2026-06-16
-  - https://www.method.gg/guides/vengeance-demon-hunter/playstyle-and-rotation  # tier 3, 12.0.7
-  - https://www.icy-veins.com/wow/vengeance-demon-hunter-pve-tank-rotation-cooldowns-abilities  # tier 3, 12.0.7
+  - simc midnight branch profiles/MID1/MID1_Demon_Hunter_Vengeance.simc  # tier 1 APL, talents=CUkAAAA..., WoW 12.0.7.67808 (not yet re-pulled at 12.1)
+  - https://www.icy-veins.com/wow/vengeance-demon-hunter-pve-tank-spell-summary  # tier 3, labelled 12.1 but its Sigil section is stale — see the conflict note below
+  - https://www.method.gg/guides/vengeance-demon-hunter/playstyle-and-rotation  # tier 3, last seen at 12.0.7
   - https://www.wowhead.com/guide/classes/demon-hunter/vengeance/rotation-cooldowns-pve-tank  # tier 4, Midnight, corroboration
 confidence: medium
 ---
 
-# Vengeance Demon Hunter — Abilities (Midnight S1)
+# Vengeance Demon Hunter — Abilities (Midnight, 12.1)
 
 ## Overview
 
@@ -33,21 +35,61 @@ Core loop: **Fracture** to make Fury + 2 fragments → dump into **Spirit Bomb**
 **Immolation Aura**, **Sigil of Flame**, **Fiery Brand** and **Metamorphosis**
 for damage and mitigation, while keeping **Demon Spikes** up as active
 mitigation. The two Midnight hero trees bolt a distinct sub-game on top:
-**Aldrachi Reaver** (a Reaver's Glaive empower cycle) or **Annihilator** (a
-Voidfall-stack / Untethered-Rage burst engine). See `rotation.md` / `builds.md`.
+**Aldrachi Reaver** (a Reaver's Glaive empower cycle) or **Annihilator**. See
+`rotation.md` / `builds.md` for how each is played.
 
-> **Midnight changes to flag:** **Spirit Bomb now carries a 25s `[T1]`
-> (haste-reduced) cooldown** in Midnight — it is no longer a pure fragment-dump,
-> which is the single biggest change to how the AoE loop is played: you bank
-> fragments *to* the cooldown rather than spending on sight. **Metamorphosis** is
-> down to a **2-minute** cooldown and makes Fracture generate **+15 Fury** while
-> active. **Annihilator** is a Midnight-new hero tree (it replaces The War
-> Within's Fel-scarred). @verify-ingame (the Metamorphosis and Annihilator claims
-> here are still Tier-3)
+> **⚠ 12.1 "Curse of Ula'tek" changes — read before using anything below.**
+>
+> **A weapon requirement now gates the core loop.** **Fracture and Soul Cleave
+> require equipped Warglaives, Axes, Swords or Fist Weapons.** (Havoc's Demon
+> Blades / Blade Dance / Chaos Strike gained the same gate, and Demon Hunters can
+> now equip **daggers** class-wide — a dagger does *not* satisfy this
+> requirement, so a dagger is an Intelligence option for Devourer, not a
+> Vengeance one.)
+>
+> **Sigil of Chains is now BASELINE at level 35 and is no longer a talent** —
+> verified absent from the live tree (`talents.md` has no Sigil of Chains node;
+> `ability-inventory.tsv` files it `class-baseline` via `SpecializationSpells`).
+> Its cooldown is **60s** (was 90s), and it **no longer replaces Sigil of
+> Misery**. **Sigil of Silence** is what replaces Sigil of Misery now, when
+> selected. **Improved Sigil of Misery** no longer touches Sigil of Chains at
+> all; it instead cuts **Sigil of Silence's** cooldown by **15s** when Sigil of
+> Silence is selected. Net effect for the loadout: Chains is a free extra button
+> on a shorter cooldown, and the Misery/Silence slot is the one real choice.
+>
+> **Tuning.** All Vengeance damage **+5.5%**. Survivability up across the board:
+> **Soul Cleave, Fel Devastation and Feast of Souls healing all +25%**;
+> **Charred Warblades** heals for **5%** of Fire damage dealt (was 4%);
+> **Frailty** heals for **10%** of damage dealt to afflicted targets (was 8%);
+> **Revel in Pain** shields for **6%** of Fire damage (was 5%).
+>
+> **Several talents changed locations in the tree.** Do not path a loadout off
+> memory or off a Tier-3 capture — re-check against the regenerated `talents.md`
+> / `talents.json` in this folder.
+>
+> **Global 12.1 changes that land on this spec too:** player health **and**
+> creature damage **+25%** at max level (health consumables rescaled; some DPS
+> and tank healing/absorb retuned to keep relative impact) — **so any absolute HP
+> or heal number written before 2026-08-11 is wrong**; major DPS cooldowns
+> lowered with steady-state damage raised; **interrupts now show a "missed"
+> visual + sound** when used on a target that was not casting; and
+> **diminishing-return categories reset after 20s** (was 16s).
+> *[Tier 1: `_meta/patch-notes/12.1.md`, CLASSES ▶ DEMON HUNTER ▸ Vengeance +
+> the CLASSES preamble.]*
+
+> **Midnight changes still worth flagging:** **Spirit Bomb carries a 25s `[T1]`
+> (haste-reduced) cooldown** — it is not a pure fragment-dump, which is the
+> single biggest change to how the AoE loop is played: you bank fragments *to*
+> the cooldown rather than spending on sight. **Metamorphosis** is on a
+> **120s `[T1]`** cooldown and makes Fracture generate **+15 Fury** while active
+> (the cooldown is now Tier-1 confirmed at 12.1.0.69214; the +15 Fury figure is
+> still Tier-3). **Annihilator** is a Midnight-new hero tree (it replaces The War
+> Within's Fel-scarred). @verify-ingame (the Fracture +15 Fury claim)
 >
 > **Where the numbers come from.** `ability-inventory.tsv` in this folder is the
-> Tier-1 record for **name, spellID, origin and cooldown** (DB2 @ 12.0.7.67808).
-> A `[T1]` stamp marks a value read from it; everything else is Tier-3 colour.
+> Tier-1 record for **name, spellID, origin and cooldown** (DB2 + Game Data API
+> @ **12.1.0.69214**), and `talents.md` is the Tier-1 record for what is a talent.
+> A `[T1]` stamp marks a value read from them; everything else is Tier-3 colour.
 > **Reaver's Glaive** is a runtime override of Throw Glaive granted by Art of the
 > Glaive (442290, Aldrachi Reaver subtree 35, live on tree 854) — overrides have
 > no acquisition row, so it appears in no generated inventory. That is a
@@ -57,7 +99,7 @@ Voidfall-stack / Untethered-Rage burst engine). See `rotation.md` / `builds.md`.
 ## Ability inventory
 
 > **What the Tier-1 floor does and does not cover.** A **bold `[T1]`** cooldown
-> below was read straight out of `ability-inventory.tsv` (wago DB2 @ 12.0.7.67808).
+> below was read straight out of `ability-inventory.tsv` (wago DB2 @ 12.1.0.69214).
 > A `~` value was **not**: it is a Tier-3 guide number that the tsv could not
 > settle, and it is kept on purpose. The tsv's `cooldown` column is
 > `SpellCooldowns` at DifficultyID 0 — `max(RecoveryTime, CategoryRecoveryTime)` —
@@ -68,6 +110,19 @@ Voidfall-stack / Untethered-Rage burst engine). See `rotation.md` / `builds.md`.
 > wins" applies to the values it actually carries, not to every row** — 194 rows
 > across the 40 files read 0 or sub-10s there and keep their `~` prose instead.
 >
+> ⚠ **The sigils are exactly that hole, and Tier-3 disagrees about them.** The
+> three sigil placement spells (Misery `207684`, Silence `202137`, Chains
+> `202138`) all read **0** in the tsv's cooldown column and **n/a** on their
+> Wowhead spell pages — the real recovery sits on the spell *category*, which the
+> pinned pull cannot reach. Tier-3 guides split: Icy Veins' 12.1-labelled spell
+> summary lists Silence **90s** / Misery **2 min** / Chains **1.5 min**, while the
+> 12.0.7-era captures this file was built from said **60s** / **90s** / 90s. Note
+> that the same Icy Veins page still calls Sigil of Chains a talent that replaces
+> Sigil of Misery — which 12.1 **deleted** — so treat its whole sigil block as
+> pre-12.1 text under a new patch label. Only **Chains = 60s** is settled, and it
+> is settled by the Tier-1 patch notes, not by a guide. @verify-ingame (Sigil of
+> Misery and Sigil of Silence base cooldowns)
+>
 > Names this file asserts that **no** acquisition row reaches are catalogued in
 > `../../_abilities/section-4-catalogue.md`; ones game data reaches indirectly are
 > in `section-3-corroborated.md`. ⚠ Neither is a backlog — an entry there is
@@ -75,38 +130,53 @@ Voidfall-stack / Untethered-Rage burst engine). See `rotation.md` / `builds.md`.
 
 | Ability | Function | Resource | Cast / CD | Description |
 |---|---|---|---|---|
-| **Fracture** | Rotational-builder | Generates ~25 Fury (+15 in Meta) & **2 Soul Fragments** | Instant · 2 charges, ~4.5s recharge (−0.5s in 12.0.5) | Melee strike; the primary builder — keep it near-capped on charges. Feeds Voidfall (Annihilator) and Art of the Glaive (Aldrachi Reaver). @verify-ingame (exact Fury) |
-| **Soul Cleave** | Rotational-spender | **35 Fury**, consumes up to **2** Soul Fragments (more with Apex/Untethered Rage) | Instant | ST/cleave spender + self-heal; +20% damage per fragment consumed. The main single-target dump and heal button. |
+| **Fracture** | Rotational-builder | Generates **25 Fury** `[T1]` (+15 in Meta) & **2 Lesser Soul Fragments** `[T1]` | Instant · 2 charges, ~4.5s recharge (−0.5s in 12.0.5) | Melee strike; the primary builder — keep it near-capped on charges. ⚠ **12.1: requires equipped Warglaives / Axes / Swords / Fist Weapons** (a dagger does not qualify). Feeds Art of the Glaive (Aldrachi Reaver). |
+| **Soul Cleave** | Rotational-spender | **35 Fury**, consumes up to **2** Soul Fragments (more with Apex/Untethered Rage) | Instant | ST/cleave spender + self-heal; **+20% damage per fragment consumed** `[T1]`, reduced damage beyond 5 targets. The main single-target dump and heal button. ⚠ **12.1: same weapon requirement as Fracture**, and its **healing is +25%** (Feast of Souls, which adds flat healing to it, is likewise +25%). |
 | **Spirit Bomb** | Rotational-spender (AoE, talent) | **40 Fury**, consumes up to **5** Soul Fragments (6 talented) | Instant · **25s `[T1]`** (haste-reduced) | AoE detonation + Frailty/mitigation; the AoE fragment dump. Because it is now on a real cooldown, arriving at it with 5 fragments banked matters more than pressing it early — a Spirit Bomb spent at 2 fragments costs you the whole window. |
 | **Immolation Aura** | Rotational-builder / AoE | Generates Fury over its duration | Instant · ~30s CD (charges) | Pulsing fire aura; with **Fallout** it spawns Soul Fragments in AoE. Keep on cooldown. |
 | **Sigil of Flame** | Rotational-builder | Generates Fury | Instant · ~30s CD | Places a sigil that detonates after ~1s for fire damage + a DoT; core builder, always on cooldown. |
 | **Felblade** | Rotational-builder / Movement | Generates ~40 Fury | Instant / **12s** `[T1]` | Charge to target + strike; gap-closer and Fury injection. Reset by Vengeful Retreat with **Unhindered Assault**. |
 | **Throw Glaive** | Rotational filler / ranged | — | Instant · ~9s CD (2 charges w/ Champion of the Glaive) | Ranged glaive throw; **Bouncing Glaives** makes it cleave. Ranged filler / pull tool. |
-| **Fel Devastation** | Rotational-spender / Major cooldown | **50 Fury** | Channel ~2s · ~40s CD | Frontal fire beam, big AoE damage + heal-over-channel. Amped inside a Fiery Brand (Fiery Demise) window. |
+| **Fel Devastation** | Rotational-spender / Major cooldown | **50 Fury** | Channel ~2s · **40s** `[T1]` | Frontal fire beam, big AoE damage + heal-over-channel. Amped inside a Fiery Brand (Fiery Demise) window. **12.1: healing +25%.** |
 | **Soul Carver** | Major cooldown (fragment generator) | — | Instant · **60s CD** | Big fire hit + carves **Soul Fragments** out over a few seconds. Line up inside Fiery Brand. |
 | **Sigil of Spite** | Major cooldown (fragment generator) | — | Instant · ~60s CD | Sigil that detonates for damage and spawns a burst of **Soul Fragments** (the Midnight successor to Bulk Extraction). Pre-placed in the opener. |
-| **Metamorphosis** | Major cooldown (Defensive + offensive) | — | Instant · **2 min CD** (off-GCD) | Vengeance demon form: large health/armor boost + damage; Fracture gains **+15 Fury**. Central to Annihilator (Voidfall meteors, Spirit Bomb reset) and a strong personal defensive. |
+| **Metamorphosis** | Major cooldown (Defensive + offensive) | — | Instant · **120s** `[T1]` (off-GCD) | Vengeance demon form: large health/armor boost + damage; Fracture gains **+15 Fury**. A strong personal defensive, and the button **Untethered Rage** hands you for free (below). |
 | **Fiery Brand** | Defensive / Major cooldown | — | Instant · 2 charges (Down in Flames), ~60s recharge | Brands a target: **−40% damage taken from it** + fire DoT. The DoT window (**Fiery Demise**) amplifies your fire damage. Both offensive and mitigation. |
 | **Demon Spikes** | Defensive (active mitigation) | — | Instant · 2 charges, ~20s recharge (off-GCD) | +Armor and a chunk of **physical damage reduction** for its duration; the bread-and-butter mitigation — keep near-100% uptime (Feed the Demon / Calcified Spikes). |
 | **Darkness** | Defensive (raid) | — | Instant / **300s** `[T1]` | AoE smoke dome giving allies a chance to fully avoid incoming hits. Raid/party cooldown. |
 | **Infernal Strike** | Movement | — | Instant · 2 charges, ~20s recharge (off-GCD) | Leap to a target location, fire burst on landing. Primary mobility + repositioning. |
-| **Vengeful Retreat** | Movement / Utility | — | Instant / **25s** `[T1]` (off-GCD) | Backflip away; **Unhindered Assault** resets Felblade on use (a rotational Fury tool, not just an escape). |
-| **Disrupt** | Interrupt | — | Instant · 15s CD | Melee interrupt; **Disrupting Fury** refunds Fury on a successful interrupt. The kick. |
-| **Consume Magic** | Dispel (purge) | — | Instant · ~10s CD | Removes/consumes a beneficial **Magic** effect from an enemy (Aldrachi Design adds value). |
-| **Sigil of Silence** | CC (AoE silence) | — | Instant · ~60s CD | Sigil that silences enemies in the area. Choice node vs Roaring Fire in the spec tree. |
-| **Sigil of Misery** | CC (AoE) | — | Instant · ~90s CD | Sigil that causes enemies to cower/flee; AoE crowd control. |
+| **Vengeful Retreat** | Movement / Utility | — | Instant · ~25s CD (off-GCD) | Removes all snares and vaults you away `[T1 tooltip]`; **Unhindered Assault** resets Felblade on use (a rotational Fury tool, not just an escape). *(The 12.1 tsv reads 0.5s here — the GCD, not the cooldown — so this is the Tier-3 number, not a `[T1]` one.)* |
+| **Disrupt** | Interrupt | — | Instant · 15s CD | Melee interrupt; **Disrupting Fury** generates **30 Fury** `[T1]` on a successful interrupt. The kick. **12.1: a whiffed kick now shows a "missed" visual over the target and plays a distinct sound** (game-wide interrupt change) — a real feedback change for the "did that land?" moment. |
+| **Consume Magic** | Dispel (purge) | — | Instant · **10s** `[T1]` | Removes/consumes a beneficial **Magic** effect from an enemy (Aldrachi Design adds value). |
+| **Sigil of Silence** | CC (AoE silence) | — | Instant · ~60–90s CD (contested, see above) | Sigil that silences enemies in the area. ⚠ **12.1: when selected it now REPLACES Sigil of Misery** (Sigil of Chains used to, and no longer does), and **Improved Sigil of Misery cuts its cooldown by 15s** while it is selected. So Misery vs Silence is the choice; Chains is baseline alongside whichever you take. |
+| **Sigil of Misery** | CC (AoE) | — | Instant · ~90s–2min CD (contested, see above) | Sigil that causes enemies to cower/flee; AoE crowd control. Replaced by **Sigil of Silence** when that is selected. **Improved Sigil of Misery** cuts its cooldown by 30s `[T1 tooltip]`. |
+| **Sigil of Chains** | Utility (AoE pull + snare) — **baseline** | — | Instant · **60s** (12.1; was 90s) | Sigil that **pulls all affected enemies to its centre** and snares them (70% for 6s per the live tooltip). ⚠ **12.1: baseline at level 35 — it is NOT a talent any more**, costs no tree point, and no longer replaces Sigil of Misery. A free grip-and-gather for tanking packs; treat it as always available. |
 | **Chaos Nova** | CC (AoE stun) | — | Instant / **45s** `[T1]` | Bursts a stun on all nearby enemies. |
-| **Imprison** | CC (incapacitate) | — | Instant · 45s CD | Incapacitates a single target (Demon/humanoid/beast). |
+| **Imprison** | CC (incapacitate) | — | Instant · **45s** `[T1]` | Incapacitates a single target (Demon/humanoid/beast). |
 | **Torment** | Utility (taunt) | — | Instant · 8s CD | Ranged taunt — forces the target to attack you. Core tank tool. |
-| **Spectral Sight** | Utility | — | Instant · ~30s CD | Reveals hidden/stealthed enemies and see through walls; movement-slowed while active. |
+| **Spectral Sight** | Utility | — | Instant · **30s** `[T1]` | Reveals hidden/stealthed enemies and see through walls; movement-slowed while active. |
 | **Reaver's Glaive** | Rotational-spender / empower (Aldrachi Reaver) | — | Instant · no CD (generated) | Thrown glaive granted when Art of the Glaive fills; empowers the next Fracture (**Rending Strike**) and Soul Cleave (**Glaive Flurry**), driving the AR damage cycle. AR-only. |
-| **Untethered Rage** | Defensive/offensive Apex active (Annihilator synergy) | — | Instant (activates a granted charge) | Apex talent: consumed Soul Fragments have a rising chance to grant a special **Metamorphosis** charge (10s, activate within 12s); also boosts fragment damage. The Annihilator burst trigger. @verify-ingame |
-| **Illidan's Grasp** | PvP talent (CC) | — | **60s** `[T1]` | PvP talent: grip/drag a target. Not part of the PvE loadout. @verify-ingame |
-| **Rain from Above** | PvP talent (Movement/utility) | — | **90s** `[T1]` | PvP talent: lift into the air, then descend with fel bombs. Not a PvE ability. @verify-ingame |
-| **Reverse Magic** | PvP talent (Dispel) | — | **60s** `[T1]` | PvP talent: removes harmful magic from you and allies, reflecting it. Not a PvE ability. @verify-ingame |
+| **Untethered Rage** | Apex **passive** (grants a free Metamorphosis) | — | No button of its own | Apex talent, and it is a **passive** `[T1]`, not an active: Soul Cleave and Spirit Bomb have a **chance per Soul Fragment consumed** to grant Untethered Rage, which lets **Metamorphosis** be cast **without incurring its cooldown**, lasting **10s** `[T1]`. The button you press is Metamorphosis; this only decides when it is free. |
+| **Illidan's Grasp** | PvP talent (CC) | — | **60s** `[T1]` | PvP talent: strangles the target, stunning it in place for Shadow damage over 5s. Not part of the PvE loadout. |
+| **Rain from Above** | PvP talent (Movement/utility) | — | **90s** `[T1]` | PvP talent: fly up out of harm's way, gaining Fel Lance to hit enemies below. Not a PvE ability. |
+| **Reverse Magic** | PvP talent (Dispel) | — | **60s** `[T1]` | PvP talent: removes harmful magic from you and allies within 10 yds, sending it back to the caster. Not a PvE ability. |
 
 > Exact Fury values and every cooldown above **without** a `[T1]` stamp are
 > cross-checked against Tier-3 guides (Icy Veins / method.gg / Wowhead) rather
 > than a Tier-1 pull; treat marked rows as confirm-in-game. Names and spellIDs
 > are not restated here on purpose — `ability-inventory.tsv` in this folder is
 > the Tier-1 record and will not drift out from under this prose.
+>
+> ⚠ **Tier-3 caveat for 12.1.** The `maxroll-*.md` captures in this folder are
+> Tier-3 **and predate the 12.1 talent-tree moves and deletions** — do not lift a
+> loadout out of them. Icy Veins' Vengeance pages carry a "12.1" label while
+> their sigil section still describes the pre-12.1 Sigil of Chains talent. For
+> anything about *what exists in the tree*, `talents.md` / `talents.json` in this
+> folder win; for *what changed*, `_meta/patch-notes/12.1.md` wins.
+>
+> The Fel Devastation / Soul Cleave / Feast of Souls **+25% healing**, Charred
+> Warblades **5%**, Frailty **10%** and Revel in Pain **6%** figures above are the
+> Tier-1 12.1 patch-note values. They land on top of the game-wide **+25% player
+> health** change, so the *fraction* of your health bar these restore has not
+> moved as much as the percentages suggest — and any older absolute healing
+> number for this spec is now wrong.

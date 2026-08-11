@@ -616,7 +616,24 @@ Lua Taint: ClientLab, errored=true}`
 
 **How:** ClientLab showed a stimulus and a person answered, **2026-08-05 15:01:34** (v0.2.1, interface 120007), in combat, instance `none`. ⚠ **This is an eyeball verdict, not an instrument reading** — it is the only evidence class that can close this question, and it must never be cited as a measurement.
 
-**Expected (questions.json):** UNKNOWN, and unknowable by instrument: all three duration sinks declare NO `SecretArgumentsAddAspect`, so there is no readback of any kind and 'the call was accepted' is not evidence a pixel moved. §4.8.1 states it outright — on an aspect-less channel the only oracle is an eyeball. `cdm-aura-duration-object-chain` already proved the object is obtained on both sides and that `HasSecretValues()` is true, so what is left is purely whether it renders. ⚠ A PLAIN CONTROL duration is shown in the same frame: without it 'the bar is empty' cannot be told from 'this widget never animates'. ⚠ `SetMinMaxValues(0,1)` is called BEFORE the timer on every bar — the known trap is a correctly installed duration drawing at 0 % width, which would read as the secret having been dropped. ⚠ 'control doesn't animate either' is a real option and indicts the STIMULUS, not the channel.
+**Expected — transcribed verbatim from the test registry's `expect` field. It is the
+question we set out to answer, quoted as a record of what we believed going in, and NOT a
+claim this queue makes:**
+
+> UNKNOWN, and unknowable by instrument: all three duration sinks declare NO `SecretArgumentsAddAspect`, so there is no readback of any kind and 'the call was accepted' is not evidence a pixel moved. §4.8.1 states it outright — on an aspect-less channel the only oracle is an eyeball. `cdm-aura-duration-object-chain` already proved the object is obtained on both sides and that `HasSecretValues()` is true, so what is left is purely whether it renders. ⚠ A PLAIN CONTROL duration is shown in the same frame: without it 'the bar is empty' cannot be told from 'this widget never animates'. ⚠ `SetMinMaxValues(0,1)` is called BEFORE the timer on every bar — the known trap is a correctly installed duration drawing at 0 % width, which would read as the secret having been dropped. ⚠ 'control doesn't animate either' is a real option and indicts the STIMULUS, not the channel.
+
+⚠ **The KB has since retreated from the quoted scope, and the run above is what moved it.**
+"Unknowable by instrument" and "no readback of any kind" are claims about the whole space of
+ways to observe the sink; what was actually established is narrower, and that is what
+`security-taint-and-restricted-data.md` §4.8.1 now records: **no *programmatic* readback
+found**, over a named search space — the three sinks' `SecretArgumentsAddAspect`
+annotations, `HasSecretAspect` on the sink object, `GetTimerDuration`, `IsZero` and the
+anchor-contagion probe. An eyeball is an oracle, it was pointed at the question, and it
+answered: the aura bars animate like the control. **Read this entry's `Observed:` line, not
+the block above.** Nothing inside the quotation is a KB position.
+
+⚠ The identical wording lives in the lab's `questions.json` `expect` field for this test.
+It has not been corrected there.
 
 **Confidence:** high — the client answered directly. Low only if the result contradicts `expect` in a way that suggests the test asked the wrong thing.
 
@@ -1081,47 +1098,60 @@ Lua Taint: ClientLab, hex_decode_ok=n=1 string "hello", hex_encode=n=1 string "6
 
 ## OBS-064 · 2026-08-09 · A Blizzard getter that memoises into a module-local upvalue is not a pure read
 
-**Observed:** calling `CooldownViewerItemDataMixin:GetCurrentPlayerTotemCache()` from addon
-code **throws in combat** at `CooldownViewerItemData.lua:454` (`if hasTotem then`, on the
-secret boolean `GetTotemInfo` hands back). The throw lands **after** the function has already
-wiped its module-local `playerTotemCache = {}` `[:449]` and **before** it restamps
-`playerTotemCacheTime = now` `[:482]` — so Blizzard's own cache is left **empty with a stale
-timestamp**. `CooldownViewerItemMixin:RefreshTotemData` reads that same cache on every
-cooldown-, BuffIcon- and BuffBar-item refresh
-`[T1 src: CooldownViewer.lua:817, :1308, :1471]`, where the throw is uncaught.
-
-Observed effect, on an **earlier CDMSweep build** whose capture is no longer on disk: CDM
-item frames released from their pools mid-session — `BuffBar` 9 → 2,
-`Essential` 7 → 6 — with `totemData` `nil` on 103/103 rows while the client was raising
-`PLAYER_TOTEM_UPDATE`.
-
-⚠ **Those effect figures are NOT reproducible on disk.** They were read off an **earlier
-CDMSweep build's** capture, and that session has since rolled off the three-session
-SavedVariables ring. The captures now present were recorded by a build that does **not**
-call the wrapper — every `kind=alerts` row lists `GetCurrentPlayerTotemCache` under
-`notCalled=` — and they show the opposite picture, as they should: no pool shrinkage
-(`BuffBar` 9 and `Essential` 7 on every viewer sample) and `totemData` populated on 3 of
-141 rows. **The reproducible half of this entry is the Tier-1 source read**
-(`CooldownViewerItemData.lua:449` / `:454` / `:482`) and the throw itself; the effect
-figures stand on a capture nobody can re-open.
+**Read in the source. This entry is a SOURCE READ, not a measurement — nothing below was
+watched happen.** `CooldownViewerItemDataMixin:GetCurrentPlayerTotemCache()` passes through
+`[:492-493]` to a module-local memoiser `[:446-486]` that, on a cache miss, wipes its shared
+upvalue `playerTotemCache = {}` `[:449]`, then branches on the boolean `GetTotemInfo` hands
+back — `if hasTotem then` `[:454]` — and only restamps `playerTotemCacheTime = now` `[:482]`
+once the whole rebuild has finished. That boolean is sealed in restricted combat, so a
+throw at `:454` from addon code **would land between the wipe and the restamp**, leaving
+Blizzard's cache empty under a stale timestamp. `CooldownViewerItemMixin:RefreshTotemData`
+reads that same cache on every cooldown-, BuffIcon- and BuffBar-item refresh
+`[T1 src: CooldownViewer.lua:231, called from :817, :1308, :1471]`, and no call site catches
+an error. ⚠ **The throw itself has not been watched happen in a surviving capture** — the
+shape is derived from the source, which is why the wording is conditional. Do not restate it
+as an observed event; `cooldown-manager.md` §7 carries the same claim at the same strength.
 
 **The general rule, which is the point:** *a Blizzard "getter" that memoises into a
 module-local upvalue is not a pure read. Reading it from tainted code can corrupt state
 Blizzard's own secure path depends on.* Prefer the raw API (`GetTotemInfo(slot)`) over the
 cached wrapper — it owns no shared state, so it cannot damage the subject.
 
-**How:** ClientLab `CDMSweep`, Demonology Warlock, in combat. The mechanism is a source read
-of `CooldownViewerItemData.lua` at 12.0.7.68887; the effect is what an earlier build of that
-sweep recorded, before the call was dropped.
+**How:** a source read of `CooldownViewerItemData.lua` at 12.0.7.68887, re-checkable at any
+time against the local `wow-ui-source` checkout. That is the half that drained.
 
-⚠ **Not established:** whether Blizzard's *own* untainted call is affected the same way. The
-capture does not settle it, and this entry does not claim it either way.
+⚠ **Not established:** whether Blizzard's *own* untainted call is affected the same way.
+Nothing on disk settles it, and neither this entry nor the drained claim says either way.
 
-**Confidence:** medium — one client, one spec. The source mechanism is Tier 1; the pool
-counts are a single session that no longer exists on disk, so nobody can re-check them
-without re-flying a build that calls the wrapper.
+### The half that did NOT drain, and never will — its evidence is gone
 
-**Drains to:** `cooldown-manager.md` §7 — as a "do not call the cached wrapper" note beside
-the totem channel, once something in this workspace actually reads totems.
+The entry was opened with an `Observed:` headline over **effect figures** — CDM item frames
+released from their pools mid-session (`BuffBar` 9 → 2, `Essential` 7 → 6) with `totemData`
+`nil` on 103/103 rows while the client raised `PLAYER_TOTEM_UPDATE`. **Those numbers are
+recorded here only as a record of what was once claimed. They are not a finding, they did
+not travel into `cooldown-manager.md`, and they must not be quoted as measurements.**
 
-**Status:** open
+They were read off an **earlier** build of the sweep, whose session has since rolled off the
+three-session SavedVariables ring; there is no archived copy of it, and `runs/` under the lab
+project holds one unrelated legacy run and nothing else. The captures now on disk were
+recorded by a build that does **not** call the wrapper — every `kind=alerts` row lists
+`GetCurrentPlayerTotemCache` under `notCalled=` — and they show the opposite picture, as they
+should: no pool shrinkage (`BuffBar` 9 and `Essential` 7 on every viewer sample) and
+`totemData` populated on 3 of 141 rows. So the figures cannot be confirmed *or* refuted from
+anything a reader can open.
+
+**This half is closed as unresolvable, not parked.** Settling it needs a fresh flight of a
+build that calls the wrapper, which is new work and a new entry — do not re-open this one
+expecting to finish it.
+
+**Confidence:** high for the source mechanism (Tier 1, re-readable); **none** for the effect
+figures above, whose evidence is no longer on disk.
+
+**Drains to:** `cooldown-manager.md` §7 — landed as the ⚠⚠ "call the raw totem API, never
+Blizzard's cached wrapper" note beside the totem channel, immediately after the
+`GetTotemInfo`/`GetTotemTimeLeft`/`GetTotemDuration` table.
+
+**Status:** drained 2026-08-09
+
+The source-read half is what drained. The effect figures above are closed as unresolvable —
+there is nothing left to drain them from.

@@ -1,18 +1,27 @@
 ---
 title: Affliction Warlock Raid Guide
-patch: 12.0.7
-fetched: 2026-07-14
-reviewed: 2026-07-14
+patch: 12.0.1
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
   - https://maxroll.gg/wow/class-guides/affliction-warlock-raid-guide (maxroll.gg, Tier 3)
 confidence: medium
 verbatim: true          # unedited external capture — distill on read, not on insert
 source: maxroll.gg
 author: spen
-maxroll_updated: 2026-06-17   # source's last-modified (staleness signal)
+maxroll_updated: 2026-08-11   # source's last-modified (staleness signal)
+kb_caveat: |
+  ⚠ CAPTURED ON 12.1 PATCH DAY (2026-08-11) AND PARTIALLY STALE. The guide's own
+  header says 12.1, but the body still references talents that 12.1 REMOVED:
+  Nocturnal Yield, Patient Zero.
+  Verified absent from the live talent trees (Tier 1: Blizzard Game Data API +
+  wago.tools Trait* DB2, knowledge/classes/_talents/all-talents.tsv @ 12.1.0).
+  Affliction also GAINED Hedonic Gorging and Impetuous Wrath, which this capture
+  predates. Treat every talent/build recommendation here as pre-12.1 until the
+  author re-publishes. Distil on read — do not lift builds from this file as-is.
 ---
 
-Welcome to the **Affliction Warlock** Raid guide for the World of Warcraft patch 12.0.7! This guide covers everything you need to know to understand your character! Are you starting out and leveling up from 80? Check out the leveling guide!
+Welcome to the **Affliction Warlock** Raid guide for the World of Warcraft patch 12.1! This guide covers everything you need to know to understand your character! Are you starting out and leveling up from 80? Check out the leveling guide!
 
 Single-Target 
 
@@ -34,7 +43,7 @@ Mobility
 
 Weak
 
-[Maxroll paperdoll import](https://backend.maxroll.gg/wow/embed-tools/paperdoll=IIoAAnQA3_fABoL0DIICBAQD5OwRtOggCESABMAGEAICBAgCtOg21oSABAfzDIACBAw-4OQBeQQvQXwDEkQuJ4BCeT9AB0CAE0APEkL0F4BBFoaCLhi-XQAEIEAAZxtEaHwSoBCqDQIABAwJqOQGAPgCtOQHBEwuQPAAIEAACGQegAE0DIQCBAQ94GAHEoQrJMEJCgBBQiQAAsF3SERk88fzDAAEBAgV1kjAqEQAgEdBOgggCYVAixAKoOABJIGPaA8AdEQAD38ACARAA0TuD0QIwwbzDAAEBAQOCYVNqEA)
+[Maxroll paperdoll import](https://backend.maxroll.gg/wow/embed-tools/paperdoll=J4fAImQA3_fABIgJEIIEBAwJ5OgCtOgF2IoAYFQApfBBAERAAcVrBQBBMWTBUwDukQgAIEAAXk7ACKgTBEQvJ8AAJ0wDsECqDQIABAwJqOgGAHQNQsUABkLJFEDBFoaCxQw3XUwDAkSAxwAWBEAIVEDBZAcDxwxukQAAIEAACGwHgw9FEIICBAQ94GAHAIYAxRAgt4jEAQAht0AMQ4UABQ1HZwABdfRDMQBWBEA9iQQA2CQPNYHKz1CBAgQAAIoAOFA)
 
 **Affliction Warlock** Raid Best in Slot
 
@@ -118,7 +127,7 @@ Following you receive a list of meaningful class changes going from The War With
 
 **[Soul Harvester](https://www.wowhead.com/spell=123384) Single Target**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CmQA-41RifCY33JXfKqYp1_dPzMzMzoZjxmZGzyAAAMzsMbzMzy8ADAMWWGYATwMsFYYbAAAYGAAAzMjZMzsNMMjZmZMYmZGAgZgBA)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CmQAUgGY_myp-zpUCockSq2z5zMmZGNbM2mZGzyAAAMzsMLzMzyYAgZZbbMMmFz0YmZYLzCDbDAAAzAAAzMzMjZMzsxMMzMzMjBzMzAAMDM)
 
 [Soul Harvester](https://www.wowhead.com/spell=123384) **Affliction Warlock** Single-Target talents in Raids
 
@@ -172,7 +181,7 @@ Discover all talents that significantly alter your gameplay within the Spec and 
 
 **[Soul Harvester](https://www.wowhead.com/spell=123384) Multi-Target**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CmQA-41RifCY33JXfKqYp1_dPzMzMzoZjxmZGzyAAAmZmlZbmZWmHYAgxyyADYCmhtADbDAAAzAAAYmZMjZmNMMjZmZMYmZGAgZgBA)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CmQAUgGY_myp-zpUCockSq2z5zMmZGNbM2mZGzyAAAmZmlZxMzyYAgx22ADYCmhtADbDAAAzAAAYmZMjZmtxYGjZmZGDzMzAAMgB)
 
 [Soul Harvester](https://www.wowhead.com/spell=123384) **Affliction Warlock** Multi-Target talents in Raids
 
@@ -193,7 +202,7 @@ Listing all the changes within the Class and Spec tree compared to the default b
 
 **[Soul Harvester](https://www.wowhead.com/spell=123384) AoE**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CmQA-41RifCY33JXfKqYp1_dPzMzMzoZjxmZGzyAAAmZmlZZmZWGDAM2WGYATwMsFYYbAAAYGAAAzMjZMzsNGzgZmZGDzMzAAMgB)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CmQAUgGY_myp-zpUCockSq2z5zMmZGNbM2mZGzyAAAmZmlZxMzyYAgx22ADYCmhtADbDAAAzAAAYmZMjZmtxYGjZmZGDzMzAAMgB)
 
 [Soul Harvester](https://www.wowhead.com/spell=123384) **Affliction Warlock** AoE Build in Raid
 
@@ -209,7 +218,7 @@ Listing all the changes within the Class and Spec tree compared to the default b
 
 * **Added**
     * [Sow the Seeds](https://www.wowhead.com/spell=196226).
-    * [Patient Zero](https://www.wowhead.com/spell=1260285).
+    * [Hedonic Gorging](https://www.wowhead.com/spell=1311969).
     * [Seeds of Destruction](https://www.wowhead.com/spell=1259838).
   * **Removed**
     * [Xavius' Gambit](https://www.wowhead.com/spell=416615).
@@ -218,7 +227,7 @@ Listing all the changes within the Class and Spec tree compared to the default b
 
 **[Hellcaller](https://www.wowhead.com/spell=123382) Single Target**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CmQA-41RifCY33JXfKqYp1_dPzMzMzoZjxmZGzyAAAMzsMLzMziZAALwAziRjZAZWALDAAAGAAYmBjZMzsNDMjZmZmBzMzAAMDM)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CmQAUgGY_myp-zpUCockSq2z5zMmZGNbM2mZGzyAAAmZmlZZmZWGDAMLbbjhxsYmGzMDbZWYYZAAAYGAAYmZmZMjZmNmhZGzMjBzMzAAMDM)
 
 [Hellcaller](https://www.wowhead.com/spell=123382) **Affliction Warlock** Single Target Build in Raid
 
@@ -250,7 +259,7 @@ Listing all the changes within the Class and Spec tree compared to the default b
 
 **[Hellcaller](https://www.wowhead.com/spell=123382) Multi-Target**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CmQA-41RifCY33JXfKqYp1_dPzMzMzoZjxmZGz2AAAmZmlZZmZWGDAYBGYWMaMDIzCYZAAAwAAAzMYMjZmtZgZMzMzMYmZGAgZgB)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CmQAUgGY_myp-zpUCockSq2z5zMmZGNbM2mZGzyAAAmZmlZxMzyYAgZZbbMMmFz0YmZYLzGDLDAAAzAAAzMzMjZMzsNGzYMzMzYYmZGAgBM)
 
 [Hellcaller](https://www.wowhead.com/spell=123382) **Affliction Warlock** Multi-Target Build in Raid
 
@@ -282,7 +291,7 @@ Listing all the changes within the Class and Spec tree compared to the default b
 
 **[Hellcaller](https://www.wowhead.com/spell=123382) AoE**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CmQA-41RifCY33JXfKqYp1_dPzMzMzoZjxmZGz2AAAmZmlZZmZWGDAYBGYWMaMDIzCYZAAAwAAAzMYMjZmNzYGMzMzYYmZGAgZgB)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CmQAUgGY_myp-zpUCockSq2z5zMmZGNbM2mZGzyAAAmZmlZxMzyYAgZZbbMMmFz0YmZYLzGDLDAAAzAAAzMzMjZMzsNGzYMzMzYYmZGAgBM)
 
 [Hellcaller](https://www.wowhead.com/spell=123382) **Affliction Warlock** AoE Build in Raid
 
@@ -298,7 +307,7 @@ Listing all the changes within the Class and Spec tree compared to the default b
 
 * **Added**
     * [Sow the Seeds](https://www.wowhead.com/spell=196226)
-    * [Patient Zero](https://www.wowhead.com/spell=1260285)
+    * [Hedonic Gorging](https://www.wowhead.com/spell=1311969)
     * [Malediction](https://www.wowhead.com/spell=91567)
     * [Seeds of Destruction](https://www.wowhead.com/spell=1259838)
   * **Removed**
@@ -320,10 +329,10 @@ Listing all the changes within the Class and Spec tree compared to the default b
 
 ### Tier Set
 
-Check out all the [Midnight Season 1 Tier Sets](https://maxroll.gg/wow/resources/midnight-season-1-tier-sets)!
+Check out all the [**Midnight Season 2 Tier Sets**](https://maxroll.gg/wow/resources/midnight-season-2-tier-sets)!
 
-* **2-Set:  **[Unstable Affliction](https://www.wowhead.com/spell=30108) and [Seed of Corruption](https://www.wowhead.com/spell=27243) damage increased by 10%.
-  * **4-Set:  **[Agony](https://www.wowhead.com/spell=980) starts at 2 additional stacks, and its damage is increased by 20%.
+* **2-Set:  **[Corruption](https://www.wowhead.com/spell=172) damage increased by 25%. [Agony](https://www.wowhead.com/spell=980) damage increased by 15%.
+  * **4-Set:  **Each active [Unstable Affliction](https://www.wowhead.com/spell=30108) increased your damage dealt by your spells and abilities by 2% up to 6%. [Seed of Corruption](https://www.wowhead.com/spell=27243) applies Unstable Affliction at 20% effectiveness to your target.
 
 ### Single-Target
 
@@ -333,7 +342,7 @@ Check out all the [Midnight Season 1 Tier Sets](https://maxroll.gg/wow/resources
 
 * Your goal in the opener is to apply and maintain all the DoTs and debuffs while also not overcapping on [Soul Shards](https://www.wowhead.com/spell=246985) and [Nightfall](https://www.wowhead.com/spell=91568) procs. Below, you can see an example of how your opener looks when using the recommended [Soul Harvester](https://www.wowhead.com/spell=123384) single-target spec.
 
-[Maxroll rotation import](https://backend.maxroll.gg/wow/embed-tools/rotation=IwGTLIUN8CAAAcAUyVGc1xGbAIE1DAQABwgQz0jAFgAB8FSARwgABwprBgADAEgAOXACMI0wSTQBgEBCIwlLTIDEAEBGoMs0EAAAAAgQ74eB)
+[Maxroll rotation import](https://backend.maxroll.gg/wow/embed-tools/rotation=IwGTLIUN8CAAAcAUyVGc1xGbAIE1DAQABwgQz0jAFgAB8FSARwgABwprBgAEAEAhtQQBYQwwSbDCAgAXuMhUYAAKDLNBAAAAAI0OuXA)
 
 **Affliction Warlock** Single-Target opener in Raid
 
@@ -361,7 +370,7 @@ This is a general priority you aim to maintain throughout the fight.
 
 * Your goal in the opener is to apply and maintain all the DoTs and debuffs while also not overcapping on [Soul Shards](https://www.wowhead.com/spell=246985) and [Nightfall](https://www.wowhead.com/spell=91568) procs. Below, you can see an example of how your opener looks when using the recommended [Hellcaller](https://www.wowhead.com/spell=123382) single-target spec.
 
-[Maxroll rotation import](https://backend.maxroll.gg/wow/embed-tools/rotation=IMHTMIUN8CAAAcAUyVGc1xGbAIE1DAQABwgQcwsBFgABmFcCIQAfhEQGMIQAc6aAIwAABIgzFgADCNs0EUAKRgACc5yEyABARgBJDLNBAAAAAIkrCA)
+[Maxroll rotation import](https://backend.maxroll.gg/wow/embed-tools/rotation=IMHTMIUN8CAAAcAUyVGc1xGbAIE1DAQABwgQcwsBFgABmFcCIQAfhEQGMIQAc6aAIABABQYLEUAIEMs02gAAIwlLTIFGAQywSTAAAAAAC5qA)
 
 **Affliction Warlock** Single-Target opener in Raid
 
@@ -394,7 +403,7 @@ Multi-Target rotation is identical to single-target, only difference is the open
 
 * Your goal in the opener is to apply and maintain all the DoTs and debuffs while also not overcapping on [Soul Shards](https://www.wowhead.com/spell=246985) and [Nightfall](https://www.wowhead.com/spell=91568) procs. Below, you can see an example of how your opener looks when using the recommended [Soul Harvester](https://www.wowhead.com/spell=123384) Multi-Target spec.
 
-[Maxroll rotation import](https://backend.maxroll.gg/wow/embed-tools/rotation=IwZA81gQ1wLAAAwBQJXZwVHbsBgQUPAAAAACUFmcnVGdgEDA2ABAUIDACNTPCIDIAIDEAAhMAIEfhEQQMIQAc6aAIwAABIgzFgADCxZdAEQAVgACc5yEyABA-ACAI47BDA)
+[Maxroll rotation import](https://backend.maxroll.gg/wow/embed-tools/rotation=IwZA81gQ1wLAAAwBQJXZwVHbsBgQUPAAAAACUFmcnVGdgEDA2ABAUIDACNTPCIDIAIDEAAhMAIEfhEQQMIQAc6aAIwCABQYLEAAAAAgQcWXAHkBCIwlLTEQEChBAowZdAAAAAAgQ-ewA)
 
 **Affliction Warlock** Multi-Target opener in Raid
 
@@ -424,7 +433,7 @@ Multi-Target rotation is identical to single-target, only difference is the open
 
 * Your goal in the opener is to apply and maintain all the DoTs and debuffs while also not overcapping on [Soul Shards](https://www.wowhead.com/spell=246985) and [Nightfall](https://www.wowhead.com/spell=91568) procs. Below, you can see an example of how your opener looks when using the recommended [Hellcaller](https://www.wowhead.com/spell=123382) Multi-Target spec.
 
-[Maxroll rotation import](https://backend.maxroll.gg/wow/embed-tools/rotation=IMaA85gQ1wLAAAwBQJXZwVHbsBgQUPAAAAACUFmcnVGdgEDA2ABAUIDACxBzGIDIAIDEAAjMAIkZBbAAAAAACxXIBkEDCEAnuGACMAQAC4cBIwgQDLNBFASEIgAXuMhMQAQEYQywSTAAAAAAC5qA)
+[Maxroll rotation import](https://backend.maxroll.gg/wow/embed-tools/rotation=IMaA85gQ1wLAAAwBQJXZwVHbsBgQUPAAAAACUFmcnVGdgEDA2ABAUIDACxBzGIDIAIDEAAjMAIkZBbAAAAAACxXIBkEDCEAnuGACQAQAE2CBFgBBDLtNIAACc5yEShBAkMs0EAAAAAgQuKA)
 
 **Affliction Warlock** Multi-Target opener in Raid
 
@@ -455,7 +464,7 @@ This is a general priority you aim to maintain throughout the fight.
 
 * Your goal in the AoE opener is similar to single-target with the only difference of applying DoTs to more targets, mostly through [Seed of Corruption](https://www.wowhead.com/spell=27243). Below, you can see an example of how your opener looks when using the recommended [Soul Harvester](https://www.wowhead.com/spell=123384) AoE spec.
 
-[Maxroll rotation import](https://backend.maxroll.gg/wow/embed-tools/rotation=I0HTMI0aqBAAAcAUyVGc1xGbAIUN8CQABggQUPQAHkBCEwXIBEBDCEgAOHACMAQAc6aBIggQrpWCogAXuMRAJUBERgRCIABgBIkvHEQMwAkQrpGAAAAAAIkvHMA)
+[Maxroll rotation import](https://backend.maxroll.gg/wow/embed-tools/rotation=I0HTMI0aqBAAAcAUyVGc1xGbAIUN8CQABggQUPQAHkBCEwXIBEBDCEAnuGACQAQAE2CBBECCCtmaBcAEAIEXuMRAJUBERgRCIABgBIkvHEQOwAkQrpGAAAAAAIkvHMA)
 
 **Affliction Warlock** AoE opener in Raid
 
@@ -481,7 +490,7 @@ While [Haunt](https://www.wowhead.com/spell=48181), [Drain Soul](https://www.wow
 
 * Your goal in the AoE opener is similar to single-target with the only difference of applying DoTs to more targets, mostly through [Seed of Corruption](https://www.wowhead.com/spell=27243). Below, you can see an example of how your opener looks when using the recommended [Hellcaller](https://www.wowhead.com/spell=123382) AoE spec.
 
-[Maxroll rotation import](https://backend.maxroll.gg/wow/embed-tools/rotation=I0HTMI0aqBAAAcAUyVGc1xGbAIUN8CQABggQUPQAHkBCI47jGEQEIIEfhEQGMIQAC4cAIwAABwprFgACCtmaB8BEAIEXuMRAJUBEJgBEAGgQ-eQApADQCtmaAAAAAAgQ-ewA)
+[Maxroll rotation import](https://backend.maxroll.gg/wow/embed-tools/rotation=I0HTMI0aqBAAAcAUyVGc1xGbAIUN8CQABggQUPQAHkBCI47jGEQEIIEfhEQGMIQAc6aAIABABQYLEUAGEsmaBcAEAIEXuMRAJUBEJgBEAGgQ-eQAxADQCtmaAAAAAAgQ-ewA)
 
 **Affliction Warlock** AoE opener in Raid
 
@@ -554,98 +563,102 @@ Rotational min-maxing is just one aspect of mastering a specialization, but ther
 
 **← Scroll for more Bosses**→**
 
-**Chimaerus**
+**Nek'zali**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CmQA-41RifCY33JXfKqYp1_dPzMzMzoZjxmZGz2AAAMzsMbzMzy8ADAMLbLjhxsYmGzMDbZWYYbAAAYGAAYmZmZMjZmthhZMzMjBzMzAAMDM)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CmQAUgGY_myp-zpUCockSq2z5zMmZGNbM2mZGzyAAAmZmlZxMzyYAgx22ADYCmhtADbDAAAzAAAYmZMjZmtxYGjZmZGDzMzAAMgB)
 
-**Affliction Warlock** Chimaerus talents in Raids
-
-### Boss Tips
-
-* Use [Demonic Circle: Teleport](https://www.wowhead.com/spell=48020) to eliminate the downtime from the [Alndust Upheaval](https://www.wowhead.com/spell=1246149) knock up.
-
-**Imperator Averzian**
-
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CmQA-41RifCY33JXfKqYp1_dPzMzMzoZjxmZGz2AAAMzsMbzMzy8ADAMLbLjhxsYmGzMDbZWYYbAAAYGAAYmZmZMjZmthhZMzMjBzMzAAMDM)
-
-**Affliction Warlock** Imperator Averzian talents in Raids
+**Affliction Warlock** Nek'zali talents in Raids
 
 ### Boss Tips
 
-* Utilize your [Demonic Gateway](https://www.wowhead.com/spell=111771) to allow your raid group to travel between adds quickly.
-  * A well placed [Demonic Circle](https://www.wowhead.com/spell=48018) can allow you to move quickly between adds.
+* Ensure [Blight of Tongues](https://www.wowhead.com/spell=1271802) or [Curse of Tongues](https://www.wowhead.com/spell=1714) is active on the interrupt add when you go into the phase
 
-**Vorasius**
+**Entombed Sentinels**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CmQA-41RifCY33JXfKqYp1_dPzMzMzoZjxmZGz2AAAMzsMbzMzy8ADAMLbLjhxsYmGzMDbZWYYbAAAYGAAYmZmZMjZmthhZMzMjBzMzAAMDM)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CmQAUgGY_myp-zpUCockSq2z5zMmZGNbM2mZGzyAAAMzsMLzMzyYAgZZbbMMmFz0YmZYLzCDbDAAAzAAAzMzMjZMzsxMMzMzMjBzMzAAMDM)
 
-**Affliction Warlock** Vorasius talents in Raids
-
-### Boss Tips
-
-* Place your [Demonic Circle](https://www.wowhead.com/spell=48018) near melee giving you an option to port over the rings.
-  * Be careful when dotting Blistercreeps, the wall wont take damage if the adds die away from them.
-
-**Fallen-King Salhadaar**
-
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CmQA-41RifCY33JXfKqYp1_dPzMzMzoZjxmZGz2AAAMzsMbzMzy8ADAMLbLjhxsYmGzMDbZWYYbAAAYGAAYmZmZMjZmthhZMzMjBzMzAAMDM)
-
-**Affliction Warlock** Fallen-King Salhadaar talents in Raids
+**Affliction Warlock** Entombed Sentinels talents in Raids
 
 ### Boss Tips
 
-* Ensure agony is up on both Vaelgor and Ezzorak at all times for extra resource generation.
-  * Look to interrupt far Fractured Images with your Felhunter.
+* Maintain [Agony](https://www.wowhead.com/spell=980) on both bosses as much as possible.
+  * A well placed [Demonic Circle](https://www.wowhead.com/spell=48018) can allow you to move quickly between bosses.
 
-**Vaelgor & Ezzorak**
+**The Lost Explorers**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CmQA-41RifCY33JXfKqYp1_dPzMzMzoZjxmZGzyAAAmZmlZZmZWGDAM2WGYATwMsFYYbAAAYGAAAzMjZMzsNGzgZmZGDzMzAAMgB)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CmQAUgGY_myp-zpUCockSq2z5zMmZGNbM2mZGzyAAAmZmlZxMzyYAgx22ADYCmhtADbDAAAzAAAYmZMjZmtxYGjZmZGDzMzAAMgB)
 
-**Affliction Warlock** Vaelgor & Ezzorak talents in Raids
-
-### Boss Tips
-
-* Ensure agony is up on both Vaelgor and Ezzorak at all times for extra resource generation.
-
-**Lightblinded Vanguard**
-
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CmQA-41RifCY33JXfKqYp1_dPzMzMzoZjxmZGzyAAAmZmlZZmZWGDAM2WGYATwMsFYYbAAAYGAAAzMjZMzsNGzgZmZGDzMzAAMgB)
-
-**Affliction Warlock** Lightblinded Vanguard talents in Raids
-
-* You can help out your healers by dispelling [Avenger's Shield](https://www.wowhead.com/spell=1276635) with [Singe Magic](https://www.wowhead.com/spell=119905). **Don't do this randomly!**
-
-**Crown of the Cosmos**
-
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CmQA-41RifCY33JXfKqYp1_dPzMzMzoZjxmZGz2AAAMzsMbzMzy8ADAMLbLjhxsYmGzMDbZWYYbAAAYGAAYmZmZMjZmthhZMzMjBzMzAAMDM)
-
-**Affliction Warlock** Crown of the Cosmos talents in Raids
+**Affliction Warlock** The Lost Explorers talents in Raids
 
 ### Boss Tips
 
-**Belo'ren**
+* Place your [Demonic Circle](https://www.wowhead.com/spell=48018) near the centre giving you an option to port over the fire ring instead of using the mushroom.
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CmQA-41RifCY33JXfKqYp1_dPzMzMzoZjxmZGz2AAAMzsMbzMzy8ADAMLbLjhxsYmGzMDbZWYYbAAAYGAAYmZmZMjZmthhZMzMjBzMzAAMDM)
+**Vashnik**
 
-**Affliction Warlock** Belo'ren talents in Raids
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CmQAUgGY_myp-zpUCockSq2z5zMmZGNbM2mZGzyAAAMzsMLzMzyYAgZZbbMMmFz0YmZYLzCDbDAAAzAAAzMzMjZMzsxMMzMzMjBzMzAAMDM)
 
-* Use [Demonic Gateway](https://www.wowhead.com/spell=111771) to allow your team to avoid the knock up at the start of the egg phase.
+**Affliction Warlock** Vashnik talents in Raids
 
-**Midnight Falls**
+### Boss Tips
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CmQA-41RifCY33JXfKqYp1_dPzMzMzoZjxmZGz2AAAMzsMbzMzy8ADAMLbLjhxsYmGzMDbZWYYbAAAYGAAYmZmZMjZmthhZMzMjBzMzAAMDM)
+* Pool your [Soul Shards](https://www.wowhead.com/spell=246985) well for add spawns to quickly burst them.
+  * Preplace your [Demonic Gateway](https://www.wowhead.com/spell=111771) and [Demonic Circle](https://www.wowhead.com/spell=48018) to quickly travel between add spawns.
 
-**Affliction Warlock** Midnight Falls talents in Raids
+**Sszorak**
 
-**Rotmire**
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CmQAUgGY_myp-zpUCockSq2z5zMmZGNbM2mZGzyAAAMzsMLzMzyYAgZZbbMMmFz0YmZYLzCDbDAAAzAAAzMzMjZMzsxMMzMzMjBzMzAAMDM)
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CmQA-41RifCY33JXfKqYp1_dPzMzMzoZjhZmxsMAAgZmZZ2MzsMGAYstMwAmgZYLww2AAAwMAAAmZGzMzMGjZMmZmZMMzMDAwAG)
+**Affliction Warlock** Sszorak talents in Raids
 
-**Affliction Warlock** Rotmire talents in Raids
+### Boss Tips
+
+* Place [Demonic Circle](https://www.wowhead.com/spell=48018) near the middle of the room to save yourself from knock ups and winds in the intermission.
+
+**Twin Fangs**
+
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CmQAUgGY_myp-zpUCockSq2z5zMmZGNbM2mZGzyAAAmZmlZxMzyYAgx22ADYCmhtADbDAAAzAAAYmZMjZmtxYGjZmZGDzMzAAMgB)
+
+**Affliction Warlock** Twin Fangs talents in Raids
+
+### Boss Tips
+
+* Maintain [Agony](https://www.wowhead.com/spell=980) on both bosses at all times.
+  * Save a few [Soul Shards](https://www.wowhead.com/spell=246985) before add spawns to quickly kill them and reduce the amount of stacks your raid gets.
+
+**Coiled Altar**
+
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CmQAUgGY_myp-zpUCockSq2z5zMmZGNbM2mZGzyAAAMzsMLzMzyYAgZZbbMMmFz0YmZYLzCDbDAAAzAAAzMzMjZMzsxMMzMzMjBzMzAAMDM)
+
+**Affliction Warlock** Coiled Altar talents in Raids
+
+### Boss Tips
+
+* Make sure to have [Summon Darkglare](https://www.wowhead.com/spell=205180) ready for the intermission damage amp.
+
+**Ula'tek**
+
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CmQAUgGY_myp-zpUCockSq2z5zMmZGNbM2mZGzyAAAMzsMLzMzyYAgZZbbMMmFz0YmZYLzCDbDAAAzAAAzMzMjZMzsxMMzMzMjBzMzAAMDM)
+
+**Affliction Warlock** Ula'tek talents in Raids
+
+### Boss Tips
+
+* Preplace your [Demonic Circle](https://www.wowhead.com/spell=48018) near melee to be able to port over the waves.
+
+**Nymrissa Wavecaller**
+
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CmQAUgGY_myp-zpUCockSq2z5zMmZGNbM2mZGzyAAAMzsMLzMzyYAgZZbbMMmFz0YmZYLzCDbDAAAzAAAzMzMjZMzsxMMzMzMjBzMzAAMDM)
+
+**Affliction Warlock** Nymrissa Wavecaller talents in Raids
+
+### Boss Tips
+
+* Place a [Demonic Gateway](https://www.wowhead.com/spell=111771) in the safe spot of the intermission so your raid can cancel the knockback from the boss.
 
 Understand your secondary stat priority and the tertiary stats needed for optimal performance during Raid boss fights as an **Affliction Warlock**. For more detailed information, visit the **[Stats and Attributes](https://maxroll.gg/wow/resources/stats-and-attributes)** guide.
 
-[Maxroll priority import](https://backend.maxroll.gg/wow/embed-tools/priority=IoAJFUQMkACKBMQAEA)
+[Maxroll priority import](https://backend.maxroll.gg/wow/embed-tools/priority=IoAJFUAIkEDKBMwAEA)
 
 **Affliction Warlock** Raid Stat Priorities
 
@@ -667,22 +680,24 @@ A static "**Stat Priority** " is just a starting point and can easily shift depe
 
 Slot| Item| Location  
 ---|---|---  
-Head| [Abyssal Immolator's Smoldering Flames](https://www.wowhead.com/item=250042)| Tier / Catalyst  
-Neck| [Rotmire's Sporeheart](https://www.wowhead.com/item=268291)| Rotmire  
-Shoulder| [Echoing Void Mantle](https://www.wowhead.com/item=249328)| Belo'ren  
-Cloak| [Adherent's Silken Shroud](https://www.wowhead.com/item=239656)| Crafting  
-Chest| [Abyssal Immolator's Dreadrobe](https://www.wowhead.com/item=250045)| Rotmire / Catalyst  
+Head| [Venomkeeper's Horrific Cowl](https://www.wowhead.com/item=271874)| Ula'tek  
+Neck| [Aqirbane Reliquary](https://www.wowhead.com/item=268265)| Ula'tek  
+Shoulder| Convert [Brood Cleanser's Amice](https://www.wowhead.com/item=239031)  
+into [Spires of the Damned Necrolyte](https://www.wowhead.com/item=271544)| Temple of Sethrallis / Catalyst  
+Cloak| [Silken Voodoo Drape](https://www.wowhead.com/item=268253)| The Coiled Altar  
+Chest| [Damned Necrolyte's Rattling Robes](https://www.wowhead.com/item=271549)| Tier / Catalyst  
 Wrist| [Martyr's Bindings](https://www.wowhead.com/item=239648)| Crafting  
-Gloves| [Abyssal Immolator's Grasps](https://www.wowhead.com/item=250043)| Tier / Catalyst  
-Belt| [Clasp of Compliance](https://www.wowhead.com/item=251102)| Magisters' Terrace / Great Vault  
-Legs| [Abyssal Immolator's Pillars](https://www.wowhead.com/item=250041)| Tier / Catalyst  
-Boots| [Luxurious Loamstriders](https://www.wowhead.com/item=268282)| Rotmire  
-Ring 1| [Eye of Midnight](https://www.wowhead.com/item=249920)| Midnight Falls  
-Ring 2| [Sporecaller's Blooming Loop](https://www.wowhead.com/item=268290)| Rotmire  
-Trinket 1| [Emberwing Feather](https://www.wowhead.com/item=250144)| Windrunner Spire  
-Trinket 2| [Gaze of the Alnseer](https://www.wowhead.com/item=249343)| Chimaerus  
-Weapon| [Belo'melorn, the Shattered Talon](https://www.wowhead.com/item=249283)| Belo'ren  
-Off-hand| [Grimoire of the Eternal Light](https://www.wowhead.com/item=249276)| Vorasius
+Gloves| Convert [Grasps of the Eternal Shadow](https://www.wowhead.com/item=268243)  
+into [Damned Necrolyte's Charred Grasps](https://www.wowhead.com/item=271547)| The Coiled Altar / Catalyst  
+Belt| [Martyr's Waistwrap](https://www.wowhead.com/item=239649)| Crafting  
+Legs| [Damned Necrolyte's Leg Bindings](https://www.wowhead.com/item=271545)| Tier / Catalyst  
+Boots| [Cackling Soultreads](https://www.wowhead.com/item=268255)| The Coiled Altar  
+Ring 1| [Apex Brute's Claw Ring](https://www.wowhead.com/item=268252)| Sszorak  
+Ring 2| [Band of the Amani Warlord](https://www.wowhead.com/item=273792)| Altar of Fangs  
+Trinket 1| [Vile Vial of Volatile Venom](https://www.wowhead.com/item=273796)| Altar of Fangs  
+Trinket 2| [Gebbo's Bottomless Bag](https://www.wowhead.com/item=270164)| The Lost Explorers  
+Weapon| [Jan'thrazet, the Soul Fang](https://www.wowhead.com/item=271092)| Ula'tek  
+Off-hand| [Nocuous Focal Fang](https://www.wowhead.com/item=273779)| Altar of Fangs
 
 **Farmable Alternatives**
 
@@ -690,21 +705,21 @@ Below you are presented with a good list of farmable alternatives that are obtai
 
 Slot| Item| Location  
 ---|---|---  
-Head| [Organized Pontificator's Mask](https://www.wowhead.com/item=193703)| Algath'ar Academy  
-Neck| [Barbed Ymirheim Choker](https://www.wowhead.com/item=50228)| Pit of Saron  
-Shoulder| [Lightbinder Shoulderguards](https://www.wowhead.com/item=258578)| Skyreach  
-Cloak| [Rigid Scale Greatcloak](https://www.wowhead.com/item=258575)| Skyreach  
-Chest| [Bronze Challenger's Robe](https://www.wowhead.com/item=193720)| Algath'ar Academy  
-Wrist| [Entropic Wristwraps](https://www.wowhead.com/item=151305)| Seat of the Triumvirate  
-Gloves| [Handwraps of the Ascended](https://www.wowhead.com/item=151300)| Seat of the Triumvirate  
-Belt| [Clasp of Compliance](https://www.wowhead.com/item=251102)| Magisters' Terrace  
-Legs| [Legwraps of Swirling Light](https://www.wowhead.com/item=258574)| Skyreach  
-Boots| [Slippers of Growing Despair](https://www.wowhead.com/item=151301)| Seat of the Triumvirate  
-Ring 1| [Bifurcation Band](https://www.wowhead.com/item=251115)| Magisters' Terrace  
-Ring 2| [Omission of Light](https://www.wowhead.com/item=251093)| Nexus-Point Xenas  
-Trinket 1| [Heart of Wind](https://www.wowhead.com/item=250256)| Windrunner Spire  
-Trinket 2| [Emberwing Feather](https://www.wowhead.com/item=250144)| Windrunner Spire  
-Weapon| [Corespark Multitool](https://www.wowhead.com/item=251201)| Nexus-Point Xenas
+Head| [Worldroot Canopy](https://www.wowhead.com/item=251199)| The Blinding Vale  
+Neck| [Strand of Warding Fangs](https://www.wowhead.com/item=273781)| Altar of Fangs  
+Shoulder| [Spires of the Damned Necrolyte](https://www.wowhead.com/item=271544)| Tier / Catalyst  
+Cloak| [Adherent's Silken Shroud](https://www.wowhead.com/item=239656)| Crafting  
+Chest| [Damned Necrolyte's Rattling Robes](https://www.wowhead.com/item=271549)| Tier / Catalyst  
+Wrist| [Martyr's Bindings](https://www.wowhead.com/item=239648)| Crafting  
+Gloves| [Damned Necrolyte's Charred Grasps](https://www.wowhead.com/item=271547)| Tier / Catalyst  
+Belt| [Ethereal Netherwrap](https://www.wowhead.com/item=251222)| Voidscar Arena  
+Legs| [Damned Necrolyte's Leg Bindings](https://www.wowhead.com/item=271545)| Tier / Catalyst  
+Boots| [Sandswept Sandals](https://www.wowhead.com/item=159259)| Temple of Sethraliss  
+Ring 1| [Signet of Snarling Servitude](https://www.wowhead.com/item=251136)| Murder Row  
+Ring 2| [Band of the Amani Warlord](https://www.wowhead.com/item=273792)| Altar of Fangs  
+Trinket 1| [Stormbound Emblem of Dazar](https://www.wowhead.com/item=273649)| Kings' Rest  
+Trinket 2| [Knot of Writhing Serpents](https://www.wowhead.com/item=273794)| Altar of Fangs  
+Weapon| [Nibbles' Training Rod](https://www.wowhead.com/item=251123)| Murder Row
 
 ### Trinkets
 
@@ -712,20 +727,21 @@ Below is a ranking of endgame trinkets obtainable from Dungeons, Raids, and Delv
 
 Rank| Trinkets  
 ---|---  
-**S-Tier**| [Gaze of the Alnseer](https://www.wowhead.com/item=249343)  
-[Emberwing Feather](https://www.wowhead.com/item=250144)  
-[Vaelgor's Final Stare](https://www.wowhead.com/item=249346)  
-**A-Tier**| [Heart of Wind](https://www.wowhead.com/item=250256)  
-[Locus-Walker's Ribbon](https://www.wowhead.com/item=249809)  
-[Soulcatcher's Charm](https://www.wowhead.com/item=250223)  
-**B-Tier**| [Vessel of Tortured Souls](https://www.wowhead.com/item=250258)  
-[Nevermelting Ice Crystal](https://www.wowhead.com/item=50259)  
-[Sporelord's Mycelial Insignia](https://www.wowhead.com/item=268292)  
-**C-Tier**| [Eye of the Drowning Void](https://www.wowhead.com/item=250257)  
-[Wraps of Cosmic Madness](https://www.wowhead.com/item=249340)  
+**S-Tier**| [Vile Vial of Volatile Venom](https://www.wowhead.com/item=273796)  
+[Gebbo's Bottomless Bag](https://www.wowhead.com/item=270164)  
+[Stormbound Emblem of Dazar](https://www.wowhead.com/item=273649)  
+[Freightrunner's Flask](https://www.wowhead.com/item=250215)  
+**A-Tier**| [Wavecaller's Seastone](https://www.wowhead.com/item=270167)  
+[Font of Venomous Rage](https://www.wowhead.com/item=270168)  
+[Hex Lord's Dooming Idol](https://www.wowhead.com/item=270169)  
+**B-Tier**| [Knot of Writhing Serpents](https://www.wowhead.com/item=273794)  
+[Vexhul's Everflowing Gland](https://www.wowhead.com/item=270170)  
+[Fang of Umbral Malignance](https://www.wowhead.com/item=270161)  
+**C-Tier**| [Sapling of the Dawnroot](https://www.wowhead.com/item=250259)  
+[Lightspire Core](https://www.wowhead.com/item=250214)  
 [Mindpiercer's Sigil](https://www.wowhead.com/item=250224)  
-[Reality Breacher](https://www.wowhead.com/item=151310)  
-[Ever-Collapsing Void Fissure](https://www.wowhead.com/item=251786)  
+[Sethraliss' Defiled Relic](https://www.wowhead.com/item=158368)  
+[Ruby Whelp Shell](https://www.wowhead.com/item=193757)  
 **Junkyard**| [Sealed Chaos Urn](https://www.wowhead.com/item=251787)  
 [Glorious Crusader's Keepsake](https://www.wowhead.com/item=251792)  
 [Void-Reaper's Libram](https://www.wowhead.com/item=251785)  
@@ -736,7 +752,7 @@ Rank| Trinkets
 * 1x [Darkmoon Sigil: Hunt](https://www.wowhead.com/item=245876)
     * Only crafted on your **main hand** or **off-hand weapon**. Craft it on your main hand for more power early on or on your off-hand for long-term BiS.
   * 1x [Darkmoon Sigil: Hunt](https://www.wowhead.com/item=245876)
-    * Early on use 2 of these on a combination of **main hand** and **off-hand weapon**. When you loot a mythic weapon and upgrade it you can [Darkmoon Sigil: Hunt](https://www.wowhead.com/item=245876) on your main hand in favour of the higher ilvl item you looted.
+    * Early on use 2 of these on a combination of **main hand** and **off-hand weapon**. When you loot a mythic weapon and upgrade it you can drop [Darkmoon Sigil: Hunt](https://www.wowhead.com/item=245876) on your main hand in favour of the higher ilvl item you looted.
 
 or
 
@@ -755,14 +771,14 @@ or
 To find the best combination of gear available to you or identify the best possible upgrades, visit our **[Simcraft guide](https://maxroll.gg/wow/resources/simulationcraft-and-raidbots-guide)** to learn how to utilize Simcraft easily and effectively.
 
 * **Flask**
-    * [Flask of the Magisters](https://www.wowhead.com/item=241322)
+    * [Flask of the Shattered Sun](https://www.wowhead.com/item=241326)
     * [Flask of the Blood Knights](https://www.wowhead.com/item=241324)
   * **Food**
     * [Harandar Celebration](https://www.wowhead.com/item=255846) _\-- default_
   * **Combat Potion**
     * [Light's Potential](https://www.wowhead.com/item=241308)
   * **Health Potion**
-    * [Silvermoon Health Potion](https://www.wowhead.com/item=241304) _\-- a big burst of healing_
+    * [Concentrated Silvermoon Health Potion](https://www.wowhead.com/item=271884) _\-- a big burst of healing_
   * **Weapon Oil**
     * [Thalassian Phoenix Oil](https://www.wowhead.com/item=243734) _\-- default_
   * **Augment Rune**
@@ -777,23 +793,23 @@ To find the best combination of gear available to you or identify the best possi
 ### Enchantments
 
 Head| [Enchant Helm - Empowered Blessing of Speed](https://www.wowhead.com/item=243981)  
-[Radiant Jewelbinder](https://www.wowhead.com/item=263897)  
+[Miasmic Jewelbinder](https://www.wowhead.com/item=275707)  
 ---|---  
 Cloak| [Enchant Cloak - Chant of Winged Grace](https://www.wowhead.com/item=223731)  
 Chest| [Enchant Chest - Mark of the Worldsoul](https://www.wowhead.com/item=243977)  
-Wrist| [Radiant Jewelbinder](https://www.wowhead.com/item=263897)  
-Waist| [Radiant Jewelbinder](https://www.wowhead.com/item=263897)  
+Wrist| [Miasmic Jewelbinder](https://www.wowhead.com/item=275707)  
+Waist| [Miasmic Jewelbinder](https://www.wowhead.com/item=275707)  
 Legs| [Sunfire Silk Spellthread](https://www.wowhead.com/item=240133)  
 Boots| [Enchant Boots - Farstrider's Hunt](https://www.wowhead.com/item=244009)  
 Ring 1| [Enchant Ring - Eyes of the Eagle](https://www.wowhead.com/item=243957)  
 Ring 2| [Enchant Ring - Eyes of the Eagle](https://www.wowhead.com/item=243957)  
 Weapon| [Enchant Weapon - Acuity of the Ren'dorei](https://www.wowhead.com/item=244029)
 
-[Maxroll paperdoll import](https://backend.maxroll.gg/wow/embed-tools/paperdoll=IQFaJEQ9NCQANk7ACAAAAktBEEw-4OAAAAAABkQuJgACZbABFABBFoaCQAQK6gBAAUfDwgS94OAAAAAAB0TuDA)
+[Maxroll paperdoll import](https://backend.maxroll.gg/wow/embed-tools/paperdoll=JQFaJEQ9NCQA7TDBQAAAAcG3SEw-4OAAAAAABkQuJgAC7TDBFABBFoaCQAQK6gBAAUfDwgS94OAAAAAAB0TuDA)
 
 **Affliction Warlock** Enchantments in Raid
 
-> You buy [Radiant Jewelbinder](https://www.wowhead.com/item=263897) from the Great Vault Vendor to add sockets to your **Helm** , **Wrists** & **Waist**.
+> You buy [Miasmic Jewelbinder](https://www.wowhead.com/item=275707) from the Great Vault Vendor to add sockets to your **Helm** , **Wrists** & **Waist**.
 
 For min-maxing an **Affliction Warlock** in raiding, different racial traits can provide a tremendous benefit to your character. If this is not your top goal, picking a race that fits your style works just as well.
 
@@ -953,6 +969,20 @@ Below, you see a screenshot of the author's User Interface for their **Afflictio
   * **Details** __\--____Damage Tracking__
     * Details allows for more customization of the default blizzard damage meter.
 
+**Patch 12.1**
+
+* **Hellcaller**
+    * _Developers’ notes: We’re updating Blackened Soul to give Hellcaller a better tool for focusing damage into a priority target, increasing the overall flexibility of the hero talent tree rather than have it only excel in situations where multiple targets are present. However, we are keeping the functionality of Malevolence the same, so it remains a cool and impactful tool in Hellcaller’s toolkit._
+    * Blackened Soul has been redesigned – If the target is afflicted with your Wither, your Chaos Bolt and Shadowburn increase its stack count by 1. Each time Wither gains a stack it has a chance to collapse, consuming a stack every 1 second to deal Shadowflame damage to its host until 1 stack remains.
+    * Mark of Peroth’arn has been redesigned – Damaging critical strikes dealt by Wither deal 215% damage instead of the usual 200%. Damaging critical strikes dealt by Blackened Soul deal 225% damage instead of the usual 200%.
+  * **Affliction**
+    * Haunt now increases your damage dealt to the target by 16% for 18 seconds (was 12%).
+    * New Talent: Hedonic Gorging – Increases Drain Life damage by 10% and Siphon Life now increases the damage of Corruption by an additional 10%. Dark Harvest channels 10% faster and deals 15% increased damage.
+    * Patient Zero has been removed.
+    * New Talent: Impetuous Wrath – Shadow Bolt, Drain Soul, and Malefic Grasp damage increased by 10% or 20% if the target is affected by Haunt. Dark Harvest damage increased by 10% or 20% if the target is affected by Haunt.
+    * Shard Instability has been redesigned – Damage dealt by Shadow Bolt or Drain Soul has a 20% chance to make your next Unstable Affliction or Seed of Corruption cost no Soul Shards and cast instantly.
+    * Nocturnal Yield has been removed.
+
 **Patch 12.0.1**
 
 * **Hellcaller**
@@ -1089,6 +1119,12 @@ Written By: **Spen**
 Reviewed by: **Ftm**
 
 ## Changelog
+
+Aug 3rd 2026
+
+`Updated for patch 12.1 `
+
+* * *
 
 Jun 17th 2026
 

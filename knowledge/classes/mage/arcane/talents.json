@@ -4,10 +4,10 @@
   "spec": "arcane",
   "spec_id": 62,
   "tree_id": 658,
-  "patch": "12.0.7",
-  "build": "12.0.7.67808",
+  "patch": "12.1.0",
+  "build": "12.1.0.68914",
   "source": "api",
-  "serial_count": 206,
+  "serial_count": 208,
   "granted_serials": [
     64,
     81
@@ -104,7 +104,7 @@
         "col": 2,
         "x": 2700,
         "y": 2700,
-        "serial_order": 134,
+        "serial_order": 133,
         "req_points": 0,
         "prereq_node_ids": [
           62115
@@ -234,11 +234,11 @@
         "col": 4,
         "x": 3900,
         "y": 3300,
-        "serial_order": 140,
+        "serial_order": 139,
         "req_points": 0,
         "prereq_node_ids": [
-          62123,
-          62102
+          62102,
+          62123
         ],
         "entries": [
           {
@@ -369,8 +369,8 @@
         "serial_order": 19,
         "req_points": 8,
         "prereq_node_ids": [
-          108660,
-          62124
+          62124,
+          108660
         ],
         "entries": [
           {
@@ -391,7 +391,7 @@
         "col": 7,
         "x": 5700,
         "y": 3900,
-        "serial_order": 142,
+        "serial_order": 141,
         "req_points": 8,
         "prereq_node_ids": [
           62124
@@ -415,7 +415,7 @@
         "col": 1,
         "x": 2100,
         "y": 4500,
-        "serial_order": 193,
+        "serial_order": 192,
         "req_points": 8,
         "prereq_node_ids": [
           62084
@@ -473,7 +473,7 @@
         "col": 3,
         "x": 3300,
         "y": 4500,
-        "serial_order": 190,
+        "serial_order": 189,
         "req_points": 8,
         "prereq_node_ids": [
           62104
@@ -497,7 +497,7 @@
         "col": 4,
         "x": 3900,
         "y": 4500,
-        "serial_order": 141,
+        "serial_order": 140,
         "req_points": 8,
         "prereq_node_ids": [
           62116,
@@ -523,7 +523,7 @@
         "col": 5,
         "x": 4500,
         "y": 4500,
-        "serial_order": 189,
+        "serial_order": 188,
         "req_points": 8,
         "prereq_node_ids": [
           62116
@@ -550,8 +550,8 @@
         "serial_order": 48,
         "req_points": 8,
         "prereq_node_ids": [
-          62116,
-          108662
+          108662,
+          62116
         ],
         "entries": [
           {
@@ -650,6 +650,30 @@
         ]
       },
       {
+        "node_id": 110597,
+        "type": "PASSIVE",
+        "row": 7,
+        "col": 4,
+        "x": 3900,
+        "y": 5100,
+        "serial_order": 205,
+        "req_points": 8,
+        "prereq_node_ids": [
+          108661
+        ],
+        "entries": [
+          {
+            "entry_id": "137410",
+            "talent": "Improved Warding",
+            "spell_id": 1297073,
+            "max_ranks": "1",
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/1083039.jpg",
+            "desc": "Damage taken from area of effect attacks reduced by 4%."
+          }
+        ]
+      },
+      {
         "node_id": 62098,
         "type": "PASSIVE",
         "row": 7,
@@ -706,7 +730,7 @@
         "col": 7,
         "x": 5700,
         "y": 5100,
-        "serial_order": 139,
+        "serial_order": 138,
         "req_points": 8,
         "prereq_node_ids": [
           93524
@@ -730,7 +754,7 @@
         "col": 2,
         "x": 2700,
         "y": 5700,
-        "serial_order": 138,
+        "serial_order": 137,
         "req_points": 20,
         "prereq_node_ids": [
           62110,
@@ -756,7 +780,7 @@
         "col": 3,
         "x": 3300,
         "y": 5700,
-        "serial_order": 192,
+        "serial_order": 191,
         "req_points": 20,
         "prereq_node_ids": [
           62127
@@ -783,6 +807,7 @@
         "serial_order": 8,
         "req_points": 20,
         "prereq_node_ids": [
+          110597,
           62098,
           62127
         ],
@@ -805,7 +830,7 @@
         "col": 5,
         "x": 4500,
         "y": 5700,
-        "serial_order": 191,
+        "serial_order": 190,
         "req_points": 20,
         "prereq_node_ids": [
           62098
@@ -829,12 +854,12 @@
         "col": 6,
         "x": 5100,
         "y": 5700,
-        "serial_order": 137,
+        "serial_order": 136,
         "req_points": 20,
         "prereq_node_ids": [
-          62112,
           108659,
-          62098
+          62098,
+          62112
         ],
         "entries": [
           {
@@ -1106,12 +1131,12 @@
         "col": 6,
         "x": 5100,
         "y": 6900,
-        "serial_order": 143,
+        "serial_order": 142,
         "req_points": 20,
         "prereq_node_ids": [
           62092,
-          62091,
-          62100
+          62100,
+          62091
         ],
         "entries": [
           {
@@ -1156,7 +1181,7 @@
         "col": 17,
         "x": 11700,
         "y": 2100,
-        "serial_order": 129,
+        "serial_order": 128,
         "req_points": 0,
         "prereq_node_ids": [
           102467
@@ -1180,7 +1205,7 @@
         "col": 19,
         "x": 12900,
         "y": 2100,
-        "serial_order": 130,
+        "serial_order": 129,
         "req_points": 0,
         "prereq_node_ids": [
           102467
@@ -1198,41 +1223,16 @@
         ]
       },
       {
-        "node_id": 102473,
+        "node_id": 102445,
         "type": "PASSIVE",
         "row": 3,
         "col": 16,
         "x": 11100,
         "y": 2700,
-        "serial_order": 119,
-        "req_points": 0,
-        "prereq_node_ids": [
-          108538
-        ],
-        "entries": [
-          {
-            "entry_id": "126543",
-            "talent": "Amplification",
-            "spell_id": 236628,
-            "max_ranks": "1",
-            "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_invocation.jpg",
-            "desc": "Arcane Missiles fires 2 additional missiles."
-          }
-        ]
-      },
-      {
-        "node_id": 102445,
-        "type": "PASSIVE",
-        "row": 3,
-        "col": 18,
-        "x": 12300,
-        "y": 2700,
         "serial_order": 104,
         "req_points": 0,
         "prereq_node_ids": [
-          108538,
-          108539
+          108538
         ],
         "entries": [
           {
@@ -1243,6 +1243,31 @@
             "choice_index": 0,
             "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_manaburn.jpg",
             "desc": "Clearcasting can stack up to 2 additional times."
+          }
+        ]
+      },
+      {
+        "node_id": 110850,
+        "type": "PASSIVE",
+        "row": 3,
+        "col": 18,
+        "x": 12300,
+        "y": 2700,
+        "serial_order": 207,
+        "req_points": 0,
+        "prereq_node_ids": [
+          108539,
+          108538
+        ],
+        "entries": [
+          {
+            "entry_id": "137842",
+            "talent": "Refractive Images",
+            "spell_id": 1309497,
+            "max_ranks": "1",
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/6891021.jpg",
+            "desc": "10% of damage you would take is instead dealt over 8 sec. Casting Mirror Image increases this effect to 30% for 15 sec."
           }
         ]
       },
@@ -1280,7 +1305,7 @@
         "serial_order": 101,
         "req_points": 0,
         "prereq_node_ids": [
-          102473
+          102445
         ],
         "entries": [
           {
@@ -1304,7 +1329,7 @@
         "serial_order": 106,
         "req_points": 0,
         "prereq_node_ids": [
-          102445
+          110850
         ],
         "entries": [
           {
@@ -1325,7 +1350,7 @@
         "col": 20,
         "x": 13500,
         "y": 3300,
-        "serial_order": 125,
+        "serial_order": 124,
         "req_points": 0,
         "prereq_node_ids": [
           102471
@@ -1456,7 +1481,7 @@
         "col": 21,
         "x": 14100,
         "y": 3900,
-        "serial_order": 121,
+        "serial_order": 120,
         "req_points": 8,
         "prereq_node_ids": [
           104113
@@ -1495,6 +1520,30 @@
             "choice_index": 0,
             "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_brainwash.jpg",
             "desc": "Upon reaching maximum stacks of Arcane Salvo, your next Arcane Barrage deals 25% increased damage."
+          }
+        ]
+      },
+      {
+        "node_id": 110849,
+        "type": "PASSIVE",
+        "row": 6,
+        "col": 17,
+        "x": 11700,
+        "y": 4500,
+        "serial_order": 206,
+        "req_points": 8,
+        "prereq_node_ids": [
+          102460
+        ],
+        "entries": [
+          {
+            "entry_id": "137841",
+            "talent": "Amplification",
+            "spell_id": 236628,
+            "max_ranks": "1",
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_invocation.jpg",
+            "desc": "Arcane Missiles fires 2 additional missiles."
           }
         ]
       },
@@ -1554,7 +1603,7 @@
         "col": 20,
         "x": 13500,
         "y": 4500,
-        "serial_order": 157,
+        "serial_order": 156,
         "req_points": 8,
         "prereq_node_ids": [
           102475,
@@ -1579,7 +1628,7 @@
         "col": 15,
         "x": 10500,
         "y": 5100,
-        "serial_order": 127,
+        "serial_order": 126,
         "req_points": 8,
         "prereq_node_ids": [
           102446
@@ -1603,7 +1652,7 @@
         "col": 16,
         "x": 11100,
         "y": 5100,
-        "serial_order": 205,
+        "serial_order": 204,
         "req_points": 8,
         "prereq_node_ids": [
           102446
@@ -1627,7 +1676,7 @@
         "col": 17,
         "x": 11700,
         "y": 5100,
-        "serial_order": 126,
+        "serial_order": 125,
         "req_points": 8,
         "prereq_node_ids": [
           102446,
@@ -1685,7 +1734,7 @@
         "col": 19,
         "x": 12900,
         "y": 5100,
-        "serial_order": 131,
+        "serial_order": 130,
         "req_points": 8,
         "prereq_node_ids": [
           102441,
@@ -1738,9 +1787,9 @@
         "serial_order": 109,
         "req_points": 20,
         "prereq_node_ids": [
-          110442,
           108535,
-          108536
+          108536,
+          110442
         ],
         "entries": [
           {
@@ -1820,7 +1869,7 @@
         "col": 20,
         "x": 13500,
         "y": 5700,
-        "serial_order": 132,
+        "serial_order": 131,
         "req_points": 20,
         "prereq_node_ids": [
           108541,
@@ -1845,7 +1894,7 @@
         "col": 16,
         "x": 11100,
         "y": 6300,
-        "serial_order": 123,
+        "serial_order": 122,
         "req_points": 20,
         "prereq_node_ids": [
           102470,
@@ -1870,11 +1919,11 @@
         "col": 18,
         "x": 12300,
         "y": 6300,
-        "serial_order": 144,
+        "serial_order": 143,
         "req_points": 20,
         "prereq_node_ids": [
-          102451,
-          102470
+          102470,
+          102451
         ],
         "entries": [
           {
@@ -1895,7 +1944,7 @@
         "col": 20,
         "x": 13500,
         "y": 6300,
-        "serial_order": 128,
+        "serial_order": 127,
         "req_points": 20,
         "prereq_node_ids": [
           102451,
@@ -1953,7 +2002,7 @@
         "col": 17,
         "x": 11700,
         "y": 6900,
-        "serial_order": 122,
+        "serial_order": 121,
         "req_points": 20,
         "prereq_node_ids": [
           102480
@@ -1977,7 +2026,7 @@
         "col": 18,
         "x": 12300,
         "y": 6900,
-        "serial_order": 176,
+        "serial_order": 175,
         "req_points": 20,
         "prereq_node_ids": [
           108665
@@ -2025,7 +2074,7 @@
         "col": 21,
         "x": 14100,
         "y": 6900,
-        "serial_order": 120,
+        "serial_order": 119,
         "req_points": 20,
         "prereq_node_ids": [
           108537
@@ -2049,18 +2098,18 @@
         "col": 18,
         "x": 12300,
         "y": 7650,
-        "serial_order": 202,
+        "serial_order": 201,
         "req_points": 20,
         "prereq_node_ids": [],
         "entries": [
           {
             "entry_id": "137028",
-            "talent": "Touch of the Archmage",
-            "spell_id": 1257942,
+            "talent": "Prismatic Bolt",
+            "spell_id": 1295923,
             "max_ranks": "1",
             "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv12_apextalent_mage_touchofthearchmage.jpg",
-            "desc": "Touch of the Magi increases the damage your target receives from you by 15%."
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/7514185.jpg",
+            "desc": "Arcane Barrage has a 1% chance per stack of Arcane Salvo consumed to replace your next Arcane Blast with Prismatic Bolt.\r\n\r\n Prismatic Bolt\r\nDevastates the target with overwhelming energy, dealing 16,111 Arcane damage to them and 10,184 Arcane damage to other nearby enemies. Damage reduced beyond 5 targets.\r\n\r\nGenerates 4 Arcane Charges."
           }
         ]
       }
@@ -2149,10 +2198,10 @@
           "serial_order": 63,
           "req_points": 0,
           "prereq_node_ids": [
+            109673,
             94643,
             94650,
-            94648,
-            109673
+            94648
           ],
           "entries": [
             {
@@ -2366,7 +2415,7 @@
           "col": 12,
           "x": 8700,
           "y": 6900,
-          "serial_order": 183,
+          "serial_order": 182,
           "req_points": 0,
           "prereq_node_ids": [
             109674
@@ -2390,7 +2439,7 @@
           "col": 12,
           "x": 8700,
           "y": 6300,
-          "serial_order": 184,
+          "serial_order": 183,
           "req_points": 0,
           "prereq_node_ids": [
             109675
@@ -2414,7 +2463,7 @@
           "col": 12,
           "x": 8700,
           "y": 5700,
-          "serial_order": 185,
+          "serial_order": 184,
           "req_points": 0,
           "prereq_node_ids": [
             94647
@@ -2443,10 +2492,10 @@
           "serial_order": 71,
           "req_points": 0,
           "prereq_node_ids": [
-            94655,
+            109667,
             94658,
             94657,
-            109667
+            94655
           ],
           "entries": [
             {
@@ -2723,7 +2772,7 @@
           "col": 12,
           "x": 8700,
           "y": 3900,
-          "serial_order": 177,
+          "serial_order": 176,
           "req_points": 0,
           "prereq_node_ids": [
             109668
@@ -2747,7 +2796,7 @@
           "col": 12,
           "x": 8700,
           "y": 3300,
-          "serial_order": 178,
+          "serial_order": 177,
           "req_points": 0,
           "prereq_node_ids": [
             109669
@@ -2771,7 +2820,7 @@
           "col": 12,
           "x": 8700,
           "y": 2700,
-          "serial_order": 179,
+          "serial_order": 178,
           "req_points": 0,
           "prereq_node_ids": [
             94664

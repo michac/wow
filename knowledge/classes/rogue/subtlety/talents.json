@@ -4,8 +4,8 @@
   "spec": "subtlety",
   "spec_id": 261,
   "tree_id": 852,
-  "patch": "12.0.7",
-  "build": "12.0.7.67808",
+  "patch": "12.1.0",
+  "build": "12.1.0.68914",
   "source": "api",
   "serial_count": 206,
   "granted_serials": [
@@ -234,8 +234,8 @@
         "serial_order": 9,
         "req_points": 0,
         "prereq_node_ids": [
-          110325,
-          90764
+          90764,
+          110325
         ],
         "entries": [
           {
@@ -294,8 +294,8 @@
         "serial_order": 49,
         "req_points": 0,
         "prereq_node_ids": [
-          110324,
-          90695
+          90695,
+          110324
         ],
         "entries": [
           {
@@ -472,8 +472,8 @@
         "serial_order": 113,
         "req_points": 8,
         "prereq_node_ids": [
-          90637,
-          90745
+          90745,
+          90637
         ],
         "entries": [
           {
@@ -521,9 +521,9 @@
         "serial_order": 99,
         "req_points": 8,
         "prereq_node_ids": [
-          110323,
           90745,
-          90746
+          90746,
+          110323
         ],
         "entries": [
           {
@@ -571,8 +571,8 @@
         "serial_order": 106,
         "req_points": 8,
         "prereq_node_ids": [
-          90687,
-          90746
+          90746,
+          90687
         ],
         "entries": [
           {
@@ -780,9 +780,9 @@
         "serial_order": 104,
         "req_points": 8,
         "prereq_node_ids": [
+          110576,
           90743,
-          94562,
-          110576
+          94562
         ],
         "entries": [
           {
@@ -1026,7 +1026,7 @@
       },
       {
         "node_id": 90756,
-        "type": "ACTIVE",
+        "type": "CHOICE",
         "row": 11,
         "col": 2,
         "x": 2700,
@@ -1045,6 +1045,15 @@
             "choice_index": 0,
             "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_drink_milk_05.jpg",
             "desc": "Restore 100 Energy.\r\n\r\nWhen your Energy is reduced below 30, drink a Thistle Tea."
+          },
+          {
+            "entry_id": "137464",
+            "talent": "Thistle Tea",
+            "spell_id": 1298826,
+            "max_ranks": "1",
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/132819.jpg",
+            "desc": "Restore 100 Energy."
           }
         ]
       },
@@ -1514,8 +1523,8 @@
         "serial_order": 87,
         "req_points": 8,
         "prereq_node_ids": [
-          90733,
-          90701
+          90701,
+          90733
         ],
         "entries": [
           {
@@ -1563,8 +1572,8 @@
         "serial_order": 66,
         "req_points": 8,
         "prereq_node_ids": [
-          90733,
-          90714
+          90714,
+          90733
         ],
         "entries": [
           {
@@ -1645,9 +1654,9 @@
         "serial_order": 187,
         "req_points": 8,
         "prereq_node_ids": [
+          90727,
           90699,
-          90734,
-          90727
+          90734
         ],
         "entries": [
           {
@@ -1671,9 +1680,9 @@
         "serial_order": 78,
         "req_points": 8,
         "prereq_node_ids": [
+          90715,
           90709,
-          90734,
-          90715
+          90734
         ],
         "entries": [
           {
@@ -1776,18 +1785,18 @@
         "entries": [
           {
             "entry_id": "112625",
-            "talent": "The First Dance",
-            "spell_id": 382505,
+            "talent": "Deepening Shadows",
+            "spell_id": 185314,
             "max_ranks": "1",
             "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_shadowdance.jpg",
-            "desc": "Remaining out of combat for 6 sec increases the duration of your next Shadow Dance by 3 sec."
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_twilight.jpg",
+            "desc": "Shadow Dance duration is increased by 150% of your Haste stat.\r\n\r\nCurrent bonus duration: 0.00 sec"
           }
         ]
       },
       {
         "node_id": 90724,
-        "type": "PASSIVE",
+        "type": "ACTIVE",
         "row": 8,
         "col": 18,
         "x": 12300,
@@ -1801,12 +1810,12 @@
         "entries": [
           {
             "entry_id": "112612",
-            "talent": "Deepening Shadows",
-            "spell_id": 185314,
+            "talent": "Goremaw's Bite",
+            "spell_id": 426591,
             "max_ranks": "1",
             "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_twilight.jpg",
-            "desc": "Shadow Dance duration is increased by 150% of your Haste stat.\r\n\r\nCurrent bonus duration: 0.00 sec"
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_knife_1h_artifactfangs_d_01.jpg",
+            "desc": "Lashes out at the target, inflicting 114 Shadow damage and causing your next 3 finishing moves to cost no Energy.\r\n\r\nAwards 3 combo points."
           }
         ]
       },
@@ -2135,7 +2144,7 @@
       },
       {
         "node_id": 94581,
-        "type": "ACTIVE",
+        "type": "PASSIVE",
         "row": 11,
         "col": 19,
         "x": 12900,
@@ -2149,12 +2158,12 @@
         "entries": [
           {
             "entry_id": "117169",
-            "talent": "Goremaw's Bite",
-            "spell_id": 426591,
+            "talent": "The First Dance",
+            "spell_id": 382505,
             "max_ranks": "1",
             "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_knife_1h_artifactfangs_d_01.jpg",
-            "desc": "Lashes out at the target, inflicting 114 Shadow damage and causing your next 3 finishing moves to cost no Energy.\r\n\r\nAwards 3 combo points."
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_rogue_shadowdance.jpg",
+            "desc": "Remaining out of combat for 6 sec increases the duration of your next Shadow Dance by 3 sec."
           }
         ]
       },

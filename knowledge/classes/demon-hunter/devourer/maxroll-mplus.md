@@ -1,8 +1,8 @@
 ---
 title: Devourer Demon Hunter Mythic+ Guide
 patch: 12.0.7
-fetched: 2026-07-14
-reviewed: 2026-07-14
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
   - https://maxroll.gg/wow/class-guides/devourer-demon-hunter-mythic-guide (maxroll.gg, Tier 3)
 confidence: medium
@@ -10,6 +10,11 @@ verbatim: true          # unedited external capture — distill on read, not on 
 source: maxroll.gg
 author: nicememes
 maxroll_updated: 2026-06-22   # source's last-modified (staleness signal)
+kb_caveat: |
+  ⚠ NOT UPDATED FOR 12.1. maxroll's own last-modified is 2026-06-22, i.e. this
+  guide predates the Curse of Ula'tek class changes entirely (Devourer's Mastery:
+  Monster Within was cut 66% inside Void Metamorphosis with a +32% all-ability
+  compensation, among others). Pre-12.1 content — re-capture once the author updates.
 ---
 
 Welcome to the **Devourer Demon Hunter** Mythic+ guide for the World of Warcraft patch 12.0.7! This guide covers everything you need to know to understand your character! Are you starting out and leveling up from 80? Check out the leveling guide!

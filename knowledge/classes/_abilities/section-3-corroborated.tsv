@@ -1,37 +1,37 @@
 class	spec	name	spell_id	reached_by	spec_scope	anchor	anchor_spell_id	provenance
-Death Knight	Blood	Clawing Shadows	207311	override-aura	class-shared	Vampiric Strike	434674	SpellEffect.EffectAura 332 on Vampiric Strike 434674 @ 12.0.7.67808
-Death Knight	Frost	Acherus Deathcharger	48778	override-aura	class-shared	On a Paler Horse	455044	SpellEffect.EffectAura 332 on On a Paler Horse 455044 @ 12.0.7.67808
-Death Knight	Unholy	Acherus Deathcharger	48778	override-aura	class-shared	On a Paler Horse	455044	SpellEffect.EffectAura 332 on On a Paler Horse 455044 @ 12.0.7.67808
-Demon Hunter	Devourer	Cull	1245453	override-aura	spec-exclusive	Eradicate	1239524	SpellEffect.EffectAura 332 on Eradicate 1239524 @ 12.0.7.67808
-Demon Hunter	Havoc	Voidblade	1245412	override-aura	spec-exclusive	Demonsurge	452435	SpellEffect.EffectAura 332 on Demonsurge 452435 @ 12.0.7.67808
-Evoker	Augmentation	Dream Breath	355936	override-aura	class-shared	Font of Magic	375783	SpellEffect.EffectAura 332 on Font of Magic 375783 @ 12.0.7.67808
-Evoker	Augmentation	Eternity Surge	359073	override-aura	class-shared	Font of Magic	411212	SpellEffect.EffectAura 332 on Font of Magic 411212 @ 12.0.7.67808
-Evoker	Augmentation	Spiritbloom	367226	override-aura	class-shared	Font of Magic	375783	SpellEffect.EffectAura 332 on Font of Magic 375783 @ 12.0.7.67808
-Evoker	Devastation	Breath of Eons	403631	override-aura	class-shared	Maneuverability	442255	SpellEffect.EffectAura 332 on Maneuverability 442255 @ 12.0.7.67808
-Evoker	Devastation	Dream Breath	355936	override-aura	class-shared	Font of Magic	375783	SpellEffect.EffectAura 332 on Font of Magic 375783 @ 12.0.7.67808
-Evoker	Devastation	Spiritbloom	367226	override-aura	class-shared	Font of Magic	375783	SpellEffect.EffectAura 332 on Font of Magic 375783 @ 12.0.7.67808
-Evoker	Devastation	Upheaval	396286	override-aura	class-shared	Font of Magic	408083	SpellEffect.EffectAura 332 on Font of Magic 408083 @ 12.0.7.67808
-Evoker	Preservation	Eternity Surge	359073	override-aura	class-shared	Font of Magic	411212	SpellEffect.EffectAura 332 on Font of Magic 411212 @ 12.0.7.67808
-Evoker	Preservation	Spiritbloom	367226	override-aura	class-shared	Font of Magic	375783	SpellEffect.EffectAura 332 on Font of Magic 375783 @ 12.0.7.67808
-Evoker	Preservation	Upheaval	396286	override-aura	class-shared	Font of Magic	408083	SpellEffect.EffectAura 332 on Font of Magic 408083 @ 12.0.7.67808
-Hunter	Beast Mastery	Kill Shot	53351	override-aura	class-shared	Black Arrow	466932	SpellEffect.EffectAura 332 on Black Arrow 466932 @ 12.0.7.67808
+Death Knight	Blood	Clawing Shadows	207311	override-aura	class-shared	Vampiric Strike	434674	SpellEffect.EffectAura 332 on Vampiric Strike 434674 @ 12.1.0.69214
+Death Knight	Frost	Acherus Deathcharger	48778	override-aura	class-shared	On a Paler Horse	455044	SpellEffect.EffectAura 332 on On a Paler Horse 455044 @ 12.1.0.69214
+Death Knight	Unholy	Acherus Deathcharger	48778	override-aura	class-shared	On a Paler Horse	455044	SpellEffect.EffectAura 332 on On a Paler Horse 455044 @ 12.1.0.69214
+Demon Hunter	Devourer	Cull	1245453	override-aura	spec-exclusive	Eradicate	1239524	SpellEffect.EffectAura 332 on Eradicate 1239524 @ 12.1.0.69214
+Demon Hunter	Havoc	Voidblade	1245412	override-aura	spec-exclusive	Demonsurge	452435	SpellEffect.EffectAura 332 on Demonsurge 452435 @ 12.1.0.69214
+Evoker	Augmentation	Dream Breath	355936	override-aura	class-shared	Font of Magic	375783	SpellEffect.EffectAura 332 on Font of Magic 375783 @ 12.1.0.69214
+Evoker	Augmentation	Eternity Surge	359073	override-aura	class-shared	Font of Magic	411212	SpellEffect.EffectAura 332 on Font of Magic 411212 @ 12.1.0.69214
+Evoker	Augmentation	Spiritbloom	367226	override-aura	class-shared	Font of Magic	375783	SpellEffect.EffectAura 332 on Font of Magic 375783 @ 12.1.0.69214
+Evoker	Devastation	Breath of Eons	403631	override-aura	class-shared	Maneuverability	442255	SpellEffect.EffectAura 332 on Maneuverability 442255 @ 12.1.0.69214
+Evoker	Devastation	Dream Breath	355936	override-aura	class-shared	Font of Magic	375783	SpellEffect.EffectAura 332 on Font of Magic 375783 @ 12.1.0.69214
+Evoker	Devastation	Spiritbloom	367226	override-aura	class-shared	Font of Magic	375783	SpellEffect.EffectAura 332 on Font of Magic 375783 @ 12.1.0.69214
+Evoker	Devastation	Upheaval	396286	override-aura	class-shared	Font of Magic	408083	SpellEffect.EffectAura 332 on Font of Magic 408083 @ 12.1.0.69214
+Evoker	Preservation	Eternity Surge	359073	override-aura	class-shared	Font of Magic	411212	SpellEffect.EffectAura 332 on Font of Magic 411212 @ 12.1.0.69214
+Evoker	Preservation	Spiritbloom	367226	override-aura	class-shared	Font of Magic	375783	SpellEffect.EffectAura 332 on Font of Magic 375783 @ 12.1.0.69214
+Evoker	Preservation	Upheaval	396286	override-aura	class-shared	Font of Magic	408083	SpellEffect.EffectAura 332 on Font of Magic 408083 @ 12.1.0.69214
+Hunter	Beast Mastery	Kill Shot	53351	override-aura	class-shared	Black Arrow	466932	SpellEffect.EffectAura 332 on Black Arrow 466932 @ 12.1.0.69214
 Hunter	Beast Mastery	Primal Rage	264667	spell-endpoint				GET /data/wow/spell/264667 → 200 "Primal Rage" (probed 2026-08-06)
-Hunter	Marksmanship	Takedown	1250646	override-aura	class-shared	Moonlight Chakram	1264946	SpellEffect.EffectAura 332 on Moonlight Chakram 1264946 @ 12.0.7.67808
-Hunter	Survival	Pheromone Bomb	270323	override-aura	spec-exclusive	Shrapnel Bomb	271020	SpellEffect.EffectAura 332 on Shrapnel Bomb 271020 @ 12.0.7.67808
+Hunter	Marksmanship	Takedown	1250646	override-aura	class-shared	Moonlight Chakram	1264946	SpellEffect.EffectAura 332 on Moonlight Chakram 1264946 @ 12.1.0.69214
+Hunter	Survival	Pheromone Bomb	270323	override-aura	spec-exclusive	Shrapnel Bomb	271020	SpellEffect.EffectAura 332 on Shrapnel Bomb 271020 @ 12.1.0.69214
 Hunter	Survival	Primal Rage	264667	spell-endpoint				GET /data/wow/spell/264667 → 200 "Primal Rage" (probed 2026-08-06)
-Hunter	Survival	Trueshot	288613	override-aura	class-shared	Moonlight Chakram	1264946	SpellEffect.EffectAura 332 on Moonlight Chakram 1264946 @ 12.0.7.67808
-Hunter	Survival	Volatile Bomb	271045	override-aura	spec-exclusive	Shrapnel Bomb	271020	SpellEffect.EffectAura 332 on Shrapnel Bomb 271020 @ 12.0.7.67808
-Mage	Arcane	Displacement	195676	override-aura	class-shared	Shimmer	191738	SpellEffect.EffectAura 332 on Shimmer 191738 @ 12.0.7.67808
-Mage	Fire	Displacement	195676	override-aura	class-shared	Shimmer	191738	SpellEffect.EffectAura 332 on Shimmer 191738 @ 12.0.7.67808
-Mage	Frost	Displacement	195676	override-aura	class-shared	Shimmer	191738	SpellEffect.EffectAura 332 on Shimmer 191738 @ 12.0.7.67808
+Hunter	Survival	Trueshot	288613	override-aura	class-shared	Moonlight Chakram	1264946	SpellEffect.EffectAura 332 on Moonlight Chakram 1264946 @ 12.1.0.69214
+Hunter	Survival	Volatile Bomb	271045	override-aura	spec-exclusive	Shrapnel Bomb	271020	SpellEffect.EffectAura 332 on Shrapnel Bomb 271020 @ 12.1.0.69214
+Mage	Arcane	Displacement	195676	override-aura	class-shared	Shimmer	191738	SpellEffect.EffectAura 332 on Shimmer 191738 @ 12.1.0.69214
+Mage	Fire	Displacement	195676	override-aura	class-shared	Shimmer	191738	SpellEffect.EffectAura 332 on Shimmer 191738 @ 12.1.0.69214
+Mage	Frost	Displacement	195676	override-aura	class-shared	Shimmer	191738	SpellEffect.EffectAura 332 on Shimmer 191738 @ 12.1.0.69214
 Mage	Frost	Freeze	27867	spell-endpoint				GET /data/wow/spell/27867 → 200 "Freeze" (probed 2026-08-06)
-Paladin	Retribution	Templar Strike	407480	override-aura	spec-exclusive	Templar Strikes	406648	SpellEffect.EffectAura 332 on Templar Strikes 406648 @ 12.0.7.67808
+Paladin	Retribution	Templar Strike	407480	override-aura	spec-exclusive	Templar Strikes	406648	SpellEffect.EffectAura 332 on Templar Strikes 406648 @ 12.1.0.69214
 Rogue	Outlaw	Restless Blades	79096	spell-endpoint				GET /data/wow/spell/79096 → 200 "Restless Blades" (probed 2026-08-06)
-Rogue	Subtlety	Dispatch	2098	override-aura	class-shared	Coup de Grace	462127	SpellEffect.EffectAura 332 on Coup de Grace 462127 @ 12.0.7.67808
-Shaman	Enhancement	Healing Rain	73920	override-aura	class-shared	Surging Totem	456359	SpellEffect.EffectAura 332 on Surging Totem 456359 @ 12.0.7.67808
-Shaman	Enhancement	Windfury Totem	8512	override-aura	class-shared	Surging Totem	456356	SpellEffect.EffectAura 332 on Surging Totem 456356 @ 12.0.7.67808
-Shaman	Restoration	Windfury Totem	8512	override-aura	class-shared	Surging Totem	456356	SpellEffect.EffectAura 332 on Surging Totem 456356 @ 12.0.7.67808
-Warlock	Affliction	Immolate	348	override-aura	class-shared	Wither	445465	SpellEffect.EffectAura 332 on Wither 445465 @ 12.0.7.67808
-Warrior	Arms	Condemn	317485	override-aura	class-shared	Massacre	206315	SpellEffect.EffectAura 332 on Massacre 206315 @ 12.0.7.67808
-Warrior	Fury	Condemn	317485	override-aura	class-shared	Massacre	206315	SpellEffect.EffectAura 332 on Massacre 206315 @ 12.0.7.67808
-Warrior	Protection	Condemn	317485	override-aura	class-shared	Massacre	206315	SpellEffect.EffectAura 332 on Massacre 206315 @ 12.0.7.67808
+Rogue	Subtlety	Dispatch	2098	override-aura	class-shared	Coup de Grace	462127	SpellEffect.EffectAura 332 on Coup de Grace 462127 @ 12.1.0.69214
+Shaman	Enhancement	Healing Rain	73920	override-aura	class-shared	Surging Totem	456359	SpellEffect.EffectAura 332 on Surging Totem 456359 @ 12.1.0.69214
+Shaman	Enhancement	Windfury Totem	8512	override-aura	class-shared	Surging Totem	456356	SpellEffect.EffectAura 332 on Surging Totem 456356 @ 12.1.0.69214
+Shaman	Restoration	Windfury Totem	8512	override-aura	class-shared	Surging Totem	456356	SpellEffect.EffectAura 332 on Surging Totem 456356 @ 12.1.0.69214
+Warlock	Affliction	Immolate	348	override-aura	class-shared	Wither	445465	SpellEffect.EffectAura 332 on Wither 445465 @ 12.1.0.69214
+Warrior	Arms	Condemn	317485	override-aura	class-shared	Massacre	206315	SpellEffect.EffectAura 332 on Massacre 206315 @ 12.1.0.69214
+Warrior	Fury	Condemn	317485	override-aura	class-shared	Massacre	206315	SpellEffect.EffectAura 332 on Massacre 206315 @ 12.1.0.69214
+Warrior	Protection	Condemn	317485	override-aura	class-shared	Massacre	206315	SpellEffect.EffectAura 332 on Massacre 206315 @ 12.1.0.69214

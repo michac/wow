@@ -4,10 +4,10 @@
   "spec": "feral",
   "spec_id": 103,
   "tree_id": 793,
-  "patch": "12.0.7",
-  "build": "12.0.7.67808",
+  "patch": "12.1.0",
+  "build": "12.1.0.68914",
   "source": "api",
-  "serial_count": 281,
+  "serial_count": 282,
   "granted_serials": [
     209,
     225
@@ -1525,12 +1525,12 @@
         "entries": [
           {
             "entry_id": "103159",
-            "talent": "Merciless Claws",
-            "spell_id": 231063,
+            "talent": "Rampant Ferocity",
+            "spell_id": 391709,
             "max_ranks": "1",
             "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_monsterclaw_03.jpg",
-            "desc": "Shred deals 20% increased damage and Swipe deals 20% increased damage against bleeding targets."
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_primaltenacity.jpg",
+            "desc": "Ferocious Bite also deals 12 damage per combo point spent to all nearby enemies. Spending extra Energy on Ferocious Bite increases damage dealt by up to 100%. Damage reduced beyond 5 targets."
           }
         ]
       },
@@ -1843,12 +1843,12 @@
         "entries": [
           {
             "entry_id": "103164",
-            "talent": "Panther's Guile",
-            "spell_id": 1280316,
+            "talent": "Merciless Claws",
+            "spell_id": 231063,
             "max_ranks": "1",
             "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mount_blackpanther.jpg",
-            "desc": "When Shred or Moonfire generate combo points, they have a 25% chance to generate full combo points."
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_monsterclaw_03.jpg",
+            "desc": "Shred deals 20% increased damage and Swipe deals 20% increased damage against bleeding targets."
           }
         ]
       },
@@ -1867,12 +1867,12 @@
         "entries": [
           {
             "entry_id": "103181",
-            "talent": "Rampant Ferocity",
-            "spell_id": 391709,
+            "talent": "Panther's Guile",
+            "spell_id": 1280316,
             "max_ranks": "1",
             "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_primaltenacity.jpg",
-            "desc": "Ferocious Bite also deals 12 damage per combo point spent to all nearby enemies. Spending extra Energy on Ferocious Bite increases damage dealt by up to 100%. Damage reduced beyond 5 targets."
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mount_blackpanther.jpg",
+            "desc": "When Shred or Moonfire generate combo points, they have a 25% chance to generate full combo points."
           }
         ]
       },

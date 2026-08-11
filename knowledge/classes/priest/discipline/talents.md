@@ -1,16 +1,22 @@
 ---
-title: Priest Discipline — talent tree (12.0.7)
-patch: 12.0.7
-build: 12.0.7.67808
-fetched: 2026-06-19
-reviewed: 2026-07-07
+title: Priest Discipline — talent tree (12.1.0)
+patch: 12.1.0
+build: 12.1.0.68914
+fetched: 
 sources:
   - https://us.api.blizzard.com/data/wow/talent-tree (Blizzard Game Data API, Tier 1)
-  - https://wago.tools/db2 Trait* @ 12.0.7.67808 (Tier 1)
+  - https://wago.tools/db2 Trait* @ 12.1.0.68914 (Tier 1)
 confidence: high
 ---
+> **Build provenance.** This file was generated from the Blizzard Game Data API and
+> wago `Trait*` DB2 at build **12.1.0.68914**, which is what the API's `static-12.1.0`
+> namespace reported on 2026-08-11. The live client that day was **12.1.0.69214**. The
+> `Trait*` DB2 exports at the two builds are **byte-identical** (verified by md5 on
+> `TraitNodeEntry`), so this data is valid for live 12.1 — cite it as **@ 12.1.0.68914**,
+> not 69214.
 
-# Priest Discipline — talents (12.0.7)
+
+# Priest Discipline — talents (12.1.0)
 
 > Generated from `knowledge/classes/_talents/all-talents.tsv`. Spell IDs are the talent's granted spell. Choice nodes show both options as `A / B`. See `_talents/README.md` for the schema.
 
@@ -41,13 +47,13 @@ confidence: high
 | Everlasting Light | 1249233 | 1 | PASSIVE | 6,2 | 8 | 82716 |
 | Move with Grace | 390620 | 1 | PASSIVE | 6,3 | 8 | 109917 |
 | Mental Agility | 341167 | 1 | PASSIVE | 6,4 | 8 | 109890 |
-| Twin Disciplines | 1251077 | 1 | PASSIVE | 6,5 | 8 | 82687,108731,109890 |
+| Twin Disciplines | 1251077 | 1 | PASSIVE | 6,5 | 8 | 109890,108731,82687 |
 | Dark Enlightenment | 1250835 | 1 | PASSIVE | 6,7 | 8 | 82687,82710 |
 | False Autonomy | 1250806 | 1 | PASSIVE | 6,8 | 8 | 82710 |
 | Shackle Horror | 9484 | 1 | ACTIVE | 6,9 | 8 | 82708,82710 |
 | Inspiration | 390676 | 1 | PASSIVE | 7,2 | 8 | 82699,82702 |
-| Binding Heals | 368275 | 1 | PASSIVE | 7,4 | 8 | 109019,82690,82699 |
-| Shadow Word: Death | 32379 | 1 | ACTIVE | 7,6 | 8 | 82690,109020 |
+| Binding Heals | 368275 | 1 | PASSIVE | 7,4 | 8 | 82699,109019,82690 |
+| Shadow Word: Death | 32379 | 1 | ACTIVE | 7,6 | 8 | 109020,82690 |
 | Sanguine Teachings | 373218 | 1 | PASSIVE | 7,8 | 8 | 109020,109005,82693 |
 | Desperate Prayer | 19236 | 1 | ACTIVE | 8,3 | 8 | 82696,82678 |
 | Twist of Fate | 390972 | 2 | PASSIVE | 8,5 | 8 | 82712,82678 |
@@ -93,24 +99,25 @@ confidence: high
 | Indemnity | 373049 | 1 | PASSIVE | 7,19 | 8 | 82598 |
 | Pain and Suffering | 390689 | 2 | PASSIVE | 7,20 | 8 | 82598,82581 |
 | Occultist | 1250293 | 1 | PASSIVE | 7,22 | 8 | 82581 |
-| Harsh Discipline | 373180 | 2 | PASSIVE | 8,17 | 8 | 82575,82566 |
-| Evangelism | 472433 | 1 | ACTIVE | 8,19 | 8 | 82575,82576,82578 |
+| Harsh Discipline | 373180 | 2 | PASSIVE | 8,17 | 8 | 82566,82575 |
+| Evangelism | 472433 | 1 | ACTIVE | 8,19 | 8 | 82576,82578,82575 |
 | Abyssal Reverie | 373054 | 2 | PASSIVE | 8,21 | 8 | 82578,82582 |
 | Divine Procession | 472361 | 1 | PASSIVE | 9,16 | 20 | 82600 |
 | Inner Focus | 390693 | 1 | PASSIVE | 9,18 | 20 | 82577,82600 |
 | Archangel / Mindbender | 197862 / 1280137 | 1/1 | CHOICE | 9,19 | 20 | 82577 |
-| Shadow Mend | 1252215 | 1 | PASSIVE | 9,20 | 20 | 82583,82577 |
+| Shadow Mend | 1252217 | 1 | PASSIVE | 9,20 | 20 | 82583,82577 |
 | Shadowfiend | 34433 | 1 | PASSIVE | 9,22 | 20 | 82583 |
-| Greater Smite | 1253724 | 2 | PASSIVE | 10,16 | 20 | 82599 |
+| Greater Smite | 1253724 | 1 | PASSIVE | 10,16 | 20 | 82599 |
 | Divine Aegis | 47515 | 1 | PASSIVE | 10,17 | 20 | 82599,82601 |
 | Borrowed Time | 390691 | 2 | PASSIVE | 10,18 | 20 | 82571,82601 |
-| Blaze of Light | 215768 | 2 | PASSIVE | 10,20 | 20 | 82571,82567 |
+| Blaze of Light | 215768 | 2 | PASSIVE | 10,19 | 20 | 82571,82567 |
+| Grim Deliverance | 1298779 | 1 | PASSIVE | 10,20 | 20 | 82567 |
 | Death's Torment | 1240364 | 1 | PASSIVE | 10,21 | 20 | 82570,82567 |
 | Inescapable Torment | 373427 | 1 | PASSIVE | 10,22 | 20 | 82570 |
-| Eternal Barrier | 238135 | 1 | PASSIVE | 11,17 | 20 | 82602 |
+| Eternal Barrier | 238135 | 1 | PASSIVE | 11,17 | 20 | 82602,82572,82569 |
 | Weal and Woe | 390786 | 1 | PASSIVE | 11,18 | 20 | 82572 |
-| Searing Light | 1280131 | 1 | PASSIVE | 11,20 | 20 | 82568 |
-| Expiation | 390832 | 2 | PASSIVE | 11,21 | 20 | 110277 |
+| Searing Light | 1280131 | 1 | PASSIVE | 11,19 | 20 | 110648,82568 |
+| Expiation | 390832 | 2 | PASSIVE | 11,21 | 20 | 110278,110648,110277 |
 | Master the Darkness | 1253590 | 1 | ACTIVE | 12,19 | 20 | — |
 
 ## Hero: Voidweaver
@@ -122,7 +129,7 @@ confidence: high
 | No Escape / Dark Energy | 451204 / 451018 | 1/1 | CHOICE | 8,10 | — | 94684,110008 |
 | Void Blast | 450405 | 1 | ACTIVE | 8,11 | — | 94684,110008 |
 | Inner Quietus | 448278 | 1 | PASSIVE | 8,12 | — | 94684,110008 |
-| Voidheart | 449880 | 1 | PASSIVE | 8,13 | — | 110008,94684 |
+| Voidheart | 449880 | 1 | PASSIVE | 8,13 | — | 94684,110008 |
 | Devour Matter | 451840 | 1 | PASSIVE | 9,10 | — | 94693 |
 | Void Empowerment / Darkening Horizon | 450138 / 449912 | 1/1 | CHOICE | 9,11 | — | 94703 |
 | Voidwraith | 451234 | 1 | PASSIVE | 9,12 | — | 94670 |

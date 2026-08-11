@@ -1,9 +1,12 @@
 ---
-title: Skyreach — Midnight S1 M+ dungeon guide
-patch: 12.0.7
-fetched: 2026-06-25
-reviewed: 2026-07-07
+title: Skyreach — Midnight S1 M+ dungeon guide (historical)
+patch: 12.1
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
+  - https://worldofwarcraft.com/en-us/news/24294369   # "Midnight Season 2" overview — S2 dungeon pool (tier 1)
+  - https://worldofwarcraft.com/en-us/news/24293281   # 12.1 "Curse of Ula'tek" Content Update Notes (tier 1)
+  - https://us.forums.blizzard.com/en/wow/posts/29833350  # S1 ending / S2 pre-season schedule (tier 1)
   - https://www.method.gg/guides/dungeons/skyreach
   - https://www.icy-veins.com/wow/skyreach-dungeon-guide
   - Blizzard journal-instance/476 + journal-encounter/965 (Ranjit) + journal-encounter/966 (Araknath) + journal-encounter/967 (Rukhran) + journal-encounter/968 (High Sage Viryx) (tier 1, boss-name corroboration)
@@ -12,6 +15,23 @@ confidence: high
 ---
 
 # Skyreach — Midnight Season 1 Mythic+
+
+> ⛔ **NOT IN THE CURRENT MYTHIC+ ROTATION.** Skyreach **rotated out** of the
+> pool with 12.1 (2026-08-11) and is **not** one of the eight Midnight
+> **Season 2** dungeons: Altar of Fangs · Murder Row · Den of Nalorakk ·
+> The Blinding Vale · Voidscar Arena · Ruby Life Pools · Kings' Rest ·
+> Temple of Sethraliss. See [`season-2-overview.md`](season-2-overview.md) for
+> what is live (and note S2 keystones do not drop until the week of
+> **2026-08-18** — the week of Aug 11 is a pre-season week).
+>
+> Everything below is a **historical record of the Season 1 pool**
+> ([`season-1-overview.md`](season-1-overview.md), season closed 2026-08-11).
+> The mechanics were last verified on **12.0.7**; nothing here has been
+> re-checked against 12.1, and the dungeon no longer carries M+ affixes,
+> keystone timers, M+ loot or M+ rating. It remains a **Warlords of Draenor**
+> dungeon reachable outside Mythic+ (its Warlords difficulties, and Warlords
+> Timewalking weeks), so the routes and boss mechanics below are still useful
+> there — at Warlords tuning, not Midnight tuning.
 
 Arakkoa spire atop Sethekk Hollow. Four bosses, linear vertical climb. Three of
 four bosses are **stationary** (Araknath, Rukhran, High Sage Viryx) so tanks must

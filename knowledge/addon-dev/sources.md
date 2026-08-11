@@ -1,10 +1,10 @@
 ---
 title: Addon-dev KB — source registry
-patch: 12.0.7
-fetched: 2026-07-23
-reviewed: 2026-07-23
+patch: 12.1.0
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
-  - https://github.com/Gethe/wow-ui-source (live branch, 12.0.7.68887)
+  - https://github.com/Gethe/wow-ui-source (tag 12.1.0, 12.1.0.69273; and the held 12.0.7.68887 checkout)
   - https://warcraft.wiki.gg/api.php
   - https://github.com/Stanzilla/WoWUIBugs
   - https://www.townlong-yak.com/framexml/
@@ -56,10 +56,34 @@ build  : version.txt == 12.0.7.68887   ← matches live patch 12.0.7. Current.
 size   : 48 MB · 3685 files (2298 .lua, 1028 .xml, 346 .toc, 1 .xsd)
 ```
 
-**This `raw/addon-research/` copy is the canonical one — cite it.** A second, personal
-clone also exists at `~/code/github/wow-ui-source`, but it may lag (was build
-`12.0.7.68453` as of 2026-07-29, two builds behind this one) — check its `version.txt`
-before citing, and prefer the `raw/` copy above.
+#### 1.1a `wow-ui-source-12.1.0` — the same clone, a second worktree at the live patch
+
+```
+path   : raw/addon-research/wow-ui-source-12.1.0
+repo   : the SAME clone as above — `git worktree` at tag 12.1.0, not a second fetch
+commit : eb941aad028d73ddc69e3e8ef4da709f4d3cd744   (tag 12.1.0)
+build  : version.txt == 12.1.0.69273   ← live patch is 12.1.0.69214, so ONE BUILD AHEAD
+size   : 44 MB · 4044 files (2551 .lua, 1091 .xml, 394 .toc, 1 .xsd) · 346 Blizzard_* addons
+```
+
+**Two checkouts, and the split is deliberate.** The 12.0.7 tree above is **held**
+because several hundred `file:line` citations across `knowledge/addon-dev/**` resolve
+against it and were **not** re-resolved on 12.1.0 patch day; deleting or moving it
+would break every one of them silently. The 12.1.0 worktree is where new claims are
+read. The convention in the topic files is:
+
+- **`[T1 src: …:NNN]` / `[T1 docs: …:NNN]`** with no build stamp → **12.0.7.68887**,
+  the tree above. True at that build; the line may have moved since.
+- **`[T1 src @12.1.0: …:NNN]`** → **12.1.0.69273**, this tree.
+
+⚠ **`wowkb.uiapi` indexes the 12.0.7 tree** (`uiapi.py` hardcodes
+`raw/addon-research/wow-ui-source`), so `uiapi stats` reports 12.0.7 corpus numbers
+while the topic files carry 12.1.0 ones. The topic files are right; the tool has not
+been repointed. `[gap]` — repointing it, or teaching it a `--build` flag, is an open
+piece of work.
+
+⚠ A **third**, personal clone exists at `~/code/github/wow-ui-source` and may lag
+either of these — check its `version.txt` before citing, and prefer the `raw/` copies.
 
 Everything is under `Interface/AddOns/` — **317 `Blizzard_*` addons**. The old
 `Interface/FrameXML/` and `Interface/SharedXML/` top-level dirs no longer exist;

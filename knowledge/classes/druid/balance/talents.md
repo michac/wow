@@ -1,16 +1,22 @@
 ---
-title: Druid Balance — talent tree (12.0.7)
-patch: 12.0.7
-build: 12.0.7.67808
-fetched: 2026-06-19
-reviewed: 2026-07-07
+title: Druid Balance — talent tree (12.1.0)
+patch: 12.1.0
+build: 12.1.0.68914
+fetched: 
 sources:
   - https://us.api.blizzard.com/data/wow/talent-tree (Blizzard Game Data API, Tier 1)
-  - https://wago.tools/db2 Trait* @ 12.0.7.67808 (Tier 1)
+  - https://wago.tools/db2 Trait* @ 12.1.0.68914 (Tier 1)
 confidence: high
 ---
+> **Build provenance.** This file was generated from the Blizzard Game Data API and
+> wago `Trait*` DB2 at build **12.1.0.68914**, which is what the API's `static-12.1.0`
+> namespace reported on 2026-08-11. The live client that day was **12.1.0.69214**. The
+> `Trait*` DB2 exports at the two builds are **byte-identical** (verified by md5 on
+> `TraitNodeEntry`), so this data is valid for live 12.1 — cite it as **@ 12.1.0.68914**,
+> not 69214.
 
-# Druid Balance — talents (12.0.7)
+
+# Druid Balance — talents (12.1.0)
 
 > Generated from `knowledge/classes/_talents/all-talents.tsv`. Spell IDs are the talent's granted spell. Choice nodes show both options as `A / B`. See `_talents/README.md` for the schema.
 
@@ -97,10 +103,10 @@ confidence: high
 | Meteorites | 1240907 | 1 | PASSIVE | 7,23 | 8 | 88209,88219 |
 | Cosmic Rapidity | 400059 | 2 | PASSIVE | 8,18 | 8 | 88212,88202,110279 |
 | Celestial Fire | 1240185 | 1 | PASSIVE | 8,19 | 8 | 88221 |
-| Astral Communion | 450598 | 1 | PASSIVE | 8,20 | 8 | 88221 |
+| Sculpt the Stars | 1240188 | 1 | PASSIVE | 8,20 | 8 | 88221 |
 | Hail of Stars | 469004 | 1 | PASSIVE | 8,21 | 8 | 88222 |
 | Starlord | 202345 | 2 | PASSIVE | 8,22 | 8 | 88232,88222,88219 |
-| Sculpt the Stars | 1240188 | 1 | PASSIVE | 9,17 | 20 | 88202,88227 |
+| Astral Communion | 450598 | 1 | PASSIVE | 9,17 | 20 | 88202,88227 |
 | Balance of All Things | 394048 | 2 | PASSIVE | 9,19 | 20 | 88227,88216 |
 | Total Eclipse | 1240206 | 2 | PASSIVE | 9,21 | 20 | 88207,88216 |
 | Starweaver / Rattle the Stars | 393940 / 393954 | 1/1 | CHOICE | 9,22 | 20 | 88207 |
@@ -111,7 +117,7 @@ confidence: high
 | Umbral Embrace | 393760 | 1 | PASSIVE | 11,18 | 20 | 88218 |
 | Harmony of the Heavens | 450558 | 1 | PASSIVE | 11,19 | 20 | 88206,88218 |
 | Elune's Guidance | 393991 | 1 | PASSIVE | 11,20 | 20 | 88206 |
-| Denizen of the Dream | 394065 | 1 | PASSIVE | 11,21 | 20 | 88224,88206 |
+| Denizen of the Dream | 394065 | 1 | PASSIVE | 11,21 | 20 | 88206,88224 |
 | Radiant Moonlight | 394121 | 1 | PASSIVE | 11,22 | 20 | 88224 |
 | Ascendant Eclipses | 1261564 | 1 | ACTIVE | 12,20 | 20 | — |
 

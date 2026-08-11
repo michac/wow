@@ -1,16 +1,22 @@
 ---
-title: Priest Holy — talent tree (12.0.7)
-patch: 12.0.7
-build: 12.0.7.67808
-fetched: 2026-06-19
-reviewed: 2026-07-07
+title: Priest Holy — talent tree (12.1.0)
+patch: 12.1.0
+build: 12.1.0.68914
+fetched: 
 sources:
   - https://us.api.blizzard.com/data/wow/talent-tree (Blizzard Game Data API, Tier 1)
-  - https://wago.tools/db2 Trait* @ 12.0.7.67808 (Tier 1)
+  - https://wago.tools/db2 Trait* @ 12.1.0.68914 (Tier 1)
 confidence: high
 ---
+> **Build provenance.** This file was generated from the Blizzard Game Data API and
+> wago `Trait*` DB2 at build **12.1.0.68914**, which is what the API's `static-12.1.0`
+> namespace reported on 2026-08-11. The live client that day was **12.1.0.69214**. The
+> `Trait*` DB2 exports at the two builds are **byte-identical** (verified by md5 on
+> `TraitNodeEntry`), so this data is valid for live 12.1 — cite it as **@ 12.1.0.68914**,
+> not 69214.
 
-# Priest Holy — talents (12.0.7)
+
+# Priest Holy — talents (12.1.0)
 
 > Generated from `knowledge/classes/_talents/all-talents.tsv`. Spell IDs are the talent's granted spell. Choice nodes show both options as `A / B`. See `_talents/README.md` for the schema.
 
@@ -41,13 +47,13 @@ confidence: high
 | Everlasting Light | 1249233 | 1 | PASSIVE | 6,2 | 8 | 82716 |
 | Move with Grace | 390620 | 1 | PASSIVE | 6,3 | 8 | 109917 |
 | Mental Agility | 341167 | 1 | PASSIVE | 6,4 | 8 | 109890 |
-| Twin Disciplines | 1251077 | 1 | PASSIVE | 6,5 | 8 | 82687,108731,109890 |
+| Twin Disciplines | 1251077 | 1 | PASSIVE | 6,5 | 8 | 109890,108731,82687 |
 | Dark Enlightenment | 1250835 | 1 | PASSIVE | 6,7 | 8 | 82687,82710 |
 | False Autonomy | 1250806 | 1 | PASSIVE | 6,8 | 8 | 82710 |
 | Shackle Horror | 9484 | 1 | ACTIVE | 6,9 | 8 | 82708,82710 |
 | Inspiration | 390676 | 1 | PASSIVE | 7,2 | 8 | 82699,82702 |
-| Binding Heals | 368275 | 1 | PASSIVE | 7,4 | 8 | 109019,82690,82699 |
-| Shadow Word: Death | 32379 | 1 | ACTIVE | 7,6 | 8 | 82690,109020 |
+| Binding Heals | 368275 | 1 | PASSIVE | 7,4 | 8 | 82699,109019,82690 |
+| Shadow Word: Death | 32379 | 1 | ACTIVE | 7,6 | 8 | 109020,82690 |
 | Sanguine Teachings | 373218 | 1 | PASSIVE | 7,8 | 8 | 109020,109005,82693 |
 | Desperate Prayer | 19236 | 1 | ACTIVE | 8,3 | 8 | 82696,82678 |
 | Twist of Fate | 390972 | 2 | PASSIVE | 8,5 | 8 | 82712,82678 |
@@ -82,7 +88,7 @@ confidence: high
 | Prayerful Litany | 391209 | 1 | PASSIVE | 5,16 | — | 82632 |
 | Cosmic Ripple | 238136 | 1 | PASSIVE | 5,18 | — | 82631,82632 |
 | Afterlife | 196707 | 1 | PASSIVE | 5,19 | — | 82636 |
-| Voice of Harmony | 390994 | 1 | PASSIVE | 5,20 | — | 82619,82640,82636 |
+| Voice of Harmony | 390994 | 1 | PASSIVE | 5,20 | — | 82640,82636,82619 |
 | Burning Vehemence | 372307 | 1 | PASSIVE | 5,22 | — | 82640 |
 | Uplifting Words | 1250562 | 1 | PASSIVE | 6,17 | 8 | 82632,82630 |
 | Cosmic Wave | 1248418 | 1 | PASSIVE | 6,18 | 8 | 82630 |

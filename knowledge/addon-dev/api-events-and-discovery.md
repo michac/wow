@@ -1,10 +1,12 @@
 ---
 title: API surface, events and discovery
-patch: 12.0.7
-fetched: 2026-08-05
-reviewed: 2026-08-05
+patch: 12.1.0
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
-  - https://github.com/Gethe/wow-ui-source (live, version.txt 12.0.7.68887, commit 4383ced30106d51b27e3e86d1987f1552f0d259d)
+  - https://github.com/Gethe/wow-ui-source (tag 12.1.0, version.txt 12.1.0.69273, commit eb941aad028d73ddc69e3e8ef4da709f4d3cd744) — raw/addon-research/wow-ui-source-12.1.0. EVERY corpus count in this file was re-parsed here on 2026-08-11; `[T1 docs @12.1.0]` locators resolve here
+  - https://warcraft.wiki.gg/wiki/Patch_12.1.0/API_changes (revid 6801760, 2026-08-09)
+  - https://github.com/Gethe/wow-ui-source (version.txt 12.0.7.68887, commit 4383ced30106d51b27e3e86d1987f1552f0d259d) — raw/addon-research/wow-ui-source; the build an UNSTAMPED `file:line` was read at
   - https://warcraft.wiki.gg/wiki/API_Frame_RegisterEvent (revid 6654488, 2026-02-19)
   - https://warcraft.wiki.gg/wiki/API_Frame_RegisterUnitEvent (revid 6735133, 2026-06-04)
   - https://warcraft.wiki.gg/wiki/API_Frame_RegisterAllEvents (revid 6654327, 2026-02-19)
@@ -17,6 +19,7 @@ sources:
   - https://warcraft.wiki.gg/wiki/API_types/SpellIdentifier (revid 6776503, 2026-07-20)
   - https://warcraft.wiki.gg/wiki/Secret_Values (revid 6777907, 2026-07-22)
   - https://wago.tools/api/builds (queried 2026-07-23)
+  - in-client measurement, ClientLab v0.1.0 (interface 120007), run 2026-07-24 07:49:13, out of combat  # the `[client 2026-07-24]` claims in this file — event-callback registry, RegisterUnitEvent cap, secure-hook flags, the profiler API. ✅ ARCHIVED, and re-checkable: projects/addon-lab/runs/2026-07-24-v0.1.0-legacy.json holds this run verbatim (6 of its anchors point into this file); the live SavedVariables key was purged by the capture-standard migration
   - Live install /mnt/c/Program Files (x86)/World of Warcraft/_retail_/
   - EllesmereUI v8.7.5 @ c4eba58d996a8436f467ac8f297148bff9dd3008 (2026-08-04),
     https://github.com/EllesmereGaming/EllesmereUI — license CUSTOM, ALL RIGHTS
@@ -85,16 +88,22 @@ the names.
 
 ### 2.1 The corpus, and how events are named
 
-At 12.0.7.68887 the generated documentation declares **1741 events** spread over
-**204 system tables**, of which **1013 carry at least one typed payload field**
-and **728 carry none** *[T1 docs: whole-corpus count, independently re-parsed
-from all 592 `.lua` files in `Blizzard_APIDocumentationGenerated/`;
-`grep -rh 'Type = "Event"' | wc -l` = 1741]*. The independently-derived flat dump
-at build 68256 lists exactly **1741** event strings grouped into **204** system
-tables *[T2 res: `Resources/Events.lua`, 2153 lines]* — the two agree on **both**
-numbers, which is a useful cross-check that neither index is truncated.
+At 12.1.0.69273 the generated documentation declares **1782 events** spread over
+**210 system tables**, of which **1034 carry at least one typed payload field**
+and **748 carry none** *[T1 docs @12.1.0: whole-corpus count, re-parsed
+from all 612 `.lua` files in `Blizzard_APIDocumentationGenerated/`;
+`grep -rh 'Type = "Event"' | wc -l` = 1782. The same parse reproduces the
+12.0.7.68887 figures — 1741 / 204 / 1013 / 728 — exactly, which is what licenses
+comparing the two]*.
 
-⚠ Don't confuse the 204 event-declaring systems with the **308** `Type = "System"`
+⚠ **The `[T2 res]` cross-check is stale and was NOT re-run.**
+`BlizzardInterfaceResources` has not been re-pulled past 12.0.7.68256, where
+`Resources/Events.lua` listed exactly 1741 event strings in 204 system tables and
+corroborated the old numbers on both. The 12.1.0 figures rest on the generated-doc
+parse alone. `@verify-ingame` is the wrong marker here — what this needs is a
+re-pull of that repo.
+
+⚠ Don't confuse the 210 event-declaring systems with the **314** `Type = "System"`
 tables in the whole corpus (§4.1): most systems declare no events at all.
 
 **Every event entry has two names and only one of them is the string you
@@ -119,7 +128,8 @@ exactly one hit, the doc entry itself at `CombatLogDocumentation.lua:130`
 *[T1 src/docs: verified this session]*. So a name found in `/api` that greps to
 nothing is usually this, not a missing name.
 
-Only **45 of 1741** events carry any `Documentation` prose *[T1 docs: corpus
+Only **45 of 1782** events carry any `Documentation` prose — the same 45 as at
+12.0.7, so 41 new events arrived with no prose at all *[T1 docs @12.1.0: corpus
 count]*. The ones that do are worth reading, because they occasionally state
 timing guarantees no other source has — e.g.
 `ENCOUNTER_TIMELINE_EVENT_REMOVED`: *"This is guaranteed to fire after an event
@@ -258,20 +268,30 @@ common of the two orders here and not the other.
 
 ### 2.4 The annotations that change how an event behaves
 
-Event entries carry flags. Corpus counts at 12.0.7.68887 *[T1 docs: counted over
-all 1741 event entries]*:
+Event entries carry flags. Corpus counts at 12.1.0.69273 *[T1 docs @12.1.0: counted over
+all 1782 event entries]*:
 
 | Flag | Count | What it is evidence of |
 |---|---|---|
-| `SynchronousEvent` | 1622 | Blizzard distinguishes synchronous from non-synchronous delivery. **119 events lack it.** |
+| `SynchronousEvent` | 1663 | Blizzard distinguishes synchronous from non-synchronous delivery. **119 events lack it** — unchanged, so all 41 new events are synchronous. |
 | `UniqueEvent` | 142 | 111 of the 142 are also non-synchronous. |
 | `SecretInChatMessagingLockdown` | 62 | payload becomes secret under comms lockdown |
 | `SecretWhenUnitSpellCastRestricted` | 16 | |
 | `CallbackEvent` | 12 | see §2.5 |
 | `SecretPayloads` | 7 | `MINIMAP_PING`, `UNIT_SPELL_DIMINISH_CATEGORY_STATE_UPDATED`, `RUNE_POWER_UPDATE`, `RUNE_TYPE_UPDATE`, `UNIT_DISTANCE_CHECK_UPDATE`, `UNIT_IN_RANGE_UPDATE`, `UNIT_MAX_HEALTH_MODIFIERS_CHANGED` |
-| `HasRestrictions` | 5 | `COMBAT_LOG_EVENT`, `COMBAT_LOG_EVENT_UNFILTERED`, `COMBAT_LOG_APPLY_FILTER_SETTINGS`, `COMBAT_LOG_REFILTER_ENTRIES`, `MINIMAP_PING` |
+| `HasRestrictions` | 7 | the four `COMBAT_LOG_*`, `MINIMAP_PING`, and **new at 12.1.0** `UNIT_PING_PIN_ADDED` / `UNIT_PING_PIN_REMOVED` |
 | `SecretWhenUnitIdentityRestricted` | 3 | |
+| **`SecretWhenAurasRestricted`** | **1** | **`UNIT_AURA` — new at 12.1.0, and the whole payload** |
 | `SecretWhenEncounterEvent` / `RequireNPERestricted` / `SecretWhenLossOfControlInfoRestricted` / `SecretWhenUnitPowerRestricted` | 1 each | |
+
+⚠⚠ **A `Secret` predicate on an event entry is a SECOND route to a secret payload,
+and `SecretPayloads` does not cover it.** The `SecretPayloads` list is unchanged at
+seven and `UNIT_AURA` is **not** on it — yet `UNIT_AURA` delivers a fully secret
+payload while auras are secret, via `SecretWhenAurasRestricted = true` on the event
+*[T1 docs @12.1.0: `UnitAuraDocumentation.lua:602-609`, the marker at `:603`]*. An
+audit that enumerates "which events can hand me a secret" by grepping
+`SecretPayloads` alone misses it. `security-taint-and-restricted-data` §4.7 owns the
+mechanism.
 
 The non-synchronous / `UniqueEvent` set *looks* like the family you would expect
 to be coalesced — these seven are all both non-synchronous and `UniqueEvent`:
@@ -405,9 +425,9 @@ parameters at all, so it is not evidence either way about the owner argument.
 > is the **only** call site in the entire checkout.
 >
 > **Measured: the frame method does not exist.** `UnregisterEventCallback` on a live
-> frame reads `nil` `[client 2026-07-24]` — there is no such widget method, only the
-> global at `FrameScriptDocumentation.lua:442`. So `FrameUtil.lua:59` is **a latent
-> error in Blizzard's own shipped code**: that line would raise
+> frame reads `nil` `[client 2026-07-24]` — the name resolves only to the global at
+> `FrameScriptDocumentation.lua:442`, not to a widget method. So `FrameUtil.lua:59` is
+> **a latent error in Blizzard's own shipped code**: that line would raise
 > *"attempt to call method 'UnregisterEventCallback' (a nil value)"* if it ever ran.
 > Its being the sole call site is consistent with the path being dead.
 > ⚠ **Do not call `frame:UnregisterEventCallback(...)`.** To unregister a callback,
@@ -815,11 +835,18 @@ the addon adds nothing the Tier-1 sources do not already carry, so cite Blizzard
 
 ### 4.1 Shape
 
-At 12.0.7.68887 the generated documentation declares **6144 functions**, split
-**4068 namespaced** (`C_Something.Function`) · **692 globals** · **1384 widget
-methods**; plus **795 enumerations**, **715 structures + 20 `CallbackType`s**,
-**55 constants** and **51 predicate declarations** *[T1 docs: whole-corpus
-re-parse of all 592 `.lua` files, cross-checked against `wowkb.uiapi stats`]*.
+At 12.1.0.69273 the generated documentation declares **6335 functions**, split
+**4202 namespaced** (`C_Something.Function`) · **695 globals** · **1438 widget
+methods**; plus **844 enumerations**, **752 structures + 20 `CallbackType`s**,
+**60 constants** and **57 predicate declarations** *[T1 docs @12.1.0: whole-corpus
+re-parse of all 612 `.lua` files. The same parse reproduces 12.0.7.68887's
+6144 = 4068 + 692 + 1384 exactly]*.
+
+⚠ **`wowkb.uiapi stats` still reports the 12.0.7 numbers.** Its index is built from
+`raw/addon-research/wow-ui-source`, which is deliberately still at 12.0.7.68887 so
+that this subtree's several hundred unstamped `file:line` citations keep resolving;
+the 12.1.0 tree sits beside it as `wow-ui-source-12.1.0`. If the two disagree, the
+counts above are the current ones.
 
 Two counting caveats, because `wowkb.uiapi stats` prints rounder numbers than
 the corpus actually contains:
@@ -827,24 +854,27 @@ the corpus actually contains:
 - its **`structs 735`** is `Type = "Structure"` (715) **plus** `Type =
   "CallbackType"` (20) in one bucket. The `CallbackType`s are the opaque
   callback handles of §2.5 — not structures, and worth keeping separate.
-- its **`predicates 51`** is *all* predicate declarations, not secret ones:
-  **19** are `Type = "Secret"` and **32** are `Type = "Precondition"`
-  (`RequiresValidActionSlot`, `RequiresComparableUnitTokens`, …). Saying
-  "51 secret predicates" overstates the secrecy vocabulary by 2.7×.
+- its **`predicates`** figure is *all* predicate declarations, not secret ones: of
+  the 57, **22** are `Type = "Secret"` and **35** are `Type = "Precondition"`
+  (`RequiresValidActionSlot`, `RequiresComparableUnitTokens`, …). Reading the total
+  as "secret predicates" overstates the secrecy vocabulary by 2.6×.
 
-*[T1 docs: `grep -rho 'Type = "Structure"' | wc -l` = 715, `…"CallbackType"` = 20;
+*[T1 docs @12.1.0: `grep -rho 'Type = "Structure"' | wc -l` = 752, `…"CallbackType"` = 20;
 predicate types counted by re-parse.]*
 
-The 4068 namespaced functions live in
+The 4202 namespaced functions live in
 **239 distinct namespaces, every one of which begins with `C_`** *[T1 docs: same
 index]*. The largest are `C_Commentator` (144), `C_Item` (117), `C_PvP` (107),
 `C_Calendar` (90), `C_QuestLog` (90), `C_TradeSkillUI` (88), `C_AuctionHouse`
 (85), `C_Club` (83), `C_TransmogCollection` (83), `C_TooltipInfo` (82).
 
-**Only 766 of the 6144 function entries carry any prose at all** *[T1 docs: same
+**Only 839 of the 6335 function entries carry any prose at all** *[T1 docs @12.1.0: same
 index]*. The spec is a shape declaration, not a manual.
 
-Widget methods are declared on **77 `ScriptObject` tables** and — critically —
+Widget methods are declared on **79 `ScriptObject` tables** — the two added at
+12.1.0 are `SimpleVectorGraphicsAPI` (the SVG object type) and
+`SimpleAnimRadialProgressAPI` (a new `Animation` subtype); see
+`frames-textures-animation` §1.1 *[T1 docs @12.1.0]* and — critically —
 **the docs express no inheritance between them**. Each table is a flat
 `{Name = …, Type = "ScriptObject", Environment = …, Functions = {...}}` with no
 parent field *[T1 docs: `SimpleFrameAPIDocumentation.lua:1-6` and
@@ -867,17 +897,26 @@ in the generated docs**:
 
 | Type name | Uses in the corpus | Declared? |
 |---|---|---|
-| `WOWGUID` | 375 | no |
-| `UnitToken` | 261 | no |
+| `WOWGUID` | 391 | no |
+| `UnitToken` | 264 | no |
 | `UnitTokenVariant` | 100 | no |
-| `SpellIdentifier` | 73 | no |
+| `SpellIdentifier` | 74 | no |
 | `UnitTokenPvPRestrictedForAddOns` | 28 | no |
 | `AuraData` | 10 | no |
 
-*[T1 docs: `grep 'Type = "<name>"'` counts vs `grep 'Name = "<name>",'`
-declarations across all 592 doc files — every one of these appears only as a
-parameter/return/`InnerType` type, never as a `Tables` entry. Re-verified this
-session; the declaration grep returns empty for all six.]*
+*[T1 docs @12.1.0: `grep 'Type = "<name>"'` counts vs `grep 'Name = "<name>",'`
+declarations across all 612 doc files — every one of these appears only as a
+parameter/return/`InnerType` type, never as a `Tables` entry; the declaration grep
+returns empty for all six.]*
+
+⚠ **`AuraData` is the one on this list where "undeclared" is now the *least*
+important thing about it.** At 12.1.0 `AuraData` structs are **always fully secret**
+*[T2 wiki: Patch 12.1.0/API changes, the 2026-06-30 and 2026-07-07 entries,
+revid 6801760, 2026-08-09 — "AuraData structs are now always fully secret"]*, and the 16
+`C_UnitAuras` functions that return one all carry `RequiresUnitAuraAccess`, which
+**errors** from addon code while auras are secret. So the shape you cannot cite from
+Tier 1 is also a shape you cannot read at runtime. See
+`security-taint-and-restricted-data` §4.7 and §3.5.
 
 The one that *is* declared is `UnitTokenType`, an `Enumeration` with
 `NumValues = 362, MinValue = 0, MaxValue = 361`, members `None=0, Player=1,
@@ -903,9 +942,9 @@ locale-independent and do not depend on spellbook state.
 
 ### 4.3 What the generated docs will not tell you
 
-- **No error semantics.** `HasRestrictions` (231 functions — 236 annotations
-  total, 5 of them on events) and `MayReturnNothing` (596) say *that* something
-  can fail, never *what* you get.
+- **No error semantics.** `HasRestrictions` (**266** functions — **273** annotations
+  total, 7 of them on events) and `MayReturnNothing` (**612**) say *that* something
+  can fail, never *what* you get *[T1 docs @12.1.0]*.
 - **Partial global coverage.** `hooksecurefunc`, `issecure`, `issecurevariable`
   and `securecall` are absent, as is the global `CreateFrame` — note that a
   *different*, same-named `CreateFrame` **is** documented, on the SecureOnly
@@ -915,9 +954,11 @@ locale-independent and do not depend on spellbook state.
   ⚠ **`scrub` is *not* absent**, despite belonging to the same family — it is
   documented at `FrameScriptDocumentation.lua:348-362`, with prose and a
   `SecureHooksAllowed = false` flag.
-- **Named types that are never declared.** 716 parameters/returns are typed bare
-  `table`, and named types like `AuraData` (10 uses, 0 declarations) resolve to
-  nothing — see the table in §4.2.
+- **Named types that are never declared.** Named types like `AuraData` (10 uses, 0
+  declarations) resolve to nothing — see the table in §4.2, and note that `AuraData`
+  is additionally always-fully-secret at 12.1.0.
+  ⚠ The "716 bare `table` parameters/returns" figure was measured at 12.0.7.68887 and
+  **was not re-derived** for 12.1.0; treat it as approximate and rising.
 - **`Enum.ScriptBindingType` does not exist in Tier 1.** The wiki's `HookScript`
   page names it *[T2 wiki: `API ScriptRegion HookScript`, revid 6779372, 2026-07-23
   — it types `bindingType` as `Enum.ScriptBindingType?` and transcludes
@@ -958,6 +999,19 @@ kiosk check `:1330-1333`, dangerous-scripts check `:1334-1337`) and `:1359-1367`
 `Blizzard_ChatFrameBase/Mainline/SlashCommandsOverrides.lua:171-173`]*.
 "It didn't print anything" is not the same as "the value is nil".
 
+**Two CVars belong on this list**, because they turn tooltips and the taint log into
+discovery instruments, and both are new at 12.1.0 *[T2 wiki: Patch 12.1.0/API changes
+§CVars/Added and the 2026-07-21 entry, revid 6801760, 2026-08-09]*:
+
+| CVar | Default | What it gives you |
+|---|---|---|
+| `tooltipShowAuraSpellIDs` | `0` | *"Show spell IDs in tooltips for unit auras."* ⚠ **Does not persist between sessions** — Blizzard says so explicitly, so `/console` it each login. This is the discovery route that *replaces* reading spell IDs out of aura data, which 12.1.0 closed (`security-taint-and-restricted-data` §4.7); mousing over the aura is now the cheap way to learn an ID. |
+| `taintLogObjectSecrets` | `0` | *"include additional taint log entries when script objects gain secret aspects or values."* The "when did this frame become secret" instrument; `security` §2.3. |
+
+`C_CVar.AreCVarsLoaded()` is the matching load-lifecycle probe, also new
+*[T1 docs @12.1.0: `CVarDocumentation.lua:11-18`]* — the CVar analogue of gating on
+`ADDON_LOADED` before reading SavedVariables.
+
 For measuring rather than exploring, `C_AddOnProfiler` exposes 10 functions and
 the `AddOnProfilerMetric` enum: `SessionAverageTime`, `RecentAverageTime`,
 `EncounterAverageTime`, `LastTime`, `PeakTime`, and bucket counters
@@ -971,7 +1025,8 @@ There is also an *event*-level profiler pair — `GetCurrentEventID()` and
 slowestHandlerName, slowestHandlerTime` *[T1 docs:
 `FrameScriptDocumentation.lua:163, :181`]*. **Neither is called anywhere in the
 2298 shipped `.lua` files** *[T1 src: grep returns zero non-documentation hits]*,
-so there is no worked example of how to obtain a valid `eventProfileIndex`.
+so the shipped source carries no worked example of how to obtain a valid
+`eventProfileIndex`.
 **Both exist as functions, and both return nothing useful when called from outside
 an event handler**: `GetCurrentEventID()` returns `nil`, and `GetEventTime(0)`
 likewise `[client 2026-07-24]`. Neither errors — they simply have no answer there.
@@ -1063,8 +1118,9 @@ Some questions are about *game data*, not the API — "what is the spell ID for 
 "what rows exist in this table", "which build introduced this". The client does
 not expose the client database tables to Lua; `wago.tools` mirrors them.
 
-- `https://wago.tools/api/builds` → per-product build list, newest first. It reports
-  `wow` newest = `12.0.7.68887`, matching the source checkout.
+- `https://wago.tools/api/builds` → per-product build list, newest first. Compare it
+  against `version.txt` in the source checkout you are citing — a mismatch is the
+  cheapest possible staleness check on your own tooling.
 - `https://wago.tools/db2/<Table>/csv?build=<version>` → the table as CSV. Wrapped
   as `uv run python -m wowkb.wago <Db2Table> [--build …]` *[repo tool:
   `tools/wowkb/wago.py:25-36` (the `download()` helper)]*.
@@ -1087,6 +1143,17 @@ Down-tier any source on sight if it:
   *[see `sources.md` §1.1]*;
 - describes reading the combat log by registering `COMBAT_LOG_EVENT_UNFILTERED`
   on a frame without mentioning that this errors on 12.0.x (§2.6);
+- **describes reading auras via `UNIT_AURA`, `C_UnitAuras.GetUnitAuras`,
+  `GetAuraDataByIndex`/`BySlot`/`ByAuraInstanceID`, or by diffing
+  `updateInfo.addedAuras` / `removedAuraInstanceIDs`, without saying the payload is
+  fully secret and those reads error on 12.1.0+** — this is the single largest
+  falsified body of community aura code, and it looks completely idiomatic
+  (`security-taint-and-restricted-data` §4.7, §3.5);
+- **names `SecureAuraHeaderTemplate`** as a live Retail template — it is Classic-only
+  from 12.1.0 (`security` §3.4);
+- **shows an addon calling `CreateFrame("AuraButton", …)` or
+  `container:AddAuraFrame(button)`** — that was a mid-PTR 12.1.0 API that was removed
+  before ship, so this dates a page to roughly 2026-06/07 (`security` §3.5);
 - discusses `Frame:RegisterEvent` restrictions without mentioning secret values;
 - names `github.com/Amadeus-/WoWAddonDevGuide` as a reference — that repo is
   AI-generated, GitHub-archived, and has been falsified against Tier 1
@@ -1145,8 +1212,8 @@ Tier 3.
   Blizzard's Event Trace `:702` is a no-op in its own code. See §2.2.
 - **[gap] `GetCurrentEventID` / `GetEventTime`** exist as functions and both return
   `nil` when called outside an event handler `[client 2026-07-24]`. Still open: how
-  to obtain a valid `eventProfileIndex`, which has no worked example anywhere and
-  probably needs a profiling CVar we have not identified.
+  to obtain a valid `eventProfileIndex`, which has no worked example in the 2298
+  shipped `.lua` files and probably needs a profiling CVar we have not identified.
 - **[mostly closed] `C_CombatLog.GetCurrentEventInfo`** is referenced by the
   deprecation shim but absent from the documented `C_CombatLog` surface — because
   it (and five sibling names) were relocated to the SecureOnly
@@ -1362,11 +1429,16 @@ Blizzard has not documented (§2.4 gap) — advisory only.
 
 24. **A doc-generated type name is not a documented type.** `WOWGUID`,
     `UnitToken`, `UnitTokenVariant`, `SpellIdentifier`,
-    `UnitTokenPvPRestrictedForAddOns` and `AuraData` appear 375/261/100/73/28/10
+    `UnitTokenPvPRestrictedForAddOns` and `AuraData` appear 391/264/100/74/28/10
     times as parameter/return types and are declared zero times — so their shape
     must be cited from Tier 2, never presented as Tier 1.
-    *[Tier 1: declaration-vs-use grep over all 592 generated doc files, re-run
-    this session; every declaration grep returns empty.]*
+    ⚠ **`AuraData` additionally fails at runtime, not just at citation time**: the
+    struct is always fully secret at 12.1.0 and every function returning one carries
+    `RequiresUnitAuraAccess` (`FailureMode = Error`). Code that reads an `AuraData`
+    field in combat throws. Audit for the read, not just for the type name.
+    *[Tier 1 @12.1.0: declaration-vs-use grep over all 612 generated doc files; every
+    declaration grep returns empty. Tier 2 for the secrecy: `Patch 12.1.0/API changes`,
+    revid 6801760, 2026-08-09.]*
 
 25. **A `RegisterEventCallback` callback must accept a leading owner argument
     before the payload.** Every Blizzard callback in the shipped tree declares it
@@ -1383,6 +1455,16 @@ Blizzard has not documented (§2.4 gap) — advisory only.
 
 ## Changelog
 
+- 2026-08-11 — 12.1.0. Every corpus count **re-parsed**, not hand-edited: §2.1
+  1741→1782 events / 204→210 systems, §2.4 the flag table, §4.1 6144→6335 functions
+  (4202/695/1438). The same parser reproduces the 12.0.7 figures exactly, which is
+  what licenses the comparison. §2.4 gained the finding the patch-day heads-up got
+  wrong: **`SecretPayloads` is still 7 and `UNIT_AURA` is still not on it** — the
+  secret payload arrives via a `Secret` *predicate* on the event entry, a second
+  route the old anchor did not anticipate. §4.2/§4.3/rule 24: `AuraData` is now
+  always-fully-secret **and** unreadable. §5.1 gained `tooltipShowAuraSpellIDs`;
+  §5.6 gained four aura-shaped staleness detectors. ⚠ The `[T2 res] Events.lua`
+  cross-check is stale — that repo was not re-pulled.
 - 2026-08-05 — **six ClientLab answers** `[client 2026-07-24]`. `SecureHooksAllowed`
   is enforced, with a message (`… is forbidden for hooking`) distinct from the wiki
   list's *"Cannot hook function"* — two checks, avoid the union (§5.4, rule 9);

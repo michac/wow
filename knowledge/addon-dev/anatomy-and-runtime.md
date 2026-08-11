@@ -1,12 +1,16 @@
 ---
 title: Addon anatomy and the runtime environment
-patch: 12.0.7
-fetched: 2026-08-05
-reviewed: 2026-08-05
+patch: 12.1.0
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
-  - https://github.com/Gethe/wow-ui-source (live, version.txt 12.0.7.68887, commit 4383ced30106d51b27e3e86d1987f1552f0d259d)
+  - https://github.com/Gethe/wow-ui-source (tag 12.1.0, version.txt 12.1.0.69273, commit eb941aad028d73ddc69e3e8ef4da709f4d3cd744) — checked out at raw/addon-research/wow-ui-source-12.1.0; the 12.1.0-stamped locators resolve here
+  - https://github.com/Gethe/wow-ui-source (version.txt 12.0.7.68887, commit 4383ced30106d51b27e3e86d1987f1552f0d259d) — the build every unstamped `[T1 src]` locator below was read at, still checked out at raw/addon-research/wow-ui-source
+  - https://warcraft.wiki.gg/wiki/Patch_12.1.0/API_changes (revid 6801760, 2026-08-09)
   - Live install /mnt/c/Program Files (x86)/World of Warcraft/_retail_/ (81 addon folders, 147 top-level .toc files, 38 nested .toc files, 26 client-written AddOns.txt)
   - https://github.com/Ketho/BlizzardInterfaceResources (commit 774b2c550366, build 12.0.7.68256)
+  - in-client measurement, ClientLab v0.1.0 (interface 120007), run 2026-07-24 07:49:13, out of combat  # §1 manifest placement (DoesAddOnExist settles the nested-library rule and AddOns.txt); §5.3 the sandbox surface — require/os/io absent, table.freeze/isfrozen/removemulti/strsplittable present, string.rtgsub callable. ✅ ARCHIVED, and re-checkable: projects/addon-lab/runs/2026-07-24-v0.1.0-legacy.json holds this run verbatim (the live SavedVariables key was purged by the capture-standard migration)
+  - in-client measurement, ClientLab v0.2.0 (interface 120007), run 2026-08-05 14:31:51, out of combat  # §5.4 AddLuaErrorHandler read directly rather than inferred from the assert
   - https://warcraft.wiki.gg/wiki/TOC_format (revid 6767089, 2026-07-09)
   - https://warcraft.wiki.gg/wiki/AddOn_loading_process (revid 6302251, 2025-04-23)
   - https://warcraft.wiki.gg/wiki/Using_the_AddOn_namespace (revid 6474636, 2025-09-16)
@@ -37,17 +41,22 @@ machine your code lands in. Cross-file code organisation is the
 
 | Prefix | Means |
 |---|---|
-| `[T1 src]` | Blizzard's shipped UI source. Paths are relative to the `wow-ui-source` checkout root, i.e. prefix `raw/addon-research/wow-ui-source/`. Build **12.0.7.68887**, commit `4383ced30106`. |
-| `[T1 docs]` | `Interface/AddOns/Blizzard_APIDocumentationGenerated/…` in the same checkout — Blizzard's machine-generated API spec. |
+| `[T1 src]` | Blizzard's shipped UI source. Paths are relative to a `wow-ui-source` checkout root. **An unstamped locator was read at build 12.0.7.68887** (`raw/addon-research/wow-ui-source`, commit `4383ced30106`); a locator written `[T1 src @12.1.0: …]` was read at **12.1.0.69273** (`raw/addon-research/wow-ui-source-12.1.0`, commit `eb941aad028d`). |
+| `[T1 docs]` | `Interface/AddOns/Blizzard_APIDocumentationGenerated/…` in the same checkouts — Blizzard's machine-generated API spec. Same two-build convention. |
 | `[T1 obs]` | Directly observed on the live install at `/mnt/c/Program Files (x86)/World of Warcraft/_retail_/`. Observation of shipped artefacts, not of a spec. |
 | `[T2 wiki]` | warcraft.wiki.gg, with revision id and last-edit date. Community-written; stamp is load-bearing because pages rot silently. |
 | `[T2 res]` | `Ketho/BlizzardInterfaceResources` — a derived per-build dump. **Build 12.0.7.68256**, a *different build of the same patch* than the source checkout. |
 | `[T3]` | A named community addon at a named commit. A data point, never a rule. |
 
-> ⚠ **Build skew.** This repo's `knowledge/_meta/game-version.md` records live as
-> `12.0.7.68453`; the source checkout is `12.0.7.68887`; `BlizzardInterfaceResources`
-> is `12.0.7.68256`. Same patch, three builds. Nothing in this file has been run in
-> the client — items that need that are marked `@verify-ingame`.
+> ⚠ **Build skew, and it now spans two patches.** Live is **12.1.0.69214**
+> (`knowledge/_meta/game-version.md`); the 12.1.0 source checkout is **12.1.0.69273**;
+> the 12.0.7 checkout most locators below point at is **12.0.7.68887**; and
+> `BlizzardInterfaceResources` has not been re-pulled, so every `[T2 res]` row is still
+> **12.0.7.68256**. **A `[T1 src]`/`[T1 docs]` line number without a `@12.1.0` stamp has
+> not been re-resolved against 12.1.0** — the file may have moved. Where 12.1.0 changed
+> the fact, the claim was rewritten and re-stamped; where it changed only the line
+> number, it was not. Treat an unstamped locator as "true at 12.0.7.68887, unverified
+> at 12.1.0".
 
 ---
 
@@ -146,7 +155,7 @@ Two more things fall out of the same file, and both cut against naive assumption
 > does not mean the client never saw the addon. `[gap]` **Why they are omitted from the
 > file is still unresolved.** Re-checked independently and
 > no pattern holds: the set mixes `LoadOnDemand: 1` (TellMeWhen_Options) with
-> non-LoD, mixes has-`Dependencies` with none, mixes current `## Interface: 120007`
+> non-LoD, mixes has-`Dependencies` with none, mixes then-current `## Interface: 120007`
 > (RaiderIO, EllesmereUIDataBars) with out-of-date `120000`
 > (Bartender4ModernGlowEffects), and every folder on the install shares the same
 > 13:36–13:38 mtime band, so mtime cannot separate them either. The most likely
@@ -301,6 +310,14 @@ Conditions attach to a metadata line or a file line, in square brackets
 | `[AllowLoad …]` | (no version given) | Restricts to in-game vs glue screen. The wiki calls it *"functionally inoperable for addons, as only Blizzard code works in the glue screen environment."* Note this is a **condition**, distinct from the restricted `## AllowLoad:` **directive**. |
 | `[AllowLoadGameType a, b]` | files 11.1.5 · **metadata 12.0.7** | Patch 11.1.5 also made `AllowLoadGameType` *"usable by insecure addons"*. |
 | `[AllowLoadTextLocale enUS, frFR]` | files 11.2.0.61787 · **metadata 12.0.7** | Locale codes as returned by `GetLocale()`. |
+| `[Bootstrap]` | files **12.1.0** | **File-level, and it is an exception to load-on-demand, not a filter.** A file marked `[Bootstrap]` in a `## LoadOnDemand: 1` addon's toc loads **at startup**, before anything calls `C_AddOns.LoadAddOn`; the rest of the toc still waits. The addon must still be *enabled*. See §4.3. |
+
+`[Bootstrap]` is not a curiosity — Blizzard rebuilt `UIParent.lua` around it, moving
+the LoD-launching code out of `UIParent` and into each addon's own bootstrap file
+`[T2 wiki: Patch 12.1.0/API changes §Other changes in 12.1 PTR 1, revid 6801760, 2026-08-09]`. It is live in the shipped corpus at scale: **100 tocs carry exactly one
+`[Bootstrap]` file each**, conventionally named `<AddonName>_Bootstrap.lua`
+`[T1 src @12.1.0, counted over Interface/AddOns/*/*.toc]`, e.g.
+`Blizzard_MacroUI/Blizzard_MacroUI.toc:5`.
 
 The wiki also warns that although *"conditions can appear anywhere in a file
 reference line"*, for compatibility they *"should generally only ever be used at
@@ -353,9 +370,9 @@ Locales\[TextLocale].lua [AllowLoadTextLocale deDE, esES, esMX, frFR, itIT, koKR
 
 ### 2.5 The `Interface` version
 
-`## Interface: 120007` is 12.0.7 — `major*10000 + minor*100 + patch`
-`[T2 wiki: TOC format]`, corroborated by `[T1 obs: TomTom/TomTom.toc:1]`
-(`## Interface: 120007`) at live patch 12.0.7. The authoritative runtime read is
+**`## Interface: 120100` is the live number** — 12.1.0, by `major*10000 +
+minor*100 + patch` `[T2 wiki: TOC format]`, and `120007` is now the *previous*
+patch. The authoritative runtime read is
 the 4th return of `GetBuildInfo()`
 `[T1 docs: BuildDocumentation.lua:10 → buildVersion, buildNumber, buildDate,
 interfaceVersion, localizedVersion, buildInfo]`.
@@ -374,8 +391,15 @@ calls at :279 and :282; note :275-278 is the `OnShow` handler, not this]`.
 
 Comma-delimited multi-flavour lists are normal in the wild — TellMeWhen_Options
 ships `## Interface: 120005, 120007, 110205, 50503, 50504, 40402, 20505, 11508`
-`[T1 obs: TellMeWhen_Options/TellMeWhen_Options.toc:1]`. Note BigWigs lists
-`120100` (12.1.0) first, ahead of live `[T1 obs]`.
+`[T1 obs: TellMeWhen_Options/TellMeWhen_Options.toc:1]`, which no longer names the
+live interface at all and is therefore out of date. BigWigs already led with
+`120100` while 12.0.7 was live `[T1 obs]` — declaring the *next* interface early is
+harmless, because the list is a set and the client matches any member.
+
+⚠ **The install snapshot behind every `[T1 obs]` third-party count in this file was
+taken while 12.0.7 was live**, so those `## Interface:` values describe what those
+addons declared *then*. They are not evidence about what the same addons declare on
+12.1.0. `@verify-ingame` — re-inventory the install to refresh them.
 
 Alternatively, ship separate `AddonName_Mainline.toc` / `_Classic` / `_Vanilla` /
 `_TBC` / `_Wrath` / `_Cata` / `_Mists` / `_Standard` / `_WoWLabs` / `_WoWHack`
@@ -474,7 +498,8 @@ by looking up `_G["ADDON_"..reason]`:
 entry.Status:SetText(_G["ADDON_"..reason]);
 ```
 `[T1 src: Blizzard_AddOnList/AddonList.lua:395]`, same pattern in
-`UIParentLoadAddOn` `[T1 src: Blizzard_UIParent/Shared/UIParent.lua:254]`.
+`LoadAddOnWithErrorHandling`
+`[T1 src @12.1.0: Blizzard_SharedXML/AddOnUtil.lua:6]`.
 
 The token vocabulary is enumerable from the global strings `[T2 res:
 Resources/GlobalStrings/enUS.lua:679-726]` — `BANNED`, `CORRUPT`, `DEMAND_LOADED`,
@@ -512,18 +537,47 @@ return is the string form, and Blizzard compares it to `"SECURE"`
 return `reason` and surfaces it as a dialog:
 
 ```lua
-function UIParentLoadAddOn(name)
+local failedAddOnLoad = {};
+
+function LoadAddOnWithErrorHandling(name)
 	local loaded, reason = C_AddOns.LoadAddOn(name);
-	if ( not loaded ) then
-		… SetBasicMessageDialogText(format(ADDON_LOAD_FAILED, name, _G["ADDON_"..reason])) …
+	if not loaded and not failedAddOnLoad[name] then
+		SetBasicMessageDialogText(format(ADDON_LOAD_FAILED, name, _G["ADDON_" .. reason]));
+		failedAddOnLoad[name] = true;
+	end
+
+	return loaded;
+end
 ```
-`[T1 src: Blizzard_UIParent/Shared/UIParent.lua:250-259]`.
+`[T1 src @12.1.0: Blizzard_SharedXML/AddOnUtil.lua:1-11]`.
+
+**This function was `UIParentLoadAddOn` through 12.0.7** and moved as part of the
+12.1.0 `UIParent.lua` rewrite around `[Bootstrap]` (§2.4)
+`[T2 wiki: Patch 12.1.0/API changes §Notes, revid 6801760, 2026-08-09; the old
+global is in that page's removed-FrameXML list]`. Two things changed besides the
+name: it now **suppresses the dialog after the first failure per addon**, and it
+**returns `loaded`**, so a caller can branch instead of re-querying. The lesson the
+example is here for — the second return is a *token*, and the display string is
+`_G["ADDON_"..reason]` — is unchanged.
+
+⚠ Do not confuse this file with `Blizzard_SharedXMLBase/AddOnUtil.lua`, the
+*different* `AddOnUtil` that owns `AddOnUtil.LoadAddOn` and
+`GetAddOnDependenciesRecursive` (§4.2). Two files, same basename, different folders.
 
 LoD is common on Blizzard's side (**125** of 346 shipped tocs set
 `## LoadOnDemand: 1` `[T1 src]`) and third-party (**45** of 147 on this install
 `[T1 obs]`, e.g. `BigWigs_Options`,
 `TellMeWhen_Options`, the 15 `RaiderIO_DB_*` data packs, per-zone `LittleWigs_*`
 modules).
+
+**An LoD addon can now load part of itself at startup.** The per-file
+`[Bootstrap]` conditional (§2.4) makes exactly the files it marks load with
+everything else, leaving the rest deferred — so "LoadOnDemand: 1" no longer implies
+"none of this addon's code has run". Blizzard's own pattern is one
+`<AddonName>_Bootstrap.lua` per addon holding the `LoadAddOnWithErrorHandling` call
+that pulls the rest in, which is what let `UIParent.lua` stop owning every LoD
+launcher `[T1 src @12.1.0: 100 tocs; T2 wiki: Patch 12.1.0/API changes,
+revid 6801760, 2026-08-09]`.
 
 **Count the values, not the lines.** A further **42** shipped tocs (plus 1
 third-party) carry `## LoadOnDemand: 0`, the explicit *opposite* of load-on-demand
@@ -573,6 +627,15 @@ evidence is behavioural and Tier 1:
 
 Practical consequence: **an unprefixed global is a collision.** Any addon can read,
 overwrite, or wrap any other addon's globals.
+
+**`_G[name]` is the only idiom to write.** `getglobal(name)` and
+`setglobal(name, value)` are the deprecated Lua-4-era equivalents: at 12.1.0 they were
+dropped from FrameXML and re-provided as compatibility shims in
+`Blizzard_Deprecated/Deprecated_12_1_0.lua`, whose whole body is `return _G[var]` and
+`_G[var] = val` `[T2 wiki: Patch 12.1.0/API changes §Deprecated API, revid 6801760, 2026-08-09, quoting the shim verbatim]`. They still work; they are on the removal path,
+they buy nothing over `_G`, and `setglobal`'s shim calls `forceinsecure()` first — so a
+`setglobal` in addon code taints the execution path in a way a plain `_G[var] = val`
+does not. Prefer `_G`.
 
 > `[gap]` I did **not** establish that this is literally one `lua_State` shared by
 > all addons. No Tier-1 or Tier-2 source states the VM topology. Everything above
@@ -677,7 +740,7 @@ current `Lua functions` listing, which is why it is repeated here]`.
   docs), and the shipped source.
 
 Tier-1 corroboration by absence: across the 2298 `.lua` files of the shipped UI
-there is **not one** call to `require(`, `dofile`, `loadfile`, `module(`, or —
+a grep finds **not one** call to `require(`, `dofile`, `loadfile`, `module(`, or —
 with a word-boundary-anchored regex `(^|[^A-Za-z0-9_."])(os|io)\.[a-z]` — `os.`
 or `io.` `[T1 src, grep over Interface/AddOns/**/*.lua]` — corroboration by absence,
 and a strong signal that no Blizzard code assumes them. **Measured in the client:
@@ -985,14 +1048,14 @@ call sites** in the shipped UI `[T1 src]` — the CPU story moved to
 - `[gap]` **Whether addon code can call `AddLuaErrorHandler`** turns on `issecure()`
   in that frame; not resolved here. §5.4.
 - `[gap]` **The 1024-char toc line limit** rests on the wiki alone. §2.1.
-- **Some of this HAS now been run in the client** — a ClientLab pass
+- **Some of this HAS now been run in the client** — an in-client pass
   `[client 2026-07-24]` (12.0.7, interface 120007) closed five items that had sat in
   this list, each now tagged at its claim: `require`/`os`/`io` are absent
   (§5.3), `table.freeze`/`table.isfrozen`/`table.removemulti`/`strsplittable` all
   exist (§5.3), `string.rtgsub` is callable (§5.3), `DoesAddOnExist` settles both
   the nested-library rule and the `AddOns.txt` question (§1, §19b). Items still
   marked `@verify-ingame` above are the ones where a run would still change the
-  answer; the registry that tracks them is `projects/addon-lab/questions.json`.
+  answer; the in-client test registry (README §1.2) tracks them.
 
 ---
 
@@ -1046,12 +1109,27 @@ Each rule is checkable against real addon source or a real `.toc`.
    corroboration: the gate exists in code — `reason == "INTERFACE_VERSION"` at
    `Interface/AddOns/Blizzard_AddOnList/AddonList.lua:783` and `:809`.]*
 
-5. **A `.toc` that uses a bracketed per-file conditional or a `[Family]`/`[Game]`
-   path variable must declare `## Interface:` ≥ 110105; `[TextLocale]` /
-   `[AllowLoadTextLocale]` require ≥ 110200; a bracketed conditional on a `##`
-   metadata line requires ≥ 120007.** Older declared interfaces plus these features
-   is an inconsistency.
-   *[Tier 2: wiki `TOC format` §Patch changes, revid 6767089.]*
+5. **Feature → minimum declared `## Interface:`.** Older declared interfaces plus
+   these features is an inconsistency.
+
+   | Feature | Requires `## Interface:` ≥ |
+   |---|---|
+   | bracketed per-file conditional; `[Family]` / `[Game]` path variable | 110105 |
+   | `[TextLocale]` / `[AllowLoadTextLocale]` | 110200 |
+   | a bracketed conditional on a `##` **metadata** line | 120007 |
+   | **`[Bootstrap]`** (§2.4, §4.3) | **120100** |
+   | **`<Mixins>` element; `<Mixin source="local">`; `<KeyValue type="local">`; `<ForbiddenAspects>`; `targetPartition`/`inboundPartition`** — all `module-architecture` §3.1 | **120100** |
+   | **`Frame:SetOnUpdateMode`, `Frame:ResizeToBoundsRect`, `VectorGraphics`, the `TextureBase:SetRadialProgressBar*` family, `AuraContainer`/`AuraButton`** | **120100** |
+
+   ⚠ The `120100` rows are a **schema/API** floor, not a toc-parser floor: nothing
+   proves the client refuses the XML element on a lower declared interface. What is
+   certain is that the feature does not exist before 12.1.0, so declaring less and
+   using them is at best untested.
+   *[Tier 2 for the first three rows: wiki `TOC format` §Patch changes, revid 6767089.
+   Tier 2 for the 120100 rows: `Patch 12.1.0/API changes`, revid 6801760, 2026-08-09
+   — TOC `120100`, and each feature listed as added in that patch. Tier 1
+   corroboration: all of them are present in the 12.1.0 checkout and absent from the
+   12.0.7 one.]*
 
 6. **An `ADDON_LOADED` handler must compare the first payload argument to its own
    addon name.** A handler that acts on every `ADDON_LOADED` will re-run whenever
@@ -1140,7 +1218,10 @@ Each rule is checkable against real addon source or a real `.toc`.
 16. **`C_AddOns.LoadAddOn` returns `(loaded, reason)` where `reason` is a bare
     token, not display text.** Code that shows the second return to a user shows a
     raw token; the localised string is `_G["ADDON_"..reason]`.
-    *[Tier 1: `Blizzard_UIParent/Shared/UIParent.lua:250-256`; the same idiom at
+    *[Tier 1: `LoadAddOnWithErrorHandling`,
+    `Blizzard_SharedXML/AddOnUtil.lua:1-11` @12.1.0 — the function was called
+    `UIParentLoadAddOn` and lived in `Blizzard_UIParent/Shared/UIParent.lua`
+    through 12.0.7, so audit for **both** names; the same idiom at
     `Blizzard_AddOnList/AddonList.lua:395`. Token vocabulary at Tier 2:
     `BlizzardInterfaceResources@774b2c55 Resources/GlobalStrings/enUS.lua:679-724`.]*
 
@@ -1188,10 +1269,18 @@ Each rule is checkable against real addon source or a real `.toc`.
     and **45**/147 third-party tocs on this install set `## LoadOnDemand: 1`
     (a further 42 shipped + 1 third-party set it to `0`, which is not LoD; the
     167/46 figures elsewhere are any-value line counts — §4.3).]*
-    **This is not an absolute.** An LoD addon can still be loaded during login by
-    something else — as another addon's `Dependencies` target, or via `## LoadWith`
-    (which the wiki says *implies* LoadOnDemand, `§LoadWith` revid 6767089). Audit
-    for the gating bug, not for "never fires `ADDON_LOADED` during login".
+    **This is not an absolute, and 12.1.0 added a third way out.** An LoD addon can
+    still be loaded during login by something else — as another addon's
+    `Dependencies` target, via `## LoadWith` (which the wiki says *implies*
+    LoadOnDemand, `§LoadWith` revid 6767089), or by marking individual files
+    **`[Bootstrap]`**, which loads *those files only* at startup while the rest of
+    the toc still waits (§2.4, §4.3). Audit for the gating bug, not for "never fires
+    `ADDON_LOADED` during login".
+    ⚠ **`[Bootstrap]` splits an LoD addon in two, and that is a new class of bug.**
+    A bootstrap file runs at startup, so file-scope state it builds exists before
+    `ADDON_LOADED` for that addon has fired, and code in the deferred half must not
+    assume the two ran together. Blizzard uses exactly one bootstrap file per addon
+    (100 tocs, `[T1 src @12.1.0]`) and keeps it to the launch stub.
 
 21. **`Dependencies` are hard, and a broken dependency chain is reported as a
     `DEP_*` reason rather than the addon's own.**
@@ -1227,6 +1316,12 @@ Each rule is checkable against real addon source or a real `.toc`.
 
 ## Changelog
 
+- 2026-08-11 — 12.1.0. `UIParentLoadAddOn` → `LoadAddOnWithErrorHandling`, moved to
+  `Blizzard_SharedXML/AddOnUtil.lua`, now deduped + returns `loaded` (§4.2, §4.3,
+  rule 16). New `[Bootstrap]` per-file directive (§2.4, §4.3, rule 20) — 100 shipped
+  tocs. Interface is `120100`; rule 5 became a table and gained the 12.1.0 floors.
+  `getglobal`/`setglobal` deprecated to shims (§5.1). ⚠ Every unstamped `[T1 src]`
+  line number in this file is still 12.0.7.68887 and was not re-resolved.
 - 2026-08-05 — **first ClientLab answers land** `[client 2026-07-24]`. Five claims
   rewritten from measurements rather than inference: `require`/`os`/`io` are absent
   from both `_G` and the addon env (§5.3); all four zero-use Lua additions exist

@@ -1,16 +1,22 @@
 ---
-title: Warrior Protection — talent tree (12.0.7)
-patch: 12.0.7
-build: 12.0.7.67808
-fetched: 2026-06-19
-reviewed: 2026-07-07
+title: Warrior Protection — talent tree (12.1.0)
+patch: 12.1.0
+build: 12.1.0.68914
+fetched: 
 sources:
   - https://us.api.blizzard.com/data/wow/talent-tree (Blizzard Game Data API, Tier 1)
-  - https://wago.tools/db2 Trait* @ 12.0.7.67808 (Tier 1)
+  - https://wago.tools/db2 Trait* @ 12.1.0.68914 (Tier 1)
 confidence: high
 ---
+> **Build provenance.** This file was generated from the Blizzard Game Data API and
+> wago `Trait*` DB2 at build **12.1.0.68914**, which is what the API's `static-12.1.0`
+> namespace reported on 2026-08-11. The live client that day was **12.1.0.69214**. The
+> `Trait*` DB2 exports at the two builds are **byte-identical** (verified by md5 on
+> `TraitNodeEntry`), so this data is valid for live 12.1 — cite it as **@ 12.1.0.68914**,
+> not 69214.
 
-# Warrior Protection — talents (12.0.7)
+
+# Warrior Protection — talents (12.1.0)
 
 > Generated from `knowledge/classes/_talents/all-talents.tsv`. Spell IDs are the talent's granted spell. Choice nodes show both options as `A / B`. See `_talents/README.md` for the schema.
 
@@ -25,24 +31,24 @@ confidence: high
 | Thunder Clap | 6343 | 1 | ACTIVE | 3,5 | — | 90330 |
 | Leeching Strikes | 382258 | 1 | PASSIVE | 3,7 | — | 90330 |
 | Impending Victory | 202168 | 1 | ACTIVE | 4,2 | — | 90344,90328 |
-| Heroic Leap | 6544 | 1 | ACTIVE | 4,4 | — | 90328,90343 |
+| Heroic Leap | 6544 | 1 | ACTIVE | 4,4 | — | 90343,90328 |
 | Crackling Thunder | 203201 | 1 | PASSIVE | 4,5 | — | 90343 |
 | Storm Bolt | 107570 | 1 | ACTIVE | 4,6 | — | 90371,90343 |
-| Rend | 772 | 1 | ACTIVE | 5,1 | — | 90344,90326 |
+| Blood and Thunder | 384277 | 1 | PASSIVE | 5,1 | — | 90326,90344 |
 | Second Wind | 29838 | 1 | PASSIVE | 5,2 | — | 90326 |
 | Frothing Berserker | 392792 | 1 | PASSIVE | 5,3 | — | 90328,90326,90346 |
 | Bounding Stride | 202163 | 1 | PASSIVE | 5,4 | — | 90346 |
-| Pain and Gain | 382549 | 1 | PASSIVE | 5,5 | — | 90346,90337 |
+| Pain and Gain | 382549 | 1 | PASSIVE | 5,5 | — | 90337,90346 |
 | Intervene | 3411 | 1 | ACTIVE | 5,7 | — | 90337,90371 |
-| Shockwave | 46968 | 1 | ACTIVE | 6,2 | 8 | 109391,90352 |
+| Shockwave | 46968 | 1 | ACTIVE | 6,2 | 8 | 110653,90352 |
 | Overwhelming Rage | 382767 | 1 | PASSIVE | 6,3 | 8 | 90352 |
 | Rallying Cry | 97462 | 1 | ACTIVE | 6,4 | 8 | 90353,90352 |
 | Field Dressing | 1271926 | 1 | PASSIVE | 6,5 | 8 | 90353 |
 | Spell Reflection | 23920 | 1 | ACTIVE | 6,6 | 8 | 90329,90353 |
-| Wrecking Throw / Shattering Throw | 384110 / 64382 | 1/1 | CHOICE | 7,1 | 8 | 90375,109391 |
+| Wrecking Throw / Shattering Throw | 384110 / 64382 | 1/1 | CHOICE | 7,1 | 8 | 110653,90375 |
 | Rumbling Earth | 275339 | 1 | PASSIVE | 7,2 | 8 | 90375 |
-| Berserker Shout / Fearless | 384100 / 1271925 | 1/1 | CHOICE | 7,3 | 8 | 90331,90375 |
-| Intimidating Shout / Piercing Howl | 5246 / 12323 | 1/1 | CHOICE | 7,5 | 8 | 90331,90385 |
+| Berserker Shout / Fearless | 384100 / 1271925 | 1/1 | CHOICE | 7,3 | 8 | 90375,90331 |
+| Intimidating Shout / Piercing Howl | 5246 / 12323 | 1/1 | CHOICE | 7,5 | 8 | 90385,90331 |
 | Honed Reflexes | 391271 | 1 | PASSIVE | 7,7 | 8 | 90329,90385 |
 | Armored to the Teeth | 384124 | 2 | PASSIVE | 8,2 | 8 | 90351,90348 |
 | Double Time | 103827 | 1 | PASSIVE | 8,4 | 8 | 108705,90348 |
@@ -51,12 +57,12 @@ confidence: high
 | Javelineer | 1271948 | 1 | PASSIVE | 9,3 | 23 | 90366,90382 |
 | Resonant Voice | 1243660 | 1 | PASSIVE | 9,5 | 23 | 90382,90368 |
 | Crushing Force | 382764 | 1 | PASSIVE | 9,7 | 23 | 90368 |
-| Cruel Strikes | 392777 | 2 | PASSIVE | 10,2 | 23 | 110118,90347 |
+| Cruel Strikes | 392777 | 2 | PASSIVE | 10,2 | 23 | 90347,110118 |
 | One-Handed Weapon Specialization | 382895 | 2 | PASSIVE | 10,4 | 23 | 108685,110118 |
-| Wild Strikes | 382946 | 2 | PASSIVE | 10,6 | 23 | 108685,108686 |
+| Wild Strikes | 382946 | 2 | PASSIVE | 10,6 | 23 | 108686,108685 |
 | Anger Management | 152278 | 1 | PASSIVE | 11,1 | 23 | 90381 |
 | Champion's Spear | 376079 | 1 | ACTIVE | 11,3 | 23 | 90381,90324 |
-| Stance Mastery | 1280961 | 1 | PASSIVE | 11,5 | 23 | 90360,90324 |
+| Stance Mastery | 1280961 | 1 | PASSIVE | 11,5 | 23 | 90324,90360 |
 | Battlefield Commander | 424742 | 1 | PASSIVE | 11,7 | 23 | 90360 |
 
 ## Spec tree
@@ -86,7 +92,7 @@ confidence: high
 | Punish | 275334 | 1 | PASSIVE | 7,20 | 8 | 90309 |
 | Tough as Nails | 385888 | 1 | PASSIVE | 8,15 | 8 | 90308 |
 | Fueled by Violence | 383103 | 1 | PASSIVE | 8,16 | 8 | 90308,90318 |
-| Enduring Defenses | 386027 | 2 | PASSIVE | 8,18 | 8 | 90264,90318 |
+| Enduring Defenses | 386027 | 2 | PASSIVE | 8,18 | 8 | 90318,90264 |
 | Unyielding Stance | 1235047 | 1 | PASSIVE | 8,20 | 8 | 90448,90264 |
 | Deep Wounds | 1261060 | 1 | PASSIVE | 8,21 | 8 | 90448 |
 | Heavy Repercussions / Into the Fray | 203177 / 202603 | 1/1 | CHOICE | 9,16 | 20 | 90319 |
@@ -121,7 +127,7 @@ confidence: high
 | Gathering Clouds / Thorim's Might | 436201 / 436152 | 1/1 | CHOICE | 4,22 | — | 94817 |
 | Burst of Power | 437118 | 1 | PASSIVE | 4,23 | — | 94798 |
 | Capacitance | 1270724 | 1 | PASSIVE | 4,24 | — | 109810 |
-| Avatar of the Storm | 437134 | 1 | PASSIVE | 5,23 | — | 94797,94792,94807,109809 |
+| Avatar of the Storm | 437134 | 1 | PASSIVE | 5,23 | — | 109809,94797,94792,94807 |
 
 ## Hero: Colossus
 

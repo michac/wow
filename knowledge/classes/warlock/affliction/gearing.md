@@ -1,24 +1,21 @@
 ---
-title: Affliction Warlock — gearing (stats, trinkets, tier set, consumables) (Midnight S1)
-patch: 12.0.7
-fetched: 2026-07-14
-reviewed: 2026-07-14
+title: Affliction Warlock — gearing (stats, trinkets, tier set, consumables) (Midnight S2)
+patch: 12.1
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
-  - https://maxroll.gg/wow/class-guides/affliction-warlock-raid-guide  # maxroll.gg, Tier 3
-  - https://maxroll.gg/wow/class-guides/affliction-warlock-mythic-plus-guide  # maxroll.gg, Tier 3
-  - https://www.archon.gg/wow/builds/affliction/warlock/mythic-plus/trinkets/10/all-dungeons/this-week  # tier 2, +10 M+ usage
-  - https://www.icy-veins.com/wow/affliction-warlock-pve-dps-gear-best-in-slot  # tier 3
-  - https://www.wowhead.com/guide/classes/warlock/affliction/bis-gear  # tier 3
-  - https://www.icy-veins.com/wow/affliction-warlock-pve-dps-gems-enchants-consumables  # tier 3, upd. 2026-05-19
-  - https://www.icy-veins.com/wow/affliction-warlock-pve-dps-stat-priority  # tier 3
-  - https://www.method.gg/guides/affliction-warlock/gearing  # tier 3
-  - https://www.wowhead.com/news/best-early-season-crafted-gear-and-embellishments-for-all-classes-midnight-380801  # tier 4
+  - https://worldofwarcraft.com/en-us/news/24293281  # 12.1 "Curse of Ula'tek" content update notes, Tier 1
+  - https://maxroll.gg/wow/class-guides/affliction-warlock-raid-guide  # maxroll.gg, Tier 3, recaptured 2026-08-11 (S2 gear content)
+  - https://maxroll.gg/wow/class-guides/affliction-warlock-mythic-plus-guide  # maxroll.gg, Tier 3, recaptured 2026-08-11 (S2 gear content)
+  - https://www.icy-veins.com/wow/affliction-warlock-pve-dps-gems-enchants-consumables  # tier 3 — Season 1 read, NOT re-fetched for 12.1
+  - https://www.icy-veins.com/wow/affliction-warlock-pve-dps-stat-priority  # tier 3 — Season 1 read, NOT re-fetched for 12.1
+  - https://www.archon.gg/wow/builds/affliction/warlock/mythic-plus/trinkets/10/all-dungeons/this-week  # tier 2 — S1 usage data only; no S2 M+ data exists until 2026-08-18
   - https://www.method.gg/guides/midnight-missives-for-crafted-gear-profession-equipment  # tier 3, 2026-03-04
   - simc midnight branch profiles/MID1/MID1_Warlock_Affliction.simc  # tier 1
 confidence: medium
 ---
 
-# Affliction — gearing (Midnight Season 1, 12.0.7)
+# Affliction — gearing (Midnight Season 2, 12.1)
 
 > **Split out of `builds.md` (2026-07-14).** Talents/loadouts/hero-tree live in
 > `builds.md`; rotation in `rotation.md`. Exact gear NUMBERS here (trinket order,
@@ -26,11 +23,30 @@ confidence: medium
 > sim-verify on Bloodmallet/Raidbots before trusting them**. Trinkets are the one
 > slot where **effect > ilvl**.
 
+## ⚠ 12.1 shipped into a pre-season week — what you can actually gear from
+
+**12.1 went live 2026-08-11; Midnight Season 2 opens 2026-08-18.** Nearly every
+item table below is a **Season 2** table, and most of it is **not obtainable
+yet**:
+
+| | Week of Aug 11 (now) | From Aug 18 |
+|---|---|---|
+| Venomous Abyss raid (Ula'tek, Sszorak, The Coiled Altar drops) | not open | Normal/Heroic/Mythic + LFR wings |
+| Altar of Fangs / S2 dungeon pool | Heroic + **Mythic 0 on a weekly lockout**, Champion 1/6 (292) | Mythic+ opens, M0 back to daily |
+| Tidebound Grotto (Lair) | **World difficulty only** → 279 (Veteran 1/6) | Normal/Heroic/Mythic → up to 318 |
+| Delves | Tiers 1–11, no Bountiful → max **Adventurer 3/6** | Bountiful + Coffer Keys |
+| Crafting | **Sparks drop now** — crafted pieces are the best pre-season slot filler | — |
+
+So this week the realistic gearing plan is **crafted pieces (Martyr's Bindings /
+Waistwrap, Adherent's Silken Shroud), M0 dungeon drops, the Tidebound Grotto
+World lockout, and delves**. Treat the raid BiS rows as a target, not a plan.
+
 ## Stat priority
 
 Sources differ slightly (Icy Veins: **Crit > Haste > Mastery**; others lean
 Mastery/Crit). Secondaries are **flat** — ilvl > stats; avoid hard stacking.
-Sim on Raidbots when it matters.
+Sim on Raidbots when it matters. **Unchanged in 12.1** — no Affliction stat-scaling
+mechanic was touched.
 
 - **Universal rule (both maxroll guides):** **avoid Versatility** — it is your
   worst stat; every other secondary is good.
@@ -45,10 +61,22 @@ Sim on Raidbots when it matters.
 - All secondaries are subject to **diminishing returns** — another reason not
   to hard-stack a single stat.
 
+> **12.1 global tuning that lands here (Tier 1):** player health **+25%** and
+> creature damage **+25%** at max level, with health consumables rescaled to
+> match. Our read (**inference, not sourced**): that raises the practical value
+> of the survival tertiaries — **Avoidance** against the bigger incoming hits and
+> **Leech**, which 12.1 also made strictly better for you by fixing **Unstable
+> Affliction and Malefic Grasp to grant Soul Leech** (they previously did not).
+> It does **not** move the secondary priority.
+
 ### Upgrade decision rules (ilvl vs stats)
 
 - **Tier set pieces: take/upgrade regardless of secondaries** — 2pc/4pc are
   worth several ilvls each; bad stats never outweigh them.
+- ⚠ **New in 12.1: the Catalyst now inherits the source item's secondary AND
+  tertiary stats, plus certain special cantrip effects** (Tier 1). So converting
+  is no longer a stat lottery — **pick a good-statted, Leech/Avoidance-carrying
+  non-set item as your conversion source** and the set piece keeps it.
 - **Most armor: higher ilvl wins** (int + stam scale with ilvl and dominate the
   budget; secondaries are flat for Affliction anyway).
 - **Vers is lowest-throughput but not worthless** — flat damage + damage
@@ -57,161 +85,170 @@ Sim on Raidbots when it matters.
   item), trinkets (effect > ilvl; sim), and near-ties (≤~6 ilvl gaps). Crafted
   pieces get exact stats via missive.
 
-## Tier set — Midnight Season 1
+## Tier set — Midnight Season 2
 
-Verbatim from maxroll (both raid + M+ guides list the same bonuses):
+Season 2 class-set armor is bought from **Kirana**, who **moved in 12.1** from
+near the March on Quel'danas raid entrance to **beside the Catalyst in
+Silvermoon**; her S2 stock costs **Slumbering Coil Curios** (Tier 1).
 
-- **2-Set:** [Unstable Affliction](https://www.wowhead.com/spell=30108) and
-  [Seed of Corruption](https://www.wowhead.com/spell=27243) damage increased by
-  **10%**.
-- **4-Set:** [Agony](https://www.wowhead.com/spell=980) starts at **2 additional
-  stacks**, and its damage is increased by **20%**.
+**Season 2 bonuses (Tier 3 — maxroll, both guides, captured 2026-08-11;
+not yet corroborated against game data):**
 
-Set pieces (Head/Gloves/Legs from Tier or Catalyst, Chest via Rotmire/Catalyst)
-— see BiS table below. Take/upgrade the four-piece over off-piece secondaries.
+- **2-Set:** [Corruption](https://www.wowhead.com/spell=172) damage increased by
+  **25%**; [Agony](https://www.wowhead.com/spell=980) damage increased by **15%**.
+- **4-Set:** each active [Unstable Affliction](https://www.wowhead.com/spell=30108)
+  increases your spell/ability damage by **2%, up to 6%**, and
+  [Seed of Corruption](https://www.wowhead.com/spell=27243) applies Unstable
+  Affliction at **20% effectiveness**.
+
+Set pieces come from Venomous Abyss (Aug 18+) or the Catalyst — see the BiS table.
+Take/upgrade the four-piece over off-piece secondaries.
+
+> **Season 1 set (historical, no longer the live tier):** 2pc = Unstable
+> Affliction + Seed of Corruption **+10%**; 4pc = Agony starts at **2 extra
+> stacks** and deals **+20%**. Recorded so a guide quoting it is recognizable as
+> pre-12.1.
 
 ## Trinkets
 
 > Trinkets are the one slot where **effect > ilvl** — sim rather than
 > auto-equip the higher number. Choice is routinely **10%+ throughput**, far
 > more than the ~6–7 ilvl between trinket ranks — it matters at any ilvl.
+> **12.1 also lets the Cooldown Manager track trinket and potion cooldowns
+> natively** (Tier 1), so lining an on-use trinket up with Darkglare no longer
+> needs an addon.
 
 ### Where the tier lists live
 
 - **Bloodmallet** — sims scaled by ilvl; the "does it beat mine at *my* ilvl"
-  tool. **Tier 1.**
-- **Archon / u.gg** — what top M+ players equip (usage %). **Tier 2.**
+  tool. **Tier 1.** (No S2 data on patch day — it needs sim profiles first.)
+- **Archon / u.gg** — what top M+ players equip (usage %). **Tier 2.** ⚠ **No
+  Season 2 usage data exists until keys go live 2026-08-18** — anything Archon
+  shows this week is Season 1 history.
 - **Icy Veins / Wowhead / maxroll** BiS pages — editorial + drop sources.
   **Tier 3.**
 
-### Current picks (Archon +10 M+, fetched 2026-06-13)
-
-| Trinket | Usage | Type | Notes |
-|---|---|---|---|
-| **Emberwing Feather** | 81.5% | On-use (~2 min) | Default best; line up with **Summon Darkglare** |
-| **Gaze of the Alnseer** | 47.7% | Passive | Best passive; stacks Int on rapid procs |
-| **Heart of Wind** | 37.3% | Passive | **Open-world farmable from Windrunner Spire** — best accessible alt |
-| Soulcatcher's Charm | 6.6% | Passive | Runner-up passive |
-| Vaelgor's Final Stare | — | On-use | Runner-up active; hold for Darkglare |
-| Shadow of the Empyrean Requiem | — | Passive | Runner-up passive (Icy Veins) |
-
-Most popular pairing: **Emberwing Feather + Gaze of the Alnseer** (~41.7%).
-
-### maxroll ranked list (raid + M+, sim-verify)
-
-Both maxroll guides give the same endgame ranking (dungeon/raid/delve drops):
+### Season 2 ranked list (maxroll raid + M+, identical, sim-verify)
 
 | Rank | Trinkets |
 |---|---|
-| **S-Tier** | [Gaze of the Alnseer](https://www.wowhead.com/item=249343), [Emberwing Feather](https://www.wowhead.com/item=250144), [Vaelgor's Final Stare](https://www.wowhead.com/item=249346) |
-| **A-Tier** | [Heart of Wind](https://www.wowhead.com/item=250256), [Locus-Walker's Ribbon](https://www.wowhead.com/item=249809), [Soulcatcher's Charm](https://www.wowhead.com/item=250223) |
-| **B-Tier** | [Vessel of Tortured Souls](https://www.wowhead.com/item=250258), [Nevermelting Ice Crystal](https://www.wowhead.com/item=50259), [Sporelord's Mycelial Insignia](https://www.wowhead.com/item=268292) |
-| **C-Tier** | [Eye of the Drowning Void](https://www.wowhead.com/item=250257), [Wraps of Cosmic Madness](https://www.wowhead.com/item=249340), [Mindpiercer's Sigil](https://www.wowhead.com/item=250224), [Reality Breacher](https://www.wowhead.com/item=151310), [Ever-Collapsing Void Fissure](https://www.wowhead.com/item=251786) |
+| **S-Tier** | [Vile Vial of Volatile Venom](https://www.wowhead.com/item=273796) (Altar of Fangs), [Gebbo's Bottomless Bag](https://www.wowhead.com/item=270164) (The Lost Explorers), [Stormbound Emblem of Dazar](https://www.wowhead.com/item=273649) (Kings' Rest), [Freightrunner's Flask](https://www.wowhead.com/item=250215) |
+| **A-Tier** | [Wavecaller's Seastone](https://www.wowhead.com/item=270167), [Font of Venomous Rage](https://www.wowhead.com/item=270168), [Hex Lord's Dooming Idol](https://www.wowhead.com/item=270169) |
+| **B-Tier** | [Knot of Writhing Serpents](https://www.wowhead.com/item=273794), [Vexhul's Everflowing Gland](https://www.wowhead.com/item=270170), [Fang of Umbral Malignance](https://www.wowhead.com/item=270161) |
+| **C-Tier** | [Sapling of the Dawnroot](https://www.wowhead.com/item=250259), [Lightspire Core](https://www.wowhead.com/item=250214), [Mindpiercer's Sigil](https://www.wowhead.com/item=250224), [Sethraliss' Defiled Relic](https://www.wowhead.com/item=158368), [Ruby Whelp Shell](https://www.wowhead.com/item=193757) |
 | **Junkyard** | [Sealed Chaos Urn](https://www.wowhead.com/item=251787), [Glorious Crusader's Keepsake](https://www.wowhead.com/item=251792), [Void-Reaper's Libram](https://www.wowhead.com/item=251785), [Sylvan Wakrapuku](https://www.wowhead.com/item=251784) |
 
-Note: maxroll puts **Vaelgor's Final Stare in S-Tier**; the Archon +10 usage
-read above treats it as a runner-up active. Both agree on Gaze + Emberwing as
-the top pair. **Snapshot rule:** on-use stat trinkets snapshot Darkglare — press
-them **right before** Summon Darkglare, not after (maxroll).
+**Accessible this week:** the S-Tier pair from the S2 dungeon pool
+(**Vile Vial of Volatile Venom** — Altar of Fangs; **Stormbound Emblem of
+Dazar** — Kings' Rest) drops on Heroic/M0 already. Gebbo's Bottomless Bag is a
+raid drop (Aug 18).
 
-### Delve / catch-up trinkets (Zah'ran vendor, ~4000 Undercoin, ilvl 250)
+**Snapshot rule (unchanged):** on-use stat trinkets snapshot Darkglare — press
+them **right before** Summon Darkglare, not after (maxroll). Darkglare re-reads
+stats only slowly once it is already out.
 
-Not on Bloodmallet/Archon (catch-up items). Archetype read for Affliction (Int
-primary; on-use-with-Darkglare is the BiS pattern):
+> **Season 1 trinket read (historical):** Emberwing Feather + Gaze of the Alnseer
+> was the dominant pair (81.5% / 47.7% Archon usage at +10), with Heart of Wind
+> the open-world-farmable alternative and Vaelgor's Final Stare a maxroll S-Tier
+> the usage data disagreed with. All of it is previous-season and none of those
+> items appear on the S2 list.
 
-| Trinket | Stats / effect | Affliction verdict |
-|---|---|---|
-| **Astalor's Anguish Agitator** | +82 Int, on-use 2-min Shadow nuke + 284 Leech 15s | **Best buy** — on-use syncs with Summon Darkglare (2-min); leech = solo survivability |
-| **Void-Reaper's Libram** (equipped) | +82 Int, Holy-DoT proc | Keep — DoT synergy, Int primary |
-| **Sylvan Wakrapuku** (equipped) | +82 Int, +43 Leech, physical **AoE-split** proc (+wasted Agi) | Weakest equipped; AoE proc poor on ST — replace with Astalor's |
-| **Tangle of Vibrant Vines** | +95 Crit (**no Int**), Nature DoT + ally absorb | Defensive/utility swap for hard delve pulls only — not a DPS gain |
-| **Glorious Crusader's Keepsake** | +82 Int, "highest secondary +213" proc + party bonus | Skip — outgrown (old 246); party half dead solo |
+### Delve / catch-up trinkets — ⚠ Season 1 data, stale
 
-**Reco (Encomplete, solo/delve):** buy **Astalor's Anguish Agitator**, run it
-with **Void-Reaper's Libram**, retire Sylvan Wakrapuku. (Note: maxroll's endgame
-list lands Void-Reaper's Libram + Sylvan Wakrapuku in "Junkyard" — that's the
-raid/M+ view; the vendor read above is a solo/delve catch-up context.)
+The Zah'ran vendor table this file carried (Astalor's Anguish Agitator,
+Void-Reaper's Libram, Sylvan Wakrapuku, Tangle of Vibrant Vines, Glorious
+Crusader's Keepsake — ~4000 Undercoin, ilvl 250) is a **Season 1 catch-up**
+read. Season 2 delve gear starts at **ilvl 269** and the pre-season week caps
+delve rewards at **Adventurer 3/6**, so ilvl-250 vendor trinkets are outclassed
+by anything current; maxroll's S2 list already files Void-Reaper's Libram and
+Sylvan Wakrapuku in **Junkyard**. The S2 delve/Undercoin vendor stock has not
+been checked. @verify-ingame
 
 ⚠ No SimulationCraft binary in this toolkit. For exact deltas: in-game `/simc`
 export → Raidbots **Top Gear**. Paste the export and the agent can read it.
 
 ## Best in Slot & farmable alternatives
 
-From maxroll (raid + M+ BiS tables are identical). Farmable list is
-open-world/dungeon gear obtainable outside the weekly lockout — immediate power
-while you chase the BiS drops.
+From maxroll (raid + M+ BiS tables are identical, captured 2026-08-11). Farmable
+list is open-world/dungeon gear obtainable outside the weekly lockout — immediate
+power while you chase the BiS drops. **Most BiS rows are raid drops that are not
+obtainable until 2026-08-18.**
 
 ### Best in Slot (maxroll, sim-verify)
 
 | Slot | Item | Location |
 |---|---|---|
-| Head | [Abyssal Immolator's Smoldering Flames](https://www.wowhead.com/item=250042) | Tier / Catalyst |
-| Neck | [Rotmire's Sporeheart](https://www.wowhead.com/item=268291) | Rotmire |
-| Shoulder | [Echoing Void Mantle](https://www.wowhead.com/item=249328) | Belo'ren |
-| Cloak | [Adherent's Silken Shroud](https://www.wowhead.com/item=239656) | Crafting |
-| Chest | [Abyssal Immolator's Dreadrobe](https://www.wowhead.com/item=250045) | Rotmire / Catalyst |
+| Head | [Venomkeeper's Horrific Cowl](https://www.wowhead.com/item=271874) | Ula'tek (raid) |
+| Neck | [Aqirbane Reliquary](https://www.wowhead.com/item=268265) | Ula'tek (raid) |
+| Shoulder | [Brood Cleanser's Amice](https://www.wowhead.com/item=239031) → convert to [Spires of the Damned Necrolyte](https://www.wowhead.com/item=271544) | Temple of Sethraliss / Catalyst |
+| Cloak | [Silken Voodoo Drape](https://www.wowhead.com/item=268253) | The Coiled Altar (raid) |
+| Chest | [Damned Necrolyte's Rattling Robes](https://www.wowhead.com/item=271549) | Tier / Catalyst |
 | Wrist | [Martyr's Bindings](https://www.wowhead.com/item=239648) | Crafting |
-| Gloves | [Abyssal Immolator's Grasps](https://www.wowhead.com/item=250043) | Tier / Catalyst |
-| Belt | [Clasp of Compliance](https://www.wowhead.com/item=251102) | Magisters' Terrace / Great Vault |
-| Legs | [Abyssal Immolator's Pillars](https://www.wowhead.com/item=250041) | Tier / Catalyst |
-| Boots | [Luxurious Loamstriders](https://www.wowhead.com/item=268282) | Rotmire |
-| Ring 1 | [Eye of Midnight](https://www.wowhead.com/item=249920) | Midnight Falls |
-| Ring 2 | [Sporecaller's Blooming Loop](https://www.wowhead.com/item=268290) | Rotmire |
-| Trinket 1 | [Emberwing Feather](https://www.wowhead.com/item=250144) | Windrunner Spire |
-| Trinket 2 | [Gaze of the Alnseer](https://www.wowhead.com/item=249343) | Chimaerus |
-| Weapon | [Belo'melorn, the Shattered Talon](https://www.wowhead.com/item=249283) | Belo'ren |
-| Off-hand | [Grimoire of the Eternal Light](https://www.wowhead.com/item=249276) | Vorasius |
+| Gloves | [Grasps of the Eternal Shadow](https://www.wowhead.com/item=268243) → convert to [Damned Necrolyte's Charred Grasps](https://www.wowhead.com/item=271547) | The Coiled Altar / Catalyst |
+| Belt | [Martyr's Waistwrap](https://www.wowhead.com/item=239649) | Crafting |
+| Legs | [Damned Necrolyte's Leg Bindings](https://www.wowhead.com/item=271545) | Tier / Catalyst |
+| Boots | [Cackling Soultreads](https://www.wowhead.com/item=268255) | The Coiled Altar (raid) |
+| Ring 1 | [Apex Brute's Claw Ring](https://www.wowhead.com/item=268252) | Sszorak (raid) |
+| Ring 2 | [Band of the Amani Warlord](https://www.wowhead.com/item=273792) | Altar of Fangs |
+| Trinket 1 | [Vile Vial of Volatile Venom](https://www.wowhead.com/item=273796) | Altar of Fangs |
+| Trinket 2 | [Gebbo's Bottomless Bag](https://www.wowhead.com/item=270164) | The Lost Explorers (raid) |
+| Weapon | [Jan'thrazet, the Soul Fang](https://www.wowhead.com/item=271092) | Ula'tek (raid) |
+| Off-hand | [Nocuous Focal Fang](https://www.wowhead.com/item=273779) | Altar of Fangs |
+
+Note the two crafted BiS pieces (**Martyr's Bindings**, **Martyr's Waistwrap**)
+— both craftable *now*, and Crafting Sparks already drop in the pre-season week.
 
 ### Farmable alternatives (maxroll, sim-verify)
 
 | Slot | Item | Location |
 |---|---|---|
-| Head | [Organized Pontificator's Mask](https://www.wowhead.com/item=193703) | Algeth'ar Academy |
-| Neck | [Barbed Ymirheim Choker](https://www.wowhead.com/item=50228) | Pit of Saron |
-| Shoulder | [Lightbinder Shoulderguards](https://www.wowhead.com/item=258578) | Skyreach |
-| Cloak | [Rigid Scale Greatcloak](https://www.wowhead.com/item=258575) | Skyreach |
-| Chest | [Bronze Challenger's Robe](https://www.wowhead.com/item=193720) | Algeth'ar Academy |
-| Wrist | [Entropic Wristwraps](https://www.wowhead.com/item=151305) | Seat of the Triumvirate |
-| Gloves | [Handwraps of the Ascended](https://www.wowhead.com/item=151300) | Seat of the Triumvirate |
-| Belt | [Clasp of Compliance](https://www.wowhead.com/item=251102) | Magisters' Terrace |
-| Legs | [Legwraps of Swirling Light](https://www.wowhead.com/item=258574) | Skyreach |
-| Boots | [Slippers of Growing Despair](https://www.wowhead.com/item=151301) | Seat of the Triumvirate |
-| Ring 1 | [Bifurcation Band](https://www.wowhead.com/item=251115) | Magisters' Terrace |
-| Ring 2 | [Omission of Light](https://www.wowhead.com/item=251093) | Nexus-Point Xenas |
-| Trinket 1 | [Heart of Wind](https://www.wowhead.com/item=250256) | **Windrunner Spire** (open-world) |
-| Trinket 2 | [Emberwing Feather](https://www.wowhead.com/item=250144) | **Windrunner Spire** |
-| Weapon | [Corespark Multitool](https://www.wowhead.com/item=251201) | Nexus-Point Xenas |
+| Head | [Worldroot Canopy](https://www.wowhead.com/item=251199) | The Blinding Vale |
+| Neck | [Strand of Warding Fangs](https://www.wowhead.com/item=273781) | Altar of Fangs |
+| Shoulder | [Spires of the Damned Necrolyte](https://www.wowhead.com/item=271544) | Tier / Catalyst |
+| Cloak | [Adherent's Silken Shroud](https://www.wowhead.com/item=239656) | Crafting |
+| Chest | [Damned Necrolyte's Rattling Robes](https://www.wowhead.com/item=271549) | Tier / Catalyst |
+| Wrist | [Martyr's Bindings](https://www.wowhead.com/item=239648) | Crafting |
+| Gloves | [Damned Necrolyte's Charred Grasps](https://www.wowhead.com/item=271547) | Tier / Catalyst |
+| Belt | [Ethereal Netherwrap](https://www.wowhead.com/item=251222) | Voidscar Arena |
+| Legs | [Damned Necrolyte's Leg Bindings](https://www.wowhead.com/item=271545) | Tier / Catalyst |
+| Boots | [Sandswept Sandals](https://www.wowhead.com/item=159259) | Temple of Sethraliss |
+| Ring 1 | [Signet of Snarling Servitude](https://www.wowhead.com/item=251136) | Murder Row |
+| Ring 2 | [Band of the Amani Warlord](https://www.wowhead.com/item=273792) | Altar of Fangs |
+| Trinket 1 | [Stormbound Emblem of Dazar](https://www.wowhead.com/item=273649) | Kings' Rest |
+| Trinket 2 | [Knot of Writhing Serpents](https://www.wowhead.com/item=273794) | Altar of Fangs |
+| Weapon | [Nibbles' Training Rod](https://www.wowhead.com/item=251123) | Murder Row |
 
-**Gear-track ilvl ranges (Season 1, unchanged in 12.0.7):** Adventurer 220–237 ·
-Veteran 233–250 · Champion 246–263 · Hero 259–276 · Myth 272–289. (12.0.7's
-Sporefall raid drops ilvl 259–298 RF→Mythic.)
+**Gear-track ilvl ranges (Season 2 — Tier 1, `CurrencyTypes` DB2 @ 12.1.0.69214):**
+Adventurer **269–282** · Veteran **282–295** · Champion **295–308** · Hero
+**308–321** · Myth **321–334**. Upgrade currency is now **Mistcrests** (Season 1's
+Dawncrests are dead). *(Season 1, historical: Adventurer 224–237 · Veteran
+237–250 · Champion 250–263 · Hero 263–276 · Myth 276–289 — the whole ladder
+shifted +45.)*
 
 ## Embellishments & crafted gear
 
-**Curated (Icy Veins / Method / Wowhead):**
-- Staff: **Aln'hara Cane** — craft early; the only raid staff is off L'ura
-  (Midnight Falls) and 1H+OH wastes crests.
-- Popular Affliction crafts: **Martyr's Bindings** (wrist, most-used) and
-  **Adherent's Silken Shroud** (cloak) — both are also maxroll BiS.
-- Embellishment meta: **Arcanoweave Lining ×2** (38.5% usage; proc: primary
-  stat for you + ally) or **Darkmoon Sigil: Hunt + Arcanoweave Lining** for
-  weapon builds.
-
 **maxroll embellishment options (sim-verify)** — listed as alternatives, pick one:
+
 - **2× [Darkmoon Sigil: Hunt](https://www.wowhead.com/item=245876)** on main-hand
   + off-hand weapon (maxroll default). Craft on main hand for early power, off-hand
   for long-term BiS; when you loot/upgrade a Mythic weapon, keep the off-hand Sigil.
 - **[Darkmoon Sigil: Hunt](https://www.wowhead.com/item=245876) (off-hand) +
-  [Prismatic Focusing Iris](https://www.wowhead.com/item=251488) (ring)** — M+ guide
-  also pairs the Iris with **[Stabilizing Gemstone Bandolier](https://www.wowhead.com/item=251490)**
-  (wrist/cloak, doubles the Iris effect).
-- **2× [Arcanoweave Lining](https://www.wowhead.com/item=240167)** on Wrist + Cloak.
+  [Prismatic Focusing Iris](https://www.wowhead.com/item=251488) (ring)**.
+- **M+ only:** [Prismatic Focusing Iris](https://www.wowhead.com/item=251488) (ring)
+  + [Stabilizing Gemstone Bandolier](https://www.wowhead.com/item=251490)
+  (**wrist or belt**) — the Bandolier doubles the Iris effect.
+- **2× [Arcanoweave Lining](https://www.wowhead.com/item=240167)** — raid guide
+  says Wrist + Cloak, M+ guide says Wrist + **Belt**.
 
-> Disagreement: the curated Icy Veins/Method read leans **Arcanoweave ×2** as the
-> default; maxroll leans **2× Darkmoon Sigil: Hunt** (weapon slots). Both list the
-> other as a valid alternative — sim to break the tie.
+Crafted staples: **Martyr's Bindings** (wrist) and **Martyr's Waistwrap** (belt)
+are both S2 BiS, and **Adherent's Silken Shroud** (cloak) is the farmable cloak —
+all three are the fastest pre-season power.
 
-### Missives (Method 2026-03-04)
+> The old Icy Veins/Method "Arcanoweave ×2 by default" read is a **Season 1**
+> position that has not been re-fetched for 12.1; maxroll's current capture leans
+> **Darkmoon Sigil: Hunt** on weapons. Sim to break the tie.
+
+### Missives (Method 2026-03-04 — not re-verified for 12.1)
 
 Midnight combat missives are **Thalassian Missives** (Inscription, AH-buyable;
 dual-stat, equal split). Customer slots them in the **work order request window**
@@ -220,70 +257,100 @@ as an optional reagent — buy before placing the order. The six: Aurora
 (Vers/Mastery), **Peerless (Crit/Mastery)**, Quickblade (Vers/Crit).
 
 **Affliction order: Thalassian Missive of the Peerless** (Crit/Mastery, default)
-or **of the Fireflash** (Crit/Haste, Icy Veins lean) — stats are flat, either is
-fine; never the Vers trio.
+or **of the Fireflash** (Crit/Haste) — stats are flat, either is fine; never the
+Vers trio.
 
 ## Enchants
 
-Curated table (Icy Veins 2026-05-19), corroborated by maxroll where noted:
+maxroll's Season 2 table (raid + M+ identical, captured 2026-08-11):
 
 | Slot | Enchant | Note |
 |---|---|---|
-| Helm | Empowered Blessing of Speed | maxroll ✓ |
-| Shoulders | Akil'zon's Swiftness | Icy Veins only (maxroll lists no shoulder enchant) |
-| Cloak | — | maxroll adds **Chant of Winged Grace** |
-| Chest | Mark of the Worldsoul | maxroll ✓ |
-| Legs | Sunfire Silk Spellthread | maxroll ✓ |
-| Feet | Farstrider's Hunt | maxroll ✓ |
-| Rings | Eyes of the Eagle | maxroll ✓ (both rings) |
-| Weapon | Acuity of the Ren'dorei (or secondary-stat enchant — sim) | maxroll ✓ |
-| Weapon oil | Thalassian Phoenix Oil | maxroll ✓ |
+| Helm | Empowered Blessing of Speed | + socket via Miasmic Jewelbinder |
+| Cloak | Chant of Winged Grace | |
+| Chest | Mark of the Worldsoul | |
+| Wrist | — | socket via Miasmic Jewelbinder |
+| Waist | — | socket via Miasmic Jewelbinder |
+| Legs | Sunfire Silk Spellthread | |
+| Feet | Farstrider's Hunt | |
+| Rings | Eyes of the Eagle | both rings |
+| Weapon | Acuity of the Ren'dorei | |
+| Weapon oil | Thalassian Phoenix Oil | consumable, not an enchant slot |
+
+**Sockets via enchant — new item for Season 2:** buy
+**[Miasmic Jewelbinder](https://www.wowhead.com/item=275707)** from the Great
+Vault Vendor to add sockets to **Helm, Wrists & Waist** (Season 1's equivalent
+was Radiant Jewelbinder), then gem them.
 
 All player-crafted → **all buyable on the AH**. Quality tiers exist; quality 1–2
-is much cheaper for most of the effect (budget-friendly).
-
-**Sockets via enchant (maxroll):** buy **Radiant Jewelbinder** from the Great
-Vault Vendor to **add sockets to Helm, Wrists & Waist** — then gem them (below).
+is much cheaper for most of the effect (budget-friendly). *(Icy Veins' S1 table
+also listed a shoulder enchant, Akil'zon's Swiftness; maxroll lists no shoulder
+enchant and Icy Veins has not been re-fetched for 12.1.)*
 
 ## Gems
 
-**Curated (Icy Veins):**
-- **Epic (1 per character, unique)**: Indecipherable Eversong Diamond (until
-  myth-track gear; then **Powerful Eversong Diamond**).
-- **Rare sockets (need 4 different colors)**: Deadly Peridot / Deadly Lapis /
-  Deadly Amethyst / Masterful Garnet — **crit-leaning**.
-
-**maxroll (sim-verify):** unique **[Powerful Eversong Diamond](https://www.wowhead.com/item=240967)**
-(use one of each color to enhance it), then
+**maxroll (sim-verify, unchanged from S1):** unique
+**[Powerful Eversong Diamond](https://www.wowhead.com/item=240967)** (use one of
+each color to enhance it), then
 [Flawless Quick Amethyst](https://www.wowhead.com/item=240900),
 [Flawless Masterful Peridot](https://www.wowhead.com/item=240892),
 [Flawless Quick Lapis](https://www.wowhead.com/item=240916),
 [Flawless Quick Garnet](https://www.wowhead.com/item=240906) — **haste-leaning**
 ("Quick" = Haste).
 
-> Disagreement: the curated Icy Veins gems lean **Crit** (Deadly ×3), maxroll's
-> supporting gems lean **Haste** (Quick ×3). Secondaries are close/flat for
+> The Icy Veins **crit-leaning** alternative (Deadly Peridot / Lapis / Amethyst +
+> Masterful Garnet, with Indecipherable Eversong Diamond until myth-track gear) is
+> a **Season 1** read, not re-fetched for 12.1. Secondaries are close/flat for
 > Affliction — sim, or just match your stat weighting.
 
 ## Consumables
 
-Curated (Icy Veins) with maxroll cross-check:
+maxroll Season 2 list (captured 2026-08-11):
 
-- **Flask: Flask of the Magisters** (not the generic haste flask). maxroll also
-  lists **Flask of the Blood Knights** as an option.
-- **Combat potion:** **Light's Potential** (~10% weaker than the drawback
-  option, no downside — saner default; maxroll's default). Alternative:
-  **Draught of Rampant Abandon** (best raw, but leaves a silencing pool — Icy
-  Veins). maxroll additionally lists **Silvermoon Health Potion** as a burst-heal
-  potion.
-- **Food:** Harandar Celebration feast (maxroll default) / Royal Roast.
+- **Flask: Flask of the Shattered Sun** (maxroll default). Alternative:
+  **Flask of the Blood Knights**. *(Season 1's Flask of the Magisters is the
+  previous default — a guide still naming it is pre-12.1.)*
+- **Combat potion: Light's Potential** (no drawback; maxroll's default).
+- **Health potion: Concentrated Silvermoon Health Potion** — a big burst heal.
+  ⚠ **12.1 rescaled every health consumable** to match the +25% max-level health
+  pool, so any absolute "heals for N" number written before 2026-08-11 is wrong.
+- **Food:** Harandar Celebration feast.
 - **Weapon oil:** Thalassian Phoenix Oil.
-- **Rune:** **Void-Touched Augment Rune** (~1%).
+- **Rune:** **Void-Touched Augment Rune**.
+
+## 12.1 spec changes that touch gearing
+
+Full detail lives in `builds.md` / `rotation.md`; only the gearing-relevant
+consequences are here.
+
+- **Haunt now +16% damage for 18s (was 12%)** — the burst window you line
+  on-use trinkets and Darkglare into got stronger, which favours **on-use over
+  passive** trinkets slightly more than in S1. Sim-verify.
+- **New talents Hedonic Gorging** (Drain Life +10%; Siphon Life adds +10%
+  Corruption damage; Dark Harvest channels 10% faster, +15% damage) and
+  **Impetuous Wrath** (Shadow Bolt / Drain Soul / Malefic Grasp / Dark Harvest
+  +10%, **+20% into a Haunted target**). Neither changes the stat priority.
+- **Shard Instability redesigned** — Shadow Bolt or Drain Soul damage has a
+  **20% chance** to make the next Unstable Affliction or Seed of Corruption
+  **free and instant** (it absorbed the removed Nocturnal Yield's free-Seed
+  feel). **Nocturnal Yield and Patient Zero are removed from the tree** — a gear
+  or build guide still naming either is pre-12.1.
+- **Unstable Affliction and Malefic Grasp now grant Soul Leech** (bug fix), and
+  **Drain Life's health drain is +25%** — both raise the practical value of
+  **Leech** as a tertiary and of Drain Life as a survival tool in delves/solo.
+- **Summon Demonic Gateway is now a Utility spell by default in the Cooldown
+  Manager**, and the CDM now tracks **trinkets, potions and racials**.
 
 ## TODO
 
-- [ ] sim-verify trinket order + tier-set values on Bloodmallet/Raidbots
-      (currently Tier-3 maxroll) — resolves the S-Tier vs Archon-usage split on
-      Vaelgor's Final Stare and the crit-vs-haste gem/enchant lean.
-- [ ] Pull Bloodmallet ilvl-scaled sim ordering at ~250 and ~270 and record the
-      actual % gaps (current trinket data is usage %, not throughput).
+- [ ] Sim-verify the S2 trinket order + the S2 tier-set values on
+      Bloodmallet/Raidbots once profiles exist (currently Tier-3 maxroll only,
+      captured on patch day). The tier-set bonuses in particular have **no
+      Tier-1 corroboration** yet.
+- [ ] Re-pull Archon/u.gg trinket + embellishment usage **after 2026-08-18**,
+      when Mythic+ Season 2 actually generates data.
+- [ ] Check the Season 2 delve/Undercoin catch-up vendor stock in game and
+      replace the retired S1 table (@verify-ingame above).
+- [ ] Re-fetch Icy Veins (stat priority, gems/enchants/consumables) once it is
+      updated for 12.1 — the crit-vs-haste gem lean and the shoulder-enchant
+      disagreement are both currently backed only by a Season 1 read.

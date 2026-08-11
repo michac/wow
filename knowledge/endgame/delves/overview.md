@@ -1,125 +1,298 @@
 ---
-title: Delves — Midnight Season 1
-patch: 12.0.7
-fetched: 2026-07-07
-reviewed: 2026-07-10
+title: Delves — Midnight Season 2 (12.1 "Curse of Ula'tek")
+patch: 12.1
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
-  - https://www.icy-veins.com/wow/weekly-to-do-list
-  - https://worldofwarcraft.blizzard.com/en-us/news/24244888/revelations-content-update-notes
-  - https://worldofwarcraft.blizzard.com/en-us/news/24276957/hotfixes-june-18-2026
-  - https://us.forums.blizzard.com/t/world-of-warcraft-midnight-hotfixes-june-30/2296045/364  # June 25 tank-Valeera survivability hotfix
-  - https://www.wowhead.com/news/how-to-unlock-myth-dawncrests-from-delves-in-midnight-season-1-380813  # gilded stash rank 4 → ~20 Myth/wk
-  - https://www.icy-veins.com/wow/midnight-delve-rewards-guide  # coffer=Champion 250, Hero via Vault/Bounty/rank9 (verified 2026-07-09)
-  - https://conquestcapped.com/guides/wow/midnight-delves-rewards/  # corroborates coffer=Champion 250 T8-11
-  - https://www.wowhead.com/news/get-hero-track-gear-from-delves-from-journey-rank-9-381176
-  - IN-GAME field test 2026-07-10 (Uncomplete) — T11 open at 90; Bounty Hidden Trove 1/week reward-locked
+  - https://worldofwarcraft.blizzard.com/en-us/news/24293281   # 12.1 Curse of Ula'tek content update notes (Tier 1) — 3 new delves, Coffer Key Shard retune
+  - https://us.forums.blizzard.com/en/wow/posts/29833350       # S1 ending / S2 information (Tier 1) — the pre-season delve rules, verbatim in _meta/patch-notes/12.1.md
+  - https://worldofwarcraft.blizzard.com/en-us/news/24294369   # Midnight Season 2 overview (Tier 1)
+  - https://wago.tools/db2/CurrencyTypes?build=12.1.0.69214     # Tier 1 game data — all five Mistcrest names, base rows 3437-3441 + cap/crafting-bearing rows 3442-3446, per-track upgrade ilvl bands (local copy: raw/wago/CurrencyTypes-12.1.0.69214.csv, read directly 2026-08-11)
+  - https://www.icy-veins.com/wow/midnight-delve-rewards-guide  # S2 per-tier ilvl table (Tier 3, updated 2026-08-01, PTR-sourced)
+  - https://www.icy-veins.com/wow/delvers-journey-guide         # S2 Delver's Journey rank table (Tier 3, updated 2026-07-30, PTR-sourced)
+  - https://conquestcapped.com/guides/wow/midnight-delves-season-2/  # corroborates 13-delve pool + Azta'rec "?"/"??" unlock conditions (Tier 3)
+  - https://www.wowhead.com/news/how-to-unlock-myth-dawncrests-from-delves-in-midnight-season-1-380813  # S1 history
+  - IN-GAME field test 2026-07-10 (Uncomplete) — S1: T11 open at 90; Bounty Hidden Trove 1/week reward-locked
 confidence: medium
 ---
 
-# Delves (Midnight Season 1)
+# Delves (Midnight Season 2)
 
-Solo/small-group scaling endgame pillar. Tiers 1–11.
+Solo/small-group scaling endgame pillar. Tiers 1–11, plus the **Nemesis
+difficulties "?" and "??"**.
 
-## 12.0.7 "Revelations" changes (live 2026-06-16)
+## ⚠ 12.1 shipped in two steps — read this before quoting any reward
 
-- **Delver's Call XP buffed:** XP from **first-time delve completions
-  (Delver's Call)** is *significantly* increased — Blizzard's notes say up
-  to **~8× the 12.0.5 value** for some Midnight quest XP; community reports
-  put Delver's Call at roughly **80k–140k+ XP** per first-clear now (≈ a
-  doubling+ of prior values). Same buff hits Midnight dungeon quests, Prey,
-  and weekly Renown activities. This is a **leveling/alt** buff — it does
-  **not** change delve *loot*, tiers, or the gearing math below.
-- **No structural delve changes** in 12.0.7: loot table, tiers (1–11),
-  Bountiful coffers, Restored Coffer Keys (6/wk), gilded stashes, and the
-  Delver's Journey track are all unchanged from 12.0.5.
-- **Tank-Valeera survivability buff** (hotfix **June 25 2026**): when the
-  Valeera companion is specced **tank** and paired with a **healer**, she
-  now takes **significantly less damage — 45% less at Tier 1 scaling to
-  29% less at Tier 11**. Makes tank-Valeera + healer noticeably sturdier
-  on high-tier solo runs; no reward/loot impact.
-- **Delve bug-fix hotfixes** (cosmetic/AI, no reward impact): Valeera now
-  attacks Vile Cursed Toads / Poison Dart Frog / Giant Cursed Bullfrog;
-  Light spores in Sunkiller Sanctum no longer interrupt channels; Nemesis
-  Squads no longer spawn under the world in Parhelion Plaza; Corrupted
-  Leyline (The Darkway) stops casting "Detected!" out of range;
-  out-of-range Sanctified Banner placement fixed in Atal'Aman; Excavation
-  Site 9 and Sidestreet Sluice delves display their correct names again
-  (hotfix June 22).
+**12.1 went live 2026-08-11. Midnight Season 2 does not open until
+2026-08-18.** The week between is an official **pre-season week**, and delves
+are one of the pillars most reshaped by it. Most published delve guides
+describe the **Aug-18** state.
 
-## Weekly
+| | **Now — pre-season (Aug 11–17)** | **From Aug 18 — Season 2** |
+|---|---|---|
+| Tiers | 1–11 **+ "?" Nemesis** | same, **+ "??" Nemesis** |
+| Bountiful | **none — Bountiful Delves do not appear** | Bountiful Delves appear |
+| Coffer Keys | **do not drop** | **Coffer Keys begin dropping** |
+| Max reward | **Adventurer 3/6 gear (ilvl 272) + Veteran Mistcrests** | full S2 table below |
 
-- **≥1 Tier 11 delve** (weekly objective)
-- **4 Bountiful delves** → weekly cache, **ilvl 235–245**
+Source for that split is Tier 1 (Blizzard's "Season 1 Ending and Season 2
+Information" post, archived verbatim in `../../_meta/patch-notes/12.1.md`).
+Anything below marked *(S2)* is **upcoming, not live today**.
 
-## Loot table (Icy Veins/ConquestCapped, verified 2026-07-09, tier 3)
+> ⚠ **Two Tier-1 statements disagree on this week's tier ceiling — flagged, not
+> silently resolved.** The **content-update notes** say that with the start of
+> Season 2 on Aug 18 "players will be able to push into the upper tiers to
+> challenge themselves **beyond Tier 7** and face the new Nemesis boss"
+> (`../../_meta/patch-notes/12.1.md` line 147) — which reads as a **Tier-7
+> ceiling during the pre-season**. The **Season-1-ending post** says "Delve
+> difficulties **1-11** will be available, along with the '?' Nemesis
+> difficulty" (line 1611). This file follows the second, because it is the
+> specific post written to answer exactly this question and it enumerates the
+> tiers rather than gesturing at them — but the conflict is **unresolved**, and
+> it is the single most quotable line in this file this week. **Confirm the
+> highest selectable tier at a delve entrance before planning a T8+ evening.**
+> @verify-ingame
 
-**Bountiful delves only — regular delves cap at T3-level loot.**
+## 12.1 changes
 
-| Tier | End-of-run | Keyed Bountiful Coffer | Vault delve/world row |
-|---|---|---|---|
-| 1–3 | Adventurer 220–227 | — | Veteran 233–240 |
-| 4–5 | Adv 230 / Vet 233 | Veteran 237–243 | Vet/Champ 243–246 |
-| 6 | Veteran 237 | Champion 250 | Champ/Hero 253+ |
-| 7 | Champion 246 | Champion 250 | ↓ |
-| **8–11** | **Champion 250 (2/6)** | **Champion 250 (2/6)** | **Hero 259 (1/6)** |
+- **Three new Delves**, all on the Coiled Isle: **The Ring of Glory** (an Amani
+  arena, north end of the isle), **Gnarldor Isle** (the overgrown coast), and
+  **the Venomfall Deeps** — a **Nemesis Delve**, in the poisoned waterways
+  beneath the island. Nothing rotates out, so the pool is **13** (10 S1 delves
+  + 3).
+- **New snake and venom enemy variants seeded into the existing Midnight
+  Delves** — beyond that the S1 delves take **no delve-specific changes** in
+  12.1 (layouts and gimmicks stand). ⚠ That is **not** the same as "they play
+  the same": see the global retune immediately below.
+- ⚠ **The difficulty moved even where the delve did not.** 12.1's game-wide
+  class pass raises **player health and creature damage by 25% at max level**,
+  rescales health consumables to match, and retunes several **healing and absorb
+  spells on DPS and Tank specs**; separately, **major DPS cooldowns came down
+  while steady-state damage went up** for a number of specs. None of this is
+  delve-scoped, and delves are not exempt from it — so any remembered
+  "T11 is comfortable at ilvl X" feel from 12.0.7 is **stale**, and every
+  absolute HP / potion / self-heal number written before 2026-08-11 is wrong.
+  Re-feel a tier before you burn a key on it. Two more game-wide changes land
+  squarely in solo play: **interrupts now show a "missed" visual + sound** when
+  the target was not casting, and **diminishing-return categories reset after
+  20s** (was 16) — both matter when you are your own kicker and CC chain.
+  Details in `../../_meta/changelog-12.1.md`.
+- **New Nemesis boss: Azta'rec**, in the Venomfall Deeps. Two difficulties:
+  **"?"** (live now) and **"??"** *(S2, Aug 18)*. Defeating **"??" during the
+  first week of Season 2** earns the Fabled achievement **"Let Me Solo Him:
+  Azta'rec"** — a first-week-only window, per Tier-1. (Tier-3 reporting says
+  "?" unlocks after clearing Tier 7 with lives remaining and "??" after Tier 10
+  with lives remaining — unconfirmed, @verify-ingame.)
+- **Coffer Key Shard amounts adjusted from multiple sources**, weighted toward
+  Coiled Isle content. ⚠ Blizzard explicitly calls this **ongoing and a work in
+  progress** — **treat every specific shard number as volatile** and re-check
+  before planning a farm around it.
+- **Delver's Journey resets for Season 2** with new unlocks. Its rank count and
+  progress numbers are **Tier-3 only** — see the section below.
+- Prey S2 ties into delves: **Afflicted Souls** (Champion-track bonus gear) and
+  **Tormented Souls** (Hero-track) drop from **Heavy Trunks in Tier 6+ Bountiful
+  Delves** and accelerate Nightmare hunts; bonus equipment is once per week per
+  character *(S2 — Bountifuls don't exist yet)*. See `../prey.md`.
 
-→ **CORRECTION (2026-07-09, overturns the prior KB):** the keyed Bountiful
-Coffer is **Champion 250 (2/6)**, *not* Hero 259 — it does **not** exceed the
-end-of-run track. **Hero gear from delves comes only from:**
-1. the **Great Vault delve/world row** (Hero 259, 1/6) — the *next-reset* payoff,
-2. a **Delver's Bounty map** consumed in-run (upgrades that run's chest to Hero), or
-3. **Delver's Journey rank 9** — T11 coffers gain a *chance* at Hero (vs. Untainted
-   Mana Crystals).
+## Crests: Season 1 Dawncrests → Season 2 **Mistcrests**
 
-So a rankless character running delves gets **Champion 250 + crests**, and the
-*only* immediate Hero source is the once-weekly Bounty map. (Five tier-3 sources
-agree, and it matches the 2026-06-03 in-game observation of a T9 Champion trinket —
-see the resolved TODO below. Kelani's "rank 9 for hero gear" was right about the
-coffer too, not just the vendor.)
+**All five tier names are Tier-1 confirmed from game data**, not guesswork:
+wago `CurrencyTypes` DB2 @ `12.1.0.69214`
+(`raw/wago/CurrencyTypes-12.1.0.69214.csv`) carries **Adventurer / Veteran /
+Champion / Hero / Myth Mistcrest** with their upgrade bands. These numbers are
+the **floor** — no guide's per-tier ilvl table may override them.
 
-## Gearing role in 12.0.5 (SignsOfKelani, 2026-04-26)
+**Why each crest has two IDs, and why the pair is not interchangeable:** the DB2
+ships **two blocks** — **3437–3441** and **3442–3446** — with the same five
+names, the same five upgrade bands and the same earned-from source lists. They
+**diverge on the fields that matter**, read straight off
+`raw/wago/CurrencyTypes-12.1.0.69214.csv`:
 
-- Kelani's "rank 9 for hero gear" claim is correct for **both** the **vendor**
-  (276 hero pieces for Untainted Mana Crystals) **and** the **T11 coffer** (Rank 9
-  adds a Hero chance to it). Below Rank 9 the coffer at T8+ is **Champion 250**,
-  not Hero — the earlier KB note "coffer hero at T8+ needs no rank" was **wrong**
-  (corrected 2026-07-09; see the loot table above).
-- **Delver's Bounty** (map; verified name 2026-06-03, Wowhead/Icy Veins) →
-  consumed **during** a Bountiful delve (before the final boss dies), spawns a
-  **Hidden Trove** at delve's end, loot scales with tier — **use at T8+ for a
-  guaranteed Hero piece**. Drop sources: the **Prey weekly beacon awards one**
-  (`../prey.md`); best organic chance from **Nullaeus** (S1 delve nemesis) — at
-  50% HP he drops a gold pile that can contain it.
-  - ⚠ **The Hero Hidden Trove is ONE per character per week — the lockout is on the
-    REWARD, not the map** (research + TWW-carried mechanic, 2026-07-10). Holding 2–3
-    maps and using them in successive delves the same week on the **same** character
-    yields **one** Hero trove; the rest open a **"Hidden Trove: Locked"** (empty) chest.
-  - ⚠ **Same lockout is shared with the Prey weekly's map** — the delve Bounty and the
-    Prey-weekly Bounty are **one** weekly Hero source, not additive.
-  - The Prey-awarded map is reportedly **Warbound**, but funneling maps to one character
-    **does not** beat the per-character weekly reward lock. Best use of spare maps: **other
-    characters**. (Warbound binding + any numeric lockout ID unconfirmed — @verify-ingame.)
-- **Only solo Myth Dawncrest source**: T11 bountiful **gilded stashes —
-  ~20 Myth crests/week max** (3 stashes/wk, no key needed; **Delver's Journey
-  rank 4**). Rank 2's stash = Hero crests; rank 4 upgrades it to Myth. (The
-  published guides say **20/week**; the earlier "21 (7×3)" was an unsupported
-  internal derivation — corrected 2026-07-09.)
-- **Restored Coffer Keys: hard weekly cap of 6** (600 shards; 100 shards
-  auto-convert to a key on delve entry) → max 6 Bountiful Coffers/week.
-  Shards from world events, prey, special assignments, WQs, rares — and
-  ritual sites.
-- Delve *runs* are unlimited — the gates are keys (6/wk), gilded stashes
-  (3/wk), and the weekly cache. **Crest totals are uncapped** (the old
-  100/tier/week cap was removed in the May 19 2026 hotfix —
-  `../dawncrests.md`); only the *per-activity* Bountiful/gilded crest
-  chunks are weekly-limited.
-- Bountiful delves drop **Ascendant Voidshards** (12.0.5 weapon/trinket
-  overcap — `../../systems/void-forge.md`) and accept Nebulous Void Core
-  bonus rolls (hero gear).
-- For the vault world row, ritual sites T4–5 now beat delve T8
-  (`../../systems/ritual-sites.md`).
+- **3437–3441** — `MaxQty` **0**, `MaxQtyWorldStateID` **0**. No cap machinery.
+- **3442–3446** — `MaxQty` **100**, `MaxQtyWorldStateID` **30933**
+  (Adventurer/Veteran/Champion) / **30934** (Hero/Myth). These are also the only
+  rows carrying the **crafting line** ("sets the item level of the resulting item
+  to 266–279", etc.) — on 3442/3443/3445/3446; Champion **3444** has no crafting
+  line at all.
+- `MaxEarnablePerWeek` is **0 on all ten rows**.
 
-## Season 1 pool (10)
+So the cap-bearing (and, bar Champion, crafting-bearing) rows are specifically
+**3442–3446**.
+Cite the ID that carries the field you are talking about; do not treat the pair
+as identical. `../dawncrests.md` owns this claim.
+
+| Crest | Currency IDs |
+|---|---|
+| Adventurer Mistcrest | 3437 / 3442 |
+| Veteran Mistcrest | 3438 / 3443 |
+| Champion Mistcrest | 3439 / 3444 |
+| Hero Mistcrest | 3440 / 3445 |
+| Myth Mistcrest | 3441 / 3446 |
+
+Their upgrade bands:
+
+| Crest | Upgrades its track to ilvl |
+|---|---|
+| Adventurer Mistcrest | 269–282 |
+| Veteran Mistcrest | 282–295 |
+| Champion Mistcrest | 295–308 |
+| Hero Mistcrest | 308–321 |
+| Myth Mistcrest | 321–334 |
+
+Each band starts at rank 2/6. **`../dawncrests.md` owns the full table** — it
+carries each track's **1/6 entry ilvl** as well, corroborated against the Lairs
+reward table, and that is the version to quote. Don't re-derive the 1/6 values
+here.
+
+## Loot table (Season 2)
+
+⚠ **Confidence note for this whole half of the file.** Everything from here to
+the end of the Delver's Journey section that is not the DB2 crest bands is
+**Tier-3, PTR-sourced guide prose, and unverifiable in game until 2026-08-18**,
+when Bountifuls, Coffer Keys and "??" Nemesis turn on. That is what the file's
+`confidence: medium` is describing. Quote the pre-season table at the top of
+this file for anything you are doing *this* week.
+
+### Is the table below keyed-only above Tier 3? — an open question, not a settled one
+
+Tier-1 says that during the pre-season "the maximum tier of rewards available
+from Delves will be **Adventurer 3/6 gear and Veteran Crests**", and it says so
+**while tiers 1–11 are all open**. There are **two readings of that one sentence
+and this file does not pick between them**:
+
+1. **Structural** — an unkeyed delve stops at Adventurer 3/6 whatever tier you
+   run, so the per-tier ladder below is what a **Bountiful** delve of that tier
+   pays. (If a plain unkeyed T8 paid Champion 2/6, the pre-season cap could not
+   be Adventurer 3/6.)
+2. **Blanket pre-season cap** — the sentence is a flat reward ceiling for this
+   week only, saying nothing about keyed-vs-unkeyed scaling once S2 opens. This
+   is what **S1's measured shape** would predict: there the plain end-of-run
+   chest scaled with tier up to Champion 2/6 at T8–11.
+
+Either way, **nothing below row 3 is reachable this week** — Coffer Keys don't
+drop until Aug 18. What is unresolved is whether rows 4–11 stay Bountiful-only
+*after* Aug 18. Do not quote rows 4–11 as this week's rewards, and do not quote
+them as keyed-only after Aug 18 either until someone has looked. @verify-ingame
+
+*(Per-tier assignments: Icy Veins, updated 2026-08-01 off the 12.1 PTR —
+**Tier 3**, not in-game verified. The track boundaries corroborate exactly
+against the DB2 crest bands above, which is what earns them any credit at all.)*
+
+| Tier | End-of-run gear | Reachable this week? |
+|---|---|---|
+| 1 | 266 — Adventurer 1/6 | yes |
+| 2 | 269 — Adventurer 2/6 | yes |
+| 3 | **272 — Adventurer 3/6** | yes — **and this is the ceiling** |
+| 4 | 276 — Adventurer 4/6 | no — not this week *(S2)* |
+| 5 | 279 — Veteran 1/6 | no — not this week *(S2)* |
+| 6 | 282 — Veteran 2/6 | no — not this week *(S2)* |
+| 7 | 292 — Champion 1/6 | no — not this week *(S2)* |
+| 8–11 | 295 — Champion 2/6 | no — not this week *(S2)* |
+
+- **A Bountiful delve is opened with a Restored Coffer Key** *(S2)* — and keys
+  do not drop at all until Aug 18. Together with the Tier-1 Adventurer-3/6
+  pre-season cap, that is why rows 4–11 are unreachable for everyone this week
+  regardless of tier or gear.
+- ⚠ Whether rows 4–11 need **re-splitting into keyed vs unkeyed columns** is the
+  open question above. If in-game testing on/after Aug 18 shows unkeyed chests
+  scaling past Adventurer 3/6 — S1's shape — then this is one table for both,
+  and reading 1 was wrong. @verify-ingame
+- **Great Vault delve/world row** *(S2)*: scales 279 (Veteran 1/6) up to
+  **305 (Hero 1/6)**, which is reached at **Tier 8** — tiers 9–11 do **not**
+  raise the vault ilvl, they raise crests and the Journey. ⚠ For the **first**
+  S2 vault (claimable Aug 18) the World row is capped at **Champion 3/6**;
+  Hero 1/6 only from the second vault onward (`../great-vault.md`).
+- **Crest tier by delve tier — Tier 1, from the Mistcrest currency descriptions
+  themselves**: **T4 → Adventurer · T5–6 → Veteran · T7–10 → Champion · T11 →
+  Hero Mistcrest**. (Verbatim source lists in `../dawncrests.md`.)
+- ⚠ **The "T11 Gilded Stash pays Myth Mistcrests" claim is contradicted by game
+  data and is dropped.** The **Myth** Mistcrest row (3441/3446) names only
+  **Mythic The Venomous Abyss** and **Mythic Keystone +9 and up** — **no delve
+  source at all** — while T11 delves appear on the **Hero** row. Doctrine
+  resolves this against DB2, not guide prose. If a Gilded Stash does pay Myth in
+  week 1 of S2, that is a Tier-1-vs-Tier-1 surprise worth recording here.
+  @verify-ingame
+
+## Delver's Journey (Season 2 track)
+
+⚠ **Everything in this section is Tier-3** (Icy Veins, 2026-07-30, PTR-sourced)
+and is **not verifiable in game until Bountifuls turn on Aug 18** — the rank
+count, the progress numbers and the rank table alike. The Tier-1 12.1 notes
+describe a **10-level Prey Journey** (`../../_meta/patch-notes/12.1.md` line
+189), *not* a Delver's Journey rank count, so don't mistake one for a source for
+the other. Do not plan a week around a specific rank number yet. @verify-ingame
+
+Reported shape *(Tier-3)*: **4,200 progress/rank, 42,000 total over 10 ranks** —
+same shape as S1, different unlocks. Progress: weekly quest turn-in **1,500** ·
+opening a Bountiful Coffer **250** · Bountiful runs **50–150** by tier.
+
+| Rank | Unlock *(S2, Tier-3)* |
+|---|---|
+| 1 | Boons and Blessings from end-of-delve rewards |
+| 2 | Corrosive Reticule (6 Corrosive Souls) |
+| 3 | Shrine of Abundance appears in Bountiful delves |
+| 4 | **Gilded Stash after a Tier 11 delve — Hero Mistcrests, up to 4×/week** (this row's "+ Myth" is Tier-3 and contradicted by DB2 — see the loot section) |
+| 5 | Corroded Soul Crusher mount; **Zah'ran** sells Champion gear (from week 3) |
+| 6 | **Buy 2 Restored Coffer Keys/week** (Naleidea Rivergleam) |
+| 7 | Delve-O-Bot 7001 upgrade chip |
+| 8 | **Champion Warbound equipment from Tier 9+ delves** (farmable → mail to alts) |
+| 9 | **Hero equipment from Tier 11 Bountiful Coffers** |
+| 10 | Title **"Snake Eater"**; increased Coffer Key Shards |
+
+Vendors: **Naleidea Rivergleam** and **Telemancer Astrandis** at Delver's
+Headquarters; **Zah'ran** for the Journey gear. Currency reporting is
+inconsistent across Tier-3 sources (Undercoin / Voidlight Marl / an S2
+successor to Untainted Mana-Crystals) — **unresolved, @verify-ingame**.
+
+Companion: **Valeera Sanguinar** (levels like TWW's Brann; carried from S1). A
+12.0.7 hotfix gave **tank Valeera accompanied by a healer** a tier-scaled
+damage-taken reduction (values verbatim in
+`../../_meta/patch-notes/12.0.7.md`). Those are **12.0.7-era numbers and are not
+restated here**: 12.1's game-wide **+25% player health / +25% creature damage**
+retune is exactly the kind of pass that rescales companion mitigation, and no
+12.1 note says either way. Treat the mitigation as *S1 shape, unconfirmed for
+S2*. @verify-ingame
+
+## Carried-over mechanics — status unconfirmed for S2
+
+These were solid **Season 1 measurements**. No 12.1 note removes them, but none
+of the S2 material re-confirms them either, and **none can be tested until
+Aug 18**. The default here is *S1 shape, unconfirmed for S2* — **not "probably
+still true"**, which is too generous a hedge for a season boundary that already
+changed the crest names, the whole ilvl ladder and the vault tracks. Where game
+data actively points the other way, the bullet says so and wins. Do not build a
+plan on anything in this section. @verify-ingame
+
+- **Restored Coffer Keys: hard weekly cap of 6** in S1 (600 shards; 100 shards
+  auto-convert to a key on delve entry) → max 6 Bountiful Coffers/week. With the
+  shard retune explicitly "a work in progress", **the S2 cap is unknown**.
+- **Delver's Bounty** map → consumed during a Bountiful delve before the final
+  boss dies, spawns a **Hidden Trove** at the end. In S1 the Hero trove was
+  **one per character per week — the lockout was on the REWARD, not the map**,
+  and it was **shared with the Prey weekly's map**. Whether the S2 delve reward
+  structure keeps this shape is unverified.
+- ⚠ **Crest totals are NOT known to be uncapped in S2 — do not carry S1's
+  "caps removed" forward.** The 2026-05-19 hotfix that removed the 100/tier/week
+  accumulation cap was a **Season-1** action, and `../dawncrests.md` says
+  explicitly not to carry it into S2. What game data actually supports, read
+  precisely: the **duplicate rows 3442–3446** carry a **holding** cap
+  (`MaxQty` **100**) gated by a movable world state (**30933** Adv/Vet/Champ,
+  **30934** Hero/Myth), while `MaxEarnablePerWeek` — the field that would encode
+  a literal per-week earn cap — is **0 on every Mistcrest row**. So *some* cap
+  machinery is back, but **a weekly cap is Tier-3 reporting, not game data**.
+  A world-state gate also means the live number can change by hotfix.
+  `../dawncrests.md` owns this claim and states it the same way. @verify-ingame
+- Delve **runs** themselves were unlimited in S1 — the gates were keys, Gilded
+  Stashes and the weekly cache, with only *per-activity* chunks weekly-limited.
+  That is an **S1 measurement and nothing in the 12.1 notes re-confirms it**;
+  it is listed here as prior shape, not as a live S2 fact. @verify-ingame
+- For the vault world row, **Ritual Sites** compete directly — their T1–6 vault
+  rewards were **realigned to match Season 2 Delve tiers 1–6** in 12.1 and they
+  now pay S2 crests at Delve-equivalent rates (`../../systems/ritual-sites.md`).
+
+## Delve pool (13)
+
+Season 1 ten (all returning, now with snake/venom variants):
 
 1. Collegiate Calamity
 2. Atal'Aman
@@ -132,51 +305,57 @@ coffer too, not just the vendor.)
 9. Sunkiller Sanctum
 10. The Shadow Enclave
 
-## Delver's Journey (seasonal renown — koroboost 2026-03-30, tier 4)
+New in 12.1 (Coiled Isle):
 
-**4,200 rep/rank, 42,000 total (10 ranks).** Earning: delve completion
-250 · keyed bountiful chest +300 · weekly quest item 1,500 · hidden
-trove maps 300 · maxed nemesis chest 125 · repeat daily bountiful 125.
-≈675–700/keyed run → ~5,500–5,700/week from 6 keys + weekly item ≈
-**1.3 ranks/week**; extra unkeyed runs are only 125 (poor value).
+11. The Ring of Glory
+12. Gnarldor Isle
+13. The Venomfall Deeps — **Nemesis** (Azta'rec)
 
-| Rank | Unlock |
-|---|---|
-| 2 | Gilded Stash in T11 (Hero crests) |
-| 3 | Sanctified Banner (extra chest in bountifuls) |
-| 4 | **Myth crests from gilded stashes** (**21/wk** = 7 × 3 stashes; supersedes the rounded "20/wk") |
-| 5 | **Zoron vendor** — champion-track delve gear |
-| 6 | Buy 2 extra coffer keys/week |
-| 8 | **Champion warbound gear** from T9+ delves (farmable → mail to alts) |
-| 9 | **Hero-track 276 gear** from vendor **+** a Hero chance in T11 coffers |
+## Season 1 — historical
 
-Vendor currency: **Untainted Mana Crystals** (wrist/gloves/belt 100,
-shoulder/chest 150, weapon/trinket 200; earn cap 250/wk, hold max
-1,000). ⚠ Cosmetics vendor (Naleidea) uses Undercoin. A user-reported
-in-game name "Nightcoin" is unverified — confirm which currency it
-labels.
+Retained because alts and warband math still reference it; **none of this is a
+current reward**.
 
-Companion: **Valeera Sanguinar** (verified via Blizzard API reputations
-— levels like TWW's Brann; user's is level 20 as of 2026-06-03).
+- S1 loot capped at **Champion 250 (2/6)** from both the end-of-run chest and
+  the keyed Bountiful Coffer at T8–11; **Hero 259 (1/6)** came only from the
+  Great Vault delve/world row, a **Delver's Bounty** map consumed in-run, or
+  **Delver's Journey rank 9** (a Hero *chance* in T11 coffers). The old KB claim
+  that the T8+ coffer was Hero without rank was wrong (corrected 2026-07-09).
+- Only solo Myth **Dawncrest** source was the T11 Bountiful **Gilded Stash**
+  (~20/week, 3 stashes, Journey rank 4). S1 vendor currency: **Untainted
+  Mana-Crystals** (currency 3356; earn cap 250/wk, hold 1,000).
+- S1 delve Nemesis was **Nullaeus**; the S1 weekly was ≥1 Tier 11 delve +
+  4 Bountiful delves → weekly cache.
+- 12.0.7 "Revelations" made no structural delve change; its **Delver's Call XP
+  buff** (first-time completions, ~80k–140k+ XP) was a leveling/alt buff only.
+  Its 12.1 status is unchecked.
 
 ## TODO
 
-> 12.0.7 "Revelations" did not touch delve loot/tiers/journey, so the
-> open items below still stand (verify in-game).
-
-- [ ] Per-delve location + gimmick notes
-- [ ] Valeera upgrade path / curio equivalents
-- [x] Myth-stash conflict resolved (web verify 2026-07-07 — Wowhead
-      #380813 + Icy Veins Delver's Journey guide): a **false conflict** —
-      the T11 Gilded Stash **unlocks at Delver's Journey rank 2 (Hero
-      crests)** and **upgrades to Myth Dawncrests at rank 4** (same track,
-      two ranks). Weekly Myth output = **21 (7 × 3 stashes)**; "20/wk" was
-      a rounded variant. (Tier-3 aggregation; no Tier-1 note quotes the exact
-      per-stash count, but two independent sources agree.)
-- [x] **User observation 2026-06-03 (RESOLVED 2026-07-09 by web evidence):**
-      bountiful T9 yielding only a champion trinket is **working as intended** —
-      the keyed coffer AND end-of-run are both Champion 250 (2/6) below Journey
-      rank 9. The coffer is not a separate Hero source at T9; Hero comes from the
-      Vault delve slot / a Bounty map / rank 9. (Five tier-3 sources; loot table above.)
-- [ ] Confirm vendor currency in-game name ("Nightcoin"?) @verify-ingame
-- [ ] Tier → loot ilvl table; journey rep for sub-T11 bountifuls
+- [ ] **Re-verify the whole S2 reward table in game from 2026-08-18**, when
+      Bountifuls, Coffer Keys and "??" Nemesis turn on. Everything marked
+      Tier-3 above is PTR-sourced guide prose. @verify-ingame
+- [ ] **Resolve the Tier-1 vs Tier-1 tier-ceiling conflict** — content-update
+      notes imply a **Tier 7** pre-season ceiling, the S1-ending post says
+      **1–11**. Read the highest selectable difficulty at a delve entrance this
+      week and record which post was right. @verify-ingame
+- [ ] **Read the live Mistcrest cap off the currency tooltip** in week 1 of S2 —
+      and record whether it says "this week" or "maximum". DB2 gives rows
+      3442–3446 a *holding* cap of 100 behind world states 30933/30934 and
+      leaves `MaxEarnablePerWeek` unset, so a **weekly** cap is Tier-3 only.
+      Reconcile with `../dawncrests.md`, which owns this claim. @verify-ingame
+- [ ] **Confirm whether unkeyed end-of-run chests scale past Adventurer 3/6**
+      once Bountifuls are live — this decides between the two readings of the
+      Tier-1 pre-season cap noted above the loot table (structural keyed-only
+      ladder vs a blanket pre-season ceiling). S1's shape was the latter.
+      @verify-ingame
+- [ ] Confirm the **S2 weekly Restored Coffer Key cap** after the shard retune
+      settles (Blizzard calls the retune a work in progress). @verify-ingame
+- [ ] Confirm the **Delver's Journey S2 vendor currency** name(s). @verify-ingame
+- [ ] Per-delve location + gimmick notes for the three new delves (Ring of
+      Glory, Gnarldor Isle, Venomfall Deeps) — own files, like
+      `gulf-of-memory.md`
+- [ ] Valeera upgrade path / curio equivalents in S2
+- [x] S1 Myth-stash conflict (resolved 2026-07-07) and the S1 "T9 champion
+      trinket" observation (resolved 2026-07-09) — both now historical, see the
+      Season 1 section

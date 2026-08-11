@@ -4,10 +4,10 @@
   "spec": "survival",
   "spec_id": 255,
   "tree_id": 774,
-  "patch": "12.0.7",
-  "build": "12.0.7.67808",
+  "patch": "12.1.0",
+  "build": "12.1.0.68914",
   "source": "api",
-  "serial_count": 211,
+  "serial_count": 210,
   "granted_serials": [
     17,
     31
@@ -34,7 +34,7 @@
         "col": 2,
         "x": 3000,
         "y": 1500,
-        "serial_order": 90,
+        "serial_order": 89,
         "req_points": 0,
         "prereq_node_ids": [],
         "entries": [
@@ -56,7 +56,7 @@
         "col": 4,
         "x": 4200,
         "y": 1500,
-        "serial_order": 115,
+        "serial_order": 114,
         "req_points": 0,
         "prereq_node_ids": [],
         "entries": [
@@ -78,7 +78,7 @@
         "col": 6,
         "x": 5400,
         "y": 1500,
-        "serial_order": 108,
+        "serial_order": 107,
         "req_points": 0,
         "prereq_node_ids": [],
         "entries": [
@@ -100,7 +100,7 @@
         "col": 2,
         "x": 3000,
         "y": 2100,
-        "serial_order": 102,
+        "serial_order": 101,
         "req_points": 0,
         "prereq_node_ids": [
           102381
@@ -124,7 +124,7 @@
         "col": 4,
         "x": 4200,
         "y": 2100,
-        "serial_order": 105,
+        "serial_order": 104,
         "req_points": 0,
         "prereq_node_ids": [
           102422
@@ -148,7 +148,7 @@
         "col": 6,
         "x": 5400,
         "y": 2100,
-        "serial_order": 116,
+        "serial_order": 115,
         "req_points": 0,
         "prereq_node_ids": [
           102411
@@ -172,7 +172,7 @@
         "col": 1,
         "x": 2400,
         "y": 2700,
-        "serial_order": 91,
+        "serial_order": 90,
         "req_points": 0,
         "prereq_node_ids": [
           102401
@@ -196,7 +196,7 @@
         "col": 3,
         "x": 3600,
         "y": 2700,
-        "serial_order": 196,
+        "serial_order": 192,
         "req_points": 0,
         "prereq_node_ids": [
           102406,
@@ -221,7 +221,7 @@
         "col": 5,
         "x": 4800,
         "y": 2700,
-        "serial_order": 173,
+        "serial_order": 170,
         "req_points": 0,
         "prereq_node_ids": [
           102423,
@@ -246,7 +246,7 @@
         "col": 7,
         "x": 6000,
         "y": 2700,
-        "serial_order": 106,
+        "serial_order": 105,
         "req_points": 0,
         "prereq_node_ids": [
           102423
@@ -270,11 +270,11 @@
         "col": 2,
         "x": 3000,
         "y": 3300,
-        "serial_order": 89,
+        "serial_order": 88,
         "req_points": 0,
         "prereq_node_ids": [
-          102383,
-          110157
+          110157,
+          102383
         ],
         "entries": [
           {
@@ -320,7 +320,7 @@
         "col": 6,
         "x": 5400,
         "y": 3300,
-        "serial_order": 92,
+        "serial_order": 91,
         "req_points": 0,
         "prereq_node_ids": [
           109485,
@@ -345,7 +345,7 @@
         "col": 1,
         "x": 2400,
         "y": 3900,
-        "serial_order": 177,
+        "serial_order": 174,
         "req_points": 8,
         "prereq_node_ids": [
           102380
@@ -369,11 +369,11 @@
         "col": 3,
         "x": 3600,
         "y": 3900,
-        "serial_order": 104,
+        "serial_order": 103,
         "req_points": 8,
         "prereq_node_ids": [
-          102380,
-          79837
+          79837,
+          102380
         ],
         "entries": [
           {
@@ -394,7 +394,7 @@
         "col": 4,
         "x": 4200,
         "y": 3900,
-        "serial_order": 99,
+        "serial_order": 98,
         "req_points": 8,
         "prereq_node_ids": [
           79837
@@ -418,7 +418,7 @@
         "col": 5,
         "x": 4800,
         "y": 3900,
-        "serial_order": 172,
+        "serial_order": 169,
         "req_points": 8,
         "prereq_node_ids": [
           79837,
@@ -443,7 +443,7 @@
         "col": 7,
         "x": 6000,
         "y": 3900,
-        "serial_order": 114,
+        "serial_order": 113,
         "req_points": 8,
         "prereq_node_ids": [
           102384
@@ -467,7 +467,7 @@
         "col": 1,
         "x": 2400,
         "y": 4500,
-        "serial_order": 111,
+        "serial_order": 110,
         "req_points": 8,
         "prereq_node_ids": [
           109489
@@ -500,7 +500,7 @@
         "col": 2,
         "x": 3000,
         "y": 4500,
-        "serial_order": 118,
+        "serial_order": 117,
         "req_points": 8,
         "prereq_node_ids": [
           102404,
@@ -525,7 +525,7 @@
         "col": 3,
         "x": 3600,
         "y": 4500,
-        "serial_order": 100,
+        "serial_order": 99,
         "req_points": 8,
         "prereq_node_ids": [
           102404,
@@ -550,7 +550,7 @@
         "col": 4,
         "x": 4200,
         "y": 4500,
-        "serial_order": 97,
+        "serial_order": 96,
         "req_points": 8,
         "prereq_node_ids": [
           102395
@@ -583,7 +583,7 @@
         "col": 5,
         "x": 4800,
         "y": 4500,
-        "serial_order": 175,
+        "serial_order": 172,
         "req_points": 8,
         "prereq_node_ids": [
           102395,
@@ -608,7 +608,7 @@
         "col": 6,
         "x": 5400,
         "y": 4500,
-        "serial_order": 195,
+        "serial_order": 191,
         "req_points": 8,
         "prereq_node_ids": [
           102419,
@@ -633,7 +633,7 @@
         "col": 7,
         "x": 6000,
         "y": 4500,
-        "serial_order": 109,
+        "serial_order": 108,
         "req_points": 8,
         "prereq_node_ids": [
           102419
@@ -657,7 +657,7 @@
         "col": 2,
         "x": 3000,
         "y": 5100,
-        "serial_order": 117,
+        "serial_order": 116,
         "req_points": 8,
         "prereq_node_ids": [
           102396,
@@ -683,12 +683,12 @@
         "col": 4,
         "x": 4200,
         "y": 5100,
-        "serial_order": 95,
+        "serial_order": 94,
         "req_points": 8,
         "prereq_node_ids": [
+          109487,
           102396,
-          102393,
-          109487
+          102393
         ],
         "entries": [
           {
@@ -709,12 +709,12 @@
         "col": 6,
         "x": 5400,
         "y": 5100,
-        "serial_order": 171,
+        "serial_order": 168,
         "req_points": 8,
         "prereq_node_ids": [
-          102412,
+          110156,
           109487,
-          110156
+          102412
         ],
         "entries": [
           {
@@ -735,7 +735,7 @@
         "col": 1,
         "x": 2400,
         "y": 5700,
-        "serial_order": 193,
+        "serial_order": 189,
         "req_points": 23,
         "prereq_node_ids": [
           102424
@@ -759,7 +759,7 @@
         "col": 2,
         "x": 3000,
         "y": 5700,
-        "serial_order": 144,
+        "serial_order": 141,
         "req_points": 23,
         "prereq_node_ids": [
           102424
@@ -783,7 +783,7 @@
         "col": 3,
         "x": 3600,
         "y": 5700,
-        "serial_order": 110,
+        "serial_order": 109,
         "req_points": 23,
         "prereq_node_ids": [
           102390,
@@ -808,7 +808,7 @@
         "col": 4,
         "x": 4200,
         "y": 5700,
-        "serial_order": 96,
+        "serial_order": 95,
         "req_points": 23,
         "prereq_node_ids": [
           102390
@@ -832,7 +832,7 @@
         "col": 5,
         "x": 4800,
         "y": 5700,
-        "serial_order": 174,
+        "serial_order": 171,
         "req_points": 23,
         "prereq_node_ids": [
           102390,
@@ -857,7 +857,7 @@
         "col": 6,
         "x": 5400,
         "y": 5700,
-        "serial_order": 176,
+        "serial_order": 173,
         "req_points": 23,
         "prereq_node_ids": [
           109483
@@ -881,7 +881,7 @@
         "col": 7,
         "x": 6000,
         "y": 5700,
-        "serial_order": 194,
+        "serial_order": 190,
         "req_points": 23,
         "prereq_node_ids": [
           109483
@@ -914,11 +914,11 @@
         "col": 1,
         "x": 2400,
         "y": 6300,
-        "serial_order": 192,
+        "serial_order": 188,
         "req_points": 23,
         "prereq_node_ids": [
-          103989,
-          110154
+          110154,
+          103989
         ],
         "entries": [
           {
@@ -939,7 +939,7 @@
         "col": 2,
         "x": 3000,
         "y": 6300,
-        "serial_order": 98,
+        "serial_order": 97,
         "req_points": 23,
         "prereq_node_ids": [
           103989
@@ -972,12 +972,12 @@
         "col": 3,
         "x": 3600,
         "y": 6300,
-        "serial_order": 112,
+        "serial_order": 111,
         "req_points": 23,
         "prereq_node_ids": [
+          103989,
           102414,
-          102391,
-          103989
+          102391
         ],
         "entries": [
           {
@@ -998,7 +998,7 @@
         "col": 5,
         "x": 4800,
         "y": 6300,
-        "serial_order": 107,
+        "serial_order": 106,
         "req_points": 23,
         "prereq_node_ids": [
           109488,
@@ -1024,7 +1024,7 @@
         "col": 6,
         "x": 5400,
         "y": 6300,
-        "serial_order": 191,
+        "serial_order": 187,
         "req_points": 23,
         "prereq_node_ids": [
           109488
@@ -1057,11 +1057,11 @@
         "col": 7,
         "x": 6000,
         "y": 6300,
-        "serial_order": 113,
+        "serial_order": 112,
         "req_points": 23,
         "prereq_node_ids": [
-          109488,
-          110155
+          110155,
+          109488
         ],
         "entries": [
           {
@@ -1082,11 +1082,11 @@
         "col": 2,
         "x": 3000,
         "y": 6900,
-        "serial_order": 94,
+        "serial_order": 93,
         "req_points": 23,
         "prereq_node_ids": [
-          102416,
-          110153
+          110153,
+          102416
         ],
         "entries": [
           {
@@ -1107,7 +1107,7 @@
         "col": 4,
         "x": 4200,
         "y": 6900,
-        "serial_order": 203,
+        "serial_order": 199,
         "req_points": 23,
         "prereq_node_ids": [
           102409,
@@ -1141,7 +1141,7 @@
         "col": 6,
         "x": 5400,
         "y": 6900,
-        "serial_order": 93,
+        "serial_order": 92,
         "req_points": 23,
         "prereq_node_ids": [
           102409,
@@ -1310,7 +1310,7 @@
         "col": 18,
         "x": 12600,
         "y": 3300,
-        "serial_order": 169,
+        "serial_order": 166,
         "req_points": 0,
         "prereq_node_ids": [
           102263,
@@ -1335,7 +1335,7 @@
         "col": 20,
         "x": 13800,
         "y": 3300,
-        "serial_order": 167,
+        "serial_order": 164,
         "req_points": 0,
         "prereq_node_ids": [
           102263
@@ -1359,7 +1359,7 @@
         "col": 15,
         "x": 10800,
         "y": 3900,
-        "serial_order": 158,
+        "serial_order": 155,
         "req_points": 8,
         "prereq_node_ids": [
           102272
@@ -1417,7 +1417,7 @@
         "col": 18,
         "x": 12600,
         "y": 3900,
-        "serial_order": 201,
+        "serial_order": 197,
         "req_points": 8,
         "prereq_node_ids": [
           109324
@@ -1460,13 +1460,37 @@
         ]
       },
       {
+        "node_id": 109305,
+        "type": "PASSIVE",
+        "row": 6,
+        "col": 20,
+        "x": 13800,
+        "y": 3900,
+        "serial_order": 152,
+        "req_points": 8,
+        "prereq_node_ids": [
+          109321
+        ],
+        "entries": [
+          {
+            "entry_id": "135496",
+            "talent": "Sic 'Em",
+            "spell_id": 1253137,
+            "max_ranks": "1",
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_sickem.jpg",
+            "desc": "When Strike as One critically strikes, it bleeds its target for an additional 15 damage over 5 sec."
+          }
+        ]
+      },
+      {
         "node_id": 110163,
         "type": "PASSIVE",
         "row": 6,
         "col": 21,
         "x": 14400,
         "y": 3900,
-        "serial_order": 202,
+        "serial_order": 198,
         "req_points": 8,
         "prereq_node_ids": [
           109321
@@ -1490,7 +1514,7 @@
         "col": 16,
         "x": 11400,
         "y": 4500,
-        "serial_order": 159,
+        "serial_order": 156,
         "req_points": 8,
         "prereq_node_ids": [
           109309,
@@ -1515,7 +1539,7 @@
         "col": 17,
         "x": 12000,
         "y": 4500,
-        "serial_order": 163,
+        "serial_order": 160,
         "req_points": 8,
         "prereq_node_ids": [
           110162
@@ -1548,7 +1572,7 @@
         "col": 19,
         "x": 13200,
         "y": 4500,
-        "serial_order": 165,
+        "serial_order": 162,
         "req_points": 8,
         "prereq_node_ids": [
           110162
@@ -1566,27 +1590,28 @@
         ]
       },
       {
-        "node_id": 109305,
+        "node_id": 110159,
         "type": "PASSIVE",
         "row": 7,
         "col": 20,
         "x": 13800,
         "y": 4500,
-        "serial_order": 155,
+        "serial_order": 194,
         "req_points": 8,
         "prereq_node_ids": [
+          109305,
           110163,
           102279
         ],
         "entries": [
           {
-            "entry_id": "135496",
-            "talent": "Sic 'Em",
-            "spell_id": 1253137,
+            "entry_id": "136680",
+            "talent": "Primal Surge",
+            "spell_id": 1272154,
             "max_ranks": "1",
             "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_sickem.jpg",
-            "desc": "When Strike as One critically strikes, it bleeds its target for an additional 15 damage over 5 sec."
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_longevity.jpg",
+            "desc": "Kill Command grants 1 additional stack of Tip of the Spear.\r\n\r\nTip of the Spear's damage bonus is increased by 5%."
           }
         ]
       },
@@ -1597,7 +1622,7 @@
         "col": 15,
         "x": 10800,
         "y": 5100,
-        "serial_order": 157,
+        "serial_order": 154,
         "req_points": 8,
         "prereq_node_ids": [
           109310
@@ -1654,7 +1679,7 @@
         "col": 17,
         "x": 12000,
         "y": 5100,
-        "serial_order": 160,
+        "serial_order": 157,
         "req_points": 8,
         "prereq_node_ids": [
           109310,
@@ -1679,7 +1704,7 @@
         "col": 18,
         "x": 12600,
         "y": 5100,
-        "serial_order": 162,
+        "serial_order": 159,
         "req_points": 8,
         "prereq_node_ids": [
           109316,
@@ -1707,7 +1732,7 @@
         "serial_order": 48,
         "req_points": 8,
         "prereq_node_ids": [
-          109305,
+          110159,
           109319
         ],
         "entries": [
@@ -1732,40 +1757,16 @@
         ]
       },
       {
-        "node_id": 109304,
-        "type": "PASSIVE",
-        "row": 8,
-        "col": 20,
-        "x": 13800,
-        "y": 5100,
-        "serial_order": 154,
-        "req_points": 8,
-        "prereq_node_ids": [
-          109305
-        ],
-        "entries": [
-          {
-            "entry_id": "135495",
-            "talent": "Shower of Blood",
-            "spell_id": 1253053,
-            "max_ranks": "2",
-            "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_bloodythrash.jpg",
-            "desc": "Your Bleed effects deal 8% increased damage."
-          }
-        ]
-      },
-      {
         "node_id": 109306,
         "type": "PASSIVE",
         "row": 8,
         "col": 21,
         "x": 14400,
         "y": 5100,
-        "serial_order": 156,
+        "serial_order": 153,
         "req_points": 8,
         "prereq_node_ids": [
-          109305
+          110159
         ],
         "entries": [
           {
@@ -1812,7 +1813,7 @@
         "col": 18,
         "x": 12600,
         "y": 5700,
-        "serial_order": 168,
+        "serial_order": 165,
         "req_points": 20,
         "prereq_node_ids": [
           109311,
@@ -1838,10 +1839,9 @@
         "col": 20,
         "x": 13800,
         "y": 5700,
-        "serial_order": 161,
+        "serial_order": 158,
         "req_points": 20,
         "prereq_node_ids": [
-          109304,
           109306,
           102282
         ],
@@ -1859,7 +1859,7 @@
       },
       {
         "node_id": 102252,
-        "type": "ACTIVE",
+        "type": "PASSIVE",
         "row": 10,
         "col": 16,
         "x": 11400,
@@ -1872,12 +1872,12 @@
         "entries": [
           {
             "entry_id": "126311",
-            "talent": "Flamefang Pitch",
-            "spell_id": 1251592,
+            "talent": "Bombardier",
+            "spell_id": 1311963,
             "max_ranks": "1",
             "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_blacksmithing_craftedoptional_blacksmithdye_fire.jpg",
-            "desc": "Toss a fiery concoction that explodes violently upon reaching its destination, dealing 214 Fire damage to enemies in its area. Damage reduced beyond 8 targets.\r\n\r\nAfter landing, your Flamefang Pitch ignites nearby terrain, dealing 141 Fire damage to enemies in its area over 8 sec."
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/463515.jpg",
+            "desc": "Wildfire Bomb damage increased by 15%, critical strike chance increased by 15%, and critical damage dealt increased by 15%."
           }
         ]
       },
@@ -1888,7 +1888,7 @@
         "col": 17,
         "x": 12000,
         "y": 6300,
-        "serial_order": 170,
+        "serial_order": 167,
         "req_points": 20,
         "prereq_node_ids": [
           109323
@@ -1912,7 +1912,7 @@
         "col": 19,
         "x": 13200,
         "y": 6300,
-        "serial_order": 166,
+        "serial_order": 163,
         "req_points": 20,
         "prereq_node_ids": [
           109323
@@ -1960,7 +1960,7 @@
         "col": 15,
         "x": 10800,
         "y": 6900,
-        "serial_order": 164,
+        "serial_order": 161,
         "req_points": 20,
         "prereq_node_ids": [
           102252
@@ -1984,7 +1984,7 @@
         "col": 17,
         "x": 12000,
         "y": 6900,
-        "serial_order": 199,
+        "serial_order": 195,
         "req_points": 20,
         "prereq_node_ids": [
           102252
@@ -2008,7 +2008,7 @@
         "col": 18,
         "x": 12600,
         "y": 6900,
-        "serial_order": 200,
+        "serial_order": 196,
         "req_points": 20,
         "prereq_node_ids": [
           109320,
@@ -2051,26 +2051,26 @@
         ]
       },
       {
-        "node_id": 110159,
+        "node_id": 109304,
         "type": "PASSIVE",
         "row": 11,
         "col": 21,
         "x": 14400,
         "y": 6900,
-        "serial_order": 198,
+        "serial_order": 151,
         "req_points": 20,
         "prereq_node_ids": [
           102268
         ],
         "entries": [
           {
-            "entry_id": "136680",
-            "talent": "Primal Surge",
-            "spell_id": 1272154,
-            "max_ranks": "1",
+            "entry_id": "135495",
+            "talent": "Razor Edge",
+            "spell_id": 1253053,
+            "max_ranks": "2",
             "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_longevity.jpg",
-            "desc": "Kill Command grants 1 additional stack of Tip of the Spear.\r\n\r\nTip of the Spear's damage bonus is increased by 5%."
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_bloodythrash.jpg",
+            "desc": "Your Bleed effects deal 8% increased damage."
           }
         ]
       },
@@ -2081,7 +2081,7 @@
         "col": 18,
         "x": 12600,
         "y": 7650,
-        "serial_order": 205,
+        "serial_order": 201,
         "req_points": 20,
         "prereq_node_ids": [],
         "entries": [
@@ -2389,7 +2389,7 @@
           "col": 12,
           "x": 9000,
           "y": 3300,
-          "serial_order": 186,
+          "serial_order": 183,
           "req_points": 0,
           "prereq_node_ids": [
             110028
@@ -2413,7 +2413,7 @@
           "col": 12,
           "x": 9000,
           "y": 2100,
-          "serial_order": 187,
+          "serial_order": 184,
           "req_points": 0,
           "prereq_node_ids": [
             94976
@@ -2437,7 +2437,7 @@
           "col": 12,
           "x": 9000,
           "y": 2700,
-          "serial_order": 190,
+          "serial_order": 186,
           "req_points": 0,
           "prereq_node_ids": [
             109807
@@ -2499,10 +2499,10 @@
           "serial_order": 8,
           "req_points": 0,
           "prereq_node_ids": [
-            94967,
-            94969,
             109804,
-            109802
+            109802,
+            94967,
+            94969
           ],
           "entries": [
             {
@@ -2755,7 +2755,7 @@
           "col": 12,
           "x": 9000,
           "y": 6000,
-          "serial_order": 183,
+          "serial_order": 180,
           "req_points": 0,
           "prereq_node_ids": [
             109803
@@ -2779,7 +2779,7 @@
           "col": 12,
           "x": 9000,
           "y": 5400,
-          "serial_order": 184,
+          "serial_order": 181,
           "req_points": 0,
           "prereq_node_ids": [
             94979
@@ -2803,7 +2803,7 @@
           "col": 11,
           "x": 8400,
           "y": 6000,
-          "serial_order": 185,
+          "serial_order": 182,
           "req_points": 0,
           "prereq_node_ids": [
             94988

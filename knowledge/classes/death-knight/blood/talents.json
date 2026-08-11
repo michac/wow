@@ -4,8 +4,8 @@
   "spec": "blood",
   "spec_id": 250,
   "tree_id": 750,
-  "patch": "12.0.7",
-  "build": "12.0.7.67808",
+  "patch": "12.1.0",
+  "build": "12.1.0.68914",
   "source": "api",
   "serial_count": 206,
   "granted_serials": [
@@ -378,9 +378,9 @@
         "serial_order": 164,
         "req_points": 0,
         "prereq_node_ids": [
+          76052,
           76084,
-          76044,
-          76052
+          76044
         ],
         "entries": [
           {
@@ -429,8 +429,8 @@
         "req_points": 0,
         "prereq_node_ids": [
           76069,
-          76074,
-          76052
+          76052,
+          76074
         ],
         "entries": [
           {
@@ -478,9 +478,9 @@
         "serial_order": 22,
         "req_points": 0,
         "prereq_node_ids": [
+          110029,
           76069,
-          76059,
-          110029
+          76059
         ],
         "entries": [
           {
@@ -628,9 +628,9 @@
         "serial_order": 34,
         "req_points": 8,
         "prereq_node_ids": [
+          76060,
           76075,
-          76061,
-          76060
+          76061
         ],
         "entries": [
           {
@@ -678,9 +678,9 @@
         "serial_order": 23,
         "req_points": 8,
         "prereq_node_ids": [
+          110030,
           76085,
-          76065,
-          110030
+          76065
         ],
         "entries": [
           {
@@ -1930,8 +1930,8 @@
         "serial_order": 79,
         "req_points": 20,
         "prereq_node_ids": [
-          76139,
-          76172
+          76172,
+          76139
         ],
         "entries": [
           {

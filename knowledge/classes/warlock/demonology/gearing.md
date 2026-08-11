@@ -1,12 +1,16 @@
 ---
-title: Demonology Warlock — gearing (stats, trinkets, tier set, consumables) (Midnight S1)
-patch: 12.0.7
-fetched: 2026-07-14
-reviewed: 2026-07-14
+title: Demonology Warlock — gearing (stats, trinkets, tier set, consumables) (Midnight S2)
+patch: 12.1
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
-  - https://maxroll.gg/wow/class-guides/demonology-warlock-raid-guide  # maxroll.gg, Tier 3
-  - https://maxroll.gg/wow/class-guides/demonology-warlock-mythic-plus-guide  # maxroll.gg, Tier 3
-  - https://murlok.io/warlock/demonology/diabolist/m+  # top-player secondary distribution, Tier 2
+  - https://worldofwarcraft.com/en-us/news/24293281  # 12.1 "Curse of Ula'tek" content update notes, Tier 1
+  - https://worldofwarcraft.com/en-us/news/24294369  # Midnight Season 2 overview, Tier 1
+  - https://maxroll.gg/wow/class-guides/demonology-warlock-raid-guide  # maxroll.gg, Tier 3, updated 2026-08-11
+  - https://maxroll.gg/wow/class-guides/demonology-warlock-mythic-plus-guide  # maxroll.gg, Tier 3, updated 2026-08-11
+  - https://murlok.io/warlock/demonology/diabolist/m+  # top-player secondary distribution, Tier 2 — Season 1 data
+  - https://www.wowhead.com/item=273796  # item-name resolution (Wowhead item DB)
+  - https://www.wowhead.com/item=271884  # item-name resolution (Wowhead item DB)
 confidence: medium
 ---
 
@@ -16,104 +20,180 @@ confidence: medium
 > sim-verify on Bloodmallet/Raidbots before trusting them**. Trinkets are the one
 > slot where **effect > ilvl**.
 
-The maxroll raid and M+ captures ship **identical** gear recommendations (same
-BiS/farmable tables, trinket ranking, embellishments, enchants, gems, and
-consumables), and both use the **same stat-priority import** — so there is no
-raid-vs-M+ gear split below.
+## ⚠ 12.1 shipped in two steps — read this before shopping
+
+**12.1 went live 2026-08-11; Midnight Season 2 does not open until 2026-08-18.**
+Everything below describes the **Season 2** gear picture. In the pre-season week
+you can actually reach:
+
+- the **new S2 dungeon pool on Heroic and Mythic 0** — M0 is on a **weekly**
+  lockout this week only and drops **Champion 1/6 (292)**; keystones do not drop
+  until Aug 18. That covers most of the **farmable alternatives** table.
+- **Tidebound Grotto** (lair) on **World difficulty**, and **Crafting Sparks**,
+  which begin dropping in pre-season.
+
+You cannot yet reach: **The Venomous Abyss** (opens Aug 18) — so every raid-drop
+row in the BiS table below is *upcoming*, not shoppable — nor Mythic+ keys,
+Bountiful Delves, or Coffer Keys.
+
+**The Season 2 ladder is ilvl 269 → 334** and its crests are **Mistcrests**
+(Adventurer 269–282 · Veteran 282–295 · Champion 295–308 · Hero 308–321 · Myth
+321–334). That is Tier-1 game data (`CurrencyTypes` DB2 @ 12.1.0.69214) and is
+the **floor** — a +45 shift of the whole Season 1 ladder.
+
+## ⚠ 12.1 retuned this spec — old sims are void
+
+Tier-1 class notes for Demonology: **Shadow Bolt +45%**, **Demonbolt +55%**,
+**Summon Gloomhound +35%**; and **Diabolist was nerfed** — Chaos Salvo,
+Felseeker, Wicked Cleave and Eye Explosion all **−20%**, and **Flames of Xoroth
+now increases Fire damage and demon damage by 3% (was 4%)**. Net: damage moved
+*off* the Diabolist demon/Fire package and *onto* your own hard-cast Shadow
+spells.
+
+Class-wide (Tier 1): **Drain Life +25%**; a large **Soul Leech** correctness pass
+now makes **Wild Imp / Imp Gang Boss Fel Firebolt, Imp Lord's Greater Felbolt,
+Demonic Tyrant's Demonfire, Vilefiend's Headbutt and Bile Spit, and Gloomhound's
+Gloom Slash** grant Soul Leech; and **Summon Demonic Gateway is now a Utility
+spell by default in the Cooldown Manager**. Game-wide: **player health and
+creature damage +25% at max level**, with health-consumable values rescaled to
+match.
+
+**Consequence for this file:** any stat weight, trinket ranking, or tier-set
+valuation simmed before 2026-08-11 is describing a different spec. Re-sim.
+
+---
+
+The maxroll raid and M+ captures (both re-pulled 2026-08-11) ship **identical**
+gear recommendations — same BiS/farmable tables, trinket ranking, embellishments,
+enchants, gems and consumables — and both use the **same stat-priority import**,
+so there is still no raid-vs-M+ gear split below.
 
 ## Stat priority
 
-**Mastery ≈ Crit > Haste >> Versatility.** murlok top-player secondary
-distribution: Crit ~30% / Mastery ~34% / Haste ~22% / Vers ~1%; Avoidance >
-Leech > Speed for minors. Secondaries are fairly flat — **ilvl and tier pieces
-win**; sim on Raidbots for close calls. (murlok Tier-2 / Icy Veins.)
+**Mastery ≈ Crit > Haste >> Versatility.** Both S2 captures ship the *same*
+priority import (`HoAJFUAJgEDKBEgABA`) they shipped for Season 1 — maxroll did
+not move the priority across the season boundary. Secondaries are fairly flat —
+**ilvl and tier pieces win**; sim on Raidbots for close calls.
 
-- Both maxroll captures ship the **same** stat-priority import
-  (`HoAJFUAJgEDKBEgABA`) for raid and M+, and both caution: "Higher item-level
-  items are better in most scenarios… a static Stat Priority is just a starting
-  point and can easily shift depending on your gear." All secondaries are subject
-  to **diminishing returns**.
+- maxroll's standing caution: "Higher item-level items are better in most
+  scenarios… a static Stat Priority is just a starting point and can easily shift
+  depending on your gear." All secondaries are subject to **diminishing returns**.
+- ⚠ The murlok top-player distribution previously quoted here (Crit ~30% /
+  Mastery ~34% / Haste ~22% / Vers ~1%) is **Season 1** data — nobody has played
+  S2 yet. Treat it as a prior, not a reading, and refresh once S2 logs exist.
 
 ### Tertiary (maxroll)
 - **Avoidance** — great for reducing AoE damage taken.
-- **Leech** — a **bad** tertiary here: your pets do most of your damage and pet
-  damage does not leech.
+- **Leech** — still rated a **bad** tertiary here: your pets do most of your
+  damage and pet damage does not leech. ⚠ Do not read 12.1's Soul Leech fix as
+  rehabilitating this — **Soul Leech** (the absorb shield) and the **Leech**
+  tertiary stat are different mechanics, and only the former changed. But the
+  Shadow Bolt / Demonbolt buffs *do* raise the share of damage you deal yourself,
+  so this ranking is worth re-checking once S2 sims land.
 - **Speed** — niche but occasionally useful for mechanics.
 
-## Tier set — Midnight Season 1
+## Tier set — Midnight Season 2
 
 Verbatim from maxroll (sim-verify):
 
-- **2-Set:** [Hand of Gul'dan](https://www.wowhead.com/spell=105174) damage increased by 15%.
-- **4-Set:** Your [Dreadstalkers](https://www.wowhead.com/spell=104316) deal 10% increased damage and last 3 additional seconds.
+- **2-Set:** [Wild Imp](https://www.wowhead.com/spell=104317) damage increased by 10%. [Implosion](https://www.wowhead.com/spell=196277) damage increased by 20%.
+- **4-Set:** When their energy depletes, [Wild Imps](https://www.wowhead.com/spell=104317) have a 20% chance to fling themselves at their target and [Implode](https://www.wowhead.com/spell=196277) at 250% effectiveness to their main target and 225% effectiveness to other targets.
 
-See [Midnight Season 1 Tier Sets](https://maxroll.gg/wow/resources/midnight-season-1-tier-sets).
+See [Midnight Season 2 Tier Sets](https://maxroll.gg/wow/resources/midnight-season-2-tier-sets).
+*(The Season 1 set — Hand of Gul'dan +15% / Dreadstalkers +10% and +3s — is
+historical as of 12.1.)*
+
+**Acquisition changed in 12.1 (Tier 1):**
+
+- Class-set vendor **Kirana** has moved from the March on Quel'danas raid
+  entrance to **near the Catalyst in Silvermoon**, and now stocks **Midnight
+  Season 2 class set armor** for **Slumbering Coil Curios**.
+- **The Catalyst now preserves your stats:** converted class-set armor
+  **inherits the secondary and tertiary stats, plus certain special cantrip
+  effects, of the source item**. Choosing *which* piece you feed the Catalyst is
+  now a real decision — it never used to matter.
 
 ## Trinkets
 
 Trinkets are the one slot where **effect > ilvl** — a lower-ilvl trinket with a
-strong effect can beat a higher-ilvl one. maxroll ranking of endgame trinkets
-from Dungeons/Raids/Delves (maxroll, sim-verify — check
+strong effect can beat a higher-ilvl one. maxroll ranking of Season 2 endgame
+trinkets from Dungeons/Raids/Delves (maxroll, sim-verify — check
 [Bloodmallet](https://bloodmallet.com/) for your ilvl/scenario):
 
 | Rank | Trinkets |
 |---|---|
-| **S-Tier** | [Gaze of the Alnseer](https://www.wowhead.com/item=249343), [Emberwing Feather](https://www.wowhead.com/item=250144), [Locus-Walker's Ribbon](https://www.wowhead.com/item=249809), [Vaelgor's Final Stare](https://www.wowhead.com/item=249346) |
-| **A-Tier** | [Sporelord's Mycelial Insignia](https://www.wowhead.com/item=268292), [Nevermelting Ice Crystal](https://www.wowhead.com/item=50259), [Heart of Wind](https://www.wowhead.com/item=250256) |
-| **B-Tier** | [Soulcatcher's Charm](https://www.wowhead.com/item=250223), [Wraps of Cosmic Madness](https://www.wowhead.com/item=249340) |
-| **C-Tier** | [Vessel of Tortured Souls](https://www.wowhead.com/item=250258), [Glorious Crusader's Keepsake](https://www.wowhead.com/item=251792), [Eye of the Drowning Void](https://www.wowhead.com/item=250257), [Reality Breacher](https://www.wowhead.com/item=151310), [Ever-Collapsing Void Fissure](https://www.wowhead.com/item=251786) |
-| **Junkyard** | [Sealed Chaos Urn](https://www.wowhead.com/item=251787), [Void-Reaper's Libram](https://www.wowhead.com/item=251785), [Sylvan Wakrapuku](https://www.wowhead.com/item=251784) |
+| **S-Tier** | [Vile Vial of Volatile Venom](https://www.wowhead.com/item=273796), [Gebbo's Bottomless Bag](https://www.wowhead.com/item=270164), [Stormbound Emblem of Dazar](https://www.wowhead.com/item=273649), [Freightrunner's Flask](https://www.wowhead.com/item=250215) |
+| **A-Tier** | [Wavecaller's Seastone](https://www.wowhead.com/item=270167), [Font of Venomous Rage](https://www.wowhead.com/item=270168), [Hex Lord's Dooming Idol](https://www.wowhead.com/item=270169) |
+| **B-Tier** | [Knot of Writhing Serpents](https://www.wowhead.com/item=273794), [Vexhul's Everflowing Gland](https://www.wowhead.com/item=270170), [Fang of Umbral Malignance](https://www.wowhead.com/item=270161) |
+| **C-Tier** | [Sapling of the Dawnroot](https://www.wowhead.com/item=250259), [Lightspire Core](https://www.wowhead.com/item=250214), [Mindpiercer's Sigil](https://www.wowhead.com/item=250224), [Sethraliss' Defiled Relic](https://www.wowhead.com/item=158368), [Ruby Whelp Shell](https://www.wowhead.com/item=193757) |
+| **Junkyard** | [Sealed Chaos Urn](https://www.wowhead.com/item=251787), [Glorious Crusader's Keepsake](https://www.wowhead.com/item=251792), [Void-Reaper's Libram](https://www.wowhead.com/item=251785), [Sylvan Wakrapuku](https://www.wowhead.com/item=251784) |
+
+⚠ This is a day-one Tier-3 ranking for a season nobody has raided. Expect it to
+move. Also note (Tier 1, 12.1): the **Cooldown Manager now tracks trinkets,
+potions and racial cooldowns/durations**, and trinkets, health potions, combat
+potions and healthstones can be **pinged** from it — so on-use trinket timers no
+longer need an addon.
 
 ## Best in Slot & farmable alternatives
 
-**BiS** (maxroll, sim-verify):
+**BiS** (maxroll, sim-verify) — ⚠ raid rows are not obtainable until 2026-08-18:
 
 | Slot | Item | Location |
 |---|---|---|
-| Head | [Abyssal Immolator's Smoldering Flames](https://www.wowhead.com/item=250042) | Tier / Catalyst |
-| Neck | [Eternal Voidsong Chain](https://www.wowhead.com/item=249368) | Crown of the Cosmos |
-| Shoulder | [Mantle of Dark Devotion](https://www.wowhead.com/item=251085) | Windrunner Spire |
-| Cloak | [Adherent's Silken Shroud](https://www.wowhead.com/item=239656) | Crafting |
-| Chest | [Abyssal Immolator's Dreadrobe](https://www.wowhead.com/item=250045) | Rotmire + Catalyst |
+| Head | [Venomkeeper's Horrific Cowl](https://www.wowhead.com/item=271874) | Ula'tek |
+| Neck | [Aqirbane Reliquary](https://www.wowhead.com/item=268265) | Ula'tek |
+| Shoulder | [Spires of the Damned Necrolyte](https://www.wowhead.com/item=271544) | Tier |
+| Cloak | [Silken Voodoo Drape](https://www.wowhead.com/item=268253) | The Coiled Altar |
+| Chest | [Damned Necrolyte's Rattling Robes](https://www.wowhead.com/item=271549) | Tier |
 | Wrist | [Martyr's Bindings](https://www.wowhead.com/item=239648) | Crafting |
-| Gloves | [Abyssal Immolator's Grasps](https://www.wowhead.com/item=250043) | Tier / Catalyst |
-| Belt | [Abyssal Immolator's Blazing Core](https://www.wowhead.com/item=250039) | Catalyst |
-| Legs | [Abyssal Immolator's Pillars](https://www.wowhead.com/item=250041) | Tier / Catalyst |
-| Boots | [Luxurious Loamstriders](https://www.wowhead.com/item=268282) | Rotmire |
-| Ring 1 | [Sporecaller's Blooming Loop](https://www.wowhead.com/item=268290) | Rotmire |
-| Ring 2 | [Eye of Midnight](https://www.wowhead.com/item=249920) | Midnight Falls |
-| Trinket 1 | [Locus-Walker's Ribbon](https://www.wowhead.com/item=249809) | Crown of the Cosmos |
-| Trinket 2 | [Emberwing Feather](https://www.wowhead.com/item=250144) | Windrunner Spire |
-| Weapon | [Spire of the Furious Construct](https://www.wowhead.com/item=110031) | Skyreach |
+| Gloves | Convert [Grasps of the Eternal Shadow](https://www.wowhead.com/item=268243) → [Damned Necrolyte's Charred Grasps](https://www.wowhead.com/item=271547) | Catalyst (The Coiled Altar drop) |
+| Belt | [Martyr's Waistwrap](https://www.wowhead.com/item=239649) | Crafting |
+| Legs | [Damned Necrolyte's Leg Bindings](https://www.wowhead.com/item=271545) | Tier |
+| Boots | [Cackling Soultreads](https://www.wowhead.com/item=268255) | The Coiled Altar |
+| Ring 1 | [Apex Brute's Claw Ring](https://www.wowhead.com/item=268252) | Sszorak |
+| Ring 2 | [Charged Sandstone Band](https://www.wowhead.com/item=158366) | Temple of Sethraliss |
+| Trinket 1 | [Gebbo's Bottomless Bag](https://www.wowhead.com/item=270164) | The Lost Explorers |
+| Trinket 2 | [Vile Vial of Volatile Venom](https://www.wowhead.com/item=273796) | Altar of Fangs |
+| Weapon | [Jan'thrazet, the Soul Fang](https://www.wowhead.com/item=271092) | Ula'tek |
+| Offhand | [Spine of the Hissing Abyss](https://www.wowhead.com/item=268197) | Entombed Sentinels |
 
 **Farmable alternatives** (obtainable outside the weekly lockout — immediate
-character power, replaced over time; maxroll):
+character power, replaced over time; maxroll). Unlike the Season 1 version of
+this table, **these are reachable in the pre-season week**: every source is a
+Season 2 dungeon, live now on Heroic and Mythic 0.
 
 | Slot | Item | Location |
 |---|---|---|
-| Head | [Organized Pontificator's Mask](https://www.wowhead.com/item=193703) | Algeth'ar Academy |
-| Neck | [Barbed Ymirheim Choker](https://www.wowhead.com/item=50228) | Pit of Saron |
-| Shoulder | [Lightbinder Shoulderguards](https://www.wowhead.com/item=258578) | Skyreach |
-| Cloak | [Rigid Scale Greatcloak](https://www.wowhead.com/item=258575) | Skyreach |
-| Chest | [Bronze Challenger's Robe](https://www.wowhead.com/item=193720) | Algeth'ar Academy |
-| Wrist | [Entropic Wristwraps](https://www.wowhead.com/item=151305) | Seat of the Triumvirate |
-| Gloves | [Handwraps of the Ascended](https://www.wowhead.com/item=151300) | Seat of the Triumvirate |
-| Belt | [Clasp of Compliance](https://www.wowhead.com/item=251102) | Magisters' Terrace |
-| Legs | [Legwraps of Swirling Light](https://www.wowhead.com/item=258574) | Skyreach |
-| Boots | [Slippers of Growing Despair](https://www.wowhead.com/item=151301) | Seat of the Triumvirate |
-| Ring 1 | [Bifurcation Band](https://www.wowhead.com/item=251115) | Magisters' Terrace |
-| Ring 2 | [Omission of Light](https://www.wowhead.com/item=251093) | Nexus-Point Xenas |
-| Trinket 1 | [Soulcatcher's Charm](https://www.wowhead.com/item=250223) | Maisara Caverns |
-| Trinket 2 | [Nevermelting Ice Crystal](https://www.wowhead.com/item=50259) | Pit of Saron |
-| Weapon | [Corespark Multitool](https://www.wowhead.com/item=251201) | Nexus-Point Xenas |
+| Head | [Worldroot Canopy](https://www.wowhead.com/item=251199) | The Blinding Vale |
+| Neck | [Strand of Warding Fangs](https://www.wowhead.com/item=273781) | Altar of Fangs |
+| Shoulder | [Brood Cleanser's Amice](https://www.wowhead.com/item=239031) | Temple of Sethraliss |
+| Cloak | [Speakeasy Shroud](https://www.wowhead.com/item=251132) | Murder Row |
+| Chest | [Summoner's Searing Shirt](https://www.wowhead.com/item=251139) | Murder Row |
+| Wrist | [Nibbling Armbands](https://www.wowhead.com/item=251127) | Murder Row |
+| Gloves | [Handwraps of Oscillating Polarity](https://www.wowhead.com/item=159247) | Temple of Sethraliss |
+| Belt | [Ethereal Netherwrap](https://www.wowhead.com/item=251222) | Voidscar Arena |
+| Legs | [Forest Dream Leg-guards](https://www.wowhead.com/item=251160) | Den of Nalorakk |
+| Boots | [Sandswept Sandals](https://www.wowhead.com/item=159259) | Temple of Sethraliss |
+| Ring 1 | [Signet of Snarling Servitude](https://www.wowhead.com/item=251136) | Murder Row |
+| Ring 2 | [Band of the Amani Warlord](https://www.wowhead.com/item=273792) | Altar of Fangs |
+| Trinket 1 | [Stormbound Emblem of Dazar](https://www.wowhead.com/item=273649) | Kings' Rest |
+| Trinket 2 | [Knot of Writhing Serpents](https://www.wowhead.com/item=273794) | Altar of Fangs |
+| Weapon | [Nibbles' Training Rod](https://www.wowhead.com/item=251123) | Murder Row |
 
 ## Embellishments & crafted gear
 
 - **2x [Arcanoweave Lining](https://www.wowhead.com/item=240166)** — proc that
-  increases your primary stat, plus a small ally buff. (maxroll)
-- **Remaining Sparks:** crafted items are 285 ilvl and regular items 289 at max
-  ilvl, so it is **not** worth equipping crafted pieces outside your 2x
-  embellishments unless you lack a higher-ilvl item in that slot. (maxroll)
+  increases your primary stat, plus a small ally buff. (maxroll — unchanged from S1.)
+- **Remaining Sparks:** at Season 2 max ilvl, crafted items land at **331** while
+  regular items land higher, so it is **not** worth equipping crafted pieces
+  outside your 2x embellishments unless you lack a higher-ilvl item in that slot.
+  (maxroll.) **Crafting Sparks begin dropping during the pre-season week**, so
+  this is worth planning now.
+  - ⚠ **Numbers conflict:** maxroll writes "regular items are 334–344 at max item
+    level". Tier-1 game data caps the **Myth Mistcrest upgrade band at 334**, so
+    anything above that is not crest-upgradeable — most likely Very Rare / Myth-9
+    drops from the last two Venomous Abyss bosses, which sit outside the crest
+    ladder. **334 is the Tier-1 floor; treat 344 as unverified maxroll editorial.**
 
 ## Enchants
 
@@ -121,38 +201,54 @@ maxroll (sim-verify):
 
 | Slot | Enchant |
 |---|---|
-| Head | [Enchant Helm - Empowered Rune of Avoidance](https://www.wowhead.com/item=244007) + [Radiant Jewelbinder](https://www.wowhead.com/item=263897) (socket) |
+| Head | [Enchant Helm - Empowered Rune of Avoidance](https://www.wowhead.com/item=244007) + [Miasmic Jewelbinder](https://www.wowhead.com/item=275707) (socket) |
 | Shoulders | [Enchant Shoulders - Amirdrassil's Grace](https://www.wowhead.com/item=243991) |
 | Chest | [Enchant Chest - Mark of the Worldsoul](https://www.wowhead.com/item=243977) |
-| Wrist | [Radiant Jewelbinder](https://www.wowhead.com/item=263897) (socket) |
-| Waist | [Radiant Jewelbinder](https://www.wowhead.com/item=263897) (socket) |
+| Wrist | [Miasmic Jewelbinder](https://www.wowhead.com/item=275707) (socket) |
+| Waist | [Miasmic Jewelbinder](https://www.wowhead.com/item=275707) (socket) |
 | Legs | [Sunfire Silk Spellthread](https://www.wowhead.com/item=240133) |
 | Boots | [Enchant Boots - Lynx's Dexterity](https://www.wowhead.com/item=243953) |
 | Ring 1 | [Enchant Ring - Eyes of the Eagle](https://www.wowhead.com/item=243957) |
 | Ring 2 | [Enchant Ring - Eyes of the Eagle](https://www.wowhead.com/item=243957) |
 | Weapon | [Enchant Weapon - Acuity of the Ren'dorei](https://www.wowhead.com/item=244029) |
 
-> [Radiant Jewelbinder](https://www.wowhead.com/item=263897) is bought from the
-> Great Vault Vendor to add sockets to your **Helm**, **Wrists** & **Waist**.
+> **Season 2 changed the socket-adder:** [Miasmic Jewelbinder](https://www.wowhead.com/item=275707)
+> replaces Season 1's Radiant Jewelbinder. Bought from the Great Vault Vendor to
+> add sockets to your **Helm**, **Wrists** & **Waist**. The enchants themselves
+> are unchanged from Season 1.
 
 ## Gems
 
 maxroll (sim-verify):
 
-- [Flawless Versatile Garnet](https://www.wowhead.com/item=240910)
-- [Indecipherable Eversong Diamond](https://www.wowhead.com/item=240983) — Unique
+- [Flawless Quick Amethyst](https://www.wowhead.com/item=240900) — ⚠ **changed**;
+  Season 1's pick was the Versatility gem (Flawless Versatile Garnet). A Haste
+  gem sits oddly against a Mastery ≈ Crit > Haste priority, so this is a prime
+  sim-verify candidate.
+- [Indecipherable Eversong Diamond](https://www.wowhead.com/item=240983) — Unique. (Unchanged.)
 
 ## Consumables
 
-maxroll (sim-verify):
+maxroll (sim-verify) — three of the six moved for Season 2:
 
-- **Flask:** [Flask of the Magisters](https://www.wowhead.com/item=241322)
+- **Flask:** [Flask of the Shattered Sun](https://www.wowhead.com/item=241326) — ⚠ **changed** (was Flask of the Magisters)
 - **Food:** [Harandar Celebration](https://www.wowhead.com/item=255846)
 - **Combat Potion:** [Potion of Recklessness](https://www.wowhead.com/item=241288)
-- **Health Potion:** [Silvermoon Health Potion](https://www.wowhead.com/item=241304) — a big burst of healing
+- **Health Potion:** [Concentrated Silvermoon Health Potion](https://www.wowhead.com/item=271884) — ⚠ **changed** (was Silvermoon Health Potion); a big burst of healing
 - **Weapon Oil:** [Thalassian Phoenix Oil](https://www.wowhead.com/item=243734)
 - **Augment Rune:** [Void-Touched Augment Rune](https://www.wowhead.com/item=259085)
 
+⚠ **Do not quote absolute healing numbers for any health consumable.** 12.1
+raised **player health and creature damage by 25% at max level** and **rescaled
+health-consumable values to match** (Tier 1), so every pre-2026-08-11 absolute HP
+figure is wrong. Think in fractions of the new pool. Healthstones, health potions
+and combat potions are also now trackable and pingable on the Cooldown Manager.
+
 ## TODO
 
-- [ ] sim-verify trinket order + tier-set values on Bloodmallet/Raidbots (currently Tier-3 maxroll)
+- [ ] sim-verify the Season 2 trinket order, tier-set values, and the Haste-gem
+      pick on Bloodmallet/Raidbots (currently day-one Tier-3 maxroll, on a spec
+      12.1 retuned hard). **Cannot be resolved before S2 opens 2026-08-18** — the
+      raid the BiS table draws from is not open.
+- [ ] refresh the murlok top-player secondary distribution once Season 2 logs
+      exist; the figures removed from "Stat priority" above were Season 1.

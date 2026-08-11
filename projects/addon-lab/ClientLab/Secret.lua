@@ -34,7 +34,7 @@ end
 -- Every spellID the Cooldown Manager currently tracks, in category order.  Guarded
 -- at each hop: the category set call, the per-id info call, and the .spellID field
 -- (which is itself Secret-guarded — a secret spellID is no use as a lookup key).
-local function trackedSpellIDs()
+function ns.TrackedSpellIDs()
   local ids, seen = {}, {}
   if not (C_CooldownViewer and C_CooldownViewer.GetCooldownViewerCategorySet
           and C_CooldownViewer.GetCooldownViewerCooldownInfo) then
@@ -87,7 +87,7 @@ function ns.GetSecret()
   if not InCombatLockdown() then
     return nil, "no secret value obtainable out of combat — pull a dummy and re-run"
   end
-  local ids = trackedSpellIDs()
+  local ids = ns.TrackedSpellIDs()
   if #ids == 0 then
     return nil, "no tracked Cooldown Manager spells found (is the built-in Cooldown Manager enabled with Essential cooldowns?)"
   end

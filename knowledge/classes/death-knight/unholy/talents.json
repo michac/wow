@@ -4,8 +4,8 @@
   "spec": "unholy",
   "spec_id": 252,
   "tree_id": 750,
-  "patch": "12.0.7",
-  "build": "12.0.7.67808",
+  "patch": "12.1.0",
+  "build": "12.1.0.68914",
   "source": "api",
   "serial_count": 206,
   "granted_serials": [
@@ -378,9 +378,9 @@
         "serial_order": 164,
         "req_points": 0,
         "prereq_node_ids": [
+          76052,
           76084,
-          76044,
-          76052
+          76044
         ],
         "entries": [
           {
@@ -429,8 +429,8 @@
         "req_points": 0,
         "prereq_node_ids": [
           76069,
-          76074,
-          76052
+          76052,
+          76074
         ],
         "entries": [
           {
@@ -478,9 +478,9 @@
         "serial_order": 22,
         "req_points": 0,
         "prereq_node_ids": [
+          110029,
           76069,
-          76059,
-          110029
+          76059
         ],
         "entries": [
           {
@@ -628,9 +628,9 @@
         "serial_order": 34,
         "req_points": 8,
         "prereq_node_ids": [
+          76060,
           76075,
-          76061,
-          76060
+          76061
         ],
         "entries": [
           {
@@ -678,9 +678,9 @@
         "serial_order": 23,
         "req_points": 8,
         "prereq_node_ids": [
+          110030,
           76085,
-          76065,
-          110030
+          76065
         ],
         "entries": [
           {
@@ -1556,9 +1556,9 @@
         "serial_order": 126,
         "req_points": 8,
         "prereq_node_ids": [
-          76192,
           76186,
-          76179
+          76179,
+          76192
         ],
         "entries": [
           {
@@ -1791,9 +1791,9 @@
         "serial_order": 181,
         "req_points": 20,
         "prereq_node_ids": [
-          76178,
+          76160,
           76155,
-          76160
+          76178
         ],
         "entries": [
           {
@@ -1893,8 +1893,8 @@
         "serial_order": 97,
         "req_points": 20,
         "prereq_node_ids": [
-          108126,
-          108151
+          108151,
+          108126
         ],
         "entries": [
           {
@@ -1997,7 +1997,7 @@
         "entries": [
           {
             "entry_id": "135676",
-            "talent": "Reanimation",
+            "talent": "Lord of the Dead",
             "spell_id": 1256813,
             "max_ranks": "1",
             "choice_index": 0,

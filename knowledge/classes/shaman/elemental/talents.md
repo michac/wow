@@ -1,16 +1,22 @@
 ---
-title: Shaman Elemental — talent tree (12.0.7)
-patch: 12.0.7
-build: 12.0.7.67808
-fetched: 2026-06-19
-reviewed: 2026-07-07
+title: Shaman Elemental — talent tree (12.1.0)
+patch: 12.1.0
+build: 12.1.0.68914
+fetched: 
 sources:
   - https://us.api.blizzard.com/data/wow/talent-tree (Blizzard Game Data API, Tier 1)
-  - https://wago.tools/db2 Trait* @ 12.0.7.67808 (Tier 1)
+  - https://wago.tools/db2 Trait* @ 12.1.0.68914 (Tier 1)
 confidence: high
 ---
+> **Build provenance.** This file was generated from the Blizzard Game Data API and
+> wago `Trait*` DB2 at build **12.1.0.68914**, which is what the API's `static-12.1.0`
+> namespace reported on 2026-08-11. The live client that day was **12.1.0.69214**. The
+> `Trait*` DB2 exports at the two builds are **byte-identical** (verified by md5 on
+> `TraitNodeEntry`), so this data is valid for live 12.1 — cite it as **@ 12.1.0.68914**,
+> not 69214.
 
-# Shaman Elemental — talents (12.0.7)
+
+# Shaman Elemental — talents (12.1.0)
 
 > Generated from `knowledge/classes/_talents/all-talents.tsv`. Spell IDs are the talent's granted spell. Choice nodes show both options as `A / B`. See `_talents/README.md` for the schema.
 
@@ -29,13 +35,13 @@ confidence: high
 | Elemental Orbit | 383010 | 1 | PASSIVE | 4,1 | — | 103596 |
 | Spirit Walk / Gust of Wind | 58875 / 192063 | 1/1 | CHOICE | 4,2 | — | 103596,103610 |
 | Astral Shift | 108271 | 1 | ACTIVE | 4,4 | — | 103581,103610,103605 |
-| Nature's Guardian | 30884 | 1 | PASSIVE | 4,6 | — | 103581,109492 |
+| Nature's Guardian | 30884 | 1 | PASSIVE | 4,6 | — | 109492,103581 |
 | Encasing Cold / Arctic Snowstorm | 462762 / 462764 | 1/1 | CHOICE | 4,7 | — | 109492 |
 | Healing Stream Totem | 5394 | 1 | ACTIVE | 5,1 | — | 103591,103602 |
 | Winds of Al'Akir | 382215 | 2 | PASSIVE | 5,3 | — | 103591,103616 |
 | Planes Traveler / Astral Bulwark | 381647 / 377933 | 1/1 | CHOICE | 5,4 | — | 103616 |
 | Brimming with Life | 381689 | 2 | PASSIVE | 5,5 | — | 103613,103616 |
-| Wind Shear | 57994 | 1 | ACTIVE | 5,7 | — | 103613,109493 |
+| Wind Shear | 57994 | 1 | ACTIVE | 5,7 | — | 109493,103613 |
 | Elemental Resistance | 462368 | 1 | PASSIVE | 6,1 | 8 | 103590 |
 | Earthgrab Totem | 51485 | 1 | ACTIVE | 6,2 | 8 | 103614,103590 |
 | Capacitor Totem | 192058 | 1 | ACTIVE | 6,4 | 8 | 103614,103611 |
@@ -43,7 +49,7 @@ confidence: high
 | Enhanced Imbues | 462796 | 1 | PASSIVE | 6,6 | 8 | 103615,103582 |
 | Windveil | 355630 | 1 | PASSIVE | 6,7 | 8 | 103615 |
 | Refreshing Waters | 378211 | 1 | PASSIVE | 7,1 | 8 | 103601,103622 |
-| Cleanse Spirit | 51886 | 1 | ACTIVE | 7,3 | 8 | 103622,103579 |
+| Cleanse Spirit | 51886 | 1 | ACTIVE | 7,3 | 8 | 103579,103622 |
 | Static Charge | 265046 | 2 | PASSIVE | 7,4 | 8 | 103579 |
 | Wind Rush Totem | 192077 | 1 | ACTIVE | 7,5 | 8 | 110085,103579 |
 | Earth Elemental | 198103 | 1 | ACTIVE | 7,6 | 8 | 103606,110085 |
@@ -51,15 +57,15 @@ confidence: high
 | Nature's Fury | 381655 | 2 | PASSIVE | 8,4 | 8 | 103627,103618,103608 |
 | Ascending Air / Jet Stream | 462791 / 462817 | 1/1 | CHOICE | 8,5 | 8 | 103627 |
 | Primordial Bond | 1279819 | 1 | PASSIVE | 8,6 | 8 | 103585 |
-| Hex | 51514 | 1 | ACTIVE | 8,7 | 8 | 103585,103628 |
+| Hex | 51514 | 1 | ACTIVE | 8,7 | 8 | 103628,103585 |
 | Spiritwalker's Grace | 79206 | 1 | ACTIVE | 9,1 | 23 | 103594,103624 |
 | Totemic Projection | 108287 | 1 | ACTIVE | 9,3 | 23 | 103617,103624 |
 | Elemental Warding | 381650 | 1 | PASSIVE | 9,4 | 23 | 103617,103607 |
-| Totemic Focus | 382201 | 1 | PASSIVE | 9,6 | 23 | 103607,103612,103623 |
+| Totemic Focus | 382201 | 1 | PASSIVE | 9,6 | 23 | 103623,103607,103612 |
 | Graceful Spirit / Spiritwalker's Aegis | 192088 / 378077 | 1/1 | CHOICE | 10,1 | 23 | 103584 |
 | Mana Spring | 381930 | 1 | PASSIVE | 10,3 | 23 | 103586,109386 |
 | Tremor Totem / Poison Cleansing Totem | 8143 / 383013 | 1/1 | CHOICE | 10,4 | 23 | 103586 |
-| Therazane's Resilience / Reactive Warding | 1217622 / 462454 | 1/1 | CHOICE | 10,5 | 23 | 103586,103625 |
+| Therazane's Resilience / Reactive Warding | 1217622 / 462454 | 1/1 | CHOICE | 10,5 | 23 | 103625,103586 |
 | Voodoo Mastery | 204268 | 1 | PASSIVE | 10,7 | 23 | 103623 |
 | Nature's Swiftness | 378081 | 1 | ACTIVE | 11,2 | 23 | 103587,103626 |
 | Totemic Surge | 381867 | 1 | PASSIVE | 11,4 | 23 | 103599,103587,103593 |
@@ -92,19 +98,19 @@ confidence: high
 | Power of the Maelstrom | 191861 | 1 | PASSIVE | 8,14 | 8 | 103638 |
 | Earthshatter | 468626 | 1 | PASSIVE | 8,15 | 8 | 103635,103631,103638 |
 | Storm Infusion | 1258889 | 1 | PASSIVE | 8,16 | 8 | 103631 |
-| Echo Chamber | 382032 | 1 | PASSIVE | 8,17 | 8 | 103633,110066,103631 |
+| Echo Chamber | 382032 | 1 | PASSIVE | 8,17 | 8 | 110066,103631,103633 |
 | Everlasting Elements | 462867 | 1 | PASSIVE | 8,18 | 8 | 103633 |
-| Earthen Rage | 170374 | 1 | PASSIVE | 8,19 | 8 | 103633,81005 |
+| Earthen Rage | 170374 | 1 | PASSIVE | 8,19 | 8 | 81005,103633 |
 | Lava Flows | 1273485 | 1 | PASSIVE | 8,20 | 8 | 81005,103630 |
 | Fusion of Elements | 462840 | 1 | PASSIVE | 9,14 | 20 | 80996 |
-| Eye of the Storm | 381708 | 1 | PASSIVE | 9,16 | 20 | 81015,103636,80995 |
+| Eye of the Storm | 381708 | 1 | PASSIVE | 9,16 | 20 | 80995,81015,103636 |
 | Ascendance | 114050 | 1 | ACTIVE | 9,17 | 20 | 81015 |
-| Inferno Arc | 1259047 | 1 | PASSIVE | 9,18 | 20 | 81010,103634,81015 |
+| Inferno Arc | 1259047 | 1 | PASSIVE | 9,18 | 20 | 81015,81010,103634 |
 | Flames of the Firelord | 381784 | 1 | PASSIVE | 9,20 | 20 | 110186,81010 |
-| Lightning Rod | 210689 | 1 | PASSIVE | 10,15 | 20 | 80993,81003 |
+| Lightning Rod | 210689 | 1 | PASSIVE | 10,15 | 20 | 81003,80993 |
 | Mountains Will Fall | 381726 | 1 | PASSIVE | 10,16 | 20 | 80989,81003 |
 | Call of Fire | 378255 | 1 | PASSIVE | 10,17 | 20 | 80989 |
-| Voltaic Blaze | 470057 | 1 | ACTIVE | 10,19 | 20 | 103641,81008 |
+| Voltaic Blaze | 470057 | 1 | ACTIVE | 10,19 | 20 | 81008,103641 |
 | Charged Conduit | 468625 | 1 | PASSIVE | 11,14 | 20 | 81012 |
 | First Ascendant / Preeminence | 462440 / 462443 | 1/1 | CHOICE | 11,16 | 20 | 80992 |
 | Primal Elementalist | 117013 | 1 | PASSIVE | 11,18 | 20 | 80992 |

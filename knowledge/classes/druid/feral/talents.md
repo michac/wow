@@ -1,16 +1,22 @@
 ---
-title: Druid Feral — talent tree (12.0.7)
-patch: 12.0.7
-build: 12.0.7.67808
-fetched: 2026-06-19
-reviewed: 2026-07-07
+title: Druid Feral — talent tree (12.1.0)
+patch: 12.1.0
+build: 12.1.0.68914
+fetched: 
 sources:
   - https://us.api.blizzard.com/data/wow/talent-tree (Blizzard Game Data API, Tier 1)
-  - https://wago.tools/db2 Trait* @ 12.0.7.67808 (Tier 1)
+  - https://wago.tools/db2 Trait* @ 12.1.0.68914 (Tier 1)
 confidence: high
 ---
+> **Build provenance.** This file was generated from the Blizzard Game Data API and
+> wago `Trait*` DB2 at build **12.1.0.68914**, which is what the API's `static-12.1.0`
+> namespace reported on 2026-08-11. The live client that day was **12.1.0.69214**. The
+> `Trait*` DB2 exports at the two builds are **byte-identical** (verified by md5 on
+> `TraitNodeEntry`), so this data is valid for live 12.1 — cite it as **@ 12.1.0.68914**,
+> not 69214.
 
-# Druid Feral — talents (12.0.7)
+
+# Druid Feral — talents (12.1.0)
 
 > Generated from `knowledge/classes/_talents/all-talents.tsv`. Spell IDs are the talent's granted spell. Choice nodes show both options as `A / B`. See `_talents/README.md` for the schema.
 
@@ -82,7 +88,7 @@ confidence: high
 | Omen of Clarity | 16864 | 1 | PASSIVE | 3,19 | — | 82124 |
 | Coiled to Spring | 449537 | 1 | PASSIVE | 3,20 | — | 82124 |
 | Primal Wrath | 285381 | 1 | ACTIVE | 3,21 | — | 82124 |
-| Merciless Claws | 231063 | 1 | PASSIVE | 4,18 | — | 82123 |
+| Rampant Ferocity | 391709 | 1 | PASSIVE | 4,18 | — | 82123 |
 | Predator | 202021 | 1 | PASSIVE | 4,20 | — | 82120,82123 |
 | Double-Clawed Rake | 391700 | 1 | PASSIVE | 4,22 | — | 82120 |
 | Sabertooth | 202031 | 1 | PASSIVE | 5,19 | — | 82098,82122,82123 |
@@ -95,8 +101,8 @@ confidence: high
 | Moment of Clarity | 236068 | 1 | PASSIVE | 7,18 | 8 | 82104 |
 | Savage Fury | 449645 | 1 | PASSIVE | 7,19 | 8 | 82104 |
 | Berserk | 106951 | 1 | ACTIVE | 7,20 | 8 | 82116 |
-| Panther's Guile | 1280316 | 1 | PASSIVE | 7,21 | 8 | 82118 |
-| Rampant Ferocity | 391709 | 1 | PASSIVE | 7,22 | 8 | 82118 |
+| Merciless Claws | 231063 | 1 | PASSIVE | 7,21 | 8 | 82118 |
+| Panther's Guile | 1280316 | 1 | PASSIVE | 7,22 | 8 | 82118 |
 | Infected Wounds | 48484 | 1 | PASSIVE | 7,23 | 8 | 82118 |
 | Raging Fury / Tiger's Tenacity | 391078 / 391872 | 1/1 | CHOICE | 8,17 | 8 | 82106,92641 |
 | Wild Slashes | 390864 | 1 | PASSIVE | 8,19 | 8 | 82099,82106,82101 |

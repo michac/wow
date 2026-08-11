@@ -4,10 +4,10 @@
   "spec": "balance",
   "spec_id": 102,
   "tree_id": 793,
-  "patch": "12.0.7",
-  "build": "12.0.7.67808",
+  "patch": "12.1.0",
+  "build": "12.1.0.68914",
   "source": "api",
-  "serial_count": 281,
+  "serial_count": 282,
   "granted_serials": [
     201,
     208
@@ -1937,12 +1937,12 @@
         "entries": [
           {
             "entry_id": "109850",
-            "talent": "Astral Communion",
-            "spell_id": 450598,
+            "talent": "Sculpt the Stars",
+            "spell_id": 1240188,
             "max_ranks": "1",
             "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/talentspec_druid_balance.jpg",
-            "desc": "Increases maximum Astral Power by 20. Entering Eclipse reduces the Astral Power cost of your next Starsurge or Starfall by 15."
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_eclipseorange.jpg",
+            "desc": "The cooldowns of Lunar Eclipse and Solar Eclipse are reduced by 2 sec."
           }
         ]
       },
@@ -2012,12 +2012,12 @@
         "entries": [
           {
             "entry_id": "117100",
-            "talent": "Sculpt the Stars",
-            "spell_id": 1240188,
+            "talent": "Astral Communion",
+            "spell_id": 450598,
             "max_ranks": "1",
             "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_eclipseorange.jpg",
-            "desc": "The cooldowns of Lunar Eclipse and Solar Eclipse are reduced by 2 sec."
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/talentspec_druid_balance.jpg",
+            "desc": "Increases maximum Astral Power by 20. Entering Eclipse reduces the Astral Power cost of your next Starsurge or Starfall by 15."
           }
         ]
       },
@@ -2315,8 +2315,8 @@
         "serial_order": 256,
         "req_points": 20,
         "prereq_node_ids": [
-          88224,
-          88206
+          88206,
+          88224
         ],
         "entries": [
           {

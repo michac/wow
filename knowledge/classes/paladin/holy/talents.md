@@ -1,16 +1,22 @@
 ---
-title: Paladin Holy — talent tree (12.0.7)
-patch: 12.0.7
-build: 12.0.7.67808
-fetched: 2026-06-19
-reviewed: 2026-07-07
+title: Paladin Holy — talent tree (12.1.0)
+patch: 12.1.0
+build: 12.1.0.68914
+fetched: 
 sources:
   - https://us.api.blizzard.com/data/wow/talent-tree (Blizzard Game Data API, Tier 1)
-  - https://wago.tools/db2 Trait* @ 12.0.7.67808 (Tier 1)
+  - https://wago.tools/db2 Trait* @ 12.1.0.68914 (Tier 1)
 confidence: high
 ---
+> **Build provenance.** This file was generated from the Blizzard Game Data API and
+> wago `Trait*` DB2 at build **12.1.0.68914**, which is what the API's `static-12.1.0`
+> namespace reported on 2026-08-11. The live client that day was **12.1.0.69214**. The
+> `Trait*` DB2 exports at the two builds are **byte-identical** (verified by md5 on
+> `TraitNodeEntry`), so this data is valid for live 12.1 — cite it as **@ 12.1.0.68914**,
+> not 69214.
 
-# Paladin Holy — talents (12.0.7)
+
+# Paladin Holy — talents (12.1.0)
 
 > Generated from `knowledge/classes/_talents/all-talents.tsv`. Spell IDs are the talent's granted spell. Choice nodes show both options as `A / B`. See `_talents/README.md` for the schema.
 
@@ -27,9 +33,9 @@ confidence: high
 | Blinding Light | 115750 | 1 | ACTIVE | 3,5 | — | 81510,81600 |
 | Turn Evil | 10326 | 1 | ACTIVE | 3,7 | — | 81510 |
 | A Just Reward | 469411 | 2 | PASSIVE | 4,1 | — | 81508 |
-| Afterimage | 385414 | 1 | PASSIVE | 4,2 | — | 81508,103859,109999 |
+| Afterimage | 385414 | 1 | PASSIVE | 4,2 | — | 103859,109999,81508 |
 | Guided Prayer | 404357 | 1 | PASSIVE | 4,3 | — | 109999 |
-| Divine Steed | 190784 | 1 | ACTIVE | 4,4 | — | 81598,81600,109999 |
+| Divine Steed | 190784 | 1 | ACTIVE | 4,4 | — | 109999,81598,81600 |
 | Light's Countenance | 469325 | 1 | PASSIVE | 4,5 | — | 81598 |
 | Greater Judgment | 231644 | 1 | PASSIVE | 4,6 | — | 81510,81598 |
 | Wrench Evil / Stand Against Evil | 460720 / 469317 | 1/1 | CHOICE | 4,7 | — | 93010 |
@@ -41,19 +47,19 @@ confidence: high
 | Obduracy | 385427 | 2 | PASSIVE | 6,2 | 8 | 81605,103860 |
 | Divine Toll / Holy Prism | 375576 / 114165 | 1/1 | CHOICE | 6,4 | 8 | 81631,81605 |
 | Echoing Blessings / Unbound Freedom | 387801 / 305394 | 1/1 | CHOICE | 6,5 | 8 | 81631 |
-| Sanctified Plates | 402964 | 2 | PASSIVE | 6,6 | 8 | 110092,81631,92220 |
-| Divine Reach | 469476 | 1 | PASSIVE | 7,1 | 8 | 103860,81630 |
+| Sanctified Plates | 402964 | 2 | PASSIVE | 6,6 | 8 | 92220,110092,81631 |
+| Divine Reach | 469476 | 1 | PASSIVE | 7,1 | 8 | 81630,103860 |
 | Brought to Light | 1265549 | 1 | PASSIVE | 7,2 | 8 | 81630 |
-| Blessing of Sacrifice | 6940 | 1 | ACTIVE | 7,3 | 8 | 81605,81496,81630 |
+| Blessing of Sacrifice | 6940 | 1 | ACTIVE | 7,3 | 8 | 81630,81605,81496 |
 | Divine Resonance / Quickened Invocation | 386738 / 379391 | 1/1 | CHOICE | 7,4 | 8 | 81496 |
-| Blessing of Protection | 1022 | 1 | ACTIVE | 7,5 | 8 | 93520,81496,93009 |
+| Blessing of Protection | 1022 | 1 | ACTIVE | 7,5 | 8 | 93009,93520,81496 |
 | Fear No Evil | 1265541 | 1 | PASSIVE | 7,6 | 8 | 93009 |
 | Consecrated Ground | 204054 | 1 | PASSIVE | 7,7 | 8 | 93009 |
-| Holy Aegis | 385515 | 1 | PASSIVE | 8,2 | 8 | 93168,81614,109998 |
+| Holy Aegis | 385515 | 1 | PASSIVE | 8,2 | 8 | 109998,93168,81614 |
 | Sacrifice of the Just / Recompense | 384820 / 384914 | 1/1 | CHOICE | 8,3 | 8 | 81614 |
 | Sacred Strength / Divine Purpose | 469337 / 223817 | 1/1 | CHOICE | 8,4 | 8 | 81614,81616 |
 | Improved Blessing of Protection | 384909 | 1 | PASSIVE | 8,5 | 8 | 81616 |
-| Unbreakable Spirit | 114154 | 1 | PASSIVE | 8,6 | 8 | 81543,81616,109997 |
+| Unbreakable Spirit | 114154 | 1 | PASSIVE | 8,6 | 8 | 109997,81543,81616 |
 | Lightforged Blessing | 406468 | 1 | PASSIVE | 9,1 | 23 | 93168,81609 |
 | Lightforged Blessing | 406468 | 1 | PASSIVE | 9,1 | 23 | 93168,81609 |
 | Lead the Charge | 469780 | 1 | PASSIVE | 9,2 | 23 | 81609,81607 |
@@ -89,22 +95,22 @@ confidence: high
 | Moment of Compassion / Resplendent Light | 387786 / 392902 | 1/1 | CHOICE | 6,14 | 8 | 81590 |
 | Divine Favor | 1270916 | 1 | PASSIVE | 6,16 | 8 | 108099,93927 |
 | Unwavering Spirit / Protection of Tyr | 392911 / 200430 | 1/1 | CHOICE | 6,18 | 8 | 81567 |
-| Imbued Infusions | 392961 | 1 | PASSIVE | 6,20 | 8 | 81568,81575 |
+| Imbued Infusions | 392961 | 1 | PASSIVE | 6,20 | 8 | 81575,81568 |
 | Light of the Martyr | 447985 | 1 | PASSIVE | 6,22 | 8 | 81564 |
-| Righteous Judgment | 414113 | 1 | PASSIVE | 7,15 | 8 | 81571,81590,81570 |
+| Righteous Judgment | 414113 | 1 | PASSIVE | 7,15 | 8 | 81590,81570,81571 |
 | Saved by the Light | 157047 | 1 | PASSIVE | 7,17 | 8 | 81566,81570,108099 |
 | Light's Protection | 461243 | 1 | PASSIVE | 7,19 | 8 | 81557,81566 |
 | Overflowing Light | 461244 | 1 | PASSIVE | 7,20 | 8 | 81557 |
 | Shining Righteousness | 414443 | 1 | PASSIVE | 7,21 | 8 | 81557,81564 |
 | Liberation / Crusader's Might | 461287 / 196926 | 1/1 | CHOICE | 8,14 | 8 | 93523,81571 |
 | Tirion's Devotion | 414720 | 1 | PASSIVE | 8,15 | 8 | 93523 |
-| Commanding Light | 387781 | 1 | PASSIVE | 8,16 | 8 | 81574,93523,81570 |
+| Commanding Light | 387781 | 1 | PASSIVE | 8,16 | 8 | 81570,81574,93523 |
 | Glistening Radiance | 1241805 | 1 | PASSIVE | 8,17 | 8 | 81574 |
 | Breaking Dawn | 387879 | 2 | PASSIVE | 8,18 | 8 | 81574,93522 |
 | Divine Revelations | 387808 | 1 | PASSIVE | 8,19 | 8 | 93522 |
 | Divine Glimpse | 387805 | 1 | PASSIVE | 8,20 | 8 | 81556,93522,81562 |
 | Bestow Light | 448040 | 1 | PASSIVE | 8,22 | 8 | 81561 |
-| Beacon of Faith / Beacon of Virtue | 156910 / 200025 | 1/1 | CHOICE | 9,15 | 20 | 81580,102502,81573 |
+| Beacon of Faith / Beacon of Virtue | 156910 / 200025 | 1/1 | CHOICE | 9,15 | 20 | 81580,81573,102502 |
 | Empyrean Legacy | 1241358 | 1 | PASSIVE | 9,16 | 20 | 81580 |
 | Veneration | 392938 | 1 | PASSIVE | 9,17 | 20 | 81576,81580,81583 |
 | Avenging Wrath / Avenging Crusader | 31884 / 216331 | 1/1 | CHOICE | 9,19 | 20 | 81583,81585,81578 |
@@ -114,12 +120,12 @@ confidence: high
 | Sanctified Wrath / Awakening | 53376 / 414195 | 1/1 | CHOICE | 10,18 | 20 | 81584 |
 | Call of the Righteous | 1241511 | 2 | PASSIVE | 10,20 | 20 | 81584 |
 | Truth Prevails | 461273 | 1 | PASSIVE | 10,21 | 20 | 81558 |
-| Divine Overload | 1271077 | 1 | PASSIVE | 10,22 | 20 | 81560,81558 |
+| Divine Overload | 1271077 | 1 | PASSIVE | 10,22 | 20 | 81558,81560 |
 | Rising Sunlight | 1277651 | 1 | PASSIVE | 11,15 | 20 | 81554 |
 | Glorious Dawn | 461246 | 1 | PASSIVE | 11,17 | 20 | 81594,81592 |
 | Seraphic Barrier | 1241714 | 1 | PASSIVE | 11,18 | 20 | 81592 |
-| Tyr's Deliverance / Hand of Divinity | 1241275 / 1242008 | 1/1 | CHOICE | 11,19 | 20 | 81592,81587,81584 |
-| Inflorescence of the Sunwell | 392907 | 1 | PASSIVE | 11,21 | 20 | 81589,108034,81587 |
+| Tyr's Deliverance / Hand of Divinity | 1241275 / 1242008 | 1/1 | CHOICE | 11,19 | 20 | 81584,81592,81587 |
+| Inflorescence of the Sunwell | 392907 | 1 | PASSIVE | 11,21 | 20 | 108034,81587,81589 |
 | Beacon of the Savior | 1244878 | 1 | ACTIVE | 12,18 | 20 | — |
 
 ## Hero: Lightsmith
@@ -131,7 +137,7 @@ confidence: high
 | Rite of Sanctification / Rite of Adjuration | 433568 / 433583 | 1/1 | CHOICE | 8,9 | — | 95234,110257 |
 | Solidarity | 432802 | 1 | PASSIVE | 8,10 | — | 95234,110257 |
 | Divine Guidance / Blessed Assurance | 433106 / 433015 | 1/1 | CHOICE | 8,11 | — | 95234,110257 |
-| Masterwork | 1271387 | 1 | PASSIVE | 8,12 | — | 95234,110257 |
+| Masterwork | 1271387 | 1 | PASSIVE | 8,12 | — | 110257,95234 |
 | Laying Down Arms | 432866 | 1 | PASSIVE | 9,9 | — | 95233 |
 | Divine Inspiration / Forewarning | 432964 / 432804 | 1/1 | CHOICE | 9,10 | — | 95228 |
 | Authoritative Rebuke / Tempered in Battle | 469886 / 469701 | 1/1 | CHOICE | 9,11 | — | 95235 |

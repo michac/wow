@@ -1,16 +1,22 @@
 ---
-title: Warlock Destruction — talent tree (12.0.7)
-patch: 12.0.7
-build: 12.0.7.67808
-fetched: 2026-06-19
-reviewed: 2026-07-07
+title: Warlock Destruction — talent tree (12.1.0)
+patch: 12.1.0
+build: 12.1.0.68914
+fetched: 
 sources:
   - https://us.api.blizzard.com/data/wow/talent-tree (Blizzard Game Data API, Tier 1)
-  - https://wago.tools/db2 Trait* @ 12.0.7.67808 (Tier 1)
+  - https://wago.tools/db2 Trait* @ 12.1.0.68914 (Tier 1)
 confidence: high
 ---
+> **Build provenance.** This file was generated from the Blizzard Game Data API and
+> wago `Trait*` DB2 at build **12.1.0.68914**, which is what the API's `static-12.1.0`
+> namespace reported on 2026-08-11. The live client that day was **12.1.0.69214**. The
+> `Trait*` DB2 exports at the two builds are **byte-identical** (verified by md5 on
+> `TraitNodeEntry`), so this data is valid for live 12.1 — cite it as **@ 12.1.0.68914**,
+> not 69214.
 
-# Warlock Destruction — talents (12.0.7)
+
+# Warlock Destruction — talents (12.1.0)
 
 > Generated from `knowledge/classes/_talents/all-talents.tsv`. Spell IDs are the talent's granted spell. Choice nodes show both options as `A / B`. See `_talents/README.md` for the schema.
 
@@ -19,7 +25,7 @@ confidence: high
 | Talent | Spell ID | Ranks | Type | Row,Col | Req pts | Prereqs |
 |---|---|---|---|---|---|---|
 | Fel Domination | 333889 | 1 | ACTIVE | 2,2 | — | — |
-| Soul Leech | 108370 | 1 | PASSIVE | 2,4 | — | — |
+| Soul Leech | 1311653 | 1 | PASSIVE | 2,4 | — | — |
 | Burning Rush | 111400 | 1 | ACTIVE | 2,6 | — | — |
 | Fel Pact | 386113 | 1 | PASSIVE | 3,2 | — | 71931 |
 | Demon Skin | 219272 | 2 | PASSIVE | 3,3 | — | 71933,71931 |
@@ -35,7 +41,7 @@ confidence: high
 | Mortal Coil | 6789 | 1 | ACTIVE | 5,7 | — | 71922 |
 | Pact of the Annihilan | 1270693 | 1 | PASSIVE | 6,2 | 8 | 109847,71944 |
 | Demonic Circle | 268358 | 1 | ACTIVE | 6,4 | 8 | 109846,109847 |
-| Pact of the Satyr | 1270691 | 1 | PASSIVE | 6,6 | 8 | 109846,71942,109844 |
+| Pact of the Satyr | 1270691 | 1 | PASSIVE | 6,6 | 8 | 109844,109846,71942 |
 | Improved Mortal Coil | 1265816 | 1 | PASSIVE | 6,7 | 8 | 71942 |
 | Dark Pact | 108416 | 1 | ACTIVE | 7,1 | 8 | 110071 |
 | Foul Mouth | 1265813 | 1 | PASSIVE | 7,2 | 8 | 110071 |
@@ -43,7 +49,7 @@ confidence: high
 | Abyss Walker | 389609 | 1 | PASSIVE | 7,4 | 8 | 100941 |
 | Fortified Soul | 1271694 | 1 | PASSIVE | 7,5 | 8 | 100941,110072 |
 | Teachings of the Black Harvest | 385881 | 1 | PASSIVE | 7,6 | 8 | 110072 |
-| Gorefiend's Avarice | 1270701 | 1 | PASSIVE | 7,7 | 8 | 110072,109845 |
+| Gorefiend's Avarice | 1270701 | 1 | PASSIVE | 7,7 | 8 | 109845,110072 |
 | Ichor of Devils / Frequent Donor | 386664 / 386686 | 1/1 | CHOICE | 8,1 | 8 | 71936 |
 | Pact of the Eredar | 1270695 | 1 | PASSIVE | 8,3 | 8 | 71954,109840,110075 |
 | Pact of the Nathrezim | 1270690 | 1 | PASSIVE | 8,5 | 8 | 71954,110074 |
@@ -51,7 +57,7 @@ confidence: high
 | Empowered Drain Life | 1271689 | 1 | PASSIVE | 8,7 | 8 | 71923 |
 | Strength of Will / Dark Accord | 317138 / 386659 | 1/1 | CHOICE | 9,2 | 23 | 109843,71937 |
 | Demonic Gateway | 111771 | 1 | ACTIVE | 9,4 | 23 | 109843,110073 |
-| Howl of Terror / Shadowfury | 5484 / 30283 | 1/1 | CHOICE | 9,6 | 23 | 110073,110076,71917 |
+| Howl of Terror / Shadowfury | 5484 / 30283 | 1/1 | CHOICE | 9,6 | 23 | 71917,110073,110076 |
 | Swift Artifice | 452902 | 1 | PASSIVE | 10,1 | 23 | 71956 |
 | Soul Link | 108415 | 2 | PASSIVE | 10,3 | 23 | 71955,71956 |
 | Frequent Traveler | 1265801 | 1 | PASSIVE | 10,4 | 23 | 71955 |
@@ -76,7 +82,7 @@ confidence: high
 | Mayhem / Havoc | 387506 / 80240 | 1/1 | CHOICE | 5,18 | — | 72067,108678 |
 | Scalding Flames | 388832 | 1 | PASSIVE | 5,20 | — | 108678,72065 |
 | Shadowburn | 17877 | 1 | ACTIVE | 6,15 | 8 | 72059 |
-| Backlash | 387384 | 2 | PASSIVE | 6,17 | 8 | 71979,72059 |
+| Backlash | 387384 | 2 | PASSIVE | 6,17 | 8 | 72059,71979 |
 | Improved Havoc | 1244460 | 1 | PASSIVE | 6,18 | 8 | 71979 |
 | Ashen Remains | 387252 | 2 | PASSIVE | 6,19 | 8 | 71973,71979 |
 | Cataclysm | 152108 | 1 | ACTIVE | 6,21 | 8 | 71973 |
@@ -91,8 +97,8 @@ confidence: high
 | Crashing Chaos / Rain of Chaos | 417234 / 266086 | 1/1 | CHOICE | 8,18 | 8 | 71985 |
 | Summoner's Embrace / Grimoire of Sacrifice | 453105 / 108503 | 1/1 | CHOICE | 8,20 | 8 | 71982,102427,72062 |
 | Ruin | 387103 | 2 | PASSIVE | 9,16 | 20 | 71980 |
-| Improved Chaos Bolt | 456951 | 1 | PASSIVE | 9,17 | 20 | 71980,71960 |
-| Destructive Rapidity | 1244928 | 1 | PASSIVE | 9,19 | 20 | 71971,71960 |
+| Improved Chaos Bolt | 456951 | 1 | PASSIVE | 9,17 | 20 | 71960,71980 |
+| Destructive Rapidity | 1244928 | 1 | PASSIVE | 9,19 | 20 | 71960,71971 |
 | Devastation | 454735 | 2 | PASSIVE | 9,20 | 20 | 71971 |
 | Dimensional Rift / Soul Fire | 1280868 / 6353 | 1/1 | CHOICE | 10,15 | 20 | 72066 |
 | Chaos Incarnate | 387275 | 1 | PASSIVE | 10,17 | 20 | 72066,101992 |

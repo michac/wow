@@ -1,18 +1,18 @@
 ---
 title: Demonology Warlock Raid Guide
-patch: 12.0.7
-fetched: 2026-07-14
-reviewed: 2026-07-14
+patch: 12.0.1
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
   - https://maxroll.gg/wow/class-guides/demonology-warlock-raid-guide (maxroll.gg, Tier 3)
 confidence: medium
 verbatim: true          # unedited external capture — distill on read, not on insert
 source: maxroll.gg
 author: wolfdisco
-maxroll_updated: 2026-06-17   # source's last-modified (staleness signal)
+maxroll_updated: 2026-08-11   # source's last-modified (staleness signal)
 ---
 
-Welcome to the **Demonology** Warlock** Raid guide for the World of Warcraft patch 12.0.7! This guide covers everything you need to know to understand your character! Are you starting out and leveling up from 80? Check out the leveling guide!
+Welcome to the **Demonology** Warlock** Raid guide for the World of Warcraft patch 12.1! This guide covers everything you need to know to understand your character! Are you starting out and leveling up from 80? Check out the leveling guide!
 
 Single-Target 
 
@@ -34,7 +34,7 @@ Mobility
 
 Average
 
-[Maxroll paperdoll import](https://backend.maxroll.gg/wow/embed-tools/paperdoll=IUpAgCAA3_PABoL0DIICBAwJ5OwVtOggCESABghzDAIIBAgDtOgBykQNkVjgBUBINT9ACgQAAcRuJQCT9C9ACARAAkQuDodNCKgKBEwtQPQD1AjsSAsEGIDZ1ESABkL0FUDCFo6AFkFG6fBBAARAA0gM4BCqDQIEBAwJqOAIAPgDtOAAAIyLdEQA7C9AAgQAAIYA1BiAYQggQEAA1jbAg0wNQAE0DIQIRQhNkCATR_8AAASAAIrEALhBycVNqEQAgEdBSQhBykQNCKQBSwHKoOABAEAAgA8Ano6AdEQAP3aACARAA0TuDIoAXVjKBA)
+[Maxroll paperdoll import](https://backend.maxroll.gg/wow/embed-tools/paperdoll=IotAYrQA3_fABIgJEIIOBAw74OwVtOgF2gCAAWzX1cBNYYzf1gVABk-FEAQKBAABtOABtOAj1QWNoAQAcAPTYFQA4SCBCgRAAcRuD4XNBWjgC4UAB0LJEIAKBAQC5Oge1IYN2IzF0gCAOFQAhg6ACiTAAoBwDQQrDY7LMYzt1sZJAMCYwYbNLFQA5SSB1wQBqOQfuUDAE89FF8FRPk7AYYjX1IoAYFQAgg6ACCTAVgEIgBDAjYbNWJytBYEH7SCBAgRAAsXBLyCWBEA3XQgggEAA1jbA4SAZ1EgtcYjMOFQAeqmAZgBF2IjX1YbNFsLBU9RBAVBKEQYLFARAiUAIY09FEAACBAQBISA9iUwmI0TuDEwLAgRINgTpXQAAYEAA2IjX1IoAOFA)
 
 **Demonology** Warlock** Raid Best in Slot
 
@@ -131,7 +131,7 @@ Following you receive a list of meaningful class changes going from The War With
 
 **[Diabolist](https://www.wowhead.com/spell=123386) Raid Build**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CqQA-41RifCY33JXfKqYp1_dPzMzDMzMNbMMzMzsMAAAAAAAgxMGWgB2GtQDLGMzysMzMjZAgZYmZmZGAmZGDAAwMzMzMDjZZGDY)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CqQAUgGY_myp-zpUCockSq2z5zMzMzMNLMMzMmtBAAAAAAYsYGzYYBGmZb2ajmxixYsMLzMzYGAYmxMzMzMYmhZMzAAAMmZmZGGWmxAG)
 
 [Diabolist](https://www.wowhead.com/spell=123386) **Demonology Warlock** Raid Build talents in Raids
 
@@ -179,10 +179,10 @@ Discover all talents that significantly alter your gameplay within the Spec and 
 
 ### Tier Set
 
-Check out all the [Midnight Season 1 Tier Sets](https://maxroll.gg/wow/resources/midnight-season-1-tier-sets)!
+Check out all the [**Midnight Season 2 Tier Sets**](https://maxroll.gg/wow/resources/midnight-season-2-tier-sets)!
 
-* **2-Set:** [Hand of Gul'dan](https://www.wowhead.com/spell=105174) damage increased by 15%.
-  * **4-Set:** Your [Dreadstalkers](https://www.wowhead.com/spell=104316) deal 10% increased damage and last 3 additional seconds.
+* **2-Set:** [Wild Imp](https://www.wowhead.com/spell=104317) damage increased by 10%. [Implosion](https://www.wowhead.com/spell=196277) damage increased by 20%.
+  * **4-Set:** When their energy depletes, [Wild Imps](https://www.wowhead.com/spell=104317) have a 20% chance to fling themselves at their target and [Implode](https://www.wowhead.com/spell=196277) at 250% effectiveness to their main target and 225% effectiveness to other targets.
 
 ### Single-Target
 
@@ -258,7 +258,7 @@ This is a general priority you aim to maintain throughout the fight.
 * The goal of your opener is to empower and extend [Call Dreadstalkers](https://www.wowhead.com/spell=104316) & [Grimoire: Imp Lord](https://www.wowhead.com/spell=136726) with [Summon Demonic Tyrant](https://www.wowhead.com/spell=265187).
   * When you are running [Implosion](https://www.wowhead.com/spell=125836) and have no [Demonic Cores](https://www.wowhead.com/spell=267102) you can pre-cast [Demonbolt](https://www.wowhead.com/spell=264178) instead.
 
-[Maxroll rotation import](https://backend.maxroll.gg/wow/embed-tools/rotation=IUDZHIgrCAACQJXZtMWYzRHAC4qAAAAACBweTAQAIQAJ6VAC8IAfXGAAAIw4LQAAAIk1aGA)
+[Maxroll rotation import](https://backend.maxroll.gg/wow/embed-tools/rotation=I0CsGIgrCAACQJXZtMWYzRHAC4qAAAAACRieTAAAAAgA8dZAAAgAjvABAAgQWrZA)
 
 [Diabolist](https://www.wowhead.com/spell=123385) **Demonology Warlock** AoE opener in Raid
 
@@ -268,15 +268,14 @@ This is a general priority you aim to maintain throughout the fight.
 
 1. Cast [Call Dreadstalkers](https://www.wowhead.com/spell=104316) and [Grimoire: Imp Lord](https://www.wowhead.com/spell=136726) before [Summon Demonic Tyrant](https://www.wowhead.com/spell=265187).
   2. Cast [Call Dreadstalkers](https://www.wowhead.com/spell=104316) on cooldown.
-  3. Cast [Summon Doomguard](https://www.wowhead.com/spell=125863) on cooldown.
-  4. Cast [Implosion](https://www.wowhead.com/spell=125836) on cooldown with you have 6 [Wild Imps](https://www.wowhead.com/spell=104317) if talented.
-  5. Cast [Hand of Gul'dan](https://www.wowhead.com/spell=105174) / [Ruination](https://www.wowhead.com/spell=434635) if you are about to overcap on [Soul Shards](https://www.wowhead.com/spell=104756).
-  6. Cast [Infernal Bolt](https://www.wowhead.com/spell=433891) if you are below 3 [Soul Shards](https://www.wowhead.com/spell=104756) and [Infernal Bolt](https://www.wowhead.com/spell=433891) is up.
-  7. Cast [Demonbolt](https://www.wowhead.com/spell=264178) if you have 2+ stacks of [Demonic Core](https://www.wowhead.com/spell=267102).
-  8. Cast [Implosion](https://www.wowhead.com/spell=196277) on 4+ targets with 6+ [Wild Imps](https://www.wowhead.com/spell=104317).
-  9. Cast [Power Siphon](https://www.wowhead.com/spell=264130) when you have 2 or less [Demonic Core](https://www.wowhead.com/spell=267102) stacks. 
-  10. Cast [Hand of Gul'dan](https://www.wowhead.com/spell=105174) with 3 [Soul Shards](https://www.wowhead.com/spell=104756).
-  11. Cast [Shadow Bolt](https://www.wowhead.com/spell=686) to generate [Soul Shards](https://www.wowhead.com/spell=104756).
+  3. Cast [Implosion](https://www.wowhead.com/spell=125836) on cooldown with you have 6 [Wild Imps](https://www.wowhead.com/spell=104317) if talented.
+  4. Cast [Hand of Gul'dan](https://www.wowhead.com/spell=105174) / [Ruination](https://www.wowhead.com/spell=434635) if you are about to overcap on [Soul Shards](https://www.wowhead.com/spell=104756).
+  5. Cast [Infernal Bolt](https://www.wowhead.com/spell=433891) if you are below 3 [Soul Shards](https://www.wowhead.com/spell=104756) and [Infernal Bolt](https://www.wowhead.com/spell=433891) is up.
+  6. Cast [Demonbolt](https://www.wowhead.com/spell=264178) if you have 2+ stacks of [Demonic Core](https://www.wowhead.com/spell=267102).
+  7. Cast [Implosion](https://www.wowhead.com/spell=196277) on 4+ targets with 6+ [Wild Imps](https://www.wowhead.com/spell=104317).
+  8. Cast [Power Siphon](https://www.wowhead.com/spell=264130) when you have 2 or less [Demonic Core](https://www.wowhead.com/spell=267102) stacks. 
+  9. Cast [Hand of Gul'dan](https://www.wowhead.com/spell=105174) with 3 [Soul Shards](https://www.wowhead.com/spell=104756).
+  10. Cast [Shadow Bolt](https://www.wowhead.com/spell=686) to generate [Soul Shards](https://www.wowhead.com/spell=104756).
 
 **[Soul Harvester](https://www.wowhead.com/spell=123383)**
 
@@ -285,7 +284,7 @@ This is a general priority you aim to maintain throughout the fight.
 * The goal of your opener is to empower and extend [Call Dreadstalkers](https://www.wowhead.com/spell=104316) & [Grimoire: Imp Lord](https://www.wowhead.com/spell=136726) with [Summon Demonic Tyrant](https://www.wowhead.com/spell=265187).
   * When you are running [Implosion](https://www.wowhead.com/spell=125836) and have no [Demonic Cores](https://www.wowhead.com/spell=267102) you can pre-cast [Demonbolt](https://www.wowhead.com/spell=264178) instead.
 
-[Maxroll rotation import](https://backend.maxroll.gg/wow/embed-tools/rotation=IcDZHIgrCAACQJXZtMWYzRHACBweTAAAAAgQkoXBIwlA8dZAAAgAjvABAAgQWrZAAAAAAIk1aGA)
+[Maxroll rotation import](https://backend.maxroll.gg/wow/embed-tools/rotation=I8CuGIgrCAACQJXZtMWYzRHACRieTAAAAAgA8dZAAAgAjvABAAgQWrZAAAAAAIk1aGA)
 
 [Soul Harvester](https://www.wowhead.com/spell=123383) **Demonology Warlock** AoE opener in Raid
 
@@ -295,14 +294,13 @@ This is a general priority you aim to maintain throughout the fight.
 
 1. Cast [Call Dreadstalkers](https://www.wowhead.com/spell=104316) and [Grimoire: Imp Lord](https://www.wowhead.com/spell=136726) before [Summon Demonic Tyrant](https://www.wowhead.com/spell=265187).
   2. Cast [Call Dreadstalkers](https://www.wowhead.com/spell=104316) on cooldown.
-  3. Cast [Summon Doomguard](https://www.wowhead.com/spell=125863) on cooldown.
-  4. Cast [Implosion](https://www.wowhead.com/spell=125836) on cooldown with you have 6 [Wild Imps](https://www.wowhead.com/spell=104317) if talented.
-  5. Cast [Hand of Gul'dan](https://www.wowhead.com/spell=105174) if you are about to overcap on [Soul Shards](https://www.wowhead.com/spell=104756).
-  6. Cast [Demonbolt](https://www.wowhead.com/spell=264178) if you have 2+ stacks of [Demonic Core](https://www.wowhead.com/spell=267102).
-  7. Cast [Implosion](https://www.wowhead.com/spell=196277) on 4+ targets with 6+ [Wild Imps](https://www.wowhead.com/spell=104317).
-  8. Cast [Power Siphon](https://www.wowhead.com/spell=264130) when you have 2 or less [Demonic Core](https://www.wowhead.com/spell=267102) stacks. 
-  9. Cast [Hand of Gul'dan](https://www.wowhead.com/spell=105174) with 3 [Soul Shards](https://www.wowhead.com/spell=104756).
-  10. Cast [Shadow Bolt](https://www.wowhead.com/spell=686) to generate [Soul Shards](https://www.wowhead.com/spell=104756).
+  3. Cast [Implosion](https://www.wowhead.com/spell=125836) on cooldown with you have 6 [Wild Imps](https://www.wowhead.com/spell=104317) if talented.
+  4. Cast [Hand of Gul'dan](https://www.wowhead.com/spell=105174) if you are about to overcap on [Soul Shards](https://www.wowhead.com/spell=104756).
+  5. Cast [Demonbolt](https://www.wowhead.com/spell=264178) if you have 2+ stacks of [Demonic Core](https://www.wowhead.com/spell=267102).
+  6. Cast [Implosion](https://www.wowhead.com/spell=196277) on 4+ targets with 6+ [Wild Imps](https://www.wowhead.com/spell=104317).
+  7. Cast [Power Siphon](https://www.wowhead.com/spell=264130) when you have 2 or less [Demonic Core](https://www.wowhead.com/spell=267102) stacks. 
+  8. Cast [Hand of Gul'dan](https://www.wowhead.com/spell=105174) with 3 [Soul Shards](https://www.wowhead.com/spell=104756).
+  9. Cast [Shadow Bolt](https://www.wowhead.com/spell=686) to generate [Soul Shards](https://www.wowhead.com/spell=104756).
 
 ### [Implosion](https://www.wowhead.com/spell=196277) Cycles
 
@@ -352,154 +350,96 @@ Rotational min-maxing is just one aspect of mastering a specialization, but ther
 
 **← Scroll for more Bosses**→**
 
-**Chimaerus**
+**Nek'zali**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CqQA-41RifCY33JXfKqYp1_dPjhZmpZzMz2MzYWGAAAAAAAwYGDLwAbjWohFDmZZ2mZmxMAwMMzMzMDwMzYGbAAgZmZmxwYWmxAG)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CqQAUgGY_myp-zpUCockSq2z5zMzMzMNLMMzMmtBAAAAAAYsYGzYYBGmZb2ajmxixMjlZbmZGzAAzMGzMzMYmhZMzAAAMmZmZGGWmxAG)
 
-[Diabolist](https://www.wowhead.com/spell=123386) **Demonology Warlock** Chimaerus talents in Raids
-
-### Offensive Cooldown Usage
-
-* It is important that the adds die before they reach **Chimaerus.** If needed save cooldowns for it, but it is likely enough to just swap your target to the adds without saving cooldowns.
-
-### Defensive Cooldown Usage
-
-* Use [Unending Resolve](https://www.wowhead.com/spell=104773) when affected by [Consuming Miasma](https://www.wowhead.com/spell=1257087), ideally it lasts until you get dispelled to cover the followup debuff [Lingering Miasma](https://www.wowhead.com/spell=1258192).
+**Demonology** Warlock** Nek'zali talents in Raids
 
 ### Boss Tips
 
-* You can use [Curse of Exhaustion](https://www.wowhead.com/spell=136107) to slow any **Swarming Shade** that get close to **Chimaerus**.
-  * Use [Demonic Circle: Teleport](https://www.wowhead.com/spell=48020) to eliminate the downtime from the [Alndust Upheaval](https://www.wowhead.com/spell=1246149) knock up.
+* Ensure [Blight of Tongues](https://www.wowhead.com/spell=1271802) or [Curse of Tongues](https://www.wowhead.com/spell=1714) is active on the interrupt add when you go into the phase.
 
-**Imperator Averzian**
+**Entombed Sentinels**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CqQA-41RifCY33JXfKqYp1_dPzMzDMzMNbMMzMmlBAAAAAAAMmxwCMw2oFaYxgZWmtZmZMDAMDzMzMzAYmZGDAAwMzMzMDjZZGDY)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CqQAUgGY_myp-zpUCockSq2z5zMzMzMNLMMzMmtBAAAAAAYsYGzYYBGmZb2ajmxixYsMLzMzYGAYmxMzMzMYmhZMzAAAMmZmZGGWmxAG)
 
-[Diabolist](https://www.wowhead.com/spell=123386) **Demonology Warlock** Imperator Averzian talents in Raids
-
-### Offensive Cooldown Usage
-
-* The first set of adds spawn ~45 seconds into the fight, and after that there is a 70-80 second interval between add spawns. For your first pulls it can be a good idea to have cooldowns ready for add spawns.
-    * If you notice the adds dying without issue you can send cooldowns on the boss instead of holding.
+**Demonology** Warlock** Entombed Sentinels talents in Raids
 
 ### Boss Tips
 
-* Put **Shadowguard Stalwart** on focus and kick [Pitch Bulwark](https://www.wowhead.com/spell=1255702).
-  * Utilize your [Demonic Gateway](https://www.wowhead.com/spell=91466) to allow your raid group to travel between adds quickly.
-  * Pre-place a [Demonic Circle](https://www.wowhead.com/spell=124694) before combat and it can save you a lot of movement throughout the fight.
+* A well placed [Demonic Circle](https://www.wowhead.com/spell=48018) can allow you to move quickly between bosses.
 
-**Vorasius**
+**The Lost Explorers**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CqQA-41RifCY33JXfKqYp1_dPzMzMzoZjhZmZmlBAAAAAAYstNDGwAmxs1GNjNjxYZWmZmxMAgZmZmZMDmZYmZMAAAjZmZGGjlZAMA)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CqQAUgGY_myp-zpUCockSq2z5zMzMzMNLMMzMmtBAAAAAAYsYGzYYBGmZb2ajmxixMjlZbmZGzAAzMGzMzMYmhZMzAAAMmZmZGGWmxAG)
 
-[Soul Harvester](https://www.wowhead.com/spell=123383) **Demonology Warlock** Vorasius talents in Raids
-
-### Offensive Cooldown Usage
-
-* While there are add spawns, you want them to die a bit staggered, and so it might not be a good idea to send cooldowns on them. Just use your cooldowns for boss damage.
-
-### Defensive Cooldown Usage
-
-* Use defensive cooldowns if several **Blistercreep** are dying in a short period of time, they explode dealing damage to all players.
+**Demonology** Warlock** The Lost Explorers talents in Raids
 
 ### Boss Tips
 
-* Make sure to not stay close to **Blistercreep** as they die, they deal significant damage and give you [Blisterburst](https://www.wowhead.com/spell=1259184) which increases shadow damage taken.
-  * Place your [Demonic Circle](https://www.wowhead.com/spell=124694) near melee giving you an option to port over the rings.
+* Place your [Demonic Circle](https://www.wowhead.com/spell=48018) near the centre giving you an option to port over the fire ring instead of using the mushroom.
 
-**Fallen-King Salhadaar**
+**Vashnik**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CqQA-41RifCY33JXfKqYp1_dPzMzDMzMNbMMzMmlBAAAAAAAMmxwCMw2oFaYxgZWmtZmZMDAMDzMzMzAYmZGDAAwMzMzMDjZZGDY)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CqQAUgGY_myp-zpUCockSq2z5zMzMzMNLMMzMmtBAAAAAAYsYGzYYBGmZb2ajmxixYsMLzMzYGAYmxMzMzMYmhZMzAAAMmZmZGGWmxAG)
 
-[Diabolist](https://www.wowhead.com/spell=123386) **Demonology Warlock** Fallen-King Salhadaar talents in Raids
-
-### Offensive Cooldown Usage
-
-[Maxroll timeline import](https://backend.maxroll.gg/wow/embed-tools/timeline=IYCluj4hsEgACYnd_TGA4Bgd29_3AMPAAIgQfPwEAAw3AI03DMBAAQG)
-
-* **Fallen-King Salhadaar** takes increased damage during [Entropic Unraveling](https://www.wowhead.com/spell=1246175) which lines up very poorly with our cooldowns so it is recommended to just use them as they come up.
-
-### Defensive Cooldown Usage
-
-* Use a defensive when affected by [Despotic Command](https://www.wowhead.com/spell=1248697).
+**Demonology** Warlock** Vashnik talents in Raids
 
 ### Boss Tips
 
-* Place a [Demonic Circle](https://www.wowhead.com/spell=124694) before pull and use it when [Despotic Command](https://www.wowhead.com/spell=1248697) expires to place a pool of [Torturous Extract](https://www.wowhead.com/spell=1245592) in a good position that won't bother the raid.
+* You can hold [Implosion](https://www.wowhead.com/spell=125836) for add spawns to quickly burst them.
+  * Preplace your [Demonic Gateway](https://www.wowhead.com/spell=111771) and [Demonic Circle](https://www.wowhead.com/spell=48018) to quickly travel between add spawns.
 
-**Vaelgor & Ezzorak**
+**Sszorak**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CqQA-41RifCY33JXfKqYp1_dPzMzDMzMNbMMzMmlBAAAAAAAMmxwCMw2oFaYxgZWmtZmZMDAMDzMzMzAYmZGDAAwMzMzMDjZZGDY)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CqQAUgGY_myp-zpUCockSq2z5zMzMzMNLMMzMmtBAAAAAAYsYGzYYBGmZb2ajmxixYsMLzMzYGAYmxMzMzMYmhZMzAAAMmZmZGGWmxAG)
 
-[Diabolist](https://www.wowhead.com/spell=123386) **Demonology Warlock** Vaelgor & Ezzorak talents in Raids
-
-### Offensive Cooldown Usage
-
-* Consider saving [Call Dreadstalkers](https://www.wowhead.com/spell=125837) and [Implosion](https://www.wowhead.com/spell=125836) for [Void Howl](https://www.wowhead.com/spell=1244917) if you don't have to hold too long.
-  * Cycle between the targets whenever you're casting [Demonbolt](https://www.wowhead.com/spell=264178) to apply a fresh [Doom](https://www.wowhead.com/spell=136729) each time.
-
-### Defensive Cooldown Usage
-
-* Use defensive cooldowns when there is an overlap of 2 boss abilities, for example [Void Howl](https://www.wowhead.com/spell=1244917) and [Nullzone](https://www.wowhead.com/spell=1244672).
+**Demonology** Warlock** Sszorak talents in Raids
 
 ### Boss Tips
 
-* Be careful of **Vaelogors** tail, you might get lashed.
+* Place [Demonic Circle](https://www.wowhead.com/spell=48018) near the middle of the room to save yourself from knock ups and winds in the intermission.
 
-**Lightblinded Vanguard**
+**Twin Fangs**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CqQA-41RifCY33JXfKqYp1_dPzMzDMzMNbMMzMmlBAAAAAAAMmxwCMw2oFaYxgZWmtZmZMDAMDzMzMzAYmZGDAAwMzMzMDjZZGDY)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CqQAUgGY_myp-zpUCockSq2z5zMzMzMNLMMzMmtBAAAAAAYsYGzYYBGmZb2ajmxixMjlZbmZGzAAzMGzMzMYmhZMzAAAMmZmZGGWmxAG)
 
-[Diabolist](https://www.wowhead.com/spell=123386) **Demonology Warlock** Lightblinded Vanguard talents in Raids
-
-### Offensive Cooldown Usage
-
-* Cycle between the targets whenever you're casting [Demonbolt](https://www.wowhead.com/spell=264178) to apply a fresh [Doom](https://www.wowhead.com/spell=136729) each time.
-
-### Defensive Cooldown Usage
-
-* Use defensive cooldowns for [Execution Sentence](https://www.wowhead.com/spell=163250).
-
-**Crown of the Cosmos**
-
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CqQA-41RifCY33JXfKqYp1_dPzMzDMzMNbMMzMmlBAAAAAAAMmxwCMw2oFaYxgZWmtZmZMDAMDzMzMzAYmZGDAAwMzMzMDjZZGDY)
-
-[Diabolist](https://www.wowhead.com/spell=123386) **Demonology Warlock** Crown of the Cosmos talents in Raids
-
-* **Crown of the Cosmos** has not been seen or tested on the Beta servers of Midnight.
-  * The talent build above should be a good starting point.
-
-**Belo'ren**
-
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CqQA-41RifCY33JXfKqYp1_dPzMzDMzMNbMMzMzsMAAAAAAAgxMGWgB2GtQDLGMzysMzMjZAgZYmZmZGAmZGDAAwMzMzMDjZZGDY)
-
-[Diabolist](https://www.wowhead.com/spell=123386) **Demonology Warlock** Belo'ren talents in Raids
-
-### Offensive Cooldown Usage
-
-* If you have cooldowns ready as [Light Dive](https://www.wowhead.com/spell=1241291) or [Void Dive](https://www.wowhead.com/spell=1241339) is about to happen then hold them for the adds.
-
-### Defensive Cooldown Usage
-
-* Use a defensive if targeted by [Light Dive](https://www.wowhead.com/spell=1241291) or [Void Dive](https://www.wowhead.com/spell=1241339).
+**Demonology** Warlock** Twin Fangs talents in Raids
 
 ### Boss Tips
 
-* Soak the [Light Dive](https://www.wowhead.com/spell=1241291) if affected by [Light Feather](https://www.wowhead.com/spell=1241162).
-  * Soak the [Void Dive](https://www.wowhead.com/spell=1241339) if affected by [Void Feather](https://www.wowhead.com/spell=1241163).
-  * **Ember** adds retreat into an Egg and will cast [Rebirth](https://www.wowhead.com/spell=1241313). Defeat them before the cast finishes.
+* Make sure to target swap and pet attack add spawns to quickly kill them and reduce the amount of stacks your raid gets.
 
-**Midnight Falls**
+**Coiled Altar**
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CqQA-41RifCY33JXfKqYp1_dPzMzDMzMNbMMzMmlBAAAAAAAMmxwCMw2oFaYxgZWmtZmZMDAMDzMzMzAYmZGDAAwMzMzMDjZZGDY)
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CqQAUgGY_myp-zpUCockSq2z5zMzMzMNLMMzMmtBAAAAAAYsYGzYYBGmZb2ajmxixMjlZbmZGzAAzMGzMzMYmhZMzAAAMmZmZGGWmxAG)
 
-[Diabolist](https://www.wowhead.com/spell=123386) **Demonology Warlock** Midnight Falls talents in Raids
+**Demonology** Warlock** Coiled Altar talents in Raids
 
-**Rotmire**
+### Boss Tips
 
-[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CqQA-41RifCY33JXfKqYp1_dPzMzMzoZjhZmZmlBAAAAAAYstNjZmhFDDzsNbtRzYxYMWmtZmZMDAMzYmZmZGMzwMzYAAAGzMzMDDLzYAD)
+* Make sure to have [Grimoire: Imp Lord](https://www.wowhead.com/spell=136726) and [Summon Demonic Tyrant](https://www.wowhead.com/spell=125850) ready for the intermission damage amp.
 
-[Diabolist](https://www.wowhead.com/spell=123386) **Demonology Warlock** Rotmire talents in Raids
+**Ula'tek**
+
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CqQAUgGY_myp-zpUCockSq2z5zMzMzMNLMMzMmtBAAAAAAYsYGzYYBGmZb2ajmxixMjlZbmZGzAAzMGzMzMYmhZMzAAAMmZmZGGWmxAG)
+
+**Demonology** Warlock** Ula'tek talents in Raids
+
+### Boss Tips
+
+* Preplace your [Demonic Circle](https://www.wowhead.com/spell=48018) near melee to be able to port over the waves.
+
+**Nymrissa Wavecaller**
+
+[Maxroll talents import](https://backend.maxroll.gg/wow/embed-tools/talents=CqQAUgGY_myp-zpUCockSq2z5zMzMzMNLMMzMmtBAAAAAAYsYGzYYBGmZb2ajmxixMjlZbmZGzAAzMGzMzMYmhZMzAAAMmZmZGGWmxAG)
+
+**Demonology Warlock** Nymrissa Wavecaller talents in Raids
+
+### Boss Tips
+
+* Place a [Demonic Gateway](https://www.wowhead.com/spell=111771) in the safe spot of the intermission so your raid can cancel the knockback from the boss.
 
 Understand your secondary stat priority and the tertiary stats needed for optimal performance during Raid boss fights as a **Demonology** Warlock**. For more detailed information, visit the **[Stats and Attributes](https://maxroll.gg/wow/resources/stats-and-attributes)** guide.
 
@@ -523,21 +463,23 @@ A static "**Stat Priority** " is just a starting point and can easily shift depe
 
 Slot| Item| Location  
 ---|---|---  
-Head| [Abyssal Immolator's Smoldering Flames](https://www.wowhead.com/item=250042)| Tier / Catalyst  
-Neck| [Eternal Voidsong Chain](https://www.wowhead.com/item=249368)| Crown of the Cosmos  
-Shoulder| [Mantle of Dark Devotion](https://www.wowhead.com/item=251085)| Windrunner Spire  
-Cloak| [Adherent's Silken Shroud](https://www.wowhead.com/item=239656)| Crafting  
-Chest| [Abyssal Immolator's Dreadrobe](https://www.wowhead.com/item=250045)| Rotmire + Catalyst  
+Head| [Venomkeeper's Horrific Cowl](https://www.wowhead.com/item=271874)| Ula'tek  
+Neck| [Aqirbane Reliquary](https://www.wowhead.com/item=268265)| Ula'tek  
+Shoulder| [Spires of the Damned Necrolyte](https://www.wowhead.com/item=271544)| Tier  
+Cloak| [Silken Voodoo Drape](https://www.wowhead.com/item=268253)| The Coiled Altar  
+Chest| [Damned Necrolyte's Rattling Robes](https://www.wowhead.com/item=271549)| Tier  
 Wrist| [Martyr's Bindings](https://www.wowhead.com/item=239648)| Crafting  
-Gloves| [Abyssal Immolator's Grasps](https://www.wowhead.com/item=250043)| Tier / Catalyst  
-Belt| [Abyssal Immolator's Blazing Core](https://www.wowhead.com/item=250039)| Catalyst  
-Legs| [Abyssal Immolator's Pillars](https://www.wowhead.com/item=250041)| Tier / Catalyst  
-Boots| [Luxurious Loamstriders](https://www.wowhead.com/item=268282)| Rotmire  
-Ring 1| [Sporecaller's Blooming Loop](https://www.wowhead.com/item=268290)| Rotmire  
-Ring 2| [Eye of Midnight](https://www.wowhead.com/item=249920)| Midnight Falls  
-Trinket 1| [Locus-Walker's Ribbon](https://www.wowhead.com/item=249809)| Crown of the Cosmos  
-Trinket 2| [Emberwing Feather](https://www.wowhead.com/item=250144)| Windrunner Spire  
-Weapon| [Spire of the Furious Construct](https://www.wowhead.com/item=110031)| Skyreach
+Gloves| Convert [Grasps of the Eternal Shadow](https://www.wowhead.com/item=268243)  
+into [Damned Necrolyte's Charred Grasps](https://www.wowhead.com/item=271547)| Catalyst of The Coiled Altar  
+Belt| [Martyr's Waistwrap](https://www.wowhead.com/item=239649)| Crafting  
+Legs| [Damned Necrolyte's Leg Bindings](https://www.wowhead.com/item=271545)| Tier  
+Boots| [Cackling Soultreads](https://www.wowhead.com/item=268255)| The Coiled Altar  
+Ring 1| [Apex Brute's Claw Ring](https://www.wowhead.com/item=268252)| Sszorak  
+Ring 2| [Charged Sandstone Band](https://www.wowhead.com/item=158366)| Temple of Sethraliss  
+Trinket 1| [Gebbo's Bottomless Bag](https://www.wowhead.com/item=270164)| The Lost Explorers  
+Trinket 2| [Vile Vial of Volatile Venom](https://www.wowhead.com/item=273796)| Altar of Fangs  
+Weapon| [Jan'thrazet, the Soul Fang](https://www.wowhead.com/item=271092)| Ula'tek  
+Offhand| [Spine of the Hissing Abyss](https://www.wowhead.com/item=268197)| Entombed Sentinels
 
 **Farmable Alternatives**
 
@@ -545,21 +487,21 @@ Below you are presented with a good list of farmable alternatives that are obtai
 
 Slot| Item| Location  
 ---|---|---  
-Head| [Organized Pontificator's Mask](https://www.wowhead.com/item=193703)| Algath'ar Academy  
-Neck| [Barbed Ymirheim Choker](https://www.wowhead.com/item=50228)| Pit of Saron  
-Shoulder| [Lightbinder Shoulderguards](https://www.wowhead.com/item=258578)| Skyreach  
-Cloak| [Rigid Scale Greatcloak](https://www.wowhead.com/item=258575)| Skyreach  
-Chest| [Bronze Challenger's Robe](https://www.wowhead.com/item=193720)| Algath'ar Academy  
-Wrist| [Entropic Wristwraps](https://www.wowhead.com/item=151305)| Seat of the Triumvirate  
-Gloves| [Handwraps of the Ascended](https://www.wowhead.com/item=151300)| Seat of the Triumvirate  
-Belt| [Clasp of Compliance](https://www.wowhead.com/item=251102)| Magisters' Terrace  
-Legs| [Legwraps of Swirling Light](https://www.wowhead.com/item=258574)| Skyreach  
-Boots| [Slippers of Growing Despair](https://www.wowhead.com/item=151301)| Seat of the Triumvirate  
-Ring 1| [Bifurcation Band](https://www.wowhead.com/item=251115)| Magisters' Terrace  
-Ring 2| [Omission of Light](https://www.wowhead.com/item=251093)| Nexus-Point Xenas  
-Trinket 1| [Soulcatcher's Charm](https://www.wowhead.com/item=250223)| Maisara Caverns  
-Trinket 2| [Nevermelting Ice Crystal](https://www.wowhead.com/item=50259)| Pit of Saron  
-Weapon| [Corespark Multitool](https://www.wowhead.com/item=251201)| Nexus-Point Xenas
+Head| [Worldroot Canopy](https://www.wowhead.com/item=251199)| The Blinding Vale  
+Neck| [Strand of Warding Fangs](https://www.wowhead.com/item=273781)| Altar of Fangs  
+Shoulder| [Brood Cleanser's Amice](https://www.wowhead.com/item=239031)| Temple of Sethraliss  
+Cloak| [Speakeasy Shroud](https://www.wowhead.com/item=251132)| Murder Row  
+Chest| [Summoner's Searing Shirt](https://www.wowhead.com/item=251139)| Murder Row  
+Wrist| [Nibbling Armbands](https://www.wowhead.com/item=251127)| Murder Row  
+Gloves| [Handwraps of Oscillating Polarity](https://www.wowhead.com/item=159247)| Temple of Sethraliss  
+Belt| [Ethereal Netherwrap](https://www.wowhead.com/item=251222)| Voidscar Arena  
+Legs| [Forest Dream Leg-guards](https://www.wowhead.com/item=251160)| Den of Nalorakk  
+Boots| [Sandswept Sandals](https://www.wowhead.com/item=159259)| Temple of Sethraliss  
+Ring 1| [Signet of Snarling Servitude](https://www.wowhead.com/item=251136)| Murder Row  
+Ring 2| [Band of the Amani Warlord](https://www.wowhead.com/item=273792)| Altar of Fangs  
+Trinket 1| [Stormbound Emblem of Dazar](https://www.wowhead.com/item=273649)| Kings' Rest  
+Trinket 2| [Knot of Writhing Serpents](https://www.wowhead.com/item=273794)| Altar of Fangs  
+Weapon| [Nibbles' Training Rod](https://www.wowhead.com/item=251123)| Murder Row
 
 ### Trinkets
 
@@ -567,21 +509,23 @@ Below is a ranking of endgame trinkets obtainable from Dungeons, Raids, and Delv
 
 Rank| Trinkets  
 ---|---  
-**S-Tier**| [Gaze of the Alnseer](https://www.wowhead.com/item=249343)  
-[Emberwing Feather](https://www.wowhead.com/item=250144)  
-[Locus-Walker's Ribbon](https://www.wowhead.com/item=249809)  
-[Vaelgor's Final Stare](https://www.wowhead.com/item=249346)  
-**A-Tier**| [Sporelord's Mycelial Insignia](https://www.wowhead.com/item=268292)  
-[Nevermelting Ice Crystal](https://www.wowhead.com/item=50259)  
-[Heart of Wind](https://www.wowhead.com/item=250256)  
-**B-Tier**| [Soulcatcher's Charm](https://www.wowhead.com/item=250223)  
-[Wraps of Cosmic Madness](https://www.wowhead.com/item=249340)  
-**C-Tier**| [Vessel of Tortured Souls](https://www.wowhead.com/item=250258)  
-[Glorious Crusader's Keepsake](https://www.wowhead.com/item=251792)  
-[Eye of the Drowning Void](https://www.wowhead.com/item=250257)  
-[Reality Breacher](https://www.wowhead.com/item=151310)  
-[Ever-Collapsing Void Fissure](https://www.wowhead.com/item=251786)  
+**S-Tier**| [Vile Vial of Volatile Venom](https://www.wowhead.com/item=273796)  
+[Gebbo's Bottomless Bag](https://www.wowhead.com/item=270164)  
+[Stormbound Emblem of Dazar](https://www.wowhead.com/item=273649)  
+[Freightrunner's Flask](https://www.wowhead.com/item=250215)  
+**A-Tier**| [Wavecaller's Seastone](https://www.wowhead.com/item=270167)  
+[Font of Venomous Rage](https://www.wowhead.com/item=270168)  
+[Hex Lord's Dooming Idol](https://www.wowhead.com/item=270169)  
+**B-Tier**| [Knot of Writhing Serpents](https://www.wowhead.com/item=273794)  
+[Vexhul's Everflowing Gland](https://www.wowhead.com/item=270170)  
+[Fang of Umbral Malignance](https://www.wowhead.com/item=270161)  
+**C-Tier**| [Sapling of the Dawnroot](https://www.wowhead.com/item=250259)  
+[Lightspire Core](https://www.wowhead.com/item=250214)  
+[Mindpiercer's Sigil](https://www.wowhead.com/item=250224)  
+[Sethraliss' Defiled Relic](https://www.wowhead.com/item=158368)  
+[Ruby Whelp Shell](https://www.wowhead.com/item=193757)  
 **Junkyard**| [Sealed Chaos Urn](https://www.wowhead.com/item=251787)  
+[Glorious Crusader's Keepsake](https://www.wowhead.com/item=251792)  
 [Void-Reaper's Libram](https://www.wowhead.com/item=251785)  
 [Sylvan Wakrapuku](https://www.wowhead.com/item=251784)
 
@@ -592,48 +536,48 @@ Rank| Trinkets
 
 #### Remaining Sparks
 
-* Crafted items are 285 item level and regular items are 289 on max item level therefore it's not beneficial to equip crafted items outside of your 2x embellishments unless you don't have access to other high item level gear on that slot.
+* Crafted items are 331 item level and regular items are 334-344 on max item level, therefore it's not beneficial to equip crafted items outside of your 2x embellishments unless you don't have access to other high item level gear on that slot.
 
 ### Simcraft
 
 To find the best combination of gear available to you or identify the best possible upgrades, visit our **[Simcraft guide](https://maxroll.gg/wow/resources/simulationcraft-and-raidbots-guide)** to learn how to utilize Simcraft easily and effectively.
 
 * **Flask**
-    * [Flask of the Magisters](https://www.wowhead.com/item=241322)
+    * [Flask of the Shattered Sun](https://www.wowhead.com/item=241326)
   * **Food**
     * [Harandar Celebration](https://www.wowhead.com/item=255846)
   * **Combat Potion**
     * [Potion of Recklessness](https://www.wowhead.com/item=241288)
   * **Health Potion**
-    * [Silvermoon Health Potion](https://www.wowhead.com/item=241304) _\-- a big burst of healing_
+    * [Concentrated Silvermoon Health Potion](https://www.wowhead.com/item=271884) _\-- a big burst of healing_
   * **Weapon Oil**
     * [Thalassian Phoenix Oil](https://www.wowhead.com/item=243734)
   * **Augment Rune**
     * [Void-Touched Augment Rune](https://www.wowhead.com/item=259085)
   * **Sockets**
-    * [Flawless Versatile Garnet](https://www.wowhead.com/item=240910)
+    * [Flawless Quick Amethyst](https://www.wowhead.com/item=240900)
     * [Indecipherable Eversong Diamond](https://www.wowhead.com/item=240983) _\-- Unique_
 
 ### Enchantments
 
 Head| [Enchant Helm - Empowered Rune of Avoidance](https://www.wowhead.com/item=244007)  
-[Radiant Jewelbinder](https://www.wowhead.com/item=263897)  
+[Miasmic Jewelbinder](https://www.wowhead.com/item=275707)  
 ---|---  
 Shoulders| [Enchant Shoulders - Amirdrassil's Grace](https://www.wowhead.com/item=243991)  
 Chest| [Enchant Chest - Mark of the Worldsoul](https://www.wowhead.com/item=243977)  
-Wrist| [Radiant Jewelbinder](https://www.wowhead.com/item=263897)  
-Waist| [Radiant Jewelbinder](https://www.wowhead.com/item=263897)  
+Wrist| [Miasmic Jewelbinder](https://www.wowhead.com/item=275707)  
+Waist| [Miasmic Jewelbinder](https://www.wowhead.com/item=275707)  
 Legs| [Sunfire Silk Spellthread](https://www.wowhead.com/item=240133)  
 Boots| [Enchant Boots - Lynx's Dexterity](https://www.wowhead.com/item=243953)  
 Ring 1| [Enchant Ring - Eyes of the Eagle](https://www.wowhead.com/item=243957)  
 Ring 2| [Enchant Ring - Eyes of the Eagle](https://www.wowhead.com/item=243957)  
 Weapon| [Enchant Weapon - Acuity of the Ren'dorei](https://www.wowhead.com/item=244029)
 
-[Maxroll paperdoll import](https://backend.maxroll.gg/wow/embed-tools/paperdoll=IQFZKEQ9NCQAnk7ACAAAAktBEEwF5OAAAAAABkQDIgQ2GQQBQQQBqmAGEEPuJgQEYAQ9NABK1j7AAAAAAEQP5OA)
+[Maxroll paperdoll import](https://backend.maxroll.gg/wow/embed-tools/paperdoll=IQFZKEQ9NCQA7TDBCAAAA8OuDEwF5OAAAAAABkQDIgw-0QQBQQQBqmAGEEPuJgQEYAQ9NABK1j7AAAAAAEQP5OA)
 
 **Demonology** Warlock** Enchantments in Raid
 
-> You buy [Radiant Jewelbinder](https://www.wowhead.com/item=263897) from the Great Vault Vendor to add sockets to your **Helm** , **Wrists** & **Waist**.
+> _You buy[Miasmic Jewelbinder](https://www.wowhead.com/item=275707) from the Great Vault Vendor to add sockets to your **Helm** , **Wrists** & **Waist**._
 
 For min-maxing a **Demonology** Warlock** in raiding, different racial traits can provide a tremendous benefit to your character. If this is not your top goal, picking a race that fits your style works just as well.
 
@@ -764,7 +708,7 @@ Discover recommended macros for **Demonology** Warlocks** during Raid encounters
 
 Below, you see a screenshot of the author's User Interface for their **Demonology** Warlock**, outlining which addons are used and how they are utilized in Raids to make your life easier.
 
-![](https://assets-ng.maxroll.gg/wordpress/DemomidnightraidUI-ezgif.com-png-to-webp-converter-1-1024x682.webp)**Demonology Warlock** Interface in Raids
+![](https://assets-ng.maxroll.gg/wordpress/DemomidnightraidUI-ezgif.com-png-to-webp-converter-2-1024x682.webp)**Demonology Warlock** Interface in Raids
 
 **Addons**
 
@@ -775,8 +719,8 @@ Below, you see a screenshot of the author's User Interface for their **Demonolog
     * Alternatively, you can also use Shadowed Unit Frames (SUF) and an action bar addon of your choice or of course the stock UI.
   * **BigWigs** ___\--_ Generic Boss Mod_ _
     * BigWigs is a boss encounter add-on. It consists of many individual encounter scripts, or boss modules; mini add-ons that are designed to trigger alert messages, timer bars, sounds, and so forth, for one specific Raid encounter.
-  * **BetterCooldownManager** __\-- Additional customization for the Cooldown Manager__
-    * BetterCooldownManager is one of many addons that partially replaced WeakAuras by adding additional options to the Cooldown Manager.
+  * **EllesmereUI** __\-- Additional customization for the Cooldown Manager__
+    * A user interface designed around user-friendliness with extra features that are not included in the standard UI. With EllesmereUI you can easily disable modules you don't want and only use it for the CDM in this case.
   * **Plater** __\-- Advanced Nameplates__
     * Plater is a nameplate addon with an extraordinary amount of settings, out of the box debuff tracking, threat coloring, and support for scripts.
   * **Details** _\-- In-depth Damage Meter_
@@ -925,6 +869,12 @@ A: Check out the[ **Deep Dive**](https://maxroll.gg/wow/class-guides/demonology-
 Written By: **Wolfdisco**
 
 ## Changelog
+
+Aug 5th 2026
+
+`Updated for patch 12.1 `
+
+* * *
 
 Jun 17th 2026
 

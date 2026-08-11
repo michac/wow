@@ -1,10 +1,15 @@
 ---
-title: State, persistence & communication (Midnight 12.0.7)
-patch: 12.0.7
-fetched: 2026-08-05
-reviewed: 2026-08-05
+title: State, persistence & communication (Midnight 12.1.0)
+patch: 12.1.0
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
-  - https://github.com/Gethe/wow-ui-source (live, 12.0.7.68887, commit 4383ced30106d51b27e3e86d1987f1552f0d259d)
+  - https://github.com/Gethe/wow-ui-source (tag 12.1.0, 12.1.0.69273, commit eb941aad028d73ddc69e3e8ef4da709f4d3cd744) — raw/addon-research/wow-ui-source-12.1.0; `@12.1.0`-stamped locators resolve here
+  - https://warcraft.wiki.gg/wiki/Patch_12.1.0/API_changes (revid 6801760, 2026-08-09)
+  - https://github.com/Gethe/wow-ui-source (12.0.7.68887, commit 4383ced30106d51b27e3e86d1987f1552f0d259d) — raw/addon-research/wow-ui-source; the build an UNSTAMPED locator was read at, and the build every `[client]` measurement here was taken on
+  - Live install /mnt/c/Program Files (x86)/World of Warcraft/_retail_/WTF/ — 49 account-scope SavedVariables files (+44 .lua.bak), read on disk 2026-08-05  # §1.1 the three scope paths; §1.5 the on-disk format; §2.5 the account-scope size calibration, whose 125 842 B row is this workspace's own CDMProbe.lua
+  - in-client measurement, ClientLab v0.1.0 (interface 120007), run 2026-07-24 07:49:13, out of combat  # §7.2 the 16-char addon-message prefix limit and DuplicatePrefix, both by return code rather than error. ✅ ARCHIVED, and re-checkable: projects/addon-lab/runs/2026-07-24-v0.1.0-legacy.json holds this run verbatim (the live SavedVariables key was purged by the capture-standard migration)
+  - in-client measurement, ClientLab v0.2.0 (interface 120007), runs 2026-08-05 14:31:51 (out of combat) and 14:35:51 (in combat)  # §1.2 LoadSavedVariablesFirst default branch; §1.4 what round-trips + key order is unstable; §2.2 the logout event sequence and closingClient on /reload; §6.1 C_EncodingUtil error semantics; §8 the chat-messaging lockdown; §10's closed gaps
   - https://warcraft.wiki.gg/wiki/Saving_variables_between_game_sessions (rev 5890180, 2023-12-11)
   - https://warcraft.wiki.gg/wiki/SavedVariables (rev 3736139, 2022-09-03 — stale, cited only to mark it stale)
   - https://warcraft.wiki.gg/wiki/TOC_format (rev 6767089, 2026-07-09)
@@ -91,8 +96,7 @@ which *do* give paths). The `WTF/SavedVariables/` path is our observation.
 > Blizzard's own UI now persists through ordinary per-addon files —
 > e.g. `Blizzard_ClientSavedVariables.lua`, declared at
 > `UISRC Interface/AddOns/Blizzard_ClientSavedVariables/Blizzard_ClientSavedVariables.toc:3`.
-> Use the HOWTO `Saving variables between game sessions` instead (lastedit
-> 2023-12-11), and even that page repeats the stale path in its `== Storage ==`
+> Use the HOWTO `Saving variables between game sessions` instead (lastedit 2023-12-11), and even that page repeats the stale path in its `== Storage ==`
 > section. That HOWTO also predates both other directives — it opens
 > *"There are two directives you may add to your .toc file"* and never mentions
 > `SavedVariablesMachine` or `LoadSavedVariablesFirst`. For the directive list,
@@ -117,8 +121,7 @@ files **before** the first file listed in the TOC, instead of after the last one
   `UISRC Interface/AddOns/Blizzard_DamageMeter/Blizzard_DamageMeter.toc:3` and
   `.../Blizzard_SettingsDefinitions_Shared/Blizzard_SettingsDefinitions_Shared.toc:6`.
 - Tier 2: the wiki documents it — "`1` if SavedVariables file(s) should be loaded
-  before all script files for this addon" (`TOC format`:352-355, lastedit
-  2026-07-09) — and its `== Patch changes ==` list dates it to **Patch 11.1.5**
+  before all script files for this addon" (`TOC format`:352-355, lastedit 2026-07-09) — and its `== Patch changes ==` list dates it to **Patch 11.1.5**
   (`:436`). `AddOn loading process`:10-11 (lastedit 2025-04-23) says saved variables
   "load after the last file listed in the TOC" by default, "can be reconfigured by
   the LoadSavedVariablesFirst directive to instead be loaded before all files", and
@@ -170,6 +173,31 @@ sessions` lastedit 2023-12-11]:
    **the earliest point an addon may read its own saved variables**;
 4. `PLAYER_LOGIN` once all non-LoD addons are loaded.
 
+⚠ **A `[Bootstrap]` file breaks step 1 in two, at 12.1.0.** In a `LoadOnDemand: 1`
+addon, files marked `[Bootstrap]` run **at startup**, before that addon's step 2 and
+step 3; the rest of the toc runs whenever the addon is demand-loaded
+(`anatomy-and-runtime` §2.4/§4.3). So a bootstrap file is executing at a point where
+its own addon's SavedVariables have **not** been loaded, and reading them there gets
+file-scope defaults. Nothing new about the rule — this is step 1 vs step 2 as always —
+but the split makes it much easier to write the bug, because the two halves look like
+one addon. `@verify-ingame`
+
+**CVars are not this file's persistence store, but two 12.1.0 additions touch its
+lifecycle model.** `C_CVar.AreCVarsLoaded()` `[T1 docs @12.1.0:
+CVarDocumentation.lua:11-18]` is the CVar-side analogue of gating on `ADDON_LOADED`
+before a SavedVariables read: a probe for "has this store been populated yet". And
+`autoLootDefault` moved from character-scope to **account-wide** `[T2 wiki: Patch
+12.1.0/API changes §Notes, revid 6801760, 2026-08-09]` — a reminder that a CVar's
+scope is Blizzard's to change under you, which is one of the reasons §1.1's three
+SavedVariables scopes are the store to reason about instead.
+
+⚠ **Session-only CVars are a category, not a quirk.** `addonChatRestrictionsForced`
+(§8) has always been one; 12.1.0's `tooltipShowAuraSpellIDs` is another — Blizzard
+states outright that it *"will not persist between sessions"*
+`[T2 wiki: Patch 12.1.0/API changes, the 2026-07-21 entry, revid 6801760, 2026-08-09]`.
+Anything that reads such a CVar at login to restore state is
+reading a default, every time.
+
 Tier 1 backing for the event shape:
 `ADDON_LOADED(addOnName: cstring, containsBindings: bool)`, `SynchronousEvent`,
 `UISRC Interface/AddOns/Blizzard_APIDocumentationGenerated/AddOnsDocumentation.lua:389`.
@@ -220,7 +248,7 @@ a secret.
 ⚠ **Key order is not stable across a round trip** `[client 2026-08-05]`. Ten string keys
 written in one order came back in a different one, with the same ten keys present. Do not
 diff two SavedVariables files line-by-line and read the result as a change in content —
-`wowkb.capture` and `wowkb.cdmp` both parse rather than diff for this reason.
+parse them.
 
 ### 1.5 The on-disk file format (observed)
 
@@ -268,9 +296,8 @@ callers, not a documented claim.]
 
 **Operational consequence:** a table your addon fills during play is not on disk
 until one of those four events. A tool that reads SavedVariables off disk mid-session
-is reading the *previous* flush. This repo's own CDMProbe decision log encodes exactly
-that rule — its `wowkb.cdmp decisionlog` reader and every doc that describes it warn
-that captures flush only on `/reload`. [Tier 3: local practice, one addon]
+is reading the *previous* flush, so any capture-off-disk workflow has to force a flush
+(`/reload` is the cheap one) before it reads.
 
 ### 2.2 The logout event sequence
 
@@ -370,7 +397,7 @@ wiki, WoWUIBugs). "Too large" is a client memory condition, not a fixed byte cap
 For calibration only, the largest account-scope files on this install are
 `EllesmereUI.lua` 590 761 B, `TellMeWhen_Options.lua` 521 612 B,
 `Syndicator.lua` 422 116 B, `TradeSkillMaster.lua` 141 069 B,
-`DandersFrames.lua` 128 935 B, `CDMProbe.lua` 125 842 B — all loading fine.
+`DandersFrames.lua` 128 935 B, and one addon of our own at 125 842 B — all loading fine.
 So ~0.5 MB of persisted Lua is demonstrably under the limit, wherever it is.
 
 ---
@@ -677,8 +704,7 @@ so `if C_ChatInfo.SendAddonMessage(...) then` and
 `if C_ChatInfo.RegisterAddonMessagePrefix(p) then` are **true for every outcome**,
 success and failure alike — the test silently does nothing. This is a real trap
 because both calls returned a **boolean** before 10.2.7 ("Now returns a result
-code, rather than a boolean" — wiki patch-changes on both pages, lastedit
-2026-06-04), so pre-10.2.7 code that tested truthiness kept "working" while
+code, rather than a boolean" — wiki patch-changes on both pages, lastedit 2026-06-04), so pre-10.2.7 code that tested truthiness kept "working" while
 losing all error detection. Compare against
 `Enum.SendAddonMessageResult.Success` / `Enum.RegisterAddonMessagePrefixResult.Success`
 explicitly. The wiki additionally notes that *prior to* Patch 11.0.0 a Blizzard
@@ -729,8 +755,7 @@ to a 2018 Blizzard IRC log].
 
 ### 7.3 Throttling
 
-[Tier 2, wiki `API C_ChatInfo.SendAddonMessage` §"Message throttling", lastedit
-2026-06-04 — Blizzard-derived but not currently traceable to a Tier-1 page]
+[Tier 2, wiki `API C_ChatInfo.SendAddonMessage` §"Message throttling", lastedit 2026-06-04 — Blizzard-derived but not currently traceable to a Tier-1 page]
 
 - Every registered prefix gets an allowance of **10** messages.
 - Each send costs 1; at zero, further sends on that prefix return
@@ -839,9 +864,9 @@ globals 2 (`UnitIsAFK` `UnitDocumentation.lua:1696`, `UnitIsDND` `:1817`).
 Within `C_ChatInfo` the guarded functions are exactly
 `GetChatLineSenderGUID` (declared `:146`, annotated `:148`),
 `GetChatLineSenderName` (`:162`) and `GetChatLineText` (`:178`).
-(Counts reproduced 2026-07-23 by parsing every `*.lua` in
-`Blizzard_APIDocumentationGenerated` into entries and counting
-`SecretInChatMessagingLockdown` per entry: 6144 functions / 1741 events total.)
+(Counts reproduced by parsing every `*.lua` in `Blizzard_APIDocumentationGenerated`
+into entries and counting `SecretInChatMessagingLockdown` per entry:
+`[T1 docs: 6144 functions / 1741 events total, re-parsed 2026-07-23 at 12.0.7.68887]`.)
 
 **How to test the state, at Tier 1:**
 
@@ -882,16 +907,31 @@ will be restricted, or may return secrets"
 
 **Secrets may never be sent.** `C_ChatInfo.SendAddonMessage` and
 `SendAddonMessageLogged` both carry `SecretArguments = "NotAllowed"`
-(`ChatInfoDocumentation.lua:518,537`) — they are 2 of only **84** functions in the
-whole 6144-function API with that annotation. Passing a secret to them is not
-"it sends garbage", it is a disallowed call.
+(`ChatInfoDocumentation.lua:518,537`) — they are 2 of only **92** functions in the
+whole 6335-function API with that annotation `[T1 docs @12.1.0, counted]`. Passing a
+secret to them is not "it sends garbage", it is a disallowed call.
+
+⚠⚠ **At 12.1.0 auras became a large new source of the thing you may not send or
+persist.** `AuraData` structs are *always fully secret*, the `UNIT_AURA` payload is
+fully secret while auras are restricted, and every index/slot/instanceID aura read
+errors outright (`security-taint-and-restricted-data` §4.7). For this file that lands
+in two places and neither is a new rule — both are the existing rules meeting a much
+bigger blast radius:
+
+- **Serialization (§6).** A table captured from an aura path can carry secrets at any
+  depth, and `AceSerializer` / `LibSerialize` / `LibDeflate` have no notion of one.
+  `scrub`/`scrubsecretvalues` before serializing remains the answer; what changed is
+  how likely you are to need it.
+- **SavedVariables (§1.4).** A secret is not on the persistable-type list and the
+  client is under no obligation to tell you it dropped one. The failure shape is
+  §1.4's, not a new one.
 
 **Tier-3 adaptation, as shipped.** Across the 81 addon folders installed here,
 `C_ChatInfo.InChatMessagingLockdown` is **actually called at 7 sites, in 5 addon
 folders belonging to 3 independent projects** (the BigWigs family, Auctionator,
 Baganator) — plus one addon that names it in a comment only, in order to explain
-why it is *not* calling it. Four distinct shapes, counted 2026-07-23 by grepping
-the install for `InChatMessagingLockdown` and `ADDON_RESTRICTION_STATE_CHANGED`:
+why it is *not* calling it. Four distinct shapes `[T1 obs, 2026-07-23: the live
+install grepped for `InChatMessagingLockdown` and `ADDON_RESTRICTION_STATE_CHANGED`]`:
 
 1. **Pre-check, then register the edge event and retry** — 3 sites, all BigWigs:
    `BigWigs_Core/BossPrototype.lua:462,466-470` (defers private-aura sound
@@ -979,8 +1019,9 @@ So the addon owns the SavedVariable and the library owns its schema.
 Adoption on this install: **12 of the 81 installed addon folders** contain a
 reference to `LibDataBroker-1.1` — Bartender4, BigWigs, ClassCodex, DandersFrames,
 MochaAlerts, MythicDungeonTools, OPie, RaiderIO, Simulationcraft, TellMeWhen, TomTom,
-TradeSkillMaster (`grep -rqI 'LibDataBroker-1.1'` per top-level folder, 2026-07-23;
-counts folders that *mention* the string, which includes vendoring it as a library).
+TradeSkillMaster
+`[T1 obs: `grep -rqI 'LibDataBroker-1.1'` per top-level folder, 2026-07-23]`;
+that counts folders which *mention* the string, including vendoring it as a library.
 [unverified] The earlier claim here that "LibDBIcon-1.0 and LibSharedMedia-3.0
 upstream is CurseForge SVN" was removed — I did not establish where either library
 is canonically hosted. What is true is narrower: **we have no upstream clone of
@@ -1042,8 +1083,7 @@ states — do not report them as violations of a documented rule.
 1. **An addon that persists data declares it in the `.toc`, not in Lua.** A global
    assigned at runtime and never named by `## SavedVariables`,
    `## SavedVariablesPerCharacter` or `## SavedVariablesMachine` is not written to
-   disk. [Tier 2: wiki `Saving variables between game sessions`, lastedit
-   2023-12-11. Tier 1 by observation, stated precisely: over the 49 account-scope
+   disk. [Tier 2: wiki `Saving variables between game sessions`, lastedit 2023-12-11. Tier 1 by observation, stated precisely: over the 49 account-scope
    files in `INSTALL/WTF/Account/LLOYDCHRISTMAS/SavedVariables/`, 41 map to a
    top-level addon folder with a `.toc`; for all 41, **every top-level global
    assigned in the file is named by that addon's `## SavedVariables` line** — zero
@@ -1257,6 +1297,11 @@ states — do not report them as violations of a documented rule.
 
 ## Changelog
 
+- 2026-08-11 — 12.1.0. §1.3: `[Bootstrap]` splits an LoD addon's step 1 across the
+  SavedVariables load, plus `C_CVar.AreCVarsLoaded` and the session-only-CVar
+  category. §8: auras named as a large new secret-value hazard for serializers and
+  SavedVariables; the `NotAllowed` count is 92 of 6335. No `[client]` measurement was
+  restamped — all were taken on 12.0.7.
 - 2026-08-05 — **the 16-char addon-message prefix limit is real and enforced by
   RETURN CODE, not by an error** `[client 2026-07-24]`: 16 chars → `Success` (0),
   17 → `InvalidPrefix` (2), neither raising. Also measured: re-registering within a

@@ -1,58 +1,66 @@
 ---
-title: Next Patch — 12.1 "Curse of Ula'tek" (on PTR)
-patch: 12.0.7
-fetched: 2026-07-07
+title: Next Patch — none confirmed (12.1 shipped 2026-08-11)
+patch: 12.1
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
-  - https://us.forums.blizzard.com/t/quality-of-life-improvements-coming-in-curse-of-ulatek/2322656  # Tier 1 (Blizzard blue)
-  - https://wago.tools/api/builds?product=wowt  # Tier 1 (PTR build feed)
-  - https://www.wowhead.com/news/full-patch-12-1-curse-of-ulatek-ptr-development-notes-381914  # Tier 3
-  - https://www.icy-veins.com/wow/news/8-boss-raid-class-updates-new-dungeon-delves-and-morepatch-12-1-curse-of-ulatek-revealed/  # Tier 3
-confidence: medium
+  - https://wago.tools/api/builds  # Tier 1 — retail + PTR build feeds
+  - https://us.forums.blizzard.com/en/wow/groups/blizzard-tracker/posts.json?category_id=171  # Tier 1 blue-post tracker
+confidence: high
 ---
 
-# Next Patch Watch — 12.1 "Curse of Ula'tek"
+# Next Patch Watch — nothing confirmed
 
-> **12.1 "Curse of Ula'tek" is on the PTR** (client build **12.1.0.68412**,
-> 2026-06-30; PTR line: 68209 → 68301 → 68412). It opens **Midnight Season 2**.
-> **Not live yet** — 12.0.7 "Revelations" remains the live patch. Everything
-> below is **pre-release / PTR datamining and dev notes**: treat numbers as
-> provisional and re-verify on patch day. When it goes live, run `/update` (Full
-> path) to fold it in and bump `game-version.md`.
+> **12.1 "Curse of Ula'tek" went live 2026-08-11** (build `12.1.0.69214`). It was
+> the patch this file used to track; that content now lives in
+> `game-version.md`, `changelog-12.1.md` and the topic files.
+>
+> **There is no next patch on PTR.** As of the 2026-08-11 feed review the `wowt`
+> PTR line has converged onto `12.1.0.69214` — the same build as live — which is
+> the normal post-launch state, not a signal. No 12.1.5 / 12.2 build, blue post
+> or datamining recap exists yet.
 
-## Confirmed on PTR (headline content)
+## What IS still ahead inside 12.1
 
-- **New zone: The Coiled Isle** — a corrupted ecosystem of poisonous waters and
-  venomous foes. New activities: **Curse Surges**, **Cursed Fishing**, the
-  **Vault of Ula'tek**, and public events.
-- **New raid: Venomous Abyss** — **8 bosses**, **Ula'tek** as the final boss.
-  (Opens Season 2.)
-- **New dungeon: Altar of Fangs** (Season 2 M+ pool).
-- **Three new Delves:** The Ring of Glory, Gnarldor Isle, and **Venomfall Deeps**
-  (a **Nemesis** delve).
-- **Campaign:** Curse of Ula'tek story campaign; **Chapter 1** datamined as
-  releasing early (verify whether staggered on live).
+These are dated, confirmed unlocks — not a future patch, but the things that
+change the live state without a new build:
 
-## Systems / QoL (Tier-1 Blizzard blue post)
+| Date | What opens |
+|---|---|
+| **2026-08-18** | **Midnight Season 2**: Venomous Abyss (Normal/Heroic/Mythic + LFR Wing 1), Mythic+ S2 + keystones, rated PvP S2, Bountiful Delves + Coffer Keys + "??" Nemesis, Nightmare Prey + Curse of the Isle, Tidebound Grotto on Normal/Heroic/Mythic, first S2 Great Vault |
+| **2026-08-25** | Venomous Abyss LFR Wing 2 + Story Mode; **Voidcore bonus rolls return** to the Great Vault (needs ≥3 panes) |
+| **2026-09-01** | Venomous Abyss LFR Wing 3 |
+| **2026-09-08** | Venomous Abyss LFR Wing 4 |
+| **week 8 of S2** | Orin Straylight begins granting +1 Nebulous Voidcore per week |
 
-- **Account-wide user-interface settings.**
-- **Auction House improvements.**
-- **One-time Profession Knowledge reset.**
-- Fixes for common **combat and travel** issues.
-- Reported (Tier-3): **no gear-upgrade cost scaling**, an **Earthen XP** nerf.
+⚠ **The 2026-08-18 rollover is a real KB event**, not just a date: it flips
+`game-version.md` out of pre-season, re-activates the planner activities parked
+as `status: invalidated`, and turns a large set of "opens Aug 18" claims into
+present tense. Run `/update` (or at minimum a targeted pass over
+`endgame/weekly-checklist.md` + `planning/activities/`) that week.
 
-## Class / combat balance (PTR dev notes — provisional)
+## PTR-era claims that did NOT ship in 12.1
 
-- **Large class-change pass** for Season 2 across most specs.
-- **Enemy damage and player health +25%** (baseline squish-adjacent tuning).
-- **Big DPS cooldowns nerfed** for several specs, with **regular (outside-CD)
-  damage buffed** to compensate; **diminishing-returns** adjustments.
-- ⚠ All numbers are PTR-provisional — do **not** propagate into class KB files
-  until live; the live values will come through `/update`.
+Recorded so a stale pre-release source is recognisable. These appeared in the
+pre-launch dev notes / Tier-3 recaps this file previously carried, and are
+**absent from the final content-update notes**:
 
-## Watch list (where the live details will land)
+- **One-time Profession Knowledge reset** — no mention in the shipped notes.
+- **Account-wide user-interface settings** — only **Auto Loot** became account
+  wide, plus Auction House filters persisting across sessions.
+- **"No gear-upgrade cost scaling"** (Tier-3 report) — unconfirmed; the shipped
+  notes say nothing about upgrade costs.
 
-- `wago.tools/api/builds?product=wowt` — PTR build cadence (Tier 1).
-- Blizzard PTR development notes / blue posts (us.forums.blizzard.com) — Tier 1.
-- Wowhead PTR hub + Icy Veins dev-note recaps — Tier 3 (corroborate numbers).
-- The `?product=wow` retail feed flipping to a `12.1.x` build = **go-live** →
-  trigger the Full path.
+The PTR items that *did* ship, and are now live claims, are in
+`changelog-12.1.md` — notably the **+25% player health / creature damage** retune
+(reported pre-launch and confirmed in the shipped CLASSES preamble).
+
+## Watch list (where the next signal will land)
+
+- `https://wago.tools/api/builds` → a `wowt` build with a version **above**
+  `12.1.0` is the earliest signal of the next patch (Tier 1).
+- The `?product=wow` retail feed flipping to a new minor version = **go-live** →
+  trigger `/update` Full path.
+- Blizzard blue-post tracker + PTR development notes (Tier 1).
+- Wowhead PTR hub / Icy Veins dev-note recaps (Tier 3 — corroborate numbers,
+  never let them overwrite Tier-1 feed data).

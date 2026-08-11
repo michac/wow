@@ -1,129 +1,76 @@
 # Combat Assist Plus — project root
 
-A standalone companion app (NOT the KB): `/cap`, a combat-assistance addon for
-Retail / Midnight 12.0. It makes Blizzard's Cooldown Manager tell you more without
-telling you what to press — re-presenting, *grading* and contextualising what you
-already have, rather than deciding for you. The core is a **tier signal**: HIGH /
-MEDIUM / LOW emphasis across the tracked set, several things lit at once, you pick.
-Around it: procs as a tier input, auto-detected sequence hints layered on top, and a
-movable cooldown-bar panel reusing the same signal. **`specs/spec.md` is the
-definition** — read it before touching anything, especially §1's three principles,
-which everything else in the spec is downstream of.
+`/cap` — a combat-assistance addon for Retail / Midnight 12.0 that rides Blizzard's
+Cooldown Manager. A standalone companion app, **not** the KB.
 
-**cap supersedes Cooldown HUD** (`projects/cooldown-hud/`, CDMProbe), which grew
-into the decision engine this project is deliberately not. No code is ported;
-CDMProbe's client facts live in `knowledge/addon-dev/` and stay authoritative.
+**`specs/spec.md` is the definition.** Read it before touching anything, especially §1's
+three principles — everything else in the spec is downstream of them. What the addon is,
+what it deliberately does not do, and why it supersedes the Cooldown HUD are all answered
+there and are **not** restated in this file.
 
-**Code status: M2 flown; M3a done; M3b released and flown 2026-08-07.** `Core.lua`
-(router + the `ns.RegisterCommand` registry), `Bind.lua` (the CDM binding), `Frame.lua`
-(the movable panel), `Capture.lua` (vendored — the one data-out path) and `Log.lua`. The
-binding is confirmed **correct**, not merely present — 200 identity rows across 3 specs
-and 2 classes, including a Paladin.
+The addon source is `addon/` — its own git repo (`michac/cap`), **gitignored** here, with
+its own `CLAUDE.md`. Docs live here, code lives there.
 
-M3's tier signal is four pure modules and two impure ones: `Catalog.lua` (the closed
-vocabulary and §3.5's five checks), `Catalogs/Demonology.lua`, `Tier.lua` (first-match
-bands, three-valued gates), `Track.lua` (the readiness latch and the aura/elapsed edges),
-`Treatment.lua` (tier → look — **the only place the visual numbers exist**), `Sense.lua`
-(hooks, clock, client reads), `Channel.lua` (the two sealed comparisons — cap offers, the
-client decides, cap is never told) and `Overlay.lua` (cap's own frames, anchored to the CDM
-icons). Plus `Mode.lua` — `/cap aoe`, cap's own answer to a target count the client will
-not give us — and `Bars.lua`, §3.4's cooldown bars riding the same verdicts onto the movable
-panel (`Bars.Plan` is its pure seam). **M3c, M3d and the bars are built and have never run in
-the client** — the M3b flight measured the tiers computing correctly with no pixels involved,
-and nothing since has been flown. ⚠ **Neither cue channel has a readback**, so `cap draw`'s `C{}` says whether cap
-*armed* a cue and never whether a marker appeared; an eyeball is the only oracle for that.
-Both readings and acceptance tables: `specs/backlog.md` → `## Reference`.
+## The docs — five files, five jobs
 
-⚠ **The order is `simplify → draw → add detail from play`.** The **window migration
-landed 2026-08-08**: the code and `specs/demonology/catalog.md` now speak the vocabulary
-`spec.md` §3.1/§3.5 describes — no windows, subjects legal in bands, negation legal, cues
-carrying polarity and a channel — so **the drawing rungs are next** and what they draw is
-the model we are keeping. ⚠ "Simplify" was the code catching up, **not** another design
-round: `spec.md` §3 is not re-opened. Reasoning: `specs/notes.md` 2026-08-08 (migration);
-the queue: `specs/backlog.md` → `Now`.
-
-**Four capture streams, and they are the only way anything here reports what it saw:**
-`wowkb.capture cap bind` (the binding), `cap tier` (the tier verdicts + gate health),
-`cap edge` (every alert edge that landed) and `cap draw` (what the overlay painted, and
-whether it found a frame to anchor to — the instrument that separates a treatment bug
-from an anchoring one). ⚠ SavedVariables only flush on `/reload`.
-
-⚠ **The capture on disk is a client-authored fixture, and it is the cheapest instrument
-in the project.** Reading the 21 live Demonology rows settled five catalog open questions
-and found three defects — including that Shadow Bolt *does* have a CDM row — before any
-M3 code existed. Read it before asserting what the CDM tracks.
-
-The addon source is `addon/` — its own git repo (`michac/cap`), **gitignored** by
-the wow workspace, with its own `CLAUDE.md` covering the release workflow. This
-folder is the tracked side: docs live here, code lives there.
-
-## The spec process — three files, three jobs
-
-Everything about this project's direction lives in **`specs/`**. Three files, and
-the split is what keeps each of them readable:
+Everything about this project's direction lives in **`specs/`**. The split is what keeps
+each file readable, and the right-hand column is the whole of the routing rule:
 
 | File | Holds | The test for "does it go here?" |
 | --- | --- | --- |
-| **`specs/spec.md`** | **What the addon is supposed to do.** The product definition — behaviours, boundaries, constraints. Present tense, no history. | Would a stranger reading only this know what to build? |
-| **`specs/backlog.md`** | **The list of work items.** Agreed work not yet done, one line each, in `Now` / `Next` / `Ideas` / `Done`. | Is it a thing someone could pick up and finish? |
-| **`specs/notes.md`** | **What we actually did.** Session logs, decisions and their rationale, dead ends, in-game observations. Newest first, dated. | Is it about the past — ours, not the game's? |
-| **`specs/discussion.md`** | **Questions raised and not yet decided**, with the case on both sides. Nothing here is a commitment and nothing here ages. | Would deciding it change the design, and is it genuinely still open? |
+| **`specs/spec.md`** | **What the addon is supposed to do.** The product definition — behaviours, boundaries, constraints. | Would a stranger reading only this know what to build? *Present tense, no history — a dated aside here is a defect.* |
+| **`specs/backlog.md`** | **The work items, plus the one `## Status` block.** Open work in `Now` / `Next` / `Ideas`; one line per finished item in `Done`. | Is it a thing someone could pick up and finish? |
+| **`specs/notes.md`** | **What we actually did.** One short dated entry per round, newest first, past tense. | Is it about the past — ours, not the game's? *Never a rule in normative form; notes cites the spec, it does not restate it.* |
+| **`specs/discussion.md`** | **Questions raised and not yet decided**, the case on both sides, and what would decide it. Nothing here is a commitment and nothing here ages. | Would deciding it change the design, and is it genuinely still open? |
+| **`specs/flight-reading.md`** | **How to read a capture.** Every field cap emits and every acceptance criterion. | Would a pilot diagnosing a flight need this open beside them? |
 
-⚠ **`discussion.md` is the newest of the four and the easiest to skip.** It exists because
-the other three have no home for an open question — so questions were getting decided in
-passing, or lost. An item leaves it when decided: the decision to `spec.md` or
-`backlog.md`, the reasoning to `notes.md`, struck here with a pointer to where it went.
+⚠ **Status is asserted in exactly one place: `backlog.md` → `## Status`.** Nothing else —
+this file included — says what is built or what has flown. The rule exists because three
+files once carried contradictory present-tense claims about whether the addon had ever
+drawn a pixel, and the two that load every session were the stale ones. The live addon
+version comes from `wowkb.addon list`, never out of a document. **One sanctioned
+exception:** `spec.md`'s Milestones table mirrors the Status block and must stay consistent
+with it — it is the ladder, not a second status claim.
 
-**Two published reference artifacts** — derived from the code and the captures rather than
-written from memory, so they are a view and these files are the truth. ⚠ **Both are STALE
-as of 2026-08-07**: they describe **windows**, the six-window cap and stack-count-only
-cues, none of which exist any more. Do not read a vocabulary claim out of either one until
-`backlog.md` → **The stale artifacts** re-derives them.
+⚠ **Two published reference artifacts (Architecture, Demonology reference) are STALE** —
+they describe a catalog mechanic and a cue vocabulary that no longer exist. `backlog.md`
+tracks re-deriving them; do not read a vocabulary claim out of either.
 
-- [Architecture — how cap is wired, and where the signal stops](https://claude.ai/code/artifact/2de40ee9-5457-4ca3-b46e-77178e021207)
-- [Demonology reference — every tracked row, what lights it, what is drawn on it](https://claude.ai/code/artifact/46bb78b6-7c41-4210-a9b0-3b1707678569)
+**How a session moves through them.** Read `spec.md` for intent and `backlog.md` for the
+next item; do the work; record the outcome in `notes.md` and strike the backlog line. If the
+work changed *what the addon should do*, edit `spec.md` in place. An open question that
+would change the design goes to `discussion.md` rather than being decided in passing.
 
-**How they interact.** A session reads `spec.md` for intent and `backlog.md` for
-the next item, does the work, then records the outcome in `notes.md` and strikes
-or moves the backlog line. If the work changed *what the addon should do*, edit
-`spec.md` in place — don't leave the old text standing with a correction under it,
-and don't let `notes.md` become the real spec by accident.
-
-Three rules worth stating because they're the ones that erode:
-
-- **`spec.md` is present-tense and history-free.** History is `notes.md`. A dated
-  aside in the spec is a defect — same rule as the KB's topic files.
-- **If it isn't in `spec.md`, don't build it.** A behaviour nobody wrote down is
-  the thing that gets built twice, differently. Un-specced work goes to
-  `backlog.md` → `Ideas` first, or ask.
-- **A fact about the client does not stay in `specs/`.** How the API behaves, what
-  is readable under Secret Values, what an event's payload is — that is
-  `knowledge/addon-dev/`, written back in the same session (see the
-  **wow-developer** skill). `notes.md` records *our* work; the KB records the
-  game's behaviour. Getting this backwards is how the KB goes stale while every
-  project quietly re-learns the same thing.
+**If it isn't in `spec.md`, don't build it.** A behaviour nobody wrote down gets built
+twice, differently. Un-specced work goes to `backlog.md` → `Ideas` first, or ask.
 
 ## Working on the code
 
-Read the **wow-developer** skill first; its house rules are enforced by
-`/addon-review`. The two that bind hardest on a young addon are already live in
-`Core.lua`: commands come from the `ns.Commands` schema table (never a hand-rolled
-parser, no substring dispatch), and data extraction rides the one capture path
-(`ns.Capture.Open` → `wowkb.capture cap <stream>`) — `Log.lua`'s `bind` stream is the
-first user of it, and there is no second way out.
+Read the **wow-developer** skill first. The house rules live in that skill
+(`references/house-rules.md`) and are enforced by `/addon-review` — they are not restated
+per project, so that there is one copy to drift from.
+
+⚠ **A fact about the client does not stay in `specs/`** — it belongs in
+`knowledge/addon-dev/`, written back in the same session. That routing is this project's
+half; the rule itself is the skill's (*Improve the KB as you go*).
+
+Captures are the only way anything here reports what it saw — `wowkb.capture cap <stream>`,
+streams `bind` / `tier` / `edge` / `draw`. How to read any of them, and the `/reload` flush
+rule that governs them: **`specs/flight-reading.md`**.
 
 ## Releasing
 
-Ask first — this project has **no** standing auto-deploy exception (the Cooldown
-HUD's is scoped to CDMProbe alone). The recipe:
+**Ask first.** There is no *standing* auto-deploy exception (the Cooldown HUD's is scoped to
+CDMProbe alone). A `--patch` cut was pre-authorised for **M3 flights and nothing else**, and
+that no longer reaches anything: the build has carried M4a since v0.2.4, so a cut today
+carries work from another milestone and is ask-first. `backlog.md` → *The drawing rungs*
+owns this and wins if the two ever drift.
 
 ```bash
 cd ~/code/fun/wow/tools
 uv run python -m wowkb.addon release cap [--patch|--minor|--major]
 ```
 
-⚠ **A push does not reach the game.** `ghaddons` installs from the latest GitHub
-*release*, so nothing is deployed until a release is cut. cap **is** released and
-installed — but the deployed build is the **scaffold** (`.toc` + `Core.lua`); any
-module added since is working-tree-only until the next cut. Always read the live
-version off `wowkb.addon list` rather than this file.
+⚠ **A push does not reach the game.** `ghaddons` installs from the latest GitHub *release*,
+so nothing is deployed until a release is cut, and any module added since the last cut is
+working-tree-only.

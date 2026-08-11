@@ -180,21 +180,15 @@ touching the code**. Status as of 2026-07-09:
   `docs/archive/`.
 - `projects/combat-assist/` — **Combat Assist Plus** (`/cap`): **the live CDM addon**, a
   combat-assistance overlay that makes the Cooldown Manager tell you more **without
-  telling you what to press**. The core is a **tier signal** — HIGH/MEDIUM/LOW emphasis
-  across the tracked set, several things lit at once, you pick — with procs as a tier
-  *input*, auto-detected sequence hints layered on top, and a movable cooldown-bar panel
-  reusing the same signal. It **re-presents, grades and contextualises** — three moves
-  sitting under §1's three principles, which are what the design is built along and the
-  reason it supersedes the HUD. **Spec §1–§5 written (M1 ✅); M2 flown; M3a done
-  and M3b released but not yet flown** — the tier signal computes and nothing is drawn.
-  v1 spec: **Demonology Warlock**; a spec without a catalog gets nothing, by design. Start at its `CLAUDE.md` (project root), which owns the
-  **spec process**: `specs/spec.md` = what the addon is supposed to do (present-tense, no
-  history — **read §1's three principles**, everything else in the spec is downstream of
-  them) · `specs/backlog.md` = the work items · `specs/notes.md` =
-  what we did, session logs + decisions. ⚠ **No standing auto-deploy exception** (the
-  HUD's was scoped to CDMProbe alone) — releasing is ask-first. The addon (`michac/cap`)
-  is at `addon/` — own git repo, **gitignored**, own `CLAUDE.md` for the release
-  workflow. (Current addon version: `wowkb.addon list`.)
+  telling you what to press**. It is the reason the Cooldown HUD above is superseded.
+  v1 spec: **Demonology Warlock**; a spec without a catalog gets nothing, by design.
+  **Start at its `CLAUDE.md`** (project root), which owns the doc map; `specs/spec.md` is
+  the definition and §1's three principles are what everything else is downstream of.
+  ⚠ **What is built and what has flown lives in `specs/backlog.md` → `## Status`** and is
+  deliberately not restated here or anywhere else. ⚠ **No standing auto-deploy exception**
+  (the HUD's was scoped to CDMProbe alone) — releasing is ask-first. The addon
+  (`michac/cap`) is at `addon/` — own git repo, **gitignored**, own `CLAUDE.md` for the
+  release workflow. (Current addon version: `wowkb.addon list`.)
 - `projects/addon-lab/` — **ClientLab**: the scratch lab addon that answers
   `knowledge/addon-dev/` questions by running Lua in the live client, plus
   **`questions.json`, the test registry** (four statuses:
@@ -265,7 +259,7 @@ uv run python -m wowkb.cdmp decisionlog                 # extract the CDMProbe p
 uv run python -m wowkb.capture <bb|cap|cdmp|clab|ps> [stream]  # THE ONE READER for addon captures — `<DB>.captures.<stream>` → greppable .log (`--list` for streams + bounds)
 uv run python -m wowkb.lab [deploy|show|drain|blocked]  # the ClientLab addon-dev lab: deploy the scratch addon (a directory copy + the id ⇄ ns.Test{} cross-check), read a run (`show` = result BESIDE expect, never a verdict), drain an answer into the KB. `blocked` = the untested rows, grouped by the capability each waits on. ⚠ An UNKNOWN is not filed here — it is a marker on the claim in knowledge/addon-dev/ (projects/addon-lab/docs/lab-process.md)
 uv run python -m wowkb.obs [list|check|drain OBS-nnn]   # the addon-dev observations queue + its drain; `check` gates a --minor/--major release
-uv run python -m wowkb.kblint                           # the knowledge/addon-dev gates (README §7's current-state rule); exit 1 on any hit
+uv run python -m wowkb.kblint                           # the 5 knowledge/addon-dev gates: 1-3 = README §7's current-state rule, 4-5 = §0's evidence classes. Gate 4 = no negative existential ("there is no way to…") in a claim unit tagged [client] — a negative takes [searched YYYY-MM-DD: <instruments>], which names where we looked. Gate 5 = no claim citing OBS-nnn / projects/** / a capture path / one of OUR addons in any of its three names: repo (CDMProbe), slash command (/cdmp, /clab, /bb, /ps, /cap) or capture reader (wowkb.capture/.cdmp/.lab/.obs/.addon/.diagnostics) — but NOT wowkb.uiapi/.wiki/.wago, which reach admissible sources. `--gate N` for one; exit 1 on any hit
 ```
 
 **`wowkb.capture` is the one door for getting data out of an addon.** Every recorder in

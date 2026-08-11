@@ -1,16 +1,22 @@
 ---
-title: Demon Hunter Devourer — talent tree (12.0.7)
-patch: 12.0.7
-build: 12.0.7.67808
-fetched: 2026-06-19
-reviewed: 2026-07-07
+title: Demon Hunter Devourer — talent tree (12.1.0)
+patch: 12.1.0
+build: 12.1.0.68914
+fetched: 
 sources:
   - https://us.api.blizzard.com/data/wow/talent-tree (Blizzard Game Data API, Tier 1)
-  - https://wago.tools/db2 Trait* @ 12.0.7.67808 (Tier 1)
+  - https://wago.tools/db2 Trait* @ 12.1.0.68914 (Tier 1)
 confidence: high
 ---
+> **Build provenance.** This file was generated from the Blizzard Game Data API and
+> wago `Trait*` DB2 at build **12.1.0.68914**, which is what the API's `static-12.1.0`
+> namespace reported on 2026-08-11. The live client that day was **12.1.0.69214**. The
+> `Trait*` DB2 exports at the two builds are **byte-identical** (verified by md5 on
+> `TraitNodeEntry`), so this data is valid for live 12.1 — cite it as **@ 12.1.0.68914**,
+> not 69214.
 
-# Demon Hunter Devourer — talents (12.0.7)
+
+# Demon Hunter Devourer — talents (12.1.0)
 
 > Generated from `knowledge/classes/_talents/all-talents.tsv`. Spell IDs are the talent's granted spell. Choice nodes show both options as `A / B`. See `_talents/README.md` for the schema.
 
@@ -46,8 +52,8 @@ confidence: high
 | Burn It Out / Soul Cleanse | 1266316 / 1266496 | 1/1 | CHOICE | 7,6 | 8 | 90933 |
 | Lost in Darkness | 389849 | 1 | PASSIVE | 7,7 | 8 | 90933,95151 |
 | Illidari Knowledge | 389696 | 2 | PASSIVE | 8,2 | 8 | 90936,90940 |
-| Guile | 1223171 | 1 | PASSIVE | 8,4 | 8 | 91004,90939,90936 |
-| Will of the Illidari | 389695 | 2 | PASSIVE | 8,6 | 8 | 91004,90947,90927 |
+| Guile | 1223171 | 1 | PASSIVE | 8,4 | 8 | 91004,90936,90939 |
+| Will of the Illidari | 389695 | 2 | PASSIVE | 8,6 | 8 | 90947,91004,90927 |
 | Internal Struggle | 393822 | 1 | PASSIVE | 9,2 | 23 | 90935 |
 | Furious | 1266326 | 1 | PASSIVE | 9,3 | 23 | 107346,90935 |
 | Remorseless | 1266328 | 1 | PASSIVE | 9,5 | 23 | 91000,107346 |

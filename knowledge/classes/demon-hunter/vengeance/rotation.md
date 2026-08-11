@@ -1,26 +1,86 @@
 ---
-title: Vengeance Demon Hunter — Rotation (Midnight S1)
-patch: 12.0.7
-fetched: 2026-07-11
-reviewed: 2026-07-14
+title: Vengeance Demon Hunter — Rotation (Midnight 12.1)
+patch: 12.1
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
-  - simc midnight branch profiles/MID1/MID1_Demon_Hunter_Vengeance.simc  # tier 1 APL, WoW 12.0.7.67808 — PRIMARY
+  - https://worldofwarcraft.com/en-us/news/24293281  # tier 1, 12.1 "Curse of Ula'tek" Content Update Notes — CLASSES ▶ DEMON HUNTER ▶ Vengeance
+  - ../../../_meta/patch-notes/12.1.md  # tier 1, verbatim archive of the above (Vengeance block + the four global CLASSES changes)
+  - simc midnight branch profiles/MID1/MID1_Demon_Hunter_Vengeance.simc  # tier 1 APL, WoW 12.0.7.67808 — PRIMARY for the priority; NOT yet re-pulled at 12.1
   - wago.tools DB2 SpellCooldowns/SpellCategories, spell 247454 Spirit Bomb  # tier 1, CategoryRecoveryTime 25000ms — confirms Spirit Bomb's ~25s CD
+  - ./talents.md  # tier 1, generated from Blizzard Game Data API + wago Trait* DB2 @ 12.1.0 — Sigil of Chains verified ABSENT from the tree
   - ../../../_meta/patch-notes/12.0.5.md  # tier 1, Feast of Souls heals instantly on Soul Cleave
-  - https://www.method.gg/guides/vengeance-demon-hunter/playstyle-and-rotation  # tier 3, Midnight 12.0.7, upd. 2026-06-16
-  - https://www.icy-veins.com/wow/vengeance-demon-hunter-pve-tank-rotation-cooldowns-abilities  # tier 3, 12.0.7
+  - https://www.method.gg/guides/vengeance-demon-hunter/playstyle-and-rotation  # tier 3, Midnight 12.0.7, upd. 2026-06-16 — pre-12.1
+  - https://www.icy-veins.com/wow/vengeance-demon-hunter-pve-tank-rotation-cooldowns-abilities  # tier 3, 12.0.7 — pre-12.1
   - https://wowcarry.com/blog/wow/wow-news/vengeance-demon-hunter-in-midnight-talents-annihilator-guide  # tier 4, Annihilator mechanics corroboration
-confidence: high
+confidence: medium
 ---
 
-# Vengeance Demon Hunter — Rotation (Midnight S1)
+# Vengeance Demon Hunter — Rotation (Midnight 12.1)
 
 Distilled from the SimulationCraft default APL (Tier 1); method.gg and Icy Veins
 (Tier 3) corroborate the priority. The APL splits hard by **hero tree** — it
 runs `actions.ar` for **Aldrachi Reaver** and `actions.anni` for **Annihilator**
-— and both are competitive in S1 (see `builds.md`). Below: the shared framing,
+— and both were competitive through S1 (see `builds.md`; 12.1 did not change the
+Vengeance side of either hero tree's structure). Below: the shared framing,
 then each tree. Both share the same core builders/spenders (Fracture → Spirit
 Bomb / Soul Cleave) and the same maintenance layer.
+
+## What 12.1 changed (2026-08-11)
+
+⚠ **The button order below did not change in 12.1** — no Vengeance talent was
+removed and nothing the priority names was cut. What changed is the *weapons you
+must have equipped*, one utility sigil, and a lot of numbers.
+
+- **Fracture and Soul Cleave now require an equipped Warglaive, Axe, Sword or
+  Fist Weapon.** Demon Hunters can equip **daggers** as of 12.1, but a dagger
+  does **not** satisfy this requirement — equip one and your core builder and
+  your core spender both stop working. (The dagger change exists for Devourer's
+  Intellect weapons; it is a trap for Vengeance.)
+- **Sigil of Chains is baseline at level 35 and is no longer a talent** —
+  verified absent from the live tree in the generated `talents.md`. Its cooldown
+  is **60s (was 90s)**, and it **no longer replaces Sigil of Misery**. It costs
+  you no talent point now, so treat it as free pull-grouping utility on a 1-min
+  cooldown rather than something to build around.
+- **Sigil of Silence now replaces Sigil of Misery when selected**, and
+  **Improved Sigil of Misery** (class tree) no longer touches Sigil of Chains —
+  it instead cuts **Sigil of Silence's cooldown by 15s** when Silence is
+  selected. So the Misery/Silence slot is the one to think about; Chains is
+  always there.
+- **All Vengeance damage +5.5%** — flat, so it does not reorder the priority.
+- **Survivability up across the board**: Soul Cleave, Fel Devastation and Feast
+  of Souls healing all **+25%**; **Charred Warblades** heals for **5%** of Fire
+  damage dealt (was 4%); **Frailty** heals for **10%** of damage dealt to
+  afflicted targets (was 8%); **Revel in Pain** shields for **6%** of Fire
+  damage (was 5%).
+- **Several talents changed tree locations.** Point paths moved — re-check any
+  loadout against the regenerated `talents.md`, not against a pre-12.1 guide.
+
+Game-wide changes that land on how this plays:
+
+- **Player health and creature damage both +25% at max level**, with the DPS/Tank
+  healing and absorb spells retuned to keep their relative impact — which is what
+  the Soul Cleave / Fel Devastation / Feast of Souls +25% above is. Net: incoming
+  damage is less spiky, and *any* absolute HP or "heals for N" number written
+  before 2026-08-11 is wrong.
+- **Major DPS cooldowns lowered and steady-state damage raised** across several
+  specs — a stated design direction. Expect burst windows to matter marginally
+  less relative to uptime than they did in S1.
+- **Interrupts now show a "missed" visual and sound** when used on a target that
+  was not casting. Your **Disrupt** whiffs are now visible to the whole group.
+- **Diminishing-return categories reset after 20s (was 16s)** — affects Sigil of
+  Misery / Chaos Nova / Imprison chaining, not the damage rotation.
+
+⚠ **Not re-derived at 12.1:** the priority below is still distilled from the
+**12.0.7.67808** simc APL. The 12.1 APL had not been published at the time of
+this pass — see the TODO.
+
+⚠ **Annihilator caveat:** 12.1 lists **Otherworldly Focus** (+30% single-target,
+was 35%) and **Final Hour** (Voidfall bonuses persist **6s**, was 8s) under
+*Devourer's* hero talents, but both nodes also sit in **Vengeance's** Annihilator
+tree. Treat them as applying here too — flagged, not separately confirmed.
+
+---
 
 The whole spec is a **builder/spender**: **Fracture** makes Fury + 2 Soul
 Fragments; you dump fragments into **Spirit Bomb** (AoE / high fragment count)
@@ -155,10 +215,16 @@ with Soul Carver talented) → **Immolation Aura**.
 
 ## TODO
 
-- [ ] Re-distill if the simc midnight branch publishes an updated 12.0.7 APL
-      revision (current pull WoW 12.0.7.67808).
+- [ ] **Re-distill against the 12.1 simc APL** once the midnight branch publishes
+      one (`wowkb.simc demon-hunter vengeance`). Current pull is still
+      **12.0.7.67808** — the priority is believed structurally intact (no talent
+      removed, only tuning + the sigil/weapon changes) but the fragment targets
+      and the Fury thresholds are pre-12.1 numbers.
+- [ ] Re-check the fragment targets (5 / 3-in-Brand / 4-in-Meta) after the 12.1
+      damage and healing retune — a +25% Soul Cleave heal may justify spending
+      earlier for mitigation than the DPS-shaped APL says.
 - [ ] Sanity-check the opener against a top WCL Vengeance log
-      (`wowkb.wcl rankings` → `casts`).
+      (`wowkb.wcl rankings` → `casts`) once S2 logs exist (S2 opens 2026-08-18).
 - [x] Confirm Spirit Bomb's cooldown value — **~25s (haste-reduced)**, resolved
       2026-07-14 via DB2 (SpellCooldowns spell 247454, CategoryRecoveryTime
       25000ms, not charge-based). Documented under Fragment targeting.

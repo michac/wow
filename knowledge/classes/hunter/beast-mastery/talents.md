@@ -1,16 +1,22 @@
 ---
-title: Hunter Beast Mastery — talent tree (12.0.7)
-patch: 12.0.7
-build: 12.0.7.67808
-fetched: 2026-06-19
-reviewed: 2026-07-07
+title: Hunter Beast Mastery — talent tree (12.1.0)
+patch: 12.1.0
+build: 12.1.0.68914
+fetched: 
 sources:
   - https://us.api.blizzard.com/data/wow/talent-tree (Blizzard Game Data API, Tier 1)
-  - https://wago.tools/db2 Trait* @ 12.0.7.67808 (Tier 1)
+  - https://wago.tools/db2 Trait* @ 12.1.0.68914 (Tier 1)
 confidence: high
 ---
+> **Build provenance.** This file was generated from the Blizzard Game Data API and
+> wago `Trait*` DB2 at build **12.1.0.68914**, which is what the API's `static-12.1.0`
+> namespace reported on 2026-08-11. The live client that day was **12.1.0.69214**. The
+> `Trait*` DB2 exports at the two builds are **byte-identical** (verified by md5 on
+> `TraitNodeEntry`), so this data is valid for live 12.1 — cite it as **@ 12.1.0.68914**,
+> not 69214.
 
-# Hunter Beast Mastery — talents (12.0.7)
+
+# Hunter Beast Mastery — talents (12.1.0)
 
 > Generated from `knowledge/classes/_talents/all-talents.tsv`. Spell IDs are the talent's granted spell. Choice nodes show both options as `A / B`. See `_talents/README.md` for the schema.
 
@@ -28,8 +34,8 @@ confidence: high
 | Combat Experience | 1268871 | 1 | PASSIVE | 4,3 | — | 102406,102401 |
 | Improved Aspect of the Cheetah | 1258407 | 1 | PASSIVE | 4,5 | — | 102423,102406 |
 | Concussive Shot | 5116 | 1 | ACTIVE | 4,7 | — | 102423 |
-| Precision Strikes | 1267003 | 1 | PASSIVE | 5,2 | — | 102383,110157 |
-| Counter Shot | 147362 | 1 | ACTIVE | 5,4 | — | 109485,110157 |
+| Precision Strikes | 1267003 | 1 | PASSIVE | 5,2 | — | 110157,102383 |
+| Counter Shot | 147362 | 1 | ACTIVE | 5,4 | — | 110157,109485 |
 | Serrated Tips | 459502 | 2 | PASSIVE | 5,6 | — | 109485,102407 |
 | Tranquilizing Shot | 19801 | 1 | ACTIVE | 6,1 | 8 | 102380 |
 | Pathfinding | 378002 | 1 | PASSIVE | 6,3 | 8 | 102292,102380 |
@@ -44,8 +50,8 @@ confidence: high
 | Camouflage | 199483 | 1 | ACTIVE | 7,6 | 8 | 102419,109484 |
 | No Hard Feelings | 459546 | 1 | PASSIVE | 7,7 | 8 | 102419 |
 | Improved Aspect of the Turtle | 1258485 | 1 | PASSIVE | 8,2 | 8 | 102396,102425,102415 |
-| Specialized Arsenal | 459542 | 1 | PASSIVE | 8,4 | 8 | 102396,102393,109487 |
-| Scout's Instincts | 459455 | 1 | PASSIVE | 8,6 | 8 | 102412,109487,110156 |
+| Specialized Arsenal | 459542 | 1 | PASSIVE | 8,4 | 8 | 109487,102396,102393 |
+| Scout's Instincts | 459455 | 1 | PASSIVE | 8,6 | 8 | 110156,109487,102412 |
 | Shell Wall | 1267218 | 1 | PASSIVE | 9,1 | 23 | 102424 |
 | Intimidation | 19577 | 1 | ACTIVE | 9,2 | 23 | 102424 |
 | Improved Snaring | 1268868 | 1 | PASSIVE | 9,3 | 23 | 102390,102424 |
@@ -58,8 +64,8 @@ confidence: high
 | Born To Be Wild | 266921 | 2 | PASSIVE | 10,3 | 23 | 102397,102414,102391 |
 | Keen Eyesight | 378004 | 2 | PASSIVE | 10,5 | 23 | 109488,109486,102391 |
 | Tar-Coated Bindings / Horsehair Tether | 459460 / 472729 | 1/1 | CHOICE | 10,6 | 23 | 109488 |
-| Improved Traps | 343247 | 1 | PASSIVE | 10,7 | 23 | 109488,110155 |
-| Emergency Salve | 459517 | 1 | PASSIVE | 11,2 | 23 | 102416,110153 |
+| Improved Traps | 343247 | 1 | PASSIVE | 10,7 | 23 | 110155,109488 |
+| Emergency Salve | 459517 | 1 | PASSIVE | 11,2 | 23 | 110153,102416 |
 | Roar of Sacrifice / Guardian's Hide | 53480 / 1272094 | 1/1 | CHOICE | 11,4 | 23 | 102409,102416 |
 | Unnatural Causes | 459527 | 1 | PASSIVE | 11,6 | 23 | 102409,102418 |
 
@@ -74,8 +80,8 @@ confidence: high
 | Dire Beast | 120679 | 1 | PASSIVE | 4,17 | — | 110158 |
 | Stomp | 199530 | 1 | PASSIVE | 4,19 | — | 102377 |
 | War Orders | 393933 | 1 | PASSIVE | 4,20 | — | 102377 |
-| Wild Thrash | 1264359 | 1 | ACTIVE | 5,16 | — | 102368,102376 |
-| Bestial Wrath | 19574 | 1 | ACTIVE | 5,18 | — | 102347,102376 |
+| Wild Thrash | 1264359 | 1 | ACTIVE | 5,16 | — | 102376,102368 |
+| Bestial Wrath | 19574 | 1 | ACTIVE | 5,18 | — | 102376,102347 |
 | Cobra Shot | 193455 | 1 | ACTIVE | 5,20 | — | 102343,102347 |
 | Beast Cleave | 115939 | 1 | PASSIVE | 6,16 | 8 | 102363 |
 | Scent of Blood | 193532 | 1 | PASSIVE | 6,17 | 8 | 102340 |
@@ -99,13 +105,13 @@ confidence: high
 | Killer Instinct | 273887 | 2 | PASSIVE | 9,20 | 20 | 102344,102372,102358 |
 | Brutal Companion | 386870 | 1 | PASSIVE | 10,15 | 20 | 102367 |
 | Huntmaster's Call | 459730 | 1 | PASSIVE | 10,16 | 20 | 102367 |
-| Heart of the Pack | 1265052 | 1 | PASSIVE | 10,17 | 20 | 102336,102367 |
+| Razor Sharp | 1265052 | 1 | PASSIVE | 10,17 | 20 | 102336,102367 |
 | Bloodshed | 1272099 | 1 | PASSIVE | 10,18 | 20 | 102336 |
 | Savagery | 424557 | 1 | PASSIVE | 10,19 | 20 | 102336,102364 |
 | Killer Cobra | 199532 | 1 | PASSIVE | 10,20 | 20 | 102364 |
 | Master Handler | 424558 | 1 | PASSIVE | 10,21 | 20 | 102364 |
-| Wildspeaker | 1232739 | 1 | PASSIVE | 11,16 | 20 | 107286,102350 |
-| Wild Instincts / Bloody Frenzy | 378442 / 407412 | 1/1 | CHOICE | 11,18 | 20 | 102362 |
+| Wildspeaker | 1232739 | 1 | PASSIVE | 11,16 | 20 | 102350,107286 |
+| Bloody Frenzy | 407412 | 1 | PASSIVE | 11,18 | 20 | 102362 |
 | Piercing Fangs | 392053 | 1 | PASSIVE | 11,20 | 20 | 102375,102359 |
 | Nature's Ally | 1273043 | 1 | ACTIVE | 12,18 | 20 | — |
 
@@ -126,7 +132,7 @@ confidence: high
 | Shell Cover | 472707 | 1 | PASSIVE | 10,10 | — | 94984 |
 | Hoof and Blade / Wyvern's Gaze | 1264797 / 1264792 | 1/1 | CHOICE | 10,11 | — | 94988 |
 | Sharpened Fangs | 1264775 | 1 | PASSIVE | 10,12 | — | 109803 |
-| Stampede! | 472741 | 1 | PASSIVE | 11,10 | — | 94967,94969,109804,109802 |
+| Stampede! | 472741 | 1 | PASSIVE | 11,10 | — | 109804,109802,94967,94969 |
 
 ## Hero: Dark Ranger
 
@@ -146,4 +152,4 @@ confidence: high
 | Banshee's Mark / The Bell Tolls | 467902 / 467644 | 1/1 | CHOICE | 5,10 | — | 94959 |
 | Umbral Reach | 1235397 | 1 | PASSIVE | 5,11 | — | 94960 |
 | Pact of the Hollow | 1264690 | 1 | PASSIVE | 5,12 | — | 109800 |
-| Withering Fire | 466990 | 1 | PASSIVE | 6,10 | — | 94982,109799,94957,94983 |
+| Withering Fire | 466990 | 1 | PASSIVE | 6,10 | — | 94982,94957,94983,109799 |

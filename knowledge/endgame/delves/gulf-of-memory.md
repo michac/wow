@@ -1,11 +1,12 @@
 ---
 title: The Gulf of Memory (delve) — Mul'tha'ul boss notes
-patch: 12.0.7
-fetched: 2026-06-06
-reviewed: 2026-07-07
+patch: 12.1
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
   - https://www.icy-veins.com/wow/gulf-of-memory-delve-guide  # upd. 2026-05-19
   - https://www.method.gg/guides/the-gulf-of-memory-delve-guide
+  - https://worldofwarcraft.com/en-us/news/24293281  # 12.1 Content Update Notes (Tier 1) — new snake/venom variants in existing Midnight delves
 confidence: medium
 ---
 
@@ -15,6 +16,15 @@ Faceless One caster, "Lord of the Deeps". Final boss of the **Descent
 of the Haranir** story variant (the delve has two variants; the other
 ends in Lumenia). Rated one of the **tougher Midnight delve bosses**
 (Icy Veins).
+
+**12.1 (Curse of Ula'tek):** Mul'tha'ul's own kit is unchanged. What
+changed is the *trash* — 12.1 seeds **new snake and venom enemy
+variants into existing Midnight delves**, so expect unfamiliar packs on
+the way in even though the boss plays the same. Season-wide delve rules
+(tiers available, Bountiful timing, reward caps, Coffer Key Shards) are
+**not** per-delve facts — they live in `delves/overview.md`, and during
+the 2026-08-11 → 08-18 pre-season week they are materially different
+from mid-season.
 
 ## Abilities
 
@@ -49,3 +59,6 @@ damage — both say "stay away".)
 
 - [ ] Trash/route notes, delve location (Harandar), variant trigger
 - [ ] Lumenia (other variant boss) notes
+- [ ] Name the specific 12.1 snake/venom trash variants that landed here
+      (the notes say "existing Midnight Delves" generically — needs
+      in-game confirmation or a post-patch guide refresh) @verify-ingame

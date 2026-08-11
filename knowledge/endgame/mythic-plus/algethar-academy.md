@@ -1,9 +1,12 @@
 ---
-title: Algeth'ar Academy — Midnight S1 M+ dungeon guide
-patch: 12.0.7
-fetched: 2026-06-25
-reviewed: 2026-07-07
+title: Algeth'ar Academy — Midnight S1 M+ dungeon guide (historical)
+patch: 12.1
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
+  - https://worldofwarcraft.com/en-us/news/24294369   # "Midnight Season 2" overview — S2 dungeon pool (tier 1)
+  - https://worldofwarcraft.com/en-us/news/24293281   # 12.1 "Curse of Ula'tek" Content Update Notes (tier 1)
+  - https://us.forums.blizzard.com/en/wow/posts/29833350  # S1 ending / S2 pre-season schedule (tier 1)
   - https://www.method.gg/guides/dungeons/algethar-academy
   - https://www.icy-veins.com/wow/algethar-academy-dungeon-guide
   - Blizzard journal-instance/1201 + journal-encounter/2509 + journal-encounter/2512 + journal-encounter/2495 + journal-encounter/2514 (tier 1, boss-name corroboration)
@@ -12,6 +15,23 @@ confidence: high
 ---
 
 # Algeth'ar Academy — Midnight S1 M+
+
+> ⛔ **NOT IN THE CURRENT MYTHIC+ ROTATION.** Algeth'ar Academy **rotated out**
+> of the pool with 12.1 (2026-08-11) and is **not** one of the eight Midnight
+> **Season 2** dungeons: Altar of Fangs · Murder Row · Den of Nalorakk ·
+> The Blinding Vale · Voidscar Arena · Ruby Life Pools · Kings' Rest ·
+> Temple of Sethraliss. See [`season-2-overview.md`](season-2-overview.md) for
+> what is live (and note S2 keystones do not drop until the week of
+> **2026-08-18** — the week of Aug 11 is a pre-season week).
+>
+> Everything below is a **historical record of the Season 1 pool**
+> ([`season-1-overview.md`](season-1-overview.md), season closed 2026-08-11).
+> The mechanics were last verified on **12.0.7**; nothing here has been
+> re-checked against 12.1, and the dungeon no longer carries M+ affixes,
+> keystone timers, M+ loot or M+ rating. It remains a **Dragonflight** dungeon
+> reachable outside Mythic+ (its Dragonflight difficulties, and Dragonflight
+> Timewalking weeks), so the routes and boss mechanics below are still useful
+> there — at Dragonflight tuning, not Midnight tuning.
 
 Four bosses. Three (Overgrown Ancient, Crawth, Vexamus) are open in any order;
 **Echo of Doragosa unlocks only after the other three die.** Each of the first

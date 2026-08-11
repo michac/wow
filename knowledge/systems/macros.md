@@ -1,14 +1,18 @@
 ---
 title: Macros (Midnight)
-patch: 12.0.7
-fetched: 2026-06-27
-reviewed: 2026-07-07
+patch: 12.1
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
   - https://warcraft.wiki.gg/wiki/Macro_commands
   - https://warcraft.wiki.gg/wiki/Macro_conditionals
   - https://warcraft.wiki.gg/wiki/MACRO_targetmarker
+  - https://worldofwarcraft.com/en-us/news/24293281
+  - https://worldofwarcraft.com/en-us/news/24294064
   - https://www.wowhead.com/news/new-interrupt-macro-prevents-overwriting-of-target-markers-in-patch-12-0-7-381742
   - https://us.forums.blizzard.com/en/wow/t/macro-changes-now-live-target-markers-and-chat-messages/2261956
+  - https://www.icy-veins.com/wow/news/stop-pinging-the-boss-instead-of-the-ground-patch-12-1-ping-updates/
+  - https://us.forums.blizzard.com/en/wow/t/ping-system-macro-guide-and-wish-list/1666079
 confidence: high
 ---
 
@@ -16,9 +20,10 @@ confidence: high
 
 The macro system is one of the most stable parts of WoW — the slash commands
 and conditional syntax below have been unchanged for years and are current on
-**live 12.0.7**. The only Midnight-era deltas are at the bottom under
-[12.0.x changes](#12-0-x-macro-changes). When in doubt, the engine behavior is
-authoritative on the Warcraft Wiki (tier ~1–2 for API facts).
+**live 12.1 "Curse of Ula'tek"**. The only Midnight-era deltas are at the bottom
+under [Midnight macro changes](#midnight-macro-changes-120--121). When in doubt,
+the engine behavior is authoritative on the Warcraft Wiki (tier ~1–2 for API
+facts).
 
 > A macro is just a list of slash commands, one per line, run top-to-bottom in a
 > single button press. Edit them at **Esc → Macros** (or `/macro`). You get
@@ -29,7 +34,7 @@ authoritative on the Warcraft Wiki (tier ~1–2 for API facts).
 ## The big rule: one action per press
 
 A single keypress may trigger **at most one** spell/item cast. You can stack as
-many *non-casting* commands as you like (target, mark, stop, yell), but
+many *non-casting* commands as you like (target, mark, ping, stop, yell), but
 `/cast SpellA` then `/cast SpellB` on the same press will only fire SpellA
 (unless A is off-GCD/free, e.g. a racial + a real spell). To fire abilities in
 order across multiple presses, use `/castsequence`.
@@ -56,6 +61,10 @@ deliberate and unchanged in Midnight.
 | `/cleartarget` | Drop the current target |
 | `/petattack`, `/petfollow`, `/petstay` | Pet control |
 | `/targetmarker` (`/tm`) | Set/clear a raid target marker — see [below](#target-markers-tm) |
+| `/ping <type>` | Fire a ping (`attack`, `assist`, `onmyway`, `warning`; bare `/ping` = "look here") |
+| `/pingspell:<id\|name>` | **12.1** — ping a spell as if you'd pinged it on the action bar / Cooldown Manager |
+| `/pingitem:<id\|name>` | **12.1** — ping an item (trinkets, health/combat potions, healthstones) |
+| `/mappin …` | **12.1** — create a map pin + open the map to it; shift-click a pin to copy the ready-made command to your clipboard |
 | `/click ButtonName` | Press another UI/action button (chains macros, triggers addons) |
 | `/run` (`/script`) | Run a line of Lua — blocked from *protected* actions in combat |
 
@@ -156,11 +165,59 @@ It accepts the same `[conditional]` and `@unit` options as `/cast`:
 /tm [@focus] 8
 ```
 
-## 12.0.x macro changes
+## Pings in macros (12.1)
 
-These are the only macro deltas specific to **Midnight (12.0)** — everything
-above is evergreen.
+Pings are **not casts**, so they don't consume the one-action-per-press budget —
+you can stack several ping lines (and a `/cast`) on a single button.
 
+`/ping <type>` has existed since the ping system shipped (10.1.7) and takes a
+`[@unit]` prefix: `/ping [@mouseover] attack`. 12.1 adds three things:
+
+- **`/pingspell:1234`** — ping a spell, exactly as if you'd pinged it on your
+  action bar or in the Cooldown Manager. Takes a **spell ID or the spell name**.
+- **`/pingitem:1234`** — ping an item, same deal (**item ID or exact item name**).
+  Trinkets, health potions, combat potions and healthstones are pingable from the
+  Cooldown Manager as of 12.1.
+- **`[@cursor]` for ping macros** — using it makes the ping **ignore all UI and
+  all units** and explicitly ping *the environment* wherever the cursor is. This
+  is the fix for "I meant to ping the ground and pinged the boss."
+
+```
+/pingspell Power Infusion
+/pingitem Healthstone
+```
+*Two pings, one press — tell the group a cooldown and a consumable are ready.*
+
+⚠ **Separator:** Blizzard's notes write the commands with a colon
+(`/pingspell:1234`); editorial coverage shows the plain space form
+(`/pingspell Power Infusion`). Both are reported, the colon form is the Tier-1
+wording, and they are probably the same parser. **@verify-ingame** which
+separator(s) the client actually accepts before building macros around one.
+
+```
+/cast [@cursor] Anti-Magic Zone
+/ping [@cursor] onmyway
+```
+*Ground-target the spell and ping the spot itself, not whatever unit is there.*
+
+Two caveats carried forward from the pre-12.1 ping macros: a conditional
+**without** a unit target (`[harm]` on its own) is ignored — the working forms
+are `[@unit]` and `[@unit,conditional]`; and the game-wide ping target mode
+(**Show All / Units / Environment**, new in 12.1, with a "Toggle Ping Target"
+keybind) filters what a plain ping can land on. `[@cursor]` bypasses that by
+forcing environment.
+
+## Midnight macro changes (12.0 → 12.1)
+
+These are the only macro deltas specific to **Midnight** — everything above is
+evergreen.
+
+- **Ping macros gained spells, items and `[@cursor]` (12.1)** — see
+  [Pings in macros](#pings-in-macros-121) above.
+- **`/mappin` is now handed to you (12.1).** Shift-clicking a map pin copies a
+  `/mappin` slash command to your clipboard; it can be shared **outside the
+  game** and pasted into chat to recreate the pin and open the map to it. Useful
+  as a paste-able line in a raid/route macro rather than as macro *logic*.
 - **`~` prefix preserves existing markers (12.0.7).** Prefixing the index with
   a tilde tells `/tm` to **skip** the unit if it already carries *any* marker,
   so coordinated interrupt/kill macros no longer stomp the tank's skull:

@@ -4,14 +4,14 @@
   "spec": "fire",
   "spec_id": 63,
   "tree_id": 658,
-  "patch": "12.0.7",
-  "build": "12.0.7.67808",
+  "patch": "12.1.0",
+  "build": "12.1.0.68914",
   "source": "api",
-  "serial_count": 206,
+  "serial_count": 208,
   "granted_serials": [
     53,
     64,
-    188
+    187
   ],
   "hero_selector": {
     "serial": 83,
@@ -105,7 +105,7 @@
         "col": 2,
         "x": 2700,
         "y": 2700,
-        "serial_order": 134,
+        "serial_order": 133,
         "req_points": 0,
         "prereq_node_ids": [
           62115
@@ -235,11 +235,11 @@
         "col": 4,
         "x": 3900,
         "y": 3300,
-        "serial_order": 140,
+        "serial_order": 139,
         "req_points": 0,
         "prereq_node_ids": [
-          62123,
-          62102
+          62102,
+          62123
         ],
         "entries": [
           {
@@ -370,8 +370,8 @@
         "serial_order": 19,
         "req_points": 8,
         "prereq_node_ids": [
-          108660,
-          62124
+          62124,
+          108660
         ],
         "entries": [
           {
@@ -392,7 +392,7 @@
         "col": 7,
         "x": 5700,
         "y": 3900,
-        "serial_order": 142,
+        "serial_order": 141,
         "req_points": 8,
         "prereq_node_ids": [
           62124
@@ -416,7 +416,7 @@
         "col": 1,
         "x": 2100,
         "y": 4500,
-        "serial_order": 193,
+        "serial_order": 192,
         "req_points": 8,
         "prereq_node_ids": [
           62084
@@ -474,7 +474,7 @@
         "col": 3,
         "x": 3300,
         "y": 4500,
-        "serial_order": 190,
+        "serial_order": 189,
         "req_points": 8,
         "prereq_node_ids": [
           62104
@@ -498,7 +498,7 @@
         "col": 4,
         "x": 3900,
         "y": 4500,
-        "serial_order": 141,
+        "serial_order": 140,
         "req_points": 8,
         "prereq_node_ids": [
           62116,
@@ -524,7 +524,7 @@
         "col": 5,
         "x": 4500,
         "y": 4500,
-        "serial_order": 189,
+        "serial_order": 188,
         "req_points": 8,
         "prereq_node_ids": [
           62116
@@ -551,8 +551,8 @@
         "serial_order": 48,
         "req_points": 8,
         "prereq_node_ids": [
-          62116,
-          108662
+          108662,
+          62116
         ],
         "entries": [
           {
@@ -651,6 +651,30 @@
         ]
       },
       {
+        "node_id": 110597,
+        "type": "PASSIVE",
+        "row": 7,
+        "col": 4,
+        "x": 3900,
+        "y": 5100,
+        "serial_order": 205,
+        "req_points": 8,
+        "prereq_node_ids": [
+          108661
+        ],
+        "entries": [
+          {
+            "entry_id": "137410",
+            "talent": "Improved Warding",
+            "spell_id": 1297073,
+            "max_ranks": "1",
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/1083039.jpg",
+            "desc": "Damage taken from area of effect attacks reduced by 4%."
+          }
+        ]
+      },
+      {
         "node_id": 62098,
         "type": "PASSIVE",
         "row": 7,
@@ -707,7 +731,7 @@
         "col": 7,
         "x": 5700,
         "y": 5100,
-        "serial_order": 139,
+        "serial_order": 138,
         "req_points": 8,
         "prereq_node_ids": [
           93524
@@ -731,7 +755,7 @@
         "col": 2,
         "x": 2700,
         "y": 5700,
-        "serial_order": 138,
+        "serial_order": 137,
         "req_points": 20,
         "prereq_node_ids": [
           62110,
@@ -757,7 +781,7 @@
         "col": 3,
         "x": 3300,
         "y": 5700,
-        "serial_order": 192,
+        "serial_order": 191,
         "req_points": 20,
         "prereq_node_ids": [
           62127
@@ -784,6 +808,7 @@
         "serial_order": 8,
         "req_points": 20,
         "prereq_node_ids": [
+          110597,
           62098,
           62127
         ],
@@ -806,7 +831,7 @@
         "col": 5,
         "x": 4500,
         "y": 5700,
-        "serial_order": 191,
+        "serial_order": 190,
         "req_points": 20,
         "prereq_node_ids": [
           62098
@@ -830,12 +855,12 @@
         "col": 6,
         "x": 5100,
         "y": 5700,
-        "serial_order": 137,
+        "serial_order": 136,
         "req_points": 20,
         "prereq_node_ids": [
-          62112,
           108659,
-          62098
+          62098,
+          62112
         ],
         "entries": [
           {
@@ -1107,11 +1132,11 @@
         "col": 6,
         "x": 5100,
         "y": 6900,
-        "serial_order": 136,
+        "serial_order": 135,
         "req_points": 20,
         "prereq_node_ids": [
-          62092,
           62100,
+          62092,
           62091
         ],
         "entries": [
@@ -1181,7 +1206,7 @@
         "col": 18,
         "x": 12300,
         "y": 2100,
-        "serial_order": 200,
+        "serial_order": 199,
         "req_points": 0,
         "prereq_node_ids": [
           100998
@@ -1205,7 +1230,7 @@
         "col": 19,
         "x": 12900,
         "y": 2100,
-        "serial_order": 173,
+        "serial_order": 172,
         "req_points": 0,
         "prereq_node_ids": [
           100998
@@ -1238,7 +1263,7 @@
         "col": 16,
         "x": 11100,
         "y": 2700,
-        "serial_order": 171,
+        "serial_order": 170,
         "req_points": 0,
         "prereq_node_ids": [
           100989
@@ -1287,7 +1312,7 @@
         "col": 20,
         "x": 13500,
         "y": 2700,
-        "serial_order": 170,
+        "serial_order": 169,
         "req_points": 0,
         "prereq_node_ids": [
           109409
@@ -1335,7 +1360,7 @@
         "col": 18,
         "x": 12300,
         "y": 3300,
-        "serial_order": 168,
+        "serial_order": 167,
         "req_points": 0,
         "prereq_node_ids": [
           100995
@@ -1383,7 +1408,7 @@
         "col": 16,
         "x": 11100,
         "y": 3900,
-        "serial_order": 201,
+        "serial_order": 200,
         "req_points": 8,
         "prereq_node_ids": [
           101027
@@ -1505,7 +1530,7 @@
         "col": 15,
         "x": 10500,
         "y": 4500,
-        "serial_order": 174,
+        "serial_order": 173,
         "req_points": 8,
         "prereq_node_ids": [
           110322
@@ -1529,7 +1554,7 @@
         "col": 17,
         "x": 11700,
         "y": 4500,
-        "serial_order": 172,
+        "serial_order": 171,
         "req_points": 8,
         "prereq_node_ids": [
           101009,
@@ -1554,12 +1579,12 @@
         "col": 18,
         "x": 12300,
         "y": 4500,
-        "serial_order": 166,
+        "serial_order": 165,
         "req_points": 8,
         "prereq_node_ids": [
-          101024,
           101029,
-          101009
+          101009,
+          101024
         ],
         "entries": [
           {
@@ -1580,7 +1605,7 @@
         "col": 19,
         "x": 12900,
         "y": 4500,
-        "serial_order": 164,
+        "serial_order": 163,
         "req_points": 8,
         "prereq_node_ids": [
           101029,
@@ -1605,7 +1630,7 @@
         "col": 21,
         "x": 14100,
         "y": 4500,
-        "serial_order": 165,
+        "serial_order": 164,
         "req_points": 8,
         "prereq_node_ids": [
           101016
@@ -1629,7 +1654,7 @@
         "col": 16,
         "x": 11100,
         "y": 5100,
-        "serial_order": 195,
+        "serial_order": 194,
         "req_points": 8,
         "prereq_node_ids": [
           109408,
@@ -1654,7 +1679,7 @@
         "col": 17,
         "x": 11700,
         "y": 5100,
-        "serial_order": 167,
+        "serial_order": 166,
         "req_points": 8,
         "prereq_node_ids": [
           109408
@@ -1678,7 +1703,7 @@
         "col": 18,
         "x": 12300,
         "y": 5100,
-        "serial_order": 175,
+        "serial_order": 174,
         "req_points": 8,
         "prereq_node_ids": [
           109408,
@@ -1704,7 +1729,7 @@
         "col": 19,
         "x": 12900,
         "y": 5100,
-        "serial_order": 163,
+        "serial_order": 162,
         "req_points": 8,
         "prereq_node_ids": [
           109399
@@ -1728,7 +1753,7 @@
         "col": 20,
         "x": 13500,
         "y": 5100,
-        "serial_order": 194,
+        "serial_order": 193,
         "req_points": 8,
         "prereq_node_ids": [
           109399,
@@ -1753,7 +1778,7 @@
         "col": 16,
         "x": 11100,
         "y": 5700,
-        "serial_order": 169,
+        "serial_order": 168,
         "req_points": 20,
         "prereq_node_ids": [
           109402,
@@ -1781,9 +1806,9 @@
         "serial_order": 94,
         "req_points": 20,
         "prereq_node_ids": [
+          109402,
           109398,
-          109412,
-          109402
+          109412
         ],
         "entries": [
           {
@@ -1829,7 +1854,7 @@
         "col": 15,
         "x": 10500,
         "y": 6300,
-        "serial_order": 160,
+        "serial_order": 159,
         "req_points": 20,
         "prereq_node_ids": [
           109404
@@ -1853,7 +1878,7 @@
         "col": 17,
         "x": 11700,
         "y": 6300,
-        "serial_order": 158,
+        "serial_order": 157,
         "req_points": 20,
         "prereq_node_ids": [
           101019,
@@ -1878,7 +1903,7 @@
         "col": 18,
         "x": 12300,
         "y": 6300,
-        "serial_order": 161,
+        "serial_order": 160,
         "req_points": 20,
         "prereq_node_ids": [
           101019
@@ -1902,7 +1927,7 @@
         "col": 19,
         "x": 12900,
         "y": 6300,
-        "serial_order": 159,
+        "serial_order": 158,
         "req_points": 20,
         "prereq_node_ids": [
           101019,
@@ -1927,7 +1952,7 @@
         "col": 21,
         "x": 14100,
         "y": 6300,
-        "serial_order": 197,
+        "serial_order": 196,
         "req_points": 20,
         "prereq_node_ids": [
           101004
@@ -1951,7 +1976,7 @@
         "col": 15,
         "x": 10500,
         "y": 6900,
-        "serial_order": 196,
+        "serial_order": 195,
         "req_points": 20,
         "prereq_node_ids": [
           109395
@@ -2002,9 +2027,9 @@
         "serial_order": 90,
         "req_points": 20,
         "prereq_node_ids": [
+          109396,
           109394,
-          109393,
-          109396
+          109393
         ],
         "entries": [
           {
@@ -2058,7 +2083,7 @@
         "col": 21,
         "x": 14100,
         "y": 6900,
-        "serial_order": 162,
+        "serial_order": 161,
         "req_points": 20,
         "prereq_node_ids": [
           110089
@@ -2082,7 +2107,7 @@
         "col": 18,
         "x": 12300,
         "y": 7650,
-        "serial_order": 204,
+        "serial_order": 203,
         "req_points": 20,
         "prereq_node_ids": [],
         "entries": [
@@ -2182,10 +2207,10 @@
           "serial_order": 63,
           "req_points": 0,
           "prereq_node_ids": [
+            109673,
             94643,
             94650,
-            94648,
-            109673
+            94648
           ],
           "entries": [
             {
@@ -2399,7 +2424,7 @@
           "col": 12,
           "x": 8700,
           "y": 6900,
-          "serial_order": 183,
+          "serial_order": 182,
           "req_points": 0,
           "prereq_node_ids": [
             109674
@@ -2423,7 +2448,7 @@
           "col": 12,
           "x": 8700,
           "y": 6300,
-          "serial_order": 184,
+          "serial_order": 183,
           "req_points": 0,
           "prereq_node_ids": [
             109675
@@ -2447,7 +2472,7 @@
           "col": 12,
           "x": 8700,
           "y": 5700,
-          "serial_order": 185,
+          "serial_order": 184,
           "req_points": 0,
           "prereq_node_ids": [
             94647
@@ -2558,10 +2583,10 @@
           "serial_order": 52,
           "req_points": 0,
           "prereq_node_ids": [
+            109670,
             94632,
             94639,
-            94637,
-            109670
+            94637
           ],
           "entries": [
             {
@@ -2737,8 +2762,8 @@
           "serial_order": 59,
           "req_points": 0,
           "prereq_node_ids": [
-            94636,
-            109956
+            109956,
+            94636
           ],
           "entries": [
             {
@@ -2768,7 +2793,7 @@
           "col": 24,
           "x": 15900,
           "y": 3300,
-          "serial_order": 180,
+          "serial_order": 179,
           "req_points": 0,
           "prereq_node_ids": [
             109671
@@ -2792,7 +2817,7 @@
           "col": 24,
           "x": 15900,
           "y": 2700,
-          "serial_order": 181,
+          "serial_order": 180,
           "req_points": 0,
           "prereq_node_ids": [
             109672
@@ -2816,11 +2841,11 @@
           "col": 24,
           "x": 15900,
           "y": 2100,
-          "serial_order": 182,
+          "serial_order": 181,
           "req_points": 0,
           "prereq_node_ids": [
-            109956,
-            94636
+            94636,
+            109956
           ],
           "entries": [
             {
@@ -2841,7 +2866,7 @@
           "col": 22,
           "x": 15000,
           "y": 1500,
-          "serial_order": 188,
+          "serial_order": 187,
           "req_points": 0,
           "prereq_node_ids": [],
           "entries": [

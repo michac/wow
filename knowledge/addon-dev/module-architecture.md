@@ -1,9 +1,11 @@
 ---
 title: Module architecture and project layout
-patch: 12.0.7
-fetched: 2026-08-05
-reviewed: 2026-08-05
+patch: 12.1.0
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
+  - https://github.com/Gethe/wow-ui-source (tag 12.1.0, version.txt 12.1.0.69273, commit eb941aad028d73ddc69e3e8ef4da709f4d3cd744) — raw/addon-research/wow-ui-source-12.1.0; `[T1 src @12.1.0]` locators resolve here, unstamped ones do not
+  - https://warcraft.wiki.gg/wiki/Patch_12.1.0/API_changes (revid 6801760, 2026-08-09)
   - EllesmereUI v8.7.5 @ c4eba58d996a8436f467ac8f297148bff9dd3008 (2026-08-04), mined 2026-08-05
     via the `mine-addon` skill, https://github.com/EllesmereGaming/EllesmereUI —
     license CUSTOM, ALL RIGHTS RESERVED; read for API discovery only, no code
@@ -17,6 +19,7 @@ sources:
   - https://github.com/Stanzilla/WoWUIBugs/issues/649
   - Live install /mnt/c/Program Files (x86)/World of Warcraft/_retail_/ (81 addon folders, 147 top-level .toc files)
   - Tier 3 clones under raw/addon-research/ — see §0 for commits
+  - in-client measurement, ClientLab v0.1.0 (interface 120007), run 2026-07-24 07:49:13, out of combat  # the `[client 2026-07-24]` claims in this file. ✅ ARCHIVED, and re-checkable: projects/addon-lab/runs/2026-07-24-v0.1.0-legacy.json holds this run verbatim; the live SavedVariables key was purged by the capture-standard migration
 confidence: medium
 ---
 
@@ -96,9 +99,16 @@ that lists a mixin file after its consumer fails at load with a usage error rath
 than yielding a half-built object that misbehaves later. That is the good failure
 mode: the error names the call, and the stack points at the consuming file.
 
-⚠ Note what came back **with** the error: the raised message carried a
-`Lua Taint: ClientLab` line, i.e. the engine attributes the erroring frame to the
-calling addon. Expect your own addon name there, not Blizzard's, when this fires.
+⚠ Note what came back **with** the error: the raised message carried a taint line
+naming the *calling* addon rather than Blizzard's — verbatim, from the scratch addon
+that ran the test,
+
+```text
+Lua Taint: ClientLab
+```
+
+i.e. the engine attributes the erroring frame to whoever called `CreateFromMixins`.
+Expect your own addon name there, not Blizzard's, when this fires.
 
 Function *bodies* are not evaluated at load, so a function that references a
 later-loaded global is fine. The constraint bites only on file-scope
@@ -427,6 +437,68 @@ and `mixin` accepts a comma-separated list:
 mixin's methods, with no Lua glue
 `[T1 src: Blizzard_CooldownViewer/CooldownViewer.xml:28 (Icon), :48 (Cooldown)]`.
 
+**12.1.0 added a `<Mixins>` element beside the `mixin=` attribute, and it is the
+first XML route into the private addon table.** The attribute takes a
+comma-separated list of *global* names; the element takes one `<Mixin>` child per
+mixin and each child can say **where the name is looked up**:
+
+```xml
+<Frame name="TestFrame">
+    <Mixins>
+        <Mixin key="CustomFrameMixin" source="local"/>
+        <Mixin key="Mixins.NestedMixin" source="local"/>
+    </Mixins>
+</Frame>
+```
+`[T2 wiki: Patch 12.1.0/API changes §Other changes in 12.1 PTR 1, revid 6801760, 2026-08-09 — the example is Blizzard's, quoted verbatim there]`
+
+Three separate additions, and they are worth keeping apart:
+
+| Addition | Schema | What it buys |
+|---|---|---|
+| `<Mixins>` / `<Mixin key=…>` | `MixinsType` / `MixinType`, `[T1 src @12.1.0: Blizzard_SharedXML/UI.xsd:360-366, :352-358]`; the element is a `LayoutField` at `:606` and also legal on `AnimationGroup` at `:1563` | a structured form of `mixin=`, so the other attributes below have somewhere to live |
+| `source="local"` | `TABLESOURCE = auto (default), global, secure, local` `[T1 src @12.1.0: UI.xsd:356 + the simpleType]` | the mixin table is read from **the addon's private table** (`local ADDON, ns = ...`) instead of `_G`. This is the structural point: a mixin no longer has to be a global to be usable from XML |
+| **dotted keys** | `key="Mixins.NestedMixin"` | the key is a *path*, so the mixin may be nested inside a table rather than sitting at the top of `ns` |
+
+⚠ **`<KeyValue>` takes `type="local"`, not `source="local"`.** Different attribute,
+different enumeration: `KEYVALUETYPE = nil, boolean, number, string, global, local`
+`[T1 src @12.1.0: UI.xsd:336-342]`, i.e. `local` joins the existing value-coercion
+list, whereas `TABLESOURCE` is a lookup-scope list. Blizzard's own example is
+`<KeyValue key="myKey" type="local"/>` `[T2 wiki: same page]`. Writing
+`<KeyValue source="local">` is a schema error.
+
+⚠ **All three are schema-only so far.** Across the whole 12.1.0 shipped corpus
+`<Mixins>` appears in **6** XML files — all of them in the new aura-container stack
+(`Blizzard_AuraContainer/` ×4, `Blizzard_UnitFrame/Shared/TargetFrameAura*.xml` ×2)
+— and `source="local"` and `type="local"` appear **zero** times
+`[T1 src @12.1.0, counted over Interface/AddOns/**/*.xml]`. So there is no Blizzard
+call site to copy for the private-table route; the schema is the only evidence it
+works. `@verify-ingame`
+
+**Where Blizzard *does* use `<Mixins>`, it is for partitioning, not for locality** —
+and that is the feature the element actually exists to carry:
+
+```xml
+<Button name="AuraButton" intrinsic="true">
+    <Mixins>
+        <Mixin key="AuraButtonInboundMixin" source="secure" targetPartition="public"
+               inboundPartition="forbidden" secureDelegates="true"/>
+        <Mixin key="AuraButtonPrivateMixin" source="secure"/>
+    </Mixins>
+```
+`[T1 src @12.1.0: Blizzard_AuraContainer/Blizzard_AuraButton.xml:5-9]`
+
+`targetPartition` / `inboundPartition` take `SCRIPTOBJECTPARTITION = public,
+forbidden` `[T1 src @12.1.0: UI.xsd:341, :354, :357, :488]`, and `<KeyValue>` carries
+`targetPartition` too. That is **Private Script Objects** expressed declaratively:
+one Lua object whose members live in two tables, one of which addons cannot reach.
+The mechanism and what it restricts are
+[`security-taint-and-restricted-data`](./security-taint-and-restricted-data.md) §1.5
+and §4.13; the structural consequence here is narrow and worth stating plainly —
+**`source="secure"` and either partition attribute are Blizzard-only.** An addon
+cannot supply a secure mixin (`SecureMixin` no-ops when `issecure()` is false, above),
+so the only row of that table addon code can use is `source="local"`.
+
 **This declarative style is essentially Blizzard-only.** `parentKey="` appears
 17706 times across Blizzard's XML `[T1 src, counted]`; across the 105 XML files in
 the 6 surveyed addons it appears 57 times and `mixin="` 4 times
@@ -734,6 +806,34 @@ than a separate `Clean` doing it
 `[T1 src: Blizzard_GameTooltip/Mainline/GameTooltip.lua:955-958 (RefreshData, clears at :956),
 :960-963 (RefreshDataNextUpdate), :965-972 (the OnEvent producer)]`.
 
+**12.1.0 moved part of this pattern into the engine.** `Frame:SetOnUpdateMode(mode)` /
+`GetOnUpdateMode()` take `Enum.OnUpdateMode`, five members
+`[T1 docs @12.1.0: SimpleFrameScriptObjectConstantsDocumentation.lua:6-18; the two
+methods at SimpleFrameAPIDocumentation.lua:1413, :536]`:
+
+| Member | Value | Blizzard's own description, verbatim |
+|---|---|---|
+| `Disabled` | 0 | "Disable OnUpdate execution." |
+| `RunWhenVisible` | 1 | "Run OnUpdate only while object is visible." — **the default**, i.e. what every frame has always done |
+| `RunWhenVisibleOnce` | 2 | "Run OnUpdate once while object is visible; **resets to Disabled before running**." |
+| `RunOnce` | 3 | "Run OnUpdate once regardless of visibility; resets to Disabled before running." |
+| `RunAlways` | 4 | "Run OnUpdate regardless of visibility." |
+
+The same five appear in XML as the `onUpdateMode` schema enumeration
+`ONUPDATEMODE = disabled, visible, visibleonce, once, always`
+`[T1 src @12.1.0: Blizzard_SharedXML/UI.xsd]`.
+
+**What that replaces, and what it does not.** `RunOnce`/`RunWhenVisibleOnce` are the
+engine's version of *"tick me exactly once more, then stop"* — the
+`SetScript("OnUpdate", …)` … `SetScript("OnUpdate", nil)` install/uninstall dance in
+§4.2's `BaseLayoutMixin`, without the uninstall. **They do not replace the dirty
+flag**: the flag's job is coalescing N producers into one refresh, and the mode has no
+opinion about producers. The natural 12.1.0 shape is *keep the flag, drop the script
+juggling* — `MarkDirty` sets the flag and calls `SetOnUpdateMode(RunOnce)`; the handler
+reads the flag and does not have to nil itself out. ⚠ Blizzard has not converted
+`BaseLayoutMixin` to it, so this is a reading of the enum's documented semantics, not
+an observed idiom. `@verify-ingame`
+
 `MarkDirty` is **defined** on 23 distinct mixins in the source `[T1 src, counted:
 grep -rhoE '^function [A-Za-z_]+Mixin:MarkDirty\(' --include=*.lua → 23]` (289
 total textual occurrences, most of them call sites).
@@ -968,7 +1068,8 @@ Two further shape consequences:
 
 ### 5.4 Load-on-demand and packaging shape the folder tree
 
-Two mechanisms let one source tree ship as several addons.
+Two mechanisms let one source tree ship as several addons — and, since 12.1.0, a
+third that splits *within* one addon.
 
 **`## LoadOnDemand: 1` + `## Dependencies`.** 125 of the 346 shipped Blizzard
 `.toc` files are LoD `[T1 src, counted]`; 45 of the 147 third-party `.toc` files
@@ -1009,6 +1110,22 @@ one `[T3: WeakAuras2@38d4bf1e .pkgmeta, move-folders block]`.
 So **one git repo ≠ one addon**, and the shipped partition may not match the
 directory layout you see in the repo. When reasoning about load order across a
 multi-addon suite, read the `.pkgmeta`, not the tree.
+
+**`[Bootstrap]` — the seam moves inside the addon.** A per-file conditional added at
+12.1.0 (`anatomy-and-runtime` §2.4, §4.3 own the directive) makes the files it marks
+load at startup even though the addon is `## LoadOnDemand: 1`. Structurally that is a
+**third partition boundary**, and a finer one than the other two: an LoD addon is now
+*two* code regions with different lifetimes in one folder. Blizzard's shape is one
+`<AddonName>_Bootstrap.lua` per addon, across **100** shipped tocs, holding only the
+launch stub `[T1 src @12.1.0, counted]`.
+
+The design rule that falls out: **a bootstrap file must not share file-scope state
+with the deferred half.** It runs at startup, before the addon's `ADDON_LOADED`; the
+deferred files run whenever something demands them, possibly never. `ns` is shared
+between them (same addon, same private table — §1.2), which is exactly what makes the
+mistake easy: `ns.foo` set in the bootstrap is visible later, but anything the
+deferred half assumes about *when* it was set is wrong. Keep the bootstrap to
+registration and the `LoadAddOnWithErrorHandling` call.
 
 ### 5.5 Blizzard's own partitioning, as a scale reference
 
@@ -1282,6 +1399,11 @@ wrong".
     `[unverified]` Audit the counts and the declaration, **not** a failure mode. The
     stronger form — "…or the symbol will be missing" — is an inference about
     cross-addon load order with no source behind it; see the `[gap]` in §1.4.
+    ⚠ **At 12.1.0 "LoD" no longer means "none of it has run".** A `[Bootstrap]` file
+    in an LoD toc loads at startup (§5.4), so an audit that infers "this addon's code
+    cannot have executed yet" from `## LoadOnDemand: 1` alone is wrong. Check the file
+    lines too.
+    *[Tier 1 @12.1.0: 100 shipped tocs carry exactly one `[Bootstrap]` file each.]*
 
 25. **XML-declarative composition (`mixin=`, `parentKey=`) is a Blizzard house
     style, not an ecosystem norm.** An audit that flags Lua-built frames as
@@ -1290,10 +1412,28 @@ wrong".
     Blizzard uses `parentKey="` 17706 times; the 6 surveyed addons use it 57 times
     across 105 XML files and `mixin="` 4 times; BigWigs ships no XML at all.]*
 
+25b. **`<Mixin source="local">` and `<KeyValue type="local">` are the only 12.1.0
+    XML-composition additions an addon may use** — `source="secure"`,
+    `targetPartition` and `inboundPartition` are Blizzard-only (§3.1). Flag
+    `<KeyValue source="local">` as a schema error: that attribute is `type`.
+    *[Tier 1 for the schema: `Blizzard_SharedXML/UI.xsd:336-342` (KeyValueType +
+    `KEYVALUETYPE`), `:352-366` (MixinType/MixinsType + `TABLESOURCE`,
+    `SCRIPTOBJECTPARTITION`), all @12.1.0. Tier 1 for "no call site": zero uses of
+    either `local` form across the whole 12.1.0 XML corpus, so this rule is
+    flag-don't-fail until one exists.]*
+
 ---
 
 ## Changelog
 
+- 2026-08-11 — 12.1.0. §3.1 gained the `<Mixins>` element, `<Mixin source="local">`
+  (the first XML route into the private addon table), dotted mixin keys, and the
+  `targetPartition`/`inboundPartition` Blizzard-only partition attributes; new rule
+  25b. `<KeyValue>` takes `type="local"`, **not** `source="local"` — the wrong form
+  was in the patch-day heads-up and is a schema error. §4.3 gained
+  `Frame:SetOnUpdateMode` and what it does *not* replace. §5.4 + rule 24 gained
+  `[Bootstrap]` as a third partition boundary. ⚠ Unstamped `[T1 src]` line numbers
+  are still 12.0.7.68887.
 - 2026-08-05 — **`CreateFromMixins(nil)` errors** `[client 2026-07-24]`, raising
   `Usage: local object = CreateFromMixins(...)` rather than silently producing an empty
   mixin. §1.1's mis-ordered-`.toc` failure mode is now measured, not inferred from the

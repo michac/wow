@@ -1,16 +1,22 @@
 ---
-title: Paladin Retribution — talent tree (12.0.7)
-patch: 12.0.7
-build: 12.0.7.67808
-fetched: 2026-06-19
-reviewed: 2026-07-07
+title: Paladin Retribution — talent tree (12.1.0)
+patch: 12.1.0
+build: 12.1.0.68914
+fetched: 
 sources:
   - https://us.api.blizzard.com/data/wow/talent-tree (Blizzard Game Data API, Tier 1)
-  - https://wago.tools/db2 Trait* @ 12.0.7.67808 (Tier 1)
+  - https://wago.tools/db2 Trait* @ 12.1.0.68914 (Tier 1)
 confidence: high
 ---
+> **Build provenance.** This file was generated from the Blizzard Game Data API and
+> wago `Trait*` DB2 at build **12.1.0.68914**, which is what the API's `static-12.1.0`
+> namespace reported on 2026-08-11. The live client that day was **12.1.0.69214**. The
+> `Trait*` DB2 exports at the two builds are **byte-identical** (verified by md5 on
+> `TraitNodeEntry`), so this data is valid for live 12.1 — cite it as **@ 12.1.0.68914**,
+> not 69214.
 
-# Paladin Retribution — talents (12.0.7)
+
+# Paladin Retribution — talents (12.1.0)
 
 > Generated from `knowledge/classes/_talents/all-talents.tsv`. Spell IDs are the talent's granted spell. Choice nodes show both options as `A / B`. See `_talents/README.md` for the schema.
 
@@ -27,9 +33,9 @@ confidence: high
 | Blinding Light | 115750 | 1 | ACTIVE | 3,5 | — | 81510,81600 |
 | Turn Evil | 10326 | 1 | ACTIVE | 3,7 | — | 81510 |
 | A Just Reward | 469411 | 2 | PASSIVE | 4,1 | — | 81507 |
-| Afterimage / Healing Hands | 385414 / 326734 | 1/1 | CHOICE | 4,2 | — | 81507,103859,109999 |
+| Afterimage / Healing Hands | 385414 / 326734 | 1/1 | CHOICE | 4,2 | — | 103859,109999,81507 |
 | Guided Prayer | 404357 | 1 | PASSIVE | 4,3 | — | 109999 |
-| Divine Steed | 190784 | 1 | ACTIVE | 4,4 | — | 81598,81600,109999 |
+| Divine Steed | 190784 | 1 | ACTIVE | 4,4 | — | 109999,81598,81600 |
 | Light's Countenance | 469325 | 1 | PASSIVE | 4,5 | — | 81598 |
 | Greater Judgment | 231663 | 1 | PASSIVE | 4,6 | — | 81510,81598 |
 | Wrench Evil / Stand Against Evil | 460720 / 469317 | 1/1 | CHOICE | 4,7 | — | 93010 |
@@ -39,23 +45,23 @@ confidence: high
 | Divine Spurs | 469409 | 1 | PASSIVE | 5,4 | — | 81632 |
 | Steed of Liberty / Blessing of Freedom | 469304 / 1044 | 1/1 | CHOICE | 5,5 | — | 81632 |
 | Rebuke | 96231 | 1 | ACTIVE | 5,7 | — | 103855,81603 |
-| Obduracy | 385427 | 2 | PASSIVE | 6,2 | 8 | 81605,103860,109867 |
+| Obduracy | 385427 | 2 | PASSIVE | 6,2 | 8 | 109867,81605,103860 |
 | Divine Toll | 375576 | 1 | ACTIVE | 6,4 | 8 | 81631,81605 |
 | Unbound Freedom | 305394 | 1 | PASSIVE | 6,5 | 8 | 81631 |
 | Sanctified Plates | 402964 | 2 | PASSIVE | 6,6 | 8 | 110093,81631,81603 |
 | Punishment | 403530 | 1 | PASSIVE | 6,7 | 8 | 110093 |
-| Divine Reach | 469476 | 1 | PASSIVE | 7,1 | 8 | 103860,81630 |
+| Divine Reach | 469476 | 1 | PASSIVE | 7,1 | 8 | 81630,103860 |
 | Brought to Light | 1265549 | 1 | PASSIVE | 7,2 | 8 | 81630 |
-| Blessing of Sacrifice | 6940 | 1 | ACTIVE | 7,3 | 8 | 109368,81605,81630 |
+| Blessing of Sacrifice | 6940 | 1 | ACTIVE | 7,3 | 8 | 81630,109368,81605 |
 | Divine Resonance / Quickened Invocation | 384027 / 379391 | 1/1 | CHOICE | 7,4 | 8 | 109368 |
-| Blessing of Protection | 1022 | 1 | ACTIVE | 7,5 | 8 | 109368,93174,93009 |
+| Blessing of Protection | 1022 | 1 | ACTIVE | 7,5 | 8 | 93009,109368,93174 |
 | Fear No Evil | 1265541 | 1 | PASSIVE | 7,6 | 8 | 93009 |
 | Consecrated Ground | 204054 | 1 | PASSIVE | 7,7 | 8 | 110091,93009 |
-| Holy Aegis | 385515 | 1 | PASSIVE | 8,2 | 8 | 93168,81614,109998 |
+| Holy Aegis | 385515 | 1 | PASSIVE | 8,2 | 8 | 109998,93168,81614 |
 | Sacrifice of the Just / Recompense | 384820 / 384914 | 1/1 | CHOICE | 8,3 | 8 | 81614 |
 | Sacred Strength / Divine Purpose | 469337 / 408459 | 1/1 | CHOICE | 8,4 | 8 | 81616,81614 |
 | Improved Blessing of Protection | 384909 | 1 | PASSIVE | 8,5 | 8 | 81616 |
-| Unbreakable Spirit | 114154 | 1 | PASSIVE | 8,6 | 8 | 81543,81616,109997 |
+| Unbreakable Spirit | 114154 | 1 | PASSIVE | 8,6 | 8 | 109997,81543,81616 |
 | Lightforged Blessing | 403479 | 1 | PASSIVE | 9,1 | 23 | 93168,81609 |
 | Lead the Charge | 469780 | 1 | PASSIVE | 9,2 | 23 | 81609,81607 |
 | Worthy Sacrifice / Righteous Protection | 469279 / 469321 | 1/1 | CHOICE | 9,3 | 23 | 81607 |
@@ -84,7 +90,7 @@ confidence: high
 | Judgment of Justice | 403495 | 1 | PASSIVE | 4,18 | — | 92689,81527 |
 | Avenging Wrath | 31884 | 1 | ACTIVE | 4,19 | — | 92689 |
 | Final Verdict | 383328 | 1 | ACTIVE | 5,16 | — | 81521 |
-| Improved Blade of Justice / Holy Blade | 403745 / 383342 | 1/1 | CHOICE | 5,18 | — | 81544,81521,93161 |
+| Improved Blade of Justice / Holy Blade | 403745 / 383342 | 1/1 | CHOICE | 5,18 | — | 81521,93161,81544 |
 | Righteous Cause / Art of War | 402912 / 406064 | 1/1 | CHOICE | 5,20 | — | 81544 |
 | Jurisdiction | 402971 | 1 | PASSIVE | 6,15 | 8 | 81532 |
 | Tempest of the Lightbringer | 383396 | 1 | PASSIVE | 6,17 | 8 | 92838,81532 |

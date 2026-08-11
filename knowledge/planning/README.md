@@ -1,8 +1,8 @@
 ---
 title: Session Planner — System Overview & Resume Runbook
-patch: 12.0.7
+patch: 12.1
 fetched: 2026-07-02
-reviewed: 2026-07-07
+reviewed: 2026-08-11
 sources:
   - knowledge/planning/scoring-model.md
   - addon-manager/README.md

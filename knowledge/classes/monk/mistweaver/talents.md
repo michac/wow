@@ -1,16 +1,22 @@
 ---
-title: Monk Mistweaver — talent tree (12.0.7)
-patch: 12.0.7
-build: 12.0.7.67808
-fetched: 2026-06-19
-reviewed: 2026-07-07
+title: Monk Mistweaver — talent tree (12.1.0)
+patch: 12.1.0
+build: 12.1.0.68914
+fetched: 
 sources:
   - https://us.api.blizzard.com/data/wow/talent-tree (Blizzard Game Data API, Tier 1)
-  - https://wago.tools/db2 Trait* @ 12.0.7.67808 (Tier 1)
+  - https://wago.tools/db2 Trait* @ 12.1.0.68914 (Tier 1)
 confidence: high
 ---
+> **Build provenance.** This file was generated from the Blizzard Game Data API and
+> wago `Trait*` DB2 at build **12.1.0.68914**, which is what the API's `static-12.1.0`
+> namespace reported on 2026-08-11. The live client that day was **12.1.0.69214**. The
+> `Trait*` DB2 exports at the two builds are **byte-identical** (verified by md5 on
+> `TraitNodeEntry`), so this data is valid for live 12.1 — cite it as **@ 12.1.0.68914**,
+> not 69214.
 
-# Monk Mistweaver — talents (12.0.7)
+
+# Monk Mistweaver — talents (12.1.0)
 
 > Generated from `knowledge/classes/_talents/all-talents.tsv`. Spell IDs are the talent's granted spell. Choice nodes show both options as `A / B`. See `_talents/README.md` for the schema.
 
@@ -30,23 +36,23 @@ confidence: high
 | Calming Presence | 388664 | 1 | PASSIVE | 4,4 | — | 101149,101147 |
 | Wind's Reach | 450514 | 1 | PASSIVE | 4,5 | — | 101149 |
 | Improved Detox | 388874 | 1 | PASSIVE | 4,6 | — | 101149,101185 |
-| Vivacious Vivification / Serene Surge | 388812 / 1266734 | 1/1 | CHOICE | 5,1 | — | 101146,101144 |
+| Vivacious Vivification / Serene Surge | 388812 / 1266734 | 1/1 | CHOICE | 5,1 | — | 101144,101146 |
 | Silent Sanctuary | 1266719 | 1 | PASSIVE | 5,2 | — | 101146 |
-| Jade Walk | 450553 | 1 | PASSIVE | 5,3 | — | 101161,101153,101146 |
+| Jade Walk | 450553 | 1 | PASSIVE | 5,3 | — | 101146,101161,101153 |
 | Pressure Points | 450432 | 1 | PASSIVE | 5,4 | — | 101153 |
 | Chi Warding | 1277444 | 1 | PASSIVE | 5,5 | — | 101089,101148,101153 |
 | Reinvigoration | 1266740 | 1 | PASSIVE | 5,6 | — | 101089 |
 | Ancient Arts | 344359 | 2 | PASSIVE | 5,7 | — | 101089,101185 |
 | Chi Wave | 450391 | 1 | PASSIVE | 6,2 | 8 | 101160,110024,110026 |
 | Transcendence | 101643 | 1 | ACTIVE | 6,4 | 8 | 101160,101141,110097 |
-| Celerity / Chi Torpedo | 115173 / 115008 | 1/1 | CHOICE | 6,6 | 8 | 110097,110027,101184 |
+| Celerity / Chi Torpedo | 115173 / 115008 | 1/1 | CHOICE | 6,6 | 8 | 101184,110097,110027 |
 | Stillstep Coil | 1266733 | 1 | PASSIVE | 6,7 | 8 | 101184 |
 | Quick Footed / Hasty Provocation | 450503 / 328670 | 1/1 | CHOICE | 7,1 | 8 | 102432,110026 |
 | Ferocity of Xuen | 388674 | 2 | PASSIVE | 7,3 | 8 | 101167 |
 | Ring of Peace / Song of Chi-Ji | 116844 / 198898 | 1/1 | CHOICE | 7,4 | 8 | 101167 |
 | Spirit's Essence | 450595 | 1 | PASSIVE | 7,5 | 8 | 101167 |
 | Tiger Tail Sweep | 264348 | 1 | PASSIVE | 7,6 | 8 | 101183 |
-| Improved Touch of Death | 322113 | 1 | PASSIVE | 7,7 | 8 | 101183,110025 |
+| Improved Touch of Death | 322113 | 1 | PASSIVE | 7,7 | 8 | 110025,101183 |
 | Mist Caller | 1266811 | 1 | PASSIVE | 8,2 | 8 | 102432,101158,101166 |
 | Yu'lon's Grace | 414131 | 1 | PASSIVE | 8,3 | 8 | 101136,101166 |
 | Peace and Prosperity | 450448 | 1 | PASSIVE | 8,4 | 8 | 101136 |
@@ -97,9 +103,9 @@ confidence: high
 | Yu'lon's Whisper | 388038 | 1 | PASSIVE | 8,16 | 8 | 101099,101095,101094 |
 | Mist Wrap | 197900 | 1 | PASSIVE | 8,17 | 8 | 101129,101094 |
 | Celestial Harmony | 343655 | 1 | PASSIVE | 8,18 | 8 | 101129 |
-| Dancing Mists | 388701 | 1 | PASSIVE | 8,19 | 8 | 101122,101129 |
+| Dancing Mists / Vital Expenditure | 388701 / 1299572 | 1/1 | CHOICE | 8,19 | 8 | 101122,101129 |
 | Lotus Infusion | 458431 | 1 | PASSIVE | 8,20 | 8 | 101122,101111 |
-| Amplified Rush | 1271431 | 1 | PASSIVE | 9,15 | 20 | 101098,101100 |
+| Amplified Rush | 1271431 | 1 | PASSIVE | 9,15 | 20 | 101100,101098 |
 | Pool of Mists | 173841 | 1 | PASSIVE | 9,17 | 20 | 101093,101128,101100 |
 | Jade Bond / Gift of the Celestials | 388031 / 388212 | 1/1 | CHOICE | 9,18 | 20 | 101128 |
 | Jade Empowerment / Morning Breeze | 467316 / 1277302 | 1/1 | CHOICE | 9,19 | 20 | 101112,101128 |
@@ -157,4 +163,4 @@ confidence: high
 | Path of Resurgence / Way of a Thousand Strikes | 450912 / 450965 | 1/1 | CHOICE | 10,10 | — | 101225 |
 | Clarity of Purpose | 451017 | 1 | PASSIVE | 10,11 | — | 101229 |
 | Meditative Focus | 1271105 | 1 | PASSIVE | 10,12 | — | 109695 |
-| Coalescence | 450529 | 1 | PASSIVE | 11,10 | — | 101228,101220,101226,109696 |
+| Coalescence | 450529 | 1 | PASSIVE | 11,10 | — | 109696,101228,101220,101226 |

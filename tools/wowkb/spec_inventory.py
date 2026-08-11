@@ -78,7 +78,7 @@ CATEGORY = {"0": "Essential", "1": "Utility", "2": "Buff", "3": "Other", "4": "O
 
 # THE pin. Every DB2 read in this module (and in wowkb.gen_abilities, which
 # imports `_rows` from here) resolves exactly this build — see `_pinned`.
-PINNED_BUILD = "12.0.7.67808"
+PINNED_BUILD = "12.1.0.69214"
 
 SPELL_ATTR0_PASSIVE = 0x40  # SpellMisc.Attributes_0 bit — a genuine passive
 ACQUIRE_ARTIFACT = "3"      # SkillLineAbility.AcquireMethod for dead Legion rows

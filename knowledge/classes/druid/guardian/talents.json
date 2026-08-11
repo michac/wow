@@ -4,10 +4,10 @@
   "spec": "guardian",
   "spec_id": 104,
   "tree_id": 793,
-  "patch": "12.0.7",
-  "build": "12.0.7.67808",
+  "patch": "12.1.0",
+  "build": "12.1.0.68914",
   "source": "api",
-  "serial_count": 281,
+  "serial_count": 282,
   "granted_serials": [
     208,
     209
@@ -2006,9 +2006,9 @@
         "serial_order": 93,
         "req_points": 8,
         "prereq_node_ids": [
+          92226,
           82156,
-          109378,
-          92226
+          109378
         ],
         "entries": [
           {
@@ -2093,8 +2093,8 @@
         "serial_order": 98,
         "req_points": 20,
         "prereq_node_ids": [
-          109378,
-          82152
+          82152,
+          109378
         ],
         "entries": [
           {
@@ -2276,9 +2276,9 @@
         "serial_order": 81,
         "req_points": 20,
         "prereq_node_ids": [
-          82137,
           82142,
-          92586
+          92586,
+          82137
         ],
         "entries": [
           {
@@ -2337,8 +2337,8 @@
         "serial_order": 94,
         "req_points": 20,
         "prereq_node_ids": [
-          82159,
-          109379
+          109379,
+          82159
         ],
         "entries": [
           {

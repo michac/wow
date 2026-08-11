@@ -4,17 +4,17 @@
   "spec": "protection",
   "spec_id": 66,
   "tree_id": 790,
-  "patch": "12.0.7",
-  "build": "12.0.7.67808",
+  "patch": "12.1.0",
+  "build": "12.1.0.68914",
   "source": "api",
-  "serial_count": 237,
+  "serial_count": 233,
   "granted_serials": [
-    160,
-    174,
-    233
+    155,
+    169,
+    228
   ],
   "hero_selector": {
-    "serial": 180,
+    "serial": 175,
     "choices": [
       "Lightsmith",
       "Templar"
@@ -35,7 +35,7 @@
         "col": 2,
         "x": 3600,
         "y": 1499,
-        "serial_order": 91,
+        "serial_order": 87,
         "req_points": 0,
         "prereq_node_ids": [],
         "entries": [
@@ -57,7 +57,7 @@
         "col": 4,
         "x": 4799,
         "y": 1500,
-        "serial_order": 93,
+        "serial_order": 89,
         "req_points": 0,
         "prereq_node_ids": [],
         "entries": [
@@ -79,7 +79,7 @@
         "col": 6,
         "x": 6001,
         "y": 1499,
-        "serial_order": 38,
+        "serial_order": 34,
         "req_points": 0,
         "prereq_node_ids": [],
         "entries": [
@@ -101,7 +101,7 @@
         "col": 1,
         "x": 3004,
         "y": 2104,
-        "serial_order": 36,
+        "serial_order": 32,
         "req_points": 0,
         "prereq_node_ids": [
           81597
@@ -125,7 +125,7 @@
         "col": 2,
         "x": 3600,
         "y": 2100,
-        "serial_order": 195,
+        "serial_order": 190,
         "req_points": 0,
         "prereq_node_ids": [
           81597
@@ -149,7 +149,7 @@
         "col": 3,
         "x": 4200,
         "y": 2100,
-        "serial_order": 227,
+        "serial_order": 222,
         "req_points": 0,
         "prereq_node_ids": [
           81600,
@@ -174,7 +174,7 @@
         "col": 5,
         "x": 5400,
         "y": 2100,
-        "serial_order": 92,
+        "serial_order": 88,
         "req_points": 0,
         "prereq_node_ids": [
           81510,
@@ -199,7 +199,7 @@
         "col": 7,
         "x": 6604,
         "y": 2104,
-        "serial_order": 124,
+        "serial_order": 119,
         "req_points": 0,
         "prereq_node_ids": [
           81510
@@ -223,7 +223,7 @@
         "col": 1,
         "x": 3000,
         "y": 2700,
-        "serial_order": 194,
+        "serial_order": 189,
         "req_points": 0,
         "prereq_node_ids": [
           81507
@@ -247,12 +247,12 @@
         "col": 2,
         "x": 3600,
         "y": 2700,
-        "serial_order": 135,
+        "serial_order": 130,
         "req_points": 0,
         "prereq_node_ids": [
-          81507,
           109999,
-          103859
+          103859,
+          81507
         ],
         "entries": [
           {
@@ -273,7 +273,7 @@
         "col": 3,
         "x": 4200,
         "y": 2700,
-        "serial_order": 229,
+        "serial_order": 224,
         "req_points": 0,
         "prereq_node_ids": [
           109999
@@ -297,12 +297,12 @@
         "col": 4,
         "x": 4800,
         "y": 2700,
-        "serial_order": 112,
+        "serial_order": 107,
         "req_points": 0,
         "prereq_node_ids": [
+          109999,
           81598,
-          81600,
-          109999
+          81600
         ],
         "entries": [
           {
@@ -323,7 +323,7 @@
         "col": 5,
         "x": 5400,
         "y": 2700,
-        "serial_order": 190,
+        "serial_order": 185,
         "req_points": 0,
         "prereq_node_ids": [
           81598
@@ -347,7 +347,7 @@
         "col": 6,
         "x": 6004,
         "y": 2703,
-        "serial_order": 94,
+        "serial_order": 90,
         "req_points": 0,
         "prereq_node_ids": [
           81510,
@@ -372,7 +372,7 @@
         "col": 7,
         "x": 6600,
         "y": 2700,
-        "serial_order": 191,
+        "serial_order": 186,
         "req_points": 0,
         "prereq_node_ids": [
           93010
@@ -405,7 +405,7 @@
         "col": 1,
         "x": 3000,
         "y": 3300,
-        "serial_order": 196,
+        "serial_order": 191,
         "req_points": 0,
         "prereq_node_ids": [
           93188,
@@ -430,7 +430,7 @@
         "col": 3,
         "x": 4200,
         "y": 3301,
-        "serial_order": 96,
+        "serial_order": 92,
         "req_points": 0,
         "prereq_node_ids": [
           81632
@@ -454,7 +454,7 @@
         "col": 4,
         "x": 4800,
         "y": 3300,
-        "serial_order": 193,
+        "serial_order": 188,
         "req_points": 0,
         "prereq_node_ids": [
           81632
@@ -478,7 +478,7 @@
         "col": 5,
         "x": 5400,
         "y": 3300,
-        "serial_order": 111,
+        "serial_order": 106,
         "req_points": 0,
         "prereq_node_ids": [
           81632
@@ -511,7 +511,7 @@
         "col": 7,
         "x": 6604,
         "y": 3304,
-        "serial_order": 95,
+        "serial_order": 91,
         "req_points": 0,
         "prereq_node_ids": [
           81603,
@@ -536,7 +536,7 @@
         "col": 2,
         "x": 3600,
         "y": 3900,
-        "serial_order": 110,
+        "serial_order": 105,
         "req_points": 8,
         "prereq_node_ids": [
           81605,
@@ -562,7 +562,7 @@
         "col": 4,
         "x": 4800,
         "y": 3900,
-        "serial_order": 228,
+        "serial_order": 223,
         "req_points": 8,
         "prereq_node_ids": [
           81631,
@@ -587,7 +587,7 @@
         "col": 5,
         "x": 5400,
         "y": 3900,
-        "serial_order": 134,
+        "serial_order": 129,
         "req_points": 8,
         "prereq_node_ids": [
           81631
@@ -611,7 +611,7 @@
         "col": 6,
         "x": 6000,
         "y": 3900,
-        "serial_order": 123,
+        "serial_order": 118,
         "req_points": 8,
         "prereq_node_ids": [
           81604,
@@ -637,7 +637,7 @@
         "col": 7,
         "x": 6604,
         "y": 3902,
-        "serial_order": 128,
+        "serial_order": 123,
         "req_points": 8,
         "prereq_node_ids": [
           81604
@@ -661,11 +661,11 @@
         "col": 1,
         "x": 3000,
         "y": 4500,
-        "serial_order": 129,
+        "serial_order": 124,
         "req_points": 8,
         "prereq_node_ids": [
-          103860,
-          81630
+          81630,
+          103860
         ],
         "entries": [
           {
@@ -686,7 +686,7 @@
         "col": 2,
         "x": 3600,
         "y": 4500,
-        "serial_order": 226,
+        "serial_order": 221,
         "req_points": 8,
         "prereq_node_ids": [
           81630
@@ -710,12 +710,12 @@
         "col": 3,
         "x": 4200,
         "y": 4501,
-        "serial_order": 102,
+        "serial_order": 98,
         "req_points": 8,
         "prereq_node_ids": [
-          81605,
           81630,
-          110006
+          110006,
+          81605
         ],
         "entries": [
           {
@@ -736,7 +736,7 @@
         "col": 4,
         "x": 4800,
         "y": 4500,
-        "serial_order": 9,
+        "serial_order": 6,
         "req_points": 8,
         "prereq_node_ids": [
           110006
@@ -769,12 +769,12 @@
         "col": 5,
         "x": 5399,
         "y": 4501,
-        "serial_order": 104,
+        "serial_order": 100,
         "req_points": 8,
         "prereq_node_ids": [
-          93187,
           93009,
-          110006
+          110006,
+          93187
         ],
         "entries": [
           {
@@ -795,7 +795,7 @@
         "col": 6,
         "x": 6000,
         "y": 4500,
-        "serial_order": 225,
+        "serial_order": 220,
         "req_points": 8,
         "prereq_node_ids": [
           93009
@@ -819,11 +819,11 @@
         "col": 7,
         "x": 6600,
         "y": 4500,
-        "serial_order": 51,
+        "serial_order": 47,
         "req_points": 8,
         "prereq_node_ids": [
-          93165,
-          93009
+          93009,
+          93165
         ],
         "entries": [
           {
@@ -844,12 +844,12 @@
         "col": 2,
         "x": 3600,
         "y": 5100,
-        "serial_order": 99,
+        "serial_order": 95,
         "req_points": 8,
         "prereq_node_ids": [
+          109998,
           93168,
-          81614,
-          109998
+          81614
         ],
         "entries": [
           {
@@ -870,7 +870,7 @@
         "col": 3,
         "x": 4200,
         "y": 5099,
-        "serial_order": 97,
+        "serial_order": 93,
         "req_points": 8,
         "prereq_node_ids": [
           81614
@@ -903,7 +903,7 @@
         "col": 4,
         "x": 4800,
         "y": 5100,
-        "serial_order": 139,
+        "serial_order": 134,
         "req_points": 8,
         "prereq_node_ids": [
           81614,
@@ -937,7 +937,7 @@
         "col": 5,
         "x": 5399,
         "y": 5099,
-        "serial_order": 105,
+        "serial_order": 101,
         "req_points": 8,
         "prereq_node_ids": [
           81616
@@ -961,12 +961,12 @@
         "col": 6,
         "x": 6000,
         "y": 5100,
-        "serial_order": 103,
+        "serial_order": 99,
         "req_points": 8,
         "prereq_node_ids": [
+          109997,
           81543,
-          81616,
-          109997
+          81616
         ],
         "entries": [
           {
@@ -987,7 +987,7 @@
         "col": 1,
         "x": 3000,
         "y": 5700,
-        "serial_order": 189,
+        "serial_order": 184,
         "req_points": 23,
         "prereq_node_ids": [
           93168,
@@ -1012,7 +1012,7 @@
         "col": 1,
         "x": 3000,
         "y": 5700,
-        "serial_order": 186,
+        "serial_order": 181,
         "req_points": 23,
         "prereq_node_ids": [
           81609,
@@ -1037,7 +1037,7 @@
         "col": 2,
         "x": 3600,
         "y": 5700,
-        "serial_order": 203,
+        "serial_order": 198,
         "req_points": 23,
         "prereq_node_ids": [
           81609,
@@ -1062,7 +1062,7 @@
         "col": 3,
         "x": 4200,
         "y": 5700,
-        "serial_order": 201,
+        "serial_order": 196,
         "req_points": 23,
         "prereq_node_ids": [
           81607
@@ -1095,7 +1095,7 @@
         "col": 4,
         "x": 4800,
         "y": 5700,
-        "serial_order": 202,
+        "serial_order": 197,
         "req_points": 23,
         "prereq_node_ids": [
           93192,
@@ -1120,7 +1120,7 @@
         "col": 5,
         "x": 5400,
         "y": 5700,
-        "serial_order": 204,
+        "serial_order": 199,
         "req_points": 23,
         "prereq_node_ids": [
           81617,
@@ -1145,7 +1145,7 @@
         "col": 6,
         "x": 6000,
         "y": 5700,
-        "serial_order": 200,
+        "serial_order": 195,
         "req_points": 23,
         "prereq_node_ids": [
           81617,
@@ -1170,7 +1170,7 @@
         "col": 7,
         "x": 6600,
         "y": 5700,
-        "serial_order": 98,
+        "serial_order": 94,
         "req_points": 23,
         "prereq_node_ids": [
           81615,
@@ -1195,7 +1195,7 @@
         "col": 1,
         "x": 3000,
         "y": 6300,
-        "serial_order": 24,
+        "serial_order": 21,
         "req_points": 23,
         "prereq_node_ids": [
           103850,
@@ -1221,7 +1221,7 @@
         "col": 2,
         "x": 3600,
         "y": 6300,
-        "serial_order": 198,
+        "serial_order": 193,
         "req_points": 23,
         "prereq_node_ids": [
           103867
@@ -1245,7 +1245,7 @@
         "col": 3,
         "x": 4200,
         "y": 6300,
-        "serial_order": 107,
+        "serial_order": 103,
         "req_points": 23,
         "prereq_node_ids": [
           103866,
@@ -1271,7 +1271,7 @@
         "col": 5,
         "x": 5400,
         "y": 6300,
-        "serial_order": 187,
+        "serial_order": 182,
         "req_points": 23,
         "prereq_node_ids": [
           103866,
@@ -1297,7 +1297,7 @@
         "col": 6,
         "x": 6000,
         "y": 6300,
-        "serial_order": 108,
+        "serial_order": 104,
         "req_points": 23,
         "prereq_node_ids": [
           103864
@@ -1321,7 +1321,7 @@
         "col": 7,
         "x": 6600,
         "y": 6300,
-        "serial_order": 192,
+        "serial_order": 187,
         "req_points": 23,
         "prereq_node_ids": [
           103864,
@@ -1355,7 +1355,7 @@
         "col": 2,
         "x": 3600,
         "y": 6900,
-        "serial_order": 140,
+        "serial_order": 135,
         "req_points": 23,
         "prereq_node_ids": [
           81495,
@@ -1381,7 +1381,7 @@
         "col": 4,
         "x": 4800,
         "y": 6900,
-        "serial_order": 197,
+        "serial_order": 192,
         "req_points": 23,
         "prereq_node_ids": [
           103851,
@@ -1406,7 +1406,7 @@
         "col": 6,
         "x": 6000,
         "y": 6900,
-        "serial_order": 199,
+        "serial_order": 194,
         "req_points": 23,
         "prereq_node_ids": [
           103851,
@@ -1434,7 +1434,7 @@
         "col": 18,
         "x": 13196,
         "y": 1500,
-        "serial_order": 31,
+        "serial_order": 27,
         "req_points": 0,
         "prereq_node_ids": [],
         "entries": [
@@ -1454,9 +1454,9 @@
         "type": "PASSIVE",
         "row": 3,
         "col": 17,
-        "x": 12601,
-        "y": 2099,
-        "serial_order": 18,
+        "x": 12600,
+        "y": 2100,
+        "serial_order": 15,
         "req_points": 0,
         "prereq_node_ids": [
           81502
@@ -1507,16 +1507,74 @@
         ]
       },
       {
-        "node_id": 81494,
+        "node_id": 81476,
         "type": "CHOICE",
         "row": 4,
         "col": 16,
         "x": 12000,
         "y": 2700,
-        "serial_order": 23,
+        "serial_order": 4,
         "req_points": 0,
         "prereq_node_ids": [
           81489
+        ],
+        "entries": [
+          {
+            "entry_id": "102439",
+            "talent": "Valiant Crusade",
+            "spell_id": 1245979,
+            "max_ranks": "1",
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mount_alliancepvpmount.jpg",
+            "desc": "While out of combat, Divine Steed grants Shield of the Righteous for its duration and an additional 4.0 sec after it fades."
+          },
+          {
+            "entry_id": "137505",
+            "talent": "Blessed Word",
+            "spell_id": 1301732,
+            "max_ranks": "1",
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/457654.jpg",
+            "desc": "Word of Glory can no longer critically strike, but its healing is increased by your critical strike chance and 80% of its overhealing done to instead shrouds its target in Light, granting an absorb shield."
+          }
+        ]
+      },
+      {
+        "node_id": 81487,
+        "type": "PASSIVE",
+        "row": 4,
+        "col": 18,
+        "x": 13197,
+        "y": 2697,
+        "serial_order": 13,
+        "req_points": 0,
+        "prereq_node_ids": [
+          81469,
+          81489
+        ],
+        "entries": [
+          {
+            "entry_id": "102453",
+            "talent": "Grand Crusader",
+            "spell_id": 85043,
+            "max_ranks": "1",
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_helmet_74.jpg",
+            "desc": "When you avoid a melee attack or use Crusader Strike, you have a 15% chance to reset the remaining cooldown on Avenger's Shield."
+          }
+        ]
+      },
+      {
+        "node_id": 81494,
+        "type": "CHOICE",
+        "row": 4,
+        "col": 20,
+        "x": 14400,
+        "y": 2700,
+        "serial_order": 20,
+        "req_points": 0,
+        "prereq_node_ids": [
+          81469
         ],
         "entries": [
           {
@@ -1540,100 +1598,36 @@
         ]
       },
       {
-        "node_id": 81487,
-        "type": "PASSIVE",
-        "row": 4,
-        "col": 18,
-        "x": 13197,
-        "y": 2697,
-        "serial_order": 16,
-        "req_points": 0,
-        "prereq_node_ids": [
-          81469,
-          81489
-        ],
-        "entries": [
-          {
-            "entry_id": "102453",
-            "talent": "Grand Crusader",
-            "spell_id": 85043,
-            "max_ranks": "1",
-            "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_helmet_74.jpg",
-            "desc": "When you avoid a melee attack or use Crusader Strike, you have a 15% chance to reset the remaining cooldown on Avenger's Shield."
-          }
-        ]
-      },
-      {
-        "node_id": 81498,
-        "type": "PASSIVE",
-        "row": 4,
-        "col": 20,
-        "x": 14401,
-        "y": 2699,
-        "serial_order": 27,
-        "req_points": 0,
-        "prereq_node_ids": [
-          81469
-        ],
-        "entries": [
-          {
-            "entry_id": "102467",
-            "talent": "Seal of Charity",
-            "spell_id": 384815,
-            "max_ranks": "1",
-            "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_priest_powerword.jpg",
-            "desc": "When you cast Word of Glory on someone other than yourself, you are also healed for 100% of the amount healed."
-          }
-        ]
-      },
-      {
-        "node_id": 81486,
-        "type": "PASSIVE",
-        "row": 5,
-        "col": 16,
-        "x": 12001,
-        "y": 3300,
-        "serial_order": 15,
-        "req_points": 0,
-        "prereq_node_ids": [
-          81494
-        ],
-        "entries": [
-          {
-            "entry_id": "102452",
-            "talent": "Refining Fire",
-            "spell_id": 469883,
-            "max_ranks": "1",
-            "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_everburningignition_yellow.jpg",
-            "desc": "Enemies struck by Avenger's Shield burn with holy fire, suffering 100% additional Radiant damage over 5 sec."
-          }
-        ]
-      },
-      {
-        "node_id": 81476,
-        "type": "PASSIVE",
+        "node_id": 110862,
+        "type": "CHOICE",
         "row": 5,
         "col": 17,
-        "x": 12599,
-        "y": 3302,
-        "serial_order": 7,
+        "x": 12600,
+        "y": 3300,
+        "serial_order": 232,
         "req_points": 0,
         "prereq_node_ids": [
           81487,
-          81494
+          81476
         ],
         "entries": [
           {
-            "entry_id": "102439",
-            "talent": "Valiant Crusade",
-            "spell_id": 1245979,
+            "entry_id": "111886",
+            "talent": "Blessing of Spellwarding",
+            "spell_id": 204018,
             "max_ranks": "1",
             "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mount_alliancepvpmount.jpg",
-            "desc": "While out of combat, Divine Steed grants Shield of the Righteous for its duration and an additional 4.0 sec after it fades."
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_blessingofprotection.jpg",
+            "desc": "Blesses a party or raid member, granting immunity to magical damage and harmful effects for 10 sec.\r\n\r\nCannot be used on a target with Forbearance. Causes Forbearance for 30 sec.\r\n\r\nShares a cooldown with Blessing of Protection."
+          },
+          {
+            "entry_id": "137857",
+            "talent": "Uther's Counsel",
+            "spell_id": 378425,
+            "max_ranks": "1",
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_greaterblessingofsalvation.jpg",
+            "desc": "Your Lay on Hands, Divine Shield, Blessing of Protection, and Blessing of Spellwarding have 15% reduced cooldown."
           }
         ]
       },
@@ -1644,7 +1638,7 @@
         "col": 18,
         "x": 13197,
         "y": 3301,
-        "serial_order": 10,
+        "serial_order": 7,
         "req_points": 0,
         "prereq_node_ids": [
           81487
@@ -1663,16 +1657,16 @@
       },
       {
         "node_id": 81501,
-        "type": "PASSIVE",
+        "type": "CHOICE",
         "row": 5,
         "col": 19,
         "x": 13800,
-        "y": 3301,
-        "serial_order": 30,
+        "y": 3300,
+        "serial_order": 26,
         "req_points": 0,
         "prereq_node_ids": [
-          81487,
-          81498
+          81494,
+          81487
         ],
         "entries": [
           {
@@ -1683,54 +1677,40 @@
             "choice_index": 0,
             "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_essence_reapingflames.jpg",
             "desc": "Casting Avenger's Shield causes Consecration to deal its damage and healing again immediately at 100% effectiveness."
-          }
-        ]
-      },
-      {
-        "node_id": 101927,
-        "type": "PASSIVE",
-        "row": 5,
-        "col": 20,
-        "x": 14400,
-        "y": 3300,
-        "serial_order": 182,
-        "req_points": 0,
-        "prereq_node_ids": [
-          81498
-        ],
-        "entries": [
+          },
           {
-            "entry_id": "102451",
-            "talent": "Solace",
-            "spell_id": 1245891,
+            "entry_id": "137854",
+            "talent": "Hand of the Protector",
+            "spell_id": 315924,
             "max_ranks": "1",
-            "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_prayerofmendingtga.jpg",
-            "desc": "Consecration heals you for 300% of the damage it deals."
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_blessedhands.jpg",
+            "desc": "When you cast Word of Glory on someone other than yourself, its healing is increased by up to 100% based on the target's missing health."
           }
         ]
       },
       {
-        "node_id": 81492,
+        "node_id": 81486,
         "type": "PASSIVE",
         "row": 6,
-        "col": 15,
-        "x": 11401,
-        "y": 3899,
-        "serial_order": 21,
+        "col": 16,
+        "x": 12000,
+        "y": 3900,
+        "serial_order": 12,
         "req_points": 8,
         "prereq_node_ids": [
-          81486
+          110862,
+          81476
         ],
         "entries": [
           {
-            "entry_id": "102459",
-            "talent": "Undying Embers",
-            "spell_id": 1244019,
+            "entry_id": "102452",
+            "talent": "Refining Fire",
+            "spell_id": 469883,
             "max_ranks": "1",
             "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_achievement_dungeon_darkflamecleft.jpg",
-            "desc": "You are healed for 100% of the damage dealt by Refining Fire."
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_everburningignition_yellow.jpg",
+            "desc": "Enemies struck by Avenger's Shield burn with holy fire, suffering 100% additional Radiant damage over 5 sec."
           }
         ]
       },
@@ -1739,14 +1719,13 @@
         "type": "PASSIVE",
         "row": 6,
         "col": 17,
-        "x": 12599,
-        "y": 3897,
-        "serial_order": 28,
+        "x": 12600,
+        "y": 3900,
+        "serial_order": 25,
         "req_points": 8,
         "prereq_node_ids": [
-          81476,
           81481,
-          81486
+          110862
         ],
         "entries": [
           {
@@ -1761,35 +1740,26 @@
         ]
       },
       {
-        "node_id": 90062,
-        "type": "CHOICE",
+        "node_id": 81483,
+        "type": "ACTIVE",
         "row": 6,
         "col": 18,
-        "x": 13201,
+        "x": 13200,
         "y": 3900,
-        "serial_order": 113,
+        "serial_order": 9,
         "req_points": 8,
         "prereq_node_ids": [
           81481
         ],
         "entries": [
           {
-            "entry_id": "111887",
-            "talent": "Improved Ardent Defender",
-            "spell_id": 393114,
+            "entry_id": "102448",
+            "talent": "Avenging Wrath",
+            "spell_id": 31884,
             "max_ranks": "1",
             "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_ardentdefender.jpg",
-            "desc": "Ardent Defender reduces damage taken by an additional 10%."
-          },
-          {
-            "entry_id": "111886",
-            "talent": "Blessing of Spellwarding",
-            "spell_id": 204018,
-            "max_ranks": "1",
-            "choice_index": 1,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_blessingofprotection.jpg",
-            "desc": "Blesses a party or raid member, granting immunity to magical damage and harmful effects for 10 sec.\r\n\r\nCannot be used on a target with Forbearance. Causes Forbearance for 30 sec.\r\n\r\nShares a cooldown with Blessing of Protection."
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_avenginewrath.jpg",
+            "desc": "Call upon the Light to become an avatar of retribution, increasing your damage, healing, and critical strike chance by 20% for 20 sec."
           }
         ]
       },
@@ -1799,13 +1769,12 @@
         "row": 6,
         "col": 19,
         "x": 13800,
-        "y": 3897,
-        "serial_order": 32,
+        "y": 3900,
+        "serial_order": 28,
         "req_points": 8,
         "prereq_node_ids": [
           81501,
-          81481,
-          101927
+          81481
         ],
         "entries": [
           {
@@ -1829,26 +1798,36 @@
         ]
       },
       {
-        "node_id": 81470,
-        "type": "PASSIVE",
+        "node_id": 101927,
+        "type": "CHOICE",
         "row": 6,
-        "col": 21,
-        "x": 15000,
+        "col": 20,
+        "x": 14400,
         "y": 3900,
-        "serial_order": 1,
+        "serial_order": 177,
         "req_points": 8,
         "prereq_node_ids": [
-          101927
+          81494,
+          81501
         ],
         "entries": [
           {
-            "entry_id": "102432",
-            "talent": "Vision of Sanctity",
-            "spell_id": 1245354,
+            "entry_id": "102451",
+            "talent": "Solace",
+            "spell_id": 1245891,
             "max_ranks": "1",
             "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_racial_orbitalstrike.jpg",
-            "desc": "Consecration deals 100% increased damage when it strikes a single target."
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_prayerofmendingtga.jpg",
+            "desc": "Consecration heals you for 300% of the damage it deals."
+          },
+          {
+            "entry_id": "102454",
+            "talent": "Instrument of the Divine",
+            "spell_id": 1277162,
+            "max_ranks": "1",
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_archangel.jpg",
+            "desc": "Shield of the Righteous consumes up to 2 more Holy Power and deals 50% increased damage for each additional Holy Power consumed."
           }
         ]
       },
@@ -1856,14 +1835,12 @@
         "node_id": 81474,
         "type": "PASSIVE",
         "row": 7,
-        "col": 16,
-        "x": 11998,
-        "y": 4498,
-        "serial_order": 5,
+        "col": 15,
+        "x": 11400,
+        "y": 4500,
+        "serial_order": 3,
         "req_points": 8,
         "prereq_node_ids": [
-          81499,
-          81492,
           81486
         ],
         "entries": [
@@ -1879,15 +1856,40 @@
         ]
       },
       {
+        "node_id": 81492,
+        "type": "PASSIVE",
+        "row": 7,
+        "col": 16,
+        "x": 12000,
+        "y": 4500,
+        "serial_order": 18,
+        "req_points": 8,
+        "prereq_node_ids": [
+          81486
+        ],
+        "entries": [
+          {
+            "entry_id": "102459",
+            "talent": "Undying Embers",
+            "spell_id": 1244019,
+            "max_ranks": "1",
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_achievement_dungeon_darkflamecleft.jpg",
+            "desc": "You are healed for 100% of the damage dealt by Refining Fire."
+          }
+        ]
+      },
+      {
         "node_id": 81506,
         "type": "PASSIVE",
         "row": 7,
         "col": 17,
-        "x": 12599,
-        "y": 4498,
-        "serial_order": 35,
+        "x": 12600,
+        "y": 4500,
+        "serial_order": 31,
         "req_points": 8,
         "prereq_node_ids": [
+          81483,
           81499
         ],
         "entries": [
@@ -1903,37 +1905,35 @@
         ]
       },
       {
-        "node_id": 81483,
+        "node_id": 90062,
         "type": "CHOICE",
         "row": 7,
         "col": 18,
-        "x": 13197,
-        "y": 4498,
-        "serial_order": 12,
+        "x": 13200,
+        "y": 4500,
+        "serial_order": 108,
         "req_points": 8,
         "prereq_node_ids": [
-          81503,
-          81499,
-          90062
+          81483
         ],
         "entries": [
           {
-            "entry_id": "102448",
-            "talent": "Avenging Wrath",
-            "spell_id": 31884,
+            "entry_id": "111887",
+            "talent": "Improved Ardent Defender",
+            "spell_id": 393114,
             "max_ranks": "1",
             "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_avenginewrath.jpg",
-            "desc": "Call upon the Light to become an avatar of retribution, increasing your damage, healing, and critical strike chance by 20% for 20 sec."
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_ardentdefender.jpg",
+            "desc": "Ardent Defender reduces damage taken by an additional 10%."
           },
           {
-            "entry_id": "102447",
-            "talent": "Sentinel",
-            "spell_id": 389539,
+            "entry_id": "137855",
+            "talent": "Seal of Reprisal",
+            "spell_id": 377053,
             "max_ranks": "1",
             "choice_index": 1,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_holynova.jpg",
-            "desc": "Call upon the Light and gain 15 stacks of Divine Resolve, increasing your maximum health by 1% and reducing your damage taken by 2% per stack for 20 sec. After 5.0 sec, you will begin to lose 1 stack per second, but each 3 Holy Power spent will delay the loss of your next stack by 1 sec.\r\n\r\nCombines with Avenging Wrath."
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_sealoffury.jpg",
+            "desc": "Your Crusader Strike deals 20% increased damage."
           }
         ]
       },
@@ -1942,11 +1942,12 @@
         "type": "PASSIVE",
         "row": 7,
         "col": 19,
-        "x": 13799,
+        "x": 13800,
         "y": 4500,
-        "serial_order": 100,
+        "serial_order": 96,
         "req_points": 8,
         "prereq_node_ids": [
+          81483,
           81503
         ],
         "entries": [
@@ -1962,17 +1963,40 @@
         ]
       },
       {
-        "node_id": 81485,
+        "node_id": 81470,
         "type": "PASSIVE",
         "row": 7,
         "col": 20,
-        "x": 14401,
-        "y": 4497,
-        "serial_order": 14,
+        "x": 14400,
+        "y": 4500,
+        "serial_order": 1,
         "req_points": 8,
         "prereq_node_ids": [
-          81503,
-          81470,
+          101927,
+          81503
+        ],
+        "entries": [
+          {
+            "entry_id": "102432",
+            "talent": "Vision of Sanctity",
+            "spell_id": 1245354,
+            "max_ranks": "1",
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_racial_orbitalstrike.jpg",
+            "desc": "Consecration deals 100% increased damage when it strikes a single target."
+          }
+        ]
+      },
+      {
+        "node_id": 81485,
+        "type": "PASSIVE",
+        "row": 7,
+        "col": 21,
+        "x": 15000,
+        "y": 4500,
+        "serial_order": 11,
+        "req_points": 8,
+        "prereq_node_ids": [
           101927
         ],
         "entries": [
@@ -1989,16 +2013,17 @@
       },
       {
         "node_id": 101928,
-        "type": "PASSIVE",
+        "type": "CHOICE",
         "row": 8,
-        "col": 15,
-        "x": 11400,
+        "col": 16,
+        "x": 12000,
         "y": 5100,
-        "serial_order": 183,
+        "serial_order": 178,
         "req_points": 8,
         "prereq_node_ids": [
-          81474,
-          81492
+          81492,
+          81506,
+          81474
         ],
         "entries": [
           {
@@ -2009,32 +2034,15 @@
             "choice_index": 0,
             "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_burningbladeshaman_lavaslash.jpg",
             "desc": "Avenger's Shield jumps to 2 additional targets."
-          }
-        ]
-      },
-      {
-        "node_id": 81629,
-        "type": "PASSIVE",
-        "row": 8,
-        "col": 17,
-        "x": 12600,
-        "y": 5100,
-        "serial_order": 109,
-        "req_points": 8,
-        "prereq_node_ids": [
-          81474,
-          81506,
-          81483
-        ],
-        "entries": [
+          },
           {
-            "entry_id": "102621",
-            "talent": "Seal of Reprisal",
-            "spell_id": 377053,
+            "entry_id": "137856",
+            "talent": "Focused Enmity",
+            "spell_id": 378845,
             "max_ranks": "1",
-            "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_sealoffury.jpg",
-            "desc": "Your Crusader Strike deals 20% increased damage."
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_flashoflight.jpg",
+            "desc": "When Avenger's Shield strikes a single enemy, it deals 100% additional Holy damage."
           }
         ]
       },
@@ -2045,10 +2053,12 @@
         "col": 18,
         "x": 13197,
         "y": 5099,
-        "serial_order": 19,
+        "serial_order": 16,
         "req_points": 8,
         "prereq_node_ids": [
-          81483
+          90062,
+          81612,
+          81506
         ],
         "entries": [
           {
@@ -2063,47 +2073,22 @@
         ]
       },
       {
-        "node_id": 81475,
+        "node_id": 81488,
         "type": "PASSIVE",
         "row": 8,
-        "col": 19,
-        "x": 13801,
+        "col": 20,
+        "x": 14400,
         "y": 5100,
-        "serial_order": 6,
+        "serial_order": 14,
         "req_points": 8,
         "prereq_node_ids": [
-          81485,
           81612,
-          81483
+          81485,
+          81470
         ],
         "entries": [
           {
-            "entry_id": "102438",
-            "talent": "Hand of the Protector",
-            "spell_id": 315924,
-            "max_ranks": "1",
-            "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_blessedhands.jpg",
-            "desc": "When you cast Word of Glory on someone other than yourself, its healing is increased by up to 100% based on the target's missing health."
-          }
-        ]
-      },
-      {
-        "node_id": 81473,
-        "type": "PASSIVE",
-        "row": 8,
-        "col": 21,
-        "x": 15001,
-        "y": 5100,
-        "serial_order": 4,
-        "req_points": 8,
-        "prereq_node_ids": [
-          81470,
-          81485
-        ],
-        "entries": [
-          {
-            "entry_id": "102436",
+            "entry_id": "137858",
             "talent": "Sanctuary",
             "spell_id": 379021,
             "max_ranks": "1",
@@ -2114,117 +2099,17 @@
         ]
       },
       {
-        "node_id": 81472,
-        "type": "PASSIVE",
-        "row": 9,
-        "col": 16,
-        "x": 11998,
-        "y": 5697,
-        "serial_order": 3,
-        "req_points": 20,
-        "prereq_node_ids": [
-          81474,
-          81629,
-          101928
-        ],
-        "entries": [
-          {
-            "entry_id": "102435",
-            "talent": "Focused Enmity",
-            "spell_id": 378845,
-            "max_ranks": "1",
-            "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_flashoflight.jpg",
-            "desc": "When Avenger's Shield strikes a single enemy, it deals 100% additional Holy damage."
-          }
-        ]
-      },
-      {
-        "node_id": 81484,
-        "type": "PASSIVE",
-        "row": 9,
-        "col": 17,
-        "x": 12598,
-        "y": 5697,
-        "serial_order": 13,
-        "req_points": 20,
-        "prereq_node_ids": [
-          81490
-        ],
-        "entries": [
-          {
-            "entry_id": "102449",
-            "talent": "Gift of the Golden Val'kyr",
-            "spell_id": 378279,
-            "max_ranks": "1",
-            "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_valkiergoldpet.jpg",
-            "desc": "Each enemy hit by Avenger's Shield reduces the remaining cooldown on Guardian of Ancient Kings by 1.0 sec.\r\n\r\nWhen you drop below 30% health, you become infused with Guardian of Ancient Kings for 4 sec. This cannot occur again for 45 sec."
-          }
-        ]
-      },
-      {
-        "node_id": 103877,
-        "type": "PASSIVE",
-        "row": 9,
-        "col": 19,
-        "x": 13800,
-        "y": 5700,
-        "serial_order": 205,
-        "req_points": 20,
-        "prereq_node_ids": [
-          81490
-        ],
-        "entries": [
-          {
-            "entry_id": "128278",
-            "talent": "Sanctified Wrath",
-            "spell_id": 53376,
-            "max_ranks": "1",
-            "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_judgementsofthejust.jpg",
-            "desc": "Avenging Wrath and Avenging Crusader have 25% increased duration."
-          }
-        ]
-      },
-      {
-        "node_id": 81500,
-        "type": "PASSIVE",
-        "row": 9,
-        "col": 20,
-        "x": 14400,
-        "y": 5700,
-        "serial_order": 29,
-        "req_points": 20,
-        "prereq_node_ids": [
-          81485,
-          81473,
-          81475
-        ],
-        "entries": [
-          {
-            "entry_id": "102469",
-            "talent": "Uther's Counsel",
-            "spell_id": 378425,
-            "max_ranks": "1",
-            "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_greaterblessingofsalvation.jpg",
-            "desc": "Your Lay on Hands, Divine Shield, Blessing of Protection, and Blessing of Spellwarding have 15% reduced cooldown."
-          }
-        ]
-      },
-      {
         "node_id": 81493,
         "type": "CHOICE",
-        "row": 10,
+        "row": 9,
         "col": 15,
         "x": 11400,
-        "y": 6300,
-        "serial_order": 22,
+        "y": 5700,
+        "serial_order": 19,
         "req_points": 20,
         "prereq_node_ids": [
-          81472,
-          101928
+          101928,
+          81474
         ],
         "entries": [
           {
@@ -2248,17 +2133,91 @@
         ]
       },
       {
+        "node_id": 81484,
+        "type": "PASSIVE",
+        "row": 9,
+        "col": 17,
+        "x": 12598,
+        "y": 5697,
+        "serial_order": 10,
+        "req_points": 20,
+        "prereq_node_ids": [
+          81490
+        ],
+        "entries": [
+          {
+            "entry_id": "102449",
+            "talent": "Gift of the Golden Val'kyr",
+            "spell_id": 378279,
+            "max_ranks": "1",
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_valkiergoldpet.jpg",
+            "desc": "Each enemy hit by Avenger's Shield reduces the remaining cooldown on Guardian of Ancient Kings by 1.0 sec.\r\n\r\nWhen you drop below 30% health, you become infused with Guardian of Ancient Kings for 4 sec. This cannot occur again for 45 sec."
+          }
+        ]
+      },
+      {
+        "node_id": 103877,
+        "type": "PASSIVE",
+        "row": 9,
+        "col": 19,
+        "x": 13800,
+        "y": 5700,
+        "serial_order": 200,
+        "req_points": 20,
+        "prereq_node_ids": [
+          81490
+        ],
+        "entries": [
+          {
+            "entry_id": "128278",
+            "talent": "Empyrean Authority",
+            "spell_id": 1246481,
+            "max_ranks": "1",
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_empoweredsealsrighteous.jpg",
+            "desc": "Guardian of Ancient Kings has 1 additional charge."
+          }
+        ]
+      },
+      {
+        "node_id": 81498,
+        "type": "PASSIVE",
+        "row": 9,
+        "col": 21,
+        "x": 15000,
+        "y": 5700,
+        "serial_order": 24,
+        "req_points": 20,
+        "prereq_node_ids": [
+          81488,
+          81485
+        ],
+        "entries": [
+          {
+            "entry_id": "102467",
+            "talent": "Seal of Charity",
+            "spell_id": 384815,
+            "max_ranks": "1",
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_priest_powerword.jpg",
+            "desc": "When you cast Word of Glory on someone other than yourself, you are also healed for 100% of the amount healed."
+          }
+        ]
+      },
+      {
         "node_id": 81482,
         "type": "PASSIVE",
         "row": 10,
         "col": 16,
-        "x": 11999,
+        "x": 12000,
         "y": 6300,
-        "serial_order": 11,
+        "serial_order": 8,
         "req_points": 20,
         "prereq_node_ids": [
-          81472,
-          81484
+          81484,
+          101928,
+          81493
         ],
         "entries": [
           {
@@ -2274,12 +2233,12 @@
       },
       {
         "node_id": 81497,
-        "type": "PASSIVE",
+        "type": "ACTIVE",
         "row": 10,
         "col": 18,
-        "x": 13201,
+        "x": 13200,
         "y": 6300,
-        "serial_order": 26,
+        "serial_order": 23,
         "req_points": 20,
         "prereq_node_ids": [
           81484,
@@ -2289,12 +2248,12 @@
         "entries": [
           {
             "entry_id": "102466",
-            "talent": "Empyrean Authority",
-            "spell_id": 1246481,
+            "talent": "Sentinel",
+            "spell_id": 389539,
             "max_ranks": "1",
             "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_paladin_empoweredsealsrighteous.jpg",
-            "desc": "Guardian of Ancient Kings has 1 additional charge."
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_holynova.jpg",
+            "desc": "Call upon the Light and gain 15 stacks of Divine Resolve, increasing your maximum health by 1% and reducing your damage taken by 2% per stack for 20 sec. After 5.0 sec, you will begin to lose 1 stack per second, but each 3 Holy Power spent will delay the loss of your next stack by 1 sec.\r\n\r\nCombines with Avenging Wrath."
           }
         ]
       },
@@ -2303,12 +2262,13 @@
         "type": "PASSIVE",
         "row": 10,
         "col": 20,
-        "x": 14401,
-        "y": 6299,
+        "x": 14400,
+        "y": 6300,
         "serial_order": 2,
         "req_points": 20,
         "prereq_node_ids": [
-          81500,
+          81488,
+          81498,
           103877
         ],
         "entries": [
@@ -2324,38 +2284,13 @@
         ]
       },
       {
-        "node_id": 81488,
-        "type": "PASSIVE",
-        "row": 10,
-        "col": 21,
-        "x": 15000,
-        "y": 6300,
-        "serial_order": 17,
-        "req_points": 20,
-        "prereq_node_ids": [
-          81473,
-          81500
-        ],
-        "entries": [
-          {
-            "entry_id": "102454",
-            "talent": "Instrument of the Divine",
-            "spell_id": 1277162,
-            "max_ranks": "1",
-            "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_priest_archangel.jpg",
-            "desc": "Shield of the Righteous consumes up to 2 more Holy Power and deals 50% increased damage for each additional Holy Power consumed."
-          }
-        ]
-      },
-      {
         "node_id": 81505,
         "type": "CHOICE",
         "row": 11,
         "col": 15,
         "x": 11400,
         "y": 6900,
-        "serial_order": 34,
+        "serial_order": 30,
         "req_points": 20,
         "prereq_node_ids": [
           81482,
@@ -2387,14 +2322,14 @@
         "type": "PASSIVE",
         "row": 11,
         "col": 17,
-        "x": 12601,
+        "x": 12600,
         "y": 6900,
-        "serial_order": 20,
+        "serial_order": 17,
         "req_points": 20,
         "prereq_node_ids": [
+          81484,
           81482,
-          81497,
-          81484
+          81497
         ],
         "entries": [
           {
@@ -2413,13 +2348,13 @@
         "type": "PASSIVE",
         "row": 11,
         "col": 19,
-        "x": 13801,
+        "x": 13800,
         "y": 6900,
-        "serial_order": 33,
+        "serial_order": 29,
         "req_points": 20,
         "prereq_node_ids": [
-          81497,
           81471,
+          81497,
           103877
         ],
         "entries": [
@@ -2441,10 +2376,10 @@
         "col": 21,
         "x": 15000,
         "y": 6900,
-        "serial_order": 8,
+        "serial_order": 5,
         "req_points": 20,
         "prereq_node_ids": [
-          81488,
+          81498,
           81471
         ],
         "entries": [
@@ -2466,7 +2401,7 @@
         "col": 18,
         "x": 13200,
         "y": 7650,
-        "serial_order": 235,
+        "serial_order": 230,
         "req_points": 20,
         "prereq_node_ids": [],
         "entries": [
@@ -2491,7 +2426,7 @@
           "col": 23,
           "x": 16500,
           "y": 1501,
-          "serial_order": 157,
+          "serial_order": 152,
           "req_points": 0,
           "prereq_node_ids": [
             95180
@@ -2515,7 +2450,7 @@
           "col": 22,
           "x": 15900,
           "y": 2097,
-          "serial_order": 158,
+          "serial_order": 153,
           "req_points": 0,
           "prereq_node_ids": [
             95187
@@ -2539,7 +2474,7 @@
           "col": 21,
           "x": 15300,
           "y": 2100,
-          "serial_order": 159,
+          "serial_order": 154,
           "req_points": 0,
           "prereq_node_ids": [
             95183
@@ -2563,7 +2498,7 @@
           "col": 23,
           "x": 16200,
           "y": 900,
-          "serial_order": 160,
+          "serial_order": 155,
           "req_points": 0,
           "prereq_node_ids": [],
           "entries": [
@@ -2585,7 +2520,7 @@
           "col": 23,
           "x": 16501,
           "y": 2100,
-          "serial_order": 161,
+          "serial_order": 156,
           "req_points": 0,
           "prereq_node_ids": [
             95177
@@ -2618,7 +2553,7 @@
           "col": 23,
           "x": 16200,
           "y": 3300,
-          "serial_order": 162,
+          "serial_order": 157,
           "req_points": 0,
           "prereq_node_ids": [
             95186,
@@ -2645,7 +2580,7 @@
           "col": 21,
           "x": 15300,
           "y": 1501,
-          "serial_order": 163,
+          "serial_order": 158,
           "req_points": 0,
           "prereq_node_ids": [
             95180
@@ -2669,7 +2604,7 @@
           "col": 22,
           "x": 15900,
           "y": 2697,
-          "serial_order": 164,
+          "serial_order": 159,
           "req_points": 0,
           "prereq_node_ids": [
             95178
@@ -2693,7 +2628,7 @@
           "col": 21,
           "x": 15294,
           "y": 2697,
-          "serial_order": 165,
+          "serial_order": 160,
           "req_points": 0,
           "prereq_node_ids": [
             95179
@@ -2726,7 +2661,7 @@
           "col": 23,
           "x": 16500,
           "y": 2700,
-          "serial_order": 166,
+          "serial_order": 161,
           "req_points": 0,
           "prereq_node_ids": [
             95181
@@ -2750,7 +2685,7 @@
           "col": 22,
           "x": 15900,
           "y": 1500,
-          "serial_order": 167,
+          "serial_order": 162,
           "req_points": 0,
           "prereq_node_ids": [
             95180
@@ -2774,7 +2709,7 @@
           "col": 24,
           "x": 17100,
           "y": 2700,
-          "serial_order": 218,
+          "serial_order": 213,
           "req_points": 0,
           "prereq_node_ids": [
             109746
@@ -2807,7 +2742,7 @@
           "col": 24,
           "x": 17100,
           "y": 2100,
-          "serial_order": 219,
+          "serial_order": 214,
           "req_points": 0,
           "prereq_node_ids": [
             109747
@@ -2831,7 +2766,7 @@
           "col": 24,
           "x": 17100,
           "y": 1500,
-          "serial_order": 220,
+          "serial_order": 215,
           "req_points": 0,
           "prereq_node_ids": [
             95180
@@ -2857,7 +2792,7 @@
           "col": 10,
           "x": 8701,
           "y": 4796,
-          "serial_order": 168,
+          "serial_order": 163,
           "req_points": 0,
           "prereq_node_ids": [
             95234,
@@ -2882,7 +2817,7 @@
           "col": 10,
           "x": 8695,
           "y": 5981,
-          "serial_order": 169,
+          "serial_order": 164,
           "req_points": 0,
           "prereq_node_ids": [
             95231
@@ -2906,7 +2841,7 @@
           "col": 11,
           "x": 9000,
           "y": 6600,
-          "serial_order": 170,
+          "serial_order": 165,
           "req_points": 0,
           "prereq_node_ids": [
             95238,
@@ -2933,7 +2868,7 @@
           "col": 10,
           "x": 8696,
           "y": 5393,
-          "serial_order": 171,
+          "serial_order": 166,
           "req_points": 0,
           "prereq_node_ids": [
             95228
@@ -2966,7 +2901,7 @@
           "col": 11,
           "x": 9292,
           "y": 5393,
-          "serial_order": 172,
+          "serial_order": 167,
           "req_points": 0,
           "prereq_node_ids": [
             95235
@@ -2999,7 +2934,7 @@
           "col": 9,
           "x": 8098,
           "y": 4793,
-          "serial_order": 173,
+          "serial_order": 168,
           "req_points": 0,
           "prereq_node_ids": [
             95234,
@@ -3033,7 +2968,7 @@
           "col": 11,
           "x": 9000,
           "y": 4200,
-          "serial_order": 174,
+          "serial_order": 169,
           "req_points": 0,
           "prereq_node_ids": [],
           "entries": [
@@ -3055,7 +2990,7 @@
           "col": 11,
           "x": 9299,
           "y": 4800,
-          "serial_order": 175,
+          "serial_order": 170,
           "req_points": 0,
           "prereq_node_ids": [
             95234,
@@ -3089,7 +3024,7 @@
           "col": 9,
           "x": 8098,
           "y": 5399,
-          "serial_order": 176,
+          "serial_order": 171,
           "req_points": 0,
           "prereq_node_ids": [
             95233
@@ -3113,7 +3048,7 @@
           "col": 9,
           "x": 8098,
           "y": 6000,
-          "serial_order": 177,
+          "serial_order": 172,
           "req_points": 0,
           "prereq_node_ids": [
             95236
@@ -3137,7 +3072,7 @@
           "col": 11,
           "x": 9299,
           "y": 6000,
-          "serial_order": 178,
+          "serial_order": 173,
           "req_points": 0,
           "prereq_node_ids": [
             95232
@@ -3161,11 +3096,11 @@
           "col": 12,
           "x": 9900,
           "y": 4800,
-          "serial_order": 215,
+          "serial_order": 210,
           "req_points": 0,
           "prereq_node_ids": [
-            95234,
-            110257
+            110257,
+            95234
           ],
           "entries": [
             {
@@ -3186,7 +3121,7 @@
           "col": 12,
           "x": 9900,
           "y": 5400,
-          "serial_order": 216,
+          "serial_order": 211,
           "req_points": 0,
           "prereq_node_ids": [
             109742
@@ -3210,7 +3145,7 @@
           "col": 12,
           "x": 9900,
           "y": 6000,
-          "serial_order": 217,
+          "serial_order": 212,
           "req_points": 0,
           "prereq_node_ids": [
             109743
@@ -3234,7 +3169,7 @@
           "col": 11,
           "x": 9000,
           "y": 4200,
-          "serial_order": 233,
+          "serial_order": 228,
           "req_points": 0,
           "prereq_node_ids": [],
           "entries": [

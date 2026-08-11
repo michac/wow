@@ -40,17 +40,27 @@ GOALS = POWER_GOALS + SOFT_GOALS
 # First match wins — list most-specific first. weight is a coarse "how much does
 # one of these move a goal" knob feeding _r_from_weight() below.
 CURRENCY_RULES: list[tuple[str, str, float, str]] = [
-    # Upgrade crests (Dawncrests) — the gearing spine. Higher tier = more R.
-    ("myth dawncrest",       "gearing",  1.00, "top-tier upgrade crest"),
-    ("hero dawncrest",       "gearing",  0.90, "hero-track upgrade crest"),
-    ("champion dawncrest",   "gearing",  0.60, "mid upgrade crest"),
-    ("veteran dawncrest",    "gearing",  0.50, "early upgrade crest"),
-    ("adventurer dawncrest", "gearing",  0.30, "low upgrade crest"),
-    ("dawncrest",            "gearing",  0.60, "upgrade crest (tier unknown)"),
+    # Upgrade crests — the gearing spine. Higher tier = more R.
+    # Season 2 (12.1) crests are **Mistcrests** (CurrencyTypes DB2 @ 12.1.0.69214,
+    # IDs 3437-3441); Season 1's Dawncrests are the previous family and are no
+    # longer the live upgrade currency, so they keep a rule (a scrape can still
+    # surface one) but are noted as Season 1.
+    ("myth mistcrest",       "gearing",  1.00, "top-tier upgrade crest (S2)"),
+    ("hero mistcrest",       "gearing",  0.90, "hero-track upgrade crest (S2)"),
+    ("champion mistcrest",   "gearing",  0.60, "mid upgrade crest (S2)"),
+    ("veteran mistcrest",    "gearing",  0.50, "early upgrade crest (S2)"),
+    ("adventurer mistcrest", "gearing",  0.30, "low upgrade crest (S2)"),
+    ("mistcrest",            "gearing",  0.60, "S2 upgrade crest (tier unknown)"),
+    ("myth dawncrest",       "gearing",  1.00, "top-tier upgrade crest (Season 1)"),
+    ("hero dawncrest",       "gearing",  0.90, "hero-track upgrade crest (Season 1)"),
+    ("champion dawncrest",   "gearing",  0.60, "mid upgrade crest (Season 1)"),
+    ("veteran dawncrest",    "gearing",  0.50, "early upgrade crest (Season 1)"),
+    ("adventurer dawncrest", "gearing",  0.30, "low upgrade crest (Season 1)"),
+    ("dawncrest",            "gearing",  0.60, "Season 1 upgrade crest (tier unknown)"),
     # Gear-adjacent high-value currencies.
     ("coffer key",           "vault",    0.90, "delve bountiful key -> gear/vault"),
     ("voidcore",             "gearing",  0.90, "bonus roll -> gear"),
-    ("voidlight marl",       "gearing",  0.40, "catch-all 12.0.5 currency"),
+    ("voidlight marl",       "gearing",  0.40, "catch-all Midnight currency"),
     # Crafting.
     ("spark",                "crafting", 0.90, "crafting spark"),
     ("radiance",             "crafting", 0.90, "crafting"),
@@ -145,7 +155,16 @@ def classify_cache(description: str, name: str = "") -> tuple[list[str], int]:
 TRACK_ORDER = ["Adventurer", "Veteran", "Champion", "Hero", "Myth"]
 # Flat, character-agnostic value of a gear reward by its upgrade track (0-5).
 # Coarse on purpose — the exact worth is character-relative (char_state branch).
-TRACK_R = {"Adventurer": 1, "Veteran": 2, "Champion": 2, "Hero": 3, "Myth": 4}
+# Season 2 (Mistcrest) tracks are the live ladder. The `(S1)` labels are Season 1
+# (Dawncrest) gear, which 12.1 leaves in place but no longer upgradeable for world
+# bosses — a rung lower in value, never higher.
+TRACK_R = {"Adventurer": 1, "Veteran": 2, "Champion": 2, "Hero": 3, "Myth": 4,
+           "Adventurer (S1)": 1, "Veteran (S1)": 1, "Champion (S1)": 2,
+           "Hero (S1)": 2, "Myth (S1)": 3}
+# ilvl floor of the lowest upgrade ladder in play (Season 1 Adventurer Dawncrest
+# starts at 224 — `_meta/moving-values.md`). Gear below it is leveling-era /
+# pre-season and cannot be crested at all.
+LADDER_FLOOR_ILVL = 224
 
 
 def _r_from_weight(w: float) -> int:
@@ -290,10 +309,11 @@ CURRENCY_CONSUMERS = {
 # canonical key -> a representative currency name, so classify_currency can tag the
 # goal (gearing/crafting/…) off the same rules the descriptor path uses.
 CANONICAL_CURRENCY_NAME = {
-    "hero_crest": "Hero Dawncrest",
-    "myth_crest": "Myth Dawncrest",
-    "champion_crest": "Champion Dawncrest",
-    "veteran_crest": "Veteran Dawncrest",
+    # Season 2 (12.1) crest family = Mistcrests; Season 1's were Dawncrests.
+    "hero_crest": "Hero Mistcrest",
+    "myth_crest": "Myth Mistcrest",
+    "champion_crest": "Champion Mistcrest",
+    "veteran_crest": "Veteran Mistcrest",
     "field_accolade": "Field Accolade",
     "spark": "Spark of Radiance",
     "radiant_spark_dust": "Radiant Spark Dust",
@@ -482,7 +502,13 @@ def _gear_baseline_R(item: dict) -> tuple[int, str]:
     track = item.get("track")
     if track in TRACK_R:
         return TRACK_R[track], f"{track}-track gear"
-    if item.get("ilvl"):
+    ilvl = item.get("ilvl")
+    if ilvl and ilvl < LADDER_FLOOR_ILVL:
+        # Below every crest ladder — leveling-era or pre-season gear. It is not
+        # "track unknown", it is off the ladder, so it must not out-score real
+        # Adventurer-track gear.
+        return 1, f"gear ilvl {ilvl} — below the upgrade ladder (not crestable)"
+    if ilvl:
         return 2, "gear (track unknown)"
     return 0, ""
 

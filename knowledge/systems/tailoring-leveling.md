@@ -1,14 +1,17 @@
 ---
 title: Midnight Tailoring — leveling 1–100, knowledge points, specs
-patch: 12.0.7
-fetched: 2026-06-19
-reviewed: 2026-07-07
+patch: 12.1
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
   - https://www.wow-professions.com/guides/wow-tailoring-leveling-guide
   - https://www.wow-professions.com/midnight/tailoring-specialization-guide-and-builds
   - https://www.wowhead.com/guide/midnight/professions/tailoring-leveling-1-100
   - https://www.method.gg/guides/midnight-tailoring-profession-guide
   - https://www.icy-veins.com/wow/professions-tailoring
+  - https://worldofwarcraft.com/en-us/news/24293281        # 12.1 "Curse of Ula'tek" content update notes (Tier 1)
+  - https://worldofwarcraft.blizzard.com/en-us/news/24293963  # Follow the Snakes to the Coiled Isle (Tier 1)
+  - https://www.icy-veins.com/wow/news/renown-and-vendor-rewards-zone-talents-corrosive-powers-new-coiled-isle-zone-in-12-1-and-everything-on-it-detailed/  # Zul'jarra renown rank-by-rank listing (Tier 3 — corroborates the Tier-1 article, does not override it)
 confidence: medium
 ---
 
@@ -50,6 +53,29 @@ medium confidence).
 - **Lining recipes (80–90)**: AH world-drops — only needed if pushing
   past 80; defer until bolt dailies cap.
 - **Elegant Artisan (90–100)**: Artisan Tailor's Moxie currency, not gold.
+  ⚠ **12.1 added a second Moxie sink** at **Jan'sari the Watchful**
+  (Zul'jarra's Forces quartermaster, **Tokka's Landing**, Coiled Isle), whose
+  stock is priced in **Voidlight Marl + profession-specific Artisan Moxies**
+  rather than gold. Two renown ranks carry profession content, and only one of
+  them really matters to a tailor:
+  - **Renown 5 — "Coiled Isle Crafting"**: nine purchasable recipes, of which
+    exactly one is Tailoring — **Pattern: Flat Snakeskin Canopy** (item
+    275332), a **decor** pattern. Nice to have, not a skill-up or gear recipe.
+  - **Renown 6 — "Demystifyin' Professions"**: **profession knowledge tomes**
+    go on sale. *This* is the Moxie-relevant sink for a tailor, because it buys
+    KP (see below), and KP is what actually gates this file's spec plan.
+  - **Renown 7 is furnishings only** (bags, weapon rack) — no profession content.
+
+  So Moxie is no longer a single-purpose skill-up currency: budget it against
+  the Elegant Artisan recipes **and the R6 tomes**. The zone, the vendor, the
+  rank gates and the currencies are Tier-1 (Blizzard 12.1 Coiled Isle article,
+  recipe names resolved against game data); only the **tome price** is
+  unconfirmed — Tier-4 guides quote **750 Voidlight Marl + 75 or 150 Artisan
+  Tailor's Moxie** per tome and `systems/professions.md` carries the
+  in-game-verify marker for it. See `factions/zuljarras-forces.md` and
+  `systems/professions.md`. **The 1–100 crafting route below is unaffected** —
+  12.1 adds no new leveling recipes and changes no mats; what it does change is
+  where KP comes from and how it can be re-spent.
 - **AH drop-recipes for first-craft KP**: value yardstick — vendor books
   ≈ **1–1.5k gold per KP**; buy a recipe only if price < ~1.5k per KP
   it grants (first crafts give 1–3 KP). Otherwise skip.
@@ -63,8 +89,28 @@ medium confidence).
 - **8 profession treasures** in Midnight zones — 3 KP each (24 total)
 - **Weekly trainer quest** — 3 KP
 - **Vendor books** — 10 KP, ~10–15k gold each (optional catch-up)
+- **Jan'sari's profession knowledge tomes (12.1, new)** — unlocked at
+  **Zul'jarra's Forces Renown 6** ("Demystifyin' Professions"), bought with
+  Voidlight Marl + Artisan Tailor's Moxie (price unconfirmed — see above).
+  This is the one new KP faucet in 12.1, and it is the reason R6 is the
+  profession breakpoint on that renown track.
+
+⚠ **One-time Knowledge Point reset (12.1)** — once per Midnight profession,
+every KP spent in that profession's specialization trees is refunded and can be
+re-assigned from scratch. **Recipes unlocked by spending those points are
+unlearned by the reset** and only come back when you re-spend, so do not fire it
+half-way through a plan. Base skill, Artisan Moxie balances and banked
+(unspent) knowledge are untouched. It is **permanent and single-use** — save it
+for a real mis-spend. Detail + provenance (not in the official notes; Wowhead
+relay corroborated by Method, with an in-game-verify marker) lives in
+`professions.md`.
 
 ## Specialization order (gear-crafting build)
+
+> **Read the KP-reset note above before spending.** The spend order below is
+> a one-way commitment *per reset*: you now get exactly one free do-over per
+> profession, and using it unlearns the slot recipes these nodes granted until
+> the points are re-placed.
 
 1. **Nimble Needlework 5–10 first** — unlocks the daily bolt CD (5) and
    the Arcanoweave Bolt recipe path (10)
@@ -90,8 +136,13 @@ self-recraft cloth pieces at rank 5 *using concentration* once skill
 
 ## TODO
 
+- [ ] **Artisan Tailor's Moxie earn rate — now load-bearing.** 12.1 gave Moxie a
+      second sink (Jan'sari's R6 knowledge tomes) on top of the Elegant Artisan
+      recipes at 150 each, so "can I afford both?" is a real planning question
+      and we have no earn rate at all. Resolve with the tome price
+      (already marked for in-game verification in `professions.md`) at the
+      same time.
 - [ ] Treasure locations (8 × 3 KP) — coords per zone
 - [ ] Verify Midnight has/lacks DF-style weekly treatise for KP
 - [ ] Which slot sub-spec covers wrist (Martyr's Bindings) vs
       belt/boots — node names
-- [ ] Artisan Tailor's Moxie earn rate

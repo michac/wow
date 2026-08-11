@@ -13,6 +13,29 @@ sources:
 confidence: medium
 ---
 
+> ⚠ **NOT RE-VERIFIED FOR 12.1 (as of 2026-08-11).** This file still describes
+> **Midnight Season 1 / patch 12.0.7** and its `patch:`/`reviewed:` stamps are
+> deliberately left at that, because nobody checked its claims against 12.1.
+> Patch **12.1 "Curse of Ula'tek"** went live 2026-08-11 and changed things that
+> affect **every** spec:
+>
+> - **Player health and creature damage +25%** at max level, health consumables
+>   rescaled, and some DPS/Tank healing + absorb spells retuned. Any absolute
+>   HP / healing / consumable number below is now wrong.
+> - **Major DPS cooldowns lowered and steady-state damage raised** for several
+>   specs — so a spec's burst/sustained split may have moved.
+> - **Interrupts** now show a "missed" visual + sound when the target was not casting.
+> - **Diminishing-return categories reset after 20s** (was 16s).
+> - A game-wide **PvP snare tier-down** (70%→50%, 50%→30%, …). PvP only.
+>
+> Per-spec 12.1 changes for this spec, if any, are in
+> `knowledge/_meta/patch-notes/12.1.md` under the **CLASSES** section — read that
+> before trusting anything here. The **regenerated** siblings in this directory
+> (`talents.md`, `talents.json`, `ability-inventory.md`) *are* current: they were
+> rebuilt on 2026-08-11 from live 12.1 game data and are Tier 1. Where this file
+> and they disagree about whether a talent exists, **they win**.
+
+
 # Shadow Priest — abilities (Midnight Season 1)
 
 ## Overview

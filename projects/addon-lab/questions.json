@@ -1154,6 +1154,36 @@
     "obs": "OBS-063",
     "tag": "[client 2026-08-07]"
    }
+  },
+  {
+   "id": "protected-fn-set-in-combat-beyond-four",
+   "anchor": "security-taint-and-restricted-data.md:147",
+   "bucket": "frame",
+   "status": "parked",
+   "question": "Of the 59 `IsProtectedFunction = true` widget methods, only `SetPoint` / `SetScale` / `Show` / `Hide` were exercised IN COMBAT on an ordinary addon frame. Do the other 55 also succeed there — `SetFrameStrata` and `SetHeight`/`SetWidth` above all?",
+   "expect": "All 55 succeed, because the frame reads `IsProtected() == false` and protection is what the restriction keys on — but that is an INFERENCE from four calls plus one predicate, and §1.1's general claim is currently cashed for more than it measured. `SetFrameStrata` is the one worth its own verdict: it is additionally the only `SecretArguments = NotAllowed` member of the strata/level family (`frames-textures-animation.md` §4.2), so it has a second reason to behave differently and no measurement either way. Method: one plain `CreateFrame(\"Frame\", nil, UIParent)`, each of the 55 called under `pcall` in combat, recording the raised message rather than a boolean — an error's TEXT is what distinguishes 'protected-function refusal' from 'bad argument'. ⚠ Calls that change what is on screen (SetParent, Show/Hide chains) must run on a throwaway frame, not on anything the lab draws.",
+   "blocked_on": null,
+   "note": "Registered because `projects/combat-assist` is BUILDING on the four-call half: `Overlay.lua` keeps `SetFrameStrata` out of combat deliberately and confines its in-combat writes to Show/Hide/SetVertexColor/SetAlpha, citing this marker. That is the marker doing its job — the code routed around the unknown rather than assuming it — so the question is recorded, not queued."
+  },
+  {
+   "id": "secret-anchor-dependent-geometry",
+   "anchor": "security-taint-and-restricted-data.md:158",
+   "bucket": "frame",
+   "status": "parked",
+   "question": "Does an addon frame ANCHORED to a frame carrying a SECRET anchor still accept `SetPoint` / `Show` / `Hide` in combat? The measured case anchored to `ActionButton1`, which is protected but is never fed a secret; a CDM item frame in combat is fed one.",
+   "expect": "UNKNOWN, and the two halves are genuinely different questions. §4.8.1 findings 10 and 12 record anchor-chain contagion propagating DOWN to the dependent from `FontString:SetText` and `Texture:SetColorTexture`, and the Cooldown Manager writes secret cooldown text onto its own item frames in combat — so the route exists and nothing has been executed along it. Method: an ordinary UIParent-parented frame anchored to a live CDM item frame, then in combat `SetPoint` it to a KNOWN-DIFFERENT offset and read `GetLeft()` back, converted to screen units. ⚠ A `pcall` that does not raise is NOT the measurement — the failure mode this question exists for is a geometry write that silently no-ops, so the readback is the whole test and a test that only records 'no error' would manufacture a false pass.",
+   "blocked_on": null,
+   "note": "Registered because `projects/combat-assist`'s overlay is exactly this shape — UIParent-parented, anchored to a CDM item frame, re-anchored mid-pull when the item-frame pool recycles. Its M3c acceptance table now names this gap as the reading for 'overlay visibly on the wrong icon after a repool', so the unknown is surfaced where a flight would meet it rather than tested."
+  },
+  {
+   "id": "cdm-auradataunit-pairs-with-instanceid",
+   "anchor": "security-taint-and-restricted-data.md:1643",
+   "bucket": "secret",
+   "status": "parked",
+   "question": "Does `item.auraDataUnit` on a CDM item frame supply the right `unit` alongside the same frame's `auraInstanceID` for `C_UnitAuras.GetAuraApplicationDisplayCount` — on a TARGET aura as well as a player one?",
+   "expect": "It pairs, because both fields describe the same bound aura on the same frame and `auraDataUnit` is non-nil iff there is one. But that is a COMPOSITION of two separately measured facts and has never been run as a pair: the flown quantiser cue hardcoded `\"player\"`, which is correct for a self-buff and says nothing about a target aura. Method: read both fields off one frame and pass them together, on a row bound to a target debuff (Destruction's Immolate gives one) and on a player buff in the same pull. ⚠ The quantiser has NO READBACK — an empty string is what 'below the threshold' looks like as well as what a wrong unit would look like — so the oracle is an eyeball on a count that is known to be above the threshold, never the call's return.",
+   "blocked_on": null,
+   "note": "EXERCISED FOR FREE by the upcoming cap flight, which is why no ClientLab test is queued for it: `Channel.StackText` reads `auraDataUnit` and `auraInstanceID` off the same item frame and refuses unless the unit is a plain string, so an armed cue with a visible count settles the PLAYER half. It cannot settle the target half — Demonology's only stack cue is Demonic Core, a self-buff — and cap's `C{}` reports armed/refused rather than whether a number appeared, so even the player half closes on the eyeball and not on the log. Re-read this row after that flight before deciding whether anything is left to test."
   }
  ]
 }

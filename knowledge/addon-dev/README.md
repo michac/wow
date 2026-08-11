@@ -1,11 +1,12 @@
 ---
 title: Addon-dev KB — entry point
-patch: 12.0.7
-fetched: 2026-07-31
-reviewed: 2026-07-31
+patch: 12.1.0
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
   - ./sources.md
-  - https://github.com/Gethe/wow-ui-source (live, version.txt 12.0.7.68887, commit 4383ced30106d51b27e3e86d1987f1552f0d259d)
+  - https://github.com/Gethe/wow-ui-source (tag 12.1.0, version.txt 12.1.0.69273, commit eb941aad028d73ddc69e3e8ef4da709f4d3cd744)
+  - https://github.com/Gethe/wow-ui-source (version.txt 12.0.7.68887, commit 4383ced30106d51b27e3e86d1987f1552f0d259d)
   - https://warcraft.wiki.gg/
   - https://github.com/Stanzilla/WoWUIBugs
 confidence: high
@@ -43,10 +44,30 @@ is known, and the marker outranks the file's `confidence:` scalar:
 
 - **`[client YYYY-MM-DD]`** — measured by running our own code in the client. The
   strongest class in the subtree, and the only one that knows what the docs cannot say.
-  Concentrated in **`cooldown-manager.md`** (which owns the Cooldown-Manager
-  measurements) and **`security-taint-and-restricted-data.md`** §4.8 onward, with a few
-  in `frames-textures-animation.md` §5.1/§5.7. `grep -rl '\[client 20'` is the live list —
-  do not maintain a copy of it here.
+  ⚠ **A patch does not restamp one.** Every `[client]` tag in this subtree was taken on
+  **12.0.7** and still says so; restamping one to a new patch would assert a
+  re-measurement nobody performed. Where 12.1.0 makes a 12.0.7 measurement doubtful,
+  the doubt is written next to it and the value is left standing.
+  **Where it lives is not written down, deliberately, and naming sections here is the
+  known failure mode.** `grep -rln '\[client 20' knowledge/addon-dev/` is the live list of
+  files and `grep -c` per file the live density. A prose census goes stale the moment the
+  next flight lands, and one that undercounts is worse than none: a reader who trusts it
+  discounts measurements that were genuinely taken. The same rule binds the topic files —
+  none of them may carry a summary of its own coverage either.
+  ⚠ **Positives only.** A claim that something *is impossible* — that no instrument, in
+  any subsystem, could read or observe or answer X — may not carry `[client]`. It is not a
+  value anybody measured; it is a claim about a space nobody bounded, and dressing it in
+  the strongest tag in the subtree is precisely how it anchors every later reader. It
+  takes `[searched …]`. **`kblint --gate 4` enforces this.**
+- **`[searched YYYY-MM-DD: <instrument>, <instrument>]`** — we looked **here**, and the
+  value was **not** found. The weak twin of `[client]`, and weak by construction: it reads
+  as an absence of evidence, and it makes the author write down the space that was
+  searched. **The list names instruments, subsystems and APIs** — the aura channel, the CDM
+  alert edges, `GetTotemInfo` — never a conclusion, and never the tool that drove them (a
+  tool name tells a reader nothing about where anything was pointed). **Phrase the claim as
+  a miss, not as an impossibility:** *"not found via X, Y"*, never *"there is no way to"*.
+  The list is the deliverable, not the tag; the test for one you are about to write is *if
+  the true answer lived in a subsystem I did not name, would a reader see the hole?*
 - **unmarked** — a read of Blizzard's shipped source, its generated documentation, an
   on-disk artefact, or a dated community page. Correct about *shape*. Not sufficient about
   *behaviour*: a generated-docs annotation is necessary and not sufficient, and the gap
@@ -58,10 +79,40 @@ is known, and the marker outranks the file's `confidence:` scalar:
   `[client YYYY-MM-DD]` when the run is drained (§1.2).
 - **`[gap]`** — an honest hole.
 
-**Scope**: Retail, patch **12.0.7** (Midnight), build **12.0.7.68887**. Classic
-flavours appear only where a `.toc` mechanism forces them into view. Anything
-describing `Interface/FrameXML/` as a top-level directory, or discussing taint
-without mentioning secret values, is describing a dead version of the client.
+The first two are the split worth understanding, because a negative wearing a positive's
+tag is the one failure this subtree has repeated:
+
+```text
+[client 2026-08-09]                                a value was observed — POSITIVES ONLY
+[searched 2026-08-09: aura channel, alert edges]   we looked HERE, and did not find it
+```
+
+On cooldownID 760 the second form would have printed its own hole: **totems are missing
+from that list**, visibly, to every agent that read the line. The first form instead
+asserted that a summon binds no aura and so cannot be read at all — a claim about the
+whole space of ways to observe the row, backed by two instruments pointed at one channel.
+The row is totem-backed; `cooldown-manager.md` §7 has it.
+
+**Scope**: Retail, patch **12.1.0** "Curse of Ula'tek" (Midnight), live build
+**12.1.0.69214**; the source checkout the 12.1.0 claims were read at is
+**12.1.0.69273**. Classic flavours appear only where a `.toc` mechanism forces them
+into view. Anything describing `Interface/FrameXML/` as a top-level directory, or
+discussing taint without mentioning secret values, is describing a dead version of the
+client — and as of 12.1.0, so is anything that **reads auras by index, slot or
+instance ID**, or that names `SecureAuraHeaderTemplate` as a live Retail template.
+
+> ⚠ **TWO SOURCE CHECKOUTS ARE IN PLAY, AND THIS IS DELIBERATE.**
+> `raw/addon-research/wow-ui-source` is pinned at **12.0.7.68887** because several
+> hundred `file:line` citations across this subtree resolve against it and were not
+> re-resolved on patch day. `raw/addon-research/wow-ui-source-12.1.0` is a second
+> worktree of the same clone at **12.1.0.69273**.
+> **A locator stamped `@12.1.0` was read on the new tree; an unstamped one was not.**
+> Corpus *counts* were all re-derived at 12.1.0; *line numbers* mostly were not.
+> `wowkb.uiapi` still indexes the 12.0.7 tree.
+>
+> ⚠ **`[T2 res] BlizzardInterfaceResources` was NOT re-pulled** and is still
+> 12.0.7.68256. Every `[T2 res]` row in the subtree — global strings, CVar dump,
+> `Resources/Events.lua`, `WidgetAPI.lua`'s inheritance graph — predates 12.1.0.
 
 ---
 
@@ -118,6 +169,10 @@ specific to its subject.
 ⚠ **`cooldown-manager.md` carries the densest run of client-confirmed claims**
 (marked `[client]`), but it is no longer the only file that has any — see §0's
 evidence classes for where else measurements live.
+⚠⚠ **It is also the file 12.1.0 hit hardest.** The category enum more than doubled,
+two pseudo-categories were renamed, the alert subsystem was restructured, and the
+`UNIT_AURA` channel it leans on went fully secret. Its §0b is a required read before
+using anything in it.
 
 ### 1.2 Queues — files that ask rather than assert
 
@@ -396,12 +451,17 @@ Stated plainly so nobody has to rediscover them.
   verbatim blockquote archive of those posts — Tier-1 content through a Tier-2
   channel. There is no official tutorial, no error-semantics reference, and no
   migration guide at any tier (`sources.md` §6).
-- **Three build numbers are in play.** `wow-ui-source` = 12.0.7.**68887**,
-  `BlizzardInterfaceResources` = 12.0.7.**68256**, and this repo's
-  `_meta/game-version.md` records live as 12.0.7.**68453**. Same patch, three
-  builds; the local checkout wins on conflict. The wiki's API index is stamped for
-  **12.1.0 (68301) PTR**, i.e. a build ahead of live, so a wiki page may describe
-  something that is not deployed.
+- **Four build numbers are in play, across two patches.** `wow-ui-source-12.1.0` =
+  12.1.0.**69273**, `_meta/game-version.md` records live as 12.1.0.**69214**,
+  `wow-ui-source` is deliberately held at 12.0.7.**68887**, and
+  `BlizzardInterfaceResources` was **not re-pulled** and is still 12.0.7.**68256**.
+  The 12.1.0 checkout wins on conflict for a 12.1.0 claim; see the boxed note in
+  §0 for which locators were re-resolved (few) and which counts were (all).
+- **12.1.0 was applied by source diff, not by re-flight.** Patch day updated the
+  topic files against Blizzard's shipped 12.1.0 source and the wiki's change page.
+  **Nothing was run in the client**, so the subtree's strongest evidence class is now
+  uniformly one patch old. `cooldown-manager.md` §0b and §7 carry the sharpest
+  version of this warning because the CDM changed most.
 - **Semantics are thinner than shape.** See §3. Where a rule leans on an
   undocumented annotation it says `[inference]`.
 - **`frames-textures-animation` carries the most unresolved gaps** (16 listed),
@@ -441,7 +501,8 @@ Stated plainly so nobody has to rediscover them.
    method is load-bearing. The spec, the character, the addon build, what we tried first
    and how many builds it cost are session facts — they go in the project docs.
 4. **Dates appear in exactly four places:** front matter (`fetched`/`reviewed`), a citation
-   stamp, a `[client YYYY-MM-DD]` provenance tag, and the `## Changelog`. **A date in prose
+   stamp, a `[client YYYY-MM-DD]` / `[searched YYYY-MM-DD: …]` provenance tag, and the
+   `## Changelog`. **A date in prose
    is a defect.** A citation stamp is any bracketed tier tag carrying the date *inside* the
    brackets — `[T2 wiki: …, revid X, 2026-02-19]`, `[T2 bug: WoWUIBugs#414, closed 2025-03-07]`.
    An external event's date (a bug filed, an issue closed, a repo last pushed) **is**
@@ -457,7 +518,13 @@ Stated plainly so nobody has to rediscover them.
 
 ### The gates
 
-`wowkb.kblint` runs these in CI. Each must return zero.
+`wowkb.kblint` runs these in CI. Each must return zero. Gates 1–3 enforce this section;
+gates 4–5 enforce §0's evidence classes.
+
+⚠ **The tool is authoritative; these greps are the readable statement of what it does.**
+Gate 5's reproduces it line for line, and gate 2's is close. Gate 4's cannot be written as
+a grep at all — see its note. If a grep and `kblint` disagree, the tool is right and the
+grep is stale.
 
 ```bash
 # 1 — no retrospective prose outside a Changelog section
@@ -473,10 +540,39 @@ for f in knowledge/addon-dev/*.md; do
   case "$f" in *observations.md|*mined-pending-verification.md|*12.1.0-ptr-heads-up.md|*sources.md) continue;; esac
   awk '/^## Changelog/{skip=1} skip{next} 1' "$f" \
   | grep -nE '20[0-9]{2}-[0-9]{2}-[0-9]{2}' \
-  | grep -vE '\[(T[0-9][^]]*|client) 20|revid [0-9]+, 20|pushed_at 20|created_at 20|^[0-9]+:(patch|fetched|reviewed|title|sources|  -)' \
+  | grep -vE '\[(T[0-9][^]]*|client|searched) 20|revid [0-9]+, 20|pushed_at 20|created_at 20|^[0-9]+:(patch|fetched|reviewed|title|sources|  -)' \
   | sed "s|^|$f:|"
 done
 
 # 3 — no section corrected by a later part of the same file
 grep -nE '(⚠⚠?|❌).{0,120}§[0-9]' knowledge/addon-dev/*.md
+
+# 4 — no negative existential in a CLAIM UNIT tagged [client] and not [searched] (§0).
+# ⚠ There is deliberately no grep for this one. The phrasing and the tag sit on different
+# lines as often as not, so the scope is a claim unit — one bullet, one table row, one
+# ordinal, one paragraph, and one blockquote WHOLE (a quoted measurement carries its tag on
+# its opening line) — and getting that scope wrong is not cosmetic: on blank-line
+# blocks this file reaches 136 lines, one stray [client] vouches for a negative 57 lines
+# away, and a correct [searched] conversion of one row silences every other negative in the
+# block. Run the tool; it is the only thing that scopes this correctly.
+uv run python -m wowkb.kblint --gate 4
+# phrasings: there is/are no · nothing can · no way to · cannot be · is not possible ·
+# never fires/answers/reports — each tolerating markdown emphasis between the words, so
+# "there is **no readback**" matches where a literal 'there is no' would not.
+
+# 5 — no citation circle: a topic-file claim resting on OBS-nnn, a projects/** path, a
+# capture path, or one of our own addon names — including the slash command that drove it
+# (/cdmp, /clab, /bb, /ps, /cap) and the reader that pulled the capture out (wowkb.capture,
+# .cdmp, .lab, .obs, .addon, .diagnostics). ⚠ NOT wowkb.uiapi/.wiki/.wago: those reach
+# Blizzard's docs, the wiki and DB2, which stay admissible — the target is the pointer home,
+# not the road out. On top of the three QUEUES, README.md and sources.md are exempt IN FULL
+# (this file is doctrine and routing; sources.md is the registry where our addons are rows).
+# A capture's provenance belongs on the front-matter `sources:` line, stripped below — that
+# is the designed escape hatch, not a loophole.
+for f in knowledge/addon-dev/*.md; do
+  case "$f" in *README.md|*sources.md|*observations.md|*mined-pending-verification.md|*12.1.0-ptr-heads-up.md) continue;; esac
+  awk 'NR==1&&/^---$/{fm=1;next} fm&&/^---$/{fm=0;next} fm{next}
+       /^[`][`][`]/{fence=!fence;next} fence{next} /^## Changelog/{skip=1} skip{next}
+       {print FILENAME":"FNR":"$0}' "$f"
+done | grep -E 'OBS-[0-9]{3}|projects/|CDMProbe|BucketBinds|PlannerState|ClientLab|(^|[^A-Za-z0-9_/])/(cdmp|clab|bb|ps|cap)([^A-Za-z0-9_]|$)|wowkb\.(capture|cdmp|lab|obs|addon|diagnostics)|raw/[^ ]*\.log'
 ```

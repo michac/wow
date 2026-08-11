@@ -1,16 +1,22 @@
 ---
-title: Demon Hunter Havoc — talent tree (12.0.7)
-patch: 12.0.7
-build: 12.0.7.67808
-fetched: 2026-06-19
-reviewed: 2026-07-07
+title: Demon Hunter Havoc — talent tree (12.1.0)
+patch: 12.1.0
+build: 12.1.0.68914
+fetched: 
 sources:
   - https://us.api.blizzard.com/data/wow/talent-tree (Blizzard Game Data API, Tier 1)
-  - https://wago.tools/db2 Trait* @ 12.0.7.67808 (Tier 1)
+  - https://wago.tools/db2 Trait* @ 12.1.0.68914 (Tier 1)
 confidence: high
 ---
+> **Build provenance.** This file was generated from the Blizzard Game Data API and
+> wago `Trait*` DB2 at build **12.1.0.68914**, which is what the API's `static-12.1.0`
+> namespace reported on 2026-08-11. The live client that day was **12.1.0.69214**. The
+> `Trait*` DB2 exports at the two builds are **byte-identical** (verified by md5 on
+> `TraitNodeEntry`), so this data is valid for live 12.1 — cite it as **@ 12.1.0.68914**,
+> not 69214.
 
-# Demon Hunter Havoc — talents (12.0.7)
+
+# Demon Hunter Havoc — talents (12.1.0)
 
 > Generated from `knowledge/classes/_talents/all-talents.tsv`. Spell IDs are the talent's granted spell. Choice nodes show both options as `A / B`. See `_talents/README.md` for the schema.
 
@@ -46,8 +52,8 @@ confidence: high
 | Burn It Out / Soul Cleanse | 1266316 / 1266496 | 1/1 | CHOICE | 7,6 | 8 | 90933 |
 | Lost in Darkness | 389849 | 1 | PASSIVE | 7,7 | 8 | 90933,95151 |
 | Illidari Knowledge | 389696 | 2 | PASSIVE | 8,2 | 8 | 90936,90940 |
-| Felbound | 1266762 | 1 | PASSIVE | 8,4 | 8 | 91004,90936,90939 |
-| Will of the Illidari | 389695 | 2 | PASSIVE | 8,6 | 8 | 91004,90947,90927 |
+| Felbound | 1266762 | 1 | PASSIVE | 8,4 | 8 | 90936,91004,90939 |
+| Will of the Illidari | 389695 | 2 | PASSIVE | 8,6 | 8 | 90947,91004,90927 |
 | Internal Struggle | 393822 | 1 | PASSIVE | 9,2 | 23 | 90935 |
 | Furious | 1266326 | 1 | PASSIVE | 9,3 | 23 | 91003,90935 |
 | Remorseless | 1266328 | 1 | PASSIVE | 9,5 | 23 | 91003,91000 |
@@ -68,7 +74,7 @@ confidence: high
 | Eye Beam | 198013 | 1 | ACTIVE | 2,18 | — | — |
 | Critical Chaos | 320413 | 1 | PASSIVE | 3,16 | — | 91018 |
 | Burning Hatred | 320374 | 1 | PASSIVE | 3,19 | — | 91018 |
-| Dash of Chaos | 427794 | 1 | PASSIVE | 4,15 | — | 91028 |
+| Never Say Die | 427794 | 1 | PASSIVE | 4,15 | — | 91028 |
 | Improved Chaos Strike | 343206 | 1 | PASSIVE | 4,16 | — | 91028 |
 | First Blood | 206416 | 1 | PASSIVE | 4,18 | — | 90923,91028 |
 | Accelerated Blade | 391275 | 1 | PASSIVE | 4,19 | — | 90923 |
@@ -91,9 +97,9 @@ confidence: high
 | Serrated Glaive | 390154 | 1 | PASSIVE | 8,19 | 8 | 90916,91015 |
 | Burning Wound | 391189 | 1 | PASSIVE | 8,21 | 8 | 90916 |
 | Unbound Chaos | 347461 | 1 | PASSIVE | 9,15 | 20 | 91021 |
-| Chaos Theory | 389687 | 1 | PASSIVE | 9,16 | 20 | 91036,91021,90921 |
-| Inner Demon / Chaotic Transformation | 389693 / 388112 | 1/1 | CHOICE | 9,18 | 20 | 90921 |
-| Relentless Onslaught / Soulscar | 389977 / 388106 | 1/1 | CHOICE | 9,19 | 20 | 90917,91013,90921 |
+| Chaos Theory / Inner Demon | 389687 / 389693 | 1/1 | CHOICE | 9,16 | 20 | 90921,91036,91021 |
+| Chaotic Transformation | 388112 | 1 | PASSIVE | 9,18 | 20 | 90921 |
+| Relentless Onslaught / Soulscar | 389977 / 388106 | 1/1 | CHOICE | 9,19 | 20 | 90921,90917,91013 |
 | Ragefire | 388107 | 1 | PASSIVE | 9,21 | 20 | 90917 |
 | Know Your Enemy | 388118 | 2 | PASSIVE | 10,16 | 20 | 91035,91024,91020 |
 | Cycle of Hatred | 258887 | 1 | PASSIVE | 10,18 | 20 | 91024 |
@@ -122,7 +128,7 @@ confidence: high
 | Student of Suffering / Flamebound | 452412 / 452413 | 1/1 | CHOICE | 10,10 | — | 94912 |
 | Monster Rising | 452414 | 1 | PASSIVE | 10,11 | — | 94916 |
 | Volatile Instinct | 1272453 | 1 | PASSIVE | 10,12 | — | 109774 |
-| Demonic Intensity | 452415 | 1 | PASSIVE | 11,11 | — | 94904,94902,94909,109772 |
+| Demonic Intensity | 452415 | 1 | PASSIVE | 11,11 | — | 94904,94902,109772,94909 |
 
 ## Hero: Aldrachi Reaver
 
@@ -141,4 +147,4 @@ confidence: high
 | Keen Engagement / Preemptive Strike | 442497 / 444997 | 1/1 | CHOICE | 5,10 | — | 94896 |
 | Bladecraft | 1272153 | 1 | PASSIVE | 5,11 | — | 94897 |
 | Warblade's Hunger | 442502 | 1 | PASSIVE | 5,12 | — | 109770 |
-| Thrill of the Fight | 442686 | 1 | PASSIVE | 6,11 | — | 94910,94895,94906,109769 |
+| Thrill of the Fight | 442686 | 1 | PASSIVE | 6,11 | — | 94910,94895,109769,94906 |

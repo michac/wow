@@ -4,8 +4,8 @@
   "spec": "brewmaster",
   "spec_id": 268,
   "tree_id": 1000,
-  "patch": "12.0.7",
-  "build": "12.0.7.67808",
+  "patch": "12.1.0",
+  "build": "12.1.0.68914",
   "source": "api",
   "serial_count": 253,
   "granted_serials": [
@@ -382,9 +382,9 @@
         "serial_order": 120,
         "req_points": 0,
         "prereq_node_ids": [
+          101146,
           101161,
-          101153,
-          101146
+          101153
         ],
         "entries": [
           {
@@ -507,9 +507,9 @@
         "serial_order": 215,
         "req_points": 8,
         "prereq_node_ids": [
+          110024,
           101160,
-          101145,
-          110024
+          101145
         ],
         "entries": [
           {
@@ -592,9 +592,9 @@
         "serial_order": 143,
         "req_points": 8,
         "prereq_node_ids": [
+          101184,
           101152,
-          110027,
-          101184
+          110027
         ],
         "entries": [
           {
@@ -791,8 +791,8 @@
         "serial_order": 100,
         "req_points": 8,
         "prereq_node_ids": [
-          101183,
-          110025
+          110025,
+          101183
         ],
         "entries": [
           {
@@ -2069,8 +2069,8 @@
         "serial_order": 36,
         "req_points": 8,
         "prereq_node_ids": [
-          102004,
           101082,
+          102004,
           101076
         ],
         "entries": [
@@ -2228,9 +2228,9 @@
         "serial_order": 151,
         "req_points": 20,
         "prereq_node_ids": [
+          101077,
           101190,
-          101074,
-          101077
+          101074
         ],
         "entries": [
           {
@@ -2263,9 +2263,9 @@
         "serial_order": 43,
         "req_points": 20,
         "prereq_node_ids": [
-          101080,
           101083,
-          101077
+          101077,
+          101080
         ],
         "entries": [
           {
@@ -2474,9 +2474,9 @@
         "serial_order": 152,
         "req_points": 20,
         "prereq_node_ids": [
-          101199,
+          101196,
           101193,
-          101196
+          101199
         ],
         "entries": [
           {
@@ -2781,10 +2781,10 @@
           "serial_order": 207,
           "req_points": 0,
           "prereq_node_ids": [
+            109699,
             101244,
             101253,
-            101251,
-            109699
+            101251
           ],
           "entries": [
             {
@@ -3132,10 +3132,10 @@
           "serial_order": 183,
           "req_points": 0,
           "prereq_node_ids": [
+            109696,
             101228,
             101220,
-            101226,
-            109696
+            101226
           ],
           "entries": [
             {

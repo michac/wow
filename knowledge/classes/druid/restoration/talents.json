@@ -4,10 +4,10 @@
   "spec": "restoration",
   "spec_id": 105,
   "tree_id": 793,
-  "patch": "12.0.7",
-  "build": "12.0.7.67808",
+  "patch": "12.1.0",
+  "build": "12.1.0.68914",
   "source": "api",
-  "serial_count": 281,
+  "serial_count": 282,
   "granted_serials": [
     201,
     225
@@ -1455,7 +1455,7 @@
         ],
         "entries": [
           {
-            "entry_id": "103137",
+            "entry_id": "137508",
             "talent": "Verdant Infusion",
             "spell_id": 392410,
             "max_ranks": "1",
@@ -1464,7 +1464,7 @@
             "desc": "Swiftmend no longer consumes a heal over time effect, and extends the duration of your heal over time effects on the target by 8 sec."
           },
           {
-            "entry_id": "103136",
+            "entry_id": "137507",
             "talent": "Prosperity",
             "spell_id": 200383,
             "max_ranks": "1",
@@ -1489,12 +1489,12 @@
         "entries": [
           {
             "entry_id": "103103",
-            "talent": "Nature's Splendor",
-            "spell_id": 392288,
+            "talent": "Overgrowth",
+            "spell_id": 203651,
             "max_ranks": "1",
             "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_spiritarmor.jpg",
-            "desc": "The healing bonus to Regrowth from Nature's Swiftness is increased by 35%."
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/1408836.jpg",
+            "desc": "Nature's Swiftness causes your next Regrowth to apply Lifebloom, Rejuvenation, and Wild Growth effects to an ally."
           },
           {
             "entry_id": "103102",
@@ -1671,12 +1671,12 @@
         "entries": [
           {
             "entry_id": "103113",
-            "talent": "Verdancy",
-            "spell_id": 392325,
+            "talent": "Germination",
+            "spell_id": 155675,
             "max_ranks": "1",
             "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_herb_seed_magiccolor5.jpg",
-            "desc": "When Lifebloom blooms, up to 3 targets within your Efflorescence are healed for 360."
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_germination.jpg",
+            "desc": "You can apply Rejuvenation twice to the same target. Rejuvenation's duration is increased by 2 sec."
           }
         ]
       },
@@ -1730,7 +1730,7 @@
       },
       {
         "node_id": 82053,
-        "type": "CHOICE",
+        "type": "PASSIVE",
         "row": 7,
         "col": 20,
         "x": 12300,
@@ -1742,20 +1742,11 @@
         ],
         "entries": [
           {
-            "entry_id": "103107",
-            "talent": "Inner Peace",
-            "spell_id": 197073,
-            "max_ranks": "1",
-            "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_dreamstate.jpg",
-            "desc": "Reduces the cooldown of Tranquility by 30 sec.\r\n\r\nWhile channeling Tranquility, you take 20% reduced damage and are immune to knockbacks."
-          },
-          {
             "entry_id": "103106",
             "talent": "Flourish",
             "spell_id": 197721,
             "max_ranks": "1",
-            "choice_index": 1,
+            "choice_index": 0,
             "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_wildburst.jpg",
             "desc": "Tranquility extends the duration of all of your heal over time effects by 2 sec every 0.9 sec."
           }
@@ -1776,12 +1767,12 @@
         "entries": [
           {
             "entry_id": "103110",
-            "talent": "Cultivation",
-            "spell_id": 200390,
+            "talent": "Flash of Clarity",
+            "spell_id": 392220,
             "max_ranks": "1",
             "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_healingtouch.jpg",
-            "desc": "When Rejuvenation heals a target below 60% health, they are instantly healed for 115."
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/136017.jpg",
+            "desc": "Clearcast Regrowths heal for an additional 40%."
           }
         ]
       },
@@ -1968,6 +1959,30 @@
         ]
       },
       {
+        "node_id": 110694,
+        "type": "PASSIVE",
+        "row": 8,
+        "col": 21,
+        "x": 12900,
+        "y": 5100,
+        "serial_order": 281,
+        "req_points": 8,
+        "prereq_node_ids": [
+          82056
+        ],
+        "entries": [
+          {
+            "entry_id": "137510",
+            "talent": "Cultivation",
+            "spell_id": 200390,
+            "max_ranks": "2",
+            "choice_index": 0,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_healingtouch.jpg",
+            "desc": "When Rejuvenation heals a target below 60% health, they are instantly healed for 115."
+          }
+        ]
+      },
+      {
         "node_id": 82080,
         "type": "PASSIVE",
         "row": 8,
@@ -2113,6 +2128,7 @@
         "serial_order": 22,
         "req_points": 20,
         "prereq_node_ids": [
+          110694,
           82080,
           82065
         ],
@@ -2479,12 +2495,12 @@
         "entries": [
           {
             "entry_id": "103127",
-            "talent": "Germination",
-            "spell_id": 155675,
+            "talent": "Verdancy",
+            "spell_id": 392325,
             "max_ranks": "1",
             "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_germination.jpg",
-            "desc": "You can apply Rejuvenation twice to the same target. Rejuvenation's duration is increased by 2 sec."
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_10_herb_seed_magiccolor5.jpg",
+            "desc": "When Lifebloom blooms, up to 3 targets within your Efflorescence are healed for 360."
           }
         ]
       },

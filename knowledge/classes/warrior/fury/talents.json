@@ -4,10 +4,10 @@
   "spec": "fury",
   "spec_id": 72,
   "tree_id": 850,
-  "patch": "12.0.7",
-  "build": "12.0.7.67808",
+  "patch": "12.1.0",
+  "build": "12.1.0.68914",
   "source": "api",
-  "serial_count": 208,
+  "serial_count": 209,
   "granted_serials": [
     137,
     147
@@ -202,8 +202,8 @@
         "serial_order": 56,
         "req_points": 0,
         "prereq_node_ids": [
-          90328,
-          90343
+          90343,
+          90328
         ],
         "entries": [
           {
@@ -267,27 +267,27 @@
         ]
       },
       {
-        "node_id": 109391,
-        "type": "ACTIVE",
+        "node_id": 110654,
+        "type": "PASSIVE",
         "row": 5,
         "col": 1,
         "x": 1800,
         "y": 2700,
-        "serial_order": 172,
+        "serial_order": 208,
         "req_points": 0,
         "prereq_node_ids": [
-          90344,
-          90326
+          90326,
+          90344
         ],
         "entries": [
           {
-            "entry_id": "135597",
-            "talent": "Rend",
-            "spell_id": 772,
+            "entry_id": "137472",
+            "talent": "Storm of Blood",
+            "spell_id": 1299025,
             "max_ranks": "1",
             "choice_index": 0,
-            "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_gouge.jpg",
-            "desc": "Lash out with your weapon, striking all targets within 10 yds for 89 Physical damage instantly and wounding them for an additional 74 Bleed damage over 15 sec."
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/1035055.jpg",
+            "desc": "Whirlwind affects all targets with Rend, causing them to Bleed for 74 damage over 15 sec."
           }
         ]
       },
@@ -375,8 +375,8 @@
         "serial_order": 61,
         "req_points": 0,
         "prereq_node_ids": [
-          90346,
-          90337
+          90337,
+          90346
         ],
         "entries": [
           {
@@ -434,7 +434,7 @@
         "serial_order": 69,
         "req_points": 8,
         "prereq_node_ids": [
-          109391,
+          110654,
           90352
         ],
         "entries": [
@@ -532,8 +532,8 @@
         "serial_order": 74,
         "req_points": 8,
         "prereq_node_ids": [
-          90353,
-          108674
+          108674,
+          90353
         ],
         "entries": [
           {
@@ -557,8 +557,8 @@
         "serial_order": 59,
         "req_points": 8,
         "prereq_node_ids": [
-          90375,
-          109391
+          110654,
+          90375
         ],
         "entries": [
           {
@@ -615,8 +615,8 @@
         "serial_order": 58,
         "req_points": 8,
         "prereq_node_ids": [
-          90331,
-          90375
+          90375,
+          90331
         ],
         "entries": [
           {
@@ -649,8 +649,8 @@
         "serial_order": 171,
         "req_points": 8,
         "prereq_node_ids": [
-          90331,
-          90385
+          90385,
+          90331
         ],
         "entries": [
           {
@@ -683,8 +683,8 @@
         "serial_order": 154,
         "req_points": 8,
         "prereq_node_ids": [
-          90385,
-          108674
+          108674,
+          90385
         ],
         "entries": [
           {
@@ -881,8 +881,8 @@
         "serial_order": 72,
         "req_points": 23,
         "prereq_node_ids": [
-          110118,
-          90347
+          90347,
+          110118
         ],
         "entries": [
           {
@@ -931,8 +931,8 @@
         "serial_order": 63,
         "req_points": 23,
         "prereq_node_ids": [
-          108685,
-          108686
+          108686,
+          108685
         ],
         "entries": [
           {
@@ -1005,8 +1005,8 @@
         "serial_order": 164,
         "req_points": 23,
         "prereq_node_ids": [
-          90360,
-          90373
+          90373,
+          90360
         ],
         "entries": [
           {
@@ -1305,8 +1305,8 @@
         "serial_order": 85,
         "req_points": 8,
         "prereq_node_ids": [
-          90395,
-          90403
+          90403,
+          90395
         ],
         "entries": [
           {
@@ -1327,7 +1327,7 @@
         "col": 17,
         "x": 11400,
         "y": 3300,
-        "serial_order": 204,
+        "serial_order": 203,
         "req_points": 8,
         "prereq_node_ids": [
           90395
@@ -1354,8 +1354,8 @@
         "serial_order": 92,
         "req_points": 8,
         "prereq_node_ids": [
-          90394,
-          90395
+          90395,
+          90394
         ],
         "entries": [
           {
@@ -1428,8 +1428,8 @@
         "serial_order": 195,
         "req_points": 8,
         "prereq_node_ids": [
-          90399,
-          90410
+          90410,
+          90399
         ],
         "entries": [
           {
@@ -1565,7 +1565,7 @@
       },
       {
         "node_id": 109967,
-        "type": "PASSIVE",
+        "type": "CHOICE",
         "row": 7,
         "col": 21,
         "x": 13800,
@@ -1573,8 +1573,8 @@
         "serial_order": 196,
         "req_points": 8,
         "prereq_node_ids": [
-          90391,
-          90390
+          90390,
+          90391
         ],
         "entries": [
           {
@@ -1585,6 +1585,15 @@
             "choice_index": 0,
             "icon": "https://render.worldofwarcraft.com/us/icons/56/warrior_talent_icon_mastercleaver.jpg",
             "desc": "Whirlwind deals 50% additional damage when it hits 3 or more targets."
+          },
+          {
+            "entry_id": "137487",
+            "talent": "Carving Blades",
+            "spell_id": 1300463,
+            "max_ranks": "1",
+            "choice_index": 1,
+            "icon": "https://render.worldofwarcraft.com/us/icons/56/840720.jpg",
+            "desc": "Whirlwind deals 50% additional damage when it hits only a single target."
           }
         ]
       },
@@ -1648,8 +1657,8 @@
         "req_points": 8,
         "prereq_node_ids": [
           90407,
-          109969,
-          109965
+          109965,
+          109969
         ],
         "entries": [
           {
@@ -1747,9 +1756,9 @@
         "serial_order": 90,
         "req_points": 20,
         "prereq_node_ids": [
-          90412,
           90405,
-          109962
+          109962,
+          90412
         ],
         "entries": [
           {
@@ -1773,8 +1782,8 @@
         "serial_order": 97,
         "req_points": 20,
         "prereq_node_ids": [
-          90387,
-          90405
+          90405,
+          90387
         ],
         "entries": [
           {
@@ -1819,7 +1828,7 @@
         "col": 17,
         "x": 11400,
         "y": 5700,
-        "serial_order": 203,
+        "serial_order": 202,
         "req_points": 20,
         "prereq_node_ids": [
           90406,
@@ -1977,7 +1986,7 @@
         "col": 18,
         "x": 12000,
         "y": 7050,
-        "serial_order": 207,
+        "serial_order": 206,
         "req_points": 20,
         "prereq_node_ids": [],
         "entries": [
@@ -2540,10 +2549,10 @@
           "serial_order": 138,
           "req_points": 0,
           "prereq_node_ids": [
+            109809,
             94797,
             94792,
-            94807,
-            109809
+            94807
           ],
           "entries": [
             {

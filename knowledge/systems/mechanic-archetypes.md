@@ -1,15 +1,19 @@
 ---
-title: M+ Mechanic Archetypes (Midnight S1)
-patch: 12.0.7
-fetched: 2026-06-25
-reviewed: 2026-07-07
+title: M+ Mechanic Archetypes (Midnight)
+patch: 12.1
+build: 12.1.0.69214
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
-  - Derived from the 8 Midnight S1 M+ dungeon files in knowledge/endgame/mythic-plus/ (boss + trash corpus)
-  - https://worldofwarcraft.blizzard.com/en-us/game/dungeons  # Season 1 dungeon roster (unchanged in 12.0.7)
+  - Taxonomy derived from the 8 Midnight S1 M+ dungeon files in knowledge/endgame/mythic-plus/ (boss + trash corpus, 380 abilities)
+  - Rotation-coverage table re-scanned 2026-08-11 against all 8 S2 dungeon files in knowledge/endgame/mythic-plus/ — ability names Tier-1 (12.1 dungeon journal), archetype slugs our provisional reading
+  - https://worldofwarcraft.com/en-us/news/24294369   # "Midnight Season 2 Begins August 18" — the S2 dungeon pool (tier 1)
+  - https://worldofwarcraft.com/en-us/news/24293281   # 12.1 "Curse of Ula'tek" content update notes (tier 1)
+  - https://worldofwarcraft.blizzard.com/en-us/game/dungeons  # current dungeon roster
 confidence: high
 ---
 
-# M+ Mechanic Archetypes (Midnight S1)
+# M+ Mechanic Archetypes (Midnight)
 
 This taxonomy is **derived empirically from the real boss + trash ability
 corpus of all 8 Season 1 dungeons** (Magisters' Terrace, Maisara Caverns,
@@ -20,12 +24,125 @@ roughly two-thirds of the corpus comes from trash, and the same alphabet
 covers bosses and trash alike. Nothing was invented that the dungeons don't
 use; nothing they use was dropped.
 
+**The alphabet is not seasonal — the dungeons under it are.** Season 1's pool
+rotated out entirely with 12.1 (2026-08-11) and the taxonomy carried over
+unchanged: tagging the **four** S2 dungeons that have been tagged so far needed
+**no new slug and retired none**, which is the best evidence yet that these 21
+describe M+ generally rather than one season's roster — though it is a half-pool,
+boss-only sample, so it is evidence, not proof. So this file's *slugs* are
+current; its per-slug `Examples:` bullets are still the **S1 corpus** the
+taxonomy was mined from (see "Examples are S1-era" below).
+
 These 21 slugs are **canonical** for the tagging stage. The trainer's
 Archetype mode reads them. Each ability maps to a **primary** slug, plus
 zero-or-more **also-valid** slugs when one tell genuinely demands two responses
 (see Tagging rule 3).
 
 Consequence legend: 🔴 wipe · 🟠 your death · 🔵 your job · ⚪ flavor.
+
+---
+
+## Which dungeons these describe (Season 2, from 12.1)
+
+The **whole S1 pool rotated out** on 2026-08-11. The eight dungeons the
+archetypes now have to cover are:
+
+| In rotation (Season 2) | Origin |
+|---|---|
+| Altar of Fangs | Midnight — **new in 12.1** |
+| Murder Row | Midnight |
+| Den of Nalorakk | Midnight |
+| The Blinding Vale | Midnight |
+| Voidscar Arena | Midnight |
+| Ruby Life Pools | Dragonflight (returning) |
+| Kings' Rest | Battle for Azeroth (returning) |
+| Temple of Sethraliss | Battle for Azeroth (returning) |
+
+**Rotated out** (S1-era history, files kept): Magisters' Terrace · Maisara
+Caverns · Nexus-Point Xenas · Windrunner Spire · Algeth'ar Academy · Seat of
+the Triumvirate · Skyreach · Pit of Saron.
+
+⚠ **Timing.** 12.1 went live 2026-08-11 but **Mythic+ itself does not open
+until 2026-08-18** — during the pre-season week the S2 pool exists only on
+Heroic and a once-weekly Mythic 0. Drilling these mechanics now is preparation,
+not practice for a key. See `endgame/mythic-plus/season-2-overview.md`.
+
+### Rotation coverage — which archetypes the S2 pool has been seen to use
+
+Re-scanned **2026-08-11** across all eight S2 dungeon files on disk.
+
+⚠ **Provenance splits two ways, and the split matters.** The *ability names*
+below are **Tier-1** — Blizzard's dungeon journal at the 12.1 namespace, read
+through the per-dungeon boss tables. The *archetype slug attached to each name
+is not*: it is **our provisional reading** of the journal wording against this
+taxonomy, assigned without watching the fight. Every source file says so in its
+own words — `altar-of-fangs.md` ("the tier and archetype columns are our reading
+of that text and are **not themselves Tier-1**"), `the-blinding-vale.md` and
+`voidscar-arena.md` (the Archetype column is "**provisional**"). Read a ✅ as
+*"we read the journal this way"*, never as *"we saw it in play."*
+
+**Only four of the eight files carry archetype tags at all** — Altar of Fangs,
+Den of Nalorakk, The Blinding Vale, Voidscar Arena. Murder Row, Temple of
+Sethraliss and Kings' Rest deliberately **omit** the column until the fights are
+seen live, and Ruby Life Pools lists boss **names only** (its abilities are
+exactly what the unpublished rework may have changed). So **half the pool is
+unsampled**, on top of the sample being **boss-only** — no S2 trash corpus
+exists yet, and trash was two-thirds of the S1 corpus.
+
+That is why *absence from this table is not evidence an archetype left the
+game.* Every one of the 21 stays canonical and taggable.
+
+| Archetype | Seen in the S2 pool | Example |
+|---|---|---|
+| `interruptible-cast` | ✅ | *Death Rattle* — The Writhing Coil (Altar of Fangs) |
+| `ground-void-zone` | ✅ | *Void Fissures* — Taz'Rah (Voidscar Arena) |
+| `tank-buster` | ✅ | *Hydrastrike* — Rav'i (Altar of Fangs) |
+| `spread-out` | ✅ | *Triple Shot* — Rav'i (Altar of Fangs) |
+| `dispel` | ✅ | *Toxic Spores* — The Hoardmonger (Den of Nalorakk) |
+| `kill-priority-add` | ✅ | *Ethereal Shade* — Taz'Rah (Voidscar Arena) |
+| `frontal-cone` | ✅ | *Regurgitate* — Rav'i (Altar of Fangs) |
+| `knockback` | ✅ | *Forceful Roar* — Nalorakk (Den of Nalorakk) |
+| `soak` | ✅ | *Rotten Mushrooms* — The Hoardmonger (Den of Nalorakk) |
+| `raid-damage` | ✅ | *Dark Bloom* — Taz'Rah (Voidscar Arena) |
+| `fixate-chase` | ✅ | Gravitic Orbs — Charonus (Voidscar Arena) |
+| `positional-gimmick` | ✅ | *Ravenous Stomp* / Fresh Meat placement — Rav'i (Altar of Fangs) |
+| `charge` | ✅ | *Burrowing Charge* — The Writhing Coil (Altar of Fangs) |
+| `pulsing-aura` | ✅ | *Carrion Burst* — Rav'i (Altar of Fangs) |
+| `burn-window` | ✅ | the Uncoiled split — The Writhing Coil (Altar of Fangs) |
+| `heal-absorb` | ✅ | *Grievous Thrash* — Lightwarden Ruia, Bear form (The Blinding Vale) — a bleed removed only by reaching full health |
+| `balance-kill` | ✅ | *Thicket's Trinity* — Lightblossom Trinity / Meittik, Lekshi, Kezkitt (The Blinding Vale) — damage is shared across the trio, so they die together |
+| `stack-up` | not yet observed | — |
+| `purge-soothe` | not yet observed | — |
+| `proximity-bait` | not yet observed | — |
+| `flavor` | n/a | a catch-all bucket, not a mechanic — always available |
+
+⚠ **One near-miss, recorded so the next scan doesn't re-litigate it.**
+`den-of-nalorakk.md` tags **Overwhelming Onslaught** `tank-buster; stack` — but
+`stack` is not one of the 21 slugs, and the journal text (a tank hit that lands
+hard *through* Zul'jarra's Defensive Stance) describes a stacking debuff, not
+players converging. Tagging rule 2 and `stack-up`'s **Not this if** guard both
+say that is **not** `stack-up`, so the row above stays "not yet observed." The
+source file's loose `stack` cell should be normalized to a real slug.
+
+⚠ **The 12.1 global retune moves the consequence tiers, not the slugs.** 12.1
+raised **player health and creature damage by 25% at max level**, rescaled health
+consumables, and retuned several DPS/Tank healing and absorb spells. That is a
+game-wide change and it lands on every instance in this pool — so the 🔴/🟠/🔵
+consequence judgements inherited from S1 encounters are *survivability* readings
+taken before the retune and are the part of a tag most likely to have shifted.
+The **slug** (what response the tell demands) is unaffected: a frontal is still
+a frontal at any damage number.
+
+### Examples are S1-era
+
+Every per-slug `- **Examples:**` bullet below still names an **S1** boss or
+trash mob. Those are true statements about a dungeon you can no longer get a key
+for, kept because they are the corpus the definition was mined from and because
+they still teach the tell. They are **not** a guide to what you will meet this
+season — read the table above for that, and the per-dungeon files for the real
+tagging. Re-pointing the examples at S2 abilities is a tracked follow-up
+(`## TODO`) and should wait until the S2 trash corpus lands, so the swap happens
+once, from real data.
 
 ## Tagging rules (read before assigning a slug)
 
@@ -273,3 +390,39 @@ journal rows. Two corollaries the classifier must enforce:
 - **RoleTag:** all
 - **Examples:** *Shield Wall* — Commander Kroluk (Windrunner Spire); *Shoot* — Swiftshot Archer trash (Windrunner Spire).
 - **Diagram idea:** a greyed-out ability icon with a small "ignore" tag.
+
+---
+
+## TODO
+
+- [ ] **Re-point every `Examples:` bullet at the S2 corpus** once the eight S2
+      dungeon files carry boss **and trash** tables. Do it in one pass, from real
+      tagged data — not by hand-guessing an S2 ability per slug. The S1 examples
+      stay until then (they are correct history and still teach the tell).
+- [ ] **Re-run the derivation against the S2 corpus** the way it was run against
+      S1 (pool every boss + trash ability, force each into exactly one primary
+      slug) and check the answer is still 21. The patch-day boss-only tagging
+      needed no new slug, but **trash is two-thirds of the corpus** and is where
+      a missing archetype would show up first.
+- [ ] **Fill the three remaining not-yet-observed rows** in the rotation-coverage
+      table — `stack-up`, `purge-soothe`, `proximity-bait` — as S2 trash lands
+      **and** as the four untagged dungeon files (Murder Row, Temple of
+      Sethraliss, Kings' Rest, Ruby Life Pools) gain their Archetype columns.
+      Half the pool is currently unsampled, so any of the three may already be
+      live and merely unrecorded. If one is genuinely absent from the whole S2
+      pool once trash and the missing four are in, say so explicitly rather than
+      leaving the row ambiguous. Do **not** delete a slug for being unused in one
+      season. *(`heal-absorb` and `balance-kill` were closed on 2026-08-11 from
+      The Blinding Vale — Grievous Thrash and Thicket's Trinity.)*
+- [ ] **Re-scan coverage whenever a dungeon file gains or changes an Archetype
+      column.** The first version of this table sampled only three files and
+      recorded two false "not yet observed" rows because The Blinding Vale's
+      table did not exist yet when it was built. The scan is cheap — grep all
+      eight files for each of the 21 slugs — and must be re-run, not assumed.
+- [ ] **Normalize the loose `stack` tag** in `den-of-nalorakk.md`
+      (Overwhelming Onslaught) to a real slug; it is currently neither
+      `stack-up` nor anything else in the alphabet.
+- [ ] Re-check the three **returning** dungeons (Ruby Life Pools, Kings' Rest,
+      Temple of Sethraliss) after their announced "design and quality of life
+      updates" are enumerated — a reworked encounter can change an ability's
+      archetype, and pre-12.1 guides for them are suspect.

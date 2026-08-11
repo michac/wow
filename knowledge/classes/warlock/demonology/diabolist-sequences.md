@@ -1,12 +1,15 @@
 ---
 title: Demonology (Diabolist) — learnable cast sequences from top parses
-patch: 12.0.7
-fetched: 2026-07-13
-reviewed: 2026-07-13
+patch: 12.1
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
-  - https://www.warcraftlogs.com/  # WCL API — 6 top Demonology parses, Rotmire (Sporefall) Mythic, zone 50 / encounter 3159, bracket 290
-  - https://maxroll.gg/wow/class-guides/demonology-warlock-raid-guide  # upd. 2026-06-17 (12.0.7)
-  - https://maxroll.gg/wow/class-guides/demonology-warlock-mythic-plus-guide  # upd. 2026-06-29 (12.0.7)
+  - https://www.warcraftlogs.com/  # WCL API — 6 top Demonology parses, Rotmire (Sporefall) Mythic, zone 50 / encounter 3159, bracket 290. ⚠ Mined on 12.0.7, pre-nerf, in what is now the PREVIOUS raid tier — see "What 12.1 changed"
+  - https://worldofwarcraft.com/en-us/news/24293281  # tier 1, 12.1 "Curse of Ula'tek" content update notes — the Demo/Diabolist tuning below (archived verbatim in _meta/patch-notes/12.1.md)
+  - https://warcraft.wiki.gg/wiki/Diabolic_Ritual  # demon → attack mapping (Overlord=Wicked Cleave, Mother of Chaos=Chaos Salvo, Pit Lord=Felseeker)
+  - https://www.wowhead.com/spell=1269800/eye-explosion  # tier 4, ID confirm only — Eye Explosion is the Diabolic Oculi detonation
+  - https://maxroll.gg/wow/class-guides/demonology-warlock-raid-guide  # tier 3 — ⚠ 12.1 capture still carries the PRE-nerf hero-tree verdict
+  - https://maxroll.gg/wow/class-guides/demonology-warlock-mythic-plus-guide  # tier 3 — same caveat
   - https://www.method.gg/guides/demonology-warlock/playstyle-and-rotation  # upd. 2026-06-29 (12.0.7) — page is JS-gated; extraction was partial/unreliable
 confidence: medium-high
 ---
@@ -19,6 +22,68 @@ confidence: medium-high
 > Demonology parses**, mines them for repeatable patterns, and reports which
 > parts of the rotation are **fixed learnable sequences** and which parts are
 > **irreducibly reactive** (and why). Pairs with `rotation.md` + `builds.md`.
+
+## ⚠ What 12.1 changed for this document (2026-08-11)
+
+**The sequences below survive 12.1 intact. Their *value* moved.** Read this
+before reading anything else, because the parse corpus predates the patch.
+
+**Nothing structural changed for Demonology.** 12.1 removed no Demo talent,
+added none, redesigned nothing in the spec tree, and changed no cooldown —
+Tyrant is still 60 s, Dreadstalkers ~20 s, Implosion 15 s, Grimoire: Imp Lord
+2 min. The Diabolic Ritual wheel still turns Overlord → Mother of Chaos → Pit
+Lord, and Ruination / Infernal Bolt are still the same two transformed buttons.
+**So every sequence, n-gram and shape in this file is still the sequence.**
+
+**What was tuned** (Tier 1, Curse of Ula'tek notes; verbatim in
+`_meta/patch-notes/12.1.md`):
+
+| Change | Direction |
+|---|---|
+| Shadow Bolt | **+45%** |
+| Demonbolt | **+55%** |
+| Summon Gloomhound | **+35%** (the *Mark of Shatug* Vilefiend variant) |
+| Wicked Cleave · Chaos Salvo · Felseeker · Eye Explosion | **−20% each** |
+| Flames of Xoroth | **3%** Fire + demon damage (**was 4%**) |
+
+**The one thing that matters most for sequencing: the nerf lands on the demons'
+*automatic* attacks, not on the buttons you press.** Wicked Cleave, Chaos Salvo
+and Felseeker are what the Overlord / Mother of Chaos / Pit Lord do on arrival;
+Eye Explosion is the Diabolic Oculi detonation. **Ruination and Infernal Bolt
+were not tuned.** So there is no reordering to learn — the Demonic-Art reaction
+rules further down are unchanged, the payload behind them is just smaller.
+
+Three consequences worth carrying into the drills:
+
+1. **The burst-vs-sustained split moved toward sustained.** This is Demo's local
+   form of the patch-wide "major DPS cooldowns lowered, steady-state damage
+   raised" direction. Less of your damage now lives inside the Tyrant window.
+   **Do not spend filler GCDs to force a marginally better Tyrant** — SEQUENCE 2
+   is still worth drilling, but a clean uninterrupted stream between windows is
+   worth more than it was on 12.0.7.
+2. **The hero-tree verdict is genuinely in flux and this file does not settle
+   it.** Diabolist is no longer strictly ahead of Soul Harvester everywhere.
+   `rotation.md` §"Hero trees" owns that comparison and the sourcing behind it —
+   **read it before picking a tree**, and note that the `maxroll-*.md` captures
+   in this directory still carry the pre-nerf line. This file remains the
+   *Diabolist* sequence reference and is only useful once you've chosen it.
+3. **Soul Leech now feeds off the imp army.** 12.1's class-wide correctness pass
+   made Wild Imp / Imp Gang Boss Fel Firebolt, Imp Lord's Greater Felbolt,
+   Demonic Tyrant's Demonfire, Vilefiend's Headbutt + Bile Spit, Gloomhound's
+   Gloom Slash **and Infernal Bolt** grant Soul Leech. Your absorb now scales
+   with board size, so it is largest exactly where these sequences put it —
+   inside the Tyrant window. (Class-wide Drain Life is also +25%.)
+
+**On the parse corpus itself:** the six parses were mined on **12.0.7**, on
+Rotmire in **Sporefall**, which the Season-1 close-out on 2026-08-11 made the
+**previous tier**. That is fine for what this file claims — *what top players
+pressed and in what order* is a mechanical result, and none of the mechanics
+moved — but treat every *damage/value* statement as re-weighted by the table
+above, and expect a re-mine on **The Venomous Abyss** once Season 2 opens
+(2026-08-18) and 12.1 logs exist. The other globals (player health and creature
+damage +25%, interrupt "missed" visual, DR categories resetting after 20 s) are
+survival/utility changes with no bearing on these sequences; `rotation.md`
+carries them.
 
 ## TL;DR — the simplest model
 
@@ -50,7 +115,10 @@ below is the evidence and the detail behind this box.
 - **Data:** the top 6 Demonology Warlock parses on **Rotmire** (Sporefall
   single-boss raid, WCL zone 50 / encounter 3159), all **Mythic** difficulty,
   fights of 417–522 s. Rotmire is a loop/patchwork-style boss → clean,
-  minimally-interrupted rotation, ideal for pattern mining.
+  minimally-interrupted rotation, ideal for pattern mining. **Vintage: pulled
+  2026-07-13, on patch 12.0.7, in Season 1** — pre-dating the 12.1 Diabolist
+  nerf and the Sporefall tier's retirement. See "What 12.1 changed" above for
+  why the *sequences* still hold and the *values* don't.
 - **Method:** pulled each player's full time-ordered `Casts` event stream via
   the WCL API, mapped ability IDs → names, dropped non-rotational casts
   (racials, trinkets, potions, defensives, pet dispels), then ran n-gram
@@ -73,6 +141,11 @@ pressed and in what order*; the aura/pet pull makes the proc mechanics
 (Demonic Core, the Diabolic Ritual cycle) **directly observed, not inferred**.
 The one remaining inference is exact resource *counts* per GCD (shards in hand),
 which the log doesn't expose — cast spacing + buff events pin it closely.
+**12.1 does not lower this**, because the patch tuned damage numbers and left
+every ability, cooldown and proc mechanic in this file in place — the claims
+here are about ordering, not about damage. The one thing to hold loosely is the
+*relative emphasis* (how much to invest in the Tyrant window), which the nerf
+moved and which only 12.1-era logs can re-measure.
 
 ## The whole spec is 9 buttons
 
@@ -107,11 +180,16 @@ consumes:
 
 **Overlord → Mother of Chaos → Pit Lord → (back to Overlord)**
 
-| Ritual stage (aura id) | Expires into → Demonic Art (aura id) | Effect on your next cast |
-|---|---|---|
-| Overlord `431944` | Art: Overlord `428524` | summons an **Overlord** demon *(no button changes)* |
-| Mother of Chaos `432815` | Art: Mother of Chaos `432794` | next **Shadow Bolt → Infernal Bolt** (+3 shards) |
-| Pit Lord `432816` | Art: Pit Lord `432795` | next **Hand of Gul'dan → Ruination** (3 free Wild Imps, 0 shards) |
+| Ritual stage (aura id) | Expires into → Demonic Art (aura id) | Effect on your next cast | Demon's own attack |
+|---|---|---|---|
+| Overlord `431944` | Art: Overlord `428524` | summons an **Overlord** demon *(no button changes)* | **Wicked Cleave** — **−20% in 12.1** |
+| Mother of Chaos `432815` | Art: Mother of Chaos `432794` | next **Shadow Bolt → Infernal Bolt** (+3 shards) | **Chaos Salvo** — **−20% in 12.1** |
+| Pit Lord `432816` | Art: Pit Lord `432795` | next **Hand of Gul'dan → Ruination** (3 free Wild Imps, 0 shards) | **Felseeker** — **−20% in 12.1** |
+
+The right-hand column is the part 12.1 nerfed: each summon's arrival attack, plus
+**Eye Explosion** (the Diabolic Oculi detonation, also **−20%**) if you run that
+branch. **The middle column — the buttons you actually press — is untouched**,
+which is why the reaction rules below did not change.
 
 **The wheel turning, from Grotta's log** (t = seconds from pull):
 
@@ -172,13 +250,21 @@ Observed first-Tyrant timing, all six: `DS→TYR` / `DS·GIL·SB→TYR` /
 front-loaded burst opener: you pre-summon demons before the pull so Tyrant has
 a full board to empower immediately.
 
-> **Note.** WCL logs start at the pull, so pre-pull Hand of Gul'dan casts don't
-> appear — but Tyrant being worth pressing at t=3 s is only explicable if imps
-> were already out, so pre-pull demon setup is assumed. (These parses use **no**
-> Power Siphon at all — see Divergences — so the pre-pull is imps, not a Power
-> Siphon.)
+> **Note.** WCL logs start at the pull, so pre-pull casts don't appear — but
+> Tyrant being worth pressing at t=3 s is only explicable if demons were already
+> out, so **some** pre-pull setup is certain.
+>
+> ⚠ **Corrected 2026-08-11.** The earlier version of this note concluded "the
+> pre-pull is imps, **not** a Power Siphon," reasoning from 0 in-combat Power
+> Siphon casts. That inference does not hold: the fresh 12.1 maxroll raid
+> capture (`maxroll-raid.md`) instructs you to **pre-cast Power Siphon 8–10 s
+> before combat, with 2 Wild Imps already out** — i.e. exactly in the window the
+> log cannot see. **0 logged casts is therefore compatible with a pre-pull Power
+> Siphon**, and the parse data cannot distinguish the two. What the data does
+> establish is that these players cast Power Siphon **zero times during the
+> fight**. See Divergence #1.
 
-### 1b. Textbook "build-then-Tyrant" opener (Maxroll M+, verbatim)
+### 1b. Textbook "build-then-Tyrant" opener (Maxroll M+, 12.0.7 capture)
 
 Use when you can't pre-stack a burst on the pull:
 
@@ -194,17 +280,35 @@ Use when you can't pre-stack a burst on the pull:
 9.  Shadow Bolt, < 3 shards
 ```
 
-> **Cleaned of guide-scrape noise.** The raw research pass also listed a "Summon
-> Doomguard (if talented)" step and a "Grimoire: Imp Lord / Fel Ravager"
-> variant. **Neither survives the parse data:** no parse casts Summon Doomguard
-> or summons a Doomguard pet, "Fel Ravager" isn't a real ability here, and the
-> only Grimoire used is **Imp Lord**. Those lines were dropped as extraction
-> artifacts.
+> ⚠ **This numbered list is a 12.0.7 artifact and maxroll no longer publishes
+> it.** The 12.1 re-captures in this directory (`maxroll-mplus.md`,
+> `maxroll-raid.md`, both re-fetched 2026-08-11) replaced the step-by-step
+> opener with a **goal plus a rotation import**: *"the goal of your opener is to
+> empower and extend Call Dreadstalkers & Grimoire: Imp Lord with Summon Demonic
+> Tyrant"* — with *"if you're running Implosion and have no Demonic Cores you can
+> pre-cast Demonbolt instead"*, and, in the raid capture, *"pre-cast Power Siphon
+> 8–10 s before combat, with 2 Wild Imps out."*
+>
+> **That goal is SEQUENCE 2, stated as a goal.** The 12.1 guidance and the parse
+> data have converged: nobody is telling you to build to 5 shards twice any more.
+> The list is kept here because a reader with 12.0.7-era notes will recognize it
+> and should know it was retired, not because it is current.
+>
+> **The old "cleaned of guide-scrape noise" note was partly wrong and is
+> corrected.** It dismissed a "Summon Doomguard (if talented)" step and a
+> "Grimoire: Fel Ravager" variant as JS-scrape artifacts. **Both are real.**
+> `Summon Doomguard` (`1276672`) is a live Demonology talent that the simc MID1
+> APL ranks **step 4** and the 12.1 maxroll captures list **step 3** on cooldown;
+> `Grimoire: Fel Ravager` (`1276467`) is the single-target half of the choice
+> node whose AoE half is **Grimoire: Imp Lord** (`1276452`). What the parse data
+> actually shows is narrower and still true: **these six players cast neither**,
+> and no Doomguard pet appears in any of the six.
 
 Both openers **agree on the pre-Tyrant demon setup** (Dreadstalkers + Grimoire:
 Imp Lord out before Tyrant). They disagree only on *how much you build first*.
 Verdict: **learnable as a fixed sequence either way — this is the most
-sequence-able part of the spec.**
+sequence-able part of the spec.** 12.1 does not touch this: no cooldown or
+resource cost in either opener changed.
 
 ---
 
@@ -247,7 +351,8 @@ TYR → HoG HoG → (DB HoG DB HoG …) with RUIN landing 4–7 casts in → kee
 - Real timing (grotta, window #3): `TYR → DB(instant) → HoG → DB → HoG → DB DB → HoG → DB → HoG → IMP → HoG` — ~6 Hand of Gul'dan + interleaved instant Demonbolts in 15 s.
 
 Maxroll's only instruction for the window is *"cast as many Hand of Gul'dan as
-possible for 15 s"* (Dominion of Argus refunds a shard per cast to sustain it).
+possible for 15 s"* (**Dominion of Argus rank 3** refunds 1 Soul Shard per Hand
+of Gul'dan, which is what sustains it — see the proc taxonomy below).
 The parses confirm there is **no finer fixed inner sequence** — it's HoG-priority
 spam with DB dumping Cores between casts. **Learnable as a shape/goal, not a
 rote list.**
@@ -350,9 +455,19 @@ sequenceable and others not:
   buff is the "light-up."
 - **Passive / automatic — no button at all:** **Inner Demons** periodically
   spawns Wild Imps + random guest demons (the Gloomhound / Antoran Inquisitor /
-  Antoran Jailer pets seen in the logs); during Tyrant, **Dominion of Argus /
-  Abyssal Dominion** (`1276166` / `456323`) summon bonus demons (Grand Warlock
-  Alythess, Lady Sacrolash) and refund shards so Hand of Gul'dan can chain.
+  Antoran Jailer pets seen in the logs); during Tyrant, **Dominion of Argus**
+  (`1276163`) leaves a portal open for 15 s so that **every 2 casts of Hand of
+  Gul'dan summon a subjugated demon** for 10 s — those are the Grand Warlock
+  Alythess / Lady Sacrolash pets in the logs.
+  > ⚠ **Corrected 2026-08-11 against the generated `ability-inventory.md` /
+  > `talents.md` (Tier-1 game data, 12.1).** Two errors here previously: the ID
+  > was written `1276166` (it is **`1276163`**), and **Abyssal Dominion**
+  > (`429581`) was credited with the same effect. Abyssal Dominion is an
+  > unrelated Diabolist talent — it empowers **Summon Infernal** (+40% damage,
+  > fragmenting into two lesser Infernals) — and summons no Argus demons. The
+  > **1 Soul Shard refund per Hand of Gul'dan** is also not baseline: it is
+  > **Dominion of Argus rank 3**, and it is what makes the Tyrant-window HoG
+  > chain sustainable. Untouched by 12.1.
 
 ## Ruination & Infernal Bolt — a rule, not a slot
 
@@ -379,42 +494,74 @@ position.**
 
 Verified against casts **and** the summoned-pet list across all six parses.
 
-1. **Power Siphon: 0 casts — because it's redundant here, not because a guide is
-   wrong.** Power Siphon exists to *manufacture* Demonic Core procs by
-   sacrificing Wild Imps. But this build already drowns in Cores — Grotta got
-   **131 Core procs** without it (vs 88 Demonbolts spent). Sacrificing imps you
-   want alive for Implosion/Tyrant to buy Cores you already have is a net loss,
-   so the top players skip it. (My first draft called `rotation.md` step 6
-   "suspect" — the accurate framing is "unneeded in a Core-rich build," a
-   talent/build choice, not a guide error.)
+1. **Power Siphon: 0 *in-combat* casts — because it's redundant here, not
+   because a guide is wrong.** Power Siphon exists to *manufacture* Demonic Core
+   procs by sacrificing Wild Imps. But this build already drowns in Cores —
+   Grotta got **131 Core procs** without any in-fight Power Siphon (vs 88
+   Demonbolts spent). Sacrificing imps you want alive for Implosion/Tyrant to buy
+   Cores you already have is a net loss during the fight, so the top players skip
+   it there. (My first draft called `rotation.md` step 6 "suspect" — the accurate
+   framing is "unneeded mid-fight in a Core-rich build," a talent/build choice,
+   not a guide error.)
+   ⚠ **Scope limit, added 2026-08-11:** this says nothing about **pre-pull**.
+   The 12.1 maxroll raid capture explicitly calls for a Power Siphon **8–10 s
+   before combat**, and the simc APL still opens on it — both land outside the
+   log window. **Do not read "0 casts" as "these players didn't talent it."**
 2. **Grimoire: Felguard / Summon Vilefiend: 0 casts, 0 pets — but these are
    alternate talent picks, not "stale."** All six run **Grimoire: Imp Lord**
    (`1276452`, pet confirmed) as their pre-Tyrant summon. `rotation.md` mentions
    Felguard/Vilefiend because those are *valid other choices*; this particular
    Rotmire build just doesn't take them. (My first draft called the KB "stale
    naming" — overstated. It's a build divergence.)
-3. **Summon Doomguard: not used.** No parse casts it (any spell ID) and **no
-   Doomguard pet is ever summoned** in any of the six. The "Summon Doomguard on
-   cooldown" line in the earlier draft came from unreliable guide extraction and
-   is **unsupported by the data** — removed. (The ability exists this patch,
-   `1276672`; these players simply don't run it.)
+   ⚠ **12.1 nudges this one.** **Summon Gloomhound damage +35%** — that is
+   Summon Vilefiend taken with **Mark of Shatug** (`455449`), the branch these
+   parses skip; *Mark of F'harg* / Charhound was not touched. Combined with the
+   Diabolist −20%, the Vilefiend branch is worth re-checking against 12.1 logs
+   rather than being assumed dead. **This corpus cannot speak to it.**
+3. **Summon Doomguard: not used *by these six* — but the ability is real and
+   both higher-tier sources rank it.** No parse casts it (any spell ID) and **no
+   Doomguard pet is ever summoned** in any of the six. ⚠ **Corrected
+   2026-08-11:** the earlier draft called the "Summon Doomguard on cooldown" line
+   a JS-extraction artifact and deleted it. That was wrong. `Summon Doomguard`
+   (`1276672`, 120 s, spec talent — confirmed in this directory's generated
+   `talents.md` / `ability-inventory.md` at 12.1) sits at **step 4 of the simc
+   MID1 APL** and **step 3 of the 12.1 maxroll priority list**. The honest
+   statement is a build divergence, not a source error: **this Rotmire corpus
+   doesn't talent it; the current guidance does.** A 12.1 re-mine should settle
+   which is now correct.
 4. **No Guillotine, Bilescourge Bombers, or Demonic Strength.** The lean modern
    Diabolist build drops these entirely (0 casts each, all six).
 5. **Tyrant-first opener.** Top players press Tyrant at t≈3 s (burst-on-pull);
-   the *written* textbook opener builds to 5 shards twice first. Both are valid;
-   the aggressive one requires pre-pull demon setup.
+   the *written* 12.0.7 textbook opener built to 5 shards twice first. Both were
+   valid; the aggressive one requires pre-pull demon setup — and the 12.1 guide
+   captures have since dropped the build-twice version entirely (see 1b).
+6. **⚠ None of these five is a 12.1 finding.** All are 12.0.7 build divergences
+   observed in a corpus that predates the patch. 12.1 removed no Demonology
+   talent, so every ability named here still exists; what moved is which ones are
+   *worth* taking — and that is precisely what this corpus can no longer answer.
 
 **Demons actually summoned (all six parses):** Demonic Tyrant, Dreadstalkers,
 Imp Lord, Wild Imps, the three ritual demons (Overlord / Mother of Chaos / Pit
 Lord), plus Inner Demons guests (Antoran Inquisitor/Jailer, some Gloomhound) and
-the Dominion of Argus demons (Alythess, Sacrolash). **Never:** Doomguard,
-Felguard, Vilefiend.
+the Dominion of Argus demons (Alythess, Sacrolash). **Not seen in these six:**
+Doomguard, Fel Ravager, Vilefiend/Charhound/Gloomhound-as-a-summon. *(Read that
+as "this build didn't take them," not "they don't exist" — all are live 12.1
+talents.)*
 
-> **Action for `rotation.md`:** switch the pre-Tyrant summon naming to **Grimoire:
-> Imp Lord** (noting Felguard/Vilefiend as alternates), note Power Siphon is
-> **build-dependent / skipped in Core-rich builds**, and add the Diabolic Ritual
-> cycle as the explanation for Ruination/Infernal Bolt. Left as a follow-up edit
-> rather than silently overwriting the priority doc.
+> **Follow-up for `rotation.md` — mostly resolved as of the 12.1 sweep.** The
+> naming ask is done: `rotation.md` now names **Grimoire: Imp Lord** as the AoE
+> grimoire summon (with **Grimoire: Fel Ravager** as the single-target
+> alternate — that, not "Felguard", is the current spelling), and carries the
+> Diabolic Ritual → Overlord / Mother of Chaos / Pit Lord chain as the
+> explanation for Ruination and Infernal Bolt.
+>
+> **Still open, and it is a real disagreement, not a doc bug:** the simc APL
+> (Tier 1) puts **Power Siphon at step 1** and **Summon Doomguard at step 4**,
+> while all six of these parses cast **neither, ever**. Both sources are sound —
+> the APL optimizes a profile, the parses record a Core-rich human build that
+> declines the imp sacrifice. **Do not "fix" either by copying the other.**
+> Re-mine on Season-2 logs (after 2026-08-18) with 12.1 tuning in place before
+> calling it.
 
 ---
 
@@ -430,9 +577,30 @@ Felguard, Vilefiend.
 | **Call Dreadstalkers** | 🟡 Timing rule | On CD, but *hold it to be the last cast before Tyrant*. |
 | **Implosion** (AoE) | ✅ Clock | Fixed 15 s CD; press on CD with ~6 imps up. |
 
+**Every row of this table is unchanged by 12.1** — no cooldown, cost, proc or
+button in it was touched. What the patch changed is the *weighting* between rows:
+with the Diabolist demon attacks down 20% and Shadow Bolt / Demonbolt up 45–55%,
+the **Tyrant window** row is worth relatively less and the **steady state** row
+relatively more than it was on 12.0.7. Drill the same sequences; stop paying
+filler GCDs to perfect them.
+
 **In one line:** the openers and the Tyrant-entry block are genuinely fixed,
 memorizable sequences (drill them). Everything else is a resource- and
 ritual-gated priority that *emerges* into the `HoG DB HoG DB … SB SB` pattern but
 can't be reduced to a rote string — the Diabolic Ritual cycle guarantees the
 *order* of your procs but not their *timing*, so the back half of the rotation
 is learnable only as rules + shapes, not as a script.
+
+---
+
+## Open follow-up
+
+**Re-mine this file on 12.1 data.** Everything here rests on a 12.0.7,
+Season-1, Sporefall corpus. Once **The Venomous Abyss** opens (2026-08-18) and
+Mythic parses accumulate, re-run the same extraction (top-6 casts + aura/pet
+streams) and specifically re-test the four things this corpus can no longer
+answer: whether Power Siphon and Summon Doomguard show up now, whether the
+Vilefiend/Gloomhound branch is taken after its +35%, whether the Tyrant-first
+opener survives the burst nerf, and whether Diabolist is still the parse-leading
+tree at all. Until then, treat the *sequences* as current and the *build* as
+historical.

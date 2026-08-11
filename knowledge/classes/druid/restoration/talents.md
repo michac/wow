@@ -1,16 +1,22 @@
 ---
-title: Druid Restoration — talent tree (12.0.7)
-patch: 12.0.7
-build: 12.0.7.67808
-fetched: 2026-06-19
-reviewed: 2026-07-07
+title: Druid Restoration — talent tree (12.1.0)
+patch: 12.1.0
+build: 12.1.0.68914
+fetched: 
 sources:
   - https://us.api.blizzard.com/data/wow/talent-tree (Blizzard Game Data API, Tier 1)
-  - https://wago.tools/db2 Trait* @ 12.0.7.67808 (Tier 1)
+  - https://wago.tools/db2 Trait* @ 12.1.0.68914 (Tier 1)
 confidence: high
 ---
+> **Build provenance.** This file was generated from the Blizzard Game Data API and
+> wago `Trait*` DB2 at build **12.1.0.68914**, which is what the API's `static-12.1.0`
+> namespace reported on 2026-08-11. The live client that day was **12.1.0.69214**. The
+> `Trait*` DB2 exports at the two builds are **byte-identical** (verified by md5 on
+> `TraitNodeEntry`), so this data is valid for live 12.1 — cite it as **@ 12.1.0.68914**,
+> not 69214.
 
-# Druid Restoration — talents (12.0.7)
+
+# Druid Restoration — talents (12.1.0)
 
 > Generated from `knowledge/classes/_talents/all-talents.tsv`. Spell IDs are the talent's granted spell. Choice nodes show both options as `A / B`. See `_talents/README.md` for the schema.
 
@@ -80,18 +86,18 @@ confidence: high
 | Nature's Swiftness | 132158 | 1 | ACTIVE | 3,20 | — | 82049 |
 | Omen of Clarity | 113043 | 1 | PASSIVE | 3,21 | — | 82049 |
 | Verdant Infusion / Prosperity | 392410 / 200383 | 1/1 | CHOICE | 4,18 | — | 82047 |
-| Nature's Splendor / Passing Seasons | 392288 / 382550 | 1/1 | CHOICE | 4,20 | — | 82050 |
+| Overgrowth / Passing Seasons | 203651 / 382550 | 1/1 | CHOICE | 4,20 | — | 82050 |
 | Improved Regrowth | 231032 | 1 | PASSIVE | 4,22 | — | 104125 |
 | Soul of the Forest | 158478 | 1 | PASSIVE | 5,19 | — | 82079,82051 |
 | Tranquil Mind | 403521 | 1 | PASSIVE | 5,21 | — | 82083,82051 |
 | Efflorescence | 145205 | 1 | ACTIVE | 6,18 | 8 | 82079,82055 |
 | Tranquility | 740 | 1 | ACTIVE | 6,20 | 8 | 82055,92674 |
 | Ironbark | 102342 | 1 | ACTIVE | 6,22 | 8 | 82083,92674 |
-| Verdancy | 392325 | 1 | PASSIVE | 7,17 | 8 | 82057 |
+| Germination | 155675 | 1 | PASSIVE | 7,17 | 8 | 82057 |
 | Lifetreading | 1217941 | 1 | PASSIVE | 7,18 | 8 | 82057 |
 | Grove Guardians | 1226140 | 1 | PASSIVE | 7,19 | 8 | 82057 |
-| Inner Peace / Flourish | 197073 / 197721 | 1/1 | CHOICE | 7,20 | 8 | 82054 |
-| Cultivation | 200390 | 1 | PASSIVE | 7,21 | 8 | 82082 |
+| Flourish | 197721 | 1 | PASSIVE | 7,20 | 8 | 82054 |
+| Flash of Clarity | 392220 | 1 | PASSIVE | 7,21 | 8 | 82082 |
 | Improved Wild Growth | 328025 | 1 | PASSIVE | 7,22 | 8 | 82082,82082 |
 | Stonebark / Improved Ironbark | 197061 / 382552 | 1/1 | CHOICE | 7,23 | 8 | 82082 |
 | Renewing Surge | 470562 | 1 | PASSIVE | 8,16 | 8 | 82059 |
@@ -99,12 +105,13 @@ confidence: high
 | Regenesis | 383191 | 2 | PASSIVE | 8,18 | 8 | 82043,82059,103874 |
 | Wild Synthesis | 400533 | 1 | PASSIVE | 8,19 | 8 | 82043 |
 | Power of the Archdruid | 392302 | 1 | PASSIVE | 8,20 | 8 | 82053,82056,82043 |
+| Cultivation | 200390 | 2 | PASSIVE | 8,21 | 8 | 82056 |
 | Unstoppable Growth | 382559 | 2 | PASSIVE | 8,22 | 8 | 82045,82056,82045 |
 | Improved Swiftmend | 470549 | 1 | PASSIVE | 8,23 | 8 | 82081,82045 |
 | Regenerative Heartwood | 392116 | 1 | PASSIVE | 8,24 | 8 | 82081 |
 | Ysera's Gift | 145108 | 1 | PASSIVE | 9,17 | 20 | 82062,82060,82058 |
 | Incarnation: Tree of Life / Convoke the Spirits | 33891 / 391528 | 1/1 | CHOICE | 9,19 | 20 | 82065,82062,94535 |
-| Call of the Elder Druid | 426784 | 1 | PASSIVE | 9,21 | 20 | 82080,82065 |
+| Call of the Elder Druid | 426784 | 1 | PASSIVE | 9,21 | 20 | 110694,82080,82065 |
 | Intensity | 1264649 | 1 | PASSIVE | 9,23 | 20 | 103873,82075,82080 |
 | Liveliness / Master Shapeshifter | 426702 / 289237 | 1/1 | CHOICE | 10,16 | 20 | 82060,82048 |
 | Waking Dream | 392221 | 1 | PASSIVE | 10,17 | 20 | 82048 |
@@ -118,7 +125,7 @@ confidence: high
 | Photosynthesis | 274902 | 1 | PASSIVE | 11,17 | 20 | 82046,82074,82070 |
 | Harmonious Blooming | 392256 | 1 | PASSIVE | 11,19 | 20 | 82063,82072,82070 |
 | Reforestation | 392356 | 1 | PASSIVE | 11,21 | 20 | 82068,82072,82066 |
-| Germination | 155675 | 1 | PASSIVE | 11,23 | 20 | 103876,82076,82068 |
+| Verdancy | 392325 | 1 | PASSIVE | 11,23 | 20 | 103876,82076,82068 |
 | Everbloom | 392167 | 1 | ACTIVE | 12,20 | 20 | — |
 
 ## Hero: Wildstalker

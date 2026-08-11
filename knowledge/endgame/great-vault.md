@@ -1,20 +1,138 @@
 ---
-title: Great Vault — Midnight Season 1
-patch: 12.0.7
-fetched: 2026-06-19
-reviewed: 2026-07-07
+title: Great Vault — Midnight Season 2 (12.1)
+patch: 12.1
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
-  - https://www.icy-veins.com/wow/midnight-mythic-season-1-guide
-  - https://worldofwarcraft.blizzard.com/en-us/news/24244888/revelations-content-update-notes
+  - https://worldofwarcraft.com/en-us/news/24293281   # 12.1 Curse of Ula'tek content update notes (Tier 1)
+  - https://us.forums.blizzard.com/en/wow/posts/29833350  # S1 ending / S2 pre-season details (Tier 1)
+  - https://worldofwarcraft.com/en-us/news/24295085   # Lairs preview — S2 track ↔ ilvl anchors (Tier 1)
+  - https://conquestcapped.com/guides/wow/midnight-mythic-plus-season-2/  # S2 M+ vault table (Tier 3, upd. 2026-08-02)
+  - https://www.icy-veins.com/wow/great-vault-guide   # slot unlock thresholds (Tier 3)
+  - https://www.icy-veins.com/wow/midnight-mythic-season-1-guide  # S1 table (historical)
 confidence: medium
 ---
 
-# Great Vault (Midnight Season 1)
+# Great Vault (Midnight Season 2)
 
 Weekly gear chest in the capital; slots unlock from last week's activity.
 Open it after reset, before doing anything else.
 
-## Mythic+ slot ilvls (verified vs Icy Veins S1 guide)
+## ⚠ Read this first — the vault is mid-season-transition right now
+
+12.1 went live **2026-08-11**, but **Season 2 does not open until 2026-08-18**.
+The week in between is an official **pre-season week**, and the vault behaves
+differently in it (Tier 1, S1-ending blue post):
+
+- **The vault you open the week of Aug 11 pays out on your *final Season 1
+  week* activity** — S1 rows, S1 tracks, S1 item levels. Nothing about 12.1's
+  new reward rules applies to it.
+- **Season 2 vault credit starts accruing during the pre-season week.** What you
+  do Aug 11–17 fills the panes you will **claim on Aug 18**.
+- So this week: do the activities, but judge the *offered* items by the Season 1
+  tables below (kept as history), not by the Season 2 ones.
+
+Everything in the "Season 2 rules" section is **effective with the first S2
+vault (claimable 2026-08-18)** unless the row says otherwise.
+
+## Slot unlock counts (verified in-game 2026-06-03, vault UI)
+
+Unchanged in 12.1 — the thresholds are the same, only the qualifying content
+rolled to Season 2:
+
+- **Raids**: defeat 2 / 4 / 6 Midnight Season 2 bosses
+- **Dungeons**: complete 1 / 4 / 8 Heroic, Mythic, or Timewalking dungeons
+- **World**: complete 2 / 4 / 8 world activities (Delves, Prey, Ritual Sites,
+  world activities)
+
+@verify-ingame Icy Veins' 12.1 vault page words the raid row as "bosses in the
+**two raids** of Midnight Season 2" (i.e. Venomous Abyss plus a second raid
+still counting for credit). No Tier-1 note says that. Confirm on/after Aug 18
+whether previous-tier raid bosses still fill S2 raid panes.
+
+## Season 2 rules — what 12.1 changed
+
+### Raid row: every reward jumps a difficulty (Tier 1)
+
+Verbatim rule from the 12.1 notes (ITEMS → RAID REWARDS):
+
+| Raid difficulty cleared | Vault reward comes in at |
+|---|---|
+| Raid Finder | first step of the **Normal** track |
+| Normal | first step of the **Heroic** track |
+| Heroic | **Myth 1/6** (stated by name in the notes) |
+| Mythic | **Myth 6/6** |
+| Mythic **Very Rare** items, and loot from the **penultimate and final bosses** | **Myth 9** — and that applies whether the item came from the boss directly or from the vault |
+
+This is the single biggest gearing change in 12.1: a Heroic raid vault slot is
+now a Myth-track item, so Heroic raiding feeds Myth gear without setting foot in
+Mythic. @verify-ingame the exact **item levels** these tracks map to in the live
+S2 build — day-1 third-party raid tables disagree with each other (one has the
+Myth track topping out at 328, another has Myth 1/6 at 318), so only the *track
+names* above are trustworthy today.
+
+### Nebulous Voidcores are a vault reward now (Tier 1)
+
+- Season 1 Voidcores **convert to gold** at the end of S1 and can no longer be
+  spent on S1 content.
+- **From the start of Season 2, Voidcores are a Great Vault reward option.**
+- ⚠ **Not in the first S2 vault.** Voidcore bonus rolls arrive the **week of
+  Aug 25** (second week of S2) and can be selected by anyone who has unlocked
+  **at least 3 panes**. (Icy Veins' page says "starting with the first week of
+  Season 2" — that is **wrong**; the Tier-1 blue post is explicit that week 1 has
+  none.)
+- The **raid re-roll cost is now 1 Voidcore** (was 2). Items bought with a
+  Voidcore remain **item-level-equivalent to a vault reward**.
+- **Orin Straylight** has relocated **near the Catalyst in Silvermoon** and
+  hands out **one extra Voidcore per week starting week 8 of Season 2**.
+- A Voidcore can also be spent **once per week per Lair** (see `lairs.md`).
+- The **Tier 6 Advanced Ritual Studies** quests no longer offer a Voidcore bonus
+  roll (still completable for the achievement) — see `../systems/ritual-sites.md`.
+
+### World row is capped, and the cap moves after week 1 (Tier 1)
+
+- **First S2 vault (claimable Aug 18): World row maxes at Champion 3/6.**
+- **Every vault after that: World row maxes at Hero 1/6.**
+
+That kills the S1 habit of treating the world row as a near-free Hero-track
+slot in the opening week. It also interacts with the pre-season Delve caps —
+during the pre-season week Delves only pay **Adventurer 3/6 gear + Veteran
+crests**, and **there are no Bountiful Delves** until Aug 18
+(`delves/overview.md`).
+
+### Dungeon row during the pre-season week
+
+Mythic 0 is on a **weekly** lockout for the week of Aug 11 only and drops
+**Champion 1/6 (292)**; it returns to a daily lockout on Aug 18 when keystones
+start dropping (`mythic-plus/keystones.md`). Heroic/M0 runs done this week still
+count toward the **Season 2** dungeon panes you claim on Aug 18.
+
+## Mythic+ slot ilvls — Season 2 (from 2026-08-18)
+
+Tier-3 table (ConquestCapped, updated 2026-08-02). Its track ↔ ilvl anchors
+agree with the Tier-1 Lairs reward table (Veteran 1/6 = 279 · Champion 1/6 = 292 ·
+Hero 1/6 = 305), which is why it is carried here — but the numbers have **not**
+been seen in a live vault yet. @verify-ingame confirm against the vault UI at the
+first S2 reset.
+
+| Key level | End-of-run ilvl | Crest | Vault ilvl |
+|-----------|-----------------|-------|------------|
+| Mythic 0 | 292 (Champion 1/6) | — | — |
+| +2 to +3 | 295 (Champion 2/6) | Champion Mistcrest | 305 (Hero 1/6) |
+| +4 | 298 (Champion 3/6) | Hero Mistcrest | 308 (Hero 2/6) |
+| +5 | 302 (Champion 4/6) | Hero Mistcrest | 308 (Hero 2/6) |
+| +6 to +8 | 305 (Hero 1/6) | Hero Mistcrest | 311–315 (Hero 3–4/6) |
+| +9 | 308 (Hero 2/6) | **Myth Mistcrest** | 315 (Hero 4/6) |
+| **+10 and up** | 311 (Hero 3/6) | Myth Mistcrest | **318 (Myth 1/6)** |
+
+→ **+10 is still the vault target** — it is the first key level whose vault
+reward is Myth-track. Run 8× +10 for max M+ row choices.
+⚠ Season 2 crests are **Mistcrests**, not Dawncrests (`dawncrests.md`).
+
+## Mythic+ slot ilvls — Season 1 (HISTORICAL, ended 2026-08-11)
+
+Kept because the vault opened during the pre-season week still pays out on S1
+activity. Do not use these for anything after Aug 18.
 
 | Key level | End-of-run ilvl | Vault ilvl |
 |-----------|-----------------|------------|
@@ -24,56 +142,40 @@ Open it after reset, before doing anything else.
 | +6 to +9 | 259–263 | 266–269 |
 | **+10 and up** | 266 | **272 (cap)** |
 
-→ **+10 is the vault cap**; run 8× +10 for max M+ row choices.
+## World row mechanics (measured in S1 — mechanics still apply, caps do not)
 
-## World row (partial)
+The *shape* of the world row was measured in-game during Season 1 and 12.1
+changed none of it; only the reward ceiling moved (above). Keep the mechanics,
+discard the S1 item levels.
 
-- **Ritual sites T4–5 > delve T8**: T5 ritual sites raise the world-row
-  vault to **ilvl 269** (hero track) — SignsOfKelani 2026-04-26
-  (`../systems/ritual-sites.md`). Myth-track vault still requires the
-  M+/raid rows.
-- **RESOLVED 2026-06-05 (vault UI screenshot, Encomplete)**: world-row
-  slot tooltip shows **"Current Reward: Item Level 259 - (Tier 9) ·
-  Top 2 Runs This Week: Tier 10 (1), Tier 9 (1) · Reward at Highest
-  Item Level"** — i.e. each slot's reward = the **Nth-highest world
-  activity** of the week (slot 1 = 2nd-highest, slot 2 = 4th, slot 3 =
-  8th), and T9 activity → **259**, matching Icy Veins' "T8+ → vault
-  259 Hero 1/6". The 2026-06-03 250-champion offer was from a
-  lower-tier prior week, not a contradiction.
-- The vault UI shows **ilvl only, not track** — 259 is ambiguous
-  between Hero 1/6 and high-champion in the tooltip. Both Icy Veins
-  and ConquestCapped label the T8+ delve vault reward **Hero 1/6**;
-  confirm by hovering the actual item at reset ("Upgrade Level: Hero
-  1/6" line).
-- Note: the T10 run **counted for the vault even though the Bountiful
-  Coffer was lost to deaths** — vault credit is per completion,
-  independent of coffer loot.
-- Slot tiers observed 2026-06-05 mid-week: slot 1 T9 (259), slot 2 T7,
-  slot 3 T5 — two more T8 delves would lift slot 2 to T8 (259);
-  slot 3 needs all 8 activities at T8+.
-- **Unkeyed delve completions count as world activities** (vault
-  credit is completion-based — the dead T10 with a lost coffer still
-  counted). So 6 keyed + 2 unkeyed T8s = **all three world slots at
-  259** (~9 items to choose 1 from, three of them hero-track).
-- **Low-tier ritual sites (T3) fill slot counts but drag the slot's
-  reward down** — slot reward = Nth-highest activity. Ritual→vault
-  tier mapping known only at T5 (→269); T3's vault value is low and
-  unmapped. Use rituals for accolades/crests, delves for vault slots. Slot unlocks confirmed **2 / 4 / 8 world
-  activities**. The vault **can offer actual class tier-set pieces**
-  from the world row (Abyssal Immolator's Fury, warlock shoulders) — no
-  Catalyst charge needed for those.
-- Skipping gear pays a flat **6× currency** instead (observed 2026-06-03;
-  currency identity unverified — likely the seasonal vault token).
+- **Each slot's reward = the Nth-highest world activity of the week** — slot 1 =
+  2nd-highest, slot 2 = 4th, slot 3 = 8th. Confirmed by the vault-slot tooltip
+  (2026-06-05): *"Current Reward: Item Level 259 - (Tier 9) · Top 2 Runs This
+  Week: Tier 10 (1), Tier 9 (1) · Reward at Highest Item Level."*
+- **Vault credit is per completion, not per loot.** A T10 delve counted for the
+  vault even though the Bountiful Coffer was lost to deaths.
+- **Unkeyed delve completions count as world activities.** In S1 that made
+  6 keyed + 2 unkeyed T8s enough to put all three world slots at the cap.
+- **Low-tier fillers drag the slot down.** Because the reward is the Nth-highest
+  activity, a stack of T3 ritual sites fills the counters but lowers what the
+  slot offers. Use rituals for accolades/crests, delves for vault slot quality.
+- **The vault UI shows ilvl only, not track** — hover the actual item at reset
+  for its "Upgrade Level: <track> x/6" line if the track matters.
+- The world row **can offer real class tier-set pieces** (observed in S1:
+  Abyssal Immolator's Fury warlock shoulders) — no Catalyst charge needed.
+- **Skipping the gear pays a flat 6× currency** instead (observed 2026-06-03;
+  currency identity still unverified — likely the seasonal vault token).
+- Ritual sites → vault tier mapping is being realigned in 12.1: **T1–6 vault
+  rewards now match Season 2 Delve tiers 1–6**, with new recommended ilvls
+  **T4 259 · T5 268 · T6 275** (`../systems/ritual-sites.md`).
 
-## Slot unlock counts (verified in-game 2026-06-03, vault UI)
+## Open questions
 
-- **Raids**: defeat 2 / 4 / 6 Midnight Season 1 bosses
-- **Dungeons**: complete 1 / 4 / 8 Heroic, Mythic, or Timewalking dungeons
-- **World**: complete 2 / 4 / 8 world activities
-
-## TODO
-
-- [ ] Raid row: per-difficulty vault ilvls (source: Icy Veins Great
-      Vault guide)
-- [ ] World row: full delve-tier + ritual-site-tier → vault ilvl mapping
-      (one data point above: T9-ish activity → 250/250/246 champion)
+- @verify-ingame Item levels behind the S2 raid-row tracks (Normal-first-step,
+  Heroic-first-step, Myth 1/6, Myth 6/6, "Myth 9"). Tier-1 gives names only and
+  day-1 third-party tables conflict.
+- @verify-ingame Whether the S2 raid row counts bosses from more than one raid
+  (see the slot-unlock note above).
+- @verify-ingame The S2 M+ vault ilvl table above, against the live vault UI at
+  the first S2 reset (2026-08-18).
+- @verify-ingame The identity of the "skip the gear" currency payout.

@@ -1,19 +1,21 @@
 ---
-title: Havoc Demon Hunter — Ability Inventory (Midnight S1)
-patch: 12.0.7
-fetched: 2026-08-06
-reviewed: 2026-08-06
+title: Havoc Demon Hunter — Ability Inventory (Midnight 12.1)
+patch: 12.1
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
-  - knowledge/classes/demon-hunter/havoc/ability-inventory.tsv  # tier 1, DB2 @ 12.0.7.67808 — names, spellIDs, origin, cooldowns
-  - knowledge/classes/_abilities/reconcile-ledger.md  # tier 1 derived, the verdicts applied 2026-08-06
-  - https://raw.githubusercontent.com/simulationcraft/simc/midnight/profiles/MID1/MID1_Demon_Hunter_Havoc.simc  # tier 1, simc midnight branch APL + default profile (Fel-Scarred), 2026-07-11
-  - https://www.icy-veins.com/wow/havoc-demon-hunter-pve-dps-rotation-cooldowns-abilities  # tier 3, 12.0.7, 2026-07-11
-  - https://www.method.gg/guides/havoc-demon-hunter/playstyle-and-rotation  # tier 3, 12.0.7, 2026-07-11
-  - raw/wago/SpellName.csv  # tier 1 game data, name canonicalization, 2026-07-11
+  - https://worldofwarcraft.com/en-us/news/24293281  # tier 1, 12.1 "Curse of Ula'tek" Content Update Notes — the CLASSES > DEMON HUNTER > Havoc list
+  - knowledge/_meta/patch-notes/12.1.md  # tier 1 verbatim archive of the above
+  - knowledge/classes/demon-hunter/havoc/ability-inventory.tsv  # tier 1, DB2 @ 12.1.0.69214 + Blizzard Game Data API spell descriptions — names, spellIDs, origin, cooldowns
+  - knowledge/classes/demon-hunter/havoc/talents.md  # tier 1, Trait* DB2 @ 12.1.0 — node existence + choice-node pairings
+  - knowledge/classes/_abilities/reconcile-ledger.md  # tier 1 derived, the verdicts applied 2026-08-06 (build-pinned 12.0.7.67808 where noted)
+  - https://raw.githubusercontent.com/simulationcraft/simc/midnight/profiles/MID1/MID1_Demon_Hunter_Havoc.simc  # tier 1, simc midnight branch APL + default profile (Fel-Scarred), 2026-07-11 — PRE-12.1, colour only
+  - https://www.icy-veins.com/wow/havoc-demon-hunter-pve-dps-rotation-cooldowns-abilities  # tier 3, 12.0.7-era, 2026-07-11 — colour only, superseded wherever the 12.1 notes disagree
+  - https://www.method.gg/guides/havoc-demon-hunter/playstyle-and-rotation  # tier 3, 12.0.7-era, 2026-07-11 — colour only
 confidence: high
 ---
 
-# Havoc Demon Hunter — Ability Inventory (Midnight S1)
+# Havoc Demon Hunter — Ability Inventory (Midnight 12.1)
 
 ## Overview
 
@@ -23,13 +25,13 @@ Aura** ticks) and spent on **Chaos Strike** (single-target) and **Blade Dance**
 (AoE). The whole spec is built around the **demon-form (Demonic) window**:
 casting **Eye Beam** briefly transforms you, and while transformed Chaos Strike
 and Blade Dance are replaced by the stronger **Annihilation** and **Death Sweep**.
-**Metamorphosis** is the big transform on a ~2-min cadence. High mobility
+**Metamorphosis** is the big transform on a 120s cadence. High mobility
 (Fel Rush, Vengeful Retreat, Felblade, The Hunt) is core to both damage and
 positioning.
 
-Two hero trees in S1:
+Two hero trees:
 
-- **Fel-Scarred** — the S1 default (the simc profile is `..._Fel-Scarred`).
+- **Fel-Scarred** — the pre-12.1 default (the simc profile is `..._Fel-Scarred`).
   Adds **Demonsurge** (Eye Beam/Meta empower next Annihilation + Death Sweep) and,
   via **Demonic Intensity**, the empowered forms **Abyssal Gaze** (Eye Beam) and
   **Consuming Fire** (Immolation Aura). Frontloads burst inside Metamorphosis.
@@ -38,16 +40,88 @@ Two hero trees in S1:
   empowers the next Chaos Strike (**Rending Strike**) and Blade Dance
   (**Glaive Flurry** → **Fury of the Aldrachi** slashes). Strong funnel/cleave.
 
-> Midnight note: a **third** Demon Hunter spec, **Devourer**, exists in 12.0.7
-> game data (separate simc profile). This file is Havoc only.
+> Midnight note: a **third** Demon Hunter spec, **Devourer**, is live and has its
+> own folder. This file is Havoc only.
+
+## What 12.1 changed
+
+**⚠ Weapon requirement — the one that can silently turn the spec off.**
+**Demon Blades, Blade Dance and Chaos Strike now require an equipped Warglaive,
+Axe, Sword or Fist Weapon.** Separately, 12.1 made **daggers equippable by Demon
+Hunters** — that change exists so **Devourer** can use Intelligence daggers, and
+**daggers are not on the required-weapon list**. So a Havoc who picks up a dagger
+loses their core spender, their AoE spender *and* their passive Fury generation.
+*[Tier 1: 12.1 notes, DEMON HUNTER preamble + Havoc list.]*
+
+**Fury retune** — Blizzard's stated intent is *"a small overall increase, paced
+more smoothly and relying less heavily on Immolation Aura's talent effects"*:
+
+| Source | 12.1 | was |
+|---|---|---|
+| **Burning Hatred** (Immolation Aura bonus Fury) | **+30** | +40 |
+| **Demon Blades** (per attack) | **10–16** | 8–15 |
+| **Blind Fury** (Eye Beam, per second) | **10 / 20** | 15 / 30 |
+
+**Damage tuning:** Blade Dance **+6%** · Death Sweep **+6%** · Chaos Strike
+**+6%** · Annihilation **+6%** · The Hunt **+12%** · Essence Break **initial
+damage +49%** · Immolation Aura **−8%**. Net: the spender core and the burst
+buttons went up, the aura came down — consistent with the Fury note above.
+
+**Talent changes:**
+
+- **NEW — Never Say Die** (`427794`, spec row 4 col 15): damage **+3% while
+  above 50% health**; leech **+5% while below 50% health**. A low-gate passive
+  next to Improved Chaos Strike.
+- **Trail of Ruin** (`258881`): the final slash of Blade Dance now inflicts its
+  extra Chaos damage **immediately**, instead of as a DoT over 4 seconds. Same
+  budget, no ramp — it now lands inside an Essence Break window.
+- **Serrated Glaive** (`390154`): now a **buff on you, 12s**, instead of a 15s
+  debuff on the target — striking with Chaos Strike or Throw Glaive increases
+  Chaos Strike and Throw Glaive damage by **15%**. This flips it from a
+  per-target debuff you had to re-apply on swaps into a personal window, which
+  makes it materially better in dungeon pulls.
+- **Inner Demon** (`389693`) **moved**: it is now the choice-node partner of
+  **Chaos Theory** (`389687`) at spec row 9 col 16. It used to sit opposite
+  **Chaotic Transformation**, which is now a standalone passive at 9,18 — so you
+  can take Chaotic Transformation *and* Inner Demon together, and you can no
+  longer take Inner Demon alongside Chaos Theory.
+  *[Tier 1: `talents.md` / `_talents/all-talents.tsv` @ 12.1.0.]*
+- **Inertia** (`427640`): **+12% damage for 6 seconds** (was 18% for 5 seconds) —
+  a smaller, longer window, so it is less punishing to line up but worth less at
+  its peak. ⚠ The live spell tooltip transcribed into `ability-inventory.md`
+  still renders "12% for 5 sec"; the **Tier-1 patch note (6 sec) is the floor**
+  and the tooltip is the disagreement. @verify-ingame (Inertia buff duration)
+- **REMOVED — Dash of Chaos.** Gone entirely. It reaches no trait node on the
+  12.1 Demon Hunter tree; three legacy spellIDs (427793 / 428160 / 428393) still
+  carry the name in `SpellName`, which is only name residue, not a button.
+  *[Tier 1: `_talents/all-talents.tsv` @ 12.1.0 — zero rows; SpellName @
+  12.1.0.69214.]*
+
+**Global 12.1 changes that land on this kit** (they sit in the CLASSES preamble,
+not under Demon Hunter, and are easy to miss):
+
+- **Player health and creature damage both +25% at max level**, with health
+  consumables rescaled and some DPS/Tank healing + absorb retuned. Any *absolute*
+  HP or healing number written before 2026-08-11 is now wrong. Percentage
+  mitigation — Blur, Darkness, Soul Rending leech — is unaffected as a percentage.
+- **Interrupts now show a "missed" visual over the target's head and play a
+  distinct sound** when used while the target was not casting. Applies to
+  **Disrupt**.
+- **Diminishing-return categories now reset after 20 seconds** (was 16) — a
+  straight nerf to chaining **Chaos Nova** / **Imprison** / **Sigil of Misery**
+  on the same target.
+- Blizzard's stated direction is **major DPS cooldowns lowered, steady-state
+  damage raised**. No Havoc cooldown was shortened in the 12.1 list, so read that
+  as context for other specs rather than as a Havoc change.
 
 ## Inventory
 
 > **Where the numbers come from.** `ability-inventory.tsv` in this folder is the
-> Tier-1 record for **name, spellID, origin and cooldown** (DB2 @ 12.0.7.67808) —
-> read it rather than trusting a number restated here. A `[T1]` stamp marks a
-> cooldown taken from it; a `~` value is Tier-3 colour from simc / Icy Veins /
-> method.gg. The remaining `@verify-ingame` markers all ask about **Fury cost**,
+> Tier-1 record for **name, spellID, origin and cooldown** (DB2 @ 12.1.0.69214,
+> with Blizzard Game Data API spell descriptions) — read it rather than trusting a
+> number restated here. A `[T1]` stamp marks a cooldown taken from it; a `~` value
+> is Tier-3 colour from simc / Icy Veins / method.gg, or a value the tsv cannot
+> express. The remaining `@verify-ingame` markers mostly ask about **Fury cost**,
 > which that file has no column for.
 >
 > **The demon-form buttons are invisible to Tier 1.** **Annihilation**,
@@ -56,19 +130,34 @@ Two hero trees in S1:
 > Aura / Throw Glaive. They attach to no acquisition table, so they appear in no
 > generated inventory — that is a hole in the generator, not evidence they are
 > gone. Each parent, and each hero subtree that grants the override, is live on
-> tree 854. *[Tier 1: reconcile-ledger.md §4 + §5 G2 @ 12.0.7.67808.]*
+> tree 854, and each override name still resolves in `SpellName` @ 12.1.0.69214
+> (e.g. Annihilation 201427, Death Sweep 210152).
+> *[Tier 1: reconcile-ledger.md §4 + §5 G2 @ 12.0.7.67808, re-checked @ 12.1.0.69214.]*
+>
+> **Demon Blades is in the same blind spot** and is *not* a generator artifact you
+> may drop: it reaches no trait node and no `SkillLineAbility` row in our join, yet
+> the **Tier-1 12.1 patch notes tune it by name** ("Demon Blades now generates
+> 10-16 Fury per attack") and `SpellName` @ 12.1.0.69214 carries it as 203555. The
+> notes are the floor here, not the generated inventory.
 
 > **What the Tier-1 floor does and does not cover.** A **bold `[T1]`** cooldown
-> below was read straight out of `ability-inventory.tsv` (wago DB2 @ 12.0.7.67808).
+> below was read straight out of `ability-inventory.tsv` (wago DB2 @ 12.1.0.69214).
 > A `~` value was **not**: it is a Tier-3 guide number that the tsv could not
 > settle, and it is kept on purpose. The tsv's `cooldown` column is
 > `SpellCooldowns` at DifficultyID 0 — `max(RecoveryTime, CategoryRecoveryTime)` —
 > which is the real cooldown for a normal button and is **wrong for a charge
-> ability**, where it returns the GCD (Fire Blast 0.5s, Purifying Brew 1s). The
-> recharge lives in `SpellCategory.ChargeRecoveryTime`, unreachable without
-> breaking the build pin (`_abilities/reconcile-ledger.md` §5 G6). **So "the tsv
-> wins" applies to the values it actually carries, not to every row** — 194 rows
-> across the 40 files read 0 or sub-10s there and keep their `~` prose instead.
+> ability**, where it returns the GCD. The recharge lives in
+> `SpellCategory.ChargeRecoveryTime`, unreachable without breaking the build pin
+> (`_abilities/reconcile-ledger.md` §5 G6). **So "the tsv wins" applies to the
+> values it actually carries, not to every row** — on this spec, Immolation Aura
+> (1.5s), Fel Rush (1s), Blur (0.5s), Vengeful Retreat (0.5s) and the four
+> zero-cooldown rows all read as artifacts and keep their `~` prose instead.
+>
+> ⚠ **Vengeful Retreat lost its Tier-1 backing at 12.1.** It read **25s** in the
+> 12.0.7.67808 tsv and reads **0.5s** at 12.1.0.69214 — the charge-ability
+> artifact — which is consistent with 12.1 giving Devourer's Hungering Slash "a
+> temporary charge of Vengeful Retreat". The ~25s below is now carried prose, not
+> a measurement. @verify-ingame (Vengeful Retreat cooldown / charges)
 >
 > Names this file asserts that **no** acquisition row reaches are catalogued in
 > `../../_abilities/section-4-catalogue.md`; ones game data reaches indirectly are
@@ -77,46 +166,63 @@ Two hero trees in S1:
 
 | Ability | Function | Resource | Cast / CD | Description |
 |---|---|---|---|---|
-| **Chaos Strike** | Rotational-spender | ~40 Fury | Instant | Core single-target spender; a crit refunds ~20 Fury. Replaced by Annihilation in demon form. @verify-ingame (exact Fury cost) |
-| **Annihilation** | Rotational-spender | ~40 Fury | Instant | Demon-form (Metamorphosis/Demonic) version of Chaos Strike; higher damage. Consumes **Demonsurge** for Fel-Scarred. |
-| **Blade Dance** | Rotational-spender (AoE) | ~35 Fury | Instant, 15s `[T1]` | Spin dealing AoE around you; triggers **Glaive Tempest** passive at 3+ targets. Replaced by Death Sweep in demon form. **Class-baseline `[T1]`.** The base cooldown is 15s, not the ~9s this file used to carry — the shorter number people quote is the *hasted* value, so treat 15s as the floor when planning AoE cadence. @verify-ingame (exact Fury cost) |
-| **Death Sweep** | Rotational-spender (AoE) | ~35 Fury | Instant, shares Blade Dance's CD | Demon-form version of Blade Dance; higher damage. Consumes **Demonsurge** for Fel-Scarred. |
-| **Eye Beam** | Rotational-builder / burst (talent) | ~30 Fury | ~2s channel, 30s `[T1]` | Channel that triggers the **Demonic** demon-form window; primary damage cooldown. **Chaotic Transformation** resets its CD on Meta; **Cycle of Hatred** lowers it. At a 30s base — not the ~40s previously written here — it comes back four times per Metamorphosis, so the Demonic window is the *frequent* one and Meta is what you plan around. @verify-ingame (exact Fury cost) |
-| **Immolation Aura** | Rotational-builder | Free (generates Fury) | Instant, ~30s CD (2 charges w/ **A Fire Inside**) | AoE fire aura + steady Fury generation; **Ragefire** stores its damage to detonate. |
-| **Felblade** | Movement / builder | Free (generates Fury) | Instant / **12s** `[T1]` | Gap-closer that generates Fury; used to trigger **Inertia** before burst windows. |
-| **Demon's Bite** | Rotational-builder | Generates Fury | Instant | Baseline Fury builder — **replaced by the passive Demon Blades** in the S1 build, so rarely a manual press. |
-| **Essence Break** | Rotational (burst amp) | Free | Instant, ~40s CD | Short window (~4s) that hugely amplifies Chaos Strike / Blade Dance damage; filled with Death Sweep + Annihilation. |
-| **Metamorphosis** | Major cooldown | Free | Instant, ~2 min | Leap to target (stuns on land), transform: +Haste, empowers Chaos Strike/Blade Dance, and (w/ Chaotic Transformation) resets Eye Beam + Blade Dance. Core 2-min burst. |
-| **The Hunt** | Major cooldown | Free | ~1.5s cast, ~90s CD | Charge dealing heavy nature damage + DoT; central burst button, reduced CD via **Eternal Hunt**. For Aldrachi Reaver, guarantees a Reaver's Glaive proc. |
-| **Throw Glaive** | Rotational / ranged | Free (charges) | Instant, ~9s recharge | Ranged glaive throw; becomes a rotational button with **Soulscar** / **Furious Throws**. Turns into **Reaver's Glaive** for Aldrachi Reaver. |
+| **Chaos Strike** | Rotational-spender | ~40 Fury | Instant | Core single-target spender; a **20% chance to refund 20 Fury** (**Critical Chaos** adds 30% of your crit chance to that). Replaced by Annihilation in demon form. **12.1: +6% damage; now requires an equipped Warglaive / Axe / Sword / Fist Weapon.** @verify-ingame (exact Fury cost) |
+| **Annihilation** | Rotational-spender | ~40 Fury | Instant | Demon-form (Metamorphosis/Demonic) version of Chaos Strike; higher damage. Consumes **Demonsurge** for Fel-Scarred. **12.1: +6% damage.** |
+| **Blade Dance** | Rotational-spender (AoE) | ~35 Fury | Instant, **15s** `[T1]` | Spin dealing AoE around you; the final slash triggers **Glaive Tempest** at 3+ targets (which itself consumes 25 Fury). Replaced by Death Sweep in demon form. **Class-baseline `[T1]`.** The base cooldown is 15s — the ~9s people quote is the *hasted* value, so treat 15s as the floor when planning AoE cadence. **12.1: +6% damage; now requires an equipped Warglaive / Axe / Sword / Fist Weapon.** @verify-ingame (exact Fury cost) |
+| **Death Sweep** | Rotational-spender (AoE) | ~35 Fury | Instant, shares Blade Dance's CD | Demon-form version of Blade Dance; higher damage. Consumes **Demonsurge** for Fel-Scarred. **12.1: +6% damage.** |
+| **Eye Beam** | Rotational-builder / burst (talent) | ~30 Fury | ~1.8s channel, **30s** `[T1]` | Channel that triggers the **Demonic** demon-form window (5s of demon form after it finishes); primary damage cooldown. **Chaotic Transformation** resets its CD on Meta; **Cycle of Hatred** shaves 2.5s per cast, stacking to 10s; **Eternal Hunt** empowers the next one after The Hunt (+100% damage, wider area); **Furious Gaze** grants +8% Haste for 8s on a full channel. At a 30s base it comes back four times per Metamorphosis, so the Demonic window is the *frequent* one and Meta is what you plan around. **12.1: Blind Fury now feeds it 10/20 Fury per second (was 15/30).** @verify-ingame (exact Fury cost) |
+| **Immolation Aura** | Rotational-builder | Free (generates Fury) | Instant, ~30s CD (2 charges w/ **A Fire Inside**, which also cuts 6s off the CD and turns it to Chaos damage) | AoE fire aura over 6s + steady Fury generation; **Ragefire** stores 35% of up to 3 crits' damage to detonate on expiry. **12.1: damage −8%, and Burning Hatred's bonus Fury cut to +30 (was 40) — this is the ability the Fury retune deliberately de-emphasises.** |
+| **Felblade** | Movement / builder | Free (generates Fury) | Instant / **12s** `[T1]` | Gap-closer that generates Fury; used to trigger **Inertia** / **Unbound Chaos** before burst windows. |
+| **Demon Blades** | Passive (Fury generation) | — | — | Replaces Demon's Bite: auto-attacks generate Fury instead. **12.1: 10–16 Fury per attack (was 8–15); now requires an equipped Warglaive / Axe / Sword / Fist Weapon.** Reaches no acquisition row in our generated data — see the blind-spot note above. |
+| **Demon's Bite** | Rotational-builder | Generates Fury | Instant | Baseline Fury builder — **replaced by the passive Demon Blades** in the standard build, so rarely a manual press. |
+| **Essence Break** | Rotational (burst amp) | Free | Instant, **40s** `[T1]` | Slash in front of you that makes Chaos Strike and Blade Dance deal bonus Chaos damage **for 4s**; filled with Death Sweep + Annihilation. **12.1: initial damage +49%** — the largest single Havoc buff in the patch, and it shifts a slice of the talent's value from the amp window onto the press itself. |
+| **Metamorphosis** | Major cooldown | Free | Instant, **120s** `[T1]` | Leap to target (3s stun on landing; players are Dazed instead), transform for **20s**: **+20% Haste**, empowers Chaos Strike/Blade Dance into Annihilation/Death Sweep, and (w/ **Chaotic Transformation**) resets Eye Beam + Blade Dance. Core 2-min burst. |
+| **The Hunt** | Major cooldown | Free | ~1.5s cast, **90s** `[T1]` | Charge that strikes for Chaos damage, roots for 1.5s, and leaves a 6s DoT on up to 5 enemies in your path; central burst button. For Aldrachi Reaver, guarantees a Reaver's Glaive proc. **12.1: damage +12%.** ⚠ **Eternal Hunt** does *not* reduce its cooldown — at 12.1 it makes The Hunt empower your next Eye Beam (+100% damage, wider area). *[Tier 1: spell 1270898 description @ 12.1.0.69214 — the old "reduced CD via Eternal Hunt" line here was wrong.]* |
+| **Throw Glaive** | Rotational / ranged | Free (charges) | Instant, ~9s recharge | Ranged glaive throw; becomes a rotational button with **Soulscar** / **Furious Throws** / **Screaming Brutality**. Turns into **Reaver's Glaive** for Aldrachi Reaver. **12.1: benefits from Serrated Glaive's new self-buff (+15% for 12s).** |
 | **Reaver's Glaive** | Rotational-spender enabler (AR) | Free | Instant | Aldrachi Reaver: replaces Throw Glaive after 6 soul fragments; applies **Reaver's Mark** and empowers the next Chaos Strike + Blade Dance. |
-| **Abyssal Gaze** | Major cooldown (FS) | ~30 Fury | ~2s channel | Fel-Scarred **Demonic Intensity** empowered Eye Beam during Metamorphosis. |
+| **Abyssal Gaze** | Major cooldown (FS) | ~30 Fury | ~2s channel | Fel-Scarred **Demonic Intensity** empowered Eye Beam during Metamorphosis. ⚠ The 12.1 API description transcribed for Demonic Intensity (452415) reads in Devourer terms ("Void Metamorphosis", "Voidsurge"); the 12.1 notes list no Fel-Scarred change, so treat this row as unchanged but unconfirmed. @verify-ingame (Demonic Intensity wording on Havoc) |
 | **Consuming Fire** | Rotational-builder (FS) | Free | Instant | Fel-Scarred **Demonic Intensity** empowered Immolation Aura during Metamorphosis. |
 | **Demonsurge** | Passive/proc (FS) | — | — | Fel-Scarred proc from Eye Beam/Meta; makes the next Annihilation + Death Sweep hit harder (tracked as "demonsurge available"). |
-| **Glaive Tempest** | Passive | — | — | S1 talent: Blade Dance/Death Sweep at 3+ targets releases spinning glaives for AoE (a passive, not a pressed button). |
-| **Fel Rush** | Movement | Free (2 charges) | Instant, ~10s recharge | Dash forward dealing damage; mobility + an **Inertia** trigger / filler. |
-| **Vengeful Retreat** | Movement | Free | Instant / **25s** `[T1]` | Backflip away, slows nearby enemies; procs **Initiative** / **Tactical Retreat**; woven before Eye Beam windows. |
-| **Blur** | Defensive | Free | Instant, ~1 min CD | +50% dodge and −20% damage taken for a short time; core personal defensive. |
-| **Darkness** | Defensive (raid) | Free | Instant, ~5 min CD | Ground AoE giving allies a chance to avoid incoming attacks; group cooldown. |
-| **Disrupt** | Interrupt | Free | Instant, ~15s CD | Kick/interrupt a spellcast; the primary interrupt. |
-| **Consume Magic** | Dispel (talent) | Free | Instant, 10s `[T1]` | Consumes a beneficial magic effect from the target (offensive dispel). At 10s it is effectively always available — treat it as a free purge on any enrage/absorb buff, not a saved cooldown. |
-| **Chaos Nova** | CC (AoE stun) | ~Free | Instant, ~45s CD | Burst of fel energy stunning nearby enemies (~2s). |
-| **Sigil of Misery** | CC (AoE) | Free | Instant, ~90s CD | Places a delayed sigil that causes enemies in its area to cower/disorient. |
-| **Imprison** | CC | Free | Instant, ~45s CD | Incapacitates a target (Demon/Beast/Humanoid/Undead) for the duration. |
+| **Glaive Tempest** | Passive | — | — | Talent: the final slash of Blade Dance/Death Sweep **consumes 25 Fury** at 3+ enemies to launch spinning glaives dealing Chaos damage over 3s (reduced beyond 8 targets). A passive, not a pressed button. |
+| **Never Say Die** | Passive (NEW 12.1) | — | — | Damage **+3% while above 50% health**; leech **+5% while below 50% health**. Spec tree row 4, col 15. |
+| **Fel Rush** | Movement | Free (2 charges) | Instant, ~10s recharge | Dash forward dealing damage; mobility + an **Inertia** / **Unbound Chaos** trigger / filler. |
+| **Vengeful Retreat** | Movement | Free | Instant / ~25s (see the ⚠ note above — no longer Tier-1-backed at 12.1) | Backflip away, slows nearby enemies; procs **Initiative** / **Tactical Retreat**; woven before Eye Beam windows. |
+| **Blur** | Defensive | Free | Instant, ~1 min CD (**+1 charge** w/ Demonic Resilience) | **Reduces all damage taken by 25% for 10s** *[Tier 1: spell 198589 description @ 12.1.0.69214]*; core personal defensive. **The old "+50% dodge / −20% damage taken" line here was stale and has been replaced.** |
+| **Darkness** | Defensive (raid) | Free | Instant, **300s** `[T1]` | 8-yd zone for 8s granting friendly targets a **15% chance to avoid all damage from an attack** — **doubled to 30% when not in a raid** *[Tier 1: spell 196718 description]*. Group cooldown. |
+| **Disrupt** | Interrupt | Free | Instant, **15s** `[T1]` | Interrupts a spellcast and locks that school for **5s**; the primary interrupt. **12.1: shows a "missed" visual + sound if the target was not casting** (game-wide interrupt change). |
+| **Consume Magic** | Dispel (talent) | Free | Instant, **10s** `[T1]` | Consumes a beneficial magic effect from the target (offensive dispel). At 10s it is effectively always available — treat it as a free purge on any enrage/absorb buff, not a saved cooldown. |
+| **Chaos Nova** | CC (AoE stun) | ~Free | Instant, **45s** `[T1]` | Eruption of fel energy stunning all nearby enemies for **3s** *[Tier 1: spell 179057 description]*. **12.1: its DR category now resets after 20s (was 16).** |
+| **Sigil of Misery** | CC (AoE) | Free | Instant, ~90s CD | Places a delayed sigil that causes enemies in its area to cower/disorient. **12.1: DR reset now 20s.** ⚠ On **Vengeance** this row changed (Sigil of Silence now replaces it when selected); that is a Vengeance-only change and does not touch Havoc. |
+| **Imprison** | CC | Free | Instant, **45s** `[T1]` | Incapacitates a target (Demon/Beast/Humanoid/Undead) for the duration. **12.1: DR reset now 20s.** |
 | **Torment** | Utility (taunt) | Free | Instant, ~8s CD | Taunts the target to attack you; single-target threat/utility. |
-| **Spectral Sight** | Utility | Free | Instant, ~30s CD | See hidden/stealthed enemies and through obstacles; reduced movement speed while active. |
+| **Spectral Sight** | Utility | Free | Instant, **30s** `[T1]` | See hidden/stealthed enemies and through obstacles; reduced movement speed while active. |
 | **Rain from Above** | CC / utility (PvP talent) | Free | Instant / **90s** `[T1]` | PvP talent: lift into the air, immune to melee, rain glaives; not a PvE button. |
 | **Illidan's Grasp** | CC (PvP talent) | Free | Channel / **60s** `[T1]` | PvP talent: seize a target, then throw or slam them. |
-| **Reverse Magic** | Dispel (PvP talent) | Free | Instant, ~1 min CD | PvP talent: remove harmful magic from party/raid and send it back to enemies. |
+| **Reverse Magic** | Dispel (PvP talent) | Free | Instant, **60s** `[T1]` | PvP talent: remove harmful magic from party/raid and send it back to enemies. |
+
+> **PvP-only, deliberately not in the table above.** 12.1 ran a game-wide **PvP
+> snare tier-down** ("70% reduced to 50%, 50% to 30%, and so on") and every class
+> has movement-slow lines in that list. Those are **PvP-only** and must never be
+> written into PvE rotation guidance. The same applies to the 12.0.7 hotfix that
+> cut **Demon Muzzle** to 5% (was 15%) and **Glimpse** to 25% (was 35%) in PvP.
 
 **Not on the Midnight Havoc tree:** **Sigil of Spite** (390163) is a **Vengeance** spec
 talent and appears on no Havoc tree — class, spec or hero. *[Tier 1: `all-talents.tsv`
-@ 12.0.7.67808, all 40 specs.]*
+@ 12.1.0, all 40 specs — re-checked for 12.1.]*
 
-**Not acquirable at 12.0.7:** **Fel Barrage** — deleted from this file. Twenty-one spells
-carry the name in `SpellName`, and **none** of them attaches to a trait node, a
+**Removed in 12.1:** **Dash of Chaos** — see the talent-changes section above. Do not
+re-add it from a guide written before 2026-08-11.
+
+**Not acquirable at 12.1:** **Fel Barrage** — still absent. Twenty-one spells carry the
+name in `SpellName`, and **none** of them attaches to a trait node, a
 `SkillLineAbility` row, `SpecializationSpells` or `PvpTalent`; the live Demon Hunter tree
 (854) has no Fel Barrage node and no Midnight-range ID was ever minted for it (highest is
 400185, a War Within-era leftover). It is not an off-meta talent you could pick up — there
 is no button. Do not re-add it from a guide that predates Midnight.
-*[Tier 1: reconcile-ledger.md §4, DB2 @ 12.0.7.67808.]*
+*[Tier 1: reconcile-ledger.md §4 @ 12.0.7.67808; zero rows in `all-talents.tsv` and in
+this folder's `ability-inventory.tsv` @ 12.1.0.69214.]*
+
+⚠ **Do not lift builds from this folder's `maxroll-raid.md` / `maxroll-mplus.md`.**
+They are Tier-3 `verbatim: true` captures and, as of the 12.1 recapture, several still
+recommend talents 12.1 deleted or moved. `talents.md` / `talents.json` (Tier 1, DB2 @
+12.1.0) are the floor for whether a talent exists and where it sits.

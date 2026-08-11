@@ -1,16 +1,22 @@
 ---
-title: Rogue Outlaw — talent tree (12.0.7)
-patch: 12.0.7
-build: 12.0.7.67808
-fetched: 2026-06-19
-reviewed: 2026-07-07
+title: Rogue Outlaw — talent tree (12.1.0)
+patch: 12.1.0
+build: 12.1.0.68914
+fetched: 
 sources:
   - https://us.api.blizzard.com/data/wow/talent-tree (Blizzard Game Data API, Tier 1)
-  - https://wago.tools/db2 Trait* @ 12.0.7.67808 (Tier 1)
+  - https://wago.tools/db2 Trait* @ 12.1.0.68914 (Tier 1)
 confidence: high
 ---
+> **Build provenance.** This file was generated from the Blizzard Game Data API and
+> wago `Trait*` DB2 at build **12.1.0.68914**, which is what the API's `static-12.1.0`
+> namespace reported on 2026-08-11. The live client that day was **12.1.0.69214**. The
+> `Trait*` DB2 exports at the two builds are **byte-identical** (verified by md5 on
+> `TraitNodeEntry`), so this data is valid for live 12.1 — cite it as **@ 12.1.0.68914**,
+> not 69214.
 
-# Rogue Outlaw — talents (12.0.7)
+
+# Rogue Outlaw — talents (12.1.0)
 
 > Generated from `knowledge/classes/_talents/all-talents.tsv`. Spell IDs are the talent's granted spell. Choice nodes show both options as `A / B`. See `_talents/README.md` for the schema.
 
@@ -26,20 +32,20 @@ confidence: high
 | Gouge / Airborne Irritant | 1776 / 200733 | 1/1 | CHOICE | 3,4 | — | 90684 |
 | Thrill Seeking | 394931 | 1 | PASSIVE | 3,5 | — | 90684,90697 |
 | Shadowrunner | 378807 | 1 | PASSIVE | 3,7 | — | 90697 |
-| Master Poisoner | 378436 | 1 | PASSIVE | 4,2 | — | 110325,90764 |
+| Master Poisoner | 378436 | 1 | PASSIVE | 4,2 | — | 90764,110325 |
 | Elusiveness / Cheat Death | 79008 / 31230 | 1/1 | CHOICE | 4,4 | — | 90695,90741,90764 |
-| Tricks of the Trade / Blackjack | 57934 / 379005 | 1/1 | CHOICE | 4,6 | — | 110324,90695 |
+| Tricks of the Trade / Blackjack | 57934 / 379005 | 1/1 | CHOICE | 4,6 | — | 90695,110324 |
 | Improved Wound Poison | 319066 | 1 | PASSIVE | 5,1 | — | 90636 |
 | Nimble Fingers | 378427 | 1 | PASSIVE | 5,3 | — | 90636 |
 | Deadened Nerves | 231719 | 1 | PASSIVE | 5,4 | — | 90742 |
 | Quick Fingers | 1267210 | 1 | PASSIVE | 5,5 | — | 90686 |
 | Improved Sprint | 231691 | 1 | PASSIVE | 5,7 | — | 90686 |
 | Superior Mixture | 423701 | 1 | PASSIVE | 6,1 | 8 | 90637 |
-| Evasion | 5277 | 1 | ACTIVE | 6,2 | 8 | 90637,90745 |
+| Evasion | 5277 | 1 | ACTIVE | 6,2 | 8 | 90745,90637 |
 | Iron Stomach | 193546 | 1 | PASSIVE | 6,3 | 8 | 90745 |
-| Virulent Poisons | 381543 | 1 | PASSIVE | 6,4 | 8 | 110323,90745,90746 |
+| Virulent Poisons | 381543 | 1 | PASSIVE | 6,4 | 8 | 90745,90746,110323 |
 | Stillshroud | 423662 | 1 | PASSIVE | 6,5 | 8 | 90746 |
-| Graceful Guile | 423647 | 1 | PASSIVE | 6,6 | 8 | 90687,90746 |
+| Graceful Guile | 423647 | 1 | PASSIVE | 6,6 | 8 | 90746,90687 |
 | Featherfoot | 423683 | 1 | PASSIVE | 6,7 | 8 | 90687 |
 | Numbing Poison / Atrophic Poison | 5761 / 381637 | 1/1 | CHOICE | 7,2 | 8 | 90762,94567 |
 | Deadly Precision | 381542 | 1 | PASSIVE | 7,3 | 8 | 90762,90744,90747 |
@@ -47,7 +53,7 @@ confidence: high
 | Deep Cuts | 1267216 | 1 | PASSIVE | 7,5 | 8 | 90754,90747,94563 |
 | Unbreakable Stride | 400804 | 1 | PASSIVE | 7,6 | 8 | 90754,101714 |
 | Danger Sense | 1267220 | 1 | PASSIVE | 8,2 | 8 | 90743,90763 |
-| Swift Slasher | 381988 | 1 | PASSIVE | 8,4 | 8 | 90743,94562,110576 |
+| Swift Slasher | 381988 | 1 | PASSIVE | 8,4 | 8 | 110576,90743,94562 |
 | Improved Ambush / Tight Spender | 381620 / 381621 | 1/1 | CHOICE | 8,6 | 8 | 94561,94562 |
 | Leeching Poison | 280716 | 1 | PASSIVE | 9,2 | 23 | 90760 |
 | Lethality | 382238 | 2 | PASSIVE | 9,3 | 23 | 90760,90752 |
@@ -57,7 +63,7 @@ confidence: high
 | Vigor | 14983 | 2 | PASSIVE | 10,2 | 23 | 90758 |
 | Supercharger | 470347 | 2 | PASSIVE | 10,4 | 23 | 90640 |
 | Subterfuge | 108208 | 2 | PASSIVE | 10,6 | 23 | 90691 |
-| Thistle Tea | 381623 | 1 | ACTIVE | 11,2 | 23 | 90759 |
+| Thistle Tea / Thistle Tea | 381623 / 1298826 | 1/1 | CHOICE | 11,2 | 23 | 90759 |
 | Cold Blooded Killer | 382245 | 1 | PASSIVE | 11,3 | 23 | 90749 |
 | Echoing Reprimand / Forced Induction | 470669 / 470668 | 1/1 | CHOICE | 11,4 | 23 | 90639 |
 | Deeper Stratagem | 193531 | 1 | PASSIVE | 11,5 | 23 | 90751 |
@@ -91,11 +97,11 @@ confidence: high
 | Improved Adrenaline Rush | 395422 | 1 | PASSIVE | 8,18 | 8 | 90662 |
 | Ace Up Your Sleeve | 381828 | 2 | PASSIVE | 8,20 | 8 | 90671,90651,90753 |
 | Dancing Steel | 272026 | 1 | PASSIVE | 8,22 | 8 | 90671 |
-| Find an Opening | 1259457 | 1 | PASSIVE | 9,15 | 20 | 90641,90678 |
-| Acrobatic Strikes | 455143 | 1 | PASSIVE | 9,17 | 20 | 90654,90678 |
+| Find an Opening | 1259457 | 1 | PASSIVE | 9,15 | 20 | 90680,90641,90678 |
+| Acrobatic Strikes | 455143 | 1 | PASSIVE | 9,17 | 20 | 90678,90654 |
 | Heightened Rush / Menacing Rush | 1259465 / 1256630 | 1/1 | CHOICE | 9,18 | 20 | 90654 |
-| Zero In | 1259485 | 1 | PASSIVE | 9,19 | 20 | 90654,90668 |
-| Grand Melee | 1259469 | 1 | PASSIVE | 9,21 | 20 | 90669,90668 |
+| Zero In | 1259485 | 1 | PASSIVE | 9,19 | 20 | 90668,90654 |
+| Grand Melee | 1259469 | 1 | PASSIVE | 9,21 | 20 | 90671,90669,90668 |
 | Summarily Dispatched | 381990 | 2 | PASSIVE | 10,16 | 20 | 90677,90664 |
 | Dragon-Bone Dice | 1259481 | 1 | PASSIVE | 10,18 | 20 | 90655,90670,90664 |
 | Fan the Hammer | 381846 | 2 | PASSIVE | 10,20 | 20 | 90667,90670 |

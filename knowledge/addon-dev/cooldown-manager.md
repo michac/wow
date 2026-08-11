@@ -1,23 +1,25 @@
 ---
 title: The Cooldown Manager — how a CDM row resolves
-patch: 12.0.7
-fetched: 2026-08-09
-reviewed: 2026-08-09   # + a client capture 2026-08-09 (ClientLab CDMSweep, Demonology, in restricted combat)
+patch: 12.1.0
+fetched: 2026-08-11
+reviewed: 2026-08-11   # 12.1.0 source diff only; NO new client capture. The [client] tags below are all 12.0.7 and were not restamped
 sources:
+  - raw/addon-research/wow-ui-source-12.1.0 @ 12.1.0.69273 — Interface/AddOns/Blizzard_CooldownViewer/* and Blizzard_APIDocumentationGenerated/CooldownViewer{,Constants}Documentation.lua. `[T1 src @12.1.0]` / `[T1 docs @12.1.0]` locators resolve here
+  - https://warcraft.wiki.gg/wiki/Patch_12.1.0/API_changes (revid 6801760, 2026-08-09)
   - raw/addon-research/wow-ui-source @ 12.0.7.68887 — Interface/AddOns/Blizzard_CooldownViewer/*
   - raw/addon-research/wow-ui-source @ 12.0.7.68887 — Blizzard_APIDocumentationGenerated/CooldownViewer{,Constants}Documentation.lua
   - wago.tools DB2 @ 12.0.7 — CooldownSet, CooldownSetSpell, CooldownSetLinkedSpell (raw/wago/)
   - projects/cooldown-hud/docs/ — CDMProbe in-client captures, session detail
-  - in-client capture, CDMProbe AlertTape v0.32.27 (/cdmp alerts), Destruction Warlock, 2026-07-30  # §5.1 alert-channel confirmations
-  - in-client capture, CDMProbe AlertTape v0.32.29, Destruction/Hellcaller Warlock, 2026-07-30  # §5.4 same-frame refresh tie; simultaneous PandemicTime on both Immolate cooldownIDs
-  - in-client capture, CDMProbe v0.32.32 decision log, Destruction Warlock (Hellcaller AND Diabolist), 2026-07-30  # §2.8 cid 66181's base/display spellID split + hero-talent-dependent isKnown; override event firing for an untracked display id
-  - in-client capture, CDMProbe v0.32.46 decision log, Destruction Warlock (both hero trees), 2026-07-31  # §5.3 ChargeGained is a prediction-queue drain, not a charge
+  - in-client capture, CDMProbe AlertTape v0.32.27 (/cdmp alerts), Destruction Warlock, 2026-07-30  # §5.1 alert-channel confirmations. ⚠ NOT RE-CHECKABLE — no extract of this session survives on disk; the surviving alert-tape extract holds only v0.32.44 / 2026-07-31 sessions
+  - in-client capture, CDMProbe AlertTape v0.32.29, Destruction/Hellcaller Warlock, 2026-07-30  # §5.4 same-frame refresh tie; simultaneous PandemicTime on both Immolate cooldownIDs. ⚠ NOT RE-CHECKABLE — same rolled-off session set as the line above
+  - in-client capture, CDMProbe v0.32.32 decision log, Destruction Warlock (Hellcaller AND Diabolist), 2026-07-30  # §2.8 cid 66181's base/display spellID split + hero-talent-dependent isKnown; override event firing for an untracked display id. ⚠ NOT RE-CHECKABLE — the surviving decision-log extract holds only v0.32.95 / 2026-08-03
+  - in-client capture, CDMProbe v0.32.46 decision log, Destruction Warlock (both hero trees), 2026-07-31  # §5.3 ChargeGained is a prediction-queue drain, not a charge. ⚠ NOT RE-CHECKABLE — same surviving extract as the line above, which does not reach this session
   - in-client capture, CDMProbe /cdmp census, Destruction Warlock (both hero trees), 2026-07-31  # §2.5, §7 the readable-surface sweep
   - in-client capture, cap v0.2.1/v0.2.2 `edge` stream (`wowkb.capture cap edge`), Demonology/Diabolist Warlock, 2026-08-07  # §7 the alert channel is silent on cid 760: 0 edges of 1054 over 171 casts
-  - in-client capture, CDMProbe v0.32.53 flight recorder, Destruction + Demonology Warlock, 2026-08-01  # §7 Tier 3 C_AssistedCombat readable through combat
+  - in-client capture, CDMProbe v0.32.53 flight recorder, Destruction + Demonology Warlock, 2026-08-01  # §7 Tier 3 C_AssistedCombat readable through combat. ⚠ NOT RE-CHECKABLE — no surviving extract carries that version, that date, or any GetNextCastSpell sample
   - in-client capture, CDMProbe /cdmp curve stack, Demonology Warlock, 2026-08-04  # §7 Tier 2 auraInstanceID plain / auraSpellID secret
   - in-client capture, cap v0.2.0 bind log, Destruction + Demonology Warlock (both hero trees) AND Retribution Paladin, 2026-08-06  # §2 overrideSpellID always populated; §4 TRAIT_CONFIG_UPDATED precedes the rebuild; §7 Tier 1 category set is a superset
-  - in-client capture, ClientLab v0.2.2 `cdm-identity-readable-in-combat`, Demonology Warlock, 5 in-combat runs, 2026-08-06  # §2 overrideSpellID is the in-combat identity route and MOVES; §4 GetSpellID's secret set is volatile and does not track auraDataUnit
+  - in-client capture, ClientLab v0.2.2 `cdm-identity-readable-in-combat`, Demonology Warlock, 5 in-combat runs, 2026-08-06  # §2 overrideSpellID is the in-combat identity route and MOVES; §4 GetSpellID's secret set is volatile and does not track auraDataUnit. ⚠ The capture itself is GONE — the surviving lab-runs extract reaches only 2026-08-05 and contains no run of this id. The recorded field values survive transcribed verbatim in observations.md, which is the archive of record for this one
   - in-client capture, cap v0.2.1 bind log, Demonology/Diabolist Warlock, 2026-08-07  # §1.2 the three row enumerations (DB2 65 / category set 44 / laid out 21) and which HideByDefault rows a saved layout un-hid
   - in-client capture, ClientLab CDMSweep, Demonology Warlock, 2026-08-09 (raw/clab-cdmsweep.log, raw/clab-cdmevent.log)  # §7 the SpellCooldownInfo per-member seal, Bar.Pip:IsShown(), the totem channel, GetSpellCooldownDuration in restricted combat
   - EllesmereUI v8.7.5 @ c4eba58d996a8436f467ac8f297148bff9dd3008 (2026-08-04),
@@ -37,7 +39,7 @@ confidence: high
 [README](./README.md) §1 topic map partitions *mechanisms* — events, frames, taint,
 persistence — so that any addon-dev question lands in exactly one file. This file
 is organised the other way: around **one Blizzard system**, `Blizzard_CooldownViewer`,
-because the workspace has an addon (`CDMProbe`) built entirely on top of it and the
+because this workspace builds addons entirely on top of it and the
 model does not survive being cut into seven pieces.
 
 It therefore **defers to the topics for general mechanism** and only claims what is
@@ -51,10 +53,54 @@ specific to the CDM:
 | Event registration mechanics, `hooksecurefunc` as an instrument, `OnUpdate` vs ticker | [`api-events-and-discovery`](./api-events-and-discovery.md) |
 | Texture channels, pooling, anchoring to Blizzard frames | [`frames-textures-animation`](./frames-textures-animation.md) |
 
-⚠ **This file breaks a global property of the subtree.** README §0 states that nothing
-under `addon-dev/` has been executed in the client. That remains true of the seven
-topics; it is **not** true here. A subset of the claims below are **client-confirmed**
-from CDMProbe sessions and are marked **`[client]`** with their capture. Everything
+---
+
+## 0b. ⚠ 12.1.0 REWROTE THIS SYSTEM AND THIS FILE HAS NOT BEEN RE-FLOWN
+
+**Read this before using anything below.** The Cooldown Manager was one of 12.1.0's
+larger reworks. This file was updated against the 12.1.0 **source** on patch day; it
+was **not** re-measured in the client, and it was not re-derived line by line.
+
+**What that means for the three kinds of claim here:**
+
+| Claim kind | Status at 12.1.0 |
+|---|---|
+| **`[client YYYY-MM-DD]` measurements** | **Taken on 12.0.7, and NOT restamped.** Each still says the date it was measured. Several are about the *readable surface* of item frames, which the rework plausibly moved. Treat every one as "was true on 12.0.7" and re-fly before building on it. |
+| **Unstamped `[T1 src: …:NNN]` line numbers** | **12.0.7.68887, and not re-resolved.** `Blizzard_CooldownViewer/` gained six files and lost five (below), so many of these have shifted; the *mechanism* they cite is usually still there, the *line* frequently is not. A locator stamped `@12.1.0` was read on the new tree. |
+| **Structural claims about categories, families and identity** | **Partly falsified — corrected in place below.** The category enum more than doubled, the two hidden pseudo-categories were renamed, and there is now a third display mode. Those specific corrections are made at their sections; the identity ladder (§2) and value cascade (§3) were **not** re-derived. |
+
+**The file-level diff, as the cheapest map of what moved**
+`[T1 src @12.1.0 vs 12.0.7, `Blizzard_CooldownViewer/`]`:
+
+- **Gone (5):** `CooldownViewerVisualAlert.lua`, `CooldownViewerVisualAlertData.lua`,
+  `CooldownViewerVisualAlertTemplates.lua/.xml`, `CooldownViewerVisualAlertsManager.lua/.xml`
+- **New (6+):** `CooldownViewerSecure.lua`, `GroupBuffFilter.lua/.xml`,
+  `CooldownViewerDraggedItemBase.lua/.xml`, `CooldownViewerEditAlertBase.lua/.xml`,
+  `CooldownViewerVisualAlertTarget.lua`
+
+The visual-alert subsystem §5.1 and §6 describe was **restructured**, not merely
+moved. `@verify-ingame`
+
+**What 12.1.0 added, in one list** (each expanded at its section):
+
+1. **The CDM now tracks trinkets, potions and racial cooldowns/durations** — five new
+   categories and three new row fields (§1.3).
+2. **Group buffs** — a third display mode, a new settings UI, `GetGroupBuffItems`, and
+   four new `C_UnitAuras` functions with two events (§1.4).
+3. **`HiddenSpell` / `HiddenAura` were renamed `HiddenActive` / `HiddenPassive`**
+   (§1.2) — a silent breakage for anything referencing them by name.
+4. **A "Short" sounds category** (26 sounds) and CDM sounds feeding the **Combat Audio
+   Assist** accessibility feature (§5.5).
+5. **CDM rows can be pinged** (§5.6).
+6. `SPELL_UPDATE_COOLDOWN` **gained an `itemID` payload field** (§5).
+
+---
+
+⚠ **This file is where the subtree's in-client measurement is concentrated.** README §0
+defines `[client YYYY-MM-DD]` as the strongest evidence class and deliberately keeps no
+census of where it appears; `grep -rl '\[client 20'` is the live list, and every other
+topic file carries measurements too. A large subset of the claims below are **client-confirmed** and are marked
+**`[client]`** with their capture in the front matter. Everything
 else is a source read at the pinned build, and unsettled claims carry
 `@verify-ingame` as usual.
 
@@ -66,21 +112,32 @@ A CDM row belongs to one of two families, and **the family is the only stable fa
 about it.** Everything else — its identity, what its dial means — is re-derived on
 every refresh.
 
-The settings panel presents exactly two tabs, and they map to disjoint category sets:
+The settings panel presents **three** display modes, and the two row families map to
+the first two:
 
 ```lua
 local displayModeToCategories =
 {
-	["spells"] = { Enum.CooldownViewerCategory.Essential, Enum.CooldownViewerCategory.Utility, Enum.CooldownViewerCategory.HiddenSpell },
-	["auras"] = { Enum.CooldownViewerCategory.TrackedBuff, Enum.CooldownViewerCategory.TrackedBar, Enum.CooldownViewerCategory.HiddenAura },
+	["spells"]     = { Enum.CooldownViewerCategory.Essential,    Enum.CooldownViewerCategory.Utility,
+	                   Enum.CooldownViewerCategory.EquipSlotEssential, Enum.CooldownViewerCategory.SpecAgnosticEssential,
+	                   Enum.CooldownViewerCategory.HiddenActive },
+	["auras"]      = { Enum.CooldownViewerCategory.TrackedBuff,  Enum.CooldownViewerCategory.TrackedBar,
+	                   Enum.CooldownViewerCategory.EquipSlotTracked,   Enum.CooldownViewerCategory.SpecAgnosticTracked,
+	                   Enum.CooldownViewerCategory.HiddenPassive },
+	["groupBuffs"] = {},
 };
 ```
-`[T1 src: Blizzard_CooldownViewer/CooldownViewerSettings.lua:1463-1467]`
+`[T1 src @12.1.0: Blizzard_CooldownViewer/CooldownViewerSettings.lua:1518-1523]`
+
+**Two families, still.** Each of the four real categories per mode is an
+Essential-side or a Tracked-side member; the split is unchanged in kind, only widened
+(§1.3). `["groupBuffs"] = {}` is deliberately empty — the third mode is not
+category-driven at all and is served by its own filter UI (§1.4).
 
 The same spell/aura split appears in the data provider's hidden-category mapping —
-Essential and Utility fall back to `HiddenSpell`, TrackedBuff and TrackedBar to
-`HiddenAura`
-`[T1 src: .../CooldownViewerSettingsDataProvider.lua:47-52]`.
+Essential and Utility fall back to `HiddenActive`, TrackedBuff and TrackedBar to
+`HiddenPassive`
+`[T1 src @12.1.0: .../CooldownViewerSettingsDataProvider.lua:67-70]`.
 
 **A row cannot be dragged across the line.** Not because the data layer forbids it —
 `GetCooldownCategoryChangeStatus` explicitly declines to check the category, with a
@@ -95,7 +152,7 @@ comment saying it *could* be expanded to
 | | Tab 1 — "spells" | Tab 2 — "auras" |
 |---|---|---|
 | Mixin | `CooldownViewerCooldownItemMixin` `[:678]` | `CooldownViewerBuffItemMixin` `[:1157]` |
-| Categories | Essential, Utility | TrackedBuff, TrackedBar |
+| Categories | Essential, Utility, **EquipSlotEssential, SpecAgnosticEssential** | TrackedBuff, TrackedBar, **EquipSlotTracked, SpecAgnosticTracked** |
 | Value sources | **four** — charges, spell cooldown, aura/totem, edit mode | **three** — totem, aura, edit mode |
 | Spell-cooldown rung | yes | **none — structurally cannot show a cooldown** |
 | `IsActivelyCast()` | `true` `[:680]` | `false` (inherits the base) `[ItemData.lua:534]` |
@@ -132,14 +189,21 @@ end
 The two flag members are `HideAura = 1` and `HideByDefault = 2`
 `[T1 docs: CooldownViewerConstantsDocumentation.lua:16-27]`.
 
-⚠ **`HiddenSpell` and `HiddenAura` are not enum members.** They are `-1` and `-2`,
-**assigned into the enum table by Blizzard's own addon** at
-`[T1 src: CooldownViewerSettingsConstants.lua:4-5]`; the generated C enum declares
-`NumValues = 4`, members 0–3 only
-`[T1 docs: CooldownViewerConstantsDocumentation.lua:70-83]`. So they are **nil until
+⚠ **The two pseudo-categories are `HiddenActive` and `HiddenPassive`, and they are not
+enum members.** They are `-1` and `-2`, **assigned into the enum table by Blizzard's own
+addon** at `[T1 src @12.1.0: CooldownViewerSettingsConstants.lua:4-5]`; the generated C
+enum declares `NumValues = 9`, members 0–8 only
+`[T1 docs @12.1.0: CooldownViewerConstantsDocumentation.lua]`. So they are **nil until
 `Blizzard_CooldownViewer` has loaded**, and they are **negative** — anything iterating the
-enum or assuming `0..3` is surprised. (The pseudo-category mapping itself is the snippet
-quoted in §1: Essential/Utility → `HiddenSpell`, TrackedBuff/TrackedBar → `HiddenAura`.)
+enum or assuming a contiguous range is surprised. (The pseudo-category mapping itself is
+the snippet quoted in §1: Essential/Utility → `HiddenActive`, TrackedBuff/TrackedBar →
+`HiddenPassive`.)
+
+⚠⚠ **They were called `HiddenSpell` and `HiddenAura` through 12.0.7.** The rename is
+silent in the worst way: the old names are ordinary table keys that simply stop being
+assigned, so `Enum.CooldownViewerCategory.HiddenSpell` reads **`nil`** rather than
+erroring, and a comparison against it matches every row whose `category` is also nil —
+or none at all. Grep for both names.
 
 **The consequence is that the row gets no frame.** `GetOrderedCooldownIDsForCategory`
 matches on the (now rewritten) category `[T1 src: CooldownViewerSettingsDataProvider.lua:230]`,
@@ -206,6 +270,97 @@ the live bind, i.e. un-hidden by a saved layout; Infernal Bolt's aura row (cid `
 spell `433891`, `flags = 2`) is not, and produces nothing at all.
 `[T1 db2: CooldownSetSpell @ 12.0.7]`
 
+### 1.3 Trinkets, potions and racials — the five new categories (12.1.0)
+
+`Enum.CooldownViewerCategory` went from **4 members to 9**
+`[T1 docs @12.1.0: CooldownViewerConstantsDocumentation.lua]`:
+
+| Member | Value | Family | Since |
+|---|---:|---|---|
+| `Essential` | 0 | tab 1 | 12.0 |
+| `Utility` | 1 | tab 1 | 12.0 |
+| `TrackedBuff` | 2 | tab 2 | 12.0 |
+| `TrackedBar` | 3 | tab 2 | 12.0 |
+| **`GroupBuff`** | 4 | *neither* — §1.4 | **12.1.0** |
+| **`SpecAgnosticEssential`** | 5 | tab 1 | **12.1.0** |
+| **`SpecAgnosticTracked`** | 6 | tab 2 | **12.1.0** |
+| **`EquipSlotEssential`** | 7 | tab 1 | **12.1.0** |
+| **`EquipSlotTracked`** | 8 | tab 2 | **12.1.0** |
+
+The two axes are what the names say. **`SpecAgnostic*`** is a row that is not
+spec-scoped — the natural home for **racial abilities** and other class-wide
+cooldowns, which previously had no category that made sense. **`EquipSlot*`** is a row
+whose source is an **equipped item** rather than a spellbook entry: trinkets, and the
+on-use item cooldowns generally.
+
+**§1.1's "classify on family, not on category" rule survives, and it matters more now.** ⚠
+Each new category is unambiguously tab-1-side or tab-2-side, so family is still the
+stable fact. But a consumer that **enumerated categories by literal** — `{Essential,
+Utility}` and `{TrackedBuff, TrackedBar}` — now silently misses more than half the
+possible rows, and misses them without any error. Enumerate from
+`displayModeToCategories` (§1) or from the enum, never from a hand-written pair.
+
+**Three new fields on `CooldownViewerCooldown`**
+`[T1 docs @12.1.0: CooldownViewerDocumentation.lua:126-146]`, plus one that turns out
+to matter:
+
+| Field | Type | What it is |
+|---|---|---|
+| `spellCategoryID` | `number?` | the **shared-cooldown category** a row belongs to — this is how potions work. `CooldownViewerItemDataMixin` resolves it through `C_Spell.GetLastCategoryCooldownSource(spellCategoryID) -> spellID, itemID` and then binds from *that* `[T1 src @12.1.0: CooldownViewerItemData.lua:50-54]`, so a potion row tracks "whatever last consumed this category", not a fixed spell. |
+| `equipSlot` | `luaIndex?` | the inventory slot a row's item sits in. Read via `GetInventoryItemCooldown("player", equipSlot)` `[T1 src @12.1.0: CooldownViewer.lua:1018-1031]` — note Blizzard's own `-- TODO: Support potions as well, this won't just be equipslot` at `:1018`, i.e. **the item path is explicitly unfinished**. |
+| `buffSlot` | `luaIndex?` | the aura slot for the item's buff half `[T1 src @12.1.0: CooldownViewerItemData.lua:274, defaulting to 1]`. |
+| `isInvisible` | `bool` | a row the settings UI filters out, gated on the constant `CDM_HIDE_INVISIBLE_ITEMS` `[T1 src @12.1.0: CooldownViewerSettingsDataProvider.lua:253-254; CooldownViewerSettings.lua:49-50]`. **A third suppression mechanism**, distinct from `HideByDefault` (§1.2) and from `isKnown`. |
+
+⚠ **`isInvisible` is a fourth way for a row to exist and not be there**, on top of
+§1.2's `HideByDefault`, `isKnown = false`, and never having been laid out. §1.2's
+warning — that a consumer latching off the alert channel is blind to unbound rows and
+gets no error saying so — now has one more source. `@verify-ingame` — nothing here
+has been observed in a client.
+
+⚠ **An `EquipSlot*` row's value does NOT come from `C_Spell.GetSpellCooldown`.** It
+comes from `GetInventoryItemCooldown`, a different API on a different key. §3's value
+cascade was derived on spell-backed rows only and **was not re-derived** for the item
+path. Treat §3 as describing tab-1 spell rows. `@verify-ingame`
+
+### 1.4 Group buffs — a third display mode that is not a row family (12.1.0)
+
+`GroupBuff` (category 4) is in the enum but in **neither** display mode's category
+list (§1). Its mode, `["groupBuffs"]`, maps to the empty set and is served by a
+dedicated filter UI — `GroupBuffFilter.lua/.xml`, new files in the addon, refreshed
+via `self.GroupBuffFilter:Refresh()` when that mode is selected
+`[T1 src @12.1.0: CooldownViewerSettings.lua:1522, :1547-1549]`.
+
+The player-facing feature is a healer tool: assign visual alerts to specific group-buff
+spells, and hide chosen buffs from raid frames
+`[T1 game: 12.1 content update notes, via `_meta/changelog-12.1.md`]`.
+
+**The addon-facing surface is new and small:**
+
+- **`C_CooldownViewer.GetGroupBuffItems() -> groupBuffItems: GroupBuffItem[]`**
+  `[T1 docs @12.1.0: CooldownViewerDocumentation.lua:43-50]`. The struct is
+  `{ spellID: number, name: cstring, iconID: fileID, flags: GroupBuffItemFlags,
+  isKnown: bool }` `[:148-159]` — note it is **not** a `CooldownViewerCooldown` and
+  carries **no `cooldownID`**, so the five-rung identity ladder of §2 does not apply
+  to it. It is a flat spell list, keyed by `spellID`.
+- **Four new `C_UnitAuras` functions** — `GetGroupBuffVisualAlerts` /
+  `SetGroupBuffVisualAlerts`, `GetHiddenGroupBuffs` / `SetHiddenGroupBuffs`
+  `[T2 wiki: Patch 12.1.0/API changes §Global API/Added, revid 6801760, 2026-08-09]`.
+  Both getters return `NeverSecretContents` tables — `visualAlerts` of
+  `GroupBuffVisualAlertInfo` and `spellIDs` of `number`
+  `[T1 docs @12.1.0: UnitAuraDocumentation.lua:521, :532]`, which is worth noting
+  against §4.7 of `security-taint-and-restricted-data`: **these two survive the 12.1.0
+  aura seal**, because they are configuration rather than aura state.
+- **Two new events** — `GROUP_BUFF_VISUAL_ALERTS_CHANGED` and
+  `HIDDEN_GROUP_BUFFS_CHANGED` `[T2 wiki: same page §Events/Added]`. Config-changed
+  notifications, in the same spirit as §4's `TRAIT_CONFIG_UPDATED`: a hint to re-poll.
+- Four `CooldownManagerLayout_*` globals wrap the same four setters/getters
+  `[T2 wiki: same page §FrameXML/Added]`.
+
+`@verify-ingame` — none of this has been run. In particular, whether a `GroupBuff` row
+ever produces an item frame in a viewer (as opposed to living only in the settings
+filter) is **unestablished**; the empty category list for its display mode suggests
+not, but that is an inference from one snippet.
+
 ---
 
 ## 2. Identity — five rungs, one pool
@@ -257,6 +412,9 @@ of the associated linkedSpellIDs"* `[T1 src: ItemData.lua:167-172]`.
 > ⚠ **`overrideSpellID` IS the in-combat display-identity route, and it is the only one.**
 > `[client 2026-08-06]` — 21 rows, 5 in-combat runs, **plain on 21/21 in every run**, while
 > `item:GetSpellID()` refused on a different 1–3 rows each time (§4).
+> ⚠ **Evidence gone** — that lab run is off the ring and no surviving extract holds it; the
+> recorded per-row values survive only as a transcription in this subtree's queue, which is
+> the archive of record for it. The same applies to the Tier-2 `GetSpellID()` row in §7.
 >
 > It clears both halves of the bar, which matters because a widget read that is merely
 > *readable* can still be a constant:
@@ -352,8 +510,8 @@ cached record per cooldownID**, handed to whichever frame binds that id
 So `SetOverrideSpell` and `SetLinkedSpell` **mutate shared, durable state**. An
 aura-instance binding is neither shared nor durable.
 
-> `[client 2026-07-31]` (CDMProbe `/cdmp census`, Destruction, both hero trees,
-> 72 cooldownIDs × in/out of combat). Two separate answers:
+> `[client 2026-07-31]` (a census of 72 cooldownIDs on a Destruction Warlock, both hero
+> trees, in and out of combat). Two separate answers:
 >
 > - **Rung 4 (`overrideSpellID`) DOES carry into a fresh read.** cid 164597 Immolate reads
 >   `overrideSpellID = 445468` (Wither) on Hellcaller and `348` on Diabolist, from a plain
@@ -424,9 +582,10 @@ which is what separates it from rung 2.
 
 ### 2.8 A row's base spellID can be a spell the character does not have
 
-Two facts `[client 2026-07-30]` (CDMProbe decision log, Destruction Warlock, Hellcaller
-**and** Diabolist) that between them break the naive "walk the set, key by `spellID`"
-reading of the CDM database.
+Two facts `[client 2026-07-30]` (one Destruction Warlock, Hellcaller **and** Diabolist)
+that between them break the naive "walk the set, key by `spellID`"
+reading of the CDM database. ⚠ **Evidence gone** — the decision-log capture behind this
+whole subsection is off the ring with no surviving extract; re-checking means re-flying.
 
 **One ability can occupy two cooldownIDs carrying different spellIDs.** Immolate appears as
 `cid 133441 → spellID 157736` (the DoT **aura** id, on the Buff-bar viewer) *and*
@@ -586,8 +745,8 @@ Six registered by the shared viewer mixin
 | Event | Family | Effect on the row |
 |---|---|---|
 | `COOLDOWN_VIEWER_SPELL_OVERRIDE_UPDATED` | both | Writes rung 4, then full `RefreshData`. Fires **redundantly** — Blizzard's own `SetOverrideSpell` early-returns on an unchanged value `[ItemData.lua:88-105]`. |
-| `SPELL_UPDATE_COOLDOWN` | both | May re-elect rung 2 (§2.2 path B), then `RefreshData`. |
-| `UNIT_AURA` | both | Registered `("player", "target")` only. Routed by `auraInstanceID` to exact frames; added-auras fan out to all. |
+| `SPELL_UPDATE_COOLDOWN` | both | May re-elect rung 2 (§2.2 path B), then `RefreshData`. ⚠ **Gained an `itemID` payload field at 12.1.0** `[T2 wiki: Patch 12.1.0/API changes §Events/Changed, revid 6801760, 2026-08-09]` — the item half of §1.3's trinket/potion tracking. A handler that positionally unpacks this payload must be re-checked. |
+| `UNIT_AURA` | both | Registered `("player", "target")` only. Routed by `auraInstanceID` to exact frames; added-auras fan out to all. ⚠⚠ **At 12.1.0 this payload is FULLY SECRET while auras are restricted** (`security-taint-and-restricted-data.md` §4.7) and the `auraInstanceID` lists lost their `NeverSecretContents` markers. The routing described here is Blizzard's own untainted code and still works; **an addon reproducing it does not.** Every measurement in §5.4 and §7 that reads an `auraInstanceID` was taken on 12.0.7 and is the most likely thing in this file to have been falsified. `@verify-ingame` |
 | `UNIT_TARGET` | both | `OnNewTarget` on every frame: clears the link, clears pandemic timing, forces inactive `[:631-638]`. |
 | `SPELL_UPDATE_ICON` | both | Texture only — no re-resolve. |
 | `PLAYER_TOTEM_UPDATE` | both | Rebinds totem data, which outranks auras in both families. |
@@ -625,10 +784,20 @@ The event argument is `Enum.CooldownViewerAlertEventType`, six members
 | 5 | `OnAuraApplied` | `:612` | a **fresh** application — not a stack, not a refresh (§5.4) |
 | 6 | `OnAuraRemoved` | `:622` | the bound aura instance went away (§5.4) |
 
-**`[client 2026-07-30]` All six fire in restricted combat** (CDMProbe `AlertTape`,
-`/cdmp alerts`, Destruction Warlock, 12.0.7). Counts from one ~80 s pull: `ChargeGained`
+⚠ **The alert *subsystem* was restructured at 12.1.0** — five `CooldownViewerVisualAlert*`
+files removed, `CooldownViewerVisualAlertTarget.lua` and `CooldownViewerEditAlertBase.lua/.xml`
+added (§0b). The six **event types** below are unchanged in the generated enum, and
+`TriggerAlertEvent` still exists; whether the choke point is still reached by the same
+six paths, and whether the pool-enumeration argument of §1.2 still holds, was **not
+re-derived**. `@verify-ingame`
+
+**`[client 2026-07-30]` All six fire in restricted combat** (Destruction Warlock, the
+alert channel taped end to end). Counts from one ~80 s pull: `ChargeGained`
 ×10 (Conflagrate), `OnAuraApplied` ×15, `OnAuraRemoved` ×13, `PandemicTime` ×5; `Available`
 ×7 and `OnCooldown` on four non-charged entries over a longer pull in the same session.
+⚠ **Evidence gone.** That capture is off the SavedVariables ring and no extract of it
+survives on disk, so these counts stand on what was written down at the time; confirming
+them means re-flying the tape.
 
 > ⚠ **`Available` and `OnCooldown` NEVER fire for an ability with no real cooldown**, and a
 > consumer latching readiness off this channel has to know which of its rows are silent.
@@ -760,7 +929,8 @@ and hidden. The alert then fires on any **increase** of that cached value
 
 ❗ **But `ChargeGained` is not "one charge was gained".** It is *"one entry in a prediction
 queue came due"*, and the difference is load-bearing for anyone counting charges off it
-`[client 2026-07-31]` + T1 src:
+`[client 2026-07-31]` + T1 src: ⚠ **the measured half's capture is gone** — off the ring,
+no surviving extract — though the source read below stands on its own and is re-checkable.
 
 - `AddChargeGainedAlertTime(predictedChargeCount, predictedChargeGainTime)` `[:591-594]`
   writes into `chargeGainedAlertTimes`, a table **keyed by predicted charge count**.
@@ -821,6 +991,8 @@ gained on an existing aura keeps the same `auraInstanceID` and arrives under
 (a 2-stack buff on the BuffBar viewer) raised `OnAuraApplied` ×5 / `OnAuraRemoved` ×5 across
 ~10 Conflagrate charge gains — applications, not increments. Conflagrate (2 real charges) in
 the same capture raised `Available, OnCooldown, ChargeGained` and no aura edges.
+⚠ **Evidence gone** — this subsection's alert-tape capture is off the ring with no
+surviving extract, here and in the same-frame finding below; re-checking means re-flying.
 
 **A re-application after a lapse fires BOTH clears in one frame, with the same timestamp.**
 `[client 2026-07-30]` Re-applying a DoT raises `OnAuraRemoved` **and** `OnAuraApplied` for
@@ -838,6 +1010,49 @@ The same capture also confirms §2.7's two-cooldownID warning in its sharpest fo
 Immolate rows raised `PandemicTime` at the *identical* timestamp (`131182.959`), so a
 consumer keying per cooldownID gets two edges for one game event and must fold them to one
 answer.
+
+### 5.5 Sounds — a "Short" category, and the Combat Audio Assist tie-in (12.1.0)
+
+`Enum.CooldownViewerSoundCategory` gained a **`Short`** member, carrying **26** sound
+entries — Bell Strike, Bell Tree, Big Pot, Blades, Coffee Mug, Cow Bell, Finger Snap,
+Guitar, Kalimba, Metal Blade Drop / On Rod, Metal Impact, Mini Wood Xylophone, Paper
+Cup, Sheet Metal, Stove Pipe (+ Blade), Sword Shing, Synth Bleep / Blurp / Error /
+High, Triangle, Water Drop, Wine Bottle, Wood Xylophone — each a
+`{ soundEnum, soundKitID, text }` row with a real `SoundKit` id (353387–353428)
+`[T1 src @12.1.0: Blizzard_CooldownViewer/CooldownViewerSoundAlertData.lua:58-84]`.
+The menu-building helpers are new globals: `CooldownViewerUtil.BuildSoundMenus`,
+`GetSoundTypeSoundKit`, `GetSoundTypeText`, `AddSoundAlertRadio`
+`[T2 wiki: Patch 12.1.0/API changes §FrameXML/Added, revid 6801760, 2026-08-09]`.
+
+**CDM sounds now also feed the Combat Audio Assist accessibility feature**
+`[T1 game: 12.1 content update notes, via `_meta/changelog-12.1.md`]`. The addon-facing
+trace of that is `C_CombatAudioAlert.SpeakText` gaining a `utteranceID` return plus
+`MayReturnNothing`, and a new `CombatAudioAlertUtil.*` global family (11 functions)
+`[T2 wiki: same page]`. ⚠ **That family is not part of `Blizzard_CooldownViewer`** — it
+is a separate system the CDM's sound configuration feeds. Nothing here establishes an
+addon-readable link between a CDM alert edge and an utterance. `@verify-ingame`
+
+### 5.6 CDM rows can be pinged (12.1.0)
+
+Spells and items shown on the Cooldown Manager can be **pinged**, alongside action-bar
+spells, certain items, and player resources
+`[T1 game: 12.1 content update notes, via `_meta/changelog-12.1.md`]`. The addon-facing
+surface, all Tier 2 `[wiki: Patch 12.1.0/API changes, revid 6801760, 2026-08-09]`:
+
+- Two new events, **`UNIT_PING_PIN_ADDED` / `UNIT_PING_PIN_REMOVED`**, and both carry
+  `HasRestrictions = true` `[T1 docs @12.1.0]` — they are 2 of only 7 events in the
+  whole corpus that do, alongside the four `COMBAT_LOG_*` and `MINIMAP_PING`. Treat
+  them as guarded, not as a free readout.
+- `Enum.PingSubjectType` gained **`ActionReady`, `ActionOnCooldown`,
+  `ActionUnavailable`** — i.e. the ping payload encodes *cooldown state*, which is
+  precisely the kind of thing §7 is about. ⚠ Whether an addon can read that
+  discriminator, and whether it survives restricted combat, is **unestablished** and is
+  the single most interesting open question 12.1.0 raises for this file.
+  `@verify-ingame`
+- `C_Ping.SendMacroPing`'s signature changed (arg1 is now a `PingMacroInfo`; the
+  `targetToken` arg2 was removed), and `C_Ping.GetContextualPingTypeForUnit` was
+  **removed**. Slash commands `/pingspell:<id>` and `/pingitem:<id>` are new
+  `[T1 game: content update notes]`.
 
 ---
 
@@ -876,14 +1091,31 @@ Two consequences worth holding onto:
 
 Three tiers. Status reflects what has been established, not what the docs promise.
 
+> ⚠⚠ **THIS SECTION IS THE ONE MOST EXPOSED TO 12.1.0 AND IT HAS NOT BEEN RE-FLOWN.**
+> Every `[client]` tag below was measured on **12.0.7** and is unchanged — none was
+> restamped, because none was re-measured. Two 12.1.0 changes bear on it directly and
+> neither has been tested:
+> 1. **Auras went wholesale secret.** Anything below that reads an `auraInstanceID`, an
+>    `AuraData` field, or a `UNIT_AURA` payload is describing a channel that 12.1.0
+>    sealed for addon code (`security-taint-and-restricted-data` §4.7). Tier-2's
+>    `auraDataUnit` / `auraInstanceID` findings are the specific ones at risk.
+> 2. **The item-frame internals moved.** Five alert files were removed and six added
+>    (§0b); every Tier-2 field below is an implementation detail at a pinned build,
+>    which §4.11 of the security file already warns degrades **silently** to `nil`.
+>
+> Re-fly before building on any row here. `@verify-ingame`
+
 ### Tier 1 — structural config (identical on both families)
 
 `C_CooldownViewer.GetCooldownViewerCooldownInfo(cooldownID)` returns
-`{cooldownID, spellID, overrideSpellID, overrideTooltipSpellID, linkedSpellIDs[],
-selfAura, hasAura, charges, isKnown, flags, category}`
-`[T1 src: Blizzard_APIDocumentationGenerated/CooldownViewerDocumentation.lua]`.
+`{cooldownID, spellID, spellCategoryID, overrideSpellID, overrideTooltipSpellID,
+equipSlot, buffSlot, linkedSpellIDs[], selfAura, hasAura, charges, isKnown,
+isInvisible, flags, category}` — **fifteen fields at 12.1.0, up from eleven** (§1.3
+for what the four new ones mean)
+`[T1 docs @12.1.0: CooldownViewerDocumentation.lua:126-146]`.
 Readable config even when live state is not. Also `GetCooldownViewerCategorySet`
-(with `allowUnlearned`), `GetValidAlertTypes(cooldownID)` and `IsCooldownViewerAvailable`.
+(with `allowUnlearned`), `GetValidAlertTypes(cooldownID)`, `IsCooldownViewerAvailable`,
+and **new at 12.1.0** `GetGroupBuffItems()` (§1.4).
 
 > ⚠ **`GetCooldownViewerCategorySet` is a SUPERSET of what is laid out — it is not a
 > row count.** Summed across all four categories with `allowUnlearned = false`, it runs
@@ -956,8 +1188,8 @@ author's own invention**, and the most obvious such classifier is **false**: the
 | `item.pandemicStartTime` / `pandemicEndTime` | both | **secret**; `IsInPandemicTime` **throws** `[client 2026-07-30]` | The throw is a *comparison* failure inside the method body `[:587]`, not a block — so the guard is `pcall`, not `issecretvalue` (§5.2). |
 | `item.pandemicAlertTriggerTime` / `nextAvailableTimeToPlayPandemicAlert` | both | **secret** `[client 2026-07-31]` | The alert's arm + throttle, transitioning exactly as `[:548-555]` describes. Useful only as a *class* (armed vs fired); the numbers never read. |
 | `item.auraSpellID` | both | **secret** `[client 2026-08-04]` | Written from aura data (`auraInfo.spellId`, §2.5) so it inherits the seal — unlike its sibling `auraInstanceID`. ⚠ **Never compare it; class-check first.** `aid == spellID` on this field threw the moment a pull started and killed an entire refresh loop. |
-| `item:GetSpellID()` | both | **secret on SOME rows, and which rows MOVES between reads** `[client 2026-08-06]` | 1–3 of 21 rows read secret across 5 in-combat runs of the same character, and the secret set was different in three of them. ⚠ **It does not track `auraDataUnit`**: a BuffBar row with no bound aura read secret in 3 of 5 runs while a BuffIcon row *with* one read plain in 3 of 5 — so the earlier "exactly the rows carrying a live bound aura" reading was one sample's coincidence and is **not** a rule you may key on. The volatility is the mechanism: rung 1 resolves the *live* display identity, so its secrecy is per-read live state and not a property of the row. `item:GetBaseSpellID()` stays readable throughout. **Do not build an in-combat identity read on this** — use the struct's `overrideSpellID` (§2), which read plain on 21/21 rows in every one of those runs. |
-| `item:GetAuraSpellID()` | both | **secret** `[client 2026-07-31]` | Rung 1 is present, not absent — it simply cannot be read while restricted. `nil` out of combat when no aura is bound. |
+| `item:GetSpellID()` | both | **secret on SOME rows, and which rows MOVES between reads** `[client 2026-08-06]` ⚠ *evidence gone — that lab run is off the ring; the per-row values survive only as a queue transcription* | 1–3 of 21 rows read secret across 5 in-combat runs of the same character, and the secret set was different in three of them. ⚠ **It does not track `auraDataUnit`**: a BuffBar row with no bound aura read secret in 3 of 5 runs while a BuffIcon row *with* one read plain in 3 of 5 — so the earlier "exactly the rows carrying a live bound aura" reading was one sample's coincidence and is **not** a rule you may key on. The volatility is the mechanism: rung 1 resolves the *live* display identity, so its secrecy is per-read live state and not a property of the row. `item:GetBaseSpellID()` stays readable throughout. **Do not build an in-combat identity read on this** — use the struct's `overrideSpellID` (§2), which read plain on 21/21 rows in every one of those runs. |
+| `item:GetAuraSpellID()` | both | **secret** `[client 2026-07-31]` | Rung 1 is present, not absent — it simply reads secret while restricted. `nil` out of combat when no aura is bound. |
 | `item:GetLinkedSpell()` | both | `nil` on every row measured `[client 2026-07-31]` | See §2.5 — rung 2 was never elected on a Destruction character in either hero tree, on the frame *or* in a fresh struct read. |
 | `item.auraDataCached` / `GetAuraDataCached()` | both | **container plain, members SECRET** `[client 2026-08-05]` | The record itself reads as a normal `table` (field *and* accessor), and it can be indexed — but `expirationTime`, `duration`, `timeMod` and `applications` all read **secret**. Only `auraInstanceID` is a plain `number`. See below. |
 
@@ -979,7 +1211,7 @@ in-combat aura facts: *is it up*, and *is it in pandemic*.
 ⚠ **The Call Dreadstalkers BuffBar row is TOTEM-BACKED, not aura-backed — the aura
 instruments read empty because the row has no aura to bind.** Blizzard's buff-item code
 checks totems **before** auras: `GetCooldownValues` returns `totemData.expirationTime,
-duration, modRate` and falls through to `GetAuraData()` only when there is no totem
+duration, modRate` and falls through to `GetAuraData()` only when the totem lookup misses
 `[T1 src: CooldownViewer.lua:1208-1233]`, and `IsExpired` branches the same way
 `[:1167-1184]`. Measured on cid `760` `[client 2026-08-09]`: a Call Dreadstalkers cast
 raised `PLAYER_TOTEM_UPDATE` on two slots in the same second, and `item.totemData` read
@@ -1004,11 +1236,11 @@ and the "is it live" verdict is readable off the bar's own pip, below.
 
 **The bar row is real, it is bound, and it draws.** Call Dreadstalkers occupies **two**
 rows: cid `671` on the `EssentialCooldownViewer` (the cooldown icon) **and cid `760` on the
-`BuffBarCooldownViewer`** — confirmed live across every generation of `wowkb.capture cap bind`
-on a Demonology character, and in `CooldownSetSpell` as `760,60,104316,3` (Category 3 =
+`BuffBarCooldownViewer`** — confirmed live on every bind-log read on a Demonology
+character, and in `CooldownSetSpell` as `760,60,104316,3` (Category 3 =
 TrackedBar). The bar row also carries a **linked spell the icon row does not** —
-`CooldownSetLinkedSpell` row `688,193332,0,760`, which `cap bind` reads back on the live frame
-as `pool=193332`, and `193332` raises its **own `SPELL_UPDATE_COOLDOWN` in the same second as
+`CooldownSetLinkedSpell` row `688,193332,0,760`, which the same bind log reads back on
+the live frame as `pool=193332`, and `193332` raises its **own `SPELL_UPDATE_COOLDOWN` in the same second as
 the cast** `[client 2026-08-09]`. That is a second real handle on the summon; the pip below
 makes it unnecessary. `[client 2026-08-07]` `[T1 db2 @ 12.0.7]`
 
@@ -1061,8 +1293,8 @@ the value sits on the totem channel.
 **`auraInstanceID` is the key to the instance-scoped aura APIs.** `RequiresValidUnitAuraInstance`
 APIs need an instance id, and the enumeration that hands them out (`GetAuraDataByIndex` and
 friends) is sealed in a pull — but Blizzard's own frame carries one and keeps it fresh
-(`SetAuraInstanceInfo`, §2.5). `[client 2026-08-04]` (CDMProbe `/cdmp curve stack`,
-Demonology, in combat): a plain number on Wild Imps 296553 and Demonic Core 264173, and it
+(`SetAuraInstanceInfo`, §2.5). `[client 2026-08-04]` (Demonology, in combat): a plain
+number on Wild Imps 296553 and Demonic Core 264173, and it
 passes cleanly into `C_UnitAuras.GetAuraApplicationDisplayCount`, which is
 `SecretArguments = "AllowedWhenUntainted"` and would have **refused** a secret. See
 [`security-taint-and-restricted-data`](./security-taint-and-restricted-data.md) §4.8.2 for
@@ -1192,7 +1424,7 @@ read the viewer's own `IsShown()` for that, and let the row count mean *configur
 | `UnitPower` | **`[client]`** readable *and branchable* in instanced combat |
 | `UNIT_SPELLCAST_*` (player) | **`[client]`** readable spellID in all four phases |
 | `C_SpellActivationOverlay.IsSpellOverlayed` | **`[client]`** readable in combat |
-| `C_AssistedCombat.GetNextCastSpell` | **`[client 2026-08-01]`** readable — a plain number in combat and out. See below: readability is proven, usefulness is not |
+| `C_AssistedCombat.GetNextCastSpell` | **`[client 2026-08-01]`** ⚠ *evidence gone — capture off the ring, no surviving extract* — readable — a plain number in combat and out. See below: readability is proven, usefulness is not |
 | `C_Spell.GetSpellCooldown` | **`[client 2026-08-09]`** **not sealed whole** — a plain table whose members seal individually. `isEnabled` / `isActive` / `isOnGCD` read plain in restricted combat; `startTime` / `duration` / `modRate` are secret. See below |
 | `C_Spell.GetSpellCharges` | **`[client]`** its **charge count** reads plain **out** of combat and not **in**. Whether the rest of `SpellChargeInfo` seals with it, the way `GetSpellCooldown`'s struct does not, is **unmeasured** — see below |
 | `C_Spell.GetSpellCooldownDuration(spellIdentifier, ignoreGCD)` | **`[client 2026-08-09]`** returns a `LuaDurationObject` in restricted combat, `HasSecretValues()` plain `true`, every getter on it secret. See below |
@@ -1222,7 +1454,7 @@ unless responding to a `SPELL_UPDATE_COOLDOWN` event"*.
 
 **A different channel from `LuaDurationObject`, and not a contradiction of it.**
 [`security-taint-and-restricted-data`](./security-taint-and-restricted-data.md) §4.8.4's
-*"there is no readable in-combat cooldown predicate on this object"* is a claim about the
+*"the object exposes no readable in-combat readiness of its own"* is a claim about the
 duration object, whose `HasExpired` / `IsActive` / `HasStarted` / `IsZero` are **secret
 booleans** — and it stays true. `C_Spell.GetSpellCooldown(id).isActive` is a plain boolean
 on a different surface. So: an addon that must **branch** on readiness has this call, and an
@@ -1281,6 +1513,28 @@ oversight Blizzard closes, and `Bar.Pip:IsShown()` (Tier 2) answers the same que
 sturdily. `GetTotemInfo`'s `icon` return discriminates identically and carries the same
 caveat.
 
+⚠⚠ **Call the raw totem API above, never Blizzard's cached wrapper — reading the wrapper
+can leave Blizzard's own state torn.** `CooldownViewerItemDataMixin:GetCurrentPlayerTotemCache()`
+is a one-line pass-through `[T1 src: CooldownViewerItemData.lua:492-493]` to a module-local
+memoiser, `GetPlayerTotemsCached` `[:446-486]`, and the memoiser is not a pure read. On a
+cache miss it **wipes the shared upvalue first** — `playerTotemCache = {}` `[:449]` — then
+branches on `GetTotemInfo`'s first return, `if hasTotem then` `[:454]`, which is the very
+value the table above measured **secret** on an occupied slot; and it restamps
+`playerTotemCacheTime = now` only at `[:482]`, after the whole rebuild has completed. A
+throw at `:454` therefore lands **between the wipe and the restamp**, leaving Blizzard's
+cache empty under a stale timestamp rather than merely failing the caller.
+`CooldownViewerItemMixin:RefreshTotemData` reads that same cache on every cooldown-,
+BuffIcon- and BuffBar-item refresh `[T1 src: CooldownViewer.lua:231, called from :817,
+:1308, :1471]`, and none of those call sites catches an error.
+
+**The general rule, and it is not about totems: a Blizzard "getter" that memoises into a
+module-local upvalue is not a pure read.** Calling one from tainted code can damage state
+Blizzard's own secure path depends on, so the failure is not confined to your own frame.
+Prefer the raw API — `GetTotemInfo(slot)` owns no shared state, so the worst it can do to
+you is refuse. ⚠ Whether Blizzard's *own* untainted call is affected the same way is **not
+established**, and nothing here claims it either way. ⚠ This is a source read; no in-client
+measurement of the effect survives on disk.
+
 **`C_UnitAuras`'s seal is annotated per aura — but what that buys is undocumented.** Three
 getters carry a `Precondition` named `RequiresNonSecretAura = true`: `GetAuraDataBySpellName`
 (`UnitAuraDocumentation.lua:208`), `GetPlayerAuraBySpellID` (`:335`) and
@@ -1306,11 +1560,14 @@ the non-secret set during 12.1.0 PTR, killing a shipping addon's numeric `expira
 path outright. *[Tier 1 for the annotations; Tier 3 for the narrowing.]*
 
 **`C_AssistedCombat.GetNextCastSpell(checkForVisibleButton)` is a rotation answer that does
-not go secret.** `[client 2026-08-01]` (CDMProbe v0.32.53 flight recorder, Destruction +
-Demonology): it returns a **plain number** — `issecretvalue()` false, safe to compare, format
+not go secret.** `[client 2026-08-01]` (Destruction + Demonology, sampled by a flight
+recorder): it returns a **plain number** — `issecretvalue()` false, safe to compare, format
 and use as a table key — both out of combat and inside a dummy pull, on both `false` and
 `true`. `IsAvailable()` returned a plain bool and `GetRotationSpells()` a plain (non-secret)
-table in the same samples. Every other cooldown channel in this file refuses in restricted
+table in the same samples. ⚠ **Evidence gone** — the flight-recorder capture behind this
+paragraph is off the ring and no surviving extract carries its version, its date or any
+sample of the call; both the readability finding and the constant below rest on what was
+written down at the time. Every other cooldown channel in this file refuses in restricted
 combat; this one does not. *(Why it survives is predictable from the generated docs, and the
 reasoning generalises beyond the CDM — see
 [`api-events-and-discovery`](./api-events-and-discovery.md) §5.7.)*
@@ -1354,7 +1611,7 @@ bar:SetTimerDuration(d, 0, 1)    -- 0 = Interpolation.Immediate, 1 = TimerDirect
 ```
 
 ⚠ **An eyeball is the only oracle for step 3.** The duration sinks declare no
-`SecretArgumentsAddAspect` and expose no readback, so "the call did not error" is not
+`SecretArgumentsAddAspect` and expose no programmatic readback, so "the call did not error" is not
 evidence that a pixel moved.
 
 **Summary: the readable surface changes with the family, but asymmetrically.** Tier 1
@@ -1447,13 +1704,23 @@ source flags; tab 2 carries little but computes on demand, and is the only side 
   enable and re-read the bind, so "the player can turn it on" is an inference.
   `@verify-ingame`
 - **Not covered here:** the settings/layout serialization format, Edit Mode anchoring of
-  the viewer frames, and the `CooldownViewerVisualAlert` pool. The first two are
-  recorded in `projects/cooldown-hud/docs/notes.md`; none has a consumer in this KB yet.
+  the viewer frames, and the `CooldownViewerVisualAlert` pool. None has a consumer in
+  this KB yet.
 
 ---
 
 ## Changelog
 
+- 2026-08-11 — 12.1.0, **source diff only, no re-flight** (§0b is the standing warning).
+  `Enum.CooldownViewerCategory` 4 → 9 members: trinkets/potions via `EquipSlot*`,
+  racials via `SpecAgnostic*`, plus `GroupBuff` (new §1.3, §1.4). `HiddenSpell` /
+  `HiddenAura` **renamed** `HiddenActive` / `HiddenPassive` — reads `nil`, does not
+  error (§1.2). Three new row fields + `isInvisible` as a fourth suppression path.
+  `GetGroupBuffItems` + `GroupBuffItem` (no `cooldownID`, so §2's ladder does not
+  apply). New §5.5 sounds ("Short", 26 entries; Combat Audio Assist) and §5.6 pinging.
+  `SPELL_UPDATE_COOLDOWN` gained `itemID`; `UNIT_AURA`'s payload is now fully secret.
+  Five `CooldownViewerVisualAlert*` files removed, six added. ⚠ **No `[client]` tag was
+  restamped and §2/§3/§7 were not re-derived.**
 - 2026-08-09 — **§7: three corrections, all from one in-client sweep.** `C_Spell.GetSpellCooldown`
   is **not** sealed whole — it is a plain table whose members seal individually, and
   `isActive` is a plain, discriminating, in-combat "on cooldown" boolean (`GetSpellCharges`

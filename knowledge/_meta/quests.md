@@ -1,13 +1,15 @@
 ---
 title: How Quests Work + How to Fetch Quest Data
-patch: 12.0.7
-fetched: 2026-07-06
+patch: 12.1
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
   - https://us.api.blizzard.com/data/wow/quest/92013   # Blizzard Game Data API
   - https://www.wowhead.com/quest=92013/wanted-dionaeas-thorntusks
   - https://nether.wowhead.com/tooltip/quest/92013
   - https://wago.tools/db2/QuestV2/csv
   - "FollowTheArrow addon v0.7.0 (local Lua)"
+  - https://worldofwarcraft.com/en-us/news/24293281   # 12.1 Content Update Notes, QUESTS section (Tier 1) — Omnium Folio account-skip
 confidence: high
 ---
 
@@ -38,6 +40,12 @@ A quest you meet the level for can still be un-obtainable:
 - **Campaign progress** — repeatables often unlock only after a story chain.
   Can be **warband/account-wide** (once on any character) **or per-character** —
   always distinguish and say which; flag it if unsure.
+  - ⚠ **A gate's scope can change by patch — re-check it, don't cache it.**
+    12.1 (2026-08-11) made the **Omnium Folio introduction questline
+    account-skippable**: once *any one* character has completed it, every other
+    character on the account can skip it. So a "must run the intro chain first"
+    answer written for 12.0.7 is now wrong for alts. Treat per-character vs
+    account-wide as a **versioned** fact, not a property of the questline.
 - **Renown / reputation** thresholds.
 - **Phasing / world state / weekly rotation** — daily/weekly quests offer a
   *random* subset; "none available" may be the roll, not a lock.

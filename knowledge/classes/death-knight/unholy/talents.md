@@ -1,16 +1,22 @@
 ---
-title: Death Knight Unholy — talent tree (12.0.7)
-patch: 12.0.7
-build: 12.0.7.67808
-fetched: 2026-06-19
-reviewed: 2026-07-07
+title: Death Knight Unholy — talent tree (12.1.0)
+patch: 12.1.0
+build: 12.1.0.68914
+fetched: 
 sources:
   - https://us.api.blizzard.com/data/wow/talent-tree (Blizzard Game Data API, Tier 1)
-  - https://wago.tools/db2 Trait* @ 12.0.7.67808 (Tier 1)
+  - https://wago.tools/db2 Trait* @ 12.1.0.68914 (Tier 1)
 confidence: high
 ---
+> **Build provenance.** This file was generated from the Blizzard Game Data API and
+> wago `Trait*` DB2 at build **12.1.0.68914**, which is what the API's `static-12.1.0`
+> namespace reported on 2026-08-11. The live client that day was **12.1.0.69214**. The
+> `Trait*` DB2 exports at the two builds are **byte-identical** (verified by md5 on
+> `TraitNodeEntry`), so this data is valid for live 12.1 — cite it as **@ 12.1.0.68914**,
+> not 69214.
 
-# Death Knight Unholy — talents (12.0.7)
+
+# Death Knight Unholy — talents (12.1.0)
 
 > Generated from `knowledge/classes/_talents/all-talents.tsv`. Spell IDs are the talent's granted spell. Choice nodes show both options as `A / B`. See `_talents/README.md` for the schema.
 
@@ -32,19 +38,19 @@ confidence: high
 | Control Undead | 111673 | 1 | ACTIVE | 4,6 | — | 76073 |
 | Enfeeble | 392566 | 1 | PASSIVE | 4,7 | — | 76073 |
 | Coldthirst | 378848 | 1 | PASSIVE | 5,1 | — | 76084 |
-| Proliferating Chill | 373930 | 1 | PASSIVE | 5,2 | — | 76084,76044,76052 |
+| Proliferating Chill | 373930 | 1 | PASSIVE | 5,2 | — | 76052,76084,76044 |
 | Permafrost | 207200 | 1 | PASSIVE | 5,3 | — | 76052 |
-| Veteran of the Third War | 48263 | 1 | PASSIVE | 5,4 | — | 76069,76074,76052 |
+| Veteran of the Third War | 48263 | 1 | PASSIVE | 5,4 | — | 76069,76052,76074 |
 | Death Pact | 48743 | 1 | ACTIVE | 5,5 | — | 76069 |
-| Brittle | 374504 | 1 | PASSIVE | 5,6 | — | 76069,76059,110029 |
+| Brittle | 374504 | 1 | PASSIVE | 5,6 | — | 110029,76069,76059 |
 | Blood Bond | 1267028 | 1 | PASSIVE | 5,7 | — | 110029 |
 | Icy Talons | 194878 | 1 | PASSIVE | 6,2 | 8 | 76066,101708,76083 |
 | Death Notes | 1266819 | 1 | PASSIVE | 6,3 | 8 | 76066 |
 | Anti-Magic Zone | 51052 | 1 | ACTIVE | 6,4 | 8 | 76068,76075,76066 |
 | Death Defiance | 1266818 | 1 | PASSIVE | 6,5 | 8 | 76075 |
-| Unholy Bond | 374261 | 1 | PASSIVE | 6,6 | 8 | 76075,76061,76060 |
+| Unholy Bond | 374261 | 1 | PASSIVE | 6,6 | 8 | 76060,76075,76061 |
 | Ice Prison | 454786 | 1 | PASSIVE | 7,1 | 8 | 76085 |
-| Asphyxiate / Death's Reach | 221562 / 276079 | 1/1 | CHOICE | 7,3 | 8 | 76085,76065,110030 |
+| Asphyxiate / Death's Reach | 221562 / 276079 | 1/1 | CHOICE | 7,3 | 8 | 110030,76085,76065 |
 | Assimilation | 374383 | 1 | PASSIVE | 7,4 | 8 | 76065 |
 | Anti-Magic Barrier | 205727 | 1 | PASSIVE | 7,5 | 8 | 110031,76076,76065 |
 | Grip of the Dead | 273952 | 1 | PASSIVE | 7,7 | 8 | 76076 |
@@ -84,7 +90,7 @@ confidence: high
 | Infected Claws | 207272 | 1 | PASSIVE | 6,21 | 8 | 110260 |
 | Cycle of Death | 1290864 | 1 | PASSIVE | 7,16 | 8 | 76197,76193 |
 | Coil of Devastation | 390270 | 1 | PASSIVE | 7,17 | 8 | 76192,76193 |
-| Army of the Dead | 42650 | 1 | ACTIVE | 7,18 | 8 | 76192,76186,76179 |
+| Army of the Dead | 42650 | 1 | ACTIVE | 7,18 | 8 | 76186,76179,76192 |
 | Reaping | 377514 | 1 | PASSIVE | 7,19 | 8 | 76148,76179 |
 | Menacing Magus | 455135 | 1 | PASSIVE | 7,20 | 8 | 76148 |
 | Ghoulish Frenzy | 377587 | 1 | PASSIVE | 7,21 | 8 | 76148,76187 |
@@ -93,15 +99,15 @@ confidence: high
 | Raise Abomination / Summon Gargoyle | 1242608 / 1242147 | 1/1 | CHOICE | 8,18 | 8 | 76196 |
 | Unholy Devotion | 1241858 | 1 | PASSIVE | 8,19 | 8 | 76196,101882,109392 |
 | All Will Serve | 194916 | 1 | PASSIVE | 8,21 | 8 | 76194,101882 |
-| Blightburst | 1254552 | 1 | PASSIVE | 9,16 | 20 | 76178,76155,76160 |
+| Blightburst | 1254552 | 1 | PASSIVE | 9,16 | 20 | 76160,76155,76178 |
 | Putrid Echoes | 377580 | 1 | PASSIVE | 9,18 | 20 | 76184,76178,76176 |
 | Doomed Bidding | 455386 | 1 | PASSIVE | 9,20 | 20 | 101882,76181,76184 |
 | Scourging | 1242604 | 2 | PASSIVE | 10,16 | 20 | 108126 |
-| Ancient Power | 377590 | 2 | PASSIVE | 10,17 | 20 | 108126,108151 |
+| Ancient Power | 377590 | 2 | PASSIVE | 10,17 | 20 | 108151,108126 |
 | Unholy Aura | 377440 | 2 | PASSIVE | 10,19 | 20 | 108130,108151 |
 | Commander of the Dead | 390259 | 2 | PASSIVE | 10,20 | 20 | 108130 |
 | Blightfall | 1271974 | 1 | PASSIVE | 11,16 | 20 | 108127 |
-| Reanimation | 1256813 | 1 | PASSIVE | 11,18 | 20 | 76150,76152 |
+| Lord of the Dead | 1256813 | 1 | PASSIVE | 11,18 | 20 | 76150,76152 |
 | Outnumber | 1241705 | 1 | PASSIVE | 11,20 | 20 | 76149 |
 | Forbidden Knowledge | 1242158 | 1 | ACTIVE | 12,18 | 20 | — |
 

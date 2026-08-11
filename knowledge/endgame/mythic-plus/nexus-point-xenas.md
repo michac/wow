@@ -1,17 +1,34 @@
 ---
-title: Nexus-Point Xenas — Midnight S1 M+ dungeon guide
-patch: 12.0.7
-fetched: 2026-06-25
-reviewed: 2026-07-07
+title: Nexus-Point Xenas — Midnight S1 M+ dungeon guide (HISTORICAL — out of the S2 pool)
+patch: 12.1
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
   - https://www.method.gg/guides/dungeons/nexus-point-xenas  # upd. 2026-03-23
   - https://www.icy-veins.com/wow/nexus-point-xenas-dungeon-guide  # upd. 2026-06-15, Patch 12.0.7
   - Blizzard journal-instance/1316 + journal-encounter/2813,2814,2815 (tier 1, boss-name corroboration)
   - https://www.youtube.com/watch?v=DMcpeEK_tHE  # Dalaran Gaming "How to Master All 8 Dungeons: Midnight S1 M+ Walkthrough", uploaded 2026-03-24 (tier 3, boss corroboration)
+  - https://worldofwarcraft.blizzard.com/en-us/news/24294369  # Midnight Season 2 overview (tier 1) — the S2 M+ pool this dungeon is absent from
 confidence: high
 ---
 
 # Nexus-Point Xenas — Midnight S1 M+ dungeon guide
+
+> ⛔ **HISTORICAL — NOT IN THE CURRENT MYTHIC+ ROTATION.** Nexus-Point Xenas was
+> part of the **Midnight Season 1** Mythic+ pool. It **rotated out with patch
+> 12.1**; the **Season 2** pool (Mythic+ opens the **week of 2026-08-18**) is
+> **Altar of Fangs · Murder Row · Den of Nalorakk · The Blinding Vale · Voidscar
+> Arena · Ruby Life Pools · Kings' Rest · Temple of Sethraliss**
+> ([Tier 1](https://worldofwarcraft.blizzard.com/en-us/news/24294369)).
+>
+> Everything below is kept as **Season-1-era reference** — the routes, trash
+> tables and boss mechanics are still accurate for the dungeon itself, and are
+> useful if it returns in a later rotation or you run it outside Mythic+. Do
+> **not** cite this file when answering "what's in the M+ pool", when planning a
+> season's keys, or when scoring a session — see
+> `endgame/mythic-plus/season-2-overview.md` for the live pool. Season-1 keystone
+> ratings, affixes and rewards tied to this dungeon are closed out; final S1 M+
+> title cutoffs live in `endgame/mythic-plus/season-1-overview.md`.
 
 Player is **DPS**. Three bosses: **Chief Corewright Kasreth** (ethereals),
 **Corewarden Nysarra** (void), **Lothraxion** (light). The dungeon is split

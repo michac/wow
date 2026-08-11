@@ -5,6 +5,9 @@
 ## Version: 0.2.2
 ## SavedVariables: ClientLabDB, ClientLabScratchDB
 
+Libs\LibStub\LibStub.lua
+Libs\LibOrbitGlow-1.0\LibOrbitGlow-1.0.xml
+
 Core.lua
 Capture.lua
 Lab.lua
@@ -14,6 +17,9 @@ Dumps.lua
 Autorun.lua
 CDMSweep.lua
 Ask.lua
+Glow.lua
+Cue.lua
+Mock.lua
 T_ApiEvents.lua
 T_CooldownManager.lua
 T_Libraries.lua

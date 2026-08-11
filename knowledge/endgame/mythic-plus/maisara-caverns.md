@@ -1,9 +1,12 @@
 ---
-title: Maisara Caverns — Midnight S1 M+ dungeon guide
-patch: 12.0.7
-fetched: 2026-06-25
-reviewed: 2026-07-07
+title: Maisara Caverns — Midnight S1 M+ dungeon guide (historical — out of the M+ pool)
+patch: 12.1
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
+  - https://worldofwarcraft.com/en-us/news/24294369   # "The Shadows Deepen: Midnight Season 2 Begins August 18" — S2 dungeon pool (tier 1)
+  - https://worldofwarcraft.com/en-us/news/24293281   # 12.1 "Curse of Ula'tek" Content Update Notes — Mythic+ Dungeon Rotation (tier 1)
+  - https://us.forums.blizzard.com/en/wow/posts/29833350  # S1 ending / S2 pre-season details (tier 1)
   - https://www.method.gg/guides/dungeons/maisara-caverns
   - https://www.icy-veins.com/wow/maisara-caverns-dungeon-guide
   - Blizzard journal-instance/1315 + journal-encounter/2810 + journal-encounter/2811 + journal-encounter/2812 (tier 1, boss-name corroboration)
@@ -13,17 +16,41 @@ confidence: high
 
 # Maisara Caverns — Midnight S1 M+ dungeon guide
 
+> ⛔ **NOT IN THE CURRENT MYTHIC+ ROTATION.** Maisara Caverns was a **Midnight
+> Season 1** keystone dungeon. **The entire S1 pool rotated out in 12.1** — the
+> Season 2 pool is Altar of Fangs · Murder Row · Den of Nalorakk · The Blinding
+> Vale · Voidscar Arena · Ruby Life Pools · Kings' Rest · Temple of Sethraliss
+> (Blizzard, 12.1 Content Update Notes → "Mythic+ Dungeon Rotation").
+> **There is no keystone for this dungeon**, no M+ rating from it, and none of
+> its loot is on the S2 track.
+>
+> Everything below is kept as a **historical route/mechanics record** of the
+> S1 season. The dungeon itself is unchanged and still sits in the world — it is
+> only the *keystone rotation* it left — so this remains usable if you run it
+> outside Mythic+ (transmog, achievements, the "Master of Souls" quest chain).
+> For what is actually live, see
+> [`season-2-overview.md`](season-2-overview.md); for the closed season,
+> [`season-1-overview.md`](season-1-overview.md).
+>
+> ⚠ 12.1 shipped in two steps: the week of **2026-08-11** is a **pre-season
+> week** (no keystones drop at all) and **Mythic+ Season 2 opens the week of
+> 2026-08-18** — with the pool above, not this dungeon.
+
 A Vilebranch troll / necrotic-soul cavern. Three bosses (journal-instance
 1315): **Muro'jin and Nekraxx** (2810), **Vordaza** (2811), and
 **Rak'tul, Vessel of Souls** (2812). All three boss names match the
 Blizzard journal exactly. Theme shifts from a beast/hunt motif (boss 1)
 to soul/necrotic magic (bosses 2 & 3).
 
-Both guides confirm Midnight Season 1 signals: Method "season 1 of
-Midnight" (upd. 31 Mar 2026); Icy Veins updated for 12.0.7 (15 Jun 2026)
-and 12.0.5 (19 Apr 2026).
+The guides below are **S1-era** and were not re-verified against 12.1: Method
+"season 1 of Midnight" (upd. 31 Mar 2026); Icy Veins updated for 12.0.7
+(15 Jun 2026) and 12.0.5 (19 Apr 2026). Blizzard gave design/QoL updates only
+to the three *returning* S2 dungeons, so nothing in 12.1 is known to have
+changed this dungeon's mechanics — the one 12.0.7 fix that touched it was a
+hotfix making the **"Maisara Caverns: Master of Souls"** quest item drop on
+Mythic (2026-07-14).
 
-## Route
+## Route (S1-era, historical)
 
 PUG-friendly MDT route (Method): <https://wago.io/enn7CXdfX>
 

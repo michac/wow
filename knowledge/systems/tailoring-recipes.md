@@ -1,13 +1,17 @@
 ---
 title: Midnight Tailoring — full recipe inventory, sources, buy/skip verdicts
-patch: 12.0.7
-fetched: 2026-06-05
-reviewed: 2026-07-07
+patch: 12.1
+fetched: 2026-08-11
+reviewed: 2026-08-11
 sources:
   - Blizzard API /data/wow/profession/197/skill-tier/2918 + per-recipe (tier 1, static-12.0.5_66741)
   - wago.tools SkillLineAbility + SpellName, SkillLine 2918 (tier 1)
+  - https://worldofwarcraft.com/en-us/news/24293963 (tier 1 — Coiled Isle / Zul'jarra's Forces renown rewards)
   - https://www.wow-professions.com/midnight/tailoring-guide (tier 3 — acquisition sources)
   - https://www.wow-professions.com/guides/wow-tailoring-leveling-guide (tier 3)
+  - https://warcraft.wiki.gg/wiki/Pattern:_Snakeskin_Lining (tier 3 — 12.1 embellishment mats/source)
+  - https://www.method.gg/guides/all-profession-changes-and-new-recipes-in-wow-midnight-patch-12-1 (tier 3)
+  - https://www.icy-veins.com/wow/professions-tailoring (tier 3)
 confidence: high
 ---
 
@@ -26,6 +30,39 @@ have no live recipe (cut content, incl. a never-shipped Thalassian Fishing Hat).
 `grey` = skill at which the craft stops giving skill-ups (from DB2
 TrivialSkillLineRankHigh). First-craft KP is independent of grey — grey
 recipes still give the first-craft bonus.
+
+⚠ **The 88/78 count is the 12.0.5 static-API snapshot and has not been
+re-pulled at 12.1.** 12.1 adds at least four recipes to skill tier 2918 (below);
+re-run `tools/fetch_tailoring_recipes.py` against a 12.1 static namespace before
+quoting the totals again.
+
+## New in 12.1 "Curse of Ula'tek" (Coiled Isle)
+
+Skill tier is still **2918 (Midnight Tailoring)** — no new tier, no skill-cap
+change. The additions are one embellishment and three housing-decor crafts.
+
+| Recipe | Item | Source | Verdict |
+|---|---|---|---|
+| **Snakeskin Lining** (embellishment) | Pattern `270900`, spell `1288335` | **Drop** — bonus loot off **Zul'jan**, Altar of Fangs (the new 3-boss dungeon in the Vaults of Atal'Utek) | **The only 12.1 recipe that matters for gearing.** Third Midnight lining, alongside Arcanoweave Lining and Sunfire Silk Lining |
+| **Flat Snakeskin Canopy** (housing decor) | Pattern `275332` | **Jan'sari the Watchful**, Tokka's Landing, Coiled Isle — **Zul'jarra's Forces Renown 5** ("Coiled Isle Crafting") | Buy for the first-craft KP once you hit R5; it is a renown unlock, not a gold sink |
+| **Tortollan Slingsack** (housing decor) | Pattern `279353`, spell `1296514` | unverified — likely an **Artisan Tailor's Moxie** purchase from Captain Tokka's Crew (the other professions' decor patterns there run **150 Artisan \<Prof\>'s Moxie** at Cursed Angler) | @verify-ingame |
+| **Twilight's Blade Bedroll** (housing decor) | — | unverified (tier 3 only — Icy Veins lists it with Slingsack) | @verify-ingame |
+
+- **Snakeskin Lining** requires **Midnight Tailoring 50** and consumes
+  Embroidery Floss + **Cursebound Globe ×6** + **Neutralized Venom Clot ×4** +
+  **Arcanoweave Bolt ×2** + **Sunfire Silk Bolt ×2**. ⚠ Two daily-CD bolts per
+  craft — same CD-bolt economics as the capes below, so price a lining against
+  your own bolt surplus, not the AH. Effect is a proc'd nature/acid damage-over-
+  time (tier 3; exact numbers not verified). **Cursebound Globe** and
+  **Neutralized Venom Clot** are new Coiled Isle gathering reagents.
+- **Zul'jarra's Forces Renown 6 ("Demystifyin' Professions")** unlocks
+  **profession knowledge tomes** from Jan'sari the Watchful — a new KP source to
+  price against the 7.5 Moxie/KP renown book at Caeris Fairdawn. Cost not stated
+  in the Tier-1 notes. @verify-ingame
+- ⚠ **Reported (tier 3, Method): 12.1 allows a one-time knowledge-point reset per
+  Midnight profession**, unlearning any recipes unlocked with spent KP. This is
+  **not** in the official 12.1 notes — treat as unconfirmed, and do not re-plan a
+  spec tree around it until verified. @verify-ingame
 
 ## Trainer — Galana, Silvermoon City (~160g/recipe, user-verified 2026-06-04)
 
@@ -88,9 +125,12 @@ of first-craft KP — far under the ~1.5k/KP yardstick.
   still the open TODO — names alone don't reveal the grouping.
 - **Drops**: Arcanoweave Cord (Heavy Trunk, Delves), Sunfire Sash (Restless
   Heart, Windrunner Spire), Arcanoweave Lining (Degentrius, Magisters'
-  Terrace), Sunfire Silk Lining (Heavy Trunk, Delves), Sunfire Silk
+  Terrace), **Snakeskin Lining (Zul'jan, Altar of Fangs — 12.1)**, Sunfire Silk
+  Lining (Heavy Trunk, Delves), Sunfire Silk
   Spellthread (Fallen-King Salhadaar, Voidspire), Luxurious Silvermoon Lounge
   Cushion (Eversong treasures), Voidstrider Saddlebag (Stormarion Pinnacle)
+  ⚠ Magisters' Terrace and Windrunner Spire **rotated out of the Mythic+ pool for
+  Season 2** — those two patterns are now Heroic/M0-only farms.
 - **Quest**: Silvermoon Curtains (Clothes Make the Man)
 
 AH drop-recipe rule of thumb stands: buy only if price < ~1.5k per KP granted.

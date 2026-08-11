@@ -65,9 +65,18 @@ Respect the provenance markers — they are what keep you off stale answers:
 - **Front-matter:** `patch`, `fetched`, `reviewed`, `confidence`. A file can read current
   (`patch: 12.0.7`) yet be weeks stale on `reviewed:`.
 - **`[client YYYY-MM-DD]`** — this claim was measured by running code in the client. It is
-  the strongest evidence class in the subtree. An **unmarked** claim is a source read:
-  correct about *shape*, but the generated docs' annotations are necessary and not
-  sufficient, and only a measurement knows the difference.
+  the strongest evidence class in the subtree, **and it is for POSITIVES ONLY**: a value
+  was observed. A claim that something *is impossible* — that no instrument, in any
+  subsystem, could read or answer X — is not a value anybody saw, and takes `[searched]`
+  instead. An **unmarked** claim is a source read: correct about *shape*, but the generated
+  docs' annotations are necessary and not sufficient, and only a measurement knows the
+  difference.
+- **`[searched YYYY-MM-DD: <instrument>, <instrument>]`** — we looked **here** and did not
+  find it. The weak twin of `[client]`, and the list is the point: it names instruments,
+  subsystems and APIs (the aura channel, the CDM alert edges, `GetTotemInfo`), never a
+  conclusion and **never the tool that drove them**. Read one by asking *what is missing
+  from that list?* — that is how a negative gets disconfirmed instead of entrenched.
+  Full definition: `knowledge/addon-dev/README.md` §0.
 - **`[T1 obs]` is NOT `[client]`.** It means someone counted something in an on-disk
   artefact — occurrences in the shipped corpus, rows in a generated doc. Tier 1, real
   evidence, and **nothing ran in the game**. The two read alike at a glance and rank
@@ -108,7 +117,8 @@ states are the lifecycle:
 ```
 `[gap]` · `[unverified]` · `@verify-ingame`    open — nobody is on it
 `@pending-test: <id>`                          a ClientLab test exists; flies next pull
-`[client YYYY-MM-DD]`                          measured and drained; marker gone
+`[client YYYY-MM-DD]`                          measured and drained; marker gone. POSITIVES
+`[searched YYYY-MM-DD: <where>]`               looked there, absent. The negative's tag
 ```
 
 **When a marked claim is load-bearing for what you are about to write: STOP and ASK.**
@@ -152,9 +162,15 @@ that prompted it.
 
 **Clearing one.** Next session: `wowkb.lab show` (result beside `expect` — no verdict is
 printed, a human decides) → `wowkb.lab drain <id>` mints the observation → rewrite the
-claim, **drop `@pending-test`**, tag `[client YYYY-MM-DD]` → **delete the test** →
-`wowkb.obs drain OBS-nnn`. A test that flew and could not answer keeps its marker: it will
-fly again next pull.
+claim, **drop `@pending-test`**, tag it → **delete the test** → `wowkb.obs drain OBS-nnn`.
+A test that flew and could not answer keeps its marker: it will fly again next pull.
+
+⚠ **Which tag depends on what the run showed.** A value you read is `[client YYYY-MM-DD]`.
+A value you looked for and did **not** find is `[searched YYYY-MM-DD: …]`, listing the
+instruments you pointed — and it is phrased as a miss (*"not found via X, Y"*), never as an
+impossibility. Getting this backwards is the failure the split exists to stop: a negative
+wearing `[client]` reads as settled, so every later agent probes the one channel harder
+instead of asking which channel nobody pointed at.
 
 ⚠ **Deleting the test is not optional, and it is house rule 2 applied to the lab.** The
 claim in the topic file is the durable artefact; the test that produced it is probe code
@@ -237,7 +253,19 @@ It never states what it used to say.
   build, what you tried first and how many builds it cost are session facts — project docs,
   never a reference file.
 - **A date in prose is a defect.** Dates live in front matter, a citation stamp, a
-  `[client]` tag, or the Changelog.
+  `[client]`/`[searched]` tag, or the Changelog.
+- **A claim stands on what it says.** Do not support one with `OBS-nnn`, a `projects/**`
+  path, a capture path or the name of one of **our own addons** and the things that drive
+  them (`CDMProbe`, `/cdmp curve`, `wowkb.capture`) — those point back at the work that
+  produced the claim, which is how a wrong claim ends up citing itself. A capture's
+  provenance goes on the front-matter `sources:` line.
+  ⚠ **This is not a sourcing ban** — that was proposed and rejected. `wowkb.uiapi`,
+  `wowkb.wiki` and `wowkb.wago` reach Blizzard's generated docs, the wiki and DB2; those
+  are admissible sources, cite them freely, and name them in a `[searched]` list. The
+  target is the pointer *home*, not the road *out*.
+- **`uv run python -m wowkb.kblint` gates all five of these**, and is the check to run
+  after editing anything under `knowledge/addon-dev/`. Gate 4 catches a negative wearing
+  `[client]`; gate 5 catches the pointers above.
 
 **Where it goes.** Each destination has a mechanical admission test, so the choice needs
 no judgement — and note that the first four all key on having *learned* something. The
@@ -248,7 +276,8 @@ nowhere to go:
 |---|---|---|
 | **measured by running our code** | can you write *"Observed:"* and then say what ran? | `observations.md`, with a required `Drains to: <file> §<section>` |
 | **read in a third-party addon** | can you name the addon **and** the version/commit you read? | `mined-pending-verification.md` |
-| **a verified `@verify-ingame` claim** | do you have a `[client YYYY-MM-DD]`-worthy measurement? | edit the claim in place, drop the marker, tag it |
+| **a verified `@verify-ingame` claim — a value you READ** | do you have a `[client YYYY-MM-DD]`-worthy measurement? | edit the claim in place, drop the marker, tag `[client]` |
+| **a verified `@verify-ingame` claim — you looked and it was ABSENT** | can you list the instruments you pointed, by name? | edit the claim in place, tag `[searched YYYY-MM-DD: …]`, phrase it as a miss — **not** `[client]` |
 | **a game-KB thing, not addon-dev** | would running the code change the answer? if **no**, it is not ours | `knowledge/_meta/kb-inbox.md` |
 | **a hole — you looked and the KB does not answer it** | none of the above; you know the *question*, not the answer | a **marker on the claim**, in the topic file — nothing else. See **Unknowns** |
 

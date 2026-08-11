@@ -375,9 +375,9 @@ remaining time regardless, and the tier signal colours it when there is one.
 
 ⚠ **Those three are the requirement; the numbers that satisfy them are not normative here.**
 §3.1's tier alphas were picked by a person looking at a real spell icon at CDM size. **No bar
-has ever drawn**, so the resting alpha and the track's colour are picks with nothing behind
-them: they live in `Treatment.BAR` and are expected to move the first time anyone looks
-(`backlog.md` → *Judge the bars on screen*).
+has been judged on screen**, so the resting alpha and the track's colour are picks with
+nothing behind them: they live in `Treatment.BAR` and are expected to move the first time
+anyone looks (`backlog.md` → *Judge the bars on screen*).
 
 **Which cooldowns get a bar is the catalog's roster, and its order is part of the
 declaration** — a panel stacks, so the roster is one ordered list and never a per-ability
@@ -774,9 +774,9 @@ slate — no code is ported from CDMProbe.
   Likely answers: a per-entry limit, a rule that cross-ability cues live on the §3.4 bars
   rather than the icons, or both. ⚠ **What the renderer carries today is a milestone fact
   and not an answer** — which markers exist is in `backlog.md` → *The drawing rungs*, and a
-  cue with no marker reports `nodraw`. The alternative surface the question rests on,
-  §3.4's bars, does not exist yet: decide it once they do and a catalog has asked for more
-  than an icon can carry.
+  cue with no marker reports `nodraw`. The alternative surface the question rests on —
+  §3.4's bars — now exists, so what is left is the other half: decide it once a catalog has
+  asked for more than an icon can carry.
 - **How much does a demoted ability show?** A demoted Demonbolt should be visibly
   less urgent, but it must not become invisible — losing the proc entirely is worse
   than an over-loud one. §3.1 draws the floor as a dim, slow ring rather than a
@@ -818,9 +818,9 @@ then the surfaces that reuse it.
 | M3 | §3.1 the tier signal + §3.2 procs, on the Demonology catalog | — |
 | M3a | Lab the client claims M3 rests on; the pure core | ✅ 2026-08-07 |
 | M3b | The gates read and the tiers computed, nothing drawn | ✅ 2026-08-07, flown |
-| M3c | §3.1's graded register — cap's own overlay | built 2026-08-08, not flown |
-| M3d | §3.1's threshold register — the cues, drawn by the client | built 2026-08-08, not flown |
+| M3c | §3.1's graded register — cap's own overlay | ✅ 2026-08-08, flown 2026-08-10 |
+| M3d | §3.1's threshold register — the cues, drawn by the client | ✅ 2026-08-08, flown 2026-08-10 |
 | M3e | §3.2 procs, and the honesty measurement | — |
 | M4 | §3.4 smart cooldowns — bars, then the tier signal applied to them | — |
-| M4a | The bars themselves — a duration per roster entry, the time text, the tier on the fill | built 2026-08-10, not flown |
+| M4a | The bars themselves — a duration per roster entry, the time text, the tier on the fill | ✅ 2026-08-10, flown |
 | M5 | §3.3 sequences (Demonology catalog) | — |
