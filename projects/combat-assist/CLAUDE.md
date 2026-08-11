@@ -14,22 +14,39 @@ which everything else in the spec is downstream of.
 into the decision engine this project is deliberately not. No code is ported;
 CDMProbe's client facts live in `knowledge/addon-dev/` and stay authoritative.
 
-**Code status: M2 flown; M3a done and M3b released but NOT yet flown.** `Core.lua`
+**Code status: M2 flown; M3a done; M3b released and flown 2026-08-07.** `Core.lua`
 (router + the `ns.RegisterCommand` registry), `Bind.lua` (the CDM binding), `Frame.lua`
 (the movable panel), `Capture.lua` (vendored — the one data-out path) and `Log.lua`. The
 binding is confirmed **correct**, not merely present — 200 identity rows across 3 specs
 and 2 classes, including a Paladin.
 
-M3's tier signal is three pure modules and one impure one: `Catalog.lua` (the closed
-vocabulary and the §3.5 checks), `Catalogs/Demonology.lua`, `Tier.lua` (first-match
-bands), `Track.lua` (the readiness latch, the window arithmetic) and `Sense.lua` (hooks,
-clock, client reads). Plus `Mode.lua` — `/cap aoe`, cap's own answer to a target count the
-client will not give us. **Nothing is drawn yet, and none of it has executed in the
-client.** `specs/backlog.md` → `Now` holds the M3b flight and its acceptance table.
+M3's tier signal is four pure modules and two impure ones: `Catalog.lua` (the closed
+vocabulary and §3.5's five checks), `Catalogs/Demonology.lua`, `Tier.lua` (first-match
+bands, three-valued gates), `Track.lua` (the readiness latch and the aura/elapsed edges),
+`Treatment.lua` (tier → look — **the only place the visual numbers exist**), `Sense.lua`
+(hooks, clock, client reads), `Channel.lua` (the two sealed comparisons — cap offers, the
+client decides, cap is never told) and `Overlay.lua` (cap's own frames, anchored to the CDM
+icons). Plus `Mode.lua` — `/cap aoe`, cap's own answer to a target count the client will
+not give us — and `Bars.lua`, §3.4's cooldown bars riding the same verdicts onto the movable
+panel (`Bars.Plan` is its pure seam). **M3c, M3d and the bars are built and have never run in
+the client** — the M3b flight measured the tiers computing correctly with no pixels involved,
+and nothing since has been flown. ⚠ **Neither cue channel has a readback**, so `cap draw`'s `C{}` says whether cap
+*armed* a cue and never whether a marker appeared; an eyeball is the only oracle for that.
+Both readings and acceptance tables: `specs/backlog.md` → `## Reference`.
 
-**Three capture streams, and they are the only way anything here reports what it saw:**
-`wowkb.capture cap bind` (the binding), `cap tier` (the tier verdicts + gate health) and
-`cap edge` (every alert edge that landed). ⚠ SavedVariables only flush on `/reload`.
+⚠ **The order is `simplify → draw → add detail from play`.** The **window migration
+landed 2026-08-08**: the code and `specs/demonology/catalog.md` now speak the vocabulary
+`spec.md` §3.1/§3.5 describes — no windows, subjects legal in bands, negation legal, cues
+carrying polarity and a channel — so **the drawing rungs are next** and what they draw is
+the model we are keeping. ⚠ "Simplify" was the code catching up, **not** another design
+round: `spec.md` §3 is not re-opened. Reasoning: `specs/notes.md` 2026-08-08 (migration);
+the queue: `specs/backlog.md` → `Now`.
+
+**Four capture streams, and they are the only way anything here reports what it saw:**
+`wowkb.capture cap bind` (the binding), `cap tier` (the tier verdicts + gate health),
+`cap edge` (every alert edge that landed) and `cap draw` (what the overlay painted, and
+whether it found a frame to anchor to — the instrument that separates a treatment bug
+from an anchoring one). ⚠ SavedVariables only flush on `/reload`.
 
 ⚠ **The capture on disk is a client-authored fixture, and it is the cheapest instrument
 in the project.** Reading the 21 live Demonology rows settled five catalog open questions

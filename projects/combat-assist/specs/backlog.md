@@ -38,6 +38,53 @@ detail that gets added from here comes from **playing**, not from authoring.
 are in `## Reference`. Reasoning: `notes.md` 2026-08-08 (migration) and (the reorder); what
 the cull changed: `notes.md` 2026-08-08; why drawing was moved up: `notes.md` 2026-08-07.
 
+### What the first flight said — v0.2.4, 2026-08-10
+
+⚠ **cap has now drawn on screen, and this section is what play asked for.** It goes first
+because it is the only work here informed by pixels; everything below it was authored. The
+record is `notes.md` (FIRST PIXELS) and every item has its open half in `discussion.md`.
+
+⚠ **None of it is measured.** The `draw` ring on disk is still **entirely v0.2.3** and carries
+no `glow:`, `nosize:` or `B{}` field — SavedVariables only flush on `/reload`, and the pull did
+not end with one. **The first action below is a re-fly that ends in `/reload`**, because one
+capture separates several of these without guessing.
+
+- [ ] **Re-fly and `/reload`, then read `wowkb.capture cap draw`.** `glow:0/…` vs `glow:N/off`
+      vs `glow:N/live` decides **D17** outright; `nosize:` says whether the ring sized at all;
+      `B{}` says whether the bars armed. ⚠ Make the `/reload` part of the flight, not a step
+      after it — a flight that ends without one leaves the log describing the *previous* build.
+- [ ] **The proc glow is not suppressed** — a proc'd Demonbolt still dominates, same on
+      Infernal Bolt. `Glow.lua`'s first measured result, and it is negative. Four candidate
+      causes, distinguishable by the capture above: **`discussion.md` D17**. ⚠ **This blocks
+      D10** — "does cap's ring read as distinct from the stock glow" is not answerable while
+      the stock glow is at full strength. ⚠ And the KB drain stays blocked: the dim recipe is
+      still un-written to `cooldown-manager.md`, which is now clearly right.
+- [ ] **A transformed row lights for its whole cooldown.** Grimoire: Imp becomes Consume Magic
+      when on cooldown, so `ready(this)` reads true and E3 sits emphasised through the entire
+      downtime. Desired behaviour is decided — **that state is *none***. Where the fix belongs
+      is not: a four-line `identity` term in E3, or one invariant in `Tier` that no future
+      catalog can forget. **`discussion.md` D15.** ⚠ Before choosing, count how many other rows
+      on this spec transform into an unrelated ability while on cooldown — nobody has looked.
+- [ ] **Tyrant should be MEDIUM with markers, not promoted to HIGH.** E1's
+      `ready(this) and not ready(E2)` → HIGH collapses to one MEDIUM band on `ready(this)`;
+      the staging information (dogs out, grimoire out) moves to two markers. ⚠ The tier half is
+      a catalog edit and is decided; **the marker half has no vocabulary** — *"Dreadstalkers are
+      out"* is a **gate**, so there is no sealed half for the client to decide, and §3.0's cue
+      definition requires one. **`discussion.md` D16.** This is the *"a catalog entry that needs
+      one"* trigger the channel-coverage table below was waiting for.
+- [ ] **The tier glows read as candles** — too flickery, and wanted brighter across the board.
+      ⚠ Two complaints, not one: brightness is the alpha, flicker is the pulse, and a fix that
+      only raises alpha leaves a bright candle. The tier alphas were **measured**; the pulse
+      **trough (0.68) was picked at a desk** and is the leading suspect, with the `ADD` blend
+      over bright icon art as a cheap second test. **`discussion.md` D14.** ⚠ **The per-row
+      phase offset may not be quietly dropped** — it is a seizure-floor property, not tidiness.
+- [ ] ⚠ **E1's HIGH promotion was measured firing correctly and is still wrong, and that is
+      worth reading before the next tier rule.** The M3b flight measured the promotion landing
+      within 2 s of the Dreadstalkers cast and recorded it as working — it *was* working, in the
+      sense the instrument could test. Play says the behaviour is wrong. **A flight that
+      measures a rule firing correctly says nothing about whether the rule is right**, and no
+      instrument in this project can close that gap. Not an action — a caution.
+
 ### The drawing rungs — M3c, M3d, M3e
 
 **M3 — the tier signal. In progress.** Full plan and its reasoning: `notes.md`
@@ -51,8 +98,12 @@ from what playing actually says.
 - [x] ~~**M3c** — the graded register, on **cap's own overlay**~~ — **BUILT 2026-08-08.**
       Static only; nothing flown, no release cut. What it draws and what a flight should
       read: `## Reference` → *M3c*.
-- [ ] **Fly M3c and M3d together — the first pixels.** **v0.2.3 is released and deployed**
-      (2026-08-08); what is owed is the pull. `/reload`, a Demonology pull, then
+- [ ] **Fly M3c, M3d, the proc-glow suppression and the measured restyle together — the
+      first pixels.** **v0.2.3 is released and deployed** (2026-08-08) and carries M3c + M3d;
+      the glow suppression and the restyle are **both working-tree-only**, so a fresh cut is
+      owed before the pull — and the restyle changes what M3c draws, so flying v0.2.3 would
+      measure a look that no longer exists. `/reload`, a Demonology
+      pull, then
       `wowkb.capture cap draw`. ⚠ **The only oracle for a pixel is an eyeball**
       — the `draw` stream exists so a flight that sees *nothing* can still tell a
       treatment bug from an anchoring bug (`anch:`/`conf:` vs the `P{}` cells). Read both
@@ -60,6 +111,8 @@ from what playing actually says.
       A one-page card for running it, derived from that table:
       [the flight card](https://claude.ai/code/artifact/9dc3a713-5cbf-42e4-a7f7-8af576edfde7)
       — ⚠ a **view**, not a source; where it and the acceptance tables disagree, they win.
+      ⚠ **The build now also carries M4a's bars**, which are not an M3 rung — so the
+      `--patch` release pre-authorised above does **not** cover cutting it. Ask first.
 - [x] ~~**M3d** — the cues, drawn by the client~~ — **BUILT 2026-08-08.** Static only;
       nothing flown, no release cut. What it draws, and the sharp limit on what a flight
       can prove about it: `## Reference` → *M3d*.
@@ -67,12 +120,50 @@ from what playing actually says.
       table below is the current coverage. Nothing authors `auraRemaining(x) ≤ t` or
       `active(x)` today, so building their markers now would be inventing a visual language
       against no evidence; the trigger is a catalog entry that needs one.
-- [ ] **M3e** — procs and the Demonbolt demotion. ⚠ The "honesty measurement" that used to
-      close this rung is gone — deleted by the rule cull, 2026-08-08. The HIGH distribution
-      is reported, not graded. What
+- [x] ~~**Suppress Blizzard's proc glow** — the *replaces, not adds to* half of §3.2~~ —
+      **BUILT 2026-08-10.** `Glow.lua`; static only, nothing flown, no release cut. What it
+      does and how a flight reads it: `## Reference` → *The proc-glow suppression*.
+- [ ] **Decide `--@unverified` for the whole never-flown surface, or for none of it.** House
+      rule 5 wants the marker on any path whose *game behaviour* has never been observed —
+      which today is `Overlay.lua`, `Channel.lua`, `Treatment.lua`, `Glow.lua` and `Bars.lua`,
+      all five.
+      Marking one implies the rest are verified, so nothing is marked and the decision is
+      here rather than made by omission. ⚠ The rule also says every `--@unverified` must
+      appear in the **current flight's acceptance set**, so this resolves with the first
+      pixels flight and not before: whatever that flight does not exercise is what keeps the
+      marker.
+      ⚠ **Two markers now exist and both are narrower claims than this decision.**
+      Everything else on the never-flown surface uses API whose *names* the KB establishes;
+      these two are about behaviour the KB does not record. Do not read either as a claim
+      that the rest of the surface is verified.
+      - **`buildFlip` — the FlipBook setter names.** Established nowhere but the generated
+        docs, and an XML attribute name is not a Lua setter name. **Acceptance is `ring:` on
+        the first pixels flight**: `flip` settles it, `quad:…` names the method that was
+        missing.
+      - **`armPulse` — does `SetStartDelay` re-pay on every iteration of a `BOUNCE` loop?**
+        `frames-textures-animation.md` §7.3 records the setter as `AllowedWhenUntainted` and
+        records **nothing** about the loop. If it re-pays, a row's effective period is
+        `cycle + delay` rather than `cycle` — so `P{}`'s `p<hz>` names a rate nothing pulses
+        at, and rows in one tier run at *different* rates, which is a claim §3.1's
+        desync **safety property** does not make (it promises unequal rates *between* tiers
+        plus a per-row offset, not a per-row rate). **Acceptance is an eyeball, and the log
+        cannot help**: two LOW rows on screen together either take 2 s per bounce or take
+        2 s + their own offset. ⚠ Second-order and true whichever way it goes: `armPulse`
+        re-pays the delay on **every re-arm**, so a row whose treatment changes more often
+        than its delay never reaches its first pulse — LOW's worst case is ~1.98 s.
+- [ ] **M3e** — the Demonbolt demotion, the other half of §3.2. ⚠ The "honesty measurement"
+      that used to close this rung is gone — deleted by the rule cull, 2026-08-08. The HIGH
+      distribution is reported, not graded. What
       replaces it as M3e's acceptance is **playing with it** — the point of drawing early is
       that the next spec's rules get reverse-engineered from a thing that felt good, rather
       than authored in advance against no evidence.
+- [ ] **Drain the dim recipe into `knowledge/addon-dev/cooldown-manager.md` §6** — *after*
+      the glow suppression has run in the client, as a `[client YYYY-MM-DD]` claim. The
+      alert-frame-not-child-textures lever and the per-instance-hook requirement exist today
+      **only in CDMProbe's source**, which is the failure house rule 1 exists to prevent
+      (`notes.md` 2026-08-06). ⚠ Writing it before the flight would file a claim sourced
+      from another addon's code rather than from a measurement — so this is blocked on the
+      flight, not merely queued behind it.
 
 **Which of `spec.md` §3.5's channel forms are actually drawn.** `Overlay.lua`'s `slotFor`
 owns this and implements **two** of the six that table's `Draws` column promises. A form
@@ -85,7 +176,7 @@ milestone scoping, not a spec change; `spec.md` §3.5 points here for it.
 | `stacks(x) ≥ n` | count | ✅ **drawn**, on a **positive** cue — the `count` slot |
 | `cooldownRemaining(x) ≤ t` | marker | ✅ **drawn**, on a **negative** cue — the `hold` slot |
 | `auraRemaining(x) ≤ t` | marker | ❌ not yet. ⚠ **check 4 admits it as a negative cue's channel**, so it is the form a catalog author is likeliest to write and get nothing from |
-| `cooldownRemaining(x)` · `auraRemaining(x)` | countdown | ❌ not yet — the bare forms are §3.4's bars, and the bar panel is a rung of its own |
+| `cooldownRemaining(x)` · `auraRemaining(x)` | countdown | ❌ not yet, **and M4a does not change it**. The bars draw a countdown, but off the bound row directly — a *declared* bare channel on a grade or a cue still reaches no marker |
 | `active(x)` | pip | ❌ not yet |
 
 ⚠ **A slot is claimed by a (polarity, channel) pair, not by a channel alone.** A *positive*
@@ -93,6 +184,64 @@ milestone scoping, not a spec change; `spec.md` §3.5 points here for it.
 both channels sit in the drawn rows above — the renderer has a marker for each of the two
 live pairings and for nothing else. Which marker a future pairing should get is open
 (`discussion.md`, *how polarity is drawn*).
+
+### The measured treatment — what the lab picked, and what is left of it
+
+**The restyle is BUILT (2026-08-10). Static only; nothing flown, no release cut.** What
+landed and how a flight reads it: `## Reference` → *The measured restyle*. What follows is
+the open remainder.
+
+- [x] ~~**§3.1 needs one clause: the pulse is a channel that may cross brightness bands**~~
+  — **DONE, then MOOT.** The clause bound the disjointness invariant to the band rather
+  than to instantaneous rendered alpha; **the invariant itself was culled on 2026-08-10**
+  (`notes.md`, the §3.1 cull), so there is nothing left for the clause to exempt and both
+  went together, along with their two tests.
+- [x] ~~**§3.1's tier table needs a fourth row**~~ — **DONE.** *none* is a state with its
+  own treatment and the LOW → none step is the **presence of a ring**; LOW's veil is gone.
+- [x] ~~**Draw the ring**~~ — **BUILT.** A flipbook player over the declared grid, with the
+  four-quad ring kept as the fallback the probe selects when a setter is absent.
+- [x] ~~**Phase-offset the pulse per row**~~ — **BUILT.** One offset per row off the sorted
+  order; the WCAG/MIL-STD reasoning now lives at `Treatment.PULSE`, where an editor
+  tempted to align the rates will read it.
+- [ ] **Judge LOW's ring on screen — it is back at the lab-measured 0.50.** The rule that
+  had pushed it down to a 0.36 ceiling, the disjoint-brightness-band invariant, was **culled
+  on 2026-08-10** (`notes.md`, the §3.1 cull), so LOW's band is **0.36 – 0.50** with the
+  measured value as its bright end. What that frees is also what it opens: a graded LOW can
+  now reach the emphasis of a dim MEDIUM. Whether that reads wrong is `discussion.md`
+  **D11** — and ⚠ **the flight does NOT answer it**: the *bands* overlap but the Demonology
+  catalog never reaches the overlap (brightest reachable LOW 0.3526, dimmest reachable
+  MEDIUM 0.3989), so a pull that looks fine is not evidence. D11 carries the arithmetic and
+  what observing the real adjacency would take. What the flight **does** settle is the
+  narrower thing this line asks for: is a 0.50 slate ring readable as LOW at all. §3.1.
+- [ ] **Judge the ring's size and bleed on screen.** It is 1.4× the *item frame*, read off
+  `item:GetWidth()`, because that is what Blizzard's own alert frame does. ⚠ A refused or
+  secret read leaves the ring **unsized and unshown** — deliberately, rather than
+  inventing an icon size — so a pull that draws no ring at all with `ring:flip` in `D{}`
+  is that state, not a treatment bug. §3.1.
+- [ ] **Cap the HIGH tier's population.** Highlighting at 50 % validity measures as no
+  better than none, and unreliable cueing makes *uncued* targets missed more often than
+  no cueing at all. If HIGH fires most GCDs it is a label, not an alarm, and should lose
+  the alerting treatment rather than the population. §3.1.
+
+**The text treatment** — for a cue whose value is a sealed number, so it must be a
+FontString, which cannot wear a flipbook:
+
+- [x] ~~**Draw the number on a black `OUTLINE`, not a shadow**, and check `SetFont`'s
+  `success:bool`~~ — **BUILT.** The outline was already there; the discarded bool is now
+  read and reported as `mark:font` / `mark:nofont`. There is still **no outline-colour
+  API** `[searched 2026-08-10: the full FontInstance surface, a tree-wide grep for
+  outline-colour setters, UI.xsd's OUTLINETYPE enum, FontScriptInfo's field list]`.
+- [x] ~~**Pulse its size, not its opacity**~~ — **BUILT.** `SetScaleAnimationMode(Vertex)`
+  + a `Scale` animation 0.88 → 1.15 over 0.6 s, `BOUNCE`, `IN_OUT`, `SetOrigin("CENTER")`.
+  Both names are probed and an absent one reads `mark:…/nopulse`.
+- [ ] ⚠ **A secret-fed FontString must be a layout leaf** — `SetText(secret)` marks the
+  string *and its dependent* anchoring-secret (§4.8.1 finding 10). Anchor it *to* things;
+  never anchor anything *to* it. `DurationTextBinding` is recorded as the anchor-safe
+  route; whether that still holds is **reopened** (§4.8.1's `[gap]`) and the lab is
+  isolating it. Do not build on the binding route until that resolves. §4.
+- [ ] **Both routes render zero identically to broken.** Set `SetExpiredText` and
+  `SetZeroDurationText` to distinct visible strings, and read the remaining duration with
+  `ignoreGCD = false` so a ready spell shows the GCD rather than `0`. §4.8.1 findings 14–15.
 
 ### The M3b leftovers — what the flight did not settle
 
@@ -212,18 +361,36 @@ reader reaching "impossible" off a headline.
 - **Rule 13 does not bite on Demonology** — nothing on the roster has charges — but the
   structural guard still goes in: seed `maxCharges` out of combat, refuse to latch >1.
 
-**M4 — §3.4 smart cooldowns.** The container exists (`ns.Frame.Attach(region, height)`);
-the roster is in the Demonology catalog. This is the bars themselves.
+**M4 — §3.4 smart cooldowns.** **Pass 1 is BUILT (M4a, 2026-08-10)** — what landed and how a
+flight reads it: `## Reference` → *M4a*. What follows is the open remainder.
 
-- [ ] Render a bar per roster entry off a duration object — legible, accurate, **in
-      combat**. ⚠ `SetMinMaxValues(0,1)` *before* `SetTimerDuration`, and
-      `SetToTargetValue()` on first show or it interpolates from a stale value
-      (`security-taint-and-restricted-data.md` §4.8.1 findings 3, 5).
-- [ ] Time-remaining text on each bar, in combat. ⚠ `SetText` with a secret poisons
-      anchoring — the FontString must be a leaf; `DurationTextBinding` is the only
-      anchor-safe text route (finding 10).
-- [ ] Apply the §3.1 tier signal to the bars — ready-and-HIGH emphasised,
-      ready-but-hold not. Same engine as M3, second surface.
+- [x] ~~Render a bar per roster entry off a duration object~~ · ~~time-remaining text on
+      each~~ · ~~apply the §3.1 tier signal to the bars~~ — **BUILT 2026-08-10.** Static
+      only; nothing flown, no release cut.
+- [ ] **The hold cue on a bar** — §4's headline value and the riskiest part of it, held out
+      of pass 1 deliberately so the bars can be seen before a second thing is drawn on them.
+      Both are cross-ability countdowns an icon has no room for — the case `catalog.md` §4
+      states, written there by the same pass that deferred this rung, so it is a note this
+      round left itself and not a standing argument it inherited. The mechanism already
+      exists and is the icon's: `Channel.Threshold` +
+      `Treatment.Ink(Treatment.Mark(cue))`, drawn in the hold treatment, which belongs to no
+      tier. ⚠ **A ready cooldown carrying a hold keeps its tier** (`spec.md` §3.4) — the
+      marker says wait, the fill does not demote. Its own rung, after pass 1 has been seen.
+- [ ] **Judge the bars on screen** — four rows, ~18 px each, in a 220 px panel. Is the
+      countdown legible in combat, does the label survive being drawn over a tier fill, and
+      does a ready bar (full, unnumbered) read as *ready* rather than as *stuck*? §3.4's own
+      Check. ⚠ Nothing in the log can answer any of the three.
+      ⚠ **And two numbers nobody has seen ride on the same look**: the **resting fill** —
+      derived only as *under LOW's dimmest*, the value inside that bound picked — and the
+      **track colour**, picked outright. Does a resting bar read as *counting down, no
+      opinion* rather than as a dim LOW, and does the empty part read as empty? Both are
+      `Treatment.BAR`, both are expected to move, and `spec.md` §3.4 states the property
+      rather than the number for exactly that reason.
+- [ ] **Decide what a bar does with a grade** — `discussion.md` **D7** parked "may a grade
+      exist without a tier" *on M4's drawn bars*, and the bars now exist. E1's and E2's
+      `cooldownRemaining` grades are still inert: a grade is only computed when a band held,
+      and their bands need `ready(this)`. Either the bar carries the warming or the two
+      grade lines come out of `catalog.md`.
 
 **M5 — §3.3 sequences.**
 
@@ -366,6 +533,193 @@ here because two of its decisions still bind** — the `t = 20` imprecision and 
 lost — and because a reader meeting `catalog.md`'s O1 or O8 needs to know they were
 chosen rather than overlooked.
 
+### M4a — the bars, first pass. ✅ BUILT 2026-08-10. Static only; nothing flown, no release cut.
+
+**§3.4's cooldown bars, in the panel that already existed.** One duration bar per catalog
+roster entry, stacked through `ns.Frame.Attach(region, height)`, carrying §3.1's tier signal
+on the fill. The remaining time never enters Lua: the client is handed a duration object and
+draws from it. Reasoning: `notes.md` 2026-08-10 (the cooldown bars).
+
+- [x] **`Bars.lua`** — new, impure, with **`Bars.Plan(roster, out)`** as the pure seam: which
+      entries get a bar, in what order, and what each is drawn in. It is handed the ordered id
+      list by **`Sense.Roster()`**, never the live catalog — a surface that draws bars has no
+      business reaching bands or cues.
+- [x] **The recipe, every step a KB finding.** `C_Spell.GetSpellCooldownDuration(id, true)`
+      (nil-guarded — `MayReturnNothing`) → `SetMinMaxValues(0, 1)` **before**
+      `SetTimerDuration` (§4.8.1 finding 3) → `SetToTargetValue()` **on first show only**
+      (finding 5). `Enum.StatusBarInterpolation.Immediate`, never the absent `None`.
+      `SetStatusBarTexture`'s discarded `success` bool is read and reported.
+- [x] **The time text is the `SetText` route** (finding 2 — measured, in combat, ticking),
+      **not `DurationTextBinding`**, whose anchor-safety is reopened (§4.8.1's `[gap]`).
+      `modifier` passed explicitly (`Nilable = false` **with** a `Default`). ⚠ Both
+      FontStrings are **layout leaves** — `SetText` with a secret marks the string *and its
+      dependent* anchoring-secret (finding 10) — so the label's right edge is anchored to the
+      **row**, never to the countdown beside it.
+- [x] **The roster is `catalog.bars` and it is now the only declaration of it.** The
+      per-entry `bar = true` flag is gone, and a load-time check refuses both an entry that
+      declares one and a `bars` id that is not a declared entry. **The document matches:**
+      `catalog.md` declares it in §4 alone — §1's `Bar` column and the five per-entry
+      `bar:` bullets are gone, and a bullet would have transcribed into a catalog that dies
+      at load.
+- [x] **E4 Summon Doomguard out, E8 Implosion in** — `catalog.md` §4 rewritten with the
+      argument, and the knock-on question about E8's own cue filed as `discussion.md` **D12**.
+- [x] **`Treatment.Fill` + `Treatment.BAR`** — the fill is the tier's own hue and emphasis, or
+      a resting slate **under LOW's dimmest**, because a bar has no ring to carry §3.1's
+      LOW → *none* step. `spec.md` §3.4 states that property; the numbers are picked and
+      unseen and live in `Treatment.BAR`.
+- [x] **`tools/wowkb/addon.py`** — cap's registry entry gains `test_dir`, so
+      `wowkb.addon release cap` runs `busted` as a release gate. `luaparser` proves the Lua
+      parses; only `busted` proves it still decides correctly.
+- [x] **busted 147 → 163, luacheck 0/0 in 23 files.** 12 mutations run and caught.
+
+**What `B{}` says, and what it cannot.** One cell per declared bar, in roster order, on the
+**`draw`** stream. ⚠ **Same ceiling as `C{}`: `armed` means cap handed the client a duration
+object, never that a bar appeared.** Every duration sink is aspect-less and hands nothing
+back, so an eyeball is the only oracle for the pixel.
+
+| `B{}` state | Means |
+| --- | --- |
+| `armed` | cap resolved a duration and handed it to the bar. **Not** "it drew" |
+| `ready` | the client returned no duration for `ignoreGCD = true` — nothing is remaining. A deliberate state: the bar draws **full and unnumbered** |
+| `refused` | the **read** failed — `GetSpellCooldownDuration` was absent or threw, so there was nothing to hand over |
+| `unarmed` | cap had a duration and the **sinks** refused it — `SetMinMaxValues` / `SetTimerDuration` raised |
+| `nobind` | the roster names it and no CDM row binds it. The row is not drawn at all, so the panel has no hole |
+| suffix `!` | the fill is armed and cap could put **no number** on it — the bar carries `--` |
+
+⚠ **`refused` and `unarmed` are two cells and one set of pixels.** Both draw an empty track
+carrying `--`; the split is in the log, because "the client would not tell cap" and "the client
+would not take it" are different faults and a flight that cannot name which learns nothing.
+
+⚠ **Zero, expired and broken are three different sets of pixels, and only two of them are
+cap's to tell apart.** The formatted string is **secret**, so cap cannot read it back, cannot
+measure it and cannot know whether the client drew a number or nothing. What separates the
+three is the fill: `ready` is full with no text, `armed` is the client's fill and the client's
+string, `refused` is an empty track carrying cap's own `--`. **`--` never stands for zero.**
+
+**And the one build-time probe, `bar:` in `D{}`** — three fixed cells, settled when the first
+row is built, none of which says a pixel moved.
+
+| `bar:` cell | Means |
+| --- | --- |
+| `-` | no row has been built, so the probe has never been settled — an empty roster, or no verdict pass has run yet |
+| `tex` / `notex` | `SetStatusBarTexture` returned true / did not. ⚠ **Reported, not acted on** — standing down on `notex` leaves the player nothing, where carrying on still leaves them a track and a number |
+| `fmt` / `nofmt` | `C_StringUtil.CreateSecondsFormatter` resolved / did not. `nofmt` means **every** bar carries `--` and the fills are unaffected |
+| `font` / `nofont` | `SetFont` returned true / did not — `nofont` leaves both strings on the template's font |
+
+⚠ **A bar with no tier is the normal case, not a fault.** Every one of E1/E2/E3's bands needs
+`ready(this)`, so the roster is tier-less for exactly the stretch its bar has something to
+show — the fill recedes to the resting slate and counts down anyway. A pull reading
+`B{E1:armed E2:armed …}` with grey fills is that, and it is correct.
+
+### The measured restyle — ✅ BUILT 2026-08-10. Static only; nothing flown, no release cut.
+
+**§3.1's ladder given the numbers a person chose on real icons**, plus the two amendments
+§3.1 owed. `spec.md` §3.1's table is the normative copy and `Treatment.lua` is where the
+numbers live once. Reasoning: `notes.md` 2026-08-10 (the measured restyle).
+
+- [x] **`Treatment.lua`** — the ring descriptor (atlas, grid, `ADD`, scale 1.4), a per-tier
+      pulse rate, `Treatment.Pulse` (endpoints baked off the tier's own alpha) and
+      `Treatment.Phase` (the per-row offset). LOW becomes a **ring**, *none* keeps the only
+      veil at 0.60. **`Treatment.Ink` still refuses LOW**, now through an explicit
+      `ink = false` rather than by LOW having no ring to take a colour from.
+- [x] **The bands that moved, and why.** MEDIUM `0.56–0.86` → **`0.48–0.78`** (the measured
+      0.78 is the band's *bright* end; the width is unchanged). LOW was set to `0.22–0.36`
+      here — ⚠ **superseded 2026-08-10**: the disjoint-band invariant that forced it off the
+      lab's number was culled, and LOW is **`0.36–0.50`**, the measured 0.50 read as its
+      bright end. The 12-mutation note below includes one — "putting LOW's measured 0.50
+      back" — whose assertion no longer exists.
+- [x] **`Overlay.lua`** — a ring host frame carrying the flipbook (or the four-quad ring)
+      and nothing else, so the pulse's alpha cannot reach the veil or either marker; the
+      ring sized 1.4× the item frame off a guarded `GetWidth`; the count marker's `SetFont`
+      bool read and its size pulse armed.
+- [x] **busted 141 → 147, luacheck 0/0 in 21 files.** 12 mutations run and caught, including
+      putting LOW's measured 0.50 back — which is exactly the assertion that refused it.
+- [x] **The review fix pass (2026-08-10)** — `nosize:` added; the ring alpha moved inside
+      `armPulse`, between the `Stop` that reverts it and the `Play` that captures it; the
+      pulse offset made a **fraction of the tier's own cycle** rather than a fixed 0.07 s,
+      which aliased rows back into alignment on the fastest tier; the size re-read every pass
+      so a UI-scale change cannot strand it; `SetJustifyH`/`SetJustifyV` actually called
+      rather than assumed. 4 further mutations run and caught.
+
+**What `ring:` and `mark:` say, and what they cannot.** Both are **build-time probe
+results**, and neither says a pixel moved.
+
+| `D{}` token | Means |
+| --- | --- |
+| `ring:flip` | the atlas resolved, the `FlipBook` animation took all three setters, and the flipbook is the live geometry |
+| `ring:quad:<method>` | that setter is **absent** at runtime; cap fell back to the four-quad ring. The one thing this rung's `--@unverified` marker is about |
+| `ring:quad:atlas` | `SetAtlas` did not leave the region atlas-backed — the name did not resolve |
+| `ring:quad:flipbook` | `CreateAnimation("FlipBook")` refused |
+| `mark:font/pulse` | the count marker took its font *and* its scale animation |
+| `mark:nofont/…` | `SetFont` returned false — the marker is on the template's font, not cap's |
+| `mark:…/nopulse` | `SetScaleAnimationMode` or the `Scale` animation was unavailable; the number is drawn, unpulsed |
+
+**The four-quad ring is kept as the fallback and covers three failures, not one** — a setter
+name that is not there, an atlas name that does not resolve, and a `FlipBook` animation type
+the client refuses. It needs no size (it is anchored, not sized), so it is also the geometry
+that still draws if `GetWidth` never answers. Its per-tier **thickness** is the fallback's own
+ladder and describes nothing when the flipbook is live, which is why `P{}` prints `t` only
+when the fallback is what is on screen.
+
+⚠ **`nosize:` is the number that stops a blank screen reading as a healthy pull.** The ring is
+sized off `item:GetWidth()`, which is `SecretWhenAnchoringSecret`; a refused read leaves it
+unsized and cap **hides it rather than guessing an icon size** — and a tiered row draws no
+veil either, because the veil is 0 wherever a ring exists. So without this counter a pull
+where every width read refused would print `anch:21 conf:21 nf:0 off:0` with full `P{}`
+cells: **identical to a working one**. `nosize:` counts the rows that wanted a ring and got
+none for want of a size.
+
+| Reading | Means |
+| --- | --- |
+| `nosize:0` | every drawn row had a size. Says nothing about whether art appeared |
+| `nosize:` = `rows:` | ⚠ **total** — the width read is refused everywhere and the tier signal is invisible, whatever the rest of the line says |
+| `0 < nosize: < rows:` | some rows only. Most likely a repool mid-pull, where the fresh frame's width is secret until the next quiet moment |
+
+⚠ **The `P{}` cell now carries the pulse rate** — `E1:HIGH/a91p2.5*`, or `E1:HIGH/a91t3p2.5*`
+when the fallback ring is live. `p` is the rate cap armed, so a stalled animation and a slow
+one are different readings; the cell still says nothing about whether the ring appeared.
+⚠ **And `p` is the rate cap *asked for*, not necessarily the one on screen** — the per-row
+phase is a `SetStartDelay` under a `BOUNCE` loop, and whether that delay re-pays each
+iteration is `armPulse`'s `--@unverified` (in the acceptance set under *The drawing rungs*).
+If it does, the true period is `cycle + delay` and no two rows in a tier share it.
+
+### The proc-glow suppression — ✅ BUILT 2026-08-10. Static only; nothing flown, no release cut.
+
+**`spec.md` §3.2's *replaces the stock proc treatment* half.** The CDM lights a large
+uniform gold overlay on a proc'd icon, above anything cap draws — and §3.1's last surface
+rule is that an emphasis looking like the stock glow makes the two indistinguishable.
+
+- **`Glow.lua`** — a per-instance post-hook on each CDM item frame's `RefreshOverlayGlow`
+  that sets `item.SpellActivationAlert:SetAlpha(0.5)`. **A dim, not a hide.** The dial is one
+  constant and is settled by an eyeball. ⚠ **The three reasons behind that shape — alert
+  frame not child textures, per-instance not shared-table, dim not hide — are read off
+  CDMProbe's `HudProcGlow.lua` and are measured nowhere**, which is the drain item below.
+- **It rides `Sense`'s existing frame walk**, so the rows are enumerated once, and it reuses
+  that file's weak-keyed hook-once-per-frame-object-ever table verbatim.
+- **`Glow.Restore()` runs when cap goes dark** (no catalog, or unsettled at combat entry).
+  cap must not degrade Blizzard's UI while putting nothing in its place. `hooksecurefunc`
+  cannot be removed, so the hooks stay and a liveness flag makes the callback inert. ⚠ **Both
+  `Restore` and `light` early-out on that flag and the guard is load-bearing, not tidiness** —
+  this rides the 10 Hz tick, so an unguarded `Restore` writes to every hooked alert frame ten
+  times a second for as long as cap is dark, which is neither inert nor neighbourly.
+
+**What `glow:` says, and what it cannot.** `D{}` gains one token, `<frames>/live` or
+`<frames>/off` — how many item frames cap has hooked **ever this session**, and whether the
+dim is armed on this pass. ⚠ **`SetAlpha` hands nothing back, so this can never say the glow
+got dimmer** — it is the same ceiling as `C{}`'s `armed`. The failure it *can* separate is
+the one worth separating: `glow:0/live` means cap never found a frame to hook, `glow:20/off`
+means the frames are hooked and cap is deliberately dark, and a healthy pull reads
+`glow:20/live`. **An eyeball on a Demonic Core proc is the only oracle for the pixel.**
+
+⚠ **The count is cumulative and deliberately inflated in two ways — do not read it as a live
+population.** It never decrements (`hooked` is weak-keyed and may shrink under it) and it
+accumulates across spec swaps within a session; `Sense.lua`'s `state.hooks` has exactly the
+same semantics, which is why it was kept. And **tab-2 rows are armed too**, though §6 says
+only tab-1 viewers ever hear the glow event: such a frame is either skipped for want of the
+method or hooked inertly, and a tab-1 filter would copy viewer knowledge into `Glow` that
+`Bind` owns. So `glow:` is an upper bound on the frames that could ever dim, not a count of
+frames that will.
+
 ### M3d — ✅ BUILT 2026-08-08. Static only; nothing flown, no release cut.
 
 **The half cap is not allowed to compute.** cap offers a cue, the client decides whether it
@@ -398,7 +752,9 @@ thresholding a secret duration (§4.8.1 finding 4). Reasoning: `notes.md` 2026-0
 - [x] **busted 138 → 141, luacheck 0/0 in 20 files.**
 
 **What the `draw` line says now.**
-`D{n: rows: anch: conf: off: nf: cue: arm:} P{…} C{E8:+stacks:armed E2:-cooldownRemaining:refused}`
+`D{n: rows: anch: conf: off: nf: cue: arm: glow: nosize: ring: mark: bar:} P{…} C{E8:+stacks:armed E2:-cooldownRemaining:refused} B{E1:armed E8:ready}`
+(`glow:` is *The proc-glow suppression*'s field, `nosize:`/`ring:`/`mark:` are *The measured
+restyle*'s, and `bar:`/`B{}` are *M4a*'s — all three below.)
 
 | `C{}` state | Means |
 | --- | --- |
@@ -433,7 +789,7 @@ in `Treatment.lua`, and are transcribed there. Reasoning: `notes.md` 2026-08-08 
 - [x] **The `draw` stream** — `wowkb.capture cap draw`, no Python change needed.
 
 **What a flight has to separate, and how.** The `draw` line is
-`D{n: rows: anch: conf: off: nf:} P{E1:HIGH/a91t3* E7:LOW/v31* …}`. Combat start and end
+`D{n: rows: anch: conf: off: nf: nosize:} P{E1:HIGH/a91p2.5* E7:LOW/a43p0.5* …}`. Combat start and end
 are `#`-marked on this stream carrying the full body, so a pull whose drawn set never
 changes still emits its numbers at both edges; `:Meta` carries the catalog, cap's version
 and the line count.
@@ -445,7 +801,7 @@ and the line count.
 | `anch:` = `rows:`, an overlay visibly **on the wrong icon** after a repool | ⚠ **not a treatment bug** — the §1.1 secret-anchor gap. `anchor()` calls `SetPoint` mid-pull when the item-frame pool hands a cooldownID a new frame, and a CDM item frame in combat carries a *secret* anchor; whether a dependent of one still moves is **unmeasured**. A silent no-op leaves the overlay on its previous position while `Bind.ItemFrame` succeeded, so every number in `D{}` reads healthy |
 | cells carry `!` | `Bind.ItemFrame` refused; a rebind is already scheduled |
 | cells carry `?` | anchored to an **unconfirmed** frame — drawn anyway, possibly on the wrong row |
-| a cell has no `*` | that entry LOST its row to a brighter sibling — its treatment is on no icon |
+| a cell has no `*` | that entry LOST its row to a **higher-tier** sibling — its treatment is on no icon. ⚠ Since `Treatment.Rank` landed the comparison is tier order first, emphasis only *inside* one tier, so a dimmer cell can still be the one carrying the `*` |
 | `off:` > 0 | the item frame is not visible; the overlay is correctly hidden |
 | `nf:` > 0 | ⚠ **no item frame at all** — anchoring failed. `nf:` = `rows:` is a total failure, not a quiet overlay |
 | no `draw` lines at all | the paint path never ran — check `tier` for a `# listener-error` mark |
@@ -458,7 +814,7 @@ is the one failure **no number in the log can show**: the gap is
 `knowledge/addon-dev/security-taint-and-restricted-data.md` §1.1 (registry
 `secret-anchor-dependent-geometry`), and only an eyeball on a repool can catch it.
 
-⚠ **One thing for the eyeball, not the log:** the *none* veil sits at **0.62 alpha over
+⚠ **One thing for the eyeball, not the log:** the *none* veil sits at **0.60 alpha over
 the CDM's own cooldown swipe and number**, which is the only timer the player has until
 §3.4's bars ship. Judge on screen whether an un-opinionated icon is still readable as a
 timer; if it isn't, the number to move is `NONE` in `Treatment.lua` (and `spec.md` §3.1's

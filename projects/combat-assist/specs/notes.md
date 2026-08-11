@@ -18,6 +18,1326 @@ this file records *our* work, not the client's behaviour.
 
 ---
 
+## 2026-08-10 (FIRST PIXELS) — v0.2.4 flown, and four things play said that the desk could not
+
+**cap drew on screen for the first time.** v0.2.4 released and deployed, one Demonology pull.
+Everything from M3c onward — the graded register, the cues, the proc-glow dim and §3.4's bars —
+had been built, reviewed four times and never executed in the client. **It works**: the surfaces
+render, the binding holds, and the player's verdict was *"hey it works!"* before any of the
+detail below.
+
+⚠ **This entry is the player's report, not a measurement.** No capture backs any of it: the
+`draw` ring on disk at time of writing is **entirely v0.2.3** across all 8 sessions and carries
+no `glow:`, `nosize:` or `B{}` field at all, because SavedVariables only flush on `/reload` and
+the pull had not been followed by one. Every number named below is a number from the source, not
+from the flight. The four items are filed as **D14–D17**.
+
+### What play said
+
+1. **The tier glows read as candles.** *"Way too flickery … needs to be brighter across the
+   board."* → **D14**. The tier alphas were measured by a person on real icon art; the **pulse
+   trough (0.68) was picked at a desk**, and it is the number that decides how far a ring dips.
+   The one thing nobody looked at is the leading suspect.
+2. **A transformed row lights for its whole cooldown.** Grimoire: Imp becomes **Consume Magic**
+   when on cooldown — a real, castable, off-cooldown utility — so `ready(this)` reads true and
+   E3 sits emphasised through the entire downtime. → **D15**. cap is not misreading anything;
+   the catalog never said which identity it meant.
+3. **Tyrant's HIGH promotion is wrong.** It should be MEDIUM whenever off cooldown, with
+   **markers** for the setup pieces (dogs out, grimoire out) rather than a tier bump. → **D16**.
+4. **The proc glow was NOT suppressed.** A proc'd Demonbolt still dominates the screen; same on
+   Infernal Bolt. → **D17**. This is `Glow.lua`'s first measured result and it is a negative one.
+
+### The three things this flight is worth more than the code it tested
+
+**E1's HIGH promotion was a desk decision, measured firing correctly, and play reversed it.**
+The rule is `ready(this) and not ready(E2)` → HIGH: Tyrant is urgent once Dreadstalkers is on
+cooldown, i.e. once the pets are out. The **M3b flight measured it landing within 2 s of the
+Dreadstalkers cast** and recorded it as working — and it *was* working, in the only sense that
+flight could test. It is still the wrong behaviour. **A flight that measures a rule firing
+correctly says nothing about whether the rule is right**, and nothing in this project's
+instrument set can close that gap: `busted` tests the arithmetic, the capture tests that the
+arithmetic reached a pixel, and neither has an opinion about what the arithmetic should be.
+That is the clearest case yet for `simplify → draw → add detail from play`, and it is worth
+remembering the next time a tier rule looks obviously right on paper.
+
+⚠ **Do not call this rule `dogs_out`.** That was the *window* it replaced, and the window
+migration deleted the vocabulary along with the mechanic — the term survives only in
+pre-migration history (`notes.md` 2026-08-07/08 and `backlog.md`'s `## Reference`). The
+pre-migration flight record also called it *"the catalog's centrepiece"*, which described
+**windows as the catalog's cross-ability reasoning mechanism** — true at the time and false
+since they were removed. Quoting either forward is the "a rule surviving in a header is how it
+comes back" failure one file over; both were caught in review of this very entry.
+
+**A negative result on `Glow.lua` is exactly why its claim was never written to the KB.**
+`backlog.md` filed the proc-glow dim recipe as **blocked on the flight** rather than draining it
+into `cooldown-manager.md`, on the grounds that it was read off CDMProbe's source and never
+measured by us. Had that been written as a `[client]` claim on faith, the KB would now carry a
+mechanism that demonstrably does not work here, and the next project would inherit it. The
+restraint paid.
+
+**The instrument was not there when it was needed, and the reason is procedural.** `glow:` would
+have separated *"nothing was hooked"* from *"hooked and the pixel did not move"* in one glance,
+and it exists precisely for that — but a capture only reaches disk on `/reload`, and a flight
+that ends without one leaves the log describing the *previous* build. Worth making the
+`/reload` part of the flight, not a step after it.
+
+### What was NOT decided here
+
+Nothing. All four went to `discussion.md` with the case on both sides, because three of them
+have a genuinely open **how** even though the **what** is settled: D15's fix could be four lines
+in one catalog entry or one invariant in `Tier`; D16 needs a marker driven by a gate, which the
+§3.0 vocabulary does not currently admit; D17 has four candidate causes that a single capture
+field would separate. Only D14's direction ("brighter, less flickery") is unambiguous, and even
+there the fault could be the trough, the rate or the ADD blend.
+
+## 2026-08-10 (the bars fix pass) — a picked number wearing a derivation's clothes, and three declarations of one roster
+
+**Done, static only. `Bars.lua`, `Treatment.lua`, `Sense.lua`, `treatment_spec.lua`,
+`bars_spec.lua`; `spec.md` §3.4, `catalog.md` §1/§2/§4, `discussion.md` **D13**, `backlog.md`.
+busted 163 → 164, luacheck 0/0 in 23 files, 11 mutations run and 10 caught (the eleventh could
+not be written after the seam narrowed — below). ⚠ **Nothing here has run in the client** —
+the round below never drew a pixel and neither does this one. `armed` is still the strongest
+word in the log and it means cap handed the client a duration object.**
+
+A review of the bars round below. Its headline finding is the same failure mode as the
+2026-08-08 (polarity) entry, one surface over.
+
+### The one that mattered: `BAR.rest` was a picked number dressed as a derivation, promoted to `spec.md`, and pinned by a test — inside LOW's own band
+
+Four separate faults, and they compound in that order:
+
+- **The value collided with the tier it sits under.** LOW is the slate `0.80 0.82 0.88` over
+  the alpha band `0.36 – 0.50`; the resting fill was **the same hue at alpha `0.40`**, inside
+  that band. A LOW bar at grade ≈`0.286` rendered the resting fill exactly. On an icon
+  §3.1 makes the LOW → *none* step **the presence of a ring** — and a bar has no ring, so on
+  this surface the step had no carrier at all while §3.4's new table normatively specified two
+  states that draw the same pixels. It is the collision §3.1 already forbids for markers
+  (*"LOW's hue is the hold slate… a positive cue therefore stands for HIGH or MEDIUM"*).
+- **The justification was an analogy.** *"The bar carries no artwork to veil, so it takes the
+  veil's own fraction instead"* — a veil at `0.60` multiplies an **icon's own light** by 0.40;
+  a slate at alpha `0.40` over a dark track over the panel is a different quantity in a
+  different composite. The test comment said the mechanism does not apply and then used the
+  number anyway.
+- **A test ratcheted the analogy into an invariant.** `assert.equal(1 - T.Tier("none").veil,
+  T.BAR.rest.a)` made the analogy the **only** thing pinning `0.40` — a rung stronger than the
+  struck polarity rule ever got.
+- **`BAR.track`'s four values went normative into `spec.md` with no argument at all**, sitting
+  in one table beside §3.1's measured numbers with nothing separating measured from picked.
+
+**The derivation this lands on, and it is only an ordering.** The claim that survived the
+§3.1 cull is *"the ladder is ordered"*, and *none* is its bottom rung. A bar has no ring, so
+the fill is the only thing that can carry the LOW → *none* step — therefore **the resting fill
+must read under LOW's dimmest**. The resting slate is LOW's own hue, so on the shared hue that
+reduces to an alpha strictly under LOW's dim end of `0.36`. That much follows from a surviving
+property and from nothing else.
+
+**The number inside that bound is PICKED, and it is stated as picked.** `rest.a = 0.24`. The
+resulting gap to LOW's dim end is `0.12`, about the width of LOW's own band — offered so a
+reader can judge the pick, **not** as its derivation. Nobody has seen it. `BAR.track` is
+picked outright and is now labelled so. `spec.md` §3.4 states the three **properties** and
+carries no numbers; `Treatment.BAR` holds the values with a ⚠ that only the ordering is
+derived; and `discussion.md` **D13** is the open question, filed the way D10/D11 were: what
+should these two actually be, decided by looking, since `B{}` reports `armed` and can never
+report a colour. `backlog.md`'s *Judge the bars on screen* now names them alongside the three
+legibility questions it already had.
+
+**The test asserts the property, not the arithmetic.** *"rests under every reachable LOW
+fill"* checks the resting hue **is** LOW's (so an alpha comparison is a legitimate brightness
+comparison) and then that the resting alpha is strictly under LOW at 21 grades across `0..1`.
+Beside it, *"orders the four fills, none lowest"* walks the bar ladder on one scalar —
+`Treatment.FillBrightness`, added because `Brightness`'s negative-veil branch says nothing
+about a surface with no veil. The old identity assertion is gone.
+
+⚠ **Unreachable on Demonology, and that is not a defence.** No entry on the roster bands LOW
+(E1/E2/E3 are HIGH/MEDIUM, E8 MEDIUM), so nothing on this catalog could have hit the
+collision. It is a property of `Treatment.Fill`, the **shared engine** every future spec draws
+through, and it was written into `spec.md` as a normative table before any spec could reach it.
+
+### `catalog.md` declared the roster three times, one of them in a field the code refuses at load
+
+Five `- **bar:** …` bullets sat in the same field list as `- **grade:**` and `- **cue:**`
+while `Catalog.Check` **fails** any entry carrying `bar` — so a transcriber following the
+document produced a catalog that dies at load, in a section whose own new text says *"a
+catalog shipping both is a load-time finding"*. §1's roster table carried a third declaration,
+a `Bar` column, in a round whose whole argument was that two declarations of one fact drift.
+
+**Reduced to one: §4's ordered list.** The bullets and the column are gone; §1 points at §4,
+and §4 says in as many words that it is the only declaration and that the addon refuses both
+halves of the drift (an entry declaring `bar`, and a `bars` id that is not an entry). Nothing
+about *which* abilities get bars changed. One adjacent tidy while in the file: §4's Power
+Siphon ⚠ opened *"for the reason this section used to give for both"* — a history marker in a
+present-tense document.
+
+### The five smaller ones
+
+- **`relayout` detached without resetting the show flags** — finding 5's exact failure.
+  `Frame.Detach` hid the row's frame but left `barShown` and `snapped` set, so a pooled row
+  brought back by a roster change was `Show`n with `snapped == true`, skipped
+  `SetToTargetValue` and interpolated out of a stale value — which is precisely what §4.8.1
+  finding 5 exists to prevent. `dark()` had it right via `showBar(r, false)`; the detach loop
+  did not. Both now go through one `release(r)`. ⚠ **No desk test:** the surface needs a
+  client, and a fake of `CreateFrame` would be a model of our belief (house rule 6).
+- **`refused` covered two different failures** — "the read was absent or threw" and "the sinks
+  raised" both reported `refused`, so a flight could not tell which. Split into `refused` (the
+  read) and `unarmed` (the sinks). ⚠ **Two cells, one set of pixels**: both still draw an
+  empty track carrying `--`, so the three-sets-of-pixels claim below is unchanged. The `B{}`
+  table in `backlog.md` carries both rows and says so.
+- **The `SetStatusBarTexture` justification asserted a client fact the KB does not carry** —
+  *"an older arity returning nothing would read the same as a refusal"*. The KB records the
+  bool for 12.0.7 and there is no older arity on the target client. **The decision is right
+  for a stronger reason:** standing down on `notex` leaves the player nothing, where carrying
+  on still leaves them a track and a number. Behaviour unchanged, reason rewritten, in the
+  code and in `backlog.md`'s `bar:` table. (House rule 1: a fact about the game does not live
+  in a comment — and this one was not a fact.)
+- **Two descriptor fields were produced and never consumed** — `cooldownID` and `grade`, with
+  `bars_spec` pinning output nothing reads. Dropped rather than kept for a rung that has not
+  been written; the hold-cue rung can add what it actually needs.
+- **`Sense.Catalog()` was the widest accessor for the narrowest need** — it handed every
+  surface the live mutable catalog so that one caller could read one field. Replaced by
+  **`Sense.Roster()`**, returning the ordered id list and nothing else, and `Bars.Plan` now
+  takes `(roster, out)`. A surface that draws bars cannot reach bands or cues through it.
+- **`backlog.md` cited `catalog.md` §4 for a sentence the same round wrote** — the hold-cue
+  rung quoted *"the bar is the roomier surface…"* as pre-existing support, and `git log -S`
+  finds it nowhere in history. True as of the commit, so not a reconstruction violation, but
+  it read as an inherited argument. Attribution fixed in place.
+- **`Bars.Report()` can return probe `"-"`** (no row ever built) and the `bar:` table did not
+  list that cell. Added.
+
+### The mutations, and the one that could not be written
+
+Ten caught. On `Treatment`: `rest.a` back to `0.40` (the struck value) · `rest.a` to `0.36`
+(equal, not strictly under) · the resting hue off LOW's slate — each caught by *rests under
+every reachable LOW fill*; and MEDIUM's band sunk under LOW, caught by the new bar-ladder test
+**and** by §3.1's icon ladder. On `Bars.Plan`: sorting the roster · inventing a default roster
+for a nil one · asking about the row's `cooldownID` instead of its spell · giving an unbound
+entry a spell anyway · taking the resting treatment for every bar · never looking the verdict
+up (four tests).
+
+⚠ **The eleventh is not writable and that is the point.** *"carries the BOUND row's spell,
+not the authored one"* used to be mutable by reaching for the catalog's authored id — and
+after the `Sense.Roster()` narrowing `Bars.Plan` **cannot see the catalog at all**, so the
+fault the assertion guards against is now unreachable by construction. Substituting `row.base`
+for `row.primary` survives the suite, because the fixture's rebound row legitimately has both
+equal: a Fel Ravager build's row *is* based on Fel Ravager, and it is E3's `alt` that binds it.
+
+### Considered and declined
+
+**The comment-ratio ratchet (review finding 9).** Declined as instructed, and the numbers are
+sub-noise: `Catalog.lua` 0.3639 → 0.3642, `Sense.lua` 0.2346 → 0.2371, `Catalogs/Demonology.lua`
+0.119 → 0.133. What this round did do is hold its own line rather than add to the creep: the
+new comments were trimmed until each touched file came out at or under where it started —
+`Bars.lua` **0.3317** (0.330 before, and under the 0.35 new-file bar), `Treatment.lua`
+**0.3423** (0.3472 before), `Sense.lua` unchanged at 0.2394 by line count.
+
+### What was deliberately not done
+
+- **No release, no deploy, no flight, no commit, no push.** This round ends at the desk.
+- **No `knowledge/addon-dev/` write.** Nothing here is a fact about the client — the one
+  claim that pretended to be (the `SetStatusBarTexture` arity) was deleted, not promoted.
+- **The behaviour the round below found is untouched and it is right**: a bar counts down
+  whether or not cap has an opinion, because every band on E1/E2/E3 requires `ready(this)`.
+  Only the number, its justification, its spec status and its test moved.
+- **D12 not settled**, and E8's cue not redesigned off it.
+
+## 2026-08-10 (the cooldown bars, first pass) — the roster overturned on the merits, and a bar that counts down without an opinion
+
+**Done, static only. New `Bars.lua`; `Treatment.lua`, `Catalog.lua`, `Catalogs/Demonology.lua`,
+`Sense.lua`, `Overlay.lua`, the `.toc` and `.luacheckrc`; `tools/wowkb/addon.py`; `spec.md` §3.4,
+`catalog.md` §1/§4, `discussion.md` D12, `backlog.md`. busted 147 → 163, luacheck 0/0 in 23
+files, 12 mutations run and caught. ⚠ Nothing here has run in the client** — no bar has drawn,
+no timer has ticked and no number has appeared. `armed` is the strongest word in the log and
+it means cap handed the client a duration object.
+
+**The roster changed, and the document was edited rather than diverged from.** `catalog.md` §4
+listed **E4 Summon Doomguard** as the fourth bar and carried a ⚠ excluding Implosion and Power
+Siphon because *"a 15 s bar is noise, and neither ability's decision is about time remaining —
+it is about a count cap cannot see."* Both halves fail, and for different reasons:
+
+- **"Not about time remaining" is wrong for Implosion in steady state.** Once the rotation is
+  rolling you almost always have 6+ Wild Imps up, so the count is **saturated** and stops
+  discriminating; what gates the press is the **15 s cooldown**. The count is the limiting
+  factor at the start of a pull and the cooldown is the limiting factor for the rest of it,
+  and the rest of it is most of it. (Player judgement, recorded because it contradicts a
+  written catalog claim.)
+- **E4 does not bind.** O3 settled it on 2026-08-06 — `1276672` is in no row of the 21-row
+  capture — so a Doomguard bar draws nothing at all. The **entry** stays authored; the bar
+  goes. A bar that never binds is a hole in the panel rather than a spare.
+- **Power Siphon still gets no bar**, and the old ⚠'s reasoning is exactly right about it: the
+  gate is "Demonic Core stacks ≤ 1", not the 30 s cooldown.
+
+⚠ **The same argument bears on E8's own cue and this round did NOT act on it.** E8 says the
+imp count *"crosses 6 in bursts, so the HIGH-styled number arrives and leaves with the actual
+opportunity"* — which is the opposite of saturated. If the bar argument is right the cue is
+close to permanently lit, which is the exact failure the entry's ⚠ says it stopped its **band**
+at MEDIUM to avoid. Filed as `discussion.md` **D12** with what would decide it: the duty cycle
+of `armed` on E8's `C{}` cell across a flown pull, which needs no new instrument.
+
+**Two declarations of the roster existed and neither was validated.** `catalog.bars` and a
+per-entry `bar = true` both shipped, `Catalog.lua` checked neither, and they already disagreed
+(the flags said E1–E4, the list said E1–E4, and the document's §1 table said something a
+reader had to reconcile by hand). `bars` wins because **order is part of the declaration** — a
+panel stacks and a flag carries no order. The flags are deleted, and two load-time checks now
+refuse an entry that declares one and a `bars` id that is not a declared entry.
+
+**The finding that shaped the design: a bar's tier is nil for exactly the stretch the bar is
+useful.** Every one of E1/E2/E3's bands requires `ready(this)`, so an ability on cooldown has
+no tier at all — and that is precisely when its bar has something to show. A bar hidden or
+blank without a tier would have been invisible through most of a pull. So the bar is a surface
+in its own right: it counts down regardless, and the tier colours it when there is one. That
+needed one new number (`Treatment.BAR.rest`, the slate at alpha `0.40`) and one clause in
+`spec.md` §3.4 — the resting fill takes **the light §3.1's veil leaves**, because a bar carries
+no artwork to veil and recedes by the same fraction instead. This is also the same fact
+`discussion.md` **D7** parked on M4's drawn bars, and the backlog line now says so.
+
+**Ready is a different widget, not a re-armed one.** A ready spell has no remaining cooldown,
+so `ignoreGCD = true` hands back nothing — and releasing a timer bar (`SetMinMaxValues(0, 0)`)
+and re-arming it is a sequence nothing has measured. So `ready` draws a plain full-width
+texture and the timer bar is hidden, which also makes `SetToTargetValue`'s *first show only*
+rule (§4.8.1 finding 5) fall out of Show/Hide rather than out of a flag someone has to
+maintain.
+
+**Three states, three sets of pixels — and only two of them are cap's to tell apart.** The
+brief asked that zero, expired and broken be visibly distinct. The formatted string is
+**secret**, so cap cannot read it back and cannot know whether the client drew a number or
+nothing; what separates the three is the *fill*. `ready` is full and unnumbered, `armed` is the
+client's fill and the client's string, `refused` is an empty track carrying cap's own `--`.
+**`--` never stands for zero** — that answer belongs to the client and does not come back.
+
+**Deferred, and filed rather than half-built:** the **hold cue on a bar**, which is §4's
+headline value and the riskiest part of it. It gets its own rung once pass 1 has been seen.
+Also deferred: judging the four rows on screen, and D7's grade question.
+
+**One tooling fix, one line.** cap's `wowkb.addon` registry entry had no `test_dir`, so
+`wowkb.addon release cap` never ran `busted` as a release gate even though `.busted` has
+pointed at the suite since M3a. `luaparser` proves the Lua parses; only `busted` proves it
+still decides correctly.
+
+---
+
+## 2026-08-10 (the record fix pass) — a false claim about a red test, quotes from a tree `git` never saw, and a flight that cannot answer its own question
+
+**Done, static only. `Overlay.lua`, `treatment_spec.lua`, `notes.md` (two earlier entries
+corrected in place), `backlog.md`, `discussion.md` D11. busted 147 → 147, luacheck 0/0 in
+21 files, 2 mutations run and caught. ⚠ Nothing here has run in the client** — every fault
+below was found by reading and arithmetic, and none of the fixes has drawn a pixel either.
+
+A review of the two rounds below. Three of its findings are about **this file** rather than
+the code, which is the reason the round exists: `notes.md` is the only record of an argument
+whose `spec.md` side was never committed, so a wrong sentence here is not recoverable from
+anywhere.
+
+**The one that mattered: this file said a red test was green.** The §3.1-cull entry claimed
+both deleted disjointness tests *"still passed after LOW moved, which is precisely why they
+had to go with the rule"*. Run against the bands as they stand, one passed and one was
+**red**: a fully graded MEDIUM reads `0.518622` against the dimmest HIGH's `0.746441`
+(passes), but LOW's bright end reads `0.410040` against MEDIUM's dim end `0.319152`, so
+*"gives every tier a band disjoint from the next one down"* was failing when it was deleted.
+The same entry had the arithmetic **right** forty lines later, in the paragraph arguing LOW
+back to 0.50 — so it contradicted itself, and the half a reader meets first was the wrong
+half. Corrected in place. ⚠ **The deletion was still right and the reason is worth stating
+plainly: both went because the rule they assert is gone, not to make the suite green.** A
+round that deletes a red test *and* misreports it as green is indistinguishable from one that
+deleted it to get to zero failures, which is why the record mattered more than the outcome.
+
+**The misquote defect the fix-pass entry named is worse in the entry below it.** That entry
+repaired one fabricated quote and set the standard — *a quoted string absent from the history
+is the one thing `notes.md` cannot afford*. By it, the cull entry fails repeatedly:
+`git show HEAD:projects/combat-assist/specs/spec.md` contains **none** of *monotone*,
+*disjoint*, *fixed place*, *proc-glow art*, *brighter of the two*, *colour-blind*,
+*greyscale* or *Hue is the accent*. §3.1's whole `#### What a treatment looks like`
+subsection is an all-`+` block in `git diff` — **it has never been committed**, so the rules
+the cull struck existed only in a working tree, and the entry that argues about them is the
+one artifact of them. Only *"A positive cue is not a second visual language"* survives the
+check (`HEAD`'s `spec.md:165`). Same in the addon repo: three of the five quoted test names
+are in commit `f711956`, and *"tracks the grade, so the pulse never lifts an entry out of its
+band"* is in none — `git log -S` finds it nowhere, because the restyle that created it is
+also uncommitted.
+
+⚠ **The repair available at a desk that may not commit is a label, not a citation.** The
+quotes stay — the argument is unreadable without them — marked as **reconstructions of an
+uncommitted tree** rather than as quotations, so a future reader knows the struck text is not
+recoverable from `git` and stops looking. Three warnings were added: one on the cull's *What
+was struck*, one on its test-count list, one on the fix-pass entry's *monotone in pulse rate*.
+
+**A flight cannot answer D11, and would have come back "looks fine" for the wrong reason.**
+D11 defers to *"a pull where E7 Demonbolt is graded down at LOW while something else sits at a
+dim MEDIUM"*. The **bands** overlap — LOW's bright end 0.4100 against MEDIUM's dim end 0.3192
+— but **the Demonology catalog never reaches the overlap**, and every step of that is forced
+by the catalog rather than by the treatment table. E7 enters MEDIUM only at `shards ≤ 3` while
+grading `resource` *falling*, which pins the grade at `≥ 0.4`; E5's needs `affordable`, and
+Hand of Gul'dan's 3-shard cost pins it at `≥ 0.6`. Going the other way, E7's LOW band needs
+`shards ≥ 4` on that same falling grade, so a graded LOW is pinned at `≤ 0.2`. **Brightest
+reachable LOW `0.3526` (an *ungraded* E9/E10), dimmest reachable MEDIUM `0.3989` — a gap of
+0.046.** Measured by sweeping every gate combination the catalog admits with affordability
+tied to the DB2 cost, not by reading the table. Recorded **in D11 itself**, with what
+observing the real adjacency would take (a LOW band reachable at a high grade — nothing on
+Demonology grades that way — a second spec, or a deliberate lab mock), and the `backlog.md`
+line that pointed at the flight now says so too.
+
+**One culled-rule orphan survived the cull, in the worst place.** `backlog.md`'s M3c
+flight-reading table still read *"that entry LOST its row to a brighter sibling"*.
+`Overlay.lua`, its `draw`-pass comment and `spec.md`'s *"Two entries may bind one row"* were
+all moved to **higher tier** when `Treatment.Rank` landed; the table a pilot reads while
+diagnosing was not, so it described a comparison the code stopped making. Fixed, and it now
+says the part that is easy to get wrong out loud: a **dimmer** cell can be the one carrying
+the `*`. A sweep of `specs/` and the addon for the rest of the culled vocabulary
+(*brighter* / *disjoint* / *monotone* / *fixed place* / *second visual language*) found no
+other survivor — the remaining hits are records of the cull, `discussion.md` arguments, or
+unrelated (`catalog.md`'s *four shards reads brighter than three* is a grade **inside** one
+tier, which is exactly what survived).
+
+**Four code findings, and only one of them changes behaviour.**
+
+- ⚠ **`SetStartDelay` under `SetLooping("BOUNCE")` is unverified, and `P{}` asserts a rate
+  that may be untrue.** `frames-textures-animation.md` §7.3 records the setter as
+  `AllowedWhenUntainted` and records **nothing** about whether the delay re-applies on each
+  loop iteration. If it does, a row's period is `cycle + delay`, so `cell()`'s `p2.5`/`p1.2`/
+  `p0.5` names a rate nothing runs at, and rows *in the same tier* pulse at different rates —
+  which is not the claim §3.1's desync safety property makes (unequal rates **between** tiers
+  plus a per-row offset). Marked `--@unverified` on `armPulse` and added to the flight
+  acceptance set, per house rule 5. Second-order and true either way: a re-arm re-pays the
+  delay, so a row whose treatment changes faster than its own delay never reaches a first
+  pulse — **LOW's worst case is ~1.98 s**.
+- **The justification calls were unreachable on one path**, which is the only behaviour
+  change in the round. `SetJustifyH`/`SetJustifyV` sat **after** `buildCountPulse`'s early
+  return, so on `mark:…/nopulse` — the one path where an inherited non-centre justification
+  still matters, because the glyph is static — they never ran. Moved above the return.
+- **Two animation groups play with nothing to draw**, and neither is a bug. `buildFlip`
+  plays at build, so every pooled overlay's flipbook runs all session whatever the tier; and
+  `paint` arms the pulse before the line that may hide an unsized ring host. A line each,
+  because the next reader will otherwise "fix" one of them.
+- **`layer()`'s combat early-out guards more than it used to.** It now also gates
+  `ringHost:SetFrameLevel(LEVEL - 1)`, and a default child level is parent+1 — so a frame
+  first acquired in combat would draw its ring **over** the count and hold markers. The
+  doctrine that prevents it (everything acquired out of combat) holds and is stated at
+  `layer`; what was wrong was `buildRingHost`'s comment asserting the ordering as a flat
+  fact. Both comments now say which one establishes it. **Not** established unconditionally
+  on purpose: the only way to do that is to call a protected, in-combat-unmeasured setter on
+  the hot path, which trades a comment defect for a real one.
+
+**And one surviving cross-tier `Brightness` assertion, by this round's own standard.**
+`treatment_spec.lua`'s *"lights Dreadstalkers brighter than a demoted Demonbolt"* compared a
+graded HIGH against a graded LOW on one scalar — the exact comparison shape the cull removed
+the rule for. It holds by a wide margin, which is what makes it the quiet kind. **Re-expressed
+rather than deleted**, because the claim underneath it is real and `Rank` is what now carries
+it: it asserts the two tiers (`HIGH`, `LOW`) and then `Rank(E2) > Rank(E7)`, which is what
+`outranks` actually does. Test count unchanged at **147**.
+
+**Two findings considered and declined.**
+
+- **A transient shared pulse phase after a bound-set change.** `rebuild` re-derives
+  `phaseOf` off the sorted order, so rows can briefly share an offset while the new order
+  settles. It is out-of-combat only (a settle never happens in a pull), and the seizure
+  floor the offsets exist for is about a screenful flashing together *sustained*, not a
+  frame of it during a spec swap. Declined.
+- **`Treatment.lua`'s ratchet at 0.3333.** House rule 1's comment:code ≤ 0.35 applies to a
+  file created or substantially rewritten; the restyle was neither, and every block there is
+  a fact an editor would break. Declined on rule 1's own substantial-rewrite clause.
+
+⚠ **One ratchet was moved and it should be said rather than buried.** `Overlay.lua` went
+**0.284 → 0.306** comment:code, which is an increase on a file that was touched, against rule
+1's "may not increase". It stays under the 0.35 target, and the additions are the two things
+rule 1 names as earning prose — a `--@unverified` (rule 5) and invariants an editor would
+silently break. Three existing blocks were tightened to pay part of it back; the rest is
+accepted knowingly, not overlooked.
+
+**What was deliberately not done.** No release, no deploy, no flight, no commit, no push, no
+`knowledge/addon-dev/` write. `Treatment.RING.atlas` untouched — D10 settles on a flight.
+The `SetStartDelay` question was **not** answered by reading Blizzard's XML or by reasoning
+about what a loop "should" do — it is a client behaviour and it stays a marker until someone
+looks.
+
+## 2026-08-10 (the restyle fix pass) — the blank screen that read as a healthy pull, and three quieter ones
+
+**Done, static only. `Treatment.lua`, `Overlay.lua`, `treatment_spec.lua`, `spec.md` §6,
+`backlog.md`. busted 145 → 147, luacheck 0/0 in 21 files, 4 mutations run and caught.
+⚠ Nothing here has run in the client** — every fault below was found by reading, and none of
+the fixes has drawn a pixel either.
+
+The WP2 review, applied after the §3.1 cull had already rewritten the same files. Two of its
+findings changed meaning under the cull and are recorded as such rather than actioned.
+
+**The one that mattered: a refused `GetWidth` drew nothing and the log said everything was
+fine.** The ring is sized off `item:GetWidth()`, which is `ConstSecretAccessor` +
+`SecretWhenAnchoringSecret`; `sizeRing` correctly refuses to guess and `paint` correctly
+hides an unsized ring — and **nothing counted it**. A tiered row draws no veil either (the
+veil is 0 wherever a ring exists) and `f:Show()` still ran, so a pull in which every width
+read refused would print `anch:21 conf:21 nf:0 off:0` with full `P{}` cells: byte-identical
+to a working pull. That is the failure `Overlay.lua`'s own doctrine forbids three functions
+higher up — *"`hidden` and `noframe` are different failures and are counted apart… Conflated,
+a total anchoring failure reads as a pass."* Fixed with a `nosize:` counter in `D{}`, beside
+the two it belongs with, and a reading table in `backlog.md`. ⚠ The prose warning that was
+there instead is what makes this worth writing down: **a `D{}` counter exists so a flight
+does not need the eyeball; a paragraph telling the pilot to go and look is the counter's
+absence with extra steps.**
+
+**The alpha write was reverted one line after it was made.** `paint` wrote
+`ringHost:SetAlpha(ring.a)` and then called `armPulse`, whose first act is `group:Stop()` —
+which restores the alpha the group captured when it last played, clobbering the fresh write;
+and the following `Play()` then captured the *clobbered* value as what the next `Stop()` will
+restore to. Both halves are wrong and neither shows while every tier pulses, which
+`Treatment.Pulse` explicitly does not promise. The write moved **inside** `armPulse`, between
+the stop and the play — not after the call, which would leave the restore target stale. One
+function owns the channel now, and the ordering has a comment naming why an editor must not
+reorder it.
+
+**The phase offset was period-independent, which quietly weakened the safety property.**
+`PULSE.phase` was a flat `0.07 s` whatever the tier, so on HIGH — the shortest cycle — the
+offsets wrapped and rows came back into alignment around the twelfth of that tier. Since the
+whole reason offsets exist is the flash threshold, "mostly staggered" is not the claim being
+made. `Treatment.Phase` now returns a **fraction of the row's own cycle**, stepped by the
+golden ratio, and the surface multiplies it by the live tier's period (`Pulse.cycle`, the
+bounce round trip). Two rows never share a phase and the property no longer depends on how
+many rows a spec has. The test that pinned the old behaviour was replaced by two that pin
+this one, both mutation-checked.
+
+**Three smaller ones.** The ring size is now re-read every pass, not only when the item frame
+object changes — a UI-scale change re-lays the frame without handing cap a different one, and
+`sizeRing` is a no-op once the answer is unchanged, so the cost is one guarded read per drawn
+row per tick, which is what `itemShown` already spends. `SetJustifyH`/`SetJustifyV` are
+**called** rather than inherited. ⚠ **The framing first written here was half wrong and is
+corrected in place:** `CENTER` and `MIDDLE` are the XSD **defaults**
+(`frames-textures-animation.md` §6.2 — `justifyH` `CENTER`, `justifyV` `MIDDLE`,
+`scaleAnimationMode` `FontSize`), so calling them is defence against a template that
+overrode them, not the repair of a hole. What actually *was* unbacked is the sentence the
+comment used to justify them — that `Vertex` scaling "grows the way justification points",
+which appears nowhere in `knowledge/` — and a claim about how the client behaves belongs in
+the KB or nowhere, never in a comment (house rule 1). And `P{}` prints the
+fallback ring's `t<thickness>` **only when the fallback is live**, because with the flipbook
+on screen it describes nothing drawn.
+
+**One documentation fault, and it is the one worth being embarrassed about.** The restyle
+entry below quoted a §6 sentence — *"answers the floor with a veil"* — that appears in no
+commit. It existed only in the uncommitted working tree at the moment it was edited, so
+`git log -S` finds nothing and a reader cannot check it. `notes.md` is the historical record;
+a quoted string absent from the history is the one thing it cannot afford. Quote dropped, the
+edit described instead.
+
+**Two findings the cull made moot, checked rather than assumed.**
+
+- **Pulse-rate monotonicity** was to be pinned with a loop over `ORDER`. The cull deleted
+  *"monotone in pulse rate"* as a normative claim — ⚠ **that phrase, and §3.1's *unequal
+  rates plus a per-row offset* below it, are both from the uncommitted tree**; §3.1's
+  treatment subsection is in no commit, so neither is quotable from `git` (see the same
+  warning on the cull entry). So there is nothing to pin — a test
+  asserting it would be re-legislating a rule that was just struck. What survives is
+  §3.1's *unequal rates plus a per-row offset*, and the **pairwise-distinct** test already
+  pins exactly that. Not added, deliberately.
+- **The §6 hedge.** The review said the §6 edit closed more than the evidence supported, and
+  it was written when LOW sat at 0.29; the cull put LOW back to 0.43. The direction of the
+  worry changes with it — a brighter floor is *less* likely to vanish and *more* likely to
+  read as MEDIUM — so §6 now names what the floor is drawn as, says that is a shape for the
+  answer rather than the answer, hedges **both** directions, and keeps its original closing
+  line. That matches the hedge `backlog.md` and `discussion.md` **D11** already carry.
+
+**What was deliberately not done.** No release, no deploy, no flight, no commit, no
+`knowledge/addon-dev/` write. `Treatment.RING.atlas` untouched — D10 settles on a flight.
+And **`nosize:` cannot be mutation-checked**: it lives in `Overlay.lua`, which has no harness
+by design, so the only thing standing behind it is a reading of the code.
+
+## 2026-08-10 (the §3.1 cull) — three surface rules struck, two narrowed, and LOW gets its measured number back
+
+**Done, static only. `spec.md` §3.1 and §6, `Treatment.lua`, `Overlay.lua`,
+`treatment_spec.lua`, `discussion.md` (D10 updated, **D11** opened), `backlog.md`. busted
+147 → 145, luacheck 0/0 in 21 files, 2 mutations run and caught. ⚠ Nothing here has run in
+the client** — the surface this argues about has still never drawn a pixel.
+
+A targeted cull of §3.1's normative assertions, run between WP2 and its fix pass, with one
+test applied to every one of them: **which principle is this downstream of?** The 2026-08-08
+(polarity) entry below is why it exists — a cull that *added* a rule, which then acquired
+three independent-looking sources inside a week.
+
+### What was struck
+
+⚠ **The struck §3.1 text quoted below is RECONSTRUCTED from an uncommitted working tree, not
+quoted from history — `git` cannot show you any of it.** §3.1's whole
+`#### What a treatment looks like` subsection has never been committed: it is an all-`+`
+block in `git diff`, and `git show HEAD:projects/combat-assist/specs/spec.md` contains none
+of *monotone*, *disjoint*, *fixed place*, *proc-glow art*, *brighter of the two*,
+*colour-blind*, *greyscale* or *Hue is the accent*. **The one exception is
+"A positive cue is not a second visual language"**, which is real and checkable at
+`spec.md:165` of `HEAD`. Everything else below existed only in the tree at the moment it was
+edited, so the **replacements** can be checked against the file on disk and the **originals**
+against nothing. They stay, because the argument is unreadable without them — labelled as
+what they are. This is the standard the fix-pass entry above sets (*a quoted string absent
+from the history is the one thing `notes.md` cannot afford*) applied to its own predecessor.
+
+- **"The ladder is monotone in brightness … and monotone in pulse rate too. It survives a
+  colour-blind read and a small icon. Hue is the accent, not the signal."** Not downstream of
+  (a), (b) or (c). It is the same shape as the polarity rule struck two days earlier and with
+  the same defence — *survives a colour-blind read and a small icon* — a visual preference
+  asserted as a constraint, and one which additionally **names the channel**: it forbids a
+  design that carries the ladder in hue, for no reason a principle supplies. **Narrowed, not
+  deleted outright** (below).
+- **"A marker has a fixed place, and there are two of them."** A description of the built
+  renderer promoted to a rule: top-centre count, bottom-centre hold, one slot of each. Not
+  downstream of anything, and it forecloses two live questions — `discussion.md` **D8**'s
+  single marker that turns from *hold* into *press*, and the three §3.5 channel forms that
+  have no marker yet. **What survives is the half that is traceable**: no part of a marker
+  carries a backing that outlives it, because a backing that does announces that a cue was
+  *offered*, which is cap's half where *appears* is the client's — §3.0's own definition of a
+  cue, and (a) in the same breath.
+- **"A positive cue is not a second visual language"** (both statements of it). The substance
+  — a positive cue is drawn in the treatment of the tier it stands for — is **definitional**
+  and is stated in §3.5's cue declaration and enforced by check 4; the slogan is a second,
+  broader claim that had already been used to justify a different decision (M3d's refusal to
+  invent a LOW hue). That refusal stands on its own: LOW's hue *is* the hold slate, so a
+  LOW-styled marker and a hold marker would be one colour. The slogan bought nothing the
+  mechanics did not already carry.
+- **⚠ "Each tier owns a disjoint brightness band … a fully-graded MEDIUM never reaches the
+  dimmest ungraded HIGH."** The one this round was least sure of, and it does not survive.
+  §3.0 defines Grade as *continuous emphasis within a tier, never changes the tier* — a claim
+  about **computation**, and one that is **true by construction**: the bands settle the tier,
+  a grade is computed only afterwards, and it only lerps inside that tier's own range.
+  Nothing about two tiers' ranges overlapping can make it false. So §3.1's rendering of it in
+  **pixels** is a second, separate claim wearing the first one's argument. Worse, §3.1
+  already conceded that the screen does not obey it — the pulse is a second channel and
+  HIGH's trough dips under MEDIUM's peak deliberately — so the invariant bound an internal
+  number the renderer then violated anyway. Its exemption clause went with it.
+
+### What was narrowed, and what each replacement is downstream of
+
+- **The ladder** → *"The ladder is ordered. HIGH reads as more emphasis than MEDIUM, MEDIUM
+  more than LOW, LOW more than* none*."* Downstream of **§3.1's own first sentence** (a tier
+  is one of three *emphasis levels* — levels are ordered or they are categories) and of §1's
+  **move 2**, which names dim-versus-bright as the grading channel in as many words. It says
+  nothing about which channel carries the order.
+- **The disjointness bullet** → *"A grade moves an entry only inside its own tier's range."*
+  Downstream of **§3.0's Grade**, restated where §3.1 needs it. The midpoint convention rides
+  along unchanged; it was never the contested half.
+- **The proc-glow rule** → *"cap's emphasis must be distinguishable from the stock proc
+  glow."* Downstream of **§1's move 2** — *Blizzard's proc glow says "this is available." cap
+  says "this is available, and right now it's worth about this much."* Making those two
+  distinguishable **is** the product, so the root is real. What does not follow from it is the
+  stronger *"cap does not reuse Blizzard's proc-glow art"*: the same sheet in a different
+  colour can satisfy the root and a different sheet in the same gold can violate it. §3.1 now
+  states the requirement and says the separation cannot come from the art; whether the shipped
+  treatment achieves it is `discussion.md` **D10**, which an eyeball settles. ⚠ **The rule was
+  narrowed; the code was not changed.** `Treatment.RING.atlas` is untouched.
+- **"The row takes the brighter of the two treatments"** → *"the row is drawn in the higher of
+  the two tiers"*, which is what the sentence's own next clause already claimed. See below —
+  this one has teeth.
+
+### What survived, tested rather than assumed
+
+Two entries binding one row take one treatment (an icon can only be drawn one way);
+*veiled* ≠ *bare* (`none` versus a silence — §3.0); the two registers (a fact about the
+client, and the section says so); *tiers describe value, not order* and *cap never ranks
+within a tier* (principle (c), near-verbatim). None of these needed touching.
+
+### The one thing the cull broke, and the four lines that fix it
+
+**"Brighter" and "higher tier" were the same sentence only because of disjointness.** With
+the invariant gone, a graded LOW can out-brighten a dim MEDIUM — so `Overlay`'s
+`Brightness`-ordered pick of which of two entries a shared row draws could, in principle,
+draw the **lower** tier. It cannot happen on Demonology (E5/E6 are the only pair sharing a
+row and neither has a LOW band), which is exactly what makes it the silent kind. So
+`Treatment.Rank` was added and `Overlay` now compares **tier order first, emphasis only
+inside one tier**. That is not a new rule: it is the code catching up to the half of the
+sentence that was always the meaning.
+
+### LOW returns to 0.50, and this is the argued item
+
+**The disjointness invariant is the rule that moved LOW's ring off the lab's number**, and
+it is the entire reason it moved: the slate's luma (0.820) sits near gold's, so a LOW ring at
+0.50 reads brighter than a fully-dimmed MEDIUM. With the rule culled there is nothing left
+objecting to the measured value, so LOW's band is **`0.36 – 0.50`** — the measured 0.50 read
+as the band's *bright* end, which is the same reading applied to MEDIUM in the restyle, and
+the band's existing width kept so that exactly one number changes. The ungraded midpoint
+moves 0.29 → **0.43**.
+
+The reason to prefer 0.50 is not that it is prettier. **It is the only LOW alpha anybody has
+ever looked at**, chosen by a person on a real spell icon at true CDM size; 0.36 was derived
+from an arithmetic ceiling (`0.3192 / 0.820 = 0.389`, minus a margin) to satisfy the rule now
+struck. Restoring it puts the *measured* number back and moves the *unmeasured* question —
+does a bright LOW beside a dim MEDIUM read wrong? — to the flight, as **`discussion.md` D11**,
+where it can be answered by looking instead of by arithmetic.
+
+### The count, and which tests went
+
+**busted 147 → 145.** Three deleted, one added, two shortened or relabelled. ⚠ **Three of
+the five test names quoted below are checkable and two are not**: *monotone in ring
+thickness*, *DIMMEST HIGH* and *disjoint from the next one down* are all in commit
+`f711956` (`git log -S` finds each); *"tracks the grade, so the pulse never lifts an entry
+out of its band"* is in **no** commit — it was created by the uncommitted restyle, so like
+the §3.1 quotes above it is a reconstruction. *"ranks the tiers with none lowest"* is new
+and readable in the working tree.
+
+- deleted **"is monotone in ring thickness too, so the ladder survives in greyscale"** — the
+  greyscale defence is culled, and the shipped ring is one flipbook shape so thickness is
+  fallback-only geometry that separates nothing a player sees;
+- deleted **"keeps a fully-graded MEDIUM below the DIMMEST HIGH, graded or not"** and
+  **"gives every tier a band disjoint from the next one down"** — both assert the culled
+  invariant. ⚠ **This bullet first claimed both still passed; that is false, and the
+  correction is in place rather than under it.** Run against the bands as they stand, the
+  first **passed** (a fully graded MEDIUM reads `0.518622`, the dimmest HIGH `0.746441`) and
+  the second was **RED** (LOW's bright end reads `0.410040`, MEDIUM's dim end `0.319152`, so
+  LOW reached into MEDIUM). The paragraph forty lines below — *"a LOW ring at 0.50 reads
+  brighter than a fully-dimmed MEDIUM"* — had the arithmetic right, so the entry
+  contradicted itself. **Both were deleted because the rule they assert is gone, not to make
+  the suite green**, which is why one of them being red changes the record and not the
+  decision;
+- **"tracks the grade, so the pulse never lifts an entry out of its band"** lost its
+  disjointness half and kept the half about the grade;
+- added **"ranks the tiers with *none* lowest"**, for `Treatment.Rank`.
+
+Both new mutations are caught: raising LOW's band until it passes MEDIUM breaks the ordered
+ladder, and inverting `RANK` breaks the shared-row pick.
+
+### What was deliberately not done
+
+- **No release, no deploy, no flight, no commit.** This round ends at the desk.
+- **No `knowledge/addon-dev/` write.** Nothing here is a fact about the client.
+- **Nothing was added to §3.1.** Every edit removes a claim or replaces one with a strictly
+  weaker claim, and each replacement names its principle above — which is the thing the
+  2026-08-08 (polarity) entry says a cull owes.
+- **§3.0's glossary and §3.5's five checks untouched**, out of scope by instruction; and
+  **`Treatment.RING.atlas` untouched**, because D10 is about pixels and this round had none.
+
+## 2026-08-10 (the measured restyle) — the lab's numbers meet the ladder, and one of them loses
+
+**Done, static only. `Treatment.lua` (+60 lines), `Overlay.lua` (+125), `treatment_spec.lua`
+(+49), one comment line in `.luacheckrc`; `spec.md` §3.1 and §6 amended, `backlog.md`
+struck and re-filed. busted 141 → 147, luacheck 0/0 in 21 files, 12 mutations run and
+caught. ⚠ Nothing here has run in the client** — no ring has been drawn, no pulse has
+played, and `ring:`/`mark:` have never printed a value. The reading a flight should take is
+in `backlog.md` → `## Reference` → *The measured restyle*.
+
+**What arrived.** A ClientLab picker put candidate treatments on real spell icons at true
+CDM size and a person chose: the ring is Blizzard's own `UI-HUD-ActionBar-Proc-Loop-Flipbook`
+played as a flipbook, `ADD`, at 1.4× the icon; all three tiers wear it; they are separated
+by hue, alpha and a **pulse rate** (2.5 / 1.2 / 0.5 Hz); *none* keeps the only veil. LOW
+loses its veil and gains a ring, which is the substantive change — the LOW → none step
+becomes *the presence of a ring* rather than two veil depths to compare.
+
+**The one measured number that did not survive, and why it is LOW's.** `Brightness` is
+`alpha × luma(hue)`, and the slate's luma is **0.820** — near gold's 0.909 and far above
+blue's 0.665. So LOW at the measured **0.50** reads **0.410**, while MEDIUM's floor reads
+**0.319** (0.48 × 0.665): LOW out-brightens a dim MEDIUM and the disjoint-band invariant
+breaks. The test caught it, which is the whole reason it exists.
+
+It was resolved by moving numbers, never by relaxing the test, and the number that moved is
+LOW's: **`0.22 – 0.36`**. Three reasons, in order of weight.
+
+- **The lab compared LOW's ring against *none*, never against a dim MEDIUM.** The 0.50 is
+  evidence that a slate ring reads as *present*; it is no evidence at all about where it
+  sits relative to a graded MEDIUM. It is the weakest claim on the table.
+- **Narrowing MEDIUM instead would cost a feature that is not built yet.** MEDIUM's band is
+  what §3.2's Demonbolt demotion rides — *a fade, not a flip*. Raising MEDIUM's floor to
+  0.62 to make room for a LOW at 0.50 would halve that fade's range to buy back an alpha
+  nobody has judged on screen.
+- **The ceiling is arithmetic, not taste.** `0.3192 / 0.820 = 0.389` is the highest slate
+  alpha that stays disjoint at all; 0.36 is that with a margin. LOW's width is MEDIUM's
+  *proportional* width (0.385 of the bright end), because LOW's old 0.22 band width was in
+  the veil channel and does not transfer to ring alpha.
+
+⚠ **This is filed as open, not settled** (`backlog.md` → *The measured treatment*): 0.36 has
+been seen by nobody. If LOW is unreadable in play the fix is a lower MEDIUM ceiling or a
+narrower MEDIUM band — never a LOW that reaches into it.
+
+**MEDIUM moved too, and that one is mechanical.** The lab measured each tier at full
+strength, so the measured value is the band's **bright** end, not its midpoint. MEDIUM's
+bright drops `0.86 → 0.78` and the existing width is kept, giving `0.48 – 0.78`. HIGH was
+already exactly `0.82 – 1.00` and needed nothing — a band whose midpoint is 1.00 is not
+representable, which is why "bright end" is the only reading that works.
+
+**The pulse and the tier alpha are one channel, and that shapes the code.** An `Alpha`
+animation drives the same channel `SetAlpha` writes, so rather than wrap the ring in a
+second frame the tier's alpha is **baked into the animation endpoints** — `from` is 0.68 of
+it, `to` is it. The consequence is that the pulse must be **re-armed whenever the tier or
+grade moves**, which is exactly when the paint path runs, so it rides the existing
+`f.painted ~= key` dedup and costs nothing extra. The paint path also writes the alpha
+itself rather than trusting a stopped group to have restored it.
+
+The ring got its **own host frame** for the same reason: the pulse is a frame alpha, and a
+frame alpha multiplies its children — on the overlay frame itself it would have pulsed the
+veil, the hold marker and the count along with the ring. The host sits one frame level
+*below* the overlay so both markers draw over the ring; a ring and a veil never coexist, so
+nothing is lost by the veil being above it too.
+
+**`spec.md` §3.1 owed two amendments and both landed with the code.** The disjointness
+invariant now binds **the band** — what `Treatment.Tier()` returns — and not the
+instantaneous rendered alpha under an animation: HIGH's trough (0.68 × its alpha) dips under
+MEDIUM's peak deliberately, because **rate** separates those two and holding disjointness
+through the pulse would need a trough too shallow to read. And *none* is now stated as a
+state with its own treatment, with the LOW → none step being the ring. The table was
+re-transcribed, the "monotone in ring thickness" clause became **monotone in pulse rate**
+(the ring is one shape now, so thickness no longer separates anything a player sees), and
+§6's *how much does a demoted ability show?* was edited to name what the floor is now drawn
+as. ⚠ That §6 edit over-closed the question and was hedged back in the fix pass above; the
+edit it replaced was itself uncommitted, so `git log` cannot show you either side of it.
+
+**`Treatment.Ink` still refuses LOW, and it now has to say so out loud.** LOW's hue *is* the
+hold slate, so a LOW-styled marker and a hold marker would be one colour — the second visual
+language §3.1 exists to forbid. Before this round the refusal was free, because LOW had no
+ring to take a colour from; now it is an explicit `ink = false` on the tier, and a test
+pins both halves (the hue really is HOLD's, and `Ink` really returns nil).
+
+**H4 resolved at the desk, and better than expected.** The FlipBook Lua setter names were
+recorded as established nowhere. They are in fact **Tier 1** — `SetFlipBookRows` /
+`SetFlipBookColumns` / `SetFlipBookFrames` (+ `FrameWidth`/`FrameHeight`), all
+`SecretArguments = "AllowedWhenUntainted"`, in the generated docs' own
+`SimpleAnimFlipBookAPIDocumentation.lua`. Blizzard's `ActionButtonSpellAlerts.xml:25`
+declares `flipBookFrameWidth="0" flipBookFrameHeight="0"`, i.e. the XSD defaults, so cap
+sets only the three. **The probe was built anyway**: the three names are still probed by
+name, a miss falls back to the four-quad ring and reports which method was absent on
+`ring:`, and that path carries the round's one `--@unverified`. An XML attribute name is not
+a Lua setter name and getting it wrong is silent — the probe is what makes it loud.
+
+**One rule collided with the pick, and this round did not settle it.** §3.1's last surface
+rule read *"cap does not reuse Blizzard's proc-glow art"* — and the ring a person picked in
+the lab **is** Blizzard's proc-loop sheet. Leaving the rule standing would have left
+`spec.md` asserting something the code contradicts, so it was rewritten to say what actually
+separates the two (the §3.2 suppression, the tier hue and alpha, the pulse) — but that
+rewrite is a transcription made at a desk against no pixels, so the argument is held open as
+`discussion.md` **D10** and resolves on the first flight, at a Demonic Core proc. If they
+read as one thing, the fix is one string: `Treatment.RING.atlas`, with
+`glow-palette.md`'s candidate run already carrying the alternatives and their grids.
+
+**What was deliberately not done.**
+
+- **No release, no deploy, no flight.** This round ends at the desk.
+- **No `knowledge/addon-dev/` write.** The FlipBook setter names belong in
+  `frames-textures-animation.md` §7.1's setter table and are parked in
+  `_meta/kb-inbox.md` instead — they are a documentation read, not a measurement, and this
+  round had no mandate to edit that KB.
+- **`Brightness` was not redefined to weight ring thickness.** It would have made the H1
+  conflict disappear arithmetically, and it would have been changing the metric to pass the
+  test — and it would describe the *fallback* geometry, not the shipped one.
+- **The `--@unverified`-for-everything decision stays open.** One marker now exists and its
+  claim is narrower than that decision; the backlog line says so rather than letting the
+  marker imply the rest of the surface is verified.
+
+## 2026-08-10 (the proc glow) — cap stops competing with a gold overlay it cannot outshine
+
+**Done, static only. `Glow.lua` (57 lines), a 2-line touch to `Sense.lua`, one `draw` field
+in `Overlay.lua`, one `.toc` line. busted 141/141 unchanged, luacheck 0/0 in 21 files.
+⚠ Nothing here has run in the client** — not one frame has been hooked, not one alpha
+written. The work list and the `glow:` reading are in `backlog.md` → `## Reference` →
+*The proc-glow suppression*.
+
+**What it is.** A per-instance post-hook on each CDM item frame's `RefreshOverlayGlow` that
+sets `item.SpellActivationAlert:SetAlpha(0.5)`. That is the whole mechanism. It closes the
+*replaces the stock proc treatment rather than adding to it* half of `spec.md` §3.2; the
+Demonbolt demotion — the other half, and the one that needs a catalog rule — is untouched
+and stays on M3e.
+
+**Four decisions, and three of them are constraints rather than choices.**
+
+- **The alpha goes on the alert FRAME, never on its child textures.** The proc animation
+  drives the children's alpha, so a write there is in a fight it loses every frame; the
+  frame's alpha multiplies the whole thing and is not animated.
+- **Per-instance hook, not on the shared mixin table.** The methods are `Mixin()`-copied per
+  frame, so a hook on the table misses every frame that already exists — which, at the point
+  cap binds, is all of them.
+- **A dim, not a hide.** Hiding is protected and blocked in combat.
+- **It rides `Sense`'s existing frame walk** rather than opening its own. That was a choice,
+  and the reason is that `Sense.lua:185` already enumerates exactly these rows and already
+  owns the weak-keyed hook-once-per-frame-object-ever table this needs; a second walk would
+  have been a second copy of a rule (`hooksecurefunc` can never be removed, and item frames
+  are pooled) that is expensive to learn twice.
+
+**`Glow.Restore()` and why cap owes it.** When cap goes dark — no catalog for the build, or
+unsettled at combat entry — it puts every hooked frame's alert back to full alpha. cap
+degrading Blizzard's UI while providing nothing in its place is strictly worse than cap not
+being installed. The hooks cannot be uninstalled, so a liveness flag is what makes the
+callback inert, and `Glow` learns the transition from `Sense.OnVerdicts` like every other
+surface — one clock, and no second set of combat events.
+
+⚠ **`Restore` shipped without a liveness guard and review caught it.** `light()` had the
+early-out; `Restore` did not — so while cap was dark it wrote `SetAlpha(1)` onto every hooked
+alert frame **ten times a second, indefinitely**, because `OnVerdicts` fires from the 10 Hz
+tick on the early-return path too. Two things that costs: it contradicts `spec.md` §3.5's
+*no catalog, nothing at all* — "cap draws nothing, **alters no CDM pixel**" — and that
+section's check that cap is *completely inert* on a spec with no catalog, worst
+in the dark-for-the-fight case where cap sits dark for a whole pull with frames already
+armed; and it stomps any other addon's proc-glow suppression continuously, **precisely while
+cap is doing nothing**. The lesson is narrow and worth having: an idempotent write is not a
+free one when the surface is shared and the clock is 10 Hz. Guard added; it can skip nothing,
+because `Arm` only dims while `live`.
+
+⚠ **The `.toc` order is load-bearing and nothing tests it.** `Glow.lua` sits *before*
+`Overlay.lua` so its verdict listener registers first; otherwise the `glow:` token on a dark
+pass reports the liveness of the pass before it. One line of comment sits on it.
+
+**What `glow:` can and cannot say.** `<frames>/live` or `<frames>/off`. It separates "cap
+never found a frame to hook" from "the frames are hooked and cap is deliberately dark" —
+which is worth the token, because without it a flight cannot tell *dimmed* from *never ran*.
+It does **not** say the glow got dimmer and it never can: `SetAlpha` hands nothing back. Same
+ceiling as `C{}`'s `armed`, for the same reason.
+
+⚠ **Three of the four "why" claims in the file header were bald assertions with no anchor,
+and one was wrong.** That the proc animation drives the *children's* alpha, that hiding is
+protected and blocked in combat, and that the mixin methods are `Mixin()`-copied per frame
+are all **absent from `knowledge/addon-dev/`** — they are read off CDMProbe's source, not
+measured. Worse, *"`RefreshOverlayGlow` fires only on a CHANGE"* is **softened by the KB**:
+`cooldown-manager.md` lists the overlay glow inside `RefreshData()`'s full re-resolve chain,
+so it is also called on any re-resolve. The decisions are unchanged and still right; the
+comments now **name the provenance** instead of asserting the facts, and the immediate-pass
+comment no longer claims a firing rule §6 does not state. This is the shape of the trap the
+KB-write ban creates: forbidden from filing the claim, the natural move is to assert it in a
+comment instead, where nothing lints it.
+
+⚠ **House rule 1's comment ratio was missed, and the defence for it used a wrong number.**
+The first cut landed at 0.66 and the trim at 0.51, and the round reported that as a modest
+outlier against "cap's other files run 0.26–0.33". That comparison was wrong — `Tier.lua` is
+**0.401** and `Catalog.lua` **0.363**, so two shipped files already exceed the 0.35 ratchet
+and `Glow.lua` was the worst in the addon by a wide margin. Cutting the prose that restated
+the unanchored facts above fixed both defects at once and landed it at **0.333**. What
+survives is the two blocks rule 1(a) actually earns: the `.toc` ordering invariant, and
+`Restore`'s early-out.
+
+**Two findings declined on purpose, and filed rather than fixed.**
+
+- **No `--@unverified` on `Glow.lua`,** though house rule 5 asks for one. `Overlay.lua`,
+  `Channel.lua` and `Treatment.lua` have equally never executed in the client and carry
+  none — marking Glow alone would imply the other three are verified, which is the opposite
+  of true. It is a **project-wide** decision and it is filed in `backlog.md` as one.
+- **Tab-2 rows get armed** even though `cooldown-manager.md` §6 says only tab-1 viewers ever
+  hear the glow event. A tab-2 frame is either skipped for want of the method or hooked
+  inertly, so the only cost is an inflated `glow:` count — and a tab-1 filter would copy
+  viewer knowledge into `Glow` that `Bind` owns. Noted in the `## Reference` block instead.
+
+**Deferred, deliberately.** No `spec.md` edit — §3.2 already says cap *replaces* the stock
+proc treatment and §3.1's third surface rule already says why; this implements text that was
+already normative rather than changing what cap should do. No tests: `Glow.lua` is hooks and
+frames end to end, with no pure seam worth extracting, and inventing a harness for it would
+mean asserting against a fake of an API nobody here has called (house rule 6). No command,
+because nothing about it is a thing to ask for. And no release — this project has no standing
+auto-deploy exception.
+
+⚠ **One thing is owed and it is owed to the KB, not to cap.** The dim recipe — alert frame
+not child textures, per-instance not shared-table — currently exists **only in CDMProbe's
+source**, which the 2026-08-06 entry already flagged as exactly the failure house rule 1
+exists to prevent. It goes to `knowledge/addon-dev/cooldown-manager.md` §6 as a
+`[client YYYY-MM-DD]` claim **after** it has run here, and not before: written now it would
+be a claim sourced from another addon's code rather than from a measurement, which is a
+worse defect than the gap it fills. Filed in `backlog.md` as blocked on the flight.
+
+## 2026-08-08 (polarity) — a rule the cull ADDED, struck; and the lesson is about culls
+
+**"Polarity is carried by shape — *press* and *hold* may never differ only in hue" is gone**
+from `spec.md` §3.1 (both statements of it), from `backlog.md`'s channel-coverage note, and
+from `Treatment.lua` and `Overlay.lua`'s comments. One `busted` describe label named it and
+was renamed; no test asserted it. Nothing replaced it. 141 tests, luacheck 0/0.
+
+**Where it came from, which is the part worth keeping.** `git log -S` puts it in commit
+`e7b8b1c` — **the rule cull**. The pass whose entire purpose was cutting rules back to §1's
+three principles *introduced* one. M3c then implemented it, wrote it into §3.1's new
+treatment table as one of the four properties holding that table together, and restated it in
+two module headers — so by the time anyone looked, an unargued assertion had three
+independent-looking sources and read as settled.
+
+**Why it does not survive scrutiny.** It is not downstream of (a), (b) or (c). It is a visual
+preference, and a defensible one — shape survives a colour-blind read and a small icon — but
+a preference asserted as a constraint. What it cost was concrete: it forbids a single marker
+whose visibility and colour both ride the same duration, turning from *hold* into *press* as
+a burst window arrives. That is simpler than the two-marker alternative the rule forces, and
+it fixes `catalog.md` O8 by saying something useful in the stretch where the current hold
+marker is merely wrong.
+
+⚠ **The lesson is not "that rule was bad", it is that a cull can add.** A pass that removes
+nine rules and adds one reads — in its own commit message and its own session log — as a pure
+simplification, and the added rule inherits the credibility of the cleanup around it.
+Anything a cull *introduces* deserves the same "which principle is this downstream of?" test
+the cull applies to what it removes, and the answer belongs in the commit.
+
+Now open again: `discussion.md` **D8**, how polarity is drawn. §6's original question was
+struck when M3c answered it; removing the answer reopens it rather than leaving the design
+unstated.
+
+## 2026-08-08 (M3d) — the cues, and the half cap is not allowed to compute
+
+**Done, static only. busted 138 → 141, luacheck 0/0 in 20 files, nothing flown, no release
+cut.** The work list and the `C{}` reading: `backlog.md` → `## Reference` → *M3d*. What it
+made normative is in `spec.md` §3.1 (*What a treatment looks like*, the marker-placement
+bullet) and §6 (half of the cue budget, answered by construction). This entry is the *why*,
+and the last section is the one that matters most.
+
+### What arrived
+
+`Channel.lua` — new, impure, and the only place either sealed mechanism lives. Two
+functions, one guard doctrine, and both mechanisms are the KB's rather than ours:
+`GetAuraApplicationDisplayCount`'s three-way quantiser and a `Step` curve evaluated by a
+duration object. `Treatment.Ink` (the one field the renderer lacked), `Overlay`'s two
+marker slots, and `C{}` on the `draw` stream.
+
+### Four decisions
+
+**1. The threshold's "on" value comes out of the curve, not out of Lua arithmetic.** The
+hold glyph should sit at `HOLD.alpha = 0.95` when the client says *now*, which is a
+multiplication — and arithmetic on a secret is refused outright. So `Channel.Threshold`
+takes the on-value as a parameter and the curve is built `(0, on) … (t, 0)`: the client
+returns 0.95 or 0 and Lua does nothing to it. The `0` end is *not* a parameter, deliberately
+— "the marker is invisible outside the window" is structural, not a caller's choice.
+
+**2. The count mark carries no plate, and that is a leak, not a style choice.** Below the
+threshold the quantiser returns an empty string, which renders nothing — the *absence of
+the text is the cue*. A dark plate behind it would still be drawn, so an icon would grow a
+permanent box for as long as the cue was offered, and the box would be cap announcing that
+it *offered* a cue. That is precisely the half the player is not supposed to be told. An
+outlined font replaces it. The hold glyph keeps its plate because every part of it takes
+the same secret alpha, so the plate vanishes with the bars.
+
+**3. A positive cue whose tier is drawn as a veil is refused, not improvised.** `LOW` and
+*none* put no light on the icon, so `Treatment.Ink` returns nil for them and the marker is
+not drawn. The alternative was inventing a hue for LOW, which would have made a marker
+readable in a colour no tier owns — a second visual language, which `spec.md` §3.1 exists
+to forbid. Check 4 permits a positive LOW cue and nothing in the catalog authors one; if
+one ever is, it reads `refused` in `C{}` rather than appearing in a made-up colour.
+
+**4. The tie-break is a read-side rule and stays out of `spec.md`.** One aura can be
+tracked on two viewers at once, so "the row carrying this aura" needs a deterministic
+answer or it flip-flops between logins. Lowest cooldownID wins **among the `auras` rows**:
+§4.8.2's precondition is a live bound aura, and only an aura row carries one. Check 3's
+aura set contains every entry's own spell id, so `stacks(<a castable ability>) ≥ n` passes
+the load checks — and where that ability is also a press, its `spells` row can hold the
+lower cooldownID and answer nothing, pinning the cue at `refused` for the whole build.
+None of this is a product rule, because it cannot reach a pixel: the *draw* is on the
+entry that owns the cue — E7's on Demonbolt, E8's on Implosion — which is what the player
+is being told to press, and which sidesteps the ambiguity for everything the player can
+see.
+
+### What a flight can and cannot verify, which is the whole point
+
+**Neither channel has a readback, by construction.** `SetText` and `SetAlpha` both accept
+a secret and neither hands one back; `GetEffectiveAlpha` on a secret alpha *throws*, so
+there is not even a dishonest way to ask. So:
+
+- **A log can prove the mechanism is wired.** `arm: = cue:` means cap resolved a live
+  `auraInstanceID` / obtained a duration, built a curve, and handed the comparison over.
+  `arm:` short of `cue:` with `C{}` naming the refusal means cap never reached the client,
+  and `C{}` says which of the four ways.
+- **A log can never prove a marker appeared.** cap offered; the client decided; nothing
+  reports back. `wowkb.capture cap draw` showing `E8:+stacks:armed` for a whole pull is
+  fully consistent with a screen on which no number ever appeared — because that is also
+  what "the imps never crossed six" looks like from cap's side.
+- **So the eyeball is not a nicety here, it is the only oracle**, and it has two jobs the
+  log cannot do: (a) does the number appear when the imps cross six and vanish when they
+  fall below, and (b) does the hold glyph appear only in the last stretch before a Tyrant
+  window. Both are *threshold* questions, and a threshold that fires at the wrong moment
+  reads exactly like one that fires correctly in every instrument cap owns.
+
+⚠ **And one thing a flight must not conclude.** E8's cue flapping `armed` ↔ `refused` is
+the Wild Imp row binding and unbinding its aura, which is imps arriving and expiring — the
+PASS case, not an instability. The failure that looks similar is `refused` for a whole pull
+with imps visibly out, which would mean the row lookup or the tie-break is wrong.
+
+⚠ **Out of combat the quantiser returns a PLAIN string**, so a desk check in a city reads
+the count as ordinary text and proves nothing about the sealed path. Only mid-pull is the
+quantiser doing any work at all.
+
+### The cue budget, left open on purpose
+
+`spec.md` §6 asked for it to be decided against a drawn catalog. Half of it is now answered
+by construction — an icon has one count slot and one hold slot, so **two** is the physical
+budget and a third is not drawn — but the interesting half is not. Demonology authors at
+most one cue per entry, so no icon has ever carried two; and the alternative surface the
+question turns on, §3.4's bars, does not exist. Deciding "cross-ability cues live on the
+bars" against a surface nobody has built would be authoring in advance against no evidence,
+which is the thing the drawing rungs were reordered to stop. Left open, with the drawn
+geometry recorded in the bullet so the next reader has evidence rather than a memory.
+
+## 2026-08-08 (M3c) — the graded register: cap's own frames, and the numbers on them
+
+**Done, static only. busted 113 → 138, luacheck 0/0 in 19 files, nothing flown, no release
+cut.** The work list and what a flight has to read: `backlog.md` → `## Reference` → *M3c*.
+The vocabulary it settled is normative in `spec.md` §3.1 → *What a treatment looks like*.
+This entry is the *why*.
+
+### What arrived
+
+`Treatment.lua` (pure — tier → look, and the only place the numbers exist), `Overlay.lua`
+(impure — frames, anchoring, paint), `Sense.OnVerdicts` (the listener registry plus the
+call at the end of `evaluate()`), a third capture stream `draw`, and 25 tests. `spec.md`
+§6's *"How is polarity drawn?"* is struck, because this rung answers it.
+
+### Why the numbers are what they are
+
+The plan fixed the *structure* — a monotone brightness ladder, hue as accent, shape
+carrying polarity — and left the values. Four decisions produced them.
+
+**1. Brightness is one number, so the ladder can be tested.** `Treatment.Brightness` is
+`ring alpha × Rec.709 luma` for a ring, and `−veil` for a veil. That single scalar is what
+"monotone" is asserted against; without it "the ladder is monotone" is prose. Reading
+across HIGH → MEDIUM → LOW → none it goes `0.83 · 0.47 · −0.31 · −0.62`.
+
+**2. Each tier owns a DISJOINT band, and the grade moves inside it.** HIGH alpha
+`0.82–1.00`, MEDIUM `0.56–0.86`. Against their hues (luma `0.910` and `0.665`) that is a
+brightness band of `0.746–0.910` against `0.372–0.572` — a fully-graded MEDIUM lands `0.17`
+below the *dimmest* HIGH. The test pins that bound rather than the trivial "ungraded
+MEDIUM < ungraded HIGH", because the overlapping-band bug is silent: every individual
+treatment still looks right and only the ladder is wrong.
+
+**3. Ungraded is the MIDPOINT of a band, not its top.** The alternative — ungraded = the
+tier's brightest — makes every ungraded entry outshine every graded one at the same tier,
+which reads as "no grade means maximum urgency". Midpoint says the honest thing: an entry
+with no grade is neither the most nor the least urgent thing its tier can be. Six of
+Demonology's ten entries are ungraded, so this choice is most of what is on screen.
+
+**4. LOW's grade moves the veil, not a ring.** LOW has no ring, so a graded LOW (E7
+Demonbolt, `shards` inverted — the demotion the whole §3.2 feature exists for) had nowhere
+to go. Its veil bands `0.42–0.20`: dimmest-LOW is still lighter than *none*'s `0.62`, so
+the ladder stays monotone and §6's *"a demoted ability must not become invisible"* is
+answered by construction rather than by taste.
+
+Hue: warm gold `1.00 0.92 0.55` against cool blue `0.45 0.70 0.95`. Gold/blue is the safe
+pair, but the point is that **it does not matter** — the brightness and thickness ladders
+carry the signal on their own, and the hue is what makes the two rings pleasant to tell
+apart at speed. ⚠ Deliberately **not** Blizzard's proc-glow art: §3.2 replaces the stock
+treatment, and a ring that looks like the stock glow makes the two indistinguishable.
+
+### Why its own frames, and why it is legal
+
+`SPELL_UPDATE_USABLE` rewrites a tab-1 icon's colour and *"fires constantly in a city"*
+(`knowledge/addon-dev/cooldown-manager.md` §5), so anything cap writes onto Blizzard's
+texture is stomped within a frame or two. So: cap's own frames, **parented to `UIParent`
+and only ever anchored to the item frame** — measured, an addon frame parented to
+`UIParent` reads `IsProtected() == false` and re-anchoring it to a protected frame does not
+change that, with `SetPoint`/`Show`/`Hide` working in combat
+(`security-taint-and-restricted-data.md` §1.1, `[client 2026-08-06]`).
+
+**The paint path writes only `Show`/`Hide`/`SetVertexColor`/`SetAlpha`, and that is a
+design constraint rather than an accident.** Those are the measured-safe combat calls.
+Everything geometric happens at frame construction — including the *ring thickness*, which
+is why there is one ring built per distinct thickness in the treatment table and the paint
+shows one and hides the other, rather than resizing a single ring. `SetFrameStrata` is
+protected and has **not** been measured in combat, so the layer is applied out of combat
+only and an overlay first created mid-pull draws at `UIParent`'s default until the pull
+ends. That hole is now marked in the KB (`security-taint-and-restricted-data.md` §1.1).
+
+`SetColorTexture` is fed literals and only literals — it **poisons the anchor chain** on a
+secret (§4.8.1 finding 12), and it is the one call in this file that would.
+
+### Two decisions the code forced, which the spec now carries
+
+- **Two entries can bind one row** (E5/E6 are both spell `105174`), and an icon can only be
+  drawn one way. The row takes the **brighter** treatment. That is one icon carrying the
+  higher of two tiers, not a ranking within one — but it is a new normative statement, so
+  it is written into `spec.md` §3.1 rather than left in `Overlay.lua`.
+- **A veiled row and a bare row mean different things.** An entry that matched no band gets
+  the *none* veil; a **silence** gets no overlay at all. "cap has no opinion right now" and
+  "cap has no opinion ever" are different claims and now look different.
+
+### What is deliberately NOT drawn
+
+**No cue of either polarity.** The hold treatment is defined in `Treatment.lua` and tested
+there — it is part of the vocabulary this rung settles — and `Overlay.lua` paints none of
+it. A cue is a two-part statement: cap decides whether it is *offered*, the **client**
+decides whether it *appears*. Painting the glyph from the offer alone inverts that: E2's
+hold would light for the whole ~48 s Tyrant is on cooldown instead of the last 20, which is
+worse than no marker and would poison the only oracle this rung has. The `draw` stream
+therefore reports **no cue field at all** — a log naming an offer would read as a pixel
+that is not there. M3d builds the client half.
+
+### The instrument, and why it exists
+
+*"On any aspect-less channel, the only oracle is an eyeball"* — true of the pixel, but
+**"did the paint path run, and did it find a frame to anchor to"** is exactly what a log
+can answer, and without it a flight that sees nothing cannot tell a treatment bug from an
+anchoring bug. Hence `wowkb.capture cap draw`: `D{n: rows: anch: conf: off:}` plus a
+per-entry `P{}` cell, one deduped line per change of the drawn set. The reader registers
+*addons*, not streams, and `cap` is already in its map, so no Python changed.
+
+### Reported, not fixed
+
+**E1's and E2's `grade = cooldownRemaining(this)` cannot fire, and `catalog.md` claims it
+does.** `Tier.Evaluate` computes a grade only when a band held; both entries' bands require
+`ready(this)`, so the grade only ever resolves when the cooldown is at zero — every moment
+it would say something, there is no tier and no grade. `catalog.md`'s *"the icon warms as
+the window approaches"* describes something the current model cannot produce. Not M3c's to
+settle: it is either a §3.4 bars question or a spec question about whether a grade may
+exist without a tier. Written up cold as **`discussion.md` D7**, with the case both ways
+and a lean toward the bars.
+
+**One thing a flight will want and cannot get.** There is no readback for the pixel. The
+`draw` stream can prove the paint ran on a confirmed frame and still not prove anything
+appeared, so *"anch: == rows:, conf: == rows:, screen blank"* is a real and expected
+reading, and it means **treatment**, not anchoring. That row is in the acceptance table for
+exactly that reason.
+
+## 2026-08-08 (migration) — the window migration: the code caught up to the spec
+
+**Done, static only. busted 92 → 113, luacheck 0/0, nothing flown, no release cut.** The
+work list and what each decision was: `backlog.md` → `## Reference` → *The window
+migration*. This entry is the *why*.
+
+### What moved
+
+`spec.md` deleted windows on 2026-08-07 and the code kept speaking them for a day. Gone
+now: `Catalog.WINDOW_TERMS`, `MAX_WINDOWS`, the `window` gate, the `remaining` term,
+`Track`'s `windowHolds` / `evalWindowTerm` / `SeedCooldown` / `cd` field / `health.windows`,
+and `catalog.md` §2 in full (the document renumbered; O-numbers left alone). Arrived:
+subjects on every gate term, negation in a band, `combat` promoted into the gate set,
+`e.cues` as a **list** with polarity and a channel term, and check 3 (declared subjects),
+which is genuinely new work rather than a rename.
+
+### The four shape decisions, and why they went that way
+
+**1. `dogs_out` became a band, not a cue.** E1's band 1 is `ready(this) and not ready(E2)`.
+The reason to prefer it over a cue off cid 760 is that the cue was never available: 13
+in-combat samples had `auraDataUnit` nil, because a summon binds no aura at all. What makes
+the band honest is that it reads **long** where the old window read short — Dreadstalkers'
+cooldown is 20 s against a ~12 s pet lifetime — and the negative cue at
+`cooldownRemaining(E2) ≤ 8` trims exactly that tail: `cooldownRemaining(E2) ≤ 8` ⟺ the
+pets have expired, arithmetic the client does. So the pair replaces one estimate with two exact
+reads, which is the whole point of the migration and not a side effect of it.
+
+**2. E2 keeps one HIGH band and the hold became a cue.** The backlog was emphatic that
+converting the HIGH bands into cues would cost E2 and E3 their HIGH outright for no gain,
+and that is right: a *negative* cue declares no tier. So bands 1 and 2 (setup / far)
+collapse into `ready(this) and affordable(this)` → HIGH, and old band 3's MEDIUM — which
+was the hold — becomes a negative cue. `spec.md` §3.4 says this in as many words: a ready
+cooldown you should pool *is* ready, so the bar keeps its tier and the cue says wait.
+
+⚠ **`not ready(E1)` in that cue's precondition is the non-obvious half.** A ready Tyrant
+has a zero-remaining cooldown, which clears any `≤ t` threshold — so without it the hold
+marker would be pinned on through the entire setup, which is precisely the stretch where
+Dreadstalkers should be pressed. The precondition and the channel are load-bearing
+together.
+
+⚠ **`t = 20` is imprecise and is filed as `catalog.md` O8 rather than glossed.** The
+rotation's real hold zone is `12 < cooldownRemaining(E1) < 20`: below 12 s the dogs pressed now are
+still out when Tyrant lands and get extended, so pressing is right and the marker is wrong
+there. `spec.md` §3.5's channel table offers a single upper threshold and cannot express a
+band. The candidate fix is real and measured — a multi-point `Step` curve thresholds a
+secret duration into a band entirely C-side
+(`knowledge/addon-dev/security-taint-and-restricted-data.md` §4.8.1 finding 4) — but it
+would be a new channel form and therefore a spec change, which this pass deliberately did
+not make.
+
+**3. E5's `tyrant_active` band is deleted and applies-to is NOT narrowed.** The backlog
+offered both: add the apex talent to applies-to and delete band 2, or keep band 2 for the
+un-apexed build. Neither, in fact — **narrowing applies-to makes cap draw nothing at all**
+on a build without the talent (`spec.md` §3.5, "no catalog, nothing at all"), which is a far
+worse failure than one entry losing one band. Band 2 could not be kept either: it rested on
+`elapsed(E1)`, which is now illegal on another entry, over a fixed duration `catalog.md`
+itself rated low confidence. So it goes, and on an un-apexed build band 1 simply never holds
+and E5 degrades to shards/affordable, which is correct.
+
+**4. E9's band 1 is `ready(this) and not proc(E7)`.** Verbatim from the backlog, and the
+argument for it is that the alternative — inverting into a positive cue on E7 — says
+nothing: both of E7's bands already require `proc(this)`, so there is no band left for the
+inverse to decorate, and E9 would collapse to an unconditional LOW.
+
+### What the migration cost
+
+**One band, and it is named.** E5 has no way to say "spend the Tyrant window on Hand of
+Gul'dan": nothing in the tracked set carries the Tyrant buff, so there is neither an
+`auraUp` gate nor an `auraRemaining` channel for it. `catalog.md` O1 is rewritten to say
+that, and to say that the route back is **enabling cid `84224`** (the `HideByDefault`
+Tyrant bar, already a backlog item) — a read, not a re-derived fixed duration. Writing the
+estimate back in would undo the thing this pass was for.
+
+Struck as moot: O2, which worried that cooldown reduction would silently break cap's
+count-down from a declared base cooldown. cap no longer counts anything down.
+
+### Two things fixed on the way, neither of them a window
+
+- **`Catalog.Resolve`'s `alt` defect.** `match()` keyed on `e.spell` alone, so E3 bound Imp
+  Lord and not Fel Ravager and dropped silently on half of all builds, losing a real HIGH.
+  It now tries `alt` after `spell`. Filed as an M3b leftover; it is a correctness bug in
+  the same function the migration was already editing, so it rode along.
+- **`Catalog.Reads` keys `byEntry` by SUBJECT, not by the entry that named it.** This is
+  forced by subjects being legal in bands and is easy to miss: `not ready(E2)` inside E1's
+  band is a read of *E2*. Keyed the old way, `Track`'s gate-health tally reports E2 as
+  never-asked and E1 as blind twice over — a working catalog reading blind, which is the
+  exact failure that measurement exists to detect.
+
+### Decisions inside the pass that were mine rather than the plan's
+
+- **A cue's channel is a term list**, the same literal shape as a band term:
+  `{"cooldownRemaining", "E2", "<=", 8}`, `{"stacks", 296553, ">=", 6}`. One grammar for
+  both columns, so the checker walks them the same way and an author has one thing to learn.
+  `Catalog.CHANNELS` names, per channel, which of the two forms exist — bare, thresholded,
+  or both — because §3.5 says they answer different questions and are not each other's
+  fallback.
+- **Check 5 is a second return value from `Catalog.Check`**, not a finding in the list. It
+  cannot fail, and a finding that cannot fail sitting in the failure list is how it
+  eventually gets treated as one.
+- **Check 3 polices the FORM of a subject per term, not merely its membership.** Each term
+  takes one kind of subject and only that kind can ever be answered: `ready` / `affordable`
+  / `proc` / `identity` / `elapsed` and the `cooldownRemaining` / `active` channels name an
+  **entry** — `this` or an entry id — because they are read off a bound CDM row and only
+  entries resolve to rows; `auraUp` and the `auraRemaining` / `stacks` channels name an
+  **aura spell id** an entry or a silence declares, because the aura latch is keyed by
+  spell id. The form lives in `Catalog.GATES` / `Catalog.CHANNELS` (`subject = "entry"` |
+  `"aura"`) so the table stays the one place the vocabulary is described. The exemption
+  list is still exactly the three `spec.md` names.
+
+  ⚠ **The looser rule shipped first, and it was a trap the review caught (2026-08-08).**
+  The pass originally accepted *either* form on *any* subject term, on the reasoning that a
+  spell id a silence declares is a declared ability. It is — and it is also unanswerable:
+  `{"proc", 264173}` is semantically `{"proc", "E7"}`, type-checks, passes all five checks,
+  and is then permanently UNKNOWN for the life of the build, while gate health reads
+  `proc:1/1` — "nothing refused" — because the read was never asked for at all. The mirror
+  case is worse still: `auraUp("this")` resolved to an entry id, `Track.Binding` filtered it
+  out of `auraIDs` entirely, and the band was dead with no latch and no tally. A wrong-form
+  subject is not a stricter spelling of the right one; it is a silent hole, which is
+  precisely the failure the three-valued gate exists to make visible.
+- **`Track.New()` lost its catalog argument.** Nothing read it once the windows went, and a
+  stored-but-unread field with a comment explaining its purpose is the shape of the thing
+  house rule 2's receipt describes.
+
+---
+
+## 2026-08-08 (the reorder) — the draw-first directive revised: simplify, then draw, then detail
+
+**The order changed again, one day after it changed.** 2026-08-07 (later) put drawing ahead
+of everything on the grounds that §3.5's apparatus had been authored in full against no
+evidence, and that only playing could settle it. **That diagnosis stands and is not being
+walked back.** What is revised is the sequence.
+
+**The directive is now: simplify → draw → add detail as play tells us to.** The window
+migration goes first; M3c/M3d/M3e follow it.
+
+### Why the reorder was half right
+
+Drawing before the migration means drawing whatever `Tier.lua` computes today, and that is
+still the **window-era** model — six named windows, `remaining` counted off a declared base
+cooldown, negation legal only inside a window. `spec.md` deleted all of that on 2026-08-07;
+the code and `catalog.md` §2 never followed.
+
+The 2026-08-07 entry conceded the cost in its own words — *"any refinement made while
+playing gets re-expressed once that migration lands, and that is real rework"* — and
+defended it on the grounds that feedback of the form "Dreadstalkers feels wrong here" is
+vocabulary-independent. **That defence covers the feeling and not the fix.** The feeling is
+indeed vocabulary-independent; the tuning you do in response to it is not, and the migration
+carries four shape decisions that are still open (the hold-cue threshold `t`, whether E5
+band 2 survives on an un-apexed build, whether `dogs_out` becomes a band or a cue, and E9's
+negation). Tuning against a model with four unsettled joints, then re-expressing it, is the
+rework the reorder named and then accepted too cheaply.
+
+Put plainly: **drawing an outdated model teaches you about the outdated model.**
+
+### What "simplify" does and does not mean
+
+**It does not re-open `spec.md` §3.** The rule cull earlier the same day *was* the
+simplification pass — three principles in §1, five checks in §3.5, the priority-ladder
+apparatus gone. Re-arguing §3.1/§3.5 now would be the fifth re-run of the argument
+`discussion.md` already carries, and it would be the exact failure mode the 2026-08-07
+reorder correctly identified: authoring rules against no evidence.
+
+**It means the code catching up to the spec that already exists.** The migration adds no
+capability — every fact the window-era catalog knows, the migrated one knows, only spelled
+differently. What it buys is that the thing we put on screen and then tune is the model we
+are keeping.
+
+**And the detail added afterwards comes from playing, not from authoring.** That half of the
+2026-08-07 plan is untouched and is still the point: refine until it feels good, then
+reverse-engineer the rules from that for the second spec.
+
+### Cost, stated rather than glossed
+
+Nothing is on screen for one more work item than yesterday's plan implied. Accepted — the
+migration is a bounded pass over four files plus `catalog.md` §2, not a design round, and
+`Catalog.Resolve`'s `alt` defect (E3 silently dropping on a Fel Ravager build) is a
+correctness bug that rides in the same function and gets fixed on the way.
+
+Work: `backlog.md` → **The window migration**, now first in `Now`.
+
+---
+
 ## 2026-08-08 (later) — the backlog restructured, and four residuals closed
 
 `backlog.md` → `Now` had drifted into 290 lines of mostly-done history, with the queue order

@@ -162,10 +162,8 @@ distinction is where the evaluation happens, not what the player sees:
   icon.
 
 So when the imps are there and the button is up, Implosion reads HIGH, and cap never
-branched on the count to say so. **A positive cue is not a second visual language.** A
-cue that means *press* is drawn in the treatment of the tier it stands for, so the player
-is never asked to AND together two differently-styled signals to discover that something
-is worth pressing — an emphasis that means HIGH looks like HIGH, whoever did the
+branched on the count to say so. A cue that means *press* is drawn in the treatment of the
+tier it stands for — an emphasis that means HIGH looks like HIGH, whoever did the
 arithmetic. (A **negative** cue is the deliberate exception, and is the subject of the
 polarity paragraphs below.) This is what §5's constraint costs us: not the signal, only
 the ability to *reason* about it.
@@ -214,8 +212,7 @@ the situation. Tiers are stable and few; cues are where the nuance lives.
 **Cues carry polarity.** A **positive** cue adds a reason to press now and is drawn
 in the treatment of the tier it stands for — a HIGH-meaning cue uses HIGH's colour
 and styling. A **negative** cue is a reason to *wait*, and is drawn in a treatment
-reserved for holding, distinct from every tier. Polarity must be unmistakable at a
-glance: "press" and "hold" may never differ only in hue.
+reserved for holding, distinct from every tier.
 
 ⚠ **A negative cue does ask the player to read two things at once, and that is
 deliberate.** The alternative — folding the situation back into the tier — requires cap to
@@ -228,6 +225,70 @@ dark.
 *Why the two registers exist is a fact about the client, not about cap — see
 `knowledge/addon-dev/security-taint-and-restricted-data.md` §4.8. That file is the
 authority; this section only records the design consequence.*
+
+#### What a treatment looks like
+
+cap draws its **own frames**, anchored to the CDM icons and never parented to them. The
+Cooldown Manager rewrites a tracked icon's own colour constantly, so a treatment written
+onto Blizzard's texture does not survive; and an addon frame parented to `UIParent` stays
+unprotected even when anchored to a protected one, which is what makes this legal in
+combat.
+
+The vocabulary is four tier treatments plus the hold treatment. **The ring is one shape at
+three emphases** — a Blizzard atlas played as a flipbook, drawn additively at 1.4× the icon
+and centred on it — so what separates the three is brightness and **rate**, never shape:
+
+| State | Drawn | Colour | Ungraded | Graded range | Pulse |
+| --- | --- | --- | --- | --- | --- |
+| **HIGH** | the ring, at full strength | warm gold `1.00 0.92 0.55` | alpha `0.91` | `0.82` – `1.00` | 2.5 Hz |
+| **MEDIUM** | the same ring, cooler and dimmer | cool blue `0.45 0.70 0.95` | alpha `0.63` | `0.48` – `0.78` | 1.2 Hz |
+| **LOW** | the same ring, dimmer again | neutral slate `0.80 0.82 0.88` | alpha `0.43` | `0.36` – `0.50` | 0.5 Hz |
+| *(none)* | **no ring at all**; a veil — the icon recedes | — | veil `0.60` | — | none |
+| **hold** | two vertical bars, bottom-centre, on a dark plate | neutral slate `0.80 0.82 0.88` | alpha `0.95` | — | none |
+
+The pulse is one alpha animation bouncing between the tier's own alpha and **0.68 of it**,
+so the tier alpha *is* the peak — the pulse and the emphasis are one channel, not two.
+**No two rows start their pulse together**, and that is a safety property rather than a
+style choice: synchronised flashing across a screenful of icons is the thing the general
+flash threshold exists to stop, and unequal rates plus a per-row offset is what keeps it
+nowhere near.
+
+Five properties hold that table together, and each matters more than the numbers in it:
+
+- **The ladder is ordered.** HIGH reads as more emphasis than MEDIUM, MEDIUM more than
+  LOW, LOW more than *none*. Three emphasis levels are levels, or they are three colours.
+- **The LOW → none step is the presence of a ring**, not a deeper veil. *none* is a state
+  with its own treatment rather than the absence of one, and two veil depths are a
+  comparison the player has to make where a ring is a difference they see at once.
+- **A grade moves an entry only inside its own tier's range** — §3.0's *a grade never
+  changes the tier*, which the bands settle before a grade is computed at all. An entry
+  with no grade sits at the **midpoint** of that range: no grade means the ability is
+  neither the most nor the least urgent thing its tier can be.
+- **A tier treatment is reusable on a marker.** A positive cue's marker is drawn in
+  exactly the tier treatment above. ⚠ Two of the five rows have no ink to lend: *none*
+  puts no light on the icon at all, and **LOW's hue is the hold slate**, so a LOW-styled
+  marker and a hold marker would be the same colour. A positive cue therefore stands for
+  HIGH or MEDIUM, and one that names either of the other two is simply not drawn.
+- **A marker never outlives the client's answer.** No part of one carries a backing that
+  survives the marker itself, because a backing that outlives the thing it sits behind
+  announces that a cue was *offered* — which is cap's half of the answer, where whether a
+  cue **appears** is the client's (§3.0).
+
+Three rules follow from the surface rather than from the signal:
+
+- **A veiled row and a bare row mean different things.** A veil says cap has an opinion
+  about this ability and right now it is *not now*. A **silence** is drawn not at all,
+  because cap has no opinion about it ever.
+- **Two entries may bind one row** — a transforming ability declares one entry per
+  identity — and an icon can only be drawn one way, so the row is drawn in the **higher**
+  of the two tiers. That is one icon carrying the higher of two, not a ranking within one.
+- **cap's emphasis must be distinguishable from the stock proc glow.** §1's second move is
+  the whole of the reason: Blizzard's glow says *available*, cap says *available, and worth
+  about this much*, and two emphases the player cannot tell apart say neither of those
+  things. §3.2's suppression of the stock treatment is half of it. ⚠ **cap's ring is drawn
+  from Blizzard's own proc-loop sheet**, so the separation does not come from the art —
+  whether what remains is enough is `discussion.md` **D10**, and only an eyeball on a
+  proc'd icon can answer it.
 
 ### 3.2 Smart procs
 
@@ -301,6 +362,28 @@ not tied to wherever the CDM happens to sit. It shows:
   should pool, align or save for a phase *is* ready, so the bar keeps its tier and the cue
   says *wait* — drawn in §3.1's hold treatment, which belongs to no tier.
 
+**A bar counts down whether or not cap has an opinion about the press.** A tier says *is this
+worth pressing*, and an ability on cooldown usually has no tier at all — which is exactly the
+stretch its bar has something to show. So the bar is a surface of its own: it draws the
+remaining time regardless, and the tier signal colours it when there is one.
+
+| | Drawn |
+| --- | --- |
+| **a tier held** | the fill takes that tier's own hue and emphasis — the same treatment as its icon (§3.1) |
+| *(none)* | the fill recedes to the neutral slate LOW and hold share, **dimmer than LOW's dimmest**. §3.1's ladder is ordered and *none* is its bottom rung; a bar carries no ring, so the fill is the only thing that can carry the LOW → *none* step, and a resting fill inside LOW's band would draw *no opinion* and *filler* in the same pixels |
+| **the empty part** | a dark track, under every fill on every colour channel, so filled and empty differ in **colour** and not only in width |
+
+⚠ **Those three are the requirement; the numbers that satisfy them are not normative here.**
+§3.1's tier alphas were picked by a person looking at a real spell icon at CDM size. **No bar
+has ever drawn**, so the resting alpha and the track's colour are picks with nothing behind
+them: they live in `Treatment.BAR` and are expected to move the first time anyone looks
+(`backlog.md` → *Judge the bars on screen*).
+
+**Which cooldowns get a bar is the catalog's roster, and its order is part of the
+declaration** — a panel stacks, so the roster is one ordered list and never a per-ability
+flag. An ability whose row the build does not carry gets no bar: a bar that never binds is a
+hole in the panel rather than a spare.
+
 ⚠ **The bars are the roomier of the two surfaces.** A CDM icon is small; a bar is not, so
 a cue that would crowd an icon can live here instead — see §6's cue-budget question.
 
@@ -333,7 +416,7 @@ they disagree about:
 | | Declares | Feeds |
 | --- | --- | --- |
 | **Applies-to** | the spec, and any hero tree or talent the catalog assumes | binding (§2) |
-| **Roster** | the abilities cap has an opinion about — base spell, known transforms, and whether the ability earns a cooldown bar | §3.1, §3.4 |
+| **Roster** | the abilities cap has an opinion about — base spell, known transforms — plus the **ordered** list of which of them earn a cooldown bar | §3.1, §3.4 |
 | **Entries** | per ability: its tier bands, its grade, its cues | §3.1, §3.2, §3.4 |
 | **Silence** | the abilities cap deliberately has no opinion about, each with a reason | §3.1 |
 | **Sequences** | named ordered step lists with an entry trigger | §3.3 |
@@ -417,6 +500,16 @@ entry's own ability and carries no special privilege. **Not every term takes a s
 is a literal — `single` or `aoe` — not a subject at all. `elapsed` is the one term
 restricted to `this`.
 
+⚠ **Which *form* a subject takes is fixed per term, and it is not a spelling preference.**
+A term read off a bound CDM row — `ready`, `affordable`, `proc`, `identity`, `elapsed`,
+and the `cooldownRemaining` / `active` channels — names **an entry**: `this` or an entry
+id. A term about an aura — `auraUp`, and the `auraRemaining` / `stacks` channels — names
+**an aura by its spell id**. The two are not interchangeable, because only entries are
+resolved to rows: an aura id written where an entry belongs, or an entry id written where
+an aura belongs, is a read cap never makes, so the term is *permanently unknown* and the
+gate-health tally reports nothing refused. That is a silent hole rather than a stricter
+spelling, which is why check 3 refuses the wrong form rather than tolerating it.
+
 **Gates — cap may branch on these, so they may appear in a band condition:**
 
 | Term | Is |
@@ -453,6 +546,14 @@ appear in a grade or a cue and NEVER in a band condition:**
 ⚠ **Both forms exist because they answer different questions.** The thresholded form is
 what a cue wants — an edge, arriving when the situation does. The bare countdown is what
 §3.4's bars want — the number itself, drawn continuously. Neither is the other's fallback.
+
+⚠ **The `Draws` column is the vocabulary, not the renderer's coverage.** A channel is legal
+here as soon as the client will evaluate it; whether cap has built the marker that shows it
+is a milestone question, and the two are not the same list. A legal channel with no marker
+yet **loads and then draws nothing** — it reports `nodraw` on the `draw` capture, which is
+cap saying it never asked the client, not a failure. **Which forms are drawn today is in
+`backlog.md` → *The drawing rungs*.** Check that before authoring a cue on a form this
+table promises.
 
 ⚠ **The thresholded forms rest on a measured client mechanism, and the measurement is not
 in this file.** The threshold edge lands exactly on *t* rather than somewhere near it, and
@@ -570,12 +671,15 @@ five. They run at load and are reported to the capture log.
    is the one place where "cap may display it but may not reason about it" stops being an
    intention and becomes something a catalog can fail on.
 3. **Declared subjects** — every subject named by a band, a grade or a cue is an ability
-   this catalog declares as an entry or a silence. A term naming an ability the catalog
-   has no opinion about is an authoring defect. Two exemptions, both because the argument
-   is not a subject: the subject-less terms (`resource`, `combat`) and `mode(x)`'s literal
-   are not checked, and **`talent(x)`'s argument is exempt** — a talent may be a passive
-   with no CDM row, so it can be neither an entry nor a silence, and checking it would
-   make the one gate whose whole purpose is talents an authoring defect.
+   this catalog declares as an entry or a silence, **in the form that term takes** (the
+   entry/aura split above). A term naming an ability the catalog has no opinion about is
+   an authoring defect; so is one naming a real ability the wrong way, because that reads
+   unknown forever while the health tally says nothing refused. Two exemptions, both
+   because the argument is not a subject: the subject-less terms (`resource`, `combat`)
+   and `mode(x)`'s literal are not checked, and **`talent(x)`'s argument is exempt** — a
+   talent may be a passive with no CDM row, so it can be neither an entry nor a silence,
+   and checking it would make the one gate whose whole purpose is talents an authoring
+   defect.
 4. **Cue schema** — every cue declares its polarity, a positive cue declares the tier it
    is drawn in, every cue carries a gate precondition, and a **negative** cue's channel is
    one of the thresholded forms (`… ≤ t`). These are the fields the renderer needs in
@@ -668,14 +772,17 @@ slate — no code is ported from CDMProbe.
   situational nuance, and nothing caps how many an entry may declare or how many can be
   lit at once. A CDM icon is small; §3.4 exists because it is too small to carry a timer.
   Likely answers: a per-entry limit, a rule that cross-ability cues live on the §3.4 bars
-  rather than the icons, or both. Decide it against a drawn catalog.
-- **How is polarity drawn?** A negative cue must read as *hold* at a glance and must not
-  be mistakable for any tier. Whether that is a colour, a shape, a position, or a
-  treatment on the icon itself is unresolved and is a visual-design question, not a
-  vocabulary one.
+  rather than the icons, or both. ⚠ **What the renderer carries today is a milestone fact
+  and not an answer** — which markers exist is in `backlog.md` → *The drawing rungs*, and a
+  cue with no marker reports `nodraw`. The alternative surface the question rests on,
+  §3.4's bars, does not exist yet: decide it once they do and a catalog has asked for more
+  than an icon can carry.
 - **How much does a demoted ability show?** A demoted Demonbolt should be visibly
   less urgent, but it must not become invisible — losing the proc entirely is worse
-  than an over-loud one. The floor is a design question, not a technical one.
+  than an over-loud one. §3.1 draws the floor as a dim, slow ring rather than a
+  disappearance, which is a shape for the answer and not the answer: whether it reads as
+  demoted at all, and whether a graded one reads as MEDIUM, are both open. The floor is a
+  design question, not a technical one.
 - **What does cap show when the right answer has no icon?** Open in general, but
   **not on Demonology** — the filler is tracked there after all (Shadow Bolt is an
   Essential row, with Infernal Bolt riding it as an override), so LOW has something to
@@ -710,9 +817,10 @@ then the surfaces that reuse it.
 | MC | §3.5 the catalog format, and Demonology's | ✅ 2026-08-05 |
 | M3 | §3.1 the tier signal + §3.2 procs, on the Demonology catalog | — |
 | M3a | Lab the client claims M3 rests on; the pure core | ✅ 2026-08-07 |
-| M3b | The gates read and the tiers computed, nothing drawn | — |
-| M3c | §3.1's graded register — cap's own overlay | — |
-| M3d | §3.1's threshold register — the Implosion cue | — |
+| M3b | The gates read and the tiers computed, nothing drawn | ✅ 2026-08-07, flown |
+| M3c | §3.1's graded register — cap's own overlay | built 2026-08-08, not flown |
+| M3d | §3.1's threshold register — the cues, drawn by the client | built 2026-08-08, not flown |
 | M3e | §3.2 procs, and the honesty measurement | — |
 | M4 | §3.4 smart cooldowns — bars, then the tier signal applied to them | — |
+| M4a | The bars themselves — a duration per roster entry, the time text, the tier on the fill | built 2026-08-10, not flown |
 | M5 | §3.3 sequences (Demonology catalog) | — |
