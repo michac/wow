@@ -43,7 +43,43 @@ nothing survives, "nothing; superseded by <X>" and stop.
 
 ---
 
+## 2026-08-11 — Phase 9 gained a second catalog and a sealed 12.1 path
+
+**What changed.** The source pass named Demonbolt, Tyrant and the Tyrant setup dots as the
+canonical readable authoring examples, added the minimal Destruction / Diabolist catalog, and
+replaced the retired 12.0 stack-text acquisition with a declarative AuraContainer Backdraft
+display. Conflagrate used a small exact-seed/cast/charge-alert estimate whose captures retained
+live versus napkin provenance. The catalog admitted exactly one readable or sealed marker form,
+and the project instructions gained the compact next-spec route. `spec.md`, `backlog.md`,
+`flight-reading.md`, `demonology/catalog.md`, `destruction/catalog.md`, project `CLAUDE.md`,
+`Catalog.lua`, both catalogs, `Signal.lua`, `Track.lua`, `Sense.lua`, `Channel.lua`,
+`Overlay.lua`, tests.
+
+**Why it still binds.** The second catalog reused shared emphasis and marker paths without
+spec-specific renderer code, while sealed Backdraft applications remained outside Lua
+predicates and charged readiness remained explicitly estimated after its exact seed.
+
+**Caveat.** The combined CAP build had not flown; Tyrant-bar usefulness, Conflagrate state
+changes and the Backdraft marker still required player judgment.
+
+## 2026-08-11 — the tier-preserving correction
+
+**What changed.** The failed simplification plan was archived after review found that its
+A1/A2 choice coupled removal of implementation complexity with removal of the discrete
+priority tiers the product wanted. The replacement plan restored ASAP / SOON / FALLBACK as
+multi-entry categories while retaining the smaller pilot and the valid simplifications.
+`simplification-plan.md`, `archive/simplification-plan-2026-08-11.md`, `spec.md`,
+`backlog.md`, `discussion.md`, `demonology/catalog.md`.
+
+**Why it still binds.** The correction separated two decisions the first pass had conflated:
+tiers expressed useful relative guidance, while continuous grades, mandatory cue coupling,
+motion policy, exhaustive coverage and automatic sequences were independent complexity.
+
+**Caveat.** The corrected tier pixels still required mechanical checks and an in-game flight.
+
 ## 2026-08-11 — the small pilot replaced the tier engine
+
+⚠ **SUPERSEDED in part:** the small pilot remained, but removing discrete tiers did not.
 
 **What changed.** The approved Phase 3–5 migration replaced the ten-entry tier/cue catalog
 with two enhanced entries and two readable dependencies. The source moved to unknown-safe
@@ -62,6 +98,8 @@ masquerading as universal engine guarantees.
 stock-glow coexistence, marker usefulness and the bar's value remained Phase 5 judgments.
 
 ## 2026-08-11 — the product returned to §1
+
+⚠ **SUPERSEDED in part:** the safety and scope decisions remained; binary emphasis did not.
 
 **What changed.** The simplification audit completed and the author approved its recommended
 A1–G1 direction. `spec.md` was rewritten after §1 around one static emphasis, readable-first

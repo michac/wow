@@ -1,3 +1,7 @@
+-- RETIRED FROM ClientLab.toc ON 12.1. This settled 12.0 design tool retains and
+-- decorates live Cooldown Manager frames, which now participate in secure aura
+-- plumbing. Keep this source only as historical design work.
+--
 -- Glow — a highlight picker. One candidate at a time on a sample square and on the
 -- live Cooldown Manager, in cap's tier hues, stepped with next/prev.
 --

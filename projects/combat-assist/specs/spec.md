@@ -13,7 +13,7 @@ not to infer it from the code.
 tell you more without telling you what to press.
 
 Blizzard's position on combat addons is that they should not be decision engines.
-The 12.0 restrictions are that position expressed as code: an addon can *display*
+The 12.1 restrictions are that position expressed as code: an addon can *display*
 your combat state but can't read it back to reason about it. Rather than fight
 that, cap treats it as the design brief. **cap presents information you already
 have, differently.**
@@ -21,7 +21,7 @@ have, differently.**
 **Three principles. Everything else in this file is downstream of them:**
 
 - **a)** **cap does not fight the secret restrictions.** The gate/channel split
-  (§3.5) already expresses this, and it is the one line worth enforcing in code.
+  (§3.6) already expresses this, and it is the one line worth enforcing in code.
 - **b)** **cap freely uses non-secret information to give good hints.** Whatever the
   client hands an addon in the clear is fair material, and using it well is the job.
 - **c)** **cap does not try to *always* present a single best decision.** This is
@@ -44,9 +44,10 @@ Underneath them, three moves, in order of preference:
    you.
 
 The central expression of move 2 is the **tier signal** (§3.1): every ability cap
-has an opinion about carries an emphasis level, several things can be emphasised
-at once, and you pick. **How many are lit at any one moment is a property of the
-spec and the situation, not a quota** — which is principle (c).
+has an opinion about may carry a broad priority category, several things can occupy
+the same or different categories at once, and you pick. **How many are lit at any
+one moment is a property of the spec and the situation, not a quota** — which is
+principle (c). The tiers guide choice without manufacturing one winner.
 
 cap is **opinionated, not configurable**. You get recommendations derived from
 your class and spec, chosen by us. It is deliberately not WeakAuras: there is no
@@ -79,17 +80,25 @@ requires cap to branch on sealed data, or prevents a useful hint from readable d
 
 ### 3.1 Emphasis
 
-cap may place one **emphasis** treatment on an ability it has a useful opinion about. No
-named HIGH / MEDIUM / LOW ladder exists. An ability is emphasized or it is not; readable
-facts may vary the strength inside that treatment when a gradual distinction helps.
+cap may assign one of three discrete **emphasis tiers** to an ability it has a useful opinion
+about:
 
-Emphasis is not a quota and not a promise that exactly one option will be lit. Several
-abilities may be emphasized, one may be, or none may be. cap does not rank emphasized
-abilities against each other.
+- **ASAP** — a high-priority opportunity to act on as soon as practical;
+- **SOON** — a valuable opportunity that is not presently the highest category;
+- **FALLBACK** — a reasonable option when no higher-tier signal deserves attention.
 
-The baseline treatment is static. Color, alpha, blend mode, size and interaction with
-Blizzard's proc glow are tuning hypotheses until judged in the game. Motion is added only to
-solve a specific observed problem.
+The tiers are ordered categories, not a complete rotation. Several abilities may occupy any
+tier at once, including FALLBACK, and cap does not manufacture a winner within a tier. One
+ability may be the only highest-tier option when the readable facts genuinely support that
+answer.
+
+An authored entry uses readable facts to select its first matching tier. It may have no tier
+when no condition holds or a required read is unknown. Tier selection is discrete: the player
+does not compare small brightness differences within one tier.
+
+The baseline treatments are static and visibly distinct. Color, alpha, blend mode, size and
+interaction with Blizzard's proc glow are tuning hypotheses until judged in the game. Motion
+is added only to solve a specific observed problem.
 
 An ability cap does not enhance remains visually untouched. cap does not dim the rest of the
 Cooldown Manager merely to make its own signals look stronger.
@@ -102,7 +111,8 @@ facts into a single verdict.
 - A **readable marker** is driven directly by a fact Lua may read. It needs no sealed client
   half. Tyrant setup dots are the first example.
 - A **sealed marker** is optional. The client may evaluate a sealed value and draw the result,
-  but Lua never reads that value or branches on it.
+  but Lua never reads that value or branches on it. A catalog marker has exactly one form:
+  readable `{ id, when }`, or sealed `{ id, display }`.
 - A **hold marker** is context that says there is a reason to wait. It is visually distinct
   from emphasis and does not silently turn an available ability into an unavailable one.
 
@@ -131,21 +141,41 @@ The first pilot is deliberately small:
 
 | Ability | Player problem | Initial hypothesis |
 | --- | --- | --- |
-| **Demonbolt** | Blizzard's proc glow says available even when using the proc would waste readable Soul Shards. | Show one static emphasis for a live proc and vary its strength from readable shard state. Exact thresholds and stock-glow handling are chosen through play. |
-| **Summon Demonic Tyrant** | Readiness alone does not show whether familiar setup pieces are present. | Show one base emphasis while Tyrant is ready. Add separate readable markers for Dreadstalkers and Grimoire setup facts; do not combine them into a press/don't-press verdict. |
+| **Demonbolt** | Blizzard's proc glow says available even when using the proc would waste readable Soul Shards. | Put a live proc in SOON at low readable shards and FALLBACK otherwise. Exact threshold and stock-glow handling are chosen through play. |
+| **Summon Demonic Tyrant** | Readiness alone does not show whether familiar setup pieces are present. | Put a ready Tyrant in SOON. Add separate readable markers for Dreadstalkers and Grimoire setup facts; do not combine them into a single verdict. |
 | **Tyrant bar** | The icon may be too small to make the next burst window legible. | Test one independent countdown bar as described in §3.3. |
 
 Everything else begins absent. An ability is added only after naming the player problem its
 hint solves. Gameplay facts come from authoritative rotation sources; usefulness comes from
 play.
 
-### 3.5 Safety boundary
+### 3.5 Destruction authoring proof
+
+Destruction / Diabolist is the second deliberately small catalog. It enhances only
+Conflagrate and adds Backdraft as an independent context dependency:
+
+| Ability | Player problem | Initial hypothesis |
+| --- | --- | --- |
+| **Conflagrate** | Its native count and swipe do not add readable Soul Shard context. Exact charges seal once recharge begins. | From an exact out-of-combat seed, put an estimated available charge in SOON at four or fewer readable Soul Shards and FALLBACK above four. Withhold the tier when the estimate is zero or unknown. |
+| **Backdraft** | The native aura count may be away from the Conflagrate row where the choice is made. | Let Blizzard display the application count at two stacks as independent context. It does not change Conflagrate's tier and does not encode press or hold. |
+
+The charged-readiness estimate is intentionally small: exact current/max/recharge seed out of
+combat, successful player casts as debits, and accepted `ChargeGained` alerts as credits. It
+is clamped and re-seeded when combat ends. Captures distinguish exact `live` state from the
+in-combat `napkin`; the player surface does not claim exactness beyond availability.
+
+### 3.6 Safety boundary
 
 The implementation distinguishes two data paths:
 
 - **Readable facts** may enter Lua conditions and drive emphasis or markers.
 - **Sealed facts** may flow only into client-owned display sinks. They never enter a Lua
   condition, comparison, score or verdict.
+
+The first sealed form is `player-aura-stacks`: a declared player-aura dependency and a
+minimum of two. Blizzard's AuraContainer writes the application text directly into a static,
+outlined FontString. CAP may report only `offered`, `armed`, or `refused`; it cannot report
+whether the secret-driven glyph appeared.
 
 A refused readable fact is **unknown**, not false. Unknown input produces no confident hint,
 and negation never turns unknown into confidence.
@@ -183,7 +213,7 @@ Secret Values and combat lockdown bound the implementation. The authoritative fa
   client-owned sink.
 - Combat lockdown decides when binding, placement and protected-frame work may happen.
 
-The product consequence is §3.5. The source may enforce that boundary and safe failure. It
+The product consequence is §3.6. The source may enforce that boundary and safe failure. It
 must not turn provisional gameplay or visual opinions into platform rules.
 
 ## 6. How a hypothesis becomes a feature

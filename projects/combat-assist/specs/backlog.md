@@ -10,41 +10,52 @@ The live addon version comes from `wowkb.addon list`, never from prose here.
 
 This is the project's only implementation-status source.
 
-- The source has migrated to the approved small pilot: Tyrant and Demonbolt are the only
-  enhanced entries; Dreadstalkers and Grimoire are readable Tyrant dependencies; unclaimed
-  CDM rows need no silence declaration.
+- Demonology remains the small pilot: Tyrant and Demonbolt are its only enhanced entries;
+  Dreadstalkers and Grimoire are readable Tyrant dependencies.
+- The corrective pass restored ASAP / SOON / FALLBACK without restoring continuous grades,
+  pulse policy, exhaustive coverage or automatic sequences.
+- Phase 9's source pass adds the minimal Destruction / Diabolist proof: Conflagrate tiers from
+  readable shards and a seeded charge estimate, plus an independent sealed Backdraft count
+  through Blizzard's 12.1 AuraContainer path. It has not flown as a CAP build.
 - The engine supports only the readable predicates the pilot uses, propagates unknown safely,
-  draws a static border and two fixed context dots, leaves Blizzard's proc glow intact, and
-  owns one independent Tyrant bar.
+  draws static tier borders and two fixed context dots, leaves Blizzard's proc glow intact,
+  and owns one independent Tyrant bar.
 - Engine guarantees and provisional Demonology examples are separate test groups. The old
   tier/channel policy suite and its visual-taste assertions are gone.
-- Simplification Phases 0–4 are complete. Phase 5's static baseline is built and mechanically
-  tested but has not been judged in game. No release or deployment is implied.
+- The combined Demonology/Destruction checkpoint has not been judged in game. No
+  release or deployment is implied.
 
 ## Now
 
-### Phase 5 checkpoint — static baseline
+### Corrective pass — tier-preserving simplification
+
+- [x] Archive the failed simplification plan and record the false binary it presented.
+- [x] Restore the discrete tier contract in the spec, catalog, engine and mechanical tests.
+- [x] Reconcile the flight guide around categorical tier recognition rather than graduated
+      brightness.
+
+### Checkpoint — static tier baseline
 
 - [ ] Install a test build only after separate release approval, then fly the questions in
       `flight-reading.md` → `Phase 5 checkpoint flight`.
-- [ ] Judge brightness, contrast, size, stock-proc coexistence and whether both setup facts
-      are identifiable and useful.
+- [ ] Judge whether ASAP / SOON / FALLBACK are immediately distinguishable, plus brightness,
+      contrast, size, stock-proc coexistence and whether both setup facts are identifiable.
 
 ### Phase 3 — catalog and source migration (complete)
 
-- [x] Replace the tier/band/cue ontology with the smallest contract needed for one emphasis,
-      readable markers, optional sealed display bindings and one independent bar. §3.
+- [x] Remove continuous grades, cue coupling and the rest of the old tier ontology while
+      retaining readable markers, optional sealed display bindings and one independent bar.
 - [x] Re-author Demonology around Demonbolt, Tyrant and the Tyrant bar only; remove every
       ability without a named pilot problem. §3.4.
 - [x] Make readable-only Tyrant setup markers first-class. Keep sealed values out of every Lua
-      branch. §3.2, §3.5.
+      branch. §3.2, §3.6.
 - [x] Remove exhaustive silence coverage and treat unclaimed rows as optional diagnostics.
-      §3.5.
+      §3.6.
 - [x] Remove unused or unwired `talent`, `elapsed` and `casts` vocabulary plus automatic
-      sequence preparation. §3.5, §4.
+      sequence preparation. §3.6, §4.
 - [x] Admit no sealed display binding until one has a live renderer; no successful `nodraw`
       form.
-      §3.2, §3.5.
+      §3.2, §3.6.
 - [x] Replace the four-bar roster with one independent Tyrant bar that does not inherit icon
       treatment. §3.3.
 - [x] Update capture fields only where the smaller live model requires it; preserve the shared
@@ -62,17 +73,19 @@ This is the project's only implementation-status source.
 - [x] Keep the Python release runner invoking the suite; it enforces mechanics, not
       product prose.
 
-### Phase 5 — static visual baseline
+### Static visual baseline
 
-- [x] Draw one static emphasis and two fixed readable context markers as a flight hypothesis.
+- [x] Draw three static tier treatments and two fixed readable context markers as a flight
+      hypothesis.
 - [x] Remove default pulse behavior and unsupported flash-safety arithmetic.
 - [x] Leave stock proc glow intact for the baseline and record that route explicitly.
-- [ ] Ask for an in-game judgment of brightness, contrast, size and marker readability.
+- [ ] Ask for an in-game judgment of tier recognition, brightness, contrast, size and marker
+      readability.
 
 ### Phase 6 — small Demonology pilot
 
-- [ ] Fly Demonbolt emphasis across low and high readable shard states.
-- [ ] Fly Tyrant base emphasis with separate Dreadstalkers and Grimoire context markers.
+- [ ] Fly Demonbolt's SOON / FALLBACK transition across low and high readable shard states.
+- [ ] Fly Tyrant's SOON tier with separate Dreadstalkers and Grimoire context markers.
 - [ ] Fly the independent Tyrant countdown bar and decide whether it earns its screen space.
 
 ### Phase 7 — qualitative iteration
@@ -89,6 +102,74 @@ This is the project's only implementation-status source.
 - [x] Re-derive the Demonology catalog reference around the small pilot.
 - [ ] Collapse migration history into `notes.md`, reconcile this status, and delete or archive
       the temporary plan and audit.
+
+### Phase 9 — canonical spec-authoring examples
+
+Make the next spec primarily a gameplay-authoring job rather than another tour through the
+Secret Values and Cooldown Manager APIs. Do this with a few concrete vertical examples and
+small reusable helpers—not a generalized APL DSL, capability registry or vocabulary for
+mechanisms no authored experience uses.
+
+#### 9.1 Name and preserve the examples that already exist
+
+- [x] Treat Demonbolt as the canonical **readable proc + secondary resource → emphasis tier**
+      example. Keep the catalog opinion in `Catalogs/Demonology.lua`, the unknown-safe
+      evaluation in `Signal.lua`, and all pixels in the shared treatment/overlay path.
+- [x] Treat Tyrant as the canonical **readable readiness → emphasis tier** example and its two
+      setup dots as the canonical **readable fact → context marker** example. Make the source
+      comments name the reusable seam without turning the provisional Demonology opinion into
+      engine policy.
+- [ ] Treat the Tyrant bar as the canonical **spell duration object → client-owned countdown**
+      example if the checkpoint flight says the surface earns its space. If it does not, retain
+      the duration-object recipe in the addon-dev KB rather than preserving dead product code as
+      an example.
+
+#### 9.2 Establish one real sealed-marker vertical slice
+
+- [x] Choose an approved player problem whose useful fact is sealed and whose marker can inform
+      a choice without becoming a next-action verdict. Amend `spec.md` and the relevant spec
+      catalog before building it; do not invent a dummy production marker solely to exercise an
+      API.
+- [x] Carry that one example through the implemented vertical slice: declare the aura dependency,
+      let Blizzard's AuraContainer acquire it, and hand its application count directly to the
+      FontString sink. Lua never receives or reads back the sealed value.
+- [x] Generalize only the seams the completed example actually repeats: marker construction and
+      placement belong in the shared renderer; aura/cooldown/totem acquisition and curve guards
+      belong in small mechanism helpers; the gameplay threshold and meaning remain in the spec
+      catalog/module.
+- [ ] Fly the marker in restricted combat in the combined CAP build. Record the player's visual
+      judgment first and use the capture only to prove which route armed; an accepted secret
+      sink is not evidence that a pixel appeared.
+
+#### 9.3 Build a small pattern shelf as real specs require it
+
+- [x] Remove the obsolete 12.0 `Channel.StackText` acquisition path. Backdraft is the canonical
+      **AuraContainer applications → sealed FontString** example on 12.1.
+- [ ] Make the first real use of each duration source its canonical example: spell cooldown via
+      `C_Spell.GetSpellCooldownDuration`, aura via `C_UnitAuras.GetAuraDuration`, and totem via
+      `GetTotemDuration`. Share curve and sink plumbing only after the examples demonstrate the
+      same shape; keep source-specific identity and liveness work explicit.
+- [ ] When a spec needs a new readable fact, add one narrow, unknown-safe provider with one
+      characterization example. Prefer established client verdicts such as cooldown `isActive`,
+      CDM alert state, proc state, aura/bar liveness and `IsSpellUsable` over reconstructing a
+      sealed value.
+- [x] Add focused mechanical tests for charge seeding, spending, gaining, duplicate refusal,
+      clamping and reseeding; marker union validation, sealed-data isolation, dependency binding,
+      unsupported displays and legal sink routing; and provisional Destruction states.
+
+#### 9.4 Leave a short authoring route for the next spec
+
+- [x] Add a compact “authoring another spec” route to the project `CLAUDE.md`: start from the APL,
+      list the facts each useful rule needs, classify each as readable / sealed-display-only /
+      unavailable, map readable facts to broad tiers and sealed facts to independent context,
+      then point each mechanism to its canonical source example and addon-dev evidence.
+- [x] Keep the route honest about where normal Lua is expected. A new spec may compose existing
+      patterns directly; a genuinely new Blizzard mechanism gets researched once, written into
+      `knowledge/addon-dev/`, and becomes a shared helper only after a concrete vertical slice
+      proves it.
+- [ ] Definition of done: a second authored spec can reuse emphasis and at least one context-
+      marker pattern without editing the shared renderer, while any engine change it does require
+      is a small named mechanism rather than spec-specific Blizzard API plumbing.
 
 ## Ideas
 

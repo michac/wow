@@ -1426,7 +1426,7 @@ read the viewer's own `IsShown()` for that, and let the row count mean *configur
 | `C_SpellActivationOverlay.IsSpellOverlayed` | **`[client]`** readable in combat |
 | `C_AssistedCombat.GetNextCastSpell` | **`[client 2026-08-01]`** ⚠ *evidence gone — capture off the ring, no surviving extract* — readable — a plain number in combat and out. See below: readability is proven, usefulness is not |
 | `C_Spell.GetSpellCooldown` | **`[client 2026-08-09]`** **not sealed whole** — a plain table whose members seal individually. `isEnabled` / `isActive` / `isOnGCD` read plain in restricted combat; `startTime` / `duration` / `modRate` are secret. See below |
-| `C_Spell.GetSpellCharges` | **`[client]`** its **charge count** reads plain **out** of combat and not **in**. Whether the rest of `SpellChargeInfo` seals with it, the way `GetSpellCooldown`'s struct does not, is **unmeasured** — see below |
+| `C_Spell.GetSpellCharges` | **`[client 2026-08-11]`** a plain table whose members seal by state. Conflagrate at 2/2 was wholly readable even in restricted combat; at 1/2 and 0/2 its current count and recharge values were secret, while `maxCharges=2` and `isActive=true` stayed plain. See below |
 | `C_Spell.GetSpellCooldownDuration(spellIdentifier, ignoreGCD)` | **`[client 2026-08-09]`** returns a `LuaDurationObject` in restricted combat, `HasSecretValues()` plain `true`, every getter on it secret. See below |
 | `C_UnitAuras.Get*` | The `AuraData` record is secret when restricted. Three getters carry a **per-aura** `RequiresNonSecretAura` precondition — but its failure behaviour is undocumented, see below |
 
@@ -1460,12 +1460,30 @@ booleans** — and it stays true. `C_Spell.GetSpellCooldown(id).isActive` is a p
 on a different surface. So: an addon that must **branch** on readiness has this call, and an
 addon that must **draw** remaining time has the duration object.
 
-⚠ **`GetSpellCharges` is a separate question and it is unmeasured.** The sweep above had no
-charged ability in the tracked set, so `C_Spell.GetSpellCharges` returned nothing on all 90
-in-combat samples — which says nothing about whether `SpellChargeInfo` seals per member the
-way `SpellCooldownInfo` does. Its `maxCharges` and `isActive` carry `NeverSecret = true`
-`[T1 docs: SpellSharedDocumentation.lua:5-17]`, so the same shape is plausible; plausible is
-not measured.
+**`GetSpellCharges` also seals per member—and per state.** `[client 2026-08-11]` A direct
+Conflagrate `17962` characterization started from an exact 2/2 seed and sampled again at
+combat entry, 1/2, and 0/2. The returned table itself stayed plain throughout. At 2/2 in
+restricted combat every sampled member was readable: `currentCharges=2`, `maxCharges=2`,
+`cooldownStartTime=0`, `cooldownDuration=9.326`, `chargeModRate=1`, `isActive=false`. At
+both 1/2 and 0/2, `currentCharges`, start, duration, and rate were secret; `maxCharges=2`
+and `isActive=true` remained plain. This matches the two `NeverSecret` annotations
+`[T1 docs: SpellSharedDocumentation.lua:5-17]` but establishes the runtime shape they did
+not state.
+
+**Therefore `isActive` is recharge state, not charged readiness.** It distinguishes full
+2/2 from recharging, but deliberately collapses castable 1/2 and uncastable 0/2. An addon
+may seed exact count and recharge duration while full/out of combat, but once recharge
+begins it needs a bounded estimator to branch on “at least one charge”; the client-owned
+Cooldown Manager can still display the sealed exact count and swipe.
+
+That last sentence is deliberately narrower than “custom charge context is impossible.”
+The shipped surface separately offers a sealed display string through
+`C_Spell.GetSpellDisplayCount`, and a client-owned next-charge duration through
+`C_Spell.GetSpellChargeDuration`; `FontString:SetText` and
+`Cooldown:SetCooldownFromDurationObject` are their corresponding sinks. Source inspection
+supports both compositions and ordinary Cooldown styling remains available around the
+duration sink, but their actual restricted-combat pixels are a visual question.
+`@pending-test: conflagrate-charge-context-displays`
 
 **`C_Spell.GetSpellCooldownDuration` bypasses the CDM entirely and survives restricted
 combat.** It takes a spell identifier and `ignoreGCD` and returns a `LuaDurationObject`

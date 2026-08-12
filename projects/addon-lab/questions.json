@@ -11,7 +11,7 @@
    "not-answerable": "no instrument can settle it and the reason is recorded in `expect`, so it is not re-attempted. `blocked_on` may still name what a DIFFERENT instrument would need — a desktop file read is not a ClientLab job, but it is not nothing either."
   },
   "cross_check": "`wowkb.lab deploy` asserts every `built` id here has a ns.Test{} and every ns.Test{} id is a `built` question. An unmatched id is a loud error, never a silent skip. An `answered` id still present in the Lua fails BY NAME — that is the direction the suite grows back in, and it is the one worth naming.",
-  "counts_as_of": "2026-08-06 (after M2a — the four client claims a CDM binding and a movable panel were resting on, measured and drained): 55 answered, 7 built, 17 parked, 3 not-answerable (total 82). The six statuses collapsed to four here — `deferred`, `deferred-w1d` and `candidate` all said 'nobody got to it', which is not a state worth three names. `wowkb.lab deploy --check` refuses a status outside the four. The 7 remaining `built` rows are the whole live suite: 3 declare `blocked_on` and can only decline (one of those is the aspect-less eyeball channel), and 4 want a game situation nobody has been in — a CallbackEvent firing, a hero-tree swap, a value-sampled pull.",
+  "counts_as_of": "2026-08-11: 61 answered, 1 built, 27 parked, 3 not-answerable (total 92). Seven pre-12.1 probes were returned to parked when their automatic runner tainted the secure Cooldown Viewer during login; their question recipes remain here, but their executable probes were deleted. The focused AuraContainer and GetSpellCharges questions were answered and their one-shot probes deleted after the findings landed; one visual Conflagrate charge-context probe is queued.",
   "anchor_form": "<file under knowledge/addon-dev/>:<line>. `also` lists further anchors that ask the same question — one test, several places in the KB to edit when it is answered.",
   "anchor_drift": "Anchors are `<file>:<line>` and LINE NUMBERS MOVE — the KB cleanup of 2026-08-05 silently drifted several. The `id` is the durable key; an anchor is a convenience. Treat a stale anchor as a lint finding, not as evidence the question is gone. ⚠ Nothing validates anchors today; that check belongs in `wowkb.lab deploy --check`.",
   "note_field": "Free text on a question that has been flown but not drained, or is otherwise not in the state its `status` alone suggests. It exists so 'we looked and chose not to' is distinguishable from 'nobody has looked'.",
@@ -348,7 +348,7 @@
    "id": "secret-op-bool-test-boolean",
    "anchor": "security-taint-and-restricted-data.md:729",
    "bucket": "secret",
-   "status": "built",
+   "status": "parked",
    "question": "§4.2 row 8 — boolean test (`if v then`) on a BOOLEAN secret.",
    "expect": "Errors, per Tier 2 — the last unmeasured row of the operation table. The source is `LuaDurationObject:HasExpired(RealTime)`, measured a SECRET BOOLEAN in combat [client 2026-08-06], which is what unblocked this row: it was registered on the grounds that every secret this client hands an addon is a cooldown number, and that is now false. Three preconditions each record `measured = false` with a reason rather than a verdict — nothing on cooldown, a non-boolean return, or a plain return."
   },
@@ -443,7 +443,7 @@
     "libraries-and-ecosystem.md:792"
    ],
    "bucket": "call",
-   "status": "built",
+   "status": "parked",
    "question": "What happens when a Secret Value reaches AceSerializer-3.0 / LibSerialize / LibDeflate? None of the three tests for secrets; AceSerializer's type dispatch ends in `error(MAJOR..\": Cannot serialize a value of type '\"..t..\"'\")`.",
    "expect": "AceSerializer sees the real type via `type()` (row 14) and takes a normal branch, then errors inside it on a concat/format/length — so the observed failure is a confusing message from the wrong place. Deferred from pass 1 because it needs the three libraries VENDORED into the lab; the §4.2 rows measure the underlying operations first, which is most of the answer.",
    "blocked_on": "LibStub loaded"
@@ -470,7 +470,7 @@
    "id": "synchronous-event-semantics",
    "anchor": "api-events-and-discovery.md:279",
    "bucket": "event",
-   "status": "built",
+   "status": "parked",
    "question": "What do the `SynchronousEvent` / `unique` flags mean? Neither string is documented anywhere reachable — not in the generated docs' Documentation field, not in Blizzard_APIDocumentation, not in Blizzard_EventTrace, and the wiki has no page.",
    "expect": "The natural reading (synchronous = dispatched inline; non-synchronous = queued; unique = coalesced to at most one queued instance) is inference, not evidence. Testing it needs firing an event from a known call frame and timestamping the handler — bucket 2, and it may not be reachable from an addon at all.",
    "note": "BUILT but it can only ever report measured=false for the flag question, and that is the honest state, not a stub. Two independent blockers: no runtime predicate exposes SynchronousEvent/UniqueEvent the way C_EventUtils.IsCallbackEvent exposes CallbackEvent, so even a positive observation could not be tied to a flag; and no event is raisable from a known call frame without writing client state (SetCVar/LoadAddOn) or a server round trip, where latency is indistinguishable from queueing. What it DOES measure is the C_EventUtils namespace — if a patch ever adds such a predicate, this test finds it."
@@ -493,7 +493,7 @@
    "id": "event-callback-nil-owner",
    "anchor": "api-events-and-discovery.md:1259",
    "bucket": "event",
-   "status": "built",
+   "status": "parked",
    "question": "Is the leading `_nilOwner` argument to a RegisterEventCallback handler a contract, or six consistent conventions? Is it ever non-nil?",
    "expect": "The generated docs declare `EventCallbackType` with NO fields at all, so there is no spec to read. Six shipped call sites all discard a leading arg. Needs registering a callback and inspecting arg 1."
   },
@@ -934,7 +934,7 @@
     "security-taint-and-restricted-data.md:1471"
    ],
    "bucket": "secret",
-   "status": "built",
+   "status": "parked",
    "question": "Do the ASPECT-LESS secret sinks actually move a pixel? `Texture:SetAtlas` and `AnimVertexColor:SetStartColor`/`SetEndColor` accept a Secret Value, declare no `SecretArgumentsAddAspect`, expose no getter, and leave the anchor chain clean — so 'accepted, nothing observable changed' is the strongest statement any instrument can make. Only an eyeball can close it. (`SetTexture` REFUSES and `SetColorTexture` POISONS the anchor chain — both are settled and are NOT part of this question.)",
    "expect": "Set each from a known secret whose value is inferable from context (e.g. a boolean-ish count at a threshold), and LOOK. Either the atlas/colour visibly tracks the secret — in which case these are real display channels with no readback, and the KB's channel table gains two rows — or nothing moves, and 'accepted' means the call was silently dropped. ⚠ There is no programmatic oracle by construction: do not build one, and do not accept an INERT verdict as evidence either way.",
    "blocked_on": "a secret that is itself a valid atlas name",
@@ -984,7 +984,7 @@
    "id": "traitconfig-fires-on-hero-swap",
    "anchor": "../../knowledge/_meta/kb-inbox.md:140",
    "bucket": "call",
-   "status": "built",
+   "status": "parked",
    "question": "Does `TRAIT_CONFIG_UPDATED` fire on a HERO-TREE swap (which changes the build without changing the spec), and how many times per loadout swap? `PLAYER_SPECIALIZATION_CHANGED` demonstrably does not, so a hero-tree cache keyed to it goes stale.",
    "expect": "Reasoned from the event's purpose, NOT observed — that is why it is here. Register both events plus `TRAIT_CONFIG_UPDATED`, log every firing with `C_ClassTalents.GetActiveHeroTalentSpec()` beside it, then swap hero tree without swapping spec. Expect TRAIT_CONFIG_UPDATED n>1 and PLAYER_SPECIALIZATION_CHANGED n=0. The COUNT matters as much as the fact: anything it triggers must be idempotent and must not re-announce an unchanged answer. ⚠ Anchor is outside knowledge/addon-dev/ — the finding is parked in the game KB's inbox because it has no home topic file yet (that placement is itself an open KB-structure call).",
    "note": "Observational: an always-on listener installed at file load tallies PER-EVENT counts, so a reading requires an actual hero-tree swap during the session. A zero count reports measured=false, never 'it does not fire'."
@@ -1029,7 +1029,7 @@
    "id": "assisted-combat-next-cast-varies",
    "anchor": "cooldown-manager.md:935",
    "bucket": "call",
-   "status": "built",
+   "status": "parked",
    "question": "Does C_AssistedCombat.GetNextCastSpell's return VARY over a pull, or is it constant? §7 proves it is readable in combat but recorded a constant 691 (Summon Felhunter) at every sample.",
    "expect": "UNKNOWN, and the instrument is the point. The 691 constant is NOT evidence the oracle is stuck: the recorder that produced it dedups by readability CLASS, so it sampled only at readable⇄secret transitions — of which there were none — and a value changing every GCD would have been recorded exactly once, indistinguishable from one that never changed. This samples on the player's own UNIT_SPELLCAST_SUCCEEDED instead, one sample per GCD boundary, paired with the cast that preceded it. distinctValues == 1 across a real pull means the oracle is constant and projects/combat-assist spec §3.1 has no content — that would kill M3 and force §6's first open question immediately. distinctValues > 1 means it moves, and whether it moves SENSIBLY is a judgement for a human reading the series, not for this test."
   },
@@ -1183,7 +1183,46 @@
    "question": "Does `item.auraDataUnit` on a CDM item frame supply the right `unit` alongside the same frame's `auraInstanceID` for `C_UnitAuras.GetAuraApplicationDisplayCount` — on a TARGET aura as well as a player one?",
    "expect": "It pairs, because both fields describe the same bound aura on the same frame and `auraDataUnit` is non-nil iff there is one. But that is a COMPOSITION of two separately measured facts and has never been run as a pair: the flown quantiser cue hardcoded `\"player\"`, which is correct for a self-buff and says nothing about a target aura. Method: read both fields off one frame and pass them together, on a row bound to a target debuff (Destruction's Immolate gives one) and on a player buff in the same pull. ⚠ The quantiser has NO READBACK — an empty string is what 'below the threshold' looks like as well as what a wrong unit would look like — so the oracle is an eyeball on a count that is known to be above the threshold, never the call's return.",
    "blocked_on": null,
-   "note": "EXERCISED FOR FREE by the upcoming cap flight, which is why no ClientLab test is queued for it: `Channel.StackText` reads `auraDataUnit` and `auraInstanceID` off the same item frame and refuses unless the unit is a plain string, so an armed cue with a visible count settles the PLAYER half. It cannot settle the target half — Demonology's only stack cue is Demonic Core, a self-buff — and cap's `C{}` reports armed/refused rather than whether a number appeared, so even the player half closes on the eyeball and not on the log. Re-read this row after that flight before deciding whether anything is left to test."
+   "note": "The old planned CAP route is obsolete on 12.1: aura instance IDs are secret and the sanctioned AuraContainer replacement was accepted by `aura-container-backdraft-stack-cue`. Keep this parked only for legacy composition evidence."
+  },
+  {
+   "id": "aura-container-backdraft-stack-cue",
+   "anchor": "security-taint-and-restricted-data.md:951",
+   "bucket": "secret",
+   "status": "answered",
+   "question": "Can a spell-ID-filtered 12.1 AuraContainer slot show a useful Backdraft context tile in restricted combat: icon and aura-duration swipe at one stack, no numeric count below two, then the client-produced count 2 at two stacks?",
+   "expect": "The tile appears when Backdraft is present, its duration swipe advances without addon Lua reading a duration, the application-count FontString is empty at one stack, and it displays 2 at two stacks. This is a visual question by construction: the AuraButton becomes forbidden while its AuraData is secret and IsShown is itself secret, so the test must not inspect the button, FontString text, visibility, or Cooldown after registration. A human verdict is the only oracle. Setup declares includeSpellIDs[117828], unit player, and registers SetIcon, SetDurationCooldown, and SetApplicationCount sinks during initializeFrame.",
+   "note": "Open the visual-check panel out of combat as Destruction, enter combat, and cast Conflagrate from zero Backdraft through one and two stacks. Leave combat before choosing the verdict so the panel can retire the formerly restricted stimulus safely. This gates Combat Assist Phase 9's sealed context cue and replaces the pre-12.1 auraInstanceID plan.",
+   "answered": {
+    "run": "2026-08-11 19:37:55",
+    "version": "0.2.5",
+    "obs": "OBS-065",
+    "tag": "[client 2026-08-11]"
+   }
+  },
+  {
+   "id": "spell-charges-conflagrate-members",
+   "anchor": "cooldown-manager.md:1463",
+   "bucket": "secret",
+   "status": "answered",
+   "question": "Which C_Spell.GetSpellCharges(17962) members remain readable in restricted combat, and does its NeverSecret isActive member distinguish Conflagrate at 2/2, 1/2, and 0/2 charges?",
+   "expect": "The returned table remains indexable; currentCharges, cooldownStartTime, cooldownDuration, and chargeModRate become secret in combat; maxCharges remains plain 2; isActive remains plain, false at 2/2 and true at both 1/2 and 0/2. That result would prove isActive describes whether recharge is running, exactly as the Tier-1 documentation says, and cannot replace a charged-readiness estimator because it does not distinguish castable 1/2 from uncastable 0/2. Any plain currentCharges result would remove the napkin entirely and must be treated as the important contrary finding.",
+   "note": "Start Destruction with Conflagrate exactly 2/2, reload, enter combat, then cast it twice quickly. The probe samples the direct spell API at the seed, combat entry, and after each successful cast. It never enumerates, hooks, retains, or reads a Cooldown Manager frame.",
+   "answered": {
+    "run": "2026-08-11 19:43:46",
+    "version": "0.2.5",
+    "obs": "OBS-066",
+    "tag": "[client 2026-08-11]"
+   }
+  },
+  {
+   "id": "conflagrate-charge-context-displays",
+   "anchor": "cooldown-manager.md:1479",
+   "bucket": "secret",
+   "status": "built",
+   "question": "Do the exact Conflagrate display count and a client-owned next-charge swipe render during restricted combat, and can ordinary styling visibly reverse and recolor that swipe?",
+   "expect": "At 2/2 the count shows 2 and the recharge swipes are clear. After each cast the exact count changes to 1 then 0 without addon readback. Both swipes track the next individual recharge; the right one is visibly teal and reversed. When the first charge returns the count becomes 1 and both duration-object swipes reset to the next active recharge. The probe uses GetSpellDisplayCount directly into FontString:SetText and GetSpellChargeDuration directly into two Cooldown:SetCooldownFromDurationObject sinks; it owns no timer and never reads a secret back.",
+   "note": "Open the visual-check panel out of combat as Destruction at exactly 2/2 Conflagrate. Enter combat, cast twice, and watch through one natural recharge. The single short verdict is only whether all three columns worked; report which column failed in chat if not. This tests presentation only and does not replace the separate finding that Lua cannot branch on exact count."
   }
  ]
 }

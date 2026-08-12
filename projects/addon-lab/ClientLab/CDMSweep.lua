@@ -1,4 +1,9 @@
--- CDMSweep — a generic value + event reader for every Cooldown Manager row.
+-- RETIRED FROM ClientLab.toc ON 12.1. CDMSweep was a generic value + event reader
+-- for every Cooldown Manager row. Its untrusted traversal of live Blizzard item
+-- frames predates the secure AuraContainer migration; loading it on 12.1 taints the
+-- Cooldown Viewer's auraInstanceIDToItemFramesMap when Blizzard next refreshes a row.
+-- Keep this source only as the historical recipe behind the already-drained 12.0
+-- observations. It must not return to the live lab without a new, declarative design.
 --
 -- It probes and records; it never judges.  Every expression the CDM exposes is read,
 -- classified by READABILITY, and written to a capture a human reads later.

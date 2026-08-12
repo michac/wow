@@ -1,6 +1,6 @@
 # Demonology Warlock — pilot catalog
 
-**Applies to:** Demonology (specID 266), Diabolist (hero tree 59), Midnight 12.0.7.
+**Applies to:** Demonology (specID 266), Diabolist (hero tree 59), Midnight 12.1.
 This is a provisional product characterization for play, not a claim that the rules are
 universally correct. `../spec.md` §3.4 owns the intended experience.
 
@@ -20,7 +20,10 @@ they do not receive cap pixels of their own. All other CDM rows are unclaimed an
 
 ### Tyrant
 
-- Emphasize while the Tyrant row is readable as ready.
+This is the canonical readable-readiness tier example; its dots are the canonical readable
+fact-to-marker example.
+
+- Put Tyrant in SOON while its row is readable as ready.
 - Show a left blue Dreadstalkers dot while the Dreadstalkers cooldown is running.
 - Show a right purple Grimoire dot while its CDM row is transformed.
 
@@ -31,12 +34,14 @@ context or too stale to earn pixels.
 
 ### Demonbolt
 
-- Emphasize while Blizzard exposes its proc state as active.
-- Vary the one treatment's alpha from readable Soul Shards: fewer shards produces stronger
-  emphasis; more shards produces weaker emphasis.
+This is the canonical readable proc-plus-secondary-resource tier example.
 
-There is no tier threshold. The flight decides whether this adds useful overcap context while
-remaining distinguishable from Blizzard's stock proc glow.
+- Put Demonbolt in SOON while Blizzard exposes its proc state as active and readable Soul
+  Shards are at most three.
+- Put the proc in FALLBACK at higher readable shard counts.
+
+The flight decides whether the discrete demotion adds useful overcap context while remaining
+distinguishable from Blizzard's stock proc glow.
 
 ### Tyrant bar
 
@@ -46,5 +51,6 @@ the icon's emphasis or either context dot. `../spec.md` §3.3 owns its safe-stat
 ## Contract boundary
 
 Lua conditions use only `ready`, `proc`, `identity`, and readable Soul Shards. Unknown never
-becomes confidence, including through negation. The catalog declares no sealed display form,
-silence list, tier, cue, elapsed counter, cast sequence, coverage rule, or future vocabulary.
+becomes confidence, including through negation. The catalog declares no continuous grade,
+sealed display form, silence list, cue, elapsed counter, cast sequence, coverage rule, or
+future vocabulary.

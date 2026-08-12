@@ -1,3 +1,8 @@
+-- RETIRED FROM ClientLab.toc ON 12.1. This settled 12.0 treatment tool discovers
+-- and retains live Cooldown Manager item frames. The 12.1 viewer's aura state is
+-- secure, so it must not run in the general-purpose lab. Keep the source only as
+-- the recipe behind drained observations.
+--
 -- Cue — a text-cue picker. Each treatment is drawn three times on one row: on a plain
 -- string, on a secret string fed through SetText, and on one fed through a
 -- DurationTextBinding. The difference between the columns is the experiment, and the

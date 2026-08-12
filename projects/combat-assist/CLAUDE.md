@@ -44,6 +44,26 @@ logout. `specs/flight-reading.md` describes what each current stream can and can
 Tests protect mechanical and platform guarantees. They do not turn product prose, gameplay
 opinions or visual taste into invariants.
 
+## Authoring another spec
+
+1. Start from the current authoritative APL and name the player problem each proposed hint
+   solves. Enumerate only the facts those rules require.
+2. Classify every fact as **readable**, **sealed-display-only**, or **unavailable** on the live
+   patch. A marked addon-dev unknown is a stop-and-ask, not permission to guess.
+3. Author readable facts into broad independent tiers and readable markers. Author sealed
+   facts only as independent context sent to an existing client-owned display sink; unavailable
+   facts produce no hint.
+4. Link every mechanism to its canonical source example and the evidence in
+   `knowledge/addon-dev/`: Demonbolt for proc plus resource, Tyrant for readiness and readable
+   markers, Conflagrate for charged readiness, and Backdraft for sealed player-aura stacks.
+5. Add a narrow shared mechanism only when the authored vertical slice needs one. Do not
+   prebuild aura/totem duration, target-aura, APL-DSL, capability-registry, or unused marker
+   vocabulary.
+
+Gameplay choices remain in `Catalogs/<Spec>.lua` and the matching `specs/<spec>/catalog.md`;
+unknown-safe evaluation remains in `Signal`, and pixels remain in shared treatment/overlay
+code. Fly the player judgment before reading captures.
+
 ## Releasing
 
 Releasing is always ask-first. A push alone does not reach the game; deployment installs the

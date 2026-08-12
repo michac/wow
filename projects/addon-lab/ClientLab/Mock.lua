@@ -1,3 +1,7 @@
+-- RETIRED FROM ClientLab.toc ON 12.1. This settled visual mock is completed product
+-- design rather than a live evidence question. Removing it keeps the lab load path
+-- limited to active tests and their evidence plumbing.
+--
 -- Mock — one candidate tier design, realised. Five real spell icons at true Cooldown
 -- Manager size: four tiers as a monotone ladder, then an animated number.
 --

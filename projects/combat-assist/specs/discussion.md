@@ -4,27 +4,28 @@
 the smallest live options and what would decide between them. Approved behavior belongs in
 `spec.md`; agreed work in `backlog.md`; completed reasoning in `notes.md`.
 
-The simplification decisions are settled: one emphasis rather than HIGH / MEDIUM / LOW,
-readable-only markers are first-class, catalogs name only enhanced abilities, automatic
-current/next sequences are removed, the baseline is static, the only bar experiment is
-Tyrant, and the pilot is Demonbolt plus Tyrant. Those choices are not reopened here.
+The corrected simplification keeps discrete ASAP / SOON / FALLBACK tiers while retaining the
+small pilot, readable-first markers, enhanced-abilities-only catalogs, no automatic
+current/next sequences, static baseline treatments and one Tyrant-bar experiment.
 
-## D18 — What static emphasis survives real icon art?
+## D18 — What static tier treatments survive real icon art?
 
-The baseline needs one treatment that is clearly more informative than Blizzard's stock proc
-glow without turning every enhanced icon into an alarm.
+The baseline needs three treatments that are categorically distinguishable across several
+icons without requiring comparison of small brightness differences. They must also remain
+distinct from Blizzard's stock proc glow.
 
 Smallest candidates:
 
-- a static ring outside the icon;
-- a static border or underlay with a different silhouette;
-- a restrained icon treatment combined with a separate context marker.
+- distinct static border colors with one shared geometry;
+- distinct border thickness or silhouette as a color-independent second channel;
+- a compact tier glyph paired with a restrained border.
 
-The first flight should compare brightness, contrast, size and stock-proc interaction on the
-actual CDM surface. No alpha, blend mode or geometry is approved before that look.
+The first flight should test categorical recognition, brightness, contrast, size and
+stock-proc interaction on the actual CDM surface. No alpha, blend mode or geometry is approved
+before that look.
 
-**Baseline under test:** a static three-pixel gold border outside the icon. Its exact paint is
-a disposable hypothesis until the Phase 5 flight.
+**Baseline under test:** static gold / blue / slate borders for ASAP / SOON / FALLBACK, with
+decreasing thickness. Their exact paint is disposable until the checkpoint flight.
 
 ## D19 — How should stock proc glow coexist with Demonbolt emphasis?
 

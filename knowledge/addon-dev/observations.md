@@ -1155,3 +1155,35 @@ Blizzard's cached wrapper" note beside the totem channel, immediately after the
 
 The source-read half is what drained. The effect figures above are closed as unresolvable —
 there is nothing left to drain them from.
+
+---
+
+## OBS-065 · 2026-08-11 · AuraContainer Backdraft context tile
+
+**Observed:** `aura-container-backdraft-stack-cue` — a **HUMAN VERDICT**: `{asked=Backdraft cue — at 1 stack do you see its icon/swipe with NO number, then at 2 stacks the number 2?, verdict=yes — 1 had icon/swipe only; 2 added the number 2}`
+
+**How:** ClientLab showed a stimulus and a person answered, **2026-08-11 19:37:55** (v0.2.5, interface ?), in combat, instance `none`. ⚠ **This is an eyeball verdict, not an instrument reading** — it is the only evidence class that can close this question, and it must never be cited as a measurement.
+
+**Expected (questions.json):** The tile appears when Backdraft is present, its duration swipe advances without addon Lua reading a duration, the application-count FontString is empty at one stack, and it displays 2 at two stacks. This is a visual question by construction: the AuraButton becomes forbidden while its AuraData is secret and IsShown is itself secret, so the test must not inspect the button, FontString text, visibility, or Cooldown after registration. A human verdict is the only oracle. Setup declares includeSpellIDs[117828], unit player, and registers SetIcon, SetDurationCooldown, and SetApplicationCount sinks during initializeFrame.
+
+**Confidence:** high — the client answered directly. Low only if the result contradicts `expect` in a way that suggests the test asked the wrong thing.
+
+**Drains to:** `security-taint-and-restricted-data.md:951`
+
+**Status:** drained 2026-08-11
+
+---
+
+## OBS-066 · 2026-08-11 · Conflagrate charge members in restricted combat
+
+**Observed:** `spell-charges-conflagrate-members` recorded **ok** — `{afterOne=tableSecret=false current=<secret number> max=2 start=<secret number> duration=<secret number> rate=<secret number> isActive=true, afterTwo=tableSecret=false current=<secret number> max=2 start=<secret number> duration=<secret number> rate=<secret number> isActive=true, combatFull=tableSecret=false current=2 max=2 start=0 duration=9.326 rate=1 isActive=false, measured=true, seed=tableSecret=false current=2 max=2 start=0 duration=9.326 rate=1 isActive=false}`
+
+**How:** ClientLab run **2026-08-11 19:43:46** (v0.2.5, interface 120100), in combat, instance `none`. A direct measurement in the client.
+
+**Expected (questions.json):** The returned table remains indexable; currentCharges, cooldownStartTime, cooldownDuration, and chargeModRate become secret in combat; maxCharges remains plain 2; isActive remains plain, false at 2/2 and true at both 1/2 and 0/2. That result would prove isActive describes whether recharge is running, exactly as the Tier-1 documentation says, and cannot replace a charged-readiness estimator because it does not distinguish castable 1/2 from uncastable 0/2. Any plain currentCharges result would remove the napkin entirely and must be treated as the important contrary finding.
+
+**Confidence:** high — the client answered directly. Low only if the result contradicts `expect` in a way that suggests the test asked the wrong thing.
+
+**Drains to:** `cooldown-manager.md:1463`
+
+**Status:** drained 2026-08-11

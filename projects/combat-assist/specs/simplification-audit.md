@@ -1,5 +1,9 @@
 # Combat Assist Plus — simplification audit
 
+> Historical execution record. Its recorded A1 decision was superseded after review found
+> that the packet falsely coupled tier removal with removal of unrelated engine complexity.
+> The corrected contract and execution plan live in `spec.md` and `simplification-plan.md`.
+
 Temporary execution artifact for `simplification-plan.md`. This records migration evidence,
 decisions, and phase progress; it is not a product specification.
 

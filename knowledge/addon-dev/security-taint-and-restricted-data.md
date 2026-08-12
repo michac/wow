@@ -984,11 +984,18 @@ selection; Blizzard's own Target Frame uses one `[T2 wiki: same page, 2026-06-30
 entry]`. `C_AuraContainerUtil.Process*Options` (nine functions) are the shared
 options-validation helpers `[T2 wiki: §Global API/Added]`.
 
-⚠ **Nothing in this section has been run.** It is a source read of a system that
-changed shape at least twice during its own PTR — `AddAuraFrame` removed,
+**The load-bearing product route works.** `[client 2026-08-11]` A spell-ID-filtered
+player-buff slot registered an icon, duration cooldown, and application-count region,
+then entered restricted combat. Backdraft displayed its icon and advancing aura swipe at
+one stack with no number; at two stacks the same tile displayed the client-produced `2`.
+This is a human visual verdict, because reading any of those sealed outputs back would
+invalidate the test. Addon Lua declared the sinks and never inspected their contents.
+
+⚠ **Everything else in this section remains a source read.** The system changed shape
+at least twice during its own PTR — `AddAuraFrame` removed,
 `SetAuraLayout*` renamed to `SetFlowLayout*`, `CustomAuraContainer` folded into
 `ManagedAuraContainer`. Treat the mixin names as correct at 12.1.0.69273 and the
-*behaviour* as unverified. `@verify-ingame`
+*behaviour outside that focused result* as unverified. `@verify-ingame`
 
 ---
 
