@@ -23,7 +23,7 @@ they do not receive cap pixels of their own. All other CDM rows are unclaimed an
 This is the canonical readable-readiness tier example; its dots are the canonical readable
 fact-to-marker example.
 
-- Put Tyrant in SOON while its row is readable as ready.
+- Put Tyrant in COOLDOWN while its row is readable as ready.
 - Show a left blue Dreadstalkers dot while the Dreadstalkers cooldown is running.
 - Show a right purple Grimoire dot while its CDM row is transformed.
 
@@ -34,13 +34,13 @@ context or too stale to earn pixels.
 
 ### Demonbolt
 
-This is the canonical readable proc-plus-secondary-resource tier example.
+This is the canonical readable proc-plus-secondary-resource example.
 
-- Put Demonbolt in SOON while Blizzard exposes its proc state as active and readable Soul
-  Shards are at most three.
-- Put the proc in FALLBACK at higher readable shard counts.
+- Put Demonbolt in ROTATION while Blizzard exposes its proc state as active.
+- Use the readable Soul Shard count as a cue that **dims** the proc above three shards, where
+  spending it would overcap.
 
-The flight decides whether the discrete demotion adds useful overcap context while remaining
+The flight decides whether the discrete dim adds useful overcap context while remaining
 distinguishable from Blizzard's stock proc glow.
 
 ### Tyrant bar

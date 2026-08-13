@@ -2,11 +2,11 @@
 title: Havoc Demon Hunter — Rotation (Midnight 12.1)
 patch: 12.1
 fetched: 2026-08-11
-reviewed: 2026-08-11
+reviewed: 2026-08-12
 sources:
   - https://worldofwarcraft.com/en-us/news/24293281  # tier 1, 12.1 "Curse of Ula'tek" content update notes — CLASSES ▶ DEMON HUNTER / Havoc, 2026-08-11
   - https://raw.githubusercontent.com/simulationcraft/simc/midnight/profiles/MID1/MID1_Demon_Hunter_Havoc.simc  # tier 1 APL, simc midnight branch (default = Fel-Scarred) — re-pulled 2026-08-11, still pinned at commit 6e14948 dated 2026-03-13 (NOT retuned for 12.1)
-  - https://www.icy-veins.com/wow/havoc-demon-hunter-pve-dps-rotation-cooldowns-abilities  # tier 3, page updated to 12.1, 2026-08-11
+  - https://www.icy-veins.com/wow/havoc-demon-hunter-pve-dps-rotation-cooldowns-abilities  # tier 3, page updated to 12.1; priority corrected 2026-08-13 from the page's INTERACTIVE build tool (Fel-Scarred tab) — the static HTML is a 24-item both-heroes union the JS filters; the Fel-Scarred single-target list is 13 items led by Vengeful Retreat (Exergy build). Earlier "leads Aldrachi Reaver" note was wrong (one hero-filtered list, not two).
   - https://www.method.gg/guides/havoc-demon-hunter/playstyle-and-rotation  # tier 3, 12.0.7 framing, 2026-07-11
   - https://www.warcraftlogs.com/  # tier 2, top-100 Mythic Imperator Averzian parses, 12.0.7, 2026-08-03 (cast + damage + resourcechange event timelines, n=7)
   - https://www.method.gg/guides/havoc-demon-hunter/interface-and-macros  # tier 3, 12.0.7, 2026-08-03
@@ -30,9 +30,11 @@ and Fel-Scarred's `demonsurge` / `abyssal_gaze`).
 >   2026-08-11, unchanged), so every APL condition quoted here is a **pre-12.1**
 >   condition and has not been re-derived against the new Fury/Inertia numbers;
 > - **Fel-Scarred was the S1 recommendation**, and that ranking has *not* been
->   re-verified for Season 2 — Icy Veins' 12.1 page now leads its priority with
->   Aldrachi Reaver's `Reaver's Glaive` lines. Treat hero-tree choice as open
->   until `builds.md` is re-sourced; both branches are documented below.
+>   re-verified for Season 2. (An earlier note here claimed "Icy Veins leads Aldrachi
+>   Reaver" — **corrected 2026-08-13**: the page has **one hero-filtered priority tool**,
+>   not an AR-led list; picking Fel-Scarred renders a 13-item Vengeful-Retreat-led list.)
+>   Treat hero-tree choice as open until `builds.md` is re-sourced; both branches are
+>   documented below.
 
 ## What changed in 12.1 (2026-08-11)
 
@@ -99,13 +101,52 @@ percentage-based and unaffected); **Disrupt now shows a "missed" visual + sound*
 when you kick nothing; **diminishing-return categories reset after 20s** (was
 16s), which lengthens Chaos Nova / Imprison / Sigil of Misery DR chains.
 
+## Season 2 meta correction: Exergy over Inertia (2026-08-12)
+
+The 12.1 tuning table above carries the *Inertia nerf numbers* but the loop below
+was still written Inertia-first (S1 framing). Season 2's recommended mover pick is
+**Exergy** (though **Inertia remains a live alternative** — see the first bullet),
+and that changes how Vengeful Retreat is pressed. This agrees with `builds.md`'s 12.1
+choice-node table (Tier 3, Icy Veins 12.1 page, re-checked 2026-08-12); folded into
+the rotation here so the two files agree.
+
+- **Exergy is the recommended pick — but Inertia is not dead.** The live Icy Veins
+  12.1 page (re-checked 2026-08-12) calls **Exergy** (206476) *"the go-to pick in
+  Season 2,"* a flat **+5% damage for 20s** that **The Hunt and Vengeful Retreat
+  apply directly** (no Fel Rush / Felblade follow-up), with *"100% uptime."* ⚠ But
+  the **same page's rotation still leans on Felblade-with-Inertia near the top of the
+  priority** (and its opener triggers Inertia) — so treat **Inertia** (427640, now
+  **+12%/6s**, cashed by Fel Rush/Felblade after a VR/Hunt) as a **live alternative**,
+  not legacy text. My earlier draft over-flattened this. The pick is real; Exergy
+  leads. ⚠ Day-one, unsimmed — Season 2 opens 2026-08-18; Tier-3 consensus, not a
+  simmed result (`builds.md` carries the same caveat).
+- **Vengeful Retreat is a maintain-on-cooldown button either way.** VR is pressed
+  **on cooldown** in both builds — it always refreshes **Initiative** crit, and it
+  triggers your mover talent: under **Exergy** its ~20–25s cooldown covers Exergy's
+  20s for ~full uptime; under **Inertia** it arms the next Fel Rush/Felblade amp. So
+  the "earlier cap drafts missing VR" gap was real regardless of the mover pick —
+  VR is a core rotational press, not situational movement.
+- **Essence Break is mandatory in S2.** +49% initial hit in 12.1, and the Season 2
+  tier set keys off it (Tier-3 claim, see `gearing.md`/`builds.md`) — press it on
+  cooldown with Fury banked and flood the ~4s window with Death Sweep + Annihilation.
+- **Apex → Eternal Hunt.** The sanctioned apex/capstone spend is **Eternal Hunt**
+  (1270898: The Hunt empowers your next Eye Beam, +100% damage / wider area),
+  which welds The Hunt into the Eye Beam cadence rather than reducing its cooldown.
+- **Dancing with Fate is the sanctioned low-mover fallback.** A player who does not
+  want to weave VR/movers precisely takes **Dancing with Fate** (389978, +25% on
+  Blade Dance's final slash) — a pure passive that asks nothing of movement timing.
+
+Everything below still describes the loop; where it says "Inertia trigger," that is
+the Inertia build — on the Exergy build read it as "press Vengeful Retreat on cooldown
+to hold Exergy."
+
 **The core loop:** everything orbits the **demon-form window**. Eye Beam (and
 Metamorphosis) put you in demon form; while transformed your Chaos Strike →
 **Annihilation** and Blade Dance → **Death Sweep** hit far harder. The job is
-to keep Eye Beam and Metamorphosis rolling, weave **Vengeful Retreat** (for
-Initiative/Inertia) right before each Eye Beam, dump **Essence Break** windows
-into Death Sweep + Annihilation, and never Fury-starve your spenders or let
-Blade Dance / Immolation Aura charges cap.
+to keep Eye Beam and Metamorphosis rolling, press **Vengeful Retreat** on cooldown
+(to hold **Exergy** +5% and refresh **Initiative**) around each Eye Beam, dump
+**Essence Break** windows into Death Sweep + Annihilation, and never Fury-starve
+your spenders or let Blade Dance / Immolation Aura charges cap.
 
 ## Pre-combat
 
@@ -128,43 +169,63 @@ Blade Dance / Immolation Aura charges cap.
   12.1**) — open it with Fury banked (≥35) and immediately fill it with **Death
   Sweep** and **Annihilation** (Chaos Strike outside meta). Don't cast anything
   weak inside it.
-- **Vengeful Retreat**: press it just before Eye Beam to proc **Initiative**
-  (crit) / trigger **Inertia**; the APL cancels its movement when it's used to
-  reposition into Metamorphosis. 12.1's Inertia is **+12% for 6s** (was 18%/5s) —
-  a slacker window worth less, so take the easy alignment and don't chase it.
+- **Vengeful Retreat**: **press it on cooldown** to maintain **Exergy** (+5% for
+  20s, the S2 pick) and refresh **Initiative** (crit), aligning it around Eye Beam;
+  the APL cancels its movement when it's used to reposition into Metamorphosis.
+  (On the Exergy build VR's mover job is to hold the flat 5%; on the Inertia build
+  VR/The Hunt arm a **+12%/6s** Fel Rush/Felblade empower instead. Both are current —
+  see the *Season 2 meta correction* above.)
 
 ## Single target (Fel-Scarred)
 
-Opener (method.gg): Immolation Aura (pre-pull ×2) → pot+trinket → **Eye Beam**
-→ **The Hunt** → **Felblade** (triggers Inertia) → **Death Sweep** ×2 →
-**Annihilation** → **Vengeful Retreat + Metamorphosis** → Death Sweep →
-Annihilation → **Consuming Fire** → Felblade (Inertia) → **Abyssal Gaze** →
-Death Sweep ×2 → Annihilation.
+Opener (method.gg — ⚠ this is the **Inertia-build** opener (a current build); on the
+Exergy build the Felblade presses below are just Fury/filler and you press Vengeful
+Retreat on cooldown for Exergy instead of to arm an Inertia amp):
+Immolation Aura (pre-pull ×2) → pot+trinket → **Eye Beam** → **The Hunt** →
+**Felblade** (triggers Inertia) → **Death Sweep** ×2 → **Annihilation** →
+**Vengeful Retreat + Metamorphosis** → Death Sweep → Annihilation → **Consuming
+Fire** → Felblade (Inertia) → **Abyssal Gaze** → Death Sweep ×2 → Annihilation.
 
-Sustained priority:
+Sustained priority (Fel-Scarred). ✅ **Re-verified against the live Icy Veins 12.1
+page 2026-08-12, corrected 2026-08-13** from the page's **interactive build tool with
+Fel-Scarred selected** — the 13-item list below.
 
-1. **Felblade** when the **Inertia** trigger is up (Fel Rush as the backup
-   consumer) — do this right before an Eye Beam / burst window.
-2. **The Hunt** on cooldown (outside Essence Break).
-3. **Death Sweep** (in demon form) / **Blade Dance** — on cooldown when it's
-   worth pressing (see AoE thresholds; in ST it's still a spender when talented
-   into First Blood).
-4. **Immolation Aura** if sitting on 2 charges (don't cap). ⚠ 12.1 cut its damage
-   8% and Burning Hatred's Fury to 30 — it slid down the list relative to your
-   +6% spenders, but "never sit on two charges" still holds.
-5. **Vengeful Retreat** paired with **Eye Beam**.
-6. **Eye Beam** on cooldown, aligned (`eb_aligned`) so you don't clip a Vengeful
-   Retreat / Inertia window.
-7. **Essence Break** inside/around the Meta window, then flood it with spenders.
-8. **Metamorphosis** with Eye Beam (Chaotic Transformation reset).
-9. **Annihilation once** to consume the **Demonsurge** proc, then Meta's
-   Abyssal Gaze / Consuming Fire empowered casts.
-10. **Annihilation / Chaos Strike** as the Fury dump (don't overcap Fury).
-11. **Felblade** for Fury when low.
-12. **Throw Glaive** only as a last-resort filler (or actively with Soulscar /
-    Furious Throws talents). With **Serrated Glaive** this now buffs *you* for
-    12s rather than debuffing the target, so it no longer has to be aimed at the
-    priority mob.
+> ⚠ **Sourcing gotcha (why an earlier draft was mis-ordered).** The Icy Veins page's
+> *static HTML* carries a **24-item union** of both hero trees' lines (Reaver's Glaive,
+> duplicate Metamorphosis/Vengeful Retreat entries, both Inertia and Exergy). That union
+> is **not the Fel-Scarred priority** — the page's JavaScript build-selector **filters and
+> re-orders** it per the chosen hero. So `wowkb.fetch` of the raw page returns the superset,
+> not the Fel-Scarred view; the real Fel-Scarred list must be read from the **rendered tool
+> (Fel-Scarred tab)**. A prior draft transcribed the union (Metamorphosis #1) — **wrong**.
+> The filtered Fel-Scarred list leads with **Vengeful Retreat**, and this is the **Exergy
+> build** (no Inertia-Felblade rung). The earlier "Icy Veins leads Aldrachi Reaver for
+> single-target" note was also wrong: there is **one list**, hero-filtered, not two.
+
+1. **Vengeful Retreat** to trigger **Exergy** — it leads because it is **off the GCD** and
+   holds Exergy at ~100% uptime, so you weave it whenever it is up (free). Align with Eye Beam
+   for **Initiative**.
+2. **Metamorphosis** when Eye Beam **and** Death Sweep are both on cooldown
+   (**Chaotic Transformation** resets them — that's the payoff).
+3. **The Hunt** — **hold to buff Abyssal Gaze if Metamorphosis is available** (a *readable*
+   condition: Meta's cooldown state), else cast on cooldown.
+4. **Death Sweep** during an **Essence Break** window or with **Demonsurge** active.
+5. **Annihilation** with **Demonsurge** active.
+6. **Eye Beam / Abyssal Gaze** — consume any Annihilation / Death Sweep procs of Demonsurge
+   first.
+7. **Essence Break** — **hold if Eye Beam's cooldown has ≤4s remaining** (don't clip the
+   window into Eye Beam).
+8. **Death Sweep / Blade Dance** as the baseline spender.
+9. **Consuming Fire** with **Demonsurge** active (Fel-Scarred, in Meta).
+10. **Annihilation / Chaos Strike** as the raw Fury dump — low, climbs only via the windows
+    above.
+11. **Immolation Aura / Consuming Fire** (don't sit at 2 charges; dump both before Meta so
+    **A Fire Inside / Demonic Intensity** refunds them).
+12. **Felblade** for Fury when nothing above is up.
+13. **Fel Rush** with nothing else available.
+
+*(Throw Glaive is not in the Fel-Scarred priority — it's a rarely-cast filler unless
+**Screaming Brutality** is taken, in which case Blade Dance triggers it rather than a hard
+cast. With **Serrated Glaive** it buffs *you* for 12s rather than debuffing the target.)*
 
 ## Cleave / AoE (3+)
 
@@ -196,8 +257,11 @@ immediately rather than over 4s — or always with First Blood):
 - **Demonic Intensity** during Meta gives the empowered **Abyssal Gaze**
   (Eye Beam) and **Consuming Fire** (Immolation Aura) — spend Immolation charges
   before Meta so Demonic Intensity refreshes them.
-- **Inertia** (via Felblade / Fel Rush / Vengeful Retreat) is the amp to line up
-  before every Eye Beam and burst window — **+12% for 6s** as of 12.1.
+- **Exergy** (via The Hunt / Vengeful Retreat, S2 pick) is a flat **+5% for 20s**
+  held by pressing VR on cooldown — no Felblade/Fel Rush follow-up. The legacy
+  **Inertia** amp (**+12% for 6s** in 12.1, cashed by Fel Rush/Felblade) is the
+  alternative on that choice node but lost the S2 comparison (see the *Season 2
+  meta correction*).
 
 ### Aldrachi Reaver
 
@@ -218,6 +282,12 @@ immediately rather than over 4s — or always with First Blood):
 - [x] ST + AoE priority from simc midnight APL (2026-07-11) + method.gg
 - [x] Both hero-tree branches captured (Fel-Scarred default, Aldrachi Reaver)
 - [x] 12.1 tuning + talent-tree changes folded in against Tier-1 notes (2026-08-11)
+- [x] **Season 2 mover-meta swing folded in (2026-08-12)** — Exergy over Inertia,
+      Vengeful Retreat as a maintain-on-cooldown press; agrees with `builds.md`'s
+      12.1 choice-node table (Tier 3, Icy Veins). Closed the S1 Inertia-first framing.
+- [x] **VR-on-cooldown centrality + Essence-Break-mandatory / Eternal-Hunt-apex /
+      Dancing-with-Fate low-mover fallback documented (2026-08-12).** These were the
+      gaps that left Vengeful Retreat out of earlier Combat Assist Plus drafts.
 - [ ] Sanity-check the opener against a top WCL Havoc log (`wowkb.wcl`)
 - [ ] **Re-distill when the simc midnight branch publishes a 12.1 APL.** Checked
       2026-08-11: still commit `6e14948` (2026-03-13), i.e. pre-12.1. Every APL

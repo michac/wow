@@ -7,6 +7,13 @@ Read the live addon version first. Captures store changes, not periodic samples,
 are not duty cycles. A sink accepting a duration or a paint call never proves a pixel appeared;
 the player's report is the authority for brightness, contrast, placement and usefulness.
 
+> ⚠ **Tier-vocabulary migration.** The product spec has moved the tier names to
+> **COOLDOWN / ROTATION / FALLBACK** (`spec.md` §3.1). The **built addon still emits the old
+> `ASAP` / `SOON` / `FALLBACK` tokens** — this checkout is the stale v0.2.4 source and the token
+> rename lands at transcription (`backlog.md` → *Phase 10.4*). The capture examples below show
+> the current source's tokens; read `SOON`/`FALLBACK` as the pre-rename emphasis until the source
+> is re-cut.
+
 ## Streams
 
 | Command | Carries |

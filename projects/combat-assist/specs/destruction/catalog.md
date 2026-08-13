@@ -18,10 +18,9 @@ only CAP's broad availability tier.
 
 ## Provisional hypotheses
 
-- Put Conflagrate in SOON when the charge estimate is above zero and readable Soul Shards are
-  at most four.
-- Put it in FALLBACK when the estimate is above zero at higher shard counts.
-- Withhold the tier when charged readiness is zero or unknown.
+- Put Conflagrate in ROTATION when the charge estimate is above zero.
+- Use the readable Soul Shard count as a cue that **dims** it above four shards.
+- Withhold the tier entirely when charged readiness is zero or unknown.
 - Independently ask Blizzard to display Backdraft's application count at two stacks in a
   static outlined marker. It supplies context and does not change the tier.
 

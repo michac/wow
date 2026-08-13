@@ -12,8 +12,14 @@ This is the project's only implementation-status source.
 
 - Demonology remains the small pilot: Tyrant and Demonbolt are its only enhanced entries;
   Dreadstalkers and Grimoire are readable Tyrant dependencies.
-- The corrective pass restored ASAP / SOON / FALLBACK without restoring continuous grades,
-  pulse policy, exhaustive coverage or automatic sequences.
+- The corrective pass restored the three discrete tiers (then named ASAP / SOON / FALLBACK)
+  without restoring continuous grades, pulse policy, exhaustive coverage or automatic sequences.
+- **Tier vocabulary migrated (2026-08-12):** the spec now names the tiers **COOLDOWN / ROTATION /
+  FALLBACK** as role lanes, and relaxes the single-hint rule so tier + cues may converge on the
+  best press without a compute-the-answer channel (`spec.md` §1c / §3.1 / §4). The **built addon
+  still emits `ASAP` / `SOON` / `FALLBACK`** (stale v0.2.4 here); the token rename lands at
+  transcription (Phase 10.4). Product docs (spec, all three catalogs) use the new names; flight
+  items below that still say SOON/FALLBACK describe the current build.
 - Phase 9's source pass adds the minimal Destruction / Diabolist proof: Conflagrate tiers from
   readable shards and a seeded charge estimate, plus an independent sealed Backdraft count
   through Blizzard's 12.1 AuraContainer path. It has not flown as a CAP build.
@@ -24,6 +30,17 @@ This is the project's only implementation-status source.
   tier/channel policy suite and its visual-taste assertions are gone.
 - The combined Demonology/Destruction checkpoint has not been judged in game. No
   release or deployment is implied.
+- Havoc is the first **comprehensive** catalog (**Fel-Scarred specifically**; Aldrachi Reaver is
+  a separate future catalog), but it exists **only as machine-independent design** —
+  `specs/havoc/catalog.md` (normative), `specs/havoc/fact-classification.md`,
+  `specs/havoc/scenarios.md` (the single-row CDM elimination walk — one priority-ordered
+  Cooldown-Manager row per state, walked left-to-right, naming why each off-cooldown button is
+  skipped until the press; demon-form overrides rendered via R7; **revised 2026-08-13**, see
+  Phase 10.1), the `spec.md` §3.7 product section, and four cues (A affordability / B sealed overcap / C
+  readable + sealed hold / **D demon-form promotion**). No `Catalogs/Havoc.lua` exists and none of
+  it has flown.
+  Transcription is blocked on the desktop cap code being pushed (this checkout is the stale
+  v0.2.4 vocabulary). See *Phase 10* below.
 
 ## Now
 
@@ -170,6 +187,125 @@ mechanisms no authored experience uses.
 - [ ] Definition of done: a second authored spec can reuse emphasis and at least one context-
       marker pattern without editing the shared renderer, while any engine change it does require
       is a small named mechanism rather than spec-specific Blizzard API plumbing.
+
+### Phase 10 — Havoc comprehensive catalog
+
+The first catalog authored to be comprehensive (whole rotational roster, **Fel-Scarred
+specifically** — Aldrachi Reaver is a separate future catalog), and the first stress of the
+pattern shelf: Fury is a *secret* primary, so the design is built on four cues (A/B/C/D) over
+role-lane tiers instead of a resource gate. Design is machine-independent and complete; Lua
+transcription is deferred until the desktop cap code is pushed.
+
+#### 10.1 Design (complete — machine-independent)
+
+- [x] Correct the Season-2 rotation/build KB (Exergy the S2 pick / Inertia still live, VR
+      maintain-on-cooldown, Essence Break mandatory, Eternal Hunt apex, Dancing with Fate
+      low-mover fallback) — `rotation.md` + `builds.md`, reviewed 2026-08-12. Re-verified the
+      priority order against the live Icy Veins 12.1 page (cooldown-dominated; raw spender ~#20).
+- [x] Amend the constitution: rename tiers to **COOLDOWN / ROTATION / FALLBACK** role lanes and
+      relax the single-hint rule (converge via tier + cues, no compute-the-answer channel) —
+      `spec.md` §1c / §3.1 / §4. Migrate the Demonology + Destruction tables to the new vocabulary.
+- [x] Author `specs/havoc/catalog.md` — Fel-Scarred-specific normative roster, the four cues, the
+      demon-form identity spine, and the authoring route (APL → problem → fact → recipe →
+      treatment).
+- [x] Author `specs/havoc/fact-classification.md` — every fact tagged readable / sealed-display
+      / open, each pointed at its pattern-shelf recipe and addon-dev evidence.
+- [x] Author `specs/havoc/scenarios.md` — the normative scenario catalog: walk the full
+      Fel-Scarred priority (single-target + AoE, re-verified 2026-08-12) rung-by-rung. Each rung is
+      classed by **its ordering-reason and whether cap can read it** (readable rank / sealed cue /
+      open). The walk reframed the priority as a **dependency graph** and lifted **three** spec-wide
+      rules into `spec.md` §3.1: the dependency-graph / **readable-relationship** rule (Meta ranks #1
+      because it resets Eye Beam + Death Sweep, and cap reads Eye Beam's cooldown state to know it),
+      the **emphasis-intensity hierarchy** (promoted > lit-cooldown > lit-rotation > dim/off), and
+      **eye-direction by elimination**. Key correction from the walk: a secret-resource threshold is
+      **expressible** as an authored S1 cue in either polarity (Essence Break "banked ≥35" positive;
+      generator overcap negative) — there is **no "cap can't rank" bucket**; the only line is the §4
+      oracle (computing on the value). §3.7 gained a Scenario-catalog pointer. Published a second
+      Havoc artifact — the scenario stepper (the concept-overview artifact stays).
+- [x] **Scenario model revised to the single-row CDM elimination walk (2026-08-13).** Reframed
+      `specs/havoc/scenarios.md` from the rung-by-rung "ordering-reason" table to the model the
+      author asked for: **one priority-ordered Cooldown-Manager row per state**, walked
+      **left-to-right**, naming — for every button that is *not* on cooldown — the reason it is
+      skipped (weave off-GCD · hold·readable dot · hold·sealed · starved · overcap · withheld)
+      until the press. Adds **demon-form override fidelity** (the row shows Abyssal Gaze / Death
+      Sweep / Annihilation / Consuming Fire; cap authors none of it — R7 resolves the live icon)
+      and the corrected holds: **The Hunt's hold is a readable Meta-availability dot** (not sealed),
+      and the **sealed C2 hold now sits on Essence Break's "Eye Beam ≤4s" condition**. VR-led
+      throughout; ten single-target scenarios + three AoE mode-variants, with state toggles on ST-3
+      / ST-5 / ST-7. The scenario-stepper artifact was regenerated as a faithful rendering of the
+      doc (`https://claude.ai/code/artifact/589b5eca-eb73-424e-8ee8-95d23d22c2ff`). **Flow rule for
+      the resuming agent: the doc is the source of truth — edit `scenarios.md` first, then
+      regenerate the artifact from it; never let the artifact drift ahead.** The artifact's data
+      model mirrors the doc 1:1 (each scenario = state → per-button walk verdict → press), so a
+      doc change is a JS-array change.
+- [ ] **Owed: reconcile the two sibling docs to the corrected holds** (part of the consolidation
+      pass below). `catalog.md` and `fact-classification.md` still carry the pre-correction mix-up
+      and now contradict `scenarios.md` + `rotation.md`: they assign cue **C2 (sealed hold)** to
+      *The Hunt* on the *Essence Break window*. Corrected model — **C2 belongs to Essence Break**
+      (its hold is on Eye-Beam-cooldown-≤4s-remaining, a sealed duration), and **The Hunt's hold is
+      a readable dot** off Meta's cooldown. Fix the Hunt row + the C2 rows in both files. Also
+      update their stale scenario references: the buff-maintenance open fact is now `scenarios.md`
+      **ST-1 (VR weave) / ST-10**, and the Demonsurge / Essence-Break-window promotion open facts
+      are now **ST-4** (both files currently cite the old ST-4 / ST-14). Held per the author's
+      "leave them as working documents, clean up when we're done."
+- [ ] **Owed: consolidate the three Havoc docs → one `catalog.md`** (demonology/ and destruction/
+      each carry a single `catalog.md`; Havoc has three). Fold `scenarios.md` +
+      `fact-classification.md` back into `catalog.md` and make `rotation.md` the sole home of the
+      priority order. Same deferred cleanup pass. (The scenario-stepper artifact is the standalone
+      visual; it renders whatever the consolidated doc says.)
+- [x] Amend `spec.md`: §3.7 Havoc catalog section; §3.2 hold-marker two-lane wording (cue C);
+      §3.6 the two new sealed forms `sealed-power-percent` (cue B) and `sealed-duration-range`
+      (cue C2 + demon-form bar).
+
+#### 10.2 New readable providers / renderer work (deferred to transcription)
+
+Each is a *small named mechanism* per §9.4, confirmed against `knowledge/addon-dev/` first, with
+one characterization example:
+
+- [ ] **"Capped" readable provider** — charges readable-at-full (R6): plain read iff at max *is*
+      the capped signal; override-aware max + re-seed on transform (R7). First consumer:
+      Immolation Aura / Consuming Fire.
+- [ ] **Sealed Fury threshold cue (lever B), two polarities** — one S1-graded color-curve
+      mechanism used both ways: **negative** per-generator overcap curve keyed to
+      `(maxFury − generation)/maxFury` (Felblade +15, Demon's Bite ~20–30, authored **generation
+      static table**; no generation API — R4), and **positive** "banked" curve at `35 / maxFury`
+      on Essence Break. A threshold is a client-side paint, not a Lua branch, so both polarities
+      are expressible; cap never reads which side the value fell on. First consumers: Felblade,
+      Demon's Bite (negative); Essence Break (positive).
+- [ ] **Sealed hold marker (cue C2)** — range step-curve → texture alpha on a sealed duration
+      object (S4). First check whether the current desktop renderer already has a `hold` marker
+      slot; if so it reuses it and edits nothing in Treatment/Overlay (the 9.4 definition-of-done).
+- [ ] **Demon-form promotion (cue D)** — plain emphasis raised on the empowered spenders while
+      the readable demon-form window is active (R7). No new renderer; it is readable-driven
+      emphasis. (Essence Break / Demonsurge promotion gated on open fact 10.3.)
+
+#### 10.3 Open facts — measure in-client before authoring the hint (spec.md §3.6)
+
+Route as `@verify-ingame` / ClientLab `@pending-test`; produce no hint until resolved.
+
+- [ ] Does **Inertia** surface as a readable proc glow on Felblade? (gates any Felblade `proc`
+      hint; only load-bearing on the legacy Inertia build).
+- [ ] Do **Demonsurge / Reaver's Glaive** empowerment states expose a readable proc/aura, or are
+      they sealed? (gates the two hero-signature rows).
+- [ ] Does Havoc's **Immolation Aura** charge row read readable-at-full (R6 Conflagrate shape) in
+      instanced combat? (candidate-settled by mechanism; confirm before shipping the "don't cap"
+      tier).
+- [ ] **Buff-maintenance marker (Exergy / Serrated Glaive)** — newly named by the `scenarios.md`
+      walk (ST-1 VR weave / ST-10): does a self-buff expose a readable "present" boolean while its remaining
+      duration stays sealed? (gates an optional maintain-on-cooldown "buff present / missing"
+      marker; the press ships on readiness alone until resolved).
+
+#### 10.4 Transcription + flight (deferred — blocked on desktop push, releasing ask-first)
+
+- [ ] After the desktop cap code is pushed, transcribe `catalog.md` into `Catalogs/Havoc.lua`
+      against the *real* current vocabulary; add to `.toc`, register, resolve override ids via
+      `overrideSpellID` at bind (never hardcode).
+- [ ] Extend the `busted` suite for the new providers: capped/charge seeding + reseed-on-flip,
+      lever-B curve guards, marker union (readable + sealed hold lanes).
+- [ ] Dry-run `wowkb.addon release cap`; releasing stays ask-first.
+- [ ] Fly the affordability tier shift (spenders drop when Fury-starved), the demon-form marker,
+      the Immolation-Aura capped tier, and the hold ✕ / overcap-red cues. Record the player's
+      visual judgment first; read `wowkb.capture cap` streams only to prove which route *armed*.
 
 ## Ideas
 

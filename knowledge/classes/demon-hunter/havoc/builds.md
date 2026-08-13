@@ -2,7 +2,7 @@
 title: Havoc Demon Hunter — Talents & Builds (Midnight 12.1)
 patch: 12.1
 fetched: 2026-08-11
-reviewed: 2026-08-11
+reviewed: 2026-08-12
 sources:
   - https://worldofwarcraft.com/en-us/news/24293281  # tier 1, 12.1 "Curse of Ula'tek" content update notes (CLASSES ▶ DEMON HUNTER ▶ Havoc), 2026-08-11
   - https://us.api.blizzard.com/data/wow/talent-tree  # tier 1, live 12.1 tree — distilled into talents.md/talents.json @ 12.1.0
@@ -177,7 +177,9 @@ Choice-node highlights (see `talents.md` for the full node list):
 
 | Choice node | 12.1 pick | Note |
 |---|---|---|
-| **Exergy** vs **Inertia** | **Exergy** | **Reversed from S1.** Inertia dropped to +12%/6s (was 18%/5s); the consistent option now wins in both builds. Inertia still needs a Felblade / Fel Rush / Vengeful Retreat to trigger. |
+| **Exergy** vs **Inertia** | **Exergy** | **Reversed from S1.** Inertia dropped to +12%/6s (was 18%/5s); the consistent option now wins in both builds. Inertia still needs a Felblade / Fel Rush / Vengeful Retreat to trigger. **Consequence:** Exergy (+5%/20s from The Hunt **and** Vengeful Retreat) makes **VR a maintain-on-cooldown press** — its ~20–25s CD covers the 20s buff — rather than an Inertia-amp setup press. The rotation-level version of this is in `rotation.md` → *Season 2 meta correction*. |
+| **Eternal Hunt** (apex) | **Eternal Hunt** | The sanctioned apex/capstone spend — The Hunt empowers your next Eye Beam (+100% damage, wider area), welding The Hunt into the Eye Beam cadence. |
+| **Dancing with Fate** (low-mover fallback) | **Dancing with Fate** | +25% on Blade Dance's final slash; a pure passive that asks nothing of movement timing — the sanctioned pick for a player not weaving VR/movers precisely. |
 | **Chaos Theory** vs **Inner Demon** | **Chaos Theory** | New pairing in 12.1 — Inner Demon moved here off Chaotic Transformation. Chaos Theory is also the "CS machine" half (with Relentless Onslaught; see the APL's `cs_machine` flag). |
 | **Relentless Onslaught** vs **Soulscar** | **Soulscar** for the Throw-Glaive/Aldrachi build; Relentless Onslaught for the CS-machine variant | unchanged by 12.1 |
 | **Shattered Destiny** vs **Collective Anguish** | **Shattered Destiny** (ST) · **Collective Anguish** (heavy AoE) | unchanged by 12.1 |
