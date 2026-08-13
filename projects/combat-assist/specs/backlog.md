@@ -10,6 +10,32 @@ The live addon version comes from `wowkb.addon list`, never from prose here.
 
 This is the project's only implementation-status source.
 
+- **The visual vocabulary moved to `render-shelf.md` (2026-08-13).** Every UI opinion — surfaces,
+  primitives, colors, motion, placement, composition — now lives there with a
+  an `open` status only where a *client capability* is unmeasured, and `spec.md` §3.1/§3.2 keep
+  only the model. The old "treatments are static / motion only for a specific observed problem"
+  rule is **struck**: it was an experiment written in as a boundary. Trying a look is a shelf edit.
+  Assets come from `wowkb.uiart` (real client art; `raw/uiart/manifest.json` records tintability).
+- **The shelf declares one style (2026-08-13).** `render-shelf.md` states one treatment per
+  primitive and holds every number in its Part 6 `render-tokens` JSON block; alternatives and
+  reasoning moved to `render-rationale.md`, which is authoritative over nothing. The three
+  vocabularies are reconciled **on paper**: `ClientLab/Mock.lua`'s motion ladder is the style
+  (hues, rates, pulse floor, veil), the static four-strip border in cap's `Treatment.lua` is
+  superseded, and the artifact's invented style is replaced by a generator. ⚠ **The code has not
+  been changed to match** — `Treatment.lua` still draws the static border, and making it match the
+  shelf is transcription work that follows the flight.
+- **`wowkb.capart` renders the artifact from the docs (2026-08-13).** It reads the shelf's token
+  block, `havoc/catalog.md`'s roster table and `havoc/scenarios.md`'s CDM-row bullets; the scenario
+  sidecar is seeded by `capart import` and then sits off the build path.
+- **The render loop is closed, and the artifact has been looked at (2026-08-13).** `wowkb.serve`
+  serves the artifacts directory, watches `specs/`, reruns `capart build havoc` on save and pushes
+  an SSE reload — so *edit the shelf → look* is one gesture, with no publish in it. `capart build`
+  was stripped to two hard failures (the tint guard; the closed verdict/roster vocabulary) so
+  nothing can block a rebuild you want to look at; the byte budget, flipbook geometry and the
+  literal-hex scan became a warning or a `check` concern. All 15 icons and 2 sheets are extracted
+  from real client art (86 KB of a 512 KB budget) and `havoc-stepper.html` is republished to the
+  same URL. The stylized two-letter-abbreviation diagram is **gone**: the artifact is now a
+  transcription target. ⚠ Still true that `Treatment.lua` has not been changed to match.
 - Demonology remains the small pilot: Tyrant and Demonbolt are its only enhanced entries;
   Dreadstalkers and Grimoire are readable Tyrant dependencies.
 - The corrective pass restored the three discrete tiers (then named ASAP / SOON / FALLBACK)
@@ -43,6 +69,77 @@ This is the project's only implementation-status source.
   v0.2.4 vocabulary). See *Phase 10* below.
 
 ## Now
+
+### The render shelf — reconcile and regenerate
+
+- [x] Author `specs/render-shelf.md` (surfaces, V1–V10 primitives, composition rules, assets).
+- [x] Build `wowkb.uiart` — atlas member → sheet FileDataID → CASC → BLP decode → crop, with
+      flipbook grid/CSS recipe, tintability measure, spell icons and a manifest.
+- [x] Strip the UI opinions out of `spec.md` §3.1 / §3.2 and point them at the shelf.
+- [x] **Reconcile the three divergent vocabularies** onto the shelf (on paper): `Mock.lua`'s motion
+      ladder is the style, `Treatment.lua`'s static border is superseded, the artifact's invented
+      style is replaced by a generator. Making the *code* match is transcription work, not this.
+- [x] Split `render-rationale.md` out so the shelf can declare one style without losing the
+      arguments; add both to the doc map and `authoring.md`'s standing rules.
+- [x] Add the Part 6 `render-tokens` block — every number in one place, prose citing paths.
+- [x] Strip the pixel prose out of `specs/havoc/scenarios.md`; rewrite the CDM-row bullets into a
+      machine-read grammar and give ST-10 + the three AoE variants the explicit rows they lacked.
+- [x] Build `wowkb.capart` (tokens / assets / import / build / check) and the template trio;
+      extract `atlas_image` / `icon_image` from `uiart` with a FileDataID route for slugless icons.
+- [x] **Build `wowkb.serve`** — stdlib static server + mtime watch + rebuild command + SSE reload.
+      The design loop runs against `file://`-speed local HTML; the published artifact is the
+      checkpoint, not the iteration surface.
+- [x] **Cut the four ceremony guards from `capart build`.** Only the tint check (a `lane` tint on
+      baked-hue art) earns a hard failure — it is the one that stops the preview becoming a lie.
+      Drop the byte budget, downgrade the flipbook-grid check to a warning, and move `strict-css`
+      and `check` out of `build` so nothing can block a rebuild you want to *look* at.
+- [x] Extract the 15 icons + 2 sheets, build the artifact, and **look at it** — icon size, spacing,
+      swipe, and whether the ring reads as a ring rather than a CSS glow. 86 KB of a 512 KB budget.
+      Four override forms needed the FileDataID route, not three: `Annihilation` 201427 → 1303275,
+      `Abyssal Gaze` 452497 → 136149 and `Consuming Fire` 452487 → 135794 join the registered
+      three, all read off `SpellMisc.SpellIconFileDataID` rather than guessed.
+- [x] Prove the loop: flip one token, rebuild, confirm the change is visible and that only the
+      shelf was edited. Prove the guard: point a ring at baked-hue art and confirm it hard-errors.
+      Both pass — `pulse.floor` 0.68 → 0.50 reached the live ring through a real page reload with
+      only `render-shelf.md` touched; the emphasis ring pointed at `ui-hud-actionbar-proc-loop-flipbook`
+      hard-errors naming measured saturation 0.736 and the three fixes.
+- [x] Republish the existing artifact URL (`589b5eca-…`) once the local render looks right.
+
+- [x] **Add Part 7, the lab** — a sandbox for treatments that are drawn but not adopted, with the
+      isolation rule enforced mechanically (`capart build` errors if `verdicts`/`cues` names a lab
+      entry) rather than by convention. Two entries authored and rendering:
+      **L1 `border-arrival`** (a solid static border carrying the lane + a one-shot 2×→1× snap on
+      arrival, fired by three different causes — cooldown ready, charge returned, now affordable —
+      plus a fourth CHARGES lane), and **L2 `badge-slots`** (OS-style circular badges, slot 1's
+      centre on the icon's top-right corner, from Kenney's CC0 Board Game Icons vendored at
+      `artifacts/assets/kenney/`, measured saturation 0.000 so they tint to any lane hue).
+
+**What the lab's first render showed:**
+
+- **The badges collide in a real row.** At `diameter_pct` 34 on a 56 px icon a corner-centred badge
+  overhangs **9.5 px**, and `surfaces.row_gap_px` is **6**. The entry draws three adjacent icons so
+  this is visible rather than asserted. Either the diameter comes down, the badge stops being
+  corner-centred, or the row gap grows.
+- **Solid borders read far cleaner than the ants ring** at the same size — three lanes, instantly
+  separable, no ghosting. The arrival snap is legible without being loud.
+- The flask and timer glyphs are legible at ~19 px against busy icon art *because of* the dark
+  contrast plate, which is CDMProbe's lesson re-confirmed: additive art over icon work washes out,
+  and a black disc is the cheap fix.
+
+**What the first honest render showed** — the reason the loop exists, recorded so the next shelf
+edit starts from evidence rather than from the same guesses:
+
+- The ants ring **reads as a ring, not a CSS glow** — but Blizzard's own art is a *soft glowing
+  rounded square*, not crisp marching dashes. The blur is in the sheet; nothing to fix, and worth
+  knowing before anyone tries to "sharpen" it in `Treatment.lua`.
+- The flipbook walks all 30 cells and the pulse rides between the declared 0.68 floor and 1.0 —
+  measured in the live page, not asserted.
+- `starved` (greyscale + veil) is by far the strongest read in the row; it is unmistakable next to
+  a plain `cd`.
+- **`withheld` is the weakest.** Veil 0.60 alone barely separates bright art (Immolation Aura)
+  from an untreated `below` neighbour. It is the one verdict whose treatment is worth revisiting.
+- The 62 % swipe covers most of a 56 px icon, so `cd` icons read as "dark" more than as "dialled".
+  Faithful to the client, but it means the swipe is carrying less information than it looks like.
 
 ### Corrective pass — tier-preserving simplification
 
@@ -176,10 +273,12 @@ mechanisms no authored experience uses.
 
 #### 9.4 Leave a short authoring route for the next spec
 
-- [x] Add a compact “authoring another spec” route to the project `CLAUDE.md`: start from the APL,
-      list the facts each useful rule needs, classify each as readable / sealed-display-only /
-      unavailable, map readable facts to broad tiers and sealed facts to independent context,
-      then point each mechanism to its canonical source example and addon-dev evidence.
+- [x] Add a compact “authoring another spec” route: start from the APL, list the facts each useful
+      rule needs, classify each as readable / sealed-display-only / unavailable, map readable facts
+      to broad tiers and sealed facts to independent context, then point each mechanism to its
+      canonical source example and addon-dev evidence. **Superseded 2026-08-13** — the route grew
+      into `specs/authoring.md`, the permanent process file (eight stages, entry/exit criteria).
+      `CLAUDE.md` and `pattern-shelf.md` now point at it instead of each carrying a copy.
 - [x] Keep the route honest about where normal Lua is expected. A new spec may compose existing
       patterns directly; a genuinely new Blizzard mechanism gets researched once, written into
       `knowledge/addon-dev/`, and becomes a shared helper only after a concrete vertical slice
@@ -233,9 +332,8 @@ transcription is deferred until the desktop cap code is pushed.
       and the **sealed C2 hold now sits on Essence Break's "Eye Beam ≤4s" condition**. VR-led
       throughout; ten single-target scenarios + three AoE mode-variants, with state toggles on ST-3
       / ST-5 / ST-7. The scenario-stepper artifact was regenerated as a faithful rendering of the
-      doc (`https://claude.ai/code/artifact/589b5eca-eb73-424e-8ee8-95d23d22c2ff`). **Flow rule for
-      the resuming agent: the doc is the source of truth — edit `scenarios.md` first, then
-      regenerate the artifact from it; never let the artifact drift ahead.** The artifact's data
+      doc (`https://claude.ai/code/artifact/589b5eca-eb73-424e-8ee8-95d23d22c2ff`). (Docs lead
+      artifacts — the standing rule now lives in `authoring.md` §0.) The artifact's data
       model mirrors the doc 1:1 (each scenario = state → per-button walk verdict → press), so a
       doc change is a JS-array change.
 - [x] **Reconciled the sibling docs to the corrected holds (2026-08-13).** Fixed `catalog.md`,
@@ -248,8 +346,8 @@ transcription is deferred until the desktop cap code is pushed.
       hero-filtered VR-led list), and re-ordered `catalog.md`'s Meta-led priority summary to VR-led.
       Grep-clean: no doc still ties a sealed hold to The Hunt. *(The full three-docs→one consolidation
       is still open, next item.)*
-- [ ] **Owed: consolidate the three Havoc docs → one `catalog.md`** (demonology/ and destruction/
-      each carry a single `catalog.md`; Havoc has three). Fold `scenarios.md` +
+- [ ] **Owed: consolidate the three Havoc docs → one `catalog.md`** — the one-`catalog.md`-per-spec
+      rule is now `authoring.md` §0, and Havoc is the standing violation of it. Fold `scenarios.md` +
       `fact-classification.md` back into `catalog.md` and make `rotation.md` the sole home of the
       priority order. Same deferred cleanup pass. (The scenario-stepper artifact is the standalone
       visual; it renders whatever the consolidated doc says.)
@@ -259,8 +357,8 @@ transcription is deferred until the desktop cap code is pushed.
 
 #### 10.2 New readable providers / renderer work (deferred to transcription)
 
-Each is a *small named mechanism* per §9.4, confirmed against `knowledge/addon-dev/` first, with
-one characterization example:
+Each is a *small named mechanism* under `authoring.md` stage 6's renderer test, confirmed against
+`knowledge/addon-dev/` first, with one characterization example:
 
 - [ ] **"Capped" readable provider** — charges readable-at-full (R6): plain read iff at max *is*
       the capped signal; override-aware max + re-seed on transform (R7). First consumer:
@@ -281,7 +379,7 @@ one characterization example:
 
 #### 10.3 Open facts — measure in-client before authoring the hint (spec.md §3.6)
 
-Route as `@verify-ingame` / ClientLab `@pending-test`; produce no hint until resolved.
+Routed per `authoring.md` stage 5.
 
 - [ ] Does **Inertia** surface as a readable proc glow on Felblade? (gates any Felblade `proc`
       hint; only load-bearing on the legacy Inertia build).

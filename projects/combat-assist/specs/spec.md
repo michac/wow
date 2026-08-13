@@ -124,22 +124,20 @@ sealed still informs, but through a cue (§3.2), never through emphasis.
 
 An ability's lane is fixed by its role; whether it is *lit* depends on readable facts
 (readiness, affordability). It has no emphasis when no condition holds or a required read is
-unknown. Tier selection is discrete: the player reads lane and cues, not small brightness
-differences within a lane's baseline.
+unknown.
 
 **Emphasis has intensity, not just on/off.** For lane + cues to reproduce a priority order, "lit"
 must **rank**: **promoted (a windowed spender) > lit COOLDOWN > lit ROTATION baseline > dim/off.**
 The eye goes to the brightest. This is the mechanism by which tier and cues put presses in
 priority order — a promoted spender inside a readable window out-shines a lit cooldown, which is
-exactly why the empowered spender correctly outranks a ready cooldown in that window. The
-intensities are discrete steps, not a continuous urgency number.
+exactly why the empowered spender correctly outranks a ready cooldown in that window. *How* that
+ladder is drawn — brightness, hue, motion, thickness, or several at once — is a
+`render-shelf.md` question.
 
 **Eye-direction by elimination.** A low-priority button is directed-to by the **absence** of
 competing emphasis, not by a bright cue of its own. The default spender and the filler need no
-signal — they win when they are the only lit button left. So cap does **not** over-light the
-bottom of the list: the raw dump and the fallback carry no special brightness, and are correctly
-found only when everything above them is dim or unlit. The same holds for a hold mark's absence —
-an un-held, ready cooldown is directed-to precisely because the hold ✕ is *not* drawn.
+signal — they win when they are the only lit button left. The same holds for a hold mark's absence
+— an un-held, ready cooldown is directed-to precisely because the hold mark is *not* drawn.
 
 **A priority list is a dependency graph, and emphasis may follow a readable *relationship*, not
 only a button's own state.** An ability's place in the order is usually set by *why* it ranks
@@ -169,12 +167,11 @@ These rules are spec-wide, not spec-specific; the Havoc scenario catalog (§3.7)
 document to walk a full priority list against them, rung by rung, and to mark each rung's
 ordering-reason readable / sealed / secret-gated / open.
 
-The baseline treatments are static and visibly distinct. Color, alpha, blend mode, size and
-interaction with Blizzard's proc glow are tuning hypotheses until judged in the game. Motion
-is added only to solve a specific observed problem.
-
-An ability cap does not enhance remains visually untouched. cap does not dim the rest of the
-Cooldown Manager merely to make its own signals look stronger.
+**Every visual choice below the lane model belongs to `render-shelf.md`** — treatments, color,
+alpha, blend mode, size, motion, placement, and how cap coexists with Blizzard's stock proc glow.
+None of them are settled here, and changing one there is a normal edit, not a spec amendment.
+What this section fixes is only the *model*: three role lanes, driven by readable facts, that must
+rank.
 
 ### 3.2 Context markers
 
@@ -187,8 +184,8 @@ facts into a single verdict.
   but Lua never reads that value or branches on it. A catalog marker has exactly one form:
   readable `{ id, when }`, or sealed `{ id, display }`.
 - A **hold marker** is context that says there is a reason to wait — "this is off cooldown,
-  but there is a better moment coming." It is visually distinct from emphasis and does not
-  silently turn an available ability into an unavailable one. A hold marker has the same two
+  but there is a better moment coming." It does not silently turn an available ability into an
+  unavailable one — cap never misrepresents availability. A hold marker has the same two
   lanes as any other marker: its gating fact is either **readable** (Lua evaluates the wait
   condition and drives the marker directly) or **sealed** (the client evaluates a sealed value
   — a duration counting down inside an authored band — and draws the marker; Lua never reads
@@ -197,8 +194,9 @@ facts into a single verdict.
 Every supported marker has a visible implementation. A catalog form that loads successfully
 and then renders nothing is a defect.
 
-The initial marker shapes, colors and placement are provisional. The first flight asks
-whether the player can identify the fact without consulting the catalog.
+Marker shapes, colors, sizes and placement are `render-shelf.md`'s, not this section's. The
+question a flight asks is whether the player can identify the fact without consulting the
+catalog; the answer changes the shelf.
 
 ### 3.3 Tyrant cooldown experiment
 

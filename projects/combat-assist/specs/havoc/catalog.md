@@ -48,11 +48,13 @@ line is the mechanism, not the count of lit buttons.
 
 Base spell IDs are from `knowledge/classes/demon-hunter/havoc/ability-inventory.tsv`. Demon-form
 override IDs are **invisible to Tier 1** and resolved live via R7 — the reference numbers carry ⚠.
+⚠ Metamorphosis's override is **not** Void Metamorphosis (`471306`); `abilities.md:183` flags that
+as an unconfirmed 12.1 API description bleed, so it is not substituted anywhere.
 
 | Key | Ability | Base spell ID | Demon-form override | Lane | Cues |
 | --- | --- | ---: | --- | --- | --- |
 | `metamorphosis` | Metamorphosis | `191427` | — | COOLDOWN | readable reset dots (C1) — Eye Beam + Death Sweep cooldowns |
-| `eye_beam` | Eye Beam | `198013` | Abyssal Gaze ⚠ | COOLDOWN | — |
+| `eye_beam` | Eye Beam | `198013` | Abyssal Gaze ⚠`452497` | COOLDOWN | — |
 | `the_hunt` | The Hunt | `370965` | — | COOLDOWN | readable sync-hold dot (C1) — Meta cooldown |
 | `essence_break` | Essence Break | `258860` | — | COOLDOWN | positive Fury-banked cue (B, S1); sealed hold (C2) — hold if Eye Beam CD ≤4s |
 | `vengeful_retreat` | Vengeful Retreat | `198793` | — | COOLDOWN | — |
@@ -60,7 +62,7 @@ override IDs are **invisible to Tier 1** and resolved live via R7 — the refere
 | `blade_dance` | Blade Dance | `188499` | Death Sweep ⚠`210152` | ROTATION | demon-form promotion (D) + identity |
 | `felblade` | Felblade | `232893` | — | ROTATION | affordability hold (A) + overcap readout (B) |
 | `demons_bite` | Demon's Bite | `344859` | — | ROTATION | affordability hold (A) + overcap readout (B) |
-| `immolation_aura` | Immolation Aura | `258920` | Consuming Fire ⚠ | ROTATION | charge-at-full "don't cap" (R6) + identity |
+| `immolation_aura` | Immolation Aura | `258920` | Consuming Fire ⚠`452487` | ROTATION | charge-at-full "don't cap" (R6) + identity |
 | `throw_glaive` | Throw Glaive | `185123` | — | FALLBACK | — |
 | `fel_rush` | Fel Rush | `344865` | — | FALLBACK | — |
 | `demonsurge` | Demonsurge (buff) | `452402` | — | — | **OPEN** — hero-signature; no hint until measured |

@@ -1,0 +1,75 @@
+<title>Havoc Scenario Stepper</title>
+<style>
+/*__ROOT_TOKENS__*/
+</style>
+<style>
+/*__SHELF_CSS__*/
+</style>
+
+<div class="wrap">
+
+  <h1>Havoc Scenario Stepper</h1>
+  <p class="lede">
+    Thirteen states of one Cooldown&nbsp;Manager row, walked left to right. Each icon carries a
+    <b>verdict</b> — what Combat&nbsp;Assist&nbsp;Plus concluded about that button — and the walk names why
+    every <em>available</em> button is skipped until the press.
+  </p>
+  <p class="muted">
+    Rendered from <code>specs/havoc/scenarios.md</code> and <code>specs/render-shelf.md</code>. Real
+    Blizzard icon art at the client's 56&nbsp;px, real extracted flipbook sheets at their real frame
+    counts, and cap's treatments composited the way the client composites them —
+    <code>SetVertexColor</code> as a multiply, never a hue rotation. This is a preview of what the
+    addon would draw, not a diagram of it.
+  </p>
+
+  <h2>The row, in a state</h2>
+
+  <div class="controls">
+    <select id="pick" aria-label="Scenario"></select>
+    <button id="prev">‹ Back</button>
+    <button id="next">Step ›</button>
+    <button id="all">Show whole row</button>
+    <button id="zoom" aria-pressed="false">2×</button>
+  </div>
+
+  <div class="state" id="state"></div>
+
+  <div class="stage">
+    <div class="cdm-row" id="row" data-zoom="1"></div>
+  </div>
+
+  <div class="walk" id="walk"></div>
+  <div id="extras"></div>
+
+  <h2>Primitives</h2>
+  <p class="lede">
+    Every primitive the shelf declares, as a live swatch — including the ones no scenario above
+    exercises. A shelf edit always lands somewhere visible here.
+  </p>
+  <div class="gallery" id="gallery"></div>
+
+  <h2>Verdicts</h2>
+  <p class="lede">
+    The closed vocabulary. A verdict says what cap concluded; the shelf says what that looks like.
+  </p>
+  <div class="scroll"><table class="prov" id="verdicts"></table></div>
+
+  <h2>The lab <span class="labtag">no authority</span></h2>
+  <p class="lede">
+    <b>Everything above this line is the style. Nothing below it is.</b> These are experiments —
+    drawn so they can be looked at, not adopted. Nothing a scenario can reach may reference them
+    (<code>capart build</code> errors if it does), they never appear in a CDM row above, and a
+    treatment leaves here by being <em>moved</em> into the declared style, never by being cited
+    from here. Each entry states the question it exists to answer.
+  </p>
+  <div id="lab"></div>
+
+  <div class="prov" id="prov"></div>
+
+</div>
+
+<script type="application/json" id="cap-tokens">/*__TOKENS_JSON__*/</script>
+<script type="application/json" id="cap-data">/*__DATA_JSON__*/</script>
+<script>
+/*__STEPPER_JS__*/
+</script>

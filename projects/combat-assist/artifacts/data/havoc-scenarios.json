@@ -1,0 +1,1045 @@
+{
+  "_comment": "SEEDED by `wowkb.capart import scenarios` from specs/havoc/scenarios.md, then reviewed by eye. The DOC leads: `capart check` re-scrapes the CDM-row bullets and fails if they disagree with this file. Edit the doc, re-import, review.",
+  "spec": "havoc",
+  "source": "projects/combat-assist/specs/havoc/scenarios.md",
+  "scenarios": [
+    {
+      "id": "ST-1",
+      "title": "Metamorphosis — the reset is banked",
+      "state": "Not transformed, Fury ~50. Vengeful Retreat and Metamorphosis are up; <b>Eye Beam and Blade Dance are both on cooldown</b>. The Hunt is up. Nothing is in a window.",
+      "row": [
+        {
+          "name": "Vengeful Retreat",
+          "verdict": "weave"
+        },
+        {
+          "name": "Metamorphosis",
+          "verdict": "press",
+          "dots": [
+            {
+              "label": "Eye Beam",
+              "state": "go"
+            },
+            {
+              "label": "Death Sweep",
+              "state": "go"
+            }
+          ]
+        },
+        {
+          "name": "The Hunt",
+          "verdict": "below"
+        },
+        {
+          "name": "Eye Beam",
+          "verdict": "cd"
+        },
+        {
+          "name": "Essence Break",
+          "verdict": "cd"
+        },
+        {
+          "name": "Blade Dance",
+          "verdict": "cd"
+        },
+        {
+          "name": "Chaos Strike",
+          "verdict": "below"
+        },
+        {
+          "name": "Immolation Aura",
+          "verdict": "below"
+        },
+        {
+          "name": "Felblade",
+          "verdict": "below"
+        },
+        {
+          "name": "Demon's Bite",
+          "verdict": "below"
+        },
+        {
+          "name": "Fel Rush",
+          "verdict": "below"
+        }
+      ],
+      "steps": [
+        {
+          "names": [
+            "Vengeful Retreat"
+          ],
+          "html": "<b>Vengeful Retreat</b> — off the GCD; weave it now, for free (holds Exergy). Continue for the GCD press."
+        },
+        {
+          "names": [
+            "Metamorphosis"
+          ],
+          "html": "<b>Metamorphosis</b> — available, and it carries <b>two dependency dots</b>, shown only while it is castable: Eye Beam and Death Sweep, each driven by that ability&#x27;s readable cooldown state. <code>go</code> = on cooldown (the reset is valuable); <code>wait</code> = ready (the reset would be wasted). Both read <code>go</code> here → the reset banks two casts → <b>press.</b>"
+        }
+      ],
+      "extras": [
+        {
+          "label": "Eye-direction",
+          "html": "Meta&#x27;s <em>own</em> readiness didn&#x27;t decide it — the state of the two abilities it <em>resets</em> did. Two dots are richer than one hold marker: they say <em>why</em> it is go, and they say it from readable facts."
+        },
+        {
+          "label": "Cue set",
+          "html": "Readiness (R2) → <b>have</b>. Reset dots — Eye Beam &amp; Death Sweep cooldowns (R7, readable) → <b>have</b>."
+        }
+      ]
+    },
+    {
+      "id": "ST-2",
+      "title": "Eye Beam — Metamorphosis waits (the counter)",
+      "state": "Same as ST-1, but **Eye Beam is *ready*** (Blade Dance still on cooldown). Meta is up.",
+      "row": [
+        {
+          "name": "Vengeful Retreat",
+          "verdict": "weave"
+        },
+        {
+          "name": "Metamorphosis",
+          "verdict": "hold-readable",
+          "dots": [
+            {
+              "label": "Eye Beam",
+              "state": "wait"
+            }
+          ]
+        },
+        {
+          "name": "The Hunt",
+          "verdict": "cd"
+        },
+        {
+          "name": "Eye Beam",
+          "verdict": "press"
+        },
+        {
+          "name": "Essence Break",
+          "verdict": "cd"
+        },
+        {
+          "name": "Blade Dance",
+          "verdict": "cd"
+        },
+        {
+          "name": "Chaos Strike",
+          "verdict": "below"
+        },
+        {
+          "name": "Immolation Aura",
+          "verdict": "below"
+        },
+        {
+          "name": "Felblade",
+          "verdict": "below"
+        },
+        {
+          "name": "Demon's Bite",
+          "verdict": "below"
+        },
+        {
+          "name": "Fel Rush",
+          "verdict": "below"
+        }
+      ],
+      "steps": [
+        {
+          "names": [
+            "Vengeful Retreat"
+          ],
+          "html": "<b>Vengeful Retreat</b> — weave, off-GCD."
+        },
+        {
+          "names": [
+            "Metamorphosis"
+          ],
+          "html": "<b>Metamorphosis</b> — available, but its <b>Eye Beam dot flips to <code>wait</code></b>: Eye Beam is ready, so resetting it would waste the reset. Meta reads <code>hold-readable</code> → skip."
+        },
+        {
+          "names": [
+            "The Hunt"
+          ],
+          "html": "<b>The Hunt</b> — on cooldown → skip."
+        },
+        {
+          "names": [
+            "Eye Beam"
+          ],
+          "html": "<b>Eye Beam</b> — available, no skip-reason → <b>press.</b> Cast it now; Meta resets it a moment later for a banked second cast."
+        }
+      ],
+      "extras": [
+        {
+          "label": "Eye-direction",
+          "html": "The mirror of ST-1, and the strongest demonstration: cap re-ranks the press from a <em>readable relationship</em> between two buttons, computing nothing."
+        },
+        {
+          "label": "Cue set",
+          "html": "Readiness (R2) → <b>have</b>. Reset dot — Eye Beam cooldown (R7, readable) → <b>have</b>."
+        }
+      ]
+    },
+    {
+      "id": "ST-3",
+      "title": "The Hunt — Metamorphosis is down",
+      "state": "Not transformed. The Hunt is up; <b>Metamorphosis is on cooldown</b>. Eye Beam on cooldown. Fury mid.",
+      "row": [
+        {
+          "name": "Vengeful Retreat",
+          "verdict": "weave"
+        },
+        {
+          "name": "Metamorphosis",
+          "verdict": "cd"
+        },
+        {
+          "name": "The Hunt",
+          "verdict": "press",
+          "dots": [
+            {
+              "label": "Metamorphosis",
+              "state": "go"
+            }
+          ]
+        },
+        {
+          "name": "Eye Beam",
+          "verdict": "cd"
+        },
+        {
+          "name": "Essence Break",
+          "verdict": "cd"
+        },
+        {
+          "name": "Blade Dance",
+          "verdict": "below"
+        },
+        {
+          "name": "Chaos Strike",
+          "verdict": "below"
+        },
+        {
+          "name": "Immolation Aura",
+          "verdict": "below"
+        },
+        {
+          "name": "Felblade",
+          "verdict": "below"
+        },
+        {
+          "name": "Demon's Bite",
+          "verdict": "below"
+        },
+        {
+          "name": "Fel Rush",
+          "verdict": "below"
+        }
+      ],
+      "steps": [
+        {
+          "names": [
+            "Vengeful Retreat"
+          ],
+          "html": "<b>Vengeful Retreat</b> — weave, off-GCD."
+        },
+        {
+          "names": [
+            "Metamorphosis"
+          ],
+          "html": "<b>Metamorphosis</b> — on cooldown → skip."
+        },
+        {
+          "names": [
+            "The Hunt"
+          ],
+          "html": "<b>The Hunt</b> — available; its one dependency dot reads <b>Meta&#x27;s cooldown state</b>. Meta is on cooldown → dot reads <code>go</code> → there is no upcoming Meta to sync with, so cast now → <b>press.</b>"
+        }
+      ],
+      "extras": [
+        {
+          "label": "Counter",
+          "html": "If Metamorphosis were <em>up</em>, The Hunt&#x27;s dot flips to <code>wait</code> — hold, to save The Hunt to buff Abyssal Gaze inside the coming Meta window (the guide&#x27;s &quot;hold if Metamorphosis is available&quot;). You would skip The Hunt and press the next GCD button."
+        },
+        {
+          "label": "Cue set",
+          "html": "Readiness (R2) → <b>have</b>. Sync-hold dot — Meta cooldown state (R7, readable) → <b>have</b>. <em>(Corrects an earlier draft that made this a sealed Essence-Break-window hold — the live guide&#x27;s hold is Meta-availability, which cap reads directly.)</em>"
+        }
+      ]
+    },
+    {
+      "id": "ST-4",
+      "title": "Death Sweep — flood the window (demon-form override)",
+      "state": "<b>Transformed — Metamorphosis is active.</b> You have just opened an Essence Break window with Fury banked. Eye Beam (→ Abyssal Gaze) and Essence Break are on cooldown.",
+      "row": [
+        {
+          "name": "Vengeful Retreat",
+          "verdict": "weave"
+        },
+        {
+          "name": "Metamorphosis",
+          "verdict": "cd"
+        },
+        {
+          "name": "The Hunt",
+          "verdict": "cd"
+        },
+        {
+          "name": "Abyssal Gaze",
+          "verdict": "cd"
+        },
+        {
+          "name": "Essence Break",
+          "verdict": "cd"
+        },
+        {
+          "name": "Death Sweep",
+          "verdict": "press-promoted"
+        },
+        {
+          "name": "Annihilation",
+          "verdict": "below"
+        },
+        {
+          "name": "Consuming Fire",
+          "verdict": "below"
+        },
+        {
+          "name": "Felblade",
+          "verdict": "below"
+        },
+        {
+          "name": "Demon's Bite",
+          "verdict": "below"
+        },
+        {
+          "name": "Fel Rush",
+          "verdict": "below"
+        }
+      ],
+      "steps": [
+        {
+          "names": [
+            "Vengeful Retreat"
+          ],
+          "html": "<b>Vengeful Retreat</b> — weave, off-GCD."
+        },
+        {
+          "names": [
+            "Metamorphosis",
+            "The Hunt",
+            "Abyssal Gaze",
+            "Essence Break"
+          ],
+          "html": "<b>Metamorphosis / The Hunt / Abyssal Gaze / Essence Break</b> — all on cooldown (spent to build and open the window) → skip."
+        },
+        {
+          "names": [
+            "Death Sweep"
+          ],
+          "html": "<b>Death Sweep</b> — available, and the readable <b>demon-form window promotes it</b> above what a lit COOLDOWN would be (promoted &gt; lit COOLDOWN) → <b>press.</b> Flood the window."
+        }
+      ],
+      "extras": [
+        {
+          "label": "Fidelity",
+          "html": "This is the override showcase: the row now reads <em>Abyssal Gaze · Death Sweep · Annihilation · Consuming Fire</em>. cap authors none of it — R7 resolves the live <code>overrideSpellID</code>, so the CDM shows precisely what the client shows."
+        },
+        {
+          "label": "Cue set",
+          "html": "Demon-form promotion (D, R7) → <b>have</b>. Demonsurge-active promotion → <b>open</b>. Essence-Break-window promotion → <b>open</b>. <em>(Demon form carries the promotion today; the two windows would sharpen it if their active-state proves readable — until then they mark, never promote.)</em>"
+        }
+      ]
+    },
+    {
+      "id": "ST-5",
+      "title": "Essence Break — open the window (sealed cues)",
+      "state": "Not transformed, <b>Fury banked (≥35)</b>, no window live. Essence Break is up. Eye Beam&#x27;s cooldown has <b>more than 4s</b> remaining (safe to open).",
+      "row": [
+        {
+          "name": "Vengeful Retreat",
+          "verdict": "weave"
+        },
+        {
+          "name": "Metamorphosis",
+          "verdict": "cd"
+        },
+        {
+          "name": "The Hunt",
+          "verdict": "cd"
+        },
+        {
+          "name": "Eye Beam",
+          "verdict": "cd"
+        },
+        {
+          "name": "Essence Break",
+          "verdict": "press",
+          "cues": [
+            "banked"
+          ]
+        },
+        {
+          "name": "Blade Dance",
+          "verdict": "below"
+        },
+        {
+          "name": "Chaos Strike",
+          "verdict": "below"
+        },
+        {
+          "name": "Immolation Aura",
+          "verdict": "below"
+        },
+        {
+          "name": "Felblade",
+          "verdict": "below"
+        },
+        {
+          "name": "Demon's Bite",
+          "verdict": "below"
+        },
+        {
+          "name": "Fel Rush",
+          "verdict": "below"
+        }
+      ],
+      "steps": [
+        {
+          "names": [
+            "Vengeful Retreat"
+          ],
+          "html": "<b>Vengeful Retreat</b> — weave, off-GCD."
+        },
+        {
+          "names": [
+            "Metamorphosis",
+            "The Hunt"
+          ],
+          "html": "<b>Metamorphosis / The Hunt</b> — on cooldown → skip."
+        },
+        {
+          "names": [
+            "Eye Beam"
+          ],
+          "html": "<b>Eye Beam</b> — on cooldown, long remaining → skip."
+        },
+        {
+          "names": [
+            "Essence Break"
+          ],
+          "html": "<b>Essence Break</b> — available, and it carries the <b>banked</b> cue: the client evaluated secret Fury against an authored break point (35 / maxFury, S1) and painted it — cap never read the value → <b>press</b>, then flood the ~4s window with Death Sweep + Annihilation. ⚠ The banked cue is <b>open</b> (below), so it produces nothing until measured; the artifact marks it as such."
+        }
+      ],
+      "extras": [
+        {
+          "label": "Counter",
+          "html": "If Eye Beam&#x27;s cooldown had <b>≤4s</b> remaining instead, Essence Break would read <code>hold-sealed</code> — don&#x27;t clip the window into Eye Beam. That hold rides a sealed duration (S4 curve on Eye Beam&#x27;s cooldown), painted client-side; cap never reads the clock. You would skip Essence Break, spend the baseline spender, and open the window after Eye Beam."
+        },
+        {
+          "label": "Cue set",
+          "html": "Readiness (R2) → <b>have</b>. Banked-Fury ≥35 threshold (S1 positive, painted) → <b>open</b> <em>(the positive-polarity threshold cue is specified but unmeasured; until confirmed the press ships on readiness + player judgment, no banked light)</em>. Sealed hold — Eye Beam CD ≤4s (C2, S4) → <b>sealed</b>."
+        }
+      ]
+    },
+    {
+      "id": "ST-6",
+      "title": "Death Sweep / Blade Dance — the baseline spender",
+      "state": "Not transformed, Fury mid (affordable). <b>Every cooldown above is on cooldown.</b> Immolation Aura is not full.",
+      "row": [
+        {
+          "name": "Vengeful Retreat",
+          "verdict": "cd"
+        },
+        {
+          "name": "Metamorphosis",
+          "verdict": "cd"
+        },
+        {
+          "name": "The Hunt",
+          "verdict": "cd"
+        },
+        {
+          "name": "Eye Beam",
+          "verdict": "cd"
+        },
+        {
+          "name": "Essence Break",
+          "verdict": "cd"
+        },
+        {
+          "name": "Blade Dance",
+          "verdict": "press"
+        },
+        {
+          "name": "Chaos Strike",
+          "verdict": "below"
+        },
+        {
+          "name": "Immolation Aura",
+          "verdict": "below"
+        },
+        {
+          "name": "Felblade",
+          "verdict": "below"
+        },
+        {
+          "name": "Demon's Bite",
+          "verdict": "below"
+        },
+        {
+          "name": "Fel Rush",
+          "verdict": "below"
+        }
+      ],
+      "steps": [
+        {
+          "names": [
+            "Vengeful Retreat",
+            "Metamorphosis",
+            "The Hunt",
+            "Eye Beam",
+            "Essence Break"
+          ],
+          "html": "<b>Vengeful Retreat … Essence Break</b> — all on cooldown → skip."
+        },
+        {
+          "names": [
+            "Blade Dance"
+          ],
+          "html": "<b>Blade Dance</b> — available and affordable → <b>press.</b> The ordinary spender; it wins <b>by elimination</b> — nothing above it is up, and it needs no cue of its own."
+        }
+      ],
+      "extras": [
+        {
+          "label": "Eye-direction",
+          "html": "The canonical elimination case for the <em>middle</em> of the list. Whenever a cooldown returns, the field re-lights above it and the eye moves up — which is exactly the priority order."
+        },
+        {
+          "label": "Cue set",
+          "html": "Readiness (R2) → <b>have</b>. Affordability (A) → <b>have</b> <em>(dims if Fury-starved — see ST-7)</em>."
+        }
+      ]
+    },
+    {
+      "id": "ST-7",
+      "title": "Felblade — Fury-starved (affordability, with overcap counter)",
+      "state": "Not transformed, <b>Fury low</b>, no cooldown up, Immolation not full.",
+      "row": [
+        {
+          "name": "Vengeful Retreat",
+          "verdict": "cd"
+        },
+        {
+          "name": "Metamorphosis",
+          "verdict": "cd"
+        },
+        {
+          "name": "The Hunt",
+          "verdict": "cd"
+        },
+        {
+          "name": "Eye Beam",
+          "verdict": "cd"
+        },
+        {
+          "name": "Essence Break",
+          "verdict": "cd"
+        },
+        {
+          "name": "Blade Dance",
+          "verdict": "starved"
+        },
+        {
+          "name": "Chaos Strike",
+          "verdict": "starved"
+        },
+        {
+          "name": "Immolation Aura",
+          "verdict": "withheld"
+        },
+        {
+          "name": "Felblade",
+          "verdict": "press"
+        },
+        {
+          "name": "Demon's Bite",
+          "verdict": "below"
+        },
+        {
+          "name": "Fel Rush",
+          "verdict": "below"
+        }
+      ],
+      "steps": [
+        {
+          "names": [
+            "Vengeful Retreat",
+            "Metamorphosis",
+            "The Hunt",
+            "Eye Beam",
+            "Essence Break"
+          ],
+          "html": "<b>Vengeful Retreat … Essence Break</b> — on cooldown → skip."
+        },
+        {
+          "names": [
+            "Blade Dance"
+          ],
+          "html": "<b>Blade Dance</b> — available but reads <code>starved</code>: you cannot afford it (cue A, the <code>insufficientPower</code> read) → skip."
+        },
+        {
+          "names": [
+            "Chaos Strike"
+          ],
+          "html": "<b>Chaos Strike</b> — same, <code>starved</code> → skip."
+        },
+        {
+          "names": [
+            "Immolation Aura"
+          ],
+          "html": "<b>Immolation Aura</b> — available, but its charges read below full → <b>secret</b>, so cap <b>withholds</b> the &quot;spend it&quot; opinion (unknown ≠ capped) → skip, no signal."
+        },
+        {
+          "names": [
+            "Felblade"
+          ],
+          "html": "<b>Felblade</b> — a generator with no Fury cost, so it is never unaffordable; it keeps its emphasis while the spenders lose theirs → <b>press.</b> Rebuild Fury; the generator correctly rises past the starved spenders because the field around it fell away."
+        }
+      ],
+      "extras": [
+        {
+          "label": "Counter",
+          "html": "With Fury <b>near cap</b> instead, the same Felblade reads <code>overcap</code> (cue B, negative) — pressing it would waste Fury. You skip the generator and spend a spender. The break point is authored (S1); the client paints it; cap reads nothing."
+        },
+        {
+          "label": "Cue set",
+          "html": "Readiness (R2) → <b>have</b>. Affordability (A) → <b>have</b>. Immolation withhold (R6) → <b>have</b>. Overcap readout (B, S1 negative) → <b>sealed</b>."
+        }
+      ]
+    },
+    {
+      "id": "ST-8",
+      "title": "Immolation Aura — don't cap the charges",
+      "state": "Not transformed, Immolation Aura at <b>full (2/2</b> with A Fire Inside<b>)</b>. The spenders are on cooldown (just spent). Fury mid.",
+      "row": [
+        {
+          "name": "Vengeful Retreat",
+          "verdict": "cd"
+        },
+        {
+          "name": "Metamorphosis",
+          "verdict": "cd"
+        },
+        {
+          "name": "The Hunt",
+          "verdict": "cd"
+        },
+        {
+          "name": "Eye Beam",
+          "verdict": "cd"
+        },
+        {
+          "name": "Essence Break",
+          "verdict": "cd"
+        },
+        {
+          "name": "Blade Dance",
+          "verdict": "cd"
+        },
+        {
+          "name": "Chaos Strike",
+          "verdict": "cd"
+        },
+        {
+          "name": "Immolation Aura",
+          "verdict": "press"
+        },
+        {
+          "name": "Felblade",
+          "verdict": "below"
+        },
+        {
+          "name": "Demon's Bite",
+          "verdict": "below"
+        },
+        {
+          "name": "Fel Rush",
+          "verdict": "below"
+        }
+      ],
+      "steps": [
+        {
+          "names": [
+            "Vengeful Retreat",
+            "Metamorphosis",
+            "The Hunt",
+            "Eye Beam",
+            "Essence Break",
+            "Blade Dance",
+            "Chaos Strike"
+          ],
+          "html": "Everything above, <b>including both spenders</b>, is on cooldown → skip."
+        },
+        {
+          "names": [
+            "Immolation Aura"
+          ],
+          "html": "<b>Immolation Aura</b> — its charges <b>read full</b> (R6: the charge count reads plain <em>only</em> at max), so cap emphasises it as &quot;spend it&quot; → <b>press.</b> Don&#x27;t waste a charge; dump both before Meta so A Fire Inside / Demonic Intensity refunds them."
+        }
+      ],
+      "extras": [
+        {
+          "label": "Eye-direction",
+          "html": "Below full the count is secret and the button reads <code>withheld</code> — the plain <b>full</b> read <em>is</em> the whole capped signal. This is the one Fury-adjacent decision that matters, and R6&#x27;s read-at-full limit is a feature here, not a hole."
+        },
+        {
+          "label": "Cue set",
+          "html": "Immolation-at-full (R6) → <b>have</b> <em>(open-to-confirm: does the charge row read readable-at-full in instanced combat? confirm before shipping the tier)</em>."
+        }
+      ]
+    },
+    {
+      "id": "ST-9",
+      "title": "Annihilation / Chaos Strike — the raw dump (elimination, low)",
+      "state": "Not transformed, <b>Fury flush</b>, no window live. Blade Dance is on cooldown; Immolation not full.",
+      "row": [
+        {
+          "name": "Vengeful Retreat",
+          "verdict": "cd"
+        },
+        {
+          "name": "Metamorphosis",
+          "verdict": "cd"
+        },
+        {
+          "name": "The Hunt",
+          "verdict": "cd"
+        },
+        {
+          "name": "Eye Beam",
+          "verdict": "cd"
+        },
+        {
+          "name": "Essence Break",
+          "verdict": "cd"
+        },
+        {
+          "name": "Blade Dance",
+          "verdict": "cd"
+        },
+        {
+          "name": "Chaos Strike",
+          "verdict": "press"
+        },
+        {
+          "name": "Immolation Aura",
+          "verdict": "withheld"
+        },
+        {
+          "name": "Felblade",
+          "verdict": "overcap"
+        },
+        {
+          "name": "Demon's Bite",
+          "verdict": "overcap"
+        },
+        {
+          "name": "Fel Rush",
+          "verdict": "below"
+        }
+      ],
+      "steps": [
+        {
+          "names": [
+            "Vengeful Retreat",
+            "Metamorphosis",
+            "The Hunt",
+            "Eye Beam",
+            "Essence Break",
+            "Blade Dance"
+          ],
+          "html": "Everything above, and Blade Dance, is on cooldown → skip."
+        },
+        {
+          "names": [
+            "Chaos Strike"
+          ],
+          "html": "<b>Chaos Strike</b> — available and affordable (Fury flush) → <b>press.</b> The raw dump lives near the <em>bottom</em> of the list; it is the press only <b>by elimination</b> — it is the only emphasised spender — and cap gives it <b>no more</b> than its baseline lane treatment. It wins by being alone."
+        }
+      ],
+      "extras": [
+        {
+          "label": "Eye-direction",
+          "html": "The reason cap must <em>not</em> over-emphasise the bottom: the raw dump stands out only relative to a quieter field. The generators to its right read <code>overcap</code> (Fury is flush), so the eye is pushed <em>toward</em> spending, not generating. Were Fury low, Chaos Strike would read <code>starved</code> (cue A) and a generator would rise past it (ST-7)."
+        },
+        {
+          "label": "Cue set",
+          "html": "Readiness (R2) → <b>have</b>. Affordability (A) → <b>have</b>. Overcap readout on the generators (B) → <b>sealed</b>."
+        }
+      ]
+    },
+    {
+      "id": "ST-10",
+      "title": "Fel Rush — last-resort filler",
+      "state": "Not transformed. Both spenders were just spent and are on cooldown, Immolation Aura is not full, and Fury is flush — so both generators would waste it.",
+      "row": [
+        {
+          "name": "Vengeful Retreat",
+          "verdict": "cd"
+        },
+        {
+          "name": "Metamorphosis",
+          "verdict": "cd"
+        },
+        {
+          "name": "The Hunt",
+          "verdict": "cd"
+        },
+        {
+          "name": "Eye Beam",
+          "verdict": "cd"
+        },
+        {
+          "name": "Essence Break",
+          "verdict": "cd"
+        },
+        {
+          "name": "Blade Dance",
+          "verdict": "cd"
+        },
+        {
+          "name": "Chaos Strike",
+          "verdict": "cd"
+        },
+        {
+          "name": "Immolation Aura",
+          "verdict": "withheld"
+        },
+        {
+          "name": "Felblade",
+          "verdict": "overcap"
+        },
+        {
+          "name": "Demon's Bite",
+          "verdict": "overcap"
+        },
+        {
+          "name": "Fel Rush",
+          "verdict": "press"
+        }
+      ],
+      "steps": [
+        {
+          "names": [
+            "Vengeful Retreat",
+            "Metamorphosis",
+            "The Hunt",
+            "Eye Beam",
+            "Essence Break",
+            "Blade Dance",
+            "Chaos Strike",
+            "Immolation Aura",
+            "Felblade",
+            "Demon's Bite",
+            "Fel Rush"
+          ],
+          "html": "Every cooldown and both spenders are on cooldown; Immolation Aura is <code>withheld</code>; both generators read <code>overcap</code> → skip → <b>Fel Rush</b> is all that is left → <b>press.</b> The fallback has <b>no signal of its own</b>; the eye lands here purely by elimination. <em>(An earlier draft wrote this row as an ellipsis — &quot;every rotation button cd / starved&quot; — which no state actually produces: a generator has no Fury cost and so can never be <code>starved</code>. The row above is the state that genuinely reaches the filler.)</em>"
+        }
+      ],
+      "extras": [
+        {
+          "label": "Cue set",
+          "html": "Readiness (R2) → <b>have</b>. <em>(Throw Glaive is not in the Fel-Scarred priority — a rare filler unless Screaming Brutality routes it through Blade Dance; with Serrated Glaive it buffs </em>you* for 12s, a candidate buff-maintenance marker, open.)<em> --- ## AoE / cleave variants (3+ targets) The AoE list shares the same row and only <b>re-weights the middle</b> — the single-target raw spender drops, and Immolation Aura + Blade Dance/Death Sweep rise. It adds <b>no new cues.</b> The re-weight is selected by the <b>player&#x27;s AoE-mode input</b> (<code>../spec.md</code> §2 — the player sets single-target or AoE), </em>not* by a readable target count (cap has no readable enemy count and would not compute one). So these are the ST scenarios above with the mode input shifting which button the walk reaches first."
+        }
+      ]
+    },
+    {
+      "id": "AoE-1",
+      "title": "Immolation Aura — pressed more aggressively",
+      "state": "",
+      "row": [
+        {
+          "name": "Vengeful Retreat",
+          "verdict": "cd"
+        },
+        {
+          "name": "Metamorphosis",
+          "verdict": "cd"
+        },
+        {
+          "name": "The Hunt",
+          "verdict": "cd"
+        },
+        {
+          "name": "Eye Beam",
+          "verdict": "cd"
+        },
+        {
+          "name": "Essence Break",
+          "verdict": "cd"
+        },
+        {
+          "name": "Immolation Aura",
+          "verdict": "press"
+        },
+        {
+          "name": "Blade Dance",
+          "verdict": "below"
+        },
+        {
+          "name": "Felblade",
+          "verdict": "below"
+        },
+        {
+          "name": "Demon's Bite",
+          "verdict": "below"
+        },
+        {
+          "name": "Chaos Strike",
+          "verdict": "below"
+        },
+        {
+          "name": "Fel Rush",
+          "verdict": "below"
+        }
+      ],
+      "steps": [],
+      "extras": [
+        {
+          "label": "Delta",
+          "html": "In AoE mode Immolation Aura is a top source, pressed harder than the single &quot;don&#x27;t cap at 2&quot; rule. cap&#x27;s cue is unchanged — the readable-at-full &quot;don&#x27;t cap&quot; signal (R6) still fires; the <em>press-it-more</em> is the <b>AoE-mode input</b>, not a new cue and not a computed count."
+        },
+        {
+          "label": "Cue set",
+          "html": "Immolation-at-full (R6) → <b>have</b>. AoE-mode weighting → mode input, <b>not a cue</b>."
+        }
+      ]
+    },
+    {
+      "id": "AoE-2",
+      "title": "Blade Dance / Death Sweep — primary",
+      "state": "",
+      "row": [
+        {
+          "name": "Vengeful Retreat",
+          "verdict": "weave"
+        },
+        {
+          "name": "Metamorphosis",
+          "verdict": "cd"
+        },
+        {
+          "name": "The Hunt",
+          "verdict": "cd"
+        },
+        {
+          "name": "Abyssal Gaze",
+          "verdict": "cd"
+        },
+        {
+          "name": "Essence Break",
+          "verdict": "cd"
+        },
+        {
+          "name": "Consuming Fire",
+          "verdict": "withheld"
+        },
+        {
+          "name": "Death Sweep",
+          "verdict": "press-promoted"
+        },
+        {
+          "name": "Felblade",
+          "verdict": "below"
+        },
+        {
+          "name": "Demon's Bite",
+          "verdict": "below"
+        },
+        {
+          "name": "Annihilation",
+          "verdict": "below"
+        },
+        {
+          "name": "Fel Rush",
+          "verdict": "below"
+        }
+      ],
+      "steps": [],
+      "extras": [
+        {
+          "label": "Delta",
+          "html": "In AoE mode these rise to primary (they trigger Glaive Tempest at 3+). The rise is the AoE-mode input; the demon-form promotion (D) still stacks on top when transformed, and the single-target Chaos Strike dump falls beneath it."
+        },
+        {
+          "label": "Cue set",
+          "html": "Readiness (R2) → <b>have</b>. Demon-form promotion (D) → <b>have</b>. AoE-mode weighting → mode input, <b>not a cue</b>."
+        }
+      ]
+    },
+    {
+      "id": "AoE-3",
+      "title": "Chaos Strike / Annihilation — de-emphasised",
+      "state": "",
+      "row": [
+        {
+          "name": "Vengeful Retreat",
+          "verdict": "cd"
+        },
+        {
+          "name": "Metamorphosis",
+          "verdict": "cd"
+        },
+        {
+          "name": "The Hunt",
+          "verdict": "cd"
+        },
+        {
+          "name": "Eye Beam",
+          "verdict": "cd"
+        },
+        {
+          "name": "Essence Break",
+          "verdict": "cd"
+        },
+        {
+          "name": "Immolation Aura",
+          "verdict": "withheld"
+        },
+        {
+          "name": "Blade Dance",
+          "verdict": "press"
+        },
+        {
+          "name": "Felblade",
+          "verdict": "below"
+        },
+        {
+          "name": "Demon's Bite",
+          "verdict": "below"
+        },
+        {
+          "name": "Chaos Strike",
+          "verdict": "below"
+        },
+        {
+          "name": "Fel Rush",
+          "verdict": "below"
+        }
+      ],
+      "steps": [],
+      "extras": [
+        {
+          "label": "Delta",
+          "html": "In AoE mode the single-target dump drops <em>further</em> beneath Blade Dance — spend into Blade Dance instead. The AoE-mode input <b>re-ranks</b> an already-by-elimination button (ST-9) below the generators; the re-rank is the narrowing, no new cue."
+        },
+        {
+          "label": "Cue set",
+          "html": "Readiness (R2) → <b>have</b>. Affordability (A) → <b>have</b>. AoE-mode weighting → mode input, <b>not a cue</b>. <em>(Still reached only by elimination, just lower.)</em> <em>(Burning-Wound tab-targeting and the Meta + Essence Break AoE burst add no cap cue: tab-targeting is target selection cap does not hint, and the Meta/EB burst is the same COOLDOWN readiness as ST.)</em> --- ## What the walk surfaced — cue completeness + gaps <b>Complete cue set for comprehensive coverage (have / sealed):</b> readiness (R2), affordability (A), readable hold / dependency dots C1 (incl. the reset dots and the sync-hold dot), sealed hold C2, demon-form promotion (D), Immolation-at-full (R6), overcap readout (B negative), banked-Fury threshold (S1 positive), identity re-skin (R7), and the demon-form bar. Plus <b>two non-cue mechanisms</b> the walk made explicit: the <b>emphasis-intensity hierarchy</b> and <b>eye-direction by elimination</b> (both now <code>../spec.md</code> §3.1), and the <b>AoE-mode input</b> that re-weights without a readable count. <b>Gaps — cues the walk would use but we have not measured (open, produce no hint until resolved):</b> | Named cue | Where it appears | Status | Gates | | --- | --- | --- | --- | | <b>Banked-Fury threshold (positive)</b> | ST-5 | <b>open</b> (specified S1 positive) | Whether the positive-polarity &quot;banked ✓&quot; light draws correctly on Essence Break from the authored 35/maxFury break. Until confirmed, ST-5 ships on readiness + player judgment. | | <b>Demonsurge-active promotion</b> | ST-4 | <b>open</b> | Whether the Demonsurge window exposes a <em>readable</em> active-state so cap may <b>promote</b> (else it may only mark). | | <b>Essence-Break-window promotion</b> | ST-4 | <b>open</b> | Whether the Essence Break amp window&#x27;s active-state is readable (else promote → mark). | | <b>Inertia-proc rise</b> | (Inertia build only) | <b>open</b> | Whether Felblade shows a readable Inertia proc that lifts it above baseline. Not load-bearing on the S2 Exergy build walked here. | | <b>Buff-maintenance marker</b> (Exergy / Serrated Glaive) | ST-1 (weave), ST-10 | <b>open</b> (candidate readable-present + sealed-remaining) | Whether &quot;buff present&quot; reads as a plain boolean while the remaining time stays sealed. If so it is a readable marker; the countdown is a sealed duration. | These are the same open facts tracked in <code>catalog.md</code> → <em>Open facts to measure in-client</em> and <code>fact-classification.md</code> → <em>Open facts</em>. Route every one as <code>@verify-ingame</code> / ClientLab <code>@pending-test</code>, never a guess. <b>None gates a press</b> — each only sharpens a scenario that already resolves by a readable cue or elimination."
+        }
+      ]
+    }
+  ]
+}

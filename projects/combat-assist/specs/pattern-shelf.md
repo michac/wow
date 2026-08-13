@@ -360,16 +360,13 @@ mechanism only when a vertical slice needs one" rule).
 
 ---
 
-## Authoring checklist (how to use this shelf)
+## How to use this shelf
 
-1. From the spec's APL, list the abilities you have a player-problem for and the facts each
-   rule needs.
-2. Classify each fact against Part 1 / Part 2 above → **readable**, **sealed-display**, or
-   **open**. An **open** fact that is load-bearing is a stop-and-ask, not a guess.
-3. Readable facts author into broad emphasis tiers and readable markers; sealed facts author
-   into an independent display sink; open/unavailable facts produce no hint.
-4. Point each mechanism at its Part-3 seam and its canonical example (Demonbolt = proc +
-   resource, Tyrant = readiness + readable markers, Conflagrate = charged readiness, Backdraft
-   = sealed stacks, Immolate = aura-duration display, Dreadstalkers = totem-duration display).
-5. Write a Lua helper only when the slice needs one; reuse the renderer unedited wherever the
-   tier/marker vocabulary already covers the fact.
+This file is the **reference**, not the route. `authoring.md` owns the route: its **stage 3**
+classifies each fact the spec needs against Part 1 / Part 2 above, its **stage 4** maps the
+readable ones to lanes and markers and the sealed ones to cues, and its **stage 6** points each
+mechanism at a Part-3 seam.
+
+The canonical example for each mechanism, when you need one to author against: Demonbolt = proc
++ resource, Tyrant = readiness + readable markers, Conflagrate = charged readiness, Backdraft =
+sealed stacks, Immolate = aura-duration display, Dreadstalkers = totem-duration display.

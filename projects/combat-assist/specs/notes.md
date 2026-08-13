@@ -43,6 +43,154 @@ nothing survives, "nothing; superseded by <X>" and stop.
 
 ---
 
+## 2026-08-13 — Part 7, the lab
+
+**What changed.** Added Part 7 to the render shelf: a place to draw a treatment without adopting
+it. Its isolation is mechanical, not conventional — `capart build` errors if anything in `verdicts`
+or `cues` names a lab entry, so an experiment cannot become load-bearing without someone deciding
+to promote it. Authored two entries. L1 reverts the superseded solid border and animates it only on
+arrival, fired from three different causes and carrying a fourth CHARGES lane. L2 puts OS-style
+circular badges on the corners, drawn from Kenney's CC0 Board Game Icons, vendored into
+`artifacts/assets/kenney/` with their license so a build does not depend on gitignored `raw/`.
+Files: `specs/render-shelf.md`, `tools/wowkb/capart.py`, `artifacts/template/*`,
+`artifacts/assets/kenney/*` (new), project `CLAUDE.md`, `specs/backlog.md`.
+
+**Why it still binds.** The one-style rule is right and stays — a document holding two answers
+cannot be rendered. But it had a cost nobody priced: the only way to *see* an idea was to overwrite
+the declared style and remember to put it back, which is a bad trade that quietly discourages
+trying anything. The lab pays that cost without weakening the rule, because the rule's actual job
+is to keep the *generator* from choosing, and an entry nothing can reference never reaches the
+generator's decisions. That is why rule 1 is a build error rather than a paragraph: a convention
+about what may reference what is exactly the kind of thing that erodes silently.
+
+The second argument is about honesty in a preview. The badge entry computes its own overhang
+against the row gap and draws three adjacent icons, so "these collide" is something the artifact
+*shows* rather than something a caption claims. A lab that only renders the flattering case is a
+worse instrument than no lab.
+
+**Caveat.** Nothing here is proposed, shortlisted or planned; two entries drawn is not a
+comparison, and if both survive a flight one still loses. The badge geometry is arithmetic on a
+12.0.7 source read of the CDM template, not a measurement, and slot 3 runs toward the BOTTOMRIGHT
+corner Blizzard owns.
+
+---
+
+## 2026-08-13 — the loop closed, and the first honest look
+
+**What changed.** Built `tools/wowkb/serve.py`: a stdlib static server that watches paths, reruns a
+command on save and pushes an SSE reload, so editing the shelf redraws the page with no publish in
+the loop. It injects the reload client into *served* HTML only, never into the file, so the
+committed artifact stays clean. Cut `capart build` down to two hard failures — the tint guard and
+the closed verdict/roster vocabulary — moving the byte budget, the flipbook geometry check and the
+literal-hex scan to warnings or to `check`. Extracted all 15 icons and both sheets from real client
+art; four of the override forms needed the FileDataID route rather than the three that were
+registered, and the missing ids were read off `SpellMisc.SpellIconFileDataID`. Republished the
+artifact to its existing URL. Files: `tools/wowkb/serve.py` (new), `tools/wowkb/capart.py`,
+`projects/combat-assist/artifacts/havoc-stepper.html` (new), `specs/backlog.md`, repo `CLAUDE.md`.
+
+**Why it still binds.** The previous round's own caveat — four of five build-time checks were
+ceremony — turned out to understate the cost. A gate on a *preview* inverts what a preview is for:
+you reach for it precisely when something is wrong and you want to see what wrong looks like. So
+the rule the tool now encodes is that **nothing may block a rebuild you want to look at**, and the
+CI-shaped gate lives in a separate verb. The tint guard survives because it does not block looking
+at a mistake, it blocks looking at a *lie* — art recolored in a way the client cannot recolor it.
+Both claims were tested rather than asserted: flipping `pulse.floor` reached the live ring through
+a real reload with only the shelf touched, and pointing the emphasis ring at baked-hue art
+hard-errored with its measured saturation.
+
+**Caveat.** The look is now evidence, and it says `withheld` is the weakest verdict in the row —
+veil 0.60 alone barely separates bright art from an untreated neighbour. Recorded in `backlog.md`
+rather than acted on; the shelf is unchanged. `Treatment.lua` still draws the superseded static
+border.
+
+---
+
+## 2026-08-13 — one declared style, and a generator that renders it
+
+**What changed.** Rewrote the render shelf to declare a single style rather than present
+competing options, moved every number it draws with into one machine-readable `render-tokens`
+JSON block, and split the alternatives, the arithmetic and the rejects into a new
+`render-rationale.md` that is authoritative over nothing. Adopted `ClientLab/Mock.lua`'s motion
+ladder as the style, with one correction: it listed the gold proc-loop ring first, which the
+measured tintability rules out for a multi-hue ladder. Rewrote every `scenarios.md` CDM-row
+bullet into a fixed, pixel-free grammar naming verdicts instead of colors, and gave the three
+AoE variants and ST-10 explicit rows they had never had. Built `tools/wowkb/capart.py` plus a
+template trio to render the artifact from those two documents, and extracted `atlas_image` /
+`icon_image` out of `uiart` as its library door, with a FileDataID route for icons no slug
+resolves. Files: `specs/render-shelf.md`, `specs/render-rationale.md` (new), `specs/authoring.md`,
+`specs/havoc/scenarios.md`, `specs/havoc/catalog.md`, `tools/wowkb/capart.py` (new),
+`tools/wowkb/uiart.py`, `projects/combat-assist/artifacts/**` (new), project `CLAUDE.md`.
+
+**Why it still binds.** Two arguments. First, a document that holds two answers cannot be
+rendered — the generator would have to pick, which puts the choice back in the tool. So the shelf
+declares and the rationale explains, and the split is what makes "edit the shelf, regenerate,
+look" a real loop instead of a slogan. Second, and the reason the artifact is a reproduction
+rather than a diagram: `SetVertexColor` multiplies, so baked-hue art cannot be recolored in game,
+while CSS `hue-rotate` will cheerfully show a recolored version of it. A preview that draws what
+the client cannot draw is worse than no preview, because it makes the eventual Lua a fresh design
+exercise while looking like a transcription target. That is why the tint check is a hard error and
+why the tint path is `background-blend-mode: multiply` against the sheet's own alpha.
+
+**Caveat.** The author's judgment on the tooling, recorded because it shaped what comes next: a
+full generator was more than was asked for, and four of the five build-time checks were ceremony —
+only the tint check earns a hard failure. Desaturate-then-tint remains unmeasured in client, so
+baked-hue art stays unusable for the lane ladder until it is. Nothing here has been drawn on a
+real screen yet.
+
+## 2026-08-13 — the render shelf, and real client art
+
+**What changed.** Added `specs/render-shelf.md` — the second shelf, owning every visual opinion
+(surfaces, primitives V1–V10, composition rules, assets, open flight questions) with a
+settled/candidate/open status per recipe. Removed the UI opinions from `spec.md` §3.1/§3.2, which
+now keep only the model and point at the shelf; the "treatments are static, motion only for a
+specific observed problem" line was struck outright. Built `tools/wowkb/uiart.py`: atlas member →
+sheet FileDataID → CASC bytes → BLP decode → the member's crop, plus flipbook grid, the equivalent
+CSS recipe, spell-icon fetch, a manifest, and a tintability measure. Extracted five flipbook
+sheets. Files: `specs/render-shelf.md` (new), `tools/wowkb/uiart.py` (new), `specs/spec.md`,
+`specs/authoring.md`, `specs/backlog.md`, both `CLAUDE.md` files.
+
+**Why it still binds.** The author's argument, and it is the right one: restricting motion was an
+experiment, and writing an experiment into the document that outranks everything turned a guess
+into a wall — every later "let us try this and see how it looks" had to argue with the
+constitution. Opinions now live where they are cheap to change. The measurement that made the
+asset half real: `SetVertexColor` multiplies, so a baked-hue sheet can never be recolored — but
+`visualalert_ants_flipbook`, the Cooldown Manager's *own* alert art, measures mean saturation
+**0.00**. It is neutral, which is how Blizzard ships five tints of one sheet, and it is why cap can
+have a multi-hue tier ladder out of client art it never has to redistribute.
+
+**Caveat.** Three visual vocabularies still disagree in code — `ClientLab/Mock.lua`'s motion
+ladder, cap's static `Treatment.lua` ring, and the scenario artifact's invented style — and the
+shelf records the options without yet picking between them. Nothing has been reconciled or flown.
+
+---
+
+## 2026-08-13 — the process got a file of its own
+
+**What changed.** Added `specs/authoring.md`, a sixth permanent document owning the spec-
+authoring process as eight stages with entry/exit criteria (ground the rotation KB → name the
+player problems → classify facts → map to treatment → route open facts → transcribe → test →
+fly), plus the standing rules and a where-a-thing-gets-written table. De-duplicated the three
+places the route had been restated: `CLAUDE.md`'s five-step section and `pattern-shelf.md`'s
+authoring checklist became pointers, and the doc-map table gained the new file. Pulled the
+process rules that had leaked into `backlog.md` phase headers and completed checkboxes — the
+docs-lead-artifacts flow rule, the open-fact routing preamble, the small-named-mechanism
+preamble — back to citations. Files: `specs/authoring.md` (new), `CLAUDE.md`,
+`specs/pattern-shelf.md`, `specs/backlog.md`.
+
+**Why it still binds.** `backlog.md` has one job and a short half-life: its done items are
+scheduled to collapse into this file (Phase 8). Any durable rule parked in a `[x]` checkbox was
+therefore on a timer, and two rules that every future catalog needs — a spec-and-hero pair is
+the unit, one `catalog.md` per spec directory — existed only inside Havoc's own documents, which
+is how Havoc grew three design files with nothing flagging it. The route was also triplicated
+and already drifting.
+
+**Caveat.** The stages were derived from what the Havoc design pass actually did, so stages 1–5
+are grounded and stages 6–8 are reconstructed from the Demonology/Destruction work plus the
+existing spec rules — no spec has yet walked the file end to end. Havoc's three-docs-into-one
+consolidation remains open and is now the standing violation of §0.
+
+---
+
 ## 2026-08-11 — Phase 9 gained a second catalog and a sealed 12.1 path
 
 **What changed.** The source pass named Demonbolt, Tyrant and the Tyrant setup dots as the

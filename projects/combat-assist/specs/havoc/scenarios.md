@@ -50,25 +50,45 @@ Every scenario is the **same eleven-icon CDM row**, in priority order, in a diff
  Blade Dance · Chaos Strike · Immolation Aura · Felblade · Demon's Bite · Fel Rush
 ```
 
-Each icon is in one of two display states, and if it is available *and at or above the press* it
-carries a **walk verdict**:
+Each icon carries a **walk verdict** — one of a closed vocabulary of ten. A verdict says what cap
+has concluded about that button; it does **not** say what the button looks like. **The pixels are
+`../render-shelf.md`'s**, and every scenario below renders from its token block, so a treatment
+changes by editing the shelf, never by editing this file.
 
-| Icon state / verdict | What the player sees | Whose signal |
+| Verdict | What cap concluded | Whose signal |
 | --- | --- | --- |
-| **on cooldown** | the CDM cooldown swipe — ruled out natively | Blizzard CDM (not a cap signal) |
-| **weave (off-GCD)** | Vengeful Retreat, pressed *alongside* the GCD press, never instead of it | readiness (R2); it is off the global cooldown |
-| **hold · readable** | a dependency **dot** flips the button to "wait" off a *readable* cooldown state | cue C1 / dots (readable, R7) |
-| **hold · sealed** | a ✕ the client paints from a *sealed* duration ("don't clip the window") | cue C2 (sealed, S4) |
-| **starved** | the button **dims** — you cannot afford it right now | cue A (readable, R1) |
-| **overcap** | a generator's Fury readout turns **red** — pressing it would waste Fury | cue B negative (sealed, S1) |
-| **withheld** | Immolation Aura stays dark because its charges read secret (below full) | R6 (readable *only* at full) |
-| **PRESS** | the first available button with no skip-reason — the chosen press | elimination of everything above it |
-| **PRESS · promoted** | the press, additionally **brightened** because a readable demon-form window favors it | cue D (readable, R7) |
-| *(below the press)* | shown, but never reached — lower priority than the press | — |
+| `cd` | on cooldown — ruled out natively, no cap opinion | Blizzard CDM (not a cap signal) |
+| `weave` | off the GCD: pressed *alongside* the GCD press, never instead of it | readiness (R2) |
+| `hold-readable` | wait — a dependency's *readable* cooldown state says the press would be wasted | cue C1 / dots (readable, R2 + R7) |
+| `hold-sealed` | wait — a *sealed* duration says don't clip the window | cue C2 (sealed, S4) |
+| `starved` | unaffordable right now | cue A (readable, R1) |
+| `overcap` | a generator whose press would waste Fury | cue B negative (sealed, S1) |
+| `withheld` | cap has no opinion because the fact reads secret — unknown ≠ "not capped" | R6 (readable *only* at full) |
+| `press` | the first available button with no skip-reason — the chosen press | elimination of everything above it |
+| `press-promoted` | the press, additionally promoted because a readable demon-form window favors it | cue D (readable, R7) |
+| `below` | shown, but never reached — lower priority than the press | — |
 
 The walk stops at the press. Buttons to its right are lower priority and are not evaluated; they
-render, but carry no verdict. **Vengeful Retreat is the exception** — it is off the GCD, so it is
-"pressed" in parallel and the walk continues past it to find the GCD press.
+render, but carry no verdict beyond `below`. **Vengeful Retreat is the exception** — it is off the
+GCD, so it is "pressed" in parallel and the walk continues past it to find the GCD press.
+
+### The **CDM row** bullet is machine-read
+
+Every scenario carries one `- **CDM row.**` bullet, and `wowkb.capart` parses it to render the
+artifact — so it is written in a fixed grammar rather than prose:
+
+```
+- **CDM row.** <Ability> `<verdict>` [{dots: <Ability> go|wait, …}] [{cues: <cue>, …}] · <Ability> `<verdict>` · …
+```
+
+The ability name is the one the client would *show* — so a demon-form scenario writes
+**Death Sweep**, not Blade Dance, and the artifact draws that icon (R7 resolves the live
+`overrideSpellID`; cap authors none of it). A `dots` group is the C1 readable dependency dots:
+`go` = the related ability is on cooldown, so the dependency is satisfied; `wait` = it is ready and
+the press would waste it. A `cues` group names center-row cues by their `render-shelf.md` key.
+
+`wowkb.capart check havoc` re-scrapes these bullets and fails if they disagree with the generated
+artifact's sidecar — this file leads, the artifact follows.
 
 ### What the CDM shows in demon form (the override fidelity)
 
@@ -165,33 +185,34 @@ set** and its status.
 
 - **State.** Not transformed, Fury ~50. Vengeful Retreat and Metamorphosis are up; **Eye Beam and
   Blade Dance are both on cooldown**. The Hunt is up. Nothing is in a window.
-- **CDM row.** VR *weave* · **Metamorphosis PRESS** (dots: Eye Beam ● green, Death Sweep ● green) ·
-  The Hunt *(below)* · Eye Beam *cd* · Essence Break *cd* · Blade Dance *cd* · Chaos Strike
-  *(below)* · Immolation Aura *(below)* · Felblade *(below)* · Demon's Bite *(below)* · Fel Rush
-  *(below)*.
+- **CDM row.** Vengeful Retreat `weave` · Metamorphosis `press` {dots: Eye Beam go, Death Sweep go}
+  · The Hunt `below` · Eye Beam `cd` · Essence Break `cd` · Blade Dance `cd` · Chaos Strike `below`
+  · Immolation Aura `below` · Felblade `below` · Demon's Bite `below` · Fel Rush `below`
 - **Walk.**
   1. **Vengeful Retreat** — off the GCD; weave it now, for free (holds Exergy). Continue for the
      GCD press.
   2. **Metamorphosis** — available, and it carries **two dependency dots**, shown only while it is
      castable: Eye Beam and Death Sweep, each driven by that ability's readable cooldown state.
-     **Green** = on cooldown (the reset is valuable); red = ready (the reset would be wasted). Both
-     are green here → the reset banks two casts → **PRESS.**
+     `go` = on cooldown (the reset is valuable); `wait` = ready (the reset would be wasted). Both
+     read `go` here → the reset banks two casts → **press.**
 - **Eye-direction.** Meta's *own* readiness didn't decide it — the state of the two abilities it
-  *resets* did. Two dots are richer than one red ✕: they say *why* it is go, from readable facts.
+  *resets* did. Two dots are richer than one hold marker: they say *why* it is go, and they say it
+  from readable facts.
 - **Cue set.** Readiness (R2) → **have**. Reset dots — Eye Beam & Death Sweep cooldowns (R7,
   readable) → **have**.
 
 ### ST-2 · Eye Beam — Metamorphosis waits (the counter)
 
 - **State.** Same as ST-1, but **Eye Beam is *ready*** (Blade Dance still on cooldown). Meta is up.
-- **CDM row.** VR *weave* · Metamorphosis *hold · readable* (Eye Beam dot ● red) · The Hunt *cd* ·
-  **Eye Beam PRESS** · Essence Break *cd* · Blade Dance *cd* · Chaos Strike *(below)* · …
+- **CDM row.** Vengeful Retreat `weave` · Metamorphosis `hold-readable` {dots: Eye Beam wait} ·
+  The Hunt `cd` · Eye Beam `press` · Essence Break `cd` · Blade Dance `cd` · Chaos Strike `below` ·
+  Immolation Aura `below` · Felblade `below` · Demon's Bite `below` · Fel Rush `below`
 - **Walk.**
   1. **Vengeful Retreat** — weave, off-GCD.
-  2. **Metamorphosis** — available, but its **Eye Beam dot flips red**: Eye Beam is ready, so
-     resetting it would waste the reset. Meta reads **hold** → skip.
+  2. **Metamorphosis** — available, but its **Eye Beam dot flips to `wait`**: Eye Beam is ready, so
+     resetting it would waste the reset. Meta reads `hold-readable` → skip.
   3. **The Hunt** — on cooldown → skip.
-  4. **Eye Beam** — available, no skip-reason → **PRESS.** Cast it now; Meta resets it a moment
+  4. **Eye Beam** — available, no skip-reason → **press.** Cast it now; Meta resets it a moment
      later for a banked second cast.
 - **Eye-direction.** The mirror of ST-1, and the strongest demonstration: cap re-ranks the press
   from a *readable relationship* between two buttons, computing nothing.
@@ -201,15 +222,17 @@ set** and its status.
 
 - **State.** Not transformed. The Hunt is up; **Metamorphosis is on cooldown**. Eye Beam on
   cooldown. Fury mid.
-- **CDM row.** VR *weave* · Metamorphosis *cd* · **The Hunt PRESS** (dot: Meta ● green) · Eye Beam
-  *cd* · Essence Break *cd* · Blade Dance *(below)* · …
+- **CDM row.** Vengeful Retreat `weave` · Metamorphosis `cd` · The Hunt `press`
+  {dots: Metamorphosis go} · Eye Beam `cd` · Essence Break `cd` · Blade Dance `below` ·
+  Chaos Strike `below` · Immolation Aura `below` · Felblade `below` · Demon's Bite `below` ·
+  Fel Rush `below`
 - **Walk.**
   1. **Vengeful Retreat** — weave, off-GCD.
   2. **Metamorphosis** — on cooldown → skip.
   3. **The Hunt** — available; its one dependency dot reads **Meta's cooldown state**. Meta is on
-     cooldown → dot **green** → there is no upcoming Meta to sync with, so cast now → **PRESS.**
-- **Counter.** If Metamorphosis were *up*, The Hunt's dot flips **red** — hold, to save The Hunt to
-  buff Abyssal Gaze inside the coming Meta window (the guide's "hold if Metamorphosis is
+     cooldown → dot reads `go` → there is no upcoming Meta to sync with, so cast now → **press.**
+- **Counter.** If Metamorphosis were *up*, The Hunt's dot flips to `wait` — hold, to save The Hunt
+  to buff Abyssal Gaze inside the coming Meta window (the guide's "hold if Metamorphosis is
   available"). You would skip The Hunt and press the next GCD button.
 - **Cue set.** Readiness (R2) → **have**. Sync-hold dot — Meta cooldown state (R7, readable) →
   **have**. *(Corrects an earlier draft that made this a sealed Essence-Break-window hold — the
@@ -219,15 +242,15 @@ set** and its status.
 
 - **State.** **Transformed — Metamorphosis is active.** You have just opened an Essence Break
   window with Fury banked. Eye Beam (→ Abyssal Gaze) and Essence Break are on cooldown.
-- **CDM row (Meta overrides live).** VR *weave* · Metamorphosis *cd* · The Hunt *cd* · **Abyssal
-  Gaze** *cd* · Essence Break *cd* · **Death Sweep PRESS · promoted** · **Annihilation** *(below)*
-  · **Consuming Fire** *(below)* · Felblade *(below)* · Demon's Bite *(below)* · Fel Rush *(below)*.
+- **CDM row (Meta overrides live).** Vengeful Retreat `weave` · Metamorphosis `cd` · The Hunt `cd`
+  · Abyssal Gaze `cd` · Essence Break `cd` · Death Sweep `press-promoted` · Annihilation `below` ·
+  Consuming Fire `below` · Felblade `below` · Demon's Bite `below` · Fel Rush `below`
 - **Walk.**
   1. **Vengeful Retreat** — weave, off-GCD.
   2. **Metamorphosis / The Hunt / Abyssal Gaze / Essence Break** — all on cooldown (spent to build
      and open the window) → skip.
   3. **Death Sweep** — available, and the readable **demon-form window promotes it** above what a
-     lit cooldown would be (promoted > lit COOLDOWN) → **PRESS.** Flood the window.
+     lit COOLDOWN would be (promoted > lit COOLDOWN) → **press.** Flood the window.
 - **Fidelity.** This is the override showcase: the row now reads *Abyssal Gaze · Death Sweep ·
   Annihilation · Consuming Fire*. cap authors none of it — R7 resolves the live `overrideSpellID`,
   so the CDM shows precisely what the client shows.
@@ -240,17 +263,19 @@ set** and its status.
 
 - **State.** Not transformed, **Fury banked (≥35)**, no window live. Essence Break is up. Eye
   Beam's cooldown has **more than 4s** remaining (safe to open).
-- **CDM row.** VR *weave* · Metamorphosis *cd* · The Hunt *cd* · Eye Beam *cd (long)* · **Essence
-  Break PRESS** (cue: *banked ✓*) · Blade Dance *(below)* · …
+- **CDM row.** Vengeful Retreat `weave` · Metamorphosis `cd` · The Hunt `cd` · Eye Beam `cd` ·
+  Essence Break `press` {cues: banked} · Blade Dance `below` · Chaos Strike `below` ·
+  Immolation Aura `below` · Felblade `below` · Demon's Bite `below` · Fel Rush `below`
 - **Walk (press).**
   1. **Vengeful Retreat** — weave, off-GCD.
   2. **Metamorphosis / The Hunt** — on cooldown → skip.
   3. **Eye Beam** — on cooldown, long remaining → skip.
-  4. **Essence Break** — available, and it lights a **"banked ✓"** cue: the client evaluated secret
+  4. **Essence Break** — available, and it carries the **banked** cue: the client evaluated secret
      Fury against an authored break point (35 / maxFury, S1) and painted it — cap never read the
-     value → **PRESS**, then flood the ~4s window with Death Sweep + Annihilation.
+     value → **press**, then flood the ~4s window with Death Sweep + Annihilation. ⚠ The banked cue
+     is **open** (below), so it produces nothing until measured; the artifact marks it as such.
 - **Counter (sealed hold).** If Eye Beam's cooldown had **≤4s** remaining instead, Essence Break
-  would carry a **sealed hold ✕** — don't clip the window into Eye Beam. That ✕ rides a sealed
+  would read `hold-sealed` — don't clip the window into Eye Beam. That hold rides a sealed
   duration (S4 curve on Eye Beam's cooldown), painted client-side; cap never reads the clock. You
   would skip Essence Break, spend the baseline spender, and open the window after Eye Beam.
 - **Cue set.** Readiness (R2) → **have**. Banked-Fury ≥35 threshold (S1 positive, painted) →
@@ -262,12 +287,13 @@ set** and its status.
 
 - **State.** Not transformed, Fury mid (affordable). **Every cooldown above is on cooldown.**
   Immolation Aura is not full.
-- **CDM row.** VR *cd* · Metamorphosis *cd* · The Hunt *cd* · Eye Beam *cd* · Essence Break *cd* ·
-  **Blade Dance PRESS** · Chaos Strike *(below)* · Immolation Aura *(below)* · Felblade *(below)* · …
+- **CDM row.** Vengeful Retreat `cd` · Metamorphosis `cd` · The Hunt `cd` · Eye Beam `cd` ·
+  Essence Break `cd` · Blade Dance `press` · Chaos Strike `below` · Immolation Aura `below` ·
+  Felblade `below` · Demon's Bite `below` · Fel Rush `below`
 - **Walk.**
   1. **Vengeful Retreat … Essence Break** — all on cooldown → skip.
-  2. **Blade Dance** — available and affordable → **PRESS.** The ordinary spender; it wins **by
-     elimination** — nothing above it is up, and it needs no bright cue of its own.
+  2. **Blade Dance** — available and affordable → **press.** The ordinary spender; it wins **by
+     elimination** — nothing above it is up, and it needs no cue of its own.
 - **Eye-direction.** The canonical elimination case for the *middle* of the list. Whenever a
   cooldown returns, the field re-lights above it and the eye moves up — which is exactly the
   priority order.
@@ -277,22 +303,22 @@ set** and its status.
 ### ST-7 · Felblade — Fury-starved (affordability, with overcap counter)
 
 - **State.** Not transformed, **Fury low**, no cooldown up, Immolation not full.
-- **CDM row.** VR *cd* · Metamorphosis *cd* · The Hunt *cd* · Eye Beam *cd* · Essence Break *cd* ·
-  Blade Dance *starved* · Chaos Strike *starved* · Immolation Aura *withheld* · **Felblade PRESS** ·
-  Demon's Bite *(below)* · Fel Rush *(below)*.
+- **CDM row.** Vengeful Retreat `cd` · Metamorphosis `cd` · The Hunt `cd` · Eye Beam `cd` ·
+  Essence Break `cd` · Blade Dance `starved` · Chaos Strike `starved` · Immolation Aura `withheld`
+  · Felblade `press` · Demon's Bite `below` · Fel Rush `below`
 - **Walk.**
   1. **Vengeful Retreat … Essence Break** — on cooldown → skip.
-  2. **Blade Dance** — available but **dimmed**: you cannot afford it (cue A, the `insufficientPower`
-     read) → skip.
-  3. **Chaos Strike** — same, **dimmed** → skip.
+  2. **Blade Dance** — available but reads `starved`: you cannot afford it (cue A, the
+     `insufficientPower` read) → skip.
+  3. **Chaos Strike** — same, `starved` → skip.
   4. **Immolation Aura** — available, but its charges read below full → **secret**, so cap
-     **withholds** the "spend it" light (unknown ≠ capped) → skip, no signal.
-  5. **Felblade** — a generator with no Fury cost, so it is never unaffordable; it **stays lit**
-     while the spenders dim → **PRESS.** Rebuild Fury; the generator correctly rises past the
-     starved spenders because the field around it dimmed.
-- **Counter (overcap).** With Fury **near cap** instead, the same Felblade readout turns **red**
-  (cue B, negative) — pressing it would waste Fury. You skip the generator and spend a spender.
-  The break point is authored (S1); the client paints red; cap reads nothing.
+     **withholds** the "spend it" opinion (unknown ≠ capped) → skip, no signal.
+  5. **Felblade** — a generator with no Fury cost, so it is never unaffordable; it keeps its
+     emphasis while the spenders lose theirs → **press.** Rebuild Fury; the generator correctly
+     rises past the starved spenders because the field around it fell away.
+- **Counter (overcap).** With Fury **near cap** instead, the same Felblade reads `overcap` (cue B,
+  negative) — pressing it would waste Fury. You skip the generator and spend a spender. The break
+  point is authored (S1); the client paints it; cap reads nothing.
 - **Cue set.** Readiness (R2) → **have**. Affordability (A) → **have**. Immolation withhold (R6) →
   **have**. Overcap readout (B, S1 negative) → **sealed**.
 
@@ -300,17 +326,17 @@ set** and its status.
 
 - **State.** Not transformed, Immolation Aura at **full (2/2** with A Fire Inside**)**. The spenders
   are on cooldown (just spent). Fury mid.
-- **CDM row.** VR *cd* · Metamorphosis *cd* · The Hunt *cd* · Eye Beam *cd* · Essence Break *cd* ·
-  Blade Dance *cd* · Chaos Strike *cd* · **Immolation Aura PRESS** (reads full) · Felblade *(below)*
-  · …
+- **CDM row.** Vengeful Retreat `cd` · Metamorphosis `cd` · The Hunt `cd` · Eye Beam `cd` ·
+  Essence Break `cd` · Blade Dance `cd` · Chaos Strike `cd` · Immolation Aura `press` ·
+  Felblade `below` · Demon's Bite `below` · Fel Rush `below`
 - **Walk.**
   1. Everything above, **including both spenders**, is on cooldown → skip.
   2. **Immolation Aura** — its charges **read full** (R6: the charge count reads plain *only* at
-     max), so cap lights it as "spend it" → **PRESS.** Don't waste a charge; dump both before Meta
-     so A Fire Inside / Demonic Intensity refunds them.
-- **Eye-direction.** Below full the count is secret and the button stays dark — the plain **full**
-  read *is* the whole capped signal. This is the one Fury-adjacent decision that matters, and R6's
-  read-at-full limit is a feature here, not a hole.
+     max), so cap emphasises it as "spend it" → **press.** Don't waste a charge; dump both before
+     Meta so A Fire Inside / Demonic Intensity refunds them.
+- **Eye-direction.** Below full the count is secret and the button reads `withheld` — the plain
+  **full** read *is* the whole capped signal. This is the one Fury-adjacent decision that matters,
+  and R6's read-at-full limit is a feature here, not a hole.
 - **Cue set.** Immolation-at-full (R6) → **have** *(open-to-confirm: does the charge row read
   readable-at-full in instanced combat? confirm before shipping the tier)*.
 
@@ -318,27 +344,35 @@ set** and its status.
 
 - **State.** Not transformed, **Fury flush**, no window live. Blade Dance is on cooldown; Immolation
   not full.
-- **CDM row.** VR *cd* · Metamorphosis *cd* · The Hunt *cd* · Eye Beam *cd* · Essence Break *cd* ·
-  Blade Dance *cd* · **Chaos Strike PRESS** · Immolation Aura *withheld* · Felblade *overcap (red)*
-  · Demon's Bite *overcap (red)* · Fel Rush *(below)*.
+- **CDM row.** Vengeful Retreat `cd` · Metamorphosis `cd` · The Hunt `cd` · Eye Beam `cd` ·
+  Essence Break `cd` · Blade Dance `cd` · Chaos Strike `press` · Immolation Aura `withheld` ·
+  Felblade `overcap` · Demon's Bite `overcap` · Fel Rush `below`
 - **Walk.**
   1. Everything above, and Blade Dance, is on cooldown → skip.
-  2. **Chaos Strike** — available and affordable (Fury flush) → **PRESS.** The raw dump lives near
-     the *bottom* of the list; it is the press only **by elimination** — it is the only lit spender
-     — and cap draws it **no brighter** than baseline. It wins by being alone.
-- **Eye-direction.** The reason cap must *not* over-light the bottom: the raw dump is bright only
-  relative to a dimmer field. The generators to its right show the **red overcap** cue (Fury is
-  flush), so the eye is pushed *toward* spending, not generating. Were Fury low, Chaos Strike would
-  dim (cue A) and a generator would rise past it (ST-7).
+  2. **Chaos Strike** — available and affordable (Fury flush) → **press.** The raw dump lives near
+     the *bottom* of the list; it is the press only **by elimination** — it is the only emphasised
+     spender — and cap gives it **no more** than its baseline lane treatment. It wins by being
+     alone.
+- **Eye-direction.** The reason cap must *not* over-emphasise the bottom: the raw dump stands out
+  only relative to a quieter field. The generators to its right read `overcap` (Fury is flush), so
+  the eye is pushed *toward* spending, not generating. Were Fury low, Chaos Strike would read
+  `starved` (cue A) and a generator would rise past it (ST-7).
 - **Cue set.** Readiness (R2) → **have**. Affordability (A) → **have**. Overcap readout on the
   generators (B) → **sealed**.
 
 ### ST-10 · Fel Rush — last-resort filler
 
-- **State.** Not transformed. Everything above is on cooldown or dimmed; Fury not flush.
-- **CDM row.** VR *cd* · … every rotation button *cd / starved* … · **Fel Rush PRESS**.
-- **Walk.** Every button above is on cooldown or dimmed → skip → **Fel Rush** is all that is left →
-  **PRESS.** The fallback has **no signal of its own**; the eye lands here purely by elimination.
+- **State.** Not transformed. Both spenders were just spent and are on cooldown, Immolation Aura is
+  not full, and Fury is flush — so both generators would waste it.
+- **CDM row.** Vengeful Retreat `cd` · Metamorphosis `cd` · The Hunt `cd` · Eye Beam `cd` ·
+  Essence Break `cd` · Blade Dance `cd` · Chaos Strike `cd` · Immolation Aura `withheld` ·
+  Felblade `overcap` · Demon's Bite `overcap` · Fel Rush `press`
+- **Walk.** Every cooldown and both spenders are on cooldown; Immolation Aura is `withheld`; both
+  generators read `overcap` → skip → **Fel Rush** is all that is left → **press.** The fallback has
+  **no signal of its own**; the eye lands here purely by elimination.
+  *(An earlier draft wrote this row as an ellipsis — "every rotation button cd / starved" — which
+  no state actually produces: a generator has no Fury cost and so can never be `starved`. The row
+  above is the state that genuinely reaches the filler.)*
 - **Cue set.** Readiness (R2) → **have**. *(Throw Glaive is not in the Fel-Scarred priority — a rare
   filler unless Screaming Brutality routes it through Blade Dance; with Serrated Glaive it buffs
   *you* for 12s, a candidate buff-maintenance marker, open.)*
@@ -359,21 +393,31 @@ the walk reaches first.
 - **Delta.** In AoE mode Immolation Aura is a top source, pressed harder than the single "don't cap
   at 2" rule. cap's cue is unchanged — the readable-at-full "don't cap" signal (R6) still fires;
   the *press-it-more* is the **AoE-mode input**, not a new cue and not a computed count.
+- **CDM row (AoE order).** Vengeful Retreat `cd` · Metamorphosis `cd` · The Hunt `cd` ·
+  Eye Beam `cd` · Essence Break `cd` · Immolation Aura `press` · Blade Dance `below` ·
+  Felblade `below` · Demon's Bite `below` · Chaos Strike `below` · Fel Rush `below`
 - **Cue set.** Immolation-at-full (R6) → **have**. AoE-mode weighting → mode input, **not a cue**.
 
 ### AoE-2 · Blade Dance / Death Sweep — primary
 
 - **Delta.** In AoE mode these rise to primary (they trigger Glaive Tempest at 3+). The rise is the
   AoE-mode input; the demon-form promotion (D) still stacks on top when transformed, and the
-  single-target Chaos Strike dump dims beneath it.
+  single-target Chaos Strike dump falls beneath it.
+- **CDM row (AoE order, Meta overrides live).** Vengeful Retreat `weave` · Metamorphosis `cd` ·
+  The Hunt `cd` · Abyssal Gaze `cd` · Essence Break `cd` · Consuming Fire `withheld` ·
+  Death Sweep `press-promoted` · Felblade `below` · Demon's Bite `below` · Annihilation `below` ·
+  Fel Rush `below`
 - **Cue set.** Readiness (R2) → **have**. Demon-form promotion (D) → **have**. AoE-mode weighting →
   mode input, **not a cue**.
 
 ### AoE-3 · Chaos Strike / Annihilation — de-emphasised
 
 - **Delta.** In AoE mode the single-target dump drops *further* beneath Blade Dance — spend into
-  Blade Dance instead. The AoE-mode input **dims** an already-by-elimination button (ST-9); the
-  dimming is the narrowing, no new cue.
+  Blade Dance instead. The AoE-mode input **re-ranks** an already-by-elimination button (ST-9)
+  below the generators; the re-rank is the narrowing, no new cue.
+- **CDM row (AoE order).** Vengeful Retreat `cd` · Metamorphosis `cd` · The Hunt `cd` ·
+  Eye Beam `cd` · Essence Break `cd` · Immolation Aura `withheld` · Blade Dance `press` ·
+  Felblade `below` · Demon's Bite `below` · Chaos Strike `below` · Fel Rush `below`
 - **Cue set.** Readiness (R2) → **have**. Affordability (A) → **have**. AoE-mode weighting → mode
   input, **not a cue**. *(Still reached only by elimination, just lower.)*
 
