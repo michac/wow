@@ -6,16 +6,18 @@ provisional product characterization for play, not a claim the rules are univers
 `../spec.md` §3.7 owns the intended experience; `../spec.md` §3.1 owns the tier model;
 `../pattern-shelf.md` owns every recipe cited here (`R1`…`R10`, `S1`…`S6`);
 `fact-classification.md` beside this file tags each fact readable / sealed-display / open with
-its addon-dev evidence; `scenarios.md` beside this file walks the full Fel-Scarred priority
-rung-by-rung and proves lane + cues reproduce the order (state → eye-direction → cue set →
-status).
+its addon-dev evidence; `scenarios.md` beside this file walks the Fel-Scarred priority as a
+single-row Cooldown-Manager elimination walk and proves lane + cues reproduce the order (state →
+why each off-cooldown button is skipped → the press → cue status).
 
 > **This catalog is Fel-Scarred, specifically.** A spec-and-hero pair is the unit cap authors.
 > **Aldrachi Reaver is a separate catalog authored later** (its own `Reaver's Glaive` /
 > `Reaver's Mark` / `Rending Strike` / `Glaive Flurry` shape), not a second overlay bolted on
-> here. ⚠ *Mismatch to note, not act on:* the live Icy Veins 12.1 page **leads Aldrachi Reaver**
-> for single-target while we author Fel-Scarred first (the easier build to pilot, the M+ pick).
-> We hold that call until Season 2 sims/logs exist (post-2026-08-18).
+> here. ⚠ *Hero-tree pick, not acted on yet:* the Icy Veins 12.1 page has **one hero-filtered
+> priority tool** (selecting Fel-Scarred renders a 13-item, Vengeful-Retreat-led list — *not* an
+> AR-led list; an earlier note here claiming it "leads Aldrachi Reaver" was wrong). We author
+> Fel-Scarred first (the easier build to pilot, the M+ pick) and hold the hero-tree call until
+> Season 2 sims/logs exist (post-2026-08-18).
 
 > **Transcription is deferred.** This machine's `addon/` checkout is stale (v0.2.4, the old
 > `HIGH/MEDIUM/LOW` vocabulary). The current design lives on the desktop, unpushed. This
@@ -49,10 +51,10 @@ override IDs are **invisible to Tier 1** and resolved live via R7 — the refere
 
 | Key | Ability | Base spell ID | Demon-form override | Lane | Cues |
 | --- | --- | ---: | --- | --- | --- |
-| `metamorphosis` | Metamorphosis | `191427` | — | COOLDOWN | readable hold (C) |
+| `metamorphosis` | Metamorphosis | `191427` | — | COOLDOWN | readable reset dots (C1) — Eye Beam + Death Sweep cooldowns |
 | `eye_beam` | Eye Beam | `198013` | Abyssal Gaze ⚠ | COOLDOWN | — |
-| `the_hunt` | The Hunt | `370965` | — | COOLDOWN | sealed hold (C) |
-| `essence_break` | Essence Break | `258860` | — | COOLDOWN | positive Fury-banked cue (B, S1 graded); supplies The Hunt's hold window |
+| `the_hunt` | The Hunt | `370965` | — | COOLDOWN | readable sync-hold dot (C1) — Meta cooldown |
+| `essence_break` | Essence Break | `258860` | — | COOLDOWN | positive Fury-banked cue (B, S1); sealed hold (C2) — hold if Eye Beam CD ≤4s |
 | `vengeful_retreat` | Vengeful Retreat | `198793` | — | COOLDOWN | — |
 | `chaos_strike` | Chaos Strike | `344862` | Annihilation ⚠`201427` | ROTATION | affordability (A) + demon-form promotion (D) |
 | `blade_dance` | Blade Dance | `188499` | Death Sweep ⚠`210152` | ROTATION | demon-form promotion (D) + identity |
@@ -68,10 +70,10 @@ surface, read from the transform identity fact (R7), and it drives cue D.
 
 ## The lanes, and why the priority falls out of them
 
-The verified Fel-Scarred priority (Icy Veins 12.1, re-ordered 2026-08-12) is: Metamorphosis →
-The Hunt → Felblade-w/Inertia → Vengeful Retreat → **windowed** Death Sweep / Annihilation →
-Immolation-at-2 → Eye Beam → Essence Break → baseline Death Sweep → **raw Annihilation/Chaos
-Strike (~#20 of 24)** → Felblade filler → Throw Glaive / Fel Rush. Read that against the lanes:
+The verified Fel-Scarred priority (Icy Veins 12.1 tool, Fel-Scarred tab, corrected 2026-08-13) is
+**Vengeful-Retreat-led**: Vengeful Retreat → Metamorphosis → The Hunt → **windowed** Death Sweep /
+Annihilation → Eye Beam → Essence Break → baseline Death Sweep → Consuming Fire → **raw
+Annihilation / Chaos Strike** → Immolation-at-2 → Felblade → Fel Rush. Read that against the lanes:
 
 - **COOLDOWN** = the top of the priority (Meta, The Hunt, Eye Beam, Essence Break, Vengeful
   Retreat). They light when ready; a hold cue (C) says when to wait.
@@ -83,35 +85,41 @@ Strike (~#20 of 24)** → Felblade filler → Throw Glaive / Fel Rush. Read that
 
 Tier + cues, read together, reproduce that priority — which is the §3.1 point. No lane is a
 strict rank; the cues cross lanes (a promoted Death Sweep in a window outranks a lit Eye Beam,
-exactly as the guide's #5 outranks its #8).
+exactly as the guide's windowed spender outranks the baseline spender below it).
 
 ## Roster — player problem → fact → recipe → treatment
 
 ### COOLDOWN lane
 
-- **Metamorphosis** (`191427`). *Problem:* ~2 min burst, and pressing it while Eye Beam is up
-  wastes its Eye Beam reset. *Fact:* `ready` (R2) for the lane; the hold condition is
-  **`ready(EyeBeam) AND NOT identity(demon-form)`** — both readable (R2 + R7). *Treatment:*
-  COOLDOWN + **readable hold** cue (C1), reusing Demonology's readable-marker shape. The ✕ says
-  "let Eye Beam go on cooldown first, so Meta's reset banks a second cast."
+- **Metamorphosis** (`191427`). *Problem:* ~2 min burst whose payoff is its **reset** of Eye Beam
+  and Death Sweep — pressing it while either is *ready* wastes that reset. *Fact:* `ready` (R2) for
+  the lane; the go/wait read is the **cooldown state of Eye Beam and Death Sweep** (both readable,
+  R2), shown only while not already transformed (R7). *Treatment:* COOLDOWN + **two readable
+  dependency dots** (C1): green = that ability is on cooldown (the reset banks a cast), red = it is
+  ready (the reset would be wasted). Both green → Meta reads go. Richer than a single hold ✕, and
+  all readable — see `scenarios.md` ST-1/ST-2.
 - **Eye Beam** (`198013` → Abyssal Gaze ⚠ in Meta). *Problem:* keep the demon-form window
   rolling — it enables everything downstream. *Fact:* `ready` (R2). *Treatment:* COOLDOWN, no
   hold. Same row across the FS override via R7.
-- **The Hunt** (`370965`). *Problem:* on cooldown, but **not inside an Essence Break window**.
-  *Fact:* `ready` (R2) for the lane; the hold depends on the **Essence Break amp remaining**, a
-  **sealed duration** (S4 range step-curve on a duration object → texture alpha). *Treatment:*
-  COOLDOWN + **sealed hold** cue (C2). If the remaining reads back secret, that is expected —
-  only an eyeball proves the ✕ drew.
+- **The Hunt** (`370965`). *Problem:* on cooldown, but **hold if Metamorphosis is available** — to
+  buff Abyssal Gaze inside the coming Meta window. *Fact:* `ready` (R2) for the lane; the hold is
+  **Meta's cooldown state**, a **readable** fact (R2 on Meta). *Treatment:* COOLDOWN + a **readable
+  sync-hold dot** (C1) driven by Meta's cooldown — green (Meta on cooldown) = cast now, red (Meta
+  available) = hold. *(Corrects an earlier draft that made this a sealed Essence-Break-window hold —
+  the live guide's hold is Meta-availability, which cap reads directly; `scenarios.md` ST-3.)*
 - **Essence Break** (`258860`). *Problem:* mandatory in S2 (+49% initial, tier-set keys off it);
   open the amp window with Fury banked (≥35) and flood it. *Fact:* `ready` (R2), plus the **"Fury
   banked ≥35"** precondition — secret, but **expressible as a positive sealed threshold cue**: cap
   cannot read Fury, but it hands the client an authored break point (`35 / maxFury`) via S1's
   `sealed-power-percent` power curve and the client lights a **"banked"** cue when secret Fury clears
   it — the *same S1 tool as the generator overcap readout (cue B), positive polarity*. cap authors 35
-  and never learns the value. Also **supplies the sealed duration** gating The Hunt's hold.
-  *Treatment:* COOLDOWN + positive Fury-banked cue (S1 graded). (This corrects an earlier design note
-  that called the banked gate unreadable/unrankable: a threshold is a client-side paint, not a Lua
-  branch, so it is expressible — `../spec.md` §3.1 honest-limit.)
+  and never learns the value. Essence Break *also* carries its **own sealed hold** (C2): hold it
+  while **Eye Beam's cooldown has ≤4s remaining** (don't clip the amp window into Eye Beam) — a
+  sealed duration (S4 range step-curve on Eye Beam's cooldown → texture alpha), painted client-side;
+  cap never reads the clock. *Treatment:* COOLDOWN + positive Fury-banked cue (S1) + **sealed hold**
+  cue (C2). (This corrects an earlier design note that called the banked gate unreadable/unrankable:
+  a threshold is a client-side paint, not a Lua branch, so it is expressible — `../spec.md` §3.1
+  honest-limit.)
 - **Vengeful Retreat** (`198793`). *Problem:* S2 maintain-on-cooldown press — holds **Exergy**
   (or arms Inertia, build-dependent) and refreshes **Initiative**, woven before Eye Beam.
   *Fact:* `ready` (R2). VR is off the GCD, so "ready" is the whole story. *Treatment:* COOLDOWN.
@@ -166,8 +174,8 @@ exactly as the guide's #5 outranks its #8).
 | --- | --- | --- | --- | --- | --- |
 | **A** affordability | starved spenders dim; generators hold | `insufficientPower` | emphasis (readable) | R1 | ROTATION emphasis |
 | **B** Fury threshold (two polarities) | **negative:** generator Fury readout turns red near overcap · **positive:** Essence Break lights a "banked" cue at Fury ≥35 | secret Fury-% vs authored break | cue (sealed) | S1 (graded) + R4 static table | color curve → text/color |
-| **C1** readable hold | ✕ on Metamorphosis while Eye Beam ready & not transformed | `ready(EyeBeam) AND NOT identity` | emphasis-adjacent marker (readable) | R2 + R7 | hold marker (readable lane) |
-| **C2** sealed hold | ✕ on The Hunt while the Essence Break window counts down | Essence Break amp remaining | cue (sealed) | S4 range step-curve on a duration object | curve → texture alpha |
+| **C1** readable hold / dots | dependency dots — Metamorphosis (Eye Beam + Death Sweep resets) & The Hunt (Meta sync); green = related ability on cooldown, red = ready | related-ability cooldown states | emphasis-adjacent marker (readable) | R2 + R7 | dot markers (readable lane) |
+| **C2** sealed hold | ✕ on Essence Break while Eye Beam's cooldown has ≤4s remaining | Eye Beam cooldown remaining | cue (sealed) | S4 range step-curve on a duration object | curve → texture alpha |
 | **D** demon-form promotion | Annihilation / Death Sweep brighten in demon form | `identity(transformed)` | emphasis (readable) | R7 | ROTATION emphasis (promotion) |
 
 Sealed-form names are `spec.md` §3.6's: cue B is `sealed-power-percent`; the cue-C2 hold and the
@@ -199,10 +207,12 @@ Blizzard plumbing. Three, each with one characterization example, each confirmed
    `35 / maxFury` — "you have enough to open the window"). Same sink, same rule; only the curve and
    the ability it rides differ. cap authors the number and never reads which side the value fell on.
 3. **Sealed hold marker (C2)** — a **range step-curve → texture alpha** on a sealed duration
-   object (S4). Before building, **check the current desktop renderer's marker vocabulary**: if
-   it already has a `hold` marker slot (`Overlay.lua` `SLOTS`), C2 reuses it and edits nothing in
-   Treatment/Overlay (the 9.4 definition-of-done). Demon-form promotion (D) is plain emphasis on a
-   readable fact — no new renderer.
+   object (S4). First consumer: **Essence Break**'s Eye-Beam-cooldown-≤4s hold. Before building,
+   **check the current desktop renderer's marker vocabulary**: if it already has a `hold` marker
+   slot (`Overlay.lua` `SLOTS`), C2 reuses it and edits nothing in Treatment/Overlay (the 9.4
+   definition-of-done). The C1 **dependency dots** (Metamorphosis's two reset dots, The Hunt's sync
+   dot) are just readable markers — Demonology's shape, possibly two per row — so they add no new
+   provider either. Demon-form promotion (D) is plain emphasis on a readable fact — no new renderer.
 
 ## Open facts to measure in-client (produce no hint until resolved — spec.md §3.6)
 
@@ -221,7 +231,7 @@ Route as `@verify-ingame` / ClientLab `@pending-test` markers, not guesses.
    like the R6 Conflagrate measurement (readable at full, secret below) in instanced combat?
    Candidate-settled by mechanism; confirm before shipping the "don't cap" tier. @verify-ingame
 5. **Buff-maintenance marker readability (Exergy / Serrated Glaive).** Newly named by the
-   `scenarios.md` walk (ST-4, ST-14). Does a self-buff expose a *readable* "present" boolean
+   `scenarios.md` walk (ST-1 VR weave, ST-10). Does a self-buff expose a *readable* "present" boolean
    (via `C_UnitAuras`) while its **remaining duration stays sealed**? If so, a maintain-on-cooldown
    press (Vengeful Retreat holding Exergy; Throw Glaive granting Serrated Glaive) could carry an
    optional readable "buff present / missing" marker, with any countdown drawn as a sealed

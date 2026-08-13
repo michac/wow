@@ -238,16 +238,16 @@ transcription is deferred until the desktop cap code is pushed.
       regenerate the artifact from it; never let the artifact drift ahead.** The artifact's data
       model mirrors the doc 1:1 (each scenario = state → per-button walk verdict → press), so a
       doc change is a JS-array change.
-- [ ] **Owed: reconcile the two sibling docs to the corrected holds** (part of the consolidation
-      pass below). `catalog.md` and `fact-classification.md` still carry the pre-correction mix-up
-      and now contradict `scenarios.md` + `rotation.md`: they assign cue **C2 (sealed hold)** to
-      *The Hunt* on the *Essence Break window*. Corrected model — **C2 belongs to Essence Break**
-      (its hold is on Eye-Beam-cooldown-≤4s-remaining, a sealed duration), and **The Hunt's hold is
-      a readable dot** off Meta's cooldown. Fix the Hunt row + the C2 rows in both files. Also
-      update their stale scenario references: the buff-maintenance open fact is now `scenarios.md`
-      **ST-1 (VR weave) / ST-10**, and the Demonsurge / Essence-Break-window promotion open facts
-      are now **ST-4** (both files currently cite the old ST-4 / ST-14). Held per the author's
-      "leave them as working documents, clean up when we're done."
+- [x] **Reconciled the sibling docs to the corrected holds (2026-08-13).** Fixed `catalog.md`,
+      `fact-classification.md` **and** `spec.md` (§3.7 roster table + §3.1 cue-C definition) so all
+      four Havoc docs agree: cue **C2 (sealed hold)** belongs to **Essence Break** (hold while Eye
+      Beam's cooldown has ≤4s remaining, a sealed duration), **The Hunt's hold is a readable Meta-sync
+      dot** (C1), and Metamorphosis's C1 is its **two reset dots** (Eye Beam + Death Sweep cooldowns).
+      Also corrected the stale scenario references (buff-maintenance → ST-1 / ST-10; Demonsurge /
+      Essence-Break-window promotion → ST-4), struck the "leads Aldrachi Reaver" claim (one
+      hero-filtered VR-led list), and re-ordered `catalog.md`'s Meta-led priority summary to VR-led.
+      Grep-clean: no doc still ties a sealed hold to The Hunt. *(The full three-docs→one consolidation
+      is still open, next item.)*
 - [ ] **Owed: consolidate the three Havoc docs → one `catalog.md`** (demonology/ and destruction/
       each carry a single `catalog.md`; Havoc has three). Fold `scenarios.md` +
       `fact-classification.md` back into `catalog.md` and make `rotation.md` the sole home of the

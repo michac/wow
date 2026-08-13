@@ -317,9 +317,11 @@ secret resource into that ordering; each is a pattern-shelf recipe, and the full
   the client a color curve whose authored break point is the overcap threshold, and the client
   paints it. Honestly approximate, and it says so.
 - **C — Hold / sync marker.** A hold marker (§3.2) — "don't press this on cooldown yet." A
-  **readable** hold (hold Metamorphosis while Eye Beam is ready and you are not yet transformed,
-  so Meta's Eye Beam reset banks a second cast) and a **sealed** hold (hold The Hunt while an
-  Essence Break amp window is still counting down).
+  **readable** hold, driven by a related ability's cooldown state and shown as dependency dots
+  (Metamorphosis's two reset dots — hold while Eye Beam or Death Sweep is ready, so its reset banks
+  a cast; The Hunt's sync dot — hold while Metamorphosis is available, to buff Abyssal Gaze in the
+  coming window), and a **sealed** hold (hold Essence Break while Eye Beam's cooldown has ≤4s
+  remaining, so the amp window is not clipped into Eye Beam).
 - **D — Demon-form promotion (readable).** Demon form is a readable fact (the transform
   identity), so while it is active cap **promotes** the empowered spenders — Annihilation and
   Death Sweep brighten within ROTATION — because that is genuinely the moment to spend. This is
@@ -353,10 +355,10 @@ buff-maintenance marker) produce no hint until measured.
 
 | Ability | Player problem | Lane + cues |
 | --- | --- | --- |
-| **Metamorphosis** | ~2 min burst; pressing it while Eye Beam is up wastes its Eye Beam reset. | **COOLDOWN** + readable hold while Eye Beam is ready and you are not transformed (C). |
+| **Metamorphosis** | ~2 min burst whose payoff is its reset of Eye Beam + Death Sweep; pressing it while either is *ready* wastes that reset. | **COOLDOWN** + two readable reset dots (Eye Beam & Death Sweep cooldowns): green = on cooldown/go, red = ready/wait (C1). |
 | **Eye Beam** | Keep the demon-form window rolling — it enables everything downstream. | **COOLDOWN**. |
-| **The Hunt** | On cooldown, but not inside an Essence Break window. | **COOLDOWN** + sealed hold while the Essence Break window counts down (C). |
-| **Essence Break** | Mandatory in S2; opens the amp window you flood with spenders. | **COOLDOWN**; supplies The Hunt's hold window. |
+| **The Hunt** | On cooldown, but hold if Metamorphosis is available (to buff Abyssal Gaze in the coming Meta window). | **COOLDOWN** + readable sync-hold dot off Meta's cooldown state (C1): green = Meta down/cast now, red = Meta up/hold. |
+| **Essence Break** | Mandatory in S2; opens the amp window you flood with spenders. | **COOLDOWN** + positive banked-Fury cue (B); sealed hold while Eye Beam's cooldown has ≤4s remaining (C2). |
 | **Vengeful Retreat** | S2 maintain-on-cooldown press (Exergy / Initiative), woven before Eye Beam. | **COOLDOWN**. |
 | **Chaos Strike / Annihilation** | Shown castable even when Fury-starved, and it is the *low-priority* dump — except inside a window. | **ROTATION**; dimmed when unaffordable (A); **promoted as Annihilation in demon form** (D). Re-skins across the flip. |
 | **Blade Dance / Death Sweep** | The empowered Death Sweep is what you flood windows with; costs Fury. | **ROTATION**; **promoted as Death Sweep in demon form** (D); demon-form identity. |
