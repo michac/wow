@@ -14,17 +14,7 @@
         },
         {
           "name": "Metamorphosis",
-          "verdict": "press",
-          "dots": [
-            {
-              "label": "Eye Beam",
-              "state": "go"
-            },
-            {
-              "label": "Death Sweep",
-              "state": "go"
-            }
-          ]
+          "verdict": "press"
         },
         {
           "name": "The Hunt",
@@ -74,17 +64,17 @@
           "names": [
             "Metamorphosis"
           ],
-          "html": "<b>Metamorphosis</b> — available, and it carries <b>two dependency dots</b>, shown only while it is castable: Eye Beam and Death Sweep, each driven by that ability&#x27;s readable cooldown state. <code>go</code> = on cooldown (the reset is valuable); <code>wait</code> = ready (the reset would be wasted). Both read <code>go</code> here → the reset banks two casts → <b>press.</b>"
+          "html": "<b>Metamorphosis</b> — available, and <b>nothing rules it out</b>. Both of its reset targets are on cooldown, so the C1 dependency mark stays dark: the reset banks two casts. It is the first button the scan reaches with no swipe, no veil and no badge → <b>press.</b>"
         }
       ],
       "extras": [
         {
           "label": "Eye-direction",
-          "html": "Meta&#x27;s <em>own</em> readiness didn&#x27;t decide it — the state of the two abilities it <em>resets</em> did. Two dots are richer than one hold marker: they say <em>why</em> it is go, and they say it from readable facts."
+          "html": "Meta&#x27;s <em>own</em> readiness didn&#x27;t decide it — the state of the two abilities it <em>resets</em> did, and it decided it <b>by not objecting</b>. This is the plainest case of the reading model: cap draws nothing on the press at all, and the press is simply where an unobstructed left-to-right scan stops. The dependency comparison is still happening and is still readable; it just has nothing to say when the answer is &quot;go.&quot; <em>(Until 2026-08-13 this row carried two green <code>go</code> dots, and the argument here was that they &quot;say <b>why</b> it is go.&quot; That was a positive cue — the vocabulary is now negative by default, so the same fact is expressed by silence, and ST-2 below is where it becomes visible.)</em>"
         },
         {
           "label": "Cue set",
-          "html": "Readiness (R2) → <b>have</b>. Reset dots — Eye Beam &amp; Death Sweep cooldowns (R7, readable) → <b>have</b>."
+          "html": "Readiness (R2) → <b>have</b>. Reset dependency mark — Eye Beam &amp; Death Sweep cooldowns (R7, readable) → <b>have</b>, drawn only in its blocking state (ST-2)."
         }
       ]
     },
@@ -100,11 +90,8 @@
         {
           "name": "Metamorphosis",
           "verdict": "hold-readable",
-          "dots": [
-            {
-              "label": "Eye Beam",
-              "state": "wait"
-            }
+          "cues": [
+            "blocked"
           ]
         },
         {
@@ -155,7 +142,7 @@
           "names": [
             "Metamorphosis"
           ],
-          "html": "<b>Metamorphosis</b> — available, but its <b>Eye Beam dot flips to <code>wait</code></b>: Eye Beam is ready, so resetting it would waste the reset. Meta reads <code>hold-readable</code> → skip."
+          "html": "<b>Metamorphosis</b> — available, but the <b><code>blocked</code> badge lights</b>: Eye Beam is ready, so resetting it would waste the reset. Meta reads <code>hold-readable</code> — veiled, with a red badge saying <em>why</em> → skip."
         },
         {
           "names": [
@@ -177,7 +164,7 @@
         },
         {
           "label": "Cue set",
-          "html": "Readiness (R2) → <b>have</b>. Reset dot — Eye Beam cooldown (R7, readable) → <b>have</b>."
+          "html": "Readiness (R2) → <b>have</b>. Reset dependency mark — Eye Beam cooldown (R7, readable) → <b>have</b>. This is the scenario where that mark actually draws; ST-1 is the same fact, silent."
         }
       ]
     },
@@ -196,13 +183,7 @@
         },
         {
           "name": "The Hunt",
-          "verdict": "press",
-          "dots": [
-            {
-              "label": "Metamorphosis",
-              "state": "go"
-            }
-          ]
+          "verdict": "press"
         },
         {
           "name": "Eye Beam",
@@ -254,17 +235,21 @@
           "names": [
             "The Hunt"
           ],
-          "html": "<b>The Hunt</b> — available; its one dependency dot reads <b>Meta&#x27;s cooldown state</b>. Meta is on cooldown → dot reads <code>go</code> → there is no upcoming Meta to sync with, so cast now → <b>press.</b>"
+          "html": "<b>The Hunt</b> — available, and its sync-hold mark stays dark: it reads <b>Meta&#x27;s cooldown state</b>, Meta is on cooldown, so there is no upcoming window to save The Hunt for. Nothing rules it out → <b>press.</b>"
         }
       ],
       "extras": [
         {
+          "label": "Eye-direction",
+          "html": "By elimination, exactly as ST-1: the mark&#x27;s <em>absence</em> is the signal, which <code>../spec.md:137-141</code> already blesses (<em>&quot;an un-held, ready cooldown is directed-to precisely because the hold mark is <b>not</b> drawn&quot;</em>). <em>(An earlier draft argued the press from a green <code>go</code> dot here. Same fact, opposite polarity, and the negative-by-default vocabulary keeps only the half that fires when something is wrong.)</em>"
+        },
+        {
           "label": "Counter",
-          "html": "If Metamorphosis were <em>up</em>, The Hunt&#x27;s dot flips to <code>wait</code> — hold, to save The Hunt to buff Abyssal Gaze inside the coming Meta window (the guide&#x27;s &quot;hold if Metamorphosis is available&quot;). You would skip The Hunt and press the next GCD button."
+          "html": "If Metamorphosis were <em>up</em>, The Hunt would read <code>hold-readable</code> and wear the red <code>blocked</code> badge — hold, to save The Hunt to buff Abyssal Gaze inside the coming Meta window (the guide&#x27;s &quot;hold if Metamorphosis is available&quot;). You would skip The Hunt and press the next GCD button. <b>That counter is the state this mark exists for</b>, and it is unchanged."
         },
         {
           "label": "Cue set",
-          "html": "Readiness (R2) → <b>have</b>. Sync-hold dot — Meta cooldown state (R7, readable) → <b>have</b>. <em>(Corrects an earlier draft that made this a sealed Essence-Break-window hold — the live guide&#x27;s hold is Meta-availability, which cap reads directly.)</em>"
+          "html": "Readiness (R2) → <b>have</b>. Sync-hold mark — Meta cooldown state (R7, readable) → <b>have</b>, drawn only in the counter. <em>(Corrects an earlier draft that made this a sealed Essence-Break-window hold — the live guide&#x27;s hold is Meta-availability, which cap reads directly.)</em>"
         }
       ]
     },
@@ -338,7 +323,7 @@
           "names": [
             "Death Sweep"
           ],
-          "html": "<b>Death Sweep</b> — available, and the readable <b>demon-form window promotes it</b> above what a lit COOLDOWN would be (promoted &gt; lit COOLDOWN) → <b>press.</b> Flood the window."
+          "html": "<b>Death Sweep</b> — available, and nothing rules it out → <b>press.</b> Flood the window. The readable <b>demon-form window</b> is <em>why</em> it belongs here (promoted &gt; lit COOLDOWN, <code>../spec.md</code> §3.1) — but note the ranking argument does no work in this particular state: everything above it is on cooldown, so elimination alone reaches it. The promotion would matter in a state where a COOLDOWN button were also up, and that is the state a flight should build if it wants to test whether the promotion needs to be <em>drawn</em>."
         }
       ],
       "extras": [
@@ -375,10 +360,7 @@
         },
         {
           "name": "Essence Break",
-          "verdict": "press",
-          "cues": [
-            "banked"
-          ]
+          "verdict": "press"
         },
         {
           "name": "Blade Dance",
@@ -429,7 +411,7 @@
           "names": [
             "Essence Break"
           ],
-          "html": "<b>Essence Break</b> — available, and it carries the <b>banked</b> cue: the client evaluated secret Fury against an authored break point (35 / maxFury, S1) and painted it — cap never read the value → <b>press</b>, then flood the ~4s window with Death Sweep + Annihilation. ⚠ The banked cue is <b>open</b> (below), so it produces nothing until measured; the artifact marks it as such."
+          "html": "<b>Essence Break</b> — available, and nothing rules it out → <b>press</b>, then flood the ~4s window with Death Sweep + Annihilation. ⚠ The <b>banked</b> cue — the client evaluating secret Fury against an authored break point (35 / maxFury, S1) and painting the result — is <b>parked</b>, not drawn: the shelf&#x27;s one positive cue is spent on impending loss (charges capped, ST-8), and &quot;you have enough&quot; is a statement about <b>rank</b> — which elimination already carries (<code>../render-shelf.md</code> Part 0.5). It stays expressible in exactly the sense <code>catalog.md</code> records; what is deferred is drawing it. The press here is carried by elimination and player judgment, which is what the cue-set note below already said it would ship on."
         }
       ],
       "extras": [
@@ -439,7 +421,7 @@
         },
         {
           "label": "Cue set",
-          "html": "Readiness (R2) → <b>have</b>. Banked-Fury ≥35 threshold (S1 positive, painted) → <b>open</b> <em>(the positive-polarity threshold cue is specified but unmeasured; until confirmed the press ships on readiness + player judgment, no banked light)</em>. Sealed hold — Eye Beam CD ≤4s (C2, S4) → <b>sealed</b>."
+          "html": "Readiness (R2) → <b>have</b>. Banked-Fury ≥35 threshold (S1 positive, painted) → <b>open + parked</b> <em>(unmeasured <b>and</b> outside the drawn cue vocabulary; the press ships on readiness + player judgment, no banked light — which is what this line already said)</em>. Sealed hold — Eye Beam CD ≤4s (C2, S4) → <b>sealed</b>, drawn as the red <code>blocked</code> badge in the counter above."
         }
       ]
     },
@@ -557,7 +539,10 @@
         },
         {
           "name": "Immolation Aura",
-          "verdict": "withheld"
+          "verdict": "hold-readable",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Felblade",
@@ -599,7 +584,7 @@
           "names": [
             "Immolation Aura"
           ],
-          "html": "<b>Immolation Aura</b> — available, but its charges read below full → <b>secret</b>, so cap <b>withholds</b> the &quot;spend it&quot; opinion (unknown ≠ capped) → skip, no signal."
+          "html": "<b>Immolation Aura</b> — available, but its charges are <b>not</b> at full, so a press spends a charge that is already recharging: it reads <code>hold-readable</code> and wears the red <code>blocked</code> badge → skip."
         },
         {
           "names": [
@@ -615,7 +600,7 @@
         },
         {
           "label": "Cue set",
-          "html": "Readiness (R2) → <b>have</b>. Affordability (A) → <b>have</b>. Immolation withhold (R6) → <b>have</b>. Overcap readout (B, S1 negative) → <b>sealed</b>."
+          "html": "Readiness (R2) → <b>have</b>. Affordability (A) → <b>have</b>. Immolation hold-below-full (<code>isActive</code>) → <b>have</b>. Overcap readout (B, S1 negative) → <b>sealed</b>."
         }
       ]
     },
@@ -654,7 +639,10 @@
         },
         {
           "name": "Immolation Aura",
-          "verdict": "press"
+          "verdict": "press",
+          "cues": [
+            "capped"
+          ]
         },
         {
           "name": "Felblade",
@@ -692,7 +680,7 @@
       "extras": [
         {
           "label": "Eye-direction",
-          "html": "Below full the count is secret and the button reads <code>withheld</code> — the plain <b>full</b> read <em>is</em> the whole capped signal. This is the one Fury-adjacent decision that matters, and R6&#x27;s read-at-full limit is a feature here, not a hole."
+          "html": "Below full the button reads <code>hold-readable</code> and wears the red <code>blocked</code> badge: hold the charge you have and let the second one come back. <code>isActive</code> carries <b>both</b> halves of that — it is <code>NeverSecret</code>, <code>false</code> at max and <code>true</code> below it — so this row has a readable opinion in either direction, and neither half is a guess about a secret count. - ⚠ <b>This is the row that carries the vocabulary&#x27;s one positive cue.</b> Elimination alone already reaches Immolation Aura here — everything to its left is on cooldown — so the gold <code>capped</code> badge is <b>not</b> what leads the eye, and the scenario would still pass the gate without it. It is doing a different job: the fact it reports is <em>impending loss</em>, which is urgent independently of rank, and rank is the only thing a left-to-right scan can express. See <code>../render-shelf.md</code> Part 0.5."
         },
         {
           "label": "Cue set",
@@ -735,7 +723,10 @@
         },
         {
           "name": "Immolation Aura",
-          "verdict": "withheld"
+          "verdict": "hold-readable",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Felblade",
@@ -815,7 +806,10 @@
         },
         {
           "name": "Immolation Aura",
-          "verdict": "withheld"
+          "verdict": "hold-readable",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Felblade",
@@ -845,7 +839,7 @@
             "Demon's Bite",
             "Fel Rush"
           ],
-          "html": "Every cooldown and both spenders are on cooldown; Immolation Aura is <code>withheld</code>; both generators read <code>overcap</code> → skip → <b>Fel Rush</b> is all that is left → <b>press.</b> The fallback has <b>no signal of its own</b>; the eye lands here purely by elimination. <em>(An earlier draft wrote this row as an ellipsis — &quot;every rotation button cd / starved&quot; — which no state actually produces: a generator has no Fury cost and so can never be <code>starved</code>. The row above is the state that genuinely reaches the filler.)</em>"
+          "html": "Every cooldown and both spenders are on cooldown; Immolation Aura is held below full; both generators read <code>overcap</code> → skip → <b>Fel Rush</b> is all that is left → <b>press.</b> The fallback has <b>no signal of its own</b>; the eye lands here purely by elimination. <em>(An earlier draft wrote this row as an ellipsis — &quot;every rotation button cd / starved&quot; — which no state actually produces: a generator has no Fury cost and so can never be <code>starved</code>. The row above is the state that genuinely reaches the filler.)</em>"
         }
       ],
       "extras": [
@@ -882,7 +876,10 @@
         },
         {
           "name": "Immolation Aura",
-          "verdict": "press"
+          "verdict": "press",
+          "cues": [
+            "capped"
+          ]
         },
         {
           "name": "Blade Dance",
@@ -944,7 +941,10 @@
         },
         {
           "name": "Consuming Fire",
-          "verdict": "withheld"
+          "verdict": "hold-readable",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Death Sweep",
@@ -1006,7 +1006,10 @@
         },
         {
           "name": "Immolation Aura",
-          "verdict": "withheld"
+          "verdict": "hold-readable",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Blade Dance",
@@ -1037,7 +1040,7 @@
         },
         {
           "label": "Cue set",
-          "html": "Readiness (R2) → <b>have</b>. Affordability (A) → <b>have</b>. AoE-mode weighting → mode input, <b>not a cue</b>. <em>(Still reached only by elimination, just lower.)</em> <em>(Burning-Wound tab-targeting and the Meta + Essence Break AoE burst add no cap cue: tab-targeting is target selection cap does not hint, and the Meta/EB burst is the same COOLDOWN readiness as ST.)</em> --- ## What the walk surfaced — cue completeness + gaps <b>Complete cue set for comprehensive coverage (have / sealed):</b> readiness (R2), affordability (A), readable hold / dependency dots C1 (incl. the reset dots and the sync-hold dot), sealed hold C2, demon-form promotion (D), Immolation-at-full (R6), overcap readout (B negative), banked-Fury threshold (S1 positive), identity re-skin (R7), and the demon-form bar. Plus <b>two non-cue mechanisms</b> the walk made explicit: the <b>emphasis-intensity hierarchy</b> and <b>eye-direction by elimination</b> (both now <code>../spec.md</code> §3.1), and the <b>AoE-mode input</b> that re-weights without a readable count. <b>Gaps — cues the walk would use but we have not measured (open, produce no hint until resolved):</b> | Named cue | Where it appears | Status | Gates | | --- | --- | --- | --- | | <b>Banked-Fury threshold (positive)</b> | ST-5 | <b>open</b> (specified S1 positive) | Whether the positive-polarity &quot;banked ✓&quot; light draws correctly on Essence Break from the authored 35/maxFury break. Until confirmed, ST-5 ships on readiness + player judgment. | | <b>Demonsurge-active promotion</b> | ST-4 | <b>open</b> | Whether the Demonsurge window exposes a <em>readable</em> active-state so cap may <b>promote</b> (else it may only mark). | | <b>Essence-Break-window promotion</b> | ST-4 | <b>open</b> | Whether the Essence Break amp window&#x27;s active-state is readable (else promote → mark). | | <b>Inertia-proc rise</b> | (Inertia build only) | <b>open</b> | Whether Felblade shows a readable Inertia proc that lifts it above baseline. Not load-bearing on the S2 Exergy build walked here. | | <b>Buff-maintenance marker</b> (Exergy / Serrated Glaive) | ST-1 (weave), ST-10 | <b>open</b> (candidate readable-present + sealed-remaining) | Whether &quot;buff present&quot; reads as a plain boolean while the remaining time stays sealed. If so it is a readable marker; the countdown is a sealed duration. | These are the same open facts tracked in <code>catalog.md</code> → <em>Open facts to measure in-client</em> and <code>fact-classification.md</code> → <em>Open facts</em>. Route every one as <code>@verify-ingame</code> / ClientLab <code>@pending-test</code>, never a guess. <b>None gates a press</b> — each only sharpens a scenario that already resolves by a readable cue or elimination."
+          "html": "Readiness (R2) → <b>have</b>. Affordability (A) → <b>have</b>. AoE-mode weighting → mode input, <b>not a cue</b>. <em>(Still reached only by elimination, just lower.)</em> <em>(Burning-Wound tab-targeting and the Meta + Essence Break AoE burst add no cap cue: tab-targeting is target selection cap does not hint, and the Meta/EB burst is the same COOLDOWN readiness as ST.)</em> --- ## What the walk surfaced — cue completeness + gaps <b>Complete cue set for comprehensive coverage (have / sealed):</b> readiness (R2), affordability (A), readable hold / dependency marks C1 (incl. the reset mark and the sync-hold mark), sealed hold C2, demon-form promotion (D), Immolation-at-full (R6), overcap readout (B negative), banked-Fury threshold (S1 positive), identity re-skin (R7), and the demon-form bar. Plus <b>two non-cue mechanisms</b> the walk made explicit: the <b>emphasis-intensity hierarchy</b> and <b>eye-direction by elimination</b> (both now <code>../spec.md</code> §3.1), and the <b>AoE-mode input</b> that re-weights without a readable count. <b>Gaps — cues the walk would use but we have not measured (open, produce no hint until resolved):</b> | Named cue | Where it appears | Status | Gates | | --- | --- | --- | --- | | <b>Banked-Fury threshold (positive)</b> | ST-5 | <b>open + parked</b> (specified S1 positive) | Whether the positive-polarity &quot;banked&quot; light draws correctly on Essence Break from the authored 35/maxFury break — <em>and</em>, separately, whether the style draws positive cues at all, which it currently does not (<code>../render-shelf.md</code> Part 0.5). Either way ST-5 ships on readiness + player judgment. | | <b>Demonsurge-active promotion</b> | ST-4 | <b>open</b> | Whether the Demonsurge window exposes a <em>readable</em> active-state so cap may <b>promote</b> (else it may only mark). | | <b>Essence-Break-window promotion</b> | ST-4 | <b>open</b> | Whether the Essence Break amp window&#x27;s active-state is readable (else promote → mark). | | <b>Inertia-proc rise</b> | (Inertia build only) | <b>open</b> | Whether Felblade shows a readable Inertia proc that lifts it above baseline. Not load-bearing on the S2 Exergy build walked here. | | <b>Buff-maintenance marker</b> (Exergy / Serrated Glaive) | ST-1 (weave), ST-10 | <b>open</b> (candidate readable-present + sealed-remaining) | Whether &quot;buff present&quot; reads as a plain boolean while the remaining time stays sealed. If so it is a readable marker; the countdown is a sealed duration. | These are the same open facts tracked in <code>catalog.md</code> → <em>Open facts to measure in-client</em> and <code>fact-classification.md</code> → <em>Open facts</em>. Route every one as <code>@verify-ingame</code> / ClientLab <code>@pending-test</code>, never a guess. <b>None gates a press</b> — each only sharpens a scenario that already resolves by a readable cue or elimination."
         }
       ]
     }

@@ -18,12 +18,9 @@ This is the project's only implementation-status source.
   Assets come from `wowkb.uiart` (real client art; `raw/uiart/manifest.json` records tintability).
 - **The shelf declares one style (2026-08-13).** `render-shelf.md` states one treatment per
   primitive and holds every number in its Part 6 `render-tokens` JSON block; alternatives and
-  reasoning moved to `render-rationale.md`, which is authoritative over nothing. The three
-  vocabularies are reconciled **on paper**: `ClientLab/Mock.lua`'s motion ladder is the style
-  (hues, rates, pulse floor, veil), the static four-strip border in cap's `Treatment.lua` is
-  superseded, and the artifact's invented style is replaced by a generator. ⚠ **The code has not
-  been changed to match** — `Treatment.lua` still draws the static border, and making it match the
-  shelf is transcription work that follows the flight.
+  reasoning moved to `render-rationale.md`, which is authoritative over nothing. ⚠ **Superseded
+  the same day by the lab promotion below** — the style this bullet reconciled to (`Mock.lua`'s
+  motion ladder) is no longer the declared style. The *structure* it established stands.
 - **`wowkb.capart` renders the artifact from the docs (2026-08-13).** It reads the shelf's token
   block, `havoc/catalog.md`'s roster table and `havoc/scenarios.md`'s CDM-row bullets; the scenario
   sidecar is seeded by `capart import` and then sits off the build path.
@@ -36,6 +33,80 @@ This is the project's only implementation-status source.
   from real client art (86 KB of a 512 KB budget) and `havoc-stepper.html` is republished to the
   same URL. The stylized two-letter-abbreviation diagram is **gone**: the artifact is now a
   transcription target. ⚠ Still true that `Treatment.lua` has not been changed to match.
+- **The lab's two entries were promoted; the style is now borders + red-only badges (2026-08-13).**
+  Part 7's lab existed so an idea could be drawn without being adopted. Both entries were drawn,
+  looked at, judged better than the declared style, and **moved** into Parts 1–6 per rule 4 — the
+  lab is now empty, which is its correct resting state.
+  - **V2 · lane border.** A solid, static, per-lane border plus a one-shot arrival snap
+    (2× → 1× over 0.35 s) fired when something *arrives* — a cooldown finishes, a charge returns, a
+    spender becomes affordable. It is the only motion left in the style. **V1** (the
+    `visualalert_ants_flipbook` emphasis ring) and **V3** (the lane pulse) are retired; their
+    measurements — the trough invariant, the unequal-rate argument, the WCAG phase offset, the
+    tintability table — moved to `render-rationale.md` because they stay true.
+  - **A fourth lane, CHARGES**, which **replaces** the role lane on the border rather than
+    stacking with it. Sourced from a new `Charges` column in `havoc/catalog.md`; the authored role
+    lane is unchanged, because the substitution is a render-time fact. ⚠ Finding: both Havoc
+    FALLBACK abilities have charges, so **no Havoc row draws a FALLBACK border** — `capart build`
+    says so on the page rather than letting the lane silently vanish.
+  - **V5 · corner badges.** OS-notification-style discs off the top-right corner, 40 % of icon
+    width, overhanging 2 px (clears the 6 px row gap), on a dark contrast plate, from Kenney's CC0
+    Board Game Icons. **V6** (the 7 px corner dot) and the old center cue row are retired.
+  - **The cue vocabulary is now negative by default, and this is the real change.** Three cues —
+    `blocked`, `starved`, `overcap` — one shared red, each a **single state** that draws when a
+    button is ruled *out* and draws nothing otherwise. The reading model it serves: **scan the row
+    left to right and press the first button not ruled out.** So `press`, `press-promoted` and
+    `below` now render **identically** — the press is not a thing cap draws.
+  - **One positive cue, added 2026-08-14: `capped`** (gold, glowing, badge slot 3, Kenney
+    `cards_stack_high`), on Immolation Aura at max charges — ST-8 is its only subject. It exists
+    because *impending loss* is urgent independently of **rank**, and rank is the only thing a
+    left-to-right scan expresses; there is no negative phrasing of "you are wasting a charge right
+    now". It does **not** direct the press — ST-8 is already led correctly by elimination — so §4
+    is untouched. Scope is fenced by three `capart check` gates: the elimination gate counts
+    **negative** cues only, a second positive cue fails the build, and a cue no scenario wears
+    fails the build. ⚠ **"About to cap" is not attempted** — R6/OBS-066 measured `isActive` true
+    at both 1/2 and 0/2, so a recharge threshold cannot tell "about to cap" from "about to regain
+    your first charge", and would fire hardest while starved. That needs the napkin estimator,
+    whose named worst case is Immolation Aura itself (R7).
+  - **The other positive cues stay parked, not refuted.** The `banked` light (cue B positive), the
+    green dependency dot, the weave chevron and the promotion (cue D) have no treatment today. A
+    threshold remains expressible in **either** polarity — that finding is unchanged and
+    `spec.md` §3.6 still carries it; what is deferred is *drawing* the positive half, because a
+    positive cue is an **override** of left-to-right ordering and that is a harder problem.
+  - **The escape hatch is mechanical.** `capart check` now asserts, for all 13 scenarios, that the
+    leftmost entry that is neither swiped nor veiled nor wearing a **negative** badge is the entry
+    the doc calls the press (`weave` skipped). All 13 pass. If one ever fails, that is the designed
+    trigger for
+    revisiting the positives — not someone quietly adding one.
+  - **The tint guard survived its subject.** It guarded the flipbook rings; they are gone, so it
+    was generalised (`assert_tintable`) onto the badge sprites, and `check` additionally fails if
+    *nothing* declares `tint: "lane"` — a guard whose subject set empties keeps passing while
+    guaranteeing nothing. Both failure paths were exercised deliberately.
+- **The shelf is in Lua, and there is a gallery to look at it in (2026-08-14).** `capart export`
+  generates `CombatAssistPlus/Style.lua` from Part 6 (data only) and vendors the badge art into
+  `Media/badges/` as 32-bit TGA; `capart check` fails on a committed `Style.lua` that disagrees
+  with the shelf, exactly as it already did for the HTML. `Paint.lua` holds one builder per
+  primitive — border, arrival snap, veil, badge, glow — and **both** the live overlay and the new
+  `/cap style` gallery draw through it, so the two cannot diverge. Frame stepping is one shared
+  `C_Timer.NewTicker` computing the index off the clock, which is `stepper.js`'s walk exactly; the
+  mechanism is now stated in the shelf. `Treatment.lua` is the tier→lane seam and holds no numbers.
+  - **What `/cap style` can settle:** Q2 (the arrival snap without the ring), Q4 (badges at 56 px;
+    does the sweep read as *waiting* or as a countdown), Q5 (one shared red across three badges),
+    plus whether the gold `capped` is distinguishable at badge size and whether its glow rate is
+    right. **What it cannot:** Q1 needs a real row at rest over time, and Q3 (does the CHARGES
+    border carry meaning) and Q6 (does elimination lead the eye) both need the real Havoc row.
+    Q7 stays unexercised — nothing declares `tint: "desaturate+lane"`.
+  - ⚠ **The two Warlock context dots stopped drawing (2026-08-14).** `dreadstalkers` and
+    `grimoire` were ad-hoc markers with their own hues; the shelf's cue vocabulary is a closed set
+    of four, and inventing keys for them would break the "one shared red, shape carries identity"
+    argument the set exists to protect. They are still evaluated and still reported in the `draw`
+    capture's `M{}`; nothing is drawn for them. Re-authoring them as cues is `authoring.md`
+    stages 1–5 work, and neither spec has ever flown.
+  - **Not attempted:** the arrival snap has no live trigger. On the live path a border appearing
+    is not yet treated as an arrival event; the snap is exercised in the gallery only, and wiring
+    it belongs with the Havoc row.
+  - **Also open:** `verdicts.starved.desaturate` has no live path. In the gallery cap owns the
+    texture so desaturating is free; on a live row the icon is Blizzard's and the shelf forbids
+    restyling a CDM frame.
 - Demonology remains the small pilot: Tyrant and Demonbolt are its only enhanced entries;
   Dreadstalkers and Grimoire are readable Tyrant dependencies.
 - The corrective pass restored the three discrete tiers (then named ASAP / SOON / FALLBACK)
@@ -64,9 +135,10 @@ This is the project's only implementation-status source.
   skipped until the press; demon-form overrides rendered via R7; **revised 2026-08-13**, see
   Phase 10.1), the `spec.md` §3.7 product section, and four cues (A affordability / B sealed overcap / C
   readable + sealed hold / **D demon-form promotion**). No `Catalogs/Havoc.lua` exists and none of
-  it has flown.
-  Transcription is blocked on the desktop cap code being pushed (this checkout is the stale
-  v0.2.4 vocabulary). See *Phase 10* below.
+  it has flown. See *Phase 10* below. (The old claim that transcription was *blocked on the
+  desktop cap code being pushed* was false: this checkout **is** the desktop and there is no newer
+  source anywhere. What Havoc still needs is the `Signal` vocabulary migration and the four
+  providers in 10.2, not a push.)
 
 ## Now
 
@@ -369,13 +441,23 @@ Each is a *small named mechanism* under `authoring.md` stage 6's renderer test, 
       static table**; no generation API — R4), and **positive** "banked" curve at `35 / maxFury`
       on Essence Break. A threshold is a client-side paint, not a Lua branch, so both polarities
       are expressible; cap never reads which side the value fell on. First consumers: Felblade,
-      Demon's Bite (negative); Essence Break (positive).
+      Demon's Bite (negative); Essence Break (positive). ⚠ **Build the negative half only for
+      now** — the shelf's single positive cue is spent on charges-capped, so the positive "banked"
+      curve still has no treatment to drive and would ship as a mechanism with nothing on the other end. The
+      mechanism is symmetric and the second consumer is a curve away when the shelf un-parks it.
 - [ ] **Sealed hold marker (cue C2)** — range step-curve → texture alpha on a sealed duration
-      object (S4). First check whether the current desktop renderer already has a `hold` marker
+      object (S4). ⚠ **One marker now serves both hold lanes**: C1 (readable) and C2 (sealed) both
+      render as the shelf's `blocked` badge, since the difference between them is provenance, not
+      appearance. Build one marker with two drivers. First check whether the current desktop
+      renderer already has a `hold` marker
       slot; if so it reuses it and edits nothing in Treatment/Overlay (the 9.4 definition-of-done).
 - [ ] **Demon-form promotion (cue D)** — plain emphasis raised on the empowered spenders while
       the readable demon-form window is active (R7). No new renderer; it is readable-driven
-      emphasis. (Essence Break / Demonsurge promotion gated on open fact 10.3.)
+      emphasis. (Essence Break / Demonsurge promotion gated on open fact 10.3.) ⚠ **Also parked at
+      the shelf level:** a promotion is a positive cue, and `press-promoted` currently renders
+      identically to `press`. The permission is unchanged (`spec.md` §3.7 cue D) and the verdict
+      name is kept because `scenarios.md` needs it to state ST-4's argument — what is missing is
+      pixels, not authority.
 
 #### 10.3 Open facts — measure in-client before authoring the hint (spec.md §3.6)
 
@@ -393,11 +475,13 @@ Routed per `authoring.md` stage 5.
       duration stays sealed? (gates an optional maintain-on-cooldown "buff present / missing"
       marker; the press ships on readiness alone until resolved).
 
-#### 10.4 Transcription + flight (deferred — blocked on desktop push, releasing ask-first)
+#### 10.4 Transcription + flight (releasing ask-first)
 
-- [ ] After the desktop cap code is pushed, transcribe `catalog.md` into `Catalogs/Havoc.lua`
-      against the *real* current vocabulary; add to `.toc`, register, resolve override ids via
-      `overrideSpellID` at bind (never hardcode).
+- [ ] Transcribe `catalog.md` into `Catalogs/Havoc.lua` against the current vocabulary; add to
+      `.toc`, register, resolve override ids via `overrideSpellID` at bind (never hardcode).
+      Not blocked on anything external — the shelf is already in Lua (`Style.lua` / `Paint.lua`);
+      what this needs is the `Signal` vocabulary migration and 10.2's four providers.
+- [ ] Give the arrival snap a live trigger, and decide what counts as an arrival on a CDM row.
 - [ ] Extend the `busted` suite for the new providers: capped/charge seeding + reseed-on-flip,
       lever-B curve guards, marker union (readable + sealed hold lanes).
 - [ ] Dry-run `wowkb.addon release cap`; releasing stays ask-first.

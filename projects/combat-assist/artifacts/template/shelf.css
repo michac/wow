@@ -117,93 +117,92 @@ a { color: var(--accent); }
 /* V4 · veil. */
 .item .veil { position: absolute; inset: 0; border-radius: 2px; background: var(--veil-color); }
 
-/* V1 · emphasis ring + V3 · pulse.
+/* V2 · lane border + the one-shot arrival snap.
  *
- * SetVertexColor MULTIPLIES, so the tint is background-color under
- * background-blend-mode: multiply — never a hue-rotate, which would recolor art the
- * client cannot recolor. The mask re-applies the sheet's own alpha, which the opaque
- * background-color would otherwise fill in.
- *
- * A rows x cols sheet needs TWO stepped timelines: one walking columns fast, one walking
- * rows slowly. They drive registered custom properties so a single position shorthand can
- * serve both the background and the mask without depending on the -x/-y longhands.
+ * A solid border in the lane's hue at the lane's thickness, sitting still. In Lua this is four
+ * SetColorTexture strips on cap's OWN frame — no art, no atlas, nothing to tint-guard. The
+ * border is its own box so it can be scaled without touching the icon, and per CDMProbe's
+ * hardest-won rule nothing that is an ancestor of a rotating texture may be animated. Nothing
+ * here rotates, by design.
  */
-@property --fx { syntax: "<percentage>"; inherits: false; initial-value: 0%; }
-@property --fy { syntax: "<percentage>"; inherits: false; initial-value: 0%; }
-
-.item .ring {
-  position: absolute;
-  left: 50%; top: 50%;
-  width: calc(var(--icon) * var(--ring-scale));
-  height: calc(var(--icon) * var(--ring-scale));
-  margin-left: calc(var(--icon) * var(--ring-scale) / -2);
-  margin-top: calc(var(--icon) * var(--ring-scale) / -2);
-  pointer-events: none;
-
-  background-image: var(--ring-sheet);
-  background-size: var(--ring-size);
-  background-position: var(--fx) var(--fy);
-  background-repeat: no-repeat;
-  background-color: var(--lane-color);
-  background-blend-mode: multiply;
-
-  -webkit-mask-image: var(--ring-sheet);
-          mask-image: var(--ring-sheet);
-  -webkit-mask-size: var(--ring-size);
-          mask-size: var(--ring-size);
-  -webkit-mask-position: var(--fx) var(--fy);
-          mask-position: var(--fx) var(--fy);
-  -webkit-mask-repeat: no-repeat;
-          mask-repeat: no-repeat;
-
-  animation:
-    capflipx var(--ring-row-dur) var(--ring-steps-x) infinite,
-    capflipy var(--ring-dur)     var(--ring-steps-y) infinite,
-    cappulse var(--pulse-dur)    ease-in-out infinite alternate;
-  animation-delay: var(--phase), var(--phase), var(--phase);
+.item .edge {
+  position: absolute; inset: 0; border-radius: 3px; pointer-events: none;
+  transform-origin: center;
+  border: var(--lane-px) solid var(--lane-color);
 }
-@keyframes capflipx { to { --fx: var(--ring-x-end); } }
-@keyframes capflipy { to { --fy: var(--ring-y-end); } }
-@keyframes cappulse {
-  from { opacity: calc(var(--lane-alpha) * var(--pulse-floor)); }
-  to   { opacity: var(--lane-alpha); }
+
+@keyframes caparrive {
+  0%   { transform: scale(var(--arrive-from)); opacity: var(--arrive-alpha0); }
+  100% { transform: scale(1); opacity: 1; }
 }
+/* ONE SHOT, then it rests. There is deliberately NO looping variant: the whole claim of this
+ * primitive is that motion marks the change of state and stops. `stepper.js` re-adds this
+ * attribute on the artifact's replay interval — the JS is standing in for the event, which is
+ * what the addon does. */
+.item .edge[data-anim="1"] { animation: caparrive var(--arrive-dur) ease-out both; }
 
 @media (prefers-reduced-motion: reduce) {
-  .item .ring { animation: none; opacity: var(--lane-alpha); }
+  .item .edge[data-anim="1"] { animation: none; }
 }
 
-/* V6 · corner dots — top corners only; Blizzard owns the bottom two. */
-.item .dot {
+/* V5 · corner badges — OS-notification style, hung off the TOP-RIGHT corner.
+ *
+ * Slot 1's right edge sits --badge-over past the icon's right edge and its top edge the same
+ * distance above the top, so it reads as ON the icon rather than inside it. Slot 2 steps one
+ * diameter+padding left along the top; slot 3 the same distance down the right.
+ */
+.item .slot {
   position: absolute;
-  width: var(--dot-size); height: var(--dot-size);
-  top: var(--dot-inset);
-  border-radius: 1px;
-}
-.item .dot[data-corner="left"]  { left: var(--dot-inset); }
-.item .dot[data-corner="right"] { right: var(--dot-inset); }
-.item .dot[data-state="go"]     { background: var(--dot-go); }
-.item .dot[data-state="wait"]   { background: var(--dot-wait); }
-
-/* V5 · center cue row — up to --cue-max textures, centered as a group. */
-.item .cues {
-  position: absolute;
-  left: 0; right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  justify-content: center;
-  gap: var(--cue-gap);
+  width: var(--badge-d); height: var(--badge-d);
+  border-radius: 50%;
   pointer-events: none;
+  /* Own stacking context, so the glow's z-index:-1 puts it behind the plate WITHIN the badge
+   * rather than behind the ability icon, where it would be invisible. */
+  isolation: isolate;
 }
-.item .cue {
-  width: calc(var(--icon) * var(--cue-height) / 100);
-  height: calc(var(--icon) * var(--cue-height) / 100);
-}
-.item .cue svg { width: 100%; height: 100%; display: block; }
+.item .slot[data-slot="1"] { top: calc(var(--badge-over) * -1); right: calc(var(--badge-over) * -1); }
+.item .slot[data-slot="2"] { top: calc(var(--badge-over) * -1); right: calc(var(--badge-step) - var(--badge-over)); }
+.item .slot[data-slot="3"] { top: calc(var(--badge-step) - var(--badge-over)); right: calc(var(--badge-over) * -1); }
 
-/* An `open` cue draws, but never without saying it is unproven. */
-.item .cue[data-open="1"] { outline: 1px dashed var(--warn); outline-offset: 1px; }
+/* Contrast plate: additive/light art over busy icon work washes out, and a dark disc is the
+ * cheap fix — contrast, not more light (CDMProbe, learned the expensive way). */
+.item .slot::before {
+  content: ""; position: absolute; inset: 0; border-radius: 50%;
+  transform: scale(var(--plate-scale));
+  background: var(--plate);
+}
+/* The sprite, inset inside the disc so a square glyph fits within the circle instead of poking
+ * out at the corners. White-with-shape-in-alpha art tinted by mask + background-color, which for
+ * white art IS what SetVertexColor's multiply produces. Not a hue-rotate. */
+.item .sprite {
+  position: absolute; inset: var(--badge-inset);
+  background-color: var(--slot-tint, var(--badge-tint));
+  -webkit-mask-image: var(--frame); mask-image: var(--frame);
+  -webkit-mask-size: contain; mask-size: contain;
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  -webkit-mask-position: center; mask-position: center;
+}
+
+/* The glow, drawn UNDER the plate and the glyph so it reads as light escaping from behind the
+ * badge rather than as a wash over it. Only the halo breathes — the glyph holds full alpha, so
+ * the fact the cue carries never blinks. The one positive cue in the vocabulary is the only
+ * thing that wears this, by design: it is the "you are losing something right now" channel and
+ * it is allowed to move because it must survive peripheral vision. */
+.item .slot .glow {
+  position: absolute; inset: 0; border-radius: 50%; z-index: -1;
+  background: radial-gradient(circle, var(--slot-tint, var(--badge-tint)) 0%, transparent var(--badge-halo-stop));
+  transform: scale(var(--g-scale));
+  animation: capglow var(--g-dur) ease-in-out infinite alternate;
+}
+@keyframes capglow {
+  from { opacity: var(--g-a0); }
+  to   { opacity: var(--g-a1); }
+}
+
+/* An `open` primitive draws, but never without saying it is unproven. Nothing declares `open`
+ * today; the mechanism is kept because it is how the artifact refuses to lie about an unmeasured
+ * primitive, and the next one that needs it will find it working. */
+.item .slot[data-open="1"] { outline: 1px dashed var(--warn); outline-offset: 1px; }
 
 .item[data-open="1"]::after {
   content: "⚠";
@@ -292,9 +291,14 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
 
 /* ---------------------------------------------------------------- Part 7 · the lab
  *
- * Experiments. Same rule as everything else in this file: no number here, every value
- * arrives as a custom property that capart emitted from the shelf's `lab` block. The
- * visual separation is deliberate — a reader must never mistake a lab entry for the style.
+ * Experiments. Same rule as everything else in this file: no number here, every value arrives as
+ * a custom property that capart emitted from the shelf's `lab` block. The visual separation is
+ * deliberate — a reader must never mistake a lab entry for the style.
+ *
+ * The lab is currently EMPTY: its two entries were promoted into the declared style on
+ * 2026-08-13 (border-arrival -> V2, badge-slots -> V5), which per Part 7 rule 4 means MOVED and
+ * deleted from here. These are the chrome rules the section still needs to render its own
+ * heading and an honest "nothing here" note.
  */
 
 .labtag {
@@ -312,82 +316,15 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
 .lab-entry .asks { margin: .1rem 0 1rem; font-size: .82rem; color: var(--ink-dim);
                    border-left: 2px solid var(--warn); padding-left: .7rem; }
 .lab-entry .asks b { color: var(--ink); }
-.lab-row { display: flex; flex-wrap: wrap; gap: 1.6rem; align-items: flex-start; }
-.lab-cell { display: flex; flex-direction: column; align-items: center; gap: .5rem; width: 8.5rem; }
-.lab-cell .cap { font-size: .7rem; color: var(--ink-faint); text-align: center; line-height: 1.35; }
-.lab-cell .cap b { color: var(--ink-dim); font-weight: 600; }
-.lab-stage { padding: .9rem; }
+.lab-empty { border: 1px dashed var(--rule); border-radius: 10px; background: var(--paper-2);
+             padding: 1rem 1.1rem; color: var(--ink-dim); font-size: .88rem; }
+.lab-empty b { color: var(--ink); }
 
-/* --- L1 · solid border + one-shot arrival ------------------------------------------ */
+/* ---------------------------------------------------------------- swatch furniture */
 
-.lab-bord { position: relative; width: var(--icon); height: var(--icon); }
-.lab-bord .art {
-  position: absolute; inset: 0; border-radius: 2px; overflow: hidden;
-  background-size: cover; border: var(--border-px) solid var(--rule);
-}
-/* The border is its own box so it can be scaled without touching the icon. In Lua this is
- * four strips on a frame of its own — and per CDMProbe's hardest-won rule, nothing that is
- * an ancestor of a rotating texture may be animated. Nothing here rotates, by design. */
-.lab-bord .edge {
-  position: absolute; inset: 0; border-radius: 3px; pointer-events: none;
-  transform-origin: center;
-}
-.lab-bord[data-lane="COOLDOWN"] .edge { border: var(--lab-border-cooldown-px) solid var(--lab-border-cooldown); }
-.lab-bord[data-lane="ROTATION"] .edge { border: var(--lab-border-rotation-px) solid var(--lab-border-rotation); }
-.lab-bord[data-lane="FALLBACK"] .edge { border: var(--lab-border-fallback-px) solid var(--lab-border-fallback); }
-.lab-bord[data-lane="CHARGES"]  .edge { border: var(--lab-border-charges-px)  solid var(--lab-border-charges); }
-
-@keyframes labArrive {
-  0%   { transform: scale(var(--lab-arrive-from)); opacity: var(--lab-arrive-alpha0); }
-  100% { transform: scale(1); opacity: 1; }
-}
-/* One shot, then it rests. There is deliberately NO looping variant: the whole claim of
- * this entry is that the animation fires on an arrival and stops, so the artifact must not
- * quietly turn it into another continuous pulse. `stepper.js` re-adds this attribute every
- * `--lab-arrive-every` — the JS is standing in for the event, which is what the addon does. */
-.lab-bord .edge[data-anim="1"] {
-  animation: labArrive var(--lab-arrive-dur) ease-out both;
-}
-
-/* --- L2 · OS-style corner badges ---------------------------------------------------- */
-
-.lab-badges { position: relative; width: var(--icon); height: var(--icon); }
-.lab-badges .art {
-  position: absolute; inset: 0; border-radius: 2px; overflow: hidden;
-  background-size: cover; border: var(--border-px) solid var(--rule);
-}
-/* Slot 1's CENTER sits ON the icon's top-right corner, so the badge half-overhangs — the
- * OS-notification look. 2 steps left along the top edge, 3 steps down the right edge. */
-.lab-badges .slot {
-  position: absolute;
-  width: var(--lab-badge-d); height: var(--lab-badge-d);
-  margin: calc(var(--lab-badge-d) / -2) 0 0 calc(var(--lab-badge-d) / -2);
-  border-radius: 50%;
-}
-.lab-badges .slot[data-slot="1"] { top: 0; left: 100%; }
-.lab-badges .slot[data-slot="2"] { top: 0; left: calc(100% - var(--lab-badge-step)); }
-.lab-badges .slot[data-slot="3"] { top: var(--lab-badge-step); left: 100%; }
-
-/* Contrast plate: additive/light art over busy icon work washes out, and a dark disc is
- * the cheap fix — contrast, not more light (CDMProbe, learned the expensive way). */
-.lab-badges .slot::before {
-  content: ""; position: absolute; inset: 0; border-radius: 50%;
-  transform: scale(var(--lab-plate-scale));
-  background: var(--lab-plate);
-}
-/* The sprite. White-with-shape-in-alpha art tinted by mask + background-color, which for
- * white art IS what SetVertexColor's multiply produces. Not a hue-rotate. */
-.lab-badges .sprite {
-  position: absolute; inset: 0; border-radius: 50%;
-  background-color: var(--lab-badge-tint);
-  -webkit-mask-image: var(--lab-frame); mask-image: var(--lab-frame);
-  -webkit-mask-size: contain; mask-size: contain;
-  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
-  -webkit-mask-position: center; mask-position: center;
-}
-.lab-legend { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem; }
-.lab-legend .li { display: flex; align-items: center; gap: .5rem; font-size: .72rem;
-                  color: var(--ink-dim); }
-.lab-legend .sw { width: .8rem; height: .8rem; border-radius: 50%; flex: 0 0 auto; }
-.lab-frames { display: flex; gap: .35rem; align-items: center; }
-.lab-frames .f { width: 1.4rem; height: 1.4rem; border-radius: 50%; position: relative; }
+.swatch-stage { display: flex; align-items: center; justify-content: center;
+                gap: var(--row-gap); }
+.frames { display: flex; gap: .35rem; align-items: center; justify-content: center; }
+.frames .f { width: 1.4rem; height: 1.4rem; border-radius: 50%; position: relative;
+             background: var(--paper-3); }
+.frames .f i { position: absolute; inset: 18%; display: block; }

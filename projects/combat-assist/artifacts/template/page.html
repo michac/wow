@@ -14,9 +14,16 @@
     <b>verdict</b> — what Combat&nbsp;Assist&nbsp;Plus concluded about that button — and the walk names why
     every <em>available</em> button is skipped until the press.
   </p>
+  <p class="lede">
+    <b>The reading model: scan left to right and press the first button that is not ruled out.</b>
+    The press is not something cap draws — <code>press</code>, <code>press-promoted</code> and
+    <code>below</code> render identically. The <b>swipe</b> and the <b>veil</b> say <em>skip
+    this</em>; a <b>red badge</b> says <em>why</em>. Every cue is negative: a satisfied dependency
+    draws nothing at all.
+  </p>
   <p class="muted">
     Rendered from <code>specs/havoc/scenarios.md</code> and <code>specs/render-shelf.md</code>. Real
-    Blizzard icon art at the client's 56&nbsp;px, real extracted flipbook sheets at their real frame
+    Blizzard icon art at the client's 56&nbsp;px, real vendored sprite frames at their real frame
     counts, and cap's treatments composited the way the client composites them —
     <code>SetVertexColor</code> as a multiply, never a hue rotation. This is a preview of what the
     addon would draw, not a diagram of it.
@@ -47,6 +54,15 @@
     exercises. A shelf edit always lands somewhere visible here.
   </p>
   <div class="gallery" id="gallery"></div>
+
+  <h3>The badge art, frame by frame</h3>
+  <p class="muted">
+    Kenney <b>Board Game Icons</b> (CC0), vendored beside the artifact. White with the shape in the
+    alpha channel — measured saturation 0.000 — which is what lets
+    <code>SetVertexColor</code>'s multiply take them to the one authored red at full strength.
+    A <code>tint: "lane"</code> declaration on art that measured otherwise is a hard build error.
+  </p>
+  <div class="gallery" id="frames"></div>
 
   <h2>Verdicts</h2>
   <p class="lede">

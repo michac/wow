@@ -43,6 +43,104 @@ nothing survives, "nothing; superseded by <X>" and stop.
 
 ---
 
+## 2026-08-14 — the shelf reached the client
+
+**What changed.** The shelf stopped being a document the addon was supposed to transcribe by hand.
+`capart export` generates `Style.lua` from Part 6 and vendors the badge art as TGA, `capart check`
+gates both against the shelf the way it already gated the HTML, and `Paint.lua` holds one builder
+per primitive that both the live overlay and a new `/cap style` gallery draw through. Two shapes
+CSS gets free — the badge disc and its halo — are generated white-alpha art, which added
+`badges.halo_falloff` as the one number they share with the artifact's gradient. Touched:
+`tools/wowkb/capart.py`, `render-shelf.md` (Part 0, V5, V5.1, Part 4, Part 6),
+`artifacts/template/shelf.css`, and in the addon `Style.lua`, `Paint.lua`, `StylePanel.lua`,
+`Treatment.lua`, `Overlay.lua`, `Frame.lua`, the `.toc`, `Media/badges/`, and the suite.
+
+**Why it still binds.** Generation, not transcription, is the whole point: the shelf's stated
+contract was that the artifact generator and the addon renderer both cite it rather than each
+carrying their own numbers, and a hand-transcribed `Treatment.lua` was that promise unkept for as
+long as it existed. The gate is what makes it stay true — without a `check` that fails on a
+committed `Style.lua` disagreeing with Part 6, generation buys nothing the first time someone
+edits one and not the other. The same reasoning made `Paint.lua` shared rather than duplicated for
+the gallery: two renderers of one style is the failure being designed out, and a gallery that
+drew its own pixels would have reintroduced it at the exact moment it was being fixed.
+
+**Caveat.** The two Warlock context dots stopped drawing: they were ad-hoc markers with their own
+hues, the cue vocabulary is a closed set of four, and minting keys for them would break the
+argument that set rests on. They are still evaluated and still reported in the `draw` capture.
+The arrival snap has no live trigger — it fires in the gallery only. Nothing here has flown.
+
+---
+
+## 2026-08-14 — one positive cue, scoped to impending loss
+
+**What changed.** The cue vocabulary stopped being negative-*only* and became negative-*by-default*
+with exactly one positive exception: `capped`, a gold glowing badge in slot 3, worn by Immolation
+Aura when its charge count reads full. Every cue now declares a `polarity`; the three negatives
+keep the shared red and the top-edge slots. Three `capart check` gates fence the exception — the
+elimination gate counts negative cues only, a second positive cue fails the build, and a cue that
+no scenario wears fails the build. Both new gates were run to failure deliberately before being
+trusted. Touched: `render-shelf.md` (Part 0.5, V5, V5.1, tokens), `havoc/catalog.md`,
+`havoc/scenarios.md` (ST-8), `spec.md`, `backlog.md`, `render-rationale.md`,
+`tools/wowkb/capart.py`, `artifacts/template/{shelf.css,stepper.js}`, and a fourth vendored Kenney
+sprite (`cards_stack_high`, measured saturation 0.000, so the tint guard still holds).
+
+**Why it still binds.** The argument that a future reader must not re-derive is *why this one and
+not the others*. Elimination expresses **rank** — "the highest-priority thing not ruled out".
+Wasting a charge is urgent independently of rank, and stays urgent when the highest-priority thing
+is something else entirely; there is no way to say it by ruling things out, because doing so would
+require marking the buttons to its left as skippable, which is false. That is a structural gap in
+the reading model, not a preference, and it is why the other parked positives (the `banked` light,
+the promotion, the green dependency dot) did **not** come with it — each of those is a statement
+about rank, which elimination already carries. The cue also does not direct the press: ST-8 is
+reached correctly by elimination without it, which is what keeps `spec.md` §4 intact.
+
+**Caveat.** "About to cap" was investigated and deliberately not built. R6/OBS-066 measured
+`isActive` reading `true` at both 1/2 and 0/2 charges — it means *recharge running*, not *which
+charge* — so a threshold on the recharge duration cannot distinguish "about to cap" from "about to
+regain your first charge", and would fire hardest while the player is charge-starved. Closing that
+needs R6's napkin estimator, whose named worst case (R7) is Immolation Aura itself. Nothing here
+has been flown; the glow rate, the gold, and whether slot 3 reads as "different kind of thing" are
+all unjudged in play.
+
+---
+
+## 2026-08-13 — the lab emptied: borders, and red-only badges
+
+**What changed.** Part 7's two entries were **moved** into Parts 1–6, which is the only way a
+treatment leaves the lab, and the lab is now empty. `border-arrival` became **V2** — a solid,
+static, per-lane border whose only motion is a one-shot snap when something *arrives* — retiring
+the flipbook emphasis ring (V1) and the lane pulse (V3). `badge-slots` became **V5** — OS-style
+discs off the top-right corner, drawn from Kenney's CC0 art — retiring the corner dot (V6) and the
+center cue row. A fourth lane, **CHARGES**, *replaces* the role lane on the border rather than
+stacking with it, sourced from a new `Charges` column in the Havoc catalog. The retired rings'
+measurements moved to `render-rationale.md` rather than being deleted.
+`render-shelf.md`, `render-rationale.md`, `havoc/catalog.md`, `havoc/scenarios.md`, `spec.md`,
+`backlog.md`, `tools/wowkb/capart.py`, `tools/wowkb/serve.py`, `artifacts/template/*`.
+
+**Why it still binds.** The cue vocabulary went **negative-only**: a cue draws when a button is
+ruled *out* and draws nothing when it is clear, so a satisfied dependency is silence. The reading
+model that pays for is *scan left to right and press the first button not ruled out* — which meant
+`press`, `press-promoted` and `below` collapsed to one appearance, because the press stopped being
+something cap draws. The argument for deferring the positive half was **not** that a positive cue
+is illegitimate: a negative cue is local ("not this one," the ordering still holds) while a
+positive one is an **override** of the ordering ("jump here"), and only the second can be wrong
+about the row rather than about its own button. Which is why the deferral was mechanised instead
+of minuted — `capart check` fails by name if any scenario stops reaching its press by elimination
+alone, and that failure, not a later opinion, is what un-parks the positives.
+
+The other thing that had to survive the move: the **tint guard**. It existed to stop a preview
+recoloring art the client cannot recolor, and its only subject was the rings we were deleting. It
+was generalised onto the badge sprites, and `check` now also fails when *nothing* declares
+`tint: "lane"` — a guard whose subject set quietly empties keeps passing while guaranteeing
+nothing.
+
+**Caveat.** Nothing here has been flown, and `Treatment.lua` still draws none of it. Two facts are
+unmeasured and deliberately render as their unmeasured state: Vengeful Retreat's charges (open, so
+it draws COOLDOWN, not CHARGES), and whether the timer sweep reads as a pace rather than a
+countdown — if it reads as a countdown the `blocked` cue has failed.
+
+---
+
 ## 2026-08-13 — Part 7, the lab
 
 **What changed.** Added Part 7 to the render shelf: a place to draw a treatment without adopting

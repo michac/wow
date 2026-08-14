@@ -139,6 +139,12 @@ competing emphasis, not by a bright cue of its own. The default spender and the 
 signal — they win when they are the only lit button left. The same holds for a hold mark's absence
 — an un-held, ready cooldown is directed-to precisely because the hold mark is *not* drawn.
 
+What this section fixes is that principle. **The procedure a player actually runs is
+`render-shelf.md` Part 0.5's**, and that file owns it: it states how the row is scanned, in what
+order, and how the one positive cue interacts with the scan. That is a reading-model question, not
+a constitutional one, and changing it is a shelf edit. This section does not restate it — a
+procedure written down twice is a procedure that will disagree with itself.
+
 **A priority list is a dependency graph, and emphasis may follow a readable *relationship*, not
 only a button's own state.** An ability's place in the order is usually set by *why* it ranks
 there — a reset it grants, a window it opens, a buff it maintains, a resource it needs — and that
@@ -193,6 +199,15 @@ facts into a single verdict.
 
 Every supported marker has a visible implementation. A catalog form that loads successfully
 and then renders nothing is a defect.
+
+⚠ **That test only works if a marker is single-state.** A marker authored as a *pair* — one
+appearance for "wait", another for "go" — makes "it rendered nothing" ambiguous: it could be the
+defect above, or it could be the satisfied state behaving correctly. So a marker declares the one
+condition under which it draws, and its absence is the other condition. That is not a new rule;
+it is what makes this one testable. (The render shelf spends this on a cue vocabulary that is
+negative **by default** — a marker draws when the press is ruled out and never otherwise — with a
+single scoped positive exception for impending loss. The single-state requirement stands whichever
+polarity a marker is authored in.)
 
 Marker shapes, colors, sizes and placement are `render-shelf.md`'s, not this section's. The
 question a flight asks is whether the player can identify the fact without consulting the
@@ -315,16 +330,21 @@ secret resource into that ordering; each is a pattern-shelf recipe, and the full
   the client a color curve whose authored break point is the overcap threshold, and the client
   paints it. Honestly approximate, and it says so.
 - **C — Hold / sync marker.** A hold marker (§3.2) — "don't press this on cooldown yet." A
-  **readable** hold, driven by a related ability's cooldown state and shown as dependency dots
-  (Metamorphosis's two reset dots — hold while Eye Beam or Death Sweep is ready, so its reset banks
-  a cast; The Hunt's sync dot — hold while Metamorphosis is available, to buff Abyssal Gaze in the
-  coming window), and a **sealed** hold (hold Essence Break while Eye Beam's cooldown has ≤4s
-  remaining, so the amp window is not clipped into Eye Beam).
+  **readable** hold, driven by a related ability's cooldown state (Metamorphosis — hold while Eye
+  Beam or Death Sweep is ready, so its reset banks a cast; The Hunt — hold while Metamorphosis is
+  available, to buff Abyssal Gaze in the coming window), and a **sealed** hold (hold Essence Break
+  while Eye Beam's cooldown has ≤4s remaining, so the amp window is not clipped into Eye Beam).
+  Both lanes are single-state markers: they draw when the press should wait and draw nothing when
+  it should not.
 - **D — Demon-form promotion (readable).** Demon form is a readable fact (the transform
-  identity), so while it is active cap **promotes** the empowered spenders — Annihilation and
-  Death Sweep brighten within ROTATION — because that is genuinely the moment to spend. This is
-  emphasis following a readable fact, not a computed "press this" (§3.1), and it is why the raw
-  spender, low in the baseline priority, correctly rises inside its window. Essence Break's and
+  identity), so while it is active cap may **promote** the empowered spenders — Annihilation and
+  Death Sweep — because that is genuinely the moment to spend. This is emphasis following a
+  readable fact, not a computed "press this" (§3.1), and it is why the raw spender, low in the
+  baseline priority, correctly rises inside its window. ⚠ **Currently authored but not drawn:** a
+  promotion is a positive cue, and the shelf's one positive cue is spent elsewhere (on impending
+  loss, which no negative phrasing can carry) — the window still *explains* the ranking, it just
+  gets no pixels of its own. Permission unchanged;
+  only the shelf moved. Essence Break's and
   Demonsurge's windows would promote the same way *if* their active-state proves readable; that
   is an open in-client measurement, and until it resolves they inform through a marker, never a
   promotion.
@@ -346,17 +366,22 @@ Beam's readable cooldown state — and even the secret-Fury decisions are expres
 Fury, but it hands the client an authored threshold and lets it paint "banked" (Essence Break at
 Fury ≥ 35, a positive S1 cue) or "about to cap" (the generator overcap readout), either polarity,
 never reading the value. The only thing off-limits is *computing* the answer from Fury — the §4
-oracle cap forbids by choice, not the secret restriction. The AoE
+oracle cap forbids by choice, not the secret restriction. ⚠ **Expressible is not the same as
+drawn:** `render-shelf.md` declares a cue vocabulary that is **negative by default**, and spends
+its one positive slot on charges-capped (impending loss). So the positive half of *this* finding —
+the "banked" light, and the demon-form promotion below — is authored and **parked**, not refuted. Which polarities get pixels is a shelf question and moves without touching
+this section; that a threshold is expressible in either is the constitutional claim, and it
+stands. The AoE
 list adds no new cues — it re-weights via the player's AoE-mode input (§2), not a readable target
 count. Cues still open (Inertia-proc rise, Demonsurge / Essence-Break window promotion, a
 buff-maintenance marker) produce no hint until measured.
 
 | Ability | Player problem | Lane + cues |
 | --- | --- | --- |
-| **Metamorphosis** | ~2 min burst whose payoff is its reset of Eye Beam + Death Sweep; pressing it while either is *ready* wastes that reset. | **COOLDOWN** + two readable reset dots (Eye Beam & Death Sweep cooldowns): green = on cooldown/go, red = ready/wait (C1). |
+| **Metamorphosis** | ~2 min burst whose payoff is its reset of Eye Beam + Death Sweep; pressing it while either is *ready* wastes that reset. | **COOLDOWN** + a readable reset mark off Eye Beam's & Death Sweep's cooldowns (C1), drawn only when a reset would be wasted. |
 | **Eye Beam** | Keep the demon-form window rolling — it enables everything downstream. | **COOLDOWN**. |
-| **The Hunt** | On cooldown, but hold if Metamorphosis is available (to buff Abyssal Gaze in the coming Meta window). | **COOLDOWN** + readable sync-hold dot off Meta's cooldown state (C1): green = Meta down/cast now, red = Meta up/hold. |
-| **Essence Break** | Mandatory in S2; opens the amp window you flood with spenders. | **COOLDOWN** + positive banked-Fury cue (B); sealed hold while Eye Beam's cooldown has ≤4s remaining (C2). |
+| **The Hunt** | On cooldown, but hold if Metamorphosis is available (to buff Abyssal Gaze in the coming Meta window). | **COOLDOWN** + a readable sync-hold mark off Meta's cooldown state (C1), drawn only while Meta is up. |
+| **Essence Break** | Mandatory in S2; opens the amp window you flood with spenders. | **COOLDOWN** + positive banked-Fury cue (B, expressible — currently **parked**, see above); sealed hold while Eye Beam's cooldown has ≤4s remaining (C2). |
 | **Vengeful Retreat** | S2 maintain-on-cooldown press (Exergy / Initiative), woven before Eye Beam. | **COOLDOWN**. |
 | **Chaos Strike / Annihilation** | Shown castable even when Fury-starved, and it is the *low-priority* dump — except inside a window. | **ROTATION**; dimmed when unaffordable (A); **promoted as Annihilation in demon form** (D). Re-skins across the flip. |
 | **Blade Dance / Death Sweep** | The empowered Death Sweep is what you flood windows with; costs Fury. | **ROTATION**; **promoted as Death Sweep in demon form** (D); demon-form identity. |
