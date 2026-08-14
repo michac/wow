@@ -7,13 +7,6 @@ Read the live addon version first. Captures store changes, not periodic samples,
 are not duty cycles. A sink accepting a duration or a paint call never proves a pixel appeared;
 the player's report is the authority for brightness, contrast, placement and usefulness.
 
-> ⚠ **Tier-vocabulary migration.** The product spec has moved the tier names to
-> **COOLDOWN / ROTATION / FALLBACK** (`spec.md` §3.1). The **built addon still emits the old
-> `ASAP` / `SOON` / `FALLBACK` tokens** — this checkout is the stale v0.2.4 source and the token
-> rename lands at transcription (`backlog.md` → *Phase 10.4*). The capture examples below show
-> the current source's tokens; read `SOON`/`FALLBACK` as the pre-rename emphasis until the source
-> is re-cut.
-
 ## Streams
 
 | Command | Carries |
@@ -30,7 +23,7 @@ downstream draw evidence for that interval.
 
 ```
 S{n:2 on:2 mark:2 blind:0}
-E{demonbolt:SOON tyrant:SOON+dreadstalkers,grimoire}
+E{demonbolt:ROTATION tyrant:ROTATION+dreadstalkers,grimoire}
 R{ready:2/2 proc:1/1 identity:1/1 resource:1/1}
 Q{-}
 S{settled/spells-changed}
@@ -53,7 +46,7 @@ or either Tyrant fact was helpful.
 
 ```
 D{n:2 rows:2 anch:2 conf:2 off:0 nf:0 bar:tex/fmt/font stock:coexist}
-P{demonbolt:SOON tyrant:SOON}
+P{demonbolt:ROTATION tyrant:ROTATION}
 M{tyrant:dreadstalkers tyrant:grimoire}
 B{tyrant:armed}
 C{-}
@@ -62,7 +55,9 @@ C{-}
 - `anch:` / `conf:` say the addon found and confirmed CDM item frames.
 - `off:` is a real but hidden item frame; `nf:` means no frame was found.
 - `P{}` records the static tier treatment attempted for each enhanced entry.
-- `M{}` records which fixed context dots cap showed.
+- `M{}` records which readable context markers the engine asserted. ⚠ Since 2026-08-14 **nothing
+  is drawn for them** — the shelf's cue vocabulary has no form for the two Warlock ones — so this
+  field reports a decision, never a pixel.
 - `stock:coexist` records the deliberate baseline: cap did not try to suppress Blizzard's
   proc glow.
 - `B{tyrant:ready|armed|refused|unarmed|nobind}` records the bar path. `armed` means the
@@ -73,7 +68,8 @@ C{-}
 
 A moving `P{}` with a blank screen points first to anchoring or treatment. Healthy `anch:` and
 `conf:` with no visible pixels is a treatment failure. A marker in `M{}` at the wrong gameplay
-moment is a product failure even when every mechanical field is healthy.
+moment is a product failure even when every mechanical field is healthy — and while nothing draws
+for it, that failure is invisible in play and readable only here.
 
 ## Combined Phase 9 checkpoint flight
 
@@ -82,17 +78,18 @@ captures.
 
 For Demonology, play a short pull containing a Demonbolt proc and Tyrant setup:
 
-- Can ASAP, SOON and FALLBACK be identified categorically without comparing subtle brightness?
+- Can COOLDOWN, ROTATION and FALLBACK be identified categorically without comparing subtle
+  brightness?
 - Are the static borders bright and distinct without flicker?
 - Can it coexist with Blizzard's Demonbolt proc glow, or is one drowned out?
-- Are the left blue Dreadstalkers dot and right purple Grimoire dot identifiable during setup?
-- Do the dots' honest but longer-lived commitment facts feel useful or misleading?
+- ⚠ The Dreadstalkers and Grimoire dots no longer draw, so the two questions this list used to
+  ask about them are unanswerable until they are re-authored as cues.
 - Is the independent Tyrant countdown legible and worth its screen space?
 
 For Destruction / Diabolist, begin from an exact 2/2 Conflagrate seed and play through 1/2,
 0/2, and natural recharge:
 
-- Does Conflagrate visibly move between SOON, FALLBACK, and off at the authored shard/charge
+- Does Conflagrate visibly move between ROTATION, FALLBACK, and off at the authored shard/charge
   states without implying an exact in-combat count?
 - Is Backdraft text absent below two applications and visibly `2` at two during restricted
   combat? Does that context help without reading as a press/hold verdict?
