@@ -104,9 +104,15 @@ This is the project's only implementation-status source.
   - **Not attempted:** the arrival snap has no live trigger. On the live path a border appearing
     is not yet treated as an arrival event; the snap is exercised in the gallery only, and wiring
     it belongs with the Havoc row.
-  - **Also open:** `verdicts.starved.desaturate` has no live path. In the gallery cap owns the
-    texture so desaturating is free; on a live row the icon is Blizzard's and the shelf forbids
-    restyling a CDM frame.
+  - **Closed by deletion (2026-08-14): `verdicts.starved.desaturate` is gone from the shelf.** It
+    had no live path — in the gallery cap owns the texture so desaturating is free, but on a live
+    row the icon is Blizzard's. The right reading is not "find cap a legal way to desaturate": the
+    CDM **already** desaturates and re-tints on usability (`cooldown-manager.md:700, :755`), so the
+    token was cap proposing to restate a signal the client draws for free. It existed only because
+    the HTML artifact has no Blizzard underneath it and had to draw its own de-emphasis, which then
+    got filed as a cap treatment. cap's drawn primitives are the **lane border** and the **corner
+    badges**; the icon face is not one of them. Revisit only if a flight shows the client's own
+    dimming is too weak to read — and then as a new shelf entry, not as this one restored.
 - Demonology remains the small pilot: Tyrant and Demonbolt are its only enhanced entries;
   Dreadstalkers and Grimoire are readable Tyrant dependencies.
 - The corrective pass restored the three discrete tiers (then named ASAP / SOON / FALLBACK)

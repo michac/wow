@@ -161,7 +161,7 @@ a design choice, not a platform constraint, unless marked otherwise.
 
 | Surface | Where | Carries | Notes |
 | --- | --- | --- | --- |
-| **Icon face** | the art itself | desaturation, veil, whole-icon alpha | Blizzard's own dim/uninteractable channel. |
+| **Icon face** | the art itself | the veil, whole-icon alpha | **Desaturation is Blizzard's and cap does not draw it.** The CDM already desaturates and re-tints the icon on its own refresh — `SPELL_UPDATE_USABLE` drives icon colour continuously (`cooldown-manager.md:700, :755`), which is the client's built-in "you cannot cast this" channel. cap adding a second one would restate a signal the player already has. |
 | **Lane border** | a solid rectangular border on the icon edge | the role lane, or CHARGES | Static. Its only motion is the one-shot arrival snap (V2). Drawn on cap's own frame, so it needs no host scale-up. |
 | **Corner badge slots** | three discs hung off the **top-right** corner | one cue each — slots 1–2 (along the top edge) negative, slot 3 (down the right edge) the single positive cue | Filled circles at `tokens.badges.diameter_pct` of icon width, overhanging by `tokens.badges.overhang_px` (V5). Position carries polarity as well as colour. |
 | **Cooldown swipe** | the radial dial | remaining time | Can be *restyled* without knowing the time (see V7). |
@@ -636,7 +636,7 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
     "weave":          { "border": true,  "veil": false, "swipe": false, "cues": [] },
     "hold-readable":  { "border": true,  "veil": true,  "swipe": false, "cues": ["blocked"] },
     "hold-sealed":    { "border": true,  "veil": true,  "swipe": false, "cues": ["blocked"] },
-    "starved":        { "border": true,  "veil": true,  "swipe": false, "cues": ["starved"], "desaturate": 1.0 },
+    "starved":        { "border": true,  "veil": true,  "swipe": false, "cues": ["starved"] },
     "overcap":        { "border": true,  "veil": true,  "swipe": false, "cues": ["overcap"] },
     "press":          { "border": true,  "veil": false, "swipe": false, "cues": [] },
     "press-promoted": { "border": true,  "veil": false, "swipe": false, "cues": [] },

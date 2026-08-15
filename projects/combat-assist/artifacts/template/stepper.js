@@ -95,7 +95,6 @@
     var item = el("div", "item");
     item.style.setProperty("--lane-color", rgb(laneTok.rgb));
     item.style.setProperty("--lane-px", laneTok.thickness_px + "px");
-    if (rule.desaturate) item.style.setProperty("--desat", String(rule.desaturate));
 
     var art = el("div", "art");
     if (ab.icon) art.style.backgroundImage = "url(" + ab.icon + ")";
