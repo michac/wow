@@ -404,8 +404,10 @@ set** and its status.
   is **not** what leads the eye, and the scenario would still pass the gate without it. It is doing
   a different job: the fact it reports is *impending loss*, which is urgent independently of rank,
   and rank is the only thing a left-to-right scan can express. See `../render-shelf.md` Part 0.5.
-- **Cue set.** Immolation-at-full (R6) → **have** *(open-to-confirm: does the charge row read
-  readable-at-full in instanced combat? confirm before shipping the tier)*.
+- **Cue set.** Immolation's charge state (`GetSpellCharges().isActive`, `NeverSecret`) →
+  **have**, and it answers in both directions: false at max is this scenario's gold `capped`
+  badge, true below max is the red `blocked` one of ST-7 *(open-to-confirm: does that read behave
+  the same on Havoc's row in instanced combat? OBS-066 measured Conflagrate)*.
 
 ### ST-9 · Annihilation / Chaos Strike — the raw dump (elimination, low)
 
@@ -464,7 +466,8 @@ the walk reaches first.
   Eye Beam `cd` · Essence Break `cd` · Immolation Aura `press`
   {cues: capped} · Blade Dance `below` ·
   Felblade `below` · Demon's Bite `below` · Chaos Strike `below` · Fel Rush `below`
-- **Cue set.** Immolation-at-full (R6) → **have**. AoE-mode weighting → mode input, **not a cue**.
+- **Cue set.** Immolation's charge state (`isActive`) → **have**. AoE-mode weighting → mode
+  input, **not a cue** — and one cap cannot draw, since the row's order is the client's.
 
 ### AoE-2 · Blade Dance / Death Sweep — primary
 

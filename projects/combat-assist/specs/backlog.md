@@ -101,9 +101,9 @@ This is the project's only implementation-status source.
     argument the set exists to protect. They are still evaluated and still reported in the `draw`
     capture's `M{}`; nothing is drawn for them. Re-authoring them as cues is `authoring.md`
     stages 1–5 work, and neither spec has ever flown.
-  - **Not attempted:** the arrival snap has no live trigger. On the live path a border appearing
-    is not yet treated as an arrival event; the snap is exercised in the gallery only, and wiring
-    it belongs with the Havoc row.
+  - **The arrival snap has its live trigger (2026-08-14).** It fires on a change of the drawn
+    lane and on nothing else; the three suppressions are in `render-shelf.md` V2 and the rule
+    itself is a pure function, so it is desk-tested while the frame work around it is not.
   - **Closed by deletion (2026-08-14): `verdicts.starved.desaturate` is gone from the shelf.** It
     had no live path — in the gallery cap owns the texture so desaturating is free, but on a live
     row the icon is Blizzard's. The right reading is not "find cap a legal way to desaturate": the
@@ -119,32 +119,47 @@ This is the project's only implementation-status source.
   without restoring continuous grades, pulse policy, exhaustive coverage or automatic sequences.
 - **Tier vocabulary migrated (2026-08-12):** the spec now names the tiers **COOLDOWN / ROTATION /
   FALLBACK** as role lanes, and relaxes the single-hint rule so tier + cues may converge on the
-  best press without a compute-the-answer channel (`spec.md` §1c / §3.1 / §4). The **built addon
-  still emits `ASAP` / `SOON` / `FALLBACK`** (stale v0.2.4 here); the token rename lands at
-  transcription (Phase 10.4). Product docs (spec, all three catalogs) use the new names; flight
-  items below that still say SOON/FALLBACK describe the current build.
+  best press without a compute-the-answer channel (`spec.md` §1c / §3.1 / §4). **The source
+  followed on 2026-08-14:** a catalog's tier names now *are* the shelf's lane names, with no
+  mapping table between them — `Treatment.LANE` was deleted rather than turned into an identity
+  map. Flight items below that still say SOON/FALLBACK describe a build older than that.
 - Phase 9's source pass adds the minimal Destruction / Diabolist proof: Conflagrate tiers from
   readable shards and a seeded charge estimate, plus an independent sealed Backdraft count
   through Blizzard's 12.1 AuraContainer path. It has not flown as a CAP build.
-- The engine supports only the readable predicates the pilot uses, propagates unknown safely,
-  draws static tier borders and two fixed context dots, leaves Blizzard's proc glow intact,
-  and owns one independent Tyrant bar.
+- The engine supports only the readable predicates its catalogs use (`ready` · `proc` ·
+  `identity` · `capped` · `affordable` · `resource`), propagates unknown safely, composes a row as
+  lane + veil + badges, leaves Blizzard's proc glow intact, and owns one independent Tyrant bar.
 - Engine guarantees and provisional Demonology examples are separate test groups. The old
   tier/channel policy suite and its visual-taste assertions are gone.
 - The combined Demonology/Destruction checkpoint has not been judged in game. No
   release or deployment is implied.
-- Havoc is the first **comprehensive** catalog (**Fel-Scarred specifically**; Aldrachi Reaver is
-  a separate future catalog), but it exists **only as machine-independent design** —
+- **The Havoc row is built and has not flown (2026-08-14).** `Catalogs/Havoc.lua` carries twelve
+  entries in authored priority order for **Fel-Scarred** (hero 34; Aldrachi Reaver is a separate
+  future catalog and correctly gets nothing). What draws: the twelve lane borders, three of them
+  purple `CHARGES`; Immolation Aura's two charge states (gold `capped` at max, red `blocked`
+  below); `starved` on the two Fury spenders; the readable holds on Metamorphosis and The Hunt;
+  the arrival snap; and two **graded** curves the client evaluates — the generators' overcap
+  readout and Essence Break's hold while Eye Beam is within four seconds. Nothing has been
+  released; **one flight covers the whole row** (`flight-reading.md` → *The Havoc row*).
+  - **The composition seam held.** A row is lane + veil + badges, the veil **derived** from cue
+    polarity, and adding the C1 holds and the C2 curve edited neither `Treatment.lua` nor
+    `Overlay.lua`'s cue vocabulary — the renderer test in `authoring.md` stage 6, passed twice.
+  - ⚠ **The structural risk is measured but unanswered.** cap does not own the row: the order is
+    Blizzard's `layoutIndex`, filtered by the player's Cooldown Manager settings, and if it
+    disagrees with the authored priority then elimination points at the wrong button *everywhere
+    at once*. `Catalog.OrderCheck` reports it to the `bind` capture and to chat. One `/reload` on
+    a Havoc character answers it; that has not been done. The fork it opens — a cap-owned row,
+    which costs a `spec.md` §4 amendment — is not to be decided before the finding is in.
+- The Havoc **design** docs (which the above transcribes) —
   `specs/havoc/catalog.md` (normative), `specs/havoc/fact-classification.md`,
   `specs/havoc/scenarios.md` (the single-row CDM elimination walk — one priority-ordered
   Cooldown-Manager row per state, walked left-to-right, naming why each off-cooldown button is
   skipped until the press; demon-form overrides rendered via R7; **revised 2026-08-13**, see
-  Phase 10.1), the `spec.md` §3.7 product section, and four cues (A affordability / B sealed overcap / C
-  readable + sealed hold / **D demon-form promotion**). No `Catalogs/Havoc.lua` exists and none of
-  it has flown. See *Phase 10* below. (The old claim that transcription was *blocked on the
-  desktop cap code being pushed* was false: this checkout **is** the desktop and there is no newer
-  source anywhere. What Havoc still needs is the `Signal` vocabulary migration and the four
-  providers in 10.2, not a push.)
+  Phase 10.1), the `spec.md` §3.7 product section, and five cues (A affordability / B sealed
+  overcap / C readable + sealed hold / **D demon-form promotion** / E charges capped). See
+  *Phase 10* below. Of those, **cue D is authored and not drawn** — a promotion is a positive cue
+  and `press-promoted` renders identically to `press` — and so is cue B's positive "banked" half.
+  The permission for both is unchanged; what is missing is pixels, not authority.
 
 ## Now
 
@@ -369,9 +384,9 @@ mechanisms no authored experience uses.
 
 The first catalog authored to be comprehensive (whole rotational roster, **Fel-Scarred
 specifically** — Aldrachi Reaver is a separate future catalog), and the first stress of the
-pattern shelf: Fury is a *secret* primary, so the design is built on four cues (A/B/C/D) over
-role-lane tiers instead of a resource gate. Design is machine-independent and complete; Lua
-transcription is deferred until the desktop cap code is pushed.
+pattern shelf: Fury is a *secret* primary, so the design is built on five cues (A/B/C/D/E) over
+role-lane tiers instead of a resource gate. The design is complete and transcribed; what is left
+is the flight.
 
 #### 10.1 Design (complete — machine-independent)
 
@@ -433,15 +448,24 @@ transcription is deferred until the desktop cap code is pushed.
       §3.6 the two new sealed forms `sealed-power-percent` (cue B) and `sealed-duration-range`
       (cue C2 + demon-form bar).
 
-#### 10.2 New readable providers / renderer work (deferred to transcription)
+#### 10.2 New readable providers / renderer work
 
 Each is a *small named mechanism* under `authoring.md` stage 6's renderer test, confirmed against
-`knowledge/addon-dev/` first, with one characterization example:
+`knowledge/addon-dev/` first, with one characterization example. **The list originally named four
+providers and omitted a fifth the design needs — `affordable`, cue A's whole carrier — which is
+added below.**
 
-- [ ] **"Capped" readable provider** — charges readable-at-full (R6): plain read iff at max *is*
+- [x] **"Affordable" readable provider** — `C_Spell.IsSpellUsable`'s **second** return
+      (`insufficientPower`), never the first, which is false for anything merely on cooldown.
+      Cue A rests entirely on it: a spender with no real cooldown never raises an alert edge, so
+      its lane border is lit whatever the Fury and the border cannot carry affordability at all.
+      First consumers: Chaos Strike, Blade Dance.
+- [x] **"Capped" readable provider** — charges readable-at-full (R6): plain read iff at max *is*
       the capped signal; override-aware max + re-seed on transform (R7). First consumer:
-      Immolation Aura / Consuming Fire.
-- [ ] **Sealed Fury threshold cue (lever B), two polarities** — one S1-graded color-curve
+      Immolation Aura / Consuming Fire. ⚠ **Re-grounded on `GetSpellCharges().isActive`**, which
+      is `NeverSecret` and therefore answers in *both* directions — so below-max is a second
+      readable state (the red `blocked` badge), not an unknown.
+- [x] **Sealed Fury threshold cue (lever B), two polarities** — one S1-graded color-curve
       mechanism used both ways: **negative** per-generator overcap curve keyed to
       `(maxFury − generation)/maxFury` (Felblade +15, Demon's Bite ~20–30, authored **generation
       static table**; no generation API — R4), and **positive** "banked" curve at `35 / maxFury`
@@ -451,12 +475,18 @@ Each is a *small named mechanism* under `authoring.md` stage 6's renderer test, 
       now** — the shelf's single positive cue is spent on charges-capped, so the positive "banked"
       curve still has no treatment to drive and would ship as a mechanism with nothing on the other end. The
       mechanism is symmetric and the second consumer is a curve away when the shelf un-parks it.
-- [ ] **Sealed hold marker (cue C2)** — range step-curve → texture alpha on a sealed duration
+      Built as the negative half only, as instructed. ⚠ `UnitPowerPercent`'s scale is unmeasured
+      and unreadable back, so the curve encodes **both** readings (0..1 and 0..100); collapse it
+      to two points once a flight settles which one fired.
+- [x] **Sealed hold marker (cue C2)** — range step-curve → texture alpha on a sealed duration
       object (S4). ⚠ **One marker now serves both hold lanes**: C1 (readable) and C2 (sealed) both
       render as the shelf's `blocked` badge, since the difference between them is provenance, not
       appearance. Build one marker with two drivers. First check whether the current desktop
       renderer already has a `hold` marker
       slot; if so it reuses it and edits nothing in Treatment/Overlay (the 9.4 definition-of-done).
+      It did, and it does: C1 and C2 both draw the `blocked` badge and neither edited a renderer.
+      The two graded curves (B and C2) share one plan/arm/evaluate seam and differ only in their
+      source — a power percentage on one side, a cooldown duration object on the other.
 - [ ] **Demon-form promotion (cue D)** — plain emphasis raised on the empowered spenders while
       the readable demon-form window is active (R7). No new renderer; it is readable-driven
       emphasis. (Essence Break / Demonsurge promotion gated on open fact 10.3.) ⚠ **Also parked at
@@ -483,17 +513,28 @@ Routed per `authoring.md` stage 5.
 
 #### 10.4 Transcription + flight (releasing ask-first)
 
-- [ ] Transcribe `catalog.md` into `Catalogs/Havoc.lua` against the current vocabulary; add to
+- [x] Transcribe `catalog.md` into `Catalogs/Havoc.lua` against the current vocabulary; add to
       `.toc`, register, resolve override ids via `overrideSpellID` at bind (never hardcode).
-      Not blocked on anything external — the shelf is already in Lua (`Style.lua` / `Paint.lua`);
-      what this needs is the `Signal` vocabulary migration and 10.2's four providers.
-- [ ] Give the arrival snap a live trigger, and decide what counts as an arrival on a CDM row.
-- [ ] Extend the `busted` suite for the new providers: capped/charge seeding + reseed-on-flip,
-      lever-B curve guards, marker union (readable + sealed hold lanes).
+      Twelve entries in authored priority order, base spell ids only, no `power` field.
+      `Catalog.OrderCheck` ships with it: a diagnostic that compares the authored priority against
+      the client's own row order, because the whole reading model assumes they agree.
+- [x] Give the arrival snap a live trigger, and decide what counts as an arrival on a CDM row.
+      It is a change of the **drawn lane** — absent → present or one lane → another — with three
+      suppressions (a repaint, the first draw after a rebuild or resume, and a second snap inside
+      the snap's own duration). `render-shelf.md` V2 states it.
+- [x] Extend the `busted` suite for the new providers: capped/charge seeding + reseed-on-flip,
+      lever-B curve guards, marker union (readable + sealed hold lanes). ⚠ `readCapped` and
+      `readAffordable` call `C_Spell.*` and **cannot** be desk-tested; the blind-world path covers
+      what is testable (a refused read yields no cue and no veil) and the rest is a flight
+      question, not a busted one.
 - [ ] Dry-run `wowkb.addon release cap`; releasing stays ask-first.
-- [ ] Fly the affordability tier shift (spenders drop when Fury-starved), the demon-form marker,
-      the Immolation-Aura capped tier, and the hold ✕ / overcap-red cues. Record the player's
-      visual judgment first; read `wowkb.capture cap` streams only to prove which route *armed*.
+- [ ] **The flight — one, for the whole row.** Fly the affordability dim, the two Immolation
+      states, the readable holds, the arrival snap and both graded curves *together*; per-slice
+      flights would burn an evening testing instead of playing. The card is in
+      `flight-reading.md` → *The Havoc row*: one player-experience question stated before playing,
+      the player's judgment recorded in their own terms, captures read only afterwards to explain
+      which route armed. It settles shelf Q1, Q3 and Q6 and all three open facts — including the
+      structural one, whether the CDM's row order matches the authored priority.
 
 ## Ideas
 

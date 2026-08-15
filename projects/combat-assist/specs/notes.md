@@ -43,6 +43,41 @@ nothing survives, "nothing; superseded by <X>" and stop.
 
 ---
 
+## 2026-08-14 — the Havoc row draws, and two curves the client evaluates
+
+**What changed.** The design in `specs/havoc/` reached the screen. `Catalogs/Havoc.lua` carries
+twelve Fel-Scarred entries in authored priority order; a row composes as lane + veil + badges,
+with the veil **derived** from cue polarity rather than authored. Shipped in that order: the tier
+names became the shelf's lane names outright (`Treatment.LANE` deleted, not made an identity map),
+Part 0.5 became the authority that settled `withheld`'s deletion, the roster, the composition seam
+with `capped` as its first consumer, `affordable` on the two Fury spenders, the readable holds on
+Metamorphosis and The Hunt, the arrival snap's live trigger, and two **graded** cues — the
+generators' overcap curve and Essence Break's hold while Eye Beam is inside four seconds.
+
+**Why it still binds.** A graded cue is the shape that keeps §3.6 honest under pressure: cap
+authors a curve out of numbers it owns, the client evaluates it against a secret, and the result
+goes into an alpha nobody reads back. Both curves drive **two sinks from one evaluation** — the
+badge and the veil — because a badge fading in over a veil that snapped on would say two different
+things about one moment. And the seam held its own test twice: adding the C1 holds and then the
+C2 curve edited neither `Treatment.lua` nor `Overlay.lua`'s vocabulary, which is `authoring.md`
+stage 6's renderer test passing rather than being asserted.
+
+**Two reversals worth the ink.** The plan's desaturated icon copy was **cut, not deferred**: its
+premise was that nothing else desaturates the icon, and Blizzard's Cooldown Manager already does,
+continuously, off usability. cap's drawn primitives are the lane border and the corner badges; the
+icon face is Blizzard's channel. And Immolation Aura was re-grounded from `currentCharges`
+(readable only at full) onto `isActive` (`NeverSecret`, answers both ways) — so "below max" turned
+out to be a second *state*, not an unknown, and the row wears one of two badges instead of one or
+nothing.
+
+**Caveat.** Nothing has flown, and the honest uncertainty is not in the Lua: `UnitPowerPercent`'s
+scale is unmeasured and cannot be read back, so the overcap curve deliberately encodes both
+readings. Underneath everything sits the structural assumption that the CDM's row order matches
+the authored priority — `Catalog.OrderCheck` measures it, one `/reload` answers it, and if it is
+wrong the elimination model is wrong everywhere at once rather than degrading per ability.
+
+---
+
 ## 2026-08-14 — the shelf reached the client
 
 **What changed.** The shelf stopped being a document the addon was supposed to transcribe by hand.

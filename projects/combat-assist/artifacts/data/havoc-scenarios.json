@@ -684,7 +684,7 @@
         },
         {
           "label": "Cue set",
-          "html": "Immolation-at-full (R6) → <b>have</b> <em>(open-to-confirm: does the charge row read readable-at-full in instanced combat? confirm before shipping the tier)</em>."
+          "html": "Immolation&#x27;s charge state (<code>GetSpellCharges().isActive</code>, <code>NeverSecret</code>) → <b>have</b>, and it answers in both directions: false at max is this scenario&#x27;s gold <code>capped</code> badge, true below max is the red <code>blocked</code> one of ST-7 <em>(open-to-confirm: does that read behave the same on Havoc&#x27;s row in instanced combat? OBS-066 measured Conflagrate)</em>."
         }
       ]
     },
@@ -910,7 +910,7 @@
         },
         {
           "label": "Cue set",
-          "html": "Immolation-at-full (R6) → <b>have</b>. AoE-mode weighting → mode input, <b>not a cue</b>."
+          "html": "Immolation&#x27;s charge state (<code>isActive</code>) → <b>have</b>. AoE-mode weighting → mode input, <b>not a cue</b> — and one cap cannot draw, since the row&#x27;s order is the client&#x27;s."
         }
       ]
     },

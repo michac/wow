@@ -211,11 +211,18 @@ lane's thickness, **static**. It sits there and says which lane the button is in
 compete for attention while it is doing that.
 
 Its only motion is the **arrival snap**: when something *arrives* — a cooldown finishes, a charge
-returns, a spender becomes affordable — the border is drawn at `tokens.arrival.from_scale` and
+returns, the row moves from one lane to another — the border is drawn at `tokens.arrival.from_scale` and
 `tokens.arrival.from_alpha` and snaps down onto the icon over `tokens.arrival.duration_s` with
 `tokens.arrival.smoothing`. One shot, then it rests. There is deliberately **no looping variant**:
 the whole claim of this primitive is that motion marks *the change of state* and then stops.
 
+- **What counts as arrival:** the DRAWN LANE changing — absent → present, or one lane → another.
+  Nothing else, and in particular not a repaint: the live surface repaints continuously, so
+  "still ROTATION" must never snap. Three suppressions follow from the same sentence, since in
+  none of them did anything become available: the first draw after the roster is rebuilt, the
+  first draw after cap resumed drawing at all (it was dark, unsettled, or on a spec with no
+  catalog — a whole row snapping in unison is churn), and a second snap inside
+  `tokens.arrival.duration_s` of the last, so a flickering lane cannot stack snaps.
 - **Lanes:** `tokens.lanes.<LANE>.rgb` / `.thickness_px`. Four of them — COOLDOWN, ROTATION,
   FALLBACK, and **CHARGES**.
 - **CHARGES replaces the role lane**, it does not stack. An ability has exactly one border, and if
@@ -428,6 +435,44 @@ authored band — the `blocked` badge drawn without Lua reading the clock. Sinks
 inside a duration object: `SetTimerDuration`, `SetCooldownFromDurationObject`. Sinks that take a
 secret directly: `SetAlpha`, `SetDesaturation`, `SetValue`, `SetText`, `SetApplicationCount`.
 **Never read back** — a capture may say `offered` / `armed` / `refused`, never `drew`.
+
+---
+
+## Part 2.5 — Composing a row
+
+The primitives above are drawn together, and the order they compose in is fixed. **A row is a
+lane, a veil, and badges** — nothing else is drawn on it, and in particular the icon face is not
+cap's (Part 1).
+
+1. **The lane border** (V2), or none. Exactly one, and `CHARGES` replaces the role lane rather
+   than stacking with it.
+2. **The veil** (V4), under the border and inset back onto the icon face, so the dim never
+   overhangs the icon it belongs to.
+3. **A badge per cue** (V5/V5.1), each in the slot its cue owns. A cue named twice is one badge —
+   that is how a catalog authors an OR without an OR.
+
+**The veil is DERIVED, never authored: a row is veiled iff at least one of its cues is negative.**
+This is what makes V4's "a veil with no badge does not occur" mechanical instead of a promise. A
+cue that declares no polarity reads as negative — the reading that can only be stricter. The
+positive cue therefore rides an un-veiled row, which is the whole reason it can carry an
+impending loss on a button you are about to press.
+
+### The curve-driven veil, for graded cues only
+
+A **graded** cue is one whose visibility the client decides: cap authors a curve (V9, V10), hands
+it to the client with a secret, and the client returns a mapped result cap writes into an alpha
+and never reads back. Its badge is present whenever the row draws, and the result *is* its
+visibility.
+
+**One curve, two sinks.** The same evaluated result drives the badge's alpha **and** the veil's,
+so a row dims by exactly the fact its badge is showing — the alternative would be a badge fading
+in over a veil that snapped on, saying two different things about one moment. The veil texture
+carries `tokens.veil.alpha` in its own colour, so a written 1 is still that dim: what the curve
+modulates is the whole veil, not the shelf's number.
+
+⚠ **This replaces the derived boolean veil for the graded cue only.** Polarity derivation stays
+the rule everywhere else, and a row a readable negative cue has already veiled stays veiled
+outright — the curve never *lifts* a veil, it only supplies one that no readable cue had.
 
 ---
 

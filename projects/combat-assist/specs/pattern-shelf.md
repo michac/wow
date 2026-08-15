@@ -46,8 +46,13 @@ combat-sealed; `SpellDocumentation.lua:873`). Read the **second** return.
 - **Use `insufficientPower`, never `isUsable`** — `isUsable` returns true for a spell on
   cooldown; it answers "can I afford," not "can I cast" (`security-…:2442`).
 - **Binary only** — false at 40 Fury and at 170 alike, so it cannot drive overcap avoidance.
-- Canonical example: `Sense.lua:71-76` `readAffordable` → returns `not insufficient`; gate
-  term `affordable` (`Catalogs/Demonology.lua:51`).
+- Canonical example: `Sense.lua`'s `readAffordable` → returns `not insufficient`; gate term
+  `affordable`, worn as the `starved` cue by Havoc's two Fury spenders
+  (`Catalogs/Havoc.lua`, `chaos_strike` / `blade_dance`). Demonology declares no such term —
+  an earlier cite here named one, and it never existed.
+- ⚠ **It is the only carrier of affordability on a spender with no real cooldown.** Such a row
+  never raises an `Available` / `OnCooldown` alert edge, so `ready` stays latched true and its
+  lane border is lit whatever the resource. The border cannot say this; the cue must.
 
 ### R2 · Is it ready / on cooldown? — **Settled / readable (but not by polling in combat)**
 

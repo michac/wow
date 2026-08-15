@@ -19,11 +19,19 @@ why each off-cooldown button is skipped → the press → cue status).
 > Fel-Scarred first (the easier build to pilot, the M+ pick) and hold the hero-tree call until
 > Season 2 sims/logs exist (post-2026-08-18).
 
-> **Transcription is deferred.** This machine's `addon/` checkout is stale (v0.2.4, the old
-> `HIGH/MEDIUM/LOW` vocabulary). The current design lives on the desktop, unpushed. This
-> document is the machine-independent design; the Lua transcription (`../backlog.md` →
-> *Phase 10.4*) waits until the desktop cap code is pushed. Every override spell ID below is
-> **resolved at bind via `overrideSpellID` (R7)**, never hardcoded; the numbers are reference.
+> Every override spell ID below is **resolved at bind via `overrideSpellID` (R7)**, never
+> hardcoded; the numbers here are reference. What has been transcribed and what has flown is
+> `../backlog.md` → `## Status`, and nowhere else. *(The "transcription is deferred" banner that
+> stood here described a stale checkout on one machine and is struck.)*
+
+> ⚠ **cap cannot deliver the AoE re-weight, and the scenarios section that describes it is
+> honest about being a design walk rather than a render.** The re-weight is a change in which
+> button the *walk* reaches — and the walk's order is the Cooldown Manager's, which cap neither
+> authors nor can reorder. `press` and `below` render identically (both are a lane border and no
+> cue), so AoE-1/2/3 draw pixel-for-pixel what their single-target counterparts draw. There is
+> consequently nothing to wire: `ns.Mode.IsAoE()` needs no route into `Signal`, and adding one
+> would only let a mode toggle change pixels that carry no such meaning. If the re-weight is ever
+> to reach the screen it needs a new treatment argued at the shelf, not a wire.
 
 ## The design in one paragraph
 
@@ -59,10 +67,10 @@ as an unconfirmed 12.1 API description bleed, so it is not substituted anywhere.
 | `essence_break` | Essence Break | `258860` | — | COOLDOWN | — | positive Fury-banked cue (B, S1, **parked**); sealed hold (C2) — hold if Eye Beam CD ≤4s |
 | `vengeful_retreat` | Vengeful Retreat | `198793` | — | COOLDOWN | ⚠ open | — |
 | `chaos_strike` | Chaos Strike | `344862` | Annihilation ⚠`201427` | ROTATION | — | affordability (A) + demon-form promotion (D) |
-| `blade_dance` | Blade Dance | `188499` | Death Sweep ⚠`210152` | ROTATION | — | demon-form promotion (D) + identity |
-| `felblade` | Felblade | `232893` | — | ROTATION | — | affordability hold (A) + overcap readout (B) |
-| `demons_bite` | Demon's Bite | `344859` | — | ROTATION | — | affordability hold (A) + overcap readout (B) |
-| `immolation_aura` | Immolation Aura | `258920` | Consuming Fire ⚠`452487` | ROTATION | 2 | charge-at-full "don't cap" — the gold `capped` badge (E, R6) + identity |
+| `blade_dance` | Blade Dance | `188499` | Death Sweep ⚠`210152` | ROTATION | — | affordability (A) + demon-form promotion (D) + identity |
+| `felblade` | Felblade | `232893` | — | ROTATION | — | relative affordability (A — no cue of its own) + overcap readout (B) |
+| `demons_bite` | Demon's Bite | `344859` | — | ROTATION | — | relative affordability (A — no cue of its own) + overcap readout (B) |
+| `immolation_aura` | Immolation Aura | `258920` | Consuming Fire ⚠`452487` | ROTATION | 2 | **two** charge states off `isActive` — gold `capped` at max, red `blocked` below (E) + identity |
 | `throw_glaive` | Throw Glaive | `185123` | — | FALLBACK | yes | — |
 | `fel_rush` | Fel Rush | `344865` | — | FALLBACK | 2 | — |
 | `demonsurge` | Demonsurge (buff) | `452402` | — | — | — | **OPEN** — hero-signature; no hint until measured |
@@ -115,7 +123,7 @@ Annihilation / Chaos Strike** → Immolation-at-2 → Felblade → Fel Rush. Rea
 - **ROTATION** = the middle-to-bottom, where the cues do the ordering. The raw spender is *low*
   by default and only rises when cue **D** promotes it inside a readable window; the generator
   rises (relatively) when cue **A** dims the starved spender; the generator is pushed off by cue
-  **B** near overcap; Immolation Aura lights only when its charges read full (R6).
+  **B** near overcap; Immolation Aura wears one of two badges, gold at full charges and red below.
 - **FALLBACK** = pure filler (Throw Glaive, Fel Rush).
 
 Tier + cues, read together, reproduce that priority — which is the §3.1 point. No lane is a
@@ -183,14 +191,24 @@ exactly as the guide's windowed spender outranks the baseline spender below it).
   Demon's Bite ~20–30). Honestly approximate. *Treatment:* ROTATION + cue A + cue B. Felblade
   additionally rises on a **readable Inertia proc** *if* that proves readable (open, below).
 - **Immolation Aura / Consuming Fire** (`258920` → ⚠ in Meta). *Problem:* the one Fury decision
-  that matters — don't sit on capped charges (2/2 with A Fire Inside). *Fact:* charges are
-  **readable only at full** (R6): `currentCharges` reads plain iff at max, secret below — the
-  plain read *is* the "capped" signal, so R6's limit is a feature here. *Identity (R7):* Immolation
-  Aura is *the* transform that corrupts charge math (→ Consuming Fire, different id/charges) — use
-  override-aware max and **re-seed on the flip**. *Treatment:* ROTATION, plus the gold
-  **`capped` badge** (cue E) in badge slot 3 while it reads full; withhold otherwise (unknown ≠
-  "not capped"). This is the one place the style says something other than "skip" — see cue E
-  below for why impending loss earns that exception, and why "about to cap" is not attempted.
+  that matters — don't sit on capped charges (2/2 with A Fire Inside). *Fact:* the charge state is
+  **readable in BOTH directions** — `GetSpellCharges().isActive` is annotated `NeverSecret`, and
+  it is false exactly when charges are at max (a recharge that is not running). This is stronger
+  than the R6 limit an earlier draft was built on, which said charges are readable *only* at full
+  (`currentCharges` plain iff at max, secret below) and therefore left "below max" as an unknown.
+  It is not an unknown: it is the second state. *Identity (R7):* Immolation Aura is *the* transform
+  that corrupts charge math (→ Consuming Fire, different id/charges) — R7's job here is reading the
+  **right spell's** charges across the flip, not a priority override. *Treatment:* ROTATION plus
+  one of two badges, never neither and never both:
+
+  | Charge state | `isActive` | Badge | Says |
+  | --- | --- | --- | --- |
+  | at max, recharge stalled | `false` | gold `capped` (slot 3), positive | you are losing a charge right now |
+  | below max, recharging | `true` | red `blocked` (slot 1), negative | hold the one you have, let the other come back |
+  | the read refused | `nil` | none | unknown is not a state — draw nothing |
+
+  The gold badge is the one place the style says something other than "skip" — see cue E below for
+  why impending loss earns that exception, and why "about to cap" is not attempted.
 
 ### FALLBACK lane
 
@@ -215,9 +233,9 @@ exactly as the guide's windowed spender outranks the baseline spender below it).
 | **A** affordability | starved spenders dim; generators hold | `insufficientPower` | emphasis (readable) | R1 | ROTATION emphasis |
 | **B** Fury threshold (two polarities) | **negative (drawn):** the generator wears the red `overcap` badge at/above the break · **positive (parked):** Essence Break would light a "banked" cue at Fury ≥35 — expressible, and deliberately not drawn — the vocabulary's one positive slot is spent on cue E, and a "you have enough" light is a statement about **rank**, which elimination already carries | secret Fury-% vs authored break | cue (sealed) | S1 (graded) + R4 static table | color curve → texture alpha |
 | **C1** readable hold | the red `blocked` badge — on Metamorphosis while Eye Beam or Death Sweep is *ready* (the reset would be wasted), on The Hunt while Meta is *available* (hold for the window). A satisfied dependency draws **nothing**. | related-ability cooldown states | emphasis-adjacent marker (readable) | R2 + R7 | corner badge (readable lane) |
-| **C2** sealed hold | the same red `blocked` badge on Essence Break while Eye Beam's cooldown has ≤4s remaining | Eye Beam cooldown remaining | cue (sealed) | S4 range step-curve on a duration object | curve → texture alpha |
+| **C2** sealed hold | the same red `blocked` badge on Essence Break while Eye Beam's cooldown is running and ends within 4s | Eye Beam cooldown remaining | cue (sealed) | S4 range step-curve on a duration object, `ignoreGCD` | curve → badge + veil alpha |
 | **D** demon-form promotion | Annihilation / Death Sweep brighten in demon form | `identity(transformed)` | emphasis (readable) | R7 | ROTATION emphasis (promotion) |
-| **E** charges capped | Immolation Aura wears the **gold `capped` badge** in slot 3 when its charge count reads full — the vocabulary's one positive cue | `currentCharges == maxCharges`, readable **only** at full (R6) | cue (readable) | R6 + R7 | corner badge, own hue + glow |
+| **E** charges capped | Immolation Aura wears the **gold `capped` badge** in slot 3 at max charges — the vocabulary's one positive cue — and the red `blocked` badge below max, which is the same fact read the other way | `GetSpellCharges().isActive`, `NeverSecret` and therefore readable in **both** directions | cue (readable) | R6 + R7 | corner badge, own hue + glow |
 
 ⚠ **Cue E is positive, and that is a deliberate, scoped exception** (`../render-shelf.md` Part 0.5).
 It reports **impending loss**, which is urgent regardless of priority rank — and rank is the only
@@ -226,7 +244,8 @@ direct the press: ST-8's row is already led correctly by elimination.
 
 ⚠ **"About to cap" is NOT expressible and is not attempted.** R6 (`../pattern-shelf.md:125`) and
 OBS-066 measured that below full `currentCharges` is secret and `isActive` reads `true` at **both**
-1/2 and 0/2 — it means *recharge running*, not *which charge*. So a threshold on the recharge
+1/2 and 0/2 — it means *recharge running*, not *which charge*. (That is also exactly why the
+below-max state can carry only the flat red `blocked` badge and not a countdown toward the cap.) So a threshold on the recharge
 duration cannot tell "about to cap" from "about to get your first charge back", and would fire the
 warning hardest while the player is charge-starved. Cue E therefore fires on the exact, readable
 **full** state only. Closing the gap needs R6's napkin estimator, whose named worst case is
