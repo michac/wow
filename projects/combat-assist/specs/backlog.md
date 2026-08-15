@@ -60,10 +60,10 @@ This is the project's only implementation-status source.
     `cards_stack_high`), on Immolation Aura at max charges — ST-8 is its only subject. It exists
     because *impending loss* is urgent independently of **rank**, and rank is the only thing a
     left-to-right scan expresses; there is no negative phrasing of "you are wasting a charge right
-    now". It does **not** direct the press — ST-8 is already led correctly by elimination — so §4
-    is untouched. Scope is fenced by three `capart check` gates: the elimination gate counts
-    **negative** cues only, a second positive cue fails the build, and a cue no scenario wears
-    fails the build. ⚠ **"About to cap" is not attempted** — R6/OBS-066 measured `isActive` true
+    now". It does **not** direct the press — ST-8 is already led correctly by elimination. Scope is
+    fenced by three `capart check` gates: the elimination gate counts
+    **negative** cues only, a second positive cue fails `check`, and a cue no scenario wears
+    fails `check`. ⚠ **"About to cap" is not attempted** — R6/OBS-066 measured `isActive` true
     at both 1/2 and 0/2, so a recharge threshold cannot tell "about to cap" from "about to regain
     your first charge", and would fire hardest while starved. That needs the napkin estimator,
     whose named worst case is Immolation Aura itself (R7).

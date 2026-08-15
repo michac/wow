@@ -437,6 +437,9 @@ def cmd_release(args) -> int:
 
     print(f"\n[{a.short}] released {tag} + deployed — {status}.")
     print(f"[{a.short}] In-game: /reload, then {a.reload_hint}")
+    if a.short == "cap":
+        print(f"[{a.short}] Post-release: run the `cap-conscience` review over {tag} "
+              "(read-only; it blocks nothing and reports questions to the author).")
     return 0
 
 

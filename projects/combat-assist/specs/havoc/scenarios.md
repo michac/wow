@@ -76,7 +76,7 @@ under that procedure:
 
 All thirteen pass. A scenario that fails either gate fails **by name**, which is the designed
 trigger for revisiting the parked positive cues rather than someone quietly adding one — and a
-second declared positive cue fails the build outright, since pass 1 does not say how two of them
+second declared positive cue fails `check` outright, since pass 1 does not say how two of them
 would rank.
 
 ⚠ **One positive cue exists** (`capped`, ST-8). No scenario relies on it to *reach* its press by
@@ -178,9 +178,8 @@ authored break point (S1's `sealed-power-percent` power curve) and the client ev
 Fury against it and paints the result — in **either polarity**. So "avoid the generator when Fury is
 about to cap" (negative, cue B — **ST-7**) *and* "prefer Essence Break once Fury is banked ≥35"
 (positive — **ST-5**) are both expressible sealed cues; cap authors the number and never learns
-which side the value fell on. The one thing genuinely off-limits is cap **computing** with Fury —
-reading it into a Lua branch/score, or combining secret values into one verdict. That is the §4
-oracle, forbidden by choice, not a wall the restriction builds. So there is **no "cap is blind"
+which side the value fell on. What the platform does not allow is cap **computing** with Fury —
+reading it into a Lua branch or score. So there is **no "cap is blind"
 bucket** in the Havoc priority; the "secret ⇒ can't rank" framing is wrong.
 
 ## Where cap can express the skip — the tally
@@ -277,7 +276,7 @@ set** and its status.
      state**, Meta is on cooldown, so there is no upcoming window to save The Hunt for. Nothing
      rules it out → **press.**
 - **Eye-direction.** By elimination, exactly as ST-1: the mark's *absence* is the signal, which
-  `../spec.md:137-141` already blesses (*"an un-held, ready cooldown is directed-to precisely
+  `../spec.md` §3.1 already blesses (*"an un-held, ready cooldown is directed-to precisely
   because the hold mark is **not** drawn"*). *(An earlier draft argued the press from a green `go`
   dot here. Same fact, opposite polarity, and the negative-by-default vocabulary keeps only the
   half that fires when something is wrong.)*

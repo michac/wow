@@ -9,8 +9,8 @@ then look each fact up here.
 **This is knowledge, not a code registry.** It records what we know how to do and where the
 evidence is. It is deliberately **not** a pre-built helper library or capability registry —
 the backlog forbids that (`not a generalized APL DSL, capability registry or vocabulary for
-mechanisms no authored experience uses`). A Lua helper is written only when a real vertical
-slice needs it, and generalised only after **two** consumers show the same shape.
+mechanisms no authored experience uses`). A Lua helper is written when a real vertical
+slice needs it.
 
 **The two lanes (spec.md §3.6).** Every fact is one of:
 
@@ -231,8 +231,11 @@ The safe `AllowedWhenTainted` setters that accept a secret directly: `Region:Set
 `StatusBar:SetValue`, `FontString:SetText`. Duration-object setters
 (`Cooldown:SetCooldownFromDurationObject`, `StatusBar:SetTimerDuration`) are
 `AllowedWhenUntainted` but the secrecy rides **inside** the duration object, so they are legal.
-⚠ **Every one of these is aspect-less on readback: "the call was accepted" is NOT proof a
-pixel appeared.** A display question is closed only by an eyeball.
+⚠ **ACCEPTED IS NOT DRAWN — the one statement of it, cited from everywhere else.** Every sink
+above is aspect-less on readback: the call being accepted is not proof a pixel appeared. A capture
+reports `offered` / `armed` / `refused`, never `drew`, and a display question is closed only by an
+eyeball. `spec.md` §6, `authoring.md` stage 8, `flight-reading.md` and the anti-patterns below all
+point here rather than restating it.
 
 ### S1 · Primary resource as a display cue — **Settled / sealed-display**
 
@@ -321,14 +324,13 @@ slots, so a loop sized by it can miss an occupied 5th slot (exactly the Dreadsta
 ## Part 3 — Mechanism seams (small helpers, written per-slice)
 
 These are the reusable seams the patterns above imply. Author each when its **first** real
-consumer needs it; unify two only after both show the same shape (the "narrow shared
-mechanism only when a vertical slice needs one" rule).
+consumer needs it.
 
 - **Duration acquisition.** Four sources, one return type (`LuaDurationObject`): spell
   cooldown `GetSpellCooldownDuration(id, ignoreGCD)`, charge recharge
   `GetSpellChargeDuration(id)`, aura `GetAuraDuration(unit, auraInstanceID)`, totem
   `GetTotemDuration(slot)`. Keep source-specific **identity + liveness** work explicit; share
-  only the curve/sink plumbing, and only after ≥2 consumers.
+  only the curve/sink plumbing.
 - **Curve guard.** Feature-gate `C_CurveUtil.CreateCurve` / `Enum.LuaCurveType.Step` /
   `Enum.DurationTimeModifier.RealTime`; on any missing piece return the inert path. Curves and
   durations are `userdata`, not tables.
@@ -357,8 +359,7 @@ mechanism only when a vertical slice needs one" rule).
 - **"0 charges" from `IsSpellUsable`** — a spell can be unusable for many reasons; a secret
   count leaves zero genuinely unknown.
 - **Trusting a static cost table** — DB2/doc cost can disagree with the client (R4).
-- **Reading a duration back** — every duration sink is aspect-less; only an eyeball proves a
-  pixel moved. A capture reports `offered`/`armed`/`refused`, never `drew`.
+- **Reading a duration back** — see Part 2's *accepted is not drawn*.
 - **Carrying a napkin count across a transform** — re-seed on the override flip (R7).
 - **Treating cookbook mixin names as Blizzard signatures** — the AuraContainer wrapper (S2)
   is illustrative; confirm against a 12.1 source.

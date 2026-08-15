@@ -18,9 +18,8 @@ is the authority and this file is the reminder of *when* it applies.
 
 **A spec-and-hero pair is the unit cap authors.** Havoc / Fel-Scarred is one catalog; Havoc /
 Aldrachi Reaver is a *separate catalog authored later*, not a second overlay bolted onto the
-first. Two hero trees that genuinely share a roster may share one document only if every row
-reads identically under both — the moment a row needs "…unless Aldrachi Reaver", it is two
-catalogs.
+first. Two hero trees that genuinely share a roster can share one document; the moment a row
+needs "…unless Aldrachi Reaver", it is two catalogs.
 
 **One `catalog.md` per spec directory.** `specs/<spec>/catalog.md` is the normative document —
 the thing `Catalogs/<Spec>.lua` transcribes. A spec that grows a second or third design file has
@@ -62,9 +61,6 @@ Walk the priority and, for each ability, name **the player problem a hint would 
 thing the player gets wrong or has to hold in their head. An ability with no named problem gets
 no row. This is the filter that keeps a catalog from becoming a roster dump.
 
-*Comprehensive* means every ability with a named problem is covered and none was skipped for
-being awkward. It does **not** mean every button.
-
 Then walk the priority as a **dependency graph**, not a flat power list: each press's rank is set
 by *why* it belongs there — a reset it grants, a window it opens, a buff it maintains, a resource
 it needs — and that reason often rests on the readable state of a *different* ability
@@ -92,8 +88,7 @@ Every tagged fact points at its recipe and that recipe's `knowledge/addon-dev/` 
 with no recipe is either a new Part-3 seam (stage 6) or an open fact (stage 5).
 
 **A threshold on a secret is expressible**, in either polarity, as an authored curve the client
-evaluates — the line is `spec.md` §4 (computing on the value), not the value's secrecy. Do not
-file a threshold as "cap can't rank this."
+evaluates (`spec.md` §3.6) — the platform seals the *value*, not a break point authored against it.
 
 **Exit:** every fact the catalog consumes carries a lane, a recipe and its evidence. No sealed
 fact appears in a proposed Lua condition.
@@ -132,9 +127,8 @@ Each open fact becomes an `@verify-ingame` marker on the claim, or a ClientLab
 `@pending-test: <id>` once a test exists (`projects/addon-lab/docs/lab-process.md`). An unknown
 is recorded **as a marker on the claim**, never as a line in a tool or a TODO in the catalog.
 
-**A load-bearing open fact is a stop-and-ask** (`spec.md` §3.6) — not permission to guess and not
-a reason to stall the rest of the catalog. Rows that do not depend on it proceed; the row that
-does ships without that hint until the marker drains.
+**A load-bearing open fact is a stop-and-ask** (`spec.md` §3.6). Rows that do not depend on it
+proceed; the row that does ships without that hint until the marker drains.
 
 **Exit:** every open fact carries a marker; the catalog states, per row, what ships now and what
 waits.
@@ -156,9 +150,8 @@ shared treatment/overlay code.**
 **The renderer test** (`pattern-shelf.md` Part 3, the marker seam — the definition-of-done for
 `backlog.md` → Phase 9.4)**:** a spec that reuses an existing tier
 and an existing marker/channel shape **edits nothing** in `Treatment.lua` / `Overlay.lua` — it is
-authored purely as catalog data. A renderer edit is justified only by a genuinely new marker
-shape or channel pairing. Write a shared helper only when this slice needs it; unify two helpers
-only after both show the same shape.
+authored purely as catalog data. A renderer edit means the slice introduced a new marker shape or
+channel pairing. Write a shared helper when this slice needs one.
 
 **Exit:** the catalog loads, binds and fails inert with no catalog, no matching build, an unsafe
 read or an unsupported binding.
@@ -174,11 +167,7 @@ transform flip, curve guards, marker union across the readable and sealed lanes,
 propagation. Keep spec examples in an explicitly provisional characterization group, separate
 from engine guarantees.
 
-Tests protect mechanical and platform guarantees. **They do not turn product prose, gameplay
-opinions or visual taste into invariants.** A green suite means the engine obeys its contracts;
-it does not mean the hint is useful or the treatment looks good.
-
-**Exit:** the release runner's suite passes, and no new test asserts a gameplay or visual opinion.
+**Exit:** the release runner's suite passes.
 
 ---
 
@@ -191,15 +180,16 @@ project `CLAUDE.md`. A push alone does not reach the game.
 record the player's report in their own terms. Read captures **afterward**, only to explain which
 route armed and why the observed result may have happened.
 
-Captures never overrule the player's visual judgment and never reveal what a sealed sink drew.
-A sink accepting a duration or paint call never proves a pixel appeared. Occupancy and refusal
-rates are diagnostics, not acceptance quotas. `flight-reading.md` says what each stream can and
-cannot prove. SavedVariables flush only on `/reload` or logout.
+Captures never overrule the player's visual judgment: **accepted is not drawn**
+(`pattern-shelf.md` Part 2). Occupancy and refusal rates are diagnostics, not acceptance quotas.
+`flight-reading.md` says what each stream can and cannot prove. SavedVariables flush only on
+`/reload` or logout.
 
 Change one conceptual variable at a time, and ask at every product judgment.
 
 **Exit:** a player judgment recorded, `backlog.md` → `## Status` updated to say what flew, and a
-dated entry in `notes.md`.
+dated entry in `notes.md`. After the release is cut, the `cap-conscience` review runs and reports
+to the author; it holds no write tools, blocks nothing, and its output is questions.
 
 ---
 
@@ -221,7 +211,7 @@ dated entry in `notes.md`.
 - **Ask before building behavior that is not in `spec.md`** — it goes to `backlog.md` → `Ideas`
   or to `discussion.md`, not into the source.
 - **Do not prebuild vocabulary.** No aura/totem duration, target-aura, APL-DSL or
-  capability-registry work in anticipation of a spec that has not been authored.
+  capability-registry work until a spec that needs it is being authored.
 - **Releasing is ask-first**, every time.
 
 ## Where a thing gets written

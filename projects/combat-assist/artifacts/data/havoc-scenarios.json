@@ -241,7 +241,7 @@
       "extras": [
         {
           "label": "Eye-direction",
-          "html": "By elimination, exactly as ST-1: the mark&#x27;s <em>absence</em> is the signal, which <code>../spec.md:137-141</code> already blesses (<em>&quot;an un-held, ready cooldown is directed-to precisely because the hold mark is <b>not</b> drawn&quot;</em>). <em>(An earlier draft argued the press from a green <code>go</code> dot here. Same fact, opposite polarity, and the negative-by-default vocabulary keeps only the half that fires when something is wrong.)</em>"
+          "html": "By elimination, exactly as ST-1: the mark&#x27;s <em>absence</em> is the signal, which <code>../spec.md</code> §3.1 already blesses (<em>&quot;an un-held, ready cooldown is directed-to precisely because the hold mark is <b>not</b> drawn&quot;</em>). <em>(An earlier draft argued the press from a green <code>go</code> dot here. Same fact, opposite polarity, and the negative-by-default vocabulary keeps only the half that fires when something is wrong.)</em>"
         },
         {
           "label": "Counter",

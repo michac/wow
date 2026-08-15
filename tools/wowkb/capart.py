@@ -37,7 +37,9 @@ block a rebuild you want to look at**. `check` is the CI-shaped gate; `build` is
 leftmost entry that is neither swiped nor veiled nor carrying a **negative** cue must be the entry
 the doc calls the press. That is what makes a mostly-negative cue vocabulary safe to ship. Two
 gates fence the exception: at most ONE cue may declare `polarity: "positive"`, and every declared
-cue must be worn by some scenario row (a cue that renders nowhere is `spec.md:194-195`'s defect).
+cue must be worn by some scenario row (a cue that renders nowhere is `spec.md` §3.2's defect).
+Two more make the shelf's own mechanical claims true rather than promised: the veil is derived
+from cue polarity (`render-shelf.md` Part 2.5) and slot 3 belongs to the positive cue (Part 1).
 
 Usage:
     uv run python -m wowkb.capart tokens                # resolved tokens + the CSS block
@@ -1176,7 +1178,35 @@ def cmd_check(args) -> None:
     fails += positive_gate(doc, tokens)
     fails += elimination_gate(doc, tokens)
 
-    # 1c · every declared cue actually draws somewhere. spec.md:194-195 — "a catalog form that
+    # 0c · the veil is DERIVED, not authored (render-shelf.md Part 2.5). The shelf claims this is
+    # "mechanical rather than a promise", and until this gate existed it was a promise: `veil` is
+    # hand-written per verdict in tokens.verdicts with nothing reconciling it against the cues that
+    # verdict carries. A verdict veiled with no negative cue is the "skipped, and cap will not say
+    # why" state Part 2.5 says cannot occur; an un-veiled verdict carrying one is a skip with no dim.
+    for key, rule in tokens["verdicts"].items():
+        derived = any(tokens["cues"].get(c, {}).get("polarity", "negative") == "negative"
+                      for c in (rule.get("cues") or []))
+        if bool(rule.get("veil")) != derived:
+            fails.append(
+                f"verdict {key!r} declares veil={bool(rule.get('veil'))} but its cues derive "
+                f"veil={derived} — render-shelf.md Part 2.5 says a row is veiled *iff* it wears at "
+                "least one negative cue. Fix the token, not this gate.")
+
+    # 0d · slot 3 is the positive cue's, and only the positive cue's (render-shelf.md Part 1).
+    # Position carries polarity there as well as colour, which is only true while nothing negative
+    # can land in slot 3 and nothing positive can land beside the negatives on the top edge.
+    for key, cue in tokens["cues"].items():
+        positive = cue.get("polarity") == "positive"
+        if positive and cue.get("slot") != 3:
+            fails.append(f"cue {key!r} is positive but sits in slot {cue.get('slot')} — Part 1 puts "
+                         "the positive cue in slot 3, down the right edge, so polarity is legible "
+                         "from position and not only from colour.")
+        if not positive and cue.get("slot") == 3:
+            fails.append(f"cue {key!r} is negative but sits in slot 3, which Part 1 reserves for "
+                         "the single positive cue. A negative badge there reads as the opposite of "
+                         "what it means.")
+
+    # 1c · every declared cue actually draws somewhere. spec.md §3.2 — "a catalog form that
     # loads successfully and then renders nothing is a defect" — and a cue nobody wears is that
     # defect at the shelf level. It matters most for the positive cue, whose whole justification
     # is one scenario: if ST-8 ever stops carrying it, the exception has no subject and should be
@@ -1186,7 +1216,7 @@ def cmd_check(args) -> None:
     for key in tokens["cues"]:
         if key not in worn:
             fails.append(f"cue {key!r} is declared in the shelf but no scenario row wears it — "
-                         "it renders nowhere, which spec.md:194-195 calls a defect. Give it a "
+                         "it renders nowhere, which spec.md §3.2 calls a defect. Give it a "
                          "subject or retire it.")
 
     # 2 · the committed HTML is not stale.
@@ -1226,8 +1256,9 @@ def cmd_check(args) -> None:
         sys.exit(1)
     print(f"ok · {args.spec}: scenarios.md matches the sidecar, the artifact is current, "
           "shelf.css holds no literal colors,\n"
-          f"     the tint guard still has a subject, and all {len(doc)} scenarios read correctly "
-          "under both passes —\n"
+          "     the tint guard still has a subject, every veil is derived from its cues' polarity "
+          "and the positive\n"
+          f"     cue owns slot 3, and all {len(doc)} scenarios read correctly under both passes —\n"
           "     every positive cue sits on its own press, and every press is reached by "
           "elimination alone")
 

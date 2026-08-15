@@ -3,8 +3,9 @@
 `/cap` is a Retail / Midnight combat-assistance addon that extends Blizzard's Cooldown
 Manager. It is a standalone companion app, not part of the gameplay KB.
 
-Read `specs/spec.md` before changing behavior. Section 1 is the constitution; later details
-are valid only while they remain downstream of it.
+Read `specs/spec.md` before changing behavior. One rule there outranks the rest, and it is a
+platform fact rather than a stance: **cap never branches on sealed data** (§3.6). `Catalog.lua`
+and `Channel.lua` hold that line in code.
 
 The addon source is `addon/`, a separate gitignored repository with its own `CLAUDE.md`.
 
@@ -27,7 +28,7 @@ Eight permanent files have eight jobs:
 
 **The two shelves.** `pattern-shelf.md` = which facts you may use. `render-shelf.md` = how you may
 show them. **Visual opinions belong in the render shelf and nowhere else** — `spec.md` fixes the
-*model* (role lanes, readable-vs-sealed, no computed press) and says nothing about pixels. Trying a
+*model* (role lanes, readable-vs-sealed) and says nothing about pixels. Trying a
 new look is an edit to the shelf, not a spec amendment; regenerate the artifact from it and look.
 
 **The shelf declares, the rationale explains.** `render-shelf.md` states exactly **one** style —
@@ -44,8 +45,13 @@ renders in its own section of the artifact, never in a CDM row, and **nothing in
 quietly becoming load-bearing). A treatment leaves the lab by being **moved** into Parts 1–6, never
 by being cited from there. Each entry carries an `asks` — the question it exists to answer.
 
-`specs/simplification-plan.md` and `specs/simplification-audit.md` are temporary migration
-artifacts. They are not additional product authorities.
+**The lab is currently empty**, which is its correct resting state, not a defect — its first two
+entries were promoted on 2026-08-13 and deleted from it (`backlog.md` → `## Status`). There is no
+`lab` block in Part 6 and the artifact says so on the page. A new idea gets a `lab` key, an `asks`,
+and a section in Part 7.
+
+`specs/simplification-plan.md`, `specs/simplification-audit.md` and `specs/rule-split-audit.md`
+are temporary migration artifacts. They are not additional product authorities.
 
 The live addon version comes from `wowkb.addon list`. What is built or flown comes only from
 `specs/backlog.md` → `## Status`.
@@ -65,8 +71,7 @@ Before touching the gitignored addon checkout, run `wowkb.addon pull --all`. Cap
 the addon only through `wowkb.capture cap <stream>`; SavedVariables flush on `/reload` or
 logout. `specs/flight-reading.md` describes what each current stream can and cannot prove.
 
-Tests protect mechanical and platform guarantees. They do not turn product prose, gameplay
-opinions or visual taste into invariants.
+Tests protect mechanical and platform guarantees.
 
 ## Authoring another spec
 
@@ -90,3 +95,8 @@ latest GitHub release.
 cd ~/code/fun/wow/tools
 uv run python -m wowkb.addon release cap [--patch|--minor|--major]
 ```
+
+After a release is cut and deployed, `wowkb.addon` prints a reminder to run the `cap-conscience`
+review (`.claude/agents/cap-conscience.md`). It is read-only, blocks nothing, and its output is
+questions for the author. Do not run it mid-authoring — it reviews a shipped catalog, and running
+it against work in progress is what the split it came from was written to prevent.

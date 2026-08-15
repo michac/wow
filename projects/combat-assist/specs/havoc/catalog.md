@@ -46,12 +46,6 @@ reproduce that order. Five cues do the work: **A** affordability, **B** overcap,
 **D** demon-form promotion, **E** charges capped (the one positive cue). Over it all runs the **demon-form transform** as the readable
 identity spine (R7).
 
-**The boundary (spec.md §3.1).** Layering emphasis + cues until the right press is obvious is the
-**goal**, not something to design around; cap never withholds legal, displayable information to
-keep a hint vague. What it must not become is a single channel that *computes* the answer and
-hands it over (the Assisted-Combat shape §4 rules out, or branching on sealed data §3.6). The
-line is the mechanism, not the count of lit buttons.
-
 ## Bound abilities
 
 Base spell IDs are from `knowledge/classes/demon-hunter/havoc/ability-inventory.tsv`. Demon-form
@@ -325,9 +319,6 @@ Route as `@verify-ingame` / ClientLab `@pending-test` markers, not guesses.
 - **Cues carry sealed facts to client-owned sinks:** the cue-B color curve (secret Fury-%) and
   the cue-C2 range curve (sealed duration) go straight to a draw call; cap reports `offered` /
   `armed` / `refused` and never reads back.
-- **Convergence is the goal, not a violation (§3.1):** cap layers emphasis + cues to make the
-  right press findable and never withholds legal, displayable information to keep a hint vague.
-  What it never builds is a single channel that computes the answer from your state.
 - **Unknown never becomes confidence,** including through negation. A refused `affordable` or
   `ready` withholds; it does not assert the opposite.
 - The catalog declares **no** continuous grade, no resource gate (Fury is secret), no silence

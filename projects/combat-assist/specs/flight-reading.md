@@ -4,8 +4,12 @@
 support. It is not a visual oracle or a history log. SavedVariables flush only on `/reload`.
 
 Read the live addon version first. Captures store changes, not periodic samples, so line counts
-are not duty cycles. A sink accepting a duration or a paint call never proves a pixel appeared;
-the player's report is the authority for brightness, contrast, placement and usefulness.
+are not duty cycles.
+
+⚠ **Accepted is not drawn** — `pattern-shelf.md` Part 2 states it once, and it applies to every
+field below without being repeated per field: a sink accepting a duration or a paint call never
+proves a pixel appeared. The player's report is the authority for brightness, contrast, placement
+and usefulness.
 
 ## Streams
 
@@ -79,15 +83,13 @@ C{-}
 - `stock:coexist` records the deliberate baseline: cap did not try to suppress Blizzard's
   proc glow.
 - `B{tyrant:ready|armed|refused|unarmed|nobind}` records the bar path. `armed` means the
-  client accepted a duration object, never that the fill or number was visible.
+  client accepted a duration object.
 - `bar:` is the bar's build-time texture/formatter/font probe.
-- `C{conflagrate:backdraft:offered|armed|refused}` reports only sealed-channel acquisition.
-  It never reports whether Blizzard wrote a glyph or what that glyph contained. The **graded**
-  cues report here too (`felblade:felblade_overcap:armed`,
+- `C{conflagrate:backdraft:offered|armed|refused}` reports only sealed-channel acquisition. The
+  **graded** cues report here too (`felblade:felblade_overcap:armed`,
   `essence_break:essence_break_awaits_eye_beam:armed`): `armed` means the client accepted a
   curve and evaluated it, and `refused` means a feature gate or an evaluation failed. **Never a
-  value** — the whole point of a curve is that cap does not learn the number, so whether the
-  badge was visible at any instant is a question only the player can answer.
+  value** — the whole point of a curve is that cap does not learn the number.
 
 A moving `P{}` with a blank screen points first to anchoring or treatment. Healthy `anch:` and
 `conf:` with no visible pixels is a treatment failure. A marker in `M{}` at the wrong gameplay
@@ -124,8 +126,8 @@ Then, and only then, the captures:
   is the intended behaviour. Edges arriving at rotational speed mean `ready` is tracking
   affordability, which the border was never meant to say, and which the player will have already
   reported as a blinking row.
-- `wowkb.capture cap draw` — `C{}` for the two graded cues and the CHARGES lane in `P{}`.
-  Neither says a pixel appeared; both say cap took the route it meant to.
+- `wowkb.capture cap draw` — `C{}` for the two graded cues and the CHARGES lane in `P{}`. Both
+  say cap took the route it meant to.
 
 **Tuning is expected and is a shelf edit.** Too many badges, too heavy a dim, too eager a snap —
 change the numbers in `render-shelf.md` Part 6 and rebuild. A noisy first render is not a reason

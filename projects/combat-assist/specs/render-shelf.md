@@ -3,7 +3,7 @@
 **What this file is for:** how cap is allowed to *look*. `pattern-shelf.md` answers **which facts
 you may use**; this answers **how you may show them**. It owns every visual opinion in the
 project — surfaces, primitives, colors, motion, placement, composition — so that trying something
-new means editing this file, not arguing with the constitution.
+new means editing this file, not amending `spec.md`.
 
 **This file declares one style.** It is not a debate. Every primitive below states **the**
 treatment, in the present tense, with no alternative beside it. If the style is wrong, the fix is
@@ -12,9 +12,9 @@ shelf with two answers renders neither. Alternatives that were considered, the r
 choice, and what was tried and rejected live in **`render-rationale.md`**, which has no authority
 over anything.
 
-**Opinions here are still cheap.** Nothing in this file is a boundary. `spec.md` says cap must
-never compute the press or branch on a sealed value — those are *product boundaries* and they do
-not move. Whether a hold reads as a red badge or a dimmed border, whether lanes pulse or sit still,
+**Opinions here are still cheap.** Nothing in this file is a boundary. The one boundary is
+`spec.md` §3.6 — cap never branches on a sealed value — and it does not move.
+Whether a hold reads as a red badge or a dimmed border, whether lanes pulse or sit still,
 whether a cue lives in the icon's center or its corner: all of that lives here, and changing one
 is a normal edit, not a spec amendment.
 
@@ -54,9 +54,8 @@ the next one that needs it will find it working.
    client. `capart check` fails if either the committed HTML or the committed `Style.lua`
    disagrees with this file.
 
-Nothing in steps 1–3 requires permission from `spec.md`. If a change here would make cap compute
-the press or branch on a sealed value, *that* is the one thing to stop and check — and it is a
-§3.6 / §4 question, not a taste question.
+Nothing in steps 1–3 requires permission from `spec.md`. If a change here would make cap branch on
+a sealed value, *that* is the one thing to stop and check — a §3.6 question, not a taste question.
 
 **The artifact is a reproduction, not a diagram.** It draws real Blizzard icon art at real
 Cooldown Manager size, real vendored sprite frames at their real frame counts and durations,
@@ -69,7 +68,7 @@ than no preview. `wowkb.capart` enforces that mechanically (Part 4).
 ## Part 0.5 — the reading model everything below serves
 
 **Scan the row left to right and press the first button that is not ruled out.** That is the whole
-interaction, and `spec.md:137-141` already blesses it: *"A low-priority button is directed-to by
+interaction, and `spec.md` §3.1 already blesses it: *"A low-priority button is directed-to by
 the **absence** of competing emphasis… the same holds for a hold mark's absence."*
 
 ### The operator heuristic
@@ -123,15 +122,12 @@ nothing wider.
 
 **Pass 1 makes it pre-emptive, and that is the point.** A cue that reports impending loss and then
 waits its turn in the scan has reported it too late — by the time the eye arrives the charge is
-gone. So `capped` is read first and it *redirects* the scan. What keeps that inside `spec.md` §4 is
-not that the cue is passive; it is that cap draws it from **one readable fact about one button**
-and never from a comparison across the row. Cap still computes no press: it says *this specific
-thing is being wasted right now*, and the player decides what that is worth. The §4 oracle is a
-channel that weighs the whole state into one answer, and one badge on one row is not that.
+gone. So `capped` is read first and it *redirects* the scan. It is drawn from **one readable fact
+about one button**, never from a comparison across the row.
 
-Its scope is what keeps this honest, and the scope is narrow: **impending loss, nothing wider.** A
-positive cue for "you have enough" or "this is favoured now" is a statement about **rank**, which
-elimination already carries, and would be a second voice in pass 1 competing with the first.
+Its scope is narrow: **impending loss, nothing wider.** A positive cue for "you have enough" or
+"this is favoured now" is a statement about **rank**, which elimination already carries, and would
+be a second voice in pass 1 competing with the first.
 
 The other positive signals (a "banked" light, a green dependency dot, a weave chevron, a promoted
 press) remain **parked, not refuted**. `spec.md` §3.6 and `havoc/catalog.md` both record that a
@@ -145,12 +141,15 @@ sealed threshold is expressible in **either** polarity, and that stays true.
 - **Pass 2** — the elimination gate (Part 5). The leftmost entry that is neither swiped nor veiled
   nor wearing a negative badge must be the press, **counting negative cues only**, so the positive
   cue can ride the press without eliminating it.
-- **A second positive cue fails the build.** This is no longer only a vocabulary question: a second
+- **A second positive cue fails `check`.** This is no longer only a vocabulary question: a second
   positive cue is a second pass-1 candidate, so two of them in one row makes pass 1 ambiguous about
   which to press. Adding one is a decision about the *ordering model*, and it means rewriting the
   procedure above to say how the two rank.
-- **A declared cue worn by no scenario fails the build**, since a cue that renders nowhere is
-  `spec.md:194-195`'s defect at shelf level.
+- **A declared cue worn by no scenario fails `check`**, since a cue that renders nowhere is
+  `spec.md` §3.2's defect at shelf level.
+
+Two further `check` assertions keep this part's own claims mechanical rather than promised: the
+veil is **derived** from cue polarity (Part 2.5) and slot 3 belongs to the positive cue (Part 1).
 
 ---
 
@@ -166,7 +165,7 @@ a design choice, not a platform constraint, unless marked otherwise.
 | **Corner badge slots** | three discs hung off the **top-right** corner | one cue each — slots 1–2 (along the top edge) negative, slot 3 (down the right edge) the single positive cue | Filled circles at `tokens.badges.diameter_pct` of icon width, overhanging by `tokens.badges.overhang_px` (V5). Position carries polarity as well as colour. |
 | **Cooldown swipe** | the radial dial | remaining time | Can be *restyled* without knowing the time (see V7). |
 | **Count tile** | Blizzard's own aura count position | a sealed stack number | Client-owned; cap never learns the value. |
-| **Independent bar** | anywhere on screen | one duration, large | Off-icon surface; costs screen space and must earn it. |
+| **Independent bar** | anywhere on screen | one duration, large | Off-icon surface. |
 
 **What Blizzard already occupies on a CDM item** — read off `Blizzard_CooldownViewer` at
 **12.0.7**, under a standing ⚠ *12.1 rewrote this system and this has not been re-flown*:
@@ -337,7 +336,7 @@ reads as *on top of* the icon rather than *inside* it.
 ### V5.1 · The four cues
 
 The whole vocabulary. Each is a **single state** that either draws or does not — never a two-state
-marker whose satisfied state happens to be invisible. `spec.md:194-195` says *"a catalog form that
+marker whose satisfied state happens to be invisible. `spec.md` §3.2 says *"a catalog form that
 loads successfully and then renders nothing is a defect"*, and that test only keeps meaning if
 "drew nothing" is unambiguously a bug rather than a legal second state.
 
@@ -452,7 +451,9 @@ cap's (Part 1).
    that is how a catalog authors an OR without an OR.
 
 **The veil is DERIVED, never authored: a row is veiled iff at least one of its cues is negative.**
-This is what makes V4's "a veil with no badge does not occur" mechanical instead of a promise. A
+This is what makes V4's "a veil with no badge does not occur" mechanical instead of a promise —
+`wowkb.capart check` reconciles every `tokens.verdicts` entry's `veil` against its cues' declared
+polarity and fails by name if a hand-written `veil` disagrees with the derivation. A
 cue that declares no polarity reads as negative — the reading that can only be stricter. The
 positive cue therefore rides an un-veiled row, which is the whole reason it can carry an
 impending loss on a button you are about to press.
@@ -549,7 +550,7 @@ the "don't bundle Blizzard art" rule's subject: our own CC0 art ships, because i
 | `tint: "lane"` on art the manifest measured non-neutral | **hard error**, naming the measured saturation |
 | a CSS tint written as `hue-rotate` | not emitted — the tint path is `mask-image` + `background-color` (or `background-blend-mode: multiply`) |
 | `tint: "desaturate+lane"` | builds, and stamps a visible ⚠ *open* chip on that primitive |
-| total base64 over `tokens.budget.max_base64_kb` | reported by `capart assets`; a `check` concern, never a blocked rebuild |
+| total base64 over `tokens.budget.max_base64_kb` | a **warning printed by `build`** (and a per-asset table from `capart assets`), never a blocked rebuild; `check` does not test it |
 
 **The tint guard is the shelf's one mechanical promise and it is deliberately art-agnostic.** It
 started life guarding the flipbook rings; the rings are gone and it now guards the badge sprites,
@@ -723,7 +724,7 @@ because `havoc/scenarios.md` needs them to state its argument — `press-promote
 *why* a windowed spender outranks a lit cooldown, and re-drawing that distinction is a one-line
 shelf edit if a flight asks for it.
 
-**The verdict vocabulary is closed.** These ten keys are the whole set a scenario may use;
+**The verdict vocabulary is closed.** These nine keys are the whole set a scenario may use;
 `wowkb.capart` errors on anything else.
 
 ---
