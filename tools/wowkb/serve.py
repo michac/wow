@@ -133,6 +133,21 @@ class Handler(SimpleHTTPRequestHandler):
     watcher: Watcher
     inject: bool
 
+    # SimpleHTTPRequestHandler guesses `text/html` with NO charset, so a UTF-8 page served
+    # straight off disk gets decoded as latin-1 and every `·` in it becomes `Â·`. The injected
+    # path already sets the charset; without this, turning injection off would silently change
+    # how the page reads, which is exactly the kind of difference a preview must not have.
+    extensions_map = {
+        **SimpleHTTPRequestHandler.extensions_map,
+        ".html": "text/html; charset=utf-8",
+        ".htm": "text/html; charset=utf-8",
+        ".css": "text/css; charset=utf-8",
+        ".js": "text/javascript; charset=utf-8",
+        ".json": "application/json; charset=utf-8",
+        ".md": "text/plain; charset=utf-8",
+        ".svg": "image/svg+xml",
+    }
+
     def log_message(self, fmt, *args):  # quieter than the default one-line-per-asset
         if self.path != "/__reload":
             sys.stderr.write("  %s %s\n" % (self.command, self.path))
