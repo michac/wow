@@ -19,6 +19,7 @@ and usefulness.
 | `wowkb.capture cap tier` | the readable signal; the legacy stream name remains during migration |
 | `wowkb.capture cap edge` | accepted and refused CDM alert edges |
 | `wowkb.capture cap draw` | the static overlay and Tyrant-bar paths cap attempted |
+| `wowkb.capture cap anchor` | **probe** — CDM frame re-anchoring: drawn position against the authored order |
 
 Combat start/end are marked with a full body. A `# listener-error` in `tier` invalidates the
 downstream draw evidence for that interval.
@@ -72,7 +73,7 @@ or either Tyrant fact was helpful.
 
 ```
 D{n:2 rows:2 anch:2 conf:2 off:0 nf:0 bar:tex/fmt/font stock:coexist}
-P{demonbolt:ROTATION tyrant:ROTATION immolation_aura:CHARGES/veil+blocked}
+P{demonbolt:ROTATION tyrant:ROTATION immolation_aura:CHARGES+blocked}
 M{tyrant:dreadstalkers tyrant:grimoire}
 B{tyrant:armed}
 C{-}
@@ -81,13 +82,17 @@ C{-}
 - `anch:` / `conf:` say the addon found and confirmed CDM item frames.
 - `off:` is a real but hidden item frame; `nf:` means no frame was found.
 - `P{}` records the composed treatment attempted for each enhanced entry, as
-  `id:LANE[/veil][+cue,cue]` — or `id:off` where the row drew nothing, `id:hidden` where its
+  `id:LANE[+cue,cue]` — or `id:off` where the row drew nothing, `id:hidden` where its
   CDM item is real but not shown, `id:noframe` where no item was found. The lane is the drawn
   one, so a charge ability at rest reads `CHARGES`, not the role lane its catalog authored.
-  The veil is **derived**, never authored: it is present iff a negative cue is.
   ⚠ **Only READABLE cues appear here.** A graded (sealed) cue's visibility is the client's, so
   it is reported in `C{}` as armed and never in `P{}` — a row wearing only a graded cue reads
-  as un-veiled here while dimming on screen, and that is correct, not a discrepancy.
+  as bare here while its badge fades on screen, and that is correct, not a discrepancy.
+  ⚠ **The row string changed when the veil was retired, and a capture is a one-way door.** A row
+  in an OLDER capture may carry a `/veil` segment (`id:LANE[/veil][+cue,cue]`) — that segment
+  described a dim the addon no longer draws, and its absence in a newer capture is the change,
+  not a row that stopped skipping. Lines are stored pre-rendered, so no reader can reconcile the
+  two formats; read a `/veil` capture as evidence about the build that wrote it and nothing else.
 - `M{}` records which readable context markers the engine asserted. ⚠ Since 2026-08-14 **nothing
   is drawn for them** — the shelf's cue vocabulary has no form for the two Warlock ones — so this
   field reports a decision, never a pixel.
@@ -107,6 +112,53 @@ A moving `P{}` with a blank screen points first to anchoring or treatment. Healt
 moment is a product failure even when every mechanical field is healthy — and while nothing draws
 for it, that failure is invisible in play and readable only here.
 
+## Anchor order — the D22 probe
+
+Written by `probes/AnchorOrder.lua` and armed by hand with `/capanchor on`; a `/reload` starts
+disarmed and the stream is silent until you arm it. `/capanchor off` restores Blizzard's layout.
+The probe and this section are deleted together when D22's verification lands.
+
+```
+t120.4 # armed
+A{n:8 named:6 extra:2 miss:1} P{31,12,44,9,17,3,52,28} D{31,12,44,9,17,3,52,28} X{ok} S{stomp:0 icombat:0 disp:0 cont:0}
+t131.7 # stomp RefreshLayout destructive=1 combat=1
+```
+
+- `A{}` is the plan: `n` frames placed, `named` of them in the catalog's authored order,
+  `extra` rows the catalog does not name (they keep client order behind the named ones), and
+  `miss` authored entries with no live row on this build.
+- `P{}` is the **authored** order as cooldownIDs; `D{}` is the **drawn** order, read off each
+  frame's `GetLeft()`. `X{ok}` means they agree; `X{MISMATCH}` means they do not, including when
+  a frame's position could not be read.
+- `S{}` counts, for the session: `stomp` layout passes seen through the probe's own hooks,
+  `icombat` how many of those landed inside a pull, `disp` displacements attributable to one of
+  those passes, `cont` displacements with no observed cause.
+
+⚠ **`P{}`/`D{}` are the only evidence here.** The `bind` stream's `# row-order` note and
+`Catalog.OrderCheck` both derive order from `layoutIndex`, which a `SetPoint` re-anchor does not
+touch — they keep reporting Blizzard's order whether the re-anchor worked or not. **Their silence
+is not evidence in this flight.**
+
+Marks:
+
+| Mark | Means |
+| --- | --- |
+| `# armed` / `# restored orphans=<n>` | the probe took and gave back the frames; a non-zero `orphans` is a bug — a frame left with no points |
+| `# combat start` / `# combat end` | the `PLAYER_REGEN_*` edge, which is where every `combat=` flag comes from |
+| `# stomp <source> destructive=<0\|1> combat=<0\|1>` | Blizzard's layout ran. `destructive=1` is `RefreshLayout`, which releases the frame pool, so the frames afterwards are new ones |
+| `# displaced n=<count> combat=<0\|1>` | frames left where cap put them, within the window after a stomp — **cap versus Blizzard's layout engine** |
+| `# contended n=<count> combat=<0\|1>` | frames moved with **no** preceding stomp — something that is neither cap nor Blizzard's layout engine is anchoring them, i.e. a re-anchoring Cooldown Manager addon. The claim is positional only; the probe names no addon |
+| `# reapply why=<reason>` | cap re-applied its order, out of combat, after that event |
+
+**`# contended` changes what the flight measures.** A run carrying contention is measuring cap
+against another addon, not cap against the client, and its persistence result answers a different
+question than D22 asked. The probe says so in chat the first time it sees one, and `status` and the
+stream `Meta` carry the count.
+
+`# stomp … combat=1` is the top persistence risk: `RefreshLayout` fires in a pull from the
+viewer's full-aura-update path, and cap never writes geometry in combat, so a destructive stomp
+inside a pull is expected to lose the order until the next out-of-combat pass.
+
 ## The Havoc row — one flight for S3–S7
 
 The whole row is built and flies **once**, not per slice. State the question, play, write the
@@ -121,10 +173,10 @@ Play a few pulls on a target dummy and then something real, and record:
   badges? (Shelf Q1. This one needs time on target; the `/cap style` gallery cannot answer it.)
 - Immolation Aura's purple CHARGES border — does it read as a different **kind** of statement
   than the blue rotation borders around it, or just as another colour? (Q3.)
-- Walking the row left to right and skipping what is swiped, veiled or badged: does that land on
+- Walking the row left to right and skipping what is swiped or wearing a negative badge: does that land on
   the button you would have pressed anyway? (Q6. Say where it does **not** — that is the finding.)
 - The arrival snap: too frequent, too subtle, or about right?
-- Fury: do Chaos Strike and Blade Dance dim when you are short, and do the two generators warn
+- Fury: do Chaos Strike and Blade Dance badge when you are short, and do the two generators warn
   before you overflow? Both are cues you should be able to describe **without** looking at a
   number.
 
@@ -146,7 +198,7 @@ Then, and only then, the captures:
   `ready:metamorphosis=T` across the whole fight while Meta was being pressed on cooldown, the
   readiness latch is stuck, not the gameplay rule — a bug, not a tuning question.
 
-**Tuning is expected and is a shelf edit.** Too many badges, too heavy a dim, too eager a snap —
+**Tuning is expected and is a shelf edit.** Too many badges, too loud a badge, too eager a snap —
 change the numbers in `render-shelf.md` Part 6 and rebuild. A noisy first render is not a reason
 to unpick a slice.
 

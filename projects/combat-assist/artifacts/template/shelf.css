@@ -114,35 +114,52 @@ a { color: var(--accent); }
   background: conic-gradient(var(--swipe-color) 0turn var(--swipe-frac), transparent var(--swipe-frac) 1turn);
 }
 
-/* V4 · veil. */
-.item .veil { position: absolute; inset: 0; border-radius: 2px; background: var(--veil-color); }
-
-/* V2 · lane border + the one-shot arrival snap.
+/* Diagonal stripes — V11's cooldown hatch, and Part 7's remaining lab entries.
  *
- * A solid border in the lane's hue at the lane's thickness, sitting still. In Lua this is four
- * SetColorTexture strips on cap's OWN frame — no art, no atlas, nothing to tint-guard. The
- * border is its own box so it can be scaled without touching the icon, and per CDMProbe's
- * hardest-won rule nothing that is an ancestor of a rotating texture may be animated. Nothing
- * here rotates, by design.
+ * ⚠ This block used to say "LAB, not the style, nothing above Part 7 draws this." That stopped
+ * being true on 2026-08-16, when L4 was promoted to V11 and took the sheet with it. The rule that
+ * still holds is the one below: no shared striped state.
+ *
+ * The same tint recipe `.item .sprite` uses, with the mask REPEATING instead of contained: one
+ * tileable white-alpha sheet, `background-color` supplying the colour the way SetVertexColor's
+ * multiply would, and `mask-position` supplying the phase the way SetTexCoord would. Both the
+ * colour and the phase arrive per-layer as `--stripe-*`, which `stepper.js` points at ONE render's
+ * own custom properties — there is no shared striped state for two renders to collide in.
+ */
+.item .stripes, .lab-sheet {
+  position: absolute; inset: 0; pointer-events: none; border-radius: 2px;
+  background-color: var(--stripe-rgb);
+  -webkit-mask-size: var(--lab-stripe-tile); mask-size: var(--lab-stripe-tile);
+  -webkit-mask-repeat: repeat; mask-repeat: repeat;
+  -webkit-mask-position: var(--stripe-phase) 0; mask-position: var(--stripe-phase) 0;
+}
+/* The bare sheet, shown as its own swatch so pitch and angle are visible rather than inferred. */
+.lab-sheet {
+  position: relative;
+  width: var(--icon); height: var(--icon);
+  border: var(--border-px) solid var(--rule);
+}
+
+/* V2 · lane border — one ring flipbook, tinted per lane.
+ *
+ * The SAME sheet the addon ships: white with the ring in alpha, used as a mask over the lane hue,
+ * which for white-with-shape-in-alpha art is exactly what SetVertexColor's multiply produces. The
+ * frame is chosen by --ring-pos over a --ring-size mask; stepper.js walks it at --tick, one shot,
+ * resting on the last frame — the same walk the client's shared ticker does. Nothing scales, so
+ * the border cannot draw outside the row's own cell.
  */
 .item .edge {
-  position: absolute; inset: 0; border-radius: 3px; pointer-events: none;
-  transform-origin: center;
-  border: var(--lane-px) solid var(--lane-color);
+  position: absolute; inset: 0; pointer-events: none;
+  background-color: var(--lane-color);
+  -webkit-mask-image: var(--ring-sheet); mask-image: var(--ring-sheet);
+  -webkit-mask-size: var(--ring-size); mask-size: var(--ring-size);
+  -webkit-mask-position: var(--ring-pos); mask-position: var(--ring-pos);
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
 }
-
-@keyframes caparrive {
-  0%   { transform: scale(var(--arrive-from)); opacity: var(--arrive-alpha0); }
-  100% { transform: scale(1); opacity: 1; }
-}
-/* ONE SHOT, then it rests. There is deliberately NO looping variant: the whole claim of this
- * primitive is that motion marks the change of state and stops. `stepper.js` re-adds this
- * attribute on the artifact's replay interval — the JS is standing in for the event, which is
- * what the addon does. */
-.item .edge[data-anim="1"] { animation: caparrive var(--arrive-dur) ease-out both; }
 
 @media (prefers-reduced-motion: reduce) {
-  .item .edge[data-anim="1"] { animation: none; }
+  /* The walk is a JS interval, which stepper.js skips here; this pins the resting frame. */
+  .item .edge { --ring-pos: var(--ring-rest); }
 }
 
 /* V5 · corner badges — OS-notification style, hung off the TOP-RIGHT corner.
@@ -295,10 +312,9 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
  * a custom property that capart emitted from the shelf's `lab` block. The visual separation is
  * deliberate — a reader must never mistake a lab entry for the style.
  *
- * The lab is currently EMPTY: its two entries were promoted into the declared style on
- * 2026-08-13 (border-arrival -> V2, badge-slots -> V5), which per Part 7 rule 4 means MOVED and
- * deleted from here. These are the chrome rules the section still needs to render its own
- * heading and an honest "nothing here" note.
+ * The stripe rules themselves live beside `.item .sprite` above, because they are a variation on
+ * that one tint recipe and splitting them apart would hide that. What is here is the section's
+ * own furniture: the entry box, its cells, and the "nothing here" note an empty lab still needs.
  */
 
 .labtag {
@@ -319,6 +335,14 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
 .lab-empty { border: 1px dashed var(--rule); border-radius: 10px; background: var(--paper-2);
              padding: 1rem 1.1rem; color: var(--ink-dim); font-size: .88rem; }
 .lab-empty b { color: var(--ink); }
+
+.lab-row { display: flex; flex-wrap: wrap; gap: 1.6rem; align-items: flex-start; }
+.lab-cell { display: flex; flex-direction: column; align-items: center; gap: .5rem;
+            width: 10.5rem; }
+.lab-cell .cap { font-size: .7rem; color: var(--ink-faint); text-align: center; line-height: 1.4; }
+.lab-cell .cap b { color: var(--ink-dim); font-weight: 600; }
+.lab-cell .cap code { font-family: var(--mono); font-size: .95em; }
+.lab-stage { padding: .9rem; }
 
 /* ---------------------------------------------------------------- swatch furniture */
 

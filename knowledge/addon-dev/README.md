@@ -44,10 +44,14 @@ is known, and the marker outranks the file's `confidence:` scalar:
 
 - **`[client YYYY-MM-DD]`** — measured by running our own code in the client. The
   strongest class in the subtree, and the only one that knows what the docs cannot say.
-  ⚠ **A patch does not restamp one.** Every `[client]` tag in this subtree was taken on
-  **12.0.7** and still says so; restamping one to a new patch would assert a
+  ⚠ **A patch does not restamp one.** Almost every `[client]` tag in this subtree was taken
+  on **12.0.7** and still says so; restamping one to a new patch would assert a
   re-measurement nobody performed. Where 12.1.0 makes a 12.0.7 measurement doubtful,
-  the doubt is written next to it and the value is left standing.
+  the doubt is written next to it and the value is left standing. The date on the tag is
+  what tells you which client answered — read it, and do not infer the patch from the
+  subtree. (Measurements taken on **12.1** have begun to appear; the first is
+  `cooldown-manager.md` §4.2. Do not extend this list in prose — the tag dates are the
+  census, per the note below.)
   **Where it lives is not written down, deliberately, and naming sections here is the
   known failure mode.** `grep -rln '\[client 20' knowledge/addon-dev/` is the live list of
   files and `grep -c` per file the live density. A prose census goes stale the moment the

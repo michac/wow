@@ -2,7 +2,7 @@
 title: Cooldown-Manager rider patterns — 12.1 secret-safe API cookbook
 patch: 12.1.0
 fetched: 2026-08-12
-reviewed: 2026-08-12
+reviewed: 2026-08-16   # §4.1 and §15 reconciled against cooldown-manager.md's 12.1.0 source reads; the rest not re-checked
 sources:
   - "Cooldown Companion 2.0 (live install)"
   - "Cooldown Manager Centered 4.2.1 (live install)"
@@ -227,6 +227,10 @@ Note the standing hazard one addon documents: after `SetCooldownFromDurationObje
 widget's `GetCooldownTimes()` returns **secret** values — so cache the duration object you
 rendered and re-read *it*, never scrape the times back off the widget.
 
+⚠ **This whole section is a MINED claim and has never been measured here.** `IsShown()` being
+plain while the underlying time is secret is the load-bearing half, and it is another addon's
+assertion rather than our observation. `` `@pending-test: cdm-scratch-cooldown-isshown` ``
+
 ---
 
 ## 3. Reading cooldowns and charges secret-safely
@@ -367,30 +371,53 @@ BuffIconCooldownViewer
 BuffBarCooldownViewer
 ```
 
-The load-bearing rule: **hook `Layout` on the Essential/Utility viewers, but `RefreshLayout`
-on the buff viewers.** Hooking `Layout` on a buff viewer taints it, because Blizzard calls
-that method internally on a dynamic set.
+The mined rule is *"hook `Layout` on the Essential/Utility viewers, but `RefreshLayout`
+on the buff viewers"*, on the reasoning that Blizzard drives the buff viewers' dynamic
+set through the second. **Read it as a floor, not a partition: hook both methods on all
+four viewers.** `cooldown-manager.md` §4.1 has the source reads. Two of them bite here:
+`RefreshLayout` is the *destructive* path on **every** viewer family — it releases the
+whole item-frame pool, and the reset callback hides each frame and clears its anchors —
+and it is reachable **in combat** on Essential and Utility too, because a `UNIT_AURA`
+full update short-circuits straight into it. A rider that watches only `Layout` on those
+two misses the one refresh that actually threw its work away.
 
 ```lua
--- Essential / Utility (static sets): Layout is safe to hook.
-hooksecurefunc(EssentialCooldownViewer, "Layout", OnViewerRelaidOut)
-hooksecurefunc(UtilityCooldownViewer,  "Layout", OnViewerRelaidOut)
-
--- Buff viewers (dynamic): use RefreshLayout instead.
-hooksecurefunc(BuffIconCooldownViewer, "RefreshLayout", OnBuffViewerRefresh)
-hooksecurefunc(BuffBarCooldownViewer,  "RefreshLayout", OnBuffViewerRefresh)
+for _, viewer in ipairs({ EssentialCooldownViewer, UtilityCooldownViewer,
+                          BuffIconCooldownViewer,  BuffBarCooldownViewer }) do
+    hooksecurefunc(viewer, "Layout",        OnViewerRelaidOut)
+    hooksecurefunc(viewer, "RefreshLayout", OnViewerRelaidOut)  -- the destructive one
+end
 ```
 
-Any repositioning of a Blizzard viewer must be gated so it never runs in combat:
+`Layout` still fires often enough to be the wrong place for expensive work: the viewer
+sets `alwaysUpdateLayout` and never clears it, so every `Layout()` call re-anchors every
+child unconditionally — there is no "nothing changed" early-out to ride on.
+
+**On the combat gate.** The mined text says *any* repositioning of a Blizzard viewer must
+be gated so it never runs in combat. As a rule that is wrong, and as caution it is sound.
+The item templates declare no `protected` attribute — a fact about the XML, not a
+runtime guarantee (`cooldown-manager.md` §4.1, where the runtime question is explicitly
+open) — so `InCombatLockdown()` is not the thing that decides whether a `SetPoint` is
+legal here. What the gate *does* buy you is a cheap way to keep re-anchoring work off the
+combat path. Prefer to do positioning once on a setup path and re-apply it when a hook
+tells you the layout was rebuilt:
 
 ```lua
 local function OnViewerRelaidOut(viewer)
-    if InCombatLockdown() then return end
+    -- Cheap and idempotent: this runs a lot, including mid-combat via RefreshLayout.
     viewer:ClearAllPoints()
     viewer:SetPoint("TOPLEFT",     myContainer, "TOPLEFT",     0, 0)
     viewer:SetPoint("BOTTOMRIGHT", myContainer, "BOTTOMRIGHT", 0, 0)
 end
 ```
+
+⚠ **Do not reorder rows by rewriting `layoutIndex`.** On an item frame that field is both
+the grid sort key and the index the viewer uses to look up the row's cooldownID, so
+swapping two indices swaps the icons' identities along with their slots and nothing
+appears to move; duplicates raise `GMError`. Reorder with `ClearAllPoints()` +
+`SetPoint()`, and read drawn position from `GetLeft()`/`GetTop()` rather than from a
+`GetItemFrames()` index, which is `layoutIndex` order and blind to your re-anchor
+(`cooldown-manager.md` §4.1, §8 rules 18–19).
 
 ### 4.2 Knowing when an icon is (re)bound — the mixin hook
 
@@ -1015,9 +1042,11 @@ A CDM rider on 12.1 lives inside three constraints and a matching set of moves. 
 values seal live magnitudes: read them **secret-first**, and when you need a decision from
 one, push it **engine-side** through a `C_CurveUtil` step curve and
 `DurationObject:EvaluateRemainingDuration`, or through a hidden scratch Cooldown's
-`IsShown()`. Taint seals protected frames in combat: hook `Layout`/`RefreshLayout` and the
-item mixins with `hooksecurefunc`, keep your state in weak-keyed side tables, gate every
-reposition on `InCombatLockdown`, and coalesce your work off Blizzard's own repaint edges.
+`IsShown()`. Taint seals protected frames in combat: hook `Layout` **and** `RefreshLayout` on
+all four viewers and the item mixins with `hooksecurefunc`, keep your state in weak-keyed
+side tables, do your positioning on a setup path with idempotent re-application (§4.1 — the
+CDM item templates declare no protection, so `InCombatLockdown` is a work-shedding gate here
+rather than a legality one), and coalesce your work off Blizzard's own repaint edges.
 Forbidden objects (engine aura buttons) seal themselves entirely: style them inside their
 creation window and anchor a proxy to follow them, never the reverse. Everything readable —
 identities, booleans, `isOnGCD`, Assisted-Combat suggestions, overlay-glow events, range

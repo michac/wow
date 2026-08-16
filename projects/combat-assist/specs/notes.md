@@ -43,6 +43,128 @@ nothing survives, "nothing; superseded by <X>" and stop.
 
 ---
 
+## 2026-08-16 — the lane border becomes a ring flipbook, and thickness leaves the lanes
+
+**What changed.** V2's border stopped being four `SetColorTexture` strips under a `Scale`
+animation and became **one generated white-alpha sprite sheet**, tinted per lane and stepped in
+place: 16 frames in a 4×4 grid of 64 px cells, walked at `tokens.motion.tick_s` 0.025 s, so the
+arrival lasts the declared 0.40 s. `lab.arrival-e-texture` and `lab._ring` were promoted per Part 7
+rule 4 and deleted. Per-lane `thickness_px` is gone: every lane draws the same band and they differ
+by hue alone. Files: `specs/render-shelf.md` (Parts 2, 3, 4, 5, 6, 7), `specs/render-rationale.md`,
+`tools/wowkb/capart.py` (`ring_flipbook`, `export ring`, the cadence gate, the artifact's mask
+walk), `artifacts/template/{shelf.css,stepper.js}`, addon `Paint.lua` / `Treatment.lua` /
+`StylePanel.lua` / `Style.lua` / `Lab.lua`, `Media/ring.tga`, and the engine specs.
+
+**Why it still binds.** A flipbook draws **inside its own rect, always**. The `#` the lab's
+`arrival-*` entries were built to diagnose was 30 px of `Scale` overhang crossing the neighbouring
+rows at a 62 px pitch; a border stepped in place has no way to reach a neighbour at all. That is the
+reason for the construction — not a measurement, which is why `arrival-control-sweep` stays in the
+lab untouched. The band width went with the strips because a texture bakes one, and `spec.md` §3.1
+explicitly leaves *how* the emphasis ladder is drawn to the shelf; Part 0.5 had already made
+`press` / `press-promoted` / `below` render identically, so band width was separating lanes, never
+ranks.
+
+**Caveat.** Nothing has been flown. Three things are unmeasured and sit on `Paint.Border` as
+`--@unverified`, in Part 5 question 8: whether 40 fps reads as motion rather than steps, whether a
+2 px band in a 64 px cell survives minification onto a 60 px row (`Paint.RingBand` says ~1.9 px),
+and whether the hash is in fact gone. The shared ticker now runs at 40 Hz rather than 20.
+
+## 2026-08-16 — the anchor flight: it holds, and the frozen sample is the finding
+
+**What changed.** Nothing in the source. The D22 positioning probe flew on Havoc / Fel-Scarred,
+nine Essential rows, and the result was recorded in `backlog.md` → `Now` and the client fact drained
+to `knowledge/addon-dev/`.
+
+**Why it still binds.** The player's report was *"I think the capanchor works?"* — and the capture
+turned that question mark into two separate answers, which is the whole reason the probe reads
+drawn position instead of reporting through the existing instruments. It works: the order read back
+exactly as authored right after the apply, and again at both combat edges across a 138-second
+fight, with nothing displaced.
+
+The more useful half is what the capture said that play could not. **`stomp:0` for the entire
+session** — Blizzard's layout never re-ran, so the one path that would break this, the in-combat
+pool release, was never exercised. A pass that never met its named risk is not a pass, and without
+the counter nobody would have known to say so.
+
+The failed first session had a third-party Cooldown Manager override enabled; the player disabled it
+and the clean session followed. So the contention detection did its whole job — it classified
+correctly, warned in chat on the first occurrence, and the player acted on the warning. D22's
+standing constraint, that a re-anchoring CDM re-skin fights cap for position and cap must detect and
+warn rather than silently mislead, is now measured rather than asserted.
+
+One reading trap earned its place in the record, because the review fell into it. The sampled
+positions in that session were **character-for-character identical across all 35 samples**, which
+looks like "the apply never landed" — and was read that way. It is not distinguishable from that by
+the positions alone: a competitor that wins deterministically every round also produces a constant
+sample, because every sample catches the frames in *its* layout. What separates the two is the stomp
+counter sitting at zero, and ultimately the player turning the other addon off. **A frozen sample is
+not evidence of a failed apply.**
+
+**Caveat.** The re-apply edges and the missing-spell half were not flown at all. D22 is supported,
+not closed.
+
+---
+
+## 2026-08-16 — the veil is retired, and the gate is what proved it could be
+
+**What changed.** Deleted the veil primitive and every site that read it. Files: `render-shelf.md`
+(V4, Part 0.5 pass 2, Part 1, Part 2.5, the curve's second sink, `tokens.veil` and nine verdict
+keys), `spec.md` §3.1, `havoc/scenarios.md`, `havoc/catalog.md`, `discussion.md`, `capart.py`
+(gate 0c deleted, `elimination_gate` re-pointed), the artifact template trio, and in the addon
+`Paint.lua`, `Overlay.lua`, `Treatment.lua`, `StylePanel.lua` and three specs.
+
+**Why it still binds.** The argument for removal was that the veil was *derived* — a row was veiled
+iff it wore a negative cue — so it could only ever restate what the badge already said, while
+stacking on Blizzard's own swipe and desaturation until a dark row was the sum of causes you could
+not separate. That argument was checkable rather than rhetorical, and the check is the reason to
+trust the deletion: the elimination gate resolves all 13 scenarios to the same presses with the veil
+term gone, and stripping a negative cue from an eliminated entry still fails it. A redundant signal
+is one whose removal changes no outcome and whose remaining signals still discriminate; both halves
+were measured, not asserted.
+
+The general lesson is about where an invariant hides. Three of the sites that mattered were not in
+the plan: the derivation lived in `Treatment.lua` rather than in the renderer, the reading model was
+restated in the scenario doc as well as the shelf, and a cue's second sink was declared in the
+catalog. A primitive is retired only when the *rule that produced it* is gone, and rules travel.
+
+**Caveat.** Nothing has flown. Whether "skip" is still legible with no dim is the open question, and
+it is deliberately not answered by anything landing here — the striped candidates are gallery-only
+lab entries, so a live row loses the veil and gains nothing, which is what keeps the next flight
+attributable.
+
+---
+
+## 2026-08-16 — an instrument for D22, and stripes drawn where they decide nothing
+
+**What changed.** Built `probes/AnchorOrder.lua`, the in-game instrument the D22 verification
+needed, and drew three diagonal-stripe treatments into the render shelf's lab. Files: the probe
+plus `tests/probes/anchororder_spec.lua`, `.toc`, `.busted`, `.luacheckrc`, `flight-reading.md`;
+`render-shelf.md` Part 6/7, `capart.py`, the artifact template trio, `havoc-stepper.html`;
+`knowledge/addon-dev/cooldown-manager.md` §4.1 and `cdm-rider-patterns.md`.
+
+**Why it still binds.** Reading the 12.1.0 client source before writing the probe changed what
+the probe had to be, twice. Reordering by rewriting `layoutIndex` self-cancels, because
+`RefreshData` indexes `cooldownIDs[layoutIndex]` — the sort key and the data index are one field,
+so swapping two frames swaps their identities to match and nothing appears to move. And
+`GetItemFrames()` sorts by that same index, so every instrument cap already owns — `OrderCheck`,
+the `bind` stream's row-order note — is blind to a `SetPoint` re-anchor by construction. A probe
+that reported through them would have produced a confident wrong answer. It reads `GetLeft()`
+instead. The same read named the predicted failure in advance: `alwaysUpdateLayout` is set once
+and never cleared, and `UNIT_AURA`'s full-update branch calls `RefreshLayout` in combat.
+
+On the stripes: the shape of the thing was decided by refusing a shared surface. One tiling sheet
+carries the angle-and-pitch coupling that red and black must agree on, and each render supplies
+only its own colour and phase — so a striped row in flight belongs to exactly one condition and
+can be named. That is the same failure the veil retirement is removing, declined up front rather
+than rebuilt in a new colour.
+
+**Caveat.** Nothing has flown and no release was cut. The un-hide half of the verification was
+deliberately not built — it writes the player's saved CDM layout — and needs an author call. The
+lab stripes are off the addon ship path and decide nothing; runtime protection of the item frames
+remains open, with `CooldownViewerSecure.lua` unread.
+
+---
+
 ## 2026-08-15 — the log records the verdict; now it records the reason
 
 **What changed.** The `tier` capture logged that a marker fired, not the readable facts that

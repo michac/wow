@@ -34,12 +34,12 @@ base64 budget, the literal-hex scan — is a `check` concern or a warning, becau
 block a rebuild you want to look at**. `check` is the CI-shaped gate; `build` is the loop.
 
 `check` additionally asserts the **reading rule** (`elimination_gate`): for every scenario the
-leftmost entry that is neither swiped nor veiled nor carrying a **negative** cue must be the entry
+leftmost entry that is neither swiped nor carrying a **negative** cue must be the entry
 the doc calls the press. That is what makes a mostly-negative cue vocabulary safe to ship. Two
 gates fence the exception: at most ONE cue may declare `polarity: "positive"`, and every declared
 cue must be worn by some scenario row (a cue that renders nowhere is `spec.md` §3.2's defect).
-Two more make the shelf's own mechanical claims true rather than promised: the veil is derived
-from cue polarity (`render-shelf.md` Part 2.5) and slot 3 belongs to the positive cue (Part 1).
+One more makes a shelf claim true rather than promised: slot 3 belongs to the positive cue
+(`render-shelf.md` Part 1).
 
 Usage:
     uv run python -m wowkb.capart tokens                # resolved tokens + the CSS block
@@ -47,6 +47,8 @@ Usage:
     uv run python -m wowkb.capart import scenarios      # seed the sidecar from scenarios.md
     uv run python -m wowkb.capart build havoc           # write the artifact
     uv run python -m wowkb.capart export lua            # the same tokens as CombatAssistPlus/Style.lua
+    uv run python -m wowkb.capart export ring           # V2's ring textures, one per lane thickness
+    uv run python -m wowkb.capart export lab            # Part 7 as Lab.lua + Media/lab/ (gallery only)
     uv run python -m wowkb.capart check havoc           # doc↔sidecar, staleness, strict CSS
 
     uv run python -m wowkb.serve projects/combat-assist/artifacts \\
@@ -118,12 +120,28 @@ ICON_FDID = {
 
 ADDON_SRC = PROJECT / "addon" / "CombatAssistPlus"
 STYLE_LUA = ADDON_SRC / "Style.lua"
-BADGE_DIR = ADDON_SRC / "Media" / "badges"
+LAB_LUA = ADDON_SRC / "Lab.lua"
+MEDIA_DIR = ADDON_SRC / "Media"
+BADGE_DIR = MEDIA_DIR / "badges"
+LAB_DIR = MEDIA_DIR / "lab"
 # Where the client looks for a vendored texture. Plumbing, not a design number.
-BADGE_TEXTURE_ROOT = "Interface\\AddOns\\CombatAssistPlus\\Media\\badges\\"
+MEDIA_TEXTURE_ROOT = "Interface\\AddOns\\CombatAssistPlus\\Media\\"
+BADGE_TEXTURE_ROOT = MEDIA_TEXTURE_ROOT + "badges\\"
+LAB_TEXTURE_ROOT = MEDIA_TEXTURE_ROOT + "lab\\"
+LAB_SHEET_TEXTURE = "stripes"
 # `artifact` is annotated in the shelf as a viewing aid the addon does not have, and Part 7's
-# `lab` is by construction not the style. Neither may reach the client.
+# `lab` is by construction not the style. Neither may reach `ns.Style`.
+#
+# ⚠ `lab` staying here is not the same claim it used to be. Since 2026-08-16 a lab entry MAY be
+# drawn — by the in-game `/cap style` gallery, on cap-owned frames — because you cannot judge a
+# treatment without seeing the client draw it. What it may never do is reach the LIVE OVERLAY. So
+# the lab crosses into the addon, but through its OWN file and its OWN global (`ns.LabStyle` in
+# `Lab.lua`), never through `ns.Style`: every module already reads `ns.Style`, so a `lab` key on it
+# would put the guarantee back on everyone remembering. A separate global makes the reach visible
+# and greppable, which is exactly what `cmd_check`'s LabStyle reach gate keys off.
 NOT_THE_STYLE = ("artifact", "lab")
+# The only two files that may name `ns.LabStyle`: the generated data, and the gallery that draws it.
+LAB_READERS = ("Lab.lua", "StylePanel.lua")
 
 CHROME_START = "/* ===== CHROME START"
 CHROME_END = "/* ===== CHROME END ====="
@@ -512,6 +530,14 @@ def addon_style(tokens: dict) -> dict:
     # only as art, named here so `Paint` reads their file names rather than restating them.
     out["badges"]["plate"] = dict(out["badges"]["plate"], texture=PLATE_TEXTURE)
     out["badges"]["halo_texture"] = HALO_TEXTURE
+    # V2's ring art. The client builds a file name from the prefix and a lane's own thickness, so
+    # no lane→file map exists anywhere: change a thickness and both sides follow it.
+    if "ring" in out:
+        out["ring"] = dict(out["ring"], texture_root=MEDIA_TEXTURE_ROOT)
+    # V11's hatch sheet, beside the ring. Same reason: the client builds a file name from the
+    # prefix and the shelf's own texture name, so no path is spelled out in Lua.
+    if "hatch" in out:
+        out["hatch"] = dict(out["hatch"], texture_root=MEDIA_TEXTURE_ROOT)
     return out
 
 
@@ -555,6 +581,47 @@ def style_lua(tokens: dict) -> str:
         "local ADDON, ns = ...\n"
         "\n"
         f"ns.Style = {_lua_value(addon_style(tokens), 0)}\n"
+    )
+
+
+def addon_lab(tokens: dict) -> dict:
+    """Part 7 as the client gets it — the whole `lab` table, plus where its art landed.
+
+    Underscore keys travel too: `_sheet` is the shared tiling geometry every striped render needs,
+    and the gallery cannot draw a stripe without it. Entries are still the non-underscore keys,
+    exactly as everywhere else.
+    """
+    lab = tokens.get("lab") or {}
+    out = {k: v for k, v in lab.items()}
+    hatch = tokens.get("hatch")
+    if hatch:
+        # Synthesized, not copied through: the sheet is the STYLE's since L4 was promoted, and the
+        # gallery still needs its geometry and its path. Only the tiling fields travel — the
+        # style's own rgb/alpha/phase are V11's statement and are not the lab's to borrow.
+        out["_sheet"] = {k: hatch[k] for k in ("tile_px", "pitch_px", "duty") if k in hatch}
+        out["_sheet"]["direction"] = hatch.get("direction", "down")
+        out["_sheet"]["texture_root"] = MEDIA_TEXTURE_ROOT
+        out["_sheet"]["texture"] = hatch["texture"]
+    return out
+
+
+def lab_lua(tokens: dict) -> str:
+    """`Lab.lua` — Part 7 as its OWN Lua table under its OWN global, for the gallery only.
+
+    Deliberately not a `lab` key on `ns.Style`: every module reads `ns.Style`, so hanging the lab
+    off it would make "a lab treatment never reaches the live overlay" a matter of everyone
+    remembering. `ns.LabStyle` is greppable, and `capart check` greps it.
+    """
+    return (
+        "-- Lab.lua — GENERATED from specs/render-shelf.md Part 7. Do not edit this file.\n"
+        "--   uv run python -m wowkb.capart export lab\n"
+        "-- NO AUTHORITY. These treatments are drawn by the `/cap style` GALLERY only, on\n"
+        "-- cap-owned frames, so a treatment can be judged in the client before anyone adopts it.\n"
+        "-- They must NEVER reach the live overlay: `ns.LabStyle` may be read by StylePanel.lua and\n"
+        "-- nothing else, and `capart check` fails the build if any other file names it.\n"
+        "local ADDON, ns = ...\n"
+        "\n"
+        f"ns.LabStyle = {_lua_value(addon_lab(tokens), 0)}\n"
     )
 
 
@@ -605,13 +672,201 @@ def shape_images(tokens: dict) -> dict:
     return {PLATE_TEXTURE: plate, HALO_TEXTURE: halo}
 
 
-def _write_tga(img: Image.Image, name: str) -> tuple[int, int]:
+# ON THE STYLE'S SHIP PATH (V11) SINCE 2026-08-16, when L4 was promoted and the sheet went with it.
+# It was lab art until then, and the comment below is kept because the reasoning still holds: it is
+# generated rather than vendored, and it is neutral so every render tints its own copy. `export_lab`
+# no longer writes it — `export_hatch` does, to `Media/`, and the gallery reads that same file. The
+# retired note read: `export_lab` writes this as a
+# TGA and `check` requires it, because the `/cap style` gallery has to draw the real texture in the
+# client to be worth looking at. That is NOT authority: promotion is still Part 7 rule 4, moving the
+# entry into Parts 1-6 — reaching the LIVE OVERLAY is what a lab treatment still may not do.
+def hatch_sheet(params: dict) -> Image.Image:
+    """A tileable diagonal stripe sheet, white with the stripe in the alpha channel.
+
+    Blizzard ships no such art (searched 2026-08-16: `stripe` returns only the auction-house
+    row banding, `hazard`/`hatch`/`caution` return nothing), so Part 4's rule applies and it is
+    authored from a script rather than vendored as a binary mystery. White RGB on every pixel,
+    opacity only in alpha: each render multiplies its OWN colour onto it (`SetVertexColor` in
+    the client, `mask-image` + `background-color` in CSS), so no hue is ever baked in here.
+
+    Seamless tiling is the whole job. The stripe is a function of the diagonal coordinate
+    `d = x + y` (or `x - y`), which repeats with period `pitch_px` — so the sheet's own edges
+    line up **iff the pitch divides the tile**, and that is asserted rather than assumed.
+    """
+    tile = int(params["tile_px"])
+    pitch = int(params["pitch_px"])
+    duty = float(params["duty"])
+    direction = params.get("direction", "down")
+    if pitch <= 0 or tile <= 0 or tile % pitch:
+        _die(f"hatch: pitch_px {pitch} does not divide tile_px {tile} — the stripe repeats "
+             f"every {pitch}px along the diagonal, so a tile that is not a whole number of "
+             "pitches shows a visible seam where it wraps. Pick a pitch that divides the tile.")
+    if direction not in ("down", "up"):
+        _die(f"hatch: direction {direction!r} — expected \"down\" (d = x+y) or \"up\" (x-y)")
+
+    # Supersampled, and drawn ONE PITCH WIDER on every side than the tile that is kept. The
+    # LANCZOS kernel is wider than a pixel, so at the sheet's own edge Pillow clamps instead of
+    # wrapping and the last column's anti-aliasing comes out wrong — a faint but real seam in a
+    # texture whose entire job is to tile. The pattern is periodic in the pitch, so a one-pitch
+    # margin is exactly the neighbouring tile, and cropping it off afterwards leaves edge pixels
+    # that were filtered against their true neighbours.
+    margin = pitch
+    side, pb = (tile + 2 * margin) * SHAPE_SS, pitch * SHAPE_SS
+    on = round(duty * pb)
+    # One period, tiled out to twice the sheet: row y is the same run of bytes, offset. Building
+    # it by slice rather than by a per-pixel loop keeps the supersample cheap.
+    period = bytes(255 if i < on else 0 for i in range(pb))
+    full = period * (2 * side // pb)
+    rows = [full[y:y + side] if direction == "down" else full[side - y:2 * side - y]
+            for y in range(side)]
+    grown = (tile + 2 * margin,) * 2
+    mask = (Image.frombytes("L", (side, side), b"".join(rows))
+            .resize(grown, Image.LANCZOS)
+            .crop((margin, margin, margin + tile, margin + tile)))
+    white = Image.new("L", (tile, tile), 255)
+    return Image.merge("RGBA", (white, white, white, mask))
+
+
+# ON THE STYLE'S SHIP PATH (V2). ONE sheet, N frames of the arrival laid out in a grid, stepped
+# with SetTexCoord on the same shared ticker the badge sprites walk.
+def ring_flipbook(params: dict) -> Image.Image:
+    """V2's lane border: a square annulus arriving, as one white-alpha sprite sheet.
+
+    Frame 1 is the ring at its widest — one `gutter_px` inside its cell, so no frame ever touches a
+    cell boundary and texture filtering cannot sample the neighbouring frame — at
+    `from_alpha`. The last frame is the ring at rest, `travel_px` further in, at full alpha. The
+    frames between ease inward, so the arrival is painted into the art rather than produced by
+    scaling a frame; a flipbook draws inside its own rect, always, which is why this border can
+    never reach a neighbouring row.
+
+    Same house pattern as `shape_images` and `hatch_sheet`: an `L` mask drawn supersampled,
+    LANCZOS-downsampled, then merged under pure white so no hue can be baked in.
+    """
+    from PIL import ImageDraw
+
+    tile = int(params["tile_px"])
+    grid = int(params["grid"])
+    frames = int(params["frames"])
+    thickness = int(params["thickness_px"])
+    corner = int(params.get("corner_px", 0))
+    travel = int(params.get("travel_px", 0))
+    gutter = int(params.get("gutter_px", 0))
+    from_alpha = float(params.get("from_alpha", 0.0))
+    ease = params.get("smoothing", "OUT")
+
+    side = tile * grid
+    if tile <= 0 or side & (side - 1):
+        _die(f"tokens.ring: {grid}x{grid} cells of {tile}px is a {side}x{side} sheet, which is not "
+             "a power of two — the client wants power-of-two texture dimensions")
+    if frames < 2 or frames > grid * grid:
+        _die(f"tokens.ring: {frames} frames do not fit a {grid}x{grid} grid (and a one-frame "
+             "arrival is a still image, not an arrival)")
+    outer = gutter + travel
+    if thickness <= 0 or 2 * (outer + thickness) >= tile:
+        _die(f"tokens.ring: thickness_px {thickness} plus gutter {gutter} and travel {travel} does "
+             f"not leave a transparent centre in a {tile}px cell")
+    if corner < 0 or 2 * corner > tile:
+        _die(f"tokens.ring: corner_px {corner} does not fit twice across a {tile}px cell")
+
+    def eased(t: float) -> float:
+        return 1.0 - (1.0 - t) ** 2 if ease == "OUT" else t
+
+    sheet = Image.new("RGBA", (side, side))
+    big = tile * SHAPE_SS
+    for i in range(frames):
+        t = eased(i / (frames - 1))
+        inset = round(gutter + travel * t)
+        alpha = from_alpha + (1.0 - from_alpha) * t
+        mask = Image.new("L", (big, big), 0)
+        draw = ImageDraw.Draw(mask)
+        lo, hi = inset * SHAPE_SS, big - 1 - inset * SHAPE_SS
+        band = thickness * SHAPE_SS
+        r_out = max(corner - inset, 0) * SHAPE_SS
+
+        def rect(box, radius, fill):
+            if radius:
+                draw.rounded_rectangle(box, radius=radius, fill=fill)
+            else:
+                draw.rectangle(box, fill=fill)
+
+        rect((lo, lo, hi, hi), r_out, round(alpha * 255))
+        rect((lo + band, lo + band, hi - band, hi - band), max(r_out - band, 0), 0)
+        cell = Image.merge("RGBA", (Image.new("L", (big, big), 255),) * 3 + (mask,)) \
+            .resize((tile, tile), Image.LANCZOS)
+        sheet.paste(cell, ((i % grid) * tile, (i // grid) * tile))
+    return sheet
+
+
+def ring_image(tokens: dict) -> Image.Image | None:
+    """The sheet that ships, measured under the tint guard on this path and on `export_ring`'s.
+
+    The guard runs over the WHOLE sheet rather than one frame: a sheet whose frames are neutral but
+    whose sheet is not would be exactly the bug the guard exists to catch.
+    """
+    ring = tokens.get("ring")
+    if not ring:
+        return None
+    return ring_flipbook(dict(ring, from_alpha=tokens["arrival"]["from_alpha"],
+                              smoothing=tokens["arrival"]["smoothing"]))
+
+
+def ring_asset(tokens: dict) -> dict | None:
+    """V2's ring sheet as the artifact draws it: a `data:` URI plus its measurement.
+
+    The artifact uses it as a `mask-image` over the lane hue and steps `mask-position` at
+    `tokens.motion.tick_s`, which is the same art, the same walk and the same rate as the client.
+    """
+    img = ring_image(tokens)
+    if img is None:
+        return None
+    ring = tokens["ring"]
+    measure = uiart.tintability(img)
+    assert_tintable("lane border ring sheet (V2)", "capart.ring_flipbook (generated)",
+                    ring.get("tint", "none"), measure["mean_saturation"], measure["tintable"])
+    buf = io.BytesIO()
+    img.save(buf, "PNG", optimize=True)
+    uri = "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode("ascii")
+    return {"uri": uri, "bytes": len(uri), "size": list(img.size),
+            "mean_saturation": measure["mean_saturation"], "tintable": measure["tintable"],
+            "frames": ring["frames"], "grid": ring["grid"], "tile_px": ring["tile_px"],
+            "thickness_px": ring["thickness_px"], "travel_px": ring.get("travel_px", 0),
+            "tint": ring.get("tint", "none")}
+
+
+def hatch_asset(tokens: dict) -> dict | None:
+    """V11's stripe sheet as a data URI, measured and put under the tint guard.
+
+    It measures 0.000 by construction — the point of running the guard on it anyway is that
+    nobody can later bake a colour into the generator and have the preview keep its promise.
+
+    One sheet serves both surfaces. V11 draws it as the style and Part 7's remaining stripe
+    entries borrow it at their own colours, so there is exactly one texture to keep honest
+    rather than two that can drift.
+    """
+    sheet = tokens.get("hatch")
+    if not sheet:
+        return None
+    img = hatch_sheet(sheet)
+    measure = uiart.tintability(img)
+    assert_tintable("cooldown hatch sheet (V11)", "capart.hatch_sheet (generated)",
+                    sheet.get("tint", "none"), measure["mean_saturation"], measure["tintable"])
+    buf = io.BytesIO()
+    img.save(buf, "PNG", optimize=True)
+    uri = "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode("ascii")
+    return {"uri": uri, "bytes": len(uri), "size": list(img.size),
+            "mean_saturation": measure["mean_saturation"], "tintable": measure["tintable"],
+            "tile_px": sheet["tile_px"], "pitch_px": sheet["pitch_px"],
+            "duty": sheet["duty"], "direction": sheet.get("direction", "down")}
+
+
+def _write_tga(img: Image.Image, name: str, dest: Path = BADGE_DIR) -> tuple[int, int]:
     w, h = img.size
     if w & (w - 1) or h & (h - 1):
         _die(f"{name} is {w}x{h} — the client wants power-of-two texture dimensions")
     # 32-bit RLE, top-left origin — byte-for-byte the header shape of the Kenney TGAs
     # CDMProbe already ships and the client already reads.
-    img.save(BADGE_DIR / f"{name}.tga", "TGA", compression="tga_rle", orientation=1)
+    dest.mkdir(parents=True, exist_ok=True)
+    img.save(dest / f"{name}.tga", "TGA", compression="tga_rle", orientation=1)
     return img.size
 
 
@@ -646,6 +901,75 @@ def export_badges(tokens: dict) -> list[tuple[str, tuple[int, int]]]:
     return written
 
 
+def export_ring(tokens: dict) -> list[tuple[str, tuple[int, int]]]:
+    """Vendor V2's ring flipbook into `Media/`, beside `Media/badges/` — declared art, not lab art.
+
+    Lab art lives in `Media/lab/` and style art does not, so `ls Media/` still says which is which.
+    The tint guard runs here as well as on the artifact path, so a sheet with a hue baked into it
+    cannot reach the client through a route the preview never rendered.
+    """
+    img = ring_image(tokens)
+    if img is None:
+        return []
+    ring = tokens["ring"]
+    measure = uiart.tintability(img)
+    assert_tintable("lane border ring sheet (V2, ship path)",
+                    "capart.ring_flipbook (generated)", ring.get("tint", "none"),
+                    measure["mean_saturation"], measure["tintable"])
+    return [(ring["texture"], _write_tga(img, ring["texture"], MEDIA_DIR))]
+
+
+def export_hatch(tokens: dict) -> list[tuple[str, tuple[int, int]]]:
+    """Vendor V11's stripe sheet into `Media/`, beside the ring — declared art, not lab art.
+
+    It moved out of `Media/lab/` when L4 was promoted. The gallery now reads this same file
+    through `Lab.lua`'s generated `_sheet`, so promotion did not leave two copies behind.
+    """
+    sheet = tokens.get("hatch")
+    if not sheet:
+        return []
+    img = hatch_sheet(sheet)
+    measure = uiart.tintability(img)
+    assert_tintable("cooldown hatch sheet (V11, ship path)",
+                    "capart.hatch_sheet (generated)", sheet.get("tint", "none"),
+                    measure["mean_saturation"], measure["tintable"])
+    return [(sheet["texture"], _write_tga(img, sheet["texture"], MEDIA_DIR))]
+
+
+LAB_PROVENANCE = """\
+GENERATED — do not edit, and do not add art here by hand.
+
+This directory is Part 7 art: art that exists only so the `/cap style` gallery can draw a lab
+treatment on cap-owned frames. It must never be drawn into a live CDM row.
+
+It is EMPTY today, and the directory itself is not created until something needs it. The stripe
+sheet lived here until 2026-08-16, when L4 was promoted to V11 and the sheet became the style's —
+it is `Media/stripes.tga` now, generated from `tokens.hatch`, and the gallery reads that one file
+rather than keeping a copy that could drift from it.
+
+Art written here is generated rather than vendored, is neutral (white RGB, pattern in alpha) so
+every render tints its own copy, and passes the same tint guard the shipped badge art passes.
+Vendored CC0 art lives beside its LICENSE.txt in ../badges/.
+"""
+
+
+def export_lab(tokens: dict) -> list[tuple[str, tuple[int, int]]]:
+    """Ship the lab's generated art into the addon as 32-bit TGA, under its own directory.
+
+    `Media/lab/` rather than a naming convention inside `Media/badges/`, so "this is lab art" is
+    legible from `ls`. The tint guard runs on the ship path exactly as `export_badges` runs it: the
+    sheet measures 0.000 by construction, and the point of asserting it anyway is that a future
+    edit which bakes a colour into the generator fails here instead of shipping a lie.
+    """
+    written: list[tuple[str, tuple[int, int]]] = []
+    # Nothing here today. The stripe sheet moved to `Media/` with V11's promotion, and the
+    # gallery reads it there; this stays because the next lab entry that needs its own art
+    # should get it under `Media/lab/` rather than beside the style's.
+    if written:
+        (LAB_DIR / "PROVENANCE.txt").write_text(LAB_PROVENANCE, encoding="utf-8")
+    return written
+
+
 def icon_assets(names: list[str], roster: dict, tokens: dict) -> dict:
     size = tokens["assets"]["icon_size"]
     out = {}
@@ -675,9 +999,16 @@ def icon_assets(names: list[str], roster: dict, tokens: dict) -> dict:
 # --------------------------------------------------------------------------- CSS
 
 
+def _ring_pos(index: int, grid: int) -> str:
+    """A frame's `mask-position` in a grid-times-100% mask. The same walk stepper.js does."""
+    def pct(k: int) -> str:
+        return f"{(k / (grid - 1)) * 100:.4f}%" if grid > 1 else "0%"
+    return f"{pct(index % grid)} {pct(index // grid)}"
+
+
 def root_css(tokens: dict) -> str:
-    s, v = tokens["surfaces"], tokens["veil"]
-    a, b = tokens["arrival"], tokens["badges"]
+    s = tokens["surfaces"]
+    a, b, r = tokens["arrival"], tokens["badges"], tokens["ring"]
 
     def rgba(col, alpha=1.0):
         r, g, b_ = (round(x * 255) for x in col)
@@ -694,16 +1025,20 @@ def root_css(tokens: dict) -> str:
         "  /* A scenario states `cd`, never a time, so the dial is drawn at a nominal",
         "     fraction: it means \"ruled out\", nothing more. Not a shelf value. */",
         "  --swipe-frac: 0.62turn;",
-        f"  --veil-color: {rgba(v['rgb'], v['alpha'])};",
         "",
-        "  /* V2 · lane border + the one-shot arrival snap. */",
-        f"  --arrive-from: {a['from_scale']};",
+        "  /* V2 · lane border. One ring flipbook, tinted per lane; the frame is chosen by",
+        "     --ring-pos, which stepper.js walks at --tick, and the sheet URI is set inline",
+        "     (it is a build-time data: URI, not a shelf value). */",
         f"  --arrive-dur: {a['duration_s']}s;",
-        f"  --arrive-alpha0: {a['from_alpha']};",
+        f"  --tick: {tokens['motion']['tick_s']}s;",
+        f"  --ring-grid: {r['grid']};",
+        f"  --ring-frames: {r['frames']};",
+        f"  --ring-size: {r['grid'] * 100}% {r['grid'] * 100}%;",
+        f"  --ring-rest: {_ring_pos(r['frames'] - 1, r['grid'])};",
+        "  --ring-pos: var(--ring-rest);",
     ]
     for lane, t in tokens["lanes"].items():
         lines.append(f"  --lane-{lane.lower()}: {rgba(t['rgb'])};")
-        lines.append(f"  --lane-{lane.lower()}-px: {t['thickness_px']}px;")
 
     # Slot 1 hangs off the top-right corner: its right edge sits `overhang` past the icon's
     # right edge and its top edge `overhang` above the top, so it reads as ON the icon rather
@@ -737,6 +1072,30 @@ def root_css(tokens: dict) -> str:
                 f"  --cue-{key}-glow-a1: {g['alpha_max']};",
                 f"  --cue-{key}-glow-scale: {g['scale']};",
             ]
+
+    # V11 · the cooldown hatch, and Part 7's remaining stripe entries, which borrow its sheet.
+    # Geometry is emitted once because two stripes that disagree on pitch cannot interleave;
+    # colour and phase are emitted PER RENDER, because they are what tell one condition from
+    # another. There is deliberately no shared "striped" property for several renders to feed.
+    sheet = tokens.get("hatch")
+    if sheet:
+        lines += [
+            "",
+            "  /* V11 + Part 7 · the stripe sheet. The mask URI is set inline by stepper.js (it",
+            "     is a build-time data: URI, not a shelf value); the geometry is the shelf's. */",
+            f"  --lab-stripe-tile: {sheet['tile_px']}px;",
+            f"  --lab-stripe-pitch: {sheet['pitch_px']}px;",
+            f"  --hatch-rgb: {rgba(sheet['rgb'], sheet.get('alpha', 1.0))};",
+            f"  --hatch-phase: {sheet['pitch_px'] * sheet.get('phase_pct', 0) / 100:.2f}px;",
+        ]
+    lab = tokens.get("lab") or {}
+    if sheet:
+        for key, entry in lab.items():
+            if key.startswith("_") or not isinstance(entry, dict) or "rgb" not in entry:
+                continue
+            phase = sheet["pitch_px"] * entry.get("phase_pct", 0) / 100
+            lines.append(f"  --lab-{key}-rgb: {rgba(entry['rgb'], entry.get('alpha', 1.0))};")
+            lines.append(f"  --lab-{key}-phase: {phase:.2f}px;")
     lines.append("}")
     return "\n".join(lines)
 
@@ -771,17 +1130,35 @@ def build(spec: str, tokens: dict, when: str) -> str:
     scenarios = sidecar["scenarios"]
     validate(scenarios, tokens, roster)
 
+    # Lab cells draw real icons on real verdicts, so their ability names are held to exactly the
+    # same standard a scenario row's are — an experiment on invented art proves nothing.
+    lab_names = set()
+    for key, entry in ((k, e) for k, e in (tokens.get("lab") or {}).items()
+                       if not k.startswith("_")):
+        for cell in entry.get("cells", []):
+            name = cell.get("ability")
+            if name is None:
+                continue
+            if name not in roster:
+                _die(f"lab.{key}: {name!r} is not in catalog.md's bound-abilities table")
+            if cell.get("verdict") and cell["verdict"] not in tokens["verdicts"]:
+                _die(f"lab.{key}: verdict {cell['verdict']!r} is not in the closed vocabulary")
+            lab_names.add(name)
+
     used = sorted({e["name"] for sc in scenarios for e in sc["row"]}
-                  | set(cfg["lane_sample"].values()))
+                  | set(cfg["lane_sample"].values()) | lab_names)
     missing = [n for n in cfg["lane_sample"].values() if n not in roster]
     if missing:
         _die(f"lane sample {missing} not in the roster")
     icons = icon_assets(used, roster, tokens)
     frames = badge_assets(tokens)
+    stripes = hatch_asset(tokens)
+    ring = ring_asset(tokens)
 
     # The base64 budget is a fact to report, not a gate: an oversized page is still a page
     # you can look at, and `wowkb.capart assets` prints the per-asset table that fixes it.
-    total = sum(a["bytes"] for a in icons.values()) + sum(f["bytes"] for f in frames.values())
+    total = (sum(a["bytes"] for a in icons.values()) + sum(f["bytes"] for f in frames.values())
+             + (stripes["bytes"] if stripes else 0) + (ring["bytes"] if ring else 0))
 
     abilities = {
         name: {"key": roster[name]["key"], "spell": roster[name]["spell"],
@@ -820,7 +1197,10 @@ def build(spec: str, tokens: dict, when: str) -> str:
         "scenarios": scenarios,
         "notes": notes,
         "frames": frames,
-        "provenance_html": provenance_html(spec, tokens, icons, frames, total, when),
+        "ring": ring,
+        "lab_stripes": stripes,
+        "provenance_html": provenance_html(spec, tokens, icons, frames, stripes, ring, total,
+                                           when),
     }
 
     page = (TEMPLATE / "page.html").read_text(encoding="utf-8")
@@ -832,7 +1212,7 @@ def build(spec: str, tokens: dict, when: str) -> str:
     return BUILT_MARK.format(date=when) + "\n" + page
 
 
-def provenance_html(spec, tokens, icons, frames, total, when) -> str:
+def provenance_html(spec, tokens, icons, frames, stripes, ring, total, when) -> str:
     cfg = SPECS_BUILT[spec]
     rows = [
         ("render-shelf.md", f"sha {_sha(SHELF)} · Part 6 render-tokens v{tokens['version']}"),
@@ -840,13 +1220,15 @@ def provenance_html(spec, tokens, icons, frames, total, when) -> str:
         ("catalog.md", f"sha {_sha(cfg['catalog'])}"),
         ("sidecar", f"{cfg['sidecar'].name} · sha {_sha(cfg['sidecar'])}"),
     ]
+    r = tokens["ring"]
     rows.append((
         "border · V2",
-        " · ".join(f"<b>{ln}</b> {t['thickness_px']}px" for ln, t in tokens["lanes"].items())
-        + " — solid <code>SetColorTexture</code> strips, <b>no art</b>, so nothing to extract "
-        "and nothing to go stale across a patch. One-shot arrival snap "
-        f"{tokens['arrival']['from_scale']}× → 1× over {tokens['arrival']['duration_s']}s "
-        f"({tokens['arrival']['smoothing']}); replayed every "
+        " · ".join(f"<b>{ln}</b>" for ln in tokens["lanes"])
+        + f" — one ring flipbook, {r['thickness_px']}px band, tinted per lane with a single "
+        "<code>SetVertexColor</code>; the lanes differ by hue alone. One-shot arrival: "
+        f"{r['frames']} frames at {tokens['motion']['tick_s']}s = "
+        f"{tokens['arrival']['duration_s']}s ({tokens['arrival']['smoothing']}), stepped in place "
+        "so nothing ever draws outside the row's own cell; replayed every "
         f"{tokens['artifact']['arrival_replay_s']}s here only so it can be watched."
     ))
     rows.append(("icons", f"{len(icons)} × {tokens['assets']['icon_size']}px "
@@ -863,6 +1245,33 @@ def provenance_html(spec, tokens, icons, frames, total, when) -> str:
             f"declared <code>tint: \"{tokens['badges']['tint']}\"</code>, which is what puts them "
             "under the tint guard · "
             f"{sum(f['bytes'] for f in frames.values()) / 1024:.1f} KB b64"
+        ))
+    if stripes:
+        rows.append((
+            "stripe sheet · lab",
+            f"{stripes['size'][0]}×{stripes['size'][1]} generated by "
+            "<code>capart.hatch_sheet</code> — pitch "
+            f"{stripes['pitch_px']}px, duty {stripes['duty']}, {stripes['direction']} · "
+            f"measured mean saturation {stripes['mean_saturation']}, so "
+            "<code>SetVertexColor</code> takes it to whatever colour the render passes · "
+            "declared <code>tint: \"lane\"</code>, which is what puts it under the tint guard · "
+            "<b>Part 7, no authority</b> — shipped by <code>export lab</code> to "
+            "<code>Media/lab/</code> for the in-game <code>/cap style</code> gallery only, never "
+            "a live CDM row · "
+            f"{stripes['bytes'] / 1024:.1f} KB b64"
+        ))
+    if ring:
+        rows.append((
+            "ring sheet · V2",
+            f"{ring['size'][0]}×{ring['size'][1]} generated by <code>capart.ring_flipbook</code> — "
+            f"{ring['frames']} frames in a {ring['grid']}×{ring['grid']} grid of "
+            f"{ring['tile_px']}px cells, band {ring['thickness_px']}px, travelling "
+            f"{ring['travel_px']}px inward across the arrival · measured mean saturation "
+            f"{ring['mean_saturation']}, so <code>SetVertexColor</code> takes it to the lane hue · "
+            f"declared <code>tint: \"{ring['tint']}\"</code>, which is what puts it under the tint "
+            "guard · shipped by <code>export ring</code> to <code>Media/</code>, and drawn here as "
+            "<code>mask-image</code> over the lane hue — the same art, the same walk, the same "
+            f"rate · {ring['bytes'] / 1024:.1f} KB b64"
         ))
     rows.append(("payload", f"{total / 1024:.0f} KB of {tokens['budget']['max_base64_kb']} KB budget"))
     rows.append(("built", when))
@@ -885,13 +1294,19 @@ def provenance_html(spec, tokens, icons, frames, total, when) -> str:
 def cmd_tokens(args) -> None:
     tokens = load_tokens()
     print(f"render-tokens v{tokens['version']} · {SHELF.relative_to(ROOT)} (sha {_sha(SHELF)})\n")
-    print("  V2 · lane border (solid, no art)")
+    ring = tokens.get("ring")
+    print("  V2 · lane border (one ring flipbook; the lanes differ by hue alone)")
     for lane, t in tokens["lanes"].items():
         r, g, b = (round(x * 255) for x in t["rgb"])
-        print(f"    {lane:<9} rgb({r:>3},{g:>3},{b:>3})  {t['thickness_px']}px")
+        print(f"    {lane:<9} rgb({r:>3},{g:>3},{b:>3})")
     a = tokens["arrival"]
-    print(f"    arrival  {a['from_scale']}x -> 1x over {a['duration_s']}s "
-          f"{a['smoothing']}, from alpha {a['from_alpha']} — ONE SHOT, no loop")
+    if ring:
+        print(f"    art      {ring['texture']}, {ring['frames']} frames in a "
+              f"{ring['grid']}x{ring['grid']} grid of {ring['tile_px']}px cells, band "
+              f"{ring['thickness_px']}px · declared tint {ring.get('tint', 'none')!r}")
+        print(f"    arrival  {ring['frames']} frames at {tokens['motion']['tick_s']}s = "
+              f"{a['duration_s']}s {a['smoothing']}, from alpha {a['from_alpha']}, travelling "
+              f"{ring.get('travel_px', 0)}px inward — ONE SHOT, no loop, never leaves its own rect")
 
     b = tokens["badges"]
     d = b["diameter_pct"] / 100 * tokens["surfaces"]["icon_px"]
@@ -916,18 +1331,18 @@ def cmd_tokens(args) -> None:
         print(f"    {key:<9} {'+' if pol == 'positive' else '-'} slot {cue['slot']} · "
               f"{len(cue['frames'])}f @{cue['duration_s']}s {cue['loop']:<7} {cue['means'][:48]}")
 
-    print(f"\n  veil       alpha {tokens['veil']['alpha']}")
     t = tokens["text"]
+    print()
     print(f"  text       max {t['max_hz']} Hz · duty {t['duty']} · alpha floor {t['alpha_floor']} "
           "(MIL-STD-1472F — safety, not taste)")
     print(f"  artifact   arrival replayed every {tokens['artifact']['arrival_replay_s']}s "
           "(VIEWING AID — not the style)")
 
     borderless = [k for k, v in tokens["verdicts"].items() if not v["border"]]
-    veiled = [k for k, v in tokens["verdicts"].items() if v["veil"]]
+    badged = [k for k, v in tokens["verdicts"].items() if v.get("cues")]
     print(f"\n  verdicts   {', '.join(tokens['verdicts'])}")
     print(f"    no border  {', '.join(borderless)}")
-    print(f"    veiled     {', '.join(veiled)}")
+    print(f"    badged     {', '.join(badged)}")
     if "lab" in tokens:
         print(f"\n  lab        {', '.join(k for k in tokens['lab'] if not k.startswith('_'))}")
     else:
@@ -957,16 +1372,28 @@ def cmd_assets(args) -> None:
         verdict = "neutral — tints to the authored hue" if f["tintable"] else "BAKED HUE"
         print(f"{name:<40} {'badge':<6} {f['bytes'] / 1024:>8.1f}  "
               f"sat {f['mean_saturation']} ({verdict}) · tint {f['tint']}")
+    stripes = hatch_asset(tokens)
+    if stripes:
+        print(f"{'lab stripe sheet':<40} {'lab':<6} {stripes['bytes'] / 1024:>8.1f}  "
+              f"sat {stripes['mean_saturation']} (generated, neutral by construction) · "
+              f"{stripes['size'][0]}px tile, pitch {stripes['pitch_px']}px")
+    ring = ring_asset(tokens)
+    if ring:
+        print(f"{'ring flipbook':<40} {'ring':<6} {ring['bytes'] / 1024:>8.1f}  "
+              f"sat {ring['mean_saturation']} (generated, neutral by construction) · "
+              f"{ring['frames']} frames in {ring['grid']}x{ring['grid']} × {ring['tile_px']}px, "
+              f"band {ring['thickness_px']}px")
     for name in used:
         a = icons[name]
         print(f"{name:<40} {'icon':<6} {a['bytes'] / 1024:>8.1f}  spell {a['spell']}")
-    total = sum(f["bytes"] for f in frames.values()) + sum(a["bytes"] for a in icons.values())
+    total = (sum(f["bytes"] for f in frames.values()) + sum(a["bytes"] for a in icons.values())
+             + (stripes["bytes"] if stripes else 0) + (ring["bytes"] if ring else 0))
     cap = tokens["budget"]["max_base64_kb"]
     print("-" * 92)
     print(f"{'TOTAL':<40} {'':<6} {total / 1024:>8.1f}  of {cap} KB budget "
           f"({total / 1024 / cap * 100:.0f}%)")
-    print("\nThe lane border (V2) is four SetColorTexture strips and carries NO asset — that is "
-          "the point of it.")
+    print("\nThe lane border (V2) is ONE ring flipbook: every lane draws the same band and differs "
+          "by hue alone.")
     if total > cap * 1024:
         sys.exit(1)
 
@@ -1026,6 +1453,24 @@ def cmd_export(args) -> None:
         for frame, size in export_badges(tokens):
             print(f"  {frame + '.tga':<24} {size[0]}x{size[1]} 32-bit → "
                   f"{BADGE_DIR.relative_to(ROOT)}")
+    if what in ("ring", "all"):
+        for name, size in export_ring(tokens):
+            print(f"  {name + '.tga':<24} {size[0]}x{size[1]} 32-bit → "
+                  f"{MEDIA_DIR.relative_to(ROOT)}")
+    if what in ("hatch", "all"):
+        for name, size in export_hatch(tokens):
+            print(f"  {name + '.tga':<24} {size[0]}x{size[1]} 32-bit → "
+                  f"{MEDIA_DIR.relative_to(ROOT)}")
+    # `lab` is its own target and its own file, for the same reason it is its own global: the lab
+    # ships so the `/cap style` gallery can draw it, and nothing about that is the style.
+    if what in ("lab", "all"):
+        LAB_LUA.write_text(lab_lua(tokens), encoding="utf-8")
+        entries = [k for k in (tokens.get("lab") or {}) if not k.startswith("_")]
+        print(f"wrote {LAB_LUA.relative_to(ROOT)} — ns.LabStyle, {len(entries)} entries "
+              f"({', '.join(entries) or 'none'}) · gallery only, never the live overlay")
+        for name, size in export_lab(tokens):
+            print(f"  {name + '.tga':<24} {size[0]}x{size[1]} 32-bit → "
+                  f"{LAB_DIR.relative_to(ROOT)}")
 
 
 def _cues_of(entry: dict, tokens: dict) -> list[str]:
@@ -1073,9 +1518,14 @@ def elimination_gate(scenarios: list[dict], tokens: dict) -> list[str]:
     """THE READING RULE, MECHANISED (render-shelf.md Part 0.5 + Part 5).
 
     *Scan the row left to right and press the first button that is not ruled out.* So for every
-    scenario, the **leftmost** entry that is neither swiped (`cd`) nor veiled nor carrying a red
-    cue must be the entry the doc calls the press. `weave` is skipped over — it is off the GCD and
-    pressed in parallel, so it never competes for the GCD press.
+    scenario, the **leftmost** entry that is neither swiped (`cd`) nor carrying a red cue must be
+    the entry the doc calls the press. `weave` is skipped over — it is off the GCD and pressed in
+    parallel, so it never competes for the GCD press.
+
+    ⚠ Since the veil was retired (2026-08-16) there are exactly **two** eliminating signals left,
+    Blizzard's swipe and cap's negative badge, and that is the point of the change rather than an
+    incidental simplification: every scenario still resolves to the same press without a dim doing
+    any of the work. If a scenario stops passing here, the reading model has a real hole in it.
 
     ⚠ **"Carrying a cue" means carrying a NEGATIVE cue.** Since 2026-08-14 the vocabulary is
     negative *by default* rather than negative-only, and a positive cue must not eliminate its own
@@ -1099,8 +1549,8 @@ def elimination_gate(scenarios: list[dict], tokens: dict) -> list[str]:
             rule = tokens["verdicts"][e["verdict"]]
             if e["verdict"] == "weave":
                 continue                     # off the GCD — pressed alongside, not instead
-            if rule["swipe"] or rule["veil"]:
-                continue                     # ruled out natively, or by the veil
+            if rule["swipe"]:
+                continue                     # ruled out natively by Blizzard's own dial
             if eliminating(rule.get("cues")) or eliminating(e.get("cues")):
                 continue                     # ruled out by a red badge
             first = e
@@ -1124,6 +1574,91 @@ def elimination_gate(scenarios: list[dict], tokens: dict) -> list[str]:
     return fails
 
 
+def lab_gates(tokens: dict) -> list[str]:
+    """PART 7 IN THE ADDON — the four gates that make shipping the lab safe.
+
+    Until 2026-08-16 the lab could not reach the client at all, and that was the guarantee. The
+    author retired it for a reason that is hard to argue with: you cannot judge whether a treatment
+    *renders* without watching the client render it, and the `/cap style` gallery draws on cap-owned
+    frames — it shows nobody a CDM row. So the lab now ships.
+
+    What replaces the old guarantee is gate 3 below. The isolation that actually mattered is
+    unchanged and still enforced by `validate_lab_isolation` (nothing in `verdicts`/`cues` may name
+    a lab entry); these gates add the second half — the lab arrives in its own file under its own
+    global, and exactly two files may reach for it.
+    """
+    fails: list[str] = []
+    lab_keys = [k for k in (tokens.get("lab") or {}) if not k.startswith("_")]
+
+    if not ADDON_SRC.exists():
+        if lab_keys:
+            _warn(f"no addon checkout at {ADDON_SRC.relative_to(ROOT)} — Lab.lua gates skipped")
+        return fails
+
+    # 4 · Style.lua carries no lab. Cheap, and it is what pins `NOT_THE_STYLE`: the live modules all
+    # read `ns.Style`, so a lab key appearing there would put every one of them one field access
+    # away from a treatment nobody adopted.
+    if STYLE_LUA.exists():
+        style = STYLE_LUA.read_text(encoding="utf-8")
+        leaked = [k for k in lab_keys if k in style]
+        if leaked or "LabStyle" in style:
+            fails.append(
+                f"Style.lua carries the lab ({', '.join(leaked) or 'a LabStyle reference'}) — "
+                "Part 7 says nothing below it is the style, and `ns.Style` is what every live "
+                "module reads.\n"
+                "    `lab` must stay in capart.NOT_THE_STYLE; the lab ships through Lab.lua "
+                "(ns.LabStyle) and the gallery alone.")
+
+    # 5 · Lab.lua is current — generated data is worth nothing the first time someone edits one
+    # side and not the other, so it is byte-gated exactly as Style.lua is.
+    if not lab_keys:
+        pass
+    elif not LAB_LUA.exists():
+        fails.append(f"no {LAB_LUA.relative_to(ROOT)} — run: wowkb.capart export lab")
+    elif LAB_LUA.read_text(encoding="utf-8") != lab_lua(tokens):
+        fails.append(f"{LAB_LUA.name} disagrees with render-shelf.md Part 7 — "
+                     "run: wowkb.capart export lab")
+
+    # 6 · ⚠ THE REACH GATE. This is the mechanical replacement for the guarantee we gave up when the
+    # lab was allowed into the client at all. A lab treatment may be DRAWN (by the gallery, on
+    # cap-owned frames) and may never be DECIDED WITH (by the live overlay, on a CDM row). Nothing
+    # about `ns.LabStyle` being a table stops Overlay/Treatment/Paint/Sense or a catalog from
+    # reading it — only this does. Tests are excluded: they do not run in the client, so a spec
+    # naming LabStyle is not a live-path reach.
+    offenders = []
+    for path in sorted(ADDON_SRC.rglob("*.lua")):
+        rel = path.relative_to(ADDON_SRC)
+        if rel.parts[0] == "tests":
+            continue
+        if path.name in LAB_READERS:
+            continue
+        if "LabStyle" in path.read_text(encoding="utf-8"):
+            offenders.append(str(rel))
+    if offenders:
+        fails.append(
+            "ns.LabStyle is referenced by " + ", ".join(offenders) + " — a Part 7 lab treatment is "
+            "reaching into the LIVE PATH.\n"
+            "    The lab is allowed into the client for exactly one reason: the `/cap style` "
+            "gallery draws on cap-owned\n"
+            "    frames and shows nobody a CDM row, so a treatment can be judged before it is "
+            "adopted. Anything that\n"
+            "    can put it on a real row makes an experiment load-bearing without anyone deciding "
+            "to promote it, which\n"
+            "    is what render-shelf.md Part 7 exists to prevent. Only "
+            + " and ".join(LAB_READERS) + " may name it.\n"
+            "    A treatment leaves the lab by being MOVED into Parts 1-6 (rule 4), never by being "
+            "read from here.")
+
+    # 7 · the lab art is present — the analogue of the badge-texture gate. The gallery can only
+    # answer "does this render?" if the real texture is on disk for the client to load.
+    lab = tokens.get("lab") or {}
+    for key, texture in (("_sheet", LAB_SHEET_TEXTURE),):
+        if lab.get(key) and not (LAB_DIR / f"{texture}.tga").exists():
+            fails.append(f"lab.{key} declares a texture but {LAB_DIR.relative_to(ROOT)}/"
+                         f"{texture}.tga is missing — run: wowkb.capart export lab")
+    return fails
+
+
 def cmd_check(args) -> None:
     tokens = load_tokens()
     cfg = SPECS_BUILT[args.spec]
@@ -1135,10 +1670,24 @@ def cmd_check(args) -> None:
     # 0 · the tint guard still has a subject. `assert_tintable` is the shelf's one mechanical
     # promise, and a guard whose subject set quietly emptied keeps passing while guaranteeing
     # nothing — which is exactly what retiring the flipbook rings could have done to it.
-    if tokens["badges"].get("tint") != "lane":
+    if tokens["badges"].get("tint") != "lane" and (tokens.get("ring") or {}).get("tint") != "lane":
         fails.append("nothing declares tint: \"lane\" any more — the Part 4 tint guard has no "
                      "subject and is guaranteeing nothing. If art really did leave the style, "
                      "delete the guard deliberately rather than letting it pass vacuously.")
+
+    # 0a · V2's cadence is stated three times and must agree. The frame count is what the sheet is
+    # generated with, the tick is what the shared ticker runs at, and the duration is what
+    # `ShouldSnap` rate-limits on — a disagreement means the border rests mid-arrival or a second
+    # snap can start over the first.
+    ring, motion = tokens.get("ring"), tokens.get("motion")
+    if ring and motion:
+        span = ring["frames"] * motion["tick_s"]
+        if abs(span - tokens["arrival"]["duration_s"]) > 1e-9:
+            fails.append(
+                f"tokens.ring.frames ({ring['frames']}) × tokens.motion.tick_s "
+                f"({motion['tick_s']}) = {span:g}s, but tokens.arrival.duration_s is "
+                f"{tokens['arrival']['duration_s']}s. The frame walk IS the arrival (render-shelf "
+                "V2), so the three have to agree.")
 
     # 0b · exactly one positive cue, because pass 1 has no tie-break. Part 0.5's procedure says
     # "scan for A positive cue and press it" — that is unambiguous with one positive cue in the
@@ -1178,19 +1727,10 @@ def cmd_check(args) -> None:
     fails += positive_gate(doc, tokens)
     fails += elimination_gate(doc, tokens)
 
-    # 0c · the veil is DERIVED, not authored (render-shelf.md Part 2.5). The shelf claims this is
-    # "mechanical rather than a promise", and until this gate existed it was a promise: `veil` is
-    # hand-written per verdict in tokens.verdicts with nothing reconciling it against the cues that
-    # verdict carries. A verdict veiled with no negative cue is the "skipped, and cap will not say
-    # why" state Part 2.5 says cannot occur; an un-veiled verdict carrying one is a skip with no dim.
-    for key, rule in tokens["verdicts"].items():
-        derived = any(tokens["cues"].get(c, {}).get("polarity", "negative") == "negative"
-                      for c in (rule.get("cues") or []))
-        if bool(rule.get("veil")) != derived:
-            fails.append(
-                f"verdict {key!r} declares veil={bool(rule.get('veil'))} but its cues derive "
-                f"veil={derived} — render-shelf.md Part 2.5 says a row is veiled *iff* it wears at "
-                "least one negative cue. Fix the token, not this gate.")
+    # 0c · RETIRED 2026-08-16 with the veil itself. It reconciled each verdict's hand-written
+    # `veil` against the polarity of the cues that verdict carried; the veil no longer exists as a
+    # primitive, so the gate has no subject. There is nothing to put in its place: a row's skip is
+    # now said once, by the badge, and a rule that a badge implies a badge is not a rule.
 
     # 0d · slot 3 is the positive cue's, and only the positive cue's (render-shelf.md Part 1).
     # Position carries polarity there as well as colour, which is only true while nothing negative
@@ -1248,6 +1788,40 @@ def cmd_check(args) -> None:
         if missing:
             fails.append(f"badge art with no shipped texture ({', '.join(missing)}) — "
                          "run: wowkb.capart export badges")
+        # 3b · V2's ring sheet, present AND current. Existence alone would keep passing over a
+        # sheet nobody regenerated after a token edit, which is the whole failure mode.
+        img = ring_image(tokens)
+        if img is not None:
+            path = MEDIA_DIR / f"{tokens['ring']['texture']}.tga"
+            if not path.exists():
+                fails.append(f"no {path.relative_to(ROOT)} — run: wowkb.capart export ring")
+            else:
+                buf = io.BytesIO()
+                img.save(buf, "TGA", compression="tga_rle", orientation=1)
+                if buf.getvalue() != path.read_bytes():
+                    fails.append(f"{path.name} disagrees with tokens.ring — "
+                                 "run: wowkb.capart export ring")
+        # 3c · V11's hatch sheet, on the same terms as the ring. It is drawn on the live overlay
+        # AND borrowed by the gallery, so a stale sheet is wrong in two places at once.
+        if tokens.get("hatch"):
+            path = MEDIA_DIR / f"{tokens['hatch']['texture']}.tga"
+            if not path.exists():
+                fails.append(f"no {path.relative_to(ROOT)} — run: wowkb.capart export hatch")
+            else:
+                buf = io.BytesIO()
+                hatch_sheet(tokens["hatch"]).save(buf, "TGA", compression="tga_rle",
+                                                  orientation=1)
+                if buf.getvalue() != path.read_bytes():
+                    fails.append(f"{path.name} disagrees with tokens.hatch — "
+                                 "run: wowkb.capart export hatch")
+        # 3d · the sheet moved to Media/ when V11 was promoted; a leftover copy under Media/lab/
+        # is a second texture that can silently drift from the one that ships.
+        stale = LAB_DIR / f"{LAB_SHEET_TEXTURE}.tga"
+        if stale.exists() and not (tokens.get("lab") or {}).get("_sheet"):
+            fails.append(f"{stale.relative_to(ROOT)} is left over from before V11's promotion — "
+                         "the gallery reads Media/stripes.tga now. Delete it.")
+
+    fails += lab_gates(tokens)
 
     if fails:
         print("FAIL")
@@ -1256,11 +1830,16 @@ def cmd_check(args) -> None:
         sys.exit(1)
     print(f"ok · {args.spec}: scenarios.md matches the sidecar, the artifact is current, "
           "shelf.css holds no literal colors,\n"
-          "     the tint guard still has a subject, every veil is derived from its cues' polarity "
-          "and the positive\n"
+          "     Style.lua, Media/ring.tga and Media/stripes.tga agree with the shelf and the "
+          "arrival's frames × tick match its duration,\n"
+          "     the tint guard still has a subject and the positive\n"
           f"     cue owns slot 3, and all {len(doc)} scenarios read correctly under both passes —\n"
           "     every positive cue sits on its own press, and every press is reached by "
-          "elimination alone")
+          "elimination alone.\n"
+          "     Part 7: Style.lua carries no lab, Lab.lua and Media/lab/ are current, and "
+          "ns.LabStyle is reached\n"
+          f"     by {' and '.join(LAB_READERS)} only — the lab is drawable in the gallery and "
+          "unreachable from the live overlay")
 
 
 def main() -> None:
@@ -1286,8 +1865,10 @@ def main() -> None:
     b.add_argument("--date", help="stamp this build date instead of today (used by `check`)")
     b.set_defaults(func=cmd_build)
 
-    e = sub.add_parser("export", help="write the shelf into the addon (Style.lua + badge art)")
-    e.add_argument("what", nargs="?", default="all", choices=["lua", "badges", "all"])
+    e = sub.add_parser("export",
+                       help="write the shelf into the addon (Style.lua + badge art + Lab.lua)")
+    e.add_argument("what", nargs="?", default="all",
+                   choices=["lua", "badges", "ring", "hatch", "lab", "all"])
     e.set_defaults(func=cmd_export)
 
     c = sub.add_parser("check", help="doc-vs-sidecar and artifact-staleness gates")

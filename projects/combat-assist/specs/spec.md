@@ -125,8 +125,8 @@ signal — they win when they are the only lit button left. The same holds for a
 — an un-held, ready cooldown is directed-to precisely because the hold mark is *not* drawn. This
 is not a stance: it is `wowkb.capart check`'s **elimination gate** (`capart.py`,
 `elimination_gate`), which asserts for every scenario that the leftmost entry neither swiped nor
-veiled nor wearing a negative badge is the one the doc calls the press. A catalog that breaks it
-fails by name.
+wearing a negative badge is the one the doc calls the press. A catalog that breaks it fails by
+name.
 
 What this section fixes is that principle. **The procedure a player actually runs is
 `render-shelf.md` Part 0.5's**, and that file owns it: it states how the row is scanned, in what

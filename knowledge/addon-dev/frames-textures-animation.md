@@ -1,8 +1,8 @@
 ---
 title: Frames, widgets and rendering
 patch: 12.1.0
-fetched: 2026-08-11
-reviewed: 2026-08-11
+fetched: 2026-08-16
+reviewed: 2026-08-16
 sources:
   - https://github.com/Gethe/wow-ui-source (tag 12.1.0, version.txt 12.1.0.69273, commit eb941aad028d73ddc69e3e8ef4da709f4d3cd744) — raw/addon-research/wow-ui-source-12.1.0; `[T1 docs @12.1.0]` / `[T1 src @12.1.0]` / `[T1 xsd @12.1.0]` locators resolve here (612 doc files, 79 ScriptObject tables)
   - https://warcraft.wiki.gg/wiki/Patch_12.1.0/API_changes (revid 6801760, 2026-08-09)
@@ -383,6 +383,87 @@ They do *consume* Blizzard's (e.g. `CreateFrame("DropdownButton", …)`).
 > statement that an addon-declared intrinsic becomes usable as a `CreateFrame`
 > `frameType`, and no addon in the corpus does it. `@verify-ingame`.
 
+### 2.6 Blizzard's shipped panel templates — window, tabs, scroll
+
+The templates an addon builds a dev/config window out of. Locators are relative to
+`Interface/AddOns/` in the 12.1.0 checkout.
+
+**Scrolling.** `SecureScrollTemplates.xml` is deprecated in full, by its own header:
+*"All templates in this file are deprecated. All variations of HybridScrollFrame and
+FauxScrollFrame are deprecated. It is VERY HIGHLY encouraged to instead convert to or
+choose the ScrollBox API for creating scrollable content in your UI. Any ScrollFrame
+intrinsic in this file should be replaced with `ScrollFrameTemplate` if ScrollBox is not
+suitable."* `[T1 src @12.1.0: Blizzard_SharedXML/SecureScrollTemplates.xml:3-6]`.
+`UIPanelScrollFrameTemplate` is one of the templates in that file `[T1 src @12.1.0: :44]`.
+
+- **ScrollBox is the current API.** It lives in `Blizzard_SharedXML/Shared/Scroll/`
+  (22 files; the sibling `Mainline/Scroll/` holds only `OribosScrollBar`) `[T1 obs]`. The
+  entry points are `ScrollBoxMixin` and `ScrollBoxListMixin` over `ScrollBoxBaseMixin`
+  `[T1 src @12.1.0: Blizzard_SharedXML/Shared/Scroll/ScrollBox.lua:891, :546, :32]`, a view
+  mixin per layout (`ScrollBoxListLinearViewMixin` `[…/ScrollBoxLinearView.lua:62]`, grid,
+  tree, sequence, biaxal), `ScrollBarMixin` `[…/ScrollBar.lua:2]`, and the wiring helpers in
+  `…/ScrollUtil.lua`.
+- **`ScrollFrameTemplate` is the sanctioned non-ScrollBox route**
+  `[T1 src @12.1.0: Blizzard_SharedXML/SecureUIPanelTemplates.xml:24]`. Its
+  `ScrollFrame_OnLoad` builds a `MinimalScrollBar`
+  (`SCROLL_FRAME_SCROLL_BAR_TEMPLATE` `[T1 src @12.1.0: Blizzard_SharedXML/Mainline/ScrollDefine.lua:1]`),
+  anchors it off the frame's right edge, registers it via
+  `ScrollUtil.InitScrollFrameWithScrollBar` and updates it
+  `[T1 src @12.1.0: Blizzard_SharedXML/SecureUIPanelTemplates.lua:1-34]`. The consumer supplies
+  the scroll child.
+- `SetScrollChild` takes one `scrollChild` argument and carries `CheckAllowChangeParent`;
+  the generated docs describe the incoming child only
+  `[T1 docs @12.1.0: SimpleScrollFrameAPIDocumentation.lua:90-101]`. `[inference]` So a
+  consumer swapping panes should hide the outgoing child itself — nothing at Tier 1 states
+  what happens to the displaced one.
+
+**The window.** `BasicFrameTemplateWithInset`
+`[T1 src @12.1.0: Blizzard_UIPanelTemplates/Mainline/UIPanelTemplates.xml:602]` inherits
+`BasicFrameTemplate` → `BaseBasicFrameTemplate` `[T1 src @12.1.0: :575, :514]`.
+
+- **Two title idioms exist and they do not overlap; pick by chain.** This chain's title is
+  the `FontString` at `parentKey="TitleText"` on `BaseBasicFrameTemplate`
+  `[T1 src @12.1.0: Blizzard_UIPanelTemplates/Mainline/UIPanelTemplates.xml:533-537]`, so
+  the setter is `frame.TitleText:SetText(…)`. The `:SetTitle` / `:SetTitleColor` methods
+  and the `TitleContainer` they read belong to `TitledPanelMixin`
+  `[T1 src @12.1.0: Blizzard_SharedXML/PortraitFrame.lua:2-14]`, which reaches a frame via
+  `PortraitFrameMixin` `[T1 src @12.1.0: :32]` on the `PortraitFrameBaseTemplate` →
+  `ButtonFrameBaseTemplate` → `ButtonFrameTemplate` chain, whose `TitleContainer.TitleText`
+  is declared inline
+  `[T1 src @12.1.0: Blizzard_SharedXML/Mainline/SharedUIPanelTemplates.xml:544, :660, :684, :576-584]`.
+- A `.CloseButton` arrives with the frame, inheriting `UIPanelCloseButtonDefaultAnchors`
+  `[T1 src @12.1.0: Blizzard_UIPanelTemplates/Mainline/UIPanelTemplates.xml:571]` →
+  `UIPanelCloseButton` `[T1 src @12.1.0: Blizzard_SharedXML/Mainline/SharedUIPanelTemplates.xml:153, :148]`,
+  whose `OnClick` calls `HideUIPanel(self:GetParent())` after an optional
+  `parent.onCloseCallback` veto
+  `[T1 src @12.1.0: Blizzard_SharedXML/Mainline/SharedUIPanelTemplates.lua:144-156]`. Hooking
+  the **frame's** `OnHide` covers every route to hidden — this button, a `HideUIPanel` call
+  from elsewhere, an ESC-style close; hooking the button's `OnClick` covers that button.
+
+**Tabs — two routes.**
+
+- `PanelTabButtonTemplate` carries `parentArray="Tabs"`
+  `[T1 src @12.1.0: Blizzard_SharedXML/Mainline/SharedUIPanelTemplates.xml:905]`, so each
+  button appends itself to `frame.Tabs`. That array is the branch the `PanelTemplates_*`
+  helpers take for an **unnamed** frame; the other branch resolves `<frameName>Tab<i>`
+  inside Blizzard's own environment table (`GetCurrentEnvironment()`), which an addon frame
+  is not a member of
+  `[T1 src @12.1.0: Blizzard_SharedXML/Mainline/SharedUIPanelTemplates.lua:369, :1]`. Give
+  each tab a `SetID(i)`, anchor tab 1, then `PanelTemplates_SetNumTabs` `[T1 src @12.1.0: :460]`
+  runs `PanelTemplates_AnchorTabs` `[T1 src @12.1.0: :465]`, which chains tabs 2..n off the
+  previous one; `PanelTemplates_SetTab(frame, id)` `[T1 src @12.1.0: :359]` selects. All
+  three are present at 12.1.
+- `TabSystemOwnerMixin`
+  `[T1 src @12.1.0: Blizzard_SharedXML/Shared/TabSystem/TabSystemOwner.lua:72]` is the
+  alternative: you register elements per tab, and its `SetTab` calls `SetShown` on **every**
+  registered element `[T1 src @12.1.0: :36-58]`. It owns pane visibility, so it suits
+  panes that are whole frames it may drive.
+
+**Dragging and resizing.** `SetMovable` and `SetResizable` are unprotected;
+`StartMoving`, `StartSizing` and `StopMovingOrSizing` are all `IsProtectedFunction = true`
+`[T1 docs @12.1.0: SimpleFrameAPIDocumentation.lua:1403, :1435, :1546, :1557, :1569]` — the
+same protection asymmetry §4.2 records for the geometry setters.
+
 ---
 
 ## 3. Anchoring and size
@@ -723,6 +804,17 @@ the setter accepts, how sub-levels clamp — and explicitly records `zOrderMeasu
 > HIGHLIGHT region shown with no cursor over it, but the scratch container is parked
 > off-screen by design, so mouse-over behaviour was never exercised. Tier 2:
 > `[T2 wiki: XML/Layer]` says `level` "sequences graphical regions".
+
+> `[gap]` **What breaks a tie at the same layer AND the same sub-level is unrecorded.**
+> The observation above varies the *layer*; it says nothing about two regions sharing both
+> `ARTWORK`/`0`. Widely assumed to resolve on **creation order**, earlier-created drawing
+> behind — an assumption load-bearing enough that UI code relies on it to stack one texture
+> under another without giving either a distinct sub-level, which is exactly the case that
+> would break silently if the tie resolved some other way. No Tier-1 statement found and no
+> measurement taken. The test is the `draw-layer-z-order` shape: two overlapping opaque
+> squares, same layer, same sub-level, created in a known order, and an eyeball verdict —
+> the same instrument limit applies, since no API returns composite draw order.
+> `@verify-ingame`
 
 The Lua pair is `Region:SetDrawLayer(layer, sublevel)` (`:147`) /
 `GetDrawLayer() -> layer, sublayer` (`:24`)
@@ -1956,6 +2048,10 @@ Tier 1; rules stated as *observed behaviour* say so.
 
 ## Changelog
 
+- 2026-08-16 — new §2.6: Blizzard's shipped panel templates, read on the 12.1.0 tree.
+  `SecureScrollTemplates.xml` is deprecated by its own header (ScrollBox, else
+  `ScrollFrameTemplate`); `BasicFrameTemplateWithInset`'s title is `TitleText:SetText`,
+  not `:SetTitle`, which is the `ButtonFrameTemplate`/`TitledPanelMixin` chain's.
 - 2026-08-11 — 12.1.0. §1.1's type census is explicitly marked incomplete and given
   the three additions: `VectorGraphics` (new object type, SVG, **no rotation/mask/
   tex-coords**), `RadialProgress` (an 11th `Animation` subtype), and

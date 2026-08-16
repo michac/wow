@@ -6,7 +6,8 @@ the smallest live options and what would decide between them. Approved behavior 
 
 D22–D26 came out of the **first Havoc flight, 2026-08-15** (Uncomplete, Kil'jaeden, cap v0.4.0,
 Fel-Scarred). **D22 was resolved 2026-08-15** and **D18–D21 retired the same day** — both at the
-foot of this file. D23–D26 remain open below.
+foot of this file, and **D25 was retired 2026-08-16** when its subject was deleted. D23, D24 and
+D26 remain open below.
 
 ## D23 — What should The Hunt's hold gate on?
 
@@ -45,7 +46,7 @@ options above** — if Meta reads stuck `true`, D23 is a bug ticket, not a gate-
 
 **The finding, in two halves.** `C_Spell.GetSpellCharges().isActive` only means "a recharge is
 running", so it cannot tell **1/2 from 0/2** — and the catalog reads *not capped* as `blocked`,
-veiling a perfectly castable Immolation Aura for most of a fight. Separately, this player's
+badging a perfectly castable Immolation Aura as skipped for most of a fight. Separately, this player's
 **active** loadout has no *A Fire Inside*, so Immolation Aura is a **one-charge** spell where the
 treatment should not appear at all — yet the capture shows `capped`/`recharging` 98 times. Either
 a different loadout was flown, or the `maxCharges > 1` guard at `Sense.lua:104-105` is not
@@ -57,32 +58,20 @@ Smallest options:
 
 - **Positive-only.** Draw the gold `capped` badge at max and draw *nothing* below it. Loses the
   "recharging" statement, which `isActive` cannot make honestly anyway.
-- **Keep both, drop the veil.** Let `blocked` say "a recharge is running" without eliminating the
-  button, since it may well be castable. Costs the Part 2.5 derivation — a negative cue currently
-  implies a veil by construction, and `capart check` now enforces that.
+- **Keep both, and make this `blocked` non-eliminating.** Let `blocked` say "a recharge is running"
+  without ruling the button out, since it may well be castable. **Re-stated 2026-08-16:** its old
+  cost — losing Part 2.5's veil derivation — is gone with the veil, and the remaining cost is
+  larger and more exact. The negative badge is now cap's **only** eliminating mark, so a `blocked`
+  that does not eliminate makes one red badge mean two different things depending on which fact
+  produced it, and the reader cannot tell which. It also breaks the premise `elimination_gate`
+  runs on (a negative badge rules its button out), so taking this option means saying in Part 0.5
+  what a non-eliminating negative *is* and teaching the gate to see it — a reading-model change,
+  not a token edit.
 - **Build the napkin estimator** (R6) so the count is real. The most work, and Immolation Aura is
   its named worst case because of the demon-form id flip.
 
-What would decide it: whether a veiled-but-castable button is worse than no signal at all. On this
-flight it was — the player read the row as quieter than it should have been.
-
-## D25 — Should Blizzard's swipe carry more weight than cap's veil?
-
-**The finding.** A `cd` row draws no border and no veil, on the theory that Blizzard's swipe has
-already ruled it out and cap restating it would be noise. In play the opposite reads: cap's 60 %
-veil is **louder** than the stock swipe, so a button cap merely has an opinion against looks
-*more* unavailable than one that is genuinely on cooldown. Vengeful Retreat on this flight was
-the example — the player had to look twice to see it was down.
-
-Smallest options:
-
-- **Quieten the veil** so it sits below the swipe's weight, and change nothing else.
-- **Veil the `cd` row too**, accepting that cap restates the swipe, so "dim" means one thing.
-- **Leave it** and treat the inversion as a legend the player learns.
-
-What would decide it: whether the two dims are meant to be one vocabulary or two. That is a
-`render-shelf.md` edit either way, not a spec question — it is here because the answer changes
-what "ruled out" means to a reader.
+What would decide it: whether a button marked skipped while it is castable is worse than no signal
+at all. On this flight it was — the player read the row as quieter than it should have been.
 
 ## D26 — Which source decides Immolation Aura's rank against Chaos Strike?
 
@@ -108,6 +97,21 @@ Smallest options:
 What would decide it: a 12.1 APL. Until then any answer is editorial.
 
 ---
+
+## Retired 2026-08-16
+
+- **D25 — should Blizzard's swipe carry more weight than cap's veil?** **The subject was
+  retired, not weighed.** The question asked how loud cap's dim should be relative to the stock
+  swipe; on 2026-08-16 the author deleted the veil outright (`render-shelf.md` V4, now a retired
+  stub; `backlog.md` → *Retire the veil — one condition, one surface*), so there is no cap dim left
+  to rank against Blizzard's. **No veil weight was chosen** — none of the three options
+  (quieten it / veil the `cd` row too / leave it) was taken, and none is available. The finding
+  behind it stands and was part of the argument for removal: cap's 60 % veil read *louder* than the
+  stock swipe, so a button cap merely had an opinion against looked more unavailable than one that
+  was genuinely down (Vengeful Retreat, this flight). What is now the only cap-drawn "ruled out"
+  mark is the red badge, and whether **it** over- or under-reads against the swipe is a live
+  question the next flight answers — it is not this one, and it returns in its own right under the
+  striped-overlay work rather than as D25 reopened.
 
 ## Resolved 2026-08-15
 

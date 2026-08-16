@@ -64,7 +64,7 @@
           "names": [
             "Metamorphosis"
           ],
-          "html": "<b>Metamorphosis</b> — available, and <b>nothing rules it out</b>. Both of its reset targets are on cooldown, so the C1 dependency mark stays dark: the reset banks two casts. It is the first button the scan reaches with no swipe, no veil and no badge → <b>press.</b>"
+          "html": "<b>Metamorphosis</b> — available, and <b>nothing rules it out</b>. Both of its reset targets are on cooldown, so the C1 dependency mark stays dark: the reset banks two casts. It is the first button the scan reaches with no swipe and no badge → <b>press.</b>"
         }
       ],
       "extras": [
@@ -142,7 +142,7 @@
           "names": [
             "Metamorphosis"
           ],
-          "html": "<b>Metamorphosis</b> — available, but the <b><code>blocked</code> badge lights</b>: Eye Beam is ready, so resetting it would waste the reset. Meta reads <code>hold-readable</code> — veiled, with a red badge saying <em>why</em> → skip."
+          "html": "<b>Metamorphosis</b> — available, but the <b><code>blocked</code> badge lights</b>: Eye Beam is ready, so resetting it would waste the reset. Meta reads <code>hold-readable</code> — a red badge saying <em>why</em> → skip."
         },
         {
           "names": [

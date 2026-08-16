@@ -68,7 +68,7 @@ of this document.
 does not restate it. What the gates assert for every scenario below is that it reads correctly
 under that procedure:
 
-- **Pass 2 (elimination).** The leftmost entry that is neither swiped nor veiled nor carrying a
+- **Pass 2 (elimination).** The leftmost entry that is neither swiped nor carrying a
   **negative** cue must be the entry this file calls the press (`weave` skipped, since it is off
   the GCD).
 - **Pass 1 (the positive cue).** If a scenario wears a positive cue, the leftmost entry wearing
@@ -230,7 +230,7 @@ set** and its status.
      GCD press.
   2. **Metamorphosis** — available, and **nothing rules it out**. Both of its reset targets are on
      cooldown, so the C1 dependency mark stays dark: the reset banks two casts. It is the first
-     button the scan reaches with no swipe, no veil and no badge → **press.**
+     button the scan reaches with no swipe and no badge → **press.**
 - **Eye-direction.** Meta's *own* readiness didn't decide it — the state of the two abilities it
   *resets* did, and it decided it **by not objecting**. This is the plainest case of the reading
   model: cap draws nothing on the press at all, and the press is simply where an unobstructed
@@ -251,8 +251,8 @@ set** and its status.
 - **Walk.**
   1. **Vengeful Retreat** — weave, off-GCD.
   2. **Metamorphosis** — available, but the **`blocked` badge lights**: Eye Beam is ready, so
-     resetting it would waste the reset. Meta reads `hold-readable` — veiled, with a red badge
-     saying *why* → skip.
+     resetting it would waste the reset. Meta reads `hold-readable` — a red badge saying *why*
+     → skip.
   3. **The Hunt** — on cooldown → skip.
   4. **Eye Beam** — available, no skip-reason → **press.** Cast it now; Meta resets it a moment
      later for a banked second cast.

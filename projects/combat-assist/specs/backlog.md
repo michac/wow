@@ -10,6 +10,85 @@ The live addon version comes from `wowkb.addon list`, never from prose here.
 
 This is the project's only implementation-status source.
 
+- **Readiness stopped being a latch (2026-08-16, after the v0.11.0 flight).** The cooldown hatch
+  stuck on for a whole pull, and the cause was not the hatch — it was the readiness model
+  underneath it, which the lane border has been using all along. cap latched `ready = false` on the
+  CDM's `OnCooldown` alert and waited for `Available` to clear it. **`Available` is raised from the
+  viewer's `OnUpdate`, and the viewer only ticks rows the PLAYER configured an alert on**
+  (`NeedsOnUpdateRegistration`), so on a stock setup it never comes. Measured in the flight:
+  **320 `OnCooldown` across 8 rows, 35 `Available` on the one row with an alert**, and zero
+  `ChargeGained` — the same gate a second time. Before V11 this showed up as rows silently missing
+  a lane border, which reads as "cap has no opinion"; the hatch turned a quiet wrong answer loud.
+  - **The fix is a READ, not a better latch.** `Sense.readRowCooldown` asks the item's own Cooldown
+    widget whether it is shown and `wasSetFromCooldown` whether the dial means a cooldown — two
+    plain booleans, both Blizzard's verdict mirrored into widget state. `Track:World` prefers it
+    over the latch; a read has no memory and so cannot stick.
+  - **The symmetric edge was never in the alert channel.** `OnCooldownDone` is a widget script the
+    engine fires when a swipe completes (`CooldownViewer.lua:725`), wired on every item at
+    `OnLoad`, needing no configuration. `Sense` now `HookScript`s it as the ready edge, additively.
+  - ⚠ **One inferred link, now in the lab:** the Cooldown widget's `IsShown()` is not yet measured
+    plain in combat — its tab-2 sibling `Bar.Pip:IsShown()` is. `@pending-test:
+    cdm-cooldown-widget-shown-in-combat`. Until it drains the edge latch still runs underneath.
+  - **Six ClientLab tests went in with it**, covering the widget read, `OnCooldownDone`'s firing,
+    the `isOnActualCooldown`/`IsOnCooldown()` field secrecy, the never-measured scratch-frame
+    pattern, forced `OnUpdate` registration (the route NOT taken), and — finally —
+    `IsProtected()` on a live item frame, which the anchor work has been waiting on.
+
+- **The cooldown hatch is shipped — V11, on every row the CDM says is down (2026-08-16).** L4 was
+  promoted out of the lab per Part 7 rule 4 and took the shared stripe sheet with it: the geometry
+  and V11's colour and phase are `tokens.hatch`, the sheet ships to `Media/stripes.tga` under the
+  tint guard, and Part 7's two remaining stripe entries borrow that one file rather than keeping a
+  second copy. `verdicts.cd` gains `hatch: true` and is the only verdict that does. In the addon:
+  `Signal.Evaluate` puts `oncd` on the verdict, `Treatment.For` returns `hatch`, `Paint.Hatch`
+  builds it, and `Overlay.paint` shows it — under the lane border and the badges, over the icon and
+  the swipe. `/cap style` gained a V11 section drawing swipe-only / hatch-only / as-it-ships /
+  untreated side by side, which is the comparison the entry always asked for.
+  - **The fact is the CDM's.** Readiness is the viewer's own alert edges (`Available` /
+    `OnCooldown`), already latched by `Track` — cap computes no timer. **Only `false` draws**: an
+    `UNKNOWN` or absent readiness draws bare, so absence of a hatch never asserts a button is up.
+  - ⚠ **Two kinds of row on cooldown will not wear it**, and this is the unknown-safe direction
+    rather than a bug: a **charged** ability's readiness is deliberately not latched
+    (`Track:setReady` skips `charged`), and a row whose first edge has not landed yet is `UNKNOWN`.
+    The hatch is not a complete census of what is down. Whether that reads as inconsistent in play
+    is a flight question — Part 5.
+  - **This deliberately restates Blizzard's swipe**, which V7 said cap had no reason to do. That
+    was true while the swipe sat on an otherwise unmarked row; it stopped being true once
+    everything around it grew a border, a badge and an arrival, at which point a stock swipe read
+    as *less* marked than its neighbours. Whether the restatement earns its place is the flight.
+  - **`Overlay.cell` gained a trailing `~`** for the hatch, so `id:off~` is a real state and a bare
+    `off` can no longer be read as "this row drew nothing".
+  - Two new `check` gates: `Media/stripes.tga` byte-matches `tokens.hatch`, and a leftover
+    `Media/lab/stripes.tga` from before the promotion is a failure rather than a silent second copy.
+
+- **Authored ordering is shipped behaviour, on by default (2026-08-16).** `probes/AnchorOrder.lua`
+  was promoted to `Anchor.lua`: cap arms itself a second after `PLAYER_ENTERING_WORLD`, re-anchors
+  the Essential viewer's item frames into the catalog's authored order, re-applies out of combat on
+  every layout stomp and on the spec/talent/settings edges, and samples at 2 Hz. `/cap anchor
+  [on|off|rows]` replaces `/capanchor`; the setting persists at `ns.db.anchor`. Demo mode is gone.
+  The `anchor` capture stream is unchanged, so `wowkb.capture cap anchor` still reads it.
+  **Contention now backs off rather than re-asserting** — one warning, then cap leaves the row
+  alone, because two riders trading positions at 2 Hz is worse for the player than losing quietly.
+  ⚠ Still **not** built: D22's always-show / un-hide half, which needs a settings write and an
+  author call. And the mid-combat `RefreshLayout` teardown remains unexercised — see the section
+  below for why that stopped being a blocker.
+  - **The author's call, 2026-08-16:** *"we know it's possible"* — EllesmereUI repositions these
+    same frames and has run for months across dungeons, delves and raids without ever falling back
+    to Blizzard's layout. That is an existence proof that a tainted addon can hold a CDM re-anchor
+    in combat, which retires the "unfixable" branch. Ship it; fix it if it breaks. **If it does
+    break, the first thing to try is re-applying *in* combat** — `apply()`'s `InCombatLockdown()`
+    guard is caution, not measurement, and the item templates declare no `protected` attribute.
+
+- **V2's lane border is a ring flipbook, and the lanes lost their thicknesses (2026-08-16).**
+  Promoted out of the lab per Part 7 rule 4: the border is one generated white-alpha sheet — 16
+  frames, 4×4 grid of 64 px cells — tinted per lane with one `SetVertexColor` and stepped in place
+  on the addon's single shared ticker (`tokens.motion.tick_s` 0.025 s, so the arrival lasts
+  `tokens.arrival.duration_s` 0.40 s and `capart check` gates the three against each other). The
+  `Scale` snap is gone from the shipped path, and with it any way for a border to draw outside its
+  own row; `Paint.Arrival` survives only because Part 7's `arrival-*` entries are *about* a `Scale`.
+  Every lane draws the same band (`tokens.ring.thickness_px`) and they differ by hue alone. Art
+  ships to `Media/ring.tga` under the tint guard, byte-gated by `check`. **Not flown** — the three
+  open questions are Part 5 question 8.
+
 - **The visual vocabulary moved to `render-shelf.md` (2026-08-13).** Every UI opinion — surfaces,
   primitives, colors, motion, placement, composition — now lives there with a
   an `open` status only where a *client capability* is unmeasured, and `spec.md` §3.1/§3.2 keep
@@ -118,6 +197,23 @@ This is the project's only implementation-status source.
     got filed as a cap treatment. cap's drawn primitives are the **lane border** and the **corner
     badges**; the icon face is not one of them. Revisit only if a flight shows the client's own
     dimming is too weak to read — and then as a new shelf entry, not as this one restored.
+- **D22's positioning claim is supported by flight (2026-08-16).** cap re-anchored the Essential
+  viewer's nine rows into the authored order out of combat and held it through 138 s of combat,
+  `X{ok}` at both combat edges, zero displacement. ⚠ Two gaps: `RefreshLayout` never fired, so the
+  in-combat pool-release path that would break it is **untested**; and a first session failed
+  outright with the apply apparently never landing. Arm-time reliability, not persistence, is the
+  open question. Details under `Now`.
+- **The D22 instrument exists (2026-08-16).** `probes/AnchorOrder.lua` re-anchors
+  the Essential viewer's frames into the authored order out of combat, hooks `Layout` /
+  `RefreshLayout` / `CooldownViewerSettings.OnDataChanged`, samples drawn position at 2 Hz from
+  `GetLeft()`, and records to a new `anchor` capture stream. It classifies a displacement as
+  `# displaced` (a layout call cap saw) or `# contended` (no observed cause), which is what keeps a
+  flight on a re-anchoring CDM skin from reading as a persistence failure. It restores on
+  `/capanchor off` per §3.6's one discipline. **Nothing about D22 is answered until it is flown**;
+  the probe only makes the question askable.
+- **The lab is not empty (2026-08-16).** Three diagonal-stripe entries are drawn on the Havoc
+  artifact, from a generated tileable white-alpha sheet. They decide nothing — Part 7 rule 3 —
+  and are deliberately off the addon ship path.
 - Demonology remains the small pilot: Tyrant and Demonbolt are its only enhanced entries;
   Dreadstalkers and Grimoire are readable Tyrant dependencies.
 - The corrective pass restored the three discrete tiers (then named ASAP / SOON / FALLBACK)
@@ -180,21 +276,98 @@ position out of combat, without breaking the CDM, and have it persist through co
 before building anything on it. This is downstream of `spec.md` §3.6's setup-path principle —
 positioning is setup-path work, so the test is "does it hold," not "is it combat-safe."
 
-- [ ] **Out-of-combat re-anchoring holds.** Re-anchor the Essential viewer's item frames into a
-      cap-chosen order (`ClearAllPoints` + `SetPoint` onto a cap-owned container, out of combat).
-      Confirm the row draws in that order **and** the CDM keeps rendering each frame normally
-      (swipe, charges, glow) — i.e. cap moved the frames without breaking Blizzard's per-frame paint.
-- [ ] **Persistence through combat.** With the row set to always-show (no `HideWhenInactive`
-      reflow), enter combat and confirm the positions hold — frames do not snap back to Blizzard's
-      grid when abilities go on/off cooldown or when the viewer's `Layout` runs.
-- [ ] **The re-apply edges.** Note which out-of-combat events rebuild the frame set (spec / talent /
-      hero swap, `PLAYER_ENTERING_WORLD`, `CooldownViewerSettings.OnDataChanged`) and confirm
-      re-anchoring after each restores the order.
-- [ ] **The missing-spell half.** Confirm a `HideByDefault` row has no pooled frame, and that a
-      surgical out-of-combat un-hide makes the CDM pool one cap can then reposition.
+**The probe is closed and promoted (2026-08-16).** `probes/AnchorOrder.lua` is deleted and its
+question answered as far as it is going to be answered before shipping; the code is now
+`Anchor.lua`, on by default, with `/cap anchor` as its verb and `tests/spec/engine/anchor_spec.lua`
+under the release gate. `probes/` and `tests/probes/` are gone. What remains open below is a list
+of things to notice in play, not a gate in front of the feature.
+
+*What reading the source settled before flying, so the flight does not re-discover it:*
+
+- **`layoutIndex` cannot be used to reorder.** `RefreshData` indexes `cooldownIDs[layoutIndex]`,
+  so the sort key and the data index are the same field — swap two frames' indices and their
+  cooldownIDs swap to match, so they trade identities and nothing appears to move. `SetPoint` is
+  the only route, which is what this item always said.
+- ⚠ **cap cannot see its own re-anchor through any existing instrument.** `GetItemFrames()` sorts
+  by `layoutIndex`, and `Bind` derives row order from that index, so `Catalog.OrderCheck` and the
+  `bind` stream's `# row-order` note keep reporting Blizzard's order after a successful re-anchor.
+  The probe reads drawn position from `GetLeft()`/`GetTop()` instead. **Do not read the absence of
+  that note as success here.**
+- **The likely failure mode is named:** `alwaysUpdateLayout` is set once by `RefreshLayout` and
+  never cleared, so no `Layout()` is ever a no-op, and `UNIT_AURA`'s `isFullUpdate` branch calls
+  `RefreshLayout` — releasing the pool and clearing every anchor — **in combat**.
+- **Always-show may not be needed for positional stability.** All four item templates set
+  `includeAsLayoutChildWhenHidden`, so an inactive row keeps its grid slot and the row gaps rather
+  than closing up. It is still needed so cap's overlay has something to paint on.
+
+All four facts are in `knowledge/addon-dev/cooldown-manager.md` §4.1, source-read at 12.1.0.
+
+- [x] **Out-of-combat re-anchoring holds.** `/capanchor on` out of combat. Confirm the row draws in
+      the authored order **and** the CDM keeps rendering each frame normally (swipe, charges, glow)
+      — i.e. cap moved the frames without breaking Blizzard's per-frame paint. The paint half is a
+      player-eye judgment; the order half is `X{ok|MISMATCH}` in the `anchor` stream.
+- [x] **Persistence through combat.** Enter combat and confirm the positions hold. `# stomp
+      RefreshLayout destructive=1 combat=1` is the predicted failure and **is itself the finding** —
+      after a destructive stomp the probe stops expecting anything until the next out-of-combat
+      pass, so silence afterwards must not be read as "the order held".
+**FLOWN 2026-08-16 (cap v0.7.0, Havoc / Fel-Scarred, Essential viewer, 9 rows). It works — with two
+things unproven.** Session 2 armed at `t149057.0`: drawn order before the apply was scrambled, and
+immediately after it read byte-identical to the authored order, `X{ok}`. `# combat start` at
+`t149122.8` and `# combat end` at `t149261.4`, **both still `X{ok}`** — 138 s of combat, `disp:0`,
+`cont:0`, `stomp:0`. Out-of-combat re-anchoring holds and it persists through a fight. **D22's
+unproven claim is supported.**
+
+⚠ **The predicted failure was never exercised.** `stomp:0` for the whole session — `RefreshLayout`
+never ran, so `UNIT_AURA`'s `isFullUpdate` path (releases the pool, clears every anchor, *in
+combat*) is still untested. Persistence is **supported, not proven against the named risk**. Zone
+in, swap targets, or fight something aura-heavy, then grep `# stomp RefreshLayout destructive=1
+combat=1`. Until that fires, treat persistence as provisional.
+
+**Session 1 is explained, and it validates the contention detection.** The player had a third-party
+Cooldown Manager **override enabled** for that session; they disabled it and session 2 is the clean
+result above. Session 1 read `X{MISMATCH}` with `# contended n=5` every 0.5 s for 35 cycles,
+`stomp:0` throughout — cap applied, the other addon immediately put the frames back, repeat.
+
+⚠ **Note the signature, because it misleads.** `D{}` is **character-for-character identical across
+all 35 samples**, which reads like "the apply never landed". It is not: a competitor that wins
+deterministically every round produces a constant sample too, because every sample catches the
+frames in *its* layout. **A failed apply and a lost fight are indistinguishable from the sampled
+positions alone** — what separates them is `stomp:0` plus the fact that disabling the competitor
+fixed it. Do not read a frozen `D{}` as a failed apply.
+
+- [x] **Detect-and-warn works.** D22's standing constraint — *"a CDM re-skin that also re-anchors
+      these frames fights cap for position; 'Requires no reordering CDM module' stands; cap detects
+      and warns rather than silently mislead"* — is now **measured**, not asserted. The probe
+      classified it correctly (no hooked layout call ⇒ not Blizzard), emitted its chat warning on
+      the first occurrence, and the player acted on it. This is the behaviour a shipped version of
+      this feature needs, and it exists.
+- [ ] **The re-apply edges.** Spec / talent / hero swap, `PLAYER_ENTERING_WORLD`,
+      `CooldownViewerSettings.OnDataChanged`. `Anchor.lua` hooks all of them and marks `# reapply
+      why=<reason>`; confirm the order is restored after each.
+- [ ] **The mid-combat teardown, watched rather than gated.** `UNIT_AURA` is the only layout
+      teardown that reaches combat, and it is **unfiltered by unit** — `RegisterUnitEvent("UNIT_AURA",
+      "player", "target")` with a handler whose first parameter is `_unit`, so a full aura update on
+      your *target* rebuilds the whole layout (`knowledge/addon-dev/cooldown-manager.md` §4.1).
+      What sets `isFullUpdate` is C-side and unreadable from Lua. If the order reverts mid-pull the
+      capture says so: grep `# stomp RefreshLayout destructive=1 combat=1`. Not a blocker — see the
+      author's call in `## Status`.
+- [ ] **The missing-spell half — observation only.** `/cap anchor rows` reports which catalog
+      entries have no pooled frame. ⚠ **The un-hide write was deliberately not built** and needs an
+      author call: `SetCooldownToCategory` writes the player's saved CDM layout, which is the
+      settings write D22 avoided ("ordering is solved by pure repositioning, with no settings write
+      at all"), sits against §4's "does not replace or configure the Cooldown Manager", and carries
+      an open `[gap] @verify-ingame` for whether an un-hidden row lands in a viewer end to end.
+- [ ] ⚠ **Watch for `# contended`.** EllesmereUI's Cooldown Manager module re-anchors these same
+      frames. A displacement with no hooked layout call behind it is marked `# contended`, not
+      `# displaced`, and cap now **stops re-applying** after the first one and says so — so a
+      contended row keeps the *other* addon's order and must not be read as a priority. (It can
+      also mean a layout path `Anchor.lua` does not hook, e.g. the `BottomManagedFrame` container.)
 - [ ] Record the player/behaviour result. If positioning cannot be made to persist, **D22 reopens**.
       Client facts (protection status, reflow triggers, un-hide route) drain to
       `knowledge/addon-dev/`, not here.
+- [ ] **Runtime protection is still open.** The XML declares no `protected` attribute, but that
+      settles the *declaration*, not the runtime — and 12.1.0 ships a `CooldownViewerSecure.lua`
+      nobody has read. `IsProtected()` on a live item frame, in and out of combat, is the test.
 
 ### Re-fly Havoc to settle D23 with the `W{}` reason trace
 
@@ -235,43 +408,126 @@ next flight cannot tell which change did what.
 
 *The shelf.*
 
-- [ ] Delete **V4**. Rewrite Part 2.5: a row is a **lane and badges**; drop step 2 and the
+- [x] Delete **V4**. Rewrite Part 2.5: a row is a **lane and badges**; drop step 2 and the
       veiled-iff rule with it.
-- [ ] Delete `tokens.veil`, and **delete the `veil` key** from all nine `tokens.verdicts` entries —
+- [x] Delete `tokens.veil`, and **delete the `veil` key** from all nine `tokens.verdicts` entries —
       remove it, don't set it `false`, or the derivation grows back.
-- [ ] Rewrite the curve-driven veil (V9/V10, "one curve, two sinks") down to **one sink**, the
+- [x] Rewrite the curve-driven veil (V9/V10, "one curve, two sinks") down to **one sink**, the
       badge alpha. The reason the second sink existed — a badge fading in over a veil that snapped
       on says two things about one moment — dies with the veil.
-- [ ] Part 0.5: rewrite pass 2 and the `withheld` paragraph so elimination reads off **the swipe
+- [x] Part 0.5: rewrite pass 2 and the `withheld` paragraph so elimination reads off **the swipe
       and the negative badge**. Also `spec.md:128`, which states the same invariant.
 
 *The tool.*
 
-- [ ] Delete `capart.py` gate **0c** (the veil-derivation reconciler) — its subject is gone.
-- [ ] Re-point `elimination_gate` to *swiped or negative-badged*. **Keep this one**: it is the
+- [x] Delete `capart.py` gate **0c** (the veil-derivation reconciler) — its subject is gone.
+- [x] Re-point `elimination_gate` to *swiped or negative-badged*. **Keep this one**: it is the
       reading model's invariant, not a style opinion.
-- [ ] `capart build havoc`, look at it, republish the existing artifact URL (`589b5eca-…`).
+- [x] `capart build havoc`, look at it, republish the existing artifact URL (`589b5eca-…`).
 
 *The addon.*
 
-- [ ] Delete `Paint.Veil` (`Paint.lua:196-204`) and every `f.veil` site in `Overlay.lua`
+- [x] Delete `Paint.Veil` (`Paint.lua:196-204`) and every `f.veil` site in `Overlay.lua`
       (`:23-24`, `:37`, `:156-165`), plus the graded path's veil sink (`:111-116`).
-- [ ] The `draw` capture's row string is `id:LANE[/veil][+cue,cue]` (`Overlay.lua:170-174`). Drop
+- [x] The `draw` capture's row string is `id:LANE[/veil][+cue,cue]` (`Overlay.lua:170-174`). Drop
       `/veil`, and update `flight-reading.md` — captures recorded before this read differently and
       the reader should say so rather than silently mean something else.
-- [ ] `capart export lua` to regenerate `Style.lua`; update the three specs that assert on the veil
+- [x] `capart export lua` to regenerate `Style.lua`; update the three specs that assert on the veil
       (`tests/spec/product/havoc_spec.lua`, `engine/style_spec.lua`, `engine/compose_spec.lua`).
 
 *The decisions it closes.*
 
-- [ ] **D25 resolves by removal** — record it in `discussion.md` as *the subject was retired*, not
+- [x] **D25 resolves by removal** — record it in `discussion.md` as *the subject was retired*, not
       as a veil weight that was chosen.
-- [ ] **D24 loses the stated cost of its middle option** ("keep both, drop the veil" cost the Part
+- [x] **D24 loses the stated cost of its middle option** ("keep both, drop the veil" cost the Part
       2.5 derivation, which no longer exists). Re-state the option; it does not decide itself.
-- [ ] Record the round in `notes.md`.
+- [x] Record the round in `notes.md`.
+
+**Done 2026-08-16.** The addon carries **zero** occurrences of `veil`. The evidence the change was
+safe is the elimination gate: it held on all 13 scenarios with the veil term removed, and was proved
+non-vacuous by stripping a negative cue from one eliminated entry in memory, which produced exactly
+one failure. Every scenario reaches the same press with only the swipe and the badge doing the work
+— which is what "the veil carried no information the badge doesn't" means, mechanically.
+
+Three things the checklist above did not name and which were load-bearing: `Treatment.lua` held the
+**derivation itself**; `havoc/scenarios.md` states pass 2 and had two walk steps calling rows
+*veiled*, and that prose **renders into the artifact**; `havoc/catalog.md` declared cue C2's second
+sink rather than the shelf. ⚠ Also re-confirmed the sidecar gap already in Status: `build` renders
+walk prose from the sidecar, so `capart import scenarios havoc` was required — `check` compares
+`(name, verdict, cues)` only and passed while the walk still said "veiled".
 
 *The flight question, stated before flying:* with no dim anywhere, can you still tell at a glance
 which rows cap has ruled out — and is that read now attributable to a single cause?
+
+### There is no positive-cue budget — say so in the docs
+
+Author's correction, 2026-08-16: **the single-positive-cue rule is being read as a budget, and it
+is not one.** The docs present it as a scarce resource — Status says the vocabulary is "negative BY
+DEFAULT with exactly ONE positive cue", `capart check` gate 0b hard-fails a second
+`polarity: "positive"`, and gate 0d fences positives to badge slot 3. The intent was a guardrail
+against adding positives casually. The effect is that a reader reasons about *spending* the
+positive, and declines to propose one that is justified. Measured: it happened in this session,
+twice, in prose written to the author.
+
+⚠ **And Part 0.5 contradicts itself on exactly this point.** Pass 1 is specified as
+*"scan left to right for a POSITIVE cue. If one is present, press it."* — a **left-to-right scan
+that presses the first hit**, which is an ordering rule, and ordering rules exist to resolve
+multiplicity. The pass-1 `check` gate is written the same way: *"the leftmost entry wearing one must
+be the press"*, a sentence that only means something if several entries can wear one. Yet the
+second-positive gate forbids multiplicity on the grounds that *"two of them in one row makes pass 1
+ambiguous about which to press"* — the ambiguity pass 1 already resolves by position. **The shelf
+disambiguates by order in one paragraph and calls the same case ambiguous three paragraphs later.**
+
+Only one of these can stand, and which one is an author decision:
+
+- **Pass 1's ordering is real** ⇒ multiple positives are fine, leftmost wins, and the
+  second-positive gate has no argument left. Pass 1 becomes a genuine scan.
+- **Positives really are capped at one** ⇒ pass 1 is not a scan at all, it is *"is `capped`
+  present"*, and the left-to-right language should go, along with "leftmost" in the gate — both are
+  describing a procedure that never runs.
+
+- [ ] **Resolve the pass-1 contradiction first** — the two branches above. Everything else here is
+      downstream of it, and the branch chosen decides whether gate 0b survives at all.
+- [ ] Rewrite the Status bullet and `render-shelf.md` Part 0.5 so the rule reads as **"a positive
+      cue is an override of left-to-right ordering, so it carries a burden of proof"** — not as a
+      count. The cost of a positive is that it breaks the reading model, and that is a per-cue
+      argument, not a quota.
+- [ ] Decide what happens to **gate 0b**. Options: delete it (the burden of proof is editorial, not
+      mechanical); keep it as a *warning* that names the argument a second positive must make; or
+      keep it hard and rename it so it stops reading as a cap — its current message is what teaches
+      the budget. ⚠ Gates 0d (slot 3) and 1c (every cue is worn) are unaffected and should stay
+      exactly as they are. **Gate 1b is affected** — its "leftmost" wording belongs to the
+      multiplicity branch.
+- [ ] Re-examine what the rule caused. `spec.md` §3.6 records a threshold as expressible in **either**
+      polarity; the positive halves — cue B's "banked", the green dependency dot, the weave chevron,
+      cue D's promotion — are all parked with "the permission is unchanged; what is missing is
+      pixels, not authority". Check whether any of them was parked for the budget rather than on its
+      merits.
+
+### Ordering versus conditionals — ordering is cheaper to read
+
+Author's position, 2026-08-16, and it corrects an equivalence stated in review: *"conditionals
+require more mental energy than ordering, especially for items already mostly on the far left."*
+
+Two encodings can produce **identical presses** and still not be equivalent to a player. Ranking A
+above B with a condition that skips A, versus ranking B above A outright, are behaviourally the
+same and cognitively are not: a badge must be seen, identified and interpreted before the eye moves
+on, while a position costs nothing. The tax is worst on a **leftmost** entry, where the eye arrives
+first and pays it on every scan — including the majority of scans where the condition is false.
+
+This is a general authoring rule, not a Havoc detail, and it belongs in the model:
+
+- [ ] State it in `spec.md` §3.1 beside eye-direction-by-elimination: **when a fact is stable enough
+      to express as rank, express it as rank; reserve a cue for what genuinely varies within a
+      state.** A cue that is nearly always lit is a mis-ranked row wearing a badge.
+- [ ] Apply it to **Metamorphosis vs Eye Beam** (see below). Meta sits leftmost and wears
+      `meta_wastes_eye_beam` / `meta_wastes_death_sweep` whenever either is ready — a badge on the
+      first thing you look at, most of the time. Ranking Eye Beam above Meta says the same thing for
+      free. ⚠ This changes the authored order, and the order is the argument, so it wants
+      `catalog.md` + `scenarios.md` + `Catalogs/Havoc.lua` moving together — and D26's caution
+      applies: decide it from the APL, not from a page whose order is a rendering artifact.
+- [ ] Re-audit the rest of the Havoc row for the same shape — any marker that is lit in most states
+      is a candidate for becoming rank instead.
 
 ### Diagonal stripes — cap hinting *against* an ability
 
@@ -294,6 +550,23 @@ worth doing on its own terms.
 promoted by being *moved* into Parts 1–6 (shelf rule 4, enforced by `capart build`). Each entry
 needs an `asks`.
 
+**The three lab entries are drawn and on the page (2026-08-16):** `stripes-l3-hold`,
+`stripes-l4-cooldown`, `stripes-l5-starved` in `render-shelf.md` Part 7, rendered into the Havoc
+artifact. The sheet is generated by `capart.stripe_sheet` — 128 px tile, 16 px pitch, duty 0.5,
+45° — and each entry supplies only its own colour and its own `mask-position`, which is the CSS
+analogue of `SetVertexColor` + `SetTexCoord`. **The asset is the only shared thing**, as this
+section requires. L4 sits half a period off L3, verified complementary: 0 px overlap and 0 px gap
+across a 32 px span, so the both-at-once cell interleaves rather than fights.
+⚠ Two things the drawing does **not** settle, both deliberate: it is **not on the ship path**
+(no TGA, not in `export_badges`, not in `check`'s gate-3b list — the lab has no authority), and the
+hold/starved cells are authored as verdict `below` plus explicit cues rather than the real verdict
+names, because those still carry `veil: true` until the veil retirement lands. Moving them is a
+one-line edit afterwards.
+⚠ Finding worth keeping: **supersample-then-downsample does not tile.** Pillow's LANCZOS kernel
+clamps at the image edge instead of wrapping, so the last row/column gets anti-aliased against
+nothing and leaves a visible seam. The generator draws a one-pitch margin on every side and crops
+it after the downsample. Measured: alpha depends only on `(x+y) mod pitch` across the whole tile.
+
 - [ ] **L3 — red stripes on the sequencing hold.** A row held for a cooldown (`hold-readable` /
       `hold-sealed`) draws its corner badge **and** red diagonal stripes across the icon face.
       Drawn by the hold's own render, not by a rule about holds.
@@ -310,7 +583,7 @@ needs an `asks`.
       because a rule says every negative thing is red. If after flying all three it turns out the
       three renders are drawing something identical, **that is an observation that may earn a shared
       recipe later**, not a rule to author up front.
-- [ ] **It is a texture, not drawn geometry.** Do not build stripes out of a pile of thin quads per
+- [x] **It is a texture, not drawn geometry.** Do not build stripes out of a pile of thin quads per
       icon — that is many frames per row, it costs per-icon anchoring, and axis-aligned
       `SetColorTexture` cannot make a diagonal anyway. **One tileable white-alpha stripe sheet**,
       and each render calls it.

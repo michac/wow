@@ -12,3 +12,4 @@ Report.lua
 Dumps.lua
 Ask.lua
 T_CooldownManager.lua
+T_CooldownReadiness.lua

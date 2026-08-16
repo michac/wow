@@ -40,15 +40,23 @@ with `uv run python -m wowkb.capart build havoc`; never hand-edit the artifact.
 **…and Part 7 is the lab, which decides nothing.** Everything above Part 7 is the style; nothing
 below it is. The lab exists because the one-style rule made *trying* something expensive — the only
 way to see an idea was to overwrite the declared style and remember to put it back. A lab entry
-renders in its own section of the artifact, never in a CDM row, and **nothing in `verdicts` or
+renders in its own section of the artifact and may be drawn by the in-game `/cap style` gallery
+(cap-owned frames, not a live row — you cannot judge a treatment without watching the client draw
+it), but **never in a CDM row**: it reaches the addon only as `ns.LabStyle` in the generated
+`Lab.lua`, and `capart check`'s reach gate fails if anything but the gallery names it. And
+**nothing in `verdicts` or
 `cues` may reference it** (`capart build` errors if it does, which is what keeps an experiment from
 quietly becoming load-bearing). A treatment leaves the lab by being **moved** into Parts 1–6, never
 by being cited from there. Each entry carries an `asks` — the question it exists to answer.
 
-**The lab is currently empty**, which is its correct resting state, not a defect — its first two
-entries were promoted on 2026-08-13 and deleted from it (`backlog.md` → `## Status`). There is no
-`lab` block in Part 6 and the artifact says so on the page. A new idea gets a `lab` key, an `asks`,
-and a section in Part 7.
+**The lab currently holds two diagonal-stripe entries** (`stripes-l3-hold`, `stripes-l5-starved`)
+— drawn, asking their questions, deciding nothing. The third, `stripes-l4-cooldown`, was promoted
+to **V11 · Cooldown hatch** on 2026-08-16 and took the shared stripe sheet with it: the sheet is
+now `tokens.hatch` and ships to `Media/stripes.tga`, and these two borrow it at their own colours
+(a lab entry citing the style is the legal direction; the reverse is what rule 1 forbids). Its
+first two entries were promoted on 2026-08-13 and deleted from it (`backlog.md` → `## Status`); an
+empty lab is its correct resting state, not a defect. A new idea gets a `lab` key, an `asks`, and a
+section in Part 7.
 
 `specs/simplification-plan.md`, `specs/simplification-audit.md` and `specs/rule-split-audit.md`
 are temporary migration artifacts. They are not additional product authorities.

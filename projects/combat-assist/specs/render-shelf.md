@@ -81,7 +81,7 @@ rather than each treatment being tweaked on its own.
 ```
 pass 1 — scan left to right for a POSITIVE cue. If one is present, press it.
 pass 2 — scan left to right, skipping:
-           · anything dimmed with no border
+           · anything Blizzard's swipe has already run down
            · anything wearing at least one RED cue
          press the first item that survives.
 ```
@@ -90,12 +90,12 @@ pass 2 — scan left to right, skipping:
 win and the treatment is what gets edited. Two things moved to match it:
 
 **What the procedure ruled out — the `withheld` verdict, now deleted.** A verdict may only be
-*drawn* from a fact cap is allowed to read. `withheld` — border + veil, no badge — was the one
+*drawn* from a fact cap is allowed to read. `withheld` — a dim with no badge — was the one
 verdict in the vocabulary that broke this: its only driver was that a readable fact came back
 **secret**, so the refusal itself became a visible elimination. Pass 2 makes that obviously wrong —
 an item cap cannot form an opinion about is an item the scan should simply *reach*, not one it
 should skip. The vocabulary is nine verdicts, and a row cap has no opinion about draws whatever its
-readable state says: a lane border, or the swipe, and no veil.
+readable state says: a lane border, or the swipe, and no badge.
 
 **And `isActive` removed its last subject anyway.** `withheld`'s only user was a charge count read
 below full. `C_Spell.GetSpellCharges` seals per member: `isActive` is `NeverSecret` and stays plain
@@ -109,7 +109,8 @@ Two consequences the style is built on:
    job is to rule things out convincingly, not to point.
 2. **The cue vocabulary is negative by default, with exactly one positive exception.** A cue
    normally draws when a button is ruled *out* and draws nothing when it is clear. A satisfied
-   dependency is silence. Red says *why* something is skipped; the veil says *that* it is skipped.
+   dependency is silence. A red badge is the whole statement — it says *that* something is skipped
+   and *why*, in one mark, and nothing else on the row says either.
    Every cue declares its `polarity`, and a cue that declares none is read as negative.
 
 **The one exception, and the reason it exists.** Elimination encodes **rank** — it answers "what is
@@ -138,9 +139,9 @@ sealed threshold is expressible in **either** polarity, and that stays true.
 - **Pass 1.** If a scenario wears a positive cue at all, the leftmost entry wearing one must be the
   press. A positive cue is pre-emptive, so a scenario where it points somewhere other than the
   press is a scenario that reads wrong.
-- **Pass 2** — the elimination gate (Part 5). The leftmost entry that is neither swiped nor veiled
-  nor wearing a negative badge must be the press, **counting negative cues only**, so the positive
-  cue can ride the press without eliminating it.
+- **Pass 2** — the elimination gate (Part 5). The leftmost entry that is neither swiped nor wearing
+  a negative badge must be the press, **counting negative cues only**, so the positive cue can ride
+  the press without eliminating it.
 - **A second positive cue fails `check`.** This is no longer only a vocabulary question: a second
   positive cue is a second pass-1 candidate, so two of them in one row makes pass 1 ambiguous about
   which to press. Adding one is a decision about the *ordering model*, and it means rewriting the
@@ -148,8 +149,8 @@ sealed threshold is expressible in **either** polarity, and that stays true.
 - **A declared cue worn by no scenario fails `check`**, since a cue that renders nowhere is
   `spec.md` §3.2's defect at shelf level.
 
-Two further `check` assertions keep this part's own claims mechanical rather than promised: the
-veil is **derived** from cue polarity (Part 2.5) and slot 3 belongs to the positive cue (Part 1).
+One further `check` assertion keeps this part's own claims mechanical rather than promised: slot 3
+belongs to the positive cue (Part 1).
 
 ---
 
@@ -160,7 +161,7 @@ a design choice, not a platform constraint, unless marked otherwise.
 
 | Surface | Where | Carries | Notes |
 | --- | --- | --- | --- |
-| **Icon face** | the art itself | the veil, whole-icon alpha | **Desaturation is Blizzard's and cap does not draw it.** The CDM already desaturates and re-tints the icon on its own refresh — `SPELL_UPDATE_USABLE` drives icon colour continuously (`cooldown-manager.md:700, :755`), which is the client's built-in "you cannot cast this" channel. cap adding a second one would restate a signal the player already has. |
+| **Icon face** | the art itself | nothing — cap draws no treatment here | **Desaturation is Blizzard's and cap does not draw it.** The CDM already desaturates and re-tints the icon on its own refresh — `SPELL_UPDATE_USABLE` drives icon colour continuously (`cooldown-manager.md:700, :755`), which is the client's built-in "you cannot cast this" channel. cap adding a second one would restate a signal the player already has. |
 | **Lane border** | a solid rectangular border on the icon edge | the role lane, or CHARGES | Static. Its only motion is the one-shot arrival snap (V2). Drawn on cap's own frame, so it needs no host scale-up. |
 | **Corner badge slots** | three discs hung off the **top-right** corner | one cue each — slots 1–2 (along the top edge) negative, slot 3 (down the right edge) the single positive cue | Filled circles at `tokens.badges.diameter_pct` of icon width, overhanging by `tokens.badges.overhang_px` (V5). Position carries polarity as well as colour. |
 | **Cooldown swipe** | the radial dial | remaining time | Can be *restyled* without knowing the time (see V7). |
@@ -203,17 +204,25 @@ are about to be replaced. The measurement that made the ants sheet the only usab
 neutral saturation — is still true and is kept in `render-rationale.md`; it is simply no longer
 load-bearing here.
 
-### V2 · Lane border — solid, with a one-shot arrival
+### V2 · Lane border — one ring flipbook, with a one-shot arrival
 
-**The role-lane treatment.** A solid rectangular border on the icon edge, in the lane's hue at the
-lane's thickness, **static**. It sits there and says which lane the button is in; it does not
-compete for attention while it is doing that.
+**The role-lane treatment.** A solid rectangular border on the icon edge, in the lane's hue,
+**static** once it has arrived. It sits there and says which lane the button is in; it does not
+compete for attention while it is doing that. It is drawn as **one generated ring texture** — a
+square annulus, white with the ring in its alpha channel — tinted to the lane with a single
+`SetVertexColor`.
 
-Its only motion is the **arrival snap**: when something *arrives* — a cooldown finishes, a charge
-returns, the row moves from one lane to another — the border is drawn at `tokens.arrival.from_scale` and
-`tokens.arrival.from_alpha` and snaps down onto the icon over `tokens.arrival.duration_s` with
-`tokens.arrival.smoothing`. One shot, then it rests. There is deliberately **no looping variant**:
-the whole claim of this primitive is that motion marks *the change of state* and then stops.
+**Every lane draws the same band width** (`tokens.ring.thickness_px`). Lanes are told apart by
+**hue alone**. `spec.md` §3.1 leaves *how* the emphasis ladder is drawn — "brightness, hue, motion,
+thickness, or several at once" — to this file, and this file's answer is hue: `press`,
+`press-promoted` and `below` already render identically (Part 0.5), so the ladder was never being
+drawn by band width either.
+
+Its only motion is the **arrival**: when something *arrives* — a cooldown finishes, a charge
+returns, the row moves from one lane to another — the ring plays **once** through
+`tokens.ring.frames` frames of a sprite sheet at `tokens.motion.tick_s` per frame, and rests on the
+last one. One shot, then it rests. There is deliberately **no looping variant**: the whole claim of
+this primitive is that motion marks *the change of state* and then stops.
 
 - **What counts as arrival:** the DRAWN LANE changing — absent → present, or one lane → another.
   Nothing else, and in particular not a repaint: the live surface repaints continuously, so
@@ -222,45 +231,76 @@ the whole claim of this primitive is that motion marks *the change of state* and
   first draw after cap resumed drawing at all (it was dark, unsettled, or on a spec with no
   catalog — a whole row snapping in unison is churn), and a second snap inside
   `tokens.arrival.duration_s` of the last, so a flickering lane cannot stack snaps.
-- **Lanes:** `tokens.lanes.<LANE>.rgb` / `.thickness_px`. Four of them — COOLDOWN, ROTATION,
-  FALLBACK, and **CHARGES**.
+- **Lanes:** `tokens.lanes.<LANE>.rgb`. Four of them — COOLDOWN, ROTATION, FALLBACK, and
+  **CHARGES**. The band width is not theirs; it is `tokens.ring.thickness_px`, once, for all.
 - **CHARGES replaces the role lane**, it does not stack. An ability has exactly one border, and if
   the client says the ability has charges, the border is `CHARGES`. This is a **render-time**
   substitution off a readable client fact — it is not a re-authoring of the ability's priority, and
   `havoc/catalog.md` still records the role lane the rotation puts it in.
-- **Art:** none. Four `SetColorTexture` strips on cap's own frame. Nothing to extract, nothing to
-  tint-guard, no atlas to go stale across a patch.
+- **The animation is a FLIPBOOK, not a `Scale`.** `capart.ring_flipbook` generates **one white-alpha
+  sheet** holding `tokens.ring.frames` frames in a `tokens.ring.grid` × `grid` layout of
+  `tokens.ring.tile_px` cells. Frame 1 is the ring at its widest, one `gutter_px` inside the cell
+  edge, at `tokens.arrival.from_alpha`; the last frame is the ring at rest, `travel_px` further in,
+  at full alpha; the frames between ease inward with `tokens.arrival.smoothing`. Stepping is
+  `SetTexCoord` onto the cell — **the same shared ticker the badge sprites walk** (one
+  `C_Timer.NewTicker` at `tokens.motion.tick_s`, index computed off the clock so it cannot drift),
+  and there is exactly one ticker in the addon.
+  - **The pair, and why.** 16 frames at 0.025 s is **40 fps over `tokens.arrival.duration_s` =
+    0.40 s** — smooth enough to read as motion rather than as steps, and a 4 × 4 grid of 64 px cells
+    is a 256 × 256 power-of-two sheet the client will load. It is also the finest cadence anything
+    in the style asks for, so the shared ticker runs at it and the badges (whose own frames last
+    ~0.6 s) simply land on their boundaries more exactly. `capart check` asserts
+    `ring.frames × motion.tick_s == arrival.duration_s`, so the three cannot drift apart.
+- **The arrival never leaves the row's own cell, and that is the design.** A flipbook draws inside
+  its own rect, always: the apparent snap is painted into the frames rather than produced by scaling
+  the frame. The previous `Scale` snap drew the border at 2.00× — 30 px of overhang per side against
+  a 62 px row pitch — which is the suspected cause of the `#` the lab's `arrival-control-sweep` was
+  built to falsify. **This is a predicted consequence of the geometry, not a measured fix**: nobody
+  has looked yet, `arrival-control-sweep` stays in the lab exactly as it is so the original question
+  can still be answered, and the claim here is only that a texture stepped in place has no way to
+  reach a neighbour.
+- **Art: `tokens.ring`, generated, and it is on the ship path.** White RGB with the shape in alpha,
+  declared `tokens.ring.tint: "lane"`, which is what puts it under the Part 4 tint guard — the same
+  guard, on the same terms, as the badge sprites, and measured over the **sheet that ships** rather
+  than over one frame. `capart export ring` writes it into the addon's `Media/`, beside
+  `Media/badges/`.
+  - **What it buys:** no corners to come apart, one `SetVertexColor` per row instead of four, an
+    arrival that cannot draw outside its own cell, and a cadence that goes through the one path the
+    style already has. **What it costs, honestly:** art on the ship path where there was none — a
+    sheet to generate, gate for currency and keep tintable — a band width baked into the texture
+    rather than free per lane, and a ticker that runs twice as often as it used to.
+  - ⚠ **The band is minified with the sheet.** There is no nine-slice here: slice margins apply to a
+    whole texture and the frames are selected with `SetTexCoord`, so the two are incompatible. The
+    authored `thickness_px` is in *texture* pixels and draws at `thickness × drawn / tile_px`
+    (`Paint.RingBand`). That is a real cost of the flipbook and is priced in Part 5, question 8.
 - **Lua:**
   ```lua
   local edge = CreateFrame("Frame", nil, cap.overlay)   -- NOT the CDM item frame
-  edge:SetAllPoints(icon)
-  for _, side in ipairs({"TOP", "BOTTOM", "LEFT", "RIGHT"}) do
-    local strip = edge:CreateTexture(nil, "OVERLAY")
-    strip:SetColorTexture(unpack(T.lanes[lane].rgb))    -- solid color; no art, no multiply
-    -- …anchor `side` at T.lanes[lane].thickness_px
-  end
+  edge:SetPoint("CENTER", icon, "CENTER", 0, 0)         -- sized and centred, NOT SetAllPoints
+  edge:SetSize(icon:GetWidth(), icon:GetHeight())
 
-  local snap = edge:CreateAnimationGroup()              -- fired ON THE EVENT, then it stops
-  local grow = snap:CreateAnimation("Scale")
-  grow:SetScaleFrom(T.arrival.from_scale, T.arrival.from_scale)   -- ⚠ NOT SetFromScale
-  grow:SetScaleTo(1, 1)
-  grow:SetDuration(T.arrival.duration_s)
-  grow:SetSmoothing(T.arrival.smoothing)
-  local fade = snap:CreateAnimation("Alpha")
-  fade:SetFromAlpha(T.arrival.from_alpha); fade:SetToAlpha(1)
-  fade:SetDuration(T.arrival.duration_s)
-  snap:SetToFinalAlpha(true)                            -- animations don't restore alpha on stop
+  -- One pre-built texture per lane, so switching lane is Show/Hide + SetVertexColor and never
+  -- SetTexture. Lanes that share a hue share nothing; lanes all share the one sheet.
+  local ring = edge:CreateTexture(nil, "OVERLAY")
+  ring:SetTexture(T.ring.texture_root .. T.ring.texture .. ".tga", nil, nil, "TRILINEAR")
+  ring:SetAllPoints(edge)
+  ring:SetVertexColor(unpack(T.lanes[lane].rgb))        -- white art, so the multiply IS the hue
+  ring:SetTexCoord(Paint.FrameCoords(T.ring.frames, T.ring.grid))   -- rests on the LAST frame
+
+  -- Arrival: walk frame 1 → N on the shared ticker, then stop. No animation group at all.
+  ring:SetTexCoord(Paint.FrameCoords(i, T.ring.grid))
   ```
-  ⚠ `SetFromScale` / `SetToScale` **do not exist**; the setters are `SetScaleFrom` / `SetScaleTo`.
-  Probe before calling — an animation that silently never received its endpoints looks exactly
-  like a live one.
-  ⚠ Per CDMProbe's hardest-won rule, nothing that is an *ancestor* of a rotating texture may be
-  animated. Nothing in this primitive rotates, by design.
-- **Artifact reproduction.** A `border` on a positioned box, plus a keyframe from
-  `scale(tokens.arrival.from_scale)` at `opacity: tokens.arrival.from_alpha` to `scale(1)` at
-  full — `animation-fill-mode: both`, run once. The artifact re-fires it on a timer
-  (`tokens.artifact.arrival_replay_s`) purely so it can be watched; that interval is declared under
-  `tokens.artifact` precisely because it is **not part of the style**.
+  ⚠ Nothing here creates an `AnimationGroup`, and the border no longer owns one. The in-combat
+  writes are `Show`/`Hide`/`SetVertexColor`/`SetAlpha` plus `SetTexCoord` — the same class of
+  texture-level frame step the badge vocabulary already makes in combat (Part 3).
+- **Artifact reproduction.** The **same sheet**, embedded as a `data:` URI and used as a
+  `mask-image` over `background-color: <lane hue>` — for white-with-shape-in-alpha art that
+  composite is exactly what `SetVertexColor`'s multiply produces. `mask-size` is
+  `tokens.ring.grid × 100%` and the frame is chosen by `mask-position`, stepped in JS at
+  `tokens.motion.tick_s` — the same walk, on the same art, at the same rate as the client. The
+  artifact re-fires the arrival on a timer (`tokens.artifact.arrival_replay_s`) purely so it can be
+  watched; that interval is declared under `tokens.artifact` precisely because it is **not part of
+  the style**.
 
 ### V3 · *(retired)*
 
@@ -274,18 +314,15 @@ re-derived if continuous motion ever came back.
 MIL-STD-1472F / WCAG constraints on blinking legends and they bind any text cue cap ever draws.
 They now live at `tokens.text.max_hz` / `.duty` / `.alpha_floor` (see V8).
 
-### V4 · Veil (de-emphasis)
+### V4 · *(retired)*
 
-Dim what cap has an opinion *against*, rather than only brightening what it favors. A veiled row
-is still perfectly legible; it has just stopped competing.
-
-- **Value:** `tokens.veil.alpha` of `tokens.veil.rgb` over the icon face.
-- **Applies to:** every verdict whose `veil` is true in `tokens.verdicts` — the skipped rows of a
-  walk, in short.
-- **The veil says "skip"; the badge says "why."** That division is the whole cue design, and it is
-  mechanical rather than authored: a row is veiled **iff** it wears at least one negative cue. So a
-  veil with no badge cannot occur — there is no "skipped, and cap will not say why" state — and a
-  badge with no veil is exactly the positive cue, which does not skip anything.
+The veil — a flat dim over the icon face on every row cap had an opinion against. Retired
+2026-08-16: **every** skip condition cap has (a readable hold, a sealed hold, `starved`, `overcap`
+and both graded curves) expressed itself by dimming the *same* texture, on top of Blizzard's own
+desaturation and swipe, so a dark row in flight was the sum of an unknown number of causes and no
+one could see which fired. It was also strictly redundant — Part 2.5 *derived* it from cue
+polarity, so it never carried a fact the badge beside it was not already carrying. Nothing replaces
+it: a skipped row is now a lane border, a red badge, and whatever Blizzard is already drawing.
 
 ### V5 · Corner badge — OS-style
 
@@ -435,53 +472,114 @@ inside a duration object: `SetTimerDuration`, `SetCooldownFromDurationObject`. S
 secret directly: `SetAlpha`, `SetDesaturation`, `SetValue`, `SetText`, `SetApplicationCount`.
 **Never read back** — a capture may say `offered` / `armed` / `refused`, never `drew`.
 
+### V11 · Cooldown hatch
+
+A row the Cooldown Manager says is on cooldown draws diagonal stripes across its whole face:
+`tokens.hatch.rgb` at `tokens.hatch.alpha`, offset by `tokens.hatch.phase_pct` of one pitch.
+Promoted out of the lab on 2026-08-16 per Part 7 rule 4.
+
+**This restates the swipe deliberately, and that is the point.** V7 says the swipe is the CDM's own
+"ruled out" signal and cap has no reason to repeat it — that was true while the swipe was the only
+thing on an unremarkable row, and it stopped being true once cap started drawing lane borders,
+badges and arrivals on everything *around* it. A stock swipe next to a lit border reads as *less*
+marked than the thing beside it, which inverts the meaning. The hatch restores the asymmetry: on
+cooldown is now the loudest thing on the row, not the quietest.
+
+**The fact is the CDM's, not cap's, and it is READ rather than remembered.** The hatch draws while
+the row's own Cooldown widget is shown *and* that widget is showing a cooldown rather than an
+aura's remaining time — two plain booleans, both readable in restricted combat, both Blizzard's
+verdict mirrored into widget state. cap computes no timer and reads no clock, and an **unknown**
+readiness draws nothing: absence of a hatch is never a claim that a button is up.
+
+⚠ **It is deliberately not an edge latch, and that is a correction rather than a preference.**
+V11 shipped on one and the stripes stuck on for a whole flight. The Cooldown Manager's `Available`
+alert is raised from the viewer's `OnUpdate`, which runs only for rows the **player** configured an
+alert on — so `OnCooldown` arrives for everything and `Available` for almost nothing, and any latch
+fed by that channel is a one-way door (`knowledge/addon-dev/cooldown-manager.md` §5.1; measured
+320 against 35-on-a-single-row). A read has no memory and so has nothing to get stuck. The edges
+stay underneath as the fallback for a client that will not hand over the boolean, with
+**`OnCooldownDone`** — an engine-driven widget script, outside the alert system entirely —
+supplying the ready edge the alert channel cannot.
+
+⚠ **A charged ability answers differently**: "on cooldown" there means zero charges, a count cap
+holds readably, not a recharge timer — a row with a charge banked must not hatch while it reloads
+the next one.
+
+The sheet is one tileable white-alpha texture generated by `capart.hatch_sheet` from
+`tokens.hatch` (`tile_px`, `pitch_px`, `duty`, `direction`) — Blizzard ships no stripe, hazard or
+hatch art, so Part 4's rule applies and this is authored from a script rather than vendored. It
+ships to `Media/stripes.tga` under the tint guard, and Part 7's remaining stripe entries draw on
+this same sheet at their own colours: geometry is shared because two stripes that disagree on angle
+or pitch cannot interleave, and colour and phase are not, because they are what distinguish one
+condition from another.
+
+⚠ `pitch_px` must divide `tile_px` or the sheet seams where it wraps; `capart.hatch_sheet` asserts
+it. Tiling is `SetTexture(path, "REPEAT", "REPEAT")` plus a `SetTexCoord` wider than 0–1, both set
+**once at construction** — `[T2 bug: WoWUIBugs #250, created 2022-08-13, closed]` reports that
+re-calling `SetTexture` with the same path and different wrap modes is ignored, so the wrap mode
+cannot be changed later. Nothing about the hatch animates: in combat it is `Show`/`Hide` only.
+
+**`phase_pct` is 50 with nothing to interleave with yet.** Half a period is reserved so that a
+second stripe condition — if one is ever promoted — lands at phase 0 and the two read as two facts
+rather than one mess. On its own the offset is invisible, and that is the correct cost of holding
+the slot open.
+
 ---
 
 ## Part 2.5 — Composing a row
 
 The primitives above are drawn together, and the order they compose in is fixed. **A row is a
-lane, a veil, and badges** — nothing else is drawn on it, and in particular the icon face is not
+hatch, a lane and badges** — nothing else is drawn on it, and in particular the icon face is not
 cap's (Part 1).
 
-1. **The lane border** (V2), or none. Exactly one, and `CHARGES` replaces the role lane rather
+1. **The cooldown hatch** (V11), or none. It sits under everything else, directly over the icon
+   face, because it is a statement about the button rather than a mark placed on it.
+2. **The lane border** (V2), or none. Exactly one, and `CHARGES` replaces the role lane rather
    than stacking with it.
-2. **The veil** (V4), under the border and inset back onto the icon face, so the dim never
-   overhangs the icon it belongs to.
 3. **A badge per cue** (V5/V5.1), each in the slot its cue owns. A cue named twice is one badge —
    that is how a catalog authors an OR without an OR.
 
-**The veil is DERIVED, never authored: a row is veiled iff at least one of its cues is negative.**
-This is what makes V4's "a veil with no badge does not occur" mechanical instead of a promise —
-`wowkb.capart check` reconciles every `tokens.verdicts` entry's `veil` against its cues' declared
-polarity and fails by name if a hand-written `veil` disagrees with the derivation. A
-cue that declares no polarity reads as negative — the reading that can only be stricter. The
-positive cue therefore rides an un-veiled row, which is the whole reason it can carry an
-impending loss on a button you are about to press.
+**One condition, one surface.** Every skip a row carries is carried by a mark of its own, in a
+place of its own, and by nothing else — so two conditions on one button are two marks rather than
+one shared dim that had to pick. That is the whole of the composition rule since V4 was retired:
+there is no second surface for several conditions to write to, and therefore no row whose treatment
+means an unknown number of things at once. A cue that declares no polarity reads as negative — the
+reading that can only be stricter.
 
-### The curve-driven veil, for graded cues only
+⚠ **V11 did not weaken that rule and it is worth saying why, because it looks like it did.** The
+hatch is a third surface, but it carries exactly one condition — on cooldown, from the CDM's own
+edges — and nothing else writes to it. What the rule forbids is a *shared* surface several
+conditions feed; what it permits is as many surfaces as there are conditions. The count of surfaces
+was never the invariant.
+
+**The hatch is invisible to the elimination walk, by construction.** It is drawn exactly where the
+swipe is drawn, so every row wearing it was already ruled out by *swiped* in pass 2 and no reading
+changes. It adds emphasis to a decision the walk had already made — which is why `elimination_gate`
+stays a two-term test and does not learn about it.
+
+### The graded cue's curve drives its badge
 
 A **graded** cue is one whose visibility the client decides: cap authors a curve (V9, V10), hands
 it to the client with a secret, and the client returns a mapped result cap writes into an alpha
 and never reads back. Its badge is present whenever the row draws, and the result *is* its
 visibility.
 
-**One curve, two sinks.** The same evaluated result drives the badge's alpha **and** the veil's,
-so a row dims by exactly the fact its badge is showing — the alternative would be a badge fading
-in over a veil that snapped on, saying two different things about one moment. The veil texture
-carries `tokens.veil.alpha` in its own colour, so a written 1 is still that dim: what the curve
-modulates is the whole veil, not the shelf's number.
+**One curve, one sink: the badge's alpha.** The evaluated result is written straight to the badge
+and nowhere else, so the graded cue fades in exactly as far as the client's answer says and the row
+carries no second treatment that would have to agree with it. There was a second sink while the
+veil existed — and it existed only to stop a badge fading in over a dim that snapped on, saying two
+things about one moment. With one surface left that problem cannot arise.
 
-⚠ **This replaces the derived boolean veil for the graded cue only.** Polarity derivation stays
-the rule everywhere else, and a row a readable negative cue has already veiled stays veiled
-outright — the curve never *lifts* a veil, it only supplies one that no readable cue had.
+⚠ The curve modulates **visibility, not meaning**. A graded badge at low alpha is the same
+statement as the same badge at full, made about a smaller amount; it is never a different cue.
 
 ---
 
 ## Part 3 — Composition rules
 
 - **`SetVertexColor` multiplies.** Baked-hue art can only be darkened toward its own hue. The
-  style therefore uses neutral art wherever it tints (V5's Kenney frames, saturation 0.000) and
-  plain `SetColorTexture` where there is no art at all (V2's border). Desaturate-then-tint
+  style therefore uses neutral art wherever it tints — V5's Kenney frames and V2's generated ring
+  textures, all measured 0.000. Desaturate-then-tint
   (`SetDesaturated(true)` / `SetDesaturation(0..1)` first, tint the result —
   `knowledge/addon-dev/frames-textures-animation.md:1044-1052`) is the escape hatch for baked art,
   and whether it yields a *clean* hue is **open**: unmeasured in client. A primitive declaring
@@ -493,16 +591,18 @@ outright — the curve never *lifts* a veil, it only supplies one that no readab
 - **`SetGradient` resets vertex color to white.** Apply the gradient first, tint second.
 - **`SetTexture` / `SetAtlas` / `SetColorTexture` are exclusive** — last call wins. `GetTexture()`
   after `SetAtlas` returns the backing fileID as a *number*, not nil; ask `GetAtlas()` first.
-- **Animations don't restore vertex color on stop** without `SetToFinalAlpha`. This bites V2's
-  arrival snap specifically: it is fire-and-forget, so it must land on its final values.
+- **Animations don't restore vertex color on stop** without `SetToFinalAlpha`. Every fire-and-forget
+  group in the style must land on its final values. V2 sidesteps it entirely — the arrival is a
+  frame walk, not an animation — so the remaining subjects are the `capped` halo and the lab.
 - **`Show`/`Hide`, never `SetShown`** — `SetShown` is a protected function. *(True but
   mis-framed: protection bites only on **protected** frames, and on cap's own `UIParent` child it
   is unrestricted and measured so. Left as-is because "always `Show`/`Hide`" is a cheap habit to
   keep and costs nothing.)*
 - **Set frame strata/level out of combat only.** In combat, confine writes to
-  `Show`/`Hide`/`SetVertexColor`/`SetAlpha`. The arrival snap is an in-combat animation on a frame
-  whose level was fixed at bind — that is the reason it is a `Scale`/`Alpha` group and not a
-  re-anchor.
+  `Show`/`Hide`/`SetVertexColor`/`SetAlpha`, plus the texture-level frame step
+  (`SetTexture` for a badge, `SetTexCoord` for V2's ring) that the frame walk needs and that the
+  badge vocabulary has been making in combat since it shipped. Nothing re-anchors, re-sizes or
+  re-levels in combat; the arrival is painted into the art precisely so it does not have to.
 - **Stock proc glow coexists.** cap dims Blizzard's own overlay to `tokens.surfaces.proc_glow_alpha`
   via `hooksecurefunc(frame, "RefreshOverlayGlow")`. That is a dial for an eyeball, not a measured
   value, and `SetAlpha` reports nothing back. With V1 retired there is no longer a cap animation
@@ -537,9 +637,15 @@ ours, no licence question.
 
 **This is also the art that ships.** `capart export badges` writes every frame the cue vocabulary
 names, plus the two generated shapes, into the addon as 32-bit RLE TGA — the format and header
-shape of the Kenney art CDMProbe already reads in client. The tint guard runs on that path too, so
+shape of the Kenney art CDMProbe already reads in client. `capart export ring` writes V2's ring
+flipbook the same way, into `Media/` beside `Media/badges/`. The tint guard runs on both paths, so
 a baked-hue frame cannot reach the client through a route the artifact never rendered. This is not
-the "don't bundle Blizzard art" rule's subject: our own CC0 art ships, because it is ours.
+the "don't bundle Blizzard art" rule's subject: our own CC0 and generated art ships, because it is
+ours.
+
+`capart check` gates the ring sheet the way it gates `Style.lua`: it must be on disk and
+**byte-identical to what the generator produces today** — a generated asset nobody regenerates is a
+stale asset that still passes an existence check.
 
 **The artifact contract, and the guard that enforces it.** Icons and sprites embed as base64
 `data:` URIs — the artifact CSP blocks every external host, so a CDN `<img src>` renders nothing.
@@ -588,9 +694,28 @@ Look-at-it questions, not measurements. None of them is a reason to hold two sty
    readable, that is the finding that un-parks the positive vocabulary.
 7. Does desaturate-then-tint produce a clean hue on baked art? — **open**, needs the client.
    Nothing declares it today; the question stays because the escape hatch is worth having priced.
+8. **Does the ring flipbook read as arrival, and does the band survive minification?** The
+   `--@unverified` marker on `Paint.Border` is on the shipped path, so house rule 5 puts it in this
+   flight's acceptance set. Three parts: does 16 frames at 40 fps read as motion or as steps; does a
+   band authored at `tokens.ring.thickness_px` in a 64 px cell still read as a crisp line once the
+   sheet is minified onto a 60 px row (`Paint.RingBand` says ~1.9 px), or does it wash into a blur;
+   and does the arrival now stay inside the row's own cell — the `#` should be gone, which is a
+   prediction from the geometry and **not** a measurement until someone looks.
+
+9. **Does the cooldown hatch add to the swipe or just restate it — and does it read as stripes at
+   all?** V11's `--@unverified` marker is on the shipped path, so this is in the acceptance set too.
+   Three parts. Does a 16 px pitch authored on a 128 px sheet still read as *stripes* once tiled
+   across a ~56 px icon, or does it flatten into a wash — `/cap style`'s V11 section draws
+   swipe-only beside as-it-ships for exactly this comparison. Does black at 0.50 alpha read as
+   **ruled out** rather than as **dimmed**, which is the failure the retired veil died of. And is
+   the row now *more* legible in a pull, or merely busier — the honest possibility is that the
+   swipe was already enough and the hatch is noise, in which case V11 goes back to the lab.
+   ⚠ Watch specifically for the two rows that **cannot** wear it: a charged ability and a row whose
+   first edge has not landed. If a hatchless row on cooldown reads as "cap thinks this is up", the
+   unknown-safe default is costing more than it saves and needs rethinking, not just documenting.
 
 **And one gate that does not wait for a flight.** `wowkb.capart check` asserts, for every
-scenario: *the leftmost entry that is neither swiped (`cd`) nor veiled nor carrying a red cue must
+scenario: *the leftmost entry that is neither swiped (`cd`) nor carrying a red cue must
 be the entry the doc calls the press* — `weave` skipped over, since it is off the GCD and pressed
 in parallel. That is question 6, mechanised. All 13 Havoc scenarios pass it today. If a future
 scenario cannot lead the eye to its press by elimination, this fails **by name** rather than
@@ -616,18 +741,31 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
 {
   "version": 2,
   "lanes": {
-    "COOLDOWN": { "rgb": [1.00, 0.82, 0.22], "thickness_px": 3 },
-    "ROTATION": { "rgb": [0.35, 0.68, 1.00], "thickness_px": 2 },
-    "FALLBACK": { "rgb": [0.78, 0.80, 0.86], "thickness_px": 1 },
-    "CHARGES":  { "rgb": [0.62, 0.42, 0.95], "thickness_px": 2 }
+    "COOLDOWN": { "rgb": [1.00, 0.82, 0.22] },
+    "ROTATION": { "rgb": [0.35, 0.68, 1.00] },
+    "FALLBACK": { "rgb": [0.78, 0.80, 0.86] },
+    "CHARGES":  { "rgb": [0.62, 0.42, 0.95] }
+  },
+  "ring": {
+    "texture": "ring",
+    "tile_px": 64,
+    "grid": 4,
+    "frames": 16,
+    "thickness_px": 2,
+    "corner_px": 4,
+    "travel_px": 5,
+    "gutter_px": 1,
+    "tint": "lane"
+  },
+  "motion": {
+    "tick_s": 0.025
   },
   "arrival": {
     "from_scale": 2.00,
-    "duration_s": 0.35,
+    "duration_s": 0.40,
     "smoothing": "OUT",
     "from_alpha": 0.00
   },
-  "veil": { "rgb": [0.00, 0.00, 0.00], "alpha": 0.60 },
   "text": {
     "max_hz": 2.0,
     "duty": 0.70,
@@ -677,16 +815,27 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
       "duration_s": 1.20, "loop": "BOUNCE", "slot": 3, "open": false
     }
   },
+  "hatch": {
+    "texture": "stripes",
+    "tile_px": 128,
+    "pitch_px": 16,
+    "duty": 0.5,
+    "direction": "down",
+    "rgb": [0.00, 0.00, 0.00],
+    "alpha": 0.50,
+    "phase_pct": 50,
+    "tint": "lane"
+  },
   "verdicts": {
-    "cd":             { "border": false, "veil": false, "swipe": true,  "cues": [] },
-    "weave":          { "border": true,  "veil": false, "swipe": false, "cues": [] },
-    "hold-readable":  { "border": true,  "veil": true,  "swipe": false, "cues": ["blocked"] },
-    "hold-sealed":    { "border": true,  "veil": true,  "swipe": false, "cues": ["blocked"] },
-    "starved":        { "border": true,  "veil": true,  "swipe": false, "cues": ["starved"] },
-    "overcap":        { "border": true,  "veil": true,  "swipe": false, "cues": ["overcap"] },
-    "press":          { "border": true,  "veil": false, "swipe": false, "cues": [] },
-    "press-promoted": { "border": true,  "veil": false, "swipe": false, "cues": [] },
-    "below":          { "border": true,  "veil": false, "swipe": false, "cues": [] }
+    "cd":             { "border": false, "swipe": true,  "hatch": true, "cues": [] },
+    "weave":          { "border": true,  "swipe": false, "cues": [] },
+    "hold-readable":  { "border": true,  "swipe": false, "cues": ["blocked"] },
+    "hold-sealed":    { "border": true,  "swipe": false, "cues": ["blocked"] },
+    "starved":        { "border": true,  "swipe": false, "cues": ["starved"] },
+    "overcap":        { "border": true,  "swipe": false, "cues": ["overcap"] },
+    "press":          { "border": true,  "swipe": false, "cues": [] },
+    "press-promoted": { "border": true,  "swipe": false, "cues": [] },
+    "below":          { "border": true,  "swipe": false, "cues": [] }
   },
   "surfaces": {
     "icon_px": 56,
@@ -703,6 +852,83 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
   },
   "budget": { "max_base64_kb": 512 },
 
+  "lab": {
+    "_comment": "NO AUTHORITY. Part 7. Nothing in `verdicts` or `cues` may name anything in here; capart enforces it. A treatment leaves the lab by being MOVED into Parts 1-6, never by being cited from here. The stripe entries below draw on `tokens.hatch`'s sheet, which is the STYLE's — a lab entry citing the style is the legal direction.",
+    "_arrival_stage": { "neighbours": 2 },
+
+    "stripes-l3-hold": {
+      "draws": "stripes",
+      "title": "Red stripes on a sequencing hold",
+      "asks": "When cap is holding a button for something else, does a stated condition across the face read better than a badge alone — and does it still read as *held for a reason* rather than as *broken*?",
+      "rgb": [0.95, 0.30, 0.30],
+      "alpha": 0.45,
+      "phase_pct": 0,
+      "cells": [
+        { "kind": "icon", "ability": "The Hunt", "verdict": "hold-readable",
+          "stripes": ["self"],
+          "caption": "<b>readable hold</b> — the corner badge says <em>why</em>, the stripes say <em>not this</em>. Both, on one icon." },
+        { "kind": "icon", "ability": "Essence Break", "verdict": "hold-sealed",
+          "stripes": ["self"],
+          "caption": "<b>sealed hold</b> — the same statement drawn from a sealed fact. If the two holds do not look alike here, the player is being asked to decode where the fact came from." },
+        { "kind": "icon", "ability": "The Hunt", "verdict": "below", "cues": [], "stripes": [],
+          "caption": "<b>control</b> — the same icon untreated. The comparison is the point; a treatment that only reads beside its own caption has not read." },
+        { "kind": "sheet",
+          "caption": "the tiling sheet itself, at this entry's colour — pitch and angle, unmasked by any icon." }
+      ]
+    },
+
+    "stripes-l5-starved": {
+      "draws": "stripes",
+      "title": "Red stripes on `starved`",
+      "asks": "Does the same red that marks a hold also read as *you cannot afford this*, with only the badge to separate them — or does one red across two different reasons under-differentiate?",
+      "rgb": [0.95, 0.30, 0.30],
+      "alpha": 0.45,
+      "phase_pct": 0,
+      "cells": [
+        { "kind": "icon", "ability": "Chaos Strike", "verdict": "starved",
+          "stripes": ["self"],
+          "caption": "<b>cannot afford it</b> — a Fury spender short of its cost, drawn by its own render with its own parameters." },
+        { "kind": "icon", "ability": "Chaos Strike", "verdict": "below", "cues": [], "stripes": [],
+          "caption": "<b>control</b> — affordable, untreated." },
+        { "kind": "sheet",
+          "caption": "the sheet at this entry's colour — the same red and the same phase as L3, because it is the same kind of statement." }
+      ]
+    },
+
+    "arrival-control-sweep": {
+      "draws": "arrival-sweep",
+      "title": "The declared snap at four from_scale values, alone and beside neighbours",
+      "asks": "Is the `#` the overhang? Today's border is drawn 2.00x on a frame 2px narrower than the row pitch, so it crosses its neighbours and their static borders. If the hash is absent in isolation at every value and appears beside neighbours only above the low values, the diagnosis holds and the fix is one number — and the three variants below are unnecessary.",
+      "from_scale_sweep": [2.00, 1.50, 1.25, 1.10]
+    },
+
+    "arrival-b-relative": {
+      "draws": "arrival-relative",
+      "title": "The ring built from anchors alone — thickness as an offset, no SetWidth/SetHeight",
+      "asks": "Does a strip that takes all four of its extents from anchors scale differently from one that takes a thickness from SetWidth/SetHeight? Pixel-identical at rest by construction; the question is whether the Scale animation treats the two the same. A negative result exonerates the ring construction in the client rather than only on paper."
+    },
+
+    "arrival-c-thickness": {
+      "draws": "arrival-thickness",
+      "title": "No Scale animation at all — a fat ring flashed alpha-only over the resting one",
+      "asks": "Read as arrival without any geometry moving? Two pre-built rings, the resting one and a fat one; the fat one rests at alpha 0 and is flashed up and back. The border never exceeds its own rect, so it can never touch a neighbour at any value.",
+      "fat_mult": 3.0,
+      "duration_s": 0.35
+    },
+
+    "arrival-d-ghost": {
+      "draws": "arrival-ghost",
+      "title": "A ghost ring pings outward and fades; the declared border never animates",
+      "asks": "Does an outward ping read as arrival better than an inward snap, and does it stay off the neighbours? The declared border is built as today and never touched; a second frame carries its own ring and is the only thing that scales.",
+      "from_scale": 1.00,
+      "to_scale": 1.25,
+      "from_alpha": 1.00,
+      "to_alpha": 0.00,
+      "duration_s": 0.35,
+      "smoothing": "OUT"
+    }
+  },
+
   "artifact": {
     "_comment": "NOT THE STYLE. Viewing aids the preview needs and the addon does not. The addon fires the arrival snap on the event and stops; the artifact replays it so it can be watched.",
     "arrival_replay_s": 5.0
@@ -712,7 +938,7 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
 
 **Reading the verdict table.** `border` is whether the row wears its lane border at all — `cd` is
 the only row that does not, because Blizzard's swipe has already ruled it out and a border would
-just be noise on a dead button. `veil` is V4. `swipe` is Blizzard's own dial, which cap does not
+just be noise on a dead button. `swipe` is Blizzard's own dial, which cap does not
 draw and does not restyle (V7); it appears here so the artifact can reproduce the row faithfully.
 `cues` names badge cues (V5.1) by key into `tokens.cues`, and each cue's `slot` fixes where it
 lands. A cue whose token carries `open: true` draws with a ⚠ chip in the artifact and produces
@@ -739,30 +965,150 @@ stands. But it made *trying* something expensive: the only way to see a new idea
 the declared style and remember to put it back. So the lab is where an idea gets drawn without
 being adopted.
 
-**The four rules, and `wowkb.capart` enforces the first one.**
+**The four rules, and `wowkb.capart` enforces rules 1 and 2.**
 
 1. **Nothing in `verdicts` or `cues` may name anything in `lab`.** The lab is unreachable from
    `havoc/scenarios.md` by construction — a scenario cannot accidentally start depending on an
-   experiment. `capart build` errors if the reference exists.
+   experiment. `capart build` errors if the reference exists (`validate_lab_isolation`).
 2. **The lab never draws in a CDM row.** It renders in its own section of the artifact, under its
-   own heading, after the declared primitives.
+   own heading, after the declared primitives — **and, since 2026-08-16, it may also be drawn by
+   the in-game `/cap style` gallery.** The gallery is exempt because it is not a live row: it draws
+   on cap-owned frames, in a panel you opened on purpose, and shows nobody a CDM row. That exemption
+   exists because you cannot judge whether a treatment *renders* — how a mask tiles, what a
+   `SetVertexColor` multiply actually looks like over Blizzard's own icon art — from a browser. A
+   preview is an argument about the client; the gallery is the client.
+   **What has not moved is the live overlay.** So the lab crosses into the addon through its own
+   generated file and its own global: `Lab.lua`, `ns.LabStyle`, written by
+   `wowkb.capart export lab` alongside its art in `Media/lab/`. It is deliberately *not* a `lab`
+   key on `ns.Style`, because every live module already reads `ns.Style` and that would leave the
+   guarantee resting on everyone remembering. The enforcement is the **`LabStyle` reach gate** in
+   `capart check`: `ns.LabStyle` may be named by `Lab.lua` and `StylePanel.lua` and by nothing
+   else, and a reference from `Overlay.lua`, `Treatment.lua`, `Paint.lua`, `Sense.lua` or a catalog
+   is a hard failure.
 3. **The lab has no authority.** It is not a proposal, a shortlist, or a plan of record. It is
-   pixels you can look at. `render-rationale.md` argues; the lab *shows*; neither decides.
+   pixels you can look at. `render-rationale.md` argues; the lab *shows*; neither decides. Shipping
+   the art is not adoption — a texture on disk that only a gallery draws has decided nothing.
 4. **A treatment leaves the lab by being MOVED**, into Parts 1–6 with its numbers, and deleted from
    here. Never by being cited from here. If two entries survive a flight, one of them still loses.
+   Promotion is unchanged by the gallery: being *drawable in the client* is not being *drawn on a
+   row*.
 
 Each entry carries an `asks` — the question it exists to answer. An entry that cannot say what it
 is asking is decoration and should be deleted.
 
-### The lab is currently empty.
+**Three earlier entries are gone from here**, per rule 4. **L1 `border-arrival`** → **V2** and
+**L2 `badge-slots`** → **V5** on **2026-08-13**, the latter with the cue vocabulary rewritten
+negative-only; **L4 `stripes-l4-cooldown`** → **V11** on **2026-08-16**, taking the shared stripe
+sheet with it. All three are drawn above, as the style, not here.
 
-Its two entries were promoted on **2026-08-13** and are gone from here, per rule 4:
+### The shared stripe asset — now the style's, at `tokens.hatch`
 
-- **L1 `border-arrival`** → **V2**, the lane border and its arrival snap, with the fourth
-  **CHARGES** lane. It retired V1's flipbook ring and V3's pulse.
-- **L2 `badge-slots`** → **V5**, the corner badges, with the cue vocabulary rewritten
-  negative-only. It retired the old center cue row and V6's corner dot. *(The vocabulary gained
-  one positive cue on 2026-08-14 — see Part 0.5; the promotion itself is unchanged.)*
+The two entries below draw diagonal stripes, and **the sheet is the only thing they share with each
+other and with V11**. It used to live here as `lab._sheet`; when L4 was promoted on 2026-08-16 the
+sheet went with it, because the style cannot depend on an asset the lab owns. It is now
+`tokens.hatch` — geometry, and V11's own colour and phase — and these entries cite it.
 
-There is no `lab` block in Part 6 right now, and that is the correct resting state — an empty lab
-is a lab, not a defect. The next idea gets a `lab` key, an `asks`, and a section here.
+**A lab entry naming the style is the legal direction.** Part 7 rule 1 forbids `verdicts` and
+`cues` from naming the lab, so that an experiment cannot become load-bearing without being adopted.
+The reverse carries no such risk: an experiment borrowing a shipped sheet decides nothing, and the
+alternative is a second identical texture on disk that can silently drift from the first.
+
+**Everything except the geometry is per-render, and deliberately so.** Each entry supplies its own
+`rgb`, its own `alpha` and its own `phase_pct`; in the client that is `SetVertexColor` plus a
+`SetTexCoord` offset, and in the artifact it is `background-color` plus a `mask-position`. There is
+**no shared "this row is striped" flag** for several conditions to write and something else to read
+back. When a striped row turns up in a flight, the stripes belong to exactly one condition and you
+can say which.
+
+The one generator feeds every surface: the artifact gets it as a `data:` URI, and `capart export
+hatch` writes it as a 32-bit TGA to `Media/stripes.tga` — a **style** path, beside the ring, not
+under `Media/lab/` — under the same tint guard the shipped badge art passes (measured 0.000 mean
+saturation: white RGB, the pattern in alpha only, so no hue can be baked in without the guard
+failing). The gallery reads the same file through `Lab.lua`'s `_sheet`, whose `texture_root` and
+`texture` are generated; the addon never builds that string itself.
+
+### L3 · `stripes-l3-hold` — red stripes on a sequencing hold
+
+A row cap is holding for something else already wears the red `blocked` badge. This asks whether
+it should also wear a **stated condition across the face**: `lab.stripes-l3-hold.rgb` at
+`lab.stripes-l3-hold.alpha`, at the sheet's own phase (`phase_pct` 0).
+
+The claim under test is that a badge says *why* in a corner and a stripe says *not this* across
+the whole button, and that the second one is what the eye catches without decoding. It is drawn on
+both a **readable** hold (The Hunt) and a **sealed** one (Essence Break) side by side, because if
+those two do not look identical the player is being asked to decode where a fact came from — which
+is a thing cap has no business making visible. The third cell is the same icon untreated.
+
+⚠ Stripes subtract no light. This is not the veil in a new colour: nothing here dims, and if the
+entry ends up reading as "dimmer" rather than as "conditioned", it has failed.
+
+### L5 · `stripes-l5-starved` — red stripes on `starved`
+
+A spender you cannot afford draws stripes from **its own** render, with its own parameters:
+`lab.stripes-l5-starved.rgb` at `lab.stripes-l5-starved.alpha`, phase 0.
+
+It uses **the same red as L3** because it is the same *kind* of statement — cap hinting against a
+press — and for no other reason. There is no rule here that negative things are red, and none is
+being proposed; if a later entry hints against a press in a different colour, nothing in this file
+has to change. Equally, if the three renders turn out to be drawing something identical, **that is
+an observation that may earn a shared recipe**, not a rule to author in advance.
+
+⚠ One red across two different reasons may under-differentiate, with only the corner badge
+separating "held" from "cannot afford". That is what the entry asks. The fix, if it fails, is not
+automatically a second hue — Part 5 question 5 is the same question about the badges, and its
+answer there was *different shapes, not a second colour*.
+
+### The arrival-snap variants — `arrival-*`
+
+Four entries that share a subject rather than an asset: **the one-shot arrival snap (V2), and what
+it draws when a row has neighbours.** They are the lab's first entries that **only** the `/cap style`
+gallery can draw — CSS has no four-strip ring, so the artifact shows their titles and their `asks`
+and says where to look. That is the exemption's whole point: an argument about how the client
+scales a frame is not settleable in a browser.
+
+The shared stage is `lab._arrival_stage`, carrying **`neighbours`** — how many bordered rows sit on
+each side of the subject. It deliberately does **not** restate the row pitch: that is
+`surfaces.icon_px + surfaces.row_gap_px` and already declared, and a second copy of a number is a
+second thing to keep true.
+
+**The diagnosis under test**, argued from the declared values: the border frame is the icon plus
+`2 × PAD` = 60 px, so `arrival.from_scale` 2.00 draws it 120 px wide — **30 px of overhang per
+side** against a row pitch of 62 px. `Overlay.lua` puts the overlay at `HIGH` level 4, so nothing
+occludes the overhang; it crosses the neighbours and their own static borders, and two crossing
+pairs of lines that overhang past the crossing is a `#`. The four-strip ring itself is **exonerated
+on paper** — horizontals take both x-extents from anchors and verticals both y-extents, so no strip
+can overhang its own frame at any scale.
+
+- **`arrival-control-sweep` is the falsifier and comes first.** The **retired four-strip ring under
+  a `Scale` animation** — `Paint.Ring`, which survives only to feed these four entries and is no
+  longer what V2 draws — at each of `from_scale_sweep`, each drawn twice: once with nothing within
+  reach, once with `_arrival_stage.neighbours` bordered rows on each side at the true pitch.
+  ⚠ **What this now settles has changed.** V2 already moved to a flipbook that cannot draw outside
+  its own cell, so this no longer chooses the fix. It tests the *reason* V2 was rebuilt: if the hash
+  never appears in isolation and appears beside neighbours only at the high values, overhang was the
+  cause and the flipbook removed it by construction. If the hash shows on an **isolated** icon at any
+  value, the overhang story was wrong, the flipbook fixed it by accident, and B, C and D become live
+  again.
+- **`arrival-b-relative`** replaces `SetWidth`/`SetHeight` with a third anchor, so thickness lives in
+  the same coordinate system as the rest of the rect. Pixel-identical at rest, by construction.
+- **`arrival-c-thickness`** removes the `Scale` animation entirely: a resting ring and a **fat** one
+  at `fat_mult`, flashed alpha-only over `duration_s`. It carries **no scale key, and that absence
+  is the statement.** ⚠ The fat ring rests at alpha 0 and animates up from it — animations restore
+  the *pre-animation* alpha on both exit paths, so a fat ring resting visible would leave every row
+  wearing a permanent double border. ⚠ Nothing here animates `SetHeight`/`SetWidth`: those are
+  protected resize calls and outside cap's in-combat allowance, which is exactly why the treatment
+  is a **pre-built pair** rather than a growing strip.
+- **`arrival-d-ghost`** leaves the declared border alone and gives the ping its own frame:
+  `from_scale` → `to_scale` with alpha `from_alpha` → `to_alpha`, i.e. **outward and fading** rather
+  than inward and arriving. At 1.25 it overhangs ~7.5 px and never reaches a neighbour's centre. ⚠ It
+  must **land invisible**: scale restoration on `Stop()` is unmeasured, so the ghost is hidden
+  explicitly on finish rather than trusted to restore.
+
+### What is NOT here
+
+None of these is on the **style's** ship path. `capart export badges` writes no lab art; the lab's
+own generated textures go out under `capart export lab`, into `Media/lab/`, and `capart check`
+requires a TGA for each asset the lab declares — which is a currency gate on a gallery, not
+authority. The lab still has none (rule 3): art on disk that only `/cap style` draws has decided
+nothing. Promotion means moving an entry into Parts 1–6, at which point it joins the style's export
+like everything else there.

@@ -1,10 +1,10 @@
 ---
 title: The Cooldown Manager — how a CDM row resolves
 patch: 12.1.0
-fetched: 2026-08-11
-reviewed: 2026-08-11   # 12.1.0 source diff only; NO new client capture. The [client] tags below are all 12.0.7 and were not restamped
+fetched: 2026-08-16
+reviewed: 2026-08-16   # 12.1.0 source reads, plus ONE 12.1.0 client capture (§4.2). Every other [client] tag below is 12.0.7 and was not restamped
 sources:
-  - raw/addon-research/wow-ui-source-12.1.0 @ 12.1.0.69273 — Interface/AddOns/Blizzard_CooldownViewer/* and Blizzard_APIDocumentationGenerated/CooldownViewer{,Constants}Documentation.lua. `[T1 src @12.1.0]` / `[T1 docs @12.1.0]` locators resolve here
+  - raw/addon-research/wow-ui-source-12.1.0 @ 12.1.0.69273 — Interface/AddOns/Blizzard_CooldownViewer/*, Blizzard_SharedXML/LayoutFrame.lua, Blizzard_SharedXMLBase/Pools.lua and Blizzard_APIDocumentationGenerated/CooldownViewer{,Constants}Documentation.lua. `[T1 src @12.1.0]` / `[T1 docs @12.1.0]` locators resolve here
   - https://warcraft.wiki.gg/wiki/Patch_12.1.0/API_changes (revid 6801760, 2026-08-09)
   - raw/addon-research/wow-ui-source @ 12.0.7.68887 — Interface/AddOns/Blizzard_CooldownViewer/*
   - raw/addon-research/wow-ui-source @ 12.0.7.68887 — Blizzard_APIDocumentationGenerated/CooldownViewer{,Constants}Documentation.lua
@@ -22,6 +22,7 @@ sources:
   - in-client capture, ClientLab v0.2.2 `cdm-identity-readable-in-combat`, Demonology Warlock, 5 in-combat runs, 2026-08-06  # §2 overrideSpellID is the in-combat identity route and MOVES; §4 GetSpellID's secret set is volatile and does not track auraDataUnit. ⚠ The capture itself is GONE — the surviving lab-runs extract reaches only 2026-08-05 and contains no run of this id. The recorded field values survive transcribed verbatim in observations.md, which is the archive of record for this one
   - in-client capture, cap v0.2.1 bind log, Demonology/Diabolist Warlock, 2026-08-07  # §1.2 the three row enumerations (DB2 65 / category set 44 / laid out 21) and which HideByDefault rows a saved layout un-hid
   - in-client capture, ClientLab CDMSweep, Demonology Warlock, 2026-08-09 (raw/clab-cdmsweep.log, raw/clab-cdmevent.log)  # §7 the SpellCooldownInfo per-member seal, Bar.Pip:IsShown(), the totem channel, GetSpellCooldownDuration in restricted combat
+  - in-client capture, live 12.1.0.69214, Havoc Demon Hunter, EssentialCooldownViewer with 9 item frames, 2026-08-16  # §4.2 the SetPoint re-anchor: takes effect and holds across a 138 s fight in a session with no re-layout. Two sessions on one login — the first with a third-party CDM re-skin's cooldown override ENABLED (it won every round), the second with it disabled
   - EllesmereUI v8.7.5 @ c4eba58d996a8436f467ac8f297148bff9dd3008 (2026-08-04),
     https://github.com/EllesmereGaming/EllesmereUI — license CUSTOM, ALL RIGHTS
     RESERVED; read for API discovery only, no code copied. Mined 2026-08-05 via the
@@ -65,8 +66,18 @@ was **not** re-measured in the client, and it was not re-derived line by line.
 
 | Claim kind | Status at 12.1.0 |
 |---|---|
-| **`[client YYYY-MM-DD]` measurements** | **Taken on 12.0.7, and NOT restamped.** Each still says the date it was measured. Several are about the *readable surface* of item frames, which the rework plausibly moved. Treat every one as "was true on 12.0.7" and re-fly before building on it. |
+| **`[client YYYY-MM-DD]` measurements** | **Taken on 12.0.7, and NOT restamped** — with one exception, §4.2, which was measured on live 12.1.0.69214 and says so. Each still says the date it was measured. Several are about the *readable surface* of item frames, which the rework plausibly moved. Treat every other one as "was true on 12.0.7" and re-fly before building on it. |
 | **Unstamped `[T1 src: …:NNN]` line numbers** | **12.0.7.68887, and not re-resolved.** `Blizzard_CooldownViewer/` gained six files and lost five (below), so many of these have shifted; the *mechanism* they cite is usually still there, the *line* frequently is not. A locator stamped `@12.1.0` was read on the new tree. |
+
+**The stamp is the whole convention, and it is per-locator, not per-section.**
+`[T1 src @12.1.0: <file>:<line>]` means *this line number was opened on the
+12.1.0.69273 tree*; a bare `[T1 src: <file>:<line>]` means it was not. Restamping is
+therefore how a locator gets fixed — re-open it, write the new number, add `@12.1.0`.
+⚠ **A stamp is a claim about the LINE, never about the evidence class.** `[T1 src
+@12.1.0]` is a **source read**, which README §0 ranks below `[client YYYY-MM-DD]`: it
+says what Blizzard's Lua does, not what the running client does. Nothing here upgrades
+a source read into a measurement, and §4.1 — the densest run of `@12.1.0` locators in
+the file — is source, start to finish.
 | **Structural claims about categories, families and identity** | **Partly falsified — corrected in place below.** The category enum more than doubled, the two hidden pseudo-categories were renamed, and there is now a third display mode. Those specific corrections are made at their sections; the identity ladder (§2) and value cascade (§3) were **not** re-derived. |
 
 **The file-level diff, as the cheapest map of what moved**
@@ -206,14 +217,19 @@ erroring, and a comparison against it matches every row whose `category` is also
 or none at all. Grep for both names.
 
 **The consequence is that the row gets no frame.** `GetOrderedCooldownIDsForCategory`
-matches on the (now rewritten) category `[T1 src: CooldownViewerSettingsDataProvider.lua:230]`,
-a viewer asks it for its own category `[T1 src: CooldownViewer.lua:1869]`, and
-`RefreshLayout` `[:1824]` pools a frame only for what comes back. A hidden row is in
-nobody's category, so nothing is pooled for it.
+matches on the (now rewritten) category
+`[T1 src @12.1.0: CooldownViewerSettingsDataProvider.lua:249-260]`,
+a viewer asks it for its own category `[T1 src @12.1.0: CooldownViewer.lua:2066-2069]`, and
+`RefreshLayout` `[T1 src @12.1.0: :2021]` pools a frame only for what comes back. A hidden
+row is in nobody's category, so nothing is pooled for it. The same function applies two
+further suppressions on the way out — `isInvisible` (gated on `CDM_HIDE_INVISIBLE_ITEMS`)
+at `:253` and `isKnown` at `:254` — so three independent mechanisms can keep a row out of
+a viewer.
 
 > ⚠ **THEREFORE NO ALERT EDGE CAN FIRE FOR A HIDDEN ROW.** All six alerts are
-> `self:TriggerAlertEvent(…)` called on **item-frame methods** (`:500`, `:556`, `:608`,
-> `:612`, `:622`, `:1068`), and **every one of them is reached through
+> `self:TriggerAlertEvent(…)` called on **item-frame methods**
+> `[T1 src @12.1.0: CooldownViewer.lua:518, :579, :632, :636, :640, :1179]`,
+> and **every one of them is reached through
 > `self.itemFramePool:EnumerateActive()`** — with no exception for the aura pair. The
 > timer-driven three go through the `OnUpdate` enumeration
 > `[T1 src: CooldownViewer.lua:1622-1627]`; the two aura edges go through
@@ -255,9 +271,23 @@ which resolves through `CanActivateLayout` comparing the layout's class+spec tag
 current one `[T1 src: CooldownViewerSettingsLayoutManager.lua:212-221]`. So "hidden" is a
 default, not a property, and it is **per class+spec**.
 
+**The Lua path that writes that saved block**, for the record:
+`CooldownViewerSettingsDataProviderMixin:SetCooldownToCategory(sourceCooldownID, category)`
+`[T1 src @12.1.0: CooldownViewerSettingsDataProvider.lua:315-322]` resolves the row's info
+and hands it to `ChangeCooldownInfoInternal` `[@12.1.0: :335-347]`, which asks the layout
+manager for a `GetCooldownCategoryChangeStatus` verdict and then calls
+`WriteCooldownInfo_Category`. The `HideByDefault` rewrite this un-does is the one at
+`[@12.1.0: :115-118]`, keyed through the pseudo-category mapping table at `[@12.1.0: :66-77]`.
+⚠ **This writes the player's saved layout** — it is the same persisted state the settings UI
+edits, not a display-side override, so a caller is mutating a user setting.
+Whether driving that path (or its settings-UI equivalent) actually lands the row in a viewer
+end to end is a separate question and an open one — §9 holds it. Reading this paragraph as
+"so it works" is exactly the inference §9 says nobody has closed.
+
 > ⚠ **The signal that this happened is a Lua callback, not a game event.**
 > `EventRegistry:TriggerEvent("CooldownViewerSettings.OnDataChanged")`
-> `[T1 src: CooldownViewerSettingsLayoutManager.lua:784]`, raised from `NotifyListeners` —
+> `[T1 src @12.1.0: CooldownViewerSettingsLayoutManager.lua:832]`, raised from
+> `NotifyListeners` `[@12.1.0: :823-836]` —
 > which is **suppressed while notifications are locked** for batched changes and fires once
 > afterwards. Treat it as a hint and re-poll, the same discipline §4 already asks for on
 > `TRAIT_CONFIG_UPDATED`. There is no `COOLDOWN_VIEWER_*` event for a layout edit.
@@ -701,7 +731,7 @@ viewer is hidden** — every event in §5 is registered in `OnShow` and dropped 
 | Viewer `OnUpdate` `[:1622]` | **every frame** | Wired via `<OnUpdate method="OnUpdate"/>` `[T1 src: CooldownViewer.xml:289]`. Fans out to each item's `OnUpdate` `[:89]`, which does **no re-resolution** — it only checks four time-based alert triggers: Available, PandemicTime, the pandemic display state, ChargeGained. **The alerts are polled; identity is not.** |
 | **BuffBar** item `OnUpdate` `[:1360]` | **every frame** | The exception. A TrackedBar item additionally calls `RefreshActive()` then either `Clean()` (a full `RefreshData`) or `RefreshCooldownInfo()`, which re-reads `GetAuraData()`. **Bar rows re-scan auras every frame; icon rows do not.** |
 | `MarkDirty` / `Clean` `[:113-126]` | deferred | A buff item discovering a re-link during `ShouldBeActive` marks itself dirty rather than re-resolving inline `[:1194]`. |
-| `UNIT_AURA` full update | bulk | `isFullUpdate` short-circuits per-aura routing and calls `RefreshLayout()` on the whole viewer `[:1628-1633]` — the heaviest path, and the one that re-pools frames. |
+| `UNIT_AURA` full update | bulk | `isFullUpdate` short-circuits per-aura routing and calls `RefreshLayout()` on the whole viewer `[T1 src @12.1.0: CooldownViewer.lua:1803-1806]` — the heaviest path, the one that re-pools frames, and the one that reaches **in combat** (§4.1). |
 
 > ⚠ **`TRAIT_CONFIG_UPDATED` fires BEFORE the CDM rebuilds its set — a hero-tree swap
 > settles over two events and ~5 s.** `[client 2026-08-06]` (cap v0.2.0 `bind` capture,
@@ -734,6 +764,177 @@ viewer is hidden** — every event in §5 is registered in `OnShow` and dropped 
 > Anything reporting CDM availability therefore needs a trigger it does not currently have;
 > adding verdicts is useless without one.
 
+### 4.1 Layout and ordering — what re-anchors an item frame, and when
+
+Everything in this section is a **source read on the 12.1.0 tree**; every locator carries
+`@12.1.0` and none of it was measured in the client (§0b). A viewer is a
+`GridLayoutFrameMixin`, its item frames are pooled children, and the whole ordering story
+runs through one field.
+
+**`layoutIndex` is both the grid sort key and the cooldownID data index — the same
+number, doing two jobs.** `CooldownViewerMixin:RefreshLayout` acquires one frame per row
+and stamps `itemFrame.layoutIndex = i` `[T1 src @12.1.0: CooldownViewer.lua:2021-2029]`.
+`RefreshData` then binds each frame's identity by looking its own index up in the ID list —
+`local cooldownID = cooldownIDs and cooldownIDs[itemFrame.layoutIndex]`
+`[@12.1.0: :2071-2077]` — while `BaseLayoutMixin:GetLayoutChildren` sorts the children with
+`LayoutIndexComparator` before returning them `[@12.1.0: Blizzard_SharedXML/LayoutFrame.lua:58-68,
+the sort at :64; the comparator at :44-56]`.
+
+> ⚠ **Therefore rewriting `layoutIndex` to reorder a row self-cancels.** Both the position
+> *and* the identity follow the index, so two frames given each other's indices swap their
+> cooldownIDs on the next `RefreshData` as well as their slots: the icons trade places and
+> trade contents, and the row looks unchanged. Duplicate values are worse than useless —
+> the comparator raises `GMError` naming both frames
+> `[@12.1.0: LayoutFrame.lua:45-53]`. **A positional reorder has to be `ClearAllPoints()` +
+> `SetPoint()` on the frame**, leaving `layoutIndex` alone.
+
+**`GetItemFrames()` answers in `layoutIndex` order, not in drawn order.** It is
+`GetItemContainerFrame():GetLayoutChildren()` and the container is the viewer itself
+`[@12.1.0: CooldownViewer.lua:1632-1639]` — so it returns Blizzard's *intended* order, and a
+`SetPoint` re-anchor is invisible to it. A consumer that derives "which row is leftmost"
+from the `GetItemFrames()` index is reading intent; drawn position comes from
+`GetLeft()` / `GetTop()` on the frame, and nowhere else.
+
+**`alwaysUpdateLayout` is set once and never cleared, so there is no quiet layout.**
+`RefreshLayout` sets `itemContainerFrame.alwaysUpdateLayout = true`
+`[@12.1.0: CooldownViewer.lua:2036]` — Blizzard's own comment says it is needed for icon-scale
+changes, which do not otherwise dirty the layout — and `GridLayoutFrameMixin:ShouldUpdateLayout`
+early-returns `true` whenever it is set `[@12.1.0: LayoutFrame.lua:589-596]`. From the first
+`RefreshLayout` onward, **every** `Layout()` call re-anchors **every** child unconditionally.
+The "nothing changed, skip it" early-out that the rest of `ShouldUpdateLayout` implements is
+unreachable on a CDM viewer.
+
+**`RefreshLayout` is the destructive path, and it is reachable in combat.** Its first act is
+`self.itemFramePool:ReleaseAll()` `[@12.1.0: CooldownViewer.lua:2022]`; the pool's reset
+callback is `Pool_HideAndClearAnchors` plus `itemFrame.layoutIndex = nil`
+`[@12.1.0: :1642-1646]`, and `Pool_HideAndClearAnchors` calls `Hide()` **and
+`ClearAllPoints()`** `[@12.1.0: Blizzard_SharedXMLBase/Pools.lua:519-522]`. So a
+`RefreshLayout` discards every anchor a rider ever set. Its callers:
+
+| Caller | Locator `@12.1.0` | Reaches combat? |
+|---|---|---|
+| `CooldownViewerMixin:OnShow` | `CooldownViewer.lua:1740` | on show |
+| `CooldownViewerMixin:SetIsEditing` | `:1929` | Edit Mode only |
+| `OnCooldownDataChanged`, else-branch | `:2017` | on a settings/layout change |
+| **`OnUnitAura`, `isFullUpdate` branch** | **`:1803-1806`** | **yes** |
+
+The last one is the one that matters, and it is **broader than "the player's auras changed"**:
+
+```lua
+function CooldownViewerMixin:OnUnitAura(_unit, unitAuraUpdateInfo)
+	CooldownViewer_MarkAuraCacheDirty();
+
+	if not unitAuraUpdateInfo or unitAuraUpdateInfo.isFullUpdate then
+		self:RefreshLayout();
+		return;
+	end
+```
+`[T1 src @12.1.0: CooldownViewer.lua:1800-1806]`
+
+- **The unit is discarded.** `OnShow` registers `RegisterUnitEvent("UNIT_AURA", "player",
+  "target")` `[@12.1.0: :1733]` and the handler names its first parameter `_unit` — Blizzard's
+  own unused-parameter convention. There is no filter, so **a full aura update on your target
+  rebuilds the whole layout**, even though no target aura affects the viewer. Contrast
+  `AuraFrameEventListenerMixin` in `BuffFrame.lua`, which gates the same event on
+  `unit == PlayerFrame.unit` `[@12.1.0: BuffFrame.lua:294]`. The CDM is strictly more
+  trigger-happy than the buff frame.
+- **A nil payload counts too** — `if not unitAuraUpdateInfo or …`. Any `UNIT_AURA` arriving
+  without update info is a teardown.
+- **`PLAYER_TARGET_CHANGED` is registered but is *not* one.** It routes to
+  `OnPlayerTargetChanged` → `RefreshActiveFramesForTargetChange`
+  `[@12.1.0: CooldownViewer.lua:1777, and the method just below OnUnitAura]`, which never touches
+  the layout. Swapping targets is not itself destructive; whatever aura full-update accompanies
+  acquiring a new unit is.
+
+> ⚠ **What sets `isFullUpdate` is not in the Lua.** It arrives already decided in the payload —
+> `UnitAuraUpdateInfo.isFullUpdate` is declared a non-nilable bool defaulting false
+> `[T1 src @12.1.0: UnitConstantsDocumentation.lua:59]` — and no consumer in the shipped UI
+> documents the condition
+> `[searched 2026-08-16: every isFullUpdate reader in wow-ui-source-12.1.0 — Blizzard_AuraContainer,
+> Blizzard_NamePlates, Blizzard_PrivateAurasUI, Blizzard_BuffFrame, PartyMemberFrame,
+> DemonHunterSoulFragmentsBar, EvokerEbonMightBar, SharedXML]`; the only remark is
+> `ManagedAuraContainer.lua:333` on deferring rebuilds. **The rate of this teardown is therefore
+> not answerable by source reading and needs measurement.**
+
+**Anything that anchors, parents or decorates an item frame must be able to re-apply itself
+after an arbitrary mid-combat teardown**, and must not assume its anchors survived.
+
+**A same-count settings change does not disturb anchors.** `OnCooldownDataChanged` compares
+`self.itemFramePool:GetNumActive()` against the new item count and takes an in-place
+`RefreshData(cooldownIDs, forceSet)` path when they match, calling `RefreshLayout` only
+otherwise `[@12.1.0: :2007-2019]`. Blizzard's comment states the intent: *"If the frame count
+hasn't changed, update cooldown data in-place without releasing and re-acquiring frames or
+re-running the layout engine."* So a row swapped for another row keeps every frame, every
+anchor and every index; only the *count* changing is destructive.
+
+**Cooldown start and end do not re-run the layout at all.** `SPELL_UPDATE_COOLDOWN`,
+`SPELL_UPDATE_USES`, `SPELL_UPDATE_USABLE`, `SPELL_RANGE_CHECK_UPDATE` and the two
+`SPELL_ACTIVATION_OVERLAY_GLOW_*` events are handled by `CooldownViewerCooldownMixin:OnEvent`,
+which does nothing but fan each one out to `itemFramePool:EnumerateActive()`
+`[@12.1.0: CooldownViewer.lua:2167-2200]`. Frames do not move because an ability came off
+cooldown.
+
+**An inactive row keeps its grid slot; the row gaps rather than closing up.** All four item
+templates set `includeAsLayoutChildWhenHidden="true"`
+`[@12.1.0: CooldownViewer.xml:24, :93, :162, :213]`, and `BaseLayoutMixin:AddLayoutChildren`
+admits a child on `region:IsShown() or region.includeAsLayoutChildWhenHidden`
+`[@12.1.0: LayoutFrame.lua:38]`. `CooldownViewerItemMixin:UpdateShownState` only calls
+`SetShown` `[@12.1.0: CooldownViewer.lua:310-313]` and does not mark the viewer dirty. A row
+that goes inactive is hidden in place: it still occupies its cell, and the icons either side
+of it do not move.
+
+**The viewer anchors the pandemic state frame ONTO the item frame.**
+`CooldownViewerMixin:AnchorPandemicStateFrame` `SetPoint`s the pooled state frame to the
+item's `TOPLEFT`/`BOTTOMRIGHT` `[@12.1.0: CooldownViewer.lua:2129-2133]`, and
+`BuffBarCooldownViewerMixin` overrides it `[@12.1.0: :2353]`. Consequence: **re-*parenting* an
+item frame breaks that anchor chain; re-*anchoring* it does not.**
+
+**On protection, what the XML says and what it does not.** Across
+`Blizzard_CooldownViewer/*.xml` the `protected` attribute is **absent** — the four item
+templates inherit `CooldownViewerBaseItemTemplate` `[@12.1.0: CooldownViewer.xml:4-10]`,
+a plain virtual `<Frame>` carrying three script bindings and no attributes beyond `name`
+and `virtual`.
+
+> ⚠ **That settles the declaration, not the runtime.** Whether the client nonetheless
+> treats a laid-out CDM item frame as protected by some other route — a secure ancestor,
+> a C-side flag, or `CooldownViewerSecure.lua`, which 12.1.0 added (§0b) — is not
+> established at any tier here, and the XML cannot settle it.
+> `` `@pending-test: cdm-item-frame-protected` `` — `IsProtected()` on a live item frame and
+> on the viewer, in and out of combat.
+
+### 4.2 A re-anchor measured, and the limit on how far it was measured
+
+`[client 2026-08-16]` on live 12.1.0.69214, `EssentialCooldownViewer` with 9 active item
+frames and a third-party Cooldown Manager re-skin loaded. Method: out of combat every item
+frame got `ClearAllPoints()` and a `SetPoint` onto a plain non-secure frame that was **not**
+its parent — the frames stayed parented to the viewer — and drawn position was read back
+per frame with `GetLeft()` / `GetTop()` against the intended order, with `Layout` and
+`RefreshLayout` both hooked.
+
+- **The re-anchor takes effect.** Immediately after the out-of-combat apply the
+  left-to-right read-back matched the intended order exactly; the same read before the apply
+  gave the viewer's own order. `[client 2026-08-16]`
+- **Positions held through combat — in a session where the layout did not re-run, and that
+  is the whole claim.** Order still read as intended at combat entry and again at combat
+  exit across a 138 s fight, with no frame moving; over that same session neither layout
+  hook fired, so the `RefreshLayout` teardown §4.1 describes was not exercised and the
+  `UNIT_AURA` `isFullUpdate` path that reaches combat was not among the events sampled.
+  Persistence *across* a re-layout is therefore not established by this, and §8's rule 20 —
+  assume your anchors are torn down mid-combat — stands unchanged. `[client 2026-08-16]`
+- **The per-frame paint is unaffected by the move.** The viewer kept drawing cooldown swipe,
+  charges and glow normally on the repositioned frames. `[client 2026-08-16]`
+- **Another addon re-anchoring the same frames wins, and the losing signature misleads.**
+  In an earlier session on the same login, with a third-party CDM re-skin's cooldown
+  override enabled, the read-back never matched the intended order: re-applying at 2 Hz
+  left the sampled positions **identical across 35 consecutive samples**, with neither
+  layout hook firing in that window `[client 2026-08-16]`. Disabling that override and
+  re-arming produced the clean result above, on the same login — so the cause is the
+  competitor, not timing. ⚠ **The constant read-back reads like "the apply never landed"
+  and is not**: a competitor that wins deterministically every round is caught in *its*
+  layout by every sample, so a failed apply and a lost fight are indistinguishable from
+  sampled positions alone. What separates them is that no layout hook fired (so Blizzard
+  did not move them) plus the disable/re-arm. `[client 2026-08-16]`
+
 ---
 
 ## 5. Events — and they differ by family
@@ -757,7 +958,7 @@ Six registered by the shared viewer mixin
 
 ### 5.1 The alert choke point — available on both families
 
-`CooldownViewerItemMixin:TriggerAlertEvent(event)` `[T1 src: CooldownViewer.lua:483-494]`
+`CooldownViewerItemMixin:TriggerAlertEvent(event)` `[T1 src @12.1.0: CooldownViewer.lua:500-511]`
 is called from all six alert paths and is **invoked unconditionally** — the user's
 alert configuration is consulted *inside* the body (`self.alertsByEvent[event]`).
 So `hooksecurefunc(item, "TriggerAlertEvent", …)` observes **every edge, even for
@@ -768,6 +969,39 @@ onto each frame, the hook must go on the item **instance**, not the shared mixin
 > and a `HideByDefault` row never gets one — so it raises no edge at all, silently (§1.2).
 > "Every edge" means every edge on the rows the viewers laid out, not every edge the spec's
 > abilities could produce.
+
+> ⚠⚠ **AND IT IS FALSE FOR `Available`, WHICH IS GATED ON THE PLAYER'S ALERT CONFIGURATION.**
+> `TriggerAlertEvent` is indeed called unconditionally — but only from paths that *run*, and
+> the `Available` path is reached from `CooldownViewerItemMixin:OnUpdate`
+> `[T1 src @12.1.0: CooldownViewer.lua:54-57]`, which the viewer drives only for frames in
+> `itemFramesNeedingOnUpdateMap` `[@12.1.0: :1795]`. Registration is
+> `NeedsOnUpdateRegistration()` = `self.pandemicAlertTriggerTime or (self.alertsByEvent and
+> next(self.alertsByEvent))` `[@12.1.0: :472-474]`. **So a row the player has configured no
+> alert on never ticks, and therefore can never fire `Available`** — regardless of
+> `allowAvailableAlert`, which is armed correctly and then simply never examined.
+> `OnCooldown` is unaffected: it fires from the data-refresh path `[@12.1.0: :1178-1180]`,
+> which runs for every row.
+>
+> **The channel is therefore ASYMMETRIC**, and a readiness latch built on it is a one-way
+> door: rows go not-ready and never come back. `[client 2026-08-16]` Havoc, one pull,
+> 9 bound rows: **322 `OnCooldown` across 8 distinct cids, 35 `Available` on exactly ONE
+> cid** — the only row with an alert configured. Every other row latched not-ready on its
+> first cast and stayed there for the rest of combat.
+>
+> **The symmetric ready edge is not in this channel at all — it is a widget script.** Every
+> tab-1 item wires `self:GetCooldownFrame():SetScript("OnCooldownDone", …)` at `OnLoad`
+> `[T1 src @12.1.0: CooldownViewer.lua:725]`, and the engine fires it when the swipe
+> completes: no `alertsByEvent`, no `OnUpdate` registration, no player configuration. An
+> addon observes it additively with `HookScript`, leaving Blizzard's handler intact.
+> `` `@pending-test: cdm-oncooldowndone-fires-without-alerts` ``
+>
+> `alertsByEvent` is a plain table on the item frame, so a consumer *can* ask which of its
+> rows are able to answer. And the direct read
+> `CooldownViewerCooldownItemMixin:IsOnCooldown()` `[@12.1.0: :705-707]` —
+> `isOnActualCooldown and not IsExpired()` — may be simpler still, but whether it survives
+> restricted combat is **unmeasured**: it derives from `spellCooldownInfo.duration`/`endTime`,
+> which are secret in combat, so it may hand tainted code a secret boolean rather than a plain
+> one. `` `@pending-test: cdm-item-cooldown-flags-secrecy` ``
 (The general shape — a choke-point method as a dispatch surface, and `hooksecurefunc` on
 it as a runtime signal — is [`api-events-and-discovery`](./api-events-and-discovery.md)
 §2.8's claim; this section owns the instance.)
@@ -777,12 +1011,12 @@ The event argument is `Enum.CooldownViewerAlertEventType`, six members
 
 | Value | Member | Raised at | What the edge actually means |
 |---|---|---|---|
-| 1 | `Available` | `CooldownViewer.lua:500` | a cooldown finished — for a charged ability, **once per charge restored**, not once per "became usable" (§5.3) |
-| 2 | `PandemicTime` | `:556` | a tracked **target** DoT entered its refresh window (§5.2) |
-| 3 | `OnCooldown` | `:1068` | went on cooldown — but **never fires for a charged ability** (§5.3) |
-| 4 | `ChargeGained` | `:608` | *one entry in a prediction queue came due*, which is not the same as "+1 charge" (§5.3) |
-| 5 | `OnAuraApplied` | `:612` | a **fresh** application — not a stack, not a refresh (§5.4) |
-| 6 | `OnAuraRemoved` | `:622` | the bound aura instance went away (§5.4) |
+| 1 | `Available` | `CooldownViewer.lua:518` `@12.1.0` | a cooldown finished — for a charged ability, **once per charge restored**, not once per "became usable" (§5.3) |
+| 2 | `PandemicTime` | `:579` `@12.1.0` | a tracked **target** DoT entered its refresh window (§5.2) |
+| 3 | `OnCooldown` | `:1179` `@12.1.0` | went on cooldown — but **never fires for a charged ability** (§5.3) |
+| 4 | `ChargeGained` | `:632` `@12.1.0` | *one entry in a prediction queue came due*, which is not the same as "+1 charge" (§5.3) |
+| 5 | `OnAuraApplied` | `:636` `@12.1.0` | a **fresh** application — not a stack, not a refresh (§5.4) |
+| 6 | `OnAuraRemoved` | `:640` `@12.1.0` | the bound aura instance went away (§5.4) |
 
 ⚠ **The alert *subsystem* was restructured at 12.1.0** — five `CooldownViewerVisualAlert*`
 files removed, `CooldownViewerVisualAlertTarget.lua` and `CooldownViewerEditAlertBase.lua/.xml`
@@ -799,7 +1033,8 @@ alert channel taped end to end). Counts from one ~80 s pull: `ChargeGained`
 survives on disk, so these counts stand on what was written down at the time; confirming
 them means re-flying the tape.
 
-> ⚠ **`Available` and `OnCooldown` NEVER fire for an ability with no real cooldown**, and a
+> ⚠ **`Available` and `OnCooldown` NEVER fire for an ability with no real cooldown** — a second
+> silence on top of the alert-configuration gate above, and a different one — and a
 > consumer latching readiness off this channel has to know which of its rows are silent.
 > `CheckCacheCooldownValuesFromSpellCooldown` arms `allowAvailableAlert` only when
 > `duration > MIN_GLOBAL_RECOVERY_TIME` (0.75 s, a file-local constant)
@@ -1386,16 +1621,17 @@ the aura is on) and `PandemicIcon` (is it refreshable) for the readable set.
 
 **How you OBTAIN these rows: `GetItemFrames()` keeps answering when the viewer is
 hidden.** It is `GetItemContainerFrame():GetLayoutChildren()`, and the container is the
-viewer itself `[T1 src: CooldownViewer.lua:1490-1497]`. `GetLayoutChildren` admits a
+viewer itself `[T1 src @12.1.0: CooldownViewer.lua:1632-1639]`. `GetLayoutChildren` admits a
 pooled child only if three conditions hold — the child is shown **or** sets
 `includeAsLayoutChildWhenHidden`, it is not ignored in layout, and it carries a
 `layoutIndex`
-`[T1 src: Blizzard_SharedXML/LayoutFrame.lua:33-42 (the filter at :38), :58-68]`. The
+`[T1 src @12.1.0: Blizzard_SharedXML/LayoutFrame.lua:33-42 (the filter at :38), :58-68]`. The
 shown leg tests the **child's** own `IsShown()`, not the viewer's `IsVisible()` — and all
 four item templates set `includeAsLayoutChildWhenHidden = true`
-`[T1 src: CooldownViewer.xml:24, :90, :156, :207]`, so that leg never binds on a CDM row
-at all. The viewer's `OnHide` unregisters events without releasing `itemFramePool`
-`[T1 src: CooldownViewer.lua:1570-1580]`.
+`[T1 src @12.1.0: CooldownViewer.xml:24, :93, :162, :213]`, so that leg never binds on a CDM
+row at all (§4.1 takes the same fact the other way: the row keeps its grid slot). The
+viewer's `OnHide` unregisters events without releasing `itemFramePool`
+`[T1 src @12.1.0: CooldownViewer.lua:1743-1753]`.
 
 **Measured with all four viewers hidden in Edit Mode** `[client 2026-08-06]`
 (Destruction, out of combat):
@@ -1691,6 +1927,26 @@ source flags; tab 2 carries little but computes on demand, and is the only side 
     (65 / 44 / 21 on one measured spec, §1.2 and §7 Tier 1). Say which one a coverage claim
     is measured against; a hidden row is present in the first two and absent from the third,
     and it raises no alert edge at all.
+18. **Never reorder a CDM row by rewriting `layoutIndex`.** Grid position *and* cooldownID
+    binding both key off that one field, so swapping two frames' indices swaps their
+    contents too and the row looks untouched; a duplicate raises `GMError`. Reorder with
+    `ClearAllPoints()` + `SetPoint()` and leave the index alone (§4.1).
+19. **Never read drawn position out of a `GetItemFrames()` index.** That enumeration is in
+    `layoutIndex` order — Blizzard's intended order — and is blind to any `SetPoint`
+    re-anchor. Drawn position is `GetLeft()` / `GetTop()` (§4.1).
+20. **Assume any anchor, parent or decoration you put on an item frame is torn down
+    mid-combat.** `UNIT_AURA`'s `isFullUpdate` branch calls `RefreshLayout`, which
+    `ReleaseAll()`s the pool, and the reset callback `Hide()`s, `ClearAllPoints()`s and
+    nils `layoutIndex`. Re-apply on a signal; never assume persistence (§4.1).
+21. **Re-anchor an item frame; do not re-parent it.** The viewer `SetPoint`s the pandemic
+    state frame onto the item, so re-parenting breaks that chain and re-anchoring does not
+    (§4.1).
+22. **Never read "the templates declare no `protected` attribute" as "these frames are safe
+    to touch in combat."** That is a fact about `Blizzard_CooldownViewer/*.xml`; the runtime
+    question is open and the XML does not answer it (§4.1).
+23. **Do not gate a layout rider on "did the row set change".** A same-count settings change
+    takes the in-place `RefreshData` path and disturbs nothing, while a `UNIT_AURA` full
+    update tears everything down without the set changing at all (§4.1).
 
 ---
 
@@ -1729,6 +1985,22 @@ source flags; tab 2 carries little but computes on demand, and is the only side 
 
 ## Changelog
 
+- 2026-08-16 — new **§4.2**, the first client measurement on 12.1.0 and the measured
+  counterpart to §4.1: a `ClearAllPoints()` + `SetPoint` re-anchor onto a non-parent frame
+  takes effect, survives a 138 s fight, and does not disturb the per-frame paint — but only
+  in a session where no layout ran, so it says nothing about the `RefreshLayout` teardown.
+  An earlier session in which the apply did not take is recorded open, not solved. §0b's
+  "every `[client]` tag is 12.0.7" now carries its one exception.
+- 2026-08-16 — new **§4.1 layout and ordering**, all source-read at 12.1.0: `layoutIndex` is
+  both grid sort key and cooldownID index (so an index-rewrite reorder self-cancels);
+  `GetItemFrames()` is intent order, not drawn order; `alwaysUpdateLayout` is never cleared;
+  `RefreshLayout` `ReleaseAll()`s and is reachable in combat via `UNIT_AURA` `isFullUpdate`;
+  a same-count settings change is in-place; cooldown events never re-layout; an inactive row
+  keeps its slot; the pandemic frame anchors onto the item. §8 gains rules 18–23. Six stale
+  unstamped locators re-resolved and stamped `@12.1.0` (`RefreshLayout` :1824→:2021,
+  `GetItemFrames` :1490→:1636, the `isFullUpdate` branch :1628→:1803, `TriggerAlertEvent`
+  :483→:500, `GetOrderedCooldownIDsForCategory` :230→:249, the `OnDataChanged` trigger
+  :784→:832), plus the six alert raise sites and the four `.xml` template lines.
 - 2026-08-11 — 12.1.0, **source diff only, no re-flight** (§0b is the standing warning).
   `Enum.CooldownViewerCategory` 4 → 9 members: trinkets/potions via `EquipSlot*`,
   racials via `SpecAgnostic*`, plus `GroupBuff` (new §1.3, §1.4). `HiddenSpell` /

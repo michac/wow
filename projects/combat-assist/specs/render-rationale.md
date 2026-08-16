@@ -142,6 +142,40 @@ adopted, `border-arrival` was drawn, it was looked at, and it won on its merits:
 So the border is now V2 on its merits, not on inertia — and the ring's arithmetic is preserved
 above rather than deleted, so the reverse move stays cheap if a flight asks for it.
 
+### Superseded — the four `SetColorTexture` strips
+
+V2 drew the border as four strips until the ring texture replaced them. The strips' argument was
+that they cost **no art at all**: nothing to extract, nothing to put under the tint guard, no atlas
+to go stale across a patch, and — the part that actually mattered — a band width that was a
+per-lane argument rather than a baked property of a file, so four lanes at three thicknesses were
+free. Their construction was also exonerated on paper against the `#` overhang: horizontals took
+both x-extents from anchors and verticals both y-extents, so no strip could overhang its own frame
+at any scale.
+
+What they cost was four textures and four `SetVertexColor` calls per row per lane, four corner
+joins that have to meet, and four animation subjects where the rest of the style has one. The ring
+flipbook pays a real price for that — art on the ship path, a band width baked into the texture and
+minified with it, and a ticker running at 40 Hz instead of 20 — and the author judged the trade
+worth making.
+
+**Per-lane thickness went with them, and that was a choice rather than a casualty.** The strips took
+their band width as an argument, so the four lanes could declare three widths for free; a texture
+bakes one. Rather than generate one sheet per width, the author collapsed the lanes onto a single
+thickness: *"all the different items can have the same thickness."* `spec.md` §3.1 explicitly leaves
+*how* the emphasis ladder is drawn — "brightness, hue, motion, thickness, or several at once" — to
+the shelf, so this is a shelf decision it already permits, and the ladder now rests on hue and lane
+alone. It was already resting there in practice: Part 0.5 made `press`, `press-promoted` and `below`
+render identically, so band width was distinguishing lanes from each other, never ranks from ranks.
+
+**And the `Scale` snap went with it**, which is the larger change. The border's arrival is now
+painted into the frames of a sprite sheet and stepped in place, so nothing scales, nothing overhangs,
+and the border cannot reach a neighbouring row at all. The lab's `arrival-*` entries were built to
+diagnose exactly that overhang; they are kept untouched, because a prediction from geometry is not
+the measurement they exist to take.
+
+The four-strip construction is not gone from the source: `Paint.Ring` still builds it for Part 7's
+arrival variants, which are experiments *about* that construction.
+
 ## Why the cue vocabulary went negative — and where the one exception came from
 
 `badge-slots` was promoted at the same time, and the harder decision rode along with it: the cue

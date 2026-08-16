@@ -81,6 +81,40 @@
     return slot;
   }
 
+  /* ------------------------------------------------------------------ V2 · the ring flipbook
+   * The SAME sheet the addon ships, used as a mask over the lane hue — for white art with the
+   * shape in alpha that composite IS what SetVertexColor's multiply produces. The frame is a
+   * mask-position, walked here exactly as the client's one shared ticker walks it: one shot at
+   * T.motion.tick_s, resting on the last frame.
+   */
+  var RING = D.ring;
+  if (RING) {
+    document.documentElement.style.setProperty("--ring-sheet", "url(" + RING.uri + ")");
+  }
+
+  function ringPos(i) {
+    var g = T.ring.grid;
+    function pct(k) { return g > 1 ? ((k / (g - 1)) * 100).toFixed(4) + "%" : "0%"; }
+    return pct(i % g) + " " + pct(Math.floor(i / g));
+  }
+
+  // Rest on the last frame. An edge that was never fired must still be a border.
+  function ringRest(edge) { edge.style.setProperty("--ring-pos", ringPos(T.ring.frames - 1)); }
+
+  function ringArrive(edge) {
+    var n = T.ring.frames, i = 0;
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return ringRest(edge);
+    }
+    edge.style.setProperty("--ring-pos", ringPos(0));
+    var id = setInterval(function () {
+      i += 1;
+      if (i >= n - 1) { clearInterval(id); i = n - 1; }
+      edge.style.setProperty("--ring-pos", ringPos(i));
+    }, T.motion.tick_s * 1000);
+    if (COLLECT) COLLECT.push(id);
+  }
+
   /* ------------------------------------------------------------------ one CDM item */
 
   function itemNode(entry, index) {
@@ -94,19 +128,26 @@
 
     var item = el("div", "item");
     item.style.setProperty("--lane-color", rgb(laneTok.rgb));
-    item.style.setProperty("--lane-px", laneTok.thickness_px + "px");
 
     var art = el("div", "art");
     if (ab.icon) art.style.backgroundImage = "url(" + ab.icon + ")";
     item.appendChild(art);
 
     if (rule.swipe) item.appendChild(el("div", "swipe"));
-    if (rule.veil) item.appendChild(el("div", "veil"));
+
+    // V11 · the cooldown hatch. Over the icon and the swipe, under the lane border and the
+    // badges — it states a condition about the whole button, and the marks that say *why*
+    // must stay legible on top of it.
+    if (rule.hatch) item.appendChild(hatchLayer());
 
     // Every non-`cd` row wears its lane border. `press`, `press-promoted` and `below` render
     // IDENTICALLY, and that is the point: the press is "the leftmost thing not ruled out", not
     // a thing cap draws (render-shelf.md Part 0.5).
-    if (rule.border) item.appendChild(el("div", "edge"));
+    if (rule.border) {
+      var edge = el("div", "edge");
+      ringRest(edge);
+      item.appendChild(edge);
+    }
 
     var open = false;
     var cues = (rule.cues || []).concat(entry.cues || []);
@@ -236,7 +277,8 @@
     var tok = T.lanes[lane];
     var name = D.lane_sample[lane];
     var ab = D.abilities[name] || {};
-    var note = "solid " + tok.thickness_px + "px, static — no pulse, no ring";
+    var note = "one ring flipbook at " + T.ring.thickness_px + "px, resting — the lanes differ " +
+               "by hue alone";
     if (ab.border && ab.border !== lane) {
       note += ". <b>⚠ " + name + " draws " + ab.border + " in a real row</b> (it has " +
               ab.charges + " charges); the art is borrowed, the lane is forced.";
@@ -247,7 +289,6 @@
     gallery.appendChild(swatch("lane · " + lane, note, function () {
       var node = bareItem(name, "press");
       node.style.setProperty("--lane-color", rgb(tok.rgb));
-      node.style.setProperty("--lane-px", tok.thickness_px + "px");
       return node;
     }));
   });
@@ -258,9 +299,10 @@
   var ARRIVING = [];
   gallery.appendChild(swatch(
     "arrival snap",
-    "the ONE piece of motion in the style: " + T.arrival.from_scale + "× → 1× over " +
-      T.arrival.duration_s + "s (" + T.arrival.smoothing + "), fired when something " +
+    "the ONE piece of motion in the style: " + T.ring.frames + " frames at " + T.motion.tick_s +
+      "s = " + T.arrival.duration_s + "s (" + T.arrival.smoothing + "), fired when something " +
       "<b>arrives</b> — a cooldown finishes, a charge returns, a spender becomes affordable. " +
+      "It is a flipbook stepped in place, so it never draws outside the row's own cell. " +
       "Replayed every " + T.artifact.arrival_replay_s + "s here <em>only</em> so it can be seen.",
     function () {
       var strip = el("div", "swatch-stage");
@@ -268,7 +310,6 @@
         var node = bareItem(D.lane_sample[lane], "press");
         var tok = T.lanes[lane];
         node.style.setProperty("--lane-color", rgb(tok.rgb));
-        node.style.setProperty("--lane-px", tok.thickness_px + "px");
         var e = node.querySelector(".edge");
         if (e) ARRIVING.push(e);
         strip.appendChild(node);
@@ -279,18 +320,13 @@
   (function () {
     function fire() {
       ARRIVING.forEach(function (e, i) {
-        e.removeAttribute("data-anim");
-        void e.offsetWidth;                                  // restart the animation
-        setTimeout(function () { e.setAttribute("data-anim", "1"); }, i * 120);
+        setTimeout(function () { ringArrive(e); }, i * 120);
       });
     }
     fire();
     setInterval(fire, T.artifact.arrival_replay_s * 1000);
   })();
 
-  gallery.appendChild(swatch("veil", "de-emphasis at alpha " + T.veil.alpha +
-    " — the veil says <b>skip</b>; a badge says <b>why</b>",
-    function () { return bareItem(D.lane_sample.ROTATION, "withheld"); }));
   gallery.appendChild(swatch("swipe", "Blizzard's own dial — cap draws nothing here, and does " +
     "not restyle it. The cheapest possible “ruled out”.",
     function () { return bareItem(D.lane_sample.COOLDOWN, "cd"); }));
@@ -370,11 +406,12 @@
   /* ------------------------------------------------------------------ tables */
 
   var vt = document.getElementById("verdicts");
-  var head = "<tr><th>verdict</th><th>border</th><th>veil</th><th>swipe</th><th>cues</th></tr>";
+  var head = "<tr><th>verdict</th><th>border</th><th>swipe</th><th>hatch</th>" +
+    "<th>cues</th></tr>";
   vt.innerHTML = head + Object.keys(T.verdicts).map(function (k) {
     var r = T.verdicts[k];
     return "<tr><td>" + k + "</td><td>" + (r.border ? "lane" : "—") + "</td><td>" +
-           (r.veil ? "yes" : "—") + "</td><td>" + (r.swipe ? "yes" : "—") + "</td><td>" +
+           (r.swipe ? "yes" : "—") + "</td><td>" + (r.hatch ? "yes" : "—") + "</td><td>" +
            ((r.cues && r.cues.length) ? r.cues.join(", ") : "—") + "</td></tr>";
   }).join("");
 
@@ -383,6 +420,82 @@
    * Experiments, drawn so they can be looked at. Nothing here is the style, and nothing a
    * scenario can reach may reference it — `capart build` enforces that, this just draws it.
    */
+
+  function labEntry(key, spec) {
+    var box = el("div", "lab-entry");
+    var h = el("h3");
+    h.innerHTML = (spec.title || key) + ' <span class="key">lab.' + key + "</span>";
+    box.appendChild(h);
+    var asks = el("p", "asks");
+    asks.innerHTML = "<b>Asks:</b> " + (spec.asks || "<em>nothing — Part 7 says an entry that " +
+      "cannot say what it is asking is decoration</em>");
+    box.appendChild(asks);
+    var row = el("div", "lab-row");
+    box.appendChild(row);
+    return { box: box, row: row };
+  }
+
+  function labCell(node, caption) {
+    var c = el("div", "lab-cell");
+    var stage = el("div", "lab-stage");
+    stage.appendChild(node);
+    c.appendChild(stage);
+    var cap = el("div", "cap");
+    cap.innerHTML = caption || "";
+    c.appendChild(cap);
+    return c;
+  }
+
+  /* Diagonal stripes — V11's cooldown hatch, and Part 7's remaining entries.
+   *
+   * ONE tileable white-alpha sheet, generated at build time from `tokens.hatch`; every render
+   * asks it for something DIFFERENT. `background-color` + `mask-image` is the faithful CSS
+   * analogue of SetVertexColor multiplying white art, and `mask-position` is the SetTexCoord
+   * offset that makes a complementary phase possible.
+   *
+   * There is deliberately no shared "is this striped" flag: a layer is built from ONE render's
+   * own colour and phase, and a cell that needs two conditions shown gets two layers.
+   */
+  var SHEET = D.lab_stripes;
+
+  function maskedStripe(cls, rgbVar, phaseVar) {
+    var n = el("div", cls);
+    n.style.setProperty("--stripe-rgb", rgbVar);
+    n.style.setProperty("--stripe-phase", phaseVar);
+    if (SHEET) {
+      n.style.webkitMaskImage = n.style.maskImage = "url(" + SHEET.uri + ")";
+    }
+    return n;
+  }
+
+  function hatchLayer() {
+    return maskedStripe("stripes", "var(--hatch-rgb)", "var(--hatch-phase)");
+  }
+
+  function stripeLayer(key) {
+    return maskedStripe("stripes", "var(--lab-" + key + "-rgb)",
+                        "var(--lab-" + key + "-phase)");
+  }
+
+  // The bare sheet, so pitch and angle are directly visible rather than only inferable from an
+  // icon that is also doing five other things.
+  function sheetSwatch(key) {
+    return maskedStripe("lab-sheet", "var(--lab-" + key + "-rgb)",
+                        "var(--lab-" + key + "-phase)");
+  }
+
+  function stripedItem(key, cell) {
+    var item = bareItem(cell.ability, cell.verdict || "below", { cues: cell.cues || [] });
+    var layers = cell.stripes || [];
+    // Inserted BEFORE the first badge slot, so the stripes lie over the icon and the swipe but
+    // under the corner badges — the badges are the thing that says *why* and must stay legible.
+    var anchor = item.querySelector(".slot");
+    layers.forEach(function (which) {
+      var layer = stripeLayer(which === "self" ? key : which);
+      if (anchor) item.insertBefore(layer, anchor); else item.appendChild(layer);
+    });
+    return item;
+  }
 
   var LAB = T.lab || {};
   var labHost = document.getElementById("lab");
@@ -403,15 +516,28 @@
   } else {
     labKeys.forEach(function (key) {
       var spec = LAB[key];
-      var box = el("div", "lab-entry");
-      var h = el("h3");
-      h.innerHTML = (spec.title || key) + ' <span class="key">lab.' + key + "</span>";
-      box.appendChild(h);
-      var asks = el("p", "asks");
-      asks.innerHTML = "<b>Asks:</b> " + (spec.asks || "<em>nothing — Part 7 says an entry that " +
-        "cannot say what it is asking is decoration</em>");
-      box.appendChild(asks);
-      labHost.appendChild(box);
+      var e = labEntry(key, spec);
+      // An entry with no cells is not half-authored: some treatments have no CSS analogue at
+      // all — a four-strip ring being scaled is one — and those are drawn by the in-game
+      // gallery instead. Say so, rather than leaving a gap that reads as a broken build.
+      if (!(spec.cells || []).length) {
+        var only = el("p", "asks");
+        only.innerHTML = "<b>Drawn in the client only</b> — <code>/cap style</code>, under " +
+          "<em>lab</em>. This treatment has no faithful CSS analogue, so the preview would be " +
+          "an argument about the client rather than the client. See Part 7.";
+        e.box.appendChild(only);
+      }
+      (spec.cells || []).forEach(function (cell) {
+        var cap = cell.caption || "";
+        if (cell.kind === "sheet") {
+          e.row.appendChild(labCell(sheetSwatch(key), cap));
+          return;
+        }
+        var head = "<b>" + cell.ability + "</b> · <code>" + (cell.verdict || "below") +
+                   "</code><br>";
+        e.row.appendChild(labCell(stripedItem(key, cell), head + cap));
+      });
+      labHost.appendChild(e.box);
     });
   }
 
