@@ -5,52 +5,8 @@ the smallest live options and what would decide between them. Approved behavior 
 `spec.md`; agreed work in `backlog.md`; completed reasoning in `notes.md`.
 
 D22–D26 came out of the **first Havoc flight, 2026-08-15** (Uncomplete, Kil'jaeden, cap v0.4.0,
-Fel-Scarred). D18–D21 were retired the same day — see the foot of this file.
-
-## D22 — Can the reading model rest on a row cap does not control?
-
-**The finding.** The whole interaction is *scan left to right, press the first button not ruled
-out*. That assumes the row is in priority order. `Catalog.OrderCheck` checks it — against
-Blizzard's `layoutIndex`. But this player runs **EllesmereUI**, whose
-`EllesmereUICooldownManager` module owns which rows appear and in what order
-(`EllesmereUICdmSpellPicker.lua` sorts entries itself and inserts newcomers by `layoutIndex`
-rather than at the tail). So the order cap checks is **not the order the player reads**, and the
-`# row-order` note it raised on this flight is neither true nor false — it is blind.
-
-This is worse than a plain mismatch. A mismatch is a finding; a blind check is a guarantee that
-was never being made. Every scenario in `havoc/scenarios.md` argues about a row nobody can
-confirm is on screen.
-
-**The evidence, kept here because `raw/` is gitignored and the next capture overwrites it.** The
-`bind` capture raised `# row-order vengeful_retreat is laid out after metamorphosis; this catalog
-reads left-to-right in priority order`, and the Essential viewer bound these nine, in this slot
-order:
-
-```
-Immolation Aura · Eye Beam · The Hunt · Blade Dance · Chaos Strike ·
-Metamorphosis · Essence Break · Vengeful Retreat · Felblade
-```
-
-against the catalog's authored order of Vengeful Retreat · Metamorphosis · The Hunt · Eye Beam ·
-Essence Break · Blade Dance · Chaos Strike · Immolation Aura · Felblade · Demon's Bite · Fel Rush.
-Throw Glaive and Fel Rush bound to the **Utility** viewer, not Essential; Demon's Bite never bound
-at all. ⚠ That is Blizzard's `layoutIndex` order as cap read it — **not** necessarily what was
-drawn, which is the whole problem. Chaos Strike landing 5th, ahead of four buttons that outrank
-it, is what the player reported as *"it short circuits just about everything else."*
-
-Smallest options:
-
-- **Read the drawn order.** Derive the left-to-right order from the item frames' actual anchored
-  positions rather than from `layoutIndex`, so cap checks whatever any skin ends up drawing.
-  Keeps cap a rider; costs a measurement whose reliability under a re-skin is unknown.
-- **Cap owns its own row.** Draw the roster in the authored order and stop riding the CDM's
-  layout. Makes the reading model true by construction — and costs a `spec.md` amendment,
-  because "it rides on the Cooldown Manager rather than replacing it" is §1.
-- **Narrow the claim.** Keep riding, and state that elimination holds only where the drawn order
-  matches the authored one, with `OrderCheck` reporting honestly instead of blindly.
-
-What would decide it: whether the drawn order is readable at all. That is one ClientLab test, and
-it should come before any of the three.
+Fel-Scarred). **D22 was resolved 2026-08-15** and **D18–D21 retired the same day** — both at the
+foot of this file. D23–D26 remain open below.
 
 ## D23 — What should The Hunt's hold gate on?
 
@@ -71,6 +27,19 @@ Smallest options:
 
 What would decide it: whether a hold that fires this often is read as information or as
 furniture. The player's report this flight was the latter.
+
+**Note 2026-08-15 — the premise is in doubt, and the three options are premature.** The player
+reports casting Metamorphosis close to on-cooldown, which means `ready(metamorphosis)` — the sole
+gate on the hold (`Catalogs/Havoc.lua`, `hunt_awaits_meta`) — should read *false* most of the
+fight and the hold should be *rare*, not near-constant. Reading the flown v0.4.0 code, the engine
+gates the hold correctly (readiness is the alert-edge latch, unknown never fires it), so "Meta is
+usually available" is not a live explanation. Two survive: the readiness latch for Meta is stuck
+`true` (a bug, plausibly the demon-form override-id flip — R7), or the "90 of ~95 draws" ratio was
+over-read (draws are transitions, not a duty cycle). **The old capture could not tell these apart —
+it logged the marker fired, not the readiness that fired it.** v0.5.0 adds `W{}` to the `tier`
+stream (`flight-reading.md`), which records each marker's decision and the term values behind it.
+**Re-fly Havoc, then read `the_hunt:hunt_awaits_meta` in `W{}` before choosing among the three
+options above** — if Meta reads stuck `true`, D23 is a bug ticket, not a gate-design question.
 
 ## D24 — What does cap say about a charge spell it cannot count?
 
@@ -139,6 +108,32 @@ Smallest options:
 What would decide it: a 12.1 APL. Until then any answer is editorial.
 
 ---
+
+## Resolved 2026-08-15
+
+- **D22 — the reading model's ordering, resolved by re-anchoring the vanilla frames.** cap takes
+  over the CDM's *layout* without owning the row or rewriting the player's saved settings: out of
+  combat it re-anchors Blizzard's own item frames into the authored priority order and sets the
+  row to **always-show**, so the grid is static and the positions **persist through combat** while
+  the CDM keeps doing every hard thing (cooldown data, swipes, charges, glow, desaturation). In
+  combat cap only overlays, exactly as it already does. This is downstream of §3.6's
+  **two-execution-context** principle: positioning is *setup-path* work, so the combat restrictions
+  never applied to it — which is what made the original three options (read-the-drawn-order /
+  own-the-row / narrow-the-claim) the wrong menu. The frames are not protected templates
+  (`Blizzard_CooldownViewer` declares no `protected="true"`; item frames inherit a plain virtual
+  `CooldownViewerBaseItemTemplate`), so the re-anchor is legal even in combat — though cap does not
+  need it to be.
+  - **Ordering** is solved by pure repositioning, with no settings write at all.
+  - **Inserting a missing spell** splits: a spell the CDM *can* track but hides gets a one-time,
+    surgical out-of-combat **un-hide** (flip the hidden flag only, order and cosmetics preserved) so
+    the CDM pools a frame, then reposition; a spell the CDM cannot track at all is **self-drawn**
+    (rare in a rotational roster). Both keep the CDM doing the rendering wherever it can.
+  - **Unchanged constraint:** a CDM re-skin that also re-anchors these frames (EllesmereUI's
+    Cooldown Manager module) fights cap for position. "Requires no reordering CDM module" stands;
+    cap detects and warns rather than silently mislead.
+  - **Gated on** the in-game verification now at the front of `backlog.md` → *Now* (control the
+    positioning, don't break the CDM, confirm persistence through combat). If that fails, D22
+    reopens.
 
 ## Retired 2026-08-15
 

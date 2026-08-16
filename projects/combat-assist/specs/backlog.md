@@ -173,6 +173,42 @@ This is the project's only implementation-status source.
 
 ## Now
 
+### CDM frame positioning — in-game verification (front of queue)
+
+The D22 resolution (`discussion.md`) rests on one unproven claim: that cap can control CDM frame
+position out of combat, without breaking the CDM, and have it persist through combat. Verify
+before building anything on it. This is downstream of `spec.md` §3.6's setup-path principle —
+positioning is setup-path work, so the test is "does it hold," not "is it combat-safe."
+
+- [ ] **Out-of-combat re-anchoring holds.** Re-anchor the Essential viewer's item frames into a
+      cap-chosen order (`ClearAllPoints` + `SetPoint` onto a cap-owned container, out of combat).
+      Confirm the row draws in that order **and** the CDM keeps rendering each frame normally
+      (swipe, charges, glow) — i.e. cap moved the frames without breaking Blizzard's per-frame paint.
+- [ ] **Persistence through combat.** With the row set to always-show (no `HideWhenInactive`
+      reflow), enter combat and confirm the positions hold — frames do not snap back to Blizzard's
+      grid when abilities go on/off cooldown or when the viewer's `Layout` runs.
+- [ ] **The re-apply edges.** Note which out-of-combat events rebuild the frame set (spec / talent /
+      hero swap, `PLAYER_ENTERING_WORLD`, `CooldownViewerSettings.OnDataChanged`) and confirm
+      re-anchoring after each restores the order.
+- [ ] **The missing-spell half.** Confirm a `HideByDefault` row has no pooled frame, and that a
+      surgical out-of-combat un-hide makes the CDM pool one cap can then reposition.
+- [ ] Record the player/behaviour result. If positioning cannot be made to persist, **D22 reopens**.
+      Client facts (protection status, reflow triggers, un-hide route) drain to
+      `knowledge/addon-dev/`, not here.
+
+### Re-fly Havoc to settle D23 with the `W{}` reason trace
+
+v0.5.0 added `W{}` to the `tier` stream — per-marker decision plus the term values behind it
+(`flight-reading.md`, `Signal.Explain`). The first Havoc flight could see that `hunt_awaits_meta`
+fired, not *why*; this closes that gap. Fly before touching D23's gate options.
+
+- [ ] Play Havoc, casting Metamorphosis roughly on cooldown as normal, then `/reload`.
+- [ ] `wowkb.capture cap tier`, grep `the_hunt:hunt_awaits_meta` in `W{}`. Is Meta's readiness
+      `off(ready:metamorphosis=F)` while you press it (rule working, so it's a tuning question), or
+      stuck `on(...=T)` across the fight (a **latch bug**, likely the demon-form override-id flip —
+      pattern-shelf R7)? Record which in `discussion.md` D23.
+- [ ] If it is the latch bug, open a fix item and take D23 off the decision track until it's fixed.
+
 ### The render shelf — reconcile and regenerate
 
 - [x] Author `specs/render-shelf.md` (surfaces, V1–V10 primitives, composition rules, assets).

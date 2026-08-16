@@ -36,6 +36,7 @@ that the whole reading model rests on.
 S{n:2 on:2 mark:2 blind:0}
 E{demonbolt:ROTATION tyrant:ROTATION+dreadstalkers,grimoire}
 R{ready:2/2 proc:1/1 identity:1/1 capped:1/1 affordable:2/2 resource:1/1}
+W{tyrant:dreadstalkers:on(!ready:dreadstalkers=T) tyrant:grimoire:off(identity:grimoire:transformed=F)}
 Q{-}
 S{settled/spells-changed}
 ```
@@ -49,6 +50,16 @@ S{settled/spells-changed}
   charge-state read (`GetSpellCharges().isActive`) and `affordable` the power one
   (`IsSpellUsable`'s second return). A spec that uses neither reports `0/0` for it, which is
   not a failure.
+- `W{}` is the **reason** each readable marker drew or was withheld — `E{}` and `R{}` say
+  *what* and *how healthy*, `W{}` says *why*, so a flight answers "why is this marker firing"
+  without back-deriving term values from the catalog. One `entry:marker:STATE(terms)` per
+  readable marker, in row order: `STATE` is `on` (drew), `off` (a term read false — the
+  eliminating case, and the term shown is the fact that ruled it out), or `blind` (a term was
+  unknown, so it was withheld). `terms` lists every `when` term as `predicate:subject=T|F|?`
+  (`!` prefixes a negated term; an identity term reads `identity:subject:wanted=T|F`). It is in
+  the dedup body, so a change of *justification* emits a line even when the drawn set does not —
+  which is how a readiness latch reading `true` is told apart from one reading unknown. Sealed
+  (graded) markers never appear here; they are Channel's, reported in `C{}`.
 - `Q{conflagrate:live|napkin|unknown}` records only charge provenance: `live` is an exact
   unrestricted seed; `napkin` is the bounded cast/alert estimate maintained after that seed.
 - `settled/...` names the bind-settle arm; `DARK` means combat began before a safe roster
@@ -128,6 +139,12 @@ Then, and only then, the captures:
   reported as a blinking row.
 - `wowkb.capture cap draw` — `C{}` for the two graded cues and the CHARGES lane in `P{}`. Both
   say cap took the route it meant to.
+- `wowkb.capture cap tier` — `W{}` for **why a hold fired**. For The Hunt, grep
+  `the_hunt:hunt_awaits_meta`: an `on(...)` line names the readiness that held it (e.g.
+  `ready:the_hunt=T,ready:metamorphosis=T`); an `off(ready:metamorphosis=F)` line is Meta
+  reading on-cooldown, i.e. the hold correctly standing down. If the hold sits `on` with
+  `ready:metamorphosis=T` across the whole fight while Meta was being pressed on cooldown, the
+  readiness latch is stuck, not the gameplay rule — a bug, not a tuning question.
 
 **Tuning is expected and is a shelf edit.** Too many badges, too heavy a dim, too eager a snap —
 change the numbers in `render-shelf.md` Part 6 and rebuild. A noisy first render is not a reason

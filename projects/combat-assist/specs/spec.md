@@ -250,6 +250,21 @@ The implementation distinguishes two data paths:
 - **Sealed facts** may flow only into client-owned display sinks. They never enter a Lua
   condition, comparison, score or verdict.
 
+**These two data paths are properties of cap's *combat* context — not of the whole addon.** The
+readable/sealed split above, and on the platform side the protected-action and taint rules the
+client enforces in combat, govern cap's **evaluation path**: the in-combat, tainted context where
+cap reads facts and paints. There cap is bound absolutely. cap also has a **setup path** — out of
+combat, on an untainted execution path — where those restrictions do not hold: a Secret Value read
+untainted is an ordinary value (`security-taint-and-restricted-data.md` §0), protected frames
+accept `SetPoint`, and the Cooldown Manager's own layout is readable and writable. Frame
+positioning, un-hiding rows, reading or writing CDM configuration, and any other arrangement work
+live on the setup path and are judged by its rules, not the combat path's. **Ask which path a
+mechanism runs on before applying that path's constraints** — a setup-time action is not made
+illegal by a rule about combat, and combat-safety is not a test it has to pass. The setup path's
+one discipline is **restore-on-exit**: cap records whatever it changes about the player's UI or
+Blizzard's settings and reverts it when disabled, so the player is never left holding a state cap
+made and does not own.
+
 The first sealed form is `player-aura-stacks`: a declared player-aura dependency and a
 minimum of two. Blizzard's AuraContainer writes the application text directly into a static,
 outlined FontString. CAP may report only `offered`, `armed`, or `refused`; it cannot report

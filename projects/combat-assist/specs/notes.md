@@ -43,6 +43,32 @@ nothing survives, "nothing; superseded by <X>" and stop.
 
 ---
 
+## 2026-08-15 — the log records the verdict; now it records the reason
+
+**What changed.** The `tier` capture logged that a marker fired, not the readable facts that
+fired it, so diagnosing D23 (The Hunt's near-constant hold) meant reverse-engineering term values
+from which entries got a tier — the "reason from code, not evidence" trap. Added a per-marker
+reason trace: `Signal.Explain` evaluates every `when` term and returns the decision (`on`/`off`/
+`blind`) with one `predicate:subject=T|F|?` per term; `Signal.Evaluate` attaches it to each
+verdict as `reasons`; `Sense.Render` emits it as a new `W{}` body group, in the dedup key so a
+change of *justification* emits a line even when the drawn set does not. `all()` now delegates to
+`Explain` so the gate and the trace can never disagree. Files: `Signal.lua`, `Sense.lua`,
+`tests/spec/engine/signal_spec.lua`, `specs/flight-reading.md`, `specs/discussion.md`,
+`specs/backlog.md`.
+
+**Why it still binds.** The instrument shaped the diagnosis. Reading the flown v0.4.0 code showed
+the hold is gated correctly — readiness is the alert-edge latch (pattern-shelf R2), and an unknown
+never fires the marker (`all`/`Explain` return `off`/`blind`, never `on`) — so the discussion
+note's premise ("Meta is usually available, so the hold fires") was the one explanation the code
+rules out. What the old capture could not distinguish, and the new `W{}` can, is a Meta readiness
+latch stuck `true` (a bug) from an over-read of "90 of ~95 draws" (transitions, not a duty cycle).
+D23's three gate options are downstream of that measurement, so the re-fly precedes the decision.
+
+**Caveat.** `W{}` renders in `Sense`, which needs the client, so it is not covered by the pure
+suite; `Signal.Explain`/`reasons` are. The diagnosis itself is unproven until the re-fly.
+
+---
+
 ## 2026-08-15 — the Havoc row flew, and the reading model has no ground under it
 
 **What changed.** The first Havoc flight: Uncomplete / Kil'jaeden, cap v0.4.0, Fel-Scarred,
