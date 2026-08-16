@@ -209,6 +209,136 @@ fired, not *why*; this closes that gap. Fly before touching D23's gate options.
       pattern-shelf R7)? Record which in `discussion.md` D23.
 - [ ] If it is the latch bug, open a fix item and take D23 off the decision track until it's fixed.
 
+### Retire the veil — one condition, one surface
+
+Author's direction, 2026-08-16: **remove the veil entirely.** Not tune it, not gate it — delete
+the primitive and everything that reads it.
+
+**The finding.** Every skip condition cap has expresses itself by dimming *the same texture*. A
+readable hold, a sealed hold, `starved`, `overcap` and both graded curves all land on one veil, on
+top of Blizzard's own desaturation and swipe, which dim that same icon for their own reasons. So in
+flight a dark row is the sum of an unknown number of causes and you cannot see which one fired —
+the surface has no capacity left to say anything. The first Havoc flight said the same thing from
+two directions already: `withheld` was the weakest read in the row (Status, above), and cap's veil
+is *louder* than Blizzard's swipe (**D25**).
+
+**The fact that makes this cheap: the veil carries no information the badge doesn't.** Part 2.5
+derives it — a row is veiled **iff** it wears a negative cue — so it is strictly redundant with the
+badge that is already there saying *why*. Deleting it loses nothing from the reading model; Part
+0.5's pass 2 simply becomes *"the leftmost entry that is neither swiped nor wearing a negative
+badge is the press."*
+
+**Nothing replaces it in this change.** Fly the row as lane border + badges over Blizzard's own
+swipe and desaturation, and find out whether "skip" is still legible with the dim gone. The striped
+overlays below are the candidate replacement, **not** a commitment — landing both at once means the
+next flight cannot tell which change did what.
+
+*The shelf.*
+
+- [ ] Delete **V4**. Rewrite Part 2.5: a row is a **lane and badges**; drop step 2 and the
+      veiled-iff rule with it.
+- [ ] Delete `tokens.veil`, and **delete the `veil` key** from all nine `tokens.verdicts` entries —
+      remove it, don't set it `false`, or the derivation grows back.
+- [ ] Rewrite the curve-driven veil (V9/V10, "one curve, two sinks") down to **one sink**, the
+      badge alpha. The reason the second sink existed — a badge fading in over a veil that snapped
+      on says two things about one moment — dies with the veil.
+- [ ] Part 0.5: rewrite pass 2 and the `withheld` paragraph so elimination reads off **the swipe
+      and the negative badge**. Also `spec.md:128`, which states the same invariant.
+
+*The tool.*
+
+- [ ] Delete `capart.py` gate **0c** (the veil-derivation reconciler) — its subject is gone.
+- [ ] Re-point `elimination_gate` to *swiped or negative-badged*. **Keep this one**: it is the
+      reading model's invariant, not a style opinion.
+- [ ] `capart build havoc`, look at it, republish the existing artifact URL (`589b5eca-…`).
+
+*The addon.*
+
+- [ ] Delete `Paint.Veil` (`Paint.lua:196-204`) and every `f.veil` site in `Overlay.lua`
+      (`:23-24`, `:37`, `:156-165`), plus the graded path's veil sink (`:111-116`).
+- [ ] The `draw` capture's row string is `id:LANE[/veil][+cue,cue]` (`Overlay.lua:170-174`). Drop
+      `/veil`, and update `flight-reading.md` — captures recorded before this read differently and
+      the reader should say so rather than silently mean something else.
+- [ ] `capart export lua` to regenerate `Style.lua`; update the three specs that assert on the veil
+      (`tests/spec/product/havoc_spec.lua`, `engine/style_spec.lua`, `engine/compose_spec.lua`).
+
+*The decisions it closes.*
+
+- [ ] **D25 resolves by removal** — record it in `discussion.md` as *the subject was retired*, not
+      as a veil weight that was chosen.
+- [ ] **D24 loses the stated cost of its middle option** ("keep both, drop the veil" cost the Part
+      2.5 derivation, which no longer exists). Re-state the option; it does not decide itself.
+- [ ] Record the round in `notes.md`.
+
+*The flight question, stated before flying:* with no dim anywhere, can you still tell at a glance
+which rows cap has ruled out — and is that read now attributable to a single cause?
+
+### Diagonal stripes — cap hinting *against* an ability
+
+Author's direction, 2026-08-15/16. **This is a new statement, not a veil replacement.** The veil
+said *"skipped"* as a global consequence of the cue vocabulary; stripes say something narrower and
+more specific — **cap is hinting against pressing this ability** — and they say it by stating a
+condition across the icon rather than by subtracting light from it. The veil retirement above
+stands on its own and lands first; if it turns out nothing needs to replace it, this work is still
+worth doing on its own terms.
+
+> ⚠ **Build this per-render. Do not build it the way the veil was built.** No `stripes` boolean on
+> `tokens.verdicts`, no derivation from cue polarity, no shared "is this row striped" state that
+> several conditions write to and something else reads back. **Each render that hints against its
+> ability draws its own stripes, in its own render path, owning its own parameters.** That is the
+> whole point: when a striped row shows up in flight, the stripes belong to exactly one condition
+> and you can say which. A global that three conditions feed is the failure being removed above,
+> re-created in a new colour.
+
+**This is Part 7 lab work first** — nothing here may be named from `verdicts`/`cues` until it is
+promoted by being *moved* into Parts 1–6 (shelf rule 4, enforced by `capart build`). Each entry
+needs an `asks`.
+
+- [ ] **L3 — red stripes on the sequencing hold.** A row held for a cooldown (`hold-readable` /
+      `hold-sealed`) draws its corner badge **and** red diagonal stripes across the icon face.
+      Drawn by the hold's own render, not by a rule about holds.
+- [ ] **L4 — black stripes on a detected cooldown.** A `cd` row draws black diagonal stripes on the
+      **complementary** phase of L3's, so a row that is *both* held and on cooldown reads as
+      alternating red/black — two conditions visibly present at once, which is the thing a single
+      shared surface could never show. Note this is cap drawing on a `cd` row for the first time
+      (`tokens.verdicts.cd` draws nothing today, on the theory that Blizzard's swipe already ruled
+      it out). **D25** closes with the veil, but its underlying question returns here in a new
+      form — is cap restating the swipe, or adding to it? That is a flight question, not a
+      paper one.
+- [ ] **L5 — red stripes on `starved`.** A row lacking the resource to cast draws red stripes from
+      *its own* render. It uses the same red as L3 because it is the same kind of statement — not
+      because a rule says every negative thing is red. If after flying all three it turns out the
+      three renders are drawing something identical, **that is an observation that may earn a shared
+      recipe later**, not a rule to author up front.
+- [ ] **It is a texture, not drawn geometry.** Do not build stripes out of a pile of thin quads per
+      icon — that is many frames per row, it costs per-icon anchoring, and axis-aligned
+      `SetColorTexture` cannot make a diagonal anyway. **One tileable white-alpha stripe sheet**,
+      and each render calls it.
+      - **Blizzard has no such art — checked 2026-08-16.** `wowkb.uiart find` returns only
+        `auctionhouse-rowstripe-1/2` (16×18 table row banding) for *stripe*, four Soulbinds tree
+        connectors for *diagonal*, and nothing at all for *hazard* / *hatch* / *caution*. So this is
+        ours to author, by Part 4's rule: **generate it from a script beside the shelf**, the way the
+        badge disc and halo already are — regenerable rather than a binary mystery, saturation 0.000
+        by construction, and it ships through the existing `capart export` path as TGA.
+      - **The asset is the only shared thing, and it carries the coupling for free.** Red and black
+        must agree on angle and pitch and take complementary phase or they will not interleave.
+        One tiling sheet gives all of that: **each render passes its own colour (`SetVertexColor`
+        multiplies white-alpha to anything, black included) and its own `SetTexCoord` offset —
+        half a period apart is the complementary phase.** No shared state, no boolean, no
+        derivation: one file on disk, and two renders that each ask it for something different.
+- [ ] **No dim comes back with them.** Stripes state a condition without subtracting light. The
+      generated HTML's job stays **CDM-like icons with CDM-like swipes and counts**, with cap's own
+      marks on top.
+- [ ] **Add a shelf section for the effects Blizzard already puts on CDM icons**, read off the
+      Tier-1 source we already hold at
+      `raw/addon-research/wow-ui-source-12.1.0/Interface/AddOns/Blizzard_CooldownViewer/`
+      (`CooldownViewer.xml`, `CooldownViewerItemData.lua`, `CooldownViewerAlert.lua`,
+      `PandemicAlertAnimation.xml`, `CooldownViewerVisualAlertTarget.lua`) — swipe, charge/count
+      text, desaturation, the proc/visual alert overlay, pandemic alert, and their layers. It is
+      the inventory of what cap gets for free and must not restate or fight, and the artifact reads
+      it to draw a faithful row. Client facts drain to `knowledge/addon-dev/cooldown-manager.md`;
+      the shelf section is the *rendering* view of them.
+
 ### The render shelf — reconcile and regenerate
 
 - [x] Author `specs/render-shelf.md` (surfaces, V1–V10 primitives, composition rules, assets).
