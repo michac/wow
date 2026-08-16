@@ -38,6 +38,14 @@ points 8,120 (account-wide).
 
 ## Identity
 
+- ⚠ **Spot-corrected 2026-08-15 (identity + ilvl only; the rest of this file is still the
+  07-16 snapshot and is stale).** Active spec is now **Havoc**, hero tree **Fel-Scarred**;
+  equipped ilvl **269**. Other saved loadouts: Vengeance, Devourer. Three *Havoc* loadouts
+  exist — the active one is the single-target build (**Exergy**, **Dancing with Fate**,
+  Essence Break, **no A Fire Inside**, so Immolation Aura is **one charge**); a second is the
+  M+/AoE build (**A Fire Inside**, Inertia, Ragefire, Screaming Brutality). Source:
+  `wowkb.blizzard get /profile/wow/character/kiljaeden/uncomplete/specializations`.
+  **A full re-sync via `/sync-characters` is owed.**
 - Night Elf **Demon Hunter**, active spec **Devourer** (hero tree
   **Annihilator**) — **swapped from Vengeance since 07-11**. **All three
   loadouts now saved: Devourer (active), Vengeance, Havoc** (Havoc is new

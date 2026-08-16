@@ -23,7 +23,12 @@ This is the project's only implementation-status source.
   motion ladder) is no longer the declared style. The *structure* it established stands.
 - **`wowkb.capart` renders the artifact from the docs (2026-08-13).** It reads the shelf's token
   block, `havoc/catalog.md`'s roster table and `havoc/scenarios.md`'s CDM-row bullets; the scenario
-  sidecar is seeded by `capart import` and then sits off the build path.
+  sidecar is seeded by `capart import`. ⚠ **Corrected 2026-08-15 — the sidecar is NOT off the
+  build path.** `build` renders scenario prose *from* the sidecar, and `check` compares doc against
+  sidecar on `(name, verdict, cues)` only, so **prose edits to `scenarios.md` do not reach the
+  artifact and no gate notices**. Measured: a citation fix in `scenarios.md` silently failed to
+  render until `capart import scenarios` was re-run. Run `import` after editing scenario prose,
+  not only after editing a row.
 - **The render loop is closed, and the artifact has been looked at (2026-08-13).** `wowkb.serve`
   serves the artifacts directory, watches `specs/`, reruns `capart build havoc` on save and pushes
   an SSE reload — so *edit the shelf → look* is one gesture, with no publish in it. `capart build`
@@ -133,7 +138,12 @@ This is the project's only implementation-status source.
   tier/channel policy suite and its visual-taste assertions are gone.
 - The combined Demonology/Destruction checkpoint has not been judged in game. No
   release or deployment is implied.
-- **The Havoc row is built and has not flown (2026-08-14).** `Catalogs/Havoc.lua` carries twelve
+- **The Havoc row flew on 2026-08-15** (Uncomplete / Kil'jaeden, cap v0.4.0, Fel-Scarred, on
+  EllesmereUI). Five findings, in `notes.md`; the author decisions are `discussion.md` D22–D26 and
+  the rest are work items above. The headline: the reading model's ordering assumption is
+  **unconfirmed**, because `OrderCheck` reads Blizzard's `layoutIndex` while a CDM skin owns the
+  drawn order. Shelf Q2/Q4/Q5 read positively in play; Q1, Q3 and Q6 are not yet answered.
+- **The Havoc row is built (2026-08-14).** `Catalogs/Havoc.lua` carries twelve
   entries in authored priority order for **Fel-Scarred** (hero 34; Aldrachi Reaver is a separate
   future catalog and correctly gets nothing). What draws: the twelve lane borders, three of them
   purple `CHARGES`; Immolation Aura's two charge states (gold `capped` at max, red `blocked`
@@ -535,6 +545,44 @@ Routed per `authoring.md` stage 5.
       the player's judgment recorded in their own terms, captures read only afterwards to explain
       which route armed. It settles shelf Q1, Q3 and Q6 and all three open facts — including the
       structural one, whether the CDM's row order matches the authored priority.
+
+### Out of the first Havoc flight (2026-08-15)
+
+It flew: Uncomplete / Kil'jaeden, cap v0.4.0, Fel-Scarred, on **EllesmereUI**. The five findings
+are in `notes.md`; the ones needing an author decision are `discussion.md` D22–D26. These are the
+ones that do not.
+
+- [ ] **Delete the `demons_bite` entry** (`Catalogs/Havoc.lua:24`, spell 344859) and the
+      "two generators" framing around it. Midnight made **Demon Blades** baseline and removed the
+      Demon's Bite choice node: it is absent from the 12.1 priority, appears zero times in the
+      simc APL (`builds.md:153-157`, Tier 1), and the flight's `bind` capture shows it never
+      bound. Felblade is the only generator press. Also drop it from `havoc/catalog.md` and the
+      `scenarios.md` rows.
+- [ ] **Split the Immolation Aura charge question in game** — the test behind D24's second half.
+      The player's **active** loadout has no *A Fire Inside*, so `maxCharges` is 1 and
+      `readCapped` (`Sense.lua:104-105`) should return unknown, drawing neither cue — yet the
+      capture carries `immolation_capped` ×40 and `immolation_recharging` ×58. Either a different
+      loadout was flown, or the guard is not holding. `/reload` on the single-target loadout and
+      read the `draw` capture: no `CHARGES` and no charge cue = the guard works and the flight was
+      on the AoE build; anything else is a real bug.
+- [ ] **Root-cause the arrival snap's "hashtag" read.** The player reports the border resolving
+      from something like a `#` into a rectangle rather than snapping in as a box. Not diagnosed:
+      `Paint.lua:61-81` builds four separate strips and `Paint.Arrival` scales the group from
+      `from_scale` about `CENTER`, and nothing in that geometry obviously explains it. It shows in
+      the artifact as well as in client, so it is debuggable without a flight.
+- [ ] **Check for a veil with no badge.** One icon in the flight screenshot reads veiled with no
+      visible cue, which `render-shelf.md` Part 2.5 says cannot occur — a row is veiled *iff* it
+      wears a negative cue, and `capart check` now gates the token table on that derivation. Could
+      equally be screenshot resolution, or the curve-driven veil on a graded cue where the client
+      owns the badge's visibility. Confirm before treating it as a defect.
+- [ ] **Close the sidecar prose gap in `capart check`.** `check` compares doc against sidecar on
+      `(name, verdict, cues)`, so scenario **prose** can drift ahead of the rendered artifact with
+      no signal — the Status bullet above records the measured case. Either compare the rendered
+      extras too, or have `build` read prose from the doc rather than the sidecar.
+- [ ] **Teach `Catalog.OrderCheck` what it is actually checking** — whatever D22 decides. Today it
+      compares the catalog against Blizzard's `layoutIndex` and reports as though that were the
+      drawn order; under a re-skin it is neither right nor wrong but blind, which is the worse
+      failure. At minimum its capture note should say which order it read.
 
 ## Ideas
 

@@ -34,8 +34,9 @@ step — this is just "don't leave addon commits stranded on one machine."
 
 ## Current game state
 
-- **Live: patch 12.0.7 "Revelations"** — Midnight expansion, level cap **90**,
-  Season 1 (went live 2026-06-16). No PTR currently.
+- **Live: patch 12.1 "Curse of Ula'tek"** — Midnight expansion, level cap **90**,
+  build `12.1.0.69214`, live 2026-08-11. **Season 1 has ended**; Season 2 opens
+  **2026-08-18**, so the week of 2026-08-11 is pre-season. No PTR currently.
 - `knowledge/_meta/game-version.md` is the **single source of truth** for
   game state and must be updated on patch days. If anything in this file
   disagrees with it, that file wins.
@@ -392,6 +393,17 @@ three sources) rather than re-deriving a per-slot chart by hand:
 `wowkb.plan --character <name>` (ranked session), `wowkb.character <name>`
 (snapshot + reset-state). The **`/plan-character`** command wraps this flow.
 Add warband/cross-character moves + KB colour on top; don't recompute the slots.
+
+**Reading a character's TALENTS — use the profile API, not the loadout string.**
+`wowkb.blizzard get /profile/wow/character/<realm>/<name>/specializations --namespace profile`
+returns every saved loadout with **resolved talent names** (plus its `talent_loadout_code` and an
+`is_active` flag), so there is no need to decode the export string. Decoding one *is* feasible —
+`knowledge/classes/<class>/<spec>/talents.json` carries the `serial_count` + `granted_serials` +
+hero-selector ordering a decoder needs — but the header layout of serialization **version 8** is
+not what the pre-12.x format documents describe, so it would need confirming against the client's
+`ExportUtil` first. ⚠ **Don't reach for `snakybo/TalentParser`** — evaluated 2026-08-15 and it is
+not the tool for this: it converts a Classic-era `TalentExtractor.lua` dump into Lua data and does
+not touch loadout strings at all. Cloned, checked, deleted.
 
 ⚠ git-bash mangles leading-slash args (`/data/...` →
 `C:/Program Files/Git/data/...`). Prefix `wowkb.blizzard get` calls with

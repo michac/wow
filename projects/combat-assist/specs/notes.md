@@ -43,6 +43,42 @@ nothing survives, "nothing; superseded by <X>" and stop.
 
 ---
 
+## 2026-08-15 — the Havoc row flew, and the reading model has no ground under it
+
+**What changed.** The first Havoc flight: Uncomplete / Kil'jaeden, cap v0.4.0, Fel-Scarred,
+running EllesmereUI. Five findings, none of them about brightness. Files touched:
+`discussion.md` (D18–D21 retired, D22–D26 opened), `backlog.md` (five non-decision items).
+
+The player's report, in their own words: The Hunt *"seems to perpetually sit greyed out with the
+ticking 'wait for cooldown' overlay icon"*; *"I only have one immolation aura, no stacks"*;
+*"based on where chaos strike sits in the priority list it short circuits just about everything
+else because it's always available"*; *"I thought we decided not to do darkening overlays, but it
+seems like we are… like vengeful retreat shows a regular swipe, which compared to a lot of the
+overlays we're adding is almost hard to tell that it's on cooldown"*; and the arrival snap *"still
+kind of looks like a hashtag forming into a regular border."*
+
+**Why it still binds.** The row-order check was built to answer one question and it cannot answer
+it. `Catalog.OrderCheck` compares the catalog against Blizzard's `layoutIndex`, but this player
+runs a CDM skin that owns the drawn order, so the `# row-order` note it raised is neither true nor
+false. A blind check is worse than a failing one: it kept reporting while guaranteeing nothing,
+and every scenario in `havoc/scenarios.md` rests on an ordering nobody had confirmed. That is
+D22, and it is the finding the flight existed to produce — the structural risk was named in
+advance and it landed.
+
+Second thing that binds: the player was right about Immolation Aura and the captures were read
+wrong. The profile API says the **active** loadout carries no *A Fire Inside*, so it is a
+one-charge spell; the inference from `readCapped`'s `maxCharges > 1` guard that the client must
+have reported two was reasoning from code rather than from evidence, and it contradicted a direct
+observation. The player's report is the authority. Which loadout was flown is now a test in
+`backlog.md`, not a conclusion.
+
+**Caveat.** The verdict on the arrival snap is unexplained, not diagnosed — four strips scaling
+about their centre does not obviously produce a `#`. The KB conflict behind D26 (Icy Veins ranks
+Immolation Aura below the spenders; maxroll and the pre-12.1 simc APL rank it above) is a gameplay
+question this project inherited and did not create.
+
+---
+
 ## 2026-08-14 — the Havoc row draws, and two curves the client evaluates
 
 **What changed.** The design in `specs/havoc/` reached the screen. `Catalogs/Havoc.lua` carries
