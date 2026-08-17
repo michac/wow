@@ -830,3 +830,30 @@ Accolade-budget advice change.
    are still S1 numbers.
    **Standing lesson:** on renown reward tracks the Tier-3 guides were unanimous and
    unanimously wrong (Method et al. all say "Champion"). Prefer the tooltip.
+
+---
+
+## Havoc Demon Hunter — parked from the `rotation.md` → APL-supplement rewrite *(2026-08-17)*
+
+`classes/demon-hunter/havoc/rotation.md` now supplements the generated `simc-apl.md`.
+These are the questions it could not assert, plus the open items its old `## TODO`
+carried.
+
+1. **Is Fury actually a limiting resource for Havoc on 12.1?** The 12.0.7 parses said
+   no (14.1 % pooled overcap, generation dominated by the ungateable Demon Blades —
+   tables in `_meta/changelog-12.1.md`). But 12.1 moved generation **off** Immolation
+   Aura (Burning Hatred 40→30) and **onto** Demon Blades (8–15→10–16), and at least one
+   Havoc source reports Fury as limiting on 12.1. **Needs Season 2 parses (2026-08-18+).**
+   Until then `rotation.md` asserts no Fury-management conclusion in either direction.
+2. **Re-verify the hero-tree recommendation for Season 2** (`builds.md`). Fel-Scarred-first
+   is a Season 1 claim, and Icy Veins' hero-filtered priority tool expresses no
+   preference between the trees. Needs Tier-1/Tier-2 evidence post-2026-08-18, not
+   day-one editorial.
+3. **Sanity-check the opener against a top WCL Havoc log** (`wowkb.wcl`). The opener
+   currently in circulation is method.gg's, written for an Inertia build at 12.0.7;
+   `rotation.md` no longer transcribes it.
+4. **Confirm the Exergy-over-Inertia call once Season 2 sims exist.** It is Tier-3
+   consensus, unsimmed. `rotation.md` and `builds.md` both carry the caveat.
+5. **Immolation Aura's high rung requires Burning Wound as well as A Fire Inside, and
+   nobody says why.** `rotation.md` marks the "capping risks letting the debuff lapse"
+   explanation as an inference. Worth confirming against a sim or a class source.

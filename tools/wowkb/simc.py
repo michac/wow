@@ -520,6 +520,35 @@ def resolve_profile(class_lower: str, spec_lower: str) -> tuple[str, list[str]] 
     return (f"profiles/MID1/{filename}", actions) if actions else None
 
 
+AUGMENTS = re.compile(r"^augments:\s*simc-apl\.md\s*@(\w+)\s*$", re.M)
+
+
+def augment_drift(apl: pathlib.Path) -> str | None:
+    """Has the hand-written augment fallen behind the generated APL beside it?
+
+    `rotation.md` augments `simc-apl.md` — it explains WHY each rung is where it is,
+    which is the one layer a priority list cannot carry. That explanation is written
+    against a specific upstream commit, so when the APL moves the reasons need
+    re-reading. The `augments: simc-apl.md @<sha>` pin is what makes that detectable
+    instead of silent; without it the augment layer drifts exactly the way a
+    transcribed list used to.
+    """
+    rotation = apl.parent / "rotation.md"
+    if not rotation.is_file():
+        return None
+    try:
+        m = AUGMENTS.search(rotation.read_text(encoding="utf-8"))
+    except OSError:
+        return None
+    if not m:
+        return None  # not yet converted to an augment; nothing to compare
+    pinned = re.search(r"commit `(\w+)`", apl.read_text(encoding="utf-8"))
+    if not pinned or pinned.group(1).startswith(m.group(1)):
+        return None
+    return (f"{rotation.relative_to(REPO)} augments @{m.group(1)}, "
+            f"simc-apl.md is now @{pinned.group(1)} — re-read the reasons")
+
+
 def kb_specs(class_lower: str) -> list[str]:
     """The specs the KB has directories for — the authority on what we want to carry."""
     d = KB_CLASSES / class_lower.replace("_", "-")
@@ -762,10 +791,15 @@ def sync_kb(class_tokens: list[str], spec_token: str | None,
             wrote += 1
             print(f"  wrote {rel} ({len(actions)} actions)")
 
+    augment_stale = [m for m in (augment_drift(p) for p in sorted(REPO.glob(
+        "knowledge/classes/*/*/simc-apl.md"))) if m]
+
     if check_only:
         print(f"\nchecked {checked} spec APL file(s)")
         for d in drift:
             print(f"  ❌ {d}")
+        for a in augment_stale:
+            print(f"  ⚠ {a}")
     else:
         print(f"\n{wrote} written, {checked - wrote} already current")
 
@@ -780,7 +814,7 @@ def sync_kb(class_tokens: list[str], spec_token: str | None,
         for s in stale_srcs:
             print(f"  {s}", file=sys.stderr)
 
-    return 1 if (drift or stale_srcs) else 0
+    return 1 if (drift or stale_srcs or augment_stale) else 0
 
 
 def fetch(class_token: str, spec_token: str, variant: str | None, want_sha: bool) -> None:

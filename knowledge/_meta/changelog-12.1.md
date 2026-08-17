@@ -423,6 +423,66 @@ listed so the sweep does not treat them as unreviewed.
 
 ---
 
+## Havoc Demon Hunter — material evicted from `rotation.md`
+
+`classes/demon-hunter/havoc/rotation.md` was rewritten as a supplement to the
+generated `simc-apl.md`. Two things it used to carry live here instead.
+
+**The 12.0.7 → 12.1 tuning deltas** are already stated in full under
+*Classes (12.1)* ▶ Demon Hunter ▶ **Havoc** above — Burning Hatred, Demon Blades,
+Blind Fury, Inertia, the +6% spenders, The Hunt, Essence Break, Immolation Aura,
+Trail of Ruin, Serrated Glaive, Inner Demon, Dash of Chaos, Never Say Die. Nothing
+from the old table is lost; it is not duplicated here.
+
+### 12.0.7 measurements, pre-Fury-retune (Tier 2, WCL, 2026-08-03)
+
+Top-100 Mythic Imperator Averzian rankings: full cast, damage and `resourcechange`
+event timelines for **7 parses**, 47 Vengeful Retreats. **These predate the 12.1 Fury
+retune** (Burning Hatred 40→30, Demon Blades 8–15→10–16, Blind Fury 15/30→10/20), so
+the magnitudes are historical. Whether Fury is a limiting resource on 12.1 is an open
+question parked in `_meta/kb-inbox.md`; do not draw a conclusion from these tables.
+
+Fury gained vs. wasted (overcap):
+
+| player | Fury gained | wasted (overcap) | waste |
+|---|---:|---:|---:|
+| Paprzdh | 4,119 | 311 | 7.6 % |
+| Yunadh | 4,345 | 482 | 11.1 % |
+| Bibussy | 5,612 | 708 | 12.6 % |
+| Chezzar | 5,386 | 1,237 | 23.0 % |
+| **pooled** | **19,462** | **2,738** | **14.1 %** |
+
+Fury's max measured **170** on these characters (`maxResourceAmount` in the raw
+events), not the 120 class base — it is talent-inflated. (This one is structural, not
+a measurement of tuning, and survives as a current claim in `rotation.md`.)
+
+First ability cast after each Vengeful Retreat (n=47). VR is off the global cooldown
+(since 8.1.0) but imposes a short lockout on Felblade and Fel Rush specifically:
+
+| followup | share | median delay | range |
+|---|---:|---:|---|
+| **Felblade** | 46.8 % | **0.86 s** | 0.69–1.04 |
+| **Fel Rush** | 23.4 % | **1.07 s** | 0.97–1.41 |
+| **Metamorphosis** | 17.0 % | 1.14 s | 0.30–1.37 |
+| other (Consuming Fire / IA / BD / EB) | 12.8 % | ~0.8 s | — |
+
+Felblade at 0.86 s is one hasted GCD. Fel Rush's delays cluster against **1.0 s**
+(`0.97, 0.99, 1.01, 1.02, 1.03, 1.07, 1.07, …`), its lockout to the millisecond.
+Metamorphosis at 17 % is the animation-cancel technique. No guide listed a VR macro at
+12.0.7 — method.gg (10 macros) and Icy Veins (6) carry none.
+
+Melee swings landed in the 5 s after a Vengeful Retreat (baseline 5.34 expected):
+
+| | swings | vs baseline |
+|---|---:|---:|
+| VR alone (n=36) | 4.92 | −8 % |
+| **VR → Fel Rush ≤2 s** (n=11) | 2.82 | **−47 %** (≈2.5 swings lost) |
+
+Auto-attacks measured **~3.1 %** of Havoc damage across those parses (2.8–3.6 %), so
+2.5 lost swings is ≈ **0.05 %** of a pull.
+
+---
+
 ## KB file impact map
 
 Legend: **CHANGED** = notes touch this topic, content edit needed ·
