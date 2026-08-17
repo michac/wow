@@ -39,7 +39,7 @@ Content below is unchanged from 12.0.5 and has **not** been re-sourced since
 ## Renown track highlights (key rewards per rank)
 
 - **Rank 2** — Moth-hunting access; belt gear (~ilvl 180).
-- **Rank 8** — Champion waist armor (~ilvl 246).
+- **Rank 8** — waist armor. Track + ilvl unverified for S2 (S1 was ~246).
 - **Rank 14** — *Munchy* battle pet.
 - **Rank 16** — *Fierce Grimlynx* ground mount.
 - **Rank 19** — *Cerulean Sporeglider* flying mount.
@@ -48,12 +48,13 @@ Content below is unchanged from 12.0.5 and has **not** been re-sourced since
 The vendor also stocks cosmetic transmog (the Hara'ti weapon arsenal),
 toys, profession recipes, and knowledge books.
 
-⚠ **The ilvls above are Midnight-launch (12.0.5) values from Tier-3/4 sources
-and were not re-verified in the 12.1 sweep.** They are almost certainly no
-longer worth chasing for power: Season 2 gear spans **ilvl 269 → 334**, so a
-rank-8 "Champion waist ~246" is well below even the S2 Adventurer floor. Read
-this track as a **cosmetic / mount / pet / recipe** track in 12.1, and confirm
-any gear number in game before acting on it. @verify-ingame
+⚠ Every ilvl on this page is a **Season 1** number and none has been re-checked
+for Season 2. Silvermoon Court's rank-9 helm re-issued as a **Veteran**-track
+piece (`factions/silvermoon-court.md`, in-game), so this track's reward probably
+did too — S2 Veteran is **279**, upgrading **282 → 295**. Treat every ilvl here
+as unverified until someone reads the tooltip, and do not plan around them.
+Tier-3 guides call this gear **Champion** track; the one observation we have says
+Veteran. @verify-ingame
 
 ## Weekly / repeatable renown sources
 
@@ -67,3 +68,8 @@ any gear number in game before acting on it. @verify-ingame
   **2026-08-18**. This renown source is simply off the table until then.
 - Dungeon weekly quests in Silvermoon. ⚠ The dungeon pool rotated for Season 2;
   the weekly still exists but points at the new 8-dungeon S2 rotation.
+
+## Changelog
+
+2026-08-17 — renown gear is not the dead Season 1 track this page called it; the
+equivalent Silvermoon reward re-issues each season on the Veteran track.

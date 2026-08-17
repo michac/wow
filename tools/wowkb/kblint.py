@@ -36,18 +36,45 @@ that cost an agent real work.
 import argparse
 import re
 import sys
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 REPO = Path(__file__).resolve().parents[2]
 KB = REPO / "knowledge" / "addon-dev"
+KB_ALL = REPO / "knowledge"
+
+# Gates 1, 3 and 6 are KB-WIDE (_meta/writing-claims.md). Gates 2, 4 and 5 encode
+# addon-dev's stricter evidence classes and stay scoped to that subtree — gate 2 in
+# particular would fire on every legitimate game date ("Season 2 opens 2026-08-18")
+# in the gameplay KB, where the game's own calendar is content, not provenance.
+UNIVERSAL_GATES = (1, 3, 6)
+ADDON_DEV_GATES = (2, 4, 5)
 
 # Queues are exempt from everything: a queue entry IS a dated event (README §1.2).
 # sources.md is a registry whose rows are "what was on disk, when".
 QUEUES = {"observations.md", "mined-pending-verification.md", "12.1.0-ptr-heads-up.md"}
 REGISTRY = {"sources.md"}
 
-# README §7 *defines* the rules, so its prose necessarily contains the patterns it bans.
+# The KB-wide equivalents, by path relative to knowledge/. Same principle: a file whose
+# ROWS ARE DATED EVENTS cannot be asked to state only the present.
+#   - the parking lot and the patch ledgers are history BY CONSTRUCTION
+#   - patch-notes/ is a verbatim archive against link rot — editing it would be the defect
+#   - verify-in-game.md is GENERATED (wowkb.gen_verify); fix the markers, not the output
+#   - characters/ snapshots carry hand-written deltas ("since last reset…") by design
+#   - writing-claims.md is the doctrine, so it necessarily quotes what it bans
+EXEMPT_GLOBS = (
+    "_meta/kb-inbox.md",
+    "_meta/changelog-*.md",
+    "_meta/patch-notes/*",
+    "_meta/verify-in-game.md",
+    "_meta/feed-watermark.md",
+    "_meta/writing-claims.md",
+    "characters/*",
+)
+
+# addon-dev README §7 *defines* the rules, so its prose necessarily contains the patterns
+# it bans. Matched by PATH, not by name — rglob sees four other README.md files.
 DOCTRINE = {"README.md"}
+DOCTRINE_PATH = KB / "README.md"
 DOCTRINE_SECTION = re.compile(r"^## 7\. How a claim is written")
 
 # Gates 4 and 5 both need a WHOLE-file pass over README, which DOCTRINE's truncate-at-§7
@@ -66,14 +93,48 @@ NEG_EXEMPT = DOCTRINE
 # table and §4's audit targets all name OBS-nnn, projects/** and our addons legitimately.
 POINTER_EXEMPT = DOCTRINE | REGISTRY
 
+# Gate 1. The first seven alternatives are addon-dev's original list; the rest were added
+# when the rule went KB-wide, harvested from the 69 files the first census found. The
+# shape that dominates outside addon-dev, and that none of the original seven caught:
+#   "This page previously claimed X. That was wrong."
+#   "⚠ The old KB label … has been dropped"
+#
+# ⚠ EVERY ALTERNATIVE HERE MUST NAME OUR OWN PRIOR TEXT. That is the line this gate walks,
+# and two attempts to widen it past that line were measured and reverted 2026-08-17:
+#
+#   - `supersed(e|ed|es)` — reverted. Both of its addon-dev hits were ordinary English
+#     about the SUBJECT, not about us: "a re-application supersedes the removal it
+#     resolves" (an aura-lifecycle fact) and "superseded per LibDeflate README" (one
+#     library replacing another). Zero true positives, two false.
+#   - a case-insensitive `corrected` — reverted. It fires on "corrected by practitioners"
+#     (a description of how the wiki works) and "every one of the 124 was corrected before
+#     publication" (a description of a mining pass). Kept only in the CAPITALISED banner
+#     shapes below, which are ours.
+#
+# A statement that an EXTERNAL SOURCE is wrong is deliberately not matched: "Tier-3 guides
+# say Champion; they are wrong" is a live source-conflict note, which CLAUDE.md's
+# provenance-precedence rule positively requires. Only "WE said" is retrospective.
 RETRO = re.compile(
     r"an earlier (draft|version|pass|run|note)"
-    r"|previously (said|read|cited|written|showed|gave|asserted)"
+    r"|previously (said|read|cited|written|showed|gave|asserted|claimed|implied|also listed)"
     r"|\[corrected"
     r"|used to (be|read|say|assert|show)"
-    r"|GRADE CORRECTION"
-    r"|\*\*Correction"
-    r"|Adversarial verification pass", re.I)
+    r"|Adversarial verification pass"
+    r"|th(is|e) (page|file|entry|section|line) previously"
+    r"|corrects an earlier"
+    r"|(is|are|was|were) corrected \(20"
+    r"|the old KB"
+    r"|has been dropped"
+    r"|no longer (true|correct|accurate)"
+    r"|earlier KB", re.I)
+
+# The banner shapes, CASE-SENSITIVE — these are ours by construction. A lower-case
+# "corrected" is ordinary English and belongs to the subject; a capitalised one is a
+# heading we wrote about ourselves.
+RETRO_CS = re.compile(
+    r"\bCORRECTED\b"
+    r"|\*\*Correct(ed|ion)"
+    r"|GRADE CORRECTION")
 
 DATE = re.compile(r"20[0-9]{2}-[0-9]{2}-[0-9]{2}")
 
@@ -165,7 +226,7 @@ def strip(path: Path) -> list[tuple[int, str]]:
     in_fm = False
     in_fence = False
     done = False
-    doctrine = path.name in DOCTRINE
+    doctrine = path.resolve() == DOCTRINE_PATH.resolve()
 
     for i, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
         if i == 1 and line.strip() == "---":
@@ -187,6 +248,35 @@ def strip(path: Path) -> list[tuple[int, str]]:
             done = True          # §7 is last in README; everything after defines the rules
             continue
         out.append((i, line))
+    return out
+
+
+def is_exempt(path: Path) -> bool:
+    """True for the KB-wide queues, archives and generated files (EXEMPT_GLOBS)."""
+    try:
+        rel = path.resolve().relative_to(KB_ALL.resolve()).as_posix()
+    except ValueError:
+        return False
+    return any(PurePosixPath(rel).match(g) for g in EXEMPT_GLOBS)
+
+
+def lede(lines: list[tuple[int, str]]) -> list[tuple[int, str]]:
+    """strip()'s output down to the LEDE — everything before the first `##` heading.
+
+    Gate 6's scope. The rule it enforces (writing-claims.md rule 3) is that a reader who
+    quits after the first screen is incomplete, never wrong: the lede states what is true
+    and carries no correction note.
+
+    ⚠ Scoped to RETRO only, not to ⚠ or hedging generally. A lede warning about the
+    CURRENT state is exactly right and common in this KB — `factions/silvermoon-court.md`
+    opens by warning that Slayer's Rise is not one of the five renown tracks, which is a
+    live fact a reader needs before the list, not a correction of our own earlier text.
+    """
+    out: list[tuple[int, str]] = []
+    for n, text in lines:
+        if text.startswith("## "):
+            break
+        out.append((n, text))
     return out
 
 
@@ -242,24 +332,34 @@ def claim_units(lines: list[tuple[int, str]]) -> list[list[tuple[int, str]]]:
 
 
 def check(path: Path) -> dict[int, list[tuple[int, str]]]:
+    """Run every gate in scope for `path`.
+
+    Gates 2, 4 and 5 are addon-dev-only; outside that subtree they return empty rather
+    than being skipped, so the report keeps one column layout for the whole KB.
+    """
     name = path.name
-    hits: dict[int, list[tuple[int, str]]] = {1: [], 2: [], 3: [], 4: [], 5: []}
-    if name in QUEUES:
+    hits: dict[int, list[tuple[int, str]]] = {1: [], 2: [], 3: [], 4: [], 5: [], 6: []}
+    in_addon_dev = KB.resolve() in path.resolve().parents
+    if (in_addon_dev and name in QUEUES) or is_exempt(path):
         return hits
     lines = strip(path)
 
     for n, text in lines:
-        if RETRO.search(text):
+        if RETRO.search(text) or RETRO_CS.search(text):
             hits[1].append((n, text.strip()))
-        if name not in REGISTRY and DATE.search(text) and not DATE_OK.search(text):
+        if in_addon_dev and name not in REGISTRY and DATE.search(text) and not DATE_OK.search(text):
             hits[2].append((n, text.strip()))
         m = SELFREF.search(text)
         if m and not FILENAME_NEAR.search(m.group("mid")):
             hits[3].append((n, text.strip()))
-        if name not in POINTER_EXEMPT and POINTER.search(text):
+        if in_addon_dev and name not in POINTER_EXEMPT and POINTER.search(text):
             hits[5].append((n, text.strip()))
 
-    if name not in NEG_EXEMPT:
+    for n, text in lede(lines):
+        if RETRO.search(text) or RETRO_CS.search(text):
+            hits[6].append((n, text.strip()))
+
+    if in_addon_dev and name not in NEG_EXEMPT:
         for unit in claim_units(lines):
             body = "\n".join(text for _, text in unit)
             if not CLIENT_TAG.search(body) or SEARCHED_TAG.search(body):
@@ -273,25 +373,37 @@ def check(path: Path) -> dict[int, list[tuple[int, str]]]:
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(
         prog="python -m wowkb.kblint",
-        description="Check knowledge/addon-dev against README §7's current-state rule "
-                    "and §0's evidence classes.")
+        description="Check the KB against the current-state rule "
+                    "(_meta/writing-claims.md) and addon-dev's evidence classes.")
     ap.add_argument("--counts", action="store_true", help="per-file table only")
-    ap.add_argument("--gate", type=int, choices=(1, 2, 3, 4, 5),
+    ap.add_argument("--gate", type=int, choices=(1, 2, 3, 4, 5, 6),
                     help="report one gate only")
+    ap.add_argument("--all", action="store_true",
+                    help="scan all of knowledge/ (gates 1,3,6), not just addon-dev")
+    ap.add_argument("--warn", action="store_true",
+                    help="report findings but exit 0 — for burning down the backlog. "
+                         "SCAFFOLDING: stop passing it once the count reaches zero")
     args = ap.parse_args(argv)
 
-    gates = [args.gate] if args.gate else [1, 2, 3, 4, 5]
+    gates = [args.gate] if args.gate else [1, 2, 3, 4, 5, 6]
     names = {1: "retrospective prose", 2: "date in prose", 3: "self-correcting section",
-             4: "unqualified negative", 5: "citation circle"}
+             4: "unqualified negative", 5: "citation circle", 6: "correction in the lede"}
     total = {g: 0 for g in gates}
     rows = []
 
-    for path in sorted(KB.glob("*.md")):
+    if args.all:
+        paths = sorted(KB_ALL.rglob("*.md"))
+        label = lambda p: p.resolve().relative_to(KB_ALL.resolve()).as_posix()
+    else:
+        paths = sorted(KB.glob("*.md"))
+        label = lambda p: p.name
+
+    for path in paths:
         hits = check(path)
         counts = {g: len(hits[g]) for g in gates}
         for g in gates:
             total[g] += counts[g]
-        rows.append((path.name, counts, hits))
+        rows.append((label(path), counts, hits))
 
     w = max(len(r[0]) for r in rows)
     print(f"{'file':<{w}}  " + "  ".join(f"G{g}" for g in gates))
@@ -307,6 +419,10 @@ def main(argv=None) -> int:
                 for n, text in hits[g]:
                     print(f"\n{name}:{n}  [gate {g}: {names[g]}]\n    {text[:160]}")
 
+    if args.warn and any(total.values()):
+        print(f"\n⚠ --warn: {sum(total.values())} findings, exiting 0. "
+              f"This flag is scaffolding — drop it once the backlog is zero.")
+        return 0
     return 1 if any(total.values()) else 0
 
 

@@ -113,6 +113,15 @@ sweep is a one-time ~1.7 ranks.
 - **Rank 8** — **Spirit of Corrosion I** conversion; Curse Surge bosses gain a
   daily chance at **Warbound Veteran** equipment.
 - **Rank 9** — **Cursebreaker's Bracers II** (Champion wrist); Scout Satchels.
+  > ✅ **The Rank-2 Veteran → Rank-9 Champion bracer pair is corroborated by the
+  > owner from play + video, 2026-08-17** (rank 9 recalled as "likely", rank 2 as
+  > "iirc"). It is also the **key that corrected the other four faction files**:
+  > it establishes that **Veteran is the renown baseline and Champion the
+  > deep-rank exception**, which is why the Season 1 tracks' re-issued Season 2
+  > pieces are Veteran (279 → 295), not Champion. Tier-3 guides call the whole set
+  > Champion; they are wrong. Season 2 ilvls: Veteran **279 (1/6)**, band **282 →
+  > 295**; Champion **292 (1/6)**, band **295 → 308**
+  > (`endgame/mythic-plus/loot.md`, Tier-1).
 - **Rank 10** — *Tabard of the Hash'ura*; the **Spirit of Tok'jara** mount
   questline opens (reported to need ~6 daily-quest completions to finish).
 - **Rank 11** — decorative urns (Scaleskin, Vilescar, Blisterfang).

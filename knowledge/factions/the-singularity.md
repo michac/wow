@@ -34,14 +34,22 @@ content feeds Zul'jarra's Forces, **not** this faction.
 ## Renown track highlights (key rewards per rank)
 
 - **Rank 2:** ilvl 180 gloves.
-- **Rank 7:** *Crucible of Erratic Energies* — ilvl 246 Champion trinket
-  (requires completing the Stormarion Assault quest).
+- **Rank 7:** *Crucible of Erratic Energies* — trinket (requires completing the
+  Stormarion Assault quest). Track + ilvl unverified for S2 (S1 was 246).
 - **Ranks 3–18:** progressive housing/decor unlocks (thrones, tables,
   barrels, banners, lanterns, crates, training dummies).
 - **Rank 17:** *Ravenous Shredclaw* (ground mount).
 - **Rank 19:** *Voidbound Stormray* (flying mount).
 - **Research Console completion:** *Lab-Grown Stormray*.
 - Renown caps at 20; past 20 yields Paragon Bags.
+
+⚠ Every ilvl on this page is a **Season 1** number and none has been re-checked
+for Season 2. Silvermoon Court's rank-9 helm re-issued as a **Veteran**-track
+piece (`factions/silvermoon-court.md`, in-game), so this track's reward probably
+did too — S2 Veteran is **279**, upgrading **282 → 295**. Treat every ilvl here
+as unverified until someone reads the tooltip, and do not plan around them.
+Tier-3 guides call this gear **Champion** track; the one observation we have says
+Veteran. @verify-ingame
 
 ## Weekly renown sources
 
@@ -55,7 +63,9 @@ content feeds Zul'jarra's Forces, **not** this faction.
 
 > Names/ranks distilled from the Icy Veins faction guide (Tier 3, updated
 > 2026-05-19). Confidence medium pending corroboration of exact reward
-> ilvls/names against wago.tools `Faction` DB2 (Tier 1). Reward ilvls above
-> (180 gloves, the 246 Rank-7 trinket) are **Season 1-era** numbers and were
-> **not** rescaled by 12.1's +45 ilvl ladder shift — this is a legacy
-> Voidstorm track, not a Season 2 reward source.
+> ilvls/names against wago.tools `Faction` DB2 (Tier 1).
+
+## Changelog
+
+2026-08-17 — renown gear is not the dead Season 1 track this page called it; the
+equivalent Silvermoon reward re-issues each season on the Veteran track.

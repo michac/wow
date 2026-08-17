@@ -71,18 +71,22 @@ before citing either.
 - Rank 4 — Friend of the Court 1
 - Rank 6 — Silvermoon Bounty 1 (500 Voidlight Marl)
 - Rank 8 — Friend of the Court 2
-- Rank 9 — Champion (1/6) helm
+- Rank 9 — **Veteran helm**, re-issued each season (S2: **279**, upgrades
+  **282 → 295**). The runestone unlock quest must be redone to collect it again.
+  [in-game 2026-08-16]
 - Rank 12 — Dragonhawk Munchkin battle pet
 - Rank 17 — Crimson Silvermoon Hawkstrider (ground mount)
 - Rank 19 — Fiery Dragonhawk (flying mount)
 - Rank 20 — "Life of the Party" title
 
 Early ranks also unlock transmog ensembles, an ilvl 180 helm, profession
-recipes, event bonuses, and housing decor. ⚠ The **180** (and the Rank-9
-Champion 1/6 helm above) are **Season 1-era** numbers and were **not** rescaled
-by 12.1's +45 ilvl ladder shift — this is a legacy Quel'Thalas track, not a
-Season 2 reward source. Season 2's Champion band is **295–308**
-(`endgame/dawncrests.md`), so nothing here is a gearing target at 12.1.
+recipes, event bonuses, and housing decor.
+
+⚠ Tier-3 guides (Method's Season 2 gearing guide among them) call the renown gear
+**Champion** track. It is **Veteran** — observed in game, and consistent with
+`factions/zuljarras-forces.md`, where Veteran sits at Rank 2 and Champion at Rank 9.
+The early-rank **ilvl 180 helm** is a Season 1 number and has not been re-checked.
+@verify-ingame
 
 ## Weekly renown sources
 
@@ -100,3 +104,8 @@ Season 2 reward source. Season 2's Champion band is **295–308**
 > guide. Confirm a specific rank's reward in-game or against the Wowhead DB page
 > before relying on it. @verify-ingame Silvermoon Court renown: confirm the
 > final rank number and the Rank 9 / early-rank reward ilvls on a 12.1 character.
+
+## Changelog
+
+2026-08-17 — rank-9 helm is a Veteran-track piece that re-issues each season (S2 279),
+not a dead Season 1 Champion 246. The page had said renown gear was not rescaled at all.

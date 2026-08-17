@@ -158,8 +158,8 @@ build-stamped 12.0.7.68887, indexed to:
  51 predicate declarations (32 Precondition + 19 Secret)
 ```
 
-> ⚠ **Two labels here were wrong and are corrected (2026-07-23, from the topic
-> files' verification passes).**
+> ⚠ **Two labels in the block above read differently from the topic files. The
+> topic files are right; take these two readings.**
 > - **"51 secret predicates" overstates by 2.7×.** Only the **19** `Type =
 >   "Secret"` declarations are secret predicates; the other **32** are
 >   `Type = "Precondition"` (`RequiresValidActionSlot`, …). Re-verified by grep.
@@ -597,8 +597,7 @@ GlobalString". The wiki's `Patch <ver>/API changes` pages link its
   {Enum.SecretAspect.Cooldown}` and **no** `SecretArguments = "NotAllowed"`.
   (`FrameAPICooldownDocumentation.lua:280,293,305,316,329`.)
 
-  ⚠ **This entry over-read its own evidence and is corrected (2026-07-23).** It
-  concluded "i.e. they *do* accept secret arguments". They carry
+  ⚠ **These four do NOT accept a secret argument from an addon.** They carry
   `SecretArguments = "AllowedWhenUntainted"`, and **all addon code is tainted**,
   so *from an addon* those four still do not accept a secret — the guide's
   practical advice was closer to right than this refutation was. What is
@@ -801,9 +800,8 @@ Plater (11), oUF (3), `libs/TaintLess` (⚠ pre-Midnight) [3.1, 3.3]
 · wiki-only globals: `issecure`, `issecurevariable`, `securecall`,
 `securecallfunction`, `secureexecuterange`, `forceinsecure`, `hooksecurefunc` —
 Tier 2, cite the revision [1.2, 3.6].
-⚠ **Corrected 2026-07-23:** this line previously also listed `issecretvalue`,
-`hasanysecretvalues` and `scrub` as wiki-only. They are **Tier 1**, fully
-documented in `FrameScriptDocumentation.lua` — see the correction in §1.2.
+⚠ `issecretvalue`, `hasanysecretvalues` and `scrub` are **NOT** wiki-only: they are
+**Tier 1**, fully documented in `FrameScriptDocumentation.lua` (§1.2).
 
 ### module-architecture
 ★ `Ace3/AceAddon-3.0` [3.2] and BigWigs `Core/BossPrototype.lua` +
@@ -847,3 +845,9 @@ did not clone (HereBeDragons-2.0, LibQTip-1.0, LibSink-2.0, LibDualSpec-1.0) [3.
 · `libdatabroker-1-1` (frozen 2008) + `LibDBIcon-1.0` (install-only) as the
 LDB/minimap-button pattern [3.3]
 · ⚠ "everyone uses X" needs a count — say "N of the 7 addons surveyed".
+
+## Changelog
+
+2026-07-23 — "51 secret predicates" was 2.7× over: 19 are `Type = "Secret"`, 32 are
+`Type = "Precondition"`. The four cooldown getters are untainted-only, not `NotAllowed`.
+`issecretvalue`/`hasanysecretvalues`/`scrub` are Tier 1, not wiki-only.

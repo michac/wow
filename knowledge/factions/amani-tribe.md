@@ -75,23 +75,14 @@ don't expect Amani Tribe renown from the new zone.
 
 - **Rank 8:** unlocks the **Altar of Blessings** (Loa Blessings system, below).
 - **Rank 9:** unlocks **Magovu's quest "An Abundance of Wealth"** — complete one
-  **Abundance** world event → a **neck at ilvl 246** (choice of *Amani
-  Heartstring Pendant* / *Amani Totemstring*). This is **quest-granted, not a
-  straight vendor purchase**, so it shows as a quest at Magovu, not a buyable
-  item — and a known bug can keep the quest from appearing until you `/reload`
-  with an Abundance event active. (Corrects an earlier KB gap that implied Amani
-  had no gear reward.)
-  ⚠ **The old KB label "Champion 1/6" does not fit 246 and has been dropped.**
-  Tier-1 game data puts Season 1's Champion Dawncrest band at **250–263** — so
-  Champion 1/6 was **250**, and 246 falls inside the **Veteran** band (237–250)
-  instead. One of the two was wrong when it was written; the ilvl is the value
-  three lower-tier guides agree on, so the **246 is kept and the track label
-  removed** rather than the reverse. Confirm the exact neck item names, that
-  rank 9 grants this quest, and the neck's actual ilvl + upgrade track from its
-  in-game tooltip. @verify-ingame
-  ⚠ **246 is a Season 1 ilvl either way.** 12.1 did not restate this reward, and
-  Season 2 gear spans **269 → 334** (the Mistcrest bands), so this neck now sits
-  well below the S2 floor — take it for the collection, not as gearing.
+  **Abundance** world event → a **neck** (choice of *Amani Heartstring Pendant* /
+  *Amani Totemstring*). Quest-granted, not a vendor purchase, so it appears as a
+  quest at Magovu rather than a buyable item; a known bug can keep the quest from
+  appearing until you `/reload` with an Abundance event active.
+  Track + ilvl unverified for S2 (S1 was 246, which sits in the S1 **Veteran**
+  band of 237–250 — not Champion, whose S1 floor was 250). Confirm the item names,
+  that rank 9 grants the quest, and the neck's track + ilvl on the tooltip.
+  @verify-ingame
 - **Rank 12:** **Naloki** companion pet.
 - **Rank 17:** **Amani Blessed Bear** mount.
 - **Rank 19:** **Amani Windcaller** flying mount.
@@ -99,6 +90,13 @@ don't expect Amani Tribe renown from the new zone.
 
 Magovu also stocks cosmetics, decor, profession recipes, and player-power
 items gated behind their respective ranks.
+
+⚠ Every ilvl on this page is a **Season 1** number and none has been re-checked
+for Season 2. Silvermoon Court's rank-9 helm re-issued as a **Veteran**-track piece
+(`factions/silvermoon-court.md`, in-game), and it needed its unlock quest redone —
+so this neck probably re-issues the same way, via "An Abundance of Wealth" again.
+S2 Veteran is **279**, upgrading **282 → 295**. Tier-3 guides call this gear
+**Champion** track; the one observation we have says Veteran. @verify-ingame
 
 ## Loa Blessings (Lorewalking with the Loa)
 
@@ -192,3 +190,10 @@ Three Amani-troll story beats landed with **12.0.7 (live 2026-06-16):**
   exploring loa and troll-tribe lore across the **Darkspear, Drakkari,
   Gurubashi, and Zandalari**. Lore/flavor content, not high-pressure
   progression.
+
+## Changelog
+
+2026-08-17 — renown gear re-issues each season on the Veteran track; the page had
+called the rank-9 neck a dead Season 1 246 to take "for the collection, not as gearing".
+2026-08-11 — dropped the "Champion 1/6" label on that neck: 246 is in the S1 Veteran
+band (237–250), and S1 Champion 1/6 was 250.

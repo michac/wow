@@ -60,6 +60,13 @@ game.** Defenses, in order:
    confidence is low or data is stale, say so explicitly.
 6. Volatile data (AH prices, token price, realm status, "what event is up
    this week") is **never** answered from the KB — fetch live.
+7. **When you correct the KB, rewrite the claim — never append a correction
+   under it.** A stale number left standing with a ⚠ note below it is a trap:
+   the next reader greps that line, or stops reading before the note, and gets
+   the wrong answer. Delete the old value; put one line in the file's
+   `## Changelog` if the error is worth remembering. Full doctrine (and the
+   `wowkb.kblint` gates that enforce it):
+   **`knowledge/_meta/writing-claims.md`**.
 
 ## Directory map
 
@@ -439,3 +446,10 @@ blue posts, the `patch-notes/` archive, `moving-values.md` — is the **floor**.
 Lower-tier sources (Icy Veins / Wowhead editorial) may corroborate or add but
 must **never overwrite** it; on conflict, keep the Tier-1 value and flag. Resolve
 name/number conflicts via game data (wago DB2 / Wowhead DB page), not prose.
+
+⚠ **This governs a SOURCE CONFLICT — two live sources disagreeing now.** It does
+**not** govern a **temporal correction**, where we were simply wrong and now know
+better. There is no disagreement to preserve there: **delete the old claim and
+write the new one** (staleness doctrine 7). Reading "keep it and flag" as
+"never delete anything" is exactly how a KB file grows a stack of ⚠ notes with
+the dead value still sitting at the top.

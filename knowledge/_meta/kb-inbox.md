@@ -796,3 +796,37 @@ Accolade-budget advice change.
    exports at the two builds are byte-identical (md5 on `TraitNodeEntry`). Each
    `talents.md` now carries a provenance note saying so. If the API namespace ever lags
    across a *real* data change, this becomes a live defect.
+
+7. **The five Midnight renown gear pieces look RESCALED to Season 2 ilvls, and the
+   faction files say the opposite.** `factions/the-singularity.md` and
+   `factions/harati.md` both assert the S1 numbers were "**not** rescaled by 12.1's
+   +45 ilvl ladder shift" and read as legacy tracks; `factions/amani-tribe.md` says
+   the 246 neck "now sits well below the S2 floor". Two Tier-3 guides (Method's S2
+   gearing guide, corroborated by a second) say instead that the neck (Amani R9),
+   helm (Silvermoon R9), belt (Hara'ti R8) and trinket (Singularity R7) "**have been
+   upgraded to Season 2 item levels**", and that Zul'jarra's Forces R9 bracers are a
+   *new* S2 Champion-track piece. If true, S2 Champion 1/6 = **292** (Tier-1, see
+   `endgame/mythic-plus/loot.md`), not 246 — a 46-ilvl error in the other direction,
+   and it turns four "collection only" rewards back into real alt-gearing catch-up.
+   ⚠ Not written into `knowledge/` because: (a) the sources are Tier 3 and one of them
+   calls the same set **Veteran**-track rather than Champion, (b) no source states the
+   pieces' actual ilvl, (c) Season 2 does not open until **2026-08-18**, so nothing was
+   observable when this was found (2026-08-17).
+
+   **RESOLVED SAME DAY — and the guides were wrong in a second way.** Owner
+   observation (in game 2026-08-16, plus video): the re-issued pieces are
+   **VETERAN** track, not Champion. The Silvermoon Rank-9 helm was collected again
+   on a character that already had the S1 version — **the runestone quest has to be
+   redone** — and came back Veteran. That makes the rule: *every S1 renown track
+   re-issues an S2 Veteran item in the slot it gave in S1* (S2 Veteran = **279**
+   1/6, band **282 → 295**). It is corroborated by the KB's own
+   `factions/zuljarras-forces.md`, which already had **Veteran** bracers at Rank 2
+   and **Champion** at Rank 9 — Veteran is the renown baseline, Champion the
+   deep-rank exception. All five faction files were corrected 2026-08-17.
+   **Residual:** only the Silvermoon **helm** was directly observed; the Amani neck,
+   Hara'ti belt and Singularity trinket are inferred from the pattern (~90%) and
+   each carries its own `@verify-ingame`. The early-rank ilvl-180 pieces
+   (Silvermoon helm, Singularity gloves, Hara'ti belt) were **not** re-checked and
+   are still S1 numbers.
+   **Standing lesson:** on renown reward tracks the Tier-3 guides were unanimous and
+   unanimously wrong (Method et al. all say "Champion"). Prefer the tooltip.

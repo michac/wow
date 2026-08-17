@@ -490,40 +490,43 @@ Stated plainly so nobody has to rediscover them.
 
 **A topic file states what is true now. It never states what it used to say.**
 
-1. **Correcting a claim means rewriting the claim.** Edit the sentence, the table cell,
-   the number, in place. Do **not** leave the old text standing under a correction note.
-   If a reader can get the wrong answer by reading top-down or by grepping a single line,
-   the edit is not finished.
-2. **History goes in one place or nowhere.** If the *fact that we were wrong* is itself
-   worth keeping — because it would otherwise be re-derived, or because it burned a
-   release — it is **one line** in a `## Changelog` at the bottom of the file:
-   `2026-08-04 — §4.8 duration sinks: "carries" ≠ "displays"; aspect-less, no readback.`
-   Cap: 20 entries or 2 KB, whichever comes first; drop entries older than two patches.
-   Anything longer belongs in `projects/<addon>/docs/`.
-3. **A measurement is a claim plus a tag, not a story.** Write the claim in the present
+⚠ **This rule was promoted 2026-08-17 and now governs all of `knowledge/**`.** It lives in
+**`knowledge/_meta/writing-claims.md`** — read that for the general form. It is unchanged
+in substance; it gained a lede rule, an explicit carve-out for the game's own calendar
+dates, and the distinction between a temporal correction and a source conflict.
+
+**This subtree keeps four rules the rest of the KB does not**, because its evidence
+classes are stricter:
+
+1. **A measurement is a claim plus a tag, not a story.** Write the claim in the present
    tense and tag it `[client YYYY-MM-DD]`. **One** sentence of method is allowed if the
    method is load-bearing. The spec, the character, the addon build, what we tried first
    and how many builds it cost are session facts — they go in the project docs.
-4. **Dates appear in exactly four places:** front matter (`fetched`/`reviewed`), a citation
+2. **Dates appear in exactly four places:** front matter (`fetched`/`reviewed`), a citation
    stamp, a `[client YYYY-MM-DD]` / `[searched YYYY-MM-DD: …]` provenance tag, and the
    `## Changelog`. **A date in prose
    is a defect.** A citation stamp is any bracketed tier tag carrying the date *inside* the
    brackets — `[T2 wiki: …, revid X, 2026-02-19]`, `[T2 bug: WoWUIBugs#414, closed 2025-03-07]`.
    An external event's date (a bug filed, an issue closed, a repo last pushed) **is**
    provenance and keeps its date — put it in the citation, not in the sentence.
-5. **No numbered "findings" list in a reference body.** A finding is merged into the
-   section it amends. Out-of-order ordinals are the signature of a file being appended to
-   instead of edited.
-6. **A claim is scoped to the API, not the call site.** "`SetText` with a secret marks
+   ⚠ This is **stricter than the KB-wide rule**, which permits the game's own calendar
+   (a patch's live date, a season's start) in prose. Here it does not.
+3. **A claim is scoped to the API, not the call site.** "`SetText` with a secret marks
    anchoring secret" — not "our FontString broke because…". If a fact is only true of
    CDMProbe/Demonology/one build, it is not a KB fact; it belongs in the project.
-7. **Unsettled findings do not go in a topic file at all.** They go in a queue (§1.2).
-   A topic file asserts; a queue file asks.
+4. **A topic file's history caps at `projects/<addon>/docs/`**, not
+   `_meta/changelog-<patch>.md` — an addon fact's long form belongs with the addon.
+
+The KB-wide rules — rewrite in place, one-line `## Changelog`, current-answer lede, no
+numbered findings lists, unsettled findings go to a queue (§1.2), and *a temporal
+correction is not a source conflict* — apply here unchanged.
 
 ### The gates
 
-`wowkb.kblint` runs these in CI. Each must return zero. Gates 1–3 enforce this section;
-gates 4–5 enforce §0's evidence classes.
+`wowkb.kblint` runs these in CI. Each must return zero. Gates 1, 3 and 6 enforce the
+**KB-wide** current-state rule (`_meta/writing-claims.md`) and run over all of
+`knowledge/**` under `--all`; gate 2 enforces this section's stricter date rule, and gates
+4–5 enforce §0's evidence classes — those three stay scoped to this subtree.
 
 ⚠ **The tool is authoritative; these greps are the readable statement of what it does.**
 Gate 5's reproduces it line for line, and gate 2's is close. Gate 4's cannot be written as
