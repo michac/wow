@@ -7,6 +7,7 @@ sources:
   - https://raw.githubusercontent.com/simulationcraft/simc/midnight/engine/class_modules/apl/warlock.cpp  # tier 1, simc APL source for affliction, commit 51d49d5 (2026-08-12)
 verbatim: true
 confidence: high
+pass: 2026-08-17.1
 ---
 
 # Affliction Warlock — the simc priority list

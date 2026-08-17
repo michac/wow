@@ -7,6 +7,7 @@ sources:
   - https://raw.githubusercontent.com/simulationcraft/simc/midnight/engine/class_modules/apl/mage.cpp  # tier 1, simc APL source for frost, commit 3ead06b (2026-08-12)
 verbatim: true
 confidence: high
+pass: 2026-08-17.1
 ---
 
 # Frost Mage — the simc priority list

@@ -7,6 +7,7 @@ sources:
   - https://raw.githubusercontent.com/simulationcraft/simc/midnight/profiles/MID1/MID1_Shaman_Enhancement.simc  # tier 1, simc APL source for enhancement, commit 3f45751 (2026-08-16)
 verbatim: true
 confidence: high
+pass: 2026-08-17.1
 ---
 
 # Enhancement Shaman — the simc priority list

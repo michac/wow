@@ -7,6 +7,7 @@ sources:
   - https://raw.githubusercontent.com/simulationcraft/simc/midnight/engine/class_modules/apl/apl_evoker.cpp  # tier 1, simc APL source for augmentation, commit 5a6a0e1 (2026-08-11)
 verbatim: true
 confidence: high
+pass: 2026-08-17.1
 ---
 
 # Augmentation Evoker — the simc priority list

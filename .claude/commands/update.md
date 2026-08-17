@@ -157,6 +157,17 @@ the JSON, and never leave it stale after an activity edit. If any file gained or
 resolved a `@verify-ingame` marker this sweep, refresh the in-game checklist too:
 `uv run python -m wowkb.gen_verify` (verify with `--check`).
 
+**Always** refresh the spec priority lists: `uv run python -m wowkb.simc --kb --all`.
+These are the Tier-1 APLs the `rotation.md` files cite, they move independently of
+Blizzard's feeds (simc retunes on its own schedule), and a class whose APL upstream
+never touched for this patch is exactly what you want the sweep to surface. It exits
+1 when an APL source predates the live patch — that is a report, not a failure.
+
+**Then close the loop:** `uv run python -m wowkb.kbpass check`. Every generated
+artifact must carry the **active pass ID** (Step P). A file left on an older ID means
+this pass did not regenerate it, whatever the log says — which is precisely the
+`spec_inventory.PINNED_BUILD` defect the 12.1 sweep found by hand.
+
 **F7 — Consistency & coverage sweep.**
 `grep -rh '^patch:' knowledge --include='*.md' | sort | uniq -c` (no file left on
 the old version) and `grep -rn '<old-version>' knowledge --include='*.md'` (every
@@ -175,6 +186,21 @@ every hand-fix, remaining low-confidence items, and the three durable artifacts
 (`patch-notes/<patch>.md`, `changelog-<patch>.md`, refreshed `moving-values.md`).
 
 ---
+
+## Step P — Open a pass (both paths, FIRST)
+
+Before touching anything, mint the pass ID:
+
+```bash
+uv run python -m wowkb.kbpass allocate --kind <feed|full> --scope "<one line>"
+```
+
+Every generated artifact regenerated during this run stamps that ID, so
+`wowkb.kbpass check` can prove afterwards which artifacts the pass actually reached.
+⚠ If it **warns that a pass already ran today**, read the warning: hand-written files
+carry only `reviewed: <date>`, so two same-day passes over *overlapping* scopes are
+indistinguishable to the `grep -rL` coverage audit in F7. Either scope the second pass
+to disjoint files or accept that F7's coverage check covers the day, not the pass.
 
 ## Step W — Advance the watermark (both paths)
 

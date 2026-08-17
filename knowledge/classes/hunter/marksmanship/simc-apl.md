@@ -7,6 +7,7 @@ sources:
   - https://raw.githubusercontent.com/simulationcraft/simc/midnight/engine/class_modules/apl/apl_hunter.cpp  # tier 1, simc APL source for marksmanship, commit 7ba3610 (2026-08-17)
 verbatim: true
 confidence: high
+pass: 2026-08-17.1
 ---
 
 # Marksmanship Hunter — the simc priority list

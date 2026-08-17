@@ -7,6 +7,7 @@ sources:
   - https://raw.githubusercontent.com/simulationcraft/simc/midnight/engine/class_modules/apl/apl_warrior.cpp  # tier 1, simc APL source for protection, commit f61263a (2026-08-13)
 verbatim: true
 confidence: high
+pass: 2026-08-17.1
 ---
 
 # Protection Warrior — the simc priority list

@@ -58,6 +58,7 @@ import sys
 import requests
 
 from ._common import save_raw
+from .kbpass import current as current_pass, stamped
 
 # A real browser UA — raw.githubusercontent.com is fine with anything, but the
 # GitHub API is friendlier to a named client; keep it consistent with maxroll.
@@ -573,6 +574,9 @@ def render_kb(class_lower: str, spec: str, src: str,
         source,
         "verbatim: true",
         "confidence: high",
+        # The maintenance pass that last regenerated this. `wowkb.kbpass check` reads
+        # it: an artifact behind the active pass proves that pass skipped it.
+        f"pass: {current_pass() or 'unrecorded'}",
         "---",
         "",
         f"# {title_spec} {title_class} — the simc priority list",
@@ -694,6 +698,7 @@ def sync_kb(class_tokens: list[str], spec_token: str | None,
     One class module holds every spec of that class, so a whole class costs ONE fetch.
     Returns a process exit code: 1 if anything drifted, is missing, or is stale.
     """
+    active = current_pass()
     drift: list[str] = []
     stale_srcs: list[str] = []
     missing: list[str] = []
@@ -742,7 +747,10 @@ def sync_kb(class_tokens: list[str], spec_token: str | None,
             fresh = _gen_block(src, block or spec, commit, actions)
             current = read_gen_block(path)
             checked += 1
-            if current == fresh:
+            # A pass that regenerates an unchanged file must still RE-STAMP it — the
+            # same rule `reviewed:` follows. Otherwise an artifact whose content never
+            # moves would read as skipped by every pass that ever ran.
+            if current == fresh and stamped(path) == active:
                 continue
             rel = path.relative_to(REPO)
             if check_only:

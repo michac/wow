@@ -17,6 +17,29 @@ re-reading the whole tree — it means "pull every blue post / news item / build
 since the watermark below, triage, apply, and advance the line." Update this
 file at the **end** of every feed review.
 
+## Pass ledger
+
+**Every maintenance run gets an ID**, `<date>.<n>`, minted by `wowkb.kbpass allocate`
+and never reused. **Generated artifacts stamp the ID in their front matter**, so
+`wowkb.kbpass check` catches the one failure a log cannot: a pass that claims to have
+regenerated something and did not. (That defect is not hypothetical — the 12.1 sweep
+found `spec_inventory.PINNED_BUILD` and `gen_abilities.PATCH` hardcoded, so a
+"regeneration" silently re-emitted the old patch.)
+
+Hand-written files are **not** stamped with an ID — they keep `reviewed:` as a plain
+date, because the front-matter convention needs it parseable. The residual limit: two
+passes **on the same day over overlapping scopes** leave hand-written files
+indistinguishable to `grep -rL 'reviewed: <date>'`. `allocate` warns when it mints a
+second ID for a day. Generated artifacts are immune — they carry the full ID.
+
+<!-- pass:begin -->
+| Pass | Date | Kind | Scope |
+|---|---|---|---|
+| `2026-07-07.1` | 2026-07-07 | full | 12.0.7 whole-tree sweep, 131 files (excl. `_meta`) |
+| `2026-08-11.1` | 2026-08-11 | full | 12.1 sweep — game-KB core (97) + 26 warlock/DH class files; 34 other specs banner'd, not swept |
+| `2026-08-17.1` | 2026-08-17 | tooling | simc APL artifacts generated for all 40 specs (36 landed, 4 have no upstream APL) |
+<!-- pass:end -->
+
 ## Current watermark — reviewed through 2026-08-11
 
 | Cursor | Value |
