@@ -1187,3 +1187,99 @@ there is nothing left to drain them from.
 **Drains to:** `cooldown-manager.md:1463`
 
 **Status:** drained 2026-08-11
+
+---
+
+## OBS-067 · 2026-08-16 · Is the item's Cooldown widget IsShown() a plain boolean in restricted combat, and does w
+
+**Observed:** `cdm-cooldown-widget-shown-in-combat` recorded **ok** — `{combat=false, shown={false=9, rows=9}, wasSetFromCooldown={false=9, rows=9}}`
+
+**How:** ClientLab run **2026-08-16 21:01:13** (v0.2.6, interface 120100), out of combat, instance `none`. A direct measurement in the client.
+
+**Expected (questions.json):** Both plain on every laid-out Essential row, in and out of combat: `shown` tallies only true/false (never secret/threw), and `wasSetFromCooldown` likewise. That combination makes `IsShown() and wasSetFromCooldown` a legal in-combat gate for 'this row's own cooldown is running'. A `secret` or `threw` in either tally kills the gate and cap falls back to the alert latch, which is known one-way.
+
+**Confidence:** high — the client answered directly. Low only if the result contradicts `expect` in a way that suggests the test asked the wrong thing.
+
+**Drains to:** `cooldown-manager.md:§7`
+
+**Status:** drained 2026-08-16
+
+---
+
+## OBS-068 · 2026-08-16 · Is the item's Cooldown widget IsShown() a plain boolean in restricted combat, and does w
+
+**Observed:** `cdm-cooldown-widget-shown-in-combat` recorded **ok** — `{combat=true, shown={false=8, rows=9, true=1}, wasSetFromCooldown={false=8, rows=9, true=1}}`
+
+**How:** ClientLab run **2026-08-16 21:01:30** (v0.2.6, interface 120100), in combat, instance `none`. A direct measurement in the client.
+
+**Expected (questions.json):** Both plain on every laid-out Essential row, in and out of combat: `shown` tallies only true/false (never secret/threw), and `wasSetFromCooldown` likewise. That combination makes `IsShown() and wasSetFromCooldown` a legal in-combat gate for 'this row's own cooldown is running'. A `secret` or `threw` in either tally kills the gate and cap falls back to the alert latch, which is known one-way.
+
+**Confidence:** high — the client answered directly. Low only if the result contradicts `expect` in a way that suggests the test asked the wrong thing.
+
+**Drains to:** `cooldown-manager.md:§7`
+
+**Status:** drained 2026-08-16
+
+---
+
+## OBS-069 · 2026-08-16 · Does OnCooldownDone on the item's Cooldown widget fire for rows the player configured no
+
+**Observed:** `cdm-oncooldowndone-fires-without-alerts` recorded **ok** — `{alertFirings=2, doneDistinctRows=7, doneFirings=7, hooked=9, measured=true}`
+
+**How:** ClientLab run **2026-08-16 21:01:30** (v0.2.6, interface 120100), in combat, instance `none`. A direct measurement in the client.
+
+**Expected (questions.json):** doneDistinctRows well above the number of rows carrying a configured alert, ideally every row that came off cooldown during the pull. The 2026-08-16 flight measured Available on exactly ONE cooldownID out of nine; if doneDistinctRows reaches most of the nine, OnCooldownDone is the symmetric edge and the asymmetry is an alert-system property rather than a client one. doneFirings 0 after a real pull would falsify the whole route.
+
+**Confidence:** high — the client answered directly. Low only if the result contradicts `expect` in a way that suggests the test asked the wrong thing.
+
+**Drains to:** `cooldown-manager.md:§5.1`
+
+**Status:** drained 2026-08-16
+
+---
+
+## OBS-070 · 2026-08-16 · Are isOnActualCooldown, cooldownIsActive, isOnGCD and the method IsOnCooldown() plain in
+
+**Observed:** `cdm-item-cooldown-flags-secrecy` recorded **ok** — `{IsOnCooldown={false=8, rows=9, threw=1}, combat=true, cooldownIsActive={false=8, rows=9, secret=1}, isOnActualCooldown={false=8, rows=9, secret=1}, isOnGCD={false=9, rows=9}}`
+
+**How:** ClientLab run **2026-08-16 21:01:30** (v0.2.6, interface 120100), in combat, instance `none`. A direct measurement in the client.
+
+**Expected (questions.json):** Unknown, and genuinely open. They derive from spellCooldownInfo.endTime, which is secret in combat, so `cooldownIsActive = endTime > timeNow` may well hand tainted code a secret boolean — or Blizzard's untainted comparison may yield a plain one. If any is plain it is a strictly simpler answer than the widget-state gate, being Blizzard's own verdict rather than a mirror of it.
+
+**Confidence:** high — the client answered directly. Low only if the result contradicts `expect` in a way that suggests the test asked the wrong thing.
+
+**Drains to:** `cooldown-manager.md:§7`
+
+**Status:** drained 2026-08-16
+
+---
+
+## OBS-071 · 2026-08-16 · Feeding a duration object into a hidden scratch Cooldown widget and reading IsShown() — 
+
+**Observed:** `cdm-scratch-cooldown-isshown` recorded **ok** — `{combat=true, false=8, rows=9, true=1}`
+
+**How:** ClientLab run **2026-08-16 21:01:30** (v0.2.6, interface 120100), in combat, instance `none`. A direct measurement in the client.
+
+**Expected (questions.json):** Plain true/false per row. §2.3 documents this as a working secret-safe yes/no, but that is another addon's claim mined into the KB and never measured here; it is currently load-bearing for nothing, and would become a general-purpose 'is any duration running' primitive if it holds. Note the standing hazard the section names: GetCooldownTimes() goes secret after SetCooldownFromDurationObject, so never scrape times back off the widget.
+
+**Confidence:** high — the client answered directly. Low only if the result contradicts `expect` in a way that suggests the test asked the wrong thing.
+
+**Drains to:** `cdm-rider-patterns.md:§2.3`
+
+**Status:** drained 2026-08-16
+
+---
+
+## OBS-072 · 2026-08-16 · Is a laid-out CDM item frame PROTECTED at runtime, in and out of combat
+
+**Observed:** `cdm-item-frame-protected` recorded **ok** — `{combat=true, itemProtected={false/false=9, rows=9}, viewerProtected=no-method}`
+
+**How:** ClientLab run **2026-08-16 21:01:30** (v0.2.6, interface 120100), in combat, instance `none`. A direct measurement in the client.
+
+**Expected (questions.json):** Unknown. The XML declares no protected attribute across Blizzard_CooldownViewer, but that settles the declaration and not the runtime, and 12.1.0 added a CooldownViewerSecure.lua nobody has read. If IsProtected() returns false in combat, cap may re-anchor rows mid-pull and the whole RefreshLayout-teardown risk becomes recoverable in place; if true, the out-of-combat-only guard in Anchor.lua is load-bearing rather than cautious.
+
+**Confidence:** high — the client answered directly. Low only if the result contradicts `expect` in a way that suggests the test asked the wrong thing.
+
+**Drains to:** `cooldown-manager.md:§4.1`
+
+**Status:** drained 2026-08-16

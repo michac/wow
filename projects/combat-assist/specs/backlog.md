@@ -365,9 +365,17 @@ fixed it. Do not read a frozen `D{}` as a failed apply.
 - [ ] Record the player/behaviour result. If positioning cannot be made to persist, **D22 reopens**.
       Client facts (protection status, reflow triggers, un-hide route) drain to
       `knowledge/addon-dev/`, not here.
-- [ ] **Runtime protection is still open.** The XML declares no `protected` attribute, but that
-      settles the *declaration*, not the runtime — and 12.1.0 ships a `CooldownViewerSecure.lua`
-      nobody has read. `IsProtected()` on a live item frame, in and out of combat, is the test.
+- [x] **Runtime protection: ANSWERED, and item frames are not protected.** `[client 2026-08-16]`
+      `IsProtected()` returned `false, false` on 9 of 9 Havoc rows, in combat and out
+      (`knowledge/addon-dev/cooldown-manager.md` §4.1). So `Anchor.lua`'s `InCombatLockdown()`
+      guard on `apply()` is **caution, not a restriction**, and the mid-combat `RefreshLayout`
+      teardown is recoverable in place rather than permanent until the pull ends.
+- [ ] **Decide whether Anchor re-applies in combat now that it may.** Deliberately NOT changed
+      with the measurement — it is a behaviour change on a feature that has flown once, and the
+      teardown it would cover has still never been observed firing. The cheap version is to
+      drop the guard in `apply()` and let the existing `# stomp` path re-anchor; the question is
+      whether re-anchoring mid-pull is *desirable*, since a row that moves during combat is its
+      own kind of wrong.
 
 ### Re-fly Havoc to settle D23 with the `W{}` reason trace
 

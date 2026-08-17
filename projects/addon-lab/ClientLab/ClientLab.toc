@@ -14,7 +14,6 @@ Dumps.lua
 Autorun.lua
 Ask.lua
 T_CooldownManager.lua
-T_CooldownReadiness.lua
 
 # DELETED ON 12.1, recover from git — do not re-create:
 #   git show 671fb68^:projects/addon-lab/ClientLab/<name>.lua

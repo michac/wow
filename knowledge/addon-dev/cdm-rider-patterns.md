@@ -227,9 +227,14 @@ Note the standing hazard one addon documents: after `SetCooldownFromDurationObje
 widget's `GetCooldownTimes()` returns **secret** values — so cache the duration object you
 rendered and re-read *it*, never scrape the times back off the widget.
 
-⚠ **This whole section is a MINED claim and has never been measured here.** `IsShown()` being
-plain while the underlying time is secret is the load-bearing half, and it is another addon's
-assertion rather than our observation. `` `@pending-test: cdm-scratch-cooldown-isshown` ``
+**Measured here, and it holds.** `[client 2026-08-16]` Havoc, 9 Essential rows, in a pull:
+feeding each row's `C_Spell.GetSpellCooldownDuration(spellID, true)` into the scratch widget
+and reading `IsShown()` gave a **plain boolean on 9 of 9** — never secret, never threw — and
+the 8-false / 1-true split matched, row for row, an independent read of the CDM's own
+`GetCooldownFrame():IsShown()` in the same run (`cooldown-manager.md` §7). Two different
+routes, same answer. This was a mined claim until then; it is ours now, and it is a
+general-purpose "is any duration running" primitive rather than a CDM-only one — it needs
+only a spellID.
 
 ---
 

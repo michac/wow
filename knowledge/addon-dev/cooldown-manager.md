@@ -895,12 +895,17 @@ templates inherit `CooldownViewerBaseItemTemplate` `[@12.1.0: CooldownViewer.xml
 a plain virtual `<Frame>` carrying three script bindings and no attributes beyond `name`
 and `virtual`.
 
-> ⚠ **That settles the declaration, not the runtime.** Whether the client nonetheless
-> treats a laid-out CDM item frame as protected by some other route — a secure ancestor,
-> a C-side flag, or `CooldownViewerSecure.lua`, which 12.1.0 added (§0b) — is not
-> established at any tier here, and the XML cannot settle it.
-> `` `@pending-test: cdm-item-frame-protected` `` — `IsProtected()` on a live item frame and
-> on the viewer, in and out of combat.
+**And the runtime agrees: a laid-out item frame is NOT protected, in combat or out.**
+`[client 2026-08-16]` Havoc, `EssentialCooldownViewer`, 9 laid-out rows: `IsProtected()`
+returned `false, false` — neither protected nor explicitly protected — on **9 of 9 rows**,
+sampled both out of combat and again inside a pull. So no secure ancestor, no C-side flag
+and nothing `CooldownViewerSecure.lua` does reaches these frames.
+
+> **Consequence for a rider: an anchor may be re-applied MID-COMBAT.** §8's rule 20 still
+> holds that your anchors get torn down — that is `RefreshLayout` releasing the pool, and it
+> is unchanged — but the teardown is now *recoverable in place* rather than permanent until
+> the pull ends. A rider that refuses to re-anchor in combat is being cautious, not obeying a
+> restriction.
 
 ### 4.2 A re-anchor measured, and the limit on how far it was measured
 
@@ -993,15 +998,31 @@ onto each frame, the hook must go on the item **instance**, not the shared mixin
 > `[T1 src @12.1.0: CooldownViewer.lua:725]`, and the engine fires it when the swipe
 > completes: no `alertsByEvent`, no `OnUpdate` registration, no player configuration. An
 > addon observes it additively with `HookScript`, leaving Blizzard's handler intact.
-> `` `@pending-test: cdm-oncooldowndone-fires-without-alerts` ``
+> **Measured, and it is the answer.** `[client 2026-08-16]` Havoc, 9 rows hooked, one pull,
+> **no alert configured on any of them**: `OnCooldownDone` fired **7 times across 7 DISTINCT
+> cooldownIDs**, against **2** `TriggerAlertEvent` firings in the same window. So the
+> asymmetry above is a property of the alert subsystem, not of the client, and this routes
+> around it entirely.
 >
 > `alertsByEvent` is a plain table on the item frame, so a consumer *can* ask which of its
-> rows are able to answer. And the direct read
-> `CooldownViewerCooldownItemMixin:IsOnCooldown()` `[@12.1.0: :705-707]` —
-> `isOnActualCooldown and not IsExpired()` — may be simpler still, but whether it survives
-> restricted combat is **unmeasured**: it derives from `spellCooldownInfo.duration`/`endTime`,
-> which are secret in combat, so it may hand tainted code a secret boolean rather than a plain
-> one. `` `@pending-test: cdm-item-cooldown-flags-secrecy` ``
+> rows are able to answer.
+
+> ⚠⚠ **DO NOT reach for `isOnActualCooldown`, `cooldownIsActive` or
+> `CooldownViewerCooldownItemMixin:IsOnCooldown()` `[@12.1.0: :705-707]`.** They look like the
+> simplest possible answer and they are a trap. `[client 2026-08-16]`, same 9 rows, in a pull:
+>
+> | read | out of combat | in combat |
+> |---|---|---|
+> | `isOnActualCooldown` | plain `false` ×9 | plain `false` ×8, **secret ×1** |
+> | `cooldownIsActive` | plain `false` ×9 | plain `false` ×8, **secret ×1** |
+> | `IsOnCooldown()` | plain `false` ×9 | plain `false` ×8, **THREW ×1** |
+> | `isOnGCD` | plain `false` ×9 | plain `false` ×9 |
+>
+> They seal **exactly on the row that is on cooldown** — the one row the question is about —
+> because they derive from `spellCooldownInfo.endTime`. So an unguarded read hands back a
+> plain `false` for every ready row and detonates on the busy one: *"not on cooldown"* and
+> *"unreadable"* are indistinguishable, and the failure only appears when the answer matters.
+> The widget-state gate in §7 says the same thing in plain booleans and never seals.
 (The general shape — a choke-point method as a dispatch surface, and `hooksecurefunc` on
 it as a runtime signal — is [`api-events-and-discovery`](./api-events-and-discovery.md)
 §2.8's claim; this section owns the instance.)
@@ -1412,6 +1433,7 @@ author's own invention**, and the most obvious such classifier is **false**: the
 |---|---|---|---|
 | `item.auraDataUnit` | both | **readable** `[client 2026-07-31]` | Plain `"player"` / `"target"`; non-nil **iff** the row has a live bound aura, and it discriminates. The in-combat "is the DoT up" read for an **aura-backed** row — see below. A totem-backed row has no aura to bind and answers on the two rows beneath instead. |
 | **`item.Bar.Pip:IsShown()`** | tab 2, BuffBar only | **readable — a plain boolean** `[client 2026-08-09]` | Blizzard's own `currentTime > 0` verdict mirrored into widget state `[T1 src: CooldownViewer.lua:1414-1442]`. `true` **iff** the bar is live, on 5 cooldownIDs each observed in both states; never secret, never threw. The sturdy "is this bar live" read, and it works on aura- and totem-backed rows alike — see below. |
+| **`item:GetCooldownFrame():IsShown()`** | tab 1 | **readable — a plain boolean** `[client 2026-08-16]` | The tab-1 twin of the row above, and the sturdy "is this row's own cooldown running" read. `CooldownFrame_Set` shows the widget iff a live duration was handed to it `[T1 src @12.1.0: CooldownViewer.lua:1141-1151]`, so this is Blizzard's verdict mirrored into widget state while the *times* behind it stay secret. **9 of 9 Havoc rows plain, in combat and out; never secret, never threw.** ⚠ **Pair it with `wasSetFromCooldown`** — the dial also shows aura remaining, and without that term an aura's swipe reads as a cooldown. |
 | `item.totemData` | both | **secret when populated, plain `nil` otherwise** `[client 2026-08-09]` | Set by `RefreshTotemData` from the player totem cache `[T1 src: CooldownViewer.lua:817, :1308, :1471]`. Secret on 3 of 141 rows, `nil` on the other 138. Class-check only: the record is sealed, so it says *this row is totem-backed and live* and nothing more — see below. |
 | `item.auraInstanceID` | both | **readable — a plain number** `[client 2026-08-04]` | The key that unlocks the instance-scoped aura APIs — see below. |
 | **`item.PandemicIcon`** | both | **readable — presence *is* the live pandemic state** `[client 2026-07-31]` | A frame reference, not a number. `~= nil` mirrors `IsInPandemicTime` exactly — see below. |
