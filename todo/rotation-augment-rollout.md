@@ -13,6 +13,40 @@ Contract enforced by tooling: `augments: simc-apl.md @<sha>` in front matter, ch
 `wowkb.simc --kb --check`, which reports when the APL moves past the commit the reasons
 were written against.
 
+## An APL's line count is not its button count — organise by ability
+
+Measured across all 36 specs: **9 buttons minimum, 16 median, 23 maximum.** The 12×
+spread in APL line count (17 → 203) collapses to a **2.5× spread in abilities**.
+
+| Spec | APL lines | sub-lists | abilities pressed |
+|---|---:|---:|---:|
+| `demon-hunter/vengeance` | 203 | 16 | **18** |
+| `warrior/arms` | 146 | 10 | **22** |
+| `warlock/destruction` | 125 | 7 | **16** |
+| `demon-hunter/havoc` | 35 | 2 | **12** |
+
+Three things inflate a line count, none of them keybinds:
+
+1. **Hero trees write the same rotation twice.** Destruction's `aoe_hc` (28 lines) and
+   `aoe_dia` (28) are the AoE rotation once per hero tree — 56 of its 125 lines are two
+   versions of one thing, and a player runs one. Demonology's `diabolist` (16) and
+   `soulharvest` (14) are the same.
+2. **One button appears at many rungs.** Destruction presses `conflagrate` at 12 points
+   in the list, `incinerate` at 10, `chaos_bolt` at 10.
+3. **A third of the lines are not abilities.** Destruction: 11 `variable` lines, 10
+   `call_action_list` dispatches, 12 item/potion/racial lines — 33 lines with no
+   keybind behind them.
+
+Havoc is short because **12.1 flattened it** — one combat list, no sub-lists, no
+dispatch, no in-combat variables. That is a property of that one rewrite, not of the
+spec being simple.
+
+**Consequence for this rollout:** `## Why each rung is there` is organised **per
+ability**, not per APL line — 9 to 23 entries for any spec in the game. What actually
+varies is the **branch structure**, so the section carries a short companion list
+explaining what each sub-list is for (hero tree, AoE, cooldown window). Vengeance is
+then ~18 abilities + ~16 branch notes, not 203 bullets.
+
 ## Inventory — what is actually left
 
 40 specs. 36 have an APL; Havoc is done. **35 remain**, in two tiers that need
@@ -118,17 +152,21 @@ front matter          incl. augments: simc-apl.md @<sha>
 
 ## Execution
 
-### Wave 0 — a second pilot, on a BIG APL (do this first)
+### Wave 0 — a second pilot, on the most BRANCHED APL (do this first)
 
-`demon-hunter/vengeance`, 203 actions. Havoc at 35 proved the shape works on the
-smallest case in the set and proved nothing about scale. If the structure survives 203
-actions without the "Why each rung is there" section turning back into a transcription,
-it will survive everything. **If it does not, the structure needs revising before 34
-more files are committed to it.**
+`demon-hunter/vengeance` — 203 lines, but only **18 abilities** across **16 sub-lists**.
+It is the pilot not because it has more buttons (it has 6 more than Havoc) but because
+it has **8× the branch structure**, and branching is the thing Havoc's flattened APL
+never exercised.
 
-Deliverable: the converted file, plus an explicit judgement on whether the section
-scales or needs a different treatment for large APLs (e.g. grouping rungs by phase
-rather than one bullet per action).
+The question it answers is **not** "does one-bullet-per-rung scale" — measurement above
+says the ability layer is 9–23 entries everywhere. It is: **how does a supplement
+express 16 sub-lists without turning into a map of the APL?** A reader needs to know
+which branch they are in and why, without the file redrawing the dispatch tree.
+
+Deliverable: the converted file, plus an explicit judgement on whether the branch
+companion list works, needs collapsing (several sub-lists are usually one idea — hero
+tree A vs B), or needs a different treatment entirely.
 
 ### Waves 1–6 — the rest, batched
 
@@ -136,10 +174,11 @@ Per-spec work is fully independent, so this is a `pipeline()` (apply → verify 
 no barrier). Sizing against the session's 15-agent guideline: **6 specs per wave = 12
 agents**, six waves.
 
-Suggested order — smallest APL first within each tier, so failures surface cheap:
+Suggested order — fewest sub-lists first within each tier, so failures surface cheap:
 
 - **Wave 1** — Tier A remainder: devourer, destruction, affliction, demonology (8 agents)
-- **Waves 2–6** — Tier B, 30 specs, 6 per wave, ascending APL size
+- **Waves 2–6** — Tier B, 30 specs, 6 per wave, ascending **sub-list count** (the real
+  difficulty sort — APL line count is misleading, see the measurement above)
 
 ### Per-spec pipeline
 
