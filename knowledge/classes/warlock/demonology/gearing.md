@@ -128,8 +128,39 @@ trinkets from Dungeons/Raids/Delves (maxroll, sim-verify — check
 | **C-Tier** | [Sapling of the Dawnroot](https://www.wowhead.com/item=250259), [Lightspire Core](https://www.wowhead.com/item=250214), [Mindpiercer's Sigil](https://www.wowhead.com/item=250224), [Sethraliss' Defiled Relic](https://www.wowhead.com/item=158368), [Ruby Whelp Shell](https://www.wowhead.com/item=193757) |
 | **Junkyard** | [Sealed Chaos Urn](https://www.wowhead.com/item=251787), [Glorious Crusader's Keepsake](https://www.wowhead.com/item=251792), [Void-Reaper's Libram](https://www.wowhead.com/item=251785), [Sylvan Wakrapuku](https://www.wowhead.com/item=251784) |
 
-⚠ This is a day-one Tier-3 ranking for a season nobody has raided. Expect it to
-move. Also note (Tier 1, 12.1): the **Cooldown Manager now tracks trinkets,
+**"Low chance" in a trinket tooltip is a real proc rate, not flavour.** The five
+base-ilvl-197 world/delve trinkets (items 251783/251784/251785/251787/251792,
+spells 1253111–1253120 — one design batch) all proc off RPPM, and the wording
+tracks `SpellProcsPerMinute.BaseProcRate` exactly:
+
+| Trinket | Tooltip says | RPPM | ICD |
+|---|---|---|---|
+| [Lost Idol of the Hash'ey](https://www.wowhead.com/item=251783) | **"low chance"** | **1** | 5s |
+| [Sylvan Wakrapuku](https://www.wowhead.com/item=251784) | "a chance" | 2 | — |
+| [Glorious Crusader's Keepsake](https://www.wowhead.com/item=251792) | "a chance" | 2 | — |
+| [Void-Reaper's Libram](https://www.wowhead.com/item=251785) | "a chance" | 3 | 5s |
+
+So **Lost Idol is the weakest proc config in its own batch** — half to a third the
+rate of its siblings *and* carrying a 5s internal cooldown — on top of granting a
+**random** buff, which cannot be aimed at a Tyrant/Diabolist window. Read it as
+Junkyard alongside the other four. *[Tier 1: wago DB2 `SpellAuraOptions` +
+`SpellProcsPerMinute` @ 12.1.0; `ProcChance=101` is the use-RPPM sentinel.]*
+⚠ Verified across this batch only — not tested as a game-wide tooltip convention.
+
+⚠ **What the Lost Idol proc is WORTH is unmeasured, so the "half rate = half value"
+reading is not established.** A lower rate paying a larger payload is a real design
+pattern and has not been ruled out here. DB2 cannot settle it: 1253111 carries a proc
+aura plus three dummy effects with **every base-points field 0**, and the Loa selection
+is script-driven, so no magnitude exists in the tables; the buff resolves through a
+**summon** (`Support of the Hash'ey` 1249259, `Effect=28`), not a stat aura. Wowhead's
+item page is JS-rendered, so `wowkb.fetch` returns navigation only.
+**To settle it:** note the buff name in the buff bar on a live proc, then look that spell
+up — or sim the trinket on [Bloodmallet](https://bloodmallet.com/)/Raidbots at your ilvl.
+@verify-ingame Lost Idol of the Hash'ey: capture the proc's buff name + magnitude, and
+whether any Loa outcome is defensive/movement rather than throughput.
+
+⚠ The ranking above is a day-one Tier-3 ranking for a season nobody has raided.
+Expect it to move. Also note (Tier 1, 12.1): the **Cooldown Manager now tracks trinkets,
 potions and racial cooldowns/durations**, and trinkets, health potions, combat
 potions and healthstones can be **pinged** from it — so on-use trinket timers no
 longer need an addon.
