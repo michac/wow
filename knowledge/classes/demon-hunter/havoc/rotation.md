@@ -244,8 +244,16 @@ immediately rather than over 4s — or always with First Blood):
 4. **The Hunt** on cooldown (higher relative value in AoE).
 5. **De-emphasize Chaos Strike / Annihilation** as single-target Fury dumps —
    spend into Blade Dance instead.
-6. With **Burning Wound**, tab-target to spread the debuff (the APL's
-   `retarget_auto_attack` keeps ~4 wounds up).
+6. With **Burning Wound**, tab-target to spread the debuff — **your auto-attacks do the
+   applying, not a button**. The tooltip reads *"Demon's Bite and Throw Glaive leave open
+   wounds"*, and under baseline **Demon Blades** the Demon's Bite effect arrives through
+   auto-attacks, so switching target is what moves the wound. The APL spreads it with
+   `retarget_auto_attack` up to `min(spell_targets, 3)`
+   `[T1 simc: MID1_Demon_Hunter_Havoc.simc:41-43]`.
+   ⚠ **It is gated on a user toggle**, `variable.tab_target_burning_wound` (default `1`)
+   `[T1 simc: :25]` — simc puts a line behind a switch when it models a *manual play cost*
+   rather than a rotational fact. So the talent's simmed value assumes you actually tab-target;
+   if you don't, it is worth materially less than the default sim says.
 7. **Metamorphosis** + Essence Break as the AoE burst, same rules.
 
 ## Hero-tree branches

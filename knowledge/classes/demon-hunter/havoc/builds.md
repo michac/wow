@@ -2,7 +2,7 @@
 title: Havoc Demon Hunter — Talents & Builds (Midnight 12.1)
 patch: 12.1
 fetched: 2026-08-11
-reviewed: 2026-08-12
+reviewed: 2026-08-16
 sources:
   - https://worldofwarcraft.com/en-us/news/24293281  # tier 1, 12.1 "Curse of Ula'tek" content update notes (CLASSES ▶ DEMON HUNTER ▶ Havoc), 2026-08-11
   - https://us.api.blizzard.com/data/wow/talent-tree  # tier 1, live 12.1 tree — distilled into talents.md/talents.json @ 12.1.0
@@ -153,15 +153,34 @@ Spec-tree backbone:
 **Demon Blades is baseline, not a talent** — the old Demon's Bite / Demon Blades
 choice node was removed in Midnight and Demon Blades became baseline passive Fury
 generation from auto-attacks (10–16 per attack as of 12.1). It is not in the tree;
-don't spend a point looking for it. *(This file listed it as a talent pick through
+don't spend a point looking for it.
+
+> **So Demon's Bite is not a button you are missing.** `344859` is still in the class kit
+> (`SkillLineAbility:1848`) with an ordinary castable tooltip, which makes it look pressable
+> in any ability dump — but it appears **zero** times in the 12.1 APL, in any action or any
+> condition `[T1 simc: MID1_Demon_Hunter_Havoc.simc @ 12.1]`, and the Cooldown Manager gives
+> it no row because it has no cooldown. Its effect reaches you through Demon Blades'
+> auto-attacks: that is why **Burning Wound**, whose text names Demon's Bite, is spread by
+> `retarget_auto_attack` rather than by casting anything (`rotation.md` AoE step 6). *(This file listed it as a talent pick through
 12.0.7 — corrected 2026-08-11 against the generated `talents.md`.)*
 
 ## Build split (12.1)
 
-- **Single-target / raid (Aldrachi Reaver)** takes the whole Throw-Glaive package
-  to feed Reaver's Glaive — **Soulscar**, **Burning Blades**, **Screaming
-  Brutality** (Throw Glaive auto-fires off Blade Dance) — plus **Shattered
-  Destiny** (Fury spending extends demon form) at the final gate.
+- **Single-target / raid (Aldrachi Reaver)** takes the Throw-Glaive package to feed
+  Reaver's Glaive — **Soulscar**, **Screaming Brutality** (Throw Glaive auto-fires off
+  Blade Dance) — plus **Shattered Destiny** (Fury spending extends demon form) at the
+  final gate. ⚠ **These three are SPEC-tree talents, not Aldrachi Reaver hero talents**
+  `[T1 db2: all-talents.tsv @ 12.1, node type "spec"]`, so a Fel-Scarred build can take
+  them too; they are grouped here because this build wants them, not because the hero
+  tree grants them.
+  *(Corrected 2026-08-16: this bullet also listed **Burning Blades** in the package.
+  Burning Blades `452408` is a **Fel-Scarred** hero talent (node `117502`) and does not
+  appear in the Aldrachi Reaver tree at all, so an AR build cannot take it — the same
+  stale-data shape as the Demon Blades correction above. In 12.1 its text is about Cosmic
+  damage on Voidblade / Hungering Slash / Throw Glaive, and the same spell ID also sits in
+  Devourer's **Void-Scarred** tree. Why it was written here is **not established** — the
+  likeliest reading is a pre-Midnight grouping that survived a patch, but that is an
+  inference, not a checked fact.)*
 - **Mythic+ / AoE (Fel-Scarred)** keeps the Immolation cluster (**A Fire Inside**
   + **Ragefire**), **Glaive Tempest** (Blade Dance/Death Sweep at 3+ targets
   release spinning glaives), **Trail of Ruin** (lowers the Blade Dance target
