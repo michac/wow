@@ -1,5 +1,13 @@
 # Cue treatments — making a cue draw the eye when a glow cannot
 
+> ⚠ **The picker this doc describes no longer exists.** `Cue.lua` was retired from the
+> ClientLab `.toc` on 12.1 — it discovers and retains live Cooldown Manager item frames,
+> which now participate in secure aura plumbing — and **deleted from the tree on
+> 2026-08-16**, because a file that must not load has no business sitting in the folder
+> looking loadable. Its findings are already drained into `knowledge/addon-dev/`.
+> Recover the source with `git show 671fb68^:projects/addon-lab/ClientLab/Cue.lua` if the
+> design work is ever wanted again; it must not go back into the live lab as-is.
+
 ## Why this exists
 
 The glow palette answers "which glow reads as HIGH on an icon". It does not answer the

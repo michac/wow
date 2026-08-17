@@ -8,8 +8,24 @@
 Core.lua
 Capture.lua
 Lab.lua
+Secret.lua
 Report.lua
 Dumps.lua
+Autorun.lua
 Ask.lua
 T_CooldownManager.lua
 T_CooldownReadiness.lua
+
+# RETIRED ON 12.1 AND DELETED FROM THE TREE — recover from git, do not re-create.
+#
+#   git show 671fb68^:projects/addon-lab/ClientLab/<name>.lua
+#
+# CDMSweep.lua, Cue.lua and Glow.lua discover and RETAIN live Cooldown Manager item
+# frames. That predates the secure AuraContainer migration: on 12.1 loading them taints
+# the viewer's auraInstanceIDToItemFramesMap the next time Blizzard refreshes a row.
+# Mock.lua was finished product design rather than an evidence question.
+#
+# They were left on disk unlisted between 2026-08-12 and 2026-08-16, and an agent
+# reading this .toc re-added all four on the assumption the omission was a mistake.
+# A file that must not load does not get to sit in the folder looking loadable.
+# The observations they produced are already drained into knowledge/addon-dev/.

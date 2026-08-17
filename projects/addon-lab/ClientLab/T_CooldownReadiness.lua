@@ -232,47 +232,15 @@ ns.Test{
 }
 
 -- ---------------------------------------------------------------------------
--- 5 · the route we chose NOT to take, measured anyway
+-- 5 · the route we chose NOT to take — PARKED, deliberately not built
 -- ---------------------------------------------------------------------------
-
-ns.Test{
-  id = "cdm-forced-onupdate-registration",
-  anchor = "cooldown-manager.md:§5.1",
-  bucket = "call",
-  phase = "manual",
-  question = "Does calling `viewer:RegisterItemFrameForOnUpdate(item)` from addon code make "
-    .. "`Available` fire for a row with no configured alert — without writing the player's "
-    .. "saved layout or playing an alert? And does the viewer un-register it again?",
-  run = function()
-    if InCombatLockdown() then
-      return { measured = false, why = "registration does a SetScript on the viewer; "
-        .. "out of combat only until frame protection is settled" }
-    end
-    local v = viewer()
-    if not v or type(v.RegisterItemFrameForOnUpdate) ~= "function" then
-      return { measured = false, why = "no RegisterItemFrameForOnUpdate on the viewer" }
-    end
-    local frames = items()
-    if #frames == 0 then return { measured = false, why = "no Essential rows laid out" } end
-
-    local before = type(v.itemFramesNeedingOnUpdateMap) == "table" and 0 or nil
-    if before then
-      for _ in pairs(v.itemFramesNeedingOnUpdateMap) do before = before + 1 end
-    end
-    for _, frame in ipairs(frames) do pcall(v.RegisterItemFrameForOnUpdate, v, frame) end
-    local after = type(v.itemFramesNeedingOnUpdateMap) == "table" and 0 or nil
-    if after then
-      for _ in pairs(v.itemFramesNeedingOnUpdateMap) do after = after + 1 end
-    end
-    return {
-      rows = #frames, registeredBefore = before, registeredAfter = after,
-      hasOnUpdateScript = v:GetScript("OnUpdate") ~= nil,
-      -- The follow-on question a human answers by watching: did an alert SOUND or TEXT
-      -- appear? It must not — `alertsByEvent` is empty, so TriggerAlertEvent plays nothing.
-      note = "watch for alert sound/text; there should be none",
-    }
-  end,
-}
+--
+-- `cdm-forced-onupdate-registration` would call `viewer:RegisterItemFrameForOnUpdate(item)`
+-- to make `Available` fire without writing the player's saved layout. It is parked because
+-- it WRITES: it mutates `itemFramesNeedingOnUpdateMap` and `UpdateOnUpdateScript` does a
+-- `SetScript` on the viewer, both from tainted code. That is the same class of thing
+-- CDMSweep/Cue/Glow were retired from the 12.1 lab for, and we do not need the answer —
+-- `OnCooldownDone` (test 2) is the ready edge and needs no registration at all.
 
 -- ---------------------------------------------------------------------------
 -- 6 · the long-open one, since we are here

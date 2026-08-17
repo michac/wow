@@ -1264,10 +1264,11 @@
       "id": "cdm-forced-onupdate-registration",
       "anchor": "cooldown-manager.md:§5.1",
       "bucket": "call",
-      "status": "built",
+      "status": "parked",
       "question": "Does calling viewer:RegisterItemFrameForOnUpdate(item) from addon code make Available fire for a row with no configured alert, without writing the player's saved layout or playing an alert?",
       "expect": "registeredAfter equals the row count and hasOnUpdateScript true. Because alertsByEvent stays empty, TriggerAlertEvent should still be CALLED (so a hooksecurefunc observer sees the edge) while playing no sound or text. The open half is durability: RefreshOnUpdateRegistration runs on several paths and will un-register a row whose alertsByEvent is empty, so a second run some time later should show whether the registration survived.",
-      "note": "Deliberately NOT the route cap took — OnCooldownDone needs no registration at all. Measured because it is the obvious alternative and someone will propose it again. Out of combat only: UpdateOnUpdateScript does a SetScript on the viewer."
+      "note": "Deliberately NOT the route cap took — OnCooldownDone needs no registration at all. Measured because it is the obvious alternative and someone will propose it again. Out of combat only: UpdateOnUpdateScript does a SetScript on the viewer.",
+      "blocked_on": "it WRITES to the viewer: RegisterItemFrameForOnUpdate mutates itemFramesNeedingOnUpdateMap and UpdateOnUpdateScript does a SetScript on the viewer, both from tainted code. That is the same class of thing CDMSweep/Cue/Glow were retired from the 12.1 lab for. Not worth the risk to measure a route we already decided against (OnCooldownDone needs no registration). Unpark only with a deliberate decision."
     },
     {
       "id": "cdm-item-frame-protected",
