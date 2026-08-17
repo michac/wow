@@ -19,15 +19,34 @@ can lag the live patch — `sims.md` already warns the 12.0.5 binary trailed the
 is visible; this fetcher does **not** run a sim or produce DPS numbers (that's the
 separate docker recipe in `sims.md`).
 
+**`--kb` is the one that matters for the KB.** `raw/` is gitignored and CLAUDE.md
+forbids citing it, so a rotation.md could never point at a fetched APL — it had to
+hand-copy the priority list, and a hand-copied list drifts. Measured 2026-08-17:
+Havoc's rotation.md quoted APL variables (`use_blade_dance`, `eb_aligned`) that the
+12.1 rewrite had deleted outright. `--kb` writes the list into the KB **once**, as a
+generated artifact, so `rotation.md` augments it instead of restating it.
+
+Upstream does not lay these files out consistently, and all four shapes are handled:
+`apl_<class>.cpp` with `//<spec>_apl_start` markers (most), `<class>.cpp` (mage,
+warlock), `<class>/<spec>_apl.inc` (druid), C++ `namespace <spec>` blocks (monk), and
+the generated `profiles/MID1` profile as a last resort (enhancement). The action-list
+NAME is read from each `get_action_priority_list("...")` declaration rather than from
+the C++ variable holding it — monk opens `pre`/`def`/`ite` for
+"precombat"/"default"/"item_actions", so guessing mislabels every list.
+
 Usage:
     uv run python -m wowkb.simc --list                       # enumerate all MID1 profiles (discover variants)
     uv run python -m wowkb.simc warlock demonology           # base profile → raw/simc/<file>.simc + .digest.md
     uv run python -m wowkb.simc dh vengeance --variant Aldrachi_Reaver   # a hero-tree variant profile
     uv run python -m wowkb.simc warlock affliction --no-sha   # skip the commits API (raw only)
+    uv run python -m wowkb.simc --kb --all                    # every spec → knowledge/classes/<class>/<spec>/simc-apl.md
+    uv run python -m wowkb.simc --kb dh havoc                 # one spec
+    uv run python -m wowkb.simc --kb --check                  # CI gate: exit 1 on drift or a stale APL source
 
 Outputs (both printed):
     raw/simc/<file>.simc         # verbatim fetch cache (gitignored, like maxroll/youtube)
     raw/simc/<file>.digest.md    # provenance header + talents + grouped actions.*
+    knowledge/classes/<class>/<spec>/simc-apl.md   # --kb: the citable generated artifact
 """
 
 import argparse
@@ -58,17 +77,39 @@ API_COMMITS = (
 # while a generated profile may simply never be regenerated — measured 2026-08-16,
 # when every Warlock MID1 profile carried a 12.1 launch-day commit and
 # MID1_Demon_Hunter_Havoc.simc was still pinned to 2026-03-13, five months stale.
+APL_DIR = "engine/class_modules/apl"
 APL_MODULE = (
     "https://raw.githubusercontent.com/simulationcraft/simc/midnight/"
-    "engine/class_modules/apl/apl_{class_lower}.cpp"
+    + APL_DIR + "/apl_{class_lower}.cpp"
 )
+# Paths below are repo-relative from simc's root, so one raw URL and one commits URL
+# serve the APL modules, druid's .inc files and the generated MID1 profiles alike.
+RAW_ROOT = "https://raw.githubusercontent.com/simulationcraft/simc/midnight/"
 API_MODULE_COMMITS = (
     "https://api.github.com/repos/simulationcraft/simc/commits"
-    "?sha=midnight&path=engine/class_modules/apl/apl_{class_lower}.cpp&per_page=1"
+    "?sha=midnight&path={path}&per_page=1"
 )
+APL_RAW = RAW_ROOT + "{path}"
+
+# Upstream does not name these files consistently: most classes are `apl_<class>.cpp`,
+# mage and warlock dropped the prefix, and druid keeps its module in a subdirectory
+# beside per-spec `.inc` files. Tried in order; the first that returns 200 wins.
+MODULE_CANDIDATES = (APL_DIR + "/apl_{c}.cpp", APL_DIR + "/{c}.cpp",
+                     APL_DIR + "/{c}/{c}.cpp")
+
+# Druid's specs are not in its .cpp at all — each is an `.inc` the .cpp includes, and
+# the whole file IS the block. `restoration` needs the class name appended upstream.
+INC_CANDIDATES = (APL_DIR + "/{c}/{s}_apl.inc", APL_DIR + "/{c}/{s}_{c}_apl.inc")
 
 # `knowledge/_meta/game-version.md` is the single source of truth for what is live.
-GAME_VERSION = pathlib.Path(__file__).resolve().parents[2] / "knowledge" / "_meta" / "game-version.md"
+REPO = pathlib.Path(__file__).resolve().parents[2]
+GAME_VERSION = REPO / "knowledge" / "_meta" / "game-version.md"
+KB_CLASSES = REPO / "knowledge" / "classes"
+
+# The generated block markers, matching `wowkb.gen_verify`'s convention. `--check`
+# compares ONLY what sits between them, so a re-stamped `fetched:` is not drift.
+GEN_BEGIN = "<!-- gen_simc:begin -->"
+GEN_END = "<!-- gen_simc:end -->"
 
 
 def live_patch_date() -> tuple[str, str] | None:
@@ -344,6 +385,236 @@ def render_digest(filename: str, url: str, commit: dict | None, parsed: dict) ->
     return "\n".join(lines).rstrip() + "\n"
 
 
+def list_names(text: str) -> dict[str, str]:
+    """C++ local variable → the action-list name it was opened with.
+
+    These are NOT the same, and assuming they are silently mislabels lists: monk opens
+    `pre`/`def`/`ite` for "precombat"/"default"/"item_actions". The declaration is the
+    only place the real name appears, so it is read rather than guessed.
+    """
+    return {m.group(1): m.group(2) for m in re.finditer(
+        r'action_priority_list_t\*\s*(\w+)\s*=\s*\w+->get_action_priority_list\(\s*"([^"]+)"',
+        text)}
+
+
+def unwrap_actions(block: str, names: dict[str, str] | None = None) -> list[str]:
+    """C++ `x->add_action("…")` calls → the plain `actions.<list>+=/…` lines they build."""
+    names = names if names is not None else list_names(block)
+    actions: list[str] = []
+    for m in re.finditer(r'(\w+)->add_action\(\s*"((?:[^"\\]|\\.)*)"', block):
+        var, action = m.group(1), m.group(2).replace('\\"', '"')
+        listname = names.get(var) or ("default" if var in ("default_", "def") else var)
+        actions.append(f"actions.{listname}+=/{action}")
+    return actions
+
+
+def module_specs(text: str) -> list[str]:
+    """Every spec this class module carries, in file order.
+
+    Two upstream shapes: explicit `//<spec>_apl_start` markers (most classes), and bare
+    C++ `namespace <spec>` blocks (monk). PTR variants are excluded — `game-version.md`
+    is the authority on what is live, and a `_ptr` block never describes it.
+    """
+    specs = list(dict.fromkeys(re.findall(r"//(\w+)_apl_start", text)))
+    if not specs:
+        specs = list(dict.fromkeys(re.findall(r"^namespace (\w+)\s*$", text, re.M)))
+    return [s for s in specs if not s.endswith("_ptr")]
+
+
+def module_actions(text: str, spec: str) -> list[str] | None:
+    """One spec's priority list, whichever shape the class module uses."""
+    # Declarations usually sit inside the block, but fall back to the file's when a
+    # class opens its lists above the marker. Block-local wins on a collision.
+    outer = list_names(text)
+    block = re.search(rf"//{spec}_apl_start(.*?)//{spec}_apl_end", text, re.S)
+    if block:
+        body = block.group(1)
+        return unwrap_actions(body, {**outer, **list_names(body)})
+
+    # Namespace shape (monk). Prefer `live_apl` over `default_apl`, and never `ptr_apl`:
+    # where a class ships both, `default_apl` dispatches and `live_apl` holds the list.
+    ns = re.search(rf"^namespace {spec}\s*$(.*?)^}};?\s*//\s*namespace {spec}",
+                   text, re.S | re.M)
+    if not ns:
+        return None
+    for fn in ("live_apl", "default_apl"):
+        m = re.search(rf"^void {fn}\(.*?$(.*?)(?=^void |\Z)", ns.group(1), re.S | re.M)
+        if m:
+            actions = unwrap_actions(m.group(1), {**outer, **list_names(m.group(1))})
+            if actions:
+                return actions
+    return None
+
+
+def pick_versioned(specs: list[str], spec: str) -> str | None:
+    """Some specs ship as `<spec>_<major>_<minor>_<build>` blocks (evoker/augmentation
+    carries both 12_1_0 and 12_0_5). Prefer the live patch's, else the highest."""
+    cands = [s for s in specs if re.fullmatch(rf"{spec}_\d+(_\d+)*", s)]
+    if not cands:
+        return None
+    live = live_patch_date()
+    if live:
+        want = live[0].replace(".", "_")
+        for c in cands:
+            if c[len(spec) + 1:].startswith(want):
+                return c
+    return max(cands, key=lambda s: [int(p) for p in s[len(spec) + 1:].split("_")])
+
+
+def resolve_module(class_lower: str) -> tuple[str, str] | None:
+    """(repo-relative path, text) of this class's APL module, or None if none exists."""
+    for pattern in MODULE_CANDIDATES:
+        path = pattern.format(c=class_lower)
+        resp = _get(APL_RAW.format(path=path))
+        if resp.status_code == 200:
+            return path, resp.text
+    return None
+
+
+def resolve_inc(class_lower: str, spec_lower: str) -> tuple[str, str] | None:
+    """Druid's shape: one `.inc` per spec, where the whole file is the block."""
+    for pattern in INC_CANDIDATES:
+        path = pattern.format(c=class_lower, s=spec_lower)
+        resp = _get(APL_RAW.format(path=path))
+        if resp.status_code == 200:
+            return path, resp.text
+    return None
+
+
+_COMMIT_CACHE: dict[str, dict | None] = {}
+
+
+def module_commit(path: str) -> dict | None:
+    # One class module serves every spec of that class, so without this a 40-spec run
+    # burns 40 calls against an unauthenticated 60/hr limit and starts returning None
+    # — which would show up as phantom drift, since the pin is part of the file.
+    if path in _COMMIT_CACHE:
+        return _COMMIT_CACHE[path]
+    _COMMIT_CACHE[path] = _module_commit(path)
+    return _COMMIT_CACHE[path]
+
+
+def _module_commit(path: str) -> dict | None:
+    try:
+        r = _get(API_MODULE_COMMITS.format(path=path))
+        if r.ok and r.json():
+            c = r.json()[0]
+            return {"sha": c["sha"], "short": c["sha"][:7],
+                    "date": c["commit"]["author"]["date"][:10]}
+    except (requests.RequestException, KeyError, ValueError):
+        pass
+    return None
+
+
+def resolve_profile(class_lower: str, spec_lower: str) -> tuple[str, list[str]] | None:
+    """Last resort: the GENERATED MID1 profile. Some specs (enhancement) have a profile
+    but no module block at all. Staleness matters most here — this is the shape that
+    upstream regenerates per spec and sometimes forgets."""
+    filename = profile_filename(class_lower, spec_lower, None)
+    resp = _get(f"{RAW_BASE}/{filename}")
+    if resp.status_code != 200:
+        return None
+    lists = parse_profile(resp.text)["action_lists"]
+    actions = [f"actions.{name}+=/{a}" for name, acts in lists.items() for a in acts]
+    return (f"profiles/MID1/{filename}", actions) if actions else None
+
+
+def kb_specs(class_lower: str) -> list[str]:
+    """The specs the KB has directories for — the authority on what we want to carry."""
+    d = KB_CLASSES / class_lower.replace("_", "-")
+    if not d.is_dir():
+        return []
+    return sorted(p.name.replace("-", "_") for p in d.iterdir() if p.is_dir())
+
+
+def kb_path(class_lower: str, spec_lower: str) -> pathlib.Path:
+    """simc uses underscores, the KB tree uses hyphens: `beast_mastery` → `beast-mastery`."""
+    return (KB_CLASSES / class_lower.replace("_", "-")
+            / spec_lower.replace("_", "-") / "simc-apl.md")
+
+
+def _gen_block(src: str, spec: str, commit: dict | None, actions: list[str]) -> str:
+    """The part `--check` compares. Everything volatile (a fetch date) stays outside it."""
+    pin = (f"commit `{commit['short']}` ({commit['date']})" if commit
+           else "commit unresolved (`--no-sha`, or the API was rate-limited)")
+    return "\n".join([
+        GEN_BEGIN,
+        f"_Generated by `wowkb.simc --kb` from `{src}` (`{spec}` block), {pin}. "
+        f"{len(actions)} actions. Do not hand-edit._",
+        "",
+        "```",
+        *actions,
+        "```",
+        GEN_END,
+    ])
+
+
+def render_kb(class_lower: str, spec: str, src: str,
+              commit: dict | None, actions: list[str]) -> str:
+    """The citable KB artifact. `raw/` is gitignored and uncitable, which is exactly why
+    the priority list used to get hand-copied into rotation.md — and then drift."""
+    today = datetime.date.today().isoformat()
+    live = live_patch_date()
+    patch = live[0] if live else "unknown"
+    url = APL_RAW.format(path=src)
+    title_spec = spec.replace("_", " ").title()
+    title_class = class_lower.replace("_", " ").title()
+    source = f"  - {url}  # tier 1, simc APL source for {spec}"
+    if commit:
+        source += f", commit {commit['short']} ({commit['date']})"
+
+    return "\n".join([
+        "---",
+        f"title: {title_spec} {title_class} — simc APL (generated)",
+        f"patch: {patch}",
+        f"fetched: {today}",
+        f"reviewed: {today}",
+        "sources:",
+        source,
+        "verbatim: true",
+        "confidence: high",
+        "---",
+        "",
+        f"# {title_spec} {title_class} — the simc priority list",
+        "",
+        "The Tier-1 action priority list, taken from the **class module** the MID1 profiles",
+        "are generated from. Upstream regenerates profiles per spec and sometimes never gets",
+        "to one, so the module is what actually tracks the live patch.",
+        "",
+        "**`rotation.md` augments this file — it does not restate it.** The list lives here so",
+        "there is exactly one copy; a hand-transcribed second copy is what drifts.",
+        "",
+        "It carries no `talents=` string, no consumables and no profileset variants — those",
+        "exist only in a generated profile, so a build recommendation still needs one.",
+        "",
+        _gen_block(src, spec, commit, actions),
+        "",
+    ])
+
+
+def gen_actions(block: str | None) -> list[str] | None:
+    """The action lines out of a generated block.
+
+    `--check` compares THESE, not the whole block: the provenance line carries a commit
+    pin that can fail to resolve when the unauthenticated API rate-limits, and a check
+    that fails on an unresolved pin would cry wolf. The priority list is the contract;
+    a pin-only change re-stamps on the next write without failing anything.
+    """
+    if block is None:
+        return None
+    m = re.search(r"```\n(.*?)```", block, re.S)
+    return m.group(1).splitlines() if m else None
+
+
+def read_gen_block(path: pathlib.Path) -> str | None:
+    try:
+        text = path.read_text(encoding="utf-8")
+    except OSError:
+        return None
+    m = re.search(re.escape(GEN_BEGIN) + r".*?" + re.escape(GEN_END), text, re.S)
+    return m.group(0) if m else None
+
+
 def fetch_module(class_token: str, spec_token: str, want_sha: bool) -> None:
     """The APL SOURCE for a class, sliced to one spec — the fallback when a profile is stale.
 
@@ -362,28 +633,12 @@ def fetch_module(class_token: str, spec_token: str, want_sha: bool) -> None:
     resp.raise_for_status()
     text = resp.text
 
-    block = re.search(rf"//{spec}_apl_start(.*?)//{spec}_apl_end", text, re.S)
-    if not block:
-        found = ", ".join(sorted(set(re.findall(r"//(\w+)_apl_start", text)))) or "none"
+    actions = module_actions(text, spec)
+    if actions is None:
+        found = ", ".join(module_specs(text)) or "none"
         sys.exit(f"error: no //{spec}_apl_start block in {url}\n  blocks present: {found}")
 
-    actions: list[str] = []
-    for m in re.finditer(r'(\w+)->add_action\(\s*"((?:[^"\\]|\\.)*)"', block.group(1)):
-        listname, action = m.group(1), m.group(2).replace('\\"', '"')
-        listname = "precombat" if listname == "precombat" else (
-            "default" if listname in ("default_", "default") else listname)
-        actions.append(f"actions.{listname}+=/{action}")
-
-    commit = None
-    if want_sha:
-        try:
-            r = _get(API_MODULE_COMMITS.format(class_lower=cls))
-            if r.ok and r.json():
-                c = r.json()[0]
-                commit = {"sha": c["sha"], "short": c["sha"][:7],
-                          "date": c["commit"]["author"]["date"][:10]}
-        except Exception:
-            commit = None
+    commit = module_commit(f"apl_{cls}.cpp") if want_sha else None
 
     today = datetime.date.today().isoformat()
     name = f"apl_{cls}_{spec}"
@@ -417,6 +672,107 @@ def fetch_module(class_token: str, spec_token: str, want_sha: bool) -> None:
         stale = staleness(commit)
         print(f"  pinned {commit['short']} {commit['date']} — "
               + ("STILL STALE" if stale else "postdates the live patch"))
+        # Same contract as `fetch()`: a stale APL must not be consumable by a script
+        # in silence. The module is the SOURCE, so if even it predates the patch,
+        # nothing upstream describes the live game yet.
+        if stale:
+            days, patch, live_date = stale
+            print(
+                f"\n❌ STALE: this APL SOURCE was committed {commit['date']} — {days} days "
+                f"BEFORE {patch} went live ({live_date}).\n"
+                f"   Upstream has not touched {cls}'s APL for this patch.\n"
+                f"   Do not cite it as the {patch} rotation.",
+                file=sys.stderr,
+            )
+            sys.exit(3)
+
+
+def sync_kb(class_tokens: list[str], spec_token: str | None,
+            want_sha: bool, check_only: bool) -> int:
+    """Write (or verify) `knowledge/classes/<class>/<spec>/simc-apl.md` per spec.
+
+    One class module holds every spec of that class, so a whole class costs ONE fetch.
+    Returns a process exit code: 1 if anything drifted, is missing, or is stale.
+    """
+    drift: list[str] = []
+    stale_srcs: list[str] = []
+    missing: list[str] = []
+    wrote = checked = 0
+
+    for token in class_tokens:
+        cls = _titleseg(token, CLASS_ALIASES).lower()
+        resolved = resolve_module(cls)
+        text = resolved[1] if resolved else ""
+        module_path = resolved[0] if resolved else None
+
+        # Which specs to emit is the KB's call, not upstream's: the KB tree is the set
+        # we maintain, and upstream carries PTR and dated variants we do not want.
+        wanted = [_titleseg(spec_token, SPEC_ALIASES).lower()] if spec_token else kb_specs(cls)
+        in_module = set(module_specs(text))
+
+        for spec in wanted:
+            path = kb_path(cls, spec)
+            src, actions = None, None
+
+            block = spec if spec in in_module else pick_versioned(sorted(in_module), spec)
+            if block:
+                src, actions = module_path, module_actions(text, block)
+            else:
+                # Not in the class module — try the per-spec `.inc` shape (druid),
+                # then the generated MID1 profile (enhancement has only that).
+                inc = resolve_inc(cls, spec)
+                if inc:
+                    src, actions = inc[0], unwrap_actions(inc[1])
+                else:
+                    prof = resolve_profile(cls, spec)
+                    if prof:
+                        src, actions = prof
+
+            if not actions:
+                missing.append(f"{cls}/{spec}")
+                continue
+
+            commit = module_commit(src) if want_sha else None
+            stale = staleness(commit)
+            if stale:
+                entry = f"{src} ({commit['date']}, {stale[0]}d before {stale[1]})"
+                if entry not in stale_srcs:
+                    stale_srcs.append(entry)
+
+            fresh = _gen_block(src, block or spec, commit, actions)
+            current = read_gen_block(path)
+            checked += 1
+            if current == fresh:
+                continue
+            rel = path.relative_to(REPO)
+            if check_only:
+                if gen_actions(current) == actions:
+                    continue  # pin-only difference: re-stamps on write, not drift
+                drift.append(f"{rel} — {'missing' if current is None else 'differs from upstream'}")
+                continue
+            path.write_text(render_kb(cls, spec, src, commit, actions), encoding="utf-8")
+            wrote += 1
+            print(f"  wrote {rel} ({len(actions)} actions)")
+
+    if check_only:
+        print(f"\nchecked {checked} spec APL file(s)")
+        for d in drift:
+            print(f"  ❌ {d}")
+    else:
+        print(f"\n{wrote} written, {checked - wrote} already current")
+
+    if missing:
+        # Not a failure: upstream genuinely has no APL for some specs (healers mostly).
+        # Reported so "this spec has no simc-apl.md" is a known absence, not a mystery.
+        print(f"\nno upstream APL for {len(missing)} spec(s): " + ", ".join(missing))
+
+    if stale_srcs:
+        print("\n⚠ APL SOURCE predates the live patch — upstream has not retuned these:",
+              file=sys.stderr)
+        for s in stale_srcs:
+            print(f"  {s}", file=sys.stderr)
+
+    return 1 if (drift or stale_srcs) else 0
 
 
 def fetch(class_token: str, spec_token: str, variant: str | None, want_sha: bool) -> None:
@@ -473,12 +829,32 @@ def main() -> None:
     p.add_argument("--module", action="store_true",
                    help="fetch the APL SOURCE (engine/class_modules/apl/apl_<class>.cpp) instead of "
                         "the generated profile — use when the profile predates the live patch")
+    p.add_argument("--kb", action="store_true",
+                   help="write the citable artifact knowledge/classes/<class>/<spec>/simc-apl.md "
+                        "(from the APL source) instead of the raw/ digest")
+    p.add_argument("--all", action="store_true",
+                   help="with --kb: every spec of the named class, or every class when none is named")
+    p.add_argument("--check", action="store_true",
+                   help="with --kb: verify the committed simc-apl.md files against upstream; "
+                        "write nothing, exit 1 on drift or a stale APL source")
     args = p.parse_args()
 
     if args.list:
         for name in list_profiles():
             print(name)
         return
+
+    if args.kb or args.check:
+        if args.class_token:
+            classes = [args.class_token]
+        elif args.all or args.check:
+            classes = sorted(set(CLASS_ALIASES.values()))
+        else:
+            p.error("--kb needs a class, or --all for every class")
+        if args.spec_token and args.all:
+            p.error("--all takes a class, not a spec")
+        sys.exit(sync_kb(classes, args.spec_token,
+                         want_sha=not args.no_sha, check_only=args.check))
 
     if not args.class_token or not args.spec_token:
         p.error("class and spec are required (or use --list)")
