@@ -7,7 +7,8 @@ sources:
   - https://worldofwarcraft.com/en-us/news/24293281  # tier 1, 12.1 "Curse of Ula'tek" content update notes (CLASSES ▶ DEMON HUNTER ▶ Havoc), 2026-08-11
   - https://us.api.blizzard.com/data/wow/talent-tree  # tier 1, live 12.1 tree — distilled into talents.md/talents.json @ 12.1.0
   - https://www.icy-veins.com/wow/havoc-demon-hunter-pve-dps-spec-builds-talents  # tier 3, updated 2026-08-10 for 12.1, 2026-08-11
-  - https://raw.githubusercontent.com/simulationcraft/simc/midnight/profiles/MID1/MID1_Demon_Hunter_Havoc.simc  # tier 1, simc default talent string — 12.0.7 vintage, NOT re-pulled for 12.1
+  - https://raw.githubusercontent.com/simulationcraft/simc/midnight/profiles/MID1/MID1_Demon_Hunter_Havoc.simc  # ❌ tier 1 but STALE — commit 6e14948, 2026-03-13, i.e. 151 days BEFORE 12.1 went live. Upstream has never regenerated this profile; every Warlock MID1 profile carries a 12.1 launch-day commit. Do not cite for 12.1.
+  - simc engine/class_modules/apl/apl_demon_hunter.cpp `//havoc_apl_start`  # tier 1, THE CURRENT APL — commit 5f916c6, 2026-08-14. `wowkb.simc dh havoc --module`
   - https://www.method.gg/guides/havoc-demon-hunter/talents  # tier 3, still labeled 12.0.7 as of 2026-08-11
 confidence: medium
 ---

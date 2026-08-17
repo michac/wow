@@ -32,6 +32,7 @@ Outputs (both printed):
 
 import argparse
 import datetime
+import pathlib
 import re
 import sys
 
@@ -52,6 +53,58 @@ API_COMMITS = (
     "https://api.github.com/repos/simulationcraft/simc/commits"
     "?sha=midnight&path=profiles/MID1/{file}&per_page=1"
 )
+
+# The APL SOURCE, which the profiles are generated FROM. It is updated per patch
+# while a generated profile may simply never be regenerated — measured 2026-08-16,
+# when every Warlock MID1 profile carried a 12.1 launch-day commit and
+# MID1_Demon_Hunter_Havoc.simc was still pinned to 2026-03-13, five months stale.
+APL_MODULE = (
+    "https://raw.githubusercontent.com/simulationcraft/simc/midnight/"
+    "engine/class_modules/apl/apl_{class_lower}.cpp"
+)
+API_MODULE_COMMITS = (
+    "https://api.github.com/repos/simulationcraft/simc/commits"
+    "?sha=midnight&path=engine/class_modules/apl/apl_{class_lower}.cpp&per_page=1"
+)
+
+# `knowledge/_meta/game-version.md` is the single source of truth for what is live.
+GAME_VERSION = pathlib.Path(__file__).resolve().parents[2] / "knowledge" / "_meta" / "game-version.md"
+
+
+def live_patch_date() -> tuple[str, str] | None:
+    """(patch, YYYY-MM-DD it went live), read from game-version.md. None if unreadable."""
+    try:
+        text = GAME_VERSION.read_text(encoding="utf-8")
+    except OSError:
+        return None
+    patch = re.search(r"^patch:\s*([0-9.]+)", text, re.M)
+    live = re.search(r"live (\d{4}-\d{2}-\d{2})", text)
+    if not (patch and live):
+        return None
+    return patch.group(1), live.group(1)
+
+
+def staleness(commit: dict | None) -> tuple[int, str, str] | None:
+    """Days the pinned APL predates the live patch, or None when it does not.
+
+    This is the check that would have caught a five-month-old Havoc APL being cited
+    as current. A profile is not "the current rotation" because it is the newest file
+    that exists — it is current only if it postdates the patch it claims to describe.
+    """
+    if not commit or not commit.get("date"):
+        return None
+    live = live_patch_date()
+    if not live:
+        return None
+    patch, live_date = live
+    try:
+        d0 = datetime.date.fromisoformat(commit["date"][:10])
+        d1 = datetime.date.fromisoformat(live_date)
+    except ValueError:
+        return None
+    if d0 >= d1:
+        return None
+    return (d1 - d0).days, patch, live_date
 
 # Class-token aliases → the exact filename segment (underscored, TitleCase).
 CLASS_ALIASES = {
@@ -220,12 +273,29 @@ def render_digest(filename: str, url: str, commit: dict | None, parsed: dict) ->
         detail = "  ".join(f"{k}={meta[k]}" for k in ("spec", "level", "race", "default_pet") if k in meta)
         lines.append(f"- profile detail: {detail}")
     lines.append("")
-    lines.append(
-        "> ⚠ **Staleness:** the simc `midnight` binary/branch can lag the live "
-        "game patch (see `sims.md`). The commit date above is when this APL was "
-        "generated — treat it, not the live patch, as the APL's currency. This is "
-        "an APL fetcher only; it does not run a sim or produce DPS numbers."
-    )
+    stale = staleness(commit)
+    if stale:
+        days, patch, live_date = stale
+        lines.append(
+            f"> ❌❌ **THIS APL PREDATES THE LIVE PATCH BY {days} DAYS — DO NOT CITE IT AS "
+            f"CURRENT.** It was generated {commit['date']}; **{patch}** went live "
+            f"{live_date}. Upstream regenerates these profiles per spec and sometimes "
+            "never gets to one: on 2026-08-16 every Warlock MID1 profile carried a 12.1 "
+            "launch-day commit while this Havoc profile was still on 2026-03-13. **The "
+            "newest file that exists is not the same as a current one.**\n>\n"
+            "> The APL SOURCE the profiles are generated from is updated per patch — "
+            "`engine/class_modules/apl/apl_<class>.cpp` on the `midnight` branch. When a "
+            "profile is stale, read that instead and expect the priority list to differ "
+            "structurally, not just numerically: the 12.1 Havoc rewrite dropped the whole "
+            "`eb_aligned` alignment variable and made `eye_beam` unconditional."
+        )
+    else:
+        lines.append(
+            "> ⚠ **Staleness:** the simc `midnight` binary/branch can lag the live "
+            "game patch (see `sims.md`). The commit date above is when this APL was "
+            "generated — treat it, not the live patch, as the APL's currency. This is "
+            "an APL fetcher only; it does not run a sim or produce DPS numbers."
+        )
     lines.append("")
     lines.append("**Ready-to-paste `sources:` citation line:**")
     lines.append("```")
@@ -274,6 +344,81 @@ def render_digest(filename: str, url: str, commit: dict | None, parsed: dict) ->
     return "\n".join(lines).rstrip() + "\n"
 
 
+def fetch_module(class_token: str, spec_token: str, want_sha: bool) -> None:
+    """The APL SOURCE for a class, sliced to one spec — the fallback when a profile is stale.
+
+    `apl_<class>.cpp` holds every spec's list between `//<spec>_apl_start` and
+    `//<spec>_apl_end` markers, as C++ `add_action( "..." )` calls. This extracts the
+    named spec's block and unwraps it back into plain APL lines, so the output reads
+    like a profile's `actions` section and can be distilled the same way.
+    """
+    cls = _titleseg(class_token, CLASS_ALIASES).lower()
+    spec = _titleseg(spec_token, SPEC_ALIASES).lower()
+    url = APL_MODULE.format(class_lower=cls)
+
+    resp = _get(url)
+    if resp.status_code == 404:
+        sys.exit(f"error: no APL module for {cls!r} at {url} (HTTP 404)")
+    resp.raise_for_status()
+    text = resp.text
+
+    block = re.search(rf"//{spec}_apl_start(.*?)//{spec}_apl_end", text, re.S)
+    if not block:
+        found = ", ".join(sorted(set(re.findall(r"//(\w+)_apl_start", text)))) or "none"
+        sys.exit(f"error: no //{spec}_apl_start block in {url}\n  blocks present: {found}")
+
+    actions: list[str] = []
+    for m in re.finditer(r'(\w+)->add_action\(\s*"((?:[^"\\]|\\.)*)"', block.group(1)):
+        listname, action = m.group(1), m.group(2).replace('\\"', '"')
+        listname = "precombat" if listname == "precombat" else (
+            "default" if listname in ("default_", "default") else listname)
+        actions.append(f"actions.{listname}+=/{action}")
+
+    commit = None
+    if want_sha:
+        try:
+            r = _get(API_MODULE_COMMITS.format(class_lower=cls))
+            if r.ok and r.json():
+                c = r.json()[0]
+                commit = {"sha": c["sha"], "short": c["sha"][:7],
+                          "date": c["commit"]["author"]["date"][:10]}
+        except Exception:
+            commit = None
+
+    today = datetime.date.today().isoformat()
+    name = f"apl_{cls}_{spec}"
+    head = [
+        f"# simc APL SOURCE — {cls} / {spec}",
+        "",
+        f"- source: {url}  (SimulationCraft `midnight` branch, Tier 1)",
+        f"- extracted block: `//{spec}_apl_start` … `//{spec}_apl_end`",
+    ]
+    if commit:
+        head.append(f"- pinned commit: `{commit['short']}` ({commit['sha']}), "
+                    f"committed {commit['date']}")
+    head += [
+        f"- fetched: {today}",
+        f"- actions: {len(actions)}",
+        "",
+        "> **This is the APL the profiles are GENERATED FROM**, taken directly because the "
+        "generated profile for this spec lagged the live patch. It is the same priority list "
+        "a regenerated profile would carry, without waiting for upstream to regenerate it. "
+        "It carries no `talents=` string, no consumables and no profileset variants — those "
+        "live only in a profile, so a build recommendation still needs one.",
+        "",
+        "```",
+    ] + actions + ["```", ""]
+
+    raw_path = save_raw("simc", f"{name}.cpp", text)
+    digest_path = save_raw("simc", f"{name}.digest.md", "\n".join(head))
+    print(raw_path)
+    print(digest_path)
+    if commit:
+        stale = staleness(commit)
+        print(f"  pinned {commit['short']} {commit['date']} — "
+              + ("STILL STALE" if stale else "postdates the live patch"))
+
+
 def fetch(class_token: str, spec_token: str, variant: str | None, want_sha: bool) -> None:
     filename = profile_filename(class_token, spec_token, variant)
     url = f"{RAW_BASE}/{filename}"
@@ -298,6 +443,24 @@ def fetch(class_token: str, spec_token: str, variant: str | None, want_sha: bool
     print(raw_path)
     print(digest_path)
 
+    # Loud on stdout as well as in the digest: the digest is read later by whoever
+    # distills, but the person who ran the fetch is the one who can go get the real
+    # source. Non-zero exit so a script cannot consume a stale APL silently.
+    stale = staleness(commit)
+    if stale:
+        days, patch, live_date = stale
+        cls = _titleseg(class_token, CLASS_ALIASES).lower()
+        print(
+            f"\n❌ STALE: this APL was generated {commit['date']} — {days} days BEFORE "
+            f"{patch} went live ({live_date}).\n"
+            f"   Upstream regenerates profiles per spec and has not regenerated this one.\n"
+            f"   The current APL source is:\n"
+            f"     {APL_MODULE.format(class_lower=cls)}\n"
+            f"   Read that instead, and do not cite this file as the {patch} rotation.",
+            file=sys.stderr,
+        )
+        sys.exit(3)
+
 
 def main() -> None:
     p = argparse.ArgumentParser(prog="wowkb.simc", description=__doc__,
@@ -307,6 +470,9 @@ def main() -> None:
     p.add_argument("--variant", help="hero-tree/build variant filename segment (e.g. Aldrachi_Reaver, Hellcaller)")
     p.add_argument("--list", action="store_true", help="enumerate all MID1 profiles and exit")
     p.add_argument("--no-sha", action="store_true", help="skip the GitHub commits API (raw fetch only)")
+    p.add_argument("--module", action="store_true",
+                   help="fetch the APL SOURCE (engine/class_modules/apl/apl_<class>.cpp) instead of "
+                        "the generated profile — use when the profile predates the live patch")
     args = p.parse_args()
 
     if args.list:
@@ -316,6 +482,9 @@ def main() -> None:
 
     if not args.class_token or not args.spec_token:
         p.error("class and spec are required (or use --list)")
+    if args.module:
+        fetch_module(args.class_token, args.spec_token, want_sha=not args.no_sha)
+        return
     fetch(args.class_token, args.spec_token, args.variant, want_sha=not args.no_sha)
 
 
