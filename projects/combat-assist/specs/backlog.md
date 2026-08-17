@@ -377,6 +377,47 @@ fixed it. Do not read a frozen `D{}` as a failed apply.
       whether re-anchoring mid-pull is *desirable*, since a row that moves during combat is its
       own kind of wrong.
 
+### The swipe says two different things and cap could make it say which
+
+**The author's report, 2026-08-16, after hours of play and independent of cap:** *"the
+distinction between I have two seconds left on Tyrant, and I have 2 seconds left until it's off
+cooldown is constantly mixing me up in the chaos of combat."* This is a Cooldown Manager problem
+cap happens to be able to fix, not a cap problem.
+
+**Blizzard already distinguishes them, too weakly.**
+`ITEM_AURA_COLOR = (1, 0.95, 0.57, 0.7)` — pale cream — versus
+`ITEM_COOLDOWN_COLOR = (0, 0, 0, 0.7)` — black
+`[T1 src @12.1.0: CooldownViewer.lua:20-21]`, elected per source at `:873, :892, :1003`. Same
+shape, same direction, same alpha, and the pale one sits over bright icon art that fights it.
+Hue alone is losing in combat.
+
+**What cap may legally do.** V7 already lists the swipe setters that carry NO timing and are
+therefore safe: `SetSwipeColor`, `SetSwipeTexture`, `SetDrawSwipe`, `SetDrawEdge`, `SetReverse`,
+`SetRotation`, `SetHideCountdownNumbers`. So all three of these are available:
+
+- [ ] **Recolour** the aura sweep to something that reads as *a thing running* rather than *a
+      thing dimmed* — the pale wash is the same visual move as the veil cap retired.
+- [ ] **Reverse one of them** (`SetReverse`). This is the strong one: a dial that FILLS versus one
+      that EMPTIES is a **shape** difference, and shape survives peripheral vision and combat
+      chaos in a way hue does not. Nothing else in cap's vocabulary uses direction yet.
+- [ ] **Suppress** it entirely on one side (`SetDrawSwipe(false)`) — the blunt option, listed
+      because it is available, not because it is recommended: the swipe is the elimination walk's
+      first term (Part 0.5 pass 2) and removing it takes a term out of the reading model.
+
+⚠ **`RefreshSpellCooldownInfo` re-applies `SetSwipeColor` + `SetDrawSwipe` on EVERY refresh**, so a
+one-shot write is silently clobbered. `hooksecurefunc` per instance and be the last writer — the
+same shape `Glow.lua` already uses for the proc overlay.
+
+**Why this may be worth more than it looks.** If *buff running* and *cooldown running* become
+unmistakably different sweeps, **Metamorphosis during demon form stops reading as available**
+without cap drawing anything extra on it — which is most of the open question below about whether
+the hatch belongs on an aura-owned dial.
+
+⚠ **This needs a shelf amendment before it is built.** `render-shelf.md` V7 currently states the
+opposite as declared style: *"cap leaves the swipe at Blizzard's default … the swipe is the CDM's
+own 'ruled out' signal, which cap has no reason to restate."* That sentence was written before the
+aura/cooldown ambiguity was named. Amend V7 or this contradicts the shelf.
+
 ### Re-fly Havoc to settle D23 with the `W{}` reason trace
 
 v0.5.0 added `W{}` to the `tier` stream — per-marker decision plus the term values behind it
