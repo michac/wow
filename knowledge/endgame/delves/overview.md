@@ -319,8 +319,8 @@ current reward**.
 - S1 loot capped at **Champion 250 (2/6)** from both the end-of-run chest and
   the keyed Bountiful Coffer at T8–11; **Hero 259 (1/6)** came only from the
   Great Vault delve/world row, a **Delver's Bounty** map consumed in-run, or
-  **Delver's Journey rank 9** (a Hero *chance* in T11 coffers). The old KB claim
-  that the T8+ coffer was Hero without rank was wrong (corrected 2026-07-09).
+  **Delver's Journey rank 9** (a Hero *chance* in T11 coffers) — the T8+ coffer
+  was never Hero without that rank.
 - Only solo Myth **Dawncrest** source was the T11 Bountiful **Gilded Stash**
   (~20/week, 3 stashes, Journey rank 4). S1 vendor currency: **Untainted
   Mana-Crystals** (currency 3356; earn cap 250/wk, hold 1,000).
@@ -359,3 +359,7 @@ current reward**.
 - [x] S1 Myth-stash conflict (resolved 2026-07-07) and the S1 "T9 champion
       trinket" observation (resolved 2026-07-09) — both now historical, see the
       Season 1 section
+
+## Changelog
+
+2026-08-17 — S1's T8+ Bountiful Coffer capped at Champion 250; Hero needed Delver's Journey rank 9, a Bounty map or the vault, not the coffer alone.

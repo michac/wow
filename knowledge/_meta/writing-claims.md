@@ -14,7 +14,7 @@ confidence: high
 
 This is doctrine for **all of `knowledge/**`**. It was written for
 `knowledge/addon-dev/` and enforced there by `wowkb.kblint` for months before it was
-promoted; that subtree keeps two extra rules of its own (§8 below).
+promoted; that subtree keeps four extra rules of its own (§8 below).
 
 ## Why this exists
 
@@ -26,8 +26,8 @@ exists 20 lines further down. This is the single most common way this KB has mis
 own tooling, and it is entirely self-inflicted: the correct value was known at the moment
 the wrong one was left in place.
 
-Measured 2026-08-17, before the first sweep: **69 of 356** knowledge files carried
-retrospective prose, across 26 directories.
+Measured 2026-08-17, before the first sweep: **45 findings across 31 files**, in 26
+directories. The sweep drove that to **zero**, which is where `--all` must stay.
 
 ## The rules
 
@@ -62,14 +62,18 @@ retrospective prose, across 26 directories.
    disagreement to preserve: delete the old claim and write the new one. Confusing these
    two is the specific mistake that produces append-style corrections.
 
-## §8 — the two extra rules `knowledge/addon-dev/` keeps
+## §8 — the four extra rules `knowledge/addon-dev/` keeps
 
 They are domain rules, not general ones, and they stay in that subtree's README §7:
 
 - **A measurement is a claim plus a tag, not a story** — present tense, `[client YYYY-MM-DD]`,
   one sentence of method only if the method is load-bearing.
+- **No date in prose at all** — stricter than rule 4 above, which permits the game's own
+  calendar. There, a date lives only in front matter, a citation, an evidence tag or the
+  Changelog.
 - **A claim is scoped to the API, not the call site** — if a fact is only true of one addon,
   one spec or one build, it is not a KB fact.
+- **Long-form history goes to `projects/<addon>/docs/`**, not `_meta/changelog-<patch>.md`.
 
 `addon-dev` also runs three gates the rest of the KB does not (dates in prose, unqualified
 negatives, citation circles), because its evidence classes are stricter.
@@ -88,9 +92,10 @@ uv run python -m wowkb.kblint --all --warn    # report the backlog without faili
 uv run python -m wowkb.kblint --all --counts  # per-file table only
 ```
 
-⚠ **`--warn` is scaffolding, not a setting.** It exists so the 69-file backlog can be
-burned down without a permanently red gate. When the count reaches zero, the flag should
-stop being passed — a gate that never fails is not a gate.
+⚠ **`--warn` is scaffolding, not a setting.** It existed so the first backlog could be
+burned down without a permanently red gate. **That backlog is now zero and the flag should
+not be passed** — a gate that never fails is not a gate. If a sweep ever reopens a large
+backlog, use it again and drive it back to zero.
 
 ## Changelog
 

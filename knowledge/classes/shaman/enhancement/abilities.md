@@ -129,8 +129,8 @@ so a build has to actually take it. It also brings a full totem utility kit
 
 | Ability | Function | Resource | Cast / CD | Description |
 |---|---|---|---|---|
-| Astral Shift | Defensive (DR) | — | Instant · **120s** | **Tier-1 origin: `talent-active`** (spell 108271, class tree), cooldown **120s** — not the ~90s this file previously carried from Tier 3. The main active defensive; Midnight left Enhance thin defensively (Stone Bulwark Totem was removed), so this is the primary planned mitigation. Its damage-reduction **percentage and duration are not readable from DB2** — treat any number for those as Tier 3 until someone reads a tooltip. |
-| Earth Elemental | Defensive / pet | Mana | Instant · **180s** | **Tier-1 origin: `talent-active`** (spell 198103, class tree), cooldown **180s** — not the ~5 min this file previously carried. Summons a tanky earth elemental to soak/taunt — an emergency threat/defensive tool. Its health and taunt behaviour are not readable from DB2. |
+| Astral Shift | Defensive (DR) | — | Instant · **120s** | **Tier-1 origin: `talent-active`** (spell 108271, class tree), cooldown **120s** (Tier-3 guides quote ~90s; the tsv wins). The main active defensive; Midnight left Enhance thin defensively (Stone Bulwark Totem was removed), so this is the primary planned mitigation. Its damage-reduction **percentage and duration are not readable from DB2** — treat any number for those as Tier 3 until someone reads a tooltip. |
+| Earth Elemental | Defensive / pet | Mana | Instant · **180s** | **Tier-1 origin: `talent-active`** (spell 198103, class tree), cooldown **180s** (Tier-3 guides quote ~5 min; the tsv wins). Summons a tanky earth elemental to soak/taunt — an emergency threat/defensive tool. Its health and taunt behaviour are not readable from DB2. |
 | Healing Surge | Defensive / heal | Mana (instant w/ Maelstrom) | Instant at 5+ Maelstrom (else ~2s) | Big single-target heal — **instant when you spend Maelstrom Weapon**, so it doubles as an emergency self-heal you can weave into the rotation. |
 | Chain Heal | Heal (Maelstrom) | Mana (instant w/ Maelstrom) | Instant at 5+ Maelstrom (else ~2.5s) | Smart multi-target heal; also instant off Maelstrom. Off-role utility for group sustain. |
 | Healing Stream Totem | Heal (totem) | Mana | Instant · ~30s CD | Drops a totem that trickle-heals the lowest party member — passive sustain you can set and forget. |
@@ -150,7 +150,7 @@ so a build has to actually take it. It also brings a full totem utility kit
 
 | Ability | Function | Resource | Cast / CD | Description |
 |---|---|---|---|---|
-| Wind Shear | **Interrupt** | — | Instant · **12s**, ranged | **Tier-1 origin: `talent-active`** (spell 57994, class tree), cooldown **12s** — a **talent, not baseline**, which this file previously got wrong; a build that skips the node has no kick. Short CD and ranged, one of the better interrupts in the game (no pet needed). |
+| Wind Shear | **Interrupt** | — | Instant · **12s**, ranged | **Tier-1 origin: `talent-active`** (spell 57994, class tree), cooldown **12s** — a **talent, not baseline**: a build that skips the node has no kick. Short CD and ranged, one of the better interrupts in the game (no pet needed). |
 | Hex | CC (single) | Mana | ~1.5s cast · **30s** | **Tier-1 origin: `talent-active`** (spell 51514, class tree; also reachable as `class-baseline` via `SkillLineAbility` 924), cooldown **30s**. Polymorph-style transform of a single target (breaks on damage). Primary hard CC. |
 | Capacitor Totem | CC (AoE stun) | Mana | Instant · **60s** | **Tier-1 origin: `talent-active`** (spell 192058, class tree), cooldown **60s**. Totem that stuns nearby enemies after a ~3s charge — AoE stop (Static Charge talent lowers CD per target hit). |
 | Earthgrab Totem | CC (AoE root) | Mana | Instant · **30s** | **Tier-1 origin: `talent-active`** (spell 51485, class tree), cooldown **30s**. Roots enemies near the totem, then snares — AoE control/kite tool. |
@@ -172,8 +172,8 @@ so a build has to actually take it. It also brings a full totem utility kit
 - **Maelstrom Weapon** — the resource: melee autos/abilities build 0–10 stacks
   that make Lightning Bolt / Chain Lightning / Tempest / Primordial Storm (and
   heals) instant and empowered. Drives the entire "build with strikes, spend the
-  bank" gameplan. (Elemental Blast used to be on this list and is not — see
-  "Not on the Midnight Enhancement tree" below.)
+  bank" gameplan. Elemental Blast is **not** one of the spenders it empowers —
+  see "Not on the Midnight Enhancement tree" below.
 - **Hot Hand** — Flame Shock ticks (with active Flame Shock) proc a big **Lava
   Lash** empowerment and recharge. Reworked in Midnight to give *less* CD
   reduction unless Elemental Tempo is talented (two GCDs between Lava Lashes
@@ -200,8 +200,11 @@ spec choice-node talent and appears on no Enhancement tree — class, spec or he
 **Not on the Midnight Enhancement tree:** **Thunderstorm** (51490) is
 `SpecializationSpells` → **Shaman / Elemental** (class-baseline there, 30s) and belongs in
 that spec's file — see `knowledge/classes/shaman/elemental/abilities.md`. It is **absent
-from `PvpTalent` entirely**, so the "whether baseline for Enhance" hedge this file used to
-carry had no route to a yes: its only trait attachment is the **legacy** Shaman trees
-1033/1034, not the live tree 786. Enhancement's Tier-1 crowd-control rows are Capacitor
+from `PvpTalent` entirely**, and its only trait attachment is the **legacy** Shaman trees
+1033/1034, not the live tree 786 — so there is no route by which Enhancement acquires it. Enhancement's Tier-1 crowd-control rows are Capacitor
 Totem, Earthgrab Totem, Tremor Totem and Hex — plan peels off those, not off a knockback.
 *[Tier 1: DB2 @ 12.0.7.67808, via `_abilities/reconcile-ledger.md`.]*
+
+## Changelog
+
+2026-08-17 — Tier-1 cooldowns: Astral Shift 120s (was ~90s), Earth Elemental 180s (was ~5 min); Wind Shear is a talent, not baseline; Elemental Blast and Thunderstorm are not on the Enhancement tree.

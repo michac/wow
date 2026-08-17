@@ -145,11 +145,9 @@ Tooltip text below is from `ability-inventory.md` (Tier 1, Blizzard Game Data AP
   (**−15%** on secondary targets).
 - **Moment of Craving** — after fully channelling Void Ray, **Reap's cooldown
   resets** and the next Reap collects up to **6 additional Soul Fragments**.
-  *(Corrected 2026-08-11: this file previously described it as gating an
-  "Eradicate spend at 10 souls on the ground" — that was wrong at 12.0.7 too.)*
-- **Second Helping** — **Reap gains an additional charge**, flat. *(Corrected
-  2026-08-11: previously written as "gains a charge when you fully channel Void
-  Ray" — that is Moment of Craving's effect, not this one.)*
+- **Second Helping** — **Reap gains an additional charge**, flat. It is
+  unconditional: the charge is not earned by channelling Void Ray (that is
+  Moment of Craving, above).
 - **Soulshaper** — each Soul Fragment gathered by Reap increases its damage by
   **8%**; a core Reap amplifier in the 12.1 Void-Scarred lists.
 - **Devourer's Edge** — Reap and Consume damage **+10%**; note **Consume itself
@@ -214,3 +212,9 @@ Tooltip text below is from `ability-inventory.md` (Tier 1, Blizzard Game Data AP
       guide and its build predates the Mastery rebalance.
 - [ ] Confirm Focused Ray's exact target-count wording, and whether Final Hour is
       6s or 8s live.
+
+## Changelog
+
+2026-08-17 — Moment of Craving resets Reap's cooldown and adds up to 6 Soul Fragments
+(it was once written as gating an "Eradicate spend at 10 souls"), and Second Helping's
+extra Reap charge is unconditional (it was once written as earned by channelling Void Ray).

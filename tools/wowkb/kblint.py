@@ -1,14 +1,20 @@
-"""The addon-dev KB gates — README §7's current-state rule and §0's evidence classes.
+"""The KB gates — the current-state rule and addon-dev's evidence classes.
 
-A topic file states what is true now, it never states what it used to say, and it stands
-on what it says. Five checks keep it that way.
+A knowledge file states what is true now, it never states what it used to say, and it
+stands on what it says. Six checks keep it that way.
 
-README §7 — the current-state rule:
+Gates 1, 3 and 6 are KB-WIDE (`--all`), enforcing _meta/writing-claims.md. Gates 2, 4
+and 5 stay scoped to knowledge/addon-dev, whose evidence classes are stricter — gate 2
+in particular would fire on every legitimate game date in the gameplay KB.
+
+The current-state rule:
 
   1. no retrospective prose ("an earlier draft said…") outside a Changelog
   2. every date sits in front matter, a citation, a [client]/[searched] tag, or the
      Changelog
   3. no section corrected by a later part of the SAME file
+  6. no correction in the LEDE — the text above the first `##`, which is what a
+     reader who stops after the first screen actually sees
 
 README §0 — the evidence classes:
 
@@ -24,8 +30,9 @@ README §0 — the evidence classes:
     uv run python -m wowkb.kblint            # report, exit 1 on any hit
     uv run python -m wowkb.kblint --counts   # per-file table only
     uv run python -m wowkb.kblint --gate 2   # one gate
+    uv run python -m wowkb.kblint --all      # the whole KB (gates 1/3/6)
 
-Why a tool and not five greps: a grep cannot tell a front-matter continuation line from
+Why a tool and not six greps: a grep cannot tell a front-matter continuation line from
 prose, cannot skip a fenced code block (so README §7's own gate definitions match
 themselves), cannot tell `security.md §4.6` — a cross-file pointer — from `§4.6`, a
 self-correction, and cannot see that a claim's phrasing and its evidence tag are on
@@ -69,6 +76,16 @@ EXEMPT_GLOBS = (
     "_meta/feed-watermark.md",
     "_meta/writing-claims.md",
     "characters/*",
+    # An ADJUDICATION LEDGER: one verdict per hand-written claim, pinned to a frozen build
+    # (12.0.7.67808), with its own "Corrections to this ledger's own rows" erratum section.
+    # Its rows ARE the dated events, exactly like the queues above — flattening them would
+    # destroy the provenance the file exists to carry. Its one gate-3 hit is also a true
+    # false positive worth recording: the ⚠ on the `Shattering Star → Shattering Stars` row
+    # cites §5's documented G4 tool gap as the reason that row survives (`node_type` is an
+    # independent signal from `castable`). That is a methodological cross-reference, not a
+    # section correcting itself — and the only way to clear it by editing would be to strip
+    # the §5 pointer, i.e. game the gate while deleting a real caveat.
+    "classes/_abilities/reconcile-ledger.md",
 )
 
 # addon-dev README §7 *defines* the rules, so its prose necessarily contains the patterns
@@ -94,7 +111,7 @@ NEG_EXEMPT = DOCTRINE
 POINTER_EXEMPT = DOCTRINE | REGISTRY
 
 # Gate 1. The first seven alternatives are addon-dev's original list; the rest were added
-# when the rule went KB-wide, harvested from the 69 files the first census found. The
+# when the rule went KB-wide, harvested from the 31 files the first census found. The
 # shape that dominates outside addon-dev, and that none of the original seven caught:
 #   "This page previously claimed X. That was wrong."
 #   "⚠ The old KB label … has been dropped"

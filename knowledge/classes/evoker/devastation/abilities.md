@@ -129,7 +129,7 @@ inside the GCD).
 | Landslide | CC (talent) | — | ~2s cast, 90s `[T1]` | Roots enemies in a line. (The cast time is still a Tier-3 figure — Augmentation's file calls it instant, so treat the `~2s` here as unsettled.) |
 | Tail Swipe | CC | — | Instant, 180s `[T1]` | Knock-back / stagger the enemies behind you. **Class-baseline `[T1]`** — no talent point, but a 3-minute cooldown means it is a scripted answer, not a kiting tool. |
 | Hover | Movement | — | Instant, ~35s CD (2 charges) | Lets you cast and channel while moving for its duration; not on the GCD. Central to Devastation mobility. @verify-ingame |
-| Spatial Paradox | Major cooldown (utility, **choice node** `[T1]`) | — | Instant, 180s `[T1]` | External: grants you or an ally a large haste/empower burst (allows empowers to cast instantly). Choice-node vs *Time Spiral*. **3 minutes, not the 2 previously written here** — it will not pair with every Dragonrage, so decide which window gets it. |
+| Spatial Paradox | Major cooldown (utility, **choice node** `[T1]`) | — | Instant, 180s `[T1]` | External: grants you or an ally a large haste/empower burst (allows empowers to cast instantly). Choice-node vs *Time Spiral*. **3 minutes** — it will not pair with every Dragonrage, so decide which window gets it. |
 | Source of Magic | Utility (mana) | — | Instant | Buffs a healer/ally, returning mana when you deal damage. Assign to a mana user. |
 | Blessing of the Bronze | Utility (raid buff) | — | Instant / **15s** `[T1]` | Raid buff: movement-speed / snare component (the Evoker raid-wide buff). |
 | Fury of the Aspects | Utility (Bloodlust) | — | Instant, 300s CD | Evoker's Bloodlust/Heroism-equivalent 30% haste raid cooldown (Exhaustion applies). |
@@ -143,15 +143,14 @@ inside the GCD).
 > - **Azure Sweep** (1265867) and **Mass Disintegrate** are Midnight-relevant spec/hero
 >   additions confirmed in the live spell table. ⚠ Mass Disintegrate is **436335** —
 >   the `talent-passive` row this spec's `ability-inventory.tsv` carries. 401642 is a
->   `SpellName` hit with no acquisition row for this spec and should not be restated;
->   it was in an earlier version of this line.
+>   `SpellName` hit with no acquisition row for this spec and should not be restated.
 > - **Sleep Walk** (360806) is the current name for the old "Sleep" CC.
 > - **Swoop Up** (370388), **Chrono Loop** (383005), **Time Stop** are Evoker
 >   **PvP talents** — the seed list carried them, but they are not PvE
 >   rotational/utility buttons; flagged accordingly.
 
-**Not acquirable at 12.0.7:** **Engulf** — deleted from this file (it was listed as the
-Flameshaper button). No spell named Engulf attaches to any trait node, `SkillLineAbility`
+**Not acquirable at 12.0.7:** **Engulf** — there is no such Flameshaper button.
+No spell named Engulf attaches to any trait node, `SkillLineAbility`
 row, `SpecializationSpells` or `PvpTalent` at 12.0.7.67808, and no Midnight-range ID of that
 name was ever minted. The **Flameshaper** subtree (37) *is* live on the Evoker tree (872) —
 its actives are **Fire Torrent** (1265992) and **Consume Flame**. Do **not** file Fire Torrent
@@ -159,7 +158,11 @@ as a rename of Engulf; nothing measured says the two are the same button.
 *[Tier 1: reconcile-ledger.md §4, DB2 @ 12.0.7.67808.]*
 
 **Not on the Midnight Devastation tree:** **Firestorm** — it appears on no class, spec or
-hero tree for any of the 40 specs, so the "AoE-lean talent" row it used to have here was a
-War Within-era carry-over. The nearest live names are **Engulfing Blaze** (370837, spec
+hero tree for any of the 40 specs — it is a War Within-era name with no Midnight
+acquisition row, and Devastation has no "AoE-lean talent" of that name. The nearest live names are **Engulfing Blaze** (370837, spec
 passive) and **Shattering Stars** (1265802, spec passive), neither of which is Firestorm.
 *[Tier 1: `all-talents.tsv` @ 12.0.7.67808, all 40 specs.]*
+
+## Changelog
+
+2026-08-17 — Spatial Paradox is 180s (was 2 min); Mass Disintegrate is 436335 (401642 was wrong); Engulf and Firestorm rows removed as War Within-era carry-overs.

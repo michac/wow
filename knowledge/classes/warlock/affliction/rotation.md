@@ -135,8 +135,7 @@ question.
 damage has a chance to proc it; *Ravenous Afflictions* adds a second roll off
 Agony/Corruption/UA crits): it empowers the **next** Shadow Bolt or Malefic Grasp
 for **+25% damage**, making Shadow Bolt **instant** and Malefic Grasp channel
-**50% faster**. *(The **+25%** is a correction: this file previously said +75%,
-which the live tooltip contradicts.)*
+**50% faster**.
 
 > ⚠ **OPEN: does Nightfall bank to 2 stacks?** `@verify-ingame`
 > **Do not treat either answer as settled.** The pre-12.1 rule was "stacks to 2,
@@ -231,3 +230,8 @@ repeated as a 12.1 one.
 - [ ] **Hero tree for 12.1** — Soul Harvester vs Hellcaller is genuinely open
       after the Blackened Soul / Wither buffs; resolve in `builds.md` off usage
       data once S2 opens (2026-08-18) and distil the `HC_*` lists here if it flips.
+
+## Changelog
+
+2026-08-17 — Nightfall empowers the next Shadow Bolt / Malefic Grasp for +25% damage per
+the live 12.1 tooltip; this file previously said +75%.

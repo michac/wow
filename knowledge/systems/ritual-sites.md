@@ -20,8 +20,8 @@ confidence: medium
 
 # Ritual Sites (12.1)
 
-**Instanced solo-friendly content** added in 12.0.5. (Earlier KB note calling
-this "open-world" was wrong.) 12.1 made **no ritual-site-specific changes** to
+**Instanced solo-friendly content** added in 12.0.5 — instanced, not
+open-world. 12.1 made **no ritual-site-specific changes** to
 the structure, tiers, challenges or site rotation — what changed here is the
 **reward tuning** (below).
 
@@ -315,3 +315,7 @@ Separate renown track; unlocks persist for alts:
 - [ ] Vendor inventory (which slots purchasable; weapon/trinket available?)
 - [x] Dark particles → accolades at vendor, 100:10 (tier 4, 2026-06-03 —
       still corroborate the ratio in-game)
+
+## Changelog
+
+2026-08-17 — ritual sites are instanced solo content; an earlier note called them open-world.

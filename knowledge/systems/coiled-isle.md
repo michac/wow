@@ -207,8 +207,8 @@ the Tier-1 floor — an editorial "about 20" is wrong:
 | **Ula'tek's Gift** | 5 stacks of a Nature DoT (10 while you are Poisoned); at 20 stacks it Corrodes for its remaining damage at once |
 
 ⚠ Note the **Gorgoneion Gaze** trigger: it keys off **your own** health dropping
-below 50%, not the enemy's. An earlier draft of this file had the threshold
-attached to the wrong actor, which inverts when the power is useful.
+below 50%, not the enemy's — the actor matters, because it inverts when the
+power is useful.
 
 ## Curse Surges & the rare elites
 

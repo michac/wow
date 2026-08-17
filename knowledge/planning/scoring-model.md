@@ -141,16 +141,13 @@ about.** Two multipliers stack inside R:
   whether a character can actually *reach* the content a reward's best roll comes from, so
   **content-capability gating** (Phase 4) is still owed — otherwise a currency ranks #1 for
   a fresh alt who can't run the key that makes it good.
-  ⚠ **Its worked illustration is Season-1-dead, mechanism and number both** (2026-08-11):
-  that gap used to read *"voidcores' real upside is a **Myth 272** roll on a **+10 M+**
-  key, scored only at the Hero floor."* **272 was never in the S1 Myth band** (276–289),
-  let alone S2's (321–334), and 12.1 **restructured Voidcores outright** — S1 Voidcores
-  **convert to gold** and are unusable in S1 content; from S2 they are a **Great Vault
-  reward** (absent from the *first* S2 vault, arriving the **week of Aug 25** with **≥3
-  panes** unlocked); the raid re-roll cost drops to **1** (was 2); Orin Straylight grants
-  **+1/week from week 8 of S2**. So the blanket "the numbers are S1" caveat does **not**
-  cover this one — the *mechanism* moved. Re-derive the illustration against the S2
-  Voidcore-as-vault-reward flow when Phase 4 lands; until then do not read it as guidance.
+  ⚠ **Do not illustrate that gap with Voidcores** — 12.1 **restructured them outright**,
+  so the blanket "the numbers are S1" caveat does not cover them; the *mechanism* moved.
+  S1 Voidcores **convert to gold** and are unusable in S1 content; from S2 they are a
+  **Great Vault reward** (absent from the *first* S2 vault, arriving the **week of Aug 25**
+  with **≥3 panes** unlocked); the raid re-roll cost drops to **1** (was 2); Orin
+  Straylight grants **+1/week from week 8 of S2**. Derive a fresh illustration against the
+  S2 Voidcore-as-vault-reward flow when Phase 4 lands.
 - **Currency consumer (needs-first Phase 1, 2026-07-07).** A currency is worth
   farming only while the character still has something to **spend** it on — "crests
   over drops for a geared main," but a crest source drops to ~0 once every slot is
@@ -429,3 +426,7 @@ without letting it drive.
       real sessions; these two numbers control the whole efficiency↔fun balance.
 - [ ] `[[fun-radar]]` doc: the "events live now ∩ rewards I don't own" feed that
       supplies U=3 candidates to this model.
+
+## Changelog
+
+2026-08-17 — dropped the Voidcore worked illustration of the content-capability gap: 12.1 restructured Voidcores into a Great Vault reward, and the quoted Myth 272 / +10 key figure was never an S1 Myth value.

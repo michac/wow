@@ -115,13 +115,9 @@ deliberately not reflected in anything below.
 overturn the 12.0.7 verdict. Icy Veins' 12.1 pass still has Diabolist offering
 "comparable single-target to Soul Harvester, whilst retaining superior AoE" —
 which is exactly the M+ shape. The build is deterministic and burst-leaning,
-front-loading damage through the **Diabolic Ritual → Overlord / Mother of Chaos
+front-loading damage through the **Diabolic Ritual** (spell 428514) **→ Overlord / Mother of Chaos
 / Pit Lord** procs inside the Tyrant window. All 14 Diabolist nodes showed
 ~49–50/50 adoption in Season 1 — no real choice points, and 12.1 added none.
-
-> ⚠ *(Naming fix, 2026-08-11: this file previously called the proc engine
-> "Demonic Rituals". The talent is **Diabolic Ritual** (spell 428514) per the
-> generated `talents.md` @ `12.1.0.68914`.)*
 
 **Soul Harvester is now the raid/ST counterpart, not just the defensive
 alternative** (damage via Demonic Soul / Wicked Reaping / Soul Anathema, with
@@ -151,12 +147,10 @@ Gluttony, Soulburn.
 10 yd), **Curse of Tongues / Blight of Weakness**, and one side of the AoE-CC
 choice node.
 
-> **The AoE-CC choice, spelled out** (corrected 2026-08-11 — this file previously
-> said "Diabolist also grants a 25-sec Howl of Terror hitting up to 10 targets",
-> which read as if the hero tree hands you Howl for free while the same paragraph
-> told you to take Shadowfury. Per the generated `talents.md` @ `12.1.0.68914` and
-> the 12.1 tooltips in `ability-inventory.md` @ `12.1.0.69214`, it is two picks
-> deep and mutually exclusive with Shadowfury):
+> **The AoE-CC choice, spelled out.** Per the generated `talents.md` @ `12.1.0.68914`
+> and the 12.1 tooltips in `ability-inventory.md` @ `12.1.0.69214`, Diabolist's Howl of
+> Terror package is **two picks deep and mutually exclusive with Shadowfury** — the hero
+> tree does not hand you a 25s / 10-target Howl for free:
 >
 > - Class tree **row 9,6 is a CHOICE node — Howl of Terror (`5484`) *or*
 >   Shadowfury (`30283`)**. You get one, not both.
@@ -274,3 +268,9 @@ the defensive side of it:
 - [x] rotation.md added 2026-06-13 (ST/AoE priority, Tyrant window,
       CDM setup + Kalamazi/wago import pointers). ⚠ Its CDM section needs the
       12.1 note that **Summon Demonic Gateway is now Utility by default**.
+
+## Changelog
+
+2026-08-17 — the proc engine is **Diabolic Ritual** (spell 428514); this file previously
+called it "Demonic Rituals". The 25s / 10-target Howl of Terror is three picks deep and
+excludes Shadowfury; it was previously written as if Diabolist granted it outright.

@@ -30,11 +30,10 @@ and Fel-Scarred's `demonsurge` / `abyssal_gaze`).
 >   2026-08-11, unchanged), so every APL condition quoted here is a **pre-12.1**
 >   condition and has not been re-derived against the new Fury/Inertia numbers;
 > - **Fel-Scarred was the S1 recommendation**, and that ranking has *not* been
->   re-verified for Season 2. (An earlier note here claimed "Icy Veins leads Aldrachi
->   Reaver" — **corrected 2026-08-13**: the page has **one hero-filtered priority tool**,
->   not an AR-led list; picking Fel-Scarred renders a 13-item Vengeful-Retreat-led list.)
->   Treat hero-tree choice as open until `builds.md` is re-sourced; both branches are
->   documented below.
+>   re-verified for Season 2. Icy Veins does not lead with either hero tree: its page
+>   carries **one hero-filtered priority tool**, not an AR-led list, and picking
+>   Fel-Scarred renders a 13-item Vengeful-Retreat-led list. Treat hero-tree choice as
+>   open until `builds.md` is re-sourced; both branches are documented below.
 
 ## What changed in 12.1 (2026-08-11)
 
@@ -186,20 +185,18 @@ Immolation Aura (pre-pull ×2) → pot+trinket → **Eye Beam** → **The Hunt**
 **Vengeful Retreat + Metamorphosis** → Death Sweep → Annihilation → **Consuming
 Fire** → Felblade (Inertia) → **Abyssal Gaze** → Death Sweep ×2 → Annihilation.
 
-Sustained priority (Fel-Scarred). ✅ **Re-verified against the live Icy Veins 12.1
-page 2026-08-12, corrected 2026-08-13** from the page's **interactive build tool with
-Fel-Scarred selected** — the 13-item list below.
+Sustained priority (Fel-Scarred), read 2026-08-13 off the live Icy Veins 12.1 page's
+**interactive build tool with Fel-Scarred selected** — the 13-item list below.
 
-> ⚠ **Sourcing gotcha (why an earlier draft was mis-ordered).** The Icy Veins page's
-> *static HTML* carries a **24-item union** of both hero trees' lines (Reaver's Glaive,
-> duplicate Metamorphosis/Vengeful Retreat entries, both Inertia and Exergy). That union
-> is **not the Fel-Scarred priority** — the page's JavaScript build-selector **filters and
-> re-orders** it per the chosen hero. So `wowkb.fetch` of the raw page returns the superset,
-> not the Fel-Scarred view; the real Fel-Scarred list must be read from the **rendered tool
-> (Fel-Scarred tab)**. A prior draft transcribed the union (Metamorphosis #1) — **wrong**.
-> The filtered Fel-Scarred list leads with **Vengeful Retreat**, and this is the **Exergy
-> build** (no Inertia-Felblade rung). The earlier "Icy Veins leads Aldrachi Reaver for
-> single-target" note was also wrong: there is **one list**, hero-filtered, not two.
+> ⚠ **Sourcing gotcha — how to read that page.** Its *static HTML* carries a **24-item
+> union** of both hero trees' lines (Reaver's Glaive, duplicate Metamorphosis/Vengeful
+> Retreat entries, both Inertia and Exergy). That union is **not the Fel-Scarred
+> priority** — the page's JavaScript build-selector **filters and re-orders** it per the
+> chosen hero. So `wowkb.fetch` of the raw page returns the superset (Metamorphosis #1),
+> not the Fel-Scarred view; the real Fel-Scarred list must be read from the **rendered
+> tool (Fel-Scarred tab)**. There is **one list**, hero-filtered — not one per hero tree.
+> The filtered Fel-Scarred list leads with **Vengeful Retreat**, and it is the **Exergy
+> build** (no Inertia-Felblade rung).
 
 1. **Vengeful Retreat** to trigger **Exergy** — it leads because it is **off the GCD** and
    holds Exergy at ~100% uptime, so you weave it whenever it is up (free). Align with Eye Beam
@@ -384,3 +381,9 @@ So the pair does cost ~2.5 autoattacks — players are **not** threading a needl
 **autoattacks are only ~3.1 % of Havoc damage** (2.8–3.6 % across parses), so 2.5 swings is
 ≈ **0.05 % of a pull**. Against that, VR resets **Initiative** (+crit) on every hostile
 target. Take the retreat; do not contort to save the swings.
+
+## Changelog
+
+2026-08-17 — Icy Veins carries one hero-filtered priority tool, not an Aldrachi-Reaver-led
+list, and the Fel-Scarred priority is the tool's 13-item Vengeful-Retreat-led (Exergy) list;
+earlier drafts transcribed the static page's 24-item both-hero union (Metamorphosis #1).

@@ -134,14 +134,14 @@ aggregation exists yet on patch day.
   is unchanged from S1: spend shards aggressively to pull Dark Harvest forward
   while holding Cascading Calamity uptime.
 - **M+/AoE** runs the Seed cluster — **Seeds of Destruction + Sow the Seeds**.
-  **Patient Zero used to be the third pick here and is gone**; those points now
-  have to go elsewhere, and the two new nodes (**Hedonic Gorging**, sitting one
+  **Patient Zero was removed in 12.1**, so the cluster's third pick is open; those
+  points have to go elsewhere, and the two new nodes (**Hedonic Gorging**, sitting one
   column from Sow the Seeds at row 11, and **Impetuous Wrath** at row 9) are the
   obvious candidates. Icy Veins swaps **Malefic Grasp → Eye Contract** for AoE:
   "2% more AoE but worse single-target."
 
-**Malefic Grasp is no longer trap-tier.** This file called it a trap through
-S1; 12.1 buffed it twice over (**Impetuous Wrath** gives it +10%/+20% on a
+**Malefic Grasp is a ST pick, not a trap.** 12.1 buffed it twice over
+(**Impetuous Wrath** gives it +10%/+20% on a
 Haunted target, and it now correctly grants **Soul Leech**), and Icy Veins'
 12.1 build treats it as the ST pick you swap *out* for Eye Contract in AoE.
 
@@ -224,13 +224,12 @@ quoting it.
 | ↳ *Frequent Donor* | Dark Pact **−15s CD** | class talent |
 | **Soulburn → Drain Life** | Drain Life grants an absorb = healing done, 30s, cap **30% max HP** | class talent |
 
-> ⚠ **Correction (2026-08-11):** this file previously filed **Zevrim's
-> Resilience** and **Illhoof's Design** under *Soul Harvester*. They are the
-> **Hellcaller** row-3 choice node (`Zevrim's Resilience / Illhoof's Design`,
-> row 3 col 24) — verified against the generated `talents.md`. Since this spec
-> runs Soul Harvester everywhere, **neither is actually available in the
-> recommended build**; the Soul Harvester defensives are Gorebound Fortitude /
-> Friends In Dark Places, Gorefiend's Resolve, Quietus and Sataiel's Volition.
+> ⚠ **Zevrim's Resilience and Illhoof's Design are Hellcaller, not Soul Harvester** —
+> they are the Hellcaller row-3 choice node (`Zevrim's Resilience / Illhoof's Design`,
+> row 3 col 24), per the generated `talents.md`. Since this spec runs Soul Harvester
+> everywhere, **neither is actually available in the recommended build**; the Soul
+> Harvester defensives are Gorebound Fortitude / Friends In Dark Places, Gorefiend's
+> Resolve, Quietus and Sataiel's Volition.
 
 ### Related damage reduction (not heal/absorb, but stacks the EHP)
 
@@ -290,3 +289,9 @@ Cunning Cruelty Soul Leech removal cuts the other way too.
       API (2026-08-11), including the Zevrim's/Illhoof's hero-tree correction
 - [x] 12.1 import strings captured 2026-08-11 (Icy Veins, updated 2026-08-10);
       the three 12.0.7 strings deleted as unimportable
+
+## Changelog
+
+2026-08-17 — Zevrim's Resilience and Illhoof's Design are the Hellcaller row-3 choice node
+(this file once filed them under Soul Harvester), and the M+/AoE cluster's third pick is
+open because Patient Zero was removed in 12.1.

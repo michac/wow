@@ -128,7 +128,7 @@ carried from live retail and not re-pulled from Tier 1 — treat as provisional.
 | **Landslide** | CC (root) | — | Instant / ~90s | Roots enemies in place. |
 | **Oppressing Roar** | CC (utility) | — | Instant / ~2min | Increases the duration of crowd control on affected enemies (and can add a disorient via talent). |
 | **Tail Swipe** | CC (knockback) | — | Instant / ~3min | Cone knockback behind you. |
-| **Swoop Up** | CC / utility (**PvP talent**) | — | Instant / 90s `[T1]` | Picks up an enemy and drops them at a new location. It is a **PvP talent**, so it is not selectable in raid or Mythic+ — this row previously read as general utility. |
+| **Swoop Up** | CC / utility (**PvP talent**) | — | Instant / 90s `[T1]` | Picks up an enemy and drops them at a new location. It is a **PvP talent**, so it is not selectable in raid or Mythic+. |
 | **Chrono Loop** | CC (**PvP talent**) | — | Instant / 45s `[T1]` | Traps an enemy; after a few seconds returns them to their position and health. **PvP talent** — unavailable in PvE. |
 | **Time Stop** | Defensive, external (**PvP talent**) | — | Instant / 45s `[T1]` | Freezes an ally in time — briefly invulnerable but unable to act. **PvP talent** — do not plan a raid cooldown rotation around it; it cannot be selected there. |
 | **Hover** | Movement | — | Instant / ~35s, 2 charges | Lets you **cast while moving** and hover briefly. Core mobility for the empower playstyle. |

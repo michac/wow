@@ -97,15 +97,15 @@ confidence: high
 | **Touch of the Archmage** | Major cooldown | — | Active, spec capstone | Capstone active (spec row 11). Follow-up strike tied to the Touch of the Magi burst. @verify-ingame |
 | **Evocation** | Utility (mana) | — | Channel, ~90s CD | Now an **optional talent** (choice vs *Mana Adept*) that only **restores mana**; APL uses it under ~10% mana outside burst. |
 | **Presence of Mind** | Utility / burst enabler | — | Off-GCD, 45s [T1] | Makes the next **2 Arcane Blasts instant**. Choice-node vs *Slipstream*. Used to squeeze instant builders into movement / burst — at 45s it lines up roughly every other Touch of the Magi. |
-| **Supernova** | CC / burst | Mana | 45s [T1] | Choice-node vs *Dragon's Breath*. AoE that knocks enemies up and deals Arcane damage. Nearly twice the cooldown the older prose claimed — treat it as a planned peel, not a spammable one. |
+| **Supernova** | CC / burst | Mana | 45s [T1] | Choice-node vs *Dragon's Breath*. AoE that knocks enemies up and deals Arcane damage. At 45s it is a planned peel, not a spammable one. |
 | **Mirror Image** | Defensive / Utility | — | ~120s CD | Summons 3 images that taunt-free absorb aggro and add damage; threat drop + defensive. Pre-pulled in the APL precombat. |
-| **Alter Time** | Defensive / Movement | — | 60s [T1] (re-press window ~10s) | Snapshots position & health; re-press within the window to return to both — an escape / effective heal. The 60s is the *cooldown*; the short timer people quote is the re-press window, which is a different thing and the reason this row used to read as a 10s ability. |
+| **Alter Time** | Defensive / Movement | — | 60s [T1] (re-press window ~10s) | Snapshots position & health; re-press within the window to return to both — an escape / effective heal. The 60s is the *cooldown*; the short timer people quote is the re-press window, which is a different thing. |
 | **Prismatic Barrier** | Defensive | Mana | 30s CD (25s talented) | Absorb shield (the strongest Mage barrier); most spammable defensive, reduces magic damage. |
 | **Ice Block** | Defensive | — | 180s CD (150s talented) | Full immunity; cancels your own casting. *Ice Cold* variant instead gives ~70% DR while still able to cast. |
 | **Blink** | Movement | — | ~15s CD | Teleport ~20yd forward, breaks roots. *Shimmer* replaces it with a **2-charge** off-GCD blink; *Improved Blink* is the alt choice. |
 | **Counterspell** | Interrupt | — | **25s** `[T1]` | Interrupts + locks the target's school for a few seconds. |
 | **Frost Nova** | CC | — | ~25s CD (2 charges w/ talent) | Roots nearby enemies in place; kiting / peel tool. **Class-baseline** — the talent adds only the second charge, so every Arcane build has the root. |
-| **Cone of Cold** | CC / AoE | Mana | 25s [T1] | Frontal cone dealing Frost damage and slowing. Class-baseline. Roughly double the cooldown the older prose claimed — not an AoE filler you can lean on. |
+| **Cone of Cold** | CC / AoE | Mana | 25s [T1] | Frontal cone dealing Frost damage and slowing. Class-baseline. At 25s it is not an AoE filler you can lean on. |
 | **Polymorph** | CC | Mana | 1.5s cast | Long single-target sheep (Beast); breaks on damage, regenerates the target. |
 | **Mass Polymorph** | CC | Mana | Cast / **60s** `[T1]` | Talent. AoE Polymorph — sheeps multiple enemies at once. |
 | **Slow Fall** | Utility | Reagent-free | Instant | Levitate/slow-fall on a friendly target. |
@@ -125,3 +125,7 @@ confidence: high
 one spell per spec — Arcane **Prismatic Barrier** (235450, listed above), Fire **Blazing
 Barrier**, Frost **Ice Barrier** — so Arcane cannot take the Frost entry.
 *[Tier 1: `all-talents.tsv` @ 12.0.7.67808.]*
+
+## Changelog
+
+2026-08-17 — Tier-1 cooldowns stated flatly: Supernova 45s, Cone of Cold 25s, Alter Time 60s (the ~10s figure is the re-press window, not the cooldown).

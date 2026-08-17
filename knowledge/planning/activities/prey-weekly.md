@@ -11,9 +11,9 @@ status: invalidated   # PRE-SEASON ONLY: Nightmare Mode is offline Aug 11–17. 
 gate: { type: weekly_quest, quest: prey_weekly }   # ⚠ S1 wiring: 94446 is dormant pre-season and unverified for S2 — the S2 weekly has its own reserved slug `prey_s2_weekly` (ID unknown). RE-WIRE BEFORE FLIPPING TO `active`.
 reward: { type: [power], detail: "weekly objective; S2 Nightmare pays Champion-track" }
 yields:
-  # S2 crest yield is UNMEASURED — no Tier-1 source states an amount, and the S1 figure
-  # this row used to carry (20 Hero Dawncrests) was never reconciled with dawncrests.md,
-  # so it is dropped rather than renamed to Mistcrests. No `currencies` block until it is
+  # S2 crest yield is UNMEASURED — no Tier-1 source states an amount, and the S1-era
+  # "20 Hero Dawncrests" figure never reconciled with dawncrests.md, so do NOT resurrect
+  # it under a Mistcrest name. No `currencies` block until it is
   # read off a live S2 hunt. Absent currencies just means currency_R falls back to
   # reward_base (plan.py) — safe.
   slots:
@@ -78,9 +78,9 @@ creature damage, so an S1-comfortable hunt is not automatically the same fight �
   per-character Rank-4 gate, resolved in-game 2026-07-10) does **not** carry over, because
   S2 puts a new questline in front of it. @verify-ingame
 - **The gear roll stays Champion-track — what moved is the ladder, not the tier.**
-  Nightmare Prey awards **Season 2 Champion** gear (Tier 1). ⚠ An earlier draft of this row
-  called that "a tier drop from S1's Hero roll"; **that was wrong.** S1 Nightmare also paid
-  **Champion-track** (`../../_meta/moving-values.md` before-column; `../../endgame/prey.md`).
+  Nightmare Prey awards **Season 2 Champion** gear (Tier 1), and S1 Nightmare paid
+  **Champion-track** too (`../../_meta/moving-values.md` before-column;
+  `../../endgame/prey.md`) — this is not a tier drop from a Hero roll.
   The label is unchanged; the numbers are not — **S2 Champion runs 292 (1/6) → 308 (6/6)**
   against S1 Champion's 246 → 263, and **Champion Mistcrest** upgrades the **295–308** band
   (Tier-1 `CurrencyTypes` DB2 @ 12.1.0.69214 + the Lairs reward table, via
@@ -125,3 +125,7 @@ is **carried, not re-verified**: assume Voidshards still drop until someone chec
 Nightmare hunt. @verify-ingame
 
 Full system detail: `../../endgame/prey.md`.
+
+## Changelog
+
+2026-08-17 — S2 Nightmare Prey pays Champion track and so did S1; this row previously called it a tier drop from a Hero roll.

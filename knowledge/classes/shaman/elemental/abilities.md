@@ -100,7 +100,7 @@ copy — the whole kit is tuned around maximizing overloads.
 | **Nature's Swiftness** | Utility | — | instant, ~1min | Class talent (used when NOT running Ancestral Swiftness): next Nature/Frost spell is instant and empowered. Often spent on an instant Chain Heal / Lava Burst / hardcast filler. |
 | **Wind Shear** | Interrupt | — | instant, ~12s | The interrupt — a short-cooldown, no-GCD spell kick. |
 | **Astral Shift** | Defensive | — | instant / **120s** `[T1]` | −40% damage taken for ~8s (Nature's Guardian etc. improve). Core personal defensive. |
-| **Earth Elemental** | Defensive / Pet | — | instant, **180s** | **Tier-1 origin: `talent-active`** (spell 198103, class tree), cooldown **180s** — not the ~5min this file previously carried from Tier 3. Summons a tanky Earth Elemental to taunt/soak; a threat/defensive tool, strong solo/delve. **This is the only elemental summon the live Shaman tree grants** — see the note at the foot of this file. |
+| **Earth Elemental** | Defensive / Pet | — | instant, **180s** | **Tier-1 origin: `talent-active`** (spell 198103, class tree), cooldown **180s** (Tier-3 guides quote ~5min; the tsv wins). Summons a tanky Earth Elemental to taunt/soak; a threat/defensive tool, strong solo/delve. **This is the only elemental summon the live Shaman tree grants** — see the note at the foot of this file. |
 | **Skyfury** | Utility (raid buff) | — | instant, 1hr buff | The Shaman group buff: empowers you and party/raid members' attack and spell power. Cast pre-pull. @verify-ingame |
 | **Heroism** | Major cooldown (party) | — | instant, ~5min (10min exhaustion) | Bloodlust/Heroism — party/raid +30% haste for 40s. Sync with Ascendance. (Alliance = Heroism, Horde = Bloodlust.) |
 | **Healing Surge** | Utility (heal) | Mana | ~1.5–2s cast | Emergency direct self/ally heal. |
@@ -113,7 +113,7 @@ copy — the whole kit is tuned around maximizing overloads.
 | **Wind Rush Totem** | Movement (group) | — | instant, ~2min | Totem that grants passing allies a movement-speed burst — group mobility. |
 | **Capacitor Totem** | CC | — | instant, ~1min | Totem that charges up then AoE-stuns nearby enemies. |
 | **Earthgrab Totem** | CC | — | instant / **30s** `[T1]` | Totem roots nearby enemies, then slows them. |
-| **Thunderstorm** | CC / Defensive | — | instant, **30s** | **Tier-1 origin: `class-baseline`** (spell 51490, `SpecializationSpells` → **Elemental**), cooldown **30s**. Knocks back nearby enemies and slows them. **Elemental-only** — it is not a shared Shaman button and not a PvP talent (absent from `PvpTalent` entirely); the Enhancement and Restoration files used to claim it and no longer do. |
+| **Thunderstorm** | CC / Defensive | — | instant, **30s** | **Tier-1 origin: `class-baseline`** (spell 51490, `SpecializationSpells` → **Elemental**), cooldown **30s**. Knocks back nearby enemies and slows them. **Elemental-only** — it is not a shared Shaman button and not a PvP talent (absent from `PvpTalent` entirely), so Enhancement and Restoration do not have it. |
 | **Hex** | CC | Mana | ~1.5s cast, ~30s | Transforms a humanoid/beast enemy into a frog (incapacitate). |
 | **Tremor Totem** | Utility (CC break) | — | instant, ~1min | Totem that removes and prevents Fear/Sleep/Charm for nearby allies (choice vs Poison Cleansing Totem). |
 | **Purge** | Dispel (offensive) | Mana | instant | Removes a beneficial Magic effect from an enemy (choice vs Greater Purge). |
@@ -130,7 +130,11 @@ row: their only trait attachment is the **legacy** Shaman trees 1033/1034 (the t
 still carry the pre-Midnight set — Icefury, Primordial Wave, Liquid Magma Totem,
 Stormstrike). The **live** Shaman tree is **786**, and it carries `Earth Elemental`
 (198103) and the `Primal Elementalist` / `Call of Fire` passives but no Fire or Storm
-Elemental node. Both rows have been deleted rather than left marked; the burst window
-they used to anchor is Stormkeeper → Ascendance. Do not restore them from a Tier-3 guide
-without a fresh DB2 read — a guide describing them is describing The War Within.
+Elemental node. Elemental's burst window is Stormkeeper → Ascendance. Do not add them
+back from a Tier-3 guide without a fresh DB2 read — a guide describing them is describing
+The War Within.
 *[Tier 1: DB2 @ 12.0.7.67808, via `_abilities/reconcile-ledger.md`.]*
+
+## Changelog
+
+2026-08-17 — Earth Elemental is 180s (an earlier version carried a Tier-3 ~5min); Fire Elemental and Storm Elemental rows removed as War Within-era.

@@ -15,13 +15,11 @@ confidence: medium
 > ⚠ **Sim binary is 12.0.5.67823, game is live on 12.0.7** — relative ranking
 > trusted, absolute approximate.
 >
-> **CORRECTION (2026-06-19, APL experiment below):** an earlier version of
-> this file blamed Destruction's low AoE on the default simc APL "mishandling
-> the method M+ build." That was **wrong**. A hand-authored APL translated
-> from method.gg's prose scored **~3% *below* the default APL** at both 1T and
-> 5T — the default is already near-optimal for this build. **The AoE deficit
-> vs Demo/Aff is real, not an APL artifact.** Patchwerk still undervalues
-> burst-on-pull/target-swap M+ damage, but the gap is genuine.
+> **Destruction's M+ AoE deficit vs Demonology/Affliction is real, not an APL artifact.**
+> The default simc APL is already near-optimal for the method M+ build: a hand-authored
+> APL translated from method.gg's prose scored **~3% *below*** the default at both 1T and
+> 5T (the experiment is below). Patchwerk still undervalues burst-on-pull / target-swap
+> M+ damage, but the gap is genuine.
 
 ## method.gg M+ talent string (Hellcaller / Cataclysm build)
 
@@ -107,3 +105,8 @@ docker run --rm -v /tmp/sim:/app/SimulationCraft/sim simulationcraftorg/simc:lat
 - [ ] Add `builds.md`; pull a Destruction M+ import from Archon/murlok to cross-check
 - [ ] If chasing Destruction ST: store the reference Hellcaller ST talent string
 - [ ] Re-run on a 12.0.7 simc image when available
+
+## Changelog
+
+2026-08-17 — the AoE deficit is a real spec/build gap; an earlier version of this file
+blamed the default simc APL for "mishandling the method M+ build".

@@ -27,10 +27,9 @@ confidence: high
 > **Everything below is kept as a historical reference** — the routes, trash
 > tables and boss mechanics are still accurate for the *instance*, which
 > remains part of the Midnight dungeon set and is still runnable outside the
-> M+ rotation. What is **no longer true** is anything that depends on it being
-> a keystone dungeon: no keystones for it drop, it has no seasonal affix
-> interaction, and it does not contribute Mythic+ rating, Great Vault M+ credit
-> or Season 2 crest/gear rewards. Season-1 reward numbers quoted anywhere
+> M+ rotation. As a non-keystone dungeon it drops no keystones for itself, has
+> no seasonal affix interaction, and contributes no Mythic+ rating, Great Vault
+> M+ credit or Season 2 crest/gear rewards. Season-1 reward numbers quoted anywhere
 > downstream of this file are dead (S1 gear ran ilvl 224–289; S2 runs 269–334).
 > `@verify-ingame` confirm which non-M+ difficulties the instance still offers
 > (Normal / Heroic / Mythic 0) now that it is out of the pool.

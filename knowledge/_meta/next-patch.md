@@ -42,8 +42,8 @@ present tense. Run `/update` (or at minimum a targeted pass over
 ## PTR-era claims that did NOT ship in 12.1
 
 Recorded so a stale pre-release source is recognisable. These appeared in the
-pre-launch dev notes / Tier-3 recaps this file previously carried, and are
-**absent from the final content-update notes**:
+pre-launch dev notes / Tier-3 recaps and are **absent from the final
+content-update notes**:
 
 - **One-time Profession Knowledge reset** — no mention in the shipped notes.
 - **Account-wide user-interface settings** — only **Auto Loot** became account

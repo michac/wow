@@ -254,15 +254,12 @@ a full board to empower immediately.
 > Tyrant being worth pressing at t=3 s is only explicable if demons were already
 > out, so **some** pre-pull setup is certain.
 >
-> ⚠ **Corrected 2026-08-11.** The earlier version of this note concluded "the
-> pre-pull is imps, **not** a Power Siphon," reasoning from 0 in-combat Power
-> Siphon casts. That inference does not hold: the fresh 12.1 maxroll raid
-> capture (`maxroll-raid.md`) instructs you to **pre-cast Power Siphon 8–10 s
-> before combat, with 2 Wild Imps already out** — i.e. exactly in the window the
-> log cannot see. **0 logged casts is therefore compatible with a pre-pull Power
-> Siphon**, and the parse data cannot distinguish the two. What the data does
-> establish is that these players cast Power Siphon **zero times during the
-> fight**. See Divergence #1.
+> ⚠ **A pre-pull Power Siphon is compatible with these logs.** The fresh 12.1 maxroll
+> raid capture (`maxroll-raid.md`) instructs you to **pre-cast Power Siphon 8–10 s
+> before combat, with 2 Wild Imps already out** — i.e. exactly in the window the log
+> cannot see, so **0 logged casts does not rule it out** and the parse data cannot
+> distinguish the two. What the data does establish is that these players cast Power
+> Siphon **zero times during the fight**. See Divergence #1.
 
 ### 1b. Textbook "build-then-Tyrant" opener (Maxroll M+, 12.0.7 capture)
 
@@ -459,15 +456,12 @@ sequenceable and others not:
   (`1276163`) leaves a portal open for 15 s so that **every 2 casts of Hand of
   Gul'dan summon a subjugated demon** for 10 s — those are the Grand Warlock
   Alythess / Lady Sacrolash pets in the logs.
-  > ⚠ **Corrected 2026-08-11 against the generated `ability-inventory.md` /
-  > `talents.md` (Tier-1 game data, 12.1).** Two errors here previously: the ID
-  > was written `1276166` (it is **`1276163`**), and **Abyssal Dominion**
-  > (`429581`) was credited with the same effect. Abyssal Dominion is an
-  > unrelated Diabolist talent — it empowers **Summon Infernal** (+40% damage,
-  > fragmenting into two lesser Infernals) — and summons no Argus demons. The
-  > **1 Soul Shard refund per Hand of Gul'dan** is also not baseline: it is
-  > **Dominion of Argus rank 3**, and it is what makes the Tyrant-window HoG
-  > chain sustainable. Untouched by 12.1.
+  > ⚠ **Abyssal Dominion (`429581`) is a different talent** and summons no Argus demons:
+  > it empowers **Summon Infernal** (+40% damage, fragmenting into two lesser Infernals).
+  > The **1 Soul Shard refund per Hand of Gul'dan** is also not baseline — it is
+  > **Dominion of Argus rank 3**, and it is what makes the Tyrant-window HoG chain
+  > sustainable. Untouched by 12.1. *[Tier 1: generated `ability-inventory.md` /
+  > `talents.md`, 12.1.]*
 
 ## Ruination & Infernal Bolt — a rule, not a slot
 
@@ -511,8 +505,7 @@ Verified against casts **and** the summoned-pet list across all six parses.
    alternate talent picks, not "stale."** All six run **Grimoire: Imp Lord**
    (`1276452`, pet confirmed) as their pre-Tyrant summon. `rotation.md` mentions
    Felguard/Vilefiend because those are *valid other choices*; this particular
-   Rotmire build just doesn't take them. (My first draft called the KB "stale
-   naming" — overstated. It's a build divergence.)
+   Rotmire build just doesn't take them — a build divergence, not stale naming.
    ⚠ **12.1 nudges this one.** **Summon Gloomhound damage +35%** — that is
    Summon Vilefiend taken with **Mark of Shatug** (`455449`), the branch these
    parses skip; *Mark of F'harg* / Charhound was not touched. Combined with the
@@ -520,9 +513,7 @@ Verified against casts **and** the summoned-pet list across all six parses.
    rather than being assumed dead. **This corpus cannot speak to it.**
 3. **Summon Doomguard: not used *by these six* — but the ability is real and
    both higher-tier sources rank it.** No parse casts it (any spell ID) and **no
-   Doomguard pet is ever summoned** in any of the six. ⚠ **Corrected
-   2026-08-11:** the earlier draft called the "Summon Doomguard on cooldown" line
-   a JS-extraction artifact and deleted it. That was wrong. `Summon Doomguard`
+   Doomguard pet is ever summoned** in any of the six. But `Summon Doomguard`
    (`1276672`, 120 s, spec talent — confirmed in this directory's generated
    `talents.md` / `ability-inventory.md` at 12.1) sits at **step 4 of the simc
    MID1 APL** and **step 3 of the 12.1 maxroll priority list**. The honest
@@ -604,3 +595,10 @@ Vilefiend/Gloomhound branch is taken after its +35%, whether the Tyrant-first
 opener survives the burst nerf, and whether Diabolist is still the parse-leading
 tree at all. Until then, treat the *sequences* as current and the *build* as
 historical.
+
+## Changelog
+
+2026-08-17 — Dominion of Argus is `1276163` (previously written `1276166`) and Abyssal
+Dominion `429581` empowers Summon Infernal rather than summoning Argus demons; Summon
+Doomguard `1276672` is a real 12.1 spec talent that this corpus simply doesn't take (an
+earlier draft called it a JS-extraction artifact and deleted the line).

@@ -115,9 +115,7 @@ is not settled** — the Tier-1 12.1 notes contain no affix section at all, whil
 the Tier-3 pre-season S2 guides (Icy Veins, Conquest Capped) describe the *same*
 ladder carrying over with no new affix. Neither claim is confirmed; treat
 [`affixes.md`](affixes.md) as the file of record, which needs live confirmation
-once keys drop the week of 2026-08-18. *(This sentence previously asserted the
-set "is not carried forward unchanged" — that was an unsourced inference and
-contradicted its sibling files; corrected 2026-08-11.)*
+once keys drop the week of 2026-08-18.
 
 ## Rewards (Season 1 values — superseded)
 
@@ -161,3 +159,7 @@ Normal / Heroic / Mythic 0) — just not as M+ route notes.
 - [Seat of the Triumvirate](seat-of-the-triumvirate.md)
 - [Skyreach](skyreach.md)
 - [Pit of Saron](pit-of-saron.md)
+
+## Changelog
+
+2026-08-17 — whether the S1 affix ladder carries into S2 is unsettled (see affixes.md); this file previously asserted, unsourced, that it does not carry forward unchanged.

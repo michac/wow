@@ -140,8 +140,8 @@ absence; they matter for group composition.
 
 ## Reconciliation notes — Tier 1 @ 12.0.7.67808
 
-- **Three heals this file used to list are not acquirable at 12.0.7** and are
-  gone. Each was checked against every acquisition table — trait nodes on the
+- **Three heals a War Within-era kit list would carry are not acquirable at
+  12.0.7.** Each was checked against every acquisition table — trait nodes on the
   live Priest tree (**795**), `SkillLineAbility` on the Priest line (**804**),
   `SpecializationSpells` and `PvpTalent` — and attaches to none:
   - **Heal** (2060) — the Priest kit carries Flash Heal, Power Word: Shield,
@@ -173,5 +173,9 @@ absence; they matter for group composition.
   For a healer this is the most load-bearing missing number in the KB: Holy Word
   charge cadence *is* the rotation.
   - Holy Word: Serenity / Sanctify, Prayer of Mending, Shadow Word: Death, Leap of Faith — read baseline cooldown + charge count off each tooltip. @verify-ingame
-- **Halo is 60s baseline** (Archon shortens it) — this file previously carried
-  Archon's reduced value as the baseline. **Mass Dispel is 120s**, not ~1 min.
+- **Halo is 60s baseline** — Archon shortens it, so a shorter figure quoted for
+  Halo is the Archon value, not the baseline. **Mass Dispel is 120s.**
+
+## Changelog
+
+2026-08-17 — Halo's 60s baseline is stated as such (an earlier version carried Archon's reduced value as the baseline) and Mass Dispel is 120s, not ~1 min.

@@ -107,7 +107,7 @@ shorten most listed cooldowns dynamically). @verify-ingame (energy costs)
 | Adrenaline Rush | Major cooldown | — | Instant / 3min | Signature DPS cooldown: big energy-regen + attack-speed boost (~20s). Cut heavily by Restless Blades (~40% uptime). |
 | Blade Flurry | Rotational (cleave) / offensive CD | Energy | Instant / 30s (12s duration) | Echoes a share of single-target damage onto nearby enemies — the core AoE engine. **Deft Maneuvers** lets it also build combo points at 3+ targets. |
 | Blade Rush | Movement / rotational CD | — (grants energy) | Instant / **60s** `[T1]` | Charge to target dealing AoE and briefly boosting energy regen; gap-closer used near on-cooldown. Cut by Restless Blades. |
-| Killing Spree | Major cooldown (finisher) | high CP | Channel ~2s / **180s** | **Tier-1 origin: `talent-active`** (spell 51690), base cooldown **180s** — *not* the ~60s this file previously carried from Tier 3. (Restless Blades reduces it in play; see its row.) Teleporting flurry of strikes across targets; APL fires it at high combo points as a finisher-tier burst. |
+| Killing Spree | Major cooldown (finisher) | high CP | Channel ~2s / **180s** | **Tier-1 origin: `talent-active`** (spell 51690), base cooldown **180s** (Tier-3 guides quote ~60s; Restless Blades reduces it in play — see its row). Teleporting flurry of strikes across targets; APL fires it at high combo points as a finisher-tier burst. |
 | Coup de Grace | Rotational (Trickster) | — | Instant / — | **Trickster** capstone (via Unseen Blade / Disorienting Strikes) — an empowered strike used in both builder and finisher windows when guaranteed. |
 | Gravedigger | Passive (spec apex) | — | — | Apex talent: Between the Eyes gains a double-stack chance, Dispatch procs bonus damage at high CP, and a bullet-stack system grants free high-impact Between the Eyes. |
 | Restless Blades | Passive (core) — `SpecializationSpells` → Outlaw | — | — | Each combo point spent by a finisher reduces the cooldown of Adrenaline Rush, Between the Eyes, Blade Flurry, Blade Rush, Killing Spree, Keep It Rolling, Vanish, Sprint and Grappling Hook. **Absent from `ability-inventory.tsv` by generator design, not by removal** — spell 79096 is Tier-1 attached to Outlaw but passive, and the generator drops passive `SpecializationSpells` rows (`_abilities/reconcile-ledger.md` §5 G1). It is carried in `../../_abilities/section-3-corroborated.md`, confirmed live by `GET /data/wow/spell/79096` → 200. Do not "correct" this row away. |
@@ -139,7 +139,11 @@ shorten most listed cooldowns dynamically). @verify-ingame (energy costs)
 | Numbing Poison | Weapon imbue (non-lethal) — `talent-choice` | — | Cast out of combat | Non-lethal; reduces target attack/cast speed. Choice node with Atrophic Poison. |
 | Atrophic Poison | Weapon imbue (non-lethal) — `talent-choice` | — | Cast out of combat | Non-lethal; reduces target damage dealt. Choice node with Numbing Poison. |
 
-> **`Poisons` is not a spell.** There is no ability of that name at 12.0.7.67808 — the
-> single catch-all row this file used to carry has been split into the six concrete
-> imbues above, each with its own Tier-1 origin. *[Tier 1: `ability-inventory.tsv`,
-> DB2 @ 12.0.7.67808.]*
+> **`Poisons` is not a spell.** There is no ability of that name at 12.0.7.67808 — what
+> exists is the six concrete imbues above, each with its own Tier-1 origin. Treat a
+> catch-all "Poisons" button as a naming shorthand, not a keybind. *[Tier 1:
+> `ability-inventory.tsv`, DB2 @ 12.0.7.67808.]*
+
+## Changelog
+
+2026-08-17 — Killing Spree's base cooldown is 180s (an earlier version carried a Tier-3 ~60s); the catch-all "Poisons" row is replaced by the six concrete weapon imbues.

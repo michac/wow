@@ -16,9 +16,8 @@ confidence: high
 
 # Slayer's Rise (zone) / Slayer's Duellum (reputation)
 
-> **Correction (2026-06-03)**: earlier KB notes called this "one of the 5
-> renown factions" — wrong. It is an **open-world PvP zone + old-school
-> reputation**, not a renown track.
+> ⚠ **Not one of the 5 renown factions.** This is an **open-world PvP zone +
+> old-school, character-specific reputation**, not a Warband renown track.
 
 > **Scope note**: this file is also the KB's de-facto landing spot for
 > **game-wide PvP rules** (see `_meta/moving-values.md`, which routes the PvP
@@ -122,3 +121,7 @@ removed (existing copies refunded as gold). That was Season 1 material and is
 now superseded by the Season 2 gear ladder opening 2026-08-18. It never touched
 Slayer's Rise, which uses **Voidlight Marl** for **cosmetic-only** rewards (no
 combat gear, no rated ilvl).
+
+## Changelog
+
+2026-08-17 — Slayer's Duellum is a character-specific old-school reputation, not one of the 5 Warband renown tracks; earlier KB notes filed it as a renown faction.

@@ -182,7 +182,7 @@ plan around it before Aug 18.
   (whose T4/T5/T6 recommended ilvls moved to **259 / 268 / 275** in 12.1). ⚠ The
   S2 Souls change the comparison in Prey's favour once Bountiful Delves return;
   this ranking has **not** been re-measured for 12.1.
-- **Traps are no longer the fast path (CORRECTED 2026-07-10).** The readable 12.0.5 hotfix
+- **Traps are not the fast path.** The readable 12.0.5 hotfix
   (Icy Veins, May 12 2026) did **not** reduce trap *count* — it **buffed non-trap progress**
   (Prey WQ, Ambushes/Ripostes, Coalescing Anguish spawns) and removed *Hunter's Momentum* on
   Hard/Nightmare. So pure trap-grinding is *relatively slower per minute*; ~10 traps to

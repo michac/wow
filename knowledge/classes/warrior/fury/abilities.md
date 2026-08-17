@@ -79,11 +79,10 @@ them there rather than trusting a restated number here. This file is for
 **function, role and rotational context**; on any disagreement the tsv wins.
 **One** row — `Crushing Blow` — is an Enrage-window *override* button with no
 acquisition row of its own and is expected to be missing from it; it is
-catalogued in `../../_abilities/section-4-catalogue.md`. ⚠ `Bloodbath` is **not**
-in that situation and an earlier version of this note wrongly said it was:
-`ability-inventory.tsv` carries `Bloodbath 113344 class-baseline
-SkillLineAbility:840 castable=true`. It has a real acquisition row — do not read
-its presence as an anomaly.
+catalogued in `../../_abilities/section-4-catalogue.md`. ⚠ `Bloodbath` is **not** such
+a row: `ability-inventory.tsv` carries `Bloodbath 113344 class-baseline
+SkillLineAbility:840 castable=true`, so it has a real acquisition row — do not read its
+presence as an anomaly.
 
 **Reconciliation note (game-data floor).** The sibling `talents.md` (Blizzard
 game data) is authoritative for what Fury actually has in 12.0.7. **Thunderous
@@ -137,10 +136,10 @@ Midnight through the **Berserker Shout / Fearless** choice node.
 | Rampaging Berserker | Capstone (empower/active) | — | — · capstone talent | Spec capstone (spell 1269308). Boosts **Rampage** damage and extends **Recklessness** duration (~18s). Talent tree marks it ACTIVE; exact active component vs passive empower is uncertain. @verify-ingame |
 
 > **On `Champion's Spear`'s Rage-on-cast.** The generated inventory has no resource
-> column, so Tier 1 can settle the **cooldown** (90s) but not the Rage yield. This row
-> previously asserted "+10 Rage on cast (was 20)" as though it were measured; it was a
-> Tier-3 guide reading. Left unstated rather than restated — don't build a Rage-pooling
-> plan on a number nothing here measured.
+> column, so Tier 1 can settle the **cooldown** (90s) but not the Rage yield. The only
+> figures in circulation are Tier-3 guide readings, so the amount is left unstated here —
+> don't build a Rage-pooling plan on a number nothing here measured (the row above
+> carries the `@verify-ingame` marker).
 
 ## Utility, ranged & shouts
 
@@ -202,3 +201,9 @@ Midnight through the **Berserker Shout / Fearless** choice node.
   Thane) — Avatar-empowered lightning procs.
 - **Reckless Abandon** — turns Recklessness into the Bloodbath/Crushing Blow
   empowered window (the burst backbone for Slayer).
+
+## Changelog
+
+2026-08-17 — Bloodbath (113344) has a real `SkillLineAbility:840` acquisition row and is
+not a Crushing-Blow-style override anomaly, as this file once claimed; Champion's Spear's
+Rage-on-cast is unstated rather than the Tier-3 "+10 Rage" it once asserted as measured.

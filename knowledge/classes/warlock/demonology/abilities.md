@@ -39,13 +39,11 @@ Soul Leech bug fix, so the *catalog* is structurally intact.
 - **Diabolist nerfed:** Chaos Salvo, Felseeker, Wicked Cleave and Eye Explosion
   all **−20%**; **Flames of Xoroth** now grants **+3%** Fire damage and demon
   damage (**was 4%**). None of these are rows in the table below (they are hero
-  procs) — they live in `diabolist-sequences.md`. ⚠ This file used to call
-  Diabolist the **M+ default**; that label predated the nerf and has **not** been
-  re-sourced against a post-12.1 sim or guide, so it has been dropped from the
-  Overview rather than restated. Treat the hero-tree pick as **open** and read
-  `builds.md` — do not lift one from the `maxroll-*.md` captures in this
-  directory, which are Tier 3 and still pre-12.1. It is a sim question, not an
-  in-game one: it resolves when `sims.md` is re-pulled at a 12.1 SHA.
+  procs) — they live in `diabolist-sequences.md`. ⚠ **The hero-tree pick is open.**
+  No post-12.1 sim or guide has ranked Diabolist since these nerfs, so this file names
+  no M+ default — read `builds.md`, and do not lift one from the `maxroll-*.md`
+  captures in this directory, which are Tier 3 and still pre-12.1. It is a sim
+  question, not an in-game one: it resolves when `sims.md` is re-pulled at a 12.1 SHA.
 - **Class-wide:** Drain Life health drain **+25%**.
 - **Soul Leech correctness pass** (matters because Soul Leech is the passive
   absorb backbone): Infernal Bolt, **Wild Imp / Imp Gang Boss Fel Firebolt**,
