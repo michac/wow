@@ -47,10 +47,14 @@ S{settled/spells-changed}
 - `blind:` counts conditions withheld because a read was unknown.
 - `E{}` names each enhanced entry, its emphasis, and any marker facts.
 - `R{known/total}` distinguishes a false answer from a refused read. The predicates are
-  `ready proc identity capped affordable resource`, always in that order — `capped` is the
-  charge-state read (`GetSpellCharges().isActive`) and `affordable` the power one
-  (`IsSpellUsable`'s second return). A spec that uses neither reports `0/0` for it, which is
-  not a failure.
+  `ready proc identity capped affordable resource talent aoe`, always in that order — `capped` is
+  the charge-state read (`GetSpellCharges().isActive`), `affordable` the power one
+  (`IsSpellUsable`'s second return), `talent` the trait-config read (`Talents.lua`, and the one
+  whose exact call is still marked `[gap]`), and `aoe` cap's **own** `/cap aoe` toggle rather than
+  a game read at all — it has no subject, so it is the one predicate that can never be refused by
+  the client. A spec that uses none of them reports `0/0` for it, which is not a failure.
+  ⚠ `talent` and `aoe` were added on 2026-08-17 and the group grew from six fields to eight, so a
+  capture taken before that date has a shorter `R{}` — grep by predicate name, never by position.
 - `W{}` is the **reason** each readable marker drew or was withheld — `E{}` and `R{}` say
   *what* and *how healthy*, `W{}` says *why*, so a flight answers "why is this marker firing"
   without back-deriving term values from the catalog. One `entry:marker:STATE(terms)` per
@@ -61,6 +65,13 @@ S{settled/spells-changed}
   the dedup body, so a change of *justification* emits a line even when the drawn set does not —
   which is how a readiness latch reading `true` is told apart from one reading unknown. Sealed
   (graded) markers never appear here; they are Channel's, reported in `C{}`.
+  ⚠ **And a sealed marker's readable GATE does not appear either — this is a blind spot, not a
+  design.** Since 2026-08-17 a sealed marker may carry `when` terms that decide whether the client
+  is allowed to paint it at all (`spec.md` §3.6, *one secret, many readable gates*). Those land in
+  `verdict.gates`, which nothing emits. So when a gated sealed badge does not draw, no stream says
+  whether the gate refused it, the curve read below its band, or the arm failed — `C{}` reports
+  `gated` for the first, but not which term did it. A gated hold that behaves oddly in play cannot
+  currently be diagnosed from a capture.
 - `Q{conflagrate:live|napkin|unknown}` records only charge provenance: `live` is an exact
   unrestricted seed; `napkin` is the bounded cast/alert estimate maintained after that seed.
 - `settled/...` names the bind-settle arm; `DARK` means combat began before a safe roster
@@ -112,11 +123,17 @@ A moving `P{}` with a blank screen points first to anchoring or treatment. Healt
 moment is a product failure even when every mechanical field is healthy — and while nothing draws
 for it, that failure is invisible in play and readable only here.
 
-## Anchor order — the D22 probe
+## Anchor order
 
-Written by `probes/AnchorOrder.lua` and armed by hand with `/capanchor on`; a `/reload` starts
-disarmed and the stream is silent until you arm it. `/capanchor off` restores Blizzard's layout.
-The probe and this section are deleted together when D22's verification lands.
+Written by `Anchor.lua`, which draws the Essential viewer's rows in the catalog's authored order.
+**This is shipped behaviour and on by default** — it arms itself a second after
+`PLAYER_ENTERING_WORLD`, so unlike every other stream here you do not arm it and the stream is
+never silent for want of a command. `/cap anchor [on|off|rows]` toggles it and reports the plan;
+the setting persists at `ns.db.anchor`.
+
+*(This section described a hand-armed probe, `probes/AnchorOrder.lua` with a `/capanchor` verb,
+until that probe was promoted into `Anchor.lua` on 2026-08-16. The stream format below is
+unchanged by the promotion.)*
 
 ```
 t120.4 # armed
@@ -130,7 +147,7 @@ t131.7 # stomp RefreshLayout destructive=1 combat=1
 - `P{}` is the **authored** order as cooldownIDs; `D{}` is the **drawn** order, read off each
   frame's `GetLeft()`. `X{ok}` means they agree; `X{MISMATCH}` means they do not, including when
   a frame's position could not be read.
-- `S{}` counts, for the session: `stomp` layout passes seen through the probe's own hooks,
+- `S{}` counts, for the session: `stomp` layout passes seen through `Anchor.lua`'s own hooks,
   `icombat` how many of those landed inside a pull, `disp` displacements attributable to one of
   those passes, `cont` displacements with no observed cause.
 
@@ -143,17 +160,17 @@ Marks:
 
 | Mark | Means |
 | --- | --- |
-| `# armed` / `# restored orphans=<n>` | the probe took and gave back the frames; a non-zero `orphans` is a bug — a frame left with no points |
+| `# armed` / `# restored orphans=<n>` | cap took and gave back the frames; a non-zero `orphans` is a bug — a frame left with no points |
 | `# combat start` / `# combat end` | the `PLAYER_REGEN_*` edge, which is where every `combat=` flag comes from |
 | `# stomp <source> destructive=<0\|1> combat=<0\|1>` | Blizzard's layout ran. `destructive=1` is `RefreshLayout`, which releases the frame pool, so the frames afterwards are new ones |
 | `# displaced n=<count> combat=<0\|1>` | frames left where cap put them, within the window after a stomp — **cap versus Blizzard's layout engine** |
-| `# contended n=<count> combat=<0\|1>` | frames moved with **no** preceding stomp — something that is neither cap nor Blizzard's layout engine is anchoring them, i.e. a re-anchoring Cooldown Manager addon. The claim is positional only; the probe names no addon |
+| `# contended n=<count> combat=<0\|1>` | frames moved with **no** preceding stomp — something that is neither cap nor Blizzard's layout engine is anchoring them, i.e. a re-anchoring Cooldown Manager addon. The claim is positional only; cap names no addon |
 | `# reapply why=<reason>` | cap re-applied its order, out of combat, after that event |
 
 **`# contended` changes what the flight measures.** A run carrying contention is measuring cap
-against another addon, not cap against the client, and its persistence result answers a different
-question than D22 asked. The probe says so in chat the first time it sees one, and `status` and the
-stream `Meta` carry the count.
+against another addon, not cap against the client, so its persistence result answers a different
+question than the one you asked. cap says so in chat the first time it sees one, and `status` and
+the stream `Meta` carry the count.
 
 `# stomp … combat=1` is the top persistence risk: `RefreshLayout` fires in a pull from the
 viewer's full-aura-update path, and cap never writes geometry in combat, so a destructive stomp
@@ -191,12 +208,14 @@ Then, and only then, the captures:
   reported as a blinking row.
 - `wowkb.capture cap draw` — `C{}` for the two graded cues and the CHARGES lane in `P{}`. Both
   say cap took the route it meant to.
-- `wowkb.capture cap tier` — `W{}` for **why a hold fired**. For The Hunt, grep
-  `the_hunt:hunt_awaits_meta`: an `on(...)` line names the readiness that held it (e.g.
-  `ready:the_hunt=T,ready:metamorphosis=T`); an `off(ready:metamorphosis=F)` line is Meta
-  reading on-cooldown, i.e. the hold correctly standing down. If the hold sits `on` with
-  `ready:metamorphosis=T` across the whole fight while Meta was being pressed on cooldown, the
-  readiness latch is stuck, not the gameplay rule — a bug, not a tuning question.
+- `wowkb.capture cap tier` — `W{}` for **why a readable hold fired**. ⚠ **The Hunt's hold is no
+  longer one of them.** It was a readable `ready:metamorphosis` marker until 2026-08-17; it is now
+  two sealed bands (Eye Beam far, Metamorphosis near) gated on Eternal Hunt, so
+  `the_hunt:hunt_awaits_meta` emits **no `W{}` line at all** and grepping for one finds nothing —
+  which reads exactly like a hold that never fired. Judge The Hunt by eye and by `C{}`'s
+  arm status; the gate blind spot above is why that is the only route.
+  The `W{}` route still works for the readable holds that remain, chiefly Metamorphosis's
+  `meta_wastes_eye_beam` and `meta_wastes_death_sweep`.
 
 **Tuning is expected and is a shelf edit.** Too many badges, too loud a badge, too eager a snap —
 change the numbers in `render-shelf.md` Part 6 and rebuild. A noisy first render is not a reason

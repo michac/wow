@@ -197,9 +197,9 @@ unrankable, and it stays corrected: the mechanism is V9, it works both ways, and
 break point without ever reading which side the value fell on. What is parked is *drawing* the
 positive half, not the ability to.
 
-⚠ **This is deliberately not the struck wording.** `notes.md:385-389` records that *"a positive cue
-is not a second visual language"* was struck from `spec.md` in the 2026-08-10 §3.1 cull, and
-nothing here revives it. That was a claim about what a cue **may be**; this is a claim about what
+⚠ **This is deliberately not the struck wording.** *"A positive cue is not a second visual
+language"* was struck from `spec.md` in the 2026-08-10 §3.1 cull (see *Struck visual rules* below)
+and nothing here revives it. That was a claim about what a cue **may be**; this is a claim about what
 the current style **chooses to draw**, in a document with no authority. The escape hatch is
 mechanical rather than editorial: `capart check` fails by name if any scenario stops leading the
 eye to its press by elimination alone (shelf Part 5).
@@ -299,8 +299,9 @@ unexercised for the same reason.
 - **An A/B toggle in the artifact.** Tempting — show both styles, decide by looking. Rejected:
   it turns the shelf back into a debate file, and it removes the pressure to actually choose. The
   loop is *edit the shelf, regenerate, look*; a toggle short-circuits the edit.
-- **A continuous grade.** A continuous brightness grade was tried and removed once already (see
-  `notes.md`); discrete lanes plus cue intensity is the contract `spec.md` §3.1 carries. *(Note the
+- **A continuous grade.** A continuous brightness grade was tried and removed once already, in the
+  2026-08-11 tier-preserving correction; discrete lanes plus cue intensity is the contract
+  `spec.md` §3.1 carries. *(Note the
   fourth **lane** is no longer in this bullet: CHARGES shipped with V2. A fourth discrete lane and a
   continuous grade were never the same proposal — the grade was rejected for having no rungs, and
   CHARGES is a rung.)*
@@ -316,3 +317,78 @@ unexercised for the same reason.
   returns zero. The conclusion was right for one of the two reasons it gave.)*
 - **Bundling the extracted sheets into the addon's `Media/`.** Referencing an atlas by name ships
   no asset and stays correct across patches. Extraction is for measuring and for the artifact.
+
+- **Desaturating the icon face.** `verdicts.starved.desaturate` was declared and then deleted on
+  2026-08-14 because it had no live path: in the `/cap style` gallery cap owns the texture, so
+  desaturating is free, but on a live row the icon is Blizzard's. The right reading is not "find cap
+  a legal way to desaturate" — **the Cooldown Manager already desaturates and re-tints on
+  usability** (`knowledge/addon-dev/cooldown-manager.md` :700, :755), so the token was cap proposing
+  to restate a signal the client draws for nothing. It existed only because the HTML artifact has no
+  Blizzard underneath it and had to draw its own de-emphasis, which then got filed as a cap
+  treatment. **cap's drawn primitives are the lane border and the corner badges; the icon face is
+  not one of them.** Revisit only if a flight shows the client's own dimming is too weak to read —
+  and then as a new shelf entry, not as this one restored.
+
+## Struck visual rules — the record of their removal
+
+These were normative in `spec.md` §3.1 and were struck in the **2026-08-10 cull**, whose test was
+*which principle is this downstream of?* **None of it is current, and none of it may be carried
+forward.** It is written down only so that a later reader who finds the phrasing in an old commit,
+a comment or a screenshot knows it was removed on purpose rather than lost.
+
+- The emphasis ladder being **monotone** in brightness and in pulse rate.
+- Each tier owning a **disjoint** brightness band.
+- A marker having a **fixed place**, with two of them per row.
+- ***"A positive cue is not a second visual language."***
+- The shared-row pick taking the **brighter of the two**.
+- The greyscale / colour-blind defence as a normative requirement.
+
+What replaced them named its root each time: the ladder is *ordered* rather than monotone (three
+emphasis levels are levels or they are three colours); a grade moves an entry only inside its own
+tier's range; and cap's emphasis must be **distinguishable** from the stock proc glow, which is
+strictly weaker than forbidding Blizzard's art — which is why the ring's atlas was left alone.
+
+⚠ Two of these carry a second lesson worth keeping.
+
+- **A cull can *add* a rule, and anything a cull introduces deserves the same test it applies to
+  what it removes.** *"Polarity is carried by shape — press and hold may never differ only in hue"*
+  entered during a **rule cull** whose entire purpose was cutting rules back to `spec.md` §1's three
+  principles. It was then implemented, written into §3.1's treatment table and restated in two
+  module headers, so within a week an unargued visual preference had three independent-looking
+  sources and read as settled.
+- **Striking the band rule broke one thing, and it took four lines to fix.** "Brighter" and "higher
+  tier" were the same sentence only because of the struck disjoint-band rule; with it gone, a graded
+  low tier could out-brighten a dim middle one and the shared-row pick could draw the *lower* tier.
+  `Treatment.Rank` was added to compare tier order first and emphasis only inside one tier.
+
+## Two things a preview must be, and the rules that follow from them
+
+**A preview must be lookable-at, so nothing may block a rebuild you want to look at.** A gate on a
+preview inverts what a preview is for: you reach for it precisely when something is wrong and you
+want to see what wrong looks like. That is why `capart build` carries only two hard failures — the
+tint guard and the closed verdict/roster vocabulary — and why the CI-shaped assertions live in a
+separate verb (`capart check`). The tint guard survives the rule because it does not block looking
+at a *mistake*, it blocks looking at a *lie*.
+
+**A preview must render the unflattering case, or it is a worse instrument than no preview.** The
+lab's badge entry computes its own overhang against the row gap and draws three adjacent icons, so
+"these collide" is something the artifact *shows* rather than something a caption claims. A lab that
+only renders the flattering case would have been a decoration.
+
+## Retiring a primitive: the rule that produced it is what has to go
+
+Recorded from the veil retirement of 2026-08-16, because the same shape will recur.
+
+The veil was **derived** — a row was veiled *iff* it wore a negative cue — so it could only ever
+restate what the badge already said, while stacking on Blizzard's own swipe and desaturation until a
+dark row was the sum of causes you could not separate. That argument was **checkable rather than
+rhetorical**, and the check is the reason to trust the deletion: the elimination gate resolved all
+13 scenarios to the same presses with the veil term gone, and stripping a negative cue from an
+eliminated entry still failed it. *A redundant signal is one whose removal changes no outcome and
+whose remaining signals still discriminate* — both halves were measured, not asserted.
+
+⚠ **The general lesson is about where an invariant hides.** Three of the sites that mattered were
+not in the plan: the derivation lived in `Treatment.lua` rather than in the renderer, the reading
+model was restated in the scenario doc as well as the shelf, and a cue's second sink was declared in
+the catalog. **A primitive is retired only when the rule that produced it is gone, and rules
+travel.**

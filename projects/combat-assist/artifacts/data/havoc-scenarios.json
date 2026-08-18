@@ -4,9 +4,95 @@
   "source": "projects/combat-assist/specs/havoc/scenarios.md",
   "scenarios": [
     {
+      "id": "ST-0",
+      "title": "Eye Beam — the clean walk",
+      "state": "Not transformed, Fury mid, <b>single-target mode</b>. <b>Eye Beam is ready.</b> Metamorphosis and The Hunt are on cooldown. <b>Immolation Aura has spent both charges</b>, so it is swiped. Nothing is in a window.",
+      "row": [
+        {
+          "name": "Vengeful Retreat",
+          "verdict": "weave"
+        },
+        {
+          "name": "Metamorphosis",
+          "verdict": "cd"
+        },
+        {
+          "name": "The Hunt",
+          "verdict": "cd"
+        },
+        {
+          "name": "Eye Beam",
+          "verdict": "press"
+        },
+        {
+          "name": "Essence Break",
+          "verdict": "below"
+        },
+        {
+          "name": "Blade Dance",
+          "verdict": "below"
+        },
+        {
+          "name": "Immolation Aura",
+          "verdict": "cd"
+        },
+        {
+          "name": "Chaos Strike",
+          "verdict": "below"
+        },
+        {
+          "name": "Felblade",
+          "verdict": "below"
+        },
+        {
+          "name": "Demon's Bite",
+          "verdict": "below"
+        },
+        {
+          "name": "Fel Rush",
+          "verdict": "below"
+        },
+        {
+          "name": "Throw Glaive",
+          "verdict": "below"
+        }
+      ],
+      "steps": [
+        {
+          "names": [
+            "Vengeful Retreat"
+          ],
+          "html": "<b>Vengeful Retreat</b> — off the GCD; weave it now, for free. Continue for the GCD press."
+        },
+        {
+          "names": [
+            "Metamorphosis",
+            "The Hunt"
+          ],
+          "html": "<b>Metamorphosis / The Hunt</b> — on cooldown → skip."
+        },
+        {
+          "names": [
+            "Eye Beam"
+          ],
+          "html": "<b>Eye Beam</b> — available, and <b>nothing rules it out</b> → <b>press.</b> Rung 14, and the button the whole rotation is built around keeping rolling."
+        }
+      ],
+      "extras": [
+        {
+          "label": "Eye-direction",
+          "html": "No cue does any work: the press is simply where an unobstructed left-to-right scan stops, and every button between the swipes and it is a button the walk had no reason to stop at. That is the plainest form of the reading model, which is why it is worth one scenario — not because it is a yardstick. - ⚠ <b>Do not read this as &quot;the row is normally empty.&quot;</b> A different Immolation Aura charge state would put the rung-25 skip badge on this very row (ST-12), and other buttons carry standing reasons of their own. Whether badges read as <b>events rather than wallpaper</b> is a claim about how often they fire <em>in play</em>; it is settled on a flight, not by picking a quiet scenario. - ⚠ <b>What no longer happens: a badge on every below-max charge.</b> An earlier draft red-badged Immolation Aura whenever it was recharging, which fires across the entire steady state. The current badge fires on a <em>rung</em> (25, and only when the button is pressable and there is a spender to be sent to), not on a charge count."
+        },
+        {
+          "label": "Cue set",
+          "html": "Readiness (R2) → <b>have</b>. Nothing else fires."
+        }
+      ]
+    },
+    {
       "id": "ST-1",
       "title": "Metamorphosis — the reset is banked",
-      "state": "Not transformed, Fury ~50. Vengeful Retreat and Metamorphosis are up; <b>Eye Beam and Blade Dance are both on cooldown</b>. The Hunt is up. Nothing is in a window.",
+      "state": "Not transformed, Fury ~50. Vengeful Retreat and Metamorphosis are up. <b>Eye Beam is on cooldown with well over 8s left, and Blade Dance is on cooldown.</b> The Hunt is up.",
       "row": [
         {
           "name": "Vengeful Retreat",
@@ -26,18 +112,18 @@
         },
         {
           "name": "Essence Break",
-          "verdict": "cd"
+          "verdict": "below"
         },
         {
           "name": "Blade Dance",
           "verdict": "cd"
         },
         {
-          "name": "Chaos Strike",
+          "name": "Immolation Aura",
           "verdict": "below"
         },
         {
-          "name": "Immolation Aura",
+          "name": "Chaos Strike",
           "verdict": "below"
         },
         {
@@ -50,6 +136,10 @@
         },
         {
           "name": "Fel Rush",
+          "verdict": "below"
+        },
+        {
+          "name": "Throw Glaive",
           "verdict": "below"
         }
       ],
@@ -64,24 +154,126 @@
           "names": [
             "Metamorphosis"
           ],
-          "html": "<b>Metamorphosis</b> — available, and <b>nothing rules it out</b>. Both of its reset targets are on cooldown, so the C1 dependency mark stays dark: the reset banks two casts. It is the first button the scan reaches with no swipe and no badge → <b>press.</b>"
+          "html": "<b>Metamorphosis</b> — available, and nothing cap can see rules it out. The half of rung 3 the catalog covers is <code>!cooldown.blade_dance.up &amp; cooldown.eye_beam.remains&gt;8</code>, and both terms are satisfied, so all three of its markers stay dark: the reset banks two casts. It is the first button the scan reaches with no swipe and no badge → <b>press.</b>"
         }
       ],
       "extras": [
         {
           "label": "Eye-direction",
-          "html": "Meta&#x27;s <em>own</em> readiness didn&#x27;t decide it — the state of the two abilities it <em>resets</em> did, and it decided it <b>by not objecting</b>. This is the plainest case of the reading model: cap draws nothing on the press at all, and the press is simply where an unobstructed left-to-right scan stops. The dependency comparison is still happening and is still readable; it just has nothing to say when the answer is &quot;go.&quot; <em>(Until 2026-08-13 this row carried two green <code>go</code> dots, and the argument here was that they &quot;say <b>why</b> it is go.&quot; That was a positive cue — the vocabulary is now negative by default, so the same fact is expressed by silence, and ST-2 below is where it becomes visible.)</em>"
+          "html": "Meta&#x27;s <em>own</em> readiness didn&#x27;t decide it — the state of the two abilities it <em>resets</em> did, and it decided it <b>by not objecting</b>. The dependency comparison is still happening; it just has nothing to say when the answer is &quot;go.&quot; ST-2 and ST-3 are the same fact speaking. - ⚠ <b>The three markers are a SLICE of rung 3, and one hold is missing entirely.</b> The full rung is <code>(!talent.chaotic_transformation | !cooldown.blade_dance.up &amp; cooldown.eye_beam.remains&gt;8) &amp; !action.death_sweep.demonsurge_available &amp; !action.annihilation.demonsurge_available</code>. Those two Demonsurge terms — <em>don&#x27;t recast Metamorphosis while empowered casts are still owed</em> — are a third real hold, and cap draws nothing for it. It is <b>open</b>, not covered: whether an ability&#x27;s empowered state is readable is unmeasured (see the gaps table). Read &quot;nothing rules it out&quot; here as <em>nothing cap can see</em>, which is the honest reading everywhere in this file."
         },
         {
           "label": "Cue set",
-          "html": "Readiness (R2) → <b>have</b>. Reset dependency mark — Eye Beam &amp; Death Sweep cooldowns (R7, readable) → <b>have</b>, drawn only in its blocking state (ST-2)."
+          "html": "Readiness (R2) → <b>have</b>. Reset marks — Blade Dance ready and Eye Beam ready (readable, R2 + R7) → <b>have</b>. Reset band — Eye Beam&#x27;s cooldown ≤8s (C2, S4) → <b>sealed</b>. All three drawn only in their blocking state."
         }
       ]
     },
     {
       "id": "ST-2",
-      "title": "Eye Beam — Metamorphosis waits (the counter)",
-      "state": "Same as ST-1, but **Eye Beam is *ready*** (Blade Dance still on cooldown). Meta is up.",
+      "title": "Metamorphosis held — Eye Beam ≤8s out",
+      "state": "Deviation from ST-0. Metamorphosis is <b>up</b>, Blade Dance is on cooldown, and <b>Eye Beam&#x27;s cooldown has ~6s left</b>. The Hunt is on cooldown. Essence Break is up.",
+      "row": [
+        {
+          "name": "Vengeful Retreat",
+          "verdict": "hold-sealed",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "Metamorphosis",
+          "verdict": "hold-sealed",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "The Hunt",
+          "verdict": "cd"
+        },
+        {
+          "name": "Eye Beam",
+          "verdict": "cd"
+        },
+        {
+          "name": "Essence Break",
+          "verdict": "press"
+        },
+        {
+          "name": "Blade Dance",
+          "verdict": "cd"
+        },
+        {
+          "name": "Immolation Aura",
+          "verdict": "below"
+        },
+        {
+          "name": "Chaos Strike",
+          "verdict": "below"
+        },
+        {
+          "name": "Felblade",
+          "verdict": "below"
+        },
+        {
+          "name": "Demon's Bite",
+          "verdict": "below"
+        },
+        {
+          "name": "Fel Rush",
+          "verdict": "below"
+        },
+        {
+          "name": "Throw Glaive",
+          "verdict": "below"
+        }
+      ],
+      "steps": [
+        {
+          "names": [
+            "Vengeful Retreat"
+          ],
+          "html": "<b>Vengeful Retreat</b> — available, and its own <code>blocked</code> badge lights for the same reason Metamorphosis&#x27;s does: Eye Beam is inside the 8s band, so the retreat is worth holding a moment to weave into it. Off the GCD, so it does not compete for the press either way."
+        },
+        {
+          "names": [
+            "Metamorphosis"
+          ],
+          "html": "<b>Metamorphosis</b> — available, but the <b><code>blocked</code> badge lights</b>: Eye Beam returns in ~6s, inside the authored 8s band, so the reset would be thrown away on a cooldown about to come back by itself. Reads <code>hold-sealed</code> → skip."
+        },
+        {
+          "names": [
+            "The Hunt",
+            "Eye Beam"
+          ],
+          "html": "<b>The Hunt / Eye Beam</b> — on cooldown → skip."
+        },
+        {
+          "names": [
+            "Essence Break"
+          ],
+          "html": "<b>Essence Break</b> — available, and Eye Beam&#x27;s remaining is <b>more than 4s</b>, so its own hold band is dark → <b>press.</b> Rung 17."
+        }
+      ],
+      "extras": [
+        {
+          "label": "Eye-direction",
+          "html": "⚠ <b>This is the scenario that did not previously exist</b>, and the reason it had to. The old marker was <code>!cooldown.eye_beam.up</code> — Eye Beam <em>ready</em>. The APL&#x27;s term is <code>cooldown.eye_beam.remains&gt;8</code>, which is a clock, and a clock is secret. So the hold is now the same red badge driven by a curve the client evaluates: cap hands over the 8s band and never learns where inside it the value fell."
+        },
+        {
+          "label": "Counter",
+          "html": "With Eye Beam <b>ready</b> instead of 6s out, Metamorphosis wears the same badge from a <em>readable</em> marker and reads <code>hold-readable</code>; the press moves to Eye Beam. ⚠ <b>Both markers are needed and neither is redundant.</b> The sealed band deliberately reads nothing at zero remaining, and Metamorphosis sits at position 2 — <b>left of</b> Eye Beam — so a quiet Meta would be pressed before the eye ever reached Eye Beam. Essence Break, sitting to Eye Beam&#x27;s <em>right</em>, needs only the band; elimination covers its zero case. Row position decides which halves a hold needs."
+        },
+        {
+          "label": "Cue set",
+          "html": "Reset band — Eye Beam cooldown ≤8s (C2, S4) → <b>sealed</b>. Reset mark — Eye Beam ready (C1) → <b>have</b>, the counter above. Both name one cue and union into one badge."
+        }
+      ]
+    },
+    {
+      "id": "ST-3",
+      "title": "Metamorphosis held — Blade Dance is ready",
+      "state": "Not transformed. Metamorphosis is up; <b>Blade Dance is ready</b>. Eye Beam is on cooldown with well over 8s left. The Hunt and Essence Break are on cooldown.",
       "row": [
         {
           "name": "Vengeful Retreat",
@@ -100,7 +292,7 @@
         },
         {
           "name": "Eye Beam",
-          "verdict": "press"
+          "verdict": "cd"
         },
         {
           "name": "Essence Break",
@@ -108,14 +300,14 @@
         },
         {
           "name": "Blade Dance",
-          "verdict": "cd"
-        },
-        {
-          "name": "Chaos Strike",
-          "verdict": "below"
+          "verdict": "press"
         },
         {
           "name": "Immolation Aura",
+          "verdict": "below"
+        },
+        {
+          "name": "Chaos Strike",
           "verdict": "below"
         },
         {
@@ -128,6 +320,10 @@
         },
         {
           "name": "Fel Rush",
+          "verdict": "below"
+        },
+        {
+          "name": "Throw Glaive",
           "verdict": "below"
         }
       ],
@@ -142,36 +338,38 @@
           "names": [
             "Metamorphosis"
           ],
-          "html": "<b>Metamorphosis</b> — available, but the <b><code>blocked</code> badge lights</b>: Eye Beam is ready, so resetting it would waste the reset. Meta reads <code>hold-readable</code> — a red badge saying <em>why</em> → skip."
+          "html": "<b>Metamorphosis</b> — available, but the <b><code>blocked</code> badge lights</b> from a readable fact: Blade Dance is ready, so half the reset would be wasted (<code>!cooldown.blade_dance.up</code> in rung 3). Reads <code>hold-readable</code> → skip."
         },
         {
           "names": [
-            "The Hunt"
+            "The Hunt",
+            "Eye Beam",
+            "Essence Break"
           ],
-          "html": "<b>The Hunt</b> — on cooldown → skip."
+          "html": "<b>The Hunt / Eye Beam / Essence Break</b> — on cooldown → skip."
         },
         {
           "names": [
-            "Eye Beam"
+            "Blade Dance"
           ],
-          "html": "<b>Eye Beam</b> — available, no skip-reason → <b>press.</b> Cast it now; Meta resets it a moment later for a banked second cast."
+          "html": "<b>Blade Dance</b> — available and affordable → <b>press.</b> Spend the charge Meta would have wasted; Meta becomes correct the moment it is down."
         }
       ],
       "extras": [
         {
           "label": "Eye-direction",
-          "html": "The mirror of ST-1, and the strongest demonstration: cap re-ranks the press from a <em>readable relationship</em> between two buttons, computing nothing."
+          "html": "The plainest demonstration that cap re-ranks the press from a <em>readable relationship between two buttons</em>, computing nothing. ✅ This marker is the one the APL re-source confirmed <b>unchanged</b> — <code>!cooldown.blade_dance.up</code>, exactly as authored."
         },
         {
           "label": "Cue set",
-          "html": "Readiness (R2) → <b>have</b>. Reset dependency mark — Eye Beam cooldown (R7, readable) → <b>have</b>. This is the scenario where that mark actually draws; ST-1 is the same fact, silent."
+          "html": "Readiness (R2) → <b>have</b>. Reset mark — Blade Dance ready (C1, readable) → <b>have</b>. Affordability (A) → <b>have</b>."
         }
       ]
     },
     {
-      "id": "ST-3",
-      "title": "The Hunt — Metamorphosis is down",
-      "state": "Not transformed. The Hunt is up; <b>Metamorphosis is on cooldown</b>. Eye Beam on cooldown. Fury mid.",
+      "id": "ST-4",
+      "title": "The Hunt — Metamorphosis is ready, so cast it",
+      "state": "Not transformed. The Hunt is up. <b>Metamorphosis is ready</b>, and <b>Blade Dance is ready too</b>, so Meta itself is held. Eye Beam is on cooldown, ~12s out.",
       "row": [
         {
           "name": "Vengeful Retreat",
@@ -179,7 +377,10 @@
         },
         {
           "name": "Metamorphosis",
-          "verdict": "cd"
+          "verdict": "hold-readable",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "The Hunt",
@@ -191,18 +392,18 @@
         },
         {
           "name": "Essence Break",
-          "verdict": "cd"
+          "verdict": "below"
         },
         {
           "name": "Blade Dance",
           "verdict": "below"
         },
         {
-          "name": "Chaos Strike",
+          "name": "Immolation Aura",
           "verdict": "below"
         },
         {
-          "name": "Immolation Aura",
+          "name": "Chaos Strike",
           "verdict": "below"
         },
         {
@@ -215,6 +416,98 @@
         },
         {
           "name": "Fel Rush",
+          "verdict": "below"
+        },
+        {
+          "name": "Throw Glaive",
+          "verdict": "below"
+        }
+      ],
+      "steps": [
+        {
+          "names": [
+            "Vengeful Retreat"
+          ],
+          "html": "<b>Vengeful Retreat</b> — weave, off-GCD."
+        },
+        {
+          "names": [
+            "Metamorphosis"
+          ],
+          "html": "<b>Metamorphosis</b> — held: Blade Dance is ready (ST-3&#x27;s mark) → skip."
+        },
+        {
+          "names": [
+            "The Hunt"
+          ],
+          "html": "<b>The Hunt</b> — available, and <b>its hold band is dark</b>: rung 4&#x27;s second disjunct is <code>!cooldown.eye_beam.up &amp; cooldown.metamorphosis.up</code>, and Meta being <em>ready</em> is exactly the state that says <b>cast</b>. Eternal Hunt&#x27;s empower will land on the Eye Beam that Metamorphosis is about to reset → <b>press.</b>"
+        }
+      ],
+      "extras": [
+        {
+          "label": "Eye-direction",
+          "html": "⚠ <b>The polarity here is the inverse of what an earlier draft asserted.</b> The old marker held The Hunt <em>because</em> Meta was available. The APL casts on that state. The rule was not merely mis-tuned, it pointed the wrong way, and the flight finding that the badge &quot;fired almost constantly&quot; was the symptom: Meta is a ~2-minute cooldown the player sits on, so a hold keyed to its readiness is lit most of the fight."
+        },
+        {
+          "label": "Cue set",
+          "html": "Readiness (R2) → <b>have</b>. Sync-hold band — Meta cooldown ≤15s (C2, S4) → <b>sealed</b>, and <b>dark here</b>, which is the point."
+        }
+      ]
+    },
+    {
+      "id": "ST-5",
+      "title": "The Hunt held — Metamorphosis ≤15s away",
+      "state": "Not transformed. The Hunt is up. <b>Metamorphosis&#x27;s cooldown has ~12s left.</b> Eye Beam is ready.",
+      "row": [
+        {
+          "name": "Vengeful Retreat",
+          "verdict": "weave"
+        },
+        {
+          "name": "Metamorphosis",
+          "verdict": "cd"
+        },
+        {
+          "name": "The Hunt",
+          "verdict": "hold-sealed",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "Eye Beam",
+          "verdict": "press"
+        },
+        {
+          "name": "Essence Break",
+          "verdict": "below"
+        },
+        {
+          "name": "Blade Dance",
+          "verdict": "below"
+        },
+        {
+          "name": "Immolation Aura",
+          "verdict": "below"
+        },
+        {
+          "name": "Chaos Strike",
+          "verdict": "below"
+        },
+        {
+          "name": "Felblade",
+          "verdict": "below"
+        },
+        {
+          "name": "Demon's Bite",
+          "verdict": "below"
+        },
+        {
+          "name": "Fel Rush",
+          "verdict": "below"
+        },
+        {
+          "name": "Throw Glaive",
           "verdict": "below"
         }
       ],
@@ -235,28 +528,38 @@
           "names": [
             "The Hunt"
           ],
-          "html": "<b>The Hunt</b> — available, and its sync-hold mark stays dark: it reads <b>Meta&#x27;s cooldown state</b>, Meta is on cooldown, so there is no upcoming window to save The Hunt for. Nothing rules it out → <b>press.</b>"
+          "html": "<b>The Hunt</b> — available, but the <b><code>blocked</code> badge lights</b>: Meta is ~12s away, inside the authored 15s band, and rung 4 wants <code>cooldown.metamorphosis.remains&gt;15</code> before spending The Hunt bare. Save the empower for the Eye Beam Meta will reset. Reads <code>hold-sealed</code> → skip. <em>(Eye Beam is ready here, so the other band — Eye Beam <b>far</b> — is dark; either alone raises the same badge.)</em>"
+        },
+        {
+          "names": [
+            "Eye Beam"
+          ],
+          "html": "<b>Eye Beam</b> — available, nothing rules it out → <b>press.</b> ST-0&#x27;s press, reached with one badge on the row instead of none."
         }
       ],
       "extras": [
         {
           "label": "Eye-direction",
-          "html": "By elimination, exactly as ST-1: the mark&#x27;s <em>absence</em> is the signal, which <code>../spec.md</code> §3.1 already blesses (<em>&quot;an un-held, ready cooldown is directed-to precisely because the hold mark is <b>not</b> drawn&quot;</em>). <em>(An earlier draft argued the press from a green <code>go</code> dot here. Same fact, opposite polarity, and the negative-by-default vocabulary keeps only the half that fires when something is wrong.)</em>"
+          "html": "<b>This is the least intuitive line in the whole APL and it is invisible without the badge.</b> Holding a two-charge-worth cooldown while it sits lit and ready is not something a player discovers; the badge is the only thing that says the window is coming."
         },
         {
-          "label": "Counter",
-          "html": "If Metamorphosis were <em>up</em>, The Hunt would read <code>hold-readable</code> and wear the red <code>blocked</code> badge — hold, to save The Hunt to buff Abyssal Gaze inside the coming Meta window (the guide&#x27;s &quot;hold if Metamorphosis is available&quot;). You would skip The Hunt and press the next GCD button. <b>That counter is the state this mark exists for</b>, and it is unchanged."
+          "label": "Counter — the OTHER hold, and the commoner one",
+          "html": "With Metamorphosis simply <b>down</b> and Eye Beam <b>far</b> (≥10s), The Hunt wears the same badge from the other band. That is most of a 90s cooldown&#x27;s return moments, and it is where the cost bites hardest: cast here and Eternal Hunt&#x27;s empower burns up to ~20s before the Eye Beam it was saved for. An earlier draft had only the Meta band and missed this entirely."
+        },
+        {
+          "label": "Both bands are gated on Eternal Hunt",
+          "html": "Without that talent rung 4 is unconditional and there is no hold at all, so a badge would be asserting a rule this build has not got. This is the <code>talent</code> predicate&#x27;s first use outside Immolation Aura, and it works because **a graded cue may curve on exactly one secret while being gated on as many <em>readable</em> facts as you like** — the Eye-Beam-far band additionally stands down while Metamorphosis is <em>ready</em>, since that is the APL&#x27;s other cast case. - ⚠ <b>Still a slice, not rung 4&#x27;s literal negation.</b> Each band is a sound subset of the hold; the union covers more of it than either alone, and neither ever fires when the APL would cast."
         },
         {
           "label": "Cue set",
-          "html": "Readiness (R2) → <b>have</b>. Sync-hold mark — Meta cooldown state (R7, readable) → <b>have</b>, drawn only in the counter. <em>(Corrects an earlier draft that made this a sealed Essence-Break-window hold — the live guide&#x27;s hold is Meta-availability, which cap reads directly.)</em>"
+          "html": "Readiness (R2) → <b>have</b>. Two sync-hold bands — Eye Beam <b>beyond</b> 10s and Meta <b>within</b> 15s (C2, S4) → <b>sealed</b>, gated on Eternal Hunt (F) → <b>have</b>. ⚠ Both widths are <b>authored guesses until flown</b>."
         }
       ]
     },
     {
-      "id": "ST-4",
-      "title": "Death Sweep — flood the window (demon-form override)",
-      "state": "<b>Transformed — Metamorphosis is active.</b> You have just opened an Essence Break window with Fury banked. Eye Beam (→ Abyssal Gaze) and Essence Break are on cooldown.",
+      "id": "ST-6",
+      "title": "Death Sweep — flood the Essence Break window (demon-form override)",
+      "state": "<b>Transformed — Metamorphosis is active.</b> You have just opened an Essence Break window. Abyssal Gaze and Essence Break are on cooldown.",
       "row": [
         {
           "name": "Vengeful Retreat",
@@ -283,11 +586,11 @@
           "verdict": "press-promoted"
         },
         {
-          "name": "Annihilation",
+          "name": "Consuming Fire",
           "verdict": "below"
         },
         {
-          "name": "Consuming Fire",
+          "name": "Annihilation",
           "verdict": "below"
         },
         {
@@ -300,6 +603,10 @@
         },
         {
           "name": "Fel Rush",
+          "verdict": "below"
+        },
+        {
+          "name": "Throw Glaive",
           "verdict": "below"
         }
       ],
@@ -323,13 +630,13 @@
           "names": [
             "Death Sweep"
           ],
-          "html": "<b>Death Sweep</b> — available, and nothing rules it out → <b>press.</b> Flood the window. The readable <b>demon-form window</b> is <em>why</em> it belongs here (promoted &gt; lit COOLDOWN, <code>../spec.md</code> §3.1) — but note the ranking argument does no work in this particular state: everything above it is on cooldown, so elimination alone reaches it. The promotion would matter in a state where a COOLDOWN button were also up, and that is the state a flight should build if it wants to test whether the promotion needs to be <em>drawn</em>."
+          "html": "<b>Death Sweep</b> — available, and nothing rules it out → <b>press.</b> Rung 12, <code>death_sweep,if=debuff.essence_break.up</code>, which is six rungs above the baseline Death Sweep at 18 — the promotion the APL performs and cap can only imply. The readable <b>demon-form window</b> is <em>why</em> it belongs here (promoted &gt; lit COOLDOWN, <code>../spec.md</code> §3.1) — but the ranking argument does no work in this particular state: everything above it is on cooldown, so elimination alone reaches it. The promotion would matter in a state where a COOLDOWN button were also up, and that is the state a flight should build if it wants to test whether the promotion needs to be <em>drawn</em>."
         }
       ],
       "extras": [
         {
           "label": "Fidelity",
-          "html": "This is the override showcase: the row now reads <em>Abyssal Gaze · Death Sweep · Annihilation · Consuming Fire</em>. cap authors none of it — R7 resolves the live <code>overrideSpellID</code>, so the CDM shows precisely what the client shows."
+          "html": "This is the override showcase: the row reads <em>Abyssal Gaze · Death Sweep · Consuming Fire · Annihilation</em>. cap authors none of it — R7 resolves the live <code>overrideSpellID</code>, so the CDM shows precisely what the client shows."
         },
         {
           "label": "Cue set",
@@ -338,9 +645,9 @@
       ]
     },
     {
-      "id": "ST-5",
-      "title": "Essence Break — open the window (sealed cues)",
-      "state": "Not transformed, <b>Fury banked (≥35)</b>, no window live. Essence Break is up. Eye Beam&#x27;s cooldown has <b>more than 4s</b> remaining (safe to open).",
+      "id": "ST-7",
+      "title": "Essence Break — open the window",
+      "state": "Not transformed, no window live. Essence Break is up. <b>Eye Beam&#x27;s cooldown has ~12s remaining</b> — comfortably past the 4s that would hold Essence Break, and past the 8s that would hold Vengeful Retreat. Everything above is on cooldown.",
       "row": [
         {
           "name": "Vengeful Retreat",
@@ -367,11 +674,11 @@
           "verdict": "below"
         },
         {
-          "name": "Chaos Strike",
+          "name": "Immolation Aura",
           "verdict": "below"
         },
         {
-          "name": "Immolation Aura",
+          "name": "Chaos Strike",
           "verdict": "below"
         },
         {
@@ -385,6 +692,10 @@
         {
           "name": "Fel Rush",
           "verdict": "below"
+        },
+        {
+          "name": "Throw Glaive",
+          "verdict": "below"
         }
       ],
       "steps": [
@@ -397,38 +708,128 @@
         {
           "names": [
             "Metamorphosis",
-            "The Hunt"
-          ],
-          "html": "<b>Metamorphosis / The Hunt</b> — on cooldown → skip."
-        },
-        {
-          "names": [
+            "The Hunt",
             "Eye Beam"
           ],
-          "html": "<b>Eye Beam</b> — on cooldown, long remaining → skip."
+          "html": "<b>Metamorphosis / The Hunt / Eye Beam</b> — on cooldown → skip."
         },
         {
           "names": [
             "Essence Break"
           ],
-          "html": "<b>Essence Break</b> — available, and nothing rules it out → <b>press</b>, then flood the ~4s window with Death Sweep + Annihilation. ⚠ The <b>banked</b> cue — the client evaluating secret Fury against an authored break point (35 / maxFury, S1) and painting the result — is <b>parked</b>, not drawn: the shelf&#x27;s one positive cue is spent on impending loss (charges capped, ST-8), and &quot;you have enough&quot; is a statement about <b>rank</b> — which elimination already carries (<code>../render-shelf.md</code> Part 0.5). It stays expressible in exactly the sense <code>catalog.md</code> records; what is deferred is drawing it. The press here is carried by elimination and player judgment, which is what the cue-set note below already said it would ship on."
+          "html": "<b>Essence Break</b> — available, and nothing rules it out → <b>press</b>, then flood the window with Death Sweep + Annihilation (ST-6). - ⚠ <b>There is no Fury precondition on Essence Break.</b> An earlier draft specified — and parked — a positive &quot;banked ≥35&quot; cue on this button. The APL carries <b>no Fury term on Essence Break at all</b>; the number came from prose. It is <b>deleted, not deferred</b>, and the vocabulary is one parked positive lighter for it."
         }
       ],
       "extras": [
         {
-          "label": "Counter",
-          "html": "If Eye Beam&#x27;s cooldown had <b>≤4s</b> remaining instead, Essence Break would read <code>hold-sealed</code> — don&#x27;t clip the window into Eye Beam. That hold rides a sealed duration (S4 curve on Eye Beam&#x27;s cooldown), painted client-side; cap never reads the clock. You would skip Essence Break, spend the baseline spender, and open the window after Eye Beam."
-        },
-        {
           "label": "Cue set",
-          "html": "Readiness (R2) → <b>have</b>. Banked-Fury ≥35 threshold (S1 positive, painted) → <b>open + parked</b> <em>(unmeasured <b>and</b> outside the drawn cue vocabulary; the press ships on readiness + player judgment, no banked light — which is what this line already said)</em>. Sealed hold — Eye Beam CD ≤4s (C2, S4) → <b>sealed</b>, drawn as the red <code>blocked</code> badge in the counter above."
+          "html": "Readiness (R2) → <b>have</b>. Sealed hold — Eye Beam CD ≤4s (C2, S4) → <b>sealed</b>, drawn in ST-8. ✅ The <code>&gt;4</code> itself is the one number Icy Veins was already giving, now confirmed Tier 1."
         }
       ]
     },
     {
-      "id": "ST-6",
-      "title": "Death Sweep / Blade Dance — the baseline spender",
-      "state": "Not transformed, Fury mid (affordable). <b>Every cooldown above is on cooldown.</b> Immolation Aura is not full.",
+      "id": "ST-8",
+      "title": "Essence Break held — Eye Beam ≤4s",
+      "state": "Deviation from ST-7: <b>Eye Beam&#x27;s cooldown has ~2s left</b> instead of more than 4s. Blade Dance is up and affordable.",
+      "row": [
+        {
+          "name": "Vengeful Retreat",
+          "verdict": "hold-sealed",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "Metamorphosis",
+          "verdict": "cd"
+        },
+        {
+          "name": "The Hunt",
+          "verdict": "cd"
+        },
+        {
+          "name": "Eye Beam",
+          "verdict": "cd"
+        },
+        {
+          "name": "Essence Break",
+          "verdict": "hold-sealed",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "Blade Dance",
+          "verdict": "press"
+        },
+        {
+          "name": "Immolation Aura",
+          "verdict": "below"
+        },
+        {
+          "name": "Chaos Strike",
+          "verdict": "below"
+        },
+        {
+          "name": "Felblade",
+          "verdict": "below"
+        },
+        {
+          "name": "Demon's Bite",
+          "verdict": "below"
+        },
+        {
+          "name": "Fel Rush",
+          "verdict": "below"
+        },
+        {
+          "name": "Throw Glaive",
+          "verdict": "below"
+        }
+      ],
+      "steps": [
+        {
+          "names": [
+            "Vengeful Retreat"
+          ],
+          "html": "<b>Vengeful Retreat</b> — available, and <b>held</b>: its <code>blocked</code> badge is lit, because Eye Beam is inside the 8s band. ⚠ <em>Not</em> &quot;weave it now, for free&quot; — an earlier draft said that and it was wrong by the APL as well as by the Lua. The Eye Beam weave wants <code>cooldown.eye_beam.remains&lt;gcd.max*0.3</code> — about <b>0.45s</b>, not two seconds — and the Meta path wants Metamorphosis ready, which it is not. Two seconds out is <em>nearly</em>, and nearly is what the badge is for."
+        },
+        {
+          "names": [
+            "Metamorphosis",
+            "The Hunt",
+            "Eye Beam"
+          ],
+          "html": "<b>Metamorphosis / The Hunt / Eye Beam</b> — on cooldown → skip."
+        },
+        {
+          "names": [
+            "Essence Break"
+          ],
+          "html": "<b>Essence Break</b> — available, but the <b><code>blocked</code> badge lights</b>: Eye Beam returns in ~2s, inside the authored 4s band, and opening now would clip the amp window into Eye Beam. Reads <code>hold-sealed</code> → skip."
+        },
+        {
+          "names": [
+            "Blade Dance"
+          ],
+          "html": "<b>Blade Dance</b> — available and affordable → <b>press.</b> Spend the baseline spender and open the window after Eye Beam."
+        }
+      ],
+      "extras": [
+        {
+          "label": "Eye-direction",
+          "html": "The archetype of a sealed hold: the fact is a <em>clock</em>, cap never reads it, and the badge still appears <b>before</b> the thing it is waiting for arrives. Anticipation is expressible without cap knowing the number."
+        },
+        {
+          "label": "Cue set",
+          "html": "Sealed hold — Eye Beam CD ≤4s (C2, S4) → <b>sealed</b>. Affordability (A) → <b>have</b>."
+        }
+      ]
+    },
+    {
+      "id": "ST-9",
+      "title": "Blade Dance / Death Sweep — the baseline spender",
+      "state": "Not transformed, Fury mid (affordable). <b>Every cooldown above is on cooldown</b>, including Vengeful Retreat. Immolation Aura is recharging.",
       "row": [
         {
           "name": "Vengeful Retreat",
@@ -455,11 +856,11 @@
           "verdict": "press"
         },
         {
-          "name": "Chaos Strike",
+          "name": "Immolation Aura",
           "verdict": "below"
         },
         {
-          "name": "Immolation Aura",
+          "name": "Chaos Strike",
           "verdict": "below"
         },
         {
@@ -472,6 +873,10 @@
         },
         {
           "name": "Fel Rush",
+          "verdict": "below"
+        },
+        {
+          "name": "Throw Glaive",
           "verdict": "below"
         }
       ],
@@ -490,7 +895,7 @@
           "names": [
             "Blade Dance"
           ],
-          "html": "<b>Blade Dance</b> — available and affordable → <b>press.</b> The ordinary spender; it wins <b>by elimination</b> — nothing above it is up, and it needs no cue of its own."
+          "html": "<b>Blade Dance</b> — available and affordable → <b>press.</b> Rung 18/19, the ordinary spender; it wins <b>by elimination</b> — nothing above it is up, and it needs no cue of its own."
         }
       ],
       "extras": [
@@ -500,14 +905,105 @@
         },
         {
           "label": "Cue set",
-          "html": "Readiness (R2) → <b>have</b>. Affordability (A) → <b>have</b> <em>(dims if Fury-starved — see ST-7)</em>."
+          "html": "Readiness (R2) → <b>have</b>. Affordability (A) → <b>have</b> <em>(dims if Fury-starved — see ST-11)</em>."
         }
       ]
     },
     {
-      "id": "ST-7",
-      "title": "Felblade — Fury-starved (affordability, with overcap counter)",
-      "state": "Not transformed, <b>Fury low</b>, no cooldown up, Immolation not full.",
+      "id": "ST-10",
+      "title": "Immolation Aura — the charges are capped",
+      "state": "Not transformed, <b>A Fire Inside and Burning Wound both taken</b>, Immolation Aura at <b>full (2/2)</b>. Everything above it — Metamorphosis and The Hunt included — is on cooldown. Fury mid. Single-target mode, and it does not matter, which is the point.",
+      "row": [
+        {
+          "name": "Vengeful Retreat",
+          "verdict": "cd"
+        },
+        {
+          "name": "Metamorphosis",
+          "verdict": "cd"
+        },
+        {
+          "name": "The Hunt",
+          "verdict": "cd"
+        },
+        {
+          "name": "Eye Beam",
+          "verdict": "cd"
+        },
+        {
+          "name": "Essence Break",
+          "verdict": "cd"
+        },
+        {
+          "name": "Blade Dance",
+          "verdict": "cd"
+        },
+        {
+          "name": "Immolation Aura",
+          "verdict": "press",
+          "cues": [
+            "capped"
+          ]
+        },
+        {
+          "name": "Chaos Strike",
+          "verdict": "below"
+        },
+        {
+          "name": "Felblade",
+          "verdict": "below"
+        },
+        {
+          "name": "Demon's Bite",
+          "verdict": "below"
+        },
+        {
+          "name": "Fel Rush",
+          "verdict": "below"
+        },
+        {
+          "name": "Throw Glaive",
+          "verdict": "below"
+        }
+      ],
+      "steps": [
+        {
+          "names": [
+            "Vengeful Retreat",
+            "Metamorphosis",
+            "The Hunt",
+            "Eye Beam",
+            "Essence Break",
+            "Blade Dance"
+          ],
+          "html": "Everything above, <b>including Blade Dance</b>, is on cooldown → skip."
+        },
+        {
+          "names": [
+            "Immolation Aura"
+          ],
+          "html": "<b>Immolation Aura</b> — its charges <b>read full</b> (<code>isActive</code> is <code>false</code>, and <code>NeverSecret</code>), so the second charge is not recharging and time on it is being thrown away → <b>press.</b> Rung 10 is exactly this: <code>charges=2</code> spends the surplus rather than sitting on it. - ⚠ <b>This is the row that carries the vocabulary&#x27;s one positive cue, and rung 10 is why it earns the exception.</b> Rung 10 carries <b>no target term</b> — a banked charge outranks the spenders, and Eye Beam, at any target count. Row position cannot express that: encoding rung 10 would demand a slot above Eye Beam in <em>every</em> state, which is wrong in the far commoner state where no charge is banked. A cue that jumps the queue on a condition is exactly what pass 1 of the reading model is, so the gold badge is not decoration on top of elimination — <b>it is the only thing carrying rung 10.</b> - ⚠ <b>Rung 10 is not the top of the list, and the badge is gated accordingly.</b> It sits <em>below</em> rung 3 (Metamorphosis) and rung 4 (The Hunt), so with a charge banked and either of those <b>ready</b>, the APL presses those — and a positive cue, which overrides the elimination scan by design, would be pointing straight past them. Two readable terms fix it: the badge fires only while Metamorphosis is <b>not</b> ready and The Hunt is <b>not</b> ready. That is the general shape — <b>one secret, many readable gates</b> — and anywhere a cue looks over-eager, a missing readable gate is the first thing to check."
+        }
+      ],
+      "extras": [
+        {
+          "label": "The talent gate",
+          "html": "The badge fires only with <b>both</b> of rung 10&#x27;s talents, A Fire Inside <em>and</em> Burning Wound, read from the trait config. Without them the rung does not exist and the badge would be asserting a rank this build has not got. ⚠ <b>The gate is not there to stop a badge that would otherwise be stuck on.</b> An earlier draft said a one-charge Immolation Aura would wear this badge for the whole fight; it would not. <code>Sense.readCapped</code> returns <code>nil</code> when <code>maxCharges &lt;= 1</code> — a guard that long predates this work — so on such a build <code>capped</code> is <b>UNKNOWN</b>, and unknown withholds. The badge would have been <em>blind</em>, not lit. What the gate buys is that the behaviour is <b>deliberate</b> rather than an accident of a guard elsewhere in the engine: it is stated where the rule is, and it survives someone changing that guard."
+        },
+        {
+          "label": "This is the scenario the reading chain was fixed for",
+          "html": "Here elimination happens to reach Immolation Aura too, so both passes agree. In the state where Eye Beam or Essence Break sits clean to its left, they do not — pass 1 says Immolation Aura, pass 2 says the button on the left, and <b>pass 1 is right</b>, because rung 10 outranks rung 14 and no row position can say so. <code>capart check</code> used to demand both passes name the same press, which made that row unrepresentable; since 2026-08-17 it runs the passes as the ordered chain Part 0.5 defines."
+        },
+        {
+          "label": "Cue set",
+          "html": "Immolation&#x27;s charge state (<code>GetSpellCharges().isActive</code>, <code>NeverSecret</code>) → <b>have</b>, drawn in the capped direction only <em>(open-to-confirm: does that read behave the same on Havoc&#x27;s row in instanced combat? OBS-066 measured Conflagrate)</em>. Talent gate (F) → <b>have</b>, with the exact trait-config call marked <code>[gap]</code> — unmeasured, and unknown-safe, so a refusal costs the badge rather than inventing one. Cooldown gates — Metamorphosis and The Hunt readiness (R2) → <b>have</b>."
+        }
+      ]
+    },
+    {
+      "id": "ST-11",
+      "title": "Felblade — Fury-starved",
+      "state": "Not transformed, <b>Fury low</b> (~25 — under Chaos Strike&#x27;s cost), no cooldown up, and <b>Immolation Aura has no charges left</b>.",
       "row": [
         {
           "name": "Vengeful Retreat",
@@ -534,15 +1030,12 @@
           "verdict": "starved"
         },
         {
-          "name": "Chaos Strike",
-          "verdict": "starved"
+          "name": "Immolation Aura",
+          "verdict": "cd"
         },
         {
-          "name": "Immolation Aura",
-          "verdict": "hold-readable",
-          "cues": [
-            "blocked"
-          ]
+          "name": "Chaos Strike",
+          "verdict": "starved"
         },
         {
           "name": "Felblade",
@@ -554,6 +1047,10 @@
         },
         {
           "name": "Fel Rush",
+          "verdict": "below"
+        },
+        {
+          "name": "Throw Glaive",
           "verdict": "below"
         }
       ],
@@ -576,122 +1073,38 @@
         },
         {
           "names": [
-            "Chaos Strike"
+            "Immolation Aura"
           ],
-          "html": "<b>Chaos Strike</b> — same, <code>starved</code> → skip."
+          "html": "<b>Immolation Aura</b> — no charges left → swiped by the CDM → skip."
         },
         {
           "names": [
-            "Immolation Aura"
+            "Chaos Strike"
           ],
-          "html": "<b>Immolation Aura</b> — available, but its charges are <b>not</b> at full, so a press spends a charge that is already recharging: it reads <code>hold-readable</code> and wears the red <code>blocked</code> badge → skip."
+          "html": "<b>Chaos Strike</b> — same as Blade Dance, <code>starved</code> → skip."
         },
         {
           "names": [
             "Felblade"
           ],
-          "html": "<b>Felblade</b> — a generator with no Fury cost, so it is never unaffordable; it keeps its emphasis while the spenders lose theirs → <b>press.</b> Rebuild Fury; the generator correctly rises past the starved spenders because the field around it fell away."
-        }
-      ],
-      "extras": [
-        {
-          "label": "Counter",
-          "html": "With Fury <b>near cap</b> instead, the same Felblade reads <code>overcap</code> (cue B, negative) — pressing it would waste Fury. You skip the generator and spend a spender. The break point is authored (S1); the client paints it; cap reads nothing."
-        },
-        {
-          "label": "Cue set",
-          "html": "Readiness (R2) → <b>have</b>. Affordability (A) → <b>have</b>. Immolation hold-below-full (<code>isActive</code>) → <b>have</b>. Overcap readout (B, S1 negative) → <b>sealed</b>."
-        }
-      ]
-    },
-    {
-      "id": "ST-8",
-      "title": "Immolation Aura — don't cap the charges",
-      "state": "Not transformed, Immolation Aura at <b>full (2/2</b> with A Fire Inside<b>)</b>. The spenders are on cooldown (just spent). Fury mid.",
-      "row": [
-        {
-          "name": "Vengeful Retreat",
-          "verdict": "cd"
-        },
-        {
-          "name": "Metamorphosis",
-          "verdict": "cd"
-        },
-        {
-          "name": "The Hunt",
-          "verdict": "cd"
-        },
-        {
-          "name": "Eye Beam",
-          "verdict": "cd"
-        },
-        {
-          "name": "Essence Break",
-          "verdict": "cd"
-        },
-        {
-          "name": "Blade Dance",
-          "verdict": "cd"
-        },
-        {
-          "name": "Chaos Strike",
-          "verdict": "cd"
-        },
-        {
-          "name": "Immolation Aura",
-          "verdict": "press",
-          "cues": [
-            "capped"
-          ]
-        },
-        {
-          "name": "Felblade",
-          "verdict": "below"
-        },
-        {
-          "name": "Demon's Bite",
-          "verdict": "below"
-        },
-        {
-          "name": "Fel Rush",
-          "verdict": "below"
-        }
-      ],
-      "steps": [
-        {
-          "names": [
-            "Vengeful Retreat",
-            "Metamorphosis",
-            "The Hunt",
-            "Eye Beam",
-            "Essence Break",
-            "Blade Dance",
-            "Chaos Strike"
-          ],
-          "html": "Everything above, <b>including both spenders</b>, is on cooldown → skip."
-        },
-        {
-          "names": [
-            "Immolation Aura"
-          ],
-          "html": "<b>Immolation Aura</b> — its charges <b>read full</b> (R6: the charge count reads plain <em>only</em> at max), so cap emphasises it as &quot;spend it&quot; → <b>press.</b> Don&#x27;t waste a charge; dump both before Meta so A Fire Inside / Demonic Intensity refunds them."
+          "html": "<b>Felblade</b> — a generator with no Fury cost, so it is never unaffordable; it keeps its emphasis while the spenders lose theirs → <b>press.</b> Rung 22/24. Rebuild Fury; the generator correctly rises past the starved spenders because the field around it fell away."
         }
       ],
       "extras": [
         {
           "label": "Eye-direction",
-          "html": "Below full the button reads <code>hold-readable</code> and wears the red <code>blocked</code> badge: hold the charge you have and let the second one come back. <code>isActive</code> carries <b>both</b> halves of that — it is <code>NeverSecret</code>, <code>false</code> at max and <code>true</code> below it — so this row has a readable opinion in either direction, and neither half is a guess about a secret count. - ⚠ <b>This is the row that carries the vocabulary&#x27;s one positive cue.</b> Elimination alone already reaches Immolation Aura here — everything to its left is on cooldown — so the gold <code>capped</code> badge is <b>not</b> what leads the eye, and the scenario would still pass the gate without it. It is doing a different job: the fact it reports is <em>impending loss</em>, which is urgent independently of rank, and rank is the only thing a left-to-right scan can express. See <code>../render-shelf.md</code> Part 0.5."
+          "html": "The generator is reached by <em>subtraction</em>: nothing promotes it, two things above it demote themselves. ⚠ Note <b>Immolation Aura has to be genuinely out of charges</b> for the walk to pass it, and this is the one state the single-target skip cannot cover: the skip requires Chaos Strike to be <b>affordable</b> (it means <em>press the spender instead</em>), and here it is not. With a charge banked the row would stop at Immolation Aura while the APL presses Felblade at rung 22. Narrow, and mild — Immolation Aura generates Fury too. <code>catalog.md</code>, misordering 1."
         },
         {
           "label": "Cue set",
-          "html": "Immolation&#x27;s charge state (<code>GetSpellCharges().isActive</code>, <code>NeverSecret</code>) → <b>have</b>, and it answers in both directions: false at max is this scenario&#x27;s gold <code>capped</code> badge, true below max is the red <code>blocked</code> one of ST-7 <em>(open-to-confirm: does that read behave the same on Havoc&#x27;s row in instanced combat? OBS-066 measured Conflagrate)</em>."
+          "html": "Readiness (R2) → <b>have</b>. Affordability (A) → <b>have</b>. Fury break-point readout (B, S1) → <b>sealed</b>, and <b>dark here</b>: at ~25 Fury nothing is near any break."
         }
       ]
     },
     {
-      "id": "ST-9",
-      "title": "Annihilation / Chaos Strike — the raw dump (elimination, low)",
-      "state": "Not transformed, <b>Fury flush</b>, no window live. Blade Dance is on cooldown; Immolation not full.",
+      "id": "ST-12",
+      "title": "Chaos Strike — the single-target skip does real work",
+      "state": "Not transformed, <b>single-target mode</b>, <b>Fury flush (~150 of 170)</b>, no window live. Blade Dance is on cooldown. <b>Immolation Aura has one charge banked</b> — available, and not capped. A Fire Inside is taken.",
       "row": [
         {
           "name": "Vengeful Retreat",
@@ -716,10 +1129,6 @@
         {
           "name": "Blade Dance",
           "verdict": "cd"
-        },
-        {
-          "name": "Chaos Strike",
-          "verdict": "press"
         },
         {
           "name": "Immolation Aura",
@@ -729,6 +1138,10 @@
           ]
         },
         {
+          "name": "Chaos Strike",
+          "verdict": "press"
+        },
+        {
           "name": "Felblade",
           "verdict": "overcap"
         },
@@ -738,6 +1151,10 @@
         },
         {
           "name": "Fel Rush",
+          "verdict": "below"
+        },
+        {
+          "name": "Throw Glaive",
           "verdict": "below"
         }
       ],
@@ -751,108 +1168,40 @@
             "Essence Break",
             "Blade Dance"
           ],
-          "html": "Everything above, and Blade Dance, is on cooldown → skip."
+          "html": "Everything above Immolation Aura is on cooldown → skip."
+        },
+        {
+          "names": [
+            "Immolation Aura"
+          ],
+          "html": "<b>Immolation Aura</b> — available, but the <b><code>blocked</code> badge lights</b>. At one target with no charge banked, Immolation Aura&#x27;s rung is <b>25</b> — <em>below</em> Chaos Strike&#x27;s 23 — and row position 7 says the opposite, so the badge is what corrects it. Reads <code>hold-readable</code> → skip."
         },
         {
           "names": [
             "Chaos Strike"
           ],
-          "html": "<b>Chaos Strike</b> — available and affordable (Fury flush) → <b>press.</b> The raw dump lives near the <em>bottom</em> of the list; it is the press only <b>by elimination</b> — it is the only emphasised spender — and cap gives it <b>no more</b> than its baseline lane treatment. It wins by being alone."
+          "html": "<b>Chaos Strike</b> — available and affordable (Fury flush) → <b>press.</b> Rung 21/23. The raw dump lives near the <em>bottom</em> of the list; cap gives it <b>no more</b> than its baseline lane treatment. It wins because everything above it either swiped or badged itself out. - ⚠ <b>This is the AoE re-weight, and it is the same row as AoE-1 with one toggle flipped.</b> Read the two together: the badge is the <em>only</em> difference, and it moves the press from Chaos Strike to Immolation Aura. cap has no readable enemy count and would not compute one — the <code>aoe</code> predicate is cap&#x27;s <b>own</b> <code>/cap aoe</code> toggle, so there is no secret here and nothing to measure. - ⚠ <b>Four terms, and each one is load-bearing.</b> Drop <code>!aoe</code> and the badge fires in AoE mode, where rung 20 makes position 7 correct. Drop <code>ready</code> and it stands on a greyed-out recharging icon the player was never going to press — <code>Treatment.For</code> passes cues through for swiped rows, so nothing else was stopping it. Drop <code>affordable(chaos_strike)</code> and it fires when there is no spender to be sent to (ST-11). Drop the rung-10 term and it fights the gold badge on the same button. - ⚠ <b>That last term is authored as THREE markers unioned</b> — <code>!capped</code>, <code>!a_fire_inside</code>, <code>!burning_wound</code> — because it means <code>!(capped &amp; a_fire_inside &amp; burning_wound)</code>, the exact negation of the gold badge&#x27;s own rung-10 test, and a marker&#x27;s grammar is AND-only. Union is the OR: <code>!(P &amp; Q &amp; R)</code> is three markers, <code>P &amp; Q &amp; R</code> is one. A bare <code>!capped</code> would not do, for a reason that is easy to get backwards — <code>Sense.readCapped</code> returns <code>nil</code> when <code>maxCharges &lt;= 1</code>, so on a build without A Fire Inside <code>capped</code> is <b>UNKNOWN</b>, and <code>!unknown</code> is still unknown. The single marker would be permanently <b>blind</b> there and the skip would never draw at all. The talent halves are what answer in that state."
         }
       ],
       "extras": [
         {
           "label": "Eye-direction",
-          "html": "The reason cap must <em>not</em> over-emphasise the bottom: the raw dump stands out only relative to a quieter field. The generators to its right read <code>overcap</code> (Fury is flush), so the eye is pushed <em>toward</em> spending, not generating. Were Fury low, Chaos Strike would read <code>starved</code> (cue A) and a generator would rise past it (ST-7)."
+          "html": "The reason cap must <em>not</em> over-emphasise the bottom: the raw dump stands out only relative to a quieter field. The generators to its right read <code>overcap</code>, so the eye is pushed <em>toward</em> spending, not generating. Were Fury low, Chaos Strike would read <code>starved</code>, the Immolation Aura badge would clear with it, and the walk would land differently (ST-11)."
+        },
+        {
+          "label": "Counter",
+          "html": "Felblade breaks at <b><code>100 / maxFury</code> ≈ 59 %</b>, straight off rung 22 (<code>felblade,if=hero_tree.felscarred&amp;fury&lt;=100</code>); Demon&#x27;s Bite breaks at <b><code>(maxFury − 25) / maxFury</code> ≈ 85 %</b>, a true-overcap number off the authored generation table. ⚠ Felblade&#x27;s is <b>not an overcap number and never was</b> — rung 22 is a <em>promotion</em> rule, putting Felblade above Chaos Strike while Fury is low, and the badge draws its negation. The earlier ≈91 % figure was authored from the overcap formula and matched no source. - ⚠ <b>This badge is informational, not eliminating, and always has been.</b> Felblade sits at position 9, to the right of Chaos Strike; the walk only reaches it when Chaos Strike is unaffordable — under ~40 Fury, far below either break. So no generator&#x27;s <code>overcap</code> badge has ever changed which button elimination reaches. Correcting the number makes the readout <em>true</em>, not louder. - ⚠ <b>And a documented misordering runs the other way.</b> Rung 22 puts Felblade <b>above</b> Chaos Strike whenever Fury ≤ 100; this row puts it below, using Felblade&#x27;s unconditional rung 24. Fury is secret, so the promotion is not expressible as an <em>order</em> — only as this readout, which speaks in the opposite direction. <code>catalog.md</code>, misordering 3."
         },
         {
           "label": "Cue set",
-          "html": "Readiness (R2) → <b>have</b>. Affordability (A) → <b>have</b>. Overcap readout on the generators (B) → <b>sealed</b>."
-        }
-      ]
-    },
-    {
-      "id": "ST-10",
-      "title": "Fel Rush — last-resort filler",
-      "state": "Not transformed. Both spenders were just spent and are on cooldown, Immolation Aura is not full, and Fury is flush — so both generators would waste it.",
-      "row": [
-        {
-          "name": "Vengeful Retreat",
-          "verdict": "cd"
-        },
-        {
-          "name": "Metamorphosis",
-          "verdict": "cd"
-        },
-        {
-          "name": "The Hunt",
-          "verdict": "cd"
-        },
-        {
-          "name": "Eye Beam",
-          "verdict": "cd"
-        },
-        {
-          "name": "Essence Break",
-          "verdict": "cd"
-        },
-        {
-          "name": "Blade Dance",
-          "verdict": "cd"
-        },
-        {
-          "name": "Chaos Strike",
-          "verdict": "cd"
-        },
-        {
-          "name": "Immolation Aura",
-          "verdict": "hold-readable",
-          "cues": [
-            "blocked"
-          ]
-        },
-        {
-          "name": "Felblade",
-          "verdict": "overcap"
-        },
-        {
-          "name": "Demon's Bite",
-          "verdict": "overcap"
-        },
-        {
-          "name": "Fel Rush",
-          "verdict": "press"
-        }
-      ],
-      "steps": [
-        {
-          "names": [
-            "Vengeful Retreat",
-            "Metamorphosis",
-            "The Hunt",
-            "Eye Beam",
-            "Essence Break",
-            "Blade Dance",
-            "Chaos Strike",
-            "Immolation Aura",
-            "Felblade",
-            "Demon's Bite",
-            "Fel Rush"
-          ],
-          "html": "Every cooldown and both spenders are on cooldown; Immolation Aura is held below full; both generators read <code>overcap</code> → skip → <b>Fel Rush</b> is all that is left → <b>press.</b> The fallback has <b>no signal of its own</b>; the eye lands here purely by elimination. <em>(An earlier draft wrote this row as an ellipsis — &quot;every rotation button cd / starved&quot; — which no state actually produces: a generator has no Fury cost and so can never be <code>starved</code>. The row above is the state that genuinely reaches the filler.)</em>"
-        }
-      ],
-      "extras": [
-        {
-          "label": "Cue set",
-          "html": "Readiness (R2) → <b>have</b>. <em>(Throw Glaive is not in the Fel-Scarred priority — a rare filler unless Screaming Brutality routes it through Blade Dance; with Serrated Glaive it buffs </em>you* for 12s, a candidate buff-maintenance marker, open.)<em> --- ## AoE / cleave variants (3+ targets) The AoE list shares the same row and only <b>re-weights the middle</b> — the single-target raw spender drops, and Immolation Aura + Blade Dance/Death Sweep rise. It adds <b>no new cues.</b> The re-weight is selected by the <b>player&#x27;s AoE-mode input</b> (<code>../spec.md</code> §2 — the player sets single-target or AoE), </em>not* by a readable target count (cap has no readable enemy count and would not compute one). So these are the ST scenarios above with the mode input shifting which button the walk reaches first."
+          "html": "Readiness (R2) → <b>have</b>. Affordability (A) → <b>have</b>. Fury break-point readout on both generators (B, S1) → <b>sealed</b>. --- ## The Vengeful Retreat sequences — compositions, not row states This is the material the row cannot hold, and the reason it gets a section rather than a scenario. <b>Every case below is a composition of scenarios already walked above</b>, so <b>none of them adds an elimination-gate obligation</b> and none appears in <code>capart check</code>&#x27;s count. That is precisely why they are documented as a family: they are what the row <em>produces over time</em>, not a state it is ever in. <b>Framing.</b> Vengeful Retreat is off the GCD, so it is never <em>the</em> press — but it is also not a free on-cooldown weave. Rung 5 is <b>alignment-gated</b>, two disjuncts: ``<code> the Eye Beam weave: gcd.remains&lt;0.3 &amp; cooldown.metamorphosis.remains &amp; cooldown.eye_beam.remains&lt;gcd.max*0.3 &amp; !buff.initiative.up the Meta path: cooldown.metamorphosis.up &amp; cooldown.eye_beam.remains &amp; cooldown.blade_dance.remains &amp; !buff.eternal_hunt.up </code>`<code> In the normal flow the alignment arrives about when Vengeful Retreat returns, which is why &quot;press on cooldown&quot; reads as true. It is not: when Eye Beam and Metamorphosis are both far away, the APL sits on it. cap expresses the actionable slice of that with <b>two sealed bands unioned onto one </code>blocked<code> badge</b> — </code>vr_awaits_eye_beam<code> (Eye Beam ≤8s) and </code>vr_awaits_meta<code> (Meta ≤4s). The player reads one meaning: <b>hold, something is coming.</b> | # | State | Sequence | Steps | | --- | --- | --- | --- | | <b>VR-1</b> | Eye Beam ready, The Hunt down | VR → Eye Beam | the Eye Beam weave fires (</code>remains<code> 0 satisfies </code>&lt;gcd.max*0.3<code>) · then <b>ST-0</b> | | <b>VR-2a</b> | The Hunt + Eye Beam ready, <b>Meta &gt;15s away</b> | VR → The Hunt → Eye Beam | <b>ST-4</b> · <b>ST-0</b>. Eternal Hunt&#x27;s empower lands on that Eye Beam | | <b>VR-2b</b> | The Hunt + Eye Beam ready, <b>Meta ≤15s away</b> | VR → Eye Beam <em>(The Hunt held)</em> | <b>ST-5</b> · <b>ST-0</b>. The empower is saved for the Eye Beam that Meta will reset — the least intuitive line in the APL, and invisible without the hold badge | | <b>VR-3</b> | Eye Beam down, Meta ready | VR → Meta → Abyssal Gaze | <b>ST-1</b> · <b>ST-0</b>. Note the Meta path <em>and</em> rung 3 both require Blade Dance on cooldown | | <b>VR-4</b> | Eye Beam down, Meta + The Hunt ready | VR → Meta → The Hunt → Abyssal Gaze | <b>ST-1</b> · <b>ST-4</b> · <b>ST-0</b>. After Meta, rung 4&#x27;s <em>first</em> disjunct fires — Eye Beam has been reset to 0 (</code>remains&lt;10<code>) and Metamorphosis has just gone on a full cooldown (</code>remains&gt;15<code>). ⚠ a Demonsurge Death Sweep may interleave — verify in play | | <b>VR-5</b> | Only Felblade available | the APL holds VR → Felblade | Neither disjunct is satisfiable. ⚠ <b>cap draws nothing</b> — see below | | <b>VR-6</b> | Everything far away | the APL holds VR → the raw spender | Same. ⚠ <b>cap draws nothing</b> — see below | ⚠ <b>VR-5 and VR-6 are the two cases cap cannot express, and they are listed to say so.</b> The authored bands light while Eye Beam is ≤8s <b>or</b> Metamorphosis is ≤4s; the APL&#x27;s hold in these two rows is the opposite — <em>both</em> are far. Expressing it needs a <b>conjunction of two sealed facts</b>, and the grammar has no way to write one: a marker carries one </code>display<code>, and two markers union rather than intersect. Nothing prevents authoring an inverted band per ability (the mechanism gained that sense on 2026-08-17 — Eye Beam <b>beyond</b> 10s is exactly it), but two of them would OR, which is the wrong operator. So in an everything-is-far state <b>Vengeful Retreat draws clean</b>, and the player is not told to hold it. That is a gap, stated rather than papered over. ⚠ <b>And VR-1 through VR-4 are compositions of the ST scenarios only in their GCD presses.</b> Each cited scenario has Vengeful Retreat either woven or swiped — none of them shows it <em>held</em> — so the citations describe the sequence the row produces, not a row state in which the retreat itself is badged. ST-2 and ST-8 are the two scenarios where the retreat&#x27;s badge is actually drawn. <b>Without Chaotic Transformation</b>, VR-3 and VR-4 dissolve — Metamorphosis stops resetting Eye Beam, rung 3 goes unconditional, and Meta becomes a plain on-cooldown press. VR-1, VR-2 and VR-5/6 are unaffected, running off Eye Beam and Eternal Hunt. <b>Three things the bands do not claim:</b> 1. <b>Neither band is the APL&#x27;s literal condition.</b> Authored literally, &quot;everything that is not one of these two alignments&quot; is a negative badge lit across the whole steady state — the failure that retired the below-max Immolation Aura badge (ST-0). These narrow bands are the <b>actionable slice</b>, authored the same way Felblade&#x27;s break point is. 2. <b>The widths price a real cost.</b> Every second Vengeful Retreat is held is Initiative uptime not gained. 8s and 4s are guesses until flown. 3. <b>It may fire less than expected.</b> Cycle of Hatred shaves 2.5s off Eye Beam per cast, stacking to 10s; at full stacks Eye Beam (~20s) is <em>shorter</em> than Vengeful Retreat (~25s), so Eye Beam waits on Vengeful Retreat and the badge never lights. Airtime is build- and stack-dependent. ⚠ **One correction for the record: nothing in the APL is held <em>for</em> Vengeful Retreat.** It is the reverse — Vengeful Retreat waits on Eye Beam or Metamorphosis. Practically that is mild, since its ~25s cooldown and Eye Beam&#x27;s ~30s are close enough that pressing it when it is up usually lands in the right place. <em>&quot;Press on cooldown, ideally just before Eye Beam&quot;</em> is a fair player-facing rule, and the badge is the &quot;ideally&quot; half made visible. <b>What this section proves</b>, and why it belongs here rather than in </code>rotation.md<code>: the sequence is never <em>named</em> by cap. Each step is reached because everything above it is wearing a hold badge, and each badge clears on a fact about a <em>different</em> button. The player is never told the order — everything that is not the order is removed. Anticipation is real and expressible, because a hold badge appears <b>before</b> the thing it waits for arrives. --- ## AoE / cleave variants ⚠ <b>The Fel-Scarred priority has exactly one target-count term</b> — rung 20&#x27;s </code>active_enemies&gt;1<code> — and it moves exactly one button. <em>(Rung 11 carries </code>active_enemies&gt;=2<code> as well, but it is Aldrachi-Reaver-gated and so is not on this list; an earlier draft said &quot;the entire 25-line priority&quot;, which overstates it.)</em> 12.1 deleted Havoc&#x27;s AoE branching, so the three AoE scenarios an earlier draft carried collapse to one. <b>And it is delivered.</b> An earlier draft of this file, and of </code>catalog.md<code>, said cap could not draw an AoE re-weight because &quot;the row&#x27;s order is the client&#x27;s&quot;. That premise stopped being true when </code>Anchor.lua` shipped (2026-08-16): the row is re-anchored to the authored order, on by default. The argument had a second flaw independent of the first — it surveyed only <b>positive</b> treatments (&quot;show that Immolation Aura matters more here&quot;), found none the shelf allows, and wrote that down as an impossibility. The negative route was always open: <b>mark Immolation Aura skippable when AoE mode is off.</b> Same information, opposite polarity, and it fits a negative-by-default vocabulary without asking the shelf for anything new."
         }
       ]
     },
     {
       "id": "AoE-1",
-      "title": "Immolation Aura — pressed more aggressively",
-      "state": "",
+      "title": "Immolation Aura — the only target-count term in the APL",
+      "state": "<b>ST-12&#x27;s state exactly, with the mode toggle flipped to AoE.</b> Two or more targets. Not transformed, Fury flush, every cooldown and Blade Dance on cooldown, <b>Immolation Aura holding one charge</b> (not capped), A Fire Inside taken.",
       "row": [
         {
           "name": "Vengeful Retreat",
@@ -875,160 +1224,31 @@
           "verdict": "cd"
         },
         {
-          "name": "Immolation Aura",
-          "verdict": "press",
-          "cues": [
-            "capped"
-          ]
-        },
-        {
           "name": "Blade Dance",
-          "verdict": "below"
-        },
-        {
-          "name": "Felblade",
-          "verdict": "below"
-        },
-        {
-          "name": "Demon's Bite",
-          "verdict": "below"
-        },
-        {
-          "name": "Chaos Strike",
-          "verdict": "below"
-        },
-        {
-          "name": "Fel Rush",
-          "verdict": "below"
-        }
-      ],
-      "steps": [],
-      "extras": [
-        {
-          "label": "Delta",
-          "html": "In AoE mode Immolation Aura is a top source, pressed harder than the single &quot;don&#x27;t cap at 2&quot; rule. cap&#x27;s cue is unchanged — the readable-at-full &quot;don&#x27;t cap&quot; signal (R6) still fires; the <em>press-it-more</em> is the <b>AoE-mode input</b>, not a new cue and not a computed count."
-        },
-        {
-          "label": "Cue set",
-          "html": "Immolation&#x27;s charge state (<code>isActive</code>) → <b>have</b>. AoE-mode weighting → mode input, <b>not a cue</b> — and one cap cannot draw, since the row&#x27;s order is the client&#x27;s."
-        }
-      ]
-    },
-    {
-      "id": "AoE-2",
-      "title": "Blade Dance / Death Sweep — primary",
-      "state": "",
-      "row": [
-        {
-          "name": "Vengeful Retreat",
-          "verdict": "weave"
-        },
-        {
-          "name": "Metamorphosis",
-          "verdict": "cd"
-        },
-        {
-          "name": "The Hunt",
-          "verdict": "cd"
-        },
-        {
-          "name": "Abyssal Gaze",
-          "verdict": "cd"
-        },
-        {
-          "name": "Essence Break",
-          "verdict": "cd"
-        },
-        {
-          "name": "Consuming Fire",
-          "verdict": "hold-readable",
-          "cues": [
-            "blocked"
-          ]
-        },
-        {
-          "name": "Death Sweep",
-          "verdict": "press-promoted"
-        },
-        {
-          "name": "Felblade",
-          "verdict": "below"
-        },
-        {
-          "name": "Demon's Bite",
-          "verdict": "below"
-        },
-        {
-          "name": "Annihilation",
-          "verdict": "below"
-        },
-        {
-          "name": "Fel Rush",
-          "verdict": "below"
-        }
-      ],
-      "steps": [],
-      "extras": [
-        {
-          "label": "Delta",
-          "html": "In AoE mode these rise to primary (they trigger Glaive Tempest at 3+). The rise is the AoE-mode input; the demon-form promotion (D) still stacks on top when transformed, and the single-target Chaos Strike dump falls beneath it."
-        },
-        {
-          "label": "Cue set",
-          "html": "Readiness (R2) → <b>have</b>. Demon-form promotion (D) → <b>have</b>. AoE-mode weighting → mode input, <b>not a cue</b>."
-        }
-      ]
-    },
-    {
-      "id": "AoE-3",
-      "title": "Chaos Strike / Annihilation — de-emphasised",
-      "state": "",
-      "row": [
-        {
-          "name": "Vengeful Retreat",
-          "verdict": "cd"
-        },
-        {
-          "name": "Metamorphosis",
-          "verdict": "cd"
-        },
-        {
-          "name": "The Hunt",
-          "verdict": "cd"
-        },
-        {
-          "name": "Eye Beam",
-          "verdict": "cd"
-        },
-        {
-          "name": "Essence Break",
           "verdict": "cd"
         },
         {
           "name": "Immolation Aura",
-          "verdict": "hold-readable",
-          "cues": [
-            "blocked"
-          ]
-        },
-        {
-          "name": "Blade Dance",
           "verdict": "press"
         },
         {
-          "name": "Felblade",
-          "verdict": "below"
-        },
-        {
-          "name": "Demon's Bite",
-          "verdict": "below"
-        },
-        {
           "name": "Chaos Strike",
           "verdict": "below"
         },
         {
+          "name": "Felblade",
+          "verdict": "overcap"
+        },
+        {
+          "name": "Demon's Bite",
+          "verdict": "overcap"
+        },
+        {
           "name": "Fel Rush",
+          "verdict": "below"
+        },
+        {
+          "name": "Throw Glaive",
           "verdict": "below"
         }
       ],
@@ -1036,11 +1256,11 @@
       "extras": [
         {
           "label": "Delta",
-          "html": "In AoE mode the single-target dump drops <em>further</em> beneath Blade Dance — spend into Blade Dance instead. The AoE-mode input <b>re-ranks</b> an already-by-elimination button (ST-9) below the generators; the re-rank is the narrowing, no new cue."
+          "html": "Rung 20 — <code>immolation_aura,if=active_enemies&gt;1&amp;(talent.a_fire_inside|talent.burning_wound)</code> — puts Immolation Aura <b>above</b> Chaos Strike (rung 21/23), which is what row position 7 encodes. So in AoE mode the row is already right and there is nothing to say: the single-target skip badge clears, and the walk reaches Immolation Aura on its own. <b>Compare the row below with ST-12&#x27;s line by line — one badge is the entire difference, and it moves the press.</b>"
         },
         {
           "label": "Cue set",
-          "html": "Readiness (R2) → <b>have</b>. Affordability (A) → <b>have</b>. AoE-mode weighting → mode input, <b>not a cue</b>. <em>(Still reached only by elimination, just lower.)</em> <em>(Burning-Wound tab-targeting and the Meta + Essence Break AoE burst add no cap cue: tab-targeting is target selection cap does not hint, and the Meta/EB burst is the same COOLDOWN readiness as ST.)</em> --- ## What the walk surfaced — cue completeness + gaps <b>Complete cue set for comprehensive coverage (have / sealed):</b> readiness (R2), affordability (A), readable hold / dependency marks C1 (incl. the reset mark and the sync-hold mark), sealed hold C2, demon-form promotion (D), Immolation-at-full (R6), overcap readout (B negative), banked-Fury threshold (S1 positive), identity re-skin (R7), and the demon-form bar. Plus <b>two non-cue mechanisms</b> the walk made explicit: the <b>emphasis-intensity hierarchy</b> and <b>eye-direction by elimination</b> (both now <code>../spec.md</code> §3.1), and the <b>AoE-mode input</b> that re-weights without a readable count. <b>Gaps — cues the walk would use but we have not measured (open, produce no hint until resolved):</b> | Named cue | Where it appears | Status | Gates | | --- | --- | --- | --- | | <b>Banked-Fury threshold (positive)</b> | ST-5 | <b>open + parked</b> (specified S1 positive) | Whether the positive-polarity &quot;banked&quot; light draws correctly on Essence Break from the authored 35/maxFury break — <em>and</em>, separately, whether the style draws positive cues at all, which it currently does not (<code>../render-shelf.md</code> Part 0.5). Either way ST-5 ships on readiness + player judgment. | | <b>Demonsurge-active promotion</b> | ST-4 | <b>open</b> | Whether the Demonsurge window exposes a <em>readable</em> active-state so cap may <b>promote</b> (else it may only mark). | | <b>Essence-Break-window promotion</b> | ST-4 | <b>open</b> | Whether the Essence Break amp window&#x27;s active-state is readable (else promote → mark). | | <b>Inertia-proc rise</b> | (Inertia build only) | <b>open</b> | Whether Felblade shows a readable Inertia proc that lifts it above baseline. Not load-bearing on the S2 Exergy build walked here. | | <b>Buff-maintenance marker</b> (Exergy / Serrated Glaive) | ST-1 (weave), ST-10 | <b>open</b> (candidate readable-present + sealed-remaining) | Whether &quot;buff present&quot; reads as a plain boolean while the remaining time stays sealed. If so it is a readable marker; the countdown is a sealed duration. | These are the same open facts tracked in <code>catalog.md</code> → <em>Open facts to measure in-client</em> and <code>fact-classification.md</code> → <em>Open facts</em>. Route every one as <code>@verify-ingame</code> / ClientLab <code>@pending-test</code>, never a guess. <b>None gates a press</b> — each only sharpens a scenario that already resolves by a readable cue or elimination."
+          "html": "Readiness (R2) → <b>have</b>. Single-target skip (G) → <b>have</b>, and <b>dark here</b>, which is the whole scenario. Immolation&#x27;s charge state (<code>isActive</code>) → <b>have</b>, dark. The mode itself is cap&#x27;s own state, read through the <code>aoe</code> predicate — not a game read, so nothing about it is secret or unmeasured. - ⚠ <b>AoE mode does not silence the row, it silences one badge.</b> <code>immolation_capped</code> carries no <code>aoe</code> term — correctly, since rung 10 has none either — so at 2/2 charges the gold badge appears in AoE exactly as it does at one target. Only the rung-25 skip is mode-dependent. - ⚠ <b>What this still does not do.</b> The mode is a <em>player input</em>, not a target count: a player who forgets to toggle gets the wrong badge, and cap will not know. That is the honest cost of having no readable enemy count, and it is unchanged. What changed is that the toggle now reaches the row at all. <em>(Burning-Wound tab-targeting adds no cap cue: tab-targeting is target selection cap does not hint. The Meta + Essence Break burst is the same COOLDOWN readiness as single target.)</em> --- ## What the walk surfaced — cue completeness + gaps <b>Complete cue set for comprehensive coverage (have / sealed):</b> readiness (R2), affordability (A), readable holds C1 (Metamorphosis&#x27;s two reset marks), sealed holds C2 (four of them — Metamorphosis, The Hunt, Essence Break, Vengeful Retreat), demon-form promotion (D), Immolation-at-full (R6) with its talent gate (F), the single-target skip (G), the Fury break-point readout (B), identity re-skin (R7), and the demon-form bar. Plus <b>two non-cue mechanisms</b> the walk made explicit: the <b>emphasis-intensity hierarchy</b> and <b>eye-direction by elimination</b> (both now <code>../spec.md</code> §3.1), and the <b>AoE-mode input</b> that re-weights without a readable count. <b>Deleted this pass, and why the deletions matter as much as the additions:</b> | Cue | Why it is gone | | --- | --- | | Immolation Aura&#x27;s below-max <code>blocked</code> badge | <code>capped</code> negated — it fired across the entire steady state, against rungs 20 and 25. ST-0 could not exist while it did. | | Essence Break&#x27;s parked &quot;banked ≥35&quot; positive | The APL has no Fury term on Essence Break. The number came from prose, not a source. | | The claim that cap <em>cannot</em> deliver the AoE re-weight | Wrong twice. Its premise (&quot;the row&#x27;s order is the client&#x27;s&quot;) stopped being true when <code>Anchor.lua</code> shipped; and it surveyed only positive treatments, so &quot;no treatment exists&quot; was a statement about half the vocabulary. Shipped as cue G. | | The claim that Immolation Aura&#x27;s single-target rung &quot;is 25&quot; | It ignored rung 10, which has no target term at all. | <b>Gaps — cues the walk would use but we have not measured (open, produce no hint until resolved):</b> | Named cue | Where it appears | Status | Gates | | --- | --- | --- | --- | | <b>The trait-config call</b> <code>[gap]</code> | ST-10, ST-12 | <b>built, unmeasured</b> | The <code>talent</code> predicate ships, keyed on <code>ranksPurchased</code> + <code>activeEntry.entryID</code>. <code>knowledge/addon-dev/</code> records nothing about that shape or whether it survives combat restriction. The code is unknown-safe, so this is a <b>fidelity</b> question, not a safety one: a silent refusal costs the gold badge and frees the skip, and nobody is told. | | <b>Demonsurge-active promotion</b> | ST-6 | <b>open</b> | Whether the Demonsurge window exposes a <em>readable</em> active-state so cap may <b>promote</b> (else it may only mark). | | <b>An owed empowered cast</b> (<code>action.&lt;x&gt;.demonsurge_available</code>) | ST-1 | <b>open</b> | Rung 3&#x27;s third hold — <em>don&#x27;t recast Metamorphosis while empowered Death Sweep or Annihilation casts are still owed</em> — is drawn by nothing. <code>proc</code> already exists in <code>Catalog.PREDICATES</code>, so if an owed empowered cast surfaces as a readable proc on the row this is cheap; it is filed in <code>../backlog.md</code> as an optimisation over the baseline, not built. | | <b>Essence-Break-window promotion</b> | ST-6 | <b>open</b> | Whether the Essence Break amp window&#x27;s active-state is readable (else promote → mark). | | <b>Inertia-proc rise</b> | (Inertia build only) | <b>open</b> | Whether Felblade shows a readable Inertia proc that lifts it above baseline. Not load-bearing on the Exergy build walked here. | | <b>Buff-maintenance marker</b> (Exergy / Serrated Glaive) | the VR sequences, ST-12&#x27;s tail | <b>open</b> (candidate readable-present + sealed-remaining) | Whether &quot;buff present&quot; reads as a plain boolean while the remaining time stays sealed. If so it is a readable marker; the countdown is a sealed duration. | | <b>Hold-band airtime</b> | ST-2, ST-5, the VR sequences | <b>open — measurement, not a cue</b> | Whether 8s / 15s / 8s / 4s are the right widths. cap reports that it <em>offered</em> a sealed rule, never whether the badge lit, so this is an eyeball in game rather than a capture. | These are the same open facts tracked in <code>catalog.md</code> → <em>Open facts to measure in-client</em> and <code>fact-classification.md</code> → <em>Open facts</em>. Route every one as <code>@verify-ingame</code> / ClientLab <code>@pending-test</code>, never a guess. <b>None gates a press</b> — each only sharpens a scenario that already resolves by a readable cue or elimination."
         }
       ]
     }

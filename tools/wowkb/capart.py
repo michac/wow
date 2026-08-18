@@ -33,13 +33,21 @@ vocabulary does not know (which would render *nothing*, silently). Everything el
 base64 budget, the literal-hex scan — is a `check` concern or a warning, because **nothing may
 block a rebuild you want to look at**. `check` is the CI-shaped gate; `build` is the loop.
 
-`check` additionally asserts the **reading rule** (`elimination_gate`): for every scenario the
-leftmost entry that is neither swiped nor carrying a **negative** cue must be the entry
-the doc calls the press. That is what makes a mostly-negative cue vocabulary safe to ship. Two
-gates fence the exception: at most ONE cue may declare `polarity: "positive"`, and every declared
-cue must be worn by some scenario row (a cue that renders nowhere is `spec.md` §3.2's defect).
-One more makes a shelf claim true rather than promised: slot 3 belongs to the positive cue
-(`render-shelf.md` Part 1).
+`check` additionally asserts the **reading rule**, and it asserts it as the ORDERED procedure
+`render-shelf.md` Part 0.5 actually defines, not as two independent claims:
+
+    pass 1 — scan for a positive cue; if one is present, press it.
+    pass 2 — OTHERWISE scan left to right and press the first entry not ruled out.
+
+`reading_gate` runs that chain. A scenario wearing a positive cue is judged by pass 1 alone, and a
+scenario without one by pass 2 alone. **Pass 1 overriding elimination is the entire reason a
+positive cue exists** — elimination expresses rank, and "you are wasting a charge right now" is not
+a rank claim — so demanding that both passes agree would forbid the one case the exception was
+carved for. (It did, until 2026-08-17: the two gates ran independently and every scenario had to
+satisfy both.) What keeps pass 1 unambiguous is the separate rule that at most ONE cue may declare
+`polarity: "positive"`; that gate is untouched and is what this chain rests on. Two more gates
+stand beside it: every declared cue must be worn by some scenario row (a cue that renders nowhere
+is `spec.md` §3.2's defect), and slot 3 belongs to the positive cue (`render-shelf.md` Part 1).
 
 Usage:
     uv run python -m wowkb.capart tokens                # resolved tokens + the CSS block
@@ -1487,10 +1495,9 @@ def positive_gate(scenarios: list[dict], tokens: dict) -> list[str]:
     reported too late — so a scenario where the leftmost positive cue sits on something OTHER
     than the press is a scenario that reads wrong.
 
-    This is the half the elimination gate deliberately cannot see: that gate counts negative cues
-    only, precisely so a positive cue can ride its own press without eliminating it. Which leaves
-    the positive cue itself ungated, and this is that gate. A scenario wearing no positive cue at
-    all is simply not pass-1's subject and passes trivially.
+    Called only for scenarios that wear one, by `reading_gate`. A scenario wearing no positive cue
+    is not pass 1's subject and passes trivially, which is why the same loop is safe to run over
+    the whole set.
     """
     fails = []
     for sc in scenarios:
@@ -1529,10 +1536,13 @@ def elimination_gate(scenarios: list[dict], tokens: dict) -> list[str]:
 
     ⚠ **"Carrying a cue" means carrying a NEGATIVE cue.** Since 2026-08-14 the vocabulary is
     negative *by default* rather than negative-only, and a positive cue must not eliminate its own
-    button — `capped` rides ST-8's press, so reading polarity is what keeps this gate meaningful
-    instead of making the one scenario it exists to protect unrepresentable. Polarity is declared
-    per cue in the shelf; a cue that declares none is treated as negative, because that is the
-    reading that can only ever make the gate stricter.
+    button. Polarity is declared per cue in the shelf; a cue that declares none is treated as
+    negative, because that is the reading that can only ever make the gate stricter.
+
+    ⚠ **This is pass 2, and pass 2 does not run on a scenario that wears a positive cue.**
+    `reading_gate` owns that choice. Calling this directly on every scenario — which `check` did
+    until 2026-08-17 — silently re-imposes "both passes must agree", and that forbids the one
+    thing a positive cue is for.
     """
     def eliminating(keys) -> bool:
         return any(tokens["cues"].get(k, {}).get("polarity", "negative") == "negative"
@@ -1572,6 +1582,46 @@ def elimination_gate(scenarios: list[dict], tokens: dict) -> list[str]:
                 "silence this gate."
             )
     return fails
+
+
+def wears_positive(scenario: dict, tokens: dict) -> bool:
+    """Does any entry in this row carry a cue the shelf declares positive?"""
+    return any(tokens["cues"].get(k, {}).get("polarity") == "positive"
+               for e in scenario["row"] for k in _cues_of(e, tokens))
+
+
+def reading_gate(scenarios: list[dict], tokens: dict) -> list[str]:
+    """THE OPERATOR HEURISTIC AS AN ORDERED CHAIN (render-shelf.md Part 0.5).
+
+    Part 0.5 is a procedure with a fallback, not a conjunction of two rules:
+
+        pass 1 — scan for a positive cue; if one is present, press it.
+        pass 2 — OTHERWISE scan left to right and press the first entry not ruled out.
+
+    So each scenario is judged by exactly one pass: the one the reader would actually reach. A row
+    wearing a positive cue answers to `positive_gate`; every other row answers to
+    `elimination_gate`.
+
+    ⚠ **Why this is a chain and not two assertions.** Running both on every scenario means both
+    must name the same press — which makes "pass 1 legitimately overrides elimination"
+    unrepresentable, and that override is the *whole* justification for having a positive cue at
+    all. Elimination expresses rank; "you are wasting a charge right now" is a claim about loss,
+    not rank, and it is allowed to jump the queue. Havoc's rung 10 is exactly this: a banked
+    Immolation Aura charge outranks buttons sitting to its left, and no row position can say so.
+
+    What keeps the chain honest is the gate that is deliberately NOT relaxed: at most one cue may
+    declare `polarity: "positive"`, so "scan for a positive cue" always has one answer. Widening
+    that is a Part 0.5 decision — pass 1 says nothing about how two positive cues would rank.
+    """
+    # Both passes quietly abstain on a row without exactly one press, so the chain has to assert
+    # it itself or a malformed row would be judged by neither.
+    fails = [f"{sc['id']}: expected exactly one `press*` entry, found "
+             f"{[e['name'] for e in sc['row'] if e['verdict'].startswith('press')] or 'none'}"
+             for sc in scenarios
+             if len([e for e in sc["row"] if e["verdict"].startswith("press")]) != 1]
+    positive = [sc for sc in scenarios if wears_positive(sc, tokens)]
+    plain = [sc for sc in scenarios if not wears_positive(sc, tokens)]
+    return fails + positive_gate(positive, tokens) + elimination_gate(plain, tokens)
 
 
 def lab_gates(tokens: dict) -> list[str]:
@@ -1722,10 +1772,10 @@ def cmd_check(args) -> None:
                     if len(ka) != len(kb):
                         fails.append(f"    doc has {len(ka)} entries, sidecar {len(kb)}")
 
-    # 1b · both passes of the reading rule hold. Pass 1: a positive cue, being pre-emptive,
-    # points at the press. Pass 2: the eye reaches the press by elimination alone.
-    fails += positive_gate(doc, tokens)
-    fails += elimination_gate(doc, tokens)
+    # 1b · the reading rule holds, as the ORDERED chain Part 0.5 defines: a row wearing a
+    # positive cue is judged by pass 1, every other row by pass 2. Not both on both — that is
+    # what made a legitimate pass-1 override unrepresentable.
+    fails += reading_gate(doc, tokens)
 
     # 0c · RETIRED 2026-08-16 with the veil itself. It reconciled each verdict's hand-written
     # `veil` against the polarity of the cues that verdict carried; the veil no longer exists as a
@@ -1833,9 +1883,9 @@ def cmd_check(args) -> None:
           "     Style.lua, Media/ring.tga and Media/stripes.tga agree with the shelf and the "
           "arrival's frames × tick match its duration,\n"
           "     the tint guard still has a subject and the positive\n"
-          f"     cue owns slot 3, and all {len(doc)} scenarios read correctly under both passes —\n"
-          "     every positive cue sits on its own press, and every press is reached by "
-          "elimination alone.\n"
+          f"     cue owns slot 3, and all {len(doc)} scenarios read correctly under the pass they\n"
+          "     actually reach — a row wearing the positive cue presses it, every other row is "
+          "reached by elimination.\n"
           "     Part 7: Style.lua carries no lab, Lab.lua and Media/lab/ are current, and "
           "ns.LabStyle is reached\n"
           f"     by {' and '.join(LAB_READERS)} only — the lab is drawable in the gallery and "

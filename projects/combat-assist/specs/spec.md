@@ -137,12 +137,18 @@ procedure written down twice is a procedure that will disagree with itself.
 **A priority list is a dependency graph, and emphasis may follow a readable *relationship*, not
 only a button's own state.** An ability's place in the order is usually set by *why* it ranks
 there — a reset it grants, a window it opens, a buff it maintains, a resource it needs — and that
-reason often rests on the readable state of a *different* ability. Metamorphosis leads the Havoc
-priority because it resets Eye Beam and Death Sweep; pressing it while those are on cooldown is the
-high-leverage play, and cap can rank it because Eye Beam's cooldown state is readable (the hold cue
-flips on exactly that). So emphasis is allowed to compare *related* readable facts — one ability's
-cooldown against another's — not just each button's own readiness. This is still emphasis moved
-only by readable facts; it is not a computed press.
+reason often rests on the state of a *different* ability. Metamorphosis leads the Havoc priority
+because it resets Eye Beam and Death Sweep; pressing it while either of those is ready throws that
+reset away, so its rank is set by *their* state and not its own. Emphasis is therefore allowed to
+compare *related* facts — one ability's cooldown against another's — not just each button's own
+readiness. This is still emphasis moved by facts cap may use; it is not a computed press.
+
+**Whether the related fact is readable or sealed is a separate axis, and the same hold can
+straddle both.** Metamorphosis is the worked example twice over: "is Death Sweep ready" is a
+readable boolean, while the rest of the same hold — "is Eye Beam more than eight seconds away" —
+is a remaining time, which is sealed and must be handed to the client as an authored band (§3.6).
+One rule, two mechanisms, one badge. So do not read *relationship* as a synonym for *readable*:
+the relationship is what licenses the comparison, and the data class only decides who performs it.
 
 This is also where the honest limit sits — and it is **narrower than "the ordering-reason is
 secret."** "Tier plus cues reproduce the priority order" holds wherever the ordering-reason is
@@ -151,8 +157,11 @@ not a branch cap performs**: cap hands the client an authored break point (the `
 / S1 graded curve, §3.6) and the client evaluates the secret value against it and paints the result
 — in **either polarity**. So "avoid this generator when the secret resource is about to cap"
 (negative) *and* "this press is preferred once the secret resource is banked past a threshold"
-(positive, e.g. Havoc's Essence Break at Fury ≥ 35) are both expressible sealed cues; cap authors
-the number and never learns which side the value fell on. What the platform does not allow is cap
+(positive) are both expressible sealed cues; cap authors the number and never learns which side the
+value fell on. ⚠ The positive direction is **specified but has no live instance**: the vocabulary's
+one positive cue reports a charge being lost, which is readable rather than sealed. An earlier
+example here — Essence Break at Fury ≥ 35 — was deleted when the 12.1 APL turned out to put no Fury
+term on Essence Break at all. What the platform does not allow is cap
 **computing** with the value — reading it into a Lua branch, score, or verdict. A spec's catalog
 says, per rung, whether its ordering-reason is a readable rank, a sealed threshold cue, or an
 unmeasured (open) cue — the "secret ⇒ cap is blind" framing is wrong.
@@ -279,13 +288,42 @@ value it acts on:
   (e.g. "would this generator overcap") is a static number baked into the curve, not a
   comparison cap performs. cap reports only that the curve was offered; it never learns the
   Fury value or which side of the break point it fell on.
-- **Graded secret duration** (`sealed-duration-range`). A sealed remaining-duration is handed
-  to the client with a **range curve** that reads on only while the remaining time sits inside
-  an authored band, and the client drives a texture's visibility from the result. This is how a
-  sealed hold marker (above) is drawn without Lua reading the clock.
+- **Graded secret duration** (`sealed-cooldown-range`). A sealed remaining-duration is handed
+  to the client with a **range curve**, and the client drives a texture's visibility from the
+  result. This is how a sealed hold marker (above) is drawn without Lua reading the clock. It has
+  **two senses, exactly one per marker**: `within` reads on while the remaining time sits inside
+  an authored band ("it is nearly up, so wait for it"), and `beyond` reads on while at least that
+  long is left ("it is nowhere near, so this is not its moment"). Both are the same step curve
+  read at a different point, and in both a dependency that is *ready* reads nothing — a cooldown
+  that has come back is neither imminent nor far away.
+
+  ⚠ **Two sealed markers naming one cue is a union, and the union happens in the compositor.**
+  Readable markers may share a badge because Lua ORs their results; sealed ones may not, because
+  each writes that badge's visibility from its own curve and those values cannot be compared. Each
+  sealed marker therefore owns an instance stacked at the same slot. The union pattern is not
+  uniform across the two classes, and authoring a sealed pair as though it were readable produces
+  a badge whose state depends on write order.
+
+  ⚠ **What is not expressible: an AND of two sealed facts.** A marker carries one curve, and two
+  markers union rather than intersect — so "X is far *and* Y is far" cannot be authored at all.
+  Each half is expressible alone; the operator is the thing missing.
 
 Both obey the same rule as `player-aura-stacks`: the value flows only into a client-owned sink,
 CAP reports `offered` / `armed` / `refused`, and only an eyeball proves a pixel appeared.
+
+**One secret per curve; readable gates without limit.** A sealed form carries exactly **one**
+secret — that is what the client-owned sink can evaluate, and a second would be a second break
+point. But the *condition under which the curve is offered at all* is ordinary Lua, so a graded
+cue may be ANDed with as many **readable** facts as the rule needs: another ability's readiness,
+a talent, affordability, one of cap's own toggles. The seal constrains what may be compared, not
+how narrowly the comparison may be aimed.
+
+The practical consequence is a diagnosis. **A graded cue that fires too eagerly is usually missing
+a readable gate, not a better curve.** Havoc's charge cue is the worked example: it curves on the
+one secret it must, and its correctness comes entirely from the readable terms beside it — the two
+talents that create a charge worth losing, and the higher-priority cooldowns whose readiness means
+the player should be pressing something else. Reach for the readable gate before anything
+cleverer, and before concluding a rule is inexpressible.
 
 A refused readable fact is **unknown**, not false. Unknown input produces no confident hint,
 and negation never turns unknown into confidence.
@@ -309,10 +347,12 @@ require branching on a sealed value is not authored (§3.6).
 
 **This catalog is Fel-Scarred, specifically.** A spec-and-hero pair is the unit cap authors, and
 this one is Havoc / Fel-Scarred. Aldrachi Reaver is a **separate catalog authored later** — not
-a second overlay bolted on here. ⚠ *Mismatch to note, not to act on yet:* the live Icy Veins
-12.1 page leads **Aldrachi Reaver** for single-target while we author Fel-Scarred first (it is
-the easier build to pilot and the M+ pick). We hold that call until Season 2 sims/logs exist
-(post-2026-08-18); the AR catalog follows then.
+a second overlay bolted on here. We author Fel-Scarred first because it is the easier build to
+pilot and the M+ pick, and hold the hero-tree call until Season 2 sims and logs exist
+(post-2026-08-18); the AR catalog follows then. *(An earlier note here said the live Icy Veins
+12.1 page leads Aldrachi Reaver. It does not — the page has one hero-filtered priority tool, and
+selecting Fel-Scarred renders a Vengeful-Retreat-led list. The deferral rests on the absent Season
+2 evidence alone, never on a guide preference.)*
 
 Havoc's defining constraint is that its primary resource, **Fury, is secret** — cap can
 display it but never branch on it. The roster maps onto the §3.1 lanes the way the authoritative
@@ -331,10 +371,13 @@ secret resource into that ordering; each is a pattern-shelf recipe, and the full
   the client a color curve whose authored break point is the overcap threshold, and the client
   paints it. Honestly approximate, and it says so.
 - **C — Hold / sync marker.** A hold marker (§3.2) — "don't press this on cooldown yet." A
-  **readable** hold, driven by a related ability's cooldown state (Metamorphosis — hold while Eye
-  Beam or Death Sweep is ready, so its reset banks a cast; The Hunt — hold while Metamorphosis is
-  available, to buff Abyssal Gaze in the coming window), and a **sealed** hold (hold Essence Break
-  while Eye Beam's cooldown has ≤4s remaining, so the amp window is not clipped into Eye Beam).
+  **readable** hold, driven by a related ability's *readiness* (Metamorphosis — hold while Eye Beam
+  or Death Sweep is ready, so its reset banks a cast), and a **sealed** hold, driven by a related
+  ability's *remaining time* (hold Essence Break while Eye Beam's cooldown has ≤4s remaining, so the
+  amp window is not clipped into Eye Beam; hold Metamorphosis while Eye Beam is ≤8s out, the sealed
+  half of the same rule as its readable one; hold The Hunt while Metamorphosis is **close**, so its
+  empower lands on the Eye Beam that Metamorphosis will reset — the APL *casts* The Hunt once
+  Metamorphosis is ready, so this hold clears exactly where an earlier draft said it should fire).
   Both lanes are single-state markers: they draw when the press should wait and draw nothing when
   it should not.
 - **D — Demon-form promotion (readable).** Demon form is a readable fact (the transform
