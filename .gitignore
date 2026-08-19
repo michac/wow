@@ -44,3 +44,6 @@ trainer/sim/pubspec.lock
 # clean git status doesn't drag 138MB of dist/node_modules/build into history.
 /app/
 /trainer/
+
+# Claude Code runtime state (not config)
+.claude/scheduled_tasks.lock
