@@ -2,7 +2,7 @@
 title: The Cooldown Manager — how a CDM row resolves
 patch: 12.1.0
 fetched: 2026-08-16
-reviewed: 2026-08-16   # 12.1.0 source reads, plus ONE 12.1.0 client capture (§4.2). Every other [client] tag below is 12.0.7 and was not restamped
+reviewed: 2026-08-19   # 12.1.0 source reads (§3.1.1, §3.4), plus THREE 12.1.0 observations: a 12.1.0 client capture (§4.2), an eyeball reading of the Templar transform on a live row [client 2026-08-18], and the sealed-aura-predicate nil measured in combat [client 2026-08-19]. Every OTHER [client] tag below is 12.0.7 and was not restamped — read each tag, never this line
 sources:
   - raw/addon-research/wow-ui-source-12.1.0 @ 12.1.0.69273 — Interface/AddOns/Blizzard_CooldownViewer/*, Blizzard_SharedXML/LayoutFrame.lua, Blizzard_SharedXMLBase/Pools.lua and Blizzard_APIDocumentationGenerated/CooldownViewer{,Constants}Documentation.lua. `[T1 src @12.1.0]` / `[T1 docs @12.1.0]` locators resolve here
   - https://warcraft.wiki.gg/wiki/Patch_12.1.0/API_changes (revid 6801760, 2026-08-09)
@@ -237,9 +237,11 @@ a viewer.
 > `CheckAuraAddedAlertTriggers` `[:1682-1690]`, called from `OnUnitAura` at `[:1636]` and
 > `[:1669]`, which enumerate the pool at `[:1675]` and `[:1685]` before calling
 > `itemFrame:CheckTriggerAuraRemovedAlert(…)` / `CheckTriggerAuraAppliedAlert(…)`.
-> ⚠ **Not** `auraInstanceIDToItemFramesMap` `[:1641, :1652]` — that map drives
-> `OnUnitAuraRemovedEvent` / `OnUnitAuraUpdatedEvent`, which are display refreshes, not
-> alert triggers. No frame, no method call, no edge.
+> ⚠ **Both alert paths read `auraInstanceIDToItemFramesMap`** — `CheckAuraRemovedAlertTriggers`
+> `[@12.1.0: :1845-1856]` and `CheckAuraAddedAlertTriggers` `[:1858-1867]` index it exactly as
+> the display-refresh handlers at `[:1814]` do. **The map is not what separates an alert from a
+> refresh; the method called on the frame is** — `TriggerAuraAppliedAlert` versus
+> `OnUnitAuraRemovedEvent`. Either way: no frame, no method call, no edge.
 >
 > **This scopes the alert-choke-point technique.** The `hooksecurefunc(item,
 > "TriggerAlertEvent")` hook described in §5.1 observes **every** edge, and that
@@ -685,6 +687,46 @@ The two colours are the only on-screen tell:
 `ITEM_COOLDOWN_COLOR = CreateColor(0, 0, 0, 0.7)` (black)
 `[T1 src: CooldownViewer.lua:55-56]`.
 
+#### 3.1.1 The cooldown branch reads the DISPLAY identity, not the base spell
+
+The table above says which *source* wins. It does not say which *spell* the cooldown
+source reads, and that turns out to matter more than the ordering for any row that
+transforms:
+
+```lua
+function CooldownViewerCooldownItemMixin:CheckCacheCooldownValuesFromSpellCooldown(timeNow)
+	if not self:HasVisualDataSource_Charges() then
+		local spellCooldownInfo = self:GetSpellCooldownInfo()
+-- and
+function CooldownViewerItemDataMixin:GetSpellCooldownInfo()
+	local spellID = self:GetSpellID()
+	return spellID and C_Spell.GetSpellCooldown(spellID)
+```
+`[T1 src @ Gethe/wow-ui-source live, fetched 2026-08-18: CooldownViewer.lua
+CheckCacheCooldownValuesFromSpellCooldown · CooldownViewerItemData.lua:380-383]`
+
+`GetSpellID()` is the **display-identity ladder** of §2 — aura → linked →
+`overrideTooltipSpellID` → `overrideSpellID` → base `[T1 src: ItemData.lua:216-240]`. So
+**the swipe belongs to the button currently on the icon, not to the one underneath it.**
+
+The consequence, stated as the case that raised it: Templar's **Light's Guidance 427445**
+replaces Wake of Ashes with **Hammer of Light** for 20s after it is cast. Throughout that
+window the row shows Hammer of Light and draws **no cooldown swipe** — Hammer of Light
+has none — even though Wake of Ashes's own cooldown is running underneath. The Wake of
+Ashes swipe reappears only when the window closes and the row reverts — observed directly
+by the player on a Retribution / Templar character `[client 2026-08-18]`.
+
+⚠ **So an absent swipe does not mean the underlying ability is ready**, and a consumer
+that reads "no swipe" as "off cooldown" is wrong for the whole duration of any transform.
+Pair it with the identity test (`overrideSpellID ~= spellID`, §2) to know which question
+the dial is even answering. This is the same trap as the aura branch above, one rung
+further down: there, the dial shows the wrong *kind* of timer; here, it shows the right
+kind for the wrong *spell*.
+
+Note the charge ladder deliberately does NOT do this (§3.3) — `overrideSpellID or spellID`,
+skipping the aura and linked rungs, with Blizzard's own comment explaining why. Two
+ladders on one row.
+
 ### 3.2 Tab 2 — first match wins, and there is no cooldown rung
 
 ```lua
@@ -716,6 +758,81 @@ Separately, the number rendered in `ChargeCount` is not always charges: when
 `maxCharges <= 1` it falls back to `C_Spell.GetSpellCastCount` — *"'cast count' (also
 called 'use count')"* `[T1 src: CooldownViewer.lua:997-1013]`.
 
+### 3.4 The icon has two visual channels of its own, and neither is the swipe
+
+§3 above is about the **dial**. The icon texture underneath it carries two further signals, set
+by two different functions on two different triggers, and both say things a rider is likely to
+want to say itself.
+
+**Desaturation means ON COOLDOWN. It means nothing else.** `cooldownDesaturated` is assigned in
+six places and every one of them is either the literal `false` or `self.isOnActualCooldown`
+`[T1 src @12.1.0: CooldownViewer.lua:874, 901, 921, 1008, 1042, 1056, 1083]`, and it is applied
+gated on expiry:
+
+```lua
+function CooldownViewerCooldownItemMixin:RefreshIconDesaturation()
+	local iconTexture = self:GetIconTexture();
+	local desaturated = self.cooldownDesaturated and not self:IsExpired();
+	iconTexture:SetDesaturated(desaturated);
+```
+`[T1 src @12.1.0: CooldownViewer.lua:1195-1202]`
+
+So a greyed-out CDM icon is a statement about **cooldown**, and reading it as "unusable" imports
+a meaning the client does not put there.
+
+**Usability is the other channel, and it is VERTEX COLOUR — a four-way ladder in priority order.**
+
+```lua
+local isUsable, notEnoughMana = C_Spell.IsSpellUsable(spellID);
+
+if self.spellOutOfRange then
+	iconTexture:SetVertexColor(CooldownViewerConstants.ITEM_NOT_IN_RANGE_COLOR:GetRGBA());
+elseif isUsable then
+	iconTexture:SetVertexColor(CooldownViewerConstants.ITEM_USABLE_COLOR:GetRGBA());
+elseif notEnoughMana then
+	iconTexture:SetVertexColor(CooldownViewerConstants.ITEM_NOT_ENOUGH_MANA_COLOR:GetRGBA());
+else
+	iconTexture:SetVertexColor(CooldownViewerConstants.ITEM_NOT_USABLE_COLOR:GetRGBA());
+end
+```
+`[T1 src @12.1.0: CooldownViewer.lua:1204-1233]`, constants at `[:14-22]`:
+
+| Branch | Constant | RGBA | Multiplied over art, reads as |
+|---|---|---|---|
+| out of range (wins outright) | `ITEM_NOT_IN_RANGE_COLOR` | `0.64, 0.15, 0.15, 1` | dark red |
+| usable | `ITEM_USABLE_COLOR` | `1, 1, 1, 1` | untouched |
+| **insufficient power** | `ITEM_NOT_ENOUGH_MANA_COLOR` | **`0.5, 0.5, 1.0, 1`** | **half-dark, blue-shifted** |
+| unusable for any other reason | `ITEM_NOT_USABLE_COLOR` | `0.4, 0.4, 0.4, 1` | dark grey |
+
+⚠ **The ladder does reach the power branch.** `elseif isUsable` sits above it, but `isUsable` is
+**false** when power is short — measured directly, three spells reading `isUsable = false` /
+`insufficientPower = true` in a sample where a fourth read `true` / `false`
+(`security-taint-and-restricted-data.md` §4.11, `[client 2026-08-03]`). So a spender you cannot
+pay for is painted blue, not white.
+
+⚠ **Both returns of `C_Spell.IsSpellUsable` are plain booleans from a tainted caller** — no
+`SecretReturns`, no `SecretWhen*` predicate (same section). This is one of the places where the
+client's *verdict* is readable even though the underlying value is not, so a rider can compute
+the same ladder rather than inferring it from pixels.
+
+**Refresh triggers.** `RefreshIconColor` runs from `RefreshData` `[:1261]`, from
+`OnSpellUpdateUsableEvent` on `SPELL_UPDATE_USABLE` `[:820-822, :2190-2193]`, and from
+`OnSpellRangeCheckUpdateEvent` on `SPELL_RANGE_CHECK_UPDATE` `[:824-831]` — the latter only for
+rows whose base spell has a range `[:709-716]`. §5's event table notes `SPELL_UPDATE_USABLE`
+*"fires constantly in a city"*; this is what it is doing when it fires.
+
+**Two consequences for a rider.**
+
+1. **The client already tells the player "you cannot afford this", in colour, live.** Any rider
+   mark that means the same thing is a second statement of a signal Blizzard is already
+   making — worth deciding deliberately rather than by default. It is not automatically
+   redundant: Blizzard's version is a colour multiply on the art with no shape to it, and it
+   says nothing about *rank*. But a design that treats the icon as neutral until the rider
+   marks it is designing against a picture the player never sees.
+2. **A rider that sets `SetVertexColor` on a CDM icon texture is fighting the owner of that
+   property.** Blizzard reasserts it on every `SPELL_UPDATE_USABLE`, every range-check update
+   and every full `RefreshData`, so a rider tint survives only until the next one — which, per
+   the event table, can be seconds. Tint a frame you own, layered over the icon, not the icon.
 ---
 
 ## 4. When it runs
@@ -859,6 +976,19 @@ function CooldownViewerMixin:OnUnitAura(_unit, unitAuraUpdateInfo)
 **Anything that anchors, parents or decorates an item frame must be able to re-apply itself
 after an arbitrary mid-combat teardown**, and must not assume its anchors survived.
 
+⚠ **Nor that a frame still serves the same row.** `RefreshLayout` re-acquires from the pool in
+`layoutIndex` order `[T1 src @12.1.0: CooldownViewer.lua:2027-2029]`, but the pool hands frames
+back in neither that order nor the previous one: `SecureObjectPoolMixin:ReleaseAll` enumerates
+the active **map** `[T1 src @12.1.0: Blizzard_SharedXMLBase/Pools.lua:235-239]`, `ReclaimObject`
+**pushes** each onto a stack `[:229-233]`, and `Acquire` **pops** it `[:219-221, :46]`. So the
+frame that drew cooldownID A before a teardown routinely draws cooldownID B after it. **A
+cooldownID → frame mapping cached across a `RefreshLayout` is wrong, not stale**, and code that
+re-applies to the cached frames places correct decoration on the wrong icons — a failure that
+looks like a scrambled row and that a rider's own bookkeeping cannot see, because the cached id
+is the thing that is wrong. Re-read `GetCooldownID()` off the frame, or rebuild the mapping,
+after any destructive path in the table above. `CooldownViewerMixin:OnCooldownDataChanged`'s
+same-count `RefreshData` branch is the one path that preserves the mapping `[@12.1.0: :2007-2019]`.
+
 **A same-count settings change does not disturb anchors.** `OnCooldownDataChanged` compares
 `self.itemFramePool:GetNumActive()` against the new item count and takes an in-place
 `RefreshData(cooldownIDs, forceSet)` path when they match, calling `RefreshLayout` only
@@ -958,8 +1088,8 @@ Six registered by the shared viewer mixin
 | `PLAYER_TOTEM_UPDATE` | both | Rebinds totem data, which outranks auras in both families. |
 | `SPELL_ACTIVATION_OVERLAY_GLOW_SHOW` / `_HIDE` | **tab 1** | The proc glow — §6. |
 | `SPELL_UPDATE_USES` | **tab 1** | Recomputes charges only. |
-| `SPELL_UPDATE_USABLE` | **tab 1** | Icon colour only. Fires constantly in a city. |
-| `SPELL_RANGE_CHECK_UPDATE` | **tab 1** | Out-of-range tint; only for rows whose base spell has a range `[:709-716]`. |
+| `SPELL_UPDATE_USABLE` | **tab 1** | Icon colour only — the four-way usable/power/range ladder, §3.4. Fires constantly in a city. |
+| `SPELL_RANGE_CHECK_UPDATE` | **tab 1** | Out-of-range tint (§3.4's top branch); only for rows whose base spell has a range `[:709-716]`. |
 
 ### 5.1 The alert choke point — available on both families
 
@@ -1006,6 +1136,42 @@ onto each frame, the hook must go on the item **instance**, not the shared mixin
 >
 > `alertsByEvent` is a plain table on the item frame, so a consumer *can* ask which of its
 > rows are able to answer.
+
+> **THE AURA EDGES SURVIVE 12.1, AND A TARGET DoT RAISES THEM** `[client 2026-08-19]`.
+> Every aura-edge measurement in this file was taken on **12.0.7**, and §5.4 named them the
+> likeliest thing here to have been falsified by 12.1's aura escalation (§4.7.1 measures how
+> completely `C_UnitAuras` closed). They were not falsified. Retribution Paladin, open-world
+> dummy, `hooksecurefunc` on 28 item-frame instances:
+>
+> | Row | Edges seen in combat |
+> |---|---|
+> | cid **148597** | `OnAuraApplied` → `OnAuraRemoved` → `OnAuraApplied` |
+> | cid **109208** (Expurgation, TrackedBuff, aura `383346` on the **target**) | `OnAuraApplied` |
+> | cid 19393, 110223, 19397 | `OnCooldown` / `OnAuraApplied` |
+>
+> **Both directions fire, and the aura being on an ENEMY does not stop it** — which makes
+> this the one channel that still reports target-aura state after §4.7.1 shut the getters.
+>
+> ⚠ **It is a READABLE signal.** What is observed is a *call*, not a value: the hook fires,
+> the addon reads nothing. So a consumer may keep an up/down latch off these edges and branch
+> on it. §3.5's containers differ: their buttons answer `IsShown` with a secret, so that
+> route ends at the pixel. Combined with
+> §5.4's one-shot limit (a refresh of a live aura raises nothing), the latch is correct
+> precisely because a refresh does not change up/down.
+>
+> ⚠⚠ **AND IT REQUIRES THE PLAYER TO HAVE ENABLED THE ROW.** Expurgation's row carries
+> `HideByDefault` (`flags = 2`). **A/B, same character, same rotation, Blade of Justice cast
+> in both:** with the row added to Tracked Buffs in the Cooldown Manager UI, cid 109208 raised
+> `OnAuraApplied`; with it removed, **zero edges on that cid across two combat runs** while
+> other rows kept firing normally in the same captures. That is §1.2's silent blindness,
+> demonstrated end to end: no error, no absent value, just an ability the consumer never
+> hears about. **A design resting on this channel must therefore reconcile its candidate rows
+> against what is actually laid out and TELL THE PLAYER which ones it cannot hear** — the
+> fix is one tracked-buff toggle, but only if somebody says so.
+>
+> ⚠ **`Enum.CooldownViewerAlertEventType` is what `TriggerAlertEvent` receives** — a number,
+> not a string: `Available 1, PandemicTime 2, OnCooldown 3, ChargeGained 4, OnAuraApplied 5,
+> OnAuraRemoved 6` `[T1 docs @12.1: CooldownViewerConstantsDocumentation.lua:50-55]`.
 
 > ⚠⚠ **DO NOT reach for `isOnActualCooldown`, `cooldownIsActive` or
 > `CooldownViewerCooldownItemMixin:IsOnCooldown()` `[@12.1.0: :705-707]`.** They look like the
@@ -1686,7 +1852,7 @@ read the viewer's own `IsShown()` for that, and let the row count mean *configur
 | `C_Spell.GetSpellCooldown` | **`[client 2026-08-09]`** **not sealed whole** — a plain table whose members seal individually. `isEnabled` / `isActive` / `isOnGCD` read plain in restricted combat; `startTime` / `duration` / `modRate` are secret. See below |
 | `C_Spell.GetSpellCharges` | **`[client 2026-08-11]`** a plain table whose members seal by state. Conflagrate at 2/2 was wholly readable even in restricted combat; at 1/2 and 0/2 its current count and recharge values were secret, while `maxCharges=2` and `isActive=true` stayed plain. See below |
 | `C_Spell.GetSpellCooldownDuration(spellIdentifier, ignoreGCD)` | **`[client 2026-08-09]`** returns a `LuaDurationObject` in restricted combat, `HasSecretValues()` plain `true`, every getter on it secret. See below |
-| `C_UnitAuras.Get*` | The `AuraData` record is secret when restricted. Three getters carry a **per-aura** `RequiresNonSecretAura` precondition — but its failure behaviour is undocumented, see below |
+| `C_UnitAuras.Get*` | The `AuraData` record is secret when restricted. Three getters carry a **per-aura** `RequiresNonSecretAura` precondition; it fails **silently** (`nil`), while the enumerators fail **loudly** — see below |
 
 **`C_Spell.GetSpellCooldown` is NOT sealed whole, and `isActive` is a readable, branchable
 in-combat "is this spell on cooldown" boolean.** The call returns a **plain table whose
@@ -1811,25 +1977,30 @@ you is refuse. ⚠ Whether Blizzard's *own* untainted call is affected the same 
 established**, and nothing here claims it either way. ⚠ This is a source read; no in-client
 measurement of the effect survives on disk.
 
-**`C_UnitAuras`'s seal is annotated per aura — but what that buys is undocumented.** Three
+**`C_UnitAuras`'s seal is annotated per aura, and the failure is SILENT.** Three
 getters carry a `Precondition` named `RequiresNonSecretAura = true`: `GetAuraDataBySpellName`
 (`UnitAuraDocumentation.lua:208`), `GetPlayerAuraBySpellID` (`:335`) and
 `GetUnitAuraBySpellID` (`:372`), the predicate itself declared at `:558-561`
-`[T1 docs]`. Its existence is the interesting part: the seal is described **per aura**, not
-as a blanket property of the API, so "your own auras are as sealed as the target's" is at
-least stated too strongly. Two Tier-1 reasons not to build on it yet:
+`[T1 docs]`. The seal is described **per aura**, not as a blanket property of the API, so
+"your own auras are as sealed as the target's" is stated too strongly — a spell the client
+flags non-secret still answers through these three.
 
-- **`[gap]` The predicate declares no `FailureMode`.** It is one of exactly **two** of the
-  corpus's 32 `Precondition` declarations that omit the field (the other is
-  `RestrictedForMacroChatMessages`) `[T1 docs: re-counted at 12.0.7.68887]`. So *what
-  happens* when the precondition fails — silent absence, an error, a value plus an error —
-  is not stated anywhere at Tier 1, and the Precondition-vs-Secret split in
-  [`security-taint-and-restricted-data`](./security-taint-and-restricted-data.md) §4.7
-  cannot be cited for it. `@verify-ingame`
+- **The predicate declares no `FailureMode` field, but its prose says what happens:**
+  *"This does not raise a blocked action error - instead, protected APIs will return no
+  values"* `[T1 docs @12.1: SecretPredicatesDocumentation.lua:27-30]`. Measured, in combat:
+  a silent `nil` `[client 2026-08-19]`. ⚠ **That nil is indistinguishable from "no such
+  aura"**, so a rider calling only these three concludes the unit is clean rather than that
+  it was refused. The enumerators are the ones that tell you — they carry
+  `RequiresUnitAuraAccess` with `FailureMode = "Error"` and raise a Lua error naming the
+  seal, on the player's own auras as well as the target's. The verbatim text and the
+  measurement are in `security-taint-and-restricted-data.md` §4.7.1.
 - **All three also carry `SecretWhenUnitAuraRestricted = true`** (`:207`, `:334`, `:371`) —
   a *Secret* predicate stacked on top of the Precondition. Passing the precondition
-  therefore does not on its own mean the record comes back readable, and how the two
-  annotations interact is undocumented.
+  therefore does not on its own mean the record comes back readable.
+- ⚠ **None of this is the route for SHOWING an aura.** That is `AuraContainer` /
+  `AuraButton` (`security-taint-and-restricted-data.md` §3.5), which reads the auras itself
+  and fills sinks you supply. Concluding "impossible" from the getters above is reading the
+  deprecated API.
 
 ⚠⚠ The practical floor is moving regardless: Ebon Might (395296) was reportedly dropped from
 the non-secret set during 12.1.0 PTR, killing a shipping addon's numeric `expirationTime`
@@ -1978,10 +2149,15 @@ source flags; tab 2 carries little but computes on demand, and is the only side 
   did not on Destruction in either hero tree; §2.2 path B needs a `SPELL_UPDATE_COOLDOWN`
   naming a pool candidate, and nothing sent one. If it never fires, rung 2 is dead weight in
   every consumer's ladder.
-- **`[gap]`** What `RequiresNonSecretAura` does when it fails (§7 Tier 3). It is one of only
-  two Preconditions in the corpus declaring no `FailureMode`, and the three getters carrying
-  it also carry the `SecretWhenUnitAuraRestricted` *Secret* predicate — so neither the
-  failure behaviour nor the interaction of the two annotations is documented at Tier 1.
+- **RESOLVED — what `RequiresNonSecretAura` does when it fails.** It declares no
+  `FailureMode` field, but 12.1 documents the behaviour in prose: *"This does not raise a
+  blocked action error - instead, protected APIs will return no values"*
+  `[T1 docs @12.1: SecretPredicatesDocumentation.lua:27-30]`. **So a sealed aura and an aura
+  that was never applied both come back `nil`** — which means a nil from any of the three
+  getters proves nothing on its own, and an instrument reading one has to establish the aura
+  was present by another route (the enumeration) before concluding anything about the seal.
+  The interaction with `SecretWhenUnitAuraRestricted` on the same three getters remains
+  unstated. `` @verify-ingame ``
 - **`[gap]`** Whether any spec's proc is modelled as a **cast count** rather than real
   charges, so that `ChargeGained` fires for it off `C_Spell.GetSpellCastCount` (§5.3) — that
   would be a way to count something otherwise secret.
@@ -2007,6 +2183,35 @@ source flags; tab 2 carries little but computes on demand, and is the only side 
 
 ## Changelog
 
+- 2026-08-19 — **§5.1: the aura edges survive 12.1, and a TARGET DoT raises them**
+  `[client 2026-08-19]`. Every aura-edge measurement here was 12.0.7 and §5.4 named them the
+  likeliest casualty of the aura escalation; they are not. Both `OnAuraApplied` and
+  `OnAuraRemoved` fire in combat, on an aura sitting on an enemy — the one channel still
+  reporting target-aura state after §4.7.1 shut the getters, and a READABLE one, since a hook
+  observes a call rather than a value. ⚠ It requires the player to have enabled the row:
+  Expurgation's carries `HideByDefault`, and an A/B with the same rotation showed the edge
+  present with the row in Tracked Buffs and absent without it. §1.2's silent blindness,
+  demonstrated. Also corrects the alert-trigger claim: both alert paths index
+  `auraInstanceIDToItemFramesMap`, so the map never was what separated an alert from a
+  refresh — the method called on the frame is.
+
+- 2026-08-19 — §7 Tier 3's `RequiresNonSecretAura` gap is **closed**: 12.1 documents the
+  failure in prose even though the Precondition declares no `FailureMode` field — protected
+  APIs return no values rather than erroring. The consequence is the part worth carrying: a
+  sealed aura and an absent one are both `nil`, so no instrument may conclude from a nil
+  alone. The gap had been written from the 12.0.7 corpus and was stale, not wrong-at-the-time.
+- 2026-08-18 — new **§3.4**, the icon's own two visual channels. Desaturation was already
+  in the file only as one word in a `RefreshData` step list; it means **on cooldown** and
+  nothing else. Usability is a separate channel — a four-way `SetVertexColor` ladder over
+  `C_Spell.IsSpellUsable`, in which an unaffordable spell is painted `0.5, 0.5, 1.0`. The
+  event table said `SPELL_UPDATE_USABLE` was "icon colour only" without recording which
+  colours, so the file knew the trigger and not the fact. Two rider consequences stated: the
+  client already marks unaffordable in colour, and a rider tinting the icon texture itself is
+  overwritten on the next refresh.
+- 2026-08-17 — **§4.1** now states that a `RefreshLayout` does not preserve the cooldownID →
+  frame mapping, since the pool releases through a map and re-acquires off a stack. The section
+  previously warned only that anchors do not survive, which reads as "re-apply them" and is
+  exactly the wrong repair.
 - 2026-08-16 — new **§4.2**, the first client measurement on 12.1.0 and the measured
   counterpart to §4.1: a `ClearAllPoints()` + `SetPoint` re-anchor onto a non-parent frame
   takes effect, survives a 138 s fight, and does not disturb the per-frame paint — but only

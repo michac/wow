@@ -1,10 +1,13 @@
 ---
 title: Retribution Paladin — Abilities (Midnight S1)
-patch: 12.0.7
-fetched: 2026-08-06
-reviewed: 2026-08-06
+patch: 12.1.0
+build: 12.1.0.69214
+fetched: 2026-08-17
+reviewed: 2026-08-19
 sources:
-  - knowledge/classes/paladin/retribution/ability-inventory.md  # tier 1, generated from DB2 @ 12.0.7.67808 + Blizzard spell API — name/spellID/origin/cooldown/tooltip
+  - knowledge/classes/paladin/retribution/ability-inventory.md  # tier 1, generated from DB2 @ 12.1.0.69214 + Blizzard spell API — name/spellID/origin/cooldown/tooltip
+  - https://wago.tools/db2 (Tier 1, DB2 pinned @ 12.1.0.69214)  # SpellName / CooldownSet / CooldownSetSpell — the Hammer of Light and Hammer of Wrath absences
+  - Blizzard Game Data API /data/wow/spell/{id} (Tier 1, resolved descriptions @ 12.1.0.69214)  # Light's Guidance 427445, Improved Blade of Justice 403745
   - knowledge/classes/_abilities/reconcile-ledger.md  # tier 1 adjudication of this file's claims @ 12.0.7.67808
   - raw/wago/SpellPower.csv @ 12.0.7  # tier 1, Holy Power costs (no column for these in the generated inventory)
   - https://raw.githubusercontent.com/simulationcraft/simc/midnight/profiles/MID1/MID1_Paladin_Retribution.simc  # tier 1 APL — backs which buttons are rotationally live, 2026-07-11
@@ -78,10 +81,22 @@ no cost column at all** — its descriptions state what a spell *generates*
 only Tier-1 record of the cost side.
 
 **Hero trees.** `builds.md` owns the pick and the talent detail. In kit terms:
-**Templar** swaps your spender for **Hammer of Light** for 20s after Wake of
-Ashes (and later hands out free ones), so the Templar bar has a button the
-inventory does not list; **Herald of the Sun** changes no spender and adds
-Dawnlight / Eternal Flame / Sun's Avatar instead.
+**Templar** replaces **Wake of Ashes** with **Hammer of Light** for 20s after
+Wake of Ashes is cast — Light's Guidance 427445, *"Wake of Ashes is replaced
+with Hammer of Light for 20 sec after it is cast"* *[T1: resolved spell
+description @ 12.1.0.69214]* — so the window opener and the top finisher are the
+same button at different moments, and the Templar bar has a button the inventory
+does not list. Light's Deliverance 425518 later hands out an extra free cast of
+it. **Herald of the Sun** changes no spender and adds Dawnlight / Eternal Flame /
+Sun's Avatar instead.
+
+⚠ **It is *not* the Holy Power spender that is replaced**, which is the natural
+reading and is wrong. Two Tier-1 facts settle it: Light's Guidance names Wake of
+Ashes as the replaced spell, and **Hammer of Light 427453 / 427441 have no
+`CooldownSetSpell` row in any set** at 12.1.0.69214, so the button can only ever
+surface as an override on another row.
+
+- Does the Wake of Ashes Cooldown-Manager row (cooldownID 19400) report `overrideSpellID = 427453` during the 20s Hammer of Light window? @verify-ingame
 
 ## Inventory
 
@@ -102,7 +117,7 @@ name deleted from here silently disappears from that catalogue.
 | **Final Verdict** | Holy Power spender — single target. The talented upgrade to Templar's Verdict, and what the simc APL's `templars_verdict` action really fires |
 | **Templar's Verdict** | Holy Power spender — the baseline single-target finisher it upgrades from |
 | **Divine Storm** | Holy Power spender — AoE |
-| **Hammer of Light** | Holy Power spender — **Templar only**, and it replaces the others rather than joining them |
+| **Hammer of Light** | Holy Power spender — **Templar only**, and it is the Wake of Ashes button for 20s after that button is pressed, not a spender that joins or replaces the other three |
 | **Wake of Ashes** | Burst cooldown + builder; the Templar spender swap starts here, and Sacrosanct Crusade makes it a defensive too |
 | **Execution Sentence** | Burst cooldown — delayed detonation, so it is cast *into* the window rather than during it |
 | **Divine Toll** | Burst cooldown + AoE Holy Power injection |
@@ -184,9 +199,42 @@ still a live trap:
   other?**
   *[Tier 1: DB2 @ 12.0.7.67808 — SpellName, SpellEffect, CooldownSet/CooldownSetSpell,
   ChrSpecialization.]*
+- **Which of these are charge abilities is settled only for Blade of Justice, and
+  only conditionally.** Improved Blade of Justice 403745 reads *"Blade of Justice now
+  has 2 charges"* *[T1 @ 12.1.0.69214]*, so the count is 1 or 2 by talent; Templar
+  Strikes moves Crusader Strike's count the other way (*"loses a charge but is now a
+  combo ability"*). Neither the max nor the recharge is readable from either layer.
+
+  - Blade of Justice and Crusader Strike — what are max charges and recharge, on a build with and without Improved Blade of Justice / Templar Strikes? @verify-ingame
+
 - **Charge/recharge times are in neither layer.** The inventory's `cooldown` is
   `SpellCooldowns` at DifficultyID 0, which returns the **GCD** for a charge
   ability — Blade of Justice, Crusader Strike and Divine Steed all read 0 or
   sub-1s there. The real recharge lives in `SpellCategory.ChargeRecoveryTime`,
   unreachable without breaking the build pin (`reconcile-ledger.md` §5 G6). Do
   not read a sub-10s `cooldown` on a charge ability as the recharge.
+
+## Changelog
+
+**2026-08-19 — front matter caught up with the body.** The 2026-08-17 pass below wrote ~35 lines
+of Tier-1 `12.1.0.69214` content into a file whose front matter still read `patch: 12.0.7`,
+`reviewed: 2026-08-06`, and listed no 12.1 source at all — so a reader greping `patch:` would have
+discounted claims that are current, and no source backed the new spell ids. The stamps and the
+source list now match what the file asserts. No claim changed.
+
+**2026-08-17 — the Templar spender-swap claim was backwards, and is rewritten.**
+This file said Templar *"swaps your spender for Hammer of Light"*. It does not:
+**Light's Guidance 427445** replaces **Wake of Ashes** — *"Wake of Ashes is replaced
+with Hammer of Light for 20 sec after it is cast"*, resolved spell description
+@ 12.1.0.69214. Corrected rather than annotated.
+
+Two Tier-1 `CooldownSetSpell` facts recorded here because nothing else in this
+directory carries them, both @ 12.1.0.69214:
+
+- **Hammer of Light (427453, 427441) has no `CooldownSetSpell` row in any set**, for
+  spec 70 or otherwise — `CooldownSet` 901 contains neither. It reaches the Cooldown
+  Manager only as an override, so there was never a row for the earlier mining pass
+  to place. The Protection side of that open question is untouched.
+- **Hammer of Wrath 24275 has no row either.** Which button it overrides is *not*
+  established by game data and is marked as an open question in
+  `projects/combat-assist/specs/retribution/catalog.md`, not asserted here.

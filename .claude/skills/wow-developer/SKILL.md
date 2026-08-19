@@ -92,7 +92,33 @@ Respect the provenance markers — they are what keep you off stale answers:
   build on one silently — see **Unknowns**.
 - **Build-pinned to 12.0.7.68887.** `file:line` anchors are only valid for that build.
 
-## Look it up before you guess
+## Look it up before you guess — and the KB is the FIRST stop, not the fallback
+
+**Order matters, and getting it backwards costs whole flights.**
+
+1. **Start at `knowledge/addon-dev/`.** Before reading Blizzard source for an API, event or
+   widget, **grep the KB for its name.** The KB is a cache over that source, written by
+   someone who already did this read and recorded what it meant.
+2. **Go to source for what the KB does not settle** — a genuine gap, **or an ambiguity**:
+   a claim you cannot apply to the case in front of you without picking a reading. Both are
+   legitimate reasons to open `raw/addon-research/`. What is *not* legitimate is guessing
+   which reading applies, or treating "the KB is thin here" as "the KB is silent here".
+3. **Write back what the source taught you**, so the next reader starts one step further on
+   (see *Improve the KB as you go*).
+
+⚠ **The failure this ordering prevents, from the record.** A probe was built against
+`C_UnitAuras`, measured it shut, and nearly concluded the capability did not exist at 12.1
+— while `security-taint-and-restricted-data.md` §3.5, *"`AuraContainer` / `AuraButton` —
+displaying auras you may not read"*, had described the sanctioned replacement five days
+earlier. Source was read; the KB was not. One `grep AuraContainer knowledge/addon-dev/`
+would have ended it before it started.
+
+⚠ **This skill applies when a task BECOMES addon code, not only when it starts as addon
+code.** The check is *"am I about to write Lua that runs in the client?"* — a session that
+began as a design document, drifted through a KB edit, and arrived at `CreateFrame` is
+squarely in scope, and that drift is exactly when nobody thinks to load a skill. A
+`PreToolUse` hook (`.claude/hooks/addon-skill-reminder.py`) fires on edits to addon paths
+for this reason.
 
 - Blizzard UI source + reference clones: `raw/addon-research/` (gitignored). Cite `file:line`.
 - `wowkb.uiapi` queries the generated API spec; `wowkb.wiki` pulls warcraft.wiki.gg.
@@ -205,7 +231,7 @@ marker**, and the trigger for testing one is *use*, never age.
 Blizzard's own code models this; `module-architecture.md` documents it at
 `confidence: medium` — corroboration, not a mandate.
 
-## House rules — all seven are checkable
+## House rules — all eight are checkable
 
 Full text and the receipt for each: **`references/house-rules.md`** — read it before
 writing code. Capture/dump contract: **`references/capture-and-dump-standard.md`**.
@@ -234,6 +260,13 @@ Mechanical enforcement: **`/addon-review`**.
 7. **Commands come from a schema table** (BucketBinds `Core.lua:210`), never a hand-rolled
    parser. Max depth `/<addon> <verb> [<arg>]`. **No substring dispatch** — `rest:find("on")`
    also matches "sound on", and that has been a real bug three times.
+8. **A discarded error is a fabricated result.** `pcall` turns "the game said no" into
+   "nothing happened", and downstream those are the same shape. **One `pcall` per call you
+   want to tell apart**, and keep `err`. `x and y or z` is not a guard — it returns `z` when
+   `y` is legitimately `false`, which is the value a secret-vs-readable probe is usually
+   hunting. A `nil` is two worlds (refused / absent) until a second instrument rules one out.
+   `type()` returns the **real** type on a secret, so it does not screen one out. And a UI
+   that renders nothing must render **why** — blank is not an outcome.
 
 ## Improve the KB as you go
 
@@ -263,9 +296,13 @@ It never states what it used to say.
   `wowkb.wiki` and `wowkb.wago` reach Blizzard's generated docs, the wiki and DB2; those
   are admissible sources, cite them freely, and name them in a `[searched]` list. The
   target is the pointer *home*, not the road *out*.
-- **`uv run python -m wowkb.kblint` gates all five of these**, and is the check to run
+- **A correction must not survive in the LEDE** — the text above the first `##`, which is
+  what a reader who stops after the first screen actually sees. A lede warning about the
+  *current* state is right and common; a note correcting our own earlier text is not.
+- **`uv run python -m wowkb.kblint` gates all six of these**, and is the check to run
   after editing anything under `knowledge/addon-dev/`. Gate 4 catches a negative wearing
-  `[client]`; gate 5 catches the pointers above.
+  `[client]`; gate 5 catches the pointers above; gate 6 catches a correction in the lede.
+  Gates 1, 3 and 6 are KB-wide — run `--all` to reach them outside `addon-dev/`.
 
 **Where it goes.** Each destination has a mechanical admission test, so the choice needs
 no judgement — and note that the first four all key on having *learned* something. The

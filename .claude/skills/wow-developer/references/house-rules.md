@@ -196,3 +196,54 @@ complete}` that drives help, did-you-mean, tab-complete and the console dropdown
 - **No substring dispatch.** `rest:find("on")` also matches `"sound on"` —
   `HudDriver.lua:512` documents that exact collision, and the same pattern is live in five
   commands.
+
+---
+
+## 8. A discarded error is a fabricated result
+
+`pcall` is unavoidable here — the client refuses calls, and a refusal must not take the
+addon down. But `pcall` converts *"the game said no"* into *"nothing happened"*, and those
+two are the same shape in every downstream reader. Every rule below is one incident.
+
+**8.1 One `pcall` per call you want to distinguish.** Wrapping a sequence in a single
+`pcall` and discarding `err` means any member failing looks like all of them silently doing
+nothing:
+
+```lua
+-- WRONG: a rejected filter and an empty target are now indistinguishable
+pcall(function()
+    container:AddAuraGroup("row", "HARMFUL", options)
+    container:SetUnit("target")
+    container:UpdateAllAuras()
+end)
+```
+
+Each call gets its own `pcall`, and the first failure is **kept and surfaced** — into the
+panel, the capture, or the return value. Group calls only when you genuinely do not care
+which one failed, and say so in a comment.
+
+**8.2 `x and y or z` is not a guard.** It returns `z` whenever `y` is `false` or `nil` — and
+`false` is exactly what a readable-vs-secret probe is usually trying to observe:
+
+```lua
+-- WRONG: reports "readable" for a value it never read, because
+-- `obj.Get and obj:Get()` is nil when the method is ABSENT, and `not IsSecret(nil)` is true
+local readable = obj.Get and not IsSecret(obj:Get())
+```
+
+Absent, refused and present are three answers. Write the branches out; give each its own
+word.
+
+**8.3 A `nil` return is two worlds until you prove otherwise.** At 12.1 a Precondition with
+`FailureMode = "ReturnNothing"` returns *no values*, which is byte-identical to "the thing
+you asked about does not exist" (`security-taint-and-restricted-data.md` §4.7). Before
+recording a `nil` as a finding, name the other world that produces it and rule it out with a
+second instrument — the one that *errors* rather than the one that goes quiet.
+
+**8.4 `type()` does not screen out a secret.** It returns the **real** type, so
+`type(v) == "table"` passes for a secret table and the next index raises, discarding whatever
+you had already collected. Class-check first (`issecretvalue` / `issecrettable`), then branch.
+
+**8.5 A UI that can render nothing must render why.** An empty panel is a bug report with no
+information in it. If a region can legitimately be empty, it says which — *"built ok, nothing
+matched"* versus the refusal text, in different colours. Blank is never an outcome.

@@ -1,8 +1,8 @@
 ---
 title: Delves — Midnight Season 2 (12.1 "Curse of Ula'tek")
 patch: 12.1
-fetched: 2026-08-11
-reviewed: 2026-08-11
+fetched: 2026-08-18
+reviewed: 2026-08-18
 sources:
   - https://worldofwarcraft.blizzard.com/en-us/news/24293281   # 12.1 Curse of Ula'tek content update notes (Tier 1) — 3 new delves, Coffer Key Shard retune
   - https://us.forums.blizzard.com/en/wow/posts/29833350       # S1 ending / S2 information (Tier 1) — the pre-season delve rules, verbatim in _meta/patch-notes/12.1.md
@@ -10,6 +10,8 @@ sources:
   - https://wago.tools/db2/CurrencyTypes?build=12.1.0.69214     # Tier 1 game data — all five Mistcrest names, base rows 3437-3441 + cap/crafting-bearing rows 3442-3446, per-track upgrade ilvl bands (local copy: raw/wago/CurrencyTypes-12.1.0.69214.csv, read directly 2026-08-11)
   - https://www.icy-veins.com/wow/midnight-delve-rewards-guide  # S2 per-tier ilvl table (Tier 3, updated 2026-08-01, PTR-sourced)
   - https://www.icy-veins.com/wow/delvers-journey-guide         # S2 Delver's Journey rank table (Tier 3, updated 2026-07-30, PTR-sourced)
+  - https://www.icy-veins.com/wow/delves-guide                  # S2 delves guide (Tier 3, updated 2026-08-03) — Bountiful rerolls on the DAILY reset + in-game countdown; "non-Bountiful Delves do not have scaling rewards past Tier 3"
+  - https://www.bluetracker.gg/wow/topic/eu-en/557563-feedback-delves-in-season-2/  # Blizzard blue post 2025-01-16 (Tier 1, but TWW 11.1-era) — Bountiful selection rotates through the pool "until all of them have had some time in the sun" (replaced one-per-zone)
   - https://conquestcapped.com/guides/wow/midnight-delves-season-2/  # corroborates 13-delve pool + Azta'rec "?"/"??" unlock conditions (Tier 3)
   - https://www.wowhead.com/news/how-to-unlock-myth-dawncrests-from-delves-in-midnight-season-1-380813  # S1 history
   - IN-GAME field test 2026-07-10 (Uncomplete) — S1: T11 open at 90; Bounty Hidden Trove 1/week reward-locked
@@ -174,6 +176,18 @@ drop until Aug 18. What is unresolved is whether rows 4–11 stay Bountiful-only
 *after* Aug 18. Do not quote rows 4–11 as this week's rewards, and do not quote
 them as keyed-only after Aug 18 either until someone has looked. @verify-ingame
 
+**Reading 1 gained a corroborating source on 2026-08-18, and it is not enough to
+close this.** Icy Veins' 12.1 delves guide states flatly: *"Non-Bountiful Delves
+do not have scaling rewards past Tier 3"* and *"for End of Delve runs, loot
+rewards are capped out at Tier 3"* — i.e. a structural keyed-only ladder, with
+no pre-season qualifier attached. That is **Tier 3**, and worse, it is
+**plausibly circular**: a guide written in the pre-season week could be
+paraphrasing the same Blizzard sentence this section is trying to interpret,
+which would make it an echo rather than an independent observation. It moves the
+odds toward reading 1; it does not settle it. **The deciding measurement is one
+unkeyed T8 run on or after Aug 18** — if the end-of-run chest pays above
+Adventurer 3/6, reading 1 is dead. @verify-ingame
+
 *(Per-tier assignments: Icy Veins, updated 2026-08-01 off the 12.1 PTR —
 **Tier 3**, not in-game verified. The track boundaries corroborate exactly
 against the DB2 crest bands above, which is what earns them any credit at all.)*
@@ -212,6 +226,39 @@ against the DB2 crest bands above, which is what earns them any credit at all.)*
   resolves this against DB2, not guide prose. If a Gilded Stash does pay Myth in
   week 1 of S2, that is a Tier-1-vs-Tier-1 surprise worth recording here.
   @verify-ingame
+
+## Which delves are Bountiful, and how often that changes
+
+**The Bountiful flag is a property of the DAY, not of the delve.** A delve is
+not permanently Bountiful; a rotating subset of the pool wears the flag, and
+you spend a Restored Coffer Key inside one of *those* to open the Bountiful
+Coffer.
+
+- **Cadence: the set rerolls at the DAILY reset** — not weekly. The in-game UI
+  shows **a countdown to the next reroll**, so you never have to guess: the
+  Delver's Guide at Delver's Headquarters (Journeys tab) marks today's set, and
+  Bountiful delves render with **glowing map icons**. *(Tier 3 — Icy Veins
+  delves guide, updated 2026-08-03, written for 12.1 / Season 2.)*
+- **So yes, it changes across a single week — seven different sets per week.**
+  The practical consequence for a key stockpile: a day with fewer Bountifuls up
+  than you hold keys costs you nothing, because **keys carry across resets**
+  (see the cap bullet below). You are never racing a key against a day.
+- **Selection is a ROTATION through the pool, not one-per-zone and not per-player
+  RNG.** Blizzard replaced the original one-bountiful-per-zone logic in TWW
+  Season 2: *"The new logic will rotate through delves from the original launch
+  until all of them have had some time in the sun as bountiful before turning on
+  new ones."* — blue post 2025-01-16. ⚠ **That is Tier 1 but it is TWW-era**: it
+  describes the mechanism's design, and no 12.1 note revisits it, but it is not
+  a 12.1 confirmation. Treat as *current shape, last stated for 11.1*.
+- **Everyone sees the same set on a given day** — it is a server-wide rotation,
+  not rolled per character. *(Tier 4 — player reports; consistent across
+  threads, never contradicted, never blue-confirmed.)*
+- ⛔ **HOW MANY are Bountiful at once is NOT KNOWN for the 13-delve Season 2
+  pool.** Checked 2026-08-18 across Icy Veins, Conquest Capped, Wowhead's delve
+  system guide and five Season 2 SEO guides: **not one publishes a per-day
+  count.** Do not infer it from TWW's numbers — the pool grew from 10 to 13 in
+  12.1 and the rotation logic is explicitly "until all have had a turn", which
+  makes the count a tuning knob. **Count it in game.** @verify-ingame
 
 ## Delver's Journey (Season 2 track)
 
@@ -263,9 +310,19 @@ changed the crest names, the whole ilvl ladder and the vault tracks. Where game
 data actively points the other way, the bullet says so and wins. Do not build a
 plan on anything in this section. @verify-ingame
 
-- **Restored Coffer Keys: hard weekly cap of 6** in S1 (600 shards; 100 shards
-  auto-convert to a key on delve entry) → max 6 Bountiful Coffers/week. With the
-  shard retune explicitly "a work in progress", **the S2 cap is unknown**.
+- **The weekly cap is on SHARDS EARNED, not on keys held — and an
+  already-restored key from another source bypasses it entirely.** In S1: **600
+  Coffer Key Shards per week**, with **100 shards auto-converting to a Restored
+  Coffer Key on delve entry** (Naleidea Rivergleam will also convert on demand)
+  → 6 keys/week *from shards*. Whole keys handed to you do **not** count against
+  that: the **2 keys in Naleidea's Delver's Starter Kit** (Journey rank 6) land
+  on top, so **8 keys in a week is a normal total, not a bug**. Keys are stored
+  and **carry across resets** — an unspent key is not lost, so a week with fewer
+  Bountifuls up than you have keys costs you nothing. Do **not** restate this as
+  "max 6 Bountiful Coffers/week"; that inference is wrong and was in this file
+  until 2026-08-18. With the 12.1 shard retune explicitly "a work in progress",
+  **the S2 shard rates and the 600 number itself are unconfirmed**.
+  @verify-ingame
 - **Delver's Bounty** map → consumed during a Bountiful delve before the final
   boss dies, spawns a **Hidden Trove** at the end. In S1 the Hero trove was
   **one per character per week — the lockout was on the REWARD, not the map**,
@@ -349,8 +406,13 @@ current reward**.
       Tier-1 pre-season cap noted above the loot table (structural keyed-only
       ladder vs a blanket pre-season ceiling). S1's shape was the latter.
       @verify-ingame
-- [ ] Confirm the **S2 weekly Restored Coffer Key cap** after the shard retune
-      settles (Blizzard calls the retune a work in progress). @verify-ingame
+- [ ] Confirm the **S2 weekly Coffer Key SHARD cap** (S1: 600/week) after the
+      shard retune settles (Blizzard calls the retune a work in progress), and
+      re-confirm that vendor-bought whole keys still sit outside it. Also count
+      **how many delves carry the Bountiful flag at once and on what cadence the
+      set rotates** — the file has never carried a claim on this, and the S1
+      shape (a subset re-flagged at the DAILY reset) is untested for S2.
+      @verify-ingame
 - [ ] Confirm the **Delver's Journey S2 vendor currency** name(s). @verify-ingame
 - [ ] Per-delve location + gimmick notes for the three new delves (Ring of
       Glory, Gnarldor Isle, Venomfall Deeps) — own files, like
@@ -361,5 +423,9 @@ current reward**.
       Season 1 section
 
 ## Changelog
+
+2026-08-18 — Added "Which delves are Bountiful, and how often that changes": the flag rerolls at the DAILY reset (in-game countdown + glowing icons), selection is a rotation through the pool per Blizzard's 2025-01-16 blue post (TWW-era), and the set is server-wide. The PER-DAY COUNT for the 13-delve S2 pool is published nowhere — left open, not guessed. Also recorded Icy Veins' "non-Bountiful Delves do not have scaling rewards past Tier 3" as corroboration for reading 1 of the keyed-only question, flagged as possibly circular.
+
+2026-08-18 — Coffer Key cap restated: the weekly limit is 600 SHARDS, not 6 keys. Vendor-bought whole keys (Naleidea's 2-key Starter Kit) sit outside the cap, so 8 keys in a week is normal; keys also carry across resets. The old "max 6 Bountiful Coffers/week" line was a false inference and is deleted. Field-observed 8 keys (Uncomplete, S2 opening day).
 
 2026-08-17 — S1's T8+ Bountiful Coffer capped at Champion 250; Hero needed Delver's Journey rank 9, a Bounty map or the vault, not the coffer alone.

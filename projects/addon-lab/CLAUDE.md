@@ -103,6 +103,14 @@ back in.
   test records `measured=false` + why, not a fabricated verdict. This is *the*
   done-criterion — the program doc records two incidents of an instrument emitting
   a confident number it could not observe.
+- **…and never record one that two different worlds could have produced.** This is
+  the stricter half, and the one that has actually cost flights. `measured = true`
+  ends the test for that pull — `Autorun` retries only what declines — so an early
+  sample that is merely *ambiguous* is filed as an answer and never revisited. A
+  `nil` from an aura nobody applied and a `nil` from a sealed one are the same four
+  letters. Before writing `measured = true`, name the other world that produces the
+  same bytes; if you can, you are declining. Full rule and the worked case:
+  `docs/lab-process.md` §3.1.
 
 ## The run loop (in game)
 

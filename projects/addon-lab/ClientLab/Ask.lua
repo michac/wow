@@ -26,6 +26,9 @@ local frame, current
 -- worse than a wordy one — the person cannot tell what they are agreeing to.
 local OPTION_H, MAX_OPTIONS = 26, 5
 local OPTION_AREA = OPTION_H * MAX_OPTIONS + 6
+-- The header (title + question + note) never occupies less than this, so a short question
+-- does not leave the canvas floating at the top of the frame.
+local HEADER_MIN = 110
 
 --- Register a visual question. `setup(canvas)` draws the stimulus; `question` is what
 --- the person is being asked; `options` default to yes/no/can't tell.
@@ -109,7 +112,11 @@ local function build()
   -- The canvas the stimulus draws into. Deliberately a plain frame with a visible
   -- border: the person must be able to tell the stimulus apart from the chrome.
   local canvas = CreateFrame("Frame", nil, root)
-  canvas:SetPoint("TOPLEFT", root, "TOPLEFT", 10, -110)
+  -- ⚠ The top anchor is re-applied per question in `A.Show`, because the header's height
+  -- is not known until its text is set. It used to be a fixed -110, which meant a note
+  -- longer than that budget silently drew ON TOP of the stimulus — and the stimulus is the
+  -- entire point of this panel. A header may now push the canvas down; it may not overlap it.
+  canvas:SetPoint("TOPLEFT", root, "TOPLEFT", 10, -HEADER_MIN)
   canvas:SetPoint("BOTTOMRIGHT", root, "BOTTOMRIGHT", -10, 34 + OPTION_AREA)
   local cbg = canvas:CreateTexture(nil, "BACKGROUND")
   cbg:SetAllPoints(canvas)
@@ -201,6 +208,22 @@ local function setVerdictButtons(def)
   end
 end
 
+-- Push the canvas below whatever the header actually needed, then make sure what is left
+-- is still big enough to judge a stimulus in — growing the window rather than shrinking the
+-- picture, since the picture is the evidence.
+local MIN_CANVAS_H = 210
+local function layoutCanvas()
+  if not frame then return end
+  local header = 32 + (frame.question:GetStringHeight() or 0)
+                    + 6 + (frame.note:GetStringHeight() or 0) + 10
+  if header < HEADER_MIN then header = HEADER_MIN end
+  frame.canvas:ClearAllPoints()
+  frame.canvas:SetPoint("TOPLEFT", frame, "TOPLEFT", 10, -header)
+  frame.canvas:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -10, 34 + OPTION_AREA)
+  local need = header + MIN_CANVAS_H + 34 + OPTION_AREA
+  if frame:GetHeight() < need then frame:SetHeight(need) end
+end
+
 function A.Show(idx)
   if not frame then return end
   current = idx
@@ -211,6 +234,7 @@ function A.Show(idx)
   frame.question:SetText(def.question)
   frame.note:SetText(def.note or "")
   clearCanvas()
+  layoutCanvas()
 
   -- A stimulus with an unmet precondition must say so instead of drawing something
   -- that looks like the real thing. Answering "no" to a blank canvas would be a

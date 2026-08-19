@@ -2,7 +2,8 @@
 title: Demon Hunter Devourer — talent tree (12.1.0)
 patch: 12.1.0
 build: 12.1.0.68914
-fetched: 
+fetched: 2026-08-11
+reviewed: 2026-08-17
 sources:
   - https://us.api.blizzard.com/data/wow/talent-tree (Blizzard Game Data API, Tier 1)
   - https://wago.tools/db2 Trait* @ 12.1.0.68914 (Tier 1)
@@ -14,6 +15,13 @@ confidence: high
 > `Trait*` DB2 exports at the two builds are **byte-identical** (verified by md5 on
 > `TraitNodeEntry`), so this data is valid for live 12.1 — cite it as **@ 12.1.0.68914**,
 > not 69214.
+>
+> ⚠ **Two naming hazards in the Void-Scarred table below.** (1) The tree is the **same node
+> set and the same spell IDs as Havoc's Fel-Scarred tree** (452402–452415, choice pairs and
+> all) — it is one hero tree with a per-spec skin, not a Devourer-only tree. (2) 452402 is
+> emitted here as **Demonsurge**, the Havoc name; the ability data @ `12.1.0.69214` calls it
+> **Voidsurge** and records `Demonsurge` as a former name. **Use Voidsurge for Devourer.**
+> `rotation.md` explains what it does.
 
 
 # Demon Hunter Devourer — talents (12.1.0)

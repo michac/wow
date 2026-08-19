@@ -2,11 +2,15 @@
 title: Security — protected actions, taint, and restricted data (secret values)
 patch: 12.1.0
 fetched: 2026-08-11
-reviewed: 2026-08-11
+reviewed: 2026-08-19   # §3.5.1 and §4.7.1 are 12.1 client measurements taken 2026-08-19; every other [client] tag below is older and was NOT restamped — read each tag, not this line
 sources:
   - https://github.com/Gethe/wow-ui-source (tag 12.1.0, 12.1.0.69273, commit eb941aad028d) — raw/addon-research/wow-ui-source-12.1.0. Every corpus COUNT in this file was re-derived here on 2026-08-11; `[T1 src @12.1.0]` / `[T1 docs @12.1.0]` locators resolve here
   - https://warcraft.wiki.gg/wiki/Patch_12.1.0/API_changes (revid 6801760, 2026-08-09)
-  - https://github.com/Gethe/wow-ui-source (12.0.7.68887, commit 4383ced30106) — raw/addon-research/wow-ui-source; the build an UNSTAMPED locator was read at, and the build every `[client]` measurement in this file was taken on
+  - https://github.com/Gethe/wow-ui-source (12.0.7.68887, commit 4383ced30106) — raw/addon-research/wow-ui-source; the build an UNSTAMPED locator was read at. ⚠ NOT the build every `[client]` measurement was taken on — the 2026-08-19 measurements below are 12.1 and each `[client YYYY-MM-DD]` tag names its own date; the entries in this list say which build each run was flown on
+  - IN-CLIENT MEASUREMENT 2026-08-19 — ClientLab v0.2.6, Retribution Paladin @ 12.1.0.69214,
+    open-world dummy, in and out of combat. §3.5.1 (the AuraContainer route built and drawn
+    from tainted addon code, `includeSpellIDs` honoured on a hostile target) and §4.7.1 (the
+    `C_UnitAuras` seal measured in both closure modes) — the `[client 2026-08-19]` claims here
   - IN-CLIENT MEASUREMENT 2026-07-24 — ClientLab v0.1.0, run 07:49:13, out of combat.
     §4.2's operation table and §6's secret-API-surface existence checks — the
     `[client 2026-07-24]` claims here. ✅ ARCHIVED and re-checkable —
@@ -956,6 +960,21 @@ created and thereafter written by the engine
 `SetDispelTypeText` (:119), `AddDispelTypeTexture` (:84), `AddPandemicRegion` (:236),
 `SetSpellName` (:267). Each has a matching `Get*`/`Clear*`.
 
+⚠ **The container does NOT size its buttons, and every symptom of forgetting looks like
+success.** `CustomAuraButtonTemplate` declares no `<Size>`
+`[T1 src @12.1: Blizzard_CustomAuraButton.xml:5]`; the flow layout's `ApplyElementLayout`
+only calls `ClearAllPoints` + `SetPoint`, and `GetElementSize` **reads** `element:GetSize()`
+`[T1 src @12.1: Blizzard_CustomAuraContainer.lua:669-677]`. So `layout.elementWidth` /
+`elementHeight` change the **spacing arithmetic** and never the frame. A container built
+without `button:SetSize(...)` inside `initializeFrame` reports every call `ok`, fires
+`initializeFrame` for the whole pre-allocated batch, fills the sinks — and draws a row of
+0×0 buttons, i.e. nothing `[client 2026-08-19]`. Size the button first, in the callback,
+before anything is anchored to it.
+
+⚠ **Anchor the container by ONE point.** `OnLayoutComplete` calls `container:SetSize(...)`
+itself once the buttons are placed `[T1 src @12.1: :679-681]`, so pinning both corners
+(`SetAllPoints`) fights the layout that is trying to size it.
+
 **Four constraints that decide whether a design works at all:**
 
 - **`initializeFrame` is the window.** Access restrictions are applied to the button
@@ -978,6 +997,62 @@ created and thereafter written by the engine
   player), plus a new `DISPELLABLE` filter and the return of `IMPORTANT`
   `[T2 wiki: same page, 2026-07-07 and 2026-07-14 entries]`. Groups do not OR, so a
   union display is decomposed into mutually-exclusive groups.
+
+#### 3.5.1 Flown, from tainted addon code, in combat `[client 2026-08-19]`
+
+Everything above §3.5 is a source read. This is the route **built and drawn by an addon** —
+the point at which "documented replacement" becomes "usable".
+
+**Every construction step succeeded, in and out of combat**, on a Retribution Paladin
+against an open-world dummy:
+
+```
+CreateFrame("AuraContainer", nil, parent, "CustomAuraContainerTemplate")   ok
+AddAuraGroup("mine", "HARMFUL", {candidateFilters={isFromPlayerOrPlayerPet=true}})  ok
+AddAuraGroup("byid", "HARMFUL", {candidateFilters={includeSpellIDs={…}}})           ok
+SetUnit("target")                                                          ok
+UpdateAllAuras()                                                           ok
+```
+
+**The finding that unblocks per-spec work: `includeSpellIDs` IS honoured on a hostile
+target.** The filter's own comment permits spell-ID matching *"for helpful buffs on
+assistable units, and harmful buffs on non-assistable units"*
+`[T1 src @12.1: Blizzard_CustomAuraContainer.lua, ValidateCandidateFilters]`, and an enemy
+is the non-assistable case — confirmed in play: a group narrowed to a spell-ID set displayed
+**only** the matching aura while a broadly-filtered group beside it showed everything the
+player had applied. So a display scoped to one spec's own DoTs is buildable today.
+
+**The `SetIcon` and `SetDurationBar` sinks fill.** The engine writes the icon texture and
+drains the bar; nothing in the addon reads an `AuraData`, computes a remaining time, or
+touches a timer. That is the whole shape of the replacement working end to end.
+
+**A side capability worth knowing: the container is the last aura-IDENTIFICATION instrument
+left.** With `C_UnitAuras` shut (§4.7.1), nothing tells an addon which spell id an aura
+carries. But a group narrowed to a *candidate set* of ids displays only the members that are
+actually present, so **which icon appears identifies which id matched** — read by eye, and
+cross-checked against `SpellMisc.SpellIconFileDataID` so the identification is a data match
+rather than a guess about art.
+
+Worked, in this run: a Retribution DoT resolved to spell **383346**, not the 383344 the
+authoring had assumed. Both are named *Expurgation* in `SpellName`; 383344 is the passive
+talent node (icon `1394971`) and 383346 is the aura it applies (icon `1360757` — the same
+FileDataID as Blade of Justice `184575`, which is why it reads as that spell's icon on the
+button). ⚠ **The general trap this instance illustrates: the id a talent carries is not the
+id of the aura it applies**, and both may share a name.
+
+⚠ **What this does NOT give you, restated because the demo is persuasive.** The buttons are
+forbidden while auras are secret and `IsShown` returns a secret, so **there is still no way
+to branch on whether an aura is present.** This route DISPLAYS. A rider that wants to
+*rank* or *gate* on a target aura has no path — the display is the whole capability.
+
+**`initializeFrame` call counts, measured across runs:** 20 out of combat every time; 20 /
+40 / 60 in combat. ⚠ **Read that as container count, not aura count.** The frames are
+pre-allocated in a batch *"to make it harder to observe the transition between zero and
+non-zero auras"* `[T1 src @12.1: Blizzard_CustomAuraContainer.lua, AddAuraGroup]`, and the
+variation tracks how many containers the session had built by then, not what was on the
+target. **The run did not isolate the two**, so this corroborates the pre-allocation and
+does not independently prove the count is aura-blind; a controlled version would hold the
+container count fixed and vary the DoTs.
 
 `ManagedAuraContainer` is the base type that fully manages layout as well as
 selection; Blizzard's own Target Frame uses one `[T2 wiki: same page, 2026-06-30
@@ -1463,6 +1538,41 @@ without reading them `[T2 wiki: Patch 12.1.0/API changes §Aura Classifications,
 revid 6801760, 2026-08-09, quoting the WoWUIDev post of 2026-07-21, which lists the
 spell IDs]`. Anything built on one specific aura passing the predicate is standing on
 a moving floor, and the floor moved.
+
+#### 4.7.1 The aura seal, MEASURED — both closure modes, in combat `[client 2026-08-19]`
+
+Everything above about the two aura predicates was a **source read**. This is the first
+in-client measurement of it on 12.1, and both annotations behave exactly as declared —
+which is worth having on the record precisely because the two failures look nothing alike.
+
+Retribution Paladin, open-world target dummy, in combat (`combat=true`), from tainted code:
+
+| Call | Annotation | What actually happened |
+|---|---|---|
+| `C_UnitAuras.GetUnitAuraBySpellID("target", id)` | `RequiresNonSecretAura` + `SecretWhenUnitAuraRestricted` | **`nil`**, silently, for all four probed spells — Expurgation `383344`, Execution Sentence `343527`, Judgment `20271`, Greater Judgment `231663` |
+| `C_UnitAuras.GetUnitAuraInstanceIDs("target", "HARMFUL")` | `RequiresUnitAuraAccess`, `FailureMode = "Error"` | **Lua error**, verbatim: `Auras cannot be accessed when secret while tainted by '<addon>' Lua Taint: <addon>` — the name is whichever addon's code is executing, as in §4.2 |
+| the same enumeration on **`"player"`** | as above | **the same error** |
+
+Three things this pins down that a source read could not:
+
+1. **The error text is that string.** Anyone debugging a 12.1 aura failure will meet it,
+   and it names taint rather than secrecy, which sends the unwary looking for a taint bug
+   they do not have.
+2. **The escalation is not target-specific.** The player's own aura enumeration fails
+   identically, so "read my own buffs instead" is not a workaround.
+3. **The two modes are genuinely different failures**, and only one is visible. A silent
+   `nil` from the spell-keyed getters is indistinguishable from "no such aura", exactly as
+   §4.7 says — so an addon that only calls those three will conclude the target is clean
+   rather than that it has been refused. The enumeration is the one that tells you.
+
+⚠ **The probed spells were sealed, so this measures the seal and not the allowlist.** It
+says nothing about whether some *other* aura would have answered through the spell-keyed
+getters; the "never secret" list still exists and still moves per build.
+
+⚠ **This is the closed door, not the open one.** The sanctioned route for showing auras you
+may not read is `AuraContainer` / `AuraButton` — §3.5. A design that reaches this section
+and stops has concluded "impossible" from the deprecated API, which is the mistake this run
+made before it was corrected.
 
 The distinction that most sources get wrong:
 
@@ -2442,9 +2552,19 @@ proves the flag is computed **per spell against its own cost**. At high Fury all
 1. **Use `insufficientPower`, NOT `isUsable`.** `isUsable` was measured returning **true for
    a spell visibly on cooldown**. It answers *"can I afford it"*, not *"can I cast it"*.
    Readiness still has to come from a cooldown channel.
-2. **DB2 costs are not the client's costs.** Throw Glaive reads `insufficientPower = false`
-   at a Fury level where everything else fails — i.e. **free** — while DB2 `SpellPower` says
-   25. Any hardcoded cost table is wrong for some build; ask the client.
+2. **`SpellPower` cost is CONDITIONAL — read `RequiredAuraSpellID`, not just `ManaCost`.**
+   Throw Glaive reads `insufficientPower = false` at a Fury level where everything else
+   fails, while `SpellPower.ManaCost` says 25. That is not the table disagreeing with the
+   client: Throw Glaive's **only** `SpellPower` row carries
+   `RequiredAuraSpellID = 393029` — **Furious Throws**, *"Throw Glaive now costs 25 Fury
+   and throws a second glaive at the target"* — so the cost applies **only on a build that
+   talents it**, and the character sampled had not. Baseline Throw Glaive is free and the
+   client said so correctly.
+   Hammer of Light `427453` is the same shape from the other direction: **two** rows, same
+   3 Holy Power, discriminated by `RequiredAuraSpellID` 137027 / 137028.
+   So a cost table IS derivable from game data, provided the talent set is known and the
+   condition column is honoured. What is wrong is reading `ManaCost` alone.
+   *[T1: `raw/wago/SpellPower.csv`, `SpellName` @ 12.1.0.69214]*
 3. **It is BINARY.** It is false at 40 Fury and at 170 alike, so **overcap avoidance is
    unrecoverable through it**. If you need "how full is the bar", the only route is §4.8's
    curve trick — `UnitPowerPercent(unit, type, unmodified, curve)` evaluated in C and handed
@@ -2865,6 +2985,28 @@ brackets is the evidence the rule rests on.
 
 ## Changelog
 
+- 2026-08-19 — new **§3.5.1**: the AuraContainer route FLOWN from tainted addon code. Every
+  construction step succeeds in and out of combat, `includeSpellIDs` is honoured on a
+  hostile target (so a per-spec DoT display is buildable), and the icon and duration-bar
+  sinks fill without the addon reading any aura data. The forbidden-button limit is
+  restated beside it: this route displays and still cannot be branched on. Also records the
+  button-sizing trap — `CustomAuraButtonTemplate` has no `<Size>` and the layout never sets
+  one, so a container built without `button:SetSize` reports every call ok and draws
+  nothing.
+- 2026-08-19 — new **§4.7.1**: the aura seal measured in client for the first time on 12.1.
+  Both predicates behave as annotated and the two failures look nothing alike — the
+  spell-keyed getters return a silent `nil`, the enumerators raise `Auras cannot be accessed
+  when secret while tainted by '<addon>'`. Measured on the player's own auras as well as the
+  target's, so "read my own buffs instead" is not a workaround. Recorded with the pointer to
+  §3.5, because the run that produced it first concluded "impossible" from the deprecated API.
+- 2026-08-19 — **§4.11 trap 2 was wrong and is rewritten.** It read "DB2 costs are not the
+  client's costs — any hardcoded cost table is wrong for some build; ask the client",
+  generalised from one sample where Throw Glaive reported affordable while `SpellPower`
+  said 25 Fury. The table was right and we read one column of it: that row carries
+  `RequiredAuraSpellID = 393029` (**Furious Throws**), so the 25 applies only on a build
+  that talents it. Costs ARE derivable from game data when the condition column is honoured
+  and the talent set is known — which matters, because the old wording forbids building the
+  cost model that a state-driven preview needs.
 - 2026-08-11 — 12.1.0 lands. New §1.5 `Enum.ForbiddenAspect` (11 members — the
   patch-day heads-up listed 6, from a mid-PTR post); new §3.5 AuraContainer/AuraButton;
   new §4.13 Private Script Objects + `CanBeAccessedInContext`. §4.7: `RequiresUnitAuraAccess`

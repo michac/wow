@@ -2,7 +2,8 @@
 title: Paladin Retribution — talent tree (12.1.0)
 patch: 12.1.0
 build: 12.1.0.68914
-fetched: 
+fetched: 2026-08-11
+reviewed: 2026-08-17
 sources:
   - https://us.api.blizzard.com/data/wow/talent-tree (Blizzard Game Data API, Tier 1)
   - https://wago.tools/db2 Trait* @ 12.1.0.68914 (Tier 1)

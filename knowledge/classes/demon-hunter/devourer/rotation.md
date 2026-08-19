@@ -1,238 +1,275 @@
 ---
 title: Demon Hunter Devourer — Rotation (Midnight 12.1)
 patch: 12.1
-fetched: 2026-08-11
-reviewed: 2026-08-11
+fetched: 2026-08-17
+reviewed: 2026-08-17
+augments: simc-apl.md @5f916c6
 sources:
-  - https://worldofwarcraft.com/en-us/news/24293281  # tier 1, 12.1 "Curse of Ula'tek" content update notes — CLASSES ▶ DEMON HUNTER ▶ Devourer; archived verbatim at knowledge/_meta/patch-notes/12.1.md
-  - https://wago.tools/db2  # tier 1, Trait*/Spell* DB2 @ 12.1.0.69214 — corroborated Impending Apocalypse 20% and Otherworldly Focus 30% via the generated ability-inventory.md sibling
-  - simc midnight branch profiles/MID1/MID1_Demon_Hunter_Devourer.simc  # tier 1 APL, 2026-07-11 @ 12.0.7 — NOT re-pulled at 12.1 (talents=CgcBAAAAAAAAAAAAAAAAAAAAAAA2MmZmZmZmBzMAAAAAAALzYAzAAAAAAAAwMGMmZmZMzMzYmFzYsotNmZmZ2abmZGAjZAIwMzgxMA); collapsing_star_stacking max_stack 30 confirms Collapsing Star's 30-Soul cost
-  - simc midnight branch profiles/MID1/MID1_Demon_Hunter_Devourer_Void-Scarred.simc  # tier 1 APL variant, 2026-07-11 @ 12.0.7 — NOT re-pulled at 12.1
-  - https://www.method.gg/guides/devourer-demon-hunter/playstyle-and-rotation  # tier 3, Hype, upd. 2026-06-17, read 2026-07-11 @ 12.0.7 — pre-rebalance
-  - https://www.icy-veins.com/wow/devourer-demon-hunter-pve-dps-rotation-cooldowns-abilities  # tier 3, read 2026-07-11 @ 12.0.7 — pre-rebalance
-confidence: low
+  - knowledge/classes/demon-hunter/devourer/simc-apl.md  # tier 1, the generated 12.1 priority list this file explains (apl_demon_hunter.cpp @5f916c6, 2026-08-14)
+  - https://raw.githubusercontent.com/simulationcraft/simc/midnight/engine/class_modules/sc_demon_hunter.cpp  # tier 1, the spec implementation the APL is written against — read 2026-08-17 for buff/override identities and the Fury-drain model
+  - https://wago.tools/db2  # tier 1, SpellName / Spell / SpellAuraOptions / SpellClassOptions / SpellActivationOverlay / CooldownSetSpell @ 12.1.0.69214
+  - https://worldofwarcraft.com/en-us/news/24293281  # tier 1, 12.1 "Curse of Ula'tek" content update notes — CLASSES ▶ DEMON HUNTER ▶ Devourer; archived at knowledge/_meta/patch-notes/12.1.md
+  - https://www.icy-veins.com/wow/devourer-demon-hunter-pve-dps-rotation-cooldowns-abilities  # tier 3, read 2026-07-11 @ 12.0.7 — pre-rebalance, corroboration only
+  - https://www.method.gg/guides/devourer-demon-hunter/playstyle-and-rotation  # tier 3, upd. 2026-06-17 @ 12.0.7 — pre-rebalance, corroboration only
+confidence: medium
 ---
 
-# Demon Hunter Devourer — Rotation (Annihilator, Midnight 12.1)
+# Demon Hunter Devourer — Rotation (Midnight 12.1)
 
-Devourer has **no fixed rotation — it is a priority system that flips between two
-states**: a build phase **outside Void Metamorphosis** (generate Fury + bank Soul
-Fragments to 50) and a spend phase **inside Void Metamorphosis** (dump Souls into
-Collapsing Star + empowered casts before Fury drains out). As a mid-range caster
-the golden rule is **always be casting** — use the mobility kit (Shift, Vengeful
-Retreat) to reposition between/around casts rather than dropping a global.
+**The priority list is `simc-apl.md` in this folder. This file is why each rung sits
+where it does, and what the sim does not model.** It does not restate the list; open
+that file for the order and the exact conditions.
 
-The two-state *shape* is unchanged in 12.1, but **the weight between the two
-states moved deliberately** — see "What 12.1 changed" below before trusting any
-ordering on this page.
+Devourer is a **mid-range (~25 yd) Void caster** with two interlocking economies. **Fury**
+is the primary resource and fuels **Void Ray**, the main spender, at 100 Fury. **Soul
+Fragments** are the secondary economy: Reap harvests them, and every fragment you consume
+**outside** demon form adds a stack to the `void_metamorphosis_stack` buff. That buff caps
+at **50** `[T1: SpellAuraOptions.CumulativeAura on 1225789]` and **Void Metamorphosis is
+not castable until it is full** — the transform is fragment-gated, not on a timer. *Soul
+Glutton* lowers the requirement to 35 and drains Fury 25 % faster.
 
-Distilled from the Tier-1 SimulationCraft APL (`MID1_Demon_Hunter_Devourer.simc`,
-sub-lists `math_for_wizards` / `reaps` / `melee_combo` / `illicit_doping`)
-corroborated against method.gg and Icy Veins (both Tier-3). **Annihilator was the
-S1 default in every scenario** (see `builds.md`); Void-Scarred variants are noted
-at the end. Talent names on this page were re-checked against the generated
-Tier-1 `talents.md` / `ability-inventory.md` siblings at build `12.1.0.68914` —
-every talent referenced below still exists.
+Inside Void Metamorphosis the same consumed fragments feed a **different** counter,
+`collapsing_star_stacking` — every **30** grants a **Collapsing Star** cast, and the
+counter itself caps at **40** `[T1: SpellAuraOptions.CumulativeAura on 1227702]`. So
+in-window play is: harvest, spend Collapsing Star before the counter reaches 40, and keep
+Fury above the drain until the form ends.
 
-> ⚠ **The priority orders below are 12.0.7-derived and 12.1 moved the balance
-> under them.** The APL was pulled pre-patch and has not been re-run
-> (`wowkb.simc demon-hunter devourer`), and both Tier-3 guides predate the
-> rebalance. Blizzard's stated intent is *slightly less damage inside Meta,
-> significantly more outside* — which is exactly the axis these lists encode. The
-> **button list and the state machine are still right**; the **ordering,
-> especially anything that reads as "hold it for Meta", is not yet re-verified**.
-> Treat exact Soul/Fury/stack thresholds as `@verify-ingame`, and no Warcraft
-> Logs sanity-check has been distilled yet.
+The whole spec is that loop. **12.1 deliberately flattened how much of your damage lives
+inside the window** — Mastery's in-Meta bonus fell 66 %, all ability damage rose 32 %, and
+**Consume** (an out-of-Meta button) gained 60 % on top. Any pre-12.1 advice of the form
+"pool everything for the window" is wrong now. `abilities.md` carries the full 12.1 change
+table; `builds.md` carries the hero-tree argument.
 
-## What 12.1 changed (2026-08-11)
+## Four branches, and which one you are reading
 
-Tier-1, from the Curse of Ula'tek notes. Blizzard's own framing: *"we expect
-damage during Void Metamorphosis to be slightly reduced while damage outside of
-Metamorphosis is significantly increased."*
+`actions.default` is not the body. It dispatches to one of **four** priority lists on hero
+tree × `talent.the_hunt`:
 
-**The rebalance itself**
+| List | Selected by | Lines | Shape |
+| --- | --- | ---: | --- |
+| `annihilator_ranged` | Annihilator, no The Hunt | 19 | flat priority |
+| `annihilator_melee` | Annihilator + The Hunt | 27 | flat priority + melee weave |
+| `voidscarred_ranged` | Void-Scarred, no The Hunt | 15 | flat priority |
+| `voidscarred_melee` | Void-Scarred + The Hunt | 3 → `vsm_st` (20) / `vsm_meta` (18) / `vsm_out` (16) | a **three-state machine**: 54 lines, 47 presses |
 
-| Change | Effect on how you play |
-|---|---|
-| **Mastery: Monster Within** bonus damage during Void Metamorphosis **−66%**, compensated by **all ability damage +32%** | The single biggest change. Meta is no longer a damage cliff you fall off — out-of-Meta GCDs now carry real weight. Also deliberately de-scales Mastery so other stats compete (a `gearing.md` question). |
-| **Consume +60%** — *explicitly does not affect Devour* | The out-of-Meta filler got a large buff and the in-Meta filler (Devour) did not. Consume is no longer "the thing you press when nothing else is up". |
-| **Void Metamorphosis now grants +40% Void Ray damage (was 67%)** | Much less reason to hold a Void Ray for the window. Cast it when Fury says to. |
-| **Collapsing Star +12%** | Still the in-Meta payload, but see the two multipliers below. |
-| **Impending Apocalypse: +20% to the next Collapsing Star per cast (was 30%)** | Chaining Collapsing Stars back-to-back pays less; don't contort the window to squeeze one more. |
-| **Eradicate −6%, secondary-target damage −15%** | Still the AoE backbone, but the falloff past the primary target is steeper. |
-| **Hungering Slash** now grants a **temporary Vengeful Retreat charge** instead of a free cast **plus** a cooldown reset | Void-Scarred melee only. You get *one* Retreat back, not an effectively free chain — see that section. |
-| **Annihilator — Otherworldly Focus: +30% single-target (was 35%)** | Small ST nerf to Collapsing Star + Voidfall Meteors. |
-| **Annihilator — Final Hour: Voidfall bonuses persist 6s (was 8s)** | Tighter. After Reap consumes 3 stacks you have **6s**, not 8, to cash in the lingering Haste/damage-taken bonuses. |
+**`talent.the_hunt` is the melee/ranged switch**, and it is a real playstyle fork, not a
+talent swap: taking The Hunt pulls in Hungering Slash, Voidblade weaving and Vengeful
+Retreat chains, and the Void-Scarred version of it stops being a priority list at all —
+`voidscarred_melee` branches on single-target / in-Meta / out-of-Meta and runs a different
+list in each. It also presses two buttons no other branch has (**Reaper's Toll**,
+**Predator's Wake**), drops **Collapsing Star** entirely, and promotes **Soul Immolation**
+from last to first.
 
-**Global 12.1 changes that land here too**
+⚠ **Do not read a rung number across branches.** Rung numbers below count lines **within
+their own list**, because this spec has no shared body.
 
-- **Player health and creature damage +25% at max level**, with health
-  consumables rescaled. Any absolute HP or healing number written before
-  2026-08-11 is wrong; incoming damage is proportionally larger, so a dropped
-  Void Ray channel to survive a hit is a more common correct call.
-- Blizzard lowered major DPS cooldowns and raised steady-state damage across
-  several specs as a stated direction — Devourer's mastery swap is that policy
-  applied here.
-- **Interrupts now show a "missed" visual + sound** when used on a non-casting
-  target. Cosmetic, but it makes a wasted Disrupt legible mid-pull.
-- **Diminishing-return categories now reset after 20s (was 16s)** — affects
-  chained CC (Void Nova, Sigil of Misery, Imprison), not the damage priority.
-- **Demon Hunters can now equip daggers**, explicitly so Devourer can use
-  Intelligence daggers. That is a weapon-slot change; see `gearing.md`, not this
-  file.
+## The transform overrides — three pairs, and two of them are invisible to the generators
 
-> ⚠ **Tier-1 vs Tier-1 conflict — `Final Hour`.** The patch notes say the
-> Voidfall bonuses persist **6 seconds** (was 8). The spell tooltip pulled from
-> the Blizzard Game Data API on the same day (`ability-inventory.md`, spell
-> `1253805` @ build `12.1.0.69214`) still reads **8 sec**. The neighbouring
-> nerfs *did* land in that same dump (Impending Apocalypse reads 20%,
-> Otherworldly Focus 30%), so this looks like a stale tooltip string rather than
-> an unshipped change. **6s is written above per the patch notes.**
-> `@verify-ingame` — time the buff after a 3-stack Reap.
+Void Metamorphosis re-skins buttons the way demon form does for Havoc, and the same
+override-identity care applies. `sc_demon_hunter.cpp` (Tier 1, read 2026-08-17) names them
+by inheritance:
 
-## Pre-combat / opener (Annihilator)
+| Outside Meta | Inside Meta | Evidence |
+| --- | --- | --- |
+| **Reap** `1226019` | **Cull** `1245453` | long-known; both in `SpellName` |
+| **Consume** `473662` | **Devour** `1217610` | both in `SpellName` |
+| **Voidblade** `1245412` | **Pierce the Veil** `1245483` | `pierce_the_veil_t : voidsurge_trigger_t<PIERCE_THE_VEIL, voidblade_base_t>` |
+| **Hungering Slash** `1239123` ⚠ *[T3]* | **Reaper's Toll** `1245470` `[T1]` | `reapers_toll_t : voidsurge_trigger_t<REAPERS_TOLL, hungering_slash_base_t>` |
+| **The Hunt** `1246167` | **Predator's Wake** `1259431` | `predators_wake_t : voidsurge_trigger_t<PREDATORS_WAKE, the_hunt_base_t>` |
 
-1. **Soul Immolation** ~2s before pull.
-2. **Consume** ~1s before pull.
-3. **Consume** spam until **100 Fury or 3 Voidfall stacks**.
-4. **Reap** (at 3 Voidfall) → **Void Ray** → **Void Metamorphosis** once at 50 Souls.
-5. On-use trinket + potion inside the Meta window (see cooldown rules).
-6. Inside Meta: **Void Ray → Voidblade → Collapsing Star → Cull/Eradicate → Devour**.
+⚠ **Hungering Slash is a FAMILY of ids, and only one of them is Tier 1 here.** `1239519` is the
+**talent entry** — the node you take — and it is what `all-talents.tsv` and
+`spell-descriptions.tsv` carry at `12.1.0.69214` `[T1]`. `1239123` is the **cast / override**
+id, the one the Voidblade button becomes, and it is the id in the table above; the two damage /
+energize members (`1239127`, `1239507`) appear nowhere in this KB. They are not in conflict —
+one talent, four spells, which is the ordinary shape.
 
-## Cooldown rules
+**But `1239123` has no Tier-1 backing in this workspace.** It reaches us only through Wowhead
+links inside `maxroll-raid.md` / `maxroll-mplus.md`, both Tier 3 and both `verbatim: true`, so
+it is marked `[T3]` above rather than left bare beside its Tier-1 neighbours. `projects/combat-assist/specs/devourer/catalog.md`
+builds an override chain on it, which is the reason this matters.
 
-- **Void Metamorphosis is still the spec's engine, but it is no longer the whole
-  game.** It is fragment-gated, not on a timer: bank to **50 Souls** (35 with
-  *Soul Glutton*) and pop it, then extract as many **Collapsing Star** + empowered
-  casts as possible before Fury drains and the form drops. Don't sit on 50 Souls
-  (Feast of Souls caps out and you overflow). **12.1 caveat:** with Mastery's
-  in-Meta bonus cut 66% and all ability damage up 32%, the window is a smaller
-  share of your total damage than it was in 12.0.7 — **do not stall or waste
-  out-of-Meta GCDs setting one up**, and in particular don't hold Void Ray
-  (its Meta bonus is now 40%, was 67%).
-- **Trinkets / potion / Power Infusion** sync to the Void Metamorphosis window
-  (the APL's `illicit_doping` list gates them on the burst window / on-use logic).
-  ⚠ That gating was tuned when Meta was a far bigger multiplier; whether the
-  window is still the right sync point is an open 12.1 question.
-- **The Hunt** (90s) — weave into a Meta window for burst; a core damage button in
-  the Void-Scarred melee build, a lesser priority for Annihilator ST.
-- **Don't overcap Souls or Fury.** *Soul Glutton* lowers the Meta requirement to
-  35 but drains Fury ~25% faster, shortening windows ~30% — spend faster inside.
-  (Shorter, more frequent windows plausibly look better after the 12.1 swap; that
-  is a `builds.md` call and is **not** yet re-simmed, so it is not asserted here.)
-- **12.1: Consume is a real button now** (+60%, on top of the +32% global). It is
-  the out-of-Meta filler *and* the Annihilator Voidfall generator (35% chance per
-  cast). Its Meta form, **Devour**, was explicitly excluded from that buff.
+- Confirm Hungering Slash's cast id: cast it and read the override, or pull `SpellName` / the override tables at `12.1.0.69214` for 1239123, 1239127 and 1239507. @verify-ingame
 
-## Single target (Annihilator)
+⚠ **Reaper's Toll, Pierce the Veil and Predator's Wake are new to this file** and were
+previously unexplained APL actions. They are Void-Scarred's **Voidsurge** casts: entering
+Void Metamorphosis empowers Voidblade, Hungering Slash and The Hunt, and the *first* cast
+of each in the window induces a Voidsurge explosion. Like Cull and Devour they attach to no
+acquisition table, so they appear in **no** generated inventory — but all three are in
+`SpellName` at `12.1.0.69214` with descriptions that match their parents' text, which is
+what settles them.
 
-**Outside Void Metamorphosis:**
-1. **Reap / Eradicate** at **3 Voidfall stacks** (spend the stacks → Void Meteors).
-   *12.1:* the lingering Voidfall bonuses from *Final Hour* now last **6s**, so
-   line up what you want buffed before you spend the stacks, not after.
-2. **Void Metamorphosis** as soon as it's available (50 Souls)
-3. **Void Ray** at 100 Fury (main spender + Soul generation) — **cast it, don't
-   bank it for Meta** (12.1: Meta's Void Ray bonus is 40%, was 67%)
-4. **Soul Immolation** if not active
-5. **Consume** (filler / Fury + Soul builder — **+60% in 12.1**, and the Voidfall
-   generator)
-6. **Reap** at 4+ Souls if it pushes you to Void Metamorphosis access
+⚠ **"Voidsurge" is what 12.1 calls it; "Demonsurge" is the stale name.** The Void-Scarred
+hero tree is the **same node set and the same spell IDs as Havoc's Fel-Scarred tree**
+(452402–452415, choice pairs and all). `talents.md` @ `12.1.0.68914` still emits the Havoc
+name **Demonsurge** for 452402; the ability data @ `12.1.0.69214` carries `Voidsurge` with
+`Demonsurge` recorded as a former name. **Use Voidsurge.**
 
-**Inside Void Metamorphosis:**
-1. **Collapsing Star** if Meta is about to expire (don't lose the cast)
-2. **Void Ray** if Meta is about to expire
-3. **Cull / Eradicate** if Meta is expiring and it makes enough Souls for one more Collapsing Star
-4. **Voidblade** (if *Devourer's Bite* talented — damage amp)
-5. **Collapsing Star** — costs **30 Souls** per cast; fire it at **≥30 stored
-   Souls** so you don't overcap (was mis-stated as 35)
-6. **Void Ray**
-7. **Cull / Eradicate** at 3 Voidfall stacks, <30 Souls
-8. **Collapsing Star**
-9. **Devour** (filler — the one button 12.1's +60% Consume buff deliberately
-   skipped; it is now the weakest GCD in the window)
+## Void-Scarred, ranged (`actions.voidscarred_ranged`) — why each rung is there
 
-*12.1 note on the in-Meta list:* *Impending Apocalypse*'s stacking bonus dropped
-to **20% per Collapsing Star** (was 30%), so the payoff for bending the window
-around a longer Collapsing Star chain is smaller than the ordering above implies.
+The 15-line list, in order. This is the branch a Void-Scarred player without The Hunt runs.
 
-## Cleave / AoE (Annihilator)
+1. **Voidblade at a full soul bank, with *Devourer's Bite*** — Voidblade applies a stacking
+   +12 %-damage-taken debuff for 10 s. Spending the last global before you transform puts
+   that amp *on* the window instead of wasting it outside one. Without the talent the line
+   is inert.
+2. **Void Metamorphosis** — the engine. Gated on `buff.eradicate.up` (or no *Eradicate*
+   talent, or single target), i.e. don't transform mid-way through setting up the AoE
+   upgrade. Note the button is uncastable below a full soul bank regardless: simc's
+   `action_ready()` returns false unless `void_metamorphosis_stack` is at max stacks.
+3–4. **Devour / Consume on Soulburst** — `buff.soulburst` is the **Season 2 2-piece**
+   (`1297433`): harvesting 4+ fragments with Reap has a 20 % chance to make your next
+   Consume instant and explode. It promotes the spec's *last* rung to near the top, so it
+   is the single largest rank swing in the list. Rung 3 is the single-target Devour case;
+   rung 4 catches everything else. **Both rungs vanish without the tier.**
+5. **Collapsing Star at 35+ counter, single target** — the counter caps at 40, so 35 is
+   "five from wasting harvested souls". At 2+ targets this is unconditional and drops to
+   rung 9 instead.
+6–7. **Reap / Cull / Eradicate at 4+ available fragments** (and a `fight_remains<=6` dump).
+   `actions.reaps` is `eradicate` → `cull` → `reap`: one list, whichever form is live.
+8. **Void Ray** — the main spender, and the line that *creates* the Eradicate upgrade
+   (a full channel turns Reap into Eradicate). Its condition is `!buff.eradicate.up |
+   !buff.moment_of_craving.up | set_bonus.midnight_season_2_4pc`: with the S2 4-piece it is
+   unconditional; without it, you hold the channel only while **both** upgrades are already
+   banked.
+9. **Collapsing Star, 2+ targets** — unconditional in AoE.
+10. **Vengeful Retreat on Voidstep** — `buff.voidstep` (`1223157`) is *"Your next Vengeful
+    Retreat will release a Cosmic explosion at your location"*, granted by **Hungering
+    Slash**. This is a damage press, not a mobility one, and it is the only Vengeful Retreat
+    rung in the branch: **no Voidstep, no press.**
+11–12. **Reaper's Toll / Pierce the Veil while their Voidsurge is owed** — the once-per-window
+    empowered casts. See the caveat below: the sim tracks the owed cast with an internal
+    placeholder buff, so these two rungs have no game aura behind them.
+13. **Soul Immolation when its effect is absent, and — in Meta — only while Fury is below
+    one second of drain.** Out of Meta this is ordinary maintenance. **Inside Meta it is an
+    emergency top-up that keeps the form alive**, which is a shape no other DH spec has: a
+    press that *sustains a form* rather than spending into it. Soul Immolation returns 30
+    Fury (+12 with *Singed Spirit*) over 5 s.
+14–15. **Devour / Consume** — the unconditional floor. Whatever is left, you press this.
 
-**Outside Void Metamorphosis:**
-1. **Void Metamorphosis** when available
-2. **Eradicate** at **3 Voidfall stacks**
-3. **Eradicate** with *Moment of Craving* active + 10 Souls on the ground
-4. **Void Ray**
-5. **Soul Immolation** if not active
-6. **Consume**
-7. **Reap** at 4+ Souls (grants Meta access)
+### The Fury drain is a fitted model, not a game number
 
-**Inside Void Metamorphosis:**
-1. **Collapsing Star** (before overcapping ~40 Souls)
-2. **Eradicate** with *Moment of Craving* + 10 Souls
-3. **Void Ray**
-4. **Devour**
+`void_metamorphosis_base_drain_ps` in the APL is simc's own curve,
+`15.0 + 1.40 · e^(0.0775 · stacks)` where `stacks` counts drain ticks so far
+(`sc_demon_hunter.cpp`, `fury_state_t`; the comment says it was fit against per-tick drain
+schedules from logs, PR #11549). That is **≈16.4 Fury/s at the start of a window and
+accelerating** — ~22/s twenty ticks in. *Soul Glutton* divides the whole curve up by 25 %.
+So rung 13's `fury < void_metamorphosis_base_drain_ps` means roughly *"under ~16–25 Fury,
+one tick from dropping out"*. It is a model, not a tooltip. `@verify-ingame`
 
-*Eradicate* (the AoE frontal that Reap becomes after a full Void Ray channel) is
-the multi-target backbone — it "stands for a massive portion" of Devourer's AoE.
-**12.1 trimmed it**: base damage **−6%** and **secondary-target damage −15%**, so
-the cone falls off harder past the primary target. It is still the backbone (the
-+32% global buff more than covers the −6%), but its share of a big pull is lower,
-and the case for aiming the cone carefully — primary target first — is stronger.
+### Two upstream oddities, flagged and left alone
 
-## Void-Scarred branches
+- ⚠ **`annihilator_ranged` negates the set-bonus term** where the other three branches do
+  not: `void_ray,if=…|!set_bonus.midnight_season_2_4pc` vs `…|set_bonus.midnight_season_2_4pc`.
+  Possibly an upstream typo. It is Tier 1, so it is reported and not "fixed".
+- ⚠ **`buff.voidsurge_reapers_toll` and `buff.voidsurge_pierce_the_veil` are not game auras.**
+  Both are simc's `demonsurge_placeholder_buff`, created `set_quiet(true)` and triggered for
+  every Voidsurge ability on entering the form — the sim's bookkeeping for "this window's
+  empowered cast is still owed". There is a real overlay aura in the neighbourhood
+  (`1245523`, *"Pierce the Veil is replaced with Reaper's Toll"*), but it describes the
+  *replacement*, not the owed cast. Do not read these two rungs as tracking something the
+  client shows. `@verify-ingame`
 
-Two Void-Scarred variants exist (`MID1_Demon_Hunter_Devourer_Void-Scarred.simc`,
-Tier-1) and are single-target-competitive but weaker the moment targets are added:
+## Season 2 tier is load-bearing on this branch
 
-- **Void-Scarred caster** — outside Meta: Voidblade (if *Devourer's Bite*, next
-  cast is Meta) → Void Metamorphosis → Void Ray → Soul Immolation → Reap →
-  Consume. Inside Meta: Collapsing Star / Void Ray (if expiring) → **Cull on CD**
-  → Pierce the Veil (if *Devourer's Bite*) → Void Ray → Collapsing Star → Cull
-  (Student of Suffering-buffed) → Cull → Devour → Soul Immolation (fallback).
-- **Void-Scarred melee** — adds a `melee_combo` layer: **Vengeful Retreat** (if
-  *Voidstep*-buffed) → **Hungering Slash** → **The Hunt** → **Voidblade** before
-  transforming, then inside Meta: Reaper's Toll → Pierce the Veil → Predator's
-  Wake weave between Void Ray / Collapsing Star / Devour. Stat priority shifts
-  toward Crit (see `builds.md`).
-  - ⚠ **12.1 changed the Retreat half of that combo.** Hungering Slash used to
-    give a **free Vengeful Retreat cast *and* reset its cooldown** — Blizzard
-    calls the old behaviour a bug. It now grants **one temporary Vengeful Retreat
-    charge**, and your next Retreat **within 6s** deals bonus Cosmic damage
-    (Tier-1 tooltip, spell `1239519` @ `12.1.0.69214`). Practically: you get
-    **one** Retreat back, not an effectively free chain, and it is **use-it-or-
-    lose-it inside 6s** — so fire the Retreat promptly after Hungering Slash
-    rather than saving it, and stop planning around a reset that no longer
-    happens. The pre-transform sequence order above still holds.
+Three of the fifteen rungs move on the Midnight Season 2 set, which did not exist when the
+Season 1 guidance was written:
 
-Gameplay difference: **Annihilator** ramps *Voidfall* → Void Meteors and did
-little outside Meta (sharp in-window play required); **Void-Scarred** ramps
-*Burning Blades* with Reap/Cull and lines big hits inside *Student of Suffering*,
-so it has more consistent out-of-Meta damage. **12.1 narrowed that gap from the
-Annihilator side** — the mastery-for-ability-damage swap is precisely a transfer
-of power out of the Meta window, which is where Annihilator's edge sat. Whether
-Annihilator is still the default in every scenario is now an open question, not a
-settled one; `builds.md` still says S1's answer and has not been re-simmed.
+- **2-piece → `buff.soulburst`** (`1297433`, damage `1297432`): rungs 3 and 4 exist only
+  with it.
+- **4-piece → `set_bonus.midnight_season_2_4pc`**: it makes Void Ray unconditional at rung 8
+  and grants *Moment of Craving* independently of the talent
+  (`spec.moment_of_craving_buff` is looked up on `talent || MID2 B4`).
 
-## TODO
+Season 2 opens **2026-08-18**. Read every rung above as the *geared* list.
 
-- [ ] **Re-pull the Tier-1 APL at 12.1** (`wowkb.simc demon-hunter devourer`,
-      both the default and the Void-Scarred variant) and re-derive the priority
-      orders. This is the blocker on raising `confidence:` back to medium —
-      everything on this page below the "What 12.1 changed" section is
-      12.0.7-derived ordering.
-- [ ] Re-check the Annihilator-vs-Void-Scarred default after the mastery swap
-      (feeds `builds.md`, and the Mastery-heavy stat priority in `gearing.md` —
-      Blizzard's stated goal was to let other stats compete).
-- [ ] `@verify-ingame` **Final Hour**: patch notes say Voidfall bonuses persist
-      **6s**, the 12.1.0.69214 spell tooltip still reads 8s. Time it after a
-      3-stack Reap.
-- [ ] Sanity-check the opener + Meta window against a top WCL log
-      (`wowkb.wcl rankings` → `casts`) — none distilled yet (new spec).
-- [ ] Re-distill exact Soul/Fury/Voidfall thresholds from a fuller simc APL dump
-      (the sub-list conditions were summarized, not reproduced line-for-line).
-- [x] Collapsing Star Soul cost — **30** (resolved 2026-07-14): `abilities.md`
-      and the Tier-1 APL agree (the `collapsing_star_stacking` buff caps at 30,
-      `stack>=30` / `.max_stack`). Fixed the "35+" in the in-Meta priority above.
-- [ ] Confirm Void Ray in-Meta cooldown (14s vs 16s) in-game (still open — the
-      12.1 DB2 dump lists no cooldown on the spell at all, so this is unresolved
-      rather than answered).
+## What the sim does not model
+
+- **Range and planting.** Void Ray is a ~2.7 s channel you stand still for, and the sim's
+  dummy never has to move. The real cost of a dropped channel is a lost Eradicate upgrade
+  *and* a lost Moment of Craving reset, which is much worse than the lost damage.
+- **Picking fragments up.** `pick_up_fragment` is a real action in **two** of the four
+  branches — `annihilator_ranged` (twice) and `voidscarred_melee` (in all three of its
+  sub-lists). `annihilator_melee` and `voidscarred_ranged` have none at all. It is
+  *walking over a soul*, with a
+  `line_cd` and a `mode=nearest`. It is not a button and it has no spell; it is the sim's
+  model of positioning, and in play it is the largest thing on this list that no icon can
+  tell you about.
+- **`fight_remains`.** Rung 7 and the trinket lines are perfect-information dumps with no
+  human equivalent. Read them as "burn it if the pull is nearly over".
+- **`wait,sec=0.05`.** **All three** of `voidscarred_melee`'s sub-lists contain an
+  explicit *do nothing* —
+  hold the global rather than spend a fragment that would overflow the bank. The correct
+  answer at those moments is genuinely "press nothing".
+
+## Talent gates that change the priority
+
+- **The Hunt** — the melee/ranged branch switch (above). The single biggest fork.
+- **Devourer's Bite** — without it, `voidscarred_ranged` rung 1 (the pre-transform
+  Voidblade) does not exist.
+- **Eradicate** — without it, Void Metamorphosis's rung-2 condition is vacuous and it is
+  pressed the moment the bank fills.
+- **Soul Glutton / Emptiness** — 35-soul windows that are shorter and faster, versus 50-soul
+  windows that ramp Haste. Icy Veins' 12.1 Void-Scarred lists take Soul Glutton to cycle
+  Voidsurge as often as possible.
+- **Moment of Craving** — the Void-Ray-resets-Reap loop. Also granted by the S2 4-piece.
+- **Second Helping** — a flat extra Reap charge, unconditional.
+- **Hero tree** — the four-way branch above. `builds.md` owns the contested Annihilator vs
+  Void-Scarred call; it is **not settled** as of 2026-08-17.
+
+⚠ **Which Void-Scarred branch the guides recommend is unresolved.** Icy Veins publishes two
+Void-Scarred loadouts (`builds.md`) but the strings have not been decoded, so whether they
+take The Hunt — and therefore whether the recommended build runs `voidscarred_ranged` or the
+three-state `voidscarred_melee` — is unknown. `@verify-ingame`
+
+## Open questions
+
+- `@verify-ingame` **Void Ray's in-Meta cooldown.** *Voidpurge* reduces it by 2.0 s
+  `[T1]`, so a cooldown exists; the magnitude is still Tier-3 (~16 s, 14 s with Voidpurge)
+  and the 12.1 DB2 lists none on the spell.
+- `@verify-ingame` **Final Hour's Voidfall persistence.** The 12.1 patch notes say **6 s**;
+  the `12.1.0.69214` tooltip still reads 8 s. The notes are the floor. Time it after a
+  3-stack Reap.
+- `@verify-ingame` **The Fury drain rate.** simc's fitted curve (above) is the only number
+  anyone has. Watch a window and see whether ~16/s rising is right.
+- `@verify-ingame` **Is Void Metamorphosis greyed out below a full bank, or merely
+  unusable?** simc refuses the action; whether the client shows the button as unusable (and
+  therefore whether the Cooldown Manager already communicates the gate) is unmeasured.
+- No Warcraft Logs history has been distilled for this spec — it is new in Midnight and
+  Season 2 has not opened.
+
+## Changelog
+
+**2026-08-17 — rewritten as a supplement to the generated `simc-apl.md`.** The file was a
+hand-transcription of the **12.0.7** MID1 profiles, at `confidence: low`, with no reference
+to `simc-apl.md` at all — two copies of the priority in one folder. The transcribed
+Annihilator single-target / AoE / in-Meta lists are deleted rather than annotated; the
+current list is one file away. What the re-source changed:
+
+- **The APL has four branches, not one.** The old file described a single Annihilator
+  priority with Void-Scarred as a footnote. `talent.the_hunt` forks each hero tree into a
+  ranged priority list and a melee one, and `voidscarred_melee` is a three-state machine
+  rather than a list.
+- **`collapsing_star_stacking` caps at 40, not 30.** The old sourcing note read "max_stack
+  30 confirms Collapsing Star's 30-Soul cost". 30 is the *grant threshold*
+  (`talent.collapsing_star->effectN(1)`); the buff's `CumulativeAura` is **40**. The
+  distinction is what makes `voidscarred_ranged`'s `stack>=35` reachable at all — under the
+  old number it would have been dead code and Collapsing Star would never fire at single
+  target.
+- **Reaper's Toll, Pierce the Veil and Predator's Wake are identified** as the Void
+  Metamorphosis forms of Hungering Slash, Voidblade and The Hunt.
+- **Voidstep is real.** `abilities.md` said "no talent named Voidstep exists in the 12.1
+  tree", which is true and misleading: Voidstep (`1223157`) is the **buff** Hungering Slash
+  grants — *"your next Vengeful Retreat will release a Cosmic explosion"* — and it is the
+  only thing that makes Vengeful Retreat a press in `voidscarred_ranged`.
+- **Voidsurge is the 12.1 name** for the Void-Scarred signature; `talents.md`'s
+  **Demonsurge** is a stale build's string, and the tree itself is Fel-Scarred's node set.
+- **The Season 2 tier set moves three rungs**, including creating the branch's biggest rank
+  swing (Soulburst on Consume).
+- **The Fury drain in Meta is a fitted simc curve**, not a game constant.
+
+**2026-08-11 — the 12.1 rebalance.** Mastery's in-Meta bonus −66 %, all ability damage
++32 %, Consume +60 % (Devour excluded), Void Ray's Meta bonus 40 % (was 67 %), Collapsing
+Star +12 %, Eradicate −6 % / −15 % secondary, Impending Apocalypse 20 % (was 30 %), Final
+Hour 6 s (was 8 s), Otherworldly Focus 30 % (was 35 %), Hungering Slash's follow-up reworked
+to a temporary Vengeful Retreat charge. `abilities.md` holds the full table.

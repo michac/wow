@@ -3,7 +3,7 @@ title: Paladin Retribution — ability inventory (12.1.0)
 patch: 12.1.0
 build: 12.1.0.69214
 fetched: 2026-08-11
-reviewed: 2026-08-11
+reviewed: 2026-08-19
 sources:
   - https://wago.tools/db2 (Tier 1, DB2 pinned @ 12.1.0.69214)
   - projects/keybinder/data/bellular-keybinds.seed.json (castable rescue)
@@ -128,7 +128,7 @@ specID **70** · **189** rows · talent-active 17 · talent-choice 1 · class-ba
 | 104 | Empyrean Power | `326732` | — | talent-passive | TraitNodeEntry | spec | — | Buff | — |
 | 105 | Endless Gleam | `1263787` | — | talent-passive | TraitNodeEntry | hero | Herald of the Sun | — | — |
 | 106 | Endless Wrath | `432615` | — | talent-passive | TraitNodeEntry | hero | Templar | — | — |
-| 107 | Expurgation | `383344` | — | talent-passive | TraitNodeEntry | spec | — | Buff | — |
+| 107 | Expurgation | `383344` | — | talent-passive | TraitNodeEntry | spec | — | Buff | ⚠ the TALENT; the DoT it applies to the target is `383346` |
 | 108 | Eye for an Eye | `469309` | — | talent-passive | TraitNodeEntry | class | — | — | — |
 | 109 | Faith's Armor | `406101` | — | talent-passive | TraitNodeEntry | class | — | — | — |
 | 110 | Fear No Evil | `1265541` | — | talent-passive | TraitNodeEntry | class | — | — | — |

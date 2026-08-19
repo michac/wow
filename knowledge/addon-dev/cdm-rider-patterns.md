@@ -2,11 +2,12 @@
 title: Cooldown-Manager rider patterns — 12.1 secret-safe API cookbook
 patch: 12.1.0
 fetched: 2026-08-12
-reviewed: 2026-08-16   # §4.1 and §15 reconciled against cooldown-manager.md's 12.1.0 source reads; the rest not re-checked
+reviewed: 2026-08-19   # §11 re-grounded on shipped 12.1 source (base-spell contract, nil return, macro/stance/pet coverage gap, combat safety, display formatting) — it had been mined-only; the rest not re-checked
 sources:
   - "Cooldown Companion 2.0 (live install)"
   - "Cooldown Manager Centered 4.2.1 (live install)"
   - "EllesmereUI Cooldown Manager 8.8.4 (live install)"
+  - "Blizzard UI source 12.1.0 — Blizzard_ActionBar, Blizzard_SharedXML/BindingUtil.lua, Blizzard_APIDocumentationGenerated/ActionBarFrameDocumentation.lua"
 confidence: medium
 ---
 
@@ -393,6 +394,14 @@ for _, viewer in ipairs({ EssentialCooldownViewer, UtilityCooldownViewer,
     hooksecurefunc(viewer, "RefreshLayout", OnViewerRelaidOut)  -- the destructive one
 end
 ```
+
+⚠ **On the destructive path, re-apply is the wrong repair — rebuild.** The pool releases
+through a map and re-acquires off a stack, so after a `RefreshLayout` the frame that drew
+one row routinely draws another (`cooldown-manager.md` §4.1). A rider holding a
+cooldownID → frame table and re-decorating those frames therefore puts correct work on the
+wrong icons, and its own bookkeeping cannot detect it, because the cached id is the thing
+that is wrong. Re-enumerate `GetItemFrames()` and re-read each `GetCooldownID()`; treat a
+live id that disagrees with the cached one as the signal to discard the whole table.
 
 `Layout` still fires often enough to be the wrong place for expensive work: the viewer
 sets `alwaysUpdateLayout` and never clears it, so every `Layout()` call re-anchors every
@@ -876,8 +885,31 @@ The `ITEM_*_COLOR` fields on `CooldownViewerConstants` are `ColorMixin`s — cal
 
 A two-stage lookup: spell to action slot, then slot to binding key.
 
+**Stage 1 takes a BASE spell, and that is the API's stated contract, not a fallback.**
+`C_ActionBar.FindSpellActionButtons(spellID)` is documented *"Expects a base spell, so if a
+spell is overridden the base ID should be provided"*
+`[T1 docs: ActionBarFrameDocumentation.lua:66]`. This matters more on the CDM than on a
+plain bar: a row's resolved identity is routinely an override while the player's bar holds
+the base, so `C_Spell.GetBaseSpell` is the lookup that hits, not the one that rescues.
+It returns a **list of absolute slots**, and `MayReturnNothing` — so an unslotted spell
+yields **nil, not an empty table** `[T1 docs: ActionBarFrameDocumentation.lua:66]`.
+`HasSpellActionButtons(spellID)` is the cheap existence test
+`[T1 docs: ActionBarFrameDocumentation.lua:566]`.
+
+**It does not see macros, the stance bar, the pet bar or the possess bar.** Blizzard says so
+in its own comment — *"FindSpellActionButtons does not cover special bars like Stance and Pet
+bars, so now check those"* `[T1 src: ActionButtonUtil.lua:112]` — and supplements it via
+`GetShapeshiftFormInfo` / `GetPetActionInfo` / `GetPossessInfo` inside
+`ActionButtonUtil.GetActionBarsForSpell(spellID, …)` `[T1 src: ActionButtonUtil.lua:104]`,
+which is the higher-level wrapper to reach for when those bars matter. **Macros are the gap
+that shows up first in practice:** the lookup is spell-keyed, so a slot holding a macro that
+casts the ability has `actionType == "macro"` and is invisible to it. A player who macros
+their cooldowns gets no key on exactly those buttons — which is a product decision (blank, or
+fall back to a slot scan), not a bug to fix in this recipe.
+
 ```lua
--- Stage 1: spell -> action slots (probe the base form too).
+-- Stage 1: spell -> action slots. The BASE form is the documented input; probe both because
+-- the CDM hands you the override.
 local function SpellActionSlots(spellID)
     local slots = {}
     for _, s in ipairs(C_ActionBar.FindSpellActionButtons(spellID) or {}) do slots[#slots+1] = s end
@@ -933,7 +965,46 @@ end
 
 Rebuild the whole map on: `UPDATE_BINDINGS`, `ACTIONBAR_SLOT_CHANGED`,
 `ACTIONBAR_PAGE_CHANGED`, `UPDATE_BONUS_ACTIONBAR`, `UPDATE_OVERRIDE_ACTIONBAR`,
-`UPDATE_VEHICLE_ACTIONBAR`, `UPDATE_SHAPESHIFT_FORM`, `PET_BAR_UPDATE`.
+`UPDATE_VEHICLE_ACTIONBAR`, `UPDATE_SHAPESHIFT_FORM`, `PET_BAR_UPDATE`. Blizzard registers
+the first two on `ActionBarButtonEventsFrameMixin:OnLoad`
+`[T1 src: ActionButton.lua:206-207]` and the bar-level ones on the controller
+`[T1 src: ActionBarController.lua:12-24]`. A spec swap surfaces to the bars as a burst of
+`ACTIONBAR_SLOT_CHANGED` rather than as its own bar event — no action-bar file registers
+`PLAYER_SPECIALIZATION_CHANGED` `[searched 2026-08-19: Blizzard_ActionBar/**,
+Blizzard_ActionBarController/**]` — but a cache keyed by spell still wants it, because
+talent overrides change which base ID is slotted.
+
+**The whole read chain is callable in combat, and writing your own FontString from it is
+safe.** Blizzard handles `UPDATE_BINDINGS` mid-combat and runs
+`GetBindingKey` → `GetBindingText` → `HotKey:SetText` with no lockdown check
+`[T1 src: ActionButton.lua:950-951, :470-505]`; no file under `Blizzard_ActionBar` guards
+this path at all `[searched 2026-08-19: Blizzard_ActionBar/** for InCombatLockdown]`. A
+FontString region is not protected even when its parent button is — Blizzard re-`SetPoint`s
+`HotKey` inside a protected action button `[T1 src: ActionButton.lua:496-503]`. So any
+"rescan only out of combat" fence in a rider is a **cost** rule about scan churn, never a
+safety rule, and a fence that defers a dirtied cache to `PLAYER_REGEN_ENABLED` will blank or
+stale the hint for the rest of a pull. Debounce instead of deferring.
+
+⚠ **The write side is the opposite.** `SetBinding`, `SaveBindings`, `PlaceAction`,
+`PickupAction` and the macro editors are lockdown-gated; reading a binding and displaying it
+shares none of that. Blizzard's own guard idiom where it does matter is
+`if issecure() or not InCombatLockdown() then` `[T1 src: EditModeManager.lua:712]`.
+
+⚠ **Inside the restricted addon environment `GetActionInfo` is scrubbed** — `scrubActionInfo`
+whitelists `spell/companion/item/macro/flyout/outfit` and returns **only** `actionType` for
+anything else, dropping `id` and `subType`
+`[T1 src: RestrictedEnvironment.lua:162-174]`. Ordinary addon code sees the full return; a
+secure snippet does not.
+
+**Formatting the key for display.** `GetBindingText(key, 1)` — the abbreviate flag is a
+positional truthy argument (`1`, `true` and `0` all appear in shipped calls), **not** the
+string `"KEY_ABBR"`, which is the naming convention for the `KEY_ABBR_*` global strings the
+function looks up internally `[T1 src: ActionButton.lua:491; SharedConstants.lua:55-59]`.
+`GetBindingKeyForAction(action, useNotBound, useParentheses)` is Blizzard's own wrapper over
+the pair, with a `NOT_BOUND` fallback `[T1 src: BindingUtil.lua:151]`. Note that none of
+`GetBindingKey` / `GetBindingText` / `SetBinding` appear in the generated API docs — they are
+legacy globals, and only `C_KeyBindings.*` is documented
+`[searched 2026-08-19: Blizzard_APIDocumentationGenerated/**]`.
 
 ---
 

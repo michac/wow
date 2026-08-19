@@ -75,8 +75,87 @@ failure: it looks like diligence and it spends a play session.
 
 **There is nothing to schedule.** `Autorun.lua` runs every built test on the next login,
 again ~2 s into combat, and retries the still-unanswered ones every 3 s while the pull
-lasts. **Writing the test is queuing it.** The whole in-game procedure remains: enable the
+lasts. **Writing the test is queuing it.** ⚠ But *"still unanswered"* is decided by the
+test itself, and getting that wrong is the one way to waste a flight — **§3.1**. The whole in-game procedure remains: enable the
 addon, `/reload`, go pull something.
+
+### 3.1 The one rule that decides whether a flight is wasted
+
+**`measured` is not a description of the run. It is the scheduler.**
+
+`Autorun` re-runs a test only while it declines. `runOne` sets `declined` from
+`value.measured == false`, `ns.Unanswered` collects the declined, and the 3 s ticker
+re-runs exactly those. So the moment a test returns `measured = true` it **leaves the
+unanswered set and is never sampled again for that pull**. There is no second chance and
+no warning; the log simply contains one early sample, rendered as an answer.
+
+The trap is that an author writes `measured` meaning *"did I get data?"* while it means
+*"is this run over?"*, and those come apart precisely when a test fires before the game
+reached the state it was written for.
+
+> **The rule: return `measured = true` only when the observation could not have been
+> produced by the world where nothing has happened yet.**
+
+The worked example, and the reason this section exists — twice:
+
+```
+C_UnitAuras.GetUnitAuraBySpellID("target", 383344)  -->  nil
+```
+
+Two worlds produce that. **The DoT is not on the target yet** — sample again in three
+seconds. **The seal hides it** — the finding we flew for. Same four letters. A test that
+calls the first one an answer records "unreadable" for an aura nobody had applied, and it
+will never look again.
+
+So before writing `measured = true`, name the other world that produces the same bytes. If
+you can name one, you are declining:
+
+```lua
+return { measured = false, why = "every candidate returned a bare nil — indistinguishable "
+  .. "from 'no DoT applied yet'. Cast Blade of Justice and stay in combat." }
+```
+
+⚠ **A refusal IS an answer.** An error, a `SecretArguments` rejection, a Precondition
+firing — those distinguish the worlds and should be recorded as measured, not retried. The
+rule is about ambiguity, not about failure.
+
+⚠ **`why` is read by a human deciding whether to re-fly**, so it names the state that was
+missing and how to reach it. "no target" is a status; "target a dummy and stay in combat"
+is a next action.
+
+### 3.2 The traps this lab has actually hit
+
+Not general Lua advice — these each cost a flight or a wrong claim, and they recur.
+
+- **`x and y or z` returns `z` when `y` is legitimately `false` or `nil`.** Every guarded
+  read in a test is exactly this shape, and `false` is exactly what half of these tests are
+  trying to observe. **Write the branch out long.** Hit twice, most recently reporting a
+  colour as *readable* — the leak result — because the method was absent and
+  `not IsSecret(nil)` is `true`.
+- **Do not sample `list[1]` and report on it.** A permanent override, a first aura, a first
+  frame: whatever sorts first will win every run, and the test silently answers a narrower
+  question than its `id` claims. Report every element, keyed by name.
+- **A control that can only return one value is not a control.** Probing a *target* debuff
+  against the *player* returns `nil` forever and proves nothing. Discover a subject at
+  runtime that the control can actually succeed on, and record "inconclusive" when you
+  cannot — never a nil dressed as a comparison.
+- **Read the code that emitted a log before believing the log.** An absent record proves
+  nothing until you know the emitter could have written it. A capture stream whose writer
+  only runs out of combat cannot evidence anything about combat, and its silence is not
+  data.
+
+### 3.3 `phase` — two fields, one name, and most values inert
+
+⚠ There are **two** unrelated `phase` fields and neither does what its name suggests.
+
+| Where | The only value that does anything | What it does |
+|---|---|---|
+| `ns.Test{ phase = … }` (the record) | `"roundtrip"` | `Report.lua` flags a round-trip whose read-back never landed. |
+| the **returned table**'s `value.phase` | `"read-back"` | `runOne` marks this run as the one that recovered a payload. |
+
+Every other value of either is **inert**. `phase = "combat"` looks like scheduling and is
+not — scheduling comes from `measured` alone (§3.1). Leave `phase` unset unless you mean
+one of the two values above.
 
 ## 4. Clearing one
 
