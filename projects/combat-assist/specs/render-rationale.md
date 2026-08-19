@@ -253,7 +253,7 @@ Three things were rejected on the way to that:
   expresses. Admitting them buys a second way to say something already said; admitting `capped`
   buys the only way to say something otherwise unsayable. That is the whole test, and it is why
   the gate is "at most one" rather than "positives allowed."
-- **"About to cap" instead of "capped."** Better warning, not expressible: R6/OBS-066 measured
+- **"About to cap" instead of "capped."** Better warning — no authored form yet: R6/OBS-066 measured
   `isActive` true at both 1/2 and 0/2, so it means *recharge running*, not *which charge*. A
   threshold on the recharge duration would fire identically when the player is about to cap and
   when they are about to regain their first charge — i.e. loudest while starved, which is worse

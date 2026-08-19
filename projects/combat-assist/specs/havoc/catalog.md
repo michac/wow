@@ -465,7 +465,7 @@ override the elimination scan**, and on Havoc it must: rung 10 outranks Eye Beam
 and no row position can say so. That override is why cue F's fence around it matters — a positive
 cue pointing past a cooldown that genuinely outranks it is the one way this exception goes wrong.
 
-⚠ **"About to cap" is NOT expressible and is not attempted.** R6 (`../pattern-shelf.md:125`) and
+⚠ **"About to cap" has no authored form yet, and cue E deliberately fires at exact full only.** R6 (`../pattern-shelf.md:125`) and
 OBS-066 measured that below full `currentCharges` is secret and `isActive` reads `true` at **both**
 1/2 and 0/2 — it means *recharge running*, not *which charge*. (That is also exactly why the
 below-max state could never have carried a countdown toward the cap.) So a threshold on the recharge
@@ -475,9 +475,9 @@ warning hardest while the player is charge-starved. Cue E therefore fires on the
 Immolation Aura itself (R7: the demon-form id/charge change) — so it is a decision, not a tweak.
 
 Sealed-form names here are **the shipped ones**: cue B is `sealed-power-percent`; every cue-C2
-hold is `sealed-cooldown-range`. ⚠ `spec.md` §3.6 calls the second one `sealed-duration-range`,
-which is not what `Catalogs/Havoc.lua`, `Channel.lua` or `Catalog.lua` accept. These docs follow
-the code; **the `spec.md` mismatch is a tracked follow-up** and is not fixed here.
+hold is `sealed-cooldown-range`, which is what `spec.md` §3.6, `Catalogs/Havoc.lua`, `Channel.lua`
+and `Catalog.lua` all say. `sealed-duration-range` is a **different and unbuilt** form — the
+demon-form window bar of §3.3 — and shares no name with anything shipped.
 
 ## Demon-form identity spine (R7)
 
@@ -518,10 +518,15 @@ Blizzard plumbing. Three, each with one characterization example, each confirmed
    nothing**, so a band never lights on a cooldown that has come back. Consumers: Essence Break
    (Eye Beam within 4s), Metamorphosis (Eye Beam within 8s), The Hunt (Meta within 15s **or** Eye
    Beam **beyond** 10s), Vengeful Retreat (Eye Beam within 8s **or** Meta within 4s).
-   ⚠ **What the mechanism still cannot do is AND two sealed facts.** A marker carries one
-   `display`, and two markers union rather than intersect — so "Eye Beam is far **and**
-   Metamorphosis is far" is inexpressible, which is why Vengeful Retreat's everything-is-far hold
-   is a documented gap rather than a band. Before building, **check the
+   ⚠ **ANDing two sealed facts has no single-mark form yet.** A marker carries one `display`, and
+   two markers union rather than intersect — so "Eye Beam is far **and** Metamorphosis is far" is
+   not one band today, and Vengeful Retreat's everything-is-far hold is unauthored. **Drawing both
+   is the working answer**: two `beyond` bands, one per dependency, as separate badge instances —
+   the same per-marker instancing that already carries The Hunt's sealed OR, so it needs no new
+   grammar. The cost is **a reading**, not a platform limit: with an OR vocabulary one lit band
+   already reads as "hold", and the conjunction needs one band alone to read as *not yet*. That is
+   a shelf question — `../render-shelf.md` owns it — and until it is answered the hold stays a
+   named, unbuilt candidate rather than a band. Before building, **check the
    current desktop renderer's marker vocabulary**: if it already has a `hold` marker slot
    (`Overlay.lua` `SLOTS`), C2 reuses it and edits nothing in Treatment/Overlay (the 9.4
    definition-of-done). The C1 **readiness marks** (Metamorphosis's two reset targets) drive the
@@ -687,10 +692,10 @@ confirmed every press, every elimination walk and every threshold; these are wha
   for. They are an ordered chain now (`reading_gate`).
 - **Vengeful Retreat's badge was missing from two scenario rows** whose state lights it, and
   ST-8's walk told the player to weave it where the APL holds it.
-- **`VR-5`/`VR-6` asserted a hold cap does not draw.** Two sealed facts cannot be ANDed; stated as
-  a gap.
+- **`VR-5`/`VR-6` asserted a hold cap does not draw.** No authored form ANDs two sealed facts; the
+  candidate (two `beyond` bands as separate instances) and the reading it would need are named.
 - **`sealed-duration-range` was a name that ships nowhere.** These docs now say
-  `sealed-cooldown-range`; the `spec.md` §3.6 mismatch is a follow-up.
+  `sealed-cooldown-range`, and `spec.md` §3.6 was brought to the same name.
 - **Also corrected:** rung 11 carries `active_enemies>=2` (Aldrachi-Reaver-gated), so "exactly one
   target-count term in the priority" is now scoped to Fel-Scarred; VR-4 satisfies rung 4's *first*
   disjunct, not its second; AoE mode does not silence the gold badge.

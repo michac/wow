@@ -224,6 +224,21 @@ to the author; it holds no write tools, blocks nothing, and its output is questi
 - **Do not prebuild vocabulary.** No aura/totem duration, target-aura, APL-DSL or
   capability-registry work until a spec that needs it is being authored.
 - **Releasing is ask-first**, every time.
+- **How to write a defeat.** These docs have a history of cataloguing impossibilities, and an
+  impossibility written flat is a stop sign the next agent obeys without checking — measured three
+  times: "cap cannot deliver the AoE re-weight" (wrong twice), the single-positive-cue rule read as
+  a budget, and "the platform cannot AND readable with sealed" outliving the `when`-beside-`display`
+  mechanism that made it false. So a claim that something cannot be done is held to the KB's
+  standard for a negative existential: it names the **scenario** that defeated us, the **rung** it
+  died on — shelf vocabulary, catalog grammar, or the client — and **what would reopen it**: an
+  instrument, an unwritten S-form, an operator nobody has designed. "Cannot", bare, is a mood, not
+  a claim. Default wording is *"no authored form yet"*, because that is almost always what is true
+  — the platform seals **comparisons**, never display, and `spec.md` §3.6's ladder (readable gate →
+  client-side paint → two marks the eye combines) expresses most rules that first read as
+  sealed-and-out-of-reach. Walk the ladder before writing a defeat, and say which rung failed. The
+  model to imitate is in tree: `devourer/fact-classification.md` §4.3's fragments-on-the-ground
+  row, whose negative carries `[searched 2026-08-17: PowerType.csv, the CDM readable surface, the
+  shipped UI's DemonHunterSoulFragmentsBar]`.
 
 ## Where a thing gets written
 

@@ -259,6 +259,28 @@ The implementation distinguishes two data paths:
 - **Sealed facts** may flow only into client-owned display sinks. They never enter a Lua
   condition, comparison, score or verdict.
 
+**What this permits, and it is more than the two rules first read.** The split constrains what cap
+may *compare*, never what it may *show*:
+
+- **A secret value can drive a widget, including conditionally.** *"Draw this while the count is at
+  least two"* is evaluated in the client, so the condition ships as authored data and the answer
+  never enters Lua. A threshold is a paint, not a branch.
+- **Readable facts combine without limit.** Anything Lua may read may be ANDed, ORed and negated
+  as freely as ordinary code, to reach an ordinary code decision.
+- **Those decisions may aim a sealed widget.** cap does not need to know what a widget contains in
+  order to place it, gate it, hide it or stack it — so combined readable logic decides *whether* and
+  *where* a secret-driven mark appears, without ever learning the secret.
+- **Widgets compose visually.** Two marks overlaid, adjacent or stacked express a relationship cap
+  itself cannot evaluate: the compositor draws both, and the reading happens on screen.
+- **So the last combining step may belong to the player's eye, and often should.** cap's job is to
+  put the facts where the answer is obvious, not to compute the answer. A rule that will not reduce
+  to one mark is usually still expressible as two.
+
+**Be optimistic about carrying a priority list.** Most rules that look sealed-and-therefore-out-of-
+reach turn out to be a readable gate plus a client-side paint, or two marks the player reads
+together. Reach for those before concluding anything cannot be done — and when something genuinely
+resists, record the *scenario* that defeated us, not a claim about the platform.
+
 **These two data paths are properties of cap's *combat* context — not of the whole addon.** The
 readable/sealed split above, and on the platform side the protected-action and taint rules the
 client enforces in combat, govern cap's **evaluation path**: the in-combat, tainted context where
@@ -304,9 +326,11 @@ value it acts on:
   uniform across the two classes, and authoring a sealed pair as though it were readable produces
   a badge whose state depends on write order.
 
-  ⚠ **What is not expressible: an AND of two sealed facts.** A marker carries one curve, and two
-  markers union rather than intersect — so "X is far *and* Y is far" cannot be authored at all.
-  Each half is expressible alone; the operator is the thing missing.
+  **An AND of two sealed facts has no single-mark form yet.** A marker carries one curve and two
+  sealed markers union rather than intersect, so *"X is far **and** Y is far"* is not one badge
+  today. Both halves are expressible, and **drawing both is a working answer** — two marks appear
+  together and the conjunction is read on screen. What is unsolved is folding them into one mark.
+  That is an operator nobody has designed yet, not a limit the client imposes.
 
 Both obey the same rule as `player-aura-stacks`: the value flows only into a client-owned sink,
 CAP reports `offered` / `armed` / `refused`, and only an eyeball proves a pixel appeared.
@@ -342,8 +366,11 @@ Demonology and Destruction were deliberately tiny proofs. Havoc is the first cat
 to be **comprehensive**: it covers the spec's whole rotational roster, because the pattern shelf
 now exists and adding a spec is meant to be "which known recipes apply," not another tour of the
 APIs. Comprehensive does not mean exhaustive of every button — it means every ability with a
-*named player problem* gets a hint, and no problem is skipped for being awkward. A row that would
-require branching on a sealed value is not authored (§3.6).
+*named player problem* gets a hint, and no problem is skipped for being awkward. A rule whose ordering-reason
+is sealed is authored down §3.6's ladder — a readable gate plus a client-painted mark, or two marks
+the player reads together — and only a rule the whole ladder fails to express is recorded as a
+defeat, in the form `authoring.md` requires: the scenario, the rung that failed, and what would
+reopen it.
 
 **This catalog is Fel-Scarred, specifically.** A spec-and-hero pair is the unit cap authors, and
 this one is Havoc / Fel-Scarred. Aldrachi Reaver is a **separate catalog authored later** — not

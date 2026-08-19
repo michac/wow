@@ -207,12 +207,14 @@ of a cooldown's remaining time alike (S4's `sealed-cooldown-range` — every hol
 reading it into a Lua branch or score. So there is **no "cap is blind" bucket** in the Havoc
 priority; the "secret ⇒ can't rank" framing is wrong.
 
-**What the platform genuinely cannot do is AND a readable fact with a sealed one.** A marker is
-one or the other, and two markers union (OR) rather than intersect. Three APL conditions are
-conjunctions across that line, and each is handled by authoring the **actionable slice** and
-saying so: The Hunt's hold (**ST-5**), Vengeful Retreat's alignment gate (the sequence family
-below), and Immolation Aura's talent gate — which is not authored at all, because there is no
-talent predicate to author it with.
+**A readable fact and a sealed one meet in two legal places, and one of them is new.** A sealed
+marker may carry readable *gates* — a `when` beside its `display`, cue F's mechanism — so *"sealed
+value, but only while these readable things hold"* is one authored mark: one secret, many readable
+gates. What has no single-mark form is a value-to-value comparison across the line, and that folds
+the other way — author the actionable slice, and let separate marks compose on screen where a slice
+is not enough. The three APL conditions that cross the line here each land on one of those: The
+Hunt's hold (**ST-5**, gates), Vengeful Retreat's alignment gate (the sequence family below,
+slice), and Immolation Aura's talent gate (cue F, gates).
 
 ## Where cap can express the skip — the tally
 
@@ -697,15 +699,17 @@ player reads one meaning: **hold, something is coming.**
 | **VR-5** | Only Felblade available | the APL holds VR → Felblade | Neither disjunct is satisfiable. ⚠ **cap draws nothing** — see below |
 | **VR-6** | Everything far away | the APL holds VR → the raw spender | Same. ⚠ **cap draws nothing** — see below |
 
-⚠ **VR-5 and VR-6 are the two cases cap cannot express, and they are listed to say so.** The
-authored bands light while Eye Beam is ≤8s **or** Metamorphosis is ≤4s; the APL's hold in these
-two rows is the opposite — *both* are far. Expressing it needs a **conjunction of two sealed
-facts**, and the grammar has no way to write one: a marker carries one `display`, and two markers
-union rather than intersect. Nothing prevents authoring an inverted band per ability (the
-mechanism gained that sense on 2026-08-17 — Eye Beam **beyond** 10s is exactly it), but two of
-them would OR, which is the wrong operator. So in an everything-is-far state **Vengeful Retreat
-draws clean**, and the player is not told to hold it. That is a gap, stated rather than papered
-over.
+⚠ **VR-5 and VR-6 are the two cases today's catalog does not author, and they are listed to say
+so.** The authored bands light while Eye Beam is ≤8s **or** Metamorphosis is ≤4s; the APL's hold
+in these two rows is the opposite — *both* are far. That is a conjunction of two sealed facts, and
+no single mark carries one: a marker holds one `display`, and two markers union rather than
+intersect. **Two marks would draw it.** An inverted band per ability is already authorable (the
+mechanism gained that sense on 2026-08-17 — Eye Beam **beyond** 10s is exactly it), so two
+`beyond` bands as separate badge instances put both facts on the row and let the eye AND them.
+What that costs is a **reading inversion**: with the OR bands one lit badge means *hold*, and here
+one lit badge must mean *not yet*. Nobody has ruled on that, so in an everything-is-far state
+**Vengeful Retreat draws clean** today and the player is not told to hold it — a named, unflown
+candidate rather than a refusal.
 
 ⚠ **And VR-1 through VR-4 are compositions of the ST scenarios only in their GCD presses.** Each
 cited scenario has Vengeful Retreat either woven or swiped — none of them shows it *held* — so the

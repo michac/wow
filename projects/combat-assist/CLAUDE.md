@@ -7,6 +7,11 @@ Read `specs/spec.md` before changing behavior. One rule there outranks the rest,
 platform fact rather than a stance: **cap never branches on sealed data** (§3.6). `Catalog.lua`
 and `Channel.lua` hold that line in code.
 
+The boundary constrains what cap *compares*, never what it *shows* — be optimistic about carrying
+APL logic (`spec.md` §3.6's ladder). A claim of impossibility in any `specs/**` file follows
+`authoring.md`'s "How to write a defeat": scenario, failing rung, reopening condition — never a
+bare "cannot".
+
 The addon source is `addon/`, a separate gitignored repository with its own `CLAUDE.md`.
 
 ## Project documents

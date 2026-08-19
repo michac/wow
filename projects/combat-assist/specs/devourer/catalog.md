@@ -186,8 +186,12 @@ Essential rows, one Utility row, and two **virtual rows** (§6.1). The role tier
   and the Moment of Craving reset, so a dropped channel costs two things the damage number
   does not show. *Fact:* `affordable` (R1). *Treatment:* **ROTATION**, `starved` when
   `insufficientPower` (cue **A**) — Havoc's cue A verbatim.
-  ⚠ **Rung 8's hold is not authorable** (`fact-classification.md` §4.2): Eradicate and Moment of Craving share one
-  overlay channel, so `proc(reap)` is their OR and the hold needs their AND. Stated as a gap.
+  ⚠ **Rung 8's hold has no authored form** (`fact-classification.md` §4.2): that is true of the
+  **overlay channel**, where Eradicate and Moment of Craving share one row, so `proc(reap)` is
+  their OR and the hold needs their AND. It is not established for **per-aura AuraContainer
+  slots** (`knowledge/addon-dev/security-taint-and-restricted-data.md` §3.5) — one slot filtered
+  to each proc's aura would be two marks the eye ANDs, with Lua reading nothing. Nobody has
+  measured whether those procs are player auras, so until one is flown the gap stands.
 - **Soul Immolation** (`1241937`, rung 13). *Problem:* **inside Void Metamorphosis this is not
   a maintenance press — it is the thing that keeps the form alive.** Fury drains continuously
   and accelerating; at zero the window ends; Soul Immolation returns 30 Fury (+12 with *Singed
@@ -234,7 +238,7 @@ Provisional. Every one is a hypothesis judged by play, exactly as the pilots wer
 | --- | --- | --- | --- | --- | --- | --- |
 | **A** starved spender | Void Ray wears `starved` when you cannot pay 100 Fury | `insufficientPower` | emphasis (readable) | R1 | ROTATION emphasis | negative |
 | **B** the drain save | Soul Immolation wears `blocked` while you are transformed **and** Fury is above one tick of drain — *don't burn the save early* | secret Fury-% vs an authored `threshold`, gated on `identity(transformed)` | cue (sealed) + readable gate | S1 / V9 | colour curve → badge alpha | negative |
-| **C** the soul bank | the bank's count, drawn by the client, anchored beside the Void Metamorphosis row | `void_metamorphosis_stack` stacks (0–50) | **independent context** (sealed) | S2 `player-aura-stacks` / V8 | client-owned count | **none** |
+| **C** the soul bank | the bank's count, drawn by the client, anchored beside the Void Metamorphosis row | `void_metamorphosis_stack` stacks (0–50) | **independent context** (sealed) | S2 `player-aura-stacks` / V8 — ⚠ needs `Channel.Plan`'s `min == 2` guard widened first, see §8.2 | client-owned count | **none** |
 | **D** the Eradicate setup hold | Void Metamorphosis wears `blocked` in AoE mode while *Eradicate* is talented and no Reap-family glow is up | `aoe` + `talent` + `proc`, all readable | cue (readable) | the shipped `aoe` / `talent` predicates + `proc` | corner badge | negative |
 | **F** the talent fence | nothing of its own — it **withholds**: cue D where *Eradicate* is untalented, and rung 1 entirely where *Devourer's Bite* is | trait config | gate (readable) | the shipped `talent` predicate | no sink | — |
 | **G** target mode | four rungs move on target count; cap asks the player rather than counting enemies | `/cap aoe` | gate (readable) | the shipped `aoe` predicate | — | — |
@@ -425,8 +429,8 @@ does ships without that hint** — which is exactly how §8.2 is written.
 
 | Row | Ships now | Waits, and on what |
 | --- | --- | --- |
-| **Void Metamorphosis** | COOLDOWN tier · cue **D** (AoE Eradicate hold) · cue **C** (the sealed bank readout) | a readable *"the bank is not full"* hold — open fact 3. Until then position 1 rests on the client's own desaturation (open fact 7). |
-| **Reap → Cull / Eradicate** | ROTATION tier · the R7 identity spine | nothing. Its APL gate (fragments on the ground) has no API in any lane and is not expected to gain one. |
+| **Void Metamorphosis** | COOLDOWN tier · cue **D** (AoE Eradicate hold) | a readable *"the bank is not full"* hold — open fact 3. Until then position 1 rests on the client's own desaturation (open fact 7). Cue **C** waits too, on one constant: `Channel.Plan` accepts a `player-aura-stacks` display only at `min == 2`, which is Backdraft's number. The 0–50 bank plans as `nil` and arms nothing, silently. Widening that guard is the whole of the work; the mechanism is shipped and flown. |
+| **Reap → Cull / Eradicate** | ROTATION tier · the R7 identity spine | nothing. Its APL gate (fragments on the ground) has no API in any lane — `[searched 2026-08-17]`, `fact-classification.md` §4.3. |
 | **Void Ray** | ROTATION tier · cue **A** (`starved`) | rung 8's hold — **not** an open fact but an expressiveness gap (`fact-classification.md` §4.2). It does not resolve by measuring. |
 | **Soul Immolation** | ROTATION tier · cue **B** (the drain save) | the break point's *value* — open fact 4. The cue ships; the number is a guess until flown. |
 | **Voidblade → PtV / Reaper's Toll** | ROTATION tier · the R7 identity spine (three-deep, `fact-classification.md` §4.4) · position 5 | the rung-1 hold (open fact 3) and the owed-Voidsurge cue (open fact 2). Misorderings 2 and 3. |
@@ -434,12 +438,19 @@ does ships without that hint** — which is exactly how §8.2 is written.
 | **Consume → Devour** (virtual, **standing**) | the standing virtual row, drawn clear at the right end of the panel · the R7 identity spine across the transform | **nothing.** A standing row asks for no verdict, so it depends on no open fact. Misordering 5 (the Soulburst promotion) is carried by Blizzard's own glow and is a shelf question, not a wait. |
 | **Collapsing Star** (virtual, **gated**) | nothing | **the whole row.** Its hatch-clear needs open fact 3, or the §6.1 fallback. |
 
-⚠ **Read that table honestly: the panel is half shippable.** The five Essential rows, the Utility
-row and the **standing** Consume row are complete now — and the standing row is the more important
-half of §3's problem, because Consume is the branch's most-pressed button and B-3 is an ordinary
-state rather than a corner. The **gated** Collapsing Star row is designed, gated and waiting on one
-measurement. That is the correct state for a load-bearing open fact: the design is written down so
-the measurement has something to complete, and nothing guesses in the meantime.
+⚠ **Read that table as a statement about FACTS, not about pixels.** Per row it is accurate: the
+five Essential rows and the Utility row need no open fact, the **standing** Consume row needs none
+either — and that row is the more important half of §3's problem, because Consume is the branch's
+most-pressed button and B-3 is an ordinary state rather than a corner — while the **gated**
+Collapsing Star row is designed and waiting on one measurement. That is the correct state for a
+load-bearing open fact: the design is written down so the measurement has something to complete,
+and nothing guesses in the meantime.
+
+⚠ **What none of it says is that anything draws today.** Both virtual rows are
+`../render-shelf.md` **V12**, and V12 is authored and unbuilt: `tokens.panel` is generated into
+`Style.lua` and nothing in the addon reads it. There is no panel module. So the standing row is
+complete as a *design* and blocked as a *primitive*, and V12 — not any open fact — is what the
+whole panel waits on first.
 
 ---
 
