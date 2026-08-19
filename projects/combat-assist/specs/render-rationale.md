@@ -4,7 +4,7 @@
 behind `render-shelf.md`. It has **no authority over anything**. The shelf declares; this
 explains. If the two disagree, the shelf is right and this file is stale.
 
-It exists because the shelf must declare exactly one style — an artifact generated from a document
+It exists because the shelf must declare exactly one style — a preview generated from a document
 holding two answers renders neither — and because deleting the reasoning along with the rejected
 option is how a decision gets re-litigated six weeks later by someone who cannot see what was
 already weighed.
@@ -105,8 +105,28 @@ the hue channel entirely.
 **The escape hatch, and why it is not the plan.** `SetDesaturated(true)` first, then tint, should
 in principle make any sheet neutral. Whether the result is a *clean* hue rather than a muddy one
 is unmeasured in client — so it stays `open`, and any primitive declaring
-`tint: "desaturate+lane"` renders with a visible ⚠ in the artifact. If that measurement comes back
+`tint: "desaturate+shelf"` renders with a visible ⚠ in the preview. If that measurement comes back
 clean, the proc-loop ring becomes available again and this decision is worth revisiting.
+
+## Retired 2026-08-19 — the lane border's justification, and why it is kept
+
+**Everything from here to the end of "Superseded — the four `SetColorTexture` strips" argues for
+shelf V2: a border in one of four hues, with a fourth CHARGES lane, drawn from a ring flipbook and
+snapped on arrival.** V2 retired on 2026-08-19 in favour of **V13**, one binary scan edge, so none
+of it describes what cap draws today.
+
+It is kept because the **reasoning** is the record of a decision that was made twice and could be
+made again: the argument for spending motion on the *transition* rather than on the resting state,
+the candles verdict, the strips-versus-texture trade, and the exoneration of the four-strip
+construction against the `#` overhang. That last one stopped being history the day the scan edge
+adopted the strips — `Paint.Border` builds them again, and the paragraph below is why nobody had to
+re-derive whether they can overhang their own frame.
+
+**The one thing that did not retire is the four-strip construction itself.** It went from
+"superseded" back to the shipped primitive, minus the per-lane thickness and plus `SetBlendMode`.
+Read the section below with that inversion in mind: it was written when the strips had lost.
+
+---
 
 ## The static border: dismissed, then chosen — and the difference between the two
 
@@ -255,8 +275,8 @@ to end:
 | Source | What it said | Fate |
 | --- | --- | --- |
 | `ClientLab/Mock.lua` | motion ladder, 2.5/1.2/0.5 Hz, pulse floor 0.68, veil 0.60, the hue set | **adopted 2026-08-13, then superseded the same day** — its veil and its hue *family* survive into V2/V4; its ring and its pulse do not |
-| cap's `Treatment.lua` | static 4-strip border, gold/blue/slate at 3/2/1 px | **the shape that won** — V2 is this primitive, re-chosen on its merits with a fourth CHARGES lane and an arrival snap it never had. Still a transcription task, but now the transcription target agrees with it |
-| the scenario artifact | two-letter abbreviations on CSS gradients, invented cue shapes | replaced — the artifact is now generated from the shelf |
+| cap's `Treatment.lua` | static 4-strip border, gold/blue/slate at 3/2/1 px | **the construction that won twice** — V2 adopted this primitive with four hues and an arrival, then V13 (2026-08-19) kept the four strips and threw away the hues and the motion. What survived both rounds is the *construction*; what did not is every opinion layered onto it |
+| the scenario preview | two-letter abbreviations on CSS gradients, invented cue shapes | replaced — the preview is now generated from the shelf |
 
 `Mock.lua` won the first round because it was the only one of the three that was *designed* rather
 than defaulted-into, and because its author had already made the accessibility argument and done
@@ -272,9 +292,9 @@ them was.
 provenance of the numbers, not as an authority over them — the numbers now live in
 `render-shelf.md` Part 6.
 
-## What the artifact is allowed to do, and why the guard is mechanical
+## What the preview is allowed to do, and why the guard is mechanical
 
-The artifact's whole value is being a *faithful preview*: real icon art at real size, real sheets
+The preview's whole value is being a *faithful preview*: real icon art at real size, real sheets
 at real frame counts, cap's treatments composited the way the client composites them. A preview
 that is merely stylish is worse than none, because it makes the eventual Lua a fresh design
 exercise while looking like a transcription target.
@@ -284,49 +304,59 @@ recolor a sprite, it looks great, and it can recolor art the client **cannot** r
 hue-rotated gold ring would show a blue ROTATION lane that is simply not drawable in game. Hence
 the shelf's rule that tinting is `mask-image` + `background-color` (or `background-blend-mode:
 multiply`), which is what `SetVertexColor` does, and hence `wowkb.capart`'s hard error when a
-primitive asks for `tint: "lane"` on art the manifest measured as non-neutral.
+primitive asks for `tint: "shelf"` on art the manifest measured as non-neutral.
 
 **The guard outlived its first subject, which is the test of whether it was a guard or a
-ring-specific check.** V1 is retired and there are no atlas sheets in the style any more; the
-guard now covers the Kenney badge frames, and `capart check` additionally asserts that *something*
-still declares `tint: "lane"` — because a guard whose subject set quietly emptied would keep
-passing while guaranteeing nothing. The ⚠ chip on `open` primitives is the same instinct one step
+ring-specific check.** V1 is retired and there are no atlas sheets in the style any more; the guard
+now covers the Kenney badge frames and V11's generated stripe sheet.
+
+⚠ **And it then failed in the one way `check` was not watching for, which is worth recording.** The
+gate asserted that *something* still declared `tint: "lane"` — an any-of test, so it stayed green as
+long as one subject survived. When the lane→scan collapse rewrote `tokens.badges.tint` to `"ready"`,
+the guard (which matches a literal) stopped covering the badge sprites **silently**, and `check`
+passed on the ring alone. Two fixes, both on 2026-08-19: the token value is now the
+colour-source-neutral `"shelf"`, so a colour being renamed cannot un-declare a guard again; and the
+gate checks **per primitive** rather than any-of, so a subject can no longer drop out unnoticed. The
+lesson is narrow and general at once — *a guard keyed on a literal that also names a design concept
+will be broken by a rename, and an any-of gate reports the survivor rather than the loss.* The ⚠ chip on `open` primitives is the same instinct one step
 softer (a preview that shows a cue we have not proven the client can draw), and it is kept
 unexercised for the same reason.
 
 ## Rejected along the way
 
-- **An A/B toggle in the artifact.** Tempting — show both styles, decide by looking. Rejected:
+- **An A/B toggle in the preview.** Tempting — show both styles, decide by looking. Rejected:
   it turns the shelf back into a debate file, and it removes the pressure to actually choose. The
   loop is *edit the shelf, regenerate, look*; a toggle short-circuits the edit.
 - **A continuous grade.** A continuous brightness grade was tried and removed once already, in the
-  2026-08-11 tier-preserving correction; discrete lanes plus cue intensity is the contract
-  `spec.md` §3.1 carries. *(Note the
-  fourth **lane** is no longer in this bullet: CHARGES shipped with V2. A fourth discrete lane and a
-  continuous grade were never the same proposal — the grade was rejected for having no rungs, and
-  CHARGES is a rung.)*
-- **Stacking CHARGES on top of the role lane.** Two borders, or a border plus an inner strip, so
-  Immolation Aura could read ROTATION *and* charged. Rejected: an ability has one border, and a
-  compound border is a legend the player has to learn. CHARGES **replaces** the role lane at render
-  time; the role lane it displaced is still authored in `havoc/catalog.md`, which is where priority
-  lives anyway.
+  2026-08-11 tier-preserving correction; the contract `spec.md` §3.1 carries is discrete tiers plus
+  cue intensity. *(The grade was rejected for having no rungs. V13 then went further than either
+  proposal and drew **no** rungs at all — but by moving the ladder onto row order rather than by
+  making it continuous, which is the distinction that matters: a rank you can count is still a rank
+  even when nothing about the pixels encodes it.)*
+- **Every hue-coded ladder, including the fourth CHARGES rung.** Two rounds of argument here —
+  whether CHARGES should *stack* with the role lane (rejected: a compound border is a legend to
+  learn) and then whether it should *replace* it (adopted with V2). Both are moot: V13 draws one
+  treatment, the role tier is model-only, and `charged` is still authored in each `catalog.md` and
+  read by the engine with nothing drawing from it. **The general finding is worth more than either
+  round** — a hue ladder on a 56 px icon needs a legend, and a legend is a thing the player is
+  either consulting or ignoring. Row order needs none.
 - **Cue placement in the bottom corners.** Blizzard draws `ChargeCount.Current` / `Applications`
   bottom-right, at −2/+2. The top corners are free, and the OS-notification convention puts a badge
   there regardless. *(An earlier version of this bullet also claimed Blizzard draws keybind text
   along the bottom of a CDM item. It does not — `grep HotKey` over `Blizzard_CooldownViewer`
   returns zero. The conclusion was right for one of the two reasons it gave.)*
 - **Bundling the extracted sheets into the addon's `Media/`.** Referencing an atlas by name ships
-  no asset and stays correct across patches. Extraction is for measuring and for the artifact.
+  no asset and stays correct across patches. Extraction is for measuring and for the preview.
 
 - **Desaturating the icon face.** `verdicts.starved.desaturate` was declared and then deleted on
   2026-08-14 because it had no live path: in the `/cap style` gallery cap owns the texture, so
   desaturating is free, but on a live row the icon is Blizzard's. The right reading is not "find cap
   a legal way to desaturate" — **the Cooldown Manager already desaturates and re-tints on
   usability** (`knowledge/addon-dev/cooldown-manager.md` :700, :755), so the token was cap proposing
-  to restate a signal the client draws for nothing. It existed only because the HTML artifact has no
+  to restate a signal the client draws for nothing. It existed only because the HTML preview has no
   Blizzard underneath it and had to draw its own de-emphasis, which then got filed as a cap
-  treatment. **cap's drawn primitives are the lane border and the corner badges; the icon face is
-  not one of them.** Revisit only if a flight shows the client's own dimming is too weak to read —
+  treatment. **cap's drawn primitives are the scan edge, the cooldown hatch and the corner badges;
+  the icon face is not one of them.** Revisit only if a flight shows the client's own dimming is too weak to read —
   and then as a new shelf entry, not as this one restored.
 
 ## Struck visual rules — the record of their removal
@@ -372,7 +402,7 @@ at a *mistake*, it blocks looking at a *lie*.
 
 **A preview must render the unflattering case, or it is a worse instrument than no preview.** The
 lab's badge entry computes its own overhang against the row gap and draws three adjacent icons, so
-"these collide" is something the artifact *shows* rather than something a caption claims. A lab that
+"these collide" is something the preview *shows* rather than something a caption claims. A lab that
 only renders the flattering case would have been a decoration.
 
 ## Retiring a primitive: the rule that produced it is what has to go

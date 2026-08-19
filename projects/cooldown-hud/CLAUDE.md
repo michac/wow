@@ -5,13 +5,10 @@
 > **This project is replaced by Combat Assist Plus (`projects/combat-assist/`, `/cap`).**
 > There is one addon riding the Cooldown Manager going forward and it is not this one.
 >
-> **Why.** CDMProbe started as "what can I do with the CDM" and grew into a
-> **next-action decision engine** — one answer per GCD. That runs against Blizzard's
-> stated position on combat addons, and the 12.0 Secret-Values restrictions had already
-> begun capping what it could calculate. cap is the same premise re-aimed at what the
-> platform invites: re-present, grade, contextualise — **narrow** the decision instead of
-> making it. See `projects/combat-assist/specs/spec.md` §1 and §4's *Cooldown HUD
-> boundary*.
+> **Why:** `docs/archive/why-superseded.md`. It is history, it is not a test to apply to
+> work in front of you, and it is filed out of this instruction file for that reason. What
+> cap **is** lives in `projects/combat-assist/specs/spec.md` §1 — that is the document to
+> read when changing cap's behaviour.
 >
 > **What that means in practice:**
 >

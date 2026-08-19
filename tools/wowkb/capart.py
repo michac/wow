@@ -1,17 +1,17 @@
-"""Generate the Combat Assist Plus design artifacts from the docs that own them.
+"""Generate the Combat Assist Plus design previews from the docs that own them.
 
 This tool assembles; it never decides. **It holds no color, no rate and no size.** Every
 number it draws with is lifted out of `projects/combat-assist/specs/render-shelf.md`
 Part 6 — the `render-tokens` JSON block — and every ability, lane and verdict comes from
-`specs/havoc/catalog.md` and `specs/havoc/scenarios.md`. Change the look by editing the
-shelf and rebuilding; change the walk by editing the scenario doc and re-importing. If a
-number appears in this file, that is a bug.
+the spec's own `catalog.md` (and, for Havoc, the `scenarios.md` beside it — Retribution keeps
+its walk in the one file). Change the look by editing the shelf and rebuilding; change the walk
+by editing the scenario doc and re-importing. If a number appears in this file, that is a bug.
 
 Why it exists. The old Havoc stepper was a stylized diagram: two-letter abbreviations on
 CSS gradients, and cue treatments invented on the spot with no relationship to anything
 the client can draw. It validated the *logic* of the elimination walk and nothing about
 the *look*, which left the eventual `Catalogs/Havoc.lua` a fresh design exercise rather
-than a transcription. The artifact this builds is a **reproduction**: real Blizzard icon
+than a transcription. The preview this builds is a **reproduction**: real Blizzard icon
 art at the client's own icon size, real extracted flipbook sheets at their real frame
 counts and durations, and cap's treatments composited the way the client composites
 them.
@@ -22,10 +22,10 @@ The fidelity guard is the point, not a nicety:
   `background-blend-mode: multiply`, never `filter: hue-rotate`. A hue rotation looks
   great and can recolor art the client **cannot** recolor — which is exactly the lie that
   makes a preview worthless.
-* A primitive asking for `tint: "lane"` on art whose measured saturation says it carries a
+* A primitive asking for `tint: "shelf"` on art whose measured saturation says it carries a
   baked hue is a **hard error**, naming the measurement. The guard is art-agnostic: it began
-  on the flipbook emphasis rings and, since those retired, covers the badge sprites.
-* `tint: "desaturate+lane"` builds but is stamped ⚠ *open*, because desaturate-then-tint
+  on the flipbook emphasis rings and now covers the badge sprites and V11's stripe sheet.
+* `tint: "desaturate+shelf"` builds but is stamped ⚠ *open*, because desaturate-then-tint
   is unverified in client.
 
 Only two things stop a build: the tint guard above, and a verdict, cue or ability the
@@ -52,20 +52,22 @@ is `spec.md` §3.2's defect), and slot 3 belongs to the positive cue (`render-sh
 Usage:
     uv run python -m wowkb.capart tokens                # resolved tokens + the CSS block
     uv run python -m wowkb.capart assets                # per-asset byte table vs the budget
-    uv run python -m wowkb.capart import scenarios      # seed the sidecar from scenarios.md
-    uv run python -m wowkb.capart build havoc           # write the artifact
+    uv run python -m wowkb.capart import scenarios <spec>   # seed the sidecar from the doc
+    uv run python -m wowkb.capart build havoc           # write one spec's preview
+    uv run python -m wowkb.capart build --all           # ...or every registered spec
     uv run python -m wowkb.capart export lua            # the same tokens as CombatAssistPlus/Style.lua
-    uv run python -m wowkb.capart export ring           # V2's ring textures, one per lane thickness
+    uv run python -m wowkb.capart export ring           # Part 7's ring flipbook sheet
     uv run python -m wowkb.capart export lab            # Part 7 as Lab.lua + Media/lab/ (gallery only)
-    uv run python -m wowkb.capart check havoc           # doc↔sidecar, staleness, strict CSS
+    uv run python -m wowkb.capart check havoc [--all]   # doc↔sidecar, staleness, strict CSS
 
-    uv run python -m wowkb.serve projects/combat-assist/artifacts \\
+    uv run python -m wowkb.serve projects/combat-assist/previews \\
         --watch projects/combat-assist/specs \\
-        --on-change "python -m wowkb.capart build havoc"   # edit → rebuild → reload
+        --on-change "python -m wowkb.capart build --all"   # edit → rebuild → reload
 """
 
 import argparse
 import base64
+import contextlib
 import hashlib
 import html as htmllib
 import io
@@ -83,10 +85,13 @@ from ._common import ROOT
 PROJECT = ROOT / "projects" / "combat-assist"
 SPECS = PROJECT / "specs"
 SHELF = SPECS / "render-shelf.md"
-ARTIFACTS = PROJECT / "artifacts"
-TEMPLATE = ARTIFACTS / "template"
-SIDECARS = ARTIFACTS / "data"
+PREVIEWS = PROJECT / "previews"
+TEMPLATE = PREVIEWS / "template"
+SIDECARS = PREVIEWS / "data"
 CACHE = uiart.OUT / "capart-cache"
+
+# Part 7's lab cells are authored once, against this spec's catalog, and drawn on every page.
+SHELF_ROSTER_SPEC = "havoc"
 
 BUILT_MARK = "<!-- capart built: {date} -->"
 BUILT_RE = re.compile(r"<!-- capart built: (\d{4}-\d{2}-\d{2}) -->")
@@ -96,18 +101,29 @@ SPECS_BUILT = {
         "catalog": SPECS / "havoc" / "catalog.md",
         "scenarios": SPECS / "havoc" / "scenarios.md",
         "sidecar": SIDECARS / "havoc-scenarios.json",
-        "out": ARTIFACTS / "havoc-stepper.html",
+        "out": PREVIEWS / "havoc-stepper.html",
+        "title": "Havoc",
         # One ability per lane, so the primitives gallery can draw a lane swatch on real
         # art even when no scenario happens to exercise that lane. CHARGES is a render-time
         # substitution off a client fact, so its sample is simply an ability the catalog
         # marks as having charges — the lane falls out, it is not assigned here.
-        "lane_sample": {
-            "COOLDOWN": "Metamorphosis",
-            "ROTATION": "Blade Dance",
-            "FALLBACK": "Fel Rush",
-            "CHARGES": "Immolation Aura",
-        },
-    }
+        # Sample subjects for the primitives gallery: real art to hang a swatch on. With one
+        # treatment these no longer stand for anything — the first is simply the default.
+        "scan_samples": ["Metamorphosis", "Blade Dance", "Fel Rush", "Immolation Aura"],
+    },
+    "retribution": {
+        "catalog": SPECS / "retribution" / "catalog.md",
+        "scenarios": SPECS / "retribution" / "scenarios.md",
+        "sidecar": SIDECARS / "retribution-scenarios.json",
+        "out": PREVIEWS / "retribution-stepper.html",
+        "title": "Retribution",
+        # Sample subjects for the primitives gallery: real art to hang a swatch on. Carried
+        # over from the per-lane samples this replaced, so the four are still one per role
+        # plus a charge candidate — but under one treatment they no longer stand for anything
+        # and the first is simply the default.
+        "scan_samples": ["Avenging Wrath", "Divine Storm", "Crusader Strike",
+                         "Blade of Justice"],
+    },
 }
 
 # Icon art for a handful of spells has no resolvable slug: `raw/spell-enrichment.json` is a
@@ -124,6 +140,58 @@ ICON_FDID = {
     201427: 1303275,   # Annihilation     (Chaos Strike's demon-form override)
     452497: 136149,    # Abyssal Gaze     (Eye Beam's demon-form override)
     452487: 135794,    # Consuming Fire   (Immolation Aura's demon-form override)
+    # Retribution's four override identities — the same lookup, same table.
+    427453: 5342121,   # Hammer of Light  (Wake of Ashes's Templar override)
+    383328: 461860,    # Final Verdict    (Templar's Verdict's permanent override)
+    24275: 7439209,    # Hammer of Wrath  (Judgment's execute-range override)
+    407480: 1109508,   # Templar Strike   (Crusader Strike's Templar Strikes override)
+}
+
+# --------------------------------------------------------------------------- Blizzard's baseline
+#
+# ⚠ **THESE ARE NOT DESIGN TOKENS AND THEY MAY NEVER MOVE INTO `render-shelf.md`.**
+#
+# Everything else this file draws with is an opinion the shelf holds. This block is the opposite:
+# it is a *measurement* of what the client already paints on a CDM icon before cap touches it,
+# read out of Blizzard's shipped source, and it belongs to the same evidence class as a DB2 row.
+# The shelf cannot change these numbers by editing itself, and a rebuild cannot make them
+# something we chose. They live here so the preview can draw the row the way the player's client
+# would draw it, and so cap's own treatments are judged against that picture rather than against a
+# blank icon — which is a different and much easier question.
+#
+# The consequence that matters: an unaffordable spell is ALREADY marked, in colour, by the client.
+# A preview that renders it at full white invites cap to solve a problem the player does not have.
+#
+# `knowledge/addon-dev/cooldown-manager.md` §3.4 is the claim; this is its transcription.
+#   [T1 src @12.1.0: CooldownViewer.lua:1204-1233] — the four-way ladder, in priority order
+#   [T1 src @12.1.0: CooldownViewer.lua:14-22]     — the constants
+#   [T1 src @12.1.0: CooldownViewer.lua:1195-1202] — desaturation, which means ON COOLDOWN only
+CLIENT_PAINT = {
+    "_source": "CooldownViewer.lua:1204-1233 + :14-22 @ 12.1.0.69273",
+    "_doc": "knowledge/addon-dev/cooldown-manager.md §3.4",
+    # SetVertexColor MULTIPLIES, so each of these is a multiply over the icon art — never a
+    # hue-rotate, and never something cap can undo by drawing on top.
+    "tints": {
+        "out-of-range": {
+            "rgb": [0.64, 0.15, 0.15], "constant": "ITEM_NOT_IN_RANGE_COLOR",
+            "means": "the target is out of range — outranks every other branch",
+        },
+        "not-enough-power": {
+            "rgb": [0.5, 0.5, 1.0], "constant": "ITEM_NOT_ENOUGH_MANA_COLOR",
+            "means": "you cannot pay for it — C_Spell.IsSpellUsable's second return",
+        },
+        "unusable": {
+            "rgb": [0.4, 0.4, 0.4], "constant": "ITEM_NOT_USABLE_COLOR",
+            "means": "unusable for some other reason",
+        },
+    },
+    # The fourth branch, ITEM_USABLE_COLOR = (1,1,1), is the absence of the other three. It is
+    # deliberately not a declarable state: a scenario says nothing and gets the untouched icon.
+    "usable_constant": "ITEM_USABLE_COLOR",
+    # Not a tint. `cooldownDesaturated = self.isOnActualCooldown` — every assignment, so a grey
+    # CDM icon is a statement about COOLDOWN and about nothing else. Driven off the `cd` verdict
+    # rather than declared, because `cd` already means exactly that.
+    "cooldown_desaturates": True,
 }
 
 ADDON_SRC = PROJECT / "addon" / "CombatAssistPlus"
@@ -137,7 +205,7 @@ MEDIA_TEXTURE_ROOT = "Interface\\AddOns\\CombatAssistPlus\\Media\\"
 BADGE_TEXTURE_ROOT = MEDIA_TEXTURE_ROOT + "badges\\"
 LAB_TEXTURE_ROOT = MEDIA_TEXTURE_ROOT + "lab\\"
 LAB_SHEET_TEXTURE = "stripes"
-# `artifact` is annotated in the shelf as a viewing aid the addon does not have, and Part 7's
+# `preview` is annotated in the shelf as a viewing aid the addon does not have, and Part 7's
 # `lab` is by construction not the style. Neither may reach `ns.Style`.
 #
 # ⚠ `lab` staying here is not the same claim it used to be. Since 2026-08-16 a lab entry MAY be
@@ -147,7 +215,7 @@ LAB_SHEET_TEXTURE = "stripes"
 # `Lab.lua`), never through `ns.Style`: every module already reads `ns.Style`, so a `lab` key on it
 # would put the guarantee back on everyone remembering. A separate global makes the reach visible
 # and greppable, which is exactly what `cmd_check`'s LabStyle reach gate keys off.
-NOT_THE_STYLE = ("artifact", "lab")
+NOT_THE_STYLE = ("preview", "lab")
 # The only two files that may name `ns.LabStyle`: the generated data, and the gallery that draws it.
 LAB_READERS = ("Lab.lua", "StylePanel.lua")
 
@@ -188,10 +256,14 @@ def load_tokens() -> dict:
 
 ROSTER_RE = re.compile(
     r"^\|\s*`(?P<key>[a-z_]+)`\s*\|\s*(?P<name>[^|]+?)\s*\|\s*`(?P<spell>\d+)`\s*\|"
-    r"\s*(?P<override>[^|]*?)\s*\|\s*(?P<lane>[A-Z]+|—|-)\s*\|\s*(?P<charges>[^|]*?)\s*\|",
+    r"\s*(?P<override>[^|]*?)\s*\|\s*(?P<lane>[A-Z]+|—|-)[^|]*\|\s*(?P<charges>[^|]*?)\s*\|",
     re.M,
 )
-OVERRIDE_RE = re.compile(r"^(?P<name>[^⚠`]+?)\s*⚠\s*`(?P<spell>\d+)`")
+# The override column, in either house style: Havoc writes `Abyssal Gaze ⚠`452497`` (the ⚠
+# marking an id we could not resolve an icon slug for), Retribution writes
+# `**Hammer of Light `427453`**`. Both are "a display name and the id it resolves to"; the
+# bolding and the warning mark are prose, so neither is required.
+OVERRIDE_RE = re.compile(r"^\*{0,2}(?P<name>[^⚠`*]+?)\s*\*{0,2}\s*(?:⚠\s*)?`(?P<spell>\d+)`")
 
 # The catalog's Charges column. A number means the client will report charges on that row,
 # which is what makes the border read CHARGES instead of the role lane (render-shelf V2).
@@ -241,16 +313,11 @@ def load_roster(catalog: Path) -> dict:
     return out
 
 
-def border_lane(entry: dict) -> str:
-    """Which of tokens.lanes the border draws — the one place the substitution happens."""
-    return "CHARGES" if entry.get("charges") else entry["lane"]
-
-
 # --------------------------------------------------------------------------- scraping
 
 
 ENTRY_RE = re.compile(r"^(?P<name>.+?)\s+`(?P<verdict>[a-z-]+)`(?P<ann>.*)$")
-GROUP_RE = re.compile(r"\{(?P<kind>cues):\s*(?P<body>[^}]*)\}")
+GROUP_RE = re.compile(r"\{(?P<kind>cues|client):\s*(?P<body>[^}]*)\}")
 # The retired `{dots: X go, Y wait}` group. It is matched separately and rejected by NAME,
 # because a silently-ignored group would let a scenario keep asserting a cue the style no
 # longer draws — which is exactly the doc↔render divergence this tool exists to catch.
@@ -294,6 +361,12 @@ def parse_row(raw: str) -> list[dict]:
         entry = {"name": m.group("name").strip(), "verdict": m.group("verdict")}
         if "cues" in groups:
             entry["cues"] = [c.strip() for c in groups["cues"].split(",") if c.strip()]
+        if "client" in groups:
+            # What BLIZZARD paints on this icon in this state, independent of anything cap
+            # concluded. Authored separately from the verdict on purpose: if it were derived
+            # from `starved` the two could never disagree, and "does cap's badge add anything
+            # to the client's own mark?" would be unanswerable by construction.
+            entry["client"] = groups["client"].strip()
         entries.append(entry)
     return entries
 
@@ -346,7 +419,9 @@ def parse_walk(raw: str, row_names: list[str]) -> list[dict]:
     return [{"names": s["names"], "html": _inline(s["raw"])} for s in steps]
 
 
-HEADING_RE = re.compile(r"^###\s+(?P<id>(?:ST|AoE)-\d+)\s+·\s+(?P<title>.+?)\s*$", re.M)
+# Each spec names its own scenario prefix — Havoc walks `ST-n` / `AoE-n`, Retribution `RET-n`.
+# The prefix carries no meaning here beyond ordering the stepper, so it is matched by shape.
+HEADING_RE = re.compile(r"^###\s+(?P<id>[A-Z][A-Za-z]{1,4}-\d+)\s+·\s+(?P<title>.+?)\s*$", re.M)
 
 
 def scrape_scenarios(path: Path) -> list[dict]:
@@ -356,9 +431,22 @@ def scrape_scenarios(path: Path) -> list[dict]:
     if not marks:
         _die(f"no `### ST-n · …` scenario headings in {path.relative_to(ROOT)}")
 
+    # ⚠ A scenario's body ends at the next scenario OR at the next level-2 heading, whichever
+    # comes first. Without the second terminator the LAST scenario absorbs everything below it:
+    # in a spec that keeps its walk inside `catalog.md` that is the whole rest of the document —
+    # measured 2026-08-19, RET-13 had swallowed 19 blocks including the changelog and rendered
+    # them on the page. A spec with a separate `scenarios.md` only escapes this by luck of
+    # formatting (whatever follows the last scenario happening to contain no `- **Bold.**`
+    # bullets), so this is not a single-file problem and the fix is not a second file.
+    section = [mm.start() for mm in re.finditer(r"(?m)^##\s+", text)]
+
     out = []
     for i, m in enumerate(marks):
-        body = text[m.end(): marks[i + 1].start() if i + 1 < len(marks) else len(text)]
+        stop = marks[i + 1].start() if i + 1 < len(marks) else len(text)
+        nxt = next((pos for pos in section if pos > m.end()), None)
+        if nxt is not None:
+            stop = min(stop, nxt)
+        body = text[m.end(): stop]
         bullets = {}
         order = []
         for part in re.split(r"(?m)^- \*\*", "\n" + body)[1:]:
@@ -368,7 +456,7 @@ def scrape_scenarios(path: Path) -> list[dict]:
             order.append(label)
 
         if "CDM row" not in bullets:
-            _die(f"{m.group('id')} has no `- **CDM row.**` bullet — the artifact cannot render it")
+            _die(f"{m.group('id')} has no `- **CDM row.**` bullet — the preview cannot render it")
         row = parse_row(bullets["CDM row"])
         row_names = [e["name"] for e in row]
 
@@ -427,6 +515,19 @@ def validate(scenarios: list[dict], tokens: dict, roster: dict) -> None:
             for c in e.get("cues", []):
                 if c not in cues:
                     _die(f"{sc['id']}: cue {c!r} is not declared in render-shelf.md tokens.cues")
+            cl = e.get("client")
+            if cl is not None and cl not in CLIENT_PAINT["tints"]:
+                _die(f"{sc['id']}: client state {cl!r} on {e['name']!r} is not one of Blizzard's "
+                     f"branches ({', '.join(sorted(CLIENT_PAINT['tints']))}).\n"
+                     "       The fourth branch — usable — is the absence of a declaration, not a "
+                     "name you may write.")
+            if cl and e["verdict"] == "cd":
+                # The client paints ONE of these per icon and the cooldown path does not reach
+                # RefreshIconColor's ladder in a way a scenario can meaningfully state. A row
+                # that claims both is claiming a picture the client does not produce.
+                _die(f"{sc['id']}: {e['name']!r} is `cd` and also declares client state {cl!r}. "
+                     "A swiped row is already ruled out natively; stating a second client mark on "
+                     "it asserts a composite the source does not describe.")
 
 
 # --------------------------------------------------------------------------- assets
@@ -461,27 +562,27 @@ def assert_tintable(what: str, source: str, tint: str, sat, tintable) -> bool:
 
     This is the shelf's one mechanical promise, and it is deliberately **art-agnostic**: it
     started life guarding the flipbook emphasis rings, those retired with V1, and it now guards
-    the badge sprites. The claim it enforces was never about rings — it is *art the shelf
-    recolors must be art `SetVertexColor` can actually recolor*. `tint: "lane"` is the token
+    the badge sprites and V11's stripe sheet. The claim was never about rings — it is *art the shelf
+    recolors must be art `SetVertexColor` can actually recolor*. `tint: "shelf"` is the token
     spelling of that claim (the colour comes from the shelf, not from the art).
 
     Losing this silently would be the worst possible outcome of retiring a primitive, so
-    `cmd_check` separately asserts that SOMETHING still declares `tint: "lane"` — a guard whose
+    `cmd_check` separately asserts that every art-bearing primitive still declares it — a guard whose
     subject set quietly emptied keeps passing while guaranteeing nothing.
     """
-    if tint == "lane" and tintable is False:
+    if tint == "shelf" and tintable is False:
         _die(
-            f"{what} declares tint: \"lane\" but {source} measured mean saturation {sat} — it "
+            f"{what} declares tint: \"shelf\" but {source} measured mean saturation {sat} — it "
             "carries a BAKED HUE.\n"
             "       SetVertexColor multiplies, so that art can only be darkened toward its own "
             "hue; the authored colour is not drawable on it, and a preview that showed one "
             "would be a lie.\n"
             "       Fix it one of three ways: pick neutral art (the vendored Kenney frames "
             "measure 0.000); declare tint: \"none\" and accept the art's own hue; or declare "
-            "tint: \"desaturate+lane\", which builds but stamps a visible ⚠ because "
+            "tint: \"desaturate+shelf\", which builds but stamps a visible ⚠ because "
             "desaturate-then-tint is unverified in client."
         )
-    return tint == "desaturate+lane"
+    return tint == "desaturate+shelf"
 
 
 def badge_assets(tokens: dict) -> dict:
@@ -819,9 +920,9 @@ def ring_image(tokens: dict) -> Image.Image | None:
 
 
 def ring_asset(tokens: dict) -> dict | None:
-    """V2's ring sheet as the artifact draws it: a `data:` URI plus its measurement.
+    """V2's ring sheet as the preview draws it: a `data:` URI plus its measurement.
 
-    The artifact uses it as a `mask-image` over the lane hue and steps `mask-position` at
+    The preview uses it as a `mask-image` over the lane hue and steps `mask-position` at
     `tokens.motion.tick_s`, which is the same art, the same walk and the same rate as the client.
     """
     img = ring_image(tokens)
@@ -829,7 +930,7 @@ def ring_asset(tokens: dict) -> dict | None:
         return None
     ring = tokens["ring"]
     measure = uiart.tintability(img)
-    assert_tintable("lane border ring sheet (V2)", "capart.ring_flipbook (generated)",
+    assert_tintable("ring flipbook sheet (Part 7)", "capart.ring_flipbook (generated)",
                     ring.get("tint", "none"), measure["mean_saturation"], measure["tintable"])
     buf = io.BytesIO()
     img.save(buf, "PNG", optimize=True)
@@ -882,7 +983,7 @@ def export_badges(tokens: dict) -> list[tuple[str, tuple[int, int]]]:
     """Vendor the badge art into the addon as 32-bit TGA — what the client reads.
 
     The tint guard runs here too, on the art that actually ships, so a baked-hue frame cannot
-    reach the client through a path the artifact never rendered.
+    reach the client through a path the preview never rendered.
     """
     badges = tokens["badges"]
     src = ROOT / "projects" / "combat-assist" / badges["asset_root"]
@@ -913,7 +1014,7 @@ def export_ring(tokens: dict) -> list[tuple[str, tuple[int, int]]]:
     """Vendor V2's ring flipbook into `Media/`, beside `Media/badges/` — declared art, not lab art.
 
     Lab art lives in `Media/lab/` and style art does not, so `ls Media/` still says which is which.
-    The tint guard runs here as well as on the artifact path, so a sheet with a hue baked into it
+    The tint guard runs here as well as on the preview path, so a sheet with a hue baked into it
     cannot reach the client through a route the preview never rendered.
     """
     img = ring_image(tokens)
@@ -921,7 +1022,7 @@ def export_ring(tokens: dict) -> list[tuple[str, tuple[int, int]]]:
         return []
     ring = tokens["ring"]
     measure = uiart.tintability(img)
-    assert_tintable("lane border ring sheet (V2, ship path)",
+    assert_tintable("ring flipbook sheet (Part 7, ship path)",
                     "capart.ring_flipbook (generated)", ring.get("tint", "none"),
                     measure["mean_saturation"], measure["tintable"])
     return [(ring["texture"], _write_tga(img, ring["texture"], MEDIA_DIR))]
@@ -1007,22 +1108,16 @@ def icon_assets(names: list[str], roster: dict, tokens: dict) -> dict:
 # --------------------------------------------------------------------------- CSS
 
 
-def _ring_pos(index: int, grid: int) -> str:
-    """A frame's `mask-position` in a grid-times-100% mask. The same walk stepper.js does."""
-    def pct(k: int) -> str:
-        return f"{(k / (grid - 1)) * 100:.4f}%" if grid > 1 else "0%"
-    return f"{pct(index % grid)} {pct(index // grid)}"
-
-
 def root_css(tokens: dict) -> str:
     s = tokens["surfaces"]
-    a, b, r = tokens["arrival"], tokens["badges"], tokens["ring"]
+    b = tokens["badges"]
 
     def rgba(col, alpha=1.0):
         r, g, b_ = (round(x * 255) for x in col)
         return f"rgba({r},{g},{b_},{alpha})"
 
     d = b["diameter_pct"] / 100 * s["icon_px"]
+    rd = tokens["ready"]
     lines = [
         "/* GENERATED from specs/render-shelf.md Part 6 — do not edit here, edit the shelf. */",
         ":root {",
@@ -1034,19 +1129,13 @@ def root_css(tokens: dict) -> str:
         "     fraction: it means \"ruled out\", nothing more. Not a shelf value. */",
         "  --swipe-frac: 0.62turn;",
         "",
-        "  /* V2 · lane border. One ring flipbook, tinted per lane; the frame is chosen by",
-        "     --ring-pos, which stepper.js walks at --tick, and the sheet URI is set inline",
-        "     (it is a build-time data: URI, not a shelf value). */",
-        f"  --arrive-dur: {a['duration_s']}s;",
-        f"  --tick: {tokens['motion']['tick_s']}s;",
-        f"  --ring-grid: {r['grid']};",
-        f"  --ring-frames: {r['frames']};",
-        f"  --ring-size: {r['grid'] * 100}% {r['grid'] * 100}%;",
-        f"  --ring-rest: {_ring_pos(r['frames'] - 1, r['grid'])};",
-        "  --ring-pos: var(--ring-rest);",
+        "  /* V2 · in the scan. One hue, no roles, no motion: an icon either participates in",
+        "     the read or it does not. Additive at full brightness on a restrained AREA — a hot",
+        "     edge, not a wash — and drawn ON the rect, so no row gap can be too small. */",
+        f"  --ready-rgb: {','.join(str(round(x * 255)) for x in rd['rgb'])};",
+        f"  --ready-alpha: {rd['alpha']:.2f};",
+        f"  --ready-line: {rd['line_px']}px;",
     ]
-    for lane, t in tokens["lanes"].items():
-        lines.append(f"  --lane-{lane.lower()}: {rgba(t['rgb'])};")
 
     # Slot 1 hangs off the top-right corner: its right edge sits `overhang` past the icon's
     # right edge and its top edge `overhang` above the top, so it reads as ON the icon rather
@@ -1104,8 +1193,62 @@ def root_css(tokens: dict) -> str:
             phase = sheet["pitch_px"] * entry.get("phase_pct", 0) / 100
             lines.append(f"  --lab-{key}-rgb: {rgba(entry['rgb'], entry.get('alpha', 1.0))};")
             lines.append(f"  --lab-{key}-phase: {phase:.2f}px;")
+    # Part 7 · the readiness entries. They share no asset with each other and none with the
+    # style, so each emits only the variables its own render reads. `glow_px` is an OUTSET: the
+    # halo is drawn outside the icon rect, which is the whole point of the treatment.
+    for key, entry in lab.items():
+        if key.startswith("_") or not isinstance(entry, dict) or "rest_alpha" not in entry:
+            continue
+        pre = f"  --lab-{key}-"
+        lines.append("")
+        lines.append(f"  /* Part 7 · {key} */")
+        # A bare `r,g,b` triple, not an `rgba(...)`: the renders compose it with their own
+        # alpha (`rgba(var(--…-rgb), var(--…-rest))`), which CSS cannot do to a finished color.
+        lines.append(f"{pre}rgb: {','.join(str(round(x * 255)) for x in entry['rgb'])};")
+        lines.append(f"{pre}rest: {entry['rest_alpha']:.2f};")
+        lines.append(f"{pre}flare: {entry.get('flare_alpha', entry['rest_alpha']):.2f};")
+        if "glow_px" in entry:
+            lines.append(f"{pre}glow: {entry['glow_px']}px;")
+        if "flare_mult" in entry:
+            lines.append(f"{pre}flare-glow: {entry['glow_px'] * entry['flare_mult']:.1f}px;")
+        if "line_px" in entry:
+            lines.append(f"{pre}line: {entry['line_px']}px;")
+        # A breathing entry that ALSO flares needs two tops: the cycle's peak and the one-shot's
+        # overshoot. Without `peak_alpha` the cycle simply reaches `flare_alpha`, as before.
+        if "peak_alpha" in entry:
+            lines.append(f"{pre}peak: {entry['peak_alpha']:.2f};")
+        for k, css in (("decay_s", "decay"), ("period_s", "period")):
+            if k in entry:
+                lines.append(f"{pre}{css}: {entry[k]:.2f}s;")
     lines.append("}")
     return "\n".join(lines)
+
+
+JS_CLASS_RE = re.compile(r'\bel\(\s*"[a-z]+"\s*,\s*"([a-z0-9][a-z0-9 -]*)"\)')
+JS_QUERY_RE = re.compile(r'querySelector(?:All)?\(\s*"(?:[^"]*?)\.([a-z0-9-]+)[^"]*"\)')
+
+
+def smoke_dom(js: Path, css: Path, root: str) -> list[str]:
+    """Every class name stepper.js builds or looks up must exist in the stylesheet.
+
+    ⚠ This gate exists because `check` never renders the page and therefore never noticed that
+    the lab's `inner_border: false` was stripping `.edge`, **a class the DOM stopped carrying**
+    when the lane border retired — so all four readiness entries were judged with a stray scan
+    line composited over them and every gate stayed green. A class the JS names and the CSS does
+    not is either dead code or an invisible element; neither is something a look-at-it preview
+    can afford to hold silently.
+    """
+    text = js.read_text(encoding="utf-8")
+    sheet = css.read_text(encoding="utf-8") + root
+    # An id counts: a node given `el("div", "tip")` and then `.id = "tip"` is styled as `#tip`.
+    styled = set(re.findall(r"[.#]([a-z0-9-]+)", sheet))
+    bad = []
+    built = {c for m in JS_CLASS_RE.findall(text) for c in m.split()}
+    for name in sorted(built | set(JS_QUERY_RE.findall(text))):
+        if name not in styled:
+            bad.append(f"{js.name}: class {name!r} is built or queried but no rule in "
+                       f"{css.name} names it — a dead lookup, or an element nobody can see.")
+    return bad
 
 
 def strict_css(path: Path) -> list[str]:
@@ -1140,41 +1283,66 @@ def build(spec: str, tokens: dict, when: str) -> str:
 
     # Lab cells draw real icons on real verdicts, so their ability names are held to exactly the
     # same standard a scenario row's are — an experiment on invented art proves nothing.
+    #
+    # ⚠ They resolve against the SHELF's reference roster, not this spec's. Part 7 is one gallery
+    # belonging to `render-shelf.md`, drawn on whatever page you happen to be looking at; its
+    # cells are authored once and are not a claim about any spec's rotation. Holding them to the
+    # roster of the spec being built would mean re-authoring the lab per spec, which would make
+    # every experiment a spec decision — the opposite of what Part 7 is for.
+    lab_roster = roster if spec == SHELF_ROSTER_SPEC else load_roster(
+        SPECS_BUILT[SHELF_ROSTER_SPEC]["catalog"])
+    lab_icon_roster = dict(lab_roster)
     lab_names = set()
     for key, entry in ((k, e) for k, e in (tokens.get("lab") or {}).items()
                        if not k.startswith("_")):
         for cell in entry.get("cells", []):
+            # A `row` cell draws several icons at the true row pitch; every name in it needs an
+            # icon fetched exactly as a single-ability cell's does.
+            for name in cell.get("abilities", []):
+                if name not in lab_roster:
+                    _die(f"lab.{key}: {name!r} is not in "
+                         f"{SPECS_BUILT[SHELF_ROSTER_SPEC]['catalog'].relative_to(ROOT)}'s "
+                         "bound-abilities table (Part 7 draws from the shelf's reference roster)")
+                lab_names.add(name)
             name = cell.get("ability")
             if name is None:
                 continue
-            if name not in roster:
-                _die(f"lab.{key}: {name!r} is not in catalog.md's bound-abilities table")
+            if name not in lab_roster:
+                _die(f"lab.{key}: {name!r} is not in "
+                     f"{SPECS_BUILT[SHELF_ROSTER_SPEC]['catalog'].relative_to(ROOT)}'s "
+                     "bound-abilities table (Part 7 draws from the shelf's reference roster)")
             if cell.get("verdict") and cell["verdict"] not in tokens["verdicts"]:
                 _die(f"lab.{key}: verdict {cell['verdict']!r} is not in the closed vocabulary")
             lab_names.add(name)
 
     used = sorted({e["name"] for sc in scenarios for e in sc["row"]}
-                  | set(cfg["lane_sample"].values()) | lab_names)
-    missing = [n for n in cfg["lane_sample"].values() if n not in roster]
+                  | set(cfg["scan_samples"]) | lab_names)
+    missing = [n for n in cfg["scan_samples"] if n not in roster]
     if missing:
-        _die(f"lane sample {missing} not in the roster")
-    icons = icon_assets(used, roster, tokens)
+        _die(f"scan sample {missing} not in the roster")
+    # The spec's own roster wins on any name both carry; the shelf roster only fills in the lab.
+    lab_icon_roster.update(roster)
+    icons = icon_assets(used, lab_icon_roster, tokens)
     frames = badge_assets(tokens)
     stripes = hatch_asset(tokens)
     ring = ring_asset(tokens)
 
     # The base64 budget is a fact to report, not a gate: an oversized page is still a page
     # you can look at, and `wowkb.capart assets` prints the per-asset table that fixes it.
+    # The ring sheet is deliberately NOT in this sum and not in `data`: nothing in the preview
+    # renders it since V2 retired, and embedding a 4 KB data URI no CSS names is dead weight the
+    # budget would then report as spent. It still ships to the addon and is still measured under
+    # the tint guard on `ring_asset`'s path — only the injection stopped.
     total = (sum(a["bytes"] for a in icons.values()) + sum(f["bytes"] for f in frames.values())
-             + (stripes["bytes"] if stripes else 0) + (ring["bytes"] if ring else 0))
+             + (stripes["bytes"] if stripes else 0))
 
     abilities = {
-        name: {"key": roster[name]["key"], "spell": roster[name]["spell"],
-               # `lane` is the AUTHORED role lane; `border` is what actually draws, after the
-               # CHARGES substitution. Both travel, so the artifact can show the substitution
-               # rather than silently applying it.
-               "lane": roster[name]["lane"], "border": border_lane(roster[name]),
-               "charges": roster[name].get("charges", 0), "icon": icons[name]["uri"]}
+        name: {"key": lab_icon_roster[name]["key"], "spell": lab_icon_roster[name]["spell"],
+               # The authored role lane still travels because the CATALOGS still record it —
+               # it is a fact about the ability. It no longer picks a treatment: an icon either
+               # is in the scan or is not, and rank comes from row order plus elimination.
+               "lane": lab_icon_roster[name]["lane"],
+               "charges": lab_icon_roster[name].get("charges", 0), "icon": icons[name]["uri"]}
         for name in used
     }
 
@@ -1187,31 +1355,29 @@ def build(spec: str, tokens: dict, when: str) -> str:
             "baked-hue art takes a clean authored hue has not been measured, so treat these as a "
             "proposal, not a preview."
         )
-    # A lane the roster can never draw is a real finding about the catalog, not a build error —
-    # under the CHARGES substitution every Havoc FALLBACK ability turns out to have charges.
-    drawable = {border_lane(roster[n]) for n in used}
-    dark = [ln for ln in tokens["lanes"] if ln not in drawable]
-    if dark:
-        notes.append(
-            "Lane(s) <b>" + ", ".join(dark) + "</b> are declared in the shelf but no ability in "
-            "this catalog draws them — every candidate is displaced by the CHARGES substitution "
-            "(shelf V2). The gallery swatch below still shows the lane; no CDM row does."
-        )
-
     data = {
         "built": when,
+        # Deliberately a sibling of `tokens`, never a member. The template reads it as
+        # `D.client_paint` and the shelf's own `T.*` namespace cannot see it, which is the
+        # mechanical form of "this layer is Blizzard's and cap does not own it".
+        "client_paint": CLIENT_PAINT,
         "abilities": abilities,
-        "lane_sample": cfg["lane_sample"],
+        "scan_samples": cfg["scan_samples"],
+        "scan_sample": cfg["scan_samples"][0],
         "scenarios": scenarios,
         "notes": notes,
         "frames": frames,
-        "ring": ring,
         "lab_stripes": stripes,
         "provenance_html": provenance_html(spec, tokens, icons, frames, stripes, ring, total,
                                            when),
     }
 
     page = (TEMPLATE / "page.html").read_text(encoding="utf-8")
+    # The page is one template for every spec, so its own name has to arrive as data. It used to
+    # hardcode "Havoc", which put the Retribution preview under Havoc's title in the tab strip.
+    page = page.replace("<!--__SPEC_TITLE__-->", cfg.get("title", spec.title()))
+    page = page.replace("<!--__SPEC__-->", spec)
+    page = page.replace("<!--__SCENARIO_COUNT__-->", str(len(scenarios)))
     page = page.replace("/*__ROOT_TOKENS__*/", root_css(tokens))
     page = page.replace("/*__SHELF_CSS__*/", (TEMPLATE / "shelf.css").read_text(encoding="utf-8"))
     page = page.replace("/*__STEPPER_JS__*/", (TEMPLATE / "stepper.js").read_text(encoding="utf-8"))
@@ -1228,16 +1394,23 @@ def provenance_html(spec, tokens, icons, frames, stripes, ring, total, when) -> 
         ("catalog.md", f"sha {_sha(cfg['catalog'])}"),
         ("sidecar", f"{cfg['sidecar'].name} · sha {_sha(cfg['sidecar'])}"),
     ]
-    r = tokens["ring"]
     rows.append((
-        "border · V2",
-        " · ".join(f"<b>{ln}</b>" for ln in tokens["lanes"])
-        + f" — one ring flipbook, {r['thickness_px']}px band, tinted per lane with a single "
-        "<code>SetVertexColor</code>; the lanes differ by hue alone. One-shot arrival: "
-        f"{r['frames']} frames at {tokens['motion']['tick_s']}s = "
-        f"{tokens['arrival']['duration_s']}s ({tokens['arrival']['smoothing']}), stepped in place "
-        "so nothing ever draws outside the row's own cell; replayed every "
-        f"{tokens['artifact']['arrival_replay_s']}s here only so it can be watched."
+        "client baseline",
+        "Blizzard's own icon paint, drawn <b>under</b> everything cap adds and read from source, "
+        "not chosen: " + " · ".join(
+            f"<code>{t['constant']}</code> {tuple(t['rgb'])}"
+            for t in CLIENT_PAINT["tints"].values())
+        + f" · plus desaturate-on-cooldown. {CLIENT_PAINT['_source']}; "
+        f"claim at <code>{CLIENT_PAINT['_doc']}</code>. <b>These are not render tokens</b> — they "
+        "are not in the shelf and an edit to the shelf cannot change them."))
+    rd = tokens["ready"]
+    rows.append((
+        "in the scan · V2",
+        f"one treatment, no roles, no motion — a {rd['line_px']}px additive edge at "
+        f"alpha {rd['alpha']:.2f}, drawn ON the icon rect. Additive is why it reads as a hot "
+        "line rather than a painted one; the restrained area is why full brightness is not "
+        "loud. It has no falloff, so it cannot bleed into a neighbour at any row gap. Rank is "
+        "carried by row order and elimination, not by hue."
     ))
     rows.append(("icons", f"{len(icons)} × {tokens['assets']['icon_size']}px "
                           f"{tokens['assets']['encode']} · "
@@ -1270,16 +1443,16 @@ def provenance_html(spec, tokens, icons, frames, stripes, ring, total, when) -> 
         ))
     if ring:
         rows.append((
-            "ring sheet · V2",
+            "ring sheet · Part 7 only",
             f"{ring['size'][0]}×{ring['size'][1]} generated by <code>capart.ring_flipbook</code> — "
             f"{ring['frames']} frames in a {ring['grid']}×{ring['grid']} grid of "
             f"{ring['tile_px']}px cells, band {ring['thickness_px']}px, travelling "
             f"{ring['travel_px']}px inward across the arrival · measured mean saturation "
-            f"{ring['mean_saturation']}, so <code>SetVertexColor</code> takes it to the lane hue · "
-            f"declared <code>tint: \"{ring['tint']}\"</code>, which is what puts it under the tint "
-            "guard · shipped by <code>export ring</code> to <code>Media/</code>, and drawn here as "
-            "<code>mask-image</code> over the lane hue — the same art, the same walk, the same "
-            f"rate · {ring['bytes'] / 1024:.1f} KB b64"
+            f"{ring['mean_saturation']}, so <code>SetVertexColor</code> takes it to the shelf's "
+            f"colour · declared <code>tint: \"{ring['tint']}\"</code>, which is what puts it under "
+            "the tint guard · shipped by <code>export ring</code> to <code>Media/</code> for Part "
+            "7's <code>arrival-*</code> entries. <b>Not embedded in this page</b>: V2 retired and "
+            "nothing here renders it."
         ))
     rows.append(("payload", f"{total / 1024:.0f} KB of {tokens['budget']['max_base64_kb']} KB budget"))
     rows.append(("built", when))
@@ -1302,13 +1475,16 @@ def provenance_html(spec, tokens, icons, frames, stripes, ring, total, when) -> 
 def cmd_tokens(args) -> None:
     tokens = load_tokens()
     print(f"render-tokens v{tokens['version']} · {SHELF.relative_to(ROOT)} (sha {_sha(SHELF)})\n")
-    ring = tokens.get("ring")
-    print("  V2 · lane border (one ring flipbook; the lanes differ by hue alone)")
-    for lane, t in tokens["lanes"].items():
-        r, g, b = (round(x * 255) for x in t["rgb"])
-        print(f"    {lane:<9} rgb({r:>3},{g:>3},{b:>3})")
-    a = tokens["arrival"]
+    rd = tokens["ready"]
+    r, g, b = (round(x * 255) for x in rd["rgb"])
+    print("  V2 · the scan edge (ONE binary treatment: in the scan, or not)")
+    print(f"    edge     rgb({r:>3},{g:>3},{b:>3}) · {rd['line_px']}px · alpha {rd['alpha']:.2f} · "
+          "ADD, drawn ON the icon rect")
+    print("    rank     row order plus elimination — there is no hue ladder and no motion")
+
+    ring, a = tokens.get("ring"), tokens["arrival"]
     if ring:
+        print(f"\n  Part 7 only · ring flipbook (no live subject; the lab still draws it)")
         print(f"    art      {ring['texture']}, {ring['frames']} frames in a "
               f"{ring['grid']}x{ring['grid']} grid of {ring['tile_px']}px cells, band "
               f"{ring['thickness_px']}px · declared tint {ring.get('tint', 'none')!r}")
@@ -1343,14 +1519,12 @@ def cmd_tokens(args) -> None:
     print()
     print(f"  text       max {t['max_hz']} Hz · duty {t['duty']} · alpha floor {t['alpha_floor']} "
           "(MIL-STD-1472F — safety, not taste)")
-    print(f"  artifact   arrival replayed every {tokens['artifact']['arrival_replay_s']}s "
-          "(VIEWING AID — not the style)")
 
-    borderless = [k for k, v in tokens["verdicts"].items() if not v["border"]]
+    outside = [k for k, v in tokens["verdicts"].items() if not v["scan"]]
     badged = [k for k, v in tokens["verdicts"].items() if v.get("cues")]
     print(f"\n  verdicts   {', '.join(tokens['verdicts'])}")
-    print(f"    no border  {', '.join(borderless)}")
-    print(f"    badged     {', '.join(badged)}")
+    print(f"    out of scan  {', '.join(outside)}")
+    print(f"    badged       {', '.join(badged)}")
     if "lab" in tokens:
         print(f"\n  lab        {', '.join(k for k in tokens['lab'] if not k.startswith('_'))}")
     else:
@@ -1370,7 +1544,7 @@ def cmd_assets(args) -> None:
     else:
         scenarios = scrape_scenarios(cfg["scenarios"])
     used = sorted({e["name"] for sc in scenarios for e in sc["row"]}
-                  | set(cfg["lane_sample"].values()))
+                  | set(cfg["scan_samples"]))
     icons = icon_assets(used, roster, tokens)
 
     print(f"{'asset':<40} {'kind':<6} {'b64 KB':>8}  notes")
@@ -1387,7 +1561,7 @@ def cmd_assets(args) -> None:
               f"{stripes['size'][0]}px tile, pitch {stripes['pitch_px']}px")
     ring = ring_asset(tokens)
     if ring:
-        print(f"{'ring flipbook':<40} {'ring':<6} {ring['bytes'] / 1024:>8.1f}  "
+        print(f"{'ring flipbook':<40} {'lab':<6} {ring['bytes'] / 1024:>8.1f}  "
               f"sat {ring['mean_saturation']} (generated, neutral by construction) · "
               f"{ring['frames']} frames in {ring['grid']}x{ring['grid']} × {ring['tile_px']}px, "
               f"band {ring['thickness_px']}px")
@@ -1400,8 +1574,8 @@ def cmd_assets(args) -> None:
     print("-" * 92)
     print(f"{'TOTAL':<40} {'':<6} {total / 1024:>8.1f}  of {cap} KB budget "
           f"({total / 1024 / cap * 100:.0f}%)")
-    print("\nThe lane border (V2) is ONE ring flipbook: every lane draws the same band and differs "
-          "by hue alone.")
+    print("\nThe scan edge (V13) needs no art at all — it is four colour strips. The ring "
+          "flipbook above ships for Part 7's arrival experiments and nothing live draws it.")
     if total > cap * 1024:
         sys.exit(1)
 
@@ -1414,7 +1588,8 @@ def cmd_import(args) -> None:
     validate(scenarios, tokens, roster)
     payload = {
         "_comment": (
-            "SEEDED by `wowkb.capart import scenarios` from specs/havoc/scenarios.md, then "
+            f"SEEDED by `wowkb.capart import scenarios {args.spec}` from "
+            f"{cfg['scenarios'].relative_to(ROOT)}, then "
             "reviewed by eye. The DOC leads: `capart check` re-scrapes the CDM-row bullets and "
             "fails if they disagree with this file. Edit the doc, re-import, review."
         ),
@@ -1433,18 +1608,86 @@ def cmd_import(args) -> None:
         print(f"  {sc['id']:<6} {len(sc['row']):>2} icons · {len(sc['steps'])} steps · press {press}")
 
 
+def _specs_of(args) -> list[str]:
+    """Which specs a command runs over: the named one, or every built spec under `--all`.
+
+    `--all` exists because the alternative is a hand-maintained list of spec names living
+    somewhere other than `SPECS_BUILT` — in a `--on-change` string, in a CI line — and a list like
+    that goes stale the moment a spec is added. The failure it causes is quiet in exactly the wrong
+    way: a watcher told to rebuild only Havoc still fires on a Retribution edit, still rebuilds
+    Havoc, still reports success, and still serves the stale Retribution page. `SPECS_BUILT` is the
+    registry; this reads it rather than asking anyone to restate it.
+    """
+    if getattr(args, "all_specs", False):
+        if args.spec:
+            _die("pass a spec or --all, not both")
+        return sorted(SPECS_BUILT)
+    if not args.spec:
+        _die(f"which spec? one of {', '.join(sorted(SPECS_BUILT))} — or --all for every one")
+    return [args.spec]
+
+
+INDEX_OUT = PREVIEWS / "index.html"
+
+
+def build_index(when: str) -> str:
+    """The directory's front door, listing every registered spec.
+
+    `previews/CLAUDE.md` advertised this URL for weeks while the server answered it with a bare
+    directory listing — every template file and asset folder beside the two pages anyone wanted.
+    It is generated from `SPECS_BUILT`, so a newly registered spec appears without anyone
+    remembering to add a row.
+    """
+    rows = []
+    for spec in sorted(SPECS_BUILT):
+        cfg = SPECS_BUILT[spec]
+        out = cfg["out"]
+        built = "not built yet"
+        if out.exists():
+            m = re.search(r"capart built: (\d{4}-\d{2}-\d{2})", out.read_text(encoding="utf-8"))
+            built = f"built {m.group(1)}" if m else "built"
+        rows.append(
+            f'    <li><a href="{out.name}">{htmllib.escape(cfg.get("title", spec.title()))}'
+            f'</a> <span>{built}</span></li>')
+    return (
+        BUILT_MARK.format(date=when) + "\n"
+        "<title>cap previews</title>\n"
+        "<style>\n"
+        "  body { margin: 0; padding: 3rem 1.5rem; background: #14161b; color: #e8e6e1;\n"
+        "         font: 15px/1.6 system-ui, sans-serif; }\n"
+        "  main { max-width: 34rem; margin: 0 auto; }\n"
+        "  h1 { font-size: 1.25rem; margin: 0 0 .25rem; }\n"
+        "  p { color: #9a9eaa; }\n"
+        "  ul { list-style: none; padding: 0; margin: 1.5rem 0 0; }\n"
+        "  li { padding: .6rem 0; border-top: 1px solid #2a2e37; display: flex;\n"
+        "       justify-content: space-between; gap: 1rem; }\n"
+        "  a { color: #ffdb73; text-decoration: none; }\n"
+        "  a:hover { text-decoration: underline; }\n"
+        "  span { color: #7d8291; font-size: 13px; }\n"
+        "</style>\n"
+        "<main>\n"
+        "  <h1>Combat Assist Plus — scenario steppers</h1>\n"
+        "  <p>One page per spec, all generated by <code>wowkb.capart build --all</code> from\n"
+        "     <code>specs/render-shelf.md</code> and each spec&rsquo;s <code>scenarios.md</code>.</p>\n"
+        "  <ul>\n" + "\n".join(rows) + "\n  </ul>\n"
+        "</main>\n")
+
+
 def cmd_build(args) -> None:
     tokens = load_tokens()
     when = args.date or date.today().isoformat()
-    page = build(args.spec, tokens, when)
-    out = SPECS_BUILT[args.spec]["out"]
-    out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(page, encoding="utf-8")
-    print(f"wrote {out.relative_to(ROOT)} · {len(page) / 1024:.0f} KB · built {when}")
     cap = tokens["budget"]["max_base64_kb"]
-    if len(page) / 1024 > cap:
-        _warn(f"page is over the {cap} KB budget in tokens.budget — "
-              "run `wowkb.capart assets` for the per-asset table")
+    for spec in _specs_of(args):
+        page = build(spec, tokens, when)
+        out = SPECS_BUILT[spec]["out"]
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(page, encoding="utf-8")
+        print(f"wrote {out.relative_to(ROOT)} · {len(page) / 1024:.0f} KB · built {when}")
+        if len(page) / 1024 > cap:
+            _warn(f"{out.name} is over the {cap} KB budget in tokens.budget — "
+                  "run `wowkb.capart assets` for the per-asset table")
+    INDEX_OUT.write_text(build_index(when), encoding="utf-8")
+    print(f"wrote {INDEX_OUT.relative_to(ROOT)} · {len(SPECS_BUILT)} specs")
 
 
 def cmd_export(args) -> None:
@@ -1709,21 +1952,81 @@ def lab_gates(tokens: dict) -> list[str]:
     return fails
 
 
+DATA_RE = re.compile(r'<script type="application/json" id="cap-data">(.*?)</script>', re.S)
+
+
+def _page_data(out: Path) -> dict | None:
+    """The `data` blob capart embedded in a built page, read back out of it."""
+    m = DATA_RE.search(out.read_text(encoding="utf-8"))
+    if not m:
+        return None
+    try:
+        return json.loads(m.group(1))
+    except json.JSONDecodeError:
+        return None
+
+
 def cmd_check(args) -> None:
+    specs = _specs_of(args)
+    if len(specs) > 1:
+        # Run each in turn so one spec's failure does not hide the next one's. Exit non-zero if
+        # ANY failed — a gate that stops at the first bad spec under-reports on the run where it
+        # matters most.
+        bad = []
+        for spec in specs:
+            print(f"── {spec}", flush=True)   # flushed so the per-spec verdicts stay interleaved
+                                             # with anything the gates write to stderr
+            try:
+                _check_one(argparse.Namespace(spec=spec, all_specs=False))
+            except SystemExit as exc:
+                if exc.code:
+                    bad.append(spec)
+            sys.stdout.flush()
+        if bad:
+            sys.exit(f"FAILED: {', '.join(bad)}")
+        return
+    _check_one(argparse.Namespace(spec=specs[0], all_specs=False))
+
+
+def _check_one(args) -> None:
     tokens = load_tokens()
     cfg = SPECS_BUILT[args.spec]
     fails = []
 
     for line in strict_css(TEMPLATE / "shelf.css"):
         fails.append(line)
+    fails += smoke_dom(TEMPLATE / "stepper.js", TEMPLATE / "shelf.css", root_css(tokens))
 
-    # 0 · the tint guard still has a subject. `assert_tintable` is the shelf's one mechanical
-    # promise, and a guard whose subject set quietly emptied keeps passing while guaranteeing
-    # nothing — which is exactly what retiring the flipbook rings could have done to it.
-    if tokens["badges"].get("tint") != "lane" and (tokens.get("ring") or {}).get("tint") != "lane":
-        fails.append("nothing declares tint: \"lane\" any more — the Part 4 tint guard has no "
-                     "subject and is guaranteeing nothing. If art really did leave the style, "
-                     "delete the guard deliberately rather than letting it pass vacuously.")
+    # 0z · the OTHER subcommands still run. `tokens` and `assets` read the token block on paths
+    # `build` does not, and both sat dead behind a KeyError for a week while `check` reported
+    # green — because `check` reads the sidecar and the tokens and renders nothing. This is the
+    # cheapest possible standing answer to that: run them, discard the output, fail on a raise.
+    for name, fn in (("tokens", cmd_tokens), ("assets", cmd_assets)):
+        buf = io.StringIO()
+        try:
+            with contextlib.redirect_stdout(buf):
+                fn(argparse.Namespace(spec=args.spec, css=False, all_specs=False))
+        except SystemExit as exc:                       # `assets` exits 1 over budget; that is
+            if exc.code:                                # a real finding, not a crash
+                fails.append(f"capart {name} exited {exc.code}")
+        except Exception as exc:                        # noqa: BLE001 — any raise is the finding
+            fails.append(f"capart {name} raised {type(exc).__name__}: {exc}")
+
+    # 0 · the tint guard still has EVERY subject. `assert_tintable` is the shelf's one mechanical
+    # promise, and a guard whose subject set quietly shrinks keeps passing while guaranteeing less
+    # each time — which is exactly what the lane→scan collapse did to it: `tokens.badges.tint`
+    # changed value, the guard matched a literal, and the badge sprites went unguarded while this
+    # gate stayed green on the ring alone. So it is checked per primitive, not as an any-of.
+    for name in ("badges", "ring", "hatch"):
+        art = tokens.get(name)
+        if art is None:
+            continue
+        if art.get("tint") not in ("shelf", "desaturate+shelf", "none"):
+            fails.append(
+                f"tokens.{name}.tint is {art.get('tint')!r}, which the Part 4 tint guard does not "
+                "recognise — so that art ships unguarded and a baked hue in it would render as a "
+                "recolour SetVertexColor cannot perform. Use \"shelf\", \"desaturate+shelf\" "
+                "or a deliberate \"none\".")
 
     # 0a · V2's cadence is stated three times and must agree. The frame count is what the sheet is
     # generated with, the tick is what the shared ticker runs at, and the duration is what
@@ -1752,6 +2055,31 @@ def cmd_check(args) -> None:
 
     # 1 · the doc leads the sidecar.
     doc = scrape_scenarios(cfg["scenarios"])
+    # 1a · the built page carries what it needs to DRAW a row. The shelf is assembled in the
+    # browser out of the embedded JSON, so there is no markup to count here — but a blank row
+    # has a static cause every time: a scenario entry with no `abilities` record, or one whose
+    # icon URI never resolved. ⚠ This is not a render. `check` still cannot tell you the page
+    # looks right; only a browser can, which is why the previews are served and looked at.
+    if cfg["out"].exists():
+        data = _page_data(cfg["out"])
+        if data is None:
+            fails.append(f"{cfg['out'].name} carries no embedded data block — it is not a build "
+                         "this tool produced.")
+        else:
+            names = {e["name"] for sc in data.get("scenarios", []) for e in sc.get("row", [])}
+            names |= set(data.get("scan_samples", []))
+            if not names:
+                fails.append(f"{cfg['out'].name} embeds no row entries at all — the page renders "
+                             "an empty shelf.")
+            for name in sorted(names):
+                ab = data.get("abilities", {}).get(name)
+                if not ab:
+                    fails.append(f"{cfg['out'].name}: {name!r} is drawn but has no abilities "
+                                 "record — that row renders blank.")
+                elif not ab.get("icon"):
+                    fails.append(f"{cfg['out'].name}: {name!r} has no icon URI — that row renders "
+                                 "as an empty square.")
+
     if not cfg["sidecar"].exists():
         fails.append(f"no sidecar at {cfg['sidecar'].relative_to(ROOT)}")
     else:
@@ -1761,16 +2089,37 @@ def cmd_check(args) -> None:
         if d_ids != s_ids:
             fails.append(f"scenario ids differ — doc {d_ids} vs sidecar {s_ids}")
         else:
+            # ⚠ Compare the WHOLE scenario, not a chosen tuple of fields.
+            #
+            # This used to compare `(name, verdict, cues)` per row and nothing else, which made
+            # the sidecar silently authoritative for everything it did not check: `build` renders
+            # scenario PROSE out of the sidecar, so an edit to a `State`/`Walk`/eye-direction
+            # bullet never reached the preview and no gate said so. The advice that grew around
+            # it — "remember to re-import after editing prose, not only after editing a row" — was
+            # a human standing in for a comparison the tool could just do.
+            #
+            # It also silently swallowed every field added later. `{client: …}`, added 2026-08-18,
+            # was outside the tuple from the day it shipped: the client-paint layer could be
+            # edited in the doc and never appear on the page. A whitelist of compared fields is
+            # wrong by construction here, because the failure mode is always a NEW field nobody
+            # remembered to add to it.
             for a, b in zip(doc, side):
-                ka = [(e["name"], e["verdict"], e.get("cues")) for e in a["row"]]
-                kb = [(e["name"], e["verdict"], e.get("cues")) for e in b["row"]]
-                if ka != kb:
-                    fails.append(f"{a['id']}: CDM row in scenarios.md differs from the sidecar")
-                    for x, y in zip(ka, kb):
-                        if x != y:
-                            fails.append(f"    doc {x} != sidecar {y}")
-                    if len(ka) != len(kb):
-                        fails.append(f"    doc has {len(ka)} entries, sidecar {len(kb)}")
+                if a == b:
+                    continue
+                fails.append(f"{a['id']}: {cfg['scenarios'].name} differs from the sidecar — "
+                             f"re-run: wowkb.capart import scenarios {args.spec}")
+                for key in sorted(set(a) | set(b)):
+                    if a.get(key) == b.get(key):
+                        continue
+                    if key == "row":
+                        ra, rb = a.get("row") or [], b.get("row") or []
+                        for x, y in zip(ra, rb):
+                            if x != y:
+                                fails.append(f"    row: doc {x} != sidecar {y}")
+                        if len(ra) != len(rb):
+                            fails.append(f"    row: doc has {len(ra)} entries, sidecar {len(rb)}")
+                    else:
+                        fails.append(f"    {key}: doc and sidecar disagree")
 
     # 1b · the reading rule holds, as the ORDERED chain Part 0.5 defines: a row wearing a
     # positive cue is judged by pass 1, every other row by pass 2. Not both on both — that is
@@ -1799,20 +2148,32 @@ def cmd_check(args) -> None:
     # 1c · every declared cue actually draws somewhere. spec.md §3.2 — "a catalog form that
     # loads successfully and then renders nothing is a defect" — and a cue nobody wears is that
     # defect at the shelf level. It matters most for the positive cue, whose whole justification
-    # is one scenario: if ST-8 ever stops carrying it, the exception has no subject and should be
+    # is one scenario: if ST-10 ever stops carrying it, the exception has no subject and should be
     # retired rather than left declared.
-    worn = {k for s in doc for e in s["row"]
-            for k in list(tokens["verdicts"][e["verdict"]].get("cues") or []) + list(e.get("cues") or [])}
+    #
+    # ⚠ **The subject is EVERY built spec, not the one being checked.** The cue vocabulary is the
+    # shelf's and is shared; a catalog is entitled to decline a cue whose fact its rotation does
+    # not have. Retribution declines `capped` deliberately (catalog.md, "Why this catalog does not
+    # spend the positive cue") — scoped per-spec, this gate would read that considered decision as
+    # a defect and the only way to pass would be to invent a scenario for it, which is precisely
+    # the pressure spec.md §3.2 exists to resist. Scoped across the union it still catches the
+    # thing it was written for: a cue NO catalog anywhere wears.
+    worn = set()
+    for name, other in SPECS_BUILT.items():
+        for sc in (doc if name == args.spec else scrape_scenarios(other["scenarios"])):
+            for e in sc["row"]:
+                worn |= set(tokens["verdicts"][e["verdict"]].get("cues") or [])
+                worn |= set(e.get("cues") or [])
     for key in tokens["cues"]:
         if key not in worn:
-            fails.append(f"cue {key!r} is declared in the shelf but no scenario row wears it — "
-                         "it renders nowhere, which spec.md §3.2 calls a defect. Give it a "
-                         "subject or retire it.")
+            fails.append(f"cue {key!r} is declared in the shelf but no scenario row in any built "
+                         f"spec ({', '.join(sorted(SPECS_BUILT))}) wears it — it renders nowhere, "
+                         "which spec.md §3.2 calls a defect. Give it a subject or retire it.")
 
     # 2 · the committed HTML is not stale.
     out = cfg["out"]
     if not out.exists():
-        fails.append(f"no artifact at {out.relative_to(ROOT)} — run: wowkb.capart build {args.spec}")
+        fails.append(f"no preview at {out.relative_to(ROOT)} — run: wowkb.capart build {args.spec}")
     else:
         committed = out.read_text(encoding="utf-8")
         m = BUILT_RE.search(committed)
@@ -1821,7 +2182,7 @@ def cmd_check(args) -> None:
         elif build(args.spec, tokens, m.group(1)) != committed:
             fails.append(f"{out.name} is stale — rebuild: wowkb.capart build {args.spec}")
 
-    # 3 · the addon carries the same style as the artifact. Generation buys nothing the first
+    # 3 · the addon carries the same style as the preview. Generation buys nothing the first
     # time someone edits one and not the other, so the committed Lua is gated exactly like the
     # committed HTML. Skipped entirely when the gitignored addon checkout is absent — that is a
     # missing clone, not a stale style.
@@ -1878,11 +2239,13 @@ def cmd_check(args) -> None:
         for f in fails:
             print(f"  {f}")
         sys.exit(1)
-    print(f"ok · {args.spec}: scenarios.md matches the sidecar, the artifact is current, "
+    print(f"ok · {args.spec}: scenarios.md matches the sidecar, the preview is current, "
           "shelf.css holds no literal colors,\n"
           "     Style.lua, Media/ring.tga and Media/stripes.tga agree with the shelf and the "
           "arrival's frames × tick match its duration,\n"
-          "     the tint guard still has a subject and the positive\n"
+          "     every art-bearing primitive still declares the tint guard, tokens/assets both "
+          "run, every class\n"
+          "     stepper.js names is styled, every drawn row resolves to an icon, and the positive\n"
           f"     cue owns slot 3, and all {len(doc)} scenarios read correctly under the pass they\n"
           "     actually reach — a row wearing the positive cue presses it, every other row is "
           "reached by elimination.\n"
@@ -1910,8 +2273,12 @@ def main() -> None:
     i.add_argument("spec", nargs="?", default="havoc", choices=sorted(SPECS_BUILT))
     i.set_defaults(func=cmd_import)
 
-    b = sub.add_parser("build", help="render the artifact")
-    b.add_argument("spec", choices=sorted(SPECS_BUILT))
+    b = sub.add_parser("build", help="render the preview")
+    b.add_argument("spec", nargs="?", choices=sorted(SPECS_BUILT),
+                   help="the spec to render; omit it and pass --all for every one")
+    b.add_argument("--all", action="store_true", dest="all_specs",
+                   help="render every spec in SPECS_BUILT — what a --on-change watcher wants, "
+                        "since it fires on edits to any spec")
     b.add_argument("--date", help="stamp this build date instead of today (used by `check`)")
     b.set_defaults(func=cmd_build)
 
@@ -1921,8 +2288,12 @@ def main() -> None:
                    choices=["lua", "badges", "ring", "hatch", "lab", "all"])
     e.set_defaults(func=cmd_export)
 
-    c = sub.add_parser("check", help="doc-vs-sidecar and artifact-staleness gates")
-    c.add_argument("spec", choices=sorted(SPECS_BUILT))
+    c = sub.add_parser("check", help="doc-vs-sidecar and preview-staleness gates")
+    c.add_argument("spec", nargs="?", choices=sorted(SPECS_BUILT),
+                   help="the spec to gate; omit it and pass --all for every one")
+    c.add_argument("--all", action="store_true", dest="all_specs",
+                   help="gate every spec in SPECS_BUILT — the CI form, so a new spec is covered "
+                        "the moment it is registered")
     c.set_defaults(func=cmd_check)
 
     args = p.parse_args()

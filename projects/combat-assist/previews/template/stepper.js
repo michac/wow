@@ -1,4 +1,4 @@
-/* Combat Assist Plus — artifact behavior.
+/* Combat Assist Plus — preview behavior.
  *
  * This file holds NO colors, rates or sizes. Everything it draws with comes from the
  * embedded token block, which `wowkb.capart` lifted verbatim out of
@@ -81,73 +81,46 @@
     return slot;
   }
 
-  /* ------------------------------------------------------------------ V2 · the ring flipbook
-   * The SAME sheet the addon ships, used as a mask over the lane hue — for white art with the
-   * shape in alpha that composite IS what SetVertexColor's multiply produces. The frame is a
-   * mask-position, walked here exactly as the client's one shared ticker walks it: one shot at
-   * T.motion.tick_s, resting on the last frame.
+  /* ------------------------------------------------------------------ V13 · the scan edge
+   *
+   * One hue, no roles, no motion. Its numbers come from `tokens.ready`, emitted as --ready-* by
+   * capart, so no value appears in this file. There is no art and nothing to walk: the ring
+   * flipbook the retired V2 border stepped through is Part 7's now, and only the in-game
+   * `/cap style` gallery can draw it (CSS has no four-strip ring).
    */
-  var RING = D.ring;
-  if (RING) {
-    document.documentElement.style.setProperty("--ring-sheet", "url(" + RING.uri + ")");
-  }
 
-  function ringPos(i) {
-    var g = T.ring.grid;
-    function pct(k) { return g > 1 ? ((k / (g - 1)) * 100).toFixed(4) + "%" : "0%"; }
-    return pct(i % g) + " " + pct(Math.floor(i / g));
-  }
-
-  // Rest on the last frame. An edge that was never fired must still be a border.
-  function ringRest(edge) { edge.style.setProperty("--ring-pos", ringPos(T.ring.frames - 1)); }
-
-  function ringArrive(edge) {
-    var n = T.ring.frames, i = 0;
-    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      return ringRest(edge);
-    }
-    edge.style.setProperty("--ring-pos", ringPos(0));
-    var id = setInterval(function () {
-      i += 1;
-      if (i >= n - 1) { clearInterval(id); i = n - 1; }
-      edge.style.setProperty("--ring-pos", ringPos(i));
-    }, T.motion.tick_s * 1000);
-    if (COLLECT) COLLECT.push(id);
+  function scanMark() {
+    var n = el("div", "ready-line");
+    n.style.setProperty("--rl-rgb", "var(--ready-rgb)");
+    n.style.setProperty("--rl-rest", "var(--ready-alpha)");
+    n.style.setProperty("--rl-line", "var(--ready-line)");
+    return n;
   }
 
   /* ------------------------------------------------------------------ one CDM item */
 
   function itemNode(entry, index) {
     var ab = D.abilities[entry.name] || {};
-    // `border` is the lane that actually DRAWS — the CHARGES substitution has already been
-    // applied by capart off the catalog's charge column. `lane` is still the authored role
-    // lane; the artifact shows both so the substitution is visible rather than silent.
-    var lane = ab.border || ab.lane || "FALLBACK";
     var rule = T.verdicts[entry.verdict] || {};
-    var laneTok = T.lanes[lane] || T.lanes.FALLBACK;
 
     var item = el("div", "item");
-    item.style.setProperty("--lane-color", rgb(laneTok.rgb));
 
     var art = el("div", "art");
     if (ab.icon) art.style.backgroundImage = "url(" + ab.icon + ")";
+    clientPaint(art, entry, rule);
     item.appendChild(art);
 
     if (rule.swipe) item.appendChild(el("div", "swipe"));
 
-    // V11 · the cooldown hatch. Over the icon and the swipe, under the lane border and the
-    // badges — it states a condition about the whole button, and the marks that say *why*
-    // must stay legible on top of it.
+    // V11 · the cooldown hatch. Over the icon and the swipe, under the badges — it states a
+    // condition about the whole button, and the marks that say *why* must stay legible on top.
     if (rule.hatch) item.appendChild(hatchLayer());
 
-    // Every non-`cd` row wears its lane border. `press`, `press-promoted` and `below` render
-    // IDENTICALLY, and that is the point: the press is "the leftmost thing not ruled out", not
-    // a thing cap draws (render-shelf.md Part 0.5).
-    if (rule.border) {
-      var edge = el("div", "edge");
-      ringRest(edge);
-      item.appendChild(edge);
-    }
+    // Every non-`cd` row is IN THE SCAN and wears the edge. `press`, `press-promoted` and
+    // `below` render IDENTICALLY, and that is the point: the press is "the leftmost thing not
+    // ruled out", not a thing cap draws (render-shelf.md Part 0.5). The edge goes OVER the art
+    // — it is a rim on the button, not a layer across it.
+    if (rule.scan) item.appendChild(scanMark());
 
     var open = false;
     var cues = (rule.cues || []).concat(entry.cues || []);
@@ -159,10 +132,44 @@
 
     var col = el("div", "lane");
     col.appendChild(item);
-    var cap = el("div", "caption"); cap.textContent = entry.name; col.appendChild(cap);
-    var v = el("div", "verdict"); v.textContent = entry.verdict; col.appendChild(v);
+    // The name and the verdict are the ANSWER, and the row exists to ask whether the
+    // decorations carry it unaided — so they hover rather than print. They also used to size
+    // the lane (a caption wider than the icon set the lane width), which made the icon pitch
+    // uneven and misreported the client's fixed-pitch row.
+    col.setAttribute("data-name", entry.name);
+    col.setAttribute("data-verdict", entry.verdict);
+    if ((entry.cues || []).length) col.setAttribute("data-cues", entry.cues.join(" "));
     return col;
   }
+
+  /* The one tooltip, fixed-position on <body> so no ancestor's overflow can clip it. */
+
+  var tipEl = el("div", "tip");
+  tipEl.id = "tip";
+  document.body.appendChild(tipEl);
+
+  function tipShow(col) {
+    var cues = col.getAttribute("data-cues");
+    tipEl.innerHTML = "<b>" + col.getAttribute("data-name") + "</b>" +
+      "<span class=\"tip-verdict\">" + col.getAttribute("data-verdict") + "</span>" +
+      (cues ? "<span class=\"tip-cues\">" + cues + "</span>" : "");
+    tipEl.setAttribute("data-on", "1");
+    var r = col.getBoundingClientRect(), t = tipEl.getBoundingClientRect();
+    var x = r.left + r.width / 2 - t.width / 2;
+    tipEl.style.left = Math.max(4, Math.min(x, window.innerWidth - t.width - 4)) + "px";
+    tipEl.style.top = (r.bottom + 8) + "px";
+  }
+  function tipHide() { tipEl.removeAttribute("data-on"); }
+
+  document.addEventListener("mouseover", function (e) {
+    var col = e.target.closest && e.target.closest(".lane[data-name]");
+    if (col) tipShow(col); else tipHide();
+  });
+  // NOT capture-phase: mouseleave does not bubble, but a capture listener on `document`
+  // still sees every descendant's, so moving between an icon and its own badge would
+  // flicker the tip away. Un-captured, this fires only when the pointer leaves the page.
+  document.addEventListener("mouseleave", tipHide);
+  window.addEventListener("scroll", tipHide, true);
 
   /* ------------------------------------------------------------------ the stepper */
 
@@ -250,6 +257,32 @@
 
   /* ------------------------------------------------------------------ gallery */
 
+  // ------------------------------------------------------------------ Blizzard's baseline
+  // What the client already paints on this icon, before cap draws anything. It goes on `.art`
+  // itself rather than into a layer of its own, because that is where the client puts it — a
+  // SetVertexColor on the icon texture — and because everything cap adds (swipe, hatch, border,
+  // badges) is a sibling drawn OVER `.art`, so the stacking falls out for free.
+  //
+  // ⚠ Read from `D.client_paint`, never from `T`. These numbers are Blizzard's, transcribed from
+  // its source; they are not shelf tokens and nothing here may treat them as tunable.
+  function clientPaint(art, entry, rule) {
+    var paint = D.client_paint || {};
+    // Desaturation means ON COOLDOWN and nothing else, so it follows the `cd` verdict rather
+    // than a declaration. `--desat` is the grayscale filter `.art` already carries.
+    if (rule.swipe && paint.cooldown_desaturates) art.style.setProperty("--desat", "1");
+
+    var state = entry.client;
+    if (!state) return;                      // no declaration = ITEM_USABLE_COLOR = untouched
+    var tint = (paint.tints || {})[state];
+    if (!tint) return;
+    // SetVertexColor MULTIPLIES. So does this. A filter/hue-rotate would look similar and would
+    // be able to produce colours the client cannot, which is the one lie a reproduction may not
+    // tell (see this tool's header).
+    art.style.backgroundColor = rgb(tint.rgb);   // 0..1 floats, same scale as the shelf's
+    art.style.backgroundBlendMode = "multiply";
+    art.title = "client: " + tint.constant + " — " + tint.means;
+  }
+
   function swatch(name, why, build) {
     var s = el("div", "swatch");
     var host = el("div", "swatch-stage");
@@ -270,66 +303,25 @@
     return itemNode({ name: name, verdict: verdict, cues: opts.cues }, 0).firstChild;
   }
 
-  // V2 · the four lane borders. `lane_sample` names an ability whose ART to borrow; the border
-  // is forced here because this swatch is ABOUT the lane. Where the sample ability would draw a
-  // different border in a real row (the CHARGES substitution), the caption says so.
-  Object.keys(T.lanes).forEach(function (lane) {
-    var tok = T.lanes[lane];
-    var name = D.lane_sample[lane];
-    var ab = D.abilities[name] || {};
-    var note = "one ring flipbook at " + T.ring.thickness_px + "px, resting — the lanes differ " +
-               "by hue alone";
-    if (ab.border && ab.border !== lane) {
-      note += ". <b>⚠ " + name + " draws " + ab.border + " in a real row</b> (it has " +
-              ab.charges + " charges); the art is borrowed, the lane is forced.";
-    } else if (lane === "CHARGES") {
-      note += ". " + name + " is authored <b>" + ab.lane + "</b> and renders CHARGES because the " +
-              "client reports " + ab.charges + " charges — the substitution, not a re-authoring.";
-    }
-    gallery.appendChild(swatch("lane · " + lane, note, function () {
-      var node = bareItem(name, "press");
-      node.style.setProperty("--lane-color", rgb(tok.rgb));
-      return node;
-    }));
-  });
+  var SCAN_SAMPLES = D.scan_samples || [];
 
-  // V2 · the arrival snap. Artifact chrome: the addon fires this ON THE EVENT and stops. Here a
-  // timer stands in for the event so it can be watched — which is why the interval lives under
-  // `tokens.artifact` and not in the style.
-  var ARRIVING = [];
+  // V2 · in the scan. One swatch, because there is one treatment: an icon either participates
+  // in the read or it does not. What used to be four hue-coded lanes is now carried by row
+  // order plus elimination, which is what the reading rule already used.
   gallery.appendChild(swatch(
-    "arrival snap",
-    "the ONE piece of motion in the style: " + T.ring.frames + " frames at " + T.motion.tick_s +
-      "s = " + T.arrival.duration_s + "s (" + T.arrival.smoothing + "), fired when something " +
-      "<b>arrives</b> — a cooldown finishes, a charge returns, a spender becomes affordable. " +
-      "It is a flipbook stepped in place, so it never draws outside the row's own cell. " +
-      "Replayed every " + T.artifact.arrival_replay_s + "s here <em>only</em> so it can be seen.",
-    function () {
-      var strip = el("div", "swatch-stage");
-      Object.keys(T.lanes).forEach(function (lane) {
-        var node = bareItem(D.lane_sample[lane], "press");
-        var tok = T.lanes[lane];
-        node.style.setProperty("--lane-color", rgb(tok.rgb));
-        var e = node.querySelector(".edge");
-        if (e) ARRIVING.push(e);
-        strip.appendChild(node);
-      });
-      return strip;
-    }
+    "in the scan · V2",
+    "a <b>" + T.ready.line_px + "px</b> additive edge at alpha " + T.ready.alpha + ", drawn ON " +
+      "the icon rect. Additive is why full brightness reads as a <b>hot line</b> rather than a " +
+      "painted one, and the restrained area is why full brightness is not loud. Every " +
+      "non-swiped row wears it <em>identically</em> — the press is the leftmost thing not " +
+      "ruled out, not a thing cap draws. It has no falloff, so it cannot reach a neighbour.",
+    function () { return bareItem(D.scan_sample, "press"); }
   ));
-  (function () {
-    function fire() {
-      ARRIVING.forEach(function (e, i) {
-        setTimeout(function () { ringArrive(e); }, i * 120);
-      });
-    }
-    fire();
-    setInterval(fire, T.artifact.arrival_replay_s * 1000);
-  })();
+
 
   gallery.appendChild(swatch("swipe", "Blizzard's own dial — cap draws nothing here, and does " +
     "not restyle it. The cheapest possible “ruled out”.",
-    function () { return bareItem(D.lane_sample.COOLDOWN, "cd"); }));
+    function () { return bareItem(D.scan_sample, "cd"); }));
 
   // V5 · one swatch per cue, then the full three slots, so "do three badges crowd the face?"
   // is answerable rather than asserted.
@@ -341,7 +333,7 @@
       (cue.open ? "<b>declared, unverified in client — produces no hint yet.</b> " : "") +
         cue.means + " <em>(slot " + cue.slot + ", " + cue.frames.length + " frames @ " +
         cue.duration_s + "s " + cue.loop + ")</em>",
-      function () { return bareItem(D.lane_sample.ROTATION, "below", { cues: [key] }); }
+      function () { return bareItem(D.scan_sample, "below", { cues: [key] }); }
     ));
   });
 
@@ -358,7 +350,7 @@
     T.badges.slots.length + " is the ceiling the shelf sets. If a fourth slot wants in, one of " +
     "the three is not earning its place. Shown: " + perSlot.join(" · ") + " — one per slot, so " +
     "the crowding question is answerable. Slot 3 is the positive cue's, and reads gold.",
-    function () { return bareItem(D.lane_sample.ROTATION, "below", { cues: perSlot }); }));
+    function () { return bareItem(D.scan_sample, "below", { cues: perSlot }); }));
 
   // A badge overhanging the corner can collide with the next icon. That is arithmetic, and
   // arithmetic in a caption is an assertion; drawn in a real row it is a finding.
@@ -368,8 +360,8 @@
       (over > gap ? " — <b>they collide.</b>" : " — <b>they clear.</b>"),
     function () {
       var strip = el("div", "swatch-stage");
-      ["COOLDOWN", "ROTATION", "FALLBACK"].forEach(function (lane, i) {
-        strip.appendChild(bareItem(D.lane_sample[lane], "below",
+      SCAN_SAMPLES.slice(0, 3).forEach(function (name, i) {
+        strip.appendChild(bareItem(name, "below",
           { cues: [cueKeys[i % cueKeys.length]] }));
       });
       return strip;
@@ -406,11 +398,11 @@
   /* ------------------------------------------------------------------ tables */
 
   var vt = document.getElementById("verdicts");
-  var head = "<tr><th>verdict</th><th>border</th><th>swipe</th><th>hatch</th>" +
+  var head = "<tr><th>verdict</th><th>in the scan</th><th>swipe</th><th>hatch</th>" +
     "<th>cues</th></tr>";
   vt.innerHTML = head + Object.keys(T.verdicts).map(function (k) {
     var r = T.verdicts[k];
-    return "<tr><td>" + k + "</td><td>" + (r.border ? "lane" : "—") + "</td><td>" +
+    return "<tr><td>" + k + "</td><td>" + (r.scan ? "yes" : "—") + "</td><td>" +
            (r.swipe ? "yes" : "—") + "</td><td>" + (r.hatch ? "yes" : "—") + "</td><td>" +
            ((r.cues && r.cues.length) ? r.cues.join(", ") : "—") + "</td></tr>";
   }).join("");
@@ -497,6 +489,74 @@
     return item;
   }
 
+  /* The readiness treatments. Each entry supplies its own numbers and nothing is shared
+   * between them — same discipline as the stripe renders above. `draws` picks the layer;
+   * the CSS variables carry the values, so no number appears in this file. */
+
+  function readyGlow(key, spec, index) {
+    var n = el("div", "ready-glow");
+    n.style.setProperty("--rg-rgb", "var(--lab-" + key + "-rgb)");
+    n.style.setProperty("--rg-rest", "var(--lab-" + key + "-rest)");
+    n.style.setProperty("--rg-flare", "var(--lab-" + key + "-flare)");
+    n.style.setProperty("--rg-spread", "var(--lab-" + key + "-glow)");
+    if (spec.flare_mult) {
+      n.style.setProperty("--rg-flare-spread", "var(--lab-" + key + "-flare-glow)");
+      n.style.setProperty("--rg-decay", "var(--lab-" + key + "-decay)");
+      n.setAttribute("data-flare", "1");
+    }
+    if (spec.period_s) {
+      n.style.setProperty("--rg-period", "var(--lab-" + key + "-period)");
+      // The cycle's top. An entry that declares no `peak_alpha` breathes up to its flare value,
+      // which is what a breathe-only entry means by it.
+      n.style.setProperty("--rg-peak", spec.peak_alpha
+        ? "var(--lab-" + key + "-peak)" : "var(--lab-" + key + "-flare)");
+      // Out of phase on purpose: four breathing in lockstep read as one region blinking.
+      n.style.setProperty("--rg-phase", (-(index || 0) * 0.37) + "s");
+      n.setAttribute("data-breathe", "1");
+    }
+    return n;
+  }
+
+  // A cell may override the width, so one entry can show the ladder side by side rather than
+  // needing an entry per value. The number is still the shelf's; this only chooses which.
+  function readyLine(key, cell) {
+    var n = el("div", "ready-line");
+    n.style.setProperty("--rl-rgb", "var(--lab-" + key + "-rgb)");
+    n.style.setProperty("--rl-rest", "var(--lab-" + key + "-rest)");
+    n.style.setProperty("--rl-line", (cell && cell.line_px)
+      ? cell.line_px + "px" : "var(--lab-" + key + "-line)");
+    return n;
+  }
+
+  // The glow goes UNDER the icon art — it is light spilling out from behind the button, not a
+  // wash over its face. The hairline goes over, because it is an edge.
+  function readyItem(key, spec, cell, ability, index) {
+    var item = bareItem(ability, cell.verdict || "below", { cues: cell.cues || [] });
+    // These entries ask what the GLOW or the HAIRLINE says. The declared scan edge is a second
+    // answer in the same frame and at icon size it is the louder one, so an entry may drop it and
+    // be judged alone. ⚠ It strips `.ready-line`, the class `itemNode` appends for `rule.scan` —
+    // this used to strip `.edge`, a class the DOM has not carried since the collapse, so every
+    // readiness cell was silently judged with a 2px gold line composited over it.
+    if (spec.inner_border === false) {
+      var mark = item.querySelector(":scope > .ready-line");
+      if (mark) mark.remove();
+    }
+    if (spec.draws === "ready-line") {
+      item.appendChild(readyLine(key, cell));
+    } else {
+      item.insertBefore(readyGlow(key, spec, index), item.firstChild);
+    }
+    return item;
+  }
+
+  function readyRow(key, spec, cell) {
+    var row = el("div", "ready-row");
+    (cell.abilities || []).forEach(function (ability, i) {
+      row.appendChild(readyItem(key, spec, cell, ability, i));
+    });
+    return row;
+  }
+
   var LAB = T.lab || {};
   var labHost = document.getElementById("lab");
   var labKeys = Object.keys(LAB).filter(function (k) { return k.charAt(0) !== "_"; });
@@ -531,6 +591,17 @@
         var cap = cell.caption || "";
         if (cell.kind === "sheet") {
           e.row.appendChild(labCell(sheetSwatch(key), cap));
+          return;
+        }
+        if (cell.kind === "row") {
+          e.row.appendChild(labCell(readyRow(key, spec, cell), cap));
+          return;
+        }
+        if (spec.draws === "ready-glow" || spec.draws === "ready-line") {
+          var head1 = "<b>" + cell.ability + "</b> · <code>" + (cell.verdict || "below") +
+                      "</code><br>";
+          e.row.appendChild(labCell(readyItem(key, spec, cell, cell.ability, 0),
+                                    head1 + cap));
           return;
         }
         var head = "<b>" + cell.ability + "</b> · <code>" + (cell.verdict || "below") +

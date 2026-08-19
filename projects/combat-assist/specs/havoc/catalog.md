@@ -92,11 +92,13 @@ surface, read from the transform identity fact (R7), and it drives cue D.
 
 ### The Charges column, and what it does *not* mean
 
-**Charges are a render fact, not a priority fact.** `../render-shelf.md` V2 says an ability wears
-exactly one border and that the **CHARGES** lane *replaces* the role lane when the client reports
-charges. So the `Lane` column above stays exactly as the rotation authored it — Immolation Aura is
-**ROTATION**, and always was — and this column only tells the renderer that its border will draw
-purple instead of blue. Nothing here re-ranks anything.
+**Charges are a render fact, not a priority fact — and as of 2026-08-19 they are not a render fact
+either.** The retired shelf V2 drew a fourth **CHARGES** hue that *replaced* the role lane when the
+client reported charges; V13 draws one binary scan edge and reads nothing from `charged`. What the
+column still does is switch the row's **readiness tracking** onto the charge path, which is a model
+fact and unaffected. The `Lane` column above stays exactly as the rotation authored it — Immolation
+Aura is **ROTATION**, and always was. Nothing here re-ranks anything, and nothing here recolours
+anything either.
 
 Sources, per `knowledge/classes/demon-hunter/havoc/abilities.md` (12.1.0.69214):
 
@@ -116,12 +118,11 @@ Sources, per `knowledge/classes/demon-hunter/havoc/abilities.md` (12.1.0.69214):
   (Vengeful Retreat cooldown / charges) is already open in `abilities.md`; when it resolves, this
   cell becomes a number and the border colour follows.
 
-⚠ **A finding, surfaced rather than hidden:** both FALLBACK abilities in this catalog (Throw Glaive,
-Fel Rush) have charges, so under the substitution **no Havoc row ever draws a FALLBACK border**.
-The lane is still declared and still correct; it simply has no subject in this spec. `capart build`
-prints this as a page-level note rather than letting the lane silently vanish, and it is
-`../render-shelf.md` Part 5's question 3 — whether a fourth colour that displaces the third is
-carrying meaning or eating it.
+⚠ **A finding, kept because it is about the model rather than the paint:** both FALLBACK abilities
+in this catalog (Throw Glaive, Fel Rush) have charges. Under the retired V2 that meant **no Havoc
+row ever drew a FALLBACK border**, which was the sharpest argument against a hue that displaces
+another hue — and it is one of the reasons V13 collapsed the ladder. The tier is still declared and
+still correct; it now decides only that those rows are in the scan.
 
 ## The authored row order
 

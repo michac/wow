@@ -51,8 +51,8 @@ combat-sealed; `SpellDocumentation.lua:873`). Read the **second** return.
   (`Catalogs/Havoc.lua`, `chaos_strike` / `blade_dance`). Demonology declares no such term —
   an earlier cite here named one, and it never existed.
 - ⚠ **It is the only carrier of affordability on a spender with no real cooldown.** Such a row
-  never raises an `Available` / `OnCooldown` alert edge, so `ready` stays latched true and its
-  lane border is lit whatever the resource. The border cannot say this; the cue must.
+  never raises an `Available` / `OnCooldown` alert edge, so `ready` stays latched true and the row
+  sits in the scan whatever the resource. The scan edge cannot say this; the cue must.
 
 ### R2 · Is it ready / on cooldown? — **Settled / readable (but not by polling in combat)**
 

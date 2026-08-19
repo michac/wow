@@ -31,3 +31,25 @@ arrived that day:
   single-target case.
 
 An empty file is this file's correct resting state, not a defect.
+
+## Devourer — is Vengeful Retreat worth binding at all?
+
+*Raised 2026-08-19, by the shelf's V13 collapse.*
+
+`devourer/catalog.md` §6 binds Vengeful Retreat with **no cue**, and the reason it gave was that
+the lane border said *"this is a cooldown-class button"* in cap's own vocabulary. The scan edge
+does not say that — it is one bit and carries no category — so that argument is gone.
+
+Two things make the question sharper rather than academic:
+
+- Vengeful Retreat is in the **Utility** category. `Anchor.lua` orders the **Essential** viewer
+  only and the reading model walks only that, so a scan edge on this row marks membership in a
+  scan that never happens. It is the one place in cap where the edge is drawn and means nothing.
+- The only real signal the binding still buys is **V11's cooldown hatch**, which does say *not
+  now* and says it without the walk reaching the row. Whether that alone is worth binding a row
+  outside the scanned line is a product call.
+
+**The two answers, either of which is fine:** bind it for the hatch and say that is why — which
+also means deciding whether the scan edge should be suppressed outside the scanned viewer; or
+unbind it and let Blizzard's own swipe carry the row, which is what it does on every other Utility
+button today.

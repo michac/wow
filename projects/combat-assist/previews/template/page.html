@@ -1,4 +1,4 @@
-<title>Havoc Scenario Stepper</title>
+<title><!--__SPEC_TITLE__--> Scenario Stepper</title>
 <style>
 /*__ROOT_TOKENS__*/
 </style>
@@ -8,9 +8,9 @@
 
 <div class="wrap">
 
-  <h1>Havoc Scenario Stepper</h1>
+  <h1><!--__SPEC_TITLE__--> Scenario Stepper</h1>
   <p class="lede">
-    Thirteen states of one Cooldown&nbsp;Manager row, walked left to right. Each icon carries a
+    <!--__SCENARIO_COUNT__--> states of one Cooldown&nbsp;Manager row, walked left to right. Each icon carries a
     <b>verdict</b> — what Combat&nbsp;Assist&nbsp;Plus concluded about that button — and the walk names why
     every <em>available</em> button is skipped until the press.
   </p>
@@ -22,7 +22,7 @@
     draws nothing at all.
   </p>
   <p class="muted">
-    Rendered from <code>specs/havoc/scenarios.md</code> and <code>specs/render-shelf.md</code>. Real
+    Rendered from <code>specs/<!--__SPEC__-->/scenarios.md</code> and <code>specs/render-shelf.md</code>. Real
     Blizzard icon art at the client's 56&nbsp;px, real vendored sprite frames at their real frame
     counts, and cap's treatments composited the way the client composites them —
     <code>SetVertexColor</code> as a multiply, never a hue rotation. This is a preview of what the
@@ -57,7 +57,7 @@
 
   <h3>The badge art, frame by frame</h3>
   <p class="muted">
-    Kenney <b>Board Game Icons</b> (CC0), vendored beside the artifact. White with the shape in the
+    Kenney <b>Board Game Icons</b> (CC0), vendored beside the preview. White with the shape in the
     alpha channel — measured saturation 0.000 — which is what lets
     <code>SetVertexColor</code>'s multiply take them to the one authored red at full strength.
     A <code>tint: "lane"</code> declaration on art that measured otherwise is a hard build error.

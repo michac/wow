@@ -71,7 +71,7 @@ has concluded about that button; it does **not** say what the button looks like.
 changes by editing the shelf, never by editing this file.
 
 ⚠ **Three of the nine verdicts currently render identically.** `press`, `press-promoted` and `below`
-all draw a plain lane border and nothing else, because under the shelf's reading model *the press
+all draw a plain scan edge and nothing else, because under the shelf's reading model *the press
 is not something cap draws* — it is whatever an unobstructed left-to-right scan reaches first. The
 verdict names are kept because this file needs them to state its argument: `press-promoted` records
 **why** a windowed spender outranks a lit cooldown, and `below` records that the walk never got
@@ -128,14 +128,14 @@ GCD, so it is "pressed" in parallel and the walk continues past it to find the G
 ### The **CDM row** bullet is machine-read
 
 Every scenario carries one `- **CDM row.**` bullet, and `wowkb.capart` parses it to render the
-artifact — so it is written in a fixed grammar rather than prose:
+preview — so it is written in a fixed grammar rather than prose:
 
 ```
 - **CDM row.** <Ability> `<verdict>` [{cues: <cue>, …}] · <Ability> `<verdict>` · …
 ```
 
 The ability name is the one the client would *show* — so a demon-form scenario writes
-**Death Sweep**, not Blade Dance, and the artifact draws that icon (R7 resolves the live
+**Death Sweep**, not Blade Dance, and the preview draws that icon (R7 resolves the live
 `overrideSpellID`; cap authors none of it). A `cues` group names corner-badge cues by their
 `../render-shelf.md` key.
 
@@ -150,7 +150,7 @@ silently ignoring it, because a silently-ignored group would let this file keep 
 style no longer draws.)
 
 `wowkb.capart check havoc` re-scrapes these bullets and fails if they disagree with the generated
-artifact's sidecar — this file leads, the artifact follows.
+preview's sidecar — this file leads, the preview follows.
 
 ### What the CDM shows in demon form (the override fidelity)
 

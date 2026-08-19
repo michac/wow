@@ -29,18 +29,20 @@ Eight permanent files have eight jobs:
 **The two shelves.** `pattern-shelf.md` = which facts you may use. `render-shelf.md` = how you may
 show them. **Visual opinions belong in the render shelf and nowhere else** — `spec.md` fixes the
 *model* (role lanes, readable-vs-sealed) and says nothing about pixels. Trying a
-new look is an edit to the shelf, not a spec amendment; regenerate the artifact from it and look.
+new look is an edit to the shelf, not a spec amendment; regenerate the preview from it and look.
 
 **The shelf declares, the rationale explains.** `render-shelf.md` states exactly **one** style —
 one treatment per primitive, present tense, no alternative beside it — and every number it draws
 with lives in its Part 6 `render-tokens` JSON block, cited from prose by path and never restated.
 Alternatives, reasoning and rejects go to `render-rationale.md`, which has no authority. Regenerate
-with `uv run python -m wowkb.capart build havoc`; never hand-edit the artifact.
+with `uv run python -m wowkb.capart build <spec>`; never hand-edit the preview. **Every spec's
+preview is a uniquely named file in the one `previews/` directory, served by one `wowkb.serve` on
+one port** — a new spec needs no new server. Serving details: `previews/CLAUDE.md`.
 
 **…and Part 7 is the lab, which decides nothing.** Everything above Part 7 is the style; nothing
 below it is. The lab exists because the one-style rule made *trying* something expensive — the only
 way to see an idea was to overwrite the declared style and remember to put it back. A lab entry
-renders in its own section of the artifact and may be drawn by the in-game `/cap style` gallery
+renders in its own section of the preview and may be drawn by the in-game `/cap style` gallery
 (cap-owned frames, not a live row — you cannot judge a treatment without watching the client draw
 it), but **never in a CDM row**: it reaches the addon only as `ns.LabStyle` in the generated
 `Lab.lua`, and `capart check`'s reach gate fails if anything but the gallery names it. And
@@ -49,14 +51,20 @@ it), but **never in a CDM row**: it reaches the addon only as `ns.LabStyle` in t
 quietly becoming load-bearing). A treatment leaves the lab by being **moved** into Parts 1–6, never
 by being cited from there. Each entry carries an `asks` — the question it exists to answer.
 
-**The lab currently holds two diagonal-stripe entries** (`stripes-l3-hold`, `stripes-l5-starved`)
-— drawn, asking their questions, deciding nothing. The third, `stripes-l4-cooldown`, was promoted
-to **V11 · Cooldown hatch** on 2026-08-16 and took the shared stripe sheet with it: the sheet is
-now `tokens.hatch` and ships to `Media/stripes.tga`, and these two borrow it at their own colours
-(a lab entry citing the style is the legal direction; the reverse is what rule 1 forbids). Its
-first two entries were promoted on 2026-08-13 and deleted from it (`backlog.md` → `## Status`); an
-empty lab is its correct resting state, not a defect. A new idea gets a `lab` key, an `asks`, and a
-section in Part 7.
+**The lab currently holds ten entries in three families** — two diagonal-stripe
+(`stripes-l3-hold`, `stripes-l5-starved`), four `arrival-*` and four `ready-*` — drawn, asking
+their questions, deciding nothing. ⚠ **A lab entry can leave without emptying its family:** V13's
+scan edge was promoted out of the `ready-*` set on 2026-08-19 and the other three stayed, because
+they are the alternatives it was picked over and Part 5 question 2 is what settles that choice in
+the client.
+
+**Promotion has gone the other way too.** The stripe family's third entry, `stripes-l4-cooldown`,
+was promoted to **V11 · Cooldown hatch** on 2026-08-16 and *took the shared stripe sheet with it*:
+the sheet is now `tokens.hatch` and ships to `Media/stripes.tga`, and the two survivors borrow it
+at their own colours (a lab entry citing the style is the legal direction; the reverse is what rule
+1 forbids). The lab's first two entries were promoted on 2026-08-13 and deleted from it
+(`backlog.md` → `## Status`); an empty lab is its correct resting state, not a defect. A new idea
+gets a `lab` key, an `asks`, and a section in Part 7.
 
 `specs/simplification-plan.md`, `specs/simplification-audit.md` and `specs/rule-split-audit.md`
 are temporary migration artifacts. They are not additional product authorities.
@@ -88,7 +96,9 @@ the rotation KB through transcription, tests and the flight. Read it before star
 not re-derive the route here or restate it in a backlog phase header.
 
 The two rules it is easiest to violate on day one: **a spec-and-hero pair is the unit** (a second
-hero tree is a separate catalog, not an overlay), and **one `catalog.md` per spec directory**.
+hero tree is a separate catalog, not an overlay), and **three files per spec directory** —
+`catalog.md` (the definition), `scenarios.md` (the walk that proves it), `fact-classification.md`
+(the readable/sealed/open safety case). Havoc is the model; `authoring.md` §0 owns the split.
 
 Gameplay choices remain in `Catalogs/<Spec>.lua` and the matching `specs/<spec>/catalog.md`;
 unknown-safe evaluation remains in `Signal`, and pixels remain in shared treatment/overlay

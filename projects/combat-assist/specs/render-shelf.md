@@ -7,18 +7,18 @@ new means editing this file, not amending `spec.md`.
 
 **This file declares one style.** It is not a debate. Every primitive below states **the**
 treatment, in the present tense, with no alternative beside it. If the style is wrong, the fix is
-to *change this file*, not to add a second option next to the first — an artifact rendered from a
+to *change this file*, not to add a second option next to the first — a preview rendered from a
 shelf with two answers renders neither. Alternatives that were considered, the reasoning behind a
 choice, and what was tried and rejected live in **`render-rationale.md`**, which has no authority
 over anything.
 
 **Opinions here are still cheap.** Nothing in this file is a boundary. The one boundary is
 `spec.md` §3.6 — cap never branches on a sealed value — and it does not move.
-Whether a hold reads as a red badge or a dimmed border, whether lanes pulse or sit still,
+Whether a hold reads as a red badge or a dimmed border, whether the scan edge pulses or sits still,
 whether a cue lives in the icon's center or its corner: all of that lives here, and changing one
 is a normal edit, not a spec amendment.
 
-**Who reads it.** The artifact generator (`wowkb.capart`, which renders a design artifact as the
+**Who reads it.** The preview generator (`wowkb.capart`, which renders a design preview as the
 client would actually draw it) and the addon renderer (`Treatment.lua` / `Overlay.lua`). Both cite
 this file rather than each carrying their own numbers — that divergence is the specific failure
 this file exists to end.
@@ -26,7 +26,7 @@ this file exists to end.
 **Where the numbers are.** In **Part 6**, the `render-tokens` JSON block, and nowhere else. Prose
 in this file cites a token path (`tokens.arrival.duration_s`) and never restates its value, because
 a number written twice is a number that will disagree with itself. `wowkb.capart` parses the block
-for the artifact and **generates the addon's `Style.lua` from it** — the two sides of the promise
+for the preview and **generates the addon's `Style.lua` from it** — the two sides of the promise
 above cannot drift, because neither transcribes anything by hand.
 
 **Status vocabulary.** There is only one status word left, and it marks a *fact gap*, not a
@@ -34,11 +34,11 @@ design debate:
 
 - **open** — the client capability this primitive would need has not been measured
   (`spec.md` §3.6 routing). The style is still declared; what is unknown is whether the client can
-  draw it. An artifact stamps a visible ⚠ chip on an `open` primitive so the preview never lies
+  draw it. A preview stamps a visible ⚠ chip on an `open` primitive so the preview never lies
   about what ships.
 
 Everything not marked `open` is simply the style. **No primitive is currently `open`** — the
-mechanism stays because it is how the artifact refuses to lie about an unmeasured primitive, and
+mechanism stays because it is how the preview refuses to lie about an unmeasured primitive, and
 the next one that needs it will find it working.
 
 ---
@@ -47,7 +47,7 @@ the next one that needs it will find it working.
 
 1. Edit a recipe here — a color, a rate, a placement, a whole new primitive. Numbers go in
    **Part 6**.
-2. `uv run python -m wowkb.capart build havoc` — the artifact reads this file's tokens.
+2. `uv run python -m wowkb.capart build havoc` — the preview reads this file's tokens.
 3. Look at it. Ask for tweaks. Go to 1.
 4. When it looks right, `uv run python -m wowkb.capart export` writes Part 6 into the addon as
    `Style.lua` (data) plus the badge art as TGA, and `/cap style` draws every primitive in the
@@ -57,7 +57,7 @@ the next one that needs it will find it working.
 Nothing in steps 1–3 requires permission from `spec.md`. If a change here would make cap branch on
 a sealed value, *that* is the one thing to stop and check — a §3.6 question, not a taste question.
 
-**The artifact is a reproduction, not a diagram.** It draws real Blizzard icon art at real
+**The preview is a reproduction, not a diagram.** It draws real Blizzard icon art at real
 Cooldown Manager size, real vendored sprite frames at their real frame counts and durations,
 and composites cap's treatments the way the client would composite them — `SetVertexColor` as a
 multiply, never a hue rotation. A preview that recolors art the client could not recolor is worse
@@ -95,7 +95,7 @@ verdict in the vocabulary that broke this: its only driver was that a readable f
 **secret**, so the refusal itself became a visible elimination. Pass 2 makes that obviously wrong —
 an item cap cannot form an opinion about is an item the scan should simply *reach*, not one it
 should skip. The vocabulary is nine verdicts, and a row cap has no opinion about draws whatever its
-readable state says: a lane border, or the swipe, and no badge.
+readable state says: the scan edge, or the swipe, and no badge.
 
 **And `isActive` removed its last subject anyway.** `withheld`'s only user was a charge count read
 below full. `C_Spell.GetSpellCharges` seals per member: `isActive` is `NeverSecret` and stays plain
@@ -105,7 +105,7 @@ in restricted combat, so "at max charges" is readable in **both** polarities —
 Two consequences the style is built on:
 
 1. **The press is not a thing cap draws.** `press`, `press-promoted` and `below` render
-   identically — a lane border, nothing else. The press is *whatever the scan reaches first*. Cap's
+   identically — the scan edge, nothing else. The press is *whatever the scan reaches first*. Cap's
    job is to rule things out convincingly, not to point.
 2. **The cue vocabulary is negative by default, with exactly one positive exception.** A cue
    normally draws when a button is ruled *out* and draws nothing when it is clear. A satisfied
@@ -162,7 +162,7 @@ a design choice, not a platform constraint, unless marked otherwise.
 | Surface | Where | Carries | Notes |
 | --- | --- | --- | --- |
 | **Icon face** | the art itself | nothing — cap draws no treatment here | **Desaturation is Blizzard's and cap does not draw it.** The CDM already desaturates and re-tints the icon on its own refresh — `SPELL_UPDATE_USABLE` drives icon colour continuously (`cooldown-manager.md:700, :755`), which is the client's built-in "you cannot cast this" channel. cap adding a second one would restate a signal the player already has. |
-| **Lane border** | a solid rectangular border on the icon edge | the role lane, or CHARGES | Static. Its only motion is the one-shot arrival snap (V2). Drawn on cap's own frame, so it needs no host scale-up. |
+| **Scan edge** | a thin additive line on the icon edge | one bit: the row is in the scan, or it is not | Static — nothing about it moves (V13). Drawn on cap's own frame, sized to the icon rect, so it needs no host scale-up and cannot reach a neighbour. |
 | **Corner badge slots** | three discs hung off the **top-right** corner | one cue each — slots 1–2 (along the top edge) negative, slot 3 (down the right edge) the single positive cue | Filled circles at `tokens.badges.diameter_pct` of icon width, overhanging by `tokens.badges.overhang_px` (V5). Position carries polarity as well as colour. |
 | **Cooldown swipe** | the radial dial | remaining time | Can be *restyled* without knowing the time (see V7). |
 | **Count tile** | Blizzard's own aura count position | a sealed stack number | Client-owned; cap never learns the value. |
@@ -192,7 +192,7 @@ those frames participate in secure aura plumbing, and decorating them is what go
 ## Part 2 — Primitives
 
 Each recipe: what it means, the art (Blizzard's or ours), the token path its numbers come from, a
-Lua sample, and how the artifact reproduces it.
+Lua sample, and how the preview reproduces it.
 
 ### V1 · *(retired)*
 
@@ -204,103 +204,26 @@ are about to be replaced. The measurement that made the ants sheet the only usab
 neutral saturation — is still true and is kept in `render-rationale.md`; it is simply no longer
 load-bearing here.
 
-### V2 · Lane border — one ring flipbook, with a one-shot arrival
+### V2 · *(retired)*
 
-**The role-lane treatment.** A solid rectangular border on the icon edge, in the lane's hue,
-**static** once it has arrived. It sits there and says which lane the button is in; it does not
-compete for attention while it is doing that. It is drawn as **one generated ring texture** — a
-square annulus, white with the ring in its alpha channel — tinted to the lane with a single
-`SetVertexColor`.
+The lane border — a solid rectangular edge in one of **four hues** (COOLDOWN, ROTATION, FALLBACK,
+and CHARGES substituted in off a client charge read), drawn from a generated 16-frame ring flipbook
+that played once as a one-shot **arrival snap** when the drawn lane changed. Retired 2026-08-19 in
+favour of **V13**, one binary scan edge: the hue ladder had become an informational hint nobody was
+reading off, and `spec.md` §3.1's emphasis ladder is carried by **left-to-right scan order plus the
+overlays**, not by colour. A fourth hue that *replaced* the role lane made that worse rather than
+better — it spent the one channel the ladder had on a fact (this ability has charges) the badge
+vocabulary already carries.
 
-**Every lane draws the same band width** (`tokens.ring.thickness_px`). Lanes are told apart by
-**hue alone**. `spec.md` §3.1 leaves *how* the emphasis ladder is drawn — "brightness, hue, motion,
-thickness, or several at once" — to this file, and this file's answer is hue: `press`,
-`press-promoted` and `below` already render identically (Part 0.5), so the ladder was never being
-drawn by band width either.
-
-Its only motion is the **arrival**: when something *arrives* — a cooldown finishes, a charge
-returns, the row moves from one lane to another — the ring plays **once** through
-`tokens.ring.frames` frames of a sprite sheet at `tokens.motion.tick_s` per frame, and rests on the
-last one. One shot, then it rests. There is deliberately **no looping variant**: the whole claim of
-this primitive is that motion marks *the change of state* and then stops.
-
-- **What counts as arrival:** the DRAWN LANE changing — absent → present, or one lane → another.
-  Nothing else, and in particular not a repaint: the live surface repaints continuously, so
-  "still ROTATION" must never snap. Three suppressions follow from the same sentence, since in
-  none of them did anything become available: the first draw after the roster is rebuilt, the
-  first draw after cap resumed drawing at all (it was dark, unsettled, or on a spec with no
-  catalog — a whole row snapping in unison is churn), and a second snap inside
-  `tokens.arrival.duration_s` of the last, so a flickering lane cannot stack snaps.
-- **Lanes:** `tokens.lanes.<LANE>.rgb`. Four of them — COOLDOWN, ROTATION, FALLBACK, and
-  **CHARGES**. The band width is not theirs; it is `tokens.ring.thickness_px`, once, for all.
-- **CHARGES replaces the role lane**, it does not stack. An ability has exactly one border, and if
-  the client says the ability has charges, the border is `CHARGES`. This is a **render-time**
-  substitution off a readable client fact — it is not a re-authoring of the ability's priority, and
-  `havoc/catalog.md` still records the role lane the rotation puts it in.
-- **The animation is a FLIPBOOK, not a `Scale`.** `capart.ring_flipbook` generates **one white-alpha
-  sheet** holding `tokens.ring.frames` frames in a `tokens.ring.grid` × `grid` layout of
-  `tokens.ring.tile_px` cells. Frame 1 is the ring at its widest, one `gutter_px` inside the cell
-  edge, at `tokens.arrival.from_alpha`; the last frame is the ring at rest, `travel_px` further in,
-  at full alpha; the frames between ease inward with `tokens.arrival.smoothing`. Stepping is
-  `SetTexCoord` onto the cell — **the same shared ticker the badge sprites walk** (one
-  `C_Timer.NewTicker` at `tokens.motion.tick_s`, index computed off the clock so it cannot drift),
-  and there is exactly one ticker in the addon.
-  - **The pair, and why.** 16 frames at 0.025 s is **40 fps over `tokens.arrival.duration_s` =
-    0.40 s** — smooth enough to read as motion rather than as steps, and a 4 × 4 grid of 64 px cells
-    is a 256 × 256 power-of-two sheet the client will load. It is also the finest cadence anything
-    in the style asks for, so the shared ticker runs at it and the badges (whose own frames last
-    ~0.6 s) simply land on their boundaries more exactly. `capart check` asserts
-    `ring.frames × motion.tick_s == arrival.duration_s`, so the three cannot drift apart.
-- **The arrival never leaves the row's own cell, and that is the design.** A flipbook draws inside
-  its own rect, always: the apparent snap is painted into the frames rather than produced by scaling
-  the frame. The previous `Scale` snap drew the border at 2.00× — 30 px of overhang per side against
-  a 62 px row pitch — which is the suspected cause of the `#` the lab's `arrival-control-sweep` was
-  built to falsify. **This is a predicted consequence of the geometry, not a measured fix**: nobody
-  has looked yet, `arrival-control-sweep` stays in the lab exactly as it is so the original question
-  can still be answered, and the claim here is only that a texture stepped in place has no way to
-  reach a neighbour.
-- **Art: `tokens.ring`, generated, and it is on the ship path.** White RGB with the shape in alpha,
-  declared `tokens.ring.tint: "lane"`, which is what puts it under the Part 4 tint guard — the same
-  guard, on the same terms, as the badge sprites, and measured over the **sheet that ships** rather
-  than over one frame. `capart export ring` writes it into the addon's `Media/`, beside
-  `Media/badges/`.
-  - **What it buys:** no corners to come apart, one `SetVertexColor` per row instead of four, an
-    arrival that cannot draw outside its own cell, and a cadence that goes through the one path the
-    style already has. **What it costs, honestly:** art on the ship path where there was none — a
-    sheet to generate, gate for currency and keep tintable — a band width baked into the texture
-    rather than free per lane, and a ticker that runs twice as often as it used to.
-  - ⚠ **The band is minified with the sheet.** There is no nine-slice here: slice margins apply to a
-    whole texture and the frames are selected with `SetTexCoord`, so the two are incompatible. The
-    authored `thickness_px` is in *texture* pixels and draws at `thickness × drawn / tile_px`
-    (`Paint.RingBand`). That is a real cost of the flipbook and is priced in Part 5, question 8.
-- **Lua:**
-  ```lua
-  local edge = CreateFrame("Frame", nil, cap.overlay)   -- NOT the CDM item frame
-  edge:SetPoint("CENTER", icon, "CENTER", 0, 0)         -- sized and centred, NOT SetAllPoints
-  edge:SetSize(icon:GetWidth(), icon:GetHeight())
-
-  -- One pre-built texture per lane, so switching lane is Show/Hide + SetVertexColor and never
-  -- SetTexture. Lanes that share a hue share nothing; lanes all share the one sheet.
-  local ring = edge:CreateTexture(nil, "OVERLAY")
-  ring:SetTexture(T.ring.texture_root .. T.ring.texture .. ".tga", nil, nil, "TRILINEAR")
-  ring:SetAllPoints(edge)
-  ring:SetVertexColor(unpack(T.lanes[lane].rgb))        -- white art, so the multiply IS the hue
-  ring:SetTexCoord(Paint.FrameCoords(T.ring.frames, T.ring.grid))   -- rests on the LAST frame
-
-  -- Arrival: walk frame 1 → N on the shared ticker, then stop. No animation group at all.
-  ring:SetTexCoord(Paint.FrameCoords(i, T.ring.grid))
-  ```
-  ⚠ Nothing here creates an `AnimationGroup`, and the border no longer owns one. The in-combat
-  writes are `Show`/`Hide`/`SetVertexColor`/`SetAlpha` plus `SetTexCoord` — the same class of
-  texture-level frame step the badge vocabulary already makes in combat (Part 3).
-- **Artifact reproduction.** The **same sheet**, embedded as a `data:` URI and used as a
-  `mask-image` over `background-color: <lane hue>` — for white-with-shape-in-alpha art that
-  composite is exactly what `SetVertexColor`'s multiply produces. `mask-size` is
-  `tokens.ring.grid × 100%` and the frame is chosen by `mask-position`, stepped in JS at
-  `tokens.motion.tick_s` — the same walk, on the same art, at the same rate as the client. The
-  artifact re-fires the arrival on a timer (`tokens.artifact.arrival_replay_s`) purely so it can be
-  watched; that interval is declared under `tokens.artifact` precisely because it is **not part of
-  the style**.
+**What survives, and where it went.** The role tiers COOLDOWN / ROTATION / FALLBACK are **model**,
+not paint: they stay in `spec.md` §3.1, in `Catalog.TIERS`, and in every catalog's `| Lane |`
+column, and they now decide only *whether* a row is in the scan. The `charged` flag stays authored
+in the catalogs and read by the engine; nothing draws from it. The arrival machinery — the sheet,
+its cadence, `tokens.ring` / `tokens.arrival` / `tokens.motion` and `Media/ring.tga` — stays
+declared and on the ship path because **Part 7's `arrival-*` entries are still about it**; it is the
+live overlay that stopped using it, so `Paint.Border` no longer creates an `AnimationGroup`, walks a
+sheet, or owns a rate limiter. The generated sheet's neutral-saturation measurement, and the
+argument for a flipbook over a `Scale` animation, are kept in `render-rationale.md`.
 
 ### V3 · *(retired)*
 
@@ -322,7 +245,7 @@ and both graded curves) expressed itself by dimming the *same* texture, on top o
 desaturation and swipe, so a dark row in flight was the sum of an unknown number of causes and no
 one could see which fired. It was also strictly redundant — Part 2.5 *derived* it from cue
 polarity, so it never carried a fact the badge beside it was not already carrying. Nothing replaces
-it: a skipped row is now a lane border, a red badge, and whatever Blizzard is already drawing.
+it: a skipped row is now the scan edge, a red badge, and whatever Blizzard is already drawing.
 
 ### V5 · Corner badge — OS-style
 
@@ -349,13 +272,13 @@ reads as *on top of* the icon rather than *inside* it.
   licence beside it. Measured **saturation 0.000** — white with the shape in the alpha channel — so
   `SetVertexColor` multiplies it to the authored hue at full strength. This is the same reason
   CDMProbe shipped Kenney's `star_07` rather than a Blizzard atlas: neutral art we own beats hunting
-  for neutral art we do not. Declared `tokens.badges.tint: "lane"`, which is what puts these frames
+  for neutral art we do not. Declared `tokens.badges.tint: "shelf"`, which is what puts these frames
   under the Part 4 tint guard.
 - **Two shapes the browser gets free and the client does not.** A `border-radius` and a
   `radial-gradient` are one CSS property each; in the client the disc and the halo are art. Both
   are generated white-with-shape-in-alpha (`capart export badges`, Part 4's "author them from a
   script"), the halo fading out at `tokens.badges.halo_falloff` of its radius — the same stop the
-  artifact's gradient uses.
+  preview's gradient uses.
 - **Lua:**
   ```lua
   local plate = slot:CreateTexture(nil, "OVERLAY", nil, 6)
@@ -366,7 +289,7 @@ reads as *on top of* the icon rather than *inside* it.
   sprite:SetTexture(T.badges.asset_root .. "/" .. frame)   -- neutral art: tints cleanly
   sprite:SetVertexColor(unpack(T.badges.rgb))              -- multiply, one shared red
   ```
-- **Artifact reproduction.** `mask-image` (the frame's alpha) + `background-color` (the red). For
+- **Preview reproduction.** `mask-image` (the frame's alpha) + `background-color` (the red). For
   white-with-shape-in-alpha art that composite **is** what `SetVertexColor`'s multiply produces. It
   is not a hue-rotate.
 
@@ -408,7 +331,7 @@ in peripheral vision; the frame bounce is just the house style.
 shows frame `floor(elapsed / (duration_s / #frames))` mapped through its `loop`, so the cadence is
 computed from the clock rather than accumulated per badge and cannot drift. `REPEAT` wraps;
 `BOUNCE` turns around at each end. This is the same walk `stepper.js` does, which is why the
-artifact and the client show the same cadence. A `FlipBook` animation is the wrong tool here: it
+preview and the client show the same cadence. A `FlipBook` animation is the wrong tool here: it
 needs one sheet rather than a frame list, and it carries a standing `SetParent` crash report
 (`knowledge/addon-dev/frames-textures-animation.md:1386`).
 
@@ -480,8 +403,8 @@ Promoted out of the lab on 2026-08-16 per Part 7 rule 4.
 
 **This restates the swipe deliberately, and that is the point.** V7 says the swipe is the CDM's own
 "ruled out" signal and cap has no reason to repeat it — that was true while the swipe was the only
-thing on an unremarkable row, and it stopped being true once cap started drawing lane borders,
-badges and arrivals on everything *around* it. A stock swipe next to a lit border reads as *less*
+thing on an unremarkable row, and it stopped being true once cap started drawing a scan edge and
+badges on everything *around* it. A stock swipe next to a lit edge reads as *less*
 marked than the thing beside it, which inverts the meaning. The hatch restores the asymmetry: on
 cooldown is now the loudest thing on the row, not the quietest.
 
@@ -526,16 +449,111 @@ the slot open.
 
 ---
 
+### V12 · Virtual row — a cap-owned icon for a press with no CDM row
+
+A press the Cooldown Manager does not carry draws as a **cap-owned icon** in its own panel:
+the spell's icon at `tokens.panel.icon_px`, laid out left to right at `tokens.panel.gap_px`,
+anchored per `tokens.panel.anchor`. It wears **V11's hatch, from the same sheet**, and nothing
+else — no scan edge, no badge. One fact, one surface.
+
+**Why it exists.** Devourer's Collapsing Star is a real press that outranks Void Ray and has no
+frame anywhere in the CDM pool: the castable (`1221167`) is in no category, and the row named for
+it (`1227702`) is the *aura*, not the button. An elimination scan cannot land on a button that has
+no icon, and no cue can point at one either. The alternative considered and rejected was
+re-anchoring the TrackedBuff row into the Essential line; `render-rationale.md` holds why.
+
+**The hatch means the same thing it means on a CDM row** — *not now* — and is drawn from
+`tokens.hatch`, the same generated `Media/stripes.tga`.
+
+**A virtual row is one of two kinds, and the kind is fixed by the ability, not by the moment.**
+
+- **Gated** — availability varies, so the row is **hatched by default and clears only on a
+  positive readable verdict that the press is available**. Devourer's Collapsing Star is gated:
+  access is granted every 30 souls harvested inside Void Metamorphosis.
+- **Standing** — availability is a **constant**, so the row draws **clear, permanently**, and asks
+  for no verdict at all. Devourer's Consume is standing: no cooldown, no resource cost, no aura
+  gate, castable while moving.
+
+⚠ **A standing row is not wallpaper, and the objection that it is misreads the reading model.**
+"A badge lit in most states is a mis-ranked row" is a statement about *attention* — a cue must be
+noticed, identified and interpreted on every scan, which is expensive when it is nearly always
+lit. A permanently-clear icon at the **right end of the panel** costs nothing of the kind, because
+elimination only ever reaches it once everything to its left is gone. **Its position already
+encodes its rank**, which is Part 0.5's rule in its plainest form: when a fact is stable enough to
+express as rank, express it as rank and spend no cue on it. The floor of a priority list is the
+most stable fact in it.
+
+**And a standing row is what keeps the sweep from ending in silence.** Without one there are real
+states — everything on cooldown, the spender unaffordable — where every entry is swiped or badged,
+nothing on either surface is the press, and the correct answer is reachable only from memory. A
+standing row is the terminus that makes elimination total: the sweep always lands somewhere.
+
+⚠ **The unknown polarity is inverted here, deliberately, and it is the one rule of V11 this entry
+does not inherit.** On a CDM row the icon is present regardless of what cap knows, so an unknown
+readiness draws bare and absence of a hatch asserts nothing. A virtual row exists *only* to say
+"press this now", so there absence of a hatch is the entire signal — and an unknown drawn bare
+would read as a positive instruction. **Unknown therefore draws hatched.** The safe direction on a
+CDM row is "say nothing"; on a virtual row it is "say not yet".
+
+**It is additive and it configures nothing.** cap owns these frames, so `spec.md` §4 is not
+engaged the way re-anchoring another viewer's frames would be: the Cooldown Manager is neither
+written to nor rearranged, and a virtual row appears beside it rather than inside it. The
+precedent is `Bars.lua`'s independent countdown, which is likewise cap-owned and additive.
+
+**Not flown.** Part 5 question 8.
+
+---
+
+### V13 · Scan edge — one binary treatment
+
+**A row is in the scan, or it is not.** That is the whole primitive. A row cap has an opinion about
+wears a `tokens.ready.line_px` line on the icon edge in `tokens.ready.rgb`; a row it does not, wears
+nothing. There is no ladder, no hue, no thickness variation and no motion — **rank is carried by
+left-to-right row order plus elimination** (Part 0.5), which is the only ranking channel that
+survives a player not having memorised a legend.
+
+- **Additive, at full brightness, on a restrained area.** `SetBlendMode("ADD")`, so the edge reads
+  as a *hot line lit over* the icon rather than as a painted frame around it. Perceived glow is
+  roughly luminance × area: this keeps the luminance and spends the area, which is what lets
+  `tokens.ready.alpha` sit at 1.00 without the row shouting. (`SetBlendMode`'s five values are
+  Tier-1 — `frames-textures-animation.md` §5.2.)
+- **It sits ON the icon rect**, not outside it. It therefore has no falloff to overlap with, and
+  **cannot bleed into a neighbour at any row gap** — the failure the retired V1 ring and the V2
+  arrival were both priced against. cap's overlay frame is the item's own rect for the same reason;
+  only the corner badges reach past it, deliberately.
+- **Nothing moves.** No arrival, no pulse, no flipbook. The shared ticker still exists for the badge
+  sprites and the scan edge does not register with it, so a screen full of in-scan rows contributes
+  no motion at all.
+- **Lua:**
+  ```lua
+  local edge = CreateFrame("Frame", nil, cap.overlay)   -- NOT the CDM item frame
+  edge:SetPoint("CENTER", icon, "CENTER", 0, 0)         -- sized and centred, NOT SetAllPoints
+  edge:SetSize(icon:GetWidth(), icon:GetHeight())
+
+  -- Four colour strips, built once, out of combat. No texture file, no tex-coords, no group.
+  for _, t in ipairs(Paint.buildRing(edge, T.ready.line_px)) do
+    t:SetColorTexture(T.ready.rgb[1], T.ready.rgb[2], T.ready.rgb[3], T.ready.alpha)
+    t:SetBlendMode("ADD")
+  end
+
+  edge:SetShown(inScan)          -- the only in-combat write this primitive makes
+  ```
+  The in-combat surface is one `Show`/`Hide`. Everything else happens when the roster is bound.
+- **Preview reproduction.** A 1-element `box-shadow: inset 0 0 0 var(--ready-line)` in
+  `--ready-rgb` at `--ready-alpha`, composited `screen` — the CSS analogue of an additive multiply
+  on white. Same rect, same width, same colour, and nothing animates it there either.
+
+---
+
 ## Part 2.5 — Composing a row
 
 The primitives above are drawn together, and the order they compose in is fixed. **A row is a
-hatch, a lane and badges** — nothing else is drawn on it, and in particular the icon face is not
+hatch, a scan edge and badges** — nothing else is drawn on it, and in particular the icon face is not
 cap's (Part 1).
 
 1. **The cooldown hatch** (V11), or none. It sits under everything else, directly over the icon
    face, because it is a statement about the button rather than a mark placed on it.
-2. **The lane border** (V2), or none. Exactly one, and `CHARGES` replaces the role lane rather
-   than stacking with it.
+2. **The scan edge** (V13), or none. It is one bit and has nothing to stack with.
 3. **A badge per cue** (V5/V5.1), each in the slot its cue owns. A cue named twice is one badge —
    that is how a catalog authors an OR without an OR.
 
@@ -578,15 +596,15 @@ statement as the same badge at full, made about a smaller amount; it is never a 
 ## Part 3 — Composition rules
 
 - **`SetVertexColor` multiplies.** Baked-hue art can only be darkened toward its own hue. The
-  style therefore uses neutral art wherever it tints — V5's Kenney frames and V2's generated ring
-  textures, all measured 0.000. Desaturate-then-tint
+  style therefore uses neutral art wherever it tints — V5's Kenney frames, V11's generated stripe
+  sheet and Part 7's generated ring sheet, all measured 0.000. Desaturate-then-tint
   (`SetDesaturated(true)` / `SetDesaturation(0..1)` first, tint the result —
   `knowledge/addon-dev/frames-textures-animation.md:1044-1052`) is the escape hatch for baked art,
   and whether it yields a *clean* hue is **open**: unmeasured in client. A primitive declaring
-  `tint: "desaturate+lane"` builds, but the artifact stamps a visible ⚠ on it. Nothing declares it
+  `tint: "desaturate+shelf"` builds, but the preview stamps a visible ⚠ on it. Nothing declares it
   today.
 - **Don't bundle Blizzard art.** Reference an atlas by name — that ships no asset. Extracted art is
-  for measuring and for the artifact, never for the addon's `Media/` folder. (Our own CC0 art is a
+  for measuring and for the preview, never for the addon's `Media/` folder. (Our own CC0 art is a
   different case: it ships, because it is ours.)
 - **`SetGradient` resets vertex color to white.** Apply the gradient first, tint second.
 - **`SetTexture` / `SetAtlas` / `SetColorTexture` are exclusive** — last call wins. `GetTexture()`
@@ -617,7 +635,7 @@ statement as the same badge at full, made about a smaller amount; it is never a 
 ```bash
 uv run python -m wowkb.uiart find flipbook                              # search atlas members
 uv run python -m wowkb.uiart atlas visualalert_ants_flipbook --grid 6x5 # extract + grid + CSS recipe
-uv run python -m wowkb.uiart icon 191427 198013 --data-uri              # spell icons for the artifact
+uv run python -m wowkb.uiart icon 191427 198013 --data-uri              # spell icons for the preview
 uv run python -m wowkb.uiart manifest                                   # what we have, with tintability
 ```
 
@@ -639,7 +657,7 @@ ours, no licence question.
 names, plus the two generated shapes, into the addon as 32-bit RLE TGA — the format and header
 shape of the Kenney art CDMProbe already reads in client. `capart export ring` writes V2's ring
 flipbook the same way, into `Media/` beside `Media/badges/`. The tint guard runs on both paths, so
-a baked-hue frame cannot reach the client through a route the artifact never rendered. This is not
+a baked-hue frame cannot reach the client through a route the preview never rendered. This is not
 the "don't bundle Blizzard art" rule's subject: our own CC0 and generated art ships, because it is
 ours.
 
@@ -647,25 +665,29 @@ ours.
 **byte-identical to what the generator produces today** — a generated asset nobody regenerates is a
 stale asset that still passes an existence check.
 
-**The artifact contract, and the guard that enforces it.** Icons and sprites embed as base64
-`data:` URIs — the artifact CSP blocks every external host, so a CDN `<img src>` renders nothing.
+**The preview contract, and the guard that enforces it.** Icons and sprites embed as base64
+`data:` URIs — a preview must render from the file alone (and the Artifact CSP it could one day be
+published under blocks every external host), so a CDN `<img src>` renders nothing.
 `wowkb.capart` refuses to build a lie:
 
 | Condition | What happens |
 | --- | --- |
-| `tint: "lane"` on art the manifest measured non-neutral | **hard error**, naming the measured saturation |
+| `tint: "shelf"` on art the manifest measured non-neutral | **hard error**, naming the measured saturation |
 | a CSS tint written as `hue-rotate` | not emitted — the tint path is `mask-image` + `background-color` (or `background-blend-mode: multiply`) |
-| `tint: "desaturate+lane"` | builds, and stamps a visible ⚠ *open* chip on that primitive |
+| `tint: "desaturate+shelf"` | builds, and stamps a visible ⚠ *open* chip on that primitive |
 | total base64 over `tokens.budget.max_base64_kb` | a **warning printed by `build`** (and a per-asset table from `capart assets`), never a blocked rebuild; `check` does not test it |
 
 **The tint guard is the shelf's one mechanical promise and it is deliberately art-agnostic.** It
-started life guarding the flipbook rings; the rings are gone and it now guards the badge sprites,
+started life guarding the flipbook rings; it now guards the badge sprites and V11's stripe sheet,
 because the claim it enforces was never about rings — it is *"art the shelf recolors must be art
-`SetVertexColor` can actually recolor."* `tint: "lane"` is the token spelling of that claim (the
-colour comes from the shelf, not from the art; whether that colour happens to be a lane hue or the
-cue red is beside the point). Any future primitive that tints art inherits the guard by declaring
-it, and any primitive that stops declaring it silently loses the guarantee — which is why
-`capart check` also asserts that at least one declared asset still carries it.
+`SetVertexColor` can actually recolor."* **`tint: "shelf"` is the token spelling of that claim**,
+and the spelling is deliberately colour-source-neutral: it says the colour comes from this file
+rather than from the art, and says nothing about *which* colour. ⚠ It used to be spelled `"lane"`,
+which read like a reference to a hue that existed — so when the badges moved to `tokens.ready` and
+were rewritten to `tint: "ready"`, the guard (which matches a literal) stopped covering them
+silently, and `check`'s any-of test stayed green on the ring alone. `check` now asserts the
+declaration **per primitive**: every art-bearing key in the token block must declare `"shelf"`,
+`"desaturate+shelf"` or a deliberate `"none"`, so a subject can no longer drop out unnoticed.
 
 The asset list and the budget are `tokens.assets` / `tokens.budget`.
 
@@ -675,49 +697,48 @@ The asset list and the budget are `tokens.assets` / `tokens.budget`.
 
 Look-at-it questions, not measurements. None of them is a reason to hold two styles in this file.
 
-1. **Does a row at rest read as quiet?** Four static borders and nothing moving — does that read
+1. **Does a row at rest read as quiet?** Static scan edges and nothing moving — does that read
    as informative, or as furniture the eye stops seeing after ten minutes?
-2. **Does the arrival snap catch the eye without the ring?** One `tokens.arrival.duration_s`
-   transient per state change, against a boss fight's worth of screen motion. If it is missed, the
-   alternative is a *slower* snap, not a louder resting state.
-3. **Does the CHARGES border carry meaning, or is it a fourth colour nobody decodes?** It replaces
-   the role lane, so the cost of it being noise is that a button's lane became unreadable. ⚠ On
-   Havoc specifically this bites: **both** FALLBACK abilities (Throw Glaive, Fel Rush) have
-   charges, so no Havoc row ever draws a FALLBACK border at all. `capart build` prints that as a
-   page-level note rather than letting the lane silently vanish.
-4. **Do the badges read without a legend at 56 px?** Specifically: does the timer sweep read as
+2. **Does the scan edge separate in-scan from out-of-scan at a glance?** V13 spends the whole
+   emphasis budget on one bit, so its failure mode is the opposite of the retired V2's: not "a hue
+   nobody decodes" but "a line nobody notices". The louder and quieter candidates are in the lab as
+   `ready-*` and are meant to be judged beside it in `/cap style`. If a lit row and an unlit row are
+   hard to tell apart in a pull, the fix is **area or blend, not a second colour** — a ladder is
+   what V2 was retired for.
+3. **Do the badges read without a legend at 56 px?** Specifically: does the timer sweep read as
    "waiting" or as a countdown? A countdown reading is a failure of the cue, not of the player.
-5. **Does one shared red across three badges under-differentiate?** The shapes are meant to carry
+4. **Does one shared red across three badges under-differentiate?** The shapes are meant to carry
    the distinction. If they do not, the fix is different shapes, not a second hue.
-6. **Does elimination alone lead the eye?** The four scenarios with something to the *left* of the
+5. **Does elimination alone lead the eye?** The four scenarios with something to the *left* of the
    press (ST-7, ST-10, AoE-2, AoE-3) are the test. If a scenario needs a positive cue to be
    readable, that is the finding that un-parks the positive vocabulary.
-7. Does desaturate-then-tint produce a clean hue on baked art? — **open**, needs the client.
+6. Does desaturate-then-tint produce a clean hue on baked art? — **open**, needs the client.
    Nothing declares it today; the question stays because the escape hatch is worth having priced.
-8. **Does the ring flipbook read as arrival, and does the band survive minification?** The
-   `--@unverified` marker on `Paint.Border` is on the shipped path, so house rule 5 puts it in this
-   flight's acceptance set. Three parts: does 16 frames at 40 fps read as motion or as steps; does a
-   band authored at `tokens.ring.thickness_px` in a 64 px cell still read as a crisp line once the
-   sheet is minified onto a 60 px row (`Paint.RingBand` says ~1.9 px), or does it wash into a blur;
-   and does the arrival now stay inside the row's own cell — the `#` should be gone, which is a
-   prediction from the geometry and **not** a measurement until someone looks.
-
-9. **Does the cooldown hatch add to the swipe or just restate it — and does it read as stripes at
-   all?** V11's `--@unverified` marker is on the shipped path, so this is in the acceptance set too.
+7. **Does the cooldown hatch add to the swipe or just restate it — and does it read as stripes at
+   all?** V11's `--@unverified` marker is on the shipped path, so this is in the acceptance set.
    Three parts. Does a 16 px pitch authored on a 128 px sheet still read as *stripes* once tiled
    across a ~56 px icon, or does it flatten into a wash — `/cap style`'s V11 section draws
    swipe-only beside as-it-ships for exactly this comparison. Does black at 0.50 alpha read as
    **ruled out** rather than as **dimmed**, which is the failure the retired veil died of. And is
    the row now *more* legible in a pull, or merely busier — the honest possibility is that the
    swipe was already enough and the hatch is noise, in which case V11 goes back to the lab.
-   ⚠ Watch specifically for the two rows that **cannot** wear it: a charged ability and a row whose
-   first edge has not landed. If a hatchless row on cooldown reads as "cap thinks this is up", the
-   unknown-safe default is costing more than it saves and needs rethinking, not just documenting.
+   ⚠ Watch specifically for the row that **cannot** wear it: one whose first edge has not landed.
+   If a hatchless row on cooldown reads as "cap thinks this is up", the unknown-safe default is
+   costing more than it saves and needs rethinking, not just documenting.
+8. **Does a virtual row (V12) read as part of the same scan, or as a second UI?** It is cap's own
+   panel rather than a CDM row, so the risk is that the eye finishes the CDM line and stops. And
+   does a *standing* row — permanently clear, forever — read as the terminus of the sweep or as
+   wallpaper?
+
+⚠ **The arrival questions left this list with V2.** "Does the snap catch the eye", "does the band
+survive minification", "does 16 frames at 40 fps read as motion" — nothing on the shipped path
+asks them any more. They are still live questions and they are still asked, in Part 7, by the
+`arrival-*` entries, which is where an unadopted treatment belongs.
 
 **And one gate that does not wait for a flight.** `wowkb.capart check` asserts, for every
 scenario: *the leftmost entry that is neither swiped (`cd`) nor carrying a red cue must
 be the entry the doc calls the press* — `weave` skipped over, since it is off the GCD and pressed
-in parallel. That is question 6, mechanised. All 13 Havoc scenarios pass it today. If a future
+in parallel. That is question 5, mechanised. All 13 Havoc scenarios pass it today. If a future
 scenario cannot lead the eye to its press by elimination, this fails **by name** rather than
 someone noticing months later.
 
@@ -726,12 +747,12 @@ someone noticing months later.
 ## Part 6 — The tokens
 
 **This block is the style.** Every number cap draws with is here and nowhere else. `wowkb.capart`
-parses it for the artifact and generates the addon's `Style.lua` from it verbatim; prose cites
+parses it for the preview and generates the addon's `Style.lua` from it verbatim; prose cites
 paths into it. Editing a value here and rebuilding is the whole loop.
 
 `Style.lua` carries data only — `Treatment.lua` and `Paint.lua` are the logic that reads it, which
-is what keeps the generated file free of functions and diffable. Two keys never reach it:
-`artifact`, annotated below as a viewing aid, and Part 7's `lab`, which is by construction not the
+is what keeps the generated file free of functions and diffable. One key never reaches it:
+Part 7's `lab`, which is by construction not the
 style. Everything else crosses unchanged, plus where the exported art landed.
 
 Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
@@ -740,11 +761,11 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
 ```json
 {
   "version": 2,
-  "lanes": {
-    "COOLDOWN": { "rgb": [1.00, 0.82, 0.22] },
-    "ROTATION": { "rgb": [0.35, 0.68, 1.00] },
-    "FALLBACK": { "rgb": [0.78, 0.80, 0.86] },
-    "CHARGES":  { "rgb": [0.62, 0.42, 0.95] }
+  "ready": {
+    "_comment": "IN THE SCAN. One treatment, no roles, no motion. An icon either participates in the read or it does not; rank comes from row order and elimination, not from a hue ladder. Full brightness on a restrained AREA: additive, so it reads as a hot edge rather than as a wash, and it sits ON the icon rect so it can never bleed into a neighbour at any row gap.",
+    "rgb": [1.00, 0.86, 0.45],
+    "alpha": 1.00,
+    "line_px": 2
   },
   "ring": {
     "texture": "ring",
@@ -755,7 +776,7 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
     "corner_px": 4,
     "travel_px": 5,
     "gutter_px": 1,
-    "tint": "lane"
+    "tint": "shelf"
   },
   "motion": {
     "tick_s": 0.025
@@ -777,10 +798,10 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
     "padding_px": 3,
     "sprite_inset_pct": 16,
     "rgb": [0.95, 0.30, 0.30],
-    "tint": "lane",
+    "tint": "shelf",
     "plate": { "rgb": [0.00, 0.00, 0.00], "alpha": 0.78, "scale": 1.12 },
     "halo_falloff": 0.70,
-    "asset_root": "artifacts/assets/kenney",
+    "asset_root": "previews/assets/kenney",
     "slots": [
       { "id": 1, "anchor": "top-right-corner" },
       { "id": 2, "anchor": "left-of-1-along-top" },
@@ -824,18 +845,22 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
     "rgb": [0.00, 0.00, 0.00],
     "alpha": 0.50,
     "phase_pct": 50,
-    "tint": "lane"
+    "tint": "shelf"
+  },
+  "panel": {
+    "icon_px": 50, "gap_px": 6,
+    "anchor": "BOTTOM", "x": 0, "y": 190, "grow": "RIGHT"
   },
   "verdicts": {
-    "cd":             { "border": false, "swipe": true,  "hatch": true, "cues": [] },
-    "weave":          { "border": true,  "swipe": false, "cues": [] },
-    "hold-readable":  { "border": true,  "swipe": false, "cues": ["blocked"] },
-    "hold-sealed":    { "border": true,  "swipe": false, "cues": ["blocked"] },
-    "starved":        { "border": true,  "swipe": false, "cues": ["starved"] },
-    "overcap":        { "border": true,  "swipe": false, "cues": ["overcap"] },
-    "press":          { "border": true,  "swipe": false, "cues": [] },
-    "press-promoted": { "border": true,  "swipe": false, "cues": [] },
-    "below":          { "border": true,  "swipe": false, "cues": [] }
+    "cd":             { "scan": false, "swipe": true,  "hatch": true, "cues": [] },
+    "weave":          { "scan": true,  "swipe": false, "cues": [] },
+    "hold-readable":  { "scan": true,  "swipe": false, "cues": ["blocked"] },
+    "hold-sealed":    { "scan": true,  "swipe": false, "cues": ["blocked"] },
+    "starved":        { "scan": true,  "swipe": false, "cues": ["starved"] },
+    "overcap":        { "scan": true,  "swipe": false, "cues": ["overcap"] },
+    "press":          { "scan": true,  "swipe": false, "cues": [] },
+    "press-promoted": { "scan": true,  "swipe": false, "cues": [] },
+    "below":          { "scan": true,  "swipe": false, "cues": [] }
   },
   "surfaces": {
     "icon_px": 56,
@@ -926,22 +951,88 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
       "to_alpha": 0.00,
       "duration_s": 0.35,
       "smoothing": "OUT"
-    }
-  },
+    },
 
-  "artifact": {
-    "_comment": "NOT THE STYLE. Viewing aids the preview needs and the addon does not. The addon fires the arrival snap on the event and stops; the artifact replays it so it can be watched.",
-    "arrival_replay_s": 5.0
+    "ready-halo": {
+      "draws": "ready-glow",
+      "title": "An additive outer halo that flares on arrival, then decays to a resting floor",
+      "asks": "Can a glow OUTSIDE the icon rect say `ready` without saying `press now`? The flare spends the arrival budget and then decays to rest_alpha rather than to nothing, so the resting row still reads as lit. The failure to watch for is the candles verdict: four of these at once smearing into one lit region rather than four ready buttons.",
+      "rgb": [1.00, 0.86, 0.45],
+      "inner_border": false,
+      "rest_alpha": 0.26,
+      "flare_alpha": 1.00,
+      "glow_px": 7,
+      "flare_mult": 1.8,
+      "decay_s": 0.90,
+      "cells": [
+        { "ability": "Eye Beam", "verdict": "press", "caption": "Alone \u2014 the flare, then the resting floor." },
+        { "kind": "row", "abilities": ["Eye Beam", "Blade Dance", "Chaos Strike", "Felblade"],
+          "verdict": "below",
+          "caption": "Four ready at the true row pitch \u2014 <b>the candles test</b>. If this reads as one lit region rather than four lit buttons, the halo is too wide for a 6\u202fpx gutter." }
+      ]
+    },
+
+    "ready-hairline": {
+      "draws": "ready-line",
+      "title": "Full brightness, restrained area \u2014 a 1px hot line at the icon edge",
+      "asks": "Does holding luminance and cutting AREA read as bright-but-quiet, where cutting alpha read as ghosted? Perceived glow is roughly luminance times area, so this keeps the first and spends the second. It also cannot smear: a hairline has no falloff to overlap a neighbour with.",
+      "rgb": [1.00, 0.86, 0.45],
+      "inner_border": false,
+      "rest_alpha": 1.00,
+      "line_px": 1,
+      "cells": [
+        { "ability": "Eye Beam", "verdict": "press", "line_px": 1, "caption": "<b>1px</b> \u2014 no flare, no motion, full brightness." },
+        { "ability": "Eye Beam", "verdict": "press", "line_px": 2, "caption": "<b>2px</b>" },
+        { "ability": "Eye Beam", "verdict": "press", "line_px": 3, "caption": "<b>3px</b>" },
+        { "kind": "row", "abilities": ["Eye Beam", "Blade Dance", "Chaos Strike", "Felblade"],
+          "verdict": "below",
+          "caption": "Four at once. A hairline cannot bleed, so the question here is the opposite one: is it still visible in peripheral vision?" }
+      ]
+    },
+
+    "ready-altglow": {
+      "draws": "ready-glow",
+      "title": "Blizzard's own downgrade \u2014 a static halo with no animation at all",
+      "asks": "Is the loud part the GLOW or the MOTION? This is ProcAltGlow's answer transcribed: keep a small glow, delete every animation. It is the control for ready-halo \u2014 if the static version reads as ready just as well, the flare is decoration and the arrival belongs to the border alone.",
+      "rgb": [1.00, 0.86, 0.45],
+      "inner_border": false,
+      "rest_alpha": 0.62,
+      "glow_px": 11,
+      "cells": [
+        { "ability": "Eye Beam", "verdict": "press", "caption": "Alone \u2014 static. Nothing here moves, ever." },
+        { "kind": "row", "abilities": ["Eye Beam", "Blade Dance", "Chaos Strike", "Felblade"],
+          "verdict": "below",
+          "caption": "Four at once, all static. A resting row that never changes is the cheapest thing to ignore \u2014 which may be the point, or may be the defect." }
+      ]
+    },
+
+    "ready-breathe": {
+      "draws": "ready-glow",
+      "title": "A low-intensity breathe with a non-zero floor",
+      "asks": "Does a slow breathe between a floor and full read as `alive and ready` rather than `press now`? The floor is what separates this from a blink: the treatment is never absent, only varying. The rate is deliberately slower than a proc loop \u2014 the question is whether ANY periodic motion reads as urgency once four of them are running out of phase.",
+      "rgb": [1.00, 0.86, 0.45],
+      "inner_border": false,
+      "rest_alpha": 0.40,
+      "flare_alpha": 1.00,
+      "glow_px": 12,
+      "period_s": 2.60,
+      "cells": [
+        { "ability": "Eye Beam", "verdict": "press", "caption": "Alone \u2014 floor to peak and back, continuously." },
+        { "kind": "row", "abilities": ["Eye Beam", "Blade Dance", "Chaos Strike", "Felblade"],
+          "verdict": "below",
+          "caption": "Four at once. Each starts at its own phase, because four breathing in lockstep is one region blinking \u2014 the failure Part 3 already names for the retired lane pulse." }
+      ]
+    }
   }
 }
 ```
 
-**Reading the verdict table.** `border` is whether the row wears its lane border at all — `cd` is
-the only row that does not, because Blizzard's swipe has already ruled it out and a border would
+**Reading the verdict table.** `scan` is whether the row is in the scan at all — `cd` is
+the only row that is not, because Blizzard's swipe has already ruled it out and an edge would
 just be noise on a dead button. `swipe` is Blizzard's own dial, which cap does not
-draw and does not restyle (V7); it appears here so the artifact can reproduce the row faithfully.
+draw and does not restyle (V7); it appears here so the preview can reproduce the row faithfully.
 `cues` names badge cues (V5.1) by key into `tokens.cues`, and each cue's `slot` fixes where it
-lands. A cue whose token carries `open: true` draws with a ⚠ chip in the artifact and produces
+lands. A cue whose token carries `open: true` draws with a ⚠ chip in the preview and produces
 **no hint in the addon** until it is measured (`spec.md` §3.6); none does today.
 
 **`press`, `press-promoted` and `below` render identically, and that is the point.** The press is
@@ -970,7 +1061,7 @@ being adopted.
 1. **Nothing in `verdicts` or `cues` may name anything in `lab`.** The lab is unreachable from
    `havoc/scenarios.md` by construction — a scenario cannot accidentally start depending on an
    experiment. `capart build` errors if the reference exists (`validate_lab_isolation`).
-2. **The lab never draws in a CDM row.** It renders in its own section of the artifact, under its
+2. **The lab never draws in a CDM row.** It renders in its own section of the preview, under its
    own heading, after the declared primitives — **and, since 2026-08-16, it may also be drawn by
    the in-game `/cap style` gallery.** The gallery is exempt because it is not a live row: it draws
    on cap-owned frames, in a panel you opened on purpose, and shows nobody a CDM row. That exemption
@@ -1015,12 +1106,12 @@ alternative is a second identical texture on disk that can silently drift from t
 
 **Everything except the geometry is per-render, and deliberately so.** Each entry supplies its own
 `rgb`, its own `alpha` and its own `phase_pct`; in the client that is `SetVertexColor` plus a
-`SetTexCoord` offset, and in the artifact it is `background-color` plus a `mask-position`. There is
+`SetTexCoord` offset, and in the preview it is `background-color` plus a `mask-position`. There is
 **no shared "this row is striped" flag** for several conditions to write and something else to read
 back. When a striped row turns up in a flight, the stripes belong to exactly one condition and you
 can say which.
 
-The one generator feeds every surface: the artifact gets it as a `data:` URI, and `capart export
+The one generator feeds every surface: the preview gets it as a `data:` URI, and `capart export
 hatch` writes it as a 32-bit TGA to `Media/stripes.tga` — a **style** path, beside the ring, not
 under `Media/lab/` — under the same tint guard the shipped badge art passes (measured 0.000 mean
 saturation: white RGB, the pattern in alpha only, so no hue can be baked in without the guard
@@ -1060,9 +1151,9 @@ answer there was *different shapes, not a second colour*.
 
 ### The arrival-snap variants — `arrival-*`
 
-Four entries that share a subject rather than an asset: **the one-shot arrival snap (V2), and what
-it draws when a row has neighbours.** They are the lab's first entries that **only** the `/cap style`
-gallery can draw — CSS has no four-strip ring, so the artifact shows their titles and their `asks`
+Four entries that share a subject rather than an asset: **the one-shot arrival snap — retired from
+the style with V2 — and what it draws when a row has neighbours.** They are the lab's first entries that **only** the `/cap style`
+gallery can draw — CSS has no four-strip ring, so the preview shows their titles and their `asks`
 and says where to look. That is the exemption's whole point: an argument about how the client
 scales a frame is not settleable in a browser.
 
@@ -1071,9 +1162,10 @@ each side of the subject. It deliberately does **not** restate the row pitch: th
 `surfaces.icon_px + surfaces.row_gap_px` and already declared, and a second copy of a number is a
 second thing to keep true.
 
-**The diagnosis under test**, argued from the declared values: the border frame is the icon plus
-`2 × PAD` = 60 px, so `arrival.from_scale` 2.00 draws it 120 px wide — **30 px of overhang per
-side** against a row pitch of 62 px. `Overlay.lua` puts the overlay at `HIGH` level 4, so nothing
+**The diagnosis under test**, argued from the declared values: at the time it was recorded the
+border frame was the icon plus `2 × PAD` = 60 px, so `arrival.from_scale` 2.00 drew it 120 px wide
+— **30 px of overhang per side** against a row pitch of 62 px. (V13's edge is on the icon rect and
+`PAD` is gone, which shrinks the numbers but not the argument: 2.00× still overhangs 28 px.) `Overlay.lua` puts the overlay at `HIGH` level 4, so nothing
 occludes the overhang; it crosses the neighbours and their own static borders, and two crossing
 pairs of lines that overhang past the crossing is a `#`. The four-strip ring itself is **exonerated
 on paper** — horizontals take both x-extents from anchors and verticals both y-extents, so no strip
@@ -1103,6 +1195,65 @@ can overhang its own frame at any scale.
   than inward and arriving. At 1.25 it overhangs ~7.5 px and never reaches a neighbour's centre. ⚠ It
   must **land invisible**: scale restoration on `Stop()` is unmeasured, so the ghost is hidden
   explicitly on finish rather than trusted to restore.
+
+### The readiness treatments — `ready-*`
+
+Four entries sharing a subject: **what a row should look like when an ability is merely
+ELIGIBLE.** They are the family **V13 came out of**: the declared style's answer is now the scan
+edge, which is `ready-hairline` at 2 px, and the other three are the louder and quieter candidates
+it was picked over. They stay because that choice was made on paper and Part 5 question 2 is the
+one that settles it in the client. The client's own answer, the stock proc glow, over-claims: it fires off `SPELL_ACTIVATION_OVERLAY_GLOW_SHOW`, which means
+*"the game core marked this spell empowered"* and knows nothing about whether pressing it wastes a
+resource. A glow that says **press now** about a fact that is only **now available** is the thing
+`spec.md` §1 exists to refuse.
+
+**Why these are additive and the retired alpha ladder was not.** Reducing the alpha of a `BLEND`
+layer does not dim a light, it makes the art partially present — the "ghosted" read that killed
+earlier attempts. An `ADD` layer at low alpha is still emission, only less of it. The preview draws
+this with `mix-blend-mode: plus-lighter`, which is exactly additive; the client spelling is
+`SetBlendMode("ADD")`. There is a second reason to keep away from dimming: **the Cooldown Manager
+already owns it.** It desaturates on cooldown and tints the icon through distinct not-usable /
+not-enough-mana / out-of-range colours, so a dimmed row already means *you cannot press this*.
+
+⚠ **Additive over a dark page flatters itself.** The preview's background is near-black and every
+one of these will look better here than in a raid. That is a `/cap style` question.
+
+**Every entry is drawn twice: alone, and as four at the true row pitch.** The second cell is the
+**candles test** — the one flown verdict against continuous rings was *"the tier glows read as
+candles"*, and it traced to how much of the row was lit at once, not to any single icon. An entry
+that reads beautifully alone and smears into one lit region at four is a failure this file has
+already seen once.
+
+- **`ready-halo`** is the outer glow: a radial falloff drawn **outside** the icon rect at
+  `glow_px`, flaring to `flare_alpha` at `flare_mult` and decaying over `decay_s` **to
+  `rest_alpha`, not to zero** — so the arrival is spent on the transition and the row still reads
+  as lit afterwards. ⚠ At `glow_px` 7 against a 6 px gutter it overhangs its neighbour's rect by
+  1 px, measured. That is deliberate and is what the four-up cell is asking about; a falloff that
+  reaches a neighbour is not automatically a smear, but it is the thing to look at first.
+- **`ready-hairline`** is the opposite trade: **full brightness, minimal area.** Perceived glow
+  goes roughly as luminance × area, so this holds the first and spends the second — where the
+  retired ladder cut luminance and lost the emission. It has no falloff and therefore cannot bleed
+  at any gutter, which turns the four-up question inside out: not *does it smear*, but *is it still
+  there* in peripheral vision.
+- **`ready-altglow`** is **Blizzard's own downgrade, transcribed**: `ProcAltGlow` is a static 49×49
+  glow with **no animation at all**, swapped in for both proc flipbooks when the reduce-highlights
+  setting is on. It is the control for `ready-halo` — if static reads as ready just as well, the
+  flare is decoration and arrival stays the border's job alone.
+- **`ready-breathe`** is the CDM's own visual-alert flash: a slow alpha cycle with a **non-zero
+  floor**, so the treatment is never absent, only varying. Its four-up cell staggers the phase,
+  because rings pulsing in lockstep read as one blinking *area* — the failure already recorded for
+  the retired lane pulse.
+
+- **`ready-flare-breathe`** is the two combined, and it is the client's own structure: on an action
+  button `ProcStartAnim`'s `OnFinished` starts `ProcLoop`, a one-shot burst handing off to a steady
+  loop. The preview does it by **delaying** the cycle by the burst's own `decay_s` — an animation
+  with the default fill mode does not touch its property before it starts, so the flare owns the
+  opacity alone and the cycle then takes over from the floor it landed on. It keeps `ready-breathe`
+  beside it deliberately: without the pure cycle as a control there is no way to tell whether the
+  burst added anything or was simply swallowed.
+
+⚠ **These five are alternatives, not a set.** Rule 4 applies: at most one leaves, by being moved
+into Parts 1–6 with its numbers. Two of them surviving a flight still means one loses.
 
 ### What is NOT here
 

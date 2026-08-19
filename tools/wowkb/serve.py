@@ -8,12 +8,12 @@ the whole gesture.
 Nothing here is specific to Combat Assist Plus — it serves a directory, watches paths, and runs
 a command. Point it at any local HTML in this repo.
 
-    uv run python -m wowkb.serve projects/combat-assist/artifacts \\
+    uv run python -m wowkb.serve projects/combat-assist/previews \\
         --watch projects/combat-assist/specs \\
-        --on-change "python -m wowkb.capart build havoc"
+        --on-change "python -m wowkb.capart build --all"
 
 Live reload is injected into **served** HTML responses only — the bytes on disk are never
-touched, so the committed artifact and anything published from it stay clean. `--no-reload`
+touched, so the committed preview and anything published from it stay clean. `--no-reload`
 turns injection off entirely.
 
 Stdlib only, and deliberately dumb: mtime polling rather than inotify, because the watched

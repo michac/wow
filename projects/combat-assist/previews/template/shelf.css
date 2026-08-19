@@ -1,4 +1,4 @@
-/* Combat Assist Plus — artifact stylesheet.
+/* Combat Assist Plus — preview stylesheet.
  *
  * ⚠ NO LITERAL COLORS, SIZES OR RATES BELOW, except inside the CHROME block, which is
  * page furniture (paper, ink, rules) and not cap's look. Everything that describes how
@@ -102,7 +102,12 @@ a { color: var(--accent); }
   /* the CDM icon's own thin edge — Blizzard's furniture, drawn from the chrome palette */
   border: var(--border-px) solid var(--rule);
   background-size: cover;
+  /* Blizzard's own baseline, both channels of it (cooldown-manager.md §3.4). `--desat` is
+   * desaturate-on-cooldown; the multiply is RefreshIconColor's vertex tint, and it is a
+   * MULTIPLY because SetVertexColor is one. Both are set inline from `D.client_paint`, which
+   * is why no value appears here: these are Blizzard's numbers, not this file's opinions. */
   filter: grayscale(var(--desat, 0));
+  background-blend-mode: multiply;
 }
 
 /* Blizzard's own dial. cap does not draw it and does not restyle it (shelf V7); it is
@@ -138,28 +143,6 @@ a { color: var(--accent); }
   position: relative;
   width: var(--icon); height: var(--icon);
   border: var(--border-px) solid var(--rule);
-}
-
-/* V2 · lane border — one ring flipbook, tinted per lane.
- *
- * The SAME sheet the addon ships: white with the ring in alpha, used as a mask over the lane hue,
- * which for white-with-shape-in-alpha art is exactly what SetVertexColor's multiply produces. The
- * frame is chosen by --ring-pos over a --ring-size mask; stepper.js walks it at --tick, one shot,
- * resting on the last frame — the same walk the client's shared ticker does. Nothing scales, so
- * the border cannot draw outside the row's own cell.
- */
-.item .edge {
-  position: absolute; inset: 0; pointer-events: none;
-  background-color: var(--lane-color);
-  -webkit-mask-image: var(--ring-sheet); mask-image: var(--ring-sheet);
-  -webkit-mask-size: var(--ring-size); mask-size: var(--ring-size);
-  -webkit-mask-position: var(--ring-pos); mask-position: var(--ring-pos);
-  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  /* The walk is a JS interval, which stepper.js skips here; this pins the resting frame. */
-  .item .edge { --ring-pos: var(--ring-rest); }
 }
 
 /* V5 · corner badges — OS-notification style, hung off the TOP-RIGHT corner.
@@ -217,7 +200,7 @@ a { color: var(--accent); }
 }
 
 /* An `open` primitive draws, but never without saying it is unproven. Nothing declares `open`
- * today; the mechanism is kept because it is how the artifact refuses to lie about an unmeasured
+ * today; the mechanism is kept because it is how the preview refuses to lie about an unmeasured
  * primitive, and the next one that needs it will find it working. */
 .item .slot[data-open="1"] { outline: 1px dashed var(--warn); outline-offset: 1px; }
 
@@ -231,21 +214,108 @@ a { color: var(--accent); }
 
 /* ---------------------------------------------------------------- row labels */
 
+/* A lane is EXACTLY one icon wide. Nothing in it may be wider, or the row stops
+ * reproducing the client's fixed icon pitch — which is what a caption did until
+ * 2026-08-18. The name and the verdict live in the hover tip instead: printing the
+ * answer beside the icon defeats the row, whose whole question is whether the
+ * decorations carry it unaided. */
 .lane {
-  display: flex; flex-direction: column; align-items: center; gap: .3rem;
+  width: var(--icon);
+  position: relative;
+  display: flex; flex-direction: column; align-items: center;
 }
-.lane .caption {
-  font-size: .58rem; letter-spacing: .04em; text-transform: uppercase;
-  color: var(--ink-faint); font-family: var(--mono);
-  max-width: calc(var(--icon) * 1.6); text-align: center; line-height: 1.25;
+/* The walk's cursor. A mark, not a label — it names nothing. */
+.lane[data-active="1"]::after {
+  content: ""; position: absolute; top: 100%; left: 50%;
+  transform: translateX(-50%); margin-top: .3rem;
+  width: 60%; height: 2px; border-radius: 1px; background: var(--ink);
 }
-.lane .verdict {
-  font-family: var(--mono); font-size: .58rem; letter-spacing: .02em;
-  color: var(--ink-dim);
-}
-.lane[data-active="1"] .verdict { color: var(--ink); }
-.lane[data-active="1"] .caption { color: var(--ink); }
 .lane[data-dimmed="1"] { opacity: .45; }
+
+/* ---------------------------------------------------- Part 7 · the readiness treatments
+ *
+ * `mix-blend-mode: plus-lighter` is the exact CSS analogue of SetBlendMode("ADD") — it ADDS
+ * the layer's light rather than compositing over. That difference is the whole reason these
+ * entries exist: an ADD layer at low alpha reads as dim LIGHT, where a BLEND layer at low
+ * alpha reads as a faded sticker. Blizzard's loud proc flipbook is BLEND with bright art; its
+ * quiet cues (SpellHighlightTexture, the RotationHelper glow) are ADD at 0.4–0.6.
+ *
+ * ⚠ Additive over a DARK page flatters itself. In client the row sits over arbitrary world
+ * art, and a halo that reads beautifully here can vanish over a lit floor. That is a gallery
+ * question, not a browser one.
+ */
+
+/* An OUTER shadow is clipped out from under its own border-box, so every pixel of it lands
+ * OUTSIDE the icon — none is spent under art that would hide it, and the peak sits AT the
+ * icon edge where the light should be brightest. A centred radial-gradient gets this exactly
+ * wrong: its core hides under the icon and only the faint tail escapes. */
+.ready-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 3px;
+  box-shadow: 0 0 var(--rg-spread) rgba(var(--rg-rgb), .9);
+  mix-blend-mode: plus-lighter;
+  opacity: var(--rg-rest);
+  pointer-events: none;
+}
+/* The flare is a one-shot that DECAYS TO THE FLOOR, not to nothing — `forwards` is what
+   leaves the resting glow standing once the animation is done. */
+.ready-glow[data-flare="1"] {
+  animation: ready-flare var(--rg-decay) ease-out forwards;
+}
+@keyframes ready-flare {
+  0%   { opacity: var(--rg-flare);
+         box-shadow: 0 0 var(--rg-flare-spread) rgba(var(--rg-rgb), .9); }
+  100% { opacity: var(--rg-rest);
+         box-shadow: 0 0 var(--rg-spread) rgba(var(--rg-rgb), .9); }
+}
+/* The breathe never reaches zero: a floor is what separates "varying" from "blinking". */
+.ready-glow[data-breathe="1"] {
+  animation: ready-breathe var(--rg-period) ease-in-out infinite alternate;
+  animation-delay: var(--rg-phase, 0s);
+}
+@keyframes ready-breathe {
+  from { opacity: var(--rg-rest); }
+  to   { opacity: var(--rg-peak); }
+}
+/* Burst, then loop — the same hand-off the client makes, where ProcStartAnim's OnFinished
+ * starts ProcLoop. Here the loop is simply DELAYED by the burst's own duration: an animation
+ * with the default `fill-mode` does not touch its property before it starts, so the flare owns
+ * the opacity alone until it has decayed, and the cycle takes over from the floor it landed on.
+ * Two attribute selectors, so this outranks the single-treatment rules above. */
+.ready-glow[data-flare="1"][data-breathe="1"] {
+  animation: ready-flare var(--rg-decay) ease-out forwards,
+             ready-breathe var(--rg-period) ease-in-out
+               calc(var(--rg-decay) + var(--rg-phase, 0s)) infinite alternate;
+}
+
+/* Area, not alpha. A hairline sits ON the icon edge at full brightness and has no falloff,
+   so it cannot bleed into a neighbour at any gutter. */
+.ready-line {
+  position: absolute; inset: 0;
+  border: var(--rl-line) solid rgba(var(--rl-rgb), var(--rl-rest));
+  mix-blend-mode: plus-lighter;
+  pointer-events: none;
+}
+
+/* A readiness row draws its icons at the REAL pitch — icon + row gap — because the only
+   honest version of the candles test is the spacing the client actually uses. */
+.ready-row { display: flex; gap: var(--row-gap); }
+/* The halo overhangs its icon, so the stage may not clip it. */
+.lab-stage { overflow: visible; }
+
+#tip {
+  position: fixed; z-index: 50; pointer-events: none;
+  display: none; gap: .5rem; align-items: baseline;
+  padding: .3rem .5rem;
+  background: var(--paper-3); border: 1px solid var(--rule); border-radius: 3px;
+  font-family: var(--mono); font-size: .62rem; letter-spacing: .04em;
+  text-transform: uppercase; color: var(--ink); white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .35);
+}
+#tip[data-on="1"] { display: flex; }
+#tip .tip-verdict { color: var(--accent); }
+#tip .tip-cues { color: var(--ink-dim); }
 
 /* ---------------------------------------------------------------- controls + walk */
 

@@ -1,0 +1,1220 @@
+<!-- capart built: 2026-08-19 -->
+<title>Retribution Scenario Stepper</title>
+<style>
+/* GENERATED from specs/render-shelf.md Part 6 — do not edit here, edit the shelf. */
+:root {
+  --icon: 56px;
+  --row-gap: 6px;
+  --border-px: 1px;
+  --swipe-color: rgba(0,0,0,0.72);
+  /* A scenario states `cd`, never a time, so the dial is drawn at a nominal
+     fraction: it means "ruled out", nothing more. Not a shelf value. */
+  --swipe-frac: 0.62turn;
+
+  /* V2 · in the scan. One hue, no roles, no motion: an icon either participates in
+     the read or it does not. Additive at full brightness on a restrained AREA — a hot
+     edge, not a wash — and drawn ON the rect, so no row gap can be too small. */
+  --ready-rgb: 255,219,115;
+  --ready-alpha: 1.00;
+  --ready-line: 2px;
+
+  /* V5 · corner badges. Slot 1 overhangs the top-right corner by --badge-over;
+     2 steps left along the top edge, 3 steps down the right edge. */
+  --badge-d: 22.40px;
+  --badge-over: 2px;
+  --badge-step: 25.40px;
+  --badge-inset: 16%;
+  --badge-tint: rgba(242,76,76,1.0);
+  --plate: rgba(0,0,0,0.78);
+  --plate-scale: 1.12;
+  --badge-halo-stop: 70%;
+  --cue-capped-tint: rgba(255,199,64,1.0);
+  --cue-capped-glow-dur: 0.8333s;
+  --cue-capped-glow-a0: 0.15;
+  --cue-capped-glow-a1: 0.55;
+  --cue-capped-glow-scale: 1.55;
+
+  /* V11 + Part 7 · the stripe sheet. The mask URI is set inline by stepper.js (it
+     is a build-time data: URI, not a shelf value); the geometry is the shelf's. */
+  --lab-stripe-tile: 128px;
+  --lab-stripe-pitch: 16px;
+  --hatch-rgb: rgba(0,0,0,0.5);
+  --hatch-phase: 8.00px;
+  --lab-stripes-l3-hold-rgb: rgba(242,76,76,0.45);
+  --lab-stripes-l3-hold-phase: 0.00px;
+  --lab-stripes-l5-starved-rgb: rgba(242,76,76,0.45);
+  --lab-stripes-l5-starved-phase: 0.00px;
+  --lab-ready-halo-rgb: rgba(255,219,115,1.0);
+  --lab-ready-halo-phase: 0.00px;
+  --lab-ready-hairline-rgb: rgba(255,219,115,1.0);
+  --lab-ready-hairline-phase: 0.00px;
+  --lab-ready-altglow-rgb: rgba(255,219,115,1.0);
+  --lab-ready-altglow-phase: 0.00px;
+  --lab-ready-breathe-rgb: rgba(255,219,115,1.0);
+  --lab-ready-breathe-phase: 0.00px;
+
+  /* Part 7 · ready-halo */
+  --lab-ready-halo-rgb: 255,219,115;
+  --lab-ready-halo-rest: 0.26;
+  --lab-ready-halo-flare: 1.00;
+  --lab-ready-halo-glow: 7px;
+  --lab-ready-halo-flare-glow: 12.6px;
+  --lab-ready-halo-decay: 0.90s;
+
+  /* Part 7 · ready-hairline */
+  --lab-ready-hairline-rgb: 255,219,115;
+  --lab-ready-hairline-rest: 1.00;
+  --lab-ready-hairline-flare: 1.00;
+  --lab-ready-hairline-line: 1px;
+
+  /* Part 7 · ready-altglow */
+  --lab-ready-altglow-rgb: 255,219,115;
+  --lab-ready-altglow-rest: 0.62;
+  --lab-ready-altglow-flare: 0.62;
+  --lab-ready-altglow-glow: 11px;
+
+  /* Part 7 · ready-breathe */
+  --lab-ready-breathe-rgb: 255,219,115;
+  --lab-ready-breathe-rest: 0.40;
+  --lab-ready-breathe-flare: 1.00;
+  --lab-ready-breathe-glow: 12px;
+  --lab-ready-breathe-period: 2.60s;
+}
+</style>
+<style>
+/* Combat Assist Plus — preview stylesheet.
+ *
+ * ⚠ NO LITERAL COLORS, SIZES OR RATES BELOW, except inside the CHROME block, which is
+ * page furniture (paper, ink, rules) and not cap's look. Everything that describes how
+ * cap draws comes through a custom property that `wowkb.capart` emits from
+ * `specs/render-shelf.md` Part 6. `capart check --strict-css` enforces this: a literal
+ * hex outside the chrome block fails the build, which is what stops this file from
+ * quietly re-acquiring the opinions the shelf is supposed to own.
+ */
+
+/* ===== CHROME START — page furniture, exempt from --strict-css ===== */
+:root {
+  --paper: #14161c;
+  --paper-2: #1b1e26;
+  --paper-3: #232733;
+  --rule: #333a4a;
+  --ink: #e6e9f0;
+  --ink-dim: #9aa3b6;
+  --ink-faint: #6b7488;
+  --accent: #8fb8ff;
+  --warn: #ffc766;
+  --warn-bg: #3a2f14;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+:root[data-theme="light"] {
+  --paper: #f7f8fa;
+  --paper-2: #ffffff;
+  --paper-3: #eef0f5;
+  --rule: #d3d8e2;
+  --ink: #171a21;
+  --ink-dim: #545c6e;
+  --ink-faint: #838b9c;
+  --accent: #2b5fbf;
+  --warn: #8a5a00;
+  --warn-bg: #fdf1d6;
+}
+/* ===== CHROME END ===== */
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap { max-width: 68rem; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
+
+h1 { font-size: 1.65rem; margin: 0 0 .35rem; letter-spacing: -.01em; }
+h2 {
+  font-size: 1.05rem; margin: 3rem 0 .75rem; padding-bottom: .4rem;
+  border-bottom: 1px solid var(--rule); letter-spacing: .02em; text-transform: uppercase;
+  color: var(--ink-dim);
+}
+h3 { font-size: 1rem; margin: 1.75rem 0 .5rem; }
+p { margin: .55rem 0; }
+code { font-family: var(--mono); font-size: .87em; background: var(--paper-3); padding: .1em .35em; border-radius: 3px; }
+a { color: var(--accent); }
+.lede { color: var(--ink-dim); max-width: 46rem; }
+.muted { color: var(--ink-faint); font-size: .82rem; }
+
+/* ---------------------------------------------------------------- the CDM row
+ * A Cooldown Manager item, at the size the client draws it. Every dimension is a
+ * token; nothing here is chosen by this file.
+ */
+
+.stage {
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 1.5rem 1.25rem;
+  overflow-x: auto;
+}
+
+.cdm-row {
+  display: flex;
+  gap: var(--row-gap);
+  align-items: center;
+  width: max-content;
+  min-height: calc(var(--icon) * 2);
+  padding: calc(var(--icon) * .5) calc(var(--icon) * .5);
+}
+.cdm-row[data-zoom="2"] { zoom: 2; }
+
+.item {
+  position: relative;
+  width: var(--icon);
+  height: var(--icon);
+  flex: 0 0 auto;
+  transform: scale(var(--item-scale, 1));
+  transition: transform .12s ease;
+}
+
+.item .art {
+  position: absolute; inset: 0;
+  border-radius: 2px;
+  overflow: hidden;
+  /* the CDM icon's own thin edge — Blizzard's furniture, drawn from the chrome palette */
+  border: var(--border-px) solid var(--rule);
+  background-size: cover;
+  /* Blizzard's own baseline, both channels of it (cooldown-manager.md §3.4). `--desat` is
+   * desaturate-on-cooldown; the multiply is RefreshIconColor's vertex tint, and it is a
+   * MULTIPLY because SetVertexColor is one. Both are set inline from `D.client_paint`, which
+   * is why no value appears here: these are Blizzard's numbers, not this file's opinions. */
+  filter: grayscale(var(--desat, 0));
+  background-blend-mode: multiply;
+}
+
+/* Blizzard's own dial. cap does not draw it and does not restyle it (shelf V7); it is
+ * here so the row reads like the row. A scenario states "on cooldown", never a time, so
+ * the sweep is drawn at a nominal fraction and means nothing more than "ruled out". */
+.item .swipe {
+  position: absolute; inset: 0;
+  border-radius: 2px;
+  background: conic-gradient(var(--swipe-color) 0turn var(--swipe-frac), transparent var(--swipe-frac) 1turn);
+}
+
+/* Diagonal stripes — V11's cooldown hatch, and Part 7's remaining lab entries.
+ *
+ * ⚠ This block used to say "LAB, not the style, nothing above Part 7 draws this." That stopped
+ * being true on 2026-08-16, when L4 was promoted to V11 and took the sheet with it. The rule that
+ * still holds is the one below: no shared striped state.
+ *
+ * The same tint recipe `.item .sprite` uses, with the mask REPEATING instead of contained: one
+ * tileable white-alpha sheet, `background-color` supplying the colour the way SetVertexColor's
+ * multiply would, and `mask-position` supplying the phase the way SetTexCoord would. Both the
+ * colour and the phase arrive per-layer as `--stripe-*`, which `stepper.js` points at ONE render's
+ * own custom properties — there is no shared striped state for two renders to collide in.
+ */
+.item .stripes, .lab-sheet {
+  position: absolute; inset: 0; pointer-events: none; border-radius: 2px;
+  background-color: var(--stripe-rgb);
+  -webkit-mask-size: var(--lab-stripe-tile); mask-size: var(--lab-stripe-tile);
+  -webkit-mask-repeat: repeat; mask-repeat: repeat;
+  -webkit-mask-position: var(--stripe-phase) 0; mask-position: var(--stripe-phase) 0;
+}
+/* The bare sheet, shown as its own swatch so pitch and angle are visible rather than inferred. */
+.lab-sheet {
+  position: relative;
+  width: var(--icon); height: var(--icon);
+  border: var(--border-px) solid var(--rule);
+}
+
+/* V5 · corner badges — OS-notification style, hung off the TOP-RIGHT corner.
+ *
+ * Slot 1's right edge sits --badge-over past the icon's right edge and its top edge the same
+ * distance above the top, so it reads as ON the icon rather than inside it. Slot 2 steps one
+ * diameter+padding left along the top; slot 3 the same distance down the right.
+ */
+.item .slot {
+  position: absolute;
+  width: var(--badge-d); height: var(--badge-d);
+  border-radius: 50%;
+  pointer-events: none;
+  /* Own stacking context, so the glow's z-index:-1 puts it behind the plate WITHIN the badge
+   * rather than behind the ability icon, where it would be invisible. */
+  isolation: isolate;
+}
+.item .slot[data-slot="1"] { top: calc(var(--badge-over) * -1); right: calc(var(--badge-over) * -1); }
+.item .slot[data-slot="2"] { top: calc(var(--badge-over) * -1); right: calc(var(--badge-step) - var(--badge-over)); }
+.item .slot[data-slot="3"] { top: calc(var(--badge-step) - var(--badge-over)); right: calc(var(--badge-over) * -1); }
+
+/* Contrast plate: additive/light art over busy icon work washes out, and a dark disc is the
+ * cheap fix — contrast, not more light (CDMProbe, learned the expensive way). */
+.item .slot::before {
+  content: ""; position: absolute; inset: 0; border-radius: 50%;
+  transform: scale(var(--plate-scale));
+  background: var(--plate);
+}
+/* The sprite, inset inside the disc so a square glyph fits within the circle instead of poking
+ * out at the corners. White-with-shape-in-alpha art tinted by mask + background-color, which for
+ * white art IS what SetVertexColor's multiply produces. Not a hue-rotate. */
+.item .sprite {
+  position: absolute; inset: var(--badge-inset);
+  background-color: var(--slot-tint, var(--badge-tint));
+  -webkit-mask-image: var(--frame); mask-image: var(--frame);
+  -webkit-mask-size: contain; mask-size: contain;
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  -webkit-mask-position: center; mask-position: center;
+}
+
+/* The glow, drawn UNDER the plate and the glyph so it reads as light escaping from behind the
+ * badge rather than as a wash over it. Only the halo breathes — the glyph holds full alpha, so
+ * the fact the cue carries never blinks. The one positive cue in the vocabulary is the only
+ * thing that wears this, by design: it is the "you are losing something right now" channel and
+ * it is allowed to move because it must survive peripheral vision. */
+.item .slot .glow {
+  position: absolute; inset: 0; border-radius: 50%; z-index: -1;
+  background: radial-gradient(circle, var(--slot-tint, var(--badge-tint)) 0%, transparent var(--badge-halo-stop));
+  transform: scale(var(--g-scale));
+  animation: capglow var(--g-dur) ease-in-out infinite alternate;
+}
+@keyframes capglow {
+  from { opacity: var(--g-a0); }
+  to   { opacity: var(--g-a1); }
+}
+
+/* An `open` primitive draws, but never without saying it is unproven. Nothing declares `open`
+ * today; the mechanism is kept because it is how the preview refuses to lie about an unmeasured
+ * primitive, and the next one that needs it will find it working. */
+.item .slot[data-open="1"] { outline: 1px dashed var(--warn); outline-offset: 1px; }
+
+.item[data-open="1"]::after {
+  content: "⚠";
+  position: absolute; right: -.35rem; bottom: -.55rem;
+  font-size: .62rem; line-height: 1;
+  background: var(--warn-bg); color: var(--warn);
+  border-radius: 2px; padding: .1em .2em;
+}
+
+/* ---------------------------------------------------------------- row labels */
+
+/* A lane is EXACTLY one icon wide. Nothing in it may be wider, or the row stops
+ * reproducing the client's fixed icon pitch — which is what a caption did until
+ * 2026-08-18. The name and the verdict live in the hover tip instead: printing the
+ * answer beside the icon defeats the row, whose whole question is whether the
+ * decorations carry it unaided. */
+.lane {
+  width: var(--icon);
+  position: relative;
+  display: flex; flex-direction: column; align-items: center;
+}
+/* The walk's cursor. A mark, not a label — it names nothing. */
+.lane[data-active="1"]::after {
+  content: ""; position: absolute; top: 100%; left: 50%;
+  transform: translateX(-50%); margin-top: .3rem;
+  width: 60%; height: 2px; border-radius: 1px; background: var(--ink);
+}
+.lane[data-dimmed="1"] { opacity: .45; }
+
+/* ---------------------------------------------------- Part 7 · the readiness treatments
+ *
+ * `mix-blend-mode: plus-lighter` is the exact CSS analogue of SetBlendMode("ADD") — it ADDS
+ * the layer's light rather than compositing over. That difference is the whole reason these
+ * entries exist: an ADD layer at low alpha reads as dim LIGHT, where a BLEND layer at low
+ * alpha reads as a faded sticker. Blizzard's loud proc flipbook is BLEND with bright art; its
+ * quiet cues (SpellHighlightTexture, the RotationHelper glow) are ADD at 0.4–0.6.
+ *
+ * ⚠ Additive over a DARK page flatters itself. In client the row sits over arbitrary world
+ * art, and a halo that reads beautifully here can vanish over a lit floor. That is a gallery
+ * question, not a browser one.
+ */
+
+/* An OUTER shadow is clipped out from under its own border-box, so every pixel of it lands
+ * OUTSIDE the icon — none is spent under art that would hide it, and the peak sits AT the
+ * icon edge where the light should be brightest. A centred radial-gradient gets this exactly
+ * wrong: its core hides under the icon and only the faint tail escapes. */
+.ready-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 3px;
+  box-shadow: 0 0 var(--rg-spread) rgba(var(--rg-rgb), .9);
+  mix-blend-mode: plus-lighter;
+  opacity: var(--rg-rest);
+  pointer-events: none;
+}
+/* The flare is a one-shot that DECAYS TO THE FLOOR, not to nothing — `forwards` is what
+   leaves the resting glow standing once the animation is done. */
+.ready-glow[data-flare="1"] {
+  animation: ready-flare var(--rg-decay) ease-out forwards;
+}
+@keyframes ready-flare {
+  0%   { opacity: var(--rg-flare);
+         box-shadow: 0 0 var(--rg-flare-spread) rgba(var(--rg-rgb), .9); }
+  100% { opacity: var(--rg-rest);
+         box-shadow: 0 0 var(--rg-spread) rgba(var(--rg-rgb), .9); }
+}
+/* The breathe never reaches zero: a floor is what separates "varying" from "blinking". */
+.ready-glow[data-breathe="1"] {
+  animation: ready-breathe var(--rg-period) ease-in-out infinite alternate;
+  animation-delay: var(--rg-phase, 0s);
+}
+@keyframes ready-breathe {
+  from { opacity: var(--rg-rest); }
+  to   { opacity: var(--rg-peak); }
+}
+/* Burst, then loop — the same hand-off the client makes, where ProcStartAnim's OnFinished
+ * starts ProcLoop. Here the loop is simply DELAYED by the burst's own duration: an animation
+ * with the default `fill-mode` does not touch its property before it starts, so the flare owns
+ * the opacity alone until it has decayed, and the cycle takes over from the floor it landed on.
+ * Two attribute selectors, so this outranks the single-treatment rules above. */
+.ready-glow[data-flare="1"][data-breathe="1"] {
+  animation: ready-flare var(--rg-decay) ease-out forwards,
+             ready-breathe var(--rg-period) ease-in-out
+               calc(var(--rg-decay) + var(--rg-phase, 0s)) infinite alternate;
+}
+
+/* Area, not alpha. A hairline sits ON the icon edge at full brightness and has no falloff,
+   so it cannot bleed into a neighbour at any gutter. */
+.ready-line {
+  position: absolute; inset: 0;
+  border: var(--rl-line) solid rgba(var(--rl-rgb), var(--rl-rest));
+  mix-blend-mode: plus-lighter;
+  pointer-events: none;
+}
+
+/* A readiness row draws its icons at the REAL pitch — icon + row gap — because the only
+   honest version of the candles test is the spacing the client actually uses. */
+.ready-row { display: flex; gap: var(--row-gap); }
+/* The halo overhangs its icon, so the stage may not clip it. */
+.lab-stage { overflow: visible; }
+
+#tip {
+  position: fixed; z-index: 50; pointer-events: none;
+  display: none; gap: .5rem; align-items: baseline;
+  padding: .3rem .5rem;
+  background: var(--paper-3); border: 1px solid var(--rule); border-radius: 3px;
+  font-family: var(--mono); font-size: .62rem; letter-spacing: .04em;
+  text-transform: uppercase; color: var(--ink); white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .35);
+}
+#tip[data-on="1"] { display: flex; }
+#tip .tip-verdict { color: var(--accent); }
+#tip .tip-cues { color: var(--ink-dim); }
+
+/* ---------------------------------------------------------------- controls + walk */
+
+.controls { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; margin: 1rem 0; }
+button {
+  font: inherit; font-size: .82rem;
+  background: var(--paper-3); color: var(--ink);
+  border: 1px solid var(--rule); border-radius: 5px;
+  padding: .3rem .7rem; cursor: pointer;
+}
+button:hover { border-color: var(--accent); }
+button[aria-pressed="true"], button.on { background: var(--accent); color: var(--paper); border-color: var(--accent); }
+select { font: inherit; font-size: .82rem; background: var(--paper-3); color: var(--ink);
+         border: 1px solid var(--rule); border-radius: 5px; padding: .3rem .5rem; }
+
+.walk { margin-top: 1.25rem; display: grid; gap: .4rem; }
+.step {
+  display: grid; grid-template-columns: 1.6rem 1fr; gap: .6rem;
+  padding: .5rem .7rem; border-radius: 6px;
+  border: 1px solid transparent;
+  color: var(--ink-dim);
+}
+.step .n { font-family: var(--mono); font-size: .8rem; color: var(--ink-faint); }
+.step[data-active="1"] { background: var(--paper-3); border-color: var(--rule); color: var(--ink); }
+.step[data-future="1"] { opacity: .45; }
+
+.state {
+  background: var(--paper-3); border-left: 2px solid var(--rule);
+  padding: .6rem .85rem; border-radius: 0 6px 6px 0; margin: .75rem 0;
+  font-size: .9rem; color: var(--ink-dim);
+}
+
+.aside { margin-top: 1rem; font-size: .88rem; color: var(--ink-dim); }
+.aside b { color: var(--ink); font-weight: 600; }
+
+.note {
+  border: 1px solid var(--warn); background: var(--warn-bg); color: var(--warn);
+  border-radius: 6px; padding: .6rem .85rem; font-size: .85rem; margin: 1rem 0;
+}
+
+/* ---------------------------------------------------------------- gallery */
+
+.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr)); gap: 1rem; }
+.swatch {
+  background: var(--paper-2); border: 1px solid var(--rule); border-radius: 8px;
+  padding: 1.1rem .75rem .75rem;
+  display: flex; flex-direction: column; align-items: center; gap: .55rem;
+}
+.swatch .name { font-family: var(--mono); font-size: .72rem; color: var(--ink); text-align: center; }
+.swatch .why  { font-size: .72rem; color: var(--ink-faint); text-align: center; line-height: 1.35; }
+
+/* ---------------------------------------------------------------- provenance */
+
+.prov { margin-top: 3rem; border-top: 1px solid var(--rule); padding-top: 1rem; }
+.prov table { border-collapse: collapse; width: 100%; font-size: .78rem; font-family: var(--mono); }
+.prov td, .prov th { text-align: left; padding: .28rem .6rem .28rem 0; vertical-align: top;
+                     border-bottom: 1px solid var(--rule); color: var(--ink-dim); }
+.prov th { color: var(--ink-faint); font-weight: 500; }
+.scroll { overflow-x: auto; }
+
+/* ---------------------------------------------------------------- Part 7 · the lab
+ *
+ * Experiments. Same rule as everything else in this file: no number here, every value arrives as
+ * a custom property that capart emitted from the shelf's `lab` block. The visual separation is
+ * deliberate — a reader must never mistake a lab entry for the style.
+ *
+ * The stripe rules themselves live beside `.item .sprite` above, because they are a variation on
+ * that one tint recipe and splitting them apart would hide that. What is here is the section's
+ * own furniture: the entry box, its cells, and the "nothing here" note an empty lab still needs.
+ */
+
+.labtag {
+  font-family: var(--mono); font-size: .6rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .08em;
+  color: var(--warn); background: var(--warn-bg);
+  border: 1px solid var(--warn); border-radius: 999px;
+  padding: .12rem .5rem; vertical-align: middle; margin-left: .5rem;
+}
+
+.lab-entry { margin: 2rem 0; border: 1px dashed var(--warn); border-radius: 10px;
+             background: var(--paper-2); padding: 1rem 1.1rem 1.2rem; }
+.lab-entry > h3 { margin: 0 0 .2rem; font-size: 1rem; }
+.lab-entry > h3 .key { font-family: var(--mono); font-size: .78rem; color: var(--ink-faint); }
+.lab-entry .asks { margin: .1rem 0 1rem; font-size: .82rem; color: var(--ink-dim);
+                   border-left: 2px solid var(--warn); padding-left: .7rem; }
+.lab-entry .asks b { color: var(--ink); }
+.lab-empty { border: 1px dashed var(--rule); border-radius: 10px; background: var(--paper-2);
+             padding: 1rem 1.1rem; color: var(--ink-dim); font-size: .88rem; }
+.lab-empty b { color: var(--ink); }
+
+.lab-row { display: flex; flex-wrap: wrap; gap: 1.6rem; align-items: flex-start; }
+.lab-cell { display: flex; flex-direction: column; align-items: center; gap: .5rem;
+            width: 10.5rem; }
+.lab-cell .cap { font-size: .7rem; color: var(--ink-faint); text-align: center; line-height: 1.4; }
+.lab-cell .cap b { color: var(--ink-dim); font-weight: 600; }
+.lab-cell .cap code { font-family: var(--mono); font-size: .95em; }
+.lab-stage { padding: .9rem; }
+
+/* ---------------------------------------------------------------- swatch furniture */
+
+.swatch-stage { display: flex; align-items: center; justify-content: center;
+                gap: var(--row-gap); }
+.frames { display: flex; gap: .35rem; align-items: center; justify-content: center; }
+.frames .f { width: 1.4rem; height: 1.4rem; border-radius: 50%; position: relative;
+             background: var(--paper-3); }
+.frames .f i { position: absolute; inset: 18%; display: block; }
+
+</style>
+
+<div class="wrap">
+
+  <h1>Retribution Scenario Stepper</h1>
+  <p class="lede">
+    13 states of one Cooldown&nbsp;Manager row, walked left to right. Each icon carries a
+    <b>verdict</b> — what Combat&nbsp;Assist&nbsp;Plus concluded about that button — and the walk names why
+    every <em>available</em> button is skipped until the press.
+  </p>
+  <p class="lede">
+    <b>The reading model: scan left to right and press the first button that is not ruled out.</b>
+    The press is not something cap draws — <code>press</code>, <code>press-promoted</code> and
+    <code>below</code> render identically. Blizzard's <b>swipe</b> says <em>skip this</em>; a
+    <b>red badge</b> says <em>skip this, and why</em>. Every cue is negative: a satisfied dependency
+    draws nothing at all.
+  </p>
+  <p class="muted">
+    Rendered from <code>specs/retribution/scenarios.md</code> and <code>specs/render-shelf.md</code>. Real
+    Blizzard icon art at the client's 56&nbsp;px, real vendored sprite frames at their real frame
+    counts, and cap's treatments composited the way the client composites them —
+    <code>SetVertexColor</code> as a multiply, never a hue rotation. This is a preview of what the
+    addon would draw, not a diagram of it.
+  </p>
+
+  <h2>The row, in a state</h2>
+
+  <div class="controls">
+    <select id="pick" aria-label="Scenario"></select>
+    <button id="prev">‹ Back</button>
+    <button id="next">Step ›</button>
+    <button id="all">Show whole row</button>
+    <button id="zoom" aria-pressed="false">2×</button>
+  </div>
+
+  <div class="state" id="state"></div>
+
+  <div class="stage">
+    <div class="cdm-row" id="row" data-zoom="1"></div>
+  </div>
+
+  <div class="walk" id="walk"></div>
+  <div id="extras"></div>
+
+  <h2>Primitives</h2>
+  <p class="lede">
+    Every primitive the shelf declares, as a live swatch — including the ones no scenario above
+    exercises. A shelf edit always lands somewhere visible here.
+  </p>
+  <div class="gallery" id="gallery"></div>
+
+  <h3>The badge art, frame by frame</h3>
+  <p class="muted">
+    Kenney <b>Board Game Icons</b> (CC0), vendored beside the preview. White with the shape in the
+    alpha channel — measured saturation 0.000 — which is what lets
+    <code>SetVertexColor</code>'s multiply take them to the one authored red at full strength.
+    A <code>tint: "lane"</code> declaration on art that measured otherwise is a hard build error.
+  </p>
+  <div class="gallery" id="frames"></div>
+
+  <h2>Verdicts</h2>
+  <p class="lede">
+    The closed vocabulary. A verdict says what cap concluded; the shelf says what that looks like.
+  </p>
+  <div class="scroll"><table class="prov" id="verdicts"></table></div>
+
+  <h2>The lab <span class="labtag">no authority</span></h2>
+  <p class="lede">
+    <b>Everything above this line is the style. Nothing below it is.</b> These are experiments —
+    drawn so they can be looked at, not adopted. Nothing a scenario can reach may reference them
+    (<code>capart build</code> errors if it does), they never appear in a CDM row above, and a
+    treatment leaves here by being <em>moved</em> into the declared style, never by being cited
+    from here. Each entry states the question it exists to answer.
+  </p>
+  <div id="lab"></div>
+
+  <div class="prov" id="prov"></div>
+
+</div>
+
+<script type="application/json" id="cap-tokens">{"version":2,"ready":{"_comment":"IN THE SCAN. One treatment, no roles, no motion. An icon either participates in the read or it does not; rank comes from row order and elimination, not from a hue ladder. Full brightness on a restrained AREA: additive, so it reads as a hot edge rather than as a wash, and it sits ON the icon rect so it can never bleed into a neighbour at any row gap.","rgb":[1.0,0.86,0.45],"alpha":1.0,"line_px":2},"ring":{"texture":"ring","tile_px":64,"grid":4,"frames":16,"thickness_px":2,"corner_px":4,"travel_px":5,"gutter_px":1,"tint":"shelf"},"motion":{"tick_s":0.025},"arrival":{"from_scale":2.0,"duration_s":0.4,"smoothing":"OUT","from_alpha":0.0},"text":{"max_hz":2.0,"duty":0.7,"alpha_floor":0.65},"badges":{"diameter_pct":40,"overhang_px":2,"padding_px":3,"sprite_inset_pct":16,"rgb":[0.95,0.3,0.3],"tint":"shelf","plate":{"rgb":[0.0,0.0,0.0],"alpha":0.78,"scale":1.12},"halo_falloff":0.7,"asset_root":"previews/assets/kenney","slots":[{"id":1,"anchor":"top-right-corner"},{"id":2,"anchor":"left-of-1-along-top"},{"id":3,"anchor":"below-1-along-right"}]},"cues":{"blocked":{"means":"held for a cooldown, or a readable dependency says the press would be wasted. The sweep is a steady pace, NOT elapsed time.","polarity":"negative","frames":["timer_0","timer_CW_25","timer_CW_50","timer_CW_75","timer_100"],"duration_s":2.0,"loop":"REPEAT","slot":1,"open":false},"starved":{"means":"you cannot afford it","polarity":"negative","frames":["flask_empty","flask_half"],"duration_s":1.2,"loop":"BOUNCE","slot":2,"open":false},"overcap":{"means":"pressing would waste resource","polarity":"negative","frames":["flask_half","flask_full"],"duration_s":1.2,"loop":"BOUNCE","slot":2,"open":false},"capped":{"means":"charges are at max and the recharge is stalled \u2014 you are losing one right now","polarity":"positive","rgb":[1.0,0.78,0.25],"glow":{"hz":1.2,"alpha_min":0.15,"alpha_max":0.55,"scale":1.55},"frames":["cards_stack","cards_stack_high"],"duration_s":1.2,"loop":"BOUNCE","slot":3,"open":false}},"hatch":{"texture":"stripes","tile_px":128,"pitch_px":16,"duty":0.5,"direction":"down","rgb":[0.0,0.0,0.0],"alpha":0.5,"phase_pct":50,"tint":"shelf"},"panel":{"icon_px":50,"gap_px":6,"anchor":"BOTTOM","x":0,"y":190,"grow":"RIGHT"},"verdicts":{"cd":{"scan":false,"swipe":true,"hatch":true,"cues":[]},"weave":{"scan":true,"swipe":false,"cues":[]},"hold-readable":{"scan":true,"swipe":false,"cues":["blocked"]},"hold-sealed":{"scan":true,"swipe":false,"cues":["blocked"]},"starved":{"scan":true,"swipe":false,"cues":["starved"]},"overcap":{"scan":true,"swipe":false,"cues":["overcap"]},"press":{"scan":true,"swipe":false,"cues":[]},"press-promoted":{"scan":true,"swipe":false,"cues":[]},"below":{"scan":true,"swipe":false,"cues":[]}},"surfaces":{"icon_px":56,"row_gap_px":6,"border_px":1,"swipe":{"color":[0.0,0.0,0.0],"alpha":0.72},"count_tile":{"font":"FRIZQT__.TTF","size":14,"outline":"OUTLINE"},"proc_glow_alpha":0.5},"assets":{"icon_size":56,"encode":"webp","quality":90},"budget":{"max_base64_kb":512},"lab":{"_comment":"NO AUTHORITY. Part 7. Nothing in `verdicts` or `cues` may name anything in here; capart enforces it. A treatment leaves the lab by being MOVED into Parts 1-6, never by being cited from here. The stripe entries below draw on `tokens.hatch`'s sheet, which is the STYLE's \u2014 a lab entry citing the style is the legal direction.","_arrival_stage":{"neighbours":2},"stripes-l3-hold":{"draws":"stripes","title":"Red stripes on a sequencing hold","asks":"When cap is holding a button for something else, does a stated condition across the face read better than a badge alone \u2014 and does it still read as *held for a reason* rather than as *broken*?","rgb":[0.95,0.3,0.3],"alpha":0.45,"phase_pct":0,"cells":[{"kind":"icon","ability":"The Hunt","verdict":"hold-readable","stripes":["self"],"caption":"<b>readable hold</b> \u2014 the corner badge says <em>why</em>, the stripes say <em>not this</em>. Both, on one icon."},{"kind":"icon","ability":"Essence Break","verdict":"hold-sealed","stripes":["self"],"caption":"<b>sealed hold</b> \u2014 the same statement drawn from a sealed fact. If the two holds do not look alike here, the player is being asked to decode where the fact came from."},{"kind":"icon","ability":"The Hunt","verdict":"below","cues":[],"stripes":[],"caption":"<b>control</b> \u2014 the same icon untreated. The comparison is the point; a treatment that only reads beside its own caption has not read."},{"kind":"sheet","caption":"the tiling sheet itself, at this entry's colour \u2014 pitch and angle, unmasked by any icon."}]},"stripes-l5-starved":{"draws":"stripes","title":"Red stripes on `starved`","asks":"Does the same red that marks a hold also read as *you cannot afford this*, with only the badge to separate them \u2014 or does one red across two different reasons under-differentiate?","rgb":[0.95,0.3,0.3],"alpha":0.45,"phase_pct":0,"cells":[{"kind":"icon","ability":"Chaos Strike","verdict":"starved","stripes":["self"],"caption":"<b>cannot afford it</b> \u2014 a Fury spender short of its cost, drawn by its own render with its own parameters."},{"kind":"icon","ability":"Chaos Strike","verdict":"below","cues":[],"stripes":[],"caption":"<b>control</b> \u2014 affordable, untreated."},{"kind":"sheet","caption":"the sheet at this entry's colour \u2014 the same red and the same phase as L3, because it is the same kind of statement."}]},"arrival-control-sweep":{"draws":"arrival-sweep","title":"The declared snap at four from_scale values, alone and beside neighbours","asks":"Is the `#` the overhang? Today's border is drawn 2.00x on a frame 2px narrower than the row pitch, so it crosses its neighbours and their static borders. If the hash is absent in isolation at every value and appears beside neighbours only above the low values, the diagnosis holds and the fix is one number \u2014 and the three variants below are unnecessary.","from_scale_sweep":[2.0,1.5,1.25,1.1]},"arrival-b-relative":{"draws":"arrival-relative","title":"The ring built from anchors alone \u2014 thickness as an offset, no SetWidth/SetHeight","asks":"Does a strip that takes all four of its extents from anchors scale differently from one that takes a thickness from SetWidth/SetHeight? Pixel-identical at rest by construction; the question is whether the Scale animation treats the two the same. A negative result exonerates the ring construction in the client rather than only on paper."},"arrival-c-thickness":{"draws":"arrival-thickness","title":"No Scale animation at all \u2014 a fat ring flashed alpha-only over the resting one","asks":"Read as arrival without any geometry moving? Two pre-built rings, the resting one and a fat one; the fat one rests at alpha 0 and is flashed up and back. The border never exceeds its own rect, so it can never touch a neighbour at any value.","fat_mult":3.0,"duration_s":0.35},"arrival-d-ghost":{"draws":"arrival-ghost","title":"A ghost ring pings outward and fades; the declared border never animates","asks":"Does an outward ping read as arrival better than an inward snap, and does it stay off the neighbours? The declared border is built as today and never touched; a second frame carries its own ring and is the only thing that scales.","from_scale":1.0,"to_scale":1.25,"from_alpha":1.0,"to_alpha":0.0,"duration_s":0.35,"smoothing":"OUT"},"ready-halo":{"draws":"ready-glow","title":"An additive outer halo that flares on arrival, then decays to a resting floor","asks":"Can a glow OUTSIDE the icon rect say `ready` without saying `press now`? The flare spends the arrival budget and then decays to rest_alpha rather than to nothing, so the resting row still reads as lit. The failure to watch for is the candles verdict: four of these at once smearing into one lit region rather than four ready buttons.","rgb":[1.0,0.86,0.45],"inner_border":false,"rest_alpha":0.26,"flare_alpha":1.0,"glow_px":7,"flare_mult":1.8,"decay_s":0.9,"cells":[{"ability":"Eye Beam","verdict":"press","caption":"Alone \u2014 the flare, then the resting floor."},{"kind":"row","abilities":["Eye Beam","Blade Dance","Chaos Strike","Felblade"],"verdict":"below","caption":"Four ready at the true row pitch \u2014 <b>the candles test</b>. If this reads as one lit region rather than four lit buttons, the halo is too wide for a 6\u202fpx gutter."}]},"ready-hairline":{"draws":"ready-line","title":"Full brightness, restrained area \u2014 a 1px hot line at the icon edge","asks":"Does holding luminance and cutting AREA read as bright-but-quiet, where cutting alpha read as ghosted? Perceived glow is roughly luminance times area, so this keeps the first and spends the second. It also cannot smear: a hairline has no falloff to overlap a neighbour with.","rgb":[1.0,0.86,0.45],"inner_border":false,"rest_alpha":1.0,"line_px":1,"cells":[{"ability":"Eye Beam","verdict":"press","line_px":1,"caption":"<b>1px</b> \u2014 no flare, no motion, full brightness."},{"ability":"Eye Beam","verdict":"press","line_px":2,"caption":"<b>2px</b>"},{"ability":"Eye Beam","verdict":"press","line_px":3,"caption":"<b>3px</b>"},{"kind":"row","abilities":["Eye Beam","Blade Dance","Chaos Strike","Felblade"],"verdict":"below","caption":"Four at once. A hairline cannot bleed, so the question here is the opposite one: is it still visible in peripheral vision?"}]},"ready-altglow":{"draws":"ready-glow","title":"Blizzard's own downgrade \u2014 a static halo with no animation at all","asks":"Is the loud part the GLOW or the MOTION? This is ProcAltGlow's answer transcribed: keep a small glow, delete every animation. It is the control for ready-halo \u2014 if the static version reads as ready just as well, the flare is decoration and the arrival belongs to the border alone.","rgb":[1.0,0.86,0.45],"inner_border":false,"rest_alpha":0.62,"glow_px":11,"cells":[{"ability":"Eye Beam","verdict":"press","caption":"Alone \u2014 static. Nothing here moves, ever."},{"kind":"row","abilities":["Eye Beam","Blade Dance","Chaos Strike","Felblade"],"verdict":"below","caption":"Four at once, all static. A resting row that never changes is the cheapest thing to ignore \u2014 which may be the point, or may be the defect."}]},"ready-breathe":{"draws":"ready-glow","title":"A low-intensity breathe with a non-zero floor","asks":"Does a slow breathe between a floor and full read as `alive and ready` rather than `press now`? The floor is what separates this from a blink: the treatment is never absent, only varying. The rate is deliberately slower than a proc loop \u2014 the question is whether ANY periodic motion reads as urgency once four of them are running out of phase.","rgb":[1.0,0.86,0.45],"inner_border":false,"rest_alpha":0.4,"flare_alpha":1.0,"glow_px":12,"period_s":2.6,"cells":[{"ability":"Eye Beam","verdict":"press","caption":"Alone \u2014 floor to peak and back, continuously."},{"kind":"row","abilities":["Eye Beam","Blade Dance","Chaos Strike","Felblade"],"verdict":"below","caption":"Four at once. Each starts at its own phase, because four breathing in lockstep is one region blinking \u2014 the failure Part 3 already names for the retired lane pulse."}]}}}</script>
+<script type="application/json" id="cap-data">{"built":"2026-08-19","client_paint":{"_source":"CooldownViewer.lua:1204-1233 + :14-22 @ 12.1.0.69273","_doc":"knowledge/addon-dev/cooldown-manager.md \u00a73.4","tints":{"out-of-range":{"rgb":[0.64,0.15,0.15],"constant":"ITEM_NOT_IN_RANGE_COLOR","means":"the target is out of range \u2014 outranks every other branch"},"not-enough-power":{"rgb":[0.5,0.5,1.0],"constant":"ITEM_NOT_ENOUGH_MANA_COLOR","means":"you cannot pay for it \u2014 C_Spell.IsSpellUsable's second return"},"unusable":{"rgb":[0.4,0.4,0.4],"constant":"ITEM_NOT_USABLE_COLOR","means":"unusable for some other reason"}},"usable_constant":"ITEM_USABLE_COLOR","cooldown_desaturates":true},"abilities":{"Avenging Wrath":{"key":"avenging_wrath","spell":31884,"lane":"COOLDOWN","charges":0,"icon":"data:image/webp;base64,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"},"Blade Dance":{"key":"blade_dance","spell":188499,"lane":"ROTATION","charges":0,"icon":"data:image/webp;base64,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"},"Blade of Justice":{"key":"blade_of_justice","spell":184575,"lane":"ROTATION","charges":0,"icon":"data:image/webp;base64,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"},"Chaos Strike":{"key":"chaos_strike","spell":344862,"lane":"ROTATION","charges":0,"icon":"data:image/webp;base64,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"},"Crusader Strike":{"key":"crusader_strike","spell":35395,"lane":"FALLBACK","charges":0,"icon":"data:image/webp;base64,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"},"Divine Storm":{"key":"divine_storm","spell":53385,"lane":"ROTATION","charges":0,"icon":"data:image/webp;base64,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"},"Divine Toll":{"key":"divine_toll","spell":375576,"lane":"COOLDOWN","charges":0,"icon":"data:image/webp;base64,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"},"Essence Break":{"key":"essence_break","spell":258860,"lane":"COOLDOWN","charges":0,"icon":"data:image/webp;base64,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"},"Execution Sentence":{"key":"execution_sentence","spell":343527,"lane":"COOLDOWN","charges":0,"icon":"data:image/webp;base64,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"},"Eye Beam":{"key":"eye_beam","spell":198013,"lane":"COOLDOWN","charges":0,"icon":"data:image/webp;base64,UklGRi4FAABXRUJQVlA4ICIFAADQFwCdASo4ADgAPjESh0KiIQx9V2wQAYJbACdMoR2x6d+QHsCVX+3/g/fVi3WCfWV+YPRG6Ynmd/Z31c+iq6mbehP269Ga76fsXgf4/vXcmM4D6wft+G2YNcv4Z9MTNN8t+ocjIu0uhXoVepk3rPhvh0DkilLL9lWVPXkOunecVUc8M0eHcsNVCSaPqpE/zLlnYhrSPppK2hKUOx3wdX60jWtd/HgHqJGfSqgzsJ1sfv6OYxNw8m4n+YF2vRP9N8bhyl0Mrr7AAP7/cF47fAwqpGBSmGPeASwWgZCJsCiiGcBNmJdqqNk6BWZ1odIYSrh3FS+7nNB5ngP/75I9se4dRdLma/saC2FLL/5G4LIidjcM8zFpuvEZm5P0gMKX8WVZLkBNdJUIixzVqZ6Q+KqYOzUudWpoaX3r9RSHBR8ajMCgQg0jLYgw8ynN5OYhADywzcmFv5GUYZyEZTLtRu2TrJH5pht5xhpxG9OOHlGxv6Gtn9CyS3iUHGEEecvW6gDmt5ChDLpjTHD6PKZd8gYjTe7TuPjlWs474bspVd/44BT31UvutQLva3PqDdzVd8O85BkETfY1a2uTHTLltaudGOsnJTpVq28378lLezX9PQB+B6p7GMIfNZ+8kSF0g+MwKzNOZAQCYXr+VTB+SvBUWaq3GGVUHlftPZ6NfL/ynRnd3bsT06wof7pwB1Jtz7D9BmCmhbg3PCnsnXnDYWNhKizki7ohve6NNfx24zu+8WsnpVoCbideb/GfpQap0oDpgtFESuc/p9oQ7+1aAy9nOgwHQ7zkn/NsCzkQfrO8azRKG3n3jKIxoSdRz6A8iiTOanArvd++nVEaroe2fOI7uITJ16qrWiUvzeBf59fJ+Fn6C+gLM8b+2KcHjSernJLurHYIrWF0Atm9gr8l6j3Typ8sPrcdOuyGByKDDtHka/lBlWsvb2+4igJ8v3tWbBzC9Ju7uQ39E+KWQVwxCpKZaZyYafO46Vk8lW3wcYKFGXyTFqzMeSR/jicQrRft6rZEwixh2/QMfsnJW8qh0zqOgSNkvQlDxlhx4zzqV8u4HrKk3gOuWUi+3dbo0IujVZzkFsruyjht1ThrpjYhdd9fqNjyv/kXA/IaAzRWwKojCunEj0wViedVZHhB/I725ZOAa7J4qxP5g6/4i6T44dthQKPf2we538bPxl8PV/yO79FKXt9sQIZPpihDK9rYytAW2hd9OMG4zw4TI07G25YU5EWNmR9xdlyShlCRthNjaOkbojbQliWb3BWXPWj3LLxtDbuj3zsmmPPFfJAwFzlyait9mGFhYvT2aO1/9F2OjC6yHECL/lhePHtHnLI55QIPn/nJ7r25Lz/lrW52NhMrcKPodZJWFOw++Sl9AWgrmi3etiUN/x8E3VBcRqiumUXYNgxN4RvlgYuDZxeZUElryQidmr2SdJarLRl2cclkMyak0/k2ENzpIwONpepM3zxglTJ6gdkw2zO+xmsSyRoJBiYf+ACleR8ERI2fJGFtf4tXVTYSD6cTUqA5QXrB/Z6Dn1ab2y7gRU6Tq46+wzxLg1fDxPFGDM1hId2iFifV1yrpvBPFWtVfhY2DqoFJGW/Bzp/hoCOGiT1/hf6mhomBKPwPXve/BRo0g5xUmi+G7/YCzxlhPKhBp2HjoAb0snrb0xkTeLlkgLDkFz3WaGDZFj3wIWHInewOmLDIjE6foGViFpQOdRnQG1A5ahMC4X51SVM+BYkiWx4vbo8SSHwUAAA="},"Felblade":{"key":"felblade","spell":232893,"lane":"ROTATION","charges":0,"icon":"data:image/webp;base64,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"},"Final Verdict":{"key":"templars_verdict","spell":383328,"lane":"ROTATION","charges":0,"icon":"data:image/webp;base64,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"},"Hammer of Light":{"key":"wake_of_ashes","spell":427453,"lane":"COOLDOWN","charges":0,"icon":"data:image/webp;base64,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"},"Judgment":{"key":"judgment","spell":20271,"lane":"ROTATION","charges":0,"icon":"data:image/webp;base64,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"},"The Hunt":{"key":"the_hunt","spell":370965,"lane":"COOLDOWN","charges":0,"icon":"data:image/webp;base64,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"},"Wake of Ashes":{"key":"wake_of_ashes","spell":255937,"lane":"COOLDOWN","charges":0,"icon":"data:image/webp;base64,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"}},"scan_samples":["Avenging Wrath","Divine Storm","Crusader Strike","Blade of Justice"],"scan_sample":"Avenging Wrath","scenarios":[{"id":"RET-1","title":"Opener, everything ready, HP 0","state":"Pull timer at zero, every cooldown up, <b>Holy Power 0</b>, single-target mode, no procs.","row":[{"name":"Execution Sentence","verdict":"hold-readable"},{"name":"Avenging Wrath","verdict":"press"},{"name":"Wake of Ashes","verdict":"below"},{"name":"Divine Toll","verdict":"below"},{"name":"Final Verdict","verdict":"starved","client":"not-enough-power"},{"name":"Divine Storm","verdict":"starved","client":"not-enough-power"},{"name":"Blade of Justice","verdict":"below"},{"name":"Judgment","verdict":"below"},{"name":"Crusader Strike","verdict":"below"}],"steps":[{"names":["Execution Sentence"],"html":"<b>Execution Sentence</b> \u2014 available, and the <code>blocked</code> badge lights from the readable half of its hold (<code>es_awaits_wrath_ready</code>): Avenging Wrath is <b>ready</b>, and Execution Sentence&#x27;s own line requires it to be more than 15s away \u2192 skip."},{"names":["Avenging Wrath"],"html":"<b>Avenging Wrath</b> \u2014 available, nothing rules it out \u2192 <b>press.</b> <code>cooldowns</code> 10."},{"names":["Final Verdict","Divine Storm"],"html":"<b>Final Verdict / Divine Storm</b> \u2014 to the right of the press, and unaffordable at 0 Holy Power in any case. - \u26a0 <b>Documented divergence.</b> The APL would open with Blade of Justice on a Holy Flames build (<code>generators</code> 2 \u2014 <code>time&lt;5</code>, Expurgation not ticking). That rung is keyed on a <b>target DoT</b> and is open, so cap sends the eye to a cooldown for the first five seconds of a pull. Misordering 1."}],"extras":[{"label":"Cue set","html":"Readable hold (C) \u2192 <b>have</b>. Affordability (A) \u2192 <b>have</b>."}]},{"id":"RET-2","title":"HP 5, Wake of Ashes on cooldown \u2014 the interleave, resolved","state":"Single target, no procs, <b>Holy Power 5</b>. Execution Sentence, Avenging Wrath and Wake of Ashes are all on cooldown. Divine Toll is ready.","row":[{"name":"Execution Sentence","verdict":"cd"},{"name":"Avenging Wrath","verdict":"cd"},{"name":"Wake of Ashes","verdict":"cd"},{"name":"Divine Toll","verdict":"overcap"},{"name":"Final Verdict","verdict":"press"},{"name":"Divine Storm","verdict":"below"},{"name":"Blade of Justice","verdict":"below"},{"name":"Judgment","verdict":"below"},{"name":"Crusader Strike","verdict":"below"}],"steps":[{"names":["Execution Sentence","Avenging Wrath","Wake of Ashes"],"html":"<b>Execution Sentence \u2026 Wake of Ashes</b> \u2014 on cooldown \u2192 skip."},{"names":["Divine Toll"],"html":"<b>Divine Toll</b> \u2014 available, and the <code>overcap</code> badge lights on the exact readable predicate <code>resource &gt;= 5</code>: pressing it here throws away its whole Holy Power injection \u2192 skip."},{"names":["Final Verdict"],"html":"<b>Final Verdict</b> \u2014 affordable, nothing rules it out \u2192 <b>press.</b> <code>finishers</code> 4, reached through the early <code>finishers</code> call at <code>generators</code> 1."}],"extras":[{"label":"Eye-direction","html":"\u26a0 <b>This is the scenario the whole row order is built for.</b> <code>finishers</code> is called from <em>inside</em> <code>generators</code>, so the spenders outrank Divine Toll <b>only at 5 Holy Power</b> \u2014 a thing a fixed row order cannot say. One badge on one row says it instead, and it is readable, not sealed, because Holy Power is <code>NeverSecret</code>."},{"label":"Cue set","html":"Overcap (B) \u2192 <b>have</b>, and readable \u2014 the difference from Havoc, whose equivalent is a sealed Fury readout."}]},{"id":"RET-3","title":"HP 5, Wake of Ashes READY \u2014 and deliberately unbadged","state":"As RET-2, but <b>Wake of Ashes is ready</b>. Holy Power is still 5.","row":[{"name":"Execution Sentence","verdict":"cd"},{"name":"Avenging Wrath","verdict":"cd"},{"name":"Wake of Ashes","verdict":"press"},{"name":"Divine Toll","verdict":"overcap"},{"name":"Final Verdict","verdict":"below"},{"name":"Divine Storm","verdict":"below"},{"name":"Blade of Justice","verdict":"below"},{"name":"Judgment","verdict":"below"},{"name":"Crusader Strike","verdict":"below"}],"steps":[{"names":["Execution Sentence","Avenging Wrath"],"html":"<b>Execution Sentence / Avenging Wrath</b> \u2014 on cooldown \u2192 skip."},{"names":["Wake of Ashes"],"html":"<b>Wake of Ashes</b> \u2014 available, carries <b>no</b> <code>overcap</code> badge by design, and neither sealed band is in range \u2192 <b>press.</b> <code>generators</code> 3."},{"names":["Divine Toll"],"html":"<b>Divine Toll</b> \u2014 still badged; it never gets the chance to compete."}],"extras":[{"label":"Eye-direction","html":"\u26a0 <b>The badge that would be honest about generation would be wrong about the press.</b> The APL&#x27;s early <code>finishers</code> call is gated on <code>cooldown.wake_of_ashes.remains</code> \u2014 Wake of Ashes <em>on cooldown</em> \u2014 so at 5 Holy Power with it <b>ready</b> the APL presses it and accepts the waste, because what the button is worth is the Hammer of Light window. <code>overcap</code> is worn by exactly one row in this catalog, and this is the row it is kept off."},{"label":"Cue set","html":"Nothing fires. The press is pure elimination."}]},{"id":"RET-4","title":"Hammer of Light window open, HP 4","state":"Wake of Ashes has been cast; <b>row 3 is displaying Hammer of Light</b>. Holy Power 4. Execution Sentence and Avenging Wrath are on cooldown.","row":[{"name":"Execution Sentence","verdict":"cd"},{"name":"Avenging Wrath","verdict":"cd"},{"name":"Hammer of Light","verdict":"press"},{"name":"Divine Toll","verdict":"below"},{"name":"Final Verdict","verdict":"below"},{"name":"Divine Storm","verdict":"below"},{"name":"Blade of Justice","verdict":"below"},{"name":"Judgment","verdict":"below"},{"name":"Crusader Strike","verdict":"below"}],"steps":[{"names":["Execution Sentence","Avenging Wrath"],"html":"<b>Execution Sentence / Avenging Wrath</b> \u2014 on cooldown \u2192 skip."},{"names":["Hammer of Light"],"html":"<b>Hammer of Light</b> \u2014 row 3 reads <code>identity == transformed</code>, so band 1 gives it <b>ROTATION</b> instead of COOLDOWN; both of its sealed holds are gated off by that same identity term, and <code>woa_starved</code> is dark at 4 Holy Power \u2192 <b>press.</b> <code>finishers</code> 2."}],"extras":[{"label":"Eye-direction","html":"\u26a0 **This row <em>was</em> the catalog&#x27;s single point of failure until 2026-08-18.<b> Had the Cooldown Manager kept swiping it for Wake of Ashes&#x27;s own running cooldown, the walk would skip straight past the free press and land on Divine Toll or a spender. It does not \u2014 the swipe follows the </b>displayed** spell (<em>Open facts</em> 1, and <code>knowledge/addon-dev/cooldown-manager.md</code> \u00a73.1.1). The two-band identity design stands on that fact."},{"label":"Cue set","html":"Identity (R7) \u2192 <b>have</b>. Nothing else fires."}]},{"id":"RET-5","title":"Hammer of Light window open, HP 2 \u2014 the window you cannot afford","state":"As RET-4, but <b>Holy Power 2</b>. Divine Toll is ready and Avenging Wrath is far away.","row":[{"name":"Execution Sentence","verdict":"cd"},{"name":"Avenging Wrath","verdict":"cd"},{"name":"Hammer of Light","verdict":"starved","client":"not-enough-power"},{"name":"Divine Toll","verdict":"press"},{"name":"Final Verdict","verdict":"starved","client":"not-enough-power"},{"name":"Divine Storm","verdict":"starved","client":"not-enough-power"},{"name":"Blade of Justice","verdict":"below"},{"name":"Judgment","verdict":"below"},{"name":"Crusader Strike","verdict":"below"}],"steps":[{"names":["Execution Sentence","Avenging Wrath"],"html":"<b>Execution Sentence / Avenging Wrath</b> \u2014 on cooldown \u2192 skip."},{"names":["Hammer of Light"],"html":"<b>Hammer of Light</b> \u2014 available, but <code>starved</code> lights: <code>affordable</code> is read on the <b>live</b> id, which is Hammer of Light&#x27;s 3 Holy Power, not Wake of Ashes&#x27;s zero \u2192 skip."},{"names":["Divine Toll"],"html":"<b>Divine Toll</b> \u2014 no <code>overcap</code> at 2 Holy Power, and <code>dt_awaits_wrath</code>&#x27;s band is out of range \u2192 <b>press.</b> <code>generators</code> 4, and the Holy Power it injects is what re-arms the window."}],"extras":[{"label":"Eye-direction","html":"Affordability read on the live identity is what makes this row honest. Read on the base id it would be free, the badge would stay dark, and the walk would stop on a button the player cannot press."},{"label":"Cue set","html":"Affordability (A) on the live id (R1 + R7) \u2192 <b>have</b>."}]},{"id":"RET-6","title":"HP 4, Art of War proc \u2014 a free Blade of Justice outranks spending","state":"Single target, <b>Art of War (or Righteous Cause) is up</b>, Holy Power 4, every cooldown down, Blade of Justice ready.","row":[{"name":"Execution Sentence","verdict":"cd"},{"name":"Avenging Wrath","verdict":"cd"},{"name":"Wake of Ashes","verdict":"cd"},{"name":"Divine Toll","verdict":"cd"},{"name":"Final Verdict","verdict":"hold-readable"},{"name":"Divine Storm","verdict":"hold-readable"},{"name":"Blade of Justice","verdict":"press"},{"name":"Judgment","verdict":"below"},{"name":"Crusader Strike","verdict":"below"}],"steps":[{"names":["Execution Sentence","Avenging Wrath","Wake of Ashes","Divine Toll"],"html":"<b>Execution Sentence \u2026 Divine Toll</b> \u2014 on cooldown \u2192 skip."},{"names":["Final Verdict"],"html":"<b>Final Verdict</b> \u2014 affordable, but <code>blocked</code> lights from <code>tv_awaits_blade</code>: a proc is up, Blade of Justice is ready, and Holy Power is \u2264 4 \u2192 skip."},{"names":["Divine Storm"],"html":"<b>Divine Storm</b> \u2014 the same badge, from <code>ds_awaits_blade</code> \u2192 skip."},{"names":["Blade of Justice"],"html":"<b>Blade of Justice</b> \u2014 <b>press.</b> <code>generators</code> 5, which sits above <code>generators</code> 6."}],"extras":[{"label":"Eye-direction","html":"\u26a0 <b>This is why <code>ds_awaits_blade</code> exists as a second marker.</b> Badging only row 5 would hand the walk to row 6 and the player would press Divine Storm \u2014 the correct answer to &quot;not Templar&#x27;s Verdict&quot; and the wrong answer to the question actually being asked."},{"label":"Cue set","html":"Readable hold (D) \u2192 <b>have</b>, on both spenders. Both proc buffs are registered spell-activation overlays and both point at Blade of Justice <code>184575</code>, so the APL&#x27;s OR authors itself as one <code>proc</code> term."}]},{"id":"RET-7","title":"HP 5, Art of War proc \u2014 the proc loses","state":"As RET-6, but <b>Holy Power 5</b>.","row":[{"name":"Execution Sentence","verdict":"cd"},{"name":"Avenging Wrath","verdict":"cd"},{"name":"Wake of Ashes","verdict":"cd"},{"name":"Divine Toll","verdict":"cd"},{"name":"Final Verdict","verdict":"press"},{"name":"Divine Storm","verdict":"below"},{"name":"Blade of Justice","verdict":"below"},{"name":"Judgment","verdict":"below"},{"name":"Crusader Strike","verdict":"below"}],"steps":[{"names":["Execution Sentence","Avenging Wrath","Wake of Ashes","Divine Toll"],"html":"<b>Execution Sentence \u2026 Divine Toll</b> \u2014 on cooldown \u2192 skip."},{"names":["Final Verdict"],"html":"<b>Final Verdict</b> \u2014 row 5&#x27;s proc-defer marker requires <code>resource &lt;= 4</code>, which is false here, so the badge stays dark \u2192 <b>press.</b>"}],"extras":[{"label":"Eye-direction","html":"The <code>resource &lt;= 4</code> term on the marker is doing the same job the <code>overcap</code> badge does in RET-2, from the other side: at 5 Holy Power the early <code>finishers</code> call outranks <code>generators</code> 5, so the proc&#x27;d Blade of Justice correctly loses to the spender sitting left of it."},{"label":"Cue set","html":"Nothing fires. Elimination, with a readable term keeping the badge off."}]},{"id":"RET-8","title":"AoE mode on, 4 targets, HP 4","state":"The player has flipped cap&#x27;s AoE toggle; four targets, no Empyrean Legacy proc, Holy Power 4, cooldowns down.","row":[{"name":"Execution Sentence","verdict":"cd"},{"name":"Avenging Wrath","verdict":"cd"},{"name":"Wake of Ashes","verdict":"cd"},{"name":"Divine Toll","verdict":"cd"},{"name":"Final Verdict","verdict":"hold-readable"},{"name":"Divine Storm","verdict":"press"},{"name":"Blade of Justice","verdict":"below"},{"name":"Judgment","verdict":"below"},{"name":"Crusader Strike","verdict":"below"}],"steps":[{"names":["Execution Sentence","Avenging Wrath","Wake of Ashes","Divine Toll"],"html":"<b>Execution Sentence \u2026 Divine Toll</b> \u2014 on cooldown \u2192 skip."},{"names":["Final Verdict"],"html":"<b>Final Verdict</b> \u2014 <code>blocked</code> from <code>tv_divine_storm_aoe</code>: the toggle is on, no Empyrean Legacy proc is live, and the spend is affordable \u2192 skip."},{"names":["Divine Storm"],"html":"<b>Divine Storm</b> \u2014 <b>press.</b> <code>finishers</code> 3, via <code>ds_castable</code>&#x27;s target clause. - \u26a0 <b>The 2-vs-3 target threshold is the player&#x27;s, not cap&#x27;s.</b> Tempest of the Lightbringer without Jurisdiction moves it, and <b>cap models no enemy count</b> \u2014 the toggle is the whole interface. This scenario says what the badge does once the toggle is on, not when to flip it."}],"extras":[{"label":"Cue set","html":"Readable hold (E) \u2192 <b>have</b>, gated on the <code>aoe</code> predicate."}]},{"id":"RET-9","title":"Single target, Empyrean Power proc, HP 4","state":"Single target, <b>Empyrean Power is up</b>, Holy Power 4, cooldowns down. The AoE toggle is <b>off</b>.","row":[{"name":"Execution Sentence","verdict":"cd"},{"name":"Avenging Wrath","verdict":"cd"},{"name":"Wake of Ashes","verdict":"cd"},{"name":"Divine Toll","verdict":"cd"},{"name":"Final Verdict","verdict":"hold-readable"},{"name":"Divine Storm","verdict":"press"},{"name":"Blade of Justice","verdict":"below"},{"name":"Judgment","verdict":"below"},{"name":"Crusader Strike","verdict":"below"}],"steps":[{"names":["Execution Sentence","Avenging Wrath","Wake of Ashes","Divine Toll"],"html":"<b>Execution Sentence \u2026 Divine Toll</b> \u2014 on cooldown \u2192 skip."},{"names":["Final Verdict"],"html":"<b>Final Verdict</b> \u2014 <code>blocked</code> from <code>tv_empyrean_power</code> \u2192 skip."},{"names":["Divine Storm"],"html":"<b>Divine Storm</b> \u2014 <b>press.</b> A free Divine Storm satisfies <code>ds_castable</code> with <b>no target term at all</b>, which is why this row looks identical to RET-8 and is a different marker."}],"extras":[{"label":"Eye-direction","html":"Two markers, one badge, one appearance \u2014 and that is correct. The player does not need to know <em>which</em> clause of <code>ds_castable</code> fired; they need to know Templar&#x27;s Verdict is not the press. The distinction lives in the Lua, where it has to."},{"label":"Cue set","html":"Readable hold (E) \u2192 <b>have</b>, gated on <code>proc</code> rather than on <code>aoe</code>."}]},{"id":"RET-10","title":"AoE mode on, Empyrean Legacy proc, HP 4 \u2014 the exception to the exception","state":"AoE toggle on, <b>Empyrean Legacy is up</b>, Holy Power 4.","row":[{"name":"Execution Sentence","verdict":"cd"},{"name":"Avenging Wrath","verdict":"cd"},{"name":"Wake of Ashes","verdict":"cd"},{"name":"Divine Toll","verdict":"cd"},{"name":"Final Verdict","verdict":"press"},{"name":"Divine Storm","verdict":"below"},{"name":"Blade of Justice","verdict":"below"},{"name":"Judgment","verdict":"below"},{"name":"Crusader Strike","verdict":"below"}],"steps":[{"names":["Execution Sentence","Avenging Wrath","Wake of Ashes","Divine Toll"],"html":"<b>Execution Sentence \u2026 Divine Toll</b> \u2014 on cooldown \u2192 skip."},{"names":["Final Verdict"],"html":"<b>Final Verdict</b> \u2014 both E markers carry <code>!proc(templars_verdict)</code>, which is now false, so row 5 is clear even in AoE \u2192 <b>press.</b>"}],"extras":[{"label":"Eye-direction","html":"\u26a0 **This state is why <code>!proc(templars_verdict)</code> is a term on <em>both</em> markers rather than a third marker of its own.** It is <code>ds_castable</code>&#x27;s <code>&amp;!buff.empyrean_legacy.up</code> clause: an empowered Templar&#x27;s Verdict beats Divine Storm at four targets. Expressed as a separate rule it would have had to <em>un-badge</em> a row, and the marker grammar is AND-only \u2014 there is no un-badging, only a term that keeps the badge dark."},{"label":"Cue set","html":"Nothing fires; the negation is what keeps it that way."}]},{"id":"RET-11","title":"HP 2, no procs, Blade of Justice on cooldown","state":"Holy Power 2, no procs, every cooldown and Blade of Justice on cooldown.","row":[{"name":"Execution Sentence","verdict":"cd"},{"name":"Avenging Wrath","verdict":"cd"},{"name":"Wake of Ashes","verdict":"cd"},{"name":"Divine Toll","verdict":"cd"},{"name":"Final Verdict","verdict":"starved","client":"not-enough-power"},{"name":"Divine Storm","verdict":"starved","client":"not-enough-power"},{"name":"Blade of Justice","verdict":"cd"},{"name":"Judgment","verdict":"press"},{"name":"Crusader Strike","verdict":"below"}],"steps":[{"names":["Execution Sentence","Avenging Wrath","Wake of Ashes","Divine Toll"],"html":"<b>Execution Sentence \u2026 Divine Toll</b> \u2014 on cooldown \u2192 skip."},{"names":["Final Verdict","Divine Storm"],"html":"<b>Final Verdict / Divine Storm</b> \u2014 available and <code>starved</code>: 2 Holy Power will not pay for a 3-cost spend \u2192 skip."},{"names":["Blade of Justice"],"html":"<b>Blade of Justice</b> \u2014 on cooldown \u2192 skip."},{"names":["Judgment"],"html":"<b>Judgment</b> \u2014 <b>press.</b> <code>generators</code> 10 \u2014 or <b>Hammer of Wrath</b> (<code>generators</code> 9), if that is what row 8 is currently displaying; the row is one button and the client picks which."}],"extras":[{"label":"Eye-direction","html":"The generator is reached by <b>subtraction</b>, exactly as Havoc&#x27;s Felblade is: nothing promotes it, the two spenders above it demote themselves."},{"label":"Cue set","html":"Affordability (A) \u2192 <b>have</b>."}]},{"id":"RET-12","title":"Execution Sentence ready, Avenging Wrath ~10s out, HP 2","state":"Execution Sentence is up. <b>Avenging Wrath is ~10s from ready</b>, Wake of Ashes is far away, Divine Toll is up, Holy Power 2, Blade of Justice ready.","row":[{"name":"Execution Sentence","verdict":"hold-sealed"},{"name":"Avenging Wrath","verdict":"cd"},{"name":"Wake of Ashes","verdict":"cd"},{"name":"Divine Toll","verdict":"hold-sealed"},{"name":"Final Verdict","verdict":"starved","client":"not-enough-power"},{"name":"Divine Storm","verdict":"starved","client":"not-enough-power"},{"name":"Blade of Justice","verdict":"press"},{"name":"Judgment","verdict":"below"},{"name":"Crusader Strike","verdict":"below"}],"steps":[{"names":["Execution Sentence"],"html":"<b>Execution Sentence</b> \u2014 available, and <code>blocked</code> lights from <b>two markers at once</b> (<code>es_awaits_wrath</code> at <code>within = 15</code>, <code>es_awaits_wake</code> at <code>beyond = 1.5</code>). One badge, because naming the same cue twice unions into one badge \u2014 and that union <b>is</b> the OR \u2192 skip."},{"names":["Avenging Wrath","Wake of Ashes"],"html":"<b>Avenging Wrath / Wake of Ashes</b> \u2014 on cooldown \u2192 skip."},{"names":["Divine Toll"],"html":"<b>Divine Toll</b> \u2014 <code>blocked</code> from <code>dt_awaits_wrath</code>, the same 15s band \u2192 skip."},{"names":["Final Verdict","Divine Storm"],"html":"<b>Final Verdict / Divine Storm</b> \u2014 <code>starved</code> at 2 Holy Power \u2192 skip."},{"names":["Blade of Justice"],"html":"<b>Blade of Justice</b> \u2014 <b>press.</b> <code>generators</code> 8."}],"extras":[{"label":"Eye-direction","html":"Hold Execution Sentence: Avenging Wrath is close and Wake of Ashes is not, so the placed cooldown is worth a few seconds of patience. Divine Toll is held for the same window. \u26a0 Both are <b>sealed</b> \u2014 cap hands over a band and never learns where inside it the value fell, so this is confirmed by eye in game, not by a capture."},{"label":"Cue set","html":"Sealed hold (C) \u2192 <b>sealed</b>, on rows 1 and 4. Affordability (A) \u2192 <b>have</b>."}]},{"id":"RET-13","title":"Execution Sentence, Avenging Wrath and Wake of Ashes all ready, HP 3","state":"The state the sealed band cannot cover: <b>Avenging Wrath is ready</b>, i.e. zero remaining. Execution Sentence and Wake of Ashes are up too. Holy Power 3.","row":[{"name":"Execution Sentence","verdict":"hold-readable"},{"name":"Avenging Wrath","verdict":"press"},{"name":"Wake of Ashes","verdict":"below"},{"name":"Divine Toll","verdict":"below"},{"name":"Final Verdict","verdict":"below"},{"name":"Divine Storm","verdict":"below"},{"name":"Blade of Justice","verdict":"below"},{"name":"Judgment","verdict":"below"},{"name":"Crusader Strike","verdict":"below"}],"steps":[{"names":["Execution Sentence"],"html":"<b>Execution Sentence</b> \u2014 <code>blocked</code> from <code>es_awaits_wrath_ready</code>, the <b>readable</b> half of the hold: <code>cooldown.avenging_wrath.remains&gt;15</code> is false at zero \u2192 skip."},{"names":["Avenging Wrath"],"html":"<b>Avenging Wrath</b> \u2014 <b>press.</b>"}],"extras":[{"label":"Eye-direction","html":"\u26a0 <b>A sealed band deliberately reads nothing at zero remaining</b>, so RET-12&#x27;s band goes dark in exactly the state where the hold matters most. Row 1 is the only row in this catalog carrying a readable companion to a sealed hold, and the reason is <b>position</b>: it sits left of everything it waits on, so a quiet row 1 would be pressed before the eye ever reached Avenging Wrath. Rows sitting to the <em>right</em> of what they wait on need only the band \u2014 elimination covers their zero case. <b>Position in the row decides which halves a hold needs.</b>"},{"label":"Cue set","html":"Readable hold (C) \u2192 <b>have</b>, the counter to RET-12&#x27;s sealed one. <b>What the walk did not have to explain.</b> No state in it required cap to know a target count, a buff duration, a target aura, or which of two Hammer of Light states was live. Every skip above is a readable Lua term or a sealed band on a <em>cooldown</em>. \u26a0 <b>Row 9 renders only on a Templar Strikes build.</b> Crusader Strike binds nothing otherwise, so on any other build the row simply is not there and the walk is eight entries wide. It is drawn in every scenario above because a row that exists on <em>some</em> build has to be shown reaching the end of the walk somewhere."}]}],"notes":[],"frames":{"timer_0":{"uri":"data:image/png;base64,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","bytes":2470,"size":[128,128],"mean_saturation":0.0,"tintable":true,"tint":"shelf","open":false},"timer_CW_25":{"uri":"data:image/png;base64,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","bytes":2802,"size":[128,128],"mean_saturation":0.0,"tintable":true,"tint":"shelf","open":false},"timer_CW_50":{"uri":"data:image/png;base64,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","bytes":2970,"size":[128,128],"mean_saturation":0.0,"tintable":true,"tint":"shelf","open":false},"timer_CW_75":{"uri":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAJDElEQVR42u1d/3XiOBCe8bv/8VUQtgLcAd4KQgekA7gKyFUQUkG4CuAqwFsB3grsrcDeCnR/MNwSQhY0I8mSrXmPl933Qizp+/TND1kSQg9NKTUBgBQAMvp5+reOlQDQ0qcEgBYRv/dtrLAnYGcAkNPPzPIjS/oUAFCGTgoMEPARADwR4DnN7i6tJTIUALBBxJ+RAOZBfwCAGQGfed7cEgA2ALBDxB+RALKZnhPos0AVdkdkKHxVBvQU+CcAWALAuCexVg0Aax9dBHoG/DOBn0I/rSVFeA4tVrAN/koNz1aDVwCl1JykMR0o91sAWCLiP101IOkqd1dKbUkO0wGLXwoAG6XUluoZ/VcApdSCZn20j7ZExNdeEoBy+V0AebwPdYSZqxoCOgJ/SuC7lPuaPgX9v9D8fn72c+w4JW2JBN9ihH+/7ZVSC6XUlFJK42kq/e0FPWswmYJkwA4WB6dSSr2RunTVxym1obLYz4MNQocKfkMR89TDPk+pbc2gSUApXmMB+BUFkr73/4HaamMMJkMDv6K0MVQ3uDDsHvwlATG/iQGQ9UC48U4JDfv8bXBBz/1jtO1dTGAQ/EYp9dj3Ko9S6tGQUnZPAoPg7/s462+M2z54ElAOLLWXodZ8lVIvBsbvLVTw/U9rwsmc3lw3em4gvZs4ktrpxefBUxJI08V5KIy15rcI8PmN8mzlY7BpIJ6yr6jUyMo38Cmy3no5Y9ySoLIaFAr9vtECBg3WSkhIH92BtKD2Zqthjz7I0xnwTbARtH03+2hDmhoPwF8YLjc3Pc0OGqOuQFjCfDQ0GFZewgigasguqZtqxFTQiIWB58+VRQugTrAQdG9qogFVV/7V4OJJsAQQBt+V9MHcZUxRukeR8EE5sIDWDrjjsZI8tGEGIBNBZyeuwA+FAMKgkBcQCmb/QjjzK+XQAls3WDhRAcHs33dYBes9AWic9iZV4LO9gUvgbeJYcsGH48aNDKLZGONU63tMGV4JWL1VHVmIDGC65+rePz53FmiAsZcihkYAroue3+MCnhhtWnNOvKAGLaOq6xmN9Zrx1Q/Y4mUUDscNlTrWAsBYlwD0rBI6Ph8AETFUFSCsdMdvfL7zOOlq9kM8HMILFbhUgAr0t0GnjNnvzSERoSrAmQq0ml+rEfHLBwUgSdYFf8MA/3QaWDQzKrDRdQHnL8Kcu4AZU8Z17TlKv1HjYDD74AKoipdzpUQj8Ks9m0V9ODBb13UXiPj1UgFyzefuTKQh0YyYLhb5OxfAfHFgo8nSUcz5/XEDJ8wT5uyvGefkz6Lvt+bGvjNcay4hQMFoZ5z9dq2QECCz+TAK/rKIkVcEyAAAEvLNqeWHzSI+3hEgVUqNEs7MZJximUd8rMcBnJNFMw4BOP4/KoCnbiBhyH+p6f8nERdnVmr+fspRgJYTbERzYq0LBdCVmXHExd9A0MWFETEA9NgSBkB1HDZvTRebHHVfjNRdPfP9xcs+rAZKxjuJkya6gGiRANGGan8MfQA8iVHqs88OEf91FgMNPQj00FoQXCapjWckgLc24yiBjwTg7DWIBtAi4p8u0sBa8wG67w/WEUuWpbonrHGwSSJAXltmO/jkpIGp5u8XEUd3qsGpA9SWWRkVRpYRWMWGQwBdlpURR7aVlrGprSsAY/9AtF9j981HBcgZfYlxgJsxyzkE0JZoxnt+u4inXQIw370sE9pjbjvYiAqgbxvLmLSI+DNhBhtaUkNxQAwGNaTZwd6L8pQGcmZo7oDRQ7a1A/9fSAgwZvicSABLMRNhMWYTgJFucNzAz0iC+yaKi613J8wTQaD2xOjcc8TXyhg9cWb/JQF0U7VM1w0Qs6MKGJz9hIFuBrC7RgBOqraMKtD57Odg8FEBmMeMzHQPiSaGRxJcAZ8x+0egv/P63fE+iST6hOPig3YsgIh/Q1wlvMzJOanfE+gvAL3DGK/4k5LBqC+6Lae3V4qI/TGe4iyaMV+3yz5VAGbFbsy5iJnSkOgKjtLPAX/OAL+8+awOLozYq+HaljlmVi+M2IH+4lAK/GPgZgONB0rgn5y6ZPj+9lqMl1yRZu459EvOdez0vJxBupCthuN7/5xbVh6Yk+3qvQ6fvRTKKdakTOKcUsOhkKAl8H8wv78G3omrG12mce+rZd8WTrdjVj32+ZXwVlXubeKf3uOMN4oMNdPXZFyG9/gOwRIAcub1OpI7llr4zZ1OyQ3fzJF0tiu4iAnKCL4R6V+znytIN0QXSZ49e9uHVE9ykzqNBfce50b6bG5d4GRT6dSh5zcBAt9wCmTXKqaCNsyN6JfgUmfRVfIBB4eVwX5zyX8w5sDoWnfJYIwMtWMRAPgLQ30dCUn/YDSKEfghRQpiigQTQYpq095MnYtM4B8EbVmBDRM2yhgJPCOCMeANgX8AW0auoOnaN14ZsBfHMUJFzxwZ7os01mmMS7/BapTRwPA3bbNFhhPoj5baPlHybEe7bchs7AvILoFqqTDy3aZaUUEpo88Y7l8/r+lT0qcQ1O7vAp+qn6ngz6wR8S9npS0DRZrG1mwKyUi1pDN/20XDpcHKzYWKAYBvIog9mI5FXOaq3Xeiu3E7GIpLRl13xkTwYqx0GgD4c4PjNfGlU6ZIYGTxxONZb2pxyx/wLdbrVz0Cf2U4HZ34zPKD4c7OA5d7k5PC/1jJAglOHZ+H4Bqo/3NLYzAKhfk2SHDyfSvr5U5+mXxl6d2F8LIkIoHNxZp916pwNtv3lhebwg2KhW8U6ZBh4SI4omB3odzsaLIe/6AjEkzhuCsldcS74qKW3+quOxCZUni/lpA7an8Lx70D33pBgJOPhOPmhByi3SLvk83Fp3NzdmsYIv5AxK8gW0Xsuy0R8asr8J0S4IwIrySpu4j3/7aD42aaV+d4dBwgLkgRxgMFvobjOv7rYKl/9krX0OzFh/QOfSICHLc/zRxmC66tJblfCreJ9VoRHqj40fRotjfUJ+8qmOgxEUZwPEEj5BihJlXbxBkvLCR5uhnkd+XbaQhjiwGS4ZHihNwjZaipgOP04udBEuCCDKdzcnPHhDgBXsA9R69FAjiNGzL6pPCr7Jwz/2Rx9rMFWlvokz//Dx1OFw92mMxQAAAAAElFTkSuQmCC","bytes":3186,"size":[128,128],"mean_saturation":0.0,"tintable":true,"tint":"shelf","open":false},"timer_100":{"uri":"data:image/png;base64,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","bytes":3238,"size":[128,128],"mean_saturation":0.0,"tintable":true,"tint":"shelf","open":false},"flask_empty":{"uri":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAFOUlEQVR42u1d3XkqNxA9k+++m1RgUgF0sHQAqQBSAe4AOiAdQCpYpwKTCsAV4FsBpALlASWfcy9wV9L+zGjPebL9eXdHM0ejOVqtBBAEQRAE0UeIJWOdcyMAA//r+NPPXeMC4PjvzyLyTmrVF/Spc6509lA656bMAPGBfwLwCmBinMN7ADMR+ZsECEv1e0Upvo4hYqJxaPhJac/fZRR8+LbsfNtIgB9g5wu83DD2bSMBHhV8AGYZ17QzbYWhKCPACcAwc2HzISK/MAPc7v25Bx8AhpqygKYhYIz+YEwCfI9JjwgwIQEIFfhi2PYdgA8t4zqABQnQLvYi8oeiAtYkASwPARPakhcBjoadPmu4rSTAHT09V5D+C4TPXxxBfOfIUcQ795MCu98i7B4x4redeYpw5rLL4s8iaTUTYBXh0LNz7rkDW5/8s0OxYqTvO/U5cvnVm5HU77ogqzUSxDp22aKNSytEtUiAImEh5rQF+6YJ9hWMcDUnbyMdfGjBtkOkbVtGtvlaoNExVqtduUwE/QcR+QpgHXn5sEHTYu+99m0iWki3RYP2FBqHpewywCcsMuDxggSIHwrecf1AxCr22r8T5IqgnoMEIAEIEoAgAQgSgCABCBKAIAEIEoAgAQgSgCABCBKAIAEIEoAgAQgSoAsMDft3SAIkwDm3sU4A3wYSICL4BYCXDLLsi+YvgrTuFv6E6wZQg4jLB01tze7tukRcegEw1LhlvNYM8BoZ/H2TTvb33seQ0reJqNDLYr+8bWWfAP952Fn7F8xWgz9K+PZu3qKd8wQ7uT3MvfE14cvbsgN7Y88xOmg8OEIDAWI/CT914VBP2BM/Fa/HmSY3XdC+mYWV4KcUVSsF9q80F60WCBC7J9BBURtia5e3vgc/i95jPYtR8lEamqqgS8XtKi0pGTqKxDaXKgsD7StyGtpYLFEaqpBLB7aVko/ZznDwezku5l7vhFTG575WxgmK55yFNOy7Nu61NExY3ZPV1uqJQ+DSaqNHLIJqK4JHFtMeZVCN0tDUcOic23AipHZpuLHSyGkfJV9L0nCqvXG9lny9l4YJq3t69To0URq+aW1UiuTr3Vr5xAUxy5wa09uTNBOkoZ5Ok2U647AZ1IAtJV9n0nDbtfHTbCUN/Zgxc3WSwFYmpeTrcS2VRfWanzRctWVkQcmntnMVTFOUhk9NGlZS8qkvsMumjJpT8pmRhvO6jRlR8pmThqM6DTlQ8pmThoe6jNhQ8pmVhpvUh08p+cxLw2nKgyn5MpCGbbOOkk+fNFyFPixlbR8lnz5pGLaWMEHzU/LplYbzkIeUlHzZScMy5CGUfBlKw6o3j3nbx23Q2ydBzCrsookbnxmOzkhwTu2ot04MGQTa8cpQdIZQ3w+qECAUH4xDZ0j2PQ+O7DnqIMCYbuwM4yYIcAy8x4T6v5v5AACTwMuOVQgQOq4MAPzOkLSOl4iC/aMqu2LeAyyZCdrp+X6q/lyHXJc7DykBzCLsuwDYIe50TaK5ng8AryLy67d//PJAX8YQYIA8zvvtzZyBPCgwjrB9cjfx/7F/fOtY3Zsy0P/jjn7LBrt7ZyrLD2QGs0DGvf9uBviUBRb0n3ksHp2o/nAmUET+ArCmD81i7WN4P8YVteeW2cBe1X9L9gVlgE+Z4Dcv76jv7cwVVOqwEnJXv+xrHzkRQTSPix/z/6x6QdDbQBF5F5GfmQ1UBn4NYBgS/OAMcEMmLnCdMZwwBp3giOt8ze5Rpd8IAb4hwzOu76bHjElrgT+KyFe6giAIgiCIGPwDGRWL9q+SmtEAAAAASUVORK5CYII=","bytes":1882,"size":[128,128],"mean_saturation":0.0,"tintable":true,"tint":"shelf","open":false},"flask_half":{"uri":"data:image/png;base64,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","bytes":2242,"size":[128,128],"mean_saturation":0.0,"tintable":true,"tint":"shelf","open":false},"flask_full":{"uri":"data:image/png;base64,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","bytes":2478,"size":[128,128],"mean_saturation":0.0,"tintable":true,"tint":"shelf","open":false},"cards_stack":{"uri":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAACcUlEQVR42u2b3VHjQBCEe6l7hwwUgkIAIjAZQAaQwZKByUBkIGcgMqCIQFwEhgj6HtirujO2pdnfsdivyk9yqTy7s709MwBUKpVKpVKpVCo/EqPhR5BsAVwBuNh59AFgY4z5vcjVJ3lPcuQ0A8nVkgI/d0FJWS8h+FuSW/rzSvLyFANvPHf9YDaQPD+V4G3grh9iVK0NJC9dys5h6zJk8MiUnmSjTeTWggDskQXsBQt4ryH4lSDdxzmC5t45CkSyLSVykt2yibMqn0g6QzN314eQ8yrUlTHplUmyFYrcqtDN0kfNBpeOtnQ6Cr1FHJF0KThqcm1C4e1Cdl3tlSQUyS6lyBU1JYIMbWOfMVW2dIZG2dAX/PcyjYXJRDbYGK5rKOK64hwFG7LrOnz3YTHsxBogUNCeSutwwXU47HN0ZW1lvjrk9dsGBitm+cbq1jv4iQXYqmo0+NchxxurExkwkrxVJnKWYVgfDRhKa4CwDpmi2X35XBFZFdr1nnHZ6wM6bX5fKHJhCyBchKRmyB3Lgemwh6Y2PpOaVpnIzaGNEXzUrk9kkRM5wSbSOfMqiQX+PQZeTlDKbJGMMCyV0EmdYAhHRTLBsNSrjvmV8Aa7APBE8gHAM4CXf57duU8OHgE8GWM+9z00f3cDwDuWxQuAB2PM27EvnQGA+xuczUIC/3CBX08FX1KJUxHerMlkQrKJXI6RU2nSdaQTFiJR3FyWjnSiUjTUX+Rv0AgHkHmdnNIBpF6RU9aa8mtcnMgAMlTkGvW2K6A9rUvklFyZZUUu84jqJMZuIQuxnhl40XQ3qRcCwI377FZsG3z9N8gnKpVi/AG8yYuDTYjlqgAAAABJRU5ErkJggg==","bytes":934,"size":[64,64],"mean_saturation":0.0,"tintable":true,"tint":"shelf","open":false},"cards_stack_high":{"uri":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAC4klEQVR42u2b33HaQBDGv2XybjogHcgd2KkApwKTCkwHciogHcgdiA5kV2BSgewKwBV8efA5AxiQ9v7oDsnfDC8wI9i9vd/u7S3AwCUp/AiSGYBrAOO9jzYAliLy2kvvk7wjWbNZFclpnwy/MEZpteiD8bck17TXM8mrczR8YrnqR6OB5MW5GJ87rvox1UmzgeSVCdk2WpsIqSwipSQ5SQ1yC4UB+QkHlgoH3qVg/FQR7nUboJln1gpIZrEgp1mtPHBUdQdJU9C0XfXKZb8quVIHTZkkMyXkppEyS+k1Gkw45rHDUVlb+IGkCcE6papNCd7CZdWTTUlKSBYhIRe1KFFEaOZ7jyVVlrZgVO76gJ2HpXgwaYiG3EfVVUWpuvxshdxl1dOou4/DsFAzQEHQkomewxXpsDpU0cUtK7s7hzx/WkBnYsZvrK6tjW9wwDqpRoP9OeR0Y7UhAmqSt4lBLqebchsGVLEZoDyHNGmy//C2EJlGWvWSfnWwDihSq/eVkHNzgNIJQYshsy0rhlN+7NbG5qYmSwxybZT5MN5r18cz5FSV4MTTPrM6Eivqdx+yqgS1ag1JD5elTsaPAjHsBsDqFCQ/mi0AHvB5MCKULgHcb7/xLeCXjQH8ITk3Rj5ufTYzrxiak9yIyG/AjMgYIq4wLH0XkdcRAIjIXwDLgTlgtsMAEflpQnVQ2oGgiPwamhNG+ykpIpy61nLHAcb4oaz+o+He/ywwMVlgPADjVwCuReRtOwJmAzH+Ydv40IVQSnoBMBORp5MQ7KnuAVweMn6fAS99Ax2A+QfsTqZBM43dl0pwYwz/0WR8zDN5KLlf23XUjgoxMuuvZR9gsDmkws0mBGxJe+nrdTKbEOhSwkXrKFd1ylG0UCqiziZYzOumCTkPjuiqf5/0bELolOk0VN2lE2wHFdKCXCIpMy7kPBVQ5dlDzpMjFi0NjxruEtoReL8muzlwYlvi/X/Bb/jSl6LpH8Ly7d99sMezAAAAAElFTkSuQmCC","bytes":1082,"size":[64,64],"mean_saturation":0.0,"tintable":true,"tint":"shelf","open":false}},"lab_stripes":{"uri":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAABq0lEQVR42u3asQ0CQRRDQSNolaZolRMm4CRqOHk2+Zu8xPGkv3e0/fT/3ud9tU3be9vb+U/bx3mf+mv3Md52H+Nt9zHedh/jbfcx3nYf4233Md52H+Nt98Yb72O87T7G2+6NN94bb7yP8bZ74433MR4PYDwewHg8gPF4AOPxAMbjAYzHAxiPBzAeD2A8HsB4PIDxeADj8QDG4wGMxwMYjwcwHg9gPB7AeDyA8XgA4/MAxucB9DyAngfQ8wB6HkDPA+h5AD0PoOcB9DyAngfQ8wB6HkDPA+h5AD0PoOcB9DyAngfQ8wB6HkDPA+h5AD0PoOcB9DyAngfQ8wB6HkDPA+h5AD0PoOcB9DyAngfQ8wB6HkDPA+h5AD0PoOcB9DyAngfQ8wB6HkDPA+h5AD0PoOcB9DyAngfQ8wB6HkDPA+h5AD0PoOcB9DyAngfQ8wB6HkDPA+h5AD0PwAMYjwcwHg9gPB7AeDyA8XgA4/EAxuMBjMcDGI8HMB4PYDwewHg8gPF4AOPxAMbjAYzHAxiPBzAeD2A8HsB4PIDxeQDj8wB6HkDPA+h5AP0F+y/qSy0SrMk8nAAAAABJRU5ErkJggg==","bytes":670,"size":[128,128],"mean_saturation":0.0,"tintable":true,"tile_px":128,"pitch_px":16,"duty":0.5,"direction":"down"},"provenance_html":"<h2>Provenance</h2><p class='muted'>Generated \u2014 never hand-edited. Every treatment above is composited the way the client would composite it: <code>SetVertexColor</code> as a multiply against the sprite's own alpha, never a hue rotation. Edit <code>specs/render-shelf.md</code> and rebuild.</p><div class='scroll'><table><tr><th>render-shelf.md</th><td>sha b10b39563c4d \u00b7 Part 6 render-tokens v2</td></tr><tr><th>scenarios.md</th><td>sha aa73ed83f42a</td></tr><tr><th>catalog.md</th><td>sha 122120be21fd</td></tr><tr><th>sidecar</th><td>retribution-scenarios.json \u00b7 sha 698c7bdb7914</td></tr><tr><th>client baseline</th><td>Blizzard's own icon paint, drawn <b>under</b> everything cap adds and read from source, not chosen: <code>ITEM_NOT_IN_RANGE_COLOR</code> (0.64, 0.15, 0.15) \u00b7 <code>ITEM_NOT_ENOUGH_MANA_COLOR</code> (0.5, 0.5, 1.0) \u00b7 <code>ITEM_NOT_USABLE_COLOR</code> (0.4, 0.4, 0.4) \u00b7 plus desaturate-on-cooldown. CooldownViewer.lua:1204-1233 + :14-22 @ 12.1.0.69273; claim at <code>knowledge/addon-dev/cooldown-manager.md \u00a73.4</code>. <b>These are not render tokens</b> \u2014 they are not in the shelf and an edit to the shelf cannot change them.</td></tr><tr><th>in the scan \u00b7 V2</th><td>one treatment, no roles, no motion \u2014 a 2px additive edge at alpha 1.00, drawn ON the icon rect. Additive is why it reads as a hot line rather than a painted one; the restrained area is why full brightness is not loud. It has no falloff, so it cannot bleed into a neighbour at any row gap. Rank is carried by row order and elimination, not by hue.</td></tr><tr><th>icons</th><td>16 \u00d7 56px webp \u00b7 43.1 KB b64</td></tr><tr><th>badge sprites \u00b7 V5</th><td>10 frames from <code>previews/assets/kenney</code> (Kenney <b>Board Game Icons</b>, <b>CC0</b> \u2014 licence vendored beside the art) \u00b7 measured mean saturation 0.0, so <code>SetVertexColor</code> takes them to the authored hue at full strength \u00b7 declared <code>tint: \"shelf\"</code>, which is what puts them under the tint guard \u00b7 22.7 KB b64</td></tr><tr><th>stripe sheet \u00b7 lab</th><td>128\u00d7128 generated by <code>capart.hatch_sheet</code> \u2014 pitch 16px, duty 0.5, down \u00b7 measured mean saturation 0.0, so <code>SetVertexColor</code> takes it to whatever colour the render passes \u00b7 declared <code>tint: \"lane\"</code>, which is what puts it under the tint guard \u00b7 <b>Part 7, no authority</b> \u2014 shipped by <code>export lab</code> to <code>Media/lab/</code> for the in-game <code>/cap style</code> gallery only, never a live CDM row \u00b7 0.7 KB b64</td></tr><tr><th>ring sheet \u00b7 Part 7 only</th><td>256\u00d7256 generated by <code>capart.ring_flipbook</code> \u2014 16 frames in a 4\u00d74 grid of 64px cells, band 2px, travelling 5px inward across the arrival \u00b7 measured mean saturation 0.0, so <code>SetVertexColor</code> takes it to the shelf's colour \u00b7 declared <code>tint: \"shelf\"</code>, which is what puts it under the tint guard \u00b7 shipped by <code>export ring</code> to <code>Media/</code> for Part 7's <code>arrival-*</code> entries. <b>Not embedded in this page</b>: V2 retired and nothing here renders it.</td></tr><tr><th>payload</th><td>66 KB of 512 KB budget</td></tr><tr><th>built</th><td>2026-08-19</td></tr><tr><th>command</th><td>uv run python -m wowkb.capart build retribution</td></tr></table></div>"}</script>
+<script>
+/* Combat Assist Plus — preview behavior.
+ *
+ * This file holds NO colors, rates or sizes. Everything it draws with comes from the
+ * embedded token block, which `wowkb.capart` lifted verbatim out of
+ * `specs/render-shelf.md` Part 6. If a swatch looks wrong, the fix is a shelf edit and a
+ * rebuild — never an edit here, and never an edit to the generated HTML.
+ */
+(function () {
+  "use strict";
+
+  var T = JSON.parse(document.getElementById("cap-tokens").textContent);
+  var D = JSON.parse(document.getElementById("cap-data").textContent);
+
+  function rgb(c, a) {
+    var f = function (v) { return Math.round(v * 255); };
+    return "rgba(" + f(c[0]) + "," + f(c[1]) + "," + f(c[2]) + "," + (a === undefined ? 1 : a) + ")";
+  }
+  function el(tag, cls) { var n = document.createElement(tag); if (cls) n.className = cls; return n; }
+
+  /* ------------------------------------------------------------------ badge sprites
+   * A cue is a filled disc with one sprite frame showing at a time. The client walks a
+   * FlipBook; we walk the same frame list at the same rate, so what you see is the art's real
+   * cadence and not a CSS easing. BOUNCE plays forward then back, exactly as the animation
+   * system does.
+   */
+  // Row badges are rebuilt on every step, so their timers must be reaped or they pile up one
+  // set per keypress. Gallery badges are built once and must NOT be reaped with them — hence
+  // the collector rather than a single global list.
+  var ROW_TIMERS = [];
+  var COLLECT = null;
+
+  function animateSprite(sprite, cue) {
+    var n = cue.frames.length;
+    var i = 0, dir = 1;
+    // A single-frame cue (loop HOLD) is a still image. Setting an interval on it would burn a
+    // timer to re-assign the same url forever, so bind the one frame and stop.
+    if (n < 2) {
+      var only = D.frames[cue.frames[0]];
+      if (only) sprite.style.setProperty("--frame", "url(" + only.uri + ")");
+      return;
+    }
+    function tick() {
+      var f = D.frames[cue.frames[i]];
+      if (f) sprite.style.setProperty("--frame", "url(" + f.uri + ")");
+      if (cue.loop === "BOUNCE") {
+        if (i + dir < 0 || i + dir >= n) dir = -dir;
+        i += dir;
+      } else {
+        i = (i + 1) % n;
+      }
+    }
+    tick();
+    var id = setInterval(tick, (cue.duration_s / n) * 1000);
+    if (COLLECT) COLLECT.push(id);
+  }
+
+  function badgeNode(key) {
+    var cue = T.cues[key] || {};
+    var slot = el("div", "slot");
+    slot.setAttribute("data-slot", String(cue.slot || 1));
+    slot.title = key + " — " + (cue.means || "") + (cue.open ? " (open — unverified in client)" : "");
+    if (cue.open) slot.setAttribute("data-open", "1");
+    slot.setAttribute("data-polarity", cue.polarity || "negative");
+    // Per-cue hue, falling back to the shared badge red. The negatives all take the fallback on
+    // purpose: one red for every "skip this" is what makes the row readable without decoding.
+    if (cue.rgb) slot.style.setProperty("--slot-tint", "var(--cue-" + key + "-tint)");
+    // The GLOW pulses BEHIND the glyph, and the glyph itself never changes alpha. A cue that
+    // faded would make its own information blink, which is the thing the text limits exist to
+    // forbid; a halo can breathe without the fact it carries ever going away.
+    if (cue.glow) {
+      var glow = el("div", "glow");
+      glow.style.setProperty("--g-dur", "var(--cue-" + key + "-glow-dur)");
+      glow.style.setProperty("--g-a0", "var(--cue-" + key + "-glow-a0)");
+      glow.style.setProperty("--g-a1", "var(--cue-" + key + "-glow-a1)");
+      glow.style.setProperty("--g-scale", "var(--cue-" + key + "-glow-scale)");
+      slot.appendChild(glow);
+    }
+    var sprite = el("div", "sprite");
+    slot.appendChild(sprite);
+    if (cue.frames) animateSprite(sprite, cue);
+    return slot;
+  }
+
+  /* ------------------------------------------------------------------ V13 · the scan edge
+   *
+   * One hue, no roles, no motion. Its numbers come from `tokens.ready`, emitted as --ready-* by
+   * capart, so no value appears in this file. There is no art and nothing to walk: the ring
+   * flipbook the retired V2 border stepped through is Part 7's now, and only the in-game
+   * `/cap style` gallery can draw it (CSS has no four-strip ring).
+   */
+
+  function scanMark() {
+    var n = el("div", "ready-line");
+    n.style.setProperty("--rl-rgb", "var(--ready-rgb)");
+    n.style.setProperty("--rl-rest", "var(--ready-alpha)");
+    n.style.setProperty("--rl-line", "var(--ready-line)");
+    return n;
+  }
+
+  /* ------------------------------------------------------------------ one CDM item */
+
+  function itemNode(entry, index) {
+    var ab = D.abilities[entry.name] || {};
+    var rule = T.verdicts[entry.verdict] || {};
+
+    var item = el("div", "item");
+
+    var art = el("div", "art");
+    if (ab.icon) art.style.backgroundImage = "url(" + ab.icon + ")";
+    clientPaint(art, entry, rule);
+    item.appendChild(art);
+
+    if (rule.swipe) item.appendChild(el("div", "swipe"));
+
+    // V11 · the cooldown hatch. Over the icon and the swipe, under the badges — it states a
+    // condition about the whole button, and the marks that say *why* must stay legible on top.
+    if (rule.hatch) item.appendChild(hatchLayer());
+
+    // Every non-`cd` row is IN THE SCAN and wears the edge. `press`, `press-promoted` and
+    // `below` render IDENTICALLY, and that is the point: the press is "the leftmost thing not
+    // ruled out", not a thing cap draws (render-shelf.md Part 0.5). The edge goes OVER the art
+    // — it is a rim on the button, not a layer across it.
+    if (rule.scan) item.appendChild(scanMark());
+
+    var open = false;
+    var cues = (rule.cues || []).concat(entry.cues || []);
+    cues.slice(0, T.badges.slots.length).forEach(function (k) {
+      if ((T.cues[k] || {}).open) open = true;
+      item.appendChild(badgeNode(k));
+    });
+    if (open) item.setAttribute("data-open", "1");
+
+    var col = el("div", "lane");
+    col.appendChild(item);
+    // The name and the verdict are the ANSWER, and the row exists to ask whether the
+    // decorations carry it unaided — so they hover rather than print. They also used to size
+    // the lane (a caption wider than the icon set the lane width), which made the icon pitch
+    // uneven and misreported the client's fixed-pitch row.
+    col.setAttribute("data-name", entry.name);
+    col.setAttribute("data-verdict", entry.verdict);
+    if ((entry.cues || []).length) col.setAttribute("data-cues", entry.cues.join(" "));
+    return col;
+  }
+
+  /* The one tooltip, fixed-position on <body> so no ancestor's overflow can clip it. */
+
+  var tipEl = el("div", "tip");
+  tipEl.id = "tip";
+  document.body.appendChild(tipEl);
+
+  function tipShow(col) {
+    var cues = col.getAttribute("data-cues");
+    tipEl.innerHTML = "<b>" + col.getAttribute("data-name") + "</b>" +
+      "<span class=\"tip-verdict\">" + col.getAttribute("data-verdict") + "</span>" +
+      (cues ? "<span class=\"tip-cues\">" + cues + "</span>" : "");
+    tipEl.setAttribute("data-on", "1");
+    var r = col.getBoundingClientRect(), t = tipEl.getBoundingClientRect();
+    var x = r.left + r.width / 2 - t.width / 2;
+    tipEl.style.left = Math.max(4, Math.min(x, window.innerWidth - t.width - 4)) + "px";
+    tipEl.style.top = (r.bottom + 8) + "px";
+  }
+  function tipHide() { tipEl.removeAttribute("data-on"); }
+
+  document.addEventListener("mouseover", function (e) {
+    var col = e.target.closest && e.target.closest(".lane[data-name]");
+    if (col) tipShow(col); else tipHide();
+  });
+  // NOT capture-phase: mouseleave does not bubble, but a capture listener on `document`
+  // still sees every descendant's, so moving between an icon and its own badge would
+  // flicker the tip away. Un-captured, this fires only when the pointer leaves the page.
+  document.addEventListener("mouseleave", tipHide);
+  window.addEventListener("scroll", tipHide, true);
+
+  /* ------------------------------------------------------------------ the stepper */
+
+  var pick = document.getElementById("pick");
+  var rowEl = document.getElementById("row");
+  var walkEl = document.getElementById("walk");
+  var stateEl = document.getElementById("state");
+  var extrasEl = document.getElementById("extras");
+
+  var current = 0, step = 0;
+
+  D.scenarios.forEach(function (s, i) {
+    var o = el("option");
+    o.value = String(i);
+    o.textContent = s.id + " · " + s.title;
+    pick.appendChild(o);
+  });
+
+  function reachedThrough(sc, upto) {
+    // How far along the row the walk has got: the furthest row entry named by any step
+    // shown so far. `upto < 0` means "the whole row", the resting view.
+    if (upto < 0) return sc.row.length;
+    var furthest = 0;
+    for (var i = 0; i <= upto && i < sc.steps.length; i++) {
+      sc.steps[i].names.forEach(function (n) {
+        for (var j = 0; j < sc.row.length; j++) if (sc.row[j].name === n && j + 1 > furthest) furthest = j + 1;
+      });
+    }
+    return furthest;
+  }
+
+  function clearRowTimers() { ROW_TIMERS.forEach(clearInterval); ROW_TIMERS = []; }
+
+  function render() {
+    var sc = D.scenarios[current];
+    var reach = reachedThrough(sc, step - 1);
+
+    stateEl.innerHTML = "<b>State.</b> " + sc.state;
+
+    clearRowTimers();
+    COLLECT = ROW_TIMERS;
+    rowEl.innerHTML = "";
+    sc.row.forEach(function (entry, i) {
+      var col = itemNode(entry, i);
+      if (i >= reach && step > 0) col.setAttribute("data-dimmed", "1");
+      if (step > 0 && i === reach - 1) col.setAttribute("data-active", "1");
+      rowEl.appendChild(col);
+    });
+    COLLECT = null;
+
+    walkEl.innerHTML = "";
+    sc.steps.forEach(function (s, i) {
+      var n = el("div", "step");
+      if (step > 0 && i === step - 1) n.setAttribute("data-active", "1");
+      if (step > 0 && i > step - 1) n.setAttribute("data-future", "1");
+      var num = el("div", "n"); num.textContent = String(i + 1);
+      var body = el("div"); body.innerHTML = s.html;
+      n.appendChild(num); n.appendChild(body);
+      walkEl.appendChild(n);
+    });
+
+    extrasEl.innerHTML = "";
+    (sc.extras || []).forEach(function (x) {
+      var n = el("div", "aside");
+      n.innerHTML = "<b>" + x.label + ".</b> " + x.html;
+      extrasEl.appendChild(n);
+    });
+  }
+
+  pick.addEventListener("change", function () { current = +pick.value; step = 0; render(); });
+  document.getElementById("next").addEventListener("click", function () {
+    var sc = D.scenarios[current];
+    step = Math.min(step + 1, sc.steps.length);
+    render();
+  });
+  document.getElementById("prev").addEventListener("click", function () {
+    step = Math.max(step - 1, 0); render();
+  });
+  document.getElementById("all").addEventListener("click", function () { step = 0; render(); });
+  document.getElementById("zoom").addEventListener("click", function () {
+    var on = rowEl.getAttribute("data-zoom") === "2";
+    rowEl.setAttribute("data-zoom", on ? "1" : "2");
+    this.setAttribute("aria-pressed", on ? "false" : "true");
+  });
+
+  /* ------------------------------------------------------------------ gallery */
+
+  // ------------------------------------------------------------------ Blizzard's baseline
+  // What the client already paints on this icon, before cap draws anything. It goes on `.art`
+  // itself rather than into a layer of its own, because that is where the client puts it — a
+  // SetVertexColor on the icon texture — and because everything cap adds (swipe, hatch, border,
+  // badges) is a sibling drawn OVER `.art`, so the stacking falls out for free.
+  //
+  // ⚠ Read from `D.client_paint`, never from `T`. These numbers are Blizzard's, transcribed from
+  // its source; they are not shelf tokens and nothing here may treat them as tunable.
+  function clientPaint(art, entry, rule) {
+    var paint = D.client_paint || {};
+    // Desaturation means ON COOLDOWN and nothing else, so it follows the `cd` verdict rather
+    // than a declaration. `--desat` is the grayscale filter `.art` already carries.
+    if (rule.swipe && paint.cooldown_desaturates) art.style.setProperty("--desat", "1");
+
+    var state = entry.client;
+    if (!state) return;                      // no declaration = ITEM_USABLE_COLOR = untouched
+    var tint = (paint.tints || {})[state];
+    if (!tint) return;
+    // SetVertexColor MULTIPLIES. So does this. A filter/hue-rotate would look similar and would
+    // be able to produce colours the client cannot, which is the one lie a reproduction may not
+    // tell (see this tool's header).
+    art.style.backgroundColor = rgb(tint.rgb);   // 0..1 floats, same scale as the shelf's
+    art.style.backgroundBlendMode = "multiply";
+    art.title = "client: " + tint.constant + " — " + tint.means;
+  }
+
+  function swatch(name, why, build) {
+    var s = el("div", "swatch");
+    var host = el("div", "swatch-stage");
+    host.style.height = "calc(" + T.surfaces.icon_px + "px * 1.6)";
+    host.appendChild(build());
+    s.appendChild(host);
+    var n = el("div", "name"); n.textContent = name; s.appendChild(n);
+    var w = el("div", "why"); w.innerHTML = why; s.appendChild(w);
+    return s;
+  }
+
+  var gallery = document.getElementById("gallery");
+
+  // The swatch's border comes from whichever ability it borrows art from, exactly as it does in
+  // a scenario row — so a gallery swatch and a live row can never diverge.
+  function bareItem(name, verdict, opts) {
+    opts = opts || {};
+    return itemNode({ name: name, verdict: verdict, cues: opts.cues }, 0).firstChild;
+  }
+
+  var SCAN_SAMPLES = D.scan_samples || [];
+
+  // V2 · in the scan. One swatch, because there is one treatment: an icon either participates
+  // in the read or it does not. What used to be four hue-coded lanes is now carried by row
+  // order plus elimination, which is what the reading rule already used.
+  gallery.appendChild(swatch(
+    "in the scan · V2",
+    "a <b>" + T.ready.line_px + "px</b> additive edge at alpha " + T.ready.alpha + ", drawn ON " +
+      "the icon rect. Additive is why full brightness reads as a <b>hot line</b> rather than a " +
+      "painted one, and the restrained area is why full brightness is not loud. Every " +
+      "non-swiped row wears it <em>identically</em> — the press is the leftmost thing not " +
+      "ruled out, not a thing cap draws. It has no falloff, so it cannot reach a neighbour.",
+    function () { return bareItem(D.scan_sample, "press"); }
+  ));
+
+
+  gallery.appendChild(swatch("swipe", "Blizzard's own dial — cap draws nothing here, and does " +
+    "not restyle it. The cheapest possible “ruled out”.",
+    function () { return bareItem(D.scan_sample, "cd"); }));
+
+  // V5 · one swatch per cue, then the full three slots, so "do three badges crowd the face?"
+  // is answerable rather than asserted.
+  var cueKeys = Object.keys(T.cues);
+  cueKeys.forEach(function (key) {
+    var cue = T.cues[key];
+    gallery.appendChild(swatch(
+      "cue · " + key + (cue.open ? " ⚠" : ""),
+      (cue.open ? "<b>declared, unverified in client — produces no hint yet.</b> " : "") +
+        cue.means + " <em>(slot " + cue.slot + ", " + cue.frames.length + " frames @ " +
+        cue.duration_s + "s " + cue.loop + ")</em>",
+      function () { return bareItem(D.scan_sample, "below", { cues: [key] }); }
+    ));
+  });
+
+  // One cue per DISTINCT slot, not the first N cues: `starved` and `overcap` deliberately share
+  // slot 2 (they are the same question about the same resource, and never co-occur), so taking
+  // the first three would stack two badges in one place and draw only two. This swatch exists to
+  // answer "do three badges crowd the face?", which it cannot do while showing two.
+  var perSlot = [];
+  T.badges.slots.forEach(function (s) {
+    var k = cueKeys.filter(function (c) { return T.cues[c].slot === s.id; })[0];
+    if (k) perSlot.push(k);
+  });
+  gallery.appendChild(swatch("badges · all three slots",
+    T.badges.slots.length + " is the ceiling the shelf sets. If a fourth slot wants in, one of " +
+    "the three is not earning its place. Shown: " + perSlot.join(" · ") + " — one per slot, so " +
+    "the crowding question is answerable. Slot 3 is the positive cue's, and reads gold.",
+    function () { return bareItem(D.scan_sample, "below", { cues: perSlot }); }));
+
+  // A badge overhanging the corner can collide with the next icon. That is arithmetic, and
+  // arithmetic in a caption is an assertion; drawn in a real row it is a finding.
+  var over = T.badges.overhang_px, gap = T.surfaces.row_gap_px;
+  gallery.appendChild(swatch("badges · in a real row",
+    "overhangs <b>" + over + "px</b> past the edge; the row gap is <b>" + gap + "px</b>" +
+      (over > gap ? " — <b>they collide.</b>" : " — <b>they clear.</b>"),
+    function () {
+      var strip = el("div", "swatch-stage");
+      SCAN_SAMPLES.slice(0, 3).forEach(function (name, i) {
+        strip.appendChild(bareItem(name, "below",
+          { cues: [cueKeys[i % cueKeys.length]] }));
+      });
+      return strip;
+    }));
+
+  // The frame strips, so the art itself is inspectable rather than only seen in motion.
+  var framesHost = document.getElementById("frames");
+  cueKeys.forEach(function (key) {
+    var cue = T.cues[key];
+    var s = el("div", "swatch");
+    var strip = el("div", "frames");
+    cue.frames.forEach(function (fn) {
+      var f = D.frames[fn];
+      var d = el("div", "f");
+      var g = el("i");
+      if (f) {
+        g.style.backgroundColor = rgb(T.badges.rgb);
+        g.style.webkitMaskImage = g.style.maskImage = "url(" + f.uri + ")";
+        g.style.webkitMaskSize = g.style.maskSize = "contain";
+        g.style.webkitMaskRepeat = g.style.maskRepeat = "no-repeat";
+        g.style.webkitMaskPosition = g.style.maskPosition = "center";
+      }
+      d.appendChild(g);
+      strip.appendChild(d);
+    });
+    s.appendChild(strip);
+    var n = el("div", "name"); n.textContent = key; s.appendChild(n);
+    var w = el("div", "why");
+    w.innerHTML = cue.frames.join(" → ") + " · " + cue.loop.toLowerCase();
+    s.appendChild(w);
+    framesHost.appendChild(s);
+  });
+
+  /* ------------------------------------------------------------------ tables */
+
+  var vt = document.getElementById("verdicts");
+  var head = "<tr><th>verdict</th><th>in the scan</th><th>swipe</th><th>hatch</th>" +
+    "<th>cues</th></tr>";
+  vt.innerHTML = head + Object.keys(T.verdicts).map(function (k) {
+    var r = T.verdicts[k];
+    return "<tr><td>" + k + "</td><td>" + (r.scan ? "yes" : "—") + "</td><td>" +
+           (r.swipe ? "yes" : "—") + "</td><td>" + (r.hatch ? "yes" : "—") + "</td><td>" +
+           ((r.cues && r.cues.length) ? r.cues.join(", ") : "—") + "</td></tr>";
+  }).join("");
+
+  /* ------------------------------------------------------------------ Part 7 · the lab
+   *
+   * Experiments, drawn so they can be looked at. Nothing here is the style, and nothing a
+   * scenario can reach may reference it — `capart build` enforces that, this just draws it.
+   */
+
+  function labEntry(key, spec) {
+    var box = el("div", "lab-entry");
+    var h = el("h3");
+    h.innerHTML = (spec.title || key) + ' <span class="key">lab.' + key + "</span>";
+    box.appendChild(h);
+    var asks = el("p", "asks");
+    asks.innerHTML = "<b>Asks:</b> " + (spec.asks || "<em>nothing — Part 7 says an entry that " +
+      "cannot say what it is asking is decoration</em>");
+    box.appendChild(asks);
+    var row = el("div", "lab-row");
+    box.appendChild(row);
+    return { box: box, row: row };
+  }
+
+  function labCell(node, caption) {
+    var c = el("div", "lab-cell");
+    var stage = el("div", "lab-stage");
+    stage.appendChild(node);
+    c.appendChild(stage);
+    var cap = el("div", "cap");
+    cap.innerHTML = caption || "";
+    c.appendChild(cap);
+    return c;
+  }
+
+  /* Diagonal stripes — V11's cooldown hatch, and Part 7's remaining entries.
+   *
+   * ONE tileable white-alpha sheet, generated at build time from `tokens.hatch`; every render
+   * asks it for something DIFFERENT. `background-color` + `mask-image` is the faithful CSS
+   * analogue of SetVertexColor multiplying white art, and `mask-position` is the SetTexCoord
+   * offset that makes a complementary phase possible.
+   *
+   * There is deliberately no shared "is this striped" flag: a layer is built from ONE render's
+   * own colour and phase, and a cell that needs two conditions shown gets two layers.
+   */
+  var SHEET = D.lab_stripes;
+
+  function maskedStripe(cls, rgbVar, phaseVar) {
+    var n = el("div", cls);
+    n.style.setProperty("--stripe-rgb", rgbVar);
+    n.style.setProperty("--stripe-phase", phaseVar);
+    if (SHEET) {
+      n.style.webkitMaskImage = n.style.maskImage = "url(" + SHEET.uri + ")";
+    }
+    return n;
+  }
+
+  function hatchLayer() {
+    return maskedStripe("stripes", "var(--hatch-rgb)", "var(--hatch-phase)");
+  }
+
+  function stripeLayer(key) {
+    return maskedStripe("stripes", "var(--lab-" + key + "-rgb)",
+                        "var(--lab-" + key + "-phase)");
+  }
+
+  // The bare sheet, so pitch and angle are directly visible rather than only inferable from an
+  // icon that is also doing five other things.
+  function sheetSwatch(key) {
+    return maskedStripe("lab-sheet", "var(--lab-" + key + "-rgb)",
+                        "var(--lab-" + key + "-phase)");
+  }
+
+  function stripedItem(key, cell) {
+    var item = bareItem(cell.ability, cell.verdict || "below", { cues: cell.cues || [] });
+    var layers = cell.stripes || [];
+    // Inserted BEFORE the first badge slot, so the stripes lie over the icon and the swipe but
+    // under the corner badges — the badges are the thing that says *why* and must stay legible.
+    var anchor = item.querySelector(".slot");
+    layers.forEach(function (which) {
+      var layer = stripeLayer(which === "self" ? key : which);
+      if (anchor) item.insertBefore(layer, anchor); else item.appendChild(layer);
+    });
+    return item;
+  }
+
+  /* The readiness treatments. Each entry supplies its own numbers and nothing is shared
+   * between them — same discipline as the stripe renders above. `draws` picks the layer;
+   * the CSS variables carry the values, so no number appears in this file. */
+
+  function readyGlow(key, spec, index) {
+    var n = el("div", "ready-glow");
+    n.style.setProperty("--rg-rgb", "var(--lab-" + key + "-rgb)");
+    n.style.setProperty("--rg-rest", "var(--lab-" + key + "-rest)");
+    n.style.setProperty("--rg-flare", "var(--lab-" + key + "-flare)");
+    n.style.setProperty("--rg-spread", "var(--lab-" + key + "-glow)");
+    if (spec.flare_mult) {
+      n.style.setProperty("--rg-flare-spread", "var(--lab-" + key + "-flare-glow)");
+      n.style.setProperty("--rg-decay", "var(--lab-" + key + "-decay)");
+      n.setAttribute("data-flare", "1");
+    }
+    if (spec.period_s) {
+      n.style.setProperty("--rg-period", "var(--lab-" + key + "-period)");
+      // The cycle's top. An entry that declares no `peak_alpha` breathes up to its flare value,
+      // which is what a breathe-only entry means by it.
+      n.style.setProperty("--rg-peak", spec.peak_alpha
+        ? "var(--lab-" + key + "-peak)" : "var(--lab-" + key + "-flare)");
+      // Out of phase on purpose: four breathing in lockstep read as one region blinking.
+      n.style.setProperty("--rg-phase", (-(index || 0) * 0.37) + "s");
+      n.setAttribute("data-breathe", "1");
+    }
+    return n;
+  }
+
+  // A cell may override the width, so one entry can show the ladder side by side rather than
+  // needing an entry per value. The number is still the shelf's; this only chooses which.
+  function readyLine(key, cell) {
+    var n = el("div", "ready-line");
+    n.style.setProperty("--rl-rgb", "var(--lab-" + key + "-rgb)");
+    n.style.setProperty("--rl-rest", "var(--lab-" + key + "-rest)");
+    n.style.setProperty("--rl-line", (cell && cell.line_px)
+      ? cell.line_px + "px" : "var(--lab-" + key + "-line)");
+    return n;
+  }
+
+  // The glow goes UNDER the icon art — it is light spilling out from behind the button, not a
+  // wash over its face. The hairline goes over, because it is an edge.
+  function readyItem(key, spec, cell, ability, index) {
+    var item = bareItem(ability, cell.verdict || "below", { cues: cell.cues || [] });
+    // These entries ask what the GLOW or the HAIRLINE says. The declared scan edge is a second
+    // answer in the same frame and at icon size it is the louder one, so an entry may drop it and
+    // be judged alone. ⚠ It strips `.ready-line`, the class `itemNode` appends for `rule.scan` —
+    // this used to strip `.edge`, a class the DOM has not carried since the collapse, so every
+    // readiness cell was silently judged with a 2px gold line composited over it.
+    if (spec.inner_border === false) {
+      var mark = item.querySelector(":scope > .ready-line");
+      if (mark) mark.remove();
+    }
+    if (spec.draws === "ready-line") {
+      item.appendChild(readyLine(key, cell));
+    } else {
+      item.insertBefore(readyGlow(key, spec, index), item.firstChild);
+    }
+    return item;
+  }
+
+  function readyRow(key, spec, cell) {
+    var row = el("div", "ready-row");
+    (cell.abilities || []).forEach(function (ability, i) {
+      row.appendChild(readyItem(key, spec, cell, ability, i));
+    });
+    return row;
+  }
+
+  var LAB = T.lab || {};
+  var labHost = document.getElementById("lab");
+  var labKeys = Object.keys(LAB).filter(function (k) { return k.charAt(0) !== "_"; });
+
+  if (!labKeys.length) {
+    // An empty lab is a lab, not a defect — and the page should say so rather than render a
+    // silent gap that reads as a missing section.
+    var empty = el("div", "lab-empty");
+    empty.innerHTML = "<b>The lab is currently empty.</b> Its two entries were promoted into " +
+      "the declared style on 2026-08-13 and deleted from here, which is the only way a " +
+      "treatment leaves the lab (Part 7, rule 4): <code>border-arrival</code> became the lane " +
+      "border and its arrival snap, and <code>badge-slots</code> became the corner badges with " +
+      "a negative-only cue vocabulary (which gained one positive cue on 2026-08-14 — see Part " +
+      "0.5). Both are drawn above, as the style. The next idea gets a " +
+      "<code>lab</code> key, an <code>asks</code>, and a section here.";
+    labHost.appendChild(empty);
+  } else {
+    labKeys.forEach(function (key) {
+      var spec = LAB[key];
+      var e = labEntry(key, spec);
+      // An entry with no cells is not half-authored: some treatments have no CSS analogue at
+      // all — a four-strip ring being scaled is one — and those are drawn by the in-game
+      // gallery instead. Say so, rather than leaving a gap that reads as a broken build.
+      if (!(spec.cells || []).length) {
+        var only = el("p", "asks");
+        only.innerHTML = "<b>Drawn in the client only</b> — <code>/cap style</code>, under " +
+          "<em>lab</em>. This treatment has no faithful CSS analogue, so the preview would be " +
+          "an argument about the client rather than the client. See Part 7.";
+        e.box.appendChild(only);
+      }
+      (spec.cells || []).forEach(function (cell) {
+        var cap = cell.caption || "";
+        if (cell.kind === "sheet") {
+          e.row.appendChild(labCell(sheetSwatch(key), cap));
+          return;
+        }
+        if (cell.kind === "row") {
+          e.row.appendChild(labCell(readyRow(key, spec, cell), cap));
+          return;
+        }
+        if (spec.draws === "ready-glow" || spec.draws === "ready-line") {
+          var head1 = "<b>" + cell.ability + "</b> · <code>" + (cell.verdict || "below") +
+                      "</code><br>";
+          e.row.appendChild(labCell(readyItem(key, spec, cell, cell.ability, 0),
+                                    head1 + cap));
+          return;
+        }
+        var head = "<b>" + cell.ability + "</b> · <code>" + (cell.verdict || "below") +
+                   "</code><br>";
+        e.row.appendChild(labCell(stripedItem(key, cell), head + cap));
+      });
+      labHost.appendChild(e.box);
+    });
+  }
+
+  document.getElementById("prov").innerHTML = D.provenance_html;
+
+  // A build-time honesty flag: art drawn through a path we have not verified in client, or a
+  // declared lane no ability in this catalog can actually draw.
+  (D.notes || []).forEach(function (msg) {
+    var n = el("div", "note");
+    n.innerHTML = "⚠ " + msg;
+    document.getElementById("state").parentNode.insertBefore(n, document.getElementById("state"));
+  });
+
+  render();
+})();
+
+</script>

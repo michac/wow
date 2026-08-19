@@ -20,23 +20,29 @@ and nothing about how it was measured.
 
 - The engine supports the readable predicates its catalogs use — `ready` · `proc` · `identity` ·
   `capped` · `affordable` · `resource` · `talent` · `aoe` — propagates unknown safely, composes a
-  row as **lane + badges**, leaves Blizzard's proc glow intact, and owns one independent Tyrant
-  bar. Sealed facts reach client-owned display sinks only, never a Lua branch.
-- A catalog's tier names *are* the shelf's lane names — **COOLDOWN / ROTATION / FALLBACK** — with
-  no mapping table between them (`Treatment.LANE` was deleted rather than made an identity map).
+  row as **scan membership + badges**, leaves Blizzard's proc glow intact, and owns one independent
+  Tyrant bar. Sealed facts reach client-owned display sinks only, never a Lua branch.
+- **The role tier is model-only** (2026-08-19). `Catalog.TIERS` and every catalog's `| Lane |`
+  column still carry **COOLDOWN / ROTATION / FALLBACK**, and `Treatment.For` reduces them to one
+  bit: a row with any tier is in the scan, a row with none is not. Nothing downstream of the model
+  can tell one tier from another, which `presentation_spec` asserts.
 - Engine guarantees and provisional per-spec examples are separate test groups.
 
 ### The style
 
-- **The style is lane borders + corner badges, over Blizzard's own swipe and desaturation.** The
-  veil is deleted; the addon carries zero occurrences of `veil` (2026-08-16). `render-shelf.md`
-  declares it, `capart export` generates `Style.lua` and the badge / ring / hatch art from Part 6,
-  and `capart check` fails on a committed asset that disagrees with the shelf. `Paint.lua` holds
-  one builder per primitive and both the live overlay and `/cap style` draw through it.
-- **V2's lane border is a ring flipbook** (2026-08-16): one generated white-alpha sheet, 16 frames
-  in a 4×4 grid, tinted per lane and stepped in place on the shared ticker so the arrival lasts
-  `tokens.arrival.duration_s`. Every lane draws the same band; lanes differ by hue alone. Nothing
-  scales, so a border cannot reach a neighbouring row. **Not flown** — Part 5 question 8.
+- **The style is the scan edge + corner badges + the cooldown hatch, over Blizzard's own swipe and
+  desaturation.** The veil is deleted; the addon carries zero occurrences of `veil` (2026-08-16).
+  `render-shelf.md` declares it, `capart export` generates `Style.lua` and the badge / ring / hatch
+  art from Part 6, and `capart check` fails on a committed asset that disagrees with the shelf.
+  `Paint.lua` holds one builder per primitive and both the live overlay and `/cap style` draw
+  through it.
+- **V13's scan edge is one binary treatment** (2026-08-19): a `tokens.ready.line_px` additive line
+  on the icon rect, drawn on a row cap has an opinion about and absent on one it does not. No hue
+  ladder, no motion, no art — four `SetColorTexture` strips with `SetBlendMode("ADD")`, and the
+  only in-combat write is `Show`/`Hide`. It replaced V2's four-hue ring flipbook and its arrival
+  snap, which are retired from the style; `tokens.ring` and `Media/ring.tga` still ship because
+  Part 7's `arrival-*` entries are still about them, and the live overlay no longer draws either.
+  **Not flown** — Part 5 question 2.
 - **V11's cooldown hatch is shipped** (2026-08-16), on every row the CDM says is down.
   `verdicts.cd` is the only verdict carrying `hatch: true`, and **only `false` draws** — an
   `UNKNOWN` or absent readiness draws bare, so absence of a hatch never asserts a button is up.
@@ -52,8 +58,12 @@ and nothing about how it was measured.
   press. A scenario that stops leading the eye to its press fails **by name**.
 - The two Warlock context dots (`dreadstalkers`, `grimoire`) are still evaluated and still reported
   in the `draw` capture's `M{}`, but **draw nothing**: the cue set is closed and they have no key.
-- Part 7's lab holds two diagonal-stripe entries (`stripes-l3-hold`, `stripes-l5-starved`), drawn
-  and deciding nothing. They borrow V11's shipped stripe sheet rather than keeping a second copy.
+- **Part 7's lab holds ten entries in three families**, drawn and deciding nothing: two
+  diagonal-stripe (`stripes-l3-hold`, `stripes-l5-starved`, borrowing V11's shipped sheet rather
+  than keeping a second copy), four `arrival-*` (the retired snap and what it draws beside
+  neighbours — gallery-only, since CSS has no four-strip ring), and four `ready-*`, which is the
+  family **V13 came out of**: the shipped scan edge is `ready-hairline` at 2 px, and the other
+  three are the louder and quieter candidates it was chosen over on paper.
 
 ### The client seam
 
@@ -66,12 +76,28 @@ and nothing about how it was measured.
 - **Authored ordering ships, on by default** (2026-08-16). `Anchor.lua` re-anchors the Essential
   viewer's item frames into the catalog's authored order a second after `PLAYER_ENTERING_WORLD`,
   re-applies out of combat on layout stomps and on the spec / talent / settings edges, samples at
-  2 Hz, and **backs off after one warning** when another addon contends for the same frames.
-  `/cap anchor [on|off|rows]`; the setting persists at `ns.db.anchor`.
+  2 Hz, and **asks before it stops**. `/cap anchor [on|off|retry|rows]`; the setting persists at
+  `ns.db.anchor`.
   - **Flown 2026-08-16** (cap v0.7.0, Havoc / Fel-Scarred, nine Essential rows): the drawn order
     read back byte-identical to the authored order right after the apply and again at both edges of
     a 138 s fight, `disp:0 cont:0 stomp:0`. ⚠ `RefreshLayout` never fired, so the in-combat
     pool-release path that would break it is **untested** — persistence is supported, not proven.
+- **Ordering recovers instead of latching** (2026-08-17). Three defects made a scrambled row
+  permanent for a session: the first displacement after arming had no prior cause to be
+  attributed to and so read as another addon by construction; the contention response was a
+  session-long silent latch that only `off`+`on` cleared; and `refresh` re-applied rather than
+  rebuilt, so a `RefreshLayout` that re-pooled the item frames left cap placing frames whose
+  identity it no longer knew. Now: `arm` seeds the cause; `Anchor.Judge` is a pure classifier
+  requiring a run of strikes inside a window; exhausting it opens a **yes/no dialog** ("Turn it
+  off" / "Keep trying") and cap never stops on its own; a destructive stomp or a live
+  `GetCooldownID()` mismatch triggers a **rebuild** from a fresh bind; `X{STALE:<n>}` reports the
+  mismatch the old `X{ok}` could not see; and `/cap anchor retry` is the manual recovery.
+  - **Not flown.** The classifier has unit coverage; the dialog, the rebuild and the stale
+    detector have only been reasoned about. Fly before believing the counts.
+  - ⚠ **What moved the frames in the stuck sessions is still unattributed.** The capture shows
+    displacement with neither `Layout` nor `RefreshLayout` firing, which is either a competitor
+    or a layout path `Anchor.lua` does not hook. The new behaviour is correct either way, but it
+    does not answer this.
   - ⚠ **Not built:** the always-show / un-hide half. `SetCooldownToCategory` writes the player's
     saved CDM layout, which the ordering design deliberately avoided, and it needs an author call.
   - `Anchor.lua`'s `InCombatLockdown()` guard on `apply()` is **caution, not a restriction**:
@@ -82,18 +108,18 @@ and nothing about how it was measured.
 
 - **Havoc / Fel-Scarred is the live spec.** `Catalogs/Havoc.lua` carries twelve entries in authored
   priority order; Aldrachi Reaver is a separate future catalog and correctly gets nothing. What
-  draws: twelve lane borders (three purple `CHARGES`), the holds on Metamorphosis / The Hunt /
-  Essence Break / Vengeful Retreat, `starved` on the two Fury spenders, Immolation Aura's gold
-  `capped` and its single-target skip badge, the arrival snap, the cooldown hatch, and the
-  generators' graded overcap readout.
+  draws: twelve scan edges, the holds on Metamorphosis / The Hunt / Essence Break / Vengeful
+  Retreat, `starved` on the two Fury spenders, Immolation Aura's gold `capped` and its
+  single-target skip badge, the cooldown hatch, and the generators' graded overcap readout.
   - **The composition seam held.** Adding the holds and the graded curves edited neither
     `Treatment.lua` nor `Overlay.lua`'s cue vocabulary — `authoring.md` stage 6's renderer test,
     passed repeatedly.
   - **Re-sourced from the Tier-1 simc APL on 2026-08-17**, which corrected several rules and
     reversed one. `specs/havoc/catalog.md` → `## Changelog` is the record, and its *Open facts*
     section owns every unmeasured Havoc fact. **The row has not flown since.**
-  - The Havoc design lives in three files — `catalog.md` (normative), `fact-classification.md`,
-    `scenarios.md` — which is the standing violation of `authoring.md` §0's one-catalog rule.
+  - The Havoc design lives in three files — `catalog.md` (the definition),
+    `scenarios.md` (the walk), `fact-classification.md` (the safety case) — which is the
+    **model every spec follows** (`authoring.md` §0, revised 2026-08-19).
 - **The Havoc row flew once, 2026-08-15** (cap v0.4.0, Fel-Scarred, on EllesmereUI), against the
   pre-APL catalog. Its structural finding — the reading model assumes the CDM's row order matches
   the authored priority — is what `Anchor.lua` was built to answer.
@@ -101,20 +127,48 @@ and nothing about how it was measured.
   Dreadstalkers and Grimoire are readable Tyrant dependencies. Destruction / Diabolist is the
   minimal sealed proof — Conflagrate tiering plus an independent sealed Backdraft count through
   Blizzard's 12.1 AuraContainer path. **Neither has ever flown as a cap build.**
+- **Retribution / Templar is authored and has never been built or flown.** Three files
+  (`catalog.md` / `scenarios.md` / `fact-classification.md`, split 2026-08-19), 13 scenarios, and a
+  generated `retribution-stepper.html` preview. There is no `Catalogs/Retribution.lua`, so the
+  addon draws nothing on the spec — which is the design (a spec without a catalog gets nothing).
+- **Devourer is authored and has never been built or flown**, on the same terms: three files, and
+  the first spec whose definition needed **V12's virtual row** (Collapsing Star has no CDM frame at
+  all). No catalog Lua, no preview registered in `SPECS_BUILT`.
 - **Cue D (demon-form promotion) and cue B's positive "banked" half are authored and not drawn.**
   A promotion is a positive cue and `press-promoted` renders identically to `press`. The permission
   is unchanged; what is missing is pixels, not authority.
 
 ### Tooling
 
-- `wowkb.capart` renders the artifact and the addon's `Style.lua` from the docs, and `wowkb.serve`
-  closes the *edit the shelf → look* loop. ⚠ **The scenario sidecar is on the build path**: `build`
-  renders scenario prose *from* the sidecar while `check` compares doc against sidecar on
-  `(name, verdict, cues)` only, so **prose edits to `scenarios.md` do not reach the artifact and no
-  gate notices**. Run `capart import scenarios havoc` after editing prose, not only after editing a
-  row. Closing that gap is a work item below.
+- `wowkb.capart` renders the preview and the addon's `Style.lua` from the docs, and `wowkb.serve`
+  closes the *edit the shelf → look* loop. The scenario sidecar is on the build path, and since
+  2026-08-19 `check` compares the **whole scenario** doc-vs-sidecar rather than a chosen tuple of
+  fields, so a prose-only edit fails the gate and names the field. The old advice — *"remember to
+  re-import after editing prose, not only after editing a row"* — is retired; it was a human
+  standing in for a comparison the tool can do. ⚠ A field whitelist was wrong by construction
+  here: `{client: …}` was outside it from the day it shipped, so the client-paint layer could be
+  edited in the doc and never reach the page.
 
 ## Now
+
+### Keybind hint on the CDM row — planned, not started
+
+A key hint in each row's free corner, so you know which icon is which button. The route is
+`keybind-hint-plan.md`; the API chain it rests on is `knowledge/addon-dev/cdm-rider-patterns.md`
+§11, Tier-1 against shipped 12.1 source.
+
+✅ **Phase 0 — the lane → scan migration — landed 2026-08-19** and its section of the plan is
+superseded; phases 1+ stand as written. It was a live breakage rather than groundwork: the shelf
+had already collapsed the four role lanes into `tokens.ready` and `Style.lua` had been regenerated
+without `lanes`, while `Paint.lua`, `Treatment.lua` and `StylePanel.lua` still read
+`ns.Style.lanes`, so the addon nil-indexed on the first row paint (`busted`: 22 errors) and
+`capart tokens` / `capart assets` were both dead behind a `KeyError`.
+
+- [ ] Phases 1–5 — `Binds.lua`, the `tokens.hotkey` shelf entry, the draw in `Overlay.paint()`,
+      the arithmetic spec, the in-game pass
+- [ ] Three decisions sit at the **end** of the plan, and they are not the same kind: chrome-not-
+      a-cue and macros-blank-in-v1 are proposals awaiting a *confirm*, while whether the hint takes
+      a toggle is genuinely **open**.
 
 ### Anchor — what the one flight did not exercise
 
@@ -129,12 +183,17 @@ The feature ships and holds; these are the things to notice in play, not a gate 
       order reverts mid-pull the capture says so: grep
       `# stomp RefreshLayout destructive=1 combat=1`.
 - [ ] ⚠ **Watch for `# contended`.** A displacement with no hooked layout call behind it is another
-      addon winning the frame, and cap stops re-applying after the first one — so a contended row
-      keeps the *other* addon's order and must not be read as a priority. (It can also mean a
-      layout path `Anchor.lua` does not hook, e.g. the `BottomManagedFrame` container.)
+      addon winning the frame. cap now re-asserts and counts strikes rather than stopping, and the
+      third inside the window opens the dialog — so a contended row still keeps the *other* addon's
+      order and must not be read as a priority, but you are told. (It can also mean a layout path
+      `Anchor.lua` does not hook, e.g. the `BottomManagedFrame` container — **which is the standing
+      unattributed case**, see Status.)
       ⚠ **A frozen sample is not evidence of a failed apply.** A competitor that wins
       deterministically every round produces a byte-identical `D{}` across every sample, because
       each sample catches the frames in *its* layout. `stomp:0` is what separates the two.
+- [ ] **Fly the recovery.** Force a re-pool (spec swap, or a settings change that alters the row
+      count) and confirm `# stale` → `# rearmed` → `X{ok}`, rather than a silently scrambled row.
+      Then answer the dialog both ways and confirm `# restored` / `# armed` follow.
 - [ ] **Decide whether `Anchor` re-applies in combat now that it may.** The cheap version is to drop
       the `InCombatLockdown()` guard in `apply()` and let the existing `# stomp` path re-anchor; the
       question is whether re-anchoring mid-pull is *desirable*, since a row that moves during combat
@@ -261,16 +320,21 @@ stripe sheet with it. The other two remain lab entries — Part 7, deciding noth
 Read off the Tier-1 source at
 `raw/addon-research/wow-ui-source-12.1.0/Interface/AddOns/Blizzard_CooldownViewer/` — swipe,
 charge/count text, desaturation, the proc/visual alert overlay, pandemic alert, and their layers. It
-is the inventory of what cap gets for free and must not restate or fight, and the artifact reads it
+is the inventory of what cap gets for free and must not restate or fight, and the preview reads it
 to draw a faithful row. Client facts drain to `knowledge/addon-dev/cooldown-manager.md`; the shelf
 section is the *rendering* view of them.
 
-### Close the sidecar prose gap in `capart check`
+### ~~Close the sidecar prose gap in `capart check`~~ — DONE 2026-08-19
 
-`check` compares doc against sidecar on `(name, verdict, cues)`, so scenario **prose** can drift
-ahead of the rendered artifact with no signal — measured twice, once on a citation fix and again
-during the veil retirement, when the walk still said "veiled" and `check` passed. Either compare the
-rendered extras too, or have `build` read prose from the doc rather than the sidecar.
+`check` compared doc against sidecar on `(name, verdict, cues)`, so scenario **prose** could drift
+ahead of the rendered preview with no signal — measured twice, once on a citation fix and again
+during the veil retirement, when the walk still said "veiled" and `check` passed. It now compares
+the **whole scenario** and names the differing field. Verified by probe: a one-word edit to a
+`State` bullet fails with `RET-1: … state: doc and sidecar disagree`.
+
+The general lesson, since the same shape recurs: **a whitelist of compared fields fails on the
+next field added, not on the ones it lists.** `{client: …}` shipped outside this one and was
+unguarded from day one.
 
 ### Teach `Catalog.OrderCheck` what it is actually checking
 
@@ -291,8 +355,10 @@ loadout the player says had **no A Fire Inside** — a genuine contradiction tha
 not the hypothesis; either a different loadout was flown, or the client reported more than one
 charge, or the badge came from somewhere else.
 
-- [ ] `/reload` on the single-target loadout and read the `draw` capture. No `CHARGES` lane and no
-      charge cue means the flight was simply on the AoE build; anything else is a real bug.
+- [ ] `/reload` on the single-target loadout and read the `draw` capture. No charge cue means the
+      flight was simply on the AoE build; anything else is a real bug. ⚠ The capture can no longer
+      corroborate it from a `CHARGES` lane — the wire format is `id:scan` and carries no tier
+      (2026-08-19), so the cue is the only term left that answers this.
 
 Since then the gold badge has gained an explicit `talent` gate on A Fire Inside / Burning Wound,
 which makes the behaviour deliberate rather than a side effect of a guard in another module — but it
@@ -307,15 +373,23 @@ the current row has been judged in play.
 - [ ] One flight for the whole row, per `flight-reading.md` → *The Havoc row*: one player-experience
       question stated before playing, the player's judgment recorded in their own terms, captures
       read only afterwards to explain which route armed.
-- [ ] It also carries the shipped-but-unflown style: the ring flipbook (Part 5 q8) and the cooldown
-      hatch (q9), plus q1, q3 and q6.
+- [ ] It also carries the shipped-but-unflown style: the scan edge (Part 5 q2) and the cooldown
+      hatch (q7), plus q1 and q5.
 
-### Consolidate the three Havoc docs into one `catalog.md`
+### ~~Consolidate the three Havoc docs into one `catalog.md`~~ — RETIRED 2026-08-19
 
-The one-`catalog.md`-per-spec rule is `authoring.md` §0 and Havoc is the standing violation of it.
-Fold `scenarios.md` + `fact-classification.md` back into `catalog.md` and make `rotation.md` the
-sole home of the priority order. The scenario-stepper artifact renders whatever the consolidated doc
-says.
+**Do not re-raise this.** The one-`catalog.md`-per-spec rule it enforced has been reversed:
+`catalog.md` / `scenarios.md` / `fact-classification.md` are a definition, its proof and its
+safety case, and Havoc's three files are now the **model** rather than a debt
+(`authoring.md` §0). Retribution was split to match on 2026-08-19.
+
+The item's *other* half survives on its own, below.
+
+### `rotation.md` is the sole home of the priority order
+
+The gameplay KB carries the priority list with front matter and provenance; a catalog cites it and
+must not restate it. Audit the per-spec catalogs for a second copy of the order — two copies drift,
+which is the whole reason `simc-apl.md` exists as a generated artifact.
 
 ### Close out the migration artifacts
 

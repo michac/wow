@@ -21,20 +21,31 @@ Aldrachi Reaver is a *separate catalog authored later*, not a second overlay bol
 first. Two hero trees that genuinely share a roster can share one document; the moment a row
 needs "…unless Aldrachi Reaver", it is two catalogs.
 
-**One `catalog.md` per spec directory.** `specs/<spec>/catalog.md` is the normative document —
-the thing `Catalogs/<Spec>.lua` transcribes. A spec that grows a second or third design file has
-grown a consolidation debt, not a richer design. (Havoc did exactly this: `catalog.md` +
-`fact-classification.md` + `scenarios.md`, with a standing owed item to fold them back.) If a
-section genuinely needs to be drafted separately while thinking, fold it in before the stage
-exits.
+**Three files per spec directory, and Havoc is the model.** They are not one document split for
+convenience — they have three different jobs, and the split is what keeps each one checkable:
+
+| File | Job |
+| --- | --- |
+| `catalog.md` | **The definition.** Roster, lanes, markers, contract boundary, open facts. The thing `Catalogs/<Spec>.lua` transcribes. |
+| `scenarios.md` | **The argument.** The state-by-state walk proving those lanes and markers reproduce the priority order — and what the walk surfaced. This is what `capart check` mechanises, and where a design gets falsified. |
+| `fact-classification.md` | **The safety case.** Every fact sorted readable / sealed / open, including the proof that no sealed value is ever branched on. |
+
+A definition, its proof, and its safety case. Folding the proof into the thing it proves is what
+makes a wrong catalog hard to notice, and the safety case is the one section that must be readable
+without reading anything else. A spec carrying all three is **correct**, not in debt.
+
+⚠ **This reverses the earlier "one `catalog.md` per spec" rule**, which called Havoc's three files
+a consolidation debt and left a standing item to fold them back. That item is retired; do not
+re-raise it. A spec that has only `catalog.md` is the thing to fix — see Retribution's split,
+2026-08-19.
 
 **The priority order lives in the gameplay KB**, `knowledge/classes/<class>/<spec>/rotation.md` —
 not in the catalog. The catalog cites it. Two copies of a priority list drift, and the KB copy is
 the one with front matter and provenance.
 
-**Docs lead artifacts, always.** A published artifact (concept overview, scenario stepper) is a
-*rendering* of a doc, never a source. Edit the doc first, then regenerate the artifact from it.
-Never let an artifact drift ahead of the document it renders — a reader who trusts the artifact
+**Docs lead previews, always.** A generated preview (concept overview, scenario stepper) is a
+*rendering* of a doc, never a source. Edit the doc first, then regenerate the preview from it.
+Never let a preview drift ahead of the document it renders — a reader who trusts the preview
 then has no way to find out they are wrong.
 
 ---
@@ -200,14 +211,14 @@ to the author; it holds no write tools, blocks nothing, and its output is questi
 - **Client facts live in `knowledge/addon-dev/`**, not in product docs and not in source comments.
 - **An open fact is a marker on the claim**, and a load-bearing marked claim you are about to
   build on is a stop-and-ask.
-- **Docs lead artifacts** (§0). Regenerate; never hand-edit an artifact ahead of its doc.
+- **Docs lead previews** (§0). Regenerate; never hand-edit a preview ahead of its doc.
 - **Visual opinions live in `render-shelf.md`**, never in `spec.md`, a catalog, or the renderer's
   source. A look you want to try is a shelf edit — no permission needed, no spec amendment.
 - **The shelf declares, the rationale explains.** `render-shelf.md` states one treatment per
   primitive, with every number in its Part 6 token block and prose citing paths into it.
   Alternatives, the reasoning behind a choice, and what was tried and rejected go to
   `render-rationale.md`, which is authoritative over nothing. A second option written into the
-  shelf is a bug: the artifact generator renders a style, and cannot render a debate.
+  shelf is a bug: the preview generator renders a style, and cannot render a debate.
 - **Ask before building behavior that is not in `spec.md`** — it goes to `backlog.md` → `Ideas`
   or to `discussion.md`, not into the source.
 - **Do not prebuild vocabulary.** No aura/totem duration, target-aura, APL-DSL or

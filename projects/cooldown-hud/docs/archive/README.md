@@ -4,6 +4,13 @@ Dated, **spent** working docs. Kept for design history, not as live plans — re
 anything here via `git log`/`git show`; nothing points to these as current. Live status
 is `../status.md`; live design is `../architecture.md`.
 
+## The retirement, archived 2026-08-19
+
+- `why-superseded.md` — why CDMProbe was superseded by Combat Assist Plus on 2026-08-05.
+  ⚠ Filed here **deliberately, out of every `CLAUDE.md`**: it is the record of one decision
+  about one retired product, and read as a live criterion it turns design discussions into
+  re-litigation. The live mechanism is `.claude/agents/cap-conscience.md`, post-release.
+
 ## M4 milestone push (M4 → M4.5), archived 2026-07-24
 
 - `m4-plan.md` — the M4 master plan (movable pane, prereqs, burst-window queue).

@@ -93,14 +93,20 @@ C{-}
 - `anch:` / `conf:` say the addon found and confirmed CDM item frames.
 - `off:` is a real but hidden item frame; `nf:` means no frame was found.
 - `P{}` records the composed treatment attempted for each enhanced entry, as
-  `id:LANE[+cue,cue]` — or `id:off` where the row drew nothing, `id:hidden` where its
-  CDM item is real but not shown, `id:noframe` where no item was found. The lane is the drawn
-  one, so a charge ability at rest reads `CHARGES`, not the role lane its catalog authored.
+  `id:scan[+cue,cue]` — or `id:off` where the row drew nothing, `id:hidden` where its
+  CDM item is real but not shown, `id:noframe` where no item was found. **`scan` is the whole of
+  the drawn treatment**: a row is in the scan or it is not (shelf V13).
+  ⚠ **The ROLE TIER is deliberately not here** (changed 2026-08-19). It used to be —
+  `id:COOLDOWN`, with `CHARGES` substituted in on a charge read — and that stopped being a fact
+  about pixels when the four hues collapsed. The tier is still a model fact and is still
+  recoverable, from the `tier` stream's `W{}`. Reading an OLD capture, `id:ROTATION` means the
+  same as today's `id:scan` and carries a tier as a bonus; the reverse translation does not
+  exist.
   ⚠ **Only READABLE cues appear here.** A graded (sealed) cue's visibility is the client's, so
   it is reported in `C{}` as armed and never in `P{}` — a row wearing only a graded cue reads
   as bare here while its badge fades on screen, and that is correct, not a discrepancy.
   ⚠ **The row string changed when the veil was retired, and a capture is a one-way door.** A row
-  in an OLDER capture may carry a `/veil` segment (`id:LANE[/veil][+cue,cue]`) — that segment
+  in an OLDER capture may carry a `/veil` segment (`id:TIER[/veil][+cue,cue]`) — that segment
   described a dim the addon no longer draws, and its absence in a newer capture is the change,
   not a row that stopped skipping. Lines are stored pre-rendered, so no reader can reconcile the
   two formats; read a `/veil` capture as evidence about the build that wrote it and nothing else.
@@ -128,8 +134,8 @@ for it, that failure is invisible in play and readable only here.
 Written by `Anchor.lua`, which draws the Essential viewer's rows in the catalog's authored order.
 **This is shipped behaviour and on by default** — it arms itself a second after
 `PLAYER_ENTERING_WORLD`, so unlike every other stream here you do not arm it and the stream is
-never silent for want of a command. `/cap anchor [on|off|rows]` toggles it and reports the plan;
-the setting persists at `ns.db.anchor`.
+never silent for want of a command. `/cap anchor [on|off|retry|rows]` toggles it,
+rebuilds it and reports the plan; the setting persists at `ns.db.anchor`.
 
 *(This section described a hand-armed probe, `probes/AnchorOrder.lua` with a `/capanchor` verb,
 until that probe was promoted into `Anchor.lua` on 2026-08-16. The stream format below is
@@ -137,7 +143,7 @@ unchanged by the promotion.)*
 
 ```
 t120.4 # armed
-A{n:8 named:6 extra:2 miss:1} P{31,12,44,9,17,3,52,28} D{31,12,44,9,17,3,52,28} X{ok} S{stomp:0 icombat:0 disp:0 cont:0}
+A{n:8 named:6 extra:2 miss:1} P{31,12,44,9,17,3,52,28} D{31,12,44,9,17,3,52,28} X{ok} S{stomp:0 icombat:0 disp:0 cont:0 stale:0 strike:0}
 t131.7 # stomp RefreshLayout destructive=1 combat=1
 ```
 
@@ -147,9 +153,14 @@ t131.7 # stomp RefreshLayout destructive=1 combat=1
 - `P{}` is the **authored** order as cooldownIDs; `D{}` is the **drawn** order, read off each
   frame's `GetLeft()`. `X{ok}` means they agree; `X{MISMATCH}` means they do not, including when
   a frame's position could not be read.
+- **`X{STALE:<n>}` outranks both** and is read first. It is a live `GetCooldownID()` read
+  against the id cap recorded when it took each frame, and `n` frames now answer with a
+  different one — the pool re-issued them. `P{}`/`D{}` are then describing icons the plan no
+  longer owns, so neither `ok` nor `MISMATCH` would mean what it says.
 - `S{}` counts, for the session: `stomp` layout passes seen through `Anchor.lua`'s own hooks,
   `icombat` how many of those landed inside a pull, `disp` displacements attributable to one of
-  those passes, `cont` displacements with no observed cause.
+  those passes, `cont` displacements with no observed cause, `stale` re-pool episodes, and
+  `strike` the contention run standing right now (it decays, so it is a level, not a total).
 
 ⚠ **`P{}`/`D{}` are the only evidence here.** The `bind` stream's `# row-order` note and
 `Catalog.OrderCheck` both derive order from `layoutIndex`, which a `SetPoint` re-anchor does not
@@ -162,15 +173,21 @@ Marks:
 | --- | --- |
 | `# armed` / `# restored orphans=<n>` | cap took and gave back the frames; a non-zero `orphans` is a bug — a frame left with no points |
 | `# combat start` / `# combat end` | the `PLAYER_REGEN_*` edge, which is where every `combat=` flag comes from |
-| `# stomp <source> destructive=<0\|1> combat=<0\|1>` | Blizzard's layout ran. `destructive=1` is `RefreshLayout`, which releases the frame pool, so the frames afterwards are new ones |
+| `# stomp <source> destructive=<0\|1> combat=<0\|1>` | Blizzard's layout ran. `destructive=1` is `RefreshLayout`, which releases the frame pool, so the frames afterwards are new ones — cap answers it with a rebuild, not a re-place |
 | `# displaced n=<count> combat=<0\|1>` | frames left where cap put them, within the window after a stomp — **cap versus Blizzard's layout engine** |
-| `# contended n=<count> combat=<0\|1>` | frames moved with **no** preceding stomp — something that is neither cap nor Blizzard's layout engine is anchoring them, i.e. a re-anchoring Cooldown Manager addon. The claim is positional only; cap names no addon |
+| `# contended n=<count> strike=<n> combat=<0\|1>` | frames moved with **no** preceding stomp — something that is neither cap nor Blizzard's layout engine is anchoring them, i.e. a re-anchoring Cooldown Manager addon. The claim is positional only; cap names no addon. `strike` is the run so far; the third inside 10 s opens the dialog |
+| `# stale n=<count> combat=<0\|1>` | `n` tracked frames are serving other rows: the pool re-issued them and the plan is stale. Out of combat this is followed by a `# rearmed`; in combat it stands until the pull ends |
+| `# rearmed why=<reason>` | cap rebuilt the plan from a fresh bind rather than re-placing frames whose identity it no longer knew |
+| `# asking` | cap opened the contention dialog. Nothing after it until the player answers — the two answers are `# restored` (turn it off) or `# armed` (keep trying) |
 | `# reapply why=<reason>` | cap re-applied its order, out of combat, after that event |
 
 **`# contended` changes what the flight measures.** A run carrying contention is measuring cap
 against another addon, not cap against the client, so its persistence result answers a different
-question than the one you asked. cap says so in chat the first time it sees one, and `status` and
-the stream `Meta` carry the count.
+question than the one you asked. `status` and the stream `Meta` carry the count.
+
+**cap never stops ordering on its own.** A run of `CONTENTION_STRIKES` inside the window raises
+a dialog asking whether to turn ordering off, and both answers are visible in the stream. A
+capture that simply goes quiet after a `# contended` is a bug, not a back-off.
 
 `# stomp … combat=1` is the top persistence risk: `RefreshLayout` fires in a pull from the
 viewer's full-aura-update path, and cap never writes geometry in combat, so a destructive stomp
@@ -188,11 +205,11 @@ Play a few pulls on a target dummy and then something real, and record:
 
 - At rest, out of combat and between packs — is the row calm, or is it a wall of borders and
   badges? (Shelf Q1. This one needs time on target; the `/cap style` gallery cannot answer it.)
-- Immolation Aura's purple CHARGES border — does it read as a different **kind** of statement
-  than the blue rotation borders around it, or just as another colour? (Q3.)
+- The scan edge — can you tell a lit row from an unlit one at a glance, mid-pull, without
+  hunting? (Q2. The failure to watch for is a line nobody notices; if it fires, the answer is
+  more area or a different blend, **never** a second colour.)
 - Walking the row left to right and skipping what is swiped or wearing a negative badge: does that land on
-  the button you would have pressed anyway? (Q6. Say where it does **not** — that is the finding.)
-- The arrival snap: too frequent, too subtle, or about right?
+  the button you would have pressed anyway? (Q5. Say where it does **not** — that is the finding.)
 - Fury: do Chaos Strike and Blade Dance badge when you are short, and do the two generators warn
   before you overflow? Both are cues you should be able to describe **without** looking at a
   number.
@@ -206,8 +223,9 @@ Then, and only then, the captures:
   is the intended behaviour. Edges arriving at rotational speed mean `ready` is tracking
   affordability, which the border was never meant to say, and which the player will have already
   reported as a blinking row.
-- `wowkb.capture cap draw` — `C{}` for the two graded cues and the CHARGES lane in `P{}`. Both
-  say cap took the route it meant to.
+- `wowkb.capture cap draw` — `C{}` for the two graded cues, and `P{}` for which rows were in the
+  scan. Both say cap took the route it meant to. ⚠ `P{}` no longer carries the charge substitution
+  that used to corroborate a `capped` badge; the cue is now the only term that reports it.
 - `wowkb.capture cap tier` — `W{}` for **why a readable hold fired**. ⚠ **The Hunt's hold is no
   longer one of them.** It was a readable `ready:metamorphosis` marker until 2026-08-17; it is now
   two sealed bands (Eye Beam far, Metamorphosis near) gated on Eternal Hunt, so
@@ -228,9 +246,10 @@ captures.
 
 For Demonology, play a short pull containing a Demonbolt proc and Tyrant setup:
 
-- Can COOLDOWN, ROTATION and FALLBACK be identified categorically without comparing subtle
-  brightness?
-- Are the static borders bright and distinct without flicker?
+- Are the scan edges bright and distinct without flicker, and is it obvious which rows carry one?
+  ⚠ **This list used to ask whether COOLDOWN, ROTATION and FALLBACK could be told apart
+  categorically.** They cannot, by design: V13 draws one treatment and the tiers reach the paint
+  as a single bit. Rank is row order.
 - Can it coexist with Blizzard's Demonbolt proc glow, or is one drowned out?
 - ⚠ The Dreadstalkers and Grimoire dots no longer draw, so the two questions this list used to
   ask about them are unanswerable until they are re-authored as cues.
