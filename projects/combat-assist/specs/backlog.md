@@ -179,6 +179,24 @@ numbering with no ranges. The KB won.
       hint read as a label or as another signal, and does the blank read as "unbound" or "broken".
       ⚠ Havoc has not flown since it was re-sourced from the Tier-1 APL on 2026-08-17 and carries
       an unflown V11 hatch and V13 scan edge, so judge those together rather than the hint alone.
+✅ **The font is settled and cap ships it** (2026-08-19). Ten lab candidates — five faces, then a
+plate, then a title bar — judged on real rows in the preview. **Share Tech Mono won**, promoted to
+`tokens.hotkey` and shipped as `Media/fonts/CapKeyMono.ttf`: monospaced, because a keybind is not
+prose and `csF1` in a proportional face reads as one smudge; condensed, which buys back most of
+what a fixed advance costs. ⚠ **Renamed on the way out** — the upstream family carries the Reserved
+Font Name `'Share'`, a subset is a Modified Version, and OFL 1.1 clause 3 forbids one from using
+it. `OFL.txt` and a `NOTICE.txt` ship beside it and `capart check` gate 0f byte-compares all three.
+This is the first third-party asset the addon redistributes.
+
+✅ **A preview-fidelity bug found by looking, which is what the preview is for** (2026-08-19). The
+dark edge was eight stacked `text-shadow` copies; every copy is antialiased, the overlaps
+accumulate alpha into a halo, and the diagonals sit at 2.83 px where the axials sit at 2 — so it
+rendered as a smudge with lumpy corners and made every font candidate look worse than it is. The
+client computes its outline from the glyph (from its SDF); the faithful analogue is a real stroke.
+
+✅ **The lab is empty** (2026-08-19). Nothing left in it was still being evaluated. Part 7 keeps the
+ledger of what left and where; `git log` keeps the entries.
+
 ✅ **The preview draws the client's own font** (2026-08-19). `capart` pulls `fonts/frizqt__.ttf`
 out of CASC by FileDataID and embeds it as an `@font-face` data URI, the way it already embeds
 spell icons — so advance width in the preview is the game's, which is what "does `C-S-F1` fit the

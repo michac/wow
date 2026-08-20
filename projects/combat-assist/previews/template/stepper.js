@@ -836,13 +836,15 @@
     // An empty lab is a lab, not a defect — and the page should say so rather than render a
     // silent gap that reads as a missing section.
     var empty = el("div", "lab-empty");
-    empty.innerHTML = "<b>The lab is currently empty.</b> Its two entries were promoted into " +
-      "the declared style on 2026-08-13 and deleted from here, which is the only way a " +
-      "treatment leaves the lab (Part 7, rule 4): <code>border-arrival</code> became the lane " +
-      "border and its arrival snap, and <code>badge-slots</code> became the corner badges with " +
-      "a negative-only cue vocabulary (which gained one positive cue on 2026-08-14 — see Part " +
-      "0.5). Both are drawn above, as the style. The next idea gets a " +
-      "<code>lab</code> key, an <code>asks</code>, and a section here.";
+    empty.innerHTML = "<b>The lab is empty, and that is its correct resting state.</b> " +
+      "Everything it held has either been promoted into the declared style — the only way a " +
+      "treatment leaves (Part 7, rule 4) — or deleted because the question it asked got an " +
+      "answer. <code>V2</code>, <code>V5</code>, <code>V11</code>, <code>V13</code>, " +
+      "<code>V14</code> and <code>V15</code> were all chosen here and are drawn above, as the " +
+      "style. Part 7 keeps the ledger of what left and where it went; <code>git log</code> " +
+      "keeps the entries themselves with their <code>asks</code> intact, which is where a " +
+      "revived idea should be read from. The next idea gets a <code>lab</code> key, an " +
+      "<code>asks</code>, and a section here.";
     labHost.appendChild(empty);
   } else {
     labKeys.forEach(function (key) {
